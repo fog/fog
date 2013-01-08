@@ -47,15 +47,15 @@ module Fog
 
         def copy(target_directory_key, target_file_key)
           requires :directory, :key
-          connection.copy_object(directory.key, key, target_directory_key, target_file_key)
-          target_directory = connection.directories.new(:key => target_directory_key)
+          service.copy_object(directory.key, key, target_directory_key, target_file_key)
+          target_directory = service.directories.new(:key => target_directory_key)
           target_directory.files.get(target_file_key)
         end
 
         def destroy
           requires :directory, :key
           begin
-            connection.delete_object(directory.key, key)
+            service.delete_object(directory.key, key)
           rescue Excon::Errors::NotFound
           end
           true
@@ -92,11 +92,11 @@ module Fog
 
         def public_url
           requires :directory, :key
-          if connection.get_object_acl(directory.key, key).body['AccessControlList'].detect {|entry| entry['Scope']['type'] == 'AllUsers' && entry['Permission'] == 'READ'}
+          if service.get_object_acl(directory.key, key).body['AccessControlList'].detect {|entry| entry['Scope']['type'] == 'AllUsers' && entry['Permission'] == 'READ'}
             if directory.key.to_s =~ /^(?:[a-z]|\d(?!\d{0,2}(?:\.\d{1,3}){3}$))(?:[a-z0-9]|\.(?![\.\-])|\-(?![\.])){1,61}[a-z0-9]$/
-              "https://#{directory.key}.commondatastorage.googleapis.com/#{key}"
+              "https://#{directory.key}.storage.googleapis.com/#{key}"
             else
-              "https://commondatastorage.googleapis.com/#{directory.key}/#{key}"
+              "https://storage.googleapis.com/#{directory.key}/#{key}"
             end
           else
             nil
@@ -117,7 +117,7 @@ module Fog
           options['Expires'] = expires if expires
           options.merge(metadata)
 
-          data = connection.put_object(directory.key, key, body, options)
+          data = service.put_object(directory.key, key, body, options)
           merge_attributes(data.headers.reject {|key, value| ['Content-Length', 'Content-Type'].include?(key)})
           self.content_length = Fog::Storage.get_body_size(body)
           self.content_type ||= Fog::Storage.get_content_type(body)

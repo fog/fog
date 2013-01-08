@@ -177,7 +177,7 @@ module Fog
         #
 
         def get(flavor_id)
-          self.class.new(:connection => connection).all.detect {|flavor| flavor.id == flavor_id}
+          self.class.new(:service => service).all.detect {|flavor| flavor.id == flavor_id}
         end
 
       end

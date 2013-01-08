@@ -27,26 +27,29 @@ module Fog
 
       class Mock
         def create_security_group_rule(parent_group_id, ip_protocol, from_port, to_port, cidr, group_id=nil)
+          parent_group_id = parent_group_id.to_i
           response = Excon::Response.new
           response.status = 200
           response.headers = {
-            "X-Compute-Request-Id" => "req-63a90344-7c4d-42e2-936c-fd748bced1b3",
-            "Content-Type" => "application/json",
-            "Content-Length" => "163",
-            "Date" => Date.new
+            'X-Compute-Request-Id' => "req-#{Fog::Mock.random_hex(32)}",
+            'Content-Type'   => 'application/json',
+            'Content-Length' => Fog::Mock.random_numbers(3).to_s,
+            'Date' => Date.new
           }
-          response.body = {
-            "security_group_rule" => {
-              "from_port" => from_port,
-              "group"     => group_id || {},
-              "ip_protocol" => ip_protocol,
-              "to_port" => to_port,
-              "parent_group_id" => parent_group_id,
-              "ip_range" => {
-                "cidr" => cidr
-              },
-              "id"=>1
+          rule = {
+            'id' => Fog::Mock.random_numbers(2).to_i,
+            'from_port'   => from_port,
+            'group'       => group_id || {},
+            'ip_protocol' => ip_protocol,
+            'to_port'     => to_port,
+            'parent_group_id' => parent_group_id,
+            'ip_range' => {
+              'cidr'   => cidr
             }
+          }
+          self.data[:security_groups][parent_group_id]['rules'].push(rule)
+          response.body = {
+            'security_group_rule' => rule
           }
           response
         end

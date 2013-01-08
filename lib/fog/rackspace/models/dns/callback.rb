@@ -10,7 +10,7 @@ module Fog
           retries = 5
           response = nil
           Fog.wait_for(timeout, interval) do
-            response = connection.callback job_id
+            response = service.callback job_id
             if response.body['status'] == 'COMPLETED'
               true
             elsif response.body['status'] == 'ERROR'

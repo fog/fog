@@ -6,7 +6,7 @@ module Fog
 
         require 'fog/aws/parsers/auto_scaling/basic'
 
-        # Creates a new launch configuration. Once created, the new launch
+        # Creates a new launch configuration. When created, the new launch
         # configuration is available for immediate use.
         #
         # ==== Parameters
@@ -23,17 +23,24 @@ module Fog
         #     * 'Ebs.VolumeSize'<~Integer> - The volume size, in GigaBytes.
         #     * 'VirtualName'<~String> - The virtual name associated with the
         #       device.
-        #   * 'IamInstanceProfile'<~String> The name or the Amazon Resource Name (ARN) of the instance profile associated with the IAM role for the instance
-        #   * 'InstanceMonitoring.Enabled'<~Boolean> - Enable/Disable detailed monitoring, default is enabled
+        #   * 'IamInstanceProfile'<~String> The name or the Amazon Resource
+        #     Name (ARN) of the instance profile associated with the IAM role
+        #     for the instance.
+        #   * 'InstanceMonitoring.Enabled'<~Boolean> - Enables detailed
+        #     monitoring, which is enabled by default.
         #   * 'KernelId'<~String> - The ID of the kernel associated with the
-        #     EC2 AMI.
-        #   * 'KeyName'<~String> - The name of the EC2 key pair.
+        #     Amazon EC2 AMI.
+        #   * 'KeyName'<~String> - The name of the Amazon EC2 key pair.
         #   * 'RamdiskId'<~String> - The ID of the RAM disk associated with the
-        #     EC2 AMI.
+        #     Amazon EC2 AMI.
         #   * 'SecurityGroups'<~Array> - The names of the security groups with
-        #     which to associate EC2 instances.
-        #   * 'UserData'<~String> - User data available to the launched EC2
-        #     instances.
+        #     which to associate Amazon EC2 or Amazon VPC instances.
+        #   * 'SpotPrice'<~String> - The maximum hourly price to be paid for
+        #     any Spot Instance launched to fulfill the request. Spot Instances
+        #     are launched when the price you specify exceeds the current Spot
+        #     market price.
+        #   * 'UserData'<~String> - The user data available to the launched
+        #     Amazon EC2 instances.
         #
         # ==== Returns
         # * response<~Excon::Response>:
@@ -72,10 +79,10 @@ module Fog
       class Mock
 
         def create_launch_configuration(image_id, instance_type, launch_configuration_name, options = {})
-          if data[:launch_configurations].has_key?(launch_configuration_name)
+          if self.data[:launch_configurations].has_key?(launch_configuration_name)
             raise Fog::AWS::AutoScaling::IdentifierTaken.new("Launch Configuration by this name already exists - A launch configuration already exists with the name #{launch_configuration_name}")
           end
-          data[:launch_configurations][launch_configuration_name] = {
+          self.data[:launch_configurations][launch_configuration_name] = {
             'BlockDeviceMappings'     => [],
             'CreatedTime'             => Time.now.utc,
             'ImageId'                 => image_id,
@@ -83,7 +90,7 @@ module Fog
             'InstanceType'            => instance_type,
             'KernelId'                => nil,
             'KeyName'                 => nil,
-            'LaunchConfigurationARN'  => "arn:aws:autoscaling:eu-west-1:000000000000:launchConfiguration:00000000-0000-0000-0000-000000000000:launchConfigurationName/#{launch_configuration_name}",
+            'LaunchConfigurationARN'  => Fog::AWS::Mock.arn('autoscaling', self.data[:owner_id], "launchConfiguration:00000000-0000-0000-0000-000000000000:launchConfigurationName/#{launch_configuration_name}", @region),
             'LaunchConfigurationName' => launch_configuration_name,
             'RamdiskId'               => nil,
             'SecurityGroups'          => [],

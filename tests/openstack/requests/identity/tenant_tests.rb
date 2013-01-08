@@ -20,10 +20,11 @@ Shindo.tests('Fog::Identity[:openstack] | tenant requests', ['openstack']) do
 
     tests('#list_roles_for_user_on_tenant(0,1)').
       formats({'roles' => [@role_format]}) do
+      user = Fog::Identity[:openstack].create_user("testuser", "passw", "e@mail.co", "us3r1d").body['user']
 
       openstack = Fog::Identity[:openstack]
       openstack.list_roles_for_user_on_tenant(
-        openstack.tenants.first, openstack.users.first).body
+        openstack.current_tenant['id'], user['id']).body
     end
 
     tests('#create_tenant').formats({'tenant' => @tenant_format}) do

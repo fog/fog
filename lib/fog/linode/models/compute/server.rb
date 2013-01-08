@@ -5,7 +5,6 @@ module Fog
     class Linode
       class Server < Fog::Compute::Server
         attr_reader :stack_script
-        attr_accessor :private_key, :username
         identity :id
         attribute :name
         attribute :status
@@ -16,7 +15,7 @@ module Fog
         end
 
         def ips
-          Fog::Compute::Linode::Ips.new :server => self, :connection => connection
+          Fog::Compute::Linode::Ips.new :server => self, :service => service
         end
 
         def public_ip_address
@@ -24,7 +23,7 @@ module Fog
         end
 
         def disks
-          Fog::Compute::Linode::Disks.new :server => self, :connection => connection
+          Fog::Compute::Linode::Disks.new :server => self, :service => service
         end
 
         def disks?
@@ -32,19 +31,19 @@ module Fog
         end
 
         def reboot
-          connection.linode_reboot id
+          service.linode_reboot id
         end
 
         def shutdown
-          connection.linode_shutdown id
+          service.linode_shutdown id
         end
 
         def boot
-          connection.linode_boot id, config
+          service.linode_boot id, config
         end
 
         def save
-          raise Fog::Errors::Error.new('Resaving an existing object may create a duplicate') if identity
+          raise Fog::Errors::Error.new('Resaving an existing object may create a duplicate') if persisted?
           @data_center, @flavor, @image, @kernel, @type, @payment_terms, @stack_script, @name, @password, @callback =
             attributes.values_at :data_center, :flavor, :image, :kernel, :type, :payment_terms, :stack_script, :name, :password, :callback
 
@@ -61,20 +60,20 @@ module Fog
 
         def destroy
           requires :identity
-          connection.linode_shutdown id
+          service.linode_shutdown id
           disks.each { |disk| disk.destroy }
           wait_for { not disks? }
-          connection.linode_delete id
+          service.linode_delete id
         end
 
         private
         def config
-          connection.linode_config_list(id).body['DATA'].first['ConfigID']
+          service.linode_config_list(id).body['DATA'].first['ConfigID']
         end
 
         def create_linode
-          self.id = connection.linode_create(@data_center.id, @flavor.id, @payment_terms).body['DATA']['LinodeID']
-          connection.linode_update id, :label => @name
+          self.id = service.linode_create(@data_center.id, @flavor.id, @payment_terms).body['DATA']['LinodeID']
+          service.linode_update id, :label => @name
           ips.create
           reload
         end
@@ -86,11 +85,11 @@ module Fog
         end
 
         def create_config
-          @config = connection.linode_config_create(id, @kernel.id, @name, "#{@disk.id},#{@swap.id},,,,,,,").body['DATA']['ConfigID']
+          @config = service.linode_config_create(id, @kernel.id, @name, "#{@disk.id},#{@swap.id},,,,,,,").body['DATA']['ConfigID']
         end
 
         def boot_linode
-          connection.linode_boot id, @config
+          service.linode_boot id, @config
         end
       end
     end

@@ -5,19 +5,23 @@ module Fog
     class Ecloud
       class Networks < Fog::Ecloud::Collection
 
-        identity :href
+        attribute :href, :aliases => :Href
 
         model Fog::Compute::Ecloud::Network
 
         def all
-          data = connection.get_networks(href).body
-          data = data[:Networks] ? data[:Networks][:Network] : data[:Network]
-          data = data.nil? ? [] : data
+          body = service.get_networks(self.href).body
+          body = body[:Networks] ? body[:Networks][:Network] : body[:Network]
+          data = case body
+                 when NilClass then []
+                 when Array then body
+                 when Hash then [body]
+                 end
           load(data)
         end
 
         def get(uri)
-          if data = connection.get_network(uri)
+          if data = service.get_network(uri)
             new(data.body)
           end
         rescue Fog::Errors::NotFound

@@ -2,8 +2,13 @@ SUBDOMAIN_FORMAT = {
   'name' => String,
   'id' => Integer,
   'created' => String,
-  'updated' => String
+  'updated' => String,
+  'emailAddress' => String
 }
+
+DOMAIN_FORMAT = SUBDOMAIN_FORMAT.merge({
+  'accountId' => Integer
+})
 
 LIST_SUBDOMAINS_FORMAT = {
   'domains' => [SUBDOMAIN_FORMAT],
@@ -11,15 +16,7 @@ LIST_SUBDOMAINS_FORMAT = {
 }
 
 LIST_DOMAIN_FORMAT = {
-  'domains' => [
-    {
-      'name' => String,
-      'id' => Integer,
-      'accountId' => Integer,
-      'updated' => String,
-      'created' => String
-    }
-  ],
+  'domains' => [DOMAIN_FORMAT],
   'totalEntries' => Integer,
   'links' => [
     {
@@ -50,16 +47,10 @@ NAME_SERVERS_FORMAT = [{
   'name' => String
 }]
 
-BASIC_DOMAIN_DETAIL_FORMAT = {
-  'name' => String,
-  'id' => Integer,
-  'accountId' => Integer,
-  'updated' => String,
-  'created' =>String,
-  'ttl' => Integer,
-  'emailAddress' => String,
-  'nameservers' => NAME_SERVERS_FORMAT
-}
+BASIC_DOMAIN_DETAIL_FORMAT = DOMAIN_FORMAT.merge({
+  'nameservers' => NAME_SERVERS_FORMAT,
+  'ttl' => Integer
+})
 
 LIST_DOMAIN_DETAILS_WITH_RECORDS = BASIC_DOMAIN_DETAIL_FORMAT.merge({
   'recordsList' => RECORD_LIST_FORMAT
@@ -68,12 +59,7 @@ LIST_DOMAIN_DETAILS_WITH_RECORDS = BASIC_DOMAIN_DETAIL_FORMAT.merge({
 LIST_DOMAIN_DETAILS_WITH_RECORDS_AND_SUBDOMAINS_FORMAT = BASIC_DOMAIN_DETAIL_FORMAT.merge({
   'recordsList'     => RECORD_LIST_FORMAT,
   'subdomains'      => {
-    'domains'   => [{
-      'created' => String,
-      'name'    => String,
-      'id'      => Integer,
-      'updated' => String
-    }],
+    'domains'   => [SUBDOMAIN_FORMAT],
     'totalEntries'  => Integer
   }
 })

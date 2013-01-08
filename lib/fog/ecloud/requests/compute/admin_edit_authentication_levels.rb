@@ -18,7 +18,6 @@ module Fog
 
         private
 
-        
         def build_authentication_levels_edit(data)
           xml = Builder::XmlMarkup.new
           xml.AuthenticationLevels do
@@ -26,7 +25,7 @@ module Fog
             xml.SHA1Enabled data[:sha1]
             xml.SHA256Enabled data[:sha256]
             xml.SHA512Enabled data[:sha512]
-          end    
+          end
         end
       end
     end

@@ -5,15 +5,12 @@ module Fog
 
         # Delete policy for a bucket
         #
-        # ==== Parameters
-        # * bucket_name<~String> - name of bucket to delete policy from
+        # @param bucket_name [String] name of bucket to delete policy from
         #
-        # ==== Returns
-        # * response<~Excon::Response>:
-        #   * status<~Integer> - 204
-        #
-        # ==== See Also
-        # http://docs.amazonwebservices.com/AmazonS3/latest/API/RESTBucketDELETEpolicy.html
+        # @return [Excon::Response] response:
+        #   * status [Integer] - 204
+        # 
+        # @see http://docs.amazonwebservices.com/AmazonS3/latest/API/RESTBucketDELETEpolicy.html
 
         def delete_bucket_policy(bucket_name)
           request({

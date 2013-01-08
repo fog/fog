@@ -25,11 +25,11 @@ module Fog
 
         def destroy
           requires :key
-          connection.delete_container(key)
+          service.delete_container(key)
           # If CDN service is available, try to delete the container if it was CDN-enabled
           if cdn_enabled?
             begin
-              connection.cdn.delete_container(key)
+              service.cdn.delete_container(key)
             rescue Fog::CDN::HP::NotFound
               # ignore if cdn container not found
             end
@@ -43,7 +43,7 @@ module Fog
           @files ||= begin
             Fog::Storage::HP::Files.new(
               :directory    => self,
-              :connection   => connection
+              :service   => service
             )
           end
         end
@@ -68,9 +68,9 @@ module Fog
         def public_url
           requires :key
           @public_url ||= begin
-            begin response = connection.head_container(key)
+            begin response = service.head_container(key)
               # escape the key to cover for special char. in container names
-              url = "#{connection.url}/#{Fog::HP.escape(key)}"
+              url = "#{service.url}/#{Fog::HP.escape(key)}"
             rescue Fog::Storage::HP::NotFound => err
               nil
             end
@@ -79,7 +79,7 @@ module Fog
 
         def cdn_enable=(new_cdn_enable)
           @cdn_enable ||= false
-          if (!connection.cdn.nil? && connection.cdn.enabled?)
+          if (!service.cdn.nil? && service.cdn.enabled?)
             @cdn_enable = new_cdn_enable
           else
             # since cdn service is not activated, container cannot be cdn-enabled
@@ -88,8 +88,8 @@ module Fog
         end
 
         def cdn_enabled?
-          if (!connection.cdn.nil? && connection.cdn.enabled?)
-            begin response = connection.cdn.head_container(key)
+          if (!service.cdn.nil? && service.cdn.enabled?)
+            begin response = service.cdn.head_container(key)
               cdn_header = response.headers.fetch('X-Cdn-Enabled', nil)
               if (!cdn_header.nil? && cdn_header == 'True')
                 @cdn_enable = true
@@ -108,9 +108,9 @@ module Fog
           requires :key
           @cdn_public_url ||= begin
             # return the CDN public url from the appropriate uri from the header
-            begin response = connection.cdn.head_container(key)
+            begin response = service.cdn.head_container(key)
               if response.headers['X-Cdn-Enabled'] == 'True'
-                if connection.hp_cdn_ssl == true
+                if service.hp_cdn_ssl == true
                   response.headers.fetch('X-Cdn-Ssl-Uri', nil)
                 else
                   response.headers.fetch('X-Cdn-Uri', nil)
@@ -126,25 +126,25 @@ module Fog
           requires :key
           options = {}
           if @acl
-            options.merge!(connection.acl_to_header(@acl))
+            options.merge!(service.acl_to_header(@acl))
           end
-          connection.put_container(key, options)
+          service.put_container(key, options)
           # Added an extra check to see if CDN is enabled for the container
-          if (!connection.cdn.nil? && connection.cdn.enabled?)
+          if (!service.cdn.nil? && service.cdn.enabled?)
             # If CDN available, set the container to be CDN-enabled or not based on if it is marked as cdn_enable.
             if @cdn_enable
               # check to make sure that the container exists. If yes, cdn enable it.
-              begin response = connection.cdn.head_container(key)
+              begin response = service.cdn.head_container(key)
                 ### Deleting a container from CDN is much more expensive than flipping the bit to disable it
-                connection.cdn.post_container(key, {'X-CDN-Enabled' => 'True'})
+                service.cdn.post_container(key, {'X-CDN-Enabled' => 'True'})
               rescue Fog::CDN::HP::NotFound => err
-                connection.cdn.put_container(key)
+                service.cdn.put_container(key)
               end
             else
               # check to make sure that the container exists. If yes, cdn disable it.
-              begin response = connection.cdn.head_container(key)
+              begin response = service.cdn.head_container(key)
                 ### Deleting a container from CDN is much more expensive than flipping the bit to disable it
-                connection.cdn.post_container(key, {'X-CDN-Enabled' => 'False'})
+                service.cdn.post_container(key, {'X-CDN-Enabled' => 'False'})
               rescue Fog::CDN::HP::NotFound => err
                 # just continue, as container is not cdn-enabled.
               end

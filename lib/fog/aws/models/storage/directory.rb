@@ -28,7 +28,7 @@ module Fog
 
         def destroy
           requires :key
-          connection.delete_bucket(key)
+          service.delete_bucket(key)
           true
         rescue Excon::Errors::NotFound
           false
@@ -36,7 +36,7 @@ module Fog
 
         def location
           requires :key
-          attributes[:location] || bucket_location || self.connection.region
+          attributes[:location] || bucket_location || self.service.region
         end
 
         def location=(new_location)
@@ -48,34 +48,34 @@ module Fog
         end
 
         def files
-          @files ||= Fog::Storage::AWS::Files.new(:directory => self, :connection => connection)
+          @files ||= Fog::Storage::AWS::Files.new(:directory => self, :service => service)
         end
 
         def payer
           requires :key
-          data = connection.get_request_payment(key)
+          data = service.get_request_payment(key)
           data.body['Payer']
         end
 
         def payer=(new_payer)
           requires :key
-          connection.put_request_payment(key, new_payer)
+          service.put_request_payment(key, new_payer)
           @payer = new_payer
         end
 
         def versioning?
           requires :key
-          data = connection.get_bucket_versioning(key)
+          data = service.get_bucket_versioning(key)
           data.body['VersioningConfiguration']['Status'] == 'Enabled'
         end
 
         def versioning=(new_versioning)
           requires :key
-          connection.put_bucket_versioning(key, new_versioning ? 'Enabled' : 'Suspended')
+          service.put_bucket_versioning(key, new_versioning ? 'Enabled' : 'Suspended')
         end
 
         def versions
-          @versions ||= Fog::Storage::AWS::Versions.new(:directory => self, :connection => connection)
+          @versions ||= Fog::Storage::AWS::Versions.new(:directory => self, :service => service)
         end
 
         def public=(new_public)
@@ -85,8 +85,8 @@ module Fog
 
         def public_url
           requires :key
-          if connection.get_bucket_acl(key).body['AccessControlList'].detect {|grant| grant['Grantee']['URI'] == 'http://acs.amazonaws.com/groups/global/AllUsers' && grant['Permission'] == 'READ'}
-            if key.to_s =~ /^(?:[a-z]|\d(?!\d{0,2}(?:\.\d{1,3}){3}$))(?:[a-z0-9]|\-(?![\.])){1,61}[a-z0-9]$/
+          if service.get_bucket_acl(key).body['AccessControlList'].detect {|grant| grant['Grantee']['URI'] == 'http://acs.amazonaws.com/groups/global/AllUsers' && grant['Permission'] == 'READ'}
+            if key.to_s =~ Fog::AWS::COMPLIANT_BUCKET_NAMES
               "https://#{key}.s3.amazonaws.com"
             else
               "https://s3.amazonaws.com/#{key}"
@@ -103,11 +103,11 @@ module Fog
 
           options['x-amz-acl'] = acl if acl
 
-          if location = attributes[:location] || (self.connection.region != 'us-east-1' && self.connection.region)
+          if location = attributes[:location] || (self.service.region != 'us-east-1' && self.service.region)
             options['LocationConstraint'] = location
           end
 
-          connection.put_bucket(key, options)
+          service.put_bucket(key, options)
 
           true
         end
@@ -115,7 +115,7 @@ module Fog
         private
 
         def bucket_location
-          data = connection.get_bucket_location(key)
+          data = service.get_bucket_location(key)
           data.body['LocationConstraint']
         end
 

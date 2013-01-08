@@ -7,16 +7,13 @@ module Fog
 
         # Get configured payer for an S3 bucket
         #
-        # ==== Parameters
-        # * bucket_name<~String> - name of bucket to get payer for
+        # @param bucket_name [String] name of bucket to get payer for
         #
-        # ==== Returns
-        # * response<~Excon::Response>:
-        #   * body<~Hash>:
-        #     * 'Payer'<~String> - Specifies who pays for download and requests
+        # @return [Excon::Response] response:
+        #   * body [Hash]:
+        #     * Payer [String] - Specifies who pays for download and requests
         #
-        # ==== See Also
-        # http://docs.amazonwebservices.com/AmazonS3/latest/API/RESTrequestPaymentGET.html
+        # @see http://docs.amazonwebservices.com/AmazonS3/latest/API/RESTrequestPaymentGET.html
 
         def get_request_payment(bucket_name)
           request({

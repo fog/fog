@@ -24,6 +24,8 @@ module Fog
         attribute :availability_zone
         attribute :user_data_encoded
         attribute :state,       :aliases => 'status'
+        attribute :created,     :type => :time
+        attribute :updated,     :type => :time
 
         attribute :tenant_id
         attribute :user_id
@@ -38,16 +40,18 @@ module Fog
         attribute :os_ext_sts_vm_state, :aliases => 'OS-EXT-STS:vm_state'
 
         attr_reader :password
-        attr_writer :private_key, :private_key_path, :public_key, :public_key_path, :username, :image_ref, :flavor_ref
+        attr_writer :image_ref, :flavor_ref, :os_scheduler_hints
 
 
         def initialize(attributes={})
-          @connection = attributes[:connection]
+          # Old 'connection' is renamed as service and should be used instead
+          prepare_service_value(attributes)
           attributes[:metadata] = {}
 
           self.security_groups = attributes.delete(:security_groups)
           self.min_count = attributes.delete(:min_count)
           self.max_count = attributes.delete(:max_count)
+          self.os_scheduler_hints = attributes.delete(:os_scheduler_hints)
 
           super
         end
@@ -55,7 +59,7 @@ module Fog
         def metadata
           @metadata ||= begin
             Fog::Compute::OpenStack::Metadata.new({
-              :connection => connection,
+              :service => service,
               :parent => self
             })
           end
@@ -73,13 +77,13 @@ module Fog
 
         def destroy
           requires :id
-          connection.delete_server(id)
+          service.delete_server(id)
           true
         end
 
         def images
           requires :id
-          connection.images(:server => self)
+          service.images(:server => self)
         end
 
         def private_ip_address
@@ -92,15 +96,6 @@ module Fog
           end
         end
 
-        def private_key_path
-          @private_key_path ||= Fog.credentials[:private_key_path]
-          @private_key_path &&= File.expand_path(@private_key_path)
-        end
-
-        def private_key
-          @private_key ||= private_key_path && File.read(private_key_path)
-        end
-
         def public_ip_address
           if addresses['public']
             #assume last is either original or assigned from floating IPs
@@ -109,15 +104,6 @@ module Fog
             #assume no public IP means private cloud
             return addresses['internet'].first
           end
-        end
-
-        def public_key_path
-          @public_key_path ||= Fog.credentials[:public_key_path]
-          @public_key_path &&= File.expand_path(@public_key_path)
-        end
-
-        def public_key
-          @public_key ||= public_key_path && File.read(public_key_path)
         end
 
         def image_ref
@@ -142,32 +128,44 @@ module Fog
 
         def change_password(admin_password)
           requires :id
-          connection.change_server_password(id, admin_password)
+          service.change_server_password(id, admin_password)
           true
         end
 
         def rebuild(image_ref, name, admin_pass=nil, metadata=nil, personality=nil)
           requires :id
-          connection.rebuild_server(id, image_ref, name, admin_pass, metadata, personality)
+          service.rebuild_server(id, image_ref, name, admin_pass, metadata, personality)
           true
         end
 
         def resize(flavor_ref)
           requires :id
-          connection.resize_server(id, flavor_ref)
+          service.resize_server(id, flavor_ref)
           true
         end
 
         def revert_resize
           requires :id
-          connection.revert_resize_server(id)
+          service.revert_resize_server(id)
           true
         end
 
         def confirm_resize
           requires :id
-          connection.confirm_resize_server(id)
+          service.confirm_resize_server(id)
           true
+        end
+
+        def security_groups
+          requires :id
+
+          groups = service.list_security_groups(id).body['security_groups']
+
+          groups.map do |group|
+            sg = Fog::Compute::OpenStack::SecurityGroup.new group
+            sg.connection = service
+            sg
+          end
         end
 
         def security_groups=(new_security_groups)
@@ -176,38 +174,43 @@ module Fog
 
         def reboot(type = 'SOFT')
           requires :id
-          connection.reboot_server(id, type)
+          service.reboot_server(id, type)
           true
         end
 
         def create_image(name, metadata={})
           requires :id
-          connection.create_image(id, name, metadata)
+          service.create_image(id, name, metadata)
         end
 
         def console(log_length = nil)
           requires :id
-          connection.get_console_output(id, log_length)
+          service.get_console_output(id, log_length)
         end
 
         def migrate
           requires :id
-          connection.migrate_server(id)
+          service.migrate_server(id)
         end
 
         def live_migrate(host, block_migration, disk_over_commit)
           requires :id
-          connection.live_migrate_server(id, host, block_migration, disk_over_commit)
+          service.live_migrate_server(id, host, block_migration, disk_over_commit)
         end
 
         def associate_address(floating_ip)
           requires :id
-          connection.associate_address id, floating_ip
+          service.associate_address id, floating_ip
         end
 
         def disassociate_address(floating_ip)
           requires :id
-          connection.disassociate_address id, floating_ip
+          service.disassociate_address id, floating_ip
+        end
+
+        def reset_vm_state(vm_state)
+          requires :id
+          service.reset_server_state id, vm_state
         end
 
         def min_count=(new_min_count)
@@ -219,12 +222,12 @@ module Fog
         end
 
         def networks
-          connection.networks(:server => self)
+          service.networks(:server => self)
         end
 
         # TODO: Implement /os-volumes-boot support with 'block_device_mapping'
         def save
-          raise Fog::Errors::Error.new('Resaving an existing object may create a duplicate') if identity
+          raise Fog::Errors::Error.new('Resaving an existing object may create a duplicate') if persisted?
           requires :flavor_ref, :image_ref, :name
           meta_hash = {}
           metadata.each { |meta| meta_hash.store(meta.key, meta.value) }
@@ -239,9 +242,10 @@ module Fog
             'security_groups' => @security_groups,
             'min_count'   => @min_count,
             'max_count'   => @max_count,
+            'os:scheduler_hints' => @os_scheduler_hints
           }
           options = options.reject {|key, value| value.nil?}
-          data = connection.create_server(name, image_ref, flavor_ref, options)
+          data = service.create_server(name, image_ref, flavor_ref, options)
           merge_attributes(data.body['server'])
           true
         end
@@ -258,10 +262,6 @@ module Fog
         rescue Errno::ECONNREFUSED
           sleep(1)
           retry
-        end
-
-        def username
-          @username ||= 'root'
         end
 
         private

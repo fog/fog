@@ -16,7 +16,7 @@ module Fog
               @reserved_instance[name] = value
             when 'duration', 'instanceCount'
               @reserved_instance[name] = value.to_i
-            when 'fixedPrice', 'amount'
+            when 'fixedPrice', 'amount', 'usagePrice'
               @reserved_instance[name] = value.to_f
             when 'item'
               @response['reservedInstancesSet'] << @reserved_instance

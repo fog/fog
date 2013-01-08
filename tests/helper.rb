@@ -1,3 +1,6 @@
+ENV['FOG_RC']         = ENV['FOG_RC'] || File.expand_path('../.fog', __FILE__)
+ENV['FOG_CREDENTIAL'] = ENV['FOG_CREDENTIAL'] || 'default'
+
 require 'fog'
 require 'fog/bin' # for available_providers and registered_providers
 
@@ -22,7 +25,7 @@ available_providers = Fog.available_providers.map {|provider| provider.downcase}
 unavailable_providers = all_providers - available_providers
 
 for provider in unavailable_providers
-  Formatador.display_line("[yellow]Skipping tests for [bold]#{provider}[/] [yellow]due to lacking credentials (add some to '~/.fog' to run them)[/]")
+  Formatador.display_line("[yellow]Skipping tests for [bold]#{provider}[/] [yellow]due to lacking credentials (add some to '#{Fog.credentials_path}' to run them)[/]")
   Thread.current[:tags] << ('-' << provider)
 end
 

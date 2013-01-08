@@ -40,7 +40,7 @@ module Fog
           setup_credentials(options)
           @region = options[:region] || 'us-east-1'
 
-          unless ['ap-northeast-1', 'ap-southeast-1', 'eu-west-1', 'us-east-1', 'us-west-1', 'us-west-2', 'sa-east-1'].include?(@region)
+          unless ['ap-northeast-1', 'ap-southeast-1', 'ap-southeast-2', 'eu-west-1', 'us-east-1', 'us-west-1', 'us-west-2', 'sa-east-1'].include?(@region)
             raise ArgumentError, "Unknown region: #{@region.inspect}"
           end
         end
@@ -107,7 +107,7 @@ module Fog
         end
 
         def path_from_queue_url(queue_url)
-          queue_url.split('.com', 2).last
+          queue_url.split('.com', 2).last.sub(/^:[0-9]+/, '')
         end
 
         def request(params)

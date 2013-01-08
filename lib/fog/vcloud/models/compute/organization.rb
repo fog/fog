@@ -14,26 +14,26 @@ module Fog
 
         def networks
           @networks ||= Fog::Vcloud::Compute::Networks.
-            new( :connection => connection,
+            new( :service => service,
                  :href => href )
         end
 
         def tasks
           load_unless_loaded!
           @tasks ||= Fog::Vcloud::Compute::Tasks.
-            new( :connection => connection,
+            new( :service => service,
                  :href => other_links.find{|l| l[:type] == 'application/vnd.vmware.vcloud.tasksList+xml'}[:href] )
         end
 
         def vdcs
           @vdcs ||= Fog::Vcloud::Compute::Vdcs.
-            new( :connection => connection,
+            new( :service => service,
                  :href => href )
         end
 
         def catalogs
           @catalogs ||= Fog::Vcloud::Compute::Catalogs.
-            new( :connection => connection,
+            new( :service => service,
                  :href => href )
         end
 

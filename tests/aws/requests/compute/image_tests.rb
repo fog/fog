@@ -35,6 +35,10 @@ Shindo.tests('Fog::Compute[:aws] | image requests', ['aws']) do
     'return'                => Fog::Boolean,
     'requestId'             => String
   }
+  @create_image_format = {
+    'requestId'             => String,
+    'imageId'               => String
+  }
 
   tests('success') do
     # the result for this is HUGE and relatively uninteresting...
@@ -46,8 +50,35 @@ Shindo.tests('Fog::Compute[:aws] | image requests', ['aws']) do
     if Fog.mocking?
       @other_account = Fog::Compute::AWS.new(:aws_access_key_id => 'other', :aws_secret_access_key => 'account')
 
+      @server = Fog::Compute[:aws].servers.create
+      @server.wait_for{state == 'running'}
+      @created_image
+      tests("#create_image").formats(@create_image_format) do
+        result = Fog::Compute[:aws].create_image(@server.id, 'Fog-Test-Image', 'Fog Test Image', false).body
+        @created_image = Fog::Compute[:aws].images.get(result['imageId'])
+        result
+      end
+      tests("#create_image - no reboot").formats(@create_image_format) do
+        result = Fog::Compute[:aws].create_image(@server.id, 'Fog-Test-Image', 'Fog Test Image', true).body
+        @created_image = Fog::Compute[:aws].images.get(result['imageId'])
+        result
+      end
+      tests("#create_image - automatic ebs image registration").returns(true) do
+      create_image_response = Fog::Compute[:aws].create_image(@server.id, 'Fog-Test-Image', 'Fog Test Image')
+      Fog::Compute[:aws].images.get(create_image_response.body['imageId']) != nil
+      end
+      @server.destroy
+
       tests("#register_image").formats(@register_image_format) do
         @image = Fog::Compute[:aws].register_image('image', 'image', '/dev/sda1').body
+      end
+
+      tests("#register_image - with ebs block device mapping").formats(@register_image_format) do
+        @ebs_image = Fog::Compute[:aws].register_image('image', 'image', '/dev/sda1', [ { 'DeviceName' => '/dev/sdh', "SnapshotId" => "snap-123456789", "VolumeSize" => "10G", "DeleteOnTermination" => true}]).body
+      end
+
+      tests("#register_image - with ephemeral block device mapping").formats(@register_image_format) do
+        @ephemeral_image = Fog::Compute[:aws].register_image('image', 'image', '/dev/sda1', [ { 'VirtualName' => 'ephemeral0', "DeviceName" => "/dev/sdb"} ]).body
       end
 
       @image_id = @image['imageId']

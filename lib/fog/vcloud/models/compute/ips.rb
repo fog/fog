@@ -12,15 +12,15 @@ module Fog
         attribute :href
 
         def all
-          self.href = connection.default_vdc_href unless self.href
+          self.href = service.default_vdc_href unless self.href
           check_href!( :messages => "Ips href of a Network you want to enumerate" )
-          if data = connection.get_network_ips(href).body[:IpAddress]
+          if data = service.get_network_ips(href).body[:IpAddress]
             load(data)
           end
         end
 
         def get(uri)
-          if data = connection.get_network_ip(uri).body
+          if data = service.get_network_ip(uri).body
             new(data)
           end
         rescue Fog::Errors::NotFound

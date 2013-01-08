@@ -37,7 +37,7 @@ module Fog
 
         def save
           requires :offering_id, :location
-          data = connection.create_address(location, offering_id,
+          data = service.create_address(location, offering_id,
                                            :vlan_id => vlan_id,
                                            :ip => ip)
           merge_attributes(data.body)
@@ -54,7 +54,7 @@ module Fog
 
         def destroy
           requires :id
-          connection.delete_address(id).body['success']
+          service.delete_address(id).body['success']
         end
       end
     end

@@ -10,7 +10,7 @@ module Fog
         model Fog::Compute::StormOnDemand::Template
 
         def all
-          data = connection.list_templates.body['items']
+          data = service.list_templates.body['items']
           load(data)
         end
 

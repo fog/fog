@@ -8,18 +8,18 @@ module Fog
       class Networks < Fog::Collection
 
         model Fog::Compute::XenServer::Network
-        
+
         def initialize(attributes)
           super
         end
 
         def all(options = {})
-          data = connection.get_records 'network'
+          data = service.get_records 'network'
           load(data)
         end
 
         def get( ref )
-          if ref && obj = connection.get_record( ref, 'network' )
+          if ref && obj = service.get_record( ref, 'network' )
             new(obj)
           end
         rescue Fog::XenServer::NotFound

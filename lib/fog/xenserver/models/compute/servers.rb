@@ -10,7 +10,7 @@ module Fog
         model Fog::Compute::XenServer::Server
 
         def templates
-          data = connection.get_records 'VM'
+          data = service.get_records 'VM'
           data.delete_if do |vm|
             !vm[:is_a_template]
           end
@@ -18,15 +18,15 @@ module Fog
         end
 
         def custom_templates
-          data = connection.get_records 'VM'
+          data = service.get_records 'VM'
           data.delete_if do |vm|
-            !vm[:is_a_template] or !vm[:other_config]['default_template'].nil? 
+            !vm[:is_a_template] or !vm[:other_config]['default_template'].nil?
           end
           load(data)
         end
-        
+
         def builtin_templates
-          data = connection.get_records 'VM'
+          data = service.get_records 'VM'
           data.delete_if do |vm|
             !vm[:is_a_template] or vm[:other_config]['default_template'].nil?
           end
@@ -34,7 +34,7 @@ module Fog
         end
 
         def all(options = {})
-          data = connection.get_records 'VM'
+          data = service.get_records 'VM'
           # Exclude templates
           data.delete_if { |vm| vm[:is_control_domain] or vm[:is_a_template] }
           data.delete_if { |vm| vm[:is_a_snapshot] and !options[:include_snapshots] }
@@ -44,12 +44,12 @@ module Fog
         end
 
         def get_by_name( name )
-          ref = connection.get_vm_by_name( name )
+          ref = service.get_vm_by_name( name )
           get ref
         end
 
         def get( vm_ref )
-          if vm_ref && vm = connection.get_record( vm_ref, 'VM' )
+          if vm_ref && vm = service.get_record( vm_ref, 'VM' )
             new(vm)
           end
         rescue Fog::XenServer::NotFound

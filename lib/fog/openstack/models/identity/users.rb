@@ -7,17 +7,19 @@ module Fog
       class Users < Fog::Collection
         model Fog::Identity::OpenStack::User
 
-        attribute :tenant
+        attribute :tenant_id
 
         def all
-          tenant_id = tenant.nil? ? nil : tenant.id
-          load(connection.list_users(tenant_id).body['users'])
+          load(service.list_users(tenant_id).body['users'])
         end
 
         def find_by_id(id)
           self.find {|user| user.id == id} ||
             Fog::Identity::OpenStack::User.new(
-              connection.get_user_by_id(id).body['user'])
+              service.get_user_by_id(id).body['user'].merge(
+                'service' => service
+              )
+            )
         end
 
         def destroy(id)

@@ -11,9 +11,9 @@ module Fog
 
         def all
           data = []
-          data.concat(connection.dvd_images)
-          data.concat(connection.floppy_images)
-          data.concat(connection.hard_disks)
+          data.concat(service.dvd_images)
+          data.concat(service.floppy_images)
+          data.concat(service.hard_disks)
           data = data.map do |medium|
             {:raw => medium}
           end
@@ -21,7 +21,7 @@ module Fog
         end
 
         def get(medium_identity)
-          data = connection.find_medium(medium_identity)
+          data = service.find_medium(medium_identity)
           new(:raw => data)
         end
 

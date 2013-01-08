@@ -10,13 +10,13 @@ module Fog
         model Fog::Compute::Ecloud::FirewallAcl
 
         def all
-          data = connection.get_firewall_acls(href).body
+          data = service.get_firewall_acls(href).body
           data = data[:FirewallAcl] ? data[:FirewallAcl] : data
           load(data)
         end
 
         def get(uri)
-          if data = connection.get_firewall_acl(uri)
+          if data = service.get_firewall_acl(uri)
             new(data.body)
           end
         rescue Fog::Errors::NotFound

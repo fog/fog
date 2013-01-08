@@ -22,12 +22,15 @@ module Fog
       request :complete_multipart_upload
       request :copy_object
       request :delete_bucket
+      request :delete_bucket_cors
       request :delete_bucket_lifecycle
       request :delete_bucket_policy
       request :delete_bucket_website
       request :delete_object
+      request :delete_multiple_objects
       request :get_bucket
       request :get_bucket_acl
+      request :get_bucket_cors
       request :get_bucket_lifecycle
       request :get_bucket_location
       request :get_bucket_logging
@@ -50,6 +53,7 @@ module Fog
       request :post_object_hidden_fields
       request :put_bucket
       request :put_bucket_acl
+      request :put_bucket_cors
       request :put_bucket_lifecycle
       request :put_bucket_logging
       request :put_bucket_policy
@@ -189,7 +193,10 @@ module Fog
                   :bucket => {},
                   :object => {}
                 },
-                :buckets => {}
+                :buckets => {},
+                :cors => {
+                  :bucket => {}
+                }
               }
             end
           end
@@ -263,7 +270,7 @@ module Fog
           @use_iam_profile = options[:use_iam_profile]
           setup_credentials(options)
           @connection_options     = options[:connection_options] || {}
-          
+
           if @endpoint = options[:endpoint]
             endpoint = URI.parse(@endpoint)
             @host = endpoint.host
@@ -337,6 +344,8 @@ DATA
           for key in (params[:query] || {}).keys.sort
             if %w{
               acl
+              cors
+              delete
               lifecycle
               location
               logging

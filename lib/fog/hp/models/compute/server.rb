@@ -31,10 +31,10 @@ module Fog
         attribute :public_ip_address
 
         attr_reader :password
-        attr_writer :private_key, :private_key_path, :public_key, :public_key_path, :username, :image_id, :flavor_id
+        attr_writer :image_id, :flavor_id
 
         def initialize(attributes = {})
-          # assign these attributes first to prevent race condition with new_record?
+          # assign these attributes first to prevent race condition with persisted?
           self.security_groups = attributes.delete(:security_groups)
           self.min_count = attributes.delete(:min_count)
           self.max_count = attributes.delete(:max_count)
@@ -43,19 +43,19 @@ module Fog
 
         def destroy
           requires :id
-          connection.delete_server(id)
+          service.delete_server(id)
           true
         end
 
         def images
           requires :id
-          connection.images(:server => self)
+          service.images(:server => self)
         end
 
         def key_pair
           requires :key_name
 
-          connection.key_pairs.get(key_name)
+          service.key_pairs.get(key_name)
         end
 
         def key_pair=(new_keypair)
@@ -65,15 +65,6 @@ module Fog
         def private_ip_address
           addr = addresses.nil? ? nil : addresses.fetch('private', []).first
           addr["addr"] if addr
-        end
-
-        def private_key_path
-          @private_key_path ||= Fog.credentials[:private_key_path]
-          @private_key_path &&= File.expand_path(@private_key_path)
-        end
-
-        def private_key
-          @private_key ||= private_key_path && File.read(private_key_path)
         end
 
         def public_ip_address
@@ -90,15 +81,6 @@ module Fog
           else
             nil
           end
-        end
-
-        def public_key_path
-          @public_key_path ||= Fog.credentials[:public_key_path]
-          @public_key_path &&= File.expand_path(@public_key_path)
-        end
-
-        def public_key
-          @public_key ||= public_key_path && File.read(public_key_path)
         end
 
         def image_id
@@ -129,53 +111,57 @@ module Fog
           @security_groups = new_security_groups
         end
 
+        def security_groups
+          @security_groups
+        end
+
         def ready?
           self.state == 'ACTIVE'
         end
 
         def change_password(admin_password)
           requires :id
-          connection.change_password_server(id, admin_password)
+          service.change_password_server(id, admin_password)
           true
         end
 
         def reboot(type = 'SOFT')
           requires :id
-          connection.reboot_server(id, type)
+          service.reboot_server(id, type)
           true
         end
 
         def rebuild(image_id, name, admin_pass=nil, metadata=nil, personality=nil)
           requires :id
-          connection.rebuild_server(id, image_id, name, admin_pass, metadata, personality)
+          service.rebuild_server(id, image_id, name, admin_pass, metadata, personality)
           true
         end
 
         def resize(flavor_id)
           requires :id
-          connection.resize_server(id, flavor_id)
+          service.resize_server(id, flavor_id)
           true
         end
 
         def revert_resize
           requires :id
-          connection.revert_resized_server(id)
+          service.revert_resized_server(id)
           true
         end
 
         def confirm_resize
           requires :id
-          connection.confirm_resized_server(id)
+          service.confirm_resized_server(id)
           true
         end
 
         def create_image(name, metadata={})
           requires :id
-          connection.create_image(id, name, metadata)
+          service.create_image(id, name, metadata)
         end
 
         def save
-          raise Fog::Errors::Error.new('Resaving an existing object may create a duplicate') if identity
+          raise Fog::Errors::Error.new('Resaving an existing object may create a duplicate') if persisted?
           requires :flavor_id, :image_id, :name
           options = {
             'metadata'    => metadata,
@@ -188,7 +174,7 @@ module Fog
             'security_groups' => @security_groups
           }
           options = options.reject {|key, value| value.nil?}
-          data = connection.create_server(name, flavor_id, image_id, options)
+          data = service.create_server(name, flavor_id, image_id, options)
           merge_attributes(data.body['server'])
           true
         end
@@ -205,10 +191,6 @@ module Fog
         rescue Errno::ECONNREFUSED
           sleep(1)
           retry
-        end
-
-        def username
-          @username ||= 'root'
         end
 
         private

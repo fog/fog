@@ -1,12 +1,15 @@
 ![fog](http://geemus.s3.amazonaws.com/fog.png)
 
-fog is the Ruby cloud computing library, top to bottom:
+fog is the Ruby cloud services library, top to bottom:
 
 * Collections provide a simplified interface, making clouds easier to work with and switch between.
 * Requests allow power users to get the most out of the features of each individual cloud.
 * Mocks make testing and integrating a breeze.
 
 [![Build Status](https://secure.travis-ci.org/fog/fog.png?branch=master)](http://travis-ci.org/fog/fog)
+[![Code Climate](https://codeclimate.com/badge.png)](https://codeclimate.com/github/fog/fog)
+[![Gem Version](https://fury-badge.herokuapp.com/rb/fog.png)](http://badge.fury.io/rb/fog)
+[![Dependency Status](https://gemnasium.com/fog/fog.png)](https://gemnasium.com/fog/fog)
 
 ## Getting Started
 
@@ -15,14 +18,16 @@ fog is the Ruby cloud computing library, top to bottom:
 Now type `fog` to try stuff, confident that fog will let you know what to do. 
 Here is an example of wading through server creation for Amazon Elastic Compute Cloud:
 
-    >> server = Compute[:aws].servers.create
-    ArgumentError: image_id is required for this operation
+```ruby
+server = Compute[:aws].servers.create
+# => ArgumentError: image_id is required for this operation
 
-    >> server = Compute[:aws].servers.create(:image_id => 'ami-5ee70037')
-    <Fog::AWS::EC2::Server [...]>
+server = Compute[:aws].servers.create(:image_id => 'ami-5ee70037')
+# => <Fog::AWS::EC2::Server [...]>
 
-    >> server.destroy # cleanup after yourself or regret it, trust me
-    true
+server.destroy # cleanup after yourself or regret it, trust me
+# => true
+```
 
 ## Collections
 
@@ -30,8 +35,10 @@ A high level interface to each cloud is provided through collections, such as `i
 You can see a list of available collections by calling `collections` on the connection object. 
 You can try it out using the `fog` command:
 
-    >> Compute[:aws].collections
-    [:addresses, :directories, ..., :volumes, :zones]
+```ruby
+Compute[:aws].collections
+# => [:addresses, :directories, ..., :volumes, :zones]
+```
 
 Some collections are available across multiple providers:
 
@@ -48,21 +55,23 @@ Collections share basic CRUD type operations, such as:
 
 As an example, we'll try initializing and persisting a Rackspace Cloud server:
 
-    require 'fog'
+```ruby
+require 'fog'
 
-    compute = Fog::Compute.new(
-      :provider           => 'Rackspace',
-      :rackspace_api_key  => key,
-      :rackspace_username => username
-    )
+compute = Fog::Compute.new(
+  :provider           => 'Rackspace',
+  :rackspace_api_key  => key,
+  :rackspace_username => username
+)
 
-    # boot a gentoo server (flavor 1 = 256, image 3 = gentoo 2008.0)
-    server = compute.servers.create(:flavor_id => 1, :image_id => 3, :name => 'my_server')
-    server.wait_for { ready? } # give server time to boot
+# boot a gentoo server (flavor 1 = 256, image 3 = gentoo 2008.0)
+server = compute.servers.create(:flavor_id => 1, :image_id => 3, :name => 'my_server')
+server.wait_for { ready? } # give server time to boot
 
-    # DO STUFF
+# DO STUFF
 
-    server.destroy # cleanup after yourself or regret it, trust me
+server.destroy # cleanup after yourself or regret it, trust me
+```
 
 ## Models
 
@@ -78,7 +87,9 @@ As you might imagine, testing code using Fog can be slow and expensive, constant
 Mocking allows skipping this overhead by providing an in memory representation resources as you make requests.
 Enabling mocking easy to use, before you run other commands, simply run:
 
-    Fog.mock!
+```ruby
+Fog.mock!
+```
 
 Then proceed as usual, if you run into unimplemented mocks, fog will raise an error and as always contributions are welcome!
 
@@ -100,39 +111,40 @@ It will return an [excon](http://github.com/geemus/excon) response, which has `b
 Play around and use the console to explore or check out [fog.io](http://fog.io) for more details and examples. 
 Once you are ready to start scripting fog, here is a quick hint on how to make connections without the command line thing to help you.
 
-    # create a compute connection
-    compute = Fog::Compute.new(:provider => 'AWS', :aws_access_key_id => ACCESS_KEY_ID, :aws_secret_access_key => SECRET_ACCESS_KEY)
-    # compute operations go here
+```ruby
+# create a compute connection
+compute = Fog::Compute.new(:provider => 'AWS', :aws_access_key_id => ACCESS_KEY_ID, :aws_secret_access_key => SECRET_ACCESS_KEY)
+# compute operations go here
 
-    # create a storage connection
-    storage = Fog::Storage.new(:provider => 'AWS', :aws_access_key_id => ACCESS_KEY_ID, :aws_secret_access_key => SECRET_ACCESS_KEY)
-    # storage operations go here
+# create a storage connection
+storage = Fog::Storage.new(:provider => 'AWS', :aws_access_key_id => ACCESS_KEY_ID, :aws_secret_access_key => SECRET_ACCESS_KEY)
+# storage operations go here
+```
 
 geemus says: "That should give you everything you need to get started, but let me know if there is anything I can do to help!"
 
 ## Contributing
 
-* Find something you would like to work on. For suggestions look for the `easy`, `medium` and `hard` tags in the [issues](https://github.com/fog/fog/issues)
+* Find something you would like to work on.
+  * Look for anything you can help with in the [issue tracker](https://github.com/fog/fog/issues).
+  * Look at the [code quality metrics](https://codeclimate.com/github/fog/fog) for anything you can help clean up.
+  * Or anything else!
 * Fork the project and do your work in a topic branch.
+  * Make sure your changes will work on both Ruby 1.8.7 and Ruby 1.9
+* Add a config at `tests/.fog` for the component you want to test.
 * Add shindo tests to prove your code works and run all the tests using `bundle exec rake`.
-* Rebase your branch against fog/fog to make sure everything is up to date.
+* Rebase your branch against `fog/fog` to make sure everything is up to date.
 * Commit your changes and send a pull request.
 
 ## Additional Resources
 
 [fog.io](http://fog.io)
 
-## Sponsorship
-
-![Engine Yard](http://www.engineyard.com/images/logo.png)
-
-All new work on fog is sponsored by [Engine Yard](http://engineyard.com)
-
 ## Copyright
 
 (The MIT License)
 
-Copyright (c) 2010 [geemus (Wesley Beary)](http://github.com/geemus)
+Copyright (c) 2013 [geemus (Wesley Beary)](http://github.com/geemus)
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the

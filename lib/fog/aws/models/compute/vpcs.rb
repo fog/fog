@@ -61,7 +61,7 @@ module Fog
             filters = {'vpc-id' => [*filters]}
           end
           self.filters = filters
-          data = connection.describe_vpcs(filters).body
+          data = service.describe_vpcs(filters).body
           load(data['vpcSet'])
         end
 
@@ -82,7 +82,7 @@ module Fog
 
         def get(vpc_id)
           if vpc_id
-            self.class.new(:connection => connection).all('vpc-id' => vpc_id).first
+            self.class.new(:service => service).all('vpc-id' => vpc_id).first
           end
         end
 

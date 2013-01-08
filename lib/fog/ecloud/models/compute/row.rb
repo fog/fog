@@ -10,43 +10,46 @@ module Fog
         attribute :index, :aliases => :Index
 
         def groups
-          @groups = Fog::Compute::Ecloud::Groups.new(:connection => connection, :href => href)
+          @groups = self.service.groups(:href => href)
         end
 
         def edit(options)
           options[:uri] = href
-          connection.rows_edit(options).body
+          service.rows_edit(options).body
         end
 
         def move_up(options)
           options[:uri] = href + "/action/moveup"
-          connection.rows_moveup(options).body
+          service.rows_moveup(options).body
         end
 
         def move_down(options)
           options[:uri] = href + "/action/movedown"
-          connection.rows_movedown(options).body
+          service.rows_movedown(options).body
         end
 
         def delete
-          connection.rows_delete(href).body
+          service.rows_delete(href).body
         end
 
         def create_group(options = {})
           options[:uri] = "/cloudapi/ecloud/layoutGroups/environments/#{environment_id}/action/createLayoutGroup"
           options[:row_name] = name
           options[:href] = href
-          data = connection.groups_create(options).body
-          group = Fog::Compute::Ecloud::Groups.new(:connection => connection, :href => data[:href])[0]
+          data = service.groups_create(options).body
+          group = self.service.groups.new(data)
         end
 
         def environment_id
+          reload if other_links.nil?
           other_links[:Link][:href].scan(/\d+/)[0]
         end
 
         def id
           href.scan(/\d+/)[0]
         end
+
+        alias destroy delete
       end
     end
   end

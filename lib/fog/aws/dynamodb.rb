@@ -76,41 +76,30 @@ module Fog
         # * DynamoDB object with connection to aws
         def initialize(options={})
           @use_iam_profile = options[:use_iam_profile]
-          #TODO check dynamodb stuff
+          @region = options[:region] || 'us-east-1'
 
           setup_credentials(options)
-          
+
           @connection_options     = options[:connection_options] || {}
-          
-          options[:region] ||= 'us-east-1'
-          @host = options[:host] || "dynamodb.#{options[:region]}.amazonaws.com"
+
+          @host       = options[:host]        || "dynamodb.#{@region}.amazonaws.com"
           @path       = options[:path]        || '/'
           @persistent = options[:persistent]  || false
           @port       = options[:port]        || '80' #443
           @scheme     = options[:scheme]      || 'http' #'https'
+
           @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}#{@path}", @persistent, @connection_options)
         end
 
         private
 
         def setup_credentials(options)
-          if options[:aws_session_token]
-            @aws_access_key_id      = options[:aws_access_key_id]
-            @aws_secret_access_key  = options[:aws_secret_access_key]
-            @aws_session_token      = options[:aws_session_token]
-            @aws_credentials_expire_at = options[:aws_credentials_expire_at]
-          else
-            sts = Fog::AWS::STS.new(
-              :aws_access_key_id      => options[:aws_access_key_id],
-              :aws_secret_access_key  => options[:aws_secret_access_key]
-            )
-            session_data = sts.get_session_token.body
+          @aws_access_key_id          = options[:aws_access_key_id]
+          @aws_secret_access_key      = options[:aws_secret_access_key]
+          @aws_session_token          = options[:aws_session_token]
+          @aws_credentials_expire_at  = options[:aws_credentials_expire_at]
 
-            @aws_access_key_id      = session_data['AccessKeyId']
-            @aws_secret_access_key  = session_data['SecretAccessKey']
-            @aws_session_token      = session_data['SessionToken']
-          end
-          @hmac       = Fog::HMAC.new('sha256', @aws_secret_access_key)
+          @signer = Fog::AWS::SignatureV4.new(@aws_access_key_id, @aws_secret_access_key, @region, 'dynamodb')
         end
 
         def reload
@@ -119,55 +108,32 @@ module Fog
 
         def request(params)
           refresh_credentials_if_expired
-          idempotent = params.delete(:idempotent)
 
-          headers = {
-            'Content-Type'          => 'application/x-amz-json-1.0',
-            'x-amz-date'            => Fog::Time.now.to_date_header,
-            'x-amz-security-token'  => @aws_session_token
-          }.merge(params[:headers])
-
-          headers['x-amzn-authorization']  = signed_authorization_header(params, headers)
-
-          response = @connection.request({
-            :body       => params[:body],
-            :expects    => 200,
-            :headers    => headers,
-            :host       => @host,
-            :idempotent => idempotent,
-            :method     => 'POST',
+          # defaults for all dynamodb requests
+          params.merge!({
+            :expects  => 200,
+            :host     => @host,
+            :method   => :post,
+            :path     => '/'
           })
+
+          # setup headers and sign with signature v4
+          date = Fog::Time.now
+          params[:headers] = {
+            'Content-Type'  => 'application/x-amz-json-1.0',
+            'Date'          => date.to_iso8601_basic,
+            'Host'          => @host,
+          }.merge!(params[:headers])
+          params[:headers]['x-amz-security-token'] = @aws_session_token if @aws_session_token
+          params[:headers]['Authorization'] = @signer.sign(params, date)
+
+          response = @connection.request(params)
 
           unless response.body.empty?
             response.body = Fog::JSON.decode(response.body)
           end
 
           response
-        end
-
-        def signed_authorization_header(params, headers)
-          string_to_sign = "POST\n/\n\nhost:#{@host}:#{@port}\n"
-
-          amz_headers, canonical_amz_headers = {}, ''
-          for key, value in headers
-            if key[0..5] == 'x-amz-'
-              amz_headers[key] = value
-            end
-          end
-          amz_headers = amz_headers.sort {|x, y| x[0] <=> y[0]}
-          for key, value in amz_headers
-            canonical_amz_headers << "#{key}:#{value}\n"
-          end
-          string_to_sign << canonical_amz_headers
-          string_to_sign << "\n"
-          string_to_sign << (params[:body] || '')
-
-          string_to_sign = OpenSSL::Digest::SHA256.digest(string_to_sign)
-
-          signed_string = @hmac.sign(string_to_sign)
-          signature = Base64.encode64(signed_string).chomp!
-
-          "AWS3 AWSAccessKeyId=#{@aws_access_key_id},Algorithm=HmacSHA256,Signature=#{signature}"
         end
 
       end

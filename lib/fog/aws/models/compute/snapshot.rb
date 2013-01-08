@@ -20,7 +20,7 @@ module Fog
         def destroy
           requires :id
 
-          connection.delete_snapshot(id)
+          service.delete_snapshot(id)
           true
         end
 
@@ -29,10 +29,10 @@ module Fog
         end
 
         def save
-          raise Fog::Errors::Error.new('Resaving an existing object may create a duplicate') if identity
+          raise Fog::Errors::Error.new('Resaving an existing object may create a duplicate') if persisted?
           requires :volume_id
 
-          data = connection.create_snapshot(volume_id, description).body
+          data = service.create_snapshot(volume_id, description).body
           new_attributes = data.reject {|key,value| key == 'requestId'}
           merge_attributes(new_attributes)
           true
@@ -40,7 +40,7 @@ module Fog
 
         def volume
           requires :id
-          connection.describe_volumes(volume_id)
+          service.describe_volumes(volume_id)
         end
 
         private

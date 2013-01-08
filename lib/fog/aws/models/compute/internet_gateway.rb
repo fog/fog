@@ -24,7 +24,7 @@ module Fog
         #
         def attach(vpc_id)
           requires :id
-          connection.attach_internet_gateway(id, vpc_id)
+          service.attach_internet_gateway(id, vpc_id)
           reload
         end
 
@@ -38,7 +38,7 @@ module Fog
         #
         def detach(vpc_id)
           requires :id
-          connection.detach_internet_gateway(id, vpc_id)
+          service.detach_internet_gateway(id, vpc_id)
           reload
         end
 
@@ -54,7 +54,7 @@ module Fog
         def destroy
           requires :id
 
-          connection.delete_internet_gateway(id)
+          service.delete_internet_gateway(id)
           true
         end
 
@@ -68,7 +68,7 @@ module Fog
         # requestId and a internetGateway object
         #
         def save
-          data = connection.create_internet_gateway.body['internetGatewaySet'].first
+          data = service.create_internet_gateway.body['internetGatewaySet'].first
           new_attributes = data.reject {|key,value| key == 'requestId'}
           merge_attributes(new_attributes)
           true

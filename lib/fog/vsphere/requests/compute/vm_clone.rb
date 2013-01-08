@@ -10,19 +10,17 @@ module Fog
             'linked_clone' => false,
           }
           options = default_options.merge(options)
-          required_options = %w{ path name }
+          # Backwards compat for "path" option
+          options["template_path"] ||= options["path"]
+          options["path"] ||= options["template_path"]
+          required_options = %w{ datacenter template_path name }
           required_options.each do |param|
             raise ArgumentError, "#{required_options.join(', ')} are required" unless options.has_key? param
           end
-          # The tap removes the leading empty string
-          path_elements = options['path'].split('/').tap { |o| o.shift }
-          first_folder = path_elements.shift
-          if first_folder != 'Datacenters' then
-            raise ArgumentError, "vm_clone path option must start with /Datacenters.  Got: #{options['path']}"
-          end
-          dc_name = path_elements.shift
-          if not self.datacenters.include? dc_name then
-            raise ArgumentError, "Datacenter #{dc_name} does not exist, only datacenters #{self.datacenters.join(",")} are accessible."
+          # TODO This is ugly and needs to rethink mocks
+          unless ENV['FOG_MOCK']
+            raise ArgumentError, "#{options["datacenter"]} Doesn't Exist!" unless get_datacenter(options["datacenter"])
+            raise ArgumentError, "#{options["template_path"]} Doesn't Exist!" unless get_virtual_machine(options["template_path"], options["datacenter"])
           end
           options
         end
@@ -30,60 +28,149 @@ module Fog
 
       class Real
         include Shared
+
+        # Clones a VM from a template or existing machine on your vSphere 
+        # Server.  
+        #
+        # ==== Parameters
+        # * options<~Hash>:
+        #   * 'datacenter'<~String> - *REQUIRED* Datacenter name your cloning 
+        #     in. Make sure this datacenter exists, should if you're using
+        #     the clone function in server.rb model.
+        #   * 'template_path'<~String> - *REQUIRED* The path to the machine you 
+        #     want to clone FROM. Relative to Datacenter (Example:
+        #     "FolderNameHere/VMNameHere")
+        #   * 'name'<~String> - *REQUIRED* The VMName of the Destination  
+        #   * 'dest_folder'<~String> - Destination Folder of where 'name' will
+        #     be placed on your cluster. Relative Path to Datacenter E.G.
+        #     "FolderPlaceHere/anotherSub Folder/onemore"
+        #   * 'power_on'<~Boolean> - Whether to power on machine after clone. 
+        #     Defaults to true.
+        #   * 'wait'<~Boolean> - Whether the method should wait for the virtual
+        #     machine to finish cloning before returning information from 
+        #     vSphere. Broken right now as you cannot return a model of a serer
+        #     that isn't finished cloning. Defaults to True
+        #   * 'resource_pool'<~Array> - The resource pool on your datacenter 
+        #     cluster you want to use. Only works with clusters within same
+        #     same datacenter as where you're cloning from. Datacenter grabbed
+        #     from template_path option. 
+        #     Example: ['cluster_name_here','resource_pool_name_here']
+        #   * 'datastore'<~String> - The datastore you'd like to use.
+        #       (datacenterObj.datastoreFolder.find('name') in API)
+        #   * 'transform'<~String> - Not documented - see http://www.vmware.com/support/developer/vc-sdk/visdk41pubs/ApiReference/vim.vm.RelocateSpec.html
+        #   * customization_spec<~Hash>: Options are marked as required if you
+        #     use this customization_spec. Static IP Settings not configured.
+        #     This only support cloning and setting DHCP on the first interface
+        #     * 'domain'<~String> - *REQUIRED* This is put into 
+        #       /etc/resolve.conf (we hope)
+        #     * 'hostname'<~String> - Hostname of the Guest Os - default is 
+        #       options['name']
+        #     * 'hw_utc_clock'<~Boolean> - *REQUIRED* Is hardware clock UTC? 
+        #       Default true
+        #     * 'time_zone'<~String> - *REQUIRED* Only valid linux options 
+        #       are valid - example: 'America/Denver'
+        #
         def vm_clone(options = {})
           # Option handling
           options = vm_clone_check_options(options)
 
-          notfound = lambda { raise Fog::Compute::Vsphere::NotFound, "Could not find VM template" }
+          # Added for people still using options['path']
+          template_path = options['path'] || options['template_path']
+          
+          # Default wait enabled
+          options['wait'] = true
 
-          # Find the template in the folder.  This is more efficient than
-          # searching ALL VM's looking for the template.
-          # Tap gets rid of the leading empty string and "Datacenters" element
-          # and returns the array.
-          path_elements = options['path'].split('/').tap { |ary| ary.shift 2 }
-          # The DC name itself.
-          template_dc = path_elements.shift
-          # If the first path element contains "vm" this denotes the vmFolder
-          # and needs to be shifted out
-          path_elements.shift if path_elements[0] == 'vm'
-          # The template name.  The remaining elements are the folders in the
-          # datacenter.
-          template_name = path_elements.pop
-          # Make sure @datacenters is populated.  We need the instances from the Hash keys.
-          self.datacenters
-          # Get the datacenter managed object from the hash
-          dc = @datacenters[template_dc]
-          # Get the VM Folder (Group) efficiently
-          vm_folder = dc.vmFolder
-          # Walk the tree resetting the folder pointer as we go
-          folder = path_elements.inject(vm_folder) do |current_folder, sub_folder_name|
-            # JJM VIM::Folder#find appears to be quite efficient as it uses the
-            # searchIndex It certainly appears to be faster than
-            # VIM::Folder#inventory since that returns _all_ managed objects of
-            # a certain type _and_ their properties.
-            sub_folder = current_folder.find(sub_folder_name, RbVmomi::VIM::Folder)
-            raise ArgumentError, "Could not descend into #{sub_folder_name}.  Please check your path." unless sub_folder
-            sub_folder
-          end
-
+          # Options['template_path']<~String>
+          # Added for people still using options['path']
+          template_path = options['path'] || options['template_path']
           # Now find the template itself using the efficient find method
-          vm_mob_ref = folder.find(template_name, RbVmomi::VIM::VirtualMachine)
+          vm_mob_ref = get_vm_ref(template_path, options['datacenter'])
 
-          # Now find _a_ resource pool to use for the clone
-          # (REVISIT: We need to support cloning into a specific RP)
+          # Options['dest_folder']<~String>
+          # Grab the destination folder object if it exists else use cloned mach
+          dest_folder = get_raw_vmfolder(options['dest_folder'], options['datacenter']) if options.has_key?('dest_folder')
+          dest_folder ||= vm_mob_ref.parent
 
-          if ( vm_mob_ref.resourcePool == nil )
+          # Options['resource_pool']<~Array>
+          # Now find _a_ resource pool to use for the clone if one is not specified
+          if ( options.has_key?('resource_pool') && options['resource_pool'].is_a?(Array) && options['resource_pool'].length == 2 )
+            cluster_name = options['resource_pool'][0]
+            pool_name = options['resource_pool'][1]
+            resource_pool = get_raw_resource_pool(pool_name, cluster_name, options['datacenter'])
+          elsif ( vm_mob_ref.resourcePool == nil )
             # If the template is really a template then there is no associated resource pool,
             # so we need to find one using the template's parent host or cluster
             esx_host = vm_mob_ref.collect!('runtime.host')['runtime.host']
             # The parent of the ESX host itself is a ComputeResource which has a resourcePool
             resource_pool = esx_host.parent.resourcePool
-          else
-            # If the vm given did return a valid resource pool, default to using it for the clone.
-            # Even if specific pools aren't implemented in this environment, we will still get back
-            # at least the cluster or host we can pass on to the clone task
-            resource_pool = vm_mob_ref.resourcePool
           end
+          # If the vm given did return a valid resource pool, default to using it for the clone.
+          # Even if specific pools aren't implemented in this environment, we will still get back
+          # at least the cluster or host we can pass on to the clone task
+          # This catches if resource_pool option is set but comes back nil and if resourcePool is 
+          # already set. 
+          resource_pool ||= vm_mob_ref.resourcePool.nil? ? esx_host.parent.resourcePool : vm_mob_ref.resourcePool
+                    
+          # Options['datastore']<~String>
+          # Grab the datastore object if option is set
+          datastore_obj = get_raw_datastore(options['datastore'], options['datacenter']) if options.has_key?('datastore')
+          # confirm nil if nil or option is not set
+          datastore_obj ||= nil
+          
+          # Options['network']
+          # Build up the config spec
+          if ( options.has_key?('network_label') )
+            #network_obj = datacenter_obj.networkFolder.find(options['network_label'])
+            config_spec_operation = RbVmomi::VIM::VirtualDeviceConfigSpecOperation('edit')
+            nic_backing_info = RbVmomi::VIM::VirtualEthernetCardNetworkBackingInfo(:deviceName => options['network_label'])
+              #:deviceName => "Network adapter 1",
+              #:network => network_obj)
+            connectable = RbVmomi::VIM::VirtualDeviceConnectInfo(
+              :allowGuestControl => true,
+              :connected => true,
+              :startConnected => true)
+            device = RbVmomi::VIM::VirtualE1000(
+              :backing => nic_backing_info,
+              :deviceInfo => RbVmomi::VIM::Description(:label => "Network adapter 1", :summary => options['network_label']),
+              :key => options['network_adapter_device_key'],
+              :connectable => connectable)
+            device_spec = RbVmomi::VIM::VirtualDeviceConfigSpec(
+              :operation => config_spec_operation,
+              :device => device)
+            virtual_machine_config_spec = RbVmomi::VIM::VirtualMachineConfigSpec(
+              :deviceChange => [device_spec])
+          end
+          
+          # Options['customization_spec']
+          # Build up all the crappy tiered objects like the perl method
+          # Collect your variables ifset (writing at 11pm revist me)
+          if ( options.has_key?('customization_spec') )
+            cust_options = options['customization_spec']
+            cust_domain = cust_options['domain']
+            cust_hostname = RbVmomi::VIM::CustomizationFixedName.new(:name => cust_options['hostname']) if cust_options.has_key?('hostname')
+            cust_hostname ||= RbVmomi::VIM::CustomizationFixedName.new(:name => options['name'])
+            cust_hwclockutc = cust_options['hw_clock_utc']
+            cust_timezone = cust_options['time_zone']
+            # Start Building objects
+            # Build the CustomizationLinuxPrep Object
+            cust_prep = RbVmomi::VIM::CustomizationLinuxPrep.new(
+              :domain => cust_domain,
+              :hostName => cust_hostname,
+              :hwClockUTC => cust_hwclockutc,
+              :timeZone => cust_timezone)
+            # Build the Dhcp Generator Object 
+            cust_fixed_ip = RbVmomi::VIM::CustomizationDhcpIpGenerator.new()
+            # Build the custom_ip_settings Object
+            cust_ip_setting = RbVmomi::VIM::CustomizationIPSettings.new(:ip => cust_fixed_ip)
+            # Build the Custom Adapter Mapping Supports only one eth right now
+            cust_adapter_mapping = [RbVmomi::VIM::CustomizationAdapterMapping.new(:adapter => cust_ip_setting)]
+            # Build the customization Spec
+            customization_spec = RbVmomi::VIM::CustomizationSpec.new(
+              :identity => cust_prep,
+              :globalIPSettings => RbVmomi::VIM::CustomizationGlobalIPSettings.new(),
+              :nicSettingMap => cust_adapter_mapping)
+          end
+          customization_spec ||= nil
           
           relocation_spec=nil
           if ( options['linked_clone'] )
@@ -115,17 +202,25 @@ module Fog
               vm_mob_ref.ReconfigVM_Task(:spec => disk_spec).wait_for_completion
             end
             # Next, create a Relocation Spec instance
-            relocation_spec = RbVmomi::VIM.VirtualMachineRelocateSpec(:pool => resource_pool,
+            relocation_spec = RbVmomi::VIM.VirtualMachineRelocateSpec(:datastore => datastore_obj,
+                                                                      :pool => resource_pool,
                                                                       :diskMoveType => :moveChildMostDiskBacking)
           else
-            relocation_spec = RbVmomi::VIM.VirtualMachineRelocateSpec(:pool => resource_pool,
+            relocation_spec = RbVmomi::VIM.VirtualMachineRelocateSpec(:datastore => datastore_obj, 
+                                                                      :pool => resource_pool,
                                                                       :transform => options['transform'] || 'sparse')
           end
           # And the clone specification
           clone_spec = RbVmomi::VIM.VirtualMachineCloneSpec(:location => relocation_spec,
-                                                            :powerOn  => options['power_on'] || true,
+                                                            :config => virtual_machine_config_spec,
+                                                            :customization => customization_spec,
+                                                            :powerOn  => options.has_key?('power_on') ? options['power_on'] : true,
                                                             :template => false)
-          task = vm_mob_ref.CloneVM_Task(:folder => vm_mob_ref.parent, :name => options['name'], :spec => clone_spec)
+          
+          # Perform the actual Clone Task
+          task = vm_mob_ref.CloneVM_Task(:folder => dest_folder,
+                                         :name => options['name'],
+                                         :spec => clone_spec)
           # Waiting for the VM to complete allows us to get the VirtulMachine
           # object of the new machine when it's done.  It is HIGHLY recommended
           # to set 'wait' => true if your app wants to wait.  Otherwise, you're
@@ -150,11 +245,11 @@ module Fog
               nil
             end
           end
-
+          
           # Return hash
           {
             'vm_ref'        => new_vm ? new_vm._ref : nil,
-            'vm_attributes' => new_vm ? convert_vm_mob_ref_to_attr_hash(new_vm) : {},
+            'new_vm'        => new_vm ? get_virtual_machine("#{options['dest_folder']}/#{options['name']}", options['datacenter']) : nil,
             'task_ref'      => task._ref
           }
         end
@@ -164,11 +259,11 @@ module Fog
       class Mock
         include Shared
         def vm_clone(options = {})
-          # Option handling
+          # Option handling TODO Needs better method of checking
           options = vm_clone_check_options(options)
           notfound = lambda { raise Fog::Compute::Vsphere::NotFound, "Could not find VM template" }
-          vm_mob_ref = list_virtual_machines['virtual_machines'].find(notfound) do |vm|
-            vm['name'] == options['path'].split("/")[-1]
+          list_virtual_machines.find(notfound) do |vm|
+            vm[:name] == options['template_path'].split("/")[-1]
           end
           {
             'vm_ref'   => 'vm-123',

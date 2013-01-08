@@ -15,14 +15,27 @@ module Fog
             @process_type = {}
           end
 
+          def start_element(name, attrs = [])
+            super
+            case name
+            when 'Processes'
+              @in_processes = true
+            end
+          end
+
           def end_element(name)
             case name
             when 'member'
-              @results['Processes'] << @process_type
-              reset_process_type
+              if @in_processes
+                @results['Processes'] << @process_type
+                reset_process_type
+              end
 
             when 'ProcessName'
               @process_type[name] = value
+
+            when 'Processes'
+              @in_processes = false
 
             when 'RequestId'
               @response['ResponseMetadata'][name] = value

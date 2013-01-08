@@ -7,6 +7,9 @@ Shindo.tests('Fog::Compute[:xenserver] | host model', ['xenserver']) do
   tests('The host model should') do
     tests('have the action') do
       test('reload') { host.respond_to? 'reload' }
+      test('shutdown') { host.respond_to? 'shutdown' }
+      test('disable') { host.respond_to? 'disable' }
+      test('reboot') { host.respond_to? 'reboot' }
     end
 
     tests('have attributes') do
@@ -19,7 +22,7 @@ Shindo.tests('Fog::Compute[:xenserver] | host model', ['xenserver']) do
         :allowed_operations,
         :enabled,
         :hostname,
-        :metrics,
+        :__metrics,
         :name_description,
         :other_config,
         :__pbds,
@@ -60,6 +63,22 @@ Shindo.tests('Fog::Compute[:xenserver] | host model', ['xenserver']) do
       host.resident_servers.each { |i| 
           test("and each Server should be a Fog::Compute::XenServer::Server") { i.kind_of? Fog::Compute::XenServer::Server}
       } 
+    end
+    tests("return valid HostMetrics") do
+      test("object") { host.metrics.kind_of? Fog::Compute::XenServer::HostMetrics }
+    end
+
+    tests('be able to be') do
+      test('disable') do
+        host.disable
+        host.reload
+        host.enabled == false
+      end
+      test('enabled') do
+        host.enable
+        host.reload
+        host.enabled
+      end
     end
 
   end

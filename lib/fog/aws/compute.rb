@@ -7,7 +7,7 @@ module Fog
       extend Fog::AWS::CredentialFetcher::ServiceMethods
 
       requires :aws_access_key_id, :aws_secret_access_key
-      recognizes :endpoint, :region, :host, :path, :port, :scheme, :persistent, :aws_session_token, :use_iam_profile, :aws_credentials_expire_at, :instrumentor, :instrumentor_name
+      recognizes :endpoint, :region, :host, :path, :port, :scheme, :persistent, :aws_session_token, :use_iam_profile, :aws_credentials_expire_at, :instrumentor, :instrumentor_name, :version
 
       secrets    :aws_secret_access_key, :hmac, :aws_session_token
 
@@ -65,6 +65,7 @@ module Fog
       request :create_tags
       request :create_volume
       request :create_vpc
+      request :copy_snapshot
       request :delete_dhcp_options
       request :delete_internet_gateway
       request :delete_key_pair
@@ -113,6 +114,7 @@ module Fog
       request :modify_instance_attribute
       request :modify_network_interface_attribute
       request :modify_snapshot_attribute
+      request :modify_volume_attribute
       request :purchase_reserved_instances_offering
       request :reboot_instances
       request :release_address
@@ -212,13 +214,15 @@ module Fog
           @data = nil
         end
 
+        attr_accessor :region
+
         def initialize(options={})
           @use_iam_profile = options[:use_iam_profile]
           @aws_credentials_expire_at = Time::now + 20
           setup_credentials(options)
           @region = options[:region] || 'us-east-1'
 
-          unless ['ap-northeast-1', 'ap-southeast-1', 'eu-west-1', 'us-east-1', 'us-west-1', 'us-west-2', 'sa-east-1'].include?(@region)
+          unless ['ap-northeast-1', 'ap-southeast-1', 'ap-southeast-2', 'eu-west-1', 'us-east-1', 'us-west-1', 'us-west-2', 'sa-east-1'].include?(@region)
             raise ArgumentError, "Unknown region: #{@region.inspect}"
           end
         end
@@ -317,6 +321,7 @@ module Fog
           @region                 = options[:region] ||= 'us-east-1'
           @instrumentor           = options[:instrumentor]
           @instrumentor_name      = options[:instrumentor_name] || 'fog.aws.compute'
+          @version                = options[:version]     ||  '2012-12-01'
 
           if @endpoint = options[:endpoint]
             endpoint = URI.parse(@endpoint)
@@ -362,7 +367,7 @@ module Fog
               :host               => @host,
               :path               => @path,
               :port               => @port,
-              :version            => '2012-07-20'
+              :version            => @version
             }
           )
 

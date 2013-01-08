@@ -15,10 +15,10 @@ module Fog
 
         def save
           requires :username, :email, :enabled
-          if identity.nil?
-            data = connection.create_user(username, email, enabled, :password => password)
+          unless persisted?
+            data = service.create_user(username, email, enabled, :password => password)
           else
-            data = connection.update_user(identity, username, email, enabled, :password => password)
+            data = service.update_user(identity, username, email, enabled, :password => password)
           end
           merge_attributes(data.body['user'])
           true
@@ -26,14 +26,14 @@ module Fog
 
         def destroy
           requires :identity
-          connection.delete_user(identity)
+          service.delete_user(identity)
           true
         end
 
         def roles
           @roles ||= begin
             Fog::Rackspace::Identity::Roles.new({
-              :connection => connection,
+              :service => service,
               :user => self
             })
           end
@@ -42,7 +42,7 @@ module Fog
         def credentials
           @credentials ||= begin
             Fog::Rackspace::Identity::Credentials.new({
-              :connection => connection,
+              :service => service,
               :user => self
             })
           end
