@@ -59,6 +59,7 @@ module Fog
       request :vm_reconfig_memory
       request :vm_reconfig_cpus
       request :vm_config_vnc
+      request :create_folder
 
       module Shared
 
