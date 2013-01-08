@@ -5,6 +5,7 @@ module Fog
 
         require 'fog/aws/parsers/storage/copy_object'
 
+        #
         # Copy an object from one S3 bucket to another
         #
         # @param source_bucket_name [String] Name of source bucket
@@ -28,6 +29,7 @@ module Fog
         #
         # @see http://docs.amazonwebservices.com/AmazonS3/latest/API/RESTObjectCOPY.html
         # 
+        
         def copy_object(source_bucket_name, source_object_name, target_bucket_name, target_object_name, options = {})
           headers = { 'x-amz-copy-source' => "/#{source_bucket_name}/#{CGI.escape(source_object_name)}" }.merge!(options)
           request({
