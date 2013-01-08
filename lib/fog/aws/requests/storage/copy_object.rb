@@ -5,7 +5,6 @@ module Fog
 
         require 'fog/aws/parsers/storage/copy_object'
 
-        #
         # Copy an object from one S3 bucket to another
         #
         # @param source_bucket_name [String] Name of source bucket
