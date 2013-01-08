@@ -36,7 +36,7 @@ Shindo.tests('Fog::Compute::RackspaceV2 | metadata_tests', ['rackspace']) do
           tests('get_metadata_item').returns("meta" => {"environment" => "dev"}) do
             @service.get_metadata_item("servers", @server_id, "environment").body
           end
-          tests('set_metadata_item').returns("meta" => {"environment", "test"}) do
+          tests('set_metadata_item').returns("meta" => {"environment" => "test"}) do
             @service.set_metadata_item("servers", @server_id, "environment", "test").body
           end
           tests('delete_metadata_item').succeeds do
@@ -62,7 +62,7 @@ Shindo.tests('Fog::Compute::RackspaceV2 | metadata_tests', ['rackspace']) do
           tests('get_metadata_item').returns("meta" => {"environment" => "dev"}) do
             @service.get_metadata_item("images", @image_id, "environment").body
           end
-          tests('set_metadata_item').returns("meta" => {"environment", "test"}) do
+          tests('set_metadata_item').returns("meta" => {"environment" => "test"}) do
             @service.set_metadata_item("images", @image_id, "environment", "test").body
           end
           tests('delete_metadata_item').succeeds do
