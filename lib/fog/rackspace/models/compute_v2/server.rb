@@ -1,4 +1,5 @@
 require 'fog/compute/models/server'
+require 'fog/rackspace/models/compute_v2/metadata'
 
 module Fog
   module Compute
@@ -32,7 +33,6 @@ module Fog
         attribute :user_id
         attribute :tenant_id
         attribute :links
-        attribute :metadata
         attribute :personality
         attribute :ipv4_address, :aliases => 'accessIPv4'
         attribute :ipv6_address, :aliases => 'accessIPv6'
@@ -41,8 +41,29 @@ module Fog
         attribute :addresses
         attribute :flavor_id, :aliases => 'flavor', :squash => 'id'
         attribute :image_id, :aliases => 'image', :squash => 'id'
-
-        attr_reader :password
+        
+        ignore_attributes :metadata
+        
+        attr_reader :password          
+        def initialize(attributes={})
+          @service = attributes[:service]
+          super
+        end  
+        
+        def metadata
+          raise "Please save server before accessing metadata" unless identity
+          @metadata ||= begin
+            Fog::Compute::RackspaceV2::Metadata.new({
+              :service => service,
+              :parent => self
+            })
+          end
+        end
+        
+        def metadata=(hash={})
+          raise "Please save server before accessing metadata" unless identity
+          metadata.from_hash(hash)
+        end
 
         def save
           if persisted?
@@ -58,7 +79,7 @@ module Fog
 
           options = {}
           options[:disk_config] = disk_config unless disk_config.nil?
-          options[:metadata] = metadata unless metadata.nil?
+          options[:metadata] = metadata unless @metadata.nil?
           options[:personality] = personality unless personality.nil?
 
           data = service.create_server(name, image_id, flavor_id, 1, 1, options)
