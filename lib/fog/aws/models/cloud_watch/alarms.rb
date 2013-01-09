@@ -12,9 +12,9 @@ module Fog
           data = []
           next_token = nil
           loop do
-            result = service.describe_alarms('NextToken' => next_token).body['DescribeAlarmsResult']
-            data += result['MetricAlarms']
-            next_token = result['NextToken']
+            body = service.describe_alarms('NextToken' => next_token).body
+            data += body['DescribeAlarmsResult']['MetricAlarms']
+            next_token = body['ResponseMetadata']['NextToken']
             break if next_token.nil?
           end
           load(data)
