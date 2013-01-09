@@ -21,9 +21,30 @@ module Fog
         attribute :progress
         attribute :minDisk
         attribute :minRam
-        attribute :metadata
         attribute :disk_config, :aliases => 'OS-DCF:diskConfig'
         attribute :links
+        
+        ignore_attributes :metadata        
+                
+        def initialize(attributes={})
+          @connection = attributes[:connection]
+          super
+        end
+        
+        def metadata
+          raise "Please save image before accessing metadata" unless identity          
+          @metadata ||= begin
+            Fog::Compute::RackspaceV2::Metadata.new({
+              :connection => connection,
+              :parent => self
+            })
+          end
+        end
+        
+        def metadata=(hash={})
+          raise "Please save image before accessing metadata" unless identity
+          metadata.from_hash(hash)
+        end
 
         def ready?
           state ==  ACTIVE

@@ -54,6 +54,13 @@ module Fog
       request :get_attachment
       request :list_attachments
       request :delete_attachment
+      
+      request :list_metadata
+      request :set_metadata
+      request :update_metadata
+      request :get_metadata_item
+      request :set_metadata_item
+      request :delete_metadata_item
 
       class Mock
         
