@@ -1,4 +1,4 @@
-Shindo.tests('Fog::Compute[:xenserver] | PBD model', ['xenserver']) do
+Shindo.tests('Fog::Compute[:xenserver] | HostMetrics model', ['xenserver']) do
 
   host = Fog::Compute[:xenserver].hosts.first
 
