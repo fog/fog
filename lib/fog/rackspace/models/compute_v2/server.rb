@@ -103,6 +103,12 @@ module Fog
             })
           end
         end
+        
+        def attach_volume(volume, device)
+          requires :identity
+          volume_id = volume.is_a?(String) ? volume : volume.id
+          attachments.create(:server_id => identity, :volume_id => volume_id, :device => device)
+        end        
 
         def private_ip_address
           addresses['private'].select{|a| a["version"] == 4}[0]["addr"]
