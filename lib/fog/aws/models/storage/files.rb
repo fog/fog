@@ -61,11 +61,11 @@ module Fog
         def get(key, options = {}, &block)
           requires :directory
           data = service.get_object(directory.key, key, options, &block)
+          normalize_headers(data)
           file_data = data.headers.merge({
             :body => data.body,
             :key  => key
           })
-          normalise_headers(file_data)
           new(file_data)
         rescue Excon::Errors::NotFound => error
           case error.message
@@ -96,10 +96,10 @@ module Fog
         def head(key, options = {})
           requires :directory
           data = service.head_object(directory.key, key, options)
+          normalize_headers(data)
           file_data = data.headers.merge({
             :key => key
           })
-          normalise_headers(file_data)
           new(file_data)
         rescue Excon::Errors::NotFound
           nil
@@ -110,9 +110,9 @@ module Fog
           super({ :directory => directory }.merge!(attributes))
         end
 
-        def normalise_headers(headers)
-          headers['Last-Modified'] = Time.parse(headers['Last-Modified'])
-          headers['ETag'].gsub!('"','')
+        def normalize_headers(data)
+          data.headers['Last-Modified'] = Time.parse(data.get_header('Last-Modified'))
+          data.headers['ETag'] = data.get_header('ETag').gsub('"','')
         end
 
       end
