@@ -10,7 +10,7 @@ module Fog
         model Fog::Storage::IBM::Offering
 
         def all
-          load(connection.list_offerings.body['volumes'])
+          load(service.list_offerings.body['volumes'])
         end
 
       end

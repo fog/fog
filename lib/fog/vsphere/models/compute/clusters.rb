@@ -12,12 +12,12 @@ module Fog
 
         def all(filters = {})
           requires :datacenter
-          load connection.list_clusters(filters.merge(:datacenter => datacenter))
+          load service.list_clusters(filters.merge(:datacenter => datacenter))
         end
 
         def get(id)
           requires :datacenter
-          new connection.get_cluster(id, datacenter)
+          new service.get_cluster(id, datacenter)
         end
 
       end

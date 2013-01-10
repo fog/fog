@@ -26,6 +26,12 @@ Shindo.tests('Fog::Rackspace::Storage | file', ['rackspace']) do
     directories.
     create(directory_attributes)
 
+  model_tests(@directory.files, file_attributes.merge(:etag => 'foo'), Fog.mocking?) do
+    tests('#save should not blow up with etag') do
+      @instance.save
+    end
+  end
+
   model_tests(@directory.files, file_attributes, Fog.mocking?) do
 
     tests("#metadata should load empty metadata").returns({}) do

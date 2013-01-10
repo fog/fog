@@ -20,7 +20,7 @@ module Fog
         private
 
         def retrieve_tenants
-          data = connection.list_tenants.body['tenants']
+          data = service.list_tenants.body['tenants']
         end
       end
     end

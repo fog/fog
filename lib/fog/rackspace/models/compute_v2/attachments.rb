@@ -11,12 +11,12 @@ module Fog
         attr_accessor :server
 
         def all
-          data = connection.list_attachments(server.id).body['volumeAttachments']
+          data = service.list_attachments(server.id).body['volumeAttachments']
           load(data)
         end
 
         def get(volume_id)
-          data = connection.get_attachment(server.id, volume_id).body['volumeAttachment']
+          data = service.get_attachment(server.id, volume_id).body['volumeAttachment']
           data && new(data)
         end
       end

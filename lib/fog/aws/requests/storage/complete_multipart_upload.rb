@@ -7,23 +7,19 @@ module Fog
 
         # Complete a multipart upload
         #
-        # ==== Parameters
-        # * bucket_name<~String> - Name of bucket to complete multipart upload for
-        # * object_name<~String> - Name of object to complete multipart upload for
-        # * upload_id<~String> - Id of upload to add part to
-        # * parts<~Array>: Array of etags for parts
-        #   * :etag<~String> - Etag for this part
+        # @param [String] bucket_name Name of bucket to complete multipart upload for
+        # @param [String] object_name Name of object to complete multipart upload for
+        # @param [String] upload_id Id of upload to add part to
+        # @param [Array<String>] parts Array of etags as Strings for parts
         #
-        # ==== Returns
-        # * response<~Excon::Response>:
-        #   * headers<~Hash>:
-        #     * 'Bucket'<~String> - bucket of new object
-        #     * 'ETag'<~String> - etag of new object (will be needed to complete upload)
-        #     * 'Key'<~String> - key of new object
-        #     * 'Location'<~String> - location of new object
+        # @return [Excon::Response]
+        #   * headers [Hash]:
+        #     * Bucket [String] - bucket of new object
+        #     * ETag [String] - etag of new object (will be needed to complete upload)
+        #     * Key [String] - key of new object
+        #     * Location [String] - location of new object
         #
-        # ==== See Also
-        # http://docs.amazonwebservices.com/AmazonS3/latest/API/mpUploadComplete.html
+        # @see http://docs.amazonwebservices.com/AmazonS3/latest/API/mpUploadComplete.html
         #
         def complete_multipart_upload(bucket_name, object_name, upload_id, parts)
           data = "<CompleteMultipartUpload>"

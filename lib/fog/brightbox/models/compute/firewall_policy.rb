@@ -21,13 +21,13 @@ module Fog
 
         # Sticking with existing Fog behaviour, save does not update but creates a new resource
         def save
-          raise Fog::Errors::Error.new('Resaving an existing object may create a duplicate') if identity
+          raise Fog::Errors::Error.new('Resaving an existing object may create a duplicate') if persisted?
           options = {
             :server_group => server_group_id,
             :name => name,
             :description => description
           }.delete_if {|k,v| v.nil? || v == "" }
-          data = connection.create_firewall_policy(options)
+          data = service.create_firewall_policy(options)
           merge_attributes(data)
           true
         end
@@ -37,7 +37,7 @@ module Fog
           options = {
             :server_group => server_group_id
           }
-          data = connection.apply_to_firewall_policy(identity, options)
+          data = service.apply_to_firewall_policy(identity, options)
           merge_attributes(data)
           true
         end
@@ -47,14 +47,14 @@ module Fog
           options = {
             :server_group => server_group_id
           }
-          data = connection.remove_firewall_policy(identity, options)
+          data = service.remove_firewall_policy(identity, options)
           merge_attributes(data)
           true
         end
 
         def destroy
           requires :identity
-          data = connection.destroy_firewall_policy(identity)
+          data = service.destroy_firewall_policy(identity)
           true
         end
 

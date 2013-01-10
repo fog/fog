@@ -12,7 +12,7 @@ module Fog
         #
         def activate_console_server(identifier)
           return nil if identifier.nil? || identifier == ""
-          request("post", "/1.0/servers/#{identifier}/activate_console", [202])
+          wrapped_request("post", "/1.0/servers/#{identifier}/activate_console", [202])
         end
 
       end

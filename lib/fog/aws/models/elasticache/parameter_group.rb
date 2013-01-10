@@ -12,13 +12,13 @@ module Fog
 
         def destroy
           requires :id
-          connection.delete_cache_parameter_group(id)
+          service.delete_cache_parameter_group(id)
           true
         end
 
         def save
           requires :id
-          connection.create_cache_parameter_group(
+          service.create_cache_parameter_group(
             id,
             description = id,
             family      = 'memcached1.4'

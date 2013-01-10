@@ -11,13 +11,13 @@ module Fog
         attr_accessor :datacenter, :cluster
 
         def all(filters = {})
-          load connection.list_resource_pools(filters.merge(:datacenter => datacenter, :cluster => cluster))
+          load service.list_resource_pools(filters.merge(:datacenter => datacenter, :cluster => cluster))
         end
 
         def get(id)
           requires :datacenter
           requires :cluster
-          new connection.get_resource_pool(id, cluster, datacenter)
+          new service.get_resource_pool(id, cluster, datacenter)
         end
 
       end

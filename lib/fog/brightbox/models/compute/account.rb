@@ -57,7 +57,7 @@ module Fog
         #
         def reset_ftp_password
           requires :identity
-          data = connection.reset_ftp_password_account(identity)
+          data = service.reset_ftp_password_account(identity)
           merge_attributes(data)
           library_ftp_password
         end

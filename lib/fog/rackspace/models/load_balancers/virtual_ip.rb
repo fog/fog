@@ -13,14 +13,14 @@ module Fog
 
         def destroy
           requires :identity, :load_balancer
-          connection.delete_virtual_ip(load_balancer.identity, identity)
+          service.delete_virtual_ip(load_balancer.identity, identity)
           true
         end
 
         def save
-          raise Fog::Errors::Error.new('Resaving an existing object may create a duplicate') if identity
+          raise Fog::Errors::Error.new('Resaving an existing object may create a duplicate') if persisted?
           requires :load_balancer, :type
-          data = connection.create_virtual_ip(load_balancer.id, type)
+          data = service.create_virtual_ip(load_balancer.id, type)
           merge_attributes(data.body)
           true
         end

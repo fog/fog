@@ -19,7 +19,7 @@ module Fog
             Fog::Logger.deprecation("get_account() without a parameter is deprecated, use get_scoped_account instead [light_black](#{caller.first})[/]")
             get_scoped_account
           else
-            request("get", "/1.0/accounts/#{identifier}", [200])
+            wrapped_request("get", "/1.0/accounts/#{identifier}", [200])
           end
         end
 

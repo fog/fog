@@ -41,7 +41,7 @@ module Fog
         undef_method :nat_driver
         def nat_driver
           Fog::Compute::VirtualBox::NATEngine.new(
-            :connection       => connection,
+            :service       => service,
             :machine          => machine,
             :network_adapter  => self,
             :raw              => raw.nat_driver

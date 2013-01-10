@@ -52,10 +52,9 @@ require "tasks/test_task"
 Fog::Rake::TestTask.new
 
 namespace :test do
-  task :dynect do
-    [false].each do |mock|
-      sh("export FOG_MOCK=#{mock} && bundle exec shindont tests/dns/requests/dynect")
-      #sh("export FOG_MOCK=#{mock} && bundle exec shindont tests/dns/models/")
+  task :vsphere do
+    [true].each do |mock|
+      sh("export FOG_MOCK=#{mock} && bundle exec shindont tests/vsphere")
     end
   end
 end
@@ -96,18 +95,44 @@ end
 #
 #############################################################################
 
-task :release => :build do
-  unless `git branch` =~ /^\* master$/
-    puts "You must be on the master branch to release!"
-    exit!
+task :release => ["release:prepare", "release:publish"]
+
+namespace :release do
+  task :preflight do
+    unless `git branch` =~ /^\* master$/
+      puts "You must be on the master branch to release!"
+      exit!
+    end
+    if `git tag` =~ /^\* v#{version}$/
+      puts "Tag v#{version} already exists!"
+      exit!
+    end
   end
-  sh "gem install pkg/#{name}-#{version}.gem"
+
+  task :prepare => :preflight do
+    Rake::Task[:build].invoke
+    sh "gem install pkg/#{name}-#{version}.gem"
+    Rake::Task[:git_mark_release].invoke
+  end
+
+  task :publish do
+    Rake::Task[:git_push_release].invoke
+    Rake::Task[:gem_push].invoke
+  end
+end
+
+task :git_mark_release do
   sh "git commit --allow-empty -a -m 'Release #{version}'"
   sh "git tag v#{version}"
+end
+
+task :git_push_release do
   sh "git push origin master"
   sh "git push origin v#{version}"
+end
+
+task :gem_push do
   sh "gem push pkg/#{name}-#{version}.gem"
-  Rake::Task[:docs].invoke
 end
 
 task :build => :gemspec do
@@ -152,7 +177,3 @@ end
 
 require "tasks/changelog_task"
 Fog::Rake::ChangelogTask.new
-
-require "tasks/documentation_task"
-Fog::Rake::DocumentationTask.new
-

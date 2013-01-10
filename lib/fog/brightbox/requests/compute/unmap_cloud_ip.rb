@@ -12,7 +12,7 @@ module Fog
         #
         def unmap_cloud_ip(identifier)
           return nil if identifier.nil? || identifier == ""
-          request("post", "/1.0/cloud_ips/#{identifier}/unmap", [202])
+          wrapped_request("post", "/1.0/cloud_ips/#{identifier}/unmap", [202])
         end
 
       end

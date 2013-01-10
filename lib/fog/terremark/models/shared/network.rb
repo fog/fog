@@ -17,7 +17,7 @@ module Fog
 
         def ips
           #Until there is a real model for these ?
-          connection.get_network_ips(id).body['IpAddresses']
+          service.get_network_ips(id).body['IpAddresses']
         end
 
         private

@@ -10,7 +10,7 @@ module Fog
         model Fog::Compute::Ecloud::InternetService
 
         def all
-          data = connection.get_internet_services(href).body[:InternetServices]
+          data = service.get_internet_services(href).body[:InternetServices]
           if data.is_a?(Hash)
             load(data[:InternetService])
           elsif data.is_a?(String) && data.empty?
@@ -19,8 +19,11 @@ module Fog
         end
 
         def get(uri)
-          if data = connection.get_internet_service(uri)
-            new(data.body)
+          data = service.get_internet_service(uri).body
+          if data == ""
+            new({})
+          else
+            new(data)
           end
         rescue Fog::Errors::NotFound
           nil
@@ -28,12 +31,12 @@ module Fog
 
         def create(options)
           options[:uri] = "/cloudapi/ecloud/internetServices/publicIps/#{public_ip_id}/action/createInternetService"
-          options[:protocol] ||= "TCP"
-          options[:enabled] ||= true
-          options[:description] ||= ""
-          options[:persistence] ||= {}
+          options[:protocol]           ||= "TCP"
+          options[:enabled]            ||= true
+          options[:description]        ||= ""
+          options[:persistence]        ||= {}
           options[:persistence][:type] ||= "None"
-          data = connection.internet_service_create(options).body
+          data = service.internet_service_create(options).body
           object = new(data)
         end
 

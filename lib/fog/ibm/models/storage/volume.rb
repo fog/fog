@@ -46,12 +46,12 @@ module Fog
 
         def attach(instance_id)
           requires :id
-          connection.attach_volume(instance_id, id).body['success']
+          service.attach_volume(instance_id, id).body['success']
         end
 
         def detach(instance_id)
           requires :id
-          connection.detach_volume(instance_id, id).body['success']
+          service.detach_volume(instance_id, id).body['success']
         end
 
         def created_at
@@ -60,7 +60,7 @@ module Fog
 
         def destroy
           requires :id
-          connection.delete_volume(id)
+          service.delete_volume(id)
           true
         end
 
@@ -81,9 +81,9 @@ module Fog
         end
 
         def save
-          raise Fog::Errors::Error.new('Resaving an existing object may create a duplicate') if identity
+          raise Fog::Errors::Error.new('Resaving an existing object may create a duplicate') if persisted?
           requires :name, :offering_id, :format, :location_id, :size
-          data = connection.create_volume(name, offering_id, format, location_id, size)
+          data = service.create_volume(name, offering_id, format, location_id, size)
           merge_attributes(data.body)
           true
         end

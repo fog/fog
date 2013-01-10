@@ -10,12 +10,12 @@ module Fog
         model Fog::DNS::Linode::Zone
 
         def all
-          data = connection.domain_list.body['DATA']
+          data = service.domain_list.body['DATA']
           load(data)
         end
 
         def get(zone_id)
-          if data = connection.domain_list(zone_id).body['DATA'].first
+          if data = service.domain_list(zone_id).body['DATA'].first
             new(data)
           else
             nil

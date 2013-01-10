@@ -10,7 +10,7 @@ module Fog
         # @see https://api.gb1.brightbox.com/1.0/#cloud_ip_list_cloud_ips
         #
         def list_cloud_ips
-          request("get", "/1.0/cloud_ips", [200])
+          wrapped_request("get", "/1.0/cloud_ips", [200])
         end
 
       end

@@ -42,7 +42,7 @@ module Fog
 
         def save
           requires :id, :volume_id
-          data = connection.create_image(id, volume_id)
+          data = service.create_image(id, volume_id)
           merge_attributes(data.body)
           data.body['success']
         end
@@ -56,12 +56,12 @@ module Fog
         end
 
         def clone(name, description)
-          connection.clone_image(id, name, description).body['ImageID']
+          service.clone_image(id, name, description).body['ImageID']
         end
 
         def destroy
           requires :id
-          connection.delete_image(id).body['success']
+          service.delete_image(id).body['success']
         end
 
       end

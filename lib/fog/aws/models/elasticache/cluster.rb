@@ -35,7 +35,7 @@ module Fog
 
         def destroy
           requires :id
-          connection.delete_cache_cluster(id)
+          service.delete_cache_cluster(id)
           true
         end
 
@@ -45,7 +45,7 @@ module Fog
           parameter_group     ||= Hash.new
           notification_config ||= Hash.new
 
-          connection.create_cache_cluster(
+          service.create_cache_cluster(
             id, {
               :node_type                    => node_type,
               :security_group_names         => security_groups,

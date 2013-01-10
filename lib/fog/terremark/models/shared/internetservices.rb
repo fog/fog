@@ -7,13 +7,13 @@ module Fog
 
       module Mock
         def internetservices(options = {})
-          Fog::Terremark::Shared::Servers.new(options.merge(:connection => self))
+          Fog::Terremark::Shared::Servers.new(options.merge(:service => self))
         end
       end
 
       module Real
         def internetservices(options = {})
-          Fog::Terremark::Shared::InternetServices.new(options.merge(:connection => self))
+          Fog::Terremark::Shared::InternetServices.new(options.merge(:service => self))
         end
       end
 
@@ -22,18 +22,18 @@ module Fog
         model Fog::Terremark::Shared::InternetService
 
         def all
-          data = connection.get_internet_services(vdc_id).body["InternetServices"]
+          data = service.get_internet_services(vdc_id).body["InternetServices"]
           load(data)
         end
 
         def get(service_id)
-          data = connection.get_internet_services(vdc_id)
+          data = service.get_internet_services(vdc_id)
           internet_service = services.body["InternetServices"].select {|item| item["Id"] == service_id}
           new(internetservice)
         end
 
         def vdc_id
-          @vdc_id ||= connection.default_vdc_id
+          @vdc_id ||= service.default_vdc_id
         end
 
       end

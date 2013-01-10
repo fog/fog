@@ -12,12 +12,13 @@ module Fog
         attribute :details
 
         def initialize(attributes)
-          @connection = attributes[:connection]
+          # Old 'connection' is renamed as service and should be used instead
+          prepare_service_value(attributes)
           super
         end
 
         def details
-          connection.get_host_details(self.host_name).body['host']
+          service.get_host_details(self.host_name).body['host']
         end
 
       end

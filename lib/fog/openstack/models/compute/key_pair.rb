@@ -19,7 +19,7 @@ module Fog
         def destroy
           requires :name
 
-          connection.delete_key_pair(name)
+          service.delete_key_pair(name)
           true
         end
 
@@ -27,9 +27,9 @@ module Fog
           requires :name
 
           data = if public_key
-            connection.create_key_pair(name, public_key).body['keypair']
+            service.create_key_pair(name, public_key).body['keypair']
           else
-            connection.create_key_pair(name).body['keypair']
+            service.create_key_pair(name).body['keypair']
           end
           new_attributes = data.reject {|key,value| !['fingerprint', 'public_key', 'name', 'private_key', 'user_id'].include?(key)}
           merge_attributes(new_attributes)

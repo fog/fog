@@ -27,26 +27,26 @@ module Fog
 
         def save
           requires :name, :flavor_id, :volume_size
-          data = connection.create_instance(name, flavor_id, volume_size)
+          data = service.create_instance(name, flavor_id, volume_size)
           merge_attributes(data.body['instance'])
           true
         end
 
         def destroy
           requires :identity
-          connection.delete_instance(identity)
+          service.delete_instance(identity)
           true
         end
 
         def flavor
           requires :flavor_id
-          @flavor ||= connection.flavors.get(flavor_id)
+          @flavor ||= service.flavors.get(flavor_id)
         end
 
         def databases
           @databases ||= begin
             Fog::Rackspace::Databases::Databases.new({
-              :connection => connection,
+              :service => service,
               :instance => self
             })
           end
@@ -55,7 +55,7 @@ module Fog
         def users
           @users ||= begin
             Fog::Rackspace::Databases::Users.new({
-              :connection => connection,
+              :service => service,
               :instance => self
             })
           end
@@ -67,12 +67,12 @@ module Fog
 
         def root_user_enabled?
           requires :identity
-          connection.check_root_user(identity).body['rootEnabled']
+          service.check_root_user(identity).body['rootEnabled']
         end
 
         def enable_root_user
           requires :identity
-          data = connection.enable_root_user(identity).body['user']
+          data = service.enable_root_user(identity).body['user']
           @root_user = data['name']
           @root_password = data['password']
           true
@@ -80,21 +80,21 @@ module Fog
 
         def restart
           requires :identity
-          connection.restart_instance(identity)
+          service.restart_instance(identity)
           self.state = REBOOT
           true
         end
 
         def resize(flavor_id)
           requires :identity
-          connection.resize_instance(identity, flavor_id)
+          service.resize_instance(identity, flavor_id)
           self.state = RESIZE
           true
         end
 
         def resize_volume(volume_size)
           requires :identity
-          connection.resize_instance_volume(identity, volume_size)
+          service.resize_instance_volume(identity, volume_size)
           self.state = RESIZE
           true
         end

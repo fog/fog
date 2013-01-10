@@ -24,9 +24,9 @@ module Fog
 
         def destroy
           if collection.file
-            collection.connection.delete_object(collection.file.directory.key, key, 'versionId' => version)
+            collection.service.delete_object(collection.file.directory.key, key, 'versionId' => version)
           else
-            collection.connection.delete_object(collection.directory.key, key, 'versionId' => version)
+            collection.service.delete_object(collection.directory.key, key, 'versionId' => version)
           end
         end
       end

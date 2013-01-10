@@ -16,7 +16,7 @@ module Fog
           data = []
           next_token = nil
           loop do
-            result = connection.describe_auto_scaling_groups('NextToken' => next_token).body['DescribeAutoScalingGroupsResult']
+            result = service.describe_auto_scaling_groups('NextToken' => next_token).body['DescribeAutoScalingGroupsResult']
             data += result['AutoScalingGroups']
             next_token = result['NextToken']
             break if next_token.nil?
@@ -25,7 +25,7 @@ module Fog
         end
 
         def get(identity)
-          data = connection.describe_auto_scaling_groups('AutoScalingGroupNames' => identity).body['DescribeAutoScalingGroupsResult']['AutoScalingGroups'].first
+          data = service.describe_auto_scaling_groups('AutoScalingGroupNames' => identity).body['DescribeAutoScalingGroupsResult']['AutoScalingGroups'].first
           new(data) unless data.nil?
         end
 

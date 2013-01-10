@@ -12,7 +12,7 @@ module Fog
         #
         def get_image(identifier)
           return nil if identifier.nil? || identifier == ""
-          request("get", "/1.0/images/#{identifier}", [200])
+          wrapped_request("get", "/1.0/images/#{identifier}", [200])
         end
 
       end

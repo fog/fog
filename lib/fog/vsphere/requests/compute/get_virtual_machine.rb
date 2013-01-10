@@ -12,11 +12,11 @@ module Fog
           vm = case id
                  # UUID based
                  when /[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}/
-                   @connection.searchIndex.FindByUuid :uuid => id, :vmSearch => true, :instanceUuid => true, :datacenter => dc
+                   @service.searchIndex.FindByUuid :uuid => id, :vmSearch => true, :instanceUuid => true, :datacenter => dc
                  else
                    # try to find based on VM name
                    if dc
-                     get_datacenter(dc).find_vm(id)
+                     get_raw_datacenter(dc).find_vm(id)
                    else
                      raw_datacenters.map { |d| d.find_vm(id) }.compact.first
                    end

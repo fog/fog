@@ -23,7 +23,7 @@ module Fog
 
         def destroy
           requires :identity
-          connection.delete_record(@zone.identity, identity)
+          service.delete_record(@zone.identity, identity)
           true
         end
 
@@ -34,9 +34,9 @@ module Fog
         def save
           requires :zone, :type, :name, :value
           data = unless identity
-            connection.create_record(zone.identity, type, name, value)
+            service.create_record(zone.identity, type, name, value)
           else
-            connection.update_record(zone.identity, identity, {:type => type, :name => name, :content => value})
+            service.update_record(zone.identity, identity, {:type => type, :name => name, :content => value})
           end
           merge_attributes(data.body)
           true

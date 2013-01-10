@@ -10,7 +10,7 @@ module Fog
         # @see https://api.gb1.brightbox.com/1.0/#api_client_list_api_clients
         #
         def list_api_clients
-          request("get", "/1.0/api_clients", [200])
+          wrapped_request("get", "/1.0/api_clients", [200])
         end
 
       end

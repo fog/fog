@@ -9,11 +9,11 @@ module Fog
         model Fog::Compute::OpenStack::Snapshot
 
         def all(detailed=true)
-          load(connection.list_snapshots(detailed).body['snapshots'])
+          load(service.list_snapshots(detailed).body['snapshots'])
         end
 
         def get(snapshot_id)
-          if snapshot = connection.get_snapshot_details(snapshot_id).body['snapshot']
+          if snapshot = service.get_snapshot_details(snapshot_id).body['snapshot']
             new(snapshot)
           end
         rescue Fog::Compute::OpenStack::NotFound

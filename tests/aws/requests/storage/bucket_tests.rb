@@ -241,6 +241,20 @@ Shindo.tests('Fog::Storage[:aws] | bucket requests', ["aws"]) do
       end
     end
 
+    tests("put_bucket_cors('#{@aws_bucket_name}', cors)").succeeds do
+      cors =  {'CORSConfiguration' =>
+                  [
+                    {
+                      'AllowedOrigin' => 'http://localhost:3000',
+                      'AllowedMethod' => ['POST', 'GET'],
+                      'AllowedHeader' => '*',
+                      'MaxAgeSeconds' => 3000
+                    }
+                  ]
+              }
+      Fog::Storage[:aws].put_bucket_cors(@aws_bucket_name, cors)
+    end
+
     tests("#delete_bucket('#{@aws_bucket_name}')").succeeds do
       Fog::Storage[:aws].delete_bucket(@aws_bucket_name)
     end

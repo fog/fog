@@ -39,9 +39,13 @@ module Fog
       request :resize_server
       request :confirm_resize_server
       request :revert_resize_server
+      request :list_addresses
+      request :list_addresses_by_network
 
+      request :create_image
       request :list_images
       request :get_image
+      request :delete_image
 
       request :list_flavors
       request :get_flavor
@@ -50,11 +54,24 @@ module Fog
       request :get_attachment
       request :list_attachments
       request :delete_attachment
+      
+      request :list_metadata
+      request :set_metadata
+      request :update_metadata
+      request :get_metadata_item
+      request :set_metadata_item
+      request :delete_metadata_item
 
       class Mock
+        
+        def initialize(options)
+          # prevents service initialization errors. This method should be implemented
+        end
+        
         def request(params)
           Fog::Mock.not_implemented
         end
+        
       end
 
       class Real

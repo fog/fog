@@ -45,37 +45,37 @@ module Fog
           data = []
           next_token = nil
           loop do
-            result = connection.describe_scaling_activities('AutoScalingGroupName' => id, 'NextToken' => next_token).body['DescribeScalingActivitiesResult']
+            result = service.describe_scaling_activities('AutoScalingGroupName' => id, 'NextToken' => next_token).body['DescribeScalingActivitiesResult']
             data += result['Activities']
             next_token = result['NextToken']
             break if next_token.nil?
           end
           Fog::AWS::AutoScaling::Activities.new({
             :data => data,
-            :connection => connection,
+            :service => service,
             #:load_balancer => self
           })
         end
 
         def configuration
           requires :launch_configuration_name
-          connection.configurations.get(launch_configuration_name)
+          service.configurations.get(launch_configuration_name)
         end
 
         def disable_metrics_collection(metrics = {})
           requires :id
-          connection.disable_metrics_collection(id, 'Metrics' => metrics)
+          service.disable_metrics_collection(id, 'Metrics' => metrics)
           reload
         end
 
         def enable_metrics_collection(granularity = '1Minute', metrics = {})
           requires :id
-          connection.enable_metrics_collection(id, granularity, 'Metrics' => metrics)
+          service.enable_metrics_collection(id, granularity, 'Metrics' => metrics)
           reload
         end
 
         def instances
-          Fog::AWS::AutoScaling::Instances.new(:connection => connection).load(attributes[:instances])
+          Fog::AWS::AutoScaling::Instances.new(:service => service).load(attributes[:instances])
         end
 
         def instances_in_service
@@ -88,13 +88,13 @@ module Fog
 
         def resume_processes(processes = [])
           requires :id
-          connection.resume_processes(id, 'ScalingProcesses' => processes)
+          service.resume_processes(id, 'ScalingProcesses' => processes)
           reload
         end
 
         def suspend_processes(processes = [])
           requires :id
-          connection.suspend_processes(id, 'ScalingProcesses' => processes)
+          service.suspend_processes(id, 'ScalingProcesses' => processes)
           reload
         end
 
@@ -112,7 +112,7 @@ module Fog
           requires :max_size
           requires :min_size
 
-          connection.create_auto_scaling_group(id, availability_zones, launch_configuration_name, max_size, min_size, options)
+          service.create_auto_scaling_group(id, availability_zones, launch_configuration_name, max_size, min_size, options)
           reload
         end
 
@@ -126,13 +126,13 @@ module Fog
 
           opts = {}
           opts.merge!({'ForceDelete' => true}) if options[:force]
-          
-          connection.delete_auto_scaling_group(id, opts)
+
+          service.delete_auto_scaling_group(id, opts)
         end
 
         def update
           requires :id
-          connection.update_auto_scaling_group(id, options)
+          service.update_auto_scaling_group(id, options)
           reload
         end
 

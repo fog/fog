@@ -16,7 +16,7 @@ module Fog
 
         def destroy
           requires :identity, :name, :type, :zone
-          connection.delete_record(type, zone.identity, name, identity)
+          service.delete_record(type, zone.identity, name, identity)
           true
         end
 
@@ -28,13 +28,13 @@ module Fog
           }
           options.delete_if {|key, value| value.nil?}
 
-          data = connection.post_record(type, zone.identity, name, rdata, options).body['data']
+          data = service.post_record(type, zone.identity, name, rdata, options).body['data']
           # avoid overwriting zone object with zone string
           data = data.reject {|key, value| key == 'zone'}
           merge_attributes(data)
 
           zone.publish
-          records = connection.get_record(type, zone.identity, name).body['data']
+          records = service.get_record(type, zone.identity, name).body['data']
           # data in format ['/REST/xRecord/domain/fqdn/identity]
           records.map! do |record|
             tokens = record.split('/')

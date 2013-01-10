@@ -19,7 +19,8 @@ Shindo.tests('Fog::Compute[:xenserver] | Pool model', ['xenserver']) do
         :tags,
         :restrictions,
         :ha_enabled,
-        :vswitch_controller
+        :vswitch_controller,
+        :__suspend_image_sr
       ]
       tests("The Pool model should respond to") do
         attributes.each do |attribute|
@@ -43,6 +44,11 @@ Shindo.tests('Fog::Compute[:xenserver] | Pool model', ['xenserver']) do
     end
     tests("return valid Host as the master") do
       test("should be a Fog::Compute::XenServer::Host") { pool.master.kind_of? Fog::Compute::XenServer::Host }
+    end
+    test("be able to be configured as a valid suspend_image_sr") do
+      pool.suspend_image_sr = pool.default_storage_repository
+      pool.reload
+      pool.suspend_image_sr.reference == pool.default_storage_repository.reference
     end
 
   end

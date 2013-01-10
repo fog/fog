@@ -10,7 +10,7 @@ module Fog
         model Fog::Compute::Brightbox::Server
 
         def all
-          data = connection.list_servers
+          data = service.list_servers
           load(data)
         end
 
@@ -38,7 +38,7 @@ module Fog
           server.wait_for { ready? }
 
           # To get a public IP address we need to map a cloud IP address
-          cip = connection.cloud_ips.allocate
+          cip = service.cloud_ips.allocate
           cip.map(server)
           cip.wait_for { mapped? }
 
@@ -48,7 +48,7 @@ module Fog
 
         def get(identifier)
           return nil if identifier.nil? || identifier == ""
-          data = connection.get_server(identifier)
+          data = service.get_server(identifier)
           new(data)
         rescue Excon::Errors::NotFound
           nil
