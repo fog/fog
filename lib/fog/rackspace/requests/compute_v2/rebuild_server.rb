@@ -2,12 +2,11 @@ module Fog
   module Compute
     class RackspaceV2
       class Real
-        def rebuild_server(server_id, image_id)
+        def rebuild_server(server_id, image_id, options={})
           data = {
-            'rebuild' => {
-              'imageRef' => image_id
-            }
+            'rebuild' => options || {}
           }
+          data['rebuild']['imageRef'] = image_id
 
           request(
             :body => Fog::JSON.encode(data),

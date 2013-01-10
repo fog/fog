@@ -28,7 +28,7 @@ module Fog
         end
         
         def unplug
-          connection.unplug_pbd reference
+          service.unplug_pbd reference
         end
 
       end
