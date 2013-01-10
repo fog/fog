@@ -67,78 +67,59 @@ Shindo.tests('Fog::Compute::RackspaceV2 | server_tests', ['rackspace']) do
       body
     end
 
-    tests('#list_servers').formats(LIST_SERVERS_FORMAT) do
+    tests('#list_servers').formats(LIST_SERVERS_FORMAT, false) do
       service.list_servers.body
     end
 
-    tests('#get_server').formats(GET_SERVER_FORMAT) do
+    tests('#get_server').formats(GET_SERVER_FORMAT, false) do
       service.get_server(server_id).body
     end
 
-    until service.get_server(server_id).body['server']['status'] == 'ACTIVE'
-      sleep 10
-    end
-
-    tests("#update_server(#{server_id}, #{server_name}_update)").formats(GET_SERVER_FORMAT) do
+    tests("#update_server(#{server_id}, #{server_name}_update) LEGACY").formats(GET_SERVER_FORMAT) do
       service.update_server(server_id, "#{server_name}_update").body
     end
+    
+    tests("#update_server(#{server_id}, { 'name' => #{server_name}_update)} ").formats(GET_SERVER_FORMAT) do
+      service.update_server(server_id, 'name' => "#{server_name}_update").body
+    end    
 
     tests('#change_server_password').succeeds do
       service.change_server_password(server_id, 'some_server_password')
     end
-
-    sleep 60
+    wait_for_server_state(service, server_id, 'ACTIVE', 'ERROR')
 
     tests('#reboot_server').succeeds do
       service.reboot_server(server_id, 'SOFT')
     end
-
-    until service.get_server(server_id).body['server']['status'] == 'ACTIVE'
-      sleep 10
-    end
+   wait_for_server_state(service, server_id, 'ACTIVE')
 
     tests('#rebuild_server').succeeds do
       rebuild_image_id = "5cebb13a-f783-4f8c-8058-c4182c724ccd" # Ubuntu 12.04
       service.rebuild_server(server_id, rebuild_image_id)
     end
-
-    until service.get_server(server_id).body['server']['status'] == 'ACTIVE'
-      sleep 10
-    end
-
+   wait_for_server_state(service, server_id, 'ACTIVE', 'ERROR')
+    
     tests('#resize_server').succeeds do
       resize_flavor_id = 3 # 1GB
       service.resize_server(server_id, resize_flavor_id)
     end
-
-    until service.get_server(server_id).body['server']['status'] == 'VERIFY_RESIZE'
-      sleep 10
-    end
-
+   wait_for_server_state(service, server_id, 'VERIFY_RESIZE', 'ACTIVE')
+    
     tests('#confirm_resize_server').succeeds do
       service.confirm_resize_server(server_id)
     end
-
-    until service.get_server(server_id).body['server']['status'] == 'ACTIVE'
-      sleep 10
-    end
+   wait_for_server_state(service, server_id, 'ACTIVE', 'ERROR')
 
     tests('#resize_server').succeeds do
       resize_flavor_id = 2 # 1GB
       service.resize_server(server_id, resize_flavor_id)
     end
-
-    until service.get_server(server_id).body['server']['status'] == 'VERIFY_RESIZE'
-      sleep 10
-    end
+   wait_for_server_state(service, server_id, 'VERIFY_RESIZE', 'ACTIVE')
 
     tests('#revert_resize_server').succeeds do
       service.revert_resize_server(server_id)
     end
-
-    until service.get_server(server_id).body['server']['status'] == 'ACTIVE'
-      sleep 10
-    end
+   wait_for_server_state(service, server_id, 'ACTIVE', 'ERROR')
 
     tests('#delete_server').succeeds do
       service.delete_server(server_id)

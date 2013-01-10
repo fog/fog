@@ -44,11 +44,17 @@ module Fog
         
         ignore_attributes :metadata
         
-        attr_reader :password          
+        attr_reader :password 
+        
         def initialize(attributes={})
           @service = attributes[:service]
           super
-        end  
+        end
+        
+        alias :access_ipv4_address :ipv4_address
+        alias :access_ipv4_address= :ipv4_address=
+        alias :access_ipv6_address :ipv6_address
+        alias :access_ipv6_address= :ipv6_address=
         
         def metadata
           raise "Please save server before accessing metadata" unless identity
@@ -88,8 +94,14 @@ module Fog
         end
 
         def update
-          requires :identity, :name
-          data = service.update_server(identity, name)
+          requires :identity
+          options = {
+            'name' => name,
+            'accessIPv4' => ipv4_address,
+            'accessIPv6' => ipv6_address
+          }
+          
+          data = service.update_server(identity, options)
           merge_attributes(data.body['server'])
           true
         end
