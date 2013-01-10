@@ -151,9 +151,9 @@ module Fog
           true
         end
 
-        def rebuild(image_id)
+        def rebuild(image_id, options={})
           requires :identity
-          service.rebuild_server(identity, image_id)
+          service.rebuild_server(identity, image_id, options)
           self.state = REBUILD
           true
         end
