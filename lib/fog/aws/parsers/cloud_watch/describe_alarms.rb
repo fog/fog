@@ -52,7 +52,7 @@ module Fog
             when 'RequestId'
               @response['ResponseMetadata'][name] = value
             when 'NextToken'
-              @response['ResponseMetadata'][name] = value
+              @response['DescribeAlarmsResult'][name] = value
             when 'member'
               if !@in_dimensions
                 if @metric_alarms.has_key?('AlarmName')
