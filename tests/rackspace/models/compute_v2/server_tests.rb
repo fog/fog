@@ -10,13 +10,14 @@ Shindo.tests('Fog::Compute::RackspaceV2 | server', ['rackspace']) do
   }
 
   model_tests(service.servers, options, false) do
-    @instance.wait_for { ready? }
+    @instance.wait_for(timeout=1500) { ready? }
     
     tests('#update').succeeds do
       @instance.name = "fog_server_update"
       @instance.access_ipv4_address= "10.10.0.1"
       @instance.access_ipv6_address= "0:0:0:0:0:0:0:1"
       @instance.save
+      sleep 60
       @instance.reload
       returns("10.10.0.1") { @instance.access_ipv4_address }
       returns("0:0:0:0:0:0:0:1") { @instance.access_ipv6_address }
@@ -34,33 +35,39 @@ Shindo.tests('Fog::Compute::RackspaceV2 | server', ['rackspace']) do
       returns('HARD_REBOOT') { @instance.state }
     end
 
-    @instance.wait_for(timeout=1500) { ready? }    
+    sleep 30
+    @instance.wait_for(timeout=1500) { ready? }
+    sleep 60
     tests('#rebuild').succeeds do
       @instance.rebuild('5cebb13a-f783-4f8c-8058-c4182c724ccd')
       returns('REBUILD') { @instance.state }
     end
 
+    sleep 30
     @instance.wait_for(timeout=1500) { ready? }
+    sleep 60    
     tests('#resize').succeeds do
       @instance.resize(3)
       returns('RESIZE') { @instance.state }
     end
 
-    @instance.wait_for(timeout=1500) do 
-      raise "ERROR: Server is in ACTIVE state and it should be in VERIFY_RESIZE" if state == 'ACTIVE'
-      state == 'VERIFY_RESIZE'
-    end
+    sleep 30
+    @instance.wait_for(timeout=1500) { ready?('VERIFY_RESIZE', ['ACTIVE', 'ERROR']) }
+    sleep 60    
     tests('#confirm_resize').succeeds do
       @instance.confirm_resize
     end
 
+    sleep 30
     @instance.wait_for(timeout=1500) { ready? }
+    sleep 60                
     tests('#resize').succeeds do
       @instance.resize(2)
       returns('RESIZE') { @instance.state }
     end
 
-    @instance.wait_for(timeout=1500) { state == 'VERIFY_RESIZE' }
+    @instance.wait_for(timeout=1500) { ready?('VERIFY_RESIZE') }
+    sleep 60
     tests('#revert_resize').succeeds do
       @instance.revert_resize
     end
@@ -83,7 +90,8 @@ Shindo.tests('Fog::Compute::RackspaceV2 | server', ['rackspace']) do
       returns('RESIZE') { @instance.state }
     end
   
-    @instance.wait_for(timeout=1500) { state == 'VERIFY_RESIZE' }
+    @instance.wait_for(timeout=1500) { ready?('VERIFY_RESIZE') }
+    sleep 60
     tests('#revert_resize').succeeds do
       @instance.revert_resize
     end

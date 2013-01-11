@@ -145,8 +145,12 @@ module Fog
           ipv4_address
         end
 
-        def ready?
-          state == ACTIVE
+        def ready?(ready_state = ACTIVE, error_states=[ERROR])
+          if error_states
+            error_states = Array(error_states)
+            raise "ERROR: Server is in error State '#{state}'" if error_states.include?(state)
+          end
+          state == ready_state
         end
 
         def reboot(type = 'SOFT')

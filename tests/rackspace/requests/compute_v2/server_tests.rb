@@ -98,6 +98,7 @@ Shindo.tests('Fog::Compute::RackspaceV2 | server_tests', ['rackspace']) do
       service.rebuild_server(server_id, rebuild_image_id)
     end
    wait_for_server_state(service, server_id, 'ACTIVE', 'ERROR')
+   sleep 60
     
     tests('#resize_server').succeeds do
       resize_flavor_id = 3 # 1GB
