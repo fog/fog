@@ -6,26 +6,24 @@ module Fog
         require 'fog/aws/requests/storage/acl_utils'
 
         # Change access control list for an S3 bucket
-        #
-        # ==== Parameters
-        # * bucket_name<~String> - name of bucket to modify
-        # * acl<~Hash>:
-        #   * Owner<~Hash>:
-        #     * ID<~String>: id of owner
-        #     * DisplayName<~String>: display name of owner
-        #   * AccessControlList<~Array>:
-        #     * Grantee<~Hash>:
-        #         * 'DisplayName'<~String> - Display name of grantee
-        #         * 'ID'<~String> - Id of grantee
+        # 
+        # @param bucket_name [String] name of bucket to modify
+        # @param acl [Hash]
+        #   * Owner [Hash]:
+        #     * ID [String]: id of owner
+        #     * DisplayName [String]: display name of owner
+        #   * AccessControlList [Array]:
+        #     * Grantee [Hash]:
+        #       * DisplayName [String] Display name of grantee
+        #       * ID [String] Id of grantee
         #       or
-        #         * 'EmailAddress'<~String> - Email address of grantee
+        #       * EmailAddress [String] Email address of grantee
         #       or
-        #         * 'URI'<~String> - URI of group to grant access for
-        #     * Permission<~String> - Permission, in [FULL_CONTROL, WRITE, WRITE_ACP, READ, READ_ACP]
-        # * acl<~String> - Permissions, must be in ['private', 'public-read', 'public-read-write', 'authenticated-read']
+        #       * URI [String] URI of group to grant access for
+        #     * Permission [String] Permission, in [FULL_CONTROL, WRITE, WRITE_ACP, READ, READ_ACP]
+        # * acl [String] Permissions, must be in ['private', 'public-read', 'public-read-write', 'authenticated-read']
         #
-        # ==== See Also
-        # http://docs.amazonwebservices.com/AmazonS3/latest/API/RESTBucketPUTacl.html
+        # @see http://docs.amazonwebservices.com/AmazonS3/latest/API/RESTBucketPUTacl.html
 
         def put_bucket_acl(bucket_name, acl)
           data = ""
