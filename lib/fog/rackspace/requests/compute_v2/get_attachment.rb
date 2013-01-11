@@ -10,6 +10,14 @@ module Fog
           )
         end
       end
+
+      class Mock
+        def get_attachment(server_id, volume_id)
+          attachment = self.data[:volume_attachments].detect { |v| v["serverId"] == server_id && v["volumeId"] == volume_id }
+
+          response(:body => {"volumeAttachment" => attachment})
+        end
+      end
     end
   end
 end

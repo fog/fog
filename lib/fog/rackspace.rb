@@ -1,8 +1,37 @@
 require 'fog/core'
+require 'fog/rackspace/mock_data'
 
 module Fog
   module Rackspace
     extend Fog::Provider
+
+    def self.uuid
+      [8,4,4,4,12].map{|i| Fog::Mock.random_hex(i)}.join("-")
+    end
+
+    def self.ipv4_address
+      4.times.map{ Fog::Mock.random_numbers(3) }.join(".")
+    end
+
+    def self.ipv6_address
+      8.times.map { Fog::Mock.random_hex(4) }.join(":")
+    end
+
+    def self.keep(hash, *keys)
+      {}.tap do |kept|
+        keys.each{|k| kept[k]= hash[k] if hash.key?(k)}
+      end
+    end
+
+    def self.slice(hash, *keys)
+      hash.dup.tap do |sliced|
+        keys.each{|k| sliced.delete(k)}
+      end
+    end
+
+    def self.zulu_time
+      Time.now.strftime("%Y-%m-%dT%H:%M:%SZ")
+    end
 
     module Errors
       class ServiceError < Fog::Errors::Error
@@ -16,15 +45,15 @@ module Fog
           data = nil
           message = nil
           status_code = nil
-          
+
           if error.response
-            status_code = error.response.status            
+            status_code = error.response.status
             unless error.response.body.empty?
               data = Fog::JSON.decode(error.response.body)
               message = data.values.first ? data.values.first['message'] : data['message']
             end
           end
-          
+
           new_error = super(error, message)
           new_error.instance_variable_set(:@response_data, data)
           new_error.instance_variable_set(:@status_code, status_code)          
