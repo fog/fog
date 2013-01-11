@@ -104,7 +104,7 @@ module Fog
       end
 
       def ignore_attributes(*args)
-        @ignored_attributes = args
+        @ignored_attributes = args.collect {|attr| attr.to_s }
       end
 
       def ignored_attributes

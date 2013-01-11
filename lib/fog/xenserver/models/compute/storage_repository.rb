@@ -41,7 +41,7 @@ module Fog
         end
 
         def destroy
-          connection.destroy_sr reference
+          service.destroy_sr reference
         end
         
         def save
@@ -59,8 +59,8 @@ module Fog
 
           # create_sr request provides sane defaults if some attributes are
           # missing
-          attr = connection.get_record(
-            connection.create_sr( host.reference, 
+          attr = service.get_record(
+            service.create_sr( host.reference, 
                                   name,
                                   type,
                                   description || '',
@@ -76,7 +76,7 @@ module Fog
         end
         
         def set_attribute(name, *val)
-          data = connection.set_attribute( 'SR', reference, name, *val )
+          data = service.set_attribute( 'SR', reference, name, *val )
           # Do not reload automatically for performance reasons
           # We can set multiple attributes at the same time and
           # then reload manually
