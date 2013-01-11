@@ -5,11 +5,12 @@ module Fog
         def attach_volume(server_id, volume_id, device)
           data = {
             'volumeAttachment' => {
-              'volumeId' => volume_id,
-              'device' => device
+              'volumeId' => volume_id
             }
           }
 
+          data['volumeAttachment']['device'] = device if device
+          
           request(
             :body => Fog::JSON.encode(data),
             :expects => [200],

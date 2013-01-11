@@ -64,12 +64,14 @@ Shindo.tests('Fog::Compute::RackspaceV2 | server', ['rackspace']) do
       begin        
         @volume = cbs_service.volumes.create(:size => 100, :display_name => "fog-#{timestamp}")
         @volume.wait_for(timeout=1500) { ready? }
-        tests('#attach_volume') do
-          @instance.attach_volume(@volume, "/dev/xvdb")
+        tests('#attach_volume').succeeds do
+          @instance.attach_volume(@volume)
+        end
+        tests('#attachments').returns(true) do
           @instance.wait_for(timeout=1500)  do
             !attachments.empty?
           end
-          returns(true) { @instance.attachments.any? {|a| a.volume_id == @volume.id } } 
+          @instance.attachments.any? {|a| a.volume_id == @volume.id }
         end
       ensure
         @volume.wait_for(timeout=1500) { !attachments.empty? }

@@ -104,7 +104,7 @@ module Fog
           end
         end
         
-        def attach_volume(volume, device)
+        def attach_volume(volume, device=nil)
           requires :identity
           volume_id = volume.is_a?(String) ? volume : volume.id
           attachments.create(:server_id => identity, :volume_id => volume_id, :device => device)
