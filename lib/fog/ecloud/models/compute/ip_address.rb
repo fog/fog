@@ -24,14 +24,14 @@ module Fog
           @server ||= begin
                         reload unless other_links
                         server_link = other_links.find{|l| l[:type] == "application/vnd.tmrk.cloud.virtualMachine"}
-                        self.connection.servers.get(server_link[:href])
+                        self.service.servers.get(server_link[:href])
                       end
         end
 
         def network
           reload if other_links.nil?
           network_href = other_links.detect { |l| l[:type] == "application/vnd.tmrk.cloud.network" }[:href]
-          network      = self.connection.networks.get(network_href)
+          network      = self.service.networks.get(network_href)
         end
       end
     end

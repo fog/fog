@@ -15,6 +15,14 @@ module Fog
           )
         end
       end
+
+      class Mock
+        def revert_resize_server(server_id)
+          server = self.data[:servers][server_id]
+          server["status"] = "ACTIVE"
+          response(:status => 202)
+        end
+      end
     end
   end
 end

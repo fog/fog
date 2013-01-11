@@ -10,6 +10,13 @@ module Fog
           )
         end
       end
+
+      class Mock
+        def list_flavors
+          flavors = self.data[:flavors].values.map { |f| Fog::Rackspace.keep(f, 'id', 'name', 'links') }
+          response(:body => {"flavors" => flavors})
+        end
+      end
     end
   end
 end
