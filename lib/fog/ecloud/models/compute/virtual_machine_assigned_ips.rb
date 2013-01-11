@@ -10,12 +10,12 @@ module Fog
         model Fog::Compute::Ecloud::VirtualMachineAssignedIp
 
         def all
-          data = connection.get_virtual_machine_assigned_ips(self.identity).body
+          data = service.get_virtual_machine_assigned_ips(self.identity).body
           load(data)
         end
 
         def get(uri)
-          if data = connection.get_virtual_machine_assigned_ip(self.identity)
+          if data = service.get_virtual_machine_assigned_ip(self.identity)
             new(data.body)
           end
         rescue Fog::Errors::NotFound

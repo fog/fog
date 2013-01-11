@@ -34,7 +34,7 @@ module Fog
         def snapshots
           service.snapshots.select { |s| s.volume_id == identity }
         end
-
+        
         def create_snapshot(options={})
           requires :identity
           service.snapshots.create(options.merge(:volume_id => identity))

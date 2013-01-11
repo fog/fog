@@ -1,30 +1,27 @@
 Shindo.tests('Fog::Rackspace::BlockStorage | volume_type_tests', ['rackspace']) do
-
-  pending if Fog.mocking?
-
-  VOLUME_TYPE_FORMAT = {
+  volume_type_format = {
     'name' => String,
     'extra_specs' => Hash
   }
 
-  LIST_VOLUME_TYPE_FORMAT = {
-    'volume_types' => [VOLUME_TYPE_FORMAT.merge({ 'id' => Integer })]
+  list_volume_type_format = {
+    'volume_types' => [volume_type_format.merge({ 'id' => Integer })]
   }
 
-  GET_VOLUME_TYPE_FORMAT = {
-    'volume_type' => VOLUME_TYPE_FORMAT.merge({ 'id' => String })
+  get_volume_type_format = {
+    'volume_type' => volume_type_format.merge({ 'id' => String })
   }
 
   service = Fog::Rackspace::BlockStorage.new
 
   tests('success') do
-    volume_type_id = 1
+    volume_type_id = service.volume_types.first.id
 
-    tests("#list_volume_types").formats(LIST_VOLUME_TYPE_FORMAT) do
+    tests("#list_volume_types").formats(list_volume_type_format) do
       service.list_volume_types.body
     end
 
-    tests("#get_volume_type(#{volume_type_id})").formats(GET_VOLUME_TYPE_FORMAT) do
+    tests("#get_volume_type(#{volume_type_id})").formats(get_volume_type_format) do
       service.get_volume_type(volume_type_id).body
     end
   end

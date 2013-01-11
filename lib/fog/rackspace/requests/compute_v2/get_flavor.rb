@@ -10,6 +10,17 @@ module Fog
           )
         end
       end
+
+      class Mock
+        def get_flavor(flavor_id)
+          flavor = self.data[:flavors][flavor_id]
+          if flavor.nil?
+            raise Fog::Compute::RackspaceV2::NotFound
+          else
+            response(:body => {"flavor" => flavor})
+          end
+        end
+      end
     end
   end
 end

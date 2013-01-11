@@ -1,8 +1,7 @@
+service = Fog::Compute::RackspaceV2.new
+
 Shindo.tests('Fog::Compute::RackspaceV2 | images', ['rackspace']) do
 
-  pending if Fog.mocking?
-
-  service = Fog::Compute::RackspaceV2.new
   image_id = nil
 
   tests("success") do

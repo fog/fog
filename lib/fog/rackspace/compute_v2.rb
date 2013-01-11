@@ -63,15 +63,27 @@ module Fog
       request :delete_metadata_item
 
       class Mock
-        
+        include Fog::Rackspace::MockData
+
         def initialize(options)
-          # prevents service initialization errors. This method should be implemented
+          @rackspace_api_key = options[:rackspace_api_key]
         end
-        
+
         def request(params)
           Fog::Mock.not_implemented
         end
-        
+
+        def response(params={})
+          body    = params[:body] || {}
+          status  = params[:status] || 200
+          headers = params[:headers] || {}
+
+          response = Excon::Response.new(:body => body, :headers => headers, :status => status)
+          if params.has_key?(:expects) && ![*params[:expects]].include?(response.status)
+            raise(Excon::Errors.status_error(params, response))
+          else response
+          end
+        end
       end
 
       class Real
