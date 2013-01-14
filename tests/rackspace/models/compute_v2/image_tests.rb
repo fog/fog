@@ -15,8 +15,7 @@ Shindo.tests('Fog::Compute::RackspaceV2 | image', ['rackspace']) do
     begin
       server = service.servers.create(options)
       server.wait_for { ready? }
-      image_id = server.create_image("fog_image_#{test_time}")
-      image = service.images.get(image_id)
+      image = server.create_image("fog_image_#{test_time}")
 
       tests("destroy").succeeds do
         image.destroy

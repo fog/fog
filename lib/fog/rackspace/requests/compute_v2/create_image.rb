@@ -72,7 +72,7 @@ module Fog
             "minRam"   => 256,
             "name"     => "Ubuntu 11.10",
             "progress" => 100,
-            "status"   => "ACTIVE",
+            "status"   => "SAVING",
             "updated"  => "2012-02-28T19:39:05Z"
           }
 
