@@ -22,7 +22,7 @@ Shindo.tests('Fog::Compute[:hp] | persistent server requests', ['hp', 'compute']
     'key_name'    => Fog::Nullable::String
   }
 
-  @volume = Fog::BlockStorage[:hp].volumes.create(:name => 'fogvoltests', :description => 'fog vol test desc', :size => 1)
+  @volume = HP[:block_storage].volumes.create(:name => 'fogvoltests', :description => 'fog vol test desc', :size => 1)
   @volume.wait_for { ready? }
 
   tests('success') do
@@ -61,6 +61,6 @@ Shindo.tests('Fog::Compute[:hp] | persistent server requests', ['hp', 'compute']
 
   end
 
-  Fog::BlockStorage[:hp].delete_volume(@volume.id)
+  HP[:block_storage].delete_volume(@volume.id)
 
 end

@@ -1,6 +1,6 @@
 module Fog
-  module BlockStorage
-    class HP
+  module HP
+    class BlockStorage
       class Real
 
         # Get details for existing block storage snapshot
@@ -43,7 +43,7 @@ module Fog
             response.body = { 'snapshot' => snapshot }
             response
           else
-            raise Fog::BlockStorage::HP::NotFound
+            raise Fog::HP::BlockStorage::NotFound
           end
 
         end

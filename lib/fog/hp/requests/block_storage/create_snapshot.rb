@@ -1,6 +1,6 @@
 module Fog
-  module BlockStorage
-    class HP
+  module HP
+    class BlockStorage
       class Real
 
         # Create a new block storage snapshot
@@ -65,7 +65,7 @@ module Fog
             self.data[:snapshots][data['id']] = data
             response.body = { 'snapshot' => data }
           else
-            raise Fog::BlockStorage::HP::NotFound
+            raise Fog::HP::BlockStorage::NotFound
           end
           response
         end

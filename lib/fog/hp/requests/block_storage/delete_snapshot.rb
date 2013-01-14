@@ -1,6 +1,6 @@
 module Fog
-  module BlockStorage
-    class HP
+  module HP
+    class BlockStorage
       class Real
 
         # Delete an existing block storage snapshot
@@ -27,7 +27,7 @@ module Fog
             self.data[:snapshots].delete(snapshot_id)
             response.status = 202
           else
-            raise Fog::BlockStorage::HP::NotFound
+            raise Fog::HP::BlockStorage::NotFound
           end
           response
         end

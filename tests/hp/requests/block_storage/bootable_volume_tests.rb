@@ -1,4 +1,4 @@
-Shindo.tests('Fog::BlockStorage[:hp] | bootable volume requests', ['hp', 'block_storage', 'volumes']) do
+Shindo.tests("HP::BlockStorage | bootable volume requests", ['hp', 'block_storage', 'volumes']) do
 
   @volume_format = {
     'status'             => String,
@@ -42,35 +42,35 @@ Shindo.tests('Fog::BlockStorage[:hp] | bootable volume requests', ['hp', 'block_
     @base_image_id = ENV["BASE_IMAGE_ID"] || 1242
 
     tests("#create_volume(#{@volume_name}, #{@volume_desc}, 10, {'imageRef' => '#{@base_image_id}'})").formats(@volume_format) do
-      data = Fog::BlockStorage[:hp].create_volume(@volume_name, @volume_desc, 10, {'imageRef' => "#{@base_image_id}"}).body['volume']
+      data = HP[:block_storage].create_volume(@volume_name, @volume_desc, 10, {'imageRef' => "#{@base_image_id}"}).body['volume']
       @volume_id = data['id']
       data
     end
 
-    Fog::BlockStorage[:hp].volumes.get(@volume_id).wait_for { ready? }
+    HP[:block_storage].volumes.get(@volume_id).wait_for { ready? }
     tests("#get_bootable_volume_details(#{@volume_id})").formats(@boot_volume_format) do
-      Fog::BlockStorage[:hp].get_bootable_volume_details(@volume_id).body['volume']
+      HP[:block_storage].get_bootable_volume_details(@volume_id).body['volume']
     end
 
     tests("#list_bootable_volumes").formats({'volumes' => [@boot_volume_format]}) do
-      Fog::BlockStorage[:hp].list_bootable_volumes.body
+      HP[:block_storage].list_bootable_volumes.body
     end
 
-    Fog::BlockStorage[:hp].volumes.get(@volume_id).wait_for { ready? }
+    HP[:block_storage].volumes.get(@volume_id).wait_for { ready? }
     tests("#delete_volume(#{@volume_id})").succeeds do
-      Fog::BlockStorage[:hp].delete_volume(@volume_id)
+      HP[:block_storage].delete_volume(@volume_id)
     end
 
   end
 
   tests('failure') do
 
-    tests("#get_bootable_volume_details(0)").raises(Fog::BlockStorage::HP::NotFound) do
-      Fog::BlockStorage[:hp].get_bootable_volume_details(0)
+    tests("#get_bootable_volume_details(0)").raises(Fog::HP::BlockStorage::NotFound) do
+      HP[:block_storage].get_bootable_volume_details(0)
     end
 
-    tests("#delete_volume(0)").raises(Fog::BlockStorage::HP::NotFound) do
-      Fog::BlockStorage[:hp].delete_volume(0)
+    tests("#delete_volume(0)").raises(Fog::HP::BlockStorage::NotFound) do
+      HP[:block_storage].delete_volume(0)
     end
 
   end

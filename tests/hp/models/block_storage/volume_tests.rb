@@ -1,13 +1,13 @@
-Shindo.tests("Fog::BlockStorage[:hp] | volumes", ['hp', 'block_storage']) do
+Shindo.tests("HP::BlockStorage | volumes", ['hp', 'block_storage', 'volumes']) do
 
-  model_tests(Fog::BlockStorage[:hp].volumes, {:name => "fogvoltests", :description => "fogvoltests-desc", :size => 1}, true)
+  model_tests(HP[:block_storage].volumes, {:name => "fogvoltests", :description => "fogvoltests-desc", :size => 1}, true)
 
   tests("new volume") do
-    @volume = Fog::BlockStorage[:hp].volumes.create(:name => "testvol", :size => 1)
+    @volume = HP[:block_storage].volumes.create(:name => "testvol", :size => 1)
     @volume.wait_for { ready? } unless Fog.mocking?
 
     test("get(#{@volume.id})") do
-      Fog::BlockStorage[:hp].volumes.get(@volume.id) != nil?
+      HP[:block_storage].volumes.get(@volume.id) != nil?
     end
 
     test("has_attachments?") do

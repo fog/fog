@@ -1,6 +1,6 @@
 module Fog
-  module BlockStorage
-    class HP
+  module HP
+    class BlockStorage
       class Real
 
         # List existing block storage volumes

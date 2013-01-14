@@ -1,8 +1,8 @@
 require 'fog/core/model'
 
 module Fog
-  module BlockStorage
-    class HP
+  module HP
+    class BlockStorage
 
       class Volume < Fog::Model
 

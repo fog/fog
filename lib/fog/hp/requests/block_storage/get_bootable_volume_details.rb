@@ -1,6 +1,6 @@
 module Fog
-  module BlockStorage
-    class HP
+  module HP
+    class BlockStorage
       class Real
 
         # Get details for existing block storage bootable volume
@@ -48,7 +48,7 @@ module Fog
             response.body = { 'volume' => volume }
             response
           else
-            raise Fog::BlockStorage::HP::NotFound
+            raise Fog::HP::BlockStorage::NotFound
           end
 
         end
