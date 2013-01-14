@@ -1,4 +1,5 @@
 service = Fog::Compute::RackspaceV2.new
+cbs_service = Fog::Rackspace::BlockStorage.new
 flavor_id  = Fog.credentials[:rackspace_flavor_id] || service.flavors.first.id
 image_id   = Fog.credentials[:rackspace_image_id]  || service.images.first.id
 
@@ -59,8 +60,8 @@ Shindo.tests('Fog::Compute::RackspaceV2 | server', ['rackspace']) do
     end
 
     tests('attachments') do
-      begin        
-        @volume = cbs_service.volumes.create(:size => 100, :display_name => "fog-#{timestamp}")
+      begin
+        @volume = cbs_service.volumes.create(:size => 100, :display_name => "fog-#{Time.now.to_i.to_s}")
         @volume.wait_for(timeout=1500) { ready? }
         tests('#attach_volume').succeeds do
           @instance.attach_volume(@volume)

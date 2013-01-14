@@ -30,7 +30,7 @@ module Fog
           elsif size < 100 || size > 1024
             raise Fog::Rackspace::BlockStorage::BadRequest.new("'size' parameter must be between 100 and 1024")
           else
-            volume_id         = Fog::Rackspace.uuid
+            volume_id         = Fog::Rackspace::MockData.uuid
             name              = options[:display_name] || "test volume"
             description       = options[:display_description] || "description goes here"
             volume_type       = options[:volume_type] || "SATA"
@@ -44,7 +44,7 @@ module Fog
               "volume_type"         => volume_type,
               "snapshot_id"         => nil,
               "attachments"         => [],
-              "created_at"          => Fog::Rackspace.zulu_time,
+              "created_at"          => Fog::Rackspace::MockData.zulu_time,
               "availability_zone"   => "nova",
               "metadata"            => {},
             }

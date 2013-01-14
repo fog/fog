@@ -28,7 +28,7 @@ module Fog
           if volume.nil?
             raise Fog::Rackspace::BlockStorage::NotFound
           else
-            snapshot_id         = Fog::Rackspace.uuid
+            snapshot_id         = Fog::Rackspace::MockData.uuid
             display_name        = options[:display_name] || "test snapshot"
             display_description = options[:display_description] || "test snapshot description"
 
@@ -39,7 +39,7 @@ module Fog
               "volume_id"           => volume_id,
               "status"              => "available",
               "size"                => volume["size"],
-              "created_at"          => Fog::Rackspace.zulu_time,
+              "created_at"          => Fog::Rackspace::MockData.zulu_time,
               "availability_zone"   => "nova",
             }
 

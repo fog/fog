@@ -7,7 +7,7 @@ module Fog
 
                         #Compute V2
                         flavor_id = Fog.credentials[:rackspace_flavor_id].to_s ||= Fog::Mock.random_numbers(1)
-                        image_id  = Fog.credentials[:rackspace_image_id] ||= Fog::Rackspace.uuid
+                        image_id  = Fog.credentials[:rackspace_image_id] ||= Fog::Rackspace::MockData.uuid
                         image_name = Fog::Mock.random_letters(6)
 
                         flavor = {
@@ -110,6 +110,34 @@ module Fog
                         }
                       end
         end[@rackspace_api_key]
+      end
+
+      def self.uuid
+        [8,4,4,4,12].map{|i| Fog::Mock.random_hex(i)}.join("-")
+      end
+
+      def self.ipv4_address
+        4.times.map{ Fog::Mock.random_numbers(3) }.join(".")
+      end
+
+      def self.ipv6_address
+        8.times.map { Fog::Mock.random_hex(4) }.join(":")
+      end
+
+      def self.keep(hash, *keys)
+        {}.tap do |kept|
+          keys.each{|k| kept[k]= hash[k] if hash.key?(k)}
+        end
+      end
+
+      def self.slice(hash, *keys)
+        hash.dup.tap do |sliced|
+          keys.each{|k| sliced.delete(k)}
+        end
+      end
+
+      def self.zulu_time
+        Time.now.strftime("%Y-%m-%dT%H:%M:%SZ")
       end
     end
   end

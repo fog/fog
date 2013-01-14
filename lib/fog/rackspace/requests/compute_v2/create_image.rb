@@ -28,7 +28,7 @@ module Fog
 
       class Mock
         def create_image(server_id, name, options = {})
-          image_id = Fog::Rackspace.uuid
+          image_id = Fog::Rackspace::MockData.uuid
           image = {
             "OS-DCF:diskConfig" => "AUTO",
             "created"           => "2012-02-28T19:38:57Z",

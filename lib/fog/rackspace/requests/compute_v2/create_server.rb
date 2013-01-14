@@ -29,11 +29,11 @@ module Fog
 
       class Mock
         def create_server(name, image_id, flavor_id, min_count, max_count, options={})
-          server_id   = Fog::Rackspace.uuid
-          public_ip4  = Fog::Rackspace.ipv4_address
-          public_ip6  = Fog::Rackspace.ipv6_address
-          private_ip4 = Fog::Rackspace.ipv4_address
-          private_ip6 = Fog::Rackspace.ipv6_address
+          server_id   = Fog::Rackspace::MockData.uuid
+          public_ip4  = Fog::Rackspace::MockData.ipv4_address
+          public_ip6  = Fog::Rackspace::MockData.ipv6_address
+          private_ip4 = Fog::Rackspace::MockData.ipv4_address
+          private_ip6 = Fog::Rackspace::MockData.ipv6_address
           admin_pass  = Fog::Mock.random_letters(12)
 
           flavor = self.data[:flavors][flavor_id]
@@ -65,10 +65,10 @@ module Fog
               ]
             },
             "created" => "2012-07-28T15:32:25Z",
-            "flavor" => Fog::Rackspace.keep(flavor, "id", "links"),
+            "flavor" => Fog::Rackspace::MockData.keep(flavor, "id", "links"),
             "hostId" => Fog::Mock.random_hex(56),
             "id" => server_id,
-            "image"  => Fog::Rackspace.keep(image, "id", "links"),
+            "image"  => Fog::Rackspace::MockData.keep(image, "id", "links"),
             "links" => [
               {
                 "href" => "https://dfw.servers.api.rackspacecloud.com/v2/010101/servers/#{server_id}",
