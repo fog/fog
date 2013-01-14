@@ -25,17 +25,14 @@ module Fog
 
         # Get an expiring object url from S3 for putting an object
         #
-        # ==== Parameters
-        # * bucket_name<~String> - Name of bucket containing object
-        # * object_name<~String> - Name of object to get expiring url for
-        # * expires<~Time> - An expiry time for this url
+        # @param bucket_name [String] Name of bucket containing object
+        # @param object_name [String] Name of object to get expiring url for
+        # @param expires [Time] An expiry time for this url
         #
-        # ==== Returns
-        # * response<~Excon::Response>:
-        #   * body<~String> - url for object
+        # @return [Excon::Response] response:
+        #   * body [String] url for object
         #
-        # ==== See Also
-        # http://docs.amazonwebservices.com/AmazonS3/latest/dev/S3_QSAuth.html
+        # @see http://docs.amazonwebservices.com/AmazonS3/latest/dev/S3_QSAuth.html
 
         include PutObjectUrl
 
