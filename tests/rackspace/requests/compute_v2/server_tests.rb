@@ -1,5 +1,6 @@
 service   = Fog::Compute.new(:provider => 'Rackspace', :version => 'V2')
-image_id  = Fog.credentials[:rackspace_image_id] || service.images.first.id
+image_id  = Fog.credentials[:rackspace_image_id]
+image_id ||= Fog.mocking? ? service.images.first.id : service.images.find {|image| image.name =~ /Ubuntu/}.id # use the first Ubuntu image
 flavor_id = Fog.credentials[:rackspace_flavor_id] || service.flavors.first.id
 
 Shindo.tests('Fog::Compute::RackspaceV2 | server_tests', ['rackspace']) do
@@ -58,7 +59,7 @@ Shindo.tests('Fog::Compute::RackspaceV2 | server_tests', ['rackspace']) do
   tests('success') do
 
     server_id = nil
-    server_name = 'fog' + Time.now.to_i.to_s
+    server_name = "fog#{Time.now.to_i.to_s}"
     image_id = image_id
     flavor_id = flavor_id
 
@@ -67,85 +68,65 @@ Shindo.tests('Fog::Compute::RackspaceV2 | server_tests', ['rackspace']) do
       server_id = body['server']['id']
       body
     end
-
-    tests('#list_servers').formats(list_servers_format) do
+    wait_for_server_state(service, server_id, 'ACTIVE', 'ERROR')
+    
+    tests('#list_servers').formats(list_servers_format, false) do
       service.list_servers.body
     end
 
-    tests('#get_server').formats(get_server_format) do
-      body = service.get_server(server_id).body
-      body
+    tests('#get_server').formats(get_server_format, false) do
+      service.get_server(server_id).body
     end
 
-    until service.get_server(server_id).body['server']['status'] == 'ACTIVE'
-      sleep 10
-    end
-
-    tests("#update_server(#{server_id}, #{server_name}_update)").formats(get_server_format) do
+    tests("#update_server(#{server_id}, #{server_name}_update) LEGACY").formats(get_server_format) do
       service.update_server(server_id, "#{server_name}_update").body
     end
+    
+    tests("#update_server(#{server_id}, { 'name' => #{server_name}_update)} ").formats(get_server_format) do
+      service.update_server(server_id, 'name' => "#{server_name}_update").body
+    end    
 
     tests('#change_server_password').succeeds do
       service.change_server_password(server_id, 'some_server_password')
     end
-
-    unless Fog.mocking?
-      sleep 60
-    end
+    wait_for_server_state(service, server_id, 'ACTIVE', 'ERROR')
 
     tests('#reboot_server').succeeds do
       service.reboot_server(server_id, 'SOFT')
     end
-
-    until service.get_server(server_id).body['server']['status'] == 'ACTIVE'
-      sleep 10
-    end
+    wait_for_server_state(service, server_id, 'ACTIVE')
 
     tests('#rebuild_server').succeeds do
       rebuild_image_id = image_id
       service.rebuild_server(server_id, rebuild_image_id)
     end
-
-    until service.get_server(server_id).body['server']['status'] == 'ACTIVE'
-      sleep 10
-    end
-
+    wait_for_server_state(service, server_id, 'ACTIVE', 'ERROR')
+    sleep 120 unless Fog.mocking?
+    
     tests('#resize_server').succeeds do
       resize_flavor_id = flavor_id
       service.resize_server(server_id, resize_flavor_id)
     end
-
-    until service.get_server(server_id).body['server']['status'] == 'VERIFY_RESIZE'
-      sleep 10
-    end
-
-    tests('#confirm_resize_server').succeeds do
+    wait_for_server_state(service, server_id, 'VERIFY_RESIZE', 'ACTIVE')
+    
+   tests('#confirm_resize_server').succeeds do
       service.confirm_resize_server(server_id)
     end
-
-    until service.get_server(server_id).body['server']['status'] == 'ACTIVE'
-      sleep 10
-    end
+    wait_for_server_state(service, server_id, 'ACTIVE', 'ERROR')
 
     tests('#resize_server').succeeds do
       resize_flavor_id = flavor_id
       service.resize_server(server_id, resize_flavor_id)
     end
-
-    until service.get_server(server_id).body['server']['status'] == 'VERIFY_RESIZE'
-      sleep 10
-    end
+    wait_for_server_state(service, server_id, 'VERIFY_RESIZE', 'ACTIVE')
 
     tests('#revert_resize_server').succeeds do
       service.revert_resize_server(server_id)
     end
-
-    until service.get_server(server_id).body['server']['status'] == 'ACTIVE'
-      sleep 10
-    end
+    wait_for_server_state(service, server_id, 'ACTIVE', 'ERROR')
 
     tests('#delete_server').succeeds do
       service.delete_server(server_id)
-    end
-  end
+    end    
+  end 
 end
