@@ -34,7 +34,7 @@ module Fog
         def environment
           reload if other_links.nil?
           environment_href = other_links.detect { |l| l[:type] == "application/vnd.tmrk.cloud.environment" }[:href]
-          self.connection.environments.get(environment_href)
+          self.service.environments.get(environment_href)
         end
 
         def location

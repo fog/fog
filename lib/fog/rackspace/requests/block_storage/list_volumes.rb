@@ -10,6 +10,13 @@ module Fog
           )
         end
       end
+
+      class Mock
+        def list_volumes
+          volumes = self.data[:volumes].values
+          response(:body => {"volumes" => volumes})
+        end
+      end
     end
   end
 end

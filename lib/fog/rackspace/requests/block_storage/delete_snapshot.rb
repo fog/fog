@@ -10,6 +10,13 @@ module Fog
           )
         end
       end
+
+      class Mock
+        def delete_snapshot(snapshot_id)
+          self.data[:snapshots].delete(snapshot_id)
+          response(:status => 202)
+        end
+      end
     end
   end
 end

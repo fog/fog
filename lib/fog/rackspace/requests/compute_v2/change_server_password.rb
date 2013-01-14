@@ -17,6 +17,12 @@ module Fog
           )
         end
       end
+
+      class Mock
+        def change_server_password(server_id, password)
+          response(:status => 202)
+        end
+      end
     end
   end
 end

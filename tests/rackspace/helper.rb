@@ -31,9 +31,9 @@ module Shindo
           error_states = Array(error_states)           
           raise "ERROR! Server should have transitioned to '#{state}' not '#{current_state}'" if error_states.include?(current_state)
         end
-        sleep 10
+        sleep 10 unless Fog.mocking?
       end
-      sleep 30
+      sleep 30 unless Fog.mocking?
     end
 
   end  

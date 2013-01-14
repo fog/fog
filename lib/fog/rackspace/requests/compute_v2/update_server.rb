@@ -13,6 +13,19 @@ module Fog
           )
         end
       end
+
+      class Mock
+        def update_server(server_id, name)
+          server          = self.data[:servers][server_id]
+          server['name']  = name if name.is_a?(String)
+          server_response = Fog::Rackspace::MockData.keep(server, 'id', 'name', 'hostId', 'created', 'updated', 'status', 'progress', 'user_id', 'tenant_id', 'links', 'metadata', 'accessIPv4', 'accessIPv6', 'OS-DCF:diskConfig', 'rax-bandwidth:bandwidth', 'addresses', 'flavor', 'links', 'image')
+
+          response(
+            :status => 200,
+            :body   => {'server' => server_response}
+          )
+        end
+      end
     end
   end
 end
