@@ -1,9 +1,8 @@
 require File.expand_path(File.join(File.dirname(__FILE__), '..', 'hp'))
-require 'fog/block_storage'
 
 module Fog
-  module BlockStorage
-    class HP < Fog::Service
+  module HP
+    class BlockStorage < Fog::Service
 
       requires    :hp_secret_key, :hp_account_id, :hp_tenant_id, :hp_avl_zone
       recognizes  :hp_auth_uri, :persistent, :connection_options, :hp_use_upass_auth_style, :hp_auth_version, :user_agent
@@ -133,7 +132,7 @@ module Fog
           rescue Excon::Errors::HTTPStatusError => error
             raise case error
             when Excon::Errors::NotFound
-              Fog::BlockStorage::HP::NotFound.slurp(error)
+              Fog::HP::BlockStorage::NotFound.slurp(error)
             else
               error
             end

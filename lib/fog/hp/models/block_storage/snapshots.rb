@@ -2,12 +2,12 @@ require 'fog/core/collection'
 require 'fog/hp/models/block_storage/snapshot'
 
 module Fog
-  module BlockStorage
-    class HP
+  module HP
+    class BlockStorage
 
       class Snapshots < Fog::Collection
 
-        model Fog::BlockStorage::HP::Snapshot
+        model Fog::HP::BlockStorage::Snapshot
 
         def all
           data = connection.list_snapshots.body['snapshots']
@@ -18,7 +18,7 @@ module Fog
           if snapshot = connection.get_snapshot_details(snapshot_id).body['snapshot']
             new(snapshot)
           end
-        rescue Fog::BlockStorage::HP::NotFound
+        rescue Fog::HP::BlockStorage::NotFound
           nil
         end
 

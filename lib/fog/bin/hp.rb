@@ -3,14 +3,14 @@ class HP < Fog::Bin
 
     def class_for(key)
       case key
+      when :block_storage
+        Fog::HP::BlockStorage
       when :cdn
         Fog::CDN::HP
       when :compute
         Fog::Compute::HP
       when :storage
         Fog::Storage::HP
-      when :block_storage
-        Fog::BlockStorage::HP
       else
         # @todo Replace most instances of ArgumentError with NotImplementedError
         # @todo For a list of widely supported Exceptions, see:
@@ -22,6 +22,8 @@ class HP < Fog::Bin
     def [](service)
       @@connections ||= Hash.new do |hash, key|
         hash[key] = case key
+        when :block_storage
+          Fog::HP::BlockStorage.new
         when :cdn
           Fog::Logger.warning("HP[:cdn] is deprecated, use CDN[:hp] instead")
           Fog::CDN.new(:provider => 'HP')
@@ -31,9 +33,6 @@ class HP < Fog::Bin
         when :storage
           Fog::Logger.warning("HP[:storage] is deprecated, use Storage[:hp] instead")
           Fog::Storage.new(:provider => 'HP')
-        when :block_storage
-          Fog::Logger.warning("HP[:block_storage] is deprecated, use BlockStorage[:hp] instead")
-          Fog::BlockStorage.new(:provider => 'HP')
         else
           raise ArgumentError, "Unrecognized service: #{key.inspect}"
         end
