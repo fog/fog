@@ -1,7 +1,9 @@
 service = Fog::Compute::RackspaceV2.new
 cbs_service = Fog::Rackspace::BlockStorage.new
+
 flavor_id  = Fog.credentials[:rackspace_flavor_id] || service.flavors.first.id
 image_id   = Fog.credentials[:rackspace_image_id]  || service.images.first.id
+image_id ||= Fog.mocking? ? service.images.first.id : service.images.find {|image| image.name =~ /Ubuntu/}.id # use the first Ubuntu image
 
 Shindo.tests('Fog::Compute::RackspaceV2 | server', ['rackspace']) do
 
@@ -11,8 +13,7 @@ Shindo.tests('Fog::Compute::RackspaceV2 | server', ['rackspace']) do
     :image_id => image_id
   }
 
-<<<<<<< HEAD
-  model_tests(service.servers, options, false) do
+  model_tests(service.servers, options, true) do
     @instance.wait_for(timeout=1500) { ready? }
     
     tests('#update').succeeds do
@@ -20,94 +21,62 @@ Shindo.tests('Fog::Compute::RackspaceV2 | server', ['rackspace']) do
       @instance.access_ipv4_address= "10.10.0.1"
       @instance.access_ipv6_address= "0:0:0:0:0:0:0:1"
       @instance.save
-      sleep 60
+      sleep 60 unless Fog.mocking?
       @instance.reload
       returns("10.10.0.1") { @instance.access_ipv4_address }
       returns("0:0:0:0:0:0:0:1") { @instance.access_ipv6_address }
       returns("fog_server_update") { @instance.name }
     end
     
-=======
-  model_tests(service.servers, options, true) do
-    @instance.wait_for { ready? }
->>>>>>> 840aa5230674387f5393dca23ac5416105271215
     tests('#reboot("SOFT")').succeeds do
       @instance.reboot('SOFT')
       returns('REBOOT') { @instance.state }
     end
 
-<<<<<<< HEAD
-    @instance.wait_for(timeout=1500) { ready? }
-=======
     @instance.wait_for(timeout=1500)  { ready? }
->>>>>>> 840aa5230674387f5393dca23ac5416105271215
     tests('#reboot("HARD")').succeeds do
       @instance.reboot('HARD')
       returns('HARD_REBOOT') { @instance.state }
     end
 
-<<<<<<< HEAD
-    sleep 30
+    sleep 30 unless Fog.mocking?
     @instance.wait_for(timeout=1500) { ready? }
-    sleep 60
-=======
-    @instance.wait_for(timeout=1500)  { ready? }
->>>>>>> 840aa5230674387f5393dca23ac5416105271215
+    sleep 60  unless Fog.mocking?
     tests('#rebuild').succeeds do
-      @instance.rebuild('5cebb13a-f783-4f8c-8058-c4182c724ccd')
+      @instance.rebuild(image_id)
       returns('REBUILD') { @instance.state }
     end
 
-<<<<<<< HEAD
-    sleep 30
+    sleep 30  unless Fog.mocking?
     @instance.wait_for(timeout=1500) { ready? }
-    sleep 60    
-=======
-    @instance.wait_for(timeout=1500)  { ready? }
->>>>>>> 840aa5230674387f5393dca23ac5416105271215
+    sleep 60  unless Fog.mocking?
     tests('#resize').succeeds do
       @instance.resize(3)
       returns('RESIZE') { @instance.state }
     end
 
-<<<<<<< HEAD
-    sleep 30
+    sleep 30  unless Fog.mocking?
     @instance.wait_for(timeout=1500) { ready?('VERIFY_RESIZE', ['ACTIVE', 'ERROR']) }
-    sleep 60    
-=======
-    @instance.wait_for(timeout=1500)  { state == 'VERIFY_RESIZE' }
->>>>>>> 840aa5230674387f5393dca23ac5416105271215
+    sleep 60  unless Fog.mocking?
     tests('#confirm_resize').succeeds do
       @instance.confirm_resize
     end
 
-<<<<<<< HEAD
-    sleep 30
+    sleep 30 unless Fog.mocking?
     @instance.wait_for(timeout=1500) { ready? }
-    sleep 60                
-=======
-    @instance.wait_for(timeout=1500)  { ready? }
->>>>>>> 840aa5230674387f5393dca23ac5416105271215
+    sleep 60 unless Fog.mocking?
     tests('#resize').succeeds do
       @instance.resize(2)
       returns('RESIZE') { @instance.state }
     end
 
-<<<<<<< HEAD
     @instance.wait_for(timeout=1500) { ready?('VERIFY_RESIZE') }
-    sleep 60
-=======
-    @instance.wait_for(timeout=1500)  { state == 'VERIFY_RESIZE' }
->>>>>>> 840aa5230674387f5393dca23ac5416105271215
+    sleep 60  unless Fog.mocking?
     tests('#revert_resize').succeeds do
       @instance.revert_resize
     end
 
-<<<<<<< HEAD
-    @instance.wait_for(timeout=1500) { ready? }
-=======
     @instance.wait_for(timeout=1500)  { ready? }
->>>>>>> 840aa5230674387f5393dca23ac5416105271215
     tests('#change_admin_password').succeeds do
       @instance.change_admin_password('somerandompassword')
       returns('PASSWORD') { @instance.state }
@@ -145,14 +114,9 @@ Shindo.tests('Fog::Compute::RackspaceV2 | server', ['rackspace']) do
       @instance.resize(4)
       returns('RESIZE') { @instance.state }
     end
-<<<<<<< HEAD
   
     @instance.wait_for(timeout=1500) { ready?('VERIFY_RESIZE') }
-    sleep 60
-=======
-
-    @instance.wait_for(timeout=1500) { state == 'VERIFY_RESIZE' }
->>>>>>> 840aa5230674387f5393dca23ac5416105271215
+    sleep 60 unless Fog.mocking?
     tests('#revert_resize').succeeds do
       @instance.revert_resize
     end
