@@ -5,30 +5,27 @@ module Fog
 
         # Create an object in an S3 bucket
         #
-        # ==== Parameters
-        # * bucket_name<~String> - Name of bucket to create object in
-        # * object_name<~String> - Name of object to create
-        # * data<~File||String> - File or String to create object from
-        # * options<~Hash>:
-        #   * 'Cache-Control'<~String> - Caching behaviour
-        #   * 'Content-Disposition'<~String> - Presentational information for the object
-        #   * 'Content-Encoding'<~String> - Encoding of object data
-        #   * 'Content-Length'<~String> - Size of object in bytes (defaults to object.read.length)
-        #   * 'Content-MD5'<~String> - Base64 encoded 128-bit MD5 digest of message
-        #   * 'Content-Type'<~String> - Standard MIME type describing contents (defaults to MIME::Types.of.first)
-        #   * 'Expires'<~String> - Cache expiry
-        #   * 'x-amz-acl'<~String> - Permissions, must be in ['private', 'public-read', 'public-read-write', 'authenticated-read']
-        #   * 'x-amz-storage-class'<~String> - Default is 'STANDARD', set to 'REDUCED_REDUNDANCY' for non-critical, reproducable data
-        #   * "x-amz-meta-#{name}" - Headers to be returned with object, note total size of request without body must be less than 8 KB.
+        # @param bucket_name [String] Name of bucket to create object in
+        # @param object_name [String] Name of object to create
+        # @param data [File||String] File or String to create object from
+        # @param options [Hash]
+        # @option options Cache-Control [String] Caching behaviour
+        # @option options Content-Disposition [String] Presentational information for the object
+        # @option options Content-Encoding [String] Encoding of object data
+        # @option options Content-Length [String] Size of object in bytes (defaults to object.read.length)
+        # @option options Content-MD5 [String] Base64 encoded 128-bit MD5 digest of message
+        # @option options Content-Type [String] Standard MIME type describing contents (defaults to MIME::Types.of.first)
+        # @option options Expires [String] Cache expiry
+        # @option options x-amz-acl [String] Permissions, must be in ['private', 'public-read', 'public-read-write', 'authenticated-read']
+        # @option options x-amz-storage-class [String] Default is 'STANDARD', set to 'REDUCED_REDUNDANCY' for non-critical, reproducable data
+        # @option options x-amz-meta-#{name} Headers to be returned with object, note total size of request without body must be less than 8 KB.
         #
-        # ==== Returns
-        # * response<~Excon::Response>:
-        #   * headers<~Hash>:
-        #     * 'ETag'<~String> - etag of new object
+        # @return [Excon::Response] response:
+        #   * headers [Hash]:
+        #     * ETag [String] etag of new object
         #
-        # ==== See Also
-        # http://docs.amazonwebservices.com/AmazonS3/latest/API/RESTObjectPUT.html
-        #
+        # @see http://docs.amazonwebservices.com/AmazonS3/latest/API/RESTObjectPUT.html
+        
         def put_object(bucket_name, object_name, data, options = {})
           data = Fog::Storage.parse_data(data)
           headers = data[:headers].merge!(options)
