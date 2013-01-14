@@ -14,10 +14,10 @@ module Fog
         def network=(network)
           network = network.dup
           network_address = network[:Network]
-          @network = self.connection.networks.new(network_address)
+          @network = self.service.networks.new(network_address)
           network_id = @network.href.match(/(\d+)$/)[1]
           address_ip = network_address[:IpAddresses][:IpAddress]
-          @address = self.connection.ip_addresses.new(
+          @address = self.service.ip_addresses.new(
             :href => "/cloudapi/ecloud/ipaddresses/networks/#{network_id}/#{address_ip}",
             :name => address_ip
           )

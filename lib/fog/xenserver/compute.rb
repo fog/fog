@@ -37,6 +37,7 @@ module Fog
       model  :guest_metrics
       model  :vbd_metrics
       model  :host_metrics
+      model  :host_cpu
 
       request_path 'fog/xenserver/requests/compute'
       request :create_server

@@ -10,6 +10,13 @@ module Fog
           )
         end
       end
+
+      class Mock
+        def list_images
+          images = self.data[:images].values
+          response(:body => {"images" => images})
+        end
+      end
     end
   end
 end

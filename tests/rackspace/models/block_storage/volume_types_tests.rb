@@ -1,7 +1,5 @@
 Shindo.tests('Fog::Rackspace::BlockStorage | volume_types', ['rackspace']) do
 
-  pending if Fog.mocking?
-
   service = Fog::Rackspace::BlockStorage.new
 
   tests("success") do
@@ -10,7 +8,7 @@ Shindo.tests('Fog::Rackspace::BlockStorage | volume_types', ['rackspace']) do
     end
 
     tests("#get").succeeds do
-      service.volume_types.get(1)
+      service.volume_types.get(service.volume_types.first.id)
     end
   end
 
