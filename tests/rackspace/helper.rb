@@ -28,7 +28,8 @@ module Shindo
       until current_state == state
         current_state = service.get_server(server_id).body['server']['status']
         if error_states
-          raise "Error occurred! Server should have transitioned to '#{state}' not '#{current_state}'" if Array(error_states).include?(current_state)
+          error_states = Array(error_states)           
+          raise "ERROR! Server should have transitioned to '#{state}' not '#{current_state}'" if error_states.include?(current_state)
         end
         sleep 10
       end

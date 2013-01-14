@@ -148,7 +148,7 @@ module Fog
         def ready?(ready_state = ACTIVE, error_states=[ERROR])
           if error_states
             error_states = Array(error_states)
-            raise "ERROR: Server is in error State '#{state}'" if error_states.include?(state)
+            raise "Server should have transitioned to '#{ready_state}' not '#{state}'" if error_states.include?(state)
           end
           state == ready_state
         end
