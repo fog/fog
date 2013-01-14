@@ -3,8 +3,11 @@ Shindo.tests('Fog::Compute::RackspaceV2 | server', ['rackspace']) do
   pending if Fog.mocking?
 
   service = Fog::Compute::RackspaceV2.new
+  cbs_service = Fog::Rackspace::BlockStorage.new
+  timestamp = Time.now.to_i.to_s
+  
   options = {
-    :name => "fog_server_#{Time.now.to_i.to_s}",
+    :name => "fog_server_#{timestamp}",
     :flavor_id => 2,
     :image_id => '3afe97b2-26dc-49c5-a2cc-a2fc8d80c001'
   }
@@ -79,12 +82,33 @@ Shindo.tests('Fog::Compute::RackspaceV2 | server', ['rackspace']) do
       returns('somerandompassword') { @instance.password }
     end
 
-    @instance.wait_for(timeout=1500) { ready? }
-  end
+    tests('attachments') do
+      begin        
+        @volume = cbs_service.volumes.create(:size => 100, :display_name => "fog-#{timestamp}")
+        @volume.wait_for(timeout=1500) { ready? }
+        tests('#attach_volume').succeeds do
+          @instance.attach_volume(@volume)
+        end
+        tests('#attachments').returns(true) do
+          @instance.wait_for(timeout=1500)  do
+            !attachments.empty?
+          end
+          @instance.attachments.any? {|a| a.volume_id == @volume.id }
+        end
+      ensure
+        @volume.wait_for(timeout=1500) { !attachments.empty? }
+        @instance.attachments.each {|a| a.detach }
+        @volume.wait_for(timeout=1500) { ready? && attachments.empty? }        
+        @volume.destroy if @volume
+      end
+    end
+
+    @instance.wait_for(timeout=1500)  { ready? }
+   end
   
-  # When after testing resize/resize_confirm we get a 409 when we try to resize_revert so I am going to split it into two blocks
+  #When after testing resize/resize_confirm we get a 409 when we try to resize_revert so I am going to split it into two blocks
   model_tests(service.servers, options, false) do
-    @instance.wait_for(timeout=1500) { ready? }
+    @instance.wait_for(timeout=1500)  { ready? }
     tests('#resize').succeeds do
       @instance.resize(4)
       returns('RESIZE') { @instance.state }
@@ -95,6 +119,6 @@ Shindo.tests('Fog::Compute::RackspaceV2 | server', ['rackspace']) do
     tests('#revert_resize').succeeds do
       @instance.revert_resize
     end
-    @instance.wait_for { ready? }    
+    @instance.wait_for(timeout=1500)  { ready? }    
   end  
 end
