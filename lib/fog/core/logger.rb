@@ -5,6 +5,8 @@ module Fog
       :deprecation  => ::STDOUT,
       :warning      => ::STDOUT
     }
+    
+    @channels[:debug] = ::STDOUT if ENV['DEBUG']
 
     def self.[](channel)
       @channels[channel]
