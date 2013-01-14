@@ -128,5 +128,5 @@ Shindo.tests('Fog::Compute::RackspaceV2 | server_tests', ['rackspace']) do
     tests('#delete_server').succeeds do
       service.delete_server(server_id)
     end    
-  end
+  end 
 end
