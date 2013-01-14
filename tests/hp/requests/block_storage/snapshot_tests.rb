@@ -1,4 +1,4 @@
-Shindo.tests('Fog::BlockStorage[:hp] | snapshot requests', ['hp', 'block_storage', 'snapshots']) do
+Shindo.tests('HP::BlockStorage | snapshot requests', ['hp', 'block_storage', 'snapshots']) do
 
   @snapshot_format = {
     'status'             => String,
@@ -16,37 +16,37 @@ Shindo.tests('Fog::BlockStorage[:hp] | snapshot requests', ['hp', 'block_storage
     @snapshot_name = "fogsnapshottests"
     @snapshot_desc = @snapshot_name + " desc"
 
-    @volume = Fog::BlockStorage[:hp].volumes.create(:name => 'fogvolforsnap', :size => 1)
+    @volume = HP[:block_storage].volumes.create(:name => 'fogvolforsnap', :size => 1)
     @volume.wait_for { ready? }
 
     tests("#create_snapshot(#{@snapshot_name}, #{@snapshot_desc}, #{@volume.id})").formats(@snapshot_format) do
-      data = Fog::BlockStorage[:hp].create_snapshot(@snapshot_name, @snapshot_desc, @volume.id).body['snapshot']
+      data = HP[:block_storage].create_snapshot(@snapshot_name, @snapshot_desc, @volume.id).body['snapshot']
       @snapshot_id = data['id']
       data
     end
 
     tests("#get_snapshot_details(#{@snapshot_id})").formats(@snapshot_format) do
-      Fog::BlockStorage[:hp].get_snapshot_details(@snapshot_id).body['snapshot']
+      HP[:block_storage].get_snapshot_details(@snapshot_id).body['snapshot']
     end
 
     tests('#list_snapshots').formats({'snapshots' => [@snapshot_format]}) do
-      Fog::BlockStorage[:hp].list_snapshots.body
+      HP[:block_storage].list_snapshots.body
     end
 
     tests("#delete_snapshot(#{@snapshot_id})").succeeds do
-      Fog::BlockStorage[:hp].delete_snapshot(@snapshot_id)
+      HP[:block_storage].delete_snapshot(@snapshot_id)
     end
 
   end
 
   tests('failure') do
 
-    tests('#get_snapshot_details(0)').raises(Fog::BlockStorage::HP::NotFound) do
-      Fog::BlockStorage[:hp].get_snapshot_details(0)
+    tests('#get_snapshot_details(0)').raises(Fog::HP::BlockStorage::NotFound) do
+      HP[:block_storage].get_snapshot_details(0)
     end
 
-    tests("#delete_snapshot(0)").raises(Fog::BlockStorage::HP::NotFound) do
-      Fog::BlockStorage[:hp].delete_snapshot(0)
+    tests("#delete_snapshot(0)").raises(Fog::HP::BlockStorage::NotFound) do
+      HP[:block_storage].delete_snapshot(0)
     end
 
   end

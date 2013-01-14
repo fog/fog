@@ -1,4 +1,4 @@
-Shindo.tests('Fog::Compute[:hp] | volume requests', ['hp', 'compute', 'block_storage']) do
+Shindo.tests('Fog::Compute[:hp] | volume requests', ['hp', 'compute', 'volumes']) do
 
   @list_volume_attachments_format = {
     'volumeAttachments' => [{
@@ -22,21 +22,21 @@ Shindo.tests('Fog::Compute[:hp] | volume requests', ['hp', 'compute', 'block_sto
   @server.wait_for { ready? }
 
   tests('success') do
-    response = Fog::BlockStorage[:hp].create_volume('fogvoltest', 'fogvoltest desc', 1)
+    response = HP[:block_storage].create_volume('fogvoltest', 'fogvoltest desc', 1)
     @volume_id = response.body['volume']['id']
     @device = "\/dev\/sdf"
 
-    Fog::BlockStorage[:hp].volumes.get(@volume_id).wait_for { ready? }
+    HP[:block_storage].volumes.get(@volume_id).wait_for { ready? }
     tests("#attach_volume(#{@server.id}, #{@volume_id}, #{@device}").formats(@volume_attachment_format) do
       Fog::Compute[:hp].attach_volume(@server.id, @volume_id, @device).body
     end
 
-    Fog::BlockStorage[:hp].volumes.get(@volume_id).wait_for { in_use? } unless Fog.mocking?
+    HP[:block_storage].volumes.get(@volume_id).wait_for { in_use? } unless Fog.mocking?
     tests("#detach_volume(#{@server.id}, #{@volume_id}").succeeds do
       Fog::Compute[:hp].detach_volume(@server.id, @volume_id)
     end
 
-    Fog::BlockStorage[:hp].volumes.get(@volume_id).wait_for { ready? }
+    HP[:block_storage].volumes.get(@volume_id).wait_for { ready? }
     tests("#list_server_volumes(#{@server.id})").formats(@list_volume_attachments_format) do
       Fog::Compute[:hp].list_server_volumes(@server.id).body
     end
@@ -70,7 +70,7 @@ Shindo.tests('Fog::Compute[:hp] | volume requests', ['hp', 'compute', 'block_sto
 
   end
 
-  Fog::BlockStorage[:hp].delete_volume(@volume_id)
+  HP[:block_storage].delete_volume(@volume_id)
   Fog::Compute[:hp].delete_server(@server.id)
 
 end
