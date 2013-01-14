@@ -113,7 +113,12 @@ module Fog
         def create_image(name, options = {})
           requires :identity
           response = service.create_image(identity, name, options)
-          response.headers["Location"].match(/\/([^\/]+$)/)[1] rescue nil
+          begin 
+            image_id = response.headers["Location"].match(/\/([^\/]+$)/)[1]
+            Fog::Compute::RackspaceV2::Image.new(:collection => service.images, :service => service, :id => image_id)
+          rescue
+            nil
+          end
         end
 
         def attachments

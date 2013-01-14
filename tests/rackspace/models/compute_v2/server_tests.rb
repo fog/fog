@@ -23,6 +23,18 @@ Shindo.tests('Fog::Compute::RackspaceV2 | server', ['rackspace']) do
       @instance.reboot('HARD')
       returns('HARD_REBOOT') { @instance.state }
     end
+    
+    @instance.wait_for(timeout=1500)  { ready? }
+    @test_image = nil
+    begin
+      tests('#create_image').succeeds do
+        @test_image = @instance.create_image('fog-test-image')
+        @test_image.reload
+        returns('SAVING') { @test_image.state }
+      end
+    ensure
+      @test_image.destroy unless @test_image.nil? || Fog.mocking?
+    end
 
     @instance.wait_for(timeout=1500)  { ready? }
     tests('#rebuild').succeeds do
