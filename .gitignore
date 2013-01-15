@@ -20,3 +20,4 @@ yardoc
 pkg
 spec/credentials.yml
 vendor/*
+tags
