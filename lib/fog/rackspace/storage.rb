@@ -8,6 +8,7 @@ module Fog
       requires :rackspace_api_key, :rackspace_username
       recognizes :rackspace_auth_url, :rackspace_servicenet, :rackspace_cdn_ssl, :persistent
       recognizes :rackspace_temp_url_key
+      recognizes :rackspace_storage_url, :rackspace_auth_token
 
       model_path 'fog/rackspace/models/storage'
       model       :directory
