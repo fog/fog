@@ -14,9 +14,9 @@ module Fog
           load(data)
         end
 
-        def bootstrap(new_attributes = {})
+        def bootstrap(new_attributes = {}, timeout=1500)
           server = create(new_attributes)
-          server.wait_for { ready? }
+          server.wait_for(timeout) { ready? && !ipv4_address.empty? }
           server.setup(:password => server.password)
           server
         end
