@@ -16,11 +16,11 @@ module Fog
         attribute :is_truncated,    :aliases => 'IsTruncated'
 
         def get_distribution(dist_id)
-          connection.get_streaming_distribution(dist_id)
+          service.get_streaming_distribution(dist_id)
         end
 
         def list_distributions(options = {})
-          connection.get_streaming_distribution_list(options)
+          service.get_streaming_distribution_list(options)
         end
 
         alias :each_distribution_this_page :each

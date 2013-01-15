@@ -23,7 +23,7 @@ module Fog
 
         def destroy
           requires :domain
-          connection.delete_zone(domain)
+          service.delete_zone(domain)
           true
         end
 
@@ -34,12 +34,12 @@ module Fog
 
         def publish
           requires :identity
-          data = connection.put_zone(identity, 'publish' => true)
+          data = service.put_zone(identity, 'publish' => true)
           true
         end
 
         def records
-          @records ||= Fog::DNS::Dynect::Records.new(:zone => self, :connection => connection)
+          @records ||= Fog::DNS::Dynect::Records.new(:zone => self, :service => service)
         end
 
         def nameservers
@@ -48,7 +48,7 @@ module Fog
 
         def save
           requires :domain, :email, :ttl
-          data = connection.post_zone(email, ttl, domain).body['data']
+          data = service.post_zone(email, ttl, domain).body['data']
           merge_attributes(data)
           true
         end

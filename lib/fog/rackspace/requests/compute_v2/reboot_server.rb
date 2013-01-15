@@ -17,6 +17,20 @@ module Fog
           )
         end
       end
+
+      class Mock
+        def reboot_server(server_id, type)
+          body = {
+            "reboot" => {
+              "type" => type.upcase
+            }
+          }
+          response(
+            :body => body,
+            :status => 202
+          )
+        end
+      end
     end
   end
 end

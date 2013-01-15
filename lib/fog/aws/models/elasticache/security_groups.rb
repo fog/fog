@@ -10,13 +10,13 @@ module Fog
 
         def all
           load(
-            connection.describe_cache_security_groups.body['CacheSecurityGroups']
+            service.describe_cache_security_groups.body['CacheSecurityGroups']
           )
         end
 
         def get(identity)
           new(
-            connection.describe_cache_security_groups(
+            service.describe_cache_security_groups(
               identity
             ).body['CacheSecurityGroups'].first
           )

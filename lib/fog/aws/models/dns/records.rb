@@ -28,7 +28,7 @@ module Fog
           options[:identifier] ||= identifier
           options.delete_if {|key, value| value.nil?}
 
-          data = connection.list_resource_record_sets(zone.id, options).body
+          data = service.list_resource_record_sets(zone.id, options).body
           # NextRecordIdentifier is completely absent instead of nil, so set to nil, or iteration breaks.
           data['NextRecordIdentifier'] = nil unless data.has_key?('NextRecordIdentifier')
 
@@ -57,7 +57,7 @@ module Fog
             }
             options.delete_if {|key, value| value.nil?}
 
-            batch = connection.list_resource_record_sets(zone.id, options).body
+            batch = service.list_resource_record_sets(zone.id, options).body
             # NextRecordIdentifier is completely absent instead of nil, so set to nil, or iteration breaks.
             batch['NextRecordIdentifier'] = nil unless batch.has_key?('NextRecordIdentifier')
 
@@ -92,7 +92,7 @@ module Fog
           }
           options.delete_if {|key, value| value.nil?}
 
-          data = connection.list_resource_record_sets(zone.id, options).body
+          data = service.list_resource_record_sets(zone.id, options).body
           # Get first record
           data = data['ResourceRecordSets'].shift
 

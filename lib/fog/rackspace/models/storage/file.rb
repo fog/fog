@@ -36,14 +36,14 @@ module Fog
           options['Content-Type'] ||= content_type if content_type
           options['Access-Control-Allow-Origin'] ||= access_control_allow_origin if access_control_allow_origin
           options['Origin'] ||= origin if origin
-          connection.copy_object(directory.key, key, target_directory_key, target_file_key, options)
-          target_directory = connection.directories.new(:key => target_directory_key)
+          service.copy_object(directory.key, key, target_directory_key, target_file_key, options)
+          target_directory = service.directories.new(:key => target_directory_key)
           target_directory.files.get(target_file_key)
         end
 
         def destroy
           requires :directory, :key
-          connection.delete_object(directory.key, key)
+          service.delete_object(directory.key, key)
           true
         end
 
@@ -76,7 +76,7 @@ module Fog
           options['Origin'] = origin if origin
           options.merge!(metadata_to_headers)
 
-          data = connection.put_object(directory.key, key, body, options)          
+          data = service.put_object(directory.key, key, body, options)
           update_attributes_from(data)
           refresh_metadata
 
@@ -125,7 +125,7 @@ module Fog
 
         def metadata_attributes
           if last_modified
-            headers = connection.head_object(directory.key, self.key).headers
+            headers = service.head_object(directory.key, self.key).headers
             headers.reject! {|k, v| !metadata_attribute?(k)}
           else
             {}

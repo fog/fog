@@ -11,7 +11,7 @@ module Fog
 
         def all
           items = []
-          connection.list_key_pairs.body['keypairs'].each do |kp|
+          service.list_key_pairs.body['keypairs'].each do |kp|
             items = items + kp.map { |key, value| value }
           end
           load(items)

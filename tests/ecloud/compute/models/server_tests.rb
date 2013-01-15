@@ -1,5 +1,4 @@
 provider, config = :ecloud, compute_providers[:ecloud]
-
 connection   = Fog::Compute[provider]
 organization = connection.organizations.first
 environment  = organization.environments.find{|e| e.name == config[:server_attributes][:environment_name]} || organization.environments.first
@@ -8,7 +7,8 @@ compute_pool = environment.compute_pools.first
 image_href   = Fog.credentials[:ecloud_image_href] || compute_pool.templates.first.href
 ssh_key      = organization.admin.ssh_keys.detect { |key| key.name == "root" }
 
-Shindo.tests("Fog::Compute[:#{provider}] | servers", "operations") do
+Shindo.tests("Fog::Compute[:#{provider}] | servers", [provider.to_s, "operations"]) do
+
   @network = environment.networks.first
   options  = config[:server_attributes].merge(:network_uri => @network.href, :ssh_key_uri => ssh_key.href)
   #if Fog.credentials[:ecloud_ssh_key_id]

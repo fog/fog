@@ -138,7 +138,7 @@ module Fog
       request_body['auth']['tenantId'] = "#{@hp_tenant_id}" if @hp_tenant_id
 
       ### Make the call to CS to get auth token and service catalog
-      response = connection.request(
+      response = service.request(
         {
           :expects => 200,
           :headers => {

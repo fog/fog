@@ -9,7 +9,7 @@ module Fog
 
           options[:folder] ||= options['folder']
           if options['instance_uuid'] then
-            [connection.get_virtual_machine(options['instance_uuid'])]
+            [service.get_virtual_machine(options['instance_uuid'])]
           elsif options[:folder] && options[:datacenter] then
             list_all_virtual_machines_in_folder(options[:folder], options[:datacenter])
           else
@@ -27,8 +27,14 @@ module Fog
 
         def list_all_virtual_machines(options = { })
           datacenters = find_datacenters(options[:datacenter])
-          # TODO: go though nested folders
-          vms         = datacenters.map { |dc| dc.vmFolder.childEntity.grep(RbVmomi::VIM::VirtualMachine) }.flatten
+
+          vms = datacenters.map do |dc|
+            @connection.serviceContent.viewManager.CreateContainerView({
+              :container  => dc.vmFolder,
+              :type       =>  ["VirtualMachine"],
+              :recursive  => true
+            }).view
+          end.flatten
           # remove all template based virtual machines
           vms.delete_if { |v| v.config.template }
 

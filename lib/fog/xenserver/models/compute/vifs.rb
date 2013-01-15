@@ -8,14 +8,14 @@ module Fog
       class Vifs < Fog::Collection
 
         model Fog::Compute::XenServer::VIF
-        
+
         def all(options = {})
-          data = connection.get_records 'VIF'
+          data = service.get_records 'VIF'
           load(data)
         end
 
         def get( ref )
-          if ref && obj = connection.get_record( ref, 'VIF' )
+          if ref && obj = service.get_record( ref, 'VIF' )
             new(obj)
           end
         rescue Fog::XenServer::NotFound

@@ -10,8 +10,8 @@ module Fog
         model Fog::Glesys::Compute::Template
 
         def all
-          openvz = connection.template_list.body['response']['templates']['OpenVZ']
-          xen    = connection.template_list.body['response']['templates']['Xen']
+          openvz = service.template_list.body['response']['templates']['OpenVZ']
+          xen    = service.template_list.body['response']['templates']['Xen']
 
           load(xen+openvz)
         end

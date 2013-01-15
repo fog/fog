@@ -10,7 +10,7 @@ module Fog
         model Fog::Compute::Ecloud::CatalogItem
 
         def all
-          data = connection.get_catalog(href).body#[:Locations][:Location][:Catalog][:CatalogEntry]
+          data = service.get_catalog(href).body#[:Locations][:Location][:Catalog][:CatalogEntry]
           if data[:Locations][:Location].is_a?(Hash)
             data = [] if data[:Locations][:Location][:Catalog].is_a?(String) && data[:Locations][:Location][:Catalog].empty?
             load(data)
@@ -28,7 +28,7 @@ module Fog
         end
 
         def get(uri)
-          if data = connection.get_catalog_item(uri)
+          if data = service.get_catalog_item(uri)
             new(data.body)
           end
         rescue Fog::Errors::NotFound

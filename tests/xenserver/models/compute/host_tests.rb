@@ -7,6 +7,9 @@ Shindo.tests('Fog::Compute[:xenserver] | host model', ['xenserver']) do
   tests('The host model should') do
     tests('have the action') do
       test('reload') { host.respond_to? 'reload' }
+      test('shutdown') { host.respond_to? 'shutdown' }
+      test('disable') { host.respond_to? 'disable' }
+      test('reboot') { host.respond_to? 'reboot' }
     end
 
     tests('have attributes') do
@@ -24,7 +27,10 @@ Shindo.tests('Fog::Compute[:xenserver] | host model', ['xenserver']) do
         :other_config,
         :__pbds,
         :__pifs,
-        :__resident_vms
+        :__resident_vms,
+        :__host_cpus,
+        :edition,
+        :software_version
       ]
       tests("The host model should respond to") do
         attributes.each do |attribute|
@@ -65,6 +71,28 @@ Shindo.tests('Fog::Compute[:xenserver] | host model', ['xenserver']) do
       test("object") { host.metrics.kind_of? Fog::Compute::XenServer::HostMetrics }
     end
 
+    tests('be able to be') do
+      test('disable') do
+        host.disable
+        host.reload
+        host.enabled == false
+      end
+      test('enabled') do
+        host.enable
+        host.reload
+        host.enabled
+      end
+    end
+
+    tests('return a list of HostCpu') do
+      test('as an Array') do
+        host.host_cpus.kind_of? Array 
+      end
+      test('with one element at least') do
+        host.host_cpus.first.kind_of? Fog::Compute::XenServer::HostCpu
+      end
+    end
+    
   end
 
 

@@ -9,16 +9,16 @@ module Fog
         model Fog::Rackspace::BlockStorage::VolumeType
 
         def all
-          data = connection.list_volume_types.body['volume_types']
+          data = service.list_volume_types.body['volume_types']
           load(data)
         end
 
         def get(volume_type_id)
-          data = connection.get_volume_type(volume_type_id).body['volume_type']
+          data = service.get_volume_type(volume_type_id).body['volume_type']
           new(data)
         rescue Fog::Rackspace::BlockStorage::NotFound
           nil
-        end   
+        end
       end
     end
   end

@@ -10,7 +10,7 @@ module Fog
         model Fog::Storage::AWS::Directory
 
         def all
-          data = connection.get_service.body['Buckets']
+          data = service.get_service.body['Buckets']
           load(data)
         end
 
@@ -21,7 +21,7 @@ module Fog
             :max_keys   => 'max-keys',
             :prefix     => 'prefix'
           })
-          data = connection.get_bucket(key, options).body
+          data = service.get_bucket(key, options).body
           directory = new(:key => data['Name'])
           options = {}
           for k, v in data

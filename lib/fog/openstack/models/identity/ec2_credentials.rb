@@ -12,7 +12,7 @@ module Fog
         def all
           user_id = user ? user.id : nil
 
-          ec2_credentials = connection.list_ec2_credentials(user_id)
+          ec2_credentials = service.list_ec2_credentials(user_id)
 
           load(ec2_credentials.body['credentials'])
         end
@@ -38,9 +38,9 @@ module Fog
             self.find { |ec2_credential| ec2_credential.access == access_key }
 
           unless ec2_credential then
-            response = connection.get_ec2_credential(user_id, access_key)
+            response = service.get_ec2_credential(user_id, access_key)
             body = response.body['credential']
-            body = body.merge 'connection' => connection
+            body = body.merge 'service' => service
 
             ec2_credential = Fog::Identity::OpenStack::EC2Credential.new(body)
           end

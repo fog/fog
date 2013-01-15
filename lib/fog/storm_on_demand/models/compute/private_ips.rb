@@ -10,12 +10,12 @@ module Fog
         model Fog::Compute::StormOnDemand::PrivateIp
 
         def all
-          data = connection.list_private_ips.body['networks']
+          data = service.list_private_ips.body['networks']
           load(data)
         end
 
         def get(server_id)
-          if server_id && server = connection.get_private_ip(private_ip).body
+          if server_id && server = service.get_private_ip(private_ip).body
             new(server)
           elsif !server_id
             nil

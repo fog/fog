@@ -10,12 +10,12 @@ module Fog
         model Fog::Compute::Brightbox::Application
 
         def all
-          data = connection.list_applications
+          data = service.list_applications
           load(data)
         end
 
         def get(identifier)
-          data = connection.get_application(identifier)
+          data = service.get_application(identifier)
           new(data)
         rescue Excon::Errors::NotFound
           nil

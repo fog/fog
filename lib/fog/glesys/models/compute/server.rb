@@ -32,22 +32,22 @@ module Fog
 
         def start
           requires :identity
-          connection.start(:serverid => identity)
+          service.start(:serverid => identity)
         end
 
         def stop
           requires :identity
-          connection.stop(:serverid => identity)
+          service.stop(:serverid => identity)
         end
 
         def reboot
           requires :identity
-          connection.reboot(:serverid => identity)
+          service.reboot(:serverid => identity)
         end
 
         def destroy
           requires :identity
-          connection.destroy(:serverid => identity, :keepip => keepip)
+          service.destroy(:serverid => identity, :keepip => keepip)
         end
 
         def save
@@ -64,8 +64,8 @@ module Fog
             :cpucores       => cpucores     || "1",
             :rootpassword   => rootpassword,
             :transfer       => transfer     || "500",
-          } 
-          data = connection.create(options)
+          }
+          data = service.create(options)
           merge_attributes(data.body['response']['server'])
           data.status == 200 ? true : false
         end

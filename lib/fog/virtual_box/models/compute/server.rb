@@ -83,7 +83,7 @@ module Fog
             wait_for { raw.session_state == :closed }
           end
           raw.unregister(:full)
-          config_file = connection.compose_machine_filename(name)
+          config_file = service.compose_machine_filename(name)
           config_directory = config_file.split(File::SEPARATOR)[0...-1].join(File::SEPARATOR)
           FileUtils.rm_rf(config_directory)
           true
@@ -91,7 +91,7 @@ module Fog
 
         def network_adapters
           Fog::Compute::VirtualBox::NetworkAdapters.new(
-            :connection => connection,
+            :service => service,
             :machine => self
           )
         end
@@ -117,8 +117,8 @@ module Fog
         def save
           unless identity
             requires :name, :os
-            self.raw = connection.create_machine(nil, name, os)
-            connection.register_machine(raw)
+            self.raw = service.create_machine(nil, name, os)
+            service.register_machine(raw)
             with_session do |session|
               for attribute in [:description, :memory_size, :rtc_use_utc, :vram_size]
                 session.machine.send(:"#{attribute}=", attributes[attribute])
@@ -161,7 +161,7 @@ module Fog
 
         def storage_controllers
           Fog::Compute::VirtualBox::StorageControllers.new(
-            :connection => connection,
+            :service => service,
             :machine    => self
           )
         end

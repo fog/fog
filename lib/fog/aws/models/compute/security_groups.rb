@@ -63,7 +63,7 @@ module Fog
             filters = {'group-name' => [*filters]}
           end
           self.filters = filters
-          data = connection.describe_security_groups(filters).body
+          data = service.describe_security_groups(filters).body
           load(data['securityGroupInfo'])
         end
 
@@ -87,7 +87,7 @@ module Fog
 
         def get(group_name)
           if group_name
-            self.class.new(:connection => connection).all('group-name' => group_name).first
+            self.class.new(:service => service).all('group-name' => group_name).first
           end
         end
 
@@ -110,7 +110,7 @@ module Fog
 
         def get_by_id(group_id)
           if group_id
-            self.class.new(:connection => connection).all('group-id' => group_id).first
+            self.class.new(:service => service).all('group-id' => group_id).first
           end
         end
       end

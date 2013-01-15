@@ -33,13 +33,13 @@ module Fog
         end
 
         def create(options)
-          data = connection.create_server(options).body['servers']
+          data = service.create_server(options).body['servers']
           load(data)
         end
 
         def destroy
           requires :identity
-          connection.delete_server(:uniq_id => identity)
+          service.delete_server(:uniq_id => identity)
           true
         end
 
@@ -49,18 +49,18 @@ module Fog
 
         def reboot
           requires :identity
-          connection.reboot_server(:uniq_id => identity)
+          service.reboot_server(:uniq_id => identity)
           true
         end
 
         def clone(options)
           requires :identity
-          connection.clone_server({:uniq_id => identity}.merge!(options))
+          service.clone_server({:uniq_id => identity}.merge!(options))
           true
         end
         def resize(options)
           requires :identity
-          connection.resize_server({:uniq_id => identity}.merge!(options))
+          service.resize_server({:uniq_id => identity}.merge!(options))
           true
         end
       end

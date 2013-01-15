@@ -12,12 +12,12 @@ module Fog
         identity :href
 
         def all
-          data = connection.get_organizations(organization_uri).body
+          data = service.get_organizations(organization_uri).body
           load(data[:Organization])
         end
 
         def get(uri)
-          if data = connection.get_organization(uri)
+          if data = service.get_organization(uri)
             new(data.body)
           end
         rescue Fog::Errors::NotFound
@@ -25,7 +25,7 @@ module Fog
         end
 
         def organization_uri
-          @organization_uri ||= connection.default_organization_uri
+          @organization_uri ||= service.default_organization_uri
         end
 
         private

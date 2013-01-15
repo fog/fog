@@ -1,4 +1,5 @@
 require 'fog/compute/models/server'
+require 'fog/rackspace/models/compute_v2/metadata'
 
 module Fog
   module Compute
@@ -32,7 +33,6 @@ module Fog
         attribute :user_id
         attribute :tenant_id
         attribute :links
-        attribute :metadata
         attribute :personality
         attribute :ipv4_address, :aliases => 'accessIPv4'
         attribute :ipv6_address, :aliases => 'accessIPv6'
@@ -42,7 +42,34 @@ module Fog
         attribute :flavor_id, :aliases => 'flavor', :squash => 'id'
         attribute :image_id, :aliases => 'image', :squash => 'id'
         
-        attr_reader :password
+        ignore_attributes :metadata
+        
+        attr_reader :password 
+        
+        def initialize(attributes={})
+          @service = attributes[:service]
+          super
+        end
+        
+        alias :access_ipv4_address :ipv4_address
+        alias :access_ipv4_address= :ipv4_address=
+        alias :access_ipv6_address :ipv6_address
+        alias :access_ipv6_address= :ipv6_address=
+        
+        def metadata
+          raise "Please save server before accessing metadata" unless identity
+          @metadata ||= begin
+            Fog::Compute::RackspaceV2::Metadata.new({
+              :service => service,
+              :parent => self
+            })
+          end
+        end
+        
+        def metadata=(hash={})
+          raise "Please save server before accessing metadata" unless identity
+          metadata.from_hash(hash)
+        end
 
         def save
           if persisted?
@@ -58,52 +85,69 @@ module Fog
 
           options = {}
           options[:disk_config] = disk_config unless disk_config.nil?
-          options[:metadata] = metadata unless metadata.nil?
+          options[:metadata] = metadata unless @metadata.nil?
           options[:personality] = personality unless personality.nil?
 
-          data = connection.create_server(name, image_id, flavor_id, 1, 1, options)
+          data = service.create_server(name, image_id, flavor_id, 1, 1, options)
           merge_attributes(data.body['server'])
           true
         end
 
         def update
-          requires :identity, :name
-          data = connection.update_server(identity, name)
+          requires :identity
+          options = {
+            'name' => name,
+            'accessIPv4' => ipv4_address,
+            'accessIPv6' => ipv6_address
+          }
+          
+          data = service.update_server(identity, options)
           merge_attributes(data.body['server'])
           true
         end
 
         def destroy
           requires :identity
-          connection.delete_server(identity)
+          service.delete_server(identity)
           true
         end
 
         def flavor
           requires :flavor_id
-          @flavor ||= connection.flavors.get(flavor_id)
+          @flavor ||= service.flavors.get(flavor_id)
         end
 
         def image
           requires :image_id
-          @image ||= connection.images.get(image_id)
+          @image ||= service.images.get(image_id)
         end
-        
+
         def create_image(name, options = {})
           requires :identity
-          response = connection.create_image(identity, name, options)
-          response.headers["Location"].match(/\/([^\/]+$)/)[1] rescue nil          
+          response = service.create_image(identity, name, options)
+          begin 
+            image_id = response.headers["Location"].match(/\/([^\/]+$)/)[1]
+            Fog::Compute::RackspaceV2::Image.new(:collection => service.images, :service => service, :id => image_id)
+          rescue
+            nil
+          end
         end
 
         def attachments
           @attachments ||= begin
             Fog::Compute::RackspaceV2::Attachments.new({
-              :connection => connection,
+              :service => service,
               :server => self
             })
           end
         end
         
+        def attach_volume(volume, device=nil)
+          requires :identity
+          volume_id = volume.is_a?(String) ? volume : volume.id
+          attachments.create(:server_id => identity, :volume_id => volume_id, :device => device)
+        end        
+
         def private_ip_address
           addresses['private'].select{|a| a["version"] == 4}[0]["addr"]
         end
@@ -112,51 +156,55 @@ module Fog
           ipv4_address
         end
 
-        def ready?
-          state == ACTIVE
+        def ready?(ready_state = ACTIVE, error_states=[ERROR])
+          if error_states
+            error_states = Array(error_states)
+            raise "Server should have transitioned to '#{ready_state}' not '#{state}'" if error_states.include?(state)
+          end
+          state == ready_state
         end
 
         def reboot(type = 'SOFT')
           requires :identity
-          connection.reboot_server(identity, type)
+          service.reboot_server(identity, type)
           self.state = type == 'SOFT' ? REBOOT : HARD_REBOOT
           true
         end
 
         def resize(flavor_id)
           requires :identity
-          connection.resize_server(identity, flavor_id)
+          service.resize_server(identity, flavor_id)
           self.state = RESIZE
           true
         end
 
-        def rebuild(image_id)
+        def rebuild(image_id, options={})
           requires :identity
-          connection.rebuild_server(identity, image_id)
+          service.rebuild_server(identity, image_id, options)
           self.state = REBUILD
           true
         end
 
         def confirm_resize
           requires :identity
-          connection.confirm_resize_server(identity)
+          service.confirm_resize_server(identity)
           true
         end
 
         def revert_resize
           requires :identity
-          connection.revert_resize_server(identity)
+          service.revert_resize_server(identity)
           true
         end
 
         def change_admin_password(password)
           requires :identity
-          connection.change_server_password(identity, password)
+          service.change_server_password(identity, password)
           self.state = PASSWORD
           @password = password
           true
         end
-        
+
         def setup(credentials = {})
           requires :public_ip_address, :identity, :public_key, :username
           Fog::SSH.new(public_ip_address, username, credentials).run([

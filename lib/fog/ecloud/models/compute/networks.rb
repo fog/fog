@@ -10,7 +10,7 @@ module Fog
         model Fog::Compute::Ecloud::Network
 
         def all
-          body = connection.get_networks(self.href).body
+          body = service.get_networks(self.href).body
           body = body[:Networks] ? body[:Networks][:Network] : body[:Network]
           data = case body
                  when NilClass then []
@@ -21,7 +21,7 @@ module Fog
         end
 
         def get(uri)
-          if data = connection.get_network(uri)
+          if data = service.get_network(uri)
             new(data.body)
           end
         rescue Fog::Errors::NotFound

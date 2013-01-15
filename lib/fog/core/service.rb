@@ -91,7 +91,7 @@ module Fog
             constant = collection.to_s.split('_').map {|characters| characters[0...1].upcase << characters[1..-1]}.join('')
             service::Collections.module_eval <<-EOS, __FILE__, __LINE__
               def #{collection}(attributes = {})
-                #{service}::#{constant}.new({:connection => self}.merge(attributes))
+                #{service}::#{constant}.new({:service => self}.merge(attributes))
               end
             EOS
           end

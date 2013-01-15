@@ -11,7 +11,7 @@ module Fog
 
         def all
           r_data = []
-          data = connection.get_templates(href).body[:Families]
+          data = service.get_templates(href).body[:Families]
           data[:Family].is_a?(Hash) ? data = [data[:Family]] : data = data[:Family]
           data.each do |d|
             d[:Categories][:Category].each do |cat|
@@ -28,7 +28,7 @@ module Fog
         end
 
         def get(uri)
-          if data = connection.get_template(uri)
+          if data = service.get_template(uri)
             new(data.body)
           end
         rescue Fog::Errors::NotFound

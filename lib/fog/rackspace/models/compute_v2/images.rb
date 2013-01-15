@@ -9,12 +9,12 @@ module Fog
         model Fog::Compute::RackspaceV2::Image
 
         def all
-          data = connection.list_images.body['images']
+          data = service.list_images.body['images']
           load(data)
         end
 
         def get(image_id)
-          data = connection.get_image(image_id).body['image']
+          data = service.get_image(image_id).body['image']
           new(data)
         rescue Fog::Compute::RackspaceV2::NotFound
           nil

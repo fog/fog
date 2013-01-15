@@ -1,12 +1,22 @@
+require "fog/core/deprecated_connection_accessors"
+
 module Fog
   class Model
 
     extend Fog::Attributes::ClassMethods
     include Fog::Attributes::InstanceMethods
+    include Fog::Core::DeprecatedConnectionAccessors
 
-    attr_accessor :collection, :connection
+    attr_accessor :collection
+    attr_reader :service
 
     def initialize(new_attributes = {})
+      # TODO Remove compatibility with old connection option
+      @service = new_attributes.delete(:service)
+      if @service.nil? && new_attributes[:connection]
+        Fog::Logger.deprecation("Passing :connection option is deprecated, use :service instead [light_black](#{caller.first})[/]")
+        @service = new_attributes[:connection]
+      end
       merge_attributes(new_attributes)
     end
 

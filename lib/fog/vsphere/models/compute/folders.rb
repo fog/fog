@@ -13,12 +13,12 @@ module Fog
         def all(filters = { })
           requires :datacenter
           requires :type
-          load connection.list_folders(filters.merge(:datacenter => datacenter, :type => type, :path => path))
+          load service.list_folders(filters.merge(:datacenter => datacenter, :type => type, :path => path))
         end
 
         def get(id)
           requires :datacenter
-          new connection.get_folder(id, datacenter, type)
+          new service.get_folder(id, datacenter, type)
         end
 
       end

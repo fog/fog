@@ -10,7 +10,7 @@ module Fog
         model Fog::Compute::VirtualBox::Server
 
         def all
-          data = connection.machines.map do |machine|
+          data = service.machines.map do |machine|
             {
               :raw => machine
             }
@@ -28,7 +28,7 @@ module Fog
         end
 
         def get(server_id)
-          machine = connection.find_machine(server_id)
+          machine = service.find_machine(server_id)
           new(:raw => machine)
         rescue ::VirtualBox::Exceptions::ObjectNotFoundException
           nil

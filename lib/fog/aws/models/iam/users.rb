@@ -14,13 +14,13 @@ module Fog
 
         def all(options = {})
           merge_attributes(options)
-          data = connection.list_users(options).body
+          data = service.list_users(options).body
           merge_attributes('IsTruncated' => data['IsTruncated'], 'Marker' => data['Marker'])
           load(data['Users']) # data is an array of attribute hashes
         end
 
         def get(identity)
-          data = connection.get_user(identity).body['User']
+          data = service.get_user(identity).body['User']
           new(data) # data is an attribute hash
         rescue Fog::AWS::IAM::NotFound
           nil

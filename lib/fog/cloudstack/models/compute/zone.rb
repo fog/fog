@@ -28,7 +28,7 @@ module Fog
             'internaldns2'          => internaldns2,
             'securitygroupenabled'  => security_groups_enabled,
           }
-          data = connection.create_zone(options)
+          data = service.create_zone(options)
           merge_attributes(data['createzoneresponse'])
         end
       end # Zone

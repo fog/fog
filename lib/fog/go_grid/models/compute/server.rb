@@ -27,13 +27,13 @@ module Fog
 
         def destroy
           requires :id
-          connection.grid_server_delete(id)
+          service.grid_server_delete(id)
           true
         end
 
         def image
           requires :image_id
-          connection.grid_image_get(:image => image_id)
+          service.grid_image_get(:image => image_id)
         end
 
         def private_ip_address
@@ -65,7 +65,7 @@ module Fog
             'image'       => image_id
           }
           options = options.reject {|key, value| value.nil?}
-          data = connection.grid_server_add(image, public_ip_address, name, memory, options)
+          data = service.grid_server_add(image, public_ip_address, name, memory, options)
           merge_attributes(data.body)
           true
         end

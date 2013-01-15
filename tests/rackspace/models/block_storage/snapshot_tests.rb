@@ -1,8 +1,7 @@
+service = Fog::Rackspace::BlockStorage.new
+
 Shindo.tests('Fog::Rackspace::BlockStorage | snapshot', ['rackspace']) do
 
-  pending if Fog.mocking?
-
-  service = Fog::Rackspace::BlockStorage.new
   begin
     volume = service.volumes.create({
       :display_name => "fog_#{Time.now.to_i.to_s}",
@@ -12,12 +11,12 @@ Shindo.tests('Fog::Rackspace::BlockStorage | snapshot', ['rackspace']) do
     volume.wait_for { ready? }
 
     options = { :display_name => "fog_#{Time.now.to_i.to_s}", :volume_id => volume.id }
-    model_tests(service.snapshots, options, false) do
+    model_tests(service.snapshots, options, true) do
       @instance.wait_for { ready? }
-    
+
       tests('double save').raises(Fog::Rackspace::BlockStorage::IdentifierTaken) do
         @instance.save
-      end    
+      end
     end
 
     volume.wait_for { snapshots.empty? }

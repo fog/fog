@@ -10,12 +10,12 @@ module Fog
         model Fog::Compute::IBM::Image
 
         def all
-          load(connection.list_images.body['images'])
+          load(service.list_images.body['images'])
         end
 
         def get(image_id)
           begin
-            new(connection.get_image(image_id).body)
+            new(service.get_image(image_id).body)
           rescue Fog::Compute::IBM::NotFound
             nil
           end

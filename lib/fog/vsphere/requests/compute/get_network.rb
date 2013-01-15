@@ -12,7 +12,12 @@ module Fog
 
         def get_raw_network(name, datacenter_name)
           dc = find_raw_datacenter(datacenter_name)
-          dc.networkFolder.find(name)
+
+          @connection.serviceContent.viewManager.CreateContainerView({
+            :container  => dc.networkFolder,
+            :type       =>  ["Network"],
+            :recursive  => true
+          }).view.select{|n| n.name == name}.first
         end
       end
 
