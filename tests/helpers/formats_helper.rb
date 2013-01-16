@@ -25,62 +25,144 @@ end
 module Shindo
   class Tests
 
-    def formats(format, strict=true)
-      raise ArgumentError, 'format is nil' unless format
+    # Generates a Shindo test that compares a hash schema to the result
+    # of the passed in block returning true if they match.
+    #
+    # The schema that is passed in is a Hash or Array of hashes that
+    # have Classes in place of values. When checking the schema the
+    # value should match the Class.
+    #
+    # Strict mode will fail if the data has additional keys. Setting
+    # +strict+ to +false+ will allow additional keys to appear.
+    #
+    # @param [Hash] schmea A Hash schema
+    # @param [Hash] options Options to change validation rules
+    # @option options [Boolean] :allow_extra_keys
+    #     If +true+ deoes not fail when keys are in the data that are
+    #     not specified in the schema. This allows new values to
+    #     appear in API output without breaking the check.
+    # @option options [Boolean] :allow_optional_rules
+    #     If +true+ does not fail if extra keys are in the schema
+    #     that do not match the data. Not recommended!
+    # @yield Data to check with schema
+    #
+    # @example Using in a test
+    #     Shindo.tests("data matches schema") do
+    #       data = {:string => "Hello" }
+    #       data_matches_schema(:string => String) { data }
+    #     end
+    #
+    #     data matches schema
+    #       + has proper format
+    #
+    # @example Example schema
+    #     {
+    #       "id" => String,
+    #       "ram" => Integer,
+    #       "disks" => [
+    #         "size" => Float
+    #       ],
+    #       "dns_name" => Fog::Nullable::String,
+    #       "active" => Fog::Boolean,
+    #       "created" => DateTime
+    #     }
+    #
+    # @return [Boolean]
+    def data_matches_schema(schema, options = {})
+      test('data matches schema') do
+        confirm_data_matches_schema(yield, schema, options)
+      end
+    end
 
+    # @deprecation #formats is deprecated. Use #data_matches_schema instead
+    def formats(format, strict = true)
       test('has proper format') do
-        formats_kernel(instance_eval(&Proc.new), format, true, strict)
+        if strict
+          options = {:allow_extra_keys => false, :allow_optional_rules => true}
+        else
+          options = {:allow_extra_keys => true, :allow_optional_rules => true}
+        end
+        confirm_data_matches_schema(yield, format, options)
       end
     end
 
     private
 
-    def formats_kernel(original_data, original_format, original = true, strict = true)
-      valid = true
-      data = original_data.dup
-      format = original_format.dup
-      if format.is_a?(Array)
-        data   = {:element => data}
-        format = {:element => format}
-      end
-      for key, value in format
-        datum = data.delete(key)
-        format.delete(key)
-        case value
-        when Array
-          p("#{key.inspect} not Array: #{datum.inspect}") unless datum.is_a?(Array)
-          valid &&= datum.is_a?(Array)
-          if datum.is_a?(Array) && !value.empty?
-            for element in datum
-              type = value.first
-              if type.is_a?(Hash)
-                valid &&= formats_kernel({:element => element}, {:element => type}, false, strict)
-              else
-                valid &&= element.is_a?(type)
-              end
-            end
-          end
-        when Hash
-          p("#{key.inspect} not Hash: #{datum.inspect}") unless datum.is_a?(Hash)
-          valid &&= datum.is_a?(Hash)
-          valid &&= formats_kernel(datum, value, false, strict)
-        else
-          p "#{key.inspect} not #{value.inspect}: #{datum.inspect}" unless datum.is_a?(value)
-          valid &&= datum.is_a?(value)
-        end
-      end
-      p data unless data.empty?
-      p format unless format.empty?
-      if strict
-        valid &&= data.empty? && format.empty?
-      else
-        valid &&= format.empty?
-      end
-      if !valid && original
-        @message = "#{original_data.inspect} does not match #{original_format.inspect}"
+    # Checks if the data structure matches the schema passed in and
+    # returns true if it fits.
+    #
+    # @param [Object] data Hash or Array to check
+    # @param [Object] schema Schema pattern to check against
+    # @param [Boolean] options
+    # @option options [Boolean] :allow_extra_keys
+    #     If +true+ does not fail if extra keys are in the data
+    #     that are not in the schema. Allows
+    # @option options [Boolean] :allow_optional_rules
+    #     If +true+ does not fail if extra keys are in the schema
+    #     that do not match the data. Not recommended!
+    #
+    # @return [Boolean] Did the data fit the schema?
+    def confirm_data_matches_schema(data, schema, options = {})
+      # Clear message passed to the Shindo tests
+      @message = nil
+
+      valid = validate_value(schema, data, options)
+
+      unless valid
+        @message = "#{data.inspect} does not match #{schema.inspect}"
       end
       valid
     end
 
+    # This contains a slightly modified version of the Hashidator gem
+    # but unfortunately the gem does not cope with Array schemas.
+    #
+    # @see https://github.com/vangberg/hashidator/blob/master/lib/hashidator.rb
+    #
+    def validate_value(validator, value, options)
+      Fog::Logger.write :debug, "[yellow][DEBUG] #{value.inspect} against #{validator.inspect}[/]\n"
+
+      # When being strict values not specified in the schema are fails
+      unless options[:allow_extra_keys]
+        if validator.respond_to?(:empty?) && value.respond_to?(:empty?)
+          # Validator is empty but values are not
+          return false if !value.empty? && validator.empty?
+        end
+      end
+
+      unless options[:allow_optional_rules]
+        if validator.respond_to?(:empty?) && value.respond_to?(:empty?)
+          # Validator has rules left but no more values
+          return false if value.empty? && !validator.empty?
+        end
+      end
+
+      case validator
+      when Array
+        return false if value.is_a?(Hash)
+        value.respond_to?(:all?) && value.all? {|x| validate_value(validator[0], x, options)}
+      when Symbol
+        value.respond_to? validator
+      when Hash
+        return false if value.is_a?(Array)
+        validator.all? do |key, sub_validator|
+          Fog::Logger.write :debug, "[blue][DEBUG] #{key.inspect} against #{sub_validator.inspect}[/]\n"
+          validate_value(sub_validator, value[key], options)
+        end
+      else
+        result = validator == value
+        result = validator === value unless result
+        # Repeat unless we have a Boolean already
+        unless (result.is_a?(TrueClass) || result.is_a?(FalseClass))
+          result = validate_value(result, value, options)
+        end
+        if result
+          Fog::Logger.write :debug, "[green][DEBUG] Validation passed: #{value.inspect} against #{validator.inspect}[/]\n"
+        else
+          Fog::Logger.write :debug, "[red][DEBUG] Validation failed: #{value.inspect} against #{validator.inspect}[/]\n"
+        end
+        result
+      end
+    end
   end
 end
