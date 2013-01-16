@@ -22,7 +22,16 @@ Shindo.tests('Fog::Storage[:aws] | bucket requests', ["aws"]) do
         'StorageClass' => String
       }]
     }
-
+    @bucket_lifecycle_format = {
+      'Rules' => [{
+         'ID'         => String, 
+         'Prefix'     => Fog::Nullable::String,
+         'Enabled'    => Fog::Boolean, 
+         'Expiration' => Fog::Nullable::Hash,
+         'Transition' => Fog::Nullable::Hash
+       }]
+    }
+      
     @service_format = {
       'Buckets' => [{
         'CreationDate'  => Time,
@@ -221,11 +230,22 @@ Shindo.tests('Fog::Storage[:aws] | bucket requests', ["aws"]) do
       tests('create').succeeds do
         Fog::Storage[:aws].put_bucket_lifecycle(@aws_bucket_name, lifecycle)
       end
-      tests('read').returns(lifecycle) do
+      tests('read').formats(@bucket_lifecycle_format) do
         Fog::Storage[:aws].get_bucket_lifecycle(@aws_bucket_name).body
       end
       lifecycle = { 'Rules' => 5.upto(6).map { |i| {'ID' => "rule\##{i}", 'Prefix' => i.to_s, 'Enabled' => true, 'Days' => i} } }
-      tests('update').returns(lifecycle) do
+      lifecycle_return = { 'Rules' => 5.upto(6).map { |i| {'ID' => "rule\##{i}", 'Prefix' => i.to_s, 'Enabled' => true, 'Expiration' => {'Days' => i}} } }
+      tests('update').returns(lifecycle_return) do
+        Fog::Storage[:aws].put_bucket_lifecycle(@aws_bucket_name, lifecycle)
+        Fog::Storage[:aws].get_bucket_lifecycle(@aws_bucket_name).body
+      end
+      lifecycle = {'Rules' => [{'ID' => 'test rule', 'Prefix' => '/prefix', 'Enabled' => true, 'Expiration' => {'Days' => 42}, 'Transition' => {'Days' => 6, 'StorageClass'=>'GLACIER'}}]}
+      tests('transition').returns(lifecycle) do
+        Fog::Storage[:aws].put_bucket_lifecycle(@aws_bucket_name, lifecycle)
+        Fog::Storage[:aws].get_bucket_lifecycle(@aws_bucket_name).body
+      end
+      lifecycle = {'Rules' => [{'ID' => 'test rule', 'Prefix' => '/prefix', 'Enabled' => true, 'Expiration' => {'Date' => '2012-12-31T00:00:00.000Z'}}]}
+      tests('date').returns(lifecycle) do
         Fog::Storage[:aws].put_bucket_lifecycle(@aws_bucket_name, lifecycle)
         Fog::Storage[:aws].get_bucket_lifecycle(@aws_bucket_name).body
       end
