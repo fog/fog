@@ -168,7 +168,8 @@ module Fog
               else
                 @cdn_enable = false
               end
-            rescue Fog::CDN::HP::NotFound => err
+            # If CDN endpoint is unreachable, a SocketError is raised
+            rescue Fog::CDN::HP::NotFound, Excon::Errors::SocketError
               @cdn_enable = false
             end
           else
@@ -184,7 +185,7 @@ module Fog
               if response.headers['X-Cdn-Enabled'] == 'True'
                 response.headers.fetch('X-Cdn-Uri', nil)
               end
-            rescue Fog::CDN::HP::NotFound => err
+            rescue Fog::CDN::HP::NotFound
               nil
             end
           end
@@ -198,7 +199,7 @@ module Fog
               if response.headers['X-Cdn-Enabled'] == 'True'
                 response.headers.fetch('X-Cdn-Ssl-Uri', nil)
               end
-            rescue Fog::CDN::HP::NotFound => err
+            rescue Fog::CDN::HP::NotFound
               nil
             end
           end
@@ -217,16 +218,20 @@ module Fog
               begin response = connection.cdn.head_container(key)
                 ### Deleting a container from CDN is much more expensive than flipping the bit to disable it
                 connection.cdn.post_container(key, {'X-CDN-Enabled' => 'True'})
-              rescue Fog::CDN::HP::NotFound => err
+              rescue Fog::CDN::HP::NotFound
                 connection.cdn.put_container(key)
+              rescue Excon::Errors::SocketError
+                # means that the CDN endpoint is unreachable
               end
             else
               # check to make sure that the container exists. If yes, cdn disable it.
               begin response = connection.cdn.head_container(key)
                 ### Deleting a container from CDN is much more expensive than flipping the bit to disable it
                 connection.cdn.post_container(key, {'X-CDN-Enabled' => 'False'})
-              rescue Fog::CDN::HP::NotFound => err
+              rescue Fog::CDN::HP::NotFound
                 # just continue, as container is not cdn-enabled.
+              rescue Excon::Errors::SocketError
+                # means that the CDN endpoint is unreachable
               end
             end
           end
