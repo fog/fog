@@ -40,6 +40,9 @@ Shindo.tests('Fog::Compute[:brightbox] | server requests', ['brightbox']) do
       pending if Fog.mocking?
       result = Fog::Compute[:brightbox].activate_console_server(server_id)
       data_matches_schema(Brightbox::Compute::Formats::Full::SERVER, {:allow_extra_keys => true}) { result }
+      test("has set 'console_url'") { ! result["console_url"].empty? }
+      test("has set 'console_token'") { ! result["console_token"].empty? }
+      test("has set 'console_token_expires'") { ! result["console_token_expires"].empty? }
     end
 
     tests("#stop_server('#{server_id}')") do
