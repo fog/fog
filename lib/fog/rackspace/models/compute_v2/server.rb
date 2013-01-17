@@ -44,11 +44,17 @@ module Fog
         
         ignore_attributes :metadata
         
-        attr_reader :password          
+        attr_reader :password 
+        
         def initialize(attributes={})
           @service = attributes[:service]
           super
-        end  
+        end
+        
+        alias :access_ipv4_address :ipv4_address
+        alias :access_ipv4_address= :ipv4_address=
+        alias :access_ipv6_address :ipv6_address
+        alias :access_ipv6_address= :ipv6_address=
         
         def metadata
           raise "Please save server before accessing metadata" unless identity
@@ -88,8 +94,14 @@ module Fog
         end
 
         def update
-          requires :identity, :name
-          data = service.update_server(identity, name)
+          requires :identity
+          options = {
+            'name' => name,
+            'accessIPv4' => ipv4_address,
+            'accessIPv6' => ipv6_address
+          }
+          
+          data = service.update_server(identity, options)
           merge_attributes(data.body['server'])
           true
         end
@@ -113,7 +125,12 @@ module Fog
         def create_image(name, options = {})
           requires :identity
           response = service.create_image(identity, name, options)
-          response.headers["Location"].match(/\/([^\/]+$)/)[1] rescue nil
+          begin 
+            image_id = response.headers["Location"].match(/\/([^\/]+$)/)[1]
+            Fog::Compute::RackspaceV2::Image.new(:collection => service.images, :service => service, :id => image_id)
+          rescue
+            nil
+          end
         end
 
         def attachments
@@ -124,6 +141,12 @@ module Fog
             })
           end
         end
+        
+        def attach_volume(volume, device=nil)
+          requires :identity
+          volume_id = volume.is_a?(String) ? volume : volume.id
+          attachments.create(:server_id => identity, :volume_id => volume_id, :device => device)
+        end        
 
         def private_ip_address
           addresses['private'].select{|a| a["version"] == 4}[0]["addr"]
@@ -133,8 +156,12 @@ module Fog
           ipv4_address
         end
 
-        def ready?
-          state == ACTIVE
+        def ready?(ready_state = ACTIVE, error_states=[ERROR])
+          if error_states
+            error_states = Array(error_states)
+            raise "Server should have transitioned to '#{ready_state}' not '#{state}'" if error_states.include?(state)
+          end
+          state == ready_state
         end
 
         def reboot(type = 'SOFT')
@@ -151,9 +178,9 @@ module Fog
           true
         end
 
-        def rebuild(image_id)
+        def rebuild(image_id, options={})
           requires :identity
-          service.rebuild_server(identity, image_id)
+          service.rebuild_server(identity, image_id, options)
           self.state = REBUILD
           true
         end

@@ -5,24 +5,22 @@ module Fog
 
         # Change logging status for an S3 bucket
         #
-        # ==== Parameters
-        # * bucket_name<~String> - name of bucket to modify
-        # * logging_status<~Hash>:
-        #   * Owner<~Hash>:
-        #     * ID<~String>: id of owner
-        #     * DisplayName<~String>: display name of owner
-        #   * AccessControlList<~Array>:
-        #     * Grantee<~Hash>:
-        #         * 'DisplayName'<~String> - Display name of grantee
-        #         * 'ID'<~String> - Id of grantee
+        # @param bucket_name [String] name of bucket to modify
+        # @param logging_status [Hash]:
+        #   * Owner [Hash]:
+        #     * ID [String]: id of owner
+        #     * DisplayName [String]: display name of owner
+        #   * AccessControlList [Array]:
+        #     * Grantee [Hash]:
+        #       * DisplayName [String] Display name of grantee
+        #       * ID [String] Id of grantee
         #       or
-        #         * 'EmailAddress'<~String> - Email address of grantee
+        #       * EmailAddress [String] Email address of grantee
         #       or
-        #         * 'URI'<~String> - URI of group to grant access for
-        #     * Permission<~String> - Permission, in [FULL_CONTROL, WRITE, WRITE_ACP, READ, READ_ACP]
+        #       * URI [String] URI of group to grant access for
+        #     * Permission [String] Permission, in [FULL_CONTROL, WRITE, WRITE_ACP, READ, READ_ACP]
         #
-        # ==== See Also
-        # http://docs.amazonwebservices.com/AmazonS3/latest/API/RESTBucketPUTlogging.html
+        # @see http://docs.amazonwebservices.com/AmazonS3/latest/API/RESTBucketPUTlogging.html
 
         def put_bucket_logging(bucket_name, logging_status)
           if logging_status['LoggingEnabled'].empty?

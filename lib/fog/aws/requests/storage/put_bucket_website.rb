@@ -5,14 +5,12 @@ module Fog
 
         # Change website configuration for an S3 bucket
         #
-        # ==== Parameters
-        # * bucket_name<~String> - name of bucket to modify
-        # * suffix<~String> - suffix to append to requests for the bucket
-        # * options<~Hash>
-        #   * key<~String> - key to use for 4XX class errors
+        # @param bucket_name [String] name of bucket to modify
+        # @param suffix [String] suffix to append to requests for the bucket
+        # @param options [Hash]
+        # @option options key [String] key to use for 4XX class errors
         #
-        # ==== See Also
-        # http://docs.amazonwebservices.com/AmazonS3/latest/API/RESTBucketPUTwebsite.html
+        # @see http://docs.amazonwebservices.com/AmazonS3/latest/API/RESTBucketPUTwebsite.html
 
         def put_bucket_website(bucket_name, suffix, options = {})
           data =

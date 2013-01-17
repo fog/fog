@@ -17,6 +17,14 @@ module Fog
           )
         end
       end
+
+      class Mock
+        def resize_server(server_id, flavor_id)
+          server = self.data[:servers][server_id]
+          server["status"] = "VERIFY_RESIZE"
+          response(:status => 202)
+        end
+      end
     end
   end
 end

@@ -45,6 +45,13 @@ class Rackspace < Fog::Bin
         when :storage
           Fog::Logger.warning("Rackspace[:storage] is not recommended, use Storage[:rackspace] for portability")
           Fog::Storage.new(:provider => 'Rackspace')
+        when :identity
+          Fog::Logger.warning("Rackspace[:identity] is not recommended, use Identity[:rackspace] for portability")
+          Fog::Identity.new(:provider => 'Rackspace')
+        when :databases
+          Fog::Rackspace::Databases.new
+        when :block_storage
+          Fog::Rackspace::BlockStorage.new
         else
           raise ArgumentError, "Unrecognized service: #{key.inspect}"
         end
