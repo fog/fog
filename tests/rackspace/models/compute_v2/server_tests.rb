@@ -1,11 +1,10 @@
-service = Fog::Compute::RackspaceV2.new
-cbs_service = Fog::Rackspace::BlockStorage.new
-
-flavor_id  = Fog.credentials[:rackspace_flavor_id] || service.flavors.first.id
-image_id   = Fog.credentials[:rackspace_image_id]  || service.images.first.id
-image_id ||= Fog.mocking? ? service.images.first.id : service.images.find {|image| image.name =~ /Ubuntu/}.id # use the first Ubuntu image
-
 Shindo.tests('Fog::Compute::RackspaceV2 | server', ['rackspace']) do
+  service = Fog::Compute::RackspaceV2.new
+  cbs_service = Fog::Rackspace::BlockStorage.new
+
+  flavor_id  = Fog.credentials[:rackspace_flavor_id] || service.flavors.first.id
+  image_id   = Fog.credentials[:rackspace_image_id]  || service.images.first.id
+  image_id ||= Fog.mocking? ? service.images.first.id : service.images.find {|image| image.name =~ /Ubuntu/}.id # use the first Ubuntu image
 
   options = {
     :name => "fog_server_#{Time.now.to_i.to_s}",
