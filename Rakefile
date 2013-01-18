@@ -141,6 +141,7 @@ task :build => :gemspec do
   sh "gem build #{gemspec_file}"
   sh "mv #{gem_file} pkg"
 end
+task :gem => :build
 
 desc "Updates the gemspec and runs 'validate'"
 task :gemspec => :validate do
