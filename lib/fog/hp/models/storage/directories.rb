@@ -10,12 +10,12 @@ module Fog
         model Fog::Storage::HP::Directory
 
         def all
-          data = connection.get_containers.body
+          data = service.get_containers.body
           load(data)
         end
 
         def head(key, options = {})
-          data = connection.head_container(key)
+          data = service.head_container(key)
           directory = create_directory(key, data)
           # set the cdn state for the directory
           directory.cdn_enabled?
@@ -26,7 +26,7 @@ module Fog
         end
 
         def get(key, options = {})
-          data = connection.get_container(key, options)
+          data = service.get_container(key, options)
           directory = create_directory(key, data)
           # set the files for the directory
           directory.files.merge_attributes(options)
@@ -60,7 +60,7 @@ module Fog
           end
           # set the acl on the directory based on the headers
           if !(read_header.nil? && write_header.nil?)
-            read_acl, write_acl = connection.header_to_perm_acl(read_header, write_header)
+            read_acl, write_acl = service.header_to_perm_acl(read_header, write_header)
             # do not want to expose the read_acl and write_acl as writable attributes
             directory.instance_variable_set(:@read_acl, read_acl)
             directory.instance_variable_set(:@write_acl, write_acl)

@@ -42,12 +42,17 @@ module Fog
         #             Scaling group to be updated.
         #         * 'DesiredCapacity'<~Integer> -The number of instances you
         #           prefer to maintain in your Auto Scaling group.
+        #         * 'EndTime'<~Time> - The time for this action to end.
         #         * 'MaxSize'<~Integer> - The maximum size of the Auto Scaling
         #           group.
         #         * 'MinSize'<~Integer> - The minimum size of the Auto Scaling
         #           group.
+        #         * 'Recurrence'<~String> - The time when recurring future 
+        #           actions will start. Start time is specified by the user 
+        #           following the Unix cron syntax format.
         #         * 'ScheduledActionARN'<~String> - The Amazon Resource Name
         #           (ARN) of this scheduled action.
+        #         * 'StartTime'<~Time> - The time for this action to start.
         #         * 'Time'<~Time> - The time that the action is scheduled to
         #           occur. This value can be up to one month in the future.
         #       * 'NextToken'<~String> - Acts as a paging mechanism for large

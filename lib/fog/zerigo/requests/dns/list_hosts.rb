@@ -25,7 +25,7 @@ module Fog
         #       * 'updated-at'<~String>
         #       * 'zone-id'<~String>
         # * 'status'<~Integer> - 200 indicates success
-        def list_hosts( zone_id)
+        def list_hosts(zone_id)
           request(
             :expects  => 200,
             :method   => 'GET',
@@ -34,6 +34,25 @@ module Fog
           )
         end
 
+      end
+
+      class Mock # :nodoc:all
+        def list_hosts(zone_id)
+          zone = find_by_zone_id(zone_id)
+
+          response = Excon::Response.new
+
+          if zone
+            response.status = 200
+            response.body = {
+              'hosts' => zone['hosts']
+            }
+          else
+            response.status = 404
+          end
+
+          response
+        end
       end
     end
   end

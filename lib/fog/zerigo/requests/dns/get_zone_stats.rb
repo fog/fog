@@ -31,6 +31,29 @@ module Fog
         end
 
       end
+
+      class Mock # :nodoc:all
+        def get_zone_stats(zone_id)
+          zone = find_by_zone_id(zone_id)
+
+          response = Excon::Response.new
+
+          if zone
+            response.status = 200
+            response.body = {
+              'id' => zone,
+              'domain' => zone['domain'],
+              'period-begin' => zone['created-at'].strftime("%F"),
+              'period-end' => Date.today.to_s,
+              'queries' => 0
+            }
+          else
+            response.status = 404
+          end
+
+          response
+        end
+      end
     end
   end
 end

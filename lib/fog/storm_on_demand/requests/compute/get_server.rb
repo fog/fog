@@ -6,7 +6,7 @@ module Fog
         def get_server(options = {})
           request(
             :path     => "/storm/server/details",
-            :body     => MultiJson.encode({:params => options})
+            :body     => Fog::JSON.encode({:params => options})
           )
         end
 

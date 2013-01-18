@@ -37,7 +37,7 @@ module Fog
 
           # Need to implement filters in the mock to find this there instead of here
           # Also there's no information about what to do when the specified reserved_instances_offering_id doesn't exist
-          raise unless reserved_instance_offering = Compute[:aws].describe_reserved_instances_offerings.body["reservedInstancesOfferingsSet"].find { |offering| offering["reservedInstancesOfferingId"] == reserved_instances_offering_id }
+          raise unless reserved_instance_offering = describe_reserved_instances_offerings.body["reservedInstancesOfferingsSet"].find { |offering| offering["reservedInstancesOfferingId"] == reserved_instances_offering_id }
 
           reserved_instances_id = Fog::AWS::Mock.reserved_instances_id
           reserved_instance_offering.delete('reservedInstancesOfferingId')

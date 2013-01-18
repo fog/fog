@@ -8,7 +8,7 @@ module Fog
         # Delete a hosted zone
         #
         # ==== Parameters
-        # * zone_id<~String> - 
+        # * zone_id<~String> -
         #
         # ==== Returns
         # * response<~Excon::Response>:
@@ -20,15 +20,15 @@ module Fog
         #   * status<~Integer> - 200 when successful
         def delete_hosted_zone(zone_id)
 
-          # AWS methods return zone_ids that looks like '/hostedzone/id'.  Let the caller either use 
+          # AWS methods return zone_ids that looks like '/hostedzone/id'.  Let the caller either use
           # that form or just the actual id (which is what this request needs)
           zone_id = zone_id.sub('/hostedzone/', '')
-          
+
           request({
-            :expects    => 200,
-            :parser     => Fog::Parsers::DNS::AWS::DeleteHostedZone.new,
-            :method     => 'DELETE',
-            :path       => "hostedzone/#{zone_id}"
+            :expects => 200,
+            :parser  => Fog::Parsers::DNS::AWS::DeleteHostedZone.new,
+            :method  => 'DELETE',
+            :path    => "hostedzone/#{zone_id}"
           })
 
         end

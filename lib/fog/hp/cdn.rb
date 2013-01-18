@@ -1,4 +1,4 @@
-require File.expand_path(File.join(File.dirname(__FILE__), '..', 'hp'))
+require 'fog/hp'
 require 'fog/cdn'
 
 module Fog
@@ -6,7 +6,11 @@ module Fog
     class HP < Fog::Service
 
       requires    :hp_secret_key, :hp_account_id, :hp_tenant_id, :hp_avl_zone
-      recognizes  :hp_auth_uri, :hp_cdn_uri, :persistent, :connection_options, :hp_use_upass_auth_style, :hp_auth_version, :user_agent
+      recognizes  :hp_auth_uri, :hp_cdn_uri
+      recognizes  :hp_use_upass_auth_style, :hp_auth_version, :user_agent
+      recognizes  :persistent, :connection_options
+
+      secrets     :hp_secret_key
 
       model_path   'fog/hp/models/cdn'
 
@@ -54,7 +58,6 @@ module Fog
         include Utils
 
         def initialize(options={})
-          require 'multi_json'
           @connection_options = options[:connection_options] || {}
           ### Set an option to use the style of authentication desired; :v1 or :v2 (default)
           auth_version = options[:hp_auth_version] || :v2
@@ -119,7 +122,7 @@ module Fog
             end
           end
           if !response.body.empty? && parse_json && response.headers['Content-Type'] =~ %r{application/json}
-            response.body = MultiJson.decode(response.body)
+            response.body = Fog::JSON.decode(response.body)
           end
           response
         end

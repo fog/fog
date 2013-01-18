@@ -26,9 +26,6 @@ module Fog
       when :linode
         require 'fog/linode/dns'
         Fog::DNS::Linode.new(attributes)
-      when :slicehost
-        require 'fog/slicehost/dns'
-        Fog::DNS::Slicehost.new(attributes)
       when :zerigo
         require 'fog/zerigo/dns'
         Fog::DNS::Zerigo.new(attributes)

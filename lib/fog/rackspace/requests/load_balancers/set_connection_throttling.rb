@@ -10,7 +10,7 @@ module Fog
             'rateInterval' => rate_interval
           }
           request(
-            :body     => MultiJson.encode(data),
+            :body     => Fog::JSON.encode(data),
             :expects  => [200, 202],
             :path     => "loadbalancers/#{load_balancer_id}/connectionthrottle",
             :method   => 'PUT'

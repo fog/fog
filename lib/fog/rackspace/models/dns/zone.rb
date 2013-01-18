@@ -20,7 +20,7 @@ module Fog
         attribute :comment
 
         def destroy
-          response = connection.remove_domain(identity)
+          response = service.remove_domain(identity)
           wait_for_job response.body['jobId'], Fog.timeout
           true
         end
@@ -29,13 +29,13 @@ module Fog
           @records ||= begin
             Fog::DNS::Rackspace::Records.new(
               :zone       => self,
-              :connection => connection
+              :service => service
             )
           end
         end
 
         def save
-          if identity
+          if persisted?
             update
           else
             create
@@ -49,16 +49,16 @@ module Fog
           requires :domain, :email
 
           data = { :name => domain, :email => email }
-          response = connection.create_domains([data])
+          response = service.create_domains([data])
 
           response = wait_for_job response.body['jobId']
-          merge_attributes(response.body['domains'].first)
+          merge_attributes(response.body['response']['domains'].select {|domain| domain['name'] == self.domain}.first)
         end
 
         def update
           requires :ttl, :email
 
-          response = connection.modify_domain(identity, { :ttl => ttl, :comment => comment, :email => email})
+          response = service.modify_domain(identity, { :ttl => ttl, :comment => comment, :email => email})
           wait_for_job response.body['jobId']
         end
       end

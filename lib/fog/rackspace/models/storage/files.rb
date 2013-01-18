@@ -43,7 +43,7 @@ module Fog
             subset = dup.all
 
             subset.each_file_this_page {|f| yield f}
-            until subset.empty? || subset.length == (subset.limit || 10000)
+            while subset.length == (subset.limit || 10000)
               subset = subset.all(:marker => subset.last.key)
               subset.each_file_this_page {|f| yield f}
             end
@@ -54,7 +54,7 @@ module Fog
 
         def get(key, &block)
           requires :directory
-          data = connection.get_object(directory.key, key, &block)
+          data = service.get_object(directory.key, key, &block)
           file_data = data.headers.merge({
             :body => data.body,
             :key  => key
@@ -73,7 +73,7 @@ module Fog
 
         def head(key, options = {})
           requires :directory
-          data = connection.head_object(directory.key, key)
+          data = service.head_object(directory.key, key)
           file_data = data.headers.merge({
             :key => key
           })

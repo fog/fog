@@ -1,24 +1,31 @@
-require(File.expand_path(File.join(File.dirname(__FILE__), 'core')))
-
+require 'fog/core'
+require 'fog/aws/credential_fetcher'
+require 'fog/aws/signaturev4'
 module Fog
   module AWS
+    COMPLIANT_BUCKET_NAMES = /^(?:[a-z]|\d(?!\d{0,2}(?:\.\d{1,3}){3}$))(?:[a-z0-9]|\-(?![\.])){1,61}[a-z0-9]$/
 
     extend Fog::Provider
 
     service(:auto_scaling,    'aws/auto_scaling',     'AutoScaling')
+    service(:beanstalk,       'aws/beanstalk',        'ElasticBeanstalk')
     service(:cdn,             'aws/cdn',              'CDN')
     service(:compute,         'aws/compute',          'Compute')
     service(:cloud_formation, 'aws/cloud_formation',  'CloudFormation')
     service(:cloud_watch,     'aws/cloud_watch',      'CloudWatch')
+    service(:dynamodb,        'aws/dynamodb',         'DynamoDB')
     service(:dns,             'aws/dns',              'DNS')
     service(:elasticache,     'aws/elasticache',      'Elasticache')
     service(:elb,             'aws/elb',              'ELB')
+    service(:emr,             'aws/emr',              'EMR')
+    service(:glacier,         'aws/glacier',          'Glacier')
     service(:iam,             'aws/iam',              'IAM')
     service(:rds,             'aws/rds',              'RDS')
     service(:ses,             'aws/ses',              'SES')
     service(:simpledb,        'aws/simpledb',         'SimpleDB')
     service(:sns,             'aws/sns',              'SNS')
     service(:sqs,             'aws/sqs',              'SQS')
+    service(:sts,             'aws/sts',              'STS')
     service(:storage,         'aws/storage',          'Storage')
 
     def self.indexed_param(key, values)
@@ -27,9 +34,41 @@ module Fog
         key << '.%d'
       end
       [*values].each_with_index do |value, index|
-        params[format(key, index + 1)] = value
+        if value.respond_to?('keys')
+          k = format(key, index + 1)
+          value.each do | vkey, vvalue |
+            params["#{k}.#{vkey}"] = vvalue
+          end
+        else
+          params[format(key, index + 1)] = value
+        end
       end
       params
+    end
+
+    def self.serialize_keys(key, value, options = {})
+      case value
+      when Hash
+        value.each do | k, v |
+          options.merge!(serialize_keys("#{key}.#{k}", v))
+        end
+        return options
+      when Array
+        value.each_with_index do | it, idx |
+          options.merge!(serialize_keys("#{key}.member.#{(idx + 1)}", it))
+        end
+        return options
+      else
+        return {key => value}
+      end
+    end
+
+    def self.indexed_request_param(name, values)
+      idx = -1
+      Array(values).inject({}) do |params, value|
+        params["#{name}.#{idx += 1}"] = value
+        params
+      end
     end
 
     def self.indexed_filters(filters)
@@ -59,6 +98,10 @@ module Fog
         'Timestamp'         => Time.now.utc.strftime("%Y-%m-%dT%H:%M:%SZ"),
         'Version'           => options[:version]
       })
+
+      params.merge!({
+        'SecurityToken'     => options[:aws_session_token]
+      }) if options[:aws_session_token]
 
       body = ''
       for key in params.keys.sort
@@ -98,10 +141,6 @@ module Fog
 
       def self.private_dns_name_for(ip_address)
         "ip-#{ip_address.gsub('.','-')}.ec2.internal"
-      end
-
-      def self.etag
-        Fog::Mock.random_hex(32)
       end
 
       def self.image
@@ -150,6 +189,10 @@ module Fog
         ip.join('.')
       end
 
+      def self.private_ip_address
+        ip_address.gsub(/^\d{1,3}\./,"10.")
+      end
+
       def self.kernel_id
         "aki-#{Fog::Mock.random_hex(8)}"
       end
@@ -193,6 +236,71 @@ module Fog
       def self.volume_id
         "vol-#{Fog::Mock.random_hex(8)}"
       end
+
+      def self.security_group_id
+        "sg-#{Fog::Mock.random_hex(8)}"
+      end
+
+      def self.network_interface_id
+        "eni-#{Fog::Mock.random_hex(8)}"
+      end
+      def self.internet_gateway_id
+        "igw-#{Fog::Mock.random_hex(8)}"
+      end
+      def self.dhcp_options_id
+        "dopt-#{Fog::Mock.random_hex(8)}"
+      end
+      def self.vpc_id
+        "vpc-#{Fog::Mock.random_hex(8)}"
+      end
+      def self.subnet_id
+        "subnet-#{Fog::Mock.random_hex(8)}"
+      end
+      def self.zone_id
+        "zone-#{Fog::Mock.random_hex(8)}"
+      end
+      def self.change_id
+        "change-#{Fog::Mock.random_hex(8)}"
+      end
+      def self.nameservers
+        [
+          'ns-2048.awsdns-64.com',
+          'ns-2049.awsdns-65.net',
+          'ns-2050.awsdns-66.org',
+          'ns-2051.awsdns-67.co.uk'
+        ]
+      end
+
+      def self.key_id(length=21)
+        #Probably close enough
+        Fog::Mock.random_selection('ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789',length)
+      end
+
+      def self.rds_address(db_name,region)
+        "#{db_name}.#{Fog::Mock.random_letters(rand(12) + 4)}.#{region}.rds.amazonaws.com"
+      end
+    end
+
+    def self.parse_security_group_options(group_name, options)
+      options ||= Hash.new
+      if group_name.is_a?(Hash)
+        options = group_name
+      elsif group_name
+        if options.key?('GroupName')
+          raise Fog::Compute::AWS::Error, 'Arguments specified both group_name and GroupName in options'
+        end
+        options = options.clone
+        options['GroupName'] = group_name
+      end
+      name_specified = options.key?('GroupName') && !options['GroupName'].nil?
+      group_id_specified = options.key?('GroupId') && !options['GroupId'].nil?
+      unless name_specified || group_id_specified
+        raise Fog::Compute::AWS::Error, 'Neither GroupName nor GroupId specified'
+      end
+      if name_specified && group_id_specified
+        options.delete('GroupName')
+      end
+      options
     end
   end
 end

@@ -1,16 +1,24 @@
-require File.expand_path(File.join(File.dirname(__FILE__), '..', 'rackspace'))
+require 'fog/rackspace'
 require 'fog/dns'
 
 module Fog
   module DNS
     class Rackspace < Fog::Service
 
+      class CallbackError < Fog::Errors::Error
+        attr_reader :response, :message, :details
+        def initialize(response)
+          @response = response
+          @message = response.body['error']['message']
+          @details = response.body['error']['details']
+        end
+      end
+
       US_ENDPOINT = 'https://dns.api.rackspacecloud.com/v1.0'
       UK_ENDPOINT = 'https://lon.dns.api.rackspacecloud.com/v1.0'
 
       requires :rackspace_api_key, :rackspace_username
-      recognizes :rackspace_auth_url
-      recognizes :rackspace_auth_token
+      recognizes :rackspace_auth_url, :rackspace_auth_token, :rackspace_dns_endpoint
 
       model_path 'fog/rackspace/models/dns'
       model       :record
@@ -65,7 +73,6 @@ module Fog
 
       class Real
         def initialize(options={})
-          require 'multi_json'
           @rackspace_api_key = options[:rackspace_api_key]
           @rackspace_username = options[:rackspace_username]
           @rackspace_auth_url = options[:rackspace_auth_url]
@@ -100,7 +107,7 @@ module Fog
             raise Fog::Rackspace::Errors::ServiceUnavailable.slurp error
           end
           unless response.body.empty?
-            response.body = MultiJson.decode(response.body)
+            response.body = Fog::JSON.decode(response.body)
           end
           response
         end

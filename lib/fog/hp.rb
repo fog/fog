@@ -1,12 +1,11 @@
-require(File.expand_path(File.join(File.dirname(__FILE__), 'core')))
-require 'multi_json'
+require 'fog/core'
 
 module Fog
   module HP
 
     # define a specific version for the HP Provider
     unless const_defined?(:VERSION)
-      VERSION = '0.0.18'
+      VERSION = '0.0.19'
     end
 
     extend Fog::Provider
@@ -20,12 +19,10 @@ module Fog
             data = nil
             message = nil
           else
-            begin
-              data = MultiJson.decode(error.response.body)
-              message = data['message']
-            rescue MultiJson::DecodeError
-              data = error.response.body    #### the body is not in JSON format so just return it as it is
-              message = data
+            data = Fog::JSON.decode(error.response.body)
+            message = data['message']
+            if message.nil? and !data.values.first.nil?
+              message = data.values.first['message']
             end
           end
 
@@ -46,8 +43,8 @@ module Fog
 
         def self.slurp(error)
           new_error = super(error)
-          unless new_error.response_data.nil?
-            new_error.instance_variable_set(:@validation_errors, new_error.response_data['validationErrors'])
+          unless new_error.response_data.nil? or new_error.response_data['badRequest'].nil?
+            new_error.instance_variable_set(:@validation_errors, new_error.response_data['badRequest']['validationErrors'])
           end
           new_error
         end
@@ -164,12 +161,12 @@ module Fog
           :host => @host,
           :port => @port,
           :method => 'POST',
-          :body => MultiJson.encode(request_body),
+          :body => Fog::JSON.encode(request_body),
           :path => @auth_path
         }
       )
 
-      body = MultiJson.decode(response.body)
+      body = Fog::JSON.decode(response.body)
 
       ### fish out auth_token and endpoint for the service
       auth_token = body['access']['token']['id']

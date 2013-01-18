@@ -5,7 +5,7 @@ module Fog
 
         def validate_network_data(network_data, configure=false)
           valid_opts = [:id, :href, :name, :address, :broadcast, :gateway]
-          unless valid_opts.all? { |opt| network_data.keys.include?(opt) }
+          unless valid_opts.all? { |opt| network_data.has_key?(opt) }
             raise ArgumentError.new("Required data missing: #{(valid_opts - network_data.keys).map(&:inspect).join(", ")}")
           end
         end

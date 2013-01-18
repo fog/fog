@@ -12,10 +12,7 @@ class HP < Fog::Bin
       when :storage
         Fog::Storage::HP
       else
-        # @todo Replace most instances of ArgumentError with NotImplementedError
-        # @todo For a list of widely supported Exceptions, see:
-        # => http://www.zenspider.com/Languages/Ruby/QuickRef.html#35
-        raise ArgumentError, "Unrecognized #{self} service: #{key}"
+        raise ArgumentError, "Unrecognized service: #{key}"
       end
     end
 

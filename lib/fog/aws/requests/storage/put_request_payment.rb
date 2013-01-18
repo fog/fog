@@ -5,12 +5,10 @@ module Fog
 
         # Change who pays for requests to an S3 bucket
         #
-        # ==== Parameters
-        # * bucket_name<~String> - name of bucket to modify
-        # * payer<~String> - valid values are BucketOwner or Requester
+        # @param bucket_name [String] name of bucket to modify
+        # @param payer [String] valid values are BucketOwner or Requester
         #
-        # ==== See Also
-        # http://docs.amazonwebservices.com/AmazonS3/latest/API/RESTrequestPaymentPUT.html
+        # @see http://docs.amazonwebservices.com/AmazonS3/latest/API/RESTrequestPaymentPUT.html
 
         def put_request_payment(bucket_name, payer)
           data =

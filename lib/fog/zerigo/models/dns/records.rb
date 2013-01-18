@@ -23,7 +23,7 @@ module Fog
         end
 
         def get(record_id)
-          data = connection.get_host(record_id).body
+          data = service.get_host(record_id).body
           new(data)
         rescue Fog::Service::NotFound
           nil
@@ -32,6 +32,11 @@ module Fog
         def new(attributes = {})
           requires :zone
           super({ :zone => zone }.merge!(attributes))
+        end
+
+        def find(fqdn)
+          hosts = service.find_hosts(fqdn, zone.id).body['hosts']
+          hosts.collect { |host| new(host) }
         end
 
       end

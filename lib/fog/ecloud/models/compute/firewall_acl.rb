@@ -2,22 +2,25 @@ module Fog
   module Compute
     class Ecloud
       class FirewallAcl < Fog::Ecloud::Model
+        identity :href
 
-        identity :href, :aliases => :Href
-
-        ignore_attributes :xmlns, :xmlns_i
-
-        attribute :name, :aliases => :Name
-        attribute :id, :aliases => :Id
+        attribute :type, :aliases => :Type
+        attribute :links, :aliases => :Links
+        attribute :permission, :aliases => :Permission
+        attribute :acl_type, :aliases => :AclType
+        attribute :port_type, :aliases => :PortType
         attribute :protocol, :aliases => :Protocol
         attribute :source, :aliases => :Source
         attribute :destination, :aliases => :Destination
-        attribute :permission, :aliases => :Permission
-        attribute :port_start, :aliases => :PortStart
-        attribute :port_end, :aliases => :PortEnd
-        attribute :port_type, :aliases => :PortType
-        attribute :type, :aliases => :Type
+        attribute :port_range, :aliases => :PortRange
 
+        def tasks
+          @tasks = Fog::Compute::Ecloud::Tasks.new(:service => service, :href => "/cloudapi/ecloud/tasks/virtualMachines/#{id}")
+        end
+
+        def id
+          href.scan(/\d+/)[0]
+        end
       end
     end
   end

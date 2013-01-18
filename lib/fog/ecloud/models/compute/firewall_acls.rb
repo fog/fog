@@ -5,26 +5,23 @@ module Fog
     class Ecloud
       class FirewallAcls < Fog::Ecloud::Collection
 
+        identity :href
+
         model Fog::Compute::Ecloud::FirewallAcl
 
-        attribute :href, :aliases => :Href
-
         def all
-          check_href! :message => "the Firewall ACL href for the network you want to enumerate"
-          if data = connection.get_firewall_acls(href).body[:FirewallAcl]
-            data = [ data ] if data.is_a?(Hash)
-            load(data)
-          end
+          data = service.get_firewall_acls(href).body
+          data = data[:FirewallAcl] ? data[:FirewallAcl] : data
+          load(data)
         end
 
         def get(uri)
-          if data = connection.get_firewall_acl(uri).body
-            new(data)
+          if data = service.get_firewall_acl(uri)
+            new(data.body)
           end
         rescue Fog::Errors::NotFound
           nil
         end
-
       end
     end
   end

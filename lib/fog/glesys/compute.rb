@@ -21,6 +21,7 @@ module Fog
       request :server_details
       request :server_status
       request :start
+      request :reboot
       request :stop
       # Templates
       request :template_list
@@ -65,7 +66,6 @@ module Fog
       class Real
 
         def initialize(options)
-          require 'multi_json'
           require 'base64'
 
           @api_url            = options[:glesys_api_url] || Fog.credentials[:glesys_api_url] || API_URL
@@ -79,7 +79,7 @@ module Fog
         def request(method_name, options = {}) 
 
           options.merge!( {:format => 'json'})
-          
+
           begin
             parser = options.delete(:parser)
             data = @connection.request(
@@ -94,9 +94,11 @@ module Fog
               }
             )
 
-            data.body = MultiJson.decode(data.body)
+            data.body = Fog::JSON.decode(data.body)
 
-            unless data.body['response']['status']['code'] == '200'
+            response_code =  data.body['response']['status']['code']
+
+            unless response_code.to_i == 200
               raise Fog::Compute::Glesys::Error, "#{data.body['response']['status']['text']}"
             end
             data

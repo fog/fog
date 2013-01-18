@@ -1,4 +1,4 @@
-require File.expand_path(File.join(File.dirname(__FILE__), '..', 'dynect'))
+require 'fog/dynect'
 require 'fog/dns'
 
 module Fog
@@ -25,6 +25,8 @@ module Fog
       request :post_session
       request :post_zone
       request :put_zone
+
+      class JobIncomplete < Error; end
 
       class Mock
         def initialize(options={})
@@ -58,17 +60,15 @@ module Fog
 
       class Real
         def initialize(options={})
-          require 'multi_json'
-
           @dynect_customer = options[:dynect_customer]
           @dynect_username = options[:dynect_username]
           @dynect_password = options[:dynect_password]
 
           @connection_options = options[:connection_options] || {}
-          @host       = "api2.dynect.net"
+          @host       = 'api-v4.dynect.net'
           @port       = options[:port]        || 443
           @path       = options[:path]        || '/REST'
-          @persistent = options[:persistent]  || true
+          @persistent = options[:persistent]  || false
           @scheme     = options[:scheme]      || 'https'
           @version    = options[:version]     || '2.3.1'
           @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
@@ -80,18 +80,32 @@ module Fog
 
         def request(params)
           begin
+            # any request could redirect to a job
+            params[:expects] = Array(params[:expects]) | [307]
+
             params[:headers] ||= {}
             params[:headers]['Content-Type'] = 'application/json'
             params[:headers]['API-Version'] = @version
-            params[:headers]['Auth-Token'] = auth_token unless params[:path] == "Session"
-            params[:path] = "#{@path}/#{params[:path]}"
+            params[:headers]['Auth-Token'] = auth_token unless params[:path] == 'Session'
+            params[:path] = "#{@path}/#{params[:path]}" unless params[:path] =~ %r{^#{Regexp.escape(@path)}/}
+
             response = @connection.request(params.merge!({:host => @host}))
 
-            unless response.body.empty?
-              response.body = MultiJson.decode(response.body)
+            if response.body.empty?
+              response.body = {}
+            elsif response.headers['Content-Type'] == 'application/json'
+              response.body = Fog::JSON.decode(response.body)
             end
-            response
 
+            if response.body['status'] == 'failure'
+              raise Error, response.body['msgs'].first['INFO']
+            end
+
+            if response.status == 307 && params[:path] !~ %r{^/REST/Job/}
+              response = poll_job(response, params[:expects])
+            end
+
+            response
           rescue Excon::Errors::HTTPStatusError => error
             if @auth_token && error.message =~ /login: (Bad or expired credentials|inactivity logout)/
               @auth_token = nil
@@ -99,6 +113,21 @@ module Fog
             else
               raise error
             end
+          end
+
+          response
+        end
+
+        def poll_job(response, original_expects, time_to_wait = 10)
+          job_location = response.headers['Location']
+
+          Fog.wait_for(time_to_wait) do
+            response = request(:expects => original_expects, :method => :get, :path => job_location)
+            response.body['status'] != 'incomplete'
+          end
+
+          if response.body['status'] == 'incomplete'
+            raise JobIncomplete.new("Job #{response.body['job_id']} is still incomplete")
           end
 
           response

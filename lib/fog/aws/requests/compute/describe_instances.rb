@@ -29,6 +29,7 @@ module Fog
         #             * 'status'<~String> - status of attached volume
         #             * 'volumeId'<~String> - Id of attached volume
         #           * 'dnsName'<~String> - public dns name, blank until instance is running
+        #           * 'ebsOptimized'<~Boolean> - Whether the instance is optimized for EBS I/O
         #           * 'imageId'<~String> - image id of ami used to launch instance
         #           * 'instanceId'<~String> - id of the instance
         #           * 'instanceState'<~Hash>:
@@ -55,7 +56,7 @@ module Fog
         # {Amazon API Reference}[http://docs.amazonwebservices.com/AWSEC2/latest/APIReference/ApiReference-query-DescribeInstances.html]
         def describe_instances(filters = {})
           unless filters.is_a?(Hash)
-            Fog::Logger.warning("describe_instances with #{filters.class} param is deprecated, use describe_instances('instance-id' => []) instead [light_black](#{caller.first})[/]")
+            Fog::Logger.deprecation("describe_instances with #{filters.class} param is deprecated, use describe_instances('instance-id' => []) instead [light_black](#{caller.first})[/]")
             filters = {'instance-id' => [*filters]}
           end
           params = {}
@@ -81,14 +82,14 @@ module Fog
 
         def describe_instances(filters = {})
           unless filters.is_a?(Hash)
-            Fog::Logger.warning("describe_instances with #{filters.class} param is deprecated, use describe_instances('instance-id' => []) instead [light_black](#{caller.first})[/]")
+            Fog::Logger.deprecation("describe_instances with #{filters.class} param is deprecated, use describe_instances('instance-id' => []) instead [light_black](#{caller.first})[/]")
             filters = {'instance-id' => [*filters]}
           end
 
           response = Excon::Response.new
 
           instance_set = self.data[:instances].values
-          instance_set = apply_tag_filters(instance_set, filters)
+          instance_set = apply_tag_filters(instance_set, filters, 'instanceId')
 
           aliases = {
             'architecture'      => 'architecture',
@@ -148,11 +149,26 @@ module Fog
             elsif state_reason_key = filter_key.split('state-reason-')[1]
               aliased_key = state_reason_aliases[state_reason_key]
               instance_set = instance_set.reject{|instance| ![*filter_value].include?(instance['stateReason'][aliased_key])}
+            elsif filter_key == "group-name"
+              instance_set = instance_set.reject {|instance| !instance['groupSet'].include?(filter_value)}
             else
               aliased_key = aliases[filter_key]
               instance_set = instance_set.reject {|instance| ![*filter_value].include?(instance[aliased_key])}
             end
           end
+
+          brand_new_instances = instance_set.find_all do |instance|
+            instance['instanceState']['name'] == 'pending' &&
+              Time.now - instance['launchTime'] < Fog::Mock.delay * 2
+          end
+
+          # Error if filtering for a brand new instance directly
+          if (filters['instance-id'] || filters['instanceId']) && !brand_new_instances.empty?
+            raise Fog::Compute::AWS::NotFound.new("The instance ID '#{brand_new_instances.first['instanceId']}' does not exist")
+          end
+
+          # Otherwise don't include it in the list
+          instance_set = instance_set.reject {|instance| brand_new_instances.include?(instance) }
 
           response.status = 200
           reservation_set = {}
@@ -160,20 +176,19 @@ module Fog
           instance_set.each do |instance|
             case instance['instanceState']['name']
             when 'pending'
-              if Time.now - instance['launchTime'] < Fog::Mock.delay * 2
-                raise Fog::Compute::AWS::NotFound.new("The instance ID '#{instance['instanceId']}' does not exist")
-              end
-
               if Time.now - instance['launchTime'] >= Fog::Mock.delay * 2
                 instance['ipAddress']         = Fog::AWS::Mock.ip_address
                 instance['originalIpAddress'] = instance['ipAddress']
                 instance['dnsName']           = Fog::AWS::Mock.dns_name_for(instance['ipAddress'])
-                instance['privateIpAddress']  = Fog::AWS::Mock.ip_address
+                instance['privateIpAddress']  = Fog::AWS::Mock.private_ip_address
                 instance['privateDnsName']    = Fog::AWS::Mock.private_dns_name_for(instance['privateIpAddress'])
                 instance['instanceState']     = { 'code' => 16, 'name' => 'running' }
               end
             when 'rebooting'
               instance['instanceState'] = { 'code' => 16, 'name' => 'running' }
+            when 'stopping'
+              instance['instanceState'] = { 'code' => 0, 'name' => 'stopping' }
+              instance['stateReason'] = { 'code' => 0 }
             when 'shutting-down'
               if Time.now - self.data[:deleted_at][instance['instanceId']] >= Fog::Mock.delay * 2
                 self.data[:deleted_at].delete(instance['instanceId'])
@@ -192,11 +207,12 @@ module Fog
 
               reservation_set[instance['reservationId']] ||= {
                 'groupSet'      => instance['groupSet'],
+                'groupIds'      => instance['groupIds'],
                 'instancesSet'  => [],
                 'ownerId'       => instance['ownerId'],
                 'reservationId' => instance['reservationId']
               }
-              reservation_set[instance['reservationId']]['instancesSet'] << instance.reject{|key,value| !['amiLaunchIndex', 'architecture', 'blockDeviceMapping', 'clientToken', 'dnsName', 'imageId', 'instanceId', 'instanceState', 'instanceType', 'ipAddress', 'kernelId', 'keyName', 'launchTime', 'monitoring', 'placement', 'platform', 'privateDnsName', 'privateIpAddress', 'productCodes', 'ramdiskId', 'reason', 'rootDeviceType', 'stateReason', 'tagSet'].include?(key)}
+              reservation_set[instance['reservationId']]['instancesSet'] << instance.reject{|key,value| !['amiLaunchIndex', 'architecture', 'blockDeviceMapping', 'clientToken', 'dnsName', 'ebsOptimized', 'iamInstanceProfile', 'imageId', 'instanceId', 'instanceState', 'instanceType', 'ipAddress', 'kernelId', 'keyName', 'launchTime', 'monitoring', 'networkInterfaces', 'ownerId', 'placement', 'platform', 'privateDnsName', 'privateIpAddress', 'productCodes', 'ramdiskId', 'reason', 'rootDeviceType', 'stateReason'].include?(key)}.merge('tagSet' => self.data[:tag_sets][instance['instanceId']])
             end
           end
 

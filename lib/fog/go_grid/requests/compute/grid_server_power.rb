@@ -16,7 +16,7 @@ module Fog
         def grid_server_power(server, power)
           request(
             :path     => 'grid/server/power',
-            :query    => {'server' => server}
+            :query    => {'server' => server, 'power' => power}
           )
         end
 

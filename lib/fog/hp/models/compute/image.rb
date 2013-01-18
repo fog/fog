@@ -24,15 +24,10 @@ module Fog
         attr_reader :image_type
         attr_reader :architecture
 
-        def initialize(attributes)
-          @connection = attributes[:connection]
-          super
-        end
-
         def metadata
           @metadata ||= begin
             Fog::Compute::HP::Metadata.new({
-              :connection => connection,
+              :service => service,
               :parent => self
             })
           end
@@ -66,8 +61,7 @@ module Fog
 
         def destroy
           requires :id
-
-          connection.delete_image(id)
+          service.delete_image(id)
           true
         end
 

@@ -37,14 +37,14 @@ module Fog
           raise Fog::AWS::ELB::NotFound unless load_balancer = self.data[:load_balancers][lb_name]
           instance_ids = [*instance_ids]
           instances = instance_ids.map do |instance|
-            raise Fog::AWS::ELB::InvalidInstance unless Compute[:aws].servers.get(instance)
+            raise Fog::AWS::ELB::InvalidInstance unless Fog::Compute::AWS::Mock.data[@region][@aws_access_key_id][:instances][instance]
             {'InstanceId' => instance}
           end
 
           response = Excon::Response.new
           response.status = 200
 
-          load_balancer['Instances'] = instances.dup
+          load_balancer['Instances'] = load_balancer['Instances'] | instances.dup
 
           response.body = {
             'ResponseMetadata' => {

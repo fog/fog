@@ -75,7 +75,19 @@ module Fog
       class Mock
 
         def describe_policies(options = {})
-          Fog::Mock.not_implemented
+          results = { 'ScalingPolicies' => [] }
+          self.data[:scaling_policies].each do |asp_name, asp_data|
+            results['ScalingPolicies'] << {
+              'PolicyName' => asp_name
+            }.merge!(asp_data)
+          end
+          response = Excon::Response.new
+          response.status = 200
+          response.body = {
+            'DescribePoliciesResult' => results,
+            'ResponseMetadata' => { 'RequestId' => Fog::AWS::Mock.request_id }
+          }
+          response
         end
 
       end

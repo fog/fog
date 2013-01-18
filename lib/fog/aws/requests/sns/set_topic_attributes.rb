@@ -21,7 +21,7 @@ module Fog
             'Action'          => 'SetTopicAttributes',
             'AttributeName'   => attribute_name,
             'AttributeValue'  => attribute_value,
-            'TopicArn'        => arn,
+            'TopicArn'        => arn.strip,
             :parser     => Fog::Parsers::AWS::SNS::SetTopicAttributes.new
           })
         end

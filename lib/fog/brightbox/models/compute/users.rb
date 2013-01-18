@@ -10,18 +10,16 @@ module Fog
         model Fog::Compute::Brightbox::User
 
         def all
-          data = connection.list_users
+          data = service.list_users
           load(data)
         end
 
-        def get(identifier)
-          return nil if identifier.nil? || identifier == ""
-          data = connection.get_user(identifier)
+        def get(identifier = nil)
+          data = service.get_user(identifier)
           new(data)
         rescue Excon::Errors::NotFound
           nil
         end
-
       end
 
     end

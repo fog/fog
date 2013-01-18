@@ -37,7 +37,7 @@ module Fog
 
         def get_server_details(server_id)
           response = Excon::Response.new
-          if server = list_servers_detail.body['servers'].detect {|_| _['id'] == server_id}
+          if server = list_servers_detail.body['servers'].detect {|_| _['id'].to_s == server_id.to_s}
             response.status = [200, 203][rand(1)]
             response.body = { 'server' => server }
             response

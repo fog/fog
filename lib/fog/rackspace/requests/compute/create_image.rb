@@ -21,11 +21,9 @@ module Fog
               'serverId' => server_id
             }
           }
-          if options['name']
-            data['image']['name'] = options['name']
-          end
+          data['image'].merge!(options)
           request(
-            :body     => MultiJson.encode(data),
+            :body     => Fog::JSON.encode(data),
             :expects  => 202,
             :method   => 'POST',
             :path     => "images"

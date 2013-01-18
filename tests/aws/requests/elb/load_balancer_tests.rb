@@ -7,7 +7,7 @@ Shindo.tests('AWS::ELB | load_balancer_tests', ['aws', 'elb']) do
 
     tests("#create_load_balancer").formats(AWS::ELB::Formats::CREATE_LOAD_BALANCER) do
       zones = ['us-east-1a']
-      listeners = [{'LoadBalancerPort' => 80, 'InstancePort' => 80, 'Protocol' => 'HTTP'}]
+      listeners = [{'LoadBalancerPort' => 80, 'InstancePort' => 80, 'InstanceProtocol' => 'HTTP', 'Protocol' => 'HTTP'}]
       Fog::AWS[:elb].create_load_balancer(zones, @load_balancer_id, listeners).body
     end
 
@@ -16,7 +16,7 @@ Shindo.tests('AWS::ELB | load_balancer_tests', ['aws', 'elb']) do
     end
 
     tests('#describe_load_balancers with bad lb') do
-      raises(Fog::AWS::ELB::NotFound) { Fog::AWS[:elb].describe_load_balancers('none-such-lb') }
+      raises(Fog::AWS::ELB::NotFound) { Fog::AWS[:elb].describe_load_balancers('LoadBalancerNames' => 'none-such-lb') }
     end
 
     tests("#describe_load_balancers with SSL listener") do
@@ -25,7 +25,7 @@ Shindo.tests('AWS::ELB | load_balancer_tests', ['aws', 'elb']) do
         {'Protocol' => 'HTTPS', 'LoadBalancerPort' => 443, 'InstancePort' => 443, 'SSLCertificateId' => @certificate['Arn']},
       ]
       Fog::AWS[:elb].create_load_balancer_listeners(@load_balancer_id, listeners)
-      response = Fog::AWS[:elb].describe_load_balancers(@load_balancer_id).body
+      response = Fog::AWS[:elb].describe_load_balancers('LoadBalancerNames' => @load_balancer_id).body
       tests("SSLCertificateId is set").returns(@certificate['Arn']) do
         listeners = response["DescribeLoadBalancersResult"]["LoadBalancerDescriptions"].first["ListenerDescriptions"]
         listeners.find {|l| l["Listener"]["Protocol"] == 'HTTPS' }["Listener"]["SSLCertificateId"]

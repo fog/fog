@@ -27,7 +27,25 @@ module Fog
       class Mock
 
         def create_db_security_group(name, description = name)
-          Fog::Mock.not_implemented
+          response = Excon::Response.new
+          if self.data[:security_groups] and self.data[:security_groups][name]
+            raise Fog::AWS::RDS::IdentifierTaken.new("DBInstanceAlreadyExists => The security group '#{name}' already exists")
+          end
+          
+          data = {
+            'DBSecurityGroupName' => name,
+            'DBSecurityGroupDescription' => description,
+            'EC2SecurityGroups' => [],
+            'IPRanges' => [],
+            'OwnerId' => '0123456789'
+          }
+          self.data[:security_groups][name] = data
+          response.body = {
+            "ResponseMetadata"=>{ "RequestId"=> Fog::AWS::Mock.request_id },
+            'CreateDBSecurityGroupResult' => { 'DBSecurityGroup' => data }
+          }
+          response
+          
         end
 
       end

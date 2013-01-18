@@ -7,7 +7,7 @@ module Fog
         def validate_instantiate_vapp_template_options options
           # :network_uri removed, if not specified will use template network config.
           valid_opts = [:catalog_item_uri, :name, :vdc_uri]
-          unless valid_opts.all? { |opt| options.keys.include?(opt) }
+          unless valid_opts.all? { |opt| options.has_key?(opt) }
             raise ArgumentError.new("Required data missing: #{(valid_opts - options.keys).map(&:inspect).join(", ")}")
           end
           

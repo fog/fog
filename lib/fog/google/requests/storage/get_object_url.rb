@@ -18,7 +18,7 @@ module Fog
         # http://docs.amazonwebservices.com/AmazonS3/latest/dev/S3_QSAuth.html
 
         def get_object_url(bucket_name, object_name, expires)
-          Fog::Logger.warning("Fog::Storage::Google => ##{get_object_url} is deprecated, use ##{get_object_https_url} instead[/] [light_black](#{caller.first})")
+          Fog::Logger.deprecation("Fog::Storage::Google => ##{get_object_url} is deprecated, use ##{get_object_https_url} instead[/] [light_black](#{caller.first})")
           get_object_https_url(bucket_name, object_name, expires)
         end
 
@@ -27,7 +27,7 @@ module Fog
       class Mock # :nodoc:all
 
         def get_object_url(bucket_name, object_name, expires)
-          Fog::Logger.warning("Fog::Storage::Google => ##{get_object_url} is deprecated, use ##{get_object_https_url} instead[/] [light_black](#{caller.first})")
+          Fog::Logger.deprecation("Fog::Storage::Google => ##{get_object_url} is deprecated, use ##{get_object_https_url} instead[/] [light_black](#{caller.first})")
           get_object_https_url(bucket_name, object_name, expires)
         end
 

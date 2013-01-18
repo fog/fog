@@ -2,19 +2,23 @@ module Fog
   module Compute
     class Ecloud
       class PublicIp < Fog::Ecloud::Model
-
-        identity :href, :aliases => :Href
-
-        ignore_attributes :xmlns, :xmlns_i
+        identity :href
 
         attribute :name, :aliases => :Name
-        attribute :id, :aliases => :Id
+        attribute :type, :aliases => :Type
+        attribute :other_links, :aliases => :Links
+        attribute :ip_type, :aliases => :IpType
 
         def internet_services
-          load_unless_loaded!
-          @internet_services ||= Fog::Compute::Ecloud::InternetServices.
-            new( :connection => connection,
-                 :href => href.to_s + "/internetServices" )
+          @internet_services = Fog::Compute::Ecloud::InternetServices.new(:service => service, :href => href)
+        end
+
+        def environment_id
+          other_links[:Link].detect { |l| l[:type] == "application/vnd.tmrk.cloud.environment" }[:href].scan(/\d+/)[0]
+        end
+
+        def id
+          href.scan(/\d+/)[0]
         end
       end
     end

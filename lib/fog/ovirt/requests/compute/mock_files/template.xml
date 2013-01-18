@@ -1,0 +1,39 @@
+<templates>
+<template href="/api/templates/2a08ba05-f3b1-4e5a-ade9-496466a8b323" id="2a08ba05-f3b1-4e5a-ade9-496466a8b323">
+<name>hwp_small</name>
+<description>hardware profile small</description>
+<link href="/api/templates/2a08ba05-f3b1-4e5a-ade9-496466a8b323/disks" rel="disks"/>
+<link href="/api/templates/2a08ba05-f3b1-4e5a-ade9-496466a8b323/nics" rel="nics"/>
+<link href="/api/templates/2a08ba05-f3b1-4e5a-ade9-496466a8b323/cdroms" rel="cdroms"/>
+<link href="/api/templates/2a08ba05-f3b1-4e5a-ade9-496466a8b323/permissions" rel="permissions"/>
+<type>server</type>
+<status>
+<state>ok</state>
+</status>
+<memory>536870912</memory>
+<cpu>
+<topology sockets="1" cores="1"/>
+</cpu>
+<os type="unassigned">
+<boot dev="network"/>
+<kernel/>
+<initrd/>
+<cmdline/>
+</os>
+<cluster href="/api/clusters/99408929-82cf-4dc7-a532-9d998063fa95" id="99408929-82cf-4dc7-a532-9d998063fa95"/>
+<creation_time>2012-01-31T07:47:03.811Z</creation_time>
+<origin>rhev</origin>
+<high_availability>
+<enabled>false</enabled>
+<priority>1</priority>
+</high_availability>
+<display>
+<type>spice</type>
+<monitors>1</monitors>
+</display>
+<stateless>false</stateless>
+<usb>
+<enabled>true</enabled>
+</usb>
+</template>
+</templates>

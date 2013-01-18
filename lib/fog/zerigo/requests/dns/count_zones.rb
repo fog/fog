@@ -13,7 +13,7 @@ module Fog
         #   * body<~Hash>
         #     * 'count'<~Integer> 
         #   * 'status'<~Integer> - 200 indicates success
-        def count_zones()
+        def count_zones
           request(
             :expects  => 200,
             :method   => 'GET',
@@ -22,6 +22,17 @@ module Fog
           )
         end
 
+      end
+
+      class Mock # :nodoc:all
+        def count_zones
+          response = Excon::Response.new
+
+          response.status = 200
+          response.body = { 'count' => self.data[:zones].size }
+
+          response
+        end
       end
     end
   end

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Org xmlns="http://www.vmware.com/vcloud/v1.5" name="Org1" id="urn:vcloud:org:1" type="application/vnd.vmware.vcloud.org+xml" href="https://vcloud.example.com/api/org/1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.vmware.com/vcloud/v1.5 http://vcloud.example.com/api/v1.5/schema/master.xsd">
+    <Link rel="down" type="application/vnd.vmware.vcloud.vdc+xml" name="vDC1" href="https://vcloud.example.com/api/vdc/1"/>
+    <Link rel="down" type="application/vnd.vmware.vcloud.tasksList+xml" href="https://vcloud.example.com/api/tasksList/1"/>
+    <Link rel="down" type="application/vnd.vmware.vcloud.catalog+xml" name="Catalog1" href="https://vcloud.example.com/api/catalog/1"/>
+    <Link rel="down" type="application/vnd.vmware.vcloud.controlAccess+xml" href="https://vcloud.example.com/api/org/1/catalog/1/controlAccess/"/>
+    <Link rel="controlAccess" type="application/vnd.vmware.vcloud.controlAccess+xml" href="https://vcloud.example.com/api/org/1/catalog/1/action/controlAccess"/>
+    <Link rel="down" type="application/vnd.vmware.vcloud.catalog+xml" name="Catalog2" href="https://vcloud.example.com/api/catalog/2"/>
+    <Link rel="down" type="application/vnd.vmware.vcloud.controlAccess+xml" href="https://vcloud.example.com/api/org/1/catalog/2/controlAccess/"/>
+    <Link rel="controlAccess" type="application/vnd.vmware.vcloud.controlAccess+xml" href="https://vcloud.example.com/api/org/1/catalog/2/action/controlAccess"/>
+    <Link rel="down" type="application/vnd.vmware.vcloud.orgNetwork+xml" name="Network1" href="https://vcloud.example.com/api/network/1"/>
+    <Link rel="down" type="application/vnd.vmware.vcloud.orgNetwork+xml" name="Network2" href="https://vcloud.example.com/api/network/2"/>
+    <Description>Some fancy
+
+Description</Description>
+    <FullName>My Full Name</FullName>
+</Org>

@@ -24,7 +24,7 @@ module Fog
         # ==== Returns
         # * response<~Excon::Response>:
         #   * 'status'<~Integer> - 200 for success
-        def update_zone( zone_id, options = {})
+        def update_zone(zone_id, options = {})
 
           optional_tags= ''
           options.each { |option, value|
@@ -64,6 +64,25 @@ module Fog
           )
         end
 
+      end
+
+      class Mock # :nodoc:all
+        def update_zone(zone_id, options = {})
+          zone = find_by_zone_id(zone_id)
+
+          response = Excon::Response.new
+
+          if zone
+            options.each { |k, v| zone[k.to_s] = v } # Deal with symbols in requests but strings in responses.
+            zone['updated-at'] = Time.now
+
+            response.status = 200
+          else
+            response.status = 404
+          end
+
+          response
+        end
       end
     end
   end

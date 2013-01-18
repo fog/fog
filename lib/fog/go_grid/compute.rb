@@ -1,4 +1,4 @@
-require File.expand_path(File.join(File.dirname(__FILE__), '..', 'go_grid'))
+require 'fog/go_grid'
 require 'fog/compute'
 
 module Fog
@@ -61,7 +61,6 @@ module Fog
 
         def initialize(options={})
           require 'digest/md5'
-          require 'multi_json'
           @go_grid_api_key = options[:go_grid_api_key]
           @go_grid_shared_secret = options[:go_grid_shared_secret]
           @connection_options = options[:connection_options] || {}
@@ -105,7 +104,7 @@ module Fog
           end
 
           unless response.body.empty?
-            response.body = MultiJson.decode(response.body)
+            response.body = Fog::JSON.decode(response.body)
           end
 
           response

@@ -11,11 +11,11 @@ module Fog
 
         model Fog::DNS::Dynect::Record
 
-        def all
+        def all(options = {})
           requires :zone
           data = []
-          connection.get_node_list(zone.domain).body['data'].each do |fqdn|
-            records = connection.get_record('ANY', zone.domain, fqdn).body['data']
+          service.get_node_list(zone.domain, options).body['data'].each do |fqdn|
+            records = service.get_record('ANY', zone.domain, fqdn).body['data']
 
             # data in format ['/REST/xRecord/domain/fqdn/identity]
             records.map! do |record|

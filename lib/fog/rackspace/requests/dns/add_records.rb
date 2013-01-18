@@ -13,7 +13,11 @@ module Fog
                 'type' => record[:type],
                 'data' => record[:data]
               }
-
+              
+              if record.has_key? :ttl
+                record_data['ttl'] = record[:ttl]
+              end
+              
               if record.has_key? :priority
                 record_data['priority'] = record[:priority]
               end
@@ -25,7 +29,7 @@ module Fog
             :expects  => 202,
             :method   => 'POST',
             :path     => "domains/#{domain_id}/records",
-            :body     => MultiJson.encode(data)
+            :body     => Fog::JSON.encode(data)
           )
         end
       end

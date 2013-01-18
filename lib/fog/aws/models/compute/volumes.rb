@@ -31,7 +31,7 @@ module Fog
         #  tags=nil
         #>
         #
-        # The volume can be retreived by running AWS.volumes.get("vol-1e2028b9").  See get method below.
+        # The volume can be retrieved by running AWS.volumes.get("vol-1e2028b9").  See get method below.
         #
 
         def initialize(attributes)
@@ -59,16 +59,16 @@ module Fog
         #  tags=nil
         #>
         #
-        # The volume can be retreived by running AWS.volumes.get("vol-1e2028b9").  See get method below.
+        # The volume can be retrieved by running AWS.volumes.get("vol-1e2028b9").  See get method below.
         #
 
         def all(filters = filters)
           unless filters.is_a?(Hash)
-            Fog::Logger.warning("all with #{filters.class} param is deprecated, use all('volume-id' => []) instead [light_black](#{caller.first})[/]")
+            Fog::Logger.deprecation("all with #{filters.class} param is deprecated, use all('volume-id' => []) instead [light_black](#{caller.first})[/]")
             filters = {'volume-id' => [*filters]}
           end
           self.filters = filters
-          data = connection.describe_volumes(filters).body
+          data = service.describe_volumes(filters).body
           load(data['volumeSet'])
           if server
             self.replace(self.select {|volume| volume.server_id == server.id})
@@ -76,7 +76,7 @@ module Fog
           self
         end
 
-        # Used to retreive a volume
+        # Used to retrieve a volume
         # volume_id is required to get the associated volume information.
         #
         # You can run the following command to get the details:
@@ -102,7 +102,7 @@ module Fog
 
         def get(volume_id)
           if volume_id
-            self.class.new(:connection => connection).all('volume-id' => volume_id).first
+            self.class.new(:service => service).all('volume-id' => volume_id).first
           end
         end
 

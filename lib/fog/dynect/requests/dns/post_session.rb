@@ -6,9 +6,10 @@ module Fog
         def post_session
           request(
             :expects  => 200,
+            :idempotent => true,
             :method   => :post,
             :path     => "Session",
-            :body     => MultiJson.encode({
+            :body     => Fog::JSON.encode({
               :customer_name  => @dynect_customer,
               :user_name      => @dynect_username,
               :password       => @dynect_password

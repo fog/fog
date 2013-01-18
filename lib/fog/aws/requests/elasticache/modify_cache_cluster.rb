@@ -45,7 +45,7 @@ module Fog
           # Merge the Cache Security Group parameters with the normal options
           request(node_id_params.merge(sec_group_params.merge(
             'Action'                      => 'ModifyCacheCluster',
-            'CacheClusterId'              => id,
+            'CacheClusterId'              => id.strip,
             'ApplyImmediately'            => options[:apply_immediately],
             'NumCacheNodes'               => options[:num_nodes],
             'AutoMinorVersionUpgrade'     => options[:auto_minor_version_upgrade],
@@ -61,10 +61,42 @@ module Fog
       end
 
       class Mock
-        def modify_cache_cluster
-          Fog::Mock.not_implemented
+        def modify_cache_cluster(id, options = {})
+          response        = Excon::Response.new
+          cluster         = self.data[:clusters][id]
+          pending_values  = Hash.new
+          # For any given option, update the cluster's corresponding value
+          { :auto_minor_version_upgrade   => 'AutoMinorVersionUpgrade',
+            :preferred_maintenance_window => 'PreferredMaintenanceWindow',
+            :engine_version               => 'EngineVersion',
+            :num_nodes                    => 'NumCacheNodes',
+          }.each do |option, cluster_key|
+            if options[option] != nil
+              cluster[cluster_key] = options[option].to_s
+              pending_values[cluster_key] = options[option]
+            end
+          end
+          cache['CacheParameterGroup'] = {
+            'CacheParameterGroupName' => options[:parameter_group_name]
+          } if options[:parameter_group_name]
+          if options[:num_nodes] || options[:engine_version]
+            cluster['CacheNodes'] =
+              create_cache_nodes(cluster['CacheClusterId'], options[:num_nodes])
+            cluster['NumCacheNodes'] = cluster['CacheNodes'].size
+          end
+          if options[:nodes_to_remove]
+            pending_values['CacheNodeId'] = options[:nodes_to_remove].join(',')
+          end
+          response.body = {
+            'CacheCluster' => cluster.merge({
+              'PendingModifiedValues' => pending_values
+            }),
+            'ResponseMetadata' => { 'RequestId' => Fog::AWS::Mock.request_id }
+          }
+          response
         end
       end
+
     end
   end
 end

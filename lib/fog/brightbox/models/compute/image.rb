@@ -11,6 +11,7 @@ module Fog
         attribute :resource_type
 
         attribute :name
+        attribute :username
         attribute :status
         attribute :description
 
@@ -19,6 +20,7 @@ module Fog
         attribute :arch
         attribute :virtual_size
         attribute :disk_size
+        attribute :licence_name
 
         # Boolean flags
         attribute :public
@@ -37,22 +39,23 @@ module Fog
         end
 
         def save
-          raise Fog::Errors::Error.new('Resaving an existing object may create a duplicate') if identity
+          raise Fog::Errors::Error.new('Resaving an existing object may create a duplicate') if persisted?
           requires :source, :arch
           options = {
             :source => source,
             :arch => arch,
             :name => name,
+            :username => username,
             :description => description
           }.delete_if {|k,v| v.nil? || v == "" }
-          data = connection.create_image(options)
+          data = service.create_image(options)
           merge_attributes(data)
           true
         end
 
         def destroy
           requires :identity
-          connection.destroy_image(identity)
+          service.destroy_image(identity)
           true
         end
 

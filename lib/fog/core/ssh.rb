@@ -1,3 +1,5 @@
+require 'delegate'
+
 module Fog
   module SSH
 
@@ -13,8 +15,12 @@ module Fog
 
       def self.data
         @data ||= Hash.new do |hash, key|
-          hash[key] = {}
+          hash[key] = []
         end
+      end
+
+      def self.reset
+        @data= nil
       end
 
       def initialize(address, username, options)
@@ -23,8 +29,8 @@ module Fog
         @options  = options
       end
 
-      def run(commands)
-        Fog::Mock.not_implemented
+      def run(commands, &blk)
+        self.class.data[@address] << {:commands => commands, :username => @username, :options => @options}
       end
 
     end
@@ -40,12 +46,20 @@ module Fog
           raise ArgumentError.new(':key_data, :keys, :password or a loaded ssh-agent is required to initialize SSH')
         end
 
+        if options[:key_data] || options[:keys]
+          options[:keys_only] = true
+          #Explicitly set these so net-ssh doesn't add the default keys
+          #as seen at https://github.com/net-ssh/net-ssh/blob/master/lib/net/ssh/authentication/session.rb#L131-146
+          options[:keys] = [] unless options[:keys]
+          options[:key_data] = [] unless options[:key_data]
+        end
+
         @address  = address
         @username = username
         @options  = { :paranoid => false }.merge(options)
       end
 
-      def run(commands)
+      def run(commands, &blk)
         commands = [*commands]
         results  = []
         begin
@@ -61,11 +75,13 @@ module Fog
 
                   channel.on_data do |ch, data|
                     result.stdout << data
+                    yield [data, ''] if blk
                   end
 
                   channel.on_extended_data do |ch, type, data|
                     next unless type == 1
                     result.stderr << data
+                    yield ['', data] if blk
                   end
 
                   channel.on_request('exit-status') do |ch, data|

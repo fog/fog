@@ -6,10 +6,10 @@ module Fog
         class SpotInstanceRequests < Fog::Parsers::Base
 
           def reset
-            @block_device_mapping = []
+            @block_device_mapping = {}
             @context = []
-            @contexts = ['blockDeviceMapping', 'groupSet']
-            @spot_instance_request = { 'launchSpecification' => { 'blockDeviceMapping' => [], 'groupSet' => [] } }
+            @contexts = ['blockDeviceMapping', 'groupSet', 'iamInstanceProfile']
+            @spot_instance_request = { 'launchSpecification' => { 'iamInstanceProfile' => {}, 'blockDeviceMapping' => [], 'groupSet' => [] } }
             @response = { 'spotInstanceRequestSet' => [] }
           end
 
@@ -37,18 +37,20 @@ module Fog
               @block_device_mapping[name] = value
             when 'groupId'
               @spot_instance_request['launchSpecification']['groupSet'] << value
+            when 'arn', 'name'
+              @spot_instance_request['launchSpecification']['iamInstanceProfile'][name] = value
             when 'instanceId', 'launchedAvailabilityZone', 'productDescription', 'spotInstanceRequestId', 'state', 'type'
               @spot_instance_request[name] = value
             when 'item'
               case @context.last
               when 'blockDeviceMapping'
-                @instance['blockDeviceMapping'] << @block_device_mapping
+                @spot_instance_request['launchSpecification']['blockDeviceMapping'] << @block_device_mapping
                 @block_device_mapping = {}
               when nil
                 @response['spotInstanceRequestSet'] << @spot_instance_request
-                @spot_instance_request = { 'launchSpecification' => { 'blockDeviceMapping' => [], 'groupSet' => [] } }
+                @spot_instance_request = { 'launchSpecification' => { 'iamInstanceProfile' => {}, 'blockDeviceMapping' => [], 'groupSet' => [] } }
               end
-            when 'imageId', 'instanceType', 'keyname'
+            when 'imageId', 'instanceType', 'keyname', 'subnetId'
               @spot_instance_request['launchSpecification'][name] = value
             when 'enabled'
               @spot_instance_request['launchSpecification']['monitoring'] = (value == 'true')

@@ -29,6 +29,25 @@ module Fog
         end
 
       end
+
+      class Mock
+
+        def remove_user_from_group(group_name, user_name)
+          if data[:groups].has_key? group_name
+            if data[:users].has_key? user_name
+              data[:groups][group_name][:members].delete_if { |item| item == user_name }
+              Excon::Response.new.tap do |response|
+                response.status = 200
+                response.body = { 'RequestId' => Fog::AWS::Mock.request_id }
+              end
+            else
+              raise Fog::AWS::IAM::NotFound.new("The user with name #{user_name} cannot be found.")
+            end
+          else
+            raise Fog::AWS::IAM::NotFound.new("The group with name #{group_name} cannot be found.")
+          end
+        end
+      end
     end
   end
 end

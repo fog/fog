@@ -1,55 +1,46 @@
 module Fog
   module Storage
     class AWS
-      class Real
+      module PutObjectUrl
 
-        # Get an expiring object url from S3 for putting an object
-        #
-        # ==== Parameters
-        # * bucket_name<~String> - Name of bucket containing object
-        # * object_name<~String> - Name of object to get expiring url for
-        # * expires<~Time> - An expiry time for this url
-        #
-        # ==== Returns
-        # * response<~Excon::Response>:
-        #   * body<~String> - url for object
-        #
-        # ==== See Also
-        # http://docs.amazonwebservices.com/AmazonS3/latest/dev/S3_QSAuth.html
-
-        def put_object_url(bucket_name, object_name, expires)
+        def put_object_url(bucket_name, object_name, expires, headers = {}, options = {})
           unless bucket_name
             raise ArgumentError.new('bucket_name is required')
           end
           unless object_name
             raise ArgumentError.new('object_name is required')
           end
-          url({
-            :headers  => {},
+          scheme_host_path_query({
+            :scheme   => options[:scheme],
+            :headers  => headers,
             :host     => @host,
+            :port     => @port,
             :method   => 'PUT',
             :path     => "#{bucket_name}/#{object_name}"
           }, expires)
         end
+      end
+
+      class Real
+
+        # Get an expiring object url from S3 for putting an object
+        #
+        # @param bucket_name [String] Name of bucket containing object
+        # @param object_name [String] Name of object to get expiring url for
+        # @param expires [Time] An expiry time for this url
+        #
+        # @return [Excon::Response] response:
+        #   * body [String] url for object
+        #
+        # @see http://docs.amazonwebservices.com/AmazonS3/latest/dev/S3_QSAuth.html
+
+        include PutObjectUrl
 
       end
 
       class Mock # :nodoc:all
 
-        def put_object_url(bucket_name, object_name, expires)
-          unless bucket_name
-            raise ArgumentError.new('bucket_name is required')
-          end
-          unless object_name
-            raise ArgumentError.new('object_name is required')
-          end
-          url({
-            :headers  => {},
-            :host     => @host,
-            :method   => 'PUT',
-            :path     => "#{bucket_name}/#{object_name}"
-          }, expires)
-        end
+        include PutObjectUrl
 
       end
     end

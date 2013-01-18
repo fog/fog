@@ -25,9 +25,9 @@ module Fog
           class_eval <<-EOS, __FILE__, __LINE__
             def #{name}=(new_#{name})
               attributes[:#{name}] = case new_#{name}
-              when 'true'
+              when true,'true'
                 true
-              when 'false'
+              when false,'false'
                 false
               end
             end
@@ -71,8 +71,8 @@ module Fog
             class_eval <<-EOS, __FILE__, __LINE__
               def #{name}=(new_data)
                 if new_data.is_a?(Hash)
-                  if new_data.has_key?(:#{squash})
-                    attributes[:#{name}] = new_data[:#{squash}]
+                  if new_data.has_key?(:'#{squash}')
+                    attributes[:#{name}] = new_data[:'#{squash}']
                   elsif new_data.has_key?("#{squash}")
                     attributes[:#{name}] = new_data["#{squash}"]
                   else
@@ -104,7 +104,7 @@ module Fog
       end
 
       def ignore_attributes(*args)
-        @ignored_attributes = args
+        @ignored_attributes = args.collect {|attr| attr.to_s }
       end
 
       def ignored_attributes
@@ -142,7 +142,7 @@ module Fog
           unless self.class.ignored_attributes.include?(key)
             if aliased_key = self.class.aliases[key]
               send("#{aliased_key}=", value)
-            elsif (public_methods | private_methods).detect {|method| ["#{key}=", :"#{key}="].include?(method)}
+            elsif self.respond_to?("#{key}=",true)
               send("#{key}=", value)
             else
               attributes[key] = value
@@ -152,8 +152,25 @@ module Fog
         self
       end
 
+      # Returns true if a remote resource has been assigned an
+      # identity and we can assume it has been persisted.
+      #
+      # @return [Boolean]
+      def persisted?
+        !!identity
+      end
+
+      # Returns true if a remote resource has not been assigned an
+      # identity.
+      #
+      # This was added for a ActiveRecord like feel but has been
+      # outdated by ActiveModel API using {#persisted?}
+      #
+      # @deprecated Use inverted form of {#persisted?}
+      # @return [Boolean]
       def new_record?
-        !identity
+        Fog::Logger.deprecation("#new_record? is deprecated, use !persisted? instead [light_black](#{caller.first})[/]")
+        !persisted?
       end
 
       # check that the attributes specified in args exist and is not nil
@@ -177,7 +194,7 @@ module Fog
 
       def missing_attributes(args)
         missing = []
-        for arg in [:connection] | args
+        for arg in [:service] | args
           unless send("#{arg}") || attributes.has_key?(arg)
             missing << arg
           end
@@ -186,7 +203,7 @@ module Fog
       end
 
       def dup_attributes!
-        @attributes = @attributes.dup
+        @attributes = @attributes.dup if @attributes
       end
 
       private

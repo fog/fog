@@ -1,4 +1,4 @@
-Shindo.tests('Fog::Storage[:hp] | object requests', ['hp', 'storage']) do
+Shindo.tests("Fog::Storage[:hp] | object requests", ['hp', 'storage']) do
 
   @directory = Fog::Storage[:hp].directories.create(:key => 'fogobjecttests')
   @dir_name = @directory.identity

@@ -1,0 +1,20 @@
+<clusters>
+<cluster href="/api/clusters/9ce445e8-4c03-11e1-b3c8-5254009970cc" id="9ce445e8-4c03-11e1-b3c8-5254009970cc">
+<name>cluster1</name>
+<link href="/api/clusters/9ce445e8-4c03-11e1-b3c8-5254009970cc/networks" rel="networks"/>
+<link href="/api/clusters/9ce445e8-4c03-11e1-b3c8-5254009970cc/permissions" rel="permissions"/>
+<cpu id="Intel Conroe Family"/>
+<data_center href="/api/datacenters/c0645886-4b4b-11e1-a0ae-5254009970cc" id="c0645886-4b4b-11e1-a0ae-5254009970cc"/>
+<memory_policy>
+<overcommit percent="200"/>
+<transparent_hugepages>
+<enabled>true</enabled>
+</transparent_hugepages>
+</memory_policy>
+<scheduling_policy/>
+<version major="3" minor="0"/>
+<error_handling>
+<on_error>migrate_highly_available</on_error>
+</error_handling>
+</cluster>
+</clusters>

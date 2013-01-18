@@ -1,4 +1,4 @@
-require File.expand_path(File.join(File.dirname(__FILE__), '..', 'vmfusion'))
+require 'fog/vmfusion'
 require 'fog/compute'
 
 module Fog
@@ -20,7 +20,12 @@ module Fog
       class Real
 
         def initialize(options={})
-          require 'fission'
+          begin
+            require 'fission'
+          rescue LoadError => e
+            retry if require('rubygems')
+            raise e.message
+          end
         end
 
       end

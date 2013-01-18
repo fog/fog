@@ -4,7 +4,7 @@ module Fog
       class CatalogItem < Fog::Vcloud::Model
 
         identity :href, :aliases => :Href
-
+        attribute :links, :aliases => :Link, :type => :array
         ignore_attributes :xmlns, :xmlns_i, :xmlns_xsi, :xmlns_xsd
 
         attribute :type
@@ -15,7 +15,7 @@ module Fog
 
         def customization_options
           load_unless_loaded!
-          if data = connection.get_customization_options( link[:href] ).body
+          if data = service.get_customization_options( link[:href] ).body
             data.delete_if { |key, value| [:xmlns_i, :xmlns].include?(key) }
             data
           else

@@ -17,6 +17,8 @@ module Fog
         #   * NotificationARNs<~Array>: List of SNS topics to publish events to
         #   * Parameters<~Hash>: Hash of providers to supply to template
         #   * TimeoutInMinutes<~Integer>: Minutes to wait before status is set to CREATE_FAILED
+        #   * Capabilities<~Array>: List of capabilties the stack is granted. Currently CAPABILITY_IAM
+        #     for allowing the creation of IAM resources
         #
         # ==== Returns
         # * response<~Excon::Response>:
@@ -49,6 +51,23 @@ module Fog
             end
           end
 
+          num_tags = 0
+          if options['Tags']
+            options['Tags'].keys.each_with_index do |key, index|
+              index += 1 # tags are 1-indexed
+              num_tags += 1 # 10 tag max
+
+              params.merge!({
+                "Tags.member.#{index}.Key"   => key,
+                "Tags.member.#{index}.Value" => options['Tags'][key]
+              })
+            end
+          end
+
+          if num_tags > 10
+            raise ArgumentError.new("a maximum of 10 tags can be specified <#{num_tags}>")
+          end
+
           if options['TemplateBody']
             params['TemplateBody'] = options['TemplateBody']
           elsif options['TemplateURL']
@@ -57,6 +76,10 @@ module Fog
 
           if options['TimeoutInMinutes']
             params['TimeoutInMinutes'] = options['TimeoutInMinutes']
+          end
+          
+          if options['Capabilities']
+            params.merge!(Fog::AWS.indexed_param("Capabilities.member", [*options['Capabilities']]))
           end
 
           request({

@@ -1,13 +1,15 @@
-require File.expand_path(File.join(File.dirname(__FILE__), '..', 'libvirt'))
+require 'fog/libvirt'
 require 'fog/compute'
-
-require 'fog/libvirt/models/compute/uri'
+require 'fog/libvirt/models/compute/util/util'
+require 'fog/libvirt/models/compute/util/uri'
 
 module Fog
   module Compute
     class Libvirt < Fog::Service
 
-      requires :libvirt_uri
+      requires   :libvirt_uri
+      recognizes :libvirt_username, :libvirt_password
+      recognizes :libvirt_ip_command
 
       model_path 'fog/libvirt/models/compute'
       model       :server
@@ -22,18 +24,55 @@ module Fog
       collection  :pools
       model       :node
       collection  :nodes
+      model       :nic
+      collection  :nics
+
+      request_path 'fog/libvirt/requests/compute'
+      request :list_domains
+      request :create_domain
+      request :define_domain
+      request :vm_action
+      request :list_pools
+      request :list_pool_volumes
+      request :define_pool
+      request :pool_action
+      request :list_volumes
+      request :volume_action
+      request :create_volume
+      request :list_networks
+      request :destroy_network
+      request :list_interfaces
+      request :destroy_interface
+      request :get_node_info
+      request :update_display
+
+      module Shared
+        include Fog::Compute::LibvirtUtil
+      end
 
       class Mock
-
+        include Shared
         def initialize(options={})
-          Fog::Mock.not_implemented
+          # libvirt is part of the gem => ruby-libvirt
+          require 'libvirt'
         end
 
+        private
+
+        def client
+          return @client if defined?(@client)
+        end
+
+        #read mocks xml
+        def read_xml(file_name)
+          file_path = File.join(File.dirname(__FILE__),"requests","compute","mock_files",file_name)
+          File.read(file_path)
+        end
       end
 
       class Real
-
-        attr_reader :raw
+        include Shared
+        attr_reader :client
         attr_reader :uri
         attr_reader :ip_command
 
@@ -43,26 +82,35 @@ module Fog
           @ip_command = options[:libvirt_ip_command]
 
           # libvirt is part of the gem => ruby-libvirt
-          require 'libvirt'
+          begin
+            require 'libvirt'
+          rescue LoadError => e
+            retry if require('rubygems')
+            raise e.message
+          end
 
           begin
             if options[:libvirt_username] and options[:libvirt_password]
-              @raw = ::Libvirt::open_auth(@uri.uri, [::Libvirt::CRED_AUTHNAME, ::Libvirt::CRED_PASSPHRASE]) do |cred|
-                if cred['type'] == ::Libvirt::CRED_AUTHNAME
-                  res = options[:libvirt_username]
-                elsif cred["type"] == ::Libvirt::CRED_PASSPHRASE
-                  res = options[:libvirt_password]
-                else
+              @client = ::Libvirt::open_auth(uri.uri, [::Libvirt::CRED_AUTHNAME, ::Libvirt::CRED_PASSPHRASE]) do |cred|
+                case cred['type']
+                  when ::Libvirt::CRED_AUTHNAME
+                    options[:libvirt_username]
+                  when ::Libvirt::CRED_PASSPHRASE
+                    options[:libvirt_password]
                 end
               end
             else
-              @raw = ::Libvirt::open(@uri.uri)
+              @client = ::Libvirt::open(uri.uri)
             end
 
           rescue ::Libvirt::ConnectionError
-            raise Fog::Errors::Error.new("Error making a connection to libvirt URI #{@uri.uri}:\n#{$!}")
+            raise Fog::Errors::Error.new("Error making a connection to libvirt URI #{uri.uri}:\n#{$!}")
           end
 
+        end
+
+        def terminate
+          @client.close if @client and !@client.closed?
         end
 
         def enhance_uri(uri)
@@ -84,18 +132,7 @@ module Fog
               end
             end
           end
-          newuri=uri+append
-          return newuri
-        end
-
-
-        # hack to provide 'requests'
-        def method_missing(method_sym, *arguments, &block)
-          if @raw.respond_to?(method_sym)
-            @raw.send(method_sym, *arguments)
-          else
-            super
-          end
+          uri+append
         end
 
       end

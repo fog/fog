@@ -22,7 +22,7 @@ module Fog
         #    server_id=nil
         #  >
         #
-        # The IP address can be retreived by running AWS.addresses.get("test").  See get method below.
+        # The IP address can be retrieved by running AWS.addresses.get("test").  See get method below.
         #
 
         def initialize(attributes)
@@ -56,11 +56,11 @@ module Fog
 
         def all(filters = filters)
           unless filters.is_a?(Hash)
-            Fog::Logger.warning("all with #{filters.class} param is deprecated, use all('public-ip' => []) instead [light_black](#{caller.first})[/]")
+            Fog::Logger.deprecation("all with #{filters.class} param is deprecated, use all('public-ip' => []) instead [light_black](#{caller.first})[/]")
             filters = {'public-ip' => [*filters]}
           end
           self.filters = filters
-          data = connection.describe_addresses(filters).body
+          data = service.describe_addresses(filters).body
           load(
             data['addressesSet'].map do |address|
               address.reject {|key, value| value.nil? || value.empty? }
@@ -72,7 +72,7 @@ module Fog
           self
         end
 
-        # Used to retreive an IP address
+        # Used to retrieve an IP address
         #
         # public_ip is required to get the associated IP information.
         #
@@ -81,7 +81,7 @@ module Fog
 
         def get(public_ip)
           if public_ip
-            self.class.new(:connection => connection).all('public-ip' => public_ip).first
+            self.class.new(:service => service).all('public-ip' => public_ip).first
           end
         end
 

@@ -1,15 +1,21 @@
 Shindo.tests('Fog::Compute[:bluebox] | product requests', ['bluebox']) do
 
+  @product_format = {
+    'id' => String,
+    'description' => String,
+    'cost' => String
+  }
+
   tests('success') do
 
-    @product_id   = '94fd37a7-2606-47f7-84d5-9000deda52ae' # 1 GB
+    @flavor_id = compute_providers[:bluebox][:server_attributes][:flavor_id]
 
-    tests("get_product('#{@product_id}')").formats(Bluebox::Compute::Formats::PRODUCT) do
+    tests("get_product('#{@flavor_id}')").formats(@product_format) do
       pending if Fog.mocking?
-      Fog::Compute[:bluebox].get_product(@product_id).body
+      Fog::Compute[:bluebox].get_product(@flavor_id).body
     end
 
-    tests("get_products").formats([Bluebox::Compute::Formats::PRODUCT]) do
+    tests("get_products").formats([@product_format]) do
       pending if Fog.mocking?
       Fog::Compute[:bluebox].get_products.body
     end

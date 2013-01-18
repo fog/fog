@@ -39,7 +39,6 @@ module Fog
         def describe_db_parameters(name, opts={})
           Fog::Mock.not_implemented
         end
-
       end
     end
   end

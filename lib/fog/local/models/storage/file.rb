@@ -12,6 +12,8 @@ module Fog
         # attribute :content_type,    :aliases => 'Content-Type'
         attribute :last_modified,   :aliases => 'Last-Modified'
 
+        require 'uri'
+
         def body
           attributes[:body] ||= if last_modified
             collection.get(identity).body
@@ -36,6 +38,13 @@ module Fog
           @directory
         end
 
+        def copy(target_directory_key, target_file_key, options={})
+          requires :directory, :key
+          service.copy_object(directory.key, key, target_directory_key, target_file_key)
+          target_directory = service.directories.new(:key => target_directory_key)
+          target_directory.files.get(target_file_key)
+        end
+
         def destroy
           requires :directory, :key
           ::File.delete(path) if ::File.exists?(path)
@@ -46,11 +55,11 @@ module Fog
               next
             end
             # don't delete the containing directory or higher
-            if dir_path == connection.path_to(directory.key)
+            if dir_path == service.path_to(directory.key)
               break
             end
             pwd = Dir.pwd
-            if ::Dir.exists?(dir_path)
+            if ::File.exists?(dir_path) && ::File.directory?(dir_path)
               Dir.chdir(dir_path)
               if Dir.glob('*').empty?
                 Dir.rmdir(dir_path)
@@ -66,7 +75,16 @@ module Fog
         end
 
         def public_url
-          nil
+          requires :directory, :key
+
+          if service.endpoint
+            escaped_directory = URI.escape(directory.key)
+            escaped_key = URI.escape(key)
+
+            ::File.join(service.endpoint, escaped_directory, escaped_key)
+          else
+            nil
+          end
         end
 
         def save(options = {})
@@ -103,7 +121,7 @@ module Fog
         end
 
         def path
-          connection.path_to(::File.join(directory.key, key))
+          service.path_to(::File.join(directory.key, key))
         end
 
       end

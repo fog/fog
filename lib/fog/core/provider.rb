@@ -1,13 +1,18 @@
 module Fog
 
   def self.providers
-    @providers ||= []
+    @providers ||= {}
+  end
+
+  def self.providers=(new_providers)
+    @providers = new_providers
   end
 
   module Provider
 
     def self.extended(base)
-      Fog.providers << base.to_s.split('::').last
+      provider = base.to_s.split('::').last
+      Fog.providers[provider.downcase.to_sym] = provider
     end
 
     def [](service_key)

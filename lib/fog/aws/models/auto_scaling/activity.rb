@@ -9,14 +9,14 @@ module Fog
         attribute :auto_scaling_group_name, :aliases => 'AutoScalingGroupName'
         attribute :cause,                   :aliases => 'Cause'
         attribute :description,             :aliases => 'Description'
-	attribute :end_time,                :aliases => 'EndTime'
+        attribute :end_time,                :aliases => 'EndTime'
         attribute :progress,                :aliases => 'Progress'
         attribute :start_time,              :aliases => 'StartTime'
         attribute :status_code,             :aliases => 'StatusCode'
         attribute :status_message,          :aliases => 'StatusMessage'
 
         def group
-          connection.groups.get(attributes['AutoScalingGroupName'])
+          service.groups.get(attributes['AutoScalingGroupName'])
         end
 
         def save

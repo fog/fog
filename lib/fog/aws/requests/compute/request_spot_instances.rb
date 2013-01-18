@@ -24,8 +24,10 @@ module Fog
         #     * 'Ebs.DeleteOnTermination'<~String> - specifies whether or not to delete the volume on instance termination
         #   * 'LaunchSpecification.KeyName'<~String> - Name of a keypair to add to booting instances
         #   * 'LaunchSpecification.Monitoring.Enabled'<~Boolean> - Enables monitoring, defaults to disabled
+        #   * 'LaunchSpecification.SubnetId'<~String> - VPC subnet ID in which to launch the instance
         #   * 'LaunchSpecification.Placement.AvailabilityZone'<~String> - Placement constraint for instances
-        #   * 'LaunchSpecification.SecurityGroup'<~Array> or <~String> - Name of security group(s) for instances
+        #   * 'LaunchSpecification.SecurityGroup'<~Array> or <~String> - Name of security group(s) for instances, not supported in VPC
+        #   * 'LaunchSpecification.SecurityGroupId'<~Array> or <~String> - Id of security group(s) for instances, use this or LaunchSpecification.SecurityGroup
         #   * 'LaunchSpecification.UserData'<~String> -  Additional data to provide to booting instances
         #   * 'Type'<~String> - spot instance request type in ['one-time', 'persistent']
         #   * 'ValidFrom'<~Time> - start date for request
@@ -46,6 +48,7 @@ module Fog
         #         * 'imageId'<~String> - AMI for instance
         #         * 'instanceType'<~String> - type for instance
         #         * 'monitoring'<~Boolean> - monitoring status for instance
+        #         * 'subnetId'<~String> - VPC subnet ID for instance
         #       * 'productDescription'<~String> - general description of AMI
         #       * 'spotInstanceRequestId'<~String> - id of spot instance request
         #       * 'spotPrice'<~Float> - maximum price for instances to be launched
@@ -63,6 +66,9 @@ module Fog
           end
           if security_groups = options.delete('LaunchSpecification.SecurityGroup')
             options.merge!(Fog::AWS.indexed_param('LaunchSpecification.SecurityGroup', [*security_groups]))
+          end
+          if security_group_ids = options.delete('LaunchSpecification.SecurityGroupId')
+            options.merge!(Fog::AWS.indexed_param('LaunchSpecification.SecurityGroupId', [*security_group_ids]))
           end
           if options['LaunchSpecification.UserData']
             options['LaunchSpecification.UserData'] = Base64.encode64(options['LaunchSpecification.UserData'])

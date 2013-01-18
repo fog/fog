@@ -13,7 +13,7 @@ module Fog
         #   * serial_style<~String> - style of serial number, in ['day', 'epoch', 'increment', 'minute']. Defaults to increment
 
         def post_zone(rname, ttl, zone, options = {})
-          body = MultiJson.encode({
+          body = Fog::JSON.encode({
             :rname  => rname,
             :token  => auth_token,
             :ttl    => ttl

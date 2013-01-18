@@ -11,13 +11,23 @@ module Fog
         end
 
         def all
-          data = connection.describe_load_balancers.body['DescribeLoadBalancersResult']['LoadBalancerDescriptions']
-          load(data)
+          result = []
+          marker = nil
+          finished = false
+          while !finished
+            data = service.describe_load_balancers('Marker' => marker).body
+            result.concat(data['DescribeLoadBalancersResult']['LoadBalancerDescriptions'])
+            marker = data['DescribeLoadBalancersResult']['NextMarker']
+            finished = marker.nil?
+          end
+          load(result) # data is an array of attribute hashes
         end
 
         def get(identity)
-          data = connection.describe_load_balancers(identity).body['DescribeLoadBalancersResult']['LoadBalancerDescriptions'].first
-          new(data)
+          if identity
+            data = service.describe_load_balancers('LoadBalancerNames' => identity).body['DescribeLoadBalancersResult']['LoadBalancerDescriptions'].first
+            new(data)
+          end
         rescue Fog::AWS::ELB::NotFound
           nil
         end

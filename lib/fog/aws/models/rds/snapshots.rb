@@ -15,17 +15,20 @@ module Fog
           if attributes[:server]
             filters[:identifier] = attributes[:server].id
           end
+          if attributes[:type]
+            filters[:type] = attributes[:type]
+          end
           super
         end
 
         def all(filters = filters)
           self.filters = filters
-          data = connection.describe_db_snapshots(filters).body['DescribeDBSnapshotsResult']['DBSnapshots']
+          data = service.describe_db_snapshots(filters).body['DescribeDBSnapshotsResult']['DBSnapshots']
           load(data) # data is an array of attribute hashes
         end
 
         def get(identity)
-          data = connection.describe_db_snapshots(:snapshot_id => identity).body['DescribeDBSnapshotsResult']['DBSnapshots'].first
+          data = service.describe_db_snapshots(:snapshot_id => identity).body['DescribeDBSnapshotsResult']['DBSnapshots'].first
           new(data) # data is an attribute hash
         rescue Fog::AWS::RDS::NotFound
           nil

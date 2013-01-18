@@ -2,7 +2,7 @@ module Fog
   module Rackspace
     class LoadBalancers
       class Real
-        def create_load_balancer(name, protocol, port, virtual_ips, nodes)
+        def create_load_balancer(name, protocol, port, virtual_ips, nodes, options = {})
           data = {
             'loadBalancer' => {
               'name' => name,
@@ -13,8 +13,11 @@ module Fog
               #Is algorithm allowed on create?
             }
           }
+
+          data['loadBalancer']['algorithm'] = options[:algorithm] if options.has_key? :algorithm
+
           request(
-            :body     => MultiJson.encode(data),
+            :body     => Fog::JSON.encode(data),
             :expects  => 202,
             :method   => 'POST',
             :path     => 'loadbalancers.json'

@@ -9,6 +9,12 @@ module Fog
     class Error < Fog::Errors::Error; end
     class NotFound < Fog::Errors::NotFound; end
 
+    module NoLeakInspector
+      def inspect
+        "#<#{self.class}:#{self.object_id} #{(self.instance_variables - service.secrets).map {|iv| [iv, self.instance_variable_get(iv).inspect].join('=')}.join(' ')}>"
+      end
+    end
+
     module Collections
 
       def collections
@@ -47,14 +53,8 @@ module Fog
       end
 
       def new(options={})
-        # attempt to load credentials from config file
-        begin
-          default_credentials = Fog.credentials.reject {|key, value| !(recognized | requirements).include?(key)}
-          options = default_credentials.merge(options)
-        rescue LoadError
-          # if there are no configured credentials, do nothing
-        end
-
+        options = Fog.symbolize_credentials(options)
+        options = fetch_credentials(options).merge(options)
         validate_options(options)
         coerce_options(options)
         setup_requirements
@@ -64,7 +64,18 @@ module Fog
           service::Mock.new(options)
         else
           service::Real.send(:include, service::Collections)
+          service::Real.send(:include, service::NoLeakInspector)
           service::Real.new(options)
+        end
+      end
+
+      def fetch_credentials(options)
+        # attempt to load credentials from config file
+        begin
+          default_credentials = Fog.credentials.reject {|key, value| !(recognized | requirements).include?(key)}
+        rescue LoadError
+          # if there are no configured credentials, do nothing
+          {}
         end
       end
 
@@ -80,7 +91,7 @@ module Fog
             constant = collection.to_s.split('_').map {|characters| characters[0...1].upcase << characters[1..-1]}.join('')
             service::Collections.module_eval <<-EOS, __FILE__, __LINE__
               def #{collection}(attributes = {})
-                #{service}::#{constant}.new({:connection => self}.merge(attributes))
+                #{service}::#{constant}.new({:service => self}.merge(attributes))
               end
             EOS
           end
@@ -159,6 +170,16 @@ module Fog
         @requests ||= []
       end
 
+      def secrets(*args)
+        if args.empty?
+          @secrets ||= []
+        else
+          args.inject(secrets) do |secrets, secret|
+            secrets << "@#{secret}".to_sym
+          end
+        end
+      end
+
       def requires(*args)
         requirements.concat(args)
       end
@@ -172,11 +193,17 @@ module Fog
       end
 
       def recognized
-        @recognized ||= []
+        @recognized ||= [:connection_options]
       end
 
       def validate_options(options)
-        missing = requirements - options.keys
+        keys = []
+        for key, value in options
+          unless value.nil?
+            keys << key
+          end
+        end
+        missing = requirements - keys
         unless missing.empty?
           raise ArgumentError, "Missing required arguments: #{missing.join(', ')}"
         end

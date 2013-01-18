@@ -16,6 +16,7 @@ module Fog
         #     * 'requestId'<~String> - Id of request
         #     * 'securityGroupInfo'<~Array>:
         #       * 'groupDescription'<~String> - Description of security group
+        #       * 'groupId'<~String> - ID of the security group.
         #       * 'groupName'<~String> - Name of security group
         #       * 'ipPermissions'<~Array>:
         #         * 'fromPort'<~Integer> - Start of port range (or -1 for ICMP wildcard)
@@ -31,7 +32,7 @@ module Fog
         # {Amazon API Reference}[http://docs.amazonwebservices.com/AWSEC2/latest/APIReference/ApiReference-query-DescribeSecurityGroups.html]
         def describe_security_groups(filters = {})
           unless filters.is_a?(Hash)
-            Fog::Logger.warning("describe_security_groups with #{filters.class} param is deprecated, use describe_security_groups('group-name' => []) instead [light_black](#{caller.first})[/]")
+            Fog::Logger.deprecation("describe_security_groups with #{filters.class} param is deprecated, use describe_security_groups('group-name' => []) instead [light_black](#{caller.first})[/]")
             filters = {'group-name' => [*filters]}
           end
           params = Fog::AWS.indexed_filters(filters)
@@ -48,7 +49,7 @@ module Fog
 
         def describe_security_groups(filters = {})
           unless filters.is_a?(Hash)
-            Fog::Logger.warning("describe_security_groups with #{filters.class} param is deprecated, use describe_security_groups('group-name' => []) instead [light_black](#{caller.first})[/]")
+            Fog::Logger.deprecation("describe_security_groups with #{filters.class} param is deprecated, use describe_security_groups('group-name' => []) instead [light_black](#{caller.first})[/]")
             filters = {'group-name' => [*filters]}
           end
 
@@ -59,6 +60,7 @@ module Fog
           aliases = {
             'description' => 'groupDescription',
             'group-name'  => 'groupName',
+            'group-id'    => 'groupId',
             'owner-id'    => 'ownerId'
           }
           permission_aliases = {
@@ -69,8 +71,10 @@ module Fog
           }
           for filter_key, filter_value in filters
             if permission_key = filter_key.split('ip-permission.')[1]
-              if permission_key == 'group-name'
+              if permission_key == 'group-name'	
                 security_group_info = security_group_info.reject{|security_group| !security_group['ipPermissions']['groups'].detect {|group| [*filter_value].include?(group['groupName'])}}
+              elsif permission_key == 'group-id'
+                security_group_info = security_group_info.reject{|security_group| !security_group['ipPermissions']['groups'].detect {|group| [*filter_value].include?(group['groupId'])}}
               elsif permission_key == 'user-id'
                 security_group_info = security_group_info.reject{|security_group| !security_group['ipPermissions']['groups'].detect {|group| [*filter_value].include?(group['userId'])}}
               else

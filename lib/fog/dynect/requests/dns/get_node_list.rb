@@ -11,10 +11,12 @@ module Fog
         #   * fqdn<~String> - fully qualified domain name of node to lookup
 
         def get_node_list(zone, options = {})
+          requested_fqdn = options['fqdn'] || options[:fqdn]
           request(
             :expects  => 200,
+            :idempotent => true,
             :method   => :get,
-            :path     => ['NodeList', zone, options['fqdn']].compact.join('/')
+            :path     => ['NodeList', zone, requested_fqdn].compact.join('/')
           )
         end
       end

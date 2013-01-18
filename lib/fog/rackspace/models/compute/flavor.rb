@@ -34,6 +34,8 @@ module Fog
             1/2.0
           when 15872
             1
+          when 30720
+            2
           end
         end
 

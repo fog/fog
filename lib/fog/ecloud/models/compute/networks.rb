@@ -3,30 +3,30 @@ require 'fog/ecloud/models/compute/network'
 module Fog
   module Compute
     class Ecloud
-
       class Networks < Fog::Ecloud::Collection
 
-        undef_method :create
+        attribute :href, :aliases => :Href
 
         model Fog::Compute::Ecloud::Network
 
-        attribute :href
-
         def all
-          check_href!("Vdc")
-          if data = connection.get_vdc(href).body[:AvailableNetworks][:Network]
-            load(data)
-          end
+          body = service.get_networks(self.href).body
+          body = body[:Networks] ? body[:Networks][:Network] : body[:Network]
+          data = case body
+                 when NilClass then []
+                 when Array then body
+                 when Hash then [body]
+                 end
+          load(data)
         end
 
         def get(uri)
-          if data = connection.get_network(uri)
+          if data = service.get_network(uri)
             new(data.body)
           end
-          rescue Fog::Errors::NotFound
+        rescue Fog::Errors::NotFound
           nil
         end
-
       end
     end
   end

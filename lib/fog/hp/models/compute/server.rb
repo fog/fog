@@ -34,26 +34,27 @@ module Fog
         attribute :public_ip_address
 
         attr_reader :password
-        attr_writer :private_key, :private_key_path, :public_key, :public_key_path, :username, :image_id, :flavor_id, :network_name
+        attr_writer :private_key, :private_key_path
+        attr_writer :public_key, :public_key_path
+        attr_writer :username, :image_id, :flavor_id, :network_name
 
         def initialize(attributes = {})
           # assign these attributes first to prevent race condition with new_record?
           self.min_count = attributes.delete(:min_count)
           self.max_count = attributes.delete(:max_count)
           self.block_device_mapping = attributes.delete(:block_device_mapping)
-          @connection = attributes[:connection]
           super
         end
 
         def console_output(num_lines)
           requires :id
-          connection.get_console_output(id, num_lines)
+          service.get_console_output(id, num_lines)
         end
 
         def metadata
           @metadata ||= begin
             Fog::Compute::HP::Metadata.new({
-              :connection => connection,
+              :service => service,
               :parent => self
             })
           end
@@ -67,14 +68,14 @@ module Fog
 
         def destroy
           requires :id
-          connection.delete_server(id)
+          service.delete_server(id)
           true
         end
 
         def key_pair
           requires :key_name
 
-          connection.key_pairs.get(key_name)
+          service.key_pairs.get(key_name)
         end
 
         def key_pair=(new_keypair)
@@ -158,59 +159,59 @@ module Fog
 
         def change_password(admin_password)
           requires :id
-          connection.change_password_server(id, admin_password)
+          service.change_password_server(id, admin_password)
           true
         end
 
         def windows_password()
           requires :id
-          connection.get_windows_password(id)
+          service.get_windows_password(id)
         end
 
         def reboot(type = 'SOFT')
           requires :id
-          connection.reboot_server(id, type)
+          service.reboot_server(id, type)
           true
         end
 
         def rebuild(image_id, name, admin_pass=nil, metadata=nil, personality=nil)
           requires :id
-          connection.rebuild_server(id, image_id, name, admin_pass, metadata, personality)
+          service.rebuild_server(id, image_id, name, admin_pass, metadata, personality)
           true
         end
 
         def resize(flavor_id)
           requires :id
-          connection.resize_server(id, flavor_id)
+          service.resize_server(id, flavor_id)
           true
         end
 
         def revert_resize
           requires :id
-          connection.revert_resized_server(id)
+          service.revert_resized_server(id)
           true
         end
 
         def confirm_resize
           requires :id
-          connection.confirm_resized_server(id)
+          service.confirm_resized_server(id)
           true
         end
 
         def create_image(name, metadata={})
           requires :id
-          connection.create_image(id, name, metadata)
+          service.create_image(id, name, metadata)
         end
 
         def volume_attachments
           requires :id
-          if vols = @connection.list_server_volumes(id).body
+          if vols = service.list_server_volumes(id).body
             vols["volumeAttachments"]
           end
         end
 
         def save
-          raise Fog::Errors::Error.new('Resaving an existing object may create a duplicate') if identity
+          raise Fog::Errors::Error.new('Resaving an existing object may create a duplicate') if persisted?
           requires :flavor_id, :name
           meta_hash = {}
           metadata.each { |meta| meta_hash.store(meta.key, meta.value) }
@@ -229,10 +230,10 @@ module Fog
           # either create a regular server or a persistent server based on input
           if image_id
             # create a regular server using the image
-            data = connection.create_server(name, flavor_id, image_id, options)
+            data = service.create_server(name, flavor_id, image_id, options)
           elsif image_id.nil? && !@block_device_mapping.nil? && !@block_device_mapping.empty?
             # create a persistent server using the bootable volume in the block_device_mapping
-            data = connection.create_persistent_server(name, flavor_id, @block_device_mapping, options)
+            data = service.create_persistent_server(name, flavor_id, @block_device_mapping, options)
           end
           merge_attributes(data.body['server'])
           true
@@ -244,8 +245,8 @@ module Fog
             %{mkdir .ssh},
             %{echo "#{public_key}" >> ~/.ssh/authorized_keys},
             %{passwd -l #{username}},
-            %{echo "#{MultiJson.encode(attributes)}" >> ~/attributes.json},
-            %{echo "#{MultiJson.encode(metadata)}" >> ~/metadata.json}
+            %{echo "#{Fog::JSON.encode(attributes)}" >> ~/attributes.json},
+            %{echo "#{Fog::JSON.encode(metadata)}" >> ~/metadata.json}
           ])
         rescue Errno::ECONNREFUSED
           sleep(1)

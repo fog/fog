@@ -25,7 +25,7 @@ module Fog
             'Action'          => 'PutGroupPolicy',
             'GroupName'       => group_name,
             'PolicyName'      => policy_name,
-            'PolicyDocument'  => MultiJson.encode(policy_document),
+            'PolicyDocument'  => Fog::JSON.encode(policy_document),
             :parser           => Fog::Parsers::AWS::IAM::Basic.new
           )
         end

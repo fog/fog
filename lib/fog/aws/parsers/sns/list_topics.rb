@@ -12,7 +12,7 @@ module Fog
           def end_element(name)
             case name
             when 'TopicArn'
-              @response['Topics'] << @value
+              @response['Topics'] << @value.strip
             when 'NextToken', 'RequestId'
               response[name] = @value
             end

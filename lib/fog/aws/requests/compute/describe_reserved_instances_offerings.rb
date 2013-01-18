@@ -18,7 +18,9 @@ module Fog
         #       * 'availabilityZone'<~String> - availability zone of offering
         #       * 'duration'<~Integer> - duration, in seconds, of offering
         #       * 'fixedPrice'<~Float> - purchase price of offering
+        #       * 'includeMarketplace'<~Boolean> - whether or not to include marketplace offerings
         #       * 'instanceType'<~String> - instance type of offering
+        #       * 'offeringType'<~String> - type of offering, in ['Heavy Utilization', 'Medium Utilization', 'Light Utilization']
         #       * 'productDescription'<~String> - description of offering
         #       * 'reservedInstancesOfferingId'<~String> - id of offering
         #       * 'usagePrice'<~Float> - usage price of offering, per hour
@@ -41,14 +43,15 @@ module Fog
 
           self.data[:reserved_instances_offerings] ||= [{
             'reservedInstancesOfferingId' => Fog::AWS::Mock.reserved_instances_offering_id,
-            'instanceType'        => 'm1.small',
-            'availabilityZone'    => 'us-east-1d',
-            'duration'            => 31536000,
-            'fixedPrice'          => 350.0,
-            'usagePrice'          => 0.03,
-            'productDescription'  => 'Linux/UNIX',
-            'instanceTenancy'     => 'default',
-            'currencyCode'         => 'USD'
+            'instanceType'                => 'm1.small',
+            'availabilityZone'            => 'us-east-1d',
+            'duration'                    => 31536000,
+            'fixedPrice'                  => 350.0,
+            'offeringType'                => 'Medium Utilization',
+            'usagePrice'                  => 0.03,
+            'productDescription'          => 'Linux/UNIX',
+            'instanceTenancy'             => 'default',
+            'currencyCode'                => 'USD'
           }]
 
           response.body = {

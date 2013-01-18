@@ -3,9 +3,9 @@ module Fog
     class Compute
       class Ip < Fog::Vcloud::Model
 
-        ignore_attributes :xmlns_i, :xmlns
-
         identity :href, :aliases => :Href
+        attribute :links, :aliases => :Link, :type => :array
+        ignore_attributes :xmlns, :xmlns_i, :xmlns_xsi, :xmlns_xsd
 
         attribute :name, :aliases => :Name
         attribute :status, :aliases => :Status
@@ -14,7 +14,7 @@ module Fog
 
         def save
           if @changed
-            connection.configure_network_ip( href, _compose_network_ip_data )
+            service.configure_network_ip( href, _compose_network_ip_data )
           end
           true
         end

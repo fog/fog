@@ -39,7 +39,9 @@ module Fog
           requires :image_id
           requires :instance_type
 
-          connection.create_launch_configuration(image_id, instance_type, id) #, listeners.map{|l| l.to_params})
+          options = Hash[self.class.aliases.map { |key, value| [key, send(value)] }]
+          options.delete_if { |key, value| value.nil? }
+          service.create_launch_configuration(image_id, instance_type, id, options) #, listeners.map{|l| l.to_params})
 
           # reload instead of merge attributes b/c some attrs (like HealthCheck)
           # may be set, but only the DNS name is returned in the create_load_balance
@@ -54,7 +56,7 @@ module Fog
 
         def destroy
           requires :id
-          connection.delete_launch_configuration(id)
+          service.delete_launch_configuration(id)
         end
 
       end

@@ -15,14 +15,14 @@ module Fog
         def all(options = {})
           options['marker']   ||= marker
           options['maxitems'] ||= max_items
-          data = connection.list_hosted_zones(options).body['HostedZones']
+          data = service.list_hosted_zones(options).body['HostedZones']
           load(data)
         end
 
         def get(zone_id)
-          data = connection.get_hosted_zone(zone_id).body
+          data = service.get_hosted_zone(zone_id).body
           new(data)
-        rescue Excon::Errors::Forbidden
+        rescue Excon::Errors::NotFound
           nil
         end
 

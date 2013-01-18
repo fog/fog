@@ -2,9 +2,7 @@ module Fog
   module Parsers
     module Compute
       module AWS
-
         class DescribeVolumes < Fog::Parsers::Base
-
           def reset
             @attachment = {}
             @in_attachment_set = false
@@ -50,7 +48,7 @@ module Fog
               end
             else
               case name
-              when 'availabilityZone', 'snapshotId', 'status', 'volumeId'
+              when 'availabilityZone', 'snapshotId', 'status', 'volumeId', 'volumeType'
                 @volume[name] = value
               when 'createTime'
                 @volume[name] = Time.parse(value)
@@ -59,7 +57,7 @@ module Fog
                 @volume = { 'attachmentSet' => [], 'tagSet' => {} }
               when 'requestId'
                 @response[name] = value
-              when 'size'
+              when 'size', 'iops'
                 @volume[name] = value.to_i
               end
             end

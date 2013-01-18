@@ -6,7 +6,7 @@ module Fog
         def list_private_ips(options = {})
           request(
             :path     => "/network/private/get",
-            :body     => MultiJson.encode(options)
+            :body     => Fog::JSON.encode(options)
           )
         end
 

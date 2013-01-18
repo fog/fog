@@ -63,8 +63,7 @@ module Fog
               'ETag'            => Fog::Google::Mock.etag,
               'Key'             => object_name,
               'Last-Modified'   => Fog::Time.now.to_date_header,
-              'Content-Length'  => options['Content-Length'] || data[:headers]['Content-Length'],
-              'StorageClass'    => 'STANDARD'
+              'Content-Length'  => options['Content-Length'] || data[:headers]['Content-Length']
             }
 
             for key, value in options

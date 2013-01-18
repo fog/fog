@@ -1,4 +1,4 @@
-require File.expand_path(File.join(File.dirname(__FILE__), '..', 'linode'))
+require 'fog/linode'
 require 'fog/compute'
 
 module Fog
@@ -80,7 +80,6 @@ module Fog
       class Real
 
         def initialize(options={})
-          require 'multi_json'
           @linode_api_key = options[:linode_api_key]
           @host   = options[:host]    || "api.linode.com"
           @port   = options[:port]    || 443
@@ -99,7 +98,7 @@ module Fog
           response = @connection.request(params.merge!({:host => @host}))
 
           unless response.body.empty?
-            response.body = MultiJson.decode(response.body)
+            response.body = Fog::JSON.decode(response.body)
             if data = response.body['ERRORARRAY'].first
               error = case data['ERRORCODE']
               when 5

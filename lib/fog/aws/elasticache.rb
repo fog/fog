@@ -1,12 +1,13 @@
 module Fog
   module AWS
     class Elasticache < Fog::Service
+      extend Fog::AWS::CredentialFetcher::ServiceMethods
 
       class IdentifierTaken < Fog::Errors::Error; end
       class InvalidInstance < Fog::Errors::Error; end
 
       requires :aws_access_key_id, :aws_secret_access_key
-      recognizes :region, :host, :path, :port, :scheme, :persistent
+      recognizes :region, :host, :path, :port, :scheme, :persistent, :use_iam_profile, :aws_session_token, :aws_credentials_expire_at
 
       request_path 'fog/aws/requests/elasticache'
 
@@ -40,27 +41,14 @@ module Fog
       model :parameter_group
       collection :parameter_groups
 
-      class Mock
-        def initalize(options={})
-          Fog::Mock.not_implemented
-        end
-      end
-
       class Real
-
+        include Fog::AWS::CredentialFetcher::ConnectionMethods
         def initialize(options={})
-          @aws_access_key_id      = options[:aws_access_key_id]
-          @aws_secret_access_key  = options[:aws_secret_access_key]
-          @hmac = Fog::HMAC.new('sha256', @aws_secret_access_key)
+          @use_iam_profile = options[:use_iam_profile]
+          setup_credentials(options)
 
           options[:region] ||= 'us-east-1'
-          @host = options[:host] || case options[:region]
-          when 'us-east-1'
-            'elasticache.us-east-1.amazonaws.com'
-            #TODO: Support other regions
-          else
-            raise ArgumentError, "Unknown region: #{options[:region].inspect}"
-          end
+          @host = options[:host] || "elasticache.#{options[:region]}.amazonaws.com"
           @path       = options[:path]      || '/'
           @port       = options[:port]      || 443
           @scheme     = options[:scheme]    || 'https'
@@ -74,7 +62,19 @@ module Fog
         end
 
         private
+
+        def setup_credentials(options)
+          @aws_access_key_id      = options[:aws_access_key_id]
+          @aws_secret_access_key  = options[:aws_secret_access_key]
+          @aws_session_token      = options[:aws_session_token]
+          @aws_credentials_expire_at = options[:aws_credentials_expire_at]
+
+          @hmac = Fog::HMAC.new('sha256', @aws_secret_access_key)
+        end
+
         def request(params)
+          refresh_credentials_if_expired
+
           idempotent  = params.delete(:idempotent)
           parser      = params.delete(:parser)
 
@@ -82,6 +82,7 @@ module Fog
             params,
             {
             :aws_access_key_id  => @aws_access_key_id,
+            :aws_session_token  => @aws_session_token,
             :hmac               => @hmac,
             :host               => @host,
             :path               => @path,
@@ -122,6 +123,70 @@ module Fog
         end
 
       end
+
+      class Mock
+        include Fog::AWS::CredentialFetcher::ConnectionMethods
+
+        def self.data
+          @data ||= Hash.new do |hash, region|
+            hash[region] = Hash.new do |region_hash, key|
+              owner_id = Fog::AWS::Mock.owner_id
+              security_group_id = Fog::AWS::Mock.security_group_id
+              region_hash[key] = {
+                :clusters  => {}, # cache cluster data, indexed by cluster ID
+              }
+            end
+          end
+        end
+
+        def self.reset
+          @data = nil
+        end
+
+        def initialize(options={})
+          @aws_credentials_expire_at = Time::now + 20
+          setup_credentials(options)
+          @region = options[:region] || 'us-east-1'
+          unless ['ap-northeast-1', 'ap-southeast-1', 'eu-west-1', 'us-east-1',
+                  'us-west-1', 'us-west-2', 'sa-east-1'].include?(@region)
+            raise ArgumentError, "Unknown region: #{@region.inspect}"
+          end
+        end
+
+        def region_data
+          self.class.data[@region]
+        end
+
+        def data
+          self.region_data[@aws_access_key_id]
+        end
+
+        def reset_data
+          self.region_data.delete(@aws_access_key_id)
+        end
+
+        def setup_credentials(options)
+          @aws_access_key_id = options[:aws_access_key_id]
+        end
+
+        # returns an Array of (Mock) elasticache nodes, representated as Hashes
+        def create_cache_nodes(cluster_id, num_nodes = 1, port = '11211')
+          (1..num_nodes).map do |node_number|
+            node_id = "%04d" % node_number
+            { # each hash represents a cache cluster node
+              "CacheNodeId"           => node_id,
+              "Port"                  => port,
+              "ParameterGroupStatus"  => "in-sync",
+              "CacheNodeStatus"       => "available",
+              "CacheNodeCreateTime"   => Time.now.utc.to_s,
+              "Address" =>
+                "#{cluster_id}.#{node_id}.use1.cache.amazonaws.com"
+            }
+          end
+        end
+      end
+
+
     end
   end
 end

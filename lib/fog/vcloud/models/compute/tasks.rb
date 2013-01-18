@@ -11,17 +11,15 @@ module Fog
         attribute :href, :aliases => :Href
 
         def all
-          self.href = connection.default_vdc_href unless self.href
+          self.href = service.default_vdc_href unless self.href
           check_href!
-          if data = connection.get_task_list(href).body[:Task]
+          if data = service.get_task_list(href).body[:Task]
             load(data)
           end
         end
 
         def get(uri)
-          if data = connection.get_task(uri)
-            new(data.body)
-          end
+          service.get_task(uri)
         rescue Fog::Errors::NotFound
           nil
         end

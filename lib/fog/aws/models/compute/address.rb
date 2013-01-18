@@ -6,12 +6,15 @@ module Fog
 
       class Address < Fog::Model
 
-        identity  :public_ip, :aliases => 'publicIp'
+        identity  :public_ip,            :aliases => 'publicIp'
 
-        attribute :server_id, :aliases => 'instanceId'
+        attribute :allocation_id,        :aliases => 'allocationId'
+        attribute :server_id,            :aliases => 'instanceId'
+        attribute :network_interface_id, :aliases => 'networkInterfaceId'
+        attribute :domain
 
         def initialize(attributes = {})
-          # assign server first to prevent race condition with new_record?
+          # assign server first to prevent race condition with persisted?
           self.server = attributes.delete(:server)
           super
         end
@@ -19,7 +22,7 @@ module Fog
         def destroy
           requires :public_ip
 
-          connection.release_address(public_ip)
+          service.release_address(allocation_id || public_ip)
           true
         end
 
@@ -31,9 +34,13 @@ module Fog
           end
         end
 
+        def server
+          service.servers.get(server_id)
+        end
+
         def save
-          raise Fog::Errors::Error.new('Resaving an existing object may create a duplicate') if identity
-          data = connection.allocate_address.body
+          raise Fog::Errors::Error.new('Resaving an existing object may create a duplicate') if persisted?
+          data = service.allocate_address(domain).body
           new_attributes = data.reject {|key,value| key == 'requestId'}
           merge_attributes(new_attributes)
           if @server
@@ -45,20 +52,20 @@ module Fog
         private
 
         def associate(new_server)
-          if new_record?
+          unless persisted?
             @server = new_server
           else
             @server = nil
             self.server_id = new_server.id
-            connection.associate_address(server_id, public_ip)
+            service.associate_address(server_id, public_ip, network_interface_id, allocation_id)
           end
         end
 
         def disassociate
           @server = nil
           self.server_id = nil
-          unless new_record?
-            connection.disassociate_address(public_ip)
+          if persisted?
+            service.disassociate_address(public_ip)
           end
         end
 

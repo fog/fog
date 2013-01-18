@@ -5,30 +5,27 @@ module Fog
 
         # Create an object in an S3 bucket
         #
-        # ==== Parameters
-        # * bucket_name<~String> - Name of bucket to create object in
-        # * object_name<~String> - Name of object to create
-        # * data<~File||String> - File or String to create object from
-        # * options<~Hash>:
-        #   * 'Cache-Control'<~String> - Caching behaviour
-        #   * 'Content-Disposition'<~String> - Presentational information for the object
-        #   * 'Content-Encoding'<~String> - Encoding of object data
-        #   * 'Content-Length'<~String> - Size of object in bytes (defaults to object.read.length)
-        #   * 'Content-MD5'<~String> - Base64 encoded 128-bit MD5 digest of message
-        #   * 'Content-Type'<~String> - Standard MIME type describing contents (defaults to MIME::Types.of.first)
-        #   * 'Expires'<~String> - Cache expiry
-        #   * 'x-amz-acl'<~String> - Permissions, must be in ['private', 'public-read', 'public-read-write', 'authenticated-read']
-        #   * 'x-amz-storage-class'<~String> - Default is 'STANDARD', set to 'REDUCED_REDUNDANCY' for non-critical, reproducable data
-        #   * "x-amz-meta-#{name}" - Headers to be returned with object, note total size of request without body must be less than 8 KB.
+        # @param bucket_name [String] Name of bucket to create object in
+        # @param object_name [String] Name of object to create
+        # @param data [File||String] File or String to create object from
+        # @param options [Hash]
+        # @option options Cache-Control [String] Caching behaviour
+        # @option options Content-Disposition [String] Presentational information for the object
+        # @option options Content-Encoding [String] Encoding of object data
+        # @option options Content-Length [String] Size of object in bytes (defaults to object.read.length)
+        # @option options Content-MD5 [String] Base64 encoded 128-bit MD5 digest of message
+        # @option options Content-Type [String] Standard MIME type describing contents (defaults to MIME::Types.of.first)
+        # @option options Expires [String] Cache expiry
+        # @option options x-amz-acl [String] Permissions, must be in ['private', 'public-read', 'public-read-write', 'authenticated-read']
+        # @option options x-amz-storage-class [String] Default is 'STANDARD', set to 'REDUCED_REDUNDANCY' for non-critical, reproducable data
+        # @option options x-amz-meta-#{name} Headers to be returned with object, note total size of request without body must be less than 8 KB.
         #
-        # ==== Returns
-        # * response<~Excon::Response>:
-        #   * headers<~Hash>:
-        #     * 'ETag'<~String> - etag of new object
+        # @return [Excon::Response] response:
+        #   * headers [Hash]:
+        #     * ETag [String] etag of new object
         #
-        # ==== See Also
-        # http://docs.amazonwebservices.com/AmazonS3/latest/API/RESTObjectPUT.html
-        #
+        # @see http://docs.amazonwebservices.com/AmazonS3/latest/API/RESTObjectPUT.html
+        
         def put_object(bucket_name, object_name, data, options = {})
           data = Fog::Storage.parse_data(data)
           headers = data[:headers].merge!(options)
@@ -66,11 +63,12 @@ module Fog
             object = {
               :body             => data[:body],
               'Content-Type'    => options['Content-Type'] || data[:headers]['Content-Type'],
-              'ETag'            => Fog::AWS::Mock.etag,
+              'ETag'            => Digest::MD5.hexdigest(data[:body]),
               'Key'             => object_name,
               'Last-Modified'   => Fog::Time.now.to_date_header,
               'Content-Length'  => options['Content-Length'] || data[:headers]['Content-Length'],
-              'StorageClass'    => options['x-amz-storage-class'] || 'STANDARD'
+              'StorageClass'    => options['x-amz-storage-class'] || 'STANDARD',
+              'VersionId'       => bucket[:versioning] == 'Enabled' ? Fog::Mock.random_base64(32) : 'null'
             }
 
             for key, value in options
@@ -80,13 +78,28 @@ module Fog
               end
             end
 
-            bucket[:objects][object_name] = object
+            if bucket[:versioning]
+              bucket[:objects][object_name] ||= []
+
+              # When versioning is suspended, putting an object will create a new 'null' version if the latest version
+              # is a value other than 'null', otherwise it will replace the latest version.
+              if bucket[:versioning] == 'Suspended' && bucket[:objects][object_name].first['VersionId'] == 'null'
+                bucket[:objects][object_name].shift
+              end
+
+              bucket[:objects][object_name].unshift(object)
+            else
+              bucket[:objects][object_name] = [object]
+            end
+
             response.headers = {
-              'Content-Length'  => object['Content-Length'],
-              'Content-Type'    => object['Content-Type'],
-              'ETag'            => object['ETag'],
-              'Last-Modified'   => object['Last-Modified']
+              'Content-Length'   => object['Content-Length'],
+              'Content-Type'     => object['Content-Type'],
+              'ETag'             => object['ETag'],
+              'Last-Modified'    => object['Last-Modified'],
             }
+
+            response.headers['x-amz-version-id'] = object['VersionId'] if object['VersionId'] != 'null'
           else
             response.status = 404
             raise(Excon::Errors.status_error({:expects => 200}, response))

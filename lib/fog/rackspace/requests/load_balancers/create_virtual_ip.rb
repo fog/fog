@@ -8,7 +8,7 @@ module Fog
             'ipVersion' => 'IPV6'
           }
           request(
-            :body     => MultiJson.encode(data),
+            :body     => Fog::JSON.encode(data),
             :expects  => [200, 202],
             :method   => 'POST',
             :path     => "loadbalancers/#{load_balancer_id}/virtualips.json"

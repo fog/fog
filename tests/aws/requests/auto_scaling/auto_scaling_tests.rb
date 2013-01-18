@@ -3,18 +3,6 @@ Shindo.tests('AWS::AutoScaling | auto_scaling_tests', ['aws', 'auto_scaling']) d
   @lc_name = 'fog-test-lc'
 
   tests('success') do
-    pending if Fog.mocking?
-
-    tests("#describe_adjustment_types").formats(AWS::AutoScaling::Formats::DESCRIBE_ADJUSTMENT_TYPES) do
-      Fog::AWS[:auto_scaling].describe_adjustment_types.body
-    end
-    tests("#describe_metric_collection_types").formats(AWS::AutoScaling::Formats::DESCRIBE_METRIC_COLLECTION_TYPES) do
-      Fog::AWS[:auto_scaling].describe_metric_collection_types.body
-    end
-    tests("#describe_scaling_process_types").formats(AWS::AutoScaling::Formats::DESCRIBE_SCALING_PROCESS_TYPES) do
-      Fog::AWS[:auto_scaling].describe_scaling_process_types.body
-    end
-
     tests("#create_launch_configuration").formats(AWS::AutoScaling::Formats::BASIC) do
       image_id = 'ami-8c1fece5'
       instance_type = 't1.micro'
@@ -54,15 +42,19 @@ Shindo.tests('AWS::AutoScaling | auto_scaling_tests', ['aws', 'auto_scaling']) d
     end
 
     tests("#describe_scaling_activities").formats(AWS::AutoScaling::Formats::DESCRIBE_SCALING_ACTIVITIES) do
+      pending if Fog.mocking?
       Fog::AWS[:auto_scaling].describe_scaling_activities().body
     end
     tests("#describe_scaling_activities").formats(AWS::AutoScaling::Formats::DESCRIBE_SCALING_ACTIVITIES) do
+      pending if Fog.mocking?
       Fog::AWS[:auto_scaling].describe_scaling_activities('ActivityIds' => '1').body
     end
     tests("#describe_scaling_activities").formats(AWS::AutoScaling::Formats::DESCRIBE_SCALING_ACTIVITIES) do
+      pending if Fog.mocking?
       Fog::AWS[:auto_scaling].describe_scaling_activities('ActivityIds' => ['1', '2']).body
     end
     tests("#describe_scaling_activities").formats(AWS::AutoScaling::Formats::DESCRIBE_SCALING_ACTIVITIES) do
+      pending if Fog.mocking?
       Fog::AWS[:auto_scaling].describe_scaling_activities('AutoScalingGroupName' => @asg_name).body
     end
 
@@ -71,8 +63,13 @@ Shindo.tests('AWS::AutoScaling | auto_scaling_tests', ['aws', 'auto_scaling']) d
       Fog::AWS[:auto_scaling].set_desired_capacity(@asg_name, desired_capacity).body
     end
     tests("#delete_auto_scaling_group").formats(AWS::AutoScaling::Formats::BASIC) do
-      Fog::AWS[:auto_scaling].delete_auto_scaling_group(@asg_name).body
+      Fog::AWS[:auto_scaling].delete_auto_scaling_group(@asg_name, 'ForceDelete' => true).body
     end
+
+    tests("#delete_auto_scaling_group that does not exists").raises(Fog::AWS::AutoScaling::ValidationError) do
+      Fog::AWS[:auto_scaling].delete_auto_scaling_group("group that does not exist")
+    end
+
     tests("#delete_launch_configuration").formats(AWS::AutoScaling::Formats::BASIC) do
       Fog::AWS[:auto_scaling].delete_launch_configuration(@lc_name).body
     end

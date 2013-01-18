@@ -10,7 +10,7 @@ module Fog
         attribute :filters
 
         model Fog::Compute::AWS::Image
-        
+
         # Creates a new Amazon machine image
         #
         # AWS.images.new
@@ -38,7 +38,7 @@ module Fog
         #    tags=nil
         #  >
         #
-        
+
         def initialize(attributes)
           self.filters ||= {}
           super
@@ -46,13 +46,13 @@ module Fog
 
         def all(filters = filters)
           self.filters = filters
-          data = connection.describe_images(filters).body
+          data = service.describe_images(filters).body
           load(data['imagesSet'])
         end
-        
+
         def get(image_id)
           if image_id
-            self.class.new(:connection => connection).all('image-id' => image_id).first
+            self.class.new(:service => service).all('image-id' => image_id).first
           end
         end
       end

@@ -6,7 +6,7 @@ module Fog
         def list_configs(options = {})
           request(
             :path     => "/storm/config/list",
-            :body     => MultiJson.encode(options)
+            :body     => Fog::JSON.encode(options)
           )
         end
 

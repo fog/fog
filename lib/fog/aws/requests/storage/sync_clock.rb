@@ -8,7 +8,7 @@ module Fog
         def sync_clock
           response = begin
             get_service
-          rescue => error
+          rescue Excon::Errors::HTTPStatusError => error
             error.response
           end
           Fog::Time.now = Time.parse(response.headers['Date'])

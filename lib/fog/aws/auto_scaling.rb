@@ -1,35 +1,44 @@
-require File.expand_path(File.join(File.dirname(__FILE__), '..', 'aws'))
+require 'fog/aws'
 
 module Fog
   module AWS
     class AutoScaling < Fog::Service
+      extend Fog::AWS::CredentialFetcher::ServiceMethods
 
       class IdentifierTaken < Fog::Errors::Error; end
       class ResourceInUse < Fog::Errors::Error; end
       class ValidationError < Fog::Errors::Error; end
 
       requires :aws_access_key_id, :aws_secret_access_key
-      recognizes :host, :path, :port, :scheme, :persistent, :region
+      recognizes :host, :path, :port, :scheme, :persistent, :region, :use_iam_profile, :aws_session_token, :aws_credentials_expire_at, :instrumentor, :instrumentor_name
 
       request_path 'fog/aws/requests/auto_scaling'
       request :create_auto_scaling_group
       request :create_launch_configuration
+      request :create_or_update_tags
       request :delete_auto_scaling_group
       request :delete_launch_configuration
+      request :delete_notification_configuration
       request :delete_policy
       request :delete_scheduled_action
+      request :delete_tags
       request :describe_adjustment_types
       request :describe_auto_scaling_groups
       request :describe_auto_scaling_instances
+      request :describe_auto_scaling_notification_types
       request :describe_launch_configurations
       request :describe_metric_collection_types
+      request :describe_notification_configurations
       request :describe_policies
       request :describe_scaling_activities
       request :describe_scaling_process_types
       request :describe_scheduled_actions
+      request :describe_tags
+      request :describe_termination_policy_types
       request :disable_metrics_collection
       request :enable_metrics_collection
       request :execute_policy
+      request :put_notification_configuration
       request :put_scaling_policy
       request :put_scheduled_update_group_action
       request :resume_processes
@@ -48,8 +57,13 @@ module Fog
       collection :groups
       model      :instance
       collection :instances
+      model      :policy
+      collection :policies
 
       class Real
+        include Fog::AWS::CredentialFetcher::ConnectionMethods
+
+        attr_accessor :region
 
         # Initialize connection to AutoScaling
         #
@@ -68,29 +82,22 @@ module Fog
         #
         # ==== Returns
         # * AutoScaling object with connection to AWS.
+
         def initialize(options={})
           require 'fog/core/parser'
 
-          @aws_access_key_id      = options[:aws_access_key_id]
-          @aws_secret_access_key  = options[:aws_secret_access_key]
-          @hmac       = Fog::HMAC.new('sha256', @aws_secret_access_key)
+          @use_iam_profile = options[:use_iam_profile]
+          setup_credentials(options)
 
           @connection_options = options[:connection_options] || {}
+
+          @instrumentor           = options[:instrumentor]
+          @instrumentor_name      = options[:instrumentor_name] || 'fog.aws.auto_scaling'
+
           options[:region] ||= 'us-east-1'
-          @host = options[:host] || case options[:region]
-          when 'ap-northeast-1'
-            'autoscaling.ap-northeast-1.amazonaws.com'
-          when 'ap-southeast-1'
-            'autoscaling.ap-southeast-1.amazonaws.com'
-          when 'eu-west-1'
-            'autoscaling.eu-west-1.amazonaws.com'
-          when 'us-east-1'
-            'autoscaling.us-east-1.amazonaws.com'
-          when 'us-west-1'
-            'autoscaling.us-west-1.amazonaws.com'
-          else
-            raise ArgumentError, "Unknown region: #{options[:region].inspect}"
-          end
+          @region = options[:region]
+
+          @host = options[:host] || "autoscaling.#{options[:region]}.amazonaws.com"
           @path       = options[:path]        || '/'
           @port       = options[:port]        || 443
           @persistent = options[:persistent]  || false
@@ -105,6 +112,8 @@ module Fog
         private
 
         def request(params)
+          refresh_credentials_if_expired
+
           idempotent  = params.delete(:idempotent)
           parser      = params.delete(:parser)
 
@@ -112,14 +121,25 @@ module Fog
             params,
             {
               :aws_access_key_id  => @aws_access_key_id,
+              :aws_session_token  => @aws_session_token,
               :hmac               => @hmac,
               :host               => @host,
               :path               => @path,
               :port               => @port,
-              :version            => '2010-08-01'
+              :version            => '2011-01-01'
             }
           )
 
+          if @instrumentor
+            @instrumentor.instrument("#{@instrumentor_name}.request", params) do
+              _request(body, idempotent, parser)
+            end
+          else
+            _request(body, idempotent, parser)
+          end
+        end
+
+        def _request(body, idempotent, parser)
           begin
             response = @connection.request({
               :body       => body,
@@ -151,9 +171,21 @@ module Fog
           response
         end
 
+        def setup_credentials(options)
+          @aws_access_key_id         = options[:aws_access_key_id]
+          @aws_secret_access_key     = options[:aws_secret_access_key]
+          @aws_session_token         = options[:aws_session_token]
+          @aws_credentials_expire_at = options[:aws_credentials_expire_at]
+
+          @hmac       = Fog::HMAC.new('sha256', @aws_secret_access_key)
+        end
       end
 
+
       class Mock
+        include Fog::AWS::CredentialFetcher::ConnectionMethods
+
+        attr_accessor :region
 
         def self.data
           @data ||= Hash.new do |hash, region|
@@ -166,10 +198,16 @@ module Fog
                   'PercentChangeInCapacity'
                 ],
                 :auto_scaling_groups => {},
-                :health_states => ['Healthy', 'Unhealthy'],
+                :scaling_policies => {},
+                :health_states => [
+                  'Healthy',
+                  'Unhealthy'
+                ],
                 :launch_configurations => {},
                 :metric_collection_types => {
-                  :granularities => [ '1Minute' ],
+                  :granularities => [
+                    '1Minute'
+                  ],
                   :metrics => [
                     'GroupMinSize',
                     'GroupMaxSize',
@@ -178,16 +216,33 @@ module Fog
                     'GroupPendingInstances',
                     'GroupTerminatingInstances',
                     'GroupTotalInstances'
-                  ],
+                  ]
                 },
+                :notification_configurations => {},
+                :notification_types => [
+                  'autoscaling:EC2_INSTANCE_LAUNCH',
+                  'autoscaling:EC2_INSTANCE_LAUNCH_ERROR',
+                  'autoscaling:EC2_INSTANCE_TERMINATE',
+                  'autoscaling:EC2_INSTANCE_TERMINATE_ERROR',
+                  'autoscaling:TEST_NOTIFICATION'
+                ],
+                :owner_id => owner_id,
                 :process_types => [
                   'AZRebalance',
+                  'AddToLoadBalancer',
                   'AlarmNotification',
                   'HealthCheck',
                   'Launch',
                   'ReplaceUnhealthy',
                   'ScheduledActions',
                   'Terminate'
+                ],
+                :termination_policy_types => [
+                  'ClosestToNextInstanceHour',
+                  'Default',
+                  'NewestInstance',
+                  'OldestInstance',
+                  'OldestLaunchConfiguration'
                 ]
               }
             end
@@ -199,23 +254,29 @@ module Fog
         end
 
         def initialize(options={})
-
-          @aws_access_key_id = options[:aws_access_key_id]
-
+          @use_iam_profile = options[:use_iam_profile]
+          setup_credentials(options)
           @region = options[:region] || 'us-east-1'
 
-          unless ['ap-northeast-1', 'ap-southeast-1', 'eu-west-1', 'us-east-1', 'us-west-1'].include?(@region)
+          unless ['ap-northeast-1', 'ap-southeast-1', 'ap-southeast-2', 'eu-west-1', 'sa-east-1', 'us-east-1', 'us-west-1', 'us-west-2'].include?(@region)
             raise ArgumentError, "Unknown region: #{@region.inspect}"
           end
+        end
 
+        def region_data
+          self.class.data[@region]
         end
 
         def data
-          self.class.data[@region][@aws_access_key_id]
+          self.region_data[@aws_access_key_id]
         end
 
         def reset_data
-          self.class.data[@region].delete(@aws_access_key_id)
+          self.region_data.delete(@aws_access_key_id)
+        end
+
+        def setup_credentials(options)
+          @aws_access_key_id = options[:aws_access_key_id]
         end
 
       end

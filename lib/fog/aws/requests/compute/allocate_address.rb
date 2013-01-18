@@ -7,6 +7,8 @@ module Fog
 
         # Acquire an elastic IP address.
         #
+        # ==== Parameters
+        # * domain<~String> - Type of EIP, either standard or vpc
         # ==== Returns
         # * response<~Excon::Response>:
         #   * body<~Hash>:
@@ -14,9 +16,11 @@ module Fog
         #     * 'requestId'<~String> - Id of the request
         #
         # {Amazon API Reference}[http://docs.amazonwebservices.com/AWSEC2/latest/APIReference/ApiReference-query-AllocateAddress.html]
-        def allocate_address
+        def allocate_address(domain='standard')
+          domain = domain == 'vpc' ? 'vpc' : 'standard'
           request(
             'Action'  => 'AllocateAddress',
+            'Domain'  => domain,
             :parser   => Fog::Parsers::Compute::AWS::AllocateAddress.new
           )
         end
@@ -25,20 +29,22 @@ module Fog
 
       class Mock
 
-        def allocate_address
+        def allocate_address(domain = 'standard')
+          domain = domain == 'vpc' ? 'vpc' : 'standard'
           response = Excon::Response.new
           if describe_addresses.body['addressesSet'].size < self.data[:limits][:addresses]
             response.status = 200
             public_ip = Fog::AWS::Mock.ip_address
-            data ={
+            data = {
               'instanceId' => nil,
-              'publicIp'   => public_ip
+              'publicIp'   => public_ip,
+              'domain'     => domain
             }
+            if domain == 'vpc'
+              data['allocationId'] = "eipalloc-#{Fog::Mock.random_hex(8)}"
+            end
             self.data[:addresses][public_ip] = data
-            response.body = {
-              'publicIp'  => public_ip,
-              'requestId' => Fog::AWS::Mock.request_id
-            }
+            response.body = data.reject {|k, v| k == 'instanceId' }.merge('requestId' => Fog::AWS::Mock.request_id)
             response
           else
             response.status = 400

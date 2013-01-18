@@ -1,4 +1,4 @@
-require File.expand_path(File.join(File.dirname(__FILE__), '..', 'rackspace'))
+require 'fog/rackspace'
 require 'fog/cdn'
 
 module Fog
@@ -45,7 +45,6 @@ module Fog
       class Real
 
         def initialize(options={})
-          require 'multi_json'
           @connection_options = options[:connection_options] || {}
           credentials = Fog::Rackspace.authenticate(options, @connection_options)
           @auth_token = credentials['X-Auth-Token']
@@ -90,7 +89,7 @@ module Fog
             end
           end
           if !response.body.empty? && parse_json && response.headers['Content-Type'] =~ %r{application/json}
-            response.body = MultiJson.decode(response.body)
+            response.body = Fog::JSON.decode(response.body)
           end
           response
         end

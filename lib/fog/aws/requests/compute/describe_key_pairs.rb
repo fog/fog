@@ -21,7 +21,7 @@ module Fog
         # {Amazon API Reference}[http://docs.amazonwebservices.com/AWSEC2/latest/APIReference/ApiReference-query-DescribeKeyPairs.html]
         def describe_key_pairs(filters = {})
           unless filters.is_a?(Hash)
-            Fog::Logger.warning("describe_key_pairs with #{filters.class} param is deprecated, use describe_key_pairs('key-name' => []) instead [light_black](#{caller.first})[/]")
+            Fog::Logger.deprecation("describe_key_pairs with #{filters.class} param is deprecated, use describe_key_pairs('key-name' => []) instead [light_black](#{caller.first})[/]")
             filters = {'key-name' => [*filters]}
           end
           params = Fog::AWS.indexed_filters(filters)
@@ -38,7 +38,7 @@ module Fog
 
         def describe_key_pairs(filters = {})
           unless filters.is_a?(Hash)
-            Fog::Logger.warning("describe_key_pairs with #{filters.class} param is deprecated, use describe_key_pairs('key-name' => []) instead [light_black](#{caller.first})[/]")
+            Fog::Logger.deprecation("describe_key_pairs with #{filters.class} param is deprecated, use describe_key_pairs('key-name' => []) instead [light_black](#{caller.first})[/]")
             filters = {'key-name' => [*filters]}
           end
 

@@ -1,11 +1,12 @@
-require File.expand_path(File.join(File.dirname(__FILE__), '..', 'aws'))
+require 'fog/aws'
 
 module Fog
   module AWS
     class SQS < Fog::Service
-
+      extend Fog::AWS::CredentialFetcher::ServiceMethods
+      
       requires :aws_access_key_id, :aws_secret_access_key
-      recognizes :region, :host, :path, :port, :scheme, :persistent
+      recognizes :region, :host, :path, :port, :scheme, :persistent, :aws_session_token, :use_iam_profile, :aws_credentials_expire_at
 
       request_path 'fog/aws/requests/sqs'
       request :change_message_visibility
@@ -21,7 +22,6 @@ module Fog
       class Mock
         def self.data
           @data ||= Hash.new do |hash, region|
-            owner_id = Fog::AWS::Mock.owner_id
             hash[region] = Hash.new do |region_hash, key|
               region_hash[key] = {
                 :owner_id => Fog::AWS::Mock.owner_id,
@@ -36,11 +36,11 @@ module Fog
         end
 
         def initialize(options={})
-          @aws_access_key_id = options[:aws_access_key_id]
-
+          @use_iam_profile = options[:use_iam_profile]
+          setup_credentials(options)
           @region = options[:region] || 'us-east-1'
 
-          unless ['ap-northeast-1', 'ap-southeast-1', 'eu-west-1', 'us-east-1', 'us-west-1'].include?(@region)
+          unless ['ap-northeast-1', 'ap-southeast-1', 'ap-southeast-2', 'eu-west-1', 'us-east-1', 'us-west-1', 'us-west-2', 'sa-east-1'].include?(@region)
             raise ArgumentError, "Unknown region: #{@region.inspect}"
           end
         end
@@ -53,10 +53,13 @@ module Fog
           self.class.data[@region].delete(@aws_access_key_id)
         end
 
+        def setup_credentials(options)
+          @aws_access_key_id = options[:aws_access_key_id]
+        end
       end
 
       class Real
-
+        include Fog::AWS::CredentialFetcher::ConnectionMethods
         # Initialize connection to SQS
         #
         # ==== Notes
@@ -71,28 +74,17 @@ module Fog
         #
         # ==== Parameters
         # * options<~Hash> - config arguments for connection.  Defaults to {}.
-        #   * region<~String> - optional region to use, in ['eu-west-1', 'us-east-1', 'us-west-1', 'ap-southeast-1']
+        #   * region<~String> - optional region to use. For instance, 'eu-west-1', 'us-east-1' and etc.
         #
         # ==== Returns
         # * SQS object with connection to AWS.
         def initialize(options={})
-          @aws_access_key_id      = options[:aws_access_key_id]
-          @aws_secret_access_key  = options[:aws_secret_access_key]
+          @use_iam_profile = options[:use_iam_profile]
+          setup_credentials(options)
           @connection_options     = options[:connection_options] || {}
-          @hmac = Fog::HMAC.new('sha256', @aws_secret_access_key)
           options[:region] ||= 'us-east-1'
-          @host = options[:host] || case options[:region]
-          when 'ap-southeast-1'
-            'ap-southeast-1.queue.amazonaws.com'
-          when 'eu-west-1'
-            'eu-west-1.queue.amazonaws.com'
-          when 'us-east-1'
-            'queue.amazonaws.com'
-          when 'us-west-1'
-            'us-west-1.queue.amazonaws.com'
-          else
-            raise ArgumentError, "Unknown region: #{options[:region].inspect}"
-          end
+          @host = options[:host] || "sqs.#{options[:region]}.amazonaws.com"
+
           @path       = options[:path]        || '/'
           @persistent = options[:persistent]  || false
           @port       = options[:port]        || 443
@@ -106,8 +98,16 @@ module Fog
 
         private
 
+        def setup_credentials(options)
+          @aws_access_key_id      = options[:aws_access_key_id]
+          @aws_secret_access_key  = options[:aws_secret_access_key]
+          @aws_session_token      = options[:aws_session_token]
+          @aws_credentials_expire_at = options[:aws_credentials_expire_at]
+          @hmac = Fog::HMAC.new('sha256', @aws_secret_access_key)
+        end
+
         def path_from_queue_url(queue_url)
-          queue_url.split('.com', 2).last
+          queue_url.split('.com', 2).last.sub(/^:[0-9]+/, '')
         end
 
         def request(params)
@@ -119,6 +119,7 @@ module Fog
             params,
             {
               :aws_access_key_id  => @aws_access_key_id,
+              :aws_session_token  => @aws_session_token,
               :hmac               => @hmac,
               :host               => @host,
               :path               => path || @path,

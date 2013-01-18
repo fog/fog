@@ -69,7 +69,7 @@ module Fog
               @response['MaxKeys'] = value.to_i
             when 'Size'
               @version['Size'] = value.to_i
-            when 'Key', 'KeyMarker', 'Name', 'Prefix', 'StorageClass', 'VersionId', 'VersionIdMarker'
+            when 'Key', 'KeyMarker', 'Name', 'NextKeyMarker', 'NextVersionIdMarker', 'Prefix', 'StorageClass', 'VersionId', 'VersionIdMarker'
               if @in_delete_marker
                 @delete_marker
               elsif @in_version

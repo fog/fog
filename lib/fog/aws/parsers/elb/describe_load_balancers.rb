@@ -14,7 +14,7 @@ module Fog
           end
 
           def reset_load_balancer
-            @load_balancer = { 'ListenerDescriptions' => [], 'Instances' => [], 'AvailabilityZones' => [], 'Policies' => {'AppCookieStickinessPolicies' => [], 'LBCookieStickinessPolicies' => [] }, 'HealthCheck' => {}, 'SourceSecurityGroup' => {} }
+            @load_balancer = { 'Subnets' => [], 'SecurityGroups' => [], 'ListenerDescriptions' => [], 'Instances' => [], 'AvailabilityZones' => [], 'Policies' => {'AppCookieStickinessPolicies' => [], 'LBCookieStickinessPolicies' => [] }, 'HealthCheck' => {}, 'SourceSecurityGroup' => {} }
           end
 
           def reset_listener_description
@@ -34,6 +34,10 @@ module Fog
               @in_instances = true
             when 'AvailabilityZones'
               @in_availability_zones = true
+            when 'SecurityGroups'
+              @in_security_groups = true
+            when 'Subnets'
+              @in_subnets = true
             when 'PolicyNames'
               @in_policy_names = true
             when 'Policies'
@@ -52,6 +56,10 @@ module Fog
                 @listener_description['PolicyNames'] << value
               elsif @in_availability_zones
                 @load_balancer['AvailabilityZones'] << value
+              elsif @in_security_groups
+                @load_balancer['SecurityGroups'] << value
+              elsif @in_subnets
+                @load_balancer['Subnets'] << value
               elsif @in_listeners
                 @load_balancer['ListenerDescriptions'] << @listener_description
                 reset_listener_description
@@ -66,7 +74,7 @@ module Fog
                 reset_load_balancer
               end
 
-            when 'CanonicalHostedZoneName', 'CanonicalHostedZoneNameID', 'LoadBalancerName', 'DNSName'
+            when 'CanonicalHostedZoneName', 'CanonicalHostedZoneNameID', 'LoadBalancerName', 'DNSName', 'Scheme'
               @load_balancer[name] = value
             when 'CreatedTime'
               @load_balancer[name] = Time.parse(value)
@@ -75,7 +83,7 @@ module Fog
               @in_listeners = false
             when 'PolicyNames'
               @in_policy_names = false
-            when 'Protocol', 'SSLCertificateId'
+            when 'Protocol', 'SSLCertificateId', 'InstanceProtocol'
               @listener_description['Listener'][name] = value
             when 'LoadBalancerPort', 'InstancePort'
               @listener_description['Listener'][name] = value.to_i
@@ -84,9 +92,15 @@ module Fog
               @in_instances = false
             when 'InstanceId'
               @load_balancer['Instances'] << value
+            when 'VPCId'
+              @load_balancer[name] = value
 
             when 'AvailabilityZones'
               @in_availability_zones = false
+            when 'SecurityGroups'
+              @in_security_groups = false
+            when 'Subnets'
+              @in_subnets = false
 
             when 'Policies'
               @in_policies = false
@@ -111,6 +125,8 @@ module Fog
             when 'RequestId'
               @response['ResponseMetadata'][name] = value
 
+            when 'NextMarker'
+              @results['NextMarker'] = value
             when 'DescribeLoadBalancersResponse'
               @response['DescribeLoadBalancersResult'] = @results
             end

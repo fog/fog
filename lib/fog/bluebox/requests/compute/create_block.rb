@@ -6,24 +6,36 @@ module Fog
         # Create a new block
         #
         # ==== Parameters
-        # * product_id<~Integer> - Id of product to create block with
-        # * template_id<~Integer> - Id of template to create block with
+        # * product_id<~String>   - ID of block product (size)
+        # * template_id<~String>  - ID of block OS/build template
+        # * location_id<~String>  - ID of deployment location
         # * options<~Hash>:
-        #     * password<~String> - Password for block
+        #     * password<~String>   - Password for block
         #   or
-        #     * ssh_key<~String> - ssh public key
-        #   * username<~String> - optional, defaults to deploy
+        #     * ssh_public_key<~String> - SSH public key
+        #     * username<~String>   - Defaults to deploy
         #
         # ==== Returns
         # * response<~Excon::Response>:
         #   * body<~Hash>:
-        # TODO
-        def create_block(product_id, template_id, options = {})
+        def create_block(product_id, template_id, location_id, options = {})
+
+          unless options.has_key?('password') || options.has_key?('ssh_public_key')
+            raise ArgumentError, 'Either password or public_key must be supplied'
+          end
+
+          query = {
+            'product'  => product_id,
+            'template' => template_id,
+            'location' => location_id
+          }
+
           request(
             :expects  => 200,
             :method   => 'POST',
             :path     => '/api/blocks.json',
-            :query    => {'product' => product_id, 'template' => template_id}.merge!(options)
+            :query    => query,
+            :body     => options.map {|k,v| "#{CGI.escape(k)}=#{CGI.escape(v)}"}.join('&')
           )
         end
 

@@ -24,12 +24,30 @@ module Fog
           request(
             'Action'          => 'PutUserPolicy',
             'PolicyName'      => policy_name,
-            'PolicyDocument'  => MultiJson.encode(policy_document),
+            'PolicyDocument'  => Fog::JSON.encode(policy_document),
             'UserName'        => user_name,
             :parser           => Fog::Parsers::AWS::IAM::Basic.new
           )
         end
 
+      end
+
+      class Mock
+
+        #FIXME: You can't actually use the credentials for anything elsewhere in Fog
+        #FIXME: Doesn't do any validation on the policy
+        def put_user_policy(user_name, policy_name, policy_document)
+          if data[:users].has_key? user_name
+            data[:users][user_name][:policies][policy_name] = policy_document
+
+            Excon::Response.new.tap do |response|
+              response.body = { 'RequestId' => Fog::AWS::Mock.request_id }
+              response.status = 200
+            end
+          else
+            raise Fog::AWS::IAM::NotFound.new("The user with name #{user_name} cannot be found.")
+          end
+        end
       end
     end
   end

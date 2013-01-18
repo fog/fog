@@ -29,7 +29,7 @@ module Fog
 
         def destroy
           requires :identity
-          connection.delete_host(identity)
+          service.delete_host(identity)
           true
         end
 
@@ -44,19 +44,21 @@ module Fog
           options[:notes]     = description if description
           options[:priority]  = priority if priority
           options[:ttl]       = ttl if ttl
-          data = unless identity
-            connection.create_host(@zone.id, type, value, options)
-          else
+
+          if persisted?
             options[:host_type] = type
-            options[:data]      = data
-            connection.update_host(identity, options)
+            options[:data]      = value
+            service.update_host(identity, options)
+          else
+            data = service.create_host(@zone.id, type, value, options)
+            merge_attributes(data.body)
           end
-          merge_attributes(data.body)
+
           true
         end
 
         private
-        
+
         def zone=(new_zone)
           @zone = new_zone
         end

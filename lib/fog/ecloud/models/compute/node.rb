@@ -2,41 +2,43 @@ module Fog
   module Compute
     class Ecloud
       class Node < Fog::Ecloud::Model
+        identity :href
 
-        identity :href, :aliases => :Href
-
-        ignore_attributes :xmlns, :xmlns_i
-
-        attribute :ip_address, :aliases => :IpAddress
-        attribute :description, :aliases => :Description
         attribute :name, :aliases => :Name
-        attribute :port, :aliases => :Port
-        attribute :enabled, :aliases => :Enabled
-        attribute :id, :aliases => :Id
+        attribute :type, :aliases => :Type
+        attribute :other_links, :aliases => :Links
+        attribute :ip_address, :aliases => :IpAddress
+        attribute :protocol, :aliases => :Protocol
+        attribute :port, :aliases => :Port, :type => :integer
+        attribute :enabled, :aliases => :Enabled, :type => :boolean
+        attribute :description, :aliases => :Description
+
+        def ready?
+          !self.name.nil?
+        end
+
+        def tasks
+          @tasks ||= Fog::Compute::Ecloud::Tasks.new(:service => service, :href => "/cloudapi/ecloud/tasks/virtualMachines/#{id}")
+        end
 
         def delete
-          requires :href
-
-          connection.delete_node( href )
+          data = service.node_service_delete(href).body
+          self.service.tasks.new(data)
         end
 
-        def save
-          if new_record?
-            result = connection.add_node( collection.href, _compose_node_data )
-            merge_attributes(result.body)
-          else
-            connection.configure_node( href, _compose_node_data )
-          end
+        def edit(options)
+          options[:uri] = href
+          options[:description] ||= ""
+          options = {:name => name}.merge(options)
+          data = service.node_service_edit(options).body
+          task = Fog::Compute::Ecloud::Tasks.new(:service => service, :href => data[:href])[0]
         end
 
-        private
-
-        def _compose_node_data
-          node_data = {}
-          self.class.attributes.select{ |attribute| !send(attribute).nil? }.each { |attribute| node_data[attribute] = send(attribute).to_s }
-          node_data
+        def id
+          href.scan(/\d+/)[0]
         end
 
+        alias destroy delete
       end
     end
   end

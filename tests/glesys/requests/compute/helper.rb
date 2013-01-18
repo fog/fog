@@ -4,179 +4,229 @@ class Glesys
       module Servers
 
         LIST = {
-          'arguments' => [],
+          'debug' => {
+            'input' => []
+          },
           'servers' => [{
             'serverid' => String,
-            'hostname' => String
+            'hostname' => String,
+            'datacenter' => String,
+            'platform' => String
           }],
           'status' => {
-            'code' => String,
-            'text' => String
-          }
-        }
-
-        CREATE = {
-          'arguments' => {
-            "rootpw"        => String, 
-            "disksize"      => String, 
-            "memorysize"    => String, 
-            "datacenter"    => String, 
-            "cpucores"      => String,
-            "transfer"      => String,
-            "template"      => String,
-            "description"   => String,
-            "hostname"      => String,
-            "platform"      => String
-          },
-          'server' => {
-            'serverid' => String,
-            'hostname' => String,
-            'iplist' => [{
-              'cost' => String,
-              'version' => String,
-              'ip' => String
-            }]
-          },
-          'status' => {
-            'code' => String,
-            'text' => String
-          }
-        }
-
-        DESTROY = {
-          'arguments' => {
-            'serverid' => String,
-            'keepip'   => String,
-          },
-          'status' => {
-            'code' => String,
-            'text' => String
+            'timestamp' => String,
+            'code'      => Integer,
+            'text'      => String
           }
         }
 
         DETAILS = {
-          'arguments' =>  {
-            'serverid'  =>  String
-          }, 
+          'debug' => {
+            'input' =>  {
+              'serverid'  =>  Fog::Nullable::String
+            }
+          },
           'server' => {
             'managedhosting'  => String,
             'cost'            => {
               'amount'      =>  Float,
-              'timeperiod'  => String, 
+              'timeperiod'  => String,
               'currency'    => String
-            }, 
-            'datacenter'  => String, 
-            'memory'      => String,
-            'cpucores'    => String, 
-            'transfer'    => String, 
-            'template'    => String, 
-            'iplist'      =>  [{
-              'cost'    => String, 
-              'version' => String, 
-              'ip'      => String
+            },
+            'serverid'      => String,
+            'datacenter'    => String,
+            'memorysize'    => Integer,
+            'cpucores'      => Integer,
+            'transfer'      => Integer,
+            'templatename'  => String,
+            'iplist'        =>  [{
+              'cost'      => Integer,
+              'version'   => Fog::Nullable::Integer,
+              'ipaddress' => Fog::Nullable::String,
+              'currency'  => String
             }], 
             'description' => String,
-            'hostname'    => String, 
-            'disk'        => String, 
-            'platform'    => String
-          }, 
+            'hostname'    => String,
+            'disksize'    => Integer,
+            'platform'    => String,
+            'state'       => Fog::Nullable::String
+          },
           'status' => {
-            'code' => String, 
-            'text' => String
+            'timestamp' => String,
+            'code'      => Integer,
+            'text'      => String
           }
         }
+
+        STOP = DETAILS.merge(
+          'debug' => {
+            'input' =>  {
+              'serverid'  => Fog::Nullable::String,
+              'type'      => String
+            }
+          }
+        )
+
+        CREATE = DETAILS.merge(
+          'debug' => {
+            'input' =>  {
+              'serverid'      => Fog::Nullable::String,
+              'hostname'      => String,
+              'rootpassword'  => String,
+              'datacenter'    => String,
+              'platform'      => String,
+              'templatename'  => String,
+              'disksize'      => String,
+              'memorysize'    => String,
+              'cpucores'      => String,
+              'transfer'      => String,
+              'description'   => String
+            }
+          }
+        )
 
         STATUS = {
-          'arguments' => {
-            'serverid' => String
-          }, 
+          'debug' => {
+            'input' => {
+              'serverid' => String
+            }
+          },
           'server' => {
-            'memory'    => String, 
-            'bandwidth' => {
-              'last30days'  => Integer, 
-              'today'       => Integer,
-              'max'         => String
-            }, 
-            'cpu'     => String, 
-            'disk'    => String, 
-            'state'   => String
-          }, 
-          'status' => { 
-            'code' => String,
-            'text' => String
+            'memory'    => {
+              'usage' => Fog::Nullable::Integer,
+              'max'   => Fog::Nullable::Integer,
+              'unit'  => Fog::Nullable::String
+            },
+            'transfer'  => {
+              'usage' => Fog::Nullable::Integer,
+              'max'   => Fog::Nullable::Integer,
+              'unit'  => Fog::Nullable::String
+            },
+            'disk'      => {
+              'usage' => Fog::Nullable::Integer,
+              'max'   => Fog::Nullable::Integer,
+              'unit'  => Fog::Nullable::String
+            },
+            'state'     => String,
+            'transfer'  => {
+              'usage' => Fog::Nullable::Integer,
+              'max'   => Fog::Nullable::Integer,
+              'unit'  => Fog::Nullable::String
+            },
+            'cpu'       => {
+              'usage' => Fog::Nullable::Integer,
+              'max'   => Fog::Nullable::Integer,
+              'unit'  => Fog::Nullable::String
+            },
+            'uptime'    => {
+              'current' => Fog::Nullable::Integer,
+              'unit'    => String
+            },
+            'warnings'  => []
+          },
+          'status' => {
+            'timestamp' => String,
+            'code'      => Integer,
+            'text'      => String
           }
        }
-        
-        START = {
-          'arguments' => {
-            'serverid' => String
-          },
-          'status' => {
-            'code' => String,
-            'text' => String
-          }
-        }
 
-        STOP = {
-          'arguments' => {
-            'serverid'  => String,
-            'type'      => String
+        DESTROY = {
+          'debug' => {
+            'input' => {
+              'serverid' => String,
+              'keepip'   => String
+            }
           },
           'status' => {
-            'code' => String,
-            'text' => String
+            'timestamp' => String,
+            'code'      => Integer,
+            'text'      => String
           }
         }
 
       end
       module Ips
-    
+
         IPLIST = {
-          'arguments' => [],
+          'debug' => {
+            'input' => []
+          },
           'iplist' => [{
-            'price' => {
-              'amount' => String,
-              'timeperiod' => String,
-              'currency' => String
+            'cost' => {
+              'amount'      => Integer,
+              'timeperiod'  => String,
+              'currency'    => String
             },
-            'datacenter' => String,
-            'serverid' => Fog::Nullable::String,
-            'platform' => String,
-            'ip'       => String,
-            'version'  => String,
+            'netmask'     => Fog::Nullable::String,
+            'broadcast'   => Fog::Nullable::String,
+            'gateway'     => Fog::Nullable::String,
+            'nameservers' => [],
+            'datacenter'  => String,
+            'serverid'    => Fog::Nullable::String,
+            'platform'    => String,
+            'ipaddress'   => String,
+            'ipversion'   => Integer,
+            'ptr'         => String,
+            'reserved'    => String
           }],
           'status' => {
-            'code' => String,
-            'text' => String
-          }
-        }
-    
-        IPLIST_ALL = {
-          'arguments' => {
-            'datacenter'  => String,
-            'ipversion'   => String,
-            'platform'    => String
-          },
-          'iplist' => [],
-          'status' => {
-            'code' => String,
-            'text' => String
-          },
-          'ipinfo' => {
-            'datacenter' => String,
-            'ipversion'  => Integer,
-            'platform'   => String
+            'timestamp' => String,
+            'code'      => Integer,
+            'text'      => String
           }
         }
 
-        IPLIST_CATCH_RELEASE = {
-          'arguments' => {
-            'ipaddress' => String, 
-            'ipversion'=> String,
-          }, 
+        IPLIST_ALL = {
+          'debug' => {
+            'input' => {
+              'datacenter'  => String,
+              'ipversion'   => String,
+              'platform'    => String
+            }
+          },
+          'iplist' => {
+            'ipversion'   => Integer,
+            'datacenter'  => String,
+            'platform'    => String,
+            "ipaddresses" => []
+          },
           'status' => {
-            'code' => String, 
-            'text' => String
+            'timestamp' => String,
+            'code'      => Integer,
+            'text'      => String
+          },
+        }
+
+        IPLIST_CATCH_RELEASE = {
+          'debug' => {
+            'input' => {
+              'ipaddress' => String,
+            }
+          },
+          'details' => {
+            'cost' => {
+              'amount'      => Integer,
+              'timeperiod'  => String,
+              'currency'    => String
+            },
+            'ipaddress'   => String,
+            'netmask'     => String,
+            'broadcast'   => String,
+            'gateway'     => String,
+            'nameservers' => [],
+            'datacenter'  => String,
+            'serverid'    => Fog::Nullable::String,
+            'platform'    => String,
+            'ipaddress'   => String,
+            'ipversion'   => Integer,
+            'ptr'         => String,
+            'reserved'    => String
+          },
+          'status' => {
+            'timestamp' => String,
+            'code'      => Integer,
+            'text'      => String
           }
         }
 
@@ -184,26 +234,29 @@ class Glesys
       module Templates
 
         LIST = {
-          'arguments' => [],
-          'templates' =>  { 
+          'debug' => {
+            'input' => []
+          },
+          'templates' =>  {
             'Xen' => [{
-              'name'          => String,
-              'os'            => String, 
-              'min_mem_size'  => String, 
-              'min_disk_size' => String, 
-              'platform'      => String
+              'name'              => String,
+              'operatingsystem'   => String,
+              'minimummemorysize' => Integer,
+              'minimumdisksize'   => Integer,
+              'platform'          => String
             }],
             'OpenVZ' => [{
-              'name'          => String,
-              'os'            => String, 
-              'min_mem_size'  => String, 
-              'min_disk_size' => String, 
-              'platform'      => String
+              'name'              => String,
+              'operatingsystem'   => String,
+              'minimummemorysize' => Integer,
+              'minimumdisksize'   => Integer,
+              'platform'          => String
             }]
           },
           'status' => {
-            'code' => String,
-            'text' => String
+            'timestamp' => String,
+            'code'      => Integer,
+            'text'      => String
           }
         }
 

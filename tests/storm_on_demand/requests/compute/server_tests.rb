@@ -14,16 +14,16 @@ Shindo.tests('Fog::Compute[:stormondemand] | server requests', ['stormondemand']
       'ip'     => String,
       'ip_count'     => String,
       'subaccnt'     => String,
-      'template'     => NilClass,
+      'template'     => String,
       'template_description'     => String,
-      'manage_level'     => NilClass,
+      'manage_level'     => String,
       'zone'     => Hash,
       'active' => Integer,
       'create_date' => String
   }
   
   @servers_format = {
-    'servers' => [@server_format]
+    'items' => [@server_format]
   }
     
   tests('success') do

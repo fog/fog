@@ -22,10 +22,21 @@ module Fog
         attribute :interface_id, :aliases => "interface", :squash => "id"
         attribute :server_id, :aliases => "server", :squash => "id"
         attribute :load_balancer, :alias => "load_balancer", :squash => "id"
+        attribute :server_group, :alias => "server_group", :squash => "id"
+        attribute :port_translators
+        attribute :name
 
-        def map(interface_to_map)
+        def map(destination)
           requires :identity
-          connection.map_cloud_ip(identity, :interface => interface_to_map)
+          case destination
+          when Fog::Compute::Brightbox::Server
+            final_destination = destination.interfaces.first["id"]
+          when Fog::Compute::Brightbox::LoadBalancer
+            final_destination = destination.id
+          else
+            final_destination = destination
+          end
+          service.map_cloud_ip(identity, :destination => final_destination)
         end
 
         def mapped?
@@ -34,12 +45,12 @@ module Fog
 
         def unmap
           requires :identity
-          connection.unmap_cloud_ip(identity)
+          service.unmap_cloud_ip(identity)
         end
 
         def destroy
           requires :identity
-          connection.destroy_cloud_ip(identity)
+          service.destroy_cloud_ip(identity)
         end
 
       end

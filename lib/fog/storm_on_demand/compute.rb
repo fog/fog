@@ -1,4 +1,4 @@
-require File.expand_path(File.join(File.dirname(__FILE__), '..', 'storm_on_demand'))
+require 'fog/storm_on_demand'
 require 'fog/compute'
 
 module Fog
@@ -85,7 +85,6 @@ module Fog
       class Real
 
         def initialize(options={})
-          require 'multi_json'
           uri = URI.parse(options[:storm_on_demand_auth_url] ||= API_URL)
           @connection_options = options[:connection_options] || {}
           @host       = uri.host
@@ -123,9 +122,9 @@ module Fog
             end
           end
           unless response.body.empty?
-            response.body = MultiJson.decode(response.body)
+            response.body = Fog::JSON.decode(response.body)
           end
-          if response.body.keys.include?('full_error')
+          if response.body.has_key?('full_error')
             raise(Fog::Compute::StormOnDemand::Error, response.body.inspect)
           end
           response

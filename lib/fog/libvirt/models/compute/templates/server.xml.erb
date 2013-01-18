@@ -4,11 +4,9 @@
   <vcpu><%= cpus %></vcpu>
   <os>
     <type arch='<%= arch %>'><%= os_type %></type>
-    <boot dev='hd'/>
-  <% if !iso_file.nil? %>
-
-    <boot dev='cdrom'/>
-  <% end %>
+<% boot_order.each do |dev| -%>
+    <boot dev='<%= dev %>'/>
+<% end -%>
   </os>
   <features>
     <acpi/>
@@ -17,12 +15,15 @@
   </features>
   <clock offset='utc'/>
   <devices>
+<% volumes.each do |vol| -%>
     <disk type='file' device='disk'>
-      <driver name='qemu' type='<%= volume_format_type %>'/>
-      <source file='<%= "#{volume_path}" %>'/>
-      <target dev='vda' bus='virtio'/>
+      <driver name='qemu' type='<%= vol.format_type %>'/>
+      <source file='<%= vol.path %>'/>
+      <%# we need to ensure a unique target dev -%>
+      <target dev='vd<%= ('a'..'z').to_a[volumes.index(vol)] %>' bus='virtio'/>
     </disk>
-  <% if !iso_file.nil? %>
+<% end -%>
+<% if iso_file -%>
     <disk type='file' device='cdrom'>
       <driver name='qemu' type='raw'/>
       <source file='<%= "#{iso_dir}/#{iso_file}" %>'/>
@@ -30,18 +31,13 @@
       <readonly/>
       <address type='drive' controller='0' bus='1' unit='0'/>
     </disk>
-  <% end %>
-    <% if network_interface_type=="bridge" %>
-        <interface type="bridge">
-        <source bridge='<%= network_bridge_name %>'/>
-        <model type='virtio'/>
-      <% end %>
-    <% if network_interface_type=="nat" %>
-        <interface type='network'>
-      <source network='<%= network_nat_network %>'/>
-      <model type='virtio'/>
-    <% end %>
+<% end -%>
+<% nics.each do |nic| -%>
+    <interface type='<%= nic.type %>'>
+      <source <%= nic.type == 'bridge' ? "bridge='#{nic.bridge}'" : "network='#{nic.network}'" %> />
+      <model type='<%= nic.model %>'/>
     </interface>
+<% end -%>
     <serial type='pty'>
       <target port='0'/>
     </serial>
@@ -49,7 +45,7 @@
       <target port='0'/>
     </console>
     <input type='mouse' bus='ps2'/>
-    <graphics type='vnc' port='-1' autoport='yes' keymap='en-us'/>
+    <graphics type='<%= display[:type] %>' port='<%= display[:port] %>' autoport='yes' <% if display[:listen] and !(display[:listen].empty?)  %> listen='<%= display[:listen] %>'<% end %> <% if display[:password] and !(display[:password].empty?) %>passwd='<%=display[:password] %>'<% end %> />
     <video>
       <model type='cirrus' vram='9216' heads='1'/>
     </video>

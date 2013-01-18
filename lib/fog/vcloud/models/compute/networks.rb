@@ -13,21 +13,35 @@ module Fog
         attribute :href
 
         def all
-          self.href = connection.default_vdc_href unless self.href
-          check_href!("Vdc")
-          if data = connection.get_vdc(href).body[:AvailableNetworks][:Network]
-            load(data)
+          self.href = service.default_vdc_href unless self.href
+          data = nil
+          if self.href =~ /\/vdc\//
+            check_href!("Vdc")
+            data = [service.get_vdc(self.href).available_networks].flatten.compact.reject{|n| n == '' }
+          elsif self.href =~ /\/org\//
+            check_href!("Org")
+            data = service.get_organization(self.href).links.select{|l| l[:type] == network_type_id }
+          elsif self.href =~ /\/vApp\//
+            check_href!("Vapp")
+            data = [(service.get_vapp(self.href).network_configs||{})[:NetworkConfig]].flatten.compact.collect{|n| n[:Configuration][:ParentNetwork] unless n[:Configuration].nil? }.compact
           end
+          load([*data]) unless data.nil?
         end
 
         def get(uri)
-          if data = connection.get_network(uri)
-            new(data.body)
-          end
-          rescue Fog::Errors::NotFound
+          service.get_network(uri)
+        rescue Fog::Errors::NotFound
           nil
         end
 
+        private
+        def network_type_id
+          if service.version == '1.0'
+            'application/vnd.vmware.vcloud.network+xml'
+          else
+            'application/vnd.vmware.vcloud.orgNetwork+xml'
+          end
+        end
       end
     end
   end

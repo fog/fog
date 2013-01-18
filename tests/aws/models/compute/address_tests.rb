@@ -9,8 +9,16 @@ Shindo.tests("Fog::Compute[:aws] | address", ['aws']) do
       @instance.server = @server
     end
 
+    tests('#server') do
+      test(' == @server') do
+        @server.reload
+        @instance.server.public_ip_address == @instance.public_ip
+      end
+    end
+
     @server.destroy
 
   end
 
+  model_tests(Fog::Compute[:aws].addresses, { :domain => "vpc" }, true)
 end

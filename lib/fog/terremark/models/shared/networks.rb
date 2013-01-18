@@ -4,13 +4,13 @@ module Fog
 
       module Mock
         def networks(options = {})
-          Fog::Terremark::Shared::Networks.new(options.merge(:connection => self))
+          Fog::Terremark::Shared::Networks.new(options.merge(:service => self))
         end
       end
 
       module Real
         def networks(options = {})
-          Fog::Terremark::Shared::Networks.new(options.merge(:connection => self))
+          Fog::Terremark::Shared::Networks.new(options.merge(:service => self))
         end
       end
 
@@ -19,14 +19,14 @@ module Fog
         model Fog::Terremark::Shared::Network
 
         def all
-          data = connection.get_vdc(vdc_id).body['AvailableNetworks'].map do |network|
-            connection.get_network(network["href"].split("/").last).body
+          data = service.get_vdc(vdc_id).body['AvailableNetworks'].map do |network|
+            service.get_network(network["href"].split("/").last).body
           end
           load(data)
         end
 
         def get(network_id)
-          if network_id && network = connection.get_network(network_id).body
+          if network_id && network = service.get_network(network_id).body
             new(network)
           elsif !network_id
             nil
@@ -36,7 +36,7 @@ module Fog
         end
 
         def vdc_id
-          @vdc_id ||= connection.default_vdc_id
+          @vdc_id ||= service.default_vdc_id
         end
 
         private

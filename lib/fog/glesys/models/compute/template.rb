@@ -16,7 +16,7 @@ module Fog
         attribute :min_disk_size
 
         def list
-          connection.template_list
+          service.template_list
         end
 
       end

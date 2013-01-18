@@ -30,10 +30,11 @@ module Fog
         #     * 'Ebs.DeleteOnTermination'<~String> - specifies whether or not to delete the volume on instance termination
         #   * 'ClientToken'<~String> - unique case-sensitive token for ensuring idempotency
         #   * 'DisableApiTermination'<~Boolean> - specifies whether or not to allow termination of the instance from the api
-        #   * 'SecurityGroup'<~Array> or <~String> - Name of security group(s) for instances (you must omit this parameter if using Virtual Private Clouds)
+        #   * 'SecurityGroup'<~Array> or <~String> - Name of security group(s) for instances (not supported for VPC)
+        #   * 'SecurityGroupId'<~Array> or <~String> - id's of security group(s) for instances, use this or SecurityGroup
         #   * 'InstanceInitiatedShutdownBehaviour'<~String> - specifies whether volumes are stopped or terminated when instance is shutdown, in [stop, terminate]
         #   * 'InstanceType'<~String> - Type of instance to boot. Valid options
-        #     in ['t1.micro', 'm1.small', 'm1.large', 'm1.xlarge', 'c1.medium', 'c1.xlarge', 'm2.xlarge', m2.2xlarge', 'm2.4xlarge', 'cc1.4xlarge', 'cg1.4xlarge']
+        #     in ['t1.micro', 'm1.small', 'm1.large', 'm1.xlarge', 'c1.medium', 'c1.xlarge', 'm2.xlarge', m2.2xlarge', 'm2.4xlarge', 'cc1.4xlarge', 'cc2.8xlarge', 'cg1.4xlarge']
         #     default is 'm1.small'
         #   * 'KernelId'<~String> - Id of kernel with which to launch
         #   * 'KeyName'<~String> - Name of a keypair to add to booting instances
@@ -43,6 +44,7 @@ module Fog
         #   * 'RamdiskId'<~String> - Id of ramdisk with which to launch
         #   * 'SubnetId'<~String> - VPC option to specify subnet to launch instance into
         #   * 'UserData'<~String> -  Additional data to provide to booting instances
+        #   * 'EbsOptimized'<~Boolean> - Whether the instance is optimized for EBS I/O
         #
         # ==== Returns
         # * response<~Excon::Response>:
@@ -81,6 +83,7 @@ module Fog
         #         * 'reason'<~String> - reason for most recent state transition, or blank
         #         * 'rootDeviceName'<~String> - specifies how the root device is exposed to the instance
         #         * 'rootDeviceType'<~String> - root device type used by AMI in [ebs, instance-store]
+        #         * 'ebsOptimized'<~Boolean> - Whether the instance is optimized for EBS I/O
         #     * 'ownerId'<~String> - Id of owner
         #     * 'requestId'<~String> - Id of request
         #     * 'reservationId'<~String> - Id of reservation
@@ -96,6 +99,9 @@ module Fog
           end
           if security_groups = options.delete('SecurityGroup')
             options.merge!(Fog::AWS.indexed_param('SecurityGroup', [*security_groups]))
+          end
+          if security_group_ids = options.delete('SecurityGroupId')
+            options.merge!(Fog::AWS.indexed_param('SecurityGroupId', [*security_group_ids]))
           end
           if options['UserData']
             options['UserData'] = Base64.encode64(options['UserData'])
@@ -133,6 +139,7 @@ module Fog
             instance_id = Fog::AWS::Mock.instance_id
             instance = {
               'amiLaunchIndex'      => i,
+              'architecture'        => 'i386',
               'blockDeviceMapping'  => [],
               'clientToken'         => options['clientToken'],
               'dnsName'             => nil,
@@ -148,17 +155,19 @@ module Fog
               'privateDnsName'      => nil,
               'productCodes'        => [],
               'reason'              => nil,
-              'rootDeviceType'      => 'instance-store'
+              'rootDeviceType'      => 'instance-store',
+              'ebsOptimized'        => options['EbsOptimized'] || false
             }
             instances_set << instance
             self.data[:instances][instance_id] = instance.merge({
-              'architecture'        => 'i386',
+              'groupIds'            => [],
               'groupSet'            => group_set,
+              'iamInstanceProfile'  => {},
+              'networkInterfaces'   => [],
               'ownerId'             => self.data[:owner_id],
               'privateIpAddress'    => nil,
               'reservationId'       => reservation_id,
-              'stateReason'         => {},
-              'tagSet'              => {}
+              'stateReason'         => {}
             })
           end
           response.body = {

@@ -2,8 +2,7 @@ Shindo.tests("AWS::RDS | security_group", ['aws', 'rds']) do
   group_name = 'fog-test'
   params = {:id => group_name, :description => 'fog test'}
 
-  pending if Fog.mocking?
-  model_tests(Fog::AWS[:rds].security_groups, params, false) do
+  model_tests(Fog::AWS[:rds].security_groups, params) do
 
     tests("#description").returns('fog test') { @instance.description }
 
@@ -19,6 +18,8 @@ Shindo.tests("AWS::RDS | security_group", ['aws', 'rds']) do
     @instance.wait_for { ready? }
 
     tests("#revoke_ec2_security_group").succeeds do
+      pending if Fog.mocking?
+
       @instance.revoke_ec2_security_group(@ec2_sec_group.name)
 
       returns('revoking') do
@@ -37,8 +38,10 @@ Shindo.tests("AWS::RDS | security_group", ['aws', 'rds']) do
       returns('authorizing') { @instance.ip_ranges.detect{|h| h['CIDRIP'] == @cidr}['Status'] }
     end
 
-    @instance.wait_for { ready? }
     tests("#revoke_cidrip").succeeds do
+      pending if Fog.mocking?
+
+      @instance.wait_for { ready? }
       @instance.revoke_cidrip(@cidr)
       returns('revoking') { @instance.ip_ranges.detect{|h| h['CIDRIP'] == @cidr}['Status'] }
       @instance.wait_for { ready? }

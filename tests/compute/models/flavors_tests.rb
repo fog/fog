@@ -1,10 +1,12 @@
 for provider, config in compute_providers
 
-  next if [:glesys, :voxel].include?(provider)
+  next if [:glesys, :voxel, :ibm, :ecloud].include?(provider)
 
-  Shindo.tests("Fog::Compute[:#{provider}] | flavors", [provider]) do
+  Shindo.tests("Fog::Compute[:#{provider}] | flavors", [provider.to_s]) do
 
-    flavors_tests(Fog::Compute[provider], (config[:flavors_attributes] || {}), config[:mocked])
+    provider_attributes = config[:provider_attributes] || {}
+    provider_attributes.merge!(:provider => provider)
+    flavors_tests(Fog::Compute.new(provider_attributes), (config[:flavors_attributes] || {}), config[:mocked])
 
   end
 

@@ -9,6 +9,7 @@ module Fog
         { :bits => 0,  :cores =>   2,  :disk => 0,    :id =>  't1.micro',   :name => 'Micro Instance',       :ram => 613},
 
         { :bits => 32, :cores =>   1,  :disk => 160,  :id =>  'm1.small',   :name => 'Small Instance',       :ram => 1740.8},
+	{ :bits => 32, :cores =>   2,  :disk => 400,  :id =>  'm1.medium',  :name => 'Medium Instance',      :ram => 3750},
         { :bits => 64, :cores =>   4,  :disk => 850,  :id =>  'm1.large',   :name => 'Large Instance',       :ram => 7680},
         { :bits => 64, :cores =>   8,  :disk => 1690, :id =>  'm1.xlarge',  :name => 'Extra Large Instance', :ram => 15360},
 
@@ -19,7 +20,10 @@ module Fog
         { :bits => 64, :cores =>   13, :disk => 850,  :id =>  'm2.2xlarge', :name => 'High Memory Double Extra Large',    :ram => 35020.8},
         { :bits => 64, :cores =>   26, :disk => 1690, :id =>  'm2.4xlarge', :name => 'High Memory Quadruple Extra Large', :ram => 70041.6},
 
+        { :bits => 64, :cores =>   35, :disk => 2048, :id => "hi1.4xlarge", :name => "High I/O Quadruple Extra Large Instance", :ram => 61952},
+
         { :bits => 64, :cores => 33.5, :disk => 1690, :id => 'cc1.4xlarge', :name => 'Cluster Compute Quadruple Extra Large', :ram => 23552},
+        { :bits => 64, :cores =>   88, :disk => 3370, :id => 'cc2.8xlarge', :name => 'Cluster Compute Eight Extra Large',     :ram => 61952},
         { :bits => 64, :cores => 33.5, :disk => 1690, :id => 'cg1.4xlarge', :name => 'Cluster GPU Quadruple Extra Large',     :ram => 22528}
       ]
 
@@ -53,6 +57,14 @@ module Fog
         #        disk=160,
         #        name="Small Instance",
         #        ram=1740.8
+        #      >,
+        #      <Fog::AWS::Compute::Flavor
+        #        id="m1.medium",
+        #        bits=32,
+        #        cores=2,
+        #        disk=400,
+        #        name="Medium Instance",
+        #        ram=3750
         #      >,
         #      <Fog::AWS::Compute::Flavor
         #        id="m1.large",
@@ -119,6 +131,14 @@ module Fog
         #        ram=23552
         #      >,
         #      <Fog::AWS::Compute::Flavor
+        #        id="cc2.8xlarge",
+        #        bits=64,
+        #        cores=88,
+        #        disk=3370,
+        #        name="Cluster Compute Eight Extra Large",
+        #        ram=61952
+        #      >,
+        #      <Fog::AWS::Compute::Flavor
         #        id="cg1.4xlarge",
         #        bits=64,
         #        cores=33.5,
@@ -135,10 +155,10 @@ module Fog
           self
         end
 
-        # Used to retreive a flavor
+        # Used to retrieve a flavor
         # flavor_id is required to get the associated flavor information.
         # flavors available currently:
-        # 't1.micro', 'm1.small', 'm1.large', 'm1.xlarge', 'c1.medium', 'c1.xlarge', 'm2.xlarge', 'm2.2xlarge', 'm2.4xlarge', 'cc1.4xlarge', 'cg1.4xlarge'
+        # 't1.micro', 'm1.small', 'm1.large', 'm1.xlarge', 'c1.medium', 'c1.xlarge', 'm2.xlarge', 'm2.2xlarge', 'm2.4xlarge', 'cc1.4xlarge', 'cc2.8xlarge', 'cg1.4xlarge'
         #
         # You can run the following command to get the details:
         # AWS.flavors.get("t1.micro")
@@ -157,7 +177,7 @@ module Fog
         #
 
         def get(flavor_id)
-          self.class.new(:connection => connection).all.detect {|flavor| flavor.id == flavor_id}
+          self.class.new(:service => service).all.detect {|flavor| flavor.id == flavor_id}
         end
 
       end

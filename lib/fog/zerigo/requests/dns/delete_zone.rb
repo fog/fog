@@ -20,6 +20,23 @@ module Fog
         end
 
       end
+
+      class Mock # :nodoc:all
+        def delete_zone(zone_id)
+          zone = find_by_zone_id(zone_id)
+
+          response = Excon::Response.new
+
+          if zone
+            self.data[:zones].delete(zone)
+            response.status = 200
+          else
+            response.status = 404
+          end
+
+          response
+        end
+      end
     end
   end
 end

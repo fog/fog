@@ -1,4 +1,4 @@
-require File.expand_path(File.join(File.dirname(__FILE__), '..', 'hp'))
+require 'fog/hp'
 require 'fog/compute'
 
 module Fog
@@ -6,7 +6,11 @@ module Fog
     class HP < Fog::Service
 
       requires    :hp_secret_key, :hp_account_id, :hp_tenant_id, :hp_avl_zone
-      recognizes  :hp_auth_uri, :hp_servicenet, :persistent, :connection_options, :hp_use_upass_auth_style, :hp_auth_version, :user_agent
+      recognizes  :hp_auth_uri, :hp_servicenet
+      recognizes  :hp_use_upass_auth_style, :hp_auth_version, :user_agent
+      recognizes  :persistent, :connection_options
+
+      secrets     :hp_secret_key
 
       model_path 'fog/hp/models/compute'
       model       :address
@@ -163,7 +167,6 @@ module Fog
         include Utils
 
         def initialize(options={})
-          require 'multi_json'
           @hp_secret_key = options[:hp_secret_key]
           @hp_account_id = options[:hp_account_id]
           @hp_servicenet = options[:hp_servicenet]
@@ -222,12 +225,8 @@ module Fog
               error
             end
           end
-          unless response.body.empty?
-            begin
-              response.body = MultiJson.decode(response.body)
-            rescue MultiJson::DecodeError => error
-              response.body    #### the body is not in JSON format so just return it as it is
-            end
+          if !response.body.empty? && parse_json && response.headers['Content-Type'] =~ %r{application/json}
+            response.body = Fog::JSON.decode(response.body)
           end
           response
         end

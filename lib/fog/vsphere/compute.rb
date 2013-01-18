@@ -11,16 +11,55 @@ module Fog
       model_path 'fog/vsphere/models/compute'
       model :server
       collection :servers
+      model :datacenter
+      collection :datacenters
+      model :interface
+      collection :interfaces
+      model :volume
+      collection :volumes
+      model :template
+      collection :templates
+      model :cluster
+      collection :clusters
+      model :resource_pool
+      collection :resource_pools
+      model :network
+      collection :networks
+      model :datastore
+      collection :datastores
+      model :folder
+      collection :folders
 
       request_path 'fog/vsphere/requests/compute'
       request :current_time
-      request :find_vm_by_ref
       request :list_virtual_machines
       request :vm_power_off
       request :vm_power_on
       request :vm_reboot
       request :vm_clone
       request :vm_destroy
+      request :vm_migrate
+      request :list_datacenters
+      request :get_datacenter
+      request :list_clusters
+      request :get_cluster
+      request :list_resource_pools
+      request :get_resource_pool
+      request :list_networks
+      request :get_network
+      request :list_datastores
+      request :get_datastore
+      request :get_folder
+      request :list_folders
+      request :create_vm
+      request :list_vm_interfaces
+      request :list_vm_volumes
+      request :get_virtual_machine
+      request :vm_reconfig_hardware
+      request :vm_reconfig_memory
+      request :vm_reconfig_cpus
+      request :vm_config_vnc
+      request :create_folder
 
       module Shared
 
@@ -29,36 +68,91 @@ module Fog
         attr_reader :vsphere_server
         attr_reader :vsphere_username
 
+        protected
+
+        ATTR_TO_PROP = {
+          :id => 'config.instanceUuid',
+          :name => 'name',
+          :uuid => 'config.uuid',
+          :hostname => 'summary.guest.hostName',
+          :operatingsystem => 'summary.guest.guestFullName',
+          :ipaddress => 'guest.ipAddress',
+          :power_state => 'runtime.powerState',
+          :connection_state => 'runtime.connectionState',
+          :hypervisor => 'runtime.host',
+          :tools_state => 'guest.toolsStatus',
+          :tools_version => 'guest.toolsVersionStatus',
+          :memory_mb => 'config.hardware.memoryMB',
+          :cpus   => 'config.hardware.numCPU',
+          :overall_status => 'overallStatus',
+          :guest_id => 'summary.guest.guestId',
+        }
+
         # Utility method to convert a VMware managed object into an attribute hash.
         # This should only really be necessary for the real class.
         # This method is expected to be called by the request methods
         # in order to massage VMware Managed Object References into Attribute Hashes.
         def convert_vm_mob_ref_to_attr_hash(vm_mob_ref)
           return nil unless vm_mob_ref
-          # A cloning VM doesn't have a configuration yet.  Unfortuantely we just get
-          # a RunTime exception.
-          begin
-            is_ready = vm_mob_ref.config ? true : false
-          rescue RuntimeError
-            is_ready = nil
+
+          props = vm_mob_ref.collect!(*ATTR_TO_PROP.values.uniq)
+          # NOTE: Object.tap is in 1.8.7 and later.
+          # Here we create the hash object that this method returns, but first we need
+          # to add a few more attributes that require additional calls to the vSphere
+          # API. The hypervisor name and mac_addresses attributes may not be available
+          # so we need catch any exceptions thrown during lookup and set them to nil.
+          #
+          # The use of the "tap" method here is a convenience, it allows us to update the
+          # hash object without explicitly returning the hash at the end of the method.
+          Hash[ATTR_TO_PROP.map { |k,v| [k.to_s, props[v]] }].tap do |attrs|
+            attrs['id'] ||= vm_mob_ref._ref
+            attrs['mo_ref'] = vm_mob_ref._ref
+            # The name method "magically" appears after a VM is ready and
+            # finished cloning.
+            if attrs['hypervisor'].kind_of?(RbVmomi::VIM::HostSystem)
+              begin
+                host = attrs['hypervisor']
+                attrs['datacenter'] = parent_attribute(host.path, :datacenter)[1]
+                attrs['cluster']    = parent_attribute(host.path, :cluster)[1]
+                attrs['hypervisor'] = host.name
+                attrs['resource_pool'] = (vm_mob_ref.resourcePool || host.resourcePool).name rescue nil
+              rescue
+                # If it's not ready, set the hypervisor to nil
+                attrs['hypervisor'] = nil
+              end
+            end
+            # This inline rescue catches any standard error.  While a VM is
+            # cloning, a call to the macs method will throw and NoMethodError
+            attrs['mac_addresses'] = vm_mob_ref.macs rescue nil
+            # Rescue nil to catch testing while vm_mob_ref isn't reaL?? 
+            attrs['path'] = "/"+vm_mob_ref.parent.path.map(&:last).join('/') rescue nil
+            attrs['relative_path'] = (attrs['path'].split('/').reject {|e| e.empty?} - ["Datacenters", attrs['datacenter'], "vm"]).join("/") rescue nil
           end
-          {
-            'id'               => is_ready ? vm_mob_ref.config.instanceUuid : vm_mob_ref._ref,
-            'mo_ref'           => vm_mob_ref._ref,
-            'name'             => vm_mob_ref.name,
-            'uuid'             => is_ready ? vm_mob_ref.config.uuid : nil,
-            'instance_uuid'    => is_ready ? vm_mob_ref.config.instanceUuid : nil,
-            'hostname'         => vm_mob_ref.summary.guest.hostName,
-            'operatingsystem'  => vm_mob_ref.summary.guest.guestFullName,
-            'ipaddress'        => vm_mob_ref.summary.guest.ipAddress,
-            'power_state'      => vm_mob_ref.runtime.powerState,
-            'connection_state' => vm_mob_ref.runtime.connectionState,
-            'hypervisor'       => vm_mob_ref.runtime.host ? vm_mob_ref.runtime.host.name : nil,
-            'tools_state'      => vm_mob_ref.summary.guest.toolsStatus,
-            'tools_version'    => vm_mob_ref.summary.guest.toolsVersionStatus,
-            'mac_addresses'    => is_ready ? vm_mob_ref.macs : nil,
-            'is_a_template'    => is_ready ? vm_mob_ref.config.template : nil
-          }
+        end
+
+        # returns the parent object based on a type
+        # provides both real RbVmomi object and its name.
+        # e.g.
+        #[Datacenter("datacenter-2"), "dc-name"]
+        def parent_attribute path, type
+          element = case type
+                      when :datacenter
+                        RbVmomi::VIM::Datacenter
+                      when :cluster
+                        RbVmomi::VIM::ClusterComputeResource
+                      when :host
+                        RbVmomi::VIM::HostSystem
+                      else
+                        raise "Unknown type"
+                    end
+          path.select {|x| x[0].is_a? element}.flatten
+        rescue
+          nil
+        end
+
+        # returns vmware managed obj id string
+        def managed_obj_id obj
+          obj.to_s.match(/\("(\S+)"\)/)[1]
         end
 
       end
@@ -68,6 +162,7 @@ module Fog
         include Shared
 
         def initialize(options={})
+          require 'rbvmomi'
           @vsphere_username = options[:vsphere_username]
           @vsphere_password = 'REDACTED'
           @vsphere_server   = options[:vsphere_server]

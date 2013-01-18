@@ -1,4 +1,4 @@
-require File.expand_path(File.join(File.dirname(__FILE__), '..', 'dnsimple'))
+require 'fog/dnsimple'
 require 'fog/dns'
 
 module Fog
@@ -55,8 +55,6 @@ module Fog
       class Real
 
         def initialize(options={})
-          require 'multi_json'
-
           @dnsimple_email = options[:dnsimple_email]
           @dnsimple_password  = options[:dnsimple_password]
           @connection_options = options[:connection_options] || {}
@@ -80,14 +78,14 @@ module Fog
         def request(params)
           params[:headers] ||= {}
           key = "#{@dnsimple_email}:#{@dnsimple_password}"
-          params[:headers].merge!({ "Authorization" => "Basic " + Base64.encode64(key).chomp,
+          params[:headers].merge!({ "Authorization" => "Basic " + Base64.encode64(key).gsub("\n",''),
                                     "Accept" => "application/json",
                                     "Content-Type" => "application/json" })
 
           response = @connection.request(params.merge!({:host => @host}))
 
           unless response.body.empty?
-            response.body = MultiJson.decode(response.body)
+            response.body = Fog::JSON.decode(response.body)
           end
           response
         end

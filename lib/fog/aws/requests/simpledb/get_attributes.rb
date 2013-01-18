@@ -29,7 +29,7 @@ module Fog
         #     * 'RequestId'
         def get_attributes(domain_name, item_name, options = {})
           if options.is_a?(Array)
-            Fog::Logger.warning("get_attributes with array attributes param is deprecated, use 'AttributeName' => attributes) instead [light_black](#{caller.first})[/]")
+            Fog::Logger.deprecation("get_attributes with array attributes param is deprecated, use 'AttributeName' => attributes) instead [light_black](#{caller.first})[/]")
             options = {'AttributeName' => options}
           end
           options['AttributeName'] ||= []
@@ -49,7 +49,7 @@ module Fog
 
         def get_attributes(domain_name, item_name, options = {})
           if options.is_a?(Array)
-            Fog::Logger.warning("get_attributes with array attributes param is deprecated, use 'AttributeName' => attributes) instead [light_black](#{caller.first})[/]")
+            Fog::Logger.deprecation("get_attributes with array attributes param is deprecated, use 'AttributeName' => attributes) instead [light_black](#{caller.first})[/]")
             options['AttributeName'] ||= options if options.is_a?(Array)
           end
           options['AttributeName'] ||= []

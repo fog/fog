@@ -31,7 +31,7 @@ module Fog
             :name => name
           }
 
-          data = connection.update_user(identity, options)
+          data = service.update_user(identity, options)
           merge_attributes(data)
           true
         end

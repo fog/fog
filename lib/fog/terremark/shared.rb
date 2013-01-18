@@ -23,7 +23,7 @@ module Fog
         def parse(data)
           case data['type']
           when 'application/vnd.vmware.vcloud.vApp+xml'
-            servers.new(data.merge!(:connection => self))
+            servers.new(data.merge!(:service => self))
           else
             data
           end
@@ -61,7 +61,7 @@ module Fog
           end
           begin
             do_request(params)
-          rescue Excon::Errors::Unauthorized => e
+          rescue Excon::Errors::Unauthorized
             @cookie = auth_token
             do_request(params)
           end
@@ -72,6 +72,15 @@ module Fog
           if @cookie
             headers.merge!('Cookie' => @cookie)
           end
+          if params[:path]
+              if params[:override_path] == true
+                  path = params[:path]
+              else
+                  path = "#{@path}/#{params[:path]}"
+              end
+          else
+              path = "#{@path}"
+          end
           @connection.request({
             :body     => params[:body],
             :expects  => params[:expects],
@@ -79,7 +88,7 @@ module Fog
             :host     => @host,
             :method   => params[:method],
             :parser   => params[:parser],
-            :path     => "#{@path}/#{params[:path]}"
+            :path     => path
           })
         end
 
@@ -236,10 +245,16 @@ module Fog
         require 'fog/terremark/models/shared/networks'
         require 'fog/terremark/models/shared/server'
         require 'fog/terremark/models/shared/servers'
+        require 'fog/terremark/models/shared/image'
+        require 'fog/terremark/models/shared/images'
         require 'fog/terremark/models/shared/task'
         require 'fog/terremark/models/shared/tasks'
         require 'fog/terremark/models/shared/vdc'
         require 'fog/terremark/models/shared/vdcs'
+        require 'fog/terremark/models/shared/internetservice'
+        require 'fog/terremark/models/shared/internetservices'
+        require 'fog/terremark/models/shared/nodeservice'
+        require 'fog/terremark/models/shared/nodeservices'
         require 'fog/terremark/parsers/shared/get_catalog'
         require 'fog/terremark/parsers/shared/get_catalog_item'
         require 'fog/terremark/parsers/shared/get_internet_services'
@@ -249,6 +264,7 @@ module Fog
         require 'fog/terremark/parsers/shared/get_organizations'
         require 'fog/terremark/parsers/shared/get_public_ips'
         require 'fog/terremark/parsers/shared/get_tasks_list'
+        require 'fog/terremark/parsers/shared/get_keys_list'
         require 'fog/terremark/parsers/shared/get_vapp_template'
         require 'fog/terremark/parsers/shared/get_vdc'
         require 'fog/terremark/parsers/shared/instantiate_vapp_template'
@@ -278,10 +294,12 @@ module Fog
         require 'fog/terremark/requests/shared/get_public_ips'
         require 'fog/terremark/requests/shared/get_task'
         require 'fog/terremark/requests/shared/get_tasks_list'
+        require 'fog/terremark/requests/shared/get_keys_list'
         require 'fog/terremark/requests/shared/get_vapp'
         require 'fog/terremark/requests/shared/get_vapp_template'
         require 'fog/terremark/requests/shared/get_vdc'
         require 'fog/terremark/requests/shared/instantiate_vapp_template'
+        require 'fog/terremark/requests/shared/configure_vapp'
         require 'fog/terremark/requests/shared/power_off'
         require 'fog/terremark/requests/shared/power_on'
         require 'fog/terremark/requests/shared/power_reset'

@@ -11,9 +11,10 @@ module Fog
         # * availability_zones<~Array> - List of availability zones for the ELB
         # * lb_name<~String> - Name for the new ELB -- must be unique
         # * listeners<~Array> - Array of Hashes describing ELB listeners to assign to the ELB
-        #   * 'Protocol'<~String> - Protocol to use. Either HTTP or TCP.
+        #   * 'Protocol'<~String> - Protocol to use. Either HTTP, HTTPS, TCP or SSL.
         #   * 'LoadBalancerPort'<~Integer> - The port that the ELB will listen to for outside traffic
         #   * 'InstancePort'<~Integer> - The port on the instance that the ELB will forward traffic to
+        #   * 'InstanceProtocol'<~String> - Protocol for sending traffic to an instance. Either HTTP, HTTPS, TCP or SSL.
         #   * 'SSLCertificateId'<~String> - ARN of the server certificate
         # ==== Returns
         # * response<~Excon::Response>:
@@ -22,23 +23,29 @@ module Fog
         #       * 'RequestId'<~String> - Id of request
         #     * 'CreateLoadBalancerResult'<~Hash>:
         #       * 'DNSName'<~String> - DNS name for the newly created ELB
-        def create_load_balancer(availability_zones, lb_name, listeners)
+        def create_load_balancer(availability_zones, lb_name, listeners, options = {})
           params = Fog::AWS.indexed_param('AvailabilityZones.member', [*availability_zones])
+          params.merge!(Fog::AWS.indexed_param('Subnets.member.%d', options[:subnet_ids]))
+          params.merge!(Fog::AWS.serialize_keys('Scheme', options[:scheme]))
+          params.merge!(Fog::AWS.indexed_param('SecurityGroups.member.%d', options[:security_groups])) 
 
           listener_protocol = []
           listener_lb_port = []
           listener_instance_port = []
+          listener_instance_protocol = []
           listener_ssl_certificate_id = []
           listeners.each do |listener|
             listener_protocol.push(listener['Protocol'])
             listener_lb_port.push(listener['LoadBalancerPort'])
             listener_instance_port.push(listener['InstancePort'])
+            listener_instance_protocol.push(listener['InstanceProtocol'])
             listener_ssl_certificate_id.push(listener['SSLCertificateId'])
           end
 
           params.merge!(Fog::AWS.indexed_param('Listeners.member.%d.Protocol', listener_protocol))
           params.merge!(Fog::AWS.indexed_param('Listeners.member.%d.LoadBalancerPort', listener_lb_port))
           params.merge!(Fog::AWS.indexed_param('Listeners.member.%d.InstancePort', listener_instance_port))
+          params.merge!(Fog::AWS.indexed_param('Listeners.member.%d.InstanceProtocol', listener_instance_protocol))
           params.merge!(Fog::AWS.indexed_param('Listeners.member.%d.SSLCertificateId', listener_ssl_certificate_id))
 
           request({
@@ -50,13 +57,13 @@ module Fog
       end
 
       class Mock
-        def create_load_balancer(availability_zones, lb_name, listeners = [])
+        def create_load_balancer(availability_zones, lb_name, listeners = [], options = {})
           response = Excon::Response.new
           response.status = 200
 
           raise Fog::AWS::ELB::IdentifierTaken if self.data[:load_balancers].has_key? lb_name
 
-          certificate_ids = Fog::AWS::IAM.new.list_server_certificates.body['Certificates'].collect { |c| c['Arn'] }
+          certificate_ids = Fog::AWS::IAM::Mock.data[@aws_access_key_id][:server_certificates].map {|n, c| c['Arn'] }
 
           listeners = [*listeners].map do |listener|
             if listener['SSLCertificateId'] and !certificate_ids.include? listener['SSLCertificateId']
@@ -68,6 +75,9 @@ module Fog
           dns_name = Fog::AWS::ELB::Mock.dns_name(lb_name, @region)
           self.data[:load_balancers][lb_name] = {
             'AvailabilityZones' => availability_zones,
+            'Subnets' => options[:subnet_ids] || [],
+            'Scheme' => options[:scheme].nil? ? 'internet-facing' : options[:scheme],
+            'SecurityGroups' => options[:security_groups].nil? ? [] : options[:security_groups],
             'CanonicalHostedZoneName' => '',
             'CanonicalHostedZoneNameID' => '',
             'CreatedTime' => Time.now,
@@ -83,15 +93,15 @@ module Fog
             'ListenerDescriptions' => listeners,
             'LoadBalancerName' => lb_name,
             'Policies' => {
+              'AppCookieStickinessPolicies' => [],
               'LBCookieStickinessPolicies' => [],
-              'AppCookieStickinessPolicies' => []
+              'Proper' => []
             },
             'SourceSecurityGroup' => {
               'GroupName' => '',
               'OwnerAlias' => ''
             }
           }
-
           response.body = {
             'ResponseMetadata' => {
               'RequestId' => Fog::AWS::Mock.request_id

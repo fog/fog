@@ -18,12 +18,12 @@ Shindo.tests do
   tests('credential') do
     returns(:default, "is :default") { Fog.credential }
 
-    returns("foo", "can be set directly") do
+    returns(:foo, "can be set directly") do
       Fog.credential = "foo"
       Fog.credential
     end
 
-    returns("bar", "can be set with environment variable") do
+    returns(:bar, "can be set with environment variable") do
       ENV["FOG_CREDENTIAL"] = "bar"
       Fog.credential
     end

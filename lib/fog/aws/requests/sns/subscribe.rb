@@ -21,7 +21,7 @@ module Fog
             'Action'    => 'Subscribe',
             'Endpoint'  => endpoint,
             'Protocol'  => protocol,
-            'TopicArn'  => arn,
+            'TopicArn'  => arn.strip,
             :parser     => Fog::Parsers::AWS::SNS::Subscribe.new
           })
         end

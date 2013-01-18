@@ -14,7 +14,7 @@ class StormOnDemand < Fog::Bin
       @@connections ||= Hash.new do |hash, key|
         hash[key] = case key
         when :compute
-          Fog::Logger.warning("StormOnDemand[:compute] is deprecated, use Compute[:stormondemand] instead")
+          Fog::Logger.warning("StormOnDemand[:compute] is not recommended, use Compute[:stormondemand] for portability")
           Fog::Compute.new(:provider => 'StormOnDemand')
         else
           raise ArgumentError, "Unrecognized service: #{key.inspect}"

@@ -1,11 +1,17 @@
 Shindo.tests('Fog::Compute[:openstack] | flavor requests', ['openstack']) do
 
   @flavor_format = {
-    'id'    => String,
-    'name'  => String,
-    'disk'  => Integer,
-    'ram'   => Integer,
-    'links'  => Array
+    'id'          => String,
+    'name'        => String,
+    'disk'        => Integer,
+    'ram'         => Integer,
+    'links'       => Array,
+    'swap'        => Fog::Nullable::String,
+    'rxtx_factor' => Fog::Nullable::Float,
+    'OS-FLV-EXT-DATA:ephemeral'   => Integer,
+    'os-flavor-access:is_public'   => Fog::Nullable::Boolean,
+    'OS-FLV-DISABLED:disabled'   => Fog::Nullable::Boolean,
+    'vcpus'       => Integer
   }
 
   tests('success') do
@@ -20,6 +26,15 @@ Shindo.tests('Fog::Compute[:openstack] | flavor requests', ['openstack']) do
 
     tests('#list_flavors_detail').formats({'flavors' => [@flavor_format]}, false) do
       Fog::Compute[:openstack].list_flavors_detail.body
+    end
+
+    tests('#create_flavor(attributes)').formats({'flavor' => @flavor_format}) do
+      attributes = {:flavor_id => '100', :name => 'shindo test flavor', :disk => 10, :ram => 10, :vcpus => 10, :swap => "0", :rxtx_factor => 2.4, :ephemeral => 0, :is_public => false}
+      Fog::Compute[:openstack].create_flavor(attributes).body
+    end
+
+    tests('delete_flavor(flavor_id)').succeeds do
+      Fog::Compute[:openstack].delete_flavor('100')
     end
 
   end

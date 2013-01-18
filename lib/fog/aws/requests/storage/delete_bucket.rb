@@ -5,15 +5,12 @@ module Fog
 
         # Delete an S3 bucket
         #
-        # ==== Parameters
-        # * bucket_name<~String> - name of bucket to delete
+        # @param bucket_name [String] name of bucket to delete
         #
-        # ==== Returns
-        # * response<~Excon::Response>:
-        #   * status<~Integer> - 204
+        # @return [Excon::Response] response:
+        #   * status [Integer] - 204
         #
-        # ==== See Also
-        # http://docs.amazonwebservices.com/AmazonS3/latest/API/RESTBucketDELETE.html
+        # @see http://docs.amazonwebservices.com/AmazonS3/latest/API/RESTBucketDELETE.html
 
         def delete_bucket(bucket_name)
           request({

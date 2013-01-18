@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<OrgNetwork xmlns="http://www.vmware.com/vcloud/v1.5" name="Network1" id="urn:vcloud:network:1" type="application/vnd.vmware.vcloud.orgNetwork+xml" href="https://vcloud.example.com/api/network/1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.vmware.com/vcloud/v1.5 http://vcloud.example.com/api/v1.5/schema/master.xsd">
+    <Link rel="up" type="application/vnd.vmware.vcloud.org+xml" href="https://vcloud.example.com/api/v1.0/org/1"/>
+    <Description>Some fancy Network</Description>
+    <Configuration>
+        <IpScope>
+            <IsInherited>false</IsInherited>
+            <Gateway>192.168.0.1</Gateway>
+            <Netmask>255.255.255.0</Netmask>
+            <Dns1>172.0.0.2</Dns1>
+            <Dns2>172.0.0.190</Dns2>
+            <IpRanges>
+                <IpRange>
+                    <StartAddress>192.168.0.101</StartAddress>
+                    <EndAddress>192.168.0.150</EndAddress>
+                </IpRange>
+            </IpRanges>
+            <AllocatedIpAddresses>
+                <IpAddress>192.168.0.1</IpAddress>
+            </AllocatedIpAddresses>
+        </IpScope>
+        <ParentNetwork type="application/vnd.vmware.admin.network+xml" name="ParentNetwork1" href="https://vcloud.example.com/api/v1.0/admin/network/2"/>
+        <FenceMode>natRouted</FenceMode>
+        <Features>
+            <DhcpService>
+                <IsEnabled>false</IsEnabled>
+                <DefaultLeaseTime>3600</DefaultLeaseTime>
+                <MaxLeaseTime>7200</MaxLeaseTime>
+                <IpRange>
+                    <StartAddress>192.168.0.151</StartAddress>
+                    <EndAddress>192.168.0.254</EndAddress>
+                </IpRange>
+            </DhcpService>
+            <FirewallService>
+                <IsEnabled>true</IsEnabled>
+            </FirewallService>
+            <NatService>
+                <IsEnabled>false</IsEnabled>
+                <NatType>portForwarding</NatType>
+                <Policy>allowTraffic</Policy>
+            </NatService>
+        </Features>
+    </Configuration>
+</OrgNetwork>

@@ -5,28 +5,37 @@ module Fog
     class Ecloud
       class BackupInternetServices < Fog::Ecloud::Collection
 
+        identity :href
+
         model Fog::Compute::Ecloud::BackupInternetService
 
-        attribute :href, :aliases => :Href
-
         def all
-          check_href! :message => "the Internet Services for the Vdc you want to enumerate"
-          if data = connection.get_internet_services(href).body[:InternetService].find_all {|i| i[:IsBackupService] == "true" }
-            load(data)
-          end
+          data = service.get_backup_internet_services(href).body
+          load(data)
         end
 
-        # Optimize later, no need to get_internet_services again?
         def get(uri)
-          internet_services = connection.get_internet_services(href).body[:InternetService]
-          internet_services = [ internet_services ] if internet_services.is_a?(Hash)
-          if data = internet_services.detect { |service| service[:Href] == uri }
-            new(data)
+          if data = service.get_backup_internet_service(uri)
+            new(data.body)
           end
         rescue Fog::Errors::NotFound
           nil
         end
 
+        def from_data(data)
+          new(data)
+        end
+
+        def create(options)
+          options[:uri] = href + "/action/createBackupInternetService"
+          options[:enabled] ||= true
+          data = service.backup_internet_service_create(options)
+          new(data)
+        end
+
+        def internet_service_id
+          href.scan(/\d+/)[0]
+        end
       end
     end
   end

@@ -28,7 +28,7 @@ module Fog
             index += 1 # should start at 1 instead of 0
             params.merge!("Tag.#{index}.Key" => key)
             unless tags[key].nil?
-              params.merge("Tag.#{index}.Value" => tags[key])
+              params.merge!("Tag.#{index}.Value" => tags[key])
             end
           end
 
@@ -53,7 +53,7 @@ module Fog
             when /^vol\-[a-z0-9]{8}$/i
               'volume'
             end
-            if type && self.data[:"#{type}s"][resource_id]
+            if type && ((type == 'image' && visible_images[resource_id]) || self.data[:"#{type}s"][resource_id])
               { 'resourceId' => resource_id, 'resourceType' => type }
             else
               raise(Fog::Service::NotFound.new("The #{type} ID '#{resource_id}' does not exist"))
@@ -65,9 +65,8 @@ module Fog
           end
 
           tagged.each do |resource|
-            object = self.data[:"#{resource['resourceType']}s"][resource['resourceId']]
             tags.each do |key, value|
-              tagset = object['tagSet']
+              tagset = self.data[:tag_sets][resource['resourceId']]
               tagset.delete(key) if tagset.has_key?(key) && (value.nil? || tagset[key] == value)
             end
           end

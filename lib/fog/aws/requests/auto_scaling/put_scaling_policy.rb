@@ -46,7 +46,7 @@ module Fog
             'AdjustmentType'       => adjustment_type,
             'AutoScalingGroupName' => auto_scaling_group_name,
             'PolicyName'           => policy_name,
-            'ScalingAdjustment'     => scaling_adjustment,
+            'ScalingAdjustment'    => scaling_adjustment,
             :parser                => Fog::Parsers::AWS::AutoScaling::PutScalingPolicy.new
           }.merge!(options))
         end
@@ -56,7 +56,26 @@ module Fog
       class Mock
 
         def put_scaling_policy(adjustment_type, auto_scaling_group_name, policy_name, scaling_adjustment, options = {})
-          Fog::Mock.not_implemented
+          unless self.data[:auto_scaling_groups].has_key?(auto_scaling_group_name)
+            raise Fog::AWS::AutoScaling::ValidationError.new('Auto Scaling Group name not found - null')
+          end
+          self.data[:scaling_policies][policy_name] = {
+            'AdjustmentType'       => adjustment_type,
+            'Alarms'               => [],
+            'AutoScalingGroupName' => auto_scaling_group_name,
+            'Cooldown'             => 0,
+            'MinAdjustmentStep'    => 0,
+            'PolicyARN'            => Fog::AWS::Mock.arn('autoscaling', self.data[:owner_id], "scalingPolicy:00000000-0000-0000-0000-000000000000:autoScalingGroupName/#{auto_scaling_group_name}:policyName/#{policy_name}", self.region),
+            'PolicyName'           => policy_name,
+            'ScalingAdjustment'    => scaling_adjustment
+          }.merge!(options)
+
+          response = Excon::Response.new
+          response.status = 200
+          response.body = {
+            'ResponseMetadata' => { 'RequestId' => Fog::AWS::Mock.request_id }
+          }
+          response
         end
 
       end

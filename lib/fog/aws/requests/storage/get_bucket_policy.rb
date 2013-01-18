@@ -5,15 +5,12 @@ module Fog
 
         # Get bucket policy for an S3 bucket
         #
-        # ==== Parameters
-        # * bucket_name<~String> - name of bucket to get policy for
+        # @param bucket_name [String] name of bucket to get policy for
         #
-        # ==== Returns
-        # * response<~Excon::Response>:
-        #   * body<~Hash> - policy document
+        # @return [Excon::Response] response:
+        #   * body [Hash] - policy document
         #
-        # ==== See Also
-        # http://docs.amazonwebservices.com/AmazonS3/latest/API/RESTBucketGETpolicy.html
+        # @see http://docs.amazonwebservices.com/AmazonS3/latest/API/RESTBucketGETpolicy.html
 
         def get_bucket_policy(bucket_name)
           unless bucket_name
@@ -27,7 +24,7 @@ module Fog
             :method     => 'GET',
             :query      => {'policy' => nil}
           })
-          response.body = MultiJson.decode(response.body) unless response.body.nil?
+          response.body = Fog::JSON.decode(response.body) unless response.body.nil?
         end
 
       end

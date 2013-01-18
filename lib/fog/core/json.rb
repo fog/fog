@@ -1,3 +1,5 @@
+require 'multi_json'
+
 module Fog
   module JSON
 
@@ -15,6 +17,18 @@ module Fog
         data
       end
     end
+
+    # Do the MultiJson introspection at this level so we can define our encode/decode methods and perform
+    # the introspection only once rather than once per call.
+
+    def self.encode(obj)
+      MultiJson.encode(obj)
+    end
+
+    def self.decode(obj)
+      MultiJson.decode(obj)
+    end
+
 
   end
 end

@@ -18,6 +18,8 @@ module Fog
             case name
             when 'blockDeviceMapping'
               @in_block_device_mapping = true
+            when 'productCodes'
+              @in_product_codes = true
             when 'stateReason'
               @in_state_reason = true
             when 'tagSet'
@@ -26,17 +28,7 @@ module Fog
           end
 
           def end_element(name)
-            if @in_tag_set
-              case name
-                when 'item'
-                  @image['tagSet'][@tag['key']] = @tag['value']
-                  @tag = {}
-                when 'key', 'value'
-                  @tag[name] = value
-                when 'tagSet'
-                  @in_tag_set = false
-              end
-            elsif @in_block_device_mapping
+            if @in_block_device_mapping
               case name
                 when 'blockDeviceMapping'
                   @in_block_device_mapping = false
@@ -47,6 +39,23 @@ module Fog
                 when 'item'
                   @image['blockDeviceMapping'] << @block_device_mapping
                   @block_device_mapping = {}
+              end
+            elsif @in_product_codes
+              case name
+              when 'productCode'
+                @image['productCodes'] << value
+              when 'productCodes'
+                @in_product_codes = false
+              end
+            elsif @in_tag_set
+              case name
+                when 'item'
+                  @image['tagSet'][@tag['key']] = @tag['value']
+                  @tag = {}
+                when 'key', 'value'
+                  @tag[name] = value
+                when 'tagSet'
+                  @in_tag_set = false
               end
             elsif @in_state_reason
               case name
@@ -70,8 +79,6 @@ module Fog
               when 'item'
                 @response['imagesSet'] << @image
                 @image = { 'blockDeviceMapping' => [], 'productCodes' => [], 'stateReason' => {}, 'tagSet' => {} }
-              when 'productCode'
-                @image['productCodes'] << value
               when 'requestId'
                 @response[name] = value
               end

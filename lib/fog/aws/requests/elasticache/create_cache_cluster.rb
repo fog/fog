@@ -36,7 +36,7 @@ module Fog
           # Merge the Cache Security Group parameters with the normal options
           request(sec_group_params.merge(
             'Action'          => 'CreateCacheCluster',
-            'CacheClusterId'  => id,
+            'CacheClusterId'  => id.strip,
             'CacheNodeType'   => options[:node_type]  || 'cache.m1.large',
             'Engine'          => options[:engine]     || 'memcached',
             'NumCacheNodes'   => options[:num_nodes]  || 1,
@@ -54,9 +54,33 @@ module Fog
 
       class Mock
         def create_cache_cluster(id, options = {})
-          Fog::Mock.not_implemented
+          response        = Excon::Response.new
+          cluster         = { # create an in-memory representation of this cluster
+            'CacheClusterId'  => id.strip,
+            'NumCacheNodes'   => options[:num_nodes]      || 1,
+            'CacheNodeType'   => options[:node_type]      || 'cache.m1.large',
+            'Engine'          => options[:engine]         || 'memcached',
+            'EngineVersion'   => options[:engine_version] || '1.4.5',
+            'CacheClusterStatus'  => 'available',
+            'CacheNodes'          => create_cache_nodes(id.strip, options[:num_nodes]),
+            'CacheSecurityGroups' => [],
+            'CacheParameterGroup' => { 'CacheParameterGroupName' =>
+                options[:parameter_group_name] || 'default.memcached1.4' },
+            'PendingModifiedValues'       => {},
+            'AutoMinorVersionUpgrade'     =>
+              options[:auto_minor_version_upgrade]    || 'true',
+            'PreferredMaintenanceWindow'  =>
+              options[:preferred_maintenance_window]  || 'sun:05:00-sun:09:00',
+          }
+          self.data[:clusters][id] = cluster  # store the in-memory cluster
+          response.body = {
+            'CacheCluster' => cluster.merge({'CacheClusterStatus' => 'creating'}),
+            'ResponseMetadata' => { 'RequestId' => Fog::AWS::Mock.request_id }
+          }
+          response
         end
       end
+
     end
   end
 end

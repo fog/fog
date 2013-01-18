@@ -11,17 +11,17 @@ module Fog
             @results = { 'Granularities' => [], 'Metrics' => [] }
             @response = { 'DescribeMetricCollectionTypesResult' => {}, 'ResponseMetadata' => {} }
           end
-
           def reset_granularity
-              @granularity = {}
+            @granularity = {}
           end
 
           def reset_metric
-              @metric = {}
+            @metric = {}
           end
 
           def start_element(name, attrs = [])
             super
+
             case name
             when 'Granularities'
               @in_granularities = true

@@ -12,11 +12,11 @@ module Fog
 
           def end_element(name)
             case name
-            when 'availabilityZone', 'instanceType', 'productDescription', 'reservedInstancesId', 'state'
+            when 'availabilityZone', 'instanceType', 'productDescription', 'reservedInstancesId', 'state', 'offeringType'
               @reserved_instance[name] = value
             when 'duration', 'instanceCount'
               @reserved_instance[name] = value.to_i
-            when 'fixedPrice', 'usagePrice'
+            when 'fixedPrice', 'amount', 'usagePrice'
               @reserved_instance[name] = value.to_f
             when 'item'
               @response['reservedInstancesSet'] << @reserved_instance

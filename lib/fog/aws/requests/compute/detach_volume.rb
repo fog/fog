@@ -41,14 +41,19 @@ module Fog
         def detach_volume(volume_id, options = {})
           response = Excon::Response.new
           response.status = 200
-          if (volume = self.data[:volumes][volume_id]) && !volume['attachmentSet'].empty?
-            data = volume['attachmentSet'].pop
-            volume['status'] = 'available'
-            response.status = 200
-            response.body = {
-              'requestId' => Fog::AWS::Mock.request_id
-            }.merge!(data)
-            response
+          if (volume = self.data[:volumes][volume_id])
+            if !volume['attachmentSet'].empty?
+              data = volume['attachmentSet'].pop
+              volume['status'] = 'available'
+              response.status = 200
+              response.body = {
+                'requestId' => Fog::AWS::Mock.request_id
+              }.merge!(data)
+              response
+            else
+              # real response has spacing issue below
+              raise Fog::Compute::AWS::Error.new("IncorrectState => Volume '#{volume_id}'is in the 'available' state.")
+            end
           else
             raise Fog::Compute::AWS::NotFound.new("The volume '#{volume_id}' does not exist.")
           end

@@ -2,72 +2,43 @@ module Fog
   module Compute
     class Ecloud
       class Network < Fog::Ecloud::Model
-
         identity :href
 
-        ignore_attributes :xmlns, :xmlns_xsi, :xmlns_xsd, :xmlns_i, :Configuration, :Id
+        attribute :name,              :aliases => :Name
+        attribute :type,              :aliases => :Type
+        attribute :other_links,       :aliases => :Links, :squash => :Link
+        attribute :address,           :aliases => :Address
+        attribute :network_type,      :aliases => :NetworkType
+        attribute :broadcast_address, :aliases => :BroadcastAddress
+        attribute :gateway_address,   :aliases => :GatewayAddress
+        attribute :rnat_address,      :aliases => :RnatAddress
 
-        attribute :name, :aliases => :Name
-        #attribute :id, :aliases => :Id
-        attribute :features, :aliases => :Features, :type => :array
-        attribute :links, :aliases => :Link, :type => :array
-        attribute :type
-        attribute :gateway, :aliases => :GatewayAddress
-        attribute :broadcast, :aliases => :BroadcastAddress
-        attribute :address, :aliases => :Address
-        attribute :rnat, :aliases => :RnatAddress
-        attribute :extension_href, :aliases => :Href
-        attribute :network_type, :aliases => :NetworkType
-        attribute :vlan, :aliases => :Vlan
-        attribute :friendly_name, :aliases => :FriendlyName
+        def rnats
+          @rnats ||= Fog::Compute::Ecloud::Rnats.new(:service => service, :href => "cloudapi/ecloud/rnats/networks/#{id}")
+        end
 
         def ips
-          load_unless_loaded!
-          connection.ips.new
-          Fog::Compute::Ecloud::Ips.new(
-            :connection => connection,
-            :href => links.detect { |link| link[:name] == "IP Addresses" }[:href]
-          )
+          @ips ||= Fog::Compute::Ecloud::IpAddresses.new(:service => service, :href => href)
         end
 
-        def rnat=(new_rnat)
-          attributes[:rnat] = new_rnat
-          @changed = true
+        def edit_rnat_association(options)
+          options[:uri] = href
+          data = service.rnat_associations_edit_network(options).body
+          task = Fog::Compute::Ecloud::Tasks.new(:service => service, :href => data[:href])[0]
         end
 
-        def save
-          if @changed
-            connection.configure_network( extension_href, _compose_network_data )
-          end
-          true
+        def id
+          href.scan(/\d+/)[0]
         end
 
-        def reload
-          super
-          merge_attributes(extension_data.body)
-          self
+        def environment
+          reload if other_links.nil?
+          environment_href = other_links.detect { |l| l[:type] == "application/vnd.tmrk.cloud.environment" }[:href]
+          self.service.environments.get(environment_href)
         end
 
-        private
-
-        def extension_data
-          connection.get_network_extensions( extensions_link[:href] )
-        end
-
-        def extensions_link
-          links.detect { |link| link[:name] == name }
-        end
-
-        def _compose_network_data
-          {
-            :id => id,
-            :href => extension_href,
-            :name => name,
-            :rnat => rnat,
-            :address => address,
-            :broadcast => broadcast,
-            :gateway => gateway
-          }
+        def location
+          environment.id
         end
       end
     end

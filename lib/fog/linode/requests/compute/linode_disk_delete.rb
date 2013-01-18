@@ -16,6 +16,20 @@ module Fog
         end
 
       end
+
+      class Mock
+        def linode_disk_delete(linode_id, disk_id)
+          response = Excon::Response.new
+          response.status = 200
+          response.body = {
+            "ERRORARRAY" => [],
+            "ACTION"     => "linode.disk.delete",
+            "DATA"       => { "JobID" => rand(1000..9999),
+                              "DiskID" => disk_id }
+          }
+          response
+        end
+      end
     end
   end
 end

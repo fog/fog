@@ -46,6 +46,39 @@ module Fog
         end
 
       end
+
+      class Mock
+
+        def post_invalidation(distribution_id, paths, caller_reference = Time.now.to_i.to_s)
+          distribution = self.data[:distributions][distribution_id]
+          if distribution
+            invalidation_id = Fog::CDN::AWS::Mock.distribution_id
+            invalidation = {
+              'Id' => invalidation_id,
+              'Status' => 'InProgress',
+              'CreateTime' => Time.now.utc.iso8601,
+              'InvalidationBatch' => {
+                'CallerReference' => caller_reference,
+                'Path' => paths
+              }
+            }
+
+            distribution['InProgressInvalidationBatches'] += 1
+
+            self.data[:invalidations][distribution_id] ||= {}
+            self.data[:invalidations][distribution_id][invalidation_id] = invalidation
+
+            response = Excon::Response.new
+            response.status = 201
+            response.body = invalidation
+            response
+          else
+            Fog::CDN::AWS::Mock.error(:no_such_distribution)
+          end
+        end
+
+      end
+
     end
   end
 end

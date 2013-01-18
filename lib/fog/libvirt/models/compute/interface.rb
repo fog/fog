@@ -7,42 +7,22 @@ module Fog
       class Interface < Fog::Model
 
         identity :name
-
         attribute :mac
-        attribute :xml
+        attribute :active
 
         def save
           raise Fog::Errors::Error.new('Creating a new interface is not yet implemented. Contributions welcome!')
         end
 
-        def destroy
-          requires :raw
-          raw.delete
-          true
+        def shutdown
+          service.destroy_interface(mac)
         end
 
-        private
-
-        def raw
-          @raw
+        def active?
+          active
         end
-
-        def raw=(new_raw)
-          @raw = new_raw
-
-          raw_attributes = {
-            :name => new_raw.name,
-            :mac => new_raw.mac,
-            :xml => new_raw.xml_desc,
-          }
-
-          merge_attributes(raw_attributes)
-
-        end
-
       end
 
     end
   end
-
 end

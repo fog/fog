@@ -33,7 +33,36 @@ module Fog
       class Mock
 
         def authorize_db_security_group_ingress(name, opts = {})
-          Fog::Mock.not_implemented
+          unless opts.key?('CIDRIP') || (opts.key?('EC2SecurityGroupName') && opts.key?('EC2SecurityGroupOwnerId'))
+            raise ArgumentError, 'Must specify CIDRIP, or both EC2SecurityGroupName and EC2SecurityGroupOwnerId'
+          end
+          
+          response = Excon::Response.new
+          
+          if sec_group = self.data[:security_groups][name]
+            if opts.key?('CIDRIP')
+              if sec_group['IPRanges'].detect{|h| h['CIDRIP'] == opts['CIDRIP']}
+                raise Fog::AWS::RDS::AuthorizationAlreadyExists.new("AuthorizationAlreadyExists => #{opts['CIDRIP']} is alreay defined")
+              end
+              sec_group['IPRanges'] << opts.merge({"Status" => 'authorizing'})
+            else
+              if sec_group['EC2SecurityGroups'].detect{|h| h['EC2SecurityGroupName'] == opts['EC2SecurityGroupName']}
+                raise Fog::AWS::RDS::AuthorizationAlreadyExists.new("AuthorizationAlreadyExists => #{opts['EC2SecurityGroupName']} is alreay defined")
+              end
+              sec_group['EC2SecurityGroups'] << opts.merge({"Status" => 'authorizing'})
+            end
+            response.status = 200
+            response.body = {
+              "ResponseMetadata"=>{ "RequestId"=> Fog::AWS::Mock.request_id },
+              'AuthorizeDBSecurityGroupIngressResult' => {          
+                'DBSecurityGroup' => sec_group
+              }
+            }
+            response
+          else
+            raise Fog::AWS::RDS::NotFound.new("DBSecurityGroupNotFound => #{name} not found")
+          end
+          
         end
 
       end

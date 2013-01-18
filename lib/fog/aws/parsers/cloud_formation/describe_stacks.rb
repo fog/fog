@@ -6,7 +6,7 @@ module Fog
         class DescribeStacks < Fog::Parsers::Base
 
           def reset
-            @stack = { 'Outputs' => [], 'Parameters' => [] }
+            @stack = { 'Outputs' => [], 'Parameters' => [], 'Capabilities' => [] }
             @output = {}
             @parameter = {}
             @response = { 'Stacks' => [] }
@@ -19,13 +19,15 @@ module Fog
               @in_outputs = true
             when 'Parameters'
               @in_parameters = true
-            end
+            when 'Capabilities'
+              @in_capabilities = true
+            end            
           end
 
           def end_element(name)
             if @in_outputs
               case name
-              when 'OutputKey', 'OutputValue'
+              when 'OutputKey', 'OutputValue', 'Description'
                 @output[name] = value
               when 'member'
                 @stack['Outputs'] << @output
@@ -43,11 +45,18 @@ module Fog
               when 'Parameters'
                 @in_parameters = false
               end
+            elsif @in_capabilities
+              case name             
+              when 'member'
+                @stack['Capabilities'] << value        
+              when 'Capabilities'
+                @in_capabilities = false
+              end  
             else
               case name
               when 'member'
                 @response['Stacks'] << @stack
-                @stack = { 'Outputs' => [], 'Parameters' => [] }
+                @stack = { 'Outputs' => [], 'Parameters' => [], 'Capabilities' => []}
               when 'RequestId'
                 @response[name] = value
               when 'CreationTime'

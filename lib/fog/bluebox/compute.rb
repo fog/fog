@@ -1,4 +1,4 @@
-require File.expand_path(File.join(File.dirname(__FILE__), '..', 'bluebox'))
+require 'fog/bluebox'
 require 'fog/compute'
 
 module Fog
@@ -15,12 +15,16 @@ module Fog
       collection  :images
       model       :server
       collection  :servers
+      model       :location
+      collection  :locations
 
       request_path 'fog/bluebox/requests/compute'
       request :create_block
       request :destroy_block
       request :get_block
       request :get_blocks
+      request :get_location
+      request :get_locations
       request :get_product
       request :get_products
       request :get_template
@@ -58,7 +62,6 @@ module Fog
       class Real
 
         def initialize(options={})
-          require 'multi_json'
           @bluebox_api_key      = options[:bluebox_api_key]
           @bluebox_customer_id  = options[:bluebox_customer_id]
           @connection_options   = options[:connection_options] || {}
@@ -90,7 +93,7 @@ module Fog
             end
           end
           unless response.body.empty?
-            response.body = MultiJson.decode(response.body)
+            response.body = Fog::JSON.decode(response.body)
           end
           response
         end

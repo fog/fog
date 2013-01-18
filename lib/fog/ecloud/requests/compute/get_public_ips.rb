@@ -7,31 +7,26 @@ module Fog
       end
 
       class Mock
-        #
-        # Based off of:
-        # http://support.theenterprisecloud.com/kb/default.asp?id=577&Lang=1&SID=
-        #
+        def get_public_ips(uri)
 
-        def get_public_ips(public_ips_uri)
-          public_ips_uri = ensure_unparsed(public_ips_uri)
+          environment_id = id_from_uri(uri)
+          environment    = self.data[:environments][environment_id]
 
-          if public_ip_collection = mock_data.public_ip_collection_from_href(public_ips_uri)
-            xml = Builder::XmlMarkup.new
-            mock_it 200,
-              xml.PublicIPAddresses {
-                public_ip_collection.items.each do |ip|
-                  xml.PublicIPAddress {
-                    xml.Id ip.object_id
-                    xml.Href ip.href
-                    xml.Name ip.name
-                  }
-                end
-              }, { 'Content-Type' => 'application/vnd.tmrk.ecloud.publicIpsList+xml'}
-          else
-            mock_error 200, "401 Unauthorized"
-          end
+          public_ips  = self.data[:public_ips].values.select{|cp| cp[:environment_id] == environment_id}
+
+          public_ips = public_ips.map{|pi| Fog::Ecloud.slice(pi, :id, :environment_id)}
+
+          public_ip_response = {:PublicIp => (public_ips.size > 1 ? public_ips : public_ips.first)} # GAH
+          body = {
+            :href  => uri,
+            :type  => "application/vnd.tmrk.cloud.publicIp; type=collection",
+            :Links => {
+              :Link => environment,
+            }
+          }.merge(public_ip_response)
+
+          response(:body => body)
         end
-
       end
     end
   end

@@ -1,4 +1,4 @@
-Shindo.tests('Fog::Compute[:hp] | server requests', ['hp']) do
+Shindo.tests("Fog::Compute[:hp] | server requests", ['hp']) do
 
   @server_format = {
     'addresses'   => Fog::Nullable::Hash,

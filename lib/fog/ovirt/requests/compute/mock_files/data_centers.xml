@@ -1,0 +1,17 @@
+<data_centers>
+<data_center href="/api/datacenters/c0645886-4b4b-11e1-a0ae-5254009970cc" id="c0645886-4b4b-11e1-a0ae-5254009970cc">
+<name>Datacenter1</name>
+<description>The first Data Center</description>
+<link href="/api/datacenters/c0645886-4b4b-11e1-a0ae-5254009970cc/storagedomains" rel="storagedomains"/>
+<link href="/api/datacenters/c0645886-4b4b-11e1-a0ae-5254009970cc/permissions" rel="permissions"/>
+<storage_type>nfs</storage_type>
+<storage_format>v1</storage_format>
+<version major="3" minor="0"/>
+<supported_versions>
+<version major="3" minor="0"/>
+</supported_versions>
+<status>
+<state>up</state>
+</status>
+</data_center>
+</data_centers>

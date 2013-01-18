@@ -8,7 +8,7 @@ module Fog
         extend Fog::Deprecation
         deprecate :ip, :value
         deprecate :ip=, :value=
-        
+
         identity :id
 
         attribute :name
@@ -23,14 +23,14 @@ module Fog
         attribute :hard_link, :aliases => "hardLink"
 
         attribute :value,          :aliases => "data"
-  
+
         def initialize(attributes={})
           self.ttl ||= 1800
           super
         end
 
         def destroy
-          connection.delete_record(zone.domain, identity)
+          service.delete_record(zone.domain, identity)
           true
         end
 
@@ -57,12 +57,13 @@ module Fog
           end
 
           if id.nil?
-            data = connection.create_record(zone.domain, name, type, value, options).body
+            data = service.create_record(zone.domain, name, type, value, options).body
+            merge_attributes(data)
           else
-            data = connection.update_record(zone.domain, id, options).body
+            options.merge!(:name => name, :type => type, :data => value)
+            service.update_record(zone.domain, id, options).body
           end
 
-          merge_attributes(data)
           true
         end
 

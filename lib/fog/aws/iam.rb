@@ -1,4 +1,4 @@
-require File.expand_path(File.join(File.dirname(__FILE__), '..', 'aws'))
+require 'fog/aws'
 
 module Fog
   module AWS
@@ -11,28 +11,37 @@ module Fog
       class ValidationError < Fog::AWS::IAM::Error; end
 
       requires :aws_access_key_id, :aws_secret_access_key
-      recognizes :host, :path, :port, :scheme, :persistent
+      recognizes :host, :path, :port, :scheme, :persistent, :instrumentor, :instrumentor_name
 
       request_path 'fog/aws/requests/iam'
       request :add_user_to_group
+      request :add_role_to_instance_profile
       request :create_access_key
       request :create_account_alias
       request :create_group
+      request :create_instance_profile
       request :create_login_profile
+      request :create_role
       request :create_user
       request :delete_access_key
       request :delete_account_alias
       request :delete_group
       request :delete_group_policy
+      request :delete_instance_profile
       request :delete_login_profile
+      request :delete_role
+      request :delete_role_policy
       request :delete_server_certificate
       request :delete_signing_certificate
       request :delete_user
       request :delete_user_policy
       request :get_group
       request :get_group_policy
+      request :get_instance_profile
+      request :get_role_policy
       request :get_login_profile
       request :get_server_certificate
+      request :get_role
       request :get_user
       request :get_user_policy
       request :list_access_keys
@@ -40,12 +49,18 @@ module Fog
       request :list_group_policies
       request :list_groups
       request :list_groups_for_user
+      request :list_instance_profiles
+      request :list_instance_profiles_for_role
+      request :list_roles
+      request :list_role_policies
       request :list_server_certificates
       request :list_signing_certificates
       request :list_user_policies
       request :list_users
       request :put_group_policy
+      request :put_role_policy
       request :put_user_policy
+      request :remove_role_from_instance_profile
       request :remove_user_from_group
       request :update_access_key
       request :update_group
@@ -56,12 +71,37 @@ module Fog
       request :upload_server_certificate
       request :upload_signing_certificate
 
+      model_path 'fog/aws/models/iam'
+      model       :user
+      collection  :users
+      model       :policy
+      collection  :policies
+      model       :access_key
+      collection  :access_keys
+
+
       class Mock
         def self.data
           @data ||= Hash.new do |hash, key|
             hash[key] = {
               :owner_id => Fog::AWS::Mock.owner_id,
-              :server_certificates => {}
+              :server_certificates => {},
+              :users => Hash.new do |uhash, ukey|
+                uhash[ukey] = {
+                  :user_id     => Fog::AWS::Mock.key_id,
+                  :path        => '/',
+                  :arn         => "arn:aws:iam::#{Fog::AWS::Mock.owner_id}:user/#{ukey}",
+                  :access_keys => [],
+                  :policies    => {}
+                }
+              end,
+              :groups => Hash.new do |ghash, gkey|
+                ghash[gkey] = {
+                  :group_id   => Fog::AWS::Mock.key_id,
+                  :arn        => "arn:aws:iam::#{Fog::AWS::Mock.owner_id}:group/#{gkey}",
+                  :members    => []
+                }
+              end
             }
           end
         end
@@ -108,11 +148,12 @@ module Fog
         # * IAM object with connection to AWS.
         def initialize(options={})
           require 'fog/core/parser'
-          require 'multi_json'
 
           @aws_access_key_id      = options[:aws_access_key_id]
           @aws_secret_access_key  = options[:aws_secret_access_key]
           @connection_options     = options[:connection_options] || {}
+          @instrumentor           = options[:instrumentor]
+          @instrumentor_name      = options[:instrumentor_name] || 'fog.aws.iam'
           @hmac       = Fog::HMAC.new('sha256', @aws_secret_access_key)
           @host       = options[:host]        || 'iam.amazonaws.com'
           @path       = options[:path]        || '/'
@@ -144,35 +185,39 @@ module Fog
             }
           )
 
-          begin
-            response = @connection.request({
-              :body       => body,
-              :expects    => 200,
-              :idempotent => idempotent,
-              :headers    => { 'Content-Type' => 'application/x-www-form-urlencoded' },
-              :host       => @host,
-              :method     => 'POST',
-              :parser     => parser
-            })
+          if @instrumentor
+            @instrumentor.instrument("#{@instrumentor_name}.request", params) do
+              _request(body, idempotent, parser)
+            end
+          else
+            _request(body, idempotent, parser)
+          end
+        end
 
-            response
-          rescue Excon::Errors::HTTPStatusError => error
-            if match = error.message.match(/<Code>(.*)<\/Code>(?:.*<Message>(.*)<\/Message>)?/m)
-              case match[1]
-              when 'CertificateNotFound', 'NoSuchEntity'
-                raise Fog::AWS::IAM::NotFound.slurp(error, match[2])
-              when 'EntityAlreadyExists', 'KeyPairMismatch', 'LimitExceeded', 'MalformedCertificate', 'ValidationError'
-                raise Fog::AWS::IAM.const_get(match[1]).slurp(error, match[2])
-              else
-                raise Fog::AWS::IAM::Error.slurp(error, "#{match[1]} => #{match[2]}") if match[1]
-                raise
-              end
+        def _request(body, idempotent, parser)
+          @connection.request({
+            :body       => body,
+            :expects    => 200,
+            :idempotent => idempotent,
+            :headers    => { 'Content-Type' => 'application/x-www-form-urlencoded' },
+            :host       => @host,
+            :method     => 'POST',
+            :parser     => parser
+          })
+        rescue Excon::Errors::HTTPStatusError => error
+          if match = error.message.match(/<Code>(.*)<\/Code>(?:.*<Message>(.*)<\/Message>)?/m)
+            case match[1]
+            when 'CertificateNotFound', 'NoSuchEntity'
+              raise Fog::AWS::IAM::NotFound.slurp(error, match[2])
+            when 'EntityAlreadyExists', 'KeyPairMismatch', 'LimitExceeded', 'MalformedCertificate', 'ValidationError'
+              raise Fog::AWS::IAM.const_get(match[1]).slurp(error, match[2])
             else
+              raise Fog::AWS::IAM::Error.slurp(error, "#{match[1]} => #{match[2]}") if match[1]
               raise
             end
+          else
+            raise
           end
-
-
         end
 
       end
