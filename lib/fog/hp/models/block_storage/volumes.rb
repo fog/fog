@@ -10,12 +10,12 @@ module Fog
         model Fog::HP::BlockStorage::Volume
 
         def all
-          data = connection.list_volumes.body['volumes']
+          data = service.list_volumes.body['volumes']
           load(data)
         end
 
         def get(volume_id)
-          volume = connection.get_volume_details(volume_id).body['volume']
+          volume = service.get_volume_details(volume_id).body['volume']
           new(volume)
         rescue Fog::HP::BlockStorage::NotFound
           nil

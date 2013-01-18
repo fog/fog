@@ -1,4 +1,4 @@
-Shindo.tests('Fog::Storage[:hp] | directory', ['hp', 'storage']) do
+Shindo.tests("Fog::Storage[:hp] | directory", ['hp', 'storage']) do
 
   file_attributes = {
     :key => 'fog_file_tests',

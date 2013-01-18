@@ -10,12 +10,12 @@ module Fog
         model Fog::HP::BlockStorage::Snapshot
 
         def all
-          data = connection.list_snapshots.body['snapshots']
+          data = service.list_snapshots.body['snapshots']
           load(data)
         end
 
         def get(snapshot_id)
-          if snapshot = connection.get_snapshot_details(snapshot_id).body['snapshot']
+          if snapshot = service.get_snapshot_details(snapshot_id).body['snapshot']
             new(snapshot)
           end
         rescue Fog::HP::BlockStorage::NotFound

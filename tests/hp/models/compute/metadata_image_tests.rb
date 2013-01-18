@@ -17,6 +17,7 @@ Shindo.tests("Fog::Compute[:hp] | metadata for images", ['hp']) do
     end
 
     tests("#get('Meta1')").succeeds do
+      pending if Fog.mocking?
       @image.metadata.get('Meta1')
     end
 

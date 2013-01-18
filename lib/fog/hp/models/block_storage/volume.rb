@@ -26,7 +26,6 @@ module Fog
         def initialize(attributes = {})
           # assign these attributes first to prevent race condition with new_record?
           self.image_id = attributes.delete(:image_id)
-          @connection = attributes[:connection]
           super
         end
 
@@ -60,7 +59,7 @@ module Fog
         def attach(new_server_id, device)
           requires :id
           unless in_use?
-            data = connection.compute.attach_volume(new_server_id, id, device)
+            data = service.compute.attach_volume(new_server_id, id, device)
             merge_attributes(:attachments => attachments << data.body['volumeAttachment'])
             true
           else
@@ -71,19 +70,19 @@ module Fog
         def detach
           requires :id
           if has_attachments?
-            connection.compute.detach_volume(server_id, id)
+            service.compute.detach_volume(server_id, id)
           end
           true
         end
 
         def destroy
           requires :id
-          connection.delete_volume(id)
+          service.delete_volume(id)
           true
         end
 
         def save
-          raise Fog::Errors::Error.new('Resaving an existing object may create a duplicate') if identity
+          raise Fog::Errors::Error.new('Resaving an existing object may create a duplicate') if persisted?
           requires :name, :size
           options = {
             'metadata'          => metadata,
@@ -91,7 +90,7 @@ module Fog
             'imageRef'          => @image_id
           }
           options = options.reject {|key, value| value.nil?}
-          data = connection.create_volume(name, description, size, options)
+          data = service.create_volume(name, description, size, options)
           merge_attributes(data.body['volume'])
           true
         end

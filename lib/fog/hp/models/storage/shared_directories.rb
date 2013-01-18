@@ -14,7 +14,7 @@ module Fog
         end
 
         def head(url)
-          data = connection.head_shared_container(url)
+          data = service.head_shared_container(url)
           shared_directory = new(:url => url)
           for key, value in data.headers
             if ['X-Container-Bytes-Used', 'X-Container-Object-Count'].include?(key)
@@ -29,7 +29,7 @@ module Fog
         end
 
         def get(url)
-          data = connection.get_shared_container(url)
+          data = service.get_shared_container(url)
           shared_directory = new(:url => url)
           for key, value in data.headers
             if ['X-Container-Bytes-Used', 'X-Container-Object-Count'].include?(key)

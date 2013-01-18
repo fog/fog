@@ -1,4 +1,4 @@
-Shindo.tests('Fog::Storage[:hp] | directory', ['hp', 'storage']) do
+Shindo.tests("Fog::Storage[:hp] | directory", ['hp', 'storage']) do
 
   model_tests(Fog::Storage[:hp].directories, {:key => "fogdirtests"}, true) do
 
@@ -25,6 +25,7 @@ Shindo.tests('Fog::Storage[:hp] | directory', ['hp', 'storage']) do
       @instance.files.get('sample.txt').destroy
 
       tests("#cdn_enable=(true)").succeeds do
+        pending if Fog.mocking?
         @instance.cdn_enable=(true)
         tests("cdn_enabled?").returns(true) do
           pending if Fog.mocking?

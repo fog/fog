@@ -27,7 +27,7 @@ module Fog
         def get(key, &block)
           requires :shared_directory
           shared_object_url = "#{shared_directory.url}/#{key}"
-          data = connection.get_shared_object(shared_object_url, &block)
+          data = service.get_shared_object(shared_object_url, &block)
           file_data = data.headers.merge({
             :body => data.body,
             :key  => key
@@ -41,7 +41,7 @@ module Fog
         def head(key)
           requires :shared_directory
           shared_object_url = "#{shared_directory.url}/#{key}"
-          data = connection.head_shared_object(shared_object_url)
+          data = service.head_shared_object(shared_object_url)
           file_data = data.headers.merge({
             :body => '',
             :key => key

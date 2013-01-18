@@ -1,4 +1,4 @@
-Shindo.tests('Fog::Storage[:hp] | files', ['hp', 'storage']) do
+Shindo.tests("Fog::Storage[:hp] | files", ['hp', 'storage']) do
 
   file_attributes = {
     :key => 'fog_files_tests',
@@ -9,34 +9,30 @@ Shindo.tests('Fog::Storage[:hp] | files', ['hp', 'storage']) do
     :key => 'fogfilestests'
   }
 
+  collection_tests(Fog::Storage[:hp].directories.create(directory_attributes).files, file_attributes, true)
+
   @directory = Fog::Storage[:hp].directories.create(directory_attributes)
+  @file = @directory.files.create(file_attributes)
 
-  collection_tests(@directory.files, file_attributes, true) do
+  tests('success') do
 
-    tests('success') do
+    tests("#get_url('#{@directory.key}')").succeeds do
+      @directory.files.get_url(@directory.key)
+    end
 
-      tests("#get_url('#{@directory.key}')").succeeds do
-        @directory.files.get_url("#{@directory.key}")
-      end
+    tests("#get_cdn_url('#{@directory.key}')").succeeds do
+      pending if Fog.mocking?
+      @directory.files.get_cdn_url(@directory.key)
+    end
 
-      tests("#get_cdn_url('#{@directory.key}')").succeeds do
-        pending if Fog.mocking?
-        @directory.files.get_cdn_url("#{@directory.key}")
-      end
-
-      tests("#get_cdn_ssl_url('#{@directory.key}')").succeeds do
-        pending if Fog.mocking?
-        @directory.files.get_cdn_ssl_url("#{@directory.key}")
-      end
-
-      tests("#head('#{@directory.key}')").succeeds do
-        @directory.files.head("#{@directory.key}")
-      end
-
+    tests("#get_cdn_ssl_url('#{@directory.key}')").succeeds do
+      pending if Fog.mocking?
+      @directory.files.get_cdn_ssl_url(@directory.key)
     end
 
   end
 
+  @file.destroy
   @directory.destroy
 
 end

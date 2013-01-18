@@ -17,7 +17,7 @@ module Fog
         def all
           requires :parent
           if @parent.id
-            metadata = connection.list_metadata(collection_name, @parent.id).body['metadata']
+            metadata = service.list_metadata(collection_name, @parent.id).body['metadata']
             metas = []
             metadata.each_pair {|k,v| metas << {"key" => k, "value" => v} }
             load(metas)
@@ -26,14 +26,14 @@ module Fog
 
         def destroy(key)
           requires :parent
-          connection.delete_meta(collection_name, @parent.id, key)
+          service.delete_meta(collection_name, @parent.id, key)
         rescue Fog::Compute::HP::NotFound
           nil
         end
 
         def get(key)
           requires :parent
-          data = connection.get_meta(collection_name, @parent.id, key).body["meta"]
+          data = service.get_meta(collection_name, @parent.id, key).body["meta"]
           metas = []
           data.each_pair {|k,v| metas << {"key" => k, "value" => v} }
           new(metas[0])
@@ -48,12 +48,12 @@ module Fog
 
         def set(data=nil)
           requires :parent
-          connection.set_metadata(collection_name, @parent.id, meta_hash(data))
+          service.set_metadata(collection_name, @parent.id, meta_hash(data))
         end
 
         def update(data=nil)
           requires :parent
-          connection.update_metadata(collection_name, @parent.id, meta_hash(data))
+          service.update_metadata(collection_name, @parent.id, meta_hash(data))
         end
 
 

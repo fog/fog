@@ -1,4 +1,4 @@
-Shindo.tests('Fog::Compute[:hp] | metadata requests', ['hp']) do
+Shindo.tests("Fog::Compute[:hp] | metadata requests", ['hp']) do
 
   @metadata_format = {
     'metadata'  => Fog::Nullable::Hash

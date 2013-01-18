@@ -32,7 +32,7 @@ module Fog
 
         def destroy
           requires :shared_directory, :key
-          connection.delete_shared_object(self.url)
+          service.delete_shared_object(self.url)
           true
         # throws exception Fog::HP::Errors::Forbidden if insufficient access
         rescue Fog::Storage::HP::NotFound
@@ -46,7 +46,7 @@ module Fog
         def save(options = {})
           requires :shared_directory, :key
           options['Content-Type'] = content_type if content_type
-          data = connection.put_shared_object(shared_directory.url, key, body, options)
+          data = service.put_shared_object(shared_directory.url, key, body, options)
           merge_attributes(data.headers)
           self.content_length = Fog::Storage.get_body_size(body)
           true
