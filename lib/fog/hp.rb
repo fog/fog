@@ -62,13 +62,13 @@ module Fog
       end
       service_url = "#{@scheme}://#{@host}:#{@port}"
       connection = Fog::Connection.new(service_url, false, connection_options)
-      @hp_account_id = options[:hp_account_id]
+      @hp_access_key = options[:hp_access_key]
       @hp_secret_key  = options[:hp_secret_key]
       response = connection.request({
         :expects  => [200, 204],
         :headers  => {
           'X-Auth-Key'  => @hp_secret_key,
-          'X-Auth-User' => @hp_account_id
+          'X-Auth-User' => @hp_access_key
         },
         :host     => @host,
         :port     => @port,
@@ -106,7 +106,7 @@ module Fog
       ### Implement HP Control Services Authentication services ###
       # Get the style of auth credentials passed, defaults to access/secret key style
       @hp_use_upass_auth_style = options[:hp_use_upass_auth_style] || false
-      @hp_account_id = options[:hp_account_id]
+      @hp_access_key = options[:hp_access_key]
       @hp_secret_key = options[:hp_secret_key]
       @hp_tenant_id  = options[:hp_tenant_id]
       @hp_service_type  = options[:hp_service_type]
@@ -118,7 +118,7 @@ module Fog
         request_body = {
             'auth' => {
                 'apiAccessKeyCredentials' => {
-                    'accessKey' => "#{@hp_account_id}",
+                    'accessKey' => "#{@hp_access_key}",
                     'secretKey' => "#{@hp_secret_key}"
                 }
             }
@@ -128,7 +128,7 @@ module Fog
         request_body = {
             'auth' => {
                 'passwordCredentials' => {
-                    'username' => "#{@hp_account_id}",
+                    'username' => "#{@hp_access_key}",
                     'password' => "#{@hp_secret_key}"
                 }
             }
@@ -187,6 +187,8 @@ module Fog
             endpoint_url = service_item['endpoints'][0]['publicURL'] if service_item['endpoints'][0]
           elsif avl_zone == :az2
             endpoint_url = service_item['endpoints'][1]['publicURL'] if service_item['endpoints'][1]
+          elsif avl_zone == :az3
+            endpoint_url = service_item['endpoints'][2]['publicURL'] if service_item['endpoints'][2]
           end
           raise "Unable to retrieve endpoint service url from service catalog." if endpoint_url.nil?
           return endpoint_url

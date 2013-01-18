@@ -5,7 +5,7 @@ module Fog
   module Storage
     class HP < Fog::Service
 
-      requires    :hp_secret_key, :hp_account_id, :hp_tenant_id
+      requires    :hp_secret_key, :hp_access_key, :hp_tenant_id
       recognizes  :hp_auth_uri, :hp_servicenet, :hp_cdn_ssl, :hp_cdn_uri, :persistent, :connection_options, :hp_use_upass_auth_style, :hp_auth_version
 
       secrets     :hp_secret_key
@@ -34,7 +34,7 @@ module Fog
           unless @hp_cdn_uri.nil?
             @cdn ||= Fog::CDN.new(
               :provider       => 'HP',
-              :hp_account_id  => @hp_account_id,
+              :hp_access_key  => @hp_access_key,
               :hp_secret_key  => @hp_secret_key,
               :hp_auth_uri    => @hp_auth_uri,
               :hp_cdn_uri     => @hp_cdn_uri,
@@ -109,15 +109,15 @@ module Fog
         def initialize(options={})
           require 'mime/types'
           @hp_secret_key = options[:hp_secret_key]
-          @hp_account_id = options[:hp_account_id]
+          @hp_access_key = options[:hp_access_key]
         end
 
         def data
-          self.class.data[@hp_account_id]
+          self.class.data[@hp_access_key]
         end
 
         def reset_data
-          self.class.data.delete(@hp_account_id)
+          self.class.data.delete(@hp_access_key)
         end
 
       end
@@ -129,7 +129,7 @@ module Fog
         def initialize(options={})
           require 'mime/types'
           @hp_secret_key = options[:hp_secret_key]
-          @hp_account_id = options[:hp_account_id]
+          @hp_access_key = options[:hp_access_key]
           @hp_auth_uri   = options[:hp_auth_uri]
           @hp_cdn_ssl    = options[:hp_cdn_ssl]
           @connection_options = options[:connection_options] || {}
