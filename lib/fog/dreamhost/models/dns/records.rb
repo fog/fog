@@ -12,15 +12,15 @@ module Fog
         def all(filter = {})
           clear
           if filter[:zone]
-            data = connection.list_records.body['data'].find_all { |r| r['zone'] == filter[:zone] }
+            data = service.list_records.body['data'].find_all { |r| r['zone'] == filter[:zone] }
           else
-            data = connection.list_records.body['data']
+            data = service.list_records.body['data']
           end
           load(data)
         end
 
         def get(record_name)
-          data = connection.get_record(record_name).body['data'].find { |r| r['record'] == record_name }
+          data = service.get_record(record_name).body['data'].find { |r| r['record'] == record_name }
           new(data)
         rescue Excon::Errors::NotFound
           nil

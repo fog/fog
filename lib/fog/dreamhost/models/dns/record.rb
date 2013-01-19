@@ -16,14 +16,14 @@ module Fog
         attribute :comment
 
         def destroy
-          connection.delete_record(name, type, value)
+          service.delete_record(name, type, value)
           true
         end
 
         def save
           requires :name, :type, :value
 
-          data = connection.create_record(name, type, value, comment)
+          data = service.create_record(name, type, value, comment)
           true
         end
 
