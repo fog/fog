@@ -23,7 +23,8 @@ module Fog
         def save
           requires :name, :type, :value
 
-          data = service.create_record(name, type, value, comment)
+          data = service.create_record(name, type, value, comment).body
+          merge_attributes(data)
           true
         end
 
