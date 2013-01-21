@@ -28,6 +28,10 @@ module Fog
     service(:sts,             'aws/sts',              'STS')
     service(:storage,         'aws/storage',          'Storage')
 
+    def self.compliant_bucket_names
+      COMPLIANT_BUCKET_NAMES
+    end
+
     def self.indexed_param(key, values)
       params = {}
       unless key.include?('%d')
