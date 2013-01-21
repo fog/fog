@@ -1,0 +1,37 @@
+require 'fog/core/collection'
+require 'fog/dreamhost/models/dns/zone'
+
+module Fog
+  module DNS
+    class Dreamhost 
+
+      #
+      # Dreamhost API has no concept of 'Zone', but we
+      # can emulate it.
+      #
+      # http://wiki.dreamhost.com/API/Dns_commands
+      #
+      class Zones < Fog::Collection
+
+        model Fog::DNS::Dreamhost::Zone
+
+        def all
+          clear
+          zones = []
+          service.records.each do |r|
+            zones << { :id => r.zone, :domain => r.zone }
+          end
+          load(zones)
+        end
+
+        def get(zone_id)
+          service.zones.find { |z| z.domain == zone_id }
+        rescue Excon::Errors::NotFound
+          nil
+        end
+
+      end
+
+    end
+  end
+end

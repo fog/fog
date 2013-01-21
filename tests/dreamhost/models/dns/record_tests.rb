@@ -53,6 +53,16 @@ Shindo.tests("Fog::DNS[:dreamhost] | record", ['dreamhost', 'dns']) do
           (service.records.find { |r| r.name == name }).nil?
         end
       end
+      tests('#save from zone') do
+        name = "zone-create.#{test_domain}"
+        r = service.zones.first.records.create :name  => name,
+                                               :type  => 'A',
+                                               :value => "8.8.8.8"
+        sleep 10
+        test("listed") do
+          !(service.records.find { |r| r.name == name }).nil?
+        end
+      end
     end
   end
 

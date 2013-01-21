@@ -10,7 +10,9 @@ module Fog
 
       model_path 'fog/dreamhost/models/dns'
       model       :record
+      model       :zone
       collection  :records
+      collection  :zones
 
       request_path 'fog/dreamhost/requests/dns'
       request :create_record

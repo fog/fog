@@ -28,6 +28,11 @@ module Fog
 
       end
 
+      def new(attributes = {})
+        requires :zone
+        super({ :zone => zone }.merge!(attributes))
+      end
+
     end
   end
 end
