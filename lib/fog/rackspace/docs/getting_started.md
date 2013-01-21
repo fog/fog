@@ -1,4 +1,4 @@
-# Getting Started with Rackspace Open Cloud
+# Getting Started with Fog and the Rackspace Open Cloud
 
 This document will explain how to get started using Fog with the [Rackspace Open Cloud](http://www.rackspace.com/cloud/).
 
@@ -65,8 +65,8 @@ These services can be explored in further depth in the following documents:
 
 ## Additional Resources
 * [fog.io](http://fog.io)
-* [API Documentation](http://rubydoc.info/gems/fog)
-* [Source](https://github.com/fog/fog)
+* [Fog rdoc](http://rubydoc.info/gems/fog)
+* [Fog Github repo](https://github.com/fog/fog)
 * [Release Notes](https://github.com/fog/fog/blob/master/changelog.txt)
 * [developer.rackspace.com](http://developer.rackspace.com/)
 
