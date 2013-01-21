@@ -68,7 +68,6 @@ module Fog
         end
 
         def request(params)
-          #response = @connection.request(params.merge!({:host => @host}))
           params[:query].merge!( { :key => @dreamhost_api_key, 
                                    :format => 'json',
                                    :unique_id => UUID.generate } )
@@ -76,15 +75,6 @@ module Fog
 
           unless response.body.empty?
             response.body = MultiJson.decode(response.body)
-          end
-          if ENV['DEBUG_DREAMHOST']
-            require 'pp'
-            puts "--- REQUEST PARAMS ---"
-            pp    params
-            puts  "--- END PARAMS --- "
-            puts "--- REQUEST RESPONSE ---"
-            pp    response
-            puts  "--- END RESPONSE --- "
           end
           if response.body['result'] != 'success'
             raise response.body['data']
