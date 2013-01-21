@@ -16,7 +16,7 @@ module Fog
         def update_firewall_policy(identifier, options)
           return nil if identifier.nil? || identifier == ""
           return nil if options.empty? || options.nil?
-          request("put", "/1.0/firewall_policies/#{identifier}", [200], options)
+          wrapped_request("put", "/1.0/firewall_policies/#{identifier}", [200], options)
         end
 
       end
