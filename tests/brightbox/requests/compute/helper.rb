@@ -372,7 +372,8 @@ class Brightbox
           "snapshots"       => [Brightbox::Compute::Formats::Nested::IMAGE],
           "interfaces"      => [Brightbox::Compute::Formats::Nested::INTERFACE],
           "zone"            => Fog::Brightbox::Nullable::Zone,
-          "username"        => Fog::Nullable::String
+          "username"        => Fog::Nullable::String,
+          "compatibility_mode" => Fog::Boolean
         }
 
         SERVER_GROUP = {
@@ -612,7 +613,8 @@ class Brightbox
           "interfaces"      => [Brightbox::Compute::Formats::Nested::INTERFACE],
           "zone"            => Fog::Brightbox::Nullable::Zone,
           "licence_name"    => Fog::Nullable::String,
-          "username"        => Fog::Nullable::String
+          "username"        => Fog::Nullable::String,
+          "compatibility_mode" => Fog::Boolean
         }
 
         SERVER_GROUP = {
