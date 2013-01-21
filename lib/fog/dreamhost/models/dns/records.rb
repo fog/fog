@@ -20,7 +20,7 @@ module Fog
         end
 
         def get(record_name)
-          data = service.get_record(record_name).body['data'].find { |r| r['record'] == record_name }
+          data = service.list_records.body['data'].find { |r| r['record'] == record_name }
           new(data)
         rescue Excon::Errors::NotFound
           nil
