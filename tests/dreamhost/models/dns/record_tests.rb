@@ -32,6 +32,7 @@ Shindo.tests("Fog::DNS[:dreamhost] | record", ['dreamhost', 'dns']) do
       r = service.records.create :name  => name,
                                  :type  => 'A',
                                  :value => "8.8.8.8"
+      sleep 10
       tests('#save') do 
         test('returns Fog::DNS::Dreamhost::Record') do
           r.is_a? Fog::DNS::Dreamhost::Record 
@@ -41,6 +42,9 @@ Shindo.tests("Fog::DNS[:dreamhost] | record", ['dreamhost', 'dns']) do
         end
         test("name is #{name}") do
           r.name == name
+        end
+        test("listed") do
+          !(service.records.find { |r| r.name == name }).nil?
         end
       end
       tests('#destroy') do
