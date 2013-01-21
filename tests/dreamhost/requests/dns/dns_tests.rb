@@ -2,7 +2,7 @@ Shindo.tests('Fog::DNS[:dreamhost] | DNS requests', ['dreamhost', 'dns']) do
 
   # Create some domains for testing
   %w{one two three}.each do |dom|
-    name = "#{dom}.fog-dream.com"
+    name = "#{dom}.#{test_domain}"
     type = "A"
     value = "1.2.3.4"
     comment = "test"
@@ -32,7 +32,7 @@ Shindo.tests('Fog::DNS[:dreamhost] | DNS requests', ['dreamhost', 'dns']) do
     test("list records from existing zone") do
       pending if Fog.mocking?
 
-      Fog::DNS[:dreamhost].records.all(:zone => 'fog-dream.com').size > 0
+      Fog::DNS[:dreamhost].records.all(:zone => "#{test_domain}").size > 0
     end
     
     test("list records from nonexistent zone") do
@@ -44,7 +44,7 @@ Shindo.tests('Fog::DNS[:dreamhost] | DNS requests', ['dreamhost', 'dns']) do
     test("create an A resource record without comment") do
       pending if Fog.mocking?
 
-      name = "foo.testing.fog-dream.com"
+      name = "foo.testing.#{test_domain}"
       type = "A"
       value = "1.2.3.4"
       response = Fog::DNS[:dreamhost].create_record(name, type, value)
@@ -55,7 +55,7 @@ Shindo.tests('Fog::DNS[:dreamhost] | DNS requests', ['dreamhost', 'dns']) do
     test("create an A resource record with comment") do
       pending if Fog.mocking?
 
-      name = "foo2.testing.fog-dream.com"
+      name = "foo2.testing.#{test_domain}"
       type = "A"
       value = "1.2.3.4"
       comment = "test"
@@ -67,7 +67,7 @@ Shindo.tests('Fog::DNS[:dreamhost] | DNS requests', ['dreamhost', 'dns']) do
     test("create TXT record") do
       pending if Fog.mocking?
 
-      name = "txt.testing.fog-dream.com"
+      name = "txt.testing.#{test_domain}"
       type = "txt"
       value = "foobar"
       comment = "test"
@@ -79,7 +79,7 @@ Shindo.tests('Fog::DNS[:dreamhost] | DNS requests', ['dreamhost', 'dns']) do
     test("TXT record found") do
       pending if Fog.mocking?
 
-      rec = Fog::DNS[:dreamhost].records.get 'txt.testing.fog-dream.com'
+      rec = Fog::DNS[:dreamhost].records.get "txt.testing.#{test_domain}"
 
       rec != nil
     end
@@ -91,9 +91,9 @@ Shindo.tests('Fog::DNS[:dreamhost] | DNS requests', ['dreamhost', 'dns']) do
 
       success = true
       r = %w(
-              foo.testing.fog-dream.com
-              foo2.testing.fog-dream.com
-              txt.testing.fog-dream.com
+              foo.testing.#{test_domain}
+              foo2.testing.#{test_domain}
+              txt.testing.#{test_domain}
             )
       r.each do |rec|
         name = rec
@@ -114,14 +114,7 @@ Shindo.tests('Fog::DNS[:dreamhost] | DNS requests', ['dreamhost', 'dns']) do
   tests( 'failure') do
   end
 
-  ## Cleanup
-  # We need to have at least one record defined for the Dreamhost DNS api to work
-  # or you will get a no_such_zone runtime error
-  # The first record needs to be created using the Dreamhost Web panel AFAIK
-  #
-  Fog::DNS[:dreamhost].records.each do |r|
-    # Do not delete the 'do-not-delete' record, we need it for the tests
-    r.destroy if r.name =~ /fog-dream.com/ and r.name != 'do-not-delete.fog-dream.com'
-  end
+  # helper
+  cleanup_records
 
 end
