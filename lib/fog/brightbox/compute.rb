@@ -125,6 +125,7 @@ module Fog
       request :update_api_client
       request :update_application
       request :update_cloud_ip
+      request :update_firewall_policy
       request :update_firewall_rule
       request :update_image
       request :update_load_balancer
