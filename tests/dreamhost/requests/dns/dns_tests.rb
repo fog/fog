@@ -115,8 +115,13 @@ Shindo.tests('Fog::DNS[:dreamhost] | DNS requests', ['dreamhost', 'dns']) do
   end
 
   ## Cleanup
+  # We need to have at least one record defined for the Dreamhost DNS api to work
+  # or you will get a no_such_zone runtime error
+  # The first record needs to be created using the Dreamhost Web panel AFAIK
+  #
   Fog::DNS[:dreamhost].records.each do |r|
-    r.destroy if r.name =~ /fog-dream.com/
+    # Do not delete the 'do-not-delete' record, we need it for the tests
+    r.destroy if r.name =~ /fog-dream.com/ and r.name != 'do-not-delete.fog-dream.com'
   end
 
 end
