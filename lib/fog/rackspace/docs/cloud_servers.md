@@ -31,7 +31,7 @@ Next, create a connection to the Next Gen Cloud Servers™:
   		:connection_options => {} # Optional
 	})
 
-To learn more about obtaining Cloud Credentials visit the [Getting Started with Fog and the Rackspace Open Cloud](/getting_started.md) document. 
+To learn more about obtaining cloud credentials visit the [Getting Started with Fog and the Rackspace Open Cloud](/getting_started.md) document. 
 
 By default `Fog::Compute` will connect to the DFW region. Alternative regions can be specified using the key `:rackspace_endpoint ` with one of the following values:
 
@@ -100,7 +100,7 @@ Fog provides both a **model** and **request** abstraction. The request abstracti
 ### Request Layer
 The request abstraction maps directly to the [Next Gen Cloud Servers™ API](http://docs.rackspace.com/servers/api/v2/cs-devguide/content/ch_preface.html). It provides the most efficient interface to the Rackspace Open Cloud.
 
-To see a list of requests supported by a service:
+To see a list of requests supported by the service:
 
 	service.requests
 	
@@ -123,7 +123,7 @@ To view the status of the response:
 	
 	response.status
 	
-***Note**: Fog is aware valid HTTP response status for each request type. If an unexpected HTTP response status occurs, Fog will raise an exception.*
+***Note**: Fog is aware valid HTTP response statuses for each request type. If an unexpected HTTP response status occurs, Fog will raise an exception.*
 	
 To view response body:
 
@@ -251,7 +251,7 @@ This returns an `Fog::Compute::RackspaceV2::Image` instance:
       links=[{"href"=>"https://ord.servers.api.rackspacecloud.com/v2/772045/images/8a3a9f96-b997-46fd-b7a8-a9e740796ffd", "rel"=>"self"}, {"href"=>"https://ord.servers.api.rackspacecloud.com/772045/images/8a3a9f96-b997-46fd-b7a8-a9e740796ffd", "rel"=>"bookmark"}, {"href"=>"https://ord.images.api.rackspacecloud.com/772045/images/8a3a9f96-b997-46fd-b7a8-a9e740796ffd", "type"=>"application/vnd.openstack.image", "rel"=>"alternate"}]
     > 
     
-***Note**: This request populates all Image attributes*
+***Note**: This request populates all Image attributes.*
 
 
 ## List Flavors
@@ -302,7 +302,7 @@ This returns a `Fog::Compute::RackspaceV2::Flavor` instance:
     links=[{"href"=>"https://dfw.servers.api.rackspacecloud.com/v2/772045/flavors/2", "rel"=>"self"}, {"href"=>"https://dfw.servers.api.rackspacecloud.com/772045/flavors/2", "rel"=>"bookmark"}]
     >
     
-***Note**: This request populates all Flavor attributes*
+***Note**: This request populates all Flavor attributes.*
 
 
 ## List Servers
@@ -486,17 +486,17 @@ To delete a server:
 ## Metadata
 Metadata is accessed as an attribute on both `Fog::Compute::RackspaceV2::Server` and `Fog::Compute::RackspaceV2::Metadata::Image`. Metadata can be specified during creation of a server or an image. Please refer to [Create Server](#create_server) or [Create Image](create_image) sections for more information.
 
-This example demonstrates how to iterate through a server's metadata
+This example demonstrates how to iterate through a server's metadata:
 
 	server.metadata.each {|metadatum| puts "#{metadatum.key}: #{metadatum.value}" }
 
-You can get or set metadata in a similar manner as you would a hash:
+Metadata can be retrieved and updated in a manner similar to a hash:
 
 	server.metadata["os_type"]
 	
 	server.metadata["installed_ruby"] = "MRI 1.9.3"
 
-You metadata will also respond to `save` and `reload`
+Metadata will also respond to `save` and `reload` like so:
 
 	server.metadata.save
 	
@@ -622,7 +622,7 @@ If the volume id is unknown we can look it up using the Cloud Block Storage serv
 
 	cbs_service = Fog::Rackspace::BlockStorage.new({
   		:rackspace_username  => RACKSPACE_USER_NAME, # Your Rackspace Username
-  		:rackspace_api_key   => RACKSPACE_API       # Your Rackspace API key
+  		:rackspace_api_key   => RACKSPACE_API        # Your Rackspace API key
 	})
 
 	volume = cbs_service.volumes.first
