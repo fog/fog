@@ -18,8 +18,12 @@ module Fog
         def all
           clear
           zones = []
+          zones_added = []
           service.records.each do |r|
-            zones << { :id => r.zone, :domain => r.zone }
+            unless zones_added.include?(r.zone)
+              zones << { :id => r.zone, :domain => r.zone }
+              zones_added << r.zone
+            end
           end
           load(zones)
         end
