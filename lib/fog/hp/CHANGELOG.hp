@@ -1,3 +1,9 @@
+0.0.19 18/01/2013
+=================
+- update Block Storage namespace to be Fog::HP::BlockStorage
+- merge with upstream fog v1.8.0
+- deprecate hp_account_id to use hp_access_key instead
+
 0.0.18 12/04/2012
 =================
 - add support for controlled access via cross-tenant ACLs

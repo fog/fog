@@ -19,10 +19,14 @@ module Fog
             data = nil
             message = nil
           else
-            data = Fog::JSON.decode(error.response.body)
-            message = data['message']
-            if message.nil? and !data.values.first.nil?
-              message = data.values.first['message']
+            begin
+              data = Fog::JSON.decode(error.response.body)
+              message = data['message']
+              if message.nil? and !data.values.first.nil?
+                message = data.values.first['message']
+              end
+            rescue MultiJson::DecodeError
+              message = error.response.body  #### body is not in JSON format, so just return as is
             end
           end
 
@@ -73,13 +77,13 @@ module Fog
       @user_agent = options[:user_agent]
       set_user_agent_header(connection_options, "hpfog v1/#{Fog::HP::VERSION}", @user_agent)
       connection = Fog::Connection.new(service_url, false, connection_options)
-      @hp_account_id = options[:hp_account_id]
+      @hp_access_key = options[:hp_access_key]
       @hp_secret_key  = options[:hp_secret_key]
       response = connection.request({
         :expects  => [200, 204],
         :headers  => {
           'X-Auth-Key'  => @hp_secret_key,
-          'X-Auth-User' => @hp_account_id
+          'X-Auth-User' => @hp_access_key
         },
         :host     => @host,
         :port     => @port,
@@ -120,7 +124,7 @@ module Fog
       ### Implement HP Control Services Authentication services ###
       # Get the style of auth credentials passed, defaults to access/secret key style
       @hp_use_upass_auth_style = options[:hp_use_upass_auth_style] || false
-      @hp_account_id = options[:hp_account_id]
+      @hp_access_key = options[:hp_access_key]
       @hp_secret_key = options[:hp_secret_key]
       @hp_tenant_id  = options[:hp_tenant_id]
       @hp_service_type  = options[:hp_service_type]
@@ -132,7 +136,7 @@ module Fog
         request_body = {
             'auth' => {
                 'apiAccessKeyCredentials' => {
-                    'accessKey' => "#{@hp_account_id}",
+                    'accessKey' => "#{@hp_access_key}",
                     'secretKey' => "#{@hp_secret_key}"
                 }
             }
@@ -142,7 +146,7 @@ module Fog
         request_body = {
             'auth' => {
                 'passwordCredentials' => {
-                    'username' => "#{@hp_account_id}",
+                    'username' => "#{@hp_access_key}",
                     'password' => "#{@hp_secret_key}"
                 }
             }

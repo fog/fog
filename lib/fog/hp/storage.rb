@@ -5,10 +5,11 @@ module Fog
   module Storage
     class HP < Fog::Service
 
-      requires    :hp_secret_key, :hp_account_id, :hp_tenant_id, :hp_avl_zone
-      recognizes  :hp_auth_uri, :hp_servicenet, :hp_cdn_ssl, :hp_cdn_uri
+      requires    :hp_secret_key, :hp_tenant_id, :hp_avl_zone
+      recognizes  :hp_auth_uri, :hp_cdn_ssl, :hp_cdn_uri
       recognizes  :persistent, :connection_options
       recognizes  :hp_use_upass_auth_style, :hp_auth_version, :user_agent
+      recognizes  :hp_access_key, :hp_account_id  # :hp_account_id is deprecated use hp_access_key instead
 
       secrets     :hp_secret_key
 
@@ -47,7 +48,7 @@ module Fog
           unless @hp_cdn_uri.nil?
             @cdn ||= Fog::CDN.new(
               :provider       => 'HP',
-              :hp_account_id  => @hp_account_id,
+              :hp_access_key  => @hp_access_key,
               :hp_secret_key  => @hp_secret_key,
               :hp_auth_uri    => @hp_auth_uri,
               :hp_cdn_uri     => @hp_cdn_uri,
@@ -168,7 +169,7 @@ module Fog
           string_to_sign = "#{method}\n#{expires}\n#{sig_path}"
           signed_string = Digest::HMAC.hexdigest(string_to_sign, @hp_secret_key, Digest::SHA1)
 
-          signature = @hp_tenant_id.to_s + ":" + @hp_account_id.to_s + ":" + signed_string
+          signature = @hp_tenant_id.to_s + ":" + @hp_access_key.to_s + ":" + signed_string
           signature = Fog::HP.escape(signature)
 
           # generate the temp url using the signature and expiry
@@ -201,17 +202,25 @@ module Fog
 
         def initialize(options={})
           require 'mime/types'
+          # deprecate hp_account_id
+          if options[:hp_account_id]
+            Fog::Logger.deprecation(":hp_account_id is deprecated, please use :hp_access_key instead.")
+            @hp_access_key = options.delete(:hp_account_id)
+          end
+          @hp_access_key = options[:hp_access_key]
+          unless @hp_access_key
+            raise ArgumentError.new("Missing required arguments: hp_access_key. :hp_account_id is deprecated, please use :hp_access_key instead.")
+          end
           @hp_secret_key = options[:hp_secret_key]
-          @hp_account_id = options[:hp_account_id]
           @hp_tenant_id = options[:hp_tenant_id]
         end
 
         def data
-          self.class.data[@hp_account_id]
+          self.class.data[@hp_access_key]
         end
 
         def reset_data
-          self.class.data.delete(@hp_account_id)
+          self.class.data.delete(@hp_access_key)
         end
 
       end
@@ -222,8 +231,16 @@ module Fog
 
         def initialize(options={})
           require 'mime/types'
+          # deprecate hp_account_id
+          if options[:hp_account_id]
+            Fog::Logger.deprecation(":hp_account_id is deprecated, please use :hp_access_key instead.")
+            options[:hp_access_key] = options.delete(:hp_account_id)
+          end
+          @hp_access_key = options[:hp_access_key]
+          unless @hp_access_key
+            raise ArgumentError.new("Missing required arguments: hp_access_key. :hp_account_id is deprecated, please use :hp_access_key instead.")
+          end
           @hp_secret_key = options[:hp_secret_key]
-          @hp_account_id = options[:hp_account_id]
           @hp_auth_uri   = options[:hp_auth_uri]
           @hp_cdn_ssl    = options[:hp_cdn_ssl]
           @connection_options = options[:connection_options] || {}
