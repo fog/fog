@@ -39,8 +39,8 @@ records.
    
 ## Notes
 
-The API is rate limited, so do not smash the DH servers too often.
-
+The API is rate limited, so do not smash the DH servers too often. Two
+consecutive test runs will trigger the rate limit.
 You'll see a **slow_down_bucko** error if the frequency is too high.
 
 http://wiki.dreamhost.com/Application_programming_interface#Rate_Limit
