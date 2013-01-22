@@ -16,6 +16,7 @@ module Fog
 
         def all
           requires :parent
+          return unless parent.identity
           data = connection.list_metadata(collection_name, parent.id).body['metadata']
           from_hash(data)
         end
