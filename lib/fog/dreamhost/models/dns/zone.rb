@@ -26,10 +26,12 @@ module Fog
         #
         # Return a list of records for this zone
         #
+        # Since Dreamhost does not support zones, this is
+        # emulated. Iterates over all the records and discards
+        # the ones where Record.zone != domain (the current zone domain)
+        #
         def records
-          @records ||= begin
-            Fog::DNS::Dreamhost::Records.new( :zone => self, :service => service )
-          end
+          service.records.all :zone => domain
         end
 
         #
