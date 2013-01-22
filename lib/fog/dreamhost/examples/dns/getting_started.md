@@ -10,33 +10,50 @@ records.
 
 ## Create the service
 
-We need to create the service first, using the key we added:
+We need to create the service first, using the API key from our account:
 
 ```ruby
 require 'fog' 
 require 'pp'
 
 dh = Fog::DNS.new( :provider => "Dreamhost",
-                   :dreamhost_api_key => '6SHU5P2HLDAYECUM'
-                  )
+                   :dreamhost_api_key => '6SHU5P2HLDAYECUM' )
+```
+
+## List all the DNS zones
+
+This will list all the DNS zones avaialble in your account:
+
+```ruby
+dh.zones.each do |zone|
+  puts zone.domain
+end
 ```
 
 ## Retrieve all the records
 
-List all the records available to your Dreamhost account, accross all the zones:
+List all the records available in your Dreamhost account, accross all the zones:
 
 ```ruby
-dh.records.all.each do |r|
+dh.records.each do |r|
   puts r.name
+end
+```
+
+If you  want to fetch all the records in a single zone:
+
+```ruby
+zone = dh.zones.get 'fog-dream.com'
+zone.records.each do |r|
+  # do something with the record
 end
 ```
 
 See http://wiki.dreamhost.com/API/Dns_commands#dns-list_records
 
-## Fetch a single record
+## Retrieve a single record
 
-We can only retrieve a single record, if that's what we need. Then,
-read some of the attributes:
+Get a single record and do something with the attributes:
 
 ```ruby
 rec = dh.records.get 'msn.jabber.groo.com'
@@ -47,14 +64,19 @@ rec.comment    # Record text comment
 rec.value      # record value
 ```
 
-## Fetch all the records from zone foobar.com
+## Create a new A record
 
-```ruby
-zone = dh.zones.get 'foobar.com'
-zone.records
+Let's create a new A record:
+
+```
+zone = dh.zones.get 'rbel.co'
+zone.records.create :name => 'stuff.rbel.co',
+                    :type => 'TXT',
+                    :value => 'foobar bar bar'
 ```
 
-## Create a new A record
+Since Dreamhost API does not support the concept of zone,
+you can also use this code to accomplish the same thing:
 
 ```ruby
 dh.records.create(
@@ -64,20 +86,20 @@ dh.records.create(
 )
 ```
 
-You can also use the following code, similar to other fog providers:
-
-```
-zone = dh.zones.get 'foobar.com'
-zone.records.create :name => 'stuff.rbel.co',
-                    :type => 'TXT',
-                    :value => 'foobar bar bar'
-```
-
-
 ## Destroy all the records in a zone
 
 ```ruby
-(dh.zones.get 'foobar.com').each do |rec|
+(dh.zones.get 'rbel.co').records.each do |rec|
   rec.destroy
 end
 ```
+
+## Resources
+
+The Dreamhost API:
+
+http://wiki.dreamhost.com/Application_programming_interface
+
+DNS API commands:
+
+http://wiki.dreamhost.com/API/Dns_commands
