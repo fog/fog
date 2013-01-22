@@ -1,6 +1,5 @@
 require File.expand_path(File.join(File.dirname(__FILE__), '..', 'dreamhost'))
 require 'fog/dns'
-require 'uuid'
 
 module Fog
   module DNS
@@ -70,8 +69,7 @@ module Fog
 
         def request(params)
           params[:query].merge!( { :key => @dreamhost_api_key, 
-                                   :format => 'json',
-                                   :unique_id => UUID.generate } )
+                                   :format => 'json' } )
           response = @connection.request(params)
 
           unless response.body.empty?
