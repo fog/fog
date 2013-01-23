@@ -1,7 +1,9 @@
 #!/usr/bin/env ruby
 
+# This example demonstrates creating a server with the Rackpace Open Cloud
+
 require 'rubygems' #required for Ruby 1.8.x
-require 'lib/fog'
+require './lib/fog'
 require "base64" #required to encode files for personality functionality
 
 def get_user_input(prompt)
@@ -62,7 +64,7 @@ puts "\n"
 begin
   # Check every 5 seconds to see if server is in the active state (ready?). 
   # If the server has not been built in 5 minutes (600 seconds) an exception will be raised.
-  server.wait_for(10, 5) do
+  server.wait_for(600, 5) do
     print "."
     STDOUT.flush
     ready?
