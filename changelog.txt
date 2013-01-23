@@ -1,3 +1,433 @@
+1.9.0 01/19/2013 0283cac581edc36fe58681c51d6fa2a5d2db3f41
+=========================================================
+
+Stats! { 'collaborators' => 41, 'downloads' => 1567112, 'forks' => 673, 'open_issues' => 99, 'watchers' => 2342 }
+
+MVP! Paul Thornthwaite
+
+[AWS]
+  CopySnapshot. supports cross-region snapshot copying. thanks Shai Rosenfeld & Jacob Burkhart
+
+[AWS|DynamoDB]
+  Default to HTTPS. thanks Blake Gentry
+
+[AWS|cloud_watch]
+  Add Metrics#each, which follows NextToken. thanks Michael Hale
+
+[Brightbox]
+  Add ServerGroup attribute in CloudIP model. thanks Hemant Kumar
+  Guards against unimplemented mock. thanks Paul Thornthwaite
+  Adds firewall request tests. thanks Paul Thornthwaite
+  Deprecates incorrect form of #request. thanks Paul Thornthwaite
+  Replaces usage of deprecated #request. thanks Paul Thornthwaite
+  Adds #dns_name to server. thanks Paul Thornthwaite
+  Updates reference to service. thanks Paul Thornthwaite
+
+[Rackspace]
+  updated to select London athorization endpoint if the London Region endpoint is selected. thanks Kyle Rames
+
+[Rackspace|Compute]
+  updated create_image to return an image object instead of the object id. thanks Kyle Rames
+  updated ready method on Image to raise an exception if an error state occurs. This is similar to the behavior of Server. thanks Kyle Rames
+
+[atmos]
+  Updates reference to service. thanks Paul Thornthwaite
+
+[aws]
+  Replaces #new_record? with #persisted?. thanks Paul Thornthwaite
+
+[aws|auto_scaling]
+  Implement resume_processes mock. thanks Michael Hale
+  Implement suspend_processes mock. thanks Michael Hale
+  remove pending if mocking? for model_tests. thanks Michael Hale
+  Updates reference to service. thanks Paul Thornthwaite
+
+[aws|beanstalk]
+  Updates reference to service. thanks Paul Thornthwaite
+
+[aws|cdn]
+  Updates reference to service. thanks Paul Thornthwaite
+
+[aws|cloud_watch]
+  Updates reference to service. thanks Paul Thornthwaite
+
+[aws|compute]
+  Updates 'connection' references. thanks Paul Thornthwaite
+  Updates reference to service. thanks Paul Thornthwaite
+
+[aws|dns]
+  Updates reference to service. thanks Paul Thornthwaite
+
+[aws|elasticache]
+  Updates reference to service. thanks Paul Thornthwaite
+
+[aws|elb]
+  Updates reference to service. thanks Paul Thornthwaite
+
+[aws|glacier]
+  Updates reference to service. thanks Paul Thornthwaite
+
+[aws|iam]
+  Updates reference to service. thanks Paul Thornthwaite
+
+[aws|rds]
+  Updates reference to service. thanks Paul Thornthwaite
+
+[aws|storage]
+  Updates reference to service. thanks Paul Thornthwaite
+
+[bluebox]
+  Updates reference to service. thanks Paul Thornthwaite
+
+[clodo]
+  Updates reference to service. thanks Paul Thornthwaite
+
+[cloudstack]
+  Updates reference to service. thanks Paul Thornthwaite
+
+[core]
+  Adds #persisted? to Fog models. thanks Paul Thornthwaite
+  Breaks down rake tasks. thanks Paul Thornthwaite
+  Deprecates 'connection' accessor. thanks Paul Thornthwaite
+  Fix service instance variable being included when doing     model.to_json. thanks Philip Mark M. Deazeta
+
+[dns_made_easy|dns]
+  Updates reference to service. thanks Paul Thornthwaite
+
+[dnsimple]
+  Updates reference to service. thanks Paul Thornthwaite
+
+[doc]
+  converting old doc style to YARD doc style. thanks Weston Platter
+  is there a better way to format nested responses?. thanks Weston Platter
+
+[docs]
+  changed rdoc formatting to yard. thanks Danny Garcia
+  Creates release policy document to discuss. thanks Paul Thornthwaite
+
+[docs::aws::storage]
+  added [] to make it pretty. thanks Weston Platter
+  yard doc syntax fix. thanks Weston Platter
+  reformatted copy_object. thanks Weston Platter
+  reformatted delete requests. thanks Weston Platter
+  standardized return format       for key with values,         # @return variable [data_type]:       for values,         # * variable [data_type] - description of value. thanks Weston Platter
+  WIP on get requests. thanks Weston Platter
+  finished formatting get requests. thanks Weston Platter
+  requests convert Rdoc to YARD format. thanks Weston Platter
+  requests minor tweaks to keep docs all the same. thanks Weston Platter
+  requests changed Rdoc to YARD. thanks Weston Platter
+  requests finished changing RDoc to Yard. thanks Weston Platter
+  remove 1 space char for formatting. thanks Weston Platter
+
+[docs::was::storage]
+  i was wrong. this is an int describing "number of seconds before expiration"     to confirm, go to -- http://docs.aws.amazon.com/AmazonS3/latest/API/RESTObjectPUT.html     search for -- expires. thanks Weston Platter
+  formatting. thanks Weston Platter
+  added more description. thanks Weston Platter
+  added docs for other public methods. thanks Weston Platter
+  added URL for list of S3 docs about Restful HTTP API. thanks Weston Platter
+  this consistently spaces all methods 2 lines from each other. thanks Weston Platter
+
+[dynect|dns]
+  Updates reference to service. thanks Paul Thornthwaite
+
+[ecloud]
+  improvements and some mocking. thanks Eugene Howe & Josh Lane
+  Replaces #new_record? with #persisted?. thanks Paul Thornthwaite
+  Fixes tests by duplicating test setup. thanks Paul Thornthwaite
+
+[ecloud|compute]
+  Fixes missing value. thanks Paul Thornthwaite
+  Updates reference to service. thanks Paul Thornthwaite
+  Fixes tagging of some tests. thanks Paul Thornthwaite
+  Fixes ecloud server tests. thanks Paul Thornthwaite
+
+[glesys|compute]
+  Updates reference to service. thanks Paul Thornthwaite
+
+[go_grid|compute]
+  Updates reference to service. thanks Paul Thornthwaite
+
+[google|storage]
+  Updates reference to service. thanks Paul Thornthwaite
+
+[hp]
+  Replaces #new_record? with #persisted?. thanks Paul Thornthwaite
+  Updates reference to service. thanks Paul Thornthwaite
+
+[ibm]
+  Updates reference to service. thanks Paul Thornthwaite
+
+[joyent|compute]
+  Updates reference to service. thanks Paul Thornthwaite
+
+[libvirt|compute]
+  Updates 'connection' references. thanks Paul Thornthwaite
+  Updates reference to service. thanks Paul Thornthwaite
+
+[linode]
+  Updates reference to service. thanks Paul Thornthwaite
+
+[local|storage]
+  Updates reference to service. thanks Paul Thornthwaite
+
+[misc]
+  use old multijson methods. thanks Carl Allen
+  always use old encode/decode from multijson (it only has warnings in 1.3.0-1.3.2). thanks Carl Allen
+  Rackspace, openstack, hp API error messages are not set correctly in exceptions. thanks Carlos Sanchez
+  Add vsphere public_ip_address correctly. thanks Carlos Sanchez
+  add failing test and update Mock list_users to filter based on tenant_id. thanks Coby Randquist
+  update tenant.rb to pass the test, by passing correct parameter. thanks Coby Randquist
+  OpenStack server test updates for real mode. thanks Dan Prince
+  OpenStack: Drop unused server_format hash. thanks Dan Prince
+  OpenStack custom exception cleanup. thanks Dan Prince
+  OpenStack auth updates to select by service name. thanks Dan Prince
+  skype sucks. thanks Danny Garcia
+  change copy_object docs to YARD. thanks Danny Garcia
+  YARD docs for head_object.rb. thanks Danny Garcia
+  how do I updates my clone with updates from source?. thanks Danny Garcia
+  change docs on initiate_multipart_upload.rb. thanks Danny Garcia
+  change copy_object docs to YARD. thanks Danny Garcia
+  YARD docs for head_object.rb. thanks Danny Garcia
+  how do I updates my clone with updates from source?. thanks Danny Garcia
+  change docs on initiate_multipart_upload.rb. thanks Danny Garcia
+  resolve merge conflicts according to the code on fog master. thanks Danny Garcia
+  change doc on copy_object.rb. thanks Danny Garcia
+  change docs. thanks Danny Garcia
+  Add ability to specify Tags to AWS cfn-create-stack call. thanks David Chen
+  Remove tabs... thanks David Chen
+  Added test for Fog::Openstack::authenticate_v2. thanks Eric Hodel
+  Raise a NotFound exception for missing services. thanks Eric Hodel
+  Add OpenStack EC2 credentials requests. thanks Eric Hodel
+  Added OpenStack EC2 credential management models. thanks Eric Hodel
+  Added documentation for OS-EC2 requests. thanks Eric Hodel
+  Ruby 1.8.7 does not allow trailing commas in method arguments. thanks Eric Hodel
+  Ruby 1.8.7 does not allow trailing commas in method arguments (for remaining files). thanks Eric Hodel
+  OpenStack create_server mocks now match reality. thanks Eric Hodel
+  Added mock for Fog::Identity#get_user_by_name. thanks Eric Hodel
+  Removed extra whitespace from previous commit. thanks Eric Hodel
+  Store the user_id in the server mock data. thanks Eric Hodel
+  Added SIGINT handler to the fog console. thanks Eric Hodel
+  OpenStack servers can now retrieve security groups. thanks Eric Hodel
+  adds support for bucket transitioning/fixes bucket lifecycle management. thanks Eric Stonfer
+  fixed bug where Fog::Storage::Rackspace::File raised Fog::Storage::Rackspace::NotFound if file was created with passed etag attribute. Changed to check existence based on last_modified instead of etag. thanks Evan Smith
+  Added multi-region support for OpenStack Image service. thanks Joe Topjian
+  use CGI.escapeHTML instead of CGI.escape. thanks John Parker
+  Correct the Blue Box create_block method to check for ssh_public_key, not public_key. thanks Josh Kalderimis
+  Correct the docs for the ssh_public_key option. thanks Josh Kalderimis
+  added create_image and delete_image to Compute::RackspaceV2 Fixes #1351. thanks Kyle Rames
+  added a mock for Compute::RackspaceV2 delete_image; Compute::RackspaceV2 has not implemented mocking support however. thanks Kyle Rames
+  Updated Fog.wait_for to throw a timeout exception instead of returning false #1368. thanks Kyle Rames
+  updating wait_for timeout message per conversation with @geemus. thanks Kyle Rames
+  Modified Fog::Compute::RackspaceV2 destroy image test from test setup. thanks Kyle Rames
+  Updated Fog::Rackspace::Errors::Service error to include the HTTP response code to aid in debugging. thanks Kyle Rames
+  Fixing html escape typo in the Rackspace section of the Fog storage instructions. thanks Kyle Rames
+  added create_snapshot method to Fog::Rackspace::BlockStorage::Volume. thanks Kyle Rames
+  updated save method in Fog::Rackspace::BlockStorage::Volume and Fog::Rackspace::BlockStorage::Snapshot to skip creating cloud reources if identity was already set Fixes #1402. thanks Kyle Rames
+  Updated default Rackspace Compute provider to return a Fog::Compute::RackspaceV2 instance. In order to access legacy Cloud Servers, a :version => :v1 parameter will need be passed like so Fog::Compute.new({       :provider                 => 'Rackspace',       :rackspace_username        => USER,       :rackspace_api_key    => API_KEY,       :version => :v1     }). thanks Kyle Rames
+  Updated the save method in Fog::Rackspace::BlockStorage::Volume and Fog::Rackspace::BlockStorage::Snapshot to throw an exception if the identity attribute is set per geemus; rebased code to latest master. thanks Kyle Rames
+  updating Compute[:rackspace] to use v1 provider. thanks Kyle Rames
+  Updated compute model tests to take a provider parameter; Updated tests to run tests for Rackspace Compute V1. I will add V2 when the mocks are complete. thanks Kyle Rames
+  reverted back to version 1 of the Rackspace compute interface along with a deprecation warning. thanks Kyle Rames
+  implemented list_addresses for Fog::Compute::RackspaceV2. thanks Kyle Rames
+  implemented list_addresses_by_network for Fog::Compute::RackspaceV2. thanks Kyle Rames
+  added server metadata operations for Fog::Compute::RackspaceV2. thanks Kyle Rames
+  refactored Fog::Compute::RackspaceV2 metadata to take collection as a parameter rather than using it as part of the method name. thanks Kyle Rames
+  fixing broken metadata tests. thanks Kyle Rames
+  changed metadata implementation for Fog::Compute::RackspaceV2::Server and Fog::Compute::RackspaceV2::Image. thanks Kyle Rames
+  changing variable names to make code clearer. thanks Kyle Rames
+  fixing broken tests. thanks Kyle Rames
+  added better acceptance criteria to server/image metadata tests; added metadata to ignored_attributes to address bug. thanks Kyle Rames
+  fixing merge issues with master. thanks Kyle Rames
+  fixing typo. thanks Kyle Rames
+  fixing broken tests. thanks Kyle Rames
+  tweaking tests and error handling. thanks Kyle Rames
+  merge in latest master. thanks Kyle Rames
+  Updated Fog::Logger to log to standard out if DEBUG=true is passed in through the environment. thanks Kyle Rames
+  Fixing merge conflicts. thanks Kyle Rames
+  fixing merge issues. thanks Kyle Rames
+  tweaking whitespace in order to get travis to rebuild. thanks Kyle Rames
+  tweaking whitespace one more time in order to get travis to rebuild. thanks Kyle Rames
+  initial revision of rackspace documentation. thanks Kyle Rames
+  Support AWS S3 cors configuration for buckets. thanks Lee Henson
+  adding support for rackspace loadbalancer content caching. thanks Luiz Ribeiro
+  Added request create_folder for vsphere compute. This will create a vm folder in vsphere. thanks Matthew Black
+  Expanded vm_clone to allow for setting up static ip for first nic. thanks Matthew Black
+  Add Gem Version badge. thanks Michael Rykov
+  Added new output to vm_clone.rb     Fixed 'path' attribute on server model     fixed server.clone function and added some documentation. thanks Nick Huanca
+  Fixed path for folder attribute model. thanks Nick Huanca
+  Added a new attribute to server model (relative_path)     cleaned up clone function from server model     Added better use of resource pool, dest_folder     Added new datastore selection, simplified vm_clone.rb     Added Customization specs for linux machines     Added a new call from datacenters method to grab virtual_servers in datacenter. thanks Nick Huanca
+  fixed up issues with vm_clone looking for methods that didn't exist     tested with wait => true,     wait => false fails since it cannot load model while server is still being created. thanks Nick Huanca
+  added styling fix. thanks Nick Huanca
+  Fixed up tests. thanks Nick Huanca
+  fixed up some issues with the tests, needs more work and thought. thanks Nick Huanca
+  added a note about ugliness and needing more help with tests. thanks Nick Huanca
+  Adds badge for dependencies status. thanks Paul Thornthwaite
+  Make use of #persisted? method. thanks Paul Thornthwaite
+  Removes tags file from repo. thanks Paul Thornthwaite
+  Revert "add GitHub Flavored Markdown to README". thanks Paul Thornthwaite
+  add GitHub Flavored Markdown to README. thanks Phil Cohen
+  Fix typo and use #get_header to handle mixed-case header keys. thanks Rida Al Barazi
+  Adding describe_reserved_cache_nodes.rb     '     '. thanks Sean Hart
+  Added Tests for Elasticache Reservations. thanks Sean Hart
+  Added missing HostMetrics model. thanks Sergio Rubio
+  Added some task descriptions so they show up with 'rake -T'. thanks Sergio Rubio
+  Alias 'rake build' task with 'rake gem'. thanks Sergio Rubio
+  Introduce AWS::COMPLIANT_BUCKET_NAMES constant. thanks Stephan Kaag
+  fix typo. thanks Steve Agalloco
+  list all VMs in nested folders. thanks Tejas Ravindra Mandke
+  search through all network adapters recursively to find one being searched for. thanks Tejas Ravindra Mandke
+  a few workarounds allowing aws plugin to work with Eucalyptus cloud. thanks Tomasz Bak
+  unit test for the XML namespace handling workaround. thanks Tomasz Bak
+  a workaround for lack of handling XML namespaces directly (required by Eucalyptus endpoint). thanks Tomasz Bak
+  add IamInstanceProfile abilitie. thanks Topper Bowers
+  fix existing spot specs. thanks Topper Bowers
+  support parsing the iamInstanceProfile. thanks Topper Bowers
+  Properly return all alarms. thanks Trotter Cashion
+  add aws page - wip #1350. thanks Weston Platter
+  work in progress #1350 - change tabs to spaces. thanks Weston Platter
+  complete #1350 add link to index page referencing storage/aws.hmtl. thanks Weston Platter
+  issue/1350 [doc] add options param. thanks Weston Platter
+  issue/1350 [doc] add key to options hash -- encryption. thanks Weston Platter
+  issue/1350 [doc] add other key to options hash. thanks Weston Platter
+  Added a cors (with bucket) item to the data has of the Storage AWS Mock class (upon creation of the hash). This is to prevent put_bucket_cors from failing during tests. thanks epdejager
+  Added a test for put_bucket_cors to make sure it runs in a test (mock) scenario. thanks epdejager
+  remove docs and related, they now live at fog/fog.github.com. thanks geemus
+  update copyright notice year. thanks geemus
+  rescue/retry when loading gems (possibly without rubygems)     closes #901. thanks geemus
+  added floatingip. thanks kanetann
+  added associate_floatingip and disassosiate_floatingip mock test. thanks kanetann
+  update associate_floatingip for real. thanks kanetann
+  deleted update_floatingip and changed variable name from floating_network_id to floatingip_id. thanks kanetann
+  fixed disassociate_floatingip bug and update floatingip-* mock values. thanks kanetann
+  updated for ruby naming conventions. thanks kanetann
+  deleted old files eg. floatingip.rb. thanks kanetann
+  Bug fix: Ensure Fog::VERSION gets defined. thanks ronen barzel
+  remove const_defined? guard. thanks ronen barzel
+
+[ninefold|compute]
+  Updates reference to service. thanks Paul Thornthwaite
+
+[openstack]
+  Show an error message when there aren't any endpoints available for a region. thanks Ferran Rodenas
+  Show an error message when there aren't any endpoints available for a region. thanks Ferran Rodenas
+  Update Mocks and Cleanup Unused Code. thanks Nelvin Driz
+  Fix Test. thanks Nelvin Driz
+  Replaces #new_record? with #persisted?. thanks Paul Thornthwaite
+  Updates reference to service. thanks Paul Thornthwaite
+
+[openstack|compute]
+  Update Quota Mocks based on Folsom Stable. thanks Nelvin Driz
+
+[openstack|identity]
+  Update User Role Membership Mocks. thanks Nelvin Driz
+  Added sample code to README.identity.md. thanks Sergio Rubio
+  replace to_json with Fog::JSON.encode. thanks Sergio Rubio
+
+[openstack|image]
+  Fixes #1383. thanks Sergio Rubio
+  Configurable :openstack_endpoint_type. thanks Sergio Rubio
+
+[ovirt|compute]
+  Updates reference to service. thanks Paul Thornthwaite
+
+[rackspace]
+  compute_v2 and blockstorage are mocked     [ecloud] fixed a test and removed connection deprecation notices. thanks Eugene Howe
+  Moved methods to MockData module. thanks Eugene Howe
+  updated Rackspace to return a list of all services. thanks Kyle Rames
+  Updates reference to service. thanks Paul Thornthwaite
+  Fixes nesting of tests. thanks Paul Thornthwaite
+
+[rackspace|compute]
+  updated rebuild to support passing additional options. thanks Kyle Rames
+  added attach_volume method to server; cleaned up attachment model. thanks Kyle Rames
+  server update method now updates accessIPv4, accessIPv6, as well as name; made server request tests more robust. thanks Kyle Rames
+  made device an optional parameter in attach_volume method and request; split volume_attach and attachments into two different tests. thanks Kyle Rames
+  tweaked server model tests; updated ready? method to support different ready states as well as checking for error states. thanks Kyle Rames
+
+[rackspace|dns]
+  creating a record now uses specified ttl. thanks Andreas Gerauer
+
+[rackspace|storage]
+  Updates 'connection' references. thanks Paul Thornthwaite
+
+[serverlove|compute]
+  Updates reference to service. thanks Paul Thornthwaite
+
+[storm_on_demand]
+  Updates reference to service. thanks Paul Thornthwaite
+
+[terremark]
+  Updates reference to service. thanks Paul Thornthwaite
+
+[vcloud]
+  Replaces #new_record? with #persisted?. thanks Paul Thornthwaite
+
+[vcloud|compute]
+  Updates reference to service. thanks Paul Thornthwaite
+
+[virtual_box|compute]
+  Updates reference to service. thanks Paul Thornthwaite
+
+[vmfusion]
+  Updates reference to service. thanks Paul Thornthwaite
+
+[voxel|compute]
+  Updates reference to service. thanks Paul Thornthwaite
+
+[vsphere]
+  allow to create a vm with multiple disks. thanks Ohad Levy
+
+[vsphere|compute]
+  Updates reference to service. thanks Paul Thornthwaite
+  Reverts change of connection. thanks Paul Thornthwaite
+
+[xenserver]
+  Fix Fog::XenServer::Connection.authenticate. thanks Oguz Bilgic
+  Added HostMetrics tests. thanks Sergio Rubio
+  added create_sr request (create Storage Repository). thanks Sergio Rubio
+  added destroy_sr request (destroy Storage Repository). thanks Sergio Rubio
+  added unplug_pbd request. thanks Sergio Rubio
+  added new requests to compute service. thanks Sergio Rubio
+  added unplug method to PBD model. thanks Sergio Rubio
+  missing Pool model attribute, new methods. thanks Sergio Rubio
+  added new methods to StorageRepository model. thanks Sergio Rubio
+  updated create_sr request documentation, fixed default values. thanks Sergio Rubio
+  add missing PBD 'currently_attached' attribute. thanks Sergio Rubio
+  StorageRepository.save should use sane defaults. thanks Sergio Rubio
+  add missing host operations (enable/disable, reboot, shutdown). thanks Sergio Rubio
+  added missing HostCpu model. thanks Sergio Rubio
+  added missing host_cpus attribute to Host model. thanks Sergio Rubio
+  add missing Host attributes (edition, software_version). thanks Sergio Rubio
+  replace #connection with #service in models. thanks Sergio Rubio
+  Use Nokogiri instead of slow REXML for parsing. thanks deepj
+
+[xenserver|compute]
+  Updates reference to service. thanks Paul Thornthwaite
+  added getting started examples. thanks Sergio Rubio
+
+[xenserver|docs]
+  Added maintainer/attribution header to README.md. thanks Sergio Rubio
+  added creating_servers.md tutorial. thanks Sergio Rubio
+  added storage repositories examples. thanks Sergio Rubio
+  added some color!, minor format fixes. thanks Sergio Rubio
+  Added new example that covers a Citrix KB ctx116324 article. thanks Sergio Rubio
+  Added XenServer provider specific ChangeLog. thanks Sergio Rubio
+
+[xenserver|tests]
+  Added create_sr request tests. thanks Sergio Rubio
+  Added destroy_sr request tests. thanks Sergio Rubio
+  add unplug_pbd request tests. thanks Sergio Rubio
+  tests PBDs plug/unplug operation. thanks Sergio Rubio
+  added more pool tests to cover the new functionality. thanks Sergio Rubio
+  added missing SotorageRepository tests. thanks Sergio Rubio
+  added HostCpu model tests. thanks Sergio Rubio
+  typo fix. thanks Sergio Rubio
+  test Host.host_cpus method. thanks Sergio Rubio
+
+[zerigo|dns]
+  Updates reference to service. thanks Paul Thornthwaite
+
+
 1.8.0 12/01/2012 057c0c525a39e77cb2037c9fec3d851b209c151b
 =========================================================
 

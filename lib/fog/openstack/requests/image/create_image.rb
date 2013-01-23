@@ -27,7 +27,7 @@ module Fog
 
           unless attributes[:properties].nil?
             attributes[:properties].each do |key,value|
-              data['x-image-meta-property-#{key}'] = value
+              data["x-image-meta-property-#{key}"] = value
             end
           end
 
