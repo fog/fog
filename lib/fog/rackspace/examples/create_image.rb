@@ -44,14 +44,8 @@ servers.each_with_index do |server, i|
 end
 
 selected_str = get_user_input "\nEnter number"
+server = servers[selected_str.to_i]
 
-selected_id = begin
-  Integer(selected_str)
-rescue
-  abort "Unrecognized input. Exiting without creating image."
-end
-
-server = servers[selected_id]
 image_name = get_user_input "Enter name for image"
 
 #creates image for server

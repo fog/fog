@@ -55,8 +55,7 @@ if delete_str == 'ALL'
   servers.each {|server| server.destroy }
   puts "All servers have been destroyed"
 else
-  delete_id = Integer(delete_str)
-  server = servers[delete_id]
+  server = servers[delete_str.to_i]
   server.destroy
   puts "#{server.name} has been destroyed"
 end

@@ -60,8 +60,7 @@ if delete_str == 'ALL'
   snapshot_images.each {|image| image.destroy }
   puts "All images have been destroyed"
 else
-  delete_id = Integer(delete_str)
-  image = snapshot_images[delete_id]
+  image = snapshot_images[delete_str.to_i]
   image.destroy
   puts "#{image.name} has been destroyed"
 end
