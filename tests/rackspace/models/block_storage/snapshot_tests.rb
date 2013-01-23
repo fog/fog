@@ -1,6 +1,5 @@
-service = Fog::Rackspace::BlockStorage.new
-
 Shindo.tests('Fog::Rackspace::BlockStorage | snapshot', ['rackspace']) do
+  service = Fog::Rackspace::BlockStorage.new
 
   begin
     volume = service.volumes.create({

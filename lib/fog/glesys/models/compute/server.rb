@@ -25,6 +25,7 @@ module Fog
         attribute :iplist
         attribute :ipversion
         attribute :ip
+        attribute :description
 
         def ready?
           state == 'running'

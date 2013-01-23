@@ -24,6 +24,7 @@ module Fog
       request :reset_cache_parameter_group
       request :describe_engine_default_parameters
       request :describe_cache_parameters
+      request :describe_reserved_cache_nodes
 
       request :create_cache_security_group
       request :delete_cache_security_group
@@ -87,7 +88,8 @@ module Fog
             :host               => @host,
             :path               => @path,
             :port               => @port,
-            :version            => '2011-07-15'
+            #:version            => '2011-07-15'
+            :version            => '2012-11-15'
           }
           )
 

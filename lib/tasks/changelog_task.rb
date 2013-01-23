@@ -67,6 +67,7 @@ module Fog
               'Nick Osborn',
               'nightshade427',
               'Patrick Debois',
+              'Paul Thornthwaite',
               'Stepan G. Fedorov',
               'Wesley Beary'
             ].include?(committer)
