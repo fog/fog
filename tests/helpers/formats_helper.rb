@@ -62,7 +62,9 @@ module Shindo
     #       "id" => String,
     #       "ram" => Integer,
     #       "disks" => [
-    #         "size" => Float
+    #         {
+    #           "size" => Float
+    #         }
     #       ],
     #       "dns_name" => Fog::Nullable::String,
     #       "active" => Fog::Boolean,

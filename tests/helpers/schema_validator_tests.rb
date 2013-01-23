@@ -23,7 +23,7 @@ Shindo.tests('Fog::Schema::DataValidator', 'meta') do
       end
 
       returns(true, 'when collection is empty although schema covers optional members') do
-        validator.validate([], [{"key" => String}], {:allow_optional_rules => true})
+        validator.validate([], [{"key" => String}])
       end
 
       returns(true, 'when additional keys are passed and not strict') do
@@ -76,6 +76,10 @@ Shindo.tests('Fog::Schema::DataValidator', 'meta') do
 
       returns(false, 'when collection contains a member that does not match schema') do
         validator.validate([{"key" => "Value"}, {"key" => 5}], [{"key" => String}])
+      end
+
+      returns(false, 'when collection has multiple schema patterns') do
+        validator.validate([{"key" => "Value"}], [{"key" => Integer}, {"key" => String}])
       end
 
       returns(false, 'when hash and array are compared') do

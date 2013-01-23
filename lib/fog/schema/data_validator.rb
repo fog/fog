@@ -106,21 +106,6 @@ module Fog
       def validate_value(validator, value, options)
         Fog::Logger.write :debug, "[yellow][DEBUG] #{value.inspect} against #{validator.inspect}[/]\n"
 
-        # When being strict values not specified in the schema are fails
-        unless options[:allow_extra_keys]
-          if validator.respond_to?(:empty?) && value.respond_to?(:empty?)
-            # Validator is empty but values are not
-            return false if !value.empty? && validator.empty?
-          end
-        end
-
-        unless options[:allow_optional_rules]
-          if validator.respond_to?(:empty?) && value.respond_to?(:empty?)
-            # Validator has rules left but no more values
-            return false if value.empty? && !validator.empty?
-          end
-        end
-
         case validator
         when Array
           return false if value.is_a?(Hash)
@@ -129,6 +114,22 @@ module Fog
           value.respond_to? validator
         when Hash
           return false if value.is_a?(Array)
+
+          # When being strict values not specified in the schema are fails
+          unless options[:allow_extra_keys]
+            if value.respond_to?(:empty?)
+              # Validator is empty but values are not
+              return false if !value.empty? && validator.empty?
+            end
+          end
+
+          unless options[:allow_optional_rules]
+            if value.respond_to?(:empty?)
+              # Validator has rules left but no more values
+              return false if value.empty? && !validator.empty?
+            end
+          end
+
           validator.all? do |key, sub_validator|
             Fog::Logger.write :debug, "[blue][DEBUG] #{key.inspect} against #{sub_validator.inspect}[/]\n"
             validate_value(sub_validator, value[key], options)
