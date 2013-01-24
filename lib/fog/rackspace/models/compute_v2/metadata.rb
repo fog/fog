@@ -27,7 +27,7 @@ module Fog
           datum = data.first
           new(:key => datum[0], :value => datum[1])
         rescue Fog::Compute::RackspaceV2::NotFound
-          nil
+          nil 
         end
         
         def [](key)
