@@ -42,7 +42,7 @@ module Fog
           return nil unless key
           datum = self.find {|datum| datum.key == key || datum.key == key.to_sym }
           if datum
-            data.value = value
+            datum.value = value
           else
             self << Fog::Compute::RackspaceV2::Metadatum.new(:key => key, :value => value, :connection => connection, :parent => parent)
           end
