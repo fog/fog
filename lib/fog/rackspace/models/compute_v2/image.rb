@@ -27,7 +27,7 @@ module Fog
         ignore_attributes :metadata        
                 
         def initialize(attributes={})
-          @connection = attributes[:connection]
+          @service = attributes[:service]
           super
         end
         
@@ -35,7 +35,7 @@ module Fog
           raise "Please save image before accessing metadata" unless identity          
           @metadata ||= begin
             Fog::Compute::RackspaceV2::Metadata.new({
-              :connection => connection,
+              :service => service,
               :parent => self
             })
           end
