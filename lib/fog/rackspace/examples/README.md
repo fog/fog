@@ -2,19 +2,19 @@
 
 ## Download
 
-Examples using the Rackspace Open Cloud and Fog can be found in the [fog repository](https://github.com/fog/fog) under `/fog/lib/fog/rackspace/examples`.
+Examples using the Rackspace Open Cloud and Fog can be found in the [fog repository](https://github.com/fog/fog) under the directory `fog/lib/fog/rackspace/examples`.
 
 This repository can be downloaded via `git` by executing the following:
 
 	git clone git://github.com/fog/fog.git
 
-Optionally, you can download a zip by clicking on this [link](https://github.com/fog/fog/archive/master.zip)
+Optionally you can download a zip by clicking on this [link](https://github.com/fog/fog/archive/master.zip).
 
 ## Requirements
 
-These examples require the following:
+Examples require the following:
 
-* Cloud Files Account
+* Rackspace Open Cloud account
 * Ruby 1.8.x or 1.9.x
 * `fog` gem
 
@@ -22,25 +22,26 @@ For more information please refer to the [Getting Started with Fog and the Racks
 
 ## Credentials
 
-Examples will prompt for Rackspace Open Cloud Credentials. To skip these prompts create a `.fog` with containing the following: 
+Examples will prompt for Rackspace Open Cloud credentials. Prompts can be skipped by creating a `.fog` file in the user's home directory. This is an example of a `.fog` file for the Rackspace Open Cloud: 
 
 	default:
     	rackspace_username: RACKSPACE_USERNAME
-    	rackspace_api_key: RACkSPACE_API_KEY
+    	rackspace_api_key: RACKSPACE_API_KEY
 
-Replace captialized values with the appropriate information. 
+***Note:* Replace capitalized values with the appropriate credential information.*
 
 ## Executing
 
-To execute these using `bundler`:
+To execute scripts using `bundler`:
 
 	bundle exec ruby <script>
 	
-To execute these without `bundler`:
+To execute scripts without `bundler`:
 
 	ruby <script>
 	
 ## Support and Feedback
+
 Your feedback is appreciated! If you have specific issues with the **fog** SDK, developers should file an [issue via Github](https://github.com/fog/fog/issues).
 
 For general feedback and support requests, send an email to: <sdk-support@rackspace.com>.
