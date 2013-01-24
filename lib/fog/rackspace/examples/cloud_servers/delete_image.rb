@@ -18,9 +18,7 @@ def select_image(snapshot_images)
     puts "\t #{i}. #{image.name}"
   end
 
-  delete_str = get_user_input "\nEnter Image Number"
-  abort "Unrecognized input. Exiting without deleting images." unless delete_str =~ /^ALL|\d+$/
-  
+  delete_str = get_user_input "\nEnter Image Number"  
   snapshot_images[delete_str.to_i]
 end
 
