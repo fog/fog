@@ -1,4 +1,4 @@
-Shindo.tests('Fog::Compute[:hp] | security group requests', ["hp"]) do
+Shindo.tests("Fog::Compute[:hp] | security group requests", ['hp']) do
 
   @security_groups_format = {
     'security_groups' => [{

@@ -1,4 +1,4 @@
-Shindo.tests('Fog::Compute[:hp] | image requests', ["hp"]) do
+Shindo.tests("Fog::Compute[:hp] | image requests", ['hp']) do
 
   @image_format = {
     'id'        => String,
