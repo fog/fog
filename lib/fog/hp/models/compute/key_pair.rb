@@ -13,18 +13,14 @@ module Fog
         attribute :private_key
         attribute :user_id
 
-        attr_accessor :public_key
-
         def destroy
           requires :name
-
           service.delete_key_pair(name)
           true
         end
 
         def save
           requires :name
-
           data = if public_key
             service.create_key_pair(name, public_key).body['keypair']
           else
@@ -36,7 +32,6 @@ module Fog
         end
 
         def write(path="#{ENV['HOME']}/.ssh/hp_#{Fog.credential.to_s}_#{name}.pem")
-
           if writable?
             split_private_key = private_key.split(/\n/)
             File.open(path, "w") do |f|

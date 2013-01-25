@@ -10,7 +10,6 @@ Gem::Specification.new do |s|
   s.date              = '2013-01-19'
   s.rubyforge_project = 'fog'
 
-
   ## Make sure your summary is short. The description may be as long
   ## as you like.
   s.summary     = "brings clouds to you"

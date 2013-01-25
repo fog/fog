@@ -30,6 +30,7 @@ module Fog
         def head_container(container_name)
           response = get_container(container_name)
           response.body = nil
+          response.status = 204
           response
         end
 
