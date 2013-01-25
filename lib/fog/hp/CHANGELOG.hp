@@ -1,8 +1,18 @@
-0.0.19 18/01/2013
+0.0.20 03/13/2013
+=================
+- add Accept header with application/json for all requests
+- add support for user_data while creating servers in Compute
+- add support for one/two way container synchronisation in Object Storage
+- merge with upstream fog v1.10.0
+
+0.0.19 01/25/2013
 =================
 - update Block Storage namespace to be Fog::HP::BlockStorage
-- merge with upstream fog v1.8.0
+- merge with upstream fog v1.9.0
 - deprecate hp_account_id to use hp_access_key instead
+- fix temp_url to use signer that is backward compatible to 1.8.7
+- fix issue in Storage provider with service catalog having an invalid CDN endpoint
+- Happy New Year to all...
 
 0.0.18 12/04/2012
 =================
