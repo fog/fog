@@ -27,7 +27,7 @@ module Fog
           datum = data.first
           new(:key => datum[0], :value => datum[1])
         rescue Fog::Compute::RackspaceV2::NotFound
-          nil
+          nil 
         end
         
         def [](key)
@@ -42,7 +42,7 @@ module Fog
           return nil unless key
           datum = self.find {|datum| datum.key == key || datum.key == key.to_sym }
           if datum
-            data.value = value
+            datum.value = value
           else
             self << Fog::Compute::RackspaceV2::Metadatum.new(:key => key, :value => value, :service => service, :parent => parent)
           end
