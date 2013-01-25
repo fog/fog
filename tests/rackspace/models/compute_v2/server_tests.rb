@@ -9,11 +9,16 @@ Shindo.tests('Fog::Compute::RackspaceV2 | server', ['rackspace']) do
   options = {
     :name => "fog_server_#{Time.now.to_i.to_s}",
     :flavor_id => flavor_id,
-    :image_id => image_id
+    :image_id => image_id, 
+    :metadata => { 'fog_test' => 'true' }
   }
 
   model_tests(service.servers, options, true) do
     @instance.wait_for(timeout=1500) { ready? }
+    
+    tests('#metadata[\'fog_test\']').returns('true') do
+      @instance.metadata['fog_test']
+    end
     
     tests('#update').succeeds do
       @instance.name = "fog_server_update"

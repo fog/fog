@@ -23,16 +23,13 @@ module Fog
         attribute :minRam
         attribute :disk_config, :aliases => 'OS-DCF:diskConfig'
         attribute :links
-        
-        ignore_attributes :metadata        
-                
+                        
         def initialize(attributes={})
           @service = attributes[:service]
           super
         end
         
         def metadata
-          raise "Please save image before accessing metadata" unless identity          
           @metadata ||= begin
             Fog::Compute::RackspaceV2::Metadata.new({
               :service => service,
@@ -42,7 +39,6 @@ module Fog
         end
         
         def metadata=(hash={})
-          raise "Please save image before accessing metadata" unless identity
           metadata.from_hash(hash)
         end
 
