@@ -76,7 +76,7 @@ module Fog
       service_url = "#{@scheme}://#{@host}:#{@port}"
       # Set the User-Agent
       @user_agent = options[:user_agent]
-      set_user_agent_header(connection_options, "fog/#{Fog::VERSION}", @user_agent)
+      set_user_agent_header(connection_options, "hpfog v1/#{Fog::HP::VERSION}", @user_agent)
       connection = Fog::Connection.new(service_url, false, connection_options)
       @hp_access_key = options[:hp_access_key]
       @hp_secret_key  = options[:hp_secret_key]
@@ -117,7 +117,7 @@ module Fog
       service_url = "#{@scheme}://#{@host}:#{@port}"
       # Set the User-Agent. If the caller sets a user_agent, use it.
       @user_agent = options[:user_agent]
-      set_user_agent_header(connection_options, "fog/#{Fog::VERSION}", @user_agent)
+      set_user_agent_header(connection_options, "hpfog/#{Fog::HP::VERSION}", @user_agent)
       connection = Fog::Connection.new(service_url, false, connection_options)
 
       ### Implement HP Control Services Authentication services ###
