@@ -201,11 +201,11 @@ module Fog
       raise "Unable to parse service catalog." unless service_catalog
       service_item = service_catalog.detect do |s|
         # 'Name' is unique instead of 'Type'
-        s["name"] == service_type
+        s["name"] = service_type
       end
       if service_item and service_item['endpoints']
         endpoint = service_item['endpoints'].detect do |ep|
-          ep['region'] == avl_zone
+          ep['region'] = avl_zone
         end
         endpoint_url = endpoint['publicURL'] if endpoint
         raise "Unable to retrieve endpoint service url for availability zone '#{avl_zone}' from service catalog. " if endpoint_url.nil?
