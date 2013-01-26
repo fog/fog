@@ -1,5 +1,3 @@
-require 'thin'
-require 'launchy'
 require 'google/api_client'
 require 'google/api_client/client_secrets'
 
@@ -10,32 +8,17 @@ class CommandLineOAuthHelper
   def initialize(scope)
     credentials = Google::APIClient::ClientSecrets.load
     @authorization = Signet::OAuth2::Client.new(
-      :authorization_uri => credentials.authorization_uri,
-      :token_credential_uri => credentials.token_credential_uri,
-      :client_id => credentials.client_id,
-      :client_secret => credentials.client_secret,
+      :audience => 'https://accounts.google.com/o/oauth2/token',
+      :issuer => "#{crendentials.client_id}@developer.gserviceaccount.com",
       :redirect_uri => credentials.redirect_uris.first,
-      :scope => scope)
+      :scope => scope,
+      :signing_key => credentials.signing_key,
+      :token_credential_uri => credentials.token_credential_uri,
+    )
+    @authorization.fetch_access_token!
   end
 
-  # Request authorization. Opens a browser and waits for response
   def authorize
-    auth = @authorization
-    url = @authorization.authorization_uri().to_s
-    server = Thin::Server.new('0.0.0.0', 3000) do
-      run lambda { |env|
-          # Exchange the auth code & quit
-          req = Rack::Request.new(env)
-          auth.code = req['code']
-          auth.fetch_access_token!
-          server.stop()
-          [200, {'Content-Type' => 'text/plain'}, 'OK']
-      }
-    end
-
-    Launchy.open(url)
-    server.start()
-
     return @authorization
   end
 end
