@@ -18,9 +18,9 @@ module Fog
         def get_user_by_name(name)
           response = Excon::Response.new
           response.status = 200
-
+          user = self.data[:users].values.select {|user| user['name'] == name}[0]
           response.body = {
-            'users' => self.data[:users].values
+            'user' => user
           }
           response
         end
