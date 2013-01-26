@@ -64,7 +64,7 @@ module Fog
         private
 
         def image_suffix
-          retrun "img" if format_type == "raw"
+          return "img" if format_type == "raw"
           format_type
         end
 
