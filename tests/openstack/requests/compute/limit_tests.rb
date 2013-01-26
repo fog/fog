@@ -29,7 +29,7 @@ Shindo.tests('Fog::Compute[:openstack] | limits requests', ['openstack']) do
     'totalRAMUsed'              => Fixnum,
     'totalInstancesUsed'        => Fixnum,
     'totalSecurityGroupsUsed'   => Fixnum,
-    'totalKeyPairsUsed'         => Fixnum
+    'totalFloatingIpsUsed'      => Fixnum
   }
 
   @limits_format = {
