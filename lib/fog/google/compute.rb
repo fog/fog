@@ -1,6 +1,5 @@
 require 'fog/google'
 require 'fog/compute'
-require 'fog/google/oauth/oauth_util'
 require 'google/api_client'
 
 module Fog
@@ -8,6 +7,8 @@ module Fog
     class Google < Fog::Service
 
       requires :google_project
+      requires :google_client_email
+      requires :google_key_location
 
       request_path 'fog/google/requests/compute'
       request :list_servers
@@ -71,13 +72,24 @@ module Fog
           api_scope_url = 'https://www.googleapis.com/auth/compute'
 
           @project = options[:google_project]
+          google_client_email = options[:google_client_email]
           @api_url = base_url + api_version + '/projects/'
+          key = ::Google::APIClient::KeyUtils.load_from_pkcs12(options[:google_key_location], 'notasecret')
+
           @client = ::Google::APIClient.new
+          @client.authorization = Signet::OAuth2::Client.new(
+            :audience => 'https://accounts.google.com/o/oauth2/token',
+            :auth_provider_x509_cert_url => "https://www.googleapis.com/oauth2/v1/certs",
+            :client_x509_cert_url => "https://www.googleapis.com/robot/v1/metadata/x509/#{google_client_email}",
+            :issuer => google_client_email,
+            :scope => api_scope_url,
+            :signing_key => key,
+            :token_credential_uri => 'https://accounts.google.com/o/oauth2/token',
+          )
+          @client.authorization.fetch_access_token!
+
           @compute = @client.discovered_api('compute', api_version)
           @default_network = 'default'
-
-          auth_util = CommandLineOAuthHelper.new(api_scope_url)
-          @client.authorization = auth_util.authorize()
         end
 
         def build_result(api_method, parameters, body_object=nil)
