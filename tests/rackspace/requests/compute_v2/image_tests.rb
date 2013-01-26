@@ -1,8 +1,7 @@
-service   = Fog::Compute.new(:provider => 'Rackspace', :version => 'V2')
-flavor_id = Fog.credentials[:rackspace_flavor_id] || service.flavors.first.id
-image_id  = Fog.credentials[:rackspace_image_id] || service.images.first.id
-
 Shindo.tests('Fog::Compute::RackspaceV2 | image_tests', ['rackspace']) do
+  service   = Fog::Compute.new(:provider => 'Rackspace', :version => 'V2')
+  flavor_id = Fog.credentials[:rackspace_flavor_id] || service.flavors.first.id
+  image_id  = Fog.credentials[:rackspace_image_id] || service.images.first.id
 
   image_format = {
     'id' => String,

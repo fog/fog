@@ -1,4 +1,4 @@
-Shindo.tests('Fog::Compute[:hp] | server requests', ["hp"]) do
+Shindo.tests("Fog::Compute[:hp] | server requests", ['hp']) do
 
   @server_format = {
     'addresses'   => Fog::Nullable::Hash,
@@ -19,7 +19,7 @@ Shindo.tests('Fog::Compute[:hp] | server requests', ["hp"]) do
     'tenant_id'   => String,
     'uuid'        => String,
     'config_drive' => Fog::Nullable::String,
-    #'security_groups' => [Hash],
+    'security_groups' => [Hash],
     'key_name'    => Fog::Nullable::String
   }
 
@@ -31,7 +31,7 @@ Shindo.tests('Fog::Compute[:hp] | server requests', ["hp"]) do
   }
 
   @get_console_output_format = {
-
+    'output' => String
   }
 
   @base_image_id = ENV["BASE_IMAGE_ID"] || 1242
@@ -87,9 +87,8 @@ Shindo.tests('Fog::Compute[:hp] | server requests', ["hp"]) do
 
     Fog::Compute[:hp].servers.get(@server_id).wait_for { ready? }
 
-    tests("#get_console_output('#{@server_id}')").formats(@get_console_output_format) do
-      pending
-      Fog::Compute[:hp].get_console_output(@server_id).body
+    tests("#get_console_output('#{@server_id}', 10)").formats(@get_console_output_format) do
+      Fog::Compute[:hp].get_console_output(@server_id, 10).body
     end
 
     Fog::Compute[:hp].servers.get(@server_id).wait_for { ready? }

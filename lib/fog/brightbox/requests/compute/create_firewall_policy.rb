@@ -9,6 +9,7 @@ module Fog
         # @param [Hash] options
         # @option options [String] :server_group
         # @option options [String] :name Editable label
+        # @option options [String] :description Longer editable description
         #
         # @return [Hash, nil] The JSON response parsed to a Hash or nil if no options passed
         #

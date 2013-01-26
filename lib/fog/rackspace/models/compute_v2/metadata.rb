@@ -16,17 +16,18 @@ module Fog
 
         def all
           requires :parent
-          data = connection.list_metadata(collection_name, parent.id).body['metadata']
+          return unless parent.identity
+          data = service.list_metadata(collection_name, parent.id).body['metadata']
           from_hash(data)
         end
 
         def get(key)
           requires :parent
-          data = connection.get_metadata_item(collection_name, parent.id, key).body["meta"]          
+          data = service.get_metadata_item(collection_name, parent.id, key).body["meta"]          
           datum = data.first
           new(:key => datum[0], :value => datum[1])
         rescue Fog::Compute::RackspaceV2::NotFound
-          nil
+          nil 
         end
         
         def [](key)
@@ -41,16 +42,16 @@ module Fog
           return nil unless key
           datum = self.find {|datum| datum.key == key || datum.key == key.to_sym }
           if datum
-            data.value = value
+            datum.value = value
           else
-            self << Fog::Compute::RackspaceV2::Metadatum.new(:key => key, :value => value, :connection => connection, :parent => parent)
+            self << Fog::Compute::RackspaceV2::Metadatum.new(:key => key, :value => value, :service => service, :parent => parent)
           end
           value
         end
         
         def save
           requires :parent
-          connection.set_metadata(collection_name, parent.id, to_hash)          
+          service.set_metadata(collection_name, parent.id, to_hash)          
         end
 
         def new(attributes = {})
