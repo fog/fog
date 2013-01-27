@@ -99,6 +99,13 @@ module Fog
           Fog::SSH.new(public_ip_address, username, credentials).run(commands)
         end
 
+        def ssh(command, options={}, &block)
+          if options[:password].nil? && !rootpassword.nil?
+            options[:password] = rootpassword
+          end
+          super(command, options, &block)
+        end
+
         def public_ip_address(options = {})
 
           type = options[:type] || nil
