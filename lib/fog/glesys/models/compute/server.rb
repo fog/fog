@@ -74,6 +74,31 @@ module Fog
           data.status == 200 ? true : false
         end
 
+        def setup(credentials = {})
+          requires :public_ip_address, :username
+          require 'net/ssh'
+
+          attrs = attributes.dup
+          attrs.delete(:rootpassword)
+
+          commands = [
+            %{mkdir -p .ssh},
+            %{echo "#{Fog::JSON.encode(Fog::JSON.sanitize(attrs))}" >> ~/attributes.json}
+          ]
+          if public_key
+            commands << %{echo "#{public_key}" >> ~/.ssh/authorized_keys}
+          end
+
+          # wait for aws to be ready
+          wait_for { sshable? }
+
+          if credentials[:password].nil? && !rootpassword.nil?
+            credentials[:password] = rootpassword
+          end
+
+          Fog::SSH.new(public_ip_address, username, credentials).run(commands)
+        end
+
         def public_ip_address(options = {})
 
           type = options[:type] || nil
