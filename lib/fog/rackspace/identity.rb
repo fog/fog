@@ -1,4 +1,5 @@
 require 'fog/rackspace'
+require 'fog/rackspace/service_catalog'
 
 module Fog
   module Rackspace
@@ -40,6 +41,9 @@ module Fog
       end
 
       class Real
+
+        attr_reader :service_catalog, :auth_token
+
         def initialize(options={})
           @rackspace_username = options[:rackspace_username]
           @rackspace_api_key = options[:rackspace_api_key]
@@ -76,6 +80,7 @@ module Fog
         def authenticate
           data = self.create_token(@rackspace_username, @rackspace_api_key).body
           @auth_token = data['access']['token']['id']
+          @service_catalog = ServiceCatalog.new(data['access']['serviceCatalog'])
         end
       end
     end

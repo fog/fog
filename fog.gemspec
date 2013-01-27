@@ -64,7 +64,4 @@ Gem::Specification.new do |s|
   s.add_development_dependency('fission')
   s.add_development_dependency('pry')
 #  s.add_development_dependency('ruby-libvirt','~>0.4.0')
-
-  s.files = `git ls-files`.split("\n")
-  s.test_files = `git ls-files -- {spec,tests}/*`.split("\n")
 end
