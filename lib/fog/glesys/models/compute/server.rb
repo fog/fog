@@ -14,6 +14,10 @@ module Fog
         attribute :cpucores
         attribute :memorysize
         attribute :disksize
+        attribute :cpu
+        attribute :memory
+        attribute :disk
+        attribute :uptime
         attribute :transfer
         attribute :templatename
         attribute :managedhosting
@@ -22,9 +26,9 @@ module Fog
         attribute :rootpassword
         attribute :state
         attribute :iplist
-        attribute :ipversion
-        attribute :ip
         attribute :description
+        attribute :glera_enabled, :aliases => "gleraenabled"
+        attribute :supported_features, :aliases => "supportedfeatures"
 
         def ready?
           state == 'running'
