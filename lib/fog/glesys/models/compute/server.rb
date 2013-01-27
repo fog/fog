@@ -74,6 +74,23 @@ module Fog
           data.status == 200 ? true : false
         end
 
+        def public_ip_address(options = {})
+
+          type = options[:type] || nil
+
+          ips = case type
+            when :ipv4 then iplist.select { |ip| ip["version"] == 4 }
+            when :ipv6 then iplist.select { |ip| ip["version"] == 6 }
+            else iplist.sort_by { |ip| ip["version"] }
+          end
+
+          if ips.empty?
+            nil
+          else
+            ips.first["ipaddress"]
+          end
+        end
+
       end
     end
   end
