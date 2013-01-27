@@ -9,7 +9,7 @@ module Fog
         { :bits => 0,  :cores =>   2,  :disk => 0,    :id =>  't1.micro',   :name => 'Micro Instance',       :ram => 613},
 
         { :bits => 32, :cores =>   1,  :disk => 160,  :id =>  'm1.small',   :name => 'Small Instance',       :ram => 1740.8},
-	{ :bits => 32, :cores =>   2,  :disk => 400,  :id =>  'm1.medium',  :name => 'Medium Instance',      :ram => 3750},
+        { :bits => 32, :cores =>   2,  :disk => 400,  :id =>  'm1.medium',  :name => 'Medium Instance',      :ram => 3750},
         { :bits => 64, :cores =>   4,  :disk => 850,  :id =>  'm1.large',   :name => 'Large Instance',       :ram => 7680},
         { :bits => 64, :cores =>   8,  :disk => 1690, :id =>  'm1.xlarge',  :name => 'Extra Large Instance', :ram => 15360},
 
