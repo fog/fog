@@ -20,7 +20,6 @@ module Fog
         attribute :platform
         attribute :cost
         attribute :rootpassword
-        attribute :keepip
         attribute :state
         attribute :iplist
         attribute :ipversion
@@ -46,9 +45,9 @@ module Fog
           service.reboot(:serverid => identity)
         end
 
-        def destroy
+        def destroy(options = {})
           requires :identity
-          service.destroy(:serverid => identity, :keepip => keepip)
+          service.destroy(options.merge!({:serverid => identity}))
         end
 
         def save
