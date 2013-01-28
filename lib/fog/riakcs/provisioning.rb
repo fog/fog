@@ -65,7 +65,8 @@ module Fog
             :aws_secret_access_key => @riakcs_secret_access_key,
             :host                  => @host,
             :port                  => @port,
-            :scheme                => @scheme
+            :scheme                => @scheme,
+            :connection_options    => @connection_options
           )
         end
 
