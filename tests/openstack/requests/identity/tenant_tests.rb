@@ -4,8 +4,7 @@ Shindo.tests('Fog::Identity[:openstack] | tenant requests', ['openstack']) do
     'id'   => String,
     'name' => String,
     'enabled'     => Fog::Nullable::Boolean,
-    'description' => Fog::Nullable::String,
-    'extra' => Fog::Nullable::Hash
+    'description' => Fog::Nullable::String
   }
 
   @role_format = {
