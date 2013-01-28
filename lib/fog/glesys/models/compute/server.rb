@@ -14,18 +14,21 @@ module Fog
         attribute :cpucores
         attribute :memorysize
         attribute :disksize
+        attribute :cpu
+        attribute :memory
+        attribute :disk
+        attribute :uptime
         attribute :transfer
         attribute :templatename
         attribute :managedhosting
         attribute :platform
         attribute :cost
         attribute :rootpassword
-        attribute :keepip
         attribute :state
         attribute :iplist
-        attribute :ipversion
-        attribute :ip
         attribute :description
+        attribute :glera_enabled, :aliases => "gleraenabled"
+        attribute :supported_features, :aliases => "supportedfeatures"
 
         def ready?
           state == 'running'
@@ -46,9 +49,9 @@ module Fog
           service.reboot(:serverid => identity)
         end
 
-        def destroy
+        def destroy(options = {})
           requires :identity
-          service.destroy(:serverid => identity, :keepip => keepip)
+          service.destroy(options.merge!({:serverid => identity}))
         end
 
         def save
@@ -69,6 +72,55 @@ module Fog
           data = service.create(options)
           merge_attributes(data.body['response']['server'])
           data.status == 200 ? true : false
+        end
+
+        def setup(credentials = {})
+          requires :public_ip_address, :username
+          require 'net/ssh'
+
+          attrs = attributes.dup
+          attrs.delete(:rootpassword)
+
+          commands = [
+            %{mkdir -p .ssh},
+            %{echo "#{Fog::JSON.encode(Fog::JSON.sanitize(attrs))}" >> ~/attributes.json}
+          ]
+          if public_key
+            commands << %{echo "#{public_key}" >> ~/.ssh/authorized_keys}
+          end
+
+          # wait for aws to be ready
+          wait_for { sshable? }
+
+          if credentials[:password].nil? && !rootpassword.nil?
+            credentials[:password] = rootpassword
+          end
+
+          Fog::SSH.new(public_ip_address, username, credentials).run(commands)
+        end
+
+        def ssh(command, options={}, &block)
+          if options[:password].nil? && !rootpassword.nil?
+            options[:password] = rootpassword
+          end
+          super(command, options, &block)
+        end
+
+        def public_ip_address(options = {})
+
+          type = options[:type] || nil
+
+          ips = case type
+            when :ipv4 then iplist.select { |ip| ip["version"] == 4 }
+            when :ipv6 then iplist.select { |ip| ip["version"] == 6 }
+            else iplist.sort_by { |ip| ip["version"] }
+          end
+
+          if ips.empty?
+            nil
+          else
+            ips.first["ipaddress"]
+          end
         end
 
       end
