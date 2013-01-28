@@ -40,6 +40,7 @@ module Fog
       request :query_resources
       request :utility
       request :keep_alive
+      request :vm_config_vhm
 
 
       module Shared
@@ -64,7 +65,7 @@ module Fog
             :tools_version => 'guest.toolsVersionStatus',
             :is_a_template => 'config.template',
             :memory_mb => 'config.hardware.memoryMB',
-            :cpus   => 'config.hardware.numCPU',
+            :cpus   => 'config.hardware.numCPU'
         }
 
         VM_ATTR_TO_PROP = {
@@ -82,7 +83,8 @@ module Fog
             :tools_version => 'guest.toolsVersionStatus',
             :is_a_template => 'config.template',
             :max_cpu => 'summary.runtime.maxCpuUsage',
-            :max_mem => 'summary.runtime.maxMemoryUsage'
+            :max_mem => 'summary.runtime.maxMemoryUsage',
+            :extra_config => 'config.extraConfig'
         }
 
         DC_ATTR_TO_PROP = {
