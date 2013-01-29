@@ -69,8 +69,8 @@ An alternate file may be used by placing its path in the FOG_RC environment vari
   :rackspace_username:
   :rackspace_servicenet:
   :rackspace_cdn_ssl:
-  :stormondemand_username:
-  :stormondemand_password:
+  :storm_on_demand_username:
+  :storm_on_demand_password:
   :terremark_username:
   :terremark_password:
   :voxel_api_key:
