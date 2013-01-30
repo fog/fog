@@ -9,14 +9,9 @@ module Fog
 
         model Fog::Compute::HP::Image
 
-        attribute :server
-
         def all
           data = service.list_images_detail.body['images']
           load(data)
-          if server
-            self.replace(self.select {|image| image.server.id == server.id})
-          end
           self
         end
 

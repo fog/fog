@@ -42,8 +42,8 @@ Shindo.tests('AWS::RDS | instance requests', ['aws', 'rds']) do
       body
     end
 
-    server.reload.wait_for { state == 'modifying' }
-    server.reload.wait_for { state == 'available' }
+    server.wait_for { state == 'modifying' }
+    server.wait_for { state == 'available' }
 
     tests 'new storage' do
       returns(new_storage){ server.allocated_storage}
@@ -55,8 +55,8 @@ Shindo.tests('AWS::RDS | instance requests', ['aws', 'rds']) do
       end
     end
 
-    server.reload.wait_for { state == 'rebooting' }
-    server.reload.wait_for { state == 'available'}
+    server.wait_for { state == 'rebooting' }
+    server.wait_for { state == 'available'}
 
     tests("#create_db_snapshot").formats(AWS::RDS::Formats::CREATE_DB_SNAPSHOT) do
       body = Fog::AWS[:rds].create_db_snapshot(@db_instance_id, @db_snapshot_id).body
@@ -68,7 +68,7 @@ Shindo.tests('AWS::RDS | instance requests', ['aws', 'rds']) do
       body = Fog::AWS[:rds].describe_db_snapshots.body
     end
 
-    server.reload.wait_for { state == 'available' }
+    server.wait_for { state == 'available' }
 
     tests( "#create read replica").formats(AWS::RDS::Formats::CREATE_READ_REPLICA) do
       Fog::AWS[:rds].create_db_instance_read_replica(@db_replica_id, @db_instance_id).body

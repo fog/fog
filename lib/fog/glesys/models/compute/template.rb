@@ -7,13 +7,14 @@ module Fog
       class Template < Fog::Model
         extend Fog::Deprecation
 
-        identity :templateid
+        identity :name
 
         attribute :platform
-        attribute :name
-        attribute :os
-        attribute :min_mem_size
-        attribute :min_disk_size
+        attribute :operating_system, :aliases => "operatingsystem"
+        attribute :min_mem_size, :aliases => "minimummemorysize"
+        attribute :minimum_disk_size, :aliases => "minimumdisksize"
+        attribute :instance_cost, :aliases => "instancecost"
+        attribute :license_cost, :aliases => "licensecost"
 
         def list
           service.template_list

@@ -135,12 +135,15 @@ task :gem_push do
   sh "gem push pkg/#{name}-#{version}.gem"
 end
 
+desc "Build fog-#{version}.gem"
 task :build => :gemspec do
   sh "mkdir -p pkg"
   sh "gem build #{gemspec_file}"
   sh "mv #{gem_file} pkg"
 end
+task :gem => :build
 
+desc "Updates the gemspec and runs 'validate'"
 task :gemspec => :validate do
   # read spec file and split out manifest section
   spec = File.read(gemspec_file)
@@ -156,6 +159,7 @@ task :gemspec => :validate do
   puts "Updated #{gemspec_file}"
 end
 
+desc "Run before pushing out the code"
 task :validate do
   libfiles = Dir['lib/*'] - ["lib/#{name}.rb", "lib/#{name}", "lib/tasks"]
   unless libfiles.empty?

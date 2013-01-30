@@ -44,6 +44,7 @@ module Fog
     service(:compute , 'openstack/compute' , 'Compute' )
     service(:identity, 'openstack/identity', 'Identity')
     service(:network, 'openstack/network', 'Network')
+    service(:storage, 'openstack/storage', 'Storage')
 
     # legacy v1.0 style auth
     def self.authenticate_v1(options, connection_options = {})
@@ -198,6 +199,13 @@ module Fog
       })
 
       Fog::JSON.decode(response.body)
+    end
+    
+    # CGI.escape, but without special treatment on spaces
+    def self.escape(str,extra_exclude_chars = '')
+      str.gsub(/([^a-zA-Z0-9_.-#{extra_exclude_chars}]+)/) do
+        '%' + $1.unpack('H2' * $1.bytesize).join('%').upcase
+      end
     end
 
   end

@@ -13,6 +13,15 @@ module Fog
           data = service.list_domains.body['domains']
           load(data)
         end
+        
+        # Returns all domains containing the given substring. Still limited 
+        # by the 100-domain pagination limit. Returns an empty array if
+        # no matches.
+        def find(substring)
+          clear
+          data = service.list_domains(:name => substring).body['domains']
+          load(data)
+        end
 
         def get(zone_id)
           if zone_id.nil? or zone_id.to_s.empty?
