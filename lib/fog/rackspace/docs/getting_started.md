@@ -1,16 +1,16 @@
-# Getting Started with Fog and the Rackspace Open Cloud
+# Getting Started with Fog and the Rackspace Cloud
 
-This document will explain how to get started using Fog with the [Rackspace Open Cloud](http://www.rackspace.com/cloud/).
+This document explains how to get started using Fog with the [Rackspace Cloud](http://www.rackspace.com/cloud/).
 
 ## Requirements
 
-Fog officially supports Ruby 1.9.3, 1.9.2, and 1.8.7 (Also known as Matz Ruby Interpreter or MRI). While not officially supported, fog has been known to work with Rubinus and JRuby. 
+Fog officially supports Ruby 1.9.3, 1.9.2, and 1.8.7 (also known as Matz Ruby Interpreter or MRI). While not officially supported, fog has been known to work with Rubinus and JRuby. 
 
 Ruby 1.9.3 is suggested for new projects. For information on installing Ruby please refer to the [Ruby download page](http://www.ruby-lang.org/en/downloads/). 
 
 ## Credentials
 
-To obtain credentials for the US Rackspace Open Cloud, please sign up for an account at [US Rackspace Open Cloud](https://cart.rackspace.com/cloud/). Once an account is created, you can login to the [Cloud Control Panel (US)](https://mycloud.rackspace.com/) and find your credentials by clicking on your username in the top right corner and then selecting API keys.
+To obtain credentials for the US Rackspace Cloud, please sign up for an account at [US Rackspace Open Cloud](https://cart.rackspace.com/cloud/). Once an account is created, you can login to the [Cloud Control Panel (US)](https://mycloud.rackspace.com/) and find your credentials by clicking on your username in the top right corner and then selecting API keys.
 
 Likewise, you can create an account on our UK Rackspace Open Cloud by going to [UK Rackspace Open Cloud](https://buyonline.rackspace.co.uk/cloud/userinfo?type=normal) and login into [Cloud Control Panel (UK)](https://mycloud.rackspace.co.uk/).
 
@@ -57,11 +57,11 @@ You should now be able to execute the following command to see a list of service
 
 These services can be explored in further depth in the following documents:
 
-* Next Gen Cloud Servers™ (compute_v2)
+* [Next Generation Cloud Servers™ (compute_v2)](/cloud_servers.md)
 * Cloud Files™ (storage)
 * Cloud Block Storage (block_storage)
 
-*Note: The compute service provides an interface to the First Gen Cloud Servers™ (compute). This service is deprecated. Users are encouraged to use Next Gen Cloud Servers™ (compute_v2).*
+**Note**: *The compute service provides an interface to the First Geneneration Cloud Servers™ (compute). This service is deprecated. Users are encouraged to use Next Geneneration Cloud Servers™ (compute_v2).*
 
 ## Additional Resources
 * [fog.io](http://fog.io)
@@ -71,6 +71,6 @@ These services can be explored in further depth in the following documents:
 * [developer.rackspace.com](http://developer.rackspace.com/)
 
 ## Support and Feedback
-Your feedback is appreciated! If you have specific issues with the **fog** SDK, developers should file an [issue via Github](https://github.com/fog/fog/issues).
+Your feedback is appreciated! If you have specific issues with the **fog** SDK, you should file an [issue via Github](https://github.com/fog/fog/issues).
 
 For general feedback and support requests, send an email to: <sdk-support@rackspace.com>.

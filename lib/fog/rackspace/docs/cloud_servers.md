@@ -1,6 +1,6 @@
-#Next Gen Cloud Servers™ (compute_v2)
+#Next Generation Cloud Servers™ (compute_v2)
 
-This document will explain how to get started using Next Gen Cloud Servers™ with Fog. Users should have read [Getting Started with Fog and the Rackspace Open Cloud](/getting_started.md) document.
+This document explains how to get started using Next Gneration Cloud Servers™ with Fog. It assumes you have read the [Getting Started with Fog and the Rackspace Open Cloud](/getting_started.md) document.
 
 
 ## Starting irb console
@@ -8,7 +8,7 @@ Start by executing the following command:
 
 	irb
 	
-Once `irb` has launched you will need to require the Fog library. 
+Once `irb` has launched you need to require the Fog library. 
 
 If using Ruby 1.8.x execute:
 
@@ -33,7 +33,7 @@ Next, create a connection to the Next Gen Cloud Servers™:
 
 To learn more about obtaining cloud credentials visit the [Getting Started with Fog and the Rackspace Open Cloud](/getting_started.md) document. 
 
-By default `Fog::Compute` will connect to the DFW region. Alternative regions can be specified using the key `:rackspace_endpoint ` with one of the following values:
+By default `Fog::Compute` will connect to the DFW region. You can specify alternative regions using the key `:rackspace_endpoint ` with one of the following values:
 
 <table>
 	<tr>
@@ -53,7 +53,7 @@ By default `Fog::Compute` will connect to the DFW region. Alternative regions ca
 		<td>London Region</tr>
 </table>
 
-***Note**: A`Fog::Compute` instance is needed for desired region.*
+**Note**: *A`Fog::Compute` instance is needed for desired region.*
 
 ### Optional Connection Parameters
 
@@ -123,7 +123,7 @@ To view the status of the response:
 	
 	response.status
 	
-***Note**: Fog is aware valid HTTP response statuses for each request type. If an unexpected HTTP response status occurs, Fog will raise an exception.*
+**Note**: *Fog is aware valid HTTP response statuses for each request type. If an unexpected HTTP response status occurs, Fog will raise an exception.*
 	
 To view response body:
 
@@ -148,11 +148,15 @@ Here is a summary of common model methods:
 	</tr>
 	<tr>
 		<td>create</td>
-		<td>Accepts hash of attributes and creates object. <i>Note: creation is a non blocking call and you will be required to wait for a valid state before using resulting object.</i></td>
+		<td>
+			Accepts hash of attributes and creates object.<br>
+			Note: creation is a non blocking call and you will be required to wait for a valid state before using resulting object.
+		</td>
 	</tr>
 	<tr>
 		<td>save</td>
-		<td>Saves object. <i>Note: not all objects support updating object.</i></td>
+		<td>Saves object.<br>
+		Note: not all objects support updating object.</td>
 	</tr>
 	<tr>
 		<td>persisted?</td>
@@ -160,10 +164,13 @@ Here is a summary of common model methods:
 	</tr>
 	<tr>
 		<td>destroy</td>
-		<td>Destroys object. <i>Note: this is a non blocking call and object deletion might not be instantaneous</i>.</td>
+		<td>
+			Destroys object.<br> 
+			Note: this is a non blocking call and object deletion might not be instantaneous.
+		</td>
 	<tr>
 		<td>reload</td>
-		<td>Updates object with latest state from service</td>
+		<td>Updates object with latest state from service.</td>
 	<tr>
 		<td>ready?</td>
 		<td>Returns true if object is in a ready state and able to perform actions. This method will raise an exception if object is in an error state.</td>
@@ -173,7 +180,10 @@ Here is a summary of common model methods:
 		<td>Returns a hash containing the list of model attributes and values.</td>
 	</tr>
 		<td>identity</td>
-		<td>Returns the identity of the object. <i>Note: This might not always be equal to object.id.</i></td>
+		<td>
+			Returns the identity of the object.<br>
+			Note: This might not always be equal to object.id.
+		</td>
 	</tr>
 	<tr>
 		<td>wait_for</td>
@@ -225,7 +235,7 @@ This returns a collection of `Fog::Compute::RackspaceV2::Image` models:
         >,
 	…
 
-***Note**: In order to speed up access `service.images` does not retrieve all attribute values. To retrieve additional details you will either need to `reload` each individual image or use the request abstraction.*
+**Note**: *In order to speed up access `service.images` does not retrieve all attribute values. To retrieve additional details you will either need to `reload` each individual image or use the request abstraction.*
 
 ## Get Image
 
@@ -251,7 +261,7 @@ This returns an `Fog::Compute::RackspaceV2::Image` instance:
       links=[{"href"=>"https://ord.servers.api.rackspacecloud.com/v2/772045/images/8a3a9f96-b997-46fd-b7a8-a9e740796ffd", "rel"=>"self"}, {"href"=>"https://ord.servers.api.rackspacecloud.com/772045/images/8a3a9f96-b997-46fd-b7a8-a9e740796ffd", "rel"=>"bookmark"}, {"href"=>"https://ord.images.api.rackspacecloud.com/772045/images/8a3a9f96-b997-46fd-b7a8-a9e740796ffd", "type"=>"application/vnd.openstack.image", "rel"=>"alternate"}]
     > 
     
-***Note**: This request populates all Image attributes.*
+**Note**: *This request populates all Image attributes.*
 
 
 ## List Flavors
@@ -282,7 +292,7 @@ This returns a collection of `Fog::Compute::RackspaceV2::Flavor` models:
       >,
 	…
 	
-***Note**: In order to speed up access `service.flavors` does not retrieve all attribute values. To retrieve additional details you will either need to `reload` each individual flavor or use the request abstraction.*
+**Note**: *In order to speed up access `service.flavors` does not retrieve all attribute values. To retrieve additional details you will either need to `reload` each individual flavor or use the request abstraction.*
 
 
 ## Get Flavor
@@ -302,7 +312,7 @@ This returns a `Fog::Compute::RackspaceV2::Flavor` instance:
     links=[{"href"=>"https://dfw.servers.api.rackspacecloud.com/v2/772045/flavors/2", "rel"=>"self"}, {"href"=>"https://dfw.servers.api.rackspacecloud.com/772045/flavors/2", "rel"=>"bookmark"}]
     >
     
-***Note**: This request populates all Flavor attributes.*
+**Note**: *This request populates all Flavor attributes.*
 
 
 ## List Servers
@@ -371,7 +381,7 @@ This returns a `Fog::Compute::RackspaceV2::Server` instance:
       >,
     ...
     
-## [Create Server](id:create_server)
+## Create Server
 
 To create a server:
 
@@ -403,7 +413,7 @@ This will return a `Fog::Compute::RackspaceV2::Server` instance:
     image_id="3afe97b2-26dc-49c5-a2cc-a2fc8d80c001"
   	> 
 
-Notice that our server contains several `nil` attributes. To see the latest status of the server, reload the instance like so:
+Notice that your server contains several `nil` attributes. To see the latest status, reload the instance like so:
 
 	server.reload
 	
@@ -431,13 +441,13 @@ You can see that the server is currently 17% built:
     image_id="3afe97b2-26dc-49c5-a2cc-a2fc8d80c001"
   > 
   
-We will be unable to preform any actions to this server until it reaches an `ACTIVE` state. Since this is true for most server actions, Fog provides the convenience method `wait_for`.
+You will be unable to perform any actions to this server until it reaches an `ACTIVE` state. Since this is true for most server actions, Fog provides the convenience method `wait_for`.
   
-Fog can wait for the server to become ready like so:
+Fog can wait for the server to become ready as follows:
 
 	server.wait_for { ready? }
 	
-***Note:** The `Fog::Compute::RackspaceV2::Server` instance returned from the create method contains a `password` attribute. The **`password` attribute will NOT be present in subsequent retrievals** either through `service.servers` or `server.servers.get my_server_id`*.
+**Note**: *The `Fog::Compute::RackspaceV2::Server` instance returned from the create method contains a `password` attribute. The **`password` attribute will NOT be present in subsequent retrievals** either through `service.servers` or `server.servers.get my_server_id`*.
 
 ### Additional Parameters
 The `create` method also supports the following key values:
@@ -453,7 +463,7 @@ The `create` method also supports the following key values:
 	</tr>
 	<tr>
 		<td>:metadata</td>
-		<td>Hash containing server metadata</td>
+		<td>Hash containing server metadata.</td>
 	</tr>
 	<tr>
 		<td>:personality</td>
@@ -463,7 +473,7 @@ The `create` method also supports the following key values:
 	
 ## Update Server
 
-Next Gen Cloud Servers™ will support updating the following attributes `name`, `access_ipv4_address`, and `access_ipv6_address`. 
+Next Gen Cloud Servers™ support updating the following attributes `name`, `access_ipv4_address`, and `access_ipv6_address`. 
 
 To update these attributes:
 
@@ -474,29 +484,29 @@ To update these attributes:
 	
 Additional information about server access addresses can be found [here](http://docs.rackspace.com/servers/api/v2/cs-devguide/content/Server_Primary_Addresses-d1e2558.html).
 	
-***Note**: Updating the server name does not change the host name. Names are not guaranteed to be unique.*
+**Note**: *Updating the server name does not change the host name. Names are not guaranteed to be unique.*
 
 ## Delete Server
 To delete a server:
 
 	server.destroy
 	
-***Note**: The server is not immediately destroyed, but it does occur shortly there after.*
+**Note**: *The server is not immediately destroyed, but it does occur shortly there after.*
 
 ## Metadata
-Metadata is accessed as an attribute on both `Fog::Compute::RackspaceV2::Server` and `Fog::Compute::RackspaceV2::Metadata::Image`. Metadata can be specified during creation of a server or an image. Please refer to [Create Server](#create_server) or [Create Image](create_image) sections for more information.
+You can access metadata as an attribute on both `Fog::Compute::RackspaceV2::Server` and `Fog::Compute::RackspaceV2::Metadata::Image`. You can specify metadata during creation of a server or an image. Please refer to [Create Server](#create_server) or [Create Image](create_image) sections for more information.
 
 This example demonstrates how to iterate through a server's metadata:
 
 	server.metadata.each {|metadatum| puts "#{metadatum.key}: #{metadatum.value}" }
 
-Metadata can be retrieved and updated in a manner similar to a hash:
+You can update and retrieve metadata in a manner similar to a hash:
 
 	server.metadata["os_type"]
 	
 	server.metadata["installed_ruby"] = "MRI 1.9.3"
 
-Metadata will also respond to `save` and `reload` like so:
+Metadata also responds to `save` and `reload` as follows:
 
 	server.metadata.save
 	
@@ -511,11 +521,11 @@ To change the administrator password:
 
 ## Reboot
 
-To preform a soft reboot:
+To perform a soft reboot:
 
 	server.reboot
 	
-To preform a hard reboot:
+To perform a hard reboot:
 	
 	server.reboot 'HARD'
 
@@ -569,14 +579,14 @@ Additionally, the `rebuild` method will take a second parameter containing a has
 
 Resizing a server allows you to change the resources dedicated to the server.
 
-To resize server
+To resize a server:
 
 	flavor_id = service.flavor[2].id 
 	server.resize flavor_id  #flavor_id should be your desired flavor
 
 During the resize process the server will have a state of `RESIZE`. Once a server has completed resizing it will be in a `VERIFY_RESIZE` state. 
 
-We can use Fog's `wait_for` method to wait for this state like so:
+You can use Fog's `wait_for` method to wait for this state as follows:
 
 		server.wait_for { ready?('VERIFY_RESIZE', ['ACTIVE', 'ERROR']) }
 	
@@ -585,7 +595,7 @@ In this case, `wait_for` is waiting for the server to become `VERIFY_READY` and 
 
 Once a server enters the `VERIFY_RESIZE` we will need to call `confirm_resize` to confirm the server was properly resized or `revert_resize` to rollback to the old size/flavor.
 
-***Note:** A server will automatically confirm resize after 24 hours.*
+**Note:** *A server will automatically confirm resize after 24 hours.*
 
 To confirm resize:
 
@@ -596,15 +606,15 @@ To revert to previous size/flavor:
 	server.revert_resize
 	
 
-## [Create Image](id:create_image)
+## Create Image
 
 To create an image of your server:
 
 	image = server.create_image "back-image-#{server.name}", :metadata => { :environment => 'development' }
 
-The second parameter can be used to specify image metadata. This is an optional parameter.
+You can use the second parameter to specify image metadata. This is an optional parameter.
 
-During the imaging process, the image state will be `SAVING`. The image is ready for use when when state `ACTIVE` is reached. Fog can use `wait_for` to wait for an active state like so:
+During the imaging process, the image state will be `SAVING`. The image is ready for use when when state `ACTIVE` is reached. Fog can use `wait_for` to wait for an active state as follows:
 
 	image.wait_for { ready? }
 
@@ -618,7 +628,7 @@ To attach volume using the volume id:
 
 	server.attach_volume "0e7a706c-340d-48b3-802d-192850387f93"
 	
-If the volume id is unknown we can look it up using the Cloud Block Storage service. We will start by creating a `cbs_service` similar to our Compute Service: 
+If the volume id is unknown you can look it up using the Cloud Block Storage service. Start by creating a `cbs_service` similar to our Compute Service: 
 
 	cbs_service = Fog::Rackspace::BlockStorage.new({
   		:rackspace_username  => RACKSPACE_USER_NAME, # Your Rackspace Username
@@ -647,7 +657,7 @@ Example code using Next Gen Cloud Servers™ can be found [here](https://github.
 * [Next Gen Cloud Servers™ API](http://docs.rackspace.com/servers/api/v2/cs-devguide/content/ch_preface.html)
 
 ## Support and Feedback
-Your feedback is appreciated! If you have specific issues with the **fog** SDK, developers should file an [issue via Github](https://github.com/fog/fog/issues).
+Your feedback is appreciated! If you have specific issues with the **fog** SDK, you should file an [issue via Github](https://github.com/fog/fog/issues).
 
 For general feedback and support requests, send an email to: <sdk-support@rackspace.com>.
 
