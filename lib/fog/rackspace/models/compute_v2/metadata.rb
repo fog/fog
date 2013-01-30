@@ -14,6 +14,8 @@ module Fog
 
         include Fog::Compute::RackspaceV2::MetaParent
 
+        # Retrieves all of the metadata from server
+        # @return [Array<Fog::Compute::RackspaceV2::Metadatum>] list of metadatum
         def all
           requires :parent
           return unless parent.identity
@@ -21,6 +23,9 @@ module Fog
           from_hash(data)
         end
 
+        # Retrieves specific metadata from server
+        # @param [String] key for metadatum
+        # @return [Fog::Compute::RackspaceV2::Metadatum] metadatum
         def get(key)
           requires :parent
           data = connection.get_metadata_item(collection_name, parent.id, key).body["meta"]          
@@ -30,13 +35,23 @@ module Fog
           nil
         end
         
+        # Retrieve specific value for key from Metadata.
+        #   * If key is of type String, this method will return the value of the metadatum
+        #   * If key is of type Fixnum, this method will return a Fog::Compute::RackspaceV2::Metadatum object (legacy)
+        # @param [#key] key 
+        # @return [#value] 
         def [](key)
           return super(key) if key.is_a?(Integer)
           return nil unless key
           datum = self.find {|datum| datum.key == key || datum.key == key.to_sym }
           datum ? datum.value : nil
         end
-        
+
+        # Set value for key.
+        #   * If key is of type String, this method will set/add the value to Metadata
+        #   * If key is of type Fixnum, this method will set a Fog::Compute::RackspaceV2::Metadatum object (legacy)
+        # @param [#key] key 
+        # @return [String] 
         def []=(key, value)
           return super(key,value) if key.is_a?(Integer)          
           return nil unless key
@@ -49,16 +64,21 @@ module Fog
           value
         end
         
+        # Saves the current metadata on server
         def save
           requires :parent
           connection.set_metadata(collection_name, parent.id, to_hash)          
         end
 
+        # Creates new metadata
         def new(attributes = {})
           requires :parent
           super({ :parent => parent }.merge!(attributes))
         end
 
+        # Resets metadata using data from hash
+        # @param hash hash containing key value pairs used to populate metadata.
+        # @note This will remove existing data
         def from_hash(hash)
           return unless hash
           metas = []
@@ -66,6 +86,8 @@ module Fog
           load(metas)
         end
         
+        # Converts metadata object to hash
+        # @return [Hash] hash of metadata key value pairs
         def to_hash
           h = {}
           self.each { |datum| h[datum.key] = datum.value }
