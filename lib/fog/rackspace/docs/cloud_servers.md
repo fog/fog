@@ -494,7 +494,7 @@ To delete a server:
 **Note**: *The server is not immediately destroyed, but it does occur shortly there after.*
 
 ## Metadata
-You can access metadata as an attribute on both `Fog::Compute::RackspaceV2::Server` and `Fog::Compute::RackspaceV2::Metadata::Image`. You can specify metadata during creation of a server or an image. Please refer to [Create Server][] or [Create Image][] sections for more information.
+You can access metadata as an attribute on both `Fog::Compute::RackspaceV2::Server` and `Fog::Compute::RackspaceV2::Metadata::Image`. You can specify metadata during creation of a server or an image. Please refer to [Create Server](#create_server) or [Create Image](#create_image) sections for more information.
 
 This example demonstrates how to iterate through a server's metadata:
 
