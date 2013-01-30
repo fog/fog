@@ -447,7 +447,7 @@ Fog can wait for the server to become ready as follows:
 
 	server.wait_for { ready? }
 	
-**Note**: *The `Fog::Compute::RackspaceV2::Server` instance returned from the create method contains a `password` attribute. The **`password` attribute will NOT be present in subsequent retrievals** either through `service.servers` or `server.servers.get my_server_id`*.
+**Note**: *The `Fog::Compute::RackspaceV2::Server` instance returned from the create method contains a `password` attribute. The `password` attribute will NOT be present in subsequent retrievals either through `service.servers` or `server.servers.get my_server_id`*.
 
 ### Additional Parameters
 The `create` method also supports the following key values:
@@ -494,7 +494,7 @@ To delete a server:
 **Note**: *The server is not immediately destroyed, but it does occur shortly there after.*
 
 ## Metadata
-You can access metadata as an attribute on both `Fog::Compute::RackspaceV2::Server` and `Fog::Compute::RackspaceV2::Metadata::Image`. You can specify metadata during creation of a server or an image. Please refer to [Create Server](#create_server) or [Create Image](create_image) sections for more information.
+You can access metadata as an attribute on both `Fog::Compute::RackspaceV2::Server` and `Fog::Compute::RackspaceV2::Metadata::Image`. You can specify metadata during creation of a server or an image. Please refer to [Create Server][] or [Create Image][] sections for more information.
 
 This example demonstrates how to iterate through a server's metadata:
 
