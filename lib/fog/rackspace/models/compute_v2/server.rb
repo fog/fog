@@ -127,7 +127,6 @@ module Fog
         # @see http://docs.rackspace.com/servers/api/v2/cs-devguide/content/List_Flavors-d1e4188.html
         attribute :flavor_id, :aliases => 'flavor', :squash => 'id'
         
-        
         # @!attribute [r] image_id
         # @return [String] The image Id.
         # @see http://docs.rackspace.com/servers/api/v2/cs-devguide/content/List_Images-d1e4435.html

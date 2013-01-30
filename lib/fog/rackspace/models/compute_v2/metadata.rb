@@ -19,7 +19,7 @@ module Fog
         def all
           requires :parent
           return unless parent.identity
-          data = connection.list_metadata(collection_name, parent.id).body['metadata']
+          data = service.list_metadata(collection_name, parent.id).body['metadata']
           from_hash(data)
         end
 
@@ -28,11 +28,11 @@ module Fog
         # @return [Fog::Compute::RackspaceV2::Metadatum] metadatum
         def get(key)
           requires :parent
-          data = connection.get_metadata_item(collection_name, parent.id, key).body["meta"]          
+          data = service.get_metadata_item(collection_name, parent.id, key).body["meta"]          
           datum = data.first
           new(:key => datum[0], :value => datum[1])
         rescue Fog::Compute::RackspaceV2::NotFound
-          nil
+          nil 
         end
         
         # Retrieve specific value for key from Metadata.
@@ -59,7 +59,7 @@ module Fog
           if datum
             datum.value = value
           else
-            self << Fog::Compute::RackspaceV2::Metadatum.new(:key => key, :value => value, :connection => connection, :parent => parent)
+            self << Fog::Compute::RackspaceV2::Metadatum.new(:key => key, :value => value, :service => service, :parent => parent)
           end
           value
         end
@@ -67,7 +67,7 @@ module Fog
         # Saves the current metadata on server
         def save
           requires :parent
-          connection.set_metadata(collection_name, parent.id, to_hash)          
+          service.set_metadata(collection_name, parent.id, to_hash)          
         end
 
         # Creates new metadata

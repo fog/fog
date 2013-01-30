@@ -24,7 +24,7 @@ module Fog
 
         def get(key)
           requires :parent
-          data = service.get_meta(collection_name, @parent.id, key).body["meta"]
+          data = service.get_metadata(collection_name, @parent.id, key).body["meta"]
           metas = []
           data.each_pair {|k,v| metas << {"key" => k, "value" => v} }
           new(metas[0])

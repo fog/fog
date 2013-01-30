@@ -20,6 +20,9 @@ module Fog
       when :dnsmadeeasy
         require 'fog/dnsmadeeasy/dns'
         Fog::DNS::DNSMadeEasy.new(attributes)
+      when :dreamhost
+        require 'fog/dreamhost/dns'
+        Fog::DNS::Dreamhost.new(attributes)
       when :dynect
         require 'fog/dynect/dns'
         Fog::DNS::Dynect.new(attributes)

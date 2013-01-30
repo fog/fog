@@ -32,6 +32,9 @@ module Fog
       when :rackspace
         require 'fog/rackspace/storage'
         Fog::Storage::Rackspace.new(attributes)
+      when :openstack
+        require 'fog/openstack/storage'
+        Fog::Storage::OpenStack.new(attributes)
       else
         raise ArgumentError.new("#{provider} is not a recognized storage provider")
       end

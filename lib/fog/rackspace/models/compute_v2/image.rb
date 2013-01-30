@@ -64,7 +64,7 @@ module Fog
         attribute :links
                         
         def initialize(attributes={})
-          @connection = attributes[:connection]
+          @service = attributes[:service]
           super
         end
         
@@ -73,7 +73,7 @@ module Fog
         def metadata
           @metadata ||= begin
             Fog::Compute::RackspaceV2::Metadata.new({
-              :connection => connection,
+              :service => service,
               :parent => self
             })
           end

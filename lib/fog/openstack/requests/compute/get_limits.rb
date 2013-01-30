@@ -73,7 +73,7 @@ module Fog
             'totalRAMUsed'             => -2048,
             'totalInstancesUsed'       => -1,
             'totalSecurityGroupsUsed'  => 0,
-            'totalKeyPairsUsed'        => 0
+            'totalFloatingIpsUsed'     => 0
           }
 
 

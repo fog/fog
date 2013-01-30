@@ -1,6 +1,5 @@
-service = Fog::Compute::RackspaceV2.new
-
 Shindo.tests('Fog::Compute::RackspaceV2 | images', ['rackspace']) do
+  service = Fog::Compute::RackspaceV2.new
 
   image_id = nil
 

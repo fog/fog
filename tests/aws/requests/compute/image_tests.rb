@@ -2,7 +2,7 @@ Shindo.tests('Fog::Compute[:aws] | image requests', ['aws']) do
   @describe_images_format = {
     'imagesSet'    => [{
       'architecture'        => String,
-      'blockDeviceMapping'  => [],
+      'blockDeviceMapping'  => [Fog::Nullable::Hash],
       'description'         => Fog::Nullable::String,
       'hypervisor'          => String,
       'imageId'             => String,

@@ -21,7 +21,7 @@ module Fog
               #these indicate the metadata service is unavailable or has no profile setup
               credentials
             rescue Excon::Errors::Error => e
-              Fog::Logger.warning("Unable to fetch credentuals: #{e.message}")
+              Fog::Logger.warning("Unable to fetch credentials: #{e.message}")
               super
             end
           else

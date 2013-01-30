@@ -17,9 +17,8 @@ Shindo.tests("AWS::RDS | server", ['aws', 'rds']) do
         snapshot = @instance.snapshots.create(:id => 'fog-test-snapshot')
       end
 
-      snapshot.wait_for {ready?}
+      snapshot.wait_for { ready?}
 
-      @instance.reload
       @instance.wait_for { ready? }
 
       returns(true) { @instance.snapshots.map{|s| s.id}.include?(snapshot.id) }
@@ -41,7 +40,7 @@ Shindo.tests("AWS::RDS | server", ['aws', 'rds']) do
       }
 
       @instance.modify(true, modify_options)
-      @instance.reload
+      @instance.wait_for { ready? }
 
       returns(parameter_group.id, 'new parameter group') do
         @instance.db_parameter_groups.first['DBParameterGroupName']
@@ -52,8 +51,8 @@ Shindo.tests("AWS::RDS | server", ['aws', 'rds']) do
       end
 
       @instance.reboot
-      @instance.reload.wait_for { state == 'rebooting' }
-      @instance.reload.wait_for { ready? }
+      @instance.wait_for { state == 'rebooting' }
+      @instance.wait_for { ready? }
 
       # Restore back to original state using symbols
       restore_options = {
@@ -63,8 +62,8 @@ Shindo.tests("AWS::RDS | server", ['aws', 'rds']) do
       @instance.modify(true, restore_options)
 
       @instance.reboot
-      @instance.reload.wait_for { state == 'rebooting' }
-      @instance.reload.wait_for do
+      @instance.wait_for { state == 'rebooting' }
+      @instance.wait_for do
         ready? &&
           db_security_groups.all? {|hash| hash['Status'] == 'active'} &&
           db_parameter_groups.all? {|hash| hash['ParameterApplyStatus'] == 'in-sync' }
@@ -77,8 +76,8 @@ Shindo.tests("AWS::RDS | server", ['aws', 'rds']) do
     tests("#reboot").succeeds do
       @instance.reboot
     end
-    @instance.reload.wait_for {state == 'rebooting'}
-    @instance.reload.wait_for { ready? }
+    @instance.wait_for { state == 'rebooting' }
+    @instance.wait_for { ready? }
 
     tests('#create_read_replica').succeeds do
 

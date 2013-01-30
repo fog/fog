@@ -1,10 +1,9 @@
-compute_service       = Fog::Compute::RackspaceV2.new
-block_storage_service = Fog::Rackspace::BlockStorage.new
-image_id              = Fog.credentials[:rackspace_image_id] || compute_service.images.first.id
-flavor_id             = Fog.credentials[:rackspace_flavor_id] || compute_service.flavors.first.id
-timeout = Fog.mocking? ? 1 : 10
-
 Shindo.tests('Fog::Compute::RackspaceV2 | attachment_tests', ['rackspace']) do
+  compute_service       = Fog::Compute::RackspaceV2.new
+  block_storage_service = Fog::Rackspace::BlockStorage.new
+  image_id              = Fog.credentials[:rackspace_image_id] || compute_service.images.first.id
+  flavor_id             = Fog.credentials[:rackspace_flavor_id] || compute_service.flavors.first.id
+  timeout = Fog.mocking? ? 1 : 10
 
   attachment_format = {
     'volumeAttachment' => {

@@ -144,9 +144,28 @@ module Fog
           # Options['customization_spec']
           # Build up all the crappy tiered objects like the perl method
           # Collect your variables ifset (writing at 11pm revist me)
+          # * domain <~String> - *REQUIRED* - Sets the server's domain for customization
+          # * ipsettings <~Hash> - Optional - If not set defaults to dhcp
+          #  * ip <~String> - *REQUIRED* Sets the ip address of the VM - Example: 10.0.0.10
+          #  * dnsServerList <~Array> - Optional - Sets the nameservers in resolv - Example: ["10.0.0.2", "10.0.0.3"]
+          #  * gateway <~Array> - Optional - Sets the gateway for the interface - Example: ["10.0.0.1"]
+          #  * subnetMask <~String> - *REQUIRED* - Set the netmask of the interface - Example: "255.255.255.0"
+          #    For other ip settings options see http://www.vmware.com/support/developer/vc-sdk/visdk41pubs/ApiReference/vim.vm.customization.IPSettings.html
           if ( options.has_key?('customization_spec') )
             cust_options = options['customization_spec']
+            if cust_options.has_key?("ipsettings")
+              raise ArgumentError, "ip and subnetMask is required for static ip" unless cust_options["ipsettings"].has_key?("ip") and
+                                                                                        cust_options["ipsettings"].has_key?("subnetMask")
+            end
+            raise ArgumentError, "domain is required" unless cust_options.has_key?("domain")
             cust_domain = cust_options['domain']
+            cust_ip_settings = RbVmomi::VIM::CustomizationIPSettings.new(cust_options["ipsettings"]) if cust_options.has_key?("ipsettings")
+            cust_ip_settings.ip = RbVmomi::VIM::CustomizationFixedIp("ipAddress" => cust_options["ipsettings"]["ip"]) if cust_options.has_key?("ipsettings")
+            cust_ip_settings ||= RbVmomi::VIM::CustomizationIPSettings.new("ip" => RbVmomi::VIM::CustomizationDhcpIpGenerator.new())
+            cust_ip_settings.dnsDomain = cust_domain
+            cust_global_ip_settings = RbVmomi::VIM::CustomizationGlobalIPSettings.new
+            cust_global_ip_settings.dnsServerList = cust_ip_settings.dnsServerList
+            cust_global_ip_settings.dnsSuffixList = [cust_domain]
             cust_hostname = RbVmomi::VIM::CustomizationFixedName.new(:name => cust_options['hostname']) if cust_options.has_key?('hostname')
             cust_hostname ||= RbVmomi::VIM::CustomizationFixedName.new(:name => options['name'])
             cust_hwclockutc = cust_options['hw_clock_utc']
@@ -158,16 +177,12 @@ module Fog
               :hostName => cust_hostname,
               :hwClockUTC => cust_hwclockutc,
               :timeZone => cust_timezone)
-            # Build the Dhcp Generator Object 
-            cust_fixed_ip = RbVmomi::VIM::CustomizationDhcpIpGenerator.new()
-            # Build the custom_ip_settings Object
-            cust_ip_setting = RbVmomi::VIM::CustomizationIPSettings.new(:ip => cust_fixed_ip)
             # Build the Custom Adapter Mapping Supports only one eth right now
-            cust_adapter_mapping = [RbVmomi::VIM::CustomizationAdapterMapping.new(:adapter => cust_ip_setting)]
+            cust_adapter_mapping = [RbVmomi::VIM::CustomizationAdapterMapping.new("adapter" => cust_ip_settings)]
             # Build the customization Spec
             customization_spec = RbVmomi::VIM::CustomizationSpec.new(
               :identity => cust_prep,
-              :globalIPSettings => RbVmomi::VIM::CustomizationGlobalIPSettings.new(),
+              :globalIPSettings => cust_global_ip_settings,
               :nicSettingMap => cust_adapter_mapping)
           end
           customization_spec ||= nil

@@ -20,7 +20,6 @@ module Fog
 
         def destroy
           requires :id
-
           service.release_address(id)
           true
         end
