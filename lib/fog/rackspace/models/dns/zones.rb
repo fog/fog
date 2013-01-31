@@ -22,6 +22,28 @@ module Fog
           data = service.list_domains(:name => substring).body['domains']
           load(data)
         end
+        
+        alias :each_zone_this_page :each
+        def each
+          if !block_given?
+            self
+          else
+            body = service.list_domains.body
+            subset = load(body['domains'])
+
+            subset.each_zone_this_page {|f| yield f}
+            while !body['links'].select{|l| l['rel'] == 'next'}.empty?
+              url = body['links'].select{|l| l['rel'] == 'next'}.first['href']
+              query = url.match(/\?(.+)/)
+              parsed = CGI.parse($1)
+              
+              body = service.list_domains(:offset => parsed['offset'], :limit => parsed['limit']).body
+              subset = load(body['domains'])
+              subset.each_zone_this_page {|f| yield f}
+            end
+            self
+          end
+        end
 
         def get(zone_id)
           if zone_id.nil? or zone_id.to_s.empty?
