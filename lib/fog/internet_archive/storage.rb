@@ -281,8 +281,8 @@ module Fog
             end
             @path       = options[:path]        || '/'
             @persistent = options.fetch(:persistent, false)
-            @port       = options[:port]        || 443
-            @scheme     = options[:scheme]      || 'https'
+            @port       = options[:port]        || 80
+            @scheme     = options[:scheme]      || 'http'
           end
           @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}#{@path}", @persistent, @connection_options)
         end
