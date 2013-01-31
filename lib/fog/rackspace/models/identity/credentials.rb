@@ -17,14 +17,15 @@ module Fog
 
         def get(id)
           requires :user
-          data = retrieve_credentials.find{ |credential| credential['id'] == id }
+          data = retrieve_credentials.find { |credential| credential['apiKey'] == id }
           data && new(data)
         end
 
         private
 
         def retrieve_credentials
-          data = service.list_credentials(user.identity).body['credentials']
+          raw_credentials = service.list_credentials(user.identity).body['credentials']
+          raw_credentials.map { |c| c['RAX-KSKEY:apiKeyCredentials'] }
         end
       end
     end
