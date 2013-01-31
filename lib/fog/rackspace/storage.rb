@@ -94,7 +94,7 @@ module Fog
           @connection_options     = options[:connection_options] || {}
           authenticate
           @persistent = options[:persistent] || false
-          Excon.ssl_verify_peer = false if options[:rackspace_servicenet] == true
+          Excon.defaults[:ssl_verify_peer] = false if options[:rackspace_servicenet] == true
           @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
         end
 
