@@ -32,7 +32,8 @@ module Fog
         attr_reader :vsphere_username
 
         DEFAULT_SCSI_KEY ||= 1000
-        DISK_DEV_LABEL ||= "abcdefghijklmnopqrstuvwxyz"
+        # SCSI control cannot hang on 7th channel, we need to skip it
+        DISK_DEV_LABEL ||= "abcdefghi#jklmnopqrstuvwxyz"
 
         ATTR_TO_PROP ||= {
             :id => 'config.instanceUuid',
