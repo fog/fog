@@ -23,6 +23,9 @@ module Fog
       when :ibm
         require 'fog/ibm/storage'
         Fog::Storage::IBM.new(attributes)
+      when :internetarchive
+        require 'fog/internet_archive/storage'
+        Fog::Storage::InternetArchive.new(attributes)
       when :local
         require 'fog/local/storage'
         Fog::Storage::Local.new(attributes)
