@@ -8,9 +8,9 @@ module Fog
 
         model Fog::DNS::Rackspace::Zone
 
-        def all
+        def all(options={})
           clear
-          data = service.list_domains.body['domains']
+          data = service.list_domains(options).body['domains']
           load(data)
         end
         
@@ -29,7 +29,7 @@ module Fog
             self
           else
             body = service.list_domains.body
-            subset = load(body['domains'])
+            subset = dup.all
 
             subset.each_zone_this_page {|f| yield f}
             while !body['links'].select{|l| l['rel'] == 'next'}.empty?
@@ -38,7 +38,7 @@ module Fog
               parsed = CGI.parse($1)
               
               body = service.list_domains(:offset => parsed['offset'], :limit => parsed['limit']).body
-              subset = load(body['domains'])
+              subset = dup.all(:offset => parsed['offset'], :limit => parsed['limit'])
               subset.each_zone_this_page {|f| yield f}
             end
             self
