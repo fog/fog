@@ -25,10 +25,13 @@ module Fog
 
           if options.has_key?("masterVM_moid") and options.has_key?("self_moid") and options["masterVM_moid"] == options["self_moid"]
             vhm_info << RbVmomi::VIM::OptionValue(:key => "vhmInfo.vhm.enable", :value => options["vhm_enable"].to_s)
+            if !options["vhm_min_num"].nil?
+              vhm_info << RbVmomi::VIM::OptionValue(:key => "vhmInfo.min.computeNodesNum", :value => options["vhm_min_num"].to_s)
+            end
           end
 
-          config = RbVmomi::VIM::VirtualMachineConfigSpec(:extraConfig => vhm_info)
-          
+          config = RbVmomi::VIM::VirtualMachineConfigSpec(:extraConfig => vhm_info) 
+
           task = vm_mob_ref.ReconfigVM_Task(:spec => config)
           wait_for_task(task)
 
