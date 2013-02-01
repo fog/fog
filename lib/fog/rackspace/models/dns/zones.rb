@@ -32,14 +32,16 @@ module Fog
             subset = dup.all
 
             subset.each_zone_this_page {|f| yield f}
-            while !body['links'].select{|l| l['rel'] == 'next'}.empty?
-              url = body['links'].select{|l| l['rel'] == 'next'}.first['href']
-              query = url.match(/\?(.+)/)
-              parsed = CGI.parse($1)
-              
-              body = service.list_domains(:offset => parsed['offset'], :limit => parsed['limit']).body
-              subset = dup.all(:offset => parsed['offset'], :limit => parsed['limit'])
-              subset.each_zone_this_page {|f| yield f}
+            if body.has_key?('links')
+              while !body['links'].select{|l| l['rel'] == 'next'}.empty?
+                url = body['links'].select{|l| l['rel'] == 'next'}.first['href']
+                query = url.match(/\?(.+)/)
+                parsed = CGI.parse($1)
+                
+                body = service.list_domains(:offset => parsed['offset'], :limit => parsed['limit']).body
+                subset = dup.all(:offset => parsed['offset'], :limit => parsed['limit'])
+                subset.each_zone_this_page {|f| yield f}
+              end
             end
             self
           end
