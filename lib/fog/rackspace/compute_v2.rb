@@ -62,6 +62,11 @@ module Fog
       request :set_metadata_item
       request :delete_metadata_item
 
+      request :list_networks
+      request :get_network
+      request :create_network
+      request :delete_network
+
       class Mock
         include Fog::Rackspace::MockData
 
