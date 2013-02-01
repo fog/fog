@@ -24,7 +24,7 @@ module Fog
       collection :flavors
       model :image
       collection :images
-      model :attachments
+      model :attachment
       collection :attachments
 
       request_path 'fog/rackspace/requests/compute_v2'
@@ -54,7 +54,7 @@ module Fog
       request :get_attachment
       request :list_attachments
       request :delete_attachment
-      
+
       request :list_metadata
       request :set_metadata
       request :update_metadata
