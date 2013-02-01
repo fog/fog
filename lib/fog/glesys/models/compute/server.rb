@@ -108,6 +108,8 @@ module Fog
 
         def public_ip_address(options = {})
 
+          return nil if iplist.nil?
+
           type = options[:type] || nil
 
           ips = case type
