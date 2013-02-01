@@ -106,6 +106,14 @@ module Fog
           super(command, options, &block)
         end
 
+        def ips
+          Fog::Compute::Glesys::Ips.new(:serverid => identity, :server => self, :service => service).all
+        end
+
+        def ip(ip)
+          Fog::Compute::Glesys::Ips.new(:serverid => identity, :server => self, :service => service).get(ip)
+        end
+
         def public_ip_address(options = {})
 
           return nil if iplist.nil?

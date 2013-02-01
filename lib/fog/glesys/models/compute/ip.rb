@@ -23,59 +23,43 @@ module Fog
         attribute :ptr
         attribute :cost
 
-        def list_own
-          service.list_own
+        def attached?
+          !serverid.nil?
         end
 
-        def list_free
-          requires :version, :datacenter, :platform
-          service.ip_list_free(
-            :ipversion => version,
-            :platform => platform,
-            :datacenter => datacenter
-          ).body['response']['iplist']
-        end
-
-        def details
-          requires :version, :ip
-          service.ip_details(
-            :ipversion => version,
-            :ipaddress => ip
-          )
-        end
-
-        def take
-          requires :version, :ip
-          service.ip_take(
-            :ipversion => version,
-            :ipaddress => ip
-          )
-        end
-
+        # Return an unused ip-address to the pool of free ips.
         def release
-          requires :version, :ip
+          requires :ip
+          raise Fog::Errors::Error.new('You can\'t release a ip that is attached to a server') if attached?
           service.ip_release(
-            :ipversion => version,
-            :ipaddress => ip
+            :ipaddress => identity
           )
         end
 
-        def add
-          requires :serverid, :version, :ip
-          service.ip_add(
-            :serverid  => serverid,
-            :ipversion => version,
-            :ipaddress => ip
-          )
+        # Add an ip-adress to the server.
+        def attach(server)
+          requires :ip
+          server = server.serverid if server.is_a?(Fog::Compute::Glesys::Server)
+          raise Fog::Errors::Error.new("Ip is already attached to a server, #{serverid}") unless serverid.nil?
+          data = service.ip_add(
+            :ipaddress => identity,
+            :serverid  => server
+          ).body["response"]["details"]
+          merge_attributes data
         end
 
-        def remove
-          requires :serverid, :version, :ip
-          service.ip_remove(
-            :serverid  => serverid,
-            :ipversion => version,
-            :ipaddress => ip
-          )
+        # Remove an ip from the server
+        def remove(options = {})
+          requires :ip
+          raise Fog::Errors::Error.new('Ip is not attached to a server.') if serverid.nil?
+          data = service.ip_remove({:ipaddress => ip}.merge!(options)).body["response"]["details"]
+          merge_attributes data
+        end
+
+        # Remove the ip from a server and release it
+        def destroy
+          requires :ip
+          remove(:release => true)
         end
 
       end
