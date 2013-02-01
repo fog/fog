@@ -6,6 +6,16 @@ module Fog
           request(:method => 'DELETE', :path => "os-networksv2/#{id}", :expects => 202)
         end
       end
+
+      class Mock
+        def delete_network(id)
+          unless self.data[:networks].has_key?(id)
+            raise Fog::Compute::RackspaceV2::NotFound
+          end
+
+          response(:body => '', :status => 202)
+        end
+      end
     end
   end
 end
