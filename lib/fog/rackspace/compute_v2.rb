@@ -26,6 +26,8 @@ module Fog
       collection :images
       model :attachment
       collection :attachments
+      model :network
+      collection :networks
 
       request_path 'fog/rackspace/requests/compute_v2'
       request :list_servers
