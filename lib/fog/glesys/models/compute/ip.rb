@@ -8,12 +8,20 @@ module Fog
 
         extend Fog::Deprecation
 
-        identity :serverid
+        identity :ip
 
+        attribute :ip, :aliases => "ipaddress"
         attribute :datacenter
-        attribute :version
+        attribute :version, :aliases => "ipversion"
         attribute :platform
-        attribute :ip
+        attribute :netmask
+        attribute :broadcast
+        attribute :gateway
+        attribute :nameservers
+        attribute :serverid
+        attribute :reserved
+        attribute :ptr
+        attribute :cost
 
         def list_own
           service.list_own
