@@ -31,8 +31,12 @@ module Fog
           end
         end
 
-        def public=(new_public)
+        def public=(new_public)          
           @public = new_public
+        end
+        
+        def public?
+          @public ||= !public_url.nil?
         end
 
         def public_url
@@ -56,17 +60,17 @@ module Fog
           requires :key
           service.put_container(key)
 
-          if service.cdn && @public
+          if service.cdn && public?
             # if public and CDN connection then update cdn to public
             uri_header = 'X-CDN-URI'
             if service.rackspace_cdn_ssl == true
               uri_header = 'X-CDN-SSL-URI'
             end
             @public_url = service.cdn.put_container(key, 'X-CDN-Enabled' => 'True').headers[uri_header]
-          elsif service.cdn && !@public
+          elsif service.cdn && !public?
             service.cdn.put_container(key, 'X-CDN-Enabled' => 'False')
             @public_url = nil
-          elsif !service.cdn && @public
+          elsif !service.cdn && public?
             # if public but no CDN connection then error
             raise(Fog::Storage::Rackspace::Error.new("Directory can not be set as :public without a CDN provided"))
           end
