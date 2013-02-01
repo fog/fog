@@ -17,6 +17,10 @@ module Fog
           data['server']['OS-DCF:diskConfig'] = options[:disk_config] unless options[:disk_config].nil?
           data['server']['metadata'] = options[:metadata] unless options[:metadata].nil?
           data['server']['personality'] = options[:personality] unless options[:personality].nil?
+          data['server']['networks'] = options[:networks] || [
+            { :uuid => '00000000-0000-0000-0000-000000000000' },
+            { :uuid => '11111111-1111-1111-1111-111111111111' }
+          ]
 
           request(
             :body => Fog::JSON.encode(data),
