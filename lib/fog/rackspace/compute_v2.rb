@@ -127,8 +127,13 @@ module Fog
           rescue Excon::Errors::HTTPStatusError => error
             raise ServiceError.slurp error
           end
+
           unless response.body.empty?
-            response.body = Fog::JSON.decode(response.body)
+            begin
+              response.body = Fog::JSON.decode(response.body)
+            rescue MultiJson::DecodeError => e
+              response.body = {}
+            end
           end
           response
         end
