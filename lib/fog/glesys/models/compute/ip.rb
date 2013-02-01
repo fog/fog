@@ -1,10 +1,11 @@
 require 'fog/core/model'
 
 module Fog
-  module Glesys
-    class Compute
+  module Compute
+    class Glesys
 
       class Ip < Fog::Model
+
         extend Fog::Deprecation
 
         identity :serverid

@@ -7,7 +7,7 @@ module Fog
 
       class Ips < Fog::Collection
 
-        model Fog::Glesys::Compute::Ip
+        model Fog::Compute::Glesys::Ip
 
         attribute :serverid
 
