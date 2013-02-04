@@ -39,11 +39,40 @@ module Fog
           self.class.data.delete(@rackspace_username)
         end
         
+        def ssl?
+          !@rackspace_cdn_ssl.nil?
+        end
+        
         def purge(object)
           return true if object.is_a? Fog::Storage::Rackspace::File
           raise Fog::Errors::NotImplemented.new("#{object.class} does not support CDN purging") if object
         end
-
+        
+        def publish_container(container, publish = true)
+          enabled = publish ? 'True' : 'False'
+          response = post_container(container.key, 'X-CDN-Enabled' => enabled)
+          url_from_headers(response.headers, container.cdn_cname)
+        end
+        
+        def public_url(object)
+          begin 
+            response = head_container(key)
+            if response.headers['X-Cdn-Enabled'] == 'True'
+              url_from_headers(response.headers, object.cdn_name)
+            else
+              nil
+            end
+          rescue Fog::Service::NotFound
+            nil
+          end
+        end
+        
+        private
+        
+        def url_from_headers(headers, cdn_cname)
+         return headers['X-Cdn-Ssl-Uri'] if ssl?
+         cdn_cname || headers['X-Cdn-Uri']
+        end        
       end
 
       class Real
