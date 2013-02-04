@@ -12,7 +12,7 @@ module Fog
 
           if detached_disk
             response(:body => Fog::Ecloud.slice(detached_disk, :id, :compute_pool_id))
-          else response(:status => 404) # ?
+          else raise Fog::Errors::NotFound
           end
         end
       end

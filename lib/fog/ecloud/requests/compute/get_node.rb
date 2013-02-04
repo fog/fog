@@ -13,7 +13,7 @@ module Fog
 
           if node_service
             response(:body => Fog::Ecloud.slice(node_service, :id, :internet_service_id))
-          else response(:status => 404) # ?
+          else raise Fog::Errors::NotFound
           end
         end
       end

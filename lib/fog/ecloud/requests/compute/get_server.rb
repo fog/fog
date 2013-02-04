@@ -13,7 +13,7 @@ module Fog
           server = self.data[:servers][server_id]
           if server
             response(:body => Fog::Ecloud.slice(server, :id, :compute_pool_id))
-          else response(:status => 404) # ?
+          else raise Fog::Errors::NotFound
           end
         end
       end
