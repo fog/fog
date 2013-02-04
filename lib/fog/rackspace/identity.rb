@@ -31,7 +31,6 @@ module Fog
       request :create_user
       request :update_user
       request :delete_user
-      request :get_credentials
 
       class Mock
         def request

@@ -131,22 +131,22 @@ module Fog
         # @return [String] The image Id.
         # @see http://docs.rackspace.com/servers/api/v2/cs-devguide/content/List_Images-d1e4435.html
         attribute :image_id, :aliases => 'image', :squash => 'id'
-        
         # @!attribute [r] password
         # @return [String] Password for system adminstrator account. 
         # @note This value is ONLY populated on server creation.
         attr_reader :password 
-        
+
+
         def initialize(attributes={})
           @service = attributes[:service]
           super
         end
-        
+
         alias :access_ipv4_address :ipv4_address
         alias :access_ipv4_address= :ipv4_address=
         alias :access_ipv6_address :ipv6_address
         alias :access_ipv6_address= :ipv6_address=
-        
+
         # Server metadata
         # @return [Fog::Compute::RackspaceV2::Metadata] metadata key value pairs.
         def metadata
@@ -157,7 +157,7 @@ module Fog
             })
           end
         end
-        
+
         # Set server metadata
         # @param [Hash] hash contains key value pairs
         def metadata=(hash={})
@@ -167,11 +167,11 @@ module Fog
         # Saves the server.
         # Creates server if it is new, otherwise it will update server attributes name, accessIPv4, and accessIPv6.
         # @return [Boolean] true if server has started saving
-        def save
+        def save(options = {})
           if persisted?
             update
           else
-            create
+            create(options)
           end
           true
         end
@@ -187,13 +187,16 @@ module Fog
         # * State Transitions
         #   * BUILD -> ACTIVE
         #   * BUILD -> ERROR (on error)
-        def create
+        def create(options)
           requires :name, :image_id, :flavor_id
 
-          options = {}
           options[:disk_config] = disk_config unless disk_config.nil?
           options[:metadata] = metadata.to_hash unless @metadata.nil?
           options[:personality] = personality unless personality.nil?
+
+          if options[:networks]
+            options[:networks].map! { |id| { :uuid => id } }
+          end
 
           data = service.create_server(name, image_id, flavor_id, 1, 1, options)
           merge_attributes(data.body['server'])
@@ -215,7 +218,7 @@ module Fog
             'accessIPv4' => ipv4_address,
             'accessIPv6' => ipv6_address
           }
-          
+
           data = service.update_server(identity, options)
           merge_attributes(data.body['server'])
           true
@@ -261,7 +264,7 @@ module Fog
         def create_image(name, options = {})
           requires :identity
           response = service.create_image(identity, name, options)
-          begin 
+          begin
             image_id = response.headers["Location"].match(/\/([^\/]+$)/)[1]
             Fog::Compute::RackspaceV2::Image.new(:collection => service.images, :service => service, :id => image_id)
           rescue
@@ -280,7 +283,7 @@ module Fog
             })
           end
         end
-        
+
         # Attaches Cloud Block Volume
         # @param [Fog::Rackspace::BlockStorage::Volume, String] volume object or the volume id of volume to mount
         # @param [String] device name of the device /dev/xvd[a-p]  (optional)
@@ -290,7 +293,7 @@ module Fog
           requires :identity
           volume_id = volume.is_a?(String) ? volume : volume.id
           attachments.create(:server_id => identity, :volume_id => volume_id, :device => device)
-        end        
+        end
 
         # Server's private IPv4 address
         # @return [String] private IPv4 address
