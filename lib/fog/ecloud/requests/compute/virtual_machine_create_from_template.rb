@@ -90,8 +90,8 @@ module Fog
                     end
                   end
                 end
+                xml.SshKey(:href => options[:ssh_key_uri])
               end
-              xml.SshKey(:href => options[:ssh_key_uri])
             end
             xml.PoweredOn options[:powered_on]
             xml.Template(:href => options[:template_uri], :type => options[:template_type])
