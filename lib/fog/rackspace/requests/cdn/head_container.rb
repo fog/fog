@@ -28,6 +28,30 @@ module Fog
         end
 
       end
+      
+      class Mock
+        
+        def head_container(container)
+          raise Fog::Storage::Rackspace::NotFound.new "#{container} not found" unless container == 'fogcontainertests'
+          response = Excon::Response.new
+          response.status = 204
+          response.headers = { 
+            "X-Cdn-Uri"=>"http://e4bbc22477d80eaf22bd-ca4e4e61e477bbd430e1f5b9dc9a19f5.r53.cf1.rackcdn.com", 
+            "X-Cdn-Ios-Uri"=>"http://3c10ef49037f74416445-ca4e4e61e477bbd430e1f5b9dc9a19f5.iosr.cf1.rackcdn.com", 
+            "X-Cdn-Ssl-Uri"=>"https://b722b8ee248259c37901-ca4e4e61e477bbd430e1f5b9dc9a19f5.ssl.cf1.rackcdn.com", 
+            "X-Log-Retention"=>"False", 
+            "X-Cdn-Enabled"=>"True", 
+            "Content-Length"=>"0", 
+            "Date"=>"Fri, 01 Feb 2013 21:25:57 GMT", 
+            "X-Cdn-Streaming-Uri"=>"http://b82027c64cb4dd03670a-ca4e4e61e477bbd430e1f5b9dc9a19f5.r53.stream.cf1.rackcdn.com", 
+            "X-Ttl"=>"259200", 
+            "X-Trans-Id"=>"txca40ffd0412943608bb3e9656c8b81ef"
+          }             
+          response.body = "" 
+          response
+        end        
+      end
+      
     end
   end
 end
