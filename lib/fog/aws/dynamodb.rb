@@ -85,7 +85,7 @@ module Fog
           @host       = options[:host]        || "dynamodb.#{@region}.amazonaws.com"
           @path       = options[:path]        || '/'
           @persistent = options[:persistent]  || false
-          @port       = options[:port]        || '80' #443
+          @port       = options[:port]        || '443'
           @scheme     = options[:scheme]      || 'https'
 
           @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}#{@path}", @persistent, @connection_options)

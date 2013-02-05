@@ -2,6 +2,24 @@ module Fog
   module Compute
     class RackspaceV2
       class Real
+        
+        # Retrieves image detail
+        # @param [String] image_id
+        # @return [Excon::Response] response:
+        #   * body [Hash]:
+        #     * image [Hash]:
+        #       * OS-DCF:diskConfig [String] - The disk configuration value.
+        #       * created [String] - created timestamp
+        #       * id [String] - id of image
+        #       * metadata [Hash] - image metadata
+        #       * minDisk [Fixnum]
+        #       * minRam [Fixnum]
+        #       * name [String] - name of image
+        #       * progress [Fixnum] - progress complete. Value is from 0 to 100.
+        #       * status [String] - status of current image
+        #       * updated [String] - updated timestamp
+        #       * links [Array] - links to flavor
+        # @see http://docs.rackspace.com/servers/api/v2/cs-devguide/content/Get_Image_Details-d1e4848.html        
         def get_image(image_id)
           request(
             :expects => [200, 203],

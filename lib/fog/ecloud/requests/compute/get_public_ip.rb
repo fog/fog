@@ -12,7 +12,7 @@ module Fog
 
           if public_ip
             response(:body => Fog::Ecloud.slice(public_ip, :id, :environment_id))
-          else response(:status => 404) # ?
+          else raise Fog::Errors::NotFound
           end
         end
       end

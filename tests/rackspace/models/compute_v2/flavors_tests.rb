@@ -1,6 +1,6 @@
-service = Fog::Compute::RackspaceV2.new
-
 Shindo.tests('Fog::Compute::RackspaceV2 | flavors', ['rackspace']) do
+  service = Fog::Compute::RackspaceV2.new
+
   tests("success") do
     tests("#all").succeeds do
       service.flavors.all

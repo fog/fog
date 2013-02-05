@@ -2,6 +2,12 @@ module Fog
   module Compute
     class RackspaceV2
       class Real
+        
+        # Deletes a metadata item.
+        # @param [String<images, servers>] collection type of metadata
+        # @param [String] obj_id id of the object where the metadata is attached
+        # @param [String] key the key of the metadata to delete
+        # @see http://docs.rackspace.com/servers/api/v2/cs-devguide/content/Delete_Metadata_Item-d1e5790.html
         def delete_metadata_item(collection, obj_id, key)
           request(
             :expects => 204,

@@ -2,6 +2,12 @@ require 'fog/core'
 
 module Fog
   module HP
+
+    # define a specific version for the HP Provider
+    unless const_defined?(:VERSION)
+      VERSION = '0.0.19'
+    end
+
     extend Fog::Provider
 
     module Errors
@@ -13,10 +19,14 @@ module Fog
             data = nil
             message = nil
           else
-            data = Fog::JSON.decode(error.response.body)
-            message = data['message']
-            if message.nil? and !data.values.first.nil?
-              message = data.values.first['message']
+            begin
+              data = Fog::JSON.decode(error.response.body)
+              message = data['message']
+              if message.nil? and !data.values.first.nil?
+                message = data.values.first['message']
+              end
+            rescue MultiJson::DecodeError
+              message = error.response.body  #### body is not in JSON format, so just return as is
             end
           end
 
@@ -29,6 +39,7 @@ module Fog
       class InternalServerError < ServiceError; end
       class Conflict < ServiceError; end
       class NotFound < ServiceError; end
+      class Forbidden < ServiceError; end
       class ServiceUnavailable < ServiceError; end
 
       class BadRequest < ServiceError
@@ -47,6 +58,7 @@ module Fog
     service(:cdn,     'hp/cdn',     'CDN')
     service(:compute, 'hp/compute', 'Compute')
     service(:storage, 'hp/storage', 'Storage')
+    service(:block_storage, 'hp/block_storage', 'BlockStorage')
 
     # legacy swauth 1.0/1.1 style authentication
     def self.authenticate_v1(options, connection_options = {})
@@ -61,14 +73,17 @@ module Fog
         @auth_path = "auth/v1.0"
       end
       service_url = "#{@scheme}://#{@host}:#{@port}"
+      # Set the User-Agent
+      @user_agent = options[:user_agent]
+      set_user_agent_header(connection_options, "fog/#{Fog::VERSION}", @user_agent)
       connection = Fog::Connection.new(service_url, false, connection_options)
-      @hp_account_id = options[:hp_account_id]
+      @hp_access_key = options[:hp_access_key]
       @hp_secret_key  = options[:hp_secret_key]
       response = connection.request({
         :expects  => [200, 204],
         :headers  => {
           'X-Auth-Key'  => @hp_secret_key,
-          'X-Auth-User' => @hp_account_id
+          'X-Auth-User' => @hp_access_key
         },
         :host     => @host,
         :port     => @port,
@@ -101,16 +116,19 @@ module Fog
         @auth_path = "v2.0/tokens"
       end
       service_url = "#{@scheme}://#{@host}:#{@port}"
+      # Set the User-Agent. If the caller sets a user_agent, use it.
+      @user_agent = options[:user_agent]
+      set_user_agent_header(connection_options, "fog/#{Fog::VERSION}", @user_agent)
       connection = Fog::Connection.new(service_url, false, connection_options)
 
       ### Implement HP Control Services Authentication services ###
       # Get the style of auth credentials passed, defaults to access/secret key style
       @hp_use_upass_auth_style = options[:hp_use_upass_auth_style] || false
-      @hp_account_id = options[:hp_account_id]
+      @hp_access_key = options[:hp_access_key]
       @hp_secret_key = options[:hp_secret_key]
       @hp_tenant_id  = options[:hp_tenant_id]
       @hp_service_type  = options[:hp_service_type]
-      @hp_avl_zone   = options[:hp_avl_zone] || :az1
+      @hp_avl_zone   = options[:hp_avl_zone]
 
       ### Decide which auth style to use
       unless (@hp_use_upass_auth_style)
@@ -118,7 +136,7 @@ module Fog
         request_body = {
             'auth' => {
                 'apiAccessKeyCredentials' => {
-                    'accessKey' => "#{@hp_account_id}",
+                    'accessKey' => "#{@hp_access_key}",
                     'secretKey' => "#{@hp_secret_key}"
                 }
             }
@@ -128,17 +146,17 @@ module Fog
         request_body = {
             'auth' => {
                 'passwordCredentials' => {
-                    'username' => "#{@hp_account_id}",
+                    'username' => "#{@hp_access_key}",
                     'password' => "#{@hp_secret_key}"
                 }
             }
         }
       end
       # add tenant_id if specified
-      request_body['auth']['tenantId'] = "#{@hp_tenant_id}" if @hp_tenant_id
+      request_body['auth']['tenantId'] = @hp_tenant_id if @hp_tenant_id
 
       ### Make the call to CS to get auth token and service catalog
-      response = service.request(
+      response = connection.request(
         {
           :expects => 200,
           :headers => {
@@ -157,9 +175,9 @@ module Fog
       ### fish out auth_token and endpoint for the service
       auth_token = body['access']['token']['id']
       endpoint_url = get_endpoint_from_catalog(body['access']['serviceCatalog'], @hp_service_type, @hp_avl_zone)
-      # If service is Storage, then get the CDN endpoint as well
-      if @hp_service_type == "object-store"
-        cdn_endpoint_url = get_endpoint_from_catalog(body['access']['serviceCatalog'], "hpext:cdn", @hp_avl_zone)
+      # If service is Storage, then get the CDN endpoint as well. 'Name' is unique instead of 'Type'
+      if @hp_service_type == "Object Storage"
+        cdn_endpoint_url = get_endpoint_from_catalog(body['access']['serviceCatalog'], "CDN", @hp_avl_zone)
       end
 
       return {
@@ -180,19 +198,31 @@ module Fog
     private
 
     def self.get_endpoint_from_catalog(service_catalog, service_type, avl_zone)
-      if service_catalog
-        service_item = service_catalog.select {|s| s["type"] == service_type}.first
-        if service_item and service_item['endpoints'] and
-          if avl_zone == :az1
-            endpoint_url = service_item['endpoints'][0]['publicURL'] if service_item['endpoints'][0]
-          elsif avl_zone == :az2
-            endpoint_url = service_item['endpoints'][1]['publicURL'] if service_item['endpoints'][1]
-          end
-          raise "Unable to retrieve endpoint service url from service catalog." if endpoint_url.nil?
-          return endpoint_url
+      raise "Unable to parse service catalog." unless service_catalog
+      service_item = service_catalog.detect do |s|
+        # 'Name' is unique instead of 'Type'
+        s["name"] == service_type
+      end
+      if service_item and service_item['endpoints']
+        endpoint = service_item['endpoints'].detect do |ep|
+          ep['region'] == avl_zone
         end
+        endpoint_url = endpoint['publicURL'] if endpoint
+        raise "Unable to retrieve endpoint service url for availability zone '#{avl_zone}' from service catalog. " if endpoint_url.nil?
+        return endpoint_url
+      end
+    end
+
+    def self.set_user_agent_header(conn_opts, base_str, client_str)
+      if client_str
+        user_agent = {'User-Agent' => base_str + " (#{client_str})"}
       else
-        raise "Unable to parse service catalog."
+        user_agent = {'User-Agent' => base_str}
+      end
+      if conn_opts[:headers]
+        conn_opts[:headers] = user_agent.merge!(conn_opts[:headers])
+      else
+        conn_opts[:headers] = user_agent
       end
     end
 

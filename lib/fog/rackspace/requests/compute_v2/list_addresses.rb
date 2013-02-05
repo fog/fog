@@ -3,6 +3,11 @@ module Fog
     class RackspaceV2
       class Real
 
+        # Lists all networks and addresses associated with a specified server.
+        # @param [String] server_id
+        # @return [Excon::Response] response:
+        #   * body [Hash]:
+        #     * addresses [Hash] - key is the network name and the value are an array of addresses allocated for that network
         def list_addresses(server_id)
           request(
             :method   => 'GET',

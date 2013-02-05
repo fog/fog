@@ -2,6 +2,40 @@ module Fog
   module Compute
     class RackspaceV2
       class Real
+        # Create server
+        # @param [String] name name of server
+        # @param [String] image_id id of the image used to create server
+        # @param [String] flavor_id id of the flavor of the image
+        # @param [String] min_count
+        # @param [String] max_count
+        # @param [Hash] options
+        # @option options [Hash] metadata key value pairs of server metadata
+        # @option options [String] OS-DCF:diskConfig The disk configuration value. (AUTO or MANUAL)
+        # @option options [Hash] personality Hash containing data to inject into the file system of the cloud server instance during server creation.
+        # @return [Excon::Response] response:
+        #   * body [Hash]:        
+        #     * server [Hash]:
+        #       * name [String] - name of server
+        #       * imageRef [String] - id of image used to create server
+        #       * flavorRef [String] - id of flavor used to create server        
+        #       * OS-DCF:diskConfig [String] - The disk configuration value.
+        #       * name [String] - name of server
+        #       * metadata [Hash] - Metadata key and value pairs.
+        #       * personality [Array]: 
+        #           * [Hash]:
+        #             * path - path of the file created
+        #             * contents - Base 64 encoded file contents
+        #       * networks [Array]: 
+        #         * [Hash]: 
+        #           * uuid [String] - uuid of attached network        
+        # @see http://docs.rackspace.com/servers/api/v2/cs-devguide/content/CreateServers.html
+        # @see http://docs.rackspace.com/servers/api/v2/cs-devguide/content/Server_Metadata-d1e2529.html
+        # @see http://docs.rackspace.com/servers/api/v2/cs-devguide/content/Server_Personality-d1e2543.html
+        # @see http://docs.rackspace.com/servers/api/v2/cs-devguide/content/ch_extensions.html#diskconfig_attribute
+        #
+        # * State Transitions
+        #   * BUILD -> ACTIVE
+        #   * BUILD -> ERROR (on error)
         def create_server(name, image_id, flavor_id, min_count, max_count, options = {})
           data = {
             'server' => {
@@ -17,6 +51,10 @@ module Fog
           data['server']['OS-DCF:diskConfig'] = options[:disk_config] unless options[:disk_config].nil?
           data['server']['metadata'] = options[:metadata] unless options[:metadata].nil?
           data['server']['personality'] = options[:personality] unless options[:personality].nil?
+          data['server']['networks'] = options[:networks] || [
+            { :uuid => '00000000-0000-0000-0000-000000000000' },
+            { :uuid => '11111111-1111-1111-1111-111111111111' }
+          ]
 
           request(
             :body => Fog::JSON.encode(data),

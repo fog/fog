@@ -63,10 +63,22 @@ module Fog
         def public=(new_public)
           new_public
         end
+        
+        def public?
+          directory.public?
+        end
 
         def public_url
           requires :key
           self.collection.get_url(self.key)
+        end
+        
+        def purge_from_cdn
+          if public?
+            service.cdn.purge(self)
+          else
+            false
+          end
         end
 
         def save(options = {})

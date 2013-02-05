@@ -8,6 +8,7 @@ module Fog
         # @param [Hash] options
         # @option options [String] :name Editable label
         # @option options [String] :user_data User defined metadata
+        # @option options [Boolean] :compatibility_mode Server needs to be shutdown and restarted for changes to this to take effect
         #
         # @return [Hash, nil] The JSON response parsed to a Hash or nil if no options passed
         #

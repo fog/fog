@@ -4,14 +4,17 @@ Shindo.tests('Fog::Identity[:openstack] | tenant requests', ['openstack']) do
     'id'   => String,
     'name' => String,
     'enabled'     => Fog::Nullable::Boolean,
-    'description' => Fog::Nullable::String,
-    'extra' => Fog::Nullable::Hash
+    'description' => Fog::Nullable::String
   }
 
   @role_format = {
     'id'   => String,
     'name' => String
   }
+
+  @tenant_name = Fog::Mock.random_hex(64)
+  @tenant_name_update = Fog::Mock.random_hex(64)
+  @tenant_name_update2 = Fog::Mock.random_hex(64)
 
   tests('success') do
     tests('#list_tenants').formats({'tenants' => [@tenant_format], 'tenants_links' => []}) do
@@ -20,34 +23,33 @@ Shindo.tests('Fog::Identity[:openstack] | tenant requests', ['openstack']) do
 
     tests('#list_roles_for_user_on_tenant(0,1)').
       formats({'roles' => [@role_format]}) do
-      user = Fog::Identity[:openstack].create_user("testuser", "passw", "e@mail.co", "us3r1d").body['user']
 
       openstack = Fog::Identity[:openstack]
       openstack.list_roles_for_user_on_tenant(
-        openstack.current_tenant['id'], user['id']).body
+        openstack.current_tenant['id'], OpenStack::Identity.get_user_id).body
     end
 
     tests('#create_tenant').formats({'tenant' => @tenant_format}) do
-      @instance = Fog::Identity[:openstack].create_tenant('name' => 'test').body
+      @tenant = Fog::Identity[:openstack].create_tenant('name' => @tenant_name).body
     end
 
     tests('#get_tenant').formats({'tenant' => @tenant_format}) do
-      Fog::Identity[:openstack].get_tenant(@instance['tenant']['id']).body
+      Fog::Identity[:openstack].get_tenant(@tenant['tenant']['id']).body
     end
 
     tests('#update_tenant check format').formats({'tenant' => @tenant_format}) do
-      @instance = Fog::Identity[:openstack].update_tenant(
-        @instance['tenant']['id'], 'name' => 'test2').body
+      @tenant = Fog::Identity[:openstack].update_tenant(
+        @tenant['tenant']['id'], 'name' => @tenant_name_update).body
     end
 
     tests('#update_tenant update name').succeeds do
-      @instance = Fog::Identity[:openstack].update_tenant(
-        @instance['tenant']['id'], 'name' => 'test3').body
-      @instance['tenant']['name'] == 'test3'
+      @tenant = Fog::Identity[:openstack].update_tenant(
+        @tenant['tenant']['id'], 'name' => @tenant_name_update2).body
+      @tenant['tenant']['name'] == @tenant_name_update2
     end
 
     tests('#delete_tenant').succeeds do
-      Fog::Identity[:openstack].delete_tenant(@instance['tenant']['id'])
+      Fog::Identity[:openstack].delete_tenant(@tenant['tenant']['id'])
     end
 
   end

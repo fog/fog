@@ -12,15 +12,86 @@ module Fog
         attribute :bytes, :aliases => 'X-Container-Bytes-Used'
         attribute :count, :aliases => 'X-Container-Object-Count'
 
-        def acl=(new_acl)
-          if new_acl.nil?
-            new_acl = "private"
+        def initialize(attributes = {})
+            @read_acl  = []
+            @write_acl = []
+            super
+        end
+
+        def read_acl
+          @read_acl || []
+        end
+
+        def write_acl
+          @write_acl || []
+        end
+
+        def can_read?(user)
+          return false if @read_acl.nil?
+          list_users_with_read.include?(user)
+        end
+
+        def can_write?(user)
+          return false if @write_acl.nil?
+          list_users_with_write.include?(user)
+        end
+
+        def can_read_write?(user)
+          can_read?(user) && can_write?(user)
+        end
+
+        def list_users_with_read
+          users = []
+          users = @read_acl.map  {|acl| acl.split(':')[1]} unless @read_acl.nil?
+          return users
+        end
+
+        def list_users_with_write
+          users = []
+          users = @write_acl.map  {|acl| acl.split(':')[1]} unless @write_acl.nil?
+          return users
+        end
+
+        def grant(perm, users=nil)
+          # support passing in a list of users in a comma-separated list or as an Array
+          if users.is_a?(String)
+            user_list = users.split(',')
+          else
+            user_list = users
           end
-          valid_acls = ['private', 'public-read', 'public-write', 'public-read-write']
-          unless valid_acls.include?(new_acl)
-            raise ArgumentError.new("acl must be one of [#{valid_acls.join(', ')}]")
+          r_acl, w_acl = service.perm_to_acl(perm, user_list)
+          unless r_acl.nil? || r_acl.empty?
+            @read_acl = [] if @read_acl.nil?
+            @read_acl = @read_acl + r_acl
+            @read_acl.uniq!
           end
-          @acl = new_acl
+          unless w_acl.nil? || w_acl.empty?
+            @write_acl = [] if @write_acl.nil?
+            @write_acl = @write_acl + w_acl
+            @write_acl.uniq!
+          end
+          true
+        end
+
+        def revoke(perm, users=nil)
+          # support passing in a list of users in a comma-separated list or as an Array
+          if users.is_a?(String)
+            user_list = users.split(',')
+          else
+            user_list = users
+          end
+          r_acl, w_acl = service.perm_to_acl(perm, user_list)
+          unless r_acl.nil? || r_acl.empty?
+            @read_acl = [] if @read_acl.nil?
+            @read_acl = @read_acl - r_acl
+            @read_acl.uniq!
+          end
+          unless w_acl.nil? || w_acl.empty?
+            @write_acl = [] if @write_acl.nil?
+            @write_acl = @write_acl - w_acl
+            @write_acl.uniq!
+          end
+          true
         end
 
         def destroy
@@ -50,18 +121,19 @@ module Fog
 
         def public=(new_public)
           if new_public
-            @acl = 'public-read'
+            self.grant("pr")
           else
-            @acl = 'private'
+            self.revoke("pr")
           end
           @public = new_public
         end
 
         def public?
-          if @acl.nil?
-            false
+          @read_acl = [] if @read_acl.nil?
+          if @read_acl.include?(".r:*")
+            true
           else
-            @acl == 'public-read'
+            false
           end
         end
 
@@ -70,7 +142,7 @@ module Fog
           @public_url ||= begin
             begin response = service.head_container(key)
               # escape the key to cover for special char. in container names
-              url = "#{service.url}/#{Fog::HP.escape(key)}"
+              url = service.public_url(key)
             rescue Fog::Storage::HP::NotFound => err
               nil
             end
@@ -96,7 +168,8 @@ module Fog
               else
                 @cdn_enable = false
               end
-            rescue Fog::CDN::HP::NotFound => err
+            # If CDN endpoint is unreachable, a SocketError is raised
+            rescue Fog::CDN::HP::NotFound, Excon::Errors::SocketError
               @cdn_enable = false
             end
           else
@@ -110,24 +183,32 @@ module Fog
             # return the CDN public url from the appropriate uri from the header
             begin response = service.cdn.head_container(key)
               if response.headers['X-Cdn-Enabled'] == 'True'
-                if service.hp_cdn_ssl == true
-                  response.headers.fetch('X-Cdn-Ssl-Uri', nil)
-                else
-                  response.headers.fetch('X-Cdn-Uri', nil)
-                end
+                response.headers.fetch('X-Cdn-Uri', nil)
               end
-            rescue Fog::CDN::HP::NotFound => err
+            rescue Fog::CDN::HP::NotFound
               nil
             end
           end
         end
 
-        def save
+        def cdn_public_ssl_url
           requires :key
-          options = {}
-          if @acl
-            options.merge!(service.acl_to_header(@acl))
+          @cdn_public_ssl_url ||= begin
+            # return the CDN public ssl url from the appropriate uri from the header
+            begin response = service.cdn.head_container(key)
+              if response.headers['X-Cdn-Enabled'] == 'True'
+                response.headers.fetch('X-Cdn-Ssl-Uri', nil)
+              end
+            rescue Fog::CDN::HP::NotFound
+              nil
+            end
           end
+        end
+
+        def save(options = {})
+          requires :key
+          # write out the acls into the headers before save
+          options.merge!(service.perm_acl_to_header(@read_acl, @write_acl))
           service.put_container(key, options)
           # Added an extra check to see if CDN is enabled for the container
           if (!service.cdn.nil? && service.cdn.enabled?)
@@ -137,16 +218,20 @@ module Fog
               begin response = service.cdn.head_container(key)
                 ### Deleting a container from CDN is much more expensive than flipping the bit to disable it
                 service.cdn.post_container(key, {'X-CDN-Enabled' => 'True'})
-              rescue Fog::CDN::HP::NotFound => err
+              rescue Fog::CDN::HP::NotFound
                 service.cdn.put_container(key)
+              rescue Excon::Errors::SocketError
+                # means that the CDN endpoint is unreachable
               end
             else
               # check to make sure that the container exists. If yes, cdn disable it.
               begin response = service.cdn.head_container(key)
                 ### Deleting a container from CDN is much more expensive than flipping the bit to disable it
                 service.cdn.post_container(key, {'X-CDN-Enabled' => 'False'})
-              rescue Fog::CDN::HP::NotFound => err
+              rescue Fog::CDN::HP::NotFound
                 # just continue, as container is not cdn-enabled.
+              rescue Excon::Errors::SocketError
+                # means that the CDN endpoint is unreachable
               end
             end
           end

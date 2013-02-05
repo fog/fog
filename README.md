@@ -7,9 +7,9 @@ fog is the Ruby cloud services library, top to bottom:
 * Mocks make testing and integrating a breeze.
 
 [![Build Status](https://secure.travis-ci.org/fog/fog.png?branch=master)](http://travis-ci.org/fog/fog)
-[![Code Climate](https://codeclimate.com/badge.png)](https://codeclimate.com/github/fog/fog)
 [![Gem Version](https://fury-badge.herokuapp.com/rb/fog.png)](http://badge.fury.io/rb/fog)
 [![Dependency Status](https://gemnasium.com/fog/fog.png)](https://gemnasium.com/fog/fog)
+[![Code Climate](https://codeclimate.com/github/fog/fog.png)](https://codeclimate.com/github/fog/fog)
 
 ## Getting Started
 
@@ -18,16 +18,14 @@ fog is the Ruby cloud services library, top to bottom:
 Now type `fog` to try stuff, confident that fog will let you know what to do. 
 Here is an example of wading through server creation for Amazon Elastic Compute Cloud:
 
-```ruby
-server = Compute[:aws].servers.create
-# => ArgumentError: image_id is required for this operation
+    >> server = Compute[:aws].servers.create
+    ArgumentError: image_id is required for this operation
 
-server = Compute[:aws].servers.create(:image_id => 'ami-5ee70037')
-# => <Fog::AWS::EC2::Server [...]>
+    >> server = Compute[:aws].servers.create(:image_id => 'ami-5ee70037')
+    <Fog::AWS::EC2::Server [...]>
 
-server.destroy # cleanup after yourself or regret it, trust me
-# => true
-```
+    >> server.destroy # cleanup after yourself or regret it, trust me
+    true
 
 ## Collections
 
@@ -35,10 +33,8 @@ A high level interface to each cloud is provided through collections, such as `i
 You can see a list of available collections by calling `collections` on the connection object. 
 You can try it out using the `fog` command:
 
-```ruby
-Compute[:aws].collections
-# => [:addresses, :directories, ..., :volumes, :zones]
-```
+    >> Compute[:aws].collections
+    [:addresses, :directories, ..., :volumes, :zones]
 
 Some collections are available across multiple providers:
 
@@ -55,23 +51,21 @@ Collections share basic CRUD type operations, such as:
 
 As an example, we'll try initializing and persisting a Rackspace Cloud server:
 
-```ruby
-require 'fog'
+    require 'fog'
 
-compute = Fog::Compute.new(
-  :provider           => 'Rackspace',
-  :rackspace_api_key  => key,
-  :rackspace_username => username
-)
+    compute = Fog::Compute.new(
+      :provider           => 'Rackspace',
+      :rackspace_api_key  => key,
+      :rackspace_username => username
+    )
 
-# boot a gentoo server (flavor 1 = 256, image 3 = gentoo 2008.0)
-server = compute.servers.create(:flavor_id => 1, :image_id => 3, :name => 'my_server')
-server.wait_for { ready? } # give server time to boot
+    # boot a gentoo server (flavor 1 = 256, image 3 = gentoo 2008.0)
+    server = compute.servers.create(:flavor_id => 1, :image_id => 3, :name => 'my_server')
+    server.wait_for { ready? } # give server time to boot
 
-# DO STUFF
+    # DO STUFF
 
-server.destroy # cleanup after yourself or regret it, trust me
-```
+    server.destroy # cleanup after yourself or regret it, trust me
 
 ## Models
 
@@ -87,9 +81,7 @@ As you might imagine, testing code using Fog can be slow and expensive, constant
 Mocking allows skipping this overhead by providing an in memory representation resources as you make requests.
 Enabling mocking easy to use, before you run other commands, simply run:
 
-```ruby
-Fog.mock!
-```
+    Fog.mock!
 
 Then proceed as usual, if you run into unimplemented mocks, fog will raise an error and as always contributions are welcome!
 
@@ -111,15 +103,13 @@ It will return an [excon](http://github.com/geemus/excon) response, which has `b
 Play around and use the console to explore or check out [fog.io](http://fog.io) for more details and examples. 
 Once you are ready to start scripting fog, here is a quick hint on how to make connections without the command line thing to help you.
 
-```ruby
-# create a compute connection
-compute = Fog::Compute.new(:provider => 'AWS', :aws_access_key_id => ACCESS_KEY_ID, :aws_secret_access_key => SECRET_ACCESS_KEY)
-# compute operations go here
+    # create a compute connection
+    compute = Fog::Compute.new(:provider => 'AWS', :aws_access_key_id => ACCESS_KEY_ID, :aws_secret_access_key => SECRET_ACCESS_KEY)
+    # compute operations go here
 
-# create a storage connection
-storage = Fog::Storage.new(:provider => 'AWS', :aws_access_key_id => ACCESS_KEY_ID, :aws_secret_access_key => SECRET_ACCESS_KEY)
-# storage operations go here
-```
+    # create a storage connection
+    storage = Fog::Storage.new(:provider => 'AWS', :aws_access_key_id => ACCESS_KEY_ID, :aws_secret_access_key => SECRET_ACCESS_KEY)
+    # storage operations go here
 
 geemus says: "That should give you everything you need to get started, but let me know if there is anything I can do to help!"
 

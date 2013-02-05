@@ -99,9 +99,5 @@ Shindo.tests('Fog::Rackspace::Identity | users', ['rackspace']) do
     tests('#list_credentials').formats(CREDENTIALS_FORMAT) do
       service.list_credentials(credential_id).body
     end
-
-    tests('#get_credentials').formats(CREDENTIAL_FORMAT) do
-      service.get_credentials(credential_id).body
-    end
   end
 end

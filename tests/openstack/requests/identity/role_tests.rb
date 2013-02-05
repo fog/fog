@@ -27,7 +27,13 @@ Shindo.tests('Fog::Identity[:openstack] | role requests', ['openstack']) do
       Fog::Identity[:openstack].list_roles_for_user_on_tenant(@tenant['id'], @user['id']).body['roles']
     end
 
+    tests("#delete_user_role with tenant").returns("") do
+      Fog::Identity[:openstack].delete_user_role(@tenant['id'], @user['id'], @role['id']).body
+    end
+
     tests("#delete_user_role with tenant").formats(@role_format) do
+      # FIXME - Response (under mocks) is empty String which does not match schema
+      pending
       Fog::Identity[:openstack].delete_user_role(@tenant['id'], @user['id'], @role['id']).body
     end
 

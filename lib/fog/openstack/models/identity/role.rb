@@ -37,7 +37,7 @@ module Fog
           when :add
             service.create_user_role(tenant_id, user_id, id).status == 200
           when :remove
-            service.delete_user_role(tenant_id, user_id, id).status == 200
+            service.delete_user_role(tenant_id, user_id, id).status == 204
           end
         end
 

@@ -10,10 +10,16 @@ module Fog
         model Fog::Glesys::Compute::Template
 
         def all
-          openvz = service.template_list.body['response']['templates']['OpenVZ']
-          xen    = service.template_list.body['response']['templates']['Xen']
+          request = service.template_list.body
+          templates = request['response']['templates']
 
-          load(xen+openvz)
+          # Only select OpenVZ and Xen platforms
+          # Glesys only offers Xen and OpenVZ but they have other platforms in the list
+          templates = templates.select do |platform, templates|
+            %w|openvz xen|.include?(platform.downcase)
+          end.collect{|platform, templates| templates}.flatten
+
+          load(templates)
         end
 
       end
