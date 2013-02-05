@@ -14,7 +14,7 @@ module Fog
 
           if internet_service
             response(:body => Fog::Ecloud.slice(internet_service, :id, :public_ip))
-          else response(:status => 404) # ?
+          else raise Fog::Errors::NotFound
           end
         end
       end
