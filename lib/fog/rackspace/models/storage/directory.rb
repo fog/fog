@@ -13,7 +13,7 @@ module Fog
         attribute :count, :aliases => 'X-Container-Object-Count'
         attribute :cdn_cname
         
-        attr_writer :public
+        attr_writer :public, :public_url
 
         def destroy
           requires :key
@@ -34,7 +34,7 @@ module Fog
         end
 
         def public?
-          @public ||= !public_url.nil?
+          @public ||= key && !public_url.nil?
         end
 
         def public_url          
@@ -49,12 +49,12 @@ module Fog
           raise Fog::Storage::Rackspace::Error.new("Directory can not be set as :public without a CDN provided") if public? && !service.cdn
           public_url = service.cdn.publish_container(self, public?)
         end
-
-      private      
-      def create_container(key)
-        service.put_container(key)        
+        
+        private      
+        def create_container(key)
+          service.put_container(key)        
+        end
       end
-
     end
   end
 end

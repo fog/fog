@@ -14,6 +14,8 @@ module Fog
         attribute :last_modified,   :aliases => ['last_modified', 'Last-Modified'], :type => :time
         attribute :access_control_allow_origin, :aliases => ['Access-Control-Allow-Origin']
         attribute :origin,          :aliases => ['Origin']
+        
+        attr_writer :public
 
         def body
           attributes[:body] ||= if last_modified
@@ -60,10 +62,6 @@ module Fog
           end
         end
 
-        def public=(new_public)
-          new_public
-        end
-        
         def public?
           directory.public?
         end

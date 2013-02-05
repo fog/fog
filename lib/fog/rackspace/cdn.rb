@@ -6,7 +6,7 @@ module Fog
     class Rackspace < Fog::Service
 
       requires :rackspace_api_key, :rackspace_username
-      recognizes :rackspace_auth_url, :persistent
+      recognizes :rackspace_auth_url, :persistent, :rackspace_cdn_ssl
 
       request_path 'fog/rackspace/requests/cdn'
       request :get_containers
@@ -14,9 +14,50 @@ module Fog
       request :post_container
       request :put_container
       request :delete_object
+      
+      
+      module Base
+        def ssl?
+          !@rackspace_cdn_ssl.nil?
+        end
+        
+        def purge(object)
+          return true if object.is_a? Fog::Storage::Rackspace::File
+          raise Fog::Errors::NotImplemented.new("#{object.class} does not support CDN purging") if object
+        end
+                
+        def publish_container(container, publish = true)
+          enabled = publish ? 'True' : 'False'
+          key = container.is_a?(String) ? key : container.key
+          response = put_container(key, 'X-CDN-Enabled' => enabled)
+          url_from_headers(response.headers, container.cdn_cname)
+        end
+        
+        def public_url(object)
+          key = object.is_a?(String) ? key : object.key
+          begin 
+            response = head_container(key)
+            if response.headers['X-Cdn-Enabled'] == 'True'
+              url_from_headers(response.headers, object.cdn_name)
+            else
+              nil
+            end
+          rescue Fog::Service::NotFound
+            nil
+          end
+        end
+        
+        private
+        
+        def url_from_headers(headers, cdn_cname)
+         return headers['X-Cdn-Ssl-Uri'] if ssl?
+         cdn_cname || headers['X-Cdn-Uri']
+        end        
+      end
 
       class Mock
-
+        include Base
+        
         def self.data
           @data ||= Hash.new do |hash, key|
             hash[key] = {}
@@ -39,44 +80,11 @@ module Fog
           self.class.data.delete(@rackspace_username)
         end
         
-        def ssl?
-          !@rackspace_cdn_ssl.nil?
-        end
-        
-        def purge(object)
-          return true if object.is_a? Fog::Storage::Rackspace::File
-          raise Fog::Errors::NotImplemented.new("#{object.class} does not support CDN purging") if object
-        end
-        
-        def publish_container(container, publish = true)
-          enabled = publish ? 'True' : 'False'
-          response = post_container(container.key, 'X-CDN-Enabled' => enabled)
-          url_from_headers(response.headers, container.cdn_cname)
-        end
-        
-        def public_url(object)
-          begin 
-            response = head_container(key)
-            if response.headers['X-Cdn-Enabled'] == 'True'
-              url_from_headers(response.headers, object.cdn_name)
-            else
-              nil
-            end
-          rescue Fog::Service::NotFound
-            nil
-          end
-        end
-        
-        private
-        
-        def url_from_headers(headers, cdn_cname)
-         return headers['X-Cdn-Ssl-Uri'] if ssl?
-         cdn_cname || headers['X-Cdn-Uri']
-        end        
       end
 
       class Real
-
+        include Base
+        
         def initialize(options={})
           @connection_options = options[:connection_options] || {}
           credentials = Fog::Rackspace.authenticate(options, @connection_options)
@@ -95,15 +103,6 @@ module Fog
           end
         end
         
-        def purge(object)
-          if object.is_a? Fog::Storage::Rackspace::File
-            delete_object object.directory.key, object.key
-          else
-            raise Fog::Errors::NotImplemented.new("#{object.class} does not support CDN purging") if object
-          end
-          true
-        end
-
         def enabled?
           @enabled
         end
