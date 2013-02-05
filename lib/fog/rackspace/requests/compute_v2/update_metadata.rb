@@ -2,6 +2,15 @@ module Fog
   module Compute
     class RackspaceV2
       class Real
+        
+        # Updates metadata items for a specified server or image.
+        # @param [String<images, servers>] collection type of metadata
+        # @param [String] obj_id id of the object where the metadata is attached
+        # @param [Hash] metadata key value pairs of metadata
+        # @return [Excon::Response] response:
+        #   * body [Hash]:
+        #     * metadata [Hash]:
+        # @see http://docs.rackspace.com/servers/api/v2/cs-devguide/content/Update_Metadata-d1e5208.html              
         def update_metadata(collection, obj_id, metadata = {})
           request(
             :expects => [200, 203],

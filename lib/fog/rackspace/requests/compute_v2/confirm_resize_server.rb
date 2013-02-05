@@ -2,6 +2,15 @@ module Fog
   module Compute
     class RackspaceV2
       class Real
+        
+        # Confirm server resize operation
+        # @param [String] server_id The id of the server to revert
+        # @note All resizes are automatically confirmed after 24 hours if you do not explicitly confirm or revert the resize.
+        # @see http://docs.rackspace.com/servers/api/v2/cs-devguide/content/Revert_Resized_Server-d1e4024.html
+        #
+        # * Status Transition:
+        #   * VERIFY_RESIZE -> ACTIVE
+        #   * VERIFY_RESIZE -> ERROR (on error)        
         def confirm_resize_server(server_id)
           data = {
             'confirmResize' => nil
