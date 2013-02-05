@@ -18,7 +18,7 @@ module Fog
             "vhmInfo.masterVM.moid" => "masterVM_moid",
             "vhmInfo.elastic" => "vm_elastic"
           }.each do |dst, src|
-            if options.has_key?(src)
+            if options.has_key?(src) && !options[src].nil?
               vhm_info << RbVmomi::VIM::OptionValue(:key => dst, :value => options[src].to_s)
             end
           end
