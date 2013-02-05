@@ -1,4 +1,7 @@
 Shindo.tests('AWS::RDS | instance requests', ['aws', 'rds']) do
+  # Disabled due to https://github.com/fog/fog/1546
+  pending
+
   # random_differentiator
   # Useful when rapidly re-running tests, so we don't have to wait
   # serveral minutes for deleted servers to disappear
