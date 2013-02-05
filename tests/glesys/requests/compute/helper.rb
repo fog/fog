@@ -122,7 +122,7 @@ class Glesys
               'current' => Fog::Nullable::Integer,
               'unit'    => String
             },
-            'warnings'  => []
+            'warnings'  => Array
           },
           'status' => {
             'timestamp' => String,
