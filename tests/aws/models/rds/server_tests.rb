@@ -1,4 +1,6 @@
 Shindo.tests("AWS::RDS | server", ['aws', 'rds']) do
+  # Disabled due to https://github.com/fog/fog/1546
+  pending
 
   model_tests(Fog::AWS[:rds].servers, rds_default_server_params) do
     # We'll need this later; create it early to avoid waiting

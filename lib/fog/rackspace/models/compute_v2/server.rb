@@ -41,19 +41,19 @@ module Fog
         attribute :addresses
         attribute :flavor_id, :aliases => 'flavor', :squash => 'id'
         attribute :image_id, :aliases => 'image', :squash => 'id'
-                
-        attr_reader :password 
-        
+
+        attr_reader :password
+
         def initialize(attributes={})
           @service = attributes[:service]
           super
         end
-        
+
         alias :access_ipv4_address :ipv4_address
         alias :access_ipv4_address= :ipv4_address=
         alias :access_ipv6_address :ipv6_address
         alias :access_ipv6_address= :ipv6_address=
-        
+
         def metadata
           @metadata ||= begin
             Fog::Compute::RackspaceV2::Metadata.new({
@@ -62,27 +62,30 @@ module Fog
             })
           end
         end
-        
+
         def metadata=(hash={})
           metadata.from_hash(hash)
         end
 
-        def save
+        def save(options = {})
           if persisted?
             update
           else
-            create
+            create(options)
           end
           true
         end
 
-        def create
+        def create(options)
           requires :name, :image_id, :flavor_id
 
-          options = {}
           options[:disk_config] = disk_config unless disk_config.nil?
           options[:metadata] = metadata.to_hash unless @metadata.nil?
           options[:personality] = personality unless personality.nil?
+
+          if options[:networks]
+            options[:networks].map! { |id| { :uuid => id } }
+          end
 
           data = service.create_server(name, image_id, flavor_id, 1, 1, options)
           merge_attributes(data.body['server'])
@@ -96,7 +99,7 @@ module Fog
             'accessIPv4' => ipv4_address,
             'accessIPv6' => ipv6_address
           }
-          
+
           data = service.update_server(identity, options)
           merge_attributes(data.body['server'])
           true
@@ -121,7 +124,7 @@ module Fog
         def create_image(name, options = {})
           requires :identity
           response = service.create_image(identity, name, options)
-          begin 
+          begin
             image_id = response.headers["Location"].match(/\/([^\/]+$)/)[1]
             Fog::Compute::RackspaceV2::Image.new(:collection => service.images, :service => service, :id => image_id)
           rescue
@@ -137,12 +140,12 @@ module Fog
             })
           end
         end
-        
+
         def attach_volume(volume, device=nil)
           requires :identity
           volume_id = volume.is_a?(String) ? volume : volume.id
           attachments.create(:server_id => identity, :volume_id => volume_id, :device => device)
-        end        
+        end
 
         def private_ip_address
           addresses['private'].select{|a| a["version"] == 4}[0]["addr"]

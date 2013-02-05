@@ -24,8 +24,10 @@ module Fog
       collection :flavors
       model :image
       collection :images
-      model :attachments
+      model :attachment
       collection :attachments
+      model :network
+      collection :networks
 
       request_path 'fog/rackspace/requests/compute_v2'
       request :list_servers
@@ -54,13 +56,18 @@ module Fog
       request :get_attachment
       request :list_attachments
       request :delete_attachment
-      
+
       request :list_metadata
       request :set_metadata
       request :update_metadata
       request :get_metadata_item
       request :set_metadata_item
       request :delete_metadata_item
+
+      request :list_networks
+      request :get_network
+      request :create_network
+      request :delete_network
 
       class Mock
         include Fog::Rackspace::MockData
@@ -127,8 +134,13 @@ module Fog
           rescue Excon::Errors::HTTPStatusError => error
             raise ServiceError.slurp error
           end
+
           unless response.body.empty?
-            response.body = Fog::JSON.decode(response.body)
+            begin
+              response.body = Fog::JSON.decode(response.body)
+            rescue MultiJson::DecodeError => e
+              response.body = {}
+            end
           end
           response
         end
