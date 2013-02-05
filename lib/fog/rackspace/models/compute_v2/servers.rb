@@ -31,7 +31,7 @@ module Fog
         #        
         def bootstrap(new_attributes = {})
           server = create(new_attributes)
-          server.wait_for(1500) { ready? && !ipv4_address.empty? }
+          server.wait_for(1500) { ready? && !public_ip_address.empty? }
           server.setup(:password => server.password)
           server
         end
