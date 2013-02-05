@@ -62,6 +62,14 @@ module Fog
           remove(:release => true)
         end
 
+        def take
+          requires :ip
+          data = service.ip_take(
+            :ipaddress => ip
+          ).body["response"]["details"]
+          merge_attributes data
+        end
+
       end
     end
   end

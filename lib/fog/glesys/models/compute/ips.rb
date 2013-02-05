@@ -64,7 +64,7 @@ module Fog
 
           data = service.ip_take(
             :ipaddress => ip_from_object(ip)
-          ).response.body["response"]["details"]
+          ).body["response"]["details"]
 
           ip = new data
 
