@@ -11,6 +11,8 @@ if Fog.mock?
   Fog.credentials = {
     :aws_access_key_id                => 'aws_access_key_id',
     :aws_secret_access_key            => 'aws_secret_access_key',
+    :ia_access_key_id                 => 'aws_access_key_id',
+    :ia_secret_access_key             => 'aws_secret_access_key',
     :atmos_storage_token              => 'atmos_token',
     :atmos_storage_secret             => 'atmos_secret',
     :atmos_storage_endpoint           => 'http://atmos.is.cool:1000/test1.0',
