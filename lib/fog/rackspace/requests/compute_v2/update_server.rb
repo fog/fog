@@ -2,6 +2,15 @@ module Fog
   module Compute
     class RackspaceV2
       class Real
+        
+        # Update the editable attributes of a specified server.
+        # @param [String] server_id
+        # @param [Hash] options
+        # @option options [Hash] name name for server
+        # @option options [String] accessIPv4 The IP version 4 address.
+        # @option options [Hash] accessIPv6 The IP version 6 address.
+        # @note If you edit the server name, the server host name does not change. Also, server names are not guaranteed to be unique.
+        # @see http://docs.rackspace.com/servers/api/v2/cs-devguide/content/ServerUpdate.html  
         def update_server(server_id, options={})
           data = options.is_a?(Hash) ? options : { 'name' => options } #LEGACY - second parameter was previously server name
 
