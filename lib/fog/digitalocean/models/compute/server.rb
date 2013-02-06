@@ -20,7 +20,7 @@ module Fog
         #
         # The preferred method of rebooting a server.
         def reboot
-          raise NotImplementedError
+          service.reboot_server id
         end
 
         # Reboot the server (hard reboot).
