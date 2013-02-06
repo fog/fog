@@ -25,7 +25,7 @@ Shindo.tests("Fog::Compute[:openstack] | server", ['openstack']) do
 
         group = found_groups.first
         returns('my_group') { group.name }
-        returns(server.connection) { group.connection }
+        returns(server.service) { group.service }
       ensure
         unless Fog.mocking? then
           server.destroy if server
