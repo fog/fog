@@ -9,6 +9,7 @@ Shindo.tests("Fog::Compute[:digitalocean] | server model", ['digitalocean', 'com
       %w{ 
         shutdown 
         reboot
+        power_cycle
       }.each do |action|
         test(action) { server.respond_to? action }
       end
@@ -32,6 +33,12 @@ Shindo.tests("Fog::Compute[:digitalocean] | server model", ['digitalocean', 'com
     end
     test('reboot the server') do
       server.reboot
+      server.wait_for { server.status == 'off' }
+      server.status == 'off'
+    end
+    test('power_cycle the server') do
+      server.wait_for { server.ready? }
+      server.power_cycle
       server.wait_for { server.status == 'off' }
       server.status == 'off'
     end

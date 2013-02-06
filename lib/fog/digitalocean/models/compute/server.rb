@@ -27,7 +27,7 @@ module Fog
         #
         # Powers the server off and then powers it on again.
         def power_cycle
-          raise NotImplementedError
+          service.power_cycle_server id
         end
 
         # Shutdown the server

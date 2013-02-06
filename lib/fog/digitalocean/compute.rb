@@ -29,6 +29,7 @@ module Fog
       request      :create_server
       request      :destroy_server
       request      :reboot_server
+      request      :power_cycle_server
 
       # request :digitalocean_resize      
 
