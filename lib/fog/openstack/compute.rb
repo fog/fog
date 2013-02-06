@@ -405,9 +405,9 @@ module Fog
           @scheme = uri.scheme
            
           # Not all implementations have identity service in the catalog
-          if @openstack_identity_public_endpoint
+          if @openstack_identity_public_endpoint || @openstack_management_url
             @identity_connection = Fog::Connection.new(
-              @openstack_identity_public_endpoint,
+              @openstack_identity_public_endpoint || @openstack_management_url,
               false, @connection_options)
           end
 
