@@ -110,7 +110,7 @@ module Fog
           uri = URI.parse(options[:rackspace_lb_endpoint] || DFW_ENDPOINT)
           @host       = uri.host
           @persistent = options[:persistent] || false
-          @path       = uri.path
+          @path       = uri.path.end_with?('/') ? uri.path.chop : uri.path
           @port       = uri.port
           @scheme     = uri.scheme
 
@@ -137,6 +137,7 @@ module Fog
           rescue Excon::Errors::InternalServerError => error
             raise InternalServerError.slurp error
           rescue Excon::Errors::HTTPStatusError => error
+            puts error.inspect
             raise ServiceError.slurp error
           end
           unless response.body.empty?
@@ -156,7 +157,6 @@ module Fog
           account_id = credentials['X-Server-Management-Url'].match(/.*\/([\d]+)$/)[1]
           @path = "#{@path}/#{account_id}"
         end
-
       end
     end
   end
