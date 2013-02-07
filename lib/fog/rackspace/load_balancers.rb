@@ -137,7 +137,6 @@ module Fog
           rescue Excon::Errors::InternalServerError => error
             raise InternalServerError.slurp error
           rescue Excon::Errors::HTTPStatusError => error
-            puts error.inspect
             raise ServiceError.slurp error
           end
           unless response.body.empty?
