@@ -15,6 +15,8 @@ module Fog
       model       :ip
 
       request_path 'fog/glesys/requests/compute'
+
+      # Server
       request :create
       request :destroy
       request :list_servers
@@ -23,9 +25,11 @@ module Fog
       request :start
       request :reboot
       request :stop
+
       # Templates
       request :template_list
-      # IP operations
+
+      # IP
       request :ip_list_free
       request :ip_list_own
       request :ip_details
