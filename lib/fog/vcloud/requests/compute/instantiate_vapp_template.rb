@@ -72,7 +72,6 @@ module Fog
 
         def instantiate_vapp_template options = {}
           validate_instantiate_vapp_template_options options
-          puts "XML Request: #{generate_instantiate_vapp_template_request(options)}"
           request(
             :body     => generate_instantiate_vapp_template_request(options),
             :expects  => 201,
