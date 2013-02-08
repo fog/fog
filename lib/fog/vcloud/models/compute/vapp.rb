@@ -37,6 +37,17 @@ module Fog
                  :href => href
             )
         end
+
+        def ready?
+          reload_status # always ensure we have the correct status
+          status != '0'
+        end
+
+        private
+        def reload_status
+          vapp = service.get_vapp(href)
+          self.status = vapp.status
+        end
       end
     end
   end
