@@ -14,11 +14,8 @@ module Fog
         attribute :cpucores
         attribute :memorysize
         attribute :disksize
-        attribute :cpu
-        attribute :memory
-        attribute :disk
-        attribute :uptime
         attribute :transfer
+        attribute :uptime
         attribute :templatename
         attribute :managedhosting
         attribute :platform
@@ -27,6 +24,7 @@ module Fog
         attribute :state
         attribute :iplist
         attribute :description
+        attribute :usage
         attribute :glera_enabled, :aliases => "gleraenabled"
         attribute :supported_features, :aliases => "supportedfeatures"
 
