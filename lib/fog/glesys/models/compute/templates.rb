@@ -4,7 +4,6 @@ require 'fog/glesys/models/compute/template'
 module Fog
   module Compute
     class Glesys
-
       class Templates < Fog::Collection
 
         model Fog::Compute::Glesys::Template
