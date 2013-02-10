@@ -69,7 +69,7 @@ module Fog
           ip = new data
 
           if options[:attach] && serverid
-            server.attach_ip ip
+            server.ips.attach ip, serverid
             ip.serverid = serverid
           end
 
