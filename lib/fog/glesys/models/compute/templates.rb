@@ -7,7 +7,7 @@ module Fog
 
       class Templates < Fog::Collection
 
-        model Fog::Glesys::Compute::Template
+        model Fog::Compute::Glesys::Template
 
         def all
           # Only select OpenVZ and Xen platforms
