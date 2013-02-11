@@ -21,24 +21,26 @@ module Fog
           !@rackspace_cdn_ssl.nil?
         end
         
-        def purge(object)
-          return true if object.is_a? Fog::Storage::Rackspace::File
-          raise Fog::Errors::NotImplemented.new("#{object.class} does not support CDN purging") if object
+        def purge(file)
+          unless file.is_a? Fog::Storage::Rackspace::File
+            raise Fog::Errors::NotImplemented.new("#{object.class} does not support CDN purging")
+          end
+          
+          delete_object file.directory.key, file.key
+          true
         end
-                
+
         def publish_container(container, publish = true)
           enabled = publish ? 'True' : 'False'
-          key = container.is_a?(String) ? key : container.key
-          response = put_container(key, 'X-CDN-Enabled' => enabled)
+          response = put_container(container.key, 'X-CDN-Enabled' => enabled)
           url_from_headers(response.headers, container.cdn_cname)
         end
         
-        def public_url(object)
-          key = object.is_a?(String) ? key : object.key
+        def public_url(container)
           begin 
-            response = head_container(key)
+            response = head_container(container.key)
             if response.headers['X-Cdn-Enabled'] == 'True'
-              url_from_headers(response.headers, object.cdn_name)
+              url_from_headers(response.headers, container.cdn_cname)
             else
               nil
             end

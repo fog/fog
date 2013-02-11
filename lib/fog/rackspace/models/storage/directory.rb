@@ -34,7 +34,17 @@ module Fog
         end
 
         def public?
-          @public ||= key && !public_url.nil?
+          if @public.nil?
+            @public ||= (key && public_url) ? true : false
+          end
+          @public
+        end
+        
+        def reload
+          @public = nil
+          @public_url = nil
+          @files = nil
+          super
         end
 
         def public_url          
