@@ -10,7 +10,8 @@ module Fog
                  :persistent, :openstack_service_type, :openstack_service_name,
                  :openstack_tenant,
                  :openstack_api_key, :openstack_username, :openstack_identity_endpoint,
-                 :current_user, :current_tenant, :openstack_region
+                 :current_user, :current_tenant, :openstack_region,
+                 :openstack_endpoint_type
 
       ## MODELS
       #
@@ -294,6 +295,7 @@ module Fog
           @openstack_service_type = options[:openstack_service_type] || ['nova', 'compute']
           @openstack_service_name = options[:openstack_service_name]
           @openstack_identity_service_type = options[:openstack_identity_service_type] || 'identity'
+          @openstack_endpoint_type = options[:openstack_endpoint_type] || 'publicURL'
           @openstack_region      = options[:openstack_region]
 
           @connection_options = options[:connection_options] || {}
@@ -371,7 +373,8 @@ module Fog
               :openstack_tenant     => @openstack_tenant,
               :openstack_service_type => @openstack_service_type,
               :openstack_service_name => @openstack_service_name,
-              :openstack_identity_service_type => @openstack_identity_service_type
+              :openstack_identity_service_type => @openstack_identity_service_type,
+              :openstack_endpoint_type => @openstack_endpoint_type
             }
 
             if @openstack_auth_uri.path =~ /\/v2.0\//
@@ -405,9 +408,9 @@ module Fog
           @scheme = uri.scheme
            
           # Not all implementations have identity service in the catalog
-          if @openstack_identity_public_endpoint
+          if @openstack_identity_public_endpoint || @openstack_management_url
             @identity_connection = Fog::Connection.new(
-              @openstack_identity_public_endpoint,
+              @openstack_identity_public_endpoint || @openstack_management_url,
               false, @connection_options)
           end
 

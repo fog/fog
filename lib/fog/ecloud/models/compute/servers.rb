@@ -23,12 +23,8 @@ module Fog
 
         def get(uri)
           data = service.get_server(uri).body
-          if data == ""
-            new({})
-          else
-            new(data)
-          end
-        rescue Excon::Errors::NotFound
+          new(data)
+        rescue Fog::Errors::NotFound
           nil
         end
 

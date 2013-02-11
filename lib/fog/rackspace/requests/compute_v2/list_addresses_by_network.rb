@@ -3,6 +3,18 @@ module Fog
     class RackspaceV2
       class Real
 
+        # Lists all addresses associated with a specified server and network
+        # @param [String] server_id
+        # @param [String] network_id        
+        # @return [Excon::Response] response:
+        #   * body [Hash]:
+        #     * network [Hash]:
+        #       * id [String] - id of network
+        #       * ip [Array]:
+        #         * [Hash]:
+        #           * version [Fixnum] - version of the address
+        #           * addr [String] - ip address
+        # @see http://docs.rackspace.com/servers/api/v2/cs-devguide/content/List_Addresses_by_Network-d1e3118.html
         def list_addresses_by_network(server_id, network_id)
           request(
             :method   => 'GET',

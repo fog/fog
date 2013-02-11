@@ -2,6 +2,19 @@ module Fog
   module Compute
     class RackspaceV2
       class Real
+        
+        # This operation attaches a volume to the specified server.
+        # @param [String] server_id
+        # @param [String] volume_id
+        # @param [String] device name of the device /dev/xvd[a-p]  (optional)
+        # @return [Excon::Response] response:
+        #   * body [Hash]:
+        #     * volumeAttachment [Hash]:
+        #       * device [String] - The name of the device, such as /dev/xvdb. Specify auto for auto-assignment.
+        #       * serverId [String] - The id of the server that attached the volume
+        #       * id [String] - The id of the attachment
+        #       * volumeId [String] - The id of the volume that was attached
+        # @see http://docs.rackspace.com/servers/api/v2/cs-devguide/content/Attach_Volume_to_Server.html
         def attach_volume(server_id, volume_id, device)
           data = {
             'volumeAttachment' => {

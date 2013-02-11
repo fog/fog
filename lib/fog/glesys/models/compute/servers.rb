@@ -24,8 +24,14 @@ module Fog
             if details.empty? || status.empty?
               nil
             else
-              status['server'].merge!({ :serverid => identifier})
+              details['server']['usage'] = Hash.new
+
+              %w|cpu memory disk transfer|.each do |attr|
+                details['server']['usage'][attr] = status['server'].delete(attr)
+              end
+
               details['server'].merge!(status['server'])
+
               new(details['server'])
             end
           rescue

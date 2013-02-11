@@ -2,6 +2,11 @@ module Fog
   module Compute
     class RackspaceV2
       class Real
+        
+        # Deletes a specified volume attachment from a specified server instance.
+        # @param [String] server_id id of server containing volume to delete
+        # @param [String] volume_id id of volume on server to delete
+        # @see http://docs.rackspace.com/servers/api/v2/cs-devguide/content/Delete_Volume_Attachment.html
         def delete_attachment(server_id, volume_id)
           request(
             :expects => [202],

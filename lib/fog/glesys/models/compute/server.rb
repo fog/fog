@@ -14,11 +14,8 @@ module Fog
         attribute :cpucores
         attribute :memorysize
         attribute :disksize
-        attribute :cpu
-        attribute :memory
-        attribute :disk
-        attribute :uptime
         attribute :transfer
+        attribute :uptime
         attribute :templatename
         attribute :managedhosting
         attribute :platform
@@ -27,6 +24,7 @@ module Fog
         attribute :state
         attribute :iplist
         attribute :description
+        attribute :usage
         attribute :glera_enabled, :aliases => "gleraenabled"
         attribute :supported_features, :aliases => "supportedfeatures"
 
@@ -106,7 +104,17 @@ module Fog
           super(command, options, &block)
         end
 
+        def ips
+          Fog::Compute::Glesys::Ips.new(:serverid => identity, :server => self, :service => service).all
+        end
+
+        def ip(ip)
+          Fog::Compute::Glesys::Ips.new(:serverid => identity, :server => self, :service => service).get(ip)
+        end
+
         def public_ip_address(options = {})
+
+          return nil if iplist.nil?
 
           type = options[:type] || nil
 
