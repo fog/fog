@@ -120,21 +120,21 @@ module Fog
         def header_to_key(opt)
           opt.gsub(metadata_prefix, '').split('-').map {|k| k[0, 1].downcase + k[1..-1]}.join('_').to_sym
         end
-
+        
         def metadata_to_headers
-          header_map = header_mapping
-          Hash[metadata.map {|k, v| [header_map[k], v] }]
-        end
+          hash = {}
+          metadata.each_pair do |k,v|
+            key = metakey(k,v)
+            hash[key] = v
+          end     
+          hash
+        end     
 
-        def header_mapping
-          header_map = metadata.dup
-          header_map.each_pair {|k, v| header_map[k] = key_to_header(k)}
+        def metakey(key, value)
+          prefix = value.nil? ?  "X-Remove-Object-Meta-" : "X-Object-Meta-"
+          prefix + key.to_s.split(/[-_]/).map(&:capitalize).join('-')
         end
-
-        def key_to_header(key)
-          metadata_prefix + key.to_s.split(/[-_]/).map(&:capitalize).join('-')
-        end
-
+        
         def metadata_attributes
           if last_modified
             headers = service.head_object(directory.key, self.key).headers
