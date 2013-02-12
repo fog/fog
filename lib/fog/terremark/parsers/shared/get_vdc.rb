@@ -3,7 +3,7 @@ module Fog
     module Terremark
       module Shared
 
-        class GetVdc < Fog::Parsers::Base
+        class GetVdc < TerremarkParser
 
           def reset
             @in_storage_capacity = false
@@ -11,7 +11,7 @@ module Fog
             @in_memory = false
             @in_instantiated_vms_quota = false
             @in_deployed_vms_quota = false
-            @response = { 
+            @response = {
               'links' => [],
               'AvailableNetworks' => [],
               'ComputeCapacity'   => {
@@ -35,52 +35,20 @@ module Fog
             when 'InstantiatedVmsQuota'
               @in_instantiated_vms_quota = true
             when 'Link'
-              link = {}
-              until attributes.empty?
-                if attributes.first.is_a?(Array)
-                  attribute = attributes.shift
-                  link[attribute.first] = attribute.last
-                else
-                  link[attributes.shift] = attributes.shift
-                end
-              end
+              link = extract_attributes(attributes)
               @response['links'] << link
             when 'Memory'
               @in_memory = true
             when 'Network'
-              network = {}
-              until attributes.empty?
-                if attributes.first.is_a?(Array)
-                  attribute = attributes.shift
-                  network[attribute.first] = attribute.last
-                else
-                  network[attributes.shift] = attributes.shift
-                end
-              end
+              network = extract_attributes(attributes)
               @response['AvailableNetworks'] << network
             when 'ResourceEntity'
-              resource_entity = {}
-              until attributes.empty?
-                if attributes.first.is_a?(Array)
-                  attribute = attributes.shift
-                  resource_entity[attribute.first] = attribute.last
-                else
-                  resource_entity[attributes.shift] = attributes.shift
-                end
-              end
+              resource_entity = extract_attributes(attributes)
               @response['ResourceEntities'] << resource_entity
             when 'StorageCapacity'
               @in_storage_capacity = true
             when 'Vdc'
-              vdc = {}
-              until attributes.empty?
-                if attributes.first.is_a?(Array)
-                  attribute = attributes.shift
-                  vdc[attribute.first] = attribute.last
-                else
-                  vdc[attributes.shift] = attributes.shift
-                end
-              end
+              vdc = extract_attributes(attributes)
               @response['href'] = vdc['href']
               @response['name'] = vdc['name']
             end
