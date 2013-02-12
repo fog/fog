@@ -3,7 +3,8 @@ module Fog
     module Terremark
       module Shared
 
-        class GetOrganization < Fog::Parsers::Base
+        class GetOrganization < TerremarkParser
+          # include Fog::Terremark::Shared::Parser
 
           def reset
             @response = { 'Links' => [] }
@@ -13,7 +14,7 @@ module Fog
             super
             case name
             when 'Link'
-              link = {}
+              link = extract_attributes(attributes)
               until attributes.empty?
                 if attributes.first.is_a?(Array)
                   attribute = attributes.shift
@@ -24,7 +25,7 @@ module Fog
               end
               @response['Links'] << link
             when 'Org'
-              org = {}
+              org = extract_attributes(attributes)
               until attributes.empty?
                 if attributes.first.is_a?(Array)
                   attribute = attributes.shift
