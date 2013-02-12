@@ -1,19 +1,20 @@
-module Fog
-  module Terremark
-    module Shared
-      module Parser
 
-        remove_method :parse
-        def parse(data)
-          case data['type']
-          when 'application/vnd.vmware.vcloud.vApp+xml'
-            servers.new(data.merge!(:service => self))
-          else
-            data
-          end
+class TerremarkParser < Fog::Parsers::Base
+
+  def extract_attributes(attributes_xml)
+    attributes = {}
+    until attributes_xml.empty?
+      if attributes_xml.first.is_a?(Array)
+        until attributes_xml.first.empty?
+          attribute = attributes_xml.first.shift
+          attributes[attribute.localname] = attribute.value
         end
-
+      else
+        attribute = attributes_xml.shift
+        attributes[attribute.localname] = attribute.value
       end
     end
+    attributes
   end
 end
+
