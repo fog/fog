@@ -52,8 +52,9 @@ module Fog
         private
         
         def url_from_headers(headers, cdn_cname)
-         return headers['X-Cdn-Ssl-Uri'] if ssl?
-         cdn_cname || headers['X-Cdn-Uri']
+          return nil unless headers['X-Cdn-Enabled']
+          return headers['X-Cdn-Ssl-Uri'] if ssl?
+          cdn_cname || headers['X-Cdn-Uri']
         end        
       end
 
