@@ -4,22 +4,34 @@ require 'fog/glesys/models/compute/template'
 module Fog
   module Compute
     class Glesys
-
       class Templates < Fog::Collection
 
-        model Fog::Glesys::Compute::Template
+        model Fog::Compute::Glesys::Template
 
         def all
-          request = service.template_list.body
-          templates = request['response']['templates']
-
           # Only select OpenVZ and Xen platforms
           # Glesys only offers Xen and OpenVZ but they have other platforms in the list
-          templates = templates.select do |platform, templates|
-            %w|openvz xen|.include?(platform.downcase)
-          end.collect{|platform, templates| templates}.flatten
+          images = platform :openvz, :xen
+          load(images)
+        end
 
-          load(templates)
+        def openvz
+          images = platform :openvz
+          load(images)
+        end
+
+        def xen
+          images = platform :xen
+          load(images)
+        end
+
+        private
+
+        def platform(*platforms)
+          images = service.template_list.body['response']['templates']
+          images.select do |platform, images|
+            platforms.include?(platform.downcase.to_sym)
+          end.collect{|platform, images| images}.flatten
         end
 
       end
