@@ -110,15 +110,6 @@ Shindo.tests('Fog::Rackspace::Storage | file', ['rackspace']) do
           @instance.save
           object_meta_attributes['X-Object-Meta-Foo-Bar']
         end
-
-        @instance.metadata['foo-bar']  = 'baz'  
-        @instance.metadata[:'foo_bar'] = 'bref'  
-        tests("should only support one value per metadata key").returns(true) do
-          @instance.save
-          metadata = object_meta_attributes
-          returns(1) { metadata.size }
-          metadata.has_key? 'X-Object-Meta-Foo-Bar'
-        end
       end
 
     end
