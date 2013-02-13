@@ -9,6 +9,9 @@ module Fog
         META_PREFIX = "X-Container-Meta-"
         REMOVE_META_PREFIX = "X-Remove-Container-Meta-"
         
+        # Cloud Files will ignore headers without a value
+        DUMMY_VALUE = 1
+        
         KEY_REGEX = /^#{META_PREFIX}(.*)/
         
         attr_reader :data
@@ -21,8 +24,9 @@ module Fog
           headers = {}
           @data.each_pair do |k,v|
             key = to_header_key(k,v)
-            headers[key] = v
-          end     
+            headers[key] = v || DUMMY_VALUE 
+          end
+          
           headers
         end
         
