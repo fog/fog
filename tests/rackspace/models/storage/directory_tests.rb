@@ -43,6 +43,12 @@ Shindo.tests('Fog::Rackspace::Storage | directory', ['rackspace']) do
          container_meta_attributes
        end     
        
+       tests("should reload metadata after calling reload").returns("42") do
+         @service.put_container @instance.key, "X-Container-Meta-Answer" => 42
+         @instance.reload
+         @instance.metadata[:answer]
+       end
+       
      end
    end
    

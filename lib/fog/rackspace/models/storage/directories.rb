@@ -27,7 +27,7 @@ module Fog
             end
           end
           
-          directory.metadata = Metadata.from_headers(data.headers)
+          directory.metadata = Metadata.from_headers(directory, data.headers)
           directory.files.merge_attributes(options)
           directory.files.instance_variable_set(:@loaded, true)
           

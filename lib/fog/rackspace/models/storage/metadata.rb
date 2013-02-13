@@ -4,21 +4,24 @@ module Fog
       
       class Metadata
         
-        # META_PREFIX = "X-Object-Meta-"
-        # REMOVE_META_PREFIX = "X-Remove-Object-Meta-"
-        META_PREFIX = "X-Container-Meta-"
-        REMOVE_META_PREFIX = "X-Remove-Container-Meta-"
+        OBJECT_META_PREFIX = "X-Object-Meta-"
+        OBJECT_REMOVE_META_PREFIX = "X-Remove-Object-Meta-"
+        CONTAINER_META_PREFIX = "X-Container-Meta-"
+        CONTAINER_REMOVE_META_PREFIX = "X-Remove-Container-Meta-"
         
         # Cloud Files will ignore headers without a value
         DUMMY_VALUE = 1
         
-        KEY_REGEX = /^#{META_PREFIX}(.*)/
+        CONTAINER_KEY_REGEX = /^#{CONTAINER_META_PREFIX}(.*)/
+        OBJECT_KEY_REGEX = /^#{OBJECT_META_PREFIX}(.*)/
         
-        attr_reader :data
         
-        def initialize(hash={})
+        attr_reader :data, :parent
+        
+        def initialize(parent, hash={})
           @data = hash || {}
           @deleted_hash = {}
+          @parent = parent
         end
                 
         def delete(key)
@@ -37,10 +40,10 @@ module Fog
           headers
         end
         
-        def self.from_headers(headers)
-          metadata = Metadata.new
+        def self.from_headers(parent, headers)
+          metadata = Metadata.new(parent)
           headers.each_pair do |k, v|
-            key = Metadata.to_key(k)
+            key = metadata.send(:to_key, k)
             next unless key
             metadata.data[key] = v
           end
@@ -57,8 +60,38 @@ module Fog
         
         private
         
-        def self.to_key(key)
-           m = key.match KEY_REGEX
+        def meta_prefix
+          if parent.is_a? Fog::Storage::Rackspace::Directory
+            CONTAINER_META_PREFIX
+          elsif parent.is_a? Fog::Storage::Rackspace::File
+            OBJECT_META_PREFIX
+          else
+            raise "Metadata prefix is unknown for #{parent.class}"
+          end
+        end
+
+        def remove_meta_prefix
+          if parent.is_a? Fog::Storage::Rackspace::Directory
+            CONTAINER_REMOVE_META_PREFIX
+          elsif parent.is_a? Fog::Storage::Rackspace::File
+            OBJECT_REMOVE_META_PREFIX
+          else
+            raise "Remove Metadata prefix is unknown for #{parent.class}"
+          end
+        end
+
+        def meta_prefix_regex
+          if parent.is_a? Fog::Storage::Rackspace::Directory
+            CONTAINER_KEY_REGEX
+          elsif parent.is_a? Fog::Storage::Rackspace::File
+            OBJECT_KEY_REGEX
+          else
+            raise "Metadata prefix is unknown for #{parent.class}"
+          end
+        end
+        
+        def to_key(key)
+           m = key.match meta_prefix_regex
            return nil unless m && m[1]
            
            a = m[1].split('-')
@@ -68,7 +101,7 @@ module Fog
          end
                  
         def to_header_key(key, value)
-          prefix = value.nil? ?  REMOVE_META_PREFIX : META_PREFIX
+          prefix = value.nil? ?  remove_meta_prefix : meta_prefix
           prefix + key.to_s.split(/[-_]/).collect(&:capitalize).join('-')
         end
         

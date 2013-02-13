@@ -35,7 +35,7 @@ Shindo.tests('Fog::Rackspace::Storage | file', ['rackspace']) do
   model_tests(@directory.files, file_attributes, Fog.mocking?) do
 
     tests("#metadata should load empty metadata").returns({}) do
-      @instance.metadata
+      @instance.metadata.data
     end
 
     tests('#save') do
