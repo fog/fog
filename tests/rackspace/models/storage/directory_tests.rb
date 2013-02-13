@@ -51,7 +51,7 @@ Shindo.tests('Fog::Rackspace::Storage | directory', ['rackspace']) do
          returns(true) { dir.metadata[:list_test] }
        end
        
-       tests("should reload metadata after calling reload").returns("42") do
+       tests("should reload metadata after calling reload").returns(42) do
          @service.put_container @instance.key, "X-Container-Meta-Answer" => 42
          @instance.reload
          @instance.metadata[:answer]
