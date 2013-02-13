@@ -18,11 +18,18 @@ module Fog
         
         def initialize(hash={})
           @data = hash || {}
+          @deleted_hash = {}
+        end
+                
+        def delete(key)
+          data.delete(key)
+          @deleted_hash[key] = nil
         end
                 
         def to_headers
-          headers = {}
-          @data.each_pair do |k,v|
+          headers = {}          
+          h = data.merge(@deleted_hash) 
+          h.each_pair do |k,v|
             key = to_header_key(k,v)
             headers[key] = v || DUMMY_VALUE 
           end
@@ -41,11 +48,11 @@ module Fog
         end   
         
         def respond_to?(method_sym, include_private = false)
-          super(method_sym, include_private) || @data.method_missing(method_missing, include_private)
+          super(method_sym, include_private) || data.method_missing(method_missing, include_private)
         end
                 
         def method_missing(method, *args, &block)
-          @data.send(method, *args, &block)
+          data.send(method, *args, &block)
         end                             
         
         private

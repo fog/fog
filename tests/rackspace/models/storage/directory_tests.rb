@@ -32,11 +32,17 @@ Shindo.tests('Fog::Rackspace::Storage | directory', ['rackspace']) do
          @instance.save
          container_meta_attributes
        end
-       tests('delete metadata').returns({"X-Container-Meta-Draft"=>"true"}) do
+       tests('set metadata to nil').returns({"X-Container-Meta-Draft"=>"true"}) do
          @instance.metadata[:color] = nil
          @instance.save
          container_meta_attributes
+       end
+       tests('delete metadata').returns({}) do
+         @instance.metadata.delete(:draft)
+         @instance.save
+         container_meta_attributes
        end     
+       
      end
    end
    
