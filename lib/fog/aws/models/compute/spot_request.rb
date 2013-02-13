@@ -21,6 +21,7 @@ module Fog
         attribute :availability_zone_group,    :aliases => 'availabilityZoneGroup'
         attribute :product_description,        :aliases => 'productDescription'
 
+        attribute :ebs_optimized,              :aliases => 'LaunchSpecification.EbsOptimized'
         attribute :groups,                     :aliases => 'LaunchSpecification.SecurityGroup'
         attribute :key_name,                   :aliases => 'LaunchSpecification.KeyName'
         attribute :availability_zone,          :aliases => 'LaunchSpecification.Placement.AvailabilityZone'
@@ -95,6 +96,7 @@ module Fog
             'LaunchSpecification.Monitoring.Enabled'         => monitoring,
             'LaunchSpecification.Placement.AvailabilityZone' => availability_zone,
             'LaunchSpecification.SecurityGroup'              => groups,
+            'LaunchSpecification.EbsOptimized'               => ebs_optimized,
             'LaunchSpecification.UserData'                   => user_data,
             'LaunchSpecification.SubnetId'                   => subnet_id,
             'LaunchSpecification.IamInstanceProfile.Arn'     => @iam_instance_profile_arn,
