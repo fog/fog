@@ -16,19 +16,19 @@ module Fog
 
         def metadata=(hash)
           if hash.is_a? Fog::Storage::Rackspace::Metadata
-            @metadata = hash
+            attributes[:metadata] = hash
           else
-            @metadata = Fog::Storage::Rackspace::Metadata.new(hash)
+            attributes[:metadata] = Fog::Storage::Rackspace::Metadata.new(self, hash)
           end
-          @metadata
+          attributes[:metadata]
         end
         
         def metadata
-          unless @metadata
+          unless attributes[:metadata]
              response = service.head_container(key)
-             @metadata = Fog::Storage::Rackspace::Metadata.from_headers(response.headers)
+             attributes[:metadata] = Fog::Storage::Rackspace::Metadata.from_headers(self, response.headers)
           end
-          @metadata
+          attributes[:metadata]
         end
 
         def destroy
