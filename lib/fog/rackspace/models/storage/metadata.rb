@@ -45,7 +45,7 @@ module Fog
           headers.each_pair do |k, v|
             key = metadata.send(:to_key, k)
             next unless key
-            metadata.data[key] = v
+            metadata.data[key] = Fog::JSON.decode(v)
           end
           metadata
         end   
