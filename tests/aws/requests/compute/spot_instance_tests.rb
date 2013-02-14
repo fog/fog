@@ -12,6 +12,7 @@ Shindo.tests('Fog::Compute[:aws] | spot instance requests', ['aws']) do
         'imageId'             => String,
         'instanceType'        => String,
         'monitoring'          => Fog::Boolean,
+        'ebsOptimized'        => Fog::Boolean,
         'subnetId'            => Fog::Nullable::String,
         'iamInstanceProfile'  => Fog::Nullable::Hash,
       },
@@ -38,13 +39,13 @@ Shindo.tests('Fog::Compute[:aws] | spot instance requests', ['aws']) do
     pending if Fog.mocking?
 
     tests("#request_spot_instances('ami-3202f25b', 't1.micro', '0.001')").formats(@spot_instance_requests_format) do
-      data = Fog::Compute[:aws].request_spot_instances('ami-3202f25b', 't1.micro', '0.001').body
+      data = Fog::Compute[:aws].request_spot_instances('ami-3202f25b', 't1.micro', '0.001',{'LaunchSpecification.EbsOptimized' => false}).body
       @spot_instance_request_id = data['spotInstanceRequestSet'].first['spotInstanceRequestId']
       data
     end
 
     tests("#describe_spot_instance_requests").formats(@spot_instance_requests_format) do
-      Fog::Compute[:aws].describe_spot_instance_requests.body
+      Fog::Compute[:aws].describe_spot_instance_requests('spot-instance-request-id' => [@spot_instance_request_id]).body
     end
 
     tests("#cancel_spot_instance_requests('#{@spot_instance_request_id}')").formats(@cancel_spot_instance_request_format) do
