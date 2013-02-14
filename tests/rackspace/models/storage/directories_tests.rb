@@ -14,13 +14,13 @@ Shindo.tests('Fog::Rackspace::Storage | directories', ['rackspace']) do
     tests('#get').succeeds do
       instance = @service.directories.get @name
       returns(false) { instance.nil? }
-      returns('true') { instance.metadata[:fog_test] }
+      returns(true) { instance.metadata[:fog_test] }
       returns(@name) { instance.key }
       returns(1) { instance.count }
       returns( Fog::Storage.get_body_size(lorem_file)) {instance.bytes }
       returns(@filename) { instance.files.first.key }
-    end 
-
+    end
+    
   ensure
     @file.destroy if @file
     @dir.destroy if @dir

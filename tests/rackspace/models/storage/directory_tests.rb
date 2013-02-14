@@ -41,7 +41,14 @@ Shindo.tests('Fog::Rackspace::Storage | directory', ['rackspace']) do
          @instance.metadata.delete(:draft)
          @instance.save
          container_meta_attributes
-       end     
+       end
+       
+       tests('should retrieve metadata when necessary') do
+         @service.put_container(@instance.key, {"X-Container-Meta-List-Test"=>"true"} )
+         dir = @service.directories.find {|d| d.key == @instance.key }
+         returns(nil) { dir.instance_variable_get("@metadata") }
+         returns(true) { dir.metadata[:list_test] }
+       end
        
      end
    end

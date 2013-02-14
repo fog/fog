@@ -24,7 +24,11 @@ module Fog
         end
         
         def metadata
-          @metadata ||= Fog::Storage::Rackspace::Metadata.new
+          unless @metadata
+             response = service.head_container(key)
+             @metadata = Fog::Storage::Rackspace::Metadata.from_headers(response.headers)
+          end
+          @metadata
         end
 
         def destroy
@@ -72,7 +76,8 @@ module Fog
 
         def save
           requires :key
-          service.put_container(key, metadata.to_headers)
+          headers = @metadata.nil? ? {} : metadata.to_headers
+          service.put_container(key, headers)
 
           if service.cdn && public?
             # if public and CDN connection then update cdn to public
