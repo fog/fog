@@ -48,7 +48,7 @@ module Fog
         end   
         
         def respond_to?(method_sym, include_private = false)
-          super(method_sym, include_private) || data.method_missing(method_missing, include_private)
+          super(method_sym, include_private) || data.respond_to?(method_sym, include_private)
         end
                 
         def method_missing(method, *args, &block)
