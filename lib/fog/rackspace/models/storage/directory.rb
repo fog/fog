@@ -76,7 +76,7 @@ module Fog
 
         def save
           requires :key
-          headers = @metadata.nil? ? {} : metadata.to_headers
+          headers = attributes[:metadata].nil? ? {} : metadata.to_headers
           service.put_container(key, headers)
 
           if service.cdn && public?
