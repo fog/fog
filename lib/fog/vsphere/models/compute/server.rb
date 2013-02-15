@@ -38,6 +38,7 @@ module Fog
         attribute :cpus
         attribute :interfaces
         attribute :volumes
+        attribute :customvalues
         attribute :overall_status, :aliases => 'status'
         attribute :cluster
         attribute :datacenter
@@ -50,6 +51,7 @@ module Fog
           self.instance_uuid ||= id # TODO: remvoe instance_uuid as it can be replaced with simple id
           initialize_interfaces
           initialize_volumes
+          initialize_customvalues
         end
 
         # Lazy Loaded Attributes
@@ -167,6 +169,10 @@ module Fog
         def volumes
           attributes[:volumes] ||= id.nil? ? [] : service.volumes( :vm => self )
         end
+        
+        def customvalues
+          attributes[:customvalues] ||= id.nil? ? [] : service.customvalues( :vm => self )
+        end
 
         def folder
           return nil unless datacenter and path
@@ -216,6 +222,12 @@ module Fog
         def initialize_volumes
           if attributes[:volumes] and attributes[:volumes].is_a?(Array)
             self.attributes[:volumes].map! { |vol| vol.is_a?(Hash) ? service.volumes.new(vol) : vol }
+          end
+        end
+        
+        def initialize_customvalues
+          if attributes[:customvalues] and attributes[:customvalues].is_a?(Array)
+            self.attributes[:customvalues].map { |cfield| cfield.is_a?(Hash) ? service.customvalue.new(cfield) : cfield}
           end
         end
       end
