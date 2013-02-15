@@ -14,6 +14,7 @@ module Fog
       collection  :directories
       model       :file
       collection  :files
+      model       :account
 
       request_path 'fog/rackspace/requests/storage'
       request :copy_object
@@ -96,6 +97,11 @@ module Fog
           @persistent = options[:persistent] || false
           Excon.defaults[:ssl_verify_peer] = false if options[:rackspace_servicenet] == true
           @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
+        end
+        
+        def account
+          account = Fog::Storage::Rackspace::Account.new(:service => self)
+          account.reload
         end
 
         def reload
