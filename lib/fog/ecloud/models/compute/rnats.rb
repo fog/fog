@@ -10,12 +10,12 @@ module Fog
         model Fog::Compute::Ecloud::Rnat
 
         def all
-          data = connection.get_rnats(href).body[:Rnats][:Rnat]
+          data = service.get_rnats(href).body[:Rnats][:Rnat]
           load(data)
         end
 
         def get(uri)
-          if data = connection.get_rnat(uri)
+          if data = service.get_rnat(uri)
             new(data.body)
           end
         rescue Fog::Errors::NotFound

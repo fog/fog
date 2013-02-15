@@ -1,3 +1,5 @@
+require "fog/schema/data_validator"
+
 # format related hackery
 # allows both true.is_a?(Fog::Boolean) and false.is_a?(Fog::Boolean)
 # allows both nil.is_a?(Fog::Nullable::String) and ''.is_a?(Fog::Nullable::String)
@@ -25,62 +27,73 @@ end
 module Shindo
   class Tests
 
-    def formats(format, strict=true)
-      raise ArgumentError, 'format is nil' unless format
+    # Generates a Shindo test that compares a hash schema to the result
+    # of the passed in block returning true if they match.
+    #
+    # The schema that is passed in is a Hash or Array of hashes that
+    # have Classes in place of values. When checking the schema the
+    # value should match the Class.
+    #
+    # Strict mode will fail if the data has additional keys. Setting
+    # +strict+ to +false+ will allow additional keys to appear.
+    #
+    # @param [Hash] schema A Hash schema
+    # @param [Hash] options Options to change validation rules
+    # @option options [Boolean] :allow_extra_keys
+    #     If +true+ does not fail when keys are in the data that are
+    #     not specified in the schema. This allows new values to
+    #     appear in API output without breaking the check.
+    # @option options [Boolean] :allow_optional_rules
+    #     If +true+ does not fail if extra keys are in the schema
+    #     that do not match the data. Not recommended!
+    # @yield Data to check with schema
+    #
+    # @example Using in a test
+    #     Shindo.tests("comparing welcome data against schema") do
+    #       data = {:welcome => "Hello" }
+    #       data_matches_schema(:welcome => String) { data }
+    #     end
+    #
+    #     comparing welcome data against schema
+    #     + data matches schema
+    #
+    # @example Example schema
+    #     {
+    #       "id" => String,
+    #       "ram" => Integer,
+    #       "disks" => [
+    #         {
+    #           "size" => Float
+    #         }
+    #       ],
+    #       "dns_name" => Fog::Nullable::String,
+    #       "active" => Fog::Boolean,
+    #       "created" => DateTime
+    #     }
+    #
+    # @return [Boolean]
+    def data_matches_schema(schema, options = {})
+      test('data matches schema') do
+        validator = Fog::Schema::DataValidator.new
+        valid = validator.validate(yield, schema, options)
+        @message = validator.message unless valid
+        valid
+      end
+    end
 
+    # @deprecated #formats is deprecated. Use #data_matches_schema instead
+    def formats(format, strict = true)
       test('has proper format') do
-        formats_kernel(instance_eval(&Proc.new), format, true, strict)
-      end
-    end
-
-    private
-
-    def formats_kernel(original_data, original_format, original = true, strict = true)
-      valid = true
-      data = original_data.dup
-      format = original_format.dup
-      if format.is_a?(Array)
-        data   = {:element => data}
-        format = {:element => format}
-      end
-      for key, value in format
-        datum = data.delete(key)
-        format.delete(key)
-        case value
-        when Array
-          p("#{key.inspect} not Array: #{datum.inspect}") unless datum.is_a?(Array)
-          valid &&= datum.is_a?(Array)
-          if datum.is_a?(Array) && !value.empty?
-            for element in datum
-              type = value.first
-              if type.is_a?(Hash)
-                valid &&= formats_kernel({:element => element}, {:element => type}, false, strict)
-              else
-                valid &&= element.is_a?(type)
-              end
-            end
-          end
-        when Hash
-          p("#{key.inspect} not Hash: #{datum.inspect}") unless datum.is_a?(Hash)
-          valid &&= datum.is_a?(Hash)
-          valid &&= formats_kernel(datum, value, false, strict)
+        if strict
+          options = {:allow_extra_keys => false, :allow_optional_rules => true}
         else
-          p "#{key.inspect} not #{value.inspect}: #{datum.inspect}" unless datum.is_a?(value)
-          valid &&= datum.is_a?(value)
+          options = {:allow_extra_keys => true, :allow_optional_rules => true}
         end
+        validator = Fog::Schema::DataValidator.new
+        valid = validator.validate(yield, format, options)
+        @message = validator.message unless valid
+        valid
       end
-      p data unless data.empty?
-      p format unless format.empty?
-      if strict
-        valid &&= data.empty? && format.empty?
-      else
-        valid &&= format.empty?
-      end
-      if !valid && original
-        @message = "#{original_data.inspect} does not match #{original_format.inspect}"
-      end
-      valid
     end
-
   end
 end

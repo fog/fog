@@ -36,6 +36,8 @@ module Fog
       model  :pbd
       model  :guest_metrics
       model  :vbd_metrics
+      model  :host_metrics
+      model  :host_cpu
 
       request_path 'fog/xenserver/requests/compute'
       request :create_server
@@ -59,6 +61,13 @@ module Fog
       request :reboot_server
       request :provision_server
       request :scan_sr
+      request :unplug_pbd
+      request :destroy_sr
+      request :create_sr
+      request :reboot_host
+      request :disable_host
+      request :enable_host
+      request :shutdown_host
     
       class Real
         

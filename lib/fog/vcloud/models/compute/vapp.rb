@@ -25,7 +25,7 @@ module Fog
 
         def servers
           @servers ||= Fog::Vcloud::Compute::Servers.
-            new( :connection => connection,
+            new( :service => service,
                  :href => href,
                  :vapp => self
             )
@@ -33,9 +33,20 @@ module Fog
 
         def networks
           @networks ||= Fog::Vcloud::Compute::Networks.
-            new( :connection => connection,
+            new( :service => service,
                  :href => href
             )
+        end
+
+        def ready?
+          reload_status # always ensure we have the correct status
+          status != '0'
+        end
+
+        private
+        def reload_status
+          vapp = service.get_vapp(href)
+          self.status = vapp.status
         end
       end
     end

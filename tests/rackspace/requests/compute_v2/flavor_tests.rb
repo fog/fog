@@ -1,8 +1,6 @@
 Shindo.tests('Fog::Compute::RackspaceV2 | flavor_tests', ['rackspace']) do
 
-  pending if Fog.mocking?
-
-  FLAVOR_FORMAT = {
+  flavor_format = {
     'id' => String,
     'name' => String,
     'ram' => Fog::Nullable::Integer,
@@ -14,12 +12,12 @@ Shindo.tests('Fog::Compute::RackspaceV2 | flavor_tests', ['rackspace']) do
     }]
   }
 
-  LIST_FLAVOR_FORMAT = {
-    'flavors' => [FLAVOR_FORMAT]
+  list_flavor_format = {
+    'flavors' => [flavor_format]
   }
 
-  GET_FLAVOR_FORMAT = {
-    'flavor' => FLAVOR_FORMAT.merge({
+  get_flavor_format = {
+    'flavor' => flavor_format.merge({
       'OS-FLV-DISABLED:disabled' => Fog::Boolean,
       'rxtx_factor' => Float,
       'swap' => Integer
@@ -30,13 +28,13 @@ Shindo.tests('Fog::Compute::RackspaceV2 | flavor_tests', ['rackspace']) do
   flavor_id = nil
 
   tests('success') do
-    tests('#list_flavors').formats(LIST_FLAVOR_FORMAT) do
+    tests('#list_flavors').formats(list_flavor_format) do
       body = service.list_flavors.body
       flavor_id = body['flavors'][0]['id']
       body
     end
 
-    tests('#get_flavor').formats(GET_FLAVOR_FORMAT) do
+    tests('#get_flavor').formats(get_flavor_format) do
       service.get_flavor(flavor_id).body
     end
   end

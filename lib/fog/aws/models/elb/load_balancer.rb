@@ -21,7 +21,7 @@ module Fog
 
         def initialize(attributes={})
           if attributes[:subnet_ids] ||= attributes['Subnets']
-            attributes[:availability_zones] ||= attributes['AvailabilityZones'] 
+            attributes[:availability_zones] ||= attributes['AvailabilityZones']
           else
             attributes[:availability_zones] ||= attributes['AvailabilityZones']  || %w(us-east-1a us-east-1b us-east-1c us-east-1d)
           end
@@ -38,51 +38,51 @@ module Fog
 
         def register_instances(instances)
           requires :id
-          data = connection.register_instances_with_load_balancer(instances, id).body['RegisterInstancesWithLoadBalancerResult']
+          data = service.register_instances_with_load_balancer(instances, id).body['RegisterInstancesWithLoadBalancerResult']
           data['Instances'].map!{|h| h['InstanceId']}
           merge_attributes(data)
         end
 
         def deregister_instances(instances)
           requires :id
-          data = connection.deregister_instances_from_load_balancer(instances, id).body['DeregisterInstancesFromLoadBalancerResult']
+          data = service.deregister_instances_from_load_balancer(instances, id).body['DeregisterInstancesFromLoadBalancerResult']
           data['Instances'].map!{|h| h['InstanceId']}
           merge_attributes(data)
         end
 
         def enable_availability_zones(zones)
           requires :id
-          data = connection.enable_availability_zones_for_load_balancer(zones, id).body['EnableAvailabilityZonesForLoadBalancerResult']
+          data = service.enable_availability_zones_for_load_balancer(zones, id).body['EnableAvailabilityZonesForLoadBalancerResult']
           merge_attributes(data)
         end
 
         def disable_availability_zones(zones)
           requires :id
-          data = connection.disable_availability_zones_for_load_balancer(zones, id).body['DisableAvailabilityZonesForLoadBalancerResult']
+          data = service.disable_availability_zones_for_load_balancer(zones, id).body['DisableAvailabilityZonesForLoadBalancerResult']
           merge_attributes(data)
         end
-        
+
         def attach_subnets(subnet_ids)
           requires :id
-          data = connection.attach_load_balancer_to_subnets(subnet_ids, id).body['AttachLoadBalancerToSubnetsResult']
+          data = service.attach_load_balancer_to_subnets(subnet_ids, id).body['AttachLoadBalancerToSubnetsResult']
           merge_attributes(data)
         end
 
         def detach_subnets(subnet_ids)
           requires :id
-          data = connection.detach_load_balancer_from_subnets(subnet_ids, id).body['DetachLoadBalancerFromSubnetsResult']
+          data = service.detach_load_balancer_from_subnets(subnet_ids, id).body['DetachLoadBalancerFromSubnetsResult']
           merge_attributes(data)
         end
-        
+
         def apply_security_groups(security_groups)
           requires :id
-          data = connection.apply_security_groups_to_load_balancer(security_groups, id).body['ApplySecurityGroupsToLoadBalancerResult']
+          data = service.apply_security_groups_to_load_balancer(security_groups, id).body['ApplySecurityGroupsToLoadBalancerResult']
           merge_attributes(data)
         end
 
         def instance_health
           requires :id
-          @instance_health ||= connection.describe_instance_health(id).body['DescribeInstanceHealthResult']['InstanceStates']
+          @instance_health ||= service.describe_instance_health(id).body['DescribeInstanceHealthResult']['InstanceStates']
         end
 
         def instances_in_service
@@ -95,14 +95,14 @@ module Fog
 
         def configure_health_check(health_check)
           requires :id
-          data = connection.configure_health_check(id, health_check).body['ConfigureHealthCheckResult']['HealthCheck']
+          data = service.configure_health_check(id, health_check).body['ConfigureHealthCheckResult']['HealthCheck']
           merge_attributes(:health_check => data)
         end
 
         def listeners
           Fog::AWS::ELB::Listeners.new({
             :data => attributes['ListenerDescriptions'],
-            :connection => connection,
+            :service => service,
             :load_balancer => self
           })
         end
@@ -110,7 +110,7 @@ module Fog
         def policies
           Fog::AWS::ELB::Policies.new({
             :data => attributes['Policies'],
-            :connection => connection,
+            :service => service,
             :load_balancer => self
           })
         end
@@ -118,13 +118,13 @@ module Fog
         def set_listener_policy(port, policy_name)
           requires :id
           policy_name = [policy_name].flatten
-          connection.set_load_balancer_policies_of_listener(id, port, policy_name)
+          service.set_load_balancer_policies_of_listener(id, port, policy_name)
           reload
         end
 
         def set_listener_ssl_certificate(port, ssl_certificate_id)
           requires :id
-          connection.set_load_balancer_listener_ssl_certificate(id, port, ssl_certificate_id)
+          service.set_load_balancer_listener_ssl_certificate(id, port, ssl_certificate_id)
           reload
         end
 
@@ -144,8 +144,8 @@ module Fog
           # if both are specified, the availability zones have preference
           #requires :availability_zones
           if (availability_zones || subnet_ids)
-            connection.create_load_balancer(availability_zones, id, listeners.map{|l| l.to_params}) if availability_zones
-            connection.create_load_balancer(nil, id, listeners.map{|l| l.to_params}, {:subnet_ids => subnet_ids, :security_groups => security_groups, :scheme => scheme}) if subnet_ids && !availability_zones
+            service.create_load_balancer(availability_zones, id, listeners.map{|l| l.to_params}) if availability_zones
+            service.create_load_balancer(nil, id, listeners.map{|l| l.to_params}, {:subnet_ids => subnet_ids, :security_groups => security_groups, :scheme => scheme}) if subnet_ids && !availability_zones
           else
             throw Fog::Errors::Error.new("No availability zones or subnet ids specified")
           end
@@ -164,7 +164,7 @@ module Fog
 
         def destroy
           requires :id
-          connection.delete_load_balancer(id)
+          service.delete_load_balancer(id)
         end
 
       end

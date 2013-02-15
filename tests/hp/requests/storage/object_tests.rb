@@ -1,4 +1,4 @@
-Shindo.tests('Fog::Storage[:hp] | object requests', ["hp"]) do
+Shindo.tests("Fog::Storage[:hp] | object requests", ['hp', 'storage']) do
 
   @directory = Fog::Storage[:hp].directories.create(:key => 'fogobjecttests')
   @dir_name = @directory.identity
@@ -23,6 +23,10 @@ Shindo.tests('Fog::Storage[:hp] | object requests', ["hp"]) do
 
     tests("#head_object('#{@dir_name}', 'fog_object')").succeeds do
       Fog::Storage[:hp].head_object(@dir_name, 'fog_object')
+    end
+
+    tests("#get_object_temp_url('#{@dir_name}', 'fog_object', 60, 'GET')").succeeds do
+      Fog::Storage[:hp].get_object_temp_url(@dir_name, 'fog_object', 60, 'GET')
     end
 
     # copy a file within the same container
@@ -56,6 +60,10 @@ Shindo.tests('Fog::Storage[:hp] | object requests', ["hp"]) do
 
     tests("#get_object('fognoncontainer', 'fog_non_object')").raises(Fog::Storage::HP::NotFound) do
       Fog::Storage[:hp].get_object('fognoncontainer', 'fog_non_object')
+    end
+
+    tests("#get_object_temp_url('#{@dir_name}', 'fog_object', 60, 'POST')").raises(ArgumentError) do
+      Fog::Storage[:hp].get_object_temp_url(@dir_name, 'fog_object', 60, 'POST')
     end
 
     tests("#head_object('#{@dir_name}', 'fog_non_object')").raises(Fog::Storage::HP::NotFound) do

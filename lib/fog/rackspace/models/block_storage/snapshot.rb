@@ -26,7 +26,8 @@ module Fog
 
         def save(force = false)
           requires :volume_id
-          data = connection.create_snapshot(volume_id, {
+          raise IdentifierTaken.new('Resaving may cause a duplicate snapshot to be created') if persisted?
+          data = service.create_snapshot(volume_id, {
             :display_name => display_name,
             :display_description => display_description,
             :force => force
@@ -37,7 +38,7 @@ module Fog
 
         def destroy
           requires :identity
-          connection.delete_snapshot(identity)
+          service.delete_snapshot(identity)
           true
         end
       end

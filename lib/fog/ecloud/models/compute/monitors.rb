@@ -10,12 +10,12 @@ module Fog
         model Fog::Compute::Ecloud::Monitor
 
         def all
-          data = connection.get_monitors(href).body
+          data = service.get_monitors(href).body
           load(data)
         end
 
         def get(uri)
-          if data = connection.get_monitor(uri)
+          if data = service.get_monitor(uri)
             new(data.body)
           end
         rescue Fog::Errors::NotFound

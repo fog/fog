@@ -52,6 +52,7 @@ module Fog
           raise ArgumentError.new(':key_data, :keys, :password or a loaded ssh-agent is required to initialize SSH')
         end
 
+        options[:timeout] = 30
         if options[:key_data] || options[:keys]
           options[:keys_only] = true
           #Explicitly set these so net-ssh doesn't add the default keys

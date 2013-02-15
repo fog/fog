@@ -41,15 +41,15 @@ module Fog
         private
 
         def delete_distribution(identity, etag)
-          connection.delete_streaming_distribution(identity, etag)
+          service.delete_streaming_distribution(identity, etag)
         end
 
         def put_distribution_config(identity, etag, options)
-          connection.put_streaming_distribution_config(identity, etag, options)
+          service.put_streaming_distribution_config(identity, etag, options)
         end
 
         def post_distribution(options = {})
-          connection.post_streaming_distribution(options)
+          service.post_streaming_distribution(options)
         end
 
         def attributes_to_options

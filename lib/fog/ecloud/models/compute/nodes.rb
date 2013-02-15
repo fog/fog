@@ -10,7 +10,7 @@ module Fog
         model Fog::Compute::Ecloud::Node
 
         def all
-          data = connection.get_nodes(href).body
+          data = service.get_nodes(href).body
           if data[:NodeServices]
             load(data[:NodeServices][:NodeService])
           else
@@ -19,9 +19,8 @@ module Fog
         end
 
         def get(uri)
-          if data = connection.get_node(uri)
-            new(data.body)
-          end
+          data = service.get_node(uri).body
+          new(data)
         rescue Fog::Errors::NotFound
           nil
         end
@@ -31,7 +30,7 @@ module Fog
           options[:protocol] ||= "TCP"
           options[:enabled] ||= true
           options[:description] ||= ""
-          data = connection.node_service_create(options).body
+          data = service.node_service_create(options).body
           object = new(data)
         end
 

@@ -10,7 +10,7 @@ module Fog
         # @see https://api.gb1.brightbox.com/1.0/#zone_list_zones
         #
         def list_zones
-          request("get", "/1.0/zones", [200])
+          wrapped_request("get", "/1.0/zones", [200])
         end
 
       end

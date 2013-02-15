@@ -10,13 +10,13 @@ module Fog
         model Fog::Compute::Brightbox::Account
 
         def all
-          data = connection.list_accounts
+          data = service.list_accounts
           load(data)
         end
 
         def get(identifier)
           return nil if identifier.nil? || identifier == ""
-          data = connection.get_account(identifier)
+          data = service.get_account(identifier)
           new(data)
         rescue Excon::Errors::NotFound
           nil

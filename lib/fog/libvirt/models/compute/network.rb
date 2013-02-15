@@ -23,7 +23,7 @@ module Fog
         end
 
         def shutdown
-          connection.destroy_network(uuid)
+          service.destroy_network(uuid)
         end
 
       end

@@ -29,7 +29,7 @@ module Fog
 
         def destroy
           requires :identity, :zone
-          connection.domain_resource_delete(zone.id, identity)
+          service.domain_resource_delete(zone.id, identity)
           true
         end
 
@@ -42,25 +42,25 @@ module Fog
           options = {}
           # * options<~Hash>
           #   * weight<~Integer>: default: 5
-          #   * port<~Integer>: default: 80 
-          #   * protocol<~String>: The protocol to append to an SRV record. Ignored on other record 
+          #   * port<~Integer>: default: 80
+          #   * protocol<~String>: The protocol to append to an SRV record. Ignored on other record
           #                        types. default: udp
           options[:name]      = name if name
           options[:priority]  = priority if priority
           options[:target]    = value if value
           options[:ttl_sec]   = ttl if ttl
           response = unless identity
-            connection.domain_resource_create(zone.identity, type, options)
+            service.domain_resource_create(zone.identity, type, options)
           else
             options[:type] = type if type
-            connection.domain_resource_update(zone.identity, identity, options)
+            service.domain_resource_update(zone.identity, identity, options)
           end
           merge_attributes(response.body['DATA'])
           true
         end
 
         private
-        
+
         def zone=(new_zone)
           @zone = new_zone
         end

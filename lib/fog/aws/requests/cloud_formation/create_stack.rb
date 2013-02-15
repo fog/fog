@@ -51,6 +51,23 @@ module Fog
             end
           end
 
+          num_tags = 0
+          if options['Tags']
+            options['Tags'].keys.each_with_index do |key, index|
+              index += 1 # tags are 1-indexed
+              num_tags += 1 # 10 tag max
+
+              params.merge!({
+                "Tags.member.#{index}.Key"   => key,
+                "Tags.member.#{index}.Value" => options['Tags'][key]
+              })
+            end
+          end
+
+          if num_tags > 10
+            raise ArgumentError.new("a maximum of 10 tags can be specified <#{num_tags}>")
+          end
+
           if options['TemplateBody']
             params['TemplateBody'] = options['TemplateBody']
           elsif options['TemplateURL']

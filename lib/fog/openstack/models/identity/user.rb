@@ -15,15 +15,21 @@ module Fog
         attr_accessor :email, :name, :tenant_id, :enabled, :password
 
         def initialize(attributes)
-          @connection = attributes[:connection]
+          # Old 'connection' is renamed as service and should be used instead
+          prepare_service_value(attributes)
           super
         end
 
+        def ec2_credentials
+          requires :id
+          service.ec2_credentials(:user => self)
+        end
+
         def save
-          raise Fog::Errors::Error.new('Resaving an existing object may create a duplicate') if identity
+          raise Fog::Errors::Error.new('Resaving an existing object may create a duplicate') if persisted?
           requires :name, :tenant_id, :password
           enabled = true if enabled.nil?
-          data = connection.create_user(name, password, email, tenant_id, enabled)
+          data = service.create_user(name, password, email, tenant_id, enabled)
           merge_attributes(data.body['user'])
           true
         end
@@ -31,7 +37,7 @@ module Fog
         def update(options = {})
           requires :id
           options.merge('id' => id)
-          response = connection.update_user(id, options)
+          response = service.update_user(id, options)
           true
         end
 
@@ -50,12 +56,12 @@ module Fog
 
         def destroy
           requires :id
-          connection.delete_user(id)
+          service.delete_user(id)
           true
         end
 
         def roles(tenant_id = self.tenant_id)
-          connection.list_roles_for_user_on_tenant(tenant_id, self.id).body['roles']
+          service.list_roles_for_user_on_tenant(tenant_id, self.id).body['roles']
         end
       end # class User
     end # class OpenStack

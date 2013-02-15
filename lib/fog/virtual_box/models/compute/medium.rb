@@ -39,7 +39,7 @@ module Fog
         undef_method :medium_format
         def medium_format
           Fog::Compute::VirtualBox::MediumFormat.new(
-            :connection => connection,
+            :service => service,
             :raw        => raw.medium_format
           )
         end
@@ -55,7 +55,7 @@ module Fog
               :access_mode_read_write
             end
 
-            self.raw = connection.open_medium(location, device_type, access_mode)
+            self.raw = service.open_medium(location, device_type, access_mode)
 
           else
 

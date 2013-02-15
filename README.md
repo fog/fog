@@ -1,13 +1,15 @@
 ![fog](http://geemus.s3.amazonaws.com/fog.png)
 
-fog is the Ruby cloud computing library, top to bottom:
+fog is the Ruby cloud services library, top to bottom:
 
 * Collections provide a simplified interface, making clouds easier to work with and switch between.
 * Requests allow power users to get the most out of the features of each individual cloud.
 * Mocks make testing and integrating a breeze.
 
 [![Build Status](https://secure.travis-ci.org/fog/fog.png?branch=master)](http://travis-ci.org/fog/fog)
-[![Code Climate](https://codeclimate.com/badge.png)](https://codeclimate.com/github/fog/fog)
+[![Gem Version](https://fury-badge.herokuapp.com/rb/fog.png)](http://badge.fury.io/rb/fog)
+[![Dependency Status](https://gemnasium.com/fog/fog.png)](https://gemnasium.com/fog/fog)
+[![Code Climate](https://codeclimate.com/github/fog/fog.png)](https://codeclimate.com/github/fog/fog)
 
 ## Getting Started
 
@@ -132,7 +134,7 @@ geemus says: "That should give you everything you need to get started, but let m
 
 (The MIT License)
 
-Copyright (c) 2010 [geemus (Wesley Beary)](http://github.com/geemus)
+Copyright (c) 2013 [geemus (Wesley Beary)](http://github.com/geemus)
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the

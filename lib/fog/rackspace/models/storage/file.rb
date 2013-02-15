@@ -36,14 +36,14 @@ module Fog
           options['Content-Type'] ||= content_type if content_type
           options['Access-Control-Allow-Origin'] ||= access_control_allow_origin if access_control_allow_origin
           options['Origin'] ||= origin if origin
-          connection.copy_object(directory.key, key, target_directory_key, target_file_key, options)
-          target_directory = connection.directories.new(:key => target_directory_key)
+          service.copy_object(directory.key, key, target_directory_key, target_file_key, options)
+          target_directory = service.directories.new(:key => target_directory_key)
           target_directory.files.get(target_file_key)
         end
 
         def destroy
           requires :directory, :key
-          connection.delete_object(directory.key, key)
+          service.delete_object(directory.key, key)
           true
         end
 
@@ -63,10 +63,22 @@ module Fog
         def public=(new_public)
           new_public
         end
+        
+        def public?
+          directory.public?
+        end
 
         def public_url
           requires :key
           self.collection.get_url(self.key)
+        end
+        
+        def purge_from_cdn
+          if public?
+            service.cdn.purge(self)
+          else
+            false
+          end
         end
 
         def save(options = {})
@@ -76,7 +88,7 @@ module Fog
           options['Origin'] = origin if origin
           options.merge!(metadata_to_headers)
 
-          data = connection.put_object(directory.key, key, body, options)          
+          data = service.put_object(directory.key, key, body, options)
           update_attributes_from(data)
           refresh_metadata
 
@@ -108,24 +120,24 @@ module Fog
         def header_to_key(opt)
           opt.gsub(metadata_prefix, '').split('-').map {|k| k[0, 1].downcase + k[1..-1]}.join('_').to_sym
         end
-
+        
         def metadata_to_headers
-          header_map = header_mapping
-          Hash[metadata.map {|k, v| [header_map[k], v] }]
-        end
+          hash = {}
+          metadata.each_pair do |k,v|
+            key = metakey(k,v)
+            hash[key] = v
+          end     
+          hash
+        end     
 
-        def header_mapping
-          header_map = metadata.dup
-          header_map.each_pair {|k, v| header_map[k] = key_to_header(k)}
+        def metakey(key, value)
+          prefix = value.nil? ?  "X-Remove-Object-Meta-" : "X-Object-Meta-"
+          prefix + key.to_s.split(/[-_]/).map(&:capitalize).join('-')
         end
-
-        def key_to_header(key)
-          metadata_prefix + key.to_s.split(/[-_]/).map(&:capitalize).join('-')
-        end
-
+        
         def metadata_attributes
-          if etag
-            headers = connection.head_object(directory.key, self.key).headers
+          if last_modified
+            headers = service.head_object(directory.key, self.key).headers
             headers.reject! {|k, v| !metadata_attribute?(k)}
           else
             {}

@@ -59,7 +59,7 @@ module Fog
             filters = {'dhcp-options-id' => [*filters]}
           end
           self.filters = filters
-          data = connection.describe_dhcp_options(filters).body
+          data = service.describe_dhcp_options(filters).body
           load(data['dhcpOptionsSet'])
         end
 
@@ -80,7 +80,7 @@ module Fog
 
         def get(dhcp_options_id)
           if dhcp_options_id
-            self.class.new(:connection => connection).all('dhcp-options-id' => dhcp_options_id).first
+            self.class.new(:service => service).all('dhcp-options-id' => dhcp_options_id).first
           end
         end
 

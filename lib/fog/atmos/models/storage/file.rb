@@ -29,7 +29,7 @@ module Fog
         end
 
         def copy(target_directory_key, target_file_key, options={})
-          target_directory = connection.directories.new(:key => target_directory_key)
+          target_directory = service.directories.new(:key => target_directory_key)
           target_directory.files.create(
             :key => target_file_key,
             :body => body
@@ -38,7 +38,7 @@ module Fog
 
         def destroy
           requires :directory, :key
-          connection.delete_namespace([directory.key, key].join('/'))
+          service.delete_namespace([directory.key, key].join('/'))
           true
         end
 
@@ -60,15 +60,15 @@ module Fog
           file = directory.files.head(key)
           self.objectid = if file.present? then file.attributes['x-emc-meta'].scan(/objectid=(\w+),/).flatten[0] else nil end
           if self.objectid.present?
-            uri = URI::HTTP.build(:scheme => connection.ssl? ? "http" : "https" , :host => connection.host, :port => connection.port.to_i, :path => "/rest/objects/#{self.objectid}" )
+            uri = URI::HTTP.build(:scheme => service.ssl? ? "http" : "https" , :host => service.host, :port => service.port.to_i, :path => "/rest/objects/#{self.objectid}" )
 
             sb = "GET\n"
             sb += uri.path.downcase + "\n"
-            sb += connection.uid + "\n"
+            sb += service.uid + "\n"
             sb += String(expires.to_i())
 
-            signature = connection.sign( sb )
-            uri.query = "uid=#{CGI::escape(connection.uid)}&expires=#{expires.to_i()}&signature=#{CGI::escape(signature)}"
+            signature = service.sign( sb )
+            uri.query = "uid=#{CGI::escape(service.uid)}&expires=#{expires.to_i()}&signature=#{CGI::escape(signature)}"
             uri.to_s
           else
             nil
@@ -83,11 +83,11 @@ module Fog
           options[:headers]['Content-Type'] = content_type if content_type
           options[:body] = body
           begin
-            data = connection.post_namespace(ns, options)
+            data = service.post_namespace(ns, options)
             self.objectid = data.headers['location'].split('/')[-1]
           rescue => error
             if error.message =~ /The resource you are trying to create already exists./
-              data = connection.put_namespace(ns, options)
+              data = service.put_namespace(ns, options)
             else
               raise error
             end

@@ -10,12 +10,12 @@ module Fog
         model Fog::Compute::Serverlove::Image
 
         def all
-          data = connection.get_images.body
+          data = service.get_images.body
           load(data)
         end
 
         def get(image_id)
-          data = connection.get_image(image_id).body
+          data = service.get_image(image_id).body
           new(data)
         end
 

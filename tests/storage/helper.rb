@@ -9,6 +9,9 @@ def storage_providers
     :hp         => {
       :mocked => true
     },
+    :internetarchive => {
+      :mocked => true
+    },
     :local      => {
       :mocked => false
     },

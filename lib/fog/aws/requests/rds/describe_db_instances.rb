@@ -48,14 +48,14 @@ module Fog
           server_set.each do |server|
              case server["DBInstanceStatus"]
              when "creating"
-                 if Time.now - server['InstanceCreateTime'] >= Fog::Mock.delay * 2
-                   region = "us-east-1"
-                   server["DBInstanceStatus"] = "available"
-                   server["AvailabilityZone"] ||= region + 'a'
-                   server["Endpoint"] = {"Port"=>3306, 
-                                         "Address"=> Fog::AWS::Mock.rds_address(server["DBInstanceIdentifier"],region) }
-                   server["PendingModifiedValues"] = {}
-                 end
+               if Time.now - server['InstanceCreateTime'] >= Fog::Mock.delay * 2
+                 region = "us-east-1"
+                 server["DBInstanceStatus"] = "available"
+                 server["AvailabilityZone"] ||= region + 'a'
+                 server["Endpoint"] = {"Port"=>3306,
+                                       "Address"=> Fog::AWS::Mock.rds_address(server["DBInstanceIdentifier"],region) }
+                 server["PendingModifiedValues"] = {}
+               end
               when "rebooting"
                 if Time.now - self.data[:reboot_time] >= Fog::Mock.delay
                   # apply pending modified values
@@ -76,7 +76,6 @@ module Fog
                 unless server["PendingModifiedValues"].empty?
                   server["DBInstanceStatus"] = 'modifying'
                 end
-
              end
           end
 

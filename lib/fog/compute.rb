@@ -51,7 +51,7 @@ module Fog
         Fog::Compute::Linode.new(attributes)
       when :new_servers
         require 'fog/bare_metal_cloud/compute'
-        warn "[DEPRECATION] `new_servers` is deprecated. Please use `bare_metal_cloud` instead."
+        Fog::Logger.deprecation "`new_servers` is deprecated. Please use `bare_metal_cloud` instead."
         Fog::Compute::BareMetalCloud.new(attributes)
       when :baremetalcloud
         require 'fog/bare_metal_cloud/compute'
@@ -70,8 +70,9 @@ module Fog
         version = version.to_s.downcase.to_sym unless version.nil?
         if version == :v2
           require 'fog/rackspace/compute_v2'
-          Fog::Compute::RackspaceV2.new(attributes)
+           Fog::Compute::RackspaceV2.new(attributes)
         else
+          Fog::Logger.deprecation "First Gen Cloud Servers are deprecated. Please use `:version => :v2` attribute to use Next Gen Cloud Servers."
           require 'fog/rackspace/compute'
           Fog::Compute::Rackspace.new(attributes)
         end

@@ -24,8 +24,10 @@ module Fog
       collection :flavors
       model :image
       collection :images
-      model :attachments
+      model :attachment
       collection :attachments
+      model :network
+      collection :networks
 
       request_path 'fog/rackspace/requests/compute_v2'
       request :list_servers
@@ -39,9 +41,13 @@ module Fog
       request :resize_server
       request :confirm_resize_server
       request :revert_resize_server
+      request :list_addresses
+      request :list_addresses_by_network
 
+      request :create_image
       request :list_images
       request :get_image
+      request :delete_image
 
       request :list_flavors
       request :get_flavor
@@ -51,9 +57,39 @@ module Fog
       request :list_attachments
       request :delete_attachment
 
+      request :list_metadata
+      request :set_metadata
+      request :update_metadata
+      request :get_metadata_item
+      request :set_metadata_item
+      request :delete_metadata_item
+
+      request :list_networks
+      request :get_network
+      request :create_network
+      request :delete_network
+
       class Mock
+        include Fog::Rackspace::MockData
+
+        def initialize(options)
+          @rackspace_api_key = options[:rackspace_api_key]
+        end
+
         def request(params)
           Fog::Mock.not_implemented
+        end
+
+        def response(params={})
+          body    = params[:body] || {}
+          status  = params[:status] || 200
+          headers = params[:headers] || {}
+
+          response = Excon::Response.new(:body => body, :headers => headers, :status => status)
+          if params.has_key?(:expects) && ![*params[:expects]].include?(response.status)
+            raise(Excon::Errors.status_error(params, response))
+          else response
+          end
         end
       end
 
@@ -98,8 +134,13 @@ module Fog
           rescue Excon::Errors::HTTPStatusError => error
             raise ServiceError.slurp error
           end
+
           unless response.body.empty?
-            response.body = Fog::JSON.decode(response.body)
+            begin
+              response.body = Fog::JSON.decode(response.body)
+            rescue MultiJson::DecodeError => e
+              response.body = {}
+            end
           end
           response
         end

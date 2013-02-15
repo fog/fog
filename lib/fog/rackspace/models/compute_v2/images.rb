@@ -8,13 +8,22 @@ module Fog
 
         model Fog::Compute::RackspaceV2::Image
 
+        # Returns list of images 
+        # @return [Array<Fog::Compute::RackspaceV2::Image>] Retrieves a list images.
+        # @note Fog's current implementation only returns 1000 images.
+        # @note Fog does not retrieve all image details. Please use get to retrieve all details for a specific image.
+        # @see http://docs.rackspace.com/servers/api/v2/cs-devguide/content/List_Images-d1e4435.html
         def all
-          data = connection.list_images.body['images']
+          data = service.list_images.body['images']
           load(data)
         end
 
+        # Retrieve image
+        # @param [String] image_id id of image
+        # @return [Fog::Compute::RackspaceV2:Image] image
+        # @see http://docs.rackspace.com/servers/api/v2/cs-devguide/content/Get_Image_Details-d1e4848.html 
         def get(image_id)
-          data = connection.get_image(image_id).body['image']
+          data = service.get_image(image_id).body['image']
           new(data)
         rescue Fog::Compute::RackspaceV2::NotFound
           nil

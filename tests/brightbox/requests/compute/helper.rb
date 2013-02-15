@@ -133,7 +133,7 @@ class Brightbox
           "id"              => String,
           "resource_type"   => String,
           "url"             => String,
-          "name"            => String,
+          "name"            => Fog::Nullable::String,
           "default"         => Fog::Boolean,
           "created_at"      => String,
           "description"     => Fog::Nullable::String
@@ -143,11 +143,12 @@ class Brightbox
           "id"              => String,
           "resource_type"   => String,
           "url"             => String,
+          "created_at"      => String,
           "source"          => Fog::Nullable::String,
           "source_port"     => Fog::Nullable::String,
           "destination"     => Fog::Nullable::String,
           "destination_port" => Fog::Nullable::String,
-          "protocol"        => String,
+          "protocol"        => Fog::Nullable::String,
           "icmp_type_name"  => Fog::Nullable::String,
           "description"     => Fog::Nullable::String
         }
@@ -307,25 +308,12 @@ class Brightbox
           "id"              => String,
           "resource_type"   => String,
           "url"             => String,
-          "name"            => String,
+          "name"            => Fog::Nullable::String,
           "description"     => Fog::Nullable::String,
           "default"         => Fog::Boolean,
-          "server_group"    => Brightbox::Compute::Formats::Nested::SERVER_GROUP,
-          "rules"  => [Brightbox::Compute::Formats::Nested::FIREWALL_RULE]
-        }
-
-        FIREWALL_RULE = {
-          "id"              => String,
-          "resource_type"   => String,
-          "url"             => String,
-          "source"          => String,
-          "source_port"     => String,
-          "destination"     => String,
-          "destination_port" => String,
-          "protocol"        => String,
-          "icmp_type_name"  => String,
-          "description"     => Fog::Nullable::String,
-          "firewall_policy" => Brightbox::Compute::Formats::Nested::FIREWALL_POLICY
+          "created_at"      => String,
+          "server_group"    => Fog::Brightbox::Nullable::ServerGroup,
+          "rules"           => [Brightbox::Compute::Formats::Nested::FIREWALL_RULE]
         }
 
         IMAGE = {
@@ -384,7 +372,8 @@ class Brightbox
           "snapshots"       => [Brightbox::Compute::Formats::Nested::IMAGE],
           "interfaces"      => [Brightbox::Compute::Formats::Nested::INTERFACE],
           "zone"            => Fog::Brightbox::Nullable::Zone,
-          "username"        => Fog::Nullable::String
+          "username"        => Fog::Nullable::String,
+          "compatibility_mode" => Fog::Boolean
         }
 
         SERVER_GROUP = {
@@ -514,25 +503,41 @@ class Brightbox
           "id"              => String,
           "resource_type"   => String,
           "url"             => String,
-          "name"            => String,
+          "name"            => Fog::Nullable::String,
           "description"     => Fog::Nullable::String,
           "default"         => Fog::Boolean,
-          "server_group"    => Brightbox::Compute::Formats::Nested::SERVER_GROUP,
-          "rules"  => [Brightbox::Compute::Formats::Nested::FIREWALL_RULE]
+          "created_at"      => String,
+          "server_group"    => Fog::Brightbox::Nullable::ServerGroup,
+          "rules"           => [Brightbox::Compute::Formats::Nested::FIREWALL_RULE]
         }
 
         FIREWALL_RULE = {
           "id"              => String,
           "resource_type"   => String,
           "url"             => String,
-          "source"          => String,
-          "source_port"     => String,
-          "destination"     => String,
-          "destination_port" => String,
-          "protocol"        => String,
-          "icmp_type_name"  => String,
-          "description"     => Fog::Nullable::String
+          "created_at"      => String,
+          "source"          => Fog::Nullable::String,
+          "source_port"     => Fog::Nullable::String,
+          "destination"     => Fog::Nullable::String,
+          "destination_port" => Fog::Nullable::String,
+          "protocol"        => Fog::Nullable::String,
+          "icmp_type_name"  => Fog::Nullable::String,
+          "description"     => Fog::Nullable::String,
+          "firewall_policy" => Brightbox::Compute::Formats::Nested::FIREWALL_POLICY
         }
+
+        #FIREWALL_RULE = {
+          #"id"              => String,
+          #"resource_type"   => String,
+          #"url"             => String,
+          #"source"          => String,
+          #"source_port"     => String,
+          #"destination"     => String,
+          #"destination_port" => String,
+          #"protocol"        => String,
+          #"icmp_type_name"  => String,
+          #"description"     => Fog::Nullable::String
+        #}
 
         IMAGE = {
           "name"            => String,
@@ -608,7 +613,8 @@ class Brightbox
           "interfaces"      => [Brightbox::Compute::Formats::Nested::INTERFACE],
           "zone"            => Fog::Brightbox::Nullable::Zone,
           "licence_name"    => Fog::Nullable::String,
-          "username"        => Fog::Nullable::String
+          "username"        => Fog::Nullable::String,
+          "compatibility_mode" => Fog::Boolean
         }
 
         SERVER_GROUP = {
@@ -666,7 +672,6 @@ class Brightbox
         CLOUD_IPS = [Brightbox::Compute::Formats::Collected::CLOUD_IP]
         IMAGES = [Brightbox::Compute::Formats::Collected::IMAGE]
         FIREWALL_POLICIES = [Brightbox::Compute::Formats::Collected::FIREWALL_POLICY]
-        FIREWALL_RULES = [Brightbox::Compute::Formats::Collected::FIREWALL_RULE]
         LOAD_BALANCERS = [Brightbox::Compute::Formats::Collected::LOAD_BALANCER]
         SERVERS = [Brightbox::Compute::Formats::Collected::SERVER]
         SERVER_GROUPS = [Brightbox::Compute::Formats::Collected::SERVER_GROUP]

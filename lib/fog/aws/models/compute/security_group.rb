@@ -45,7 +45,7 @@ module Fog
 
           requires_one :name, :group_id
 
-          connection.authorize_security_group_ingress(
+          service.authorize_security_group_ingress(
             name,
             'GroupId'                    => group_id,
             'SourceSecurityGroupName'    => group,
@@ -101,7 +101,7 @@ module Fog
             ]
           end
 
-          connection.authorize_security_group_ingress(
+          service.authorize_security_group_ingress(
             name,
             'GroupId'       => group_id,
             'IpPermissions' => [ ip_permission ]
@@ -121,9 +121,9 @@ module Fog
           requires_one :name, :group_id
 
           if group_id.nil?
-            connection.delete_security_group(name)
+            service.delete_security_group(name)
           else
-            connection.delete_security_group(nil, group_id)
+            service.delete_security_group(nil, group_id)
           end
           true
         end
@@ -159,7 +159,7 @@ module Fog
 
           requires_one :name, :group_id
 
-          connection.revoke_security_group_ingress(
+          service.revoke_security_group_ingress(
             name,
             'GroupId'                    => group_id,
             'SourceSecurityGroupName'    => group,
@@ -215,7 +215,7 @@ module Fog
             ]
           end
 
-          connection.revoke_security_group_ingress(
+          service.revoke_security_group_ingress(
             name,
             'GroupId'       => group_id,
             'IpPermissions' => [ ip_permission ]
@@ -235,7 +235,7 @@ module Fog
 
         def save
           requires :description, :name
-          data = connection.create_security_group(name, description, vpc_id).body
+          data = service.create_security_group(name, description, vpc_id).body
           new_attributes = data.reject {|key,value| key == 'requestId'}
           merge_attributes(new_attributes)
           true

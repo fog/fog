@@ -10,12 +10,12 @@ module Fog
         model Fog::Compute::Ecloud::HardwareConfiguration
 
         def all
-          data = connection.get_hardware_configurations(href).body
+          data = service.get_server(href).body
           load(data)
         end
 
         def get(uri)
-          if data = connection.get_hardware_configuration(uri)
+          if data = service.get_hardware_configuration(uri)
             new(data.body)
           end
         rescue Fog::Errors::NotFound

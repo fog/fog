@@ -23,7 +23,8 @@ module Fog
 
       class Mock
         def create_security_group(name, description)
-          tenant_id = Fog::Identity.new(:provider => 'OpenStack').current_tenant['id']
+          Fog::Identity.new(:provider => 'OpenStack')
+          tenant_id = Fog::Identity::OpenStack::Mock.data[current_tenant][:tenants].keys.first
           security_group_id = Fog::Mock.random_numbers(2).to_i
           self.data[:security_groups][security_group_id] = {
             'tenant_id' => tenant_id,
@@ -41,7 +42,7 @@ module Fog
             'Content-Length' => Fog::Mock.random_numbers(3).to_s,
             'Date'           => Date.new}
           response.body = {
-            'security_group' => self.data[:security_groups].values
+            'security_group' => self.data[:security_groups][security_group_id]
           }
           response
         end

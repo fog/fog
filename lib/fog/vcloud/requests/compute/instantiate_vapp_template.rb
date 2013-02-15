@@ -10,7 +10,7 @@ module Fog
           unless valid_opts.all? { |opt| options.has_key?(opt) }
             raise ArgumentError.new("Required data missing: #{(valid_opts - options.keys).map(&:inspect).join(", ")}")
           end
-          
+
           catalog_item_uri = options[:catalog_item_uri]
 
           # Figure out the template_uri
@@ -49,8 +49,13 @@ module Fog
               if options[:network_uri]
                 # TODO - implement properly
                 xml.NetworkConfigSection {
-                  xml.NetworkConfig {
-                    xml.NetworkAssociation( :href => options[:network_uri] )
+                  xml.tag!("ovf:Info"){ "Configuration parameters for logical networks" }
+                  xml.NetworkConfig("networkName" => options[:network_name]) {
+                    # xml.NetworkAssociation( :href => options[:network_uri] )
+                      xml.Configuration {
+                        xml.ParentNetwork("name" => options[:network_name], "href" => options[:network_uri])
+                        xml.FenceMode("bridged")
+                    }
                   }
                 }
               end
@@ -66,8 +71,7 @@ module Fog
         include Shared
 
         def instantiate_vapp_template options = {}
-          validate_instantiate_vapp_template_options options
-
+          validate_instantiate_vapp_template_options optionsgi
           request(
             :body     => generate_instantiate_vapp_template_request(options),
             :expects  => 201,

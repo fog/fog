@@ -55,7 +55,7 @@ module Fog
             filters = {'key-name' => [*filters]}
           end
           self.filters = filters
-          data = connection.describe_key_pairs(filters).body
+          data = service.describe_key_pairs(filters).body
           load(data['keySet'])
         end
 
@@ -77,7 +77,7 @@ module Fog
 
         def get(key_name)
           if key_name
-            self.class.new(:connection => connection).all('key-name' => key_name).first
+            self.class.new(:service => service).all('key-name' => key_name).first
           end
         end
 

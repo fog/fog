@@ -5,12 +5,10 @@ module Fog
 
         # Change bucket policy for an S3 bucket
         #
-        # ==== Parameters
-        # * bucket_name<~String> - name of bucket to modify
-        # * policy<~Hash> - policy document 
+        # @param bucket_name [String] name of bucket to modify
+        # @param policy [Hash] policy document
         #
-        # ==== See Also
-        # http://docs.amazonwebservices.com/AmazonS3/latest/API/RESTBucketPUTpolicy.html 
+        # @see http://docs.amazonwebservices.com/AmazonS3/latest/API/RESTBucketPUTpolicy.html
 
         def put_bucket_policy(bucket_name, policy)
           request({

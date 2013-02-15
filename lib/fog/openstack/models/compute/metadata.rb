@@ -16,7 +16,7 @@ module Fog
 
         def all
           requires :parent
-          metadata = connection.list_metadata(collection_name, @parent.id).body['metadata']
+          metadata = service.list_metadata(collection_name, @parent.id).body['metadata']
           metas = []
           metadata.each_pair {|k,v| metas << {"key" => k, "value" => v} }
           load(metas)
@@ -24,7 +24,7 @@ module Fog
 
         def get(key)
           requires :parent
-          data = connection.get_meta(collection_name, @parent.id, key).body["meta"]
+          data = service.get_metadata(collection_name, @parent.id, key).body["meta"]
           metas = []
           data.each_pair {|k,v| metas << {"key" => k, "value" => v} }
           new(metas[0])
@@ -34,12 +34,12 @@ module Fog
 
         def update(data=nil)
           requires :parent
-          connection.update_metadata(collection_name, @parent.id, meta_hash(data))
+          service.update_metadata(collection_name, @parent.id, to_hash(data))
         end
 
         def set(data=nil)
           requires :parent
-          connection.set_metadata(collection_name, @parent.id, meta_hash(data))
+          service.set_metadata(collection_name, @parent.id, to_hash(data))
         end
 
         def new(attributes = {})
@@ -47,8 +47,7 @@ module Fog
           super({ :parent => @parent }.merge!(attributes))
         end
 
-        private
-        def meta_hash(data=nil)
+        def to_hash(data=nil)
           if data.nil?
             data={}
             self.each do |meta|

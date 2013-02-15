@@ -24,7 +24,7 @@ module Fog
           @files ||= begin
             Fog::Storage::Local::Files.new(
               :directory    => self,
-              :connection   => connection
+              :service   => service
             )
           end
         end
@@ -47,7 +47,7 @@ module Fog
         private
 
         def path
-          connection.path_to(key)
+          service.path_to(key)
         end
 
       end

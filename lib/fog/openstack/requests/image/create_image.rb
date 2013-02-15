@@ -16,16 +16,18 @@ module Fog
             'x-image-meta-checksum' => attributes[:checksum],
             'x-image-meta-owner' => attributes[:owner],
             'x-glance-api-copy-from' => attributes[:copy_from]
-          }
+          }.reject { |k,v| v.nil? }
 
           body = String.new
           if attributes[:location]
             body = File.open(attributes[:location], "rb")
+            # Make sure the image file size is always present
+            data['x-image-meta-size'] = File.size(body)
           end
 
           unless attributes[:properties].nil?
             attributes[:properties].each do |key,value|
-              data['x-image-meta-property-#{key}'] = value
+              data["x-image-meta-property-#{key}"] = value
             end
           end
 

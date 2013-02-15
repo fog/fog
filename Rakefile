@@ -16,8 +16,7 @@ def name
 end
 
 def version
-  line = File.read("lib/#{name}.rb")[/^\s*VERSION\s*=\s*.*/]
-  line.match(/.*VERSION\s*=\s*['"](.*)['"]/)[1]
+  Fog::VERSION
 end
 
 def date
@@ -53,10 +52,9 @@ require "tasks/test_task"
 Fog::Rake::TestTask.new
 
 namespace :test do
-  task :dynect do
-    [false].each do |mock|
-      sh("export FOG_MOCK=#{mock} && bundle exec shindont tests/dns/requests/dynect")
-      #sh("export FOG_MOCK=#{mock} && bundle exec shindont tests/dns/models/")
+  task :vsphere do
+    [true].each do |mock|
+      sh("export FOG_MOCK=#{mock} && bundle exec shindont tests/vsphere")
     end
   end
 end
@@ -97,26 +95,55 @@ end
 #
 #############################################################################
 
-task :release => :build do
-  unless `git branch` =~ /^\* master$/
-    puts "You must be on the master branch to release!"
-    exit!
+task :release => ["release:prepare", "release:publish"]
+
+namespace :release do
+  task :preflight do
+    unless `git branch` =~ /^\* master$/
+      puts "You must be on the master branch to release!"
+      exit!
+    end
+    if `git tag` =~ /^\* v#{version}$/
+      puts "Tag v#{version} already exists!"
+      exit!
+    end
   end
-  sh "gem install pkg/#{name}-#{version}.gem"
-  sh "git commit --allow-empty -a -m 'Release #{version}'"
-  sh "git tag v#{version}"
-  sh "git push origin master"
-  sh "git push origin v#{version}"
-  sh "gem push pkg/#{name}-#{version}.gem"
-  Rake::Task[:docs].invoke
+
+  task :prepare => :preflight do
+    Rake::Task[:build].invoke
+    sh "gem install pkg/#{name}-#{version}.gem"
+    Rake::Task[:git_mark_release].invoke
+  end
+
+  task :publish do
+    Rake::Task[:git_push_release].invoke
+    Rake::Task[:gem_push].invoke
+  end
 end
 
+task :git_mark_release do
+  sh "git commit --allow-empty -a -m 'Release #{version}'"
+  sh "git tag v#{version}"
+end
+
+task :git_push_release do
+  sh "git push origin master"
+  sh "git push origin v#{version}"
+end
+
+task :gem_push do
+  sh "gem push pkg/#{name}-#{version}.gem"
+end
+
+desc "Build fog-#{version}.gem"
 task :build => :gemspec do
   sh "mkdir -p pkg"
   sh "gem build #{gemspec_file}"
   sh "mv #{gem_file} pkg"
 end
+task :gem => :build
 
+desc "Updates the gemspec and runs 'validate'"
 task :gemspec => :validate do
   # read spec file and split out manifest section
   spec = File.read(gemspec_file)
@@ -132,8 +159,9 @@ task :gemspec => :validate do
   puts "Updated #{gemspec_file}"
 end
 
+desc "Run before pushing out the code"
 task :validate do
-  libfiles = Dir['lib/*'] - ["lib/#{name}.rb", "lib/#{name}"]
+  libfiles = Dir['lib/*'] - ["lib/#{name}.rb", "lib/#{name}", "lib/tasks"]
   unless libfiles.empty?
     puts "Directory `lib` should only contain a `#{name}.rb` file and `#{name}` dir."
     exit!
@@ -153,7 +181,3 @@ end
 
 require "tasks/changelog_task"
 Fog::Rake::ChangelogTask.new
-
-require "tasks/documentation_task"
-Fog::Rake::DocumentationTask.new
-

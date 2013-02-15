@@ -9,7 +9,7 @@ module Fog
         # @return [Hash] The JSON response parsed to a Hash
         #
         def reset_ftp_password_scoped_account
-          request("post", "/1.0/account/reset_ftp_password", [200])
+          wrapped_request("post", "/1.0/account/reset_ftp_password", [200])
         end
       end
 

@@ -21,6 +21,7 @@ module Fog
           response = Excon::Response.new
           response.status = [200, 204][rand(1)]
           response.body = {
+            'tenants_links' => [],
             'tenants' => [
               {'id' => '1',
                'description' => 'Has access to everything',

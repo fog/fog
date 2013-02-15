@@ -13,15 +13,14 @@ module Fog
         attribute :instance_id
 
         def initialize(attributes = {})
-          # assign server first to prevent race condition with new_record?
+          # assign server first to prevent race condition with persisted?
           self.server = attributes.delete(:server)
           super
         end
 
         def destroy
           requires :id
-
-          connection.release_address(id)
+          service.release_address(id)
           true
         end
 
@@ -34,8 +33,8 @@ module Fog
         end
 
         def save
-          raise Fog::Errors::Error.new('Resaving an existing object may create a duplicate') if identity
-          data = connection.allocate_address.body['floating_ip']
+          raise Fog::Errors::Error.new('Resaving an existing object may create a duplicate') if persisted?
+          data = service.allocate_address.body['floating_ip']
           new_attributes = data.reject {|key,value| !['id', 'instance_id', 'ip', 'fixed_ip'].include?(key)}
           merge_attributes(new_attributes)
           if @server
@@ -47,19 +46,19 @@ module Fog
         private
 
         def associate(new_server)
-          if new_record?
+          unless persisted?
             @server = new_server
           else
             @server = nil
             self.instance_id = new_server.id
-            connection.associate_address(instance_id, ip)
+            service.associate_address(instance_id, ip)
           end
         end
 
         def disassociate
           @server = nil
-          unless new_record?
-            connection.disassociate_address(instance_id, ip)
+          if persisted?
+            service.disassociate_address(instance_id, ip)
           end
           self.instance_id = nil
         end

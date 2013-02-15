@@ -9,11 +9,11 @@ module Fog
         model Fog::Compute::OpenStack::Volume
 
         def all(detailed=true)
-          load(connection.list_volumes(detailed).body['volumes'])
+          load(service.list_volumes(detailed).body['volumes'])
         end
 
         def get(volume_id)
-          if volume = connection.get_volume_details(volume_id).body['volume']
+          if volume = service.get_volume_details(volume_id).body['volume']
             new(volume)
           end
         rescue Fog::Compute::OpenStack::NotFound

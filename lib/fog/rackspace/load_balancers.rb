@@ -50,6 +50,8 @@ module Fog
       request :list_algorithms
       request :get_connection_logging
       request :set_connection_logging
+      request :get_content_caching
+      request :set_content_caching
       request :create_access_rule
       request :list_access_rules
       request :delete_access_rule
@@ -108,7 +110,7 @@ module Fog
           uri = URI.parse(options[:rackspace_lb_endpoint] || DFW_ENDPOINT)
           @host       = uri.host
           @persistent = options[:persistent] || false
-          @path       = uri.path
+          @path       = uri.path.end_with?('/') ? uri.path.chop : uri.path
           @port       = uri.port
           @scheme     = uri.scheme
 
@@ -154,7 +156,6 @@ module Fog
           account_id = credentials['X-Server-Management-Url'].match(/.*\/([\d]+)$/)[1]
           @path = "#{@path}/#{account_id}"
         end
-
       end
     end
   end

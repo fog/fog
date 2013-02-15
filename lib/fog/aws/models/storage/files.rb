@@ -60,12 +60,12 @@ module Fog
 
         def get(key, options = {}, &block)
           requires :directory
-          data = connection.get_object(directory.key, key, options, &block)
+          data = service.get_object(directory.key, key, options, &block)
+          normalize_headers(data)
           file_data = data.headers.merge({
             :body => data.body,
             :key  => key
           })
-          normalise_headers(file_data)
           new(file_data)
         rescue Excon::Errors::NotFound => error
           case error.message
@@ -80,26 +80,26 @@ module Fog
 
         def get_url(key, expires, options = {})
           requires :directory
-          connection.get_object_url(directory.key, key, expires, options)
+          service.get_object_url(directory.key, key, expires, options)
         end
 
         def get_http_url(key, expires, options = {})
           requires :directory
-          connection.get_object_http_url(directory.key, key, expires, options)
+          service.get_object_http_url(directory.key, key, expires, options)
         end
 
         def get_https_url(key, expires, options = {})
           requires :directory
-          connection.get_object_https_url(directory.key, key, expires, options)
+          service.get_object_https_url(directory.key, key, expires, options)
         end
 
         def head(key, options = {})
           requires :directory
-          data = connection.head_object(directory.key, key, options)
+          data = service.head_object(directory.key, key, options)
+          normalize_headers(data)
           file_data = data.headers.merge({
             :key => key
           })
-          normalise_headers(file_data)
           new(file_data)
         rescue Excon::Errors::NotFound
           nil
@@ -110,9 +110,9 @@ module Fog
           super({ :directory => directory }.merge!(attributes))
         end
 
-        def normalise_headers(headers)
-          headers['Last-Modified'] = Time.parse(headers['Last-Modified'])
-          headers['ETag'].gsub!('"','')
+        def normalize_headers(data)
+          data.headers['Last-Modified'] = Time.parse(data.get_header('Last-Modified'))
+          data.headers['ETag'] = data.get_header('ETag').gsub('"','')
         end
 
       end

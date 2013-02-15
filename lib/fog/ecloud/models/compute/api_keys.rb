@@ -10,12 +10,12 @@ module Fog
         model Fog::Compute::Ecloud::ApiKey
 
         def all
-          data = connection.get_api_keys(href).body
+          data = service.get_api_keys(href).body
           load(data)
         end
 
         def get(uri)
-          if data = connection.get_api_key(uri)
+          if data = service.get_api_key(uri)
             new(data.body)
           end
         rescue Fog::Errors::NotFound

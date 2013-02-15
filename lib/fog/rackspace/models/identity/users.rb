@@ -9,12 +9,12 @@ module Fog
         model Fog::Rackspace::Identity::User
 
         def all
-          data = connection.list_users.body['users']
+          data = service.list_users.body['users']
           load(data)
         end
 
         def get(user_id)
-          data = connection.get_user_by_id(user_id).body['user']
+          data = service.get_user_by_id(user_id).body['user']
           new(data)
         rescue Excon::Errors::NotFound
           nil
@@ -23,7 +23,7 @@ module Fog
         end
 
         def get_by_name(user_name)
-          data = connection.get_user_by_name(user_name).body['user']
+          data = service.get_user_by_name(user_name).body['user']
           new(data)
         rescue Excon::Errors::NotFound
           nil

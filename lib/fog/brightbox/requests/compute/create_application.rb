@@ -13,7 +13,7 @@ module Fog
         # @see https://api.gb1.brightbox.com/1.0/#application_create_application
         #
         def create_application(options)
-          request("post", "/1.0/applications", [201], options)
+          wrapped_request("post", "/1.0/applications", [201], options)
         end
 
       end

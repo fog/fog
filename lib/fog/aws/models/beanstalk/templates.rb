@@ -21,7 +21,7 @@ module Fog
           # Initialize with empty array
           data = []
 
-          applications = connection.describe_applications(application_filter).body['DescribeApplicationsResult']['Applications']
+          applications = service.describe_applications(application_filter).body['DescribeApplicationsResult']['Applications']
           applications.each { |application|
             application['ConfigurationTemplates'].each { |template_name|
               begin
@@ -29,7 +29,7 @@ module Fog
                     'ApplicationName' => application['ApplicationName'],
                     'TemplateName' => template_name
                 }
-                settings = connection.describe_configuration_settings(options).body['DescribeConfigurationSettingsResult']['ConfigurationSettings']
+                settings = service.describe_configuration_settings(options).body['DescribeConfigurationSettingsResult']['ConfigurationSettings']
                 if settings.length == 1
                   # Add to data
                   data << settings.first
@@ -54,7 +54,7 @@ module Fog
           # There is no describe call for templates, so we must use describe_configuration_settings.  Unfortunately,
           # it throws an exception if template name doesn't exist, which is inconsistent, catch and return nil
           begin
-            data = connection.describe_configuration_settings(options).body['DescribeConfigurationSettingsResult']['ConfigurationSettings']
+            data = service.describe_configuration_settings(options).body['DescribeConfigurationSettingsResult']['ConfigurationSettings']
             if data.length == 1
               result = new(data.first)
             end

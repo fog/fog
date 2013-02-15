@@ -59,7 +59,7 @@ module Fog
 
         def save
           requires :name, :image_id, :instance_type, :location_id
-          data = connection.create_instance(name, image_id, instance_type, location_id,
+          data = service.create_instance(name, image_id, instance_type, location_id,
                                             :key_name => key_name,
                                             :vlan_id => vlan_id,
                                             :secondary_ip => secondary_ip)
@@ -82,17 +82,17 @@ module Fog
 
         def reboot
           requires :id
-          connection.modify_instance(id, 'state' => 'restart').body['success']
+          service.modify_instance(id, 'state' => 'restart').body['success']
         end
 
         def destroy
           requires :id
-          connection.delete_instance(id).body['success']
+          service.delete_instance(id).body['success']
         end
 
         def rename(name)
           requires :id
-          if connection.modify_instance(id, 'name' => name).body["success"]
+          if service.modify_instance(id, 'name' => name).body["success"]
             attributes[:name] = name
           else
             return false
@@ -102,7 +102,7 @@ module Fog
 
         def allocate_ip(wait_for_ready=true)
           requires :location_id
-          new_ip = connection.addresses.new(:location => location_id)
+          new_ip = service.addresses.new(:location => location_id)
           new_ip.save
           new_ip.wait_for(Fog::IBM.timeout) { ready? } if wait_for_ready
           secondary_ip << new_ip
@@ -112,7 +112,7 @@ module Fog
         def addresses
           addys = secondary_ip.map {|ip| Fog::Compute[:ibm].addresses.new(ip) }
           # Set an ID, in case someone tries to save
-          addys << connection.addresses.new(attributes[:primary_ip].merge(
+          addys << service.addresses.new(attributes[:primary_ip].merge(
             :id => "0",
             :location => location_id,
             :state => 3
@@ -122,13 +122,13 @@ module Fog
 
         def attach(volume_id)
           requires :id
-          data = connection.modify_instance(id, {'type' => 'attach', 'storageID' => volume_id})
+          data = service.modify_instance(id, {'type' => 'attach', 'storageID' => volume_id})
           data.body
         end
 
         def detach(volume_id)
           requires :id
-          data = connection.modify_instance(id, {'type' => 'detach', 'storageID' => volume_id})
+          data = service.modify_instance(id, {'type' => 'detach', 'storageID' => volume_id})
           data.body
         end
 
@@ -143,7 +143,7 @@ module Fog
         # Sets expiration time - Pass an instance of Time.
         def expire_at(time)
           expiry_time = (time.tv_sec * 1000).to_i
-          data = connection.modify_instance(id, 'expirationTime' => expiry_time)
+          data = service.modify_instance(id, 'expirationTime' => expiry_time)
           if data.body['expirationTime'] == expiry_time
             attributes[:expires_at] = expiry_time
             true
@@ -159,12 +159,12 @@ module Fog
 
         def image
           requires :image_id
-          connection.images.get(image_id)
+          service.images.get(image_id)
         end
 
         def location
           requires :location_id
-          connection.locations.get(location_id)
+          service.locations.get(location_id)
         end
 
         def public_hostname
@@ -182,7 +182,7 @@ module Fog
            :name => name + " as of " + Time.now.strftime("%Y-%m-%d %H:%M"),
            :description => ""
          }.merge(opts)
-         connection.create_image(id, options[:name], options[:description]).body
+         service.create_image(id, options[:name], options[:description]).body
         end
         alias :create_image :to_image
       end

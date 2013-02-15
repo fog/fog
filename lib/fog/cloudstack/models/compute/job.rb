@@ -17,7 +17,7 @@ module Fog
 
         def reload
           requires :id
-          merge_attributes(connection.query_async_job_result('jobid' => self.id)['queryasyncjobresultresponse'])
+          merge_attributes(service.query_async_job_result('jobid' => self.id)['queryasyncjobresultresponse'])
         end
 
         def ready?
@@ -32,7 +32,7 @@ module Fog
         def result
           if successful? && model = Fog::Compute::Cloudstack.constants.find{|c| c.to_s.downcase == self.job_result.keys.first.to_s}.to_s
             collection = model.gsub(/.[A-Z]/){|w| "#{w[0,1]}_#{w[1,1].downcase}"}.downcase + "s" # cheap underscorize, assume simple pluralization
-            connection.send(collection).new(self.job_result.values.first)
+            service.send(collection).new(self.job_result.values.first)
           else self.job_result
           end
         end

@@ -10,29 +10,31 @@ module Fog
         attribute :index, :aliases => :Index
 
         def servers
-          @servers = Fog::Compute::Ecloud::Servers.new(:connection => connection, :href => href)
+          @servers = Fog::Compute::Ecloud::Servers.new(:service => service, :href => href)
         end
 
         def edit(options = {})
           options[:uri] = href
-          data = connection.groups_edit(options).body
-        end 
+          data = service.groups_edit(options).body
+        end
 
         def move_up
-          connection.groups_moveup(href).body
+          service.groups_moveup(href).body
         end
 
         def move_down
-          connection.groups_movedown(href).body
+          service.groups_movedown(href).body
         end
 
         def delete
-          connection.groups_delete(href).body
+          service.groups_delete(href).body
         end
 
         def id
           href.scan(/\d+/)[0]
         end
+
+        alias destroy delete
       end
     end
   end

@@ -9,13 +9,14 @@ module Fog
         # @param [Hash] options
         # @option options [String] :server_group
         # @option options [String] :name Editable label
+        # @option options [String] :description Longer editable description
         #
         # @return [Hash, nil] The JSON response parsed to a Hash or nil if no options passed
         #
         # @see https://api.gb1.brightbox.com/1.0/#firewall_policy_create_firewall_policy
         #
         def create_firewall_policy(options)
-          request("post", "/1.0/firewall_policies", [201], options)
+          wrapped_request("post", "/1.0/firewall_policies", [201], options)
         end
 
       end

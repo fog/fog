@@ -20,20 +20,21 @@ module Fog
 
 
         def initialize(attributes)
-          @connection = attributes[:connection]
+          # Old 'connection' is renamed as service and should be used instead
+          prepare_service_value(attributes)
           super
         end
 
         def save
           requires :display_name, :size
-          data = connection.create_volume(display_name, display_description, size, attributes)
+          data = service.create_volume(display_name, display_description, size, attributes)
           merge_attributes(data.body['volume'])
           true
         end
 
         def destroy
           requires :id
-          connection.delete_volume(id)
+          service.delete_volume(id)
           true
         end
 

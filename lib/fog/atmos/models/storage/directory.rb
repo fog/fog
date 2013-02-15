@@ -12,25 +12,25 @@ module Fog
         def files
           @files ||= begin
                        Fog::Storage::Atmos::Files.new(
-                                                          :directory    => self,
-                                                          :connection   => connection
-                                                          )
-          end
+                         :directory => self,
+                         :service   => service
+                       )
+                     end
         end
 
         def directories
           @directories ||= begin
-                       Fog::Storage::Atmos::Directories.new(
-                                                               :directory    => self,
-                                                               :connection   => connection
-                                                               )
-          end
+                             Fog::Storage::Atmos::Directories.new(
+                               :directory => self,
+                               :service   => service
+                             )
+                           end
         end
 
         def save
           self.key = attributes[:directory].key + key if attributes[:directory]
           self.key = key + '/' unless key =~ /\/$/
-          res = connection.post_namespace key
+          res = service.post_namespace key
           reload
         end
 
@@ -42,7 +42,7 @@ module Fog
               d.destroy(opts)
             end
           end
-          connection.delete_namespace key
+          service.delete_namespace key
         end
 
 

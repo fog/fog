@@ -5,9 +5,9 @@ module Fog
     class StormOnDemand
 
       class Balancer < Fog::Model
-        
+
         identity :uniq_id
-        
+
         attribute :vip
         attribute :price
         attribute :name
@@ -20,17 +20,17 @@ module Fog
         def initialize(attributes={})
           super
         end
-        
+
         def add_node(options)
           requires :identity
-          connection.add_balancer_node({:uniq_id => identity}.merge!(options))
+          service.add_balancer_node({:uniq_id => identity}.merge!(options))
         end
-        
+
         def remove_node(options)
           requires :identity
-          connection.remove_balancer_node({:uniq_id => identity}.merge!(options))
+          service.remove_balancer_node({:uniq_id => identity}.merge!(options))
         end
-        
+
         end
 
     end
