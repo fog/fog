@@ -18,7 +18,7 @@ module Fog
         def destroy
           requires :key
           service.delete_container(key)
-          service.cdn.publish_container(self, false) if service.cdn
+          service.cdn.publish_container(self, false) if cdn_enabled?
           true
         rescue Excon::Errors::NotFound
           false
@@ -42,26 +42,46 @@ module Fog
         
         def reload
           @public = nil
-          @public_url = nil
+          @urls = nil
           @files = nil
           super
         end
-
+        
         def public_url          
-          requires :key
-          public_url ||= service.cdn.public_url(self) if service.cdn
+          return nil if urls.empty?
+          return urls[:ssl_uri] if service.ssl?          
+          cdn_cname || urls[:uri]
+        end
+        
+        def ios_url
+          urls[:ios_uri]
+        end
+        
+        def streaming_url
+          urls[:streaming_uri]
         end
 
         def save
           requires :key
           create_container(key)
 
-          raise Fog::Storage::Rackspace::Error.new("Directory can not be set as :public without a CDN provided") if public? && !service.cdn
-          public_url = service.cdn.publish_container(self, public?)
+          raise Fog::Storage::Rackspace::Error.new("Directory can not be set as :public without a CDN provided") if public? && !cdn_enabled?
+          @urls = service.cdn.publish_container(self, public?)
           true
         end
         
-        private      
+        private
+        
+        def cdn_enabled?
+          service.cdn && service.cdn.enabled?
+        end
+        
+        def urls
+          requires :key          
+          return {} unless cdn_enabled?
+          @urls ||= service.cdn.urls(self)
+        end
+           
         def create_container(key)
           service.put_container(key)        
         end

@@ -65,11 +65,18 @@ module Fog
         def public?
           directory.public?
         end
-
+        
         def public_url
-          requires :key
-          self.collection.get_url(self.key)
+          Files::file_url directory.public_url, key
         end
+        
+        def ios_url
+          Files::file_url directory.ios_url, key
+        end
+        
+        def streaming_url
+          Files::file_url directory.streaming_url, key
+        end      
         
         def purge_from_cdn
           if public?
@@ -95,7 +102,7 @@ module Fog
           true
         end
 
-        private
+        private                
 
         def directory=(new_directory)
           @directory = new_directory

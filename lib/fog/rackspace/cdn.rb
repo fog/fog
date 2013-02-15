@@ -17,44 +17,39 @@ module Fog
       
       
       module Base
-        def ssl?
-          !@rackspace_cdn_ssl.nil?
-        end
-        
-        def purge(file)
-          unless file.is_a? Fog::Storage::Rackspace::File
-            raise Fog::Errors::NotImplemented.new("#{object.class} does not support CDN purging")
-          end
-          
-          delete_object file.directory.key, file.key
-          true
-        end
+        URI_HEADERS = { 
+          "X-Cdn-Ios-Uri" => :ios_uri,
+          "X-Cdn-Uri" => :uri,
+          "X-Cdn-Streaming-Uri" => :streaming_uri, 
+          "X-Cdn-Ssl-Uri" => :ssl_uri
+        }.freeze
 
         def publish_container(container, publish = true)
           enabled = publish ? 'True' : 'False'
-          response = put_container(container.key, 'X-CDN-Enabled' => enabled)
-          url_from_headers(response.headers, container.cdn_cname)
+          response = put_container(container.key, 'X-Cdn-Enabled' => enabled)
+          return {} unless publish
+          urls_from_headers(response.headers)
         end
         
-        def public_url(container)
+        def urls(container)
           begin 
             response = head_container(container.key)
-            if response.headers['X-Cdn-Enabled'] == 'True'
-              url_from_headers(response.headers, container.cdn_cname)
-            else
-              nil
-            end
+            return {} unless response.headers['X-Cdn-Enabled'] == 'True'
+            urls_from_headers response.headers
           rescue Fog::Service::NotFound
-            nil
+            {}
           end
         end
         
         private
         
-        def url_from_headers(headers, cdn_cname)
-          return nil unless headers['X-Cdn-Enabled']
-          return headers['X-Cdn-Ssl-Uri'] if ssl?
-          cdn_cname || headers['X-Cdn-Uri']
+        def urls_from_headers(headers)
+          h = {}
+          URI_HEADERS.keys.each do | header |
+            key = URI_HEADERS[header]              
+            h[key] = headers[header]
+          end
+          h
         end        
       end
 
@@ -77,6 +72,11 @@ module Fog
 
         def data
           self.class.data[@rackspace_username]
+        end
+        
+        def purge(object)
+          return true if object.is_a? Fog::Storage::Rackspace::File            
+          raise Fog::Errors::NotImplemented.new("#{object.class} does not support CDN purging") if object       
         end
 
         def reset_data
@@ -113,6 +113,15 @@ module Fog
         def reload
           @cdn_connection.reset
         end
+        
+        def purge(file)
+          unless file.is_a? Fog::Storage::Rackspace::File
+            raise Fog::Errors::NotImplemented.new("#{object.class} does not support CDN purging")
+          end
+          
+          delete_object file.directory.key, file.key
+          true
+        end        
 
         def request(params, parse_json = true)
           begin
