@@ -7,19 +7,12 @@ module Fog
 
     def self.new(attributes)
       attributes = attributes.dup # prevent delete from having side effects
-      case provider = attributes.delete(:provider).to_s.downcase.to_sym
-      when :aws
-        require 'fog/aws/cdn'
-        Fog::CDN::AWS.new(attributes)
-      when :hp
-        require 'fog/hp/cdn'
-        Fog::CDN::HP.new(attributes)
-      when :rackspace
-        require 'fog/rackspace/cdn'
-        Fog::CDN::Rackspace.new(attributes)
-      else
-        raise ArgumentError.new("#{provider} is not a recognized cdn provider")
+      provider = attributes.delete(:provider).to_s.downcase.to_sym
+      if self.providers.include?(provider)
+        require "fog/#{provider}/cdn"
+        return Fog::CDN.const_get(Fog.providers[provider]).new(attributes)
       end
+      raise ArgumentError.new("#{provider} is not a recognized cdn provider")
     end
 
     def self.providers
