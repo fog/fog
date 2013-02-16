@@ -11,10 +11,11 @@ module Fog
       when :rackspace
         require 'fog/rackspace/identity'
         Fog::Rackspace::Identity.new(attributes)
-      when :openstack
-        require 'fog/openstack/identity'
-        Fog::Identity::OpenStack.new(attributes)
       else
+        if self.providers.include?(provider)
+          require "fog/#{provider}/identity"
+          return Fog::Identity.const_get(Fog.providers[provider]).new(attributes)
+        end
         raise ArgumentError.new("#{provider} has no identity service")
       end
     end
