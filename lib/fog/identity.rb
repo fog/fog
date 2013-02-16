@@ -20,7 +20,7 @@ module Fog
     end
 
     def self.providers
-      Fog.services[:idenity]
+      Fog.services[:identity]
     end
 
   end
