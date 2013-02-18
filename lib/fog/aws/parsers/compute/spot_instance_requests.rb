@@ -52,6 +52,8 @@ module Fog
               end
             when 'imageId', 'instanceType', 'keyname', 'subnetId'
               @spot_instance_request['launchSpecification'][name] = value
+            when 'ebsOptimized'
+              @spot_instance_request['launchSpecification'][name] = value == 'true'
             when 'enabled'
               @spot_instance_request['launchSpecification']['monitoring'] = (value == 'true')
             when 'requestId'
