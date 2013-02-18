@@ -4,7 +4,7 @@ module Fog
   module Bluebox
     class BLB
 
-      class Application < Fog::Model
+      class LbApplication < Fog::Model
         identity :id
         
         attribute :name

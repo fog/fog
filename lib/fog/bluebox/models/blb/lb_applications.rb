@@ -3,18 +3,11 @@ require 'fog/core/collection'
 module Fog
   module Bluebox
     class BLB
-      class Applications < Fog::Collection
+      class LbApplications < Fog::Collection
 
         def all
-          data = service.get_blocks.body
+          data = service.get_lb_applications.body
           load(data)
-        end
-
-        def bootstrap(new_attributes = {})
-          server = create(new_attributes)
-          server.wait_for { ready? }
-          server.setup(:key_data => [server.private_key])
-          server
         end
 
         def get(server_id)
