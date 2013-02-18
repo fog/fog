@@ -7,6 +7,8 @@ class OpenStack < Fog::Bin
         Fog::Compute::OpenStack
       when :identity
         Fog::Identity::OpenStack
+      when :image
+          Fog::Image::OpenStack
       when :network
         Fog::Network::OpenStack
       when :storage
@@ -25,6 +27,9 @@ class OpenStack < Fog::Bin
         when :identity
           Fog::Logger.warning("OpenStack[:identity] is not recommended, use Compute[:openstack] for portability")
           Fog::Compute.new(:provider => 'OpenStack')
+        when :image
+          Fog::Logger.warning("OpenStack[:image] is not recommended, use Image[:openstack] for portability")
+          Fog::Image.new(:provider => 'OpenStack')
         when :network
           Fog::Logger.warning("OpenStack[:network] is not recommended, use Network[:openstack] for portability")
           Fog::Network.new(:provider => 'OpenStack')
