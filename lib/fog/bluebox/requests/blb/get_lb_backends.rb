@@ -6,16 +6,20 @@ module Fog
         # Get list of backends
         #
         # ==== Parameters
-        # * lb_service_id - service containing backends
+        # * lb_service_id<~String> - service containing backends
         #
         # ==== Returns
         # * response<~Excon::Response>:
         #   * body<~Array>:
-        #     * 'ip-v4'<~Array> - Ip addresses
-        #     * 'ip-v6'<~String> - IP v6 address
-        #     * 'name'<~String> - The hostname
-        #     * 'source-ip-v4'<~String> - Where traffic comes from
-        #     * 'services'<~Array> - Listening services
+        #     * backend<~Hash>:
+        #       * id<~String> - backend ID
+        #       * backend_name<~String>
+        #       * lb_machines<~Array> - array of backend members
+        #       * acl_name<~String> - name of ACL for this backend
+        #       * acl_rule<~String>
+        #       * monitoring_url_hostname<~String> - HTTP host header for health check
+        #       * monitoring_url<~String> - URL for health check
+        #       * check_interval<~Integer> - time between checks, in milliseconds
         def get_lb_backends(lb_service_id)
           request(
             :expects  => 200,
@@ -23,10 +27,11 @@ module Fog
             :path     => "api/lb_services/#{lb_service_id}/lb_backends.json"
           )
         end
-
       end
+
       class Mock
       end
+
     end
   end
 end
