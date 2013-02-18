@@ -4,6 +4,7 @@ module Fog
   module Bluebox
     class BLB
       class LbApplications < Fog::Collection
+        model Fog::Bluebox::BLB::LbApplication
 
         def all
           data = service.get_lb_applications.body
