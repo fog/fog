@@ -14,6 +14,11 @@ module Fog
         attribute :description
         attribute :created,     :aliases => 'created_at'
 
+        def services
+          requires :id
+          service.get_lb_services(id).body
+        end
+
       end
 
     end

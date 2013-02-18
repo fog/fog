@@ -12,11 +12,11 @@ module Fog
           load(data)
         end
 
-        def get(server_id)
-          if server_id && server = service.get_block(server_id).body
-            new(server)
+        def get(application_id)
+          if application_id && application = service.get_lb_application(application_id).body
+            new(application)
           end
-        rescue Fog::Compute::Bluebox::NotFound
+        rescue Fog::Bluebox::BLB::NotFound
           nil
         end
 
