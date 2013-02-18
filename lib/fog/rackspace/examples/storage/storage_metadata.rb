@@ -36,21 +36,21 @@ service = Fog::Storage.new({
 puts "Creating directory 'metadata-tester'"
 directory = service.directories.create :key => "metadata-tester"
 
-# # initial metadata
-# puts "Initial Container Metadata\n"                                
-# print_metadata directory
-# 
-# # adding metadata
-# puts "Adding Container Metadata"
-# directory.metaadata["environment"] = "demo"
-# directory.save
-# print_metadata directory
-# 
-# # update metadata
-# puts "Updating Container Metadata"
-# directory.metaadata["environment"] = "test"
-# directory.save
-# print_metadata directory
+# initial metadata
+puts "Initial Container Metadata\n"                                
+print_metadata directory
+
+# adding metadata
+puts "Adding Container Metadata"
+directory.metadata["environment"] = "demo"
+directory.save
+print_metadata directory
+
+# update metadata
+puts "Updating Container Metadata"
+directory.metadata["environment"] = "test"
+directory.save
+print_metadata directory
 
 # upload file
 puts "Uploading file"
