@@ -4,11 +4,11 @@ module Fog
   module Bluebox
     class BLB
 
-      class Backend < Fog::Model
+      class LbBackend < Fog::Model
         identity :id
         
         attribute :name
-        attribute :machines
+        attribute :lb_machines
         attribute :monitoring_url
         attribute :monitoring_url_hostname
         attribute :acl_name
