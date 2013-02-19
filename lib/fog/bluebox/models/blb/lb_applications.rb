@@ -1,4 +1,3 @@
-require 'fog/core/collection'
 require 'fog/bluebox/models/blb/lb_application'
 
 module Fog

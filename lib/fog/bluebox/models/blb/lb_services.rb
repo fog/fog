@@ -7,7 +7,7 @@ module Fog
       class LbServices < Fog::Collection
         model Fog::Bluebox::BLB::LbService
 
-        attr_accessor :data, :lb_application
+        attr_accessor :lb_application
 
         def all
           data = service.get_lb_services(lb_application.id).body
@@ -15,8 +15,9 @@ module Fog
         end
 
         def get(lb_service_id)
-          lb_service = service.get_lb_service(lb_application.id, lb_service_id).body
-          new(lb_service)
+          if lb_service = service.get_lb_service(lb_application.id, lb_service_id).body
+            new(lb_service)
+          end
         rescue Fog::Bluebox::BLB::NotFound
           nil
         end
