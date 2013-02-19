@@ -10,11 +10,12 @@ module Fog
         attr_accessor :fullpath
         attr_accessor :size
         attr_accessor :scsi_key
-        attr_accessor :unit_number
+        attr_accessor :unit_number # this virtual disk's index num on the vSCSI
         attr_accessor :datastore_name
         attr_accessor :vm_mo_ref
         attr_accessor :mode
         attr_accessor :transport
+        attr_accessor :type
 
         def destroy
           requires :vm_mo_ref, :fullpath
@@ -30,7 +31,7 @@ module Fog
         #end
 
         def save
-          requires :vm_mo_ref, :fullpath, :size, :transport, :unit_number
+          requires :vm_mo_ref, :fullpath, :size, :transport, :unit_number, :type
           Fog::Logger.debug("before vmdk creation with vm_moid= #{vm_mo_ref}, vmdk_path = #{fullpath}, disk_size = #{size}")
           response = connection.vm_create_disk(
               'vm_moid' => vm_mo_ref,
@@ -38,7 +39,8 @@ module Fog
               'disk_size' => size,
               'provison_type' => mode,
               'transport'=> transport,
-              'unit_number'=> unit_number
+              'unit_number'=> unit_number,
+              'disk_type' => type
           )
           if response.has_key?('task_state') && response['task_state'] == "success"
             @scsi_key = response['scsi_key']

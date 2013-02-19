@@ -32,43 +32,87 @@ module Fog
       module Shared
         include Fog::Vsphere::Utility
 
-        def create_scsi_controller(vm_mob_ref)
+        # according to doc vshpere-51-configuration-maximums.pdf, the maximum number of 
+        # Virtual SCSI Adapters per virtual machine is 4
+        MAX_SCSI_ADAPTERS_PER_VM = 4
+
+        def fetch_scsi_controller(vm_mob_ref, controller_type, disk_type)
           begin
             devices = vm_mob_ref.config.hardware.device
-            para_controller = nil
-            ori_controller = nil
-            para_controller = devices.find { |vm_device| vm_device.kind_of?(RbVmomi::VIM::ParaVirtualSCSIController)}
-            if para_controller != nil
-              return para_controller.key
-            end
-            ori_controller = devices.find { |vm_device| vm_device.kind_of?(RbVmomi::VIM::VirtualLsiLogicController)}
-            if ori_controller.nil?
+            # only support paravirtual and lsilogic types right now
+            exist_para_controllers = devices.select { |vm_device| vm_device.kind_of?(RbVmomi::VIM::ParaVirtualSCSIController)}
+            exist_lsi_controllers = devices.select { |vm_device| vm_device.kind_of?(RbVmomi::VIM::VirtualLsiLogicController)}
+            # system disk missed
+            if exist_lsi_controllers.nil?
               return
             end
-            scsi_controller = RbVmomi::VIM::ParaVirtualSCSIController.new
-            scsi_controller.key = -100
-            scsi_controller.controllerKey = ori_controller.controllerKey
-            scsi_controller.unitNumber = (ori_controller.unitNumber + 1 )
-            scsi_controller.busNumber = (ori_controller.busNumber + 1 )
-            scsi_controller.sharedBus = RbVmomi::VIM::VirtualSCSISharing("noSharing")
 
-            controller_config_spec = RbVmomi::VIM::VirtualDeviceConfigSpec.new
-            controller_config_spec.device = scsi_controller
-            controller_config_spec.operation = RbVmomi::VIM::VirtualDeviceConfigSpecOperation("add")
+            exist_controllers = exist_lsi_controllers
+            exist_controllers += exist_para_controllers unless exist_para_controllers.nil?
+            
+            # the controller with the smallest unitNumber should be the one system_disk attached to
+            sys_controller = exist_lsi_controllers[0]
+            exist_lsi_controllers.each do |ctr|
+              if sys_controller.unitNumber > ctr.unitNumber
+                sys_controller = ctr
+              end
+            end
 
-            config = RbVmomi::VIM::VirtualMachineConfigSpec.new
-            config.deviceChange = []
-            config.deviceChange << controller_config_spec
+            if disk_type == 'swap'
+              return sys_controller.key
+            end
 
-            task = vm_mob_ref.ReconfigVM_Task(:spec => config)
-
-            wait_for_task(task)
-            if task.info.state == 'success'
-              devices = vm_mob_ref.config.hardware.device
-              new_controller = devices.find { |vm_device| vm_device.kind_of?(RbVmomi::VIM::ParaVirtualSCSIController)}
-              key = new_controller.key
+            if exist_controllers.size == MAX_SCSI_ADAPTERS_PER_VM
+              select_controller = nil
+              exist_controllers.each do |ctr|
+                next if ctr == sys_controller
+                if select_controller.nil? or select_controller.device.size > ctr.device.size
+                  select_controller = ctr
+                end
+              end
+              return select_controller.key
             else
-              key = nil
+              scsi_controller = nil
+              if controller_type == 'paravirtual'
+                scsi_controller = RbVmomi::VIM::ParaVirtualSCSIController.new
+              elsif controller_type == 'lsilogic'
+                scsi_controller = RbVmomi::VIM::VirtualLsiLogicController.new
+              else
+                return
+              end
+              max_unitNum = nil
+              max_busNum = nil
+              exist_controllers.each do |ctr|
+                if max_unitNum.nil? or max_unitNum < ctr.unitNumber
+                  max_unitNum = ctr.unitNumber
+                  max_busNum = ctr.busNumber
+                end
+              end
+
+              scsi_controller.key = -100
+              scsi_controller.controllerKey = exist_controllers[0].controllerKey
+              scsi_controller.unitNumber = max_unitNum + 1
+              scsi_controller.busNumber = max_busNum + 1
+              scsi_controller.sharedBus = RbVmomi::VIM::VirtualSCSISharing("noSharing")
+
+              controller_config_spec = RbVmomi::VIM::VirtualDeviceConfigSpec.new
+              controller_config_spec.device = scsi_controller
+              controller_config_spec.operation = RbVmomi::VIM::VirtualDeviceConfigSpecOperation("add")
+
+              config = RbVmomi::VIM::VirtualMachineConfigSpec.new
+              config.deviceChange = []
+              config.deviceChange << controller_config_spec
+
+              task = vm_mob_ref.ReconfigVM_Task(:spec => config)
+
+              wait_for_task(task)
+              if task.info.state == 'success'
+                devices = vm_mob_ref.config.hardware.device
+                new_controller = devices.find { |vm_device| vm_device.unitNumber == max_unitNum + 1 }
+                key = new_controller.key
+              else
+                key = nil
+              end
             end
           rescue => e
             Fog::Logger.debug("fog:create_disk error #{e} happened")
@@ -83,7 +127,6 @@ module Fog
           raise ArgumentError, "Must pass parameter: file_name" unless file_name
           raise ArgumentError, "Must pass parameter: controller_key" unless controller_key
           raise ArgumentError, "Must pass parameter: space" unless space
-
           backing_info = RbVmomi::VIM::VirtualDiskFlatVer2BackingInfo.new
           backing_info.datastore = datastore
           if options[:independent]
@@ -130,11 +173,18 @@ module Fog
           device_config_spec
         end
 
+        def calculate_unit_number(devices, controller_key)
+          controller = devices.find { |vm_device| vm_device.key == controller_key }
+          unit_num = controller.device.size
+          unit_num += 1 if unit_num >= 7
+          unit_num
+        end
+
         def fix_device_unit_numbers(devices, device_changes, system_disk_key )
           max_unit_numbers = {}
           devices.each do |device|
             if device.controllerKey
-              max_unit_number = max_unit_numbers[device.controllerKey]
+              max_unit_number = max_unit_numbers[device.controllerKey] || 0
               if max_unit_number.nil? || max_unit_number < device.unitNumber
                 max_unit_numbers[device.controllerKey] = device.unitNumber
               end
@@ -153,7 +203,6 @@ module Fog
           end
           max_unit_numbers[system_disk_key]
         end
-
       end
 
       class Real
@@ -185,20 +234,17 @@ module Fog
           datastore_mob_ref = dc_mob_ref.find_datastore(ds_name)
 
           devices = vm_mob_ref.config.hardware.device
-          system_disk = devices.select { |vm_device| vm_device.kind_of?(RbVmomi::VIM::VirtualDisk)}
           Fog::Logger.debug("fog:create disk transport options['transport'] = #{options['transport']} fullpath is #{options['vmdk_path']} unit_number=#{options['unit_number']}}")
-          if options['transport'] == 'paravirtual'
-            controller_key = create_scsi_controller(vm_mob_ref)
-            Fog::Logger.debug("fog:transport controller_key = #{controller_key}[/]")
-          else
-            Fog::Logger.debug("fog:transport system_disk[0].controllerKey == #{system_disk[0].controllerKey}[/]")
-            controller_key = system_disk[0].controllerKey
-          end
+          controller_key = fetch_scsi_controller(vm_mob_ref, options['transport'], options['disk_type'])
+          Fog::Logger.debug("fog:transport controller_key = #{controller_key}")
+
+          devices = vm_mob_ref.config.hardware.device
+          unit_num = calculate_unit_number(devices, controller_key)
 
           disk_config = create_disk_config_spec(datastore_mob_ref,
                                                 options['vmdk_path'],
                                                 controller_key,
-                                                options['unit_number'].to_i,
+                                                unit_num,
                                                 options['disk_size'].to_i,
                                                 :create => true,
                                                 :physicalMode => true,
@@ -209,7 +255,7 @@ module Fog
           config = RbVmomi::VIM::VirtualMachineConfigSpec.new
           config.deviceChange = []
           config.deviceChange << disk_config
-          #scsi_num = fix_device_unit_numbers(devices, config.deviceChange, controller_key)
+#          scsi_num = fix_device_unit_numbers(devices, config.deviceChange, controller_key)
 
           task = vm_mob_ref.ReconfigVM_Task(:spec => config)
           wait_for_task(task)
@@ -217,13 +263,12 @@ module Fog
           {
               'vm_ref'        => vm_mob_ref,
               'scsi_key' => controller_key,
-              'scsi_num' => options['unit_number'].to_i,
+              'scsi_num' => unit_num,
               'vm_attributes' => convert_vm_mob_ref_to_attr_hash(vm_mob_ref),
               'vm_dev_number_increase' =>  (vm_mob_ref.config.hardware.device.size - devices.size),
               'task_state' => task.info.state
           }
         end
-
 
         def vm_delete_disk (options = {})
           raise ArgumentError, "Must pass parameter: vm_moid or instance_uuid" unless (options['vm_moid'] || options['instance_uuid'])

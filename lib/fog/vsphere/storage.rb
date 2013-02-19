@@ -181,7 +181,7 @@ module Fog
           attr_accessor :system_disks # Disk
           attr_accessor :swap_disks # Disk
           attr_accessor :data_disks # Disk
-          attr_accessor :disk_index # mapped to unit_number
+          attr_accessor :disk_index # mapped to unit_number(depracated now)
           attr_accessor :datastore_pattern
 
           def initialize(options = {})
@@ -241,6 +241,7 @@ module Fog
 
           def volume_add(type, id, mode, size, fullpath, datastore_name, transport, unit_number)
             v = Volume.new
+            v.type = type
             v.vm_mo_ref = id
             v.mode = mode
             v.fullpath = fullpath
@@ -799,6 +800,7 @@ module Fog
                   'mode' => v.mode,
                   'fullpath' => v.fullpath,
                   'size'=> v.size,
+                  'type' => v.type,
                   'datastore_name' => v.datastore_name,
                   'transport' => v.transport,
                   'unit_number' => v.unit_number
