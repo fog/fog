@@ -7,7 +7,7 @@ module Fog
       UK_ENDPOINT = 'https://lon.identity.api.rackspacecloud.com/v2.0'
 
       requires :rackspace_username, :rackspace_api_key
-      recognizes :rackspace_auth_url
+      recognizes :rackspace_auth_url, :rackspace_region
 
       model_path 'fog/rackspace/models/identity'
       model :user

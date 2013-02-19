@@ -6,7 +6,7 @@ module Fog
     class Rackspace < Fog::Service
 
       requires :rackspace_api_key, :rackspace_username
-      recognizes :rackspace_auth_url, :persistent
+      recognizes :rackspace_auth_url, :persistent, :rackspace_region
 
       request_path 'fog/rackspace/requests/cdn'
       request :get_containers
@@ -50,13 +50,12 @@ module Fog
 
         def initialize(options={})
           @connection_options = options[:connection_options] || {}
-          credentials = Fog::Rackspace.authenticate(options, @connection_options)
-          @auth_token = credentials['X-Auth-Token']
+          @rackspace_auth_url = options[:rackspace_auth_url]
+          uri = authenticate(options)
           @enabled = false
           @persistent = options[:persistent] || false
 
-          if credentials['X-CDN-Management-Url']
-            uri = URI.parse(credentials['X-CDN-Management-Url'])
+          if uri
             @host   = uri.host
             @path   = uri.path
             @port   = uri.port
@@ -64,6 +63,31 @@ module Fog
             @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
             @enabled = true
           end
+        end
+        
+        def authenticate(options)
+          uri = self.send authentication_method, options
+        end
+
+        def authenticate_v2(options)
+          @identity_service = Fog::Rackspace::Identity.new(options)
+          @auth_token = @identity_service.auth_token
+          url = @identity_service.service_catalog.get_endpoint(:cloudFilesCDN, options[:rackspace_region] || :dfw)
+          URI.parse url
+        end
+
+        def authenticate_v1(options)
+          credentials = Fog::Rackspace.authenticate(options, @connection_options)
+          @auth_token = credentials['X-Auth-Token']
+          URI.parse(credentials['X-CDN-Management-Url']) if credentials['X-CDN-Management-Url']
+        end
+        
+        def authentication_method
+          if @rackspace_auth_url && @rackspace_auth_url =~ /v1(\.\d)?\w*$/
+            :authenticate_v1
+          else
+           :authenticate_v2
+         end
         end
         
         def purge(object)

@@ -38,7 +38,8 @@ module Fog
             :provider           => 'Rackspace',
             :rackspace_api_key  => @rackspace_api_key,
             :rackspace_auth_url => @rackspace_auth_url,
-            :rackspace_username => @rackspace_username
+            :rackspace_username => @rackspace_username,
+            :rackspace_region => @rackspace_region
           )
           if @cdn.enabled?
             @cdn
@@ -182,7 +183,7 @@ module Fog
         def authenticate_v1(options)
           credentials = Fog::Rackspace.authenticate(options, @connection_options)
           @auth_token = credentials['X-Auth-Token']
-          uri = URI.parse(credentials['X-Storage-Url'])
+          URI.parse(credentials['X-Storage-Url'])
         end
 
       end
