@@ -19,6 +19,10 @@ module Fog
 
       end
 
+      def lb_application
+        collection.lb_application
+      end
+
     end
   end
 end

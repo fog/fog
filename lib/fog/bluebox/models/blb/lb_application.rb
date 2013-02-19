@@ -10,13 +10,13 @@ module Fog
         attribute :name
         attribute :ip_v4
         attribute :ip_v6
-        attribute :services
         attribute :description
         attribute :created,     :aliases => 'created_at'
 
-        def services
-          requires :id
-          service.get_lb_services(id).body
+        def lb_services
+          Fog::Bluebox::BLB::LbServices.new({
+            :lb_application => self
+          })
         end
 
       end
