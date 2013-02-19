@@ -1,7 +1,7 @@
 Shindo.tests('Rackspace | Storage', ['rackspace']) do
 
   def assert_method(url, method)
-    @service.instance_variable_set "@rackspace_auth_url", method
+    @service.instance_variable_set "@rackspace_auth_url", url
     returns(method) { @service.send :authentication_method }
   end
 

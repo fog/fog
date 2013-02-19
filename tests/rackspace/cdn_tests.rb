@@ -1,9 +1,7 @@
 Shindo.tests('Fog::CDN::Rackspace', ['rackspace']) do
-
-  pending if Fog.mocking?
   
   def assert_method(url, method)
-    @service.instance_variable_set "@rackspace_auth_url", method
+    @service.instance_variable_set "@rackspace_auth_url", url
     returns(method) { @service.send :authentication_method }
   end
 
@@ -42,7 +40,6 @@ Shindo.tests('Fog::CDN::Rackspace', ['rackspace']) do
     end
     tests('dfw region') do
       @service = Fog::CDN::Rackspace.new :rackspace_auth_url => 'https://identity.api.rackspacecloud.com/v2.0', :rackspace_region => :dfw
-      puts @service.instance_variable_get("@host") 
       returns(true) { (@service.instance_variable_get("@host") =~ /cdn1/) != nil }
     end
     tests('ord region') do

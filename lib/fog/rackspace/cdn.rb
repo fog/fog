@@ -15,7 +15,22 @@ module Fog
       request :put_container
       request :delete_object
 
+      module Base
+        private 
+        
+        def authentication_method
+          if @rackspace_auth_url && @rackspace_auth_url =~ /v1(\.\d)?\w*$/
+            :authenticate_v1
+          else
+           :authenticate_v2
+         end
+        end
+        
+      end
+
+
       class Mock
+        include Base
 
         def self.data
           @data ||= Hash.new do |hash, key|
@@ -47,6 +62,7 @@ module Fog
       end
 
       class Real
+        include Base        
 
         def initialize(options={})
           @connection_options = options[:connection_options] || {}
