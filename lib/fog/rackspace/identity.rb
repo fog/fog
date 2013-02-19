@@ -18,6 +18,7 @@ module Fog
       collection :credentials
       model :tenant
       collection :tenants
+      model :service_catalog
 
       request_path 'fog/rackspace/requests/identity'
       request :create_token
@@ -33,15 +34,20 @@ module Fog
       request :delete_user
 
       class Mock
+        attr_reader :service_catalog
+        
         def request
           Fog::Mock.not_implemented
         end
       end
 
       class Real
+        attr_reader :service_catalog, :auth_token
+        
         def initialize(options={})
           @rackspace_username = options[:rackspace_username]
           @rackspace_api_key = options[:rackspace_api_key]
+          @rackspace_region = options[:rackspace_region]
           @rackspace_auth_url = options[:rackspace_auth_url] || US_ENDPOINT
 
           uri = URI.parse(@rackspace_auth_url)
@@ -55,7 +61,7 @@ module Fog
 
           authenticate
         end
-
+        
         def request(params)
           begin
             parameters = params.merge!({
@@ -71,9 +77,10 @@ module Fog
             response
           end
         end
-
+        
         def authenticate
           data = self.create_token(@rackspace_username, @rackspace_api_key).body
+          @service_catalog = ServiceCatalog.from_response(self, data)
           @auth_token = data['access']['token']['id']
         end
       end

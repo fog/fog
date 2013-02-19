@@ -6,7 +6,7 @@ module Fog
     class Rackspace < Fog::Service
 
       requires :rackspace_api_key, :rackspace_username
-      recognizes :rackspace_auth_url, :rackspace_servicenet, :rackspace_cdn_ssl, :persistent
+      recognizes :rackspace_auth_url, :rackspace_servicenet, :rackspace_cdn_ssl, :persistent, :rackspace_region
       recognizes :rackspace_temp_url_key
 
       model_path 'fog/rackspace/models/storage'
@@ -46,9 +46,23 @@ module Fog
         end
 
       end
+      
+      module Base
+        private 
+        
+        def authentication_method
+          if @rackspace_auth_url && @rackspace_auth_url =~ /v1(\.\d)?\w*$/
+            :authenticate_v1
+          else
+           :authenticate_v2
+         end
+        end
+        
+      end
 
       class Mock
         include Utils
+        include Base
 
         def self.data
           @data ||= Hash.new do |hash, key|
@@ -78,6 +92,8 @@ module Fog
 
       class Real
         include Utils
+        include Base
+        
         attr_reader :rackspace_cdn_ssl
 
         def initialize(options={})
@@ -89,6 +105,7 @@ module Fog
           @rackspace_servicenet = options[:rackspace_servicenet]
           @rackspace_auth_token = options[:rackspace_auth_token]
           @rackspace_storage_url = options[:rackspace_storage_url]
+          @rackspace_region = options[:rackspace_region] || :dfw
           @rackspace_temp_url_key = options[:rackspace_temp_url_key]
           @rackspace_must_reauthenticate = false
           @connection_options     = options[:connection_options] || {}
@@ -96,7 +113,7 @@ module Fog
           @persistent = options[:persistent] || false
           Excon.defaults[:ssl_verify_peer] = false if options[:rackspace_servicenet] == true
           @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
-        end
+        end        
 
         def reload
           @connection.reset
@@ -135,25 +152,37 @@ module Fog
         end
 
         private
-
+        
         def authenticate
           if @rackspace_must_reauthenticate || @rackspace_auth_token.nil?
             options = {
               :rackspace_api_key  => @rackspace_api_key,
               :rackspace_username => @rackspace_username,
               :rackspace_auth_url => @rackspace_auth_url
-            }
-            credentials = Fog::Rackspace.authenticate(options, @connection_options)
-            @auth_token = credentials['X-Auth-Token']
-            uri = URI.parse(credentials['X-Storage-Url'])
+            }            
+            uri = self.send authentication_method, options
           else
             @auth_token = @rackspace_auth_token
             uri = URI.parse(@rackspace_storage_url)
           end
+
           @host   = @rackspace_servicenet == true ? "snet-#{uri.host}" : uri.host
           @path   = uri.path
           @port   = uri.port
           @scheme = uri.scheme
+        end
+
+        def authenticate_v2(options)
+          @identity_service = Fog::Rackspace::Identity.new(options)
+          @auth_token = @identity_service.auth_token
+          url = @identity_service.service_catalog.get_endpoint(:cloudFiles, @rackspace_region)
+          URI.parse url
+        end
+
+        def authenticate_v1(options)
+          credentials = Fog::Rackspace.authenticate(options, @connection_options)
+          @auth_token = credentials['X-Auth-Token']
+          uri = URI.parse(credentials['X-Storage-Url'])
         end
 
       end
