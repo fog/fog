@@ -13,6 +13,7 @@ module Fog
     service(:compute,         'aws/compute',          'Compute')
     service(:cloud_formation, 'aws/cloud_formation',  'CloudFormation')
     service(:cloud_watch,     'aws/cloud_watch',      'CloudWatch')
+    service(:data_pipeline,   'aws/data_pipeline',     'DataPipeline')
     service(:dynamodb,        'aws/dynamodb',         'DynamoDB')
     service(:dns,             'aws/dns',              'DNS')
     service(:elasticache,     'aws/elasticache',      'Elasticache')
