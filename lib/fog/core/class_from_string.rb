@@ -1,14 +1,12 @@
 module Fog
    # get class by string or nil
    def self.class_from_string classname, defaultpath="RbVmomi::VIM"
-puts "class_from_string #{classname}, #{defaultpath}"
      if classname and classname.is_a? String then
         chain = classname.split("::")
         klass = Kernel
         chain.each do |klass_string|
            klass = klass.const_get klass_string
         end
-puts "class_from_string #{klass}"
         if klass.is_a? Class then
            klass
         elsif defaultpath != nil then
@@ -22,7 +20,6 @@ puts "class_from_string #{klass}"
         nil
      end
    rescue NameError
-puts "Name Error"
      defaultpath != nil ? Fog.class_from_string((defaultpath.split("::")+chain).join("::"), nil) : nil
    end
 end
