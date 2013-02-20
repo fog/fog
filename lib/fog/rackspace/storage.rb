@@ -99,6 +99,7 @@ module Fog
           @rackspace_temp_url_key = options[:rackspace_temp_url_key]
           @rackspace_must_reauthenticate = false
           @connection_options     = options[:connection_options] || {}
+
           authenticate
           @persistent = options[:persistent] || false
           Excon.defaults[:ssl_verify_peer] = false if service_net?
@@ -156,7 +157,7 @@ module Fog
               :rackspace_username => @rackspace_username,
               :rackspace_auth_url => @rackspace_auth_url
             }            
-            uri = self.send authentication_method, options
+            @uri = self.send authentication_method, options
           else
             @auth_token = @rackspace_auth_token
             @uri = URI.parse(@rackspace_storage_url)
@@ -169,7 +170,7 @@ module Fog
           url  = @rackspace_storage_url || service_endpoint_url          
           unless url
             if v1_authentication?
-              raise "Service Endpoint must be specified via :rackspace_storage_url parameter" unless url
+              raise "Service Endpoint must be specified via :rackspace_storage_url parameter"
             else
               url = @identity_service.service_catalog.get_endpoint(:cloudFiles, @rackspace_region)            
             end

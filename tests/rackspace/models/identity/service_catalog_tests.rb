@@ -60,7 +60,7 @@ Shindo.tests('Fog::Rackspace::ServiceCatalog | users', ['rackspace']) do
     
     tests('error conditions') do
       raises(RuntimeError) { @service_catalog.get_endpoint(:cloudServersOpenStack) }
-      returns(nil) { @service_catalog.get_endpoint(:cloudServersOpenStack, :sat) }
+      raises(RuntimeError) { @service_catalog.get_endpoint(:cloudServersOpenStack, :sat) }
       raises(RuntimeError) { @service_catalog.get_endpoint('non-existent') }
     end    
   end

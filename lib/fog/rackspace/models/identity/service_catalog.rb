@@ -17,21 +17,27 @@ module Fog
         
         def get_endpoints(service_type)
           service_type = service_type.is_a?(String) ? service_type.to_sym : service_type
-          catalog[service_type]          
+          catalog[service_type]
+        end
+        
+        def display_service_regions(service_type)
+          endpoints = get_endpoints(service_type)
+          endpoints.collect { |k,v| ":#{k}" }.join(", ")          
         end
         
         def get_endpoint(service_type, region=nil)
           endpoint = get_endpoints(service_type)
           raise "Unable to locate endpoint for service #{service_type}" unless endpoint
 
-          return endpoint if endpoint.is_a?(String)
+          return endpoint if endpoint.is_a?(String) #There is only one endpoint for service
 
           unless region
-            regions = endpoint.collect { |k,v| ":#{k}" }.join(", ")
-            raise "There are multiple endpoints avaliable for #{service_type}. Please specify one of the following regions: #{regions}."
+            raise "There are multiple endpoints avaliable for #{service_type}. Please specify one of the following regions: #{display_service_regions(service_type)}."
           end
           region = region.is_a?(String) ? region.to_sym : region
-          get_endpoints(service_type)[region]
+          endpoint = get_endpoints(service_type)[region]
+          raise "Unknown region :#{region} for service #{service_type}. Please use one of the following regions: #{display_service_regions(service_type)}" unless endpoint
+          endpoint
         end
         
         def reload

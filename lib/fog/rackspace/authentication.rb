@@ -15,6 +15,10 @@ module Fog
       def v1_authentication?
         @identity_service.nil?
       end
+      
+      def v2_authentication?
+        @identity_service != nil
+      end
   
       def authenticate_v2(options)
         h = {

@@ -76,7 +76,7 @@ module Fog
           url  = @rackspace_cdn_url || service_endpoint_url          
           unless url
             if v1_authentication?
-              raise "Service Endpoint must be specified via :rackspace_cdn_url parameter" unless url
+              raise "Service Endpoint must be specified via :rackspace_cdn_url parameter"
             else
               url = @identity_service.service_catalog.get_endpoint(:cloudFilesCDN, @rackspace_region)            
             end
