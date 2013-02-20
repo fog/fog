@@ -10,10 +10,14 @@ module Fog
         model Fog::Compute::StormOnDemand::Config
 
         def all
-          data = service.list_configs.body['items']
+          data = service.list_configs(:category => 'all', :available => 1, :page_size => 500).body['items']
           load(data)
         end
 
+        def get(category)
+          data = service.list_configs(:category => category, :available => 1, :page_size => 500).body['items']
+          load(data)
+        end
 
       end
 

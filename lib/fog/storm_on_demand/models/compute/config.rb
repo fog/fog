@@ -7,13 +7,13 @@ module Fog
       class Config < Fog::Model
         identity :id
 
+        attribute :active
         attribute :available
+        attribute :category
         attribute :description
-        attribute :disk
-        attribute :featured
-        attribute :memory
-        attribute :price
-        attribute :vcpu
+        attribute :disk, :aliases => ['disk_total']
+        attribute :memory, :aliases => ['ram_available']
+        attribute :vcpu, :aliases => ['cpu_cores']
       end
 
       def initialize(attributes={})

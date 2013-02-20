@@ -14,6 +14,11 @@ module Fog
           load(data)
         end
 
+        def get(uniq_id)
+          data = service.get_balancer(:uniq_id => uniq_id).body
+          new(data)
+        end
+
       end
 
     end
