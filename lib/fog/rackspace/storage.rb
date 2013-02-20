@@ -7,7 +7,7 @@ module Fog
 
       requires :rackspace_api_key, :rackspace_username
       recognizes :rackspace_auth_url, :rackspace_servicenet, :rackspace_cdn_ssl, :persistent, :rackspace_region
-      recognizes :rackspace_temp_url_key
+      recognizes :rackspace_temp_url_key, :rackspace_storage_url
 
       model_path 'fog/rackspace/models/storage'
       model       :directory
@@ -112,8 +112,8 @@ module Fog
           @connection_options     = options[:connection_options] || {}
           authenticate
           @persistent = options[:persistent] || false
-          Excon.defaults[:ssl_verify_peer] = false if options[:rackspace_servicenet] == true
-          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
+          Excon.defaults[:ssl_verify_peer] = false if service_net?
+          @connection = Fog::Connection.new(endpoint_uri, @persistent, @connection_options)
         end        
 
         def reload
@@ -127,8 +127,8 @@ module Fog
                 'Content-Type' => 'application/json',
                 'X-Auth-Token' => @auth_token
               }.merge!(params[:headers] || {}),
-              :host     => @host,
-              :path     => "#{@path}/#{params[:path]}",
+              :host     => endpoint_uri.host,
+              :path     => "#{endpoint_uri.path}/#{params[:path]}",
             }), &block)
           rescue Excon::Errors::Unauthorized => error
             if error.response.body != 'Bad username or password' # token expiration
@@ -152,6 +152,14 @@ module Fog
           response
         end
 
+        def service_net?
+          @rackspace_servicenet == true
+        end
+        
+        def v1_authentication?
+          @identity_service.nil?
+        end
+
         private
         
         def authenticate
@@ -164,26 +172,38 @@ module Fog
             uri = self.send authentication_method, options
           else
             @auth_token = @rackspace_auth_token
-            uri = URI.parse(@rackspace_storage_url)
+            @uri = URI.parse(@rackspace_storage_url)
           end
-
-          @host   = @rackspace_servicenet == true ? "snet-#{uri.host}" : uri.host
-          @path   = uri.path
-          @port   = uri.port
-          @scheme = uri.scheme
         end
 
         def authenticate_v2(options)
           @identity_service = Fog::Rackspace::Identity.new(options)
           @auth_token = @identity_service.auth_token
-          url = @identity_service.service_catalog.get_endpoint(:cloudFiles, @rackspace_region)
-          URI.parse url
+          endpoint_uri
         end
 
         def authenticate_v1(options)
           credentials = Fog::Rackspace.authenticate(options, @connection_options)
           @auth_token = credentials['X-Auth-Token']
-          URI.parse(credentials['X-Storage-Url'])
+          endpoint_uri credentials
+        end
+        
+        def endpoint_uri(credentials=nil)
+          return @uri if @uri
+          
+          url  = @rackspace_storage_url
+          unless url
+            if v1_authentication?
+              raise "Credentials parameter must be specified for authentication v1" unless credentials
+              url = credentials['X-Storage-Url']
+            else
+              url = @identity_service.service_catalog.get_endpoint(:cloudFiles, @rackspace_region)            
+            end
+          end          
+          
+          @uri = URI.parse url
+          @uri.host = "snet-#{uri.host}" if service_net?
+          @uri
         end
 
       end

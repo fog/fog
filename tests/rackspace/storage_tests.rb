@@ -24,7 +24,7 @@ Shindo.tests('Rackspace | Storage', ['rackspace']) do
 
     tests('variables populated') do
       returns(false, "auth token populated") { @service.instance_variable_get("@auth_token").nil? }
-      returns(false, "path populated") { @service.instance_variable_get("@path").nil? }
+      returns(false, "path populated") { @service.instance_variable_get("@uri").nil? }
       returns(true, "identity_service was not used") { @service.instance_variable_get("@identity_service").nil? }    
     end
   end
@@ -35,17 +35,21 @@ Shindo.tests('Rackspace | Storage', ['rackspace']) do
     
     tests('variables populated') do
       returns(false, "auth token populated") { @service.instance_variable_get("@auth_token").nil? }
-      returns(false, "path populated") { @service.instance_variable_get("@path").nil? }
+      returns(false, "path populated") { @service.instance_variable_get("@uri").nil? }
       returns(false, "identity service was used") { @service.instance_variable_get("@identity_service").nil? }    
     end
     tests('dfw region') do
       @service = Fog::Storage::Rackspace.new :rackspace_auth_url => 'https://identity.api.rackspacecloud.com/v2.0', :rackspace_region => :dfw
-      returns(true) { (@service.instance_variable_get("@host") =~ /dfw\d/) != nil }
+      returns(true) { (@service.instance_variable_get("@uri").host =~ /dfw\d/) != nil }
     end
     tests('ord region') do
       @service = Fog::Storage::Rackspace.new :rackspace_auth_url => 'https://identity.api.rackspacecloud.com/v2.0', :rackspace_region => :ord
-      returns(true) { (@service.instance_variable_get("@host") =~ /ord\d/) != nil }
-
+      returns(true) { (@service.instance_variable_get("@uri").host =~ /ord\d/) != nil }
+    end
+    tests('custom endpoint') do
+      @service = Fog::Storage::Rackspace.new :rackspace_auth_url => 'https://identity.api.rackspacecloud.com/v1.0', 
+        :rackspace_storage_url => 'https://my-custom-endpoint.com'
+        returns(true, "uses custom endpoint") { (@service.instance_variable_get("@uri").host =~ /my-custom-endpoint\.com/) != nil }
     end
   end
   
