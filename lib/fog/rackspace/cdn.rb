@@ -82,7 +82,7 @@ module Fog
         end
         
         def authenticate(options)
-          uri = self.send authentication_method, options
+          self.send authentication_method, options
         end
 
         def authenticate_v2(options)
