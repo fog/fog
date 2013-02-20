@@ -1,4 +1,5 @@
 require 'fog/rackspace'
+require 'fog/rackspace/authentication'
 require 'fog/cdn'
 
 module Fog
@@ -6,7 +7,7 @@ module Fog
     class Rackspace < Fog::Service
 
       requires :rackspace_api_key, :rackspace_username
-      recognizes :rackspace_auth_url, :persistent, :rackspace_region
+      recognizes :rackspace_auth_url, :persistent, :rackspace_region, :rackspace_cdn_url
 
       request_path 'fog/rackspace/requests/cdn'
       request :get_containers
@@ -15,22 +16,8 @@ module Fog
       request :put_container
       request :delete_object
 
-      module Base
-        private 
-        
-        def authentication_method
-          if @rackspace_auth_url && @rackspace_auth_url =~ /v1(\.\d)?\w*$/
-            :authenticate_v1
-          else
-           :authenticate_v2
-         end
-        end
-        
-      end
-
-
       class Mock
-        include Base
+        include Fog::Rackspace::Authentication
 
         def self.data
           @data ||= Hash.new do |hash, key|
@@ -62,49 +49,41 @@ module Fog
       end
 
       class Real
-        include Base        
+        include Fog::Rackspace::Authentication
 
         def initialize(options={})
           @connection_options = options[:connection_options] || {}
           @rackspace_auth_url = options[:rackspace_auth_url]
-          uri = authenticate(options)
+          @rackspace_cdn_url = options[:rackspace_cdn_url]
+          @rackspace_region = options[:rackspace_region] || :dfw
+          authenticate(options)
           @enabled = false
           @persistent = options[:persistent] || false
 
-          if uri
-            @host   = uri.host
-            @path   = uri.path
-            @port   = uri.port
-            @scheme = uri.scheme
-            @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
+          if endpoint_uri
+            @connection = Fog::Connection.new(endpoint_uri, @persistent, @connection_options)
             @enabled = true
           end
         end
         
         def authenticate(options)
           self.send authentication_method, options
-        end
-
-        def authenticate_v2(options)
-          @identity_service = Fog::Rackspace::Identity.new(options)
-          @auth_token = @identity_service.auth_token
-          url = @identity_service.service_catalog.get_endpoint(:cloudFilesCDN, options[:rackspace_region] || :dfw)
-          URI.parse url
-        end
-
-        def authenticate_v1(options)
-          credentials = Fog::Rackspace.authenticate(options, @connection_options)
-          @auth_token = credentials['X-Auth-Token']
-          URI.parse(credentials['X-CDN-Management-Url']) if credentials['X-CDN-Management-Url']
-        end
+        end     
         
-        def authentication_method
-          if @rackspace_auth_url && @rackspace_auth_url =~ /v1(\.\d)?\w*$/
-            :authenticate_v1
-          else
-           :authenticate_v2
-         end
-        end
+        def endpoint_uri(service_endpoint_url=nil)
+          return @uri if @uri
+          
+          url  = @rackspace_cdn_url || service_endpoint_url          
+          unless url
+            if v1_authentication?
+              raise "Service Endpoint must be specified via :rackspace_cdn_url parameter" unless url
+            else
+              url = @identity_service.service_catalog.get_endpoint(:cloudFilesCDN, @rackspace_region)            
+            end
+          end          
+          
+          @uri = URI.parse url
+        end      
         
         def purge(object)
           if object.is_a? Fog::Storage::Rackspace::File
@@ -130,8 +109,8 @@ module Fog
                 'Content-Type' => 'application/json',
                 'X-Auth-Token' => @auth_token
               }.merge!(params[:headers] || {}),
-              :host     => @host,
-              :path     => "#{@path}/#{params[:path]}",
+              :host     => endpoint_uri.host,
+              :path     => "#{endpoint_uri.path}/#{params[:path]}",
             }))
           rescue Excon::Errors::HTTPStatusError => error
             raise case error
@@ -145,6 +124,14 @@ module Fog
             response.body = Fog::JSON.decode(response.body)
           end
           response
+        end
+        
+        private 
+      
+        def authenticate_v1(options)
+          credentials = Fog::Rackspace.authenticate(options, @connection_options)
+          @auth_token = credentials['X-Auth-Token']
+          endpoint_uri credentials['X-CDN-Management-Url']          
         end
 
       end

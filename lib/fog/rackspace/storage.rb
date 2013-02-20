@@ -1,4 +1,5 @@
 require 'fog/rackspace'
+require 'fog/rackspace/authentication'
 require 'fog/storage'
 
 module Fog
@@ -38,6 +39,7 @@ module Fog
             :provider           => 'Rackspace',
             :rackspace_api_key  => @rackspace_api_key,
             :rackspace_auth_url => @rackspace_auth_url,
+            :rackspace_cdn_url => Fog.credentials[:rackspace_cdn_url],
             :rackspace_username => @rackspace_username,
             :rackspace_region => @rackspace_region
           )
@@ -46,25 +48,12 @@ module Fog
           end
         end
 
-      end
-      
-      module Base
-        private 
-        
-        def authentication_method
-          if @rackspace_auth_url && @rackspace_auth_url =~ /v1(\.\d)?\w*$/
-            :authenticate_v1
-          else
-           :authenticate_v2
-         end
-        end
-        
-      end
+      end      
 
       class Mock
         include Utils
-        include Base
-
+        include Fog::Rackspace::Authentication
+        
         def self.data
           @data ||= Hash.new do |hash, key|
             hash[key] = {}
@@ -93,7 +82,7 @@ module Fog
 
       class Real
         include Utils
-        include Base
+        include Fog::Rackspace::Authentication
         
         attr_reader :rackspace_cdn_ssl
 
@@ -159,8 +148,6 @@ module Fog
         def v1_authentication?
           @identity_service.nil?
         end
-
-        private
         
         def authenticate
           if @rackspace_must_reauthenticate || @rackspace_auth_token.nil?
@@ -175,37 +162,32 @@ module Fog
             @uri = URI.parse(@rackspace_storage_url)
           end
         end
-
-        def authenticate_v2(options)
-          @identity_service = Fog::Rackspace::Identity.new(options)
-          @auth_token = @identity_service.auth_token
-          endpoint_uri
-        end
-
-        def authenticate_v1(options)
-          credentials = Fog::Rackspace.authenticate(options, @connection_options)
-          @auth_token = credentials['X-Auth-Token']
-          endpoint_uri credentials
-        end
         
-        def endpoint_uri(credentials=nil)
+        def endpoint_uri(service_endpoint_url=nil)
           return @uri if @uri
           
-          url  = @rackspace_storage_url
+          url  = @rackspace_storage_url || service_endpoint_url          
           unless url
             if v1_authentication?
-              raise "Credentials parameter must be specified for authentication v1" unless credentials
-              url = credentials['X-Storage-Url']
+              raise "Service Endpoint must be specified via :rackspace_storage_url parameter" unless url
             else
               url = @identity_service.service_catalog.get_endpoint(:cloudFiles, @rackspace_region)            
             end
           end          
           
           @uri = URI.parse url
-          @uri.host = "snet-#{uri.host}" if service_net?
+          @uri.host = "snet-#{@uri.host}" if service_net?
           @uri
         end
-
+    
+        private 
+        
+        def authenticate_v1(options)
+          credentials = Fog::Rackspace.authenticate(options, @connection_options)
+          @auth_token = credentials['X-Auth-Token']
+          endpoint_uri credentials['X-Storage-Url']
+        end
+    
       end
     end
   end
