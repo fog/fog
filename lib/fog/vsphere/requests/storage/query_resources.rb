@@ -322,7 +322,7 @@ module Fog
         end
 
         def isMatched?(name, match_patterns)
-          match_patterns.each { |pattern| return true if name.match(pattern) }
+          match_patterns.each { |pattern| return true if name.gsub(/\(/, '').gsub(/\)/, '').gsub(/\[/, '').gsub(/\]/, '').match(pattern) }
           false
         end
 
