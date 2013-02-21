@@ -21,6 +21,8 @@ module Fog
       collection  :subnets
       model       :floating_ip
       collection  :floating_ips
+      model       :router
+      collection  :routers
 
       ## REQUESTS
       #
@@ -57,6 +59,13 @@ module Fog
 
       # Tenant
       request :set_tenant
+
+      # Router
+      request :list_routers
+      request :get_router
+      request :create_router
+      request :update_router
+      request :delete_router
 
       class Mock
         def self.data
