@@ -68,7 +68,14 @@ Shindo.tests('Fog::Rackspace::ServiceCatalog | users', ['rackspace']) do
   tests('reload').succeeds do
     pending if Fog.mocking?
 
-    catalog = Fog::Identity[:rackspace].service_catalog
-    catalog.reload
+    service = Fog::Identity[:rackspace]
+    service_catalog = service.service_catalog
+    service_catalog.catalog[:fakeService] = "http:///fake-endpoint.com"
+    returns("http:///fake-endpoint.com") { service_catalog.get_endpoint :fakeService }
+    returns("http:///fake-endpoint.com") { service.service_catalog.get_endpoint :fakeService }
+    service_catalog.reload
+    raises(RuntimeError) { service_catalog.get_endpoint :fakeService }
+    raises(RuntimeError) { service.service_catalog.get_endpoint :fakeService }    
+    
   end  
 end

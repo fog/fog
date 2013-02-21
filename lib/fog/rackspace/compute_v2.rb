@@ -108,12 +108,12 @@ module Fog
           @rackspace_must_reauthenticate = false
           @connection_options = options[:connection_options] || {}
 
-          @uri = authenticate
+          authenticate
 
           deprecation_warnings(options)
           
           @persistent = options[:persistent] || false
-          @connection = Fog::Connection.new(@uri, @persistent, @connection_options)
+          @connection = Fog::Connection.new(endpoint_uri, @persistent, @connection_options)
         end
         
         def deprecation_warnings(options)
@@ -133,7 +133,7 @@ module Fog
                 'X-Auth-Token' => @auth_token
               }.merge!(params[:headers] || {}),
               :host     => @uri.host,
-              :path     => "#{@uri.path}/#{params[:path]}"
+              :path     => "#{endpoint_uri.path}/#{params[:path]}"
             }))
           rescue Excon::Errors::NotFound => error
             raise NotFound.slurp error
@@ -176,7 +176,7 @@ module Fog
           options = {
             :rackspace_api_key  => @rackspace_api_key,
             :rackspace_username => @rackspace_username,
-            :rackspace_auth_url => @rackspace_auth_url,
+            :rackspace_auth_url => @rackspace_auth_url
           }
           self.send authentication_method, options  
         end                

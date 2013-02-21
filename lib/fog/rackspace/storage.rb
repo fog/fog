@@ -8,7 +8,7 @@ module Fog
 
       requires :rackspace_api_key, :rackspace_username
       recognizes :rackspace_auth_url, :rackspace_servicenet, :rackspace_cdn_ssl, :persistent, :rackspace_region
-      recognizes :rackspace_temp_url_key, :rackspace_storage_url
+      recognizes :rackspace_temp_url_key, :rackspace_storage_url, :rackspace_cdn_url
 
       model_path 'fog/rackspace/models/storage'
       model       :directory
@@ -39,7 +39,7 @@ module Fog
             :provider           => 'Rackspace',
             :rackspace_api_key  => @rackspace_api_key,
             :rackspace_auth_url => @rackspace_auth_url,
-            :rackspace_cdn_url => Fog.credentials[:rackspace_cdn_url],
+            :rackspace_cdn_url => @rackspace_cdn_url,
             :rackspace_username => @rackspace_username,
             :rackspace_region => @rackspace_region
           )
@@ -95,6 +95,7 @@ module Fog
           @rackspace_servicenet = options[:rackspace_servicenet]
           @rackspace_auth_token = options[:rackspace_auth_token]
           @rackspace_storage_url = options[:rackspace_storage_url]
+          @rackspace_cdn_url = options[:rackspace_cdn_url]          
           @rackspace_region = options[:rackspace_region] || :dfw
           @rackspace_temp_url_key = options[:rackspace_temp_url_key]
           @rackspace_must_reauthenticate = false
@@ -144,11 +145,7 @@ module Fog
 
         def service_net?
           @rackspace_servicenet == true
-        end
-        
-        def v1_authentication?
-          @identity_service.nil?
-        end
+        end        
         
         def authenticate
           if @rackspace_must_reauthenticate || @rackspace_auth_token.nil?

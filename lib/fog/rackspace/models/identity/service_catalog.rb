@@ -42,7 +42,8 @@ module Fog
         
         def reload
           @service.authenticate
-          @service.service_catalog
+          @catalog = @service.service_catalog.catalog
+          self
         end
                 
         def self.from_response(service, hash)
