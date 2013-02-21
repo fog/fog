@@ -7,7 +7,7 @@ fog vSphere is the Ruby vSphere cloud computing library, top to bottom:
 
 == Version Description
 
-  version = 1.3.1.serengeti.2
+  version = 1.3.1.serengeti.3
 
 This version mainly ships latest changes on fog vSphere Cloud Provider and does not include complete support or required dependency to other providers, such as AMAZON, Rackspace, and so on.
 This version extends original vSphere Cloud with fine-grained control functions to conduct life-cycle management of virtual machines, to fetch resources, and config disks and networks.
