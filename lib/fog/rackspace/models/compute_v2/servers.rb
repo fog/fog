@@ -19,6 +19,8 @@ module Fog
         end
 
         # Creates a new server and populates ssh keys
+        # @note This method is incompatible with Cloud Servers utlizing RackConnect. RackConnect users 
+        #     should use server personalization to install keys.  Please see Server#personality for more information.
         # @example
         #   service = Fog::Compute.new(:provider => 'rackspace', 
         #                             :version => :v2, 
