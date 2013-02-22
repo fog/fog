@@ -1,5 +1,6 @@
 require 'fog/core/model'
 require 'fog/rackspace/models/storage/files'
+require 'fog/rackspace/models/storage/metadata'
 
 module Fog
   module Storage
@@ -9,11 +10,28 @@ module Fog
 
         identity  :key, :aliases => 'name'
 
-        attribute :bytes, :aliases => 'X-Container-Bytes-Used'
-        attribute :count, :aliases => 'X-Container-Object-Count'
+        attribute :bytes, :aliases => 'X-Container-Bytes-Used', :type => :integer
+        attribute :count, :aliases => 'X-Container-Object-Count', :type => :integer
         attribute :cdn_cname
         
         attr_writer :public, :public_url
+
+        def metadata=(hash)
+          if hash.is_a? Fog::Storage::Rackspace::Metadata
+            @metadata = hash
+          else
+            @metadata = Fog::Storage::Rackspace::Metadata.new(hash)
+          end
+          @metadata
+        end
+        
+        def metadata
+          unless @metadata
+             response = service.head_container(key)
+             @metadata = Fog::Storage::Rackspace::Metadata.from_headers(response.headers)
+          end
+          @metadata
+        end
 
         def destroy
           requires :key
@@ -63,8 +81,8 @@ module Fog
 
         def save
           requires :key
-          create_container(key)
 
+          create_container
           raise Fog::Storage::Rackspace::Error.new("Directory can not be set as :public without a CDN provided") if public? && !cdn_enabled?
           @urls = service.cdn.publish_container(self, public?)
           true
@@ -82,8 +100,9 @@ module Fog
           @urls ||= service.cdn.urls(self)
         end
            
-        def create_container(key)
-          service.put_container(key)        
+        def create_container
+          headers = @metadata.nil? ? {} : metadata.to_headers          
+          service.put_container(key, headers)        
         end
       end
     end

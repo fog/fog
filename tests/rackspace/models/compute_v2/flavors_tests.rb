@@ -12,6 +12,6 @@ Shindo.tests('Fog::Compute::RackspaceV2 | flavors', ['rackspace']) do
   end
 
   tests("failure").returns(nil) do
-    service.flavors.get('some_random_identity')
+    service.flavors.get(Fog::Rackspace::MockData::NOT_FOUND_ID)
   end
 end
