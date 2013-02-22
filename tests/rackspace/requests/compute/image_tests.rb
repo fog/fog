@@ -57,12 +57,12 @@ Shindo.tests('Fog::Compute[:rackspace] | image requests', ['rackspace']) do
   tests('failure') do
 
     tests('#delete_image(0)').raises(Excon::Errors::BadRequest) do
-       @service.delete_image(0)
+       @service.delete_image(Fog::Rackspace::MockData::NOT_FOUND_ID)
     end
 
     tests('#get_image_details(0)').raises(Fog::Compute::Rackspace::NotFound) do
       pending if Fog.mocking?
-       @service.get_image_details(0)
+       @service.get_image_details(Fog::Rackspace::MockData::NOT_FOUND_ID)
     end
 
   end
