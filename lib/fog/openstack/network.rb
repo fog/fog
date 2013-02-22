@@ -40,6 +40,15 @@ module Fog
       request :get_port
       request :update_port
 
+      # Router CRUD
+      request :list_routers
+      request :create_router
+      request :delete_router
+      request :get_router
+      request :update_router
+      request :add_router_interface
+      request :remove_router_interface
+
       # Subnet CRUD
       request :list_subnets
       request :create_subnet
@@ -66,6 +75,7 @@ module Fog
               :ports => {},
               :subnets => {},
               :floating_ips => {},
+              :routers => {},
             }
           end
         end
