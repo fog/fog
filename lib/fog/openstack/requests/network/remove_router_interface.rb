@@ -8,11 +8,6 @@ module Fog
               'subnet_id' => subnet_id,
           }
 
-          vanilla_options = [:name]
-          vanilla_options.reject{ |o| options[o].nil? }.each do |key|
-            data['subnet_id'][key] = options[key]
-          end
-
           request(
             :body     => Fog::JSON.encode(data),
             :expects  => [200],

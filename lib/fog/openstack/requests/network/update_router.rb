@@ -11,10 +11,6 @@ module Fog
               }
             }
           }
-          vanilla_options = [:name, :admin_state_up, :tenand_id]
-          vanilla_options.select{ |o| options.has_key?(o) }.each do |key|
-            data['router'][key] = options[key]
-          end
 
           request(
             :body     => Fog::JSON.encode(data),
@@ -40,7 +36,7 @@ module Fog
             'id' => '8604a0de-7f6b-409a-a47c-a1cc7bc77b2e'
           }
           self.data[:router_id][data['router_id']] = data
-          response.body = { 'router_id' => data }
+          response.body = { 'router' => data }
           response
         end
       end
