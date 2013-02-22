@@ -1,5 +1,6 @@
 require 'fog/core/model'
 require 'fog/rackspace/models/storage/files'
+require 'fog/rackspace/models/storage/metadata'
 
 module Fog
   module Storage
@@ -9,9 +10,26 @@ module Fog
 
         identity  :key, :aliases => 'name'
 
-        attribute :bytes, :aliases => 'X-Container-Bytes-Used'
-        attribute :count, :aliases => 'X-Container-Object-Count'
+        attribute :bytes, :aliases => 'X-Container-Bytes-Used', :type => :integer
+        attribute :count, :aliases => 'X-Container-Object-Count', :type => :integer
         attribute :cdn_cname
+
+        def metadata=(hash)
+          if hash.is_a? Fog::Storage::Rackspace::Metadata
+            @metadata = hash
+          else
+            @metadata = Fog::Storage::Rackspace::Metadata.new(hash)
+          end
+          @metadata
+        end
+        
+        def metadata
+          unless @metadata
+             response = service.head_container(key)
+             @metadata = Fog::Storage::Rackspace::Metadata.from_headers(response.headers)
+          end
+          @metadata
+        end
 
         def destroy
           requires :key
@@ -58,7 +76,8 @@ module Fog
 
         def save
           requires :key
-          service.put_container(key)
+          headers = @metadata.nil? ? {} : metadata.to_headers
+          service.put_container(key, headers)
 
           if service.cdn && public?
             # if public and CDN connection then update cdn to public

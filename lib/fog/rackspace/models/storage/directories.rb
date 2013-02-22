@@ -26,8 +26,11 @@ module Fog
               directory.merge_attributes(key => value)
             end
           end
+          
+          directory.metadata = Metadata.from_headers(data.headers)
           directory.files.merge_attributes(options)
           directory.files.instance_variable_set(:@loaded, true)
+          
           data.body.each do |file|
             directory.files << directory.files.new(file)
           end

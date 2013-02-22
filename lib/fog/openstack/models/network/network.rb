@@ -12,6 +12,14 @@ module Fog
         attribute :status
         attribute :admin_state_up
         attribute :tenant_id
+        attribute :provider_network_type,       
+                  :aliases =>  'provider:network_type'
+        attribute :provider_physical_network,
+                  :aliases => 'provider:physical_network'
+        attribute :provider_segmentation_id,
+                  :aliases => 'provider:segmentation_id'
+        attribute :router_external,
+                  :aliases => 'router:external'
 
         def initialize(attributes)
           # Old 'connection' is renamed as service and should be used instead
