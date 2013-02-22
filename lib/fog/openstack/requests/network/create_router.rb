@@ -29,11 +29,14 @@ module Fog
           response = Excon::Response.new
           response.status = 201
           data = {
-            'id'             => Fog::Mock.random_numbers(6).to_s,
-            'name'           => options[:name],
-            'status'         => 'ACTIVE',
-            'admin_state_up' => options[:admin_state_up],
-            'tenant_id'      => options[:tenant_id],
+            'router' => {
+              'status' => 'ACTIVE',
+              'external_gateway_info' => null,
+              'name' => 'another_router',
+              'admin_state_up' => true,
+              'tenant_id' => '6b96ff0cb17a4b859e1e575d221683d3',
+              'id' => '8604a0de-7f6b-409a-a47c-a1cc7bc77b2e'
+            }
           }
           self.data[:routers][data['id']] = data
           response.body = { 'router' => data }

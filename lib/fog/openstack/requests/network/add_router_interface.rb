@@ -23,21 +23,27 @@ module Fog
       end
 
       class Mock
-        def add_router_interface(floating_ip_id, port_id, options = {})
+        def add_router_interface(router_id, subnet_id, options = {})
           response = Excon::Response.new
           response.status = 201
           data = {
-            'id'                  => '00000000-0000-0000-0000-000000000000',
-            'router_id'           => '00000000-0000-0000-0000-000000000000',
-            'tenant_id'           => options["tenant_id"],
-            'floating_network_id' => options["floating_network_id"],
-            'fixed_ip_address'    => options["fixed_ip_address"],
-            'floating_ip_address' => options["floating_ip_address"],
-            'port_id'             => port_id,
+            'status' => 'ACTIVE',
+            'name' => '',
+            'admin_state_up' => true,
+            'network_id' => '5307648b-e836-4658-8f1a-ff7536870c64',
+            'tenant_id' => '6b96ff0cb17a4b859e1e575d221683d3',
+            'device_owner' => 'network:router_interface',
+            'mac_address' => 'fa:16:3e:f7:d1:9c',
+            'fixed_ips' => {
+              'subnet_id' => 'a2f1f29d-571b-4533-907f-5803ab96ead1',
+              'ip_address' => '10.1.1.1'
+            },
+            'id' => '3a44f4e5-1694-493a-a1fb-393881c673a4',
+            'device_id' => '7177abc4-5ae9-4bb7-b0d4-89e94a4abf3b'
           }
 
-          self.data[:floating_ips][data['floating_ip_id']] = data
-          response.body = { 'floating_ip' => data }
+          self.data[:routers][data['router_id']] = data
+          response.body = { 'router' => data }
           response
         end
       end

@@ -18,22 +18,15 @@ module Fog
           if data = self.data[:routers][router_id]
             response.status = 200
             response.body = {
-              'router' => {
-                'id' => '5c81d975-5fea-4674-9c1f-b8aa10bf9a79',
-                'name' => 'router_1',
-                'network_id' => 'e624a36d-762b-481f-9b50-4154ceb78bbb',
-                'fixed_ips' => [
-                  {
-                    'ip_address' => '10.2.2.2',
-                    'subnet_id' => '2e4ec6a4-0150-47f5-8523-e899ac03026e',
-                  }
-                ],
-                'mac_address' => 'fa:16:3e:62:91:7f',
+              'routers' => {
                 'status' => 'ACTIVE',
+                'external_gateway_info' => {
+                  'network_id' => '3c5bcddd-6af9-4e6b-9c3e-c153e521cab8'
+                },
+                'name' => 'router1',
                 'admin_state_up' => true,
-                'device_id' => 'dhcp724fc160-2b2e-597e-b9ed-7f65313cd73f-e624a36d-762b-481f-9b50-4154ceb78bbb',
-                'device_owner' => 'network:dhcp',
-                'tenant_id' => 'f8b26a6032bc47718a7702233ac708b9',
+                'tenant_id' => '33a40233088643acb66ff6eb0ebea679',
+                'id' => 'a9254bdb-2613-4a13-ac4c-adc581fba50d'
               }
             }
             response

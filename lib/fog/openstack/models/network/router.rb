@@ -8,12 +8,8 @@ module Fog
 
         attribute :name
         attribute :network_id
-        attribute :fixed_ips
-        attribute :mac_address
-        attribute :status
+        attribute :subnet_id
         attribute :admin_state_up
-        attribute :device_owner
-        attribute :device_id
         attribute :tenant_id
 
         def initialize(attributes)

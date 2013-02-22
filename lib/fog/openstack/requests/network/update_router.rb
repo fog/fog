@@ -26,18 +26,22 @@ module Fog
       end
 
       class Mock
-        def update_router(router_id, options = {})
+        def update_router(router_id, network_id, options = {})
           response = Excon::Response.new
-          if router = list_routers.body['routers'].detect { |_| _['id'] == router_id }
-            router['name']           = options[:name]
-            router['admin_state_up'] = options[:admin_state_up]
-            router['tenant_id']      = options[:tenant_id]
-            response.body = { 'router' => router }
-            response.status = 200
-            response
-          else
-            raise Fog::Network::OpenStack::NotFound
-          end
+          response.status = 201
+          data = {
+            'status' => 'ACTIVE',
+            'external_gateway_info' => {
+              'network_id' => '8ca37218-28ff-41cb-9b10-039601ea7e6b'
+            },
+            'name' => 'another_router',
+            'admin_state_up' => true,
+            'tenant_id' => '6b96ff0cb17a4b859e1e575d221683d3',
+            'id' => '8604a0de-7f6b-409a-a47c-a1cc7bc77b2e'
+          }
+          self.data[:router_id][data['router_id']] = data
+          response.body = { 'router_id' => data }
+          response
         end
       end
 
