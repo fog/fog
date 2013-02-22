@@ -35,7 +35,7 @@ Shindo.tests('Fog::Rackspace::Storage | metadata', ['rackspace']) do
     headers = {
       "X-Container-Meta-My-Integer"=> "42",
       "X-Container-Meta-My-Boolean"=> "true", 
-      "X-Container-Meta-My-String"=> "\"I am a string\"" 
+      "X-Container-Meta-My-String"=> "I am a string" 
     }
 
     metadata = Fog::Storage::Rackspace::Metadata.from_headers headers

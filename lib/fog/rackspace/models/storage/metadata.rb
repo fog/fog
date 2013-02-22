@@ -42,7 +42,7 @@ module Fog
           headers.each_pair do |k, v|
             key = Metadata.to_key(k)
             next unless key
-            metadata.data[key] = Fog::JSON.decode(v)
+            metadata.data[key] = Metadata.decode_value(v)
           end
           metadata
         end   
@@ -56,6 +56,12 @@ module Fog
         end                             
         
         private
+        
+        def self.decode_value(obj)
+          Fog::JSON.decode(obj)
+        rescue MultiJson::LoadError => e
+          obj
+        end
         
         def self.to_key(key)
            m = key.match KEY_REGEX
