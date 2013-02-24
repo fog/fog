@@ -42,6 +42,7 @@ module Fog
       request :list_template_volumes
       request :add_volume
       request :destroy_volume
+      request :get_api_version
 
       module Shared
         # converts an OVIRT object into an hash for fog to consume.
