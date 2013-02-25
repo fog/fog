@@ -46,7 +46,6 @@ module Fog
         def initialize(attributes={})
           # Old 'connection' is renamed as service and should be used instead
           prepare_service_value(attributes)
-          attributes[:metadata] = {}
 
           self.security_groups = attributes.delete(:security_groups)
           self.min_count = attributes.delete(:min_count)
@@ -66,9 +65,10 @@ module Fog
         end
 
         def metadata=(new_metadata={})
+          return unless new_metadata
           metas = []
           new_metadata.each_pair {|k,v| metas << {"key" => k, "value" => v} }
-          metadata.load(metas)
+          @metadata = metadata.load(metas)
         end
 
         def user_data=(ascii_userdata)
@@ -229,10 +229,7 @@ module Fog
         def save
           raise Fog::Errors::Error.new('Resaving an existing object may create a duplicate') if persisted?
           requires :flavor_ref, :image_ref, :name
-          meta_hash = {}
-          metadata.each { |meta| meta_hash.store(meta.key, meta.value) }
           options = {
-            'metadata'    => meta_hash,
             'personality' => personality,
             'accessIPv4' => accessIPv4,
             'accessIPv6' => accessIPv6,
@@ -244,6 +241,7 @@ module Fog
             'max_count'   => @max_count,
             'os:scheduler_hints' => @os_scheduler_hints
           }
+          options['metadata'] = metadata.to_hash unless @metadata.nil?
           options = options.reject {|key, value| value.nil?}
           data = service.create_server(name, image_ref, flavor_ref, options)
           merge_attributes(data.body['server'])

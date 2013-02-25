@@ -12,6 +12,7 @@ Shindo.tests("Fog::Compute[:openstack] | server", ['openstack']) do
         image  = fog.images.first.id
 
         server = fog.servers.new(:name       => 'test server',
+                                 :metadata => {"foo" => "bar"},
                                  :flavor_ref => flavor,
                                  :image_ref  => image)
 
@@ -20,8 +21,9 @@ Shindo.tests("Fog::Compute[:openstack] | server", ['openstack']) do
         server.save
 
         found_groups = server.security_groups
-
         returns(1) { found_groups.length }
+
+        returns(1) { server.metadata.length }
 
         group = found_groups.first
         returns('my_group') { group.name }
