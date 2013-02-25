@@ -22,7 +22,6 @@ module Fog
             )
           else
             response = shared_request({
-              :block  => block,
               :expects  => 200,
               :method   => 'GET',
               :path     => path
