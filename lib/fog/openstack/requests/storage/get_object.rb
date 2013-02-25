@@ -17,7 +17,6 @@ module Fog
           end
 
           request(params.merge!({
-            :block    => block,
             :expects  => 200,
             :method   => 'GET',
             :path     => "#{Fog::OpenStack.escape(container)}/#{Fog::OpenStack.escape(object)}"

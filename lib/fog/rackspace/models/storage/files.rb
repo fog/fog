@@ -67,10 +67,10 @@ module Fog
         def get_url(key)
           requires :directory
           if self.directory.public_url
-            "#{self.directory.public_url}/#{Fog::Rackspace.escape(key, '/')}"
+            Files::file_url directory.public_url, key
           end
         end
-
+        
         def head(key, options = {})
           requires :directory
           data = service.head_object(directory.key, key)
@@ -87,8 +87,12 @@ module Fog
           super({ :directory => directory }.merge!(attributes))
         end
 
-      end
+        def self.file_url(path, key)
+          return nil unless path
+          "#{path}/#{Fog::Rackspace.escape(key, '/')}"
+        end
 
+      end
     end
   end
 end
