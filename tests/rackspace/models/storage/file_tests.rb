@@ -88,6 +88,68 @@ Shindo.tests('Fog::Rackspace::Storage | file', ['rackspace']) do
       ensure
         @file.destroy if @file
       end
+      
+      tests('urls') do
+        tests('no CDN') do
+          
+          tests('#public_url') do
+
+             tests('http').returns(nil) do
+               @instance.public_url
+              end
+
+              @directory.cdn_cname = "my_cname.com"        
+              tests('cdn_cname').returns(nil) do
+                @instance.public_url
+              end
+
+              @directory.cdn_cname = nil
+              @directory.service.instance_variable_set "@rackspace_cdn_ssl", true
+              tests('ssl').returns(nil) do
+                @instance.public_url
+              end   
+              @directory.service.instance_variable_set "@rackspace_cdn_ssl", nil             
+           end
+
+           tests('#ios_url').returns(nil) do
+             @instance.ios_url
+           end
+
+           tests('#streaming_url').returns(nil) do
+             @instance.streaming_url
+           end
+        end
+        tests('With CDN') do
+          tests('#public_url') do
+            @directory.public = true
+            @directory.save
+            
+            tests('http').returns(0) do
+              @instance.public_url  =~ /http:\/\/.*#{@instance.key}/
+             end
+
+             @directory.cdn_cname = "my_cname.com"        
+             tests('cdn_cname').returns(0) do
+               @instance.public_url  =~ /my_cname\.com.*#{@instance.key}/
+             end
+
+             @directory.cdn_cname = nil
+             @directory.service.instance_variable_set "@rackspace_cdn_ssl", true
+             tests('ssl').returns(0) do
+               @instance.public_url =~ /https:\/\/.+\.ssl\..*#{@instance.key}/
+             end   
+             @directory.service.instance_variable_set "@rackspace_cdn_ssl", nil
+          end
+
+          tests('#ios_url').returns(0) do
+            @instance.ios_url =~ /http:\/\/.+\.iosr\..*#{@instance.key}/
+          end
+
+          tests('#streaming_url').returns(0) do
+            @instance.streaming_url =~ /http:\/\/.+\.stream\..*#{@instance.key}/
+          end
+        end        
+      end
     
       tests('#metadata keys') do
         
