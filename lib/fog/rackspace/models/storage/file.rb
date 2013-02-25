@@ -14,6 +14,8 @@ module Fog
         attribute :last_modified,   :aliases => ['last_modified', 'Last-Modified'], :type => :time
         attribute :access_control_allow_origin, :aliases => ['Access-Control-Allow-Origin']
         attribute :origin,          :aliases => ['Origin']
+        
+        attr_writer :public
 
         def body
           attributes[:body] ||= if last_modified
@@ -60,18 +62,21 @@ module Fog
           end
         end
 
-        def public=(new_public)
-          new_public
-        end
-        
         def public?
           directory.public?
         end
-
+        
         def public_url
-          requires :key
-          self.collection.get_url(self.key)
+          Files::file_url directory.public_url, key
         end
+        
+        def ios_url
+          Files::file_url directory.ios_url, key
+        end
+        
+        def streaming_url
+          Files::file_url directory.streaming_url, key
+        end      
         
         def purge_from_cdn
           if public?
@@ -97,7 +102,7 @@ module Fog
           true
         end
 
-        private
+        private                
 
         def directory=(new_directory)
           @directory = new_directory

@@ -13,6 +13,8 @@ module Fog
         attribute :bytes, :aliases => 'X-Container-Bytes-Used', :type => :integer
         attribute :count, :aliases => 'X-Container-Object-Count', :type => :integer
         attribute :cdn_cname
+        
+        attr_writer :public, :public_url
 
         def metadata=(hash)
           if hash.is_a? Fog::Storage::Rackspace::Metadata
@@ -34,7 +36,7 @@ module Fog
         def destroy
           requires :key
           service.delete_container(key)
-          service.cdn.post_container(key, 'X-CDN-Enabled' => 'False')
+          service.cdn.publish_container(self, false) if cdn_enabled?
           true
         rescue Excon::Errors::NotFound
           false
@@ -49,55 +51,60 @@ module Fog
           end
         end
 
-        def public=(new_public)          
-          @public = new_public
+        def public?
+          if @public.nil?
+            @public ||= (key && public_url) ? true : false
+          end
+          @public
         end
         
-        def public?
-          @public ||= !public_url.nil?
+        def reload
+          @public = nil
+          @urls = nil
+          @files = nil
+          super
         end
-
-        def public_url
-          requires :key
-          @public_url ||= begin
-            begin response = service.cdn.head_container(key)
-              if response.headers['X-Cdn-Enabled'] == 'True'
-                if service.rackspace_cdn_ssl == true
-                  response.headers['X-Cdn-Ssl-Uri']
-                else
-                  cdn_cname || response.headers['X-Cdn-Uri']
-                end
-              end
-            rescue Fog::Service::NotFound
-              nil
-            end
-          end
+        
+        def public_url          
+          return nil if urls.empty?
+          return urls[:ssl_uri] if service.ssl?          
+          cdn_cname || urls[:uri]
+        end
+        
+        def ios_url
+          urls[:ios_uri]
+        end
+        
+        def streaming_url
+          urls[:streaming_uri]
         end
 
         def save
           requires :key
-          headers = @metadata.nil? ? {} : metadata.to_headers
-          service.put_container(key, headers)
 
-          if service.cdn && public?
-            # if public and CDN connection then update cdn to public
-            uri_header = 'X-CDN-URI'
-            if service.rackspace_cdn_ssl == true
-              uri_header = 'X-CDN-SSL-URI'
-            end
-            @public_url = service.cdn.put_container(key, 'X-CDN-Enabled' => 'True').headers[uri_header]
-          elsif service.cdn && !public?
-            service.cdn.put_container(key, 'X-CDN-Enabled' => 'False')
-            @public_url = nil
-          elsif !service.cdn && public?
-            # if public but no CDN connection then error
-            raise(Fog::Storage::Rackspace::Error.new("Directory can not be set as :public without a CDN provided"))
-          end
+          create_container
+          raise Fog::Storage::Rackspace::Error.new("Directory can not be set as :public without a CDN provided") if !cdn_enabled? &&  public?
+          @urls = service.cdn.publish_container(self, public?)
           true
         end
-
+        
+        private
+        
+        def cdn_enabled?
+          service.cdn && service.cdn.enabled?
+        end
+        
+        def urls
+          requires :key          
+          return {} unless cdn_enabled?
+          @urls ||= service.cdn.urls(self)
+        end
+           
+        def create_container
+          headers = @metadata.nil? ? {} : metadata.to_headers          
+          service.put_container(key, headers)        
+        end
       end
-
     end
   end
 end

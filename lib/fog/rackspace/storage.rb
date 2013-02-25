@@ -41,7 +41,8 @@ module Fog
             :rackspace_auth_url => @rackspace_auth_url,
             :rackspace_cdn_url => @rackspace_cdn_url,
             :rackspace_username => @rackspace_username,
-            :rackspace_region => @rackspace_region
+            :rackspace_region => @rackspace_region,
+            :rackspace_cdn_ssl => @rackspace_cdn_ssl
           )
           if @cdn.enabled?
             @cdn
@@ -106,7 +107,11 @@ module Fog
           Excon.defaults[:ssl_verify_peer] = false if service_net?
           @connection = Fog::Connection.new(endpoint_uri, @persistent, @connection_options)
         end        
-
+        
+        def ssl?
+          !rackspace_cdn_ssl.nil?
+        end
+        
         def reload
           @connection.reset
         end
