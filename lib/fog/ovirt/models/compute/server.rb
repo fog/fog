@@ -33,7 +33,7 @@ module Fog
         end
 
         def locked?
-          !!(status =~ /locked/i)
+          !!(status =~ /locked/i) || (attributes[:volumes]=nil) || volumes.any?{|v| !!(v.status =~ /locked/i)}
         end
 
         def stopped?
@@ -84,7 +84,7 @@ module Fog
         end
 
         def start(options = {})
-          wait_for { stopped? } if options[:blocking]
+          wait_for { !locked? } if options[:blocking]
           service.vm_action(:id =>id, :action => :start)
           reload
         end
