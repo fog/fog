@@ -111,7 +111,7 @@ module Fog
         def ssl?
           !rackspace_cdn_ssl.nil?
         end
-        
+
         def reload
           @connection.reset
         end

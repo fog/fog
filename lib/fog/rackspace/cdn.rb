@@ -105,7 +105,7 @@ module Fog
             @enabled = true
           end
         end
-        
+
         def authenticate(options)
           self.send authentication_method, options
         end     
@@ -124,15 +124,6 @@ module Fog
           
           @uri = URI.parse url
         end      
-        
-        def purge(object)
-          if object.is_a? Fog::Storage::Rackspace::File
-            delete_object object.directory.key, object.key
-          else
-            raise Fog::Errors::NotImplemented.new("#{object.class} does not support CDN purging") if object
-          end
-          true
-        end
 
         def enabled?
           @enabled
@@ -144,7 +135,7 @@ module Fog
         
         def purge(file)
           unless file.is_a? Fog::Storage::Rackspace::File
-            raise Fog::Errors::NotImplemented.new("#{object.class} does not support CDN purging")
+            raise Fog::Errors::NotImplemented.new("#{object.class} does not support CDN purging")  if object
           end
           
           delete_object file.directory.key, file.key
