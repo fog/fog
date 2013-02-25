@@ -5,14 +5,14 @@ module Fog
       class Real
         def associate_floating_ip(floating_ip_id, port_id, options = {})
           data = {
-            'floating_ip' => {
+            'floatingip' => {
               'port_id'    => port_id,
             }
           }
 
           vanilla_options = [:fixed_ip_address]
           vanilla_options.reject{ |o| options[o].nil? }.each do |key|
-            data['floating_ip'][key] = options[key]
+            data['floatingip'][key] = options[key]
           end
 
           request(
@@ -39,7 +39,7 @@ module Fog
           }
 
           self.data[:floating_ips][data['floating_ip_id']] = data
-          response.body = { 'floating_ip' => data }
+          response.body = { 'floatingip' => data }
           response
         end
       end
