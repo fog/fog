@@ -36,12 +36,12 @@ Shindo.tests('Fog::Rackspace::Storage | metadata', ['rackspace']) do
       metadata.to_headers    
     end
   
-    tests("#from_headers").returns({:my_boolean=>true, :my_integer=>42, :my_string=>"I am a string"}) do
-      headers = {
-        "X-Container-Meta-My-Integer"=> "42",
-        "X-Container-Meta-My-Boolean"=> "true", 
-        "X-Container-Meta-My-String"=> "\"I am a string\"" 
-      }
+  tests("#from_headers").returns({:my_boolean=>"true", :my_integer=>"42", :my_string=>"I am a string"}) do
+    headers = {
+      "X-Container-Meta-My-Integer"=> "42",
+      "X-Container-Meta-My-Boolean"=> "true", 
+      "X-Container-Meta-My-String"=> "I am a string" 
+    }
 
       metadata = Fog::Storage::Rackspace::Metadata.from_headers @directory, headers
       metadata.data
@@ -89,11 +89,11 @@ Shindo.tests('Fog::Rackspace::Storage | metadata', ['rackspace']) do
        metadata.to_headers    
      end
 
-     tests("#from_headers").returns({:my_boolean=>true, :my_integer=>42, :my_string=>"I am a string"}) do
+     tests("#from_headers").returns({:my_boolean=>"true", :my_integer=>"42", :my_string=>"I am a string"}) do
        headers = {
          "X-Object-Meta-My-Integer"=> "42",
          "X-Object-Meta-My-Boolean"=> "true", 
-         "X-Object-Meta-My-String"=> "\"I am a string\"" 
+         "X-Object-Meta-My-String"=> "I am a string"
        }
 
        metadata = Fog::Storage::Rackspace::Metadata.from_headers @file, headers

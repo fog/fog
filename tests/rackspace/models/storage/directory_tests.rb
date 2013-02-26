@@ -120,7 +120,7 @@ Shindo.tests('Fog::Rackspace::Storage | directory', ['rackspace']) do
          @service.put_container(@instance.key, {"X-Container-Meta-List-Test"=>"true"} )
          dir = @service.directories.find {|d| d.key == @instance.key }
          returns(nil) { dir.instance_variable_get("@metadata") }
-         returns(true) { dir.metadata[:list_test] }
+         returns('true') { dir.metadata[:list_test] }
        end
        
        tests("should reload metadata after calling reload").returns(42) do
