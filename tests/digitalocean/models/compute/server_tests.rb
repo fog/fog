@@ -56,15 +56,19 @@ Shindo.tests("Fog::Compute[:digitalocean] | server model", ['digitalocean', 'com
       server.ready?
     end
     # DigitalOcean shutdown is unreliable
-    #test('#shutdown') do
-    #  server.start
-    #  server.wait_for { server.ready? }
-    #  server.shutdown
-    #  server.wait_for { server.status == 'off' }
-    #  server.status == 'off'
-    #end
-    raises(NotImplementedError, '#update') do
-      server.update
+    test('#shutdown') do
+      server.start
+      server.wait_for { server.ready? }
+      server.shutdown
+      server.wait_for { server.status == 'off' }
+      server.status == 'off'
+    end
+    test('#update') do
+      begin
+        server.update
+      rescue NotImplementedError => e
+        true
+      end
     end
 
   end
