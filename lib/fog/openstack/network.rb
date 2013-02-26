@@ -21,6 +21,8 @@ module Fog
       collection  :subnets
       model       :floating_ip
       collection  :floating_ips
+      model       :router
+      collection  :routers
 
       ## REQUESTS
       #
