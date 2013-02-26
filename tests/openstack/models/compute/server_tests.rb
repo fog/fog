@@ -1,6 +1,7 @@
 Shindo.tests("Fog::Compute[:openstack] | server", ['openstack']) do
 
   tests('success') do
+
     tests('#security_groups').succeeds do
       fog = Fog::Compute[:openstack]
 
@@ -20,7 +21,6 @@ Shindo.tests("Fog::Compute[:openstack] | server", ['openstack']) do
         server.save
 
         found_groups = server.security_groups
-
         returns(1) { found_groups.length }
 
         group = found_groups.first
@@ -40,6 +40,47 @@ Shindo.tests("Fog::Compute[:openstack] | server", ['openstack']) do
         my_group.destroy if my_group
       end
     end
+
+
+    tests('#metadata').succeeds do
+      fog = Fog::Compute[:openstack]
+
+      begin
+        flavor = fog.flavors.first.id
+        image  = fog.images.first.id
+
+        server = fog.servers.new(:name       => 'test server',
+                                 :metadata => {"foo" => "bar"},
+                                 :flavor_ref => flavor,
+                                 :image_ref  => image)
+
+        server.save
+
+        returns(1) { server.metadata.length }
+
+        server.metadata.each do |datum|
+          datum.value = 'foo'
+          datum.save
+          datum.destroy
+        end
+
+      ensure
+        unless Fog.mocking? then
+          server.destroy if server
+
+          begin
+            fog.servers.get(server.id).wait_for do false end
+          rescue Fog::Errors::Error
+            # ignore, server went away
+          end
+        end
+
+      end
+    end
+
+
+
+
   end
 end
 
