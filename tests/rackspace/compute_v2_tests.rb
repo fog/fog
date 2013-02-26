@@ -6,13 +6,16 @@ Shindo.tests('Fog::Compute::RackspaceV2', ['rackspace']) do
   end
 
   tests('#authentication_method') do
-    @service = Fog::Compute::RackspaceV2.new
+    @service = Fog::Storage::Rackspace.new
+  
     assert_method nil, :authenticate_v2
-    
+
+    assert_method 'https://identity.api.rackspacecloud.com', :authenticate_v1
     assert_method 'https://identity.api.rackspacecloud.com/v1', :authenticate_v1
     assert_method 'https://identity.api.rackspacecloud.com/v1.1', :authenticate_v1    
     assert_method 'https://identity.api.rackspacecloud.com/v2.0', :authenticate_v2
     
+    assert_method 'https://lon.identity.api.rackspacecloud.com', :authenticate_v1    
     assert_method 'https://lon.identity.api.rackspacecloud.com/v1', :authenticate_v1
     assert_method 'https://lon.identity.api.rackspacecloud.com/v1.1', :authenticate_v1
     assert_method 'https://lon.identity.api.rackspacecloud.com/v2.0', :authenticate_v2

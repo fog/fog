@@ -5,10 +5,11 @@ module Fog
       private 
   
       def authentication_method
-        if @rackspace_auth_url && @rackspace_auth_url =~ /v1(\.\d)?\w*$/
-          :authenticate_v1
+        return :authenticate_v2 unless @rackspace_auth_url
+        if @rackspace_auth_url =~ /v2(\.\d)?\w*$/
+          :authenticate_v2
         else
-         :authenticate_v2
+         :authenticate_v1
        end
       end
   
