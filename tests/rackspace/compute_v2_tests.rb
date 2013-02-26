@@ -10,6 +10,8 @@ Shindo.tests('Fog::Compute::RackspaceV2', ['rackspace']) do
   
     assert_method nil, :authenticate_v2
 
+    assert_method 'auth.api.rackspacecloud.com', :authenticate_v1 # chef's default auth endpoint
+
     assert_method 'https://identity.api.rackspacecloud.com', :authenticate_v1
     assert_method 'https://identity.api.rackspacecloud.com/v1', :authenticate_v1
     assert_method 'https://identity.api.rackspacecloud.com/v1.1', :authenticate_v1    
