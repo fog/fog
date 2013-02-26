@@ -21,6 +21,7 @@ Shindo.tests("Fog::Compute[:digitalocean] | server model", ['digitalocean', 'com
         :name,
         :status,
         :backups_active,
+        :ip_address,
         :flavor_id,
         :region_id,
         :image_id

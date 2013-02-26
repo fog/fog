@@ -1,10 +1,7 @@
 Shindo.tests('Fog::Compute[:digitalocean] | reboot_server request', ['digitalocean', 'compute']) do
 
   service = Fog::Compute[:digitalocean]
-  data = Fog::Compute[:digitalocean].create_server 'fog-test',
-                                                   service.flavors.first.id,
-                                                   service.images.first.id,
-                                                   service.regions.first.id
+  data = fog_test_server
 
   tests('success') do
 
