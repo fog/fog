@@ -10,6 +10,19 @@ module Fog
             }
           }
 
+          vanilla_options = [
+            :admin_state_up, 
+            :tenant_id,
+            :network_id,
+            :external_gateway_info,
+            :status,
+            :subnet_id
+          ]
+
+          vanilla_options.reject{ |o| options[o].nil? }.each do |key|
+            data['router'][key] = options[key]
+          end
+
           request(
             :body     => Fog::JSON.encode(data),
             :expects  => [201],
