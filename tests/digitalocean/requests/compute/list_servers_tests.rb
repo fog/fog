@@ -7,7 +7,7 @@ Shindo.tests('Fog::Compute[:digitalocean] | list_servers request', ['digitalocea
     'size_id'        => Integer,
     'region_id'      => Integer,
     'backups_active' => Fog::Nullable::Boolean,
-    'ip_address'     => String,
+    'ip_address'     => Fog::Nullable::String,
     'status'         => String
   }
 
