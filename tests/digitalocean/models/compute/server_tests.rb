@@ -10,6 +10,8 @@ Shindo.tests("Fog::Compute[:digitalocean] | server model", ['digitalocean', 'com
         shutdown 
         reboot
         power_cycle
+        stop
+        start
       }.each do |action|
         test(action) { server.respond_to? action }
       end
@@ -32,19 +34,43 @@ Shindo.tests("Fog::Compute[:digitalocean] | server model", ['digitalocean', 'com
         end
       end
     end
-    test('reboot the server') do
+    test('#reboot') do
       server.reboot
       server.wait_for { server.status == 'off' }
       server.status == 'off'
     end
-    test('power_cycle the server') do
+    test('#power_cycle') do
       server.wait_for { server.ready? }
       server.power_cycle
       server.wait_for { server.status == 'off' }
       server.status == 'off'
     end
+    test('#stop') do
+      server.stop
+      server.wait_for { server.status == 'off' }
+      server.status == 'off'
+    end
+    test('#start') do
+      server.start
+      server.wait_for { ready? }
+      server.ready?
+    end
+    # DigitalOcean shutdown is unreliable
+    #test('#shutdown') do
+    #  server.start
+    #  server.wait_for { server.ready? }
+    #  server.shutdown
+    #  server.wait_for { server.status == 'off' }
+    #  server.status == 'off'
+    #end
+    raises(NotImplementedError, '#update') do
+      server.update
+    end
 
   end
+
+  # restore server state
+  server.start
 
 end
 

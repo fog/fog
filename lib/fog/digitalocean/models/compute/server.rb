@@ -14,20 +14,25 @@ module Fog
         attribute :image_id
         attribute :region_id
         attribute :flavor_id,         :aliases => :size_id
+        # Not documented in their API, but
+        # available nevertheless
+        attribute :ip_address
         attribute :backups_active
 
         # Reboot the server (soft reboot).
         #
         # The preferred method of rebooting a server.
         def reboot
-          service.reboot_server id
+          requires :id
+          service.reboot_server self.id
         end
 
         # Reboot the server (hard reboot).
         #
         # Powers the server off and then powers it on again.
         def power_cycle
-          service.power_cycle_server id
+          requires :id
+          service.power_cycle_server self.id
         end
 
         # Shutdown the server
@@ -38,7 +43,8 @@ module Fog
         #
         # @see https://www.digitalocean.com/community/questions/am-i-charged-while-my-droplet-is-in-a-powered-off-state
         def shutdown
-          raise NotImplementedError
+          requires :id
+          service.shutdown_server self.id
         end
 
         # Power off the server
@@ -47,13 +53,11 @@ module Fog
         # The server consumes resources while powered off
         # so you are still charged.
         # 
-        # Server.power_off is an alias to Server.stop
-        #
         # @see https://www.digitalocean.com/community/questions/am-i-charged-while-my-droplet-is-in-a-powered-off-state
         def stop
-          raise NotImplementedError
+          requires :id
+          service.power_off_server self.id
         end
-        alias power_off stop
 
         # Power on the server.
         #
@@ -63,12 +67,10 @@ module Fog
         # Each time a server is spun up, even if for a few seconds, 
         # it is charged for an hour.
         #
-        # Server.power_off is an alias to Server.stop
-        #
         def start
-          raise NotImplementedError
+          requires :id
+          service.power_on_server self.id
         end
-        alias power_on start
 
         # Creates the server (not to be called directly).
         #
@@ -118,6 +120,7 @@ module Fog
         #
         # Double check the server has been destroyed!
         def destroy
+          requires :id
           service.destroy_server id
         end
 
@@ -130,6 +133,12 @@ module Fog
         # @return [Boolean]
         def ready?
           status == 'active'
+        end
+
+        # DigitalOcean API does not support updating server state
+        def update
+          msg = 'DigitalOcean servers do not support updates'
+          raise NotImplementedError.new(msg)
         end
 
       end
