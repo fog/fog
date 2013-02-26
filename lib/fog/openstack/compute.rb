@@ -100,6 +100,10 @@ module Fog
       request :update_metadata
       request :delete_metadata
 
+      # Metadatam
+      request :delete_meta
+      request :update_meta
+
       # Address
       request :list_addresses
       request :list_address_pools
