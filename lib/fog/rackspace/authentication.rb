@@ -20,11 +20,11 @@ module Fog
         @identity_service != nil
       end
   
-      def authenticate_v2(options)
+      def authenticate_v2(identity_options)
         h = {
-              :rackspace_api_key => options[:rackspace_api_key],
-              :rackspace_username => options[:rackspace_username],
-              :rackspace_auth_url => options[:rackspace_auth_url]
+              :rackspace_api_key => identity_options[:rackspace_api_key],
+              :rackspace_username => identity_options[:rackspace_username],
+              :rackspace_auth_url => identity_options[:rackspace_auth_url]
         }
         
         @identity_service = Fog::Rackspace::Identity.new(h)
