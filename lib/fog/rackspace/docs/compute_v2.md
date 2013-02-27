@@ -1,6 +1,6 @@
 #Next Generation Cloud Servers™ (compute_v2)
 
-This document explains how to get started using Next Gneration Cloud Servers™ with Fog. It assumes you have read the [Getting Started with Fog and the Rackspace Open Cloud](/getting_started.md) document.
+This document explains how to get started using Next Gneration Cloud Servers™ with Fog. It assumes you have read the [Getting Started with Fog and the Rackspace Open Cloud](getting_started.md) document.
 
 
 ## Starting irb console
@@ -31,7 +31,7 @@ Next, create a connection to the Next Gen Cloud Servers™:
   		:connection_options => {} # Optional
 	})
 
-To learn more about obtaining cloud credentials visit the [Getting Started with Fog and the Rackspace Open Cloud](/getting_started.md) document. 
+To learn more about obtaining cloud credentials visit the [Getting Started with Fog and the Rackspace Open Cloud](getting_started.md) document. 
 
 By default `Fog::Compute` will connect to the DFW region. You can specify alternative regions using the key `:rackspace_endpoint ` with one of the following values:
 
@@ -106,7 +106,7 @@ To see a list of requests supported by the service:
 	
 This returns:
 
-	:list_servers, :get_server, :create_server, :update_server, :delete_server, :change_server_password, :reboot_server, :rebuild_server, :resize_server, :confirm_resize_server, :revert_resize_server, :list_images, :get_image, :list_flavors, :get_flavor, :attach_volume, :get_attachment, :list_attachments, :delete_attachment] 
+	:list_servers, :get_server, :create_server, :update_server, :delete_server, :change_server_password, :reboot_server, :rebuild_server, :resize_server, :confirm_resize_server, :revert_resize_server, :list_images, :get_image, :list_flavors, :get_flavor, :attach_volume, :get_attachment, :list_attachments, :delete_attachment
 
 
 #### Example Request
@@ -125,16 +125,16 @@ To view the status of the response:
 	
 **Note**: *Fog is aware valid HTTP response statuses for each request type. If an unexpected HTTP response status occurs, Fog will raise an exception.*
 	
-To view response body:
+To view response header:
 
-	request.body
+	response.body
 	
 This will return:
 
 	{"flavors"=>[{"id"=>"2", "links"=>[{"href"=>"https://ord.servers.api.rackspacecloud.com/v2/772045/flavors/2", "rel"=>"self"}, {"href"=>"https://ord.servers.api.rackspacecloud.com/772045/flavors/2", "rel"=>"bookmark"}], "name"=>"512MB Standard Instance"}, {"id"=>"3", "links"=>[{"href"=>"https://ord.servers.api.rackspacecloud.com/v2/772045/flavors/3", "rel"=>"self"}, {"href"=>"https://ord.servers.api.rackspacecloud.com/772045/flavors/3", "rel"=>"bookmark"}], "name"=>"1GB Standard Instance"}, {"id"=>"4", "links"=>[{"href"=>"https://ord.servers.api.rackspacecloud.com/v2/772045/flavors/4", "rel"=>"self"}, {"href"=>"https://ord.servers.api.rackspacecloud.com/772045/flavors/4", "rel"=>"bookmark"}], "name"=>"2GB Standard Instance"}, {"id"=>"5", "links"=>[{"href"=>"https://ord.servers.api.rackspacecloud.com/v2/772045/flavors/5", "rel"=>"self"}, {"href"=>"https://ord.servers.api.rackspacecloud.com/772045/flavors/5", "rel"=>"bookmark"}], "name"=>"4GB Standard Instance"}, {"id"=>"6", "links"=>[{"href"=>"https://ord.servers.api.rackspacecloud.com/v2/772045/flavors/6", "rel"=>"self"}, {"href"=>"https://ord.servers.api.rackspacecloud.com/772045/flavors/6", "rel"=>"bookmark"}], "name"=>"8GB Standard Instance"}, {"id"=>"7", "links"=>[{"href"=>"https://ord.servers.api.rackspacecloud.com/v2/772045/flavors/7", "rel"=>"self"}, {"href"=>"https://ord.servers.api.rackspacecloud.com/772045/flavors/7", "rel"=>"bookmark"}], "name"=>"15GB Standard Instance"}, {"id"=>"8", "links"=>[{"href"=>"https://ord.servers.api.rackspacecloud.com/v2/772045/flavors/8", "rel"=>"self"}, {"href"=>"https://ord.servers.api.rackspacecloud.com/772045/flavors/8", "rel"=>"bookmark"}], "name"=>"30GB Standard Instance"}]}
 	
 	
-To learn more about Compute request methods refer to [rdoc](http://rubydoc.info/gems/fog/Fog/Compute/Rackspace/Real#reboot_server-instance_method). To learn more about Excon refer to [Excon GitHub repo](https://github.com/geemus/excon).
+To learn more about Compute request methods refer to [rdoc](http://rubydoc.info/gems/fog/Fog/Compute/Rackspace/Real). To learn more about Excon refer to [Excon GitHub repo](https://github.com/geemus/excon).
 
 ### Model Layer
 Fog models behave in a manner similar to `ActiveModel`. Models will generally respond to `create`, `save`,  `persisted?`, `destroy`, `reload` and `attributes` methods. Additionally, fog will automatically create attribute accessors.  
@@ -450,6 +450,7 @@ Fog can wait for the server to become ready as follows:
 **Note**: *The `Fog::Compute::RackspaceV2::Server` instance returned from the create method contains a `password` attribute. The `password` attribute will NOT be present in subsequent retrievals either through `service.servers` or `server.servers.get my_server_id`*.
 
 ### Additional Parameters
+
 The `create` method also supports the following key values:
 
 <table>
@@ -468,7 +469,7 @@ The `create` method also supports the following key values:
 	<tr>
 		<td>:personality</td>
 		<td>File path and contents. Refer to Next Gen Server API documentation - <a href="http://docs.rackspace.com/servers/api/v2/cs-devguide/content/Server_Personality-d1e2543.html">Server Personality</a>. </td>
-	</tr>
+	</tr>			
 </table>	
 	
 ## Update Server

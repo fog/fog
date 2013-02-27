@@ -57,8 +57,8 @@ You should now be able to execute the following command to see a list of service
 
 These services can be explored in further depth in the following documents:
 
-* [Next Generation Cloud Servers™ (compute_v2)](/cloud_servers.md)
-* Cloud Files™ (storage)
+* [Next Generation Cloud Servers™ (compute_v2)](compute_v2.md)
+* [Cloud Files™ (storage)](storage.md)
 * Cloud Block Storage (block_storage)
 
 **Note**: *The compute service provides an interface to the First Geneneration Cloud Servers™ (compute). This service is deprecated. Users are encouraged to use Next Geneneration Cloud Servers™ (compute_v2).*
