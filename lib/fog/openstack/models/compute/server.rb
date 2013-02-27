@@ -46,7 +46,6 @@ module Fog
         def initialize(attributes={})
           # Old 'connection' is renamed as service and should be used instead
           prepare_service_value(attributes)
-          attributes[:metadata] = {}
 
           self.security_groups = attributes.delete(:security_groups)
           self.min_count = attributes.delete(:min_count)
@@ -66,9 +65,10 @@ module Fog
         end
 
         def metadata=(new_metadata={})
+          return unless new_metadata
           metas = []
           new_metadata.each_pair {|k,v| metas << {"key" => k, "value" => v} }
-          metadata.load(metas)
+          @metadata = metadata.load(metas)
         end
 
         def user_data=(ascii_userdata)
@@ -86,24 +86,41 @@ module Fog
           service.images(:server => self)
         end
 
-        def private_ip_address
-          if addresses['private']
-            #assume only a single private
-            return addresses['private'].first
-          elsif addresses['internet']
-            #assume no private IP means private cloud
-            return addresses['internet'].first
-          end
+        def all_addresses
+          # currently openstack API does not tell us what is a floating ip vs a fixed ip for the vm listing,
+          # we fall back to get all addresses and filter sadly.
+          @all_addresses ||= service.list_all_addresses.body["floating_ips"].select{|data| data['instance_id'] == id}
         end
 
-        def public_ip_address
-          if addresses['public']
-            #assume last is either original or assigned from floating IPs
-            return addresses['public'].last
-          elsif addresses['internet']
-            #assume no public IP means private cloud
-            return addresses['internet'].first
-          end
+        def reload
+          @all_addresses = nil
+          super
+        end
+
+        # returns all ip_addresses for a given instance
+        # this includes both the fixed ip(s) and the floating ip(s)
+        def ip_addresses
+          addresses.values.flatten.map{|x| x['addr']}
+        end
+
+        def floating_ip_addresses
+          all_addresses.map{|addr| addr["ip"]}
+        end
+
+        alias_method :public_ip_addresses, :floating_ip_addresses
+
+        def floating_ip_address
+          floating_ip_addresses.first
+        end
+
+        alias_method :public_ip_address, :floating_ip_address
+
+        def private_ip_addresses
+          ip_addresses - floating_ip_addresses
+        end
+
+        def private_ip_address
+          private_ip_addresses.first
         end
 
         def image_ref
@@ -229,10 +246,7 @@ module Fog
         def save
           raise Fog::Errors::Error.new('Resaving an existing object may create a duplicate') if persisted?
           requires :flavor_ref, :image_ref, :name
-          meta_hash = {}
-          metadata.each { |meta| meta_hash.store(meta.key, meta.value) }
           options = {
-            'metadata'    => meta_hash,
             'personality' => personality,
             'accessIPv4' => accessIPv4,
             'accessIPv6' => accessIPv6,
@@ -244,6 +258,7 @@ module Fog
             'max_count'   => @max_count,
             'os:scheduler_hints' => @os_scheduler_hints
           }
+          options['metadata'] = metadata.to_hash unless @metadata.nil?
           options = options.reject {|key, value| value.nil?}
           data = service.create_server(name, image_ref, flavor_ref, options)
           merge_attributes(data.body['server'])

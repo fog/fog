@@ -96,8 +96,9 @@ Shindo.tests('Fog::Rackspace::Storage | directory', ['rackspace']) do
      pending if Fog.mocking?
      
      model_tests(@service.directories, directory_attributes, Fog.mocking?) do
-       tests('sets metadata on create').returns({:draft => 'true'}) do
+       tests('sets metadata on create').returns('true') do
          @instance.metadata.data
+         container_meta_attributes["X-Container-Meta-Draft"]
        end
        tests('update metadata').returns({"X-Container-Meta-Draft"=>"true", "X-Container-Meta-Color"=>"green"}) do
          @instance.metadata[:color] = 'green'
@@ -120,6 +121,18 @@ Shindo.tests('Fog::Rackspace::Storage | directory', ['rackspace']) do
          dir = @service.directories.find {|d| d.key == @instance.key }
          returns(nil) { dir.instance_variable_get("@metadata") }
          returns('true') { dir.metadata[:list_test] }
+       end
+       
+       tests("should reload metadata after calling reload").returns("42") do
+         @service.put_container @instance.key, "X-Container-Meta-Answer" => 42
+         @instance.reload
+         @instance.metadata[:answer]
+       end
+       
+       tests("should reload metadata after calling reload").returns("42") do
+         @service.put_container @instance.key, "X-Container-Meta-Answer" => 42
+         @instance.reload
+         @instance.metadata[:answer]
        end
        
      end

@@ -55,10 +55,13 @@ module Fog
         def get(key, &block)
           requires :directory
           data = service.get_object(directory.key, key, &block)
+          metadata = Metadata.from_headers(data.headers)  
           file_data = data.headers.merge({
             :body => data.body,
-            :key  => key
+            :key  => key,
+            :metadata => metadata
           })
+          
           new(file_data)
         rescue Fog::Storage::Rackspace::NotFound
           nil

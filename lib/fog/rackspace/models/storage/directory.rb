@@ -18,19 +18,19 @@ module Fog
 
         def metadata=(hash)
           if hash.is_a? Fog::Storage::Rackspace::Metadata
-            @metadata = hash
+            attributes[:metadata] = hash
           else
-            @metadata = Fog::Storage::Rackspace::Metadata.new(hash)
+            attributes[:metadata] = Fog::Storage::Rackspace::Metadata.new(self, hash)
           end
-          @metadata
+          attributes[:metadata]
         end
         
         def metadata
-          unless @metadata
+          unless attributes[:metadata]
              response = service.head_container(key)
-             @metadata = Fog::Storage::Rackspace::Metadata.from_headers(response.headers)
+             attributes[:metadata] = Fog::Storage::Rackspace::Metadata.from_headers(self, response.headers)
           end
-          @metadata
+          attributes[:metadata]
         end
 
         def destroy
@@ -81,7 +81,6 @@ module Fog
 
         def save
           requires :key
-
           create_container
           raise Fog::Storage::Rackspace::Error.new("Directory can not be set as :public without a CDN provided") if !cdn_enabled? &&  public?
           @urls = service.cdn.publish_container(self, public?)
@@ -101,7 +100,7 @@ module Fog
         end
            
         def create_container
-          headers = @metadata.nil? ? {} : metadata.to_headers          
+          headers = attributes[:metadata].nil? ? {} : metadata.to_headers           
           service.put_container(key, headers)        
         end
       end
