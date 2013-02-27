@@ -92,6 +92,11 @@ module Fog
           @all_addresses ||= service.list_all_addresses.body["floating_ips"].select{|data| data['instance_id'] == id}
         end
 
+        def reload
+          @all_addresses = nil
+          super
+        end
+
         # returns all ip_addresses for a given instance
         # this includes both the fixed ip(s) and the floating ip(s)
         def ip_addresses
