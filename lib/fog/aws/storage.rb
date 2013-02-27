@@ -400,7 +400,7 @@ DATA
           begin
             response = @connection.request(params, &block)
           rescue Excon::Errors::TemporaryRedirect => error
-            uri = URI.parse(error.response.headers['Location'])
+            uri = URI.parse(error.response.is_a?(Hash) ? error.response[:headers]['Location'] : error.response.headers['Location'])
             Fog::Logger.warning("fog: followed redirect to #{uri.host}, connecting to the matching region will be more performant")
             response = Fog::Connection.new("#{@scheme}://#{uri.host}:#{@port}", false, @connection_options).request(original_params, &block)
           end

@@ -14,6 +14,11 @@ module Fog
         attribute :last_modified,   :aliases => ['last_modified', 'Last-Modified'], :type => :time
         attribute :access_control_allow_origin, :aliases => ['Access-Control-Allow-Origin']
         attribute :origin,          :aliases => ['Origin']
+        
+        attr_writer :public
+
+        attr_accessor :directory
+        attr_writer :public
 
         def body
           attributes[:body] ||= if last_modified
@@ -25,10 +30,6 @@ module Fog
 
         def body=(new_body)
           attributes[:body] = new_body
-        end
-
-        def directory
-          @directory
         end
 
         def copy(target_directory_key, target_file_key, options={})
@@ -47,10 +48,19 @@ module Fog
           true
         end
 
-        def metadata
-          @metadata ||= headers_to_metadata
+        def metadata=(hash)
+          if hash.is_a? Fog::Storage::Rackspace::Metadata
+            attributes[:metadata] = hash
+          else
+            attributes[:metadata] = Fog::Storage::Rackspace::Metadata.new(self, hash)
+          end
+          attributes[:metadata]
         end
-
+        
+        def metadata
+          attributes[:metadata] ||= Fog::Storage::Rackspace::Metadata.new(self)
+        end
+        
         def owner=(new_owner)
           if new_owner
             attributes[:owner] = {
@@ -60,18 +70,21 @@ module Fog
           end
         end
 
-        def public=(new_public)
-          new_public
-        end
-        
         def public?
           directory.public?
         end
-
+        
         def public_url
-          requires :key
-          self.collection.get_url(self.key)
+          Files::file_url directory.public_url, key
         end
+        
+        def ios_url
+          Files::file_url directory.ios_url, key
+        end
+        
+        def streaming_url
+          Files::file_url directory.streaming_url, key
+        end      
         
         def purge_from_cdn
           if public?
@@ -86,71 +99,17 @@ module Fog
           options['Content-Type'] = content_type if content_type
           options['Access-Control-Allow-Origin'] = access_control_allow_origin if access_control_allow_origin
           options['Origin'] = origin if origin
-          options.merge!(metadata_to_headers)
+          options.merge!(metadata.to_headers)
 
           data = service.put_object(directory.key, key, body, options)
           update_attributes_from(data)
-          refresh_metadata
-
+          
           self.content_length = Fog::Storage.get_body_size(body)
           self.content_type ||= Fog::Storage.get_content_type(body)
           true
         end
 
         private
-
-        def directory=(new_directory)
-          @directory = new_directory
-        end
-
-        def refresh_metadata
-          metadata.reject! {|k, v| v.nil? }
-        end
-
-        def headers_to_metadata
-          key_map = key_mapping
-          Hash[metadata_attributes.map {|k, v| [key_map[k], v] }]
-        end
-
-        def key_mapping
-          key_map = metadata_attributes
-          key_map.each_pair {|k, v| key_map[k] = header_to_key(k)}
-        end
-
-        def header_to_key(opt)
-          opt.gsub(metadata_prefix, '').split('-').map {|k| k[0, 1].downcase + k[1..-1]}.join('_').to_sym
-        end
-        
-        def metadata_to_headers
-          hash = {}
-          metadata.each_pair do |k,v|
-            key = metakey(k,v)
-            hash[key] = v
-          end     
-          hash
-        end     
-
-        def metakey(key, value)
-          prefix = value.nil? ?  "X-Remove-Object-Meta-" : "X-Object-Meta-"
-          prefix + key.to_s.split(/[-_]/).map(&:capitalize).join('-')
-        end
-        
-        def metadata_attributes
-          if last_modified
-            headers = service.head_object(directory.key, self.key).headers
-            headers.reject! {|k, v| !metadata_attribute?(k)}
-          else
-            {}
-          end
-        end
-
-        def metadata_attribute?(key)
-          key.to_s =~ /^#{metadata_prefix}/
-        end
-
-        def metadata_prefix
-          "X-Object-Meta-"
-        end
 
         def update_attributes_from(data)
           merge_attributes(data.headers.reject {|key, value| ['Content-Length', 'Content-Type'].include?(key)})

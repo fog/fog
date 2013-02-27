@@ -18,7 +18,7 @@ module Fog
           if data = self.data[:floating_ips][floating_ip_id]
             response.status = 200
             response.body = {
-              "floating_ip" => {
+              "floatingip" => {
                 "id"                  => "00000000-0000-0000-0000-000000000000",
                 # changed
                 # "floating_ip_id" => floating_ip_id,

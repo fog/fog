@@ -32,7 +32,7 @@ module Fog
           merge_attributes(connection.create_floating_ip(self.floating_network_id,
 
 
-                                                    self.attributes).body['floating_ip'])
+                                                    self.attributes).body['floatingip'])
           self
         end
 
