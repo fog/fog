@@ -53,7 +53,7 @@ module Fog
 
         def resize(flavor)
           requires :id
-          service.resize_machine(id, flavor)
+          service.resize_machine(id, flavor.name)
           true
         end
 

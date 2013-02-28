@@ -14,6 +14,7 @@ module Fog
       collection  :directories
       model       :file
       collection  :files
+      model       :account
 
       request_path 'fog/rackspace/requests/storage'
       request :copy_object
@@ -38,7 +39,8 @@ module Fog
             :provider           => 'Rackspace',
             :rackspace_api_key  => @rackspace_api_key,
             :rackspace_auth_url => @rackspace_auth_url,
-            :rackspace_username => @rackspace_username
+            :rackspace_username => @rackspace_username,
+            :rackspace_cdn_ssl => @rackspace_cdn_ssl
           )
           if @cdn.enabled?
             @cdn
@@ -96,6 +98,15 @@ module Fog
           @persistent = options[:persistent] || false
           Excon.defaults[:ssl_verify_peer] = false if options[:rackspace_servicenet] == true
           @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
+        end
+        
+        def account
+          account = Fog::Storage::Rackspace::Account.new(:service => self)
+          account.reload
+        end
+
+        def ssl?
+          !rackspace_cdn_ssl.nil?
         end
 
         def reload

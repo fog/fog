@@ -19,15 +19,14 @@ module Fog
         end
 
         # Creates a new server and populates ssh keys
+        # @note This method is incompatible with Cloud Servers utlizing RackConnect. RackConnect users 
+        #     should use server personalization to install keys.  Please see Server#personality for more information.
         # @example
-        #   service = Fog::Compute.new(:provider => 'rackspace', 
-        #                             :version => :v2, 
+        #   service.servers.bootstrap :name => 'bootstrap-server',
+        #                             :flavor_id => service.flavors.first.id,
+        #                             :image_id => service.images.find {|img| img.name =~ /Ubuntu/}.id,
         #                             :public_key_path => '~/.ssh/fog_rsa.pub',
-        #                             :private_key_path => '~/.ssh/fog_rsa')
-        #
-        #   service.servers.bootstrap :name => 'bootstap-server',
-        #                             :flavor_id => service.flavors.first.id
-        #                             :image_id => service.servers.first.id
+        #                             :private_key_path => '~/.ssh/fog_rsa'
         #        
         def bootstrap(new_attributes = {})
           server = create(new_attributes)
