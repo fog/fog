@@ -52,7 +52,7 @@ module Fog
 
       end      
 
-      class Mock
+      class Mock < Fog::Rackspace::Service
         include Utils
 
         def self.data
@@ -79,6 +79,14 @@ module Fog
           self.class.data.delete(@rackspace_username)
         end
 
+        def service_name
+          :cloudFiles
+        end
+
+        def region
+          @rackspace_region
+        end
+
       end
 
       class Real < Fog::Rackspace::Service
@@ -101,7 +109,7 @@ module Fog
           @rackspace_must_reauthenticate = false
           @connection_options     = options[:connection_options] || {}
 
-          authenticate
+          @auth_token = authenticate
           @persistent = options[:persistent] || false
           Excon.defaults[:ssl_verify_peer] = false if service_net?
           @connection = Fog::Connection.new(endpoint_uri, @persistent, @connection_options)
@@ -164,27 +172,22 @@ module Fog
               :rackspace_auth_url => @rackspace_auth_url
             }            
             @auth_token = super(options)
-            @uri = endpoint_uri
           else
             @auth_token = @rackspace_auth_token
             @uri = URI.parse(@rackspace_storage_url)
           end
         end
         
-        def endpoint_uri(service_endpoint_url=nil)
-          return @uri if @uri
-          
-          url  = @rackspace_storage_url || service_endpoint_url
+        def service_name
+          :cloudFiles
+        end
 
-          unless url
-            if v1_authentication?
-              raise "Service Endpoint must be specified via :rackspace_storage_url parameter"
-            else
-              url = endpoint_uri_v2(:cloudFiles, @rackspace_region)
-            end
-          end
-          
-          @uri = URI.parse url
+        def region
+          @rackspace_region
+        end
+
+        def endpoint_uri(service_endpoint_url=nil)
+          @uri = super(@rackspace_storage_url || service_endpoint_url, :rackspace_storage_url)
           @uri.host = "snet-#{@uri.host}" if service_net?
           @uri
         end

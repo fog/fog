@@ -2,8 +2,28 @@ module Fog
   module Rackspace
     class Service
 
-      def endpoint_uri(service_endpoint_url=nil)
-        raise Fog::Errors::NotImplemented.new("Retrieving endpoint is not implemented for this service.")
+      def service_name
+        raise Fog::Errors::NotImplemented.new("Please implement the #service_name method")
+      end
+
+      def region
+        raise Fog::Errors::NotImplemented.new("Please implement the #region method")
+      end
+
+      def endpoint_uri(service_endpoint=nil, endpoint_name=nil)
+        return @uri if @uri
+
+        url = service_endpoint
+
+        unless url
+          if v1_authentication?
+            raise "Service Endpoint must be specified via #{endpoint_name} parameter"
+          else
+            url = endpoint_uri_v2
+          end
+        end
+
+        @uri = URI.parse url
       end
 
       def authenticate(options)
@@ -44,8 +64,8 @@ module Fog
         raise Fog::Errors::NotImplemented.new("Authentication of legacy endpoints is not implemented for this service.")
       end
 
-      def endpoint_uri_v2(service_name, region)
-        @identity_service.service_catalog.get_endpoint(service_name, region)
+      def endpoint_uri_v2
+        @auth_token = @identity_service.service_catalog.get_endpoint(service_name, region)
       end
 
     end
