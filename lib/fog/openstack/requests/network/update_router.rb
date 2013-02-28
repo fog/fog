@@ -52,7 +52,8 @@ module Fog
       end
 
       class Mock
-        def update_router(router_id, network_id, options = {})
+        def update_router(router_id, options = {})
+          raise Fog::Network::OpenStack::NotFound if router_id == 0
           response = Excon::Response.new
           response.status = 201
           data = {
@@ -65,7 +66,6 @@ module Fog
             'tenant_id' => '6b96ff0cb17a4b859e1e575d221683d3',
             'id' => '8604a0de-7f6b-409a-a47c-a1cc7bc77b2e'
           }
-          self.data[:router_id][data['router_id']] = data
           response.body = { 'router' => data }
           response
         end

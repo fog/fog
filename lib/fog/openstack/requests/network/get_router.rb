@@ -15,10 +15,10 @@ module Fog
       class Mock
         def get_router(router_id)
           response = Excon::Response.new
-          if data = self.data[:routers][router_id]
+          if data = (self.data[:routers].find { |r| r['id'] == router_id })
             response.status = 200
             response.body = {
-              'routers' => {
+              'router' => {
                 'status' => 'ACTIVE',
                 'external_gateway_info' => {
                   'network_id' => '3c5bcddd-6af9-4e6b-9c3e-c153e521cab8'

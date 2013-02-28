@@ -39,15 +39,15 @@ module Fog
           data = {
             'router' => {
               'status' => 'ACTIVE',
-              'external_gateway_info' => null,
+              'external_gateway_info' => nil,
               'name' => 'another_router',
               'admin_state_up' => true,
               'tenant_id' => '6b96ff0cb17a4b859e1e575d221683d3',
               'id' => '8604a0de-7f6b-409a-a47c-a1cc7bc77b2e'
             }
           }
-          self.data[:routers][data['id']] = data
-          response.body = { 'router' => data }
+          self.data[:routers] = []
+          self.data[:routers] << data['router']
           response
         end
       end
