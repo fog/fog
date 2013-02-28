@@ -2,7 +2,19 @@ require 'fog/rackspace/models/storage/metadata'
 require 'fog/rackspace/models/storage/directory'
 require 'fog/rackspace/models/storage/file'
 
+
 Shindo.tests('Fog::Rackspace::Storage | metadata', ['rackspace']) do
+  
+  def assert_directory(obj, assert_value)
+    metadata = Fog::Storage::Rackspace::Metadata.new obj
+    returns(assert_value) { metadata.send :directory? }
+  end
+  
+  def assert_file(obj, assert_value)
+    metadata = Fog::Storage::Rackspace::Metadata.new obj
+    returns(assert_value) { metadata.send :file? }
+  end
+  
   tests('Directory') do
     @directory = Fog::Storage::Rackspace::Directory.new
     tests('#to_key') do
@@ -123,5 +135,40 @@ Shindo.tests('Fog::Rackspace::Storage | metadata', ['rackspace']) do
      metadata = Fog::Storage::Rackspace::Metadata.new @file
       metadata[:test] = true
       metadata[:test]
+   end
+   
+   tests('#directory?') do
+     assert_directory Fog::Storage::Rackspace::Directories, true
+     assert_directory Fog::Storage::Rackspace::Directory, true       
+     assert_directory Fog::Storage::Rackspace::Directory.new, true
+
+     assert_directory nil, false
+     assert_directory Fog::Storage::Rackspace::Files, false
+     assert_directory Fog::Storage::Rackspace::File, false
+     assert_directory Fog::Storage::Rackspace::File.new, false
+     assert_directory "I am a string!", false      
+   end
+   
+   tests('#file?') do
+     assert_file Fog::Storage::Rackspace::Directories, false
+     assert_file Fog::Storage::Rackspace::Directory, false    
+     assert_file Fog::Storage::Rackspace::Directory.new, false
+
+     assert_file nil, false
+     assert_file Fog::Storage::Rackspace::Files, true
+     assert_file Fog::Storage::Rackspace::File, true
+     assert_file Fog::Storage::Rackspace::File.new, true
+     assert_file "I am a string!", false      
+   end
+   
+   tests('#parent_class') do
+     tests('Fog::Storage::Rackspace::Directory object') do
+       metadata = Fog::Storage::Rackspace::Metadata.new Fog::Storage::Rackspace::Directory.new
+       returns(Fog::Storage::Rackspace::Directory) { metadata.send :parent_class }       
+     end
+     tests('Fog::Storage::Rackspace::Directory class') do
+       metadata = Fog::Storage::Rackspace::Metadata.new Fog::Storage::Rackspace::Directory
+       returns(Fog::Storage::Rackspace::Directory) { metadata.send :parent_class }       
+     end
    end
 end

@@ -1,3 +1,8 @@
+require 'fog/rackspace/models/storage/directory'
+require 'fog/rackspace/models/storage/file'
+require 'fog/rackspace/models/storage/directories'
+require 'fog/rackspace/models/storage/files'
+
 module Fog
   module Storage
     class Rackspace
@@ -60,33 +65,45 @@ module Fog
         
         private
         
+        def directory?
+          [Fog::Storage::Rackspace::Directory, Fog::Storage::Rackspace::Directories].include? parent_class
+        end
+        
+        def file?
+          [Fog::Storage::Rackspace::File, Fog::Storage::Rackspace::Files].include? parent_class
+        end
+        
+        def parent_class
+          parent.is_a?(Class) ? parent : parent.class
+        end
+        
         def meta_prefix
-          if parent.is_a? Fog::Storage::Rackspace::Directory
+          if directory?
             CONTAINER_META_PREFIX
-          elsif parent.is_a? Fog::Storage::Rackspace::File
+          elsif file?
             OBJECT_META_PREFIX
           else
-            raise "Metadata prefix is unknown for #{parent.class}"
+            raise "Metadata prefix is unknown for #{parent_class}"
           end
         end
 
         def remove_meta_prefix
-          if parent.is_a? Fog::Storage::Rackspace::Directory
+          if directory?
             CONTAINER_REMOVE_META_PREFIX
-          elsif parent.is_a? Fog::Storage::Rackspace::File
+          elsif file?
             OBJECT_REMOVE_META_PREFIX
           else
-            raise "Remove Metadata prefix is unknown for #{parent.class}"
+            raise "Remove Metadata prefix is unknown for #{parent_class}"
           end
         end
 
         def meta_prefix_regex
-          if parent.is_a? Fog::Storage::Rackspace::Directory
+          if directory?
             CONTAINER_KEY_REGEX
-          elsif parent.is_a? Fog::Storage::Rackspace::File
+          elsif file?
             OBJECT_KEY_REGEX
           else
-            raise "Metadata prefix is unknown for #{parent.class}"
+            raise "Metadata prefix is unknown for #{parent_class}"
           end
         end
         
