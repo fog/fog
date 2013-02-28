@@ -1,5 +1,5 @@
 require 'fog/rackspace'
-require 'fog/rackspace/authentication'
+require 'fog/rackspace/service'
 require 'fog/storage'
 
 module Fog
@@ -54,8 +54,7 @@ module Fog
 
       class Mock
         include Utils
-        include Fog::Rackspace::Authentication
-        
+
         def self.data
           @data ||= Hash.new do |hash, key|
             hash[key] = {}
@@ -82,10 +81,9 @@ module Fog
 
       end
 
-      class Real
+      class Real < Fog::Rackspace::Service
         include Utils
-        include Fog::Rackspace::Authentication
-        
+
         attr_reader :rackspace_cdn_ssl
 
         def initialize(options={})
@@ -165,7 +163,8 @@ module Fog
               :rackspace_username => @rackspace_username,
               :rackspace_auth_url => @rackspace_auth_url
             }            
-            @uri = self.send authentication_method, options
+            @auth_token = super(options)
+            @uri = endpoint_uri
           else
             @auth_token = @rackspace_auth_token
             @uri = URI.parse(@rackspace_storage_url)
@@ -175,14 +174,15 @@ module Fog
         def endpoint_uri(service_endpoint_url=nil)
           return @uri if @uri
           
-          url  = @rackspace_storage_url || service_endpoint_url          
+          url  = @rackspace_storage_url || service_endpoint_url
+
           unless url
             if v1_authentication?
               raise "Service Endpoint must be specified via :rackspace_storage_url parameter"
             else
-              url = @identity_service.service_catalog.get_endpoint(:cloudFiles, @rackspace_region)            
+              url = endpoint_uri_v2(:cloudFiles, @rackspace_region)
             end
-          end          
+          end
           
           @uri = URI.parse url
           @uri.host = "snet-#{@uri.host}" if service_net?
@@ -193,8 +193,8 @@ module Fog
         
         def authenticate_v1(options)
           credentials = Fog::Rackspace.authenticate(options, @connection_options)
-          @auth_token = credentials['X-Auth-Token']
           endpoint_uri credentials['X-Storage-Url']
+          credentials['X-Auth-Token']
         end
     
       end
