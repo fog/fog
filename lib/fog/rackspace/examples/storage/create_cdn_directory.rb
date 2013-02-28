@@ -27,8 +27,7 @@ service = Fog::Storage.new({
   :provider             => 'Rackspace',
   :rackspace_username   => rackspace_username,
   :rackspace_api_key    => rackspace_api_key 
-  })
-  
+  }) 
   
 # prompt for directory name
 directory_name = get_user_input "\nEnter name of directory to create"
@@ -39,6 +38,6 @@ directory = service.directories.create :key => directory_name, :public => true
 # reload directory to refresh information
 directory.reload
 
-puts "\n Directory #{directory.key} was created."
+puts "\nDirectory #{directory.key} was created."
 puts "To delete the container please execute the delete_directory.rb script\n\n"
   
