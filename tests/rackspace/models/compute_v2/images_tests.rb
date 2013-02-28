@@ -15,6 +15,6 @@ Shindo.tests('Fog::Compute::RackspaceV2 | images', ['rackspace']) do
   end
 
   tests("failure").returns(nil) do
-    service.images.get('some_random_identity')
+    service.images.get(Fog::Rackspace::MockData::NOT_FOUND_ID)
   end
 end

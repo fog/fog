@@ -5,7 +5,7 @@ module Fog
       class Real
         def create_floating_ip(floating_network_id, options = {})
           data = {
-            'floating_ip' => {
+            'floatingip' => {
               'floating_network_id' => floating_network_id,
               'port_id' => options[:port_id],
               'tenant_id' => options[:tenant_id],
@@ -15,7 +15,7 @@ module Fog
 
           vanilla_options = [:port_id, :tenant_id, :fixed_ip_address ]
           vanilla_options.reject{ |o| options[o].nil? }.each do |key|
-            data['floating_ip'][key] = options[key]
+            data['floatingip'][key] = options[key]
           end
 
           request(
@@ -40,7 +40,7 @@ module Fog
             'router_id'           => nil,
           }
           self.data[:floating_ips][data['id']] = data
-          response.body = { 'floating_ip' => data }
+          response.body = { 'floatingip' => data }
           response
         end
       end

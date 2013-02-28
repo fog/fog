@@ -1,6 +1,9 @@
 module Fog
   module Rackspace
     module MockData
+      
+      NOT_FOUND_ID = "NOT-FOUND"
+      
       def data
         @@data ||= Hash.new do |hash, key|
           hash[key] = begin
@@ -35,6 +38,7 @@ module Fog
               "OS-DCF:diskConfig" => "AUTO",
               "created" => "2012-02-28T19:38:57Z",
               "id" => image_id,
+              "name" => "Ubuntu",
               "links" => [
                 {
                   "href" => "https://dfw.servers.api.rackspacecloud.com/v2/010101/images/#{image_id}",
@@ -101,12 +105,13 @@ module Fog
             }
 
             #Mock Data Hash
-            {
+            h = {
               #Compute V2
-              :flavors => {flavor_id => flavor},
-              :images  => {image_id => image},
+              :flavors => Hash.new { |h,k| h[k] = flavor unless k == NOT_FOUND_ID},
+              :images => Hash.new { |h,k| h[k] = image unless k == NOT_FOUND_ID },        
+              :networks => Hash.new { |h,k| h[k] = network unless k == NOT_FOUND_ID },
+
               :servers => {},
-              :networks => { network_id => network },
 
               #Block Storage
               :volumes            => {},
@@ -114,6 +119,13 @@ module Fog
               :volume_attachments => [],
               :volume_types       => {volume_type1_id => volume_type1, volume_type2_id => volume_type2},
             }
+            
+            # seed with initial data
+            h[:flavors][flavor_id] = flavor
+            h[:images][image_id] = image
+            h[:networks][network_id] = network
+            
+            h            
           end
         end[@rackspace_api_key]
       end
