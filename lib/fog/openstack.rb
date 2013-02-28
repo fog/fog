@@ -46,6 +46,7 @@ module Fog
     service(:identity, 'openstack/identity', 'Identity')
     service(:network, 'openstack/network', 'Network')
     service(:storage, 'openstack/storage', 'Storage')
+    service(:volume,  'openstack/volume',  'Volume')
 
     # legacy v1.0 style auth
     def self.authenticate_v1(options, connection_options = {})
