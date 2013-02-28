@@ -301,7 +301,7 @@ module Fog
 
         # Use this to set the Authorization header for login
         def authorization_header
-          "Basic #{Base64.strict_encode64("#{@username}:#{@password}")}"
+          "Basic #{Base64.encode64("#{@username}:#{@password}").delete("\n")}"
         end
 
         # Actually do the request
