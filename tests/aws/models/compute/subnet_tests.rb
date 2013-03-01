@@ -5,8 +5,8 @@ Shindo.tests("Fog::Compute[:aws] | subnet", ['aws']) do
   # Try making a subnet in each AZ.
   @availability_zones.each do |az|
     model_tests(Fog::Compute[:aws].subnets, {:vpc_id => @vpc.id, :cidr_block => '10.0.10.0/28', :availability_zone => az}, true) do
-      test("availability_zone") do
-        @instance.availability_zone.equal? az
+      tests("availability_zone").returns(az) do
+        @instance.availability_zone
       end
     end
   end
