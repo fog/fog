@@ -2,14 +2,10 @@ Shindo.tests('Fog::Compute::RackspaceV2 | server', ['rackspace']) do
   service = Fog::Compute::RackspaceV2.new
   cbs_service = Fog::Rackspace::BlockStorage.new
 
-  flavor_id  = Fog.credentials[:rackspace_flavor_id] || service.flavors.first.id
-  image_id   = Fog.credentials[:rackspace_image_id]  || service.images.first.id
-  image_id ||= Fog.mocking? ? service.images.first.id : service.images.find {|image| image.name =~ /Ubuntu/}.id # use the first Ubuntu image
-
   options = {
     :name => "fog_server_#{Time.now.to_i.to_s}",
-    :flavor_id => flavor_id,
-    :image_id => image_id, 
+    :flavor_id => rackspace_test_flavor_id(service),
+    :image_id => rackspace_test_image_id(service), 
     :metadata => { 'fog_test' => 'true' }
   }
 
@@ -59,7 +55,7 @@ Shindo.tests('Fog::Compute::RackspaceV2 | server', ['rackspace']) do
     @instance.wait_for(timeout=1500) { ready? }
     sleep 60  unless Fog.mocking?
     tests('#rebuild').succeeds do
-      @instance.rebuild(image_id)
+      @instance.rebuild rackspace_test_image_id(service)
       returns('REBUILD') { @instance.state }
     end
 
