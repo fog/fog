@@ -3,6 +3,8 @@ class HP < Fog::Bin
 
     def class_for(key)
       case key
+      when :dns
+       Fog::HP::DNS
       when :block_storage
         Fog::HP::BlockStorage
       when :cdn
@@ -19,6 +21,8 @@ class HP < Fog::Bin
     def [](service)
       @@connections ||= Hash.new do |hash, key|
         hash[key] = case key
+        when :dns
+          Fog::HP::DNS.new
         when :block_storage
           Fog::HP::BlockStorage.new
         when :cdn
