@@ -3,7 +3,7 @@ module Fog
 
     def initialize(url, persistent=false, params={})
       Excon.defaults[:headers]['User-Agent'] ||= "fog/#{Fog::VERSION}"
-      @excon = Excon.new(url.to_s, params)
+      @excon = Excon.new(url, params)
       @persistent = persistent
     end
 

@@ -113,7 +113,7 @@ module Fog
           deprecation_warnings(options)
           
           @persistent = options[:persistent] || false
-          @connection = Fog::Connection.new(endpoint_uri, @persistent, @connection_options)
+          @connection = Fog::Connection.new(endpoint_uri.to_s, @persistent, @connection_options)
         end
         
         def deprecation_warnings(options)

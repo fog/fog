@@ -112,7 +112,7 @@ module Fog
           @auth_token = authenticate
           @persistent = options[:persistent] || false
           Excon.defaults[:ssl_verify_peer] = false if service_net?
-          @connection = Fog::Connection.new(endpoint_uri, @persistent, @connection_options)
+          @connection = Fog::Connection.new(endpoint_uri.to_s, @persistent, @connection_options)
         end        
         
         def account
