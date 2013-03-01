@@ -19,7 +19,7 @@ module Fog
 
       class Mock
 
-        def list_servers
+        def list_servers(options = {})
           response = Excon::Response.new
           data = list_servers_detail.body['servers']
           servers = []
