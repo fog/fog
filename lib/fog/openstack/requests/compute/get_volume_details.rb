@@ -16,7 +16,7 @@ module Fog
 
       class Mock
 
-        def get_volume_details(detailed=true)
+        def get_volume_details(volume_id)
           response = Excon::Response.new
           response.status = 200
           response.body = {
