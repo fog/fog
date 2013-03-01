@@ -13,7 +13,7 @@ module Fog
         #   * maxconn<~Integer>  - maximum number of connections server can be sent
         #   * backup<~Boolean> - only send traffic to machine if all others are down
         #
-        def add_machine_to_application(lb_application_id, lb_machine_id, options = {})
+        def add_machine_to_lb_application(lb_application_id, lb_machine_id, options = {})
           # convert to CGI array args
           body = Hash[options.map {|k,v| ["lb_options[#{k}]", v] }]
           body['lb_machine'] = lb_machine_id

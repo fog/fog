@@ -30,13 +30,13 @@ module Fog
       request :get_lb_backend
       request :get_lb_backends
 
-      request :add_machine_to_application
+      request :add_machine_to_lb_application
 
-      request :add_machine_to_backend
+      request :add_machine_to_lb_backend
 
-      request :remove_machine_from_backend
+      request :remove_machine_from_lb_backend
 
-      request :update_machine
+      request :update_lb_backend_machine
 
       class Mock
       end

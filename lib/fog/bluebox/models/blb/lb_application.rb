@@ -15,7 +15,7 @@ module Fog
 
         def add_machine(lb_machine_id, options)
           requires :id
-          service.add_machine_to_application(id, lb_machine_id, options)
+          service.add_machine_to_lb_application(id, lb_machine_id, options)
         end
 
         def lb_services
