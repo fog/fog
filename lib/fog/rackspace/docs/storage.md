@@ -1,6 +1,6 @@
 #Cloud Files™ (storage)
 
-This document explains how to get started using Cloud Files™ with Fog. It assumes you have read the [Getting Started with Fog and the Rackspace Open Cloud](getting_started.md) document.
+This document explains how to get started using Cloud Files with Fog. It assumes you have read the [Getting Started with Fog and the Rackspace Open Cloud](getting_started.md) document.
 
 
 ## Starting irb console
@@ -21,7 +21,7 @@ If using Ruby 1.9.x execute:
 	
 ## Create Service
 
-Next, create a connection to the Cloud Files™.
+Next, create a connection to Cloud Files.
 
 Using a US based account:
 
@@ -44,11 +44,11 @@ Using a UK based account:
   		:connection_options  => {}                          # Optional
 	})
 
-To learn more about obtaining cloud credentials visit the [Getting Started with Fog and the Rackspace Open Cloud](getting_started.md) document. 
+To learn more about obtaining cloud credentials refer to the [Getting Started with Fog and the Rackspace Open Cloud](getting_started.md) document.
 
-By default `Fog::Storage` will authenticate against the US authentication endpoint and connect to the DFW region. You can specify alternative authentication endpoints using the key `:rackspace_auth_url`. Please refer to [Alternate Authentication Endpoints](http://docs.rackspace.com/auth/api/v2.0/auth-client-devguide/content/Endpoints-d1e180.html) for a list of alernative Rackspace authentication endpoints.
+By default `Fog::Storage` will authenticate against the US authentication endpoint and connect to the DFW region. You can specify alternative authentication endpoints using the key `:rackspace_auth_url`. Please refer to [Alternate Authentication Endpoints](http://docs.rackspace.com/auth/api/v2.0/auth-client-devguide/content/Endpoints-d1e180.html) for a list of alternative Rackspace authentication endpoints.
 
-Alternative regions are specified using the key `:rackspace_region `. A list of regions available for Cloud Files™ can be found by executing the following:
+Alternative regions are specified using the key `:rackspace_region `. A list of regions available for Cloud Files can be found by executing the following:
 
 	identity_service = Fog::Identity({
   		:provider            => 'Rackspace',                # Rackspace Fog provider
@@ -60,7 +60,7 @@ Alternative regions are specified using the key `:rackspace_region `. A list of 
 	identity_service.service_catalog.display_service_regions :cloudFiles
 
 
-**Note**: *A`Fog::Storage` instance is needed for desired region.*
+**Note**: A`Fog::Storage` instance is needed for the desired region.
 
 ### Optional Service Parameters
 
@@ -73,7 +73,7 @@ The Storage service supports the following additional parameters:
 	</tr>
 	<tr>
 		<td>:rackspace_servicenet</td>
-		<td>If set to true, the service will access Cloud Files™ using the internal Rackspace Service Net. This option should only be used for internal network connections.</td>
+		<td>If set to true, the service will access Cloud Files using the internal Rackspace ServiceNet. This option should only be used for internal network connections.</td>
 	</tr>
 	<tr>
 		<td>:rackspace_cdn_ssl</td>
@@ -85,7 +85,7 @@ The Storage service supports the following additional parameters:
 	</tr>
 	 <tr>
 		<td>:rackspace_storage_url</td>
-		<td>The endpoint for the Cloud Files™ service. By default, Fog::Storage will pick the appropriate endpoint for region. This option will typically only be used for Rackspace Private Cloud Access.</td>
+		<td>The endpoint for the Cloud Files service. By default, Fog::Storage will pick the appropriate endpoint for region. This option will typically only be used for Rackspace Private Cloud Access.</td>
 	</tr>
 	<tr>
 		<td>:rackspace_cdn_url</td>
@@ -137,7 +137,7 @@ Fog supports passing additional connection parameters to its underlying HTTP lib
 Fog provides both a **model** and **request** abstraction. The request abstraction provides the most efficient interface and the model abstraction wraps the request abstraction to provide a convenient `ActiveModel` like interface. 
 	
 ### Request Layer
-The request abstraction maps directly to the [Cloud Files™ API](http://docs.rackspace.com/files/api/v1/cf-devguide/content/Overview-d1e70.html). It provides the most efficient interface to the Rackspace Open Cloud.
+The request abstraction maps directly to the [Cloud Files API](http://docs.rackspace.com/files/api/v1/cf-devguide/content/Overview-d1e70.html). It provides the most efficient interface to the Rackspace Open Cloud.
 
 To see a list of requests supported by the storage service:
 
@@ -170,7 +170,7 @@ To view the status of the response:
 	
 	response.status
 	
-**Note**: *Fog is aware valid HTTP response statuses for each request type. If an unexpected HTTP response status occurs, Fog will raise an exception.*
+**Note**: Fog is aware of the valid HTTP response statuses for each request type. If an unexpected HTTP response status occurs, Fog will raise an exception.
 
 To view response body:
 
@@ -228,7 +228,7 @@ Here is a summary of common model methods:
 
 The remainder of this document details the model abstraction.
 
-**Note:** *Fog refers to Rackspace Cloud containers as directories.*
+**Note:** Fog refers to Rackspace Cloud containers as directories.
 
 ## List Directories
 
@@ -297,7 +297,7 @@ The `create` method also supports the following key values:
 	
 ## Update Directory
 
-Cloud Files™ supports updating the `public` attribute to enable/disable CDN.
+Cloud Files supports updating the `public` attribute to enable/disable CDN.
 
 To update this attribute:
 
@@ -310,7 +310,7 @@ To delete a directory:
 
 	directory.destroy
 	
-**Note**: *Directory must be empty before it can be deleted.*
+**Note**: Directory must be empty before it can be deleted.
 
 ## List Files
 
@@ -335,7 +335,7 @@ The `create` method also supports the following key values:
 	</tr>
 	<tr>
 		<td>:content_type</td>
-		<td>The content type of the object. Cloud Files™ will attempt to auto detect this value if omitted.</td>
+		<td>The content type of the object. Cloud Files will attempt to auto detect this value if omitted.</td>
 	</tr>
 	<tr>
 		<td>:access_control_allow_origin</td>
@@ -347,7 +347,7 @@ The `create` method also supports the following key values:
 	</tr>
 	<tr>
 		<td>:etag</td>
-		<td>The MD5 checksum of your object's data. If specified, Cloud Files™ will validate the integrity of the uploaded object.</td>
+		<td>The MD5 checksum of your object's data. If specified, Cloud Files will validate the integrity of the uploaded object.</td>
 	</tr>
 	<tr>
 		<td>:metadata</td>
@@ -359,20 +359,20 @@ The `create` method also supports the following key values:
 
 To download a file from a private or public directory:
 
-	file = directory.files.get('germany.jpg')
-	File.open('germany.jpg', 'w') {|f| f.write(file.body) }
+	file_object = directory.files.get('germany.jpg')
+	File.open('germany.jpg', 'w') {|f| f.write(file_object.body) }
 
 ## Accessing Files Through CDN
 
 The CDN service offers several different URLs to access your files.
 
-The simpiest is with the default container URL. This can be accessed as follows:
+The simplest is with the default container URL. This can be accessed as follows:
 
 	file.public_url
 
-For a more user friendly URL, you can create a `CNAME` DNS record pointing the URL generated by the `public_url` method. Then set the`CNAME` on the `Directory` object using the attribute `cdn_cname`. Note, that the `cdn_cname` attribute does not persist and will need to be specified every time a directory object is retrieved.
+For a more user-friendly URL, you can create a `CNAME` DNS record pointing to the URL generated by the `public_url` method. Then set the`CNAME` on the `Directory` object using the attribute `cdn_cname`. Note, that the `cdn_cname` attribute does not persist and will need to be specified every time a directory object is retrieved.
 
-To access the file using SSL, you will need to specify the option `:rackspace_cdn_ssl => true` when creating `Fog::Storage` service. This will cause the `public_url` method to return the SSL secured URL.
+To access the file using SSL, you need to specify the option `:rackspace_cdn_ssl => true` when creating `Fog::Storage` service. This will cause the `public_url` method to return the SSL-secured URL.
 	
 To stream content use the following:
 
@@ -397,7 +397,7 @@ You can update and retrieve metadata in a manner similar to a hash:
 	
 	file.metadata[:environment] = "development"
 
-Directory metadata is saved when the directory is saved and File metadata is set when the file is saved:
+Directory metadata is saved when the directory is saved and file metadata is set when the file is saved:
 	
 	directory.save
 	
@@ -411,11 +411,11 @@ Metadata is reloaded when directory or file is reloaded:
 
 ## Copy File
 
-Cloud Files™ supports copying files. If you wanted to copy files into a container named "trip" with a name of "europe.jpg" you would do the following:
+Cloud Files supports copying files. To copy files into a container named "trip" with a name of "europe.jpg" do the following:
 
 	file.copy("trip", "europe.jpg")
 	
-To move or rename a file, you would perform a copy operation and then delete the old file like so:
+To move or rename a file, perform a copy operation and then delete the old file:
 
 	file.copy("trip", "germany.jpg")
 	file.destroy
@@ -432,17 +432,17 @@ To immediately remove a file from the CDN network use the following:
 
 	file.purge_from_cdn
 	
-You may only purge up to 25 objects per day and thus this should only be used in situations where there could be serious personal, business, or security consequences if it remained in the CDN. To purge a directory, please contact Rackspace support.
+You may only purge up to 25 objects per day and thus this should only be used in situations where there could be serious personal, business, or security consequences if the object remained in the CDN. To purge a directory, please contact Rackspace support.
 	
-**Note**: *You may only **PURGE** up to 25 objects per day. Any attempt to purge more than this will result in a 498 status code error (Rate Limited).*
+**Note**: You may only **PURGE** up to 25 objects per day. Any attempt to purge more than this will result in a 498 status code error (Rate Limited).
 
 ## Account Information
 
-To view Cloud Files™ usage, you would execute the following:
+To view Cloud Files usage execute the following:
 
 	service.account
 	
-This will return:
+This returns a response similar to the following:
 
 	<Fog::Storage::Rackspace::Account
     meta_temp_url_key="lkkl23jl2j3",

@@ -31,7 +31,7 @@ Next, create a connection to the Next Gen Cloud Servers™:
   		:connection_options => {} # Optional
 	})
 
-To learn more about obtaining cloud credentials visit the [Getting Started with Fog and the Rackspace Open Cloud](getting_started.md) document. 
+To learn more about obtaining cloud credentials refer to the [Getting Started with Fog and the Rackspace Open Cloud](getting_started.md) document.
 
 By default `Fog::Compute` will connect to the DFW region. You can specify alternative regions using the key `:rackspace_endpoint ` with one of the following values:
 
@@ -53,7 +53,7 @@ By default `Fog::Compute` will connect to the DFW region. You can specify altern
 		<td>London Region</tr>
 </table>
 
-**Note**: *A`Fog::Compute` instance is needed for desired region.*
+**Note**: A`Fog::Compute` instance is needed for the desired region.
 
 ### Optional Connection Parameters
 
@@ -123,7 +123,7 @@ To view the status of the response:
 	
 	response.status
 	
-**Note**: *Fog is aware valid HTTP response statuses for each request type. If an unexpected HTTP response status occurs, Fog will raise an exception.*
+**Note**: Fog is aware valid HTTP response statuses for each request type. If an unexpected HTTP response status occurs, Fog will raise an exception.
 	
 To view response header:
 
@@ -235,7 +235,7 @@ This returns a collection of `Fog::Compute::RackspaceV2::Image` models:
         >,
 	…
 
-**Note**: *In order to speed up access `service.images` does not retrieve all attribute values. To retrieve additional details you will either need to `reload` each individual image or use the request abstraction.*
+**Note**: In order to speed up access `service.images` does not retrieve all attribute values. To retrieve additional details you will either need to `reload` each individual image or use the request abstraction.
 
 ## Get Image
 
@@ -261,8 +261,7 @@ This returns an `Fog::Compute::RackspaceV2::Image` instance:
       links=[{"href"=>"https://ord.servers.api.rackspacecloud.com/v2/772045/images/8a3a9f96-b997-46fd-b7a8-a9e740796ffd", "rel"=>"self"}, {"href"=>"https://ord.servers.api.rackspacecloud.com/772045/images/8a3a9f96-b997-46fd-b7a8-a9e740796ffd", "rel"=>"bookmark"}, {"href"=>"https://ord.images.api.rackspacecloud.com/772045/images/8a3a9f96-b997-46fd-b7a8-a9e740796ffd", "type"=>"application/vnd.openstack.image", "rel"=>"alternate"}]
     > 
     
-**Note**: *This request populates all Image attributes.*
-
+**Note**: This request populates all Image attributes.
 
 ## List Flavors
 
@@ -292,7 +291,7 @@ This returns a collection of `Fog::Compute::RackspaceV2::Flavor` models:
       >,
 	…
 	
-**Note**: *In order to speed up access `service.flavors` does not retrieve all attribute values. To retrieve additional details you will either need to `reload` each individual flavor or use the request abstraction.*
+**Note**: In order to speed up access `service.flavors` does not retrieve all attribute values. To retrieve additional details you will either need to `reload` each individual flavor or use the request abstraction.
 
 
 ## Get Flavor
@@ -312,7 +311,7 @@ This returns a `Fog::Compute::RackspaceV2::Flavor` instance:
     links=[{"href"=>"https://dfw.servers.api.rackspacecloud.com/v2/772045/flavors/2", "rel"=>"self"}, {"href"=>"https://dfw.servers.api.rackspacecloud.com/772045/flavors/2", "rel"=>"bookmark"}]
     >
     
-**Note**: *This request populates all Flavor attributes.*
+**Note**: This request populates all Flavor attributes.
 
 
 ## List Servers
@@ -447,7 +446,7 @@ Fog can wait for the server to become ready as follows:
 
 	server.wait_for { ready? }
 	
-**Note**: *The `Fog::Compute::RackspaceV2::Server` instance returned from the create method contains a `password` attribute. The `password` attribute will NOT be present in subsequent retrievals either through `service.servers` or `server.servers.get my_server_id`*.
+**Note**: The `Fog::Compute::RackspaceV2::Server` instance returned from the create method contains a `password` attribute. The `password` attribute will NOT be present in subsequent retrievals either through `service.servers` or `server.servers.get my_server_id`.
 
 ### Additional Parameters
 
@@ -485,14 +484,14 @@ To update these attributes:
 	
 Additional information about server access addresses can be found [here](http://docs.rackspace.com/servers/api/v2/cs-devguide/content/Server_Primary_Addresses-d1e2558.html).
 	
-**Note**: *Updating the server name does not change the host name. Names are not guaranteed to be unique.*
+**Note**: Updating the server name does not change the host name. Names are not guaranteed to be unique.
 
 ## Delete Server
 To delete a server:
 
 	server.destroy
 	
-**Note**: *The server is not immediately destroyed, but it does occur shortly there after.*
+**Note**: The server is not immediately destroyed, but it does occur shortly there after.
 
 ## Metadata
 You can access metadata as an attribute on both `Fog::Compute::RackspaceV2::Server` and `Fog::Compute::RackspaceV2::Metadata::Image`. You can specify metadata during creation of a server or an image. Please refer to [Create Server](#create-server) or [Create Image](#create-image) sections for more information.
@@ -596,7 +595,7 @@ In this case, `wait_for` is waiting for the server to become `VERIFY_READY` and 
 
 Once a server enters the `VERIFY_RESIZE` we will need to call `confirm_resize` to confirm the server was properly resized or `revert_resize` to rollback to the old size/flavor.
 
-**Note:** *A server will automatically confirm resize after 24 hours.*
+**Note:** A server will automatically confirm resize after 24 hours.
 
 To confirm resize:
 
