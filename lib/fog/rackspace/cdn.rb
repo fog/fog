@@ -128,7 +128,6 @@ module Fog
             response = @connection.request(params.merge!({
               :headers  => {
                 'Content-Type' => 'application/json',
-                'Accept' => 'application/json',
                 'X-Auth-Token' => @auth_token
               }.merge!(params[:headers] || {}),
               :host     => @host,
