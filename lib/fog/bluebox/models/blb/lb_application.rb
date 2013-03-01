@@ -13,6 +13,11 @@ module Fog
         attribute :description
         attribute :created,     :aliases => 'created_at'
 
+        def add_machine(lb_machine_id, options)
+          requires :id
+          service.add_machine_to_application(id, lb_machine_id, options)
+        end
+
         def lb_services
           Fog::Bluebox::BLB::LbServices.new({
             :service => service,
