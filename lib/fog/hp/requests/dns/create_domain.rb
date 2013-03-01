@@ -3,10 +3,9 @@ module Fog
     class DNS
 
       class Real
-        def create_domain(name, ttl, email)
+        def create_domain(name, email)
           data = {
               name: name,
-              ttl: ttl,
               email:email
           }
           request(
@@ -19,7 +18,7 @@ module Fog
       end
 
       class Mock
-        def create_domain
+        def create_domain(name,email)
           response = Excon::Response.new
           response.status = 200
 
