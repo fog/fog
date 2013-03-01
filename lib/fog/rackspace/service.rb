@@ -57,7 +57,7 @@ module Fog
         }
 
         @identity_service = Fog::Rackspace::Identity.new(hash)
-        @identity_service.auth_token
+        @auth_token = @identity_service.auth_token
       end
 
       def authenticate_v1(options)
@@ -65,7 +65,11 @@ module Fog
       end
 
       def endpoint_uri_v2
-        @auth_token = @identity_service.service_catalog.get_endpoint(service_name, region)
+        @uri = @identity_service.service_catalog.get_endpoint(service_name, region)
+      end
+
+      def auth_token
+        @auth_token || @identity_service.auth_token
       end
 
     end

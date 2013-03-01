@@ -109,7 +109,7 @@ module Fog
           @rackspace_must_reauthenticate = false
           @connection_options     = options[:connection_options] || {}
 
-          @auth_token = authenticate
+          authenticate
           @persistent = options[:persistent] || false
           Excon.defaults[:ssl_verify_peer] = false if service_net?
           @connection = Fog::Connection.new(endpoint_uri.to_s, @persistent, @connection_options)
@@ -133,7 +133,7 @@ module Fog
             response = @connection.request(params.merge({
               :headers  => {
                 'Content-Type' => 'application/json',
-                'X-Auth-Token' => @auth_token
+                'X-Auth-Token' => auth_token
               }.merge!(params[:headers] || {}),
               :host     => endpoint_uri.host,
               :path     => "#{endpoint_uri.path}/#{params[:path]}",
@@ -171,7 +171,7 @@ module Fog
               :rackspace_username => @rackspace_username,
               :rackspace_auth_url => @rackspace_auth_url
             }            
-            @auth_token = super(options)
+            super(options)
           else
             @auth_token = @rackspace_auth_token
             @uri = URI.parse(@rackspace_storage_url)
@@ -197,7 +197,7 @@ module Fog
         def authenticate_v1(options)
           credentials = Fog::Rackspace.authenticate(options, @connection_options)
           endpoint_uri credentials['X-Storage-Url']
-          credentials['X-Auth-Token']
+          @auth_token = credentials['X-Auth-Token']
         end
     
       end

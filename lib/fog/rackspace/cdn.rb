@@ -106,7 +106,7 @@ module Fog
           @rackspace_auth_url = options[:rackspace_auth_url]
           @rackspace_cdn_url = options[:rackspace_cdn_url]
           @rackspace_region = options[:rackspace_region] || :dfw
-          @auth_token = authenticate(options)
+          authenticate(options)
           @enabled = false
           @persistent = options[:persistent] || false
 
@@ -138,7 +138,7 @@ module Fog
             response = @connection.request(params.merge!({
               :headers  => {
                 'Content-Type' => 'application/json',
-                'X-Auth-Token' => @auth_token
+                'X-Auth-Token' => auth_token
               }.merge!(params[:headers] || {}),
               :host     => endpoint_uri.host,
               :path     => "#{endpoint_uri.path}/#{params[:path]}",
@@ -162,7 +162,7 @@ module Fog
         def authenticate_v1(options)
           credentials = Fog::Rackspace.authenticate(options, @connection_options)
           endpoint_uri credentials['X-CDN-Management-Url']
-          credentials['X-Auth-Token']
+          @auth_token = credentials['X-Auth-Token']
         end
 
       end

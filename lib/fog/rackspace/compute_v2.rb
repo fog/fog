@@ -130,7 +130,7 @@ module Fog
             response = @connection.request(params.merge!({
               :headers  => {
                 'Content-Type' => 'application/json',
-                'X-Auth-Token' => @auth_token
+                'X-Auth-Token' => auth_token
               }.merge!(params[:headers] || {}),
               :host     => @uri.host,
               :path     => "#{endpoint_uri.path}/#{params[:path]}"
@@ -161,7 +161,7 @@ module Fog
             :rackspace_username => @rackspace_username,
             :rackspace_auth_url => @rackspace_auth_url
           }
-          @auth_token = super(options)
+          super(options)
         end
 
         def service_name
@@ -189,7 +189,7 @@ module Fog
         def authenticate_v1(options)
           credentials = Fog::Rackspace.authenticate(options, @connection_options)
           setup_endpoint credentials
-          credentials['X-Auth-Token']
+          @auth_token = credentials['X-Auth-Token']
         end
       end
     end
