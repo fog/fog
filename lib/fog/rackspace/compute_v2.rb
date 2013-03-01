@@ -115,15 +115,6 @@ module Fog
           @persistent = options[:persistent] || false
           @connection = Fog::Connection.new(endpoint_uri.to_s, @persistent, @connection_options)
         end
-        
-        def deprecation_warnings(options)
-          Fog::Logger.deprecation("The :rackspace_endpoint option is deprecated. Please use :rackspace_compute_url for custom endpoints") if options[:rackspace_endpoint]
-          
-          if [DFW_ENDPOINT, ORD_ENDPOINT, LON_ENDPOINT].include?(@rackspace_endpoint) && v2_authentication?
-            regions = @identity_service.service_catalog.display_service_regions(:cloudServersOpenStack)
-            Fog::Logger.deprecation("Please specify region using :rackspace_region rather than :rackspace_endpoint. Valid region for :rackspace_region are #{regions}.")
-          end
-        end
 
         def request(params)
           begin
@@ -176,6 +167,17 @@ module Fog
           @uri = super(@rackspace_endpoint || service_endpoint_url, :rackspace_compute_url)
         end
 
+        private
+
+        def deprecation_warnings(options)
+          Fog::Logger.deprecation("The :rackspace_endpoint option is deprecated. Please use :rackspace_compute_url for custom endpoints") if options[:rackspace_endpoint]
+
+          if [DFW_ENDPOINT, ORD_ENDPOINT, LON_ENDPOINT].include?(@rackspace_endpoint) && v2_authentication?
+            regions = @identity_service.service_catalog.display_service_regions(:cloudServersOpenStack)
+            Fog::Logger.deprecation("Please specify region using :rackspace_region rather than :rackspace_endpoint. Valid region for :rackspace_region are #{regions}.")
+          end
+        end
+
         def setup_endpoint(credentials)
           account_id = credentials['X-Server-Management-Url'].match(/.*\/([\d]+)$/)[1]
           
@@ -183,8 +185,6 @@ module Fog
           @uri = URI.parse(endpoint)
           @uri.path = "#{@uri.path}/#{account_id}"
         end
-
-        private
 
         def authenticate_v1(options)
           credentials = Fog::Rackspace.authenticate(options, @connection_options)

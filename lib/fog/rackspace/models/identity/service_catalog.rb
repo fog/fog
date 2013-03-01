@@ -51,10 +51,12 @@ module Fog
           services = hash["access"]["serviceCatalog"]
           services.each do |serv|
             name = serv["name"].to_sym
-            service_catalog.add_endpoints(name, serv)
+            service_catalog.send(:add_endpoints, name, serv)
           end
           service_catalog
-        end                
+        end
+
+        private
         
         def add_endpoints(service_name, hash)
           endpoints = hash["endpoints"]
@@ -65,7 +67,6 @@ module Fog
           end
         end
         
-        private
         def endpoints_from_array(endpoints)
           hash = {}
           endpoints.each do |endpoint|
