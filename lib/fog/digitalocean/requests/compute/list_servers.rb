@@ -7,7 +7,7 @@ module Fog
           request(
             :expects  => [200],
             :method   => 'GET',
-            :path     => 'droplets',
+            :path     => 'droplets'
           )
         end
 
