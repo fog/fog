@@ -90,14 +90,16 @@ module Fog
         def save
           raise Fog::Errors::Error.new('Resaving an existing object may create a duplicate') if persisted?
           requires :name, :flavor_id, :image_id, :region_id
-          meta_hash = {}
-          options = {
-            'name'        => name,
-            'size_id'     => flavor_id,
-            'image_id'    => image_id,
-            'region_id'   => region_id,
-          }
-          data = service.create_server name, flavor_id, image_id, region_id
+
+          options = {}
+          if attributes[:ssh_key_ids]
+            options[:ssh_key_ids] = attributes[:ssh_key_ids] 
+          end
+          data = service.create_server name, 
+                                       flavor_id, 
+                                       image_id, 
+                                       region_id,
+                                       options
           merge_attributes(data.body['droplet'])
           true
         end

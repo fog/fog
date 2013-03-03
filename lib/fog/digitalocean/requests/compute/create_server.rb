@@ -12,14 +12,16 @@ module Fog
                            region_id,
                            options = {} )
 
-          query_args = []
           query_hash = {
-            :name      => name,
-            :size_id   => size_id,
-            :image_id  => image_id,
-            :region_id => region_id
-          }.each { |k, v| query_args << "#{k}=#{v}" }
-          query_hash.each { |k, v| query_args << "#{k}=#{v}" }
+            :name        => name,
+            :size_id     => size_id,
+            :image_id    => image_id,
+            :region_id   => region_id
+          }
+
+          if options[:ssh_key_ids]
+            query_hash[:ssh_key_ids] = options[:ssh_key_ids]
+          end
           
           request(
             :expects  => [200],
