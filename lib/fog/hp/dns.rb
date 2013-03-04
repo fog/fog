@@ -8,11 +8,11 @@ module Fog
       recognizes :hp_auth_uri, :persistent, :connection_options, :hp_use_upass_auth_style, :hp_auth_version, :user_agent, :hp_service_type
 
       model_path 'fog/hp/models/dns'
-      model :domain
+      model      :domain
       collection :domains
-      model :record
+      model      :record
       collection :records
-      model :server
+      model      :server
 
 
       request_path 'fog/hp/requests/dns'
@@ -33,8 +33,7 @@ module Fog
         def self.data
           @data ||= Hash.new do |hash, key|
             hash[key] = {
-                :flavors => {},
-                :instances => {}
+
             }
           end
         end
