@@ -47,8 +47,13 @@ module Fog
           end
         end
 
-        def files
-          @files ||= Fog::Storage::AWS::Files.new(:directory => self, :service => service)
+        def files(options={})
+          arguments = {
+            :directory => self,
+            :service => service
+          }
+          arguments.merge!(options) if options.is_a? Hash
+          @files ||= Fog::Storage::AWS::Files.new(arguments)
         end
 
         def payer
