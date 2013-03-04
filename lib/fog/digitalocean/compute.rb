@@ -33,6 +33,8 @@ module Fog
       request      :power_off_server
       request      :power_on_server
       request      :shutdown_server
+      request      :list_ssh_keys
+      request      :create_ssh_key
 
       # request :digitalocean_resize      
 
