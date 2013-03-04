@@ -8,9 +8,9 @@ module Fog
       class InternalServerError < Fog::Rackspace::Errors::InternalServerError; end
       class BadRequest < Fog::Rackspace::Errors::BadRequest; end
 
-      DFW_ENDPOINT = 'https://dfw.databases.api.rackspacecloud.com/v1.0/'
-      LON_ENDPOINT = 'https://lon.databases.api.rackspacecloud.com/v1.0/'
-      ORD_ENDPOINT = 'https://ord.databases.api.rackspacecloud.com/v1.0/'
+      DFW_ENDPOINT = 'https://dfw.databases.api.rackspacecloud.com/v1.0'
+      LON_ENDPOINT = 'https://lon.databases.api.rackspacecloud.com/v1.0'
+      ORD_ENDPOINT = 'https://ord.databases.api.rackspacecloud.com/v1.0'
 
       requires :rackspace_api_key, :rackspace_username
       recognizes :rackspace_auth_url
@@ -82,6 +82,7 @@ module Fog
             response = @connection.request(params.merge!({
               :headers  => {
                 'Content-Type' => 'application/json',
+                'Accept'  => 'application/json',
                 'X-Auth-Token' => @auth_token
               }.merge!(params[:headers] || {}),
               :host     => @host,

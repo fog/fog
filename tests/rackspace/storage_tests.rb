@@ -81,5 +81,9 @@ Shindo.tests('Rackspace | Storage', ['rackspace']) do
       returns(true, "uses custom endpoint") { (@service.instance_variable_get("@uri").host =~ /snet-/) != nil }
     end
   end
-  
+    
+  tests('account').succeeds do
+    pending if Fog.mocking?    
+    Fog::Storage[:rackspace].account
+  end
 end

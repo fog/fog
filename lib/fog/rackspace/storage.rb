@@ -15,6 +15,7 @@ module Fog
       collection  :directories
       model       :file
       collection  :files
+      model       :account
 
       request_path 'fog/rackspace/requests/storage'
       request :copy_object
@@ -108,6 +109,11 @@ module Fog
           @connection = Fog::Connection.new(endpoint_uri, @persistent, @connection_options)
         end        
         
+        def account
+          account = Fog::Storage::Rackspace::Account.new(:service => self)
+          account.reload
+        end
+
         def ssl?
           !rackspace_cdn_ssl.nil?
         end

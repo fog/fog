@@ -7,7 +7,10 @@ Shindo.tests('Fog::Compute::RackspaceV2 | metadata', ['rackspace']) do
   
   tests('success') do
     begin
-      @server = service.servers.create(:name => "fog_server_#{test_time}", :flavor_id => 2, :image_id => "3afe97b2-26dc-49c5-a2cc-a2fc8d80c001")
+      @server = service.servers.create(:name => "fog_server_#{test_time}", 
+      :flavor_id => rackspace_test_flavor_id(service),
+      :image_id => rackspace_test_image_id(service))
+      
       @server.wait_for(timeout=1500) { ready? }
       
       tests('server') do
