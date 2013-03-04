@@ -21,6 +21,7 @@ module Fog
             :path    => "/api/lb_backends/#{lb_backend_id}/lb_machines.json",
             :body    => body.map {|k,v| "#{CGI.escape(k)}=#{CGI.escape(v.to_s)}"}.join('&')
           )
+        end
       end
 
       class Mock
