@@ -26,13 +26,14 @@ Shindo.tests('Fog::CDN::Rackspace', ['rackspace']) do
     @service = Fog::CDN::Rackspace.new :rackspace_auth_url => 'https://identity.api.rackspacecloud.com/v1.0'
 
     tests('variables populated') do
-      returns(false, "auth token populated") { @service.instance_variable_get("@auth_token").nil? }
+      returns(true, "auth token populated") { !@service.send(:auth_token).nil? }
       returns(false, "path populated") { @service.instance_variable_get("@uri").path.nil? }
       returns(true, "identity_service was not used") { @service.instance_variable_get("@identity_service").nil? }    
     end
     tests('custom endpoint') do
       @service = Fog::CDN::Rackspace.new :rackspace_auth_url => 'https://identity.api.rackspacecloud.com/v1.0', 
         :rackspace_cdn_url => 'https://my-custom-cdn-endpoint.com'
+        returns(true, "auth token populated") { !@service.send(:auth_token).nil? }
         returns(true, "uses custom endpoint") { (@service.instance_variable_get("@uri").host =~ /my-custom-cdn-endpoint\.com/) != nil }
     end
   end
@@ -42,21 +43,24 @@ Shindo.tests('Fog::CDN::Rackspace', ['rackspace']) do
     @service = Fog::CDN::Rackspace.new :rackspace_auth_url => 'https://identity.api.rackspacecloud.com/v2.0'
     
     tests('variables populated') do
-      returns(false, "auth token populated") { @service.instance_variable_get("@auth_token").nil? }
+      returns(true, "auth token populated") { !@service.send(:auth_token).nil? }
       returns(false, "path populated") { @service.instance_variable_get("@uri").path.nil? }
       returns(false, "identity service was used") { @service.instance_variable_get("@identity_service").nil? }    
     end
     tests('dfw region') do
       @service = Fog::CDN::Rackspace.new :rackspace_auth_url => 'https://identity.api.rackspacecloud.com/v2.0', :rackspace_region => :dfw
+      returns(true, "auth token populated") { !@service.send(:auth_token).nil? }
       returns(true) { (@service.instance_variable_get("@uri").host =~ /cdn1/) != nil }
     end
     tests('ord region') do
       @service = Fog::CDN::Rackspace.new :rackspace_auth_url => 'https://identity.api.rackspacecloud.com/v2.0', :rackspace_region => :ord
+      returns(true, "auth token populated") { !@service.send(:auth_token).nil? }
       returns(true) { (@service.instance_variable_get("@uri").host =~ /cdn2/) != nil }
     end
     tests('custom endpoint') do
       @service = Fog::CDN::Rackspace.new :rackspace_auth_url => 'https://identity.api.rackspacecloud.com/v2.0', 
         :rackspace_cdn_url => 'https://my-custom-cdn-endpoint.com'
+        returns(true, "auth token populated") { !@service.send(:auth_token).nil? }
         returns(true, "uses custom endpoint") { (@service.instance_variable_get("@uri").host =~ /my-custom-cdn-endpoint\.com/) != nil }
     end
   end
@@ -66,16 +70,19 @@ Shindo.tests('Fog::CDN::Rackspace', ['rackspace']) do
     
     tests('no params') do
       @service = Fog::CDN::Rackspace.new
+      returns(true, "auth token populated") { !@service.send(:auth_token).nil? }
       returns(true, "uses DFW") { (@service.instance_variable_get("@uri").host =~ /cdn1/) != nil }
     end
     
     tests('specify region') do
       @service = Fog::CDN::Rackspace.new :rackspace_region => :ord
+      returns(true, "auth token populated") { !@service.send(:auth_token).nil? }
       returns(true) { (@service.instance_variable_get("@uri").host =~ /cdn2/) != nil }
     end
     
     tests('custom endpoint') do
       @service = Fog::CDN::Rackspace.new :rackspace_cdn_url => 'https://my-custom-cdn-endpoint.com'
+        returns(true, "auth token populated") { !@service.send(:auth_token).nil? }
         returns(true, "uses custom endpoint") { (@service.instance_variable_get("@uri").host =~ /my-custom-cdn-endpoint\.com/) != nil }
     end
   end

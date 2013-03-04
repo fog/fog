@@ -1,5 +1,5 @@
 require 'fog/rackspace'
-require 'fog/rackspace/authentication'
+require 'fog/rackspace/service'
 require 'fog/cdn'
 
 module Fog
@@ -24,6 +24,18 @@ module Fog
           "X-Cdn-Streaming-Uri" => :streaming_uri, 
           "X-Cdn-Ssl-Uri" => :ssl_uri
         }.freeze
+
+        def service_name
+          :cloudFilesCDN
+        end
+
+        def region
+          @rackspace_region
+        end
+
+        def endpoint_uri(service_endpoint_url=nil)
+          @uri = super(@rackspace_cdn_url || service_endpoint_url, :rackspace_cdn_url)
+        end
 
         def publish_container(container, publish = true)
           enabled = publish ? 'True' : 'False'
@@ -54,8 +66,7 @@ module Fog
         end        
       end
 
-      class Mock
-        include Fog::Rackspace::Authentication
+      class Mock < Fog::Rackspace::Service
         include Base
 
         def self.data
@@ -87,8 +98,7 @@ module Fog
         
       end
 
-      class Real
-        include Fog::Rackspace::Authentication
+      class Real < Fog::Rackspace::Service
         include Base
 
         def initialize(options={})
@@ -101,29 +111,10 @@ module Fog
           @persistent = options[:persistent] || false
 
           if endpoint_uri
-            @connection = Fog::Connection.new(endpoint_uri, @persistent, @connection_options)
+            @connection = Fog::Connection.new(endpoint_uri.to_s, @persistent, @connection_options)
             @enabled = true
           end
         end
-
-        def authenticate(options)
-          self.send authentication_method, options
-        end     
-        
-        def endpoint_uri(service_endpoint_url=nil)
-          return @uri if @uri
-          
-          url  = @rackspace_cdn_url || service_endpoint_url          
-          unless url
-            if v1_authentication?
-              raise "Service Endpoint must be specified via :rackspace_cdn_url parameter"
-            else
-              url = @identity_service.service_catalog.get_endpoint(:cloudFilesCDN, @rackspace_region)            
-            end
-          end          
-          
-          @uri = URI.parse url
-        end      
 
         def enabled?
           @enabled
@@ -147,7 +138,7 @@ module Fog
             response = @connection.request(params.merge!({
               :headers  => {
                 'Content-Type' => 'application/json',
-                'X-Auth-Token' => @auth_token
+                'X-Auth-Token' => auth_token
               }.merge!(params[:headers] || {}),
               :host     => endpoint_uri.host,
               :path     => "#{endpoint_uri.path}/#{params[:path]}",
@@ -170,8 +161,8 @@ module Fog
       
         def authenticate_v1(options)
           credentials = Fog::Rackspace.authenticate(options, @connection_options)
+          endpoint_uri credentials['X-CDN-Management-Url']
           @auth_token = credentials['X-Auth-Token']
-          endpoint_uri credentials['X-CDN-Management-Url']          
         end
 
       end
