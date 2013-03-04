@@ -61,6 +61,7 @@ module Fog
             parameters = params.merge!({
               :headers => {
                 'Content-Type' => 'application/json',
+                'Accept' => 'application/json',
                 'X-Auth-Token' => @auth_token
               },
               :host => @host,
