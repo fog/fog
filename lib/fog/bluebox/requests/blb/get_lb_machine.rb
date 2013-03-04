@@ -2,7 +2,6 @@ module Fog
   module Bluebox
     class BLB
       class Real
-
         # Get details of an lb_machine.
         #
         # ==== Parameters

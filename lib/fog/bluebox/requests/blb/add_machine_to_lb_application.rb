@@ -23,7 +23,6 @@ module Fog
             :path    => "/api/lb_applications/add_machine/#{lb_application_id}.json",
             :body    => body.map {|k,v| "#{CGI.escape(k)}=#{CGI.escape(v.to_s)}"}.join('&')
           )
-
         end
       end
 

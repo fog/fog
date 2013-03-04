@@ -2,7 +2,6 @@ module Fog
   module Bluebox
     class BLB
       class Real
-
         # Get details of a lb_service.
         #
         # ==== Parameters

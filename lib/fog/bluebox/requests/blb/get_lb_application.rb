@@ -2,8 +2,7 @@ module Fog
   module Bluebox
     class BLB
       class Real
-
-        # Get details of a lb_application.
+        # Get details of an lb_application.
         #
         # ==== Parameters
         # * lb_application_id<~Integer> - ID of application

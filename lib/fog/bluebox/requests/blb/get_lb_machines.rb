@@ -2,7 +2,6 @@ module Fog
   module Bluebox
     class BLB
       class Real
-
         # Get list of machines
         #
         # ==== Parameters
