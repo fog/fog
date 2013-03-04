@@ -46,8 +46,9 @@ module Fog
               'id' => '8604a0de-7f6b-409a-a47c-a1cc7bc77b2e'
             }
           }
-          self.data[:routers] = []
-          self.data[:routers] << data['router']
+          self.data['routers'] ||= []
+          self.data['routers'] << data['router']
+          response.body = data
           response
         end
       end
