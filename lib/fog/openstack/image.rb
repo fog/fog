@@ -206,9 +206,33 @@ module Fog
           @host   = uri.host
           @path   = uri.path
           @path.sub!(/\/$/, '')
+          unless @path.match(/^\/v(\d)+(\.)?(\d)*$/)
+            @path = "/" + retrieve_current_version(uri)
+          end
           @port   = uri.port
           @scheme = uri.scheme
           true
+        end
+
+        def retrieve_current_version(uri)
+          response = Fog::Connection.new(
+            "#{uri.scheme}://#{uri.host}:#{uri.port}", false, @connection_options).request({
+              :expects => [200, 204, 300],
+              :headers => {'Content-Type' => 'application/json',
+                           'Accept' => 'application/json',
+                           'X-Auth-Token' => @auth_token},
+              :host    => uri.host,
+              :method  => 'GET'
+          })
+
+          body = Fog::JSON.decode(response.body)
+          version = nil
+          unless body['versions'].empty?
+            current_version = body['versions'].detect { |x| x["status"] == "CURRENT" }
+            version = current_version["id"]
+          end
+          raise Errors::NotFound.new('No API versions found') if version.nil?
+          version
         end
 
       end
