@@ -27,10 +27,36 @@ class Bluebox
 
       LB_SERVICES = [LB_SERVICE]
 
-      ADD_MACHINE_TO_LB = {
-        'status' => String,
-        'text' => String,
+      LB_BACKEND = {
+        'id' => String,
+        'backend_name' => String,
+        'lb_machines' => Array,
+        'acl_name' => String,
+        'acl_name' => String,
+        'monitoring_url_hostname' => String,
+        'monitoring_url' => String,
+        'monitoring_url_hostname' => String,
+        'check_interval' => Integer,
+        'rise' => Fog::Nullable::Integer,
+        'order' => Fog::Nullable::Integer,
+        'fall' => Fog::Nullable::Integer,
       }
+
+      LB_BACKENDS = [LB_BACKEND]
+
+      LB_MACHINE = {
+        'port' => Integer,
+        'id' => String,
+        'ip' => String,
+        'maxconn' => Integer,
+        'hostname' => String,
+        'created' => String,
+      }
+
+      ADD_MACHINE_TO_LB = [
+        { 'text' => String },
+        { 'status' => String },
+      ]
 
       REMOVE_MACHINE_FROM_BACKEND = 'Record Removed.'
     end
