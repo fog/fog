@@ -1,24 +1,22 @@
 module Fog
   module HP
-    class BlockStorage
-      class LB
-        class Real
-          def list_algorithms
-            response = request(
-                :expects => 200,
-                :method  => 'GET',
-                :path    => 'algorithms'
-            )
-            response
-          end
+    class LB
+      class Real
+        def list_algorithms
+          response = request(
+            :expects => 200,
+            :method  => 'GET',
+            :path    => 'algorithms'
+          )
+          response
         end
-        class Mock
-          def list_algorithms
-            response = Excon::Response.new
+      end
+      class Mock
+        def list_algorithms
+          response = Excon::Response.new
 
-            response
+          response
 
-          end
         end
       end
     end
