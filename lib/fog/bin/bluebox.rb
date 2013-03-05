@@ -7,6 +7,8 @@ class Bluebox < Fog::Bin
         Fog::Compute::Bluebox
       when :dns
         Fog::DNS::Bluebox
+      when :blb
+        Fog::Bluebox::BLB
       else
         raise ArgumentError, "Unsupported #{self} service: #{key}"
       end
