@@ -15,7 +15,8 @@ module Fog
           request(
             :expects => 200,
             :method  => 'DELETE',
-            :path    => "/api/lb_backends/#{lb_backend_id}/lb_machines/#{lb_machine_id}"
+            :path    => "/api/lb_backends/#{lb_backend_id}/lb_machines/#{lb_machine_id}",
+            :headers => {"Accept" => "text/plain"},
           )
         end
       end

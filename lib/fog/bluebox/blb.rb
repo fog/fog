@@ -73,7 +73,7 @@ module Fog
               error
             end
           end
-          unless response.body.empty?
+          unless response.body.empty? || params[:headers]['Accept'] == 'text/plain'
             response.body = Fog::JSON.decode(response.body)
           end
           response
