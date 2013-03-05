@@ -48,6 +48,7 @@ module Fog
           require 'mime/types'
           @openstack_api_key = options[:openstack_api_key]
           @openstack_username = options[:openstack_username]
+          @path = '/v1/AUTH_1234'
         end
 
         def data
@@ -56,6 +57,16 @@ module Fog
 
         def reset_data
           self.class.data.delete(@openstack_username)
+        end
+        
+        def change_account(account)
+          @original_path ||= @path
+          version_string = @original_path.split('/')[1]
+          @path = "/#{version_string}/#{account}"
+        end
+
+        def reset_account_name
+          @path = @original_path
         end
 
       end
