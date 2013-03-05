@@ -35,7 +35,6 @@ module Fog
            )
            response
 
-
           end
         end
         class Mock
