@@ -60,7 +60,6 @@ Gem::Specification.new do |s|
   s.add_development_dependency('rspec', '~>1.3.1')
   s.add_development_dependency('rbovirt', '>=0.0.11')
   s.add_development_dependency('shindo', '~>0.3.4')
-  s.add_development_dependency('virtualbox', '~>0.9.1')
   s.add_development_dependency('fission')
   s.add_development_dependency('pry')
 #  s.add_development_dependency('ruby-libvirt','~>0.4.0')
