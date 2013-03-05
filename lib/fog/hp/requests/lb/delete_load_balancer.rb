@@ -1,6 +1,5 @@
 module Fog
   module HP
-    class BlockStorage
       class LB
         class Real
 
@@ -20,6 +19,5 @@ module Fog
           end
         end
       end
-    end
   end
 end
