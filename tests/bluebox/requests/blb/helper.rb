@@ -20,7 +20,7 @@ class Bluebox
         'status_password' => String,
         'status_url' => String,
         'service_type' => String,
-        'created' => DateTime,
+        'created' => String,
         'lb_backends' => Array,
         'pem_file_uploaded?' => Fog::Nullable::Boolean,
       }
