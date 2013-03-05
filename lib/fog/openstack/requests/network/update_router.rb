@@ -53,20 +53,29 @@ module Fog
 
       class Mock
         def update_router(router_id, options = {})
-          raise Fog::Network::OpenStack::NotFound if router_id == 0
+          router = self.data['routers'].find { |r| r['id'] == router_id }
+          raise Fog::Network::OpenStack::NotFound unless router
+          data = { 'router' => router }
+
+          vanilla_options = [:name, :admin_state_up]
+
+          egi = options[:external_gateway_info]
+          if egi
+            if egi.is_a?(Fog::Network::OpenStack::Network)
+              data['router']['external_gateway_info'] = { 'network_id' => egi.id }
+            elsif egi.is_a?(Hash) and egi['network_id']
+              data['router']['external_gateway_info'] = egi
+            else
+              raise ArgumentError.new('Invalid external_gateway_info attribute')
+            end
+          end
+
+          vanilla_options.reject{ |o| options[o].nil? }.each do |key|
+            data['router'][key] = options[key]
+          end
           response = Excon::Response.new
           response.status = 201
-          data = {
-            'status' => 'ACTIVE',
-            'external_gateway_info' => {
-              'network_id' => '8ca37218-28ff-41cb-9b10-039601ea7e6b'
-            },
-            'name' => 'another_router',
-            'admin_state_up' => true,
-            'tenant_id' => '6b96ff0cb17a4b859e1e575d221683d3',
-            'id' => '8604a0de-7f6b-409a-a47c-a1cc7bc77b2e'
-          }
-          response.body = { 'router' => data }
+          response.body = data
           response
         end
       end

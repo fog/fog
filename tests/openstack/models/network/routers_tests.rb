@@ -1,7 +1,7 @@
 Shindo.tests("Fog::Network[:openstack] | routers", ['openstack']) do
   @router = Fog::Network[:openstack].routers.create(
     :name => 'router_name',
-    :admin_state_up => true,
+    :admin_state_up => true
   )
   @routers = Fog::Network[:openstack].routers
 
