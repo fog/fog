@@ -24,6 +24,7 @@ module Fog
             :expects  => 200,
             :method   => 'GET',
             :path     => "api/lb_applications/#{lb_application_id}/lb_services/#{lb_service_id}.json"
+            :parser   => Fog::Parsers::Bluebox::BLB::LbService.new
           )
         end
       end
