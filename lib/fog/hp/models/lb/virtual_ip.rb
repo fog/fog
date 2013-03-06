@@ -6,9 +6,11 @@ module Fog
       class VirtualIp
 
         identity :id
-        attribute :address    ,
-            "type" : "PUBLIC",
-            "ipVersion" : "IPV4"
+
+        attribute :address
+        attribute :ip_version, :alias => "ipVersion"
+        attribute :type
+
 
       end
     end

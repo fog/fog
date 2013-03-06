@@ -13,29 +13,28 @@ module Fog
       secrets :hp_secret_key
 
       model_path 'fog/hp/models/lb'
-      model :algorithm
-      collection :algorithms
-      model :limit
-      collection :limits
-      model :load_balancer
-      collection :load_balancers
-      model :node
-      collection :nodes
-      model :protocol
-      collection :protocols
-      model :version
-      model :versions
-      model :virtual_id
-      model :virtual_ips
+      model       :algorithm
+      collection  :algorithms
+      model       :limit
+      collection  :limits
+      model       :load_balancer
+      collection  :load_balancers
+      model       :node
+      collection  :nodes
+      model       :protocol
+      collection  :protocols
+      model       :version
+      model       :versions
+      model       :virtual_id
+      model       :virtual_ips
 
       class Mock
-        include Utils
+
 
         def self.data
           @data ||= Hash.new do |hash, key|
             hash[key] = {
-                :volumes => {},
-                :snapshots => {}
+
             }
           end
         end
@@ -67,7 +66,7 @@ module Fog
       end
 
       class Real
-        include Utils
+
 
         def initialize(options={})
           # deprecate hp_account_id
