@@ -5,8 +5,6 @@ class HP < Fog::Bin
       case key
       when :lb
         Fog::HP::LB
-      when :dns
-       Fog::HP::DNS
       when :block_storage
         Fog::HP::BlockStorage
       when :cdn
@@ -25,8 +23,6 @@ class HP < Fog::Bin
         hash[key] = case key
         when :lb
           Fog::HP::LB.new
-        when :dns
-          Fog::HP::DNS.new
         when :block_storage
           Fog::HP::BlockStorage.new
         when :cdn
