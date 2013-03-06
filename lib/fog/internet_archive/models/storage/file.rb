@@ -8,9 +8,15 @@ module Fog
       class File < Fog::Model
         # @see AWS Object docs http://docs.aws.amazon.com/AmazonS3/latest/API/RESTObjectOps.html 
 
-        identity  :key,             :aliases => 'Key'
+        # @note Chunk size to use for multipart uploads.
+        #     Use small chunk sizes to minimize memory. E.g. 5242880 = 5mb
+        attr_accessor :multipart_chunk_size
 
         attr_writer :body
+
+
+        identity  :key,                 :aliases => 'Key'
+
         attribute :cache_control,       :aliases => 'Cache-Control'
         attribute :content_disposition, :aliases => 'Content-Disposition'
         attribute :content_encoding,    :aliases => 'Content-Encoding'
@@ -22,14 +28,52 @@ module Fog
         attribute :last_modified,       :aliases => ['Last-Modified', 'LastModified']
         attribute :metadata
         attribute :owner,               :aliases => 'Owner'
-        attribute :storage_class,       :aliases => ['x-amz-storage-class', 'StorageClass']
-        attribute :encryption,          :aliases => 'x-amz-server-side-encryption'
-        attribute :version,             :aliases => 'x-amz-version-id'
 
-        # @note Chunk size to use for multipart uploads.
-        #     Use small chunk sizes to minimize memory. E.g. 5242880 = 5mb
-        attr_accessor :multipart_chunk_size
+        # I don't think IA supports these recent S3 headers
+        # attribute :storage_class,       :aliases => ['x-amz-storage-class', 'StorageClass']
+        # attribute :encryption,          :aliases => 'x-amz-server-side-encryption'
+        # attribute :version,             :aliases => 'x-amz-version-id'
 
+        # treat these differently
+        attribute :collections
+        attribute :subjects
+
+        # set_metadata_array_headers(:collections, options)
+        def set_metadata_array_headers(array_attribute, options={})
+          attr_values = Array(self.send(array_attribute))
+          opt_values = options.collect do |key,value| 
+            options.delete(key) if (key.to_s =~ /^x-(amz||archive)-meta(\d*)-#{array_attribute[0..-2]}/)
+          end
+          values = (attr_values + opt_values).compact.sort.uniq
+          # got the values, now add them back to the options
+          if values.size == 1
+            options["x-archive-meta-#{array_attribute[0..-2]}"] = values.first
+          elsif values.size > 1
+            values[0,99].each_with_index do |value, i|
+              options["x-archive-meta#{format("%02d", i+1)}-#{array_attribute[0..-2]}"] = value
+            end
+          end
+
+        end
+
+        # IA specific headers, alias to x-amz-[name] and x-archive-[name]
+        def self.ia_metadata_attribute(name)
+          attribute(name, :aliases=>['amz','archive'].collect{|p|"x-#{p}-#{name.to_s.tr('_','-')}"})
+        end
+
+        ia_metadata_attribute :auto_make_bucket
+        ia_metadata_attribute :cascade_delete
+        ia_metadata_attribute :ignore_preexisting_bucket
+        ia_metadata_attribute :interactive_priority
+        ia_metadata_attribute :keep_old_version
+        ia_metadata_attribute :queue_derive
+        ia_metadata_attribute :size_hint
+
+        # you can add other x-archive-metadata-* values, but these are standard
+        IA_STANDARD_METADATA_FIELDS = %q[hidden, title, collection, creator, mediatype, description, date, subject, licenseurl , pick, noindex, notes, rights, contributor, language, coverage, credits]
+
+        # for x-archive-metadata-mediatype, these are the valid values
+        IA_VALID_MEDIA_TYPES = %q[audio, data, etree, image, movies, software, texts, web]
 
         # Set file's access control list (ACL).
         # 
@@ -106,7 +150,7 @@ module Fog
         # 
         def destroy(options = {})
           requires :directory, :key
-          attributes[:body] = nil if options['versionId'] == version
+          # attributes[:body] = nil if options['versionId'] == version
           service.delete_object(directory.key, key, options)
           true
         end
@@ -114,9 +158,8 @@ module Fog
 
         remove_method :metadata
         def metadata
-          attributes.reject {|key, value| !(key.to_s =~ /^x-amz-/)}
+          attributes.reject {|key, value| !(key.to_s =~ /^x-(amz||archive)-meta/)}
         end
-
 
         remove_method :metadata=
         def metadata=(new_metadata)
@@ -202,8 +245,19 @@ module Fog
           options['Content-Type'] = content_type if content_type
           options['Expires'] = expires if expires
           options.merge!(metadata)
-          options['x-amz-storage-class'] = storage_class if storage_class
-          options['x-amz-server-side-encryption'] = encryption if encryption
+          # options['x-amz-storage-class'] = storage_class if storage_class
+          # options['x-amz-server-side-encryption'] = encryption if encryption
+
+          options['x-archive-auto-make-bucket'] = auto_make_bucket if auto_make_bucket
+          options['x-archive-cascade-delete'] = cascade_delete if cascade_delete
+          options['x-archive-ignore-preexisting-bucket'] = ignore_preexisting_bucket if ignore_preexisting_bucket
+          options['x-archive-interactive-priority'] = interactive_priority if interactive_priority
+          options['x-archive-keep-old-version'] = keep_old_version if keep_old_version
+          options['x-archive-queue-derive'] = queue_derive if queue_derive
+          options['x-archive-size-hint'] = size_hint.to_i.to_s if size_hint
+
+          set_metadata_array_headers(:collections, options)
+          set_metadata_array_headers(:subjects, options)
 
           if multipart_chunk_size && body.respond_to?(:read)
             data = multipart_save(options)
@@ -212,7 +266,7 @@ module Fog
             data = service.put_object(directory.key, key, body, options)
             merge_attributes(data.headers.reject {|key, value| ['Content-Length', 'Content-Type'].include?(key)})
           end
-          self.etag.gsub!('"','')
+          self.etag.gsub!('"','') if self.etag
           self.content_length = Fog::Storage.get_body_size(body)
           self.content_type ||= Fog::Storage.get_content_type(body)
           true
