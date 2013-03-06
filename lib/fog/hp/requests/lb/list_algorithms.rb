@@ -14,6 +14,12 @@ module Fog
       class Mock
         def list_algorithms
           response = Excon::Response.new
+          response.status = 200
+          response.body = { "algorithms" => [
+              { "name" => "ROUND_ROBIN" },
+              { "name" => "LEAST_CONNECTIONS"}
+            ]
+          }
 
           response
 
