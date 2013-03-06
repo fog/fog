@@ -1,5 +1,4 @@
 require 'fog/core/model'
-require 'fog/internet_archive/models/storage/versions'
 
 module Fog
   module Storage
@@ -28,11 +27,6 @@ module Fog
         attribute :last_modified,       :aliases => ['Last-Modified', 'LastModified']
         attribute :metadata
         attribute :owner,               :aliases => 'Owner'
-
-        # I don't think IA supports these recent S3 headers
-        # attribute :storage_class,       :aliases => ['x-amz-storage-class', 'StorageClass']
-        # attribute :encryption,          :aliases => 'x-amz-server-side-encryption'
-        # attribute :version,             :aliases => 'x-amz-version-id'
 
         # treat these differently
         attribute :collections
@@ -145,12 +139,10 @@ module Fog
         #     required attributes: directory, key
         # 
         # @param options [Hash]
-        # @option options versionId []
         # @return [Boolean] true if successful
         # 
         def destroy(options = {})
           requires :directory, :key
-          # attributes[:body] = nil if options['versionId'] == version
           service.delete_object(directory.key, key, options)
           true
         end
@@ -284,19 +276,6 @@ module Fog
         def url(expires, options = {})
           requires :key
           collection.get_url(key, expires, options)
-        end
-
-
-        # File version if exists or creates new version.
-        # @return [Fog::Storage::InternetArchive::Version] 
-        # 
-        def versions
-          @versions ||= begin
-            Fog::Storage::InternetArchive::Versions.new(
-              :file         => self,
-              :service   => service
-            )
-          end
         end
 
         private

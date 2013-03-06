@@ -1,6 +1,5 @@
 require 'fog/core/model'
 require 'fog/internet_archive/models/storage/files'
-require 'fog/internet_archive/models/storage/versions'
 
 module Fog
   module Storage
@@ -59,21 +58,6 @@ module Fog
           requires :key
           service.put_request_payment(key, new_payer)
           @payer = new_payer
-        end
-
-        def versioning?
-          requires :key
-          data = service.get_bucket_versioning(key)
-          data.body['VersioningConfiguration']['Status'] == 'Enabled'
-        end
-
-        def versioning=(new_versioning)
-          requires :key
-          service.put_bucket_versioning(key, new_versioning ? 'Enabled' : 'Suspended')
-        end
-
-        def versions
-          @versions ||= Fog::Storage::InternetArchive::Versions.new(:directory => self, :service => service)
         end
 
         def public=(new_public)
