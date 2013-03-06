@@ -1,5 +1,5 @@
 require 'fog/core/collection'
-require 'lib/fog/hp/models/lb/version'
+require 'fog/hp/models/lb/version'
 
 module Fog
   module HP

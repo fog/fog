@@ -1,5 +1,5 @@
 require 'fog/core/collection'
-require 'lib/fog/hp/models/lb/load_balancer'
+require 'fog/hp/models/lb/limit'
 
 module Fog
   module HP

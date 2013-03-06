@@ -3,7 +3,7 @@ require 'fog/core/model'
 module Fog
   module HP
     class LB
-      class Algorithm
+      class Algorithm < Fog::Model
 
         identity :name
 

@@ -3,7 +3,7 @@ require 'fog/core/model'
 module Fog
   module HP
     class LB
-      class Limit
+      class Limit < Fog::Model
 
         identity :id
         attribute :max_load_balancer_name_length, :aliases => 'maxLoadBalancerNameLength'

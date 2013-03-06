@@ -11,7 +11,7 @@ module Fog
       #    "status" : "ACTIVE",
       #    "created" : "2010-11-30T03:23:42Z",
       #    "updated" : "2010-11-30T03:23:44Z"
-      class LoadBalancer
+      class LoadBalancer < Fog::Model
 
         identity :id
         attribute :name

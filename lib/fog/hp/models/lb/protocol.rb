@@ -3,8 +3,8 @@ require 'fog/core/model'
 module Fog
   module HP
     class LB
-      class Protocol
-        identifier :name
+      class Protocol < Fog::Model
+        identity :name
         attribute :port
       end
     end
