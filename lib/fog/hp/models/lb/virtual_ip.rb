@@ -3,7 +3,7 @@ require 'fog/core/model'
 module Fog
   module HP
     class LB
-      class VirtualIp
+      class VirtualIp < Fog::Model
 
         identity :id
 

@@ -1,11 +1,11 @@
 require 'fog/core/collection'
-require 'lib/fog/hp/models/lb/algorithm'
+require 'fog/hp/models/lb/algorithm'
 
 module Fog
   module HP
     class LB
       class Algorithms < Fog::Collection
-        model Fog::HP::LB::Algorithms
+        model Fog::HP::LB::Algorithm
 
         def all
           data = connection.list_algorithms.body['algorithms']

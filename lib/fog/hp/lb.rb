@@ -25,7 +25,7 @@ module Fog
       collection  :protocols
       model       :version
       model       :versions
-      model       :virtual_id
+      model       :virtual_ip
       model       :virtual_ips
 
       class Mock

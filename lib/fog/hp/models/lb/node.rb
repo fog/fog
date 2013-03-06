@@ -3,7 +3,7 @@ require 'fog/core/model'
 module Fog
   module HP
     class LB
-      class Node
+      class Node < Fog::Model
 
         identity :id
         attribute :address
