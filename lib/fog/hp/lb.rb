@@ -28,6 +28,24 @@ module Fog
       model       :virtual_ip
       model       :virtual_ips
 
+      request_path 'fog/hp/requests/lb'
+      request       :create_load_balancer
+      request       :create_load_balancer_node
+      request       :delete_load_balancer
+      request       :delete_load_balancer_node
+      request       :get_load_balancer
+      request       :get_load_balancer_node
+      request       :get_version
+      request       :get_virtual_ips
+      request       :list_algorithms
+      request       :list_limits
+      request       :list_load_balancer_nodes
+      request       :list_load_balancers
+      request       :list_protocols
+      request       :list_versions
+      request       :update_load_balancer
+      request       :update_load_balancer_node
+
       class Mock
 
 

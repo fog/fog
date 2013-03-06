@@ -2,6 +2,7 @@ module Fog
   module HP
     class LB
       class Real
+
         def list_versions
           request(
             :expects => [200, 204],
@@ -12,6 +13,7 @@ module Fog
         end
       end
       class Mock
+
         def list_versions
           response        = Excon::Response.new
           response.status = 200
@@ -22,6 +24,7 @@ module Fog
           }
           response
         end
+
       end
     end
   end
