@@ -199,9 +199,9 @@ module Fog
           requires :directory, :key
           if service.get_object_acl(directory.key, key).body['AccessControlList'].detect {|grant| grant['Grantee']['URI'] == 'http://acs.amazonaws.com/groups/global/AllUsers' && grant['Permission'] == 'READ'}
             if directory.key.to_s =~ Fog::InternetArchive::COMPLIANT_BUCKET_NAMES
-              "https://#{directory.key}.s3.#{Fog::InternetArchive::DOMAIN_NAME}/#{Fog::InternetArchive.escape(key)}".gsub('%2F','/')
+              "http://#{directory.key}.s3.#{Fog::InternetArchive::DOMAIN_NAME}/#{Fog::InternetArchive.escape(key)}".gsub('%2F','/')
             else
-              "https://s3.#{Fog::InternetArchive::DOMAIN_NAME}/#{directory.key}/#{Fog::InternetArchive.escape(key)}".gsub('%2F','/')
+              "http://s3.#{Fog::InternetArchive::DOMAIN_NAME}/#{directory.key}/#{Fog::InternetArchive.escape(key)}".gsub('%2F','/')
             end
           else
             nil

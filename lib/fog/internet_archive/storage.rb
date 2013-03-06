@@ -76,7 +76,7 @@ module Fog
 
         def url(params, expires)
           Fog::Logger.deprecation("Fog::Storage::InternetArchive => #url is deprecated, use #https_url instead [light_black](#{caller.first})[/]")
-          https_url(params, expires)
+          http_url(params, expires)
         end
 
         private
@@ -204,7 +204,7 @@ module Fog
           else
             "s3-#{options[:region]}.#{Fog::InternetArchive::DOMAIN_NAME}"
           end
-          @scheme = options[:scheme] || 'https'
+          @scheme = options[:scheme] || 'http'
           @region = options[:region]
         end
 
@@ -386,7 +386,7 @@ DATA
           begin
             response = @connection.request(params, &block)
           rescue Excon::Errors::TemporaryRedirect => error
-            uri = URI.parse(error.response.headers['Location'])
+            uri = URI.parse(error.response.headers['location'])
             Fog::Logger.warning("fog: followed redirect to #{uri.host}, connecting to the matching region will be more performant")
             response = Fog::Connection.new("#{@scheme}://#{uri.host}:#{@port}", false, @connection_options).request(original_params, &block)
           end

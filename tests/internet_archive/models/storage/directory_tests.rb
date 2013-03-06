@@ -1,50 +1,20 @@
 Shindo.tests("Storage[:internet_archive] | directory", ["internet_archive"]) do
 
   directory_attributes = {
-    :key => 'fogdirectorytests'
+    :key => "fogdirectorytests-#{rand(65536)}"
   }
 
-  model_tests(Fog::Storage[:internetarchive].directories, directory_attributes, Fog.mocking?) do
+  tests('success') do
+    params = directory_attributes
+    mocks_implemented = Fog.mocking?
 
-    # tests("#versioning=") do
-    #   tests("#versioning=(true)").succeeds do
-    #     @instance.versioning = true
-    #   end
+    collection = Fog::Storage[:internetarchive].directories
+    @instance = collection.new(params)
 
-    #   tests("#versioning=(true) sets versioning to 'Enabled'").returns('Enabled') do
-    #     @instance.versioning = true
-    #     @instance.connection.get_bucket_versioning(@instance.key).body['VersioningConfiguration']['Status']
-    #   end
-
-    #   tests("#versioning=(false)").succeeds do
-    #     (@instance.versioning = false).equal? false
-    #   end
-
-    #   tests("#versioning=(false) sets versioning to 'Suspended'").returns('Suspended') do
-    #     @instance.versioning = false
-    #     @instance.connection.get_bucket_versioning(@instance.key).body['VersioningConfiguration']['Status']
-    #   end
-    # end
-
-  end
-
-  model_tests(Fog::Storage[:internetarchive].directories, directory_attributes, Fog.mocking?) do
-
-    # tests("#versioning?") do
-    #   tests("#versioning? false if not enabled").returns(false) do
-    #     @instance.versioning?
-    #   end
-
-    #   tests("#versioning? true if enabled").returns(true) do
-    #     @instance.connection.put_bucket_versioning(@instance.key, 'Enabled')
-    #     @instance.versioning?
-    #   end
-
-    #   tests("#versioning? false if suspended").returns(false) do
-    #     @instance.connection.put_bucket_versioning(@instance.key, 'Suspended')
-    #     @instance.versioning?
-    #   end
-    # end
+    tests("#save").succeeds do
+      pending if Fog.mocking? && !mocks_implemented
+      @instance.save
+    end
 
   end
 

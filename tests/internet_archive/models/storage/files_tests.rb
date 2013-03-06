@@ -3,11 +3,13 @@ Shindo.tests("Storage[:internet_archive] | files", ["internet_archive"]) do
   file_attributes = {
       :key => 'fog_file_tests',
       :body => lorem_file,
-      :public => true
+      :public => true,
+      :auto_make_bucket => 1,
+      :collections => ['test_collection']
   }
 
   directory_attributes = {
-      :key => 'fogfilestests'
+      :key => "fogfilestests-#{rand(65536)}"
   }
 
   @directory = Fog::Storage[:internetarchive].directories.create(directory_attributes)
@@ -15,7 +17,7 @@ Shindo.tests("Storage[:internet_archive] | files", ["internet_archive"]) do
 
   model_tests(@directory.files, file_attributes, Fog.mocking?) do
 
-    v1 = @instance.version
+    @instance
     # v2 = @directory.connection.put_object(@directory.key, @instance.key, 'version 2 content').headers['x-amz-version-id']
     # v3 = @directory.connection.delete_object(@directory.key, @instance.key).headers['x-amz-version-id']
     # v4 = @directory.connection.put_object(@directory.key, @instance.key, 'version 3 content').headers['x-amz-version-id']

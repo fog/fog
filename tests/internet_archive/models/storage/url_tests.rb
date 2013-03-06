@@ -20,7 +20,7 @@ Shindo.tests('InternetArchive | url', ["internet_archive"]) do
   end
 
   tests('#url w/ response-cache-control').returns(
-    "https://fognonbucket.s3.us.archive.org/test.txt?response-cache-control=No-cache&AWSAccessKeyId=123&Signature=#{signature}&Expires=1356998400"
+    "http://fognonbucket.s3.us.archive.org/test.txt?response-cache-control=No-cache&AWSAccessKeyId=123&Signature=#{signature}&Expires=1356998400"
   ) do
     @file.url(@expires, :query => { 'response-cache-control' => 'No-cache' })
   end

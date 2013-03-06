@@ -69,9 +69,9 @@ module Fog
           requires :key
           if service.get_bucket_acl(key).body['AccessControlList'].detect {|grant| grant['Grantee']['URI'] == 'http://acs.amazonaws.com/groups/global/AllUsers' && grant['Permission'] == 'READ'}
             if key.to_s =~ Fog::InternetArchive::COMPLIANT_BUCKET_NAMES
-              "https://#{key}.s3.#{Fog::InternetArchive::DOMAIN_NAME}"
+              "http://#{key}.s3.#{Fog::InternetArchive::DOMAIN_NAME}"
             else
-              "https://s3.#{Fog::InternetArchive::DOMAIN_NAME}/#{key}"
+              "http://s3.#{Fog::InternetArchive::DOMAIN_NAME}/#{key}"
             end
           else
             nil
