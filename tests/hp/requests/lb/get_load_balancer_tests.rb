@@ -23,5 +23,4 @@ Shindo.tests("Fog::HP::LB | get load balancer", ['hp', 'lb', 'load_balancers']) 
 
   end
 
-
 end
