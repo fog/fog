@@ -14,6 +14,13 @@ module Fog
       class Mock
         def list_protocols
           response = Excon::Response.new
+          response.status = 200
+          response.body   = {
+            "protocols" => [
+              { "name" => "HTTP", "port" => 80 },
+              { "name" => "TCP", "port" => 443 }
+            ]
+          }
 
           response
         end
