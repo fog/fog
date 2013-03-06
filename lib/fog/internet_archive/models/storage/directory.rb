@@ -26,11 +26,9 @@ module Fog
           end
         end
 
+        # See http://archive.org/help/abouts3.txt
         def destroy
-          requires :key
-          service.delete_bucket(key)
-          true
-        rescue Excon::Errors::NotFound
+          Fog::Logger.warning("fog: Internet Archive does not support deleting a Bucket (i.e. Item).  For details see: See http://archive.org/help/abouts3.txt")
           false
         end
 
