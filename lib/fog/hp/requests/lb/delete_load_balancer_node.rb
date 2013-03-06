@@ -2,6 +2,7 @@ module Fog
   module HP
     class LB
       class Real
+
         def delete_load_balancer_node(instance_id, node_id)
           response = request(
             :expects => 202,
@@ -13,6 +14,7 @@ module Fog
 
       end
       class Mock
+
         def delete_load_balancer_node(instance_id, node_id)
           response = Excon::Response.new
 
