@@ -16,6 +16,19 @@ module Fog
       class Mock
         def list_limits
           response = Excon::Response.new
+          response.status = 200
+          response.body = {
+            "limits" => {
+              "absolute" => {
+                "values" => {
+                  "maxLoadBalancerNameLength" => 128,
+                  "maxLoadBalancers"          => 20,
+                  "maxNodesPerLoadBalancer"   => 5,
+                  "maxVIPsPerLoadBalancer"    => 1
+                }
+              }
+            }
+          }
 
           response
         end
