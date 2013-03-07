@@ -11,6 +11,8 @@ module Fog
 
         attribute :bytes, :aliases => 'X-Container-Bytes-Used'
         attribute :count, :aliases => 'X-Container-Object-Count'
+        attribute :syncto, :aliases => 'X-Container-Sync-To'
+        attribute :synckey, :aliases => 'X-Container-Sync-Key'
 
         def initialize(attributes = {})
             @read_acl  = []
@@ -209,6 +211,8 @@ module Fog
           requires :key
           # write out the acls into the headers before save
           options.merge!(service.perm_acl_to_header(@read_acl, @write_acl))
+          options.merge!({'X-Container-Sync-To' => syncto}) unless syncto.nil?
+          options.merge!({'X-Container-Sync-Key' => synckey}) unless synckey.nil?
           service.put_container(key, options)
           # Added an extra check to see if CDN is enabled for the container
           if (!service.cdn.nil? && service.cdn.enabled?)

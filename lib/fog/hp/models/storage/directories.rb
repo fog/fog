@@ -49,7 +49,7 @@ module Fog
           write_header = nil
           directory = new(:key => key)
           for key, value in data.headers
-            if ['X-Container-Bytes-Used', 'X-Container-Object-Count'].include?(key)
+            if ['X-Container-Bytes-Used', 'X-Container-Object-Count', 'X-Container-Sync-To', 'X-Container-Sync-Key'].include?(key)
               directory.merge_attributes(key => value)
             end
             if key == 'X-Container-Read'
