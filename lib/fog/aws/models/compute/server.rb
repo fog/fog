@@ -202,7 +202,7 @@ module Fog
           end
 
           # wait for aws to be ready
-          wait_for { sshable? }
+          wait_for { sshable?(credentials) }
 
           Fog::SSH.new(public_ip_address, username, credentials).run(commands)
         end

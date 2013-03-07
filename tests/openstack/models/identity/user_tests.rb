@@ -26,11 +26,11 @@ Shindo.tests("Fog::Identity[:openstack] | user", ['openstack']) do
     end
 
     tests('#update_tenant').returns(true) do
-      @instance.update_tenant('swordfish')
+      @instance.update_tenant(tenant_id)
     end
 
     tests('#update_enabled').returns(true) do
-      @instance.update_enabled('swordfish')
+      @instance.update_enabled(true)
     end
 
     tests('#destroy').returns(true) do
