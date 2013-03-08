@@ -13,9 +13,19 @@ module Fog
           }
 
           vanilla_options = ['metadata', 'accessIPv4', 'accessIPv6',
-                             'availability_zone', 'user_data', 'key_name', 'adminPass']
+                             'availability_zone', 'user_data', 'key_name', 'adminPass',
+                             'net_id', 'v4_fixed_ip', 'port_id']
           vanilla_options.select{|o| options[o]}.each do |key|
             data['server'][key] = options[key]
+          end
+
+          if options['net_id']
+            data['server']['networks'] = []
+            data['server']['networks'] << {
+              'uuid' => options['net_id'],
+              'fixed_ip' => options['v4_fixed_ip'],
+              'port' => options['port_id']
+            }
           end
 
           if options['security_groups']
@@ -95,6 +105,9 @@ module Fog
             'created'    => '2012-09-27T00:04:18Z',
             'updated'    => '2012-09-27T00:04:27Z',
             'user_id'    => @openstack_username,
+            'net_id'     => '6e6863ce-d60a-4d7b-a8b0-18d790b44e3b',
+            'v4_fixed_ip'=> '172.24.17.30',
+            'port_id'    => '33f95161-845a-4956-ac63-1d39fdf91120'
           }
 
           response_data = {
