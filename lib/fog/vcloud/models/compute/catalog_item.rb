@@ -23,6 +23,14 @@ module Fog
           end
         end
 
+        def password_enabled?
+          load_unless_loaded!
+          customization_options = service.get_vapp_template(self.entity[:href]).body[:Children][:Vm][:GuestCustomizationSection]
+          return false if customization_options[:AdminPasswordEnabled] == "false"
+          return true if customization_options[:AdminPasswordEnabled] == "true" \
+            and customization_options[:AdminPasswordAuto] == "false" \
+            and ( options[:password].nil? or options[:password].empty? )
+        end
       end
     end
   end
