@@ -55,7 +55,7 @@ module Fog
           params[:headers]['Date'] = expires.to_i
           params[:path] = CGI.escape(params[:path]).gsub('%2F', '/')
           query = [params[:query]].compact
-          query << "GoogleAccessKeyId=#{@google_storage_access_key_id}"
+          query << "GoogleAccessId=#{@google_storage_access_key_id}"
           query << "Signature=#{CGI.escape(signature(params))}"
           query << "Expires=#{params[:headers]['Date']}"
           "#{params[:host]}/#{params[:path]}?#{query.join('&')}"
