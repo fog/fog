@@ -21,7 +21,7 @@ Shindo.tests("Fog::Network[:openstack] | network", ['openstack']) do
         # May rise an exception if the network_type isn't valid:
         # QuantumError: "Invalid input for operation: provider:physical_network"
         :provider_network_type => 'gre',
-        :provider_segmentation_id => 22,
+        :provider_segmentation_id => 22
       )
       net.destroy
       net.provider_network_type == 'gre'
