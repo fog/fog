@@ -11,7 +11,15 @@ module Fog
           }}
           body['rebuild']['adminPass'] = admin_pass if admin_pass
           body['rebuild']['metadata'] = metadata if metadata
-          body['rebuild']['personality'] = personality if personality
+          if personality
+            body['rebuild']['personality'] = []
+            for file in personality
+              body['rebuild']['personality'] << {
+                'contents'  => Base64.encode64(file['contents']),
+                'path'      => file['path']
+              }
+            end
+          end
           server_action(server_id, body, 202)
         end
 

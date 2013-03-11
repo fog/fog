@@ -5,25 +5,23 @@ module Fog
 
         require 'fog/aws/parsers/cdn/get_invalidation_list'
 
-        # ==== Parameters
-        # * options<~Hash> - config arguments for list.  Defaults to {}.
-        #   * 'Marker'<~String> - limits object keys to only those that appear
-        #     lexicographically after its value.
-        #   * 'MaxItems'<~Integer> - limits number of object keys returned
+        # Get invalidation list.
+        # 
+        # @param options [Hash] Config arguments for list.
+        # @option options Marker [String] Limits object keys to only those that appear lexicographically after its value.
+        # @option options MaxItems [Integer] Limits number of object keys returned.
         #
-        # ==== Returns
-        # * response<~Excon::Response>:
-        #   * body<~Hash>:
-        #     * 'IsTruncated'<~Boolean> - Whether or not the listing is truncated
-        #     * 'Marker'<~String> - Marker specified for query
-        #     * 'MaxItems'<~Integer> - Maximum number of keys specified for query
-        #     * 'NextMarker'<~String> - Marker to specify for next page (id of last result of current page)
-        #     * 'InvalidationSummary'<~Array>:
-        #       * 'Id'<~String>:
-        #       * 'Status'<~String>:
+        # @return [Excon::Response]
+        #   * body [Hash]:
+        #     * IsTruncated [Boolean] - Whether or not the listing is truncated.
+        #     * Marker [String] - Marker specified for query.
+        #     * MaxItems [Integer] - Maximum number of keys specified for query.
+        #     * NextMarker [String] - Marker to specify for next page (id of last result of current page).
+        #     * InvalidationSummary [Array]:
+        #       * Id [String]
+        #       * Status [String]
         #
-        # ==== See Also
-        # http://docs.amazonwebservices.com/AmazonCloudFront/latest/APIReference/ListInvalidation.html
+        # @see http://docs.amazonwebservices.com/AmazonCloudFront/latest/APIReference/ListInvalidation.html
         
         def get_invalidation_list(distribution_id, options = {})
           request({

@@ -351,7 +351,7 @@ module Fog
         end
 
         # Resize existing server to a different flavor, in essence, scaling the server up or down. The original server is saved for a period of time to allow rollback if there is a problem. All resizes should be tested and explicitly confirmed, at which time the original server is removed. All resizes are automatically confirmed after 24 hours if they are not confirmed or reverted.     
-        # @param [String] flavor to resize 
+        # @param [String] flavor_id to resize
         # @return [Boolean] returns true if resize is in process
         # @note All resizes are automatically confirmed after 24 hours if you do not explicitly confirm or revert the resize.
         # @see http://docs.rackspace.com/servers/api/v2/cs-devguide/content/Resize_Server-d1e3707.html

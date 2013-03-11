@@ -23,7 +23,7 @@ EOF
           request(
             :body     => body,
             :expects  => 202,
-            :headers  => {'Content-Type' => network_info[:"vcloud_type"] },
+            :headers  => {'Content-Type' => network_info[:"type"] },
             :method   => 'PUT',
             :uri      => "#{edit_uri}",
             :parse    => true
