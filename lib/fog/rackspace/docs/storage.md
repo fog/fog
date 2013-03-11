@@ -39,7 +39,7 @@ Using a UK based account:
   		:provider            => 'Rackspace',                # Rackspace Fog provider
   		:rackspace_username  => RACKSPACE_USER_NAME,        # Your Rackspace Username
   		:rackspace_api_key   => RACKSPACE_API,              # Your Rackspace API key
-  		:rackspace_auth_url  => Fog::Rackspace::UK_ENDPOINT
+		:rackspace_auth_url  => Fog::Rackspace::UK_AUTH_ENDPOINT
   		:rackspace_region    => :lon
   		:connection_options  => {}                          # Optional
 	})
@@ -51,10 +51,10 @@ By default `Fog::Storage` will authenticate against the US authentication endpoi
 Alternative regions are specified using the key `:rackspace_region `. A list of regions available for Cloud Files can be found by executing the following:
 
 	identity_service = Fog::Identity({
-  		:provider            => 'Rackspace',                # Rackspace Fog provider
-  		:rackspace_username  => RACKSPACE_USER_NAME,        # Your Rackspace Username
-  		:rackspace_api_key   => RACKSPACE_API,              # Your Rackspace API key
-  		:rackspace_auth_url  => Fog::Rackspace::UK_ENDPOINT # Not specified for US Cloud
+		:provider            => 'Rackspace',                     # Rackspace Fog provider
+		:rackspace_username  => RACKSPACE_USER_NAME,             # Your Rackspace Username
+		:rackspace_api_key   => RACKSPACE_API,                   # Your Rackspace API key
+		:rackspace_auth_url  => Fog::Rackspace::UK_AUTH_ENDPOINT # Not specified for US Cloud
 	})
 	
 	identity_service.service_catalog.display_service_regions :cloudFiles
