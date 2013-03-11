@@ -100,15 +100,21 @@ module Fog
           @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
         end
         
+        # Return Account Details
+        # @return [Fog::Storage::Rackspace::Account] account details object
         def account
           account = Fog::Storage::Rackspace::Account.new(:service => self)
           account.reload
         end
 
+        # Using SSL?
+        # @return [Boolean] return true if service is returning SSL-Secured URLs in public_url methods
+        # @see Directory#public_url
         def ssl?
           !rackspace_cdn_ssl.nil?
         end
 
+        # Resets presistent service connections
         def reload
           @connection.reset
         end
@@ -118,6 +124,7 @@ module Fog
             response = @connection.request(params.merge({
               :headers  => {
                 'Content-Type' => 'application/json',
+                'Accept' => 'application/json',
                 'X-Auth-Token' => @auth_token
               }.merge!(params[:headers] || {}),
               :host     => @host,

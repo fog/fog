@@ -35,9 +35,9 @@ module Fog
       when :stormondemand
         require 'fog/storm_on_demand/compute'
         Fog::Compute::StormOnDemand.new(attributes)
-      when :virtualbox
-        require 'fog/virtual_box/compute'
-        Fog::Compute::VirtualBox.new(attributes)
+      when :vcloud
+        require 'fog/vcloud/compute'
+        Fog::Vcloud::Compute.new(attributes)
       else
         if self.providers.include?(provider)
           require "fog/#{provider}/compute"

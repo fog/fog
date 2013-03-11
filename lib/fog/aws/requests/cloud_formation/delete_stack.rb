@@ -5,17 +5,14 @@ module Fog
 
         require 'fog/aws/parsers/cloud_formation/basic'
 
-        # Delete a stack
+        # Delete a stack.
         #
-        # ==== Parameters
-        # * stack_name<~String>: name of the stack to create
+        # @param stack_name String] Name of the stack to create.
         #
-        # ==== Returns
-        # * response<~Excon::Response>:
+        # @return [Excon::Response]
         #
-        # ==== See Also
-        # http://docs.amazonwebservices.com/AWSCloudFormation/latest/APIReference/API_DeleteStack.html
-        #
+        # @see http://docs.amazonwebservices.com/AWSCloudFormation/latest/APIReference/API_DeleteStack.html
+        
         def delete_stack(stack_name)
           request(
             'Action'    => 'DeleteStack',

@@ -5,19 +5,21 @@ module Fog
 
         require 'fog/aws/parsers/cdn/get_invalidation'
 
-        # ==== Parameters
-        #
-        # ==== Returns
-        # * response<~Excon::Response>:
-        #   * body<~Hash>:
-        #     * 'Id'<~String> - Invalidation id
-        #     * 'Status'<~String>
-        #     * 'CreateTime'<~String>
-        #     * 'InvalidationBatch'<~Array>:
-        #       * 'Path'<~String>
-        # ==== See Also
-        # http://docs.amazonwebservices.com/AmazonCloudFront/2010-11-01/APIReference/GetInvalidation.html
-
+        # Get invalidation.
+        # 
+        # @param distribution_id [String] Distribution id.
+        # @param invalidation_id [String] Invalidation id.
+        #   
+        # @return [Excon::Response]
+        #   * body [Hash]:
+        #     * Id [String] - Invalidation id.
+        #     * Status [String]
+        #     * CreateTime [String]
+        #     * InvalidationBatch [Array]:
+        #       * Path [String]
+        # 
+        # @see http://docs.amazonwebservices.com/AmazonCloudFront/2010-11-01/APIReference/GetInvalidation.html
+        
         def get_invalidation(distribution_id, invalidation_id)
           request({
             :expects    => 200,

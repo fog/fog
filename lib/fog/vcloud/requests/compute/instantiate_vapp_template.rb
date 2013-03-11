@@ -71,7 +71,7 @@ module Fog
         include Shared
 
         def instantiate_vapp_template options = {}
-          validate_instantiate_vapp_template_options optionsgi
+          validate_instantiate_vapp_template_options options
           request(
             :body     => generate_instantiate_vapp_template_request(options),
             :expects  => 201,

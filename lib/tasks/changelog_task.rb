@@ -68,6 +68,7 @@ module Fog
               'nightshade427',
               'Patrick Debois',
               'Paul Thornthwaite',
+              'Rupak Ganguly',
               'Stepan G. Fedorov',
               'Wesley Beary'
             ].include?(committer)
