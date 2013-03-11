@@ -4,7 +4,7 @@ module Fog
       class Real
         # Create server
         # @param [String] name name of server
-        # @param [String] image_id id of the image used to create server
+        # @param [String] image_id of the image used to create server
         # @param [String] flavor_id id of the flavor of the image
         # @param [String] min_count
         # @param [String] max_count

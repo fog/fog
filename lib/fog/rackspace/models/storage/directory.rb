@@ -8,14 +8,35 @@ module Fog
 
       class Directory < Fog::Model
 
+        # @!attribute [r] key
+        # @return [String] The name of the directory
         identity  :key, :aliases => 'name'
 
+        # @!attribute [r] bytes
+        # @return [Integer] The number of bytes used by the directory
         attribute :bytes, :aliases => 'X-Container-Bytes-Used', :type => :integer
+
+        # @!attribute [r] count
+        # @return [Integer] The number of objects in the directory
         attribute :count, :aliases => 'X-Container-Object-Count', :type => :integer
+
+        # @!attribute [rw] cdn_name
+        # @return [String] The CDN CNAME to be used instead of the default CDN directory URI. The CDN CNAME will need to be setup setup in DNS and
+        #    point to the default CDN directory URI.
+        # @note This value does not persist and will need to be specified each time a directory is created or retrieved
+        # @see Directories#get
         attribute :cdn_cname
         
-        attr_writer :public, :public_url
+        # @!attribute [w] public
+        # Required for compatibility with other Fog providers. Not Used.
+        attr_writer :public
 
+        # @!attribute [w] public_url
+        # Required for compatibility with other Fog providers. Not Used.
+        attr_writer :public_url
+
+        # Set directory metadata
+        # @param [Hash,Fog::Storage::Rackspace::Metadata] hash contains key value pairs
         def metadata=(hash)
           if hash.is_a? Fog::Storage::Rackspace::Metadata
             attributes[:metadata] = hash
@@ -25,6 +46,8 @@ module Fog
           attributes[:metadata]
         end
         
+        # Retrieve directory metadata
+        # @return [Fog::Storage::Rackspace::Metadata] metadata key value pairs.
         def metadata
           unless attributes[:metadata]
              response = service.head_container(key)
@@ -33,6 +56,10 @@ module Fog
           attributes[:metadata]
         end
 
+        # Destroy the directory and remove it from CDN
+        # @return [Boolean] returns true if directory was deleted
+        # @note Directory must be empty before it is destroyed.
+        # @see http://docs.rackspace.com/files/api/v1/cf-devguide/content/Delete_Container-d1e1765.html
         def destroy
           requires :key
           service.delete_container(key)
@@ -42,6 +69,8 @@ module Fog
           false
         end
 
+        # Returns collection of files in directory
+        # @return [Fog::Storage::Rackspace::Files] collection of files in directory
         def files
           @files ||= begin
             Fog::Storage::Rackspace::Files.new(
@@ -51,6 +80,8 @@ module Fog
           end
         end
 
+        # Is directory published to CDN
+        # @return [Boolean] return true if published to CDN
         def public?
           if @public.nil?
             @public ||= (key && public_url) ? true : false
@@ -58,6 +89,8 @@ module Fog
           @public
         end
         
+        # Reload directory with latest data from Cloud Files
+        # @return [Fog::Storage::Rackspace::Directory] returns itself
         def reload
           @public = nil
           @urls = nil
@@ -65,24 +98,43 @@ module Fog
           super
         end
         
-        def public_url          
+        # Returns the public url for the directory.
+        # If the directory has not been published to the CDN, this method will return nil as it is not publically accessible. This method will return the approprate
+        # url in the following order:
+        #
+        #  1. If the service used to access this directory was created with the option :rackspace_cdn_ssl => true, this method will return the SSL-secured URL.
+        #  2. If the cdn_cname attribute is populated this method will return the cname.
+        #  3. return the default CDN url.
+        #
+        # @return [String] public url for directory
+        def public_url
           return nil if urls.empty?
-          return urls[:ssl_uri] if service.ssl?          
+          return urls[:ssl_uri] if service.ssl?
           cdn_cname || urls[:uri]
         end
         
+        # URL used to stream video to iOS devices. Cloud Files will auto convert to the approprate format.
+        # @return [String] iOS URL
+        # @see http://docs.rackspace.com/files/api/v1/cf-devguide/content/iOS-Streaming-d1f3725.html
         def ios_url
           urls[:ios_uri]
         end
         
+        # URL used to stream resources
+        # @return [String] streaming url
+        # @see http://docs.rackspace.com/files/api/v1/cf-devguide/content/Streaming-CDN-Enabled_Containers-d1f3721.html
         def streaming_url
           urls[:streaming_uri]
         end
 
+        # Create or update directory and associated metadata
+        # @return [Boolean] returns true if directory was saved
+        # @note If public attribute is true, directory will be CDN enabled
+        # @see http://docs.rackspace.com/files/api/v1/cf-devguide/content/Create_Container-d1e1694.html
         def save
           requires :key
-          create_container
-          raise Fog::Storage::Rackspace::Error.new("Directory can not be set as :public without a CDN provided") if !cdn_enabled? &&  public?
+          create_or_update_container
+          raise Fog::Storage::Rackspace::Error.new("Directory can not be set as :public without a CDN provided") if public? && !cdn_enabled?
           @urls = service.cdn.publish_container(self, public?)
           true
         end
@@ -99,7 +151,7 @@ module Fog
           @urls ||= service.cdn.urls(self)
         end
            
-        def create_container
+        def create_or_update_container
           headers = attributes[:metadata].nil? ? {} : metadata.to_headers           
           service.put_container(key, headers)        
         end

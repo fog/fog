@@ -20,20 +20,36 @@ module Fog
         CONTAINER_KEY_REGEX = /^#{CONTAINER_META_PREFIX}(.*)/
         OBJECT_KEY_REGEX = /^#{OBJECT_META_PREFIX}(.*)/
         
+
+        # @!attribute [rw] data
+        # @return [Hash] underlying data store for metadata class
+        attr_reader :data
+
+        # @!attribute [rw] parent
+        # @return [Fog::Storage::Rackspace::Directory,Fog::Storage::Rackspace::File] the parent object of the metadata
+        attr_reader :parent
         
-        attr_reader :data, :parent
-        
+        # Initialize
+        # @param [Fog::Storage::Rackspace::Directory,Fog::Storage::Rackspace::File] parent object of the metadata
+        # @param [Hash] hash containing initial metadata values
         def initialize(parent, hash={})
           @data = hash || {}
           @deleted_hash = {}
           @parent = parent
         end
-                
+
+
+        # Delete key value pair from metadata
+        # @param [String] key to be deleted
+        # @return [Object] returns value for key
+        # @note Metadata must be deleted using this method in order to properly remove it from Cloud Files
         def delete(key)
           data.delete(key)
           @deleted_hash[key] = nil
         end
-                
+
+        # Returns metadata in a format expected by Cloud Files
+        # @return [Hash] Metadata in a format expected by Cloud Files
         def to_headers
           headers = {}          
           h = data.merge(@deleted_hash) 
@@ -45,6 +61,9 @@ module Fog
           headers
         end
         
+        # Creates metadata object from Cloud File Headers
+        # @param [Fog::Storage::Rackspace::Directory,Fog::Storage::Rackspace::File] parent object of the metadata
+        # @param [Hash] headers Cloud File headers
         def self.from_headers(parent, headers)
           metadata = Metadata.new(parent)
           headers.each_pair do |k, v|
@@ -55,10 +74,14 @@ module Fog
           metadata
         end   
         
+        # Returns true if method is implemented by Metadata class
+        # @param [Symbol] method_sym
+        # @param [Boolean] include_private
         def respond_to?(method_sym, include_private = false)
           super(method_sym, include_private) || data.respond_to?(method_sym, include_private)
         end
-                
+
+        # Invoked by Ruby when obj is sent a message it cannot handle.
         def method_missing(method, *args, &block)
           data.send(method, *args, &block)
         end                             
