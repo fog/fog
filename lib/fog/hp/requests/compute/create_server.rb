@@ -91,6 +91,10 @@ module Fog
             end
           end
 
+          if options['user_data']
+            data['server']['user_data'] = options['user_data']
+          end
+
           request(
             :body     => Fog::JSON.encode(data),
             :expects  => 202,
