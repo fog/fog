@@ -13,8 +13,7 @@ module Fog
           }
 
           vanilla_options = ['metadata', 'accessIPv4', 'accessIPv6',
-                             'availability_zone', 'user_data', 'key_name', 'adminPass',
-                             'net_id', 'v4_fixed_ip', 'port_id']
+                             'availability_zone', 'user_data', 'key_name', 'adminPass']
           vanilla_options.select{|o| options[o]}.each do |key|
             data['server'][key] = options[key]
           end
