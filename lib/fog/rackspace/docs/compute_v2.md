@@ -1,6 +1,6 @@
 #Next Generation Cloud Servers™ (compute_v2)
 
-This document explains how to get started using Next Gneration Cloud Servers™ with Fog. It assumes you have read the [Getting Started with Fog and the Rackspace Open Cloud](getting_started.md) document.
+This document explains how to get started using Next Generation Cloud Servers™ with Fog. It assumes you have read the [Getting Started with Fog and the Rackspace Open Cloud](getting_started.md) document.
 
 
 ## Starting irb console
@@ -125,7 +125,7 @@ To view the status of the response:
 	
 **Note**: Fog is aware valid HTTP response statuses for each request type. If an unexpected HTTP response status occurs, Fog will raise an exception.
 	
-To view response header:
+To view response body:
 
 	response.body
 	
