@@ -7,11 +7,14 @@ Shindo.tests('Fog::Network[:openstack] | network requests', ['openstack']) do
     'shared'                    => Fog::Boolean,
     'status'                    => String,
     'admin_state_up'            => Fog::Boolean,
-    'tenant_id'                 => String,
+    'tenant_id'                 => String
+  }
+
+  @network_format_extensions = {
     'router:external'           => Fog::Boolean,
     'provider:network_type'     => String,
     'provider:physical_network' => Fog::Nullable::String,
-    'provider:segmentation_id'  => Integer,
+    'provider:segmentation_id'  => Integer
   }
 
   tests('success') do
@@ -25,7 +28,7 @@ Shindo.tests('Fog::Network[:openstack] | network requests', ['openstack']) do
       Fog::Network[:openstack].create_network(attributes).body
     end
     tests('#create_network+provider extensions').formats(
-      {'network' => @network_format}
+      {'network' => @network_format.merge(@network_format_extensions)}
     ) do
       attributes = {
         :name => 'net_name',
@@ -68,6 +71,8 @@ Shindo.tests('Fog::Network[:openstack] | network requests', ['openstack']) do
     tests('#create_network+provider extensions').raises(
       Excon::Errors::BadRequest
     ) do
+      pending if Fog.mocking?
+
       attributes = {
         :name => 'net_name',
         :shared => false,
