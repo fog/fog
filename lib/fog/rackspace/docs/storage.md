@@ -91,6 +91,10 @@ The Storage service supports the following additional parameters:
 		<td>:rackspace_cdn_url</td>
 		<td>The endpoint for the CDN service. By default, Fog::Storage pick the appropriate endpoint for region. This option will typically only be used for Rackspace Private Cloud Access.</td>
 	</tr>
+		<tr>
+		<td>:chunk_size</td>
+		<td>The chunk size in bytes to use for block transfers. By default, Fog uses 1 MB chunks.</td>
+	</tr>
 </table>
 
 
@@ -357,10 +361,24 @@ The `create` method also supports the following key values:
 
 ## Download Files
 
-To download a file from a private or public directory:
+The most efficient way to download files from a private or public directory is as follows:
 
-	file_object = directory.files.get('germany.jpg')
+	File.open('downloaded-file.jpg', 'w') do | f |
+	  directory.files.get("my_big_file.jpg") do | data, remaining, content_length |
+	    f.syswrite data
+	  end
+	end
+
+This will download and save the file in 1 MB chunks. The chunk size can be changed by passing the parameter :chunk_size into the :connection_options hash in the service constructor.
+
+**Note**: The `body` attribute of file will be empty if a file has been downloaded using this method.
+
+If a file object has already been loaded into memory, you can save it as follows:
+
 	File.open('germany.jpg', 'w') {|f| f.write(file_object.body) }
+
+**Note**: This method is more memory intensive as the entire object is loaded into memory before saving the file as in the example above.
+
 
 ## Accessing Files Through CDN
 
