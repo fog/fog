@@ -65,6 +65,10 @@ file = select_file(files)
 
 # download file
 filename = File.join(File.dirname(__FILE__), "downloaded-#{file.key}")
-File.open(filename, 'w') {|f| f.write(file.body) } 
+File.open(filename, 'w') do | f |
+  directory.files.get(file.key) do | data, remaining, content_length |
+    f.syswrite data
+  end
+end
 
 puts "\nFile #{file.key} was successfully downloaded to #{filename}"
