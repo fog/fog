@@ -22,9 +22,11 @@ module Fog
         # @param [String] key  of directory
         # @param options [Hash]:
         # @option options [String] cdn_cname CDN CNAME used when calling Directory#public_url
-        # @return [Fog::Storage::Rackspace:Directory]
+        # @return [Fog::Storage::Rackspace::Directory]
         # @example
-        #   fog.directories.get('video', :cdn_cname => 'http://cdn.lunenburg.org').files.first.public_url
+        #   directory = fog.directories.get('video', :cdn_cname => 'http://cdn.lunenburg.org')
+        #   files = directory.files
+        #   files.first.public_url
         #
         # @see Directory#public_url
         # @see http://docs.rackspace.com/files/api/v1/cf-devguide/content/View-Container_Info-d1e1285.html

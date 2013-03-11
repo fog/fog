@@ -52,6 +52,7 @@ module Fog
         # @example Retrieve and download contents of Cloud Files object to file system
         #   file_object = directory.files.get('germany.jpg')
         #   File.open('germany.jpg', 'w') {|f| f.write(file_object.body) }
+        # @see Fog::Storage::Rackspace:Files#get
         def body
           attributes[:body] ||= if last_modified
             collection.get(identity).body
@@ -83,7 +84,6 @@ module Fog
 
         # Destroy the file
         # @return [Boolean] returns true if file is destroyed
-        # @note Directory must be empty before destroying directory
         # @see http://docs.rackspace.com/files/api/v1/cf-devguide/content/Delete_Object-d1e2264.html
         def destroy
           requires :directory, :key
@@ -125,7 +125,7 @@ module Fog
         end
         
         # Returns the public url for the file.
-        # If the file has not been published to the CDN, this method will return nil as it is not publically accessable. This method will return the approprate
+        # If the file has not been published to the CDN, this method will return nil as it is not publically accessible. This method will return the approprate
         # url in the following order:
         #
         #  1. If the service used to access this file was created with the option :rackspace_cdn_ssl => true, this method will return the SSL-secured URL.
@@ -145,7 +145,7 @@ module Fog
         end
         
         # URL used to stream resources
-        # return [String] streaming url
+        # @return [String] streaming url
         # @see http://docs.rackspace.com/files/api/v1/cf-devguide/content/Streaming-CDN-Enabled_Containers-d1f3721.html
         def streaming_url
           Files::file_url directory.streaming_url, key

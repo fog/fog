@@ -6,8 +6,8 @@ module Fog
       class Account < Fog::Model
         # @see http://docs.rackspace.com/files/api/v1/cf-devguide/content/View_Account_Info-d1e11995.html
 
-        # @!attribute [rw] meta_temp_url_key is used to generate temporary access to files
-        # @return [String] The temporary URL key
+        # @!attribute [rw] meta_temp_url_key
+        # @return [String] The temporary URL key used to generate temporary access to files
         # @see http://docs.rackspace.com/files/api/v1/cf-devguide/content/Create_TempURL-d1a444.html
         attribute :meta_temp_url_key, :aliases => 'X-Account-Meta-Temp-Url-Key'
 

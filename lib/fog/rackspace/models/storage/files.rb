@@ -84,7 +84,7 @@ module Fog
         # @yieldparam [Integer] remaining
         # @yieldparam [Integer] content_length
         # @return [Fog::Storage::Rackspace:File]
-        # @note If a block is provided, the body attribute will be empty. By default Chunk size is 1 MB. This value can be changed by passing the parameter :chunk_size
+        # @note If a block is provided, the body attribute will be empty. By default chunk size is 1 MB. This value can be changed by passing the parameter :chunk_size
         #   into the :connection_options hash in the service constructor.
         # @example Download an image from Cloud Files and save it to file
         #
@@ -122,7 +122,7 @@ module Fog
         end
         
         # View directory detail without loading file contents
-        # @param key - key of the object
+        # @param key of the object
         # @param options Required for compatibility with other Fog providers. Not Used.
         # @return [Fog::Storage::Rackspace::File]
         def head(key, options = {})

@@ -99,7 +99,7 @@ module Fog
         end
         
         # Returns the public url for the directory.
-        # If the directory has not been published to the CDN, this method will return nil as it is not publically accessable. This method will return the approprate
+        # If the directory has not been published to the CDN, this method will return nil as it is not publically accessible. This method will return the approprate
         # url in the following order:
         #
         #  1. If the service used to access this directory was created with the option :rackspace_cdn_ssl => true, this method will return the SSL-secured URL.
