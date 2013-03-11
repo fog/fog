@@ -207,12 +207,33 @@ module Fog
           end
         end
 
+        def sync(target_dir, secret)
+          requires :key
+          # do not sync if dir is same as target dir
+          return false if target_dir.key == key
+          begin service.head_container(key)
+            if !target_dir.nil? && target_dir.is_a?(Fog::Storage::HP::Directory) && target_dir.respond_to?(:public_url) && !target_dir.public_url.nil?
+              # set sync metadata on source dir
+              self.sync_to = target_dir.public_url
+              self.sync_key = secret
+              # set sync metadata on target dir
+              target_dir.sync_key = secret
+              target_dir.save
+              true
+            else
+              false
+            end
+          rescue Fog::Storage::HP::NotFound
+            false
+          end
+        end
+
         def save(options = {})
           requires :key
           # write out the acls into the headers before save
           options.merge!(service.perm_acl_to_header(@read_acl, @write_acl))
-          options.merge!({'X-Container-Sync-To' => sync_to}) unless sync_to.nil?
-          options.merge!({'X-Container-Sync-Key' => sync_key}) unless sync_key.nil?
+          options.merge!({'X-Container-Sync-To' => self.sync_to}) unless self.sync_to.nil?
+          options.merge!({'X-Container-Sync-Key' => self.sync_key}) unless self.sync_key.nil?
           service.put_container(key, options)
           # Added an extra check to see if CDN is enabled for the container
           if (!service.cdn.nil? && service.cdn.enabled?)
