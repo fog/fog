@@ -27,6 +27,7 @@ module Fog
         attribute :key_name
         attribute :security_groups
         attribute :config_drive
+        attribute :user_data_encoded
         # these are implemented as methods
         attribute :image_id
         attribute :flavor_id
@@ -64,6 +65,10 @@ module Fog
           metas = []
           new_metadata.each_pair {|k,v| metas << {"key" => k, "value" => v} }
           metadata.load(metas)
+        end
+
+        def user_data=(ascii_userdata)
+          self.user_data_encoded = [ascii_userdata].pack('m')  # same as Base64.encode64
         end
 
         def destroy
@@ -216,15 +221,16 @@ module Fog
           meta_hash = {}
           metadata.each { |meta| meta_hash.store(meta.key, meta.value) }
           options = {
-            'metadata'    => meta_hash,
-            'personality' => personality,
-            'accessIPv4'  => accessIPv4,
-            'accessIPv6'  => accessIPv6,
-            'min_count'   => @min_count,
-            'max_count'   => @max_count,
-            'key_name'    => key_name,
+            'metadata'        => meta_hash,
+            'personality'     => personality,
+            'accessIPv4'      => accessIPv4,
+            'accessIPv6'      => accessIPv6,
+            'min_count'       => @min_count,
+            'max_count'       => @max_count,
+            'key_name'        => key_name,
             'security_groups' => security_groups,
-            'config_drive'    => config_drive
+            'config_drive'    => config_drive,
+            'user_data'       => user_data_encoded
           }
           options = options.reject {|key, value| value.nil?}
           # either create a regular server or a persistent server based on input
