@@ -10,7 +10,7 @@ module Fog
         model Fog::Compute::Google::Server
 
         def all
-          data = connection.list_servers.body["items"]
+          data = service.list_servers.body["items"]
           load(data)
         end
 
