@@ -47,11 +47,6 @@ module Fog
           super
         end
 
-        def console_output(num_lines)
-          requires :id
-          service.get_console_output(id, num_lines)
-        end
-
         def metadata
           @metadata ||= begin
             Fog::Compute::HP::Metadata.new({
@@ -69,6 +64,20 @@ module Fog
 
         def user_data=(ascii_userdata)
           self.user_data_encoded = [ascii_userdata].pack('m')  # same as Base64.encode64
+        end
+
+        def console_output(num_lines)
+          requires :id
+          service.get_console_output(id, num_lines)
+        end
+
+        def vnc_console_url(type='novnc')
+          requires :id
+          if resp = service.get_vnc_console(id, type).body
+            resp['console']['url']
+          else
+            nil
+          end
         end
 
         def destroy
