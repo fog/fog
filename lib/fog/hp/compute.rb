@@ -57,6 +57,7 @@ module Fog
       request :get_windows_password
       request :get_security_group
       request :get_server_details
+      request :get_vnc_console
       request :list_addresses
       request :list_flavors
       request :list_flavors_detail
