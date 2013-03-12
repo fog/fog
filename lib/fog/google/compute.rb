@@ -74,7 +74,7 @@ module Fog
           @project = options[:google_project]
           google_client_email = options[:google_client_email]
           @api_url = base_url + api_version + '/projects/'
-          key = ::Google::APIClient::KeyUtils.load_from_pkcs12(options[:google_key_location], 'notasecret')
+          key = ::Google::APIClient::KeyUtils.load_from_pkcs12(File.expand_path(options[:google_key_location]), 'notasecret')
 
           @client = ::Google::APIClient.new
           @client.authorization = Signet::OAuth2::Client.new(
