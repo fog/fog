@@ -59,7 +59,7 @@ Alternative regions are specified using the key `:rackspace_region `. A list of 
 	
 	identity_service.service_catalog.display_service_regions :cloudFiles
 
-Rackspace Private Cloud installations can skip specifying a region and directly specify their custom service endpoints using the key `:rackspace_storage_url` and `:rackspace_cdn_url`.
+Rackspace Private Cloud installations can skip specifying a region and directly specify their custom service endpoints using the keys `:rackspace_storage_url` and `:rackspace_cdn_url`.
 
 **Note**: A`Fog::Storage` instance is needed for the desired region.
 
