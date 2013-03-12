@@ -6,7 +6,7 @@ module Fog
 
       class Server < Fog::Model
 
-        attribute :name, :aliases => 'identity'
+        identity :name
         attribute :image_name, :aliases => 'image'
         attribute :network_interfaces, :aliases => 'networkInterfaces'
         attribute :state, :aliases => 'status'

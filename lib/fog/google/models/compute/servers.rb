@@ -15,7 +15,7 @@ module Fog
         end
 
         def get(identity)
-          data = connection.get_server(identity).body
+          data = service.get_server(identity).body
           new(data)
         rescue Excon::Errors::NotFound
           nil
@@ -24,7 +24,7 @@ module Fog
         def bootstrap(new_attributes = {})
 
           defaults = {
-            :name => "fog_#{Time.now.to_i}",
+            :name => "fog-#{Time.now.to_i}",
             :image_name => "",
             :machine_type => "",
             :zone_name => "",

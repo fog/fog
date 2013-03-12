@@ -79,7 +79,10 @@ module Fog
           @api_url = base_url + api_version + '/projects/'
           key = ::Google::APIClient::KeyUtils.load_from_pkcs12(File.expand_path(options[:google_key_location]), 'notasecret')
 
-          @client = ::Google::APIClient.new
+          @client = ::Google::APIClient.new(
+            :application_name => "fog",
+            :application_version => Fog::VERSION,
+          )
           @client.authorization = Signet::OAuth2::Client.new(
             :audience => 'https://accounts.google.com/o/oauth2/token',
             :auth_provider_x509_cert_url => "https://www.googleapis.com/oauth2/v1/certs",
