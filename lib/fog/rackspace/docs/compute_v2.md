@@ -20,38 +20,47 @@ If using Ruby 1.9.x execute:
 	require 'fog'
 	
 ## Create Service
+
 Next, create a connection to the Next Gen Cloud Servers™:
+
+Using a US based account:
 
 	service = Fog::Compute.new({
   		:provider            => 'Rackspace',         # Rackspace Fog provider
   		:rackspace_username  => RACKSPACE_USER_NAME, # Your Rackspace Username
   		:rackspace_api_key   => RACKSPACE_API,       # Your Rackspace API key
-  		:version => :v2,                             # Use Next Gen Cloud Servers
-  		:rackspace_endpoint => Fog::Compute::RackspaceV2::DFW_ENDPOINT, # Optional
-  		:connection_options => {} # Optional
+		:version             => :v2,                 # Use Next Gen Cloud Servers
+		:rackspace_region    => :ord                 # Defaults to :dfw
+		:connection_options  => {}                   # Optional
+	})
+
+Using a UK based account:
+
+	service = Fog::Compute.new({
+		:provider            => 'Rackspace',                # Rackspace Fog provider
+		:rackspace_username  => RACKSPACE_USER_NAME,        # Your Rackspace Username
+		:rackspace_api_key   => RACKSPACE_API,              # Your Rackspace API key
+		:version             => :v2,                        # Use Next Gen Cloud Servers		:rackspace_auth_url  => Fog::Rackspace::UK_AUTH_ENDPOINT		:rackspace_region    => :lon
+		:connection_options  => {}                          # Optional
 	})
 
 To learn more about obtaining cloud credentials refer to the [Getting Started with Fog and the Rackspace Open Cloud](getting_started.md) document.
 
-By default `Fog::Compute` will connect to the DFW region. You can specify alternative regions using the key `:rackspace_endpoint ` with one of the following values:
+By default `Fog::Compute` will authenticate against the US authentication endpoint and connect to the DFW region. You can specify alternative authentication endpoints using the key `:rackspace_auth_url`. Please refer to [Alternate Authentication Endpoints](http://docs.rackspace.com/auth/api/v2.0/auth-client-devguide/content/Endpoints-d1e180.html) for a list of alternative Rackspace authentication endpoints.
+**Note**: A`Fog::Compute` instance is needed for the desired region.
 
-<table>
-	<tr>
-		<th>Value</th>
-		<th>Location</th>
-	</tr>
-	<tr>
-		<td>Fog::Compute::RackspaceV2::DFW_ENDPOINT</td>
-		<td>Dallas Region</td>
-	</tr>
-	<tr>
-		<td>Fog::Compute::RackspaceV2::ORD_ENDPOINT</td>
-		<td>Chicago Region</td>
-	</tr>
-	<tr>
-		<td>Fog::Compute::RackspaceV2::LON_ENDPOINT</td>
-		<td>London Region</tr>
-</table>
+Alternative regions are specified using the key `:rackspace_region `. A list of regions available for Cloud Servers can be found by executing the following:
+
+	identity_service = Fog::Identity({
+		:provider            => 'Rackspace',                     # Rackspace Fog provider
+		:rackspace_username  => RACKSPACE_USER_NAME,             # Your Rackspace Username
+		:rackspace_api_key   => RACKSPACE_API,                   # Your Rackspace API key
+		:rackspace_auth_url  => Fog::Rackspace::UK_AUTH_ENDPOINT # Not specified for US Cloud
+	})
+
+	identity_service.service_catalog.display_service_regions :cloudServersOpenStack
+
+Rackspace Private Cloud installations can specify their custom service endpoints using the key `:rackspace_compute_url`.
 
 **Note**: A`Fog::Compute` instance is needed for the desired region.
 
@@ -468,7 +477,7 @@ The `create` method also supports the following key values:
 	<tr>
 		<td>:personality</td>
 		<td>File path and contents. Refer to Next Gen Server API documentation - <a href="http://docs.rackspace.com/servers/api/v2/cs-devguide/content/Server_Personality-d1e2543.html">Server Personality</a>. </td>
-	</tr>			
+	</tr>
 </table>	
 	
 ## Update Server
