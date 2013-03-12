@@ -28,7 +28,7 @@ Examples will prompt for Rackspace Open Cloud credentials. Prompts can be skippe
     	rackspace_username: RACKSPACE_USERNAME
     	rackspace_api_key: RACKSPACE_API_KEY
 
-***Note:* Replace capitalized values with the appropriate credential information.*
+**Note:** Replace capitalized values with the appropriate credential information.
 
 ## Executing
 
