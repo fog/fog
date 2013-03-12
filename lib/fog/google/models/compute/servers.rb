@@ -22,15 +22,14 @@ module Fog
         end
 
         def bootstrap(new_attributes = {})
-
           defaults = {
             :name => "fog-#{Time.now.to_i}",
-            :image_name => "",
-            :machine_type => "",
-            :zone_name => "",
+            :image_name => "gcel-12-04-v20130225",
+            :machine_type => "n1-standard-1",
+            :zone_name => "us-central1-a",
           }
 
-          server = create(defaults.merge(new_attributes))
+          p server = create(defaults.merge(new_attributes))
           server.wait_for { ready? }
           server
         end
