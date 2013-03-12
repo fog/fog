@@ -6,7 +6,7 @@ Shindo.tests('Fog::Storage[:rackspace] | object requests', ["rackspace"]) do
 
   module RackspaceStorageHelpers
     def override_path(path)
-      @path = path
+      @uri.path = path
     end
   end
 
@@ -70,7 +70,7 @@ Shindo.tests('Fog::Storage[:rackspace] | object requests', ["rackspace"]) do
       storage    = Fog::Storage::Rackspace.new(:rackspace_temp_url_key => "super_secret")
       storage.extend RackspaceStorageHelpers
       storage.override_path('/fake_version/fake_tenant')
-      object_url = storage.get_object_https_url('fogobjecttests', 'fog-object', expires_at)
+      object_url = storage.get_object_https_url('fogobjecttests', 'fog-object', expires_at)      
       object_url =~ /https:\/\/.*clouddrive.com\/[^\/]+\/[^\/]+\/fogobjecttests\/fog%2Dobject\?temp_url_sig=a24dd5fc955a57adce7d1b5bc4ec2c7660ab8396&temp_url_expires=1344149532/
     end
 

@@ -1,5 +1,5 @@
-Shindo.tests('Rackspace | Storage', ['rackspace']) do
-
+Shindo.tests('Fog::Compute::RackspaceV2', ['rackspace']) do
+  
   def assert_method(url, method)
     @service.instance_variable_set "@rackspace_auth_url", url
     returns(method) { @service.send :authentication_method }
@@ -9,6 +9,8 @@ Shindo.tests('Rackspace | Storage', ['rackspace']) do
     @service = Fog::Storage::Rackspace.new
   
     assert_method nil, :authenticate_v2
+
+    assert_method 'auth.api.rackspacecloud.com', :authenticate_v1 # chef's default auth endpoint
 
     assert_method 'https://identity.api.rackspacecloud.com', :authenticate_v1
     assert_method 'https://identity.api.rackspacecloud.com/v1', :authenticate_v1
@@ -21,45 +23,46 @@ Shindo.tests('Rackspace | Storage', ['rackspace']) do
     assert_method 'https://lon.identity.api.rackspacecloud.com/v2.0', :authenticate_v2
   end
   
-  tests('authentication v1') do
+  tests('legacy authentication') do
     pending if Fog.mocking?
-    @service = Fog::Storage::Rackspace.new :rackspace_auth_url => 'https://identity.api.rackspacecloud.com/v1.0'
+    @service = Fog::Compute::RackspaceV2.new :rackspace_auth_url => 'https://identity.api.rackspacecloud.com/v1.0'
 
     tests('variables populated') do
       returns(true, "auth token populated") { !@service.send(:auth_token).nil? }
-      returns(false, "path populated") { @service.instance_variable_get("@uri").nil? }
+      returns(false, "path populated") { @service.instance_variable_get("@uri").path.nil? }
       returns(true, "identity_service was not used") { @service.instance_variable_get("@identity_service").nil? }    
     end
+    
     tests('custom endpoint') do
-      @service = Fog::Storage::Rackspace.new :rackspace_auth_url => 'https://identity.api.rackspacecloud.com/v1.0', 
-        :rackspace_storage_url => 'https://my-custom-endpoint.com'
-        returns(false, "auth token populated") { @service.send(:auth_token).nil? }
+      @service = Fog::Compute::RackspaceV2.new :rackspace_auth_url => 'https://identity.api.rackspacecloud.com/v1.0', 
+        :rackspace_compute_url => 'https://my-custom-endpoint.com'
+        returns(true, "auth token populated") { !@service.send(:auth_token).nil? }
         returns(true, "uses custom endpoint") { (@service.instance_variable_get("@uri").host =~ /my-custom-endpoint\.com/) != nil }
     end
   end
 
-  tests('authentation v2') do
+  tests('current authentation') do
     pending if Fog.mocking?
-    @service = Fog::Storage::Rackspace.new :rackspace_auth_url => 'https://identity.api.rackspacecloud.com/v2.0'
+    @service = Fog::Compute::RackspaceV2.new :rackspace_auth_url => 'https://identity.api.rackspacecloud.com/v2.0'
     
     tests('variables populated') do
       returns(true, "auth token populated") { !@service.send(:auth_token).nil? }
-      returns(false, "path populated") { @service.instance_variable_get("@uri").nil? }
+      returns(false, "path populated") { @service.instance_variable_get("@uri").host.nil? }
       returns(false, "identity service was used") { @service.instance_variable_get("@identity_service").nil? }    
     end
     tests('dfw region') do
-      @service = Fog::Storage::Rackspace.new :rackspace_auth_url => 'https://identity.api.rackspacecloud.com/v2.0', :rackspace_region => :dfw
+      @service = Fog::Compute::RackspaceV2.new :rackspace_auth_url => 'https://identity.api.rackspacecloud.com/v2.0', :rackspace_region => :dfw
       returns(true, "auth token populated") { !@service.send(:auth_token).nil? }
-      returns(true) { (@service.instance_variable_get("@uri").host =~ /dfw\d/) != nil }
+      returns(true) { (@service.instance_variable_get("@uri").host =~ /dfw/) != nil }
     end
     tests('ord region') do
-      @service = Fog::Storage::Rackspace.new :rackspace_auth_url => 'https://identity.api.rackspacecloud.com/v2.0', :rackspace_region => :ord
+      @service = Fog::Compute::RackspaceV2.new :rackspace_auth_url => 'https://identity.api.rackspacecloud.com/v2.0', :rackspace_region => :ord
       returns(true, "auth token populated") { !@service.send(:auth_token).nil? }
-      returns(true) { (@service.instance_variable_get("@uri").host =~ /ord\d/) != nil }
+      returns(true) { (@service.instance_variable_get("@uri").host =~ /ord/) != nil }
     end
     tests('custom endpoint') do
-      @service = Fog::Storage::Rackspace.new :rackspace_auth_url => 'https://identity.api.rackspacecloud.com/v2.0', 
-        :rackspace_storage_url => 'https://my-custom-endpoint.com'
+      @service = Fog::Compute::RackspaceV2.new :rackspace_auth_url => 'https://identity.api.rackspacecloud.com/v2.0', 
+        :rackspace_compute_url => 'https://my-custom-endpoint.com'
         returns(true, "auth token populated") { !@service.send(:auth_token).nil? }
         returns(true, "uses custom endpoint") { (@service.instance_variable_get("@uri").host =~ /my-custom-endpoint\.com/) != nil }
     end
@@ -69,30 +72,20 @@ Shindo.tests('Rackspace | Storage', ['rackspace']) do
     pending if Fog.mocking?
     
     tests('no params') do
-      @service = Fog::Storage::Rackspace.new
+      @service = Fog::Compute::RackspaceV2.new
       returns(true, "auth token populated") { !@service.send(:auth_token).nil? }
-      returns(true) { (@service.instance_variable_get("@uri").host =~ /dfw\d/) != nil }
+      returns(true) { (@service.instance_variable_get("@uri").host =~ /dfw/) != nil }
     end
     tests('specify region') do
-      @service = Fog::Storage::Rackspace.new :rackspace_region => :ord
+      @service = Fog::Compute::RackspaceV2.new :rackspace_region => :ord
       returns(true, "auth token populated") { !@service.send(:auth_token).nil? }
-      returns(true) { (@service.instance_variable_get("@uri").host =~ /ord\d/ ) != nil }
+      returns(true) { (@service.instance_variable_get("@uri").host =~ /ord/ ) != nil }
     end    
     tests('custom endpoint') do
-      @service = Fog::Storage::Rackspace.new :rackspace_storage_url => 'https://my-custom-endpoint.com'
+      @service = Fog::Compute::RackspaceV2.new :rackspace_compute_url => 'https://my-custom-endpoint.com'
       returns(true, "auth token populated") { !@service.send(:auth_token).nil? }
       returns(true, "uses custom endpoint") { (@service.instance_variable_get("@uri").host =~ /my-custom-endpoint\.com/) != nil }
     end
-    tests('rackspace_servicenet') do
-      @service = Fog::Storage::Rackspace.new :rackspace_servicenet => true
-      returns(true, "auth token populated") { !@service.send(:auth_token).nil? }
-      returns(true, "uses custom endpoint") { (@service.instance_variable_get("@uri").host =~ /snet-/) != nil }
-    end
   end
-    
-  tests('account').succeeds do
-    pending if Fog.mocking?    
-     Fog::Storage[:rackspace].account
-  end
+  
 end
-
