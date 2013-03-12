@@ -3,7 +3,7 @@ module Fog
     module Terremark
       module Shared
 
-        class Vapp < Fog::Parsers::Base
+        class Vapp < TerremarkParser
 
           def reset
             @response = { 'Links' => [], 'VirtualHardware' => {}, 'OperatingSystem' => {} }
@@ -15,23 +15,12 @@ module Fog
             super
             case name
               when 'Link'
-                link = {}
-                until attributes.empty?
-                  link[attributes.shift] = attributes.shift
-                end
+                link = extract_attributes(attributes)
                 @response['Links'] << link
               when 'OperatingSystemSection'
                 @in_operating_system = true
              when 'VApp'
-                vapp = {}
-                until attributes.empty?
-                  if attributes.first.is_a?(Array)
-                    attribute = attributes.shift
-                    vapp[attribute.first] = attribute.last
-                  else
-                    vapp[attributes.shift] = attributes.shift
-                  end
-                end
+                vapp = extract_attributes(attributes)
                 @response.merge!(vapp.reject {|key,value| !['href', 'name', 'size', 'status', 'type'].include?(key)})
              end
           end

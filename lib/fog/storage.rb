@@ -8,31 +8,15 @@ module Fog
     def self.new(attributes)
       attributes = attributes.dup # prevent delete from having side effects
       case provider = attributes.delete(:provider).to_s.downcase.to_sym
-      when :atmos
-        require 'fog/atmos/storage'
-        Fog::Storage::Atmos.new(attributes)
-      when :aws
-        require 'fog/aws/storage'
-        Fog::Storage::AWS.new(attributes)
-      when :google
-        require 'fog/google/storage'
-        Fog::Storage::Google.new(attributes)
-      when :hp
-        require 'fog/hp/storage'
-        Fog::Storage::HP.new(attributes)
-      when :ibm
-        require 'fog/ibm/storage'
-        Fog::Storage::IBM.new(attributes)
-      when :local
-        require 'fog/local/storage'
-        Fog::Storage::Local.new(attributes)
-      when :ninefold
-        require 'fog/ninefold/storage'
-        Fog::Storage::Ninefold.new(attributes)
-      when :rackspace
-        require 'fog/rackspace/storage'
-        Fog::Storage::Rackspace.new(attributes)
+      when :internetarchive
+        require 'fog/internet_archive/storage'
+        Fog::Storage::InternetArchive.new(attributes)
       else
+        if self.providers.include?(provider)
+          require "fog/#{provider}/storage"
+          return Fog::Storage.const_get(Fog.providers[provider]).new(attributes)
+        end
+
         raise ArgumentError.new("#{provider} is not a recognized storage provider")
       end
     end

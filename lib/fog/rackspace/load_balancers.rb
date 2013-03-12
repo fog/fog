@@ -110,7 +110,7 @@ module Fog
           uri = URI.parse(options[:rackspace_lb_endpoint] || DFW_ENDPOINT)
           @host       = uri.host
           @persistent = options[:persistent] || false
-          @path       = uri.path
+          @path       = uri.path.end_with?('/') ? uri.path.chop : uri.path
           @port       = uri.port
           @scheme     = uri.scheme
 
@@ -125,6 +125,7 @@ module Fog
             response = @connection.request(params.merge!({
               :headers  => {
                 'Content-Type' => 'application/json',
+                'Accept' => 'application/json',
                 'X-Auth-Token' => @auth_token
               }.merge!(params[:headers] || {}),
               :host     => @host,
@@ -156,7 +157,6 @@ module Fog
           account_id = credentials['X-Server-Management-Url'].match(/.*\/([\d]+)$/)[1]
           @path = "#{@path}/#{account_id}"
         end
-
       end
     end
   end

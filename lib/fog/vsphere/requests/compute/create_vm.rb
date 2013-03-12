@@ -39,7 +39,7 @@ module Fog
         def device_change attributes
           devices = []
           if (nics = attributes[:interfaces])
-            devices << nics.map { |nic| create_interface(nic, nics.index(nic)) }
+            devices << nics.map { |nic| create_interface(nic, nics.index(nic), :add, attributes) }
           end
 
           if (disks = attributes[:volumes])
@@ -49,7 +49,22 @@ module Fog
           devices.flatten
         end
 
-        def create_interface nic, index = 0, operation = :add
+        def create_nic_backing nic, attributes
+          raw_network = get_raw_network(nic.network, attributes[:datacenter])
+
+          if raw_network.kind_of? RbVmomi::VIM::DistributedVirtualPortgroup
+            RbVmomi::VIM.VirtualEthernetCardDistributedVirtualPortBackingInfo(
+              :port => RbVmomi::VIM.DistributedVirtualSwitchPortConnection(
+                :portgroupKey => raw_network.key,
+                :switchUuid   => raw_network.config.distributedVirtualSwitch.uuid
+              )
+            )
+          else
+            RbVmomi::VIM.VirtualEthernetCardNetworkBackingInfo(:deviceName => nic.network)
+          end
+        end
+
+        def create_interface nic, index = 0, operation = :add, attributes = {}
           {
             :operation => operation,
             :device    => nic.type.new(
@@ -59,7 +74,7 @@ module Fog
                   :label   => nic.name,
                   :summary => nic.summary,
                 },
-              :backing     => RbVmomi::VIM.VirtualEthernetCardNetworkBackingInfo(:deviceName => nic.network),
+              :backing     => create_nic_backing(nic, attributes),
               :addressType => 'generated')
           }
         end

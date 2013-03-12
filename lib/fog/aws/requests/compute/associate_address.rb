@@ -48,19 +48,25 @@ module Fog
           address = public_ip.nil? ? nil : self.data[:addresses][public_ip]
           if ((instance && address) || (instance &&  !allocation_id.nil?) || (!allocation_id.nil? && !network_interface_id.nil?))
             if !allocation_id.nil?
-              allocation_ip = describe_addresses( 'allocation-id'  => "#{allocation_id}").body['addressesSet']
-              public_ip = allocation_ip['publicIp']
+              allocation_ip = describe_addresses( 'allocation-id'  => "#{allocation_id}").body['addressesSet'].first
+              if !allocation_ip.nil?
+                public_ip = allocation_ip['publicIp']
+              end
             end
-            if current_instance = self.data[:instances][address['instanceId']]
-              current_instance['ipAddress'] = current_instance['originalIpAddress']
+            if !address.nil?
+              if current_instance = self.data[:instances][address['instanceId']]
+                current_instance['ipAddress'] = current_instance['originalIpAddress']
+              end
+              address['instanceId'] = instance_id
             end
-            address['instanceId'] = instance_id
             # detach other address (if any)
             if self.data[:addresses][instance['ipAddress']]
               self.data[:addresses][instance['ipAddress']]['instanceId'] = nil
             end
-            instance['ipAddress'] = public_ip
-            instance['dnsName'] = Fog::AWS::Mock.dns_name_for(public_ip)
+            if !public_ip.nil?
+              instance['ipAddress'] = public_ip
+              instance['dnsName'] = Fog::AWS::Mock.dns_name_for(public_ip)
+            end
             response.status = 200
             if !instance_id.nil? && !public_ip.nil?
               response.body = {

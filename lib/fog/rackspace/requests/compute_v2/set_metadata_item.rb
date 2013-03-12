@@ -2,6 +2,16 @@ module Fog
   module Compute
     class RackspaceV2
       class Real
+        
+        # Sets a single metadatum item by key.
+        # @param [String<images, servers>] collection type of metadata
+        # @param [String] obj_id id of the object where the metadata is attached
+        # @param [String] key the key of the metadata to set
+        # @param [String] value the value of the metadata to set        
+        # @return [Excon::Response] response:
+        #   * body [Hash]:
+        #     * meta [Hash]:
+        # @see http://docs.rackspace.com/servers/api/v2/cs-devguide/content/Create_or_Update_a_Metadata_Item-d1e5633.html       
         def set_metadata_item(collection, obj_id, key, value)
           request(
             :expects => 200,

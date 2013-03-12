@@ -11,6 +11,8 @@ if Fog.mock?
   Fog.credentials = {
     :aws_access_key_id                => 'aws_access_key_id',
     :aws_secret_access_key            => 'aws_secret_access_key',
+    :ia_access_key_id                 => 'aws_access_key_id',
+    :ia_secret_access_key             => 'aws_secret_access_key',
     :atmos_storage_token              => 'atmos_token',
     :atmos_storage_secret             => 'atmos_secret',
     :atmos_storage_endpoint           => 'http://atmos.is.cool:1000/test1.0',
@@ -68,6 +70,8 @@ if Fog.mock?
     :libvirt_uri                      => 'qemu://libvirt/system',
     :rackspace_api_key                => 'rackspace_api_key',
     :rackspace_username               => 'rackspace_username',
+    :riakcs_access_key_id             => 'riakcs_access_key_id',
+    :riakcs_secret_access_key         => 'riakcs_secret_access_key',
     :storm_on_demand_username         => 'storm_on_demand_username',
     :storm_on_demand_password         => 'storm_on_demand_password',
     :vcloud_host                      => 'vcloud_host',

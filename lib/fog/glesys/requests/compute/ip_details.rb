@@ -3,8 +3,8 @@ module Fog
     class Glesys
       class Real
 
-        def ip_list_free(params)
-          request("/ip/listfree", params)
+        def ip_details(params)
+          request("/ip/details", params)
         end
       end
 

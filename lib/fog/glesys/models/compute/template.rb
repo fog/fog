@@ -1,24 +1,16 @@
 require 'fog/core/model'
 
 module Fog
-  module Glesys
-    class Compute
-
+  module Compute
+    class Glesys
       class Template < Fog::Model
-        extend Fog::Deprecation
-
-        identity :templateid
-
+        identity :name
         attribute :platform
-        attribute :name
-        attribute :os
-        attribute :min_mem_size
-        attribute :min_disk_size
-
-        def list
-          service.template_list
-        end
-
+        attribute :operating_system, :aliases => "operatingsystem"
+        attribute :minimum_memory_size, :aliases => "minimummemorysize"
+        attribute :minimum_disk_size, :aliases => "minimumdisksize"
+        attribute :instance_cost, :aliases => "instancecost"
+        attribute :license_cost, :aliases => "licensecost"
       end
     end
   end

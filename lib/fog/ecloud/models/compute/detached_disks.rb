@@ -17,11 +17,7 @@ module Fog
 
         def get(uri)
           data = service.get_detached_disk(uri).body
-          if data == ""
-            new({})
-          else
-            new(data)
-          end
+          new(data)
         rescue Fog::Errors::NotFound
           nil
         end

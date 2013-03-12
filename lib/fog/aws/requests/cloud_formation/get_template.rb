@@ -5,19 +5,16 @@ module Fog
 
         require 'fog/aws/parsers/cloud_formation/get_template'
 
-        # Describe stacks
+        # Describe stacks.
         #
-        # ==== Parameters
-        # * stack_name<~String> - stack name to get template from
+        # @param stack_name [String] stack name to get template from
         #
-        # ==== Returns
-        # * response<~Excon::Response>:
-        #   * body<~Hash>:
-        #     * 'TemplateBody'<~String> - structure containing the template body (json)
+        # @return [Excon::Response]
+        #   * body [Hash]:
+        #     * TemplateBody [String] - structure containing the template body (json)
         #
-        # ==== See Also
-        # http://docs.amazonwebservices.com/AWSCloudFormation/latest/APIReference/API_GetTemplate.html
-        #
+        # @see http://docs.amazonwebservices.com/AWSCloudFormation/latest/APIReference/API_GetTemplate.html
+        
         def get_template(stack_name)
           request(
             'Action'    => 'GetTemplate',

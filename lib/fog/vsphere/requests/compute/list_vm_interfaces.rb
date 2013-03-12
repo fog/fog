@@ -33,7 +33,7 @@ module Fog
             {
               :name    => nic.deviceInfo.label,
               :mac     => nic.macAddress,
-              :network => nic.backing.network.name,
+              :network => nic.backing.respond_to?("network") ? nic.backing.network.name : nic.backing.port.portgroupKey,
               :status  => nic.connectable.status,
               :summary => nic.deviceInfo.summary,
               :type    => nic.class,

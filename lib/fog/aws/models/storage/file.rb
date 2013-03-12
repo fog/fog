@@ -223,7 +223,7 @@ module Fog
         # 
         #     required attributes: key
         # 
-        # @param expires [String] number of seconds before url expires
+        # @param expires [String] number of seconds (since 1970-01-01 00:00) before url expires
         # @param options [Hash]
         # @return [String] url
         # 

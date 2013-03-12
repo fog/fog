@@ -2,6 +2,15 @@ module Fog
   module Compute
     class RackspaceV2
       class Real
+        
+        # Retrieves single metadatum item by key.
+        # @param [String<images, servers>] collection type of metadata
+        # @param [String] obj_id id of the object where the metadata is attached
+        # @param [String] key the key of the metadata to retrieve
+        # @return [Excon::Response] response:
+        #   * body [Hash]:
+        #     * meta [Hash]:
+        # @see http://docs.rackspace.com/servers/api/v2/cs-devguide/content/Get_Metadata_Item-d1e5507.html
         def get_metadata_item(collection, obj_id, key)
           request(
             :expects => 200,

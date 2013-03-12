@@ -2,6 +2,10 @@ module Fog
   module Compute
     class RackspaceV2
       class Real
+        
+        # Deletes a specified server instance from the system.
+        # @param [String] server_id the id of the server to delete
+        # @see http://docs.rackspace.com/servers/api/v2/cs-devguide/content/Delete_Server-d1e2883.html
         def delete_server(server_id)
           request(
             :expects => [204],

@@ -4,10 +4,8 @@ module Fog
       class Real
 
         # Delete an image
-        #
-        # ==== Parameters
-        # * image_id<~Integer> - Id of image to delete
-        #
+        # @param [String] image_id Id of image to delete
+        # @see http://docs.rackspace.com/servers/api/v2/cs-devguide/content/Delete_Image-d1e4957.html        
         def delete_image(image_id)
           request(
             :expects  => 204,

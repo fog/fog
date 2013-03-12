@@ -41,6 +41,8 @@ module Fog
               data = service.power_off(self.id).body
               wait_for { off? }
             end
+            #Failsafe .. Always check if we are ready
+          wait_for { ready? }
           service.delete_vapp(self.id)
           true
         end
@@ -60,13 +62,13 @@ module Fog
         def delete_internet_services
             #Find the internet service
 
-            while (service = internet_services.pop) do
+            while (inet_service = internet_services.pop) do
 
-              nodes = service.nodeservices.all(service.Id)
+              nodes = service.nodeservices.all(inet_service.Id)
               #Delete all the associated nodes
               nodes.select { |item| item.destroy }
               #Clear out the services
-              service.destroy(delete_public_ip = !(internet_services.size > 0))
+              inet_service.destroy(delete_public_ip = !(internet_services.size > 0))
             end
             true
         end

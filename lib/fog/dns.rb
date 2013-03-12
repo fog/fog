@@ -7,34 +7,14 @@ module Fog
 
     def self.new(attributes)
       attributes = attributes.dup # prevent delete from having side effects
-      case provider = attributes.delete(:provider).to_s.downcase.to_sym
-      when :aws
-        require 'fog/aws/dns'
-        Fog::DNS::AWS.new(attributes)
-      when :bluebox
-        require 'fog/bluebox/dns'
-        Fog::DNS::Bluebox.new(attributes)
-      when :dnsimple
-        require 'fog/dnsimple/dns'
-        Fog::DNS::DNSimple.new(attributes)
-      when :dnsmadeeasy
-        require 'fog/dnsmadeeasy/dns'
-        Fog::DNS::DNSMadeEasy.new(attributes)
-      when :dynect
-        require 'fog/dynect/dns'
-        Fog::DNS::Dynect.new(attributes)
-      when :linode
-        require 'fog/linode/dns'
-        Fog::DNS::Linode.new(attributes)
-      when :zerigo
-        require 'fog/zerigo/dns'
-        Fog::DNS::Zerigo.new(attributes)
-      when :rackspace
-        require 'fog/rackspace/dns'
-        Fog::DNS::Rackspace.new(attributes)
-      else
-        raise ArgumentError.new("#{provider} is not a recognized dns provider")
+      provider = attributes.delete(:provider).to_s.downcase.to_sym
+
+      if self.providers.include?(provider)
+        require "fog/#{provider}/dns"
+        return Fog::DNS.const_get(Fog.providers[provider]).new(attributes)
       end
+
+      raise ArgumentError.new("#{provider} is not a recognized dns provider")
     end
 
     def self.providers

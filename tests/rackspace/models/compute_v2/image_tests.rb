@@ -1,13 +1,11 @@
 Shindo.tests('Fog::Compute::RackspaceV2 | image', ['rackspace']) do
   service    = Fog::Compute::RackspaceV2.new
-  flavor_id  = Fog.credentials[:rackspace_flavor_id] || service.flavors.first.id
-  image_id   = Fog.credentials[:rackspace_image_id]  || service.images.first.id
 
   test_time = Time.now.to_i.to_s
   options = {
     :name => "fog_server_#{test_time}",
-    :flavor_id => flavor_id,
-    :image_id => image_id
+    :flavor_id => rackspace_test_flavor_id(service),
+    :image_id => rackspace_test_image_id(service)
   }
 
   tests("success") do
