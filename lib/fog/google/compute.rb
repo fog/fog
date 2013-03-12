@@ -81,7 +81,7 @@ module Fog
 
           @client = ::Google::APIClient.new(
             :application_name => "fog",
-            :application_version => Fog::VERSION,
+            :application_version => Fog::VERSION
           )
           @client.authorization = Signet::OAuth2::Client.new(
             :audience => 'https://accounts.google.com/o/oauth2/token',
