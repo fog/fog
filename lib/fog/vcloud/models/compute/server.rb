@@ -261,6 +261,7 @@ module Fog
           @update_password = nil
           @update_cpu_value = nil
           @update_memory_value = nil
+          @update_network = nil
           @name_changed = false
           @description_changed = nil
         end
