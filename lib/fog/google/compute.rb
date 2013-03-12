@@ -66,8 +66,11 @@ module Fog
       class Real
         include Collections
 
+        attr_reader :project
+
         def initialize(options)
           base_url = 'https://www.googleapis.com/compute/'
+          # TODO(icco): v1beta13 will probably be deprecated in April.
           api_version = 'v1beta13'
           api_scope_url = 'https://www.googleapis.com/auth/compute'
 
