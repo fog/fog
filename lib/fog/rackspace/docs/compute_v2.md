@@ -1,7 +1,8 @@
 #Next Generation Cloud Servers™ (compute_v2)
 
-This document explains how to get started using Next Generation Cloud Servers™ with Fog. It assumes you have read the [Getting Started with Fog and the Rackspace Open Cloud](getting_started.md) document.
+This document explains how to get started using Next Generation Cloud Servers with Fog. It assumes you have read the [Getting Started with Fog and the Rackspace Open Cloud](getting_started.md) document.
 
+**Note**: Fog also provides an interface to First Gen Cloud Servers™ (compute). The compute interface is deprecated and should only be used if you need to interact with our first generation cloud. Fog determines the appropriate interface based on the `:version` parameter. See [Create Service](#create-service) section for more information.
 
 ## Starting irb console
 Start by executing the following command:
@@ -21,7 +22,7 @@ If using Ruby 1.9.x execute:
 	
 ## Create Service
 
-Next, create a connection to the Next Gen Cloud Servers™:
+Next, create a connection to the Next Gen Cloud Servers:
 
 Using a US based account:
 
@@ -40,7 +41,9 @@ Using a UK based account:
 		:provider            => 'Rackspace',                # Rackspace Fog provider
 		:rackspace_username  => RACKSPACE_USER_NAME,        # Your Rackspace Username
 		:rackspace_api_key   => RACKSPACE_API,              # Your Rackspace API key
-		:version             => :v2,                        # Use Next Gen Cloud Servers		:rackspace_auth_url  => Fog::Rackspace::UK_AUTH_ENDPOINT		:rackspace_region    => :lon
+		:version             => :v2,                        # Use Next Gen Cloud Servers
+		:rackspace_auth_url  => Fog::Rackspace::UK_AUTH_ENDPOINT
+		:rackspace_region    => :lon
 		:connection_options  => {}                          # Optional
 	})
 
@@ -60,13 +63,13 @@ Alternative regions are specified using the key `:rackspace_region `. A list of 
 
 	identity_service.service_catalog.display_service_regions :cloudServersOpenStack
 
-Rackspace Private Cloud installations can specify their custom service endpoints using the key `:rackspace_compute_url`.
+Rackspace Private Cloud installations can skip specifying a region and directly specify their custom service endpoints using the key `:rackspace_compute_url`.
 
 **Note**: A`Fog::Compute` instance is needed for the desired region.
 
 ### Optional Connection Parameters
 
-Fog supports passing additional connection parameters to its underlying HTTP library (Excon) using  `:connection_options`.
+Fog supports passing additional connection parameters to its underlying HTTP library (Excon) using the `:connection_options` parameter.
 
 <table>
 	<tr>
@@ -107,7 +110,7 @@ Fog supports passing additional connection parameters to its underlying HTTP lib
 Fog provides both a **model** and **request** abstraction. The request abstraction provides the most efficient interface and the model abstraction wraps the request abstraction to provide a convenient `ActiveModel` like interface. 
 	
 ### Request Layer
-The request abstraction maps directly to the [Next Gen Cloud Servers™ API](http://docs.rackspace.com/servers/api/v2/cs-devguide/content/ch_preface.html). It provides the most efficient interface to the Rackspace Open Cloud.
+The request abstraction maps directly to the [Next Gen Cloud Servers API](http://docs.rackspace.com/servers/api/v2/cs-devguide/content/ch_preface.html). It provides the most efficient interface to the Rackspace Open Cloud.
 
 To see a list of requests supported by the service:
 
@@ -482,7 +485,7 @@ The `create` method also supports the following key values:
 	
 ## Update Server
 
-Next Gen Cloud Servers™ support updating the following attributes `name`, `access_ipv4_address`, and `access_ipv6_address`. 
+Next Gen Cloud Servers support updating the following attributes `name`, `access_ipv4_address`, and `access_ipv6_address`.
 
 To update these attributes:
 
@@ -655,7 +658,7 @@ To detach a volume:
 	server.attachments.first.detach
 		
 ## Examples
-Example code using Next Gen Cloud Servers™ can be found [here](https://github.com/fog/fog/tree/master/lib/fog/rackspace/examples).
+Example code using Next Gen Cloud Servers can be found [here](https://github.com/fog/fog/tree/master/lib/fog/rackspace/examples).
 
 ## Additional Resources
 * [fog.io](http://fog.io/)
@@ -663,7 +666,7 @@ Example code using Next Gen Cloud Servers™ can be found [here](https://github.
 * [Fog Github repo](https://github.com/fog/fog)
 * [Fog Github Issues](https://github.com/fog/fog/issues)
 * [Excon Github repo](https://github.com/geemus/excon)
-* [Next Gen Cloud Servers™ API](http://docs.rackspace.com/servers/api/v2/cs-devguide/content/ch_preface.html)
+* [Next Gen Cloud Servers API](http://docs.rackspace.com/servers/api/v2/cs-devguide/content/ch_preface.html)
 
 ## Support and Feedback
 Your feedback is appreciated! If you have specific issues with the **fog** SDK, you should file an [issue via Github](https://github.com/fog/fog/issues).
