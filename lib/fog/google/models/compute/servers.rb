@@ -10,7 +10,7 @@ module Fog
         model Fog::Compute::Google::Server
 
         def all
-          data = connection.list_servers.body["items"]
+          data = service.list_servers.body["items"] || []
           load(data)
         end
 
@@ -19,6 +19,20 @@ module Fog
           new(data)
         rescue Excon::Errors::NotFound
           nil
+        end
+
+        def bootstrap(new_attributes = {})
+
+          defaults = {
+            :name => "fog_#{Time.now.to_i}",
+            :image_name => "",
+            :machine_type => "",
+            :zone_name => "",
+          }
+
+          server = create(defaults.merge(new_attributes))
+          server.wait_for { ready? }
+          server
         end
 
       end
