@@ -29,7 +29,7 @@ module Fog
             :zone_name => "us-central1-a",
           }
 
-          p server = create(defaults.merge(new_attributes))
+          server = create(defaults.merge(new_attributes))
           server.wait_for { ready? }
           server
         end
