@@ -5,8 +5,8 @@ module Fog
   module Rackspace
     extend Fog::Provider
 
-    US_AUTH_ENDPOINT = 'https://identity.api.rackspacecloud.com/v2.0'
-    UK_AUTH_ENDPOINT = 'https://lon.identity.api.rackspacecloud.com/v2.0'
+    US_AUTH_ENDPOINT = 'https://identity.api.rackspacecloud.com/v2.0' unless defined? US_AUTH_ENDPOINT
+    UK_AUTH_ENDPOINT = 'https://lon.identity.api.rackspacecloud.com/v2.0' unless defined? UK_AUTH_ENDPOINT
 
     module Errors
       class ServiceError < Fog::Errors::Error
