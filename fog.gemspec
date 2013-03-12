@@ -41,7 +41,7 @@ Gem::Specification.new do |s|
   ## List your runtime dependencies here. Runtime dependencies are those
   ## that are needed for an end user to actually USE your code.
   s.add_dependency('builder')
-  s.add_dependency('google-api-client', :git => 'git://github.com/google/google-api-ruby-client.git')
+  s.add_dependency('google-api-client', '~>0.6.2')
   s.add_dependency('excon', '~>0.14')
   s.add_dependency('formatador', '~>0.2.0')
   s.add_dependency('multi_json', '~>1.0')
