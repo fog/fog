@@ -1,4 +1,5 @@
 require 'fog/rackspace'
+require 'fog/rackspace/service'
 require 'fog/cdn'
 
 module Fog
@@ -6,7 +7,7 @@ module Fog
     class Rackspace < Fog::Service
 
       requires :rackspace_api_key, :rackspace_username
-      recognizes :rackspace_auth_url, :persistent, :rackspace_cdn_ssl
+      recognizes :rackspace_auth_url, :persistent, :rackspace_cdn_ssl, :rackspace_region, :rackspace_cdn_url
 
       request_path 'fog/rackspace/requests/cdn'
       request :get_containers
@@ -23,6 +24,18 @@ module Fog
           "X-Cdn-Streaming-Uri" => :streaming_uri, 
           "X-Cdn-Ssl-Uri" => :ssl_uri
         }.freeze
+
+        def service_name
+          :cloudFilesCDN
+        end
+
+        def region
+          @rackspace_region
+        end
+
+        def endpoint_uri(service_endpoint_url=nil)
+          @uri = super(@rackspace_cdn_url || service_endpoint_url, :rackspace_cdn_url)
+        end
 
         def publish_container(container, publish = true)
           enabled = publish ? 'True' : 'False'
@@ -53,9 +66,9 @@ module Fog
         end        
       end
 
-      class Mock
+      class Mock < Fog::Rackspace::Service
         include Base
-        
+
         def self.data
           @data ||= Hash.new do |hash, key|
             hash[key] = {}
@@ -85,27 +98,24 @@ module Fog
         
       end
 
-      class Real
+      class Real < Fog::Rackspace::Service
         include Base
-        
+
         def initialize(options={})
           @connection_options = options[:connection_options] || {}
-          credentials = Fog::Rackspace.authenticate(options, @connection_options)
-          @auth_token = credentials['X-Auth-Token']
+          @rackspace_auth_url = options[:rackspace_auth_url]
+          @rackspace_cdn_url = options[:rackspace_cdn_url]
+          @rackspace_region = options[:rackspace_region] || :dfw
+          authenticate(options)
           @enabled = false
           @persistent = options[:persistent] || false
 
-          if credentials['X-CDN-Management-Url']
-            uri = URI.parse(credentials['X-CDN-Management-Url'])
-            @host   = uri.host
-            @path   = uri.path
-            @port   = uri.port
-            @scheme = uri.scheme
-            @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
+          if endpoint_uri
+            @connection = Fog::Connection.new(endpoint_uri.to_s, @persistent, @connection_options)
             @enabled = true
           end
         end
-        
+
         def enabled?
           @enabled
         end
@@ -116,7 +126,7 @@ module Fog
         
         def purge(file)
           unless file.is_a? Fog::Storage::Rackspace::File
-            raise Fog::Errors::NotImplemented.new("#{object.class} does not support CDN purging")
+            raise Fog::Errors::NotImplemented.new("#{object.class} does not support CDN purging")  if object
           end
           
           delete_object file.directory.key, file.key
@@ -129,10 +139,10 @@ module Fog
               :headers  => {
                 'Content-Type' => 'application/json',
                 'Accept' => 'application/json',
-                'X-Auth-Token' => @auth_token
+                'X-Auth-Token' => auth_token
               }.merge!(params[:headers] || {}),
-              :host     => @host,
-              :path     => "#{@path}/#{params[:path]}",
+              :host     => endpoint_uri.host,
+              :path     => "#{endpoint_uri.path}/#{params[:path]}",
             }))
           rescue Excon::Errors::HTTPStatusError => error
             raise case error
@@ -146,6 +156,14 @@ module Fog
             response.body = Fog::JSON.decode(response.body)
           end
           response
+        end
+        
+        private 
+      
+        def authenticate_v1(options)
+          credentials = Fog::Rackspace.authenticate(options, @connection_options)
+          endpoint_uri credentials['X-CDN-Management-Url']
+          @auth_token = credentials['X-Auth-Token']
         end
 
       end
