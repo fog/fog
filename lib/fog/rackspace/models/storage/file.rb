@@ -19,6 +19,8 @@ module Fog
         # @see http://www.iana.org/assignments/media-types
         attribute :content_type,    :aliases => ['content_type', 'Content-Type']
 
+        attribute :content_disposition, :aliases => 'Content-Disposition'
+
         # @!attribute [rw] etag
         # The MD5 checksum of file. If included file creation request, will ensure integrity of the file.
         # @return [String] MD5 checksum of file.
@@ -170,6 +172,7 @@ module Fog
           options['Content-Type'] = content_type if content_type
           options['Access-Control-Allow-Origin'] = access_control_allow_origin if access_control_allow_origin
           options['Origin'] = origin if origin
+          options['Content-Disposition'] = content_disposition if content_disposition
           options.merge!(metadata.to_headers)
 
           data = service.put_object(directory.key, key, body, options)
