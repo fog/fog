@@ -19,7 +19,6 @@ module Fog
               </NetworkConnection>
             </NetworkConnectionSection>
 EOF
-          print "Request: #{body}"
           request(
             :body     => body,
             :expects  => 202,
