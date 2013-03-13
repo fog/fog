@@ -6,7 +6,7 @@ Shindo.tests('Fog::CDN::Rackspace', ['rackspace']) do
   end
 
   tests('#authentication_method') do
-    @service = Fog::Storage::Rackspace.new
+    @service = Fog::CDN::Rackspace.new
   
     assert_method nil, :authenticate_v2
 
@@ -38,7 +38,7 @@ Shindo.tests('Fog::CDN::Rackspace', ['rackspace']) do
     end
   end
 
-  tests('authentation v2') do
+  tests('authentication v2') do
     pending if Fog.mocking?
     @service = Fog::CDN::Rackspace.new :rackspace_auth_url => 'https://identity.api.rackspacecloud.com/v2.0'
     
