@@ -131,7 +131,6 @@ module Fog
             'tenant_id' => Fog::HP::Mock.user_id.to_s,
             'uuid'      => "95253a45-9ead-43c6-90b3-65da2ef048b3",
             'config_drive' => "",
-            'user_data'    => "",
             'security_groups' => [{"name"=>"#{sec_group_name}", "links"=>[{"href"=>"http://nova1:8774/v1.1/admin//os-security-groups/111", "rel"=>"bookmark"}], "id"=>111}],
             'key_name'  => options['key_name'] || ""
           }
