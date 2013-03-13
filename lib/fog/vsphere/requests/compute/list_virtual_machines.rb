@@ -17,6 +17,7 @@ module Fog
           end
         end
 
+
         private
 
         def list_all_virtual_machines_in_folder(path, datacenter_name)
@@ -26,23 +27,26 @@ module Fog
         end
 
         def list_all_virtual_machines(options = { })
-          datacenters = find_datacenters(options[:datacenter])
-
-          vms = datacenters.map do |dc|
-            @connection.serviceContent.viewManager.CreateContainerView({
-              :container  => dc.vmFolder,
-              :type       =>  ["VirtualMachine"],
-              :recursive  => true
-            }).view
-          end.flatten
-          # remove all template based virtual machines
+          vms = raw_list_all_virtual_machines(options[:datacenter])
           vms.delete_if { |v| v.config.template }
 
           vms.map do |vm_mob|
             convert_vm_mob_ref_to_attr_hash(vm_mob)
           end
         end
-
+        def raw_list_all_virtual_machines(datacenter_name = nil)
+          ## Moved this to its own function since trying to get a list of all virtual machines
+          ## to parse for a find function took way too long. The raw list returned will make it
+          ## much faster to interact for some functions.
+          datacenters = find_datacenters(datacenter_name)
+          datacenters.map do |dc|
+            @connection.serviceContent.viewManager.CreateContainerView({
+                                                                           :container  => dc.vmFolder,
+                                                                           :type       =>  ["VirtualMachine"],
+                                                                           :recursive  => true
+                                                                       }).view
+          end.flatten
+        end
         def get_folder_path(folder, root = nil)
           if (not folder.methods.include?('parent')) or (folder == root)
             return
