@@ -23,7 +23,8 @@ module Fog
           service.get_distribution_list(options)
         end
 
-        alias :each_distribution_this_page :each
+        alias_method :each_distribution_this_page, :each
+        alias_method :each, :each_distribution
 
       end
 

@@ -10,15 +10,23 @@ module Fog
         attribute :zone
 
         model Fog::DNS::Zerigo::Record
-
-        def all
+        
+        # List all domains
+        # @param [Hash] options Options to pass to the underlying API call 
+        # @option options [String] :fqdn search for the given fqdn
+        def all(options = {})
           requires :zone
-          parent = zone.collection.get(zone.identity)
-          if parent
-            merge_attributes(parent.records.attributes)
-            load(parent.records.map {|record| record.attributes})
+          if options[:fqdn]
+            hosts = service.find_hosts(options[:fqdn], zone.id).body['hosts']
+            load(hosts)
           else
-            nil
+            parent = zone.collection.get(zone.identity)
+            if parent
+              merge_attributes(parent.records.attributes)
+              load(parent.records.map {|record| record.attributes})
+            else
+              nil
+            end
           end
         end
 
@@ -32,11 +40,6 @@ module Fog
         def new(attributes = {})
           requires :zone
           super({ :zone => zone }.merge!(attributes))
-        end
-
-        def find(fqdn)
-          hosts = service.find_hosts(fqdn, zone.id).body['hosts']
-          hosts.collect { |host| new(host) }
         end
 
       end
