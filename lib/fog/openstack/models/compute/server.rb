@@ -50,6 +50,7 @@ module Fog
           self.security_groups = attributes.delete(:security_groups)
           self.min_count = attributes.delete(:min_count)
           self.max_count = attributes.delete(:max_count)
+          self.nics = attributes.delete(:nics)
           self.os_scheduler_hints = attributes.delete(:os_scheduler_hints)
 
           super
@@ -238,6 +239,10 @@ module Fog
           @max_count = new_max_count
         end
 
+        def nics=(new_nics)
+          @nics = new_nics
+        end
+
         def networks
           service.networks(:server => self)
         end
@@ -256,7 +261,8 @@ module Fog
             'security_groups' => @security_groups,
             'min_count'   => @min_count,
             'max_count'   => @max_count,
-            'os:scheduler_hints' => @os_scheduler_hints
+            'nics' => @nics,
+            'os:scheduler_hints' => @os_scheduler_hints,
           }
           options['metadata'] = metadata.to_hash unless @metadata.nil?
           options = options.reject {|key, value| value.nil?}
