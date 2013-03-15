@@ -1,6 +1,4 @@
 require 'fog/compute'
-require 'fog/rackspace/service'
-
 
 module Fog
   module Compute
