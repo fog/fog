@@ -40,7 +40,7 @@ module Fog
         attribute :os_ext_sts_vm_state, :aliases => 'OS-EXT-STS:vm_state'
 
         attr_reader :password
-        attr_writer :image_ref, :flavor_ref, :os_scheduler_hints
+        attr_writer :image_ref, :flavor_ref, :nics, :os_scheduler_hints
 
 
         def initialize(attributes={})
@@ -237,10 +237,6 @@ module Fog
 
         def max_count=(new_max_count)
           @max_count = new_max_count
-        end
-
-        def nics=(new_nics)
-          @nics = new_nics
         end
 
         def networks
