@@ -25,12 +25,13 @@ Shindo.tests('Fog::DNS::Rackspace', ['rackspace']) do
 
   tests('legacy authentication') do
     pending if Fog.mocking?
-    @service = Fog::DNS::Rackspace.new :rackspace_auth_url => 'https://identity.api.rackspacecloud.com/v1.0'
 
-    tests('variables populated') do
+    tests('variables populated').succeeds do
+      @service = Fog::DNS::Rackspace.new :rackspace_auth_url => 'https://identity.api.rackspacecloud.com/v1.0'
       returns(true, "auth token populated") { !@service.send(:auth_token).nil? }
       returns(false, "path populated") { @service.instance_variable_get("@uri").path.nil? }
       returns(true, "identity_service was not used") { @service.instance_variable_get("@identity_service").nil? }
+      @service.list_domains
     end
 
     tests('custom endpoint') do
@@ -43,12 +44,13 @@ Shindo.tests('Fog::DNS::Rackspace', ['rackspace']) do
 
   tests('current authentication') do
     pending if Fog.mocking?
-    @service = Fog::DNS::Rackspace.new :rackspace_auth_url => 'https://identity.api.rackspacecloud.com/v2.0'
 
-    tests('variables populated') do
+    tests('variables populated').succeeds do
+      @service = Fog::DNS::Rackspace.new :rackspace_auth_url => 'https://identity.api.rackspacecloud.com/v2.0'
       returns(true, "auth token populated") { !@service.send(:auth_token).nil? }
       returns(false, "path populated") { @service.instance_variable_get("@uri").host.nil? }
       returns(false, "identity service was used") { @service.instance_variable_get("@identity_service").nil? }
+      @service.list_domains
     end
     tests('custom endpoint') do
       @service = Fog::DNS::Rackspace.new :rackspace_auth_url => 'https://identity.api.rackspacecloud.com/v2.0',
@@ -61,10 +63,11 @@ Shindo.tests('Fog::DNS::Rackspace', ['rackspace']) do
   tests('default auth') do
     pending if Fog.mocking?
 
-    tests('no params') do
+    tests('no params').succeeds do
       @service = Fog::DNS::Rackspace.new
       returns(true, "auth token populated") { !@service.send(:auth_token).nil? }
       returns(false, "path populated") { @service.instance_variable_get("@uri").host.nil? }
+      @service.list_domains
     end
     tests('custom endpoint') do
       @service = Fog::DNS::Rackspace.new :rackspace_dns_url => 'https://my-custom-endpoint.com'

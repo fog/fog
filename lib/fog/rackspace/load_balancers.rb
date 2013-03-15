@@ -9,9 +9,9 @@ module Fog
       class InternalServerError < Fog::Rackspace::Errors::InternalServerError; end
       class BadRequest < Fog::Rackspace::Errors::BadRequest; end
 
-      DFW_ENDPOINT = 'https://dfw.loadbalancers.api.rackspacecloud.com/v1.0/'
-      ORD_ENDPOINT = 'https://ord.loadbalancers.api.rackspacecloud.com/v1.0/'
-      LON_ENDPOINT = 'https://lon.loadbalancers.api.rackspacecloud.com/v1.0/'
+      DFW_ENDPOINT = 'https://dfw.loadbalancers.api.rackspacecloud.com/v1.0'
+      ORD_ENDPOINT = 'https://ord.loadbalancers.api.rackspacecloud.com/v1.0'
+      LON_ENDPOINT = 'https://lon.loadbalancers.api.rackspacecloud.com/v1.0'
 
       requires :rackspace_api_key, :rackspace_username
       recognizes :rackspace_auth_url
@@ -109,8 +109,8 @@ module Fog
           @rackspace_auth_url = options[:rackspace_auth_url]
           @rackspace_must_reauthenticate = false
           @connection_options     = options[:connection_options] || {}
-          @rackspace_endpoint = options[:rackspace_load_balancers_url] || options[:rackspace_lb_endpoint]
-          @rackspace_region = options[:rackspace_region] || :dfw
+
+          setup_custom_endpoint(options)
 
           authenticate
 
@@ -125,7 +125,7 @@ module Fog
               :headers  => {
                 'Content-Type' => 'application/json',
                 'Accept' => 'application/json',
-                'X-Auth-Token' => @auth_token
+                'X-Auth-Token' => auth_token
               }.merge!(params[:headers] || {}),
               :host     => endpoint_uri.host,
               :path     => "#{endpoint_uri.path}/#{params[:path]}"
@@ -168,6 +168,30 @@ module Fog
 
         private
 
+        def setup_custom_endpoint(options)
+          @rackspace_endpoint = options[:rackspace_load_balancers_url] || options[:rackspace_lb_endpoint]
+
+          if v2_authentication?
+            case @rackspace_endpoint
+            when DFW_ENDPOINT
+              @rackspace_endpoint = nil
+              @rackspace_region = :dfw
+            when ORD_ENDPOINT
+              @rackspace_endpoint = nil
+              @rackspace_region = :ord
+            when LON_ENDPOINT
+              @rackspace_endpoint = nil
+              @rackspace_region = :lon
+            else
+              # we are actually using a custom endpoint
+              @rackspace_region = options[:rackspace_region] || :dfw
+            end
+          else
+            #if we are using auth1 and the endpoint is not set, default to DFW_ENDPOINT for historical reasons
+             @rackspace_endpoint ||= DFW_ENDPOINT
+          end
+        end
+
         def deprecation_warnings(options)
           Fog::Logger.deprecation("The :rackspace_lb_endpoint option is deprecated. Please use :rackspace_load_balancers_url for custom endpoints") if options[:rackspace_lb_endpoint]
 
@@ -177,7 +201,7 @@ module Fog
           end
         end
 
-        def setup_endpoint(credentials)
+        def append_tenant_v1(credentials)
           account_id = credentials['X-Server-Management-Url'].match(/.*\/([\d]+)$/)[1]
 
           endpoint = @rackspace_endpoint || credentials['X-Server-Management-Url'] || DFW_ENDPOINT
@@ -187,7 +211,7 @@ module Fog
 
         def authenticate_v1(options)
           credentials = Fog::Rackspace.authenticate(options, @connection_options)
-          setup_endpoint credentials
+          append_tenant_v1 credentials
           @auth_token = credentials['X-Auth-Token']
         end
 

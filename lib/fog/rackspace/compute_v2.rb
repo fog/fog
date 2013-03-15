@@ -187,6 +187,9 @@ module Fog
               # we are actually using a custom endpoint
               @rackspace_region = options[:rackspace_region] || :dfw
             end
+          else
+            #if we are using auth1 and the endpoint is not set, default to DFW_ENDPOINT for historical reasons
+             @rackspace_endpoint ||= DFW_ENDPOINT
           end
         end
 

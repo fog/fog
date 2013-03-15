@@ -25,15 +25,16 @@ Shindo.tests('Fog::Rackspace::BlockStorage', ['rackspace']) do
 
   tests('legacy authentication') do
     pending if Fog.mocking?
-    @service = Fog::Rackspace::BlockStorage.new :rackspace_auth_url => 'https://identity.api.rackspacecloud.com/v1.0'
 
-    tests('variables populated') do
+    tests('variables populated').succeeds  do
+      @service = Fog::Rackspace::BlockStorage.new :rackspace_auth_url => 'https://identity.api.rackspacecloud.com/v1.0'
       returns(true, "auth token populated") { !@service.send(:auth_token).nil? }
       returns(false, "path populated") { @service.instance_variable_get("@uri").path.nil? }
       returns(true, "identity_service was not used") { @service.instance_variable_get("@identity_service").nil? }
+      @service.list_volumes
     end
 
-    tests('custom endpoint') do
+    tests('custom endpoint')  do
       @service = Fog::Rackspace::BlockStorage.new :rackspace_auth_url => 'https://identity.api.rackspacecloud.com/v1.0',
         :rackspace_block_storage_url => 'https://my-custom-endpoint.com'
         returns(true, "auth token populated") { !@service.send(:auth_token).nil? }
@@ -43,22 +44,25 @@ Shindo.tests('Fog::Rackspace::BlockStorage', ['rackspace']) do
 
   tests('current authentation') do
     pending if Fog.mocking?
-    @service = Fog::Rackspace::BlockStorage.new :rackspace_auth_url => 'https://identity.api.rackspacecloud.com/v2.0'
 
-    tests('variables populated') do
+    tests('variables populated').succeeds  do
+      @service = Fog::Rackspace::BlockStorage.new :rackspace_auth_url => 'https://identity.api.rackspacecloud.com/v2.0'
       returns(true, "auth token populated") { !@service.send(:auth_token).nil? }
       returns(false, "path populated") { @service.instance_variable_get("@uri").host.nil? }
       returns(false, "identity service was used") { @service.instance_variable_get("@identity_service").nil? }
+      @service.list_volumes
     end
-    tests('dfw region') do
+    tests('dfw region').succeeds  do
       @service = Fog::Rackspace::BlockStorage.new :rackspace_auth_url => 'https://identity.api.rackspacecloud.com/v2.0', :rackspace_region => :dfw
       returns(true, "auth token populated") { !@service.send(:auth_token).nil? }
       returns(true) { (@service.instance_variable_get("@uri").host =~ /dfw/) != nil }
+      @service.list_volumes
     end
-    tests('ord region') do
+    tests('ord region').succeeds do
       @service = Fog::Rackspace::BlockStorage.new :rackspace_auth_url => 'https://identity.api.rackspacecloud.com/v2.0', :rackspace_region => :ord
       returns(true, "auth token populated") { !@service.send(:auth_token).nil? }
       returns(true) { (@service.instance_variable_get("@uri").host =~ /ord/) != nil }
+      @service.list_volumes
     end
     tests('custom endpoint') do
       @service = Fog::Rackspace::BlockStorage.new :rackspace_auth_url => 'https://identity.api.rackspacecloud.com/v2.0',
@@ -71,15 +75,21 @@ Shindo.tests('Fog::Rackspace::BlockStorage', ['rackspace']) do
   tests('default auth') do
     pending if Fog.mocking?
 
-    tests('no params') do
+    tests('no params').succeeds do
       @service = Fog::Rackspace::BlockStorage.new
       returns(true, "auth token populated") { !@service.send(:auth_token).nil? }
       returns(true) { (@service.instance_variable_get("@uri").host =~ /dfw/) != nil }
+      @service.list_volumes
+    end
+    tests('specify old contstant style service endoint').succeeds do
+      @service = Fog::Rackspace::BlockStorage.new :rackspace_endpoint =>  Fog::Rackspace::BlockStorage::ORD_ENDPOINT
+      @service.list_volumes
     end
     tests('specify region') do
       @service = Fog::Rackspace::BlockStorage.new :rackspace_region => :ord
       returns(true, "auth token populated") { !@service.send(:auth_token).nil? }
       returns(true) { (@service.instance_variable_get("@uri").host =~ /ord/ ) != nil }
+      @service.list_volumes
     end
     tests('custom endpoint') do
       @service = Fog::Rackspace::BlockStorage.new :rackspace_block_storage_url => 'https://my-custom-endpoint.com'
