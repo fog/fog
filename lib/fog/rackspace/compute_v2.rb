@@ -170,30 +170,30 @@ module Fog
         private
 
         def setup_custom_endpoint(options)
-          endpoint = options[:rackspace_compute_url] || options[:rackspace_endpoint]
+          @rackspace_endpoint = options[:rackspace_compute_url] || options[:rackspace_endpoint]
 
-          case endpoint
-          when DFW_ENDPOINT
-            @rackspace_region = :dfw
-            @rackspace_endpoint = nil
-          when ORD_ENDPOINT
-            @rackspace_region = :ord
-            @rackspace_endpoint = nil
-          when LON_ENDPOINT
-            @rackspace_region = :lon
-            @rackspace_endpoint = nil
-          else
-            # we are actually using a custom endpoint
-            @rackspace_endpoint = endpoint
-            @rackspace_region = options[:rackspace_region] || :dfw
+          if v2_authentication?
+            case @rackspace_endpoint
+            when DFW_ENDPOINT
+              @rackspace_endpoint = nil
+              @rackspace_region = :dfw
+            when ORD_ENDPOINT
+              @rackspace_endpoint = nil
+              @rackspace_region = :ord
+            when LON_ENDPOINT
+              @rackspace_endpoint = nil
+              @rackspace_region = :lon
+            else
+              # we are actually using a custom endpoint
+              @rackspace_region = options[:rackspace_region] || :dfw
+            end
           end
         end
 
         def deprecation_warnings(options)
           Fog::Logger.deprecation("The :rackspace_endpoint option is deprecated. Please use :rackspace_compute_url for custom endpoints") if options[:rackspace_endpoint]
 
-          endpoint = options[:rackspace_compute_url] || options[:rackspace_endpoint]
-          if [DFW_ENDPOINT, ORD_ENDPOINT, LON_ENDPOINT].include?(endpoint) && v2_authentication?
+          if [DFW_ENDPOINT, ORD_ENDPOINT, LON_ENDPOINT].include?(@rackspace_endpoint) && v2_authentication?
             regions = @identity_service.service_catalog.display_service_regions(service_name)
             Fog::Logger.deprecation("Please specify region using :rackspace_region rather than :rackspace_endpoint. Valid regions for :rackspace_region are #{regions}.")
           end
