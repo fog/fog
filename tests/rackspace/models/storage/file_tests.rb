@@ -2,8 +2,12 @@ Shindo.tests('Fog::Rackspace::Storage | file', ['rackspace']) do
 
   pending if Fog.mocking?
 
+  def object_attributes(file=@instance)
+    @instance.service.head_object(@directory.key, file.key).headers
+  end
+
   def object_meta_attributes(file=@instance)
-    @instance.service.head_object(@directory.key, file.key).headers.reject {|k, v| !(k =~ /X-Object-Meta-/)}
+    object_attributes(file).reject {|k, v| !(k =~ /X-Object-Meta-/)}
   end
 
   def clear_metadata
@@ -84,6 +88,11 @@ Shindo.tests('Fog::Rackspace::Storage | file', ['rackspace']) do
         tests("sets metadata on create").returns("true") do
           @file = @directory.files.create :key => 'meta-test', :body => lorem_file, :metadata => {:works => true }
           object_meta_attributes(@file)["X-Object-Meta-Works"]
+        end
+
+        tests("sets Content-Disposition on create").returns("ho-ho-ho") do
+          @file = @directory.files.create :key => 'meta-test', :body => lorem_file, :content_disposition => 'ho-ho-ho'
+          object_attributes(@file)["Content-Disposition"]
         end
       ensure
         @file.destroy if @file

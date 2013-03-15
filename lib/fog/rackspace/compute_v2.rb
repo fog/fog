@@ -103,8 +103,7 @@ module Fog
           @rackspace_api_key = options[:rackspace_api_key]
           @rackspace_username = options[:rackspace_username]
           @rackspace_auth_url = options[:rackspace_auth_url]
-          @rackspace_endpoint = options[:rackspace_compute_url] || options[:rackspace_endpoint]
-          @rackspace_region = options[:rackspace_region] || :dfw
+          setup_custom_endpoint(options)
           @rackspace_must_reauthenticate = false
           @connection_options = options[:connection_options] || {}
 
@@ -124,7 +123,7 @@ module Fog
                 'Accept' => 'application/json',
                 'X-Auth-Token' => auth_token
               }.merge!(params[:headers] || {}),
-              :host     => @uri.host,
+              :host     => endpoint_uri.host,
               :path     => "#{endpoint_uri.path}/#{params[:path]}"
             }))
           rescue Excon::Errors::NotFound => error
@@ -170,6 +169,27 @@ module Fog
 
         private
 
+        def setup_custom_endpoint(options)
+          @rackspace_endpoint = options[:rackspace_compute_url] || options[:rackspace_endpoint]
+
+          if v2_authentication?
+            case @rackspace_endpoint
+            when DFW_ENDPOINT
+              @rackspace_endpoint = nil
+              @rackspace_region = :dfw
+            when ORD_ENDPOINT
+              @rackspace_endpoint = nil
+              @rackspace_region = :ord
+            when LON_ENDPOINT
+              @rackspace_endpoint = nil
+              @rackspace_region = :lon
+            else
+              # we are actually using a custom endpoint
+              @rackspace_region = options[:rackspace_region] || :dfw
+            end
+          end
+        end
+
         def deprecation_warnings(options)
           Fog::Logger.deprecation("The :rackspace_endpoint option is deprecated. Please use :rackspace_compute_url for custom endpoints") if options[:rackspace_endpoint]
 
@@ -179,7 +199,7 @@ module Fog
           end
         end
 
-        def setup_endpoint(credentials)
+        def append_tenant_v1(credentials)
           account_id = credentials['X-Server-Management-Url'].match(/.*\/([\d]+)$/)[1]
           
           endpoint = @rackspace_endpoint || credentials['X-Server-Management-Url'] || DFW_ENDPOINT
@@ -189,7 +209,7 @@ module Fog
 
         def authenticate_v1(options)
           credentials = Fog::Rackspace.authenticate(options, @connection_options)
-          setup_endpoint credentials
+          append_tenant_v1 credentials
           @auth_token = credentials['X-Auth-Token']
         end
       end
