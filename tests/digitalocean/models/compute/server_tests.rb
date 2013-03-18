@@ -41,6 +41,7 @@ Shindo.tests("Fog::Compute[:digitalocean] | server model", ['digitalocean', 'com
       server.status == 'off'
     end
     test('#power_cycle') do
+      pending if Fog.mocking?
       server.wait_for { server.ready? }
       server.power_cycle
       server.wait_for { server.status == 'off' }
