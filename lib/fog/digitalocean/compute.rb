@@ -42,7 +42,10 @@ module Fog
 
         def self.data
           @data ||= Hash.new do |hash, key|
-            hash[key] = {}
+            hash[key] = {
+              :servers => [],
+              :ssh_keys => []
+            }
           end
         end
 
