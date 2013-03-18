@@ -16,7 +16,16 @@ module Fog
       class Mock
 
         def list_regions
-          Fog::Mock.not_implemented
+          response = Excon::Response.new
+          response.status = 200
+          response.body = {
+            "status" => "OK",
+            "regions"  => [
+              {"id" => 1,"name" => "New York 1"},
+              {"id" => 2,"name" => "Amsterdam 1"}
+            ]
+          }
+          response
         end
 
       end
