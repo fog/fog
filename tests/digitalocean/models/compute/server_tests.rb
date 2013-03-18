@@ -35,6 +35,7 @@ Shindo.tests("Fog::Compute[:digitalocean] | server model", ['digitalocean', 'com
       end
     end
     test('#reboot') do
+      pending if Fog.mocking?
       server.reboot
       server.wait_for { server.status == 'off' }
       server.status == 'off'
