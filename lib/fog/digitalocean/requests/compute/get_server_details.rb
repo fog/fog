@@ -16,7 +16,17 @@ module Fog
       class Mock
 
         def get_server_details(server_id)
-          Fog::Mock.not_implemented
+          response = Excon::Response.new
+          response.status = 200
+
+          server = self.data[:servers].find { |s| s['id'] == server_id }
+
+          response.body = {
+            "status" => "OK",
+            "droplet"  => self.data[:servers].find { |s| s['id'] == server_id }
+          }
+
+          response
         end
 
       end
