@@ -19,7 +19,13 @@ module Fog
       class Mock
 
         def destroy_server( id )
-          Fog::Mock.not_implemented
+          response = Excon::Response.new
+          response.status = 200
+          response.body = {
+            "event_id" => Fog::Mock.random_numbers(1).to_i,
+            "status" => "OK"
+          }
+          response
         end
 
       end
