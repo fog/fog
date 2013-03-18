@@ -32,11 +32,13 @@ def fog_test_server_destroy
 end
 
 at_exit do
-  server = service.servers.find { |s| s.name == 'fog-test-server' }
-  if server
-    server.wait_for(120) do
-      reload rescue nil; ready?
+  unless Fog.mocking?
+    server = service.servers.find { |s| s.name == 'fog-test-server' }
+    if server
+      server.wait_for(120) do
+        reload rescue nil; ready?
+      end
     end
+    fog_test_server_destroy
   end
-  fog_test_server_destroy
 end
