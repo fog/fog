@@ -7,7 +7,7 @@ module Fog
           request(
             :expects  => [200],
             :method   => 'GET',
-            :path     => 'droplets/new',
+            :path     => 'ssh_keys/new',
             :query    => { 'name' => name, 'ssh_pub_key' => pub_key }
           )
         end
