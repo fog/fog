@@ -40,7 +40,26 @@ module Fog
                            image_id, 
                            region_id,
                            options = {} )
-          Fog::Mock.not_implemented
+          response = Excon::Response.new
+          response.status = 200
+
+          mock_data = {
+            "id" => Fog::Mock.random_numbers(1).to_i,
+            "event_id" => Fog::Mock.random_numbers(2).to_i,
+            "name" => name,
+            "size_id" => size_id,
+            "image_id" => image_id,
+            "region_id" => region_id,
+            "status" => 'active'
+          }
+
+          response.body = {
+            "status" => "OK",
+            "droplet"  => mock_data
+          }
+
+          self.data[:servers] << mock_data
+          response
         end
 
       end
