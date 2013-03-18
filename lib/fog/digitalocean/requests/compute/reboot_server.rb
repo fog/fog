@@ -16,7 +16,15 @@ module Fog
       class Mock
 
         def reboot_server( id )
-          Fog::Mock.not_implemented
+          response = Excon::Response.new
+          response.status = 200
+          server = self.data[:servers].find { |s| s['id'] == id }
+          server['status'] = 'off' if server
+          response.body = {
+            "event_id" => Fog::Mock.random_numbers(1).to_i,
+            "status" => "OK"
+          }
+          response
         end
 
       end
