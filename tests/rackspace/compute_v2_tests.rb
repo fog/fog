@@ -6,7 +6,7 @@ Shindo.tests('Fog::Compute::RackspaceV2', ['rackspace']) do
   end
 
   tests('#authentication_method') do
-    @service = Fog::Storage::Rackspace.new
+    @service = Fog::Compute::RackspaceV2.new
   
     assert_method nil, :authenticate_v2
 
@@ -30,7 +30,7 @@ Shindo.tests('Fog::Compute::RackspaceV2', ['rackspace']) do
     tests('variables populated') do
       returns(true, "auth token populated") { !@service.send(:auth_token).nil? }
       returns(false, "path populated") { @service.instance_variable_get("@uri").path.nil? }
-      returns(true, "identity_service was not used") { @service.instance_variable_get("@identity_service").nil? }    
+      returns(true, "identity_service was not used") { @service.instance_variable_get("@identity_service").nil? }
     end
     
     tests('custom endpoint') do
@@ -75,6 +75,10 @@ Shindo.tests('Fog::Compute::RackspaceV2', ['rackspace']) do
       @service = Fog::Compute::RackspaceV2.new
       returns(true, "auth token populated") { !@service.send(:auth_token).nil? }
       returns(true) { (@service.instance_variable_get("@uri").host =~ /dfw/) != nil }
+    end
+    tests('specify old contstant style service endoint').succeeds do
+      @service = Fog::Compute::RackspaceV2.new :rackspace_endpoint => Fog::Compute::RackspaceV2::ORD_ENDPOINT
+      @service.list_flavors
     end
     tests('specify region') do
       @service = Fog::Compute::RackspaceV2.new :rackspace_region => :ord

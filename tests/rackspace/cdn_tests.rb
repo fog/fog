@@ -6,7 +6,7 @@ Shindo.tests('Fog::CDN::Rackspace', ['rackspace']) do
   end
 
   tests('#authentication_method') do
-    @service = Fog::Storage::Rackspace.new
+    @service = Fog::CDN::Rackspace.new
   
     assert_method nil, :authenticate_v2
 
