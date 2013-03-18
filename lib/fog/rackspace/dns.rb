@@ -87,7 +87,7 @@ module Fog
           @rackspace_username = options[:rackspace_username]
           @rackspace_auth_url = options[:rackspace_auth_url]
           @connection_options = options[:connection_options] || {}
-          @rackspace_endpoint = options[:rackspace_dns_url]  || options[:rackspace_dns_endpoint] || US_ENDPOINT
+          @rackspace_endpoint = options[:rackspace_dns_url] || options[:rackspace_dns_endpoint]
           @rackspace_region = options[:rackspace_region]
 
           authenticate
@@ -147,7 +147,7 @@ module Fog
         def setup_endpoint(credentials)
           account_id = credentials['X-Server-Management-Url'].match(/.*\/([\d]+)$/)[1]
 
-          @uri = URI.parse(@rackspace_endpoint)
+          @uri = URI.parse(@rackspace_endpoint || US_ENDPOINT)
           @uri.path = "#{@uri.path}/#{account_id}"
         end
 

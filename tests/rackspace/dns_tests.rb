@@ -29,6 +29,7 @@ Shindo.tests('Fog::DNS::Rackspace', ['rackspace']) do
     tests('variables populated').succeeds do
       @service = Fog::DNS::Rackspace.new :rackspace_auth_url => 'https://identity.api.rackspacecloud.com/v1.0'
       returns(true, "auth token populated") { !@service.send(:auth_token).nil? }
+      returns(true, "contains tenant id") {  (@service.instance_variable_get("@uri").path =~ /\/v1\.0\/\d+$/) != nil} #dns does not error if tenant id is missing
       returns(false, "path populated") { @service.instance_variable_get("@uri").path.nil? }
       returns(true, "identity_service was not used") { @service.instance_variable_get("@identity_service").nil? }
       @service.list_domains
@@ -49,6 +50,7 @@ Shindo.tests('Fog::DNS::Rackspace', ['rackspace']) do
       @service = Fog::DNS::Rackspace.new :rackspace_auth_url => 'https://identity.api.rackspacecloud.com/v2.0'
       returns(true, "auth token populated") { !@service.send(:auth_token).nil? }
       returns(false, "path populated") { @service.instance_variable_get("@uri").host.nil? }
+      returns(true, "contains tenant id") {  (@service.instance_variable_get("@uri").path =~ /\/v1\.0\/\d+$/) != nil} #dns does not error if tenant id is missing
       returns(false, "identity service was used") { @service.instance_variable_get("@identity_service").nil? }
       @service.list_domains
     end
@@ -67,6 +69,7 @@ Shindo.tests('Fog::DNS::Rackspace', ['rackspace']) do
       @service = Fog::DNS::Rackspace.new
       returns(true, "auth token populated") { !@service.send(:auth_token).nil? }
       returns(false, "path populated") { @service.instance_variable_get("@uri").host.nil? }
+      returns(true, "contains tenant id") {  (@service.instance_variable_get("@uri").path =~ /\/v1\.0\/\d+$/) != nil} #dns does not error if tenant id is missing
       @service.list_domains
     end
     tests('custom endpoint') do
