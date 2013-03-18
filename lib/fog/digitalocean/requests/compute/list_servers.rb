@@ -20,18 +20,7 @@ module Fog
           response.status = 200
           response.body = {
             "status" => "OK",
-            "droplets"  => [
-              # Sample droplet
-              #{ 
-              #  "backups_active" => nil,
-              #  "id"             => 100823,
-              #  "image_id"       => 420,
-              #  "name"           => "test222",
-              #  "region_id"      => 1,
-              #  "size_id"        => 33,
-              #  "status"         => "active"
-              #}
-            ]
+            "droplets"  => self.data[:servers]
           }
           response
         end
