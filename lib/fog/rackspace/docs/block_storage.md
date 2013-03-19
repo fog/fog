@@ -116,7 +116,7 @@ This returns:
 
 #### Example Request
 
-To request a list of flavors:
+To request a list of volume types:
 
 	response = service.list_volume_types
 
@@ -269,7 +269,7 @@ This returns a `Fog::Rackspace::BlockStorage::Volume`:
         id="e2359473-9933-483f-90df-deb4a9fb25ae",
         created_at="2013-03-19T14:16:45.000000",
         state="available",
-        display_name="fog",
+        display_name="fog-example",
         display_description=nil,
         size=100,
         attachments=[],
@@ -328,11 +328,11 @@ The `create` method also supports the following key values:
 
 ## Attach Volume
 
-Refer the [Attach Volume](compute_v2.md#attach-volume) section in the [Next Generation Cloud Servers™ (compute_v2)](compute_v2.md) documentation.
+Please refer the [Attach Volume](compute_v2.md#attach-volume) section in the [Next Generation Cloud Servers™ (compute_v2)](compute_v2.md) documentation.
 
 ## Detach Volume
 
-Refer the [Detach Volume](compute_v2.md#detach-volume) section in the [Next Generation Cloud Servers™ (compute_v2)](compute_v2.md) documentation.
+Please refer the [Detach Volume](compute_v2.md#detach-volume) section in the [Next Generation Cloud Servers™ (compute_v2)](compute_v2.md) documentation.
 
 
 ## Delete Volume
@@ -341,11 +341,11 @@ To delete a volume:
 
 	volume.destroy
 
-**Note**: You cannot delete a volume once you have created a snapshot from it.
+**Note**: You cannot delete a volume until all of its dependent snaphosts have been deleted.
 
 ## List Snapshots
 
-To retrieve a list of all snapshots:
+To retrieve a list of snapshots:
 
 	service.snapshots
 
@@ -355,7 +355,7 @@ To retrieve a list of snapshots for a given volume:
 
 ## Create Snapshot
 
-A snapshot is a point-in-time copy of the volume. Each subsequent will be the difference between the last snapshot and the current state of the volume.
+A snapshot is a point-in-time copy of a volume. Each subsequent snapshot will be the difference between the previous snapshot and the current volume.
 
 To create a snapshot of a given volume:
 
@@ -382,7 +382,7 @@ The `create_snapshot` method also supports the following key values:
 	</tr>
 	<tr>
 		<td>:force</td>
-		<td>Indicate whether to snapshot, even if the volume is attached.</td>
+		<td>If set to true, snapshot will be taken even if volume is still mounted.</td>
 	</tr>
 </table>
 
