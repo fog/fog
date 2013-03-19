@@ -100,9 +100,11 @@ Fog supports passing additional connection parameters to its underlying HTTP lib
 
 
 ## Fog Abstractions
+
 Fog provides both a **model** and **request** abstraction. The request abstraction provides the most efficient interface and the model abstraction wraps the request abstraction to provide a convenient `ActiveModel` like interface.
 
 ### Request Layer
+
 The request abstraction maps directly to the [Cloud Block Storage API](http://docs.rackspace.com/cbs/api/v1.0/cbs-devguide/content/overview.html). It provides the most efficient interface to the Rackspace Open Cloud.
 
 To see a list of requests supported by the service:
@@ -142,6 +144,7 @@ This will return:
 To learn more about Cloud Block Storage request methods refer to [rdoc](http://rubydoc.info/gems/fog/Fog/Rackspace/BlockStorage/Real). To learn more about Excon refer to [Excon GitHub repo](https://github.com/geemus/excon).
 
 ### Model Layer
+
 Fog models behave in a manner similar to `ActiveModel`. Models will generally respond to `create`, `save`,  `persisted?`, `destroy`, `reload` and `attributes` methods. Additionally, fog will automatically create attribute accessors.
 
 Here is a summary of common model methods:

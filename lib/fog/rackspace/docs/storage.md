@@ -4,6 +4,7 @@ This document explains how to get started using Cloud Files with Fog. It assumes
 
 
 ## Starting irb console
+
 Start by executing the following command:
 
 	irb
@@ -139,9 +140,11 @@ Fog supports passing additional connection parameters to its underlying HTTP lib
 
 
 ## Fog Abstractions
+
 Fog provides both a **model** and **request** abstraction. The request abstraction provides the most efficient interface and the model abstraction wraps the request abstraction to provide a convenient `ActiveModel` like interface. 
 	
 ### Request Layer
+
 The request abstraction maps directly to the [Cloud Files API](http://docs.rackspace.com/files/api/v1/cf-devguide/content/Overview-d1e70.html). It provides the most efficient interface to the Rackspace Open Cloud.
 
 To see a list of requests supported by the storage service:
@@ -189,6 +192,7 @@ This will return:
 To learn more about `Fog::Storage` request methods refer to [rdoc](http://rubydoc.info/gems/fog/Fog/Storage/Rackspace/Real). To learn more about Excon refer to [Excon GitHub repo](https://github.com/geemus/excon).
 
 ### Model Layer
+
 Fog models behave in a manner similar to `ActiveModel`. Models will generally respond to `create`, `save`,  `destroy`, `reload` and `attributes` methods. Additionally, fog will automatically create attribute accessors.  
 
 Here is a summary of common model methods:
@@ -472,3 +476,21 @@ This returns a response similar to the following:
     object_count=5
   	> 
   
+## Examples
+
+Example code using Cloud Files can be found [here](https://github.com/fog/fog/tree/master/lib/fog/rackspace/examples).
+
+## Additional Resources
+
+* [fog.io](http://fog.io/)
+* [Fog rdoc](http://rubydoc.info/gems/fog/)
+* [Fog Github repo](https://github.com/fog/fog)
+* [Fog Github Issues](https://github.com/fog/fog/issues)
+* [Excon Github repo](https://github.com/geemus/excon)
+* [Cloud Files API](http://docs.rackspace.com/files/api/v1/cf-devguide/content/Overview-d1e70.html)
+
+## Support and Feedback
+
+Your feedback is appreciated! If you have specific issues with the **fog** SDK, you should file an [issue via Github](https://github.com/fog/fog/issues).
+
+For general feedback and support requests, send an email to: <sdk-support@rackspace.com>.

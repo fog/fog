@@ -5,6 +5,7 @@ This document explains how to get started using Next Generation Cloud Servers wi
 **Note**: Fog also provides an interface to First Gen Cloud Servers™ (compute). The compute interface is deprecated and should only be used if you need to interact with our first generation cloud. Fog determines the appropriate interface based on the `:version` parameter. See [Create Service](#create-service) section for more information.
 
 ## Starting irb console
+
 Start by executing the following command:
 
 	irb
@@ -106,9 +107,11 @@ Fog supports passing additional connection parameters to its underlying HTTP lib
 
 
 ## Fog Abstractions
+
 Fog provides both a **model** and **request** abstraction. The request abstraction provides the most efficient interface and the model abstraction wraps the request abstraction to provide a convenient `ActiveModel` like interface. 
 	
 ### Request Layer
+
 The request abstraction maps directly to the [Next Gen Cloud Servers API](http://docs.rackspace.com/servers/api/v2/cs-devguide/content/ch_preface.html). It provides the most efficient interface to the Rackspace Open Cloud.
 
 To see a list of requests supported by the service:
@@ -148,6 +151,7 @@ This will return:
 To learn more about Compute request methods refer to [rdoc](http://rubydoc.info/gems/fog/Fog/Compute/Rackspace/Real). To learn more about Excon refer to [Excon GitHub repo](https://github.com/geemus/excon).
 
 ### Model Layer
+
 Fog models behave in a manner similar to `ActiveModel`. Models will generally respond to `create`, `save`,  `persisted?`, `destroy`, `reload` and `attributes` methods. Additionally, fog will automatically create attribute accessors.  
 
 Here is a summary of common model methods:
@@ -657,9 +661,11 @@ To detach a volume:
 	server.attachments.first.detach
 		
 ## Examples
+
 Example code using Next Gen Cloud Servers can be found [here](https://github.com/fog/fog/tree/master/lib/fog/rackspace/examples).
 
 ## Additional Resources
+
 * [fog.io](http://fog.io/)
 * [Fog rdoc](http://rubydoc.info/gems/fog/)
 * [Fog Github repo](https://github.com/fog/fog)
@@ -668,6 +674,7 @@ Example code using Next Gen Cloud Servers can be found [here](https://github.com
 * [Next Gen Cloud Servers API](http://docs.rackspace.com/servers/api/v2/cs-devguide/content/ch_preface.html)
 
 ## Support and Feedback
+
 Your feedback is appreciated! If you have specific issues with the **fog** SDK, you should file an [issue via Github](https://github.com/fog/fog/issues).
 
 For general feedback and support requests, send an email to: <sdk-support@rackspace.com>.
