@@ -169,7 +169,7 @@ module Fog
         private
 
         def setup_custom_endpoint(options)
-          @rackspace_endpoint = options[:rackspace_load_balancers_url] || options[:rackspace_lb_endpoint]
+          @rackspace_endpoint = Fog::Rackspace.normalize_url(options[:rackspace_load_balancers_url] || options[:rackspace_lb_endpoint])
 
           if v2_authentication?
             case @rackspace_endpoint

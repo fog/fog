@@ -87,7 +87,7 @@ module Fog
           @rackspace_username = options[:rackspace_username]
           @rackspace_auth_url = options[:rackspace_auth_url]
           @connection_options = options[:connection_options] || {}
-          @rackspace_endpoint = options[:rackspace_dns_url] || options[:rackspace_dns_endpoint]
+          @rackspace_endpoint = Fog::Rackspace.normalize_url(options[:rackspace_dns_url] || options[:rackspace_dns_endpoint])
           @rackspace_region = options[:rackspace_region]
 
           authenticate

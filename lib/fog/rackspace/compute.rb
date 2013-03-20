@@ -188,7 +188,7 @@ module Fog
           @rackspace_auth_url = options[:rackspace_auth_url]
           @rackspace_servicenet = options[:rackspace_servicenet]
           @rackspace_auth_token = options[:rackspace_auth_token]
-          @rackspace_endpoint = options[:rackspace_compute_v1_url] || options[:rackspace_management_url]
+          @rackspace_endpoint = Fog::Rackspace.normalize_url(options[:rackspace_compute_v1_url] || options[:rackspace_management_url])
           @rackspace_must_reauthenticate = false
           @connection_options = options[:connection_options] || {}
           authenticate
