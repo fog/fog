@@ -17,13 +17,15 @@ module Fog
         # 'folder' => '/Datacenters/vm/Jeff/Templates' will be MUCH faster.
         # than simply listing everything.
         def all(filters = { })
-          load service.list_virtual_machines(filters.merge(
-                                                  :datacenter    => datacenter,
-                                                  :cluster       => cluster,
-                                                  :network       => network,
-                                                  :resource_pool => resource_pool,
-                                                  :folder        => folder
-                                                ))
+          f = {
+            :datacenter    => datacenter,
+            :cluster       => cluster,
+            :network       => network,
+            :resource_pool => resource_pool,
+            :folder        => folder
+          }.merge(filters)
+
+          load service.list_virtual_machines(f)
         end
 
         def get(id, datacenter = nil)
@@ -31,9 +33,7 @@ module Fog
         rescue Fog::Compute::Vsphere::NotFound
           nil
         end
-
       end
-
     end
   end
 end

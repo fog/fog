@@ -41,6 +41,17 @@ module Fog
             end
           end
 
+          if options['nics']
+            data['server']['networks'] =
+            Array(options['nics']).map do |nic|
+              {
+                'uuid' => nic['net_id'],
+                'fixed_ip' => nic['v4_fixed_ip'],
+                'port' => nic['port_id']
+              }
+            end
+          end
+
           if options['os:scheduler_hints']
             data['os:scheduler_hints'] = options['os:scheduler_hints']
           end
