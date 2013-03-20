@@ -30,8 +30,9 @@ module Fog
 
         private
         def load_balancer
-          collection.load_balancer
+          @attributes[:load_balancer]
         end
+        
         def create
           requires :load_balancer, :address, :condition, :port
           options = {}
