@@ -8,7 +8,7 @@ module Fog
       class Servers < Fog::Collection
         model Fog::Compute::DigitalOcean::Server
 
-        def all
+        def all(filters = {})
           load service.list_servers.body['droplets']
         end
 
