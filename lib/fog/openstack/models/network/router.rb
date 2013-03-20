@@ -14,8 +14,6 @@ module Fog
         identity :id
 
         attribute :name
-        attribute :network_id
-        attribute :subnet_id
         attribute :admin_state_up
         attribute :tenant_id
         attribute :external_gateway_info
