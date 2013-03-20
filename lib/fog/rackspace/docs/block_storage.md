@@ -300,7 +300,7 @@ This will return a `Fog::Rackspace::BlockStorage::Volume`:
     availability_zone="nova"
   >
 
-The `size` parameter is in gigabytes and it must be a minimum of 100 GB. The `size` parameter is the only required parameter.
+The `:size` parameter is the only required parameter and is in gigabytes. Volumes must be a minimum of a 100 GB.
 
 ### Additional Parameters
 
@@ -325,7 +325,7 @@ The `create` method also supports the following key values:
 	</tr>
 	<tr>
 		<td>:volume_type</td>
-		<td>The type of volume to create. Refer to <a href="list-volume-types">List Volume Types</a> for valid types. If not defined, then the default, SATA, is used.</td>
+		<td>The type of volume to create. Refer to <a href="#list-volume-types">List Volume Types</a> section for valid types. SATA is the default volume type.</td>
 	</tr>
 </table>
 
@@ -364,7 +364,7 @@ To create a snapshot of a given volume:
 
 	volume.create_snapshot :display_name => 'initial-snapshot'
 
-**Note**: All writes to the volume should be flushed before creating the snapshot, either by un-mounting any file systems on the volume, or by detaching the volume before creating the snapshot.
+**Note**: All writes to the volume should be flushed before creating the snapshot, either by un-mounting any file systems on the volume or by detaching the volume.
 
 ### Additional Parameters
 
