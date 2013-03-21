@@ -4,11 +4,10 @@ module Fog
   module HP
     class Network < Fog::Service
 
-      requires    :hp_secret_key, :hp_tenant_id, :hp_avl_zone
+      requires    :hp_access_key, :hp_secret_key, :hp_tenant_id, :hp_avl_zone
       recognizes  :hp_auth_uri
       recognizes  :persistent, :connection_options
       recognizes  :hp_use_upass_auth_style, :hp_auth_version, :user_agent
-      recognizes  :hp_access_key, :hp_account_id  # :hp_account_id is deprecated use hp_access_key instead
 
       secrets     :hp_secret_key
 
