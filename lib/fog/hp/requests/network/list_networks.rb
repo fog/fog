@@ -11,19 +11,17 @@ module Fog
         #
         # ==== Returns
         # * response<~Excon::Response>:
-        #   * body<~Array>:
-        #     * volumes<~Hash>:
-        #       * 'id'<~Integer>: - Id for the volume
-        #       * 'displayName'<~String>: - Name of the volume
-        #       * 'displayDescription'<~String>: - Description of the volume
-        #       * 'size'<~Integer>: - Size in GB for the volume
-        #       * 'status'<~String>: - Status of the volume i.e. "available"
-        #       * 'volumeType'<~String>: - Type of the volume
-        #       * 'snapshotId'<~String>: - Id of the volume snapshot
-        #       * 'createdAt'<~String>: - Timestamp in UTC when volume was created
-        #       * 'availabilityZone'<~String>: - Availability zone i.e. "nova"
-        #       * attachments<~Array>: Array of hashes of attachments
-        #       * metadata<~Hash>: Hash of metadata for the volume
+        #   * body<~Hash>:
+        #     * networks<~Array>:
+        #       * 'id'<~Integer>: - UUId for the network
+        #       * 'name'<~String>: - Name of the network
+        #       * 'tenant_id'<~String>: - TenantId that owns the network
+        #       * 'status'<~String>: - Status of the network i.e. "ACTIVE"
+        #       * 'subnets'<~Array>: - Subnets for the network
+        #         * 'id'<~Integer>: - UUId for the subnet
+        #       * 'router:external'<~Boolean>: - true or false
+        #       * 'admin_state_up'<~Boolean>: - true or false
+        #       * 'shared'<~Boolean>: - true or false
         def list_networks(options = {})
           request(
             :expects => 200,
