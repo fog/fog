@@ -2,6 +2,17 @@ module Fog
   module Rackspace
     class BlockStorage
       class Real
+
+        # Create volume
+        #
+        # @param [Integer] size size of volume in GB. Minimum size is 100
+        # @param [Hash] options
+        # @option options [String] :display_name display name for volume
+        # @option options [String] :display_description display description for volume
+        # @option options [String] :volume_type type of volume
+        # @option options [String] :snapshot_id The optional snapshot from which to create a volume.
+        # @return [Excon::Response] response
+        # @see http://docs.rackspace.com/cbs/api/v1.0/cbs-devguide/content/POST_createVolume__v1__tenant_id__volumes.html
         def create_volume(size, options = {})
           data = {
             'volume' => {

@@ -2,6 +2,17 @@ module Fog
   module Rackspace
     class BlockStorage
       class Real
+
+        # Create a snapshot from a volume
+        #
+        # @param [String] volume_id Id of server to create image from
+        # @param [Hash] options
+        # @option options [String] :display_name display name for snapshot
+        # @option options [String] :display_description display description for snapshot
+        # @option options [Boolean] :force Set to true to force service to create snapshot
+        # @return [Excon::Response] response
+        # @note All writes to the volume should be flushed before creating the snapshot, either by un-mounting any file systems on the volume or by detaching the volume.
+        # @see http://docs.rackspace.com/cbs/api/v1.0/cbs-devguide/content/POST_createSnapshot__v1__tenant_id__snapshots.html
         def create_snapshot(volume_id, options = {})
           data = {
             'snapshot' => {
