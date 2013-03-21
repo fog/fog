@@ -55,11 +55,12 @@ module Fog
       end
     end
 
+    service(:block_storage, 'hp/block_storage', 'BlockStorage')
     service(:cdn,     'hp/cdn',     'CDN')
     service(:compute, 'hp/compute', 'Compute')
+    service(:network, 'hp/network', 'Network')
     service(:storage, 'hp/storage', 'Storage')
-    service(:block_storage, 'hp/block_storage', 'BlockStorage')
-    service(:lb, 'hp/lb',"LB")
+    service(:lb,      'hp/lb',      'LB')
 
     # legacy swauth 1.0/1.1 style authentication
     def self.authenticate_v1(options, connection_options = {})
