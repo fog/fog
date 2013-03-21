@@ -24,7 +24,7 @@ If using Ruby 1.9.x execute:
 
 Next, create a connection to Cloud Files.
 
-Using a US based account:
+Using a US-based account:
 
 	service = Fog::Storage.new({
   		:provider            => 'Rackspace',         # Rackspace Fog provider
@@ -34,7 +34,7 @@ Using a US based account:
   		:connection_options  => {}                   # Optional
 	})
 	
-Using a UK based account:
+Using a UK-based account:
 
 	service = Fog::Storage.new({
   		:provider            => 'Rackspace',                # Rackspace Fog provider
@@ -206,7 +206,7 @@ Here is a summary of common model methods:
 		<td>create</td>
 		<td>
 			Accepts hash of attributes and creates object.<br>
-			Note: creation is a non blocking call and you will be required to wait for a valid state before using resulting object.
+			Note: creation is a non-blocking call and you will be required to wait for a valid state before using resulting object.
 		</td>
 	</tr>
 	<tr>
@@ -218,7 +218,7 @@ Here is a summary of common model methods:
 		<td>destroy</td>
 		<td>
 			Destroys object.<br> 
-			Note: this is a non blocking call and object deletion might not be instantaneous.
+			Note: this is a non-blocking call and object deletion might not be instantaneous.
 		</td>
 	<tr>
 		<td>reload</td>

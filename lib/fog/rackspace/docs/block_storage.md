@@ -22,7 +22,7 @@ If using Ruby 1.9.x execute:
 
 Next, create a connection to Cloud Block Storage:
 
-Using a US based account:
+Using a US-based account:
 
 	service = Fog::Rackspace::BlockStorage.new({
 		:rackspace_username  => RACKSPACE_USER_NAME, # Your Rackspace Username
@@ -31,7 +31,7 @@ Using a US based account:
 		:connection_options  => {}                   # Optional
 	})
 
-Using a UK based account:
+Using a UK-based account:
 
 	service = Fog::Rackspace::BlockStorage.new({
 		:rackspace_username  => RACKSPACE_USER_NAME,        # Your Rackspace Username
@@ -130,7 +130,7 @@ To view the status of the response:
 
 	response.status
 
-**Note**: Fog is aware valid HTTP response statuses for each request type. If an unexpected HTTP response status occurs, Fog will raise an exception.
+**Note**: Fog is aware of valid HTTP response statuses for each request type. If an unexpected HTTP response status occurs, Fog will raise an exception.
 
 To view response body:
 
@@ -158,7 +158,7 @@ Here is a summary of common model methods:
 		<td>create</td>
 		<td>
 			Accepts hash of attributes and creates object.<br>
-			Note: creation is a non blocking call and you will be required to wait for a valid state before using resulting object.
+			Note: creation is a non-blocking call and you will be required to wait for a valid state before using resulting object.
 		</td>
 	</tr>
 	<tr>
@@ -174,7 +174,7 @@ Here is a summary of common model methods:
 		<td>destroy</td>
 		<td>
 			Destroys object.<br>
-			Note: this is a non blocking call and object deletion might not be instantaneous.
+			Note: this is a non-blocking call and object deletion might not be instantaneous.
 		</td>
 	<tr>
 		<td>reload</td>
@@ -300,7 +300,7 @@ This will return a `Fog::Rackspace::BlockStorage::Volume`:
     availability_zone="nova"
   >
 
-The `:size` parameter is the only required parameter and is in gigabytes. Volumes must be a minimum of a 100 GB.
+The `:size` parameter is the only required parameter and is in gigabytes. Volumes must be a minimum of 100 GB.
 
 ### Additional Parameters
 
@@ -331,11 +331,11 @@ The `create` method also supports the following key values:
 
 ## Attach Volume
 
-Please refer the [Attach Volume](compute_v2.md#attach-volume) section in the [Next Generation Cloud Servers™ (compute_v2)](compute_v2.md) documentation.
+Please refer to the [Attach Volume](compute_v2.md#attach-volume) section in the [Next Generation Cloud Servers™ (compute_v2)](compute_v2.md) documentation.
 
 ## Detach Volume
 
-Please refer the [Detach Volume](compute_v2.md#detach-volume) section in the [Next Generation Cloud Servers™ (compute_v2)](compute_v2.md) documentation.
+Please refer to the [Detach Volume](compute_v2.md#detach-volume) section in the [Next Generation Cloud Servers™ (compute_v2)](compute_v2.md) documentation.
 
 
 ## Delete Volume
@@ -344,7 +344,7 @@ To delete a volume:
 
 	volume.destroy
 
-**Note**: You cannot delete a volume until all of its dependent snaphosts have been deleted.
+**Note**: You cannot delete a volume until all of its dependent snapshots have been deleted.
 
 ## List Snapshots
 
@@ -364,7 +364,7 @@ To create a snapshot of a given volume:
 
 	volume.create_snapshot :display_name => 'initial-snapshot'
 
-**Note**: All writes to the volume should be flushed before creating the snapshot, either by un-mounting any file systems on the volume or by detaching the volume.
+**Note**: All writes to the volume should be flushed before creating the snapshot, either by unmounting any file systems on the volume or by detaching the volume.
 
 ### Additional Parameters
 

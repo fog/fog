@@ -25,7 +25,7 @@ If using Ruby 1.9.x execute:
 
 Next, create a connection to the Next Gen Cloud Servers:
 
-Using a US based account:
+Using a US-based account:
 
 	service = Fog::Compute.new({
   		:provider            => 'Rackspace',         # Rackspace Fog provider
@@ -36,7 +36,7 @@ Using a US based account:
 		:connection_options  => {}                   # Optional
 	})
 
-Using a UK based account:
+Using a UK-based account:
 
 	service = Fog::Compute.new({
 		:provider            => 'Rackspace',                # Rackspace Fog provider
@@ -137,7 +137,7 @@ To view the status of the response:
 	
 	response.status
 	
-**Note**: Fog is aware valid HTTP response statuses for each request type. If an unexpected HTTP response status occurs, Fog will raise an exception.
+**Note**: Fog is aware of valid HTTP response statuses for each request type. If an unexpected HTTP response status occurs, Fog will raise an exception.
 	
 To view response body:
 
@@ -165,7 +165,7 @@ Here is a summary of common model methods:
 		<td>create</td>
 		<td>
 			Accepts hash of attributes and creates object.<br>
-			Note: creation is a non blocking call and you will be required to wait for a valid state before using resulting object.
+			Note: creation is a non-blocking call and you will be required to wait for a valid state before using resulting object.
 		</td>
 	</tr>
 	<tr>
@@ -181,7 +181,7 @@ Here is a summary of common model methods:
 		<td>destroy</td>
 		<td>
 			Destroys object.<br> 
-			Note: this is a non blocking call and object deletion might not be instantaneous.
+			Note: this is a non-blocking call and object deletion might not be instantaneous.
 		</td>
 	<tr>
 		<td>reload</td>
