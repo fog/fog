@@ -259,6 +259,14 @@ module Fog
         ip.join('.')
       end
 
+      def self.uuid
+        # pattern of 8-4-4-4-12 hexadecimal digits
+        uuid = []
+        [8,4,4,4,12].each do |x|
+          uuid << Fog::Mock.random_hex(x)
+        end
+        uuid.join('-')
+      end
     end
 
   end
