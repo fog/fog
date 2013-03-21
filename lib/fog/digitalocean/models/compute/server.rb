@@ -10,10 +10,10 @@ module Fog
         
         identity  :id
         attribute :name
-        attribute :status
+       	attribute :state,	:aliases => 'status'
         attribute :image_id
         attribute :region_id
-        attribute :flavor_id,         :aliases => :size_id
+        attribute :flavor_id,         :aliases => 'size_id'
         # Not documented in their API, but
         # available nevertheless
         attribute :ip_address
@@ -134,7 +134,7 @@ module Fog
         #
         # @return [Boolean]
         def ready?
-          status == 'active'
+          state == 'active'
         end
 
         # DigitalOcean API does not support updating server state

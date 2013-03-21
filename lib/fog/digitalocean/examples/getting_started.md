@@ -38,7 +38,7 @@ docean.servers.each do |server|
   # remember, servers are droplets
   server.id
   server.name
-  server.status
+  server.state
   server.backups_enabled
   server.image_id
   server.flavor_id # server 'size' in DigitalOcean's API parlance

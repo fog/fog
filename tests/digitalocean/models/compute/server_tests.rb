@@ -21,7 +21,7 @@ Shindo.tests("Fog::Compute[:digitalocean] | server model", ['digitalocean', 'com
       attributes = [ 
         :id,
         :name,
-        :status,
+        :state,
         :backups_active,
         :ip_address,
         :flavor_id,
@@ -37,20 +37,20 @@ Shindo.tests("Fog::Compute[:digitalocean] | server model", ['digitalocean', 'com
     test('#reboot') do
       pending if Fog.mocking?
       server.reboot
-      server.wait_for { server.status == 'off' }
-      server.status == 'off'
+      server.wait_for { server.state == 'off' }
+      server.state == 'off'
     end
     test('#power_cycle') do
       pending if Fog.mocking?
       server.wait_for { server.ready? }
       server.power_cycle
-      server.wait_for { server.status == 'off' }
-      server.status == 'off'
+      server.wait_for { server.state == 'off' }
+      server.state == 'off'
     end
     test('#stop') do
       server.stop
-      server.wait_for { server.status == 'off' }
-      server.status == 'off'
+      server.wait_for { server.state == 'off' }
+      server.state == 'off'
     end
     test('#start') do
       server.start
@@ -62,8 +62,8 @@ Shindo.tests("Fog::Compute[:digitalocean] | server model", ['digitalocean', 'com
       server.start
       server.wait_for { server.ready? }
       server.shutdown
-      server.wait_for { server.status == 'off' }
-      server.status == 'off'
+      server.wait_for { server.state == 'off' }
+      server.state == 'off'
     end
     test('#update') do
       begin
