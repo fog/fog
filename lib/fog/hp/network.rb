@@ -17,7 +17,7 @@ module Fog
       request :delete_network
       request :get_network
       request :list_networks
-      #request :update_network
+      request :update_network
 
       module Utils
 
