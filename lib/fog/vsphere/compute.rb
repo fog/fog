@@ -49,6 +49,8 @@ module Fog
       request :get_network
       request :list_datastores
       request :get_datastore
+      request :list_templates
+      request :get_template
       request :get_folder
       request :list_folders
       request :create_vm

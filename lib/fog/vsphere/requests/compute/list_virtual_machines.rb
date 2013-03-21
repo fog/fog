@@ -22,7 +22,11 @@ module Fog
         def list_all_virtual_machines_in_folder(path, datacenter_name)
           folder = get_raw_vmfolder(path, datacenter_name)
 
-          folder.children.grep(RbVmomi::VIM::VirtualMachine).map(&method(:convert_vm_mob_ref_to_attr_hash))
+          vms = folder.children.grep(RbVmomi::VIM::VirtualMachine)
+          # remove all template based virtual machines
+          vms.delete_if { |v| v.config.template }
+          
+          vms.map(&method(:convert_vm_mob_ref_to_attr_hash))
         end
 
         def list_all_virtual_machines(options = { })
