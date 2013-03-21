@@ -4,15 +4,15 @@ module Fog
 
       class Real
 
-        # List existing networks
+        # Get details for an existing network by id
         #
         # ==== Parameters
-        # * options<~Hash>:
+        # * 'network_id'<~String>: - UUId for the network to get details for
         #
         # ==== Returns
         # * response<~Excon::Response>:
         #   * body<~Hash>:
-        #     * networks<~Array>:
+        #     * network<~Hash>:
         #       * 'id'<~String>: - UUId for the network
         #       * 'name'<~String>: - Name of the network
         #       * 'tenant_id'<~String>: - TenantId that owns the network
@@ -22,24 +22,25 @@ module Fog
         #       * 'router:external'<~Boolean>: - true or false
         #       * 'admin_state_up'<~Boolean>: - true or false
         #       * 'shared'<~Boolean>: - true or false
-        def list_networks(options = {})
+        def get_network(network_id)
           request(
             :expects => 200,
             :method  => 'GET',
-            :path    => 'networks',
-            :query   => options
+            :path    => "networks/#{network_id}"
           )
         end
       end
 
       class Mock
-        def list_networks(options = {})
+        def get_network(network_id)
           response = Excon::Response.new
-
-          networks = self.data[:networks].values
-          response.status = 200
-          response.body = { 'networks' => networks }
-          response
+          if network = list_networks.body['networks'].detect {|_| _['id'] == network_id}
+            response.status = 200
+            response.body = { 'network' => network }
+            response
+          else
+            raise Fog::HP::Network::NotFound
+          end
         end
       end
 

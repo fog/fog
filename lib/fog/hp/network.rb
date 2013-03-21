@@ -15,7 +15,7 @@ module Fog
       request_path 'fog/hp/requests/network'
       #request :create_network
       #request :delete_network
-      #request :get_network
+      request :get_network
       request :list_networks
       #request :update_network
 
