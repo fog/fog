@@ -33,7 +33,7 @@ module Fog
         attribute :display_description
 
         # @!attribute [rw] size
-        # @return [String] size of the volume in GB
+        # @return [String] size of the volume in GB (100 GB minimum)
         attribute :size
 
         # @!attribute [r] attachments
