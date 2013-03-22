@@ -18,7 +18,7 @@ module Fog
       UK_ENDPOINT = 'https://lon.dns.api.rackspacecloud.com/v1.0'
 
       requires :rackspace_api_key, :rackspace_username
-      recognizes :rackspace_auth_url, :rackspace_auth_token, :rackspace_dns_endpoint
+      recognizes :rackspace_auth_url, :rackspace_auth_token, :rackspace_dns_endpoint, :rackspace_dns_url, :rackspace_region
 
       model_path 'fog/rackspace/models/dns'
       model       :record
@@ -43,7 +43,7 @@ module Fog
       request :remove_records
       request :add_records
 
-      class Mock
+      class Mock < Fog::Rackspace::Service
 
         def initialize(options={})
           @rackspace_api_key = options[:rackspace_api_key]
@@ -71,22 +71,38 @@ module Fog
 
       end
 
-      class Real
+      class Real < Fog::Rackspace::Service
+
+        def service_name
+          :cloudDNS
+        end
+
+        def region
+          #Note: DNS does not currently support multiple regions
+          @rackspace_region
+        end
+
         def initialize(options={})
           @rackspace_api_key = options[:rackspace_api_key]
           @rackspace_username = options[:rackspace_username]
           @rackspace_auth_url = options[:rackspace_auth_url]
           @connection_options = options[:connection_options] || {}
-          uri = URI.parse(options[:rackspace_dns_endpoint] || US_ENDPOINT)
+          @rackspace_endpoint = Fog::Rackspace.normalize_url(options[:rackspace_dns_url] || options[:rackspace_dns_endpoint])
+          @rackspace_region = options[:rackspace_region]
 
-          @auth_token, @account_id = *authenticate
-          @persistent = options[:persistent] || false
-          @path       = "#{uri.path}/#{@account_id}"
+          authenticate
+
+          deprecation_warnings(options)
 
           @connection_options[:headers] ||= {}
-          @connection_options[:headers].merge!({ 'Content-Type' => 'application/json', 'X-Auth-Token' => @auth_token })
+          @connection_options[:headers].merge!({ 'Content-Type' => 'application/json', 'X-Auth-Token' => auth_token })
 
-          @connection = Fog::Connection.new(uri.to_s, @persistent, @connection_options)
+          @persistent = options[:persistent] || false
+          @connection = Fog::Connection.new(endpoint_uri.to_s, @persistent, @connection_options)
+        end
+
+        def endpoint_uri(service_endpoint_url=nil)
+          @uri = super(@rackspace_endpoint || service_endpoint_url, :rackspace_dns_url)
         end
 
         private
@@ -95,7 +111,7 @@ module Fog
           #TODO - Unify code with other rackspace services
           begin
             response = @connection.request(params.merge!({
-              :path     => "#{@path}/#{params[:path]}"
+              :path     => "#{endpoint_uri.path}/#{params[:path]}"
             }))
           rescue Excon::Errors::BadRequest => error
             raise Fog::Rackspace::Errors::BadRequest.slurp error
@@ -112,18 +128,6 @@ module Fog
           response
         end
 
-        def authenticate
-          options = {
-            :rackspace_api_key  => @rackspace_api_key,
-            :rackspace_username => @rackspace_username,
-            :rackspace_auth_url => @rackspace_auth_url
-          }
-          credentials = Fog::Rackspace.authenticate(options, @connection_options)
-          auth_token = credentials['X-Auth-Token']
-          account_id = credentials['X-Server-Management-Url'].match(/.*\/([\d]+)$/)[1]
-          [auth_token, account_id]
-        end
-
         def array_to_query_string(arr)
           arr.collect {|k,v| "#{k}=#{v}" }.join('&')
         end
@@ -132,6 +136,35 @@ module Fog
           if fragment.nil? or fragment.to_s.empty?
             raise ArgumentError.new("#{name} cannot be null or empty")
           end
+        end
+
+        private
+
+        def deprecation_warnings(options)
+          Fog::Logger.deprecation("The :rackspace_dns_endpoint option is deprecated. Please use :rackspace_dns_url for custom endpoints") if options[:rackspace_dns_endpoint]
+        end
+
+        def setup_endpoint(credentials)
+          account_id = credentials['X-Server-Management-Url'].match(/.*\/([\d]+)$/)[1]
+
+          @uri = URI.parse(@rackspace_endpoint || US_ENDPOINT)
+          @uri.path = "#{@uri.path}/#{account_id}"
+        end
+
+        def authenticate_v1(options)
+          credentials = Fog::Rackspace.authenticate(options, @connection_options)
+          setup_endpoint credentials
+          @auth_token = credentials['X-Auth-Token']
+        end
+
+        def authenticate
+          options = {
+            :rackspace_api_key  => @rackspace_api_key,
+            :rackspace_username => @rackspace_username,
+            :rackspace_auth_url => @rackspace_auth_url
+          }
+
+          super(options)
         end
       end
     end

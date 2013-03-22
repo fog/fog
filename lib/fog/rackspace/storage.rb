@@ -1,5 +1,4 @@
 require 'fog/rackspace'
-require 'fog/rackspace/service'
 require 'fog/storage'
 
 module Fog
@@ -194,6 +193,8 @@ module Fog
         end
 
         def endpoint_uri(service_endpoint_url=nil)
+          return @uri if @uri
+
           @uri = super(@rackspace_storage_url || service_endpoint_url, :rackspace_storage_url)
           @uri.host = "snet-#{@uri.host}" if service_net?
           @uri

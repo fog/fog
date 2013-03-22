@@ -58,7 +58,7 @@ compute_service = Fog::Compute.new({
 cbs_service = Fog::Rackspace::BlockStorage.new({
   :rackspace_username => rackspace_username,
   :rackspace_api_key  => rackspace_api_key,
-  :rackspace_endpoint => Fog::Rackspace::BlockStorage::ORD_ENDPOINT #Use Chicago Region  
+  :rackspace_region => :ord #Use Chicago Region
 })
 
 # retrieve list of servers
