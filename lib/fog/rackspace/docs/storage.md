@@ -467,7 +467,7 @@ To view Cloud Files usage execute the following:
 
 	service.account
 	
-This returns a response similar to the following:
+This returns a `Fog::Storage::Rackspace::Account` instance:
 
 	<Fog::Storage::Rackspace::Account
     meta_temp_url_key="lkkl23jl2j3",

@@ -284,7 +284,7 @@ This returns a `Fog::Rackspace::BlockStorage::Volume`:
 
 To create a volume:
 
-	volume = service.volumes.create(:size => 100, :display_name => 'fog-ssd', :volume_type => 'SSD' )
+	volume = service.volumes.create(:size => 100, :display_name => 'fog-ssd', :volume_type => 'SSD')
 
 This will return a `Fog::Rackspace::BlockStorage::Volume`:
 
@@ -300,7 +300,7 @@ This will return a `Fog::Rackspace::BlockStorage::Volume`:
     availability_zone="nova"
   >
 
-The `:size` parameter is the only required parameter and is in gigabytes. Volumes must be a minimum of 100 GB.
+**Note**: The `:size` parameter is the only required parameter and is in gigabytes. Volumes must be a minimum of 100 GB.
 
 ### Additional Parameters
 

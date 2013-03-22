@@ -561,31 +561,31 @@ Additionally, the `rebuild` method will take a second parameter containing a has
 		<th>Description</th>
 	</tr>
 	<tr>
-		<td>name</td>
+		<td>:name</td>
 		<td>Name of Server</td>
 	</tr>
 	<tr>
-		<td>flavorRef</td>
+		<td>:flavorRef</td>
 		<td>Flavor id</td>
 	</tr>
 	<tr>
-		<td>accessIPv4</td>
+		<td>:accessIPv4</td>
 		<td>IPv4 access address</td>
 	</tr>
 	<tr>
-		<td>accessIPv6</td>
+		<td>:accessIPv6</td>
 		<td>IPv6 access address</td>		
 	</tr>
 	<tr>
-		<td>metadata</td>
+		<td>:metadata</td>
 		<td>Hash containing server metadata</td> 
 	</tr>
 	<tr>
-		<td>personality</td>
+		<td>:personality</td>
 		<td>File path and contents. Refer to Next Gen Server API documentation - <a href="http://docs.rackspace.com/servers/api/v2/cs-devguide/content/Server_Personality-d1e2543.html">Server Personality</a>. </td>
 	</tr>
 	<tr>
-		<td>disk_config</td>
+		<td>:disk_config</td>
 		<td>The disk configuration value (AUTO or MANUAL). Refer to  Next Gen Server API documentation - <a href="http://docs.rackspace.com/servers/api/v2/cs-devguide/content/ch_extensions.html#diskconfig_attribute">Disk Configuration Extension</a>.</td>
 	</tr>
 </table>
