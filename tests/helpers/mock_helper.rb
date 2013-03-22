@@ -43,7 +43,7 @@ if Fog.mock?
     :google_storage_access_key_id     => 'google_storage_access_key_id',
     :google_storage_secret_access_key => 'google_storage_secret_access_key',
     :google_client_email              => 'fake@developer.gserviceaccount.com',
-    :google_key_locationr             => '~/fake.p12',
+    :google_key_location              => '~/fake.p12',
     :hp_access_key                    => 'hp_access_key',
     :hp_secret_key                    => 'hp_secret_key',
     :hp_tenant_id                     => 'hp_tenant_id',
