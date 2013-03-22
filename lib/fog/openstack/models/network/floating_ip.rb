@@ -29,7 +29,7 @@ module Fog
 
         def create
           requires :floating_network_id
-          merge_attributes(connection.create_floating_ip(self.floating_network_id,
+          merge_attributes(service.create_floating_ip(self.floating_network_id,
 
 
                                                     self.attributes).body['floatingip'])
@@ -42,7 +42,7 @@ module Fog
 
         def destroy
           requires :id
-          connection.delete_floating_ip(self.id)
+          service.delete_floating_ip(self.id)
           true
         end
 
