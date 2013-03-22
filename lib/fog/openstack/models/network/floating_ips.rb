@@ -17,7 +17,7 @@ module Fog
 
         def all(filters = filters)
           self.filters = filters
-          load(connection.list_floating_ips(filters).body['floatingips'])
+          load(service.list_floating_ips(filters).body['floatingips'])
         end
 
         def get(floating_network_id)
