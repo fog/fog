@@ -1,6 +1,4 @@
 require 'fog/compute'
-require 'fog/rackspace/service'
-
 
 module Fog
   module Compute
@@ -170,7 +168,7 @@ module Fog
         private
 
         def setup_custom_endpoint(options)
-          @rackspace_endpoint = options[:rackspace_compute_url] || options[:rackspace_endpoint]
+          @rackspace_endpoint = Fog::Rackspace.normalize_url(options[:rackspace_compute_url] || options[:rackspace_endpoint])
 
           if v2_authentication?
             case @rackspace_endpoint
@@ -187,6 +185,9 @@ module Fog
               # we are actually using a custom endpoint
               @rackspace_region = options[:rackspace_region] || :dfw
             end
+          else
+            #if we are using auth1 and the endpoint is not set, default to DFW_ENDPOINT for historical reasons
+             @rackspace_endpoint ||= DFW_ENDPOINT
           end
         end
 
