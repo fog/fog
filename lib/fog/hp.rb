@@ -5,7 +5,7 @@ module Fog
 
     # define a specific version for the HP Provider
     unless const_defined?(:VERSION)
-      VERSION = '0.0.19'
+      VERSION = '0.0.20'
     end
 
     extend Fog::Provider

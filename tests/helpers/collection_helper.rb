@@ -21,6 +21,8 @@ def collection_tests(collection, params = {}, mocks_implemented = true)
       pending if Fog.mocking? && !mocks_implemented
       collection.all
     end
+    
+    
 
     if !Fog.mocking? || mocks_implemented
       @identity = @instance.identity
@@ -31,6 +33,39 @@ def collection_tests(collection, params = {}, mocks_implemented = true)
       collection.get(@identity)
     end
 
+    tests('Enumerable') do
+      pending if Fog.mocking? && !mocks_implemented
+
+      [
+        'all?', 'any?', 'find',  'detect', 'collect', 'map', 
+        'find_index', 'flat_map', 'collect_concat', 'group_by',
+        'none?', 'one?'
+      ].each do |enum_method|
+        if collection.respond_to?(enum_method)
+          tests("##{enum_method}").succeeds do
+            block_called = false
+            collection.send(enum_method) {|x| block_called = true }
+            block_called
+          end
+        end
+      end
+
+      [
+        'max_by','min_by'
+      ].each do |enum_method|
+        if collection.respond_to?(enum_method)
+          tests("##{enum_method}").succeeds do
+            block_called = false
+            collection.send(enum_method) {|x| block_called = true; 0 }
+            block_called
+          end
+        end
+
+      end
+
+    end
+
+
     if block_given?
       yield
     end
@@ -39,7 +74,7 @@ def collection_tests(collection, params = {}, mocks_implemented = true)
       @instance.destroy
     end
   end
-
+  
   tests('failure') do
 
     if !Fog.mocking? || mocks_implemented

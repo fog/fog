@@ -44,7 +44,7 @@ module Fog
 
             subset.each_file_this_page {|f| yield f}
             until subset.empty? || subset.length == (subset.limit || 10000)
-              subset = subset.all(:marker => subset.last.key)
+              subset = subset.all('marker' => subset.last.key)
               subset.each_file_this_page {|f| yield f}
             end
 
