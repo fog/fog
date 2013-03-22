@@ -32,7 +32,7 @@ Using a US-based account:
   		:rackspace_username  => RACKSPACE_USER_NAME, # Your Rackspace Username
   		:rackspace_api_key   => RACKSPACE_API,       # Your Rackspace API key
 		:version             => :v2,                 # Use Next Gen Cloud Servers
-		:rackspace_region    => :ord                 # Defaults to :dfw
+		:rackspace_region    => :ord,                # Defaults to :dfw
 		:connection_options  => {}                   # Optional
 	})
 
@@ -43,8 +43,8 @@ Using a UK-based account:
 		:rackspace_username  => RACKSPACE_USER_NAME,        # Your Rackspace Username
 		:rackspace_api_key   => RACKSPACE_API,              # Your Rackspace API key
 		:version             => :v2,                        # Use Next Gen Cloud Servers
-		:rackspace_auth_url  => Fog::Rackspace::UK_AUTH_ENDPOINT
-		:rackspace_region    => :lon
+		:rackspace_auth_url  => Fog::Rackspace::UK_AUTH_ENDPOINT,
+		:rackspace_region    => :lon,
 		:connection_options  => {}                          # Optional
 	})
 
