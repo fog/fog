@@ -13,10 +13,15 @@ module Fog
 
       request_path 'fog/hp/requests/network'
       request :create_network
+      request :create_subnet
       request :delete_network
+      request :delete_subnet
       request :get_network
+      request :get_subnet
       request :list_networks
+      request :list_subnets
       request :update_network
+      request :update_subnet
 
       module Utils
 
@@ -28,7 +33,8 @@ module Fog
         def self.data
           @data ||= Hash.new do |hash, key|
             hash[key] = {
-              :networks => {}
+              :networks => {},
+              :subnets => {}
             }
           end
         end
