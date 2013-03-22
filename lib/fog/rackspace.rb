@@ -1,5 +1,6 @@
 require 'fog/core'
 require 'fog/rackspace/mock_data'
+require 'fog/rackspace/service'
 
 module Fog
   module Rackspace
@@ -87,6 +88,13 @@ module Fog
       response.headers.reject do |key, value|
         !['X-Server-Management-Url', 'X-Storage-Url', 'X-CDN-Management-Url', 'X-Auth-Token'].include?(key)
       end
+    end
+
+    def self.normalize_url(endpoint)
+      return nil unless endpoint
+      str = endpoint.chomp " "
+      str = str.chomp "/"
+      str.downcase
     end
 
     # CGI.escape, but without special treatment on spaces
