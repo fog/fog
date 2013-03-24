@@ -58,6 +58,8 @@ module Fog
         #   * 'datastore'<~String> - The datastore you'd like to use.
         #       (datacenterObj.datastoreFolder.find('name') in API)
         #   * 'transform'<~String> - Not documented - see http://www.vmware.com/support/developer/vc-sdk/visdk41pubs/ApiReference/vim.vm.RelocateSpec.html
+        #   * 'numCPUs'<~Integer> - the number of Virtual CPUs of the Destination VM
+        #   * 'memoryMB'<~Integer> - the size of memory of the Destination VM in MB
         #   * customization_spec<~Hash>: Options are marked as required if you
         #     use this customization_spec. Static IP Settings not configured.
         #     This only support cloning and setting DHCP on the first interface
@@ -69,7 +71,6 @@ module Fog
         #       Default true
         #     * 'time_zone'<~String> - *REQUIRED* Only valid linux options 
         #       are valid - example: 'America/Denver'
-        #
         def vm_clone(options = {})
           # Option handling
           options = vm_clone_check_options(options)
@@ -117,6 +118,8 @@ module Fog
           # confirm nil if nil or option is not set
           datastore_obj ||= nil
           
+          virtual_machine_config_spec = RbVmomi::VIM::VirtualMachineConfigSpec()
+          
           # Options['network']
           # Build up the config spec
           if ( options.has_key?('network_label') )
@@ -137,9 +140,14 @@ module Fog
             device_spec = RbVmomi::VIM::VirtualDeviceConfigSpec(
               :operation => config_spec_operation,
               :device => device)
-            virtual_machine_config_spec = RbVmomi::VIM::VirtualMachineConfigSpec(
-              :deviceChange => [device_spec])
+            virtual_machine_config_spec.deviceChange = [device_spec]
           end
+          
+          # Options['numCPUs'] or Options['memoryMB']
+          # Build up the specification for Hardware, for more details see ____________
+          # https://github.com/rlane/rbvmomi/blob/master/test/test_serialization.rb
+          virtual_machine_config_spec.numCPUs = options['numCPUs'] if  ( options.has_key?('numCPUs') )
+          virtual_machine_config_spec.memoryMB = options['memoryMB'] if ( options.has_key?('memoryMB') )
           
           # Options['customization_spec']
           # Build up all the crappy tiered objects like the perl method
