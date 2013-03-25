@@ -16,8 +16,8 @@ Shindo.tests('Fog::Compute::RackspaceV2 | metadata_tests', ['rackspace']) do
         
         
         @server_id = @server.id
-        @image_id = @server.create_image(name, :metadata => metadata)
-        @image = @service.images.get @image_id
+        @image  = @server.create_image(name, :metadata => metadata)
+        @image_id = @image.id
       else
         @image_id = 1
         @server_id = 1
