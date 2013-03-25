@@ -19,6 +19,8 @@ module Fog
       collection   :images
       model        :region
       collection   :regions
+      model        :ssh_key
+      collection   :ssh_keys
       
       request_path 'fog/digitalocean/requests/compute'
       request      :list_servers
@@ -35,6 +37,8 @@ module Fog
       request      :shutdown_server
       request      :list_ssh_keys
       request      :create_ssh_key
+      request      :get_ssh_key
+      request      :destroy_ssh_key
 
       # request :digitalocean_resize      
 
