@@ -24,7 +24,7 @@ Shindo.tests("HP::Network | subnet requests", ['hp', 'subnet']) do
     tests('#create_subnet').formats(@subnet_format) do
       attributes = {:name => 'mysubnet', :gateway_ip => '10.0.3.1',
                     :allocation_pools => [], :dns_nameservers => [],
-                    :host_routes => [], :enable_dhcp => true}
+                    :host_routes => [], :enable_dhcp => true, :tenant_id => '111111111'}
       data = HP[:network].create_subnet(@network_id, '10.0.3.0/24', 4, attributes).body['subnet']
       @subnet_id = data['id']
       data

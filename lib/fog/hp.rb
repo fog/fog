@@ -267,6 +267,15 @@ module Fog
         end
         uuid.join('-')
       end
+
+      def self.mac_address
+        mac_add = []
+        6.times do
+          mac_add << Fog::Mock.random_hex(2)
+        end
+        mac_add.join(':')
+      end
+
     end
 
   end
