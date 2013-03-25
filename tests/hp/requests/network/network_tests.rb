@@ -2,7 +2,7 @@ Shindo.tests("HP::Network | network requests", ['hp', 'network']) do
 
   @network_format = {
     'id'              => String,
-    'name'            => String,
+    'name'            => Fog::Nullable::String,
     'tenant_id'       => String,
     'status'          => String,
     'subnets'         => Array,
