@@ -4,6 +4,7 @@ This document explains how to get started using Cloud Files with Fog. It assumes
 
 
 ## Starting irb console
+
 Start by executing the following command:
 
 	irb
@@ -23,24 +24,24 @@ If using Ruby 1.9.x execute:
 
 Next, create a connection to Cloud Files.
 
-Using a US based account:
+Using a US-based account:
 
 	service = Fog::Storage.new({
   		:provider            => 'Rackspace',         # Rackspace Fog provider
   		:rackspace_username  => RACKSPACE_USER_NAME, # Your Rackspace Username
   		:rackspace_api_key   => RACKSPACE_API,       # Your Rackspace API key
-  		:rackspace_region    => :ord                 # Defaults to :dfw
+		:rackspace_region    => :ord,                # Defaults to :dfw
   		:connection_options  => {}                   # Optional
 	})
 	
-Using a UK based account:
+Using a UK-based account:
 
 	service = Fog::Storage.new({
   		:provider            => 'Rackspace',                # Rackspace Fog provider
   		:rackspace_username  => RACKSPACE_USER_NAME,        # Your Rackspace Username
   		:rackspace_api_key   => RACKSPACE_API,              # Your Rackspace API key
-		:rackspace_auth_url  => Fog::Rackspace::UK_AUTH_ENDPOINT
-  		:rackspace_region    => :lon
+		:rackspace_auth_url  => Fog::Rackspace::UK_AUTH_ENDPOINT,
+		:rackspace_region    => :lon,
   		:connection_options  => {}                          # Optional
 	})
 
@@ -139,9 +140,11 @@ Fog supports passing additional connection parameters to its underlying HTTP lib
 
 
 ## Fog Abstractions
+
 Fog provides both a **model** and **request** abstraction. The request abstraction provides the most efficient interface and the model abstraction wraps the request abstraction to provide a convenient `ActiveModel` like interface. 
 	
 ### Request Layer
+
 The request abstraction maps directly to the [Cloud Files API](http://docs.rackspace.com/files/api/v1/cf-devguide/content/Overview-d1e70.html). It provides the most efficient interface to the Rackspace Open Cloud.
 
 To see a list of requests supported by the storage service:
@@ -189,6 +192,7 @@ This will return:
 To learn more about `Fog::Storage` request methods refer to [rdoc](http://rubydoc.info/gems/fog/Fog/Storage/Rackspace/Real). To learn more about Excon refer to [Excon GitHub repo](https://github.com/geemus/excon).
 
 ### Model Layer
+
 Fog models behave in a manner similar to `ActiveModel`. Models will generally respond to `create`, `save`,  `destroy`, `reload` and `attributes` methods. Additionally, fog will automatically create attribute accessors.  
 
 Here is a summary of common model methods:
@@ -202,7 +206,7 @@ Here is a summary of common model methods:
 		<td>create</td>
 		<td>
 			Accepts hash of attributes and creates object.<br>
-			Note: creation is a non blocking call and you will be required to wait for a valid state before using resulting object.
+			Note: creation is a non-blocking call and you will be required to wait for a valid state before using resulting object.
 		</td>
 	</tr>
 	<tr>
@@ -214,7 +218,7 @@ Here is a summary of common model methods:
 		<td>destroy</td>
 		<td>
 			Destroys object.<br> 
-			Note: this is a non blocking call and object deletion might not be instantaneous.
+			Note: this is a non-blocking call and object deletion might not be instantaneous.
 		</td>
 	<tr>
 		<td>reload</td>
@@ -463,7 +467,7 @@ To view Cloud Files usage execute the following:
 
 	service.account
 	
-This returns a response similar to the following:
+This returns a `Fog::Storage::Rackspace::Account` instance:
 
 	<Fog::Storage::Rackspace::Account
     meta_temp_url_key="lkkl23jl2j3",
@@ -472,3 +476,21 @@ This returns a response similar to the following:
     object_count=5
   	> 
   
+## Examples
+
+Example code using Cloud Files can be found [here](https://github.com/fog/fog/tree/master/lib/fog/rackspace/examples).
+
+## Additional Resources
+
+* [fog.io](http://fog.io/)
+* [Fog rdoc](http://rubydoc.info/gems/fog/)
+* [Fog Github repo](https://github.com/fog/fog)
+* [Fog Github Issues](https://github.com/fog/fog/issues)
+* [Excon Github repo](https://github.com/geemus/excon)
+* [Cloud Files API](http://docs.rackspace.com/files/api/v1/cf-devguide/content/Overview-d1e70.html)
+
+## Support and Feedback
+
+Your feedback is appreciated! If you have specific issues with the **fog** SDK, you should file an [issue via Github](https://github.com/fog/fog/issues).
+
+For general feedback and support requests, send an email to: <sdk-support@rackspace.com>.
