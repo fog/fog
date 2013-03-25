@@ -19,7 +19,7 @@ module Fog
         #       * status [String] - status of current image
         #       * updated [String] - updated timestamp
         #       * links [Array] - links to flavor
-        # @see http://docs.rackspace.com/servers/api/v2/cs-devguide/content/Get_Image_Details-d1e4848.html        
+        # @see http://docs.rackspace.com/servers/api/v2/cs-devguide/content/Get_Image_Details-d1e4848.html
         def get_image(image_id)
           request(
             :expects => [200, 203],
