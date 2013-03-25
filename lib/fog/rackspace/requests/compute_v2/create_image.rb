@@ -8,7 +8,7 @@ module Fog
         # @param [String] server_id Id of server to create image from
         # @param [String] name name for created image
         # @param [Hash] options
-        # @option options [Hash ]:metadata - key value pairs of image metadata
+        # @option options [Hash] :metadata - key value pairs of image metadata
         # @see http://docs.rackspace.com/servers/api/v2/cs-devguide/content/Create_Image-d1e4655.html
         #
         #   * State Transition:

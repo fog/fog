@@ -2,6 +2,19 @@ module Fog
   module Rackspace
     class BlockStorage
       class Real
+
+        # Retrieves list of snapshots
+        # @return [Excon::Response] response:
+        #   * body [Hash]:
+        #     * 'snapshots' [Array]: -
+        #       * 'volume_id' [String]: - volume_id of the snapshot
+        #       * 'display_description' [String]: - display description of snapshot
+        #       * 'status' [String]: - status of snapshot
+        #       * 'id' [String]: - id of snapshot
+        #       * 'size' [Fixnum]: - size of the snapshot in GB
+        #       * 'display_name' [String]: - display name of snapshot
+        #       * 'created_at' [String]: - creation time of snapshot
+        # @see http://docs.rackspace.com/cbs/api/v1.0/cbs-devguide/content/GET_getSnapshotsSimple__v1__tenant_id__snapshots.html
         def list_snapshots
           request(
             :expects => [200],

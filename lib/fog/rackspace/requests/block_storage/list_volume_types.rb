@@ -2,6 +2,15 @@ module Fog
   module Rackspace
     class BlockStorage
       class Real
+
+        # Retrieves list of volume types
+        # @return [Excon::Response] response
+        #   * body [Hash]:
+        #     * 'volume_types' [Array]: -
+        #       * 'name' [String]: - name of volume type
+        #       * 'extra_specs' [Hash]: -
+        #       * 'id' [Fixnum]: - id of volume type
+        # @see http://docs.rackspace.com/cbs/api/v1.0/cbs-devguide/content/GET_getVolumeTypes__v1__tenant_id__types.html
         def list_volume_types
           request(
             :expects => [200],
