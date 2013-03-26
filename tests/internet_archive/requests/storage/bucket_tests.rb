@@ -51,6 +51,7 @@ Shindo.tests('Fog::Storage[:internetarchive] | bucket requests', ["internet_arch
       Fog::Storage[:internetarchive].get_service.body
     end
 
+    dirs = Fog::Storage[:internetarchive].directories.get(@ia_bucket_name)
     file = Fog::Storage[:internetarchive].directories.get(@ia_bucket_name).files.create(:body => 'y', :key => 'x')
 
     tests("#get_bucket('#{@ia_bucket_name}')").formats(@bucket_format) do

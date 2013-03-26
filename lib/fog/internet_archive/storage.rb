@@ -79,6 +79,7 @@ module Fog
           http_url(params, expires)
         end
 
+
         private
 
         def scheme_host_path_query(params, expires)
@@ -198,12 +199,7 @@ module Fog
           require 'mime/types'
           setup_credentials(options)
           options[:region] ||= 'us-east-1'
-          @host = options[:host] || case options[:region]
-          when 'us-east-1'
-            "s3.#{Fog::InternetArchive::DOMAIN_NAME}"
-          else
-            "s3-#{options[:region]}.#{Fog::InternetArchive::DOMAIN_NAME}"
-          end
+          @host = options[:host] || Fog::InternetArchive::API_DOMAIN_NAME
           @scheme = options[:scheme] || 'http'
           @region = options[:region]
         end
@@ -270,12 +266,7 @@ module Fog
           else
             options[:region] ||= 'us-east-1'
             @region = options[:region]
-            @host = options[:host] || case options[:region]
-            when 'us-east-1'
-              "s3.#{Fog::InternetArchive::DOMAIN_NAME}"
-            else
-              "s3-#{options[:region]}.#{Fog::InternetArchive::DOMAIN_NAME}"
-            end
+            @host = options[:host] || Fog::InternetArchive::API_DOMAIN_NAME
             @path       = options[:path]        || '/'
             @persistent = options.fetch(:persistent, false)
             @port       = options[:port]        || 80

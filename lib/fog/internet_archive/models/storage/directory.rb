@@ -1,28 +1,34 @@
 require 'fog/core/model'
 require 'fog/internet_archive/models/storage/files'
+require 'fog/internet_archive/models/storage/ia_attributes.rb'
 
 module Fog
   module Storage
     class InternetArchive
 
       class Directory < Fog::Model
-        VALID_ACLS = ['private', 'public-read', 'public-read-write', 'authenticated-read']
 
-        # See http://docs.amazonwebservices.com/AmazonS3/latest/API/RESTBucketPUT.html
-        INVALID_LOCATIONS = ['us-east-1']
-
-        attr_reader :acl
+        extend Fog::Storage::IAAttributes::ClassMethods
+        include Fog::Storage::IAAttributes::InstanceMethods
 
         identity  :key,           :aliases => ['Name', 'name']
 
         attribute :creation_date, :aliases => 'CreationDate'
 
+        # treat these differently
+        attribute :collections
+        attribute :subjects
+
+        ia_metadata_attribute :ignore_preexisting_bucket
+        ia_metadata_attribute :interactive_priority
+
+        # acl for internet archive is always public-read
+        def acl
+          'public-read'
+        end
+
         def acl=(new_acl)
-          unless VALID_ACLS.include?(new_acl)
-            raise ArgumentError.new("acl must be one of [#{VALID_ACLS.join(', ')}]")
-          else
-            @acl = new_acl
-          end
+          'public-read'
         end
 
         # See http://archive.org/help/abouts3.txt
@@ -61,21 +67,12 @@ module Fog
         end
 
         def public=(new_public)
-          self.acl = new_public ? 'public-read' : 'private'
-          new_public
+          'public-read'
         end
 
         def public_url
           requires :key
-          if service.get_bucket_acl(key).body['AccessControlList'].detect {|grant| grant['Grantee']['URI'] == 'http://acs.amazonaws.com/groups/global/AllUsers' && grant['Permission'] == 'READ'}
-            if key.to_s =~ Fog::InternetArchive::COMPLIANT_BUCKET_NAMES
-              "http://#{key}.s3.#{Fog::InternetArchive::DOMAIN_NAME}"
-            else
-              "http://s3.#{Fog::InternetArchive::DOMAIN_NAME}/#{key}"
-            end
-          else
-            nil
-          end
+          "http://#{Fog::InternetArchive::DOMAIN_NAME}/details/#{key}"
         end
 
         def save
@@ -83,7 +80,11 @@ module Fog
 
           options = {}
 
-          options['x-amz-acl'] = acl if acl
+          options['x-archive-ignore-preexisting-bucket'] = ignore_preexisting_bucket if ignore_preexisting_bucket
+          options['x-archive-interactive-priority'] = interactive_priority if interactive_priority
+
+          set_metadata_array_headers(:collections, options)
+          set_metadata_array_headers(:subjects, options)
 
           if location = attributes[:location] || (self.service.region != 'us-east-1' && self.service.region)
             options['LocationConstraint'] = location

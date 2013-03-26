@@ -9,12 +9,12 @@ Shindo.tests("Storage[:internet_archive] | file", ["internet_archive"]) do
     :body => lorem_file,
     :public => true,
     :auto_make_bucket => 1,
-    :collections => ['test_collection']
   }
 
   directory_attributes = {
     # Add a random suffix to prevent collision
-    :key => "fogfilestests-#{rand(65536)}"
+    :key => "fogfilestests-#{rand(65536)}",
+    :collections => ['test_collection']
   }
 
   @directory = Fog::Storage[:internetarchive].directories.create(directory_attributes)
