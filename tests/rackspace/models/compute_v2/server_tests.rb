@@ -9,6 +9,57 @@ Shindo.tests('Fog::Compute::RackspaceV2 | server', ['rackspace']) do
     :metadata => { 'fog_test' => 'true' }
   }
 
+  tests('ready?') do
+    @server = Fog::Compute::RackspaceV2::Server.new
+
+    tests('default in ready state').returns(true) do
+      @server.state = Fog::Compute::RackspaceV2::Server::ACTIVE
+      @server.ready?
+    end
+
+    tests('custom ready state').returns(true) do
+      @server.state = Fog::Compute::RackspaceV2::Server::VERIFY_RESIZE
+      @server.ready?(Fog::Compute::RackspaceV2::Server::VERIFY_RESIZE)
+    end
+
+    tests('default NOT in ready state').returns(false) do
+      @server.state = Fog::Compute::RackspaceV2::Server::REBOOT
+      @server.ready?
+    end
+
+    tests('custom NOT ready state').returns(false) do
+      @server.state = Fog::Compute::RackspaceV2::Server::REBOOT
+      @server.ready?(Fog::Compute::RackspaceV2::Server::VERIFY_RESIZE)
+    end
+
+    tests('default error state').returns(true) do
+      @server.state = Fog::Compute::RackspaceV2::Server::ERROR
+      exception_occurred = false
+      begin
+        @server.ready?
+      rescue Fog::Compute::RackspaceV2::InvalidServerStateException => e
+        exception_occurred = true
+        returns(true) {e.desired_state == Fog::Compute::RackspaceV2::Server::ACTIVE }
+        returns(true) {e.current_state == Fog::Compute::RackspaceV2::Server::ERROR }
+      end
+      exception_occurred
+    end
+
+    tests('custom error state').returns(true) do
+      @server.state = Fog::Compute::RackspaceV2::Server::ACTIVE
+      exception_occurred = false
+      begin
+        @server.ready?(Fog::Compute::RackspaceV2::Server::VERIFY_RESIZE, Fog::Compute::RackspaceV2::Server::ACTIVE)
+      rescue Fog::Compute::RackspaceV2::InvalidServerStateException => e
+        exception_occurred = true
+        returns(true) {e.desired_state == Fog::Compute::RackspaceV2::Server::VERIFY_RESIZE }
+        returns(true) {e.current_state == Fog::Compute::RackspaceV2::Server::ACTIVE }
+      end
+      exception_occurred
+    end
+
+  end
+
   model_tests(service.servers, options, true) do
     @instance.wait_for(timeout=1500) { ready? }
     

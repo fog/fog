@@ -27,7 +27,8 @@ module Fog
         #                             :image_id => service.images.find {|img| img.name =~ /Ubuntu/}.id,
         #                             :public_key_path => '~/.ssh/fog_rsa.pub',
         #                             :private_key_path => '~/.ssh/fog_rsa'
-        #        
+        #
+        # @raise [Fog::Compute::RackspaceV2::InvalidServerStateException] if server state is an error state
         def bootstrap(new_attributes = {})
           server = create(new_attributes)
           server.wait_for(1500) { ready? && !public_ip_address.empty? }
