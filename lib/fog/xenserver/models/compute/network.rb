@@ -51,6 +51,39 @@ module Fog
           v
         end
 
+        # Creates a new network
+        #
+        #     service = Fog::Compute[:xenserver]
+        #
+        #     # create network 'foonet'
+        #     net = service.networks.create :name => 'foonet',
+        #                                   :description => 'test network'
+        #
+        # @returns [Boolean]
+        #
+        def save
+          requires :name
+          ref = service.create_network name, attributes
+          data = service.get_record ref, 'network'
+          merge_attributes data
+          true
+        end
+
+        # Destroys a network
+        #
+        #     service = Fog::Compute[:xenserver]
+        #
+        #     # find network 'foonet' and destroy it
+        #     net = service.networks.find { |net| net.name == 'foonet' }
+        #     net.destroy
+        #
+        # @returns [Boolean]
+        #
+        def destroy
+          requires :reference
+          service.destroy_network reference
+          true
+        end
       end
 
     end
