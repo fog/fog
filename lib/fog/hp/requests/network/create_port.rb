@@ -17,6 +17,7 @@ module Fog
         #     * 'ip_address'<~String>: - IP address
         #   * 'device_id'<~String>: - Id of the device
         #   * 'device_owner'<~String>: - Device owner of the port i.e. "network:dhcp"
+        #   * 'security_groups'<~Array>: - Security Groups
         #
         # ==== Returns
         # * response<~Excon::Response>:
@@ -43,7 +44,7 @@ module Fog
             }
           }
 
-          l_options = [:name, :mac_address, :fixed_ips,
+          l_options = [:name, :mac_address, :fixed_ips, :security_groups,
                        :device_id, :device_owner, :admin_state_up, :tenant_id]
           l_options.select{|o| options[o]}.each do |key|
             data['port'][key] = options[key]
