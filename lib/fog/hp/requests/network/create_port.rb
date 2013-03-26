@@ -40,7 +40,7 @@ module Fog
         def create_port(network_id, options = {})
           data = {
             'port' => {
-              'network_id' => network_id,
+              'network_id' => network_id
             }
           }
 
