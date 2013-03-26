@@ -24,16 +24,11 @@ module Fog
         #     * Permission [String] Permission, in [FULL_CONTROL, WRITE, WRITE_ACP, READ, READ_ACP]
         # @param acl [String] Permissions, must be in ['private', 'public-read', 'public-read-write', 'authenticated-read']
         # @param options [Hash]
-        # @option options versionId [String] specify a particular version to retrieve
         #
         # @see http://docs.amazonwebservices.com/AmazonS3/latest/API/RESTObjectPUTacl.html
 
         def put_object_acl(bucket_name, object_name, acl, options = {})
           query = {'acl' => nil}
-          if version_id = options.delete('versionId')
-            query['versionId'] = version_id
-          end
-          
           data = ""
           headers = {}
           

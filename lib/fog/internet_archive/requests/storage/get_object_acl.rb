@@ -10,7 +10,6 @@ module Fog
         # @param bucket_name [String] name of bucket containing object
         # @param object_name [String] name of object to get access control list for
         # @param options [Hash]
-        # @option options versionId [String] specify a particular version to retrieve
         #
         # @return [Excon::Response] response:
         #   * body [Hash]:
@@ -37,9 +36,6 @@ module Fog
             raise ArgumentError.new('object_name is required')
           end
           query = {'acl' => nil}
-          if version_id = options.delete('versionId')
-            query['versionId'] = version_id
-          end
           request({
             :expects    => 200,
             :headers    => {},

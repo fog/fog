@@ -34,14 +34,9 @@ module Fog
         def delete_multiple_objects(bucket_name, object_names, options = {})
           data = "<Delete>"
           data << "<Quiet>true</Quiet>" if options.delete(:quiet)
-          version_ids = options.delete('versionId')
           object_names.each do |object_name|
             data << "<Object>"
             data << "<Key>#{CGI.escapeHTML(object_name)}</Key>"
-            object_version = version_ids.nil? ? nil : version_ids[object_name]
-            if object_version
-              data << "<VersionId>#{CGI.escapeHTML(object_version)}</VersionId>"
-            end
             data << "</Object>"
           end
           data << "</Delete>"
@@ -71,12 +66,9 @@ module Fog
           if bucket = self.data[:buckets][bucket_name]
             response.status = 200
             response.body = { 'DeleteResult' => [] }
-            version_ids = options.delete('versionId')
             object_names.each do |object_name|
-              object_version = version_ids.nil? ? nil : version_ids[object_name]
               response.body['DeleteResult'] << delete_object_helper(bucket,
-                                                                object_name,
-                                                                object_version)
+                                                                object_name)
             end
           else
             response.status = 404
@@ -87,77 +79,11 @@ module Fog
 
         private
 
-        def delete_object_helper(bucket, object_name, version_id)
+        def delete_object_helper(bucket, object_name)
           response = { 'Deleted' => {} }
-          if bucket[:versioning]
-            bucket[:objects][object_name] ||= []
-
-            if version_id
-              version = bucket[:objects][object_name].find { |object| object['VersionId'] == version_id}
-
-              # S3 special cases the 'null' value to not error out if no such version exists.
-              if version || (version_id == 'null')
-                bucket[:objects][object_name].delete(version)
-                bucket[:objects].delete(object_name) if bucket[:objects][object_name].empty?
-
-                response['Deleted'] = { 'Key' => object_name,
-                                        'VersionId' => version_id,
-                                        'DeleteMarker' => 'true',
-                                        'DeleteMarkerVersionId' => version_id
-                                      }
-              else
-                response = delete_error_body(object_name,
-                                             version_id,
-                                             'InvalidVersion',
-                                             'Invalid version ID specified')
-              end
-            else
-              delete_marker = {
-                :delete_marker    => true,
-                'Key'             => object_name,
-                'VersionId'       => bucket[:versioning] == 'Enabled' ? Fog::Mock.random_base64(32) : 'null',
-                'Last-Modified'   => Fog::Time.now.to_date_header
-              }
-
-              # When versioning is suspended, a delete marker is placed if the last object ID is not the value 'null',
-              # otherwise the last object is replaced.
-              if bucket[:versioning] == 'Suspended' && bucket[:objects][object_name].first['VersionId'] == 'null'
-                bucket[:objects][object_name].shift
-              end
-
-              bucket[:objects][object_name].unshift(delete_marker)
-
-              response['Deleted'] = { 'Key' => object_name,
-                                      'VersionId' => delete_marker['VersionId'],
-                                      'DeleteMarkerVersionId' =>
-                                          delete_marker['VersionId'],
-                                      'DeleteMarker' => 'true',
-                                    }
-            end
-          else
-            if version_id && version_id != 'null'
-              response = delete_error_body(object_name,
-                                           version_id,
-                                           'InvalidVersion',
-                                           'Invalid version ID specified')
-              response = invalid_version_id_payload(version_id)
-            else
-              bucket[:objects].delete(object_name)
-              response['Deleted'] = { 'Key' => object_name }
-            end
-          end
+          bucket[:objects].delete(object_name)
+          response['Deleted'] = { 'Key' => object_name }
           response
-        end
-
-        def delete_error_body(key, version_id, message, code)
-          {
-            'Error' => {
-              'Code'      => code,
-              'Message'   => message,
-              'VersionId' => version_id,
-              'Key'       => key,
-            }
-          }
         end
 
       end
