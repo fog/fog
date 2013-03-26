@@ -12,21 +12,28 @@ module Fog
       secrets     :hp_secret_key
 
       request_path 'fog/hp/requests/network'
+      request :associate_floating_ip
+      request :create_floating_ip
       request :create_port
       request :create_network
       request :create_subnet
+      request :disassociate_floating_ip
+      request :delete_floating_ip
       request :delete_port
       request :delete_network
       request :delete_subnet
+      request :get_floating_ip
       request :get_port
       request :get_network
       request :get_subnet
+      request :list_floating_ips
       request :list_ports
       request :list_networks
       request :list_subnets
       request :update_port
       request :update_network
       request :update_subnet
+
 
       module Utils
 
@@ -40,7 +47,8 @@ module Fog
             hash[key] = {
               :networks => {},
               :subnets => {},
-              :ports => {}
+              :ports => {},
+              :floating_ips => {}
             }
           end
         end
