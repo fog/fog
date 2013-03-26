@@ -65,6 +65,7 @@ module Fog
       request :update_router
       request :update_subnet
 
+
       module Utils
 
       end
