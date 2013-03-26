@@ -18,8 +18,7 @@ Shindo.tests('Fog::Storage[:internetarchive] | bucket requests', ["internet_arch
           'DisplayName' => String,
           'ID'          => String
         },
-        'Size' => Integer,
-        'StorageClass' => String
+        'Size' => Integer
       }]
     }
     @bucket_lifecycle_format = {
@@ -52,6 +51,7 @@ Shindo.tests('Fog::Storage[:internetarchive] | bucket requests', ["internet_arch
       Fog::Storage[:internetarchive].get_service.body
     end
 
+    dirs = Fog::Storage[:internetarchive].directories.get(@ia_bucket_name)
     file = Fog::Storage[:internetarchive].directories.get(@ia_bucket_name).files.create(:body => 'y', :key => 'x')
 
     tests("#get_bucket('#{@ia_bucket_name}')").formats(@bucket_format) do
@@ -239,11 +239,6 @@ Shindo.tests('Fog::Storage[:internetarchive] | bucket requests', ["internet_arch
         Fog::Storage[:internetarchive].put_bucket_lifecycle(@ia_bucket_name, lifecycle)
         Fog::Storage[:internetarchive].get_bucket_lifecycle(@ia_bucket_name).body
       end
-      lifecycle = {'Rules' => [{'ID' => 'test rule', 'Prefix' => '/prefix', 'Enabled' => true, 'Expiration' => {'Days' => 42}, 'Transition' => {'Days' => 6, 'StorageClass'=>'GLACIER'}}]}
-      tests('transition').returns(lifecycle) do
-        Fog::Storage[:internetarchive].put_bucket_lifecycle(@ia_bucket_name, lifecycle)
-        Fog::Storage[:internetarchive].get_bucket_lifecycle(@ia_bucket_name).body
-      end
       lifecycle = {'Rules' => [{'ID' => 'test rule', 'Prefix' => '/prefix', 'Enabled' => true, 'Expiration' => {'Date' => '2012-12-31T00:00:00.000Z'}}]}
       tests('date').returns(lifecycle) do
         Fog::Storage[:internetarchive].put_bucket_lifecycle(@ia_bucket_name, lifecycle)
@@ -281,48 +276,49 @@ Shindo.tests('Fog::Storage[:internetarchive] | bucket requests', ["internet_arch
 
   end
 
-  tests('failure') do
+  # tests('failure') do
 
-    tests("#delete_bucket('fognonbucket')").raises(Excon::Errors::NotFound) do
-      Fog::Storage[:internetarchive].delete_bucket('fognonbucket')
-    end
+  #   tests("#delete_bucket('fognonbucket')").raises(Excon::Errors::NotFound) do
+  #     Fog::Storage[:internetarchive].delete_bucket('fognonbucket')
+  #   end
 
-    @bucket = Fog::Storage[:internetarchive].directories.create(:key => 'fognonempty')
-    @file = @bucket.files.create(:key => 'foo', :body => 'bar')
+  #   @fognonempty = "fognonempty-#{rand(65536)}"
+  #   @bucket = Fog::Storage[:internetarchive].directories.create(:key => "fognonempty-#{rand(65536)}")
+  #   @file = @bucket.files.create(:key => 'foo', :body => 'bar')
 
-    tests("#delete_bucket('fognonempty')").raises(Excon::Errors::Conflict) do
-      Fog::Storage[:internetarchive].delete_bucket('fognonempty')
-    end
+  #   tests("#delete_bucket('fognonempty')").raises(Excon::Errors::Conflict) do
+  #     Fog::Storage[:internetarchive].delete_bucket('fognonempty')
+  #   end
 
-    @file.destroy
-    @bucket.destroy
+  #   @file.destroy
+  #   @bucket.destroy
 
-    tests("#get_bucket('fognonbucket')").raises(Excon::Errors::NotFound) do
-      Fog::Storage[:internetarchive].get_bucket('fognonbucket')
-    end
+  #   tests("#get_bucket('fognonbucket')").raises(Excon::Errors::NotFound) do
+  #     Fog::Storage[:internetarchive].get_bucket('fognonbucket')
+  #   end
 
-    tests("#get_bucket_location('fognonbucket')").raises(Excon::Errors::NotFound) do
-      Fog::Storage[:internetarchive].get_bucket_location('fognonbucket')
-    end
+  #   tests("#get_bucket_location('fognonbucket')").raises(Excon::Errors::NotFound) do
+  #     Fog::Storage[:internetarchive].get_bucket_location('fognonbucket')
+  #   end
 
-    tests("#get_request_payment('fognonbucket')").raises(Excon::Errors::NotFound) do
-      Fog::Storage[:internetarchive].get_request_payment('fognonbucket')
-    end
+  #   tests("#get_request_payment('fognonbucket')").raises(Excon::Errors::NotFound) do
+  #     Fog::Storage[:internetarchive].get_request_payment('fognonbucket')
+  #   end
 
-    tests("#put_request_payment('fognonbucket', 'Requester')").raises(Excon::Errors::NotFound) do
-      Fog::Storage[:internetarchive].put_request_payment('fognonbucket', 'Requester')
-    end
+  #   tests("#put_request_payment('fognonbucket', 'Requester')").raises(Excon::Errors::NotFound) do
+  #     Fog::Storage[:internetarchive].put_request_payment('fognonbucket', 'Requester')
+  #   end
 
-    tests("#put_bucket_acl('fognonbucket', 'invalid')").raises(Excon::Errors::BadRequest) do
-      Fog::Storage[:internetarchive].put_bucket_acl('fognonbucket', 'invalid')
-    end
+  #   tests("#put_bucket_acl('fognonbucket', 'invalid')").raises(Excon::Errors::BadRequest) do
+  #     Fog::Storage[:internetarchive].put_bucket_acl('fognonbucket', 'invalid')
+  #   end
 
-    tests("#put_bucket_website('fognonbucket', 'index.html')").raises(Excon::Errors::NotFound) do
-      Fog::Storage[:internetarchive].put_bucket_website('fognonbucket', 'index.html')
-    end
+  #   tests("#put_bucket_website('fognonbucket', 'index.html')").raises(Excon::Errors::NotFound) do
+  #     Fog::Storage[:internetarchive].put_bucket_website('fognonbucket', 'index.html')
+  #   end
 
-  end
+  # end
 
   # don't keep the bucket around
-  Fog::Storage[:internetarchive].delete_bucket(@ia_bucket_name) rescue nil
+  # Fog::Storage[:internetarchive].delete_bucket(@ia_bucket_name) rescue nil
 end

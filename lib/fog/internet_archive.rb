@@ -6,7 +6,9 @@ module Fog
 
     COMPLIANT_BUCKET_NAMES = /^(?:[a-z]|\d(?!\d{0,2}(?:\.\d{1,3}){3}$))(?:[a-z0-9]|\-(?![\.])){1,61}[a-z0-9]$/
 
-    DOMAIN_NAME = 'us.archive.org'
+    DOMAIN_NAME = 'archive.org'
+
+    API_DOMAIN_NAME = 's3.us.' + DOMAIN_NAME
 
     extend Fog::Provider
 

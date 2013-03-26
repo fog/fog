@@ -67,30 +67,16 @@ module Fog
               'Key'             => object_name,
               'Last-Modified'   => Fog::Time.now.to_date_header,
               'Content-Length'  => options['Content-Length'] || data[:headers]['Content-Length'],
-              'StorageClass'    => options['x-amz-storage-class'] || 'STANDARD',
-              'VersionId'       => bucket[:versioning] == 'Enabled' ? Fog::Mock.random_base64(32) : 'null'
             }
 
             for key, value in options
               case key
-              when 'Cache-Control', 'Content-Disposition', 'Content-Encoding', 'Content-MD5', 'Expires', /^x-amz-meta-/
+              when 'Cache-Control', 'Content-Disposition', 'Content-Encoding', 'Content-MD5', 'Expires', /^x-amz-meta-/, /^x-archive-/
                 object[key] = value
               end
             end
 
-            if bucket[:versioning]
-              bucket[:objects][object_name] ||= []
-
-              # When versioning is suspended, putting an object will create a new 'null' version if the latest version
-              # is a value other than 'null', otherwise it will replace the latest version.
-              if bucket[:versioning] == 'Suspended' && bucket[:objects][object_name].first['VersionId'] == 'null'
-                bucket[:objects][object_name].shift
-              end
-
-              bucket[:objects][object_name].unshift(object)
-            else
-              bucket[:objects][object_name] = [object]
-            end
+            bucket[:objects][object_name] = [object]
 
             response.headers = {
               'Content-Length'   => object['Content-Length'],
@@ -99,7 +85,6 @@ module Fog
               'Last-Modified'    => object['Last-Modified'],
             }
 
-            response.headers['x-amz-version-id'] = object['VersionId'] if object['VersionId'] != 'null'
           else
             response.status = 404
             raise(Excon::Errors.status_error({:expects => 200}, response))
