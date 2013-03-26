@@ -8,7 +8,7 @@ def snapshot_tests(connection, params, mocks_implemented = true)
     @volume.wait_for { ready? }
 
     tests('create').succeeds do
-      @instance.create volume_id: @volume.id
+      @instance.create :volume_id => @volume.id
     end
 
     tests('destroy').succeeds do
