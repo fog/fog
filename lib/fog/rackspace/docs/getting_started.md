@@ -24,6 +24,8 @@ To obtain credentials for the US Rackspace Cloud, please sign up for an account 
 
 Likewise, you can create an account on our UK Rackspace Open Cloud by going to [UK Rackspace Open Cloud](https://buyonline.rackspace.co.uk/cloud/userinfo?type=normal) and login into [Cloud Control Panel (UK)](https://mycloud.rackspace.co.uk/).
 
+The credentials will be used when we further explore fog services in the [Next Steps](#next-steps) section.
+
 ## Installation
 
 To install Fog via RubyGems run the following command:
