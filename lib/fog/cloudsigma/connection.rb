@@ -89,7 +89,7 @@ module Fog
         end
 
         def create_request(path, data, override_params={})
-          default_params = {:method => 'POST', :expects => [200, 202]}
+          default_params = {:method => 'POST', :expects => [200, 201, 202]}
 
           override_params[:path] = path
           override_params[:body] = data
