@@ -484,8 +484,41 @@ The `create` method also supports the following key values:
 		<td>:personality</td>
 		<td>File path and contents. Refer to Next Gen Server API documentation - <a href="http://docs.rackspace.com/servers/api/v2/cs-devguide/content/Server_Personality-d1e2543.html">Server Personality</a>. </td>
 	</tr>
-</table>	
+</table>
+
+## Bootstrap
+
+In addition to the `create` method, fog provides a method called `bootstrap`. This method creates a server and then performs the following actions via ssh:
+
+1. Create `ROOT_USER/.ssh/authorized_keys` using the specified `:public_key`.
+2. Lock password for root user using `passwd -l root`.
+3. Create `ROOT_USER/attributes.json` with the server's attributes.
+4. Create `ROOT_USER/metadata.json` with the server's metadata
+
+**Note**: The `bootstrap` method is a blocking call unlike `create` method.
+
+The following example demonstrates bootstraping a server:
+
+	service.servers.bootstrap :name => 'bootstrap-server',
+	:flavor_id => service.flavors.first.id,
+	:image_id => service.images.find {|img| img.name =~ /Ubuntu/}.id,
+	:public_key_path => '~/.ssh/fog_rsa.pub',
+	:private_key_path => '~/.ssh/fog_rsa'
+
+**Note**: The `create` method provides an option called `:personality` that allows developers to populate files on the server without using ssh.
+
+## SSH
+
+Once a server has been created and setup for ssh key authentication, fog can execute remote commands as follows:
+
+	result = server.ssh ['pwd']
 	
+This will return the following:
+
+	[#<Fog::SSH::Result:0x1108241d0 @stderr="", @status=0, @stdout="/root\r\n", @command="pwd">]
+
+**Note**: SSH key authentication can be setup using `bootstrap` method or by using the `:personality` attribute on the `:create` method. See [Bootstrap](#bootstrap) or [Create Server](#create-server) for more information.
+
 ## Update Server
 
 Next Gen Cloud Servers support updating the following attributes `name`, `access_ipv4_address`, and `access_ipv6_address`.
@@ -502,6 +535,7 @@ Additional information about server access addresses can be found [here](http://
 **Note**: Updating the server name does not change the host name. Names are not guaranteed to be unique.
 
 ## Delete Server
+
 To delete a server:
 
 	server.destroy
@@ -509,6 +543,7 @@ To delete a server:
 **Note**: The server is not immediately destroyed, but it does occur shortly there after.
 
 ## Metadata
+
 You can access metadata as an attribute on both `Fog::Compute::RackspaceV2::Server` and `Fog::Compute::RackspaceV2::Metadata::Image`. You can specify metadata during creation of a server or an image. Please refer to [Create Server](#create-server) or [Create Image](#create-image) sections for more information.
 
 This example demonstrates how to iterate through a server's metadata:
