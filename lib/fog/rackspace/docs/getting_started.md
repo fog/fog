@@ -22,7 +22,7 @@ To install Fog via RubyGems run the following command:
     
 To install Fog via Bundler add `gem 'fog'` to your `Gemfile`. This is a sample `Gemfile` to install Fog: 
 
-	source :rubygems
+	source 'https://rubygems.org'
 
 	gem 'fog'
 
