@@ -3,10 +3,10 @@ module Fog
     class Network
 
       class Real
-        # Get an existing port by id
+        # Get details for an existing port by id
         #
         # ==== Parameters
-        # * 'id'<~String>: - UUId for the port
+        # * 'port_id'<~String>: - UUId for the port to get details for
         #
         # ==== Returns
         # * response<~Excon::Response>:

@@ -3,10 +3,10 @@ module Fog
     class Network
 
       class Real
-        # Get an existing floating ip by id
+        # Get details for an existing floating ip by id
         #
         # ==== Parameters
-        # * 'id'<~String>: - UUId for the floating ip
+        # * 'floating_ip_id'<~String>: - UUId for the floating ip to get details for
         #
         # ==== Returns
         # * response<~Excon::Response>:

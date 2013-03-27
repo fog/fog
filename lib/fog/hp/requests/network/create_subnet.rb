@@ -81,6 +81,9 @@ module Fog
               'tenant_id'        => options[:tenant_id] || Fog::Mock.random_numbers(14).to_s
             }
             self.data[:subnets][data['id']] = data
+            # add this subnet to the network
+            self.data[:networks][network_id]['subnets'] << data['id']
+
             response.body = { 'subnet' => data }
             response
           else

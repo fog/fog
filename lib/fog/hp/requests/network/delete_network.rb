@@ -6,7 +6,7 @@ module Fog
         # Delete an existing network
         #
         # ==== Parameters
-        # * network_id<~String> - UUId for the network to delete
+        # * 'network_id'<~String> - UUId for the network to delete
         def delete_network(network_id)
           request(
             :expects  => 204,
