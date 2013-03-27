@@ -7,6 +7,11 @@ module Fog
         # @param [String<images, servers>] collection type of metadata
         # @param [String] obj_id id of the object where the metadata is attached
         # @param [String] key the key of the metadata to delete
+        # @return [Excon::Response] response
+        # @raise [Fog::Rackspace::Errors::NotFound] - HTTP 404
+        # @raise [Fog::Rackspace::Errors::BadRequest] - HTTP 400
+        # @raise [Fog::Rackspace::Errors::InternalServerError] - HTTP 500
+        # @raise [Fog::Rackspace::Errors::ServiceError]
         # @see http://docs.rackspace.com/servers/api/v2/cs-devguide/content/Delete_Metadata_Item-d1e5790.html
         def delete_metadata_item(collection, obj_id, key)
           request(

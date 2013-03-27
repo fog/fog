@@ -14,7 +14,10 @@ module Fog
         # ==== Returns
         # * response<~Excon::Response>:
         #   * body<~String> - url for object
-        #
+        # @raise [Fog::Rackspace::Errors::NotFound] - HTTP 404
+        # @raise [Fog::Rackspace::Errors::BadRequest] - HTTP 400
+        # @raise [Fog::Rackspace::Errors::InternalServerError] - HTTP 500
+        # @raise [Fog::Rackspace::Errors::ServiceError]
         # ==== See Also
         # http://docs.rackspace.com/files/api/v1/cf-devguide/content/Create_TempURL-d1a444.html
         def get_object_https_url(container, object, expires, options = {})

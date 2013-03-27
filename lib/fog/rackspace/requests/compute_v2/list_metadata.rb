@@ -9,6 +9,10 @@ module Fog
         # @return [Excon::Response] response:
         #   * body [Hash]:
         #     * meta [Hash]:
+        # @raise [Fog::Rackspace::Errors::NotFound] - HTTP 404
+        # @raise [Fog::Rackspace::Errors::BadRequest] - HTTP 400
+        # @raise [Fog::Rackspace::Errors::InternalServerError] - HTTP 500
+        # @raise [Fog::Rackspace::Errors::ServiceError]
         # @see http://docs.rackspace.com/servers/api/v2/cs-devguide/content/List_Metadata-d1e5089.html       
         def list_metadata(collection, obj_id)
           request(

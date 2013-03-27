@@ -7,7 +7,10 @@ module Fog
         #
         # ==== Parameters
         # * name<~String> - Name for container, should be < 256 bytes and must not contain '/'
-        #
+        # @raise [Fog::Rackspace::Errors::NotFound] - HTTP 404
+        # @raise [Fog::Rackspace::Errors::BadRequest] - HTTP 400
+        # @raise [Fog::Rackspace::Errors::InternalServerError] - HTTP 500
+        # @raise [Fog::Rackspace::Errors::ServiceError]
         def put_container(name, options={})
           request(
             :expects  => [201, 202],

@@ -11,7 +11,11 @@ module Fog
         attr_accessor :server
 
         # Retrieves attachments belonging to server
-        # @return [Array<Fog::Compute::RackspaceV2::Attachment>] list of attachments        
+        # @return [Fog::Compute::RackspaceV2::Attachments] list of attachments
+        # @raise [Fog::Rackspace::Errors::NotFound] - HTTP 404
+        # @raise [Fog::Rackspace::Errors::BadRequest] - HTTP 400
+        # @raise [Fog::Rackspace::Errors::InternalServerError] - HTTP 500
+        # @raise [Fog::Rackspace::Errors::ServiceError]
         # @see Server#attachments
         def all
           data = service.list_attachments(server.id).body['volumeAttachments']
@@ -21,6 +25,10 @@ module Fog
         # Retrieves attachment belonging to server
         # @param [String] volume_id
         # @return [Fog::Compute::RackspaceV2::Attachment] attachment for volume id
+        # @raise [Fog::Rackspace::Errors::NotFound] - HTTP 404
+        # @raise [Fog::Rackspace::Errors::BadRequest] - HTTP 400
+        # @raise [Fog::Rackspace::Errors::InternalServerError] - HTTP 500
+        # @raise [Fog::Rackspace::Errors::ServiceError]
         def get(volume_id)
           data = service.get_attachment(server.id, volume_id).body['volumeAttachment']
           data && new(data)
