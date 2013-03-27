@@ -1,4 +1,4 @@
-Shindo.tests('Fog::Storage::HP', ['hp']) do
+Shindo.tests('Fog::Storage::HP', ['hp', 'storage']) do
   credentials = {
     :auth_token => 'auth_token',
     :endpoint_url => 'http://127.0.0.1/path/',

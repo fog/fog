@@ -1,6 +1,6 @@
 require 'date'
 
-Shindo.tests('Fog::HP::BlockStorage', ['hp']) do
+Shindo.tests('Fog::HP::BlockStorage', ['hp', 'blockstorage']) do
   credentials = {
     :auth_token => 'auth_token',
     :endpoint_url => 'http://127.0.0.1:0/path/',
@@ -24,6 +24,10 @@ Shindo.tests('Fog::HP::BlockStorage', ['hp']) do
   end
   tests('Test no expires') do
     credentials[:expires] = nil
+    raises(Excon::Errors::SocketError) { Fog::HP::BlockStorage::Real.new(options) }
+  end
+  tests('Test no creds') do
+    options[:credentials] = nil
     raises(Excon::Errors::SocketError) { Fog::HP::BlockStorage::Real.new(options) }
   end
 end
