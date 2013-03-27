@@ -1,51 +1,43 @@
 Shindo.tests("Storage[:internet_archive] | directory", ["internet_archive"]) do
 
   directory_attributes = {
-    :key => 'fogdirectorytests'
+    :key => "fogdirectorytests-#{rand(65536)}",
+    :collections => ['test_collection']
   }
 
-  model_tests(Fog::Storage[:internetarchive].directories, directory_attributes, Fog.mocking?) do
+  tests('success') do
+    params = directory_attributes
+    mocks_implemented = Fog.mocking?
 
-    tests("#versioning=") do
-      tests("#versioning=(true)").succeeds do
-        @instance.versioning = true
-      end
+    collection = Fog::Storage[:internetarchive].directories
+    @instance = collection.new(params)
 
-      tests("#versioning=(true) sets versioning to 'Enabled'").returns('Enabled') do
-        @instance.versioning = true
-        @instance.connection.get_bucket_versioning(@instance.key).body['VersioningConfiguration']['Status']
-      end
+    tests("#save").succeeds do
+      pending if Fog.mocking? && !mocks_implemented
+      @instance.save
+    end
 
-      tests("#versioning=(false)").succeeds do
-        (@instance.versioning = false).equal? false
-      end
-
-      tests("#versioning=(false) sets versioning to 'Suspended'").returns('Suspended') do
-        @instance.versioning = false
-        @instance.connection.get_bucket_versioning(@instance.key).body['VersioningConfiguration']['Status']
-      end
+    tests("#public_url").returns("http://archive.org/details/#{directory_attributes[:key]}") do
+      @instance.public_url
     end
 
   end
 
-  model_tests(Fog::Storage[:internetarchive].directories, directory_attributes, Fog.mocking?) do
+  tests("#set_metadata_array_headers") do
+    params = directory_attributes
 
-    tests("#versioning?") do
-      tests("#versioning? false if not enabled").returns(false) do
-        @instance.versioning?
-      end
+    collection = Fog::Storage[:internetarchive].directories
+    @instance = collection.new(params)
 
-      tests("#versioning? true if enabled").returns(true) do
-        @instance.connection.put_bucket_versioning(@instance.key, 'Enabled')
-        @instance.versioning?
-      end
+    @instance.collections = ['test_collection', 'opensource']
+    @options = {}
+    @instance.set_metadata_array_headers(:collections, @options)
 
-      tests("#versioning? false if suspended").returns(false) do
-        @instance.connection.put_bucket_versioning(@instance.key, 'Suspended')
-        @instance.versioning?
-      end
+    tests("#set_metadata_array_headers should set options").returns(true) do
+      @options['x-archive-meta01-collection'] == 'opensource' &&
+      @options['x-archive-meta02-collection'] == 'test_collection'
     end
-
   end
+
 
 end

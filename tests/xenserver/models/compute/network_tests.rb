@@ -1,16 +1,14 @@
 Shindo.tests('Fog::Compute[:network] | network model', ['xenserver']) do
 
-  require 'pp'
   networks = Fog::Compute[:xenserver].networks
   network = networks.first
 
   tests('The network model should') do
     tests('have the action') do
-      test('reload') { network.respond_to? 'reload' }
-      #%w{ refresh stop clean_shutdown hard_shutdown start destroy reboot hard_reboot clean_reboot }.each do |action|
-      #  test(action) { server.respond_to? action }
-      #  #test("#{action} returns successfully") { server.send(action.to_sym) ? true : false }
-      #end
+      %w{ reload refresh destroy save vifs pifs  }.each do |action|
+        test(action) { network.respond_to? action }
+        #test("#{action} returns successfully") { server.send(action.to_sym) ? true : false }
+      end
     end
     tests('have attributes') do
       model_attribute_hash = network.attributes
@@ -62,6 +60,20 @@ Shindo.tests('Fog::Compute[:network] | network model', ['xenserver']) do
 
     test("be able to refresh itself") { network.refresh }
 
+  end
+
+  tests("#save") do
+    test 'should create a network' do
+      @net = networks.create :name => 'foo-net'
+      @net.is_a? Fog::Compute::XenServer::Network
+    end
+  end
+
+  tests("#destroy") do
+    test 'should destroy the network' do
+      @net.destroy
+      (networks.find { |n| n.reference == @net.reference }).nil?
+    end
   end
 
 end
