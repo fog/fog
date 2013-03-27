@@ -12,28 +12,34 @@ module Fog
       secrets     :hp_secret_key
 
       request_path 'fog/hp/requests/network'
+      request :add_router_interface
       request :associate_floating_ip
       request :create_floating_ip
-      request :create_port
       request :create_network
+      request :create_port
+      request :create_router
       request :create_subnet
       request :disassociate_floating_ip
       request :delete_floating_ip
-      request :delete_port
       request :delete_network
+      request :delete_port
+      request :delete_router
       request :delete_subnet
       request :get_floating_ip
-      request :get_port
       request :get_network
+      request :get_port
+      request :get_router
       request :get_subnet
       request :list_floating_ips
-      request :list_ports
       request :list_networks
+      request :list_ports
+      request :list_routers
       request :list_subnets
-      request :update_port
+      request :remove_router_interface
       request :update_network
+      request :update_port
+      request :update_router
       request :update_subnet
-
 
       module Utils
 
@@ -45,10 +51,11 @@ module Fog
         def self.data
           @data ||= Hash.new do |hash, key|
             hash[key] = {
+              :floating_ips => {},
               :networks => {},
-              :subnets => {},
               :ports => {},
-              :floating_ips => {}
+              :routers => {},
+              :subnets => {}
             }
           end
         end

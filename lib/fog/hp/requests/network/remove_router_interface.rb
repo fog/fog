@@ -1,0 +1,68 @@
+module Fog
+  module HP
+    class Network
+
+      class Real
+        # Remove an internal router interface, thus detaching a subnet or a port from an existing router
+        #
+        # ==== Parameters
+        # * 'router_id'<~String>: - UUId for the router
+        # * 'subnet_id'<~String>: - UUId for the subnet (Either a subnet or a port can be passed, not both)
+        # * 'port_id'<~String>: - UUId for the port (Either a subnet or a port can be passed, not both)
+        #
+        # ==== Returns
+        # * response<~Excon::Response>:
+        #   * body<~Hash>:
+        #     * 'subnet_id'<~String>: - UUId for the subnet
+        #     * 'port_id'<~String>: - UUId for the port
+        def remove_router_interface(router_id, subnet_id=nil, port_id=nil, options = {})
+          # Either a subnet or a port can be passed, not both
+          if (subnet_id && port_id) || (subnet_id.nil? && port_id.nil?)
+            raise ArgumentError.new('Either a subnet or a port can be passed, not both')
+          end
+          if subnet_id
+            data = { 'subnet_id' => subnet_id }
+          elsif port_id
+            data = { 'port_id' => port_id }
+          end
+
+          request(
+            :body     => Fog::JSON.encode(data),
+            :expects  => 200,
+            :method   => 'PUT',
+            :path     => "routers/#{router_id}/remove_router_interface"
+          )
+        end
+      end
+
+      class Mock
+        def remove_router_interface(router_id, subnet_id=nil, port_id=nil, options = {})
+          response = Excon::Response.new
+          if list_routers.body['routers'].detect {|_| _['id'] == router_id}
+            # Either a subnet or a port can be passed, not both
+            if (subnet_id && port_id) || (subnet_id.nil? && port_id.nil?)
+              raise ArgumentError.new('Either a subnet or a port can be passed, not both')
+            end
+
+            # set the device_id and device_owner back to ""
+            if port_id
+              self.data[:ports][port_id]['device_id'] = ""
+              self.data[:ports][port_id]['device_owner'] = ""
+            elsif subnet_id
+              ports = self.data[:ports].select {|p| self.data[:ports]["#{p}"]['device_id'] == router_id}
+              ports.each do |key, _|
+                self.data[:ports][key]['device_id'] = ""
+                self.data[:ports][key]['device_owner'] = ""
+              end
+            end
+            response.status = 200
+            response
+          else
+            raise Fog::HP::Network::NotFound
+          end
+        end
+      end
+
+    end
+  end
+end
