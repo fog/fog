@@ -48,6 +48,7 @@ module Fog
           require 'mime/types'
           @openstack_api_key = options[:openstack_api_key]
           @openstack_username = options[:openstack_username]
+          @path = '/v1/AUTH_1234'
         end
 
         def data
@@ -56,6 +57,16 @@ module Fog
 
         def reset_data
           self.class.data.delete(@openstack_username)
+        end
+        
+        def change_account(account)
+          @original_path ||= @path
+          version_string = @original_path.split('/')[1]
+          @path = "/#{version_string}/#{account}"
+        end
+
+        def reset_account_name
+          @path = @original_path
         end
 
       end
@@ -82,6 +93,52 @@ module Fog
 
         def reload
           @connection.reset
+        end
+
+        # Change the current account while re-using the auth token.
+        #
+        # This is usefull when you have an admin role and you're able
+        # to HEAD other user accounts, set quotas, list files, etc.
+        #
+        # For example:
+        #
+        #     # List current user account details
+        #     service = Fog::Storage[:openstack]
+        #     service.request :method => 'HEAD'
+        #     
+        # Would return something like:
+        #
+        #     Account:                      AUTH_1234
+        #     Date:                         Tue, 05 Mar 2013 16:50:52 GMT
+        #     X-Account-Bytes-Used:         0 (0.00 Bytes)
+        #     X-Account-Container-Count:    0
+        #     X-Account-Object-Count:       0
+        #
+        # Now let's change the account
+        #
+        #     service.change_account('AUTH_3333')
+        #     service.request :method => 'HEAD'
+        # 
+        # Would return something like:
+        #     
+        #     Account:                      AUTH_3333
+        #     Date:                         Tue, 05 Mar 2013 16:51:53 GMT
+        #     X-Account-Bytes-Used:         23423433
+        #     X-Account-Container-Count:    2
+        #     X-Account-Object-Count:       10
+        #
+        # If we wan't to go back to our original admin account:
+        #
+        #     service.reset_account_name
+        # 
+        def change_account(account)
+          @original_path ||= @path 
+          version_string = @path.split('/')[1]
+          @path = "/#{version_string}/#{account}"
+        end
+
+        def reset_account_name
+          @path = @original_path
         end
 
         def request(params, parse_json = true, &block)

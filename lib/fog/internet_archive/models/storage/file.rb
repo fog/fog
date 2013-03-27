@@ -1,16 +1,26 @@
 require 'fog/core/model'
-require 'fog/internet_archive/models/storage/versions'
+require 'fog/internet_archive/models/storage/ia_attributes.rb'
 
 module Fog
   module Storage
     class InternetArchive
 
       class File < Fog::Model
+
+        extend Fog::Storage::IAAttributes::ClassMethods
+        include Fog::Storage::IAAttributes::InstanceMethods
+
         # @see AWS Object docs http://docs.aws.amazon.com/AmazonS3/latest/API/RESTObjectOps.html 
 
-        identity  :key,             :aliases => 'Key'
+        # @note Chunk size to use for multipart uploads.
+        #     Use small chunk sizes to minimize memory. E.g. 5242880 = 5mb
+        attr_accessor :multipart_chunk_size
 
         attr_writer :body
+
+
+        identity  :key,                 :aliases => 'Key'
+
         attribute :cache_control,       :aliases => 'Cache-Control'
         attribute :content_disposition, :aliases => 'Content-Disposition'
         attribute :content_encoding,    :aliases => 'Content-Encoding'
@@ -22,30 +32,27 @@ module Fog
         attribute :last_modified,       :aliases => ['Last-Modified', 'LastModified']
         attribute :metadata
         attribute :owner,               :aliases => 'Owner'
-        attribute :storage_class,       :aliases => ['x-amz-storage-class', 'StorageClass']
-        attribute :encryption,          :aliases => 'x-amz-server-side-encryption'
-        attribute :version,             :aliases => 'x-amz-version-id'
 
-        # @note Chunk size to use for multipart uploads.
-        #     Use small chunk sizes to minimize memory. E.g. 5242880 = 5mb
-        attr_accessor :multipart_chunk_size
+        # treat these differently
+        attribute :collections
+        attribute :subjects
 
+        ia_metadata_attribute :auto_make_bucket
+        ia_metadata_attribute :cascade_delete
+        ia_metadata_attribute :ignore_preexisting_bucket
+        ia_metadata_attribute :interactive_priority
+        ia_metadata_attribute :keep_old_version
+        ia_metadata_attribute :queue_derive
+        ia_metadata_attribute :size_hint
 
-        # Set file's access control list (ACL).
-        # 
-        #     valid acls: private, public-read, public-read-write, authenticated-read
-        # 
-        # @param [String] new_acl one of valid options
-        # @return [String] @acl
-        # 
-        def acl=(new_acl)
-          valid_acls = ['private', 'public-read', 'public-read-write', 'authenticated-read']
-          unless valid_acls.include?(new_acl)
-            raise ArgumentError.new("acl must be one of [#{valid_acls.join(', ')}]")
-          end
-          @acl = new_acl
+        # acl for internet archive is always public-read
+        def acl
+          'public-read'
         end
 
+        def acl=(new_acl)
+          'public-read'
+        end
 
         # Get file's body if exists, else ' '.
         # 
@@ -101,22 +108,19 @@ module Fog
         #     required attributes: directory, key
         # 
         # @param options [Hash]
-        # @option options versionId []
         # @return [Boolean] true if successful
         # 
         def destroy(options = {})
           requires :directory, :key
-          attributes[:body] = nil if options['versionId'] == version
+          options['x-archive-cascade-delete'] = cascade_delete if cascade_delete
           service.delete_object(directory.key, key, options)
           true
         end
 
-
         remove_method :metadata
         def metadata
-          attributes.reject {|key, value| !(key.to_s =~ /^x-amz-/)}
+          attributes.reject {|key, value| !(key.to_s =~ /^x-(amz||archive)-meta/)}
         end
-
 
         remove_method :metadata=
         def metadata=(new_metadata)
@@ -143,18 +147,11 @@ module Fog
         # @return [String] new_puplic 
         # 
         def public=(new_public)
-          if new_public
-            @acl = 'public-read'
-          else
-            @acl = 'private'
-          end
-          new_public
+          'public-read'
         end
 
 
-        # Get pubically acessible url via http GET.
-        # Checks persmissions before creating. 
-        # Defaults to s3 subdomain or compliant bucket name
+        # Get publicly acessible url via http GET.
         # 
         #     required attributes: directory, key
         # 
@@ -162,15 +159,7 @@ module Fog
         # 
         def public_url
           requires :directory, :key
-          if service.get_object_acl(directory.key, key).body['AccessControlList'].detect {|grant| grant['Grantee']['URI'] == 'http://acs.amazonaws.com/groups/global/AllUsers' && grant['Permission'] == 'READ'}
-            if directory.key.to_s =~ Fog::InternetArchive::COMPLIANT_BUCKET_NAMES
-              "https://#{directory.key}.s3.#{Fog::InternetArchive::DOMAIN_NAME}/#{Fog::InternetArchive.escape(key)}".gsub('%2F','/')
-            else
-              "https://s3.#{Fog::InternetArchive::DOMAIN_NAME}/#{directory.key}/#{Fog::InternetArchive.escape(key)}".gsub('%2F','/')
-            end
-          else
-            nil
-          end
+          "http://#{Fog::InternetArchive::DOMAIN_NAME}/download/#{directory.key}/#{Fog::InternetArchive.escape(key)}".gsub('%2F','/')
         end
 
         # Save file with body as contents to directory.key with name key via http PUT
@@ -178,7 +167,6 @@ module Fog
         #   required attributes: body, directory, key
         # 
         # @param [Hash] options  
-        # @option options [String] acl sets x-amz-acl HTTP header. Valid values include, private | public-read | public-read-write | authenticated-read | bucket-owner-read | bucket-owner-full-control
         # @option options [String] cache_controle sets Cache-Control header. For example, 'No-cache'
         # @option options [String] content_disposition sets Content-Disposition HTTP header. For exampple, 'attachment; filename=testing.txt'
         # @option options [String] content_encoding sets Content-Encoding HTTP header. For example, 'x-gzip'
@@ -192,9 +180,8 @@ module Fog
         def save(options = {})
           requires :body, :directory, :key
           if options != {}
-            Fog::Logger.deprecation("options param is deprecated, use acl= instead [light_black](#{caller.first})[/]")
+            Fog::Logger.deprecation("options param is deprecated [light_black](#{caller.first})[/]")
           end
-          options['x-amz-acl'] ||= @acl if @acl
           options['Cache-Control'] = cache_control if cache_control
           options['Content-Disposition'] = content_disposition if content_disposition
           options['Content-Encoding'] = content_encoding if content_encoding
@@ -202,8 +189,15 @@ module Fog
           options['Content-Type'] = content_type if content_type
           options['Expires'] = expires if expires
           options.merge!(metadata)
-          options['x-amz-storage-class'] = storage_class if storage_class
-          options['x-amz-server-side-encryption'] = encryption if encryption
+
+          options['x-archive-auto-make-bucket'] = auto_make_bucket if auto_make_bucket
+          options['x-archive-interactive-priority'] = interactive_priority if interactive_priority
+          options['x-archive-keep-old-version'] = keep_old_version if keep_old_version
+          options['x-archive-queue-derive'] = queue_derive if queue_derive
+          options['x-archive-size-hint'] = size_hint.to_i.to_s if size_hint
+
+          set_metadata_array_headers(:collections, options)
+          set_metadata_array_headers(:subjects, options)
 
           if multipart_chunk_size && body.respond_to?(:read)
             data = multipart_save(options)
@@ -212,7 +206,7 @@ module Fog
             data = service.put_object(directory.key, key, body, options)
             merge_attributes(data.headers.reject {|key, value| ['Content-Length', 'Content-Type'].include?(key)})
           end
-          self.etag.gsub!('"','')
+          self.etag.gsub!('"','') if self.etag
           self.content_length = Fog::Storage.get_body_size(body)
           self.content_type ||= Fog::Storage.get_content_type(body)
           true
@@ -230,19 +224,6 @@ module Fog
         def url(expires, options = {})
           requires :key
           collection.get_url(key, expires, options)
-        end
-
-
-        # File version if exists or creates new version.
-        # @return [Fog::Storage::InternetArchive::Version] 
-        # 
-        def versions
-          @versions ||= begin
-            Fog::Storage::InternetArchive::Versions.new(
-              :file         => self,
-              :service   => service
-            )
-          end
         end
 
         private

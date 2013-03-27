@@ -33,6 +33,8 @@ module Fog
       collection :security_group_rules
       model :volume
       collection :volumes
+      model :snapshot
+      collection :snapshots
       model :zone
       collection :zones
 
@@ -420,6 +422,7 @@ module Fog
               :jobs            => {},
               :volumes         => {},
               :security_groups => {},
+              :snapshots       => {}
             }
           end
         end

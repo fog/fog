@@ -38,6 +38,8 @@ module Fog
       model  :vbd_metrics
       model  :host_metrics
       model  :host_cpu
+      model  :vlan
+      collection :vlans
 
       request_path 'fog/xenserver/requests/compute'
       request :create_server
@@ -68,6 +70,10 @@ module Fog
       request :disable_host
       request :enable_host
       request :shutdown_host
+      request :create_network
+      request :destroy_network
+      request :create_vlan
+      request :destroy_vlan
     
       class Real
         
