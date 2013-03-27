@@ -1,5 +1,5 @@
 require 'fog/openstack'
-require 'debugger'
+
 module Fog
   module Identity
     class OpenStack < Fog::Service
