@@ -6,7 +6,7 @@ module Fog
   module Compute
     class CloudSigma < Fog::Service
       requires :cloudsigma_password, :cloudsigma_username
-      recognizes :cloudsigma_password, :cloudsigma_username
+      recognizes :cloudsigma_password, :cloudsigma_username, :cloudsigma_host
 
       model_path 'fog/cloudsigma/models'
       request_path 'fog/cloudsigma/requests'
