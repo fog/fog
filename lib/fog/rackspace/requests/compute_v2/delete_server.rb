@@ -5,6 +5,11 @@ module Fog
         
         # Deletes a specified server instance from the system.
         # @param [String] server_id the id of the server to delete
+        # @return [Excon::Response] response
+        # @raise [Fog::Rackspace::Errors::NotFound] - HTTP 404
+        # @raise [Fog::Rackspace::Errors::BadRequest] - HTTP 400
+        # @raise [Fog::Rackspace::Errors::InternalServerError] - HTTP 500
+        # @raise [Fog::Rackspace::Errors::ServiceError]
         # @see http://docs.rackspace.com/servers/api/v2/cs-devguide/content/Delete_Server-d1e2883.html
         def delete_server(server_id)
           request(

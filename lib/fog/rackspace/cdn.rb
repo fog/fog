@@ -36,6 +36,14 @@ module Fog
           @uri = super(@rackspace_cdn_url || service_endpoint_url, :rackspace_cdn_url)
         end
 
+        # Publish container to CDN
+        # @param [Fog::Storage::Rackspace::Directory] directory to publish
+        # @param [Boolean] publish If true directory is published. If false directory is unpublished.
+        # @return [Hash] hash containing urls for published container
+        # @raise [Fog::Rackspace::Errors::NotFound] - HTTP 404
+        # @raise [Fog::Rackspace::Errors::BadRequest] - HTTP 400
+        # @raise [Fog::Rackspace::Errors::InternalServerError] - HTTP 500
+        # @raise [Fog::Rackspace::Errors::ServiceError]
         def publish_container(container, publish = true)
           enabled = publish ? 'True' : 'False'
           response = put_container(container.key, 'X-Cdn-Enabled' => enabled)
@@ -43,6 +51,13 @@ module Fog
           urls_from_headers(response.headers)
         end
         
+        # Returns hash of urls for container
+        # @param [Fog::Storage::Rackspace::Directory] container to retrieve urls for
+        # @return [Hash] hash containing urls for published container
+        # @raise [Fog::Rackspace::Errors::BadRequest] - HTTP 400
+        # @raise [Fog::Rackspace::Errors::InternalServerError] - HTTP 500
+        # @raise [Fog::Rackspace::Errors::ServiceError]
+        # @note If unable to find container or container is not published this method will return an empty hash.
         def urls(container)
           begin 
             response = head_container(container.key)
@@ -115,14 +130,20 @@ module Fog
           end
         end
 
+        # Returns true if CDN service is enabled
+        # @return [Boolean]
         def enabled?
           @enabled
         end
 
+        # Resets CDN connection
         def reload
           @cdn_connection.reset
         end
         
+        # Purges File
+        # @param [Fog::Storage::Rackspace::File] file to be purged from the CDN
+        # @raise [Fog::Errors::NotImplemented] returned when non file parameters are specified
         def purge(file)
           unless file.is_a? Fog::Storage::Rackspace::File
             raise Fog::Errors::NotImplemented.new("#{object.class} does not support CDN purging")  if object

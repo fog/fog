@@ -17,7 +17,7 @@ module Fog
 
         # Collection type for parent
         # @return [String] collection type
-        # @raise [RuntimeException] raises excpetion if collection type for parent is unknown
+        # @raise [RuntimeError] raises excpetion if collection type for parent is unknown
         def collection_name
           if parent.class == Fog::Compute::RackspaceV2::Image
             return "images"

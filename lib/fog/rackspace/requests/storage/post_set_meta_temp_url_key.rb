@@ -19,7 +19,10 @@ module Fog
         #
         # ==== Returns
         # * response<~Excon::Response>
-        #
+        # @raise [Fog::Rackspace::Errors::NotFound] - HTTP 404
+        # @raise [Fog::Rackspace::Errors::BadRequest] - HTTP 400
+        # @raise [Fog::Rackspace::Errors::InternalServerError] - HTTP 500
+        # @raise [Fog::Rackspace::Errors::ServiceError]
         # ==== See Also
         # http://docs.rackspace.com/files/api/v1/cf-devguide/content/Set_Account_Metadata-d1a4460.html
         def post_set_meta_temp_url_key(key)

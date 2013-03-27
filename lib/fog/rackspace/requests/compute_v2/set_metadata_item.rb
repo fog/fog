@@ -11,6 +11,10 @@ module Fog
         # @return [Excon::Response] response:
         #   * body [Hash]:
         #     * meta [Hash]:
+        # @raise [Fog::Rackspace::Errors::NotFound] - HTTP 404
+        # @raise [Fog::Rackspace::Errors::BadRequest] - HTTP 400
+        # @raise [Fog::Rackspace::Errors::InternalServerError] - HTTP 500
+        # @raise [Fog::Rackspace::Errors::ServiceError]
         # @see http://docs.rackspace.com/servers/api/v2/cs-devguide/content/Create_or_Update_a_Metadata_Item-d1e5633.html       
         def set_metadata_item(collection, obj_id, key, value)
           request(
