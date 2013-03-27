@@ -56,7 +56,7 @@ module Fog
         # @return [Hash] hash containing urls for published container
         # @raise [Fog::Rackspace::Errors::BadRequest] - HTTP 400
         # @raise [Fog::Rackspace::Errors::InternalServerError] - HTTP 500
-        # @raise [Fog::Rackspace::Errors::ServiceError]def ServiceError]
+        # @raise [Fog::Rackspace::Errors::ServiceError]
         # @note If unable to find container or container is not published this method will return an empty hash.
         def urls(container)
           begin 

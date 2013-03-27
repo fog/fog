@@ -10,13 +10,13 @@ module Fog
         # @raise [Fog::Rackspace::Errors::BadRequest] - HTTP 400
         # @raise [Fog::Rackspace::Errors::InternalServerError] - HTTP 500
         # @raise [Fog::Rackspace::Errors::ServiceError]
-        # @note All resizes are automatically confirmed after 24 hours if you do not explicitly confirm or revert the resize.        
+        # @note All resizes are automatically confirmed after 24 hours if you do not explicitly confirm or revert the resize.
         # @see http://docs.rackspace.com/servers/api/v2/cs-devguide/content/Revert_Resized_Server-d1e4024.html
         # @see Server#resize
         #
         # * Status Transition:
         #   * VERIFY_RESIZE -> ACTIVE
-        #   * VERIFY_RESIZE -> ERROR (on error)        
+        #   * VERIFY_RESIZE -> ERROR (on error)
         def revert_resize_server(server_id)
           data = {
             'revertResize' => nil
