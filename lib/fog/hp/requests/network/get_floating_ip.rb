@@ -3,17 +3,10 @@ module Fog
     class Network
 
       class Real
-<<<<<<< HEAD
         # Get details for an existing floating ip by id
         #
         # ==== Parameters
         # * 'floating_ip_id'<~String>: - UUId for the floating ip to get details for
-=======
-        # Get an existing floating ip by id
-        #
-        # ==== Parameters
-        # * 'id'<~String>: - UUId for the floating ip
->>>>>>> [hp|network] Add the request methods for floating ips, along with the tests.
         #
         # ==== Returns
         # * response<~Excon::Response>:
