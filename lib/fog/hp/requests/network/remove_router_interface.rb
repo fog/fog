@@ -44,15 +44,14 @@ module Fog
               raise ArgumentError.new('Either a subnet or a port can be passed, not both')
             end
 
-            # set the device_id and device_owner back to ""
+            # delete the port
             if port_id
-              self.data[:ports][port_id]['device_id'] = ""
-              self.data[:ports][port_id]['device_owner'] = ""
+              delete_port(port_id)
             elsif subnet_id
-              ports = self.data[:ports].select {|p| self.data[:ports]["#{p}"]['device_id'] == router_id}
+              ports = self.data[:ports].select {|p| self.data[:ports]["#{p}"]['device_id'] == router_id }
+                                                 #&& self.data[:ports]["#{p}"]['network_id'] == self.data[:subnets][subnet_id]['network_id']}
               ports.each do |key, _|
-                self.data[:ports][key]['device_id'] = ""
-                self.data[:ports][key]['device_owner'] = ""
+                delete_port(key)
               end
             end
             response.status = 200
