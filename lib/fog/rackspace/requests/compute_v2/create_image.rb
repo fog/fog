@@ -9,11 +9,16 @@ module Fog
         # @param [String] name name for created image
         # @param [Hash] options
         # @option options [Hash] :metadata - key value pairs of image metadata
+        # @return [Excon::Response] response
+        # @raise [Fog::Rackspace::Errors::NotFound] - HTTP 404
+        # @raise [Fog::Rackspace::Errors::BadRequest] - HTTP 400
+        # @raise [Fog::Rackspace::Errors::InternalServerError] - HTTP 500
+        # @raise [Fog::Rackspace::Errors::ServiceError]
         # @see http://docs.rackspace.com/servers/api/v2/cs-devguide/content/Create_Image-d1e4655.html
         #
-        #   * State Transition:
-        #     * SAVING -> ACTIVE
-        #     * SAVING  -> ERROR (on error)        
+        # * State Transition:
+        #   * SAVING -> ACTIVE
+        #   * SAVING  -> ERROR (on error)
         def create_image(server_id, name, options = {})
           data = {
             'createImage' => {

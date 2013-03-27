@@ -47,8 +47,12 @@ module Fog
 
         # Returns the load balancer object associated with the environment.
         def load_balancer(elb_connection = Fog::AWS[:elb])
-          requires :resources
-          elb_connection.load_balancers.get(resources['LoadBalancer']['LoadBalancerName'])
+
+          if resources.nil?
+            elb_connection.load_balancers.get(live_resources['LoadBalancers'].first['Name'])
+          else
+            elb_connection.load_balancers.get(resources['LoadBalancer']['LoadBalancerName'])
+          end
         end
 
         # Return events related to this version
