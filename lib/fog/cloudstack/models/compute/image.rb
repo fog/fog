@@ -41,6 +41,8 @@ module Fog
         attr_accessor :bits, :requires_hvm, :snapshot_id, :url, :virtual_machine_id, :volume_id
 
         def save
+          requires :display_text, :name, :os_type_id
+          #also requires volume_id or snapshot_id
           options = {
             'displaytext'      => display_text,
             'name'             => name,
