@@ -4,9 +4,19 @@ This document explains how to get started using Fog with the [Rackspace Cloud](h
 
 ## Requirements
 
+### Ruby
+
 Fog officially supports Ruby 1.9.3, 1.9.2, and 1.8.7 (also known as Matz Ruby Interpreter or MRI). While not officially supported, fog has been known to work with Rubinus and JRuby. 
 
-Ruby 1.9.3 is suggested for new projects. For information on installing Ruby please refer to the [Ruby download page](http://www.ruby-lang.org/en/downloads/). 
+Ruby 1.9.3 is suggested for new projects. For information on installing Ruby please refer to the [Ruby download page](http://www.ruby-lang.org/en/downloads/).
+
+### RubyGems
+
+RubyGems is required to access the fog gem. For information on installing rubygems, please refer to [rubygems download page](http://rubygems.org/pages/download).
+
+### Bundler (optional)
+
+Bundler helps manage gem dependancies and is recommended for new projects. For more information about bundler, please refer to the [bundler documentation](http://gembundler.com/).
 
 ## Credentials
 
@@ -29,8 +39,6 @@ To install Fog via Bundler add `gem 'fog'` to your `Gemfile`. This is a sample `
 After creating your `Gemfile` execute the following command to install the libraries:
 
 	bundle install	
-	
-Bundler is the suggested method for new projects. For more information about bundler, please refer to the [bundler documentation](http://gembundler.com/). For information on installing rubygems, please refer to [rubygems download page](http://rubygems.org/pages/download).
 
 ## Next Steps
 
