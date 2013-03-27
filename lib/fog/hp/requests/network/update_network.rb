@@ -6,6 +6,7 @@ module Fog
         # Update attributes for an existing network
         #
         # ==== Parameters
+        # * 'network_id'<~String>: - UUId of the network
         # * options<~Hash>:
         #   * 'name'<~String> - Name of the network
         #   * 'admin_state_up'<~Boolean> - The administrative state of the network, true or false
