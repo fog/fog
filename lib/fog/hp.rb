@@ -103,6 +103,17 @@ module Fog
 
     # keystone based control services style authentication
     def self.authenticate_v2(options, connection_options = {})
+      unless options[:credentials].nil?
+        expires = true
+        begin
+          expire = DateTime.parse(options[:credentials][:expires])
+          expires = false if expire > DateTime.now
+        rescue
+        end
+        return options[:credentials] unless expires
+        options = options.clone
+        options.delete(:credentials)
+      end
       hp_auth_uri = options[:hp_auth_uri] || "https://region-a.geo-1.identity.hpcloudsvc.com:35357/v2.0/tokens"
       # append /tokens if missing from auth uri
       @hp_auth_uri = hp_auth_uri.include?('tokens')? hp_auth_uri : hp_auth_uri + "tokens"
@@ -172,6 +183,7 @@ module Fog
 
       ### fish out auth_token and endpoint for the service
       auth_token = body['access']['token']['id']
+      expires = body['access']['token']['expires']
       endpoint_url = get_endpoint_from_catalog(body['access']['serviceCatalog'], @hp_service_type, @hp_avl_zone)
       # If service is Storage, then get the CDN endpoint as well. 'Name' is unique instead of 'Type'
       if @hp_service_type == "Object Storage"
@@ -180,6 +192,7 @@ module Fog
 
       return {
         :auth_token => auth_token,
+        :expires => expires,
         :endpoint_url => endpoint_url,
         :cdn_endpoint_url => cdn_endpoint_url
       }
