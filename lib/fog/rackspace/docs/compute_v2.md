@@ -493,7 +493,7 @@ In addition to the `create` method, fog provides a method called `bootstrap`. Th
 1. Create `ROOT_USER/.ssh/authorized_keys` using the specified `:public_key`.
 2. Lock password for root user using `passwd -l root`.
 3. Create `ROOT_USER/attributes.json` with the server's attributes.
-4. Create `ROOT_USER/metadata.json` with the server's metadata
+4. Create `ROOT_USER/metadata.json` with the server's metadata.
 
 **Note**: The `bootstrap` method is a blocking call unlike `create` method.
 
@@ -509,7 +509,7 @@ The following example demonstrates bootstraping a server:
 
 ## SSH
 
-Once a server has been created and setup for ssh key authentication, fog can execute remote commands as follows:
+Once a server has been created and set up for ssh key authentication, fog can execute remote commands as follows:
 
 	result = server.ssh ['pwd']
 	
@@ -517,7 +517,7 @@ This will return the following:
 
 	[#<Fog::SSH::Result:0x1108241d0 @stderr="", @status=0, @stdout="/root\r\n", @command="pwd">]
 
-**Note**: SSH key authentication can be setup using `bootstrap` method or by using the `:personality` attribute on the `:create` method. See [Bootstrap](#bootstrap) or [Create Server](#create-server) for more information.
+**Note**: SSH key authentication can be set up using `bootstrap` method or by using the `:personality` attribute on the `:create` method. See [Bootstrap](#bootstrap) or [Create Server](#create-server) for more information.
 
 ## Update Server
 
