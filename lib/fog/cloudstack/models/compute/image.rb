@@ -38,7 +38,7 @@ module Fog
         attribute :zone_id,            :aliases => 'zoneid'
         attribute :zone_name,          :aliases => 'zonename'
 
-        attr_accessor :bits, :requires_hvm, :snapshot_id, :url, :virtual_machine_id, :volume_id
+        attr_accessor :bits, :requires_hvm, :snapshot_id, :url, :virtual_machine_id, :volume_id, :ssh_key_enabled
 
         def save
           options = {
@@ -72,14 +72,19 @@ module Fog
             'ostypeid'         => os_type_id,
             'url'              => url,
             'zoneid'           => zone_id,
+            'account'          => account,
             'bits'             => bits,
+            'checksum'         => checksum,
             'details'          => details,
+            'domainid'         => domain_id,
+            'isextractable'    => is_extractable,
             'isfeatured'       => is_featured,
             'ispublic'         => is_public,
-            'isextractable'    => is_extractable,
             'passwordenabled'  => password_enabled,
+            'projectid'        => project_id,
             'requireshvm'      => requires_hvm,
-            'templatetag'      => template_tag,
+            'sshkeyenabled'  => ssh_key_enabled,
+            'templatetag'      => template_tag
           }
           data = service.register_template(options)
           merge_attributes(data['registertemplateresponse'])
