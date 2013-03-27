@@ -7,9 +7,12 @@ module Fog
       class Image < Fog::Model
         identity :id
         attribute :accnt
+        attribute :features
+        attribute :hv_type
         attribute :name
+        attribute :size
         attribute :source_hostname
-        attribute :source_subaccnt
+        attribute :source_uniq_id
         attribute :template
         attribute :template_description
         attribute :time_taken

@@ -3,9 +3,9 @@ module Fog
     class StormOnDemand
       class Real
 
-        def list_private_ips(options = {})
+        def shutdown_server(options = {})
           request(
-            :path     => "/network/private/get",
+            :path     => "/storm/server/shutdown",
             :body     => Fog::JSON.encode({:params => options})
           )
         end

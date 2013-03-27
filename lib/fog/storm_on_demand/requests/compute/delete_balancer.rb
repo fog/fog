@@ -3,9 +3,9 @@ module Fog
     class StormOnDemand
       class Real
 
-        def list_private_ips(options = {})
+        def delete_balancer(options = {})
           request(
-            :path     => "/network/private/get",
+            :path     => "/network/loadbalancer/delete",
             :body     => Fog::JSON.encode({:params => options})
           )
         end

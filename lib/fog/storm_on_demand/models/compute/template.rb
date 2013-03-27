@@ -11,6 +11,7 @@ module Fog
         attribute :manage_level
         attribute :os
         attribute :price
+        attribute :zone_availability
       end
 
       def initialize(attributes={})

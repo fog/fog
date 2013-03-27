@@ -15,8 +15,8 @@ module Fog
         end
 
         def get(uniq_id)
-          server = service.get_server(:uniq_id => uniq_id).body
-          new(server)
+          data = service.get_server(:uniq_id => uniq_id).body
+          new(data)
         end
 
       end
