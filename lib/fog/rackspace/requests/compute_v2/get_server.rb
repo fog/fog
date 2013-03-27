@@ -33,6 +33,10 @@ module Fog
         #       * tenant_id [String] - The tenant ID.
         #       * updated [String] - updated timestamp
         #       * user_id [Array] - The user ID.
+        # @raise [Fog::Rackspace::Errors::NotFound] - HTTP 404
+        # @raise [Fog::Rackspace::Errors::BadRequest] - HTTP 400
+        # @raise [Fog::Rackspace::Errors::InternalServerError] - HTTP 500
+        # @raise [Fog::Rackspace::Errors::ServiceError]
         # @see http://docs.rackspace.com/servers/api/v2/cs-devguide/content/Get_Server_Details-d1e2623.html
         def get_server(server_id)
           request(

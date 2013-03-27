@@ -21,6 +21,10 @@ module Fog
         #       * 'display_name' [String]: - display name of volume
         #       * 'created_at' [String]: - the volume creation time
         #       * 'os-vol-tenant-attr:tenant_id' [String]: -
+        # @raise [Fog::Rackspace::Errors::NotFound] - HTTP 404
+        # @raise [Fog::Rackspace::Errors::BadRequest] - HTTP 400
+        # @raise [Fog::Rackspace::Errors::InternalServerError] - HTTP 500
+        # @raise [Fog::Rackspace::Errors::ServiceError]
         #   @see http://docs.rackspace.com/cbs/api/v1.0/cbs-devguide/content/GET_getVolume__v1__tenant_id__volumes.html
         def get_volume(volume_id)
           request(
