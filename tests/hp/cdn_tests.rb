@@ -1,4 +1,4 @@
-Shindo.tests('Fog::CDN::HP', ['hp']) do
+Shindo.tests('Fog::CDN::HP', ['hp', 'cdn']) do
   credentials = {
     :auth_token => 'auth_token',
     :endpoint_url => 'http://127.0.0.1/cdnpath/',
