@@ -61,6 +61,30 @@ module Fog
           merge_attributes(data['createtemplateresponse'])
         end
 
+        def register
+          requires :display_text, :format, :hypervisor, :name, :os_type_id, :url, :zone_id
+
+          options = {
+            'displaytext'      => display_text,
+            'format'           => format,
+            'hypervisor'       => hypervisor,
+            'name'             => name,
+            'ostypeid'         => os_type_id,
+            'url'              => url,
+            'zoneid'           => zone_id,
+            'bits'             => bits,
+            'details'          => details,
+            'isfeatured'       => is_featured,
+            'ispublic'         => is_public,
+            'isextractable'    => is_extractable,
+            'passwordenabled'  => password_enabled,
+            'requireshvm'      => requires_hvm,
+            'templatetag'      => template_tag,
+          }
+          data = service.register_template(options)
+          merge_attributes(data['registertemplateresponse'])
+        end
+
         def destroy
           requires :id
           service.delete_template('id' => self.id)

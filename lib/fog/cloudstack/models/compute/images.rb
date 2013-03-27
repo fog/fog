@@ -27,6 +27,10 @@ module Fog
           nil
         end
 
+        def register(attributes={})
+          new(attributes).register
+        end
+
         private
 
         def get_filter_options(filters)
