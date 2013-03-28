@@ -12,19 +12,19 @@ Ruby 1.9.3 is suggested for new projects. For information on installing Ruby ple
 
 ### RubyGems
 
-RubyGems is required to access the fog gem. For information on installing rubygems, please refer to [rubygems download page](http://rubygems.org/pages/download).
+RubyGems is required to access the Fog gem. For information on installing RubyGems, please refer to [RubyGems download page](http://rubygems.org/pages/download).
 
 ### Bundler (optional)
 
-Bundler helps manage gem dependancies and is recommended for new projects. For more information about bundler, please refer to the [bundler documentation](http://gembundler.com/).
+Bundler helps manage gem dependencies and is recommended for new projects. For more information about bundler, please refer to the [bundler documentation](http://gembundler.com/).
 
 ## Credentials
 
-To obtain credentials for the US Rackspace Cloud, please sign up for an account at [US Rackspace Open Cloud](https://cart.rackspace.com/cloud/). Once an account is created, you can login to the [Cloud Control Panel (US)](https://mycloud.rackspace.com/) and find your credentials by clicking on your username in the top right corner and then selecting API keys.
+To obtain credentials for the US Rackspace Cloud, please sign up for an account at [US Rackspace Open Cloud](https://cart.rackspace.com/cloud/). Once an account is created, you can login to the [Cloud Control Panel (US)](https://mycloud.rackspace.com/), find your credentials by clicking on your username in the top right corner, and then select API keys.
 
-Likewise, you can create an account on our UK Rackspace Open Cloud by going to [UK Rackspace Open Cloud](https://buyonline.rackspace.co.uk/cloud/userinfo?type=normal) and login into [Cloud Control Panel (UK)](https://mycloud.rackspace.co.uk/).
+Likewise, you can create an account on our UK Rackspace Open Cloud by signing up at [UK Rackspace Open Cloud](https://buyonline.rackspace.co.uk/cloud/userinfo?type=normal) and then logging into [Cloud Control Panel (UK)](https://mycloud.rackspace.co.uk/).
 
-The credentials will be used when we further explore fog services in the [Next Steps](#next-steps) section.
+You will use the credentials when you explore fog services in the [Next Steps](#next-steps) section.
 
 ## Installation
 
