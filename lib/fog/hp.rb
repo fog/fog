@@ -114,14 +114,14 @@ module Fog
           options = options.clone
           options.delete(:credentials)
         else
-          endpoints = options[:credentials][:endpoints]
+          service_catalog = options[:credentials][:service_catalog]
           type  = options[:hp_service_type]
           zone   = options[:hp_avl_zone]
           begin
             creds = options[:credentials].clone
-            creds[:endpoint_url] = endpoints_get(endpoints, type, zone)
+            creds[:endpoint_url] = get_endpoint_url(service_catalog, type, zone)
             begin
-              creds[:cdn_endpoint_url] = endpoints_get(endpoints, "CDN", zone)
+              creds[:cdn_endpoint_url] = get_endpoint_url(service_catalog, "CDN", zone)
             rescue
             end
             return creds
@@ -201,17 +201,17 @@ module Fog
       ### fish out auth_token and endpoint for the service
       auth_token = body['access']['token']['id']
       expires = body['access']['token']['expires']
-      endpoints = service_catalog_endpoints(body['access']['serviceCatalog'])
-      endpoint_url = endpoints_get(endpoints, @hp_service_type, @hp_avl_zone)
+      service_catalog = get_service_catalog(body['access']['serviceCatalog'])
+      endpoint_url = get_endpoint_url(service_catalog, @hp_service_type, @hp_avl_zone)
       begin
-        cdn_endpoint_url = endpoints_get(endpoints, "CDN", @hp_avl_zone)
+        cdn_endpoint_url = get_endpoint_url(service_catalog, "CDN", @hp_avl_zone)
       rescue
       end
 
       creds = {
         :auth_token => auth_token,
         :expires => expires,
-        :endpoints => endpoints,
+        :service_catalog => service_catalog,
         :endpoint_url => endpoint_url,
         :cdn_endpoint_url => cdn_endpoint_url
       }
@@ -227,31 +227,31 @@ module Fog
 
     private
 
-    def self.service_catalog_endpoints(service_catalog)
-      raise "Unable to parse service catalog." unless service_catalog
-      endpoints = {}
-      service_catalog.each do |s|
-        name = s["name"].to_sym
+    def self.get_service_catalog(body)
+      raise "Unable to parse service catalog." unless body
+      service_catalog = {}
+      body.each do |s|
+        name = s["name"]
         next if name.nil?
         name = name.to_sym
         next if s['endpoints'].nil?
-        endpoints[name] = {}
+        service_catalog[name] = {}
         s['endpoints'].each do |ep|
           next if ep['region'].nil?
           next if ep['publicURL'].nil?
           next if ep['publicURL'].empty?
-          endpoints[name][ep['region'].to_sym] = ep['publicURL']
+          service_catalog[name][ep['region'].to_sym] = ep['publicURL']
         end
       end
-      return endpoints
+      return service_catalog
     end
 
-    def self.endpoints_get(endpoints, service_type, avl_zone)
+    def self.get_endpoint_url(service_catalog, service_type, avl_zone)
       service_type = service_type.to_sym
       avl_zone = avl_zone.to_sym
-      unless endpoints[service_type].nil?
-        unless endpoints[service_type][avl_zone].nil?
-          return endpoints[service_type][avl_zone]
+      unless service_catalog[service_type].nil?
+        unless service_catalog[service_type][avl_zone].nil?
+          return service_catalog[service_type][avl_zone]
         end
       end
       raise "Unable to retrieve endpoint service url for availability zone '#{avl_zone}' from service catalog. "

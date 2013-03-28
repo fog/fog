@@ -2,7 +2,7 @@ Shindo.tests('Fog::Compute::HP', ['hp', 'compute']) do
   credentials = {
     :auth_token => 'auth_token',
     :endpoint_url => 'http://127.0.0.1/computepath/',
-    :endpoints => {
+    :service_catalog => {
       :"Compute" => {
       :zone => 'http://127.0.0.1/computepath/'}},
     :expires => (DateTime.now + 1).to_s
