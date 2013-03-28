@@ -30,7 +30,7 @@ module Fog
         attribute :cpu_used,                                :aliases => 'cpuused'
         attribute :network_kbs_read,                        :aliases => 'networkkbsread'
         attribute :network_kbs_write,                       :aliases => 'networkkbswrite'
-        attribute :guest_os_id,                             :aliases => 'guestosid'
+        attribute :guest_os_id,                             :aliases => ['guestosid', 'ostypeid']
         attribute :root_device_id,                          :aliases => 'rootdeviceid'
         attribute :root_device_type,                        :aliases => 'rootdevicetype'
         attribute :group
@@ -99,6 +99,21 @@ module Fog
 
           data = service.deploy_virtual_machine(options)
           merge_attributes(data['deployvirtualmachineresponse'])
+        end
+
+        def update
+          requires :id
+
+          options = {
+            'id'                => id,
+            'displayname'       => display_name,
+            'group'             => group,
+            'haenable'          => haenable,
+            'ostypeid'          => guest_os_id
+          }
+
+          data = service.update_virtual_machine(options)
+          merge_attributes(data['updatevirtualmachineresponse'])
         end
 
         def start
