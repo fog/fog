@@ -110,9 +110,26 @@ module Fog
           expires = false if expire > DateTime.now
         rescue
         end
-        return options[:credentials] unless expires
-        options = options.clone
-        options.delete(:credentials)
+        if expires
+          options = options.clone
+          options.delete(:credentials)
+        else
+          endpoints = options[:credentials][:endpoints]
+          type  = options[:hp_service_type]
+          zone   = options[:hp_avl_zone]
+          begin
+            creds = options[:credentials].clone
+            creds[:endpoint_url] = endpoints_get(endpoints, type, zone)
+            begin
+              creds[:cdn_endpoint_url] = endpoints_get(endpoints, "CDN", zone)
+            rescue
+            end
+            return creds
+          rescue
+          end
+          options = options.clone
+          options.delete(:credentials)
+        end
       end
       hp_auth_uri = options[:hp_auth_uri] || "https://region-a.geo-1.identity.hpcloudsvc.com:35357/v2.0/tokens"
       # append /tokens if missing from auth uri
@@ -184,19 +201,21 @@ module Fog
       ### fish out auth_token and endpoint for the service
       auth_token = body['access']['token']['id']
       expires = body['access']['token']['expires']
-      endpoint_url = get_endpoint_from_catalog(body['access']['serviceCatalog'], @hp_service_type, @hp_avl_zone)
-      # If service is Storage, then get the CDN endpoint as well. 'Name' is unique instead of 'Type'
-      if @hp_service_type == "Object Storage"
-        cdn_endpoint_url = get_endpoint_from_catalog(body['access']['serviceCatalog'], "CDN", @hp_avl_zone)
+      endpoints = service_catalog_endpoints(body['access']['serviceCatalog'])
+      endpoint_url = endpoints_get(endpoints, @hp_service_type, @hp_avl_zone)
+      begin
+        cdn_endpoint_url = endpoints_get(endpoints, "CDN", @hp_avl_zone)
+      rescue
       end
 
-      return {
+      creds = {
         :auth_token => auth_token,
         :expires => expires,
+        :endpoints => endpoints,
         :endpoint_url => endpoint_url,
         :cdn_endpoint_url => cdn_endpoint_url
       }
-
+      return creds
     end
 
     # CGI.escape, but without special treatment on spaces
@@ -208,20 +227,34 @@ module Fog
 
     private
 
-    def self.get_endpoint_from_catalog(service_catalog, service_type, avl_zone)
+    def self.service_catalog_endpoints(service_catalog)
       raise "Unable to parse service catalog." unless service_catalog
-      service_item = service_catalog.detect do |s|
-        # 'Name' is unique instead of 'Type'
-        s["name"] == service_type
-      end
-      if service_item and service_item['endpoints']
-        endpoint = service_item['endpoints'].detect do |ep|
-          ep['region'] == avl_zone
+      endpoints = {}
+      service_catalog.each do |s|
+        name = s["name"].to_sym
+        next if name.nil?
+        name = name.to_sym
+        next if s['endpoints'].nil?
+        endpoints[name] = {}
+        s['endpoints'].each do |ep|
+          next if ep['region'].nil?
+          next if ep['publicURL'].nil?
+          next if ep['publicURL'].empty?
+          endpoints[name][ep['region'].to_sym] = ep['publicURL']
         end
-        endpoint_url = endpoint['publicURL'] if endpoint
-        raise "Unable to retrieve endpoint service url for availability zone '#{avl_zone}' from service catalog. " if endpoint_url.nil?
-        return endpoint_url
       end
+      return endpoints
+    end
+
+    def self.endpoints_get(endpoints, service_type, avl_zone)
+      service_type = service_type.to_sym
+      avl_zone = avl_zone.to_sym
+      unless endpoints[service_type].nil?
+        unless endpoints[service_type][avl_zone].nil?
+          return endpoints[service_type][avl_zone]
+        end
+      end
+      raise "Unable to retrieve endpoint service url for availability zone '#{avl_zone}' from service catalog. "
     end
 
     def self.set_user_agent_header(conn_opts, base_str, client_str)
