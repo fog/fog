@@ -1,4 +1,4 @@
-Shindo.tests("HP::Network | floating ip requests", ['hp', 'floatingip']) do
+Shindo.tests('HP::Network | networking floating ip requests', ['hp', 'networking', 'floatingip']) do
 
   @floating_ip_format = {
     'id'                  => String,
@@ -10,8 +10,8 @@ Shindo.tests("HP::Network | floating ip requests", ['hp', 'floatingip']) do
     'port_id'             => Fog::Nullable::String
   }
 
-  @ext_network_id = "ca07e0fd-16f3-4536-a67d-048a279083e1"
-  s_data = HP[:network].create_port(@network_id, {:name => 'fog_port'}).body['port']
+  @ext_network_id = HP[:network].list_networks({'router:external'=>true}).body['networks'][0]['id']
+  s_data = HP[:network].create_port(@ext_network_id, {:name => 'fog_port'}).body['port']
   @port_id = s_data['id']
 
   tests('success') do

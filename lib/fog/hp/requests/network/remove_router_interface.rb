@@ -18,7 +18,7 @@ module Fog
         def remove_router_interface(router_id, subnet_id=nil, port_id=nil, options = {})
           # Either a subnet or a port can be passed, not both
           if (subnet_id && port_id) || (subnet_id.nil? && port_id.nil?)
-            raise ArgumentError.new('Either a subnet or a port can be passed, not both')
+            raise ArgumentError.new('Bad router request: Cannot specify both subnet-id and port-id')
           end
           if subnet_id
             data = { 'subnet_id' => subnet_id }

@@ -52,7 +52,19 @@ module Fog
           @data ||= Hash.new do |hash, key|
             hash[key] = {
               :floating_ips => {},
-              :networks => {},
+              :networks => {
+                'X0X0X0ExtNetX0X0X0' =>
+                  {
+                    'id'              => 'X0X0X0ExtNetX0X0X0',
+                    'name'            => 'Mock-Ext-Net',
+                    'tenant_id'       => Fog::Mock.random_numbers(14).to_s,
+                    'status'          => 'ACTIVE',
+                    'subnets'         => [],
+                    'router:external' => true,
+                    'admin_state_up'  => true,
+                    'shared'          => true
+                  }
+              },
               :ports => {},
               :routers => {},
               :subnets => {}

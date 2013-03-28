@@ -1,4 +1,4 @@
-Shindo.tests("HP::Network | network requests", ['hp', 'network']) do
+Shindo.tests('HP::Network | networking network requests', ['hp',  'networking', 'network']) do
 
   @network_format = {
     'id'              => String,
@@ -16,7 +16,7 @@ Shindo.tests("HP::Network | network requests", ['hp', 'network']) do
     @network_id = nil
 
     tests('#create_network').formats(@network_format) do
-      attributes = {:name => 'my_network', :admin_state_up => true, :shared => false, :tenant_id => '111111111'}
+      attributes = {:name => 'my_network', :admin_state_up => true, :shared => false}
       data = HP[:network].create_network(attributes).body['network']
       @network_id = data['id']
       data

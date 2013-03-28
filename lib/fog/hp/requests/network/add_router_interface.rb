@@ -46,7 +46,7 @@ module Fog
 
             if port_id.nil?
               # create a new port
-              resp = create_port(Fog::HP::Mock.uuid.to_s, {:name => "New Port #{rand(10)}"})
+              resp = create_port(self.data[:networks].keys[0], {:name => "New Port #{rand(10)}"})
               port_id = resp.body['port']['id']
             end
 
