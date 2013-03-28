@@ -3,7 +3,7 @@ Shindo.tests('Fog::Storage::HP', ['hp', 'storage']) do
     :auth_token => 'auth_token',
     :endpoint_url => 'http://127.0.0.1/path/',
     :cdn_endpoint_url => 'http://127.0.0.1/cdnpath/',
-    :endpoints => {
+    :service_catalog => {
       :"Object Storage" => {
       :zone => 'http://127.0.0.1/path/'},
       :"CDN" => {
