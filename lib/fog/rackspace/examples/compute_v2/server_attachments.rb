@@ -11,7 +11,7 @@ def get_user_input(prompt)
 end
 
 def select_server(servers)
-  abort "\nThere are not any servers. Try running create_server.rb\n\n" if servers.empty?
+  abort "\nThere are not any servers in the Chicago region. Try running create_server.rb\n\n" if servers.empty?
   
   puts "\nSelect Server For Attachment:\n\n"
   servers.each_with_index do |server, i|
@@ -46,7 +46,7 @@ compute_service = Fog::Compute.new({
 cbs_service = Fog::Rackspace::BlockStorage.new({
   :rackspace_username => rackspace_username,
   :rackspace_api_key  => rackspace_api_key,
-  :rackspace_endpoint => Fog::Rackspace::BlockStorage::ORD_ENDPOINT #Use Chicago Region  
+  :rackspace_region => :ord #Use Chicago Region
 })
 
 # retrieve list of servers
