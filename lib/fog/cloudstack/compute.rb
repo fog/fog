@@ -133,6 +133,7 @@ module Fog
       request :update_domain
       request :update_user
       request :update_resource_count
+      request :update_template
       request :update_virtual_machine
 
       class Real
