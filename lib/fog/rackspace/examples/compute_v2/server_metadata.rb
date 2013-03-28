@@ -54,7 +54,7 @@ end
 
 puts "[DONE]\n\n"
 
-puts "Initial Metadata\n"                                
+puts "Initial Metadata\n"
 print_metadata(server)
 
 puts "Adding New Metadata\n"

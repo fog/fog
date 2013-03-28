@@ -11,7 +11,7 @@ def get_user_input(prompt)
 end
 
 def select_server(servers)
-  abort "\nThere are not any servers to delete. Try running create_server.rb\n\n" if servers.empty?
+  abort "\nThere are not any servers to delete in the Chicago region. Try running create_server.rb\n\n" if servers.empty?
   
   puts "\nSelect Server To Delete:\n\n"
   servers.each_with_index do |server, i|
