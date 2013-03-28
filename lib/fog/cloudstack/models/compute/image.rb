@@ -42,7 +42,8 @@ module Fog
 
         def save
           requires :display_text, :name, :os_type_id
-          #also requires volume_id or snapshot_id
+          requires_one :volume_id, :snapshot_id
+
           options = {
             'displaytext'      => display_text,
             'name'             => name,
