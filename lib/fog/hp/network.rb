@@ -11,6 +11,10 @@ module Fog
 
       secrets     :hp_secret_key
 
+      model_path 'fog/hp/models/network'
+      model       :network
+      collection  :networks
+
       request_path 'fog/hp/requests/network'
       request :add_router_interface
       request :associate_floating_ip
