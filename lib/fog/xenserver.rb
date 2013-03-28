@@ -1,3 +1,5 @@
+require 'fog/core'
+
 module Fog
   module XenServer 
 
