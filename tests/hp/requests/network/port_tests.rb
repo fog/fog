@@ -1,4 +1,4 @@
-Shindo.tests("HP::Network | port requests", ['hp', 'port']) do
+Shindo.tests('HP::Network | networking port requests', ['hp', 'networking', 'port']) do
 
   @port_format = {
     'id'                => String,

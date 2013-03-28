@@ -1,4 +1,4 @@
-Shindo.tests("HP::Network | subnet requests", ['hp', 'subnet']) do
+Shindo.tests('HP::Network | networking subnet requests', ['hp', 'networking', 'subnet']) do
 
   @subnet_format = {
     'id'               => String,
