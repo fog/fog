@@ -93,10 +93,11 @@ module Fog
         # @raise [Fog::Rackspace::Errors::BadRequest] - HTTP 400
         # @raise [Fog::Rackspace::Errors::InternalServerError] - HTTP 500
         # @raise [Fog::Rackspace::Errors::ServiceError]
+        # @raise [Fog::Compute::RackspaceV2::InvalidImageStateException] if server state is an error state
         def ready?(ready_state = ACTIVE, error_states=[ERROR])
           if error_states
             error_states = Array(error_states)
-            raise "Image should have transitioned to '#{ready_state}' not '#{state}'" if error_states.include?(state)
+            raise InvalidImageStateException.new(ready_state, state) if error_states.include?(state)
           end
           state == ready_state
         end

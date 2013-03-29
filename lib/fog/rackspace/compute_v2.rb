@@ -8,6 +8,29 @@ module Fog
       class InternalServerError < Fog::Rackspace::Errors::InternalServerError; end
       class BadRequest < Fog::Rackspace::Errors::BadRequest; end
 
+      class InvalidStateException < ::RuntimeError
+
+        attr_reader :desired_state
+        attr_reader :current_state
+
+        def initialize(desired_state, current_state)
+          @desired_state = desired_state
+          @current_state = current_state
+        end
+      end
+
+      class InvalidServerStateException < InvalidStateException
+        def to_s
+          "Server should have transitioned to '#{desired_state}' not '#{state}'"
+        end
+      end
+
+      class InvalidImageStateException < InvalidStateException
+         def to_s
+           "Image should have transitioned to '#{desired_state}' not '#{state}'"
+         end
+       end
+
       DFW_ENDPOINT = 'https://dfw.servers.api.rackspacecloud.com/v2'
       ORD_ENDPOINT = 'https://ord.servers.api.rackspacecloud.com/v2'
       LON_ENDPOINT = 'https://lon.servers.api.rackspacecloud.com/v2'
