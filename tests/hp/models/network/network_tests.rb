@@ -11,9 +11,9 @@ Shindo.tests('HP::Network | networking network model', ['hp', 'networking', 'net
       !@network.id.nil?
     end
 
-    tests('#update').succeeds do
+    tests('#save').succeeds do
       @network.name = 'my_network_upd'
-      @network.update
+      @network.save
     end
 
     tests('#destroy').succeeds do

@@ -25,15 +25,17 @@ module Fog
           identity ? update : create
         end
 
+        private
+
         def create
           merge_attributes(service.create_network(attributes).body['network'])
-          self
+          true
         end
 
         def update
           requires :id
           merge_attributes(service.update_network(id, attributes).body['network'])
-          self
+          true
         end
 
       end
