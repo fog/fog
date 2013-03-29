@@ -14,6 +14,8 @@ module Fog
       model_path 'fog/hp/models/network'
       model       :network
       collection  :networks
+      model       :subnet
+      collection  :subnets
 
       request_path 'fog/hp/requests/network'
       request :add_router_interface
