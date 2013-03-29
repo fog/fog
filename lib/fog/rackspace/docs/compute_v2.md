@@ -397,11 +397,15 @@ This returns a `Fog::Compute::RackspaceV2::Server` instance:
     
 ## Create Server
 
+If you are interested in creating a server utilizing ssh key authenication, you are recommended to use [bootstrap](#bootstrap) method.
+
 To create a server:
 
 	flavor = service.flavors.first
 	image = service.images.first
 	server = service.servers.create(:name => 'fog-doc', :flavor_id => flavor.id, :image_id => image.id)
+
+**Note**: The `:name`, `:flavor_id`, and `image_id` attributes are required for server creation.
 
 This will return a `Fog::Compute::RackspaceV2::Server` instance:
 
@@ -427,7 +431,7 @@ This will return a `Fog::Compute::RackspaceV2::Server` instance:
     image_id="3afe97b2-26dc-49c5-a2cc-a2fc8d80c001"
   	> 
 
-Notice that your server contains several `nil` attributes. To see the latest status, reload the instance like so:
+Notice that your server contains several `nil` attributes. To see the latest status, reload the instance as follows:
 
 	server.reload
 	
@@ -482,20 +486,20 @@ The `create` method also supports the following key values:
 	</tr>
 	<tr>
 		<td>:personality</td>
-		<td>File path and contents. Refer to Next Gen Server API documentation - <a href="http://docs.rackspace.com/servers/api/v2/cs-devguide/content/Server_Personality-d1e2543.html">Server Personality</a>. </td>
+		<td>Array of files to be injected onto the server. Please refer to the Fog <a href="http://rubydoc.info/github/fog/fog/Fog/Compute/RackspaceV2/Servers:bootstrap">bootstrap </a> API documentation for further information.</td>
 	</tr>
 </table>
 
 ## Bootstrap
 
-In addition to the `create` method, fog provides a method called `bootstrap`. This method creates a server and then performs the following actions via ssh:
+In addition to the `create` method, Fog provides a `bootstrap` method which creates a server and then performs the following actions via ssh:
 
-1. Create `ROOT_USER/.ssh/authorized_keys` using the specified `:public_key`.
+1. Create `ROOT_USER/.ssh/authorized_keys` file using the ssh key specified in `:public_key_path`.
 2. Lock password for root user using `passwd -l root`.
-3. Create `ROOT_USER/attributes.json` with the server's attributes.
-4. Create `ROOT_USER/metadata.json` with the server's metadata.
+3. Create `ROOT_USER/attributes.json` file with the contents of `server.attributes`.
+4. Create `ROOT_USER/metadata.json` file with the contents of `server.metadata`.
 
-**Note**: The `bootstrap` method is a blocking call unlike `create` method.
+**Note**: Unlike the `create` method, `bootstrap` is blocking method call. If non-blocking behavior is desired, developers should use the `:personality` parameter on the `create` method.
 
 The following example demonstrates bootstraping a server:
 
@@ -505,7 +509,9 @@ The following example demonstrates bootstraping a server:
 	:public_key_path => '~/.ssh/fog_rsa.pub',
 	:private_key_path => '~/.ssh/fog_rsa'
 
-**Note**: The `create` method provides an option called `:personality` that allows developers to populate files on the server without using ssh.
+**Note**: The `:name`, `:flavor_id`, `:image_id`, `:public_key_path`, `:private_key_path` are required for the `bootstrap` method.
+
+The `bootstrap` method uses the same additional parameters as the `create` method. Refer to the [Additional Parameters](#additional-parameters) section for more information.
 
 ## SSH
 
