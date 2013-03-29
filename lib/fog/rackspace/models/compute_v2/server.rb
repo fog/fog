@@ -343,11 +343,11 @@ module Fog
         # @param [String] ready_state By default state is ACTIVE
         # @param [Array,String] error_states By default state is ERROR
         # @return [Boolean] returns true if server is in a ready state
-        # @raise [RuntimeException] if server state is an error state
+        # @raise [Fog::Compute::RackspaceV2::InvalidServerStateException] if server state is an error state
         def ready?(ready_state = ACTIVE, error_states=[ERROR])
           if error_states
             error_states = Array(error_states)
-            raise "Server should have transitioned to '#{ready_state}' not '#{state}'" if error_states.include?(state)
+            raise InvalidServerStateException.new(ready_state, state) if error_states.include?(state)
           end
           state == ready_state
         end
