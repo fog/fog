@@ -20,9 +20,7 @@ module Fog
           response.status = 200
           response.body = {
             "status" => "OK",
-            # key listing does not return ssh_pub_key
-            # https://www.digitalocean.com/api#ssh_keys
-            "ssh_keys"  => self.data[:ssh_keys].map { |k| k.delete('ssh_pub_key'); k }
+            "ssh_keys"  => self.data[:ssh_keys]
           }
           response
         end
