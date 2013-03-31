@@ -27,7 +27,8 @@ module Fog
         attribute :interfaces
         attribute :volumes
         attribute :raw
-
+        attribute :quota
+ 
         def ready?
           !(status =~ /down/i)
         end
