@@ -95,7 +95,7 @@ module Fog
           unless response.body.empty?
             response.body = Fog::JSON.decode(response.body)
             if response.body['status'] != 'OK'
-              raise Fog::Errors::Error.new
+              raise Fog::Errors::Error.new response.body.to_s
             end
           end
           response
