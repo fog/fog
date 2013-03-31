@@ -7,7 +7,6 @@ Shindo.tests('Fog::Compute[:digitalocean] | power on/off/shutdown requests',
   tests('success') do
 
     test('#power_off_server') do
-      server.wait_for(180) { server.ready? }
       service.power_off_server(server.id).body['status'] == 'OK'
     end
 
