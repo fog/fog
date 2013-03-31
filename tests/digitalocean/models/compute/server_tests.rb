@@ -58,7 +58,9 @@ Shindo.tests("Fog::Compute[:digitalocean] | server model", ['digitalocean', 'com
       server.ready?
     end
     # DigitalOcean shutdown is unreliable
+    # so disable it in real mode for now
     test('#shutdown') do
+      pending unless Fog.mocking?
       server.start
       server.wait_for { server.ready? }
       server.shutdown

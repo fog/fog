@@ -4,14 +4,8 @@ Shindo.tests('Fog::Compute[:digitalocean] | reboot_server request', ['digitaloce
 
   tests('success') do
 
-    tests('#reboot_server') do
-      test('returns 200') do
-        service.reboot_server(server.id).status == 200
-      end
-      test('state is off') do
-        server.wait_for { server.state == 'off' }
-        server.state == 'off'
-      end
+    tests('#reboot_server').succeeds do
+      service.reboot_server(server.id).body['status'] == 'OK'
     end
     
   end
