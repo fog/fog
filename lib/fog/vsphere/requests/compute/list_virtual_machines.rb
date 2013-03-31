@@ -35,12 +35,12 @@ module Fog
               :recursive  => true
             }).view
           end.flatten
-          # remove all template based virtual machines
-          vms.delete_if { |v| v.config.template }
 
-          vms.map do |vm_mob|
-            convert_vm_mob_ref_to_attr_hash(vm_mob)
-          end
+          vms = convert_vm_view_to_attr_hash(vms)
+
+          # remove all template based virtual machines
+          vms.delete_if { |v| v['template'] }
+          vms
         end
 
         def get_folder_path(folder, root = nil)
