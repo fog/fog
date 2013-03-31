@@ -152,7 +152,7 @@ module Fog
 
         # returns vmware managed obj id string
         def managed_obj_id obj
-          obj.to_s.match(/\("(\S+)"\)/)[1]
+          obj.to_s.match(/\("([^"]+)"\)/)[1]
         end
 
       end
