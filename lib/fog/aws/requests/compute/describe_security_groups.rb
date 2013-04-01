@@ -55,7 +55,9 @@ module Fog
 
           response = Excon::Response.new
 
-          security_group_info = self.data[:security_groups].values
+          security_groups = self.data[:security_groups].dup
+          security_groups.delete('amazon-elb-sg')
+          security_group_info = security_groups.values
 
           aliases = {
             'description' => 'groupDescription',
@@ -71,7 +73,7 @@ module Fog
           }
           for filter_key, filter_value in filters
             if permission_key = filter_key.split('ip-permission.')[1]
-              if permission_key == 'group-name'	
+              if permission_key == 'group-name'
                 security_group_info = security_group_info.reject{|security_group| !security_group['ipPermissions']['groups'].detect {|group| [*filter_value].include?(group['groupName'])}}
               elsif permission_key == 'group-id'
                 security_group_info = security_group_info.reject{|security_group| !security_group['ipPermissions']['groups'].detect {|group| [*filter_value].include?(group['groupId'])}}
