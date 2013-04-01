@@ -12,6 +12,8 @@ module Fog
       secrets     :hp_secret_key
 
       model_path 'fog/hp/models/network'
+      model       :floating_ip
+      collection  :floating_ips
       model       :network
       collection  :networks
       model       :port

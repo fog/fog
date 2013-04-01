@@ -8,7 +8,7 @@ Shindo.tests('HP::Network | networking port model', ['hp', 'networking', 'port']
   tests('success') do
 
     tests('#create').succeeds do
-      attributes = {:name => 'my_subnet', :network_id => @network.id}
+      attributes = {:name => 'my_port', :network_id => @network.id}
       @port = HP[:network].ports.create(attributes)
       @port.wait_for { ready? } unless Fog.mocking?
       !@port.id.nil?
