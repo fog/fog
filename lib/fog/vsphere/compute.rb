@@ -121,20 +121,15 @@ module Fog
             # The name method "magically" appears after a VM is ready and
             # finished cloning.
             if attrs['hypervisor'].kind_of?(RbVmomi::VIM::HostSystem)
-              begin
-                host = attrs['hypervisor']
-                attrs['datacenter'] = parent_attribute(host.path, :datacenter)[1]
-                attrs['cluster']    = parent_attribute(host.path, :cluster)[1]
-                attrs['hypervisor'] = host.name
-                attrs['resource_pool'] = (vm_mob_ref.resourcePool || host.resourcePool).name rescue nil
-              rescue
-                # If it's not ready, set the hypervisor to nil
-                attrs['hypervisor'] = nil
-              end
+              host = attrs['hypervisor']
+              attrs['datacenter'] = Proc.new { parent_attribute(host.path, :datacenter)[1] rescue nil }
+              attrs['cluster']    = Proc.new { parent_attribute(host.path, :cluster)[1] rescue nil }
+              attrs['hypervisor'] = Proc.new { host.name rescue nil }
+              attrs['resource_pool'] = Proc.new {(vm_mob_ref.resourcePool || host.resourcePool).name rescue nil}
             end
             # This inline rescue catches any standard error.  While a VM is
             # cloning, a call to the macs method will throw and NoMethodError
-            attrs['mac_addresses'] = vm_mob_ref.macs rescue nil
+            attrs['mac_addresses'] = Proc.new {vm_mob_ref.macs rescue nil}
             # Rescue nil to catch testing while vm_mob_ref isn't reaL??
             attrs['path'] = "/"+attrs['parent'].path.map(&:last).join('/') rescue nil
             attrs['relative_path'] = (attrs['path'].split('/').reject {|e| e.empty?} - ["Datacenters", attrs['datacenter'], "vm"]).join("/") rescue nil
