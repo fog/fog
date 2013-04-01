@@ -14,6 +14,8 @@ module Fog
       model_path 'fog/hp/models/network'
       model       :network
       collection  :networks
+      model       :port
+      collection  :ports
       model       :subnet
       collection  :subnets
 
