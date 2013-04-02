@@ -55,9 +55,7 @@ module Fog
 
           response = Excon::Response.new
 
-          security_groups = self.data[:security_groups].dup
-          security_groups.delete('amazon-elb-sg')
-          security_group_info = security_groups.values
+          security_group_info = self.data[:security_groups].reject { |k| k['amazon-elb-sg'] }.values
 
           aliases = {
             'description' => 'groupDescription',
