@@ -32,7 +32,7 @@ module Fog
         def remove_interface(subnet_id=nil, port_id=nil, options={})
           requires :id
           begin
-            service.remove_router_interface(id, subnet_id, port_id, options).body['router']
+            service.remove_router_interface(id, subnet_id, port_id, options)
             true
           rescue ArgumentError, Fog::HP::Network::NotFound
             false
