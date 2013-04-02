@@ -18,6 +18,8 @@ module Fog
       collection  :networks
       model       :port
       collection  :ports
+      model       :router
+      collection  :routers
       model       :subnet
       collection  :subnets
 
