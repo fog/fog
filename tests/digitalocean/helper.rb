@@ -32,7 +32,7 @@ def fog_test_server_destroy
 end
 
 at_exit do
-  unless Fog.mocking?
+  unless Fog.mocking? || Fog.credentials[:digitalocean_api_key].nil?
     server = service.servers.find { |s| s.name == 'fog-test-server' }
     if server
       server.wait_for(120) do
