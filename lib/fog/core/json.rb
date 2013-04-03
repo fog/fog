@@ -1,7 +1,38 @@
-require 'multi_json'
+require 'singleton'
+require 'fog/core/logger'
 
 module Fog
-  module JSON
+  class JSON
+    include Singleton
+
+    module LegacyJSON
+      def encode(obj)
+        ::JSON.generate(obj)
+      end
+
+      def decode(obj)
+        ::JSON.parse(obj)
+      end
+    end
+
+    module NewJSON
+      def encode(obj)
+        MultiJson.encode(obj)
+      end
+
+      def decode(obj)
+        MultiJson.decode(obj)
+      end
+    end
+
+    begin
+      require 'multi_json'
+      include NewJSON
+    rescue LoadError
+      Fog::Logger.deprecation "Defaulting to json library for json parsing. Please consider using multi_json library for the greatest performance/flexibility."
+      require 'json'
+      include LegacyJSON
+    end
 
     def self.sanitize(data)
       case data
@@ -20,15 +51,12 @@ module Fog
 
     # Do the MultiJson introspection at this level so we can define our encode/decode methods and perform
     # the introspection only once rather than once per call.
-
     def self.encode(obj)
-      MultiJson.encode(obj)
+      Fog::JSON.instance.encode(obj)
     end
 
     def self.decode(obj)
-      MultiJson.decode(obj)
+      Fog::JSON.instance.decode(obj)
     end
-
-
   end
 end

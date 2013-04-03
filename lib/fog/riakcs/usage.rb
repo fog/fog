@@ -42,7 +42,6 @@ module Fog
 
         def initialize(options = {})
           require 'mime/types'
-          require 'multi_json'
 
           configure_uri_options(options)
           @riakcs_access_key_id     = options[:riakcs_access_key_id]

@@ -1,4 +1,4 @@
-require 'fog/core'
+require File.join(File.dirname(__FILE__), 'core')
 require 'fog/rackspace/mock_data'
 require 'fog/rackspace/service'
 
