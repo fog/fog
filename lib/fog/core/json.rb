@@ -5,6 +5,15 @@ module Fog
   class JSON
     include Singleton
 
+    class LoadError < StandardError
+      attr_reader :data
+      def initialize(message='', backtrace=[], data='')
+        super(message)
+        self.set_backtrace(backtrace)
+        @data = data
+      end
+    end
+
     module LegacyJSON
       def encode(obj)
         ::JSON.generate(obj)
@@ -12,23 +21,27 @@ module Fog
 
       def decode(obj)
         ::JSON.parse(obj)
+      rescue ::JSON::ParserError => e
+        raise LoadError.new(e.message, e.backtrace, obj)
       end
     end
 
     module NewJSON
       def encode(obj)
-        MultiJson.encode(obj)
+        ::MultiJson.encode(obj)
       end
 
       def decode(obj)
-        MultiJson.decode(obj)
+        ::MultiJson.decode(obj)
+      rescue MultiJson::LoadError => e
+        raise LoadError.new(e.message, e.backtrace, obj)
       end
     end
 
     begin
       require 'multi_json'
       include NewJSON
-    rescue LoadError
+    rescue Exception => e
       Fog::Logger.deprecation "Defaulting to json library for json parsing. Please consider using multi_json library for the greatest performance/flexibility."
       require 'json'
       include LegacyJSON

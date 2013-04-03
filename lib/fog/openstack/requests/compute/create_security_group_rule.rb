@@ -18,7 +18,7 @@ module Fog
           request(
             :expects  => 200,
             :method   => 'POST',
-            :body     => MultiJson.encode(data),
+            :body     => Fog::JSON.encode(data),
             :path     => 'os-security-group-rules.json'
           )
         end
