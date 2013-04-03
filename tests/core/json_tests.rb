@@ -1,7 +1,7 @@
 Shindo.tests('Fog#JSON', 'core') do
 
-TEST_HASH = {'name' => 'fog-name', 'quantity' => 4}
-VALID_JSON = "{\"name\":\"fog-name\",\"quantity\":4}"
+TEST_HASH = {'quantity' => 4}
+VALID_JSON = "{\"quantity\":4}"
 
   tests('LegacyJSON') do
 
