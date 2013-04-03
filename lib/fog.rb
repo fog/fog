@@ -1,3 +1,8 @@
+# necessary when requiring fog without rubygems while also
+# maintaining ruby 1.8.7 support (can't use require_relative)
+__LIB_DIR__ = File.expand_path(File.dirname(__FILE__))
+$LOAD_PATH.unshift __LIB_DIR__ unless $LOAD_PATH.include?(__LIB_DIR__)
+
 # any one of these can be required separately.
 # they all depend on fog/core for shared functionality.
 require 'fog/atmos'
@@ -6,6 +11,7 @@ require 'fog/bluebox'
 require 'fog/brightbox'
 require 'fog/cloudstack'
 require 'fog/clodo'
+require 'fog/digitalocean'
 require 'fog/dnsimple'
 require 'fog/dnsmadeeasy'
 require 'fog/dreamhost'
