@@ -243,6 +243,13 @@ module Fog
           service.networks(:server => self)
         end
 
+        def volumes
+          requires :id
+          service.volumes.find_all do |vol|
+            vol.attachments.find { |attachment| attachment["serverId"] == id }
+          end
+        end
+
         def volume_attachments
           requires :id
           service.get_server_volumes(id).body['volumeAttachments']
