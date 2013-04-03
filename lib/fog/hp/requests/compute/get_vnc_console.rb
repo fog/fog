@@ -3,9 +3,7 @@ module Fog
     class HP
       class Real
 
-        require 'fog/aws/parsers/compute/get_console_output'
-
-        # Retrieve console output for specified instance
+        # Retrieve VNC console for the specified instance
         #
         # ==== Parameters
         # * server_id<~Integer> - Id of instance to get console output from
