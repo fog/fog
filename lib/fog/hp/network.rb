@@ -31,6 +31,7 @@ module Fog
       request :create_port
       request :create_router
       request :create_security_group
+      request :create_security_group_rule
       request :create_subnet
       request :disassociate_floating_ip
       request :delete_floating_ip
@@ -38,17 +39,20 @@ module Fog
       request :delete_port
       request :delete_router
       request :delete_security_group
+      request :delete_security_group_rule
       request :delete_subnet
       request :get_floating_ip
       request :get_network
       request :get_port
       request :get_router
       request :get_security_group
+      request :get_security_group_rule
       request :get_subnet
       request :list_floating_ips
       request :list_networks
       request :list_ports
       request :list_routers
+      request :list_security_group_rules
       request :list_security_groups
       request :list_subnets
       request :remove_router_interface
@@ -84,6 +88,7 @@ module Fog
               :ports => {},
               :routers => {},
               :security_groups => {},
+              :security_group_rules => {},
               :subnets => {}
             }
           end
