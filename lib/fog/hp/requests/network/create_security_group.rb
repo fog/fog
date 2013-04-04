@@ -22,12 +22,12 @@ module Fog
         #     * 'security_group_rules'<~Array>: - Array of security group rules
         #       * 'id'<~String> - UUId of the security group rule
         #       * 'direction'<~String> - Direction of traffic, must be in ['ingress', 'egress']
-        #       * 'port_range_min'<~String> - Start port for rule i.e. 22 (or -1 for ICMP wildcard)
-        #       * 'port_range_max'<~String> - End port for rule i.e. 22 (or -1 for ICMP wildcard)
+        #       * 'port_range_min'<~Integer> - Start port for rule i.e. 22 (or -1 for ICMP wildcard)
+        #       * 'port_range_max'<~Integer> - End port for rule i.e. 22 (or -1 for ICMP wildcard)
         #       * 'protocol'<~String> - IP protocol for rule, must be in ['tcp', 'udp', 'icmp']
         #       * 'ethertype'<~String> - Type of ethernet support, must be in ['IPv4', 'IPv6']
         #       * 'security_group_id'<~String> - UUId of the parent security group
-        #       * 'remote_group_id'<~String> - UUId of the source security group
+        #       * 'remote_group_id'<~String> - UUId of the remote security group
         #       * 'remote_ip_prefix'<~String> - IP cidr range address i.e. '0.0.0.0/0'
         #       * 'tenant_id'<~String> - Tenant id that owns the security group rule
         def create_security_group(options = {})
