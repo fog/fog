@@ -57,6 +57,7 @@ module Fog
               :hp_cdn_uri     => @hp_cdn_uri,
               :hp_tenant_id   => @hp_tenant_id,
               :hp_avl_zone    => @hp_avl_zone,
+              :credentials    => @credentials,
               :connection_options => @connection_options
             )
             if @cdn.enabled?
