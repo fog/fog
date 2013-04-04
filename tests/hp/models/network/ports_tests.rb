@@ -11,8 +11,7 @@ Shindo.tests('HP::Network | networking ports model', ['hp', 'networking', 'port'
     @port = HP[:network].ports.create(attributes)
 
     tests('#all(filter)').succeeds do
-      ports = HP[:network].ports.all({:network_id => @network.id})
-      ports.first.network_id == @network.id
+      HP[:network].ports.all({:name => 'fogport'})
     end
 
     @port.destroy
