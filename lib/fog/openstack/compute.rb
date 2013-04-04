@@ -226,7 +226,8 @@ module Fog
                 'volumes'        => 10,
                 'cores'          => 20,
                 'ram'            => 51200
-              }
+              },
+              :volumes => {}
             }
           end
         end
