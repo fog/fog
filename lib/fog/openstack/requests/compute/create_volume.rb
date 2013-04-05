@@ -31,22 +31,23 @@ module Fog
         def create_volume(name, description, size, options={})
           response = Excon::Response.new
           response.status = 202
-          response.body = {
-            'volume' => {
-              'id'                  => Fog::Mock.random_numbers(2),
-              'display_name'        => name,
-              'display_description' => description,
-              'size'                => size,
-              'status'              => 'creating',
-              'snapshot_id'         => '4',
-              'volume_type'         => nil,
-              'availability_zone'   => 'nova',
-              'created_at'          => Time.now,
-              'attachments'          => []
-            }
+          data = {
+            'id'                  => Fog::Mock.random_numbers(2),
+            'name'                => name,
+            'description'         => description,
+            'size'                => size,
+            'status'              => 'creating',
+            'snapshot_id'         => '4',
+            'volume_type'         => nil,
+            'availability_zone'   => 'nova',
+            'created_at'          => Time.now,
+            'attachments'         => []
           }
+          self.data[:volumes][data['id']] = data
+          response.body = { 'volume' => data }
           response
         end
+
       end
 
     end
