@@ -43,7 +43,7 @@ module Fog
           if INVALID_LOCATIONS.include?(new_location)
             raise ArgumentError, "location must not include any of #{INVALID_LOCATIONS.join(', ')}. See http://docs.amazonwebservices.com/AmazonS3/latest/API/RESTBucketPUT.html"
           else
-            merge_attributes(:location => new_location)
+            @location = new_location
           end
         end
 

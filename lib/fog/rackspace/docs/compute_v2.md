@@ -397,11 +397,15 @@ This returns a `Fog::Compute::RackspaceV2::Server` instance:
     
 ## Create Server
 
+If you are interested in creating a server utilizing ssh key authenication, you are recommended to use [bootstrap](#bootstrap) method.
+
 To create a server:
 
 	flavor = service.flavors.first
 	image = service.images.first
 	server = service.servers.create(:name => 'fog-doc', :flavor_id => flavor.id, :image_id => image.id)
+
+**Note**: The `:name`, `:flavor_id`, and `image_id` attributes are required for server creation.
 
 This will return a `Fog::Compute::RackspaceV2::Server` instance:
 
@@ -427,7 +431,7 @@ This will return a `Fog::Compute::RackspaceV2::Server` instance:
     image_id="3afe97b2-26dc-49c5-a2cc-a2fc8d80c001"
   	> 
 
-Notice that your server contains several `nil` attributes. To see the latest status, reload the instance like so:
+Notice that your server contains several `nil` attributes. To see the latest status, reload the instance as follows:
 
 	server.reload
 	
@@ -482,10 +486,45 @@ The `create` method also supports the following key values:
 	</tr>
 	<tr>
 		<td>:personality</td>
-		<td>File path and contents. Refer to Next Gen Server API documentation - <a href="http://docs.rackspace.com/servers/api/v2/cs-devguide/content/Server_Personality-d1e2543.html">Server Personality</a>. </td>
+		<td>Array of files to be injected onto the server. Please refer to the Fog <a href="http://rubydoc.info/github/fog/fog/Fog/Compute/RackspaceV2/Servers:bootstrap">bootstrap </a> API documentation for further information.</td>
 	</tr>
-</table>	
+</table>
+
+## Bootstrap
+
+In addition to the `create` method, Fog provides a `bootstrap` method which creates a server and then performs the following actions via ssh:
+
+1. Create `ROOT_USER/.ssh/authorized_keys` file using the ssh key specified in `:public_key_path`.
+2. Lock password for root user using `passwd -l root`.
+3. Create `ROOT_USER/attributes.json` file with the contents of `server.attributes`.
+4. Create `ROOT_USER/metadata.json` file with the contents of `server.metadata`.
+
+**Note**: Unlike the `create` method, `bootstrap` is blocking method call. If non-blocking behavior is desired, developers should use the `:personality` parameter on the `create` method.
+
+The following example demonstrates bootstraping a server:
+
+	service.servers.bootstrap :name => 'bootstrap-server',
+	:flavor_id => service.flavors.first.id,
+	:image_id => service.images.find {|img| img.name =~ /Ubuntu/}.id,
+	:public_key_path => '~/.ssh/fog_rsa.pub',
+	:private_key_path => '~/.ssh/fog_rsa'
+
+**Note**: The `:name`, `:flavor_id`, `:image_id`, `:public_key_path`, `:private_key_path` are required for the `bootstrap` method.
+
+The `bootstrap` method uses the same additional parameters as the `create` method. Refer to the [Additional Parameters](#additional-parameters) section for more information.
+
+## SSH
+
+Once a server has been created and set up for ssh key authentication, fog can execute remote commands as follows:
+
+	result = server.ssh ['pwd']
 	
+This will return the following:
+
+	[#<Fog::SSH::Result:0x1108241d0 @stderr="", @status=0, @stdout="/root\r\n", @command="pwd">]
+
+**Note**: SSH key authentication can be set up using `bootstrap` method or by using the `:personality` attribute on the `:create` method. See [Bootstrap](#bootstrap) or [Create Server](#create-server) for more information.
+
 ## Update Server
 
 Next Gen Cloud Servers support updating the following attributes `name`, `access_ipv4_address`, and `access_ipv6_address`.
@@ -502,6 +541,7 @@ Additional information about server access addresses can be found [here](http://
 **Note**: Updating the server name does not change the host name. Names are not guaranteed to be unique.
 
 ## Delete Server
+
 To delete a server:
 
 	server.destroy
@@ -509,6 +549,7 @@ To delete a server:
 **Note**: The server is not immediately destroyed, but it does occur shortly there after.
 
 ## Metadata
+
 You can access metadata as an attribute on both `Fog::Compute::RackspaceV2::Server` and `Fog::Compute::RackspaceV2::Metadata::Image`. You can specify metadata during creation of a server or an image. Please refer to [Create Server](#create-server) or [Create Image](#create-image) sections for more information.
 
 This example demonstrates how to iterate through a server's metadata:

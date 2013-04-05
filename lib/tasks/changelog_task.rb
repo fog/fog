@@ -61,6 +61,7 @@ module Fog
               'geemus',
               'Henry Addison',
               'Kevin Menard',
+              'Kyle Rames',
               'Lincoln Stoll',
               'Luqman Amjad',
               'Michael Zeng',

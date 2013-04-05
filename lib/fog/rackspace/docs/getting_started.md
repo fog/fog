@@ -4,15 +4,27 @@ This document explains how to get started using Fog with the [Rackspace Cloud](h
 
 ## Requirements
 
+### Ruby
+
 Fog officially supports Ruby 1.9.3, 1.9.2, and 1.8.7 (also known as Matz Ruby Interpreter or MRI). While not officially supported, fog has been known to work with Rubinus and JRuby. 
 
-Ruby 1.9.3 is suggested for new projects. For information on installing Ruby please refer to the [Ruby download page](http://www.ruby-lang.org/en/downloads/). 
+Ruby 1.9.3 is suggested for new projects. For information on installing Ruby please refer to the [Ruby download page](http://www.ruby-lang.org/en/downloads/).
+
+### RubyGems
+
+RubyGems is required to access the Fog gem. For information on installing RubyGems, please refer to [RubyGems download page](http://rubygems.org/pages/download).
+
+### Bundler (optional)
+
+Bundler helps manage gem dependencies and is recommended for new projects. For more information about bundler, please refer to the [bundler documentation](http://gembundler.com/).
 
 ## Credentials
 
-To obtain credentials for the US Rackspace Cloud, please sign up for an account at [US Rackspace Open Cloud](https://cart.rackspace.com/cloud/). Once an account is created, you can login to the [Cloud Control Panel (US)](https://mycloud.rackspace.com/) and find your credentials by clicking on your username in the top right corner and then selecting API keys.
+To obtain credentials for the US Rackspace Cloud, please sign up for an account at [US Rackspace Open Cloud](https://cart.rackspace.com/cloud/). Once an account is created, you can login to the [Cloud Control Panel (US)](https://mycloud.rackspace.com/), find your credentials by clicking on your username in the top right corner, and then select API keys.
 
-Likewise, you can create an account on our UK Rackspace Open Cloud by going to [UK Rackspace Open Cloud](https://buyonline.rackspace.co.uk/cloud/userinfo?type=normal) and login into [Cloud Control Panel (UK)](https://mycloud.rackspace.co.uk/).
+Likewise, you can create an account on our UK Rackspace Open Cloud by signing up at [UK Rackspace Open Cloud](https://buyonline.rackspace.co.uk/cloud/userinfo?type=normal) and then logging into [Cloud Control Panel (UK)](https://mycloud.rackspace.co.uk/).
+
+You will use the credentials when you explore fog services in the [Next Steps](#next-steps) section.
 
 ## Installation
 
@@ -22,15 +34,13 @@ To install Fog via RubyGems run the following command:
     
 To install Fog via Bundler add `gem 'fog'` to your `Gemfile`. This is a sample `Gemfile` to install Fog: 
 
-	source :rubygems
+	source 'https://rubygems.org'
 
 	gem 'fog'
 
 After creating your `Gemfile` execute the following command to install the libraries:
 
 	bundle install	
-	
-Bundler is the suggested method for new projects. For more information about bundler, please refer to the [bundler documentation](http://gembundler.com/). For information on installing rubygems, please refer to [rubygems download page](http://rubygems.org/pages/download).
 
 ## Next Steps
 

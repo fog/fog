@@ -11,7 +11,7 @@ def get_user_input(prompt)
 end
 
 def select_volume(volumes)
-  abort "\nThere are not any volumes to delete. Try running create_volume.rb\n\n" if volumes.empty?
+  abort "\nThere are not any volumes to delete in the Chicago region. Try running create_volume.rb\n\n" if volumes.empty?
   
   puts "\nSelect Volume:\n\n"
   volumes.each_with_index do |volume, i|
@@ -38,6 +38,7 @@ end
 service = Fog::Rackspace::BlockStorage.new({
   :rackspace_username   => rackspace_username,
   :rackspace_api_key    => rackspace_api_key,
+  :rackspace_region => :ord #Use Chicago Region
 })
 
 # retrieve list of volumes
