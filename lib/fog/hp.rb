@@ -247,6 +247,7 @@ module Fog
     end
 
     def self.get_endpoint_url(service_catalog, service_type, avl_zone)
+      return nil if service_type.nil?
       service_type = service_type.to_sym
       avl_zone = avl_zone.to_sym
       unless service_catalog[service_type].nil?
