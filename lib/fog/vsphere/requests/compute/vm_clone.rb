@@ -186,7 +186,17 @@ module Fog
               :nicSettingMap => cust_adapter_mapping)
           end
           customization_spec ||= nil
-          
+
+          # FIXME: pad this out with the rest of the useful things in VirtualMachineConfigSpec
+          # http://www.vmware.com/support/developer/vc-sdk/visdk41pubs/ApiReference/vim.vm.ConfigSpec.html
+          #          
+          if options.has_key?('memoryMB') || options.has_key?('numCPUs')
+            virtual_machine_config_spec = {
+              :memoryMB => options['memoryMB'],
+              :numCPUs  => options['numCPUs']
+            }
+          end
+
           relocation_spec=nil
           if ( options['linked_clone'] )
             # cribbed heavily from the rbvmomi clone_vm.rb
@@ -260,7 +270,7 @@ module Fog
               nil
             end
           end
-          
+
           # Return hash
           {
             'vm_ref'        => new_vm ? new_vm._ref : nil,
