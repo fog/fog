@@ -243,6 +243,30 @@ module Fog
           service.networks(:server => self)
         end
 
+        def volumes
+          requires :id
+          service.volumes.find_all do |vol|
+            vol.attachments.find { |attachment| attachment["serverId"] == id }
+          end
+        end
+
+        def volume_attachments
+          requires :id
+          service.get_server_volumes(id).body['volumeAttachments']
+        end
+
+        def attach_volume(volume_id, device_name)
+          requires :id
+          service.attach_volume(volume_id, id, device_name)
+          true
+        end
+
+        def detach_volume(volume_id)
+          requires :id
+          service.detach_volume(id, volume_id)
+          true
+        end
+
         # TODO: Implement /os-volumes-boot support with 'block_device_mapping'
         def save
           raise Fog::Errors::Error.new('Resaving an existing object may create a duplicate') if persisted?

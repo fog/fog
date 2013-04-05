@@ -25,7 +25,7 @@ Shindo.tests("Fog::Compute[:openstack] | server", ['openstack']) do
 
         group = found_groups.first
         returns('my_group') { group.name }
-        returns(server.connection) { group.connection }
+        returns(server.service) { group.service }
       ensure
         unless Fog.mocking? then
           server.destroy if server
@@ -79,7 +79,63 @@ Shindo.tests("Fog::Compute[:openstack] | server", ['openstack']) do
     end
 
 
+    tests('#volumes').succeeds do
+      fog = Fog::Compute[:openstack]
 
+      begin
+        volume = fog.volumes.new(:name => 'test volume',
+                                 :description => 'test volume',
+                                 :size => 1)
+        volume.save
+        volume.wait_for { volume.status == 'available' } unless Fog.mocking?
+
+        flavor = fog.flavors.first.id
+        image  = fog.images.first.id
+
+        server = fog.servers.new(:name       => 'test server',
+                                 :flavor_ref => flavor,
+                                 :image_ref  => image)
+
+        server.save
+        server.wait_for { server.state == "ACTIVE" } unless Fog.mocking?
+
+        server.attach_volume(volume.id, '/dev/vdc')
+        volume.wait_for { volume.status == 'in-use' } unless Fog.mocking?
+
+        found_volumes = server.volumes
+        returns(1) { found_volumes.length }
+
+        volume = found_volumes.first
+        returns('test volume') { volume.name }
+
+        found_attachments = server.volume_attachments
+        returns(1) { found_attachments.length }
+
+        attachment = found_attachments.first
+        returns('/dev/vdc') { attachment['device'] }
+
+        server.detach_volume(volume.id)
+        volume.wait_for { volume.status == 'available' } unless Fog.mocking?
+
+        found_volumes = server.volumes
+        returns(0) { found_volumes.length }
+
+        found_attachments = server.volume_attachments
+        returns(0) { found_attachments.length }
+      ensure
+        unless Fog.mocking? then
+          server.destroy if server
+          volume.destroy if volume
+
+          begin
+            fog.servers.get(server.id).wait_for do false end
+            fog.volumes.get(volume.id).wait_for do false end
+          rescue Fog::Errors::Error
+            # ignore, server went away
+          end
+        end
+      end
+    end
 
   end
 end
