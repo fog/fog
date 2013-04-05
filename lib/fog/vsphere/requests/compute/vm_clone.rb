@@ -270,7 +270,7 @@ module Fog
               nil
             end
           end
-          
+
           # Return hash
           {
             'vm_ref'        => new_vm ? new_vm._ref : nil,
