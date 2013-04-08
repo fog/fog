@@ -160,7 +160,7 @@ module Fog
           unless response.body.empty?
             begin
               response.body = Fog::JSON.decode(response.body)
-            rescue MultiJson::DecodeError => e
+            rescue Fog::JSON::LoadError => e
               response.body = {}
             end
           end

@@ -48,8 +48,6 @@ module Fog
 
         def initialize(options = {})
           require 'mime/types'
-          require 'multi_json'
-
           configure_uri_options(options)
           @riakcs_access_key_id     = options[:riakcs_access_key_id]
           @riakcs_secret_access_key = options[:riakcs_secret_access_key]
@@ -89,7 +87,7 @@ module Fog
             end
           end
           if !response.body.empty? && parse_response
-            response.body = MultiJson.decode(response.body)
+            response.body = Fog::JSON.decode(response.body)
           end
           response
         end
