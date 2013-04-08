@@ -1,4 +1,4 @@
-Shindo.tests('HP::Network | networking subnets model', ['hp', 'networking', 'subnet']) do
+Shindo.tests('HP::Network | networking subnets collection', ['hp', 'networking', 'subnet']) do
 
   @network = HP[:network].networks.create(:name => 'my_network')
 

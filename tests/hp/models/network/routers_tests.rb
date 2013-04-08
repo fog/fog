@@ -1,4 +1,4 @@
-Shindo.tests('HP::Network | networking routers model', ['hp', 'networking', 'router']) do
+Shindo.tests('HP::Network | networking routers collection', ['hp', 'networking', 'router']) do
 
   attributes = {:name => 'my_router', :admin_state_up => true}
   collection_tests(HP[:network].routers, attributes, true)
