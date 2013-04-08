@@ -20,6 +20,8 @@ module Fog
       collection  :ports
       model       :router
       collection  :routers
+      model       :security_group
+      collection  :security_groups
       model       :subnet
       collection  :subnets
 
