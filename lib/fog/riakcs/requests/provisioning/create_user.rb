@@ -3,7 +3,7 @@ module Fog
     class Provisioning
       class Real
         def create_user(email, name, options = {})
-          payload = MultiJson.encode({ :email => email, :name => name })
+          payload = Fog::JSON.encode({ :email => email, :name => name })
           headers = { 'Content-Type' => 'application/json' }
 
           if(options[:anonymous])
@@ -20,7 +20,7 @@ module Fog
               if !response.body.empty?
                 case response.headers['Content-Type']
                 when 'application/json'
-                  response.body = MultiJson.decode(response.body)
+                  response.body = Fog::JSON.decode(response.body)
                 end
               end
               response
