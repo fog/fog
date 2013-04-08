@@ -1,4 +1,4 @@
-Shindo.tests('HP::Network | networking ports model', ['hp', 'networking', 'port']) do
+Shindo.tests('HP::Network | networking ports collection', ['hp', 'networking', 'port']) do
 
   @network = HP[:network].networks.create(:name => 'my_network')
 

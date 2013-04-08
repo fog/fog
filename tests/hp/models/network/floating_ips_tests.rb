@@ -1,4 +1,4 @@
-Shindo.tests('HP::Network | networking floating ips model', ['hp', 'networking', 'floatingip']) do
+Shindo.tests('HP::Network | networking floating ips collection', ['hp', 'networking', 'floatingip']) do
 
   @ext_network = HP[:network].networks.all({'router:external'=>true}).first
 
