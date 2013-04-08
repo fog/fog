@@ -100,8 +100,8 @@ It will return an [excon](http://github.com/geemus/excon) response, which has `b
 
 ## Go forth and conquer
 
-Play around and use the console to explore or check out [fog.io](http://fog.io) for more details and examples. 
-Once you are ready to start scripting fog, here is a quick hint on how to make connections without the command line thing to help you.
+Play around and use the console to explore or check out [fog.io](http://fog.io) and the [provider documentation](http://fog.io/about/provider_documentation.html)
+for more details and examples. Once you are ready to start scripting fog, here is a quick hint on how to make connections without the command line thing to help you.
 
     # create a compute connection
     compute = Fog::Compute.new(:provider => 'AWS', :aws_access_key_id => ACCESS_KEY_ID, :aws_secret_access_key => SECRET_ACCESS_KEY)
@@ -128,7 +128,8 @@ geemus says: "That should give you everything you need to get started, but let m
 
 ## Additional Resources
 
-[fog.io](http://fog.io)
+* [fog.io](http://fog.io)
+* [Provider Documentation](http://fog.io/about/provider_documentation.html)
 
 ## Copyright
 
