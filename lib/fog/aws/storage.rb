@@ -51,6 +51,7 @@ module Fog
       request :list_multipart_uploads
       request :list_parts
       request :post_object_hidden_fields
+      request :post_object_restore
       request :put_bucket
       request :put_bucket_acl
       request :put_bucket_cors
@@ -361,6 +362,7 @@ DATA
               response-content-language
               response-content-type
               response-expires
+              restore
               torrent
               uploadId
               uploads
