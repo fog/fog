@@ -32,7 +32,7 @@ module Fog
           request({
             :headers  => headers,
             :host     => "#{bucket_name}.#{@host}",
-            :expect   => 202,
+            :expects  => [200, 202],
             :body     => data,
             :method   => 'POST',
             :query    => {'restore' => nil},
