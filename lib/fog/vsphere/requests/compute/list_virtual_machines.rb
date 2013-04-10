@@ -42,7 +42,7 @@ module Fog
           vms = convert_vm_view_to_attr_hash(vms)
 
           # remove all template based virtual machines
-          vms.delete_if { |v| v.config.nil? or v['template'] }
+          vms.delete_if { |v| v['template'] }
           vms
         end
 
