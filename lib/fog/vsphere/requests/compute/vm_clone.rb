@@ -146,7 +146,6 @@ module Fog
           # https://github.com/rlane/rbvmomi/blob/master/test/test_serialization.rb
           virtual_machine_config_spec.numCPUs = options['numCPUs'] if  ( options.has_key?('numCPUs') )
           virtual_machine_config_spec.memoryMB = options['memoryMB'] if ( options.has_key?('memoryMB') )
-          
           # Options['customization_spec']
           # Build up all the crappy tiered objects like the perl method
           # Collect your variables ifset (writing at 11pm revist me)
