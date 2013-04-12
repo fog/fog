@@ -29,6 +29,10 @@ module Fog
       request :list_snapshots
       request :get_snapshot_details
       request :delete_snapshot
+ 
+      request :update_quota
+      request :get_quota
+      request :get_quota_defaults
 
       request :set_tenant
 
@@ -37,7 +41,12 @@ module Fog
           @data ||= Hash.new do |hash, key|
             hash[key] = {
               :users => {},
-              :tenants => {}
+              :tenants => {},
+              :quota => {
+                'gigabytes' => 1000,
+                'volumes'   => 10,
+                'snapshots' => 10
+              }
             }
           end
         end
