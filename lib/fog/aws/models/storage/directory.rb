@@ -9,14 +9,12 @@ module Fog
       class Directory < Fog::Model
         VALID_ACLS = ['private', 'public-read', 'public-read-write', 'authenticated-read']
 
-        # See http://docs.amazonwebservices.com/AmazonS3/latest/API/RESTBucketPUT.html
-        INVALID_LOCATIONS = ['us-east-1']
-
         attr_reader :acl
 
         identity  :key,           :aliases => ['Name', 'name']
 
-        attribute :creation_date, :aliases => 'CreationDate'
+        attribute :creation_date, :aliases => 'CreationDate', :type => 'time'
+        attribute :location,      :aliases => 'LocationConstraint', :type => 'string'
 
         def acl=(new_acl)
           unless VALID_ACLS.include?(new_acl)
@@ -35,16 +33,12 @@ module Fog
         end
 
         def location
-          requires :key
-          attributes[:location] || bucket_location || self.service.region
+          @location ||= (bucket_location || self.service.region)
         end
 
+        # NOTE: you can't change the region once the bucket is created
         def location=(new_location)
-          if INVALID_LOCATIONS.include?(new_location)
-            raise ArgumentError, "location must not include any of #{INVALID_LOCATIONS.join(', ')}. See http://docs.amazonwebservices.com/AmazonS3/latest/API/RESTBucketPUT.html"
-          else
-            @location = new_location
-          end
+          @location = new_location
         end
 
         def files
@@ -103,7 +97,9 @@ module Fog
 
           options['x-amz-acl'] = acl if acl
 
-          if location = attributes[:location] || (self.service.region != 'us-east-1' && self.service.region)
+          # http://docs.aws.amazon.com/AmazonS3/latest/API/RESTBucketPUT.html
+          # Ignore the default region us-east-1
+          if !persisted? && location != DEFAULT_REGION
             options['LocationConstraint'] = location
           end
 
@@ -122,6 +118,8 @@ module Fog
         private
 
         def bucket_location
+          requires :key
+          return nil unless persisted?
           data = service.get_bucket_location(key)
           data.body['LocationConstraint']
         end

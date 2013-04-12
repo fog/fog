@@ -22,6 +22,21 @@ Shindo.tests("Storage[:aws] | directory", ["aws"]) do
   end
 
   directory_attributes = {
+    :key => uniq_id('different-region'),
+    :location => 'eu-west-1',
+  }
+
+  model_tests(Fog::Storage[:aws].directories, directory_attributes, Fog.mocking?) do
+    tests("#location").returns('eu-west-1') do
+      @instance.location
+    end
+
+    tests("#location").returns('eu-west-1') do
+      Fog::Storage[:aws].directories.get(@instance.identity).location
+    end
+  end
+
+  directory_attributes = {
     :key => uniq_id('fogdirectorytests')
   }
 
