@@ -7,7 +7,7 @@ Shindo.tests("Storage[:aws] | files", ["aws"]) do
   }
 
   directory_attributes = {
-      :key => 'fogfilestests'
+      :key => uniq_id('fogfilestests')
   }
 
   @directory = Fog::Storage[:aws].directories.create(directory_attributes)

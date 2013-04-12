@@ -111,14 +111,16 @@ Shindo.tests('AWS::Storage | object requests', ['aws']) do
 
   end
 
+  fognonbucket = uniq_id('fognonbucket')
+
   tests('failure') do
 
-    tests("#put_object('fognonbucket', 'fog_non_object', lorem_file)").raises(Excon::Errors::NotFound) do
-      Fog::Storage[:aws].put_object('fognonbucket', 'fog_non_object', lorem_file)
+    tests("#put_object('#{fognonbucket}', 'fog_non_object', lorem_file)").raises(Excon::Errors::NotFound) do
+      Fog::Storage[:aws].put_object(fognonbucket, 'fog_non_object', lorem_file)
     end
 
-    tests("#copy_object('fognonbucket', 'fog_object', '#{@directory.identity}', 'fog_other_object')").raises(Excon::Errors::NotFound) do
-      Fog::Storage[:aws].copy_object('fognonbucket', 'fog_object', @directory.identity, 'fog_other_object')
+    tests("#copy_object('#{fognonbucket}', 'fog_object', '#{@directory.identity}', 'fog_other_object')").raises(Excon::Errors::NotFound) do
+      Fog::Storage[:aws].copy_object(fognonbucket, 'fog_object', @directory.identity, 'fog_other_object')
     end
 
     tests("#copy_object('#{@directory.identity}', 'fog_non_object', '#{@directory.identity}', 'fog_other_object')").raises(Excon::Errors::NotFound) do
@@ -126,32 +128,32 @@ Shindo.tests('AWS::Storage | object requests', ['aws']) do
     end
 
     tests("#copy_object('#{@directory.identity}', 'fog_object', 'fognonbucket', 'fog_other_object')").raises(Excon::Errors::NotFound) do
-      Fog::Storage[:aws].copy_object(@directory.identity, 'fog_object', 'fognonbucket', 'fog_other_object')
+      Fog::Storage[:aws].copy_object(@directory.identity, 'fog_object', fognonbucket, 'fog_other_object')
     end
 
-    tests("#get_object('fognonbucket', 'fog_non_object')").raises(Excon::Errors::NotFound) do
-      Fog::Storage[:aws].get_object('fognonbucket', 'fog_non_object')
+    tests("#get_object('#{fognonbucket}', 'fog_non_object')").raises(Excon::Errors::NotFound) do
+      Fog::Storage[:aws].get_object(fognonbucket, 'fog_non_object')
     end
 
     tests("#get_object('#{@directory.identity}', 'fog_non_object')").raises(Excon::Errors::NotFound) do
       Fog::Storage[:aws].get_object(@directory.identity, 'fog_non_object')
     end
 
-    tests("#head_object('fognonbucket', 'fog_non_object')").raises(Excon::Errors::NotFound) do
-      Fog::Storage[:aws].head_object('fognonbucket', 'fog_non_object')
+    tests("#head_object(fognonbucket, 'fog_non_object')").raises(Excon::Errors::NotFound) do
+      Fog::Storage[:aws].head_object(fognonbucket, 'fog_non_object')
     end
 
     tests("#head_object('#{@directory.identity}', 'fog_non_object')").raises(Excon::Errors::NotFound) do
       Fog::Storage[:aws].head_object(@directory.identity, 'fog_non_object')
     end
 
-    tests("#delete_object('fognonbucket', 'fog_non_object')").raises(Excon::Errors::NotFound) do
-      Fog::Storage[:aws].delete_object('fognonbucket', 'fog_non_object')
+    tests("#delete_object('#{fognonbucket}', 'fog_non_object')").raises(Excon::Errors::NotFound) do
+      Fog::Storage[:aws].delete_object(fognonbucket, 'fog_non_object')
     end
 
-    tests("#delete_multiple_objects('fognonbucket', ['fog_non_object'])").raises(Excon::Errors::NotFound) do
+    tests("#delete_multiple_objects('#{fognonbucket}', ['fog_non_object'])").raises(Excon::Errors::NotFound) do
       pending if Fog.mocking?
-      Fog::Storage[:aws].delete_multiple_objects('fognonbucket', ['fog_non_object'])
+      Fog::Storage[:aws].delete_multiple_objects(fognonbucket, ['fog_non_object'])
     end
 
     tests("#put_object_acl('#{@directory.identity}', 'fog_object', 'invalid')").raises(Excon::Errors::BadRequest) do

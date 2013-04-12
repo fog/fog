@@ -7,7 +7,7 @@ Shindo.tests("Storage[:aws] | versions", ["aws"]) do
   }
 
   directory_attributes = {
-      :key => 'fogfilestests'
+      :key => uniq_id('fogfilestests')
   }
 
   model_tests(Fog::Storage[:aws].directories, directory_attributes, Fog.mocking?) do
