@@ -10,14 +10,12 @@ module Fog
           unless object_name
             raise ArgumentError.new('object_name is required')
           end
-          scheme_host_path_query({
-            :scheme   => options[:scheme],
-            :headers  => headers,
-            :host     => @host,
-            :port     => @port,
+          signed_url(options.merge({
+            :bucket_name => bucket_name,
+            :object_name => object_name,
             :method   => 'PUT',
-            :path     => "#{bucket_name}/#{object_name}"
-          }, expires)
+            :headers  => headers,
+          }), expires)
         end
       end
 

@@ -163,11 +163,10 @@ module Fog
         def public_url
           requires :directory, :key
           if service.get_object_acl(directory.key, key).body['AccessControlList'].detect {|grant| grant['Grantee']['URI'] == 'http://acs.amazonaws.com/groups/global/AllUsers' && grant['Permission'] == 'READ'}
-            if directory.key.to_s =~ Fog::AWS::COMPLIANT_BUCKET_NAMES
-              "https://#{directory.key}.s3.amazonaws.com/#{Fog::AWS.escape(key)}".gsub('%2F','/')
-            else
-              "https://s3.amazonaws.com/#{directory.key}/#{Fog::AWS.escape(key)}".gsub('%2F','/')
-            end
+            service.request_url(
+              :bucket_name => directory.key,
+              :object_name => key
+            )
           else
             nil
           end

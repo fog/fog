@@ -66,7 +66,7 @@ module Fog
                     :expects  => 200,
                     :headers  => {'Content-MD5' => Base64.encode64(Digest::MD5.digest(body)).chomp!,
                       'Content-Type' => 'application/xml'},
-                    :host     => "#{bucket_name}.#{@host}",
+                    :bucket_name => bucket_name,
                     :method   => 'PUT',
                     :query    => {'lifecycle' => nil}
                   })

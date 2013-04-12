@@ -33,7 +33,7 @@ module Fog
           request({
             :expects    => 200,
             :headers    => {},
-            :host       => "#{bucket_name}.#{@host}",
+            :bucket_name => bucket_name,
             :idempotent => true,
             :method     => 'GET',
             :parser     => Fog::Parsers::Storage::AWS::GetBucketLogging.new,

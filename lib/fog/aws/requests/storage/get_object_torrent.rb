@@ -33,10 +33,10 @@ module Fog
           request({
             :expects    => 200,
             :headers    => {},
-            :host       => "#{bucket_name}.#{@host}",
+            :bucket_name => bucket_name,
+            :object_name => object_name,
             :idempotent => true,
             :method     => 'GET',
-            :path       => CGI.escape(object_name),
             :query      => {'torrent' => nil}
           })
         end

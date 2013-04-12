@@ -31,7 +31,7 @@ DATA
             :body       => data,
             :headers    => options,
             :idempotent => true,
-            :host       => "#{bucket_name}.#{@host}",
+            :bucket_name => bucket_name,
             :method     => 'PUT'
           })
         end

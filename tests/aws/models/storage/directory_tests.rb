@@ -13,7 +13,7 @@ Shindo.tests("Storage[:aws] | directory", ["aws"]) do
     @instance.save
 
     tests("#public_url").returns(true) do
-      if @instance.public_url =~ %r[\Ahttps://fogdirectorytests-[\da-f]+\.s3\.amazonaws\.com\z]
+      if @instance.public_url =~ %r[\Ahttps://fogdirectorytests-[\da-f]+\.s3\.amazonaws\.com/\z]
         true
       else
         @instance.public_url

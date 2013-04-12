@@ -80,11 +80,9 @@ module Fog
         def public_url
           requires :key
           if service.get_bucket_acl(key).body['AccessControlList'].detect {|grant| grant['Grantee']['URI'] == 'http://acs.amazonaws.com/groups/global/AllUsers' && grant['Permission'] == 'READ'}
-            if key.to_s =~ Fog::AWS::COMPLIANT_BUCKET_NAMES
-              "https://#{key}.s3.amazonaws.com"
-            else
-              "https://s3.amazonaws.com/#{key}"
-            end
+            service.request_url(
+              :bucket_name => key
+            )
           else
             nil
           end
