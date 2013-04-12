@@ -1,7 +1,28 @@
 Shindo.tests("Storage[:aws] | directory", ["aws"]) do
 
   directory_attributes = {
-    :key => 'fogdirectorytests'
+    :key => uniq_id('fogdirectorytests')
+  }
+
+  model_tests(Fog::Storage[:aws].directories, directory_attributes, Fog.mocking?) do
+    tests("#public_url").returns(nil) do
+      @instance.public_url
+    end
+
+    @instance.acl = 'public-read'
+    @instance.save
+
+    tests("#public_url").returns(true) do
+      if @instance.public_url =~ %r[\Ahttps://fogdirectorytests-[\da-f]+\.s3\.amazonaws\.com\z]
+        true
+      else
+        @instance.public_url
+      end
+    end
+  end
+
+  directory_attributes = {
+    :key => uniq_id('fogdirectorytests')
   }
 
   model_tests(Fog::Storage[:aws].directories, directory_attributes, Fog.mocking?) do
