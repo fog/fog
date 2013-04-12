@@ -22,6 +22,8 @@ module Fog
       collection  :routers
       model       :security_group
       collection  :security_groups
+      model       :security_group_rule
+      collection  :security_group_rules
       model       :subnet
       collection  :subnets
 
