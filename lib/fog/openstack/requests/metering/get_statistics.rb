@@ -10,13 +10,15 @@ module Fog
             'q'      => Array.new
           }
 
-          filters = ['field', 'opt', 'value']
-          filter = {}
-          filters.select{|o| options[o]}.each do |key|
-            filter[key] = options[key]
-          end
+          options['q'].each do |opt|
+            filter = {}
 
-          data['q'] << filter unless filter.empty?
+            ['field', 'op', 'value'].each do |key|
+              filter[key] = opt[key] if opt[key]
+            end
+
+            data['q'] << filter unless filter.empty?
+          end if options['q'].is_a? Array
 
           request(
             :body     => Fog::JSON.encode(data),

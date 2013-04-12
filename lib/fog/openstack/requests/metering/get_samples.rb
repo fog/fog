@@ -3,19 +3,21 @@ module Fog
     class OpenStack
       class Real
 
-        def get_samples(meter_id, options = {})
+        def get_samples(meter_id, options=[])
 
           data = {
             'q' => Array.new
           }
 
-          filters = ['field', 'opt', 'value']
-          filter = {}
-          filters.select{|o| options[o]}.each do |key|
-            filter[key] = options[key]
-          end
+          options.each do |opt|
+            filter = {}
 
-          data['q'] << filter unless filter.empty?
+            ['field', 'op', 'value'].each do |key|
+              filter[key] = opt[key] if opt[key]
+            end
+
+            data['q'] << filter unless filter.empty?
+          end
 
           request(
             :body     => Fog::JSON.encode(data),
