@@ -108,8 +108,15 @@ module Fog
           end
 
           service.put_bucket(key, options)
+          attributes[:is_persisted] = true
 
           true
+        end
+
+        def persisted?
+          # is_persisted is true in case of directories.get or after #save
+          # creation_date is set in case of directories.all
+          attributes[:is_persisted] || !!attributes[:creation_date]
         end
 
         private
