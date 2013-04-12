@@ -5,7 +5,7 @@ module Fog
     class Network < Fog::Service
 
       requires    :hp_access_key, :hp_secret_key, :hp_tenant_id, :hp_avl_zone
-      recognizes  :hp_auth_uri
+      recognizes  :hp_auth_uri, :credentials
       recognizes  :persistent, :connection_options
       recognizes  :hp_use_upass_auth_style, :hp_auth_version, :user_agent
 
@@ -118,6 +118,7 @@ module Fog
 
       class Real
         include Utils
+        attr_reader :credentials
 
         def initialize(options={})
           @hp_access_key = options[:hp_access_key]
@@ -126,7 +127,7 @@ module Fog
           @connection_options = options[:connection_options] || {}
           ### Set an option to use the style of authentication desired; :v1 or :v2 (default)
           auth_version = options[:hp_auth_version] || :v2
-          ### Pass the service name for object storage to the authentication call
+          ### Pass the service name for network to the authentication call
           options[:hp_service_type] = "Networking"
           @hp_tenant_id = options[:hp_tenant_id]
           @hp_avl_zone  = options[:hp_avl_zone]
@@ -135,12 +136,13 @@ module Fog
           if (auth_version == :v2)
             # Call the control services authentication
             credentials = Fog::HP.authenticate_v2(options, @connection_options)
-            # the CS service catalog returns the block storage endpoint
+            # the CS service catalog returns the network endpoint
             @hp_network_uri = credentials[:endpoint_url]
+            @credentials = credentials
           else
             # Call the legacy v1.0/v1.1 authentication
             credentials = Fog::HP.authenticate_v1(options, @connection_options)
-            # the user sends in the block storage endpoint
+            # the user sends in the network endpoint
             @hp_network_uri = options[:hp_auth_uri]
           end
 
