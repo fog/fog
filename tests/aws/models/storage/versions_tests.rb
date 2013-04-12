@@ -14,17 +14,17 @@ Shindo.tests("Storage[:aws] | versions", ["aws"]) do
     @instance.versioning = true
 
     versions = []
-    versions << @instance.connection.put_object(@instance.key, 'one', 'abcde').headers['x-amz-version-id']
+    versions << @instance.service.put_object(@instance.key, 'one', 'abcde').headers['x-amz-version-id']
 
     puts versions.first
 
-    versions << @instance.connection.put_object(@instance.key, 'one', '32423').headers['x-amz-version-id']
-    versions << @instance.connection.delete_object(@instance.key, 'one').headers['x-amz-version-id']
+    versions << @instance.service.put_object(@instance.key, 'one', '32423').headers['x-amz-version-id']
+    versions << @instance.service.delete_object(@instance.key, 'one').headers['x-amz-version-id']
     versions.reverse!
 
     puts versions.first
 
-    versions << @instance.connection.put_object(@instance.key, 'two', 'aoeu').headers['x-amz-version-id']
+    versions << @instance.service.put_object(@instance.key, 'two', 'aoeu').headers['x-amz-version-id']
 
     tests('#versions') do
       tests('#versions.size includes versions (including DeleteMarkers) for all keys').returns(4) do
