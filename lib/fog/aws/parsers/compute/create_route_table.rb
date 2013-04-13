@@ -22,8 +22,6 @@ module Fog
               @in_tag_set = true
             when 'routeSet'
               @in_route_set = true
-            when 'tagSet'
-              @in_tag_set = true
             when 'associationSet'
               @in_association_set = true
             end
@@ -54,10 +52,11 @@ module Fog
                 @association[name] = value
               when 'associationSet'
                 @route_table['associationSet'] << @association
+                @in_association_set = false
               end
             else
               case name
-              when 'routeTableId', 'vpcId', 
+              when 'routeTableId', 'vpcId'
                 @route_table[name] = value
               when 'routeTable'
                 @response['routeTableSet'] << @route_table
