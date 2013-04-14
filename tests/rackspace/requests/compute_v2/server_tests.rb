@@ -124,6 +124,16 @@ Shindo.tests('Fog::Compute::RackspaceV2 | server_tests', ['rackspace']) do
     end
     wait_for_server_state(service, server_id, 'ACTIVE', 'ERROR')
 
+    tests('#rescue_server').succeeds do
+      service.rescue_server(server_id)
+    end
+    wait_for_server_state(service, server_id, 'RESCUE', 'ACTIVE')
+
+    tests('#unrescue_server').succeeds do
+      service.unrescue_server(server_id)
+    end
+    wait_for_server_state(service, server_id, 'ACTIVE', 'ERROR')
+
     tests('#delete_server').succeeds do
       service.delete_server(server_id)
     end    
