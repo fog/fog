@@ -44,12 +44,14 @@ module Fog
         attribute :resource_pool
         attribute :instance_uuid # move this --> id
         attribute :guest_id
+        attribute :annotations
 
         def initialize(attributes={} )
           super defaults.merge(attributes)
           self.instance_uuid ||= id # TODO: remvoe instance_uuid as it can be replaced with simple id
           initialize_interfaces
           initialize_volumes
+          annotations.vm = self if annotations.is_a? Fog::Compute::Vsphere::Annotations
         end
 
         # Lazy Loaded Attributes
@@ -196,6 +198,10 @@ module Fog
           super
         end
 
+        def raw_vm
+          attributes['raw_vm']
+        end
+
         private
 
         def defaults
@@ -219,7 +225,6 @@ module Fog
           end
         end
       end
-
     end
   end
 end

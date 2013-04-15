@@ -29,6 +29,8 @@ module Fog
       collection :datastores
       model :folder
       collection :folders
+      model :annotation
+      collection :annotations
 
       request_path 'fog/vsphere/requests/compute'
       request :current_time
@@ -90,6 +92,8 @@ module Fog
           :cpus   => 'config.hardware.numCPU',
           :overall_status => 'overallStatus',
           :guest_id => 'summary.guest.guestId',
+          :customValue => 'customValue',
+          :availableField => 'availableField'
         }
 
         def convert_vm_view_to_attr_hash(vms)
@@ -120,6 +124,7 @@ module Fog
           Hash[ATTR_TO_PROP.map { |k,v| [k.to_s, props[v]] }].tap do |attrs|
             attrs['id'] ||= vm_mob_ref._ref
             attrs['mo_ref'] = vm_mob_ref._ref
+            attrs['raw_vm'] = vm_mob_ref
             # The name method "magically" appears after a VM is ready and
             # finished cloning.
             if attrs['hypervisor'].kind_of?(RbVmomi::VIM::HostSystem)
@@ -129,6 +134,20 @@ module Fog
               attrs['hypervisor'] = Proc.new { host.name rescue nil }
               attrs['resource_pool'] = Proc.new {(vm_mob_ref.resourcePool || host.resourcePool).name rescue nil}
             end
+
+            # setting annotations
+            attrs['annotations'] = Fog::Compute::Vsphere::Annotations.new(:service => @connection)
+            vals = attrs['customValue'] ? attrs['customValue'].inject({}) do |vs, cv|
+              vs[cv.key] = cv.value
+              vs
+            end : {}
+            attrs['availableField'].each do |af|
+              attrs['annotations'] << attrs['annotations'].new(:key => af.name.downcase.to_sym, :value => vals[af.key])
+            end if attrs['avilableField']
+            attrs.delete 'customValue'
+            attrs.delete 'availableField'
+
+
             # This inline rescue catches any standard error.  While a VM is
             # cloning, a call to the macs method will throw and NoMethodError
             attrs['mac_addresses'] = Proc.new {vm_mob_ref.macs rescue nil}
