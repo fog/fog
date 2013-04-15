@@ -39,10 +39,10 @@ module Fog
         # @param [Fog::Storage::Rackspace::Directory] directory to publish
         # @param [Boolean] publish If true directory is published. If false directory is unpublished.
         # @return [Hash] hash containing urls for published container
-        # @raise [Fog::Rackspace::Errors::NotFound] - HTTP 404
-        # @raise [Fog::Rackspace::Errors::BadRequest] - HTTP 400
-        # @raise [Fog::Rackspace::Errors::InternalServerError] - HTTP 500
-        # @raise [Fog::Rackspace::Errors::ServiceError]
+        # @raise [Fog::Storage::Rackspace::NotFound] - HTTP 404
+        # @raise [Fog::Storage::Rackspace::BadRequest] - HTTP 400
+        # @raise [Fog::Storage::Rackspace::InternalServerError] - HTTP 500
+        # @raise [Fog::Storage::Rackspace::ServiceError]
         def publish_container(container, publish = true)
           enabled = publish ? 'True' : 'False'
           response = put_container(container.key, 'X-Cdn-Enabled' => enabled)
@@ -53,9 +53,9 @@ module Fog
         # Returns hash of urls for container
         # @param [Fog::Storage::Rackspace::Directory] container to retrieve urls for
         # @return [Hash] hash containing urls for published container
-        # @raise [Fog::Rackspace::Errors::BadRequest] - HTTP 400
-        # @raise [Fog::Rackspace::Errors::InternalServerError] - HTTP 500
-        # @raise [Fog::Rackspace::Errors::ServiceError]
+        # @raise [Fog::Storage::Rackspace::BadRequest] - HTTP 400
+        # @raise [Fog::Storage::Rackspace::InternalServerError] - HTTP 500
+        # @raise [Fog::Storage::Rackspace::ServiceError]
         # @note If unable to find container or container is not published this method will return an empty hash.
         def urls(container)
           begin 

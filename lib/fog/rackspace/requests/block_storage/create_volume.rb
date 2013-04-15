@@ -25,10 +25,10 @@ module Fog
         #       * 'snapshot_id' [String]: - The optional snapshot from which to create a volume.
         #       * 'display_name' [String]: - display name of volume
         #       * 'created_at' [String]: - the volume creation time
-        # @raise [Fog::Rackspace::Errors::NotFound] - HTTP 404
-        # @raise [Fog::Rackspace::Errors::BadRequest] - HTTP 400
-        # @raise [Fog::Rackspace::Errors::InternalServerError] - HTTP 500
-        # @raise [Fog::Rackspace::Errors::ServiceError]
+        # @raise [Fog::Rackspace::BlockStorage::NotFound] - HTTP 404
+        # @raise [Fog::Rackspace::BlockStorage::BadRequest] - HTTP 400
+        # @raise [Fog::Rackspace::BlockStorage::InternalServerError] - HTTP 500
+        # @raise [Fog::Rackspace::BlockStorage::ServiceError]
         # @see http://docs.rackspace.com/cbs/api/v1.0/cbs-devguide/content/POST_createVolume__v1__tenant_id__volumes.html
         def create_volume(size, options = {})
           data = {

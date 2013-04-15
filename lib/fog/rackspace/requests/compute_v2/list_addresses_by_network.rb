@@ -14,10 +14,10 @@ module Fog
         #         * [Hash]:
         #           * version [Fixnum] - version of the address
         #           * addr [String] - ip address
-        # @raise [Fog::Rackspace::Errors::NotFound] - HTTP 404
-        # @raise [Fog::Rackspace::Errors::BadRequest] - HTTP 400
-        # @raise [Fog::Rackspace::Errors::InternalServerError] - HTTP 500
-        # @raise [Fog::Rackspace::Errors::ServiceError]
+        # @raise [Fog::Compute::RackspaceV2::NotFound] - HTTP 404
+        # @raise [Fog::Compute::RackspaceV2::BadRequest] - HTTP 400
+        # @raise [Fog::Compute::RackspaceV2::InternalServerError] - HTTP 500
+        # @raise [Fog::Compute::RackspaceV2::ServiceError]
         # @see http://docs.rackspace.com/servers/api/v2/cs-devguide/content/List_Addresses_by_Network-d1e3118.html
         def list_addresses_by_network(server_id, network_id)
           request(

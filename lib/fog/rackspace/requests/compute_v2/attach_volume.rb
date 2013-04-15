@@ -14,10 +14,10 @@ module Fog
         #       * serverId [String] - The id of the server that attached the volume
         #       * id [String] - The id of the attachment
         #       * volumeId [String] - The id of the volume that was attached
-        # @raise [Fog::Rackspace::Errors::NotFound] - HTTP 404
-        # @raise [Fog::Rackspace::Errors::BadRequest] - HTTP 400
-        # @raise [Fog::Rackspace::Errors::InternalServerError] - HTTP 500
-        # @raise [Fog::Rackspace::Errors::ServiceError]
+        # @raise [Fog::Compute::RackspaceV2::NotFound] - HTTP 404
+        # @raise [Fog::Compute::RackspaceV2::BadRequest] - HTTP 400
+        # @raise [Fog::Compute::RackspaceV2::InternalServerError] - HTTP 500
+        # @raise [Fog::Compute::RackspaceV2::ServiceError]
         # @see http://docs.rackspace.com/servers/api/v2/cs-devguide/content/Attach_Volume_to_Server.html
         def attach_volume(server_id, volume_id, device)
           data = {

@@ -89,10 +89,10 @@ module Fog
         # @param [String] ready_state By default state is ACTIVE
         # @param [Array,String] error_states By default state is ERROR
         # @return [Boolean] returns true if server is in a ready state
-        # @raise [Fog::Rackspace::Errors::NotFound] - HTTP 404
-        # @raise [Fog::Rackspace::Errors::BadRequest] - HTTP 400
-        # @raise [Fog::Rackspace::Errors::InternalServerError] - HTTP 500
-        # @raise [Fog::Rackspace::Errors::ServiceError]
+        # @raise [Fog::Compute::RackspaceV2::NotFound] - HTTP 404
+        # @raise [Fog::Compute::RackspaceV2::BadRequest] - HTTP 400
+        # @raise [Fog::Compute::RackspaceV2::InternalServerError] - HTTP 500
+        # @raise [Fog::Compute::RackspaceV2::ServiceError]
         # @raise [Fog::Compute::RackspaceV2::InvalidImageStateException] if server state is an error state
         def ready?(ready_state = ACTIVE, error_states=[ERROR])
           if error_states
@@ -104,10 +104,10 @@ module Fog
         
 
         # Destroy image
-        # @raise [Fog::Rackspace::Errors::NotFound] - HTTP 404
-        # @raise [Fog::Rackspace::Errors::BadRequest] - HTTP 400
-        # @raise [Fog::Rackspace::Errors::InternalServerError] - HTTP 500
-        # @raise [Fog::Rackspace::Errors::ServiceError]
+        # @raise [Fog::Compute::RackspaceV2::NotFound] - HTTP 404
+        # @raise [Fog::Compute::RackspaceV2::BadRequest] - HTTP 400
+        # @raise [Fog::Compute::RackspaceV2::InternalServerError] - HTTP 500
+        # @raise [Fog::Compute::RackspaceV2::ServiceError]
         def destroy
           requires :identity
           service.delete_image(identity)

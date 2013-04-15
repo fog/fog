@@ -14,10 +14,10 @@ module Fog
         #       * 'size' [Fixnum]: - size of the snapshot in GB
         #       * 'display_name' [String]: - display name of snapshot
         #       * 'created_at' [String]: - creation time of snapshot
-        # @raise [Fog::Rackspace::Errors::NotFound] - HTTP 404
-        # @raise [Fog::Rackspace::Errors::BadRequest] - HTTP 400
-        # @raise [Fog::Rackspace::Errors::InternalServerError] - HTTP 500
-        # @raise [Fog::Rackspace::Errors::ServiceError]
+        # @raise [Fog::Rackspace::BlockStorage::NotFound] - HTTP 404
+        # @raise [Fog::Rackspace::BlockStorage::BadRequest] - HTTP 400
+        # @raise [Fog::Rackspace::BlockStorage::InternalServerError] - HTTP 500
+        # @raise [Fog::Rackspace::BlockStorage::ServiceError]
         # @see http://docs.rackspace.com/cbs/api/v1.0/cbs-devguide/content/GET_getSnapshotsSimple__v1__tenant_id__snapshots.html
         def list_snapshots
           request(

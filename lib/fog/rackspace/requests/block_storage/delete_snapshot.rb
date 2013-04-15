@@ -7,10 +7,10 @@ module Fog
         #
         # @param [String] snapshot_id Id of snapshot to delete
         # @return [Excon::Response] response
-        # @raise [Fog::Rackspace::Errors::NotFound] - HTTP 404
-        # @raise [Fog::Rackspace::Errors::BadRequest] - HTTP 400
-        # @raise [Fog::Rackspace::Errors::InternalServerError] - HTTP 500
-        # @raise [Fog::Rackspace::Errors::ServiceError]
+        # @raise [Fog::Rackspace::BlockStorage::NotFound] - HTTP 404
+        # @raise [Fog::Rackspace::BlockStorage::BadRequest] - HTTP 400
+        # @raise [Fog::Rackspace::BlockStorage::InternalServerError] - HTTP 500
+        # @raise [Fog::Rackspace::BlockStorage::ServiceError]
         # @see http://docs.rackspace.com/cbs/api/v1.0/cbs-devguide/content/POST_createSnapshot__v1__tenant_id__snapshots.html
         def delete_snapshot(snapshot_id)
           request(
