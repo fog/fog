@@ -4,7 +4,6 @@ require 'fog/cdn'
 module Fog
   module CDN
     class Rackspace < Fog::Service
-
       requires :rackspace_api_key, :rackspace_username
       recognizes :rackspace_auth_url, :persistent, :rackspace_cdn_ssl, :rackspace_region, :rackspace_cdn_url
 
@@ -167,7 +166,7 @@ module Fog
           rescue Excon::Errors::HTTPStatusError => error
             raise case error
             when Excon::Errors::NotFound
-              Fog::Storage::Rackspace::NotFound.slurp(error)
+              Fog::Storage::Rackspace::NotFound.slurp(error, region)
             else
               error
             end

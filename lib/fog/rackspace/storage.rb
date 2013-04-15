@@ -4,6 +4,7 @@ require 'fog/storage'
 module Fog
   module Storage
     class Rackspace < Fog::Service
+      include Fog::Rackspace::Errors
 
       requires :rackspace_api_key, :rackspace_username
       recognizes :rackspace_auth_url, :rackspace_servicenet, :rackspace_cdn_ssl, :persistent, :rackspace_region
@@ -155,7 +156,7 @@ module Fog
           rescue Excon::Errors::HTTPStatusError => error
             raise case error
             when Excon::Errors::NotFound
-              Fog::Storage::Rackspace::NotFound.slurp(error)
+              NotFound.slurp(error, region)
             else
               error
             end

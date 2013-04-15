@@ -4,6 +4,7 @@ require 'fog/compute'
 module Fog
   module Compute
     class Rackspace < Fog::Service
+      include Fog::Rackspace::Errors
 
       requires :rackspace_api_key, :rackspace_username
       recognizes :rackspace_auth_url, :rackspace_servicenet, :persistent
@@ -223,7 +224,7 @@ module Fog
           rescue Excon::Errors::HTTPStatusError => error
             raise case error
             when Excon::Errors::NotFound
-              Fog::Compute::Rackspace::NotFound.slurp(error)
+              NotFound.slurp(error, region)
             else
               error
             end
