@@ -9,8 +9,9 @@ module Fog
 
         model Fog::Compute::Cloudstack::Server
 
-        def all
-          data = service.list_virtual_machines["listvirtualmachinesresponse"]["virtualmachine"] || []
+        def all(attributes={})
+          response = service.list_virtual_machines(attributes)
+          data = response["listvirtualmachinesresponse"]["virtualmachine"] || []
           load(data)
         end
 
