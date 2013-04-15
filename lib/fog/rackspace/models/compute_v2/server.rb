@@ -467,7 +467,6 @@ module Fog
           requires :identity
           data = service.rescue_server(identity)
           merge_attributes(data.body)
-          self.state = RESCUE
           true
         end
 

@@ -142,11 +142,9 @@ Shindo.tests('Fog::Compute::RackspaceV2 | server', ['rackspace']) do
     @instance.wait_for(timeout=1500)  { ready? }
     tests('#rescue').succeeds do
       @instance.rescue
-      returns('RESCUE') { @instance.state }
     end
 
     @instance.wait_for(timeout=1500) { ready?('RESCUE') }
-    sleep 60  unless Fog.mocking?
     tests('#unrescue').succeeds do
       @instance.unrescue
     end
