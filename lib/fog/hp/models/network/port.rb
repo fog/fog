@@ -24,6 +24,10 @@ module Fog
           true
         end
 
+        def ready?
+          self.status == 'ACTIVE'
+        end
+
         def save
           requires :network_id
           identity ? update : create

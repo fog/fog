@@ -39,6 +39,10 @@ module Fog
           end
         end
 
+        def ready?
+          self.status == 'ACTIVE'
+        end
+
         def save
           identity ? update : create
         end
