@@ -163,13 +163,14 @@ module Fog
               :host     => endpoint_uri.host,
               :path     => "#{endpoint_uri.path}/#{params[:path]}",
             }))
+          rescue Excon::Errors::NotFound => error
+            raise Fog::Storage::Rackspace::NotFound.slurp(error, region)
+          rescue Excon::Errors::BadRequest => error
+            raise Fog::Storage::Rackspace::BadRequest.slurp error
+          rescue Excon::Errors::InternalServerError => error
+            raise Fog::Storage::Rackspace::InternalServerError.slurp error
           rescue Excon::Errors::HTTPStatusError => error
-            raise case error
-            when Excon::Errors::NotFound
-              Fog::Storage::Rackspace::NotFound.slurp(error, region)
-            else
-              error
-            end
+            raise Fog::Storage::Rackspace::ServiceError.slurp error
           end
           if !response.body.empty? && parse_json && response.headers['Content-Type'] =~ %r{application/json}
             response.body = Fog::JSON.decode(response.body)
