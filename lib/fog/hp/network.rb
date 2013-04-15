@@ -182,7 +182,11 @@ module Fog
             end
           end
           if !response.body.empty? && parse_json && response.headers['Content-Type'] =~ %r{application/json}
-            response.body = Fog::JSON.decode(response.body)
+            if response.body.nil? || response.body == 'null'
+              response.body = ''
+            else
+              response.body = Fog::JSON.decode(response.body)
+            end
           end
           response
         end
