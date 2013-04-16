@@ -24,7 +24,7 @@ module Fog
         #nil or empty string will trigger an argument error
         rescue ArgumentError
           nil
-        rescue Fog::Rackspace::Errors::NotFound
+        rescue Fog::DNS::Rackspace::NotFound
           nil
         end
 
