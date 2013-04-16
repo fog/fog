@@ -29,7 +29,9 @@ module Fog
               begin
                 data = Fog::JSON.decode(error.response.body)
                 message = data.values.first ? data.values.first['message'] : data['message']
-              rescue Fog::JSON::LoadError => e
+              rescue  => e
+                Fog::Logger.warning("Received exception '#{e}' while decoding>> #{error.response.body}")
+                message = error.response.body
                 data = error.response.body
               end
             end
