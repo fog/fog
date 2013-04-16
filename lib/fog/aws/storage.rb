@@ -162,6 +162,10 @@ module Fog
           '/' + Fog::AWS.escape(object_name.to_s).gsub('%2F','/')
         end
 
+        def bucket_to_path(bucket_name, path=nil)
+          "/#{Fog::AWS.escape(bucket_name.to_s)}#{path}"
+        end
+
         # Transforms things like bucket_name, object_name, region
         #
         # Should yield the same result when called f*f
@@ -202,7 +206,7 @@ module Fog
             end
 
             if path_style
-              path = "/#{bucket_name}#{path}"
+              path = bucket_to_path bucket_name, path
             else
               host = [bucket_name, host].join('.')
             end
