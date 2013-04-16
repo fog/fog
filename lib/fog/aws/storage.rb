@@ -329,10 +329,12 @@ DATA
           if !valid_dns || @path_style
             Fog::Logger.warning("fog: the specified s3 bucket name(#{subdomain}) is not a valid dns name, which will negatively impact performance.  For details see: http://docs.amazonwebservices.com/AmazonS3/latest/dev/BucketRestrictions.html") unless valid_dns
             params[:host] = params[:host].split("#{subdomain}.")[-1]
-            if params[:path]
-              params[:path] = "#{subdomain}/#{params[:path]}" unless subdomain == @host
-            else
-              params[:path] = subdomain
+            unless subdomain == @host
+              if params[:path]
+                params[:path] = "#{subdomain}/#{params[:path]}"
+              else
+                params[:path] = subdomain
+              end
             end
             subdomain = nil
           end
