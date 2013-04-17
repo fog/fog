@@ -12,11 +12,12 @@ module Fog
 
       class Real
 
-        def delete_disk(disk_name)
+        def delete_disk(disk_name, zone_name=@default_zone)
           api_method = @compute.disks.delete
           parameters = {
             'project' => @project,
-            'disk' => disk_name
+            'disk' => disk_name,
+            'zone' => zone_name
           }
 
           result = self.build_result(api_method, parameters)

@@ -12,10 +12,11 @@ module Fog
 
       class Real
 
-        def list_disks
+        def list_disks(zone_name=@default_zone)
           api_method = @compute.disks.list
           parameters = {
-            'project' => @project
+            'project' => @project,
+            'zone' => zone_name
           }
 
           result = self.build_result(api_method, parameters)

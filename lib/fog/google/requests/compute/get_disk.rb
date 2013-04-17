@@ -12,11 +12,12 @@ module Fog
 
       class Real
 
-        def get_disk(disk_name)
+        def get_disk(disk_name, zone_name=@default_zone)
           api_method = @compute.disks.get
           parameters = {
             'project' => @project,
-            'disk' => disk_name
+            'disk' => disk_name,
+            'zone' => zone_name
           }
 
           result = self.build_result(api_method, parameters)

@@ -15,12 +15,12 @@ module Fog
         def insert_disk(disk_name, disk_size, zone_name=@default_zone)
           api_method = @compute.disks.insert
           parameters = {
-          'project' => @project,
+            'project' => @project,
+            'zone' => zone_name
           }
           body_object = {
             'name' => disk_name,
             'sizeGb' => disk_size,
-            'zone' => @api_url + @project + "/zones/#{zone_name}"
           }
 
           result = self.build_result(api_method, parameters,
