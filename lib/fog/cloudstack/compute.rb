@@ -39,6 +39,8 @@ module Fog
       collection :zones
 
       request :acquire_ip_address
+      request :add_traffic_type
+      request :add_cluster
       request :assign_to_load_balancer_rule
       request :assign_virtual_machine
       request :attach_volume
@@ -50,13 +52,17 @@ module Fog
       request :create_load_balancer_rule
       request :create_network
       request :create_port_forwarding_rule
+      request :create_pod
       request :create_security_group
       request :create_ssh_key_pair
       request :create_snapshot
       request :create_snapshot_policy
       request :create_user
       request :create_volume
+      request :create_vlan_ip_range
       request :create_zone
+      request :create_physical_network
+      request :configure_virtual_router_element
       request :delete_account
       request :delete_domain
       request :delete_load_balancer_rule
@@ -98,6 +104,7 @@ module Fog
       request :list_load_balancer_rule_instances
       request :list_network_offerings
       request :list_networks
+      request :list_network_service_providers
       request :list_os_categories
       request :list_os_types
       request :list_pods
@@ -114,6 +121,7 @@ module Fog
       request :list_usage_records
       request :list_users
       request :list_virtual_machines
+      request :list_virtual_router_elements
       request :list_volumes
       request :list_zones
       request :migrate_virtual_machine
@@ -131,6 +139,8 @@ module Fog
       request :stop_virtual_machine
       request :update_account
       request :update_domain
+      request :update_network_service_provider
+      request :update_physical_network
       request :update_user
       request :update_resource_count
       request :update_virtual_machine
@@ -191,6 +201,7 @@ module Fog
 
           response = issue_request(params,headers)
           response = Fog::JSON.decode(response.body) unless response.body.empty?
+
           response
         end
 
@@ -235,7 +246,6 @@ module Fog
 
           rescue Excon::Errors::HTTPStatusError => error
             error_response = Fog::JSON.decode(error.response.body)
-
             error_code = error_response.values.first['errorcode']
             error_text = error_response.values.first['errortext']
 

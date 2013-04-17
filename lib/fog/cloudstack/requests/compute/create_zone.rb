@@ -3,14 +3,13 @@ module Fog
     class Cloudstack
       class Real
 
-        # Lists zones.
+        # Creates a Zone.
         #
-        # {CloudStack API Reference}[http://download.cloud.com/releases/2.2.0/api_2.2.4/global_admin/listZones.html]
+        # {CloudStack API Reference}[http://download.cloud.com/releases/3.0.3/api_3.0.3/root_admin/createZone.html]
         def create_zone(options={})
           options.merge!(
             'command' => 'createZone'
           )
-
           request(options)
         end
 
