@@ -23,6 +23,7 @@ module Fog
       
       class Mock
         def delete_image(image_id)
+          raise Fog::Compute::RackspaceV2::NotFound.new if image_id == Fog::Rackspace::MockData::NOT_FOUND_ID
           response = Excon::Response.new
           response.status = 202
           response.body = "" 
