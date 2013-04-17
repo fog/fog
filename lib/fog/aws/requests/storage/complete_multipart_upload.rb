@@ -34,10 +34,10 @@ module Fog
             :body       => data,
             :expects    => 200,
             :headers    => { 'Content-Length' => data.length },
-            :host       => "#{bucket_name}.#{@host}",
+            :bucket_name => bucket_name,
+            :object_name => object_name,
             :method     => 'POST',
             :parser     => Fog::Parsers::Storage::AWS::CompleteMultipartUpload.new,
-            :path       => CGI.escape(object_name),
             :query      => {'uploadId' => upload_id}
           })
         end

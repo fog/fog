@@ -30,10 +30,10 @@ module Fog
           request({
             :expects    => 200,
             :headers    => options,
-            :host       => "#{bucket_name}.#{@host}",
+            :bucket_name => bucket_name,
+            :object_name => object_name,
             :method     => 'POST',
             :parser     => Fog::Parsers::Storage::AWS::InitiateMultipartUpload.new,
-            :path       => CGI.escape(object_name),
             :query      => {'uploads' => nil}
           })
         end

@@ -28,9 +28,9 @@ module Fog
             :expects    => 200,
             :idempotent => true,
             :headers    => headers,
-            :host       => "#{bucket_name}.#{@host}",
+            :bucket_name => bucket_name,
+            :object_name => object_name,
             :method     => 'PUT',
-            :path       => CGI.escape(object_name),
             :query      => {'uploadId' => upload_id, 'partNumber' => part_number}
           })
         end
