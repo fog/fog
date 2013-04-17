@@ -15,9 +15,9 @@ module Fog
           request({
             :expects    => 204,
             :headers    => {},
-            :host       => "#{bucket_name}.#{@host}",
+            :bucket_name => bucket_name,
+            :object_name => object_name,
             :method     => 'DELETE',
-            :path       => CGI.escape(object_name),
             :query      => {'uploadId' => upload_id}
           })
         end

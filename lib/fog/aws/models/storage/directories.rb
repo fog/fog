@@ -22,7 +22,7 @@ module Fog
             :prefix     => 'prefix'
           })
           data = service.get_bucket(key, options).body
-          directory = new(:key => data['Name'])
+          directory = new(:key => data['Name'], :is_persisted => true)
           options = {}
           for k, v in data
             if ['CommonPrefixes', 'Delimiter', 'IsTruncated', 'Marker', 'MaxKeys', 'Prefix'].include?(k)

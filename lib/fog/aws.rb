@@ -3,8 +3,6 @@ require 'fog/aws/credential_fetcher'
 require 'fog/aws/signaturev4'
 module Fog
   module AWS
-    COMPLIANT_BUCKET_NAMES = /^(?:[a-z]|\d(?!\d{0,2}(?:\.\d{1,3}){3}$))(?:[a-z0-9]|\-(?![\.])){1,61}[a-z0-9]$/
-
     extend Fog::Provider
 
     service(:auto_scaling,    'aws/auto_scaling',     'AutoScaling')
