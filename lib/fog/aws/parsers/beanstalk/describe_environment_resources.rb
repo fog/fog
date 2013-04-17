@@ -16,6 +16,17 @@ module Fog
             tag 'Id', :string
             tag 'LaunchConfigurations', :object, :list
             tag 'LoadBalancers', :object, :list
+            tag 'Resources', :object, :list
+            tag 'Description', :string
+            tag 'LogicalResourceId', :string
+            tag 'PhysicalResourceId', :string
+            tag 'Type', :string
+            tag 'Properties', :object, :list
+            tag 'RuntimeSources', :object, :list
+            tag 'Parameter', :string
+            tag 'Versions', :object, :list
+            tag 'ApplicationName', :string
+            tag 'VersionLabel', :string
             tag 'Triggers', :object, :list
           end
 

@@ -8,6 +8,10 @@ module Fog
         # @return [Excon::Response] response:
         #   * body [Hash]:
         #     * addresses [Hash] - key is the network name and the value are an array of addresses allocated for that network
+        # @raise [Fog::Rackspace::Errors::NotFound] - HTTP 404
+        # @raise [Fog::Rackspace::Errors::BadRequest] - HTTP 400
+        # @raise [Fog::Rackspace::Errors::InternalServerError] - HTTP 500
+        # @raise [Fog::Rackspace::Errors::ServiceError]
         def list_addresses(server_id)
           request(
             :method   => 'GET',

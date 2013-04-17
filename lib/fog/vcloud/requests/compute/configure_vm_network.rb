@@ -19,11 +19,10 @@ module Fog
               </NetworkConnection>
             </NetworkConnectionSection>
 EOF
-          print "Request: #{body}"
           request(
             :body     => body,
             :expects  => 202,
-            :headers  => {'Content-Type' => network_info[:"vcloud_type"] },
+            :headers  => {'Content-Type' => network_info[:"type"] },
             :method   => 'PUT',
             :uri      => "#{edit_uri}",
             :parse    => true

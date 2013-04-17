@@ -6,15 +6,59 @@ module Fog
 
       class File < Fog::Model
 
+        # @!attribute [r] key
+        # @return [String] The name of the file
         identity  :key,             :aliases => 'name'
 
+        # @!attribute [r] content_length
+        # @return [Integer] The content length of the file
         attribute :content_length,  :aliases => ['bytes', 'Content-Length'], :type => :integer
+
+        # @!attribute [rw] content_type
+        # @return [String] The MIME Media Type of the file
+        # @see http://www.iana.org/assignments/media-types
         attribute :content_type,    :aliases => ['content_type', 'Content-Type']
+
+        attribute :content_disposition, :aliases => 'Content-Disposition'
+
+        # @!attribute [rw] etag
+        # The MD5 checksum of file. If included file creation request, will ensure integrity of the file.
+        # @return [String] MD5 checksum of file.
         attribute :etag,            :aliases => ['hash', 'Etag']
+
+        # @!attribute [r] last_modified
+        # The last time the file was modified
+        # @return [Time] The last time the file was modified
         attribute :last_modified,   :aliases => ['last_modified', 'Last-Modified'], :type => :time
+
+        # @!attribute [rw] access_control_allow_origin
+        # A space delimited list of URLs allowed to  make Cross Origin Requests. Format is http://www.example.com. An asterisk (*) allows all.
+        # @return [String] string containing a list of space delimited URLs
+        # @see http://docs.rackspace.com/files/api/v1/cf-devguide/content/CORS_Container_Header-d1e1300.html
         attribute :access_control_allow_origin, :aliases => ['Access-Control-Allow-Origin']
+        
+        # @!attribute [rw] origin
+        # @return [String] The origin is the URI of the object's host.
+        # @see http://docs.rackspace.com/files/api/v1/cf-devguide/content/CORS_Container_Header-d1e1300.html
         attribute :origin,          :aliases => ['Origin']
 
+        # @!attribute [r] directory
+        # @return [Fog::Storage::Rackspace::Directory] directory containing file
+        attr_accessor :directory
+
+        # @!attribute [w] public
+        # @note Required for compatibility with other Fog providers. Not Used.
+        attr_writer :public
+
+        # Returns the body/contents of file
+        # @raise [Fog::Rackspace::Errors::NotFound] - HTTP 404
+        # @raise [Fog::Rackspace::Errors::BadRequest] - HTTP 400
+        # @raise [Fog::Rackspace::Errors::InternalServerError] - HTTP 500
+        # @raise [Fog::Rackspace::Errors::ServiceError]
+        # @example Retrieve and download contents of Cloud Files object to file system
+        #   file_object = directory.files.get('germany.jpg')
+        #   File.open('germany.jpg', 'w') {|f| f.write(file_object.body) }
+        # @see Fog::Storage::Rackspace::Files#get
         def body
           attributes[:body] ||= if last_modified
             collection.get(identity).body
@@ -23,14 +67,21 @@ module Fog
           end
         end
 
+        # Sets the body/contents of file
+        # @param [String,File] new_body contents of file
         def body=(new_body)
           attributes[:body] = new_body
         end
 
-        def directory
-          @directory
-        end
-
+        # Copy file to another directory or directory
+        # @param [String] target_directory_key
+        # @param [String] target_file_key
+        # @param options [Hash] used to pass in file attributes
+        # @raise [Fog::Rackspace::Errors::NotFound] - HTTP 404
+        # @raise [Fog::Rackspace::Errors::BadRequest] - HTTP 400
+        # @raise [Fog::Rackspace::Errors::InternalServerError] - HTTP 500
+        # @raise [Fog::Rackspace::Errors::ServiceError]
+        # @see http://docs.rackspace.com/files/api/v1/cf-devguide/content/Copy_Object-d1e2241.html
         def copy(target_directory_key, target_file_key, options={})
           requires :directory, :key
           options['Content-Type'] ||= content_type if content_type
@@ -41,16 +92,37 @@ module Fog
           target_directory.files.get(target_file_key)
         end
 
+        # Destroy the file
+        # @return [Boolean] returns true if file is destroyed
+        # @raise [Fog::Rackspace::Errors::NotFound] - HTTP 404
+        # @raise [Fog::Rackspace::Errors::BadRequest] - HTTP 400
+        # @raise [Fog::Rackspace::Errors::InternalServerError] - HTTP 500
+        # @raise [Fog::Rackspace::Errors::ServiceError]
+        # @see http://docs.rackspace.com/files/api/v1/cf-devguide/content/Delete_Object-d1e2264.html
         def destroy
           requires :directory, :key
           service.delete_object(directory.key, key)
           true
         end
 
-        def metadata
-          @metadata ||= headers_to_metadata
+        # Set file metadata
+        # @param [Hash,Fog::Storage::Rackspace::Metadata] hash contains key value pairs
+        def metadata=(hash)
+          if hash.is_a? Fog::Storage::Rackspace::Metadata
+            attributes[:metadata] = hash
+          else
+            attributes[:metadata] = Fog::Storage::Rackspace::Metadata.new(self, hash)
+          end
+          attributes[:metadata]
         end
-
+        
+        # File metadata
+        # @return [Fog::Storage::Rackspace::Metadata] metadata key value pairs.
+        def metadata
+          attributes[:metadata] ||= Fog::Storage::Rackspace::Metadata.new(self)
+        end
+        
+        # Required for compatibility with other Fog providers. Not Used.
         def owner=(new_owner)
           if new_owner
             attributes[:owner] = {
@@ -60,19 +132,62 @@ module Fog
           end
         end
 
-        def public=(new_public)
-          new_public
-        end
-        
+        # Is file published to CDN
+        # @return [Boolean] return true if published to CDN
+        # @raise [Fog::Rackspace::Errors::NotFound] - HTTP 404
+        # @raise [Fog::Rackspace::Errors::BadRequest] - HTTP 400
+        # @raise [Fog::Rackspace::Errors::InternalServerError] - HTTP 500
+        # @raise [Fog::Rackspace::Errors::ServiceError]
         def public?
           directory.public?
         end
-
+        
+        # Returns the public url for the file.
+        # If the file has not been published to the CDN, this method will return nil as it is not publically accessible. This method will return the approprate
+        # url in the following order:
+        #
+        # 1. If the service used to access this file was created with the option :rackspace_cdn_ssl => true, this method will return the SSL-secured URL.
+        # 2. If the directory's cdn_cname attribute is populated this method will return the cname.
+        # 3. return the default CDN url.
+        #
+        # @return [String] public url for file
+        # @raise [Fog::Rackspace::Errors::NotFound] - HTTP 404
+        # @raise [Fog::Rackspace::Errors::BadRequest] - HTTP 400
+        # @raise [Fog::Rackspace::Errors::InternalServerError] - HTTP 500
+        # @raise [Fog::Rackspace::Errors::ServiceError]
         def public_url
-          requires :key
-          self.collection.get_url(self.key)
+          Files::file_url directory.public_url, key
         end
         
+        # URL used to stream video to iOS devices without needing to convert your video
+        # @return [String] iOS URL
+        # @raise [Fog::Rackspace::Errors::NotFound] - HTTP 404
+        # @raise [Fog::Rackspace::Errors::BadRequest] - HTTP 400
+        # @raise [Fog::Rackspace::Errors::InternalServerError] - HTTP 500
+        # @raise [Fog::Rackspace::Errors::ServiceError]
+        # @see http://docs.rackspace.com/files/api/v1/cf-devguide/content/iOS-Streaming-d1f3725.html
+        def ios_url
+          Files::file_url directory.ios_url, key
+        end
+        
+        # URL used to stream resources
+        # @return [String] streaming url
+        # @raise [Fog::Rackspace::Errors::NotFound] - HTTP 404
+        # @raise [Fog::Rackspace::Errors::BadRequest] - HTTP 400
+        # @raise [Fog::Rackspace::Errors::InternalServerError] - HTTP 500
+        # @raise [Fog::Rackspace::Errors::ServiceError]
+        # @see http://docs.rackspace.com/files/api/v1/cf-devguide/content/Streaming-CDN-Enabled_Containers-d1f3721.html
+        def streaming_url
+          Files::file_url directory.streaming_url, key
+        end      
+        
+        # Immediately purge file from the CDN network
+        # @raise [Fog::Rackspace::Errors::NotFound] - HTTP 404
+        # @raise [Fog::Rackspace::Errors::BadRequest] - HTTP 400
+        # @raise [Fog::Rackspace::Errors::InternalServerError] - HTTP 500
+        # @raise [Fog::Rackspace::Errors::ServiceError]
+        # @note You may only PURGE up to 25 objects per day. Any attempt to purge more than this will result in a 498 status code error (Rate Limited).
+        # @see http://docs.rackspace.com/files/api/v1/cf-devguide/content/Purge_CDN-Enabled_Objects-d1e3858.html
         def purge_from_cdn
           if public?
             service.cdn.purge(self)
@@ -81,76 +196,30 @@ module Fog
           end
         end
 
+        # Create or updates file and associated metadata
+        # @param options [Hash] additional parameters to pass to Cloud Files
+        # @raise [Fog::Rackspace::Errors::NotFound] - HTTP 404
+        # @raise [Fog::Rackspace::Errors::BadRequest] - HTTP 400
+        # @raise [Fog::Rackspace::Errors::InternalServerError] - HTTP 500
+        # @raise [Fog::Rackspace::Errors::ServiceError]
+        # @see http://docs.rackspace.com/files/api/v1/cf-devguide/content/Create_Update_Object-d1e1965.html
         def save(options = {})
           requires :body, :directory, :key
           options['Content-Type'] = content_type if content_type
           options['Access-Control-Allow-Origin'] = access_control_allow_origin if access_control_allow_origin
           options['Origin'] = origin if origin
-          options.merge!(metadata_to_headers)
+          options['Content-Disposition'] = content_disposition if content_disposition
+          options.merge!(metadata.to_headers)
 
           data = service.put_object(directory.key, key, body, options)
           update_attributes_from(data)
-          refresh_metadata
-
+          
           self.content_length = Fog::Storage.get_body_size(body)
           self.content_type ||= Fog::Storage.get_content_type(body)
           true
         end
 
         private
-
-        def directory=(new_directory)
-          @directory = new_directory
-        end
-
-        def refresh_metadata
-          metadata.reject! {|k, v| v.nil? }
-        end
-
-        def headers_to_metadata
-          key_map = key_mapping
-          Hash[metadata_attributes.map {|k, v| [key_map[k], v] }]
-        end
-
-        def key_mapping
-          key_map = metadata_attributes
-          key_map.each_pair {|k, v| key_map[k] = header_to_key(k)}
-        end
-
-        def header_to_key(opt)
-          opt.gsub(metadata_prefix, '').split('-').map {|k| k[0, 1].downcase + k[1..-1]}.join('_').to_sym
-        end
-        
-        def metadata_to_headers
-          hash = {}
-          metadata.each_pair do |k,v|
-            key = metakey(k,v)
-            hash[key] = v
-          end     
-          hash
-        end     
-
-        def metakey(key, value)
-          prefix = value.nil? ?  "X-Remove-Object-Meta-" : "X-Object-Meta-"
-          prefix + key.to_s.split(/[-_]/).map(&:capitalize).join('-')
-        end
-        
-        def metadata_attributes
-          if last_modified
-            headers = service.head_object(directory.key, self.key).headers
-            headers.reject! {|k, v| !metadata_attribute?(k)}
-          else
-            {}
-          end
-        end
-
-        def metadata_attribute?(key)
-          key.to_s =~ /^#{metadata_prefix}/
-        end
-
-        def metadata_prefix
-          "X-Object-Meta-"
-        end
 
         def update_attributes_from(data)
           merge_attributes(data.headers.reject {|key, value| ['Content-Length', 'Content-Type'].include?(key)})

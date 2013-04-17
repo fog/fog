@@ -17,11 +17,11 @@ module Fog
 
         def all(filters = filters)
           self.filters = filters
-          load(connection.list_floating_ips(filters).body['floating_ips'])
+          load(service.list_floating_ips(filters).body['floatingips'])
         end
 
         def get(floating_network_id)
-          if floating_ip = connection.get_floating_ip(floating_network_id).body['floating_ip']
+          if floating_ip = connection.get_floating_ip(floating_network_id).body['floatingip']
             new(floating_ip)
           end
         rescue Fog::Network::OpenStack::NotFound

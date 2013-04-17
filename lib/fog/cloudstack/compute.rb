@@ -33,6 +33,8 @@ module Fog
       collection :security_group_rules
       model :volume
       collection :volumes
+      model :snapshot
+      collection :snapshots
       model :zone
       collection :zones
 
@@ -420,6 +422,43 @@ module Fog
               :jobs            => {},
               :volumes         => {},
               :security_groups => {},
+              :snapshots       => {},
+              :disk_offerings  => {
+                "cc4de87d-672d-4353-abb5-6a8a4c0abf59" => {
+                  "id"           => "cc4de87d-672d-4353-abb5-6a8a4c0abf59",
+                  "domainid"     => domain_id,
+                  "domain"       => domain_name,
+                  "name"         => "Small Disk",
+                  "displaytext"  => "Small Disk [16GB Disk]",
+                  "disksize"     => 16,
+                  "created"      => "2013-02-21T03:12:520300",
+                  "iscustomized" => false,
+                  "storagetype"  =>  "shared"
+                },
+                "d5deeb0c-de03-4ebf-820a-dc74221bcaeb" => {
+                  "id"           => "d5deeb0c-de03-4ebf-820a-dc74221bcaeb",
+                  "domainid"     => domain_id,
+                  "domain"       => domain_name,
+                  "name"         => "Medium Disk",
+                  "displaytext"  => "Medium Disk [32GB Disk]",
+                  "disksize"     => 32,
+                  "created"      => "2013-02-21T03:12:520300",
+                  "iscustomized" => false,
+                  "storagetype"  => "shared"
+                }
+              },
+              :os_types  => {
+                "51ef854d-279e-4e68-9059-74980fd7b29b" => {
+                  "id"           => "51ef854d-279e-4e68-9059-74980fd7b29b",
+                  "oscategoryid" => "56f67279-e082-45c3-a01c-d290d6cd4ce2",
+                  "description"  => "Asianux 3(32-bit)"
+                  },
+                "daf124c8-95d8-4756-8e1c-1871b073babb" => {
+                  "id"           => "daf124c8-95d8-4756-8e1c-1871b073babb",
+                  "oscategoryid" => "56f67279-e082-45c3-a01c-d290d6cd4ce2",
+                  "description"  => "Asianux 3(64-bit)"
+                  }
+              }
             }
           end
         end

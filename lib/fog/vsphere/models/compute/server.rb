@@ -52,6 +52,16 @@ module Fog
           initialize_volumes
         end
 
+        # Lazy Loaded Attributes
+        [:datacenter, :cluster, :hypervisor, :resource_pool, :mac_addresses].each do |attr|
+          define_method attr do
+            attributes[attr] = attributes[attr].call if attributes[attr].is_a?(Proc)
+            attributes[attr]
+          end
+        end
+        # End Lazy Loaded Attributes
+
+
         def vm_reconfig_memory(options = {})
           requires :instance_uuid, :memory
           service.vm_reconfig_memory('instance_uuid' => instance_uuid, 'memory' => memory)

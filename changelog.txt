@@ -1,3 +1,1066 @@
+1.10.1 04/04/2013 a270b69a23b43a8cdab768f88503779f27a74fa0
+==========================================================
+
+Stats! { 'collaborators' => 46, 'downloads' => 1993968, 'forks' => 746, 'open_issues' => 134, 'watchers' => 2438 }
+
+MVP! Kyle Rames
+
+[VMWare]
+  Fixed broken support for obj_ids with spaces. thanks Marc Grimme
+
+[Vcloud]
+  Server reset instance vars after save. thanks dJason
+
+[aws]
+  Handle the "phantom" security group that exists for elbs. thanks Eugene Howe
+  mock update_server_certificate. thanks Josh Lane & Ines Sombra
+
+[aws|beanstalk]
+  Update parser for DescribeEnvironmentResources. thanks George Scott
+
+[cloudstack]
+  add snapshot model. thanks Dmitry Dedov
+
+[core]
+  Updated to make ssh timeout user configurable. thanks Kyle Rames
+
+[digitalocean]
+  Check to see if we have a digital ocean api key before attempting to delete servers. thanks Kyle Rames
+
+[digitalocean|compute]
+  initial release. thanks Sergio Rubio
+  added getting started guide. thanks Sergio Rubio
+  Updated server model documentation. thanks Sergio Rubio
+  added test helpers. thanks Sergio Rubio
+  Implemented Server.reboot. thanks Sergio Rubio
+  Implement Server.power_cycle. thanks Sergio Rubio
+  tests updates. thanks Sergio Rubio
+  Added Servers collection tests. thanks Sergio Rubio
+  Implement missing requests. thanks Sergio Rubio
+  implemented missing Server actions. thanks Sergio Rubio
+  string fixes. thanks Sergio Rubio
+  list_servers request test fixes. thanks Sergio Rubio
+  server model test fixes. thanks Sergio Rubio
+  remove extra comma, breaks ruby 1.8. thanks Sergio Rubio
+  Added support to use SSH keys when creating the server. thanks Sergio Rubio
+  added some more request. thanks Sergio Rubio
+  Added list_flavors mock code. thanks Sergio Rubio
+  Added list_images mock code. thanks Sergio Rubio
+  added list_servers mock code. thanks Sergio Rubio
+  added list_regions mock code. thanks Sergio Rubio
+  initialize compute service mock data. thanks Sergio Rubio
+  added create_server mock code. thanks Sergio Rubio
+  added create_ssh_key mock code. thanks Sergio Rubio
+  added destroy_server mock code. thanks Sergio Rubio
+  added get_server_details mock code. thanks Sergio Rubio
+  list_servers uses mock data. thanks Sergio Rubio
+  added list_ssh_keys mock code. thanks Sergio Rubio
+  added power_cycle_server mock code. thanks Sergio Rubio
+  added power_off_server mock code. thanks Sergio Rubio
+  added power_on_server mock code. thanks Sergio Rubio
+  added reboot_server mock code. thanks Sergio Rubio
+  added shutdown_server mock code. thanks Sergio Rubio
+  added list_ssh_keys request tests. thanks Sergio Rubio
+  mark Server.reboot test pending if mocking. thanks Sergio Rubio
+  do not run at_exit block when mocking. thanks Sergio Rubio
+  mark Server.power_cycle test as pending when mocking. thanks Sergio Rubio
+  power state tests fixes. thanks Sergio Rubio
+  improve power state tests reliability. thanks Sergio Rubio
+  fix create_ssh_key request path. thanks Sergio Rubio
+  added destroy_ssh_key request and tests. thanks Sergio Rubio
+  added get_ssh_key request and tests. thanks Sergio Rubio
+  added create_ssh_key request tests. thanks Sergio Rubio
+  added SshKey model, collection and related tests. thanks Sergio Rubio
+  added ssh related requests, model and collection. thanks Sergio Rubio
+  power_state_tests fixes. thanks Sergio Rubio
+  list_ssh_keys request mock fixes. thanks Sergio Rubio
+  include response body in exception when request fails. thanks Sergio Rubio
+  Improved tests reliability. thanks Sergio Rubio
+  Added changelog. thanks Sergio Rubio
+
+[docs::aws::cloudformation]
+  reformatted in YARD format. no content changes, just format changes. thanks Weston Platter
+
+[docs::was::cdn]
+  reformatted in YARD format. no content changes, just format changes. thanks Weston Platter
+
+[dreamhost|dns]
+  added missing changelog. thanks Sergio Rubio
+
+[hp]
+  Add Accept header with application/json for all HP requests. thanks Rupak Ganguly
+
+[hp|compute]
+  Add user_data option to create server call. thanks Rupak Ganguly
+  Consolidate the simple mapped options parameters in the create server call. thanks Rupak Ganguly
+  Add the capability to pass in user_data in the server model. thanks Rupak Ganguly
+  Add user_data to the mock data structure. thanks Rupak Ganguly
+  Fix mock for create server. thanks Rupak Ganguly
+  Add user_data option to create server call. thanks Rupak Ganguly
+  Consolidate the simple mapped options parameters in the create server call. thanks Rupak Ganguly
+  Add user_data to the mock data structure. thanks Rupak Ganguly
+  Fix mock for create server. thanks Rupak Ganguly
+
+[hp|storage]
+  marker option in each method needs to be a string. thanks Andreas Gerauer
+
+[libvirt|compute]
+  handle missing <system> tag in libvirt node info. thanks Dominic Cleal
+
+[misc]
+  ovirt quota support. thanks Amos Benari
+  Removed Zerigo::Models::DNS::Records#find method, moved functionality to all(options)     Removed Rackspace::Models::DNS::Zones#find, moved functionality to all(options). thanks Andreas Gerauer
+  fixed infinite loop in each method of AWS Distributions. thanks Andreas Gerauer
+  add a test to protect certain Enumerable methods in Fog::Collection subclasses. thanks Andreas Gerauer
+  get rid of bucket/directory delete - not allowed for IA. thanks Andrew Kuklewicz
+  add IA specific headers for file. thanks Andrew Kuklewicz
+  get rid of versions from IA. thanks Andrew Kuklewicz
+  missed one. thanks Andrew Kuklewicz
+  fix tests, found a few differences with S3. thanks Andrew Kuklewicz
+  fix 1.8.7 error, oops. thanks Andrew Kuklewicz
+  fix internet archive use of headers, remove acls. thanks Andrew Kuklewicz
+  sshable should take the same options as ssh. thanks Anshul Khandelwal
+  [aws][glesys] Pass credentials to sshable. thanks Anshul Khandelwal
+  Use strict base encoding otherwise breaks for very large org names. thanks Chirag Jog
+  revert typo. thanks Chirag Jog
+  Fix the base encoding issue with Ruby 1.8.7 Compliance. thanks Chirag Jog
+  Delete \r also. thanks Chirag Jog
+  Minor fix: Ensure to send a valid Content-Type. thanks Chirag Jog
+  Check if a template requires a password or not. thanks Chirag Jog
+  Remove unecessary print. thanks Chirag Jog
+  Support optional `snapshot_id` key when creating volumes. thanks Chris Roberts
+  added dummy filters parameter to servers.all for conformity. thanks Christoph Witzany
+  Add Riak CS provider in Fog. thanks Christopher Meiklejohn
+  Updated DescribeReservedInstancesOfferings to take in filters as request parameters. thanks Curtis Stewart
+  OpenStack: base64 encode personality in rebuild. thanks Dan Prince
+  Forcing good Excon version. thanks Daniel Libanori
+  Update file.rb. thanks Dave Ungerer
+  Stop hardcoding the server ssh port. thanks David Calavera
+  Use passed blocks to handle scp callbacks. thanks David Calavera
+  fix syntax, ruby 1.8.7. thanks Dmitry Dedov
+  changed status to state for conformity and fixed alias for flavor_id. thanks DoubleMalt
+  replaced dup/delete with reject. thanks Eugene Howe
+  fixed for 1.8. thanks Eugene Howe
+  add ovirt quota support. thanks Jason Montleon
+  1620: Try to add some guards around possible nil objects based on associations in VPCs. thanks Jesse Davis
+  1620: Try to add some guards around possible nil objects based on associations in VPCs. thanks Jesse Davis
+  fix tabs. thanks Jesse Davis
+  First attempt at an S3 path_style flag. thanks Joachim Nolten
+  rebasing with master. thanks Kyle Rames
+  rebasing with master. thanks Kyle Rames
+  removing superfluous readme. thanks Kyle Rames
+  rebasing with master. thanks Kyle Rames
+  updated endpoint handing. thanks Kyle Rames
+  rebasing with master. thanks Kyle Rames
+  rebasing. thanks Kyle Rames
+  merging in latest master. thanks Kyle Rames
+  fixing merge issues. thanks Kyle Rames
+  fixing merge issues. thanks Kyle Rames
+  merging in document changes. thanks Kyle Rames
+  rackspace|compute_v2] removing superfluous note from compute_v2 documentation. thanks Kyle Rames
+  merging in latest master. thanks Kyle Rames
+  mend. thanks Kyle Rames
+  Revert "[rackspace] adding note about credentials in the getting started document". thanks Kyle Rames
+  convert lib/fog to simply include all providers. thanks Lance Ivy
+  benchmark for loading all of fog vs just aws. thanks Lance Ivy
+  fix joyent and xenserver so they can be required individually. thanks Lance Ivy
+  restore ability to load fog from source without bundler. thanks Lance Ivy
+  fix bug where servers.all was ignoring filters due to hash merging in the wrong direction. thanks Mick Pollard
+  Fix S3 directory location infinite loop. thanks Nils Landt
+  Update changelog and bump version. thanks Rupak Ganguly
+  Fix names of the container sync attributes. thanks Rupak Ganguly
+  Add Object Storage container sync feature. thanks Rupak Ganguly
+  Update changelog and bump version. thanks Rupak Ganguly
+  supported OpenStack Quantum Router Operation. not include mock code. thanks Tomokazu Hirai
+  added mock code for router operation. thanks Tomokazu Hirai
+  fixed responce data from mock and removed vanilla options reject code. thanks Tomokazu Hirai
+  @rubiojr wrote mock code for openstack routers. thanks Tomokazu Hirai
+  @rubiojr fixed mock test failure. thanks Tomokazu Hirai
+  @rubiojr fixed mock faulure for router(s)_tests.rb. thanks Tomokazu Hirai
+  fix for AWS error message parsing. thanks VirtualStaticVoid
+  Added Content-Disposition attribute for Rackspace file. thanks Yauheni Kryudziuk
+  Changed GoogleAccessKeyId to GoogleAccessId. thanks althras
+  Add Vcloud support back to Fog::Compute. thanks dJason
+  add Rupak Ganguly to MVP exclusion list. thanks geemus
+  container sync attributes. thanks howete
+
+[openstack]
+  added changelog. thanks Sergio Rubio
+
+[openstack|compute]
+  Allow booting a VM with NICs (net_id, port_id, fixed_ip). thanks Ferran Rodenas
+  Use attribute accessor for nics. thanks Ferran Rodenas
+
+[openstack|glance]
+  Added image service example. thanks Sergio Rubio
+
+[openstack|identity]
+  moved identity example to the examples directory. thanks Sergio Rubio
+
+[openstack|image]
+  Check for glance version (fog only supports v1). thanks Ferran Rodenas
+
+[openstack|network]
+  Add endpoint_type option. thanks Ferran Rodenas
+  create_network provider extensions. thanks Sergio Rubio
+  Added missing router model/collection. thanks Sergio Rubio
+  update_router request updates. thanks Sergio Rubio
+  router model updates. thanks Sergio Rubio
+  create_router request updates. thanks Sergio Rubio
+  Added missing router related tests. thanks Sergio Rubio
+  create_network provider extensions reworked. thanks Sergio Rubio
+  remove extra trailing comma. thanks Sergio Rubio
+  remove superfluous Router model attributes. thanks Sergio Rubio
+  Fix #connection deprecation replacing it with #service. thanks Sergio Rubio
+  mock fixes in some OpenStack Network requests. thanks Sergio Rubio
+  added network/subnet/router related example. thanks Sergio Rubio
+
+[openstack|storage]
+  Added support to impersonate other accounts. thanks Sergio Rubio
+  added missing mocks. thanks Sergio Rubio
+  Added storage example to set the account quota. thanks Sergio Rubio
+
+[rackspace]
+  updated storage to support custom endpoints when using auth 2.0. thanks Kyle Rames
+  extracted auth 2.0 into module; updated cdn to support an external endpoint. thanks Kyle Rames
+  updated service_catalog.reload; added rackspace_cdn_url as an option to storage service; tweaked compute_v2 auth. thanks Kyle Rames
+  renaming variables in the interest of clarification. thanks Kyle Rames
+  updated to use v1 authentication if rackspace_auth_url endpoint is specified without version as with the current implementation of knife-rackspace. thanks Kyle Rames
+  initial checkin for the Getting started with Cloud Files document. thanks Kyle Rames
+  SPIKE: converting authentication module to super class. thanks Kyle Rames
+  updated to pass string rather and a uri to Fog::Connection. thanks Kyle Rames
+  created auth_token method in service that will return a token defined in the @auth_token variable to the identity service to reduce the chance that token might not be set; improved token tests. thanks Kyle Rames
+  made some methods private per @brianhartsock. thanks Kyle Rames
+  adding deprecation warning for auth v1.0/v1.1 authentication endpoints. thanks Kyle Rames
+  fixing yard warnings. thanks Kyle Rames
+  adding auth endpoint constants in Fog::Rackspace. thanks Kyle Rames
+  additional getting started document edits. thanks Kyle Rames
+  minor document update. thanks Kyle Rames
+  fixing constant already defined error for Fog::Rackspace::UK_AUTH_ENDPOINT and Fog::Rackspace::US_AUTH_ENDPOINT. thanks Kyle Rames
+  adding auth 2.0 to compute, databases, dns, load balancers, cloud block storage. thanks Kyle Rames
+  updated service endpoint handling; improved service endpoint tests. thanks Kyle Rames
+  moving require 'fog/rackspace/service' to fog/rackspace. thanks Kyle Rames
+  fixing auth 20 issue where tenant id is not being appended to the service url. thanks Kyle Rames
+  adjusting white space on documents. Added examples, additional resources, and support section to cloud files doc. thanks Kyle Rames
+  updated to normalize endpoints before detecting a standard endpoint. thanks Kyle Rames
+  making document edits. thanks Kyle Rames
+  fixing code error in documentation. thanks Kyle Rames
+  miscellaneous document tweaks. thanks Kyle Rames
+  added exception info to rackspace api documentation. thanks Kyle Rames
+  adding stragler. thanks Kyle Rames
+  fixing typo in api docs. thanks Kyle Rames
+  updated getting_started.md to use source 'https://rubygems.org' rather than :rubygems. thanks Kyle Rames
+  tweaking getting started page. thanks Kyle Rames
+  adding note about credentials in the getting started document. thanks Kyle Rames
+  adding note about credentials in the getting started document. thanks Kyle Rames
+  updated examples to use Chicago data center; updated error message to indicate we were using the Chicago data center. thanks Kyle Rames
+  revising getting started page. thanks Kyle Rames
+
+[rackspace|block_storage]
+  initial document checkin. thanks Kyle Rames
+  edits to cloud block storage documentation. thanks Kyle Rames
+  adding link on getting_started.md to cloud block storage doc. thanks Kyle Rames
+  additional edits to the cloud block storage documentation. thanks Kyle Rames
+  initial checkin of block storage api documentation. thanks Kyle Rames
+  adding response documentaion. thanks Kyle Rames
+  updated yard docs for requests. thanks Kyle Rames
+
+[rackspace|blockstorage]
+  adding Cloud Block Storage Examples. thanks Kyle Rames
+
+[rackspace|cdn]
+  updated cdn to use auth 2.0. thanks Kyle Rames
+
+[rackspace|compute_v2]
+  updated compute_v2 to use auth 2.0 endpoints. thanks Kyle Rames
+  updated to support auth 2.0. thanks Kyle Rames
+  fixing broken test. thanks Kyle Rames
+  added authentication_method test specifically for chef's default. thanks Kyle Rames
+  fixing yard doc. thanks Kyle Rames
+  updated compute_v2 to get the appropriate endpoint from the service catalog when an endpoint is specified via :rackspace_endpoint with one of the known constants (DFW_ENDPOINT, ORD_ENDPOINT, LON_ENDPOINT); updated compute examples to use rackspace region. thanks Kyle Rames
+  fixed chef issue. thanks Kyle Rames
+  updated detach volume to use :rackspace_region to specify region. thanks Kyle Rames
+  added specific exception for invalid states in order to make it easier to rescue. thanks Kyle Rames
+  added bootstrap and ssh section to compute documentation. thanks Kyle Rames
+  updated the bootstrap section of the compute_v2 documentation. thanks Kyle Rames
+
+[rackspace|identity]
+  updated test to support ruby 1.8.7. thanks Kyle Rames
+
+[rackspace|storage]
+  initial cloud file examples checkin. thanks Kyle Rames
+  fixing typos. thanks Kyle Rames
+  renaming examples. thanks Kyle Rames
+  updating to use 2.0 authentication endpoints. thanks Kyle Rames
+  fixing broken tests. thanks Kyle Rames
+  fixing example spacing. thanks Kyle Rames
+  adding rackspace storage docs; general edits on other rackspace documents. thanks Kyle Rames
+  adding Storage yard docs. thanks Kyle Rames
+  updating the download file section. thanks Kyle Rames
+  updating download example to use a block. thanks Kyle Rames
+  updating auth endpoints in documentation. thanks Kyle Rames
+  fixing typos. thanks Kyle Rames
+
+[xenserver|compute]
+  added create_vlan request. thanks Sergio Rubio
+  added destroy_vlan request. thanks Sergio Rubio
+  added create_vlan request tests. thanks Sergio Rubio
+  added destroy_vlan request tests. thanks Sergio Rubio
+  added create_network request. thanks Sergio Rubio
+  added create_network tests. thanks Sergio Rubio
+  added destroy_network request. thanks Sergio Rubio
+  added destroy_network request tests. thanks Sergio Rubio
+  added VLAN model and tests. thanks Sergio Rubio
+  Added Vlans collection and tests. thanks Sergio Rubio
+  added save and destroy operations to Network. thanks Sergio Rubio
+  updated compute service to add new model, requests. thanks Sergio Rubio
+  Added Network/VLANs creation example. thanks Sergio Rubio
+  update changelog. thanks Sergio Rubio
+
+
+1.10.0 03/05/2013 2f30de2ab357a5bbdb505b94ada8aa637ba936f5
+==========================================================
+
+Stats! { 'collaborators' => 45, 'downloads' => 1813647, 'forks' => 720, 'open_issues' => 117, 'watchers' => 2386 }
+
+MVP! Rupak Ganguly
+
+[Brightbox]
+  Adds update firewall request. thanks Paul Thornthwaite
+  Adds compatibility mode to template. thanks Paul Thornthwaite
+  Updates to requests. thanks Paul Thornthwaite
+
+[Glesys]
+  Template list request does not take options. thanks Simon Gate
+  Only make one request when fetching templates. thanks Simon Gate
+  Fix template attributes, now they work. thanks Simon Gate
+  Attribute :keepip removed from server model. thanks Simon Gate
+  Clean up attributes on server model. thanks Simon Gate
+  Add public_ip_method to server model. thanks Simon Gate
+  Add setup method to copy fog ssh keys to server. thanks Simon Gate
+  Wrap ssh method to use rootpassword if present. thanks Simon Gate
+
+[HP]
+  Add BlockStorage provider and add volumes and snapshots support. Add support for bootable volumes, persistent server, cross-tenant acls and temp urls. Add support for Windows instances. Merge the latest code from fog 1.9.0 release. thanks Rupak Ganguly
+
+[HP|storage]
+  Fix generate_object_temp_url to use signer that is backward compatible to 1.8.7. thanks Rupak Ganguly
+
+[Rackspace|Compute]
+  fixed issue with bootstrap method where server was ready, but it had not received an ipv4 address yet. Added check for ip address in server ready block as well as a timeout parameter. thanks Kyle Rames
+
+[Rackspace|Storage]
+  This tests consistently fails on either ruby 1.8.7 or ruby 1.9.3 because hash order is indeterminate. I believe the spirt of this test is to ensure that only one header value is generated and thus I have updated the test to reflect that. thanks Kyle Rames
+
+[aws]
+  Fixes typo in fetching credentials error. thanks Paul Thornthwaite
+  Fixes security group template. thanks Paul Thornthwaite
+
+[aws|compute]
+  Fixes schema in image tests. thanks Paul Thornthwaite
+
+[aws|dynamodb]
+  fix port to match https default     closes #1531. thanks geemus
+
+[aws|rds]
+  remove some superfluous reloads, hopefully help with travis test timing issues. thanks geemus
+
+[aws|storage]
+  Fixes Yard tags. thanks Paul Thornthwaite
+
+[bluebox|blb]
+  clean up, define types returned. thanks Josh Yotty
+  some cleanup of model stubs. thanks Josh Yotty
+  add model to application and server collections. thanks Josh Yotty
+  require model. thanks Josh Yotty
+  require model. thanks Josh Yotty
+  fix more stub/copypaste inanity. thanks Josh Yotty
+  lb_service collection implementation. thanks Josh Yotty
+  service must be passed from caller. thanks Josh Yotty
+  atone for additional sins in the lb service and backend models. thanks Josh Yotty
+  add last set of index requests for lb_machines. thanks Josh Yotty
+  add_machine. thanks Josh Yotty
+  rename for consistency. thanks Josh Yotty
+  typo, whitespace. thanks Josh Yotty
+  lb_machine API coverage. thanks Josh Yotty
+  missing end. thanks Josh Yotty
+  testing stubs. thanks Josh Yotty
+  rename to tests, plural. thanks Josh Yotty
+  more request tests, missing comma. thanks Josh Yotty
+  parsing is hard, let's go shopping. thanks Josh Yotty
+  account for text/plain endpoint. thanks Josh Yotty
+  update tests. thanks Josh Yotty
+
+[core]
+  Uses Logger deprecation for Compute.new. thanks Paul Thornthwaite
+  Fix display_stdout to process multiple lines output. thanks Rupak Ganguly
+
+[dreamhost|dns]
+  remove connection deprecation notices. thanks Sergio Rubio
+  Use the new fog-dream.com domain for testing. thanks Sergio Rubio
+  remove silly debugging code. thanks Sergio Rubio
+  do not delete the do-not-delete record when testing. thanks Sergio Rubio
+  added test helpers. thanks Sergio Rubio
+  Added README.md file documenting testing procedure. thanks Sergio Rubio
+  Removed get_record request. thanks Sergio Rubio
+  refactor dns requests tests. thanks Sergio Rubio
+  added Record model tests, fix Record.save. thanks Sergio Rubio
+  record tests fixes. thanks Sergio Rubio
+  Emulate zone model and collection, added tests. thanks Sergio Rubio
+  Do not add duplicated zones to the Zones collection. thanks Sergio Rubio
+  Moved getting started guide to examples/dns. thanks Sergio Rubio
+  Zone.records: list only records matching the current zone. thanks Sergio Rubio
+  Updated testing documentation. thanks Sergio Rubio
+  Updated Dreamhost/DNS getting started guide. thanks Sergio Rubio
+  drop uuid gem requirements, not needed. thanks Sergio Rubio
+  drop uuid gem dep from fog.gemspec. thanks Sergio Rubio
+  Add dreamhost to the list of providers. thanks Sergio Rubio
+
+[dreamhost|docs]
+  Added getting started guide, initial release. thanks Sergio Rubio
+
+[dremhost|dns]
+  added DNS service tests. thanks Sergio Rubio
+
+[ecloud]
+  fixed object returns in mock. thanks Eugene Howe
+
+[fog]
+  Typo fixed in identity. thanks Anshul Khandelwal
+  Cleanup:  Use the service registry for requiring libs where possible. thanks Anshul Khandelwal
+
+[glesys]
+  Add description to server model. thanks Simon Gate
+  Ability to pass in options to server details. thanks Simon Gate
+  Consistent naming of attributes. thanks Simon Gate
+  ip details should be ip details, not listfree. thanks Simon Gate
+  Fix ip model name to match nameing convention. thanks Simon Gate
+  Fix ip attributes, they didn't work. thanks Simon Gate
+  Return nil if there isn't any public ip address. thanks Simon Gate
+  Refactor the ip interface, did not work earlier. thanks Simon Gate
+  add take method to ip model. thanks Simon Gate
+  Fix error in ip tests. thanks Simon Gate
+  Make compute test pass. thanks Simon Gate
+  Attributes were overwritten when getting server details. thanks Simon Gate
+  Fix bug when trying to attach a ip to a server. thanks Simon Gate
+  Platform methods to templates. thanks Simon Gate
+  Rename template model to match Fog convention. thanks Simon Gate
+  Remove unused features from template model. thanks Simon Gate
+
+[hp/openstack|compute]
+  remove erroneous block argument to get_object; fixes issue #1588 for OpenStack and HP. thanks Kyle Rames
+
+[libvirt|volume]
+  Fix typo in image_suffix. thanks David Wittman
+
+[misc]
+  Enable ebs-optimized spot instance requests. thanks Adam Bozanich
+  test spot instance request parser. thanks Adam Bozanich
+  add internet_archive to fog providers, bin, storage. thanks Andrew Kuklewicz
+  and internet_archive code, tests. thanks Andrew Kuklewicz
+  fix testing mock. thanks Andrew Kuklewicz
+  set defaults to be scheme http, port 80, as that is what internet_archive supports. thanks Andrew Kuklewicz
+  Pass the management URI if no public endpoint. thanks BK Box
+  Need to check for management variable as well. thanks BK Box
+  Add support for pulling out virtualization type when parsing AWS     Describe Instances results. thanks Brad Heller
+  Ignore tags. thanks Brad Heller
+  NextMarker => NextToken. Maybe that's what it used to be...?. thanks Brad Heller
+  Fix Params related to network configuration. thanks Chirag Jog
+  Support to Configure the VM network. thanks Chirag Jog
+  Ability to track vApp level status of readiness. thanks Chirag Jog
+  Fix Params related to network configuration. thanks Chirag Jog
+  Support to Configure the VM network. thanks Chirag Jog
+  Ability to track vApp level status of readiness. thanks Chirag Jog
+  Remove extraneous print. thanks Chirag Jog
+  Remove existing (unused) parser module and introduce a     TerremarkParser - which extends the base parser with the ability to     extract relevant attributes. thanks Chirag Jog
+  Use the TerremarkParser to extract relevant attributes. thanks Chirag Jog
+  Minor Fix to delete the internet service. thanks Chirag Jog
+  OpenStack: update used limits tests. thanks Dan Prince
+  OpenStack: update tenant_list tests. thanks Dan Prince
+  OpenStack: get identity tests passing in real mode. thanks Dan Prince
+  Drop 'extras' from tenant test validations. thanks Dan Prince
+  Openstack: fix bin/openstack.rb errors. thanks Dan Prince
+  OpenStack Compute: Fix server model metadata. thanks Dan Prince
+  OpenStack: Add missing metadatum requests. thanks Dan Prince
+  vsphere: Support multiple NIC backings. thanks Ewoud Kohl van Wijngaarden
+  vsphere: Allow listing virtual port groups. thanks Ewoud Kohl van Wijngaarden
+  Add a zones.find(substring) method to return only zones whose     name matches that substring. thanks H. Wade Minter
+  Add initial support for pulling in >100 zones via Zones.each. thanks H. Wade Minter
+  Get rid of the extra load() calls. thanks H. Wade Minter
+  copy & paste to get Blocks LB API working. thanks Josh Yotty
+  register blb feature. thanks Josh Yotty
+  Rudimentary CRUD for AWS Data Pipeline. thanks Keith Barrette
+  Simple model tests. thanks Keith Barrette
+  Simple request tests. thanks Keith Barrette
+  Fix failing model tests. thanks Keith Barrette
+  Mark data pipeline tests pending if mocked. thanks Keith Barrette
+  Make compatible with Ruby 1.8.7. thanks Keith Barrette
+  Finished initial draft of Cloud Server docs. thanks Kyle Rames
+  updating Rackspace Cloud Server Documentation. thanks Kyle Rames
+  moving documents to another branch. thanks Kyle Rames
+  adding white space to force travis build. thanks Kyle Rames
+  refined examples; moved samples into cloud_servers sub directory. thanks Kyle Rames
+  moving examples; added readme. thanks Kyle Rames
+  tweaking example readme file. thanks Kyle Rames
+  tweaking examples document. thanks Kyle Rames
+  merging with latest master. thanks Kyle Rames
+  Adding Rackspace getting started and compute documents back in. thanks Kyle Rames
+  apply edits to Rackspace compute documents. thanks Kyle Rames
+  fixing links to anchors in Rackspace Compute doc. thanks Kyle Rames
+  fixing links to anchors in Rackspace Compute doc one more time. thanks Kyle Rames
+  fixing links to anchors in Rackspace Compute doc AGAIN. thanks Kyle Rames
+  fixing merge conflicts. thanks Kyle Rames
+  added 30 second timeout for SSH and SCP connect. thanks Kyle Rames
+  moved cloud servers examples to lib/fog/rackspace/examples/compute_v2; renamed cloud_servers.md to compute_v2.md. thanks Kyle Rames
+  rebased with master. thanks Kyle Rames
+  merging with the latest file_metadata. thanks Kyle Rames
+  rebasing cdn branch with latest master. thanks Kyle Rames
+  rebasing with master. thanks Kyle Rames
+  rebasing with master. thanks Kyle Rames
+  rebasing with master. thanks Kyle Rames
+  fixing broken tests. thanks Kyle Rames
+  Revert "[rackspace] adding accept headers to block_storage, cdn, compute_v2, databases, identity, load_balancers, storage". thanks Kyle Rames
+  Revert "Revert "[rackspace] adding accept headers to block_storage, cdn, compute_v2, databases, identity, load_balancers, storage"". thanks Kyle Rames
+  Follow redirection from response even if response is a Hash. thanks Marc G Gauthier
+  Set the User-Agent as Fog, to help differentiate from HP's CLI tools that have a vendored 'hpfog'. thanks Matt Ray
+  Make sure no requests are ever sent to the wrong endpoint by default. thanks Matt Sanders
+  Bump release to 0.0.7. thanks Matt Sanders
+  Remove matt as contact. thanks Matt Sanders
+  Bumped net-scp dependency to ~>1.1. thanks Michael D. Hall
+  remove unneeded url param. thanks Michał Krzyżanowski
+  Fix Mock#allocate_address method arity. thanks Mike Moore
+  Fix Mock#get_snapshot_details argument. thanks Mike Moore
+  Fix Mock#get_volume_details argument. thanks Mike Moore
+  Fix Mock#list_servers method arity. thanks Mike Moore
+  Fix Mock#remove_fixed_ip arguments. thanks Mike Moore
+  Fix Mock#update_server arguments. thanks Mike Moore
+  Removes docs since they are in wrong repo. thanks Paul Thornthwaite
+  Adds new Code Climate badge to README. thanks Paul Thornthwaite
+  Disables tests with race conditions affecting CI. thanks Paul Thornthwaite
+  Update gitignore and add a rvmrc file. thanks Rupak Ganguly
+  Add a new HP provider. thanks Rupak Ganguly
+  Add a case for the new HP provider. thanks Rupak Ganguly
+  Add a new HP provider. thanks Rupak Ganguly
+  Add a storage service implementation to the HP provider. thanks Rupak Ganguly
+  Add #get_containers, #get_container, #put_container and #delete_container methods to the storage service. thanks Rupak Ganguly
+  Add #head_containers and #head_container methods. thanks Rupak Ganguly
+  Enable #get, #put, #head and #delete object methods. thanks Rupak Ganguly
+  Add implementation for #get_object method. thanks Rupak Ganguly
+  Add implementation for #put_object method. thanks Rupak Ganguly
+  Add implementation for #head_object method. thanks Rupak Ganguly
+  Add implementation for #delete_object method. thanks Rupak Ganguly
+  Enable models layer methods and return nil from cdn call. thanks Rupak Ganguly
+  Add the directories model implementation. thanks Rupak Ganguly
+  Add the directory model implementation. thanks Rupak Ganguly
+  Add the files model implementation. thanks Rupak Ganguly
+  Add the file model implementation. thanks Rupak Ganguly
+  Add an implementation of copy method to copy files between containers. thanks Rupak Ganguly
+  Require HP provider for the fog binary. thanks Rupak Ganguly
+  Add a HP provider class for the fog binary. thanks Rupak Ganguly
+  Enable compute service with HP provider. Refactor hp_auth_url into hp_host, hp_port and hp_auth_path to enable flexibility in specifying the host, port and auth path separately. thanks Rupak Ganguly
+  Add the new hp_host, hp_port and hp_auth_path attributes and remove hp_auth_url. thanks Rupak Ganguly
+  Add a new HP provider for compute service. Note the new hp_host, hp_port and hp_auth_path attributes. thanks Rupak Ganguly
+  Add a case for the new HP provider for compute service. thanks Rupak Ganguly
+  Add the #list_servers method. thanks Rupak Ganguly
+  Enable #create_server, #list_servers and #list_servers_detail services for Nova. thanks Rupak Ganguly
+  Add implementation for #list_servers_detail. thanks Rupak Ganguly
+  Enable #list_images and #list_images_detail services. thanks Rupak Ganguly
+  Add implementation for #list_images service. thanks Rupak Ganguly
+  Add implementation for #list_images_detail service. thanks Rupak Ganguly
+  Enable #list_flavors and #list_flavors_detail services for Nova. thanks Rupak Ganguly
+  Add implementation for #list_flavors service. thanks Rupak Ganguly
+  Add implementation for #list_flavors_detail service. thanks Rupak Ganguly
+  Add implementation for #get_server_details service. thanks Rupak Ganguly
+  Add implementation for #get_image_details service. thanks Rupak Ganguly
+  Add implementation for #get_flavor_details service. thanks Rupak Ganguly
+  Enable #get_server_details, #get_image_details and #get_flavor_details services for Nova. thanks Rupak Ganguly
+  Add implementation for #create_server service. thanks Rupak Ganguly
+  Enable #create_image and #delete_image services. thanks Rupak Ganguly
+  Add implementation for #create_image service. thanks Rupak Ganguly
+  Add implementation for #delete_image service. thanks Rupak Ganguly
+  Enable the #create_server, #update_server and #delete_server services for Nova. thanks Rupak Ganguly
+  Update code with differences from Rackspace API and OS, to make it work with the Nova instance. thanks Rupak Ganguly
+  Add the implementation for #update_server services. thanks Rupak Ganguly
+  Add the implementation for #delete_server services. thanks Rupak Ganguly
+  Enable #list_addresses, #list_public_addresses and #list_private_addresses services for Nova. thanks Rupak Ganguly
+  Add implementation for #list_addresses service. thanks Rupak Ganguly
+  Add implementation for #list_public_addresses service. thanks Rupak Ganguly
+  Add implementation for #list_private_addresses service. thanks Rupak Ganguly
+  Enable  #server_action, #reboot_server, #resize_server, #confirm_resized_server and #revert_resized services for Nova. thanks Rupak Ganguly
+  Add implementation for #server_action, #reboot_server, #resize_server, #confirm_resized_server and #revert_resized services. thanks Rupak Ganguly
+  Enable flavors and flavor models. thanks Rupak Ganguly
+  Add implementation for flavors and flavor model layer. thanks Rupak Ganguly
+  Enable images and image models. thanks Rupak Ganguly
+  Add implementation for images and image model layers. thanks Rupak Ganguly
+  Enable models for servers and server for Nova services. thanks Rupak Ganguly
+  Add implementaion for servers model. thanks Rupak Ganguly
+  Add implementaion for server model. thanks Rupak Ganguly
+  Refactor connection parameters to accept a single endpoint and credentials. thanks Rupak Ganguly
+  Refactor Nova connection parameters to accept a single endpoint and credentials. thanks Rupak Ganguly
+  Add a options hash so that headers can be passed in to set acls. thanks Rupak Ganguly
+  Fix public_url property to generate a url when cdn is not enabled. Also, create a new url method that returns the full url. thanks Rupak Ganguly
+  Add a helper method to convert a acl string to a header name/value pair that Swift understands. thanks Rupak Ganguly
+  Add an acl property that will allow setting of acls strings. Also, add fix the public property to now toggle the appropriate acl string. thanks Rupak Ganguly
+  Remove Content-Length header incase Transfer-Encoding header is present. This was done to get the streaming for PUT working. thanks Rupak Ganguly
+  Fix a JSON parse error for Nova service methods like reboot. The server returns plain text instead of JSON text and hence JSON.parse barfs. thanks Rupak Ganguly
+  Revise fog gemspec to reflect hpfog name and tag it with v0.0.6. thanks Rupak Ganguly
+  Add mocking support to Swift HP provider calls. thanks Rupak Ganguly
+  Add a public? method to query a directory's state. thanks Rupak Ganguly
+  Add header_to_acl helper method to convert an acl header into corresponding acl strings. thanks Rupak Ganguly
+  Retrieve acl headers if present and set the acl string on a directory. thanks Rupak Ganguly
+  Add a check to see if acl string is nil and if so set it to 'private'. thanks Rupak Ganguly
+  Change serverRef to serverId. This was a change from Rackspace API but has been sync'd upon now. thanks Rupak Ganguly
+  Change flavorRef to flavorId and imageRef to imageId. This was a change from Rackspace API but has been sync'd upon now. thanks Rupak Ganguly
+  Fix DEVEX-634: Remove services that our out of scope. thanks Rupak Ganguly
+  Add CHANGELOG for HP specific fog extensions. thanks Rupak Ganguly
+  Add README with documentation for HP specific fog extensions. thanks Rupak Ganguly
+  Bump version. thanks Rupak Ganguly
+  Fix differences that were there in OS API. thanks Rupak Ganguly
+  Add special char. support including '?' in container and object names. thanks Rupak Ganguly
+  Add a helper method to expose some base info. for clients. thanks Rupak Ganguly
+  Bump version and update changelog. thanks Rupak Ganguly
+  Fix bug DEVEX-1296. Encode container and object names for public_url. thanks Rupak Ganguly
+  Update changelog. thanks Rupak Ganguly
+  Update date for release. thanks Rupak Ganguly
+  Change flavorId to flavorRef and imageId to imageRef as the specs changed. Also, change expected status to be 202 instead of 200. thanks Rupak Ganguly
+  Change expected status to be 204 instead of 202. thanks Rupak Ganguly
+  Change expected status to be 204 instead of 200. thanks Rupak Ganguly
+  Update date for fog merge with upstream milestone. thanks Rupak Ganguly
+  Add connection options param to the HP provider for Storage and Compute services that can be used to customize various connection related timeouts and other options. thanks Rupak Ganguly
+  Remove deprecated provider recognize clause. thanks Rupak Ganguly
+  Enable HP CDN provider. thanks Rupak Ganguly
+  Integrate HP CDN service with storage service. thanks Rupak Ganguly
+  Fix small bug with returning public url in the case when cdn is used. thanks Rupak Ganguly
+  Add initial implementation for cdn services i.e. GET, PUT, POST, HEAD and DELETE. thanks Rupak Ganguly
+  Hardcode X-Storage-Url as service is returning wrong url. thanks Rupak Ganguly
+  Assign hp_auth_uri to an instance var. so that CDN can use it. thanks Rupak Ganguly
+  Enable delete_container on the CDN service. thanks Rupak Ganguly
+  Add fix for special chars. in CDN-enabled container names. thanks Rupak Ganguly
+  Catch new exception that is being thrown. thanks Rupak Ganguly
+  Update code to call delete_container if CDN is enabled. thanks Rupak Ganguly
+  Make headers camel cased in public_url and remove manipulation of public_url in save method. Use delete_container in CDN context instead of out_container. thanks Rupak Ganguly
+  Remove CDN integration from within Storage service, till CDN service is more mature. thanks Rupak Ganguly
+  Update image and images model, and create_image call now uses server_action. Behavior change in Diablo 4. thanks Rupak Ganguly
+  Add new request layer method for rebuild_server and enable it for compute services. Behavior added in Diablo 4. thanks Rupak Ganguly
+  Enable new compute services. thanks Rupak Ganguly
+  Add name, accessIPv4 and accessIPv6 as properties. Change create_server signature to include the now required name param. Breaking change due to OS API. thanks Rupak Ganguly
+  Add new attributes, update flavor and image attributes and add corresponding accessors for them. Add new methods for rebuild, resize, revert_resize, confirm_resize, and create_image. Update save method to use new attributes. Update create_server call to pass in name param. thanks Rupak Ganguly
+  Remove resize related calls as they are not fully functional yet. thanks Rupak Ganguly
+  Update changelog for 0.0.10 tagged version. thanks Rupak Ganguly
+  Add a new option for CDN endpoint url and build the CDN mgmt url. thanks Rupak Ganguly
+  Add a new cdn uri to the Storage service to enable a CDN service from within the Storage service. thanks Rupak Ganguly
+  Update destroy and save methods to call appropriate CDN counterparts when CDN service is available and enabled. thanks Rupak Ganguly
+  Add some new attributes. Fix image_id and flavor_id getters. thanks Rupak Ganguly
+  Add request and model methods for change_password_server, and enable it for compute. thanks Rupak Ganguly
+  Add list_key_pairs compute request layer method, and mocks for it as well. thanks Rupak Ganguly
+  Add some mocking helper methods. thanks Rupak Ganguly
+  Fix issue with list in mock mode. thanks Rupak Ganguly
+  Enable create_key_pair service for compute. Add key_pairs array for mocking support. thanks Rupak Ganguly
+  Add implementation for creating keypair and also provide mocking support. thanks Rupak Ganguly
+  Remove a debug message. thanks Rupak Ganguly
+  Fix param name. thanks Rupak Ganguly
+  Enable delete_key_pair request method and implement it, along with mocking support. thanks Rupak Ganguly
+  Enable and implement key pairs model layer for compute service. thanks Rupak Ganguly
+  Add implementation for list_security_groups request layer method and enable it for compute services. Add mocking support as well. thanks Rupak Ganguly
+  Fix a small typo in mocks. thanks Rupak Ganguly
+  Enable and implemented create_security_groups method for request layer for compute services. thanks Rupak Ganguly
+  Fix code to remove from last modified hash afetr delete in mock code. thanks Rupak Ganguly
+  Use id instead of name to index the security groups hash in mock data structure. thanks Rupak Ganguly
+  Enable and implemented delete_security_groups method in requets layer for compute services. thanks Rupak Ganguly
+  Enable and implement create, get and delete security group methods for compute service. thanks Rupak Ganguly
+  Enable and add the security groups model layer implementation for the compute services. thanks Rupak Ganguly
+  Enable and add implementation for create security group rules for compute service. thanks Rupak Ganguly
+  Fix bugs in mocking support. thanks Rupak Ganguly
+  Small fix in mocks. thanks Rupak Ganguly
+  Enable and implement delete security group rules for compute service. thanks Rupak Ganguly
+  Add security group rule methods to security group model. thanks Rupak Ganguly
+  Fix create_rule to return response instead of boolean. thanks Rupak Ganguly
+  Add helper methods for mocking. thanks Rupak Ganguly
+  Enable and implement allocate address with mocking support for compute services. thanks Rupak Ganguly
+  Add options for keyname, security group and availability zone. thanks Rupak Ganguly
+  Enable and add implementation for release address for request layer for the compute service. thanks Rupak Ganguly
+  Fix documentation. thanks Rupak Ganguly
+  Enable and implement get address for request layer along with mocking support for the compute service. thanks Rupak Ganguly
+  Rename these to add a server prefix as they pertain to server addresses. thanks Rupak Ganguly
+  Enable and implement list addresses for request layer for the compute service. thanks Rupak Ganguly
+  Enable and implement the address model layer for the compute service. thanks Rupak Ganguly
+  Fix the documentation. thanks Rupak Ganguly
+  Enable and add associating and disassociating addresses to a server instance in the request layer for the compute service. thanks Rupak Ganguly
+  Add new attributes and revise addresses hash structure for the mock. thanks Rupak Ganguly
+  Fix doc, and status. thanks Rupak Ganguly
+  Revise implementation for returning private and public ip addresses for a given server, along with mocking support. thanks Rupak Ganguly
+  Revise mocking support to manage ip address collection in servers. thanks Rupak Ganguly
+  Add server attribute to associate and disassociate a server to an address. thanks Rupak Ganguly
+  Remove some attributes from object. thanks Rupak Ganguly
+  Add support for passing in key pairs, security groups, availability zone and min/max count to the create server request layer method. thanks Rupak Ganguly
+  Update the server model to support passing in keypairs and security groups. thanks Rupak Ganguly
+  Fix some verbiage and update some links. thanks Rupak Ganguly
+  Remove instance_id as an accessor. thanks Rupak Ganguly
+  Add vcpus as an attribute. thanks Rupak Ganguly
+  Add back some attributes. thanks Rupak Ganguly
+  Update inline docs to add some params. thanks Rupak Ganguly
+  Update changelog with changes for this version release. thanks Rupak Ganguly
+  Bump version to 0.0.11. thanks Rupak Ganguly
+  Update HP provider with the new CS authentication method and also refactor the legacy authentication method. Also, update HP Storage provider to use the CS authentication scheme. thanks Rupak Ganguly
+  Retrofit HP Storage provider to work with both legacy and CS authentication schemes. thanks Rupak Ganguly
+  Refactor code to get endpoints from service catalog for v1 and v2 auths. thanks Rupak Ganguly
+  Update Storage provider to work with v1 and v2 auths. thanks Rupak Ganguly
+  Update CDN provider to work with v1 and v2 auths. Also, patch code for incorrect endpoint via CS catalog. thanks Rupak Ganguly
+  Update for cdn endpoint fix in place. thanks Rupak Ganguly
+  Update inline docs as per real responses. thanks Rupak Ganguly
+  Update CDN integration with Storage with respect to CS authentication. thanks Rupak Ganguly
+  Update HP Compute provider to use CS authentication and retrofit code to use v1 auth as well. thanks Rupak Ganguly
+  Add cdn_enabled?, cdn_enable= and cdn_public_url for directory model. Also, add cdn_public_url for file model. thanks Rupak Ganguly
+  Add connection_options for AWS Compute provider. thanks Rupak Ganguly
+  Refactor to remove service_type param from provider call. thanks Rupak Ganguly
+  Update inline documentation. thanks Rupak Ganguly
+  Escape the key in the call. thanks Rupak Ganguly
+  Remove bits and cores from flavor. thanks Rupak Ganguly
+  Add cores as an attribute to alias vcpus. thanks Rupak Ganguly
+  Add some attributes that are implemented as methods. thanks Rupak Ganguly
+  Add copyright message for HP extensions for fog. thanks Rupak Ganguly
+  Bump version and update changelog. thanks Rupak Ganguly
+  Update copyright notice. thanks Rupak Ganguly
+  Update inline documentation. thanks Rupak Ganguly
+  Fix for auth uri using Identity service. thanks Rupak Ganguly
+  Add parameter :hp_avl_zone to access the az2 availability zone to the HP Compute provider. thanks Rupak Ganguly
+  Bump version and update changelog. thanks Rupak Ganguly
+  Bump version and update changelog. thanks Rupak Ganguly
+  Bump version and update changelog. thanks Rupak Ganguly
+  Add key_pair get/set methods for server model. thanks Rupak Ganguly
+  Hack to fix  public_ip_address. thanks Rupak Ganguly
+  Fix for Fog::HP::CDN::NotFound exception. thanks Rupak Ganguly
+  Update public_ip_address method to return first public ip address. thanks Rupak Ganguly
+  Bump version and update changelog. thanks Rupak Ganguly
+  Add an Errors module for handling HP provider specific exceptions. thanks Rupak Ganguly
+  Refactor escape method for container and object names and move it to the HP provider from individual namespaces. thanks Rupak Ganguly
+  Remove obsolete method. thanks Rupak Ganguly
+  Remove bad service. thanks Rupak Ganguly
+  Fix mock to return integer value for count. thanks Rupak Ganguly
+  Raise the correct exception in the mock. thanks Rupak Ganguly
+  Add HP provider and credentials to support testing with mocks. thanks Rupak Ganguly
+  Fix mocks to match real implementation. thanks Rupak Ganguly
+  Add object tests for storage. thanks Rupak Ganguly
+  Add mocking support for copy operation using puut object. thanks Rupak Ganguly
+  Add more tests for containers and objects. thanks Rupak Ganguly
+  Fix an issue in copy mocking portion. thanks Rupak Ganguly
+  Add test for copy objects. thanks Rupak Ganguly
+  Add test for copying from one container to another. thanks Rupak Ganguly
+  Fix format of flavors in mocks. thanks Rupak Ganguly
+  Add tests for flavor. thanks Rupak Ganguly
+  Add implementation for mocks. thanks Rupak Ganguly
+  Add mocking support. thanks Rupak Ganguly
+  Minor fix for mocks. thanks Rupak Ganguly
+  Add tests for images. thanks Rupak Ganguly
+  Update mocking support. thanks Rupak Ganguly
+  Add tests for server requests. thanks Rupak Ganguly
+  Update mocking support. thanks Rupak Ganguly
+  Add tests for addresses and floating ips. thanks Rupak Ganguly
+  Fix minor things in tests. thanks Rupak Ganguly
+  Update mocking support. thanks Rupak Ganguly
+  Add tests for keypairs. thanks Rupak Ganguly
+  Update mocking support for security groups. thanks Rupak Ganguly
+  Add tests for security groups. thanks Rupak Ganguly
+  Update mocking support for security groups and security group rules. thanks Rupak Ganguly
+  Add tests for security group rules. thanks Rupak Ganguly
+  Fix mocks for create_key_pair. thanks Rupak Ganguly
+  Fix mocks for list_key_pairs. thanks Rupak Ganguly
+  Fix format for list_key_pairs. thanks Rupak Ganguly
+  Add tests for address model and addresses collection. thanks Rupak Ganguly
+  Add HP provider in the helper. thanks Rupak Ganguly
+  Add tests for key_pair model and key_pairs collection. thanks Rupak Ganguly
+  Add tests for security group model and collection. thanks Rupak Ganguly
+  Add HP credential params. thanks Rupak Ganguly
+  Add HP credential params for mocking support. thanks Rupak Ganguly
+  Add mocking support for HP CDN provider. thanks Rupak Ganguly
+  Add tests for CDN containers. thanks Rupak Ganguly
+  Update mocks to simulate real results in containers. thanks Rupak Ganguly
+  Update tests and mocks based on real pro data. thanks Rupak Ganguly
+  Update tests and mock formats based on real pro data. thanks Rupak Ganguly
+  Update mocks to simulate real behavior. thanks Rupak Ganguly
+  Update key pair tests to work with real pro results. thanks Rupak Ganguly
+  Update mocks to simulate real results. thanks Rupak Ganguly
+  Update mocks and tests to simulate real results. thanks Rupak Ganguly
+  Update mocks and tests to simulate real results. thanks Rupak Ganguly
+  Update mocks and tests for flavor to simulate real results. thanks Rupak Ganguly
+  Update mocks and tests to simulate real calls in pro. thanks Rupak Ganguly
+  Update mocks for address in create_server and corresponding tests. thanks Rupak Ganguly
+  Add hp_tenant_id as a required param for connection to HP providers. thanks Rupak Ganguly
+  Update default scheme from http to https in the v1 auth. thanks Rupak Ganguly
+  Add uuid and links atrributes to the list servers mock. thanks Rupak Ganguly
+  Pass connection_options hash to the cdn connection in the storage provider. thanks Rupak Ganguly
+  Fix a bug where cdn state was not preserved. thanks Rupak Ganguly
+  Add helper method for cdn public ssl url and remove check for hp_cdn_ssl flag. thanks Rupak Ganguly
+  Add helper method for cdn public url for file. thanks Rupak Ganguly
+  Add helper method to get cdn ssl url for the files collection. thanks Rupak Ganguly
+  Add and enable get_console_output request method and add server method console_output. Add test for get_console_output. thanks Rupak Ganguly
+  Add avl zone as required param. Update endpoint retrieving logic from catalog to allow future avl zones. Fix minor error in tests. thanks Rupak Ganguly
+  Add avl zone as required param. Update endpoint retrieving logic from catalog to allow future avl zones. Fix minor error in tests. thanks Rupak Ganguly
+  Add availability zone required parameter for storage and cdn services. thanks Rupak Ganguly
+  Add availability zone required parameter for storage and cdn services. thanks Rupak Ganguly
+  Minor fix. thanks Rupak Ganguly
+  Add security_groups attribute to the server model. thanks Rupak Ganguly
+  Change hp_service_type to check for 'name' in the service catalog rather than 'type'. thanks Rupak Ganguly
+  Update tests to reflect addition of security_groups attribute to server model. thanks Rupak Ganguly
+  Update to not raise exception if service is not active or not present. thanks Rupak Ganguly
+  Upgrade to excon version 0.13.0 to take advantage of the ssl_verify_peer and ssl_ca_file params via the connection_options hash. Also, remove the use of :hp_servicenet setting for ssl for storage and compute providers. thanks Rupak Ganguly
+  Add request layer code for metadata. thanks Rupak Ganguly
+  Update mocking support for metadata to match real responses. thanks Rupak Ganguly
+  Add tests for metadata requests methods. thanks Rupak Ganguly
+  Minor fix to mocks. thanks Rupak Ganguly
+  Add metadata models support. Also, include metadata attribute in server and image models, to manage metadata. thanks Rupak Ganguly
+  Add some more metadata requests tests. thanks Rupak Ganguly
+  Minor fix and add a destroy method. thanks Rupak Ganguly
+  Add metadata tests for servers and images. thanks Rupak Ganguly
+  Fix code to metadata to the create image call. thanks Rupak Ganguly
+  Add an attribute for network_name to make it easy to switch. thanks Rupak Ganguly
+  Add a multi_json require so that json parsing is available. thanks Rupak Ganguly
+  Bump version and update changelog. thanks Rupak Ganguly
+  Update call to include response_block rather than passing a block, to conform to excon deprecation message. thanks Rupak Ganguly
+  Add attributes to image model by extracting them from metadata. thanks Rupak Ganguly
+  Add a BlockStorage service to the HP provider. thanks Rupak Ganguly
+  Add list_volumes for block storage. thanks Rupak Ganguly
+  Add get_volume_details request method for block storage. thanks Rupak Ganguly
+  Add delete_volumes request method for block storage. thanks Rupak Ganguly
+  Add create_volume request method for block storage service. thanks Rupak Ganguly
+  Add ability to send in metadata to create_volume request method. thanks Rupak Ganguly
+  Fix mock for tests. thanks Rupak Ganguly
+  Fix typo in service folder. thanks Rupak Ganguly
+  Add the block storage service to the binary. thanks Rupak Ganguly
+  Fix mock for tests. thanks Rupak Ganguly
+  Add shindo tests for requests methods for block storage. thanks Rupak Ganguly
+  Add server attach block storage request methods. thanks Rupak Ganguly
+  Add list_server_volumes request method for block storage service. thanks Rupak Ganguly
+  Add attach_volume request method for block storage service. thanks Rupak Ganguly
+  Add detach_volume request method for block storage service. thanks Rupak Ganguly
+  Add shindo tests for server volume request methdos for block storage service. thanks Rupak Ganguly
+  Add volume model and volumes collection for block storage service. thanks Rupak Ganguly
+  Add shindo tests for volume models and collection. thanks Rupak Ganguly
+  Fix mock to provide correct status after creation. thanks Rupak Ganguly
+  Add a compute service attribute to peek into the compute service from within the block_storage service. thanks Rupak Ganguly
+  Add attach and detach methods to the volume model using the compute service attribute. thanks Rupak Ganguly
+  Add shindo tests for attach and detach. thanks Rupak Ganguly
+  Fix mock. Fix tests for mocking and real modes. thanks Rupak Ganguly
+  Add a head method for the directories collection. thanks Rupak Ganguly
+  Upgrade to excon 0.14.0 to take advantage of the new StandardInstrumentor for debug use. thanks Rupak Ganguly
+  Capture hp_auth_uri for passing down to compute provider. thanks Rupak Ganguly
+  Add a list_snapshot request method, a corresponding mock, and add support for it in the block storage provider. thanks Rupak Ganguly
+  Add a create_snapshot request method, a corresponding mock, and add support for it in the block storage provider. thanks Rupak Ganguly
+  Minor fix to the inline help. thanks Rupak Ganguly
+  Add a get_snapshot_details request method, a corresponding mock, and add support for it in the block storage provider. thanks Rupak Ganguly
+  Add a delete_snapshot request method, a corresponding mock, and add support for it in the block storage provider. thanks Rupak Ganguly
+  Add shindo tests for snapshots request layer methods. thanks Rupak Ganguly
+  Minor update to inline help. thanks Rupak Ganguly
+  Add snapshot model and collection to bloack storage provider. thanks Rupak Ganguly
+  Add snapshot model/collection and corresponding tests. thanks Rupak Ganguly
+  Add user_agent string to the core fog connection with corresponding tests. thanks Rupak Ganguly
+  Add customised user_agent string for HP providers. Also, enable passing a custom user_agent string from calling clients. Add corresponding tests. thanks Rupak Ganguly
+  Add volume_attachments to server model. thanks Rupak Ganguly
+  Bump version to 0.0.16 and update changelog. thanks Rupak Ganguly
+  Removed 'server' attribute from server model, and fixed 'all' method. thanks Rupak Ganguly
+  Removed 'images' attribute from server model. thanks Rupak Ganguly
+  Fix version info. that is used by user-agent. thanks Rupak Ganguly
+  Add object temp url generation capability with mock support. thanks Rupak Ganguly
+  Add object temp url functionality to file model layer. thanks Rupak Ganguly
+  Add request layer tests for object_temp_url functionality. thanks Rupak Ganguly
+  Add tenant_id to the mix to tighten security for the temp_url generation. thanks Rupak Ganguly
+  Update mock for tenp_url. thanks Rupak Ganguly
+  Call the request layer method instead of the generic util method. thanks Rupak Ganguly
+  Add model tests for storage service. thanks Rupak Ganguly
+  Add the request layer method to extract the windows password from the console log in case of a windows instance. thanks Rupak Ganguly
+  Update the server model with a method to retrieve the windows password. thanks Rupak Ganguly
+  Update the get_windows_password to return the encrypted password instead of the decrypted one. thanks Rupak Ganguly
+  Add grant, revoke and list methods for cross tenant object acls implementation. thanks Rupak Ganguly
+  Add request layer methods for shared container and shared object access. thanks Rupak Ganguly
+  Bump version and update changelog. thanks Rupak Ganguly
+  Fix response status for mocks. thanks Rupak Ganguly
+  Add mocks for shared container and objects calls. thanks Rupak Ganguly
+  Add a new exception class and handled exceptions in exception messages. thanks Rupak Ganguly
+  Add request method for put_shared_object. Add model and collection for shared_directory and shared_file. thanks Rupak Ganguly
+  Refactor common code into separate method. thanks Rupak Ganguly
+  Fix mock for put_container to reflect new acl changes. thanks Rupak Ganguly
+  Fix head call to return an empty body. thanks Rupak Ganguly
+  Removed comment. thanks Rupak Ganguly
+  Minor fix to allow options on save to pass in metadata. thanks Rupak Ganguly
+  Add method all. thanks Rupak Ganguly
+  Add methods for destroy and save. thanks Rupak Ganguly
+  Add method for destroy. thanks Rupak Ganguly
+  Add request layer method for put_shared_container. thanks Rupak Ganguly
+  Minor bug fix when acls are nil. Also, added support for specifying list of users for grant and revoke as a comma-separated list. thanks Rupak Ganguly
+  Allow the models to raise exception when there is insufficient access. thanks Rupak Ganguly
+  Add delete_shared_object and corresponding model support. thanks Rupak Ganguly
+  Update inline documentation. thanks Rupak Ganguly
+  Update method to remove availability_zone as input data parameter. thanks Rupak Ganguly
+  Allows creation of bootable volumes by passing in single part images. thanks Rupak Ganguly
+  Allows creation of server instances that use a bootable volume rather than an image as its base. This gives us persistant instances. thanks Rupak Ganguly
+  Fix failing shindo tests. thanks Rupak Ganguly
+  Fix some null checks. thanks Rupak Ganguly
+  Add request layer methods for listing and getting bootable volumes. thanks Rupak Ganguly
+  Update volume model and collection to handle bootable volumes as well. thanks Rupak Ganguly
+  Add code to accept config_drive and block_device_mapping parameters while creating a server instance. thanks Rupak Ganguly
+  Move CHANGELOG.hp under hp folder. thanks Rupak Ganguly
+  Bump the version and update the changelog. thanks Rupak Ganguly
+  Fix public_key attribute to be visible in table. thanks Rupak Ganguly
+  Add create_persistent_server request layer method to compute service. Add mocks and tests as well. thanks Rupak Ganguly
+  Remove block_device_mapping param from create_server request method call. thanks Rupak Ganguly
+  Add capability of creating regular and persistent servers via the server model. Make image_id an optional parameter for creating servers. thanks Rupak Ganguly
+  Add bootable_volumes collection for managing only bootable volumes. thanks Rupak Ganguly
+  Remove bootable volumes list and get methods and moved them under the bootable_volumes collection. thanks Rupak Ganguly
+  Update changelog and release date. thanks Rupak Ganguly
+  Updated the BlockStorage namespace to be Fog::HP::BlockStorage. thanks Rupak Ganguly
+  Updated the tests to reflect the BlockStorage namespace changes. thanks Rupak Ganguly
+  Fix case where invalid CDN endpoint was causing issues. thanks Rupak Ganguly
+  Update to new code and tests based on changes from upstream fog. thanks Rupak Ganguly
+  Deprecate hp_account_id to use hp_access_key instead. thanks Rupak Ganguly
+  Fix fog.gemspec. thanks Rupak Ganguly
+  * [dreamhost|dns] initial import. thanks Sergio Rubio
+  Switch gem source to https://rubygems.org. thanks Sergio Rubio
+  A whitespace fix :v:. thanks Simon Gate
+  add install.txt. thanks Terry Howe
+  remove file. thanks Terry Howe
+  Update put_object to accept blocks, and remove deprecation message. thanks Terry Howe
+  Fix warning. thanks William Lawson
+  version. thanks William Lawson
+  reverse version change. thanks William Lawson
+  joyent resize smartmachine incorrect class type. thanks angus
+  Typo in instantiate_vapp_template.rb. thanks dJason
+  fix for user agent tests excon usage. thanks geemus
+  fixed bug, quantum api need no underscore valiable name. (ex floatingips. thanks kanetann
+  Update lib/fog/ecloud/requests/compute/virtual_machine_create_from_template.rb. thanks tipt0e
+  Fog::Vsphere::Compute - misspelled method 'get_vm_by_ref' in vm_reconfig_hardware. thanks tipt0e
+
+[openstack]
+  Register the image service. thanks Anshul Khandelwal
+  string interpolation problem image create fixes #1493. thanks Ruben Koster
+
+[openstack|compute]
+  fix get_metadata call. thanks Ben Bleything
+  rename meta_hash to to_hash; make it public. thanks Ben Bleything
+  adds methods to retireve floating & fixed ip addresses. thanks Ohad Levy
+  ensures we clear ipaddresses cache upload reload. thanks Ohad Levy
+  configurable :openstack_endpoint_type. thanks Sergio Rubio
+  images collection should not return nil for #all. thanks Sergio Rubio
+
+[openstack|identity]
+  Marks test as pending. thanks Paul Thornthwaite
+  Configurable :openstack_endpoint_type. thanks Sergio Rubio
+  user model tests fixes. thanks Sergio Rubio
+  cleanup the test role when no longer in use. thanks Sergio Rubio
+
+[openstack|network]
+  Added missing Network model attributes. thanks Sergio Rubio
+
+[openstack|storage]
+  intial import. thanks Sergio Rubio
+  added OpenStack Storage to lib/fog/storage.rb. thanks Sergio Rubio
+  Added OpenStack.escape utility method. thanks Sergio Rubio
+  Added storage service to lib/fog/bin/openstack.rb. thanks Sergio Rubio
+  Added OpenStack Storage service tests. thanks Sergio Rubio
+  configurable service_type and service_name. thanks Sergio Rubio
+  added openstack_tenant and openstack_region params. thanks Sergio Rubio
+  replace 'object_store' service type with 'object-store'. thanks Sergio Rubio
+
+[openstack|volume]
+  Configurable :openstack_endpoint_type. thanks Sergio Rubio
+  remove extra comma. thanks Sergio Rubio
+  Added missing service declaration. thanks Sergio Rubio
+
+[ovirt]
+  Add support for reading the oVirt api version. thanks Amos Benari
+  Added support for oVirt volume status. thanks Amos Benari
+  Updated the blocking start logic to fit oVirt 3.1 api. thanks Amos Benari
+
+[rackspace]
+  adding accept headers to block_storage, cdn, compute_v2, databases, identity, load_balancers, storage. thanks Kyle Rames
+  fixing merge. thanks Kyle Rames
+
+[rackspace|cdn]
+  implemented purge object from CDN; added CDN tests and mocks. thanks Kyle Rames
+  more refactoring. thanks Kyle Rames
+  more refactoring of cdn. thanks Kyle Rames
+
+[rackspace|compute]
+  Fix typo in attachments model. thanks Brad Gignac
+  Handle malformed API responses. thanks Brad Gignac
+  Update server to use default networks. thanks Brad Gignac
+  Allow custom network on server. thanks Brad Gignac
+  this should address a metadata issue discovered in chef http://tickets.opscode.com/browse/KNIFE-217. thanks Kyle Rames
+  this should address a metadata issue discovered in chef http://tickets.opscode.com/browse/KNIFE-217(cherry picked from commit a859b9ecf550469ac43ea35402785dad59d7c7f2). thanks Kyle Rames
+  added create server example. thanks Kyle Rames
+  Adding more cloud server examples. thanks Kyle Rames
+  tweaking examples. thanks Kyle Rames
+  fixing typo in metadata class. thanks Kyle Rames
+  fixing connection deprecation warnings. thanks Kyle Rames
+  Adding API documentation. thanks Kyle Rames
+  updated to check for public_ip_address instead of ip4_address as setup uses the public_ip_address. thanks Kyle Rames
+  removed timeout from bootstrap method signature and hard coded it in method per geemus. thanks Kyle Rames
+  added test for put_container with an optional parameter. thanks Kyle Rames
+  updated mocking framework to support any flavor or image. thanks Kyle Rames
+  remove erroneous block argument to get_object     fixes #1588. thanks geemus
+
+[rackspace|compute_v2]
+  fixing merge issues; added metadata test for servers. thanks Kyle Rames
+  Added note indicating that RackConnect users should use Server personalization rather than the bootstrap method. thanks Kyle Rames
+  fixing bootstrap example. thanks Kyle Rames
+  compute_v2 tests were failing because the flavor used in the tests was too small for the image selected. I updating tests to use the an Ubuntu image in hopes of making the tests less brittle. thanks Kyle Rames
+
+[rackspace|database]
+  remove extraneous colon. thanks Kyle Rames
+
+[rackspace|databases]
+  removed trailing stash from hard coded endpoints; added accept header. thanks Kyle Rames
+
+[rackspace|dns]
+  added tests for zones.find. thanks Brian Hartsock
+  fix issue in zones.find where results with no links throw exception. thanks Brian Hartsock
+
+[rackspace|identity]
+  Correctly populate model from request data. thanks Brad Gignac
+  Remove unused get_credentials request. thanks Brad Gignac
+
+[rackspace|lb]
+  fixed issue where double paths cause API errors. thanks Brian Hartsock
+  removed puts. thanks Brian Hartsock
+
+[rackspace|networks]
+  Add Cloud Networks requests. thanks Brad Gignac
+  Add networks model and collection. thanks Brad Gignac
+  Add mock responses. thanks Brad Gignac
+
+[rackspace|storage]
+  refactored storage/cdn. thanks Kyle Rames
+  fixed issue in ruby 1.8.7 where metadata was not being deleted when set to nil. thanks Kyle Rames
+  tweaked directory implementation; added directory model tests. thanks Kyle Rames
+  updating to return true after saving directory. thanks Kyle Rames
+  added support for container metadata; added directory tests. thanks Kyle Rames
+  Cloud Files will not process a header without a value so I added a stand in value for nil. thanks Kyle Rames
+  added delete method to metadata. thanks Kyle Rames
+  removing test of dubious distinction per geemus. thanks Kyle Rames
+  updated file class to use the same metadata implementation as the directory class. thanks Kyle Rames
+  added test to check for metadata on object creation; tweaked metadata on object creation test. thanks Kyle Rames
+  updated metadata class to decode incoming header values using FOG::JSON. thanks Kyle Rames
+  fixing Metadata#respond_to? method. thanks Kyle Rames
+  updated directory to lazy load metadata when necessary. thanks Kyle Rames
+  added tests for metadata class; fixed bug with method missing. thanks Kyle Rames
+  updated file class to use the same metadata implementation as the directory class. thanks Kyle Rames
+  added test to check for metadata on object creation; tweaked metadata on object creation test. thanks Kyle Rames
+  updated metadata class to decode incoming header values using FOG::JSON. thanks Kyle Rames
+  rebased with dir_metadata branch - https://github.com/fog/fog/pull/1563. thanks Kyle Rames
+  added ios_url and streaming_url methods to directory and file; added more tests. thanks Kyle Rames
+  added account model. thanks Kyle Rames
+  removing type conversion for metadata per https://github.com/fog/fog/pull/1587. thanks Kyle Rames
+  added the ability to determine meta prefixes from Class objects as well as Fog object. This addresses issue in Files#get method. thanks Kyle Rames
+
+[tests]
+  Updates format tests. thanks Paul Thornthwaite
+  Changes to format testing helper. thanks Paul Thornthwaite
+  Extracts schema validator to class. thanks Paul Thornthwaite
+  Fixes schema validator for arrays. thanks Paul Thornthwaite
+
+[virtualbox]
+  Removed VirtualBox since it has many problems and the gem it's based on is no longer maintained. thanks Kevin Menard
+
+
 1.9.0 01/19/2013 0283cac581edc36fe58681c51d6fa2a5d2db3f41
 =========================================================
 

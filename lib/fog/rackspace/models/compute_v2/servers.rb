@@ -10,7 +10,11 @@ module Fog
         model Fog::Compute::RackspaceV2::Server
 
         # Returns list of servers 
-        # @return [Array<Fog::Compute::RackspaceV2::Server>] Retrieves a list servers.
+        # @return [Fog::Compute::RackspaceV2::Servers] Retrieves a list servers.
+        # @raise [Fog::Rackspace::Errors::NotFound] - HTTP 404
+        # @raise [Fog::Rackspace::Errors::BadRequest] - HTTP 400
+        # @raise [Fog::Rackspace::Errors::InternalServerError] - HTTP 500
+        # @raise [Fog::Rackspace::Errors::ServiceError]
         # @note Fog's current implementation only returns 1000 servers
         # @see http://docs.rackspace.com/servers/api/v2/cs-devguide/content/List_Servers-d1e2078.html
         def all
@@ -19,16 +23,21 @@ module Fog
         end
 
         # Creates a new server and populates ssh keys
+        # @return [Fog::Compute::RackspaceV2::Server]
+        # @raise [Fog::Rackspace::Errors::NotFound] - HTTP 404
+        # @raise [Fog::Rackspace::Errors::BadRequest] - HTTP 400
+        # @raise [Fog::Rackspace::Errors::InternalServerError] - HTTP 500
+        # @raise [Fog::Rackspace::Errors::ServiceError]
+        # @note This method is incompatible with Cloud Servers utlizing RackConnect. RackConnect users 
+        #     should use server personalization to install keys.  Please see Server#personality for more information.
         # @example
-        #   service = Fog::Compute.new(:provider => 'rackspace', 
-        #                             :version => :v2, 
+        #   service.servers.bootstrap :name => 'bootstrap-server',
+        #                             :flavor_id => service.flavors.first.id,
+        #                             :image_id => service.images.find {|img| img.name =~ /Ubuntu/}.id,
         #                             :public_key_path => '~/.ssh/fog_rsa.pub',
-        #                             :private_key_path => '~/.ssh/fog_rsa')
+        #                             :private_key_path => '~/.ssh/fog_rsa'
         #
-        #   service.servers.bootstrap :name => 'bootstap-server',
-        #                             :flavor_id => service.flavors.first.id
-        #                             :image_id => service.servers.first.id
-        #        
+        # @raise [Fog::Compute::RackspaceV2::InvalidServerStateException] if server state is an error state
         def bootstrap(new_attributes = {})
           server = create(new_attributes)
           server.wait_for(1500) { ready? && !public_ip_address.empty? }
@@ -39,6 +48,10 @@ module Fog
         # Retrieves server
         # @param [String] server_id for server to be returned
         # @return [Fog::Compute::RackspaceV2:Server]
+        # @raise [Fog::Rackspace::Errors::NotFound] - HTTP 404
+        # @raise [Fog::Rackspace::Errors::BadRequest] - HTTP 400
+        # @raise [Fog::Rackspace::Errors::InternalServerError] - HTTP 500
+        # @raise [Fog::Rackspace::Errors::ServiceError]
         # @see http://docs.rackspace.com/servers/api/v2/cs-devguide/content/Get_Server_Details-d1e2623.html
         def get(server_id)
           data = service.get_server(server_id).body['server']

@@ -63,15 +63,11 @@ module Fog
               'name'       => name
             }
           }
-          if options['metadata']
-            data['server']['metadata'] = options['metadata']
+          l_options = ['metadata', 'accessIPv4', 'accessIPv6', 'key_name', 'config_drive', 'user_data']
+          l_options.select{|o| options[o]}.each do |key|
+            data['server'][key] = options[key]
           end
-          if options['accessIPv4']
-            data['server']['accessIPv4'] = options['accessIPv4']
-          end
-          if options['accessIPv6']
-            data['server']['accessIPv6'] = options['accessIPv6']
-          end
+
           if options['personality']
             data['server']['personality'] = []
             for file in options['personality']
@@ -86,9 +82,6 @@ module Fog
           data['server']['min_count'] = min_count
           data['server']['max_count'] = max_count
 
-          if options['key_name']
-            data['server']['key_name'] = options['key_name']
-          end
           if options['security_groups']
             data['server']['security_groups'] = []
             for sg in options['security_groups']
@@ -96,9 +89,6 @@ module Fog
                 'name' => sg
               }
             end
-          end
-          if options['config_drive']
-            data['server']['config_drive'] = options['config_drive']
           end
 
           request(

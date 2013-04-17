@@ -30,7 +30,7 @@ service = Fog::Compute.new({
   :rackspace_username   => rackspace_username,
   :rackspace_api_key    => rackspace_api_key,
   :version => :v2,  # Use Next Gen Cloud Servers
-  :rackspace_endpoint => Fog::Compute::RackspaceV2::ORD_ENDPOINT #Use Chicago Region
+  :rackspace_region => :ord #Use Chicago Region
 })
 
 # Pick the first flavor
@@ -54,7 +54,7 @@ end
 
 puts "[DONE]\n\n"
 
-puts "Initial Metadata\n"                                
+puts "Initial Metadata\n"
 print_metadata(server)
 
 puts "Adding New Metadata\n"

@@ -5,7 +5,7 @@ module Fog
 
     # define a specific version for the HP Provider
     unless const_defined?(:VERSION)
-      VERSION = '0.0.19'
+      VERSION = '0.0.20'
     end
 
     extend Fog::Provider
@@ -25,7 +25,7 @@ module Fog
               if message.nil? and !data.values.first.nil?
                 message = data.values.first['message']
               end
-            rescue MultiJson::DecodeError
+            rescue Fog::JSON::LoadError
               message = error.response.body  #### body is not in JSON format, so just return as is
             end
           end

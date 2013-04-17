@@ -1,3 +1,5 @@
-source "http://rubygems.org"
+source "https://rubygems.org"
 
 gemspec
+
+gem "multi_json", '~>1.0'

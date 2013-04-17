@@ -5,6 +5,7 @@ module Fog
     class AWS
 
       module DistributionsHelper
+        
         def all(options = {})
           merge_attributes(options)
           data = list_distributions(options).body
@@ -24,7 +25,7 @@ module Fog
           nil
         end
 
-        def each
+        def each_distribution
           if !block_given?
             self
           else

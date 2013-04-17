@@ -22,7 +22,7 @@ def select_flavor(flavors, server)
 end
 
 def select_server(servers)
-  abort "\nThere are not any servers to resize. Try running create_server.rb\n\n" if servers.empty?
+  abort "\nThere are not any servers to resize in the Chicago region. Try running create_server.rb\n\n" if servers.empty?
   
   puts "\nSelect Server Resize:\n\n"
   servers.each_with_index do |server, i|
@@ -51,7 +51,7 @@ service = Fog::Compute.new({
   :rackspace_username   => rackspace_username,
   :rackspace_api_key    => rackspace_api_key,
   :version => :v2,  # Use Next Gen Cloud Servers
-  :rackspace_endpoint => Fog::Compute::RackspaceV2::ORD_ENDPOINT #Use Chicago Region
+  :rackspace_region => :ord #Use Chicago Region
 })
 
 #retrieve list of servers

@@ -29,54 +29,55 @@ module Fog
       class Real
         include Shared
 
-        # Clones a VM from a template or existing machine on your vSphere 
-        # Server.  
+        # Clones a VM from a template or existing machine on your vSphere
+        # Server.
         #
         # ==== Parameters
         # * options<~Hash>:
-        #   * 'datacenter'<~String> - *REQUIRED* Datacenter name your cloning 
+        #   * 'datacenter'<~String> - *REQUIRED* Datacenter name your cloning
         #     in. Make sure this datacenter exists, should if you're using
         #     the clone function in server.rb model.
-        #   * 'template_path'<~String> - *REQUIRED* The path to the machine you 
+        #   * 'template_path'<~String> - *REQUIRED* The path to the machine you
         #     want to clone FROM. Relative to Datacenter (Example:
         #     "FolderNameHere/VMNameHere")
-        #   * 'name'<~String> - *REQUIRED* The VMName of the Destination  
+        #   * 'name'<~String> - *REQUIRED* The VMName of the Destination
         #   * 'dest_folder'<~String> - Destination Folder of where 'name' will
         #     be placed on your cluster. Relative Path to Datacenter E.G.
         #     "FolderPlaceHere/anotherSub Folder/onemore"
-        #   * 'power_on'<~Boolean> - Whether to power on machine after clone. 
+        #   * 'power_on'<~Boolean> - Whether to power on machine after clone.
         #     Defaults to true.
         #   * 'wait'<~Boolean> - Whether the method should wait for the virtual
-        #     machine to finish cloning before returning information from 
+        #     machine to finish cloning before returning information from
         #     vSphere. Broken right now as you cannot return a model of a serer
         #     that isn't finished cloning. Defaults to True
-        #   * 'resource_pool'<~Array> - The resource pool on your datacenter 
+        #   * 'resource_pool'<~Array> - The resource pool on your datacenter
         #     cluster you want to use. Only works with clusters within same
         #     same datacenter as where you're cloning from. Datacenter grabbed
-        #     from template_path option. 
+        #     from template_path option.
         #     Example: ['cluster_name_here','resource_pool_name_here']
         #   * 'datastore'<~String> - The datastore you'd like to use.
         #       (datacenterObj.datastoreFolder.find('name') in API)
         #   * 'transform'<~String> - Not documented - see http://www.vmware.com/support/developer/vc-sdk/visdk41pubs/ApiReference/vim.vm.RelocateSpec.html
+        #   * 'numCPUs'<~Integer> - the number of Virtual CPUs of the Destination VM
+        #   * 'memoryMB'<~Integer> - the size of memory of the Destination VM in MB
         #   * customization_spec<~Hash>: Options are marked as required if you
         #     use this customization_spec. Static IP Settings not configured.
         #     This only support cloning and setting DHCP on the first interface
-        #     * 'domain'<~String> - *REQUIRED* This is put into 
+        #     * 'domain'<~String> - *REQUIRED* This is put into
         #       /etc/resolve.conf (we hope)
-        #     * 'hostname'<~String> - Hostname of the Guest Os - default is 
+        #     * 'hostname'<~String> - Hostname of the Guest Os - default is
         #       options['name']
-        #     * 'hw_utc_clock'<~Boolean> - *REQUIRED* Is hardware clock UTC? 
+        #     * 'hw_utc_clock'<~Boolean> - *REQUIRED* Is hardware clock UTC?
         #       Default true
-        #     * 'time_zone'<~String> - *REQUIRED* Only valid linux options 
+        #     * 'time_zone'<~String> - *REQUIRED* Only valid linux options
         #       are valid - example: 'America/Denver'
-        #
         def vm_clone(options = {})
           # Option handling
           options = vm_clone_check_options(options)
 
           # Added for people still using options['path']
           template_path = options['path'] || options['template_path']
-          
+
           # Default wait enabled
           options['wait'] = true
 
@@ -107,16 +108,18 @@ module Fog
           # If the vm given did return a valid resource pool, default to using it for the clone.
           # Even if specific pools aren't implemented in this environment, we will still get back
           # at least the cluster or host we can pass on to the clone task
-          # This catches if resource_pool option is set but comes back nil and if resourcePool is 
-          # already set. 
+          # This catches if resource_pool option is set but comes back nil and if resourcePool is
+          # already set.
           resource_pool ||= vm_mob_ref.resourcePool.nil? ? esx_host.parent.resourcePool : vm_mob_ref.resourcePool
-                    
+
           # Options['datastore']<~String>
           # Grab the datastore object if option is set
           datastore_obj = get_raw_datastore(options['datastore'], options['datacenter']) if options.has_key?('datastore')
           # confirm nil if nil or option is not set
           datastore_obj ||= nil
-          
+
+          virtual_machine_config_spec = RbVmomi::VIM::VirtualMachineConfigSpec()
+
           # Options['network']
           # Build up the config spec
           if ( options.has_key?('network_label') )
@@ -137,10 +140,15 @@ module Fog
             device_spec = RbVmomi::VIM::VirtualDeviceConfigSpec(
               :operation => config_spec_operation,
               :device => device)
-            virtual_machine_config_spec = RbVmomi::VIM::VirtualMachineConfigSpec(
-              :deviceChange => [device_spec])
+            virtual_machine_config_spec.deviceChange = [device_spec]
           end
-          
+
+          # Options['numCPUs'] or Options['memoryMB']
+          # Build up the specification for Hardware, for more details see ____________
+          # https://github.com/rlane/rbvmomi/blob/master/test/test_serialization.rb
+          virtual_machine_config_spec.numCPUs = options['numCPUs'] if  ( options.has_key?('numCPUs') )
+          virtual_machine_config_spec.memoryMB = options['memoryMB'] if ( options.has_key?('memoryMB') )
+
           # Options['customization_spec']
           # Build up all the crappy tiered objects like the perl method
           # Collect your variables ifset (writing at 11pm revist me)
@@ -186,7 +194,16 @@ module Fog
               :nicSettingMap => cust_adapter_mapping)
           end
           customization_spec ||= nil
-          
+
+          # FIXME: pad this out with the rest of the useful things in VirtualMachineConfigSpec
+          # http://www.vmware.com/support/developer/vc-sdk/visdk41pubs/ApiReference/vim.vm.ConfigSpec.html
+          if options.has_key?('memoryMB') || options.has_key?('numCPUs')
+            virtual_machine_config_spec = {
+              :memoryMB => options['memoryMB'],
+              :numCPUs  => options['numCPUs']
+            }
+          end
+
           relocation_spec=nil
           if ( options['linked_clone'] )
             # cribbed heavily from the rbvmomi clone_vm.rb
@@ -221,7 +238,7 @@ module Fog
                                                                       :pool => resource_pool,
                                                                       :diskMoveType => :moveChildMostDiskBacking)
           else
-            relocation_spec = RbVmomi::VIM.VirtualMachineRelocateSpec(:datastore => datastore_obj, 
+            relocation_spec = RbVmomi::VIM.VirtualMachineRelocateSpec(:datastore => datastore_obj,
                                                                       :pool => resource_pool,
                                                                       :transform => options['transform'] || 'sparse')
           end
@@ -231,7 +248,7 @@ module Fog
                                                             :customization => customization_spec,
                                                             :powerOn  => options.has_key?('power_on') ? options['power_on'] : true,
                                                             :template => false)
-          
+
           # Perform the actual Clone Task
           task = vm_mob_ref.CloneVM_Task(:folder => dest_folder,
                                          :name => options['name'],
@@ -260,7 +277,7 @@ module Fog
               nil
             end
           end
-          
+
           # Return hash
           {
             'vm_ref'        => new_vm ? new_vm._ref : nil,

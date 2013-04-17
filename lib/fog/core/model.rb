@@ -60,18 +60,19 @@ module Fog
     end
 
     def wait_for(timeout=Fog.timeout, interval=1, &block)
-      reload
-      retries = 3
-      Fog.wait_for(timeout, interval) do
+      reload_has_succeeded = false
+      duration = Fog.wait_for(timeout, interval) do # Note that duration = false if it times out
         if reload
-          retries = 3
-        elsif retries > 0
-          retries -= 1
-          sleep(1)
-        elsif retries == 0
-          raise Fog::Errors::Error.new("Reload failed, #{self.class} #{self.identity} went away.")
+          reload_has_succeeded = true
+          instance_eval(&block)
+        else
+          false
         end
-        instance_eval(&block)
+      end
+      if reload_has_succeeded
+        return duration # false if timeout; otherwise {:duration => elapsed time }
+      else
+        raise Fog::Errors::Error.new("Reload failed, #{self.class} #{self.identity} not present.")
       end
     end
 

@@ -1,4 +1,10 @@
-# 1.9.0 XX/XX/XXXX (XenServer ChangeLog)
+# 1.10.1 2013/04/04
+
+* It's now possible to manage XS/XCP VLANs and Networks
+
+  See https://github.com/fog/fog/blob/master/lib/fog/xenserver/examples/networks-and-vlans.rb
+
+# 1.9.0 2013/01/19 
 
 * Added missing HostCpu model
 

@@ -2,8 +2,12 @@ Shindo.tests('Fog::Rackspace::Storage | file', ['rackspace']) do
 
   pending if Fog.mocking?
 
-  def object_meta_attributes
-    @instance.service.head_object(@directory.key, @instance.key).headers.reject {|k, v| !(k =~ /X-Object-Meta-/)}
+  def object_attributes(file=@instance)
+    @instance.service.head_object(@directory.key, file.key).headers
+  end
+
+  def object_meta_attributes(file=@instance)
+    object_attributes(file).reject {|k, v| !(k =~ /X-Object-Meta-/)}
   end
 
   def clear_metadata
@@ -35,7 +39,7 @@ Shindo.tests('Fog::Rackspace::Storage | file', ['rackspace']) do
   model_tests(@directory.files, file_attributes, Fog.mocking?) do
 
     tests("#metadata should load empty metadata").returns({}) do
-      @instance.metadata
+      @instance.metadata.data
     end
 
     tests('#save') do
@@ -78,6 +82,82 @@ Shindo.tests('Fog::Rackspace::Storage | file', ['rackspace']) do
             object_meta_attributes
           end
         end
+      end
+
+      begin
+        tests("sets metadata on create").returns("true") do
+          @file = @directory.files.create :key => 'meta-test', :body => lorem_file, :metadata => {:works => true }
+          object_meta_attributes(@file)["X-Object-Meta-Works"]
+        end
+
+        tests("sets Content-Disposition on create").returns("ho-ho-ho") do
+          @file = @directory.files.create :key => 'meta-test', :body => lorem_file, :content_disposition => 'ho-ho-ho'
+          object_attributes(@file)["Content-Disposition"]
+        end
+      ensure
+        @file.destroy if @file
+      end
+      
+      tests('urls') do
+        tests('no CDN') do
+          
+          tests('#public_url') do
+
+             tests('http').returns(nil) do
+               @instance.public_url
+              end
+
+              @directory.cdn_cname = "my_cname.com"        
+              tests('cdn_cname').returns(nil) do
+                @instance.public_url
+              end
+
+              @directory.cdn_cname = nil
+              @directory.service.instance_variable_set "@rackspace_cdn_ssl", true
+              tests('ssl').returns(nil) do
+                @instance.public_url
+              end   
+              @directory.service.instance_variable_set "@rackspace_cdn_ssl", nil             
+           end
+
+           tests('#ios_url').returns(nil) do
+             @instance.ios_url
+           end
+
+           tests('#streaming_url').returns(nil) do
+             @instance.streaming_url
+           end
+        end
+        tests('With CDN') do
+          tests('#public_url') do
+            @directory.public = true
+            @directory.save
+            
+            tests('http').returns(0) do
+              @instance.public_url  =~ /http:\/\/.*#{@instance.key}/
+             end
+
+             @directory.cdn_cname = "my_cname.com"        
+             tests('cdn_cname').returns(0) do
+               @instance.public_url  =~ /my_cname\.com.*#{@instance.key}/
+             end
+
+             @directory.cdn_cname = nil
+             @directory.service.instance_variable_set "@rackspace_cdn_ssl", true
+             tests('ssl').returns(0) do
+               @instance.public_url =~ /https:\/\/.+\.ssl\..*#{@instance.key}/
+             end   
+             @directory.service.instance_variable_set "@rackspace_cdn_ssl", nil
+          end
+
+          tests('#ios_url').returns(0) do
+            @instance.ios_url =~ /http:\/\/.+\.iosr\..*#{@instance.key}/
+          end
+
+          tests('#streaming_url').returns(0) do
+            @instance.streaming_url =~ /http:\/\/.+\.stream\..*#{@instance.key}/
+          end
+        end        
       end
     
       tests('#metadata keys') do

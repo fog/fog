@@ -1,9 +1,13 @@
-require 'fog/core'
+require File.join(File.dirname(__FILE__), 'core')
 require 'fog/rackspace/mock_data'
+require 'fog/rackspace/service'
 
 module Fog
   module Rackspace
     extend Fog::Provider
+
+    US_AUTH_ENDPOINT = 'https://identity.api.rackspacecloud.com/v2.0' unless defined? US_AUTH_ENDPOINT
+    UK_AUTH_ENDPOINT = 'https://lon.identity.api.rackspacecloud.com/v2.0' unless defined? UK_AUTH_ENDPOINT
 
     module Errors
       class ServiceError < Fog::Errors::Error
@@ -84,6 +88,13 @@ module Fog
       response.headers.reject do |key, value|
         !['X-Server-Management-Url', 'X-Storage-Url', 'X-CDN-Management-Url', 'X-Auth-Token'].include?(key)
       end
+    end
+
+    def self.normalize_url(endpoint)
+      return nil unless endpoint
+      str = endpoint.chomp " "
+      str = str.chomp "/"
+      str.downcase
     end
 
     # CGI.escape, but without special treatment on spaces

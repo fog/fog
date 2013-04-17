@@ -4,7 +4,7 @@ module Fog
       class Real
         # Create server
         # @param [String] name name of server
-        # @param [String] image_id id of the image used to create server
+        # @param [String] image_id of the image used to create server
         # @param [String] flavor_id id of the flavor of the image
         # @param [String] min_count
         # @param [String] max_count
@@ -22,12 +22,16 @@ module Fog
         #       * name [String] - name of server
         #       * metadata [Hash] - Metadata key and value pairs.
         #       * personality [Array]: 
-        #           * [Hash]:
-        #             * path - path of the file created
-        #             * contents - Base 64 encoded file contents
+        #         * [Hash]:
+        #           * path - path of the file created
+        #           * contents - Base 64 encoded file contents
         #       * networks [Array]: 
         #         * [Hash]: 
-        #           * uuid [String] - uuid of attached network        
+        #           * uuid [String] - uuid of attached network
+        # @raise [Fog::Rackspace::Errors::NotFound] - HTTP 404
+        # @raise [Fog::Rackspace::Errors::BadRequest] - HTTP 400
+        # @raise [Fog::Rackspace::Errors::InternalServerError] - HTTP 500
+        # @raise [Fog::Rackspace::Errors::ServiceError]
         # @see http://docs.rackspace.com/servers/api/v2/cs-devguide/content/CreateServers.html
         # @see http://docs.rackspace.com/servers/api/v2/cs-devguide/content/Server_Metadata-d1e2529.html
         # @see http://docs.rackspace.com/servers/api/v2/cs-devguide/content/Server_Personality-d1e2543.html

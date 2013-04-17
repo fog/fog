@@ -1,9 +1,11 @@
 #Next Generation Cloud Servers™ (compute_v2)
 
-This document explains how to get started using Next Gneration Cloud Servers™ with Fog. It assumes you have read the [Getting Started with Fog and the Rackspace Open Cloud](/getting_started.md) document.
+This document explains how to get started using Next Generation Cloud Servers with Fog. It assumes you have read the [Getting Started with Fog and the Rackspace Open Cloud](getting_started.md) document.
 
+**Note**: Fog also provides an interface to First Gen Cloud Servers™ (compute). The compute interface is deprecated and should only be used if you need to interact with our first generation cloud. Fog determines the appropriate interface based on the `:version` parameter. See [Create Service](#create-service) section for more information.
 
 ## Starting irb console
+
 Start by executing the following command:
 
 	irb
@@ -20,44 +22,54 @@ If using Ruby 1.9.x execute:
 	require 'fog'
 	
 ## Create Service
-Next, create a connection to the Next Gen Cloud Servers™:
+
+Next, create a connection to the Next Gen Cloud Servers:
+
+Using a US-based account:
 
 	service = Fog::Compute.new({
   		:provider            => 'Rackspace',         # Rackspace Fog provider
   		:rackspace_username  => RACKSPACE_USER_NAME, # Your Rackspace Username
   		:rackspace_api_key   => RACKSPACE_API,       # Your Rackspace API key
-  		:version => :v2,                             # Use Next Gen Cloud Servers
-  		:rackspace_endpoint => Fog::Compute::RackspaceV2::DFW_ENDPOINT, # Optional
-  		:connection_options => {} # Optional
+		:version             => :v2,                 # Use Next Gen Cloud Servers
+		:rackspace_region    => :ord,                # Defaults to :dfw
+		:connection_options  => {}                   # Optional
 	})
 
-To learn more about obtaining cloud credentials visit the [Getting Started with Fog and the Rackspace Open Cloud](/getting_started.md) document. 
+Using a UK-based account:
 
-By default `Fog::Compute` will connect to the DFW region. You can specify alternative regions using the key `:rackspace_endpoint ` with one of the following values:
+	service = Fog::Compute.new({
+		:provider            => 'Rackspace',                # Rackspace Fog provider
+		:rackspace_username  => RACKSPACE_USER_NAME,        # Your Rackspace Username
+		:rackspace_api_key   => RACKSPACE_API,              # Your Rackspace API key
+		:version             => :v2,                        # Use Next Gen Cloud Servers
+		:rackspace_auth_url  => Fog::Rackspace::UK_AUTH_ENDPOINT,
+		:rackspace_region    => :lon,
+		:connection_options  => {}                          # Optional
+	})
 
-<table>
-	<tr>
-		<th>Value</th>
-		<th>Location</th>
-	</tr>
-	<tr>
-		<td>Fog::Compute::RackspaceV2::DFW_ENDPOINT</td>
-		<td>Dallas Region</td>
-	</tr>
-	<tr>
-		<td>Fog::Compute::RackspaceV2::ORD_ENDPOINT</td>
-		<td>Chicago Region</td>
-	</tr>
-	<tr>
-		<td>Fog::Compute::RackspaceV2::LON_ENDPOINT</td>
-		<td>London Region</tr>
-</table>
+To learn more about obtaining cloud credentials refer to the [Getting Started with Fog and the Rackspace Open Cloud](getting_started.md) document.
 
-**Note**: *A`Fog::Compute` instance is needed for desired region.*
+By default `Fog::Compute` will authenticate against the US authentication endpoint and connect to the DFW region. You can specify alternative authentication endpoints using the key `:rackspace_auth_url`. Please refer to [Alternate Authentication Endpoints](http://docs.rackspace.com/auth/api/v2.0/auth-client-devguide/content/Endpoints-d1e180.html) for a list of alternative Rackspace authentication endpoints.
+
+Alternative regions are specified using the key `:rackspace_region `. A list of regions available for Cloud Servers can be found by executing the following:
+
+	identity_service = Fog::Identity({
+		:provider            => 'Rackspace',                     # Rackspace Fog provider
+		:rackspace_username  => RACKSPACE_USER_NAME,             # Your Rackspace Username
+		:rackspace_api_key   => RACKSPACE_API,                   # Your Rackspace API key
+		:rackspace_auth_url  => Fog::Rackspace::UK_AUTH_ENDPOINT # Not specified for US Cloud
+	})
+
+	identity_service.service_catalog.display_service_regions :cloudServersOpenStack
+
+Rackspace Private Cloud installations can skip specifying a region and directly specify their custom service endpoints using the key `:rackspace_compute_url`.
+
+**Note**: A`Fog::Compute` instance is needed for the desired region.
 
 ### Optional Connection Parameters
 
-Fog supports passing additional connection parameters to its underlying HTTP library (Excon) using  `:connection_options`.
+Fog supports passing additional connection parameters to its underlying HTTP library (Excon) using the `:connection_options` parameter.
 
 <table>
 	<tr>
@@ -95,10 +107,12 @@ Fog supports passing additional connection parameters to its underlying HTTP lib
 
 
 ## Fog Abstractions
+
 Fog provides both a **model** and **request** abstraction. The request abstraction provides the most efficient interface and the model abstraction wraps the request abstraction to provide a convenient `ActiveModel` like interface. 
 	
 ### Request Layer
-The request abstraction maps directly to the [Next Gen Cloud Servers™ API](http://docs.rackspace.com/servers/api/v2/cs-devguide/content/ch_preface.html). It provides the most efficient interface to the Rackspace Open Cloud.
+
+The request abstraction maps directly to the [Next Gen Cloud Servers API](http://docs.rackspace.com/servers/api/v2/cs-devguide/content/ch_preface.html). It provides the most efficient interface to the Rackspace Open Cloud.
 
 To see a list of requests supported by the service:
 
@@ -106,7 +120,7 @@ To see a list of requests supported by the service:
 	
 This returns:
 
-	:list_servers, :get_server, :create_server, :update_server, :delete_server, :change_server_password, :reboot_server, :rebuild_server, :resize_server, :confirm_resize_server, :revert_resize_server, :list_images, :get_image, :list_flavors, :get_flavor, :attach_volume, :get_attachment, :list_attachments, :delete_attachment] 
+	:list_servers, :get_server, :create_server, :update_server, :delete_server, :change_server_password, :reboot_server, :rebuild_server, :resize_server, :confirm_resize_server, :revert_resize_server, :list_images, :get_image, :list_flavors, :get_flavor, :attach_volume, :get_attachment, :list_attachments, :delete_attachment
 
 
 #### Example Request
@@ -123,20 +137,21 @@ To view the status of the response:
 	
 	response.status
 	
-**Note**: *Fog is aware valid HTTP response statuses for each request type. If an unexpected HTTP response status occurs, Fog will raise an exception.*
+**Note**: Fog is aware of valid HTTP response statuses for each request type. If an unexpected HTTP response status occurs, Fog will raise an exception.
 	
 To view response body:
 
-	request.body
+	response.body
 	
 This will return:
 
 	{"flavors"=>[{"id"=>"2", "links"=>[{"href"=>"https://ord.servers.api.rackspacecloud.com/v2/772045/flavors/2", "rel"=>"self"}, {"href"=>"https://ord.servers.api.rackspacecloud.com/772045/flavors/2", "rel"=>"bookmark"}], "name"=>"512MB Standard Instance"}, {"id"=>"3", "links"=>[{"href"=>"https://ord.servers.api.rackspacecloud.com/v2/772045/flavors/3", "rel"=>"self"}, {"href"=>"https://ord.servers.api.rackspacecloud.com/772045/flavors/3", "rel"=>"bookmark"}], "name"=>"1GB Standard Instance"}, {"id"=>"4", "links"=>[{"href"=>"https://ord.servers.api.rackspacecloud.com/v2/772045/flavors/4", "rel"=>"self"}, {"href"=>"https://ord.servers.api.rackspacecloud.com/772045/flavors/4", "rel"=>"bookmark"}], "name"=>"2GB Standard Instance"}, {"id"=>"5", "links"=>[{"href"=>"https://ord.servers.api.rackspacecloud.com/v2/772045/flavors/5", "rel"=>"self"}, {"href"=>"https://ord.servers.api.rackspacecloud.com/772045/flavors/5", "rel"=>"bookmark"}], "name"=>"4GB Standard Instance"}, {"id"=>"6", "links"=>[{"href"=>"https://ord.servers.api.rackspacecloud.com/v2/772045/flavors/6", "rel"=>"self"}, {"href"=>"https://ord.servers.api.rackspacecloud.com/772045/flavors/6", "rel"=>"bookmark"}], "name"=>"8GB Standard Instance"}, {"id"=>"7", "links"=>[{"href"=>"https://ord.servers.api.rackspacecloud.com/v2/772045/flavors/7", "rel"=>"self"}, {"href"=>"https://ord.servers.api.rackspacecloud.com/772045/flavors/7", "rel"=>"bookmark"}], "name"=>"15GB Standard Instance"}, {"id"=>"8", "links"=>[{"href"=>"https://ord.servers.api.rackspacecloud.com/v2/772045/flavors/8", "rel"=>"self"}, {"href"=>"https://ord.servers.api.rackspacecloud.com/772045/flavors/8", "rel"=>"bookmark"}], "name"=>"30GB Standard Instance"}]}
 	
 	
-To learn more about Compute request methods refer to [rdoc](http://rubydoc.info/gems/fog/Fog/Compute/Rackspace/Real#reboot_server-instance_method). To learn more about Excon refer to [Excon GitHub repo](https://github.com/geemus/excon).
+To learn more about Compute request methods refer to [rdoc](http://rubydoc.info/gems/fog/Fog/Compute/Rackspace/Real). To learn more about Excon refer to [Excon GitHub repo](https://github.com/geemus/excon).
 
 ### Model Layer
+
 Fog models behave in a manner similar to `ActiveModel`. Models will generally respond to `create`, `save`,  `persisted?`, `destroy`, `reload` and `attributes` methods. Additionally, fog will automatically create attribute accessors.  
 
 Here is a summary of common model methods:
@@ -150,7 +165,7 @@ Here is a summary of common model methods:
 		<td>create</td>
 		<td>
 			Accepts hash of attributes and creates object.<br>
-			Note: creation is a non blocking call and you will be required to wait for a valid state before using resulting object.
+			Note: creation is a non-blocking call and you will be required to wait for a valid state before using resulting object.
 		</td>
 	</tr>
 	<tr>
@@ -166,7 +181,7 @@ Here is a summary of common model methods:
 		<td>destroy</td>
 		<td>
 			Destroys object.<br> 
-			Note: this is a non blocking call and object deletion might not be instantaneous.
+			Note: this is a non-blocking call and object deletion might not be instantaneous.
 		</td>
 	<tr>
 		<td>reload</td>
@@ -235,7 +250,7 @@ This returns a collection of `Fog::Compute::RackspaceV2::Image` models:
         >,
 	…
 
-**Note**: *In order to speed up access `service.images` does not retrieve all attribute values. To retrieve additional details you will either need to `reload` each individual image or use the request abstraction.*
+**Note**: In order to speed up access `service.images` does not retrieve all attribute values. To retrieve additional details you will either need to `reload` each individual image or use the request abstraction.
 
 ## Get Image
 
@@ -261,8 +276,7 @@ This returns an `Fog::Compute::RackspaceV2::Image` instance:
       links=[{"href"=>"https://ord.servers.api.rackspacecloud.com/v2/772045/images/8a3a9f96-b997-46fd-b7a8-a9e740796ffd", "rel"=>"self"}, {"href"=>"https://ord.servers.api.rackspacecloud.com/772045/images/8a3a9f96-b997-46fd-b7a8-a9e740796ffd", "rel"=>"bookmark"}, {"href"=>"https://ord.images.api.rackspacecloud.com/772045/images/8a3a9f96-b997-46fd-b7a8-a9e740796ffd", "type"=>"application/vnd.openstack.image", "rel"=>"alternate"}]
     > 
     
-**Note**: *This request populates all Image attributes.*
-
+**Note**: This request populates all Image attributes.
 
 ## List Flavors
 
@@ -292,7 +306,7 @@ This returns a collection of `Fog::Compute::RackspaceV2::Flavor` models:
       >,
 	…
 	
-**Note**: *In order to speed up access `service.flavors` does not retrieve all attribute values. To retrieve additional details you will either need to `reload` each individual flavor or use the request abstraction.*
+**Note**: In order to speed up access `service.flavors` does not retrieve all attribute values. To retrieve additional details you will either need to `reload` each individual flavor or use the request abstraction.
 
 
 ## Get Flavor
@@ -312,7 +326,7 @@ This returns a `Fog::Compute::RackspaceV2::Flavor` instance:
     links=[{"href"=>"https://dfw.servers.api.rackspacecloud.com/v2/772045/flavors/2", "rel"=>"self"}, {"href"=>"https://dfw.servers.api.rackspacecloud.com/772045/flavors/2", "rel"=>"bookmark"}]
     >
     
-**Note**: *This request populates all Flavor attributes.*
+**Note**: This request populates all Flavor attributes.
 
 
 ## List Servers
@@ -383,11 +397,15 @@ This returns a `Fog::Compute::RackspaceV2::Server` instance:
     
 ## Create Server
 
+If you are interested in creating a server utilizing ssh key authenication, you are recommended to use [bootstrap](#bootstrap) method.
+
 To create a server:
 
 	flavor = service.flavors.first
 	image = service.images.first
 	server = service.servers.create(:name => 'fog-doc', :flavor_id => flavor.id, :image_id => image.id)
+
+**Note**: The `:name`, `:flavor_id`, and `image_id` attributes are required for server creation.
 
 This will return a `Fog::Compute::RackspaceV2::Server` instance:
 
@@ -413,7 +431,7 @@ This will return a `Fog::Compute::RackspaceV2::Server` instance:
     image_id="3afe97b2-26dc-49c5-a2cc-a2fc8d80c001"
   	> 
 
-Notice that your server contains several `nil` attributes. To see the latest status, reload the instance like so:
+Notice that your server contains several `nil` attributes. To see the latest status, reload the instance as follows:
 
 	server.reload
 	
@@ -447,9 +465,10 @@ Fog can wait for the server to become ready as follows:
 
 	server.wait_for { ready? }
 	
-**Note**: *The `Fog::Compute::RackspaceV2::Server` instance returned from the create method contains a `password` attribute. The `password` attribute will NOT be present in subsequent retrievals either through `service.servers` or `server.servers.get my_server_id`*.
+**Note**: The `Fog::Compute::RackspaceV2::Server` instance returned from the create method contains a `password` attribute. The `password` attribute will NOT be present in subsequent retrievals either through `service.servers` or `server.servers.get my_server_id`.
 
 ### Additional Parameters
+
 The `create` method also supports the following key values:
 
 <table>
@@ -467,13 +486,48 @@ The `create` method also supports the following key values:
 	</tr>
 	<tr>
 		<td>:personality</td>
-		<td>File path and contents. Refer to Next Gen Server API documentation - <a href="http://docs.rackspace.com/servers/api/v2/cs-devguide/content/Server_Personality-d1e2543.html">Server Personality</a>. </td>
+		<td>Array of files to be injected onto the server. Please refer to the Fog <a href="http://rubydoc.info/github/fog/fog/Fog/Compute/RackspaceV2/Servers:bootstrap">bootstrap </a> API documentation for further information.</td>
 	</tr>
-</table>	
+</table>
+
+## Bootstrap
+
+In addition to the `create` method, Fog provides a `bootstrap` method which creates a server and then performs the following actions via ssh:
+
+1. Create `ROOT_USER/.ssh/authorized_keys` file using the ssh key specified in `:public_key_path`.
+2. Lock password for root user using `passwd -l root`.
+3. Create `ROOT_USER/attributes.json` file with the contents of `server.attributes`.
+4. Create `ROOT_USER/metadata.json` file with the contents of `server.metadata`.
+
+**Note**: Unlike the `create` method, `bootstrap` is blocking method call. If non-blocking behavior is desired, developers should use the `:personality` parameter on the `create` method.
+
+The following example demonstrates bootstraping a server:
+
+	service.servers.bootstrap :name => 'bootstrap-server',
+	:flavor_id => service.flavors.first.id,
+	:image_id => service.images.find {|img| img.name =~ /Ubuntu/}.id,
+	:public_key_path => '~/.ssh/fog_rsa.pub',
+	:private_key_path => '~/.ssh/fog_rsa'
+
+**Note**: The `:name`, `:flavor_id`, `:image_id`, `:public_key_path`, `:private_key_path` are required for the `bootstrap` method.
+
+The `bootstrap` method uses the same additional parameters as the `create` method. Refer to the [Additional Parameters](#additional-parameters) section for more information.
+
+## SSH
+
+Once a server has been created and set up for ssh key authentication, fog can execute remote commands as follows:
+
+	result = server.ssh ['pwd']
 	
+This will return the following:
+
+	[#<Fog::SSH::Result:0x1108241d0 @stderr="", @status=0, @stdout="/root\r\n", @command="pwd">]
+
+**Note**: SSH key authentication can be set up using `bootstrap` method or by using the `:personality` attribute on the `:create` method. See [Bootstrap](#bootstrap) or [Create Server](#create-server) for more information.
+
 ## Update Server
 
-Next Gen Cloud Servers™ support updating the following attributes `name`, `access_ipv4_address`, and `access_ipv6_address`. 
+Next Gen Cloud Servers support updating the following attributes `name`, `access_ipv4_address`, and `access_ipv6_address`.
 
 To update these attributes:
 
@@ -484,16 +538,18 @@ To update these attributes:
 	
 Additional information about server access addresses can be found [here](http://docs.rackspace.com/servers/api/v2/cs-devguide/content/Server_Primary_Addresses-d1e2558.html).
 	
-**Note**: *Updating the server name does not change the host name. Names are not guaranteed to be unique.*
+**Note**: Updating the server name does not change the host name. Names are not guaranteed to be unique.
 
 ## Delete Server
+
 To delete a server:
 
 	server.destroy
 	
-**Note**: *The server is not immediately destroyed, but it does occur shortly there after.*
+**Note**: The server is not immediately destroyed, but it does occur shortly there after.
 
 ## Metadata
+
 You can access metadata as an attribute on both `Fog::Compute::RackspaceV2::Server` and `Fog::Compute::RackspaceV2::Metadata::Image`. You can specify metadata during creation of a server or an image. Please refer to [Create Server](#create-server) or [Create Image](#create-image) sections for more information.
 
 This example demonstrates how to iterate through a server's metadata:
@@ -546,31 +602,31 @@ Additionally, the `rebuild` method will take a second parameter containing a has
 		<th>Description</th>
 	</tr>
 	<tr>
-		<td>name</td>
+		<td>:name</td>
 		<td>Name of Server</td>
 	</tr>
 	<tr>
-		<td>flavorRef</td>
+		<td>:flavorRef</td>
 		<td>Flavor id</td>
 	</tr>
 	<tr>
-		<td>accessIPv4</td>
+		<td>:accessIPv4</td>
 		<td>IPv4 access address</td>
 	</tr>
 	<tr>
-		<td>accessIPv6</td>
+		<td>:accessIPv6</td>
 		<td>IPv6 access address</td>		
 	</tr>
 	<tr>
-		<td>metadata</td>
+		<td>:metadata</td>
 		<td>Hash containing server metadata</td> 
 	</tr>
 	<tr>
-		<td>personality</td>
+		<td>:personality</td>
 		<td>File path and contents. Refer to Next Gen Server API documentation - <a href="http://docs.rackspace.com/servers/api/v2/cs-devguide/content/Server_Personality-d1e2543.html">Server Personality</a>. </td>
 	</tr>
 	<tr>
-		<td>disk_config</td>
+		<td>:disk_config</td>
 		<td>The disk configuration value (AUTO or MANUAL). Refer to  Next Gen Server API documentation - <a href="http://docs.rackspace.com/servers/api/v2/cs-devguide/content/ch_extensions.html#diskconfig_attribute">Disk Configuration Extension</a>.</td>
 	</tr>
 </table>
@@ -595,7 +651,7 @@ In this case, `wait_for` is waiting for the server to become `VERIFY_READY` and 
 
 Once a server enters the `VERIFY_RESIZE` we will need to call `confirm_resize` to confirm the server was properly resized or `revert_resize` to rollback to the old size/flavor.
 
-**Note:** *A server will automatically confirm resize after 24 hours.*
+**Note:** A server will automatically confirm resize after 24 hours.
 
 To confirm resize:
 
@@ -646,17 +702,20 @@ To detach a volume:
 	server.attachments.first.detach
 		
 ## Examples
-Example code using Next Gen Cloud Servers™ can be found [here](https://github.com/fog/fog/tree/master/lib/fog/rackspace/examples).
+
+Example code using Next Gen Cloud Servers can be found [here](https://github.com/fog/fog/tree/master/lib/fog/rackspace/examples).
 
 ## Additional Resources
+
 * [fog.io](http://fog.io/)
 * [Fog rdoc](http://rubydoc.info/gems/fog/)
 * [Fog Github repo](https://github.com/fog/fog)
 * [Fog Github Issues](https://github.com/fog/fog/issues)
 * [Excon Github repo](https://github.com/geemus/excon)
-* [Next Gen Cloud Servers™ API](http://docs.rackspace.com/servers/api/v2/cs-devguide/content/ch_preface.html)
+* [Next Gen Cloud Servers API](http://docs.rackspace.com/servers/api/v2/cs-devguide/content/ch_preface.html)
 
 ## Support and Feedback
+
 Your feedback is appreciated! If you have specific issues with the **fog** SDK, you should file an [issue via Github](https://github.com/fog/fog/issues).
 
 For general feedback and support requests, send an email to: <sdk-support@rackspace.com>.

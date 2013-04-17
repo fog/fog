@@ -49,6 +49,8 @@ module Fog
       request :get_network
       request :list_datastores
       request :get_datastore
+      request :list_templates
+      request :get_template
       request :get_folder
       request :list_folders
       request :create_vm
@@ -74,6 +76,8 @@ module Fog
           :id => 'config.instanceUuid',
           :name => 'name',
           :uuid => 'config.uuid',
+          :template => 'config.template',
+          :parent => 'parent',
           :hostname => 'summary.guest.hostName',
           :operatingsystem => 'summary.guest.guestFullName',
           :ipaddress => 'guest.ipAddress',
@@ -88,6 +92,11 @@ module Fog
           :guest_id => 'summary.guest.guestId',
         }
 
+        def convert_vm_view_to_attr_hash(vms)
+          vms = @connection.serviceContent.propertyCollector.collectMultiple(vms,*ATTR_TO_PROP.values.uniq)
+          vms.map { |vm| props_to_attr_hash(*vm) }
+        end
+
         # Utility method to convert a VMware managed object into an attribute hash.
         # This should only really be necessary for the real class.
         # This method is expected to be called by the request methods
@@ -96,6 +105,10 @@ module Fog
           return nil unless vm_mob_ref
 
           props = vm_mob_ref.collect!(*ATTR_TO_PROP.values.uniq)
+          props_to_attr_hash vm_mob_ref, props
+        end
+
+        def props_to_attr_hash vm_mob_ref, props
           # NOTE: Object.tap is in 1.8.7 and later.
           # Here we create the hash object that this method returns, but first we need
           # to add a few more attributes that require additional calls to the vSphere
@@ -110,26 +123,20 @@ module Fog
             # The name method "magically" appears after a VM is ready and
             # finished cloning.
             if attrs['hypervisor'].kind_of?(RbVmomi::VIM::HostSystem)
-              begin
-                host = attrs['hypervisor']
-                attrs['datacenter'] = parent_attribute(host.path, :datacenter)[1]
-                attrs['cluster']    = parent_attribute(host.path, :cluster)[1]
-                attrs['hypervisor'] = host.name
-                attrs['resource_pool'] = (vm_mob_ref.resourcePool || host.resourcePool).name rescue nil
-              rescue
-                # If it's not ready, set the hypervisor to nil
-                attrs['hypervisor'] = nil
-              end
+              host = attrs['hypervisor']
+              attrs['datacenter'] = Proc.new { parent_attribute(host.path, :datacenter)[1] rescue nil }
+              attrs['cluster']    = Proc.new { parent_attribute(host.path, :cluster)[1] rescue nil }
+              attrs['hypervisor'] = Proc.new { host.name rescue nil }
+              attrs['resource_pool'] = Proc.new {(vm_mob_ref.resourcePool || host.resourcePool).name rescue nil}
             end
             # This inline rescue catches any standard error.  While a VM is
             # cloning, a call to the macs method will throw and NoMethodError
-            attrs['mac_addresses'] = vm_mob_ref.macs rescue nil
-            # Rescue nil to catch testing while vm_mob_ref isn't reaL?? 
-            attrs['path'] = "/"+vm_mob_ref.parent.path.map(&:last).join('/') rescue nil
+            attrs['mac_addresses'] = Proc.new {vm_mob_ref.macs rescue nil}
+            # Rescue nil to catch testing while vm_mob_ref isn't reaL??
+            attrs['path'] = "/"+attrs['parent'].path.map(&:last).join('/') rescue nil
             attrs['relative_path'] = (attrs['path'].split('/').reject {|e| e.empty?} - ["Datacenters", attrs['datacenter'], "vm"]).join("/") rescue nil
           end
         end
-
         # returns the parent object based on a type
         # provides both real RbVmomi object and its name.
         # e.g.
@@ -152,7 +159,7 @@ module Fog
 
         # returns vmware managed obj id string
         def managed_obj_id obj
-          obj.to_s.match(/\("(\S+)"\)/)[1]
+          obj.to_s.match(/\("([^"]+)"\)/)[1]
         end
 
       end

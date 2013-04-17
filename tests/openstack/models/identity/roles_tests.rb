@@ -14,6 +14,7 @@ Shindo.tests("Fog::Identity[:openstack] | roles", ['openstack']) do
     end
   end
 
+  @role.destroy
   @user.destroy
   @tenant.destroy
 end

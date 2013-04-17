@@ -4,7 +4,7 @@ module Fog
   module Compute
     class Server < Fog::Model
 
-      attr_writer :username, :private_key, :private_key_path, :public_key, :public_key_path
+      attr_writer :username, :private_key, :private_key_path, :public_key, :public_key_path, :ssh_port
 
       def username
         @username ||= 'root'
@@ -28,6 +28,9 @@ module Fog
         @public_key ||= public_key_path && File.read(public_key_path)
       end
 
+      def ssh_port
+        @ssh_port ||= 22
+      end
 
       def scp(local_path, remote_path, upload_options = {})
         require 'net/scp'
@@ -58,12 +61,8 @@ module Fog
         Fog::SSH.new(public_ip_address, username, options).run(commands, &blk)
       end
 
-      def ssh_port
-        22
-      end
-
-      def sshable?
-        ready? && !public_ip_address.nil? && !!Timeout::timeout(8) { ssh 'pwd' }
+      def sshable?(options={})
+        ready? && !public_ip_address.nil? && !!Timeout::timeout(8) { ssh('pwd', options) }
       rescue SystemCallError, Net::SSH::AuthenticationFailed, Timeout::Error
         false
       end

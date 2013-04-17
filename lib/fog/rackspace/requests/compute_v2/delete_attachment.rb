@@ -6,6 +6,11 @@ module Fog
         # Deletes a specified volume attachment from a specified server instance.
         # @param [String] server_id id of server containing volume to delete
         # @param [String] volume_id id of volume on server to delete
+        # @return [Excon::Response] response
+        # @raise [Fog::Rackspace::Errors::NotFound] - HTTP 404
+        # @raise [Fog::Rackspace::Errors::BadRequest] - HTTP 400
+        # @raise [Fog::Rackspace::Errors::InternalServerError] - HTTP 500
+        # @raise [Fog::Rackspace::Errors::ServiceError]
         # @see http://docs.rackspace.com/servers/api/v2/cs-devguide/content/Delete_Volume_Attachment.html
         def delete_attachment(server_id, volume_id)
           request(

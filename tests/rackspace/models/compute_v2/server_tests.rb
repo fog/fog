@@ -2,16 +2,63 @@ Shindo.tests('Fog::Compute::RackspaceV2 | server', ['rackspace']) do
   service = Fog::Compute::RackspaceV2.new
   cbs_service = Fog::Rackspace::BlockStorage.new
 
-  flavor_id  = Fog.credentials[:rackspace_flavor_id] || service.flavors.first.id
-  image_id   = Fog.credentials[:rackspace_image_id]  || service.images.first.id
-  image_id ||= Fog.mocking? ? service.images.first.id : service.images.find {|image| image.name =~ /Ubuntu/}.id # use the first Ubuntu image
-
   options = {
     :name => "fog_server_#{Time.now.to_i.to_s}",
-    :flavor_id => flavor_id,
-    :image_id => image_id, 
+    :flavor_id => rackspace_test_flavor_id(service),
+    :image_id => rackspace_test_image_id(service), 
     :metadata => { 'fog_test' => 'true' }
   }
+
+  tests('ready?') do
+    @server = Fog::Compute::RackspaceV2::Server.new
+
+    tests('default in ready state').returns(true) do
+      @server.state = Fog::Compute::RackspaceV2::Server::ACTIVE
+      @server.ready?
+    end
+
+    tests('custom ready state').returns(true) do
+      @server.state = Fog::Compute::RackspaceV2::Server::VERIFY_RESIZE
+      @server.ready?(Fog::Compute::RackspaceV2::Server::VERIFY_RESIZE)
+    end
+
+    tests('default NOT in ready state').returns(false) do
+      @server.state = Fog::Compute::RackspaceV2::Server::REBOOT
+      @server.ready?
+    end
+
+    tests('custom NOT ready state').returns(false) do
+      @server.state = Fog::Compute::RackspaceV2::Server::REBOOT
+      @server.ready?(Fog::Compute::RackspaceV2::Server::VERIFY_RESIZE)
+    end
+
+    tests('default error state').returns(true) do
+      @server.state = Fog::Compute::RackspaceV2::Server::ERROR
+      exception_occurred = false
+      begin
+        @server.ready?
+      rescue Fog::Compute::RackspaceV2::InvalidServerStateException => e
+        exception_occurred = true
+        returns(true) {e.desired_state == Fog::Compute::RackspaceV2::Server::ACTIVE }
+        returns(true) {e.current_state == Fog::Compute::RackspaceV2::Server::ERROR }
+      end
+      exception_occurred
+    end
+
+    tests('custom error state').returns(true) do
+      @server.state = Fog::Compute::RackspaceV2::Server::ACTIVE
+      exception_occurred = false
+      begin
+        @server.ready?(Fog::Compute::RackspaceV2::Server::VERIFY_RESIZE, Fog::Compute::RackspaceV2::Server::ACTIVE)
+      rescue Fog::Compute::RackspaceV2::InvalidServerStateException => e
+        exception_occurred = true
+        returns(true) {e.desired_state == Fog::Compute::RackspaceV2::Server::VERIFY_RESIZE }
+        returns(true) {e.current_state == Fog::Compute::RackspaceV2::Server::ACTIVE }
+      end
+      exception_occurred
+    end
+
+  end
 
   model_tests(service.servers, options, true) do
     @instance.wait_for(timeout=1500) { ready? }
@@ -59,7 +106,7 @@ Shindo.tests('Fog::Compute::RackspaceV2 | server', ['rackspace']) do
     @instance.wait_for(timeout=1500) { ready? }
     sleep 60  unless Fog.mocking?
     tests('#rebuild').succeeds do
-      @instance.rebuild(image_id)
+      @instance.rebuild rackspace_test_image_id(service)
       returns('REBUILD') { @instance.state }
     end
 

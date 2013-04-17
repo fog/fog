@@ -11,7 +11,7 @@ module Fog
             :method  => 'GET',
             :path    => '/v2.0/tenants'
           })
-          response.body = MultiJson.decode(response.body)
+          response.body = Fog::JSON.decode(response.body)
           response
         end
       end
