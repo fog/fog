@@ -26,7 +26,7 @@ module Fog
         attribute :name
         attribute :os_type_id,         :aliases => 'ostypeid'
         attribute :os_type_name,       :aliases => 'ostypename'
-        attribute :password_enabled,   :aliases => 'ostypename'
+        attribute :password_enabled,   :aliases => 'passwordenabled'
         attribute :project
         attribute :project_id,         :aliases => 'projectid'
         attribute :removed
