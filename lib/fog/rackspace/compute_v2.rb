@@ -22,13 +22,13 @@ module Fog
 
       class InvalidServerStateException < InvalidStateException
         def to_s
-          "Server should have transitioned to '#{desired_state}' not '#{state}'"
+          "Server should have transitioned to '#{desired_state}' not '#{current_state}'"
         end
       end
 
       class InvalidImageStateException < InvalidStateException
          def to_s
-           "Image should have transitioned to '#{desired_state}' not '#{state}'"
+           "Image should have transitioned to '#{desired_state}' not '#{current_state}'"
          end
        end
 
