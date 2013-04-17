@@ -51,10 +51,10 @@ module Fog
         attr_writer :public
 
         # Returns the body/contents of file
-        # @raise [Fog::Rackspace::Errors::NotFound] - HTTP 404
-        # @raise [Fog::Rackspace::Errors::BadRequest] - HTTP 400
-        # @raise [Fog::Rackspace::Errors::InternalServerError] - HTTP 500
-        # @raise [Fog::Rackspace::Errors::ServiceError]
+        # @raise [Fog::Storage::Rackspace::NotFound] - HTTP 404
+        # @raise [Fog::Storage::Rackspace::BadRequest] - HTTP 400
+        # @raise [Fog::Storage::Rackspace::InternalServerError] - HTTP 500
+        # @raise [Fog::Storage::Rackspace::ServiceError]
         # @example Retrieve and download contents of Cloud Files object to file system
         #   file_object = directory.files.get('germany.jpg')
         #   File.open('germany.jpg', 'w') {|f| f.write(file_object.body) }
@@ -77,10 +77,10 @@ module Fog
         # @param [String] target_directory_key
         # @param [String] target_file_key
         # @param options [Hash] used to pass in file attributes
-        # @raise [Fog::Rackspace::Errors::NotFound] - HTTP 404
-        # @raise [Fog::Rackspace::Errors::BadRequest] - HTTP 400
-        # @raise [Fog::Rackspace::Errors::InternalServerError] - HTTP 500
-        # @raise [Fog::Rackspace::Errors::ServiceError]
+        # @raise [Fog::Storage::Rackspace::NotFound] - HTTP 404
+        # @raise [Fog::Storage::Rackspace::BadRequest] - HTTP 400
+        # @raise [Fog::Storage::Rackspace::InternalServerError] - HTTP 500
+        # @raise [Fog::Storage::Rackspace::ServiceError]
         # @see http://docs.rackspace.com/files/api/v1/cf-devguide/content/Copy_Object-d1e2241.html
         def copy(target_directory_key, target_file_key, options={})
           requires :directory, :key
@@ -94,10 +94,10 @@ module Fog
 
         # Destroy the file
         # @return [Boolean] returns true if file is destroyed
-        # @raise [Fog::Rackspace::Errors::NotFound] - HTTP 404
-        # @raise [Fog::Rackspace::Errors::BadRequest] - HTTP 400
-        # @raise [Fog::Rackspace::Errors::InternalServerError] - HTTP 500
-        # @raise [Fog::Rackspace::Errors::ServiceError]
+        # @raise [Fog::Storage::Rackspace::NotFound] - HTTP 404
+        # @raise [Fog::Storage::Rackspace::BadRequest] - HTTP 400
+        # @raise [Fog::Storage::Rackspace::InternalServerError] - HTTP 500
+        # @raise [Fog::Storage::Rackspace::ServiceError]
         # @see http://docs.rackspace.com/files/api/v1/cf-devguide/content/Delete_Object-d1e2264.html
         def destroy
           requires :directory, :key
@@ -134,10 +134,10 @@ module Fog
 
         # Is file published to CDN
         # @return [Boolean] return true if published to CDN
-        # @raise [Fog::Rackspace::Errors::NotFound] - HTTP 404
-        # @raise [Fog::Rackspace::Errors::BadRequest] - HTTP 400
-        # @raise [Fog::Rackspace::Errors::InternalServerError] - HTTP 500
-        # @raise [Fog::Rackspace::Errors::ServiceError]
+        # @raise [Fog::Storage::Rackspace::NotFound] - HTTP 404
+        # @raise [Fog::Storage::Rackspace::BadRequest] - HTTP 400
+        # @raise [Fog::Storage::Rackspace::InternalServerError] - HTTP 500
+        # @raise [Fog::Storage::Rackspace::ServiceError]
         def public?
           directory.public?
         end
@@ -151,20 +151,20 @@ module Fog
         # 3. return the default CDN url.
         #
         # @return [String] public url for file
-        # @raise [Fog::Rackspace::Errors::NotFound] - HTTP 404
-        # @raise [Fog::Rackspace::Errors::BadRequest] - HTTP 400
-        # @raise [Fog::Rackspace::Errors::InternalServerError] - HTTP 500
-        # @raise [Fog::Rackspace::Errors::ServiceError]
+        # @raise [Fog::Storage::Rackspace::NotFound] - HTTP 404
+        # @raise [Fog::Storage::Rackspace::BadRequest] - HTTP 400
+        # @raise [Fog::Storage::Rackspace::InternalServerError] - HTTP 500
+        # @raise [Fog::Storage::Rackspace::ServiceError]
         def public_url
           Files::file_url directory.public_url, key
         end
         
         # URL used to stream video to iOS devices without needing to convert your video
         # @return [String] iOS URL
-        # @raise [Fog::Rackspace::Errors::NotFound] - HTTP 404
-        # @raise [Fog::Rackspace::Errors::BadRequest] - HTTP 400
-        # @raise [Fog::Rackspace::Errors::InternalServerError] - HTTP 500
-        # @raise [Fog::Rackspace::Errors::ServiceError]
+        # @raise [Fog::Storage::Rackspace::NotFound] - HTTP 404
+        # @raise [Fog::Storage::Rackspace::BadRequest] - HTTP 400
+        # @raise [Fog::Storage::Rackspace::InternalServerError] - HTTP 500
+        # @raise [Fog::Storage::Rackspace::ServiceError]
         # @see http://docs.rackspace.com/files/api/v1/cf-devguide/content/iOS-Streaming-d1f3725.html
         def ios_url
           Files::file_url directory.ios_url, key
@@ -172,20 +172,20 @@ module Fog
         
         # URL used to stream resources
         # @return [String] streaming url
-        # @raise [Fog::Rackspace::Errors::NotFound] - HTTP 404
-        # @raise [Fog::Rackspace::Errors::BadRequest] - HTTP 400
-        # @raise [Fog::Rackspace::Errors::InternalServerError] - HTTP 500
-        # @raise [Fog::Rackspace::Errors::ServiceError]
+        # @raise [Fog::Storage::Rackspace::NotFound] - HTTP 404
+        # @raise [Fog::Storage::Rackspace::BadRequest] - HTTP 400
+        # @raise [Fog::Storage::Rackspace::InternalServerError] - HTTP 500
+        # @raise [Fog::Storage::Rackspace::ServiceError]
         # @see http://docs.rackspace.com/files/api/v1/cf-devguide/content/Streaming-CDN-Enabled_Containers-d1f3721.html
         def streaming_url
           Files::file_url directory.streaming_url, key
         end      
         
         # Immediately purge file from the CDN network
-        # @raise [Fog::Rackspace::Errors::NotFound] - HTTP 404
-        # @raise [Fog::Rackspace::Errors::BadRequest] - HTTP 400
-        # @raise [Fog::Rackspace::Errors::InternalServerError] - HTTP 500
-        # @raise [Fog::Rackspace::Errors::ServiceError]
+        # @raise [Fog::Storage::Rackspace::NotFound] - HTTP 404
+        # @raise [Fog::Storage::Rackspace::BadRequest] - HTTP 400
+        # @raise [Fog::Storage::Rackspace::InternalServerError] - HTTP 500
+        # @raise [Fog::Storage::Rackspace::ServiceError]
         # @note You may only PURGE up to 25 objects per day. Any attempt to purge more than this will result in a 498 status code error (Rate Limited).
         # @see http://docs.rackspace.com/files/api/v1/cf-devguide/content/Purge_CDN-Enabled_Objects-d1e3858.html
         def purge_from_cdn
@@ -198,10 +198,10 @@ module Fog
 
         # Create or updates file and associated metadata
         # @param options [Hash] additional parameters to pass to Cloud Files
-        # @raise [Fog::Rackspace::Errors::NotFound] - HTTP 404
-        # @raise [Fog::Rackspace::Errors::BadRequest] - HTTP 400
-        # @raise [Fog::Rackspace::Errors::InternalServerError] - HTTP 500
-        # @raise [Fog::Rackspace::Errors::ServiceError]
+        # @raise [Fog::Storage::Rackspace::NotFound] - HTTP 404
+        # @raise [Fog::Storage::Rackspace::BadRequest] - HTTP 400
+        # @raise [Fog::Storage::Rackspace::InternalServerError] - HTTP 500
+        # @raise [Fog::Storage::Rackspace::ServiceError]
         # @see http://docs.rackspace.com/files/api/v1/cf-devguide/content/Create_Update_Object-d1e1965.html
         def save(options = {})
           requires :body, :directory, :key

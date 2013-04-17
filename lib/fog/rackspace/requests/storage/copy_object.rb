@@ -11,10 +11,10 @@ module Fog
         # * target_container_name<~String> - Name of bucket to create copy in
         # * target_object_name<~String> - Name for new copy of object
         # * options<~Hash> - Additional headers
-        # @raise [Fog::Rackspace::Errors::NotFound] - HTTP 404
-        # @raise [Fog::Rackspace::Errors::BadRequest] - HTTP 400
-        # @raise [Fog::Rackspace::Errors::InternalServerError] - HTTP 500
-        # @raise [Fog::Rackspace::Errors::ServiceError]
+        # @raise [Fog::Storage::Rackspace::NotFound] - HTTP 404
+        # @raise [Fog::Storage::Rackspace::BadRequest] - HTTP 400
+        # @raise [Fog::Storage::Rackspace::InternalServerError] - HTTP 500
+        # @raise [Fog::Storage::Rackspace::ServiceError]
         def copy_object(source_container_name, source_object_name, target_container_name, target_object_name, options={})
           headers = { 'X-Copy-From' => "/#{source_container_name}/#{source_object_name}" }.merge(options)
           request({

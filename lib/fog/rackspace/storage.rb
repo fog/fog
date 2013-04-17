@@ -4,6 +4,11 @@ require 'fog/storage'
 module Fog
   module Storage
     class Rackspace < Fog::Service
+      include Fog::Rackspace::Errors
+
+      class ServiceError < Fog::Rackspace::Errors::ServiceError; end
+      class InternalServerError < Fog::Rackspace::Errors::InternalServerError; end
+      class BadRequest < Fog::Rackspace::Errors::BadRequest; end
 
       requires :rackspace_api_key, :rackspace_username
       recognizes :rackspace_auth_url, :rackspace_servicenet, :rackspace_cdn_ssl, :persistent, :rackspace_region
@@ -152,13 +157,14 @@ module Fog
             else # bad credentials
               raise error
             end
+          rescue Excon::Errors::NotFound => error
+            raise NotFound.slurp(error, region)
+          rescue Excon::Errors::BadRequest => error
+            raise BadRequest.slurp error
+          rescue Excon::Errors::InternalServerError => error
+            raise InternalServerError.slurp error
           rescue Excon::Errors::HTTPStatusError => error
-            raise case error
-            when Excon::Errors::NotFound
-              Fog::Storage::Rackspace::NotFound.slurp(error)
-            else
-              error
-            end
+            raise ServiceError.slurp error
           end
           if !response.body.empty? && parse_json && response.headers['Content-Type'] =~ %r{application/json}
             response.body = Fog::JSON.decode(response.body)

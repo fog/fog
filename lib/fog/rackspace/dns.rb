@@ -4,6 +4,7 @@ require 'fog/dns'
 module Fog
   module DNS
     class Rackspace < Fog::Service
+      include Fog::Rackspace::Errors
 
       class CallbackError < Fog::Errors::Error
         attr_reader :response, :message, :details
@@ -118,7 +119,7 @@ module Fog
           rescue Excon::Errors::Conflict => error
             raise Fog::Rackspace::Errors::Conflict.slurp error
           rescue Excon::Errors::NotFound => error
-            raise Fog::Rackspace::Errors::NotFound.slurp error
+            raise NotFound.slurp(error, region)
           rescue Excon::Errors::ServiceUnavailable => error
             raise Fog::Rackspace::Errors::ServiceUnavailable.slurp error
           end

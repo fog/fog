@@ -62,10 +62,10 @@ module Fog
 
         # Returns a list of snapshots associated with the volume
         # @return [Fog::Rackspace::BlockStorage::Snapshots]
-        # @raise [Fog::Rackspace::Errors::NotFound] - HTTP 404
-        # @raise [Fog::Rackspace::Errors::BadRequest] - HTTP 400
-        # @raise [Fog::Rackspace::Errors::InternalServerError] - HTTP 500
-        # @raise [Fog::Rackspace::Errors::ServiceError]
+        # @raise [Fog::Rackspace::BlockStorage::NotFound] - HTTP 404
+        # @raise [Fog::Rackspace::BlockStorage::BadRequest] - HTTP 400
+        # @raise [Fog::Rackspace::BlockStorage::InternalServerError] - HTTP 500
+        # @raise [Fog::Rackspace::BlockStorage::ServiceError]
         def snapshots
           service.snapshots.select { |s| s.volume_id == identity }
         end
@@ -77,10 +77,10 @@ module Fog
         # @option options [String] :display_description of snapshot
         # @option options [Boolean] :force - If set to true, snapshot will be taken even if volume is still mounted.
         # @return [Fog::Rackspace::BlockStorage::Snapshot]
-        # @raise [Fog::Rackspace::Errors::NotFound] - HTTP 404
-        # @raise [Fog::Rackspace::Errors::BadRequest] - HTTP 400
-        # @raise [Fog::Rackspace::Errors::InternalServerError] - HTTP 500
-        # @raise [Fog::Rackspace::Errors::ServiceError]
+        # @raise [Fog::Rackspace::BlockStorage::NotFound] - HTTP 404
+        # @raise [Fog::Rackspace::BlockStorage::BadRequest] - HTTP 400
+        # @raise [Fog::Rackspace::BlockStorage::InternalServerError] - HTTP 500
+        # @raise [Fog::Rackspace::BlockStorage::ServiceError]
         # @note All writes to the volume should be flushed before creating the snapshot, either by un-mounting any file systems on the volume or by detaching the volume.
         # @see http://docs.rackspace.com/cbs/api/v1.0/cbs-devguide/content/POST_createSnapshot__v1__tenant_id__snapshots.html
         def create_snapshot(options={})
@@ -91,10 +91,10 @@ module Fog
         # Creates volume
         # @raise [Fog::Rackspace::BlockStorage::IdentifierTaken] if the volume has been previously saved.
         # @return [Boolean] returns true if volume was successfully created
-        # @raise [Fog::Rackspace::Errors::NotFound] - HTTP 404
-        # @raise [Fog::Rackspace::Errors::BadRequest] - HTTP 400
-        # @raise [Fog::Rackspace::Errors::InternalServerError] - HTTP 500
-        # @raise [Fog::Rackspace::Errors::ServiceError]
+        # @raise [Fog::Rackspace::BlockStorage::NotFound] - HTTP 404
+        # @raise [Fog::Rackspace::BlockStorage::BadRequest] - HTTP 400
+        # @raise [Fog::Rackspace::BlockStorage::InternalServerError] - HTTP 500
+        # @raise [Fog::Rackspace::BlockStorage::ServiceError]
         # @note A volume object cannot be updated
         # @see http://docs.rackspace.com/cbs/api/v1.0/cbs-devguide/content/POST_createVolume__v1__tenant_id__volumes.html
         def save
@@ -112,10 +112,10 @@ module Fog
 
         # Destroys Volume
         # @return [Boolean] returns true if volume was deleted
-        # @raise [Fog::Rackspace::Errors::NotFound] - HTTP 404
-        # @raise [Fog::Rackspace::Errors::BadRequest] - HTTP 400
-        # @raise [Fog::Rackspace::Errors::InternalServerError] - HTTP 500
-        # @raise [Fog::Rackspace::Errors::ServiceError]
+        # @raise [Fog::Rackspace::BlockStorage::NotFound] - HTTP 404
+        # @raise [Fog::Rackspace::BlockStorage::BadRequest] - HTTP 400
+        # @raise [Fog::Rackspace::BlockStorage::InternalServerError] - HTTP 500
+        # @raise [Fog::Rackspace::BlockStorage::ServiceError]
         # @note You cannot delete a volume until all of its dependent snaphosts have been deleted.
         # @see http://docs.rackspace.com/cbs/api/v1.0/cbs-devguide/content/DELETE_deleteVolume__v1__tenant_id__volumes.html
         def destroy

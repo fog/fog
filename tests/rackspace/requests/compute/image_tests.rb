@@ -56,7 +56,7 @@ Shindo.tests('Fog::Compute[:rackspace] | image requests', ['rackspace']) do
 
   tests('failure') do
 
-    tests('#delete_image(0)').raises(Excon::Errors::BadRequest) do
+    tests('#delete_image(0)').raises(Fog::Compute::Rackspace::NotFound) do
        @service.delete_image(Fog::Rackspace::MockData::NOT_FOUND_ID)
     end
 

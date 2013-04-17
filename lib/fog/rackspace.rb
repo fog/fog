@@ -1,6 +1,7 @@
 require File.join(File.dirname(__FILE__), 'core')
 require 'fog/rackspace/mock_data'
 require 'fog/rackspace/service'
+require 'fog/rackspace/errors'
 
 module Fog
   module Rackspace
@@ -25,21 +26,26 @@ module Fog
           if error.response
             status_code = error.response.status
             unless error.response.body.empty?
-              data = Fog::JSON.decode(error.response.body)
-              message = data.values.first ? data.values.first['message'] : data['message']
+              begin
+                data = Fog::JSON.decode(error.response.body)
+                message = data.values.first ? data.values.first['message'] : data['message']
+              rescue  => e
+                Fog::Logger.warning("Received exception '#{e}' while decoding>> #{error.response.body}")
+                message = error.response.body
+                data = error.response.body
+              end
             end
           end
 
           new_error = super(error, message)
           new_error.instance_variable_set(:@response_data, data)
-          new_error.instance_variable_set(:@status_code, status_code)          
+          new_error.instance_variable_set(:@status_code, status_code)
           new_error
         end
       end
 
       class InternalServerError < ServiceError; end
       class Conflict < ServiceError; end
-      class NotFound < ServiceError; end
       class ServiceUnavailable < ServiceError; end
 
       class BadRequest < ServiceError

@@ -10,10 +10,10 @@ module Fog
 
         # Returns list of snapshots
         # @return [Fog::Rackspace::BlockStorage::Snapshots] Retrieves a snapshots
-        # @raise [Fog::Rackspace::Errors::NotFound] - HTTP 404
-        # @raise [Fog::Rackspace::Errors::BadRequest] - HTTP 400
-        # @raise [Fog::Rackspace::Errors::InternalServerError] - HTTP 500
-        # @raise [Fog::Rackspace::Errors::ServiceError]
+        # @raise [Fog::Rackspace::BlockStorage::NotFound] - HTTP 404
+        # @raise [Fog::Rackspace::BlockStorage::BadRequest] - HTTP 400
+        # @raise [Fog::Rackspace::BlockStorage::InternalServerError] - HTTP 500
+        # @raise [Fog::Rackspace::BlockStorage::ServiceError]
         # @see http://docs.rackspace.com/cbs/api/v1.0/cbs-devguide/content/GET_getSnapshotsSimple__v1__tenant_id__snapshots.html
         def all
           data = service.list_snapshots.body['snapshots']
@@ -23,10 +23,10 @@ module Fog
         # Retrieves snapshot
         # @param [String] snapshot_id for snapshot to be returned
         # @return [Fog::Rackspace::BlockStorage::Volume]
-        # @raise [Fog::Rackspace::Errors::NotFound] - HTTP 404
-        # @raise [Fog::Rackspace::Errors::BadRequest] - HTTP 400
-        # @raise [Fog::Rackspace::Errors::InternalServerError] - HTTP 500
-        # @raise [Fog::Rackspace::Errors::ServiceError]
+        # @raise [Fog::Rackspace::BlockStorage::NotFound] - HTTP 404
+        # @raise [Fog::Rackspace::BlockStorage::BadRequest] - HTTP 400
+        # @raise [Fog::Rackspace::BlockStorage::InternalServerError] - HTTP 500
+        # @raise [Fog::Rackspace::BlockStorage::ServiceError]
         # @see http://docs.rackspace.com/cbs/api/v1.0/cbs-devguide/content/GET_getSnapshot__v1__tenant_id__snapshots.html
         def get(snapshot_id)
           data = service.get_snapshot(snapshot_id).body['snapshot']

@@ -7,10 +7,10 @@ module Fog
         # @param [String] server_id id of server to resize
         # @param [String] flavor_id id of the desired flavor
         # @return [Excon::Response] response
-        # @raise [Fog::Rackspace::Errors::NotFound] - HTTP 404
-        # @raise [Fog::Rackspace::Errors::BadRequest] - HTTP 400
-        # @raise [Fog::Rackspace::Errors::InternalServerError] - HTTP 500
-        # @raise [Fog::Rackspace::Errors::ServiceError]
+        # @raise [Fog::Compute::RackspaceV2::NotFound] - HTTP 404
+        # @raise [Fog::Compute::RackspaceV2::BadRequest] - HTTP 400
+        # @raise [Fog::Compute::RackspaceV2::InternalServerError] - HTTP 500
+        # @raise [Fog::Compute::RackspaceV2::ServiceError]
         # @note All resizes are automatically confirmed after 24 hours if you do not explicitly confirm or revert the resize.                
         # @see http://docs.rackspace.com/servers/api/v2/cs-devguide/content/Revert_Resized_Server-d1e4024.html
         #
