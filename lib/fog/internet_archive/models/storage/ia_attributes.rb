@@ -3,7 +3,7 @@ module Fog
     module IAAttributes
 
 		  # you can add other x-archive-metadata-* values, but these are standard
-		  IA_STANDARD_METADATA_FIELDS = %q[hidden, title, collection, creator, mediatype, description, date, subject, licenseurl , pick, noindex, notes, rights, contributor, language, coverage, credits]
+		  IA_STANDARD_METADATA_FIELDS = %q[hidden, title, collection, creator, mediatype, description, date, subject, licenseurl, pick, noindex, notes, rights, contributor, language, coverage, credits]
 
 		  # for x-archive-metadata-mediatype, these are the valid values
 		  IA_VALID_MEDIA_TYPES = %q[audio, data, etree, image, movies, software, texts, web]
