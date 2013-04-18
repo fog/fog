@@ -41,6 +41,7 @@ module Fog
       request :acquire_ip_address
       request :add_traffic_type
       request :add_cluster
+      request :add_host
       request :assign_to_load_balancer_rule
       request :assign_virtual_machine
       request :attach_volume
@@ -65,6 +66,7 @@ module Fog
       request :configure_virtual_router_element
       request :delete_account
       request :delete_domain
+      request :delete_host
       request :delete_load_balancer_rule
       request :delete_port_forwarding_rule
       request :delete_security_group
@@ -117,9 +119,11 @@ module Fog
       request :list_snapshot_policies
       request :list_ssh_key_pairs
       request :list_storage_pools
+      request :list_system_vms
       request :list_templates
       request :list_usage_records
       request :list_users
+      request :list_vlan_ip_ranges
       request :list_virtual_machines
       request :list_virtual_router_elements
       request :list_volumes
