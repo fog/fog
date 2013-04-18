@@ -92,7 +92,7 @@ module Fog
 
           options['username'] = username
           options['hostname'] = hostname if @hostname
-          options['ipv6_only'] = ipv6_only if @ipv6_only
+          options['ipv6_only'] = ipv6_only if ipv6_only
           data = service.create_block(flavor_id, image_id, location_id, options)
           merge_attributes(data.body)
           true
