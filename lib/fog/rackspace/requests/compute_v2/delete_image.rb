@@ -6,10 +6,10 @@ module Fog
         # Delete an image
         # @param [String] image_id Id of image to delete
         # @return [Excon::Response] response
-        # @raise [Fog::Rackspace::Errors::NotFound] - HTTP 404
-        # @raise [Fog::Rackspace::Errors::BadRequest] - HTTP 400
-        # @raise [Fog::Rackspace::Errors::InternalServerError] - HTTP 500
-        # @raise [Fog::Rackspace::Errors::ServiceError]
+        # @raise [Fog::Compute::RackspaceV2::NotFound] - HTTP 404
+        # @raise [Fog::Compute::RackspaceV2::BadRequest] - HTTP 400
+        # @raise [Fog::Compute::RackspaceV2::InternalServerError] - HTTP 500
+        # @raise [Fog::Compute::RackspaceV2::ServiceError]
         # @see http://docs.rackspace.com/servers/api/v2/cs-devguide/content/Delete_Image-d1e4957.html        
         def delete_image(image_id)
           request(
@@ -23,6 +23,7 @@ module Fog
       
       class Mock
         def delete_image(image_id)
+          raise Fog::Compute::RackspaceV2::NotFound.new if image_id == Fog::Rackspace::MockData::NOT_FOUND_ID
           response = Excon::Response.new
           response.status = 202
           response.body = "" 

@@ -4,7 +4,6 @@ require 'fog/cdn'
 module Fog
   module CDN
     class Rackspace < Fog::Service
-
       requires :rackspace_api_key, :rackspace_username
       recognizes :rackspace_auth_url, :persistent, :rackspace_cdn_ssl, :rackspace_region, :rackspace_cdn_url
 
@@ -40,10 +39,10 @@ module Fog
         # @param [Fog::Storage::Rackspace::Directory] directory to publish
         # @param [Boolean] publish If true directory is published. If false directory is unpublished.
         # @return [Hash] hash containing urls for published container
-        # @raise [Fog::Rackspace::Errors::NotFound] - HTTP 404
-        # @raise [Fog::Rackspace::Errors::BadRequest] - HTTP 400
-        # @raise [Fog::Rackspace::Errors::InternalServerError] - HTTP 500
-        # @raise [Fog::Rackspace::Errors::ServiceError]
+        # @raise [Fog::Storage::Rackspace::NotFound] - HTTP 404
+        # @raise [Fog::Storage::Rackspace::BadRequest] - HTTP 400
+        # @raise [Fog::Storage::Rackspace::InternalServerError] - HTTP 500
+        # @raise [Fog::Storage::Rackspace::ServiceError]
         def publish_container(container, publish = true)
           enabled = publish ? 'True' : 'False'
           response = put_container(container.key, 'X-Cdn-Enabled' => enabled)
@@ -54,9 +53,9 @@ module Fog
         # Returns hash of urls for container
         # @param [Fog::Storage::Rackspace::Directory] container to retrieve urls for
         # @return [Hash] hash containing urls for published container
-        # @raise [Fog::Rackspace::Errors::BadRequest] - HTTP 400
-        # @raise [Fog::Rackspace::Errors::InternalServerError] - HTTP 500
-        # @raise [Fog::Rackspace::Errors::ServiceError]
+        # @raise [Fog::Storage::Rackspace::BadRequest] - HTTP 400
+        # @raise [Fog::Storage::Rackspace::InternalServerError] - HTTP 500
+        # @raise [Fog::Storage::Rackspace::ServiceError]
         # @note If unable to find container or container is not published this method will return an empty hash.
         def urls(container)
           begin 
@@ -164,13 +163,14 @@ module Fog
               :host     => endpoint_uri.host,
               :path     => "#{endpoint_uri.path}/#{params[:path]}",
             }))
+          rescue Excon::Errors::NotFound => error
+            raise Fog::Storage::Rackspace::NotFound.slurp(error, region)
+          rescue Excon::Errors::BadRequest => error
+            raise Fog::Storage::Rackspace::BadRequest.slurp error
+          rescue Excon::Errors::InternalServerError => error
+            raise Fog::Storage::Rackspace::InternalServerError.slurp error
           rescue Excon::Errors::HTTPStatusError => error
-            raise case error
-            when Excon::Errors::NotFound
-              Fog::Storage::Rackspace::NotFound.slurp(error)
-            else
-              error
-            end
+            raise Fog::Storage::Rackspace::ServiceError.slurp error
           end
           if !response.body.empty? && parse_json && response.headers['Content-Type'] =~ %r{application/json}
             response.body = Fog::JSON.decode(response.body)

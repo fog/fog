@@ -3,6 +3,7 @@ require File.expand_path(File.join(File.dirname(__FILE__), '..', 'rackspace'))
 module Fog
   module Rackspace
     class BlockStorage < Fog::Service
+      include Fog::Rackspace::Errors
 
       class IdentifierTaken < Fog::Errors::Error; end
       class ServiceError < Fog::Rackspace::Errors::ServiceError; end
@@ -98,7 +99,7 @@ module Fog
               :path     => "#{endpoint_uri.path}/#{params[:path]}"
             }))
           rescue Excon::Errors::NotFound => error
-            raise NotFound.slurp error
+            raise NotFound.slurp(error, region)
           rescue Excon::Errors::BadRequest => error
             raise BadRequest.slurp error
           rescue Excon::Errors::InternalServerError => error

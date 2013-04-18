@@ -28,10 +28,10 @@ module Fog
         #       * 'hash'<~String> - Hash of object (etag?)
         #       * 'last_modified'<~String> - Last modified timestamp
         #       * 'name'<~String> - Name of object
-        # @raise [Fog::Rackspace::Errors::NotFound] - HTTP 404
-        # @raise [Fog::Rackspace::Errors::BadRequest] - HTTP 400
-        # @raise [Fog::Rackspace::Errors::InternalServerError] - HTTP 500
-        # @raise [Fog::Rackspace::Errors::ServiceError]
+        # @raise [Fog::Storage::Rackspace::NotFound] - HTTP 404
+        # @raise [Fog::Storage::Rackspace::BadRequest] - HTTP 400
+        # @raise [Fog::Storage::Rackspace::InternalServerError] - HTTP 500
+        # @raise [Fog::Storage::Rackspace::ServiceError]
         def get_container(container, options = {})
           options = options.reject {|key, value| value.nil?}
           request(

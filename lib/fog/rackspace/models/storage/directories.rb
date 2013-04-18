@@ -11,10 +11,10 @@ module Fog
 
         # Returns list of directories
         # @return [Fog::Storage::Rackspace::Directories] Retrieves a list directories.
-        # @raise [Fog::Rackspace::Errors::NotFound] - HTTP 404
-        # @raise [Fog::Rackspace::Errors::BadRequest] - HTTP 400
-        # @raise [Fog::Rackspace::Errors::InternalServerError] - HTTP 500
-        # @raise [Fog::Rackspace::Errors::ServiceError]
+        # @raise [Fog::Storage::Rackspace::NotFound] - HTTP 404
+        # @raise [Fog::Storage::Rackspace::BadRequest] - HTTP 400
+        # @raise [Fog::Storage::Rackspace::InternalServerError] - HTTP 500
+        # @raise [Fog::Storage::Rackspace::ServiceError]
         # @note Fog's current implementation only returns 10,000 directories
         # @see http://docs.rackspace.com/files/api/v1/cf-devguide/content/View_List_of_Containers-d1e1100.html
         def all
@@ -27,10 +27,10 @@ module Fog
         # @param options [Hash]:
         # @option options [String] cdn_cname CDN CNAME used when calling Directory#public_url
         # @return [Fog::Storage::Rackspace::Directory]
-        # @raise [Fog::Rackspace::Errors::NotFound] - HTTP 404
-        # @raise [Fog::Rackspace::Errors::BadRequest] - HTTP 400
-        # @raise [Fog::Rackspace::Errors::InternalServerError] - HTTP 500
-        # @raise [Fog::Rackspace::Errors::ServiceError]
+        # @raise [Fog::Storage::Rackspace::NotFound] - HTTP 404
+        # @raise [Fog::Storage::Rackspace::BadRequest] - HTTP 400
+        # @raise [Fog::Storage::Rackspace::InternalServerError] - HTTP 500
+        # @raise [Fog::Storage::Rackspace::ServiceError]
         # @example
         #   directory = fog.directories.get('video', :cdn_cname => 'http://cdn.lunenburg.org')
         #   files = directory.files
