@@ -122,6 +122,11 @@ module Fog
         #  }
         attribute :addresses
         
+        # @!attribute [rw] networks
+        # @return [Array] Networks 
+        # Takes an array of network UUIDs 
+        attribute :networks
+
         # @!attribute [r] flavor_id
         # @return [String] The flavor Id. 
         # @see http://docs.rackspace.com/servers/api/v2/cs-devguide/content/List_Flavors-d1e4188.html
@@ -199,8 +204,8 @@ module Fog
           options[:metadata] = metadata.to_hash unless @metadata.nil?
           options[:personality] = personality unless personality.nil?
 
-          if options[:networks]
-            options[:networks].map! { |id| { :uuid => id } }
+          unless networks.nil?
+            options[:networks] = networks.map { |id| { :uuid => id } }
           end
 
           data = service.create_server(name, image_id, flavor_id, 1, 1, options)
