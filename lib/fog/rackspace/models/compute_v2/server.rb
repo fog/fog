@@ -194,6 +194,7 @@ module Fog
         def create(options)
           requires :name, :image_id, :flavor_id
 
+          options[:networks] ||= attributes[:networks]
           options[:disk_config] = disk_config unless disk_config.nil?
           options[:metadata] = metadata.to_hash unless @metadata.nil?
           options[:personality] = personality unless personality.nil?
