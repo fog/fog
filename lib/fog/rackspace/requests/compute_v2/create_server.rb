@@ -146,7 +146,7 @@ module Fog
             :volume_ids          => [],
           }
 
-          # add in additional networks
+          #  add in additional networks
           if options[:networks]
             options[:networks].each do |network|
               net_label = self.data[:networks][network[:uuid]]["label"]
