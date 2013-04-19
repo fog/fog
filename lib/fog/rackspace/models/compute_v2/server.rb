@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 require 'fog/compute/models/server'
 require 'fog/rackspace/models/compute_v2/metadata'
 
@@ -121,6 +122,11 @@ module Fog
         #    "private"=> [{"version"=>4, "addr"=>"10.177.18.209"}]
         #  }
         attribute :addresses
+
+        # @!attribute [r] networks
+        # @return [Array] Network IDs to attach to server on create
+        # @see http://docs.rackspace.com/servers/api/v2/cs-devguide/content/CreateServers.html
+        attribute :networks
         
         # @!attribute [r] flavor_id
         # @return [String] The flavor Id. 
@@ -198,11 +204,12 @@ module Fog
           options[:disk_config] = disk_config unless disk_config.nil?
           options[:metadata] = metadata.to_hash unless @metadata.nil?
           options[:personality] = personality unless personality.nil?
+          options[:networks] = networks.dup unless networks.nil?
 
           if options[:networks]
-            options[:networks].map! { |id| { :uuid => id } }
+            options[:networks].map!{ |id| { :uuid => id } }
           end
-
+          
           data = service.create_server(name, image_id, flavor_id, 1, 1, options)
           merge_attributes(data.body['server'])
           true
