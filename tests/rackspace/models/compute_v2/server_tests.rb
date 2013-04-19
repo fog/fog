@@ -2,11 +2,16 @@ Shindo.tests('Fog::Compute::RackspaceV2 | server', ['rackspace']) do
   service = Fog::Compute::RackspaceV2.new
   cbs_service = Fog::Rackspace::BlockStorage.new
 
+  tests('setup test network').succeeds do
+    @network = service.networks.create :label => "fog_test_net_#{Time.now.to_i.to_s}", :cidr => '192.168.1.1/24'
+  end
+
   options = {
     :name => "fog_server_#{Time.now.to_i.to_s}",
     :flavor_id => rackspace_test_flavor_id(service),
     :image_id => rackspace_test_image_id(service), 
-    :metadata => { 'fog_test' => 'true' }
+    :metadata => { 'fog_test' => 'true' },
+    :networks => [@network.id]
   }
 
   tests('ready?') do
@@ -67,6 +72,10 @@ Shindo.tests('Fog::Compute::RackspaceV2 | server', ['rackspace']) do
       @instance.metadata['fog_test']
     end
     
+     tests("includes #{@network.label}").returns(true) do
+       @instance.addresses.keys.include?(@network.label)
+     end
+
     tests('#update').succeeds do
       @instance.name = "fog_server_update"
       @instance.access_ipv4_address= "10.10.0.1"
@@ -168,6 +177,12 @@ Shindo.tests('Fog::Compute::RackspaceV2 | server', ['rackspace']) do
     end
 
     @instance.wait_for(timeout=1500)  { ready? }
+   end
+
+   wait_for_server_deletion(@instance)
+
+   tests("delete network #{@network.label}").succeeds do
+     @network.destroy if @network
    end
 
   #When after testing resize/resize_confirm we get a 409 when we try to resize_revert so I am going to split it into two blocks
