@@ -10,12 +10,10 @@ Shindo.tests("Fog::Compute[:cloudstack] | snapshot", "cloudstack") do
 
   config = compute_providers[:cloudstack]
 
-  snapshot_tests(Fog::Compute[:cloudstack], config, config[:mocked]) do
-    if Fog.mocking? && !mocks_implemented
-      pending
-    else
-      responds_to(:ready?)
-      responds_to(:volume)
-    end
+  snapshot_tests(Fog::Compute[:cloudstack], config, config[:mocked])
+
+  tests('has volume relation') do
+    responds_to(:volume)
   end
+
 end
