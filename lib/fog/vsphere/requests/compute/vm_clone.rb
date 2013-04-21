@@ -117,7 +117,6 @@ module Fog
           datastore_obj = get_raw_datastore(options['datastore'], options['datacenter']) if options.has_key?('datastore')
           # confirm nil if nil or option is not set
           datastore_obj ||= nil
-
           virtual_machine_config_spec = RbVmomi::VIM::VirtualMachineConfigSpec()
 
           # Options['network']
@@ -142,13 +141,11 @@ module Fog
               :device => device)
             virtual_machine_config_spec.deviceChange = [device_spec]
           end
-
           # Options['numCPUs'] or Options['memoryMB']
           # Build up the specification for Hardware, for more details see ____________
           # https://github.com/rlane/rbvmomi/blob/master/test/test_serialization.rb
           virtual_machine_config_spec.numCPUs = options['numCPUs'] if  ( options.has_key?('numCPUs') )
           virtual_machine_config_spec.memoryMB = options['memoryMB'] if ( options.has_key?('memoryMB') )
-
           # Options['customization_spec']
           # Build up all the crappy tiered objects like the perl method
           # Collect your variables ifset (writing at 11pm revist me)

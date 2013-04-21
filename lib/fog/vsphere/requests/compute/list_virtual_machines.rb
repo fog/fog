@@ -24,8 +24,7 @@ module Fog
 
           vms = folder.children.grep(RbVmomi::VIM::VirtualMachine)
           # remove all template based virtual machines
-          vms.delete_if { |v| v.config.template }
-
+          vms.delete_if { |v| v.config.nil? or v.config.template }
           vms.map(&method(:convert_vm_mob_ref_to_attr_hash))
         end
 
