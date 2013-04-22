@@ -28,7 +28,7 @@ module Fog
 
       def authenticate(options)
          self.send authentication_method, options
-       end
+      end
 
       private
 

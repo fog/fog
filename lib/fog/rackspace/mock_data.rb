@@ -104,8 +104,7 @@ module Fog
               "extra_specs" => {},
             }
 
-            #Mock Data Hash
-            h = {
+            mock_data = {
               #Compute V2
               :flavors => Hash.new { |h,k| h[k] = flavor unless k == NOT_FOUND_ID},
               :images => Hash.new { |h,k| h[k] = image unless k == NOT_FOUND_ID },        
@@ -121,11 +120,11 @@ module Fog
             }
             
             # seed with initial data
-            h[:flavors][flavor_id] = flavor
-            h[:images][image_id] = image
-            h[:networks][network_id] = network
+            mock_data[:flavors][flavor_id] = flavor
+            mock_data[:images][image_id] = image
+            mock_data[:networks][network_id] = network
             
-            h            
+            mock_data
           end
         end[@rackspace_api_key]
       end
