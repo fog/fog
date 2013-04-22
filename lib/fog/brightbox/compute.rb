@@ -1,4 +1,3 @@
-require 'fog/brightbox'
 require 'fog/compute'
 require 'fog/brightbox/oauth2'
 

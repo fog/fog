@@ -1,5 +1,3 @@
-require 'fog/rackspace'
-
 module Fog
   module Rackspace
     class LoadBalancers < Fog::Service

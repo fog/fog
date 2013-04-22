@@ -1,4 +1,3 @@
-require 'fog/local/storage'
 require 'fog/storage'
 
 module Fog

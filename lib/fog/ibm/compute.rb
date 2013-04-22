@@ -1,4 +1,3 @@
-require 'fog/ibm'
 require 'fog/compute'
 
 module Fog

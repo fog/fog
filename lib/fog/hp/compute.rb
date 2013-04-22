@@ -1,4 +1,3 @@
-require 'fog/hp'
 require 'fog/compute'
 
 module Fog

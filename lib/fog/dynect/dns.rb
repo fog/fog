@@ -1,4 +1,3 @@
-require 'fog/dynect'
 require 'fog/dns'
 
 module Fog

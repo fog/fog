@@ -1,5 +1,3 @@
-require 'fog/openstack'
-
 module Fog
   module Identity
     class OpenStack < Fog::Service

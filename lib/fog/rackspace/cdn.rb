@@ -1,4 +1,3 @@
-require 'fog/rackspace'
 require 'fog/cdn'
 
 module Fog

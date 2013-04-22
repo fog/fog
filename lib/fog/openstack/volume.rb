@@ -1,5 +1,3 @@
-require 'fog/openstack'
-
 module Fog
   module Volume
     class OpenStack < Fog::Service
