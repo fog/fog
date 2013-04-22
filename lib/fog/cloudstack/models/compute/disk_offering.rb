@@ -7,10 +7,10 @@ module Fog
         attribute :disk_size,       :aliases => 'disk_size'
         attribute :display_text,    :aliases => 'display_text'
         attribute :domain
-        attribute :domain_id        :aliases => 'domainid'
+        attribute :domain_id,       :aliases => 'domainid'
         attribute :is_customized,   :aliases => 'iscustomized'
         attribute :name
-        attribute :storage_type,     :aliases => 'storagetype'
+        attribute :storage_type,    :aliases => 'storagetype'
         attribute :tags
 
 
