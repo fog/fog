@@ -67,6 +67,8 @@ module Fog
       request :resize_server
       request :confirm_resize_server
       request :revert_resize_server
+      request :rescue_server
+      request :unrescue_server
       request :list_addresses
       request :list_addresses_by_network
 

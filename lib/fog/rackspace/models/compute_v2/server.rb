@@ -452,6 +452,44 @@ module Fog
           true
         end
 
+        # Place existing server into rescue mode, allowing for offline editing of configuration. The original server's disk is attached to a new instance of the same base image for a period of time to facilitate working within rescue mode.  The original server will be automatically restored after 90 minutes.
+        # @return [Boolean] returns true if call to put server in rescue mode reports success
+        # @raise [Fog::Rackspace::Errors::NotFound] - HTTP 404
+        # @raise [Fog::Rackspace::Errors::BadRequest] - HTTP 400
+        # @raise [Fog::Rackspace::Errors::InternalServerError] - HTTP 500
+        # @raise [Fog::Rackspace::Errors::ServiceError]
+        # @note Rescue mode is only guaranteed to be active for 90 minutes.
+        # @see http://docs.rackspace.com/servers/api/v2/cs-devguide/content/rescue_mode.html
+        # @see #unrescue
+        #
+        # * Status Transition:
+        #   * ACTIVE -> PREP_RESCUE -> RESCUE
+        def rescue
+          requires :identity
+          data = service.rescue_server(identity)
+          merge_attributes(data.body)
+          true
+        end
+
+        # Remove existing server from rescue mode.
+        # @return [Boolean] returns true if call to remove server from rescue mode reports success
+        # @raise [Fog::Rackspace::Errors::NotFound] - HTTP 404
+        # @raise [Fog::Rackspace::Errors::BadRequest] - HTTP 400
+        # @raise [Fog::Rackspace::Errors::InternalServerError] - HTTP 500
+        # @raise [Fog::Rackspace::Errors::ServiceError]
+        # @note Rescue mode is only guaranteed to be active for 90 minutes.
+        # @see http://docs.rackspace.com/servers/api/v2/cs-devguide/content/exit_rescue_mode.html
+        # @see #rescue
+        #
+        # * Status Transition:
+        #   * PREP_UNRESCUE -> ACTIVE
+        def unrescue
+          requires :identity
+          service.unrescue_server(identity)
+          self.state = ACTIVE
+          true
+        end
+
         # Change admin password
         # @param [String] password The administrator password.
         # @return [Boolean] returns true if operation was scheduled
