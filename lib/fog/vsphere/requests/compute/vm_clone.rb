@@ -18,7 +18,7 @@ module Fog
             raise ArgumentError, "#{required_options.join(', ')} are required" unless options.has_key? param
           end
           # TODO This is ugly and needs to rethink mocks
-          unless ENV['FOG_MOCK']
+          unless Fog.mock?
             raise ArgumentError, "#{options["datacenter"]} Doesn't Exist!" unless get_datacenter(options["datacenter"])
             raise ArgumentError, "#{options["template_path"]} Doesn't Exist!" unless get_virtual_machine(options["template_path"], options["datacenter"])
           end
