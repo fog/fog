@@ -20,7 +20,7 @@ module Fog
         end
 
         def find_datacenters name=nil
-          name ? [get_raw_datacenter(name)] : raw_datacenters
+          name ? [find_raw_datacenter(name)] : raw_datacenters
         end
       end
 

@@ -12,7 +12,7 @@ module Fog
 
         def get_raw_datastore(name, datacenter_name)
           dc = find_raw_datacenter(datacenter_name)
-          dc.datastoreFolder.find(name)
+          dc.find_datastore(name)
         end
       end
 
