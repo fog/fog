@@ -72,7 +72,7 @@ module Fog
       def fetch_credentials(options)
         # attempt to load credentials from config file
         begin
-          default_credentials = Fog.credentials.reject {|key, value| !(recognized | requirements).include?(key)}
+          Fog.credentials.reject {|key, value| !(recognized | requirements).include?(key)}
         rescue LoadError
           # if there are no configured credentials, do nothing
           {}

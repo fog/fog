@@ -30,7 +30,7 @@ module Fog
          def to_s
            "Image should have transitioned to '#{desired_state}' not '#{current_state}'"
          end
-       end
+      end
 
       DFW_ENDPOINT = 'https://dfw.servers.api.rackspacecloud.com/v2'
       ORD_ENDPOINT = 'https://ord.servers.api.rackspacecloud.com/v2'
@@ -163,7 +163,7 @@ module Fog
           unless response.body.empty?
             begin
               response.body = Fog::JSON.decode(response.body)
-            rescue Fog::JSON::LoadError => e
+            rescue Fog::JSON::LoadError
               response.body = {}
             end
           end

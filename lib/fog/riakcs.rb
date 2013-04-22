@@ -84,7 +84,7 @@ module Fog
             data[key_id][:status] = status
           end
 
-          if regrant = user[:new_key_secret]
+          if user[:new_key_secret]
             data[key_id][:key_secret] = rand(100).to_s
           end
 
