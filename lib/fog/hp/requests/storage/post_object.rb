@@ -32,7 +32,7 @@ module Fog
           source_container = self.data[:containers][source_container_name]
           container = self.data[:containers][container_name]
           if (source_container && container)
-            response.status = 201
+            response.status = 202
             source_object = source_container[:objects][source_object_name]
             target_object = source_object.dup
             target_object.merge!({
