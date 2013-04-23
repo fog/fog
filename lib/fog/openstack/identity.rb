@@ -63,7 +63,6 @@ module Fog
 
       class Mock
         attr_reader :auth_token
-        attr_reader :unscoped_token
         attr_reader :auth_token_expiration
         attr_reader :current_user
         attr_reader :current_tenant
