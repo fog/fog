@@ -55,6 +55,7 @@ module Fog
       request :list_folders
       request :create_vm
       request :list_vm_interfaces
+      request :modify_vm_interface
       request :list_vm_volumes
       request :get_virtual_machine
       request :vm_reconfig_hardware
