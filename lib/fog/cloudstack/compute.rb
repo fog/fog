@@ -19,7 +19,7 @@ module Fog
 
       model_path 'fog/cloudstack/models/compute'
       model :address
-      model :disk_offerings
+      model :disk_offering
       collection :disk_offerings
       model :flavor
       collection :flavors
