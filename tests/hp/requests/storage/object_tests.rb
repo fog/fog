@@ -9,8 +9,8 @@ Shindo.tests("Fog::Storage[:hp] | object requests", ['hp', 'storage']) do
       Fog::Storage[:hp].put_object(@dir_name, 'fog_object', lorem_file)
     end
 
-    tests("#post_object('#{@dir_name}', 'fog_object', {})").succeeds do
-      Fog::Storage[:hp].post_object(@dir_name, 'fog_object', {})
+    tests("#post_object('#{@dir_name}', 'fog_object', {'X-Object-Meta-Foo' => 'foometa'})").succeeds do
+      Fog::Storage[:hp].post_object(@dir_name, 'fog_object', {'X-Object-Meta-Foo' => 'foometa'})
     end
 
     tests("#get_object('#{@dir_name}', 'fog_object')").succeeds do

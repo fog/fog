@@ -3,11 +3,12 @@ module Fog
     class HP
       class Real
 
-        # Create a new object
+        # Create or update metadata for an existing object
         #
         # ==== Parameters
-        # * container<~String> - Name for container, should be < 256 bytes and must not contain '/'
-        #
+        # * container<~String> - Name of the existing container, should be < 256 bytes and must not contain '/'
+        # * object<~String> - Name of the existing object
+        # * headers<~Hash> - Hash of metadata name/value pairs
         def post_object(container, object, headers = {})
           response = request(
             :expects  => 202,
@@ -24,17 +25,24 @@ module Fog
 
         def post_object(container_name, object_name, headers = {})
           response = Excon::Response.new
-          source_container = self.data[:containers][container_name]
-          container = self.data[:containers][container_name]
-          if (source_container && container)
+          if container = self.data[:containers][container_name]
             response.status = 202
-            source_object = source_container[:objects][object_name]
-            target_object = source_object.dup
-            target_object.merge!({
-              'Key'    => object_name,
-              'Date'   => Fog::Time.now.to_date_header
-            })
-            container[:objects][object_name] = target_object
+            object = container[:objects][object_name]
+
+            for key, value in headers
+              case key
+              when 'Content-Disposition', 'Content-Encoding', 'X-Delete-At', 'X-Delete-After', /^X-Object-Meta-/
+                object[key] = value unless value.nil?
+              end
+            end
+
+            container[:objects][object_name] = object
+            response.headers = {
+              'Content-Length'  => object['Content-Length'],
+              'Content-Type'    => object['Content-Type'],
+              'ETag'            => object['ETag'],
+              'Date'            => object['Date']
+            }
           else
             raise Fog::Storage::HP::NotFound
           end

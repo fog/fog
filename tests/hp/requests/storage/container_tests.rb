@@ -14,8 +14,8 @@ Shindo.tests("Fog::Storage[:hp] | container requests", ['hp']) do
       Fog::Storage[:hp].put_container('fogcontainertests')
     end
 
-    tests("#post_container('fogcontainertests', {'X-Container-Sync-Key' => 'keyd'})").succeeds do
-      Fog::Storage[:hp].post_container('fogcontainertests', {'X-Container-Meta-Foo' => 'd'})
+    tests("#post_container('fogcontainertests', {'X-Container-Meta-Foo' => 'foometa'})").succeeds do
+      Fog::Storage[:hp].post_container('fogcontainertests', {'X-Container-Meta-Foo' => 'foometa'})
     end
 
     tests("#get_container('fogcontainertests')").formats(@container_format) do
