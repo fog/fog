@@ -3,17 +3,17 @@ module Fog
     class HP
       class Real
 
-        # Update or create a container
+        # Create or update metadata for an existing container
         #
         # ==== Parameters
-        # * container<~String> - Name for container, should be < 256 bytes and must not contain '/'
-        #
+        # * container<~String> - Name for existing container, should be < 256 bytes and must not contain '/'
+        # * headers<~Hash> - Hash of metadata name/value pairs
         def post_container(container, headers = {})
           response = request(
             :expects  => 204,
             :headers  => headers,
             :method   => 'POST',
-            :path     => "#{Fog::HP.escape(container)}"
+            :path     => Fog::HP.escape(container)
           )
           response
         end
@@ -22,7 +22,7 @@ module Fog
 
       class Mock # :nodoc:all
 
-        def post_container(container_name, object_name, headers = {})
+        def post_container(container_name, headers = {})
           if self.data[:containers][container_name].nil?
             raise Fog::Storage::HP::NotFound
           end
