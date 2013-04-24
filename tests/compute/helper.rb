@@ -75,6 +75,7 @@ def compute_providers
         :end_port => 456,
         :protocol => 'tcp'
       },
+      :disk_offering_attributes => { :name => "new disk offering", :display_text => 'New Disk Offering' },
       :mocked => true
     },
     :glesys   => {

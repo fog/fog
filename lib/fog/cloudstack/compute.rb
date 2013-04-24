@@ -19,6 +19,8 @@ module Fog
 
       model_path 'fog/cloudstack/models/compute'
       model :address
+      model :disk_offering
+      collection :disk_offerings
       model :flavor
       collection :flavors
       model :job
@@ -46,6 +48,7 @@ module Fog
       request :authorize_security_group_ingress
       request :change_service_for_virtual_machine
       request :create_account
+      request :create_disk_offering
       request :create_domain
       request :create_load_balancer_rule
       request :create_network
@@ -58,6 +61,7 @@ module Fog
       request :create_volume
       request :create_zone
       request :delete_account
+      request :delete_disk_offering
       request :delete_domain
       request :delete_load_balancer_rule
       request :delete_port_forwarding_rule
