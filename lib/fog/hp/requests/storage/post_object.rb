@@ -24,16 +24,11 @@ module Fog
 
         def post_object(container_name, object_name, headers = {})
           response = Excon::Response.new
-          ### Take care of case of copy operation
-          source = headers['X-Copy-From']
-          # split source container and object
-          _, source_container_name, source_object_name = source.split('/')
-          # dup object into target object
-          source_container = self.data[:containers][source_container_name]
+          source_container = self.data[:containers][container_name]
           container = self.data[:containers][container_name]
           if (source_container && container)
             response.status = 202
-            source_object = source_container[:objects][source_object_name]
+            source_object = source_container[:objects][object_name]
             target_object = source_object.dup
             target_object.merge!({
               'Key'    => object_name,
