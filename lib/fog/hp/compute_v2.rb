@@ -227,7 +227,7 @@ module Fog
           rescue Excon::Errors::HTTPStatusError => error
             raise case error
             when Excon::Errors::NotFound
-              Fog::Compute::HP::NotFound.slurp(error)
+              Fog::Compute::HPV2::NotFound.slurp(error)
             else
               error
             end

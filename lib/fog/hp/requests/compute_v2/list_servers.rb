@@ -6,7 +6,7 @@ module Fog
         # List all servers (IDs and names only)
         #
         # ==== Parameters
-        # * options<~Hash>:
+        # * options<~Hash>: filter options
         #
         # ==== Returns
         # * response<~Excon::Response>:
@@ -20,7 +20,7 @@ module Fog
             :expects  => 200,
             :method   => 'GET',
             :path     => 'servers',
-            :query   => options
+            :query    => options
           )
         end
 

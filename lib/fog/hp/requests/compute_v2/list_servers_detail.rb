@@ -5,26 +5,51 @@ module Fog
 
         # List all servers details
         #
+        # ==== Parameters
+        # * options<~Hash>: filter options
+        #
         # ==== Returns
         # * response<~Excon::Response>:
         #   * body<~Hash>:
         #   * 'servers'<~Array>:
-        #     * 'id'<~Integer> - UUId of server
-        #     * 'name<~String> - Name of server
-        #     * 'imageId'<~Integer> - Id of image used to boot server
-        #     * 'flavorId'<~Integer> - Id of servers current flavor
+        #   * 'server'<~Hash>:
         #     * 'hostId'<~String>
-        #     * 'status'<~String> - Current server status
-        #     * 'progress'<~Integer> - Progress through current status
         #     * 'addresses'<~Hash>:
-        #       * 'public'<~Array> - public address strings
-        #       * 'private'<~Array> - private address strings
+        #       * <network_name><~Array> - user defined network name
+        #         * 'version'<~Array> - IP version, 4 or 6
+        #         * 'addr'<~Array> - public or private ip address
+        #     * 'links'<~Array> - array of server links
+        #     * 'key_name'<~String> - Name of the keypair associated with the server
+        #     * 'image'<~Hash>
+        #       * 'id'<~String> - UUId of image used to create the server
+        #       * 'links'<~Array> - array of image links
+        #     * 'flavor'<~Hash>
+        #       * 'id'<~String> - UUId of flavor used to create the server
+        #       * 'links'<~Array> - array of flavor links
+        #     * 'id'<~String> - UUId of the server
+        #     * 'security_groups'<~Array>
+        #       * 'name'<~String> - Name of the security group associated with the server
+        #     * 'user_id'<~String> - Id of the user that created the server
+        #     * 'name<~String> - Name of the server
+        #     * 'tenant_id'<~String> - Id of the tenant that created the server
+        #     * 'accessIPv4'<~String> - IPv4 IP address
+        #     * 'accessIPv6'<~String> - IPv6 IP address
+        #     * 'progress'<~Integer> - Progress through current status
+        #     * 'created'<~String> - UTC datetime for when the server was created
+        #     * 'updated'<~String> - UTC datetime for when the server was last updated
+        #     * 'status'<~String> - Current server status
+        #     * 'config_drive'<~String> - Config drive setting, 'true' or 'false'
         #     * 'metadata'<~Hash> - metadata
-        def list_servers_detail
+        #     * 'OS-EXT-AZ:availability_zone'<~String> - Availability zone where the server is created. e.g. 'az1', 'az2' etc.
+        #     * 'OS-EXT-STS:power_state'<~String> - Extended power state, either 0 or 1
+        #     * 'OS-EXT-STS:task_state'<~String> - Extended task state
+        #     * 'OS-EXT-STS:vm_state'<~String> - Extended vm state
+        def list_servers_detail(options = {})
           request(
             :expects  => 200,
             :method   => 'GET',
-            :path     => 'servers/detail'
+            :path     => 'servers/detail',
+            :query    => options
           )
         end
 
@@ -32,7 +57,7 @@ module Fog
 
       class Mock
 
-        def list_servers_detail
+        def list_servers_detail(options = {})
           response = Excon::Response.new
 
           servers = self.data[:servers].values

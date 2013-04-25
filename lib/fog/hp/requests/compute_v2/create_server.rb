@@ -6,9 +6,9 @@ module Fog
         # Create a new server
         #
         # ==== Parameters
-        # * name<~String> - Name of server
-        # * flavor_id<~Integer> - Id of flavor for server
-        # * image_id<~Integer> - Id of image for server. If block_device_mapping is passed, this is ignored.
+        # * 'name'<~String> - Name of server
+        # * 'flavor_id'<~String> - UUId of flavor for server
+        # * 'image_id'<~String> - UUId of image for server. If block_device_mapping is passed, this is ignored.
         # * options<~Hash>:
         #   * 'availability_zone'<~String> - Availability zone where the server should be created. Defaults to 'az2'.
         #   * 'metadata'<~Hash> - Up to 5 key value pairs containing 255 bytes of info
@@ -20,6 +20,8 @@ module Fog
         #     * 'file'<~Hash>:
         #       * 'contents'<~String> - Contents of file (10kb total of contents)
         #       * 'path'<~String> - Path to file (255 bytes total of path strings)
+        #   * 'config_drive'<~String> - Disk accessible to the server that contains a FAT filesystem. Values true/false.
+        #   * 'user_data'<~String> - Base64-encoded user data string
         #   * 'accessIPv4'<~String> - IPv4 IP address
         #   * 'accessIPv6'<~String> - IPv6 IP address
         #
