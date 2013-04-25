@@ -11,6 +11,7 @@ module Fog
         # * 'image_id'<~String> - UUId of image for server. If block_device_mapping is passed, this is ignored.
         # * options<~Hash>:
         #   * 'availability_zone'<~String> - Availability zone where the server should be created. Defaults to 'az2'.
+        #   * 'networks'<~Array> - List of network ids to be associated with the server at creation.
         #   * 'metadata'<~Hash> - Up to 5 key value pairs containing 255 bytes of info
         #   * 'min_count'<~Integer> - Number of servers to create. Defaults to 1.
         #   * 'max_count'<~Integer> - Max. number of servers to create. Defaults to being equal to min_count.
@@ -53,9 +54,7 @@ module Fog
         #     * 'uuid'<~String> - uuid of the server
         #     * 'config_drive'<~String> - config drive
         #     * 'security_groups'<~Array of Hash>
-        #       * 'id'<~Integer> - id of the security group
         #       * 'name'<~String> - name of the security group
-        #       * 'links'<~Array> - array of security group links
         #     * 'key_name'<~String> - name of the keypair
         #     * 'adminPass'<~String> - admin password for server
         def create_server(name, flavor_id, image_id, options = {})
@@ -94,6 +93,16 @@ module Fog
             end
           end
 
+          # add capability to specify a network id while creating a server
+          if options['networks']
+            data['server']['networks'] = []
+            for net_id in options['networks']
+              data['server']['networks'] << {
+                'uuid' => net_id
+              }
+            end
+          end
+
           request(
             :body     => Fog::JSON.encode(data),
             :expects  => 202,
@@ -115,26 +124,27 @@ module Fog
           else
             sec_group_name = "default"
           end
+
+          id = Fog::HP::Mock.uuid.to_s
           data = {
-            'addresses' => { "private"=>[{"version"=>4, "addr"=>Fog::HP::Mock.ip_address}] },
+            'addresses' => { "custom"=>[{"version"=>4, "addr"=>Fog::HP::Mock.ip_address}] },
             'flavor'    => {"id"=>"#{flavor_id}", "links"=>[{"href"=>"http://nova1:8774/admin/flavors/#{flavor_id}", "rel"=>"bookmark"}]},
-            'id'        => Fog::Mock.random_numbers(6).to_i,
+            'id'        => id,
             'image'     => {"id"=>"#{image_id}", "links"=>[{"href"=>"http://nova1:8774/admin/images/#{image_id}", "rel"=>"bookmark"}]},
-            'links'     => [{"href"=>"http://nova1:8774/v1.1/admin/servers/5", "rel"=>"self"}, {"href"=>"http://nova1:8774/admin/servers/5", "rel"=>"bookmark"}],
+            'links'     => [{"href"=>"http://nova1:8774/v1.1/admin/servers/#{id}", "rel"=>"self"}, {"href"=>"http://nova1:8774/admin/servers/#{id}", "rel"=>"bookmark"}],
             'hostId'    => "123456789ABCDEF01234567890ABCDEF",
             'metadata'  => options['metadata'] || {},
             'name'      => name || "server_#{rand(999)}",
             'accessIPv4'  => options['accessIPv4'] || "",
             'accessIPv6'  => options['accessIPv6'] || "",
             'progress'  => 0,
-            'status'    => 'BUILD',
+            'status'    => 'ACTIVE',
             'created'   => "2012-01-01T13:32:20Z",
             'updated'   => "2012-01-01T13:32:20Z",
             'user_id'   => Fog::HP::Mock.user_id.to_s,
-            'tenant_id' => Fog::HP::Mock.user_id.to_s,
-            'uuid'      => "95253a45-9ead-43c6-90b3-65da2ef048b3",
+            'tenant_id' => Fog::Mock.random_numbers(14).to_s,
             'config_drive' => "",
-            'security_groups' => [{"name"=>"#{sec_group_name}", "links"=>[{"href"=>"http://nova1:8774/v1.1/admin//os-security-groups/111", "rel"=>"bookmark"}], "id"=>111}],
+            'security_groups' => [{"name"=>"#{sec_group_name}"}],
             'key_name'  => options['key_name'] || ""
           }
           self.data[:last_modified][:servers][data['id']] = Time.now
