@@ -10,6 +10,7 @@ module Fog
         attribute :path, :aliases => 'Path'
         attribute :arn, :aliases => 'Arn'
         attribute :user_id, :aliases => 'UserId'
+        attribute :created_at, :aliases => 'CreateDate', :type => :time
 
         def save
           requires :id

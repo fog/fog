@@ -43,10 +43,11 @@ module Fog
           #FIXME: none of the options are currently supported
           Excon::Response.new.tap do |response|
             response.body = {'Users' => data[:users].map do |user, data|
-                                          { 'UserId'   => data[:user_id],
-                                            'Path'     => data[:path],
-                                            'UserName' => user,
-                                            'Arn'      => (data[:arn]).strip }
+                                          { 'UserId'     => data[:user_id],
+                                            'Path'       => data[:path],
+                                            'UserName'   => user,
+                                            'Arn'        => (data[:arn]).strip,
+                                            'CreateDate' => data[:created_at]}
                                         end,
                              'IsTruncated' => false,
                              'RequestId'   => Fog::AWS::Mock.request_id }

@@ -44,10 +44,11 @@ module Fog
             Excon::Response.new.tap do |response|
               response.status = 200
               response.body = { 'User' => {
-                                           "UserId"   => data[:users][user_name][:user_id],
-                                           "Path"     => path,
-                                           "UserName" => user_name,
-                                           "Arn"      => (data[:users][user_name][:arn]).strip
+                                           "UserId"     => data[:users][user_name][:user_id],
+                                           "Path"       => path,
+                                           "UserName"   => user_name,
+                                           "Arn"        => (data[:users][user_name][:arn]).strip,
+                                           "CreateDate" => data[:users][user_name][:created_at]
                                            },
                                 'RequestId' => Fog::AWS::Mock.request_id
                                }
