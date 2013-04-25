@@ -9,6 +9,8 @@ module Fog
         # * 'server_id'<~String> - UUId of the server to update
         # * options<~Hash>:
         #   * 'name'<~String> - New name for server
+        #   * 'accessIPv4'<~String> - IPv4 IP address
+        #   * 'accessIPv6'<~String> - IPv6 IP address
         #
         # ==== Returns
         # * response<~Excon::Response>:
