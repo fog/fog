@@ -14,6 +14,8 @@ module Fog
             case name
             when 'Arn', 'UserId', 'UserName', 'Path'
               @user[name] = value
+            when 'CreateDate'
+              @user[name] = Time.parse(value)
             when 'member'
               @response['Users'] << @user
               @user = {}
