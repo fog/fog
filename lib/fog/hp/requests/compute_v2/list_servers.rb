@@ -5,6 +5,9 @@ module Fog
 
         # List all servers (IDs and names only)
         #
+        # ==== Parameters
+        # * options<~Hash>:
+        #
         # ==== Returns
         # * response<~Excon::Response>:
         #   * body<~Hash>:
@@ -12,11 +15,12 @@ module Fog
         #     * 'id'<~Integer> - UUId of server
         #     * 'name'<~String> - Name of server
         #     * 'links'<~Array> - array of server links
-        def list_servers
+        def list_servers(options = {})
           request(
             :expects  => 200,
             :method   => 'GET',
-            :path     => 'servers'
+            :path     => 'servers',
+            :query   => options
           )
         end
 
@@ -24,12 +28,12 @@ module Fog
 
       class Mock
 
-        def list_servers
+        def list_servers(options = {})
           response = Excon::Response.new
           data = list_servers_detail.body['servers']
           servers = []
           for server in data
-            servers << server.reject { |key, value| !['id', 'name', 'links', 'uuid'].include?(key) }
+            servers << server.reject { |key, value| !['id', 'name', 'links'].include?(key) }
           end
           response.status = 200
           response.body = { 'servers' => servers }
