@@ -6,7 +6,7 @@ module Fog
         # Delete an existing server
         #
         # ==== Parameters
-        # * id<~Integer> - Id of server to delete
+        # * 'server_id'<~String> - UUId of the server to delete
         #
         def delete_server(server_id)
           request(
@@ -33,7 +33,7 @@ module Fog
             end
             response
           else
-            raise Fog::Compute::HP::NotFound
+            raise Fog::Compute::HPV2::NotFound
           end
         end
 
