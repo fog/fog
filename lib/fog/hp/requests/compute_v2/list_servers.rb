@@ -7,6 +7,13 @@ module Fog
         #
         # ==== Parameters
         # * options<~Hash>: filter options
+        #   * 'name'<~String> - Filters by the name of the server
+        #   * 'image'<~String> - Filters by the UUId of the image
+        #   * 'flavor'<~String> - Filters by the UUId of the flavor
+        #   * 'status'<~String> - Filters by the status of the server
+        #   * 'marker'<~String> - The ID of the last item in the previous list
+        #   * 'limit'<~Integer> - Sets the page size
+        #   * 'changes-since'<~DateTime> - Filters by the changes-since time. The list contains servers that have been deleted since the changes-since time.
         #
         # ==== Returns
         # * response<~Excon::Response>:
@@ -17,7 +24,7 @@ module Fog
         #     * 'links'<~Array> - array of server links
         def list_servers(options = {})
           request(
-            :expects  => 200,
+            :expects  => [200, 203],
             :method   => 'GET',
             :path     => 'servers',
             :query    => options
