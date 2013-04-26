@@ -31,7 +31,7 @@ module Fog
       #request :attach_volume
       #request :change_password_server
       #request :confirm_resized_server
-      #request :create_image
+      request :create_image
       #request :create_key_pair
       request :create_server
       #request :create_persistent_server
@@ -62,12 +62,12 @@ module Fog
       #request :list_server_volumes
       request :list_servers
       request :list_servers_detail
-      #request :reboot_server
-      #request :rebuild_server
+      request :reboot_server
+      request :rebuild_server
       #request :release_address
       #request :resize_server
       #request :revert_resized_server
-      #request :server_action
+      request :server_action
       #request :set_metadata
       #request :update_meta
       #request :update_metadata

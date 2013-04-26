@@ -47,8 +47,6 @@ Shindo.tests("Fog::Compute::HPV2 | server requests", ['hp', 'v2', 'compute']) do
       data
     end
 
-    #Fog::Compute[:hp].servers.get(@server_id).wait_for { ready? }
-
     tests("#get_server_details(#{@server_id})").formats(@server_format) do
       service.get_server_details(@server_id).body['server']
     end
@@ -61,24 +59,14 @@ Shindo.tests("Fog::Compute::HPV2 | server requests", ['hp', 'v2', 'compute']) do
       service.list_servers_detail.body
     end
 
-    #Fog::Compute[:hp].servers.get(@server_id).wait_for { ready? }
-
     tests("#update_server(#{@server_id}, :name => 'fogupdateserver')").succeeds do
       service.update_server(@server_id, :name => 'fogupdateserver')
     end
 
-    #Fog::Compute[:hp].servers.get(@server_id).wait_for { ready? }
-
     #tests("#reboot_server(#{@server_id}, 'SOFT')").succeeds do
     #  Fog::Compute[:hp].reboot_server(@server_id, 'SOFT')
     #end
-    #
-    #Fog::Compute[:hp].servers.get(@server_id).wait_for { ready? }
-    #
-    #tests("#reboot_server(#{@server_id}, 'HARD')").succeeds do
-    #  Fog::Compute[:hp].reboot_server(@server_id, 'HARD')
-    #end
-    #
+
     #Fog::Compute[:hp].servers.get(@server_id).wait_for { ready? }
     #
     #tests("#change_password_server(#{@server_id}, 'new_password')").succeeds do
