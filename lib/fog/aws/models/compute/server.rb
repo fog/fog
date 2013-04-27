@@ -45,6 +45,7 @@ module Fog
         attribute :tags,                  :aliases => 'tagSet'
         attribute :user_data
         attribute :vpc_id,                :aliases => 'vpcId'
+        attribute :life_cycle,            :aliases => 'instanceLifecycle'
 
         attr_accessor :password
         attr_writer   :iam_instance_profile_name, :iam_instance_profile_arn
