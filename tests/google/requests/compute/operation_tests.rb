@@ -2,52 +2,43 @@ Shindo.tests('Fog::Compute[:google] | operation requests', ['google']) do
 
   @google = Fog::Compute[:google]
 
-  @get_operation_format = {
+  @list_global_operations_format = {
+    'kind' => String,
+    'id' => String,
+    'items' => [{
       'kind' => String,
-      'error' => { 'errors' => [] },
       'id' => String,
-      'selfLink' => String,
       'name' => String,
+      'operationType' => String,
       'targetLink' => String,
+      'targetId' => String,
       'status' => String,
       'user' => String,
       'progress' => Integer,
       'insertTime' => String,
       'startTime' => String,
-      'httpErrorStatusCode' => Integer,
-      'httpErrorMessage' => String,
-      'operationType' => String
-  }
-
-  @list_global_operations_format = {
-      'kind' => String,
-      'id' => String,
+      'endTime' => String,
       'selfLink' => String,
-      'nextPageToken' => String,
-      'items' => []
+    }],
+    'selfLink' => String,
   }
 
   @list_zone_operations_format = {
-      'kind' => String,
-      'id' => String,
-      'selfLink' => String,
-      'nextPageToken' => String,
-      'items' => []
+    'kind' => String,
+    'id' => String,
+    'selfLink' => String,
+    #'items' => []
   }
 
   tests('success') do
-
-    tests("#get_operation").formats(@get_operation_format) do
-      operation_name = @google.list_global_operations.body["items"][0]["name"]
-      @google.get_operation(operation_name).body
-    end
 
     tests("#list_global_operations").formats(@list_global_operations_format) do
       @google.list_global_operations.body
     end
 
     tests("#list_zone_operations").formats(@list_zone_operations_format) do
-      @google.list_zone_operations.body
+      zone_name = @google.list_zones.body["items"][0]["name"]
+      @google.list_zone_operations(zone_name).body
     end
 
   end

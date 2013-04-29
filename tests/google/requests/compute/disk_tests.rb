@@ -66,6 +66,7 @@ Shindo.tests('Fog::Compute[:google] | disk requests', ['google']) do
     disk_size = '2'
     zone_name = 'us-central1-a'
 
+    # These will all fail if errors happen on insert
     tests("#insert_disk").formats(@insert_disk_format) do
       @google.insert_disk(disk_name, disk_size, zone_name).body
     end

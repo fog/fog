@@ -27,7 +27,6 @@ module Fog
       request :get_image
       request :get_machine_type
       request :get_network
-      request :get_operation
       request :get_zone
 
       request :delete_disk
