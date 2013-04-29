@@ -10,14 +10,24 @@ Shindo.tests('Fog::Compute[:google] | zone requests', ['google']) do
       'name' => String,
       'description' => String,
       'status' => String,
-      'maintenanceWindows' => []
+      'maintenanceWindows' => [{
+        'name' => String,
+        'description' => String,
+        'beginTime' => String,
+        'endTime' => String,
+      }],
+      'quotas' => [{
+        'metric' => String,
+        'limit' => Float,
+        'usage' => Float},
+      ],
   }
 
   @list_zones_format = {
       'kind' => String,
       'id' => String,
       'selfLink' => String,
-      'items' => []
+      'items' => [@get_zone_format]
   }
 
   tests('success') do
