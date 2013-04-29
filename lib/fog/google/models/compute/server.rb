@@ -40,8 +40,11 @@ module Fog
           requires :machine_type
           requires :zone_name
 
-          data = service.insert_server(name, image_name, zone_name,
-                                          machine_type)
+          data = service.insert_server(
+            name,
+            image_name,
+            zone_name,
+            machine_type)
           service.servers.merge_attributes()
         end
 

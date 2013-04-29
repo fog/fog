@@ -49,7 +49,7 @@ Shindo.tests('Fog::Compute[:google] | image requests', ['google']) do
       'kind' => String,
       'id' => String,
       'selfLink' => String,
-      'items' => []
+      'items' => [@get_image_format]
   }
 
   tests('success') do
@@ -62,6 +62,7 @@ Shindo.tests('Fog::Compute[:google] | image requests', ['google']) do
     end
 
     tests("#get_image").formats(@get_image_format) do
+      @google.insert_image(image_name, source_type)
       @google.get_image(image_name).body
     end
 
@@ -70,6 +71,7 @@ Shindo.tests('Fog::Compute[:google] | image requests', ['google']) do
     end
 
     tests("#delete_image").formats(@delete_image_format) do
+      @google.insert_image(image_name, source_type)
       @google.delete_image(image_name).body
     end
 
