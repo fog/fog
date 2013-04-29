@@ -12,7 +12,6 @@ module Fog
         # * response<~Excon::Response>:
         #   * body<~Hash>:
         #   * 'servers'<~Array>:
-        #   * 'server'<~Hash>:
         #     * 'hostId'<~String>
         #     * 'addresses'<~Hash>:
         #       * <network_name><~Array> - user defined network name
@@ -39,7 +38,7 @@ module Fog
         #     * 'updated'<~String> - UTC datetime for when the server was last updated
         #     * 'status'<~String> - Current server status
         #     * 'config_drive'<~String> - Config drive setting, 'true' or 'false'
-        #     * 'metadata'<~Hash> - metadata
+        #     * 'metadata'<~Hash> - metadata for the server
         #     * 'OS-EXT-AZ:availability_zone'<~String> - Availability zone where the server is created. e.g. 'az1', 'az2' etc.
         #     * 'OS-EXT-STS:power_state'<~String> - Extended power state, either 0 or 1
         #     * 'OS-EXT-STS:task_state'<~String> - Extended task state

@@ -35,7 +35,7 @@ module Fog
       #request :create_key_pair
       request :create_server
       #request :create_persistent_server
-      #request :delete_image
+      request :delete_image
       #request :delete_key_pair
       #request :delete_meta
       request :delete_server
@@ -44,7 +44,7 @@ module Fog
       #request :get_address
       #request :get_console_output
       request :get_flavor_details
-      #request :get_image_details
+      request :get_image_details
       #request :get_meta
       #request :get_windows_password
       request :get_server_details
@@ -52,8 +52,8 @@ module Fog
       #request :list_addresses
       request :list_flavors
       request :list_flavors_detail
-      #request :list_images
-      #request :list_images_detail
+      request :list_images
+      request :list_images_detail
       #request :list_key_pairs
       #request :list_metadata
       #request :list_server_addresses

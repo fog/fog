@@ -30,7 +30,7 @@ module Fog
           if list_servers_detail.body['servers'].detect {|_| _['id'] == server_id}
             response.status = 202
 
-            image_id = Fog::Mock.uuid.to_s
+            image_id = Fog::HP::Mock.uuid.to_s
 
             data = {
               'id'        => image_id,
@@ -39,6 +39,8 @@ module Fog
               'metadata'  => metadata || {},
               'name'      => name || "image_#{rand(999)}",
               'progress'  => 0,
+              'minDisk'   => 0,
+              'minRam'    => 0,
               'status'    => 'SAVING',
               'updated'   => "2012-01-01T13:32:20Z",
               'created'   => "2012-01-01T13:32:20Z"
