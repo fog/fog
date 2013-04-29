@@ -37,7 +37,7 @@ module Fog
       #request :create_persistent_server
       request :delete_image
       request :delete_key_pair
-      #request :delete_meta
+      request :delete_meta
       request :delete_server
       #request :detach_volume
       #request :disassociate_address
@@ -46,7 +46,7 @@ module Fog
       request :get_flavor_details
       request :get_image_details
       request :get_key_pair
-      #request :get_meta
+      request :get_meta
       #request :get_windows_password
       request :get_server_details
       #request :get_vnc_console
@@ -56,7 +56,7 @@ module Fog
       request :list_images
       request :list_images_detail
       request :list_key_pairs
-      #request :list_metadata
+      request :list_metadata
       #request :list_server_addresses
       #request :list_server_private_addresses
       #request :list_server_public_addresses
@@ -69,9 +69,9 @@ module Fog
       #request :resize_server
       #request :revert_resized_server
       request :server_action
-      #request :set_metadata
-      #request :update_meta
-      #request :update_metadata
+      request :set_metadata
+      request :update_meta
+      request :update_metadata
       request :update_server
 
       module Utils
