@@ -14,8 +14,16 @@ module Fog
           load(data)
         end
 
-        def get(identity)
-          data = service.get_server(identity).body
+        def get(identity, zone=nil)
+          data = nil
+          if zone.nil?
+            service.list_zones.body['items'].each do |zone|
+              data = service.get_server(identity, zone['name']).body
+              break if data["code"] == 200
+            end
+          else
+            data = service.get_server(identity, zone).body
+          end
           new(data)
         rescue Excon::Errors::NotFound
           nil
