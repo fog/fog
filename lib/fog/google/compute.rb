@@ -17,7 +17,6 @@ module Fog
       request :list_images
       request :list_machine_types
       request :list_networks
-      request :list_operations
       request :list_zones
 
       request :get_server
