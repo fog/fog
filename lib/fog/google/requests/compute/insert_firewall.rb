@@ -20,7 +20,7 @@ module Fog
           }
           body_object = {
             "name" => firewall_name,
-            "network" => @api_url + @project + "/networks/#{network}",
+            "network" => "#{@api_url}#{@project}/global/networks/#{network}",
             "sourceRanges" => source_range,
             "allowed" => allowed
           }
