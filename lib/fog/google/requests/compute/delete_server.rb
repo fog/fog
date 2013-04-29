@@ -12,10 +12,11 @@ module Fog
 
       class Real
 
-        def delete_server(server_name)
+        def delete_server(server_name, zone_name)
           api_method = @compute.instances.delete
           parameters = {
             'project' => @project,
+            'zone' => zone_name,
             'instance' => server_name
           }
 

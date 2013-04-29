@@ -12,10 +12,11 @@ module Fog
 
       class Real
 
-        def get_server(server_name)
+        def get_server(server_name, zone_name)
           api_method = @compute.instances.get
           parameters = {
             'project' => @project,
+            'zone' => zone_name,
             'instance' => server_name
           }
 

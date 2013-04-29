@@ -12,10 +12,11 @@ module Fog
 
       class Real
 
-        def list_servers
+        def list_servers(zone_name)
           api_method = @compute.instances.list
           parameters = {
-            'project' => @project
+            'project' => @project,
+            'zone' => zone_name,
           }
 
           result = self.build_result(api_method, parameters)

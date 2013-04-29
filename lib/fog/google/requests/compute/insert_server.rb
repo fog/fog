@@ -19,15 +19,15 @@ module Fog
           api_method = @compute.instances.insert
           parameters = {
             'project' => @project,
+            'zone' => zone_name,
           }
           body_object = {
             'name' => server_name,
             'image' => @api_url + "google/images/#{image_name}",
             'zone' => @api_url + @project + "/zones/#{zone_name}",
-            'machineType' => @api_url + @project +
-              "/machineTypes/#{machine_name}",
+            'machineType' => @api_url + @project + "/machineTypes/#{machine_name}",
             'networkInterfaces' => [{
-              'network' => @api_url + @project + "/networks/#{network_name}"
+              'network' => @api_url + @project + "/global/networks/#{network_name}"
             }]
           }
 
