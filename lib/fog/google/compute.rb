@@ -15,7 +15,6 @@ module Fog
       request :list_disks
       request :list_firewalls
       request :list_images
-      request :list_kernels
       request :list_machine_types
       request :list_networks
       request :list_operations
@@ -25,7 +24,6 @@ module Fog
       request :get_disk
       request :get_firewall
       request :get_image
-      request :get_kernel
       request :get_machine_type
       request :get_network
       request :get_operation
@@ -99,6 +97,7 @@ module Fog
 
         def build_result(api_method, parameters, body_object=nil)
           if body_object
+            #p api_method, parameters
             result = @client.execute(
               :api_method => api_method,
               :parameters => parameters,
