@@ -49,13 +49,12 @@ Shindo.tests('Fog::Compute[:google] | server requests', ['google']) do
       'kind' => String,
       'id' => String,
       'selfLink' => String,
-      'items' => []
   }
 
   tests('success') do
 
     server_name = 'new-server-test'
-    image_name = "gcel-12-04-v20130225"
+    image_name = "gcel-12-04-v20130325"
     machine_type = "n1-standard-1"
     zone_name = "us-central1-a"
 
@@ -69,6 +68,13 @@ Shindo.tests('Fog::Compute[:google] | server requests', ['google']) do
     end
 
     tests("#get_server").formats(@get_server_format) do
+      @google.insert_server(
+        server_name,
+        image_name,
+        zone_name,
+        machine_type
+      )
+
       @google.get_server(server_name, zone_name).body
     end
 
@@ -77,6 +83,12 @@ Shindo.tests('Fog::Compute[:google] | server requests', ['google']) do
     end
 
     tests("#delete_server").formats(@delete_server_format) do
+      @google.insert_server(
+        server_name,
+        image_name,
+        zone_name,
+        machine_type
+      )
       @google.delete_server(server_name, zone_name).body
     end
 
