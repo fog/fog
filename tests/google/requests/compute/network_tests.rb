@@ -45,7 +45,7 @@ Shindo.tests('Fog::Compute[:google] | network requests', ['google']) do
       'kind' => String,
       'id' => String,
       'selfLink' => String,
-      'items' => []
+      'items' => [@get_network_format]
   }
 
   tests('success') do
