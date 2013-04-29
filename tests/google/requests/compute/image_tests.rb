@@ -54,7 +54,7 @@ Shindo.tests('Fog::Compute[:google] | image requests', ['google']) do
 
   tests('success') do
 
-    image_name = 'ubuntu-12-04-v20120912'
+    image_name = 'gcel-12-04-v20130325'
     source_type = 'RAW'
 
     tests("#insert_image").formats(@insert_image_format) do
