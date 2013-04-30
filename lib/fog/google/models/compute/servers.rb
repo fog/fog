@@ -24,7 +24,12 @@ module Fog
           else
             data = service.get_server(identity, zone).body
           end
-          new(data)
+
+          if data["code"] != 200
+            nil
+          else
+            new(data)
+          end
         rescue Excon::Errors::NotFound
           nil
         end

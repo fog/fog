@@ -10,6 +10,5 @@ Shindo.tests("Fog::Compute[:google] | server model", ['google']) do
     test('#destroy') do
       @instance.destroy
     end
-
   end
 end
