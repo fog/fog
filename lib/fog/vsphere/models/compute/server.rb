@@ -51,7 +51,7 @@ module Fog
           self.instance_uuid ||= id # TODO: remvoe instance_uuid as it can be replaced with simple id
           initialize_interfaces
           initialize_volumes
-          annotations.vm = self if annotations.is_a? Fog::Compute::Vsphere::Annotations
+          annotations.set_vm_for_each_annotation(self) if annotations.is_a? Fog::Compute::Vsphere::Annotations
         end
 
         # Lazy Loaded Attributes
@@ -196,10 +196,6 @@ module Fog
             self.attributes.delete(attr)
           end
           super
-        end
-
-        def raw_vm
-          attributes['raw_vm']
         end
 
         private

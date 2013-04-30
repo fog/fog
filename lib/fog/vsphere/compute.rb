@@ -64,6 +64,7 @@ module Fog
       request :vm_reconfig_cpus
       request :vm_config_vnc
       request :create_folder
+      request :update_annotation
 
       module Shared
 
@@ -124,7 +125,7 @@ module Fog
           Hash[ATTR_TO_PROP.map { |k,v| [k.to_s, props[v]] }].tap do |attrs|
             attrs['id'] ||= vm_mob_ref._ref
             attrs['mo_ref'] = vm_mob_ref._ref
-            attrs['raw_vm'] = vm_mob_ref
+
             # The name method "magically" appears after a VM is ready and
             # finished cloning.
             if attrs['hypervisor'].kind_of?(RbVmomi::VIM::HostSystem)
@@ -136,14 +137,14 @@ module Fog
             end
 
             # setting annotations
-            attrs['annotations'] = Fog::Compute::Vsphere::Annotations.new(:service => @connection)
+            attrs['annotations'] = Fog::Compute::Vsphere::Annotations.new(:service => self)
             vals = attrs['customValue'] ? attrs['customValue'].inject({}) do |vs, cv|
               vs[cv.key] = cv.value
               vs
             end : {}
             attrs['availableField'].each do |af|
               attrs['annotations'] << attrs['annotations'].new(:key => af.name.downcase.to_sym, :value => vals[af.key])
-            end if attrs['avilableField']
+            end if attrs['availableField']
             attrs.delete 'customValue'
             attrs.delete 'availableField'
 

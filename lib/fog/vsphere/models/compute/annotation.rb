@@ -5,10 +5,12 @@ module Fog
 
         identity  :key
         attribute :value
+        attribute :vm
 
         def update val
+          requires :vm, :key, :value
           val = val.to_s
-          collection.vm.raw_vm.setCustomValue(:key => key, :value => val)
+          service.update_annotation vm.id, key, val
           self.value = val
         end
       end
