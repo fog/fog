@@ -24,15 +24,16 @@ module Fog
         end
 
         def public_ip_address
-          self.network_interfaces[0]["networkIP"]
+          p self.network_interfaces
+          if self.network_interfaces.count
+            self.network_interfaces[0]["networkIP"]
+          else
+            nil
+          end
         end
 
         def ready?
           data = service.get_server(self.name, self.zone_name).body
-          data.delete("zone")
-          data.delete("machineType")
-          data.delete("image")
-          data.delete("networkInterfaces")
           self.merge_attributes(data)
           self.state == RUNNING_STATE
         end
