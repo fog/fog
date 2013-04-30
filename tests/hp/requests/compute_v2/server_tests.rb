@@ -63,23 +63,18 @@ Shindo.tests("Fog::Compute::HPV2 | server requests", ['hp', 'v2', 'compute']) do
       service.update_server(@server_id, :name => 'fogupdateserver')
     end
 
-    #tests("#reboot_server(#{@server_id}, 'SOFT')").succeeds do
-    #  Fog::Compute[:hp].reboot_server(@server_id, 'SOFT')
-    #end
+    tests("#reboot_server(#{@server_id}, 'SOFT')").succeeds do
+      pending unless Fog.mocking?
+      service.reboot_server(@server_id, 'SOFT')
+    end
 
-    #Fog::Compute[:hp].servers.get(@server_id).wait_for { ready? }
-    #
-    #tests("#change_password_server(#{@server_id}, 'new_password')").succeeds do
-    #  Fog::Compute[:hp].change_password_server(@server_id, 'new_password')
+    tests("#get_console_output('#{@server_id}', 10)").formats(@get_console_output_format) do
+      service.get_console_output(@server_id, 10).body
+    end
+
+    #tests("#get_vnc_console('#{@server_id}', 'novnc')").succeeds do
+    #  service.get_console_output(@server_id, 'novnc')
     #end
-    #
-    #Fog::Compute[:hp].servers.get(@server_id).wait_for { ready? }
-    #
-    #tests("#get_console_output('#{@server_id}', 10)").formats(@get_console_output_format) do
-    #  Fog::Compute[:hp].get_console_output(@server_id, 10).body
-    #end
-    #
-    #Fog::Compute[:hp].servers.get(@server_id).wait_for { ready? }
 
     tests("#delete_server(#{@server_id})").succeeds do
       service.delete_server(@server_id)
@@ -101,12 +96,16 @@ Shindo.tests("Fog::Compute::HPV2 | server requests", ['hp', 'v2', 'compute']) do
       service.update_server(0, :name => 'fognonserver')
     end
 
-    #tests('#reboot_server(0)').raises(Fog::Compute::HPV2::NotFound) do
-    #  service.reboot_server(0)
-    #end
-    #
-    #tests("#change_password_server(0}, 'new_password')").raises(Excon::Errors::InternalServerError) do
-    #  service.change_password_server(0, 'new_password')
+    tests('#reboot_server(0)').raises(Fog::Compute::HPV2::NotFound) do
+      service.reboot_server(0)
+    end
+
+    tests('#get_console_output(0, 10)').raises(Fog::Compute::HPV2::NotFound) do
+      service.get_console_output(0, 10).body
+    end
+
+    #tests("#get_vnc_console(0, 'novnc')").raises(Fog::Compute::HPV2::NotFound) do
+    #  service.get_console_output(0, 'novnc')
     #end
 
   end

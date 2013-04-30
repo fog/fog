@@ -20,7 +20,7 @@ module Fog
         def reboot_server(server_id, type = 'SOFT')
           response = Excon::Response.new
           if list_servers_detail.body['servers'].detect {|_| _['id'] == server_id}
-            response.body['status'] = type == 'SOFT'? 'REBOOT' : 'HARD_REBOOT'
+            self.data[:servers][server_id]['status'] = (type == 'SOFT') ? 'REBOOT' : 'HARD_REBOOT'
             response.status = 202
             response
           else
