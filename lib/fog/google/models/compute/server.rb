@@ -46,7 +46,6 @@ module Fog
             zone_name,
             machine_type)
 
-          p data
           service.servers.merge_attributes()
         end
 
