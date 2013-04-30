@@ -15,8 +15,8 @@ module Fog
         def get_image(image_name)
           api_method = @compute.images.get
           parameters = {
-            'project' => 'google',
-            'image' => image_name
+            'image' => image_name,
+            'project' => @project,
           }
 
           result = self.build_result(api_method, parameters)

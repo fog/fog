@@ -54,15 +54,15 @@ Shindo.tests('Fog::Compute[:google] | image requests', ['google']) do
 
   tests('success') do
 
-    image_name = 'gcel-12-04-v20130325'
-    source_type = 'RAW'
+    image_name = 'test-image'
+    source = 'https://www.google.com/images/srpr/logo4w.png'
 
     tests("#insert_image").formats(@insert_image_format) do
-      @google.insert_image(image_name, source_type).body
+      @google.insert_image(image_name, source).body
     end
 
     tests("#get_image").formats(@get_image_format) do
-      @google.insert_image(image_name, source_type)
+      @google.insert_image(image_name, source)
       @google.get_image(image_name).body
     end
 
@@ -71,7 +71,7 @@ Shindo.tests('Fog::Compute[:google] | image requests', ['google']) do
     end
 
     tests("#delete_image").formats(@delete_image_format) do
-      @google.insert_image(image_name, source_type)
+      @google.insert_image(image_name, source)
       @google.delete_image(image_name).body
     end
 

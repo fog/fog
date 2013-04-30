@@ -12,18 +12,22 @@ module Fog
 
       class Real
 
-        def insert_image(image_name, source_type)
+        def insert_image(image_name, source)
           api_method = @compute.images.insert
           parameters = {
             'project' => @project,
           }
           body_object = {
             "name" => image_name,
-            "sourceType" => source_type
+            "sourceType" => "RAW",
+            "source" => source,
+            "preferredKernel" => '',
           }
 
-          result = self.build_result(api_method, parameters,
-                                     body_object=body_object)
+          result = self.build_result(
+            api_method,
+            parameters,
+            body_object=body_object)
           response = self.build_response(result)
         end
 
