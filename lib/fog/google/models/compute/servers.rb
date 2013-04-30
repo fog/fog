@@ -9,8 +9,15 @@ module Fog
 
         model Fog::Compute::Google::Server
 
-        def all
-          data = service.list_servers.body["items"] || []
+        def all(zone=nil)
+          if zone.nil?
+            data = []
+            service.list_zones.body['items'].each do |zone|
+              data += service.list_servers(zone['name']).body["items"] || []
+            end
+          else
+            data = service.list_servers(zone).body["items"] || []
+          end
           load(data)
         end
 
