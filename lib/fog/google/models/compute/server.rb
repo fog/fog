@@ -60,6 +60,16 @@ module Fog
           service.servers.merge_attributes(data)
         end
 
+        def setup(credentials = {})
+          requires :public_ip_address, :identity, :public_key, :username
+          Fog::SSH.new(public_ip_address, username, credentials).run([
+            %{mkdir .ssh},
+            %{echo "#{public_key}" >> ~/.ssh/authorized_keys},
+          ])
+        rescue Errno::ECONNREFUSED
+          sleep(1)
+          retry
+        end
       end
     end
   end
