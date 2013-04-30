@@ -4,7 +4,7 @@ module Fog
   module Compute
     class Google
 
-      class Server < Fog::Model
+      class Server < Fog::Compute::Server
 
         identity :name
         attribute :image_name, :aliases => 'image'
