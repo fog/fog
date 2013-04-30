@@ -12,7 +12,15 @@ module Fog
 
       class Real
 
-        def delete_server(server_name, zone_name)
+        def delete_server(server_name, zone_name=nil)
+          if zone_name.nil?
+            service.list_zones.body['items'].each do |zone|
+              service.get_server(identity, zone['name']).body
+              zone_name = zone['name']
+              break if data["code"] == 200
+            end
+          end
+
           api_method = @compute.instances.delete
           parameters = {
             'project' => @project,
