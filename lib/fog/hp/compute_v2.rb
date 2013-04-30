@@ -29,7 +29,6 @@ module Fog
       #request :allocate_address
       #request :associate_address
       #request :attach_volume
-      #request :change_password_server
       #request :confirm_resized_server
       request :create_image
       request :create_key_pair
@@ -42,14 +41,14 @@ module Fog
       #request :detach_volume
       #request :disassociate_address
       #request :get_address
-      #request :get_console_output
+      request :get_console_output
       request :get_flavor_details
       request :get_image_details
       request :get_key_pair
       request :get_meta
       #request :get_windows_password
       request :get_server_details
-      #request :get_vnc_console
+      request :get_vnc_console
       #request :list_addresses
       request :list_flavors
       request :list_flavors_detail
