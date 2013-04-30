@@ -27,6 +27,12 @@ module Fog
         end
 
         def ready?
+          data = service.get_server(self.name, self.zone_name).body
+          data.delete("zone")
+          data.delete("machineType")
+          data.delete("image")
+          data.delete("networkInterfaces")
+          self.merge_attributes(data)
           self.state == RUNNING_STATE
         end
 
@@ -46,7 +52,12 @@ module Fog
             zone_name,
             machine_type)
 
-          service.servers.merge_attributes()
+          data = service.get_server(self.name, self.zone_name).body
+          data.delete("zone")
+          data.delete("machineType")
+          data.delete("image")
+          data.delete("networkInterfaces")
+          service.servers.merge_attributes(data)
         end
 
       end

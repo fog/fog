@@ -14,10 +14,11 @@ module Fog
 
         def delete_server(server_name, zone_name=nil)
           if zone_name.nil?
-            service.list_zones.body['items'].each do |zone|
-              service.get_server(identity, zone['name']).body
-              zone_name = zone['name']
-              break if data["code"] == 200
+            list_zones.body['items'].each do |zone|
+              data = get_server(server_name, zone['name']).body
+              if data["error"].nil?
+                zone_name = zone['name']
+              end
             end
           end
 

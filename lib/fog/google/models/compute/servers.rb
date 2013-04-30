@@ -50,7 +50,7 @@ module Fog
           }
 
           server = create(defaults.merge(new_attributes))
-          server.wait_for { ready? }
+          server.wait_for(Fog.timeout, 30) { ready? }
           server
         end
 

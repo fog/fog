@@ -1,14 +1,15 @@
 Shindo.tests("Fog::Compute[:google] | server model", ['google']) do
 
-  tests('bootstrap') do
-    @instance = Fog::Compute[:google].servers.bootstrap
-
-    test('#ready?') do
-      @insance.ready?
+  tests('servers') do
+    @instance = nil
+    test('#bootstrap') do
+      @instance = Fog::Compute[:google].servers.bootstrap
+      @instance.ready?
     end
 
     test('#destroy') do
-      @instance.destroy
+      response = @instance.destroy
+      response.body['operationType'] == 'delete'
     end
   end
 end

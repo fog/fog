@@ -12,11 +12,11 @@ module Fog
 
       class Real
 
-        def get_image(image_name)
+        def get_image(image_name, project=@project)
           api_method = @compute.images.get
           parameters = {
             'image' => image_name,
-            'project' => @project,
+            'project' => project,
           }
 
           result = self.build_result(api_method, parameters)
