@@ -24,7 +24,6 @@ module Fog
         end
 
         def public_ip_address
-          p self.network_interfaces
           if self.network_interfaces.count
             self.network_interfaces[0]["networkIP"]
           else
