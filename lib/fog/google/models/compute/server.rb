@@ -54,10 +54,6 @@ module Fog
             machine_type)
 
           data = service.get_server(self.name, self.zone_name).body
-          data.delete("zone")
-          data.delete("machineType")
-          data.delete("image")
-          data.delete("networkInterfaces")
           service.servers.merge_attributes(data)
         end
 
