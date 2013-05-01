@@ -8,6 +8,7 @@ Shindo.tests("Fog::Compute[:google] | server model", ['google']) do
     end
 
     test('#sshable?') do
+      @instance.wait_for { sshable? }
       @instance.sshable?
     end
 

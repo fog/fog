@@ -66,6 +66,14 @@ module Fog
           sleep(1)
           retry
         end
+
+        def sshable?(options={})
+          service.set_metadata(self.instance, self.zone, {'sshKeys' => self.public_key })
+          ready? && !public_ip_address.nil? && public_key && metadata['sshKeys']
+        rescue SystemCallError, Net::SSH::AuthenticationFailed, Timeout::Error
+          false
+        end
+
       end
     end
   end
