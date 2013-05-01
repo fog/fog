@@ -4,7 +4,7 @@ module Fog
 
       class Mock
 
-        def insert_network(network_name)
+        def insert_network(network_name, ip_range)
           Fog::Mock.not_implemented
         end
 

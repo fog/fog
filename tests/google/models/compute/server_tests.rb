@@ -7,6 +7,14 @@ Shindo.tests("Fog::Compute[:google] | server model", ['google']) do
       @instance.ready?
     end
 
+    test('#sshable?') do
+      @instance.sshable?
+    end
+
+    test('#ssh') do
+      @instance.ssh("uname") == "Linux"
+    end
+
     test('#destroy') do
       response = @instance.destroy
       response.body['operationType'] == 'delete'

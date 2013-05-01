@@ -13,6 +13,7 @@ module Fog
         attribute :state, :aliases => 'status'
         attribute :zone_name, :aliases => 'zone'
         attribute :machine_type, :aliases => 'machineType'
+        attribute :metadata
 
         def destroy
           requires :name
@@ -59,11 +60,8 @@ module Fog
         end
 
         def setup(credentials = {})
-          requires :public_ip_address, :identity, :public_key, :username
-          Fog::SSH.new(public_ip_address, username, credentials).run([
-            %{mkdir .ssh},
-            %{echo "#{public_key}" >> ~/.ssh/authorized_keys},
-          ])
+          requires :public_ip_address, :public_key, :username
+          service.set_metadata(self.instance, self.zone, {'sshKeys' => self.public_key })
         rescue Errno::ECONNREFUSED
           sleep(1)
           retry
