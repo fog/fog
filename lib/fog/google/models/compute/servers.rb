@@ -47,8 +47,8 @@ module Fog
             :image_name => "gcel-12-04-v20130225",
             :machine_type => "n1-standard-1",
             :zone_name => "us-central1-a",
-            :private_key_path => "~/.ssh/id_rsa",
-            :public_key_path => "~/.ssh/id_rsa.pub",
+            :private_key_path => File.expand("~/.ssh/id_rsa"),
+            :public_key_path => File.expand("~/.ssh/id_rsa.pub"),
           }
 
           server = create(defaults.merge(new_attributes))
