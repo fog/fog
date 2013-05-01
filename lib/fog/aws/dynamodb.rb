@@ -50,7 +50,7 @@ module Fog
           self.class.data.delete(@aws_access_key_id)
         end
 
-        def setup_credientials(options)
+        def setup_credentials(options)
           @aws_access_key_id = options[:aws_access_key_id]
         end
       end
