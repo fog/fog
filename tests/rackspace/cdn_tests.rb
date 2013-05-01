@@ -23,12 +23,13 @@ Shindo.tests('Fog::CDN::Rackspace', ['rackspace']) do
   
   tests('authentication v1') do
     pending if Fog.mocking?
-    @service = Fog::CDN::Rackspace.new :rackspace_auth_url => 'https://identity.api.rackspacecloud.com/v1.0'
 
-    tests('variables populated') do
+    tests('variables populated').succeeds do
+      @service = Fog::CDN::Rackspace.new :rackspace_auth_url => 'https://identity.api.rackspacecloud.com/v1.0'
       returns(true, "auth token populated") { !@service.send(:auth_token).nil? }
       returns(false, "path populated") { @service.instance_variable_get("@uri").path.nil? }
-      returns(true, "identity_service was not used") { @service.instance_variable_get("@identity_service").nil? }    
+      returns(true, "identity_service was not used") { @service.instance_variable_get("@identity_service").nil? }
+      @service.get_containers
     end
     tests('custom endpoint') do
       @service = Fog::CDN::Rackspace.new :rackspace_auth_url => 'https://identity.api.rackspacecloud.com/v1.0', 
@@ -38,24 +39,27 @@ Shindo.tests('Fog::CDN::Rackspace', ['rackspace']) do
     end
   end
 
-  tests('authentation v2') do
+  tests('authentication v2') do
     pending if Fog.mocking?
-    @service = Fog::CDN::Rackspace.new :rackspace_auth_url => 'https://identity.api.rackspacecloud.com/v2.0'
     
-    tests('variables populated') do
+    tests('variables populated').succeeds do
+      @service = Fog::CDN::Rackspace.new :rackspace_auth_url => 'https://identity.api.rackspacecloud.com/v2.0'
       returns(true, "auth token populated") { !@service.send(:auth_token).nil? }
       returns(false, "path populated") { @service.instance_variable_get("@uri").path.nil? }
-      returns(false, "identity service was used") { @service.instance_variable_get("@identity_service").nil? }    
+      returns(false, "identity service was used") { @service.instance_variable_get("@identity_service").nil? }
+      @service.get_containers
     end
-    tests('dfw region') do
+    tests('dfw region').succeeds do
       @service = Fog::CDN::Rackspace.new :rackspace_auth_url => 'https://identity.api.rackspacecloud.com/v2.0', :rackspace_region => :dfw
       returns(true, "auth token populated") { !@service.send(:auth_token).nil? }
       returns(true) { (@service.instance_variable_get("@uri").host =~ /cdn1/) != nil }
+      @service.get_containers
     end
-    tests('ord region') do
+    tests('ord region').succeeds do
       @service = Fog::CDN::Rackspace.new :rackspace_auth_url => 'https://identity.api.rackspacecloud.com/v2.0', :rackspace_region => :ord
       returns(true, "auth token populated") { !@service.send(:auth_token).nil? }
       returns(true) { (@service.instance_variable_get("@uri").host =~ /cdn2/) != nil }
+      @service.get_containers
     end
     tests('custom endpoint') do
       @service = Fog::CDN::Rackspace.new :rackspace_auth_url => 'https://identity.api.rackspacecloud.com/v2.0', 
@@ -68,16 +72,18 @@ Shindo.tests('Fog::CDN::Rackspace', ['rackspace']) do
   tests('default auth') do
     pending if Fog.mocking?
     
-    tests('no params') do
+    tests('no params').succeeds do
       @service = Fog::CDN::Rackspace.new
       returns(true, "auth token populated") { !@service.send(:auth_token).nil? }
       returns(true, "uses DFW") { (@service.instance_variable_get("@uri").host =~ /cdn1/) != nil }
+      @service.get_containers
     end
     
-    tests('specify region') do
+    tests('specify region').succeeds do
       @service = Fog::CDN::Rackspace.new :rackspace_region => :ord
       returns(true, "auth token populated") { !@service.send(:auth_token).nil? }
       returns(true) { (@service.instance_variable_get("@uri").host =~ /cdn2/) != nil }
+      @service.get_containers
     end
     
     tests('custom endpoint') do

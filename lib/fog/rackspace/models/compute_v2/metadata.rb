@@ -15,7 +15,11 @@ module Fog
         include Fog::Compute::RackspaceV2::MetaParent
 
         # Retrieves all of the metadata from server
-        # @return [Array<Fog::Compute::RackspaceV2::Metadatum>] list of metadatum
+        # @return [Fog::Compute::RackspaceV2::Metadatum] list of metadatum
+        # @raise [Fog::Compute::RackspaceV2::NotFound] - HTTP 404
+        # @raise [Fog::Compute::RackspaceV2::BadRequest] - HTTP 400
+        # @raise [Fog::Compute::RackspaceV2::InternalServerError] - HTTP 500
+        # @raise [Fog::Compute::RackspaceV2::ServiceError]
         def all
           requires :parent
           return unless parent.identity
@@ -26,6 +30,10 @@ module Fog
         # Retrieves specific metadata from server
         # @param [String] key for metadatum
         # @return [Fog::Compute::RackspaceV2::Metadatum] metadatum
+        # @raise [Fog::Compute::RackspaceV2::NotFound] - HTTP 404
+        # @raise [Fog::Compute::RackspaceV2::BadRequest] - HTTP 400
+        # @raise [Fog::Compute::RackspaceV2::InternalServerError] - HTTP 500
+        # @raise [Fog::Compute::RackspaceV2::ServiceError]
         def get(key)
           requires :parent
           data = service.get_metadata_item(collection_name, parent.id, key).body["meta"]          
@@ -36,8 +44,8 @@ module Fog
         end
         
         # Retrieve specific value for key from Metadata.
-        #   * If key is of type String, this method will return the value of the metadatum
-        #   * If key is of type Fixnum, this method will return a Fog::Compute::RackspaceV2::Metadatum object (legacy)
+        # * If key is of type String, this method will return the value of the metadatum
+        # * If key is of type Fixnum, this method will return a Fog::Compute::RackspaceV2::Metadatum object (legacy)
         # @param [#key] key 
         # @return [#value] 
         def [](key)
@@ -48,8 +56,8 @@ module Fog
         end
 
         # Set value for key.
-        #   * If key is of type String, this method will set/add the value to Metadata
-        #   * If key is of type Fixnum, this method will set a Fog::Compute::RackspaceV2::Metadatum object (legacy)
+        # * If key is of type String, this method will set/add the value to Metadata
+        # * If key is of type Fixnum, this method will set a Fog::Compute::RackspaceV2::Metadatum object (legacy)
         # @param [#key] key 
         # @return [String] 
         def []=(key, value)
@@ -65,6 +73,10 @@ module Fog
         end
         
         # Saves the current metadata on server
+        # @raise [Fog::Compute::RackspaceV2::NotFound] - HTTP 404
+        # @raise [Fog::Compute::RackspaceV2::BadRequest] - HTTP 400
+        # @raise [Fog::Compute::RackspaceV2::InternalServerError] - HTTP 500
+        # @raise [Fog::Compute::RackspaceV2::ServiceError]
         def save
           requires :parent
           service.set_metadata(collection_name, parent.id, to_hash)          

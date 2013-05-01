@@ -25,6 +25,10 @@ module Fog
         
         # Saves account settings (meta_temp_url_key)
         # @return [Boolean] returns true if successfully updated
+        # @raise [Fog::Storage::Rackspace::NotFound] - HTTP 404
+        # @raise [Fog::Storage::Rackspace::BadRequest] - HTTP 400
+        # @raise [Fog::Storage::Rackspace::InternalServerError] - HTTP 500
+        # @raise [Fog::Storage::Rackspace::ServiceError]
         def save
           service.post_set_meta_temp_url_key meta_temp_url_key
           true
@@ -32,6 +36,10 @@ module Fog
         
         # Reload account with latest data from Cloud Files
         # @return [Fog::Storage::Rackspace::Account] returns itself
+        # @raise [Fog::Storage::Rackspace::NotFound] - HTTP 404
+        # @raise [Fog::Storage::Rackspace::BadRequest] - HTTP 400
+        # @raise [Fog::Storage::Rackspace::InternalServerError] - HTTP 500
+        # @raise [Fog::Storage::Rackspace::ServiceError]
         def reload
           response = service.head_containers
           merge_attributes response.headers

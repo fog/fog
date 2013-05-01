@@ -26,6 +26,10 @@ module Fog
         # Attaches volume to volume to server. 
         # Requires :server_id, :volume_id, and device to be populated
         # @return [Boolean] true if volume is attaching
+        # @raise [Fog::Compute::RackspaceV2::NotFound] - HTTP 404
+        # @raise [Fog::Compute::RackspaceV2::BadRequest] - HTTP 400
+        # @raise [Fog::Compute::RackspaceV2::InternalServerError] - HTTP 500
+        # @raise [Fog::Compute::RackspaceV2::ServiceError]
         # @see http://docs.rackspace.com/servers/api/v2/cs-devguide/content/Attach_Volume_to_Server.html
         def save
           requires :server_id, :volume_id, :device
@@ -36,6 +40,10 @@ module Fog
 
         # Detaches volume from server
         # @return [Boolean] true if volume is detaching
+        # @raise [Fog::Compute::RackspaceV2::NotFound] - HTTP 404
+        # @raise [Fog::Compute::RackspaceV2::BadRequest] - HTTP 400
+        # @raise [Fog::Compute::RackspaceV2::InternalServerError] - HTTP 500
+        # @raise [Fog::Compute::RackspaceV2::ServiceError]
         # @see http://docs.rackspace.com/servers/api/v2/cs-devguide/content/Delete_Volume_Attachment.html
         def destroy
           requires :server_id, :volume_id

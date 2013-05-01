@@ -5,6 +5,11 @@ module Fog
         
         # Confirm server resize operation
         # @param [String] server_id The id of the server to revert
+        # @return [Excon::Response] response
+        # @raise [Fog::Compute::RackspaceV2::NotFound] - HTTP 404
+        # @raise [Fog::Compute::RackspaceV2::BadRequest] - HTTP 400
+        # @raise [Fog::Compute::RackspaceV2::InternalServerError] - HTTP 500
+        # @raise [Fog::Compute::RackspaceV2::ServiceError]
         # @note All resizes are automatically confirmed after 24 hours if you do not explicitly confirm or revert the resize.
         # @see http://docs.rackspace.com/servers/api/v2/cs-devguide/content/Revert_Resized_Server-d1e4024.html
         #

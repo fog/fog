@@ -54,6 +54,9 @@ Shindo.tests('Fog::Compute::RackspaceV2 | server_tests', ['rackspace']) do
     }
   }
 
+  rescue_server_format = {
+    'adminPass' => Fog::Nullable::String
+  }
 
   tests('success') do
 
@@ -121,6 +124,16 @@ Shindo.tests('Fog::Compute::RackspaceV2 | server_tests', ['rackspace']) do
 
     tests('#revert_resize_server').succeeds do
       service.revert_resize_server(server_id)
+    end
+    wait_for_server_state(service, server_id, 'ACTIVE', 'ERROR')
+
+    tests('#rescue_server').formats(rescue_server_format, false) do
+      service.rescue_server(server_id)
+    end
+    wait_for_server_state(service, server_id, 'RESCUE', 'ACTIVE')
+
+    tests('#unrescue_server').succeeds do
+      service.unrescue_server(server_id)
     end
     wait_for_server_state(service, server_id, 'ACTIVE', 'ERROR')
 

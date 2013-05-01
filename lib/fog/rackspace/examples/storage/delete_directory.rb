@@ -11,7 +11,7 @@ def get_user_input(prompt)
 end
 
 def select_directory(directories)
-  abort "\nThere are not any directories to delete. Try running create_directory.rb\n\n" if directories.empty?
+  abort "\nThere are not any directories to delete in the Chicago region. Try running create_directory.rb\n\n" if directories.empty?
   
   puts "\nSelect Directory To Delete:\n\n"
   directories.each_with_index do |dir, i|
@@ -38,7 +38,8 @@ end
 service = Fog::Storage.new({
   :provider             => 'Rackspace',
   :rackspace_username   => rackspace_username,
-  :rackspace_api_key    => rackspace_api_key 
+  :rackspace_api_key    => rackspace_api_key,
+  :rackspace_region => :ord #Use Chicago Region
   })
   
 # retrieve directories  

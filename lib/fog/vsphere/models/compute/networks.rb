@@ -11,14 +11,14 @@ module Fog
         attr_accessor :datacenter
 
         def all(filters = {})
-          load service.list_networks(filters.merge(:datacenter => datacenter))
+          f = { :datacenter => datacenter }.merge(filters)
+          load service.list_networks(f)
         end
 
         def get(id)
           requires :datacenter
           new service.get_network(id, datacenter)
         end
-
       end
     end
   end

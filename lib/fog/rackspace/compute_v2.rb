@@ -1,14 +1,36 @@
 require 'fog/compute'
-require 'fog/rackspace/service'
-
 
 module Fog
   module Compute
     class RackspaceV2 < Fog::Service
+      include Fog::Rackspace::Errors
 
       class ServiceError < Fog::Rackspace::Errors::ServiceError; end
       class InternalServerError < Fog::Rackspace::Errors::InternalServerError; end
       class BadRequest < Fog::Rackspace::Errors::BadRequest; end
+
+      class InvalidStateException < ::RuntimeError
+
+        attr_reader :desired_state
+        attr_reader :current_state
+
+        def initialize(desired_state, current_state)
+          @desired_state = desired_state
+          @current_state = current_state
+        end
+      end
+
+      class InvalidServerStateException < InvalidStateException
+        def to_s
+          "Server should have transitioned to '#{desired_state}' not '#{current_state}'"
+        end
+      end
+
+      class InvalidImageStateException < InvalidStateException
+         def to_s
+           "Image should have transitioned to '#{desired_state}' not '#{current_state}'"
+         end
+      end
 
       DFW_ENDPOINT = 'https://dfw.servers.api.rackspacecloud.com/v2'
       ORD_ENDPOINT = 'https://ord.servers.api.rackspacecloud.com/v2'
@@ -45,6 +67,8 @@ module Fog
       request :resize_server
       request :confirm_resize_server
       request :revert_resize_server
+      request :rescue_server
+      request :unrescue_server
       request :list_addresses
       request :list_addresses_by_network
 
@@ -127,7 +151,7 @@ module Fog
               :path     => "#{endpoint_uri.path}/#{params[:path]}"
             }))
           rescue Excon::Errors::NotFound => error
-            raise NotFound.slurp error
+            raise NotFound.slurp(error, region)
           rescue Excon::Errors::BadRequest => error
             raise BadRequest.slurp error
           rescue Excon::Errors::InternalServerError => error
@@ -139,7 +163,7 @@ module Fog
           unless response.body.empty?
             begin
               response.body = Fog::JSON.decode(response.body)
-            rescue MultiJson::DecodeError => e
+            rescue Fog::JSON::LoadError
               response.body = {}
             end
           end
@@ -170,7 +194,7 @@ module Fog
         private
 
         def setup_custom_endpoint(options)
-          @rackspace_endpoint = options[:rackspace_compute_url] || options[:rackspace_endpoint]
+          @rackspace_endpoint = Fog::Rackspace.normalize_url(options[:rackspace_compute_url] || options[:rackspace_endpoint])
 
           if v2_authentication?
             case @rackspace_endpoint
@@ -187,6 +211,9 @@ module Fog
               # we are actually using a custom endpoint
               @rackspace_region = options[:rackspace_region] || :dfw
             end
+          else
+            #if we are using auth1 and the endpoint is not set, default to DFW_ENDPOINT for historical reasons
+             @rackspace_endpoint ||= DFW_ENDPOINT
           end
         end
 

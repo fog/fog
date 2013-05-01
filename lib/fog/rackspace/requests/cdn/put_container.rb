@@ -7,13 +7,18 @@ module Fog
         #
         # ==== Parameters
         # * name<~String> - Name for container, should be < 256 bytes and must not contain '/'
-        # # options<~Hash>:
+        # * options<~Hash>:
         #   * 'X-CDN-Enabled'<~Boolean> - cdn status for container
         #   * 'X-CDN-URI'<~String> - cdn url for this container
         #   * 'X-TTL'<~String> - integer seconds before data expires, defaults to 86400 (1 day), in 3600..259200
         #   * 'X-Log-Retention'<~Boolean> - ?
         #   * 'X-User-Agent-ACL'<~String> - ?
         #   * 'X-Referrer-ACL'<~String> - ?
+        # @return [Excon::Response] response
+        # @raise [Fog::Storage::Rackspace::NotFound] - HTTP 404
+        # @raise [Fog::Storage::Rackspace::BadRequest] - HTTP 400
+        # @raise [Fog::Storage::Rackspace::InternalServerError] - HTTP 500
+        # @raise [Fog::Storage::Rackspace::ServiceError]
         def put_container(name, options = {})
           response = request(
             :expects  => [201, 202],

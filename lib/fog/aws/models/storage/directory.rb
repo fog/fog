@@ -9,14 +9,12 @@ module Fog
       class Directory < Fog::Model
         VALID_ACLS = ['private', 'public-read', 'public-read-write', 'authenticated-read']
 
-        # See http://docs.amazonwebservices.com/AmazonS3/latest/API/RESTBucketPUT.html
-        INVALID_LOCATIONS = ['us-east-1']
-
         attr_reader :acl
 
         identity  :key,           :aliases => ['Name', 'name']
 
-        attribute :creation_date, :aliases => 'CreationDate'
+        attribute :creation_date, :aliases => 'CreationDate', :type => 'time'
+        attribute :location,      :aliases => 'LocationConstraint', :type => 'string'
 
         def acl=(new_acl)
           unless VALID_ACLS.include?(new_acl)
@@ -35,16 +33,12 @@ module Fog
         end
 
         def location
-          requires :key
-          attributes[:location] || bucket_location || self.service.region
+          @location ||= (bucket_location || self.service.region)
         end
 
+        # NOTE: you can't change the region once the bucket is created
         def location=(new_location)
-          if INVALID_LOCATIONS.include?(new_location)
-            raise ArgumentError, "location must not include any of #{INVALID_LOCATIONS.join(', ')}. See http://docs.amazonwebservices.com/AmazonS3/latest/API/RESTBucketPUT.html"
-          else
-            merge_attributes(:location => new_location)
-          end
+          @location = new_location
         end
 
         def files
@@ -86,11 +80,9 @@ module Fog
         def public_url
           requires :key
           if service.get_bucket_acl(key).body['AccessControlList'].detect {|grant| grant['Grantee']['URI'] == 'http://acs.amazonaws.com/groups/global/AllUsers' && grant['Permission'] == 'READ'}
-            if key.to_s =~ Fog::AWS::COMPLIANT_BUCKET_NAMES
-              "https://#{key}.s3.amazonaws.com"
-            else
-              "https://s3.amazonaws.com/#{key}"
-            end
+            service.request_url(
+              :bucket_name => key
+            )
           else
             nil
           end
@@ -103,18 +95,29 @@ module Fog
 
           options['x-amz-acl'] = acl if acl
 
-          if location = attributes[:location] || (self.service.region != 'us-east-1' && self.service.region)
+          # http://docs.aws.amazon.com/AmazonS3/latest/API/RESTBucketPUT.html
+          # Ignore the default region us-east-1
+          if !persisted? && location != DEFAULT_REGION
             options['LocationConstraint'] = location
           end
 
           service.put_bucket(key, options)
+          attributes[:is_persisted] = true
 
           true
+        end
+
+        def persisted?
+          # is_persisted is true in case of directories.get or after #save
+          # creation_date is set in case of directories.all
+          attributes[:is_persisted] || !!attributes[:creation_date]
         end
 
         private
 
         def bucket_location
+          requires :key
+          return nil unless persisted?
           data = service.get_bucket_location(key)
           data.body['LocationConstraint']
         end

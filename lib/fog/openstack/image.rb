@@ -3,6 +3,8 @@ require 'fog/openstack'
 module Fog
   module Image
     class OpenStack < Fog::Service
+      SUPPORTED_VERSIONS = /v1(\.(0|1))*/
+
       requires :openstack_auth_url
       recognizes :openstack_auth_token, :openstack_management_url, :persistent,
                  :openstack_service_type, :openstack_service_name, :openstack_tenant,
@@ -44,7 +46,6 @@ module Fog
         end
 
         def initialize(options={})
-          require 'multi_json'
           @openstack_username = options[:openstack_username]
           @openstack_tenant   = options[:openstack_tenant]
           @openstack_auth_uri = URI.parse(options[:openstack_auth_url])
@@ -92,8 +93,6 @@ module Fog
         attr_reader :current_tenant
 
         def initialize(options={})
-          require 'multi_json'
-
           @openstack_auth_token = options[:openstack_auth_token]
 
           unless @openstack_auth_token
@@ -168,7 +167,7 @@ module Fog
             end
           end
           unless response.body.empty?
-            response.body = MultiJson.decode(response.body)
+            response.body = Fog::JSON.decode(response.body)
           end
           response
         end
@@ -206,9 +205,11 @@ module Fog
           @host   = uri.host
           @path   = uri.path
           @path.sub!(/\/$/, '')
-          unless @path.match(/v1(\.1)*/)
-            raise Fog::OpenStack::Errors::ServiceUnavailable.new(
-                  "OpenStack binding only supports version 1.1 (a.k.a. 1)")
+          unless @path.match(SUPPORTED_VERSIONS)
+            @path = "/" + Fog::OpenStack.get_supported_version(SUPPORTED_VERSIONS,
+                                                               uri,
+                                                               @auth_token,
+                                                               @connection_options)
           end
           @port   = uri.port
           @scheme = uri.scheme

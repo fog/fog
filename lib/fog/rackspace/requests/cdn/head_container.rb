@@ -17,6 +17,11 @@ module Fog
         #     * 'X-Log-Retention'<~Boolean> - ?
         #     * 'X-User-Agent-ACL'<~String> - ?
         #     * 'X-Referrer-ACL'<~String> - ?
+        # @return [Excon::Response] response
+        # @raise [Fog::Storage::Rackspace::NotFound] - HTTP 404
+        # @raise [Fog::Storage::Rackspace::BadRequest] - HTTP 400
+        # @raise [Fog::Storage::Rackspace::InternalServerError] - HTTP 500
+        # @raise [Fog::Storage::Rackspace::ServiceError]
         def head_container(container)
           response = request(
             :expects  => 204,

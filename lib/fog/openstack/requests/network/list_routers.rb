@@ -16,7 +16,7 @@ module Fog
       class Mock
         def list_routers(filters = {})
           Excon::Response.new(
-            :body   => { 'routers' => self.data['routers'] },
+            :body   => { 'routers' => self.data[:routers].values },
             :status => 200
           )
         end

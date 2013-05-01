@@ -3,6 +3,7 @@ require 'fog/openstack'
 module Fog
   module Network
     class OpenStack < Fog::Service
+      SUPPORTED_VERSIONS = /v2(\.0)*/
 
       requires :openstack_auth_url
       recognizes :openstack_auth_token, :openstack_management_url, :persistent,
@@ -112,8 +113,6 @@ module Fog
         attr_reader :current_tenant
 
         def initialize(options={})
-          require 'multi_json'
-
           @openstack_auth_token = options[:openstack_auth_token]
 
           unless @openstack_auth_token
@@ -188,7 +187,7 @@ module Fog
             end
           end
           unless response.body.empty?
-            response.body = MultiJson.decode(response.body)
+            response.body = Fog::JSON.decode(response.body)
           end
           response
         end
@@ -225,33 +224,15 @@ module Fog
           @host   = uri.host
           @path   = uri.path
           @path.sub!(/\/$/, '')
-          unless @path.match(/^\/v(\d)+(\.)?(\d)*$/)
-            @path = "/" + retrieve_current_version(uri)
+          unless @path.match(SUPPORTED_VERSIONS)
+            @path = "/" + Fog::OpenStack.get_supported_version(SUPPORTED_VERSIONS,
+                                                               uri,
+                                                               @auth_token,
+                                                               @connection_options)
           end
           @port   = uri.port
           @scheme = uri.scheme
           true
-        end
-
-        def retrieve_current_version(uri)
-          response = Fog::Connection.new(
-            "#{uri.scheme}://#{uri.host}:#{uri.port}", false, @connection_options).request({
-              :expects => [200, 204],
-              :headers => {'Content-Type' => 'application/json',
-                           'Accept' => 'application/json',
-                           'X-Auth-Token' => @auth_token},
-              :host    => uri.host,
-              :method  => 'GET'
-          })
-
-          body = Fog::JSON.decode(response.body)
-          version = nil
-          unless body['versions'].empty?
-            current_version = body['versions'].detect { |x| x["status"] == "CURRENT" }
-            version = current_version["id"]
-          end
-          raise Errors::NotFound.new('No API versions found') if version.nil?
-          version
         end
 
       end

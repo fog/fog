@@ -9,6 +9,10 @@ module Fog
         # @option options [Hash] name name for server
         # @option options [String] accessIPv4 The IP version 4 address.
         # @option options [Hash] accessIPv6 The IP version 6 address.
+        # @raise [Fog::Compute::RackspaceV2::NotFound] - HTTP 404
+        # @raise [Fog::Compute::RackspaceV2::BadRequest] - HTTP 400
+        # @raise [Fog::Compute::RackspaceV2::InternalServerError] - HTTP 500
+        # @raise [Fog::Compute::RackspaceV2::ServiceError]
         # @note If you edit the server name, the server host name does not change. Also, server names are not guaranteed to be unique.
         # @see http://docs.rackspace.com/servers/api/v2/cs-devguide/content/ServerUpdate.html  
         def update_server(server_id, options={})

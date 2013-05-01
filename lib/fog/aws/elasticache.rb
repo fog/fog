@@ -104,7 +104,7 @@ module Fog
               :parser     => parser
             })
           rescue Excon::Errors::HTTPStatusError => error
-            if match = error.message.match(/<Code>(.*)<\/Code>/m)
+            if match = error.message.match(/(?:.*<Code>(.*)<\/Code>?)/m)
               case match[1]
               when 'CacheSecurityGroupNotFound', 'CacheParameterGroupNotFound',
                 'CacheClusterNotFound'
@@ -132,8 +132,6 @@ module Fog
         def self.data
           @data ||= Hash.new do |hash, region|
             hash[region] = Hash.new do |region_hash, key|
-              owner_id = Fog::AWS::Mock.owner_id
-              security_group_id = Fog::AWS::Mock.security_group_id
               region_hash[key] = {
                 :clusters  => {}, # cache cluster data, indexed by cluster ID
               }

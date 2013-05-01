@@ -55,10 +55,10 @@ module Fog
 
           request(params.merge!({
             :expects  => [ 200, 206 ],
-            :host     => "#{bucket_name}.#{@host}",
+            :bucket_name => bucket_name,
+            :object_name => object_name,
             :idempotent => true,
             :method   => 'GET',
-            :path     => CGI.escape(object_name)
           }))
         end
 

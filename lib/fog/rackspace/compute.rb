@@ -4,10 +4,11 @@ require 'fog/compute'
 module Fog
   module Compute
     class Rackspace < Fog::Service
+      include Fog::Rackspace::Errors
 
       requires :rackspace_api_key, :rackspace_username
       recognizes :rackspace_auth_url, :rackspace_servicenet, :persistent
-      recognizes :rackspace_auth_token, :rackspace_management_url
+      recognizes :rackspace_auth_token, :rackspace_management_url, :rackspace_compute_v1_url, :rackspace_region
 
       model_path 'fog/rackspace/models/compute'
       model       :flavor
@@ -41,7 +42,7 @@ module Fog
       request :server_action
       request :update_server
 
-      class Mock
+      class Mock < Fog::Rackspace::Service
 
         def self.data
           @data ||= Hash.new do |hash, key|
@@ -180,7 +181,7 @@ module Fog
 
       end
 
-      class Real
+      class Real < Fog::Rackspace::Service
 
         def initialize(options={})
           @rackspace_api_key = options[:rackspace_api_key]
@@ -188,13 +189,13 @@ module Fog
           @rackspace_auth_url = options[:rackspace_auth_url]
           @rackspace_servicenet = options[:rackspace_servicenet]
           @rackspace_auth_token = options[:rackspace_auth_token]
-          @rackspace_management_url = options[:rackspace_management_url]
+          @rackspace_endpoint = Fog::Rackspace.normalize_url(options[:rackspace_compute_v1_url] || options[:rackspace_management_url])
           @rackspace_must_reauthenticate = false
           @connection_options = options[:connection_options] || {}
           authenticate
-          Excon.ssl_verify_peer = false if options[:rackspace_servicenet] == true
+          Excon.defaults[:ssl_verify_peer] = false if service_net?
           @persistent = options[:persistent] || false
-          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
+          @connection = Fog::Connection.new(endpoint_uri.to_s, @persistent, @connection_options)
         end
 
         def reload
@@ -206,10 +207,10 @@ module Fog
             response = @connection.request(params.merge({
               :headers  => {
                 'Content-Type' => 'application/json',
-                'X-Auth-Token' => @auth_token
+                'X-Auth-Token' => auth_token
               }.merge!(params[:headers] || {}),
-              :host     => @host,
-              :path     => "#{@path}/#{params[:path]}",
+              :host     => endpoint_uri.host,
+              :path     => "#{endpoint_uri.path}/#{params[:path]}",
               :query    => ('ignore_awful_caching' << Time.now.to_i.to_s)
             }))
           rescue Excon::Errors::Unauthorized => error
@@ -223,7 +224,7 @@ module Fog
           rescue Excon::Errors::HTTPStatusError => error
             raise case error
             when Excon::Errors::NotFound
-              Fog::Compute::Rackspace::NotFound.slurp(error)
+              NotFound.slurp(error, region)
             else
               error
             end
@@ -234,27 +235,52 @@ module Fog
           response
         end
 
-        private
 
-        def authenticate
-          if @rackspace_must_reauthenticate || @rackspace_auth_token.nil?
-            options = {
-              :rackspace_api_key  => @rackspace_api_key,
-              :rackspace_username => @rackspace_username,
-              :rackspace_auth_url => @rackspace_auth_url
-            }
-            credentials = Fog::Rackspace.authenticate(options, @connection_options)
-            @auth_token = credentials['X-Auth-Token']
-            uri = URI.parse(credentials['X-Server-Management-Url'])
-          else
-            @auth_token = @rackspace_auth_token
-            uri = URI.parse(@rackspace_management_url)
-          end
-          @host   = @rackspace_servicenet == true ? "snet-#{uri.host}" : uri.host
-          @path   = uri.path
-          @port   = uri.port
-          @scheme = uri.scheme
+        def service_net?
+           @rackspace_servicenet == true
         end
+
+         def authenticate
+           if @rackspace_must_reauthenticate || @rackspace_auth_token.nil?
+             options = {
+               :rackspace_api_key  => @rackspace_api_key,
+               :rackspace_username => @rackspace_username,
+               :rackspace_auth_url => @rackspace_auth_url
+             }
+             super(options)
+           else
+             @auth_token = @rackspace_auth_token
+             @uri = URI.parse(@rackspace_endpoint)
+           end
+         end
+
+         def service_name
+           :cloudServers
+         end
+
+         def region
+           @rackspace_region
+         end
+
+         def endpoint_uri(service_endpoint_url=nil)
+           return @uri if @uri
+
+           @uri = super(@rackspace_endpoint || service_endpoint_url, :rackspace_compute_v1_url)
+           @uri.host = "snet-#{@uri.host}" if service_net?
+           @uri
+         end
+
+         private
+
+         def deprecation_warnings(options)
+           Fog::Logger.deprecation("The :rackspace_management_url option is deprecated. Please use :rackspace_compute_v1_url for custom endpoints") if options[:rackspace_management_url]
+         end
+
+         def authenticate_v1(options)
+           credentials = Fog::Rackspace.authenticate(options, @connection_options)
+           endpoint_uri credentials['X-Server-Management-Url']
+           @auth_token = credentials['X-Auth-Token']
+         end
 
       end
     end

@@ -2,13 +2,21 @@ module Fog
   module Compute
     class AWS
       class Real
-
+        
         require 'fog/aws/parsers/compute/describe_reserved_instances_offerings'
 
         # Describe all or specified reserved instances offerings
         #
         # ==== Parameters
         # * filters<~Hash> - List of filters to limit results with
+        #   * filters and/or the following
+        #     * 'AvailabilityZone'<~String> - availability zone of offering
+        #     * 'InstanceType'<~String> - instance type of offering
+        #     * 'InstanceTenancy'<~String> - tenancy of offering in ['default', 'dedicated']
+        #     * 'OfferingType'<~String> - type of offering, in ['Heavy Utilization', 'Medium Utilization', 'Light Utilization']
+        #     * 'ProductDescription'<~String> - description of offering, in ['Linux/UNIX', 'Linux/UNIX (Amazon VPC)', 'Windows', 'Windows (Amazon VPC)']
+        #     * 'MaxDuration'<~Integer> - maximum duration (in seconds) of offering
+        #     * 'MinDuration'<~Integer> - minimum duration (in seconds) of offering 
         #
         # ==== Returns
         # * response<~Excon::Response>:
@@ -27,7 +35,13 @@ module Fog
         #
         # {Amazon API Reference}[http://docs.amazonwebservices.com/AWSEC2/latest/APIReference/ApiReference-query-DescribeReservedInstancesOfferings.html]
         def describe_reserved_instances_offerings(filters = {})
-          params = Fog::AWS.indexed_filters(filters)
+          options = {}
+          for key in ['AvailabilityZone', 'InstanceType', 'InstanceTenancy', 'OfferingType', 'ProductDescription', 'MaxDuration', 'MinDuration']
+            if filters.is_a?(Hash) && filters.key?(key)
+              options[key] = filters.delete(key)
+            end
+          end
+          params = Fog::AWS.indexed_filters(filters).merge!(options)
           request({
             'Action'    => 'DescribeReservedInstancesOfferings',
             :idempotent => true,

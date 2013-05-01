@@ -1,3 +1,323 @@
+1.10.1 04/04/2013 a270b69a23b43a8cdab768f88503779f27a74fa0
+==========================================================
+
+Stats! { 'collaborators' => 46, 'downloads' => 1993968, 'forks' => 746, 'open_issues' => 134, 'watchers' => 2438 }
+
+MVP! Kyle Rames
+
+[VMWare]
+  Fixed broken support for obj_ids with spaces. thanks Marc Grimme
+
+[Vcloud]
+  Server reset instance vars after save. thanks dJason
+
+[aws]
+  Handle the "phantom" security group that exists for elbs. thanks Eugene Howe
+  mock update_server_certificate. thanks Josh Lane & Ines Sombra
+
+[aws|beanstalk]
+  Update parser for DescribeEnvironmentResources. thanks George Scott
+
+[cloudstack]
+  add snapshot model. thanks Dmitry Dedov
+
+[core]
+  Updated to make ssh timeout user configurable. thanks Kyle Rames
+
+[digitalocean]
+  Check to see if we have a digital ocean api key before attempting to delete servers. thanks Kyle Rames
+
+[digitalocean|compute]
+  initial release. thanks Sergio Rubio
+  added getting started guide. thanks Sergio Rubio
+  Updated server model documentation. thanks Sergio Rubio
+  added test helpers. thanks Sergio Rubio
+  Implemented Server.reboot. thanks Sergio Rubio
+  Implement Server.power_cycle. thanks Sergio Rubio
+  tests updates. thanks Sergio Rubio
+  Added Servers collection tests. thanks Sergio Rubio
+  Implement missing requests. thanks Sergio Rubio
+  implemented missing Server actions. thanks Sergio Rubio
+  string fixes. thanks Sergio Rubio
+  list_servers request test fixes. thanks Sergio Rubio
+  server model test fixes. thanks Sergio Rubio
+  remove extra comma, breaks ruby 1.8. thanks Sergio Rubio
+  Added support to use SSH keys when creating the server. thanks Sergio Rubio
+  added some more request. thanks Sergio Rubio
+  Added list_flavors mock code. thanks Sergio Rubio
+  Added list_images mock code. thanks Sergio Rubio
+  added list_servers mock code. thanks Sergio Rubio
+  added list_regions mock code. thanks Sergio Rubio
+  initialize compute service mock data. thanks Sergio Rubio
+  added create_server mock code. thanks Sergio Rubio
+  added create_ssh_key mock code. thanks Sergio Rubio
+  added destroy_server mock code. thanks Sergio Rubio
+  added get_server_details mock code. thanks Sergio Rubio
+  list_servers uses mock data. thanks Sergio Rubio
+  added list_ssh_keys mock code. thanks Sergio Rubio
+  added power_cycle_server mock code. thanks Sergio Rubio
+  added power_off_server mock code. thanks Sergio Rubio
+  added power_on_server mock code. thanks Sergio Rubio
+  added reboot_server mock code. thanks Sergio Rubio
+  added shutdown_server mock code. thanks Sergio Rubio
+  added list_ssh_keys request tests. thanks Sergio Rubio
+  mark Server.reboot test pending if mocking. thanks Sergio Rubio
+  do not run at_exit block when mocking. thanks Sergio Rubio
+  mark Server.power_cycle test as pending when mocking. thanks Sergio Rubio
+  power state tests fixes. thanks Sergio Rubio
+  improve power state tests reliability. thanks Sergio Rubio
+  fix create_ssh_key request path. thanks Sergio Rubio
+  added destroy_ssh_key request and tests. thanks Sergio Rubio
+  added get_ssh_key request and tests. thanks Sergio Rubio
+  added create_ssh_key request tests. thanks Sergio Rubio
+  added SshKey model, collection and related tests. thanks Sergio Rubio
+  added ssh related requests, model and collection. thanks Sergio Rubio
+  power_state_tests fixes. thanks Sergio Rubio
+  list_ssh_keys request mock fixes. thanks Sergio Rubio
+  include response body in exception when request fails. thanks Sergio Rubio
+  Improved tests reliability. thanks Sergio Rubio
+  Added changelog. thanks Sergio Rubio
+
+[docs::aws::cloudformation]
+  reformatted in YARD format. no content changes, just format changes. thanks Weston Platter
+
+[docs::was::cdn]
+  reformatted in YARD format. no content changes, just format changes. thanks Weston Platter
+
+[dreamhost|dns]
+  added missing changelog. thanks Sergio Rubio
+
+[hp]
+  Add Accept header with application/json for all HP requests. thanks Rupak Ganguly
+
+[hp|compute]
+  Add user_data option to create server call. thanks Rupak Ganguly
+  Consolidate the simple mapped options parameters in the create server call. thanks Rupak Ganguly
+  Add the capability to pass in user_data in the server model. thanks Rupak Ganguly
+  Add user_data to the mock data structure. thanks Rupak Ganguly
+  Fix mock for create server. thanks Rupak Ganguly
+  Add user_data option to create server call. thanks Rupak Ganguly
+  Consolidate the simple mapped options parameters in the create server call. thanks Rupak Ganguly
+  Add user_data to the mock data structure. thanks Rupak Ganguly
+  Fix mock for create server. thanks Rupak Ganguly
+
+[hp|storage]
+  marker option in each method needs to be a string. thanks Andreas Gerauer
+
+[libvirt|compute]
+  handle missing <system> tag in libvirt node info. thanks Dominic Cleal
+
+[misc]
+  ovirt quota support. thanks Amos Benari
+  Removed Zerigo::Models::DNS::Records#find method, moved functionality to all(options)     Removed Rackspace::Models::DNS::Zones#find, moved functionality to all(options). thanks Andreas Gerauer
+  fixed infinite loop in each method of AWS Distributions. thanks Andreas Gerauer
+  add a test to protect certain Enumerable methods in Fog::Collection subclasses. thanks Andreas Gerauer
+  get rid of bucket/directory delete - not allowed for IA. thanks Andrew Kuklewicz
+  add IA specific headers for file. thanks Andrew Kuklewicz
+  get rid of versions from IA. thanks Andrew Kuklewicz
+  missed one. thanks Andrew Kuklewicz
+  fix tests, found a few differences with S3. thanks Andrew Kuklewicz
+  fix 1.8.7 error, oops. thanks Andrew Kuklewicz
+  fix internet archive use of headers, remove acls. thanks Andrew Kuklewicz
+  sshable should take the same options as ssh. thanks Anshul Khandelwal
+  [aws][glesys] Pass credentials to sshable. thanks Anshul Khandelwal
+  Use strict base encoding otherwise breaks for very large org names. thanks Chirag Jog
+  revert typo. thanks Chirag Jog
+  Fix the base encoding issue with Ruby 1.8.7 Compliance. thanks Chirag Jog
+  Delete \r also. thanks Chirag Jog
+  Minor fix: Ensure to send a valid Content-Type. thanks Chirag Jog
+  Check if a template requires a password or not. thanks Chirag Jog
+  Remove unecessary print. thanks Chirag Jog
+  Support optional `snapshot_id` key when creating volumes. thanks Chris Roberts
+  added dummy filters parameter to servers.all for conformity. thanks Christoph Witzany
+  Add Riak CS provider in Fog. thanks Christopher Meiklejohn
+  Updated DescribeReservedInstancesOfferings to take in filters as request parameters. thanks Curtis Stewart
+  OpenStack: base64 encode personality in rebuild. thanks Dan Prince
+  Forcing good Excon version. thanks Daniel Libanori
+  Update file.rb. thanks Dave Ungerer
+  Stop hardcoding the server ssh port. thanks David Calavera
+  Use passed blocks to handle scp callbacks. thanks David Calavera
+  fix syntax, ruby 1.8.7. thanks Dmitry Dedov
+  changed status to state for conformity and fixed alias for flavor_id. thanks DoubleMalt
+  replaced dup/delete with reject. thanks Eugene Howe
+  fixed for 1.8. thanks Eugene Howe
+  add ovirt quota support. thanks Jason Montleon
+  1620: Try to add some guards around possible nil objects based on associations in VPCs. thanks Jesse Davis
+  1620: Try to add some guards around possible nil objects based on associations in VPCs. thanks Jesse Davis
+  fix tabs. thanks Jesse Davis
+  First attempt at an S3 path_style flag. thanks Joachim Nolten
+  rebasing with master. thanks Kyle Rames
+  rebasing with master. thanks Kyle Rames
+  removing superfluous readme. thanks Kyle Rames
+  rebasing with master. thanks Kyle Rames
+  updated endpoint handing. thanks Kyle Rames
+  rebasing with master. thanks Kyle Rames
+  rebasing. thanks Kyle Rames
+  merging in latest master. thanks Kyle Rames
+  fixing merge issues. thanks Kyle Rames
+  fixing merge issues. thanks Kyle Rames
+  merging in document changes. thanks Kyle Rames
+  rackspace|compute_v2] removing superfluous note from compute_v2 documentation. thanks Kyle Rames
+  merging in latest master. thanks Kyle Rames
+  mend. thanks Kyle Rames
+  Revert "[rackspace] adding note about credentials in the getting started document". thanks Kyle Rames
+  convert lib/fog to simply include all providers. thanks Lance Ivy
+  benchmark for loading all of fog vs just aws. thanks Lance Ivy
+  fix joyent and xenserver so they can be required individually. thanks Lance Ivy
+  restore ability to load fog from source without bundler. thanks Lance Ivy
+  fix bug where servers.all was ignoring filters due to hash merging in the wrong direction. thanks Mick Pollard
+  Fix S3 directory location infinite loop. thanks Nils Landt
+  Update changelog and bump version. thanks Rupak Ganguly
+  Fix names of the container sync attributes. thanks Rupak Ganguly
+  Add Object Storage container sync feature. thanks Rupak Ganguly
+  Update changelog and bump version. thanks Rupak Ganguly
+  supported OpenStack Quantum Router Operation. not include mock code. thanks Tomokazu Hirai
+  added mock code for router operation. thanks Tomokazu Hirai
+  fixed responce data from mock and removed vanilla options reject code. thanks Tomokazu Hirai
+  @rubiojr wrote mock code for openstack routers. thanks Tomokazu Hirai
+  @rubiojr fixed mock test failure. thanks Tomokazu Hirai
+  @rubiojr fixed mock faulure for router(s)_tests.rb. thanks Tomokazu Hirai
+  fix for AWS error message parsing. thanks VirtualStaticVoid
+  Added Content-Disposition attribute for Rackspace file. thanks Yauheni Kryudziuk
+  Changed GoogleAccessKeyId to GoogleAccessId. thanks althras
+  Add Vcloud support back to Fog::Compute. thanks dJason
+  add Rupak Ganguly to MVP exclusion list. thanks geemus
+  container sync attributes. thanks howete
+
+[openstack]
+  added changelog. thanks Sergio Rubio
+
+[openstack|compute]
+  Allow booting a VM with NICs (net_id, port_id, fixed_ip). thanks Ferran Rodenas
+  Use attribute accessor for nics. thanks Ferran Rodenas
+
+[openstack|glance]
+  Added image service example. thanks Sergio Rubio
+
+[openstack|identity]
+  moved identity example to the examples directory. thanks Sergio Rubio
+
+[openstack|image]
+  Check for glance version (fog only supports v1). thanks Ferran Rodenas
+
+[openstack|network]
+  Add endpoint_type option. thanks Ferran Rodenas
+  create_network provider extensions. thanks Sergio Rubio
+  Added missing router model/collection. thanks Sergio Rubio
+  update_router request updates. thanks Sergio Rubio
+  router model updates. thanks Sergio Rubio
+  create_router request updates. thanks Sergio Rubio
+  Added missing router related tests. thanks Sergio Rubio
+  create_network provider extensions reworked. thanks Sergio Rubio
+  remove extra trailing comma. thanks Sergio Rubio
+  remove superfluous Router model attributes. thanks Sergio Rubio
+  Fix #connection deprecation replacing it with #service. thanks Sergio Rubio
+  mock fixes in some OpenStack Network requests. thanks Sergio Rubio
+  added network/subnet/router related example. thanks Sergio Rubio
+
+[openstack|storage]
+  Added support to impersonate other accounts. thanks Sergio Rubio
+  added missing mocks. thanks Sergio Rubio
+  Added storage example to set the account quota. thanks Sergio Rubio
+
+[rackspace]
+  updated storage to support custom endpoints when using auth 2.0. thanks Kyle Rames
+  extracted auth 2.0 into module; updated cdn to support an external endpoint. thanks Kyle Rames
+  updated service_catalog.reload; added rackspace_cdn_url as an option to storage service; tweaked compute_v2 auth. thanks Kyle Rames
+  renaming variables in the interest of clarification. thanks Kyle Rames
+  updated to use v1 authentication if rackspace_auth_url endpoint is specified without version as with the current implementation of knife-rackspace. thanks Kyle Rames
+  initial checkin for the Getting started with Cloud Files document. thanks Kyle Rames
+  SPIKE: converting authentication module to super class. thanks Kyle Rames
+  updated to pass string rather and a uri to Fog::Connection. thanks Kyle Rames
+  created auth_token method in service that will return a token defined in the @auth_token variable to the identity service to reduce the chance that token might not be set; improved token tests. thanks Kyle Rames
+  made some methods private per @brianhartsock. thanks Kyle Rames
+  adding deprecation warning for auth v1.0/v1.1 authentication endpoints. thanks Kyle Rames
+  fixing yard warnings. thanks Kyle Rames
+  adding auth endpoint constants in Fog::Rackspace. thanks Kyle Rames
+  additional getting started document edits. thanks Kyle Rames
+  minor document update. thanks Kyle Rames
+  fixing constant already defined error for Fog::Rackspace::UK_AUTH_ENDPOINT and Fog::Rackspace::US_AUTH_ENDPOINT. thanks Kyle Rames
+  adding auth 2.0 to compute, databases, dns, load balancers, cloud block storage. thanks Kyle Rames
+  updated service endpoint handling; improved service endpoint tests. thanks Kyle Rames
+  moving require 'fog/rackspace/service' to fog/rackspace. thanks Kyle Rames
+  fixing auth 20 issue where tenant id is not being appended to the service url. thanks Kyle Rames
+  adjusting white space on documents. Added examples, additional resources, and support section to cloud files doc. thanks Kyle Rames
+  updated to normalize endpoints before detecting a standard endpoint. thanks Kyle Rames
+  making document edits. thanks Kyle Rames
+  fixing code error in documentation. thanks Kyle Rames
+  miscellaneous document tweaks. thanks Kyle Rames
+  added exception info to rackspace api documentation. thanks Kyle Rames
+  adding stragler. thanks Kyle Rames
+  fixing typo in api docs. thanks Kyle Rames
+  updated getting_started.md to use source 'https://rubygems.org' rather than :rubygems. thanks Kyle Rames
+  tweaking getting started page. thanks Kyle Rames
+  adding note about credentials in the getting started document. thanks Kyle Rames
+  adding note about credentials in the getting started document. thanks Kyle Rames
+  updated examples to use Chicago data center; updated error message to indicate we were using the Chicago data center. thanks Kyle Rames
+  revising getting started page. thanks Kyle Rames
+
+[rackspace|block_storage]
+  initial document checkin. thanks Kyle Rames
+  edits to cloud block storage documentation. thanks Kyle Rames
+  adding link on getting_started.md to cloud block storage doc. thanks Kyle Rames
+  additional edits to the cloud block storage documentation. thanks Kyle Rames
+  initial checkin of block storage api documentation. thanks Kyle Rames
+  adding response documentaion. thanks Kyle Rames
+  updated yard docs for requests. thanks Kyle Rames
+
+[rackspace|blockstorage]
+  adding Cloud Block Storage Examples. thanks Kyle Rames
+
+[rackspace|cdn]
+  updated cdn to use auth 2.0. thanks Kyle Rames
+
+[rackspace|compute_v2]
+  updated compute_v2 to use auth 2.0 endpoints. thanks Kyle Rames
+  updated to support auth 2.0. thanks Kyle Rames
+  fixing broken test. thanks Kyle Rames
+  added authentication_method test specifically for chef's default. thanks Kyle Rames
+  fixing yard doc. thanks Kyle Rames
+  updated compute_v2 to get the appropriate endpoint from the service catalog when an endpoint is specified via :rackspace_endpoint with one of the known constants (DFW_ENDPOINT, ORD_ENDPOINT, LON_ENDPOINT); updated compute examples to use rackspace region. thanks Kyle Rames
+  fixed chef issue. thanks Kyle Rames
+  updated detach volume to use :rackspace_region to specify region. thanks Kyle Rames
+  added specific exception for invalid states in order to make it easier to rescue. thanks Kyle Rames
+  added bootstrap and ssh section to compute documentation. thanks Kyle Rames
+  updated the bootstrap section of the compute_v2 documentation. thanks Kyle Rames
+
+[rackspace|identity]
+  updated test to support ruby 1.8.7. thanks Kyle Rames
+
+[rackspace|storage]
+  initial cloud file examples checkin. thanks Kyle Rames
+  fixing typos. thanks Kyle Rames
+  renaming examples. thanks Kyle Rames
+  updating to use 2.0 authentication endpoints. thanks Kyle Rames
+  fixing broken tests. thanks Kyle Rames
+  fixing example spacing. thanks Kyle Rames
+  adding rackspace storage docs; general edits on other rackspace documents. thanks Kyle Rames
+  adding Storage yard docs. thanks Kyle Rames
+  updating the download file section. thanks Kyle Rames
+  updating download example to use a block. thanks Kyle Rames
+  updating auth endpoints in documentation. thanks Kyle Rames
+  fixing typos. thanks Kyle Rames
+
+[xenserver|compute]
+  added create_vlan request. thanks Sergio Rubio
+  added destroy_vlan request. thanks Sergio Rubio
+  added create_vlan request tests. thanks Sergio Rubio
+  added destroy_vlan request tests. thanks Sergio Rubio
+  added create_network request. thanks Sergio Rubio
+  added create_network tests. thanks Sergio Rubio
+  added destroy_network request. thanks Sergio Rubio
+  added destroy_network request tests. thanks Sergio Rubio
+  added VLAN model and tests. thanks Sergio Rubio
+  Added Vlans collection and tests. thanks Sergio Rubio
+  added save and destroy operations to Network. thanks Sergio Rubio
+  updated compute service to add new model, requests. thanks Sergio Rubio
+  Added Network/VLANs creation example. thanks Sergio Rubio
+  update changelog. thanks Sergio Rubio
+
+
 1.10.0 03/05/2013 2f30de2ab357a5bbdb505b94ada8aa637ba936f5
 ==========================================================
 

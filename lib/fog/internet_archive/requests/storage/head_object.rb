@@ -13,7 +13,6 @@ module Fog
         # @option options [String] If-None-Match Returns object only if its etag differs from this value, otherwise returns 304 (Not Modified)
         # @option options [Time]   If-Unmodified-Since Returns object only if it has not been modified since this time, otherwise returns 412 (Precodition Failed).
         # @option options [String] Range Range of object to download
-        # @option options [String] versionId specify a particular version to retrieve
         # 
         # @return [Excon::Response] response: 
         #   * body [String] Contents of object
@@ -32,9 +31,6 @@ module Fog
           unless object_name
             raise ArgumentError.new('object_name is required')
           end
-          if version_id = options.delete('versionId')
-            query = {'versionId' => version_id}
-          end
           headers = {}
           headers['If-Modified-Since'] = Fog::Time.at(options['If-Modified-Since'].to_i).to_date_header if options['If-Modified-Since']
           headers['If-Unmodified-Since'] = Fog::Time.at(options['If-Unmodified-Since'].to_i).to_date_header if options['If-Modified-Since']
@@ -45,8 +41,7 @@ module Fog
             :host       => "#{bucket_name}.#{@host}",
             :idempotent => true,
             :method     => 'HEAD',
-            :path       => CGI.escape(object_name),
-            :query      => query
+            :path       => CGI.escape(object_name)
           })
         end
 

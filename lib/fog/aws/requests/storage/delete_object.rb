@@ -24,7 +24,7 @@ module Fog
           request({
             :expects    => 204,
             :headers    => headers,
-            :host       => "#{bucket_name}.#{@host}",
+            :bucket_name => bucket_name,
             :idempotent => true,
             :method     => 'DELETE',
             :path       => path

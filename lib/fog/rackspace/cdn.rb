@@ -1,11 +1,9 @@
 require 'fog/rackspace'
-require 'fog/rackspace/service'
 require 'fog/cdn'
 
 module Fog
   module CDN
     class Rackspace < Fog::Service
-
       requires :rackspace_api_key, :rackspace_username
       recognizes :rackspace_auth_url, :persistent, :rackspace_cdn_ssl, :rackspace_region, :rackspace_cdn_url
 
@@ -37,6 +35,14 @@ module Fog
           @uri = super(@rackspace_cdn_url || service_endpoint_url, :rackspace_cdn_url)
         end
 
+        # Publish container to CDN
+        # @param [Fog::Storage::Rackspace::Directory] directory to publish
+        # @param [Boolean] publish If true directory is published. If false directory is unpublished.
+        # @return [Hash] hash containing urls for published container
+        # @raise [Fog::Storage::Rackspace::NotFound] - HTTP 404
+        # @raise [Fog::Storage::Rackspace::BadRequest] - HTTP 400
+        # @raise [Fog::Storage::Rackspace::InternalServerError] - HTTP 500
+        # @raise [Fog::Storage::Rackspace::ServiceError]
         def publish_container(container, publish = true)
           enabled = publish ? 'True' : 'False'
           response = put_container(container.key, 'X-Cdn-Enabled' => enabled)
@@ -44,6 +50,13 @@ module Fog
           urls_from_headers(response.headers)
         end
         
+        # Returns hash of urls for container
+        # @param [Fog::Storage::Rackspace::Directory] container to retrieve urls for
+        # @return [Hash] hash containing urls for published container
+        # @raise [Fog::Storage::Rackspace::BadRequest] - HTTP 400
+        # @raise [Fog::Storage::Rackspace::InternalServerError] - HTTP 500
+        # @raise [Fog::Storage::Rackspace::ServiceError]
+        # @note If unable to find container or container is not published this method will return an empty hash.
         def urls(container)
           begin 
             response = head_container(container.key)
@@ -116,14 +129,20 @@ module Fog
           end
         end
 
+        # Returns true if CDN service is enabled
+        # @return [Boolean]
         def enabled?
           @enabled
         end
 
+        # Resets CDN connection
         def reload
           @cdn_connection.reset
         end
         
+        # Purges File
+        # @param [Fog::Storage::Rackspace::File] file to be purged from the CDN
+        # @raise [Fog::Errors::NotImplemented] returned when non file parameters are specified
         def purge(file)
           unless file.is_a? Fog::Storage::Rackspace::File
             raise Fog::Errors::NotImplemented.new("#{object.class} does not support CDN purging")  if object
@@ -144,13 +163,14 @@ module Fog
               :host     => endpoint_uri.host,
               :path     => "#{endpoint_uri.path}/#{params[:path]}",
             }))
+          rescue Excon::Errors::NotFound => error
+            raise Fog::Storage::Rackspace::NotFound.slurp(error, region)
+          rescue Excon::Errors::BadRequest => error
+            raise Fog::Storage::Rackspace::BadRequest.slurp error
+          rescue Excon::Errors::InternalServerError => error
+            raise Fog::Storage::Rackspace::InternalServerError.slurp error
           rescue Excon::Errors::HTTPStatusError => error
-            raise case error
-            when Excon::Errors::NotFound
-              Fog::Storage::Rackspace::NotFound.slurp(error)
-            else
-              error
-            end
+            raise Fog::Storage::Rackspace::ServiceError.slurp error
           end
           if !response.body.empty? && parse_json && response.headers['Content-Type'] =~ %r{application/json}
             response.body = Fog::JSON.decode(response.body)

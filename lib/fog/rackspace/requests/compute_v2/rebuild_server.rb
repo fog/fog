@@ -30,15 +30,19 @@ module Fog
         #             * contents - Base 64 encoded file contents
         #       * networks [Array]:
         #         * [Hash]:
-        #           * uuid [String] - uuid of attached network        
+        #           * uuid [String] - uuid of attached network
+        # @raise [Fog::Compute::RackspaceV2::NotFound] - HTTP 404
+        # @raise [Fog::Compute::RackspaceV2::BadRequest] - HTTP 400
+        # @raise [Fog::Compute::RackspaceV2::InternalServerError] - HTTP 500
+        # @raise [Fog::Compute::RackspaceV2::ServiceError]
         # @see http://docs.rackspace.com/servers/api/v2/cs-devguide/content/Rebuild_Server-d1e3538.html
         # @see http://docs.rackspace.com/servers/api/v2/cs-devguide/content/Server_Metadata-d1e2529.html
         # @see http://docs.rackspace.com/servers/api/v2/cs-devguide/content/Server_Personality-d1e2543.html
         # @see http://docs.rackspace.com/servers/api/v2/cs-devguide/content/ch_extensions.html#diskconfig_attribute
         #
-        #   * Status Transition:
-        #     * ACTIVE -> REBUILD -> ACTIVE
-        #     * ACTIVE -> REBUILD -> ERROR (on error)
+        # * Status Transition:
+        #   * ACTIVE -> REBUILD -> ACTIVE
+        #   * ACTIVE -> REBUILD -> ERROR (on error)
         def rebuild_server(server_id, image_id, options={})
           data = {
             'rebuild' => options || {}

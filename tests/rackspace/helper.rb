@@ -23,6 +23,16 @@ module Shindo
       end
     end
   
+
+   def wait_for_server_deletion(server)
+     return if Fog.mocking?
+     begin
+       @instance.wait_for { state = 'DELETED' }
+     rescue Fog::Compute::RackspaceV2::NotFound => e
+       # do nothing
+     end
+   end
+
     def wait_for_server_state(service, server_id, state, error_states=nil)
       current_state = nil
       until current_state == state

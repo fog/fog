@@ -202,7 +202,35 @@ module Fog
 
       Fog::JSON.decode(response.body)
     end
-    
+
+    def self.get_supported_version(supported_versions, uri, auth_token, connection_options = {})
+      connection = Fog::Connection.new("#{uri.scheme}://#{uri.host}:#{uri.port}", false, connection_options)
+      response = connection.request({
+        :expects => [200, 204, 300],
+        :headers => {'Content-Type' => 'application/json',
+                     'Accept' => 'application/json',
+                     'X-Auth-Token' => auth_token},
+        :host    => uri.host,
+        :method  => 'GET'
+      })
+
+      body = Fog::JSON.decode(response.body)
+      version = nil
+      unless body['versions'].empty?
+        supported_version = body['versions'].detect do |x|
+          x["id"].match(supported_versions) &&
+          (x["status"] == "CURRENT" || x["status"] == "SUPPORTED")
+        end
+        version = supported_version["id"] if supported_version
+      end
+      if version.nil?
+        raise Fog::OpenStack::Errors::ServiceUnavailable.new(
+                  "OpenStack service only supports API versions #{supported_versions.inspect}")
+      end
+
+      version
+    end
+
     # CGI.escape, but without special treatment on spaces
     def self.escape(str,extra_exclude_chars = '')
       str.gsub(/([^a-zA-Z0-9_.-#{extra_exclude_chars}]+)/) do

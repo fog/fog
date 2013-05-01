@@ -6,8 +6,8 @@ Gem::Specification.new do |s|
   ## If your rubyforge_project name is different, then edit it and comment out
   ## the sub! line in the Rakefile
   s.name              = 'fog'
-  s.version           = '1.10.0'
-  s.date              = '2013-03-05'
+  s.version           = '1.10.1'
+  s.date              = '2013-04-04'
   s.rubyforge_project = 'fog'
 
   ## Make sure your summary is short. The description may be as long
@@ -44,7 +44,7 @@ Gem::Specification.new do |s|
   s.add_dependency('google-api-client', '~>0.6.2')
   s.add_dependency('excon', '~>0.20')
   s.add_dependency('formatador', '~>0.2.0')
-  s.add_dependency('multi_json', '~>1.0')
+  s.add_dependency('json', '~>1.7')
   s.add_dependency('mime-types')
   s.add_dependency('net-scp', '~>1.1')
   s.add_dependency('net-ssh', '>=2.1.3')
