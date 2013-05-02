@@ -45,6 +45,19 @@ module Google # deviates from other bin stuff to accomodate gem
         !Gem.source_index.find_name('google-api-client').empty? # legacy
       end
 
+      # Then make sure we have all of the requirements
+      for service in services
+        begin
+          service = self.class_for(service)
+          availability &&= service.requirements.all? { |requirement| Fog.credentials.include?(requirement) }
+        rescue ArgumentError => e
+          Fog::Logger.warning(e.message)
+          availability = false
+        rescue => e
+          availability = false
+        end
+      end
+
       if availability
         for service in services
           for collection in self.class_for(service).collections
