@@ -44,10 +44,12 @@ module Fog
         attribute :resource_pool
         attribute :instance_uuid # move this --> id
         attribute :guest_id
+        attribute :annotations
 
         def initialize(attributes={} )
           super defaults.merge(attributes)
           self.instance_uuid ||= id # TODO: remvoe instance_uuid as it can be replaced with simple id
+          initialize_annotations
           initialize_interfaces
           initialize_volumes
         end
@@ -207,6 +209,12 @@ module Fog
           }
         end
 
+        def initialize_annotations
+          annotations = attributes[:annotations] ? attributes[:annotations].map{ |annotation| annotation.merge({:vm => self}) } : []
+          attributes[:annotations] = service.annotations({:vm => self})
+          attributes[:annotations].load annotations
+        end
+
         def initialize_interfaces
           if attributes[:interfaces] and attributes[:interfaces].is_a?(Array)
             self.attributes[:interfaces].map! { |nic| nic.is_a?(Hash) ? service.interfaces.new(nic) : nic }
@@ -219,7 +227,6 @@ module Fog
           end
         end
       end
-
     end
   end
 end
