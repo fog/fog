@@ -1,19 +1,18 @@
-module Fog
-  module Compute
-    class Cloudstack
-      class Real
-
-        # Attaches a disk volume to a virtual machine.
-        #
-        # {CloudStack API Reference}[http://http://download.cloud.com/releases/2.2.0/api_2.2.12/global_admin/attachVolume.html]
-        def attach_volume(options={})
-          options.merge!(
-            'command' => 'attachVolume'
-          )
-
-          request(options)
-        end
-
+  module Fog
+    module Compute
+      class Cloudstack
+        class Real
+           
+          # Attaches a disk volume to a virtual machine.
+          #
+          # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.0.0/root_admin/attachVolume.html]
+          def attach_volume(options={})
+            options.merge!(
+              'command' => 'attachVolume'
+            )
+            request(options)
+          end
+           
       end # Real
 
       class Mock
@@ -43,17 +42,17 @@ module Fog
           user_id = self.data[:users].first
 
           job = {
-            "accountid"     => account_id,
-            "userid"        => user_id,
-            "cmd"           => "com.cloud.api.commands.AttachVolumeCmd",
-            "created"       => Time.now.iso8601,
-            "jobid"         => job_id,
-            "jobstatus"     => 1,
+            "accountid" => account_id,
+            "userid" => user_id,
+            "cmd" => "com.cloud.api.commands.AttachVolumeCmd",
+            "created" => Time.now.iso8601,
+            "jobid" => job_id,
+            "jobstatus" => 1,
             "jobprocstatus" => 0,
             "jobresultcode" => 0,
             "jobresulttype" => "object",
-            "jobresult"     =>
-              {"volume"     => volume}
+            "jobresult" =>
+              {"volume" => volume}
           }
 
           self.data[:jobs][job_id]= job

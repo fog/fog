@@ -1,62 +1,61 @@
-module Fog
-  module Compute
-    class Cloudstack
-      class Real
-
-        # Deletes a specified domain.
-        #
-        # {CloudStack API Reference}[http://download.cloud.com/releases/2.2.0/api_2.2.4/global_admin/detachVolume.html]
-        def detach_volume(options={})
-          options.merge!(
-            'command' => 'detachVolume'
-          )
-
-          request(options)
-        end
-
-      end # Real
-
-      class Mock
-
-        def detach_volume(options={})
-          volume_id = options['id']
-
-          volume = self.data[:volumes][volume_id]
-          unless volume
-            raise Fog::Compute::Cloudstack::BadRequest.new("Unable to execute API command attachvolume due to invalid value. Object volumes(uuid: #{volume_id}) does not exist.")
+  module Fog
+    module Compute
+      class Cloudstack
+        class Real
+           
+          # Detaches a disk volume from a virtual machine.
+          #
+          # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.0.0/root_admin/detachVolume.html]
+          def detach_volume(options={})
+            options.merge!(
+              'command' => 'detachVolume'
+            )
+            request(options)
           end
+           
+        end # Real
 
-          volume['virtualmachineid']= volume['vmname']= volume['vmdisplayname']= nil
+        class Mock
 
-          job_id = Fog::Cloudstack.uuid
+          def detach_volume(options={})
+            volume_id = options['id']
 
-          # FIXME: need to determine current user
-          account_id = self.data[:accounts].first
-          user_id = self.data[:users].first
+            volume = self.data[:volumes][volume_id]
+            unless volume
+              raise Fog::Compute::Cloudstack::BadRequest.new("Unable to execute API command attachvolume due to invalid value. Object volumes(uuid: #{volume_id}) does not exist.")
+            end
 
-          job = {
-            "accountid"     => account_id,
-            "userid"        => user_id,
-            "cmd"           => "com.cloud.api.commands.DetachVolumeCmd",
-            "created"       => Time.now.iso8601,
-            "jobid"         => job_id,
-            "jobstatus"     => 1,
-            "jobprocstatus" => 0,
-            "jobresultcode" => 0,
-            "jobresulttype" => "object",
-            "jobresult"     =>
-              {"volume"     => volume}
-          }
+            volume['virtualmachineid']= volume['vmname']= volume['vmdisplayname']= nil
 
-          self.data[:jobs][job_id]= job
+            job_id = Fog::Cloudstack.uuid
 
-          {
-            "detachvolumeresponse" => {
-              "jobid" => job_id
+            # FIXME: need to determine current user
+            account_id = self.data[:accounts].first
+            user_id = self.data[:users].first
+
+            job = {
+              "accountid" => account_id,
+              "userid" => user_id,
+              "cmd" => "com.cloud.api.commands.DetachVolumeCmd",
+              "created" => Time.now.iso8601,
+              "jobid" => job_id,
+              "jobstatus" => 1,
+              "jobprocstatus" => 0,
+              "jobresultcode" => 0,
+              "jobresulttype" => "object",
+              "jobresult" =>
+                {"volume" => volume}
             }
-          }
-        end
-      end # Mock
-    end
-  end
-end
+
+            self.data[:jobs][job_id]= job
+
+            {
+              "detachvolumeresponse" => {
+                "jobid" => job_id
+              }
+            }
+          end
+        end # Mock
+      end # Cloudstack
+    end # Compute
+  end # Fog

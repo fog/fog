@@ -1,20 +1,19 @@
-module Fog
-  module Compute
-    class Cloudstack
-      class Real
-
-        # Lists configurations and provides detailed account information for listed configurations.
-        #
-        # {CloudStack API Reference}[http://download.cloud.com/releases/2.2.0/api_2.2.4/global_admin/listAccounts.html]
-        def list_configurations(options={})
-          options.merge!(
-            'command' => 'listConfigurations'
-          )
-          
-          request(options)
-        end
-
-      end
-    end
-  end
-end
+  module Fog
+    module Compute
+      class Cloudstack
+        class Real
+           
+          # Lists all configurations.
+          #
+          # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.0.0/root_admin/listConfigurations.html]
+          def list_configurations(options={})
+            options.merge!(
+              'command' => 'listConfigurations'
+            )
+            request(options)
+          end
+           
+        end # Real
+      end # Cloudstack
+    end # Compute
+  end # Fog

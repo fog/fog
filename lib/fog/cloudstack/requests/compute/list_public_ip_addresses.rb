@@ -1,22 +1,19 @@
-module Fog
-  module Compute
-    class Cloudstack
-      class Real
-
-        # Lists resource limits.
-        #
-        # {CloudStack API Reference}[http://download.cloud.com/releases/2.2.0/api_2.2.4/global_admin/listPublicIpAddresses.html]
-        def list_public_ip_addresses(options={})
-          options.merge!(
-            'command' => 'listPublicIpAddresses'
-          )
-          
-          request(options)
-        end
-
-      end
-    end
-  end
-end
-
-
+  module Fog
+    module Compute
+      class Cloudstack
+        class Real
+           
+          # Lists all public ip addresses
+          #
+          # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.0.0/root_admin/listPublicIpAddresses.html]
+          def list_public_ip_addresses(options={})
+            options.merge!(
+              'command' => 'listPublicIpAddresses'
+            )
+            request(options)
+          end
+           
+        end # Real
+      end # Cloudstack
+    end # Compute
+  end # Fog
