@@ -5,8 +5,8 @@ module Fog
 
         # Delete a streaming distribution from CloudFront.
         #
-        # @param distribution_id [String] Id of distribution to delete.
-        # @parma etag [String] Etag of that distribution from earlier get or put
+        # @param [String] distribution_id Id of distribution to delete.
+        # @param [String] etag Etag of that distribution from earlier get or put
         #
         # @see http://docs.amazonwebservices.com/AmazonCloudFront/latest/APIReference/DeleteStreamingDistribution.html
         

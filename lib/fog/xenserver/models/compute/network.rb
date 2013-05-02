@@ -59,7 +59,7 @@ module Fog
         #     net = service.networks.create :name => 'foonet',
         #                                   :description => 'test network'
         #
-        # @returns [Boolean]
+        # @return [Boolean]
         #
         def save
           requires :name
@@ -77,7 +77,7 @@ module Fog
         #     net = service.networks.find { |net| net.name == 'foonet' }
         #     net.destroy
         #
-        # @returns [Boolean]
+        # @return [Boolean]
         #
         def destroy
           requires :reference

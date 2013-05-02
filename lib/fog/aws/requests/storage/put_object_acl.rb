@@ -7,9 +7,9 @@ module Fog
 
         # Change access control list for an S3 object
         #
-        # @param bucket_name [String] name of bucket to modify
-        # @param object_name [String] name of object to get access control list for
-        # @param acl [Hash]:
+        # @param [String] bucket_name name of bucket to modify
+        # @param [String] object_name name of object to get access control list for
+        # @param [Hash] acl
         #   * Owner [Hash]
         #     * ID [String] id of owner
         #     * DisplayName [String] display name of owner
@@ -22,9 +22,9 @@ module Fog
         #       or
         #       * URI [String] URI of group to grant access for
         #     * Permission [String] Permission, in [FULL_CONTROL, WRITE, WRITE_ACP, READ, READ_ACP]
-        # @param acl [String] Permissions, must be in ['private', 'public-read', 'public-read-write', 'authenticated-read']
-        # @param options [Hash]
-        # @option options versionId [String] specify a particular version to retrieve
+        # @param [String] acl Permissions, must be in ['private', 'public-read', 'public-read-write', 'authenticated-read']
+        # @param [Hash] options
+        # @option options [String] versionId specify a particular version to retrieve
         #
         # @see http://docs.amazonwebservices.com/AmazonS3/latest/API/RESTObjectPUTacl.html
 
