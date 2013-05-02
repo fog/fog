@@ -1,6 +1,3 @@
-require 'spec'
-require 'spec/mocks'
-
 Shindo.tests('Dynect::dns | DNS requests', ['dynect', 'dns']) do
 
   shared_format = {
