@@ -11,30 +11,6 @@ module Fog
 
 
       case provider
-      when :aws
-        require 'fog/aws/compute'
-        Fog::Compute::AWS.new(attributes)
-      when :bluebox
-        require 'fog/bluebox/compute'
-        Fog::Compute::Bluebox.new(attributes)
-      when :brightbox
-        require 'fog/brightbox/compute'
-        Fog::Compute::Brightbox.new(attributes)
-      when :google
-        require 'fog/google/compute'
-        Fog::Compute::Google.new(attributes)
-      when :cloudstack
-        require 'fog/cloudstack/compute'
-        Fog::Compute::Cloudstack.new(attributes)
-      when :clodo
-        require 'fog/clodo/compute'
-        Fog::Compute::Clodo.new(attributes)
-      when :ecloud
-        require 'fog/ecloud/compute'
-        Fog::Compute::Ecloud.new(attributes)
-      when :glesys
-        require 'fog/glesys/compute'
-        Fog::Compute::Glesys.new(attributes)
       when :gogrid
         require 'fog/go_grid/compute'
         Fog::Compute::GoGrid.new(attributes)
