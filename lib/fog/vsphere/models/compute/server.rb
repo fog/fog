@@ -49,9 +49,9 @@ module Fog
         def initialize(attributes={} )
           super defaults.merge(attributes)
           self.instance_uuid ||= id # TODO: remvoe instance_uuid as it can be replaced with simple id
+          initialize_annotations
           initialize_interfaces
           initialize_volumes
-          annotations.set_vm_for_each_annotation(self) if annotations.is_a? Fog::Compute::Vsphere::Annotations
         end
 
         # Lazy Loaded Attributes
@@ -207,6 +207,12 @@ module Fog
             :guest_id  => 'otherGuest',
             :path      => '/'
           }
+        end
+
+        def initialize_annotations
+          annotations = attributes[:annotations] ? attributes[:annotations].map{ |annotation| annotation.merge({:vm => self}) } : []
+          attributes[:annotations] = service.annotations({:vm => self})
+          attributes[:annotations].load annotations
         end
 
         def initialize_interfaces

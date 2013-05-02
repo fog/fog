@@ -137,14 +137,14 @@ module Fog
             end
 
             # setting annotations
-            attrs['annotations'] = Fog::Compute::Vsphere::Annotations.new(:service => self)
             vals = attrs['customValue'] ? attrs['customValue'].inject({}) do |vs, cv|
               vs[cv.key] = cv.value
               vs
             end : {}
-            attrs['availableField'].each do |af|
-              attrs['annotations'] << attrs['annotations'].new(:key => af.name.downcase.to_sym, :value => vals[af.key])
+            attrs['annotations']  = attrs['availableField'].map do |af|
+              {:key => af.name.downcase.to_sym, :value => vals[af.key]}
             end if attrs['availableField']
+
             attrs.delete 'customValue'
             attrs.delete 'availableField'
 

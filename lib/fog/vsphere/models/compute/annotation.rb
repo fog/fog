@@ -5,7 +5,7 @@ module Fog
 
         identity  :key
         attribute :value
-        attribute :vm
+        attr_accessor :vm
 
         def update val
           requires :vm, :key, :value
