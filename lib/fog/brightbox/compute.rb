@@ -1,6 +1,7 @@
 require 'fog/brightbox'
 require 'fog/compute'
 require 'fog/brightbox/oauth2'
+require 'fog/brightbox/compute/image_selector'
 
 module Fog
   module Compute
@@ -268,13 +269,15 @@ module Fog
 
         # Returns an identifier for the default image for use
         #
-        # Currently tries to find the latest version Ubuntu LTS (i686) widening
-        # up to the latest, official version of Ubuntu available.
+        # Currently tries to find the latest version of Ubuntu (i686) from
+        # Brightbox.
         #
         # Highly recommended that you actually select the image you want to run
         # on your servers yourself!
         #
-        # @return [String, nil]
+        # @return [String] if image is found, returns the identifier
+        # @return [NilClass] if no image is found or an error occurs
+        #
         def default_image
           return @default_image_id unless @default_image_id.nil?
           @default_image_id = Fog.credentials[:brightbox_default_image] || select_default_image
@@ -458,30 +461,12 @@ module Fog
 
         # Queries the API and tries to select the most suitable official Image
         # to use if the user chooses not to select their own.
+        #
+        # @return [String] if image is found, the image's identifier
+        # @return [NilClass] if no image found or an error occured
+        #
         def select_default_image
-          return @default_image_id unless @default_image_id.nil?
-
-          all_images = list_images
-          official_images = all_images.select {|img| img["official"] == true}
-          ubuntu_lts_images = official_images.select {|img| img["name"] =~ /Ubuntu.*LTS/}
-          ubuntu_lts_i686_images = ubuntu_lts_images.select {|img| img["arch"] == "i686"}
-
-          if ubuntu_lts_i686_images.empty?
-            # Accept other architectures
-            if ubuntu_lts_images.empty?
-              # Accept non-LTS versions of Ubuntu
-              unsorted_images = official_images.select {|img| img["name"] =~ /Ubuntu/}
-            else
-              unsorted_images = ubuntu_lts_images
-            end
-          else
-            unsorted_images = ubuntu_lts_i686_images
-          end
-
-          # Get the latest and use it's ID for the default image
-          @default_image_id = unsorted_images.sort {|a,b| a["created_at"] <=> b["created_at"]}.first["id"]
-        rescue
-          nil
+          Fog::Brightbox::Compute::ImageSelector.new(list_images).latest_ubuntu
         end
       end
 
