@@ -3,6 +3,7 @@ require 'fog/compute'
 module Fog
   module Compute
     class RackspaceV2 < Fog::Service
+      include Fog::Rackspace::Errors
 
       class ServiceError < Fog::Rackspace::Errors::ServiceError; end
       class InternalServerError < Fog::Rackspace::Errors::InternalServerError; end
@@ -21,15 +22,15 @@ module Fog
 
       class InvalidServerStateException < InvalidStateException
         def to_s
-          "Server should have transitioned to '#{desired_state}' not '#{state}'"
+          "Server should have transitioned to '#{desired_state}' not '#{current_state}'"
         end
       end
 
       class InvalidImageStateException < InvalidStateException
          def to_s
-           "Image should have transitioned to '#{desired_state}' not '#{state}'"
+           "Image should have transitioned to '#{desired_state}' not '#{current_state}'"
          end
-       end
+      end
 
       DFW_ENDPOINT = 'https://dfw.servers.api.rackspacecloud.com/v2'
       ORD_ENDPOINT = 'https://ord.servers.api.rackspacecloud.com/v2'
@@ -66,6 +67,8 @@ module Fog
       request :resize_server
       request :confirm_resize_server
       request :revert_resize_server
+      request :rescue_server
+      request :unrescue_server
       request :list_addresses
       request :list_addresses_by_network
 
@@ -148,7 +151,7 @@ module Fog
               :path     => "#{endpoint_uri.path}/#{params[:path]}"
             }))
           rescue Excon::Errors::NotFound => error
-            raise NotFound.slurp error
+            raise NotFound.slurp(error, region)
           rescue Excon::Errors::BadRequest => error
             raise BadRequest.slurp error
           rescue Excon::Errors::InternalServerError => error
@@ -160,7 +163,7 @@ module Fog
           unless response.body.empty?
             begin
               response.body = Fog::JSON.decode(response.body)
-            rescue Fog::JSON::LoadError => e
+            rescue Fog::JSON::LoadError
               response.body = {}
             end
           end

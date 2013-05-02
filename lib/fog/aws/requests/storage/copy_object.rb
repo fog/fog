@@ -33,10 +33,10 @@ module Fog
           request({
             :expects  => 200,
             :headers  => headers,
-            :host     => "#{target_bucket_name}.#{@host}",
+            :bucket_name => target_bucket_name,
+            :object_name => target_object_name,
             :method   => 'PUT',
             :parser   => Fog::Parsers::Storage::AWS::CopyObject.new,
-            :path     => CGI.escape(target_object_name)
           })
         end
 

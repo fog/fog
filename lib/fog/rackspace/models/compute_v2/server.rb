@@ -180,10 +180,10 @@ module Fog
         # * requires attributes: service:, :name, :image_id, and :flavor_id
         # * optional attributes :disk_config, :metadata, :personality
         # @return [Boolean] returns true if server is being created
-        # @raise [Fog::Rackspace::Errors::NotFound] - HTTP 404
-        # @raise [Fog::Rackspace::Errors::BadRequest] - HTTP 400
-        # @raise [Fog::Rackspace::Errors::InternalServerError] - HTTP 500
-        # @raise [Fog::Rackspace::Errors::ServiceError]
+        # @raise [Fog::Compute::RackspaceV2::NotFound] - HTTP 404
+        # @raise [Fog::Compute::RackspaceV2::BadRequest] - HTTP 400
+        # @raise [Fog::Compute::RackspaceV2::InternalServerError] - HTTP 500
+        # @raise [Fog::Compute::RackspaceV2::ServiceError]
         # @note You should use servers.create to create servers instead calling this method directly
         # @see Servers#create
         # @see http://docs.rackspace.com/servers/api/v2/cs-devguide/content/CreateServers.html        
@@ -194,6 +194,7 @@ module Fog
         def create(options)
           requires :name, :image_id, :flavor_id
 
+          options[:networks] ||= attributes[:networks]
           options[:disk_config] = disk_config unless disk_config.nil?
           options[:metadata] = metadata.to_hash unless @metadata.nil?
           options[:personality] = personality unless personality.nil?
@@ -211,10 +212,10 @@ module Fog
         # This will update :name, :accessIPv4, and :accessIPv6 attributes.
         # @note If you edit the server name, the server host name does not change. Also, server names are not guaranteed to be unique.
         # @return true if update has started updating
-        # @raise [Fog::Rackspace::Errors::NotFound] - HTTP 404
-        # @raise [Fog::Rackspace::Errors::BadRequest] - HTTP 400
-        # @raise [Fog::Rackspace::Errors::InternalServerError] - HTTP 500
-        # @raise [Fog::Rackspace::Errors::ServiceError]
+        # @raise [Fog::Compute::RackspaceV2::NotFound] - HTTP 404
+        # @raise [Fog::Compute::RackspaceV2::BadRequest] - HTTP 400
+        # @raise [Fog::Compute::RackspaceV2::InternalServerError] - HTTP 500
+        # @raise [Fog::Compute::RackspaceV2::ServiceError]
         # @see http://docs.rackspace.com/servers/api/v2/cs-devguide/content/ServerUpdate.html
         #
         # * State Transition
@@ -234,10 +235,10 @@ module Fog
 
         # Destroy the server
         # @return [Boolean] returns true if server has started deleting
-        # @raise [Fog::Rackspace::Errors::NotFound] - HTTP 404
-        # @raise [Fog::Rackspace::Errors::BadRequest] - HTTP 400
-        # @raise [Fog::Rackspace::Errors::InternalServerError] - HTTP 500
-        # @raise [Fog::Rackspace::Errors::ServiceError]
+        # @raise [Fog::Compute::RackspaceV2::NotFound] - HTTP 404
+        # @raise [Fog::Compute::RackspaceV2::BadRequest] - HTTP 400
+        # @raise [Fog::Compute::RackspaceV2::InternalServerError] - HTTP 500
+        # @raise [Fog::Compute::RackspaceV2::ServiceError]
         # @see http://docs.rackspace.com/servers/api/v2/cs-devguide/content/Delete_Server-d1e2883.html
         #
         # * Status Transition:
@@ -251,10 +252,10 @@ module Fog
 
         # Server flavor
         # @return [Fog::Compute::RackspaceV2::Flavor] server flavor
-        # @raise [Fog::Rackspace::Errors::NotFound] - HTTP 404
-        # @raise [Fog::Rackspace::Errors::BadRequest] - HTTP 400
-        # @raise [Fog::Rackspace::Errors::InternalServerError] - HTTP 500
-        # @raise [Fog::Rackspace::Errors::ServiceError]
+        # @raise [Fog::Compute::RackspaceV2::NotFound] - HTTP 404
+        # @raise [Fog::Compute::RackspaceV2::BadRequest] - HTTP 400
+        # @raise [Fog::Compute::RackspaceV2::InternalServerError] - HTTP 500
+        # @raise [Fog::Compute::RackspaceV2::ServiceError]
         def flavor
           requires :flavor_id
           @flavor ||= service.flavors.get(flavor_id)
@@ -262,10 +263,10 @@ module Fog
 
         # Server image
         # @return [Fog::Compute::RackspaceV2::Image] server image
-        # @raise [Fog::Rackspace::Errors::NotFound] - HTTP 404
-        # @raise [Fog::Rackspace::Errors::BadRequest] - HTTP 400
-        # @raise [Fog::Rackspace::Errors::InternalServerError] - HTTP 500
-        # @raise [Fog::Rackspace::Errors::ServiceError]
+        # @raise [Fog::Compute::RackspaceV2::NotFound] - HTTP 404
+        # @raise [Fog::Compute::RackspaceV2::BadRequest] - HTTP 400
+        # @raise [Fog::Compute::RackspaceV2::InternalServerError] - HTTP 500
+        # @raise [Fog::Compute::RackspaceV2::ServiceError]
         def image
           requires :image_id
           @image ||= service.images.get(image_id)
@@ -276,10 +277,10 @@ module Fog
         # @param options [Hash]:
         # @option options [Hash<String, String>] metadata hash of containing metadata key value pairs.
         # @return [Fog::ComputeRackspaceV2::Image] image being created
-        # @raise [Fog::Rackspace::Errors::NotFound] - HTTP 404
-        # @raise [Fog::Rackspace::Errors::BadRequest] - HTTP 400
-        # @raise [Fog::Rackspace::Errors::InternalServerError] - HTTP 500
-        # @raise [Fog::Rackspace::Errors::ServiceError]
+        # @raise [Fog::Compute::RackspaceV2::NotFound] - HTTP 404
+        # @raise [Fog::Compute::RackspaceV2::BadRequest] - HTTP 400
+        # @raise [Fog::Compute::RackspaceV2::InternalServerError] - HTTP 500
+        # @raise [Fog::Compute::RackspaceV2::ServiceError]
         # @see http://docs.rackspace.com/servers/api/v2/cs-devguide/content/Create_Image-d1e4655.html
         #
         # * State Transition:
@@ -298,10 +299,10 @@ module Fog
 
         # Attached Cloud Block Volumes
         # @return [Fog::Compute::RackspaceV2::Attachments] attached Cloud Block Volumes 
-        # @raise [Fog::Rackspace::Errors::NotFound] - HTTP 404
-        # @raise [Fog::Rackspace::Errors::BadRequest] - HTTP 400
-        # @raise [Fog::Rackspace::Errors::InternalServerError] - HTTP 500
-        # @raise [Fog::Rackspace::Errors::ServiceError]
+        # @raise [Fog::Compute::RackspaceV2::NotFound] - HTTP 404
+        # @raise [Fog::Compute::RackspaceV2::BadRequest] - HTTP 400
+        # @raise [Fog::Compute::RackspaceV2::InternalServerError] - HTTP 500
+        # @raise [Fog::Compute::RackspaceV2::ServiceError]
         # @see http://docs.rackspace.com/servers/api/v2/cs-devguide/content/List_Volume_Attachments.html
         def attachments
           @attachments ||= begin
@@ -316,10 +317,10 @@ module Fog
         # @param [Fog::Rackspace::BlockStorage::Volume, String] volume object or the volume id of volume to mount
         # @param [String] device name of the device /dev/xvd[a-p]  (optional)
         # @return [Fog::Compute::RackspaceV2::Attachment] resulting attachment object
-        # @raise [Fog::Rackspace::Errors::NotFound] - HTTP 404
-        # @raise [Fog::Rackspace::Errors::BadRequest] - HTTP 400
-        # @raise [Fog::Rackspace::Errors::InternalServerError] - HTTP 500
-        # @raise [Fog::Rackspace::Errors::ServiceError]
+        # @raise [Fog::Compute::RackspaceV2::NotFound] - HTTP 404
+        # @raise [Fog::Compute::RackspaceV2::BadRequest] - HTTP 400
+        # @raise [Fog::Compute::RackspaceV2::InternalServerError] - HTTP 500
+        # @raise [Fog::Compute::RackspaceV2::ServiceError]
         # @see http://docs.rackspace.com/servers/api/v2/cs-devguide/content/Attach_Volume_to_Server.html
         def attach_volume(volume, device=nil)
           requires :identity
@@ -355,10 +356,10 @@ module Fog
         # Reboot server
         # @param [String<SOFT, HARD>] type 'SOFT' will do a soft reboot. 'HARD' will do a hard reboot.
         # @return [Boolean] returns true if server is being rebooted
-        # @raise [Fog::Rackspace::Errors::NotFound] - HTTP 404
-        # @raise [Fog::Rackspace::Errors::BadRequest] - HTTP 400
-        # @raise [Fog::Rackspace::Errors::InternalServerError] - HTTP 500
-        # @raise [Fog::Rackspace::Errors::ServiceError]
+        # @raise [Fog::Compute::RackspaceV2::NotFound] - HTTP 404
+        # @raise [Fog::Compute::RackspaceV2::BadRequest] - HTTP 400
+        # @raise [Fog::Compute::RackspaceV2::InternalServerError] - HTTP 500
+        # @raise [Fog::Compute::RackspaceV2::ServiceError]
         # @see http://docs.rackspace.com/servers/api/v2/cs-devguide/content/Reboot_Server-d1e3371.html
         #
         # * State transition:
@@ -375,10 +376,10 @@ module Fog
         # Rebuild removes all data on the server and replaces it with the specified image. The id and all IP addresses remain the same.
         # @param [String] image_id image to use for rebuild
         # @return [Boolean] returns true if rebuild is in process
-        # @raise [Fog::Rackspace::Errors::NotFound] - HTTP 404
-        # @raise [Fog::Rackspace::Errors::BadRequest] - HTTP 400
-        # @raise [Fog::Rackspace::Errors::InternalServerError] - HTTP 500
-        # @raise [Fog::Rackspace::Errors::ServiceError]
+        # @raise [Fog::Compute::RackspaceV2::NotFound] - HTTP 404
+        # @raise [Fog::Compute::RackspaceV2::BadRequest] - HTTP 400
+        # @raise [Fog::Compute::RackspaceV2::InternalServerError] - HTTP 500
+        # @raise [Fog::Compute::RackspaceV2::ServiceError]
         # @see http://docs.rackspace.com/servers/api/v2/cs-devguide/content/Rebuild_Server-d1e3538.html
         #
         # * Status Transition:
@@ -394,10 +395,10 @@ module Fog
         # Resize existing server to a different flavor, in essence, scaling the server up or down. The original server is saved for a period of time to allow rollback if there is a problem. All resizes should be tested and explicitly confirmed, at which time the original server is removed. All resizes are automatically confirmed after 24 hours if they are not confirmed or reverted.     
         # @param [String] flavor_id to resize
         # @return [Boolean] returns true if resize is in process
-        # @raise [Fog::Rackspace::Errors::NotFound] - HTTP 404
-        # @raise [Fog::Rackspace::Errors::BadRequest] - HTTP 400
-        # @raise [Fog::Rackspace::Errors::InternalServerError] - HTTP 500
-        # @raise [Fog::Rackspace::Errors::ServiceError]
+        # @raise [Fog::Compute::RackspaceV2::NotFound] - HTTP 404
+        # @raise [Fog::Compute::RackspaceV2::BadRequest] - HTTP 400
+        # @raise [Fog::Compute::RackspaceV2::InternalServerError] - HTTP 500
+        # @raise [Fog::Compute::RackspaceV2::ServiceError]
         # @note All resizes are automatically confirmed after 24 hours if you do not explicitly confirm or revert the resize.
         # @see http://docs.rackspace.com/servers/api/v2/cs-devguide/content/Resize_Server-d1e3707.html
         # @see #confirm_resize
@@ -415,10 +416,10 @@ module Fog
 
         # Confirms server resize operation
         # @return [Boolean] returns true if resize has been confirmed
-        # @raise [Fog::Rackspace::Errors::NotFound] - HTTP 404
-        # @raise [Fog::Rackspace::Errors::BadRequest] - HTTP 400
-        # @raise [Fog::Rackspace::Errors::InternalServerError] - HTTP 500
-        # @raise [Fog::Rackspace::Errors::ServiceError]
+        # @raise [Fog::Compute::RackspaceV2::NotFound] - HTTP 404
+        # @raise [Fog::Compute::RackspaceV2::BadRequest] - HTTP 400
+        # @raise [Fog::Compute::RackspaceV2::InternalServerError] - HTTP 500
+        # @raise [Fog::Compute::RackspaceV2::ServiceError]
         # @note All resizes are automatically confirmed after 24 hours if you do not explicitly confirm or revert the resize.        
         # @see http://docs.rackspace.com/servers/api/v2/cs-devguide/content/Confirm_Resized_Server-d1e3868.html
         # @see #resize
@@ -434,10 +435,10 @@ module Fog
 
         # Reverts server resize operation
         # @return [Boolean] returns true if resize is being reverted
-        # @raise [Fog::Rackspace::Errors::NotFound] - HTTP 404
-        # @raise [Fog::Rackspace::Errors::BadRequest] - HTTP 400
-        # @raise [Fog::Rackspace::Errors::InternalServerError] - HTTP 500
-        # @raise [Fog::Rackspace::Errors::ServiceError]
+        # @raise [Fog::Compute::RackspaceV2::NotFound] - HTTP 404
+        # @raise [Fog::Compute::RackspaceV2::BadRequest] - HTTP 400
+        # @raise [Fog::Compute::RackspaceV2::InternalServerError] - HTTP 500
+        # @raise [Fog::Compute::RackspaceV2::ServiceError]
         # @note All resizes are automatically confirmed after 24 hours if you do not explicitly confirm or revert the resize.
         # @see http://docs.rackspace.com/servers/api/v2/cs-devguide/content/Revert_Resized_Server-d1e4024.html
         # @see #resize
@@ -451,13 +452,51 @@ module Fog
           true
         end
 
-        # Change admin password
-        # @param [String] password The administrator password.
-        # @return [Boolean] returns true if operation was scheduled
+        # Place existing server into rescue mode, allowing for offline editing of configuration. The original server's disk is attached to a new instance of the same base image for a period of time to facilitate working within rescue mode.  The original server will be automatically restored after 90 minutes.
+        # @return [Boolean] returns true if call to put server in rescue mode reports success
         # @raise [Fog::Rackspace::Errors::NotFound] - HTTP 404
         # @raise [Fog::Rackspace::Errors::BadRequest] - HTTP 400
         # @raise [Fog::Rackspace::Errors::InternalServerError] - HTTP 500
         # @raise [Fog::Rackspace::Errors::ServiceError]
+        # @note Rescue mode is only guaranteed to be active for 90 minutes.
+        # @see http://docs.rackspace.com/servers/api/v2/cs-devguide/content/rescue_mode.html
+        # @see #unrescue
+        #
+        # * Status Transition:
+        #   * ACTIVE -> PREP_RESCUE -> RESCUE
+        def rescue
+          requires :identity
+          data = service.rescue_server(identity)
+          merge_attributes(data.body)
+          true
+        end
+
+        # Remove existing server from rescue mode.
+        # @return [Boolean] returns true if call to remove server from rescue mode reports success
+        # @raise [Fog::Rackspace::Errors::NotFound] - HTTP 404
+        # @raise [Fog::Rackspace::Errors::BadRequest] - HTTP 400
+        # @raise [Fog::Rackspace::Errors::InternalServerError] - HTTP 500
+        # @raise [Fog::Rackspace::Errors::ServiceError]
+        # @note Rescue mode is only guaranteed to be active for 90 minutes.
+        # @see http://docs.rackspace.com/servers/api/v2/cs-devguide/content/exit_rescue_mode.html
+        # @see #rescue
+        #
+        # * Status Transition:
+        #   * PREP_UNRESCUE -> ACTIVE
+        def unrescue
+          requires :identity
+          service.unrescue_server(identity)
+          self.state = ACTIVE
+          true
+        end
+
+        # Change admin password
+        # @param [String] password The administrator password.
+        # @return [Boolean] returns true if operation was scheduled
+        # @raise [Fog::Compute::RackspaceV2::NotFound] - HTTP 404
+        # @raise [Fog::Compute::RackspaceV2::BadRequest] - HTTP 400
+        # @raise [Fog::Compute::RackspaceV2::InternalServerError] - HTTP 500
+        # @raise [Fog::Compute::RackspaceV2::ServiceError]
         # @note Though Rackspace does not enforce complexity requirements for the password, the operating system might. If the password is not complex enough, the server might enter an ERROR state.
         # @see http://docs.rackspace.com/servers/api/v2/cs-devguide/content/Change_Password-d1e3234.html
         #

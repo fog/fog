@@ -10,10 +10,10 @@ module Fog
         # * object<~String> - Name for object
         # * data<~String|File> - data to upload
         # * options<~Hash> - config headers for object. Defaults to {}.
-        # @raise [Fog::Rackspace::Errors::NotFound] - HTTP 404
-        # @raise [Fog::Rackspace::Errors::BadRequest] - HTTP 400
-        # @raise [Fog::Rackspace::Errors::InternalServerError] - HTTP 500
-        # @raise [Fog::Rackspace::Errors::ServiceError]
+        # @raise [Fog::Storage::Rackspace::NotFound] - HTTP 404
+        # @raise [Fog::Storage::Rackspace::BadRequest] - HTTP 400
+        # @raise [Fog::Storage::Rackspace::InternalServerError] - HTTP 500
+        # @raise [Fog::Storage::Rackspace::ServiceError]
         def put_object(container, object, data, options = {})
           data = Fog::Storage.parse_data(data)
           headers = data[:headers].merge!(options)

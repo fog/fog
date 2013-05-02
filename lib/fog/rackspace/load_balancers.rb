@@ -3,6 +3,7 @@ require 'fog/rackspace'
 module Fog
   module Rackspace
     class LoadBalancers < Fog::Service
+      include Fog::Rackspace::Errors
 
       #These references exist for backwards compatibility
       class ServiceError < Fog::Rackspace::Errors::ServiceError; end
@@ -131,7 +132,7 @@ module Fog
               :path     => "#{endpoint_uri.path}/#{params[:path]}"
             }))
           rescue Excon::Errors::NotFound => error
-            raise NotFound.slurp error
+            raise NotFound.slurp(error, region)
           rescue Excon::Errors::BadRequest => error
             raise BadRequest.slurp error
           rescue Excon::Errors::InternalServerError => error

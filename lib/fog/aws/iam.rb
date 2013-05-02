@@ -92,6 +92,7 @@ module Fog
                   :path        => '/',
                   :arn         => "arn:aws:iam::#{Fog::AWS::Mock.owner_id}:user/#{ukey}",
                   :access_keys => [],
+                  :created_at  => Time.now,
                   :policies    => {}
                 }
               end,

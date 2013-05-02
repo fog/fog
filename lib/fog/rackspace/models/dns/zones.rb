@@ -50,7 +50,7 @@ module Fog
 
           data = service.list_domain_details(zone_id).body
           new(data)
-        rescue Fog::Rackspace::Errors::NotFound
+        rescue Fog::DNS::Rackspace::NotFound
           nil
         #Accessing a valid (but other customer's) id returns a 503 error
         rescue Fog::Rackspace::Errors::ServiceUnavailable

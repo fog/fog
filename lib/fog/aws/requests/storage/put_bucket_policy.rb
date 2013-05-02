@@ -15,7 +15,7 @@ module Fog
             :body     => Fog::JSON.encode(policy),
             :expects  => 204,
             :headers  => {},
-            :host     => "#{bucket_name}.#{@host}",
+            :bucket_name => bucket_name,
             :method   => 'PUT',
             :query    => {'policy' => nil}
           })

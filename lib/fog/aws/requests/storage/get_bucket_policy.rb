@@ -19,7 +19,7 @@ module Fog
           response = request({
             :expects    => 200,
             :headers    => {},
-            :host       => "#{bucket_name}.#{@host}",
+            :bucket_name => bucket_name,
             :idempotent => true,
             :method     => 'GET',
             :query      => {'policy' => nil}

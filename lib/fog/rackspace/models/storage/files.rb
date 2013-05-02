@@ -35,10 +35,10 @@ module Fog
 
         # Returns list of files
         # @return [Fog::Storage::Rackspace::Files] Retrieves a list files.
-        # @raise [Fog::Rackspace::Errors::NotFound] - HTTP 404
-        # @raise [Fog::Rackspace::Errors::BadRequest] - HTTP 400
-        # @raise [Fog::Rackspace::Errors::InternalServerError] - HTTP 500
-        # @raise [Fog::Rackspace::Errors::ServiceError]
+        # @raise [Fog::Storage::Rackspace::NotFound] - HTTP 404
+        # @raise [Fog::Storage::Rackspace::BadRequest] - HTTP 400
+        # @raise [Fog::Storage::Rackspace::InternalServerError] - HTTP 500
+        # @raise [Fog::Storage::Rackspace::ServiceError]
         # @see http://docs.rackspace.com/files/api/v1/cf-devguide/content/List_Objects-d1e1284.html
         def all(options = {})
           requires :directory
@@ -63,10 +63,10 @@ module Fog
         # Calls block for each file in the directory
         # @yieldparam [Fog::Storage::Rackspace::File]
         # @return [Fog::Storage::Rackspace::Directory] returns itself
-        # @raise [Fog::Rackspace::Errors::NotFound] - HTTP 404
-        # @raise [Fog::Rackspace::Errors::BadRequest] - HTTP 400
-        # @raise [Fog::Rackspace::Errors::InternalServerError] - HTTP 500
-        # @raise [Fog::Rackspace::Errors::ServiceError]
+        # @raise [Fog::Storage::Rackspace::NotFound] - HTTP 404
+        # @raise [Fog::Storage::Rackspace::BadRequest] - HTTP 400
+        # @raise [Fog::Storage::Rackspace::InternalServerError] - HTTP 500
+        # @raise [Fog::Storage::Rackspace::ServiceError]
         # @note This method retrieves files in pages. Page size is defined by the limit attribute
         alias :each_file_this_page :each
         def each
@@ -92,10 +92,10 @@ module Fog
         # @yieldparam [Integer] remaining
         # @yieldparam [Integer] content_length
         # @return [Fog::Storage::Rackspace:File]
-        # @raise [Fog::Rackspace::Errors::NotFound] - HTTP 404
-        # @raise [Fog::Rackspace::Errors::BadRequest] - HTTP 400
-        # @raise [Fog::Rackspace::Errors::InternalServerError] - HTTP 500
-        # @raise [Fog::Rackspace::Errors::ServiceError]
+        # @raise [Fog::Storage::Rackspace::NotFound] - HTTP 404
+        # @raise [Fog::Storage::Rackspace::BadRequest] - HTTP 400
+        # @raise [Fog::Storage::Rackspace::InternalServerError] - HTTP 500
+        # @raise [Fog::Storage::Rackspace::ServiceError]
         # @note If a block is provided, the body attribute will be empty. By default chunk size is 1 MB. This value can be changed by passing the parameter :chunk_size
         #   into the :connection_options hash in the service constructor.
         # @example Download an image from Cloud Files and save it to file
@@ -125,10 +125,10 @@ module Fog
         # Returns the public_url for the given object key
         # @param key of the object
         # @return [String] url for object
-        # @raise [Fog::Rackspace::Errors::NotFound] - HTTP 404
-        # @raise [Fog::Rackspace::Errors::BadRequest] - HTTP 400
-        # @raise [Fog::Rackspace::Errors::InternalServerError] - HTTP 500
-        # @raise [Fog::Rackspace::Errors::ServiceError]
+        # @raise [Fog::Storage::Rackspace::NotFound] - HTTP 404
+        # @raise [Fog::Storage::Rackspace::BadRequest] - HTTP 400
+        # @raise [Fog::Storage::Rackspace::InternalServerError] - HTTP 500
+        # @raise [Fog::Storage::Rackspace::ServiceError]
         # @see Directory#public_url
         def get_url(key)
           requires :directory
@@ -141,10 +141,10 @@ module Fog
         # @param key of the object
         # @param options Required for compatibility with other Fog providers. Not Used.
         # @return [Fog::Storage::Rackspace::File]
-        # @raise [Fog::Rackspace::Errors::NotFound] - HTTP 404
-        # @raise [Fog::Rackspace::Errors::BadRequest] - HTTP 400
-        # @raise [Fog::Rackspace::Errors::InternalServerError] - HTTP 500
-        # @raise [Fog::Rackspace::Errors::ServiceError]
+        # @raise [Fog::Storage::Rackspace::NotFound] - HTTP 404
+        # @raise [Fog::Storage::Rackspace::BadRequest] - HTTP 400
+        # @raise [Fog::Storage::Rackspace::InternalServerError] - HTTP 500
+        # @raise [Fog::Storage::Rackspace::ServiceError]
         def head(key, options = {})
           requires :directory
           data = service.head_object(directory.key, key)

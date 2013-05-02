@@ -15,6 +15,27 @@ module Fog
         end
 
       end
+
+      class Mock
+
+        def list_snapshots(options={})
+          snapshot_id = options.delete('id')
+          if snapshot_id
+            snapshots = [self.data[:snapshots][snapshot_id]]
+          else
+            snapshots = self.data[:snapshots].values
+          end
+
+          {
+            'listsnapshotsresponse' => {
+              'count' => snapshots.size,
+              'snapshot' => snapshots
+            }
+          }
+        end
+
+      end
+
     end
   end
 end

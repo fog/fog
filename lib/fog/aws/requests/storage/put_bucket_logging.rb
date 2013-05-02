@@ -69,7 +69,7 @@ DATA
             :body     => data,
             :expects  => 200,
             :headers  => {},
-            :host     => "#{bucket_name}.#{@host}",
+            :bucket_name => bucket_name,
             :method   => 'PUT',
             :query    => {'logging' => nil}
           })

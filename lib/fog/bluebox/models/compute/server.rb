@@ -57,7 +57,9 @@ module Fog
         end
 
         def public_ip_address
-          ips.first
+          if ip = ips.first
+            ip['address']
+          end
         end
 
         def ready?

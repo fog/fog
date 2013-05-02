@@ -16,7 +16,7 @@ module Fog
           request({
                     :expects  => 204,
                     :headers  => {},
-                    :host     => "#{bucket_name}.#{@host}",
+                    :bucket_name => bucket_name,
                     :method   => 'DELETE',
                     :query    => {'lifecycle' => nil}
                   })

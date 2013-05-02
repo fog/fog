@@ -41,7 +41,7 @@ module Fog
     begin
       require 'multi_json'
       include NewJSON
-    rescue Exception => e
+    rescue Exception
       Fog::Logger.deprecation "Defaulting to json library for json parsing. Please consider using multi_json library for the greatest performance/flexibility."
       require 'json'
       include LegacyJSON

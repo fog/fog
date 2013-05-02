@@ -28,10 +28,10 @@ module Fog
         #       * networks [Array]: 
         #         * [Hash]: 
         #           * uuid [String] - uuid of attached network
-        # @raise [Fog::Rackspace::Errors::NotFound] - HTTP 404
-        # @raise [Fog::Rackspace::Errors::BadRequest] - HTTP 400
-        # @raise [Fog::Rackspace::Errors::InternalServerError] - HTTP 500
-        # @raise [Fog::Rackspace::Errors::ServiceError]
+        # @raise [Fog::Compute::RackspaceV2::NotFound] - HTTP 404
+        # @raise [Fog::Compute::RackspaceV2::BadRequest] - HTTP 400
+        # @raise [Fog::Compute::RackspaceV2::InternalServerError] - HTTP 500
+        # @raise [Fog::Compute::RackspaceV2::ServiceError]
         # @see http://docs.rackspace.com/servers/api/v2/cs-devguide/content/CreateServers.html
         # @see http://docs.rackspace.com/servers/api/v2/cs-devguide/content/Server_Metadata-d1e2529.html
         # @see http://docs.rackspace.com/servers/api/v2/cs-devguide/content/Server_Personality-d1e2543.html
@@ -51,7 +51,6 @@ module Fog
             }
           }
 
-          data['server']['metadata'] = options[:metadata]  unless options[:metadata].nil?
           data['server']['OS-DCF:diskConfig'] = options[:disk_config] unless options[:disk_config].nil?
           data['server']['metadata'] = options[:metadata] unless options[:metadata].nil?
           data['server']['personality'] = options[:personality] unless options[:personality].nil?
@@ -147,6 +146,13 @@ module Fog
             :volume_ids          => [],
           }
 
+          #  add in additional networks
+          if options[:networks]
+            options[:networks].each do |network|
+              net_label = self.data[:networks][network[:uuid]]["label"]
+              server["addresses"] = { net_label => []}
+            end
+          end
           self.data[:servers][server_id] = server
 
           response = {

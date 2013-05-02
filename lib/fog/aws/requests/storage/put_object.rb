@@ -33,10 +33,10 @@ module Fog
             :body       => data[:body],
             :expects    => 200,
             :headers    => headers,
-            :host       => "#{bucket_name}.#{@host}",
+            :bucket_name => bucket_name,
+            :object_name => object_name,
             :idempotent => true,
             :method     => 'PUT',
-            :path       => CGI.escape(object_name)
           })
         end
 

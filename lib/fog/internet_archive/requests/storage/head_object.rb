@@ -41,8 +41,7 @@ module Fog
             :host       => "#{bucket_name}.#{@host}",
             :idempotent => true,
             :method     => 'HEAD',
-            :path       => CGI.escape(object_name),
-            :query      => query
+            :path       => CGI.escape(object_name)
           })
         end
 
