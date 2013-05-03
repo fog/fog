@@ -101,6 +101,13 @@ module Fog
       }
     end
 
+    def self.service_catalog(options, connection_options = {})
+      creds = authenticate_v2(options, connection_options)
+      return {} if creds.nil?
+      return {} if creds[:service_catalog].nil?
+      return creds[:service_catalog]
+    end
+
     # keystone based control services style authentication
     def self.authenticate_v2(options, connection_options = {})
       unless options[:credentials].nil?
