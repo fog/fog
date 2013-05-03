@@ -8,7 +8,7 @@ module Fog
       recognizes :openstack_auth_token, :openstack_management_url, :persistent,
                  :openstack_service_type, :openstack_service_name, :openstack_tenant,
                  :openstack_api_key, :openstack_username, :openstack_endpoint_type,
-                 :current_user, :current_tenant
+                 :current_user, :current_tenant, :openstack_region
 
       ## MODELS
       #
@@ -133,6 +133,7 @@ module Fog
           @openstack_service_type         = options[:openstack_service_type] || ['network']
           @openstack_service_name         = options[:openstack_service_name]
           @openstack_endpoint_type        = options[:openstack_endpoint_type] || 'adminURL'
+          @openstack_region               = options[:openstack_region]
 
           @connection_options = options[:connection_options] || {}
 
@@ -151,7 +152,8 @@ module Fog
             :openstack_auth_token     => @auth_token,
             :openstack_management_url => @openstack_management_url,
             :current_user             => @current_user,
-            :current_tenant           => @current_tenant }
+            :current_tenant           => @current_tenant,
+            :openstack_region         => @openstack_region }
         end
 
         def reload
@@ -205,7 +207,8 @@ module Fog
               :openstack_auth_token => @openstack_auth_token,
               :openstack_service_type => @openstack_service_type,
               :openstack_service_name => @openstack_service_name,
-              :openstack_endpoint_type => @openstack_endpoint_type
+              :openstack_endpoint_type => @openstack_endpoint_type,
+              :openstack_region   => @openstack_region,
             }
 
             credentials = Fog::OpenStack.authenticate_v2(options, @connection_options)
