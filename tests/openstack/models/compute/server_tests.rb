@@ -78,6 +78,40 @@ Shindo.tests("Fog::Compute[:openstack] | server", ['openstack']) do
       end
     end
 
+    tests('#resize').succeeds do
+      fog = Fog::Compute[:openstack]
+
+      begin
+        flavor = fog.flavors.first.id
+        image  = fog.images.first.id
+
+        server = fog.servers.new(:name       => 'test server',
+                                 :flavor_ref => flavor,
+                                 :image_ref  => image)
+
+        server.save
+
+        flavor_resize = fog.flavors[1].id
+        server.resize(flavor_resize)
+        server.wait_for { server.state == "VERIFY_RESIZE" } unless Fog.mocking?
+        server.revert_resize
+        server.wait_for { server.state == "ACTIVE" } unless Fog.mocking?
+        server.resize(flavor_resize)
+        server.wait_for { server.state == "VERIFY_RESIZE" } unless Fog.mocking?
+        server.confirm_resize
+
+      ensure
+        unless Fog.mocking? then
+          server.destroy if server
+
+          begin
+            fog.servers.get(server.id).wait_for do false end
+          rescue Fog::Errors::Error
+            # ignore, server went away
+          end
+        end
+      end
+    end
 
     tests('#volumes').succeeds do
       fog = Fog::Compute[:openstack]
