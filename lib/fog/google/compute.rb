@@ -76,7 +76,11 @@ module Fog
           google_client_email = options[:google_client_email]
           @api_url = base_url + api_version + '/projects/'
           #NOTE: loaded here to avoid requiring this as a core Fog dependency
-          require 'google/api_client'
+          begin
+            require 'google/api_client'
+          rescue LoadError
+            Fog::Logger.warning("Please install the google-api-client gem before using this provider.")
+          end
           key = ::Google::APIClient::KeyUtils.load_from_pkcs12(File.expand_path(options[:google_key_location]), 'notasecret')
 
           @client = ::Google::APIClient.new({
