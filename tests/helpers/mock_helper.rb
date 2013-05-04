@@ -41,6 +41,10 @@ if Fog.mock?
     :go_grid_shared_secret            => 'go_grid_shared_secret',
     :google_storage_access_key_id     => 'google_storage_access_key_id',
     :google_storage_secret_access_key => 'google_storage_secret_access_key',
+    # Commented out till there are mocks for google/compute
+    #:google_project                   => 'google_project_name',
+    #:google_client_email              => 'fake@developer.gserviceaccount.com',
+    #:google_key_location              => '~/fake.p12',
     :hp_access_key                    => 'hp_access_key',
     :hp_secret_key                    => 'hp_secret_key',
     :hp_tenant_id                     => 'hp_tenant_id',
