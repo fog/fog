@@ -17,6 +17,8 @@ module Fog
       request :describe_stacks
       request :get_template
       request :validate_template
+      request :list_stacks
+      request :list_stack_resources
 
       class Mock
 
