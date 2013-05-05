@@ -72,8 +72,8 @@ module Fog
           service.vm_reconfig_cpus('instance_uuid' => instance_uuid, 'cpus' => cpus)
         end
 
-        def vm_reconfig_hardware(options = {})
-          requires :instance_uuid, :hardware_spec
+        def vm_reconfig_hardware(hardware_spec, options = {})
+          requires :instance_uuid
           service.vm_reconfig_hardware('instance_uuid' => instance_uuid, 'hardware_spec' => hardware_spec)
         end
 
@@ -162,6 +162,25 @@ module Fog
 
         def interfaces
           attributes[:interfaces] ||= id.nil? ? [] : service.interfaces( :vm => self )
+        end
+        
+        def interface_ready? attrs
+          (attrs.is_a? Hash and attrs[:blocking]) or attrs.is_a? Fog::Compute::Vsphere::Interface
+        end
+
+        def add_interface attrs
+          wait_for { not ready? } if interface_ready? attrs
+          service.add_vm_interface(id, attrs)
+        end
+
+        def update_interface attrs
+          wait_for { not ready? } if interface_ready? attrs
+          service.update_vm_interface(id, attrs)
+        end
+
+        def destroy_interface attrs
+          wait_for { not ready? } if interface_ready? attrs
+          service.destroy_vm_interface(id, attrs)
         end
 
         def volumes
