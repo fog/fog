@@ -1,3 +1,21 @@
+1.11.1 05/05/2013 2cfeaf236e4ebcf883d0e17f586293d6cd66f379
+==========================================================
+
+Stats! { 'collaborators' => 47, 'downloads' => 2177247, 'forks' => 783, 'open_issues' => 140, 'watchers' => 2494 }
+
+[VSphere]
+  Added VMware customvalue and customfields to read the annotations for each VM. thanks Marc Grimme
+  Removed dependency to the Datacenters root path. So that now it should even work with other localizations. thanks Marc Grimme
+
+[misc]
+  Load google/api_client late to avoid dep. thanks Dan Prince
+  Add a custom log warning on load error. thanks Dan Prince
+
+[vSphere]
+  Refactor and extend network interface methods (similar to the ovirt implementation)     * added methods to add, remove and update interfaces for vSphere     * added missing method to retrieve the interface     * added existing attribute key to interface (required for modifying, deleting interfaces)     * alias interface's mac to id. thanks Marc Grimme
+  fixed bug that datastores in subfolders would not be found. thanks Marc Grimme
+
+
 1.11.0 05/04/2013 bbea0162df01317405bfbb4c427fdde40e5f0f2c
 ==========================================================
 

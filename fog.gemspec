@@ -6,8 +6,8 @@ Gem::Specification.new do |s|
   ## If your rubyforge_project name is different, then edit it and comment out
   ## the sub! line in the Rakefile
   s.name              = 'fog'
-  s.version           = '1.11.0'
-  s.date              = '2013-05-04'
+  s.version           = '1.11.1'
+  s.date              = '2013-05-05'
   s.rubyforge_project = 'fog'
 
   ## Make sure your summary is short. The description may be as long
@@ -62,6 +62,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency('shindo', '~>0.3.4')
   s.add_development_dependency('fission')
   s.add_development_dependency('pry')
+  s.add_development_dependency('google-api-client', '~>0.6.2')
 #  s.add_development_dependency('ruby-libvirt','~>0.4.0')
 
   s.files = `git ls-files`.split("\n")
