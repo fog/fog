@@ -26,7 +26,7 @@ module Fog
           data = { 'tenant_id' => tenant_id }
 
           request(
-            :body    => Fog::JSON.encode(data),
+            :body    => MultiJson.encode(data),
             :expects => [200, 202],
             :method  => 'POST',
             :path    => "users/#{user_id}/credentials/OS-EC2"

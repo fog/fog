@@ -35,7 +35,7 @@ module Fog
           }
 
           request(
-            :body => Fog::JSON.encode(data),
+            :body => MultiJson.encode(data),
             :expects => 200,
             :method => 'POST',
             :path => 'flavors'
