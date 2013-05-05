@@ -1,6 +1,5 @@
 require 'fog/google'
 require 'fog/compute'
-require 'google/api_client'
 
 module Fog
   module Compute
@@ -67,6 +66,8 @@ module Fog
         attr_reader :project
 
         def initialize(options)
+
+
           base_url = 'https://www.googleapis.com/compute/'
           api_version = 'v1beta14'
           api_scope_url = 'https://www.googleapis.com/auth/compute'
@@ -74,6 +75,12 @@ module Fog
           @project = options[:google_project]
           google_client_email = options[:google_client_email]
           @api_url = base_url + api_version + '/projects/'
+          #NOTE: loaded here to avoid requiring this as a core Fog dependency
+          begin
+            require 'google/api_client'
+          rescue LoadError
+            Fog::Logger.warning("Please install the google-api-client gem before using this provider.")
+          end
           key = ::Google::APIClient::KeyUtils.load_from_pkcs12(File.expand_path(options[:google_key_location]), 'notasecret')
 
           @client = ::Google::APIClient.new({
