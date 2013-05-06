@@ -13,17 +13,17 @@ module Fog
 
       secrets     :hp_secret_key
 
-      #model_path 'fog/hp/models/compute_v2'
+      model_path 'fog/hp/models/compute_v2'
       #model       :flavor
       #collection  :flavors
-      #model       :image
-      #collection  :images
+      model       :image
+      collection  :images
       #model       :key_pair
       #collection  :key_pairs
-      #model       :meta
-      #collection  :metadata
-      #model       :server
-      #collection  :servers
+      model       :meta
+      collection  :metadata
+      model       :server
+      collection  :servers
 
       request_path 'fog/hp/requests/compute_v2'
       request :allocate_address
