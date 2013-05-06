@@ -17,6 +17,8 @@ module Fog
       request :describe_stacks
       request :get_template
       request :validate_template
+      request :list_stacks
+      request :list_stack_resources
 
       class Mock
 
@@ -108,10 +110,10 @@ module Fog
           rescue Excon::Errors::HTTPStatusError => error
             if match = error.message.match(/(?:.*<Code>(.*)<\/Code>)(?:.*<Message>(.*)<\/Message>)/m)
               raise case match[1].split('.').last
-              when 'NotFound'
-                Fog::AWS::Compute::NotFound.slurp(error, match[2])
+              when 'NotFound', 'ValidationError'
+                Fog::AWS::CloudFormation::NotFound.slurp(error, match[2])
               else
-                Fog::AWS::Compute::Error.slurp(error, "#{match[1]} => #{match[2]}")
+                Fog::AWS::CloudFormation::Error.slurp(error, "#{match[1]} => #{match[2]}")
               end
             else
               raise error
