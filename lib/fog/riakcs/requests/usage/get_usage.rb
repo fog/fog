@@ -37,7 +37,7 @@ module Fog
           response = @connection.get_object('riak-cs', ["usage", request_uri(access_key_id, options)].join("/"))
 
           if !response.body.empty?
-            response.body = Fog::JSON.decode(response.body)
+            response.body = MultiJson.decode(response.body)
           end
           response
         end

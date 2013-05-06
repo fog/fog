@@ -29,7 +29,7 @@ module Fog
           end
 
           request(
-            :body     => Fog::JSON.encode(data),
+            :body     => MultiJson.encode(data),
             :expects  => [200, 202],
             :method   => 'POST',
             :path     => '/os-volumes_boot.json'

@@ -11,7 +11,7 @@ module Fog
           data = { 'memberships' => members }
 
           request(
-            :body    => Fog::JSON.encode(data),
+            :body    => MultiJson.encode(data),
             :expects => [200, 202],
             :method  => 'PUT',
             :path    => "images/#{image_id}/members"

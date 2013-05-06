@@ -98,7 +98,7 @@ module Fog
       request :delete_network
 
       class Mock < Fog::Rackspace::Service
-        include Fog::Rackspace::MockData      
+        include Fog::Rackspace::MockData
 
         def initialize(options)
           @rackspace_api_key = options[:rackspace_api_key]
@@ -122,7 +122,7 @@ module Fog
       end
 
       class Real < Fog::Rackspace::Service
-        
+
         def initialize(options = {})
           @rackspace_api_key = options[:rackspace_api_key]
           @rackspace_username = options[:rackspace_username]
@@ -134,7 +134,7 @@ module Fog
           authenticate
 
           deprecation_warnings(options)
-          
+
           @persistent = options[:persistent] || false
           @connection = Fog::Connection.new(endpoint_uri.to_s, @persistent, @connection_options)
         end
@@ -163,13 +163,13 @@ module Fog
           unless response.body.empty?
             begin
               response.body = Fog::JSON.decode(response.body)
-            rescue Fog::JSON::LoadError
+            rescue MultiJson::DecodeError => e
               response.body = {}
             end
           end
           response
         end
-        
+
         def authenticate
           options = {
             :rackspace_api_key => @rackspace_api_key,
@@ -228,7 +228,7 @@ module Fog
 
         def append_tenant_v1(credentials)
           account_id = credentials['X-Server-Management-Url'].match(/.*\/([\d]+)$/)[1]
-          
+
           endpoint = @rackspace_endpoint || credentials['X-Server-Management-Url'] || DFW_ENDPOINT
           @uri = URI.parse(endpoint)
           @uri.path = "#{@uri.path}/#{account_id}"
