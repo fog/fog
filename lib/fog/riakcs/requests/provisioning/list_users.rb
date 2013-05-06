@@ -10,7 +10,7 @@ module Fog
 
           boundary      = extract_boundary(response.headers['Content-Type'])
           parts         = parse(response.body, boundary)
-          decoded       = parts.map { |part| Fog::JSON.decode(part[:body]) }
+          decoded       = parts.map { |part| MultiJson.decode(part[:body]) }
 
           response.body = decoded.flatten
 
