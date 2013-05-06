@@ -26,8 +26,8 @@ module Fog
       #collection  :servers
 
       request_path 'fog/hp/requests/compute_v2'
-      #request :allocate_address
-      #request :associate_address
+      request :allocate_address
+      request :associate_address
       #request :attach_volume
       #request :confirm_resized_server
       request :create_image
@@ -39,8 +39,8 @@ module Fog
       request :delete_meta
       request :delete_server
       #request :detach_volume
-      #request :disassociate_address
-      #request :get_address
+      request :disassociate_address
+      request :get_address
       request :get_console_output
       request :get_flavor_details
       request :get_image_details
@@ -49,7 +49,7 @@ module Fog
       #request :get_windows_password
       request :get_server_details
       request :get_vnc_console
-      #request :list_addresses
+      request :list_addresses
       request :list_flavors
       request :list_flavors_detail
       request :list_images
@@ -64,7 +64,7 @@ module Fog
       request :list_servers_detail
       request :reboot_server
       request :rebuild_server
-      #request :release_address
+      request :release_address
       #request :resize_server
       #request :revert_resized_server
       request :server_action
