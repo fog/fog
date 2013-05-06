@@ -56,9 +56,8 @@ module Fog
       request :list_images_detail
       request :list_key_pairs
       request :list_metadata
-      #request :list_server_addresses
-      #request :list_server_private_addresses
-      #request :list_server_public_addresses
+      request :list_server_addresses
+      request :list_server_addresses_by_network
       #request :list_server_volumes
       request :list_servers
       request :list_servers_detail
