@@ -7,6 +7,7 @@ module Fog
       class Nic < Fog::Model
 
         identity :mac
+        attribute :id
         attribute :type
         attribute :network
         attribute :bridge
