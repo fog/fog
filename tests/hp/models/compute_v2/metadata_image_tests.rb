@@ -26,14 +26,14 @@ Shindo.tests("Fog::Compute::HPV2 | metadata for images", ['hp', 'v2', 'compute']
 
     tests("#update({'Meta3' => 'MetaValue3'})").succeeds do
       @data = @image.metadata.update({'Meta3' => 'MetaValue3'})
-      tests('metadata has updated correctly') do
+      test('metadata has updated correctly') do
         @image.metadata.get('Meta3').value == 'MetaValue3'
       end
     end
 
     tests("#set({'Meta4' => 'MetaValue4'})").succeeds do
       @data = @image.metadata.set({'Meta4' => 'MetaValue4'})
-      tests('metadata has set correctly') do
+      test('metadata has set correctly') do
         @image.metadata.get('Meta4').value == 'MetaValue4'
       end
     end
@@ -41,14 +41,14 @@ Shindo.tests("Fog::Compute::HPV2 | metadata for images", ['hp', 'v2', 'compute']
     tests("#save").succeeds do
       m = @image.metadata.new(:key => 'Meta5', :value => 'MetaValue5')
       @data = m.save
-      tests('metadata has saved correctly') do
+      test('metadata has saved correctly') do
         @image.metadata.get('Meta5').value == 'MetaValue5'
       end
     end
 
     tests("#destroy('Meta5')").succeeds do
       @image.metadata.destroy('Meta5')
-      tests('metadata has been destroyed') do
+      test('metadata has been destroyed') do
         @image.metadata.get('Meta5') == nil
       end
     end

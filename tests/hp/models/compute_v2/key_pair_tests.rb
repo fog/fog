@@ -11,7 +11,7 @@ Shindo.tests("Fog::Compute::HPV2 | key_pair model", ['hp', 'v2', 'compute']) do
   tests('new keypair') do
     @keypair = service.key_pairs.create(:name => 'fogtestkey')
 
-    tests('writable?') do
+    test('writable?') do
       @keypair.writable? == true
     end
   end
@@ -20,7 +20,7 @@ Shindo.tests("Fog::Compute::HPV2 | key_pair model", ['hp', 'v2', 'compute']) do
     service.key_pairs.create(:name => 'fogtestkey')
     @keypair = service.key_pairs.get('fogtestkey')
 
-    tests('writable?') do
+    test('writable?') do
       @keypair.writable? == false
     end
   end

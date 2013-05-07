@@ -15,21 +15,21 @@ Shindo.tests("Fog::Compute::HPV2 | metadata for servers", ['hp', 'v2', 'compute'
 
     tests("#get('Meta1')").succeeds do
       @data = @server.metadata.get('Meta1')
-      tests('metadata gets correct value') do
+      test('metadata gets correct value') do
         @data.value == 'MetaValue1'
       end
     end
 
     tests("#update({'Meta3' => 'MetaValue3'})").succeeds do
       @data = @server.metadata.update({'Meta3' => 'MetaValue3'})
-      tests('metadata has updated correctly') do
+      test('metadata has updated correctly') do
         @server.metadata.get('Meta3').value == 'MetaValue3'
       end
     end
 
     tests("#set({'Meta4' => 'MetaValue4'})").succeeds do
       @data = @server.metadata.set({'Meta4' => 'MetaValue4'})
-      tests('metadata has set correctly') do
+      test('metadata has set correctly') do
         @server.metadata.get('Meta4').value == 'MetaValue4'
       end
     end
@@ -37,14 +37,14 @@ Shindo.tests("Fog::Compute::HPV2 | metadata for servers", ['hp', 'v2', 'compute'
     tests('#save').succeeds do
       m = @server.metadata.new(:key => 'Meta5', :value => 'MetaValue5')
       @data = m.save
-      tests('metadata has saved correctly') do
+      test('metadata has saved correctly') do
         @server.metadata.get('Meta5').value == 'MetaValue5'
       end
     end
 
     tests("#destroy('Meta5')").succeeds do
       @data = @server.metadata.destroy('Meta5')
-      tests('metadata has been destroyed') do
+      test('metadata has been destroyed') do
         @server.metadata.get('Meta5') == nil
       end
     end

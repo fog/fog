@@ -8,24 +8,24 @@ Shindo.tests("Fog::Compute::HPV2 | server model", ['hp', 'v2', 'compute']) do
 
     @server = service.servers.create(:name => 'fogservertest', :flavor_id => 100, :image_id => @base_image_id)
 
-    tests('#console_output(10)') do
+    tests('#console_output(10)').succeeds do
       @server.console_output(10)
     end
 
-    tests('#vnc_console_url') do
+    tests('#vnc_console_url').succeeds do
       @server.vnc_console_url
     end
 
-    tests("#create_image('fogimgfromserver')") do
+    tests("#create_image('fogimgfromserver')").succeeds do
       @server.create_image('fogimgfromserver')
     end
 
-    tests("#reboot('SOFT')") do
+    tests("#reboot('SOFT')").succeeds do
       pending unless Fog.mocking?
       @server.reboot('SOFT')
     end
 
-    tests("#rebuild(#{@base_image_id}, 'fogrebuildserver')") do
+    tests("#rebuild(#{@base_image_id}, 'fogrebuildserver')").succeeds do
       pending
       @server.rebuild(@base_image_id, 'fogrebuildserver')
     end
