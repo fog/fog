@@ -43,7 +43,7 @@ module Fog
           # assign these attributes first to prevent race condition with new_record?
           self.min_count = attributes.delete(:min_count)
           self.max_count = attributes.delete(:max_count)
-          self.block_device_mapping = attributes.delete(:block_device_mapping)
+          #self.block_device_mapping = attributes.delete(:block_device_mapping)
           super
         end
 
@@ -102,7 +102,7 @@ module Fog
 
         def private_ip_address
           addr = addresses.nil? ? nil : addresses.fetch(network_name, []).first
-          addr["addr"] if addr
+          addr['addr'] if addr
         end
 
         def private_key_path
@@ -163,15 +163,15 @@ module Fog
           @max_count = new_max_count
         end
 
-        def block_device_mapping=(new_block_device_mapping)
-          @block_device_mapping = new_block_device_mapping
-        end
+        #def block_device_mapping=(new_block_device_mapping)
+        #  @block_device_mapping = new_block_device_mapping
+        #end
 
         def ready?
           self.state == 'ACTIVE'
         end
 
-        def windows_password()
+        def windows_password
           requires :id
           service.get_windows_password(id)
         end
@@ -182,9 +182,9 @@ module Fog
           true
         end
 
-        def rebuild(image_id, name, admin_pass=nil, metadata=nil, personality=nil)
+        def rebuild(image_id, name, admin_pass=nil, options={})
           requires :id
-          service.rebuild_server(id, image_id, name, admin_pass, metadata, personality)
+          service.rebuild_server(id, image_id, name, admin_pass, options)
           true
         end
 
