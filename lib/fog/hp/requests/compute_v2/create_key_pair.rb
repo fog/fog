@@ -48,24 +48,20 @@ module Fog
 
         def create_key_pair(key_name, public_key = nil)
           response = Excon::Response.new
-          unless self.data[:key_pairs][key_name]
-            response.status = 200
-            private_key, new_public_key = Fog::HP::Mock.key_material
-            new_public_key = public_key if public_key  # if public key was passed in
-            data = {
-              'public_key'   => new_public_key,
-              'fingerprint'  => Fog::HP::Mock.key_fingerprint,
-              'name'         => key_name
-            }
-            self.data[:last_modified][:key_pairs][key_name] = Time.now
-            self.data[:key_pairs][key_name] = { 'keypair' => data }
-            if public_key
-              response.body = { 'keypair' => data.merge({'user_id' => Fog::HP::Mock.user_id,}) }
-            else
-              response.body = { 'keypair' => data.merge({'private_key'  => private_key, 'user_id' => Fog::HP::Mock.user_id}) }
-            end
+          response.status = 200
+          private_key, new_public_key = Fog::HP::Mock.key_material
+          new_public_key = public_key if public_key  # if public key was passed in
+          data = {
+            'public_key'   => new_public_key,
+            'fingerprint'  => Fog::HP::Mock.key_fingerprint,
+            'name'         => key_name
+          }
+          self.data[:last_modified][:key_pairs][key_name] = Time.now
+          self.data[:key_pairs][key_name] = { 'keypair' => data }
+          if public_key
+            response.body = { 'keypair' => data.merge({'user_id' => Fog::HP::Mock.user_id,}) }
           else
-            raise Fog::Compute::HPV2::NotFound
+            response.body = { 'keypair' => data.merge({'private_key'  => private_key, 'user_id' => Fog::HP::Mock.user_id}) }
           end
           response
         end
