@@ -14,6 +14,8 @@ module Fog
       secrets     :hp_secret_key
 
       model_path 'fog/hp/models/compute_v2'
+      model       :address
+      collection  :addresses
       model       :flavor
       collection  :flavors
       model       :image
