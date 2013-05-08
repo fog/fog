@@ -16,6 +16,8 @@ module Fog
       model_path 'fog/hp/models/compute_v2'
       model       :address
       collection  :addresses
+      model       :availability_zone
+      collection  :availability_zones
       model       :flavor
       collection  :flavors
       model       :image
@@ -52,6 +54,7 @@ module Fog
       request :get_server_details
       request :get_vnc_console
       request :list_addresses
+      request :list_availability_zones
       request :list_flavors
       request :list_flavors_detail
       request :list_images
