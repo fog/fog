@@ -28,6 +28,10 @@ module Fog
         attribute :security_groups
         attribute :config_drive
         attribute :user_data_encoded
+        attribute :availability_zone, :aliases => 'OS-EXT-AZ:availability_zone'
+        attribute :power_state,       :aliases => 'OS-EXT-STS:power_state'
+        attribute :task_state,        :aliases => 'OS-EXT-STS:task_state'
+        attribute :vm_state,          :aliases => 'OS-EXT-STS:vm_state'
         # these are implemented as methods
         attribute :image_id
         attribute :flavor_id
@@ -44,6 +48,7 @@ module Fog
           self.min_count = attributes.delete(:min_count)
           self.max_count = attributes.delete(:max_count)
           #self.block_device_mapping = attributes.delete(:block_device_mapping)
+          self.networks = attributes.delete(:networks)
           super
         end
 
@@ -167,6 +172,10 @@ module Fog
         #  @block_device_mapping = new_block_device_mapping
         #end
 
+        def networks=(new_networks)
+          @networks = new_networks
+        end
+
         def ready?
           self.state == 'ACTIVE'
         end
@@ -233,7 +242,9 @@ module Fog
             'key_name'        => key_name,
             'security_groups' => security_groups,
             'config_drive'    => config_drive,
-            'user_data'       => user_data_encoded
+            'user_data'       => user_data_encoded,
+            'availability_zone'  => availability_zone,
+            'networks'        => @networks
           }
           options = options.reject {|key, value| value.nil?}
           # either create a regular server or a persistent server based on input

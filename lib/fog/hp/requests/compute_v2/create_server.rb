@@ -122,12 +122,20 @@ module Fog
           if options['security_groups']
             sec_group_name = options['security_groups'][0]
           else
-            sec_group_name = "default"
+            sec_group_name = 'default'
+          end
+
+          # add the default network
+          addresses = {'hpcloud' => [{'version'=>4, 'addr'=>Fog::HP::Mock.ip_address}] }
+          if networks = options['networks']
+             networks.each do |_|
+               addresses["Network #{rand(100)}"] = [{'version'=>4, 'addr'=>Fog::HP::Mock.ip_address}]
+             end
           end
 
           id = Fog::HP::Mock.uuid.to_s
           data = {
-            'addresses' => { "custom"=>[{"version"=>4, "addr"=>Fog::HP::Mock.ip_address}] },
+            'addresses' => addresses,
             'flavor'    => {"id"=>"#{flavor_id}", "links"=>[{"href"=>"http://nova1:8774/admin/flavors/#{flavor_id}", "rel"=>"bookmark"}]},
             'id'        => id,
             'image'     => {"id"=>"#{image_id}", "links"=>[{"href"=>"http://nova1:8774/admin/images/#{image_id}", "rel"=>"bookmark"}]},

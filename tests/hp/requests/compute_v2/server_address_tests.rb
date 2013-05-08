@@ -2,7 +2,7 @@ Shindo.tests("Fog::Compute::HPV2 | server address requests", ['hp', 'v2', 'compu
 
   service = Fog::Compute.new(:provider => 'HP', :version => :v2)
 
-  @base_image_id = ENV["BASE_IMAGE_ID"] || "7f60b54c-cd15-433f-8bed-00acbcd25a17"
+  @base_image_id = ENV['BASE_IMAGE_ID'] || '7f60b54c-cd15-433f-8bed-00acbcd25a17'
 
   tests('success') do
     @server_name = 'fogaddresstests'
@@ -19,12 +19,12 @@ Shindo.tests("Fog::Compute::HPV2 | server address requests", ['hp', 'v2', 'compu
     end
 
     # the network name is currently named 'private'
-    tests("#list_server_addresses(#{@server_id})").formats({'addresses' => {'custom' => [{'version' => Integer, 'addr' => String}]}}) do
+    tests("#list_server_addresses(#{@server_id})").formats({'addresses' => {'hpcloud' => [{'version' => Integer, 'addr' => String}]}}) do
       service.list_server_addresses(@server_id).body
     end
 
-    tests("#list_server_addresses_by_network(#{@server_id}, 'network_uuid')").formats({'addresses' => {'custom' => [{'version' => Integer, 'addr' => String}]}}) do
-      service.list_server_addresses_by_network(@server_id, 'network_uuid').body
+    tests("#list_server_addresses_by_network(#{@server_id}, 'network_name')").succeeds do
+      service.list_server_addresses_by_network(@server_id, 'network_name').body
     end
 
     service.delete_server(@server_id)
@@ -37,8 +37,8 @@ Shindo.tests("Fog::Compute::HPV2 | server address requests", ['hp', 'v2', 'compu
       service.list_server_addresses(0)
     end
 
-    tests("#list_server_addresses_by_network(0, 'network_uuid')").raises(Fog::Compute::HPV2::NotFound) do
-      service.list_server_addresses_by_network(0, 'network_uuid')
+    tests("#list_server_addresses_by_network(0, 'network_name')").raises(Fog::Compute::HPV2::NotFound) do
+      service.list_server_addresses_by_network(0, 'network_name')
     end
 
   end
