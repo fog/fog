@@ -22,8 +22,11 @@ module Fog
         end
 
         def get(server_id)
-          if server = service.list_virtual_machines('id' => server_id)["listvirtualmachinesresponse"]["virtualmachine"].first
-            new(server)
+          servers = service.list_virtual_machines('id' => server_id)["listvirtualmachinesresponse"]["virtualmachine"]
+          if ! servers.nil?
+            if server = servers.first
+              new(server)
+            end
           end
         rescue Fog::Compute::Cloudstack::BadRequest
           nil
