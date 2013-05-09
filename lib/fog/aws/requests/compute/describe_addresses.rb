@@ -46,7 +46,7 @@ module Fog
 
           addresses_set = self.data[:addresses].values
 
-          aliases = {'public-ip' => 'publicIp', 'instance-id' => 'instanceId'}
+          aliases = {'public-ip' => 'publicIp', 'instance-id' => 'instanceId', 'allocation-id' => 'allocationId'}
           for filter_key, filter_value in filters
             aliased_key = aliases[filter_key]
             addresses_set = addresses_set.reject{|address| ![*filter_value].include?(address[aliased_key])}
