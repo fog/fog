@@ -23,8 +23,17 @@ module Fog
 
         def all(filters = filters)
           self.filters = filters
-          data = service.describe_db_snapshots(filters).body['DescribeDBSnapshotsResult']['DBSnapshots']
-          load(data) # data is an array of attribute hashes
+
+          # Uses markers to iterate through all paged results and return the entire collection
+          pages = []
+          marker = nil
+          begin
+            snapshots = service.describe_db_snapshots({:marker => marker}.merge(filters))
+            marker = snapshots.body['DescribeDBSnapshotsResult']['Marker']
+            data = snapshots.body['DescribeDBSnapshotsResult']['DBSnapshots']
+            pages << data # data is an array of attribute hashes
+          end while marker
+          load(pages.flatten)
         end
 
         def get(identity)
