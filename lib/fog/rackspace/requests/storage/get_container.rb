@@ -34,12 +34,17 @@ module Fog
         # @raise [Fog::Storage::Rackspace::ServiceError]
         def get_container(container, options = {})
           options = options.reject {|key, value| value.nil?}
-          request(
+          response = request(
             :expects  => 200,
             :method   => 'GET',
             :path     => Fog::Rackspace.escape(container),
             :query    => {'format' => 'json'}.merge!(options)
           )
+          response.data[:body].each do |item|
+            item['last_modified'] += 'Z' if item['last_modified'][-1] != 'Z'
+          end
+
+          response
         end
 
       end
