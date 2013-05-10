@@ -27,7 +27,6 @@ module Fog
 
         def initialize(attributes={})
           self.type ||= 'pri_sec'
-          self.ttl  ||= 3600
           super
         end
 

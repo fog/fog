@@ -8,7 +8,8 @@ for provider, config in dns_providers
   Shindo.tests("Fog::DNS[:#{provider}] | zones", [provider.to_s]) do
 
     zone_attributes = {
-      :domain => domain_name
+      :domain => domain_name,
+      :ttl => 3600
     }.merge!(config[:zone_attributes] || {})
 
     collection_tests(Fog::DNS[provider].zones, zone_attributes, config[:mocked])
