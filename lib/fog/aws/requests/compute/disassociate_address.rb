@@ -32,10 +32,17 @@ module Fog
 
       class Mock
 
-        def disassociate_address(public_ip)
+        def disassociate_address(public_ip=nil, association_id=nil)
           response = Excon::Response.new
           response.status = 200
-          if address = self.data[:addresses][public_ip]
+
+          if association_id
+            address = self.data[:addresses].detect { |public_ip, addr| addr['associationId'] == association_id }[1]
+          else
+            address = self.data[:addresses][public_ip]
+          end
+          
+          if address
             instance_id = address['instanceId']
             instance = self.data[:instances][instance_id]
             instance['ipAddress']         = instance['originalIpAddress']
