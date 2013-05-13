@@ -167,7 +167,7 @@ module Fog
         #   required attributes: body, directory, key
         # 
         # @param [Hash] options  
-        # @option options [String] cache_controle sets Cache-Control header. For example, 'No-cache'
+        # @option options [String] cache_control sets Cache-Control header. For example, 'No-cache'
         # @option options [String] content_disposition sets Content-Disposition HTTP header. For exampple, 'attachment; filename=testing.txt'
         # @option options [String] content_encoding sets Content-Encoding HTTP header. For example, 'x-gzip'
         # @option options [String] content_md5 sets Content-MD5. For example, '79054025255fb1a26e4bc422aef54eb4'
