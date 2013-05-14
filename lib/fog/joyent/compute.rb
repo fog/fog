@@ -201,8 +201,8 @@ module Fog
 
         def decode_time_attrs(obj)
           if obj.kind_of?(Hash)
-            obj["created"] = Time.parse(obj["created"]) if obj["created"]
-            obj["updated"] = Time.parse(obj["updated"]) if obj["updated"]
+            obj["created"] = Time.parse(obj["created"]) unless obj["created"].nil? or obj["created"] == ''
+            obj["updated"] = Time.parse(obj["updated"]) unless obj["updated"].nil? or obj["updated"] == ''
           elsif obj.kind_of?(Array)
             obj.map do |o|
               decode_time_attrs(o)
