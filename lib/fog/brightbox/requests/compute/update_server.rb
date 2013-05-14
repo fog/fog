@@ -10,7 +10,8 @@ module Fog
         # @option options [String] :user_data User defined metadata
         # @option options [Boolean] :compatibility_mode Server needs to be shutdown and restarted for changes to this to take effect
         #
-        # @return [Hash, nil] The JSON response parsed to a Hash or nil if no options passed
+        # @return [Hash] if successful Hash version of JSON object
+        # @return [NilClass] if no options were passed
         #
         # @see https://api.gb1.brightbox.com/1.0/#server_update_server
         #

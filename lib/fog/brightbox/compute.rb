@@ -71,15 +71,15 @@ module Fog
       request :create_load_balancer
       request :create_server
       request :create_server_group
-      request :destroy_api_client
-      request :destroy_application
-      request :destroy_cloud_ip
-      request :destroy_firewall_policy
-      request :destroy_firewall_rule
-      request :destroy_image
-      request :destroy_load_balancer
-      request :destroy_server
-      request :destroy_server_group
+      request :delete_api_client
+      request :delete_application
+      request :delete_cloud_ip
+      request :delete_firewall_policy
+      request :delete_firewall_rule
+      request :delete_image
+      request :delete_load_balancer
+      request :delete_server
+      request :delete_server_group
       request :get_account
       request :get_api_client
       request :get_application

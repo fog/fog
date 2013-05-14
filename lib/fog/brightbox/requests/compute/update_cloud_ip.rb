@@ -10,7 +10,8 @@ module Fog
         # @option options [String] :name Name for Cloud IP
         # @option options [Array] :port_translators Port on which external clients connect and port on which your service is listening.
         #
-        # @return [Hash, nil] The JSON response parsed to a Hash or nil if no options passed
+        # @return [Hash] if successful Hash version of JSON object
+        # @return [NilClass] if no options were passed
         #
         # @see https://api.gb1.brightbox.com/1.0/#cloud_ip_update_cloud_ip
         #

@@ -2,7 +2,6 @@ module Fog
   module Compute
     class Brightbox
       class Real
-
         # Resets the secret used by the API client to a new generated value.
         #
         # The response is the only time the new secret is available in plaintext.
@@ -11,7 +10,7 @@ module Fog
         #
         # @param [String] identifier Unique reference to identify the resource
         #
-        # @return [Hash] The JSON response parsed to a Hash
+        # @return [Hash] if successful Hash version of JSON object
         #
         # @see https://api.gb1.brightbox.com/1.0/#api_client_reset_secret_api_client
         #
