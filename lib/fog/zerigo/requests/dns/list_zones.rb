@@ -31,17 +31,8 @@ module Fog
         #       * 'restrict-axfr'<~String>    
         #   * 'status'<~Integer> - 200 indicates success
         def list_zones(options = {})
-          parameters = {}
-          options.each do |option, value|
-            case option
-            when :per_page
-              parameters[:per_page] = value
-            when :page
-              parameters[:page] = value
-            end
-          end
           request(
-            :query => parameters,
+            :query => options,
             :expects  => 200,
             :method   => 'GET',
             :parser   => Fog::Parsers::DNS::Zerigo::ListZones.new,
