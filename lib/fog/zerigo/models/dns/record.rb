@@ -23,7 +23,6 @@ module Fog
         attribute :zone_id,     :aliases => 'zone-id'
 
         def initialize(attributes={})
-          self.ttl    ||= 3600
           super
         end
 

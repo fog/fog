@@ -21,7 +21,6 @@ module Fog
         attribute :priority,    :aliases => "prio"
 
         def initialize(attributes={})
-          self.ttl ||= 3600
           super
         end
 

@@ -27,7 +27,6 @@ module Fog
 
         def initialize(attributes={})
           self.type ||= 'pri_sec'
-          self.ttl  ||= 3600
           super
         end
 
@@ -57,6 +56,7 @@ module Fog
         end
 
         def save
+          self.ttl ||= 3600
           requires :domain, :type, :ttl
           options = {}
           # * options<~Hash> - optional paramaters
