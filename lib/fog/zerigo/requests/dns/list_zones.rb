@@ -7,6 +7,11 @@ module Fog
 
         # Get list of all DNS zones hosted on Slicehost (for this account)
         #
+        # ==== Parameters
+        # * options<~Hash>
+        #   * page<~Integer> - Indicates where to begin in your list of zones.
+        #   * per_page<~Integer> - The maximum number of zones to be included in the response body
+        #
         # ==== Returns
         # * response<~Excon::Response>:
         #   * body<~Hash>:
