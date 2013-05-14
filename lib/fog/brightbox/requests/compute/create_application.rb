@@ -8,7 +8,8 @@ module Fog
         # @option options [String] :name
         # @option options [String] :description
         #
-        # @return [Hash, nil] The JSON response parsed to a Hash or nil if no options passed
+        # @return [Hash] if successful Hash version of JSON object
+        # @return [NilClass] if no options were passed
         #
         # @see https://api.gb1.brightbox.com/1.0/#application_create_application
         #

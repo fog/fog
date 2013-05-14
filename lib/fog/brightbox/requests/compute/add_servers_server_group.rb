@@ -6,14 +6,22 @@ module Fog
         #
         # @param [String] identifier Unique reference to identify the resource
         # @param [Hash] options
-        # @option options [Array<Hash>] :servers Array of Hashes containing `{"server" => server_id}` for each server to add
+        # @option options [Array<Hash>] :servers Array of Hashes containing
+        #   +{"server" => server_id}+ for each server to add
         #
-        # @return [Hash, nil] The JSON response parsed to a Hash or nil if no options passed
+        # @return [Hash] if successful Hash version of JSON object
+        # @return [NilClass] if no options were passed
         #
         # @see https://api.gb1.brightbox.com/1.0/#server_group_add_servers_server_group
         #
         # @example
-        #    Compute[:brightbox].add_servers_server_group "grp-12345", :servers => [{"server" => "srv-abcde"}, {"server" => "srv-fghij"}]
+        #   options = {
+        #     :servers => [
+        #       {"server" => "srv-abcde"},
+        #       {"server" => "srv-fghij"}
+        #     ]
+        #   }
+        #   Compute[:brightbox].add_servers_server_group "grp-12345", options
         #
         def add_servers_server_group(identifier, options)
           return nil if identifier.nil? || identifier == ""

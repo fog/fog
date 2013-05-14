@@ -9,7 +9,8 @@ module Fog
         # @option options [String] :name Editable user label
         # @option options [String] :description Editable user description
         #
-        # @return [Hash, nil] The JSON response parsed to a Hash or nil if no options passed
+        # @return [Hash] if successful Hash version of JSON object
+        # @return [NilClass] if no options were passed
         #
         # @see https://api.gb1.brightbox.com/1.0/#server_group_update_server_group
         #

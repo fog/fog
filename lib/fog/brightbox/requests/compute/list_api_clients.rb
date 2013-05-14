@@ -5,7 +5,7 @@ module Fog
         # Lists summary details of API clients owned by the account.
         #
         #
-        # @return [Hash] The JSON response parsed to a Hash
+        # @return [Hash] if successful Hash version of JSON object
         #
         # @see https://api.gb1.brightbox.com/1.0/#api_client_list_api_clients
         #

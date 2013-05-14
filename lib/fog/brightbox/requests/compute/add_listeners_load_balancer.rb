@@ -8,7 +8,8 @@ module Fog
         # @param [Hash] options
         # @option options [Array] :listeners Array of Listener parameters. Timeout is optional and specified in milliseconds.
         #
-        # @return [Hash, nil] The JSON response parsed to a Hash or nil if no options passed
+        # @return [Hash] if successful Hash version of JSON object
+        # @return [NilClass] if no options were passed
         #
         # @see https://api.gb1.brightbox.com/1.0/#load_balancer_add_listeners_load_balancer
         #

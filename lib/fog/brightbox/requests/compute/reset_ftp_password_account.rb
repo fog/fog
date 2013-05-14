@@ -11,9 +11,9 @@ module Fog
         #   @param [String] identifier Unique reference to identify the resource
         #
         # @overload reset_ftp_password_account()
-        #   @deprecated Use {Fog::Compute::Brightbox::Real#get_scoped_account} instead
+        #   @deprecated Use {Fog::Compute::Brightbox::Real#reset_ftp_password_scoped_account} instead
         #
-        # @return [Hash] The JSON response parsed to a Hash
+        # @return [Hash] if successful Hash version of JSON object
         #
         # @see https://api.gb1.brightbox.com/1.0/#account_reset_ftp_password_account
         #
