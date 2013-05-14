@@ -8,13 +8,20 @@ module Fog
         #
         # @return [Hash] The JSON response parsed to a Hash
         #
-        # @see https://api.gb1.brightbox.com/1.0/#image_destroy_image
+        # @see https://api.gb1.brightbox.com/1.0/#image_delete_image
         #
-        def destroy_image(identifier)
+        def delete_image(identifier)
           return nil if identifier.nil? || identifier == ""
           wrapped_request("delete", "/1.0/images/#{identifier}", [202])
         end
 
+        # Old format of the delete request.
+        #
+        # @deprecated Use +#delete_image+ instead
+        #
+        def destroy_image(identifier)
+          delete_image(identifier)
+        end
       end
     end
   end

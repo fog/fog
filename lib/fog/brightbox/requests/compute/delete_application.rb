@@ -8,13 +8,20 @@ module Fog
         #
         # @return [Hash] The JSON response parsed to a Hash
         #
-        # @see https://api.gb1.brightbox.com/1.0/#application_destroy_application
+        # @see https://api.gb1.brightbox.com/1.0/#application_delete_application
         #
-        def destroy_application(identifier)
+        def delete_application(identifier)
           return nil if identifier.nil? || identifier == ""
           wrapped_request("delete", "/1.0/applications/#{identifier}", [200])
         end
 
+        # Old format of the delete request.
+        #
+        # @deprecated Use +#delete_application+ instead
+        #
+        def destroy_application(identifier)
+          delete_application(identifier)
+        end
       end
     end
   end

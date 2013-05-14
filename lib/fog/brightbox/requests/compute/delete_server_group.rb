@@ -8,13 +8,20 @@ module Fog
         #
         # @return [Hash] The JSON response parsed to a Hash
         #
-        # @see https://api.gb1.brightbox.com/1.0/#server_group_destroy_server_group
+        # @see https://api.gb1.brightbox.com/1.0/#server_group_delete_server_group
         #
-        def destroy_server_group(identifier)
+        def delete_server_group(identifier)
           return nil if identifier.nil? || identifier == ""
           wrapped_request("delete", "/1.0/server_groups/#{identifier}", [202])
         end
 
+        # Old format of the delete request.
+        #
+        # @deprecated Use +#delete_server_group+ instead
+        #
+        def destroy_server_group(identifier)
+          delete_server_group(identifier)
+        end
       end
     end
   end
