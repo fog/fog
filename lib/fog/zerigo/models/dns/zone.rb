@@ -56,6 +56,7 @@ module Fog
         end
 
         def save
+          self.ttl ||= 3600
           requires :domain, :type, :ttl
           options = {}
           # * options<~Hash> - optional paramaters

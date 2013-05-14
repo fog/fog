@@ -17,7 +17,6 @@ module Fog
         attribute :type,          :aliases => 'zone_type'
 
         def initialize(attributes={})
-          self.ttl  ||= 3600
           super
         end
 
@@ -47,6 +46,7 @@ module Fog
         end
 
         def save
+          self.ttl ||= 3600
           requires :domain, :email, :ttl
           data = service.post_zone(email, ttl, domain).body['data']
           merge_attributes(data)

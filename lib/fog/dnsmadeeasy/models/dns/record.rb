@@ -25,7 +25,6 @@ module Fog
         attribute :value,          :aliases => "data"
 
         def initialize(attributes={})
-          self.ttl ||= 1800
           super
         end
 
@@ -39,6 +38,7 @@ module Fog
         end
 
         def save
+          self.ttl ||= 1800
           requires :name, :type, :value, :ttl
           options = {}
           options[:ttl]  = ttl if ttl
