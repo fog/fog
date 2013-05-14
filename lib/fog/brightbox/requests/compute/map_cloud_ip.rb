@@ -8,7 +8,8 @@ module Fog
         # @param [Hash] options
         # @option options [String] :destination The ID of an Interface or LoadBalancer to map the Cloud IP against
         #
-        # @return [Hash, nil] The JSON response parsed to a Hash or nil if no options passed
+        # @return [Hash] if successful Hash version of JSON object
+        # @return [NilClass] if no options were passed
         #
         # @see https://api.gb1.brightbox.com/1.0/#cloud_ip_map_cloud_ip
         #
