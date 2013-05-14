@@ -24,7 +24,6 @@ module Fog
 
         def initialize(attributes={})
           self.type ||= 'master'
-          self.ttl  ||= 3600
           super
         end
 

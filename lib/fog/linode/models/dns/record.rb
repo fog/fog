@@ -23,7 +23,6 @@ module Fog
         # "PORT":0,
 
         def initialize(attributes={})
-          self.ttl    ||= 3600
           super
         end
 

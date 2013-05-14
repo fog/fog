@@ -23,7 +23,6 @@ module Fog
         attribute :set_identifier,:aliases => ['SetIdentifier']
 
         def initialize(attributes={})
-          self.ttl ||= 3600
           super
         end
 
@@ -38,6 +37,7 @@ module Fog
         end
 
         def save
+          self.ttl ||= 3600
           options = attributes_to_options('CREATE')
           data = service.change_resource_record_sets(zone.id, [options]).body
           merge_attributes(data)

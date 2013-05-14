@@ -19,7 +19,6 @@ module Fog
         attribute :minimum
 
         def initialize(attributes = {})
-          self.ttl ||= 3600
           super(attributes)
         end
 
@@ -51,6 +50,7 @@ module Fog
         end
 
         def save
+          self.ttl ||= 3600
           requires :domain, :ttl
           options = attributes.dup
           options[:name] = options.delete(:domain)
