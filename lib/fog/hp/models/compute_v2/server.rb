@@ -47,7 +47,7 @@ module Fog
           # assign these attributes first to prevent race condition with new_record?
           self.min_count = attributes.delete(:min_count)
           self.max_count = attributes.delete(:max_count)
-          #self.block_device_mapping = attributes.delete(:block_device_mapping)
+          self.block_device_mapping = attributes.delete(:block_device_mapping)
           self.networks = attributes.delete(:networks)
           super
         end
@@ -168,9 +168,9 @@ module Fog
           @max_count = new_max_count
         end
 
-        #def block_device_mapping=(new_block_device_mapping)
-        #  @block_device_mapping = new_block_device_mapping
-        #end
+        def block_device_mapping=(new_block_device_mapping)
+          @block_device_mapping = new_block_device_mapping
+        end
 
         def networks=(new_networks)
           @networks = new_networks
@@ -220,12 +220,33 @@ module Fog
           service.create_image(id, name, metadata)
         end
 
-        #def volume_attachments
-        #  requires :id
-        #  if vols = service.list_server_volumes(id).body
-        #    vols["volumeAttachments"]
-        #  end
-        #end
+        def attach_volume(volume_id, device)
+          requires :id
+          if vols = service.attach_volume(id, volume_id, device).body
+            vols['volumeAttachment']
+          end
+        end
+
+        def detach_volume(volume_id)
+          requires :id
+          if vols = service.detach_volume(id, volume_id).body
+            vols['volumeAttachment']
+          end
+        end
+
+        def volume_attachment_details(volume_id)
+          requires :id
+          if vols = service.get_server_volume_details(id, volume_id).body
+            vols['volumeAttachment']
+          end
+        end
+
+        def volume_attachments
+          requires :id
+          if vols = service.list_server_volumes(id).body
+            vols['volumeAttachments']
+          end
+        end
 
         def save
           raise Fog::Errors::Error.new('Resaving an existing object may create a duplicate') if persisted?
