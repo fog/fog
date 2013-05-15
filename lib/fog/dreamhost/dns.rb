@@ -47,6 +47,8 @@ module Fog
       class Real
 
         def initialize(options={})
+          require 'multi_json'
+
           @dreamhost_api_key  = options[:dreamhost_api_key]
           if options[:dreamhost_url]
             uri = URI.parse(options[:dreamhost_url])
@@ -71,7 +73,7 @@ module Fog
           response = @connection.request(params)
 
           unless response.body.empty?
-            response.body = Fog::JSON.decode(response.body)
+            response.body = MultiJson.decode(response.body)
           end
           if response.body['result'] != 'success'
             raise response.body['data']

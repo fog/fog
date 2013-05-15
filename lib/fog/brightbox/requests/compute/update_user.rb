@@ -12,7 +12,8 @@ module Fog
         # @option options [String] :password A password string that conforms to the minimum requirements
         # @option options [String] :password_confirmation A password string that conforms to the minimum requirements
         #
-        # @return [Hash, nil] The JSON response parsed to a Hash or nil if no options passed
+        # @return [Hash] if successful Hash version of JSON object
+        # @return [NilClass] if no options were passed
         #
         # @see https://api.gb1.brightbox.com/1.0/#user_update_user
         #

@@ -36,7 +36,7 @@ module Fog
         end
 
         # Publish container to CDN
-        # @param [Fog::Storage::Rackspace::Directory] directory to publish
+        # @param [Fog::Storage::Rackspace::Directory] container directory to publish
         # @param [Boolean] publish If true directory is published. If false directory is unpublished.
         # @return [Hash] hash containing urls for published container
         # @raise [Fog::Storage::Rackspace::NotFound] - HTTP 404

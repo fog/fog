@@ -24,9 +24,21 @@ module Fog
         end
 
         def get(id)
-          new service.get_interface(id)
+          requires :vm
+          case vm
+            when Fog::Compute::Vsphere::Server
+              interface=service.get_vm_interface(vm.id, :key => id, :mac=> id, :name => id)
+            when Fog::Compute::Vsphere::Template
+              interface=service.get_template_interfaces(vm.id, :key => id, :mac=> id, :name => id)
+            else
+            raise 'interfaces should have vm or template'
+          end
+          if interface 
+            Fog::Compute::Vsphere::Interface.new(interface) 
+          else
+            nil         
+          end
         end
-
      end
     end
   end

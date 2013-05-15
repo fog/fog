@@ -9,8 +9,8 @@ module Fog
 
         model Fog::DNS::Zerigo::Zone
 
-        def all
-          data = service.list_zones.body['zones']
+        def all(options = {})
+          data = service.list_zones(options).body['zones']
           load(data)
         end
 

@@ -7,12 +7,11 @@ module Fog
 
         # List multipart uploads for a bucket
         #
-        # @param bucket_name [String] Name of bucket to list multipart uploads for
-        # @param upload_id [String] upload id to list objects for
-        # @param options [Hash] config arguments for list.  Defaults to {}.
-        # @option options key-marker[String] limits parts to only those that appear lexicographically after this key.
-        # @option options max-uploads [Integer] limits number of uploads returned
-        # @option options upload-id-marker [String] limits uploads to only those that appear lexicographically after this upload id.
+        # @param [String] bucket_name Name of bucket to list multipart uploads for
+        # @param [Hash] options config arguments for list.  Defaults to {}.
+        # @option options [String] key-marker limits parts to only those that appear lexicographically after this key.
+        # @option options [Integer] max-uploads limits number of uploads returned
+        # @option options [String] upload-id-marker limits uploads to only those that appear lexicographically after this upload id.
         #
         # @return [Excon::Response] response:
         #   * body [Hash]:

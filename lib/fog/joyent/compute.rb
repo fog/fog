@@ -147,7 +147,7 @@ module Fog
             "X-Api-Version" => @joyent_version,
             "Content-Type" => "application/json",
             "Accept" => "application/json"
-          }.merge(request[:headers] || {}).merge(@header_method.call) 
+          }.merge(request[:headers] || {}).merge(@header_method.call)
 
           if request[:body]
             request[:body] = Fog::JSON.encode(request[:body])
@@ -162,6 +162,8 @@ module Fog
           raise_if_error!(request, response)
 
           response
+        rescue Excon::Errors::Error => e
+          raise_if_error(e.request, e.response)
         end
 
         private
@@ -199,8 +201,8 @@ module Fog
 
         def decode_time_attrs(obj)
           if obj.kind_of?(Hash)
-            obj["created"] = Time.parse(obj["created"]) if obj["created"]
-            obj["updated"] = Time.parse(obj["updated"]) if obj["updated"]
+            obj["created"] = Time.parse(obj["created"]) unless obj["created"].nil? or obj["created"] == ''
+            obj["updated"] = Time.parse(obj["updated"]) unless obj["updated"].nil? or obj["updated"] == ''
           elsif obj.kind_of?(Array)
             obj.map do |o|
               decode_time_attrs(o)
@@ -213,27 +215,27 @@ module Fog
         def raise_if_error!(request, response)
           case response.status
           when 401 then
-            raise Errors::Unauthorized.new('Invalid credentials were used', request, response)
+            raise Joyent::Errors::Unauthorized.new('Invalid credentials were used', request, response)
           when 403 then
-            raise Errors::Forbidden.new('No permissions to the specified resource', request, response)
+            raise Joyent::Errors::Forbidden.new('No permissions to the specified resource', request, response)
           when 404 then
-            raise Errors::NotFound.new('Requested resource was not found', request, response)
+            raise Joyent::Errors::NotFound.new('Requested resource was not found', request, response)
           when 405 then
-            raise Errors::MethodNotAllowed.new('Method not supported for the given resource', request, response)
+            raise Joyent::Errors::MethodNotAllowed.new('Method not supported for the given resource', request, response)
           when 406 then
-            raise Errors::NotAcceptable.new('Try sending a different Accept header', request, response)
+            raise Joyent::Errors::NotAcceptable.new('Try sending a different Accept header', request, response)
           when 409 then
-            raise Errors::Conflict.new('Most likely invalid or missing parameters', request, response)
+            raise Joyent::Errors::Conflict.new('Most likely invalid or missing parameters', request, response)
           when 414 then
-            raise Errors::RequestEntityTooLarge.new('You sent too much data', request, response)
+            raise Joyent::Errors::RequestEntityTooLarge.new('You sent too much data', request, response)
           when 415 then
-            raise Errors::UnsupportedMediaType.new('You encoded your request in a format we don\'t understand', request, response)
+            raise Joyent::Errors::UnsupportedMediaType.new('You encoded your request in a format we don\'t understand', request, response)
           when 420 then
-            raise Errors::PolicyNotForfilled.new('You are sending too many requests', request, response)
+            raise Joyent::Errors::PolicyNotForfilled.new('You are sending too many requests', request, response)
           when 449 then
-            raise Errors::RetryWith.new('Invalid API Version requested; try with a different API Version', request, response)
+            raise Joyent::Errors::RetryWith.new('Invalid API Version requested; try with a different API Version', request, response)
           when 503 then
-            raise Errors::ServiceUnavailable.new('Either there\'s no capacity in this datacenter, or we\'re in a maintenance window', request, response)
+            raise Joyent::Errors::ServiceUnavailable.new('Either there\'s no capacity in this datacenter, or we\'re in a maintenance window', request, response)
           end
         end
 

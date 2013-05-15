@@ -29,6 +29,10 @@ module Fog
       collection :datastores
       model :folder
       collection :folders
+      model :customvalue
+      collection :customvalues
+      model :customfield
+      collection :customfields
 
       request_path 'fog/vsphere/requests/compute'
       request :current_time
@@ -55,6 +59,7 @@ module Fog
       request :list_folders
       request :create_vm
       request :list_vm_interfaces
+      request :modify_vm_interface
       request :list_vm_volumes
       request :get_virtual_machine
       request :vm_reconfig_hardware
@@ -62,6 +67,8 @@ module Fog
       request :vm_reconfig_cpus
       request :vm_config_vnc
       request :create_folder
+      request :list_vm_customvalues
+      request :list_customfields
 
       module Shared
 

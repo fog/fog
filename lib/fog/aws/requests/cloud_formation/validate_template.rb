@@ -7,17 +7,17 @@ module Fog
 
         # Describe stacks.
         #
-        # @para options [Hash]
-        # @option options TemplateBody [String] template structure
-        # @option options TemplateURL [String] template url
+        # @param [Hash] options
+        # @option options [String] TemplateBody template structure
+        # @option options [String] TemplateURL template url
         #
         # @return [Excon::Response]
         #   * body [Hash]:
         #     * Description [String] - description found within the template
         #     * Parameters [String] - list of template parameter structures
         #
-        # http://docs.amazonwebservices.com/AWSCloudFormation/latest/APIReference/API_ValidateTemplate.html
-        
+        # @see http://docs.amazonwebservices.com/AWSCloudFormation/latest/APIReference/API_ValidateTemplate.html
+        #
         def validate_template(options = {})
           request({
             'Action'    => 'ValidateTemplate',

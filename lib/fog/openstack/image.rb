@@ -46,6 +46,7 @@ module Fog
         end
 
         def initialize(options={})
+          require 'multi_json'
           @openstack_username = options[:openstack_username]
           @openstack_tenant   = options[:openstack_tenant]
           @openstack_auth_uri = URI.parse(options[:openstack_auth_url])
@@ -93,6 +94,8 @@ module Fog
         attr_reader :current_tenant
 
         def initialize(options={})
+          require 'multi_json'
+
           @openstack_auth_token = options[:openstack_auth_token]
 
           unless @openstack_auth_token
@@ -147,8 +150,6 @@ module Fog
               }.merge!(params[:headers] || {}),
               :host     => @host,
               :path     => "#{@path}/#{params[:path]}"#,
-              # Causes errors for some requests like tenants?limit=1
-              # :query    => ('ignore_awful_caching' << Time.now.to_i.to_s)
             }))
           rescue Excon::Errors::Unauthorized => error
             if error.response.body != 'Bad username or password' # token expiration
@@ -167,7 +168,7 @@ module Fog
             end
           end
           unless response.body.empty?
-            response.body = Fog::JSON.decode(response.body)
+            response.body = MultiJson.decode(response.body)
           end
           response
         end

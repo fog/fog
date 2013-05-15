@@ -71,9 +71,9 @@ module Fog
 
     module UserUtils
       def update_riakcs_user(key_id, user)
-        response = @s3_connection.put_object('riak-cs', "user/#{key_id}", Fog::JSON.encode(user), { 'Content-Type' => 'application/json' })
+        response = @s3_connection.put_object('riak-cs', "user/#{key_id}", MultiJson.encode(user), { 'Content-Type' => 'application/json' })
         if !response.body.empty?
-          response.body = Fog::JSON.decode(response.body)
+          response.body = MultiJson.decode(response.body)
         end
         response
       end

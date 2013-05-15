@@ -7,8 +7,8 @@ module Fog
 
         # Update a stack.
         #
-        # @parm stack_name [String] Name of the stack to update.
-        # @parm options [Hash]
+        # @param [String] stack_name Name of the stack to update.
+        # @param [Hash] options
         #   * TemplateBody [String] Structure containing the template body.
         #   or (one of the two Template parameters is required)
         #   * TemplateURL [String] URL of file containing the template body.
@@ -20,7 +20,7 @@ module Fog
         #     * StackId [String] - Id of the stack being updated
         #
         # @see http://docs.amazonwebservices.com/AWSCloudFormation/latest/APIReference/API_UpdateStack.html
-        
+        #
         def update_stack(stack_name, options = {})
           params = {
             'StackName' => stack_name,

@@ -14,9 +14,10 @@ module Fog
           changelog << ('=' * changelog[0].length)
           changelog << ''
 
-          github_repo_data = Fog::JSON.decode(Excon.get('https://api.github.com/repos/fog/fog').body)
+          require 'multi_json'
+          github_repo_data = Fog::JSON.decode(Excon.get('https://api.github.com/repos/fog/fog', :headers => {'User-Agent' => 'geemus'}).body)
           data = github_repo_data.reject {|key, value| !['forks', 'open_issues', 'watchers'].include?(key)}
-          github_collaborator_data = Fog::JSON.decode(Excon.get('https://api.github.com/repos/fog/fog/collaborators').body)
+          github_collaborator_data = Fog::JSON.decode(Excon.get('https://api.github.com/repos/fog/fog/collaborators', :headers => {'User-Agent' => 'geemus'}).body)
           data['collaborators'] = github_collaborator_data.length
           rubygems_data = Fog::JSON.decode(Excon.get('https://rubygems.org/api/v1/gems/fog.json').body)
           data['downloads'] = rubygems_data['downloads']
@@ -64,6 +65,7 @@ module Fog
               'Lincoln Stoll',
               'Luqman Amjad',
               'Michael Zeng',
+              'Nat Welch',
               'Nick Osborn',
               'nightshade427',
               'Patrick Debois',

@@ -38,6 +38,7 @@ module Fog
         attribute :cpus
         attribute :interfaces
         attribute :volumes
+        attribute :customvalues
         attribute :overall_status, :aliases => 'status'
         attribute :cluster
         attribute :datacenter
@@ -50,6 +51,7 @@ module Fog
           self.instance_uuid ||= id # TODO: remvoe instance_uuid as it can be replaced with simple id
           initialize_interfaces
           initialize_volumes
+          initialize_customvalues
         end
 
         # Lazy Loaded Attributes
@@ -72,8 +74,8 @@ module Fog
           service.vm_reconfig_cpus('instance_uuid' => instance_uuid, 'cpus' => cpus)
         end
 
-        def vm_reconfig_hardware(options = {})
-          requires :instance_uuid, :hardware_spec
+        def vm_reconfig_hardware(hardware_spec, options = {})
+          requires :instance_uuid
           service.vm_reconfig_hardware('instance_uuid' => instance_uuid, 'hardware_spec' => hardware_spec)
         end
 
@@ -163,9 +165,32 @@ module Fog
         def interfaces
           attributes[:interfaces] ||= id.nil? ? [] : service.interfaces( :vm => self )
         end
+        
+        def interface_ready? attrs
+          (attrs.is_a? Hash and attrs[:blocking]) or attrs.is_a? Fog::Compute::Vsphere::Interface
+        end
+
+        def add_interface attrs
+          wait_for { not ready? } if interface_ready? attrs
+          service.add_vm_interface(id, attrs)
+        end
+
+        def update_interface attrs
+          wait_for { not ready? } if interface_ready? attrs
+          service.update_vm_interface(id, attrs)
+        end
+
+        def destroy_interface attrs
+          wait_for { not ready? } if interface_ready? attrs
+          service.destroy_vm_interface(id, attrs)
+        end
 
         def volumes
           attributes[:volumes] ||= id.nil? ? [] : service.volumes( :vm => self )
+        end
+        
+        def customvalues
+          attributes[:customvalues] ||= id.nil? ? [] : service.customvalues( :vm => self )
         end
 
         def folder
@@ -216,6 +241,12 @@ module Fog
         def initialize_volumes
           if attributes[:volumes] and attributes[:volumes].is_a?(Array)
             self.attributes[:volumes].map! { |vol| vol.is_a?(Hash) ? service.volumes.new(vol) : vol }
+          end
+        end
+        
+        def initialize_customvalues
+          if attributes[:customvalues] and attributes[:customvalues].is_a?(Array)
+            self.attributes[:customvalues].map { |cfield| cfield.is_a?(Hash) ? service.customvalue.new(cfield) : cfield}
           end
         end
       end

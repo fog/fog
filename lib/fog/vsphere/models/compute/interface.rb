@@ -5,12 +5,14 @@ module Fog
       class Interface < Fog::Model
 
         identity :mac
+        alias :id :mac
 
         attribute :network
         attribute :name
         attribute :status
         attribute :summary
         attribute :type
+        attribute :key
 
         def initialize(attributes={} )
           super defaults.merge(attributes)

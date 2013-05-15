@@ -7,9 +7,9 @@ module Fog
 
         # Update a distribution in CloudFront.
         #
-        # @parm distribution_id [String] Id of distribution to update config for.
+        # @param distribution_id [String] Id of distribution to update config for.
         # @param options [Hash] Config for distribution.
-        # 
+        #
         #   REQUIRED:
         #   * S3Origin [Hash]:
         #     * DNSName [String] - origin to associate with distribution, ie 'mybucket.s3.amazonaws.com'.
