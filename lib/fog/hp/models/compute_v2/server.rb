@@ -229,9 +229,8 @@ module Fog
 
         def detach_volume(volume_id)
           requires :id
-          if vols = service.detach_volume(id, volume_id).body
-            vols['volumeAttachment']
-          end
+          service.detach_volume(id, volume_id)
+          true
         end
 
         def volume_attachment_details(volume_id)
@@ -246,6 +245,12 @@ module Fog
           if vols = service.list_server_volumes(id).body
             vols['volumeAttachments']
           end
+        end
+
+        def update_name(new_name)
+          requires :id
+          service.update_server(id, :name => new_name)
+          true
         end
 
         def save
