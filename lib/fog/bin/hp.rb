@@ -7,6 +7,8 @@ class HP < Fog::Bin
         Fog::HP::LB
       when :block_storage
         Fog::HP::BlockStorage
+      when :block_storage_v2
+        Fog::HP::BlockStorageV2
       when :cdn
         Fog::CDN::HP
       when :compute
@@ -26,7 +28,10 @@ class HP < Fog::Bin
         when :lb
           Fog::HP::LB.new
         when :block_storage
+          Fog::Logger.deprecation "First Gen HP Cloud Block Storage service will be soon deprecated. Please use `Fog::HP::BlockStorageV2` provider to use Next Gen HP Cloud Block Storage service."
           Fog::HP::BlockStorage.new
+        when :block_storage_v2
+          Fog::HP::BlockStorageV2.new
         when :cdn
           Fog::Logger.warning("HP[:cdn] is deprecated, use CDN[:hp] instead")
           Fog::CDN.new(:provider => 'HP')
