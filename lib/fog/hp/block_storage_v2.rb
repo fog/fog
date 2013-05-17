@@ -32,18 +32,19 @@ module Fog
 
       module Utils
 
-        #def compute
-        #  @compute ||= Fog::Compute.new(
-        #    :provider       => 'HP',
-        #    :hp_access_key  => @hp_access_key,
-        #    :hp_secret_key  => @hp_secret_key,
-        #    :hp_auth_uri    => @hp_auth_uri,
-        #    :hp_tenant_id   => @hp_tenant_id,
-        #    :hp_avl_zone    => @hp_avl_zone,
-        #    :credentials    => @credentials,
-        #    :connection_options => @connection_options
-        #  )
-        #end
+        def compute
+          @compute ||= Fog::Compute.new(
+            :provider       => 'HP',
+            :version        => :v2,
+            :hp_access_key  => @hp_access_key,
+            :hp_secret_key  => @hp_secret_key,
+            :hp_auth_uri    => @hp_auth_uri,
+            :hp_tenant_id   => @hp_tenant_id,
+            :hp_avl_zone    => @hp_avl_zone,
+            :credentials    => @credentials,
+            :connection_options => @connection_options
+          )
+        end
 
       end
 
