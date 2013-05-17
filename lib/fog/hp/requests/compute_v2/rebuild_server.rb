@@ -18,13 +18,12 @@ module Fog
         #     * 'file'<~Hash>:
         #       * 'contents'<~String> - Contents of file (10kb total of contents)
         #       * 'path'<~String> - Path to file (255 bytes total of path strings)
-        def rebuild_server(server_id, image_id, name, admin_pass=nil, options={})
+        def rebuild_server(server_id, image_id, name, options={})
 
           body = { 'rebuild' => {
             'imageRef' => image_id,
             'name' => name
           }}
-          body['rebuild']['adminPass'] = admin_pass if admin_pass
           l_options = ['metadata', 'accessIPv4', 'accessIPv6']
           l_options.select{|o| options[o]}.each do |key|
             body['rebuild'][key] = options[key]
@@ -45,14 +44,13 @@ module Fog
 
       class Mock
 
-        def rebuild_server(server_id, image_id, name, admin_pass=nil, options={})
+        def rebuild_server(server_id, image_id, name, options={})
           if image = list_images_detail.body['images'].detect {|_| _['id'] == image_id}
             if response = get_server_details(server_id)
               response.body['server']['name'] = name
               response.body['server']['image']['id'] = image_id
               response.body['server']['image']['name'] = image['name']
               response.body['server']['image']['links'] = image['links']
-              response.body['server']['adminPass'] = admin_pass
               response.body['server']['status'] = 'REBUILD'
               l_options = ['metadata', 'accessIPv4', 'accessIPv6']
               l_options.select{|o| options[o]}.each do |key|

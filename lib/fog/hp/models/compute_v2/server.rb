@@ -186,9 +186,9 @@ module Fog
           true
         end
 
-        def rebuild(image_id, name, admin_pass=nil, options={})
+        def rebuild(image_id, name, options={})
           requires :id
-          service.rebuild_server(id, image_id, name, admin_pass, options)
+          service.rebuild_server(id, image_id, name, options)
           true
         end
 
@@ -208,11 +208,6 @@ module Fog
         #  requires :id
         #  service.confirm_resized_server(id)
         #  true
-        #end
-
-        #def create_image(name, metadata={})
-        #  requires :id
-        #  service.create_image(id, name, metadata)
         #end
 
         def create_image(name, metadata = {})
