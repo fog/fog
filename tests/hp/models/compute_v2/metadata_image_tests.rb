@@ -6,12 +6,9 @@ Shindo.tests("Fog::Compute::HPV2 | metadata for images", ['hp', 'v2', 'compute']
 
   @server = service.servers.create(:name => 'fogsermdtests', :flavor_id => 100, :image_id => @base_image_id)
   @server.wait_for { ready? }
-  response = @server.create_image('fogimgmetadatatests', :metadata => {'Meta1' => 'MetaValue1', 'Meta2' => 'MetaValue2'})
-  unless Fog.mocking?
-    sleep(10)
-  end
-  new_image_id = response.headers['Location'].split('/')[5]
-  @image = service.images.get(new_image_id)
+  @image = @server.create_image('fogimgmetadatatests', :metadata => {'Meta1' => 'MetaValue1', 'Meta2' => 'MetaValue2'})
+  @image.wait_for { ready? }
+  @image.reload
 
   tests('success') do
 

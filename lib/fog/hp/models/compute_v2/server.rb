@@ -10,9 +10,9 @@ module Fog
         identity :id
 
         attribute :addresses
-        attribute :flavor
+        #attribute :flavor
         attribute :host_id,     :aliases => 'hostId'
-        attribute :image
+        #attribute :image
         attribute :metadata
         attribute :name
         attribute :personality
@@ -32,16 +32,17 @@ module Fog
         attribute :power_state,       :aliases => 'OS-EXT-STS:power_state'
         attribute :task_state,        :aliases => 'OS-EXT-STS:task_state'
         attribute :vm_state,          :aliases => 'OS-EXT-STS:vm_state'
+        attribute :links
+        attribute :image_id,          :aliases => 'image', :squash => 'id'
+        attribute :flavor_id,         :aliases => 'flavor', :squash => 'id'
         # these are implemented as methods
-        attribute :image_id
-        attribute :flavor_id
         attribute :private_ip_address
         attribute :public_ip_address
 
         attr_reader :password
         attr_writer :private_key, :private_key_path
         attr_writer :public_key, :public_key_path
-        attr_writer :username, :image_id, :flavor_id, :network_name
+        attr_writer :username, :network_name
 
         def initialize(attributes = {})
           # assign these attributes first to prevent race condition with new_record?
@@ -144,20 +145,14 @@ module Fog
           @public_key ||= public_key_path && File.read(public_key_path)
         end
 
-        def image_id
-          @image_id ||= (image.nil? ? nil : image['id'])
+        def flavor
+          requires :flavor_id
+          @flavor ||= service.flavors.get(flavor_id)
         end
 
-        def image_id=(new_image_id)
-          @image_id = new_image_id
-        end
-
-        def flavor_id
-          @flavor_id ||= (flavor.nil? ? nil : flavor['id'])
-        end
-
-        def flavor_id=(new_flavor_id)
-          @flavor_id = new_flavor_id
+        def image
+          requires :image_id
+          @image ||= service.images.get(image_id)
         end
 
         def min_count=(new_min_count)
@@ -215,9 +210,20 @@ module Fog
         #  true
         #end
 
-        def create_image(name, metadata={})
+        #def create_image(name, metadata={})
+        #  requires :id
+        #  service.create_image(id, name, metadata)
+        #end
+
+        def create_image(name, metadata = {})
           requires :id
-          service.create_image(id, name, metadata)
+          response = service.create_image(id, name, metadata)
+          begin
+            image_id = response.headers["Location"].match(/\/([^\/]+$)/)[1]
+            Fog::Compute::HPV2::Image.new(:collection => service.images, :service => service, :id => image_id)
+          rescue
+            nil
+          end
         end
 
         def attach_volume(volume_id, device)
