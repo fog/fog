@@ -19,10 +19,12 @@ module Fog
       #collection  :snapshots
 
       request_path 'fog/hp/requests/block_storage_v2'
-      #request :create_volume
-      #request :delete_volume
-      #request :get_volume_details
-      #request :list_volumes
+      request :create_volume
+      request :delete_volume
+      request :get_volume_details
+      request :list_volumes
+      request :list_volumes_detail
+      request :update_volume
       #request :create_snapshot
       #request :delete_snapshot
       #request :get_snapshot_details

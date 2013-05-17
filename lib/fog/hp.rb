@@ -56,7 +56,7 @@ module Fog
     end
 
     service(:block_storage, 'hp/block_storage', 'BlockStorage')
-    service(:block_storageV2, 'hp/block_storage_v2', 'BlockStorageV2')
+    service(:block_storage_v2, 'hp/block_storage_v2', 'BlockStorageV2')
     service(:cdn,     'hp/cdn',     'CDN')
     service(:compute, 'hp/compute', 'Compute')
     service(:network, 'hp/network', 'Network')
