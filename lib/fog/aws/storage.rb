@@ -449,7 +449,7 @@ DATA
               if VALID_QUERY_KEYS.include?(key)
                 value = params[:query][key]
                 if value
-                  query_args << "#{key}=#{Fog::AWS.escape(value.to_s)}"
+                  query_args << "#{key}=#{value}"
                 else
                   query_args << key
                 end
