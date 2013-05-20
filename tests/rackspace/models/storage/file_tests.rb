@@ -1,4 +1,34 @@
+require 'fog/rackspace/models/storage/file'
+
 Shindo.tests('Fog::Rackspace::Storage | file', ['rackspace']) do
+
+  tests("last_modified=") do
+    tests("no timezone") do
+      file = Fog::Storage::Rackspace::File.new
+      file.last_modified = "2013-05-09T22:20:59.287990"
+      returns(Fog::Time.utc(2013, 5, 9, 22, 20, 59, 287990, nil) == file.last_modified) { true }
+    end
+    tests("with timezone") do
+      file = Fog::Storage::Rackspace::File.new
+      file.last_modified = "Thu, 09 May 2015 22:20:59 GMT"
+      returns(Fog::Time.utc(2015, 5, 9, 22, 20, 59, 0, nil).to_i == file.last_modified.to_i) { true }
+    end
+    tests("with time") do
+      file = Fog::Storage::Rackspace::File.new
+      file.last_modified = Fog::Time.utc(2015, 5, 9, 22, 20, 59, 0, nil)
+      returns(Fog::Time.utc(2015, 5, 9, 22, 20, 59, 0, nil) == file.last_modified) { true }
+    end
+    tests("nil") do
+      file = Fog::Storage::Rackspace::File.new
+      file.last_modified = nil
+      returns(nil) { file.last_modified }
+    end
+    tests("empty string") do
+      file = Fog::Storage::Rackspace::File.new
+      file.last_modified = ""
+      returns("") { file.last_modified }
+    end
+  end
 
   pending if Fog.mocking?
 
