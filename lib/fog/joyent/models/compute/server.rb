@@ -14,6 +14,7 @@ module Fog
         attribute :memory
         attribute :disk
         attribute :metadata
+        attribute :tags
 
         attribute :created, :type => :time
         attribute :updated, :type => :time
@@ -89,7 +90,7 @@ module Fog
           true
         end
 
-        def tags
+        def list_tags
           requires :id
           service.list_machine_tags(id).body
         end
