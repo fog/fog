@@ -7,12 +7,10 @@ module Fog
 
       class Server < Fog::Compute::Server
 
-        identity :id
+        identity  :id
 
         attribute :addresses
-        #attribute :flavor
         attribute :host_id,     :aliases => 'hostId'
-        #attribute :image
         attribute :metadata
         attribute :name
         attribute :personality
@@ -221,30 +219,12 @@ module Fog
           end
         end
 
-        def attach_volume(volume_id, device)
-          requires :id
-          if vols = service.attach_volume(id, volume_id, device).body
-            vols['volumeAttachment']
-          end
-        end
-
-        def detach_volume(volume_id)
-          requires :id
-          service.detach_volume(id, volume_id)
-          true
-        end
-
-        def volume_attachment_details(volume_id)
-          requires :id
-          if vols = service.get_server_volume_details(id, volume_id).body
-            vols['volumeAttachment']
-          end
-        end
-
         def volume_attachments
-          requires :id
-          if vols = service.list_server_volumes(id).body
-            vols['volumeAttachments']
+          @volume_attachments ||= begin
+            Fog::Compute::HPV2::VolumeAttachments.new({
+              :service => service,
+              :server => self
+            })
           end
         end
 
