@@ -28,6 +28,8 @@ module Fog
       collection  :metadata
       model       :server
       collection  :servers
+      model       :volume_attachment
+      collection  :volume_attachments
 
       request_path 'fog/hp/requests/compute_v2'
       request :allocate_address
@@ -130,12 +132,14 @@ module Fog
                 :images  => {},
                 :key_pairs => {},
                 :servers => {},
-                :addresses => {}
+                :addresses => {},
+                :volume_attachments => {}
               },
               :images  => {},
               :key_pairs => {},
               :servers => {},
-              :addresses => {}
+              :addresses => {},
+              :volume_attachments => {}
             }
           end
         end
