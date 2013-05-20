@@ -186,22 +186,21 @@ module Fog
 
           key = @key_manager.known_identities.keys.first
 
-          if key.kind_of? OpenSSL::PKey::RSA
-            digest = @key_manager.sign(key, date)[15..-1]
+          sig = if key.kind_of? OpenSSL::PKey::RSA
+            @key_manager.sign(key, date)[15..-1]
           else
             key = OpenSSL::PKey::DSA.new(File.read(@joyent_keyfile), @joyent_keyphrase)
-            digest = key.sign('sha1', date)
+            key.sign('sha1', date)
           end
 
-          signature = Base64.encode64(digest).delete("\r\n")
-
           key_id = "/#{@joyent_username}/keys/#{@joyent_keyname}"
-
           key_type = key.class.to_s.split('::').last.downcase.to_sym
 
           unless [:rsa, :dsa].include? key_type
             raise Joyent::Errors::Unauthorized.new('Invalid key type -- only rsa or dsa key is supported')
           end
+
+          signature = Base64.encode64(sig).delete("\r\n")
 
           {
             "Date" => date,
