@@ -21,19 +21,26 @@ module Fog
           super
         end
 
+        # This will return a single page based on the current or provided filters,
+        # updating the filters with the marker for the next page.  Calling this repeatedly
+        # will iterate through pages.
         def all(filters = filters)
-          self.filters = filters
+          self.filters.merge!(filters)
 
-          # Uses markers to iterate through all paged results and return the entire collection
-          pages = []
-          marker = nil
+          snapshots = service.describe_db_snapshots(filters)
+          self.filters[:marker] = snapshots.body['DescribeDBSnapshotsResult']['Marker']
+          data = snapshots.body['DescribeDBSnapshotsResult']['DBSnapshots']
+          load(data)
+        end
+
+        # This will execute a block for each snapshot, fetching new pages of snapshots as required.
+        def each(filters = filters)
           begin
-            snapshots = service.describe_db_snapshots({:marker => marker}.merge(filters))
-            marker = snapshots.body['DescribeDBSnapshotsResult']['Marker']
-            data = snapshots.body['DescribeDBSnapshotsResult']['DBSnapshots']
-            pages << data # data is an array of attribute hashes
-          end while marker
-          load(pages.flatten)
+            page = self.all(filters)
+            # We need to explicitly use the base 'each' method here on the page, otherwise we get infinite recursion
+            base_each = Fog::Collection.instance_method(:each)
+            base_each.bind(page).call {|snapshot| yield snapshot}
+          end while self.filters[:marker]
         end
 
         def get(identity)
