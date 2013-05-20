@@ -68,7 +68,7 @@ module Fog
           })
           new(file_data)
         rescue Excon::Errors::NotFound => error
-          case error.message
+          case error.response.body
           when /<Code>NoSuchKey<\/Code>/
             nil
           when /<Code>NoSuchBucket<\/Code>/
