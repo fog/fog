@@ -5,7 +5,7 @@ module Fog
     class LB < Fog::Service
 
       requires :hp_secret_key, :hp_tenant_id, :hp_avl_zone
-      recognizes :hp_auth_uri
+      recognizes :hp_auth_uri, :credentials
       recognizes :persistent, :connection_options
       recognizes :hp_use_upass_auth_style, :hp_auth_version, :user_agent
       recognizes :hp_access_key, :hp_account_id # :hp_account_id is deprecated use hp_access_key instead
@@ -84,6 +84,7 @@ module Fog
       end
 
       class Real
+        attr_reader :credentials
 
 
         def initialize(options={})

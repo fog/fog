@@ -8,12 +8,12 @@ module Fog
         model Fog::HP::LB::LoadBalancer
 
         def all
-          data = connection.list_load_balancers.body['load_balancers']
+          data = service.list_load_balancers.body['loadBalancers']
           load(data)
         end
 
         def get(record_id)
-          record = connection.get_load_balancer_details(record_id).body['load_balancer']
+          record = service.get_load_balancer_details(record_id).body['load_balancer']
           new(record)
         rescue Fog::HP::LB::NotFound
           nil

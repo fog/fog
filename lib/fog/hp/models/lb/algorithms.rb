@@ -8,12 +8,12 @@ module Fog
         model Fog::HP::LB::Algorithm
 
         def all
-          data = connection.list_algorithms.body['algorithms']
+          data = service.list_algorithms.body['algorithms']
           load(data)
         end
 
         def get(record_id)
-          record = connection.get_algorithm_details(record_id).body['algorithm']
+          record = service.get_algorithm_details(record_id).body['algorithm']
           new(record)
         rescue Fog::HP::LB::NotFound
           nil

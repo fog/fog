@@ -8,12 +8,12 @@ module Fog
         model Fog::HP::LB::Protocol
 
         def all
-          data = connection.list_protocols.body['protocols']
+          data = service.list_protocols.body['protocols']
           load(data)
         end
 
         def get(record_id)
-          record = connection.get_protocol_details(record_id).body['protocol']
+          record = service.get_protocol_details(record_id).body['protocol']
           new(record)
         rescue Fog::HP::LB::NotFound
           nil
