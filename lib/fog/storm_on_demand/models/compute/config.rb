@@ -7,7 +7,9 @@ module Fog
       class Config < Fog::Model
         identity :id
 
+        attribute :active
         attribute :available
+        attribute :category
         attribute :description
         attribute :disk
         attribute :featured
