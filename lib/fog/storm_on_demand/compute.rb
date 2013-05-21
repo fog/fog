@@ -58,6 +58,8 @@ module Fog
       request :get_config_details
 
       request :list_templates
+      request :get_template_details
+      request :restore_template
 
       request :list_images
       request :create_image
