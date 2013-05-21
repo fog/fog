@@ -42,6 +42,11 @@ module Fog
       request :get_config_details
       request :list_templates
       request :list_images
+      request :create_image
+      request :delete_image
+      request :get_image_details
+      request :update_image
+      request :restore_image
       request :get_stats
       request :list_private_ips      
       
