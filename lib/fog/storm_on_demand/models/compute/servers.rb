@@ -9,13 +9,18 @@ module Fog
 
         model Fog::Compute::StormOnDemand::Server
 
-        def all
-          data = service.list_servers.body['items']
+        def all(options={})
+          data = service.list_servers(options).body['items']
           load(data)
         end
 
         def get(uniq_id)
           server = service.get_server(:uniq_id => uniq_id).body
+          new(server)
+        end
+
+        def create(options)
+          server = service.create_server(options).body
           new(server)
         end
 

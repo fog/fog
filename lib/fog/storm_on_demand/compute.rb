@@ -35,6 +35,11 @@ module Fog
       request :get_server
       request :create_server
       request :resize_server
+      request :server_history
+      request :shutdown_server
+      request :start_server
+      request :server_status
+      request :update_server
 
       request :remove_balancer_node
       request :add_balancer_node
