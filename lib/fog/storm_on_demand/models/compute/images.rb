@@ -14,9 +14,8 @@ module Fog
           true
         end
 
-        def get
-          requires :identity
-          img = service.get_image_details(:id => identity).body
+        def get(image_id)
+          img = service.get_image_details(:id => image_id).body
           new(img)
         end
 
