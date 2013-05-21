@@ -5,7 +5,8 @@ module Fog
   module Compute
     class StormOnDemand < Fog::Service
 
-      API_URL = 'https://api.stormondemand.com/v1'
+      API_URL = 'https://api.stormondemand.com'
+      API_VERSION = 'v1'
 
       requires :storm_on_demand_username, :storm_on_demand_password
       recognizes :storm_on_demand_auth_url
@@ -38,6 +39,7 @@ module Fog
       request :add_balancer_node
       request :list_balancers
       request :list_configs
+      request :get_config_details
       request :list_templates
       request :list_images
       request :get_stats
@@ -109,7 +111,7 @@ module Fog
                 'Authorization' => 'Basic ' << Base64.encode64("#{@storm_on_demand_username}:#{@storm_on_demand_password}").chomp
               }.merge!(params[:headers] || {}),
               :host     => @host,
-              :path     => "#{@path}/#{params[:path]}",
+              :path     => "#{@path}/#{API_VERSION}#{params[:path]}",
               :expects  => 200,
               :method   => :post
             }))
