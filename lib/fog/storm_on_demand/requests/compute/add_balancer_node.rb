@@ -5,7 +5,7 @@ module Fog
 
         def add_balancer_node(options = {})
           request(
-            :path     => "/network/loadbalancer/addnode",
+            :path     => "/Network/LoadBalancer/addNode",
             :body     => Fog::JSON.encode({:params => options})
           )
         end

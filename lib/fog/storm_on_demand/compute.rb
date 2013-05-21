@@ -35,18 +35,32 @@ module Fog
       request :get_server
       request :create_server
       request :resize_server
+
       request :remove_balancer_node
       request :add_balancer_node
+      request :add_balancer_service
+      request :remove_balancer_service
+      request :check_balancer_available
+      request :create_balancer
+      request :delete_balancer
+      request :update_balancer
+      request :get_balancer_details
       request :list_balancers
+      request :get_balancer_possible_nodes
+      request :get_balancer_strategies
+
       request :list_configs
       request :get_config_details
+
       request :list_templates
+
       request :list_images
       request :create_image
       request :delete_image
       request :get_image_details
       request :update_image
       request :restore_image
+
       request :get_stats
       request :list_private_ips      
       
