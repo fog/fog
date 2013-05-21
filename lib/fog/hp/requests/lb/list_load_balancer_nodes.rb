@@ -6,7 +6,7 @@ module Fog
           response = request(
             :expects => 200,
             :method  => 'GET',
-            :path    => 'loadbalancers/#{load_balancer_id}/nodes'
+            :path    => "loadbalancers/#{load_balancer_id}/nodes"
           )
           response
         end

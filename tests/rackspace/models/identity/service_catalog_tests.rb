@@ -101,6 +101,6 @@ Shindo.tests('Fog::Rackspace::ServiceCatalog | users', ['rackspace']) do
     service_catalog.reload
     raises(RuntimeError) { service_catalog.get_endpoint :fakeService }
     raises(RuntimeError) { service.service_catalog.get_endpoint :fakeService }
-    
+
   end  
 end
