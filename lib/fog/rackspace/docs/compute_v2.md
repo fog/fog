@@ -138,7 +138,7 @@ To view the status of the response:
 	response.status
 	
 **Note**: Fog is aware of valid HTTP response statuses for each request type. If an unexpected HTTP response status occurs, Fog will raise an exception.
-	
+
 To view response body:
 
 	response.body
@@ -152,7 +152,7 @@ To learn more about Compute request methods refer to [rdoc](http://rubydoc.info/
 
 ### Model Layer
 
-Fog models behave in a manner similar to `ActiveModel`. Models will generally respond to `create`, `save`,  `persisted?`, `destroy`, `reload` and `attributes` methods. Additionally, fog will automatically create attribute accessors.  
+Fog models behave in a manner similar to `ActiveModel`. Models will generally respond to `create`, `save`,  `persisted?`, `destroy`, `reload` and `attributes` methods. Additionally, fog will automatically create attribute accessors.
 
 Here is a summary of common model methods:
 

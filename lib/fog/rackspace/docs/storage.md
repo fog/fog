@@ -193,7 +193,7 @@ To learn more about `Fog::Storage` request methods refer to [rdoc](http://rubydo
 
 ### Model Layer
 
-Fog models behave in a manner similar to `ActiveModel`. Models will generally respond to `create`, `save`,  `destroy`, `reload` and `attributes` methods. Additionally, fog will automatically create attribute accessors.  
+Fog models behave in a manner similar to `ActiveModel`. Models will generally respond to `create`, `save`,  `destroy`, `reload` and `attributes` methods. Additionally, fog will automatically create attribute accessors.
 
 Here is a summary of common model methods:
 

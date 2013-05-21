@@ -12,7 +12,7 @@ end
 
 def select_directory(directories)
   abort "\nThere are not any directories to delete in the Chicago region. Try running create_directory.rb\n\n" if directories.empty?
-  
+
   puts "\nSelect Directory To Delete:\n\n"
   directories.each_with_index do |dir, i|
     puts "\t #{i}. #{dir.key} [#{dir.count} objects]"

@@ -41,7 +41,7 @@ Shindo.tests('Rackspace | Storage', ['rackspace']) do
 
   tests('authentation v2') do
     pending if Fog.mocking?
-    
+
     tests('variables populated').succeeds do
       @service = Fog::Storage::Rackspace.new :rackspace_auth_url => 'https://identity.api.rackspacecloud.com/v2.0', :connection_options => { :ssl_verify_peer => true }
       returns(true, "auth token populated") { !@service.send(:auth_token).nil? }
@@ -65,7 +65,7 @@ Shindo.tests('Rackspace | Storage', ['rackspace']) do
       @service.head_containers
     end
     tests('custom endpoint').succeeds do
-      @service = Fog::Storage::Rackspace.new :rackspace_auth_url => 'https://identity.api.rackspacecloud.com/v2.0', 
+      @service = Fog::Storage::Rackspace.new :rackspace_auth_url => 'https://identity.api.rackspacecloud.com/v2.0',
         :rackspace_storage_url => 'https://my-custom-endpoint.com'
         returns(true, "auth token populated") { !@service.send(:auth_token).nil? }
         returns(true, "uses custom endpoint") { (@service.instance_variable_get("@uri").host =~ /my-custom-endpoint\.com/) != nil }
@@ -86,7 +86,7 @@ Shindo.tests('Rackspace | Storage', ['rackspace']) do
       returns(true, "auth token populated") { !@service.send(:auth_token).nil? }
       returns(true) { (@service.instance_variable_get("@uri").host =~ /ord\d/ ) != nil }
       @service.head_containers
-    end    
+    end
     tests('custom endpoint') do
       @service = Fog::Storage::Rackspace.new :rackspace_storage_url => 'https://my-custom-endpoint.com'
       returns(true, "auth token populated") { !@service.send(:auth_token).nil? }
@@ -112,7 +112,7 @@ Shindo.tests('Rackspace | Storage', ['rackspace']) do
       raises(Excon::Errors::Unauthorized) { Fog::Storage::Rackspace.new :rackspace_api_key => 'bad_key' }
     end
   end
-    
+
   tests('account').succeeds do
     pending if Fog.mocking?    
      Fog::Storage[:rackspace].account

@@ -12,7 +12,7 @@ end
 
 def select_image(snapshot_images)
   abort "\nThere are not any images to delete in the Chicago region. Try running create_image.rb\n\n" if snapshot_images.empty?
-  
+
   puts "\nSelect Image To Delete:\n\n"
   snapshot_images.each_with_index do |image, i|
     puts "\t #{i}. #{image.name}"
