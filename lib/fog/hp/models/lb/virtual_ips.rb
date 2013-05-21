@@ -8,12 +8,12 @@ module Fog
         model Fog::HP::LB::VirtualIp
 
         def all
-          data = connection.list_virtual_ips.body['virtual_ips']
+          data = service.list_virtual_ips.body['virtual_ips']
           load(data)
         end
 
         def get(record_id)
-          record = connection.get_virtual_ip_details(record_id).body['virtual_ip']
+          record = service.get_virtual_ip_details(record_id).body['virtual_ip']
           new(record)
         rescue Fog::HP::LB::NotFound
           nil

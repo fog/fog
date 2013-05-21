@@ -5,7 +5,7 @@ module Fog
         def update_load_balancer(load_balancer_id, options=())
           request(
             :body    => Fog::JSON.encode(options),
-            :expects => 202,
+            :expects => [202,200],
             :method  => 'PUT',
             :path    => "loadbalancers/#{load_balancer_id}"
           )

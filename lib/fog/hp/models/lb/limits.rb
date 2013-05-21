@@ -20,12 +20,9 @@ module Fog
         #}
         #}
         def all
-          data = connection.list_load_limits.body['limits']['absolute']['values']
-          load(data)
+          data = service.list_limits.body['limits']['absolute']['values']
+          load([data])
         end
-
-
-
       end
     end
   end

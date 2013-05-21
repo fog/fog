@@ -5,7 +5,7 @@ module Fog
 
         def delete_load_balancer_node(instance_id, node_id)
           response = request(
-            :expects => 202,
+            :expects => [204,202],
             :method  => 'DELETE',
             :path    => "loadbalancers/#{instance_id}/nodes/#{node_id}"
           )

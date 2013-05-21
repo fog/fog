@@ -9,7 +9,7 @@ module Fog
           }
           request(
             :body    => Fog::JSON.encode(data),
-            :expects => 202,
+            :expects => [202,204],
             :method  => 'PUT',
             :path    => "loadbalancers/#{load_balancer_id}/nodes/#{node_id}"
           )

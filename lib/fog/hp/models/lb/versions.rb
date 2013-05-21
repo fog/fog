@@ -8,12 +8,12 @@ module Fog
         model Fog::HP::LB::Version
 
         def all
-          data = connection.list_versions.body['versions']
+          data = service.list_versions.body['versions']
           load(data)
         end
 
         def get(record_id)
-          record = connection.get_versions(record_id).body['version']
+          record = service.get_versions(record_id).body['version']
           new(record)
         rescue Fog::HP::LB::NotFound
           nil
