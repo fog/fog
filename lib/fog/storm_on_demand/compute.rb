@@ -69,6 +69,8 @@ module Fog
       request :restore_image
 
       request :get_stats
+      request :get_stats_graph
+      
       request :list_private_ips      
       
       class Mock
