@@ -26,6 +26,8 @@ module Fog
       collection  :private_ips
       model       :firewall
       collection  :firewalls
+      model       :ruleset
+      collection  :rulesets
       model       :stat
       collection  :stats
       model       :template
@@ -93,6 +95,11 @@ module Fog
       request :get_firewall_basic_options
       request :get_firewall_rules
       request :update_firewall
+
+      request :create_ruleset
+      request :get_ruleset
+      request :list_rulesets
+      request :update_ruleset
 
       class Mock
 
