@@ -25,10 +25,12 @@ module Fog
       request :list_volumes
       request :list_volumes_detail
       request :update_volume
-      #request :create_snapshot
-      #request :delete_snapshot
-      #request :get_snapshot_details
-      #request :list_snapshots
+      request :create_snapshot
+      request :delete_snapshot
+      request :get_snapshot_details
+      request :list_snapshots
+      request :list_snapshots_detail
+      request :update_snapshot
 
       module Utils
 
