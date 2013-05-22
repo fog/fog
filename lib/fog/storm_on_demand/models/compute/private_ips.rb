@@ -15,15 +15,24 @@ module Fog
         end
 
         def get(server_id)
-          if server_id && server = service.get_private_ip(private_ip).body
-            new(server)
-          elsif !server_id
-            nil
-          end
-        rescue Excon::Errors::Forbidden
-          nil
+          service.get_private_ip(:uniq_id => server_id).body[:ip]
         end
 
+        def attach(server_id)
+          res = service.attach_server_to_private_ip(:uniq_id => server_id).body
+          res[:attached].to_i == 1 ? true : false
+        end
+
+        def detach(server_id)
+          r = service.detach_server_from_private_ip(:uniq_id => server_id).body
+          r[:detached].to_i == 1 ? true : false
+        end
+
+        def attached?(server_id)
+          r = service.check_server_attached(:uniq_id => server_id).body
+          r[:is_attached].to_i == 1 ? true : false
+        end
+        
       end
 
     end

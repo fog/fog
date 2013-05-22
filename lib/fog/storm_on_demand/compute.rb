@@ -71,7 +71,11 @@ module Fog
       request :get_stats
       request :get_stats_graph
       
-      request :list_private_ips      
+      request :list_private_ips
+      request :get_private_ip
+      request :attach_server_to_private_ip
+      request :detach_server_from_private_ip
+      request :check_server_attached   
       
       class Mock
 
