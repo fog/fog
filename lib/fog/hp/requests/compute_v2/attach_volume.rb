@@ -45,20 +45,22 @@ module Fog
               response.body = '{"badRequest": {"message": "Volume status must be available", "code": 400}}'
               raise(Excon::Errors.status_error({:expects => 200}, response))
             else
-              resp_data = { "volumeAttachment" =>
+              resp_data = { 'volumeAttachment' =>
                             {
-                              "volumeId" => volume_id,
-                              "id"       => volume_id
+                              'device'   => device,
+                              'serverId' => server_id,
+                              'id'       => volume_id,
+                              'volumeId' => volume_id,
                             }
                           }
               response.body = resp_data
               response.status = 200
 
               data = {
-                        "device"   => device,
-                        "serverId" => server_id,
-                        "id"       => volume_id,
-                        "volumeId" => volume_id,
+                        'device'   => device,
+                        'serverId' => server_id,
+                        'id'       => volume_id,
+                        'volumeId' => volume_id,
                      }
               if server['volumeAttachments']
                 server['volumeAttachments'] << data
