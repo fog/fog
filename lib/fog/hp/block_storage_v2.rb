@@ -11,9 +11,9 @@ module Fog
 
       secrets     :hp_secret_key
 
-      #model_path  'fog/hp/models/block_storage_v2'
-      #model       :volume
-      #collection  :volumes
+      model_path  'fog/hp/models/block_storage_v2'
+      model       :volume
+      collection  :volumes
       #collection  :bootable_volumes
       #model       :snapshot
       #collection  :snapshots

@@ -30,7 +30,7 @@ module Fog
           if server = self.data[:servers][server_id]
             if server['volumeAttachments'] && server['volumeAttachments'].select {|v| v['volumeId'] == volume_id}
               data = server['volumeAttachments'].select {|v| v['volumeId'] == volume_id}
-              response.body = { 'volumeAttachment' => data }
+              response.body = { 'volumeAttachment' => data[0] }
               response.status = 200
             else
               raise Fog::Compute::HPV2::NotFound
