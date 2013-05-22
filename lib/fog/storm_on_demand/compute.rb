@@ -29,7 +29,9 @@ module Fog
       model       :ruleset
       collection  :rulesets
       model       :pool
-      model       :pools
+      collection  :pools
+      model       :zone
+      collection  :zones
       model       :stat
       collection  :stats
       model       :template
@@ -109,6 +111,10 @@ module Fog
       request :get_assignments
       request :update_pool
 
+      request :get_zone
+      request :list_zones
+      request :set_default_zone
+      
       class Mock
 
         def self.data
