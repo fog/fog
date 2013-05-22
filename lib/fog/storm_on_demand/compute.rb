@@ -28,6 +28,8 @@ module Fog
       collection  :firewalls
       model       :ruleset
       collection  :rulesets
+      model       :pool
+      model       :pools
       model       :stat
       collection  :stats
       model       :template
@@ -100,6 +102,12 @@ module Fog
       request :get_ruleset
       request :list_rulesets
       request :update_ruleset
+
+      request :create_pool
+      request :delete_pool
+      request :get_pool
+      request :get_assignments
+      request :update_pool
 
       class Mock
 
