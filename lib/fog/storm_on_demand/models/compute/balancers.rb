@@ -16,7 +16,7 @@ module Fog
 
         def available(name)
           avail = service.check_balancer_available(:name => name).body
-          avail[:available].to_i == 1 ? true : false
+          avail['available'].to_i == 1 ? true : false
         end
 
         def create(options)
@@ -30,11 +30,11 @@ module Fog
         end
 
         def possible_nodes(options={})
-          service.get_balancer_possible_nodes(options).body[:items]
+          service.get_balancer_possible_nodes(options).body['items']
         end
 
         def strategies
-          service.get_balancer_strategies.body[:strategies]
+          service.get_balancer_strategies.body['strategies']
         end
 
       end

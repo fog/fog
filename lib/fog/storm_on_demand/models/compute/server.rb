@@ -63,7 +63,7 @@ module Fog
         def history(options={})
           requires :identity
           res = service.server_history({:uniq_id => identity}.merge!(options))
-          res[:items]
+          res['items']
         end
 
         def shutdown(options={})

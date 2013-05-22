@@ -14,11 +14,11 @@ module Fog
 
         def basic_options(server_id)
           res = service.get_firewall_basic_options(:uniq_id => server_id).body
-          res[:options]
+          res['options']
         end
 
         def rules(server_id)
-          service.get_firewall_rules(:uniq_id => server_id).body[:rules]
+          service.get_firewall_rules(:uniq_id => server_id).body['rules']
         end
 
         def update(options)
