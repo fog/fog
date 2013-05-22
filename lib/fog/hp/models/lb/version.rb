@@ -7,8 +7,6 @@ module Fog
         identity :id
         attribute :status
         attribute :updated_at, :alias => "updated"
-
-
       end
     end
   end

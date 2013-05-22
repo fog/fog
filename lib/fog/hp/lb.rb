@@ -24,9 +24,9 @@ module Fog
       model       :protocol
       collection  :protocols
       model       :version
-      model       :versions
+      collection  :versions
       model       :virtual_ip
-      model       :virtual_ips
+      collection  :virtual_ips
 
       request_path 'fog/hp/requests/lb'
       request       :create_load_balancer
@@ -43,6 +43,7 @@ module Fog
       request       :list_load_balancers
       request       :list_protocols
       request       :list_versions
+      request       :list_load_balancer_virtual_ips
       request       :update_load_balancer
       request       :update_load_balancer_node
 
