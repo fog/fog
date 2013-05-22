@@ -8,7 +8,8 @@ module Fog
         model Fog::HP::LB::Version
 
         def all
-          data = service.list_versions.body['versions']
+          data = service.list_versions.body['version']
+          data = [data] unless data.kind_of? Array
           load(data)
         end
 

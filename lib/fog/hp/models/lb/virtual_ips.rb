@@ -8,8 +8,9 @@ module Fog
         model Fog::HP::LB::VirtualIp
 
         def all
-          data = service.list_virtual_ips.body['virtual_ips']
+          data = service.list_load_balancer_virtual_ips(@attributes[:load_balancer_id]).body['virtualIps']
           load(data)
+          self.each{ |x| x.load_balancer_id = @attributes[:load_balancer_id] }
         end
 
         def get(record_id)
