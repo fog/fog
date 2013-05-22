@@ -7,6 +7,7 @@ Shindo.tests("Fog::Brightbox::OAuth2", ["brightbox"]) do
     @password      = "__mushed_keys_321__"
     @access_token  = "12efde32fdfe4989"
     @refresh_token = "7894389f9074f071"
+    @expires_in    = 7200
 
     tests("with client credentials") do
       credentials = Fog::Brightbox::OAuth2::CredentialSet.new(@client_id, @client_secret)
@@ -30,11 +31,17 @@ Shindo.tests("Fog::Brightbox::OAuth2", ["brightbox"]) do
     end
 
     tests("with existing tokens") do
-      options = {:username => @username, :access_token => @access_token, :refresh_token => @refresh_token}
+      options = {
+        :username => @username,
+        :access_token => @access_token,
+        :refresh_token => @refresh_token,
+        :expires_in => @expires_in
+      }
       credentials = Fog::Brightbox::OAuth2::CredentialSet.new(@client_id, @client_secret, options)
       tests("#user_details?").returns(false) { credentials.user_details? }
       tests("#access_token?").returns(true) { credentials.access_token? }
       tests("#refresh_token?").returns(true) { credentials.refresh_token? }
+      tests("#expires_in").returns(7200) { credentials.expires_in }
       tests("#best_grant_strategy").returns(true) do
         credentials.best_grant_strategy.is_a?(Fog::Brightbox::OAuth2::RefreshTokenStrategy)
       end

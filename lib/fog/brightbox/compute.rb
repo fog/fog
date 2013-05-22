@@ -244,6 +244,12 @@ module Fog
           @credentials.refresh_token
         end
 
+        # Returns the current token expiry time in seconds or nil
+        # @return [Number,nil]
+        def expires_in
+          @credentials.expires_in
+        end
+
         # Requests a new access token
         #
         # @return [String] New access token
