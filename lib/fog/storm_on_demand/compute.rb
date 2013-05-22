@@ -24,6 +24,8 @@ module Fog
       collection  :network_ips
       model       :private_ip
       collection  :private_ips
+      model       :firewall
+      collection  :firewalls
       model       :stat
       collection  :stats
       model       :template
@@ -86,6 +88,11 @@ module Fog
       request :list_network_public_ips
       request :remove_ip_from_server
       request :request_new_ips
+
+      request :get_firewall
+      request :get_firewall_basic_options
+      request :get_firewall_rules
+      request :update_firewall
 
       class Mock
 
