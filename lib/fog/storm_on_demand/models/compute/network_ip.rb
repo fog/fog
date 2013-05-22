@@ -1,0 +1,23 @@
+require 'fog/code/model'
+
+module Fog
+  module Compute
+    class StormOnDemand
+
+      class NetworkIP < Fog::model
+        identity :id
+
+        attribute :broadcast
+        attribute :gateway
+        attribute :ip
+        attribute :netmask
+        attribute :reverse_dns
+
+        def initialize(attributes={})
+          super
+        end
+
+      end
+    end
+  end
+end

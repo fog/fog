@@ -20,6 +20,8 @@ module Fog
       collection  :servers
       model       :balancer
       collection  :balancers
+      model       :network_ip
+      collection  :network_ips
       model       :private_ip
       collection  :private_ips
       model       :stat
@@ -75,8 +77,16 @@ module Fog
       request :get_private_ip
       request :attach_server_to_private_ip
       request :detach_server_from_private_ip
-      request :check_server_attached   
-      
+      request :check_server_attached
+
+      request :add_ip_to_server
+      request :get_ip_details
+      request :list_network_ips
+      request :list_ip_public_accounts
+      request :list_network_public_ips
+      request :remove_ip_from_server
+      request :request_new_ips
+
       class Mock
 
         def self.data
