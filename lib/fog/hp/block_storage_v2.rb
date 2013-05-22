@@ -15,8 +15,8 @@ module Fog
       model       :volume
       collection  :volumes
       #collection  :bootable_volumes
-      #model       :snapshot
-      #collection  :snapshots
+      model       :snapshot
+      collection  :snapshots
 
       request_path 'fog/hp/requests/block_storage_v2'
       request :create_volume
