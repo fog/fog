@@ -132,6 +132,24 @@ module Fog
           end
         end
 
+        # Set last modified
+        # @param [String, Fog::Time] timestamp
+        def last_modified=(obj)
+          if obj.nil? || obj == "" || obj.is_a?(Time)
+            attributes[:last_modified] = obj
+            return obj
+          end
+
+          # This is a work around for swift bug that has existed for 4+ years. The is that fixing the swift bug would cause more problems than its worth.
+          # For more information refer to https://github.com/fog/fog/pull/1811
+          d = Date._strptime(obj,"%Y-%m-%dT%H:%M:%S")
+          if d
+            attributes[:last_modified] = Time.utc(d[:year], d[:mon], d[:mday], d[:hour], d[:min], d[:sec], d[:leftover], d[:zone])
+          else
+            attributes[:last_modified] = Time.parse(obj)
+          end
+        end
+
         # Is file published to CDN
         # @return [Boolean] return true if published to CDN
         # @raise [Fog::Storage::Rackspace::NotFound] - HTTP 404
