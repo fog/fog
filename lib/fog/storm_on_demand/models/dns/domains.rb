@@ -1,5 +1,5 @@
 require 'fog/core/collection'
-require 'fog/storm_on_demand/models/dns'
+require 'fog/storm_on_demand/models/dns/domain'
 
 module Fog
   module DNS

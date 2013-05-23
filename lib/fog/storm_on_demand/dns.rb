@@ -17,6 +17,8 @@ module Fog
       model       :record
       collection  :records
       model       :reverse
+      model       :zone
+      collection  :zones
 
       request_path 'fog/storm_on_demand/requests/dns'
       request :list_domains
@@ -33,6 +35,13 @@ module Fog
 
       request :delete_reverse
       request :update_reverse
+
+      request :create_zone
+      request :check_zone_delegation
+      request :delete_zone
+      request :get_zone
+      request :list_zones
+      request :update_zone
       
       class Mock
 
