@@ -9,11 +9,15 @@ module Fog
 
         model Fog::Compute::StormOnDemand::Config
 
-        def all
-          data = service.list_configs.body['items']
+        def all(options={})
+          data = service.list_configs(options).body['items']
           load(data)
         end
 
+        def get(config_id)
+          data = service.get_config_details(:id => config_id).body
+          new(data)
+        end
 
       end
 

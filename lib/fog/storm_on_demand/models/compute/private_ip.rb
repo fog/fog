@@ -5,8 +5,7 @@ module Fog
     class StormOnDemand
 
       class PrivateIp < Fog::Model
-        attribute :zone
-        attribute :uniq_id
+        attribute :zones
 
         def initialize(attributes={})
           super

@@ -7,7 +7,7 @@ module Fog
       class Stat < Fog::Model
         attribute :loadavg
         attribute :memory
-        attribute :virtual
+        attribute :proc
         attribute :domain
         attribute :disk
         attribute :uptime

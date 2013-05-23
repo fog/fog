@@ -15,6 +15,10 @@ module Fog
           nil
         end
 
+        def graph(options)
+          service.get_stats_graph(options).body
+        end
+
       end
 
     end
