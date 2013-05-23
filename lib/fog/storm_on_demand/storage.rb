@@ -89,7 +89,6 @@ module Fog
               :expects  => 200,
               :method   => :post
             }))
-            puts response.body
           rescue Excon::Errors::HTTPStatusError => error
             raise case error
             when Excon::Errors::NotFound
@@ -101,7 +100,7 @@ module Fog
           unless response.body.empty?
             response.body = Fog::JSON.decode(response.body)
           end
-          if response.body.has_key?('full_error')
+          if response.body.has_key?('error_class')
             raise(Fog::Compute::StormOnDemand::Error, response.body.inspect)
           end
           response
