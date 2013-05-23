@@ -36,6 +36,8 @@ module Fog
       collection  :stats
       model       :template
       collection  :templates
+      model       :product
+      collection  :products
 
       request_path 'fog/storm_on_demand/requests/compute'
       request :clone_server
@@ -114,6 +116,12 @@ module Fog
       request :get_zone
       request :list_zones
       request :set_default_zone
+
+      request :get_product
+      request :get_product_code
+      request :list_products
+      request :get_product_price
+      request :get_product_starting_price
       
       class Mock
 
