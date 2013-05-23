@@ -14,10 +14,19 @@ module Fog
       model_path 'fog/storm_on_demand/models/storage'
       model       :cluster
       collection  :clusters
+      model       :volume
+      collection  :volumes
 
       request_path 'fog/storm_on_demand/requests/storage'
       request :list_clusters
-
+      request :attach_volume_to_server
+      request :create_volume
+      request :delete_volume
+      request :detach_volume_from_server
+      request :get_volume
+      request :list_volumes
+      request :resize_volume
+      request :update_volume
 
       class Mock
 
