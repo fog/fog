@@ -14,10 +14,18 @@ module Fog
       model_path 'fog/storm_on_demand/models/dns'
       model       :domain
       collection  :domains
+      model       :record
+      collection  :records
 
       request_path 'fog/storm_on_demand/requests/dns'
       request :list_domains
       request :renew_domain
+
+      request :create_record
+      request :delete_record
+      request :get_record
+      request :list_records
+      request :update_record
       
       class Mock
 
