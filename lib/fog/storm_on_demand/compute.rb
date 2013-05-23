@@ -38,6 +38,8 @@ module Fog
       collection  :templates
       model       :product
       collection  :products
+      model       :notification
+      collection  :notifications
 
       request_path 'fog/storm_on_demand/requests/compute'
       request :clone_server
@@ -122,6 +124,11 @@ module Fog
       request :list_products
       request :get_product_price
       request :get_product_starting_price
+
+      request :list_notifications
+      request :current_notifications
+      request :get_notification
+      request :resolve_notification
       
       class Mock
 
