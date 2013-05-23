@@ -26,6 +26,7 @@ module Fog
         attribute :updated
         attribute :name
         attribute :state,               :aliases => 'status'
+        attribute :timeout
         attribute :nodes
 
         def initialize(attributes)
@@ -214,23 +215,22 @@ module Fog
         def create
           requires :name, :protocol, :port, :virtual_ips, :nodes
 
-          if algorithm
-            options = { :algorithm => algorithm }
-          else
-            options = {}
-          end
+          options = {}
+          options[:algorithm] = algorithm if algorithm
+          options[:timeout] = timeout if timeout
 
           data = service.create_load_balancer(name, protocol, port, virtual_ips_hash, nodes_hash, options)
           merge_attributes(data.body['loadBalancer'])
         end
 
         def update
-          requires :name, :protocol, :port, :algorithm
+          requires :name, :protocol, :port, :algorithm, :timeout
           options = {
             :name => name,
             :algorithm => algorithm,
             :protocol => protocol,
-            :port => port}
+            :port => port,
+            :timeout => timeout }
           service.update_load_balancer(identity, options)
 
           #TODO - Should this bubble down to nodes? Without tracking changes this would be very inefficient.
