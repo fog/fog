@@ -33,7 +33,7 @@ module Fog
 
           request(
             :body     => Fog::JSON.encode(data),
-            :expects  => 200,
+            :expects  => 202,
             :method   => 'POST',
             :path     => 'backups'
           )
@@ -69,7 +69,7 @@ module Fog
               'links'               => [{'href'=>"http://cinder:8776/v1/#{tenant_id}/backups/#{id}", 'rel'=>'self'}, {'href'=>"http://cinder:8776/v1/#{tenant_id}/backups/#{id}", 'rel'=>'bookmark'}]
             }
             self.data[:volume_backups][data['id']] = data
-            response.status = 200
+            response.status = 202
             response.body = { 'backup' => resp_data }
             response
           else

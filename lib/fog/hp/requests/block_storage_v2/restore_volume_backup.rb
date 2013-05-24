@@ -27,7 +27,7 @@ module Fog
 
           request(
             :body     => Fog::JSON.encode(data),
-            :expects  => 200,
+            :expects  => 202,
             :method   => 'POST',
             :path     => "backups/#{backup_id}/restore"
           )
@@ -54,7 +54,7 @@ module Fog
               end
             else
               # create a new volume and restore the backup
-              new_vol = create_volume('display_name' => 'restore_vol', 'size' => 1).body
+              new_vol = create_volume('display_name' => 'restore_backup', 'size' => 1).body
               new_vol_id = new_vol['volume']['id']
               data = copy_volume_data(new_vol_id, volume_to_restore)
               resp_volume_id = new_vol_id
