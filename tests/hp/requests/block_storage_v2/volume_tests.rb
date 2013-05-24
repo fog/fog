@@ -11,6 +11,7 @@ Shindo.tests("Fog::HP::BlockStorageV2 | volume requests", ['hp', 'v2', 'block_st
     'volume_type'         => Fog::Nullable::String,
     'snapshot_id'         => Fog::Nullable::String,
     'source_volid'        => Fog::Nullable::String,
+    'bootable'            => Fog::Boolean,
     'created_at'          => String,
     'availability_zone'   => String,
     'attachments'         => [Fog::Nullable::Hash],
@@ -18,8 +19,10 @@ Shindo.tests("Fog::HP::BlockStorageV2 | volume requests", ['hp', 'v2', 'block_st
   }
 
   @volume_attach_format = {
-    'volumeId' => String,
-    'id'       => String
+    'device'    => String,
+    'serverId'  => String,
+    'volumeId'  => String,
+    'id'        => String
   }
 
   tests('success') do

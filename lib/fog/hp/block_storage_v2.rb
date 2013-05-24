@@ -14,7 +14,6 @@ module Fog
       model_path  'fog/hp/models/block_storage_v2'
       model       :volume
       collection  :volumes
-      #collection  :bootable_volumes
       model       :snapshot
       collection  :snapshots
 
@@ -31,6 +30,12 @@ module Fog
       request :list_snapshots
       request :list_snapshots_detail
       request :update_snapshot
+      request :create_volume_backup
+      request :delete_volume_backup
+      request :get_volume_backup_details
+      request :list_volume_backups
+      request :list_volume_backups_detail
+      request :restore_volume_backup
 
       module Utils
 
@@ -57,7 +62,8 @@ module Fog
           @data ||= Hash.new do |hash, key|
             hash[key] = {
               :volumes => {},
-              :snapshots => {}
+              :snapshots => {},
+              :volume_backups => {}
             }
           end
         end
