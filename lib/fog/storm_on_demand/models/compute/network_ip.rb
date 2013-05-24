@@ -1,10 +1,10 @@
-require 'fog/code/model'
+require 'fog/core/model'
 
 module Fog
   module Compute
     class StormOnDemand
 
-      class NetworkIP < Fog::model
+      class NetworkIP < Fog::Model
         identity :id
 
         attribute :broadcast

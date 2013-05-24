@@ -1,4 +1,4 @@
-require 'fog/core/collections'
+require 'fog/core/collection'
 require 'fog/storm_on_demand/models/compute/firewall'
 
 module Fog
