@@ -31,10 +31,11 @@ module Fog
               @instance[@context.last][name] = value
             when 'availabilityZone', 'tenancy'
               @instance['placement'][name] = value
-            when 'architecture', 'clientToken', 'dnsName', 'imageId',
-                  'instanceId', 'instanceType', 'ipAddress', 'kernelId',
-                  'keyName', 'platform', 'privateDnsName', 'privateIpAddress', 'ramdiskId',
-                  'reason', 'rootDeviceType', 'virtualizationType'
+            when 'architecture', 'clientToken', 'dnsName', 'hypervisor', 'imageId',
+                  'instanceId', 'instanceType', 'ipAddress', 'kernelId', 'keyName',
+                  'instanceLifecycle', 'platform', 'privateDnsName', 'privateIpAddress', 'ramdiskId',
+                  'reason', 'requesterId', 'rootDeviceType', 
+                  'spotInstanceRequestId', 'virtualizationType'
               @instance[name] = value
             when 'attachTime'
               @block_device_mapping[name] = Time.parse(value)
@@ -103,6 +104,12 @@ module Fog
               @instance['monitoring'][name] = (value == 'enabled')
             when 'ebsOptimized'
               @instance['ebsOptimized'] = (value == 'true')
+            when 'sourceDestCheck'
+              if value == 'true'
+                @instance[name] = true
+              else
+                @instance[name] = false
+              end
             # Eucalyptus passes status in schema non conforming way
             when 'stateCode'
               @instance['instanceState']['code'] = value
