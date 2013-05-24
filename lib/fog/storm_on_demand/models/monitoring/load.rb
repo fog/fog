@@ -1,17 +1,17 @@
 require 'fog/core/model'
 
 module Fog
-  module Compute
+  module Monitoring
     class StormOnDemand
 
-      class Stat < Fog::Model
+      class Load < Fog::Model
+        attribute :disk
+        attribute :domain
         attribute :loadavg
         attribute :memory
         attribute :proc
-        attribute :domain
-        attribute :disk
         attribute :uptime
-        
+
         def initialize(attributes={})
           super
         end

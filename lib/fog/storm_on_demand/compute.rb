@@ -30,8 +30,6 @@ module Fog
       collection  :pools
       model       :zone
       collection  :zones
-      model       :stat
-      collection  :stats
       model       :template
       collection  :templates
       model       :product
@@ -79,9 +77,6 @@ module Fog
       request :get_image_details
       request :update_image
       request :restore_image
-
-      request :get_stats
-      request :get_stats_graph
       
       request :list_private_ips
       request :get_private_ip
