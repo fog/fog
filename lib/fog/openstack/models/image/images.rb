@@ -18,6 +18,7 @@ module Fog
         def find_by_id(id)
           self.find {|image| image.id == id}
         end
+        alias_method :get, :find_by_id
 
         def public
           images = load(service.list_public_images_detailed.body['images'])
