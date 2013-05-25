@@ -18,6 +18,7 @@ module Fog
       model       :record
       collection  :records
       model       :reverse
+      collection  :reverses
       model       :zone
       collection  :zones
 
