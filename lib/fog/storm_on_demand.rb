@@ -11,6 +11,7 @@ module Fog
     service(:billing, 'storm_on_demand/billing', 'Billing')
     service(:monitoring, 'storm_on_demand/monitoring', 'Monitoring')
     service(:support, 'storm_on_demand/support', 'Support')
+    service(:account, 'storm_on_demand/account', 'Account')
     
   end
 end
