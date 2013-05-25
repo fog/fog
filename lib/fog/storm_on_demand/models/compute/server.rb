@@ -62,18 +62,19 @@ module Fog
 
         def history(options={})
           requires :identity
-          res = service.server_history({:uniq_id => identity}.merge!(options))
+          params = {:uniq_id => identity}.merge!(options)
+          res = service.server_history(params).body
           res['items']
         end
 
         def shutdown(options={})
           requires :identity
-          service.shutdown_server({:uniq_id => identity}.merge!(options))
+          service.shutdown_server({:uniq_id => identity}.merge!(options)).body
         end
 
         def start
           reqwuires :identity
-          service.start_server({:uniq_id => identity})
+          service.start_server({:uniq_id => identity}).body
         end
 
         def status
@@ -83,8 +84,7 @@ module Fog
 
         def update(options)
           requires :identity
-          s = service.update_server({:uniq_id => identity}.merge!(options))
-          load(s)
+          service.update_server({:uniq_id => identity}.merge!(options)).body
         end
 
       end

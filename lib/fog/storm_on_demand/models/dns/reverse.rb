@@ -9,14 +9,6 @@ module Fog
           super
         end
 
-        def destroy(options)
-          service.delete_reverse(options).body
-        end
-
-        def update(options)
-          service.update_reverse(options).body
-        end
-
       end
     end
   end

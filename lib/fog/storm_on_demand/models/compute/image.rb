@@ -25,8 +25,7 @@ module Fog
 
         def update(options={})
           requires :identity
-          img = service.update_image({:id => identity}.merge!(options)).body
-          new(img)
+          service.update_image({:id => identity}.merge!(options)).body
         end
 
         def restore(options={})
