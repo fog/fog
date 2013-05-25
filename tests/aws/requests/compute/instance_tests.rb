@@ -3,7 +3,8 @@ Shindo.tests('Fog::Compute[:aws] | instance requests', ['aws']) do
   @instance_format = {
     'architecture'        => String,
     'amiLaunchIndex'      => Integer,
-    'blockDeviceMapping'  => [],
+    'attachmentId'        => Fog::Nullable::String,
+    'blockDeviceMapping'  => [Fog::Nullable::Hash],
     'clientToken'         => Fog::Nullable::String,
     'dnsName'             => NilClass,
     'ebsOptimized'        => Fog::Boolean,
@@ -11,24 +12,24 @@ Shindo.tests('Fog::Compute[:aws] | instance requests', ['aws']) do
     'instanceId'          => String,
     'instanceState'       => {'code' => Integer, 'name' => String},
     'instanceType'        => String,
-    # 'ipAddress'           => String,
     'kernelId'            => Fog::Nullable::String,
     'keyName'             => Fog::Nullable::String,
     'launchTime'          => Time,
     'monitoring'          => {'state' => Fog::Boolean},
+    'networkInterfaceId'  => Fog::Nullable::String,
     'placement'           => {
       'availabilityZone' => String,
-      'groupName' => Fog::Nullable::String,
-      'tenancy' => String
+      'groupName'        => Fog::Nullable::String,
+      'tenancy'          => String
     },
     'platform'            => Fog::Nullable::String,
     'privateDnsName'      => NilClass,
-    # 'privateIpAddress'    => String,
-    'productCodes'        => [],
-    # 'ramdiskId'           => Fog::Nullable::String,
+    'productCodes'        => Array,
     'reason'              => Fog::Nullable::String,
-    # 'rootDeviceName'      => String,
     'rootDeviceType'      => String,
+    'sourceDestCheck'     => Fog::Nullable::Boolean,
+    'subnetId'            => Fog::Nullable::String,
+    'vpcId'               => Fog::Nullable::String
   }
 
   @run_instances_format = {
@@ -44,16 +45,18 @@ Shindo.tests('Fog::Compute[:aws] | instance requests', ['aws']) do
       'groupSet'      => [String],
       'groupIds'      => [String],
       'instancesSet'  => [@instance_format.merge(
-        'architecture'      => String,
-        'dnsName'           => Fog::Nullable::String,
-        'iamInstanceProfile' => {},
-        'ipAddress'         => Fog::Nullable::String,
-        'networkInterfaces' => [],
-        'ownerId'           => String,
-        'privateDnsName'    => Fog::Nullable::String,
-        'privateIpAddress'  => Fog::Nullable::String,
-        'stateReason'       => Hash,
-        'tagSet'            => Hash
+        'architecture'       => String,
+        'dnsName'            => Fog::Nullable::String,
+        'hypervisor'         => String,
+        'iamInstanceProfile' => Hash,
+        'ipAddress'          => Fog::Nullable::String,
+        'networkInterfaces'  => Array,
+        'ownerId'            => String,
+        'privateDnsName'     => Fog::Nullable::String,
+        'privateIpAddress'   => Fog::Nullable::String,
+        'stateReason'        => Hash,
+        'tagSet'             => Hash,
+        'virtualizationType' => String
       )],
       'ownerId'       => Fog::Nullable::String,
       'reservationId' => String
@@ -98,7 +101,7 @@ Shindo.tests('Fog::Compute[:aws] | instance requests', ['aws']) do
       'instanceTenancy'                 => String,
       'currencyCode'                    => String
     }],
-    'requestId'     => String
+    'requestId'                     => String
   }
 
   @purchase_reserved_instances_offering_format = {
@@ -130,43 +133,36 @@ Shindo.tests('Fog::Compute[:aws] | instance requests', ['aws']) do
   }
 
   @describe_instance_status_format = {
-    'requestId' => String,
+    'requestId'         => String,
     'instanceStatusSet' => [{
-                              'instanceId' => String,
-                              'availabilityZone' => String,
-                              'instanceState' => {
-                                'code' => Integer,
-                                'name' => String
-                              },
-                              'systemStatus' => {
-                                'status' => String,
-                                'details' => [{
-                                  'name' => String,
-                                  'status' => String
-                                }]
-                              },
-                              'instanceStatus' => {
-                                'status' => String,
-                                'details' => [{
-                                  'name' => String,
-                                  'status' => String
-                                }]
-                              },
-                              'eventsSet' => [{
-                                                'code' => String,
-                                                'description' => String,
-                                                'notBefore' => Time,
-                                                'notAfter' => Time
-                                              }]
-                            }]
-
+      'instanceId'       => String,
+      'availabilityZone' => String,
+      'instanceState' => {
+        'code' => Integer,
+        'name' => String
+      },
+      'systemStatus'     => {
+        'status'  => String,
+        'details' => [{
+          'name'    => String,
+          'status'  => String
+        }]
+      },
+      'instanceStatus'   => {
+        'status'  => String,
+        'details' => [{
+          'name'    => String,
+          'status'  => String
+        }]
+      },
+      'eventsSet'        => [Fog::Nullable::Hash],
+    }]
   }
-
   tests('success') do
 
     @instance_id = nil
     @ami = if ENV['FASTER_TEST_PLEASE']
-      'ami-6bbb1302' # ubuntu 12.04 daily build 20120728
+      'ami-79c0ae10' # ubuntu 12.04 daily build 20120728
     else
       # Use a MS Windows AMI to test #get_password_data
       'ami-71b50018' # Amazon Public Images - Windows_Server-2008-SP2-English-64Bit-Base-2012.07.11
@@ -191,14 +187,14 @@ Shindo.tests('Fog::Compute[:aws] | instance requests', ['aws']) do
     server.wait_for { ready? }
 
     tests("#describe_instances").formats(@describe_instances_format) do
-       Fog::Compute[:aws].describe_instances('instance-state-name' => 'running').body
+      Fog::Compute[:aws].describe_instances('instance-state-name' => 'running').body
     end
-
+ 
     # Launch another instance to test filters
     another_server = Fog::Compute[:aws].servers.create
 
-    tests("#describe_instances('instance-id' => '#{@instance_id}')").formats(@describe_instances_format) do
-      body = Fog::Compute[:aws].describe_instances('instance-id' => @instance_id).body
+    tests("#describe_instances('instance-id' => '#{@instance_id}'").formats(@describe_instances_format) do
+      body = Fog::Compute[:aws].describe_instances('instance-id' => "#{@instance_id}").body
       tests("returns 1 instance").returns(1) { body['reservationSet'].size }
       body
     end

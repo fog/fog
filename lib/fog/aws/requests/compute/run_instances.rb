@@ -143,6 +143,8 @@ module Fog
               'blockDeviceMapping'  => [],
               'clientToken'         => options['clientToken'],
               'dnsName'             => nil,
+              'ebsOptimized'        => options['EbsOptimized'] || false,
+              'hypervisor'          => 'xen',
               'imageId'             => image_id,
               'instanceId'          => instance_id,
               'instanceState'       => { 'code' => 0, 'name' => 'pending' },
@@ -156,7 +158,7 @@ module Fog
               'productCodes'        => [],
               'reason'              => nil,
               'rootDeviceType'      => 'instance-store',
-              'ebsOptimized'        => options['EbsOptimized'] || false
+              'virtualizationType'  => 'paravirtual'
             }
             instances_set << instance
             self.data[:instances][instance_id] = instance.merge({

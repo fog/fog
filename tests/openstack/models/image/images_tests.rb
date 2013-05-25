@@ -7,6 +7,11 @@ Shindo.tests("Fog::Image[:openstack] | images", ['openstack']) do
       image.id == @instance['image']['id']
     end
 
+    tests('#get').succeeds do
+      image = Fog::Image[:openstack].images.get(@instance['image']['id'])
+      image.id == @instance['image']['id']
+    end
+    
     tests('#destroy').succeeds do
       Fog::Image[:openstack].images.destroy(@instance['image']['id'])
     end
