@@ -10,6 +10,7 @@ module Fog
     service(:dns, 'storm_on_demand/dns', 'DNS')
     service(:billing, 'storm_on_demand/billing', 'Billing')
     service(:monitoring, 'storm_on_demand/monitoring', 'Monitoring')
+    service(:support, 'storm_on_demand/support', 'Support')
     
   end
 end
