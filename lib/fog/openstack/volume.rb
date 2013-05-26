@@ -11,35 +11,78 @@ module Fog
                  :current_user, :current_tenant,
                  :openstack_endpoint_type
 
+      ## MODELS
+      #
       model_path 'fog/openstack/models/volume'
 
       model       :volume
       collection  :volumes
-
-
+      model       :volume_type
+      collection  :volume_types
+      model       :snapshot
+      collection  :snapshots
+      model       :backup
+      collection  :backups
+      
+      ## REQUESTS
+      #
       request_path 'fog/openstack/requests/volume'
 
-       # Volume
+       # Volume CRUD
       request :list_volumes
       request :create_volume
       request :get_volume_details
+      request :update_volume
       request :delete_volume
-
-      request :create_volume_snapshot
+      
+      # Volume Tyoes CRUD
+      request :list_volume_types
+      request :create_volume_type
+      request :get_volume_type
+      request :set_volume_type_extra_spec
+      request :unset_volume_type_extra_spec
+      request :delete_volume_type
+      
+      # Snapshot CRUD
+      request :create_snapshot
       request :list_snapshots
       request :get_snapshot_details
+      request :update_snapshot
       request :delete_snapshot
- 
+
+      # Backups CRUD
+      request :create_backup
+      request :list_backups
+      request :get_backup_details
+      request :restore_backup
+      request :delete_backup
+      
+      # Quotas
       request :update_quota
       request :get_quota
       request :get_quota_defaults
+      
+      # Extensions
+      request :list_extensions
 
+      # Hosts
+      request :list_hosts
+      request :get_host_details
+
+      # Limits
+      request :list_limits
+      
+      # Tenant
       request :set_tenant
 
       class Mock
         def self.data
           @data ||= Hash.new do |hash, key|
             hash[key] = {
+              :volumes => {},
+              :volume_types => {},
+              :snapshots => {},
+              :backups => {},
               :users => {},
               :tenants => {},
               :quota => {
@@ -171,7 +214,7 @@ module Fog
           rescue Excon::Errors::HTTPStatusError => error
             raise case error
             when Excon::Errors::NotFound
-              Fog::Compute::OpenStack::NotFound.slurp(error)
+              Fog::Volume::OpenStack::NotFound.slurp(error)
             else
               error
             end
