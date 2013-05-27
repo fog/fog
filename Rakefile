@@ -57,6 +57,11 @@ namespace :test do
       sh("export FOG_MOCK=#{mock} && bundle exec shindont tests/vsphere")
     end
   end
+  task :openvz do
+    [true].each do |mock|
+      sh("export FOG_MOCK=#{mock} && bundle exec shindont tests/openvz")
+    end
+  end
 end
 
 task :nuke do
