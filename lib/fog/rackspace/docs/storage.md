@@ -278,7 +278,7 @@ This returns a `Fog::Storage::Rackspace::Directory` instance:
     cdn_cname=nil
     > 
 
-## Create Drectory
+## Create Directory
 
 To create a directory:
 
