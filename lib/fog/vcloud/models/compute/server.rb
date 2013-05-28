@@ -27,6 +27,12 @@ module Fog
         attribute :tasks, :aliases => :Tasks, :type => :array
 
         has_up :vapp
+        
+        def tags
+          @tags ||= Fog::Vcloud::Compute::Tags.
+            new( :service => service,
+                 :href => href + '/metadata' )
+        end
 
         def computer_name
           load_unless_loaded!
