@@ -167,6 +167,8 @@ class Brightbox
           "description"     => String,
           "source"          => String,
           "status"          => String,
+          "public"          => Fog::Boolean,
+          "official"        => Fog::Boolean,
           "owner"           => String,
           "username"        => Fog::Nullable::String
         }
