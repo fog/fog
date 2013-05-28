@@ -22,6 +22,10 @@ module Fog
         rescue Fog::Errors::NotFound
           nil
         end
+        
+        def create(opts)
+          service.configure_metadata(opts.merge(href: href))
+        end
       end
     end
   end
