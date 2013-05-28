@@ -8,7 +8,8 @@ module Fog
               'name' => options[:name],
               'port' => options[:port],
               'protocol' => options[:protocol],
-              'algorithm' => options[:algorithm]
+              'algorithm' => options[:algorithm],
+              'timeout' => options[:timeout]
             }
           }
           request(
