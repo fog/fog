@@ -23,6 +23,8 @@ module Fog
                 @response['HostedZone'] = @hosted_zone
                 @hosted_zone = {}
                 @section = :name_servers
+              when 'ResourceRecordSetCount'
+                @response['ResourceRecordSetCount'] = value.to_i
               end
             elsif @section == :name_servers
               case name
