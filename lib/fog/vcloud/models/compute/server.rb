@@ -29,9 +29,7 @@ module Fog
         has_up :vapp
         
         def tags
-          @tags ||= Fog::Vcloud::Compute::Tags.
-            new( :service => service,
-                 :href => href + '/metadata' )
+          Fog::Vcloud::Compute::Tags.new(:service => service, :href => href + '/metadata')
         end
 
         def computer_name

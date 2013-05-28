@@ -9,7 +9,9 @@ module Fog
         attribute :key, :aliases => :Key
         attribute :value, :aliases => :Value
         
-        
+        def destroy
+          service.delete_metadata(href)
+        end
       end
     end
   end

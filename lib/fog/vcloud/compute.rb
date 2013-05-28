@@ -138,6 +138,7 @@ module Fog
       request :power_shutdown
       request :undeploy
       request :get_metadata
+      request :delete_metadata
 
       class Mock
 
