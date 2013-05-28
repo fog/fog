@@ -31,6 +31,11 @@ module Fog
         def tags
           Fog::Vcloud::Compute::Tags.new(:service => service, :href => href + '/metadata')
         end
+        
+        def customization_script
+          load_unless_loaded!
+          self.guest_customization[:CustomizationScript]
+        end
 
         def computer_name
           load_unless_loaded!
