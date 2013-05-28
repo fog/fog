@@ -139,6 +139,7 @@ module Fog
       request :undeploy
       request :get_metadata
       request :delete_metadata
+      request :configure_metadata
 
       class Mock
 
