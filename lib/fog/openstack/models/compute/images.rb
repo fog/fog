@@ -7,12 +7,20 @@ module Fog
 
       class Images < Fog::Collection
 
+        attribute :filters
+
         model Fog::Compute::OpenStack::Image
 
         attribute :server
 
-        def all
-          data = service.list_images_detail.body['images']
+        def initialize(attributes)
+          self.filters ||= {}
+          super
+        end
+
+        def all(filters = filters)
+          self.filters = filters
+          data = service.list_images_detail(filters).body['images']
           images = load(data)
           if server
             self.replace(self.select {|image| image.server_id == server.id})
