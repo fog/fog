@@ -52,7 +52,7 @@ module Fog
       request :get_image_details
       request :get_key_pair
       request :get_meta
-      #request :get_windows_password
+      request :get_windows_password
       request :get_server_details
       request :get_server_volume_details
       request :get_vnc_console
