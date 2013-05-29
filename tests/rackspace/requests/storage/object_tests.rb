@@ -99,9 +99,9 @@ Shindo.tests('Fog::Storage[:rackspace] | object requests', ["rackspace"]) do
       end
 
       tests("delete file").succeeds do
+        pending if Fog.mocking?
         Fog::Storage[:rackspace].delete_object('fogobjecttests', 'fog_block_object')
       end
-
     end
 
   end
