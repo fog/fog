@@ -17,8 +17,13 @@ module Fog
         end
 
         def all(filters = filters)
+          details = filters.delete(:details)
           self.filters = filters
-          data = service.list_snapshots(filters).body['snapshots']
+          if details
+            data = service.list_snapshots_detail(filters).body['snapshots']
+          else
+            data = service.list_snapshots(filters).body['snapshots']
+          end
           load(data)
         end
 

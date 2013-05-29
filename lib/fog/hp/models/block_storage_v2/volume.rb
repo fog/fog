@@ -22,19 +22,18 @@ module Fog
         attribute :bootable
         attribute :image_metadata,       :aliases => 'volume_image_metadata'
 
-        #attr_reader :server_id
-        #attr_reader :device
-
         def initialize(attributes = {})
           # assign these attributes first to prevent race condition with new_record?
           self.image_id = attributes.delete(:image_id)
           super
         end
 
+        # a volume can be attached to only one server at a time
         def device
           attachments[0]['device'] if has_attachments?
         end
 
+        # a volume can be attached to only one server at a time
         def server_id
           attachments[0]['serverId'] if has_attachments?
         end
@@ -57,6 +56,14 @@ module Fog
           self.status == 'in-use'
         end
         alias :attached? :in_use?
+
+        def backing_up?
+          self.status == 'backing-up'
+        end
+
+        def restoring?
+          self.status == 'restoring-backup'
+        end
 
         def ready?
           self.status == 'available'
