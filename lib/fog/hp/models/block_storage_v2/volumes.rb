@@ -17,8 +17,13 @@ module Fog
         end
 
         def all(filters = filters)
+          details = filters.delete(:details)
           self.filters = filters
-          data = service.list_volumes(filters).body['volumes']
+          if details
+            data = service.list_volumes_detail(filters).body['volumes']
+          else
+            data = service.list_volumes(filters).body['volumes']
+          end
           load(data)
         end
 
