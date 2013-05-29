@@ -14,6 +14,8 @@ module Fog
       model_path  'fog/hp/models/block_storage_v2'
       model       :volume
       collection  :volumes
+      model       :volume_backup
+      collection  :volume_backups
       model       :snapshot
       collection  :snapshots
 
