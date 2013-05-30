@@ -154,6 +154,7 @@ module Fog
         :token                    => body['access']['token']['id'],
         :expires                  => body['access']['token']['expires'],
         :current_user_id          => body['access']['user']['id'],
+        :service_catalog          => body['access']['serviceCatalog'],
         :unscoped_token           => options[:unscoped_token]
       }
 

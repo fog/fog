@@ -26,6 +26,8 @@ module Fog
       collection  :key_pairs
       model       :network_interface
       collection  :network_interfaces
+      model       :route_table
+      collection  :route_tables
       model       :security_group
       collection  :security_groups
       model       :server
@@ -58,6 +60,7 @@ module Fog
       request :create_key_pair
       request :create_network_interface
       request :create_placement_group
+      request :create_route_table
       request :create_security_group
       request :create_snapshot
       request :create_spot_datafeed_subscription
@@ -70,6 +73,7 @@ module Fog
       request :delete_internet_gateway
       request :delete_key_pair
       request :delete_network_interface
+      request :delete_route_table
       request :delete_security_group
       request :delete_placement_group
       request :delete_snapshot
@@ -93,6 +97,7 @@ module Fog
       request :describe_placement_groups
       request :describe_regions
       request :describe_reserved_instances_offerings
+      request :describe_route_tables
       request :describe_security_groups
       request :describe_snapshots
       request :describe_spot_datafeed_subscription
@@ -204,7 +209,8 @@ module Fog
                 :subnets => [],
                 :vpcs => [],
                 :dhcp_options => [],
-                :internet_gateways => []
+                :internet_gateways => [],
+                :route_tables => []
               }
             end
           end

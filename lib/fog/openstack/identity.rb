@@ -211,7 +211,12 @@ module Fog
             :openstack_management_url => @openstack_management_url,
             :openstack_current_user_id => @openstack_current_user_id,
             :current_user             => @current_user,
-            :current_tenant           => @current_tenant }
+            :current_tenant           => @current_tenant
+          }
+        end
+
+        def service_catalog
+          @service_catalog
         end
 
         def reload
@@ -276,6 +281,7 @@ module Fog
             @openstack_management_url = credentials[:server_management_url]
             @openstack_current_user_id = credentials[:current_user_id]
             @unscoped_token = credentials[:unscoped_token]
+            @service_catalog = credentials[:service_catalog]
             uri = URI.parse(@openstack_management_url)
           else
             @auth_token = @openstack_auth_token
