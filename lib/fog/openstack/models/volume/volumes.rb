@@ -8,8 +8,9 @@ module Fog
       class Volumes < Fog::Collection
         model Fog::Volume::OpenStack::Volume
 
-        def all(detailed=true)
-          load(service.list_volumes(detailed).body['volumes'])
+        def all(options = true)
+          detailed = options.is_a?(Hash) ? options.delete(:detailed) : options
+          load(service.list_volumes(detailed, options).body['volumes'])
         end
 
         def find_by_id(volume_id)
