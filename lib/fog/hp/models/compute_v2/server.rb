@@ -101,7 +101,12 @@ module Fog
         end
 
         def network_name
-          @network_name ||= 'hpcloud'
+          @network_name ||= get_first_network_with_public_ip
+        end
+
+        # derive the network names from the addresses hash
+        def network_names
+          self.addresses.keys unless self.addresses.nil?
         end
 
         def private_ip_address
@@ -288,6 +293,11 @@ module Fog
 
         def adminPass=(new_admin_pass)
           @password = new_admin_pass
+        end
+
+        def get_first_network_with_public_ip
+          net = self.addresses.select {|_,v| v.count > 1}
+          net.keys.first
         end
 
       end
