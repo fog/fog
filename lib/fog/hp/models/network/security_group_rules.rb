@@ -18,7 +18,8 @@ module Fog
 
         def all(filters = filters)
           self.filters = filters
-          load(service.list_security_group_rules(filters).body['security_group_rules'])
+          non_aliased_filters = Fog::HP.convert_aliased_attributes_to_original(self.model, filters)
+          load(service.list_security_group_rules(non_aliased_filters).body['security_group_rules'])
         end
 
         def get(sec_group_rule_id)

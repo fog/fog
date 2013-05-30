@@ -7,10 +7,24 @@ module Fog
 
       class Images < Fog::Collection
 
+        attribute :filters
+
         model Fog::Compute::HPV2::Image
 
-        def all(options = {})
-          data = service.list_images_detail(options).body['images']
+        def initialize(attributes)
+          self.filters ||= {}
+          super
+        end
+
+        def all(filters = filters)
+          details = filters.delete(:details)
+          self.filters = filters
+          non_aliased_filters = Fog::HP.convert_aliased_attributes_to_original(self.model, filters)
+          if details
+            data = service.list_images_detail(non_aliased_filters).body['images']
+          else
+            data = service.list_images(non_aliased_filters).body['images']
+          end
           load(data)
           self
         end

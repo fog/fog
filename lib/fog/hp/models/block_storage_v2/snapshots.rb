@@ -19,10 +19,11 @@ module Fog
         def all(filters = filters)
           details = filters.delete(:details)
           self.filters = filters
+          non_aliased_filters = Fog::HP.convert_aliased_attributes_to_original(self.model, filters)
           if details
-            data = service.list_snapshots_detail(filters).body['snapshots']
+            data = service.list_snapshots_detail(non_aliased_filters).body['snapshots']
           else
-            data = service.list_snapshots(filters).body['snapshots']
+            data = service.list_snapshots(non_aliased_filters).body['snapshots']
           end
           load(data)
         end
