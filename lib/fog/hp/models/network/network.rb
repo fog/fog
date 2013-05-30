@@ -10,7 +10,6 @@ module Fog
         attribute :name
         attribute :tenant_id
         attribute :status
-        attribute :subnets
         attribute :shared
         attribute :admin_state_up
         attribute :router_external,    :aliases => 'router:external'
@@ -23,6 +22,15 @@ module Fog
 
         def ready?
           self.status == 'ACTIVE'
+        end
+
+        def subnets
+          @subnets ||= begin
+            Fog::HP::Network::Subnets.new({
+              :service => service,
+              :filters => {:network_id => self.id}
+            })
+          end
         end
 
         def save
