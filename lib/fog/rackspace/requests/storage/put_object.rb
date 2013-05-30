@@ -14,19 +14,22 @@ module Fog
         # @raise [Fog::Storage::Rackspace::BadRequest] - HTTP 400
         # @raise [Fog::Storage::Rackspace::InternalServerError] - HTTP 500
         # @raise [Fog::Storage::Rackspace::ServiceError]
-        def put_object(container, object, data, options = {})
+        def put_object(container, object, data, options = {}, &block)
           data = Fog::Storage.parse_data(data)
           headers = data[:headers].merge!(options)
-          request(
-            :body       => data[:body],
+
+          params = block_given? ? { :request_block => block } : { :body => data[:body] }
+
+          params.merge!(
             :expects    => 201,
             :idempotent => true,
             :headers    => headers,
             :method     => 'PUT',
             :path       => "#{Fog::Rackspace.escape(container)}/#{Fog::Rackspace.escape(object)}"
           )
-        end
 
+          request(params)
+        end
       end
     end
   end
