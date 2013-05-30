@@ -53,6 +53,15 @@ Shindo.tests('Fog::Rackspace::Identity | tokens', ['rackspace']) do
     tests('#create_token').formats(ACCESS_FORMAT) do
       service.create_token(username, api_key).body
     end
+
+    tests('uses connection options').returns(true) do
+      identity_service = Fog::Rackspace::Identity.new(:connection_options => { :ssl_verify_peer => true })
+
+      connection = identity_service.instance_variable_get("@connection")
+      excon = connection.instance_variable_get("@excon")
+      data = excon.instance_variable_get("@data")
+      data.has_key?(:ssl_verify_peer)
+    end
   end
 
   tests('failure') do

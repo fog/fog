@@ -54,7 +54,8 @@ module Fog
         hash = {
               :rackspace_api_key => identity_options[:rackspace_api_key],
               :rackspace_username => identity_options[:rackspace_username],
-              :rackspace_auth_url => identity_options[:rackspace_auth_url]
+              :rackspace_auth_url => identity_options[:rackspace_auth_url],
+              :connection_options => identity_options[:connection_options] || {}
         }
 
         @identity_service = Fog::Rackspace::Identity.new(hash)
