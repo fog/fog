@@ -296,6 +296,7 @@ module Fog
         end
 
         def get_first_network_with_public_ip
+          return '' if self.addresses.nil?
           net = self.addresses.select {|_,v| v.count > 1}
           net.keys.first
         end
