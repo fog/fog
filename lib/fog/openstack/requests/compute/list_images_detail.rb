@@ -16,7 +16,7 @@ module Fog
 
       class Mock
 
-        def list_images_detail
+        def list_images_detail(filters = {})
           response = Excon::Response.new
 
           images = self.data[:images].values
