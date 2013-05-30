@@ -7,10 +7,24 @@ module Fog
 
       class Flavors < Fog::Collection
 
+        attribute :filters
+
         model Fog::Compute::HPV2::Flavor
 
-        def all(options = {})
-          data = service.list_flavors_detail(options).body['flavors']
+        def initialize(attributes)
+          self.filters ||= {}
+          super
+        end
+
+        def all(filters = filters)
+          details = filters.delete(:details)
+          self.filters = filters
+          non_aliased_filters = Fog::HP.convert_aliased_attributes_to_original(self.model, filters)
+          if details
+            data = service.list_flavors_detail(non_aliased_filters).body['flavors']
+          else
+            data = service.list_flavors(non_aliased_filters).body['flavors']
+          end
           load(data)
         end
 

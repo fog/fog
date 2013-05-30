@@ -18,7 +18,8 @@ module Fog
 
         def all(filters = filters)
           self.filters = filters
-          load(service.list_networks(filters).body['networks'])
+          non_aliased_filters = Fog::HP.convert_aliased_attributes_to_original(self.model, filters)
+          load(service.list_networks(non_aliased_filters).body['networks'])
         end
 
         def get(network_id)

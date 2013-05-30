@@ -18,7 +18,8 @@ module Fog
 
         def all(filters = filters)
           self.filters = filters
-          load(service.list_floating_ips(filters).body['floatingips'])
+          non_aliased_filters = Fog::HP.convert_aliased_attributes_to_original(self.model, filters)
+          load(service.list_floating_ips(non_aliased_filters).body['floatingips'])
         end
 
         def get(floating_ip_id)

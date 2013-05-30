@@ -18,7 +18,8 @@ module Fog
 
         def all(filters = filters)
           self.filters = filters
-          load(service.list_ports(filters).body['ports'])
+          non_aliased_filters = Fog::HP.convert_aliased_attributes_to_original(self.model, filters)
+          load(service.list_ports(non_aliased_filters).body['ports'])
         end
 
         def get(port_id)

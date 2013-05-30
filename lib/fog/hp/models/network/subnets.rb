@@ -18,7 +18,8 @@ module Fog
 
         def all(filters = filters)
           self.filters = filters
-          load(service.list_subnets(filters).body['subnets'])
+          non_aliased_filters = Fog::HP.convert_aliased_attributes_to_original(self.model, filters)
+          load(service.list_subnets(non_aliased_filters).body['subnets'])
         end
 
         def get(subnet_id)

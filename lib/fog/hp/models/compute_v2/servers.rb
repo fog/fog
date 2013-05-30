@@ -7,10 +7,24 @@ module Fog
 
       class Servers < Fog::Collection
 
+        attribute :filters
+
         model Fog::Compute::HPV2::Server
 
-        def all(options = {})
-          data = service.list_servers_detail(options).body['servers']
+        def initialize(attributes)
+          self.filters ||= {}
+          super
+        end
+
+        def all(filters = filters)
+          details = filters.delete(:details)
+          self.filters = filters
+          non_aliased_filters = Fog::HP.convert_aliased_attributes_to_original(self.model, filters)
+          if details
+            data = service.list_servers_detail(non_aliased_filters).body['servers']
+          else
+            data = service.list_servers(non_aliased_filters).body['servers']
+          end
           load(data)
         end
 

@@ -233,6 +233,19 @@ module Fog
       end
     end
 
+    # converts any attributes hash from aliased keys to original attribute keys
+    def self.convert_aliased_attributes_to_original(model, attributes)
+      original_attributes = {}
+      attributes.each do |k, v|
+        if orig_key = model.aliases.invert[k]
+          original_attributes[orig_key] = v
+        else
+          original_attributes[k] = v
+        end
+      end
+      original_attributes
+    end
+
     private
 
     def self.get_service_catalog(body)
