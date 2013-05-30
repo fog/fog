@@ -15,8 +15,8 @@ module Fog
         attribute :progress
         attribute :status
         attribute :server
-        attribute :metadata
         attribute :links
+        #attribute :metadata        # lazy load metadata as needed per model
 
         def metadata
           @metadata ||= begin
