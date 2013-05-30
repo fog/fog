@@ -11,7 +11,6 @@ module Fog
 
         attribute :addresses
         attribute :host_id,     :aliases => 'hostId'
-        attribute :metadata
         attribute :name
         attribute :personality
         attribute :progress
@@ -33,6 +32,7 @@ module Fog
         attribute :links
         attribute :image_id,          :aliases => 'image', :squash => 'id'
         attribute :flavor_id,         :aliases => 'flavor', :squash => 'id'
+        #attribute :metadata        # lazy load metadata as needed per model
         # these are implemented as methods
         attribute :private_ip_address
         attribute :public_ip_address
