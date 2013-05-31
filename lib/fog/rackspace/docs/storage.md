@@ -382,8 +382,8 @@ Cloud Files requires files larger than 5 GB to be uploaded into segments along w
 	    read = 0
 	    # upload segment to cloud files
 	    service.put_object("my_container", "large_file/#{segment}", nil, options = {}) do
-	      if (offset < SEGMENT_LIMIT) && (read.zero? || read == BUFFER_SIZE)
-	        buf = f.sysread(BUFFER_SIZE)
+	      if (offset < SEGMENT_LIMIT) && !f.eof?
+	        buf = f.read(BUFFER_SIZE)
 	        read = buf.size
 	        offset += read
 	        buf

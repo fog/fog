@@ -69,9 +69,9 @@ File.open(file_name) do |f|
     offset = 0
     read = 0
     service.put_object(directory.key, "#{segment_name}/#{segment}", nil, options = {}) do
-      if (offset < SEGMENT_LIMIT) && (read.zero? || read == BUFFER_SIZE)
+      if (offset < SEGMENT_LIMIT) && !f.eof?
         print "."
-        buf = f.sysread(BUFFER_SIZE)
+        buf = f.read(BUFFER_SIZE)
         read = buf.size
         offset += read
         buf
