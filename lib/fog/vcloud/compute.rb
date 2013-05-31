@@ -140,6 +140,7 @@ module Fog
       request :get_metadata
       request :delete_metadata
       request :configure_metadata
+      request :configure_vm_customization_script
 
       class Mock
 
