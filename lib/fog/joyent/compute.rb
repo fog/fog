@@ -11,6 +11,7 @@ module Fog
       recognizes :joyent_url
       recognizes :joyent_keyname
       recognizes :joyent_keyfile
+      recognizes :joyent_version
 
       model_path 'fog/joyent/models/compute'
       request_path 'fog/joyent/requests/compute'
@@ -71,7 +72,10 @@ module Fog
       request :delete_machine_tag
       request :delete_all_machine_tags
 
-
+      # Networks
+      collection :networks
+      model :network
+      request :list_networks
 
       class Mock
         def self.data
@@ -163,7 +167,7 @@ module Fog
 
           response
         rescue Excon::Errors::Error => e
-          raise_if_error(e.request, e.response)
+          raise_if_error!(e.request, e.response)
         end
 
         private
