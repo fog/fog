@@ -5,6 +5,7 @@ module Fog
         identity :id
 
         attribute :name
+        attribute :public
 
       end
     end
