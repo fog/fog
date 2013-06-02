@@ -20,9 +20,9 @@ module Fog
         # https://us-west-1.api.joyentcloud.com/docs#cloudapi-http-responses
         #
         # HTTP Status Codes
-        # 
+        #
         # Your client should check for each of the following status codes from any API request:
-        # 
+        #
         # Response  Code  Description
 
         # 400 Bad Request Invalid HTTP Request
