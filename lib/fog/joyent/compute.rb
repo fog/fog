@@ -14,6 +14,7 @@ module Fog
       recognizes :joyent_keyname
       recognizes :joyent_keyfile
       recognizes :joyent_keyphrase
+      recognizes :joyent_version
 
       model_path 'fog/joyent/models/compute'
       request_path 'fog/joyent/requests/compute'
@@ -74,7 +75,10 @@ module Fog
       request :delete_machine_tag
       request :delete_all_machine_tags
 
-
+      # Networks
+      collection :networks
+      model :network
+      request :list_networks
 
       class Mock
         def self.data

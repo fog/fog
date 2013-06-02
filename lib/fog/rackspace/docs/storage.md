@@ -278,7 +278,7 @@ This returns a `Fog::Storage::Rackspace::Directory` instance:
     cdn_cname=nil
     > 
 
-## Create Drectory
+## Create Directory
 
 To create a directory:
 
@@ -335,6 +335,8 @@ To upload a file into a directory:
 
 	file = directory.files.create :key => 'space.jpg', :body => File.open "space.jpg"
 	
+**Note**: For files larger than 5 GB please refer to the [Upload Large Files](#upload_large_files) section.
+
 ### Additional Parameters
 
 The `create` method also supports the following key values:
@@ -365,6 +367,37 @@ The `create` method also supports the following key values:
 		<td>Hash containing file metadata.</td>
 	</tr>
 </table>
+
+## Upload Large Files
+
+Cloud Files requires files larger than 5 GB to be uploaded into segments along with an accompanying manifest file. All of the segments must be uploaded to the same container.
+
+	SEGMENT_LIMIT = 5368709119.0  # 5GB -1
+	BUFFER_SIZE = 1024 * 1024 # 1MB
+
+	File.open("large_file") do |f|
+	  num_segments = (f.size / SEGMENT_LIMIT).round + 1
+	  1.upto(num_segments) do |segment|
+	    offset = 0
+	    read = 0
+	    # upload segment to cloud files
+	    service.put_object("my_container", "large_file/#{segment}", nil, options = {}) do
+	      if (offset < SEGMENT_LIMIT) && (read.zero? || read == BUFFER_SIZE)
+	        buf = f.sysread(BUFFER_SIZE)
+	        read = buf.size
+	        offset += read
+	        buf
+	      else
+	        ""
+	      end
+	    end
+	  end
+	end
+
+	# write manifest file
+	service.put_object_manifest("my_container", "large_file")
+
+Segmented files are downloaded like ordinary files. See [Download Files](#download-files) section for more information.
 
 ## Download Files
 
