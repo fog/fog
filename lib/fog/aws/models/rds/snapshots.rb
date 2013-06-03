@@ -34,7 +34,7 @@ module Fog
         end
 
         # This will execute a block for each snapshot, fetching new pages of snapshots as required.
-        def each(filters = filters)
+        def each_page(filters = filters)
           begin
             page = self.all(filters)
             # We need to explicitly use the base 'each' method here on the page, otherwise we get infinite recursion
