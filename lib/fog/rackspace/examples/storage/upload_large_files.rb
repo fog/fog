@@ -87,7 +87,7 @@ File.open(file_name) do |f|
  end
 
 puts "\n\n\tWriting manifest #{segment_name}\n\n"
-service.put_object_manifest(directory.key, segment_name, 'segments_prefix' => "#{segment_name}/")
+service.put_object_manifest(directory.key, segment_name, 'X-Object-Manifest' => "#{directory.key}/#{segment_name}/" )
 
 puts <<-NOTE
 You should now be able to download #{segment_name} from the cloud control panel or using the following code:
