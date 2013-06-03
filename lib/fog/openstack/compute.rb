@@ -93,6 +93,11 @@ module Fog
       request :create_flavor
       request :delete_flavor
 
+      # Flavor Access
+      request :add_flavor_access
+      request :remove_flavor_access
+      request :list_tenants_with_flavor_access
+
       # Metadata
       request :list_metadata
       request :get_metadata
