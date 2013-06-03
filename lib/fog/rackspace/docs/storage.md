@@ -375,20 +375,21 @@ Cloud Files requires files larger than 5 GB to be uploaded into segments along w
 	SEGMENT_LIMIT = 5368709119.0  # 5GB -1
 	BUFFER_SIZE = 1024 * 1024 # 1MB
 
-	File.open("large_file") do |f|
-	  num_segments = (f.size / SEGMENT_LIMIT).round + 1
-	  1.upto(num_segments) do |segment|
+	File.open(file_name) do |f|
+	  segment = 0
+	  until file.eof?
+	    segment += 1
 	    offset = 0
-	    read = 0
+
 	    # upload segment to cloud files
-	    service.put_object("my_container", "large_file/#{segment}", nil, options = {}) do
-	      if (offset < SEGMENT_LIMIT) && !f.eof?
-	        buf = f.read(BUFFER_SIZE)
-	        read = buf.size
-	        offset += read
+	    segment_suffix = segment.to_s.rjust(10, '0')
+	    service.put_object("my_container", "large_file/#{segment_suffix}", nil) do
+	      if offset <= SEGMENT_LIMIT - BUFFER_SIZE
+	        buf = file.read(BUFFER_SIZE).to_s
+	        offset += buf.size
 	        buf
 	      else
-	        ""
+	        ''
 	      end
 	    end
 	  end
