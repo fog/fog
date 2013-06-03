@@ -26,7 +26,9 @@ module Fog
 
         def get(machine_id)
           data = service.get_machine(machine_id).body
-          new(data)
+          server = new(data)
+          server.tags = server.list_tags if server.tags.nil?
+          server
         end
 
       end

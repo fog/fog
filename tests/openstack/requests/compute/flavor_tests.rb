@@ -37,6 +37,18 @@ Shindo.tests('Fog::Compute[:openstack] | flavor requests', ['openstack']) do
       Fog::Compute[:openstack].delete_flavor('100')
     end
 
+    tests('add_flavor_access(flavor_ref, tenant_id)').formats({'flavor_access' => [{'tenant_id' => 1, 'flavor_id' => 1}]}) do
+      Fog::Compute[:openstack].add_flavor_access(1, 1).body
+    end
+
+    tests('remove_flavor_access(flavor_ref, tenant_id)').formats({'flavor_access' => []}) do
+      Fog::Compute[:openstack].remove_flavor_access(1, 1).body
+    end
+
+    tests('list_tenants_with_flavor_access(flavor_ref)').formats({'flavor_access' => [{'tenant_id' => nil, 'flavor_id' => 1}]}) do
+      Fog::Compute[:openstack].list_tenants_with_flavor_access(1).body
+    end
+
   end
 
   tests('failure') do

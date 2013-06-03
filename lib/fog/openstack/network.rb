@@ -24,6 +24,14 @@ module Fog
       collection  :floating_ips
       model       :router
       collection  :routers
+      model       :lb_pool
+      collection  :lb_pools
+      model       :lb_member
+      collection  :lb_members
+      model       :lb_health_monitor
+      collection  :lb_health_monitors
+      model       :lb_vip
+      collection  :lb_vips
 
       ## REQUESTS
       #
@@ -67,6 +75,37 @@ module Fog
       request :add_router_interface
       request :remove_router_interface
 
+      # LBaaS Pool CRUD
+      request :list_lb_pools
+      request :create_lb_pool
+      request :delete_lb_pool
+      request :get_lb_pool
+      request :get_lb_pool_stats
+      request :update_lb_pool
+
+      # LBaaS Member CRUD
+      request :list_lb_members
+      request :create_lb_member
+      request :delete_lb_member
+      request :get_lb_member
+      request :update_lb_member
+
+      # LBaaS Health Monitor CRUD
+      request :list_lb_health_monitors
+      request :create_lb_health_monitor
+      request :delete_lb_health_monitor
+      request :get_lb_health_monitor
+      request :update_lb_health_monitor
+      request :associate_lb_health_monitor
+      request :disassociate_lb_health_monitor
+
+      # LBaaS VIP CRUD
+      request :list_lb_vips
+      request :create_lb_vip
+      request :delete_lb_vip
+      request :get_lb_vip
+      request :update_lb_vip
+
       # Tenant
       request :set_tenant
 
@@ -79,6 +118,10 @@ module Fog
               :subnets => {},
               :floating_ips => {},
               :routers => {},
+              :lb_pools => {},
+              :lb_members => {},
+              :lb_health_monitors => {},
+              :lb_vips => {},
             }
           end
         end
