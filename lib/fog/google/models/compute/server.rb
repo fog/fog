@@ -68,7 +68,8 @@ module Fog
         end
 
         def sshable?(options={})
-          service.set_metadata(self.instance, self.zone, {'sshKeys' => self.public_key })
+          requires :public_ip_address, :public_key, :username
+          service.set_metadata(self.instance, self.zone, {'sshKeys' => "#{self.username}:#{self.public_key}"})
           ready? && !public_ip_address.nil? && public_key && metadata['sshKeys']
         rescue SystemCallError, Net::SSH::AuthenticationFailed, Timeout::Error
           false
