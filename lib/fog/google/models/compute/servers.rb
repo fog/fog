@@ -44,7 +44,7 @@ module Fog
         def bootstrap(new_attributes = {})
           defaults = {
             :name => "fog-#{Time.now.to_i}",
-            :image_name => "gcel-12-04-v20130225",
+            :image_name => "debian-7-wheezy-v20130522",
             :machine_type => "n1-standard-1",
             :zone_name => "us-central1-a",
             :private_key_path => File.expand_path("~/.ssh/id_rsa"),
@@ -53,6 +53,7 @@ module Fog
 
           server = create(defaults.merge(new_attributes))
           server.wait_for(Fog.timeout, 30) { ready? }
+
           server
         end
       end

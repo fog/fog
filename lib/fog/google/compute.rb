@@ -66,8 +66,6 @@ module Fog
         attr_reader :project
 
         def initialize(options)
-
-
           base_url = 'https://www.googleapis.com/compute/'
           api_version = 'v1beta15'
           api_scope_url = 'https://www.googleapis.com/auth/compute'
