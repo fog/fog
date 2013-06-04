@@ -34,6 +34,7 @@ module Fog
 
         def ready?
           data = service.get_server(self.name, self.zone_name).body
+          p data
           data['zone_name'] = self.zone_name
           self.merge_attributes(data)
           self.state == RUNNING_STATE
