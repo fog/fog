@@ -35,8 +35,10 @@ module Fog
 
       class Mock
         def list_stacks(options = {})
+          stacks = self.data[:stacks].values
+
           Excon::Response.new(
-            :body   => { 'stacks' => [] },
+            :body   => { 'stacks' => stacks },
             :status => 200
           )
         end

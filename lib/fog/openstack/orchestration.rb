@@ -28,7 +28,11 @@ module Fog
         attr_reader :current_tenant
 
         def self.data
-          @data ||= {}
+          @data ||= Hash.new do |hash, key|
+            hash[key] = {
+              :stacks => {}
+            }
+          end
         end
 
         def self.reset

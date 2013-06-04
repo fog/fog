@@ -3,7 +3,7 @@ Shindo.tests('Fog::Orchestration[:openstack] | stack requests', ['openstack']) d
     'links'               => Array,
     'id'                  => String,
     'stack_name'          => String,
-    'description'         => String,
+    'description'         => Fog::Nullable::String,
     'stack_status'        => String,
     'stack_status_reason' => String,
     'creation_time'       => Time,
