@@ -61,7 +61,7 @@ file_name = get_user_input "Enter full path of file to upload"
 segment_name = File.basename(file_name)
 
 File.open(file_name) do |f|
-  num_segments = (f.size / SEGMENT_LIMIT).round + 1
+  num_segments = (f.stat.size / SEGMENT_LIMIT).round + 1
   puts "\nThis upload of '#{file_name}' will require #{num_segments} segment(s) and 1 manifest file\n"
 
 
@@ -94,9 +94,9 @@ You should now be able to download #{segment_name} from the cloud control panel 
 
     directory = service.directories.get('#{directory.key}')
     File.open('downloaded_#{segment_name}', 'w') do | f |
-      directory.files.get(#{segment_name}) do | data, remaining, content_length |
+      directory.files.get('#{segment_name}') do | data, remaining, content_length |
         print "."
-        f.syswrite data
+        f.write data
       end
     end
 

@@ -396,7 +396,7 @@ Cloud Files requires files larger than 5 GB to be uploaded into segments along w
 	end
 
 	# write manifest file
-	service.put_object_manifest("my_container", "large_file", 'X-Object-Manifest' => "my_container/large_file")
+	service.put_object_manifest("my_container", "large_file", 'X-Object-Manifest' => "my_container/large_file/")
 
 Segmented files are downloaded like ordinary files. See [Download Files](#download-files) section for more information.
 
