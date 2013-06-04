@@ -78,6 +78,8 @@ module Fog
       collection  :policies
       model       :access_key
       collection  :access_keys
+      model       :role
+      collection  :roles
 
 
       class Mock
