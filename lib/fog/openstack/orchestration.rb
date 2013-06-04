@@ -22,11 +22,53 @@ module Fog
       request :list_stacks
 
       class Mock
+        attr_reader :auth_token
+        attr_reader :auth_token_expiration
+        attr_reader :current_user
+        attr_reader :current_tenant
 
-        def initialize(options={})
-          Fog::Mock.not_implemented
+        def self.data
+          @data ||= {}
         end
 
+        def self.reset
+          @data = nil
+        end
+
+        def initialize(options={})
+          @openstack_username = options[:openstack_username]
+          @openstack_auth_uri = URI.parse(options[:openstack_auth_url])
+
+          @current_tenant = options[:openstack_tenant]
+
+          @auth_token = Fog::Mock.random_base64(64)
+          @auth_token_expiration = (Time.now.utc + 86400).iso8601
+
+          management_url = URI.parse(options[:openstack_auth_url])
+          management_url.port = 8774
+          management_url.path = '/v1'
+          @openstack_management_url = management_url.to_s
+
+          identity_public_endpoint = URI.parse(options[:openstack_auth_url])
+          identity_public_endpoint.port = 5000
+          @openstack_identity_public_endpoint = identity_public_endpoint.to_s
+        end
+
+        def data
+          self.class.data["#{@openstack_username}-#{@current_tenant}"]
+        end
+
+        def reset_data
+          self.class.data.delete("#{@openstack_username}-#{@current_tenant}")
+        end
+
+        def credentials
+          { :provider                 => 'openstack',
+            :openstack_auth_url       => @openstack_auth_uri.to_s,
+            :openstack_auth_token     => @auth_token,
+            :openstack_management_url => @openstack_management_url,
+            :openstack_identity_endpoint => @openstack_identity_public_endpoint }
+        end
       end
 
       class Real
