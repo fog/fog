@@ -174,7 +174,8 @@ module Fog
           options = {
             :rackspace_api_key => @rackspace_api_key,
             :rackspace_username => @rackspace_username,
-            :rackspace_auth_url => @rackspace_auth_url
+            :rackspace_auth_url => @rackspace_auth_url,
+            :connection_options => @connection_options
           }
           super(options)
         end
