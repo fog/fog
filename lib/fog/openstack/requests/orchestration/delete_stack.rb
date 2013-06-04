@@ -20,9 +20,11 @@ module Fog
         end
 
       end
-      
+
       class Mock
         def delete_stack(stack_name, stack_id)
+          self.data[:stacks].delete(stack_id)
+
           response = Excon::Response.new
           response.status = 202
           response.body = {}

@@ -32,6 +32,18 @@ module Fog
       
       class Mock
         def create_stack(stack_name, options = {})
+          stack_id = Fog::Mock.random_hex(32)
+          stack = self.data[:stacks][stack_id] = {
+            'id' => stack_id,
+            'stack_name' => stack_name,
+            'links' => [],
+            'description' => options[:description],
+            'stack_status' => 'CREATE_COMPLETE',
+            'stack_status_reason' => 'Stack successfully created',
+            'creation_time' => Time.now,
+            'updated_time' => Time.now
+          }
+
           response = Excon::Response.new
           response.status = 202
           response.body = {}
