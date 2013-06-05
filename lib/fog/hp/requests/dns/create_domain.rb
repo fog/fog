@@ -21,12 +21,12 @@ module Fog
           response.status = 200
 
           data          = {
-              id:         SecureRandom.uuid,
-              name:       "domain1.com.",
-              ttl:        3600,
-              serial:     1351800588,
-              email:      "nsadmin@example.org",
-              created_at: "2012-11-01T20:09:48.094457"
+              :id =>      SecureRandom.uuid,
+              :name =>    "domain1.com.",
+              :ttl =>     3600,
+              :serial =>  1351800588,
+              :email =>   "nsadmin@example.org",
+              :created_at=>"2012-11-01T20:09:48.094457"
           }
           response.body = data
           response
