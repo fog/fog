@@ -61,38 +61,42 @@ file_name = get_user_input "Enter full path of file to upload"
 segment_name = File.basename(file_name)
 
 File.open(file_name) do |f|
-  num_segments = (f.size / SEGMENT_LIMIT).round + 1
+  num_segments = (f.stat.size / SEGMENT_LIMIT).round + 1
   puts "\nThis upload of '#{file_name}' will require #{num_segments} segment(s) and 1 manifest file\n"
 
-  1.upto(num_segments) do |segment|
-    print "\n\tUploading segment #{segment} "
-    offset = 0
-    read = 0
-    service.put_object(directory.key, "#{segment_name}/#{segment}", nil, options = {}) do
-      if (offset < SEGMENT_LIMIT) && (read.zero? || read == BUFFER_SIZE)
-        print "."
-        buf = f.sysread(BUFFER_SIZE)
-        read = buf.size
-        offset += read
-        buf
-      else
-        ""
-      end
-    end
-  end
-end
+
+  segment = 0
+   until f.eof?
+     segment += 1
+     offset = 0
+
+     # upload segment to cloud files
+     segment_suffix = segment.to_s.rjust(10, '0')
+     print "\n\tUploading segment #{segment_suffix} "
+     service.put_object(directory.key, "#{segment_name}/#{segment_suffix}", nil) do
+       if offset <= SEGMENT_LIMIT - BUFFER_SIZE
+         print "."
+         buf = f.read(BUFFER_SIZE).to_s
+         offset += buf.size
+         buf
+       else
+         ''
+       end
+     end
+   end
+ end
 
 puts "\n\n\tWriting manifest #{segment_name}\n\n"
-service.put_object_manifest(directory.key, segment_name)
+service.put_object_manifest(directory.key, segment_name, 'X-Object-Manifest' => "#{directory.key}/#{segment_name}/" )
 
 puts <<-NOTE
 You should now be able to download #{segment_name} from the cloud control panel or using the following code:
 
     directory = service.directories.get('#{directory.key}')
     File.open('downloaded_#{segment_name}', 'w') do | f |
-      directory.files.get(#{segment_name}) do | data, remaining, content_length |
+      directory.files.get('#{segment_name}') do | data, remaining, content_length |
         print "."
-        f.syswrite data
+        f.write data
       end
     end
 
