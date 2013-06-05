@@ -15,7 +15,7 @@ module Fog
           response = request(
               :expects => 200,
               :method  => 'GET',
-              :path    => "domains/#{instance_id}",
+              :path    => "domains/#{instance_id}"
           )
           response
         end

@@ -6,7 +6,7 @@ module Fog
           response = request(
               :expects => 200,
               :method  => 'GET',
-              :path    => "domains/#{domain_id}/records/#{record_id}",
+              :path    => "domains/#{domain_id}/records/#{record_id}"
           )
           response
         end

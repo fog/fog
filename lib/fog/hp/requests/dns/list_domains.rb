@@ -8,7 +8,7 @@ module Fog
           request(
               :expects => [200],
               :method  => 'GET',
-              :path    => 'domains',
+              :path    => 'domains'
           )
         end
 
