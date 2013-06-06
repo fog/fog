@@ -512,7 +512,6 @@ module Fog
         end
 
         # Setup server for SSH access
-        # This requires public_key_path and private_key_path to be passed into Compute service via Fog::Compute constructor or .fog file
         # @see Servers#bootstrap
         def setup(credentials = {})
           requires :public_ip_address, :identity, :public_key, :username
