@@ -5,8 +5,8 @@ module Fog
 
         def list_images(options = {})
           request(
-            :path     => "/server/image/list",
-            :body     => Fog::JSON.encode(options)
+            :path     => "/Storm/Image/list",
+            :body     => Fog::JSON.encode(:params => options)
           )
         end
 
