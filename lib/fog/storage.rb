@@ -11,6 +11,9 @@ module Fog
       when :internetarchive
         require 'fog/internet_archive/storage'
         Fog::Storage::InternetArchive.new(attributes)
+      when :stormondemand
+        require 'fog/storm_on_demand/storage'
+        Fog::Storage::StormOnDemand.new(attributes)
       else
         if self.providers.include?(provider)
           require "fog/#{provider}/storage"
