@@ -65,6 +65,7 @@ module Fog
       request :create_tags
       request :create_volume
       request :create_vpc
+      request :copy_image
       request :copy_snapshot
       request :delete_dhcp_options
       request :delete_internet_gateway
