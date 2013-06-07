@@ -66,8 +66,10 @@ module Fog
               "Accept" => "application/json"
             }
           )
-          params[:body] = encode_pairs(params[:options]) unless params[:options].nil?
-          params.delete(:options)
+          unless params[:options].nil?
+            params[:body] = encode_pairs(params[:options])
+            params.delete(:options)
+          end
           response = @connection.request(params)
 
           raise_if_error!(response)
