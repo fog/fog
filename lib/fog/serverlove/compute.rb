@@ -67,6 +67,7 @@ module Fog
             }
           )
           params[:body] = encode_pairs(params[:options]) unless params[:options].nil?
+          params.delete(:options)
           response = @connection.request(params)
 
           raise_if_error!(response)
