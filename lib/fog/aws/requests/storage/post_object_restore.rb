@@ -10,17 +10,15 @@ module Fog
         # @option days [Integer] Number of days to restore object for. Defaults to 100000 (a very long time)
         #
         # @return [Excon::Response] response:
-        #   * status [Integer] 200
+        #   * status [Integer] 200 (OK) Object is previously restored
+        #   * status [Integer] 202 (Accepted) Object is not previously restored
+        #   * status [Integer] 409 (Conflict) Restore is already in progress
         #
         # @see http://docs.amazonwebservices.com/AmazonS3/latest/API/RESTObjectPOSTrestore.html
         #
         def post_object_restore(bucket_name, object_name, days = 100000)
-          unless bucket_name
-            raise ArgumentError.new('bucket_name is required')
-          end
-          unless object_name
-            raise ArgumentError.new('object_name is required')
-          end
+          raise ArgumentError.new('bucket_name is required') unless bucket_name
+          raise ArgumentError.new('object_name is required') unless object_name
 
           data = '<RestoreRequest xmlns="http://s3.amazonaws.com/doc/2006-3-01"><Days>' + days.to_s + '</Days></RestoreRequest>'
 
@@ -32,7 +30,7 @@ module Fog
           request({
             :headers  => headers,
             :host     => "#{bucket_name}.#{@host}",
-            :expects  => [200, 202],
+            :expects  => [200, 202, 409],
             :body     => data,
             :method   => 'POST',
             :query    => {'restore' => nil},
