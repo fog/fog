@@ -71,9 +71,12 @@ module Fog
       class Mock
 
         def update_auto_scaling_group(auto_scaling_group_name, options = {})
-          if options.has_key?("Instances")
-            raise Fog::AWS::AutoScaling::ValidationError.new('Instances should not be included in request')
+          expected_options = %w[AvailabilityZones DefaultCooldown DesiredCapacity HealthCheckGracePeriod HealthCheckType LaunchConfigurationName MaxSize MinSize PlacementGroup TerminationPolicies VPCZoneIdentifier]
+          unexpected_options = options.keys - expected_options
+          unless unexpected_options.empty?
+            raise Fog::AWS::AutoScaling::ValidationError.new("Options #{unexpected_options.join(',')} should not be included in request")
           end
+
           unless self.data[:auto_scaling_groups].has_key?(auto_scaling_group_name)
             raise Fog::AWS::AutoScaling::ValidationError.new('AutoScalingGroup name not found - null')
           end

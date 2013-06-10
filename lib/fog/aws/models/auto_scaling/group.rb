@@ -132,7 +132,9 @@ module Fog
 
         def update
           requires :id
-          service.update_auto_scaling_group(id, options.reject{|k,v| k == "Instances" })
+          expected_options = %w[AvailabilityZones DefaultCooldown DesiredCapacity HealthCheckGracePeriod HealthCheckType LaunchConfigurationName MaxSize MinSize PlacementGroup TerminationPolicies VPCZoneIdentifier]
+
+          service.update_auto_scaling_group(id, options.select{|k,_| expected_options.include?(k)})
           reload
         end
 
