@@ -37,7 +37,7 @@ module Fog::Brightbox::OAuth2
   #
   class CredentialSet
     attr_reader :client_id, :client_secret, :username, :password
-    attr_reader :access_token, :refresh_token
+    attr_reader :access_token, :refresh_token, :expires_in
     #
     # @param [String] client_id
     # @param [String] client_secret
@@ -52,6 +52,7 @@ module Fog::Brightbox::OAuth2
       @password      = options[:password]
       @access_token  = options[:access_token]
       @refresh_token = options[:refresh_token]
+      @expires_in    = options[:expires_in]
     end
 
     # Returns true if user details are available
@@ -71,9 +72,10 @@ module Fog::Brightbox::OAuth2
     end
 
     # Updates the credentials with newer tokens
-    def update_tokens(access_token, refresh_token = nil)
+    def update_tokens(access_token, refresh_token = nil, expires_in = nil)
       @access_token  = access_token
       @refresh_token = refresh_token
+      @expires_in    = expires_in
     end
 
     # Based on available credentials returns the best strategy
@@ -159,6 +161,6 @@ private
   #
   def update_credentials_from_response(credentials, response)
     response_data = Fog::JSON.decode(response.body)
-    credentials.update_tokens(response_data["access_token"], response_data["refresh_token"])
+    credentials.update_tokens(response_data["access_token"], response_data["refresh_token"], response_data["expires_in"])
   end
 end
