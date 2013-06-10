@@ -132,7 +132,7 @@ module Fog
 
         def update
           requires :id
-          service.update_auto_scaling_group(id, options)
+          service.update_auto_scaling_group(id, options.reject{|k,v| k == "Instances" })
           reload
         end
 
