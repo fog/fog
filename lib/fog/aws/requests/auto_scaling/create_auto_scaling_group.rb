@@ -94,6 +94,12 @@ module Fog
       class Mock
 
         def create_auto_scaling_group(auto_scaling_group_name, availability_zones, launch_configuration_name, max_size, min_size, options = {})
+          expected_options = %w[BlockDeviceMappings EbsOptimized IamInstanceProfile InstanceMonitoring KernelId KeyName RamdiskId SecurityGroups SpotPrice UserData]
+          unexpected_options = options.keys - expected_options
+          unless unexpected_options.empty?
+            raise Fog::AWS::AutoScaling::ValidationError.new("Options #{unexpected_options.join(',')} should not be included in request")
+          end
+
           if self.data[:auto_scaling_groups].has_key?(auto_scaling_group_name)
             raise Fog::AWS::AutoScaling::IdentifierTaken.new("AutoScalingGroup by this name already exists - A group with the name #{auto_scaling_group_name} already exists")
           end
