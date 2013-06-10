@@ -64,7 +64,7 @@ module Fog
         # http://docs.amazonwebservices.com/AutoScaling/latest/APIReference/API_CreateAutoScalingGroup.html
         #
 
-        ExpectedOptions[:create_auto_scaling_group] = %w[BlockDeviceMappings EbsOptimized IamInstanceProfile InstanceMonitoring KernelId KeyName RamdiskId SecurityGroups SpotPrice UserData]
+        ExpectedOptions[:create_auto_scaling_group] = %w[DefaultCooldown DesiredCapacity HealthCheckGracePeriod HealthCheckType LoadBalancerNames PlacementGroup Tags TerminationPolicies VPCZoneIdentifier]
 
         def create_auto_scaling_group(auto_scaling_group_name, availability_zones, launch_configuration_name, max_size, min_size, options = {})
           options.merge!(AWS.indexed_param('AvailabilityZones.member.%d', [*availability_zones]))
