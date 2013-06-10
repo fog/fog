@@ -43,7 +43,9 @@ module Fog
       class Mock # :nodoc:all
 
         def post_object_restore(bucket_name, object_name, days = 100000)
-          raise "TODO"
+          response = get_object(bucket_name, object_name)
+          response.body = nil
+          response
         end
 
       end
