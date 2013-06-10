@@ -33,6 +33,7 @@ module Fog
         response-content-language
         response-content-type
         response-expires
+        restore
         torrent
         uploadId
         uploads
@@ -87,6 +88,7 @@ module Fog
       request :list_multipart_uploads
       request :list_parts
       request :post_object_hidden_fields
+      request :post_object_restore
       request :put_bucket
       request :put_bucket_acl
       request :put_bucket_cors
@@ -217,7 +219,7 @@ module Fog
             :path         => path,
             :headers      => headers,
           })
-          
+
           #
           ret.delete(:path_style)
           ret.delete(:bucket_name)
@@ -490,7 +492,7 @@ DATA
 
           expires = Fog::Time.now.to_date_header
           signature = signature(params, expires)
-          
+
           params = request_params(params)
           params.delete(:port) unless params[:port]
 
