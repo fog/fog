@@ -18,6 +18,9 @@ def openvz_fog_test_server
       # Server bootstrap took more than 120 secs!
     end
   end
+
+  openvz_fog_test_cleanup
+
   server
 end
 
@@ -27,15 +30,18 @@ def openvz_fog_test_server_destroy
   server.destroy if server
 end
 
-at_exit do
-  unless Fog.mocking?
-    server = openvz_service.servers.find { |s| s.name == '104' }
-    if server
-      server.wait_for(120) do
-        reload rescue nil; ready?
+# Prepare a callback to destroy the long lived test server
+def openvz_fog_test_cleanup
+  at_exit do
+    unless Fog.mocking?
+      server = openvz_service.servers.find { |s| s.name == '104' }
+      if server
+        server.wait_for(120) do
+          reload rescue nil; ready?
+        end
       end
+      server.stop
+      openvz_fog_test_server_destroy
     end
-    server.stop
-    openvz_fog_test_server_destroy
   end
 end
