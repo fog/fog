@@ -60,6 +60,8 @@ module Fog
       model      :policy
       collection :policies
 
+      ExpectedOptions = {}
+
       class Real
         include Fog::AWS::CredentialFetcher::ConnectionMethods
 

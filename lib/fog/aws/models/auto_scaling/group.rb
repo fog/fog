@@ -111,9 +111,7 @@ module Fog
           requires :launch_configuration_name
           requires :max_size
           requires :min_size
-          expected_options = %w[BlockDeviceMappings EbsOptimized IamInstanceProfile InstanceMonitoring KernelId KeyName RamdiskId SecurityGroups SpotPrice UserData]
-
-          service.create_auto_scaling_group(id, availability_zones, launch_configuration_name, max_size, min_size, options.select{|k,_| expected_options.include?(k)})
+          service.create_auto_scaling_group(id, availability_zones, launch_configuration_name, max_size, min_size, options.select{|k,_| ExpectedOptions[:create_auto_scaling_group].include?(k)})
           reload
         end
 
@@ -133,9 +131,7 @@ module Fog
 
         def update
           requires :id
-          expected_options = %w[AvailabilityZones DefaultCooldown DesiredCapacity HealthCheckGracePeriod HealthCheckType LaunchConfigurationName MaxSize MinSize PlacementGroup TerminationPolicies VPCZoneIdentifier]
-
-          service.update_auto_scaling_group(id, options.select{|k,_| expected_options.include?(k)})
+          service.update_auto_scaling_group(id, options.select{|k,_| ExpectedOptions[:update_auto_scaling_group].include?(k)})
           reload
         end
 
