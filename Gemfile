@@ -5,4 +5,5 @@ group :development, :test do
   gem 'coveralls', :require => false
 end
 
+gem "fog-core", :github => "fog/fog-core", :branch => "master"
 gemspec
