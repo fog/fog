@@ -1,3 +1,15 @@
+1.12.1 06/11/2013 8663e9079edb69f1a56ea887379f94e6d5efd0d8
+==========================================================
+
+Stats! { 'collaborators' => 49, 'downloads' => 2417193, 'forks' => 817, 'open_issues' => 150, 'watchers' => 2564 }
+
+MVP! Hongbin Lu
+
+[misc]
+  Don't parse non-JSON response. thanks Hongbin Lu
+  turn verbose error responses on. thanks geemus
+
+
 1.12.0 06/11/2013 2dd2a8b003fd7ee89141820e0d3c7ff161e74f60
 ==========================================================
 
