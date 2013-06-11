@@ -1,8 +1,13 @@
+
+
+
 module Fog
   module Vcloudng
     module Compute
       class Real
-
+        
+        require 'fog/vcloudng/parsers/compute/get_organizations'
+        
         # Get list of organizations
         #
         # ==== Returns
@@ -14,14 +19,10 @@ module Fog
         def get_organizations
           request({
             :expects  => 200,
-            :headers  => {
-              #'Content-Type'  => "application/vnd.vmware.vcloud.orgList+xml"
-              'Accept' => 'application/*+xml;version=1.5'
-            },
+            :headers  => { 'Accept' => 'application/*+xml;version=1.5' },
             :method   => 'GET',
             :parser   => Fog::Parsers::Vcloudng::Compute::GetOrganizations.new,
-            :override_path => true,
-            :path     => '/api/org'
+            :path     => "org"
           })
         end
 
