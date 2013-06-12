@@ -16,6 +16,15 @@ module Fog
           end
         end
 
+        def default_organization_body
+          return nil unless default_organization_id
+          @default_organization_body ||= begin
+          response = get_organization(default_organization_id)
+          return nil unless response.respond_to? 'data'
+          response.data[:body]
+          end
+        end
+
       end
 
       module Parser

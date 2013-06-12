@@ -49,7 +49,7 @@ module Fog
           @port       = options[:port]        || Fog::Vcloudng::Compute::Defaults::PORT
           @scheme     = options[:scheme]      || Fog::Vcloudng::Compute::Defaults::SCHEME
           @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
-          @end_point = "#{@scheme}://#{@host}:#{@port}#{@path}/"
+          @end_point = "#{@scheme}://#{@host}#{@path}/"
         end
 
         def default_vdc_id
@@ -68,11 +68,33 @@ module Fog
             nil
           end
         end
+        
+        def default_vdc_body
+          return nil unless default_vdc_id
+          @default_vdc_body ||= begin
+          response = get_vdc(default_vdc_id)
+          return nil unless response.respond_to? 'data'
+          response.data[:body]
+          end
+        end
+        
+        def default_catalog_id
+          retun nil unless default_organization_body
+          catalogs = default_organization_body["Links"].select {|l| l["type"] =~ /vcloud.catalog/ }
+          return nil unless catalogs.length == 1
+          catalogs.first["href"].split('/').last
+        end
+        
+        def get_network_name_by_network_id(network_id)
+          return nil unless default_vdc_body
+          return nil unless network = default_vdc_body['AvailableNetworks'].detect{|net| net["href"] =~ /#{network_id}/}
+          network["name"]
+        end
 
         def default_network_id
           if default_vdc_id
             @default_network_id ||= begin
-              networks = get_vdc(default_vdc_id).body['AvailableNetworks']
+              networks = default_vdc_body['AvailableNetworks']
               if networks.length == 1
                 networks.first['href'].split('/').last
               else
@@ -87,7 +109,7 @@ module Fog
         def default_network_name
           if default_vdc_id
             @default_network_name ||= begin
-              networks = get_vdc(default_vdc_id).body['AvailableNetworks']
+              networks = default_vdc_body['AvailableNetworks']
               if networks.length == 1
                 networks.first['name']
               else
