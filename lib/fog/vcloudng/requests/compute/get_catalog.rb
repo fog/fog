@@ -20,7 +20,8 @@ module Fog
         #     * 'description'<~String> - Description of catalog
         #     * 'name'<~String> - Name of catalog
         #
-        # === How to get the catalog_uuid?
+        # ==== How to get the catalog_uuid?
+        #
         # org_uuid = vcloud.get_organizations.data[:body]["OrgList"].first["href"].split('/').last
         # org = vcloud.get_organization(org_uuid)
         #
