@@ -1,6 +1,3 @@
-
-
-
 module Fog
   module Vcloudng
     module Compute
