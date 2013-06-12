@@ -1,22 +1,22 @@
 module Fog
-  module Volume
+  module Volume 
     class OpenStack
 
       class Real
-        def delete_snapshot(snapshot_id)
+        def delete_volume_type(volume_type_id)
           request(
             :expects => 202,
             :method  => 'DELETE',
-            :path    => "snapshots/#{snapshot_id}"
+            :path    => "types/#{volume_type_id}"
           )
         end
       end
 
       class Mock
-        def delete_snapshot(snapshot_id)
+        def delete_volume_type(volume_type_id)
           response = Excon::Response.new
-          if list_snapshots.body['snapshots'].map { |r| r['id'] }.include? snapshot_id
-            self.data[:snapshots].delete(snapshot_id)
+          if list_volume_types.body['volume_types'].map { |r| r['id'] }.include? volume_type_id
+            self.data[:volume_types].delete(volume_type_id)
             response.status = 204
             response
           else

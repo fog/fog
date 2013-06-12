@@ -1,10 +1,10 @@
 module Fog
   module Volume
     class OpenStack
-
+      
       class Real
-        def list_snapshots(detailed = true, filters = {})
-          path = detailed ? 'snapshots/detail' : 'snapshots'
+        def list_backups(detailed = true, filters = {})
+          path = detailed ? 'backups/detail' : 'backups'
           request(
             :expects => 200,
             :method  => 'GET',
@@ -15,9 +15,9 @@ module Fog
       end
 
       class Mock
-        def list_snapshots(detailed = true, filters = {})
+        def list_backups(detailed = true, filters = {})
           Excon::Response.new(
-            :body   => { 'snapshots' => self.data[:snapshots].values },
+            :body   => { 'backups' => self.data[:backups].values },
             :status => 200
           )
         end

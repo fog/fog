@@ -1,14 +1,14 @@
 require 'fog/core/collection'
-require 'fog/openstack/models/volume/volume'
+require 'fog/openstack/models/volume/backup'
 
 module Fog
   module Volume
     class OpenStack
-      class Volumes < Fog::Collection
+      class Backups < Fog::Collection
         
         attribute :filters
-
-        model Fog::Volume::OpenStack::Volume
+        
+        model Fog::Volume::OpenStack::Backup
 
         def initialize(attributes)
           self.filters ||= {}
@@ -17,17 +17,16 @@ module Fog
         
         def all(detailed = true, filters = filters)
           self.filters = filters
-          load(service.list_volumes(detailed, filters).body['volumes'])
+          load(service.list_backups(detailed, filters).body['backups'])
         end
 
-        def get(volume_id)
-          if volume = service.get_volume_details(volume_id).body['volume']
-            new(volume)
+        def get(backup_id)
+          if backup = service.get_backup_details(backup_id).body['backup']
+            new(backup)
           end
         rescue Fog::Volume::OpenStack::NotFound
           nil
         end
-        alias_method :find_by_id, :get
 
       end
     end

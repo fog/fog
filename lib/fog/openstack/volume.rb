@@ -7,39 +7,81 @@ module Fog
       requires :openstack_auth_url
       recognizes :openstack_auth_token, :openstack_management_url, :persistent,
                  :openstack_service_type, :openstack_service_name, :openstack_tenant,
-                 :openstack_api_key, :openstack_username,
-                 :current_user, :current_tenant,
-                 :openstack_endpoint_type
+                 :openstack_api_key, :openstack_username, :openstack_endpoint_type, 
+                 :current_user, :current_tenant, :openstack_region
 
+      ## MODELS
+      #
       model_path 'fog/openstack/models/volume'
 
       model       :volume
       collection  :volumes
-
-
+      model       :volume_type
+      collection  :volume_types
+      model       :snapshot
+      collection  :snapshots
+      model       :backup
+      collection  :backups
+      
+      ## REQUESTS
+      #
       request_path 'fog/openstack/requests/volume'
 
-       # Volume
+       # Volume CRUD
       request :list_volumes
       request :create_volume
       request :get_volume_details
+      request :update_volume
       request :delete_volume
-
-      request :create_volume_snapshot
+      
+      # Volume Tyoes CRUD
+      request :list_volume_types
+      request :create_volume_type
+      request :get_volume_type
+      request :set_volume_type_extra_spec
+      request :unset_volume_type_extra_spec
+      request :delete_volume_type
+      
+      # Snapshot CRUD
+      request :create_snapshot
       request :list_snapshots
       request :get_snapshot_details
+      request :update_snapshot
       request :delete_snapshot
- 
+
+      # Backups CRUD
+      request :create_backup
+      request :list_backups
+      request :get_backup_details
+      request :restore_backup
+      request :delete_backup
+      
+      # Quotas
       request :update_quota
       request :get_quota
       request :get_quota_defaults
+      
+      # Extensions
+      request :list_extensions
 
+      # Hosts
+      request :list_hosts
+      request :get_host_details
+
+      # Limits
+      request :list_limits
+      
+      # Tenant
       request :set_tenant
 
       class Mock
         def self.data
           @data ||= Hash.new do |hash, key|
             hash[key] = {
+              :volumes => {},
+              :volume_types => {},
+              :snapshots => {},
+              :backups => {},
               :users => {},
               :tenants => {},
               :quota => {
@@ -123,8 +165,9 @@ module Fog
           @openstack_must_reauthenticate  = false
           @openstack_service_type         = options[:openstack_service_type] || ['volume']
           @openstack_service_name         = options[:openstack_service_name]
-
-          @openstack_endpoint_type        = options[:openstack_endpoint_type] || 'adminURL'
+          @openstack_endpoint_type        = options[:openstack_endpoint_type] || 'publicURL'
+          @openstack_region               = options[:openstack_region]
+          
           @connection_options = options[:connection_options] || {}
 
           @current_user = options[:current_user]
@@ -142,7 +185,8 @@ module Fog
             :openstack_auth_token     => @auth_token,
             :openstack_management_url => @openstack_management_url,
             :current_user             => @current_user,
-            :current_tenant           => @current_tenant }
+            :current_tenant           => @current_tenant,
+            :openstack_region         => @openstack_region }
         end
 
         def reload
@@ -171,7 +215,7 @@ module Fog
           rescue Excon::Errors::HTTPStatusError => error
             raise case error
             when Excon::Errors::NotFound
-              Fog::Compute::OpenStack::NotFound.slurp(error)
+              Fog::Volume::OpenStack::NotFound.slurp(error)
             else
               error
             end
@@ -194,7 +238,8 @@ module Fog
               :openstack_auth_token => @openstack_auth_token,
               :openstack_service_type => @openstack_service_type,
               :openstack_service_name => @openstack_service_name,
-              :openstack_endpoint_type => @openstack_endpoint_type
+              :openstack_endpoint_type => @openstack_endpoint_type,
+              :openstack_region => @openstack_region
             }
 
             credentials = Fog::OpenStack.authenticate_v2(options, @connection_options)

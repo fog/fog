@@ -3,21 +3,21 @@ module Fog
     class OpenStack
 
       class Real
-        def get_volume_details(volume_id)
+        def get_volume_type(volume_type_id)
           request(
             :expects => 200,
             :method  => 'GET',
-            :path    => "volumes/#{volume_id}"
+            :path    => "types/#{volume_type_id}"
           )
         end
       end
 
       class Mock
-        def get_volume_details(volume_id)
+        def get_volume_type(volume_type_id)
           response = Excon::Response.new
-          if volume = self.data[:volumes][volume_id]
+          if volume_type = list_volume_types.body['volume_types'].detect { |_| _['id'] == volume_type_id }
             response.status = 200
-            response.body = { 'volume' => volume }
+            response.body = { 'volume_type' => volume_type }
             response
           else
             raise Fog::Volume::OpenStack::NotFound
