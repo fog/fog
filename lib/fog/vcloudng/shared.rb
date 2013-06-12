@@ -252,7 +252,7 @@ module Fog
         #require 'fog/vcloudng/models/compute/internetservices'
         #require 'fog/vcloudng/models/compute/nodeservice'
         #require 'fog/vcloudng/models/compute/nodeservices'
-        #require 'fog/vcloudng/parsers/compute/get_catalog'
+        #
         #require 'fog/vcloudng/parsers/compute/get_catalog_item'
         #require 'fog/vcloudng/parsers/compute/get_internet_services'
         #require 'fog/vcloudng/parsers/compute/get_network_ips'
@@ -277,7 +277,7 @@ module Fog
         #require 'fog/vcloudng/requests/compute/delete_node_service'
         #require 'fog/vcloudng/requests/compute/delete_vapp'
         #require 'fog/vcloudng/requests/compute/deploy_vapp'
-        #require 'fog/vcloudng/requests/compute/get_catalog'
+        require 'fog/vcloudng/requests/compute/get_catalog'
         #require 'fog/vcloudng/requests/compute/get_catalog_item'
         #require 'fog/vcloudng/requests/compute/get_internet_services'
         #require 'fog/vcloudng/requests/compute/get_network'
