@@ -57,7 +57,7 @@ module Fog
                 link['type'] == 'application/vnd.vmware.vcloud.vdc+xml'
               }
               if vdcs.length == 1
-                vdcs.first['href'].split('/').last.to_i
+                vdcs.first['href'].split('/').last
               else
                 nil
               end
@@ -72,7 +72,7 @@ module Fog
             @default_network_id ||= begin
               networks = get_vdc(default_vdc_id).body['AvailableNetworks']
               if networks.length == 1
-                networks.first['href'].split('/').last.to_i
+                networks.first['href'].split('/').last
               else
                 nil
               end
@@ -82,20 +82,7 @@ module Fog
           end
         end
 
-        def default_public_ip_id
-          if default_vdc_id
-            @default_public_ip_id ||= begin
-              ips = get_public_ips(default_vdc_id).body['PublicIpAddresses']
-              if ips.length == 1
-                ips.first['href'].split('/').last.to_i
-              else
-                nil
-              end
-            end
-          else
-            nil
-          end
-        end
+
      end
 
      def default_ssh_key

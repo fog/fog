@@ -9,7 +9,7 @@ module Fog
           @default_organization_id ||= begin
             org_list = get_organizations.body['OrgList']
             if org_list.length == 1
-              org_list.first['href'].split('/').last.to_i
+              org_list.first['href'].split('/').last
             else
               nil
             end
