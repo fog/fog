@@ -83,18 +83,27 @@ module Fog
             nil
           end
         end
-
-
-     end
-
-     def default_ssh_key
-         if default_ssh_key
-             @default_ssh_key ||= begin
-                keys = get_keys_list(default_organization_id).body["Keys"]
-                keys.find { |item| item["IsDefault"] == "true" }
+        
+        def default_network_name
+          if default_vdc_id
+            @default_network_name ||= begin
+              networks = get_vdc(default_vdc_id).body['AvailableNetworks']
+              if networks.length == 1
+                networks.first['name']
+              else
+                nil
+              end
             end
-         end
+          else
+            nil
+          end
+        end
+        
+
+
      end
+
+
      class Mock
        include Fog::Vcloudng::Shared::Mock
        include Fog::Vcloudng::Shared::Parser
