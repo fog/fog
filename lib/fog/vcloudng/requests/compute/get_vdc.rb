@@ -38,6 +38,10 @@ module Fog
             :path     => "vdc/#{vdc_id}"
           )
         end
+        
+        def vdc_end_point(vdc_id = nil)
+          end_point + ( vdc_id ? "vdc/#{vdc_id}" : "vdc" )
+        end
 
       end
       

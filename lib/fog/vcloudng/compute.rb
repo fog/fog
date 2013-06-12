@@ -34,7 +34,8 @@ module Fog
      end
 
      class Real
-
+       attr_reader :end_point
+       
        include Fog::Vcloudng::Shared::Real
        include Fog::Vcloudng::Shared::Parser
 
@@ -48,6 +49,7 @@ module Fog
           @port       = options[:port]        || Fog::Vcloudng::Compute::Defaults::PORT
           @scheme     = options[:scheme]      || Fog::Vcloudng::Compute::Defaults::SCHEME
           @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
+          @end_point = "#{@scheme}://#{@host}:#{@port}#{@path}/"
         end
 
         def default_vdc_id

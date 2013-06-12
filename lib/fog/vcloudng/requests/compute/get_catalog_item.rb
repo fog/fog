@@ -31,16 +31,20 @@ module Fog
         # catalog = vcloud.get_catalog(catalog_uuid)
         # catalog_item_uuid = catalog.body["CatalogItems"].first["href"].split('/').last # get the first one
         #
-        def get_catalog_item(catalog_item_uuid)
+        def get_catalog_item(catalog_item_id)
           request(
             :expects  => 200,
             :headers  => { 'Accept' => 'application/*+xml;version=1.5' },
             :method   => 'GET',
             :parser   => Fog::Parsers::Vcloudng::Compute::GetCatalogItem.new,
-            :path     => "catalogItem/#{catalog_item_uuid}"
+            :path     => "catalogItem/#{catalog_item_id}"
           )
         end
-
+        
+        def catalog_item_end_point(catalog_item_id = nil)
+          end_point + ( catalog_item_id ? "catalogItem/#{catalog_item_id}" : "catalogItem" )
+        end
+        
       end
     end
   end
