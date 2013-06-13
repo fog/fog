@@ -17,3 +17,5 @@ module Fog
   module XML
   end
 end
+
+require "fog/xml/sax_parser_connection"

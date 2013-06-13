@@ -34,6 +34,8 @@ require 'fog/core/wait_for'
 require 'fog/xml'
 require 'fog/json'
 
+# deprecation wrappers
+require 'fog/core/deprecated/connection'
 
 # service wrappers
 require 'fog/compute'
