@@ -9,7 +9,8 @@ module Fog
                  :openstack_api_key
       recognizes :persistent, :openstack_service_name,
                  :openstack_service_type, :openstack_tenant,
-                 :openstack_region, :openstack_temp_url_key
+                 :openstack_region, :openstack_temp_url_key,
+                 :openstack_management_url
 
       model_path 'fog/openstack/models/storage'
       model       :directory
@@ -79,7 +80,7 @@ module Fog
           @openstack_username = options[:openstack_username]
           @openstack_auth_url = options[:openstack_auth_url]
           @openstack_auth_token = options[:openstack_auth_token]
-          @openstack_storage_url = options[:openstack_storage_url]
+          @openstack_management_url = options[:openstack_management_url]
           @openstack_must_reauthenticate = false
           @openstack_service_type = options[:openstack_service_type] || ['object-store']
           @openstack_service_name = options[:openstack_service_name]
