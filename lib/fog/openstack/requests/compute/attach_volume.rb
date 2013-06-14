@@ -11,7 +11,7 @@ module Fog
             }
           }
           request(
-            :body     => MultiJson.encode(data),
+            :body     => Fog::JSON.encode(data),
             :expects  => [200, 202],
             :method   => 'POST',
             :path     => "servers/%s/os-volume_attachments" % [server_id]

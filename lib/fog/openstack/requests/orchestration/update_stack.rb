@@ -22,7 +22,7 @@ module Fog
             :expects  => 202,
             :path => "stacks/#{stack_name}/#{stack_id}",
             :method => 'PUT',
-            :body => MultiJson.encode(params)
+            :body => Fog::JSON.encode(params)
           )
         end
 
