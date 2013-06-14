@@ -6,11 +6,10 @@ module Fog
     class OpenStack < Fog::Service
 
       requires   :openstack_auth_url
-      recognizes :openstack_auth_token, :openstack_username, :openstack_api_key,
-                 :persistent, :openstack_service_name,
-                 :openstack_service_type, :openstack_tenant,
-                 :openstack_region, :openstack_temp_url_key,
-                 :openstack_management_url
+      recognizes :openstack_auth_token, :openstack_management_url, :persistent,
+                 :openstack_service_type, :openstack_service_name, :openstack_tenant,
+                 :openstack_api_key, :openstack_username, :openstack_endpoint_type,
+                 :openstack_region, :openstack_temp_url_key
 
       model_path 'fog/openstack/models/storage'
       model       :directory
@@ -88,16 +87,19 @@ module Fog
             raise ArgumentError, "Missing required arguments: #{missing_credentials.join(', ')}" unless missing_credentials.empty?
           end
 
-          @openstack_auth_url = options[:openstack_auth_url]
-          @openstack_management_url = options[:openstack_management_url]
-          @openstack_must_reauthenticate = false
-          @openstack_service_type = options[:openstack_service_type] || ['object-store']
-          @openstack_service_name = options[:openstack_service_name]
-          @openstack_region       = options[:openstack_region]
-          @openstack_tenant       = options[:openstack_tenant]
+          @openstack_tenant               = options[:openstack_tenant]
+          @openstack_auth_url             = options[:openstack_auth_url]
+          @openstack_management_url       = options[:openstack_management_url]
+          @openstack_must_reauthenticate  = false
+          @openstack_service_type         = options[:openstack_service_type] || ['object-store']
+          @openstack_service_name         = options[:openstack_service_name]
+          @openstack_endpoint_type        = options[:openstack_endpoint_type] || 'publicURL'
+          @openstack_region               = options[:openstack_region]
+
           @connection_options     = options[:connection_options] || {}
           @openstack_temp_url_key = options[:openstack_temp_url_key]
           authenticate
+
           @persistent = options[:persistent] || false
           @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
         end
@@ -189,15 +191,15 @@ module Fog
         def authenticate
           if !@openstack_management_url || @openstack_must_reauthenticate
             options = {
+              :openstack_tenant => @openstack_tenant,
               :openstack_api_key  => @openstack_api_key,
               :openstack_username => @openstack_username,
               :openstack_auth_uri => URI.parse(@openstack_auth_url),
               :openstack_auth_token => @openstack_auth_token,
               :openstack_service_type => @openstack_service_type,
               :openstack_service_name => @openstack_service_name,
-              :openstack_region => @openstack_region,
-              :openstack_tenant => @openstack_tenant,
-              :openstack_endpoint_type => 'publicURL'
+              :openstack_endpoint_type => @openstack_endpoint_type,
+              :openstack_region => @openstack_region
             }
 
             credentials = Fog::OpenStack.authenticate(options, @connection_options)
