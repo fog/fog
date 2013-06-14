@@ -348,16 +348,31 @@ Shindo.tests('OpenStack | authenticate', ['openstack']) do
         "name"            => "nova2"
       }
 
-      Excon.stub({ :method => 'POST', :path => "/v2.0/tokens" },
-                 { :status => 200, :body => Fog::JSON.encode(body_two_compute) })
-
       tests('finds service by service_type and service_name').succeeds do
+        Excon.stub({ :method => 'POST', :path => "/v2.0/tokens" },
+                   { :status => 200, :body => Fog::JSON.encode(body_two_compute) })
+
         resp = Fog::OpenStack.authenticate_v2(
           :openstack_auth_uri     => URI('http://example/v2.0/tokens'),
           :openstack_tenant       => 'admin',
           :openstack_service_type => %w[compute],
           :openstack_service_name => 'nova2')
         resp[:server_management_url] == "http://example2:8774/v2/#{tenant_token}"
+      end
+
+      tests('raises error if multiple services match').succeeds do
+        Excon.stub({ :method => 'POST', :path => "/v2.0/tokens" },
+                   { :status => 200, :body => Fog::JSON.encode(body_two_compute) })
+
+        begin
+          Fog::OpenStack.authenticate_v2(
+            :openstack_auth_uri     => URI('http://example/v2.0/tokens'),
+            :openstack_tenant       => 'admin',
+            :openstack_service_type => %w[compute])
+          false
+        rescue Fog::Errors::NotFound => err
+          err.message =~ /Multiple matching services found/
+        end
       end
     end
 

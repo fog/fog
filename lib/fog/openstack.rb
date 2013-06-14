@@ -163,13 +163,20 @@ module Fog
     end
 
     def self.get_service(body, service_type=[], service_name=nil)
-      body['access']['serviceCatalog'].detect do |s|
-        if service_name.nil? or service_name.empty?
+      services = body['access']['serviceCatalog'].select {|s|
+        if service_name.to_s.empty?
           service_type.include?(s['type'])
         else
-          service_type.include?(s['type']) and s['name'] == service_name
+          service_type.include?(s['type']) && s['name'] == service_name
         end
+      }
+      if services.count > 1
+        available = services.map {|s| s['type'] + '|' + s['name'] }.join(', ')
+        raise Fog::Errors::NotFound, "Multiple matching services found.\n" +
+            "Provide #openstack_service_type and/or #openstack_service_name\n" +
+            "to uniquely identify one of these services (type|name) '#{ available }'"
       end
+      services.first
     end
 
     def self.retrieve_tokens_v2(options, connection_options = {})
