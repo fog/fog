@@ -111,8 +111,7 @@ module Fog
           requires :launch_configuration_name
           requires :max_size
           requires :min_size
-
-          service.create_auto_scaling_group(id, availability_zones, launch_configuration_name, max_size, min_size, options)
+          service.create_auto_scaling_group(id, availability_zones, launch_configuration_name, max_size, min_size, filtered_options(:create_auto_scaling_group))
           reload
         end
 
@@ -132,8 +131,12 @@ module Fog
 
         def update
           requires :id
-          service.update_auto_scaling_group(id, options)
+          service.update_auto_scaling_group(id, filtered_options(:update_auto_scaling_group) )
           reload
+        end
+
+        def filtered_options(method)
+          Hash[options.select{|k,_| ExpectedOptions[method].include?(k)}]
         end
 
         def options
