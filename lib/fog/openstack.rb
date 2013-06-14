@@ -187,7 +187,7 @@ module Fog
       uri         = options[:openstack_auth_uri]
 
       connection = Fog::Connection.new(uri.to_s, false, connection_options)
-      request_body = {:auth => Hash.new}
+      request_body = {:auth => {:tenantName => tenant_name}}
 
       if auth_token
         request_body[:auth][:token] = {
@@ -199,7 +199,6 @@ module Fog
           :password => api_key
         }
       end
-      request_body[:auth][:tenantName] = tenant_name if tenant_name
 
       response = connection.request({
         :expects  => [200, 204],
