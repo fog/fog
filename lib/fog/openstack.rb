@@ -116,12 +116,10 @@ module Fog
             raise Fog::Errors::NotFound.new('No Tenant Found')
           else
             options[:openstack_tenant] = body['tenants'].first['name']
+            body = retrieve_tokens_v2(options, connection_options)
+            service = get_service(body, service_type, service_name)
           end
         end
-
-        body = retrieve_tokens_v2(options, connection_options)
-        service = get_service(body, service_type, service_name)
-
       end
 
       service['endpoints'] = service['endpoints'].select do |endpoint|
