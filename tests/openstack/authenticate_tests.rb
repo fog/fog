@@ -69,6 +69,25 @@ Shindo.tests('OpenStack | authenticate', ['openstack']) do
       }
     }
 
+    body_no_service = deep_dup(body)
+    body_no_service['access']['serviceCatalog'] = []
+    body_no_service['access']['token']['id'] = unscoped_token
+
+    body_two_compute = deep_dup(body)
+    body_two_compute["access"]["serviceCatalog"] << {
+      "endpoints" => [
+        { "adminURL"    => "http://example2:8774/v2/#{tenant_token}",
+          "region"      => "RegionOne",
+          "internalURL" => "http://example2:8774/v2/#{tenant_token}",
+          "id"          => Fog::Mock.random_numbers(8).to_s,
+          "publicURL"   => "http://example2:8774/v2/#{tenant_token}"
+        }
+      ],
+      "endpoints_links" => [],
+      "type"            => "compute",
+      "name"            => "nova2"
+    }
+
     body_tenants = {
       "tenants_links" => [],
       "tenants" => [
@@ -82,6 +101,9 @@ Shindo.tests('OpenStack | authenticate', ['openstack']) do
           "name"        => "demo" }
       ]
     }
+
+    body_one_tenant = deep_dup(body_tenants)
+    body_one_tenant['tenants'] = body_tenants['tenants'].select {|t| t['name'] == 'admin' }
 
     expected_credentials = {
       :user                     => body['access']['user'],
@@ -99,8 +121,9 @@ Shindo.tests('OpenStack | authenticate', ['openstack']) do
       Excon.stubs.clear
     end
 
-    tests("v2") do
-      tests('with tenant given') do
+    tests('v2 success') do
+
+      tests('with tenant_name given') do
         Excon.stub(
           { :method => 'POST',
             :path => "/v2.0/tokens",
@@ -127,11 +150,101 @@ Shindo.tests('OpenStack | authenticate', ['openstack']) do
         end
       end
 
-      tests('without tenant given') do
-        body_no_service = deep_dup(body)
-        body_no_service['access']['serviceCatalog'] = []
-        body_no_service['access']['token']['id'] = unscoped_token
+      tests('without tenant_name given') do
+        tests('when a single tenant is found') do
+          Excon.stub(
+            { :method => 'POST',
+              :path => "/v2.0/tokens",
+              :body => Fog::JSON.encode({
+                :auth => {
+                  :tenantName => '',
+                  :passwordCredentials => {
+                    :username => 'admin',
+                    :password => 'password'
+                  }
+                }
+              })
+            },
+            { :status => 200, :body => Fog::JSON.encode(body_no_service) }
+          )
 
+          Excon.stub(
+            { :method => 'GET',
+              :path => "/v2.0/tenants",
+              :headers => { 'Content-Type' => 'application/json',
+                            'Accept' => 'application/json',
+                            'X-Auth-Token' => unscoped_token }
+            },
+            { :status => 200, :body => Fog::JSON.encode(body_one_tenant) }
+          )
+          Excon.stub(
+            { :method => 'POST',
+              :path => "/v2.0/tokens",
+              :body => Fog::JSON.encode({
+                :auth => {
+                  :tenantName => 'admin',
+                  :token => { :id => unscoped_token }
+                }
+              })
+            },
+            { :status => 200, :body => Fog::JSON.encode(body) }
+          )
+
+          returns(expected_credentials, 'returns expected credentials') do
+            Fog::OpenStack.authenticate_v2(
+              :openstack_auth_uri     => URI('http://example/v2.0/tokens'),
+              :openstack_username     => 'admin',
+              :openstack_api_key      => 'password',
+              :openstack_service_type => %w[compute])
+          end
+        end
+      end
+
+      tests('default tokens path') do
+        tests('with no path given') do
+          Excon.stub({ :method => 'POST', :path => "/v2.0/tokens" },
+                    { :status => 200, :body => Fog::JSON.encode(body) })
+
+          returns(expected_credentials, 'returns expected credentials') do
+            Fog::OpenStack.authenticate_v2(
+              :openstack_auth_uri     => URI('http://example'),
+              :openstack_tenant       => 'admin',
+              :openstack_service_type => %w[compute])
+          end
+        end
+
+        tests('with / path given') do
+          Excon.stub({ :method => 'POST', :path => "/v2.0/tokens" },
+                    { :status => 200, :body => Fog::JSON.encode(body) })
+
+          returns(expected_credentials, 'returns expected credentials') do
+            Fog::OpenStack.authenticate_v2(
+              :openstack_auth_uri     => URI('http://example/'),
+              :openstack_tenant       => 'admin',
+              :openstack_service_type => %w[compute])
+          end
+        end
+      end
+
+      tests('with two compute services') do
+        tests('finds service by service_type and service_name').succeeds do
+          Excon.stub({ :method => 'POST', :path => "/v2.0/tokens" },
+                     { :status => 200, :body => Fog::JSON.encode(body_two_compute) })
+
+          resp = Fog::OpenStack.authenticate_v2(
+            :openstack_auth_uri     => URI('http://example/v2.0/tokens'),
+            :openstack_tenant       => 'admin',
+            :openstack_service_type => %w[compute],
+            :openstack_service_name => 'nova2')
+          resp[:server_management_url] == "http://example2:8774/v2/#{tenant_token}"
+        end
+      end
+
+    end # v2 success
+
+    tests('v2 failure') do
+
+      tests('without tenant_name given') do
         tests('when no tenants are found') do
           Excon.stub(
             { :method => 'POST',
@@ -214,167 +327,65 @@ Shindo.tests('OpenStack | authenticate', ['openstack']) do
             end
           end
         end
+      end
 
-        tests('when a single tenant is found') do
-          Excon.stub(
-            { :method => 'POST',
-              :path => "/v2.0/tokens",
-              :body => Fog::JSON.encode({
-                :auth => {
-                  :tenantName => '',
-                  :passwordCredentials => {
-                    :username => 'admin',
-                    :password => 'password'
-                  }
-                }
-              })
-            },
-            { :status => 200, :body => Fog::JSON.encode(body_no_service) }
-          )
+      tests('missing service') do
+        tests('with tenant given') do
+          Excon.stub({ :method => 'POST', :path => "/v2.0/tokens" },
+                    { :status => 200, :body => Fog::JSON.encode(body) })
 
+          err_msg = "Could not find service(s) 'network' in 'compute, image'."
+          returns(err_msg, 'raises expected error') do
+            begin
+              Fog::OpenStack.authenticate_v2(
+                :openstack_auth_uri     => URI('http://example/v2.0/tokens'),
+                :openstack_tenant       => 'admin',
+                :openstack_service_type => %w[network])
+            rescue Fog::Errors::NotFound => err
+              err.message
+            end
+          end
+        end
+
+        tests('without tenant given') do
+          Excon.stub({ :method => 'POST', :path => "/v2.0/tokens" },
+                    { :status => 200, :body => Fog::JSON.encode(body) })
           body_one_tenant = deep_dup(body_tenants)
           body_one_tenant['tenants'] = body_tenants['tenants'].select {|t| t['name'] == 'admin' }
-          Excon.stub(
-            { :method => 'GET',
-              :path => "/v2.0/tenants",
-              :headers => { 'Content-Type' => 'application/json',
-                            'Accept' => 'application/json',
-                            'X-Auth-Token' => unscoped_token }
-            },
-            { :status => 200, :body => Fog::JSON.encode(body_one_tenant) }
-          )
-          Excon.stub(
-            { :method => 'POST',
-              :path => "/v2.0/tokens",
-              :body => Fog::JSON.encode({
-                :auth => {
-                  :tenantName => 'admin',
-                  :token => { :id => unscoped_token }
-                }
-              })
-            },
-            { :status => 200, :body => Fog::JSON.encode(body) }
-          )
+          Excon.stub({ :method => 'GET', :path => "/v2.0/tenants" },
+                    { :status => 200, :body => Fog::JSON.encode(body_one_tenant) })
 
-          returns(expected_credentials, 'returns expected credentials') do
-            Fog::OpenStack.authenticate_v2(
-              :openstack_auth_uri     => URI('http://example/v2.0/tokens'),
-              :openstack_username     => 'admin',
-              :openstack_api_key      => 'password',
-              :openstack_service_type => %w[compute])
+          err_msg = "Could not find service(s) 'network' in 'compute, image'."
+          returns(err_msg, 'raises expected error') do
+            begin
+              Fog::OpenStack.authenticate_v2(
+                :openstack_auth_uri     => URI('http://example/v2.0/tokens'),
+                :openstack_service_type => %w[network])
+            rescue Fog::Errors::NotFound => err
+              err.message
+            end
           end
         end
       end
-    end
 
-    tests("v2 default tokens path") do
-      tests('with no path given') do
-        Excon.stub({ :method => 'POST', :path => "/v2.0/tokens" },
-                  { :status => 200, :body => Fog::JSON.encode(body) })
+      tests('with two compute services') do
+        tests('raises error if multiple services match').succeeds do
+          Excon.stub({ :method => 'POST', :path => "/v2.0/tokens" },
+                    { :status => 200, :body => Fog::JSON.encode(body_two_compute) })
 
-        returns(expected_credentials, 'returns expected credentials') do
-          Fog::OpenStack.authenticate_v2(
-            :openstack_auth_uri     => URI('http://example'),
-            :openstack_tenant       => 'admin',
-            :openstack_service_type => %w[compute])
-        end
-      end
-
-      tests('with / path given') do
-        Excon.stub({ :method => 'POST', :path => "/v2.0/tokens" },
-                  { :status => 200, :body => Fog::JSON.encode(body) })
-
-        returns(expected_credentials, 'returns expected credentials') do
-          Fog::OpenStack.authenticate_v2(
-            :openstack_auth_uri     => URI('http://example/'),
-            :openstack_tenant       => 'admin',
-            :openstack_service_type => %w[compute])
-        end
-      end
-    end
-
-    tests("v2 missing service") do
-      tests('with tenant given') do
-        Excon.stub({ :method => 'POST', :path => "/v2.0/tokens" },
-                   { :status => 200, :body => Fog::JSON.encode(body) })
-
-        err_msg = "Could not find service(s) 'network' in 'compute, image'."
-        returns(err_msg, 'raises expected error') do
           begin
             Fog::OpenStack.authenticate_v2(
               :openstack_auth_uri     => URI('http://example/v2.0/tokens'),
               :openstack_tenant       => 'admin',
-              :openstack_service_type => %w[network])
+              :openstack_service_type => %w[compute])
+            false
           rescue Fog::Errors::NotFound => err
-            err.message
+            err.message =~ /Multiple matching services found/
           end
         end
       end
 
-      tests('without tenant given') do
-        Excon.stub({ :method => 'POST', :path => "/v2.0/tokens" },
-                   { :status => 200, :body => Fog::JSON.encode(body) })
-        body_one_tenant = deep_dup(body_tenants)
-        body_one_tenant['tenants'] = body_tenants['tenants'].select {|t| t['name'] == 'admin' }
-        Excon.stub({ :method => 'GET', :path => "/v2.0/tenants" },
-                   { :status => 200, :body => Fog::JSON.encode(body_one_tenant) })
-
-        err_msg = "Could not find service(s) 'network' in 'compute, image'."
-        returns(err_msg, 'raises expected error') do
-          begin
-            Fog::OpenStack.authenticate_v2(
-              :openstack_auth_uri     => URI('http://example/v2.0/tokens'),
-              :openstack_service_type => %w[network])
-          rescue Fog::Errors::NotFound => err
-            err.message
-          end
-        end
-      end
-    end
-
-    tests("v2 auth with two compute services") do
-      body_two_compute = deep_dup(body)
-      body_two_compute["access"]["serviceCatalog"] << {
-        "endpoints" => [
-          { "adminURL"    => "http://example2:8774/v2/#{tenant_token}",
-            "region"      => "RegionOne",
-            "internalURL" => "http://example2:8774/v2/#{tenant_token}",
-            "id"          => Fog::Mock.random_numbers(8).to_s,
-            "publicURL"   => "http://example2:8774/v2/#{tenant_token}"
-          }
-        ],
-        "endpoints_links" => [],
-        "type"            => "compute",
-        "name"            => "nova2"
-      }
-
-      tests('finds service by service_type and service_name').succeeds do
-        Excon.stub({ :method => 'POST', :path => "/v2.0/tokens" },
-                   { :status => 200, :body => Fog::JSON.encode(body_two_compute) })
-
-        resp = Fog::OpenStack.authenticate_v2(
-          :openstack_auth_uri     => URI('http://example/v2.0/tokens'),
-          :openstack_tenant       => 'admin',
-          :openstack_service_type => %w[compute],
-          :openstack_service_name => 'nova2')
-        resp[:server_management_url] == "http://example2:8774/v2/#{tenant_token}"
-      end
-
-      tests('raises error if multiple services match').succeeds do
-        Excon.stub({ :method => 'POST', :path => "/v2.0/tokens" },
-                   { :status => 200, :body => Fog::JSON.encode(body_two_compute) })
-
-        begin
-          Fog::OpenStack.authenticate_v2(
-            :openstack_auth_uri     => URI('http://example/v2.0/tokens'),
-            :openstack_tenant       => 'admin',
-            :openstack_service_type => %w[compute])
-          false
-        rescue Fog::Errors::NotFound => err
-          err.message =~ /Multiple matching services found/
-        end
-      end
-    end
+    end # v2 failure
 
     tests("legacy v1 auth") do
       headers = {
@@ -402,4 +413,3 @@ Shindo.tests('OpenStack | authenticate', ['openstack']) do
     Excon.defaults[:mock] = @old_mock_value
   end
 end
-
