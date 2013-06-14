@@ -172,7 +172,7 @@ module Fog
           rescue Excon::Errors::HTTPStatusError => error
             raise case error
             when Excon::Errors::NotFound
-              Fog::Compute::OpenStack::NotFound.slurp(error)
+              Fog::Volume::OpenStack::NotFound.slurp(error)
             else
               error
             end
