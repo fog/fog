@@ -66,7 +66,6 @@ module Fog
         attr_reader :auth_token_expiration
         attr_reader :current_user
         attr_reader :current_tenant
-        attr_reader :unscoped_token
 
         def self.data
           @users           ||= {}
@@ -167,7 +166,6 @@ module Fog
       class Real
         attr_reader :current_user
         attr_reader :current_tenant
-        attr_reader :unscoped_token
 
         def initialize(options={})
           @openstack_auth_token = options[:openstack_auth_token]
@@ -277,7 +275,6 @@ module Fog
             @auth_token = credentials[:token]
             @openstack_management_url = credentials[:server_management_url]
             @openstack_current_user_id = credentials[:current_user_id]
-            @unscoped_token = credentials[:unscoped_token]
             uri = URI.parse(@openstack_management_url)
           else
             @auth_token = @openstack_auth_token

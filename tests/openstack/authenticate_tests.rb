@@ -77,8 +77,7 @@ Shindo.tests('OpenStack | authenticate', ['openstack']) do
           first['endpoints'].first['publicURL'],
       :token                    => token,
       :expires                  => expires.iso8601,
-      :current_user_id          => body['access']['user']['id'],
-      :unscoped_token           => token
+      :current_user_id          => body['access']['user']['id']
     }
 
     after do
