@@ -4,7 +4,6 @@ module Fog
   class << self
 
     def available_providers
-	  Kernel.const_get('Ninefold')
       @available_providers ||= Fog.providers.values.select {|provider| Kernel.const_get(provider).available?}.sort
     end
 
