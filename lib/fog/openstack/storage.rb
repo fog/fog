@@ -9,7 +9,7 @@ module Fog
       recognizes :openstack_auth_token, :openstack_management_url, :persistent,
                  :openstack_service_type, :openstack_service_name, :openstack_tenant,
                  :openstack_api_key, :openstack_username, :openstack_endpoint_type,
-                 :openstack_region, :openstack_temp_url_key
+                 :openstack_region, :openstack_temp_url_key, :current_user, :current_tenant
 
       model_path 'fog/openstack/models/storage'
       model       :directory
@@ -72,6 +72,8 @@ module Fog
       end
 
       class Real
+        attr_reader :current_user
+        attr_reader :current_tenant
 
         def initialize(options={})
           require 'mime/types'
@@ -98,6 +100,10 @@ module Fog
 
           @connection_options     = options[:connection_options] || {}
           @openstack_temp_url_key = options[:openstack_temp_url_key]
+
+          @current_user = options[:current_user]
+          @current_tenant = options[:current_tenant]
+
           authenticate
 
           @persistent = options[:persistent] || false
