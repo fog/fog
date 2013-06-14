@@ -243,35 +243,32 @@ Shindo.tests('OpenStack | authenticate', ['openstack']) do
     end
 
     tests("v2 auth with two compute services") do
-      body_clone = body.clone
-      body_clone["access"]["serviceCatalog"] <<
-        {
-        "endpoints" => [{
-          "adminURL" =>
-            "http://example2:8774/v2/#{tenant_token}",
-            "region" => "RegionOne",
-          "internalURL" =>
-            "http://example2:8774/v2/#{tenant_token}",
-          "id" => Fog::Mock.random_numbers(8).to_s,
-          "publicURL" =>
-           "http://example2:8774/v2/#{tenant_token}"
-        }],
+      body_two_compute = deep_dup(body)
+      body_two_compute["access"]["serviceCatalog"] << {
+        "endpoints" => [
+          { "adminURL"    => "http://example2:8774/v2/#{tenant_token}",
+            "region"      => "RegionOne",
+            "internalURL" => "http://example2:8774/v2/#{tenant_token}",
+            "id"          => Fog::Mock.random_numbers(8).to_s,
+            "publicURL"   => "http://example2:8774/v2/#{tenant_token}"
+          }
+        ],
         "endpoints_links" => [],
-        "type" => "compute",
-        "name" => "nova2"
-        }
+        "type"            => "compute",
+        "name"            => "nova2"
+      }
 
       Excon.stub({ :method => 'POST', :path => "/v2.0/tokens" },
-                 { :status => 200, :body => Fog::JSON.encode(body_clone) })
+                 { :status => 200, :body => Fog::JSON.encode(body_two_compute) })
 
-      returns("http://example2:8774/v2/#{tenant_token}") do
-        Fog::OpenStack.authenticate_v2(
+      tests('finds service by service_type and service_name').succeeds do
+        resp = Fog::OpenStack.authenticate_v2(
           :openstack_auth_uri     => URI('http://example/v2.0/tokens'),
           :openstack_tenant       => 'admin',
           :openstack_service_type => %w[compute],
-          :openstack_service_name => 'nova2')[:server_management_url]
+          :openstack_service_name => 'nova2')
+        resp[:server_management_url] == "http://example2:8774/v2/#{tenant_token}"
       end
-
     end
 
     tests("legacy v1 auth") do
