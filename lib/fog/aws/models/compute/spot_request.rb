@@ -95,7 +95,7 @@ module Fog
             'LaunchSpecification.KeyName'                    => key_name,
             'LaunchSpecification.Monitoring.Enabled'         => monitoring,
             'LaunchSpecification.Placement.AvailabilityZone' => availability_zone,
-            'LaunchSpecification.SecurityGroup'              => groups,
+            'LaunchSpecification.SecurityGroupId'            => groups,
             'LaunchSpecification.EbsOptimized'               => ebs_optimized,
             'LaunchSpecification.UserData'                   => user_data,
             'LaunchSpecification.SubnetId'                   => subnet_id,
@@ -105,15 +105,6 @@ module Fog
             'ValidFrom'                                      => valid_from,
             'ValidUntil'                                     => valid_until }
           options.delete_if {|key, value| value.nil?}
-
-          # If subnet is defined then this is a Virtual Private Cloud.
-          # subnet & security group cannot co-exist. SecurityGroupId must be
-          # used instead of SecurityGroup
-          if subnet_id
-            options['LaunchSpecification.SecurityGroupId'] = options.delete('LaunchSpecification.SecurityGroup')
-          else
-            options.delete('LaunchSpecification.SubnetId')
-          end
 
           data = service.request_spot_instances(image_id, flavor_id, price, options).body
           spot_instance_request = data['spotInstanceRequestSet'].first
