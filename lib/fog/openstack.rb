@@ -95,29 +95,28 @@ module Fog
 
 
       body = retrieve_tokens_v2(options, connection_options)
-      service = get_service(body, service_type, service_name)
 
-      unless service
-        unless tenant_name
-          options[:unscoped_token] = body['access']['token']['id']
-          response = Fog::Connection.new(
-            "#{uri.scheme}://#{uri.host}:#{uri.port}/v2.0/tenants", false, connection_options).request({
-            :expects => [200, 204],
-            :headers => {'Content-Type' => 'application/json',
-                         'Accept' => 'application/json',
-                         'X-Auth-Token' => body['access']['token']['id']},
-            :host    => uri.host,
-            :method  => 'GET'
-          })
+      if tenant_name
+        service = get_service(body, service_type, service_name)
+      else
+        options[:unscoped_token] = body['access']['token']['id']
+        response = Fog::Connection.new(
+          "#{uri.scheme}://#{uri.host}:#{uri.port}/v2.0/tenants", false, connection_options).request({
+          :expects => [200, 204],
+          :headers => { 'Content-Type' => 'application/json',
+                        'Accept' => 'application/json',
+                        'X-Auth-Token' => options[:unscoped_token] },
+          :host    => uri.host,
+          :method  => 'GET'
+        })
 
-          body = Fog::JSON.decode(response.body)
-          if body['tenants'].empty?
-            raise Fog::Errors::NotFound.new('No Tenant Found')
-          else
-            options[:openstack_tenant] = body['tenants'].first['name']
-            body = retrieve_tokens_v2(options, connection_options)
-            service = get_service(body, service_type, service_name)
-          end
+        body = Fog::JSON.decode(response.body)
+        if body['tenants'].empty?
+          raise Fog::Errors::NotFound.new('No Tenant Found')
+        else
+          options[:openstack_tenant] = body['tenants'].first['name']
+          body = retrieve_tokens_v2(options, connection_options)
+          service = get_service(body, service_type, service_name)
         end
       end
 

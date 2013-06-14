@@ -4,9 +4,10 @@ Shindo.tests('OpenStack | authenticate', ['openstack']) do
     Excon.defaults[:mock] = true
     Excon.stubs.clear
 
-    expires      = Time.now.utc + 600
-    token        = Fog::Mock.random_numbers(8).to_s
-    tenant_token = Fog::Mock.random_numbers(8).to_s
+    expires         = Time.now.utc + 600
+    token           = Fog::Mock.random_numbers(8).to_s
+    tenant_token    = Fog::Mock.random_numbers(8).to_s
+    unscoped_token  = Fog::Mock.random_numbers(8).to_s
 
     body = {
       "access" => {
@@ -68,6 +69,20 @@ Shindo.tests('OpenStack | authenticate', ['openstack']) do
       }
     }
 
+    body_tenants = {
+      "tenants_links" => [],
+      "tenants" => [
+        { "description" => nil,
+          "enabled"     => true,
+          "id"          => "097fb34153e6452f8ef638d19e7f4a03",
+          "name"        => "admin" },
+        { "description" => nil,
+          "enabled"     => true,
+          "id"          => "651cc4b3000245e88770ebe88b9d33db",
+          "name"        => "demo" }
+      ]
+    }
+
     expected_credentials = {
       :user                     => body['access']['user'],
       :tenant                   => body['access']['token']['tenant'],
@@ -85,14 +100,82 @@ Shindo.tests('OpenStack | authenticate', ['openstack']) do
     end
 
     tests("v2") do
-      Excon.stub({ :method => 'POST', :path => "/v2.0/tokens" },
-                 { :status => 200, :body => Fog::JSON.encode(body) })
+      tests('with tenant given') do
+        Excon.stub(
+          { :method => 'POST',
+            :path => "/v2.0/tokens",
+            :body => Fog::JSON.encode({
+              :auth => {
+                :tenantName => 'admin',
+                :passwordCredentials => {
+                  :username => 'admin',
+                  :password => 'password'
+                }
+              }
+            })
+          },
+          { :status => 200, :body => Fog::JSON.encode(body) }
+        )
 
-      returns(expected_credentials, 'returns expected credentials') do
-        Fog::OpenStack.authenticate_v2(
-          :openstack_auth_uri     => URI('http://example/v2.0/tokens'),
-          :openstack_tenant       => 'admin',
-          :openstack_service_type => %w[compute])
+        returns(expected_credentials, 'returns expected credentials') do
+          Fog::OpenStack.authenticate_v2(
+            :openstack_auth_uri     => URI('http://example/v2.0/tokens'),
+            :openstack_username     => 'admin',
+            :openstack_api_key      => 'password',
+            :openstack_tenant       => 'admin',
+            :openstack_service_type => %w[compute])
+        end
+      end
+
+      tests('without tenant given') do
+        body_no_service = deep_dup(body)
+        body_no_service['access']['serviceCatalog'] = []
+        body_no_service['access']['token']['id'] = unscoped_token
+
+        Excon.stub(
+          { :method => 'POST',
+            :path => "/v2.0/tokens",
+            :body => Fog::JSON.encode({
+              :auth => {
+                :tenantName => '',
+                :passwordCredentials => {
+                  :username => 'admin',
+                  :password => 'password'
+                }
+              }
+            })
+          },
+          { :status => 200, :body => Fog::JSON.encode(body_no_service) }
+        )
+        Excon.stub(
+          { :method => 'GET',
+            :path => "/v2.0/tenants",
+            :headers => { 'Content-Type' => 'application/json',
+                          'Accept' => 'application/json',
+                          'X-Auth-Token' => unscoped_token }
+          },
+          { :status => 200, :body => Fog::JSON.encode(body_tenants) }
+        )
+        Excon.stub(
+          { :method => 'POST',
+            :path => "/v2.0/tokens",
+            :body => Fog::JSON.encode({
+              :auth => {
+                :tenantName => 'admin',
+                :token => { :id => unscoped_token }
+              }
+            })
+          },
+          { :status => 200, :body => Fog::JSON.encode(body) }
+        )
+
+        returns(expected_credentials, 'returns expected credentials') do
+          Fog::OpenStack.authenticate_v2(
+            :openstack_auth_uri     => URI('http://example/v2.0/tokens'),
+            :openstack_username     => 'admin',
+            :openstack_api_key      => 'password',
+            :openstack_service_type => %w[compute])
+        end
       end
     end
 
