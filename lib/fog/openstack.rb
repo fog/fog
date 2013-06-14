@@ -110,14 +110,17 @@ module Fog
           :method  => 'GET'
         })
 
-        body = Fog::JSON.decode(response.body)
-        if body['tenants'].empty?
-          raise Fog::Errors::NotFound.new('No Tenant Found')
-        else
-          options[:openstack_tenant] = body['tenants'].first['name']
-          body = retrieve_tokens_v2(options, connection_options)
-          service = get_service(body, service_type, service_name)
+        tenants = Fog::JSON.decode(response.body)['tenants']
+        if tenants.empty?
+          raise Fog::Errors::NotFound, 'No Tenant Found'
+        elsif tenants.count > 1
+          available = tenants.map {|t| t['name'] }.join(', ')
+          raise Fog::Errors::NotFound, "Multiple tenants found. Choose one of '#{ available }'."
         end
+
+        options[:openstack_tenant] = tenants.first['name']
+        body = retrieve_tokens_v2(options, connection_options)
+        service = get_service(body, service_type, service_name)
       end
 
       unless service
@@ -139,12 +142,13 @@ module Fog
         raise Fog::Errors::NotFound.new("Multiple regions available choose one of these '#{regions}'")
       end
 
-      identity_service = get_service(body, identity_service_type) if identity_service_type
       tenant = body['access']['token']['tenant']
       user = body['access']['user']
-
       management_url = service['endpoints'].detect{|s| s[endpoint_type]}[endpoint_type]
-      identity_url   = identity_service['endpoints'].detect{|s| s['publicURL']}['publicURL'] if identity_service
+
+      if identity_service = get_service(body, identity_service_type)
+        identity_url = identity_service['endpoints'].detect{|s| s['publicURL']}['publicURL']
+      end if identity_service_type
 
       {
         :user                     => user,
