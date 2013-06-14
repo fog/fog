@@ -196,7 +196,6 @@ module Fog
         end
 
         def initialize(options={})
-          require 'mime/types'
           setup_credentials(options)
           options[:region] ||= 'us-east-1'
           @host = options[:host] || Fog::InternetArchive::API_DOMAIN_NAME
@@ -248,7 +247,6 @@ module Fog
         # * S3 object with connection to aws.
         def initialize(options={})
           require 'fog/core/parser'
-          require 'mime/types'
 
           setup_credentials(options)
           @connection_options     = options[:connection_options] || {}

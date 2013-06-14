@@ -15,7 +15,7 @@ module Fog
         include Utils
 
         def self.data
-          @data ||= Hash.new do |hash, key| 
+          @data ||= Hash.new do |hash, key|
             hash[key] = {}
           end
         end
@@ -24,7 +24,7 @@ module Fog
           @data = nil
         end
 
-        def initialize(options = {}) 
+        def initialize(options = {})
           configure_uri_options(options)
         end
 
@@ -41,7 +41,6 @@ module Fog
         include Utils
 
         def initialize(options = {})
-          require 'mime/types'
           require 'multi_json'
 
           configure_uri_options(options)
