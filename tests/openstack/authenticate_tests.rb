@@ -17,39 +17,39 @@ Shindo.tests('OpenStack | authenticate', ['openstack']) do
             "enabled"     => true,
             "description" => nil,
             "name"        => "admin",
-            "id"          => tenant_token,
+            "id"          => tenant_token
           }
         },
-        "serviceCatalog" => [{
-          "endpoints" => [{
-            "adminURL" =>
-              "http://example:8774/v2/#{tenant_token}",
-              "region" => "RegionOne",
-            "internalURL" =>
-              "http://example:8774/v2/#{tenant_token}",
-            "id" => Fog::Mock.random_numbers(8).to_s,
-            "publicURL" =>
-             "http://example:8774/v2/#{tenant_token}"
-          }],
-          "endpoints_links" => [],
-          "type" => "compute",
-          "name" => "nova"
-        },
-        { "endpoints" => [{
-            "adminURL"    => "http://example:9292",
-            "region"      => "RegionOne",
-            "internalURL" => "http://example:9292",
-            "id"          => Fog::Mock.random_numbers(8).to_s,
-            "publicURL"   => "http://example:9292"
-          }],
-          "endpoints_links" => [],
-          "type"            => "image",
-          "name"            => "glance"
-        }],
+        "serviceCatalog" => [
+          { "endpoints" => [
+              { "adminURL"    => "http://example:8774/v2/#{tenant_token}",
+                "region"      => "RegionOne",
+                "internalURL" => "http://example:8774/v2/#{tenant_token}",
+                "id"          => Fog::Mock.random_numbers(8).to_s,
+                "publicURL"   => "http://example:8774/v2/#{tenant_token}"
+              }
+            ],
+            "endpoints_links" => [],
+            "type"            => "compute",
+            "name"            => "nova"
+          },
+          { "endpoints" => [
+              { "adminURL"    => "http://example:9292",
+                "region"      => "RegionOne",
+                "internalURL" => "http://example:9292",
+                "id"          => Fog::Mock.random_numbers(8).to_s,
+                "publicURL"   => "http://example:9292"
+              }
+            ],
+            "endpoints_links" => [],
+            "type"            => "image",
+            "name"            => "glance"
+          }
+        ],
         "user" => {
-          "username" => "admin",
+          "username"    => "admin",
           "roles_links" => [],
-          "id" => Fog::Mock.random_numbers(8).to_s,
+          "id"          => Fog::Mock.random_numbers(8).to_s,
           "roles" => [
             { "name" => "admin" },
             { "name" => "KeystoneAdmin" },
@@ -62,30 +62,64 @@ Shindo.tests('OpenStack | authenticate', ['openstack']) do
           "roles" => [
             Fog::Mock.random_numbers(8).to_s,
             Fog::Mock.random_numbers(8).to_s,
-            Fog::Mock.random_numbers(8).to_s,]}}}
+            Fog::Mock.random_numbers(8).to_s
+          ]
+        }
+      }
+    }
+
+    expected_credentials = {
+      :user                     => body['access']['user'],
+      :tenant                   => body['access']['token']['tenant'],
+      :identity_public_endpoint => nil,
+      :server_management_url    =>
+        body['access']['serviceCatalog'].
+          first['endpoints'].first['publicURL'],
+      :token                    => token,
+      :expires                  => expires.iso8601,
+      :current_user_id          => body['access']['user']['id'],
+      :unscoped_token           => token
+    }
+
+    after do
+      Excon.stubs.clear
+    end
 
     tests("v2") do
       Excon.stub({ :method => 'POST', :path => "/v2.0/tokens" },
                  { :status => 200, :body => Fog::JSON.encode(body) })
 
-      expected = {
-        :user                     => body['access']['user'],
-        :tenant                   => body['access']['token']['tenant'],
-        :identity_public_endpoint => nil,
-        :server_management_url    =>
-          body['access']['serviceCatalog'].
-            first['endpoints'].first['publicURL'],
-        :token                    => token,
-        :expires                  => expires.iso8601,
-        :current_user_id          => body['access']['user']['id'],
-        :unscoped_token           => token,
-      }
-
-      returns(expected) do
+      returns(expected_credentials, 'returns expected credentials') do
         Fog::OpenStack.authenticate_v2(
           :openstack_auth_uri     => URI('http://example/v2.0/tokens'),
           :openstack_tenant       => 'admin',
           :openstack_service_type => %w[compute])
+      end
+    end
+
+    tests("v2 default tokens path") do
+      tests('with no path given') do
+        Excon.stub({ :method => 'POST', :path => "/v2.0/tokens" },
+                  { :status => 200, :body => Fog::JSON.encode(body) })
+
+        returns(expected_credentials, 'returns expected credentials') do
+          Fog::OpenStack.authenticate_v2(
+            :openstack_auth_uri     => URI('http://example'),
+            :openstack_tenant       => 'admin',
+            :openstack_service_type => %w[compute])
+        end
+      end
+
+      tests('with / path given') do
+        Excon.stub({ :method => 'POST', :path => "/v2.0/tokens" },
+                  { :status => 200, :body => Fog::JSON.encode(body) })
+
+        returns(expected_credentials, 'returns expected credentials') do
+          Fog::OpenStack.authenticate_v2(
+            :openstack_auth_uri     => URI('http://example/'),
+            :openstack_tenant       => 'admin',
+            :openstack_service_type => %w[compute])
+        end
       end
     end
 
@@ -128,7 +162,7 @@ Shindo.tests('OpenStack | authenticate', ['openstack']) do
 
     tests("v2 auth with two compute services") do
       body_clone = body.clone
-      body_clone["access"]["serviceCatalog"] << 
+      body_clone["access"]["serviceCatalog"] <<
         {
         "endpoints" => [{
           "adminURL" =>
@@ -181,7 +215,6 @@ Shindo.tests('OpenStack | authenticate', ['openstack']) do
     end
 
   ensure
-    Excon.stubs.clear
     Excon.defaults[:mock] = @old_mock_value
   end
 end

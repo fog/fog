@@ -197,9 +197,8 @@ module Fog
         :headers  => {'Content-Type' => 'application/json',
                       'Accept' => 'application/json'},
         :body     => Fog::JSON.encode(request_body),
-        :host     => uri.host,
         :method   => 'POST',
-        :path     => (uri.path and not uri.path.empty?) ? uri.path : 'v2.0'
+        :path     => uri.path.chomp('/').empty? ? 'v2.0/tokens' : uri.path
       })
 
       Fog::JSON.decode(response.body)
