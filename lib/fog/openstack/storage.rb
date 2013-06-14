@@ -5,9 +5,9 @@ module Fog
   module Storage
     class OpenStack < Fog::Service
 
-      requires   :openstack_auth_url, :openstack_username,
-                 :openstack_api_key
-      recognizes :persistent, :openstack_service_name,
+      requires   :openstack_auth_url
+      recognizes :openstack_auth_token, :openstack_username, :openstack_api_key,
+                 :persistent, :openstack_service_name,
                  :openstack_service_type, :openstack_tenant,
                  :openstack_region, :openstack_temp_url_key,
                  :openstack_management_url
@@ -76,10 +76,19 @@ module Fog
 
         def initialize(options={})
           require 'mime/types'
-          @openstack_api_key = options[:openstack_api_key]
-          @openstack_username = options[:openstack_username]
-          @openstack_auth_url = options[:openstack_auth_url]
+
           @openstack_auth_token = options[:openstack_auth_token]
+          unless @openstack_auth_token
+            missing_credentials = Array.new
+            @openstack_api_key  = options[:openstack_api_key]
+            @openstack_username = options[:openstack_username]
+
+            missing_credentials << :openstack_api_key  unless @openstack_api_key
+            missing_credentials << :openstack_username unless @openstack_username
+            raise ArgumentError, "Missing required arguments: #{missing_credentials.join(', ')}" unless missing_credentials.empty?
+          end
+
+          @openstack_auth_url = options[:openstack_auth_url]
           @openstack_management_url = options[:openstack_management_url]
           @openstack_must_reauthenticate = false
           @openstack_service_type = options[:openstack_service_type] || ['object-store']
@@ -183,6 +192,7 @@ module Fog
               :openstack_api_key  => @openstack_api_key,
               :openstack_username => @openstack_username,
               :openstack_auth_uri => URI.parse(@openstack_auth_url),
+              :openstack_auth_token => @openstack_auth_token,
               :openstack_service_type => @openstack_service_type,
               :openstack_service_name => @openstack_service_name,
               :openstack_region => @openstack_region,
