@@ -90,15 +90,39 @@ Shindo.tests('OpenStack | authenticate', ['openstack']) do
     end
 
     tests("v2 missing service") do
-      Excon.stub({ :method => 'POST', :path => "/v2.0/tokens" },
-                 { :status => 200, :body => Fog::JSON.encode(body) })
+      tests('without region given') do
+        Excon.stub({ :method => 'POST', :path => "/v2.0/tokens" },
+                  { :status => 200, :body => Fog::JSON.encode(body) })
 
-      raises(Fog::Errors::NotFound,
-             'Could not find service network.  Have compute, image') do
-        Fog::OpenStack.authenticate_v2(
-          :openstack_auth_uri     => URI('http://example/v2.0/tokens'),
-          :openstack_tenant       => 'admin',
-          :openstack_service_type => %w[network])
+        err_msg = "Could not find service(s) 'network' in 'compute, image'."
+        returns(err_msg, 'raises expected error') do
+          begin
+            Fog::OpenStack.authenticate_v2(
+              :openstack_auth_uri     => URI('http://example/v2.0/tokens'),
+              :openstack_tenant       => 'admin',
+              :openstack_service_type => %w[network])
+          rescue Fog::Errors::NotFound => err
+            err.message
+          end
+        end
+      end
+
+      tests('with region given') do
+        Excon.stub({ :method => 'POST', :path => "/v2.0/tokens" },
+                  { :status => 200, :body => Fog::JSON.encode(body) })
+
+        err_msg = "Could not find service(s) 'network' in 'compute, image'."
+        returns(err_msg, 'raises expected error') do
+          begin
+            Fog::OpenStack.authenticate_v2(
+              :openstack_auth_uri     => URI('http://example/v2.0/tokens'),
+              :openstack_tenant       => 'admin',
+              :openstack_region       => 'RegionOne',
+              :openstack_service_type => %w[network])
+          rescue Fog::Errors::NotFound => err
+            err.message
+          end
+        end
       end
     end
 
