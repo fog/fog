@@ -202,7 +202,8 @@ module Fog
 
       response = connection.request({
         :expects  => [200, 204],
-        :headers  => {'Content-Type' => 'application/json'},
+        :headers  => {'Content-Type' => 'application/json',
+                      'Accept' => 'application/json'},
         :body     => Fog::JSON.encode(request_body),
         :host     => uri.host,
         :method   => 'POST',
