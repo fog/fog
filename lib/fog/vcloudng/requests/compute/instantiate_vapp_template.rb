@@ -23,57 +23,62 @@ module Fog
         # * 'name'<~String> - name of item
         # * 'type'<~String> - type of item
         # * 'status'<~String> - 0(pending) --> 2(off) -->4(on)
-        def instantiate_vapp_template(vapp_name, catalog_item_id, options = {})
+        def instantiate_vapp_template(vapp_name, template_id, options = {})
+          params = populate_uris(options.merge(vapp_name: vapp_name, template_id: template_id))
+          puts params
+          validate_uris(params)
           
+          data = generate_instantiate_vapp_template_request(params)
+          puts data
           request(
-            :body => generate_instantiate_vapp_template_request(options.merge(vapp_name: vapp_name, catalog_item_id: catalog_item_id)),
-            :expects => 200,
+            :body => data,
+            :expects => 201,
             :headers => { 'Content-Type' => 'application/vnd.vmware.vcloud.instantiateVAppTemplateParams+xml',
                           'Accept' => 'application/*+xml;version=1.5' },
             :method => 'POST',
             :parser => Fog::Parsers::Vcloudng::Compute::InstantiateVappTemplate.new,
-            :path => "vdc/#{options['vdc_id']}/action/instantiatevAppTemplate"
+            :path => "vdc/#{params[:vdc_id]}/action/instantiateVAppTemplate"
           )
         end
         
-        def make_options_with_uris(options = {})
-          options[:vdc_uri] =  vdc_end_point(options[:vdc_id]) || default_vdc_id
-          options[:network_uri] = network_end_point(options[:network_id]) || default_network_id
-          
+        def validate_uris(options ={})
+          [:vdc_uri, :network_uri].each do |opt_uri|
+            result = default_organization_body["Links"].detect {|org| org["href"] == options[opt_uri]}
+            raise("#{opt_uri}: #{options[opt_uri]} not found") unless result
+          end
+        end
+        
+        def populate_uris(options = {})
+          options[:vdc_id] ||= default_vdc_id
+          options[:vdc_uri] =  vdc_end_point(options[:vdc_id])
+          options[:network_id] ||= default_network_id
+          options[:network_uri] = network_end_point(options[:network_id])
           options[:network_name] = get_network_name_by_network_id(options[:network_id]) || raise("error retrieving network name")
-          options[:catalog_item_uri] = catalog_item_end_point(options[:catalog_item_id]) || raise(":catalog_item_id option is required")
-          catalog_item = get_catalog_item(options[:catalog_item_id]) 
-          options[:template_uri] = catalog_item.body["Entity"]["href"].split('/').last
-          
-          customization_options = get_vapp_template(options[:template_uri]).body[:Children][:Vm][:GuestCustomizationSection]
-          # Check to see if we can set the password
-          if options[:password] and customization_options[:AdminPasswordEnabled] == "false"
-            raise "The catalog item #{options[:catalog_item_uri]} does not allow setting a password."
-          end
-
-          # According to the docs if CustomizePassword is "true" then we NEED to set a password
-          if customization_options[:AdminPasswordEnabled] == "true" and customization_options[:AdminPasswordAuto] == "false" and ( options[:password].nil? or options[:password].empty? )
-            raise "The catalog item #{options[:catalog_item_uri]} requires a :password to instantiate."
-          end
+          options[:template_uri] = vapp_template_end_point(options[:template_id]) || raise(":template_id option is required")
+          #customization_options = get_vapp_template(options[:template_uri]).body[:Children][:Vm][:GuestCustomizationSection]
+          ## Check to see if we can set the password
+          #if options[:password] and customization_options[:AdminPasswordEnabled] == "false"
+          #  raise "The catalog item #{options[:catalog_item_uri]} does not allow setting a password."
+          #end
+          #
+          ## According to the docs if CustomizePassword is "true" then we NEED to set a password
+          #if customization_options[:AdminPasswordEnabled] == "true" and customization_options[:AdminPasswordAuto] == "false" and ( options[:password].nil? or options[:password].empty? )
+          #  raise "The catalog item #{options[:catalog_item_uri]} requires a :password to instantiate."
+          #end
           options
         end
         
-        def generate_instantiate_vapp_template_request(params ={})
-          options = make_options_with_uris(params = {})
-          
-          
+        def generate_instantiate_vapp_template_request(options ={})
           xml = Builder::XmlMarkup.new
           xml.InstantiateVAppTemplateParams(xmlns.merge!(:name => options[:vapp_name], :"xml:lang" => "en")) {
             xml.Description(options[:description])
             xml.InstantiationParams {
               if options[:network_uri]
-                # TODO - implement properly
                 xml.NetworkConfigSection {
                   xml.tag!("ovf:Info"){ "Configuration parameters for logical networks" }
-                  xml.NetworkConfig("networkName" => options[:network_name]) {
-                    # xml.NetworkAssociation( :href => options[:network_uri] )
+                   xml.NetworkConfig("networkName" => options[:network_name]) {
                       xml.Configuration {
-                        xml.ParentNetwork("name" => options[:network_name], "href" => options[:network_uri])
+                        xml.ParentNetwork("href" => options[:network_uri])
                         xml.FenceMode("bridged")
                     }
                   }
