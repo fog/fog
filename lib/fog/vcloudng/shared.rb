@@ -62,7 +62,7 @@ module Fog
             :host      => @host,
             :method    => 'POST',
             :parser    => Fog::Parsers::Vcloudng::Compute::GetOrganizations.new,
-            :path      => "/api/sessions"  # curl http://devlab.mdsol.com/api/versions | grep LoginUrl
+            :path      => "/api/sessions"  # curl http://example.com/api/versions | grep LoginUrl
           })
           response.headers['Set-Cookie']
         end
