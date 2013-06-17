@@ -1,3 +1,4 @@
+require 'shindo_helper'
 require 'fog/vcloud/models/compute/organizations'
 
 Shindo.tests("Vcloud::Compute | organizations", ['vcloud']) do

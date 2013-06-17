@@ -1,3 +1,4 @@
+require 'shindo_helper'
 Shindo.tests("Fog::Compute[:openstack] | server", ['openstack']) do
 
   tests('success') do

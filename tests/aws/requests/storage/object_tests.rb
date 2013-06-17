@@ -1,3 +1,4 @@
+require 'shindo_helper'
 Shindo.tests('AWS::Storage | object requests', ['aws']) do
   @directory = Fog::Storage[:aws].directories.create(:key => 'fogobjecttests-' + Time.now.to_i.to_s(32))
   @aws_owner = Fog::Storage[:aws].get_bucket_acl(@directory.key).body['Owner']

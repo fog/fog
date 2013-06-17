@@ -1,3 +1,4 @@
+require 'shindo_helper'
 Shindo.tests('Fog::Identity[:openstack] | tenant requests', ['openstack']) do
 
   @tenant_format = {

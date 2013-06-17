@@ -1,3 +1,4 @@
+require 'shindo_helper'
 Shindo.tests('InternetArchive::Storage | object requests', ['internet_archive']) do
   @directory = Fog::Storage[:internetarchive].directories.create(:key => 'fogobjecttests-' + Time.now.to_i.to_s(32))
   @ia_owner = Fog::Storage[:internetarchive].get_bucket_acl(@directory.key).body['Owner']

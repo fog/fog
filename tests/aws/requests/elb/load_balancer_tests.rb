@@ -1,3 +1,4 @@
+require 'shindo_helper'
 Shindo.tests('AWS::ELB | load_balancer_tests', ['aws', 'elb']) do
   @load_balancer_id = 'fog-test-elb'
   @key_name = 'fog-test'

@@ -1,3 +1,4 @@
+require 'shindo_helper'
 Shindo.tests('Fog::Compute[:bluebox] | product requests', ['bluebox']) do
 
   @product_format = {

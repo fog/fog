@@ -1,3 +1,4 @@
+require 'shindo_helper'
 Shindo.tests('RiakCS::Provisioning | provisioning requests', ['riakcs']) do
 
   current_timestamp = Time.now.to_i

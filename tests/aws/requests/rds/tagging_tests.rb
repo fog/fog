@@ -1,3 +1,4 @@
+require 'shindo_helper'
 Shindo.tests('AWS::RDS | tagging requests', ['aws', 'rds']) do
   @rds = Fog::AWS[:rds]
   @db_instance_id = "fog-test-#{rand(65536).to_s(16)}"

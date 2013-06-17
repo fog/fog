@@ -1,3 +1,4 @@
+require 'shindo_helper'
 Shindo.tests('AWS::DataPipeline | pipeline_tests', ['aws', 'data_pipeline']) do
   pending if Fog.mocking?
 

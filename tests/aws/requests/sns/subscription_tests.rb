@@ -1,3 +1,4 @@
+require 'shindo_helper'
 Shindo.tests('AWS::SES | topic lifecycle tests', ['aws', 'sns']) do
 
   unless Fog.mocking?

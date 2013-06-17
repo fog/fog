@@ -1,3 +1,4 @@
+require 'shindo_helper'
 Shindo.tests('Fog::Compute[:bluebox] | location requests', ['bluebox']) do
   
   @location_format = {

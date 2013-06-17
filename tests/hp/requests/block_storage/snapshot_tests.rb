@@ -1,3 +1,4 @@
+require 'shindo_helper'
 Shindo.tests('HP::BlockStorage | snapshot requests', ['hp', 'block_storage', 'snapshots']) do
 
   @snapshot_format = {

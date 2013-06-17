@@ -1,3 +1,4 @@
+require 'shindo_helper'
 Shindo.tests('AWS::Glacier | glacier tree hash calcuation', ['aws']) do
 
   tests('tree_hash(single part < 1MB)') do

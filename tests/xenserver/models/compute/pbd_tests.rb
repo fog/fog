@@ -1,3 +1,4 @@
+require 'shindo_helper'
 Shindo.tests('Fog::Compute[:xenserver] | PBD model', ['xenserver']) do
 
   pbds = Fog::Compute[:xenserver].pbds

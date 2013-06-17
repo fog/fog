@@ -1,3 +1,4 @@
+require 'shindo_helper'
 Shindo.tests('Fog::DNS[:dreamhost] | create_record request', ['dreamhost', 'dns']) do
 
   tests("success") do

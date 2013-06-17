@@ -1,3 +1,4 @@
+require 'shindo_helper'
 Shindo.tests('Fog::Compute[:digitalocean] | list_images request', ['digitalocean', 'compute']) do
 
   # {"id"=>1601, "name"=>"CentOS 5.8 x64", "distribution"=>"CentOS"}

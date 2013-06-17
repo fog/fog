@@ -1,3 +1,4 @@
+require 'shindo_helper'
 Shindo.tests('Fog::Compute[:xenserver] | VBDs collection', ['xenserver']) do
 
   conn = Fog::Compute[:xenserver]

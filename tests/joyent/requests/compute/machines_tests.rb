@@ -1,3 +1,4 @@
+require 'shindo_helper'
 Shindo.tests("Fog::Compute[:joyent] | machine requests", ["joyent"]) do
 
   @machine_format = {

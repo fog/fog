@@ -1,3 +1,4 @@
+require 'shindo_helper'
 Shindo.tests('AWS::IAM | group requests', ['aws']) do
 
   tests('success') do

@@ -1,3 +1,4 @@
+require 'shindo_helper'
 Shindo.tests('AWS::Elasticache | cache clusters', ['aws', 'elasticache']) do
   cluster_params = {
     :id               => "fog-test-cluster-#{rand(999).to_s}",

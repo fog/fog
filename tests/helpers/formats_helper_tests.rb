@@ -1,3 +1,4 @@
+require 'shindo_helper'
 Shindo.tests('test_helper', 'meta') do
 
   tests('comparing welcome data against schema') do

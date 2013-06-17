@@ -1,3 +1,4 @@
+require 'shindo_helper'
 Shindo.tests('Fog::Compute[:serverlove] | drive requests', ['serverlove']) do
 
   @image_format = {

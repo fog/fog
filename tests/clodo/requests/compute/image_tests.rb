@@ -1,3 +1,4 @@
+require 'shindo_helper'
 Shindo.tests('Fog::Compute[:clodo] | image requests', ['clodo']) do
 
 ###  Fog.mock!

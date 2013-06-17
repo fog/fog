@@ -1,3 +1,4 @@
+require 'shindo_helper'
 Shindo.tests("Fog::Compute[:openvz] | server model", ['openvz', 'compute']) do
 
   server  = openvz_fog_test_server

@@ -1,3 +1,4 @@
+require 'shindo_helper'
 Shindo.tests("Storage[:aws] | files", ["aws"]) do
 
   file_attributes = {

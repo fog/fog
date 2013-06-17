@@ -1,3 +1,4 @@
+require 'shindo_helper'
 Shindo.tests('Fog::Compute[:aws] | address requests', ['aws']) do
 
   @addresses_format = {

@@ -1,3 +1,4 @@
+require 'shindo_helper'
 Shindo.tests('Fog::Compute[:glesys] | server requests', ['glesys']) do
 
     @serverid = nil

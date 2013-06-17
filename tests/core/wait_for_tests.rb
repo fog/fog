@@ -1,3 +1,4 @@
+require 'shindo_helper'
 Shindo.tests('Fog#wait_for', 'core') do
   tests("success") do
     tests('Fog#wait_for').formats(:duration => Integer) do

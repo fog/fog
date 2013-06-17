@@ -1,3 +1,4 @@
+require 'shindo_helper'
 Shindo.tests('Fog::Compute[:aws] | spot price history requests', ['aws']) do
 
   @spot_price_history_format = {

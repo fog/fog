@@ -1,3 +1,4 @@
+require 'shindo_helper'
 Shindo.tests("Fog::Identity[:openstack] | tenant", ['openstack']) do
   tests('success') do
     tests('#roles_for(0)').succeeds do

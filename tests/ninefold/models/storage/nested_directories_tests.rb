@@ -1,3 +1,4 @@
+require 'shindo_helper'
 Shindo.tests("Storage[:ninefold] | nested directories", ['ninefold']) do
   ninefold = Fog::Storage[:ninefold]
   tests("create a directory with a / character").succeeds do

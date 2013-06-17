@@ -1,3 +1,4 @@
+require 'shindo_helper'
 Shindo.tests('AWS::CloudWatch | metric requests', ['aws', 'cloudwatch']) do
   tests('success') do
 

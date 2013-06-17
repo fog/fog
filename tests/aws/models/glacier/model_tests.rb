@@ -1,3 +1,4 @@
+require 'shindo_helper'
 Shindo.tests('AWS::Glacier | models', ['aws', 'glacier']) do
   pending if Fog.mocking?
   tests('success') do

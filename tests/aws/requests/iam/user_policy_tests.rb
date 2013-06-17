@@ -1,3 +1,4 @@
+require 'shindo_helper'
 Shindo.tests('AWS::IAM | user policy requests', ['aws']) do
 
   Fog::AWS[:iam].create_user('fog_user_policy_tests')

@@ -1,3 +1,4 @@
+require 'shindo_helper'
 Shindo.tests('Fog::Compute[:ibm] | address requests', ['ibm']) do
 
   @address_format = {

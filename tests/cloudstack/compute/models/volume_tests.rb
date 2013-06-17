@@ -1,3 +1,4 @@
+require 'shindo_helper'
 def volume_tests(connection, params, mocks_implemented = true)
   model_tests(connection.volumes, params[:volume_attributes], mocks_implemented) do
     if !Fog.mocking? || mocks_implemented

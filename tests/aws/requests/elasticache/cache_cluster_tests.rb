@@ -1,3 +1,4 @@
+require 'shindo_helper'
 Shindo.tests('AWS::Elasticache | cache cluster requests', ['aws', 'elasticache']) do
 
   tests('success') do

@@ -1,3 +1,4 @@
+require 'shindo_helper'
 Shindo.tests('Fog::Compute[:xenserver] | HostCpu model', ['xenserver']) do
 
   host = Fog::Compute[:xenserver].hosts.first

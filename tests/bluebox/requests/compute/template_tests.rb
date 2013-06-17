@@ -1,3 +1,4 @@
+require 'shindo_helper'
 Shindo.tests('Fog::Compute[:bluebox] | template requests', ['bluebox']) do
 
   @template_format = {

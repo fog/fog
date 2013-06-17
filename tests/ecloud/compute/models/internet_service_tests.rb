@@ -1,3 +1,4 @@
+require 'shindo_helper'
 provider, config = :ecloud, compute_providers[:ecloud]
 
 Shindo.tests("Fog::Compute[:#{provider}] | internet_services", [provider.to_s, "queries"]) do

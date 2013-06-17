@@ -1,3 +1,4 @@
+require 'shindo_helper'
 Shindo.tests('Fog::Identity[:openstack] | role requests', ['openstack']) do
   @role_format = {
     'id'   => String,

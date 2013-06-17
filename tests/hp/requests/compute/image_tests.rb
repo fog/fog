@@ -1,3 +1,4 @@
+require 'shindo_helper'
 Shindo.tests("Fog::Compute[:hp] | image requests", ['hp']) do
 
   @image_format = {

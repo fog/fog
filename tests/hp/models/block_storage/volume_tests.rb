@@ -1,3 +1,4 @@
+require 'shindo_helper'
 Shindo.tests("HP::BlockStorage | volumes", ['hp', 'block_storage', 'volumes']) do
 
   model_tests(HP[:block_storage].volumes, {:name => "fogvoltests", :description => "fogvoltests-desc", :size => 1}, true)

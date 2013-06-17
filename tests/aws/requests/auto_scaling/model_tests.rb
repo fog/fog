@@ -1,3 +1,4 @@
+require 'shindo_helper'
 Shindo.tests('AWS::AutoScaling | model_tests', ['aws', 'auto_scaling']) do
 
   tests('success') do

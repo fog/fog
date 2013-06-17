@@ -1,3 +1,4 @@
+require 'shindo_helper'
 Shindo.tests('Fog::Compute[:vsphere] | vm_reconfig_cpus request', ['vsphere']) do
 
   compute = Fog::Compute[:vsphere]

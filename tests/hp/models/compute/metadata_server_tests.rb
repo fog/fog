@@ -1,3 +1,4 @@
+require 'shindo_helper'
 Shindo.tests("Fog::Compute[:hp] | metadata for servers", ['hp']) do
 
   @base_image_id = ENV["BASE_IMAGE_ID"] || 1242

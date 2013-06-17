@@ -1,3 +1,4 @@
+require 'shindo_helper'
 Shindo.tests('Fog::Network[:openstack] | lb_vip requests', ['openstack']) do
 
   @lb_vip_format = {

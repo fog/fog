@@ -1,3 +1,4 @@
+require 'shindo_helper'
 Shindo.tests("Fog::Network[:openstack] | lb_health_monitors", ['openstack']) do
   @lb_health_monitor = Fog::Network[:openstack].lb_health_monitors.create(:type => 'PING',
                                                                           :delay => 1,

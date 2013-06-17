@@ -1,3 +1,4 @@
+require 'shindo_helper'
 Shindo.tests('Fog::Compute[:openvz] | servers collection', ['openvz']) do
 
   openvz_service =  Fog::Compute[:openvz]

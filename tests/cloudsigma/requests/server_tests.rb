@@ -1,3 +1,4 @@
+require 'shindo_helper'
 Shindo.tests('Fog::Compute[:cloudsigma] | server requests', ['cloudsigma']) do
 
   @server_format = {

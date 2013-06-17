@@ -1,3 +1,4 @@
+require 'shindo_helper'
 Shindo.tests("Fog::Compute[:hp] | flavor requests", ['hp']) do
 
   @flavor_format = {

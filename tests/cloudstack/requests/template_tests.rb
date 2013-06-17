@@ -1,3 +1,4 @@
+require 'shindo_helper'
 Shindo.tests('Fog::Compute[:cloudstack] | template requests', ['cloudstack']) do
 
   @templates_format = {

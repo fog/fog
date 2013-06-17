@@ -1,3 +1,4 @@
+require 'shindo_helper'
 Shindo.tests('Fog::Schema::DataValidator', 'meta') do
 
   validator = Fog::Schema::DataValidator.new

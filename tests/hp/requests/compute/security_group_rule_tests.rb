@@ -1,3 +1,4 @@
+require 'shindo_helper'
 Shindo.tests("Fog::Compute[:hp] | security group requests", ['hp']) do
 
   @security_group_rule_format = {

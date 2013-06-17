@@ -1,3 +1,4 @@
+require 'shindo_helper'
 Shindo.tests("Fog::DNS[:dreamhost] | zone", ['dreamhost', 'dns']) do
 
   service = Fog::DNS[:dreamhost]

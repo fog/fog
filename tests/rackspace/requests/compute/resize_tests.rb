@@ -1,3 +1,4 @@
+require 'shindo_helper'
 Shindo.tests('Fog::Compute[:rackspace] | resize request', ['rackspace']) do
 
     @service = Fog::Compute.new(:provider => :rackspace, :version => :v1)

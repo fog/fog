@@ -1,3 +1,4 @@
+require 'shindo_helper'
 class FogAttributeTestModel < Fog::Model
   attribute :key, :aliases => 'keys', :squash => "id"
   attribute :time, :type => :time

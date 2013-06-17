@@ -1,3 +1,4 @@
+require 'shindo_helper'
 Shindo.tests("Fog::Compute[:joyent] | key requests", ['joyent']) do
 
   @key_format = {

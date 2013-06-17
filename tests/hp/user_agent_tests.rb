@@ -1,3 +1,4 @@
+require 'shindo_helper'
 Shindo.tests('Fog::Compute[:hp] | user agent', ['hp', 'user_agent']) do
   tests('default for HP providers').returns("hpfog/#{Fog::HP::VERSION}") do
     pending if Fog.mocking?

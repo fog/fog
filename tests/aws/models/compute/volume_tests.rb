@@ -1,3 +1,4 @@
+require 'shindo_helper'
 Shindo.tests("Fog::Compute[:aws] | volume", ['aws']) do
 
   @server = Fog::Compute[:aws].servers.create

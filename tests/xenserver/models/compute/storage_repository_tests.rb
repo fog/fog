@@ -1,3 +1,4 @@
+require 'shindo_helper'
 Shindo.tests('Fog::Compute[:xenserver] | StorageRepository model', ['xenserver']) do
 
   storage_repositories = Fog::Compute[:xenserver].storage_repositories

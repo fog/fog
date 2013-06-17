@@ -1,3 +1,4 @@
+require 'shindo_helper'
 Shindo.tests('Fog::Compute[:aws] | tag requests', ['aws']) do
   @tags_format = {
     'tagSet'    => [{

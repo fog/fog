@@ -1,3 +1,4 @@
+require 'shindo_helper'
 Shindo.tests('Fog::Compute[:ibm] | image', ['ibm']) do
 
   @image_id = '20010001'

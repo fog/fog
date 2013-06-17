@@ -1,3 +1,4 @@
+require 'shindo_helper'
 Shindo.tests("Fog::Compute[:joyent] | package requests", ["joyent"]) do
   @package_format = {
     'name' => String,

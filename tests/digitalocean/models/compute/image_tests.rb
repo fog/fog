@@ -1,3 +1,4 @@
+require 'shindo_helper'
 Shindo.tests("Fog::Compute[:digitalocean] | image model", ['digitalocean', 'compute']) do
 
   service = Fog::Compute[:digitalocean]

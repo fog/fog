@@ -1,3 +1,4 @@
+require 'shindo_helper'
 Shindo.tests("Fog::Compute[:digitalocean] | server model", ['digitalocean', 'compute']) do
 
   server  = fog_test_server

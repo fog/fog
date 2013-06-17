@@ -1,3 +1,4 @@
+require 'shindo_helper'
 Shindo.tests('Fog::Compute[:libvirt] | volume model', ['libvirt']) do
 
   volume = Fog::Compute[:libvirt].servers.all.select{|v| v.name !~ /^fog/}.first.volumes.first

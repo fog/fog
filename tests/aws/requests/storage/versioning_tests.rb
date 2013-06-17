@@ -1,3 +1,4 @@
+require 'shindo_helper'
 def clear_bucket
   Fog::Storage[:aws].get_bucket_object_versions(@aws_bucket_name).body['Versions'].each do |version|
     object = version[version.keys.first]

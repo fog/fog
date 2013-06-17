@@ -1,3 +1,4 @@
+require 'shindo_helper'
 Shindo.tests('Fog::AWS[:dynamodb] | item requests', ['aws']) do
 
   @table_name = "fog_table_#{Time.now.to_f.to_s.gsub('.','')}"

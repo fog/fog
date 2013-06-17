@@ -1,3 +1,4 @@
+require 'shindo_helper'
 Shindo.tests('Fog::Compute[:rackspace] | server requests', ['rackspace']) do
 
   @server_format = {

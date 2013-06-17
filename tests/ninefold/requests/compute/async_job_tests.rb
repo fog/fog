@@ -1,3 +1,4 @@
+require 'shindo_helper'
 # This will fail until there are jobs in the system.
 
 Shindo.tests('Fog::Compute[:ninefold] | async job requests', ['ninefold']) do

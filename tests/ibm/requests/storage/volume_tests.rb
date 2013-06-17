@@ -1,3 +1,4 @@
+require 'shindo_helper'
 Shindo.tests('Fog::Storage[:ibm] | volume requests', ['ibm']) do
 
   @volume_format = {

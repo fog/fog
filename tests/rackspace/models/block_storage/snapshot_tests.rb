@@ -1,3 +1,4 @@
+require 'shindo_helper'
 Shindo.tests('Fog::Rackspace::BlockStorage | snapshot', ['rackspace']) do
   service = Fog::Rackspace::BlockStorage.new
 

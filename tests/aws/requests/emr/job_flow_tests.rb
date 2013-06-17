@@ -1,3 +1,4 @@
+require 'shindo_helper'
 Shindo.tests('AWS::EMR | job flows', ['aws', 'emr']) do
 
   pending if Fog.mocking?

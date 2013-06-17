@@ -1,3 +1,4 @@
+require 'shindo_helper'
 Shindo.tests('AWS::IAM | user requests', ['aws']) do
 
   unless Fog.mocking?

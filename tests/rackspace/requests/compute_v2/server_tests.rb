@@ -1,3 +1,4 @@
+require 'shindo_helper'
 Shindo.tests('Fog::Compute::RackspaceV2 | server_tests', ['rackspace']) do
   service   = Fog::Compute.new(:provider => 'Rackspace', :version => 'V2')
   image_id  = Fog.credentials[:rackspace_image_id]

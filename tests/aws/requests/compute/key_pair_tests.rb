@@ -1,3 +1,4 @@
+require 'shindo_helper'
 Shindo.tests('Fog::Compute[:aws] | key pair requests', ['aws']) do
 
   tests('success') do

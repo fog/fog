@@ -1,3 +1,4 @@
+require 'shindo_helper'
 Shindo.tests('Fog::Compute[:xenserver] | create_vdi request', ['xenserver']) do
 
   compute = Fog::Compute[:xenserver]

@@ -1,3 +1,4 @@
+require 'shindo_helper'
 
 Shindo.tests('Fog::Compute[:xenserver] | server model', ['xenserver']) do
 

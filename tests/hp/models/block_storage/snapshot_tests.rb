@@ -1,3 +1,4 @@
+require 'shindo_helper'
 Shindo.tests("HP::BlockStorage | snapshots", ['hp', 'block_storage', 'snapshots']) do
 
   @volume = HP[:block_storage].volumes.create(:name => "testsnapvol", :size => 1)
