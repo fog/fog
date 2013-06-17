@@ -1,5 +1,5 @@
-require 'shindo_helper'
 # encoding: utf-8
+require 'shindo_helper'
 
 Shindo.tests('AWS | url', ["aws"]) do
 

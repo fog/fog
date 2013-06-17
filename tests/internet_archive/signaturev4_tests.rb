@@ -1,5 +1,5 @@
-require 'shindo_helper'
 # encoding: utf-8
+require 'shindo_helper'
 
 Shindo.tests('InternetArchive | signaturev4', ['internet_archive']) do
 
