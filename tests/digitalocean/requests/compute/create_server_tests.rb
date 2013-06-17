@@ -1,3 +1,4 @@
+require 'shindo_helper'
 Shindo.tests('Fog::Compute[:digitalocean] | create_server request', ['digitalocean', 'compute']) do
 
   @server_format = {

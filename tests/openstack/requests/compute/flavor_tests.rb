@@ -1,3 +1,4 @@
+require 'shindo_helper'
 Shindo.tests('Fog::Compute[:openstack] | flavor requests', ['openstack']) do
 
   @flavor_format = {

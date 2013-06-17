@@ -1,3 +1,4 @@
+require 'shindo_helper'
 Shindo.tests('Fog::DNS[:rackspace] | dns records requests', ['rackspace', 'dns']) do
 
   pending if Fog.mocking?

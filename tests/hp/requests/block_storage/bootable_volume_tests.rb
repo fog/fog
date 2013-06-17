@@ -1,3 +1,4 @@
+require 'shindo_helper'
 Shindo.tests("HP::BlockStorage | bootable volume requests", ['hp', 'block_storage', 'volumes']) do
 
   @volume_format = {

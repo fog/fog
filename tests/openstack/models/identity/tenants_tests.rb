@@ -1,3 +1,4 @@
+require 'shindo_helper'
 Shindo.tests("Fog::Compute[:openstack] | tenants", ['openstack']) do
   @instance = Fog::Identity[:openstack].tenants.create(:name => 'test')
 

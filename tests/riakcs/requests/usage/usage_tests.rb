@@ -1,3 +1,4 @@
+require 'shindo_helper'
 Shindo.tests('RiakCS::Usage | usage requests', ['riakcs']) do
 
   @blank_usage_format = {

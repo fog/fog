@@ -1,3 +1,4 @@
+require 'shindo_helper'
 Shindo.tests('Fog::Storage[:rackspace] | account requests', ["rackspace"]) do
 
   tests('success') do

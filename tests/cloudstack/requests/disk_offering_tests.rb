@@ -1,3 +1,4 @@
+require 'shindo_helper'
 Shindo.tests('Fog::Compute[:cloudstack] | disk offering requests', ['cloudstack']) do
 
   @disk_offerings_format = {

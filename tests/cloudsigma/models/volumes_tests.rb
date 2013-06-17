@@ -1,3 +1,4 @@
+require 'shindo_helper'
 Shindo.tests('Fog::Compute[:cloudsigma] | volumes collection', ['cloudsigma']) do
   volumes = Fog::Compute[:cloudsigma].volumes
   volume_create_args = {:name => 'fogtest', :size => 1024**3, :media => :cdrom}

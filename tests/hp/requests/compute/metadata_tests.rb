@@ -1,3 +1,4 @@
+require 'shindo_helper'
 Shindo.tests("Fog::Compute[:hp] | metadata requests", ['hp']) do
 
   @metadata_format = {

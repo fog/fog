@@ -1,3 +1,4 @@
+require 'shindo_helper'
 Shindo.tests('Fog::Compute[:libvirt] | servers collection', ['libvirt']) do
 
   servers = Fog::Compute[:libvirt].servers

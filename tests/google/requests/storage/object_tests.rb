@@ -1,3 +1,4 @@
+require 'shindo_helper'
 Shindo.tests('Fog::Storage[:google] | object requests', ["google"]) do
 
   @directory = Fog::Storage[:google].directories.create(:key => 'fogobjecttests')

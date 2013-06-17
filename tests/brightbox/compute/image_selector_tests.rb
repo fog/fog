@@ -1,3 +1,4 @@
+require 'shindo_helper'
 Shindo.tests("Fog::Brightbox::Compute::ImageSelector.new", ["brightbox"]) do
 
   sample_images = [

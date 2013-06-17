@@ -1,3 +1,4 @@
+require 'shindo_helper'
 Shindo.tests('Fog::Network[:openstack] | lb_health_monitor requests', ['openstack']) do
 
   @lb_health_monitor_format = {

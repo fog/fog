@@ -1,3 +1,4 @@
+require 'shindo_helper'
 def security_group_rule_tests(connection, params, direction, mocks_implemented = true)
   @security_group = connection.security_groups.create(params[:security_group_attributes])
 

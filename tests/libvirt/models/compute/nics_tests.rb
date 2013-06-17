@@ -1,3 +1,4 @@
+require 'shindo_helper'
 Shindo.tests('Fog::Compute[:libvirt] | nics collection', ['libvirt']) do
 
   nics = Fog::Compute[:libvirt].servers.first.nics

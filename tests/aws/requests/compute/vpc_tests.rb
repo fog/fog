@@ -1,3 +1,4 @@
+require 'shindo_helper'
 Shindo.tests('Fog::Compute[:aws] | vpc requests', ['aws']) do
 
   @vpcs_format = {

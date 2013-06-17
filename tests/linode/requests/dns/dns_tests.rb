@@ -1,3 +1,4 @@
+require 'shindo_helper'
 Shindo.tests('Fog::DNS[:linode] | DNS requests', ['linode', 'dns']) do
 
   @domain = ''

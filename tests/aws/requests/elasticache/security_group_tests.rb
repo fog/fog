@@ -1,3 +1,4 @@
+require 'shindo_helper'
 Shindo.tests('AWS::Elasticache | security group requests', ['aws', 'elasticache']) do
 
   tests('success') do

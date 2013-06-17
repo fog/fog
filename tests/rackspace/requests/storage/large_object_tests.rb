@@ -1,3 +1,4 @@
+require 'shindo_helper'
 Shindo.tests('Fog::Storage[:rackspace] | large object requests', ["rackspace"]) do
 
   unless Fog.mocking?

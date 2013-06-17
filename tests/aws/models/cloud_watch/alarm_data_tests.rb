@@ -1,3 +1,4 @@
+require 'shindo_helper'
 Shindo.tests("AWS::CloudWatch | alarm_data", ['aws', 'cloudwatch']) do
 
   pending if Fog.mocking?

@@ -1,3 +1,4 @@
+require 'shindo_helper'
 Shindo.tests('Fog::Compute[:ovirt] | interfaces collection', ['ovirt']) do
 
   interfaces = Fog::Compute[:ovirt].interfaces

@@ -1,3 +1,4 @@
+require 'shindo_helper'
 Shindo.tests('Fog::Compute[:stormondemand] | server requests', ['stormondemand']) do
 
   @server_format = {

@@ -1,3 +1,4 @@
+require 'shindo_helper'
 Shindo.tests("Fog::Network[:openstack] | port", ['openstack']) do
 
   tests('success') do

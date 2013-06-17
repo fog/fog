@@ -1,3 +1,4 @@
+require 'shindo_helper'
 Shindo.tests("Fog::Compute[:hp] | volume requests", ['hp', 'compute', 'volumes']) do
 
   @list_volume_attachments_format = {

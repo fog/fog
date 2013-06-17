@@ -1,3 +1,4 @@
+require 'shindo_helper'
 provider, config = :cloudstack, compute_providers[:cloudstack]
 
 Shindo.tests("Fog::Compute[:#{provider}] | servers + security_groups", [provider.to_s]) do

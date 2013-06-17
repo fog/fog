@@ -1,3 +1,4 @@
+require 'shindo_helper'
 def volumes_tests(connection, params = {}, mocks_implemented = true)
 
   collection_tests(connection.volumes, params, mocks_implemented) do

@@ -1,3 +1,4 @@
+require 'shindo_helper'
 Shindo.tests("Fog::Compute[:brightbox] | Account model", ["brightbox"]) do
 
   pending if Fog.mocking?

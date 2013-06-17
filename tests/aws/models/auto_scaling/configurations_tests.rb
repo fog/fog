@@ -1,3 +1,4 @@
+require 'shindo_helper'
 Shindo.tests('AWS::AutoScaling | configurations', ['aws', 'auto_scaling_m']) do
 
   params = {

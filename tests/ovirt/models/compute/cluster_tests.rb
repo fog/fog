@@ -1,3 +1,4 @@
+require 'shindo_helper'
 Shindo.tests('Fog::Compute[:ovirt] | cluster model', ['ovirt']) do
 
   clusters = Fog::Compute[:ovirt].clusters

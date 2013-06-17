@@ -1,3 +1,4 @@
+require 'shindo_helper'
 Shindo.tests("Fog::Compute[:hp] | address", ['hp']) do
 
   @base_image_id = ENV["BASE_IMAGE_ID"] || 1242

@@ -1,3 +1,4 @@
+require 'shindo_helper'
 Shindo.tests("Storage[:internet_archive] | files", ["internet_archive"]) do
 
   file_attributes = {

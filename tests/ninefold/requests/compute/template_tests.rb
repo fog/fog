@@ -1,3 +1,4 @@
+require 'shindo_helper'
 Shindo.tests('Fog::Compute[:ninefold] | template requests', ['ninefold']) do
 
   tests('success') do

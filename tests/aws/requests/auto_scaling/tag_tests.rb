@@ -1,3 +1,4 @@
+require 'shindo_helper'
 Shindo.tests('AWS::AutoScaling | tag requests', ['aws', 'auto_scaling']) do
 
   image_id = {  # Ubuntu 12.04 LTS 64-bit EBS

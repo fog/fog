@@ -1,3 +1,4 @@
+require 'shindo_helper'
 Shindo.tests('Fog::Connection', 'core') do
   tests('user_agent').returns("fog/#{Fog::VERSION}") do
     conn = Fog::Connection.new("http://www.testserviceurl.com", false, {})

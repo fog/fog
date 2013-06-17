@@ -1,3 +1,4 @@
+require 'shindo_helper'
 Shindo.tests('Fog::Compute[:ninefold] | list only requests', ['ninefold']) do
 
   tests('success') do

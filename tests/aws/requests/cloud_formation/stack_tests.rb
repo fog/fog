@@ -1,3 +1,4 @@
+require 'shindo_helper'
 Shindo.tests('AWS::CloudFormation | stack requests', ['aws', 'cloudformation']) do
 
   @validate_template_format = {

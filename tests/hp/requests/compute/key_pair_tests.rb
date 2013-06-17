@@ -1,3 +1,4 @@
+require 'shindo_helper'
 Shindo.tests("Fog::Compute[:hp] | key pair requests", ['hp']) do
 
   tests('success') do

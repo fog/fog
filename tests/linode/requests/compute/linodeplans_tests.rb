@@ -1,3 +1,4 @@
+require 'shindo_helper'
 Shindo.tests('Fog::Compute[:linode] | linodeplans requests', ['linode']) do
 
   @linodeplans_format = Linode::Compute::Formats::BASIC.merge({

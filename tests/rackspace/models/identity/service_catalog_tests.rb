@@ -1,3 +1,4 @@
+require 'shindo_helper'
 require 'fog/rackspace/models/identity/service_catalog'
 
 Shindo.tests('Fog::Rackspace::ServiceCatalog | users', ['rackspace']) do

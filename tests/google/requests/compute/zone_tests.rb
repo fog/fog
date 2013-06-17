@@ -1,3 +1,4 @@
+require 'shindo_helper'
 Shindo.tests('Fog::Compute[:google] | zone requests', ['google']) do
 
   @google = Fog::Compute[:google]

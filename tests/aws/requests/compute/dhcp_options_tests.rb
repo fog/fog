@@ -1,3 +1,4 @@
+require 'shindo_helper'
 Shindo.tests('Fog::Compute[:aws] | dhcp_options requests', ['aws']) do
 
   @dhcp_options_format = {

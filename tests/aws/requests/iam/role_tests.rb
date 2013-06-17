@@ -1,3 +1,4 @@
+require 'shindo_helper'
 Shindo.tests('AWS::IAM | role requests', ['aws']) do
   tests('success') do
 

@@ -1,3 +1,4 @@
+require 'shindo_helper'
 Shindo.tests('Dynect::dns | DNS requests', ['dynect', 'dns']) do
 
   shared_format = {

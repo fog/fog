@@ -1,3 +1,4 @@
+require 'shindo_helper'
 Shindo.tests('Fog::Compute[:aws] | spot instance requests', ['aws']) do
 
   @spot_instance_requests_format = {

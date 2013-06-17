@@ -1,3 +1,4 @@
+require 'shindo_helper'
 provider, config = :ecloud, compute_providers[:ecloud]
 
 Shindo.tests("Fog::Compute[:#{provider}] | templates", [provider.to_s]) do

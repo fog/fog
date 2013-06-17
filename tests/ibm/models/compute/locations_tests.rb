@@ -1,3 +1,4 @@
+require 'shindo_helper'
 Shindo.tests('Fog::Compute[:ibm] | locations', ['ibm']) do
 
   tests('success') do

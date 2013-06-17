@@ -1,3 +1,4 @@
+require 'shindo_helper'
 Shindo.tests("Fog::Compute[:hp] | server requests", ['hp']) do
 
   @server_format = {

@@ -1,3 +1,4 @@
+require 'shindo_helper'
 Shindo.tests('Fog::Compute[:ibm] | location requests', ['ibm']) do
 
   @location_format  = {

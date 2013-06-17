@@ -1,3 +1,4 @@
+require 'shindo_helper'
 Shindo.tests('Fog::Identity[:openstack] | EC2 credential requests', ['openstack']) do
 
   @credential_format = {

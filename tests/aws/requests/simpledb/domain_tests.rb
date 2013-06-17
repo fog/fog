@@ -1,3 +1,4 @@
+require 'shindo_helper'
 Shindo.tests('AWS::SimpleDB | domain requests', ['aws']) do
 
   @domain_metadata_format = AWS::SimpleDB::Formats::BASIC.merge({

@@ -1,3 +1,4 @@
+require 'shindo_helper'
 Shindo.tests('Fog::Compute[:openstack] | address requests', ['openstack']) do
 
   compute = Fog::Compute[:openstack]

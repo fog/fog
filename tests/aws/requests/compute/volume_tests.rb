@@ -1,3 +1,4 @@
+require 'shindo_helper'
 Shindo.tests('Fog::Compute[:aws] | volume requests', ['aws']) do
 
   @volume_format = {

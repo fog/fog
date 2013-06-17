@@ -1,3 +1,4 @@
+require 'shindo_helper'
 require 'fog/openstack'
 
 Shindo.tests('Fog::Compute[:openstack] | volume requests', ['openstack']) do

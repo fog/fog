@@ -1,3 +1,4 @@
+require 'shindo_helper'
 Shindo.tests('Fog::Compute[:libvirt] | interfaces collection', ['libvirt']) do
 
   interfaces = Fog::Compute[:libvirt].interfaces

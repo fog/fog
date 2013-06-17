@@ -1,3 +1,4 @@
+require 'shindo_helper'
 Shindo.tests("Vcloud::Compute | organization", ['vcloud']) do
 
   Fog::Vcloud::Compute::SUPPORTED_VERSIONS.each do |version|

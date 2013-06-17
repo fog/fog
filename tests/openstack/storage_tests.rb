@@ -1,3 +1,4 @@
+require 'shindo_helper'
 Shindo.tests('Fog::Storage[:openstack]', ['openstack', 'storage']) do
 
   storage = Fog::Storage[:openstack]

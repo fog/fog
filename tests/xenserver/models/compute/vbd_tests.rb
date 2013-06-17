@@ -1,3 +1,4 @@
+require 'shindo_helper'
 Shindo.tests('Fog::Compute[:xenserver] | VBD model', ['xenserver']) do
 
   vbds = Fog::Compute[:xenserver].vbds

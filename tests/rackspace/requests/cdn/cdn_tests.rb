@@ -1,3 +1,4 @@
+require 'shindo_helper'
 Shindo.tests('Fog::CDN[:rackspace] | CDN requests', ['rackspace']) do
 
   @container_format = [String]

@@ -1,3 +1,4 @@
+require 'shindo_helper'
 Shindo.tests('Fog::Compute[:openstack] | security group requests', ['openstack']) do
   @security_group = Hash.new
   @security_group_rule = Hash.new

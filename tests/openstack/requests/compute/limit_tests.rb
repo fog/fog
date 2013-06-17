@@ -1,3 +1,4 @@
+require 'shindo_helper'
 Shindo.tests('Fog::Compute[:openstack] | limits requests', ['openstack']) do
   @rate_limit_format = {
     'regex' => String,

@@ -1,3 +1,4 @@
+require 'shindo_helper'
 Shindo.tests('Fog::Compute[:network] | network model', ['xenserver']) do
 
   networks = Fog::Compute[:xenserver].networks

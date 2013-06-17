@@ -1,3 +1,4 @@
+require 'shindo_helper'
 Shindo.tests('Fog::Compute[:brightbox] | user requests', ['brightbox']) do
 
   tests('success') do

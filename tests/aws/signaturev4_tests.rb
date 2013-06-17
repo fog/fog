@@ -1,3 +1,4 @@
+require 'shindo_helper'
 # encoding: utf-8
 
 Shindo.tests('AWS | signaturev4', ['aws']) do

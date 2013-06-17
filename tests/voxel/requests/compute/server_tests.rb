@@ -1,3 +1,4 @@
+require 'shindo_helper'
 Shindo.tests('Fog::Compute[:voxel] | server requests', ['voxel']) do
 
   @server_format = {

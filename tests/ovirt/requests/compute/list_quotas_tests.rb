@@ -1,3 +1,4 @@
+require 'shindo_helper'
 Shindo.tests('Fog::Compute[:ovirt] | quotas request', ['ovirt']) do
 
   compute = Fog::Compute[:ovirt]

@@ -1,3 +1,4 @@
+require 'shindo_helper'
 Shindo.tests("Fog::Compute[:hp] | address requests", ['hp', 'address']) do
 
   @floating_ips_format = {

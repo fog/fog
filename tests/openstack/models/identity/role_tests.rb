@@ -1,3 +1,4 @@
+require 'shindo_helper'
 Shindo.tests("Fog::Identity[:openstack] | role", ['openstack']) do
   @instance = Fog::Identity[:openstack].roles.new({:name => 'Role Name', :user_id => 1, :role_id => 1})
   @tenant   = Fog::Identity[:openstack].tenants.create(:name => 'test_user')

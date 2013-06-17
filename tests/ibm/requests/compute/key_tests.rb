@@ -1,3 +1,4 @@
+require 'shindo_helper'
 Shindo.tests('Fog::Compute[:ibm] | key requests', ['ibm']) do
 
   @key_format  = {

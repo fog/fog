@@ -1,3 +1,4 @@
+require 'shindo_helper'
 Shindo.tests('Fog::Compute[:xenserver] | Pool model', ['xenserver']) do
 
   pools = Fog::Compute[:xenserver].pools

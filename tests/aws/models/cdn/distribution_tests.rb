@@ -1,3 +1,4 @@
+require 'shindo_helper'
 Shindo.tests("Fog::CDN[:aws] | distribution", ['aws', 'cdn']) do
   params = { :s3_origin => { 'DNSName' => 'fog_test_cdn.s3.amazonaws.com'}, :enabled => true }
   model_tests(Fog::CDN[:aws].distributions, params, true) do
