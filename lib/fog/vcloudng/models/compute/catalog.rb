@@ -4,7 +4,7 @@ module Fog
   module Compute
     class Vcloudng
 
-      class Organization < Fog::Model
+      class Catalog < Fog::Model
         
         identity  :id
                   
@@ -12,16 +12,10 @@ module Fog
         attribute :type
         attribute :href
         attribute :description, :aliases => 'Description'
-        attribute :links, :aliases => 'Links'
+        attribute :is_published, :aliases => 'IsPublished'
         
-        def vdc
+        def catalog_items
           
-        end
-        
-        def catalogs
-          requires :id
-
-          service.catalogs(:organization => self)
         end
         
       end

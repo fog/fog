@@ -36,6 +36,9 @@ module Fog
             when 'Catalog'
               catalog = extract_attributes(attributes)
               @response['name'] = catalog['name']
+              @response['type'] = catalog['type']
+              @response['href'] = catalog['href']
+              @response['id'] = catalog['href'].split('/').last
             when "Link"
               link = extract_attributes(attributes)
               @response["Links"] << link
