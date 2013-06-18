@@ -28,7 +28,7 @@ def openvz_fog_test_server_destroy
 end
 
 at_exit do
-  unless Fog.mocking?
+  unless Fog.mocking? || Fog.credentials[:openvz_connect_command].nil?
     server = openvz_service.servers.find { |s| s.name == '104' }
     if server
       server.wait_for(120) do
