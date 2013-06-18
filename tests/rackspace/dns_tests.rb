@@ -82,4 +82,15 @@ Shindo.tests('Fog::DNS::Rackspace', ['rackspace']) do
     end
   end
 
+  tests('array_to_query_string') do
+    pending if Fog.mocking?
+
+    @service = Fog::DNS::Rackspace.new
+    returns("") { @service.send(:array_to_query_string, nil) }
+    returns("param1=1") { @service.send(:array_to_query_string, {:param1 => [1]}) }
+    returns("param1=1") { @service.send(:array_to_query_string, {:param1 => 1}) }
+    returns("param1=1,2") { @service.send(:array_to_query_string, {:param1 => [1,2]}) }
+    returns("param1=1&param2=2") { @service.send(:array_to_query_string, {:param1 => [1], :param2 => [2]}) }
+  end
+
 end

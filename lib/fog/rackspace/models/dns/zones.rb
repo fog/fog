@@ -21,26 +21,17 @@ module Fog
         
         alias :each_zone_this_page :each
         def each
-          if !block_given?
-            self
-          else
-            body = service.list_domains.body
-            subset = dup.all
+          return self unless block_given?
 
-            subset.each_zone_this_page {|f| yield f}
-            if body.has_key?('links')
-              while !body['links'].select{|l| l['rel'] == 'next'}.empty?
-                url = body['links'].select{|l| l['rel'] == 'next'}.first['href']
-                query = url.match(/\?(.+)/)
-                parsed = CGI.parse($1)
-                
-                body = service.list_domains(:offset => parsed['offset'], :limit => parsed['limit']).body
-                subset = dup.all(:offset => parsed['offset'], :limit => parsed['limit'])
-                subset.each_zone_this_page {|f| yield f}
-              end
-            end
-            self
+          params = {} #prime loop
+          while params
+            body = service.list_domains(params).body
+            subset = dup.load(body["domains"])
+            params = next_params(body)
+
+            subset.each_zone_this_page {|zone| yield zone}
           end
+          self
         end
 
         def get(zone_id)
@@ -56,7 +47,23 @@ module Fog
         rescue Fog::Rackspace::Errors::ServiceUnavailable
           nil
         end
+
+        private
+        def next_params(body)
+          # return if we don't have any links
+          return nil unless body && body['links']
+
+          #return if links don't contain a href for the next page
+          next_link = body['links'].find {|h| h['rel'] == 'next'}
+          return nil unless next_link && next_link['href']
+
+          url = next_link['href']
+          uri = URI.parse url
+          return nil unless uri.query
+          CGI.parse uri.query
+        end
       end
+
     end
   end
 end
