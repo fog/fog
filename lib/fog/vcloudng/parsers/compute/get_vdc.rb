@@ -51,7 +51,9 @@ module Fog
             when 'Vdc'
               vdc = extract_attributes(attributes)
               @response['href'] = vdc['href']
+              @response['id'] = vdc['href'].split('/').last
               @response['name'] = vdc['name']
+              @response['type'] = vdc['type']
             end
           end
 
