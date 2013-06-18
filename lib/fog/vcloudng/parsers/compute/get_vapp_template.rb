@@ -75,8 +75,9 @@
 #
 #module Fog
 #  module Parsers
-#    module Vcloudng
-#      module Compute
+#    module Compute
+#      module Vcloudng
+#
 #
 #
 #        class GetVappTemplate < VcloudngParser
@@ -188,8 +189,9 @@
 
 module Fog
   module Parsers
-    module Vcloudng
-      module Compute
+    module Compute
+      module Vcloudng
+
 
 
         class GetVappTemplate < VcloudngParser

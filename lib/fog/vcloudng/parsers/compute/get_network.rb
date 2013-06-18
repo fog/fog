@@ -26,8 +26,9 @@
 
 module Fog
   module Parsers
-    module Vcloudng
-      module Compute
+    module Compute
+      module Vcloudng
+
 
 
         class GetNetwork < VcloudngParser

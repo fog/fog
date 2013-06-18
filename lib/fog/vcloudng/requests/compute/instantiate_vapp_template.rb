@@ -1,6 +1,6 @@
 module Fog
-  module Vcloudng
-    module Compute
+  module Compute
+    class Vcloudng
       class Real
 
         require 'fog/vcloudng/parsers/compute/instantiate_vapp_template'
@@ -25,7 +25,6 @@ module Fog
         # * 'status'<~String> - 0(pending) --> 2(off) -->4(on)
         def instantiate_vapp_template(vapp_name, template_id, options = {})
           params = populate_uris(options.merge(vapp_name: vapp_name, template_id: template_id))
-          puts params
           validate_uris(params)
           
           data = generate_instantiate_vapp_template_request(params)
@@ -36,7 +35,7 @@ module Fog
             :headers => { 'Content-Type' => 'application/vnd.vmware.vcloud.instantiateVAppTemplateParams+xml',
                           'Accept' => 'application/*+xml;version=1.5' },
             :method => 'POST',
-            :parser => Fog::Parsers::Vcloudng::Compute::InstantiateVappTemplate.new,
+            :parser => Fog::Parsers::Compute::Vcloudng::InstantiateVappTemplate.new,
             :path => "vdc/#{params[:vdc_id]}/action/instantiateVAppTemplate"
           )
         end

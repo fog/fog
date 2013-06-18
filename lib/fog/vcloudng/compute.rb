@@ -1,55 +1,130 @@
-require_relative './shared'
+require 'fog/vcloudng'
+require 'fog/compute'
+
+class String
+  def to_bool
+    return true   if self == true   || self =~ (/(true|t|yes|y|1)$/i)
+    return false  if self == false  || self.empty? || self =~ (/(false|f|no|n|0)$/i)
+    raise ArgumentError.new("invalid value for Boolean: \"#{self}\"")
+  end
+end
+
+
+class VcloudngParser < Fog::Parsers::Base
+
+  def extract_attributes(attributes_xml)
+    attributes = {}
+    until attributes_xml.empty?
+      if attributes_xml.first.is_a?(Array)
+        until attributes_xml.first.empty?
+          attribute = attributes_xml.first.shift
+          attributes[attribute.localname] = attribute.value
+        end
+      else
+        attribute = attributes_xml.shift
+        attributes[attribute.localname] = attribute.value
+      end
+    end
+    attributes
+  end
+end
 
 
 module Fog
-  module Vcloudng
-   module Compute
-
-     module Bin
-     end
-
+  module Compute
+    class Vcloudng < Fog::Service
+   
      module Defaults
        PATH   = '/api'
        PORT   = 443
        SCHEME = 'https'
      end
-
-     extend Fog::Vcloudng::Shared
-
-     def self.new(options={})
-       # Fog::Logger.deprecation("Fog::Vcloudng::Compute is deprecated, to be replaced with Compute 1.0 someday/maybe [light_black](#{caller.first})[/]")
-
-       unless @required
-         shared_requires
-         @required = true
-       end
-
-       check_shared_options(options)
-
-       if Fog.mocking?
-          Fog::Vcloudng::Compute::Mock.new(options)
-       else
-          Fog::Vcloudng::Compute::Real.new(options)
-       end
-     end
+     
+     requires :vcloudng_username, :vcloudng_password, :vcloudng_host
+     
+     request_path 'fog/vcloudng/requests/compute'
+     request :get_organizations
+     request :get_organization
+     request :get_catalog
+     request :get_catalog_item
+     request :get_vdc
+     request :get_vapp_template
+     request :instantiate_vapp_template
+     
+     
 
      class Real
        attr_reader :end_point
-       
-       include Fog::Vcloudng::Shared::Real
-       include Fog::Vcloudng::Shared::Parser
 
         def initialize(options={})
           @vcloudng_password = options[:vcloudng_password]
           @vcloudng_username = options[:vcloudng_username]
           @connection_options = options[:connection_options] || {}
           @host       = options[:vcloudng_host]
-          @path       = options[:path]        || Fog::Vcloudng::Compute::Defaults::PATH
+          @path       = options[:path]        || Fog::Compute::Vcloudng::Defaults::PATH
           @persistent = options[:persistent]  || false
-          @port       = options[:port]        || Fog::Vcloudng::Compute::Defaults::PORT
-          @scheme     = options[:scheme]      || Fog::Vcloudng::Compute::Defaults::SCHEME
+          @port       = options[:port]        || Fog::Compute::Vcloudng::Defaults::PORT
+          @scheme     = options[:scheme]      || Fog::Compute::Vcloudng::Defaults::SCHEME
           @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
           @end_point = "#{@scheme}://#{@host}#{@path}/"
+        end
+
+        def auth_token
+          response = @connection.request({
+            :expects   => 200,
+            :headers   => { 'Authorization' => "Basic #{Base64.encode64("#{@vcloudng_username}:#{@vcloudng_password}").delete("\r\n")}",
+                            'Accept' => 'application/*+xml;version=1.5'
+                          },
+            :host      => @host,
+            :method    => 'POST',
+            :parser    => Fog::Parsers::Compute::Vcloudng::GetOrganizations.new,
+            :path      => "/api/sessions"  # curl http://example.com/api/versions | grep LoginUrl
+          })
+          response.headers['Set-Cookie']
+        end
+        
+
+        def reload
+          @cookie = nil # verify that this makes the connection to be restored, if so use Excon::Errors::Forbidden instead of Excon::Errors::Unauthorized
+          @connection.reset
+        end
+
+        def request(params)
+          unless @cookie
+            @cookie = auth_token
+          end
+          begin
+            do_request(params)
+            # this is to know if Excon::Errors::Unauthorized really happens
+          #rescue Excon::Errors::Unauthorized
+          #  @cookie = auth_token
+          #  do_request(params)
+          end
+        end
+
+        def do_request(params)
+          headers = {}
+          if @cookie
+            headers.merge!('Cookie' => @cookie)
+          end
+          if params[:path]
+              if params[:override_path] == true
+                  path = params[:path]
+              else
+                  path = "#{@path}/#{params[:path]}"
+              end
+          else
+              path = "#{@path}"
+          end
+          @connection.request({
+            :body     => params[:body],
+            :expects  => params[:expects],
+            :headers  => headers.merge!(params[:headers] || {}),
+            :host     => @host,
+            :method   => params[:method],
+            :parser   => params[:parser],
+            :path     => path
+          })
         end
 
         def default_vdc_id
@@ -121,32 +196,30 @@ module Fog
           end
         end
         
+        def default_organization_id
+          @default_organization_id ||= begin
+            org_list = get_organizations.body['OrgList']
+            if org_list.length == 1
+              org_list.first['href'].split('/').last
+            else
+              nil
+            end
+          end
+        end
 
+        def default_organization_body
+          return nil unless default_organization_id
+          @default_organization_body ||= begin
+          response = get_organization(default_organization_id)
+          return nil unless response.respond_to? 'data'
+          response.data[:body]
+          end
+        end
 
      end
 
 
      class Mock
-       include Fog::Vcloudng::Shared::Mock
-       include Fog::Vcloudng::Shared::Parser
-
-       def initialize(option = {})
-         super
-         @base_url = Fog::Vcloudng::Compute::Defaults::SCHEME + "://" +
-                     options[:vcloudng_host] +
-                     Fog::Vcloudng::Compute::Defaults::PATH
-
-         @vcloudng_username = options[:vcloudng_username]
-       end
-
-       def data
-         self.class.data[@vcloudng_username]
-       end
-
-       def reset_data
-         self.class.data.delete(@vcloudng_username)
-       end
-
      end
 
    end

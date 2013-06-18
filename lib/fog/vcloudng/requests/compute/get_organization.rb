@@ -1,7 +1,8 @@
 module Fog
-  module Vcloudng
-    module Compute
+  module Compute
+    class Vcloudng
       class Real
+
         
         require 'fog/vcloudng/parsers/compute/get_organization'
         
@@ -26,7 +27,7 @@ module Fog
             :expects  => 200,
             :headers  => { 'Accept' => 'application/*+xml;version=1.5' },
             :method   => 'GET',
-            :parser   => Fog::Parsers::Vcloudng::Compute::GetOrganization.new,
+            :parser   => Fog::Parsers::Compute::Vcloudng::GetOrganization.new,
             :path     => "org/#{organization_id}"
           })
         end

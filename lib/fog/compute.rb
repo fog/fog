@@ -38,6 +38,9 @@ module Fog
       when :vcloud
         require 'fog/vcloud/compute'
         Fog::Vcloud::Compute.new(attributes)
+      when :vcloudng
+        require 'fog/vcloudng/compute'
+        Fog::Vcloudng::Compute.new(attributes)
       else
         if self.providers.include?(provider)
           require "fog/#{provider}/compute"

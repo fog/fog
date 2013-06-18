@@ -1,7 +1,8 @@
 module Fog
-  module Vcloudng
-    module Compute
+  module Compute
+    class Vcloudng
       class Real
+
 
         require 'fog/vcloudng/parsers/compute/get_vdc'
         
@@ -34,7 +35,7 @@ module Fog
             :expects  => 200,
             :headers  => { 'Accept' => 'application/*+xml;version=1.5' },
             :method   => 'GET',
-            :parser   => Fog::Parsers::Vcloudng::Compute::GetVdc.new,
+            :parser   => Fog::Parsers::Compute::Vcloudng::GetVdc.new,
             :path     => "vdc/#{vdc_id}"
           )
         end
