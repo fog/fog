@@ -9,8 +9,8 @@ module Fog
 
         model Fog::Compute::OpenStack::Flavor
 
-        def all
-          data = service.list_flavors_detail.body['flavors']
+        def all(options = {})
+          data = service.list_flavors_detail(options).body['flavors']
           load(data)
         end
 
