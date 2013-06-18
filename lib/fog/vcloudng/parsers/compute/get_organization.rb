@@ -14,6 +14,66 @@
 #    <Description/>
 #    <FullName>DevOps</FullName>
 #</Org>
+# 
+# parsed
+# 
+#{"OrgList"=>
+#  [{"type"=>"application/vnd.vmware.vcloud.org+xml",
+#    "name"=>"DevOps",
+#    "href"=>
+#     "https://example.com/api/org/c6a4c623-c158-41cf-a87a-dbc1637ad55a",
+#    "id"=>"c6a4c623-c158-41cf-a87a-dbc1637ad55a"}]}
+#{"OrgList"=>[{"type"=>"application/vnd.vmware.vcloud.org+xml", "name"=>"DevOps", "href"=>"https://example.com/api/org/c6a4c623-c158-41cf-a87a-dbc1637ad55a", "id"=>"c6a4c623-c158-41cf-a87a-dbc1637ad55a"}]}
+#>> pp vcloud.get_organization("c6a4c623-c158-41cf-a87a-dbc1637ad55a").body
+#{"Links"=>
+#  [{"rel"=>"down",
+#    "type"=>"application/vnd.vmware.vcloud.vdc+xml",
+#    "name"=>"DevOps - VDC",
+#    "href"=>
+#     "https://example.com/api/vdc/9a06a16b-12c6-44dc-aee1-06aa52262ea3"},
+#   {"rel"=>"down",
+#    "type"=>"application/vnd.vmware.vcloud.tasksList+xml",
+#    "href"=>
+#     "https://example.com/api/tasksList/c6a4c623-c158-41cf-a87a-dbc1637ad55a"},
+#   {"rel"=>"down",
+#    "type"=>"application/vnd.vmware.vcloud.catalog+xml",
+#    "name"=>"Public VM Templates",
+#    "href"=>
+#     "https://example.com/api/catalog/4ee720e5-173a-41ac-824b-6f4908bac975"},
+#   {"rel"=>"down",
+#    "type"=>"application/vnd.vmware.vcloud.controlAccess+xml",
+#    "href"=>
+#     "https://example.com/api/org/c6a4c623-c158-41cf-a87a-dbc1637ad55a/catalog/4ee720e5-173a-41ac-824b-6f4908bac975/controlAccess/"},
+#   {"rel"=>"down",
+#    "type"=>"application/vnd.vmware.vcloud.catalog+xml",
+#    "name"=>"prueba",
+#    "href"=>
+#     "https://example.com/api/catalog/ea0c6acf-c9c0-46b7-b19f-4b2d3bf8aa33"},
+#   {"rel"=>"down",
+#    "type"=>"application/vnd.vmware.vcloud.controlAccess+xml",
+#    "href"=>
+#     "https://example.com/api/org/c6a4c623-c158-41cf-a87a-dbc1637ad55a/catalog/ea0c6acf-c9c0-46b7-b19f-4b2d3bf8aa33/controlAccess/"},
+#   {"rel"=>"controlAccess",
+#    "type"=>"application/vnd.vmware.vcloud.controlAccess+xml",
+#    "href"=>
+#     "https://example.com/api/org/c6a4c623-c158-41cf-a87a-dbc1637ad55a/catalog/ea0c6acf-c9c0-46b7-b19f-4b2d3bf8aa33/action/controlAccess"},
+#   {"rel"=>"add",
+#    "type"=>"application/vnd.vmware.admin.catalog+xml",
+#    "href"=>
+#     "https://example.com/api/admin/org/c6a4c623-c158-41cf-a87a-dbc1637ad55a/catalogs"},
+#   {"rel"=>"down",
+#    "type"=>"application/vnd.vmware.vcloud.orgNetwork+xml",
+#    "name"=>"DevOps - Dev Network Connection",
+#    "href"=>
+#     "https://example.com/api/network/d5f47bbf-de27-4cf5-aaaa-56772f2ccd17"},
+#   {"rel"=>"down",
+#    "type"=>"application/vnd.vmware.vcloud.metadata+xml",
+#    "href"=>
+#     "https://example.com/api/org/c6a4c623-c158-41cf-a87a-dbc1637ad55a/metadata"}],
+# "href"=>
+#  "https://example.com/api/org/c6a4c623-c158-41cf-a87a-dbc1637ad55a",
+# "name"=>"DevOps",
+# "Description"=>nil}
 
 
 module Fog
