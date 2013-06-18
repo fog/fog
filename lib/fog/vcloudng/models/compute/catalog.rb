@@ -15,7 +15,8 @@ module Fog
         attribute :is_published, :aliases => 'IsPublished'
         
         def catalog_items
-          
+          requires :id
+          service.catalog_items(:catalog => self)
         end
         
       end

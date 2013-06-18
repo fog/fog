@@ -25,10 +25,14 @@ module Fog
             when 'Entity'
               entity_item = extract_attributes(attributes)
               entity_item["id"] = entity_item["href"].split('/').last
+              @response['vapp_template_id'] = entity_item["id"]
               @response['Entity'] = entity_item
             when 'CatalogItem'
               catalog_item = extract_attributes(attributes)
               @response['name'] = catalog_item['name']
+              @response['type'] = catalog_item['type']
+              @response['href'] = catalog_item['href']
+              @response['id'] = catalog_item['href'].split('/').last
             when "Link"
               link = extract_attributes(attributes)
               @response["Links"] << link

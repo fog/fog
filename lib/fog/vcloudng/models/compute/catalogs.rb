@@ -10,11 +10,11 @@ module Fog
         
         attribute :organization
         
-        def all
-          data = service.get_organization(organization.id).body
+        def all(organization_id = organization.id)
+          data = service.get_organization(organization_id).body
           catalogs = data["Links"].select { |link| link["type"] == "application/vnd.vmware.vcloud.catalog+xml" }
-          catalogs.each {|catalog| catalog['id'] =catalog['href'].split('/').last }
-          load(catalogs)
+          catalog_ids = catalogs.map {|catalog| catalog['href'].split('/').last }
+          catalog_ids.map{ |catalog_id| get(catalog_id)} 
         end
 
         def get(catalog_id)

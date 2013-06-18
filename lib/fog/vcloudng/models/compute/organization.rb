@@ -12,15 +12,14 @@ module Fog
         attribute :type
         attribute :href
         attribute :description, :aliases => 'Description'
-        attribute :links, :aliases => 'Links'
         
-        def vdc
-          
+        def vdcs
+          requires :id
+          service.vdcs(:organization => self)
         end
         
         def catalogs
           requires :id
-
           service.catalogs(:organization => self)
         end
         
