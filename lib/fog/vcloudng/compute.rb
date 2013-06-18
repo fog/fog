@@ -49,6 +49,8 @@ module Fog
      collection  :organizations
      model       :catalog
      collection  :catalogs
+     model       :catalog_item
+     collection  :catalog_items
      
      request_path 'fog/vcloudng/requests/compute'
      request :get_organizations
