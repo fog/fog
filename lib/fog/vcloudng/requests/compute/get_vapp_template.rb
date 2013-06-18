@@ -32,17 +32,21 @@ module Fog
         # catalog = vcloud.get_catalog(catalog_uuid)
         # catalog_item_uuid = catalog.body["CatalogItems"].first["href"].split('/').last # get the first one
         # catalog_item = vcloud.get_catalog_item(catalog_item_uuid)
-        # vapp_template_uuid = catalog_item.body["Entity"]["href"].split('/').last
+        # vapp_template_uuid = catalog_item.body["Entity"]["id"]
         # vcloud.get_vapp_template(vapp_template_uuid)
         #
-        def get_vapp_template(vapp_template_uuid)
+        def get_vapp_template(vapp_template_id)
           request(
             :expects  => 200,
             :headers  => { 'Accept' => 'application/*+xml;version=1.5' },
             :method   => 'GET',
             :parser   => Fog::Parsers::Vcloudng::Compute::GetVappTemplate.new,
-            :path     => "vAppTemplate/#{vapp_template_uuid}"
+            :path     => "vAppTemplate/#{vapp_template_id}"
           )
+        end
+        
+        def vapp_template_end_point(vapp_template_id = nil)
+          end_point + ( vapp_template_id ? "vAppTemplate/#{vapp_template_id}" : "vAppTemplate" )
         end
 
       end
