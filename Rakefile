@@ -47,11 +47,17 @@ end
 
 GEM_NAME = "#{name}"
 task :default => :test
+task :travis  => ['test:travis', 'coveralls_push_workaround']
 
 require "tasks/test_task"
 Fog::Rake::TestTask.new
 
 namespace :test do
+  task :travis do
+    [true].each do |mock|
+      sh("export FOG_MOCK=#{mock} && bundle exec shindont")
+    end
+  end
   task :vsphere do
     [true].each do |mock|
       sh("export FOG_MOCK=#{mock} && bundle exec shindont tests/vsphere")
@@ -186,3 +192,11 @@ end
 
 require "tasks/changelog_task"
 Fog::Rake::ChangelogTask.new
+
+task :coveralls_push_workaround do
+  if Gem::Version.new(RUBY_VERSION) > Gem::Version.new('1.9')
+    require 'coveralls/rake/task'
+    Coveralls::RakeTask.new
+    Rake::Task["coveralls:push"].invoke
+  end
+end
