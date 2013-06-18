@@ -42,6 +42,12 @@ module Fog
      
      requires :vcloudng_username, :vcloudng_password, :vcloudng_host
      
+     secrets :vcloudng_password
+     
+     model_path 'fog/vcloudng/models/compute'
+     model       :organization
+     collection  :organizations
+     
      request_path 'fog/vcloudng/requests/compute'
      request :get_organizations
      request :get_organization

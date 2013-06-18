@@ -113,6 +113,7 @@ module Fog
                 end
               end
               @response['href'] = org['href']
+              @response['id'] = org['href'].split('/').last
               @response['name'] = org['name']
             end
           end
