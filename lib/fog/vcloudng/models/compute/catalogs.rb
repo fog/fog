@@ -12,14 +12,15 @@ module Fog
         
         def all(organization_id = organization.id)
           data = service.get_organization(organization_id).body
-          catalogs = data["Links"].select { |link| link["type"] == "application/vnd.vmware.vcloud.catalog+xml" }
-          catalog_ids = catalogs.map {|catalog| catalog['href'].split('/').last }
+          catalogs = data[:Link].select { |link| link[:type] == "application/vnd.vmware.vcloud.catalog+xml" }
+          catalog_ids = catalogs.map {|catalog| catalog[:href].split('/').last }
           catalog_ids.map{ |catalog_id| get(catalog_id)} 
         end
 
         def get(catalog_id)
           data = service.get_catalog(catalog_id).body
-          %w(CatalogItems Links).each {|key_to_delete| data.delete(key_to_delete) }
+          %w(:CatalogItems :Link).each {|key_to_delete| data.delete(key_to_delete) }
+          data[:id] = data[:href].split('/').last
           new(data)
         end
       end

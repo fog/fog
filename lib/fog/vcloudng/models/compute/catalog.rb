@@ -11,8 +11,8 @@ module Fog
         attribute :name
         attribute :type
         attribute :href
-        attribute :description, :aliases => 'Description'
-        attribute :is_published, :aliases => 'IsPublished'
+        attribute :description, :aliases => :Description
+        attribute :is_published, :aliases => :IsPublished
         
         def catalog_items
           requires :id
