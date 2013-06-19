@@ -41,6 +41,8 @@ module Fog
       request :insert_network
       request :insert_server
 
+      request :set_metadata
+
       model_path 'fog/google/models/compute'
       model :server
       collection :servers

@@ -13,6 +13,7 @@ module Fog
         attribute :state, :aliases => 'status'
         attribute :zone_name, :aliases => 'zone'
         attribute :machine_type, :aliases => 'machineType'
+        attribute :metadata
 
         def destroy
           requires :name
@@ -37,11 +38,8 @@ module Fog
             return self.metadata
           end
 
-          def [](k)
-            service.get_metadata(self.name, self.zone)[k]
-          end
-
-          service.get_metadata(self.name, self.zone) || []
+          data = service.get_server(self.name, self.zone_name).body
+          data['metadata'] || []
         end
 
         def ready?
