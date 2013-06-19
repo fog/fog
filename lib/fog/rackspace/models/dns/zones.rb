@@ -6,6 +6,8 @@ module Fog
     class Rackspace
       class Zones < Fog::Collection
 
+        attribute :total_entries, :aliases => "totalEntries"
+
         model Fog::DNS::Rackspace::Zone
 
         # List all domains. Return by default a maximum of 100 items
@@ -15,8 +17,10 @@ module Fog
         # @option options [Integer] :offset starting offset of records to return
         def all(options={})
           clear
-          data = service.list_domains(options).body['domains']
-          load(data)
+          body = service.list_domains(options).body
+          merge_attributes(body)
+
+          load(body['domains'])
         end
         
         alias :each_zone_this_page :each
@@ -27,6 +31,8 @@ module Fog
           while params
             body = service.list_domains(params).body
             subset = dup.load(body["domains"])
+            self.merge_attributes(body)
+
             params = next_params(body)
 
             subset.each_zone_this_page {|zone| yield zone}
