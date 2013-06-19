@@ -17,7 +17,7 @@ module Fog
                           network_name=@default_network)
 
           # We need to check if the image is owned by the user or a global image.
-          if get_image(image_name, @project).data['code'] == 200
+          if self.get_image(image_name, @project).data['code'] == 200
             image_url = @api_url + @project + "/global/images/#{image_name}"
           else
             image_url = @api_url + "google/global/images/#{image_name}"
@@ -31,7 +31,7 @@ module Fog
           body_object = {
             'name' => server_name,
             'image' => image_url,
-            'machineType' => self.get_machine_resource(machine_name, zone_name),
+            'machineType' => @api_url + @project + "/zones/#{zone_name}/machineTypes/#{machine_name}"
             'networkInterfaces' => [{
               'network' => @api_url + @project + "/global/networks/#{network_name}"
             }]
@@ -40,15 +40,6 @@ module Fog
           result = self.build_result(api_method, parameters,
                                      body_object=body_object)
           response = self.build_response(result)
-        end
-
-        def get_machine_resource machine_name, zone_name
-
-          machine_types = self.list_machine_types zone_name
-          p machine_types
-          p @api_url
-
-          @api_url + @project + "/zones/#{zone_name}/machineTypes/#{machine_name}"
         end
       end
     end
