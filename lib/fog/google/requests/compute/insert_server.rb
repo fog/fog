@@ -31,7 +31,7 @@ module Fog
           body_object = {
             'name' => server_name,
             'image' => image_url,
-            'machineType' => self.get_machine_resource(machine_name),
+            'machineType' => self.get_machine_resource(machine_name, zone_name),
             'networkInterfaces' => [{
               'network' => @api_url + @project + "/global/networks/#{network_name}"
             }]
