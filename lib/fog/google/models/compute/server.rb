@@ -13,7 +13,6 @@ module Fog
         attribute :state, :aliases => 'status'
         attribute :zone_name, :aliases => 'zone'
         attribute :machine_type, :aliases => 'machineType'
-        attribute :metadata
 
         def destroy
           requires :name
@@ -40,7 +39,6 @@ module Fog
           service.set_metadata(self.instance, self.zone, {k => v})
           return self.metadata
         end
-
 
         def ready?
           data = service.get_server(self.name, self.zone_name).body
