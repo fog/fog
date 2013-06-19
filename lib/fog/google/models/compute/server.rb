@@ -39,7 +39,7 @@ module Fog
           end
 
           data = service.get_server(self.name, self.zone_name).body
-          data['metadata'] || []
+          data['metadata'] || {}
         end
 
         def ready?
