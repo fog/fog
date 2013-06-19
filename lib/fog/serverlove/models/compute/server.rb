@@ -35,7 +35,7 @@ module Fog
           else
             requires :name
             requires :cpu
-            attributes = service.create_server(self.defaults.merge(allowed_attributes)).body
+            attributes = service.create_server(self.class.defaults.merge(allowed_attributes)).body
           end
 
           merge_attributes(attributes)

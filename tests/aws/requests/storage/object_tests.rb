@@ -46,6 +46,10 @@ Shindo.tests('AWS::Storage | object requests', ['aws']) do
       Fog::Storage[:aws].head_object(@directory.identity, 'fog_object')
     end
 
+    tests("#post_object_restore('#{@directory.identity}', 'fog_object')").succeeds do
+      Fog::Storage[:aws].post_object_restore(@directory.identity, 'fog_object')
+    end
+
     tests("#put_object_acl('#{@directory.identity}', 'fog_object', 'private')").succeeds do
       Fog::Storage[:aws].put_object_acl(@directory.identity, 'fog_object', 'private')
     end
@@ -160,6 +164,9 @@ Shindo.tests('AWS::Storage | object requests', ['aws']) do
       Fog::Storage[:aws].put_object_acl('#{@directory.identity}', 'fog_object', 'invalid')
     end
 
+    tests("#post_object_restore('#{@directory.identity}', 'fog_non_object')").raises(Excon::Errors::NotFound) do
+      Fog::Storage[:aws].post_object_restore(@directory.identity, 'fog_non_object')
+    end
   end
 
   @directory.destroy

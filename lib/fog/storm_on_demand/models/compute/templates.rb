@@ -9,11 +9,16 @@ module Fog
 
         model Fog::Compute::StormOnDemand::Template
 
-        def all
-          data = service.list_templates.body['items']
+        def all(options={})
+          data = service.list_templates(options).body['items']
           load(data)
         end
 
+        def get(template_id)
+          tpl = service.get_template_details(:id => template_id).body
+          new(tpl)
+        end
+        
       end
 
     end

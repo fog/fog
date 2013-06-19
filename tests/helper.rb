@@ -4,6 +4,8 @@ ENV['FOG_CREDENTIAL'] = ENV['FOG_CREDENTIAL'] || 'default'
 require 'fog'
 require 'fog/bin' # for available_providers and registered_providers
 
+Excon.defaults.merge!(:debug_request => true, :debug_response => true)
+
 require File.expand_path(File.join(File.dirname(__FILE__), 'helpers', 'mock_helper'))
 
 def lorem_file
@@ -18,7 +20,7 @@ end
 all_providers = Fog.registered_providers.map {|provider| provider.downcase}
 
 # Manually remove these providers since they are local applications, not lacking credentials
-all_providers = all_providers - ["libvirt", "vmfusion"]
+all_providers = all_providers - ["libvirt", "vmfusion", "openvz"]
 
 available_providers = Fog.available_providers.map {|provider| provider.downcase}
 

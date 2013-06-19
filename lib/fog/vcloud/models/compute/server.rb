@@ -27,6 +27,20 @@ module Fog
         attribute :tasks, :aliases => :Tasks, :type => :array
 
         has_up :vapp
+        
+        def tags
+          Fog::Vcloud::Compute::Tags.new(:service => service, :href => href + '/metadata')
+        end
+        
+        def customization_script
+          load_unless_loaded!
+          self.guest_customization[:CustomizationScript]
+        end
+        
+        def customization_script=(custom_script)
+          @changed = true
+          @update_custom_script = custom_script
+        end
 
         def computer_name
           load_unless_loaded!
@@ -190,6 +204,12 @@ module Fog
               if @changed
                 raise RuntimeError, "Can't save cpu, name or memory changes while the VM is on."
               end
+            end
+            
+            if @update_custom_script
+              guest_customization[:CustomizationScript] = @update_custom_script.to_s
+              service.configure_vm_customization_script(guest_customization)
+              wait_for { ready? }
             end
 
             if @update_password

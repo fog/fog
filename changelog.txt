@@ -1,3 +1,207 @@
+1.12.1 06/11/2013 8663e9079edb69f1a56ea887379f94e6d5efd0d8
+==========================================================
+
+Stats! { 'collaborators' => 49, 'downloads' => 2417193, 'forks' => 817, 'open_issues' => 150, 'watchers' => 2564 }
+
+MVP! Hongbin Lu
+
+[misc]
+  Don't parse non-JSON response. thanks Hongbin Lu
+  turn verbose error responses on. thanks geemus
+
+
+1.12.0 06/11/2013 2dd2a8b003fd7ee89141820e0d3c7ff161e74f60
+==========================================================
+
+Stats! { 'collaborators' => 49, 'downloads' => 2416827, 'forks' => 817, 'open_issues' => 153, 'watchers' => 2563 }
+
+[AWS]
+  adds 'hypervisor', 'lifecycle', 'requester_id', 'source_dest_check', 'spot_instance_request_id', 'virtualization_type' attributes to instances, also fixes instance tests to work in non-mocking mode. thanks Eric Stonfer
+
+[AWS | Compute]
+  Added copy_image request with parser, mocks and tests. thanks Rad Gruchalski
+
+[AWS|IAM]
+  Added AWS IAM iam.roles support. thanks Rad Gruchalski
+
+[AWS|RDS]
+  Properly rescue NotFound exceptions. thanks Aaron Suggs
+
+[Brightbox]
+  Expose expires_in value for the access token. thanks Amitava
+  Rename old destroy requests to delete. thanks Paul Thornthwaite
+  Documentation fixes. thanks Paul Thornthwaite
+
+[Rackspace|Storage]
+  updating large file upload based on @burns suggestions. thanks Kyle Rames
+
+[Zerigo|DNS]
+  Remove default 3600 TTL. thanks Eric Hankins
+
+[cloudsigma]
+  Add CloudSigma compute provider. thanks Kaloyan Kanev
+  Fix create request not expecting status 201. thanks Kaloyan Kanev
+  Make api location as an option (:cloudsigma_host). thanks Kaloyan Kanev
+  Fix excon HTTPStatusError#response not having []= and failing on assignment of json decoded body. thanks Kaloyan Kanev
+
+[cloudstack]
+  fix broken mock test. thanks geemus
+
+[dynect]
+  remove should usage in tests. thanks geemus
+
+[misc]
+  Add joyent API version and network support GH-1853. thanks Blake Irvin and Eric Saxby
+  Add post_object_restore support. thanks Bradley Schaefer
+  Fix excon expects syntax for post object restore. thanks Bradley Schaefer
+  Add 409 (Conflict) as an expected restore response. thanks Bradley Schaefer
+  Very basic mock for post_object_restore. thanks Bradley Schaefer
+  debug excon errors in tests. thanks Brian D. Burns
+  Include the ResourceRecordSetCount. thanks Edward Muller
+  Support pagination on Zerigo DNS zones. thanks Eric Hankins
+  Simplify Zerigo DNS list_zones request. thanks Eric Hankins
+  Update docs for Zerigo DNS list_zones request. thanks Eric Hankins
+  Add TTL on save rather than initialize. thanks Eric Hankins
+  Add Config attributes, and the "get" method for Configs to get detail of a specific config object. thanks Eric Wong
+  Revert "Updated gem spec to require json rather than multi_json". thanks Erik Michaels-Ober
+  proper user creation in OS create_server mock. thanks Evan Petrie
+  Remove spurious warning... thanks Frederic Jean
+  Fixed typo. thanks Geoff Pado
+  Add :id attribute to libvirt nic model. thanks Greg Sutcliffe
+  Include all snapshots in FOG::AWS::RDS::Snapshots#all. thanks Harry Wilkinson
+  Add Snaphost#each method with lazy pagination. thanks Harry Wilkinson
+  Added support for OpenStack region for network service. thanks Hongbin Lu
+  Adding support for AWS CloudFormation list_stacks and list_stack_resources API calls. thanks Joe Kinsella
+  Using AWS::Compute::Error for CloudFormation errors produces erroneous error messages. thanks Joe Kinsella
+  Support both RSpec 1.x and 2.x. thanks Josef Stribny
+  Chdir in a block to dry up all method. thanks Karl Freeman
+  Fixes #39 joyent server resize command requires expected response code. thanks Kevin Chan
+  Fixes #1822 Joyent list_machines is slower than it needs to be. thanks Kevin Chan
+  Support for request signing via ssh-agent. thanks Kevin Chan
+  Fixes for tags for pre7 api, more ssh-agent improvements Refs: kevinykchan/knife-joyent#37. thanks Kevin Chan
+  GH-1853 "public" attribute for network. thanks Kevin Chan
+  Fix "cache_controle" typo in docs. thanks Mark Rushakoff
+  Avoids Fog::Compute::Joyent::Real#decode_time_attrs raising an exception when an empty string is returned as created or updated property. thanks Pablo Baños López
+  server.tags implemented. thanks Rodrigo Estebanez
+  Tag#destroy implemented. thanks Rodrigo Estebanez
+  Tags#create implemented. thanks Rodrigo Estebanez
+  shows customizationScript of a VM. thanks Rodrigo Estebanez
+  VM@customization_script=. thanks Rodrigo Estebanez
+  escapeHTML. thanks Rodrigo Estebanez
+  server.tags implemented. thanks Rodrigo Estebanez
+  Tag#destroy implemented. thanks Rodrigo Estebanez
+  Tags#create implemented. thanks Rodrigo Estebanez
+  shows customizationScript of a VM. thanks Rodrigo Estebanez
+  VM@customization_script=. thanks Rodrigo Estebanez
+  escapeHTML. thanks Rodrigo Estebanez
+  Whitespace. thanks Sean Handley
+  Options get formed into the body. thanks Sean Handley
+  Don't delete the options if they were never there!. thanks Sean Handley
+  Allow creation with objects. thanks Sean Handley
+  This withstands naming/renaming issues. thanks Sean Handley
+  quote data in regex. thanks Simon Josi
+  Add API calls to manage flavor access across tenants. thanks Thomas Kadauke
+  fail when cloudstack default view empty. thanks Tor-Ake Fransson
+  fix broken test related to redacted excon error bodies. thanks geemus
+  Don't CGI encode header query values in the signature string. thanks ronen barzel
+  Consolidation suggested by Wesley Beary. thanks torake.fransson
+  servers can still be nil under some circumstances (server id specified does no longer exist). thanks torake.fransson
+
+[openstack|compute]
+  Add mock method to list_address_pools. thanks Ferran Rodenas
+
+[openstack|image]
+  Define get method for images. thanks Ferran Rodenas
+
+[openstack|network]
+  Add support for OpenStack Networking LBaaS extension. thanks Ferran Rodenas
+
+[openstack|storage]
+  allow headers to be specified for object manifest. thanks Brian D. Burns
+
+[openvz|compute]
+  Initial commit. thanks Patrick Debois
+
+[rackspace]
+  pass connection_options onto identity service so we can auth behind a proxy. thanks Kyle Rames
+
+[rackspace|compute]
+  removing erronious note on setup method. thanks Kyle Rames
+
+[rackspace|lb]
+  Add support for timeout attribute. thanks Decklin Foster
+  Use a non-default timeout so we are actually testing if the attribute was set. thanks Decklin Foster
+  Pass through timeout option on LB creation (also, we know algorithm works). thanks Decklin Foster
+
+[rackspace|storage]
+  add large object container and prefix options. thanks Brian D. Burns
+  allow headers to be specified for object manifest. thanks Brian D. Burns
+  created a last_modified= method in the File class which works around a timezone bug in the swift service. thanks Kyle Rames
+  updated put_object to allow blocks to upload large files; added large file upload example and documentation. thanks Kyle Rames
+  made large object delete tests pending if mocking is turned on. thanks Kyle Rames
+  fixing large upload example and documentation. thanks Kyle Rames
+  tweaking upload large file example to use X-Object-Manifest header in anticipation of PR #1855. thanks Kyle Rames
+  fixing typo in large file upload documentation; updated large file upload to work with ruby 1.8.7. thanks Kyle Rames
+
+[stormnondemand|compute]
+  Add Notification APIs. thanks Eric Wong
+
+[stormondemand]
+  fix service exception handling. thanks Eric Wong
+  fix typo bugs and move shared code into shared.rb module. thanks Eric Wong
+  fix some minor problems. Add a README.md file to describe how to use the storm on demand APIs. thanks Eric Wong
+
+[stormondemand|account]
+  Add Account service and token APIs. thanks Eric Wong
+  Add Account service to the service lsit. thanks Eric Wong
+
+[stormondemand|billing]
+  Add Billing service and related APIs. thanks Eric Wong
+
+[stormondemand|compute]
+  Add API version in requrest path and add new attributes in Config. thanks Eric Wong
+  Fix request path. thanks Eric Wong
+  Add additional attributes to Image and CRUD methods to Images. thanks Eric Wong
+  Move destroy/update/restore methods to image.rb. thanks Eric Wong
+  Fix the get parameters. thanks Eric Wong
+  Add all LoadBalancer related APIs. thanks Eric Wong
+  Add all server APIs. thanks Eric Wong
+  Add all template APIs. thanks Eric Wong
+  Add stats graph API. thanks Eric Wong
+  Add all Private IP APIs. thanks Eric Wong
+  Add Network IP APIs. thanks Eric Wong
+  Add Firewall APIs. thanks Eric Wong
+  Add Firewall Ruleset APIs. thanks Eric Wong
+  Add Pool APIs. thanks Eric Wong
+  Add Network Zone APIs. thanks Eric Wong
+  change all keys for response data into strings. thanks Eric Wong
+  Add Product APIs. thanks Eric Wong
+
+[stormondemand|dns]
+  Add DNS service and domain APIs. thanks Eric Wong
+  Add DNS record APIs. thanks Eric Wong
+  add record region APIs. thanks Eric Wong
+  Add Reverse APIs. thanks Eric Wong
+  Add DNS Zone APIs. thanks Eric Wong
+  Add DNS Service to StormOnDemand. thanks Eric Wong
+
+[stormondemand|monitoring]
+  Add a new Monitoring service and add/move load/bandwidth/service APIs. thanks Eric Wong
+
+[stormondemand|network]
+  Add a new Network service and move all network code in Compute into Network. thanks Eric Wong
+
+[stormondemand|storage]
+  Add Storage service and cluster API. thanks Eric Wong
+  Add Volume APIs. thanks Eric Wong
+
+[stormondemand|support]
+  Add Support service and APIs for alert and support tickets. thanks Eric Wong
+
+[stormondemand|vpn]
+  Add new VPN service and APIs. thanks Eric Wong
+
+
 1.11.1 05/05/2013 2cfeaf236e4ebcf883d0e17f586293d6cd66f379
 ==========================================================
 

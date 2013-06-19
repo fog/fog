@@ -10,11 +10,11 @@ module Fog
               'protocol' => protocol,
               'virtualIps' => virtual_ips,
               'nodes' => nodes
-              #Is algorithm allowed on create?
             }
           }
 
           data['loadBalancer']['algorithm'] = options[:algorithm] if options.has_key? :algorithm
+          data['loadBalancer']['timeout'] = options[:timeout] if options.has_key? :timeout
 
           request(
             :body     => Fog::JSON.encode(data),

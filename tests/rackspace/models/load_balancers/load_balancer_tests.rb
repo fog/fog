@@ -167,10 +167,10 @@ Shindo.tests('Fog::Rackspace::LoadBalancers | load_balancer', ['rackspace']) do
     tests('create(...with algorithm...)') do
       attributes = LOAD_BALANCER_ATTRIBUTES.clone
       attributes[:algorithm] = 'LEAST_CONNECTIONS'
-      attributes[:timeout] = 30
+      attributes[:timeout] = 60
       @lb = @service.load_balancers.create attributes
       returns('LEAST_CONNECTIONS') { @lb.algorithm }
-      returns(30) { @lb.timeout }
+      returns(60) { @lb.timeout }
 
       @lb.wait_for { ready? }
 
