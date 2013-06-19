@@ -31,7 +31,7 @@ module Fog
           body_object = {
             'name' => server_name,
             'image' => image_url,
-            'machineType' => @api_url + @project + "/global/machineTypes/#{machine_name}",
+            'machineType' => self.get_machine_resource(machine_name),
             'networkInterfaces' => [{
               'network' => @api_url + @project + "/global/networks/#{network_name}"
             }]
@@ -42,8 +42,17 @@ module Fog
           response = self.build_response(result)
         end
 
-      end
+        private
 
+        def get_machine_resource machine_name, zone_name
+
+          machine_types = self.list_machine_types zone_name
+          p machine_types
+          p @api_url
+
+          @api_url + @project + "/zones/#{zone_name}/machineTypes/#{machine_name}"
+        end
+      end
     end
   end
 end
