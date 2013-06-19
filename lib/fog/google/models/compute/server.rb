@@ -32,12 +32,16 @@ module Fog
         end
 
         def metadata
-          service.get_metadata(self.instance, self.zone)
-        end
+          def []=(k,v)
+            service.set_metadata(self.instance, self.zone, {k => v})
+            return self.metadata
+          end
 
-        def metadata[]=(k,v)
-          service.set_metadata(self.instance, self.zone, {k => v})
-          return self.metadata
+          def [](k)
+            service.get_metadata(self.instance, self.zone)[k]
+          end
+
+          service.get_metadata(self.instance, self.zone) || []
         end
 
         def ready?
