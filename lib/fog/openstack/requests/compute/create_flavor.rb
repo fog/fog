@@ -12,7 +12,7 @@ module Fog
         def create_flavor(attributes)
           # Get last flavor id
           flavor_ids = Array.new
-          flavors = list_flavors_detail.body['flavors']
+          flavors = list_flavors_detail.body['flavors'] + list_flavors_detail(:is_public => false).body['flavors']
           flavors.each do |flavor|
             flavor_ids << flavor['id'].to_i
           end
