@@ -131,7 +131,7 @@ module Fog
           @openstack_must_reauthenticate  = false
           @openstack_service_type         = options[:openstack_service_type] || ['network']
           @openstack_service_name         = options[:openstack_service_name]
-          @openstack_endpoint_type        = options[:openstack_endpoint_type] || 'adminURL'
+          @openstack_endpoint_type        = options[:openstack_endpoint_type] || 'publicURL'
 
           @connection_options = options[:connection_options] || {}
 

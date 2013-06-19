@@ -193,7 +193,7 @@ module Fog
 
           @openstack_current_user_id = options[:openstack_current_user_id]
           
-          @openstack_endpoint_type = options[:openstack_endpoint_type] || 'adminURL'
+          @openstack_endpoint_type = options[:openstack_endpoint_type] || 'publicURL'
 
           @current_user = options[:current_user]
           @current_tenant = options[:current_tenant]
