@@ -34,7 +34,6 @@ module Fog
 
         def ready?
           data = service.get_server(self.name, self.zone_name).body
-          p data
           data['zone_name'] = self.zone_name
           self.merge_attributes(data)
           self.state == RUNNING_STATE
@@ -70,10 +69,18 @@ module Fog
 
         def sshable?(options={})
           requires :public_ip_address, :public_key, :username
+
+          # First check if we're ready
+          ready?
+
+          # Then check if we have ssh keys set up.
           if not metadata['sshKeys']
             service.set_metadata(self.instance, self.zone, {'sshKeys' => "#{self.username}:#{self.public_key}"})
           end
-          p metadata
+
+          p "ready?: #{ready?} && !public_ip_address.nil?: #{!public_ip_address.nil?} && public_key: #{public_key} && metadata['sshKeys']: #{metadata['sshKeys']}"
+
+          # Now make sure everything is ok.
           ready? && !public_ip_address.nil? && public_key && metadata['sshKeys']
         rescue SystemCallError, Net::SSH::AuthenticationFailed, Timeout::Error
           false

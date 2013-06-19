@@ -52,6 +52,8 @@ module Fog
           }
 
           server = create(defaults.merge(new_attributes))
+
+          # Waits for 600 seconds.
           server.wait_for { sshable? }
 
           server
