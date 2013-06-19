@@ -404,6 +404,7 @@ module Fog
             end
             @scheme = endpoint.scheme
             @port = endpoint.port
+            @path_style = options.fetch(:path_style, true)
           else
             @region     = options[:region]      || DEFAULT_REGION
             @host       = options[:host]        || region_to_host(@region)
