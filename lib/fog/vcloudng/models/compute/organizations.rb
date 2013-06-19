@@ -10,13 +10,16 @@ module Fog
         
         def all
           data = service.get_organizations.body
-          load(data['OrgList'])
+          org = data[:Org]
+          org[:id] = org[:href].split('/').last
+          load([org])
         end
 
         def get(organization_id)
-          if organization_id
-            self.class.new(:service => service).all.detect {|org| org.id == organization_id}
-          end
+          data = service.get_organization(organization_id).body
+          data.delete(:Link)
+          data[:id] = data[:href].split('/').last
+          new(data)
         end
       end
     end

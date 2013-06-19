@@ -8,10 +8,10 @@ module Fog
         
         identity  :id
                   
-        attribute :name
+        attribute :name, :aliases => :FullName
         attribute :type
         attribute :href
-        attribute :description, :aliases => 'Description'
+        attribute :description, :aliases => :Description
         
         def vdcs
           requires :id
