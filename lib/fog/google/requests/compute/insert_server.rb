@@ -42,8 +42,6 @@ module Fog
           response = self.build_response(result)
         end
 
-        private
-
         def get_machine_resource machine_name, zone_name
 
           machine_types = self.list_machine_types zone_name
