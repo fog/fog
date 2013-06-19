@@ -12,11 +12,10 @@ module Fog
 
       class Real
 
-        def list_images(zone_name)
+        def list_images
           api_method = @compute.images.list
           parameters = {
             'project' => @project
-            'zone' => zone_name,
           }
 
           result = self.build_result(api_method, parameters)
