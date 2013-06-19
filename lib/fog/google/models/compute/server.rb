@@ -61,24 +61,17 @@ module Fog
 
         def setup(credentials = {})
           requires :public_ip_address, :public_key, :username
-          service.set_metadata(self.instance, self.zone, {'sshKeys' => self.public_key })
+          service.set_metadata(self.instance, self.zone, {'sshKeys' => "#{self.username}:#{self.public_key}"})
         rescue Errno::ECONNREFUSED
           sleep(1)
           retry
         end
 
         def sshable?(options={})
-          requires :public_ip_address, :public_key, :username
-
-          # First check if we're ready
-          ready?
-
           # Then check if we have ssh keys set up.
           if not metadata['sshKeys']
-            service.set_metadata(self.instance, self.zone, {'sshKeys' => "#{self.username}:#{self.public_key}"})
+            setup
           end
-
-          p "ready?: #{ready?} && !public_ip_address.nil?: #{!public_ip_address.nil?} && public_key: #{public_key} && metadata['sshKeys']: #{metadata['sshKeys']}"
 
           # Now make sure everything is ok.
           ready? && !public_ip_address.nil? && public_key && metadata['sshKeys']
