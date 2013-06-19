@@ -16,11 +16,12 @@ module Fog
                           zone_name, machine_name,
                           network_name=@default_network)
 
-          # We need to check if the image is owned by the user or a global image.
-          if self.get_image(image_name, @project).data['code'] == 200
-            image_url = @api_url + @project + "/global/images/#{image_name}"
-          else
-            image_url = @api_url + "google/global/images/#{image_name}"
+          # We need to get the right owner for an image.
+          owners = [ @project, 'google', 'debian-cloud', 'centos-cloud' ]
+          for owner in owners do
+            if self.get_image(image_name, owner).data['code'] == 200
+              image_url = @api_url + owner + "/global/images/#{image_name}"
+            end
           end
 
           api_method = @compute.instances.insert
