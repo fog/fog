@@ -11,10 +11,21 @@ module Fog
         attribute :name
         attribute :type
         attribute :href
-        attribute :description, :aliases => 'Description'
-        attribute :available_networks, :aliases => 'AvailableNetworks'
-        attribute :compute_capacity , :aliases => 'ComputeCapacity'
-        attribute :storage_capacity , :aliases => 'StorageCapacity'
+        attribute :description, :aliases => :Description
+        attribute :available_networks, :aliases => :AvailableNetworks
+        attribute :compute_capacity , :aliases => :ComputeCapacity
+        attribute :storage_capacity , :aliases => :StorageCapacity
+        attribute :allocation_model, :aliases => :AllocationModel
+        attribute :capabilities, :aliases => :Capabilities
+        attribute :nic_quota, :aliases => :NicQuota, :type => :integer
+        attribute :network_quota ,:aliases => :NetworkQuota, :type => :integer
+        attribute :vm_quota ,:aliases => :VmQuota, :type => :integer
+        attribute :is_enabled ,:aliases => :IsEnabled, :type => :boolean
+        
+        def vapps
+          requires :id
+          service.vdcs(:vdc => self)
+        end
         
       end
     end
