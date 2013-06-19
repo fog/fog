@@ -32,6 +32,16 @@ module Fog
           end
         end
 
+        def metadata
+          service.get_metadata(self.instance, self.zone)
+        end
+
+        def metadata[]=(k,v)
+          service.set_metadata(self.instance, self.zone, {k => v})
+          return self.metadata
+        end
+
+
         def ready?
           data = service.get_server(self.name, self.zone_name).body
           data['zone_name'] = self.zone_name
@@ -61,7 +71,7 @@ module Fog
 
         def setup(credentials = {})
           requires :public_ip_address, :public_key, :username
-          service.set_metadata(self.instance, self.zone, {'sshKeys' => "#{self.username}:#{self.public_key}"})
+          self.metadata['sshKeys'] = "#{self.username}:#{self.public_key}"
         rescue Errno::ECONNREFUSED
           sleep(1)
           retry
