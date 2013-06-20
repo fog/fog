@@ -66,8 +66,6 @@ module Fog
             zone_name,
             machine_type)
 
-          p data
-
           data = service.get_server(self.name, self.zone_name).body
           service.servers.merge_attributes(data)
         end
