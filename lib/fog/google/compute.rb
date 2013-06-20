@@ -124,6 +124,11 @@ module Fog
           response.body = Fog::JSON.decode(result.body)
           if response.body["error"]
             response.status = response.body["error"]["code"]
+
+            response.body["error"]["errors"].each do |error|
+              # We could throw these I guess.
+              p Fog::Errors::Error.new(error)
+            end
           else
             response.status = 200
           end
