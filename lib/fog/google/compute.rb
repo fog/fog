@@ -127,7 +127,7 @@ module Fog
 
             response.body["error"]["errors"].each do |error|
               # We could throw these I guess.
-              p Fog::Errors::Error.new(error)
+              p Fog::Errors::Error.new(error["message"])
             end
           else
             response.status = 200
