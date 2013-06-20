@@ -20,7 +20,8 @@ module Fog
           owners = [ @project, 'google', 'debian-cloud', 'centos-cloud' ]
           image_url = @api_url + "google/global/images/#{image_name}"
           for owner in owners do
-            if self.get_image(image_name, owner).data['code'] == 200
+            p self.get_image(image_name, owner).data
+            if self.get_image(image_name, owner).data['error'].empty?
               image_url = @api_url + owner + "/global/images/#{image_name}"
             end
           end
