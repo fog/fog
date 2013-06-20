@@ -44,8 +44,10 @@ module Fog
 
         def ready?
           data = service.get_server(self.name, self.zone_name).body
+          p data
           data['zone_name'] = self.zone_name
           self.merge_attributes(data)
+
           self.state == RUNNING_STATE
         end
 
@@ -84,7 +86,7 @@ module Fog
           end
 
           # Now make sure everything is ok.
-          ready? && !public_ip_address.nil? && public_key && metadata['sshKeys']
+          ready? && !public_ip_address.nil? && public_key && metadata['sshKeys'] && !!Timeout::timeout(8) { ssh('pwd', options) }
         rescue SystemCallError, Net::SSH::AuthenticationFailed, Timeout::Error
           false
         end
