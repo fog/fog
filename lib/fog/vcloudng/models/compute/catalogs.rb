@@ -10,10 +10,12 @@ module Fog
         
         attribute :organization
         
+        def index(organization_id = organization.id)
+          catalog_links(organization_id).map{ |catalog| new(catalog)}
+        end 
+        
         def all(organization_id = organization.id)
-          data = service.get_organization(organization_id).body
-          catalogs = data[:Link].select { |link| link[:type] == "application/vnd.vmware.vcloud.catalog+xml" }
-          catalog_ids = catalogs.map {|catalog| catalog[:href].split('/').last }
+          catalog_ids = catalog_links(organization_id).map {|catalog| catalog[:id] }
           catalog_ids.map{ |catalog_id| get(catalog_id)} 
         end
 
@@ -23,6 +25,23 @@ module Fog
           data[:id] = data[:href].split('/').last
           new(data)
         end
+        
+        def get_by_name(catalog_name, organization_id = organization.id)
+          catalog = catalog_links(organization_id).detect{|catalog_link| catalog_link[:name] == catalog_name }
+          return nil unless catalog
+          catalog_id = catalog[:id]
+          get(catalog_id)
+        end
+        
+        private
+        
+        def catalog_links(organization_id)
+          data = service.get_organization(organization_id).body
+          catalogs = data[:Link].select { |link| link[:type] == "application/vnd.vmware.vcloud.catalog+xml" }
+          catalogs.each{|catalog| catalog[:id] = catalog[:href].split('/').last }
+          catalogs
+        end
+        
       end
     end
   end

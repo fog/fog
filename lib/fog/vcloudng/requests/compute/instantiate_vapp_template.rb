@@ -4,45 +4,30 @@ module Fog
       class Real
 
         require 'fog/vcloudng/parsers/compute/instantiate_vapp_template'
-        # Instatiate a vapp template
-        #
-        # ==== Parameters
-        # * name<~String>: Name of the resulting vapp .. must start with letter, up to 15 chars alphanumeric.
-        # * catalog_item_id<~String>
-        # * options<~Hash>:
-        #   * :description<~String>:
-        #   * :password<~String>:
-        #   * :vdc_id<~String>:
-        #   * :network_id<~String>:
-        #
-        # ==== Returns
-        # * response<~Excon::Response>:
-        # * body<~Hash>:
-        # * 'Links;<~Array> (e.g. up to vdc)
-        # * 'href'<~String> Link to the resulting vapp
-        # * 'name'<~String> - name of item
-        # * 'type'<~String> - type of item
-        # * 'status'<~String> - 0(pending) --> 2(off) -->4(on)
+        
         def instantiate_vapp_template(vapp_name, template_id, options = {})
           params = populate_uris(options.merge(vapp_name: vapp_name, template_id: template_id))
           validate_uris(params)
           
           data = generate_instantiate_vapp_template_request(params)
+          puts "----------"
           puts data
+          puts "----------"
+          
           request(
             :body => data,
             :expects => 201,
             :headers => { 'Content-Type' => 'application/vnd.vmware.vcloud.instantiateVAppTemplateParams+xml',
                           'Accept' => 'application/*+xml;version=1.5' },
             :method => 'POST',
-            :parser => Fog::Parsers::Compute::Vcloudng::InstantiateVappTemplate.new,
+            :parser => Fog::ToHashDocument.new,
             :path => "vdc/#{params[:vdc_id]}/action/instantiateVAppTemplate"
           )
         end
         
         def validate_uris(options ={})
           [:vdc_uri, :network_uri].each do |opt_uri|
-            result = default_organization_body["Links"].detect {|org| org["href"] == options[opt_uri]}
+            result = default_organization_body[:Link].detect {|org| org[:href] == options[opt_uri]}
             raise("#{opt_uri}: #{options[opt_uri]} not found") unless result
           end
         end
@@ -52,7 +37,7 @@ module Fog
           options[:vdc_uri] =  vdc_end_point(options[:vdc_id])
           options[:network_id] ||= default_network_id
           options[:network_uri] = network_end_point(options[:network_id])
-          options[:network_name] = get_network_name_by_network_id(options[:network_id]) || raise("error retrieving network name")
+          options[:network_name] = default_network_name || raise("error retrieving network name")
           options[:template_uri] = vapp_template_end_point(options[:template_id]) || raise(":template_id option is required")
           #customization_options = get_vapp_template(options[:template_uri]).body[:Children][:Vm][:GuestCustomizationSection]
           ## Check to see if we can set the password
@@ -72,17 +57,18 @@ module Fog
           xml.InstantiateVAppTemplateParams(xmlns.merge!(:name => options[:vapp_name], :"xml:lang" => "en")) {
             xml.Description(options[:description])
             xml.InstantiationParams {
-              if options[:network_uri]
-                xml.NetworkConfigSection {
-                  xml.tag!("ovf:Info"){ "Configuration parameters for logical networks" }
-                   xml.NetworkConfig("networkName" => options[:network_name]) {
-                      xml.Configuration {
-                        xml.ParentNetwork("href" => options[:network_uri])
-                        xml.FenceMode("bridged")
-                    }
-                  }
-                }
-              end
+              # This options are fully ignored
+              #if options[:network_uri]
+              #  xml.NetworkConfigSection {
+              #    xml.tag!("ovf:Info"){ "Configuration parameters for logical networks" }
+              #     xml.NetworkConfig("networkName" => options[:network_name]) {
+              #        xml.Configuration {
+              #          xml.ParentNetwork(:href => options[:network_uri])
+              #          xml.FenceMode("bridged")
+              #      }
+              #    }
+              #  }
+              #end
             }
             # The template
             xml.Source(:href => options[:template_uri])

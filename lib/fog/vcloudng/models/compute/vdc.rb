@@ -24,7 +24,7 @@ module Fog
         
         def vapps
           requires :id
-          service.vdcs(:vdc => self)
+          service.vapps(:vdc => self)
         end
         
       end
