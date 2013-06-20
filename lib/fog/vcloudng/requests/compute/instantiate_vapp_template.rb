@@ -2,17 +2,12 @@ module Fog
   module Compute
     class Vcloudng
       class Real
-
-        require 'fog/vcloudng/parsers/compute/instantiate_vapp_template'
         
         def instantiate_vapp_template(vapp_name, template_id, options = {})
           params = populate_uris(options.merge(vapp_name: vapp_name, template_id: template_id))
-          validate_uris(params)
+          #validate_uris(params)
           
           data = generate_instantiate_vapp_template_request(params)
-          puts "----------"
-          puts data
-          puts "----------"
           
           request(
             :body => data,
@@ -33,11 +28,11 @@ module Fog
         end
         
         def populate_uris(options = {})
-          options[:vdc_id] ||= default_vdc_id
-          options[:vdc_uri] =  vdc_end_point(options[:vdc_id])
-          options[:network_id] ||= default_network_id
-          options[:network_uri] = network_end_point(options[:network_id])
-          options[:network_name] = default_network_name || raise("error retrieving network name")
+          #options[:vdc_id] ||= default_vdc_id
+          #options[:vdc_uri] =  vdc_end_point(options[:vdc_id])
+          #options[:network_id] ||= default_network_id
+          #options[:network_uri] = network_end_point(options[:network_id])
+          #options[:network_name] = default_network_name || raise("error retrieving network name")
           options[:template_uri] = vapp_template_end_point(options[:template_id]) || raise(":template_id option is required")
           #customization_options = get_vapp_template(options[:template_uri]).body[:Children][:Vm][:GuestCustomizationSection]
           ## Check to see if we can set the password
