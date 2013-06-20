@@ -18,14 +18,13 @@ module Fog
 
           # We need to get the right owner for an image.
           owners = [ @project, 'google', 'debian-cloud', 'centos-cloud' ]
-          image_url = @api_url + "google/global/images/#{image_name}"
+          @image_url = @api_url + "google/global/images/#{image_name}"
           for owner in owners do
-            p self.get_image(image_name, owner).data
             if !self.get_image(image_name, owner).data['error'].nil?
-              image_url = @api_url + owner + "/global/images/#{image_name}"
+              p "FOUND!"
+              @image_url = @api_url + owner + "/global/images/#{image_name}"
             end
           end
-          p image_url
 
           api_method = @compute.instances.insert
           parameters = {
@@ -34,7 +33,7 @@ module Fog
           }
           body_object = {
             'name' => server_name,
-            'image' => image_url,
+            'image' => @image_url,
             'machineType' => @api_url + @project + "/zones/#{zone_name}/machineTypes/#{machine_name}",
             'networkInterfaces' => [{
               'network' => @api_url + @project + "/global/networks/#{network_name}"
