@@ -105,7 +105,6 @@ module Fog
 
         def build_result(api_method, parameters, body_object=nil)
           if body_object
-            #p api_method, parameters
             result = @client.execute(
               :api_method => api_method,
               :parameters => parameters,

@@ -86,13 +86,13 @@ module Fog
 
         def sshable?(options={})
           # Then check if we have ssh keys set up.
-          if not metadata['sshKeys']
+          if ready? and not metadata['sshKeys']
             setup
           end
 
           # Now make sure everything is ok.
           ready? && !public_ip_address.nil? && public_key && metadata['sshKeys'] && !!Timeout::timeout(8) { ssh('pwd', options) }
-        rescue SystemCallError, Net::SSH::AuthenticationFailed, Timeout::Error
+        rescue SystemCallError, Net::SSH::AuthenticationFailed, Timeout::Error, ArgumentError
           false
         end
 
