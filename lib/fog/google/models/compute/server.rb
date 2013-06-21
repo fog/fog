@@ -38,13 +38,13 @@ module Fog
             return self.metadata
           end
 
-          data = service.get_server(self.name, self.zone_name).body
+          data = service.get_server(self.name, self.zone).body
           data['metadata'] || {}
         end
 
         def ready?
-          data = service.get_server(self.name, self.zone_name).body
-          data['zone_name'] = self.zone_name
+          data = service.get_server(self.name, self.zone).body
+          data['zone_name'] = self.zone
           self.merge_attributes(data)
 
           self.state == RUNNING_STATE
