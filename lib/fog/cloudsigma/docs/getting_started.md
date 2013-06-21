@@ -6,7 +6,7 @@ In order to use CloudSigma with Fog, you must use Fog version 1.12.0 or later.
 
 ## Setting credentials
 
-Fog uses ~/.fog to store credentials. To add CloudSigma as your default provider, simply add the following:
+Fog uses `~/.fog` to store credentials. To add CloudSigma as your default provider, simply add the following:
 
     :default:
       :cloudsigma_username: user@example.com
@@ -44,7 +44,7 @@ What this does is to stop the server, unmount the previous drive, then we attach
 
 In order to actually run the installer, you need to open a VNC session to the server. This can be done bye issue the following command:
 
-    > serve.open_vnc
+    > server.open_vnc
 
 That will print out the VNC URL, among with other data. You can simply pass the value of 'vnc_url' into your VNC client. When opening the session, you also need to provide the password, which we set to 'foobar' during the server creation.
 
