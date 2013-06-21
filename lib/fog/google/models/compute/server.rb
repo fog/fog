@@ -52,9 +52,9 @@ module Fog
 
         def zone
           if self.zone_name.is_a? String
-            service.get_zone(self.zone_name.split('/')[-1])
+            service.get_zone(self.zone_name.split('/')[-1]).body["name"]
           elsif zone_name.is_a? Excon::Response
-            service.get_zone(zone_name.body["name"])
+            service.get_zone(zone_name.body["name"]).body["name"]
           else
             self.zone_name
           end
