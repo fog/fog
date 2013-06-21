@@ -22,7 +22,7 @@ First, create a connection to the host:
 ```ruby
 require 'fog'
 
-do = Fog::Compute.new({
+docean = Fog::Compute.new({
   :provider => 'DigitalOcean',
   :digitalocean_api_key   => 'poiuweoruwoeiuroiwuer', # your API key here
   :digitalocean_client_id => 'lkjasoidfuoiu'          # your client key here
