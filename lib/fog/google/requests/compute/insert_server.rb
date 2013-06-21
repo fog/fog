@@ -21,7 +21,6 @@ module Fog
           @image_url = @api_url + "google/global/images/#{image_name}"
           for owner in owners do
             if self.get_image(image_name, owner).status == 200
-              p "FOUND!"
               @image_url = @api_url + owner + "/global/images/#{image_name}"
             end
           end
