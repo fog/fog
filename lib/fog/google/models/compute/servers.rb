@@ -26,17 +26,16 @@ module Fog
           if zone.nil?
             service.list_zones.body['items'].each do |zone|
               response = service.get_server(identity, zone['name'])
-              data = response.body
               break if response.status == 200
             end
           else
-            data = service.get_server(identity, zone).body
+            response = service.get_server(identity, zone)
           end
 
-          if data["code"] != 200
+          if response.status != 200
             nil
           else
-            new(data)
+            new(response.body)
           end
         rescue Excon::Errors::NotFound
           nil
