@@ -25,8 +25,9 @@ module Fog
           data = nil
           if zone.nil?
             service.list_zones.body['items'].each do |zone|
-              data = service.get_server(identity, zone['name']).body
-              break if data["code"] == 200
+              response = service.get_server(identity, zone['name'])
+              data = response.body
+              break if response.status == 200
             end
           else
             data = service.get_server(identity, zone).body
