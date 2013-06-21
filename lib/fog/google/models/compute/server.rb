@@ -16,8 +16,8 @@ module Fog
         attribute :metadata
 
         def destroy
-          requires :name
-          service.delete_server(name)
+          requires :name, :zone
+          service.delete_server(name, zone)
         end
 
         def image
@@ -51,7 +51,13 @@ module Fog
         end
 
         def zone
-          service.get_zone(self.zone_name.split('/')[-1])
+          if self.zone_name.is_a? String
+            service.get_zone(self.zone_name.split('/')[-1])
+          elsif zone_name.is_a? Excon::Response
+            service.get_zone(zone_name.body["name"])
+          else
+            self.zone_name
+          end
         end
 
         def save
