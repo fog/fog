@@ -190,7 +190,6 @@ module Fog
           @rackspace_servicenet = options[:rackspace_servicenet]
           @rackspace_auth_token = options[:rackspace_auth_token]
           @rackspace_endpoint = Fog::Rackspace.normalize_url(options[:rackspace_compute_v1_url] || options[:rackspace_management_url])
-          @rackspace_must_reauthenticate = false
           @connection_options = options[:connection_options] || {}
           authenticate
           Excon.defaults[:ssl_verify_peer] = false if service_net?
@@ -202,56 +201,29 @@ module Fog
           @connection.reset
         end
 
-        def request(params)
-          begin
-            response = @connection.request(params.merge({
-              :headers  => {
-                'Content-Type' => 'application/json',
-                'X-Auth-Token' => auth_token
-              }.merge!(params[:headers] || {}),
-              :host     => endpoint_uri.host,
-              :path     => "#{endpoint_uri.path}/#{params[:path]}",
-            }))
-          rescue Excon::Errors::Unauthorized => error
-            if error.response.body != 'Bad username or password' # token expiration
-              @rackspace_must_reauthenticate = true
-              authenticate
-              retry
-            else # bad credentials
-              raise error
-            end
-          rescue Excon::Errors::HTTPStatusError => error
-            raise case error
-            when Excon::Errors::NotFound
-              NotFound.slurp(error, region)
-            else
-              error
-            end
-          end
-          unless response.body.empty?
-            response.body = Fog::JSON.decode(response.body)
-          end
-          response
+        def request(params, parse_json = true)
+          super(params)
+        rescue Excon::Errors::NotFound => error
+          raise NotFound.slurp(error, region)
+        rescue Excon::Errors::BadRequest => error
+          raise BadRequest.slurp error
+        rescue Excon::Errors::InternalServerError => error
+          raise InternalServerError.slurp error
+        rescue Excon::Errors::HTTPStatusError => error
+          raise ServiceError.slurp error
         end
-
 
         def service_net?
            @rackspace_servicenet == true
         end
 
-         def authenticate
-           if @rackspace_must_reauthenticate || @rackspace_auth_token.nil?
-             options = {
-               :rackspace_api_key  => @rackspace_api_key,
-               :rackspace_username => @rackspace_username,
-               :rackspace_auth_url => @rackspace_auth_url,
-               :connection_options => @connection_options
-             }
-             super(options)
-           else
-             @auth_token = @rackspace_auth_token
-             @uri = URI.parse(@rackspace_endpoint)
-           end
+         def authenticate(options={})
+            super({
+             :rackspace_api_key  => @rackspace_api_key,
+             :rackspace_username => @rackspace_username,
+             :rackspace_auth_url => @rackspace_auth_url,
+             :connection_options => @connection_options
+           })
          end
 
          def service_name

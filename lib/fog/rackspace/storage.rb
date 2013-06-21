@@ -138,38 +138,16 @@ module Fog
           @connection.reset
         end
 
-        def request(params, parse_json = true, &block)
-          begin
-            response = @connection.request(params.merge({
-              :headers  => {
-                'Content-Type' => 'application/json',
-                'Accept' => 'application/json',
-                'X-Auth-Token' => auth_token
-              }.merge!(params[:headers] || {}),
-              :host     => endpoint_uri.host,
-              :path     => "#{endpoint_uri.path}/#{params[:path]}",
-            }), &block)
-          rescue Excon::Errors::Unauthorized => error
-            if error.response.body != 'Bad username or password' # token expiration
-              @rackspace_must_reauthenticate = true
-              authenticate
-              retry
-            else # bad credentials
-              raise error
-            end
-          rescue Excon::Errors::NotFound => error
-            raise NotFound.slurp(error, region)
-          rescue Excon::Errors::BadRequest => error
-            raise BadRequest.slurp error
-          rescue Excon::Errors::InternalServerError => error
-            raise InternalServerError.slurp error
-          rescue Excon::Errors::HTTPStatusError => error
-            raise ServiceError.slurp error
-          end
-          if !response.body.empty? && parse_json && response.headers['Content-Type'] =~ %r{application/json}
-            response.body = Fog::JSON.decode(response.body)
-          end
-          response
+        def request(params, parse_json = true)
+          super(params)
+        rescue Excon::Errors::NotFound => error
+          raise NotFound.slurp(error, region)
+        rescue Excon::Errors::BadRequest => error
+          raise BadRequest.slurp error
+        rescue Excon::Errors::InternalServerError => error
+          raise InternalServerError.slurp error
+        rescue Excon::Errors::HTTPStatusError => error
+          raise ServiceError.slurp error
         end
 
         def service_net?

@@ -87,4 +87,13 @@ Shindo.tests('Rackspace | Compute', ['rackspace']) do
       returns(true, "uses custom endpoint") { (@service.instance_variable_get("@uri").host =~ /snet-/) != nil }
     end
   end
+
+  tests('reauthentication') do
+    pending if Fog.mocking?
+
+    @service =  Fog::Compute::Rackspace.new
+    returns(true, "auth token populated") { !@service.send(:auth_token).nil? }
+    @service.instance_variable_set("@auth_token", "bad-token")
+    returns(true) { [200, 203].include?(@service.list_flavors.status) }
+  end
 end

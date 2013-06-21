@@ -82,4 +82,13 @@ Shindo.tests('Fog::DNS::Rackspace', ['rackspace']) do
     end
   end
 
+  tests('reauthentication') do
+    pending if Fog.mocking?
+
+    @service =Fog::DNS::Rackspace.new
+    returns(true, "auth token populated") { !@service.send(:auth_token).nil? }
+    @service.instance_variable_set("@auth_token", "bad_token")
+    returns(200) { @service.list_domains.status }
+  end
+
 end

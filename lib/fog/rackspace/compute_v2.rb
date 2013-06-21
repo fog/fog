@@ -141,15 +141,7 @@ module Fog
 
         def request(params)
           begin
-            response = @connection.request(params.merge!({
-              :headers  => {
-                'Content-Type' => 'application/json',
-                'Accept' => 'application/json',
-                'X-Auth-Token' => auth_token
-              }.merge!(params[:headers] || {}),
-              :host     => endpoint_uri.host,
-              :path     => "#{endpoint_uri.path}/#{params[:path]}"
-            }))
+            super(params)
           rescue Excon::Errors::NotFound => error
             raise NotFound.slurp(error, region)
           rescue Excon::Errors::BadRequest => error
@@ -159,25 +151,15 @@ module Fog
           rescue Excon::Errors::HTTPStatusError => error
             raise ServiceError.slurp error
           end
-
-          unless response.body.empty?
-            begin
-              response.body = Fog::JSON.decode(response.body)
-            rescue MultiJson::DecodeError => e
-              response.body = {}
-            end
-          end
-          response
         end
 
-        def authenticate
-          options = {
+        def authenticate(options={})
+          super({
             :rackspace_api_key => @rackspace_api_key,
             :rackspace_username => @rackspace_username,
             :rackspace_auth_url => @rackspace_auth_url,
             :connection_options => @connection_options
-          }
-          super(options)
+          })
         end
 
         def service_name
