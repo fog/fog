@@ -13,7 +13,12 @@ module Fog
       class Real
 
         def get_server(server_name, zone_name)
-          zone = zone_name.body["name"]
+          if zone_name.is_a? Excon::Response
+            zone = zone_name.body["name"]
+          else
+            zone = zone_name
+          end
+
           api_method = @compute.instances.get
           parameters = {
             'project' => @project,
