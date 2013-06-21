@@ -22,7 +22,7 @@ module Fog
         end
 
         def get(identity, zone=nil)
-          data = nil
+          response = nil
           if zone.nil?
             service.list_zones.body['items'].each do |zone|
               response = service.get_server(identity, zone['name'])
@@ -32,7 +32,7 @@ module Fog
             response = service.get_server(identity, zone)
           end
 
-          if response.status != 200
+          if response.nil? or response.status != 200
             nil
           else
             new(response.body)
