@@ -13,8 +13,7 @@ module Fog
       class Real
 
         def get_server(server_name, zone_name)
-          p zone_name
-          zone = zone_name.split('/')[-1]
+          zone = zone_name.body["name"]
           api_method = @compute.instances.get
           parameters = {
             'project' => @project,
