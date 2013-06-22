@@ -31,7 +31,7 @@ module Fog
           dc_root_folder = dc.vmFolder
           # Filter the root path for this datacenter not to be used."
           dc_root_folder_path=dc_root_folder.path.map { | id, name | name }.join("/")
-          paths          = path.sub(/^\/?#{Regex.quote(dc_root_folder_path)}\/?/, '').split('/')
+          paths          = path.sub(/^\/?#{Regexp.quote(dc_root_folder_path)}\/?/, '').split('/')
 
           return dc_root_folder if paths.empty?
           # Walk the tree resetting the folder pointer as we go
