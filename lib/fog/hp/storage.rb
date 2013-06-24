@@ -10,7 +10,7 @@ module Fog
       recognizes  :persistent, :connection_options
       recognizes  :hp_use_upass_auth_style, :hp_auth_version, :user_agent
       recognizes  :hp_access_key, :hp_account_id  # :hp_account_id is deprecated use hp_access_key instead
-      requires  :hp_account_meta_key
+      recognizes  :hp_account_meta_key
 
       secrets     :hp_secret_key, :hp_account_meta_key
 
@@ -168,17 +168,25 @@ module Fog
           encoded_path = "#{path}/#{Fog::HP.escape(container)}/#{Fog::HP.escape(object)}"
 
           string_to_sign = "#{method}\n#{expires}\n#{sig_path}"
-          # Only works with 1.9+ Not compatible with 1.8.7
-          #signed_string = Digest::HMAC.hexdigest(string_to_sign, @hp_secret_key, Digest::SHA1)
-          # Compatible with 1.8.7 onwards
-
-          account_meta_key = @hp_account_meta_key
-
-          hmac = OpenSSL::HMAC.new(account_meta_key, OpenSSL::Digest::SHA1.new)
-          signed_string = hmac.update(string_to_sign).hexdigest
-
-          signature = @hp_tenant_id.to_s + ":" + @hp_access_key.to_s + ":" + signed_string
-          signature = Fog::HP.escape(signature)
+                    
+          signature = nil          
+          
+          # HP uses a different strategy to create the signature that is passed to swift than OpenStack.
+          # As the HP provider is broadly used by OpenStack users the OpenStack strategy is applied when
+          # the @hp_account_meta_key is given.
+          if @hp_account_meta_key then
+            puts "\n\nUsing account meta key #{@hp_account_meta_key}\n\n"
+            hmac_body     = "#{method}\n#{expires}\n#{encoded_path}"
+            signature     = Digest::HMAC.hexdigest(hmac_body, @hp_account_meta_key, Digest::SHA1)            
+          else
+            # Only works with 1.9+ Not compatible with 1.8.7
+            # signed_string = Digest::HMAC.hexdigest(string_to_sign, @hp_secret_key, Digest::SHA1)
+            # Compatible with 1.8.7 onwards          
+            hmac = OpenSSL::HMAC.new(account_meta_key, OpenSSL::Digest::SHA1.new)
+            signed_string = hmac.update(string_to_sign).hexdigest
+            signature     = @hp_tenant_id.to_s + ":" + @hp_access_key.to_s + ":" + signed_string
+            signature     = Fog::HP.escape(signature)
+          end
 
           # generate the temp url using the signature and expiry
           "#{scheme}://#{host}:#{port}#{encoded_path}?temp_url_sig=#{signature}&temp_url_expires=#{expires}"
@@ -221,7 +229,7 @@ module Fog
           end
           @hp_secret_key = options[:hp_secret_key]
           @hp_tenant_id = options[:hp_tenant_id]
-          @hp_account_meta_key = options[:hp_account_meta_key] || @hp_secret_key
+          @hp_account_meta_key = options[:hp_account_meta_key]        
         end
 
         def data
@@ -259,7 +267,7 @@ module Fog
           options[:hp_service_type] = "Object Storage"
           @hp_tenant_id = options[:hp_tenant_id]
           @hp_avl_zone  = options[:hp_avl_zone]
-          @hp_account_meta_key = options[:hp_account_meta_key] || @hp_secret_key
+          @hp_account_meta_key = options[:hp_account_meta_key]
 
           ### Make the authentication call
           if (auth_version == :v2)
