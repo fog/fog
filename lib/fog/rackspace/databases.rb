@@ -85,18 +85,16 @@ module Fog
           @connection = Fog::Connection.new(endpoint_uri.to_s, @persistent, @connection_options)
         end
 
-        def request(params)
-          begin
-            super(params)
-          rescue Excon::Errors::NotFound => error
-            raise NotFound.slurp(error, region)
-          rescue Excon::Errors::BadRequest => error
-            raise BadRequest.slurp error
-          rescue Excon::Errors::InternalServerError => error
-            raise InternalServerError.slurp error
-          rescue Excon::Errors::HTTPStatusError => error
-            raise ServiceError.slurp error
-          end
+        def request(params, parse_json = true, &block)
+          super(params, parse_json, &block)
+        rescue Excon::Errors::NotFound => error
+          raise NotFound.slurp(error, region)
+        rescue Excon::Errors::BadRequest => error
+          raise BadRequest.slurp error
+        rescue Excon::Errors::InternalServerError => error
+          raise InternalServerError.slurp error
+        rescue Excon::Errors::HTTPStatusError => error
+          raise ServiceError.slurp error
         end
 
         def endpoint_uri(service_endpoint_url=nil)

@@ -111,9 +111,9 @@ module Fog
 
         private
 
-        def request(params)
+        def request(params, parse_json = true, &block)
           begin
-            super(params)
+            super(params, parse_json, &block)
           rescue Excon::Errors::NotFound => error
             raise NotFound.slurp(error, region)
           rescue Excon::Errors::BadRequest => error

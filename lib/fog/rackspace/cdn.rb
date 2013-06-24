@@ -152,30 +152,16 @@ module Fog
           true
         end        
 
-        def request(params, parse_json = true)
-          begin
-            response = @connection.request(params.merge!({
-              :headers  => {
-                'Content-Type' => 'application/json',
-                'Accept' => 'application/json',
-                'X-Auth-Token' => auth_token
-              }.merge!(params[:headers] || {}),
-              :host     => endpoint_uri.host,
-              :path     => "#{endpoint_uri.path}/#{params[:path]}",
-            }))
-          rescue Excon::Errors::NotFound => error
-            raise Fog::Storage::Rackspace::NotFound.slurp(error, region)
-          rescue Excon::Errors::BadRequest => error
-            raise Fog::Storage::Rackspace::BadRequest.slurp error
-          rescue Excon::Errors::InternalServerError => error
-            raise Fog::Storage::Rackspace::InternalServerError.slurp error
-          rescue Excon::Errors::HTTPStatusError => error
-            raise Fog::Storage::Rackspace::ServiceError.slurp error
-          end
-          if !response.body.empty? && parse_json && response.headers['Content-Type'] =~ %r{application/json}
-            response.body = Fog::JSON.decode(response.body)
-          end
-          response
+        def request(params, parse_json = true, &block)
+          super(params, parse_json, &block)
+        rescue Excon::Errors::NotFound => error
+          raise NotFound.slurp(error, region)
+        rescue Excon::Errors::BadRequest => error
+          raise BadRequest.slurp error
+        rescue Excon::Errors::InternalServerError => error
+          raise InternalServerError.slurp error
+        rescue Excon::Errors::HTTPStatusError => error
+          raise ServiceError.slurp error
         end
         
         private 
