@@ -21,7 +21,7 @@ module Fog
         { :bits => 64, :cpu => 8, :cores =>   26, :disk => 1690, :id =>  'm2.4xlarge', :name => 'High Memory Quadruple Extra Large', :ram => 70041.6},
 
         {:bits => 64,  :cpu => 4, :cores => 13,   :disk => 0,    :id => "m3.xlarge",   :name => "M3 Extra Large",                    :ram => 15360},
-        {:bits => 64,  :cpu => 8, :cores => 26,   :disk => 0,    :id => "m3.2xlarge",  :name => "M3 Double Extra Large"},            :ram => 30720},
+        {:bits => 64,  :cpu => 8, :cores => 26,   :disk => 0,    :id => "m3.2xlarge",  :name => "M3 Double Extra Large",            :ram => 30720},
 
         { :bits => 64, :cpu => 16, :cores => 35, :disk => 2048, :id => "hi1.4xlarge", :name => "High I/O Quadruple Extra Large Instance", :ram => 61952},
 
