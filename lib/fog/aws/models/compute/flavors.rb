@@ -30,7 +30,7 @@ module Fog
 
         { :bits => 64, :cpu => 32, :cores => 88, :disk => 240,             :id => 'cr1.8xlarge', :name => 'High Memory Cluster Eight Extra Large', :ram => 249856},
         { :bits => 64, :cpu =>16,  :cores => 35, :disk => 422212465065984, :id => 'hs1.8xlarge', :name => 'High Storage Eight Extra Large',        :ram => 119808}
-      
+      ]      
 
       class Flavors < Fog::Collection
 
