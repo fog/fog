@@ -6,6 +6,7 @@ module Fog
 
       class Vapp < Fog::Model
         
+        
         identity  :id
                   
         attribute :name
@@ -14,15 +15,19 @@ module Fog
         attribute :description, :aliases => :Description
         attribute :deployed, :type => :boolean
         attribute :status
-        attribute :lease_setting_section, :aliases => :LeaseSettingsSection
-        attribute :startup_section, :aliases => :"ovf:StartupSection"
-        attribute :network_section, :aliases => :"ovf:NetworkSection"
+        attribute :deployment_lease_in_seconds, :aliases => :LeaseSettingsSection, :squash => :DeploymentLeaseInSeconds
+        attribute :storage_lease_in_seconds, :aliases => :LeaseSettingsSection, :squash => :StorageLeaseInSeconds
+        attribute :startup_section, :aliases => :"ovf:StartupSection", :squash => :"ovf:Item"
+        attribute :network_section, :aliases => :"ovf:NetworkSection", :squash => :"ovf:Network"
         attribute :network_config, :aliases => :NetworkConfigSection, :squash => :NetworkConfig
-        attribute :owner, :aliases => :Owner, :squash => :name
+        attribute :owner, :aliases => :Owner, :squash => :User
         attribute :InMaintenanceMode, :type => :boolean
-        attribute :vms, :aliases => :Children
-
         
+        def vms
+          requires :id
+          service.vms(:vapp => self)
+        end
+
       end
     end
   end

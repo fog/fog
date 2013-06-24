@@ -49,6 +49,10 @@ module Fog
      collection  :vapps
      model       :task
      collection  :tasks
+     model       :vm
+     collection  :vms
+     model       :vm_customization
+     collection  :vm_customizations
      
      request_path 'fog/vcloudng/requests/compute'
      request :get_organizations
@@ -58,10 +62,11 @@ module Fog
      request :get_vdc
      request :get_vapp_template
      request :get_vapp
-     request :get_vapp_short
+     request :get_vms
      request :instantiate_vapp_template
      request :get_task
      request :get_tasks_list
+     request :get_vm_customization
      
      
 

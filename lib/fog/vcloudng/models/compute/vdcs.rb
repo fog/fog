@@ -10,10 +10,12 @@ module Fog
         
         attribute :organization
         
+        def index(organization_id = organization.id)
+          vdc_links(organization_id).map{ |vdc| new(vdc)}
+        end 
+        
         def all(organization_id = organization.id)
-          data = service.get_organization(organization_id).body
-          vdcs = data[:Link].select { |link| link[:type] == "application/vnd.vmware.vcloud.vdc+xml" }
-          vdc_ids = vdcs.map {|vdc| vdc[:href].split('/').last }
+          vdc_ids = vdc_links(organization_id).map {|vdc| vdc[:id] }
           vdc_ids.map{ |vdc_id| get(vdc_id)} 
         end
 
@@ -23,6 +25,22 @@ module Fog
           %w(:VdcItems :Link :ResourceEntities).each {|key_to_delete| data.delete(key_to_delete) }
           new(data)
         end
+        
+        def get_by_name(vdc_name, organization_id = organization.id)
+          vdc = vdc_links(organization_id).detect{|vdc_link| vdc_link[:name] == vdc_name }
+          return nil unless vdc
+          get(vdc[:id])
+        end
+        
+        private
+        
+        def vdc_links(organization_id)
+          data = service.get_organization(organization_id).body
+          vdcs = data[:Link].select { |link| link[:type] == "application/vnd.vmware.vcloud.vdc+xml" }
+          vdcs.each{|vdc| vdc[:id] = vdc[:href].split('/').last }
+          vdcs
+        end
+        
       end
     end
   end
