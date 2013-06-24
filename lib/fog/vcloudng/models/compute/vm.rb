@@ -23,7 +23,6 @@ module Fog
         def customization
           data = service.get_vm_customization(id).body
           puts data
-          #VmCustomization.new(data)
           service.vm_customizations.new(data)
         end
         

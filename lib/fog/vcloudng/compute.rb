@@ -53,6 +53,8 @@ module Fog
      collection  :vms
      model       :vm_customization
      collection  :vm_customizations
+     model       :network
+     collection  :networks
      
      request_path 'fog/vcloudng/requests/compute'
      request :get_organizations
@@ -67,6 +69,7 @@ module Fog
      request :get_task
      request :get_tasks_list
      request :get_vm_customization
+     request :get_network
      
      
 

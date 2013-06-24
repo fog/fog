@@ -28,6 +28,7 @@ module Fog
           service.vapps(:vdc => self)
         end
         
+        
       end
     end
   end

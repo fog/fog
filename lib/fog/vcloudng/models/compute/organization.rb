@@ -23,6 +23,11 @@ module Fog
           service.catalogs(:organization => self)
         end
         
+        def networks
+          requires :id
+          service.networks(:organization => self)
+        end
+        
       end
     end
   end
