@@ -74,6 +74,8 @@ module Fog
       request :destroy_network
       request :create_vlan
       request :destroy_vlan
+      request :snapshot_server
+      request :snapshot_revert
     
       class Real
         
