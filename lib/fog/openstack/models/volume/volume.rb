@@ -14,6 +14,7 @@ module Fog
         attribute :size
         attribute :type,                :aliases => 'volumeType'
         attribute :snapshot_id,         :aliases => 'snapshotId'
+        attribute :imageRef,            :aliases => 'image_id'
         attribute :availability_zone,   :aliases => 'availabilityZone'
         attribute :created_at,          :aliases => 'createdAt'
         attribute :attachments
