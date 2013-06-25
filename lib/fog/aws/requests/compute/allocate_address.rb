@@ -29,8 +29,8 @@ module Fog
 
       class Mock
 
-        def allocate_address(domain = 'standard')
-          domain = domain == 'vpc' ? 'vpc' : 'standard'
+        def allocate_address(domain = nil)
+          domain = domain == 'vpc' ? 'vpc' : 'standard' if domain != nil
           response = Excon::Response.new
           if describe_addresses.body['addressesSet'].size < self.data[:limits][:addresses]
             response.status = 200
