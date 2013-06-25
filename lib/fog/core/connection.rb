@@ -1,6 +1,10 @@
 module Fog
   module Core
 
+    # Fog::Core::Connection is a generic class to contain a HTTP link to an API.
+    #
+    # It is intended to be subclassed by providers who can then add their own
+    # modifications such as authentication or response object.
     #
     class Connection
       # Prepares the connection and sets defaults for any future requests.
@@ -19,7 +23,6 @@ module Fog
       # @option params [Fixnum] :retry_limit Set how many times we'll retry a failed request.  (Default 4)
       # @option params [Class] :instrumentor Responds to #instrument as in ActiveSupport::Notifications
       # @option params [String] :instrumentor_name Name prefix for #instrument events.  Defaults to 'excon'
-      # @option params [Nokogiri::XML::SAX::Document] :parser
       #
       def initialize(url, persistent=false, params={})
         unless params.has_key?(:debug_response)
