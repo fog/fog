@@ -1,13 +1,15 @@
 require 'simplecov'
 require 'coveralls'
 
-SimpleCov.command_name "shindo:#{Process.pid.to_s}"
-SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter[
-  SimpleCov::Formatter::HTMLFormatter,
-  Coveralls::SimpleCov::Formatter
-]
-SimpleCov.merge_timeout 3600
-SimpleCov.start if Gem::Version.new(RUBY_VERSION) > Gem::Version.new('1.9')
+unless ENV['COVERAGE'] == 'false'
+  SimpleCov.command_name "shindo:#{Process.pid.to_s}"
+  SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter[
+    SimpleCov::Formatter::HTMLFormatter,
+    Coveralls::SimpleCov::Formatter
+  ]
+  SimpleCov.merge_timeout 3600
+  SimpleCov.start
+end
 
 ENV['FOG_RC']         = ENV['FOG_RC'] || File.expand_path('../.fog', __FILE__)
 ENV['FOG_CREDENTIAL'] = ENV['FOG_CREDENTIAL'] || 'default'
