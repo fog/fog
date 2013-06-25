@@ -155,13 +155,13 @@ module Fog
         def request(params, parse_json = true, &block)
           super(params, parse_json, &block)
         rescue Excon::Errors::NotFound => error
-          raise NotFound.slurp(error, region)
+          raise Fog::Storage::Rackspace::NotFound.slurp(error, region)
         rescue Excon::Errors::BadRequest => error
-          raise BadRequest.slurp error
+          raise Fog::Storage::Rackspace::BadRequest.slurp error
         rescue Excon::Errors::InternalServerError => error
-          raise InternalServerError.slurp error
+          raise Fog::Storage::Rackspace::InternalServerError.slurp error
         rescue Excon::Errors::HTTPStatusError => error
-          raise ServiceError.slurp error
+          raise Fog::Storage::Rackspace::ServiceError.slurp error
         end
         
         private 
