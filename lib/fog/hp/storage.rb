@@ -182,7 +182,7 @@ module Fog
             # Only works with 1.9+ Not compatible with 1.8.7
             # signed_string = Digest::HMAC.hexdigest(string_to_sign, @hp_secret_key, Digest::SHA1)
             # Compatible with 1.8.7 onwards          
-            hmac = OpenSSL::HMAC.new(account_meta_key, OpenSSL::Digest::SHA1.new)
+            hmac = OpenSSL::HMAC.new(@hp_account_meta_key, OpenSSL::Digest::SHA1.new)
             signed_string = hmac.update(string_to_sign).hexdigest
             signature     = @hp_tenant_id.to_s + ":" + @hp_access_key.to_s + ":" + signed_string
             signature     = Fog::HP.escape(signature)
