@@ -72,6 +72,8 @@ module Fog
      request :get_network
      request :get_vm_cpu
      request :put_vm_cpu
+     request :get_vm_memory
+     request :put_vm_memory
      request :get_request
      
      

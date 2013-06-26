@@ -25,7 +25,7 @@ module Fog
         
         def vms
           requires :id
-          service.vms(:vapp => self)
+          service.vms(:vapp_id => id)
         end
 
       end

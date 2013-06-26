@@ -8,7 +8,7 @@ module Fog
       class Vms < Fog::Collection
         model Fog::Compute::Vcloudng::Vm
         
-        attribute :vapp
+        attribute :vapp_id
         
         def index
           vm_links.map{ |vm| new(vm)}
@@ -19,14 +19,14 @@ module Fog
         end
 
         def get(vm_id)
-          puts vapp.id
-          vm = vm_links.detect{ |vm| vm[:id] == vm_id}
-          puts vm
-          new({ :vapp => vapp }.merge(vm))
+          vm = vm_links.detect{ |vm| vm['id'] == vm_id}
+          return nil unless vm
+          new(vm)
         end
         
         def get_by_name(vm_name)
-          vm = vm_links.detect{ |vm| vm[:name] == vm_name}
+          vm = vm_links.detect{ |vm| vm['name'] == vm_name}
+          return nil unless vm
           new(vm)
         end
         
@@ -41,10 +41,10 @@ module Fog
         #  end
         #end
         
-        private
+#        private
         
         def vm_links
-          data = service.get_vms(vapp.id).body
+          data = service.get_vms(vapp_id).body
           data['vms']
         end
         
