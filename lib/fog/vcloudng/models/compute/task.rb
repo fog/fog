@@ -18,11 +18,16 @@ module Fog
         attribute :end_time, :aliases => :endTime, :type => :time
         attribute :error, :aliases => :Error
         attribute :result, :aliases => :Result
+        attribute :progress, :aliases => :Progress
         
-        def refresh
+        def reload
           data = service.get_task(id).body
           data[:id] = data[:href].split('/').last
           service.tasks.new(data)
+        end
+        
+        def ready?
+          status == 'success'
         end
         
       end

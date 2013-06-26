@@ -18,6 +18,10 @@ module Fog
         end_point + ( vdc_id ? "vdc/#{vdc_id}" : "vdc" )
       end
       
+      def endpoint
+        end_point
+      end
+      
       #  A single organization can have multiple Org vDCs.
       def default_vdc_id
         if default_organization_id

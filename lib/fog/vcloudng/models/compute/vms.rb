@@ -10,28 +10,41 @@ module Fog
         
         attribute :vapp
         
-        def index(vapp_id = vapp.id)
-          vm_links(vapp_id).map{ |vm| new(vm)}
+        def index
+          vm_links.map{ |vm| new(vm)}
         end 
         
-        def all(vapp_id = vapp.id)
-          index(vapp_id = vapp.id)
+        def all
+          index
         end
 
-        def get(vm_id, vapp_id = vapp.id)
-          vm = vm_links(vapp_id).detect{ |vm| vm[:id] == vm_id}
+        def get(vm_id)
+          puts vapp.id
+          vm = vm_links.detect{ |vm| vm[:id] == vm_id}
+          puts vm
+          new({ :vapp => vapp }.merge(vm))
+        end
+        
+        def get_by_name(vm_name)
+          vm = vm_links.detect{ |vm| vm[:name] == vm_name}
           new(vm)
         end
         
-        def get_by_name(vm_name, vapp_id = vapp.id)
-          vm = vm_links(vapp_id).detect{ |vm| vm[:name] == vm_name}
-          new(vm)
-        end
+        #def new(attributes = {})
+        #  puts attributes
+        #  puts attributes.class
+        #  if vapp
+        #    puts "there is a vapp #{vapp.inspect}"
+        #    super({ :vapp => vapp }.merge!(attributes))
+        #  else
+        #    super(attributes)
+        #  end
+        #end
         
         private
         
-        def vm_links(vapp_id)
-          data = service.get_vms(vapp_id).body
+        def vm_links
+          data = service.get_vms(vapp.id).body
           data['vms']
         end
         
