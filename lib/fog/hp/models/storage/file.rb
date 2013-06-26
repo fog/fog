@@ -69,11 +69,6 @@ module Fog
           requires :key
           self.collection.get_cdn_ssl_url(self.key)
         end
-        
-        # Gives compatiblity with AWS
-        def url(expires_secs, options = {})
-          temp_signed_url(expires_secs, "GET")
-        end
 
         def temp_signed_url(expires_secs, method)
           requires :directory, :key
