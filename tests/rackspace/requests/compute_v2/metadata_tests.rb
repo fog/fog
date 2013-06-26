@@ -12,7 +12,7 @@ Shindo.tests('Fog::Compute::RackspaceV2 | metadata_tests', ['rackspace']) do
                                           :flavor_id => 2,
                                           :image_id => '3afe97b2-26dc-49c5-a2cc-a2fc8d80c001',
                                           :metadata => metadata)
-        @server.wait_for(timeout = 1500) { ready? }
+        @server.wait_for { ready? }
         
         
         @server_id = @server.id

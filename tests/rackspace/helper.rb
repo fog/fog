@@ -1,6 +1,11 @@
 module Shindo
   class Tests
-    
+
+    unless Fog.mocking?
+      Fog.timeout = 2000
+      Fog::Logger.warning "Setting default fog timeout to #{Fog.timeout} seconds"
+    end
+
     def given_a_load_balancer_service(&block)
       @service = Fog::Rackspace::LoadBalancers.new
       instance_eval(&block)
