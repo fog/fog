@@ -76,12 +76,12 @@ module Fog
         #
         # Usually called by Fog::Collection#create
         #
-        #   do = Fog::Compute.new({
+        #   docean = Fog::Compute.new({
         #     :provider => 'DigitalOcean',
         #     :digitalocean_api_key   => 'key-here',      # your API key here
         #     :digitalocean_client_id => 'client-id-here' # your client key here
         #   })
-        #   do.servers.create :name => 'foobar',
+        #   docean.servers.create :name => 'foobar',
         #                     :image_id  => image_id_here,
         #                     :flavor_id => flavor_id_here,
         #                     :region_id => region_id_here

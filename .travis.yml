@@ -6,7 +6,7 @@ rvm:
   - 1.9.3
   - 2.0.0
 
-script: FOG_MOCK=true bundle exec shindont
+script: bundle exec rake travis
 
 notifications:
   email: false
