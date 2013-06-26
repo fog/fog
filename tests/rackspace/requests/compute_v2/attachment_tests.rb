@@ -1,9 +1,8 @@
 Shindo.tests('Fog::Compute::RackspaceV2 | attachment_tests', ['rackspace']) do
   compute_service       = Fog::Compute::RackspaceV2.new
   block_storage_service = Fog::Rackspace::BlockStorage.new
-  image_id              = Fog.credentials[:rackspace_image_id] || compute_service.images.first.id
-  flavor_id             = Fog.credentials[:rackspace_flavor_id] || compute_service.flavors.first.id
-  timeout = Fog.mocking? ? 1 : 10
+  image_id              = rackspace_test_image_id(compute_service)
+  flavor_id             = rackspace_test_flavor_id(compute_service)
 
   attachment_format = {
     'volumeAttachment' => {
@@ -27,12 +26,12 @@ Shindo.tests('Fog::Compute::RackspaceV2 | attachment_tests', ['rackspace']) do
 
 
   tests('success') do
-    until compute_service.get_server(server_id).body['server']['status'] == 'ACTIVE'
-      sleep timeout
+    wait_for_request("Waiting for server to become ready") do
+      compute_service.get_server(server_id).body['server']['status'] == 'ACTIVE'
     end
 
-    until block_storage_service.get_volume(volume_id).body['volume']['status'] == 'available'
-      sleep timeout
+    wait_for_request("Waiting for Volume to be ready") do
+      block_storage_service.get_volume(volume_id).body['volume']['status'] == 'available'
     end
 
     tests("#attach_volume(#{server_id}, #{volume_id}, #{device_id})").formats(attachment_format) do
@@ -43,8 +42,8 @@ Shindo.tests('Fog::Compute::RackspaceV2 | attachment_tests', ['rackspace']) do
       compute_service.list_attachments(server_id).body
     end
 
-    until block_storage_service.get_volume(volume_id).body['volume']['status'] == 'in-use'
-      sleep timeout
+    wait_for_request("Waiting for Volume to be ready") do
+      block_storage_service.get_volume(volume_id).body['volume']['status'] == 'in-use'
     end
 
     tests("#get_attachment(#{server_id}, #{volume_id})").formats(attachment_format) do
