@@ -175,9 +175,8 @@ module Fog
           # As the HP provider is broadly used by OpenStack users the OpenStack strategy is applied when
           # the @hp_account_meta_key is given.
           if @hp_account_meta_key then
-            puts "\n\nUsing account meta key #{@hp_account_meta_key}\n\n"
-            hmac_body     = "#{method}\n#{expires}\n#{encoded_path}"
-            signature     = Digest::HMAC.hexdigest(hmac_body, @hp_account_meta_key, Digest::SHA1)            
+            hmac      = OpenSSL::HMAC.new(@hp_account_meta_key, OpenSSL::Digest::SHA1.new)
+            signature = hmac.update(string_to_sign).hexdigest
           else
             # Only works with 1.9+ Not compatible with 1.8.7
             #signed_string = Digest::HMAC.hexdigest(string_to_sign, @hp_secret_key, Digest::SHA1)
@@ -185,6 +184,7 @@ module Fog
             # Compatible with 1.8.7 onwards          
             hmac = OpenSSL::HMAC.new(@hp_secret_key, OpenSSL::Digest::SHA1.new)
             signed_string = hmac.update(string_to_sign).hexdigest
+            
             signature     = @hp_tenant_id.to_s + ":" + @hp_access_key.to_s + ":" + signed_string
             signature     = Fog::HP.escape(signature)
           end
