@@ -65,7 +65,7 @@ module Fog
           true
         end
 
-        def save
+        def save(options = {})
           raise Fog::Errors::Error.new('Resaving an existing object may create a duplicate') if persisted?
           requires :flavor_id, :image_id
           options = {
