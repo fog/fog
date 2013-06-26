@@ -10,9 +10,11 @@ module Fog
       recognizes  :persistent, :connection_options
       recognizes  :hp_use_upass_auth_style, :hp_auth_version, :user_agent
       recognizes  :hp_access_key, :hp_account_id  # :hp_account_id is deprecated use hp_access_key instead
-      recognizes  :hp_account_meta_key
+      
+      # :os_account_meta_temp_url_key is an OpenStack specific setting used to generate temporary urls.
+      recognizes  :os_account_meta_temp_url_key
 
-      secrets     :hp_secret_key, :hp_account_meta_key
+      secrets     :hp_secret_key, :os_account_meta_temp_url_key
 
       model_path 'fog/hp/models/storage'
       model       :directory
@@ -173,10 +175,10 @@ module Fog
           
           # HP uses a different strategy to create the signature that is passed to swift than OpenStack.
           # As the HP provider is broadly used by OpenStack users the OpenStack strategy is applied when
-          # the @hp_account_meta_key is given.
-          if @hp_account_meta_key then
-            hmac      = OpenSSL::HMAC.new(@hp_account_meta_key, OpenSSL::Digest::SHA1.new)
-            signature = hmac.update(string_to_sign).hexdigest
+          # the @os_account_meta_temp_url_key is given.
+          if @os_account_meta_temp_url_key then
+            hmac      = OpenSSL::HMAC.new(@os_account_meta_temp_url_key, OpenSSL::Digest::SHA1.new)
+            signature= hmac.update(string_to_sign).hexdigest
           else
             # Only works with 1.9+ Not compatible with 1.8.7
             #signed_string = Digest::HMAC.hexdigest(string_to_sign, @hp_secret_key, Digest::SHA1)
@@ -230,7 +232,7 @@ module Fog
           end
           @hp_secret_key = options[:hp_secret_key]
           @hp_tenant_id = options[:hp_tenant_id]
-          @hp_account_meta_key = options[:hp_account_meta_key]        
+          @os_account_meta_temp_url_key = options[:os_account_meta_temp_url_key]        
         end
 
         def data
@@ -268,7 +270,7 @@ module Fog
           options[:hp_service_type] = "Object Storage"
           @hp_tenant_id = options[:hp_tenant_id]
           @hp_avl_zone  = options[:hp_avl_zone]
-          @hp_account_meta_key = options[:hp_account_meta_key]
+          @os_account_meta_temp_url_key = options[:os_account_meta_temp_url_key]
 
           ### Make the authentication call
           if (auth_version == :v2)
