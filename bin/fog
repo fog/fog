@@ -8,6 +8,10 @@ require 'yaml'
 options = OptionParser.new do |opts|
   opts.banner = 'usage: fog [options] GROUP'
 
+  opts.on('-f', '--fogrc FILE', 'Path to the fogrc file') do |file|
+    Fog.credentials_path = file
+  end
+
   opts.on_tail('-V', '--version', 'Prints the version') do
     puts Fog::VERSION
     exit
