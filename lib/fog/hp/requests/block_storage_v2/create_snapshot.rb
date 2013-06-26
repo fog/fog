@@ -54,13 +54,13 @@ module Fog
           if self.data[:volumes][volume_id]
             response.status = 200
             data = {
-              'id'                 => Fog::HP::Mock.uuid.to_s,
-              'display_name'       => options['display_name'] || '',
-              'display_name'       => options['display_description'] || '',
-              'size'               => self.data[:volumes][volume_id]['size'],
-              'status'             => 'available',
-              'volume_id'          => volume_id,
-              'created_at'         => Time.now.to_s
+              'id'                  => Fog::HP::Mock.uuid.to_s,
+              'display_name'        => options['display_name'] || '',
+              'display_description' => options['display_description'] || '',
+              'size'                => self.data[:volumes][volume_id]['size'],
+              'status'              => 'available',
+              'volume_id'           => volume_id,
+              'created_at'          => Time.now.to_s
             }
             self.data[:snapshots][data['id']] = data
             response.body = { 'snapshot' => data }
