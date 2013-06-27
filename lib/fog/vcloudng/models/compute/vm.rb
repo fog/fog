@@ -18,7 +18,7 @@ module Fog
         attribute :ip_address
         attribute :cpu, :type => :integer
         attribute :memory
-#        attribute :disks
+        attribute :disks
             
         def customization
           data = service.get_vm_customization(id).body

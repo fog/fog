@@ -32,6 +32,8 @@ module Fog
                  @vm['status'] = human_status(@vm['status'])
              when 'Children'
                @in_children = true
+             when 'HostResource'
+               @current_host_resource = extract_attributes(attributes)
              end
           end
 
@@ -47,23 +49,19 @@ module Fog
                 end
               when 'ResourceType'
                 @resource_type = value
-                case value
-                when '3'
-                  @get_cpu = true # cpu
-                when '4'  # memory
-                  @get_memory = true
-                when '17' # disks
-                  @get_disks = true
-                end
               when 'VirtualQuantity'
                 case @resource_type
                 when '3'
                   @vm['cpu'] = value
                 when '4'
                   @vm['memory'] = value
-                when '17'
+                end
+              when 'ElementName'
+                @element_name = value
+              when 'Item'
+                if @resource_type == '17' # disk
                   @vm['disks'] ||= []
-                  @vm['disks'] << value
+                  @vm['disks'] << { @element_name => @current_host_resource["capacity"].to_i }
                 end
               when 'Vm'
                 @response['vms'] << @vm

@@ -75,6 +75,8 @@ module Fog
      request :get_vm_memory
      request :put_vm_memory
      request :get_request
+     request :get_vm_disks
+     request :put_vm_disks
      
      
 
