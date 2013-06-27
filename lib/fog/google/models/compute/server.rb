@@ -39,15 +39,6 @@ module Fog
           ip
         end
 
-        def metadata
-          def []=(k,v)
-            service.set_metadata(self.name, self.zone, {k => v})
-            return self.metadata
-          end
-          data = service.get_server(self.name, self.zone).body
-          data['metadata'] || {}
-        end
-
         def ready?
           self.state == RUNNING
         end
@@ -73,19 +64,16 @@ module Fog
           requires :machine_type
           requires :zone_name
 
+          metadata.merge!({
+            "sshKeys" => "#{username}:#{File.read(public_key_path).strip}"
+          }) if :public_key_path
+
           data = service.insert_server(
             name,
             image_name,
             zone_name,
-            machine_type)
-        end
-
-        def setup(credentials = {})
-          requires :public_ip_address, :public_key, :username
-          self.metadata['sshKeys'] = "#{self.username}:#{self.public_key}"
-        rescue Errno::ECONNREFUSED
-          sleep(1)
-          retry
+            machine_type,
+            metadata)
         end
 
       end

@@ -12,8 +12,12 @@ module Fog
 
       class Real
 
+        def format_metadata(metadata)
+          { "items" => metadata.map {|k,v| {"key" => k, "value" => v}} }
+        end
+
         def insert_server(server_name, image_name,
-                          zone_name, machine_name,
+                          zone_name, machine_name, metadata,
                           network_name=@default_network)
 
           # We need to get the right owner for an image.
@@ -34,6 +38,7 @@ module Fog
             'name' => server_name,
             'image' => @image_url,
             'machineType' => @api_url + @project + "/zones/#{zone_name}/machineTypes/#{machine_name}",
+            'metadata' => format_metadata(metadata),
             'networkInterfaces' => [{
               'network' => @api_url + @project + "/global/networks/#{network_name}",
               'accessConfigs' => [{
