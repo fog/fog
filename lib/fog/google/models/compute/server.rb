@@ -26,13 +26,16 @@ module Fog
 
         def public_ip_address
           ip = nil
-          self.network_interfaces.each do |netif|
-            netif["accessConfigs"].each do |access_config|
-              if access_config["name"] == "External NAT"
-                ip = access_config['natIP']
+          if self.network_interfaces
+            self.network_interfaces.each do |netif|
+              netif["accessConfigs"].each do |access_config|
+                if access_config["name"] == "External NAT"
+                  ip = access_config['natIP']
+                end
               end
             end
           end
+
           ip
         end
 
