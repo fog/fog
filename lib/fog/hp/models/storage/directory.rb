@@ -7,12 +7,16 @@ module Fog
 
       class Directory < Fog::Model
 
-        identity  :key,       :aliases => 'name'
+        identity  :key,               :aliases => 'name'
 
-        attribute :bytes,     :aliases => 'X-Container-Bytes-Used'
-        attribute :count,     :aliases => 'X-Container-Object-Count'
-        attribute :sync_to,   :aliases => 'X-Container-Sync-To'
-        attribute :sync_key,  :aliases => 'X-Container-Sync-Key'
+        attribute :bytes,             :aliases => 'X-Container-Bytes-Used'
+        attribute :count,             :aliases => 'X-Container-Object-Count'
+        attribute :sync_to,           :aliases => 'X-Container-Sync-To'
+        attribute :sync_key,          :aliases => 'X-Container-Sync-Key'
+        attribute :web_index,         :aliases => 'X-Container-Meta-Web-Index'
+        attribute :web_listings,      :aliases => 'X-Container-Meta-Web-Listings'
+        attribute :web_listings_css,  :aliases => 'X-Container-Meta-Web-Listings-Css'
+        attribute :web_error,         :aliases => 'X-Container-Meta-Web-Error'
 
         def initialize(attributes = {})
             @read_acl  = []
@@ -234,6 +238,10 @@ module Fog
           options.merge!(service.perm_acl_to_header(@read_acl, @write_acl))
           options.merge!({'X-Container-Sync-To' => self.sync_to}) unless self.sync_to.nil?
           options.merge!({'X-Container-Sync-Key' => self.sync_key}) unless self.sync_key.nil?
+          options.merge!({'X-Container-Meta-Web-Index' => self.web_index}) unless self.web_index.nil?
+          options.merge!({'X-Container-Meta-Web-Listings' => self.web_listings})
+          options.merge!({'X-Container-Meta-Web-Listings-Css' => self.web_listings_css}) unless self.web_listings_css.nil?
+          options.merge!({'X-Container-Meta-Web-Error' => self.web_error}) unless self.web_error.nil?
           service.put_container(key, options)
           # Added an extra check to see if CDN is enabled for the container
           if (!service.cdn.nil? && service.cdn.enabled?)
@@ -241,8 +249,9 @@ module Fog
             if @cdn_enable
               # check to make sure that the container exists. If yes, cdn enable it.
               begin response = service.cdn.head_container(key)
-                ### Deleting a container from CDN is much more expensive than flipping the bit to disable it
-                service.cdn.post_container(key, {'X-CDN-Enabled' => 'True'})
+                if response.headers['X-Cdn-Enabled'] == 'False'
+                  service.cdn.post_container(key, {'X-Cdn-Enabled' => 'True'})
+                end
               rescue Fog::CDN::HP::NotFound
                 service.cdn.put_container(key)
               rescue Excon::Errors::SocketError
@@ -252,7 +261,9 @@ module Fog
               # check to make sure that the container exists. If yes, cdn disable it.
               begin response = service.cdn.head_container(key)
                 ### Deleting a container from CDN is much more expensive than flipping the bit to disable it
-                service.cdn.post_container(key, {'X-CDN-Enabled' => 'False'})
+                if response.headers['X-Cdn-Enabled'] == 'True'
+                  service.cdn.post_container(key, {'X-Cdn-Enabled' => 'False'})
+                end
               rescue Fog::CDN::HP::NotFound
                 # just continue, as container is not cdn-enabled.
               rescue Excon::Errors::SocketError
