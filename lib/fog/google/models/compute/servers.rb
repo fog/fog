@@ -49,6 +49,7 @@ module Fog
             :zone_name => "us-central1-a",
             :private_key_path => File.expand_path("~/.ssh/id_rsa"),
             :public_key_path => File.expand_path("~/.ssh/id_rsa.pub"),
+            :username => ENV['USER'],
           }
 
           server = create(defaults.merge(new_attributes))
