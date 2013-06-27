@@ -26,7 +26,6 @@ module Fog
             api_method,
             parameters,
             body_object=body_object)
-          p result
           response = self.build_response(result)
         end
 
