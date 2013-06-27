@@ -20,14 +20,9 @@ module Fog
                           zone_name, machine_name, metadata,
                           network_name=@default_network)
 
-          # We need to get the right owner for an image.
-          owners = [ @project, 'google', 'debian-cloud', 'centos-cloud' ]
-          @image_url = @api_url + "google/global/images/#{image_name}"
-          for owner in owners do
-            if self.get_image(image_name, owner).status == 200
-              @image_url = @api_url + owner + "/global/images/#{image_name}"
-            end
-          end
+          # We don't know the owner of the image.
+          image = images.create({:name => image_name})
+          @image_url = @api_url + image.resource_url
 
           api_method = @compute.instances.insert
           parameters = {
