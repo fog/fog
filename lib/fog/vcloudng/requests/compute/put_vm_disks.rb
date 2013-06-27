@@ -4,12 +4,12 @@ module Fog
       class Real
         require 'fog/vcloudng/generators/compute/disks'
         
-        def put_vm_disks(vm_id, items=[])
-          data = Fog::Generators::Compute::Vcloudng::Disks.new(items)
-          data.modify_hard_disk_size(1, 8192*2)
-          puts data.generate
+        # disks is the body of get_vm_disks
+        def put_vm_disks(vm_id, disks=[])
+          data = Fog::Generators::Compute::Vcloudng::Disks.new(disks)
+          
           request(
-            :body => data.generate,
+            :body => data.generate_xml,
             :expects  => 202,                
             :headers => { 'Content-Type' => 'application/vnd.vmware.vcloud.rasdItemsList+xml',
                         'Accept' => 'application/*+xml;version=1.5' },
