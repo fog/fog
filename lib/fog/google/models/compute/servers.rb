@@ -50,8 +50,10 @@ module Fog
             :private_key_path => File.expand_path("~/.ssh/id_rsa"),
             :public_key_path => File.expand_path("~/.ssh/id_rsa.pub"),
           }
+
           server = create(defaults.merge(new_attributes))
-          server.wait_for { running? }
+          server.wait_for { ready? }
+
           server
         end
       end

@@ -45,7 +45,7 @@ module Fog
           data['metadata'] || {}
         end
 
-        def running?
+        def ready?
           self.state == RUNNING
         end
 
