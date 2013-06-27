@@ -75,6 +75,7 @@ module Fog
           @project = options[:google_project]
           google_client_email = options[:google_client_email]
           @api_url = base_url + api_version + '/projects/'
+
           # NOTE: loaded here to avoid requiring this as a core Fog dependency
           begin
             require 'google/api_client'
@@ -125,8 +126,7 @@ module Fog
             response.status = response.body["error"]["code"]
 
             response.body["error"]["errors"].each do |error|
-              # We could throw these I guess.
-              p Fog::Errors::Error.new(error["message"])
+              throw Fog::Errors::Error.new(error["message"])
             end
           else
             response.status = 200
