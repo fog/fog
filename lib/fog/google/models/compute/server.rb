@@ -25,11 +25,15 @@ module Fog
         end
 
         def public_ip_address
-          if self.network_interfaces and self.network_interfaces.count
-            self.network_interfaces[0]["networkIP"]
-          else
-            nil
+          ip = nil
+          self.network_interfaces.each do |netif|
+            netif["accessConfigs"].each do |access_config|
+              if access_config["name"] == "External NAT"
+                ip = access_config['natIP']
+              end
+            end
           end
+          ip
         end
 
         def metadata
@@ -37,17 +41,12 @@ module Fog
             service.set_metadata(self.name, self.zone, {k => v})
             return self.metadata
           end
-
           data = service.get_server(self.name, self.zone).body
           data['metadata'] || {}
         end
 
-        def ready?
-          data = service.get_server(self.name, self.zone).body
-          data['zone_name'] = self.zone
-          self.merge_attributes(data)
-
-          self.state == RUNNING_STATE
+        def running?
+          self.state == RUNNING
         end
 
         def zone
@@ -58,6 +57,11 @@ module Fog
           else
             self.zone_name
           end
+        end
+
+        def reload
+          data = service.get_server(self.name, self.zone).body
+          self.merge_attributes(data)
         end
 
         def save
@@ -71,9 +75,6 @@ module Fog
             image_name,
             zone_name,
             machine_type)
-
-          data = service.get_server(self.name, self.zone_name).body
-          service.servers.merge_attributes(data)
         end
 
         def setup(credentials = {})
@@ -82,18 +83,6 @@ module Fog
         rescue Errno::ECONNREFUSED
           sleep(1)
           retry
-        end
-
-        def sshable?(options={})
-          # Then check if we have ssh keys set up.
-          if ready? and not metadata['sshKeys']
-            setup
-          end
-
-          # Now make sure everything is ok.
-          ready? && !public_ip_address.nil? && public_key && metadata['sshKeys'] && !!Timeout::timeout(8) { ssh('pwd', options) }
-        rescue SystemCallError, Net::SSH::AuthenticationFailed, Timeout::Error, ArgumentError
-          false
         end
 
       end

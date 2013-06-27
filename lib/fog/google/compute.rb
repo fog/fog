@@ -136,7 +136,7 @@ module Fog
 
       end
 
-      RUNNING_STATE = 'RUNNING'
+      RUNNING = 'RUNNING'
 
     end
   end

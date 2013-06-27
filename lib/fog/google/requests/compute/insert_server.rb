@@ -35,7 +35,11 @@ module Fog
             'image' => @image_url,
             'machineType' => @api_url + @project + "/zones/#{zone_name}/machineTypes/#{machine_name}",
             'networkInterfaces' => [{
-              'network' => @api_url + @project + "/global/networks/#{network_name}"
+              'network' => @api_url + @project + "/global/networks/#{network_name}",
+              'accessConfigs' => [{
+                'type' => 'ONE_TO_ONE_NAT',
+                'name' => 'External NAT',
+              }]
             }]
           }
 
