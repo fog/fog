@@ -53,7 +53,7 @@ module Fog
           }
 
           server = create(defaults.merge(new_attributes))
-          server.wait_for { ready? }
+          server.wait_for { sshable? }
 
           server
         end
