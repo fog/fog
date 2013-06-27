@@ -64,6 +64,10 @@ module Fog
           requires :machine_type
           requires :zone_name
 
+          if metadata.nil?
+            metadata = {}
+          end
+
           metadata.merge!({
             "sshKeys" => "#{username}:#{File.read(public_key_path).strip}"
           }) if :public_key_path
