@@ -6,9 +6,9 @@ require 'irb'
 require 'yaml'
 
 options = OptionParser.new do |opts|
-  opts.banner = 'usage: fog [options] GROUP'
+  opts.banner = 'usage: fog [options] CREDENTIAL'
 
-  opts.on('-f', '--fogrc FILE', 'Path to the fogrc file') do |file|
+  opts.on('-C', '--credentials-path FILE', 'Path to the credentials file') do |file|
     Fog.credentials_path = file
   end
 
