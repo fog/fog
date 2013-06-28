@@ -1,5 +1,6 @@
 require 'fog/core/model'
 require 'fog/hp/models/storage/files'
+require 'fog/hp/models/storage/metadata'
 
 module Fog
   module Storage
@@ -98,6 +99,21 @@ module Fog
             @write_acl.uniq!
           end
           true
+        end
+
+        def metadata
+          @metadata ||= begin
+            Fog::Storage::HP::Metadata.new({
+              :service => service,
+              :parent => self
+            })
+          end
+        end
+
+        def metadata=(new_metadata={})
+          metas = []
+          new_metadata.each_pair {|k,v| metas << {'key' => k, 'value' => v} }
+          metadata.load(metas)
         end
 
         def destroy
@@ -242,6 +258,10 @@ module Fog
           options.merge!({'X-Container-Meta-Web-Listings' => self.web_listings})
           options.merge!({'X-Container-Meta-Web-Listings-Css' => self.web_listings_css}) unless self.web_listings_css.nil?
           options.merge!({'X-Container-Meta-Web-Error' => self.web_error}) unless self.web_error.nil?
+          # get the metadata and merge them in
+          meta_hash = {}
+          metadata.each { |meta| meta_hash.store(meta.key, meta.value) }
+          options.merge!(meta_hash)
           service.put_container(key, options)
           # Added an extra check to see if CDN is enabled for the container
           if (!service.cdn.nil? && service.cdn.enabled?)
