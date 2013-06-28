@@ -55,6 +55,8 @@ module Fog
      collection  :vm_customizations
      model       :network
      collection  :networks
+     model       :disk
+     collection  :disks
      
      request_path 'fog/vcloudng/requests/compute'
      request :get_organizations

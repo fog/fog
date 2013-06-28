@@ -160,7 +160,7 @@ module Fog
              element_names = hard_disks.map{|item| item['element_name'] }
              only_numbers = element_names.map{|b| b.scan(/\d+/).first.to_i} # extract numbers
              last_number = only_numbers.sort.last # get the last number
-             hard_disks.detect{|hard_disk| hard_disk =~ /#{last_number}$/  }
+             hard_disks.detect{|hard_disk| hard_disk["element_name"] =~ /#{last_number}$/  }
           end
           
           def increase_hard_disk_name(hard_disk_name)

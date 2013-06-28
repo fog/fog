@@ -18,12 +18,17 @@ module Fog
         attribute :ip_address
         attribute :cpu, :type => :integer
         attribute :memory
-        attribute :disks
+        attribute :hard_disks, :aliases => 'disks'
             
         def customization
           data = service.get_vm_customization(id).body
           puts data
           service.vm_customizations.new(data)
+        end
+        
+        def disks
+          requires :id
+          service.disks(:vm_id => id)
         end
         
         #def reload

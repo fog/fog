@@ -30,18 +30,7 @@ module Fog
           new(vm)
         end
         
-        #def new(attributes = {})
-        #  puts attributes
-        #  puts attributes.class
-        #  if vapp
-        #    puts "there is a vapp #{vapp.inspect}"
-        #    super({ :vapp => vapp }.merge!(attributes))
-        #  else
-        #    super(attributes)
-        #  end
-        #end
-        
-#        private
+        private
         
         def vm_links
           data = service.get_vms(vapp_id).body
