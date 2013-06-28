@@ -60,7 +60,8 @@ Shindo.tests('Fog::Compute[:xenserver] | server model', ['xenserver']) do
         :pv_kernel,
         :pv_ramdisk,
         :pv_legacy_args,
-        :pv_bootloader_args
+        :pv_bootloader_args,
+        :snapshots
       ]
       tests("The server model should respond to") do
         attributes.each do |attribute|
@@ -162,6 +163,13 @@ Shindo.tests('Fog::Compute[:xenserver] | server model', ['xenserver']) do
       servers.get_by_name('fog-test-server-shindo') == nil
     end
 
+    tests("Creating a snapshot") do
+      tests("it should create a snapshot") do
+        snap_ref = server.snapshot('newsnapshot')
+        servers.get(snap_ref).reference == snap_ref
+      end
+      test("and destroy it afterwards") { s.destroy }
+    end
   end
 
 end
