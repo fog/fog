@@ -71,6 +71,7 @@ module Fog
      request :get_task
      request :get_tasks_list
      request :get_vm_customization
+     request :put_vm_customization
      request :get_network
      request :get_vm_cpu
      request :put_vm_cpu

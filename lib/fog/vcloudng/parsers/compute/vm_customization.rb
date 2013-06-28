@@ -14,34 +14,37 @@ module Fog
             case name
             when 'GuestCustomizationSection'
               customizations = extract_attributes(attributes)
-              @response.merge!(customizations.reject {|key,value| !['href', 'type'].include?(key)})
-              @response['id'] = @response['href'].split('/').last
+              @response[:href] = customizations['href']
+              @response[:type] = customizations['type']
+              # href looks like this:
+              #  "https://devlab.mdsol.com/api/vApp/vm-2bbbf556-55dc-4974-82e6-aa6e814f0b64/guestCustomizationSection/"
+              @response[:id] = @response[:href].split('/')[-2]
             end
           end
 
           def end_element(name)
             case name
             when 'Enabled', 
-              @response['enabled'] = (value == "true")
+              @response[:enabled] = (value == "true")
             when 'ChangeSid'
-              @response['change_sid'] = (value == "true")
+              @response[:change_sid] = (value == "true")
             when 'JoinDomainEnabled'
-              @response['join_domain_enabled'] = (value == "true")
+              @response[:join_domain_enabled] = (value == "true")
             when 'UseOrgSettings'
-              @response['use_org_settings'] = (value == "true")
+              @response[:use_org_settings] = (value == "true")
             when 'AdminPasswordEnabled'
-              @response['admin_password_enabled'] = (value == "true")
+              @response[:admin_password_enabled] = (value == "true")
             when 'AdminPasswordAuto'
-              @response['admin_password_auto'] = (value == "true")
+              @response[:admin_password_auto] = (value == "true")
             when 'ResetPasswordRequired'
-              @response['reset_password_required'] = (value == "true")
+              @response[:reset_password_required] = (value == "true")
             when 'VirtualMachineId'
-              @response['virtual_machine_id'] = value
+              @response[:virtual_machine_id] = value
             when 'ComputerName'
-              @response['computer_name'] = value
+              @response[:computer_name] = value
             when 'CustomizationScript'
-              @response['customization_script'] = value
-              @response['has_customization_script'] = !value.empty?
+              @response[:customization_script] = value
+              @response[:has_customization_script] = !value.empty?
             end
             
           end

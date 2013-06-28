@@ -21,6 +21,7 @@
 #     "element_name"=>"IDE Controller 0",
 #     "instance_id"=>3,
 #     "resource_type"=>5}]}
+#
 # This is what it generates
 #
 # <vcloud:RasdItemsList xmlns:vcloud="http://www.vmware.com/vcloud/v1.5" 

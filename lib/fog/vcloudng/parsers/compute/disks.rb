@@ -41,7 +41,6 @@ module Fog
               @disk['resource_type'] = value.to_i
             when 'Item'
               if @host_resource
-                puts @host_resource['busSubType']
                 @disk['capacity'] = @host_resource['capacity'].to_i
                 @disk['bus_sub_type'] = @host_resource['busSubType']
                 @disk['bus_type'] = @host_resource['busType'].to_i
