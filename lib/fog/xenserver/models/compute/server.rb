@@ -50,6 +50,7 @@ module Fog
         attribute :hvm_boot_policy,      :aliases => :HVM_boot_policy
         attribute :hvm_boot_params,      :aliases => :HVM_boot_params
         attribute :pci_bus,              :aliases => :PCI_bus
+        attribute :snapshots
 
         def initialize(attributes={})
           super
@@ -198,12 +199,13 @@ module Fog
           service.provision_server reference
         end
 
-        # def snapshot
-        #   requires :reference, :name_label
-        #   data = service.snapshot_server(@reference, @name_label)
-        #   merge_attributes(data.body)
-        #   true
-        # end
+        def snapshot(name)
+          service.snapshot_server(reference, name)
+        end
+
+        def revert(snapshot_ref)
+          service.snapshot_revert(snapshot_ref)
+        end
       end
 
     end
