@@ -12,10 +12,11 @@ module Fog
 
       class Real
 
-        def list_machine_types
+        def list_machine_types(zone_name)
           api_method = @compute.machine_types.list
           parameters = {
-            'project' => 'google'
+            'project' => @project,
+            'zone' => zone_name,
           }
 
           result = self.build_result(api_method, parameters)

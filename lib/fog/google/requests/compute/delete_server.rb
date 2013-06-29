@@ -15,10 +15,13 @@ module Fog
         def delete_server(server_name, zone_name=nil)
           if zone_name.nil?
             list_zones.body['items'].each do |zone|
-              data = get_server(server_name, zone['name']).body
-              if data["error"].nil?
+              if get_server(server_name, zone['name']).status == 200
                 zone_name = zone['name']
               end
+            end
+          else
+            if zone_name.is_a? Excon::Response
+              zone_name = zone_name.body["name"]
             end
           end
 
