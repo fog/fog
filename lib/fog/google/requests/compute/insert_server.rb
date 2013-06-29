@@ -12,16 +12,17 @@ module Fog
 
       class Real
 
+        def format_metadata(metadata)
+          { "items" => metadata.map {|k,v| {"key" => k, "value" => v}} }
+        end
+
         def insert_server(server_name, image_name,
-                          zone_name, machine_name,
+                          zone_name, machine_name, metadata,
                           network_name=@default_network)
 
-          # We need to check if the image is owned by the user or a global image.
-          if get_image(image_name, @project).data['code'] == 200
-            image_url = @api_url + @project + "/global/images/#{image_name}"
-          else
-            image_url = @api_url + "google/global/images/#{image_name}"
-          end
+          # We don't know the owner of the image.
+          image = images.create({:name => image_name})
+          @image_url = @api_url + image.resource_url
 
           api_method = @compute.instances.insert
           parameters = {
@@ -30,10 +31,15 @@ module Fog
           }
           body_object = {
             'name' => server_name,
-            'image' => image_url,
-            'machineType' => @api_url + @project + "/global/machineTypes/#{machine_name}",
+            'image' => @image_url,
+            'machineType' => @api_url + @project + "/zones/#{zone_name}/machineTypes/#{machine_name}",
+            'metadata' => format_metadata(metadata),
             'networkInterfaces' => [{
-              'network' => @api_url + @project + "/global/networks/#{network_name}"
+              'network' => @api_url + @project + "/global/networks/#{network_name}",
+              'accessConfigs' => [{
+                'type' => 'ONE_TO_ONE_NAT',
+                'name' => 'External NAT',
+              }]
             }]
           }
 
@@ -41,9 +47,7 @@ module Fog
                                      body_object=body_object)
           response = self.build_response(result)
         end
-
       end
-
     end
   end
 end
