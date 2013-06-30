@@ -111,6 +111,8 @@ module Fog
           @joyent_version = options[:joyent_version] || '~6.5'
           @joyent_username = options[:joyent_username]
 
+          @connection_options[:ssl_verify_peer] = false
+          
           unless @joyent_username
             raise ArgumentError, "options[:joyent_username] required"
           end
