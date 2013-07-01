@@ -8,6 +8,7 @@ module Fog
       module LoadBalancer; end
       module Server; end
       module ServerGroup; end
+      module User; end
       module Zone; end
     end
   end
@@ -33,6 +34,9 @@ NilClass.send :include, Fog::Brightbox::Nullable::Server
 
 Hash.send :include, Fog::Brightbox::Nullable::ServerGroup
 NilClass.send :include, Fog::Brightbox::Nullable::ServerGroup
+
+Hash.send :include, Fog::Brightbox::Nullable::User
+NilClass.send :include, Fog::Brightbox::Nullable::User
 
 Hash.send :include, Fog::Brightbox::Nullable::Zone
 NilClass.send :include, Fog::Brightbox::Nullable::Zone
@@ -75,8 +79,8 @@ class Brightbox
         raise "No available images!" if images.empty?
         images.select { |img| img["official"] && img["virtual_size"] != 0 }.sort_by { |img| img["disk_size"] }.first || images.first
       end
-
     end
+
     module Formats
       module Struct
         CIP_PORT_TRANSLATOR = {
@@ -229,6 +233,20 @@ class Brightbox
           "url"             => String,
           "name"            => String,
           "email_address"   => String
+        }
+
+
+        COLLABORATION = {
+          "id"              => String,
+          "resource_type"   => String,
+          "url"             => String,
+          "status"          => String,
+          "email"           => Fog::Nullable::String,
+          "role"            => String,
+          "role_label"      => String,
+          "user"            => Fog::Brightbox::Nullable::User,
+          "account"         => Brightbox::Compute::Formats::Nested::ACCOUNT,
+          "inviter"         => Brightbox::Compute::Formats::Nested::USER
         }
 
         ZONE = {
@@ -411,6 +429,19 @@ class Brightbox
           "email_verified"  => Fog::Boolean,
           "accounts"        => [Brightbox::Compute::Formats::Nested::ACCOUNT],
           "default_account" => NilClass
+        }
+
+        COLLABORATION = {
+          "id"              => String,
+          "resource_type"   => String,
+          "url"             => String,
+          "status"          => String,
+          "role"            => String,
+          "role_label"      => String,
+          "email"           => Fog::Nullable::String,
+          "user"            => Fog::Brightbox::Nullable::User,
+          "account"         => Brightbox::Compute::Formats::Nested::ACCOUNT,
+          "inviter"         => Brightbox::Compute::Formats::Nested::USER
         }
 
         ZONE = {
@@ -656,13 +687,25 @@ class Brightbox
           "messaging_pref"  => Fog::Boolean
         }
 
+        COLLABORATION = {
+          "id"              => String,
+          "resource_type"   => String,
+          "url"             => String,
+          "status"          => String,
+          "role"            => String,
+          "role_label"      => String,
+          "email"           => Fog::Nullable::String,
+          "user"            => Fog::Brightbox::Nullable::User,
+          "account"         => Brightbox::Compute::Formats::Nested::ACCOUNT,
+          "inviter"         => Brightbox::Compute::Formats::Nested::USER
+        }
+
         ZONE = {
           "id"              => String,
           "resource_type"   => String,
           "url"             => String,
           "handle"          => String
         }
-
       end
 
       module Collection
@@ -678,6 +721,7 @@ class Brightbox
         SERVER_TYPES = [Brightbox::Compute::Formats::Collected::SERVER_TYPE]
         USERS = [Brightbox::Compute::Formats::Collected::USER]
         ZONES = [Brightbox::Compute::Formats::Collected::ZONE]
+        COLLABORATIONS = [Brightbox::Compute::Formats::Collected::COLLABORATION]
       end
 
     end

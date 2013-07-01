@@ -11,7 +11,7 @@ Shindo.tests('Fog::Compute::RackspaceV2 | metadata', ['rackspace']) do
       :flavor_id => rackspace_test_flavor_id(service),
       :image_id => rackspace_test_image_id(service))
       
-      @server.wait_for(timeout=1500) { ready? }
+      @server.wait_for { ready? }
       
       tests('server') do
         collection_tests(@server.metadata, {:key => 'my_key', :value => 'my_value'}) do
@@ -21,7 +21,7 @@ Shindo.tests('Fog::Compute::RackspaceV2 | metadata', ['rackspace']) do
       
       tests('image') do
         @image = @server.create_image("fog_image_#{test_time}", :metadata => {:my_key => 'my_value'})
-        @image.wait_for(timeout = 1500) { ready? }
+        @image.wait_for { ready? }
         tests("#all").succeeds do
           pending if Fog.mocking? && !mocks_implemented
           metadata = @image.metadata.all

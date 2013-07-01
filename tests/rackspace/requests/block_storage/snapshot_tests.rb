@@ -8,9 +8,8 @@ Shindo.tests('Fog::Rackspace::BlockStorage | snapshot_tests', ['rackspace']) do
     'display_description' => Fog::Nullable::String,
     'volume_id' => String,
     'size' => Integer,
-    'created_at' => String,
-    'availability_zone' => String
-  }
+    'created_at' => String
+    }
 
   get_snapshot_format = {
     'snapshot' => snapshot_format

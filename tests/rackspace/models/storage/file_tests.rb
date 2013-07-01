@@ -60,11 +60,6 @@ Shindo.tests('Fog::Rackspace::Storage | file', ['rackspace']) do
     directories.
     create(directory_attributes)
 
-  model_tests(@directory.files, file_attributes.merge(:etag => 'foo'), Fog.mocking?) do
-    tests('#save should not blow up with etag') do
-      @instance.save
-    end
-  end
 
   model_tests(@directory.files, file_attributes, Fog.mocking?) do
 
@@ -187,8 +182,29 @@ Shindo.tests('Fog::Rackspace::Storage | file', ['rackspace']) do
           tests('#streaming_url').returns(0) do
             @instance.streaming_url =~ /http:\/\/.+\.stream\..*#{@instance.key}/
           end
-        end        
+        end
+
+      tests('etags') do
+        text = lorem_file.read
+        md5 = Digest::MD5.new
+        md5 << text
+        etag = md5.hexdigest
+
+        begin
+          tests('valid tag').returns(true) do
+            @file = @directory.files.create :key => 'valid-etag.txt', :body => text,  :etag => etag
+            @file.reload
+            @file.etag == etag
+          end
+        ensure
+          @file.destroy if @file
+        end
+
+        tests('invalid tag').raises(Fog::Storage::Rackspace::ServiceError) do
+          @directory.files.create :key => 'invalid-etag.txt', :body => text,  :etag => "bad-bad-tag"
+        end
       end
+    end
     
       tests('#metadata keys') do
         

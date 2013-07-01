@@ -60,7 +60,8 @@ Shindo.tests('Fog::Compute[:xenserver] | server model', ['xenserver']) do
         :pv_kernel,
         :pv_ramdisk,
         :pv_legacy_args,
-        :pv_bootloader_args
+        :pv_bootloader_args,
+        :snapshots
       ]
       tests("The server model should respond to") do
         attributes.each do |attribute|
@@ -155,6 +156,15 @@ Shindo.tests('Fog::Compute[:xenserver] | server model', ['xenserver']) do
       server.set_attribute 'PV_bootloader', 'supergrub'
       server.reload
       server.pv_bootloader == 'supergrub'
+    end
+    
+    tests("Creating a snapshot") do
+      snap_ref = server.snapshot('newsnapshot')
+      tests("it should create a snapshot") do
+        snap_ref = server.snapshot('newsnapshot')
+        servers.get(snap_ref).reference == snap_ref
+      end
+      test("and destroy it afterwards") { servers.get(snap_ref).destroy }
     end
     
     test("be able to be destroyed!") do
