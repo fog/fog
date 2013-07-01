@@ -18,6 +18,7 @@ module Fog
         attribute  :allocated_storage, :aliases => 'AllocatedStorage', :type => :integer
         attribute  :availability_zone, :aliases => 'AvailabilityZone'
         attribute  :type, :aliases => 'SnapshotType'
+        attribute  :publicly_accessible, :aliases => 'PubliclyAccessible'
 
         def ready?
           state == 'available'
