@@ -57,25 +57,34 @@ module Fog
           end
           
           def header
-            '<GuestCustomizationSection
-              xmlns="http://www.vmware.com/vcloud/v1.5"
-              xmlns:ovf="http://schemas.dmtf.org/ovf/envelope/1"
-              ovf:required="false">
-              <ovf:Info>Specifies Guest OS Customization Settings</ovf:Info>
-              '
+              '<GuestCustomizationSection xmlns="http://www.vmware.com/vcloud/v1.5" 
+                xmlns:ovf="http://schemas.dmtf.org/ovf/envelope/1" 
+                type="application/vnd.vmware.vcloud.guestCustomizationSection+xml" 
+                ovf:required="false" 
+                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+                xsi:schemaLocation="http://schemas.dmtf.org/ovf/envelope/1 
+                  http://schemas.dmtf.org/ovf/envelope/1/dsp8023_1.1.0.xsd 
+                  http://www.vmware.com/vcloud/v1.5 
+                  http://zone01.bluelock.com/api/v1.5/schema/master.xsd">'
+              
           end
           
+          # the order maters http://communities.vmware.com/thread/448760?start=0&tstart=0
+          
           def body(opts={})
-            "<Enabled>#{opts[:enabled]}</Enabled>
-            <ChangeSid>#{opts[:change_sid]}</ChangeSid>
-            <VirtualMachineId>#{opts[:virtual_machine_id]}</VirtualMachineId>
-            <JoinDomainEnabled>#{opts[:join_domain_enabled]}</JoinDomainEnabled>
-            <UseOrgSettings>#{opts[:use_org_settings]}</UseOrgSettings>
-            <AdminPasswordEnabled>#{opts[:admin_password_enabled]}</AdminPasswordEnabled>
-            <AdminPasswordAuto>#{opts[:admin_password_auto]}</AdminPasswordAuto>
-            <ResetPasswordRequired>#{opts[:reset_password_required]}</ResetPasswordRequired>
-            <ComputerName>#{opts[:computer_name]}</ComputerName>
-            <CustomizationScript>#{CGI.escapeHTML(opts[:customization_script])}</CustomizationScript>"
+            body = <<EOF
+             <ovf:Info>Specifies Guest OS Customization Settings</ovf:Info>
+             <Enabled>#{opts[:enabled]}</Enabled>
+             <ChangeSid>#{opts[:change_sid]}</ChangeSid>
+             <VirtualMachineId>#{opts[:virtual_machine_id]}</VirtualMachineId>
+             <JoinDomainEnabled>#{opts[:join_domain_enabled]}</JoinDomainEnabled>
+             <UseOrgSettings>#{opts[:use_org_settings]}</UseOrgSettings>
+             <AdminPasswordEnabled>#{opts[:admin_password_enabled]}</AdminPasswordEnabled>
+             <AdminPasswordAuto>#{opts[:admin_password_auto]}</AdminPasswordAuto>
+             <ResetPasswordRequired>#{opts[:reset_password_required]}</ResetPasswordRequired>
+             <CustomizationScript>#{CGI.escapeHTML(opts[:customization_script])}</CustomizationScript>
+             <ComputerName>#{opts[:computer_name]}</ComputerName>
+EOF
           end
           
           def tail

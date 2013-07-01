@@ -43,8 +43,8 @@ module Fog
             when 'ComputerName'
               @response[:computer_name] = value
             when 'CustomizationScript'
-              @response[:customization_script] = value
               @response[:has_customization_script] = !value.empty?
+              @response[:customization_script] = CGI::unescapeHTML(value) if @response[:has_customization_script] 
             end
             
           end

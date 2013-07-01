@@ -1,7 +1,7 @@
 module Fog
   module Compute
     module Helper
-
+      
       def catalog_item_end_point(catalog_item_id = nil)
         end_point + ( catalog_item_id ? "catalogItem/#{catalog_item_id}" : "catalogItem" )
       end

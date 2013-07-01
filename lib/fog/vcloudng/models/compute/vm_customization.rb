@@ -6,6 +6,7 @@ module Fog
 
       class VmCustomization < Fog::Model
         
+        
         identity  :id
                   
         attribute :type
@@ -29,10 +30,21 @@ module Fog
         end
         
         def save
-          response = service.put_vm_customization(id, attributes)
-          task = response.body
-          task[:id] = task[:href].split('/').last
-          attributes[:customization_task] = service.tasks.new(task)
+          show_exception_body_error {
+            response = service.put_vm_customization(id, attributes)
+            task = response.body
+            task[:id] = task[:href].split('/').last
+            attributes[:customization_task] = service.tasks.new(task)
+          }
+        end
+        
+        def show_exception_body_error
+          yield
+        rescue => @e
+          raise @e unless @e.class.to_s =~ /^Excon::Errors/
+          puts @e.response.status
+          puts CGI::unescapeHTML(@e.response.body)
+          raise @e
         end
         
         
