@@ -57,6 +57,8 @@ module Fog
      collection  :networks
      model       :disk
      collection  :disks
+     model       :vm_network
+     collection  :vm_networks
      
      request_path 'fog/vcloudng/requests/compute'
      request :get_organizations
@@ -80,8 +82,10 @@ module Fog
      request :get_request
      request :get_vm_disks
      request :put_vm_disks
+     request :get_vm_network
+     request :put_vm_network
      
-     
+
 
      class Real
        include Fog::Compute::Helper
@@ -158,6 +162,8 @@ module Fog
            :path     => path
          })
        end
+       
+
      end
 
 

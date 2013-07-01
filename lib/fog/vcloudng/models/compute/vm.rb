@@ -25,6 +25,11 @@ module Fog
           service.vm_customizations.new(data)
         end
         
+        def network
+          data = service.get_vm_network(id).body
+          service.vm_networks.new(data)
+        end
+        
         def disks
           requires :id
           service.disks(:vm_id => id)
