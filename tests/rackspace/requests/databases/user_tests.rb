@@ -6,24 +6,24 @@ Shindo.tests('Fog::Rackspace::Database | user_tests', ['rackspace']) do
   instance_name = 'fog' + Time.now.to_i.to_s
   instance_id = service.create_instance(instance_name, 1, 1).body['instance']['id']
 
-  until service.get_instance(instance_id).body["instance"]["status"] == 'ACTIVE'
-    sleep 10
+  wait_for_request("Waiting for database to be created") do
+    service.get_instance(instance_id).body["instance"]["status"] == 'ACTIVE'
   end
 
   tests('success') do
     user_name = 'fog' + Time.now.to_i.to_s
     password = 'password1'
 
-    tests("#create_user(#{instance_id}, #{user_name}, #{password})").succeeds do
-      service.create_user(instance_id, user_name, password).body
+    tests("#create_user(#{instance_id}, #{user_name}, #{password})").returns(202) do
+      service.create_user(instance_id, user_name, password).status
     end
 
     tests("#list_users{#{instance_id})").formats(LIST_USERS_FORMAT) do
       service.list_users(instance_id).body
     end
 
-    tests("#delete_user(#{instance_id}, #{user_name})").succeeds do
-      service.delete_user(instance_id, user_name)
+    tests("#delete_user(#{instance_id}, #{user_name})").returns(202)  do
+      service.delete_user(instance_id, user_name).status
     end
   end
 
