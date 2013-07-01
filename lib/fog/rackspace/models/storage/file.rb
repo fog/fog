@@ -227,6 +227,7 @@ module Fog
           options['Access-Control-Allow-Origin'] = access_control_allow_origin if access_control_allow_origin
           options['Origin'] = origin if origin
           options['Content-Disposition'] = content_disposition if content_disposition
+          options['Etag'] = etag if etag
           options.merge!(metadata.to_headers)
 
           data = service.put_object(directory.key, key, body, options)
