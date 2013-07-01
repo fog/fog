@@ -218,6 +218,10 @@ module Fog
                 raise
               end
             else
+              case error.message
+              when 'Not Found'
+                raise Fog::AWS::RDS::NotFound.slurp(error, 'RDS Instance not found')
+              end
               raise
             end
           end

@@ -392,7 +392,7 @@ module Fog
               :parser     => parser
             })
         rescue Excon::Errors::HTTPStatusError => error
-          if match = error.message.match(/(?:.*<Code>(.*)<\/Code>)(?:.*<Message>(.*)<\/Message>)/m)
+          if match = error.response.body.match(/(?:.*<Code>(.*)<\/Code>)(?:.*<Message>(.*)<\/Message>)/m)
             raise case match[1].split('.').last
                   when 'NotFound', 'Unknown'
                     Fog::Compute::AWS::NotFound.slurp(error, match[2])

@@ -153,7 +153,7 @@ module Fog
               :parser     => parser
             })
           rescue Excon::Errors::HTTPStatusError => error
-            if match = error.message.match(/(?:.*<Code>(.*)<\/Code>)(?:.*<Message>(.*)<\/Message>)/m)
+            if match = error.response.body.match(/(?:.*<Code>(.*)<\/Code>)(?:.*<Message>(.*)<\/Message>)/m)
               case match[1]
               when 'AlreadyExists'
                 #raise Fog::AWS::AutoScaling::IdentifierTaken.new(match[2])

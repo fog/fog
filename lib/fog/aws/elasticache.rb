@@ -104,7 +104,7 @@ module Fog
               :parser     => parser
             })
           rescue Excon::Errors::HTTPStatusError => error
-            if match = error.message.match(/(?:.*<Code>(.*)<\/Code>?)/m)
+            if match = error.response.body.match(/(?:.*<Code>(.*)<\/Code>?)/m)
               case match[1]
               when 'CacheSecurityGroupNotFound', 'CacheParameterGroupNotFound',
                 'CacheClusterNotFound'
