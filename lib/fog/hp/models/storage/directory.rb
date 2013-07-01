@@ -261,7 +261,9 @@ module Fog
           # get the metadata and merge them in
           meta_hash = {}
           metadata.each { |meta| meta_hash.store(meta.key, meta.value) }
-          options.merge!(meta_hash)
+          if meta_hash
+            options.merge!(meta_hash)
+          end
           service.put_container(key, options)
           # Added an extra check to see if CDN is enabled for the container
           if (!service.cdn.nil? && service.cdn.enabled?)

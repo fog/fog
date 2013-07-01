@@ -20,6 +20,8 @@ module Fog
             metadata.each_pair {|k,v| metas << {'key' => k, 'value' => v} }
             load(metas)
           end
+        rescue Fog::Storage::HP::NotFound
+          nil
         end
 
         def destroy
