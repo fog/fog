@@ -98,6 +98,31 @@ Shindo.tests('Fog::Storage[:rackspace] | object requests', ["rackspace"]) do
       end
     end
 
+    tests('#delete_multiple_objects') do
+      pending if Fog.mocking?
+
+      Fog::Storage[:rackspace].put_object('fogobjecttests', 'fog_object', lorem_file)
+      Fog::Storage[:rackspace].put_object('fogobjecttests', 'fog_object2', lorem_file)
+      Fog::Storage[:rackspace].directories.create(:key => 'fogobjecttests2')
+      Fog::Storage[:rackspace].put_object('fogobjecttests2', 'fog_object', lorem_file)
+
+      expected = {
+        "Number Not Found"  => 0,
+        "Response Status"   => "200 OK",
+        "Errors"            => [],
+        "Number Deleted"    => 2,
+        "Response Body"     => ""
+      }
+
+      returns(expected, 'deletes multiple objects') do
+        Fog::Storage[:rackspace].delete_multiple_objects('fogobjecttests', ['fog_object', 'fog_object2']).body
+      end
+
+      returns(expected, 'deletes object and container') do
+        Fog::Storage[:rackspace].delete_multiple_objects(nil, ['fogobjecttests2/fog_object', 'fogobjecttests2']).body
+      end
+    end
+
   end
 
   tests('failure') do
@@ -130,6 +155,42 @@ Shindo.tests('Fog::Storage[:rackspace] | object requests', ["rackspace"]) do
     tests("#delete_object('fognoncontainer', 'fog_non_object')").raises(Fog::Storage::Rackspace::NotFound) do
       pending if Fog.mocking?
       Fog::Storage[:rackspace].delete_object('fognoncontainer', 'fog_non_object')
+    end
+
+    tests('#delete_multiple_objects') do
+      pending if Fog.mocking?
+
+      expected = {
+        "Number Not Found"  => 2,
+        "Response Status"   => "200 OK",
+        "Errors"            => [],
+        "Number Deleted"    => 0,
+        "Response Body"     => ""
+      }
+
+      returns(expected, 'reports missing objects') do
+        Fog::Storage[:rackspace].delete_multiple_objects('fogobjecttests', ['fog_non_object', 'fog_non_object2']).body
+      end
+
+      returns(expected, 'reports missing container') do
+        Fog::Storage[:rackspace].delete_multiple_objects('fognoncontainer', ['fog_non_object', 'fog_non_object2']).body
+      end
+
+      tests('deleting non-empty container') do
+        Fog::Storage[:rackspace].put_object('fogobjecttests', 'fog_object', lorem_file)
+
+        expected = {
+          "Number Not Found"  => 0,
+          "Response Status"   => "400 Bad Request",
+          "Errors"            => [['fogobjecttests', '409 Conflict']],
+          "Number Deleted"    => 1,
+          "Response Body"     => ""
+        }
+
+        returns(expected, 'deletes object but not container') do
+          Fog::Storage[:rackspace].delete_multiple_objects(nil, ['fogobjecttests', 'fogobjecttests/fog_object']).body
+        end
+      end
     end
 
   end
