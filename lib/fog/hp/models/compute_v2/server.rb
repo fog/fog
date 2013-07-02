@@ -298,7 +298,11 @@ module Fog
         def get_first_network_with_public_ip
           return '' if self.addresses.nil?
           net = self.addresses.select {|_,v| v.count > 1}
-          net.keys.first
+          # select returns a hash in 1.9+ and Array for 1.8.7
+          # so this below does not work in 1.8.7
+          #net.keys.first
+          # this is compatible to 1.8.7 and 1.9+
+          net.first[0]
         end
 
       end
