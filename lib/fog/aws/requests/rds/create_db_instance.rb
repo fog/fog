@@ -25,6 +25,7 @@ module Fog
         # @param PreferredBackupWindow [String] The daily time range during which automated backups are created if automated backups are enabled
         # @param PreferredMaintenanceWindow [String] The weekly time range (in UTC) during which system maintenance can occur, which may result in an outage
         # @param DBSubnetGroupName [String] The name, if any, of the VPC subnet for this RDS instance
+        # @param PubliclyAcccesible [Boolean] Whether an RDS instance inside of the VPC subnet should have a public-facing endpoint
         # 
         # @return [Excon::Response]:
         #   * body [Hash]:
@@ -103,7 +104,8 @@ module Fog
 #                 "ReadReplicaSourceDBInstanceIdentifier" => nil,
 #                 "LatestRestorableTime" => nil,
                  "AvailabilityZone" => options["AvailabilityZone"],
-                 "DBSubnetGroupName" => options["DBSubnetGroupName"]
+                 "DBSubnetGroupName" => options["DBSubnetGroupName"],
+                 "PubliclyAccessible" => options["PubliclyAccessible"]
              }
 
 

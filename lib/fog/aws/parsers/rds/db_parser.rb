@@ -47,7 +47,7 @@ module Fog
               'DBInstanceStatus', 'DBInstanceIdentifier', 'EngineVersion', 
               'PreferredBackupWindow', 'PreferredMaintenanceWindow', 
               'AvailabilityZone', 'MasterUsername', 'DBName', 'LicenseModel',
-              'DBSubnetGroupName'
+              'DBSubnetGroupName', 'PubliclyAccessible'
               @db_instance[name] = value
             when 'MultiAZ', 'AutoMinorVersionUpgrade'
               if value == 'false'
