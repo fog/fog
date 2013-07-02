@@ -10,7 +10,7 @@ module Fog
       class AuthorizationAlreadyExists < Fog::Errors::Error; end
 
       requires :aws_access_key_id, :aws_secret_access_key
-      recognizes :region, :host, :path, :port, :scheme, :persistent, :use_iam_profile, :aws_session_token, :aws_credentials_expire_at
+      recognizes :region, :host, :path, :port, :scheme, :persistent, :use_iam_profile, :aws_session_token, :aws_credentials_expire_at, :version
 
       request_path 'fog/aws/requests/rds'
       request :describe_events
@@ -155,6 +155,7 @@ module Fog
           @port       = options[:port]        || 443
           @scheme     = options[:scheme]      || 'https'
           @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}#{@path}", @persistent, @connection_options)
+          @version    = options[:version] || '2012-09-17' #'2011-04-01'
         end
 
         def owner_id
@@ -191,7 +192,7 @@ module Fog
               :host               => @host,
               :path               => @path,
               :port               => @port,
-              :version            => '2012-09-17' #'2011-04-01'
+              :version            => @version
             }
           )
 
