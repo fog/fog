@@ -48,10 +48,14 @@ Shindo.tests('Fog::Storage[:rackspace] | large object requests', ['rackspace']) 
     tests('dynamic large object requests') do
       pending if Fog.mocking?
 
+      tests('#put_object_manifest alias').succeeds do
+        Fog::Storage[:rackspace].put_object_manifest(@directory.identity, 'fog_large_object')
+      end
+
       tests('using default X-Object-Manifest header') do
 
-        tests('#put_object_manifest').succeeds do
-          Fog::Storage[:rackspace].put_object_manifest(@directory.identity, 'fog_large_object')
+        tests('#put_dynamic_obj_manifest').succeeds do
+          Fog::Storage[:rackspace].put_dynamic_obj_manifest(@directory.identity, 'fog_large_object')
         end
 
         tests('#get_object streams all segments matching the default prefix').succeeds do
@@ -71,9 +75,9 @@ Shindo.tests('Fog::Storage[:rackspace] | large object requests', ['rackspace']) 
 
       tests('specifying X-Object-Manifest segment prefix') do
 
-        tests('#put_object_manifest').succeeds do
+        tests('#put_dynamic_obj_manifest').succeeds do
           options = { 'X-Object-Manifest' => "#{ @directory.identity }/fog_large_object/" }
-          Fog::Storage[:rackspace].put_object_manifest(@directory.identity, 'fog_large_object', options)
+          Fog::Storage[:rackspace].put_dynamic_obj_manifest(@directory.identity, 'fog_large_object', options)
         end
 
         tests('#get_object streams segments only matching the specified prefix').succeeds do
@@ -91,9 +95,9 @@ Shindo.tests('Fog::Storage[:rackspace] | large object requests', ['rackspace']) 
 
       tests('storing manifest in a different container than the segments') do
 
-        tests('#put_object_manifest').succeeds do
+        tests('#put_dynamic_obj_manifest').succeeds do
           options = { 'X-Object-Manifest' => "#{ @directory.identity }/fog_large_object/" }
-          Fog::Storage[:rackspace].put_object_manifest(@directory2.identity, 'fog_large_object', options)
+          Fog::Storage[:rackspace].put_dynamic_obj_manifest(@directory2.identity, 'fog_large_object', options)
         end
 
         tests('#get_object').succeeds do
@@ -207,8 +211,8 @@ Shindo.tests('Fog::Storage[:rackspace] | large object requests', ['rackspace']) 
     tests('dynamic large object requests') do
       pending if Fog.mocking?
 
-      tests('#put_object_manifest with missing container').raises(Fog::Storage::Rackspace::NotFound) do
-        Fog::Storage[:rackspace].put_object_manifest('fognoncontainer', 'fog_large_object')
+      tests('#put_dynamic_obj_manifest with missing container').raises(Fog::Storage::Rackspace::NotFound) do
+        Fog::Storage[:rackspace].put_dynamic_obj_manifest('fognoncontainer', 'fog_large_object')
       end
 
     end
