@@ -19,6 +19,22 @@ module Fog
         attribute :cpu, :type => :integer
         attribute :memory
         attribute :hard_disks, :aliases => 'disks'
+        
+        def links
+          attributes["links"]
+        end
+        
+        def generate_methods
+          attributes["links"].each do |link|
+            next unless link[:method_name]
+            self.class.instance_eval do 
+              define_method(link[:method_name]) do
+                puts link[:href]
+                service.get_href(link[:href])
+              end
+            end
+          end
+        end
             
         def customization
           data = service.get_vm_customization(id).body

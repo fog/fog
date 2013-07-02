@@ -13,6 +13,7 @@ module Fog
             @in_children = false
             @resource_type = nil
             @response = { 'vms' => [] }
+            @links = []
           end
 
           def start_element(name, attributes)
@@ -34,6 +35,8 @@ module Fog
                @in_children = true
              when 'HostResource'
                @current_host_resource = extract_attributes(attributes)
+             when 'Link'
+               @links << extract_link(attributes)
              end
           end
 
@@ -63,6 +66,8 @@ module Fog
                   @vm['disks'] ||= []
                   @vm['disks'] << { @element_name => @current_host_resource["capacity"].to_i }
                 end
+              when 'Link'
+                @vm['links'] = @links
               when 'Vm'
                 @response['vms'] << @vm
                 @vm = {}

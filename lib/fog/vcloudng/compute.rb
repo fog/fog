@@ -19,6 +19,21 @@ class VcloudngParser < Fog::Parsers::Base
     end
     attributes
   end
+  
+  def extract_link(attributes_xml)
+    response = {}
+    link_attrs = extract_attributes(attributes_xml)
+    puts link_attrs["type"]
+    response[:type] = link_attrs["type"]
+    response[:rel] = link_attrs["rel"]
+    response[:href] = link_attrs["href"]
+    if response[:type] && response[:rel]
+      short_type = response[:type].scan(/.*\.(.*)\+/).first.first
+      snake_case_short_type = short_type.gsub(/([A-Z])/) { '_' + $1.downcase }
+      response[:method_name] = response[:rel] + '_' + snake_case_short_type
+    end
+    response
+  end
 end
 
 
@@ -79,11 +94,12 @@ module Fog
      request :put_vm_cpu
      request :get_vm_memory
      request :put_vm_memory
-     request :get_request
      request :get_vm_disks
      request :put_vm_disks
      request :get_vm_network
      request :put_vm_network
+     request :get_request
+     request :get_href
      
 
 
