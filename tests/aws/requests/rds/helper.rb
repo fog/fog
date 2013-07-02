@@ -137,6 +137,7 @@ class AWS
             'DBSecurityGroupName' => String
           }],
         'DBSubnetGroupName' => Fog::Nullable::String,
+        'PubliclyAccessible' => Fog::Boolean,
         'Endpoint' => {
           'Address' => Fog::Nullable::String,
           'Port' => Fog::Nullable::Integer
