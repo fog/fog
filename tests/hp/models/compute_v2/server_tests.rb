@@ -30,6 +30,8 @@ Shindo.tests("Fog::Compute::HPV2 | server model", ['hp', 'v2', 'compute']) do
       @server.rebuild(@base_image_id, 'fogrebuildserver')
     end
 
+    @server.destroy
+
   end
 
 end
