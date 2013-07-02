@@ -12,7 +12,7 @@ options = OptionParser.new do |opts|
     Fog.credentials_path = file
   end
 
-  opts.on_tail('-V', '--version', 'Prints the version') do
+  opts.on_tail('-v', '--version', 'Prints the version') do
     puts Fog::VERSION
     exit
   end
