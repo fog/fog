@@ -13,6 +13,9 @@ module Fog
       class Real
 
         def get_disk(disk_name, zone_name=@default_zone)
+          if zone_name.start_with? 'http'
+            zone_name = zone_name.split('/')[-1]
+          end
           api_method = @compute.disks.get
           parameters = {
             'project' => @project,

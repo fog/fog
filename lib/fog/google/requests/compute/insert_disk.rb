@@ -33,12 +33,8 @@ module Fog
 
           result = self.build_result(api_method, parameters,
                                      body_object)
-          puts result.class
           disk_name = MultiJson.load(result.body)["targetLink"].split('/')[-1]
           return get_disk(disk_name, zone_name)
-          #response = self.build_response(result)
-          #puts response.inspect
-          #response
         end
 
       end

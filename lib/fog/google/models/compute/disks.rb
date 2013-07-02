@@ -21,10 +21,12 @@ module Fog
           nil
         end
 
-        def create(name, size, zone=@default_zone, image=nil)
-          data = service.insert_disk(name, size, zone, image).body
-          new(data)
-        end
+
+
+        #def create(name, size, zone=@default_zone, image=nil)
+        #  data = service.insert_disk(name, size, zone, image).body
+        #  new(data)
+        #end
 
       end
 

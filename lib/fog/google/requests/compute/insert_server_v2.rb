@@ -62,8 +62,6 @@ module Fog
 
           result = self.build_result(api_method, parameters,
                                      body_object=body_object)
-          puts result.inspect
-          puts result.request.body.inspect
           response = self.build_response(result)
         end
 
