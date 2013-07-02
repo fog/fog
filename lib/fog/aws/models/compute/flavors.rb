@@ -6,30 +6,31 @@ module Fog
     class AWS
 
       FLAVORS = [
-        { :bits => 32,  :cpu => 1, :cores =>   2,  :disk => 0,    :id =>  't1.micro',   :name => 'Micro Instance',       :ram => 613},
+        { :bits => 32,  :cpu => 1, :cpu_speed => 1795.672, :cores =>   2,  :disk => 0,               :id =>  't1.micro',   :name => 'Micro Instance',                          :ram => 613},
 
-        { :bits => 32, :cpu => 1, :cores =>   1,  :disk => 160,  :id =>  'm1.small',   :name => 'Small Instance',       :ram => 1740.8},
-        { :bits => 32, :cpu => 1, :cores =>   2,  :disk => 410,  :id =>  'm1.medium',  :name => 'Medium Instance',      :ram => 3750},
-        { :bits => 64, :cpu => 2, :cores =>   4,  :disk => 850,  :id =>  'm1.large',   :name => 'Large Instance',       :ram => 7680},
-        { :bits => 64, :cpu => 4, :cores =>   8,  :disk => 1690, :id =>  'm1.xlarge',  :name => 'Extra Large Instance', :ram => 15360},
+        { :bits => 32, :cpu => 1,  :cpu_speed => 1799.999, :cores =>   1,  :disk => 160,             :id =>  'm1.small',   :name => 'Small Instance',                          :ram => 1740.8},
+        { :bits => 32, :cpu => 1,  :cpu_speed => 1799.999, :cores =>   2,  :disk => 410,             :id =>  'm1.medium',  :name => 'Medium Instance',                         :ram => 3750},
+        { :bits => 64, :cpu => 2,  :cpu_speed => 1795.672, :cores =>   4,  :disk => 850,             :id =>  'm1.large',   :name => 'Large Instance',                          :ram => 7680},
+        { :bits => 64, :cpu => 4,  :cpu_speed => 1800.000, :cores =>   8,  :disk => 1690,            :id =>  'm1.xlarge',  :name => 'Extra Large Instance',                    :ram => 15360},
  
-        { :bits => 32, :cpu=>2, :cores =>   5,  :disk => 350,  :id =>  'c1.medium',  :name => 'High-CPU Medium',      :ram => 1740.8},
-        { :bits => 64, :cpu=>8, :cores =>  20,  :disk => 1690, :id =>  'c1.xlarge',  :name => 'High-CPU Extra Large', :ram => 7168},
+        { :bits => 32, :cpu=>2,    :cpu_speed => 2333.410, :cores =>   5,  :disk => 350,             :id =>  'c1.medium',  :name => 'High-CPU Medium',                         :ram => 1740.8},
+        { :bits => 64, :cpu=>8,    :cpu_speed => 2327.504, :cores =>  20,  :disk => 1690,            :id =>  'c1.xlarge',  :name => 'High-CPU Extra Large',                    :ram => 7168},
 
-        { :bits => 64, :cpu => 2, :cores =>  6.5, :disk => 420,  :id =>  'm2.xlarge',  :name => 'High-Memory Extra Large',           :ram => 17510.4},
-        { :bits => 64, :cpu => 4, :cores =>   13, :disk => 850,  :id =>  'm2.2xlarge', :name => 'High Memory Double Extra Large',    :ram => 35020.8},
-        { :bits => 64, :cpu => 8, :cores =>   26, :disk => 1690, :id =>  'm2.4xlarge', :name => 'High Memory Quadruple Extra Large', :ram => 70041.6},
+        { :bits => 64, :cpu => 2,  :cpu_speed => 2399.998, :cores =>  6.5, :disk => 420,             :id =>  'm2.xlarge',  :name => 'High-Memory Extra Large',                 :ram => 17510.4},
+        { :bits => 64, :cpu => 4,  :cpu_speed => 2666.760, :cores =>   13, :disk => 850,             :id =>  'm2.2xlarge', :name => 'High Memory Double Extra Large',          :ram => 35020.8},
+        { :bits => 64, :cpu => 8,  :cpu_speed => 2666.760, :cores =>   26, :disk => 1690,            :id =>  'm2.4xlarge', :name => 'High Memory Quadruple Extra Large',       :ram => 70041.6},
 
-        {:bits => 64,  :cpu => 4, :cores => 13,   :disk => 0,    :id => "m3.xlarge",   :name => "M3 Extra Large",                    :ram => 15360},
-        {:bits => 64,  :cpu => 8, :cores => 26,   :disk => 0,    :id => "m3.2xlarge",  :name => "M3 Double Extra Large",            :ram => 30720},
+        {:bits => 64,  :cpu => 4,  :cpu_speed => 2599.998, :cores => 13,   :disk => 0,               :id => "m3.xlarge",   :name => "M3 Extra Large",                          :ram => 15360},
+        {:bits => 64,  :cpu => 8,  :cpu_speed => 2593.748, :cores => 26,   :disk => 0,               :id => "m3.2xlarge",  :name => "M3 Double Extra Large",                   :ram => 30720},
 
-        { :bits => 64, :cpu => 16, :cores => 35, :disk => 2048, :id => "hi1.4xlarge", :name => "High I/O Quadruple Extra Large Instance", :ram => 61952},
+        { :bits => 64, :cpu => 16, :cpu_speed => 2400.084, :cores => 35,   :disk => 2048,            :id => "hi1.4xlarge", :name => "High I/O Quadruple Extra Large Instance", :ram => 61952},
 
-        { :bits => 64, :cpu => 32, :cores =>   88, :disk => 3370, :id => 'cc2.8xlarge', :name => 'Cluster Compute Eight Extra Large',  :ram => 61952},
-        { :bits => 64, :cpu => 256, :cores => 33.5, :disk => 1690, :id => 'cg1.4xlarge', :name => 'Cluster GPU Quadruple Extra Large', :ram => 23040},
-
-        { :bits => 64, :cpu => 32, :cores => 88, :disk => 240,             :id => 'cr1.8xlarge', :name => 'High Memory Cluster Eight Extra Large', :ram => 249856},
-        { :bits => 64, :cpu =>16,  :cores => 35, :disk => 422212465065984, :id => 'hs1.8xlarge', :name => 'High Storage Eight Extra Large',        :ram => 119808}
+        { :bits => 64, :cpu =>16,  :cpu_speed => 1999.999, :cores => 35,   :disk => 422212465065984, :id => 'hs1.8xlarge', :name => 'High Storage Eight Extra Large',          :ram => 119808},
+        
+        # The instances below cannot be launched from our UI 
+        { :bits => 64, :cpu => 32,  :cpu_speed => 0, :cores => 88,   :disk => 240,  :id => 'cr1.8xlarge', :name => 'High Memory Cluster Eight Extra Large', :ram => 249856},
+        { :bits => 64, :cpu => 32,  :cpu_speed => 0, :cores => 88,   :disk => 3370, :id => 'cc2.8xlarge', :name => 'Cluster Compute Eight Extra Large',     :ram => 61952},
+        { :bits => 64, :cpu => 256, :cpu_speed => 0, :cores => 33.5, :disk => 1690, :id => 'cg1.4xlarge', :name => 'Cluster GPU Quadruple Extra Large',     :ram => 23040},
       ]      
 
       class Flavors < Fog::Collection
