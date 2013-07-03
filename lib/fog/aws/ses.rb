@@ -11,6 +11,7 @@ module Fog
       request_path 'fog/aws/requests/ses'
       request :delete_verified_email_address
       request :verify_email_address
+      request :verify_domain_identity
       request :get_send_quota
       request :get_send_statistics
       request :list_verified_email_addresses
