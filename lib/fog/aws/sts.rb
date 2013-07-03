@@ -102,7 +102,7 @@ module Fog
           )
 
           begin
-            response = @connection.request({
+            @connection.request({
               :body       => body,
               :expects    => 200,
               :idempotent => idempotent,
@@ -111,22 +111,16 @@ module Fog
               :method     => 'POST',
               :parser     => parser
             })
-
-            response
           rescue Excon::Errors::HTTPStatusError => error
-            if match = error.response.body.match(/(?:.*<Code>(.*)<\/Code>)(?:.*<Message>(.*)<\/Message>)/m)
-              case match[1]
-              when 'EntityAlreadyExists', 'KeyPairMismatch', 'LimitExceeded', 'MalformedCertificate', 'ValidationError'
-                raise Fog::AWS::STS.const_get(match[1]).slurp(error, match[2])
-              else
-                raise Fog::AWS::STS::Error.slurp(error, "#{match[1]} => #{match[2]}") if match[1]
-                raise
-              end
-            else
-              raise
-            end
+            match = Fog::AWS::Errors.match_error(error)
+            raise if match.empty?
+            raise case match[:code]
+                  when 'EntityAlreadyExists', 'KeyPairMismatch', 'LimitExceeded', 'MalformedCertificate', 'ValidationError'
+                    Fog::AWS::STS.const_get(match[:code]).slurp(error, match[:message])
+                  else
+                    Fog::AWS::STS::Error.slurp(error, "#{match[:code]} => #{match[:message]}")
+                  end
           end
-
 
         end
 
