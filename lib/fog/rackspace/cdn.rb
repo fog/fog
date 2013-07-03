@@ -115,6 +115,7 @@ module Fog
         include Base
 
         def initialize(options={})
+          @options = options
           @connection_options = options[:connection_options] || {}
           @rackspace_auth_url = options[:rackspace_auth_url]
           @rackspace_cdn_url = options[:rackspace_cdn_url]
@@ -153,16 +154,22 @@ module Fog
         end        
 
         def request(params, parse_json = true)
+          first_attempt = true
           begin
-            response = @connection.request(params.merge!({
+            response = @connection.request(params.merge({
               :headers  => {
                 'Content-Type' => 'application/json',
                 'Accept' => 'application/json',
                 'X-Auth-Token' => auth_token
-              }.merge!(params[:headers] || {}),
+              }.merge(params[:headers] || {}),
               :host     => endpoint_uri.host,
-              :path     => "#{endpoint_uri.path}/#{params[:path]}",
+              :path     => "#{endpoint_uri.path}/#{params[:path]}"
             }))
+          rescue Excon::Errors::Unauthorized => error
+            raise error unless first_attempt
+            first_attempt = false
+            authenticate(@options)
+            retry
           rescue Excon::Errors::NotFound => error
             raise Fog::Storage::Rackspace::NotFound.slurp(error, region)
           rescue Excon::Errors::BadRequest => error
@@ -172,7 +179,7 @@ module Fog
           rescue Excon::Errors::HTTPStatusError => error
             raise Fog::Storage::Rackspace::ServiceError.slurp error
           end
-          if !response.body.empty? && parse_json && response.headers['Content-Type'] =~ %r{application/json}
+          if response && response.body && parse_json && response.headers['Content-Type'] =~ %r{application/json}
             response.body = Fog::JSON.decode(response.body)
           end
           response
