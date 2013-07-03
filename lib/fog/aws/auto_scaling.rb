@@ -143,7 +143,7 @@ module Fog
 
         def _request(body, idempotent, parser)
           begin
-            response = @connection.request({
+            @connection.request({
               :body       => body,
               :expects    => 200,
               :idempotent => idempotent,
@@ -153,24 +153,19 @@ module Fog
               :parser     => parser
             })
           rescue Excon::Errors::HTTPStatusError => error
-            if match = error.message.match(/(?:.*<Code>(.*)<\/Code>)(?:.*<Message>(.*)<\/Message>)/m)
-              case match[1]
-              when 'AlreadyExists'
-                #raise Fog::AWS::AutoScaling::IdentifierTaken.new(match[2])
-                raise Fog::AWS::AutoScaling::IdentifierTaken.slurp(error, match[2])
-              when 'ResourceInUse'
-                raise Fog::AWS::AutoScaling::ResourceInUse.slurp(error, match[2])
-              when 'ValidationError'
-                raise Fog::AWS::AutoScaling::ValidationError.slurp(error, match[2])
-              else
-                raise Fog::Compute::AWS::Error.slurp(error, "#{match[1]} => #{match[2]}")
-              end
-            else
-             raise
-            end
+            match = Fog::AWS::Errors.match_error(error)
+            raise if match.empty?
+            raise case match[:code]
+                  when 'AlreadyExists'
+                    Fog::AWS::AutoScaling::IdentifierTaken.slurp(error, match[:message])
+                  when 'ResourceInUse'
+                    Fog::AWS::AutoScaling::ResourceInUse.slurp(error, match[:message])
+                  when 'ValidationError'
+                    Fog::AWS::AutoScaling::ValidationError.slurp(error, match[:message])
+                  else
+                    Fog::AWS::AutoScaling::Error.slurp(error, "#{match[:code]} => #{match[:message]}")
+                  end
           end
-
-          response
         end
 
         def setup_credentials(options)

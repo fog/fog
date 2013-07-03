@@ -131,16 +131,14 @@ module Fog
                 :parser     => parser
             })
           rescue Excon::Errors::HTTPStatusError => error
-            if match = error.message.match(/(?:.*<Code>(.*)<\/Code>)(?:.*<Message>(.*)<\/Message>)/m)
-              raise case match[1].split('.').last
-                      when 'InvalidParameterValue'
-                        Fog::AWS::ElasticBeanstalk::InvalidParameterError.slurp(error, match[2])
-                      else
-                        Fog::AWS::ElasticBeanstalk::Error.slurp(error, "#{match[1]} => #{match[2]}")
-                    end
-            else
-              raise error
-            end
+            match = Fog::AWS::Errors.match_error(error)
+            raise if match.empty?
+            raise case match[:code]
+                  when 'InvalidParameterValue'
+                    Fog::AWS::ElasticBeanstalk::InvalidParameterError.slurp(error, match[:message])
+                  else
+                    Fog::AWS::ElasticBeanstalk::Error.slurp(error, "#{match[:code]} => #{match[:message]}")
+                  end
           end
 
         end

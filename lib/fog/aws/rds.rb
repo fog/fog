@@ -197,7 +197,7 @@ module Fog
           )
 
           begin
-            response = @connection.request({
+            @connection.request({
               :body       => body,
               :expects    => 200,
               :headers    => { 'Content-Type' => 'application/x-www-form-urlencoded' },
@@ -207,23 +207,27 @@ module Fog
               :parser     => parser
             })
           rescue Excon::Errors::HTTPStatusError => error
-            if match = error.response.body.match(/(?:.*<Code>(.*)<\/Code>)(?:.*<Message>(.*)<\/Message>)/m)
-              case match[1].split('.').last
-              when 'DBInstanceNotFound', 'DBParameterGroupNotFound', 'DBSnapshotNotFound', 'DBSecurityGroupNotFound'
-                raise Fog::AWS::RDS::NotFound.slurp(error, match[2])
-              when 'DBParameterGroupAlreadyExists'
-                raise Fog::AWS::RDS::IdentifierTaken.slurp(error, match[2])
-              when 'AuthorizationAlreadyExists'
-                raise Fog::AWS::RDS::AuthorizationAlreadyExists.slurp(error, match[2])
+            match = Fog::AWS::Errors.match_error(error)
+            if match.empty?
+              case error.message
+              when 'Not Found'
+                raise Fog::AWS::RDS::NotFound.slurp(error, 'RDS Instance not found')
               else
                 raise
               end
             else
-              raise
+              raise case match[:code]
+                    when 'DBInstanceNotFound', 'DBParameterGroupNotFound', 'DBSnapshotNotFound', 'DBSecurityGroupNotFound'
+                      Fog::AWS::RDS::NotFound.slurp(error, match[:message])
+                    when 'DBParameterGroupAlreadyExists'
+                      Fog::AWS::RDS::IdentifierTaken.slurp(error, match[:message])
+                    when 'AuthorizationAlreadyExists'
+                      Fog::AWS::RDS::AuthorizationAlreadyExists.slurp(error, match[:message])
+                    else
+                      Fog::AWS::RDS::Error.slurp(error, "#{match[:code]} => #{match[:message]}")
+                    end
             end
           end
-
-          response
         end
 
       end

@@ -191,37 +191,35 @@ module Fog
             :parser     => parser
           })
         rescue Excon::Errors::HTTPStatusError => error
-          if match = error.message.match(/(?:.*<Code>(.*)<\/Code>)(?:.*<Message>(.*)<\/Message>)/m)
-            case match[1]
-            when 'CertificateNotFound'
-              raise Fog::AWS::IAM::NotFound.slurp(error, match[2])
-            when 'DuplicateLoadBalancerName'
-              raise Fog::AWS::ELB::IdentifierTaken.slurp(error, match[2])
-            when 'DuplicatePolicyName'
-              raise Fog::AWS::ELB::DuplicatePolicyName.slurp(error, match[2])
-            when 'InvalidInstance'
-              raise Fog::AWS::ELB::InvalidInstance.slurp(error, match[2])
-            when 'InvalidConfigurationRequest'
-              # when do they fucking use this shit?
-              raise Fog::AWS::ELB::InvalidConfigurationRequest.slurp(error, match[2])
-            when 'LoadBalancerNotFound'
-              raise Fog::AWS::ELB::NotFound.slurp(error, match[2])
-            when 'PolicyNotFound'
-              raise Fog::AWS::ELB::PolicyNotFound.slurp(error, match[2])
-            when 'PolicyTypeNotFound'
-              raise Fog::AWS::ELB::PolicyTypeNotFound.slurp(error, match[2])
-            when 'Throttling'
-              raise Fog::AWS::ELB::Throttled.slurp(error, match[2])
-            when 'TooManyPolicies'
-              raise Fog::AWS::ELB::TooManyPolicies.slurp(error, match[2])
-            when 'ValidationError'
-              raise Fog::AWS::ELB::ValidationError.slurp(error, match[2])
-            else
-              raise
-            end
-          else
-            raise
-          end
+          match = Fog::AWS::Errors.match_error(error)
+          raise if match.empty?
+          raise case match[:code]
+                when 'CertificateNotFound'
+                  Fog::AWS::IAM::NotFound.slurp(error, match[:message])
+                when 'DuplicateLoadBalancerName'
+                  Fog::AWS::ELB::IdentifierTaken.slurp(error, match[:message])
+                when 'DuplicatePolicyName'
+                  Fog::AWS::ELB::DuplicatePolicyName.slurp(error, match[:message])
+                when 'InvalidInstance'
+                  Fog::AWS::ELB::InvalidInstance.slurp(error, match[:message])
+                when 'InvalidConfigurationRequest'
+                  # when do they fucking use this shit?
+                  Fog::AWS::ELB::InvalidConfigurationRequest.slurp(error, match[:message])
+                when 'LoadBalancerNotFound'
+                  Fog::AWS::ELB::NotFound.slurp(error, match[:message])
+                when 'PolicyNotFound'
+                  Fog::AWS::ELB::PolicyNotFound.slurp(error, match[:message])
+                when 'PolicyTypeNotFound'
+                  Fog::AWS::ELB::PolicyTypeNotFound.slurp(error, match[:message])
+                when 'Throttling'
+                  Fog::AWS::ELB::Throttled.slurp(error, match[:message])
+                when 'TooManyPolicies'
+                  Fog::AWS::ELB::TooManyPolicies.slurp(error, match[:message])
+                when 'ValidationError'
+                  Fog::AWS::ELB::ValidationError.slurp(error, match[:message])
+                else
+                  Fog::AWS::ELB::Error.slurp(error, "#{match[:code]} => #{match[:message]}")
+                end
         end
       end
     end
