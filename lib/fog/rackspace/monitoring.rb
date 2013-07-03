@@ -11,7 +11,7 @@ module Fog
       recognizes :rackspace_auth_url, :persistent, :raise_errors
       recognizes :rackspace_auth_token, :rackspace_service_url, :rackspace_account_id
 
-      model_path  'rackspace-monitoring/monitoring/models'
+      model_path  'fog/rackspace/models/monitoring/models'
       model       :entity
       collection  :entities
       model       :check
@@ -29,7 +29,7 @@ module Fog
       model       :check_type
       collection  :check_types
 
-      request_path 'rackspace-monitoring/monitoring/requests'
+      request_path 'fog/rackspace/models/monitoring/requests'
       request      :list_agent_tokens
       request      :list_alarms
       request      :list_alarm_examples
