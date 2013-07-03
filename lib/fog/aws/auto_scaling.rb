@@ -163,7 +163,7 @@ module Fog
                   when 'ValidationError'
                     Fog::AWS::AutoScaling::ValidationError.slurp(error, match[:message])
                   else
-                    Fog::Compute::AWS::Error.slurp(error, "#{match[:code]} => #{match[:message]}")
+                    Fog::AWS::AutoScaling::Error.slurp(error, "#{match[:code]} => #{match[:message]}")
                   end
           end
         end

@@ -218,7 +218,7 @@ module Fog
                 when 'ValidationError'
                   Fog::AWS::ELB::ValidationError.slurp(error, match[:message])
                 else
-                  Fog::Compute::AWS::Error.slurp(error, "#{match[:code]} => #{match[:message]}")
+                  Fog::AWS::ELB::Error.slurp(error, "#{match[:code]} => #{match[:message]}")
                 end
         end
       end

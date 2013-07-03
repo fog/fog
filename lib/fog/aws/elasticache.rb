@@ -114,7 +114,7 @@ module Fog
                   when 'InvalidParameterValue'
                     Fog::AWS::Elasticache::InvalidInstance.slurp(error, match[:message])
                   else
-                    Fog::AWS::Compute::Error.slurp(error, "#{match[:code]} => #{match[:message]}")
+                    Fog::AWS::Elasticache::Error.slurp(error, "#{match[:code]} => #{match[:message]}")
                   end
           end
 

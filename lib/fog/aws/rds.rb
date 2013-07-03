@@ -223,7 +223,7 @@ module Fog
                     when 'AuthorizationAlreadyExists'
                       Fog::AWS::RDS::AuthorizationAlreadyExists.slurp(error, match[:message])
                     else
-                      Fog::Compute::AWS::Error.slurp(error, "#{match[:code]} => #{match[:message]}")
+                      Fog::AWS::RDS::Error.slurp(error, "#{match[:code]} => #{match[:message]}")
                     end
             end
           end
