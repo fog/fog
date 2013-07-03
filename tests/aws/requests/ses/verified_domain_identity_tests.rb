@@ -1,4 +1,4 @@
-Shindo.tests('AWS::SES | verified email address requests', ['aws', 'ses']) do
+Shindo.tests('AWS::SES | verified domain identity requests', ['aws', 'ses']) do
 
   tests('success') do
 
