@@ -208,19 +208,16 @@ module Fog
             :parser     => parser
           })
         rescue Excon::Errors::HTTPStatusError => error
-          if match = error.message.match(/(?:.*<Code>(.*)<\/Code>)(?:.*<Message>(.*)<\/Message>)/m)
-            case match[1]
-            when 'CertificateNotFound', 'NoSuchEntity'
-              raise Fog::AWS::IAM::NotFound.slurp(error, match[2])
-            when 'EntityAlreadyExists', 'KeyPairMismatch', 'LimitExceeded', 'MalformedCertificate', 'ValidationError'
-              raise Fog::AWS::IAM.const_get(match[1]).slurp(error, match[2])
-            else
-              raise Fog::AWS::IAM::Error.slurp(error, "#{match[1]} => #{match[2]}") if match[1]
-              raise
-            end
-          else
-            raise
-          end
+          match = Fog::AWS::Errors.match_error(error)
+          raise if match.empty?
+          raise case match[:code]
+                when 'CertificateNotFound', 'NoSuchEntity'
+                  Fog::AWS::IAM::NotFound.slurp(error, match[:message])
+                when 'EntityAlreadyExists', 'KeyPairMismatch', 'LimitExceeded', 'MalformedCertificate', 'ValidationError'
+                  Fog::AWS::IAM.const_get(match[:code]).slurp(error, match[:message])
+                else
+                  Fog::AWS::IAM::Error.slurp(error, "#{match[:code]} => #{match[:message]}")
+                end
         end
 
       end

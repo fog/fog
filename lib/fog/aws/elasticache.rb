@@ -94,7 +94,7 @@ module Fog
           )
 
           begin
-            response = @connection.request({
+            @connection.request({
               :body       => body,
               :expects    => 200,
               :headers    => { 'Content-Type' => 'application/x-www-form-urlencoded' },
@@ -104,24 +104,20 @@ module Fog
               :parser     => parser
             })
           rescue Excon::Errors::HTTPStatusError => error
-            if match = error.message.match(/(?:.*<Code>(.*)<\/Code>?)/m)
-              case match[1]
-              when 'CacheSecurityGroupNotFound', 'CacheParameterGroupNotFound',
-                'CacheClusterNotFound'
-                raise Fog::AWS::Elasticache::NotFound
-              when 'CacheSecurityGroupAlreadyExists'
-                raise Fog::AWS::Elasticache::IdentifierTaken
-              when 'InvalidParameterValue'
-                raise Fog::AWS::Elasticache::InvalidInstance
-              else
-                raise
-              end
-            else
-              raise
-            end
+            match = Fog::AWS::Errors.match_error(error)
+            raise if match.empty?
+            raise case match[:code]
+                  when 'CacheSecurityGroupNotFound', 'CacheParameterGroupNotFound', 'CacheClusterNotFound'
+                    Fog::AWS::Elasticache::NotFound.slurp(error, match[:message])
+                  when 'CacheSecurityGroupAlreadyExists'
+                    Fog::AWS::Elasticache::IdentifierTaken.slurp(error, match[:message])
+                  when 'InvalidParameterValue'
+                    Fog::AWS::Elasticache::InvalidInstance.slurp(error, match[:message])
+                  else
+                    Fog::AWS::Elasticache::Error.slurp(error, "#{match[:code]} => #{match[:message]}")
+                  end
           end
 
-          response
         end
 
       end
