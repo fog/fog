@@ -74,6 +74,8 @@ module Fog
      collection  :disks
      model       :vm_network
      collection  :vm_networks
+     model       :tag # this is called metadata in vcloud
+     collection  :tags
      
      request_path 'fog/vcloudng/requests/compute'
      request :get_organizations
@@ -98,6 +100,10 @@ module Fog
      request :put_vm_disks
      request :get_vm_network
      request :put_vm_network
+     request :get_vm_metadata
+     request :post_vm_metadata
+     request :put_vm_metadata_value
+     request :delete_vm_metadata
      request :get_request
      request :get_href
      

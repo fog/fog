@@ -35,6 +35,11 @@ module Fog
             end
           end
         end
+        
+        def tags
+          requires :id
+          service.tags(:vm_id => id)
+        end
             
         def customization
           data = service.get_vm_customization(id).body
