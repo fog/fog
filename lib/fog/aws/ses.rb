@@ -5,6 +5,7 @@ module Fog
     class SES < Fog::Service
       extend Fog::AWS::CredentialFetcher::ServiceMethods
 
+      class InvalidParameterError < Fog::Errors::Error; end
       class MessageRejected < Fog::Errors::Error; end
 
       requires :aws_access_key_id, :aws_secret_access_key
@@ -121,6 +122,8 @@ module Fog
             raise case match[:code]
                   when 'MessageRejected'
                     Fog::AWS::SES::MessageRejected.slurp(error, match[:message])
+                  when 'InvalidParameterValue'
+                    Fog::AWS::SES::InvalidParameterError.slurp(error, match[:message])
                   else
                     Fog::AWS::SES::Error.slurp(error, "#{match[:code]} => #{match[:message]}")
                   end
