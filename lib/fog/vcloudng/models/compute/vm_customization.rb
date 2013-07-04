@@ -21,6 +21,7 @@ module Fog
         attribute :computer_name
         attribute :has_customization_script
         
+        # bug: for some reason if the customization_script has /r, is showed here as /n. Looks likes is something in excon
         def script
           attributes[:customization_script]
         end

@@ -71,8 +71,13 @@ module Fog
           
           # the order maters http://communities.vmware.com/thread/448760?start=0&tstart=0
           
+          # http://www.vmware.com/support/vcd/doc/rest-api-doc-1.5-html/types/GuestCustomizationSectionType.html
+          # CustomizationScript
+          # Script to run on guest customization. You could use xml escape sequence &#13; to make multiple lines script. The script could contain any UNICODE symbol by specifying its number in format &#xxxx; where xxxx is the number. The predefined symbols in the XML are: * & &amp; * < &lt; * > &gt; * " &quot; * ' &apos;
+          
+          
           def body(opts={})
-            body = <<EOF
+            body = "
              <ovf:Info>Specifies Guest OS Customization Settings</ovf:Info>
              <Enabled>#{opts[:enabled]}</Enabled>
              <ChangeSid>#{opts[:change_sid]}</ChangeSid>
@@ -82,9 +87,8 @@ module Fog
              <AdminPasswordEnabled>#{opts[:admin_password_enabled]}</AdminPasswordEnabled>
              <AdminPasswordAuto>#{opts[:admin_password_auto]}</AdminPasswordAuto>
              <ResetPasswordRequired>#{opts[:reset_password_required]}</ResetPasswordRequired>
-             <CustomizationScript>#{CGI.escapeHTML(opts[:customization_script])}</CustomizationScript>
-             <ComputerName>#{opts[:computer_name]}</ComputerName>
-EOF
+             <CustomizationScript>#{CGI::escapeHTML(opts[:customization_script]).gsub(/\r/, "&#13;")}</CustomizationScript>
+             <ComputerName>#{opts[:computer_name]}</ComputerName>"
           end
           
           def tail
