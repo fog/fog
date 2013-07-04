@@ -10,6 +10,10 @@ module Fog
         
         attribute :vm
         
+        def get(id)
+          data = service.get_vm_network(id).body
+          new(data)
+        end
         
       end
     end

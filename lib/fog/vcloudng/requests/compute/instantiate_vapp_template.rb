@@ -53,17 +53,17 @@ module Fog
             xml.Description(options[:description])
             xml.InstantiationParams {
               # This options are fully ignored
-              #if options[:network_uri]
-              #  xml.NetworkConfigSection {
-              #    xml.tag!("ovf:Info"){ "Configuration parameters for logical networks" }
-              #     xml.NetworkConfig("networkName" => options[:network_name]) {
-              #        xml.Configuration {
-              #          xml.ParentNetwork(:href => options[:network_uri])
-              #          xml.FenceMode("bridged")
-              #      }
-              #    }
-              #  }
-              #end
+              if options[:network_uri]
+                xml.NetworkConfigSection {
+                  xml.tag!("ovf:Info"){ "Configuration parameters for logical networks" }
+                   xml.NetworkConfig("networkName" => options[:network_name]) {
+                      xml.Configuration {
+                        xml.ParentNetwork(:href => options[:network_uri])
+                        xml.FenceMode("bridged")
+                    }
+                  }
+                }
+              end
             }
             # The template
             xml.Source(:href => options[:template_uri])

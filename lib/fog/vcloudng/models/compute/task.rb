@@ -20,11 +20,6 @@ module Fog
         attribute :result, :aliases => :Result
         attribute :progress, :aliases => :Progress
         
-        def reload
-          data = service.get_task(id).body
-          data[:id] = data[:href].split('/').last
-          service.tasks.new(data)
-        end
         
         def ready?
           status == 'success'

@@ -15,6 +15,13 @@ module Fog
           
         end
         
+        def get(id)
+          data = service.get_task(id).body
+          return nil unless data
+          data[:id] = data[:href].split('/').last
+          new(data)
+        end
+        
       end
     end
   end

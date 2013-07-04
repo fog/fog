@@ -27,7 +27,7 @@ module Fog
           if capacity_changed?
             puts "Debug: change the cpu from #{attributes[:old_capacity]} to #{attributes[:capacity]}"
             set_capacity(capacity)
-            attributes[:capacity_task].wait_for { :ready? }
+            attributes[:capacity_task]
           end
         end
         

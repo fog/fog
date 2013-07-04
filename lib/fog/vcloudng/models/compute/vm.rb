@@ -64,14 +64,20 @@ module Fog
           if cpu_changed?
             puts "Debug: change the cpu from #{attributes[:old_cpu]} to #{attributes[:cpu]}"
             set_cpu(cpu)
-            attributes[:cpu_task].wait_for { :ready? }
+            attributes[:cpu_task].wait_for { non_running? }
+            if attributes[:cpu_task].status != 'success'
+              raise "Error will setting cpu: #{attributes[:cpu_task].inspect}"
+            end
           end
           if memory_changed?
             puts "Debug: change the memory from #{attributes[:old_memory]} to #{attributes[:memory]}"
             set_memory(memory)
-            attributes[:memory_task].wait_for { :ready? }
+            attributes[:memory_task].wait_for { non_running? }
+            if attributes[:memory_task].status != 'success'
+              raise "Error will setting memory: #{attributes[:memory_task].inspect}"
+            end
           end
-            
+          true  
         end
         
         def memory=(new_memory)

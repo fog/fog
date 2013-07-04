@@ -23,7 +23,6 @@ class VcloudngParser < Fog::Parsers::Base
   def extract_link(attributes_xml)
     response = {}
     link_attrs = extract_attributes(attributes_xml)
-    puts link_attrs["type"]
     response[:type] = link_attrs["type"]
     response[:rel] = link_attrs["rel"]
     response[:href] = link_attrs["href"]
@@ -183,6 +182,11 @@ module Fog
            :parser   => params[:parser],
            :path     => path
          })
+       rescue => @e
+         raise @e unless @e.class.to_s =~ /^Excon::Errors/
+         puts @e.response.status
+         puts CGI::unescapeHTML(@e.response.body)
+         raise @e
        end
        
 
