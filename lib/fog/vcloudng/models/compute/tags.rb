@@ -11,7 +11,7 @@ module Fog
         attribute :vm_id
         
         def index
-          tags.keys.map{ |key| new({key: key, value: tags[key] }.merge(vm_id: vm_id))}
+          tags.keys.map{ |key| new({key: key, value: tags[key] }.merge(vm_id: vm_id)) }
         end 
         
         def all
@@ -19,9 +19,8 @@ module Fog
         end
 
         def get(tag_id)
-          tag = tags.detect{ |tag| tag.keys.first == tag_id }
-          return nil unless tag
-          new(tag.merge(vm_id: vm_id))
+          return nil unless tags[tag_id]
+          new({key: tag_id, value: tags[tag_id] }.merge(vm_id: vm_id))
         end
         
         def create(key,value)
@@ -29,9 +28,7 @@ module Fog
           data = Fog::Generators::Compute::Vcloudng::Metadata.new(@tags)
           data.add_item(key,value)
           response = service.post_vm_metadata(vm_id, data.attrs)
-          task = response.body
-          task[:id] = task[:href].split('/').last
-          attributes[:crate_tag_task] = service.tasks.new(task)
+          service.process_task(response.body)
         end
         
 #        private
