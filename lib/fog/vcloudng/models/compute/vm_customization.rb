@@ -32,9 +32,7 @@ module Fog
         
         def save
           response = service.put_vm_customization(id, attributes)
-          task = response.body
-          task[:id] = task[:href].split('/').last
-          attributes[:customization_task] = service.tasks.new(task)
+          service.process_task(response)
         end
         
       end
