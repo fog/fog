@@ -10,6 +10,7 @@ module Fog
 
       recognizes :joyent_password
       recognizes :joyent_url
+      recognizes :joyent_ssl_verify_peer
 
       recognizes :joyent_keyname
       recognizes :joyent_keyfile
@@ -108,9 +109,10 @@ module Fog
           @persistent = options[:persistent] || false
 
           @joyent_url = options[:joyent_url] || 'https://us-sw-1.api.joyentcloud.com'
-          @joyent_version = options[:joyent_version] || '~6.5'
-          @joyent_username = options[:joyent_username]
+          @joyent_version = options[:joyent_version] || '~6.5'          
+          @joyent_username = options[:joyent_username]          
 
+          
           unless @joyent_username
             raise ArgumentError, "options[:joyent_username] required"
           end
@@ -157,13 +159,12 @@ module Fog
           if opts[:body]
             opts[:body] = Fog::JSON.encode(opts[:body])
           end
-
-
+          
           response = @connection.request(opts)
           if response.headers["Content-Type"] == "application/json"
             response.body = json_decode(response.body)
           end
-
+          
           response
         rescue Excon::Errors::Error => e
           raise_if_error!(e.request, e.response)
