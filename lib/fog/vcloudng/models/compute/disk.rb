@@ -33,7 +33,7 @@ module Fog
             num_disk = element_name.scan(/\d+/).first.to_i
             data.modify_hard_disk_size(num_disk, new_capacity)
             response = service.put_vm_disks(vm_id, data.disks)
-            service.process_task(response)
+            service.process_task(response.body)
           end
         end
         
@@ -46,7 +46,7 @@ module Fog
           data = Fog::Generators::Compute::Vcloudng::Disks.new(all_disks)
           data.delete_hard_disk(num_disk)
           response = service.put_vm_disks(vm_id, data.disks)
-          service.process_task(response)
+          service.process_task(response.body)
         end
 
       end

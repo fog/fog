@@ -22,7 +22,7 @@ module Fog
         
         def save
           response = service.put_vm_network(id, attributes)
-          service.process_task(response)
+          service.process_task(response.body)
         end
         
       end

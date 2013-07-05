@@ -196,9 +196,8 @@ module Fog
          raise @e
        end
        
-       def process_task(request)
-         response = request
-         task = make_task_object(response.body)
+       def process_task(response_body)
+         task = make_task_object(response_body)
          wait_and_raise_unless_success(task)
          true
        end

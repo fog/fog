@@ -15,11 +15,8 @@ module Fog
         attribute :vapp_template_id
         
         def instantiate(vapp_name, options={})
-          puts vapp_template_id
           response = service.instantiate_vapp_template(vapp_name, vapp_template_id, options = {})
-          task = response.body[:Tasks][:Task]
-          task[:id] = task[:href].split('/').last
-          service.tasks.new(task)
+          service.process_task(response.body[:Tasks][:Task])
         end
         
         

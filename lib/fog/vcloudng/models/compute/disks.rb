@@ -35,7 +35,7 @@ module Fog
           data = Fog::Generators::Compute::Vcloudng::Disks.new(@disks)
           data.add_hard_disk(size)
           response = service.put_vm_disks(vm_id, data.disks)
-          service.process_task(response)
+          service.process_task(response.body)
         end
         
         private

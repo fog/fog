@@ -34,10 +34,10 @@ module Fog
             if progress.to_i == 0
               printf '.'
             else
-              puts progress
+              print " #{progress} %\r"
             end
           else
-            puts status
+            puts "  #{status}"
           end
           status != 'running'
         end
