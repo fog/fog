@@ -36,6 +36,16 @@ module Fog
           end
         end
         
+        def power_on
+          response = service.post_vm_poweron(id)
+          task_response = response.body
+          task_response[:id] = task_response[:href].split('/').last
+          task = service.tasks.new(task_response)
+          task.wait_for { non_running? }
+          raise Errors::Task.new "#{task.inspect}" if task.status != 'success'
+          true
+        end
+        
         def tags
           requires :id
           service.tags(:vm_id => id)

@@ -46,6 +46,12 @@ module Fog
        SCHEME = 'https'
      end
      
+     module Errors
+       class ServiceError < Fog::Errors::Error; end
+       class Task < ServiceError; end
+     end
+       
+     
      requires :vcloudng_username, :vcloudng_password, :vcloudng_host
      
      secrets :vcloudng_password
@@ -103,6 +109,7 @@ module Fog
      request :post_vm_metadata
      request :put_vm_metadata_value
      request :delete_vm_metadata
+     request :post_vm_poweron
      request :get_request
      request :get_href
      
