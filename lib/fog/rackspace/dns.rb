@@ -6,6 +6,12 @@ module Fog
     class Rackspace < Fog::Service
       include Fog::Rackspace::Errors
 
+      class ServiceError < Fog::Rackspace::Errors::ServiceError; end
+      class InternalServerError < Fog::Rackspace::Errors::InternalServerError; end
+      class BadRequest < Fog::Rackspace::Errors::BadRequest; end
+      class Conflict < Fog::Rackspace::Errors::Conflict; end
+      class ServiceUnavailable < Fog::Rackspace::Errors::ServiceUnavailable; end
+
       class CallbackError < Fog::Errors::Error
         attr_reader :response, :message, :details
         def initialize(response)
@@ -95,9 +101,6 @@ module Fog
 
           deprecation_warnings(options)
 
-          @connection_options[:headers] ||= {}
-          @connection_options[:headers].merge!({ 'Content-Type' => 'application/json', 'X-Auth-Token' => auth_token })
-
           @persistent = options[:persistent] || false
           @connection = Fog::Connection.new(endpoint_uri.to_s, @persistent, @connection_options)
         end
@@ -108,25 +111,22 @@ module Fog
 
         private
 
-        def request(params)
-          #TODO - Unify code with other rackspace services
+        def request(params, parse_json = true, &block)
           begin
-            response = @connection.request(params.merge!({
-              :path     => "#{endpoint_uri.path}/#{params[:path]}"
-            }))
-          rescue Excon::Errors::BadRequest => error
-            raise Fog::Rackspace::Errors::BadRequest.slurp error
-          rescue Excon::Errors::Conflict => error
-            raise Fog::Rackspace::Errors::Conflict.slurp error
+            super(params, parse_json, &block)
           rescue Excon::Errors::NotFound => error
             raise NotFound.slurp(error, region)
+          rescue Excon::Errors::BadRequest => error
+            raise BadRequest.slurp error
+          rescue Excon::Errors::InternalServerError => error
+            raise InternalServerError.slurp error
           rescue Excon::Errors::ServiceUnavailable => error
-            raise Fog::Rackspace::Errors::ServiceUnavailable.slurp error
+            raise ServiceUnavailable.slurp error
+          rescue Excon::Errors::Conflict => error
+            raise Conflict.slurp error
+          rescue Excon::Errors::HTTPStatusError => error
+            raise ServiceError.slurp error
           end
-          unless response.body.empty?
-            response.body = Fog::JSON.decode(response.body)
-          end
-          response
         end
 
         def array_to_query_string(arr)
@@ -164,15 +164,13 @@ module Fog
           @auth_token = credentials['X-Auth-Token']
         end
 
-        def authenticate
-          options = {
+        def authenticate(options={})
+          super({
             :rackspace_api_key  => @rackspace_api_key,
             :rackspace_username => @rackspace_username,
             :rackspace_auth_url => @rackspace_auth_url,
             :connection_options => @connection_options
-          }
-
-          super(options)
+          })
         end
       end
     end

@@ -101,6 +101,16 @@ Shindo.tests('Fog::Rackspace::LoadBalancers', ['rackspace']) do
     end
   end
 
+
+  tests('reauthentication') do
+    pending if Fog.mocking?
+
+    @service = Fog::Rackspace::LoadBalancers.new
+    returns(true, "auth token populated") { !@service.send(:auth_token).nil? }
+    @service.instance_variable_set("@auth_token", "bad-token")
+    returns(200) { @service.list_load_balancers.status }
+  end
+
   pending if Fog.mocking?
 
   @service = Fog::Rackspace::LoadBalancers.new
