@@ -18,19 +18,23 @@ module Fog
           requires :name
 
           data = {}
-          if project
-            data = service.get_image(name, project).body
-          elsif
-            [ 'google', 'debian-cloud', 'centos-cloud' ].each do |owner|
-              begin
-                data = service.get_image(name, owner).body
-                data[:project] = owner
-              rescue
-              end
+
+          # Try looking for the image in known projects
+          [ self.service.project,
+            'google'            ,
+            'debian-cloud'      ,
+            'centos-cloud'      ,
+          ].each do |owner|
+            begin
+              data = service.get_image(name, owner).body
+              data[:project] = owner
+            rescue
             end
           end
-          self.merge_attributes(data)
 
+          raise ArgumentError, 'Specified image was not found' if data.empty?
+
+          self.merge_attributes(data)
           self
         end
 
