@@ -23,32 +23,18 @@ module Fog
         attribute :bus_sub_type
         attribute :bus_type
         
-        def save
-          if capacity_changed?
-            puts "Debug: change the cpu from #{attributes[:old_capacity]} to #{attributes[:capacity]}"
-            set_capacity(capacity)
-            attributes[:capacity_task]
-          end
-        end
-        
+        # TODO Virtual machine disk sizes may only be increased, not decreased.
         def capacity=(new_capacity)
-          attributes[:old_capacity] ||= attributes[:capacity]
+          has_changed = ( capacity != new_capacity.to_i )
+          not_first_set = !capacity.nil?
           attributes[:capacity] = new_capacity.to_i
-        end
-        
-        def capacity_changed?
-          return false unless attributes[:old_capacity]
-          attributes[:capacity] != attributes[:old_capacity]
-        end
-        
-        def set_capacity(new_capacity)
-          data = Fog::Generators::Compute::Vcloudng::Disks.new(all_disks)
-          num_disk = element_name.scan(/\d+/).first.to_i
-          data.modify_hard_disk_size(num_disk, new_capacity)
-          response = service.put_vm_disks(vm_id, data.disks)
-          task = response.body
-          task[:id] = task[:href].split('/').last
-          attributes[:capacity_task] = service.tasks.new(task)
+          if not_first_set && has_changed
+            data = Fog::Generators::Compute::Vcloudng::Disks.new(all_disks)
+            num_disk = element_name.scan(/\d+/).first.to_i
+            data.modify_hard_disk_size(num_disk, new_capacity)
+            response = service.put_vm_disks(vm_id, data.disks)
+            service.process_task(response)
+          end
         end
         
         def all_disks
@@ -60,9 +46,7 @@ module Fog
           data = Fog::Generators::Compute::Vcloudng::Disks.new(all_disks)
           data.delete_hard_disk(num_disk)
           response = service.put_vm_disks(vm_id, data.disks)
-          task = response.body
-          task[:id] = task[:href].split('/').last
-          attributes[:destroy_disk_task] = service.tasks.new(task)
+          service.process_task(response)
         end
 
       end
