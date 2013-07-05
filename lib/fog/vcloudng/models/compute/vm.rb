@@ -65,63 +65,26 @@ module Fog
         #  service.vms(:vapp_id => vapp_id).get(id)
         #end
         
-        def save
-          if cpu_changed?
-            puts "Debug: change the cpu from #{attributes[:old_cpu]} to #{attributes[:cpu]}"
-            set_cpu(cpu)
-            attributes[:cpu_task].wait_for { non_running? }
-            if attributes[:cpu_task].status != 'success'
-              raise "Error will setting cpu: #{attributes[:cpu_task].inspect}"
-            end
-          end
-          if memory_changed?
-            puts "Debug: change the memory from #{attributes[:old_memory]} to #{attributes[:memory]}"
-            set_memory(memory)
-            attributes[:memory_task].wait_for { non_running? }
-            if attributes[:memory_task].status != 'success'
-              raise "Error will setting memory: #{attributes[:memory_task].inspect}"
-            end
-          end
-          true  
-        end
-        
         def memory=(new_memory)
-          attributes[:old_memory] ||= attributes[:memory]
+          has_changed = ( memory != new_memory.to_i )
+          not_first_set = !memory.nil?
           attributes[:memory] = new_memory.to_i
-        end
-        
-        def memory_changed?
-          return false unless attributes[:old_memory]
-          attributes[:memory] != attributes[:old_memory]
-        end
-        
-        def set_memory(new_memory)
-          response = service.put_vm_memory(id, new_memory)
-          task = response.body
-          task[:id] = task[:href].split('/').last
-          attributes[:memory_task] = service.tasks.new(task)
+          if not_first_set && has_changed
+            response = service.put_vm_memory(id, memory)
+            service.process_task(response)
+          end
         end
         
         def cpu=(new_cpu)
-          attributes[:old_cpu] ||= attributes[:cpu]
+          has_changed = ( cpu != new_cpu.to_i )
+          not_first_set = !cpu.nil?
           attributes[:cpu] = new_cpu.to_i
+          if not_first_set && has_changed
+            response = service.put_vm_cpu(id, cpu)
+            service.process_task(response)
+          end
         end
-        
-        def cpu_changed?
-          return false unless attributes[:old_cpu]
-          attributes[:cpu] != attributes[:old_cpu]
-        end
-        
-        def set_cpu(num_cpu)
-          response = service.put_vm_cpu(id, num_cpu)
-          task = response.body
-          task[:id] = task[:href].split('/').last
-          attributes[:cpu_task] = service.tasks.new(task)
-        end
-        
-        def cpu_task
-          attributes[:cpu_task]
-        end
+
         
       end
     end
