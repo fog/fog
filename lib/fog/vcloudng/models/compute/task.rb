@@ -28,6 +28,20 @@ module Fog
         def success?
           status == 'success'
         end
+        
+        def non_running?
+          if status == 'running'
+            if progress.to_i == 0
+              printf '.'
+            else
+              puts progress
+            end
+          else
+            puts status
+          end
+          status != 'running'
+        end
+        
       end
     end
   end
