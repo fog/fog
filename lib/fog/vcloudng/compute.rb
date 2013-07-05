@@ -196,6 +196,23 @@ module Fog
          raise @e
        end
        
+       def process_task(request)
+         response = request
+         task = make_task_object(response.body)
+         wait_and_raise_unless_success(task)
+         true
+       end
+       
+       def make_task_object(task_response)
+         task_response[:id] = task_response[:href].split('/').last
+         tasks.new(task_response)
+       end
+        
+       def wait_and_raise_unless_success(task)
+         task.wait_for { non_running? }
+         raise Errors::Task.new "status: #{task.status}, error: #{task.error}" unless task.success?
+       end
+       
 
      end
 

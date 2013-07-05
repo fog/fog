@@ -20,30 +20,25 @@ module Fog
         attribute :memory
         attribute :hard_disks, :aliases => 'disks'
         
-        def links
-          attributes["links"]
-        end
-        
-        def generate_methods
-          attributes["links"].each do |link|
-            next unless link[:method_name]
-            self.class.instance_eval do 
-              define_method(link[:method_name]) do
-                puts link[:href]
-                service.get_href(link[:href])
-              end
-            end
-          end
-        end
+        #def links
+        #  attributes["links"]
+        #end
+        #
+        #def generate_methods
+        #  attributes["links"].each do |link|
+        #    next unless link[:method_name]
+        #    self.class.instance_eval do 
+        #      define_method(link[:method_name]) do
+        #        puts link[:href]
+        #        service.get_href(link[:href])
+        #      end
+        #    end
+        #  end
+        #end
         
         def power_on
           response = service.post_vm_poweron(id)
-          task_response = response.body
-          task_response[:id] = task_response[:href].split('/').last
-          task = service.tasks.new(task_response)
-          task.wait_for { non_running? }
-          raise Errors::Task.new "#{task.inspect}" if task.status != 'success'
-          true
+          service.process_task(response)
         end
         
         def tags
