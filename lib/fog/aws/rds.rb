@@ -51,11 +51,15 @@ module Fog
       request :describe_db_subnet_groups
       # TODO: :delete_db_subnet_group, :modify_db_subnet_group
 
+      request :describe_db_log_files
+
       model_path 'fog/aws/models/rds'
       model       :server
       collection  :servers
+
       model       :snapshot
       collection  :snapshots
+
       model       :parameter_group
       collection  :parameter_groups
 
@@ -67,6 +71,9 @@ module Fog
 
       model       :subnet_group
       collection  :subnet_groups
+
+      model       :log_file
+      collection  :log_files
 
       class Mock
 
