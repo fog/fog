@@ -50,7 +50,6 @@ module Fog
               body_data.merge!({"secondary.ip.#{idx}" => n})
             end 
           end
-          print body_data
           request(
             :method   => 'POST',
             :expects  => 200,
