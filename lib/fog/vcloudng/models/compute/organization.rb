@@ -30,7 +30,7 @@ module Fog
         
         def initialize(attrs={})
           super(attrs)
-          attributes[:description]= NonLoaded if attributes[:description].nil?
+          [:description].each { |attr| attributes[attr]= NonLoaded if attributes[attr].nil? }
         end
         
         def description
