@@ -8,8 +8,8 @@ module Fog
       class Organizations < Fog::Collection
         model Fog::Compute::Vcloudng::Organization
         
-        def all(details=false)
-          details ? all_with_details : index
+        def all(everyone=false)
+          everyone ? get_everyone : index
         end
         
         def get(org_id)
@@ -21,14 +21,14 @@ module Fog
         def get_by_name(org_name)
           org = org_links.detect{|org| org[:name] == org_name}
           return nil unless org
-          new(org)
+          get(org[:id])
         end
 
         def index
           load(org_links)
         end
         
-        def all_with_details
+        def get_everyone
           orgs = org_links.map{|org| get_by_id(org[:id]) }
           load(orgs)
         end
@@ -36,16 +36,15 @@ module Fog
 #        private
 
         def get_by_id(org_id)
-          data = service.get_organization(org_id).body
-          data.delete(:Link)
-          service.add_id_from_href!(data)
-          data
+          org = service.get_organization(org_id).body
+          org.delete(:Link)
+          service.add_id_from_href!(org)
+          org
         end
         
         def org_links
           data = service.get_organizations.body
           org = data[:Org] # there is only a single Org
-          org[:description]='<reload to see it>'
           service.add_id_from_href!(org)
           [org]
         end
