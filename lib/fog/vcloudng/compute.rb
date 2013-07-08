@@ -36,6 +36,7 @@ class VcloudngParser < Fog::Parsers::Base
 end
 
 
+
 module Fog
   module Compute
     class Vcloudng < Fog::Service
@@ -212,7 +213,10 @@ module Fog
          raise Errors::Task.new "status: #{task.status}, error: #{task.error}" unless task.success?
        end
        
-
+       def add_id_from_href!(data={})
+         data[:id] = data[:href].split('/').last
+       end
+       
      end
 
 
