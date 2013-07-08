@@ -35,6 +35,8 @@ class VcloudngParser < Fog::Parsers::Base
   end
 end
 
+class NonLoaded
+end
 
 
 module Fog

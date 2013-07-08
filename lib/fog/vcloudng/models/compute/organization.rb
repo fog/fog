@@ -30,18 +30,15 @@ module Fog
         
         def initialize(attrs={})
           super(attrs)
-          [:description].each do |attr|
-            attributes[attr]='<non_set>' if attributes[attr].nil?
-          end
+          attributes[:description]= NonLoaded if attributes[:description].nil?
         end
         
         def description
-          reload if ( attributes[:description] == '<non_set>' and @inspecting == false )
+          reload if attributes[:description] == NonLoaded and !@inspecting
           attributes[:description]
         end
         
         def inspect
-          puts 'inspecting'
           @inspecting = true
           out = super
           @inspecting = false
