@@ -38,7 +38,7 @@ module Fog
           end
 
           def to_boolean(v)
-            v =~ /\A\s*(true|yes|1|y)\s*$/i
+            (v =~ /\A\s*(true|yes|1|y)\s*$/i) == 0
           end
         end
       end
