@@ -51,6 +51,8 @@ module Fog
       request :describe_db_subnet_groups
       # TODO: :delete_db_subnet_group, :modify_db_subnet_group
 
+      request :describe_orderable_db_instance_options
+
       model_path 'fog/aws/models/rds'
       model       :server
       collection  :servers
