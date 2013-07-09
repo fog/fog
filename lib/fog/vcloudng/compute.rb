@@ -38,7 +38,6 @@ end
 class NonLoaded
 end
 
-
 module Fog
   module Compute
     class Vcloudng < Fog::Service
@@ -116,7 +115,33 @@ module Fog
      request :get_request
      request :get_href
      
-
+     class Model < Fog::Model
+       def initialize(attrs={})
+         super(attrs)
+         lazy_load_attrs = self.class.attributes - attributes.keys
+         lazy_load_attrs.each do |attr|
+           puts "-#{attr}-"
+           attributes[attr]= NonLoaded if attributes[attr].nil? 
+           make_lazy_load_method(attr)
+         end
+       end
+        
+       def make_lazy_load_method(attr)
+         self.class.instance_eval do 
+           define_method(attr) do
+             reload if attributes[attr] == NonLoaded and !@inspecting
+             attributes[attr]
+           end
+         end
+       end
+        
+       def inspect
+         @inspecting = true
+         out = super
+         @inspecting = false
+         out
+       end
+     end
 
      class Real
        include Fog::Compute::Helper
