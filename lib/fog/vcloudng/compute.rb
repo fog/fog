@@ -142,6 +142,34 @@ module Fog
          out
        end
      end
+     
+     class Collection < Fog::Collection
+       def all(lazy_load=true)
+         lazy_load ? index : get_everyone
+       end
+       
+       def get(item_id)
+         item = get_by_id(item_id)
+         return nil unless item
+         new(item)
+       end
+       
+       def get_by_name(item_name)
+         item_found = item_list.detect{|item| item[:name] == item_name }
+         return nil unless item_found
+         get(item_found[:id])
+       end
+        
+       def index
+         load(item_list)
+       end 
+        
+       def get_everyone
+         item_ids = item_list.map {|item| item[:id] }
+         items = item_ids.map{ |item_id| get_by_id(item_id)}
+         load(items) 
+       end
+     end
 
      class Real
        include Fog::Compute::Helper
