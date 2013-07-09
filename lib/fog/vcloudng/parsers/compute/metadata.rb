@@ -41,8 +41,8 @@ module Fog
             case name
             when 'Metadata'
               metadata = extract_attributes(attributes)
-              @response[:type] = metadata['type']
-              @response[:href] = metadata['href']
+              @response[:type] = metadata[:type]
+              @response[:href] = metadata[:href]
               @response[:id] = @response[:href].split('/')[-2]
             end
           end
