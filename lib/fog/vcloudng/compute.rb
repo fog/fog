@@ -233,8 +233,10 @@ module Fog
          })
        rescue => @e
          raise @e unless @e.class.to_s =~ /^Excon::Errors/
-         puts @e.response.status
-         puts CGI::unescapeHTML(@e.response.body)
+         if @e.respond_to?(:response)
+           puts @e.response.status
+           puts CGI::unescapeHTML(@e.response.body)
+         end
          raise @e
        end
        
