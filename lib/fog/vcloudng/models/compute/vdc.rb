@@ -4,7 +4,7 @@ module Fog
   module Compute
     class Vcloudng
 
-      class Vdc < Fog::Model
+      class Vdc < Model
         
         identity  :id
                   
