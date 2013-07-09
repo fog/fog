@@ -10,8 +10,8 @@ module Fog
         
         attribute :organization
         
-        def all(everyone=false)
-          everyone ? get_everyone : index
+        def all(lazy_load=true)
+          lazy_load ? index : get_everyone
         end
         
         def get(catalog_id)

@@ -8,8 +8,8 @@ module Fog
       class Organizations < Fog::Collection
         model Fog::Compute::Vcloudng::Organization
         
-        def all(everyone=false)
-          everyone ? get_everyone : index
+        def all(lazy_load=true)
+          lazy_load ? index : get_everyone
         end
         
         def get(org_id)
@@ -33,7 +33,7 @@ module Fog
           load(orgs)
         end
         
-#        private
+        private
 
         def get_by_id(org_id)
           org = service.get_organization(org_id).body
