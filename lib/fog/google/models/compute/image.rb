@@ -20,10 +20,11 @@ module Fog
           data = {}
 
           # Try looking for the image in known projects
-          [ self.service.project,
-            'google'            ,
-            'debian-cloud'      ,
-            'centos-cloud'      ,
+          [
+            self.service.project,
+            'google',
+            'debian-cloud',
+            'centos-cloud',
           ].each do |owner|
             begin
               data = service.get_image(name, owner).body
