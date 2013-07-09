@@ -40,9 +40,24 @@ module Fog
       class Mock
 
         def describe_orderable_db_instance_options(engine=nil, opts={})
+          instance_options = []
           response = Excon::Response.new
           if engine
-            # set up some mock data here...
+            (opts[:db_instance_class] || %w(db.m2.xlarge db.m1.large)).each do |size|
+              instance_options << {'MultiAZCapable' => true,
+                                   'Engine' => engine,
+                                   'LicenseModel' => opts[:license_model] || 'general-public-license',
+                                   'ReadReplicaCapable' => true,
+                                   'EngineVersion' => opts[:engine_version] || '5.6.12',
+                                   'AvailabilityZones' => [
+                                      {'Name' => 'us-east-1b', 'ProvisionedIopsCapable' => true},
+                                      {'Name' => 'us-east-1c', 'ProvisionedIopsCapable' => true},
+                                      {'Name' => 'us-east-1d', 'ProvisionedIopsCapable' => false},
+                                      {'Name' => 'us-east-1e', 'ProvisionedIopsCapable' => true}],
+                                   'DBInstanceClass' => size,
+                                   'Vpc' => opts[:vpc].nil? ? true : opts[:vpc]}
+
+            end
           else
             raise Fog::AWS::RDS::NotFound.new('An engine must be specified to retrieve orderable instance options')
           end
@@ -50,7 +65,7 @@ module Fog
           response.status = 200
           response.body = {
               'ResponseMetadata' => { 'RequestId' => Fog::AWS::Mock.request_id },
-              'DescribeOrderableDBInstanceOptionsResult' => { 'OrderableDBInstanceOptions' => [] }
+              'DescribeOrderableDBInstanceOptionsResult' => { 'OrderableDBInstanceOptions' => instance_options }
           }
           response
         end

@@ -21,7 +21,7 @@ module Fog
 
           def end_element(name)
             case name
-            when 'MultiAZCapable', 'ReadReplicaCapable' then @db_instance_option[name] = to_boolean(value)
+            when 'MultiAZCapable', 'ReadReplicaCapable', 'Vpc' then @db_instance_option[name] = to_boolean(value)
             when 'Engine', 'LicenseModel', 'EngineVersion', 'DBInstanceClass' then @db_instance_option[name] = value
             when 'AvailabilityZones' then @db_instance_option[name] = @availability_zones
             when 'AvailabilityZone' then @availability_zones << @availability_zone unless @availability_zone.empty?

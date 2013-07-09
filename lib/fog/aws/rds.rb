@@ -56,8 +56,10 @@ module Fog
       model_path 'fog/aws/models/rds'
       model       :server
       collection  :servers
+
       model       :snapshot
       collection  :snapshots
+
       model       :parameter_group
       collection  :parameter_groups
 
@@ -69,6 +71,9 @@ module Fog
 
       model       :subnet_group
       collection  :subnet_groups
+
+      model       :instance_option
+      collection  :instance_options
 
       class Mock
 
