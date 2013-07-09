@@ -40,7 +40,6 @@ module Fog
       request :insert_image
       request :insert_network
       request :insert_server
-      request :insert_server_v2
 
       request :set_metadata
 

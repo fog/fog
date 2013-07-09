@@ -42,23 +42,6 @@ module Fog
           self.status == RUNNING_STATE
         end
 
-        def wait_for(timeout=Fog.timeout, interval=1, &block)
-          reload_has_succeeded = false
-          duration = Fog.wait_for(timeout, interval) do # Note that duration = false if it times out
-            if reload
-              reload_has_succeeded = true
-              instance_eval(&block)
-            else
-              false
-            end
-          end
-          if reload_has_succeeded
-            return duration # false if timeout; otherwise {:duration => elapsed time }
-          else
-            raise Fog::Errors::Error.new("Reload failed, #{self.class} #{self.identity} not present.")
-          end
-        end
-
         def reload
           requires :identity
           requires :zone_name
