@@ -12,19 +12,20 @@ module Fog
         
 
         private
+
         
         def get_by_id(item_id)
-          catalog = service.get_catalog(item_id).body
-          %w(:CatalogItems :Link).each {|key_to_delete| catalog.delete(key_to_delete) }
-          service.add_id_from_href!(catalog)
-          catalog
+          item = service.get_catalog(item_id).body
+          %w(:CatalogItems :Link).each {|key_to_delete| item.delete(key_to_delete) }
+          service.add_id_from_href!(item)
+          item
         end
         
         def item_list
           data = service.get_organization(organization.id).body
-          catalogs = data[:Link].select { |link| link[:type] == "application/vnd.vmware.vcloud.catalog+xml" }
-          catalogs.each{|catalog| service.add_id_from_href!(catalog) }
-          catalogs
+          items = data[:Link].select { |link| link[:type] == "application/vnd.vmware.vcloud.catalog+xml" }
+          items.each{|item| service.add_id_from_href!(item) }
+          items
         end
         
       end
