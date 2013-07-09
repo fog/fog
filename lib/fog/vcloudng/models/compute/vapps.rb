@@ -5,40 +5,25 @@ module Fog
   module Compute
     class Vcloudng
 
-      class Vapps < Fog::Collection
+      class Vapps < Collection
         model Fog::Compute::Vcloudng::Vapp
         
         attribute :vdc
         
-        def index(vdc_id = vdc.id)
-          vapp_links(vdc_id).map{ |vdc| new(vdc)}
-        end 
-        
-        def all(vdc_id = vdc.id)
-          vapp_ids = vapp_links(vdc_id).map {|vapp| vapp[:id] }
-          vapp_ids.map{ |vapp_id| get(vapp_id)} 
+        private
+                
+        def get_by_id(item_id)
+          item = service.get_vapp(item_id).body
+          %w(:Link).each {|key_to_delete| item.delete(key_to_delete) }
+          service.add_id_from_href!(item)
+          item
         end
-
-        def get(vapp_id)
-          data = service.get_vapp(vapp_id).body
-          data[:id] = data[:href].split('/').last
-          %w(:Link).each {|key_to_delete| data.delete(key_to_delete) }
-          new(data)
-        end
-        
-        def get_by_name(vapp_name, vdc_id = vdc.id)
-          vapp = vapp_links(vdc_id).detect{|vapp_link| vapp_link[:name] == vapp_name }
-          return nil unless vapp
-          get(vapp[:id])
-        end
-        
-#        private
-        
-        def vapp_links(vdc_id)
-          data = service.get_vdc(vdc_id).body
-          vapps = data[:ResourceEntities][:ResourceEntity].select { |link| link[:type] == "application/vnd.vmware.vcloud.vApp+xml" }
-          vapps.each{|vapp| vapp[:id] = vapp[:href].split('/').last }
-          vapps
+                        
+        def item_list
+          data = service.get_vdc(vdc.id).body
+          items = data[:ResourceEntities][:ResourceEntity].select { |link| link[:type] == "application/vnd.vmware.vcloud.vApp+xml" }
+          items.each{|item| service.add_id_from_href!(item) }
+          items
         end
         
       end

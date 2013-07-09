@@ -4,7 +4,7 @@ module Fog
   module Compute
     class Vcloudng
 
-      class Vapp < Fog::Model
+      class Vapp < Model
         
         
         identity  :id
@@ -25,7 +25,7 @@ module Fog
         
         def vms
           requires :id
-          service.vms(:vapp_id => id)
+          service.vms(:vapp => self)
         end
 
       end
