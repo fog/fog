@@ -4,7 +4,7 @@ module Fog
   module Compute
     class Vcloudng
 
-      class Network < Fog::Model
+      class Network < Model
         
         identity  :id
                   

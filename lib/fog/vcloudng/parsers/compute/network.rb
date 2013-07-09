@@ -66,7 +66,7 @@ module Fog
         class Network < VcloudngParser
 
           def reset
-            @response = { 'ip_ranges' => [] }
+            @response = { :ip_ranges => [] }
             @ip_range = {}
           end
 
@@ -75,27 +75,27 @@ module Fog
             case name
             when 'OrgNetwork'
                network = extract_attributes(attributes)
-               @response.merge!(network.reject {|key,value| !['href', 'name', 'type'].include?(key)})
-               @response['id'] = @response['href'].split('/').last
+               @response.merge!(network.reject {|key,value| ![:href, :name, :type].include?(key)})
+               @response[:id] = @response[:href].split('/').last
              when 'Description', 
-               @response['description'] = value
+               @response[:description] = value
             end
           end
 
           def end_element(name)
             case name
             when 'IsInherited'
-              @response['is_inherited'] = (value == "true")
+              @response[:is_inherited] = (value == "true")
             when 'Gateway', 'Netmask', 'Dns1', 'Dns2'
-              @response[name.downcase] = value
+              @response[name.downcase.to_sym] = value
             when 'DnsSuffix'
-              @response['dns_suffix'] = value
+              @response[:dns_suffix] = value
             when 'StartAddress'
-              @ip_range['start_address'] = value
+              @ip_range[:start_address] = value
             when 'EndAddress'
-              @ip_range['end_address'] = value
+              @ip_range[:end_address] = value
             when 'IpRange'
-              @response['ip_ranges'] << @ip_range
+              @response[:ip_ranges] << @ip_range
               @ip_range = {}
             end
           end

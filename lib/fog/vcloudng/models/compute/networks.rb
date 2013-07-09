@@ -5,40 +5,26 @@ module Fog
   module Compute
     class Vcloudng
 
-      class Networks < Fog::Collection
+      class Networks < Collection
         model Fog::Compute::Vcloudng::Network
         
         attribute :organization
         
-        def index(organization_id = organization.id)
-          network_links(organization_id).map{ |network| new(network)}
-        end 
-        
-        def all(organization_id = organization.id)
-          network_ids = network_links(organization_id).map {|network| network[:id] }
-          network_ids.map{ |network_id| get(network_id)} 
+        private
+                  
+        def get_by_id(item_id)
+          item = service.get_network(item_id).body
+          service.add_id_from_href!(item)
+          item
         end
-
-        def get(network_id)
-          data = service.get_network(network_id).body
-          new(data)
+                
+        def item_list
+          data = service.get_organization(organization.id).body
+          items = data[:Link].select { |link| link[:type] == "application/vnd.vmware.vcloud.orgNetwork+xml" }
+          items.each{|item| service.add_id_from_href!(item) }
+          items
         end
-        
-        def get_by_name(network_name, organization_id = organization.id)
-          network = network_links(organization_id).detect{|network_link| network_link[:name] == network_name }
-          return nil unless network
-          network_id = network[:id]
-          get(network_id)
-        end
-        
-#        private
-        
-        def network_links(organization_id)
-          data = service.get_organization(organization_id).body
-          networks = data[:Link].select { |link| link[:type] == "application/vnd.vmware.vcloud.orgNetwork+xml" }
-          networks.each{|network| network[:id] = network[:href].split('/').last }
-          networks
-        end
+         
         
       end
     end
