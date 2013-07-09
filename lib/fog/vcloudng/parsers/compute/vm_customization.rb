@@ -14,8 +14,8 @@ module Fog
             case name
             when 'GuestCustomizationSection'
               customizations = extract_attributes(attributes)
-              @response[:href] = customizations['href']
-              @response[:type] = customizations['type']
+              @response[:href] = customizations[:href]
+              @response[:type] = customizations[:type]
               # href looks like this:
               #  "https://devlab.mdsol.com/api/vApp/vm-2bbbf556-55dc-4974-82e6-aa6e814f0b64/guestCustomizationSection/"
               @response[:id] = @response[:href].split('/')[-2]
