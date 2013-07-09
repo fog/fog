@@ -28,7 +28,7 @@ module Fog
         
         def tags
           requires :id
-          service.tags(:vm_id => id)
+          service.tags(:vm => self)
         end
             
         def customization
@@ -43,7 +43,7 @@ module Fog
         
         def disks
           requires :id
-          service.disks(:vm_id => id)
+          service.disks(:vm => self)
         end
         
         #def reload

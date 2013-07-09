@@ -4,17 +4,13 @@ module Fog
   module Compute
     class Vcloudng
 
-      class Disk < Fog::Model
+      class Disk < Fog::Model # there is no lazy_load in disks
         
+        identity  :id
         
-        identity  :id, :aliases => 'instance_id'
-        identity  :vm_id
-        
-                  
         attribute :address
         attribute :description
-        attribute :element_name
-        attribute :instance_id
+        attribute :name
         attribute :resource_sub_type
         attribute :resource_type
         attribute :address_on_parent
@@ -30,9 +26,9 @@ module Fog
           attributes[:capacity] = new_capacity.to_i
           if not_first_set && has_changed
             data = Fog::Generators::Compute::Vcloudng::Disks.new(all_disks)
-            num_disk = element_name.scan(/\d+/).first.to_i
+            num_disk = name.scan(/\d+/).first.to_i
             data.modify_hard_disk_size(num_disk, new_capacity)
-            response = service.put_vm_disks(vm_id, data.disks)
+            response = service.put_vm_disks(attributes[:vm].id, data.disks)
             service.process_task(response.body)
           end
         end
@@ -42,10 +38,10 @@ module Fog
         end
         
         def destroy
-          num_disk = element_name.scan(/\d+/).first.to_i
+          num_disk = name.scan(/\d+/).first.to_i
           data = Fog::Generators::Compute::Vcloudng::Disks.new(all_disks)
           data.delete_hard_disk(num_disk)
-          response = service.put_vm_disks(vm_id, data.disks)
+          response = service.put_vm_disks(attributes[:vm].id, data.disks)
           service.process_task(response.body)
         end
 
