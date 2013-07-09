@@ -5,7 +5,7 @@ module Fog
     class Vcloudng
 
       class Catalog < Fog::Model
-        
+                
         identity  :id
                   
         attribute :name
@@ -21,17 +21,20 @@ module Fog
         
         def initialize(attrs={})
           super(attrs)
-          [:description, :is_published].each { |attr| attributes[attr]= NonLoaded if attributes[attr].nil? }
+          lazy_load_attrs = self.class.attributes - attributes.keys
+          lazy_load_attrs.each do |attr|
+            attributes[attr]= NonLoaded if attributes[attr].nil? 
+            make_lazy_load_method(attr)
+          end
         end
         
-        def description
-          reload if attributes[:description] == NonLoaded and !@inspecting
-          attributes[:description]
-        end
-        
-        def is_published
-          reload if attributes[:is_published] == NonLoaded and !@inspecting
-          attributes[:is_published]
+        def make_lazy_load_method(attr)
+          self.class.instance_eval do 
+            define_method(attr) do
+              reload if attributes[attr] == NonLoaded and !@inspecting
+              attributes[attr]
+            end
+          end
         end
         
         def inspect

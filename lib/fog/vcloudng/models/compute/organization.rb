@@ -30,12 +30,21 @@ module Fog
         
         def initialize(attrs={})
           super(attrs)
-          [:description].each { |attr| attributes[attr]= NonLoaded if attributes[attr].nil? }
+          lazy_load_attrs = self.class.attributes - attributes.keys
+          lazy_load_attrs.each do |attr|
+            puts "-#{attr}-"
+            attributes[attr]= NonLoaded if attributes[attr].nil? 
+            make_lazy_load_method(attr)
+          end
         end
         
-        def description
-          reload if attributes[:description] == NonLoaded and !@inspecting
-          attributes[:description]
+        def make_lazy_load_method(attr)
+          self.class.instance_eval do 
+            define_method(attr) do
+              reload if attributes[attr] == NonLoaded and !@inspecting
+              attributes[attr]
+            end
+          end
         end
         
         def inspect
@@ -44,6 +53,7 @@ module Fog
           @inspecting = false
           out
         end
+
         
       end
     end
