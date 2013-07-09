@@ -120,7 +120,6 @@ module Fog
          super(attrs)
          lazy_load_attrs = self.class.attributes - attributes.keys
          lazy_load_attrs.each do |attr|
-           puts "-#{attr}-"
            attributes[attr]= NonLoaded if attributes[attr].nil? 
            make_lazy_load_method(attr)
          end
@@ -165,8 +164,7 @@ module Fog
        end 
         
        def get_everyone
-         item_ids = item_list.map {|item| item[:id] }
-         items = item_ids.map{ |item_id| get_by_id(item_id)}
+         items = item_list.map {|item| get_by_id(item[:id]) }
          load(items) 
        end
      end

@@ -4,7 +4,7 @@ module Fog
   module Compute
     class Vcloudng
 
-      class CatalogItem < Fog::Model
+      class CatalogItem < Model
         
         identity  :id
                   
