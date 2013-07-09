@@ -6,7 +6,7 @@ module Fog
   module Compute
     class Vcloudng
 
-      class Vm < Fog::Model
+      class Vm < Model
         identity  :id
 
         attribute :vapp_id                  
@@ -18,23 +18,8 @@ module Fog
         attribute :ip_address
         attribute :cpu, :type => :integer
         attribute :memory
-        attribute :hard_disks, :aliases => 'disks'
+        attribute :hard_disks, :aliases => :disks
         
-        #def links
-        #  attributes["links"]
-        #end
-        #
-        #def generate_methods
-        #  attributes["links"].each do |link|
-        #    next unless link[:method_name]
-        #    self.class.instance_eval do 
-        #      define_method(link[:method_name]) do
-        #        puts link[:href]
-        #        service.get_href(link[:href])
-        #      end
-        #    end
-        #  end
-        #end
         
         def power_on
           response = service.post_vm_poweron(id)

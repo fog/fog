@@ -5,36 +5,22 @@ module Fog
   module Compute
     class Vcloudng
 
-      class Vms < Fog::Collection
+      class Vms < Collection
         model Fog::Compute::Vcloudng::Vm
         
-        attribute :vapp_id
-        
-        def index
-          vm_links.map{ |vm| new(vm)}
-        end 
-        
-        def all
-          index
-        end
-
-        def get(vm_id)
-          vm = vm_links.detect{ |vm| vm['id'] == vm_id}
-          return nil unless vm
-          new(vm)
-        end
-        
-        def get_by_name(vm_name)
-          vm = vm_links.detect{ |vm| vm['name'] == vm_name}
-          return nil unless vm
-          new(vm)
-        end
+        attribute :vapp
         
         private
-        
-        def vm_links
-          data = service.get_vms(vapp_id).body
-          data['vms']
+                
+        def get_by_id(item_id)
+          item = item_list.detect{ |vm| vm[:id] == item_id}
+          item
+        end
+                        
+        def item_list
+          data = service.get_vms(vapp.id).body
+          items = data[:vms]
+          items
         end
         
       end

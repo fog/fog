@@ -20,19 +20,7 @@ class VcloudngParser < Fog::Parsers::Base
     attributes
   end
   
-  def extract_link(attributes_xml)
-    response = {}
-    link_attrs = extract_attributes(attributes_xml)
-    response[:type] = link_attrs["type"]
-    response[:rel] = link_attrs["rel"]
-    response[:href] = link_attrs["href"]
-    if response[:type] && response[:rel]
-      short_type = response[:type].scan(/.*\.(.*)\+/).first.first
-      snake_case_short_type = short_type.gsub(/([A-Z])/) { '_' + $1.downcase }
-      response[:method_name] = response[:rel] + '_' + snake_case_short_type
-    end
-    response
-  end
+
 end
 
 class NonLoaded

@@ -12,7 +12,7 @@ module Fog
             @in_operating_system = false
             @in_children = false
             @resource_type = nil
-            @response = { 'vms' => [] }
+            @response = { :vms => [] }
             @links = []
           end
 
@@ -23,20 +23,20 @@ module Fog
                 @in_operating_system = true
              when 'VApp'
                 vapp = extract_attributes(attributes)
-                @response.merge!(vapp.reject {|key,value| !['href', 'name', 'size', 'status', 'type'].include?(key)})
-                @response['id'] = @response['href'].split('/').last
+                @response.merge!(vapp.reject {|key,value| ![:href, :name, :size, :status, :type].include?(key)})
+                @response[:id] = @response[:href].split('/').last
               when 'Vm'
                  vapp = extract_attributes(attributes)
-                 @vm.merge!(vapp.reject {|key,value| !['href', 'name', 'status', 'type'].include?(key)})
-                 @vm['id'] = @vm['href'].split('/').last
-                 @vm['vapp_id'] = @response['id']
-                 @vm['status'] = human_status(@vm['status'])
+                 @vm.merge!(vapp.reject {|key,value| ![:href, :name, :status, :type].include?(key)})
+                 @vm[:id] = @vm[:href].split('/').last
+                 @vm[:vapp_id] = @response[:id]
+                 @vm[:status] = human_status(@vm[:status])
              when 'Children'
                @in_children = true
              when 'HostResource'
                @current_host_resource = extract_attributes(attributes)
              when 'Link'
-               @links << extract_link(attributes)
+               @links << extract_attributes(attributes)
              end
           end
 
@@ -44,10 +44,10 @@ module Fog
             if @in_children
               case name
               when 'IpAddress'
-                @vm['ip_address'] = value
+                @vm[:ip_address] = value
               when 'Description'
                 if @in_operating_system
-                  @vm['operating_system'] = value
+                  @vm[:operating_system] = value
                   @in_operating_system = false
                 end
               when 'ResourceType'
@@ -55,21 +55,21 @@ module Fog
               when 'VirtualQuantity'
                 case @resource_type
                 when '3'
-                  @vm['cpu'] = value
+                  @vm[:cpu] = value
                 when '4'
-                  @vm['memory'] = value
+                  @vm[:memory] = value
                 end
               when 'ElementName'
                 @element_name = value
               when 'Item'
                 if @resource_type == '17' # disk
-                  @vm['disks'] ||= []
-                  @vm['disks'] << { @element_name => @current_host_resource["capacity"].to_i }
+                  @vm[:disks] ||= []
+                  @vm[:disks] << { @element_name => @current_host_resource[:capacity].to_i }
                 end
               when 'Link'
-                @vm['links'] = @links
+                @vm[:links] = @links
               when 'Vm'
-                @response['vms'] << @vm
+                @response[:vms] << @vm
                 @vm = {}
               end
             end
