@@ -74,13 +74,13 @@ module Fog
             case name
             when 'NetworkConnectionSection'
               network_connection_section = extract_attributes(attributes)
-              @response[:type] = network_connection_section['type']
-              @response[:href] = network_connection_section['href']
+              @response[:type] = network_connection_section[:type]
+              @response[:href] = network_connection_section[:href]
               @response[:id] = @response[:href].split('/')[-2]
             when 'NetworkConnection'
               network_connection = extract_attributes(attributes)
-              @response[:network] = network_connection['network']
-              @response[:needs_customization] = ( network_connection['needsCustomization'] == "true" )
+              @response[:network] = network_connection[:network]
+              @response[:needs_customization] = ( network_connection[:needsCustomization] == "true" )
             end
           end
 
