@@ -19,7 +19,7 @@ module Fog
         def all(filters=filters)
           self.filters.merge!(filters)
 
-          result = service.describe_db_log_files(rds_id, filters).body['DescribeDBLogFilesResult']
+          result = service.describe_db_log_files(rds_id, self.filters).body['DescribeDBLogFilesResult']
           self.filters[:marker] = result['Marker']
           load(result['DBLogFiles'])
         end
