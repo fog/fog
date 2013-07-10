@@ -32,7 +32,7 @@ module Fog
         def all(filters = filters)
           self.filters.merge!(filters)
 
-          page = service.describe_db_snapshots(filters).body['DescribeDBSnapshotsResult']
+          page = service.describe_db_snapshots(self.filters).body['DescribeDBSnapshotsResult']
           self.filters[:marker] = page['Marker']
           load(page['DBSnapshots'])
         end
