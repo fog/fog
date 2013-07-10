@@ -18,6 +18,7 @@ module Fog
         attribute :availability_zone,   :aliases => 'availabilityZone'
         attribute :created_at,          :aliases => 'createdAt'
         attribute :attachments
+        attribute :source_volid
 
 
         def initialize(attributes)
