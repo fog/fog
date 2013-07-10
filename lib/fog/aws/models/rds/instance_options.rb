@@ -19,7 +19,7 @@ module Fog
         def all(filters=filters)
           self.filters.merge!(filters)
 
-          result = service.describe_orderable_db_instance_options(engine, filters).body['DescribeOrderableDBInstanceOptionsResult']
+          result = service.describe_orderable_db_instance_options(engine, self.filters).body['DescribeOrderableDBInstanceOptionsResult']
           self.filters[:marker] = result['Marker']
           load(result['OrderableDBInstanceOptions'])
         end
