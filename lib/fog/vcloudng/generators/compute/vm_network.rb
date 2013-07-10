@@ -2,7 +2,7 @@
 #
 # {:type=>"application/vnd.vmware.vcloud.networkConnectionSection+xml",
 #  :href=>
-#   "https://devlab.mdsol.com/api/vApp/vm-8b74d95a-ee91-4f46-88d8-fc92be0dbaae/networkConnectionSection/",
+#   "https://example.com/api/vApp/vm-8b74d95a-ee91-4f46-88d8-fc92be0dbaae/networkConnectionSection/",
 #  :id=>"vm-8b74d95a-ee91-4f46-88d8-fc92be0dbaae",
 #  :primary_network_connection_index=>0,
 #  :network=>"DevOps - Dev Network Connection",
@@ -16,7 +16,7 @@
 #
 # This is what it generates
 #
-# <NetworkConnectionSection xmlns="http://www.vmware.com/vcloud/v1.5" xmlns:ovf="http://schemas.dmtf.org/ovf/envelope/1" type="application/vnd.vmware.vcloud.networkConnectionSection+xml" href="https://devlab.mdsol.com/api/vApp/vm-8b74d95a-ee91-4f46-88d8-fc92be0dbaae/networkConnectionSection/" ovf:required="false" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://schemas.dmtf.org/ovf/envelope/1 http://schemas.dmtf.org/ovf/envelope/1/dsp8023_1.1.0.xsd http://www.vmware.com/vcloud/v1.5 http://10.194.1.65/api/v1.5/schema/master.xsd">
+# <NetworkConnectionSection xmlns="http://www.vmware.com/vcloud/v1.5" xmlns:ovf="http://schemas.dmtf.org/ovf/envelope/1" type="application/vnd.vmware.vcloud.networkConnectionSection+xml" href="https://example.com/api/vApp/vm-8b74d95a-ee91-4f46-88d8-fc92be0dbaae/networkConnectionSection/" ovf:required="false" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://schemas.dmtf.org/ovf/envelope/1 http://schemas.dmtf.org/ovf/envelope/1/dsp8023_1.1.0.xsd http://www.vmware.com/vcloud/v1.5 http://10.194.1.65/api/v1.5/schema/master.xsd">
 #     <ovf:Info>Specifies the available VM network connections</ovf:Info>
 #     <PrimaryNetworkConnectionIndex>0</PrimaryNetworkConnectionIndex>
 #     <NetworkConnection network="DevOps - Dev Network Connection" needsCustomization="true">
@@ -26,7 +26,7 @@
 #         <MACAddress>00:50:56:01:00:8d</MACAddress>
 #         <IpAddressAllocationMode>POOL</IpAddressAllocationMode>
 #     </NetworkConnection>
-#     <Link rel="edit" type="application/vnd.vmware.vcloud.networkConnectionSection+xml" href="https://devlab.mdsol.com/api/vApp/vm-8b74d95a-ee91-4f46-88d8-fc92be0dbaae/networkConnectionSection/"/>
+#     <Link rel="edit" type="application/vnd.vmware.vcloud.networkConnectionSection+xml" href="https://example.com/api/vApp/vm-8b74d95a-ee91-4f46-88d8-fc92be0dbaae/networkConnectionSection/"/>
 # </NetworkConnectionSection>
 # 
 module Fog

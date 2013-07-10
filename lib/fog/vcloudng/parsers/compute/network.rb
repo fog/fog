@@ -5,7 +5,7 @@
 # :id=>"urn:vcloud:network:d5f47bbf-de27-4cf5-aaaa-56772f2ccd17",
 # :type=>"application/vnd.vmware.vcloud.orgNetwork+xml",
 # :href=>
-#  "https://devlab.mdsol.com/api/network/d5f47bbf-de27-4cf5-aaaa-56772f2ccd17",
+#  "https://example.com/api/network/d5f47bbf-de27-4cf5-aaaa-56772f2ccd17",
 # :xsi_schemaLocation=>
 #  "http://www.vmware.com/vcloud/v1.5 http://10.194.1.65/api/v1.5/schema/master.xsd",
 # :Link=>
@@ -13,11 +13,11 @@
 #    :type=>"application/vnd.vmware.vcloud.org+xml",
 #    :name=>"DevOps",
 #    :href=>
-#     "https://devlab.mdsol.com/api/org/c6a4c623-c158-41cf-a87a-dbc1637ad55a"},
+#     "https://example.com/api/org/c6a4c623-c158-41cf-a87a-dbc1637ad55a"},
 #   {:rel=>"down",
 #    :type=>"application/vnd.vmware.vcloud.metadata+xml",
 #    :href=>
-#     "https://devlab.mdsol.com/api/network/d5f47bbf-de27-4cf5-aaaa-56772f2ccd17/metadata"}],
+#     "https://example.com/api/network/d5f47bbf-de27-4cf5-aaaa-56772f2ccd17/metadata"}],
 # :Description=>"",
 # :Configuration=>
 #  {:IpScope=>
@@ -34,9 +34,9 @@
 #   :RetainNetInfoAcrossDeployments=>"false"}}
 #
 #<?xml version="1.0" encoding="UTF-8"?>
-#<OrgNetwork xmlns="http://www.vmware.com/vcloud/v1.5" name="DevOps - Dev Network Connection" id="urn:vcloud:network:d5f47bbf-de27-4cf5-aaaa-56772f2ccd17" type="application/vnd.vmware.vcloud.orgNetwork+xml" href="https://devlab.mdsol.com/api/network/d5f47bbf-de27-4cf5-aaaa-56772f2ccd17" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.vmware.com/vcloud/v1.5 http://10.194.1.65/api/v1.5/schema/master.xsd">
-#    <Link rel="up" type="application/vnd.vmware.vcloud.org+xml" name="DevOps" href="https://devlab.mdsol.com/api/org/c6a4c623-c158-41cf-a87a-dbc1637ad55a"/>
-#    <Link rel="down" type="application/vnd.vmware.vcloud.metadata+xml" href="https://devlab.mdsol.com/api/network/d5f47bbf-de27-4cf5-aaaa-56772f2ccd17/metadata"/>
+#<OrgNetwork xmlns="http://www.vmware.com/vcloud/v1.5" name="DevOps - Dev Network Connection" id="urn:vcloud:network:d5f47bbf-de27-4cf5-aaaa-56772f2ccd17" type="application/vnd.vmware.vcloud.orgNetwork+xml" href="https://example.com/api/network/d5f47bbf-de27-4cf5-aaaa-56772f2ccd17" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.vmware.com/vcloud/v1.5 http://10.194.1.65/api/v1.5/schema/master.xsd">
+#    <Link rel="up" type="application/vnd.vmware.vcloud.org+xml" name="DevOps" href="https://example.com/api/org/c6a4c623-c158-41cf-a87a-dbc1637ad55a"/>
+#    <Link rel="down" type="application/vnd.vmware.vcloud.metadata+xml" href="https://example.com/api/network/d5f47bbf-de27-4cf5-aaaa-56772f2ccd17/metadata"/>
 #    <Description/>
 #    <Configuration>
 #        <IpScope>

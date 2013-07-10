@@ -2,7 +2,7 @@
 #
 # {"type"=>"application/vnd.vmware.vcloud.guestCustomizationSection+xml",
 #  "href"=>
-#   "https://devlab.mdsol.com/api/vApp/vm-2bbbf556-55dc-4974-82e6-aa6e814f0b64/guestCustomizationSection/",
+#   "https://example.com/api/vApp/vm-2bbbf556-55dc-4974-82e6-aa6e814f0b64/guestCustomizationSection/",
 #  "id"=>"vm-2bbbf556-55dc-4974-82e6-aa6e814f0b64",
 #  "enabled"=>false,
 #  "change_sid"=>false,

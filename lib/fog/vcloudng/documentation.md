@@ -52,7 +52,7 @@ Lazy load isn't used with ```get``` and ```get_by_name``` methods are used
 
 
 ```ruby
-vcloud = Fog::Compute::Vcloudng.new(vcloudng_username: "<username>", @devops", vcloudng_password: "<password>", vcloudng_host: 'devlab.mdsol.com', :connection_options => {:ssl_verify_peer => false, :connect_timeout => 200, :read_timeout => 200 } )
+vcloud = Fog::Compute::Vcloudng.new(vcloudng_username: "<username>@org_name_", vcloudng_password: "<password>", vcloudng_host: 'example.com', :connection_options => {:ssl_verify_peer => false, :connect_timeout => 200, :read_timeout => 200 } )
 ```
 
 ### Organizations 
@@ -72,7 +72,7 @@ vcloud.organizations
         id="c6a4c623-c158-41cf-a87a-dbc1637ad55a",
         name="DevOps",
         type="application/vnd.vmware.vcloud.org+xml",
-        href="https://devlab.mdsol.com/api/org/c6a4c623-c158-41cf-a87a-dbc1637ad55a",
+        href="https://example.com/api/org/c6a4c623-c158-41cf-a87a-dbc1637ad55a",
         description=NonLoaded
       >
     ]
@@ -106,7 +106,7 @@ org.vdcs
       id="c6a4c623-c158-41cf-a87a-dbc1637ad55a",
       name="DevOps",
       type="application/vnd.vmware.vcloud.org+xml",
-      href="https://devlab.mdsol.com/api/org/c6a4c623-c158-41cf-a87a-dbc1637ad55a",
+      href="https://example.com/api/org/c6a4c623-c158-41cf-a87a-dbc1637ad55a",
       description=NonLoaded
     >
     [
@@ -114,7 +114,7 @@ org.vdcs
         id="9a06a16b-12c6-44dc-aee1-06aa52262ea3",
         name="DevOps - VDC",
         type="application/vnd.vmware.vcloud.vdc+xml",
-        href="https://devlab.mdsol.com/api/vdc/9a06a16b-12c6-44dc-aee1-06aa52262ea3",
+        href="https://example.com/api/vdc/9a06a16b-12c6-44dc-aee1-06aa52262ea3",
         description=NonLoaded,
         available_networks=NonLoaded,
         compute_capacity_cpu=NonLoaded,
@@ -142,9 +142,9 @@ org.vdcs.get_by_name("DevOps - VDC")
     id="9a06a16b-12c6-44dc-aee1-06aa52262ea3",
     name="DevOps - VDC",
     type="application/vnd.vmware.vcloud.vdc+xml",
-    href="https://devlab.mdsol.com/api/vdc/9a06a16b-12c6-44dc-aee1-06aa52262ea3",
+    href="https://example.com/api/vdc/9a06a16b-12c6-44dc-aee1-06aa52262ea3",
     description="",
-    available_networks={:type=>"application/vnd.vmware.vcloud.network+xml", :name=>"DevOps - Dev Network Connection", :href=>"https://devlab.mdsol.com/api/network/d5f47bbf-de27-4cf5-aaaa-56772f2ccd17"},
+    available_networks={:type=>"application/vnd.vmware.vcloud.network+xml", :name=>"DevOps - Dev Network Connection", :href=>"https://example.com/api/network/d5f47bbf-de27-4cf5-aaaa-56772f2ccd17"},
     compute_capacity_cpu=NonLoaded,
     compute_capacity_memory={:Units=>"MB", :Allocated=>"0", :Limit=>"0", :Used=>"3584", :Overhead=>"65"},
     storage_capacity={:Units=>"MB", :Allocated=>"1048320", :Limit=>"1048320", :Used=>"903168", :Overhead=>"0"},
@@ -173,7 +173,7 @@ vdc.vapps
       id="9a06a16b-12c6-44dc-aee1-06aa52262ea3",
       name="DevOps - VDC",
       type="application/vnd.vmware.vcloud.vdc+xml",
-      href="https://devlab.mdsol.com/api/vdc/9a06a16b-12c6-44dc-aee1-06aa52262ea3",
+      href="https://example.com/api/vdc/9a06a16b-12c6-44dc-aee1-06aa52262ea3",
       description=NonLoaded,
       available_networks=NonLoaded,
       compute_capacity_cpu=NonLoaded,
@@ -191,7 +191,7 @@ vdc.vapps
         id="vapp-11c7102f-443d-40fd-b1da-cca981fb44b6",
         name="segundo",
         type="application/vnd.vmware.vcloud.vApp+xml",
-        href="https://devlab.mdsol.com/api/vApp/vapp-11c7102f-443d-40fd-b1da-cca981fb44b6",
+        href="https://example.com/api/vApp/vapp-11c7102f-443d-40fd-b1da-cca981fb44b6",
         description=NonLoaded,
         deployed=NonLoaded,
         status=NonLoaded,
@@ -207,7 +207,7 @@ vdc.vapps
         id="vapp-6ac43e0e-13e2-4642-a58a-6dc3a12f585b",
         name="vApp_restebanez_9",
         type="application/vnd.vmware.vcloud.vApp+xml",
-        href="https://devlab.mdsol.com/api/vApp/vapp-6ac43e0e-13e2-4642-a58a-6dc3a12f585b",
+        href="https://example.com/api/vApp/vapp-6ac43e0e-13e2-4642-a58a-6dc3a12f585b",
         description=NonLoaded,
         deployed=NonLoaded,
         status=NonLoaded,
@@ -234,7 +234,7 @@ vdc.vapps.get_by_name("segundo")
     id="vapp-11c7102f-443d-40fd-b1da-cca981fb44b6",
     name="segundo",
     type="application/vnd.vmware.vcloud.vApp+xml",
-    href="https://devlab.mdsol.com/api/vApp/vapp-11c7102f-443d-40fd-b1da-cca981fb44b6",
+    href="https://example.com/api/vApp/vapp-11c7102f-443d-40fd-b1da-cca981fb44b6",
     description="",
     deployed=false,
     status="8",
@@ -242,8 +242,8 @@ vdc.vapps.get_by_name("segundo")
     storage_lease_in_seconds="7776000",
     startup_section={:ovf_stopDelay=>"0", :ovf_stopAction=>"powerOff", :ovf_startDelay=>"0", :ovf_startAction=>"powerOn", :ovf_order=>"0", :ovf_id=>"DEVWEB"},
     network_section={:ovf_name=>"DevOps - Dev Network Connection", :"ovf:Description"=>""},
-    network_config={:networkName=>"DevOps - Dev Network Connection", :Link=>{:rel=>"repair", :href=>"https://devlab.mdsol.com/api/admin/network/82a07044-4dda-4a3e-a53d-8981cf0d5baa/action/reset"}, :Description=>"", :Configuration=>{:IpScope=>{:IsInherited=>"true", :Gateway=>"10.192.0.1", :Netmask=>"255.255.252.0", :Dns1=>"10.192.0.11", :Dns2=>"10.192.0.12", :DnsSuffix=>"dev.ad.mdsol.com", :IpRanges=>{:IpRange=>{:StartAddress=>"10.192.0.100", :EndAddress=>"10.192.3.254"}}}, :ParentNetwork=>{:name=>"DevOps - Dev Network Connection", :id=>"d5f47bbf-de27-4cf5-aaaa-56772f2ccd17", :href=>"https://devlab.mdsol.com/api/admin/network/d5f47bbf-de27-4cf5-aaaa-56772f2ccd17"}, :FenceMode=>"bridged", :RetainNetInfoAcrossDeployments=>"false"}, :IsDeployed=>"false"},
-    owner={:type=>"application/vnd.vmware.admin.user+xml", :name=>"restebanez", :href=>"https://devlab.mdsol.com/api/admin/user/c3ca7b97-ddea-425f-8bdb-1fdb946f7349"},
+    network_config={:networkName=>"DevOps - Dev Network Connection", :Link=>{:rel=>"repair", :href=>"https://example.com/api/admin/network/82a07044-4dda-4a3e-a53d-8981cf0d5baa/action/reset"}, :Description=>"", :Configuration=>{:IpScope=>{:IsInherited=>"true", :Gateway=>"10.192.0.1", :Netmask=>"255.255.252.0", :Dns1=>"10.192.0.11", :Dns2=>"10.192.0.12", :DnsSuffix=>"dev.ad.mdsol.com", :IpRanges=>{:IpRange=>{:StartAddress=>"10.192.0.100", :EndAddress=>"10.192.3.254"}}}, :ParentNetwork=>{:name=>"DevOps - Dev Network Connection", :id=>"d5f47bbf-de27-4cf5-aaaa-56772f2ccd17", :href=>"https://example.com/api/admin/network/d5f47bbf-de27-4cf5-aaaa-56772f2ccd17"}, :FenceMode=>"bridged", :RetainNetInfoAcrossDeployments=>"false"}, :IsDeployed=>"false"},
+    owner={:type=>"application/vnd.vmware.admin.user+xml", :name=>"restebanez", :href=>"https://example.com/api/admin/user/c3ca7b97-ddea-425f-8bdb-1fdb946f7349"},
     InMaintenanceMode=false
   >
 ```
@@ -267,7 +267,7 @@ vapp.vms
       id="vapp-11c7102f-443d-40fd-b1da-cca981fb44b6",
       name="segundo",
       type="application/vnd.vmware.vcloud.vApp+xml",
-      href="https://devlab.mdsol.com/api/vApp/vapp-11c7102f-443d-40fd-b1da-cca981fb44b6",
+      href="https://example.com/api/vApp/vapp-11c7102f-443d-40fd-b1da-cca981fb44b6",
       description="",
       deployed=false,
       status="8",
@@ -275,8 +275,8 @@ vapp.vms
       storage_lease_in_seconds="7776000",
       startup_section={:ovf_stopDelay=>"0", :ovf_stopAction=>"powerOff", :ovf_startDelay=>"0", :ovf_startAction=>"powerOn", :ovf_order=>"0", :ovf_id=>"DEVWEB"},
       network_section={:ovf_name=>"DevOps - Dev Network Connection", :"ovf:Description"=>""},
-      network_config={:networkName=>"DevOps - Dev Network Connection", :Link=>{:rel=>"repair", :href=>"https://devlab.mdsol.com/api/admin/network/82a07044-4dda-4a3e-a53d-8981cf0d5baa/action/reset"}, :Description=>"", :Configuration=>{:IpScope=>{:IsInherited=>"true", :Gateway=>"10.192.0.1", :Netmask=>"255.255.252.0", :Dns1=>"10.192.0.11", :Dns2=>"10.192.0.12", :DnsSuffix=>"dev.ad.mdsol.com", :IpRanges=>{:IpRange=>{:StartAddress=>"10.192.0.100", :EndAddress=>"10.192.3.254"}}}, :ParentNetwork=>{:name=>"DevOps - Dev Network Connection", :id=>"d5f47bbf-de27-4cf5-aaaa-56772f2ccd17", :href=>"https://devlab.mdsol.com/api/admin/network/d5f47bbf-de27-4cf5-aaaa-56772f2ccd17"}, :FenceMode=>"bridged", :RetainNetInfoAcrossDeployments=>"false"}, :IsDeployed=>"false"},
-      owner={:type=>"application/vnd.vmware.admin.user+xml", :name=>"restebanez", :href=>"https://devlab.mdsol.com/api/admin/user/c3ca7b97-ddea-425f-8bdb-1fdb946f7349"},
+      network_config={:networkName=>"DevOps - Dev Network Connection", :Link=>{:rel=>"repair", :href=>"https://example.com/api/admin/network/82a07044-4dda-4a3e-a53d-8981cf0d5baa/action/reset"}, :Description=>"", :Configuration=>{:IpScope=>{:IsInherited=>"true", :Gateway=>"10.192.0.1", :Netmask=>"255.255.252.0", :Dns1=>"10.192.0.11", :Dns2=>"10.192.0.12", :DnsSuffix=>"dev.ad.mdsol.com", :IpRanges=>{:IpRange=>{:StartAddress=>"10.192.0.100", :EndAddress=>"10.192.3.254"}}}, :ParentNetwork=>{:name=>"DevOps - Dev Network Connection", :id=>"d5f47bbf-de27-4cf5-aaaa-56772f2ccd17", :href=>"https://example.com/api/admin/network/d5f47bbf-de27-4cf5-aaaa-56772f2ccd17"}, :FenceMode=>"bridged", :RetainNetInfoAcrossDeployments=>"false"}, :IsDeployed=>"false"},
+      owner={:type=>"application/vnd.vmware.admin.user+xml", :name=>"restebanez", :href=>"https://example.com/api/admin/user/c3ca7b97-ddea-425f-8bdb-1fdb946f7349"},
       InMaintenanceMode=false
     >
     [
@@ -285,7 +285,7 @@ vapp.vms
         vapp_id="vapp-11c7102f-443d-40fd-b1da-cca981fb44b6",
         name="DEVWEB",
         type="application/vnd.vmware.vcloud.vm+xml",
-        href="https://devlab.mdsol.com/api/vApp/vm-2ddeea36-ac71-470f-abc5-c6e3c2aca192",
+        href="https://example.com/api/vApp/vm-2ddeea36-ac71-470f-abc5-c6e3c2aca192",
         status="off",
         operating_system="Microsoft Windows Server 2008 R2 (64-bit)",
         ip_address="10.192.0.144",
@@ -312,7 +312,7 @@ vapp.vms.get_by_name("DEVWEB")
     vapp_id="vapp-11c7102f-443d-40fd-b1da-cca981fb44b6",
     name="DEVWEB",
     type="application/vnd.vmware.vcloud.vm+xml",
-    href="https://devlab.mdsol.com/api/vApp/vm-2ddeea36-ac71-470f-abc5-c6e3c2aca192",
+    href="https://example.com/api/vApp/vm-2ddeea36-ac71-470f-abc5-c6e3c2aca192",
     status="off",
     operating_system="Microsoft Windows Server 2008 R2 (64-bit)",
     ip_address="10.192.0.144",
@@ -383,7 +383,7 @@ vm.customization
   <Fog::Compute::Vcloudng::VmCustomization
     id="vm-2ddeea36-ac71-470f-abc5-c6e3c2aca192",
     type="application/vnd.vmware.vcloud.guestCustomizationSection+xml",
-    href="https://devlab.mdsol.com/api/vApp/vm-2ddeea36-ac71-470f-abc5-c6e3c2aca192/guestCustomizationSection/",
+    href="https://example.com/api/vApp/vm-2ddeea36-ac71-470f-abc5-c6e3c2aca192/guestCustomizationSection/",
     enabled=false,
     change_sid=false,
     join_domain_enabled=false,
@@ -434,7 +434,7 @@ vm.network
     <Fog::Compute::Vcloudng::VmNetwork
     id="vm-2ddeea36-ac71-470f-abc5-c6e3c2aca192",
     type="application/vnd.vmware.vcloud.networkConnectionSection+xml",
-    href="https://devlab.mdsol.com/api/vApp/vm-2ddeea36-ac71-470f-abc5-c6e3c2aca192/networkConnectionSection/",
+    href="https://example.com/api/vApp/vm-2ddeea36-ac71-470f-abc5-c6e3c2aca192/networkConnectionSection/",
     info="Specifies the available VM network connections",
     primary_network_connection_index=0,
     network="DevOps - Dev Network Connection",
@@ -488,7 +488,7 @@ vm.disks
       vapp_id="vapp-11c7102f-443d-40fd-b1da-cca981fb44b6",
       name="DEVWEB",
       type="application/vnd.vmware.vcloud.vm+xml",
-      href="https://devlab.mdsol.com/api/vApp/vm-2ddeea36-ac71-470f-abc5-c6e3c2aca192",
+      href="https://example.com/api/vApp/vm-2ddeea36-ac71-470f-abc5-c6e3c2aca192",
       status="off",
       operating_system="Microsoft Windows Server 2008 R2 (64-bit)",
       ip_address="10.192.0.144",
@@ -564,7 +564,7 @@ The new disk should show up
       vapp_id="vapp-11c7102f-443d-40fd-b1da-cca981fb44b6",
       name="DEVWEB",
       type="application/vnd.vmware.vcloud.vm+xml",
-      href="https://devlab.mdsol.com/api/vApp/vm-2ddeea36-ac71-470f-abc5-c6e3c2aca192",
+      href="https://example.com/api/vApp/vm-2ddeea36-ac71-470f-abc5-c6e3c2aca192",
       status="off",
       operating_system="Microsoft Windows Server 2008 R2 (64-bit)",
       ip_address="10.192.0.144",
@@ -682,7 +682,7 @@ vm.tags
       vapp_id="vapp-11c7102f-443d-40fd-b1da-cca981fb44b6",
       name="DEVWEB",
       type="application/vnd.vmware.vcloud.vm+xml",
-      href="https://devlab.mdsol.com/api/vApp/vm-2ddeea36-ac71-470f-abc5-c6e3c2aca192",
+      href="https://example.com/api/vApp/vm-2ddeea36-ac71-470f-abc5-c6e3c2aca192",
       status="off",
       operating_system="Microsoft Windows Server 2008 R2 (64-bit)",
       ip_address="10.192.0.144",
@@ -789,7 +789,7 @@ org.networks
       id="c6a4c623-c158-41cf-a87a-dbc1637ad55a",
       name="DevOps",
       type="application/vnd.vmware.vcloud.org+xml",
-      href="https://devlab.mdsol.com/api/org/c6a4c623-c158-41cf-a87a-dbc1637ad55a",
+      href="https://example.com/api/org/c6a4c623-c158-41cf-a87a-dbc1637ad55a",
       description=NonLoaded
     >
     [
@@ -797,7 +797,7 @@ org.networks
         id="d5f47bbf-de27-4cf5-aaaa-56772f2ccd17",
         name="DevOps - Dev Network Connection",
         type="application/vnd.vmware.vcloud.orgNetwork+xml",
-        href="https://devlab.mdsol.com/api/network/d5f47bbf-de27-4cf5-aaaa-56772f2ccd17",
+        href="https://example.com/api/network/d5f47bbf-de27-4cf5-aaaa-56772f2ccd17",
         description=NonLoaded,
         is_inherited=NonLoaded,
         gateway=NonLoaded,
@@ -821,7 +821,7 @@ org.networks.get_by_name("DevOps - Dev Network Connection")
     id="d5f47bbf-de27-4cf5-aaaa-56772f2ccd17",
     name="DevOps - Dev Network Connection",
     type="application/vnd.vmware.vcloud.orgNetwork+xml",
-    href="https://devlab.mdsol.com/api/network/d5f47bbf-de27-4cf5-aaaa-56772f2ccd17",
+    href="https://example.com/api/network/d5f47bbf-de27-4cf5-aaaa-56772f2ccd17",
     description=nil,
     is_inherited=true,
     gateway="10.192.0.1",
@@ -848,7 +848,7 @@ org = vcloud.organizations.first
       id="c6a4c623-c158-41cf-a87a-dbc1637ad55a",
       name="DevOps",
       type="application/vnd.vmware.vcloud.org+xml",
-      href="https://devlab.mdsol.com/api/org/c6a4c623-c158-41cf-a87a-dbc1637ad55a",
+      href="https://example.com/api/org/c6a4c623-c158-41cf-a87a-dbc1637ad55a",
       description=NonLoaded
     >
     [
@@ -856,7 +856,7 @@ org = vcloud.organizations.first
         id="4ee720e5-173a-41ac-824b-6f4908bac975",
         name="Public VM Templates",
         type="application/vnd.vmware.vcloud.catalog+xml",
-        href="https://devlab.mdsol.com/api/catalog/4ee720e5-173a-41ac-824b-6f4908bac975",
+        href="https://example.com/api/catalog/4ee720e5-173a-41ac-824b-6f4908bac975",
         description=NonLoaded,
         is_published=NonLoaded
       >,
@@ -864,7 +864,7 @@ org = vcloud.organizations.first
         id="ea0c6acf-c9c0-46b7-b19f-4b2d3bf8aa33",
         name="prueba",
         type="application/vnd.vmware.vcloud.catalog+xml",
-        href="https://devlab.mdsol.com/api/catalog/ea0c6acf-c9c0-46b7-b19f-4b2d3bf8aa33",
+        href="https://example.com/api/catalog/ea0c6acf-c9c0-46b7-b19f-4b2d3bf8aa33",
         description=NonLoaded,
         is_published=NonLoaded
       >
@@ -883,7 +883,7 @@ org.catalogs.get("4ee720e5-173a-41ac-824b-6f4908bac975") # or get_by_name("Publi
     id="4ee720e5-173a-41ac-824b-6f4908bac975",
     name="Public VM Templates",
     type="application/vnd.vmware.vcloud.catalog+xml",
-    href="https://devlab.mdsol.com/api/catalog/4ee720e5-173a-41ac-824b-6f4908bac975",
+    href="https://example.com/api/catalog/4ee720e5-173a-41ac-824b-6f4908bac975",
     description="",
     is_published=true
   >
@@ -905,7 +905,7 @@ catalog.catalog_items
       id="4ee720e5-173a-41ac-824b-6f4908bac975",
       name="Public VM Templates",
       type="application/vnd.vmware.vcloud.catalog+xml",
-      href="https://devlab.mdsol.com/api/catalog/4ee720e5-173a-41ac-824b-6f4908bac975",
+      href="https://example.com/api/catalog/4ee720e5-173a-41ac-824b-6f4908bac975",
       description=NonLoaded,
       is_published=NonLoaded
     >
@@ -914,7 +914,7 @@ catalog.catalog_items
         id="2bd55629-2734-420c-9068-2ff06a4a8028",
         name="DEVWIN",
         type="application/vnd.vmware.vcloud.catalogItem+xml",
-        href="https://devlab.mdsol.com/api/catalogItem/2bd55629-2734-420c-9068-2ff06a4a8028",
+        href="https://example.com/api/catalogItem/2bd55629-2734-420c-9068-2ff06a4a8028",
         description=NonLoaded,
         vapp_template_id=NonLoaded
       >,
@@ -922,7 +922,7 @@ catalog.catalog_items
         id="5437aa3f-e369-40b2-b985-2e63e1bc9f2e",
         name="DEVRHL",
         type="application/vnd.vmware.vcloud.catalogItem+xml",
-        href="https://devlab.mdsol.com/api/catalogItem/5437aa3f-e369-40b2-b985-2e63e1bc9f2e",
+        href="https://example.com/api/catalogItem/5437aa3f-e369-40b2-b985-2e63e1bc9f2e",
         description=NonLoaded,
         vapp_template_id=NonLoaded
       >,
@@ -930,7 +930,7 @@ catalog.catalog_items
         id="54cf5deb-326f-4770-a91a-39048689b6ea",
         name="DEVAPP",
         type="application/vnd.vmware.vcloud.catalogItem+xml",
-        href="https://devlab.mdsol.com/api/catalogItem/54cf5deb-326f-4770-a91a-39048689b6ea",
+        href="https://example.com/api/catalogItem/54cf5deb-326f-4770-a91a-39048689b6ea",
         description=NonLoaded,
         vapp_template_id=NonLoaded
       >
@@ -949,7 +949,7 @@ catalog.catalog_items.get_by_name('DEVAPP')
     id="54cf5deb-326f-4770-a91a-39048689b6ea",
     name="DEVAPP",
     type="application/vnd.vmware.vcloud.catalogItem+xml",
-    href="https://devlab.mdsol.com/api/catalogItem/54cf5deb-326f-4770-a91a-39048689b6ea",
+    href="https://example.com/api/catalogItem/54cf5deb-326f-4770-a91a-39048689b6ea",
     description="Windows Server 2008 R2 Application Server",
     vapp_template_id="vappTemplate-b5902d57-7906-49c8-8af5-bbebe0a60a97"
   >

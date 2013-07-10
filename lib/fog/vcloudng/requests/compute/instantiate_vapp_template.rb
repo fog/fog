@@ -3,6 +3,8 @@ module Fog
     class Vcloudng
       class Real
         
+        #TODO move all the logic to a generator
+        
         def instantiate_vapp_template(vapp_name, template_id, options = {})
           params = populate_uris(options.merge(vapp_name: vapp_name, template_id: template_id))
           validate_uris(params)
