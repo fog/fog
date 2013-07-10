@@ -27,7 +27,7 @@ module Fog
         def all(filters = filters)
           self.filters.merge!(filters)
 
-          snapshots = service.describe_db_snapshots(filters)
+          snapshots = service.describe_db_snapshots(self.filters)
           self.filters[:marker] = snapshots.body['DescribeDBSnapshotsResult']['Marker']
           data = snapshots.body['DescribeDBSnapshotsResult']['DBSnapshots']
           load(data)
