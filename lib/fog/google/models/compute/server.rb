@@ -14,7 +14,7 @@ module Fog
         attribute :zone_name, :aliases => 'zone'
         attribute :machine_type, :aliases => 'machineType'
         attribute :disks, :aliases => 'disks'
-        attribute :kernel, :kernel => 'kernel'
+        attribute :kernel, :aliases => 'kernel'
         attribute :metadata
 
         def destroy

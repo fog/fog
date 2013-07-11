@@ -41,7 +41,8 @@ module Fog
             networkInterfaces << {
                 'network' => @api_url + @project + "/global/networks/#{@default_network}",
                 'accessConfigs' => [
-                    {'type' => 'ONE_TO_ONE_NAT'}
+                    {'type' => 'ONE_TO_ONE_NAT',
+                     'name' => 'External NAT'}
                 ]
             }
           end
