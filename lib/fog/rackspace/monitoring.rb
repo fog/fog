@@ -139,11 +139,15 @@ module Fog
             rescue Excon::Errors::HTTPStatusError => error
               raise case error
               when Excon::Errors::NotFound
-                Fog::Rackspace::Monitoring::NotFound.slurp(error)
+                Fog::Rackspace::Monitoring::NotFound.slurp error
               else
                 error
               end
             end
+            rescue Excon::Errors::BadRequest => error
+              raise BadRequest.slurp error
+            rescue Excon::Errors::NotFound
+              raise NotFound.slurp error
             unless response.body.empty?
               response.body = JSON.decode(response.body)
             end
