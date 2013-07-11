@@ -15,7 +15,7 @@ Shindo.tests('Fog::Compute[:digitalocean] | create_server request', ['digitaloce
     tests('#create_server').formats({'status' => 'OK', 'droplet' => @server_format}) do
       image = service.images.find { |img| img.name == 'Ubuntu 12.04 x64 Server' }
       flavor = service.flavors.find { |f| f.name == '512MB' }
-      data = Fog::Compute[:digitalocean].create_server 'fog-test-server',
+      data = Fog::Compute[:digitalocean].create_server fog_server_name,
                                                        flavor.id,
                                                        image.id,
                                                        service.regions.first.id
