@@ -17,8 +17,9 @@ module Fog
         end
 
         def insert_server(server_name, zone_name, options={}, *deprecated_args)
-          if (deprecated_args.length > 0)
-            raise "Too many parameters specified. This may be the cause of code written for an outdated version of fog. Usage: "#TODO
+          if deprecated_args.length > 0 or not options.is_a? Hash
+            raise ArgumentError.new 'Too many parameters specified. This may be the cause of code written for an outdated'\
+                ' version of fog. Usage: server_name, zone_name, [options]'
           end
           api_method = @compute.instances.insert
           parameters = {
@@ -29,13 +30,10 @@ module Fog
 
           if options.has_key? 'image'
             image_name = options.delete 'image'
-            # We need to check if the image is owned by the user or a global image.
-            if get_image(image_name, @project).data[:status] == 200
-              image_url = @api_url + @project + "/global/images/#{image_name}"
-            else
-              image_url = @api_url + "google/global/images/#{image_name}"
-            end
-            body_object['image'] = image_url
+            # We don't know the owner of the image.
+            image = images.create({:name => image_name})
+            @image_url = @api_url + image.resource_url
+            body_object['image'] = @image_url
           end
           body_object['machineType'] = @api_url + @project + "/zones/#{zone_name}/machineTypes/#{options.delete 'machineType'}"
           networkInterfaces = []
@@ -47,7 +45,7 @@ module Fog
                 ]
             }
           end
-          #TODO add other networks
+          # TODO: add other networks
           body_object['networkInterfaces'] = networkInterfaces
 
           if options['disks']
@@ -65,7 +63,7 @@ module Fog
           if options['kernel']
             body_object['kernel'] = @api_url + "google/global/kernels/#{options.delete 'kernel'}"
           end
-          body_object.merge! options #adds in all remaining options that weren't explicitly handled
+          body_object.merge! options # Adds in all remaining options that weren't explicitly handled.
 
           result = self.build_result(api_method, parameters,
                                      body_object=body_object)

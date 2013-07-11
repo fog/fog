@@ -20,7 +20,7 @@ module Fog
 
         def save
           data = service.insert_disk(name, size_gb, zone_name, image_name).body
-          data = service.get_disk(self.name, zone_name).body
+          data = service.backoff_if_unfound {service.get_disk(name, zone_name).body}
           service.disks.merge_attributes(data)
         end
 

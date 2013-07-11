@@ -12,19 +12,17 @@ module Fog
 
       class Real
 
-        def insert_disk(disk_name, disk_size, zone_name=@default_zone, image=nil)
+        def insert_disk(disk_name, disk_size, zone_name=@default_zone, image_name=nil)
           api_method = @compute.disks.insert
           parameters = {
             'project' => @project,
             'zone' => zone_name
           }
-          if image
-            # We need to check if the image is owned by the user or a global image.
-            if get_image(image, @project).data[:status] == 200
-              parameters['sourceImage'] = @api_url + @project + "/global/images/#{image}"
-            else
-              parameters['sourceImage'] = @api_url + "google/global/images/#{image}"
-            end
+          if image_name
+            # We don't know the owner of the image.
+            image = images.create({:name => image_name})
+            @image_url = @api_url + image.resource_url
+            parameters['sourceImage'] = @image_url
           end
           body_object = {
             'name' => disk_name,
@@ -33,8 +31,7 @@ module Fog
 
           result = self.build_result(api_method, parameters,
                                      body_object)
-          disk_name = MultiJson.load(result.body)["targetLink"].split('/')[-1]
-          return get_disk(disk_name, zone_name)
+          response = self.build_response(result)
         end
 
       end

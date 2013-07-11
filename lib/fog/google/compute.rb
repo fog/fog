@@ -137,6 +137,22 @@ module Fog
           response
         end
 
+        def backoff_if_unfound(&block)
+          retries_remaining = 5
+          begin
+            result = block.call
+          rescue Exception => msg
+            if msg.to_s.include? 'was not found' and retries_remaining > 0
+              retries_remaining -= 1
+              sleep 0.1
+              retry
+            else
+              raise msg
+            end
+          end
+          result
+        end
+
       end
 
       RUNNING = 'RUNNING'

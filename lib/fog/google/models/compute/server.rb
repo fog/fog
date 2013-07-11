@@ -83,14 +83,7 @@ module Fog
           }
           options.delete_if {|key, value| value.nil?}
           service.insert_server(name, zone_name, options)
-          begin
-          data = service.get_server(self.name, self.zone_name).body
-          rescue Exception
-            puts "waiting for server to be callable..."
-            sleep 0.1
-            retry
-          end
-
+          data = service.backoff_if_unfound {service.get_server(self.name, self.zone_name).body}
           service.servers.merge_attributes(data)
         end
 
