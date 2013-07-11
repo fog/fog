@@ -61,6 +61,8 @@ module Fog
             body_object['disks'] = disks
           end
 
+          options['metadata'] = format_metadata options['metadata'] if options['metadata']
+
           if options['kernel']
             body_object['kernel'] = @api_url + "google/global/kernels/#{options.delete 'kernel'}"
           end
