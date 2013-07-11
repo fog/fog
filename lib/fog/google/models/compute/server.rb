@@ -64,20 +64,20 @@ module Fog
           requires :machine_type
           requires :zone_name
 
-          if metadata.nil?
-            metadata = {}
+          if self.metadata.nil?
+            self.metadata = {}
           end
 
-          metadata.merge!({
+          self.metadata.merge!({
             "sshKeys" => "#{username}:#{File.read(public_key_path).strip}"
           }) if :public_key_path
 
           data = service.insert_server(
-            name,
-            image_name,
-            zone_name,
-            machine_type,
-            metadata)
+            self.name,
+            self.image_name,
+            self.zone_name,
+            self.machine_type,
+            self.metadata)
         end
 
       end
