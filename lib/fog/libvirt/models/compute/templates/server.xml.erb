@@ -44,6 +44,7 @@
     <console type='pty'>
       <target port='0'/>
     </console>
+    <input type='tablet' bus='usb'/>
     <input type='mouse' bus='ps2'/>
     <graphics type='<%= display[:type] %>' port='<%= display[:port] %>' autoport='yes' <% if display[:listen] and !(display[:listen].empty?)  %> listen='<%= display[:listen] %>'<% end %> <% if display[:password] and !(display[:password].empty?) %>passwd='<%=display[:password] %>'<% end %> />
     <video>
