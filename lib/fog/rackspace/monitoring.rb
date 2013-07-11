@@ -4,6 +4,12 @@ require 'fog/core'
 module Fog
   module Rackspace 
     class Monitoring < Fog::Service
+      include Fog::Rackspace::Errors
+
+      class IdentifierTaken < Fog::Errors::Error; end
+      class ServiceError < Fog::Rackspace::Errors::ServiceError; end
+      class InternalServerError < Fog::Rackspace::Errors::InternalServerError; end
+      class BadRequest < Fog::Rackspace::Errors::BadRequest; end
 
       ENDPOINT = 'https://monitoring.api.rackspacecloud.com/v1.0'
 
@@ -11,7 +17,7 @@ module Fog
       recognizes :rackspace_auth_url, :persistent, :raise_errors
       recognizes :rackspace_auth_token, :rackspace_service_url, :rackspace_account_id
 
-      model_path  'fog/rackspace/models/monitoring/models'
+      model_path  'fog/rackspace/models/monitoring'
       model       :entity
       collection  :entities
       model       :check
@@ -29,7 +35,7 @@ module Fog
       model       :check_type
       collection  :check_types
 
-      request_path 'fog/rackspace/models/monitoring/requests'
+      request_path 'fog/rackspace/requests/monitoring'
       request      :list_agent_tokens
       request      :list_alarms
       request      :list_alarm_examples
@@ -61,11 +67,13 @@ module Fog
       request      :evaluate_alarm_example
 
 
-      class Mock
-
+      class Mock < Fog::Rackspace::Service
+        def request(params)
+          Fog::Mock.not_implemented
+        end
       end
 
-      class Real
+      class Real < Fog::Rackspace::Service
         def initialize(options={})
           @rackspace_api_key = options[:rackspace_api_key]
           @rackspace_username = options[:rackspace_username]
