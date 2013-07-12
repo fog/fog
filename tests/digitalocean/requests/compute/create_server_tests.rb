@@ -5,7 +5,7 @@ Shindo.tests('Fog::Compute[:digitalocean] | create_server request', ['digitaloce
     'name'           => String,
     'image_id'       => Integer,
     'size_id'        => Integer,
-    'event_id'       => Integer 
+    'event_id'       => Integer
   }
 
   service = Fog::Compute[:digitalocean]
@@ -13,7 +13,7 @@ Shindo.tests('Fog::Compute[:digitalocean] | create_server request', ['digitaloce
   tests('success') do
 
     tests('#create_server').formats({'status' => 'OK', 'droplet' => @server_format}) do
-      image = service.images.find { |img| img.name == 'Ubuntu 12.04 x64 Server' }
+      image = service.images.find { |img| img.name == 'Ubuntu 12.04 x64' }
       flavor = service.flavors.find { |f| f.name == '512MB' }
       data = Fog::Compute[:digitalocean].create_server fog_server_name,
                                                        flavor.id,
@@ -21,8 +21,5 @@ Shindo.tests('Fog::Compute[:digitalocean] | create_server request', ['digitaloce
                                                        service.regions.first.id
       data.body
     end
-    
   end
-      
-
 end

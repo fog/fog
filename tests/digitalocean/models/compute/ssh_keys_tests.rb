@@ -23,6 +23,8 @@ Shindo.tests('Fog::Compute[:digitalocean] | ssh_keys collection', ['digitalocean
       end
     end
 
+    key.destroy
+
   end
 
 end

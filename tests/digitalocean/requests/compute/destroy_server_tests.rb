@@ -10,6 +10,4 @@ Shindo.tests('Fog::Compute[:digitalocean] | destroy_server request', ['digitaloc
     end
 
   end
-      
-
 end
