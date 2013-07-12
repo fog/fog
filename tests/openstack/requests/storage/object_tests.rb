@@ -42,31 +42,25 @@ Shindo.tests('Fog::Storage[:openstack] | object requests', ["openstack"]) do
     end
 
     tests("put_object with block") do
-      tests("#put_object('fogobjecttests', 'fog_object', &block)") do
-        pending if Fog.mocking?
+      pending if Fog.mocking?
 
+      tests("#put_object('fogobjecttests', 'fog_object', &block)").succeeds do
         begin
           file = lorem_file
-          buffer_size = file.size / 2 # chop it up into two buffers
+          buffer_size = file.stat.size / 2 # chop it up into two buffers
           Fog::Storage[:openstack].put_object('fogobjecttests', 'fog_block_object', nil) do
-            if file.pos < file.size
-              file.sysread(buffer_size)
-            else
-              ""
-            end
+            file.read(buffer_size).to_s
           end
         ensure
           file.close
         end
       end
 
-      tests("object successfully uploaded?").returns(lorem_file.read) do
-        pending if Fog.mocking?
-        Fog::Storage[:openstack].get_object('fogobjecttests', 'fog_block_object').body
+      tests('#get_object').succeeds do
+        Fog::Storage[:openstack].get_object('fogobjecttests', 'fog_block_object').body == lorem_file.read
       end
 
-      tests("delete file").succeeds do
-        pending if Fog.mocking?
+      tests('#delete_object').succeeds do
         Fog::Storage[:openstack].delete_object('fogobjecttests', 'fog_block_object')
       end
     end
