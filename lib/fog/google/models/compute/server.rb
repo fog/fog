@@ -13,6 +13,8 @@ module Fog
         attribute :state, :aliases => 'status'
         attribute :zone_name, :aliases => 'zone'
         attribute :machine_type, :aliases => 'machineType'
+        attribute :disks, :aliases => 'disks'
+        attribute :kernel, :aliases => 'kernel'
         attribute :metadata
 
         def destroy
@@ -60,7 +62,6 @@ module Fog
 
         def save
           requires :name
-          requires :image_name
           requires :machine_type
           requires :zone_name
 
@@ -70,14 +71,20 @@ module Fog
 
           self.metadata.merge!({
             "sshKeys" => "#{username}:#{File.read(public_key_path).strip}"
-          }) if :public_key_path
+          }) if public_key_path
 
-          data = service.insert_server(
-            self.name,
-            self.image_name,
-            self.zone_name,
-            self.machine_type,
-            self.metadata)
+          options = {
+              'image' => image_name,
+              'machineType' => machine_type,
+              'networkInterfaces' => network_interfaces,
+              'disks' => disks,
+              'kernel' => kernel,
+              'metadata' => metadata
+          }
+          options.delete_if {|key, value| value.nil?}
+          service.insert_server(name, zone_name, options)
+          data = service.backoff_if_unfound {service.get_server(self.name, self.zone_name).body}
+          service.servers.merge_attributes(data)
         end
 
       end
