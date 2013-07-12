@@ -138,7 +138,7 @@ module Fog
         end
 
         def backoff_if_unfound(&block)
-          retries_remaining = 5
+          retries_remaining = 10
           begin
             result = block.call
           rescue Exception => msg
