@@ -51,6 +51,11 @@ module Fog
             :public_key_path => File.expand_path("~/.ssh/id_rsa.pub"),
             :username => ENV['USER'],
           }
+          if new_attributes[:disks]
+            new_attributes[:disks].each do |disk|
+              defaults.delete :image_name if disk['boot']
+            end
+          end
 
           server = create(defaults.merge(new_attributes))
           server.wait_for { sshable? }

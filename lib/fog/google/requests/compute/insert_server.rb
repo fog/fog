@@ -16,32 +16,57 @@ module Fog
           { "items" => metadata.map {|k,v| {"key" => k, "value" => v}} }
         end
 
-        def insert_server(server_name, image_name,
-                          zone_name, machine_name, metadata,
-                          network_name=@default_network)
-
-          # We don't know the owner of the image.
-          image = images.create({:name => image_name})
-          @image_url = @api_url + image.resource_url
-
+        def insert_server(server_name, zone_name, options={}, *deprecated_args)
+          if deprecated_args.length > 0 or not options.is_a? Hash
+            raise ArgumentError.new 'Too many parameters specified. This may be the cause of code written for an outdated'\
+                ' version of fog. Usage: server_name, zone_name, [options]'
+          end
           api_method = @compute.instances.insert
           parameters = {
-            'project' => @project,
-            'zone' => zone_name,
+              'project' => @project,
+              'zone' => zone_name,
           }
-          body_object = {
-            'name' => server_name,
-            'image' => @image_url,
-            'machineType' => @api_url + @project + "/zones/#{zone_name}/machineTypes/#{machine_name}",
-            'metadata' => format_metadata(metadata),
-            'networkInterfaces' => [{
-              'network' => @api_url + @project + "/global/networks/#{network_name}",
-              'accessConfigs' => [{
-                'type' => 'ONE_TO_ONE_NAT',
-                'name' => 'External NAT',
-              }]
-            }]
-          }
+          body_object = {:name => server_name}
+
+          if options.has_key? 'image'
+            image_name = options.delete 'image'
+            # We don't know the owner of the image.
+            image = images.create({:name => image_name})
+            @image_url = @api_url + image.resource_url
+            body_object['image'] = @image_url
+          end
+          body_object['machineType'] = @api_url + @project + "/zones/#{zone_name}/machineTypes/#{options.delete 'machineType'}"
+          networkInterfaces = []
+          if @default_network
+            networkInterfaces << {
+                'network' => @api_url + @project + "/global/networks/#{@default_network}",
+                'accessConfigs' => [
+                    {'type' => 'ONE_TO_ONE_NAT',
+                     'name' => 'External NAT'}
+                ]
+            }
+          end
+          # TODO: add other networks
+          body_object['networkInterfaces'] = networkInterfaces
+
+          if options['disks']
+            disks = []
+            options.delete('disks').each do |disk|
+              if disk.is_a? Disk
+                disks << disk.get_object
+              else
+                disks << disk
+              end
+            end
+            body_object['disks'] = disks
+          end
+
+          options['metadata'] = format_metadata options['metadata'] if options['metadata']
+
+          if options['kernel']
+            body_object['kernel'] = @api_url + "google/global/kernels/#{options.delete 'kernel'}"
+          end
+          body_object.merge! options # Adds in all remaining options that weren't explicitly handled.
 
           result = self.build_result(api_method, parameters,
                                      body_object=body_object)
