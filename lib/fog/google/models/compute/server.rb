@@ -70,16 +70,8 @@ module Fog
           end
 
           self.metadata.merge!({
-                                   "sshKeys" => "#{username}:#{File.read(public_key_path).strip}"
-                               }) if :public_key_path
-
-          if self.metadata.nil?
-            self.metadata = {}
-          end
-
-          self.metadata.merge!({
             "sshKeys" => "#{username}:#{File.read(public_key_path).strip}"
-          }) if :public_key_path
+          }) if public_key_path
 
           options = {
               'image' => image_name,
