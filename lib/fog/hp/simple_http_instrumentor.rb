@@ -1,0 +1,55 @@
+module Excon
+  class SimpleHttpInstrumentor
+    class << self
+      attr_accessor :events
+
+      def instrument(name, params = {}, &block)
+        params = params.dup
+        if params.has_key?(:headers) && params[:headers].has_key?('Authorization')
+          params[:headers] = params[:headers].dup
+          params[:headers]['Authorization'] = REDACTED
+        end
+        if params.has_key?(:password)
+          params[:password] = REDACTED
+        end
+        $stderr.puts("--- #{name} ---")
+        if name.include?('.request')
+          query = ''
+          if params.has_key?(:query) && !params[:query].nil?
+            query = '?' if params[:query].count > 0
+            params[:query].each do |key, value|
+              query += "#{key}=#{value}&"
+            end
+            query.chomp!('&')
+          end
+          $stderr.puts("#{params[:method]} #{params[:path]}#{query} HTTP/1.1" )
+          $stderr.puts("User-Agent: #{params[:headers]['User-Agent']}")
+          $stderr.puts("Host: #{params[:host]} Port: #{params[:port]}")
+          $stderr.puts("Accept: #{params[:headers]['Accept']}")
+          $stderr.puts("X-Auth-Token: #{params[:headers]['X-Auth-Token']}")
+        elsif name.include?('.response')
+          $stderr.puts("HTTP/1.1 #{params[:status]}")
+          $stderr.puts("Content-Length: #{params[:headers]['Content-Length']}")
+          $stderr.puts("Content-Type: #{params[:headers]['Content-Type']}")
+          $stderr.puts("Date: #{params[:headers]['Date']}")
+          params[:headers].each do |key, value|
+            if !['Content-Length', 'Content-Type', 'Date'].include?(key)
+              $stderr.puts("#{key}: #{value}")
+            end
+          end
+          $stderr.puts("Date: #{params[:headers]['Date']}\n")
+          $stderr.puts("Body: #{params[:body]}")
+        elsif name.include?('.retry')
+          $stderr.puts("#{params.inspect}")
+        elsif name.include?('.error')
+          $stderr.puts("#{params.inspect}")
+        end
+
+        if block_given?
+          yield
+        end
+      end
+
+    end
+  end
+end
