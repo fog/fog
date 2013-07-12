@@ -24,6 +24,21 @@ module Fog
           service.disks.merge_attributes(data)
         end
 
+        def destroy
+          requires :name, :zone
+          service.delete_disk(name, zone)
+        end
+
+        def zone
+          if self.zone_name.is_a? String
+            service.get_zone(self.zone_name.split('/')[-1]).body["name"]
+          elsif zone_name.is_a? Excon::Response
+            service.get_zone(zone_name.body["name"]).body["name"]
+          else
+            self.zone_name
+          end
+        end
+
         def get_as_boot_disk(writable=true)
           mode = writable ? 'READ_WRITE' : 'READ_ONLY'
           return {
