@@ -3,7 +3,7 @@ Shindo.tests("Fog::Compute[:digitalocean] | ssh_key model", ['digitalocean', 'co
   service = Fog::Compute[:digitalocean]
 
   tests('The ssh_key model should') do
-    
+
     test('#save') do
       @key = service.ssh_keys.create :name => 'fookey',
                                      :ssh_pub_key => 'fookey'
@@ -11,7 +11,7 @@ Shindo.tests("Fog::Compute[:digitalocean] | ssh_key model", ['digitalocean', 'co
     end
     tests('have the action') do
       test('reload') { @key.respond_to? 'reload' }
-      %w{ 
+      %w{
         save
         destroy
       }.each do |action|
@@ -19,7 +19,7 @@ Shindo.tests("Fog::Compute[:digitalocean] | ssh_key model", ['digitalocean', 'co
       end
     end
     tests('have attributes') do
-      attributes = [ 
+      attributes = [
         :id,
         :name,
         :ssh_pub_key
