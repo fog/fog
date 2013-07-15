@@ -1,31 +1,32 @@
 Shindo.tests('Fog::Rackspace::Monitoring | check_tests', ['rackspace','rackspacemonitoring']) do
   pending if Fog.mocking? 
-  require 'pp'
+
   account = Fog::Rackspace::Monitoring.new
   entity_id = account.create_entity(:label => "Foo").data[:headers]["X-Object-ID"]
   check_id = nil
   tests('success') do
-    #tests('#create new check').formats(DATA_FORMAT) do
-    tests('#create new check').raises(Fog::Rackspace::Monitoring::BadRequest) do
-      puts "\nBefore"
-      response = account.create_check(entity_id, {:type => "remote.dns"}).data
-      puts "After"
-      pp response
-      puts "All Done"
-      response[:status] == 201 ? response : false
+    tests('#create new check').formats(DATA_FORMAT) do
+      obj = {
+        :details => {
+          :query => '', #domain
+          :record_type => 'AAAA',
+        },
+        :type => "remote.dns",
+        :monitoring_zones_poll => ["mzdfw"],
+        :target_hostname => '', #dns-provider
+        :timeout => 5,
+        :period => 100
+      } 
+      response = account.create_check(entity_id, obj).data
+      check_id = response[:headers]['X-Object-ID']
+      response
     end
-    ###
-  end
-end
-__END__
     tests('#update check').formats(DATA_FORMAT) do
-      options = { :testing => "Bar"}
-      response = account.update_check(check_id,options).data
-      response[:status] == 204 ? response : false
+      options = { :label => "Bar"}
+      account.update_check(entity_id,check_id,options).data
     end
     tests('#delete check').formats(DELETE_DATA_FORMAT) do
-      response = account.delete_check(check_id).data
-      response[:status] == 204 ? response : false
+      account.delete_check(entity_id,check_id).data
     end
   end
   tests('failure') do
@@ -34,10 +35,11 @@ __END__
     end
     tests('#update invalid check(-1)').raises(Fog::Rackspace::Monitoring::NotFound) do
       options = { :testing => "Bar" }
-      response = account.update_check(-1,options)
+      response = account.update_check(-1,-1,options)
     end
     tests('#delete check(-1)').raises(Fog::Rackspace::Monitoring::NotFound) do
-      account.delete_check(-1)
+      account.delete_check(-1,-1)
     end
   end
+  account.delete_entity(entity_id)
 end
