@@ -29,7 +29,7 @@ module Fog
 
           request({
             'Action'  => 'DescribeDBLogFiles',
-            :parser   => Fog::Parsers::AWS::RDS::DescribeDBLogFiles.new
+            :parser   => Fog::Parsers::AWS::RDS::DescribeDBLogFiles.new(rds_id)
           }.merge(params))
         end
       end
