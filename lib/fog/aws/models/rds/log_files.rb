@@ -43,7 +43,7 @@ module Fog
           end
         rescue Fog::AWS::RDS::NotFound
         end
-        nil
+
       end
     end
   end
