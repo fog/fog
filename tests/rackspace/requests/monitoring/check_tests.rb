@@ -8,15 +8,15 @@ Shindo.tests('Fog::Rackspace::Monitoring | check_tests', ['rackspace','rackspace
     tests('#create new check').formats(DATA_FORMAT) do
       obj = {
         :details => {
-          :query => '', #domain
-          :record_type => 'AAAA',
+          :url => 'http://www.rackspace.com', 
+          :method => 'GET',
         },
-        :type => "remote.dns",
+        :type => "remote.http",
         :monitoring_zones_poll => ["mzdfw"],
-        :target_hostname => '', #dns-provider
-        :timeout => 5,
+        :target_hostname => 'rackspace.com',
+        :timeout => 30,
         :period => 100
-      } 
+      }
       response = account.create_check(entity_id, obj).data
       check_id = response[:headers]['X-Object-ID']
       response
