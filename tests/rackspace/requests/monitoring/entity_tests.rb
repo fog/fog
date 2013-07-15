@@ -1,5 +1,4 @@
-Shindo.tests('Fog::Rackspace::Monitoring | entity_tests', ['rackspace','rackspacemonitoring']) do
-
+Shindo.tests('Fog::Rackspace::Monitoring | entity_tests', ['rackspace']) do
   pending if Fog.mocking? 
   account = Fog::Rackspace::Monitoring.new
   entity_id = nil
@@ -7,16 +6,14 @@ Shindo.tests('Fog::Rackspace::Monitoring | entity_tests', ['rackspace','rackspac
     tests('#create new entity').formats(DATA_FORMAT) do
       response = account.create_entity(:label => "Foo").data
       entity_id = response[:headers]["X-Object-ID"]
-      response[:status] == 201 ? response : false
+      response
     end
     tests('#update entity').formats(DATA_FORMAT) do
       options = { :testing => "Bar"}
-      response = account.update_entity(entity_id,options).data
-      response[:status] == 204 ? response : false
+      account.update_entity(entity_id,options).data
     end
     tests('#delete entity').formats(DELETE_DATA_FORMAT) do
-      response = account.delete_entity(entity_id).data
-      response[:status] == 204 ? response : false
+      account.delete_entity(entity_id).data
     end
   end
   tests('failure') do
