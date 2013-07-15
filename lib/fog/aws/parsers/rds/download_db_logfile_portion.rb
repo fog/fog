@@ -14,14 +14,12 @@ module Fog
           end
 
           def end_element(name)
-            case name
-            when 'LogFileData' then @response['DownloadDBLogFilePortionResult'][name] = value
-            when 'AdditionalDataPending' then @response['DownloadDBLogFilePortionResult'][name] = value
-            when 'Marker' then @response['DownloadDBLogFilePortionResult'][name] = value
-            when 'RequestId' then @response['ResponseMetadata'][name] = value
-            end
+            key = (name == 'RequestId') ? 'ResponseMetadata' : 'DownloadDBLogFilePortionResult'
+            @response[key][name] = value
           end
+
         end
+
       end
     end
   end
