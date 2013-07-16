@@ -21,6 +21,7 @@ Gem::Specification.new do |s|
   s.authors  = ["geemus (Wesley Beary)"]
   s.email    = 'geemus@gmail.com'
   s.homepage = 'http://github.com/fog/fog'
+  s.license  = 'MIT'
 
   ## This sections is only necessary if you have C extensions.
   # s.require_paths << 'ext'
