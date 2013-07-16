@@ -31,13 +31,16 @@ module Fog
         #
         # @see http://docs.rackspace.com/files/api/v1/cf-devguide/content/Deleting_a_Large_Object-d1e2228.html
         def delete_static_large_object(container, object, options = {})
-          request(
+          response = request({
             :expects  => 200,
             :method   => 'DELETE',
-            :headers  => options.merge('Content-Type' => 'text/plain'),
+            :headers  => options.merge('Content-Type' => 'text/plain',
+                                       'Accept' => 'application/json'),
             :path     => "#{Fog::Rackspace.escape(container)}/#{Fog::Rackspace.escape(object)}",
             :query    => { 'multipart-manifest' => 'delete' }
-          )
+          }, false)
+          response.body = Fog::JSON.decode(response.body)
+          response
         end
 
       end

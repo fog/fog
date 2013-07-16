@@ -248,6 +248,7 @@ Shindo.tests('Fog::Storage[:rackspace] | large object requests', ['rackspace']) 
           raise error if error
         end
 
+        expected['Errors'][0][0] = error.response_data['Errors'][0][0] rescue nil
         returns(expected, 'returns error information') do
           error.response_data
         end
@@ -272,6 +273,7 @@ Shindo.tests('Fog::Storage[:rackspace] | large object requests', ['rackspace']) 
           raise error if error
         end
 
+        expected['Errors'][0][0] = error.response_data['Errors'][0][0] rescue nil
         returns(expected, 'returns error information') do
           error.response_data
         end
@@ -296,6 +298,7 @@ Shindo.tests('Fog::Storage[:rackspace] | large object requests', ['rackspace']) 
           raise error if error
         end
 
+        expected['Errors'][0][0] = error.response_data['Errors'][0][0] rescue nil
         returns(expected, 'returns error information') do
           error.response_data
         end
