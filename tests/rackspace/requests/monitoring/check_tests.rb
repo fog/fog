@@ -1,4 +1,4 @@
-Shindo.tests('Fog::Rackspace::Monitoring | check_tests', ['rackspace','rackspacemonitoring']) do
+Shindo.tests('Fog::Rackspace::Monitoring | check_tests', ['rackspace']) do
   pending if Fog.mocking? 
 
   account = Fog::Rackspace::Monitoring.new
@@ -6,18 +6,7 @@ Shindo.tests('Fog::Rackspace::Monitoring | check_tests', ['rackspace','rackspace
   check_id = nil
   tests('success') do
     tests('#create new check').formats(DATA_FORMAT) do
-      obj = {
-        :details => {
-          :url => 'http://www.rackspace.com', 
-          :method => 'GET',
-        },
-        :type => "remote.http",
-        :monitoring_zones_poll => ["mzdfw"],
-        :target_hostname => 'rackspace.com',
-        :timeout => 30,
-        :period => 100
-      }
-      response = account.create_check(entity_id, obj).data
+      response = account.create_check(entity_id, CHECK_CREATE_OPTIONS).data
       check_id = response[:headers]['X-Object-ID']
       response
     end
