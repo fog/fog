@@ -43,11 +43,11 @@ module Fog
         def create_server(name, image_id, flavor_id, min_count, max_count, options = {})
           data = {
             'server' => {
-              'name' => name,
-              'imageRef' => image_id,
+              'name'      => name,
+              'imageRef'  => image_id,
               'flavorRef' => flavor_id,
-              'minCount' => min_count,
-              'maxCount' => max_count
+              'minCount'  => min_count,
+              'maxCount'  => max_count
             }
           }
 
@@ -58,12 +58,13 @@ module Fog
             { :uuid => '00000000-0000-0000-0000-000000000000' },
             { :uuid => '11111111-1111-1111-1111-111111111111' }
           ]
+          data['server']['key_name'] = options[:keypair][:name] unless options[:keypair].nil?
 
           request(
-            :body => Fog::JSON.encode(data),
+            :body    => Fog::JSON.encode(data),
             :expects => [202],
-            :method => 'POST',
-            :path => "servers"
+            :method  => 'POST',
+            :path    => "servers"
           )
         end
       end

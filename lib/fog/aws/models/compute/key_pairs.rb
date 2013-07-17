@@ -56,7 +56,10 @@ module Fog
           end
           self.filters = filters
           data = service.describe_key_pairs(filters).body
-          load(data['keySet'])
+puts "AWS KEY-PAIRS - DATA : #{data.inspect}"
+          r = load(data['keySet'])
+puts "AWS KEY-PAIRS : #{r.inspect}"
+          r
         end
 
         # Used to retrieve a key pair that was created with the AWS.key_pairs.create method.
