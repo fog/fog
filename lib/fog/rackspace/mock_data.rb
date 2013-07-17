@@ -109,7 +109,7 @@ module Fog
               :flavors => Hash.new { |h,k| h[k] = flavor unless k == NOT_FOUND_ID},
               :images => Hash.new { |h,k| h[k] = image unless k == NOT_FOUND_ID },        
               :networks => Hash.new { |h,k| h[k] = network unless k == NOT_FOUND_ID },
-
+              :keys => [],
               :servers => {},
 
               #Block Storage

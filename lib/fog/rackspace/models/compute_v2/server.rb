@@ -51,6 +51,11 @@ module Fog
         # @return [String] server status. 
         # @see http://docs.rackspace.com/servers/api/v2/cs-devguide/content/List_Servers-d1e2078.html#server_status
         attribute :state, :aliases => 'status'
+
+        # @!attribute [r] state_ext
+        # @return [String] server (extended) status. 
+        # @see http://docs.rackspace.com/servers/api/v2/cs-devguide/content/List_Servers-d1e2078.html#server_status
+        attribute :state_ext, :aliases => 'OS-EXT-STS:task_state'
                 
         # @!attribute [r] progress
         # @return [Fixnum] The build completion progress, as a percentage. Value is from 0 to 100.
@@ -198,11 +203,11 @@ module Fog
           options[:disk_config] = disk_config unless disk_config.nil?
           options[:metadata] = metadata.to_hash unless @metadata.nil?
           options[:personality] = personality unless personality.nil?
+          options[:keypair] ||= attributes[:keypair]
 
           if options[:networks]
             options[:networks].map! { |id| { :uuid => id } }
           end
-
           data = service.create_server(name, image_id, flavor_id, 1, 1, options)
           merge_attributes(data.body['server'])
           true
@@ -331,7 +336,7 @@ module Fog
         # Server's private IPv4 address
         # @return [String] private IPv4 address
         def private_ip_address
-          addresses['private'].select{|a| a["version"] == 4}[0]["addr"]
+          addresses['private'].select{|a| a["version"] == 4}[0]["addr"] rescue ''
         end
 
         # Server's public IPv4 address
