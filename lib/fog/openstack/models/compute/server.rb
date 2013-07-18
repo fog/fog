@@ -41,6 +41,7 @@ module Fog
 
         attr_reader :password
         attr_writer :image_ref, :flavor_ref, :nics, :os_scheduler_hints
+        attr_accessor :block_device_mapping
 
 
         def initialize(attributes={})
@@ -52,6 +53,7 @@ module Fog
           self.max_count = attributes.delete(:max_count)
           self.nics = attributes.delete(:nics)
           self.os_scheduler_hints = attributes.delete(:os_scheduler_hints)
+          self.block_device_mapping = attributes.delete(:block_device_mapping)
 
           super
         end
@@ -267,10 +269,10 @@ module Fog
           true
         end
 
-        # TODO: Implement /os-volumes-boot support with 'block_device_mapping'
         def save
           raise Fog::Errors::Error.new('Resaving an existing object may create a duplicate') if persisted?
-          requires :flavor_ref, :image_ref, :name
+          requires :flavor_ref, :name
+          requires_one :image_ref, :block_device_mapping
           options = {
             'personality' => personality,
             'accessIPv4' => accessIPv4,
@@ -283,6 +285,7 @@ module Fog
             'max_count'   => @max_count,
             'nics' => @nics,
             'os:scheduler_hints' => @os_scheduler_hints,
+            'block_device_mapping' => @block_device_mapping
           }
           options['metadata'] = metadata.to_hash unless @metadata.nil?
           options = options.reject {|key, value| value.nil?}

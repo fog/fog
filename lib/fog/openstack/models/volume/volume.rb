@@ -12,11 +12,13 @@ module Fog
         attribute :display_description, :aliases => 'displayDescription'
         attribute :status
         attribute :size
-        attribute :type,                :aliases => 'volumeType'
+        attribute :volume_type,         :aliases => ['volumeType', 'type']
         attribute :snapshot_id,         :aliases => 'snapshotId'
+        attribute :imageRef,            :aliases => 'image_id'
         attribute :availability_zone,   :aliases => 'availabilityZone'
         attribute :created_at,          :aliases => 'createdAt'
         attribute :attachments
+        attribute :source_volid
 
 
         def initialize(attributes)
