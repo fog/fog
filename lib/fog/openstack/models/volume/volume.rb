@@ -12,7 +12,7 @@ module Fog
         attribute :display_description, :aliases => 'displayDescription'
         attribute :status
         attribute :size
-        attribute :volume_type,         :aliases => 'volumeType'
+        attribute :volume_type,         :aliases => ['volumeType', 'type']
         attribute :snapshot_id,         :aliases => 'snapshotId'
         attribute :imageRef,            :aliases => 'image_id'
         attribute :availability_zone,   :aliases => 'availabilityZone'
