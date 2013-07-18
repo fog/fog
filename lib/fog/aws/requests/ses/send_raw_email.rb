@@ -30,7 +30,7 @@ module Fog
 
           request({
             'Action'          => 'SendRawEmail',
-            'RawMessage.Data' => Base64.encode64(raw_message).chomp!,
+            'RawMessage.Data' => Base64.encode64(raw_message.to_s).chomp!,
             :parser           => Fog::Parsers::AWS::SES::SendRawEmail.new
           }.merge(params))
         end

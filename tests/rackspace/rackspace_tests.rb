@@ -18,4 +18,39 @@ Shindo.tests('Fog::Rackspace', ['rackspace']) do
     end
   end
 
+  tests('json_response?') do
+    returns(false, "nil") { Fog::Rackspace.json_response?(nil) }
+
+    tests('missing header').returns(false) do
+      response = Excon::Response.new
+      response.headers = nil #maybe this is a forced case
+      returns(true) { response.headers.nil? }
+      Fog::Rackspace.json_response?(response)
+    end
+
+    tests('nil Content-Type header').returns(false) do
+      response = Excon::Response.new
+      response.headers['Content-Type'] = nil
+      Fog::Rackspace.json_response?(response)
+    end
+
+    tests('text/html Content-Type header').returns(false) do
+      response = Excon::Response.new
+      response.headers['Content-Type'] = 'text/html'
+      Fog::Rackspace.json_response?(response)
+    end
+
+    tests('application/json Content-Type header').returns(true) do
+      response = Excon::Response.new
+      response.headers['Content-Type'] = 'application/json'
+      Fog::Rackspace.json_response?(response)
+    end
+
+    tests('APPLICATION/JSON Content-Type header').returns(true) do
+      response = Excon::Response.new
+      response.headers['Content-Type'] = 'APPLICATION/JSON'
+      Fog::Rackspace.json_response?(response)
+    end
+  end
+
 end

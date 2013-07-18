@@ -53,6 +53,9 @@ module Fog
 
       request :describe_orderable_db_instance_options
 
+      request :describe_db_log_files
+      request :download_db_logfile_portion
+
       model_path 'fog/aws/models/rds'
       model       :server
       collection  :servers
@@ -74,6 +77,9 @@ module Fog
 
       model       :instance_option
       collection  :instance_options
+
+      model       :log_file
+      collection  :log_files
 
       class Mock
 

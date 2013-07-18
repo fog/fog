@@ -26,11 +26,53 @@ module Fog
         @uri = URI.parse url
       end
 
-      def authenticate(options)
+      def authenticate(options={})
          self.send authentication_method, options
       end
 
+      def request(params, parse_json = true, &block)
+        first_attempt = true
+        begin
+          response = @connection.request(request_params(params), &block)
+        rescue Excon::Errors::Unauthorized => error
+          raise error unless first_attempt
+          first_attempt = false
+          authenticate
+          retry
+        end
+
+        process_response(response) if parse_json
+        response
+      end
+
       private
+
+      def process_response(response)
+        if response && response.body && response.body.is_a?(String) && Fog::Rackspace.json_response?(response)
+          begin
+            response.body = Fog::JSON.decode(response.body)
+          rescue MultiJson::DecodeError => e
+            Fog::Logger.warning("Error Parsing response json - #{e}")
+            response.body = {}
+          end
+        end
+      end
+
+      def headers(options={})
+        h = {
+          'Content-Type' => 'application/json',
+          'Accept' => 'application/json',
+          'X-Auth-Token' => auth_token
+        }.merge(options[:headers] || {})
+      end
+
+      def request_params(params)
+        params.merge({
+          :headers  => headers(params),
+          :host     => endpoint_uri.host,
+          :path     => "#{endpoint_uri.path}/#{params[:path]}"
+        })
+      end
 
       def authentication_method
         if v2_authentication?
