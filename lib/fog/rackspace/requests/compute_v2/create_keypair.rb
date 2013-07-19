@@ -31,6 +31,20 @@ module Fog
           )
         end
       end
+
+      class Mock
+        def create_keypair(name, public_key=nil)
+
+            k = self.data[:keypairs][0]
+            k['keypair']['name'] = name
+
+            response        = Excon::Response.new
+            response.status = 200
+            response.body   = k
+            response
+        end
+      end
+
     end
   end
 end
