@@ -16,7 +16,7 @@ Shindo.tests('Fog::Rackspace::Monitoring | alarm_example_tests', ['rackspace','r
     end
   end
   tests('failure') do
-    tests('#fail to list alarm examples(-1)').raises(Fog::Rackspace::Monitoring::ArgumentError) do
+    tests('#fail to list alarm examples(-1)').raises(ArgumentError) do
       account.list_alarm_examples(-1).data[:headers]
     end
     tests('#fail to get alarm example(-1)').raises(Fog::Rackspace::Monitoring::NotFound) do
