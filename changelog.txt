@@ -1,3 +1,17 @@
+1.14.0 07/19/2013 b9f1659ebd45c84db011c71b53cc581a1b7ac7e1
+==========================================================
+
+Stats! { 'collaborators' => 49, 'downloads' => 2713501, 'forks' => 860, 'open_issues' => 155, 'watchers' => 2634 }
+
+MVP! Erik Michaels-Ober
+
+[misc]
+  Create separate Gemfile for Ruby 1.8.7. thanks Erik Michaels-Ober
+  Update nokogiri dependency to version ~>1.5. thanks Erik Michaels-Ober
+  Add note about installing on Ruby 1.8.7 [ci skip]. thanks Erik Michaels-Ober
+  add coveralls to Gemfile.1.8.7. thanks geemus
+
+
 1.13.0 07/19/2013 7f5b0b4931d8fe85596f67013ef285fd0b8335e0
 ==========================================================
 

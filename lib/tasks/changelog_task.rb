@@ -58,6 +58,7 @@ module Fog
               'Christopher Oliver',
               'Decklin Foster',
               'Dylan Egan',
+              'Erik Michaels-Ober',
               'geemus',
               'Henry Addison',
               'James Bence',
