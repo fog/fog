@@ -2,7 +2,7 @@ require 'fog'
 require 'fog/core'
 
 module Fog
-  module Rackspace 
+  module Rackspace
     class Monitoring < Fog::Service
       include Fog::Rackspace::Errors
 
@@ -10,12 +10,13 @@ module Fog
       class ServiceError < Fog::Rackspace::Errors::ServiceError; end
       class InternalServerError < Fog::Rackspace::Errors::InternalServerError; end
       class BadRequest < Fog::Rackspace::Errors::BadRequest; end
-
-      ENDPOINT = 'https://monitoring.api.rackspacecloud.com/v1.0'
+      class Conflict < Fog::Rackspace::Errors::Conflict; end
+      class ServiceUnavailable < Fog::Rackspace::Errors::ServiceUnavailable; end
 
       requires :rackspace_api_key, :rackspace_username
-      recognizes :rackspace_auth_url, :persistent, :raise_errors
-      recognizes :rackspace_auth_token, :rackspace_service_url, :rackspace_account_id
+      recognizes :rackspace_auth_url
+      recognizes :persistent
+      recognizes :rackspace_service_url
 
       model_path  'fog/rackspace/models/monitoring'
       model       :entity
@@ -75,119 +76,65 @@ module Fog
       end
 
       class Real < Fog::Rackspace::Service
+        def service_name
+          :cloudMonitoring
+        end
+
+        def region
+          @rackspace_region
+        end
+
         def initialize(options={})
           @rackspace_api_key = options[:rackspace_api_key]
           @rackspace_username = options[:rackspace_username]
           @rackspace_auth_url = options[:rackspace_auth_url]
-          @rackspace_auth_token = options[:rackspace_auth_token]
-          @rackspace_account_id = options[:rackspace_account_id]
-          @rackspace_service_url = options[:rackspace_service_url] || ENDPOINT
-          @rackspace_must_reauthenticate = false
           @connection_options = options[:connection_options] || {}
 
-          if options.has_key?(:raise_errors)
-            @raise_errors = options[:raise_errors]
-          else
-            @raise_errors = true
-          end
-
-          begin
-            authenticate
-          rescue Exception => error
-            raise_error(error)
-          end
+          authenticate
 
           @persistent = options[:persistent] || false
 
-          begin
-            @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
-          rescue Exception => error
-            raise_error(error)
-          end
+          @connection_options[:headers] ||= {}
+          @connection_options[:headers].merge!({ 'Content-Type' => 'application/json', 'X-Auth-Token' => auth_token })
+
+          @connection = Fog::Connection.new(endpoint_uri.to_s, @persistent, @connection_options)
         end
 
         def reload
           @connection.reset
         end
 
-        def raise_error(error)
-          if @raise_errors
-            raise error
-          else
-            print "Error occurred: " + error.message
-          end
-        end
+        private
 
         def request(params)
           begin
-            begin
-              response = @connection.request(params.merge({
-                :headers  => {
-                  'Content-Type' => 'application/json',
-                  'X-Auth-Token' => @auth_token
-                }.merge!(params[:headers] || {}),
-                :host     => @host,
-                :path     => "#{@path}/#{params[:path]}"
-              }))
-            rescue Excon::Errors::Unauthorized => error
-              if error.response.body != 'Bad username or password' # token expiration
-                @rackspace_must_reauthenticate = true
-                authenticate
-                retry
-              else # bad credentials
-                raise error
-              end
-            rescue Excon::Errors::HTTPStatusError => error
-              raise case error
-              when Excon::Errors::NotFound
-                Fog::Rackspace::Monitoring::NotFound.slurp error
-              else
-                error
-              end
-            end
-            rescue Excon::Errors::BadRequest => error
-              raise BadRequest.slurp error
-            rescue Excon::Errors::NotFound
-              raise NotFound.slurp error
-            unless response.body.empty?
-              response.body = JSON.decode(response.body)
-            end
-            response
-          rescue Exception => error
-            raise_error(error)
+            response = @connection.request(params.merge!({
+              :path     => "#{endpoint_uri.path}/#{params[:path]}"
+            }))
+          rescue Excon::Errors::BadRequest => error
+            raise BadRequest.slurp error
+          rescue Excon::Errors::Conflict => error
+            raise Conflict.slurp error
+          rescue Excon::Errors::NotFound => error
+            raise NotFound.slurp(error, region)
+          rescue Excon::Errors::ServiceUnavailable => error
+            raise ServiceUnavailable.slurp error
           end
+          unless response.body.empty?
+            response.body = Fog::JSON.decode(response.body)
+          end
+          response
         end
-
-        private
 
         def authenticate
-          if @rackspace_must_reauthenticate || @rackspace_auth_token.nil? || @account_id.nil?
-            options = {
-              :rackspace_api_key  => @rackspace_api_key,
-              :rackspace_username => @rackspace_username,
-              :rackspace_auth_url => @rackspace_auth_url
-            }
-
-            begin
-              credentials = Fog::Rackspace.authenticate(options)
-            rescue Exception => error
-              raise_error(error)
-              return
-            end
-
-            @auth_token = credentials['X-Auth-Token']
-            @account_id = credentials['X-Server-Management-Url'].match(/.*\/([\d]+)$/)[1]
-          else
-            @auth_token = @rackspace_auth_token
-            @account_id = @rackspace_account_id
-          end
-          uri = URI.parse("#{@rackspace_service_url}/#{@account_id}")
-          @host   = uri.host
-          @path   = uri.path
-          @port   = uri.port
-          @scheme = uri.scheme
+          options = {
+            :rackspace_api_key => @rackspace_api_key,
+            :rackspace_username => @rackspace_username,
+            :rackspace_auth_url => @rackspace_auth_url,
+            :connection_options => @connection_options
+          }
+          super(options)
         end
-
       end
     end
   end
