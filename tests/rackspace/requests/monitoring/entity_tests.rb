@@ -1,4 +1,4 @@
-Shindo.tests('Fog::Rackspace::Monitoring | entity_tests', ['rackspace']) do
+Shindo.tests('Fog::Rackspace::Monitoring | entity_tests', ['rackspace','rackspace_monitoring']) do
   pending if Fog.mocking? 
   account = Fog::Rackspace::Monitoring.new
   entity_id = nil
