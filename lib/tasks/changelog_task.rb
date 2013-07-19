@@ -60,6 +60,7 @@ module Fog
               'Dylan Egan',
               'geemus',
               'Henry Addison',
+              'James Bence',
               'Kevin Menard',
               'Kyle Rames',
               'Lincoln Stoll',
