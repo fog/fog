@@ -45,6 +45,7 @@ module Fog
       request      :list_data_points
       request      :list_check_types
       request      :list_overview
+      request      :list_notification_plans
 
       request      :get_agent_token
       request      :get_alarm
