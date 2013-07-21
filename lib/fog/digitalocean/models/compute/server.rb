@@ -16,8 +16,10 @@ module Fog
         attribute :flavor_id, :aliases => 'size_id'
         # Not documented in their API, but
         # available nevertheless
-        attribute :ip_address
+        attribute :public_ip_address, :aliases => 'ip_address'
         attribute :backups_active
+
+        attr_writer :ssh_keys
 
         # Reboot the server (soft reboot).
         #
@@ -72,6 +74,25 @@ module Fog
           service.power_on_server self.id
         end
 
+        def setup(credentials = {})
+          requires :public_ip_address
+          require 'net/ssh'
+
+          commands = [
+            %{mkdir .ssh},
+            %{passwd -l #{username}},
+            %{echo "#{Fog::JSON.encode(Fog::JSON.sanitize(attributes))}" >> ~/attributes.json}
+          ]
+          if public_key
+            commands << %{echo "#{public_key}" >> ~/.ssh/authorized_keys}
+          end
+
+          # wait for aws to be ready
+          wait_for { sshable?(credentials) }
+
+          Fog::SSH.new(public_ip_address, username, credentials).run(commands)
+        end
+
         # Creates the server (not to be called directly).
         #
         # Usually called by Fog::Collection#create
@@ -94,6 +115,8 @@ module Fog
           options = {}
           if attributes[:ssh_key_ids]
             options[:ssh_key_ids] = attributes[:ssh_key_ids]
+          elsif @ssh_keys
+            options[:ssh_key_ids] = @ssh_keys.map(&:id)
           end
           data = service.create_server name,
                                        flavor_id,
