@@ -31,6 +31,7 @@ module Fog
         attribute :license_model, :aliases => 'LicenseModel'
         attribute :db_subnet_group_name, :aliases => 'DBSubnetGroupName'
         attribute :publicly_accessible, :aliases => 'PubliclyAccessible'
+        attribute :vpc_security_groups, :aliases => 'VpcSecurityGroups'
 
         attr_accessor :password, :parameter_group_name, :security_group_names, :port
 
