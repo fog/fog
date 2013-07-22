@@ -21,11 +21,6 @@ Shindo.tests('Fog::Rackspace::Monitoring | agent_tests', ['rackspace','rackspace
     tests('#fail to create agent token(-1)').raises(TypeError) do
       account.create_agent_token(-1)
     end
-    #tests('#fail to list agent tokens(-1)').raises(TypeError) do
-      #account[:rackspace_api_key] = 'asdf'
-      #account[:rackspace_username] = 'asdf'
-      #account.list_agent_tokens(-1)
-    #end
     tests('#fail to get agent token(-1)').raises(TypeError) do
       account.create_agent_token(-1)
     end
