@@ -63,6 +63,7 @@ module Fog
       request :list_images
       request :list_images_detail
       request :list_key_pairs
+      request :list_limits
       request :list_metadata
       request :list_server_addresses
       request :list_server_addresses_by_network
@@ -133,13 +134,70 @@ module Fog
                 :key_pairs => {},
                 :servers => {},
                 :addresses => {},
-                :volume_attachments => {}
+                :volume_attachments => {},
               },
               :images  => {},
               :key_pairs => {},
               :servers => {},
               :addresses => {},
-              :volume_attachments => {}
+              :volume_attachments => {},
+              :limits => {
+                  "absolute" => {
+                    "maxImageMeta"            => 50,
+                    "maxPersonality"          => 5,
+                    "maxPersonalitySize"      => 10240,
+                    "maxSecurityGroupRules"   => 20,
+                    "maxSecurityGroups"       => 10,
+                    "maxTotalKeypairs"        => 100,
+                    "maxServerMeta"           => 50,
+                    "maxTotalInstances"       => 20,
+                    "maxTotalRAMSize"         => 102400,
+                    "maxTotalCores"           => -1,
+                    "maxTotalFloatingIps"     => 10,
+                    "totalRAMUsed"            => 12288,
+                    "totalInstancesUsed"      => 3,
+                    "totalFloatingIpsUsed"    => 0,
+                    "totalSecurityGroupsUsed" => 0,
+                    "totalCoresUsed"          => 8,
+                  },
+                  "rate" => [
+                    {
+                      "limit" => [
+                        {
+                          "next-available" => "2012-10-05T03 =>47 =>15Z",
+                          "remaining" => 199,
+                          "unit" => "MINUTE",
+                          "value" => 200,
+                          "verb" => "GET"
+                        },
+                        {
+                          "next-available" => "2012-10-05T03 =>47 =>15Z",
+                          "remaining" => 9,
+                          "unit" => "MINUTE",
+                          "value" => 10,
+                          "verb" => "PUT"
+                        },
+                        {
+                          "next-available" => "2012-10-05T03 =>47 =>15Z",
+                          "remaining" => 9,
+                          "unit" => "MINUTE",
+                          "value" => 10,
+                          "verb" => "POST"
+                        },
+                        {
+                          "next-available" => "2012-10-05T03 =>47 =>15Z",
+                          "remaining" => 99,
+                          "unit" => "MINUTE",
+                          "value" => 100,
+                          "verb" => "DELETE"
+                        }
+                      ],
+                      "regex" => ".*",
+                      "uri" => "*"
+                    }
+                  ]
+              }
+              
             }
           end
         end
