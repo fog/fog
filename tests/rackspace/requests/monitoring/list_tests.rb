@@ -4,6 +4,10 @@ Shindo.tests('Fog::Rackspace::Monitoring | list_tests', ['rackspace','rackspace_
   account = Fog::Rackspace::Monitoring.new
   entity_id = account.create_entity(:label => "Foo").data[:headers]["X-Object-ID"]
   check_id = account.create_check(entity_id,CHECK_CREATE_OPTIONS).data[:headers]["X-Object-ID"]
+  metric_name = "idle_percent_average"
+  now = Time.now.to_i
+  sleep(5)
+
   tests('success') do
     tests('#get list of checks').formats(LIST_HEADERS_FORMAT) do
       account.list_checks(entity_id).data[:headers]
@@ -22,6 +26,14 @@ Shindo.tests('Fog::Rackspace::Monitoring | list_tests', ['rackspace','rackspace_
     end
     tests('#list notification plans').formats(LIST_HEADERS_FORMAT) do
       account.list_notification_plans().data[:headers]
+    end
+    tests('#get list of data points').formats(LIST_HEADERS_FORMAT) do
+      options = {
+        :points => 1,
+        :from => now,
+        :to => now+5
+      }
+      account.list_data_points(entity_id,check_id,metric_name,options).data[:headers]
     end
   end
   tests('failure') do
@@ -43,6 +55,9 @@ Shindo.tests('Fog::Rackspace::Monitoring | list_tests', ['rackspace','rackspace_
     end
     tests('#fail: 1 argument instead of 0 for list_notification_plans').raises(ArgumentError) do
       account.list_notification_plans('fail')
+    end
+    tests('#fail to get list of data points').raises(Fog::Rackspace::Monitoring::BadRequest) do
+      account.list_data_points(-1,-1,-1,-1).data
     end
   end
   account.delete_check(entity_id,check_id)
