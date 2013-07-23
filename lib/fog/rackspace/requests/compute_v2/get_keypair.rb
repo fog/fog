@@ -16,7 +16,7 @@ module Fog
         #       * 'name'<~String>: key name
         #       * 'fingerprint'<~String>: id
         #
-        def get_key(key_name)
+        def get_keypair(key_name)
           request(
             :method   => 'GET',
             :expects  => 200,
