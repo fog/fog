@@ -58,6 +58,8 @@ module Fog
       request :get_network
       request :list_datastores
       request :get_datastore
+      request :list_compute_resources
+      request :get_compute_resource
       request :list_templates
       request :get_template
       request :get_folder
