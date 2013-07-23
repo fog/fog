@@ -17,9 +17,9 @@ Shindo.tests('Fog::Storage[:openstack] | object requests', ["openstack"]) do
       Fog::Storage[:openstack].put_object('fogobjecttests', 'fog_object', lorem_file)
     end
 
-    tests("#get_object('fogobjectests', 'fog_object')").succeeds do
+    tests("#get_object('fogobjectests', 'fog_object')").returns(lorem_file.read) do
       pending if Fog.mocking?
-      Fog::Storage[:openstack].get_object('fogobjecttests', 'fog_object')
+      Fog::Storage[:openstack].get_object('fogobjecttests', 'fog_object').body
     end
 
     tests("#get_object('fogobjecttests', 'fog_object', &block)").returns(lorem_file.read) do
@@ -40,6 +40,31 @@ Shindo.tests('Fog::Storage[:openstack] | object requests', ["openstack"]) do
       pending if Fog.mocking?
       Fog::Storage[:openstack].delete_object('fogobjecttests', 'fog_object')
     end
+
+    tests("put_object with block") do
+      pending if Fog.mocking?
+
+      tests("#put_object('fogobjecttests', 'fog_object', &block)").succeeds do
+        begin
+          file = lorem_file
+          buffer_size = file.stat.size / 2 # chop it up into two buffers
+          Fog::Storage[:openstack].put_object('fogobjecttests', 'fog_block_object', nil) do
+            file.read(buffer_size).to_s
+          end
+        ensure
+          file.close
+        end
+      end
+
+      tests('#get_object').succeeds do
+        Fog::Storage[:openstack].get_object('fogobjecttests', 'fog_block_object').body == lorem_file.read
+      end
+
+      tests('#delete_object').succeeds do
+        Fog::Storage[:openstack].delete_object('fogobjecttests', 'fog_block_object')
+      end
+    end
+
 
   end
 
