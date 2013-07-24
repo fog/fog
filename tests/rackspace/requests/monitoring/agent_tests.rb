@@ -16,6 +16,9 @@ Shindo.tests('Fog::Rackspace::Monitoring | agent_tests', ['rackspace','rackspace
     tests('#get agent token').formats(LIST_HEADERS_FORMAT) do
       account.get_agent_token(agent_token).data[:headers]
     end
+    tests('#delete agent token').formats(DELETE_HEADERS_FORMAT) do
+      account.delete_agent_token(agent_token).data[:headers]
+    end
   end
   tests('failure') do
     tests('#fail to create agent token(-1)').raises(TypeError) do
@@ -23,6 +26,9 @@ Shindo.tests('Fog::Rackspace::Monitoring | agent_tests', ['rackspace','rackspace
     end
     tests('#fail to get agent token(-1)').raises(TypeError) do
       account.create_agent_token(-1)
+    end
+    tests('#fail to delete agent token(-1)').raises(Fog::Rackspace::Monitoring::NotFound) do
+      account.delete_agent_token(-1)
     end
   end
 end
