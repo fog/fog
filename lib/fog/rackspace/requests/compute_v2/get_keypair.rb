@@ -24,6 +24,18 @@ module Fog
           )
         end
       end
+
+      class Mock
+        def get_keypair(name)
+            key = self.data[:keypairs].select { |k| name.include? k['keypair']['name'] }.first
+            if key.nil?
+                raise Fog::Compute::RackspaceV2::NotFound
+            end
+
+            response(:body => key, :status => 200)
+        end
+      end
+
     end
   end
 end

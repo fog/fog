@@ -26,9 +26,7 @@ module Fog
         def list_keypairs
             response        = Excon::Response.new
             response.status = 200
-            response.body   = {
-                "keypairs" => self.data[:keypairs]
-            }
+            response.body   = { 'keypairs' => self.data[:keypairs] }
             response
         end
       end
