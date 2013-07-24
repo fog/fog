@@ -64,6 +64,7 @@ module Fog
       request      :update_entity
       request      :update_alarm
 
+      request      :delete_agent_token
       request      :delete_check
       request      :delete_entity
 
