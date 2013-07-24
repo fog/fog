@@ -1,3 +1,279 @@
+1.14.0 07/19/2013 b9f1659ebd45c84db011c71b53cc581a1b7ac7e1
+==========================================================
+
+Stats! { 'collaborators' => 49, 'downloads' => 2713501, 'forks' => 860, 'open_issues' => 155, 'watchers' => 2634 }
+
+MVP! Erik Michaels-Ober
+
+[misc]
+  Create separate Gemfile for Ruby 1.8.7. thanks Erik Michaels-Ober
+  Update nokogiri dependency to version ~>1.5. thanks Erik Michaels-Ober
+  Add note about installing on Ruby 1.8.7 [ci skip]. thanks Erik Michaels-Ober
+  add coveralls to Gemfile.1.8.7. thanks geemus
+
+
+1.13.0 07/19/2013 7f5b0b4931d8fe85596f67013ef285fd0b8335e0
+==========================================================
+
+Stats! { 'collaborators' => 49, 'downloads' => 2712905, 'forks' => 860, 'open_issues' => 157, 'watchers' => 2634 }
+
+MVP! James Bence
+
+[AWS | AutoScaling]
+  Do not send Instances for update_auto_scaling_group     (Avoids 413 Request Entity Too Large for ASGs with lots of instances). thanks Michael Hale
+
+[AWS | Autoscaling]
+  whitelist the options for update_auto_scaling_group. thanks Michael Hale
+  whitelist the options for create_auto_scaling_group. thanks Michael Hale
+  dry up expected options. thanks Michael Hale
+  correct whitelist for create_auto_scaling_group. thanks Michael Hale
+  ensure tests work in 1.8.7. thanks Michael Hale
+
+[Brightbox]
+  Updates to add collaborations. thanks Hemant Kumar
+  Extract Compute::Shared to own file. thanks Paul Thornthwaite
+
+[Openstack|Volumes]
+  alias type to volume_type. thanks Grzesiek Kolodziejczyk
+
+[Openstack|volume]
+  Add #get to volumes collection. thanks Grzesiek Kolodziejczyk
+  fix key name for volume_type. thanks Grzesiek Kolodziejczyk
+  create volumes from other vol. thanks Grzesiek Kolodziejczyk
+
+[aws|storage]
+  parse #complete_multipart error. thanks Brian D. Burns
+
+[aws|sts]
+  Add support for the AssumeRole STS method.  Also enable the ability for the STS               service to use IAM profiles to grab credentials off the EC2 instance, as is in place               for the other AWS services. thanks Caleb Tennis
+
+[cli]
+  Changes `fog --version` short option to `-v`. thanks Paul Thornthwaite
+
+[core]
+  Removes unused getting of Constant. thanks Paul Thornthwaite
+  Comments why Nokogiri 1.6 is not being used. thanks Paul Thornthwaite
+  Move XML/JSON code up out of core. thanks Paul Thornthwaite
+  Fog::Connection documentation. thanks Paul Thornthwaite
+  Adds initial Fog::Connection tests. thanks Paul Thornthwaite
+  Test Core version not deprecated one. thanks Paul Thornthwaite
+
+[core/xml]
+  Splits SAX parsing from Connection. thanks Paul Thornthwaite
+
+[digitalocean]
+  Rename do to docean in examples. thanks Ørjan Blom
+
+[fix]
+  Corrected the service mocks for testing to respond with a 304 to values of If-Modified-Since that match Last-Modified. thanks Bob Lail and Luke Booth
+
+[google|compute]
+  Change default image to most recent version of wheezy. thanks Nat Welch
+  Fix some bugs with using create without bootstrap. thanks Nat Welch
+
+[misc]
+  Add PubliclyAccessible option to RDS. thanks Adam Tucker
+  Extend capability to restore_db_instance_from_db_snapshot. thanks Adam Tucker
+  Signature method requires x-amz-security-token header. thanks Adam Tucker
+  Infer the 'image' URL correctly when inserting a server. thanks Akshay Moghe
+  increased iops limit to 4000. http://aws.typepad.com/aws/2013/05/provision-up-to-4k-iops-per-ebs-volume.html. thanks Angelo Marletta
+  Added support for [xenserver] snapshot. thanks Celso Fernandes
+  Fixes security group handling for spot requests launching into a VPC on AWS. thanks Dave Myron
+  Swapped to SecurityGroupId. thanks Dave Myron
+  fix create_tenant Mock response description and name. thanks Doug McInnes
+  Update excon dependency to version ~>0.24.0. thanks Erik Michaels-Ober
+  Update excon dependency to version ~>0.25.0. thanks Erik Michaels-Ober
+  Passing the connection_options parameter to underlying Fog::Storage object. thanks Hector Castro
+  Passing the connection_options parameter to underlying Fog::Storage object     for Fog::RiakCS::Provisioning. thanks Hector Castro
+  Used publicURL as default endpoint type for OpenStack network. thanks Hongbin Lu
+  Rename 'each' method to 'each_page'. thanks James Bence
+  Loop over Marker header in 'all', remove 'each'. thanks James Bence
+  Inspect error.response.body, not error.message. thanks James Bence
+  Restore implementation of each/all. thanks James Bence
+  Refactor error handling. thanks James Bence
+  Remove code from other branch-in-progress. thanks James Bence
+  Remove mistaken version update. thanks James Bence
+  Construct hash with => (for 1.8.7). thanks James Bence
+  Use specific error classes, not generic Fog::Compute::AWS::Error. thanks James Bence
+  Add describe_db_log_files request for AWS, version 2013-05-15. thanks James Bence
+  Add 'each' that iterates over all log files. thanks James Bence
+  Add parser/request for DownloadDBLogFilePortion. thanks James Bence
+  Use correct filters on RDS model snapshots 'all' method. thanks James Bence
+  Use correct filters in RDS model logfiles 'all' method. thanks James Bence
+  More DRY, succinct implementation of tag parsing. thanks James Bence
+  Remove extraneous nil. thanks James Bence
+  Add db identifier to parser, use it for log_file model. thanks James Bence
+  Get partial log content via method call; add to log_file model attributes. thanks James Bence
+  adding proper fixed secondary_ip support. thanks John E. Vincent
+  remove a debug entry. thanks John E. Vincent
+  Allows to set the account meta key by setting hp_account_meta_key, needed to generate temp urls using the HP provider, explicitly, instead of using hp_secret_key. If hp_account_meta_key is not given hp_secret_key is used as hp_account_meta_key. thanks Julian Fischer
+  HP uses a different strategy to create the signature that is passed to swift than OpenStack.  As the HP provider is broadly used by OpenStack users the OpenStack strategy is applied when the @hp_account_meta_key is given. thanks Julian Fischer
+  Adds Fog::Storage::HP::File#url method to enable compatibility with Fog::Storage::AWS::File. thanks Julian Fischer
+  Fixed bug undefined local variable or method account_meta_key. thanks Julian Fischer
+  Bugfix: @hp_secret_key instead of @hp_account_meta_key required in storage.rb:186. thanks Julian Fischer
+  Avoids Digest::HMAC.hexdigest to remain 1.8.7 compatibility. thanks Julian Fischer
+  Remove File#url. thanks Julian Fischer
+  Renames hp_account_meta_key to os_account_meta_temp_url_key. thanks Julian Fischer
+  merging with master. thanks Kyle Rames
+  Add nil check on metadata mock. thanks Mike Moore
+  Add attachment check to detach_volume mock. thanks Mike Moore
+  Add array coalesce. thanks Mike Moore
+  Uping version to v1beta15. thanks Nat Welch
+  trying to fix sshable? for gce. thanks Nat Welch
+  more attempts to get ssh in compute workings. thanks Nat Welch
+  temporary debug info. thanks Nat Welch
+  Better comments and a logging attempt. thanks Nat Welch
+  bug in network interfaces code. thanks Nat Welch
+  Trying to be more consistent in code. Removing logging. thanks Nat Welch
+  trying to get metadata do one request per access. thanks Nat Welch
+  Forgot to delete two lines. thanks Nat Welch
+  correct syntax for the metadata craziness. thanks Nat Welch
+  I'm an idiot. thanks Nat Welch
+  trying again to get metadata working... thanks Nat Welch
+  Hashes not Arrays. thanks Nat Welch
+  ahh machine api changed as well... gotta figure out what the api is returning now. thanks Nat Welch
+  can't be private. thanks Nat Welch
+  whoops. thanks Nat Welch
+  Nope. thanks Nat Welch
+  not that either. thanks Nat Welch
+  so many syntax errors. thanks Nat Welch
+  in v15, there are all kinds of places images can hide. thanks Nat Welch
+  make sure I'm getting valid data back. thanks Nat Welch
+  trying to actually handle response error data. thanks Nat Welch
+  just the message. thanks Nat Welch
+  aha! This could be the issue. thanks Nat Welch
+  why isn't image_url getting set?. thanks Nat Welch
+  nil, not empty. thanks Nat Welch
+  try this... thanks Nat Welch
+  never being written. thanks Nat Welch
+  trying to use correct code location. thanks Nat Welch
+  alright! Insertion!. thanks Nat Welch
+  Why is this request failing. thanks Nat Welch
+  Send the right zone. thanks Nat Welch
+  zone looks to be bad in get_server. thanks Nat Welch
+  why!. thanks Nat Welch
+  this is probably not stable. thanks Nat Welch
+  Different trypes of input. thanks Nat Welch
+  modify all of the things. thanks Nat Welch
+  passing around teh data. thanks Nat Welch
+  better zone name. thanks Nat Welch
+  sshable? shouldn't just die. thanks Nat Welch
+  inifite loop get. thanks Nat Welch
+  more bad status code checks. thanks Nat Welch
+  init response. thanks Nat Welch
+  trying to figure out what's wrong. thanks Nat Welch
+  Patch from a fellow googler. thanks Nat Welch
+  Switch running? back to ready?. thanks Nat Welch
+  network_interfaces can be nil. thanks Nat Welch
+  Default to running user for username. thanks Nat Welch
+  A patch from a fellow googler. thanks Nat Welch
+  metadata could be nil. thanks Nat Welch
+  Throw errors instead of printing them. thanks Nat Welch
+  refactor image lookup code. thanks Nat Welch
+  Let's wait till sshable. thanks Nat Welch
+  whoops. thanks Nat Welch
+  small style tweaks for #1946. thanks Nat Welch
+  Added option parsing to bin/fog. thanks Postmodern
+  Added the -f, --fogrc option for specifying an alternate fogrc file. thanks Postmodern
+  Renamed -f,--fogrc to -C,--credentials-path. thanks Postmodern
+  Added Fog::AWS::SES.verify_domain_identity. thanks Postmodern
+  Fixed description for the #verify_domain_identity tests. thanks Postmodern
+  Actually call verify_domain_identity. thanks Postmodern
+  Add basic error handling for Fog::AWS::SES. thanks Postmodern
+  Convert the raw_message for send_raw_email, just in case. thanks Postmodern
+  Raise Fog::AWS::SES::InvalidParameterError for InvalidParameterValue. thanks Postmodern
+  Fix autoincrement when creating a flavor if private flavors exist. thanks Thomas Kadauke
+  Add RDS API version parameter option. thanks Timur Alperovich
+  Initial documentation for using Fog with CloudSigma. thanks Viktor Petersson
+  Fixed typos. thanks Viktor Petersson
+  add license to gempsec. thanks geemus
+  Added Disk and Disks to Google compute. Created new insert server request method that is backward compatible with the old request method, but also allows all insert server options to be used rather than a subset. thanks jordangbull
+  cleaned out print statements. Refactored disk(s) to be created the same way as other models. Fixed wait_for on disks to properly work. thanks jordangbull
+  Fixed minor import issue. thanks jordangbull
+  Rebased and cleaned up google fog. Changed insert_server to allow all options (not backwards compatible, but throws an informative error. thanks jordangbull
+  Cleaned code and fixed issue with getting a resource too soon after request for creation. thanks jordangbull
+  Added access configs name so public ip can be retrieved. thanks jordangbull
+  Fixed bug with bootstrapped servers not being sshable. thanks jordangbull
+  small fix in metadata for servers. thanks jordangbull
+  Fixed server bootstrap to remove default image if a boot disk is specified. thanks jordangbull
+  Google Cloud Compute now raises Errors rather than throwing them. thanks jordangbull
+  Added destroy method to disk and zone method. thanks jordangbull
+  Add SimpleCov and Coveralls.io dependenices     Add rake tasks for travis, which include publishing coverage reports. thanks mlincoln
+  Change travis to use a rake task instead of shindont directly.     This is partly necessary for     https://github.com/lemurheavy/coveralls-ruby/pull/20, though     I'm a fan of running just "rake" or "rake travis" for simplicity     anyways. thanks mlincoln
+  The actual simplecov/coveralls setup.     The use of Process.pid is an attempt to avoid confusing SimpleCov when     running tests in parallel.  Other tests frameworks take a similar     approach when they detect parallel_tests. thanks mlincoln
+  Some cleanup based on comments on the PR. thanks mlincoln
+
+[openstack|compute]
+  support block_device_mapping. thanks Grzesiek Kolodziejczyk
+
+[openstack|image]
+  Fix image reload. thanks Ferran Rodenas
+
+[openstack|metering]
+  Allow multiple filtering queries. thanks Alvin Garcia
+  Fix get_statistics mock. thanks Alvin Garcia
+  Added metering service for Ceilometer. thanks Philip Mark M. Deazeta
+
+[openstack|volume]
+  support imageRef option. thanks Grzesiek Kolodziejczyk
+
+[openvz]
+  Fixes #1871 test helper callback. thanks Paul Thornthwaite
+
+[rackspace]
+  fix JSON error parsing. thanks Brian D. Burns
+  updated services to re-authenticate when authentication token expires. thanks Kyle Rames
+  adding block and parse_json parameters to request parameter calls. thanks Kyle Rames
+  fixing broken user tests; adding wait_for_request method to add in testing. thanks Kyle Rames
+  setting default fog timeout to 2000 for testing; removing specific hard coded timeouts. thanks Kyle Rames
+
+[rackspace|block_storage]
+  fixing broken volume type tests. thanks Kyle Rames
+
+[rackspace|cdn]
+  updating cdn to throw exceptions from storage namespace rather than cdn. This was done for historical reasons. thanks Kyle Rames
+
+[rackspace|compute]
+  updating mocks. thanks Kyle Rames
+  fixing broken address test. thanks Kyle Rames
+  fixed metadata tests. thanks Kyle Rames
+  fixing broken tests. thanks Kyle Rames
+  adding parameter to save method in order to make it more polymorphic. thanks Kyle Rames
+
+[rackspace|dns]
+  fixing DNS pagination issue #1887. thanks Kyle Rames
+  added total_entries attribute to zones. thanks Kyle Rames
+  adding :limit => 100 to clarify that all returns a limit of 100 records per page at @rupakg suggestion. thanks Kyle Rames
+  fixing broken tests. thanks Kyle Rames
+
+[rackspace|identity]
+  fixing broken identity tests. thanks Kyle Rames
+
+[rackspace|load balancers]
+  making failing usage tests cases pending until I can get them fixed. thanks Kyle Rames
+
+[rackspace|storage]
+  add methods for SLO support. thanks Brian D. Burns
+  add #put_dynamic_obj_manifest. thanks Brian D. Burns
+  patch #delete_static_large_object for Swift v1.8. thanks Brian D. Burns
+  fix tests under ruby-1.8.7. thanks Brian D. Burns
+  add #delete_multiple_objects. thanks Brian D. Burns
+  patch #delete_multiple_objects for Swift v1.8. thanks Brian D. Burns
+  update File model to submit etags if they are specified. thanks Kyle Rames
+
+[rackspce|block_storage]
+  fixing tests. thanks Kyle Rames
+
+[vcloud|compute]
+  better defaults for configuring vm content-type. thanks geemus
+
+[vsphere]
+  fix regex typo. thanks Dominic Cleal
+
+[xenserver|compute]
+  Small fix for snapshot tests added in #1914. thanks Sergio Rubio
+
+
 1.12.1 06/11/2013 8663e9079edb69f1a56ea887379f94e6d5efd0d8
 ==========================================================
 

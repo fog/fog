@@ -28,7 +28,7 @@ module Fog
             unless error.response.body.empty?
               begin
                 data = Fog::JSON.decode(error.response.body)
-                message = data.values.first ? data.values.first['message'] : data['message']
+                message = extract_message(data)
               rescue  => e
                 Fog::Logger.warning("Received exception '#{e}' while decoding>> #{error.response.body}")
                 message = error.response.body
@@ -41,6 +41,16 @@ module Fog
           new_error.instance_variable_set(:@response_data, data)
           new_error.instance_variable_set(:@status_code, status_code)
           new_error
+        end
+
+        private
+
+        def self.extract_message(data)
+          if data.is_a?(Hash)
+            message = data.values.first['message'] if data.values.first.is_a?(Hash)
+            message ||= data['message']
+          end
+          message || data.inspect
         end
       end
 
@@ -95,6 +105,11 @@ module Fog
       response.headers.reject do |key, value|
         !['X-Server-Management-Url', 'X-Storage-Url', 'X-CDN-Management-Url', 'X-Auth-Token'].include?(key)
       end
+    end
+
+    def self.json_response?(response)
+      return false unless response && response.headers
+      response.headers['Content-Type'] =~ %r{application/json}i ? true : false
     end
 
     def self.normalize_url(endpoint)

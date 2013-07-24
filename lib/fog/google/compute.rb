@@ -41,6 +41,8 @@ module Fog
       request :insert_network
       request :insert_server
 
+      request :set_metadata
+
       model_path 'fog/google/models/compute'
       model :server
       collection :servers
@@ -50,6 +52,9 @@ module Fog
 
       model :flavor
       collection :flavors
+
+      model :disk
+      collection :disks
 
       class Mock
         include Collections
@@ -66,16 +71,15 @@ module Fog
         attr_reader :project
 
         def initialize(options)
-
-
           base_url = 'https://www.googleapis.com/compute/'
-          api_version = 'v1beta14'
+          api_version = 'v1beta15'
           api_scope_url = 'https://www.googleapis.com/auth/compute'
 
           @project = options[:google_project]
           google_client_email = options[:google_client_email]
           @api_url = base_url + api_version + '/projects/'
-          #NOTE: loaded here to avoid requiring this as a core Fog dependency
+
+          # NOTE: loaded here to avoid requiring this as a core Fog dependency
           begin
             require 'google/api_client'
           rescue LoadError
@@ -87,6 +91,7 @@ module Fog
             :application_name => "fog",
             :application_version => Fog::VERSION,
           })
+
           @client.authorization = Signet::OAuth2::Client.new({
             :audience => 'https://accounts.google.com/o/oauth2/token',
             :auth_provider_x509_cert_url => "https://www.googleapis.com/oauth2/v1/certs",
@@ -96,15 +101,14 @@ module Fog
             :signing_key => key,
             :token_credential_uri => 'https://accounts.google.com/o/oauth2/token',
           })
-          @client.authorization.fetch_access_token!
 
+          @client.authorization.fetch_access_token!
           @compute = @client.discovered_api('compute', api_version)
           @default_network = 'default'
         end
 
         def build_result(api_method, parameters, body_object=nil)
           if body_object
-            #p api_method, parameters
             result = @client.execute(
               :api_method => api_method,
               :parameters => parameters,
@@ -123,15 +127,35 @@ module Fog
           response.body = Fog::JSON.decode(result.body)
           if response.body["error"]
             response.status = response.body["error"]["code"]
+
+            response.body["error"]["errors"].each do |error|
+              raise Fog::Errors::Error.new(error["message"])
+            end
           else
             response.status = 200
           end
           response
         end
 
+        def backoff_if_unfound(&block)
+          retries_remaining = 10
+          begin
+            result = block.call
+          rescue Exception => msg
+            if msg.to_s.include? 'was not found' and retries_remaining > 0
+              retries_remaining -= 1
+              sleep 0.1
+              retry
+            else
+              raise msg
+            end
+          end
+          result
+        end
+
       end
 
-      RUNNING_STATE = 'RUNNING'
+      RUNNING = 'RUNNING'
 
     end
   end

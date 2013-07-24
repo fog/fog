@@ -8,6 +8,7 @@ require 'formatador'
 require 'openssl'
 require 'time'
 require 'timeout'
+require 'ipaddr'
 
 # internal core dependencies
 require "fog/version"

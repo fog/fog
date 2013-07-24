@@ -14,7 +14,7 @@ module Fog
             network_id = Fog::Rackspace::MockData.uuid
 
             flavor = {
-              "OS-FLV-DISABLED:disabled" => false,
+              "OS-FLV-EXT-DATA:ephemeral" => 4,
               "disk"  => 20,
               "id"    => flavor_id,
               "links" => [
@@ -89,8 +89,8 @@ module Fog
             }
 
             #Block Storage
-            volume_type1_id = Fog::Mock.random_numbers(3).to_i
-            volume_type2_id = Fog::Mock.random_numbers(3).to_i
+            volume_type1_id = Fog::Mock.random_numbers(3).to_s
+            volume_type2_id = Fog::Mock.random_numbers(3).to_s
 
             volume_type1 = {
               "id" => volume_type1_id,

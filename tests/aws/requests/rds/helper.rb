@@ -105,6 +105,19 @@ class AWS
 
       })
 
+      DB_LOG_FILE = {
+        'LastWritten' => Time,
+        'Size' => Integer,
+        'LogFileName' => String
+      }
+
+      DESCRIBE_DB_LOG_FILES = BASIC.merge({
+        'DescribeDBLogFilesResult' => {
+          'Marker' => Fog::Nullable::String,
+          'DBLogFiles' => [DB_LOG_FILE]
+        }
+      })
+
       SNAPSHOT={
         'AllocatedStorage' => Integer,
         'AvailabilityZone' => String,
@@ -137,6 +150,7 @@ class AWS
             'DBSecurityGroupName' => String
           }],
         'DBSubnetGroupName' => Fog::Nullable::String,
+        'PubliclyAccessible' => Fog::Boolean,
         'Endpoint' => {
           'Address' => Fog::Nullable::String,
           'Port' => Fog::Nullable::Integer

@@ -491,13 +491,14 @@ DATA
           refresh_credentials_if_expired
 
           expires = Fog::Time.now.to_date_header
+
+          params[:headers]['x-amz-security-token'] = @aws_session_token if @aws_session_token
           signature = signature(params, expires)
 
           params = request_params(params)
           params.delete(:port) unless params[:port]
 
           params[:headers]['Date'] = expires
-          params[:headers]['x-amz-security-token'] = @aws_session_token if @aws_session_token
           params[:headers]['Authorization'] = "AWS #{@aws_access_key_id}:#{signature}"
           # FIXME: ToHashParser should make this not needed
           original_params = params.dup

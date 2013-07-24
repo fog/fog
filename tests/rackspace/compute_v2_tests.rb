@@ -100,4 +100,13 @@ Shindo.tests('Fog::Compute::RackspaceV2', ['rackspace']) do
     end
   end
   
+  tests('reauthentication') do
+    pending if Fog.mocking?
+
+    @service = Fog::Compute::RackspaceV2.new
+    returns(true, "auth token populated") { !@service.send(:auth_token).nil? }
+    @service.instance_variable_set("@auth_token", "bad_token")
+    returns(true) { [200, 203].include? @service.list_flavors.status }
+  end
+
 end
