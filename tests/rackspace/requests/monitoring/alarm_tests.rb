@@ -5,11 +5,7 @@ Shindo.tests('Fog::Rackspace::Monitoring | alarm_tests', ['rackspace','rackspace
   entity_id = account.create_entity(:label => "Foo").data[:headers]["X-Object-ID"]
   check_id = account.create_check(entity_id, CHECK_CREATE_OPTIONS).data[:headers]["X-Object-ID"]
   alarm_id = nil
-  ##############################################################################
-  # Notification plan was created externally with raxmon.  Should create one on
-  # the fly once there is support for notifications plans in fog
-  ##############################################################################
-  np = "npKV0PI5Js"
+  np = "npTechnicalContactsEmail"
   tests('success') do
     tests('#create new alarm').formats(DATA_FORMAT) do
       alarm_criteria = "if (metric['code'] == '404') { return new AlarmStatus(CRITICAL, 'Page not found');}"
