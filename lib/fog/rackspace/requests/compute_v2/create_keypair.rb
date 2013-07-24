@@ -38,10 +38,8 @@ module Fog
             k['name'] = name
             self.data[:keypairs] << { 'keypair' => k }
 
-            response        = Excon::Response.new
-            response.status = 200
-            response.body   = { 'keypair' => k }
-            response
+            response( :status => 200,
+                      :body   => { 'keypair' => k } )
         end
       end
 

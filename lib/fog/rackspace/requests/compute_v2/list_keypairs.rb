@@ -24,10 +24,8 @@ module Fog
 
       class Mock
         def list_keypairs
-            response        = Excon::Response.new
-            response.status = 200
-            response.body   = { 'keypairs' => self.data[:keypairs] }
-            response
+            response( :status => 200,
+                      :body   => { 'keypairs' => self.data[:keypairs] })
         end
       end
 
