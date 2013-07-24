@@ -12,12 +12,13 @@ module Fog
         # @option options [Hash] metadata key value pairs of server metadata
         # @option options [String] OS-DCF:diskConfig The disk configuration value. (AUTO or MANUAL)
         # @option options [Hash] personality Hash containing data to inject into the file system of the cloud server instance during server creation.
+        # @option options [String] keypair  Name of the kay-pair to associate with this server.
         # @return [Excon::Response] response:
         #   * body [Hash]:        
         #     * server [Hash]:
         #       * name [String] - name of server
         #       * imageRef [String] - id of image used to create server
-        #       * flavorRef [String] - id of flavor used to create server        
+        #       * flavorRef [String] - id of flavor used to create server
         #       * OS-DCF:diskConfig [String] - The disk configuration value.
         #       * name [String] - name of server
         #       * metadata [Hash] - Metadata key and value pairs.
@@ -58,7 +59,7 @@ module Fog
             { :uuid => '00000000-0000-0000-0000-000000000000' },
             { :uuid => '11111111-1111-1111-1111-111111111111' }
           ]
-          data['server']['key_name'] = options[:keypair][:name] unless options[:keypair].nil?
+          data['server']['key_name'] = options[:keypair] unless options[:keypair].nil?
 
           request(
             :body    => Fog::JSON.encode(data),
