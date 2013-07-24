@@ -292,9 +292,8 @@ module Fog
             missing_credentials = Array.new
             @openstack_api_key  = options[:openstack_api_key]
             @openstack_username = options[:openstack_username]
-
-            missing_credentials << :openstack_api_key  unless @openstack_api_key
-            missing_credentials << :openstack_username unless @openstack_username
+            missing_credentials << :openstack_api_key  unless @openstack_api_key.instance_of? String
+            missing_credentials << :openstack_username unless @openstack_username.instance_of? String
             raise ArgumentError, "Missing required arguments: #{missing_credentials.join(', ')}" unless missing_credentials.empty?
           end
 
@@ -416,7 +415,7 @@ module Fog
 
           @port   = uri.port
           @scheme = uri.scheme
-           
+
           # Not all implementations have identity service in the catalog
           if @openstack_identity_public_endpoint || @openstack_management_url
             @identity_connection = Fog::Connection.new(
