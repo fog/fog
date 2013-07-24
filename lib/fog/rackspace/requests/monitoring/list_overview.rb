@@ -3,15 +3,12 @@ module Fog
     class Monitoring
       class Real
 
-        def list_overview(opts={})
-          path = "views/overview"
-          opts.keys.each do |key|
-            path = path + "?#{key}=#{opts[key]}"
-          end
+        def list_overview(options={})
           request(
             :expects  => [200, 203],
             :method   => 'GET',
-            :path     => path
+            :path     => "views/overview",
+            :query    => options
           )
         end
 

@@ -22,8 +22,8 @@ module Fog
         attribute :disabled
         attribute :monitoring_zones_poll
 
-        def prep
-          options = {
+        def params(options={})
+          h = {
             'label'       => label,
             'metadata'    => metadata,
             'target_alias'=> target_alias,
@@ -34,24 +34,17 @@ module Fog
             'details'=> details,
             'monitoring_zones_poll'=> monitoring_zones_poll,
             'disabled'=> disabled
-          }
-          options = options.reject {|key, value| value.nil?}
-          options
+          }.merge(options)
+
+          h.reject {|key, value| value.nil?}
         end
 
         def save
-          begin
-            requires :entity
-            entity_id = entity.identity
-          rescue
-            requires :entity_id
-          end
-          options = prep
-          if identity then
-            data = service.update_check(entity_id, identity, options)
+          if identity
+            data = service.update_check(entity_id, identity, params)
           else
             requires :type
-            options['type'] = type
+            options = params('type' => type)
             data = service.create_check(entity_id, options)
           end
           true

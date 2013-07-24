@@ -15,23 +15,21 @@ module Fog
         attribute :managed, :default => false
         attribute :uri
 
-        def prep
+        def params
           options = {
             'label'       => label,
             'metadata'    => metadata,
             'ip_addresses'=> ip_addresses,
             'agent_id'    => agent_id
           }
-          options = options.reject {|key, value| value.nil?}
-          options
+          options.reject {|key, value| value.nil?}
         end
 
         def save
-          options = prep
-          if identity then
-            data = service.update_entity(identity, options)
+          if identity
+            data = service.update_entity(identity, params)
           else
-            data = service.create_entity(options)
+            data = service.create_entity(params)
           end
           true
         end

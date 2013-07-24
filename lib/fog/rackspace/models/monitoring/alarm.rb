@@ -16,24 +16,22 @@ module Fog
         attribute :check_id
         attribute :notification_plan_id
 
-        def prep
-          options = {
+        def params(options={})
+          h = {
             'label'                => label,
             'criteria'             => criteria,
             'notification_plan_id' => notification_plan_id,
-          }
-          options = options.reject {|key, value| value.nil?}
-          options
+          }.merge(options)
+          h.reject {|key, value| value.nil?}
         end
 
         def save
           requires :notification_plan_id
-          options = prep
-          if identity then
-            data = service.update_alarm(get_entity_id, identity, options)
+
+          if identity
+            data = service.update_alarm(get_entity_id, identity, params)
           else
-            options['check_type'] = check_type if check_type
-            options['check_id'] = check_id if check_id
+            options = params('check_type' => check_type, 'check_id' => check_id)
             data = service.create_alarm(get_entity_id, options)
           end
           true

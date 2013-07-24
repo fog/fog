@@ -25,15 +25,9 @@ module Fog
           remain.empty?
         end
 
-        def get_entity_id
-          requires :entity
-          begin
-            requires :entity
-            entity_id = entity.identity
-          rescue
-            requires :entity_id
-          end
-          entity_id
+        def entity_id
+          raise(ArgumentError, "entity with id is required for this operation") unless entity && entity.identity
+          entity.identity
         end
 
       end

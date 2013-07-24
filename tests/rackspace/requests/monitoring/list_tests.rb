@@ -38,9 +38,6 @@ Shindo.tests('Fog::Rackspace::Monitoring | list_tests', ['rackspace','rackspace_
     #tests('#fail to list metrics').raises(Fog::Rackspace::Monitoring::NotFound) do
       #account.list_metrics(-1,-1)
     #end
-    tests('#fail to list overview').raises(NoMethodError) do
-      account.list_overview(-1)
-    end
     tests('#fail: 1 argument instead of 0 for list_notification_plans').raises(ArgumentError) do
       account.list_notification_plans('fail')
     end

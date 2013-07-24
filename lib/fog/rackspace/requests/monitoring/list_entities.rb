@@ -3,11 +3,12 @@ module Fog
     class Monitoring
       class Real
 
-        def list_entities
+        def list_entities(options={})
           request(
             :expects  => [200, 203],
             :method   => 'GET',
-            :path     => 'entities'
+            :path     => 'entities',
+            :query    => options
           )
         end
 

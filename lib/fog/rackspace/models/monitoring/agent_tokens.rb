@@ -8,16 +8,11 @@ module Fog
 
         model Fog::Rackspace::Monitoring::AgentToken
 
-        def all
-          data = []
-          opts = {}
-          begin
-            new_tokens = service.list_agent_tokens(opts)
-            data.concat(new_tokens.body['values'])
-            opts = {:marker => new_tokens.body['metadata']['next_marker']}
-          end until opts[:marker].nil?
+        def all(options={})
+          clear
+          body = service.list_agent_tokens(options).body
 
-          load(data)
+          load(body['values'])
         end
 
         def get(id)

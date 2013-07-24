@@ -11,21 +11,19 @@ module Fog
         attribute :label
         attribute :token
 
-        def prep
+        def params
           options = {
             'label'                => label,
             'token'                => token
           }
-          options = options.reject {|key, value| value.nil?}
-          options
+          options.reject {|key, value| value.nil?}
         end
 
         def save
-          options = prep
-          if identity then
-            data = service.update_agent_token(identity, options)
+          if identity
+            raise NotImplementedError.new "Updating Agent Tokens is not currently implemented"
           else
-            data = service.create_agent_token(options)
+            data = service.create_agent_token(params)
           end
           true
         end

@@ -9,9 +9,13 @@ module Fog
 
         model Fog::Rackspace::Monitoring::Entity
 
-        def all
-          data = service.list_entities.body['values']
-          load(data)
+        attribute :marker
+
+        def all(options={})
+          data = service.list_entities(options).body
+          marker = data['metadata']['next_marker']
+
+          load(data['values'])
         end
 
         def get(entity_id)
@@ -21,18 +25,14 @@ module Fog
           nil
         end
 
-        def overview
-          entities = []
-          opts = {}
-          begin
-            new_entities = service.list_overview(opts)
-            entities.concat(new_entities.body['values'])
-            opts = {:marker => new_entities.body['metadata']['next_marker']}
-          end while(!opts[:marker].nil?)
-          loadAll(entities)
+        def overview(options={})
+          body = service.list_overview(options).body
+          marker = body['metadata']['next_marker']
+
+          load_all(body['values'])
         end
 
-        def loadAll(objects)
+        def load_all(objects)
           clear
           for object in objects
             en = new(object['entity'])
