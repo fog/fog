@@ -16,7 +16,7 @@ module Fog
       requires :rackspace_api_key, :rackspace_username
       recognizes :rackspace_auth_url
       recognizes :persistent
-      recognizes :rackspace_service_url
+      recognizes :rackspace_monitoring_url
       recognizes :rackspace_region
 
       model_path  'fog/rackspace/models/monitoring'
@@ -90,14 +90,11 @@ module Fog
           @rackspace_username = options[:rackspace_username]
           @rackspace_auth_url = options[:rackspace_auth_url]
           @connection_options = options[:connection_options] || {}
+          @rackspace_endpoint = Fog::Rackspace.normalize_url(options[:rackspace_monitoring_url])
 
           authenticate
 
           @persistent = options[:persistent] || false
-
-          @connection_options[:headers] ||= {}
-          @connection_options[:headers].merge!({ 'Content-Type' => 'application/json', 'X-Auth-Token' => auth_token })
-
           @connection = Fog::Connection.new(endpoint_uri.to_s, @persistent, @connection_options)
         end
 
@@ -105,13 +102,14 @@ module Fog
           @connection.reset
         end
 
+        def endpoint_uri(service_endpoint_url=nil)
+          @uri = super(@rackspace_endpoint || service_endpoint_url, :rackspace_monitoring_url)
+        end
+
         private
 
-        def request(params)
-          begin
-            response = @connection.request(params.merge!({
-              :path     => "#{endpoint_uri.path}/#{params[:path]}"
-            }))
+        def request(params, parse_json = true, &block)
+          super(params, parse_json, &block)
           rescue Excon::Errors::BadRequest => error
             raise BadRequest.slurp error
           rescue Excon::Errors::Conflict => error
@@ -120,11 +118,10 @@ module Fog
             raise NotFound.slurp(error, region)
           rescue Excon::Errors::ServiceUnavailable => error
             raise ServiceUnavailable.slurp error
-          end
-          unless response.body.empty?
-            response.body = Fog::JSON.decode(response.body)
-          end
-          response
+          rescue Excon::Errors::InternalServerError => error
+            raise InternalServerError.slurp error
+          rescue Excon::Errors::HTTPStatusError => error
+            raise ServiceError.slurp error
         end
 
         def authenticate
