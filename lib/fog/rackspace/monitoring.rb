@@ -17,6 +17,7 @@ module Fog
       recognizes :rackspace_auth_url
       recognizes :persistent
       recognizes :rackspace_service_url
+      recognizes :rackspace_region
 
       model_path  'fog/rackspace/models/monitoring'
       model       :entity
