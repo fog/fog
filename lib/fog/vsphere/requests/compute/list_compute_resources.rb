@@ -42,7 +42,8 @@ module Fog
             :overallStatus      =>   compute_resource.summary.overallStatus,
             :overallCpuUsage    =>   overall_usage[:overallCpuUsage],
             :overallMemoryUsage =>   overall_usage[:overallMemoryUsage],
-            :effective          =>   compute_resource.summary.numEffectiveHosts > 0
+            :effective          =>   compute_resource.summary.numEffectiveHosts > 0,
+            :isSingleHost       =>   compute_resource.summary.numHosts == 1
           }
         end
 
