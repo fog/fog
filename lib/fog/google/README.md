@@ -23,5 +23,6 @@ Features we are looking forward to implementing in the future:
  * Global Metadata support
  * Image creation
 
-v1beta15 is still in beta, so we can imagine lots of changes to the API. If you are using Fog to interact with GCE, please keep it up to date and file any anomalies you see.
+v1beta15 is still in beta, so we can imagine lots of changes to the API. If you are using Fog to interact with GCE, please keep Fog up to date and [file issues](https://github.com/fog/fog/issues?labels=google) for any anomalies you see.
 
+Thanks!
