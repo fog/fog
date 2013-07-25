@@ -53,6 +53,9 @@ module Fog
       model :flavor
       collection :flavors
 
+      model :disk
+      collection :disks
+
       class Mock
         include Collections
 
@@ -126,12 +129,28 @@ module Fog
             response.status = response.body["error"]["code"]
 
             response.body["error"]["errors"].each do |error|
-              throw Fog::Errors::Error.new(error["message"])
+              raise Fog::Errors::Error.new(error["message"])
             end
           else
             response.status = 200
           end
           response
+        end
+
+        def backoff_if_unfound(&block)
+          retries_remaining = 10
+          begin
+            result = block.call
+          rescue Exception => msg
+            if msg.to_s.include? 'was not found' and retries_remaining > 0
+              retries_remaining -= 1
+              sleep 0.1
+              retry
+            else
+              raise msg
+            end
+          end
+          result
         end
 
       end

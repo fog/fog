@@ -16,7 +16,7 @@ module Fog
         #     * 'ResponseMetadata'<~Hash>:
         #       * 'VerificationToken'<~String> - Verification token
         #       * 'RequestId'<~String> - Id of request
-        def verify_domain(domain)
+        def verify_domain_identity(domain)
           request({
             'Action'           => 'VerifyDomainIdentity',
             'Domain'           => domain,

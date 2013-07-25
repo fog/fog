@@ -73,7 +73,7 @@ module Fog
           if (bucket = self.data[:buckets][bucket_name]) && (object = bucket[:objects][object_name])
             if options['If-Match'] && options['If-Match'] != object['ETag']
               response.status = 412
-            elsif options['If-Modified-Since'] && options['If-Modified-Since'] > Time.parse(object['Last-Modified'])
+            elsif options['If-Modified-Since'] && options['If-Modified-Since'] >= Time.parse(object['Last-Modified'])
               response.status = 304
             elsif options['If-None-Match'] && options['If-None-Match'] == object['ETag']
               response.status = 304

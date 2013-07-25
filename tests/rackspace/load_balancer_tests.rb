@@ -85,7 +85,7 @@ Shindo.tests('Fog::Rackspace::LoadBalancers', ['rackspace']) do
     end
     tests('specify old contstant style service endoint').succeeds do
       @service = Fog::Rackspace::LoadBalancers.new :rackspace_lb_endpoint => Fog::Rackspace::LoadBalancers::ORD_ENDPOINT
-      returns(true) { (@service.instance_variable_get("@uri").host =~ /ord/ ) != nil }
+      returns(true) { (@service.instance_variable_get("@uri").to_s =~ /#{Fog::Rackspace::LoadBalancers::ORD_ENDPOINT}/ ) != nil }
       @service.list_load_balancers
     end
     tests('specify region').succeeds do
