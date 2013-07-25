@@ -85,7 +85,8 @@ Shindo.tests('Fog::Rackspace::BlockStorage', ['rackspace']) do
       @service.list_volumes
     end
     tests('specify old contstant style service endoint').succeeds do
-      @service = Fog::Rackspace::BlockStorage.new :rackspace_endpoint =>  Fog::Rackspace::BlockStorage::ORD_ENDPOINT
+      @service = Fog::Rackspace::BlockStorage.new :rackspace_endpoint => Fog::Rackspace::BlockStorage::ORD_ENDPOINT
+      returns(true) { (@service.instance_variable_get("@uri").to_s =~ /#{Fog::Rackspace::BlockStorage::ORD_ENDPOINT}/ ) != nil }
       @service.list_volumes
     end
     tests('specify region') do
