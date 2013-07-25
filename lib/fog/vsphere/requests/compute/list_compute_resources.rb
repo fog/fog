@@ -24,8 +24,8 @@ module Fog
         def compute_resource_attributes compute_resource, datacenter
           overall_usage = compute_resource.host.inject({:overallCpuUsage=>0, :overallMemoryUsage=>0}) do |sum, host|
             {
-              :overallCpuUsage => sum[:overallCpuUsage]+host.summary.quickStats.overallCpuUsage, 
-              :overallMemoryUsage=> sum[:overallMemoryUsage]+host.summary.quickStats.overallMemoryUsage
+              :overallCpuUsage => sum[:overallCpuUsage]+(host.summary.quickStats.overallCpuUsage || 0), 
+              :overallMemoryUsage=> sum[:overallMemoryUsage]+(host.summary.quickStats.overallMemoryUsage || 0)
             }
           end
           {
