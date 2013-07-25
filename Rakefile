@@ -189,11 +189,10 @@ require "tasks/changelog_task"
 Fog::Rake::ChangelogTask.new
 
 task :coveralls_push_workaround do
-  # use_coveralls = ( Gem::Version.new(RUBY_VERSION) > Gem::Version.new('1.9.2'))
-  # # ENV['COVERAGE'] = 'false' if ( Gem::Version.new(RUBY_VERSION) <= Gem::Version.new('1.9.2'))
-  # if (ENV['COVERAGE'] != 'false') && use_coveralls
-  #   require 'coveralls/rake/task'
-  #   Coveralls::RakeTask.new
-  #   Rake::Task["coveralls:push"].invoke
-  # end
+  use_coveralls = (Gem::Version.new(RUBY_VERSION) > Gem::Version.new('1.9.2'))
+  if (ENV['COVERAGE'] != 'false') && use_coveralls
+    require 'coveralls/rake/task'
+    Coveralls::RakeTask.new
+    Rake::Task["coveralls:push"].invoke
+  end
 end
