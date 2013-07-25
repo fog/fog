@@ -105,6 +105,19 @@ class AWS
 
       })
 
+      DB_LOG_FILE = {
+        'LastWritten' => Time,
+        'Size' => Integer,
+        'LogFileName' => String
+      }
+
+      DESCRIBE_DB_LOG_FILES = BASIC.merge({
+        'DescribeDBLogFilesResult' => {
+          'Marker' => Fog::Nullable::String,
+          'DBLogFiles' => [DB_LOG_FILE]
+        }
+      })
+
       SNAPSHOT={
         'AllocatedStorage' => Integer,
         'AvailabilityZone' => String,

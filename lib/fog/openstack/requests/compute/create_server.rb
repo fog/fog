@@ -56,11 +56,29 @@ module Fog
             data['os:scheduler_hints'] = options['os:scheduler_hints']
           end
 
+          if options['block_device_mapping']
+            data['server']['block_device_mapping'] =
+            [options['block_device_mapping']].flatten.map do |mapping|
+              {
+                'volume_size' => mapping[:volume_size],
+                'volume_id' => mapping[:volume_id],
+                'delete_on_termination' => mapping[:delete_on_termination],
+                'device_name' => mapping[:device_name]
+              }
+            end
+          end
+
+          path = if data['server']['block_device_mapping']
+                   'os-volumes_boot.json'
+                 else
+                   'servers.json'
+                 end
+
           request(
             :body     => Fog::JSON.encode(data),
             :expects  => [200, 202],
             :method   => 'POST',
-            :path     => 'servers.json'
+            :path     => path
           )
         end
 

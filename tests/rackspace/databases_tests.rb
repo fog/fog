@@ -86,7 +86,7 @@ Shindo.tests('Fog::Rackspace::Databases', ['rackspace']) do |variable|
     end
     tests('specify old contstant style service endoint').succeeds do
       @service = Fog::Rackspace::Databases.new :rackspace_endpoint => Fog::Rackspace::Databases::ORD_ENDPOINT
-      returns(true) { (@service.instance_variable_get("@uri").host =~ /ord/ ) != nil }
+      returns(true) { (@service.instance_variable_get("@uri").to_s =~ /#{Fog::Rackspace::Databases::ORD_ENDPOINT}/ ) != nil }
       @service.flavors
     end
     tests('specify region').succeeds do

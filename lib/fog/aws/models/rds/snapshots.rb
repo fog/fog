@@ -21,26 +21,33 @@ module Fog
           super
         end
 
-        # This will return a single page based on the current or provided filters,
-        # updating the filters with the marker for the next page.  Calling this repeatedly
-        # will iterate through pages.
+        # This method does NOT return all snapshots. Its implementation deliberately returns a single page
+        # of results for any one call. It will return a single page based on the current or provided filters,
+        # updating the filters with the marker for the next page. Calling this repeatedly will iterate
+        # through pages. See the implementation of each for an example of such iteration.
+        #
+        # It is arguably incorrect for the method not to return all snapshots, particularly considering the
+        # implementation in the corresponding 'elb' files. But this implementation has been released, and
+        # backwards-compatibility requires leaving it as implemented.
         def all(filters = filters)
           self.filters.merge!(filters)
 
-          snapshots = service.describe_db_snapshots(filters)
-          self.filters[:marker] = snapshots.body['DescribeDBSnapshotsResult']['Marker']
-          data = snapshots.body['DescribeDBSnapshotsResult']['DBSnapshots']
-          load(data)
+          page = service.describe_db_snapshots(self.filters).body['DescribeDBSnapshotsResult']
+          self.filters[:marker] = page['Marker']
+          load(page['DBSnapshots'])
         end
 
         # This will execute a block for each snapshot, fetching new pages of snapshots as required.
         def each(filters = filters)
-          begin
-            page = self.all(filters)
-            # We need to explicitly use the base 'each' method here on the page, otherwise we get infinite recursion
-            base_each = Fog::Collection.instance_method(:each)
-            base_each.bind(page).call {|snapshot| yield snapshot}
-          end while self.filters[:marker]
+          if block_given?
+            begin
+              page = self.all(filters)
+              # We need to explicitly use the base 'each' method here on the page, otherwise we get infinite recursion
+              base_each = Fog::Collection.instance_method(:each)
+              base_each.bind(page).call { |snapshot| yield snapshot }
+            end while self.filters[:marker]
+          end
+          self
         end
 
         def get(identity)
