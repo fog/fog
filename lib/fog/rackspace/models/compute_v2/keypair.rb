@@ -18,11 +18,8 @@ module Fog
         end
 
         def destroy
-          begin
             service.delete_keypair(identity)
-          rescue Fog::Compute::RackspaceV2::NotFound
-          end
-          true
+            true
         end
 
       end

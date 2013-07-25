@@ -22,11 +22,11 @@ Shindo.tests('Fog::Compute::RackspaceV2 | keypairs', ['rackspace']) do
   end
 
   tests('failure') do
-    tests("unknown_get").returns(nil) do
+    tests("unknown_get").raises(Fog::Compute::RackspaceV2::NotFound) do
       service.keypairs.get(Fog::Mock.random_letters(32))
     end
 
-    tests("unknown_delete").returns(true) do
+    tests("unknown_delete").raises(Fog::Compute::RackspaceV2::NotFound) do
         service.keypairs.destroy(Fog::Mock.random_letters(32))
     end
   end
