@@ -1,10 +1,9 @@
 def test
   connection = Fog::Compute.new({ :provider => "Google" })
   time = Time.now.utc.to_i
-  disk = CONNECTION.disks.create({:name => 'foggydisk', :size => 10, :zone_name => 'us-central1-a', :image_name => 'centos-6-v20130522'})
+  disk = connection.disks.create({:name => 'foggydisk', :size => 10, :zone_name => 'us-central1-a', :image_name => 'centos-6-v20130522'})
 
   disk.wait_for { disk.ready? }
-  puts 'disk ready'
   disk = disk.get_as_boot_disk(true)
   params = {
     :name => "fog-smoke-test-#{Time.now.to_i}",
@@ -15,7 +14,7 @@ def test
       :user => ENV['USER']
   }
 
-  server = CONNECTION.servers.bootstrap params
+  server = connection.servers.bootstrap params
 
   raise "Could not bootstrap sshable server." unless server.ssh("whoami")
   raise "Could not delete server." unless server.destroy

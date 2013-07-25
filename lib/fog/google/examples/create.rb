@@ -4,11 +4,11 @@ def test
   server = connection.servers.create(defaults = {
     :name => "fog-smoke-test-#{Time.now.to_i}",
     :image_name => "debian-7-wheezy-v20130522",
-      :machine_type => "n1-standard-1",
-      :zone_name => "us-central1-a",
-      :private_key_path => File.expand_path("~/.ssh/id_rsa"),
-      :public_key_path => File.expand_path("~/.ssh/id_rsa.pub"),
-      :user => ENV['USER'],
+    :machine_type => "n1-standard-1",
+    :zone_name => "us-central1-a",
+    :private_key_path => File.expand_path("~/.ssh/id_rsa"),
+    :public_key_path => File.expand_path("~/.ssh/id_rsa.pub"),
+    :user => ENV['USER'],
   })
 
   # My own wait_for because it hides errors
@@ -19,7 +19,9 @@ def test
   until server.sshable? || duration > timeout
     # puts duration
     # puts " ----- "
-    # p server.reload
+
+    server.reload
+
     # p "ready?: #{server.ready?}"
     # p "public_ip_address: #{server.public_ip_address.inspect}"
     # p "public_key: #{server.public_key.inspect}"
