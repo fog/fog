@@ -20,7 +20,7 @@ module Fog
         def get(key_id)
           begin
             new(service.get_keypair(key_id).body['keypair'])
-          rescue Fog::Compute::Rackspace::NotFound
+          rescue Fog::Compute::RackspaceV2::NotFound
             nil
           end
         end
