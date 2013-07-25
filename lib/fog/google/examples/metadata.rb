@@ -15,5 +15,4 @@ def test
 
   raise "Metadata was not set." unless server.metadata["test"] == "foo"
   raise "Could not delete server." unless server.destroy
-  raise "Could not delete disk." unless disk.destroy
 end
