@@ -8,7 +8,6 @@ module Fog
 
         identity :id
         attribute :entity
-        attribute :entity_id
 
         attribute :label
         attribute :metadata
@@ -21,6 +20,10 @@ module Fog
         attribute :details
         attribute :disabled
         attribute :monitoring_zones_poll
+
+        def entity=(obj)
+           attributes[:entity] = obj.is_a?(String) ? Entity.new(:id => obj) : obj
+         end
 
         def params(options={})
           h = {
@@ -41,13 +44,19 @@ module Fog
 
         def save
           if identity
-            data = service.update_check(entity_id, identity, params)
+            data = service.update_check(entity.id, identity, params)
           else
             requires :type
             options = params('type' => type)
-            data = service.create_check(entity_id, options)
+            data = service.create_check(entity.id, options)
+            self.id = data.headers['X-Object-ID']
           end
           true
+        end
+
+        def destroy
+          requires :id
+          service.delete_check(entity.id, id)
         end
 
         def metrics

@@ -25,12 +25,12 @@ module Fog
         end
 
         def new(attributes = {})
-          requires :entity
+          requires :entity unless attributes[:entity]
           super({ :entity => entity }.merge!(attributes))
         end
 
         def create(attributes = {})
-          requires :entity
+          requires :entity unless attributes[:entity]
           super({ :entity => entity }.merge!(attributes))
         end
 
