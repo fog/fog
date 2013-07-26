@@ -54,6 +54,8 @@ module Fog
       collection :attachments
       model :network
       collection :networks
+      model :keypair
+      collection :keypairs
 
       request_path 'fog/rackspace/requests/compute_v2'
       request :list_servers
@@ -96,6 +98,11 @@ module Fog
       request :get_network
       request :create_network
       request :delete_network
+
+      request :list_keypairs
+      request :create_keypair
+      request :delete_keypair
+      request :get_keypair
 
       class Mock < Fog::Rackspace::Service
         include Fog::Rackspace::MockData
