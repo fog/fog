@@ -18,8 +18,8 @@ module Fog
         def generate_configure_vm_request(vm_data)
           xmlns = 'http://schemas.dmtf.org/ovf/envelope/1'
           xmlns_vcloud = 'http://www.vmware.com/vcloud/v1'
-          xmlns_rasd = 'http://schemas.dmtf.org/wbem/wscim/1/cim‐schema/2/CIM_ResourceAllocationSettingData'
-          xmlns_vssd = 'http://schemas.dmtf.org/wbem/wscim/1/cim‐schema/2/CIM_VirtualSystemSettingData'
+          xmlns_rasd = 'http://schemas.dmtf.org/wbem/wscim/1/cim-schema/2/CIM_ResourceAllocationSettingData'
+          xmlns_vssd = 'http://schemas.dmtf.org/wbem/wscim/1/cim-schema/2/CIM_VirtualSystemSettingData'
 
           builder = Builder::XmlMarkup.new(:target=>STDOUT, :indent=>2) # TODO - remove params
           builder.VirtualHardwareSection(
