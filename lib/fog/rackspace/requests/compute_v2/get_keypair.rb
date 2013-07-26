@@ -3,19 +3,19 @@ module Fog
     class RackspaceV2
       class Real
 
-        # Returns details of key by name specified
-        #
-        # ==== Parameters
-        # 'key_name'<~String>: name of key to request
-        #         
-        # ==== Returns
-        # * response<~Excon::Response>:
-        #   * body<~Hash>:
-        #     * 'keypair'<~Hash>: Name of key
-        #       * 'public_key'<~String>: public key
-        #       * 'name'<~String>: key name
-        #       * 'fingerprint'<~String>: id
-        #
+        # Retreive single keypair details
+        # @param [String] key_name: name of the key for which to request the details
+        # @return  [Excon::Response] response :
+        #   * body [Hash]: -
+        #     * 'keypair' [Hash]: -
+        #       * 'fingerprint' [String]: unique fingerprint of the keypair
+        #       * 'name' [String]: unique name of the keypair
+        #       * 'public_key' [String]: the public key assigne to the keypair
+        # @raise [Fog::Compute::RackspaceV2::NotFound]
+        # @raise [Fog::Compute::RackspaceV2::BadRequest]
+        # @raise [Fog::Compute::RackspaceV2::InternalServerError]
+        # @raise [Fog::Compute::RackspaceV2::ServiceError]
+        # @see   http://docs.rackspace.com/servers/api/v2/cs-devguide/content/ListKeyPairs.html
         def get_keypair(key_name)
           request(
             :method   => 'GET',
@@ -26,8 +26,8 @@ module Fog
       end
 
       class Mock
-        def get_keypair(name)
-            key = self.data[:keypairs].select { |k| name.include? k['keypair']['name'] }.first
+        def get_keypair(key_name)
+            key = self.data[:keypairs].select { |k| key_name.include? k['keypair']['name'] }.first
             if key.nil?
                 raise Fog::Compute::RackspaceV2::NotFound
             end

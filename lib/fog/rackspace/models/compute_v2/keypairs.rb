@@ -9,6 +9,12 @@ module Fog
 
         model Fog::Compute::RackspaceV2::Keypair
 
+        # Fetch the list of known keypairs
+        # @return [Fog::Compute::RackspaceV2::Keypairs] the retreived keypairs
+        # @raise  [Fog::Compute::RackspaceV2::NotFound]
+        # @raise  [Fog::Compute::RackspaceV2::BadRequest]
+        # @raise  [Fog::Compute::RackspaceV2::InternalServerError]
+        # @raise  [Fog::Compute::RackspaceV2::ServiceError]
         def all
           data = []
           service.list_keypairs.body['keypairs'].each do |kp|
@@ -17,9 +23,15 @@ module Fog
           load(data)
         end
 
-        def get(key_id)
+        # Fetch keypair details
+        # @param  [String] key_name: name of the key to request
+        # @return [Fog::Compute::RackspaceV2::Keypair] the requested keypair or 'nil' when not found
+        # @raise  [Fog::Compute::RackspaceV2::BadRequest]
+        # @raise  [Fog::Compute::RackspaceV2::InternalServerError]
+        # @raise  [Fog::Compute::RackspaceV2::ServiceError]
+        def get(key_name)
             begin
-                new(service.get_keypair(key_id).body['keypair'])
+                new(service.get_keypair(key_name).body['keypair'])
             rescue Fog::Compute::RackspaceV2::NotFound
                 nil
             end
