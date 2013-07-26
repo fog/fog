@@ -44,9 +44,6 @@ Shindo.tests('Fog::Rackspace::Monitoring | list_tests', ['rackspace','rackspace_
     tests('#fail to list check types').raises(ArgumentError) do
       account.list_check_types(-1)
     end
-    tests('#fail to list entities').raises(ArgumentError) do
-      account.list_entities(-1)
-    end
     # This test has been put on hold due to a bug that incorrectly returns 200 OK to this request
     #tests('#fail to list metrics').raises(Fog::Rackspace::Monitoring::NotFound) do
       #account.list_metrics(-1,-1)
