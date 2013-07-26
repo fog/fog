@@ -1,4 +1,4 @@
-Shindo.tests('Fog::Rackspace::Monitoring | check_tests', ['rackspace', 'rackspacemonitoring']) do
+Shindo.tests('Fog::Rackspace::Monitoring | check_tests', ['rackspace', 'rackspace_monitoring']) do
   pending if Fog.mocking? 
 
   account = Fog::Rackspace::Monitoring.new
@@ -11,7 +11,7 @@ Shindo.tests('Fog::Rackspace::Monitoring | check_tests', ['rackspace', 'rackspac
       response
     end
     tests('#get check').formats(LIST_HEADERS_FORMAT) do
-      account.get_check(entity_id,check_id).data
+      account.get_check(entity_id,check_id).data[:headers]
     end
     tests('#update check').formats(DATA_FORMAT) do
       options = { :label => "Bar"}
