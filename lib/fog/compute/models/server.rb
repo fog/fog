@@ -37,6 +37,7 @@ module Fog
         ssh_options = @ssh_options.merge({:port => ssh_port})
         if private_key
           ssh_options[:key_data] = [private_key]
+          ssh_options[:auth_methods] = ["publickey"]
         end
         ssh_options
       end
