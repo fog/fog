@@ -28,10 +28,9 @@ Shindo.tests('Fog::Rackspace::Monitoring | alarm_tests', ['rackspace','rackspace
     tests('#get alarm').formats(LIST_HEADERS_FORMAT) do
       account.get_alarm(entity_id,alarm_id).data[:headers]
     end
-    # delete is not currently supported in fog
-    #tests('#delete alarm').formats(DELETE_DATA_FORMAT) do
-      #account.delete_alarm(entity_id,check_id).data
-    #end
+    tests('#delete alarm').formats(DELETE_DATA_FORMAT) do
+      account.delete_alarm(entity_id,alarm_id).data
+    end
   end
   tests('failure') do
     tests('#fail to create new alarm(-1)').raises(Fog::Rackspace::Monitoring::BadRequest) do
@@ -48,10 +47,9 @@ Shindo.tests('Fog::Rackspace::Monitoring | alarm_tests', ['rackspace','rackspace
     tests('#fail to get alarm').raises(Fog::Rackspace::Monitoring::NotFound) do
       account.get_alarm(-1,-1)
     end
-    # delete is not currently supported in fog
-    #tests('#fail to delete alarm(-1)').raises(Fog::Rackspace::Monitoring::NotFound) do
-      #account.delete_alarm(-1,-1)
-    #end
+    tests('#fail to delete alarm(-1)').raises(Fog::Rackspace::Monitoring::NotFound) do
+      account.delete_alarm(-1,-1)
+    end
   end
   account.delete_check(entity_id,check_id)
   account.delete_entity(entity_id)
