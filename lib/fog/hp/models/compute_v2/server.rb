@@ -302,6 +302,8 @@ module Fog
           # so this below does not work in 1.8.7
           #net.keys.first
           # this is compatible to 1.8.7 and 1.9+
+          return '' if net.nil?
+          return '' if net.first.nil?
           net.first[0]
         end
 
