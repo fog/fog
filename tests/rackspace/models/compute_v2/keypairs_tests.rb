@@ -1,33 +1,47 @@
 Shindo.tests('Fog::Compute::RackspaceV2 | keypairs', ['rackspace']) do
   service = Fog::Compute::RackspaceV2.new
 
-  name = Fog::Mock.random_letters(32)
+  name  = Fog::Mock.random_letters(32)
+  key   = nil
 
-  tests("success") do
-    tests("#create").succeeds do
-      service.keypairs.create({:name => name})
-    end
+  tests("API access") do
+    begin
+        tests("create").succeeds do
+          key = service.keypairs.create({:name => name})
+        end
 
-    tests("#all").succeeds do
-      service.keypairs.all
-    end
+        tests("list all").succeeds do
+          service.keypairs.all
+        end
 
-    tests("#get").succeeds do
-      service.keypairs.get(name)
-    end
+        tests("get").succeeds do
+          service.keypairs.get(name)
+        end
 
-    tests("#delete").succeeds do
-      service.keypairs.destroy(name)
-    end
-  end
+        tests("delete").succeeds do
+          key = nil if service.keypairs.destroy(name)
+          key == nil
+        end
 
-  tests('failure') do
-    tests("unknown_get").raises(Fog::Compute::RackspaceV2::NotFound) do
-      service.keypairs.get(Fog::Mock.random_letters(32))
-    end
+        tests("get unknown").raises(Fog::Compute::RackspaceV2::NotFound) do
+          service.keypairs.get(Fog::Mock.random_letters(32))
+        end
 
-    tests("unknown_delete").raises(Fog::Compute::RackspaceV2::NotFound) do
-        service.keypairs.destroy(Fog::Mock.random_letters(32))
+        tests("delete unknown").returns(true) do
+            service.keypairs.destroy(Fog::Mock.random_letters(32))
+        end
+
+        tests("create again after delete").succeeds do
+          key = service.keypairs.create({:name => name})
+        end
+
+        tests("create already existing").raises(Fog::Compute::RackspaceV2::ServiceError) do
+          service.keypairs.create({:name => name})
+        end
+
+    ensure
+        key.destroy if key
     end
+    
   end
 end

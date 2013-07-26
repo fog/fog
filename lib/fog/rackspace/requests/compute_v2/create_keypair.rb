@@ -34,6 +34,9 @@ module Fog
 
       class Mock
         def create_keypair(name, public_key=nil)
+            # 409 response when already existing
+            raise Fog::Compute::RackspaceV2::ServiceError if not self.data[:keypairs].select { |k| name.include? k['keypair']['name'] }.first.nil?
+
             k = self.data[:keypair]
             k['name'] = name
             self.data[:keypairs] << { 'keypair' => k }
