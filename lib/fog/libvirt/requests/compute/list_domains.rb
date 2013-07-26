@@ -29,7 +29,12 @@ module Fog
         end
 
         def domain_volumes xml
-          xml_elements(xml, "domain/devices/disk/source", "file")
+          domain_volumes = xml_elements(xml, "domain/devices/disk/source", "file")
+          if domain_volumes.any?
+            return domain_volumes
+          else
+            return xml_elements(xml, "domain/devices/disk/source", "name")
+          end
         end
 
         def boot_order xml
