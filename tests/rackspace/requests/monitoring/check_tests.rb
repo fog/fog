@@ -1,4 +1,4 @@
-Shindo.tests('Fog::Rackspace::Monitoring | check_tests', ['rackspace', 'rackspace_monitoring']) do
+Shindo.tests('Fog::Rackspace::Monitoring | check_tests', ['rackspace', 'rackspacemonitoring']) do
   pending if Fog.mocking? 
 
   account = Fog::Rackspace::Monitoring.new
@@ -9,6 +9,9 @@ Shindo.tests('Fog::Rackspace::Monitoring | check_tests', ['rackspace', 'rackspac
       response = account.create_check(entity_id, CHECK_CREATE_OPTIONS).data
       check_id = response[:headers]['X-Object-ID']
       response
+    end
+    tests('#get check').formats(LIST_HEADERS_FORMAT) do
+      account.get_check(entity_id,check_id).data
     end
     tests('#update check').formats(DATA_FORMAT) do
       options = { :label => "Bar"}
@@ -21,6 +24,9 @@ Shindo.tests('Fog::Rackspace::Monitoring | check_tests', ['rackspace', 'rackspac
   tests('failure') do
     tests('#create new check(-1)').raises(Fog::Rackspace::Monitoring::BadRequest) do
       account.create_check(entity_id, {:type => ""})
+    end
+    tests('#get check(-1)').raises(Fog::Rackspace::Monitoring::NotFound) do
+      account.get_check(-1, -1)
     end
     tests('#update invalid check(-1)').raises(Fog::Rackspace::Monitoring::NotFound) do
       options = { :testing => "Bar" }
