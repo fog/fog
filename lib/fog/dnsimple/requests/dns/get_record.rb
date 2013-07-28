@@ -39,6 +39,9 @@ module Fog
             response.body = self.data[:records][domain].detect { |record| record["record"]["id"] == record_id }
           else
             response.status = 404
+            response.body = {
+              "error" => "Couldn't find Domain with name = #{domain}"
+            }
           end
           response
         end
