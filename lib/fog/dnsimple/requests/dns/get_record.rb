@@ -29,6 +29,16 @@ module Fog
         end
 
       end
+
+      class Mock
+
+        def get_record(domain, record_id)
+          response = Excon::Response.new
+          response.status = 200
+          response.body = self.data[:records][domain].detect { |record| record["record"]["id"] == record_id }
+          response
+        end
+      end
     end
   end
 end

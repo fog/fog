@@ -65,6 +65,15 @@ Shindo.tests('Fog::DNS[:dnsimple] | DNS requests', ['dnsimple', 'dns']) do
       end
     end
 
+    test("get a record") do
+      domain = @domain["name"]
+      record_id = @record["id"]
+
+      response = Fog::DNS[:dnsimple].get_record(domain, record_id)
+
+      (response.status == 200) and (@record == response.body["record"])
+    end
+
     test("update a record") do
       domain = @domain["name"]
       record_id = @record["id"]
