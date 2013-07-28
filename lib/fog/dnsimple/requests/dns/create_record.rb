@@ -43,6 +43,29 @@ module Fog
         end
 
       end
+
+      class Mock
+
+        def create_record(domain, name, type, content, options = {})
+          response = Excon::Response.new
+          response.status = 201
+          body = {
+            "record" => {
+              "name" => name,
+              "record_type" => type,
+              "content" => content
+            }.merge(options)
+          }
+
+          self.data[:records][domain] ||= []
+          self.data[:records][domain] << body
+
+          response.body = body
+          response
+        end
+
+      end
+
     end
   end
 end
