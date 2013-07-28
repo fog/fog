@@ -33,7 +33,7 @@ module Fog
         def list_records(domain)
           response = Excon::Response.new
           response.status = 200
-          response.body = self.data[:records][domain]
+          response.body = self.data[:records][domain] || []
           response
         end
 
