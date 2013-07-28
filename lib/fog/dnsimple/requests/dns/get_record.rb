@@ -34,8 +34,12 @@ module Fog
 
         def get_record(domain, record_id)
           response = Excon::Response.new
-          response.status = 200
-          response.body = self.data[:records][domain].detect { |record| record["record"]["id"] == record_id }
+          if self.data[:records].has_key? domain
+            response.status = 200
+            response.body = self.data[:records][domain].detect { |record| record["record"]["id"] == record_id }
+          else
+            response.status = 404
+          end
           response
         end
       end
