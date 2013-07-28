@@ -41,7 +41,7 @@ module Fog
 
           # decide whether its a new record or update of an existing
           if id.nil?
-            data = service.create_record(zone.domain, name, type, value, options)
+            data = service.create_record(zone.id, name, type, value, options)
           else
             options[:name] = name if name
             options[:content] = value if value
