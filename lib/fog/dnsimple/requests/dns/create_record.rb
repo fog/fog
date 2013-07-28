@@ -49,11 +49,16 @@ module Fog
         def create_record(domain, name, type, content, options = {})
           response = Excon::Response.new
           response.status = 201
+          domain_id = self.data[:domains].detect { |d| d["domain"]["name"] == domain }["domain"]["id"]
           body = {
             "record" => {
               "name" => name,
               "record_type" => type,
-              "content" => content
+              "content" => content,
+              "created_at" => Time.now.iso8601,
+              "updated_at" => Time.now.iso8601,
+              "id" => Fog::Mock.random_numbers(1).to_i,
+              "domain_id" => domain_id
             }.merge(options)
           }
 
