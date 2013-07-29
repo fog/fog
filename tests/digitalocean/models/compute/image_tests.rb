@@ -2,14 +2,14 @@ Shindo.tests("Fog::Compute[:digitalocean] | image model", ['digitalocean', 'comp
 
   service = Fog::Compute[:digitalocean]
   image  = service.images.first
-  
+
   tests('The image model should') do
     tests('have the action') do
       test('reload') { image.respond_to? 'reload' }
     end
     tests('have attributes') do
       model_attribute_hash = image.attributes
-      attributes = [ 
+      attributes = [
         :id,
         :name,
         :distribution
