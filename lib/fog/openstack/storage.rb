@@ -21,6 +21,7 @@ module Fog
       request :copy_object
       request :delete_container
       request :delete_object
+      request :delete_multiple_objects
       request :get_container
       request :get_containers
       request :get_object
