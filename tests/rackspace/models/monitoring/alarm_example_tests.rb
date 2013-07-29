@@ -1,4 +1,4 @@
-Shindo.tests('Fog::Rackspace::Monitoring | alarm_example', ['rackspace','rackspacemonitoring']) do
+Shindo.tests('Fog::Rackspace::Monitoring | alarm_example', ['rackspace','rackspace_monitoring']) do
 
   service = Fog::Rackspace::Monitoring.new
   alarm_example_id = 'remote.http_body_match_1'
