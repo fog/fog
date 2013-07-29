@@ -1,13 +1,11 @@
 Shindo.tests('Fog::DNS[:dnsimple] | DNS requests', ['dnsimple', 'dns']) do
 
-  @domain = ''
+  @domain = nil
   @domain_count = 0
 
   tests("success") do
 
     test("get current domain count") do
-      pending if Fog.mocking?
-
       response = Fog::DNS[:dnsimple].list_domains()
       if response.status == 200
         @domain_count = response.body.size
@@ -17,8 +15,6 @@ Shindo.tests('Fog::DNS[:dnsimple] | DNS requests', ['dnsimple', 'dns']) do
     end
 
     test("create domain") do
-      pending if Fog.mocking?
-
       domain = generate_unique_domain
       response = Fog::DNS[:dnsimple].create_domain(domain)
       if response.status == 201
@@ -29,15 +25,11 @@ Shindo.tests('Fog::DNS[:dnsimple] | DNS requests', ['dnsimple', 'dns']) do
     end
 
     test("get domain by id") do
-      pending if Fog.mocking?
-
       response = Fog::DNS[:dnsimple].get_domain(@domain["id"])
       response.status == 200
     end
 
     test("create an A resource record") do
-      pending if Fog.mocking?
-
       domain = @domain["name"]
       name = "www"
       type = "A"
@@ -53,48 +45,65 @@ Shindo.tests('Fog::DNS[:dnsimple] | DNS requests', ['dnsimple', 'dns']) do
     end
 
     test("create a MX record") do
-      pending if Fog.mocking?
-
       domain = @domain["name"]
       name = ""
       type = "MX"
       content = "mail.#{domain}"
-      options = { :ttl => 60, :prio => 10 }
+      options = { "ttl" => 60, "prio" => 10 }
       response = Fog::DNS[:dnsimple].create_record(domain, name, type, content, options)
 
-      response.status == 201
+      test "MX record creation returns 201" do
+        response.status == 201
+      end
+
+      options.each do |key, value|
+        test("MX record has option #{key}") { value == response.body["record"][key.to_s] }
+      end
+
+      test "MX record is correct type" do
+        response.body["record"]["record_type"] == "MX"
+      end
+    end
+
+    test("get a record") do
+      domain = @domain["name"]
+      record_id = @record["id"]
+
+      response = Fog::DNS[:dnsimple].get_record(domain, record_id)
+
+      (response.status == 200) and (@record == response.body["record"])
     end
 
     test("update a record") do
-      pending if Fog.mocking?
-
       domain = @domain["name"]
       record_id = @record["id"]
-      options = { :content => "2.3.4.5", :ttl => 600 }
+      options = { "content" => "2.3.4.5", "ttl" => 600 }
       response = Fog::DNS[:dnsimple].update_record(domain, record_id, options)
       response.status == 200
     end
 
     test("list records") do
-      pending if Fog.mocking?
-
       response = Fog::DNS[:dnsimple].list_records(@domain["name"])
 
       if response.status == 200
         @records = response.body
       end
 
-      (response.status == 200) and (response.body.size == 2)
+      test "list records returns all records for domain" do
+        @records.reject { |record| record["record"]["system_record"] }.size == 2
+      end
+
+      response.status == 200
     end
 
     test("delete records") do
-      pending if Fog.mocking?
       domain = @domain["name"]
 
       result = true
       @records.each do |record|
+        next if record["record"]["system_record"]
         response = Fog::DNS[:dnsimple].delete_record(domain, record["record"]["id"])
-        if(response.status != 200)
+        if response.status != 200
           result = false
           break
         end
@@ -104,15 +113,10 @@ Shindo.tests('Fog::DNS[:dnsimple] | DNS requests', ['dnsimple', 'dns']) do
     end
 
     test("delete domain") do
-      pending if Fog.mocking?
-
       response = Fog::DNS[:dnsimple].delete_domain(@domain["name"])
       response.status == 200
     end
 
-  end
-
-  tests( 'failure') do
   end
 
 end
