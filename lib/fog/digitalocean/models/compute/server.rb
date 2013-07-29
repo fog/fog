@@ -16,7 +16,7 @@ module Fog
         attribute :flavor_id,         :aliases => 'size_id'
         # Not documented in their API, but
         # available nevertheless
-        attribute :ip_address
+        attribute :ip_address, :aliases => 'public_ip_address'
         attribute :backups_active
 
         # Reboot the server (soft reboot).
@@ -70,6 +70,21 @@ module Fog
         def start
           requires :id
           service.power_on_server self.id
+        end
+
+        
+        def ssh(commands, options={})
+           require 'net/ssh'
+           requires :ip_address, :username
+
+           options[:key_data] = [private_key] if private_key
+           Fog::SSH.new(ip_address, username, options).run(commands)
+        end
+
+        def sshable?(options={})
+         ready? && !ip_address.nil? && !!Timeout::timeout(8) { ssh('pwd',options) }
+         rescue SystemCallError, Net::SSH::AuthenticationFailed, Timeout::Error
+             false
         end
 
         # Creates the server (not to be called directly).
