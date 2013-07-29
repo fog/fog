@@ -46,7 +46,7 @@ module Fog
             options[:name] = name if name
             options[:content] = value if value
             options[:type] = type if type
-            data = service.update_record(zone.domain, id, options)
+            data = service.update_record(zone.id, id, options)
           end
 
           merge_attributes(data.body["record"])
