@@ -30,6 +30,7 @@ module Fog
             data = service.update_entity(identity, params)
           else
             data = service.create_entity(params)
+            self.id = data.headers['X-Object-ID']
           end
           true
         end

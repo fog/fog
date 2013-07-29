@@ -24,12 +24,17 @@ module Fog
             raise NotImplementedError.new "Updating Agent Tokens is not currently implemented"
           else
             data = service.create_agent_token(params)
+            self.id = data.headers['X-Object-ID']
           end
           true
         end
 
-      end
+        def destroy
+          requires :id
+          service.delete_agent_token(id)
+        end
 
+      end
     end
   end
 end
