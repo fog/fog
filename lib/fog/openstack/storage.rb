@@ -33,6 +33,7 @@ module Fog
       request :put_container
       request :put_object
       request :put_object_manifest
+      request :put_dynamic_obj_manifest
       request :put_static_obj_manifest
 
       class Mock
