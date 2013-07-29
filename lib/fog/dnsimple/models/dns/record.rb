@@ -25,7 +25,7 @@ module Fog
         end
 
         def destroy
-          service.delete_record(zone.domain, identity)
+          service.delete_record(zone.id, identity)
           true
         end
 
