@@ -72,24 +72,10 @@ module Fog
           service.power_on_server self.id
         end
 
-        # def ssh(commands, options={})
-        #    require 'net/ssh'
-        #    requires :ip_address, :username
-
-        #    options[:key_data] = [private_key] if private_key
-        #    Fog::SSH.new(ip_address, username, options).run(commands)
-        # end
-
-        # def sshable?(options={})
-        #  ready? && !ip_address.nil? && !!Timeout::timeout(8) { ssh('pwd',options) }
-        #  rescue SystemCallError, Net::SSH::AuthenticationFailed, Timeout::Error
-        #      false
-        # end
-
         def public_ip_address
           self.ip_address
         end
-        
+
         # Creates the server (not to be called directly).
         #
         # Usually called by Fog::Collection#create
