@@ -27,14 +27,21 @@ module Fog
 
         def save
           requires :notification_plan_id
+          requires :entity_id
 
           if identity
-            data = service.update_alarm(get_entity_id, identity, params)
+            data = service.update_alarm(entity_id, identity, params)
           else
             options = params('check_type' => check_type, 'check_id' => check_id)
-            data = service.create_alarm(get_entity_id, options)
+            data = service.create_alarm(entity_id, options)
+            self.id = data.headers['X-Object-ID']
           end
           true
+        end
+
+        def destroy
+          requires :id
+          service.delete_alarm(entity.id,id)
         end
 
       end
