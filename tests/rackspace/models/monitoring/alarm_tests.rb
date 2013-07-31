@@ -50,6 +50,6 @@ Shindo.tests('Fog::Rackspace::Monitoring | alarm', ['rackspace','rackspace_monit
 
     end
   ensure
-    @entity.destroy unless @entity
+    @entity.destroy if @entity
   end
 end
