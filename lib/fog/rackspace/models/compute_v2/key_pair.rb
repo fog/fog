@@ -3,7 +3,7 @@ require 'fog/core/model'
 module Fog
   module Compute
     class RackspaceV2
-      class Keypair < Fog::Model
+      class KeyPair < Fog::Model
 
         # @!attribute [rw] name
         # @return [String] the keypair name
