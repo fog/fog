@@ -7,7 +7,7 @@ Shindo.tests('Fog::Compute[:digitalocean] | list_ssh_keys request', ['digitaloce
 
   tests('success') do
 
-    key = service.create_ssh_key 'fookey', 'ssh-dss FOO'
+    ssh_key = service.create_ssh_key 'fookey', 'ssh-dss FOO'
 
     tests('#list_ssh_keys') do
       service.list_ssh_keys.body['ssh_keys'].each do |key|
@@ -17,7 +17,7 @@ Shindo.tests('Fog::Compute[:digitalocean] | list_ssh_keys request', ['digitaloce
       end
     end
 
-    service.destroy_ssh_key(key.body['ssh_key']['id'])
+    service.destroy_ssh_key(ssh_key.body['ssh_key']['id'])
 
   end
 
