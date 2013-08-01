@@ -87,6 +87,10 @@ module Fog
           self.data[:load_balancers][lb_name] = {
             'AvailabilityZones' => availability_zones,
             'BackendServerDescriptions' => [],
+            # Hack to facilitate not updating the local data structure
+            # (BackendServerDescriptions) until we do a subsequent
+            # describe as that is how AWS behaves.
+            'BackendServerDescriptionsRemote' => [],
             'Subnets' => options[:subnet_ids] || [],
             'Scheme' => options[:scheme].nil? ? 'internet-facing' : options[:scheme],
             'SecurityGroups' => options[:security_groups].nil? ? [] : options[:security_groups],
