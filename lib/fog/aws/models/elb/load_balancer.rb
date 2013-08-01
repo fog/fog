@@ -99,6 +99,14 @@ module Fog
           merge_attributes(:health_check => data)
         end
 
+        def backend_server_descriptions
+          Fog::AWS::ELB::BackendServerDescriptions.new({
+            :data => attributes['BackendServerDescriptions'],
+            :service => service,
+            :load_balancer => self
+          })
+        end
+
         def listeners
           Fog::AWS::ELB::Listeners.new({
             :data => attributes['ListenerDescriptions'],
