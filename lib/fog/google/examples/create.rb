@@ -1,6 +1,9 @@
 def test
   connection = Fog::Compute.new({ :provider => "Google" })
 
+  # we create a new private network
+  connection.insert_network('my-private-network','192.168.42.0/24')
+
   server = connection.servers.create(defaults = {
     :name => "fog-smoke-test-#{Time.now.to_i}",
     :image_name => "debian-7-wheezy-v20130522",
@@ -8,6 +11,8 @@ def test
     :zone_name => "us-central1-a",
     :private_key_path => File.expand_path("~/.ssh/id_rsa"),
     :public_key_path => File.expand_path("~/.ssh/id_rsa.pub"),
+    :network => 'my-private-network',
+    :external_ip => false,
     :user => ENV['USER'],
   })
 

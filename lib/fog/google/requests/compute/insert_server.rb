@@ -36,16 +36,29 @@ module Fog
             body_object['image'] = @image_url
           end
           body_object['machineType'] = @api_url + @project + "/zones/#{zone_name}/machineTypes/#{options.delete 'machineType'}"
-          networkInterfaces = []
-          if @default_network
-            networkInterfaces << {
-                'network' => @api_url + @project + "/global/networks/#{@default_network}",
-                'accessConfigs' => [
-                    {'type' => 'ONE_TO_ONE_NAT',
-                     'name' => 'External NAT'}
-                ]
-            }
+          network = nil
+          if options.has_key? 'network'
+            network = options.delete 'network'
+          elsif @default_network
+            network = @default_network
           end
+
+          # ExternalIP is default value for server creation
+          if options.has_key? 'externalIp'
+            external_ip = options.delete 'externalIp'
+          else
+             external_ip = true
+          end
+
+          networkInterfaces = []
+          if ! network.nil?
+            networkInterface = { 'network' => @api_url + @project + "/global/networks/#{network}" }
+            if external_ip
+              networkInterface['accessConfigs'] = [{'type' => 'ONE_TO_ONE_NAT', 'name' => 'External NAT'}]
+            end
+            networkInterfaces <<  networkInterface
+          end
+
           # TODO: add other networks
           body_object['networkInterfaces'] = networkInterfaces
 
