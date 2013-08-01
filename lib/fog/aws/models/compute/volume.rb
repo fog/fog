@@ -71,7 +71,7 @@ module Fog
 
         def server
           requires :server_id
-          service.servers('instance-id' => server_id)
+          service.servers.get(server_id)
         end
 
         def server=(new_server)

@@ -6,16 +6,20 @@ module Fog
       class Policies < Fog::Collection
         model Fog::AWS::AutoScaling::Policy
 
+        attribute :filters
+
         # Creates a new scaling policy.
         def initialize(attributes={})
-          super
+          self.filters = attributes
+          super(attributes)
         end
 
-        def all
+        def all(filters = filters)
           data = []
           next_token = nil
+          self.filters = filters
           loop do
-            result = service.describe_policies('NextToken' => next_token).body['DescribePoliciesResult']
+            result = service.describe_policies(filters.merge('NextToken' => next_token)).body['DescribePoliciesResult']
             data += result['ScalingPolicies']
             next_token = result['NextToken']
             break if next_token.nil?

@@ -29,7 +29,10 @@ module Fog
 
         def self.data
           @data ||= Hash.new do |hash, key|
-            hash[key] = {}
+            hash[key] = {
+              :domains => [],
+              :records => {}
+            }
           end
         end
 

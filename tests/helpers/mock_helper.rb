@@ -28,6 +28,8 @@ if Fog.mock?
     :cloudstack_zone_id               => 'c554c592-e09c-9df5-7688-4a32754a4305',
     :clodo_api_key                    => 'clodo_api_key',
     :clodo_username                   => 'clodo_username',
+    :digitalocean_api_key             => 'digitalocean_api_key',
+    :digitalocean_client_id           => 'digitalocean_client_id',
     :dnsimple_email                   => 'dnsimple_email',
     :dnsimple_password                => 'dnsimple_password',
     :dnsmadeeasy_api_key              => 'dnsmadeeasy_api_key',
