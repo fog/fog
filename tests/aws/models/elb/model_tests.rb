@@ -292,7 +292,7 @@ Shindo.tests('AWS::ELB | models', ['aws', 'elb']) do
         port = 80
         Fog::AWS[:elb].create_load_balancer_policy(elb.id, policy, 'ProxyProtocolPolicyType', { "ProxyProtocol" => true })
         Fog::AWS[:elb].set_load_balancer_policies_for_backend_server(elb.id, port, [policy]).body
-
+        elb.reload
         returns([policy]) { elb.backend_server_descriptions.get(port).policy_names }
       end
     end
