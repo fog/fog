@@ -7,7 +7,7 @@ Shindo.tests('Fog::Rackspace::Monitoring | list_tests', ['rackspace','rackspace_
   metric_name = "idle_percent_average"
   now = Time.now.to_i
   SLEEP_TIME= 2
-  sleep(SLEEP_TIME)
+  sleep(SLEEP_TIME) unless Fog.mocking?
 
   tests('success') do
     tests('#get list of checks').formats(LIST_HEADERS_FORMAT) do
