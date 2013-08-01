@@ -106,6 +106,7 @@ module Fog
               'LoadBalancerDescriptions' => load_balancers.map do |lb|
                 lb['Instances'] = lb['Instances'].map { |i| i['InstanceId'] }
                 lb['Policies'] = lb['Policies'].reject { |name, policies| name == 'Proper' }
+                lb['BackendServerDescriptions'] = lb.delete('BackendServerDescriptionsRemote')
                 lb
               end
             }
