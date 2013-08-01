@@ -65,9 +65,6 @@ module Fog
 
           certificate_ids = Fog::AWS::IAM::Mock.data[@aws_access_key_id][:server_certificates].map {|n, c| c['Arn'] }
 
-          instance_ports = listeners.map{|l| l["InstancePort"] }
-          backend_server_descriptions = instance_ports.map {|port| {'InstancePort' => port } }
-
           listeners = [*listeners].map do |listener|
             if listener['SSLCertificateId'] and !certificate_ids.include? listener['SSLCertificateId']
               raise Fog::AWS::IAM::NotFound.new('CertificateNotFound')
@@ -89,7 +86,7 @@ module Fog
 
           self.data[:load_balancers][lb_name] = {
             'AvailabilityZones' => availability_zones,
-            'BackendServerDescriptions' => backend_server_descriptions,
+            'BackendServerDescriptions' => [],
             'Subnets' => options[:subnet_ids] || [],
             'Scheme' => options[:scheme].nil? ? 'internet-facing' : options[:scheme],
             'SecurityGroups' => options[:security_groups].nil? ? [] : options[:security_groups],

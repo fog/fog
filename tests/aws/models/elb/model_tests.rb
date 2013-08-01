@@ -284,8 +284,7 @@ Shindo.tests('AWS::ELB | models', ['aws', 'elb']) do
 
     tests('backend server descriptions') do
       tests('default') do
-        returns(1) { elb.backend_server_descriptions.size }
-        returns(80) { elb.backend_server_descriptions.first.instance_port }
+        returns(0) { elb.backend_server_descriptions.size }
       end
 
       tests('with a backend policy') do
