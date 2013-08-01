@@ -37,6 +37,26 @@ module Fog
         end
 
       end
+
+      class Mock
+
+        def update_record(domain, record_id, options)
+          record = self.data[:records][domain].detect { |record| record["record"]["id"] == record_id }
+          response = Excon::Response.new
+
+          if record.nil?
+            response.status = 400
+          else
+            response.status = 200
+            record["record"].merge!(options)
+            record["record"]["updated_at"] = Time.now.iso8601
+            response.body = record
+          end
+
+          response
+        end
+
+      end
     end
   end
 end

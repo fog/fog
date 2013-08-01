@@ -19,7 +19,7 @@ module Fog
 
           params.merge!(
             :expects    => 201,
-            :idempotent => true,
+            :idempotent => !params[:request_block],
             :headers    => headers,
             :method     => 'PUT',
             :path       => "#{Fog::OpenStack.escape(container)}/#{Fog::OpenStack.escape(object)}"

@@ -32,6 +32,18 @@ module Fog
         end
 
       end
+
+      class Mock
+
+        def get_domain(id)
+          domain = self.data[:domains].detect { |domain| domain["domain"]["id"] == id }
+          response = Excon::Response.new
+          response.status = 200
+          response.body = domain
+          response
+        end
+
+      end
     end
   end
 end

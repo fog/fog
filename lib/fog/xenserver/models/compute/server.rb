@@ -14,7 +14,7 @@ module Fog
         attribute :name,                 :aliases => :name_label
         attribute :__affinity,           :aliases => :affinity
         attribute :allowed_operations
-        attribute :consoles
+        attribute :__consoles
         attribute :domarch
         attribute :domid
         attribute :tags
@@ -62,6 +62,10 @@ module Fog
 
         def affinity
           service.hosts.get __affinity
+        end
+
+        def consoles
+          __consoles.collect {|console| service.consoles.get console }
         end
 
         def destroy

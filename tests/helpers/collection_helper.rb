@@ -21,8 +21,8 @@ def collection_tests(collection, params = {}, mocks_implemented = true)
       pending if Fog.mocking? && !mocks_implemented
       collection.all
     end
-    
-    
+
+
 
     if !Fog.mocking? || mocks_implemented
       @identity = @instance.identity
@@ -37,7 +37,7 @@ def collection_tests(collection, params = {}, mocks_implemented = true)
       pending if Fog.mocking? && !mocks_implemented
 
       [
-        'all?', 'any?', 'find',  'detect', 'collect', 'map', 
+        'all?', 'any?', 'find',  'detect', 'collect', 'map',
         'find_index', 'flat_map', 'collect_concat', 'group_by',
         'none?', 'one?'
       ].each do |enum_method|
@@ -74,7 +74,7 @@ def collection_tests(collection, params = {}, mocks_implemented = true)
       @instance.destroy
     end
   end
-  
+
   tests('failure') do
 
     if !Fog.mocking? || mocks_implemented
