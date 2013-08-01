@@ -54,8 +54,8 @@ module Fog
       collection :attachments
       model :network
       collection :networks
-      model :keypair
-      collection :keypairs
+      model :key_pair
+      collection :key_pairs
 
       request_path 'fog/rackspace/requests/compute_v2'
       request :list_servers

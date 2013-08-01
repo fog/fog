@@ -1,13 +1,13 @@
 require 'fog/core/collection'
-require 'fog/rackspace/models/compute_v2/keypair'
+require 'fog/rackspace/models/compute_v2/key_pair'
 
 module Fog
   module Compute
     class RackspaceV2
 
-      class Keypairs < Fog::Collection
+      class KeyPairs < Fog::Collection
 
-        model Fog::Compute::RackspaceV2::Keypair
+        model Fog::Compute::RackspaceV2::KeyPair
 
         # Fetch the list of known keypairs
         # @return [Fog::Compute::RackspaceV2::Keypairs] the retreived keypairs

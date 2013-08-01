@@ -1,4 +1,4 @@
-Shindo.tests('Fog::Compute::RackspaceV2 | keypairs', ['rackspace']) do
+Shindo.tests('Fog::Compute::RackspaceV2 | key_pairs', ['rackspace']) do
   service = Fog::Compute::RackspaceV2.new
 
   name  = Fog::Mock.random_letters(32)
@@ -7,36 +7,36 @@ Shindo.tests('Fog::Compute::RackspaceV2 | keypairs', ['rackspace']) do
   tests("API access") do
     begin
         tests("create").succeeds do
-          key = service.keypairs.create({:name => name})
+          key = service.key_pairs.create({:name => name})
         end
 
         tests("list all").succeeds do
-          service.keypairs.all
+          service.key_pairs.all
         end
 
         tests("get").succeeds do
-          service.keypairs.get(name)
+          service.key_pairs.get(name)
         end
 
         tests("delete").succeeds do
-          key = nil if service.keypairs.destroy(name)
+          key = nil if service.key_pairs.destroy(name)
           key == nil
         end
 
         tests("get unknown").returns(nil) do
-          service.keypairs.get(Fog::Mock.random_letters(32))
+          service.key_pairs.get(Fog::Mock.random_letters(32))
         end
 
         tests("delete unknown").raises(Fog::Compute::RackspaceV2::NotFound) do
-            service.keypairs.destroy(Fog::Mock.random_letters(32))
+            service.key_pairs.destroy(Fog::Mock.random_letters(32))
         end
 
         tests("create again after delete").succeeds do
-          key = service.keypairs.create({:name => name})
+          key = service.key_pairs.create({:name => name})
         end
 
         tests("create already existing").raises(Fog::Compute::RackspaceV2::ServiceError) do
-          service.keypairs.create({:name => name})
+          service.key_pairs.create({:name => name})
         end
 
     ensure
