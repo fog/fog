@@ -46,6 +46,8 @@ module Fog
             description = load_balancer['BackendServerDescriptions'].find{|d| d["InstancePort"] == instance_port } || {}
             description["InstancePort"] = instance_port
             description["PolicyNames"] = policy_names
+            load_balancer['BackendServerDescriptions'].delete_if{|d| d["InstancePort"] == instance_port }
+            load_balancer['BackendServerDescriptions'] << description
 
             Excon::Response.new.tap do |response|
               response.status = 200
