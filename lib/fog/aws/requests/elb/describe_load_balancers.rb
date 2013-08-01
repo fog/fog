@@ -44,6 +44,7 @@ module Fog
         #         * 'Policies'<~Hash>:
         #           * 'LBCookieStickinessPolicies'<~Array> - list of Load Balancer Generated Cookie Stickiness policies for the LoadBalancer
         #           * 'AppCookieStickinessPolicies'<~Array> - list of Application Generated Cookie Stickiness policies for the LoadBalancer
+        #           * 'OtherPolicies'<~Array> - list of policy names other than the stickiness policies
         #         * 'SourceSecurityGroup'<~Hash>:
         #           * 'GroupName'<~String> - Name of the source security group to use with inbound security group rules
         #           * 'OwnerAlias'<~String> - Owner of the source security group

@@ -8,14 +8,14 @@ module Fog
           def reset
             reset_load_balancer
             reset_listener_description
-            reset_policy
+            reset_stickiness_policy
             reset_backend_server_description
             @results = { 'LoadBalancerDescriptions' => [] }
             @response = { 'DescribeLoadBalancersResult' => {}, 'ResponseMetadata' => {} }
           end
 
           def reset_load_balancer
-            @load_balancer = { 'Subnets' => [], 'SecurityGroups' => [], 'ListenerDescriptions' => [], 'Instances' => [], 'AvailabilityZones' => [], 'Policies' => {'AppCookieStickinessPolicies' => [], 'LBCookieStickinessPolicies' => [] }, 'HealthCheck' => {}, 'SourceSecurityGroup' => {}, 'BackendServerDescriptions' => [] }
+            @load_balancer = { 'Subnets' => [], 'SecurityGroups' => [], 'ListenerDescriptions' => [], 'Instances' => [], 'AvailabilityZones' => [], 'Policies' => {'AppCookieStickinessPolicies' => [], 'LBCookieStickinessPolicies' => [], 'OtherPolicies' => []}, 'HealthCheck' => {}, 'SourceSecurityGroup' => {}, 'BackendServerDescriptions' => [] }
           end
 
           def reset_listener_description
@@ -26,8 +26,8 @@ module Fog
             @backend_server_description = {}
           end
 
-          def reset_policy
-            @policy = {}
+          def reset_stickiness_policy
+            @stickiness_policy = {}
           end
 
           def start_element(name, attrs = [])
@@ -53,6 +53,8 @@ module Fog
               @in_app_cookies = true
             when 'AppCookieStickinessPolicies'
               @in_app_cookies = true
+            when 'OtherPolicies'
+              @in_other_policies = true
             when 'BackendServerDescriptions'
               @in_backend_server_descriptions = true
             end
@@ -73,11 +75,13 @@ module Fog
                 @load_balancer['ListenerDescriptions'] << @listener_description
                 reset_listener_description
               elsif @in_app_cookies
-                @load_balancer['Policies']['AppCookieStickinessPolicies'] << @policy
-                reset_policy
+                @load_balancer['Policies']['AppCookieStickinessPolicies'] << @stickiness_policy
+                reset_stickiness_policy
               elsif @in_lb_cookies
-                @load_balancer['Policies']['LBCookieStickinessPolicies'] << @policy
-                reset_policy
+                @load_balancer['Policies']['LBCookieStickinessPolicies'] << @stickiness_policy
+                reset_stickiness_policy
+              elsif @in_other_policies
+                @load_balancer['Policies']['OtherPolicies'] << value
               elsif @in_backend_server_descriptions && @in_policy_names
                 @backend_server_description['PolicyNames'] ||= []
                 @backend_server_description['PolicyNames'] << value
@@ -130,6 +134,8 @@ module Fog
               @in_app_cookies = false
             when 'LBCookieStickinessPolicies'
               @in_lb_cookies = false
+            when 'OtherPolicies'
+              @in_other_policies = false
 
             when 'OwnerAlias', 'GroupName'
               @load_balancer['SourceSecurityGroup'][name] = value
@@ -140,9 +146,9 @@ module Fog
               @load_balancer['HealthCheck'][name] = value
 
             when 'PolicyName', 'CookieName'
-              @policy[name] = value
+              @stickiness_policy[name] = value
             when 'CookieExpirationPeriod'
-              @policy[name] = value.to_i
+              @stickiness_policy[name] = value.to_i
 
             when 'RequestId'
               @response['ResponseMetadata'][name] = value

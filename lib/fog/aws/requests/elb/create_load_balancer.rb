@@ -110,6 +110,7 @@ module Fog
             'Policies' => {
               'AppCookieStickinessPolicies' => [],
               'LBCookieStickinessPolicies' => [],
+              'OtherPolicies' => [],
               'Proper' => []
             },
             'SourceSecurityGroup' => {
