@@ -8,6 +8,7 @@ class AWS
 
       LOAD_BALANCER = {
         "AvailabilityZones" => Array,
+        "BackendServerDescriptions" => Array,
         "CanonicalHostedZoneName" => String,
         "CanonicalHostedZoneNameID" => String,
         "CreatedTime" => Time,
@@ -25,7 +26,7 @@ class AWS
           }
         }],
         "LoadBalancerName" => String,
-        "Policies" => {"LBCookieStickinessPolicies" => Array, "AppCookieStickinessPolicies" => Array},
+        "Policies" => {"LBCookieStickinessPolicies" => Array, "AppCookieStickinessPolicies" => Array, "OtherPolicies" => Array},
         "Scheme" => String,
         "SecurityGroups" => [Fog::Nullable::String],
         "SourceSecurityGroup" => {"GroupName" => String, "OwnerAlias" => String},

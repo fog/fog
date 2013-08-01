@@ -95,9 +95,12 @@ module Fog
 
             when 'BackendServerDescriptions'
               @in_backend_server_descriptions = false
+
             when 'InstancePort'
               if @in_backend_server_descriptions
-                @backend_server_description[name] = value
+                @backend_server_description[name] = value.to_i
+              elsif @in_listeners
+                @listener_description['Listener'][name] = value.to_i
               end
 
             when 'CanonicalHostedZoneName', 'CanonicalHostedZoneNameID', 'LoadBalancerName', 'DNSName', 'Scheme'
@@ -111,7 +114,7 @@ module Fog
               @in_policy_names = false
             when 'Protocol', 'SSLCertificateId', 'InstanceProtocol'
               @listener_description['Listener'][name] = value
-            when 'LoadBalancerPort', 'InstancePort'
+            when 'LoadBalancerPort'
               @listener_description['Listener'][name] = value.to_i
 
             when 'Instances'
