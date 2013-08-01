@@ -10,7 +10,8 @@ module Fog
         model Fog::Compute::Google::Flavor
 
         def all
-          data = connection.list_machine_types.body["items"]
+          zone = service.list_zones.body['items'].first
+          data = connection.list_machine_types(zone['name']).body["items"]
           load(data)
         end
 
