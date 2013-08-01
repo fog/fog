@@ -9,16 +9,21 @@ module Fog
             reset_load_balancer
             reset_listener_description
             reset_policy
+            reset_backend_server_description
             @results = { 'LoadBalancerDescriptions' => [] }
             @response = { 'DescribeLoadBalancersResult' => {}, 'ResponseMetadata' => {} }
           end
 
           def reset_load_balancer
-            @load_balancer = { 'Subnets' => [], 'SecurityGroups' => [], 'ListenerDescriptions' => [], 'Instances' => [], 'AvailabilityZones' => [], 'Policies' => {'AppCookieStickinessPolicies' => [], 'LBCookieStickinessPolicies' => [] }, 'HealthCheck' => {}, 'SourceSecurityGroup' => {} }
+            @load_balancer = { 'Subnets' => [], 'SecurityGroups' => [], 'ListenerDescriptions' => [], 'Instances' => [], 'AvailabilityZones' => [], 'Policies' => {'AppCookieStickinessPolicies' => [], 'LBCookieStickinessPolicies' => [] }, 'HealthCheck' => {}, 'SourceSecurityGroup' => {}, 'BackendServerDescriptions' => [] }
           end
 
           def reset_listener_description
             @listener_description = { 'PolicyNames' => [], 'Listener' => {} }
+          end
+
+          def reset_backend_server_description
+            @backend_server_description = {}
           end
 
           def reset_policy
@@ -46,13 +51,17 @@ module Fog
               @in_lb_cookies = true
             when 'AppCookieStickinessPolicies'
               @in_app_cookies = true
+            when 'AppCookieStickinessPolicies'
+              @in_app_cookies = true
+            when 'BackendServerDescriptions'
+              @in_backend_server_descriptions = true
             end
           end
 
           def end_element(name)
             case name
             when 'member'
-              if @in_policy_names
+              if @in_policy_names && @in_listeners
                 @listener_description['PolicyNames'] << value
               elsif @in_availability_zones
                 @load_balancer['AvailabilityZones'] << value
@@ -69,9 +78,22 @@ module Fog
               elsif @in_lb_cookies
                 @load_balancer['Policies']['LBCookieStickinessPolicies'] << @policy
                 reset_policy
-              elsif !@in_instances && !@in_policies
+              elsif @in_backend_server_descriptions && @in_policy_names
+                @backend_server_description['PolicyNames'] ||= []
+                @backend_server_description['PolicyNames'] << value
+              elsif @in_backend_server_descriptions && !@in_policy_names
+                @load_balancer['BackendServerDescriptions'] << @backend_server_description
+                reset_backend_server_description
+              elsif !@in_instances && !@in_policies && !@in_backend_server_descriptions
                 @results['LoadBalancerDescriptions'] << @load_balancer
                 reset_load_balancer
+              end
+
+            when 'BackendServerDescriptions'
+              @in_backend_server_descriptions = false
+            when 'InstancePort'
+              if @in_backend_server_descriptions
+                @backend_server_description[name] = value
               end
 
             when 'CanonicalHostedZoneName', 'CanonicalHostedZoneNameID', 'LoadBalancerName', 'DNSName', 'Scheme'

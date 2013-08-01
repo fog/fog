@@ -20,6 +20,9 @@ module Fog
         #     * 'DescribeLoadBalancersResult'<~Hash>:
         #       * 'LoadBalancerDescriptions'<~Array>
         #         * 'AvailabilityZones'<~Array> - list of availability zones covered by this load balancer
+        #         * 'BackendServerDescriptions'<~Array>:
+        #           * 'InstancePort'<~Integer> - the port on which the back-end server is listening
+        #           * 'PolicyNames'<~Array> - list of policy names enabled for the back-end server
         #         * 'CanonicalHostedZoneName'<~String> - name of the Route 53 hosted zone associated with the load balancer
         #         * 'CanonicalHostedZoneNameID'<~String> - ID of the Route 53 hosted zone associated with the load balancer
         #         * 'CreatedTime'<~Time> - time load balancer was created

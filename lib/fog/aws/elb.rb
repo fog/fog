@@ -50,6 +50,8 @@ module Fog
       collection :policies
       model      :listener
       collection :listeners
+      model      :backend_server_description
+      collection :backend_server_descriptions
 
       class Mock
 

@@ -42,6 +42,11 @@ module Fog
               end
             end
 
+            # Update backend policies
+            description = load_balancer['BackendServerDescriptions'].find{|d| d["InstancePort"] == instance_port } || {}
+            description["InstancePort"] = instance_port
+            description["PolicyNames"] = policy_names
+
             Excon::Response.new.tap do |response|
               response.status = 200
               response.body = {
