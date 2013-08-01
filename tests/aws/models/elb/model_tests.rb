@@ -282,6 +282,22 @@ Shindo.tests('AWS::ELB | models', ['aws', 'elb']) do
       end
     end
 
+    tests('backend server descriptions') do
+      tests('default') do
+        returns(1) { elb.backend_server_descriptions.size }
+        returns(80) { elb.backend_server_descriptions.first.instance_port }
+      end
+
+      tests('with a backend policy') do
+        policy = "EnableProxyProtocol"
+        port = 80
+        Fog::AWS[:elb].create_load_balancer_policy(elb.id, policy, 'ProxyProtocolPolicyType', { "ProxyProtocol" => true })
+        Fog::AWS[:elb].set_load_balancer_policies_for_backend_server(elb.id, port, [policy]).body
+
+        returns([policy]) { elb.backend_server_descriptions.get(port).policy_names }
+      end
+    end
+
     tests('setting a new ssl certificate id') do
       elb.listeners.create(:instance_port => 443, :lb_port => 443, :protocol => 'HTTPS', :instance_protocol => 'HTTPS', :ssl_id => @certificate['Arn'])
       elb.set_listener_ssl_certificate(443, @certificate['Arn'])

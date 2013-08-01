@@ -49,6 +49,20 @@ Shindo.tests('AWS::ELB | policy_tests', ['aws', 'elb']) do
       Fog::AWS[:elb].set_load_balancer_policies_of_listener(@load_balancer_id, port, []).body
     end
 
+    proxy_policy = "EnableProxyProtocol"
+    Fog::AWS[:elb].create_load_balancer_policy(@load_balancer_id, proxy_policy, 'ProxyProtocolPolicyType', { "ProxyProtocol" => true })
+
+    tests("#set_load_balancer_policies_for_backend_server replaces policies on port").formats(AWS::ELB::Formats::BASIC) do
+      Fog::AWS[:elb].set_load_balancer_policies_for_backend_server(@load_balancer_id, 80, [proxy_policy]).body
+    end
+
+    tests("#describe_load_balancers has other policies") do
+      Fog::AWS[:elb].set_load_balancer_policies_for_backend_server(@load_balancer_id, 80, [proxy_policy]).body
+      description = Fog::AWS[:elb].describe_load_balancers("LoadBalancerNames" => [@load_balancer_id]).body["DescribeLoadBalancersResult"]["LoadBalancerDescriptions"].first
+      returns(true) { description["Policies"]["OtherPolicies"].include?(proxy_policy) }
+    end
+    
     Fog::AWS[:elb].delete_load_balancer(@load_balancer_id)
   end
 end
+
