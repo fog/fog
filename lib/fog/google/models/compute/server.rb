@@ -10,6 +10,8 @@ module Fog
         identity :name
         attribute :image_name, :aliases => 'image'
         attribute :network_interfaces, :aliases => 'networkInterfaces'
+        attribute :network, :aliases => 'network'
+        attribute :external_ip, :aliases => 'externalIP'
         attribute :state, :aliases => 'status'
         attribute :zone_name, :aliases => 'zone'
         attribute :machine_type, :aliases => 'machineType'
@@ -77,6 +79,8 @@ module Fog
               'image' => image_name,
               'machineType' => machine_type,
               'networkInterfaces' => network_interfaces,
+              'network' => network,
+              'externalIp' => external_ip,
               'disks' => disks,
               'kernel' => kernel,
               'metadata' => metadata
