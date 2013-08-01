@@ -31,6 +31,10 @@ module Fog
           @rackspace_region
         end
 
+        def request_id_header
+          "X-Trans-Id"
+        end
+
         def endpoint_uri(service_endpoint_url=nil)
           @uri = super(@rackspace_cdn_url || service_endpoint_url, :rackspace_cdn_url)
         end
@@ -155,13 +159,13 @@ module Fog
         def request(params, parse_json = true, &block)
           super(params, parse_json, &block)
         rescue Excon::Errors::NotFound => error
-          raise Fog::Storage::Rackspace::NotFound.slurp(error, region)
+          raise Fog::Storage::Rackspace::NotFound.slurp(error, self)
         rescue Excon::Errors::BadRequest => error
-          raise Fog::Storage::Rackspace::BadRequest.slurp error
+          raise Fog::Storage::Rackspace::BadRequest.slurp(error, self)
         rescue Excon::Errors::InternalServerError => error
-          raise Fog::Storage::Rackspace::InternalServerError.slurp error
+          raise Fog::Storage::Rackspace::InternalServerError.slurp(error, self)
         rescue Excon::Errors::HTTPStatusError => error
-          raise Fog::Storage::Rackspace::ServiceError.slurp error
+          raise Fog::Storage::Rackspace::ServiceError.slurp(error, self)
         end
         
         private 
