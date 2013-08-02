@@ -30,7 +30,7 @@ module Fog
 
         def public_ip_address
           ip = nil
-          if self.network_interfaces
+          if self.network_interfaces.respond_to? :each
             self.network_interfaces.each do |netif|
               netif["accessConfigs"].each do |access_config|
                 if access_config["name"] == "External NAT"
@@ -40,6 +40,14 @@ module Fog
             end
           end
 
+          ip
+        end
+
+        def private_ip_address
+          ip = nil
+          if self.network_interfaces.respond_to? :first
+            ip = self.network_interfaces.first['networkIP']
+          end
           ip
         end
 
