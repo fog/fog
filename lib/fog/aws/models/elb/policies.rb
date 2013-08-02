@@ -17,23 +17,22 @@ module Fog
         end
 
         private
-        # Munge a hash like:
-        # {'LBCookieStickinessPolicies' => [policies...],
-        # 'AppCookieStickinessPolicies' => [policies...],
-        # 'OtherPolicies' => [policies...]}
-        # to a single array of policies with an optional cookie_stickiness value
         def munged_data
-          munged_data = []
-          data['LBCookieStickinessPolicies'].each do |policy|
-            munged_data << policy.merge(:cookie_stickiness => :lb)
-          end
-          data['AppCookieStickinessPolicies'].each do |policy|
-            munged_data << policy.merge(:cookie_stickiness => :app)
-          end
-          data['OtherPolicies'].each do |policy|
-            munged_data << {'PolicyName' => policy}
-          end
-          munged_data
+          data.inject([]){|m,e|
+            m << {
+              :id => e["PolicyName"],
+              :type_name => e["PolicyTypeName"],
+              :policy_attributes => policy_attributes(e["PolicyAttributeDescriptions"])
+            }
+            m
+          }
+        end
+
+        def policy_attributes(policy_attribute_descriptions)
+          policy_attribute_descriptions.inject({}){|m,e|
+            m[e["AttributeName"]] = e["AttributeValue"]
+            m
+          }
         end
 
       end
@@ -41,4 +40,3 @@ module Fog
     end
   end
 end
-

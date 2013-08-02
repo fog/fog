@@ -280,7 +280,11 @@ Shindo.tests('AWS::ELB | models', ['aws', 'elb']) do
       public_key_policy_id = 'fog-public-key-policy'
       tests('create public key policy') do
         elb.policies.create(:id => public_key_policy_id, :type_name => 'PublicKeyPolicyType', :policy_attributes => {'PublicKey' => AWS::IAM::SERVER_CERT_PUBLIC_KEY})
-        returns(public_key_policy_id) { elb.policies.get(public_key_policy_id).id }
+        policy = elb.policies.get(public_key_policy_id)
+
+        returns(public_key_policy_id) { policy.id }
+        returns("PublicKeyPolicyType") { policy.type_name }
+        returns(false) { policy.policy_attributes["PublicKey"].nil? }
       end
 
       tests('a malformed policy') do
