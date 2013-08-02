@@ -1,4 +1,5 @@
 Shindo.tests('Fog::Rackspace::Monitoring | alarm', ['rackspace','rackspace_monitoring']) do
+  pending if Fog.mocking?
   service = Fog::Rackspace::Monitoring.new
 
   tests('#alarm=') do
