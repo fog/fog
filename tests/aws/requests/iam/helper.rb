@@ -4,7 +4,7 @@ class AWS
     # A self-signed test keypair. Generated using the command:
     # openssl req -new -newkey rsa:1024 -days 3650 -nodes -x509 -keyout server-private.key -out server-public.crt
     # NB: Amazon returns an error on extraneous linebreaks
-    SERVER_CERT_PUBLIC_KEY = %{-----BEGIN CERTIFICATE-----
+    SERVER_CERT = %{-----BEGIN CERTIFICATE-----
 MIIDQzCCAqygAwIBAgIJAJaZ8wH+19AtMA0GCSqGSIb3DQEBBQUAMHUxCzAJBgNV
 BAYTAlVTMREwDwYDVQQIEwhOZXcgWW9yazERMA8GA1UEBxMITmV3IFlvcmsxHzAd
 BgNVBAoTFkZvZyBUZXN0IFNuYWtlb2lsIENlcnQxHzAdBgNVBAsTFkZvZyBUZXN0
@@ -25,6 +25,9 @@ DF3qnnPyArLFx0HLB7wQdm9xYVIqQuLO+V6GRuOd+uSX//aDLDZhwbERf35hoyto
 Jfk4gX/qwuRFNy0vjQeTzdvhB1igG/w=
 -----END CERTIFICATE-----
 }
+    # The public key for SERVER_CERT. Generated using the command:
+    # openssl x509 -inform pem -in server-public.crt -pubkey -noout > server.pubkey
+    SERVER_CERT_PUBLIC_KEY = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC0CR76sovjdmpWRmEaf8XaG+nGe7czhpdLKkau2b16VtSjkPctxPL5U4vaMxQUboLPr+9oL+9fSYN31VzDD4hyaeGoeI5fhnGeqk71kq5uHONBOQUMbZbBQ8PVd9Sdk+y9JJ6E5fC+GhLL5I+y2DK7syBzyymq1Wi6rPp1XXF7AQIDAQAB"
 
     SERVER_CERT_PRIVATE_KEY = %{-----BEGIN RSA PRIVATE KEY-----
 MIICXAIBAAKBgQC0CR76sovjdmpWRmEaf8XaG+nGe7czhpdLKkau2b16VtSjkPct

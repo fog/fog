@@ -83,7 +83,7 @@ Shindo.tests('AWS::ELB | models', ['aws', 'elb']) do
 
       # Need to sleep here for IAM changes to propgate
       tests('with ListenerDescriptions') do
-        @certificate = Fog::AWS[:iam].upload_server_certificate(AWS::IAM::SERVER_CERT_PUBLIC_KEY, AWS::IAM::SERVER_CERT_PRIVATE_KEY, @key_name).body['Certificate']
+        @certificate = Fog::AWS[:iam].upload_server_certificate(AWS::IAM::SERVER_CERT, AWS::IAM::SERVER_CERT_PRIVATE_KEY, @key_name).body['Certificate']
         sleep(10) unless Fog.mocking?
         listeners = [{
             'Listener' => {
@@ -284,7 +284,7 @@ Shindo.tests('AWS::ELB | models', ['aws', 'elb']) do
 
         returns(public_key_policy_id) { policy.id }
         returns("PublicKeyPolicyType") { policy.type_name }
-        returns(false) { policy.policy_attributes["PublicKey"].nil? }
+        returns(AWS::IAM::SERVER_CERT_PUBLIC_KEY) { policy.policy_attributes["PublicKey"] }
       end
 
       tests('a malformed policy') do
