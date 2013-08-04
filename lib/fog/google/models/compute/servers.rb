@@ -25,8 +25,11 @@ module Fog
           response = nil
           if zone.nil?
             service.list_zones.body['items'].each do |zone|
-              response = service.get_server(identity, zone['name'])
-              break if response.status == 200
+              begin
+                response = service.get_server(identity, zone['name'])
+                break if response.status == 200
+              rescue Fog::Errors::Error
+              end
             end
           else
             response = service.get_server(identity, zone)
