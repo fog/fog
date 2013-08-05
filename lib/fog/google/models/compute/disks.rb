@@ -14,11 +14,21 @@ module Fog
           load(data)
         end
 
-        def get(identity, zone)
-          data = service.get_disk(identity, zone).body
-          new(data)
-        rescue Excon::Errors::NotFound
-          nil
+        def get(identity, zone=nil)
+          response = nil
+          if zone.nil?
+            service.list_zones.body['items'].each do |zone|
+              begin
+                response = service.get_disk(identity, zone['name'])
+                break if response.status == 200
+              rescue Fog::Errors::Error
+              end
+            end
+          else
+            response = service.get_disk(identity, zone)
+          end
+          return nil if response.nil?
+          new(response.body)
         end
 
       end
