@@ -52,6 +52,9 @@ module Fog
             response = Excon::Response.new
 
             attributes = attributes.map do |key, value|
+              if key == "CookieExpirationPeriod" && !value
+                value = 0
+              end
               {"AttributeName" => key, "AttributeValue" => value.to_s}
             end
 
