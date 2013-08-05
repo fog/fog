@@ -15,9 +15,10 @@ module Excon
         $stderr.puts("--- #{name} ---")
         if name.include?('.request')
           query = ''
+          tmp_query = ''
           if params.has_key?(:query) && !params[:query].nil?
             params[:query].each do |key, value|
-              query += "#{key}=#{value}&"
+              tmp_query += "#{key}=#{value}&"
             end
             if !tmp_query.nil?
               query = "?#{tmp_query}"
