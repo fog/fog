@@ -27,7 +27,7 @@ Shindo.tests('AWS::ELB | policy_tests', ['aws', 'elb']) do
 
     tests("#create_load_balancer_policy").formats(AWS::ELB::Formats::BASIC) do
       policy = 'fog-policy'
-      Fog::AWS[:elb].create_load_balancer_policy(@load_balancer_id, policy, 'PublicKeyPolicyType', {'PublicKey' => AWS::IAM::SERVER_CERT_PUBLIC_KEY}).body
+      Fog::AWS[:elb].create_load_balancer_policy(@load_balancer_id, policy, 'PublicKeyPolicyType', {'PublicKey' => AWS::IAM::SERVER_CERT}).body
     end
 
     tests("#describe_load_balancer_policies").formats(AWS::ELB::Formats::DESCRIBE_LOAD_BALANCER_POLICIES) do
