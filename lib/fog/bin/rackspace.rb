@@ -21,6 +21,8 @@ class Rackspace < Fog::Bin
         Fog::Rackspace::Identity
       when :databases
         Fog::Rackspace::Databases
+      when :monitoring
+        Fog::Rackspace::Monitoring
       else
         raise ArgumentError, "Unrecognized service: #{key}"
       end
@@ -52,6 +54,8 @@ class Rackspace < Fog::Bin
           Fog::Rackspace::Databases.new
         when :block_storage
           Fog::Rackspace::BlockStorage.new
+        when :monitoring
+          Fog::Rackspace::Monitoring.new
         else
           raise ArgumentError, "Unrecognized service: #{key.inspect}"
         end
