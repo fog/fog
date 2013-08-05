@@ -10,7 +10,7 @@ module Fog
         model Fog::Compute::Google::Disk
 
         def all(zone)
-          data = service.list_disks(zone).body["items"]
+          data = service.list_disks(zone).body["items"] || []
           load(data)
         end
 
