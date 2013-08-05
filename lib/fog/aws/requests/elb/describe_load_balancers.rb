@@ -105,7 +105,20 @@ module Fog
             'DescribeLoadBalancersResult' => {
               'LoadBalancerDescriptions' => load_balancers.map do |lb|
                 lb['Instances'] = lb['Instances'].map { |i| i['InstanceId'] }
-                lb['Policies'] = lb['Policies'].reject { |name, policies| name == 'Proper' }
+                lb['Policies'] = lb['Policies']['Proper'].inject({'AppCookieStickinessPolicies' => [], 'LBCookieStickinessPolicies' => [], 'OtherPolicies' => []}) { |m, policy|
+                  case policy['PolicyTypeName']
+                  when 'AppCookieStickinessPolicyType'
+                    cookie_name = policy['PolicyAttributeDescriptions'].detect{|h| h['AttributeName'] == 'CookieName'}['AttributeValue']
+                    m['AppCookieStickinessPolicies'] << { 'CookieName' => cookie_name, 'PolicyName' => policy['PolicyName'] }
+                  when 'LBCookieStickinessPolicyType'
+                    cookie_expiration_period = policy['PolicyAttributeDescriptions'].detect{|h| h['AttributeName'] == 'CookieExpirationPeriod'}['AttributeValue']
+                    m['LBCookieStickinessPolicies'] << { 'CookieExpirationPeriod' => cookie_expiration_period, 'PolicyName' => policy['PolicyName'] }
+                  else
+                    m['OtherPolicies'] << policy['PolicyName']
+                  end
+                  m
+                }
+
                 lb['BackendServerDescriptions'] = lb.delete('BackendServerDescriptionsRemote')
                 lb
               end

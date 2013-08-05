@@ -55,13 +55,6 @@ module Fog
               {"AttributeName" => key, "AttributeValue" => value.to_s}
             end
 
-            # Update other policies
-            if %w[PublicKeyPolicyType ProxyProtocolPolicyType].include?(type_name)
-              unless load_balancer['Policies']['OtherPolicies'].include?(name)
-                load_balancer['Policies']['OtherPolicies'] << name
-              end
-            end
-
             load_balancer['Policies']['Proper'] << {
               'PolicyAttributeDescriptions' => attributes,
               'PolicyName' => name,
