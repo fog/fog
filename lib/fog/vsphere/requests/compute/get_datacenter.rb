@@ -21,7 +21,9 @@ module Fog
 
       class Mock
         def get_datacenter name
-          {:name => "Solutions", :status => "grey"}
+          dc = self.data[:datacenters][name]
+          raise(Fog::Compute::Vsphere::NotFound) unless dc
+          dc
         end
       end
     end
