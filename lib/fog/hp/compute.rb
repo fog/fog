@@ -237,8 +237,7 @@ module Fog
                 'X-Auth-Token' => @auth_token
               }.merge!(params[:headers] || {}),
               :host     => @host,
-              :path     => "#{@path}/#{params[:path]}",
-              :query    => ('ignore_awful_caching' << Time.now.to_i.to_s)
+              :path     => "#{@path}/#{params[:path]}"
             }), &block)
           rescue Excon::Errors::HTTPStatusError => error
             raise case error
