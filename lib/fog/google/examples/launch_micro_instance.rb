@@ -1,7 +1,7 @@
 def test
   connection = Fog::Compute.new({ :provider => "Google" })
   time = Time.now.utc.to_i
-  disk = connection.disks.create({:name => 'foggydisk', :size => 10, :zone_name => 'us-central1-a', :image_name => 'centos-6-v20130522'})
+  disk = connection.disks.create({:name => 'foggydisk', :size_gb => 10, :zone_name => 'us-central1-a', :image_name => 'centos-6-v20130522'})
 
   disk.wait_for { disk.ready? }
   params = {
