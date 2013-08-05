@@ -21,9 +21,24 @@ module Fog
           load(data)
         end
 
-        def get(identity)
-          data = connection.get_image(identity).body
-          new(data)
+        def get(identity,project=nil)
+          response = nil
+          if project.nil?
+            [ self.service.project,
+              'google',
+              'debian-cloud',
+              'centos-cloud',
+            ].each do |project|
+              begin
+                response = connection.get_image(identity,project)
+                break if response.status == 200
+              rescue Fog::Errors::Error
+              end
+            end
+          else
+            response = connection.get_image(identity,project)
+          end
+          new(response.body)
         rescue Excon::Errors::NotFound
           nil
         end
