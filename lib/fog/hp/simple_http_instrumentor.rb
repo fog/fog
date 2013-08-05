@@ -16,11 +16,13 @@ module Excon
         if name.include?('.request')
           query = ''
           if params.has_key?(:query) && !params[:query].nil?
-            query = '?' if params[:query].count > 0
             params[:query].each do |key, value|
               query += "#{key}=#{value}&"
             end
-            query.chomp!('&')
+            if !tmp_query.nil?
+              query = "?#{tmp_query}"
+              query.chomp!('&')
+            end
           end
           $stderr.puts("#{params[:method]} #{params[:path]}#{query} HTTP/1.1" )
           $stderr.puts("User-Agent: #{params[:headers]['User-Agent']}")
