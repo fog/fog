@@ -9,18 +9,21 @@ module Fog
         protected
 
         def get_vm_ref(id, dc = nil)
+          raw_datacenter = find_raw_datacenter(dc) if dc
           vm = case is_uuid?(id)
-                 # UUID based
-                 when true
-                   @connection.searchIndex.FindByUuid :uuid => id, :vmSearch => true, :instanceUuid => true, :datacenter => dc
-                 else
-                   # try to find based on VM name
-                   if dc
-                     get_raw_datacenter(dc).find_vm(id)
-                   else
-                     raw_datacenters.map { |d| d.find_vm(id) }.compact.first
-                   end
-               end
+            # UUID based
+            when true
+              params = {:uuid => id, :vmSearch => true, :instanceUuid => true}
+              params[:datacenter] = raw_datacenter if dc
+              @connection.searchIndex.FindByUuid(params)
+            else
+              # try to find based on VM name
+              if dc
+                raw_datacenter.find_vm(id)
+              else
+                raw_datacenters.map { |d| d.find_vm(id) }.compact.first
+              end
+          end
           vm ? vm : raise(Fog::Compute::Vsphere::NotFound, "#{id} was not found")
         end
       end
