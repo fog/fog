@@ -9,7 +9,7 @@ module Fog
 
           options[:folder] ||= options['folder']
           if options['instance_uuid'] then
-            [service.get_virtual_machine(options['instance_uuid'])]
+            [get_virtual_machine(options['instance_uuid'])]
           elsif options[:folder] && options[:datacenter] then
             list_all_virtual_machines_in_folder(options[:folder], options[:datacenter])
           else
