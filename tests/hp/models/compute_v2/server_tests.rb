@@ -30,6 +30,14 @@ Shindo.tests("Fog::Compute::HPV2 | server model", ['hp', 'v2', 'compute']) do
       @server.rebuild(@base_image_id, 'fogrebuildserver')
     end
 
+    tests('#add_security_group("default")').succeeds do
+      @server.add_security_group('default')
+    end
+
+    tests('#remove_security_group("default")').succeeds do
+      @server.remove_security_group('default')
+    end
+
     @server.destroy
 
   end

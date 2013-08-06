@@ -239,6 +239,18 @@ module Fog
           true
         end
 
+        def add_security_group(sg_name)
+          requires :id
+          service.add_security_group(id, sg_name)
+          true
+        end
+
+        def remove_security_group(sg_name)
+          requires :id
+          service.remove_security_group(id, sg_name)
+          true
+        end
+
         def save
           raise Fog::Errors::Error.new('Resaving an existing object may create a duplicate') if persisted?
           requires :flavor_id, :name
