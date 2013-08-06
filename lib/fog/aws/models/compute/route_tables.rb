@@ -11,22 +11,22 @@ module Fog
 
         model Fog::Compute::AWS::RouteTable
 
-        # Creates a new VPC
+        # Creates a new route table
         #
-        # AWS.vpcs.new
+        # AWS.route_tables.new
         #
         # ==== Returns
         #
-        # Returns the details of the new VPC
+        # Returns the details of the new route table
         #
-        #>> AWS.vpcs.new
-        # <Fog::AWS::VPC::VPC
+        #>> AWS.route_tables.new
+        # <Fog::Compute::AWS::RouteTable
         # id=nil,
         # state=nil,
-        # cidr_block=nil,
-        # dhcp_options_id=nil
+        # vpc_id=nil,
+        # routes=nil,
+        # associations=nil,
         # tags=nil
-        # tenancy=nil
         # >
         #
 
@@ -35,20 +35,20 @@ module Fog
           super
         end
 
-        # Returns an array of all VPCs that have been created
+        # Returns an array of all route tables that have been created
         #
-        # AWS.vpcs.all
+        # AWS.route_tables.all
         #
         # ==== Returns
         #
-        # Returns an array of all VPCs
+        # Returns an array of all route tables
         #
-        #>> AWS.vpcs.all
-        # <Fog::AWS::VPC::VPCs
+        #>> AWS.route_tables.all
+        # <Fog::Compute::AWS::RouteTables
         # filters={}
         # [
-        # <Fog::AWS::VPC::VPC
-        # id="vpc-12345678",
+        # <Fog::Compute::AWS::RouteTable
+        # id="rtb-41e8552f",
         # TODO
         # >
         # ]
@@ -65,17 +65,17 @@ module Fog
           load(data['routeTableSet'])
         end
 
-        # Used to retrieve a VPC
-        # vpc_id is required to get the associated VPC information.
+        # Used to retrieve a route table
+        # route_table_id is required to get the associated route table information.
         #
         # You can run the following command to get the details:
-        # AWS.vpcs.get("vpc-12345678")
+        # AWS.route_tables.get("rtb-41e8552f")
         #
         # ==== Returns
         #
-        #>> AWS.vpcs.get("vpc-12345678")
-        # <Fog::AWS::Compute::VPC
-        # id="vpc-12345678",
+        #>> AWS.route_tables.get("rtb-41e8552f")
+        # <Fog::Compute::AWS::RouteTable
+        # id="rtb-41e8552f",
         # TODO
         # >
         #

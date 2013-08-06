@@ -5,18 +5,18 @@ module Fog
 
         require 'fog/aws/parsers/compute/basic'
 
-        # Delete an EBS volume
+        # Deletes the specified route table.
         #
         # ==== Parameters
-        # * volume_id<~String> - Id of volume to delete.
+        # * RouteTableId<~String> - The ID of the route table.
         #
         # ==== Returns
         # * response<~Excon::Response>:
         #   * body<~Hash>:
-        #     * 'requestId'<~String> - Id of request
-        #     * 'return'<~Boolean> - success?
+        #     * 'requestId'<~String> - The ID of request.
+        #     * 'return'<~Boolean> - Returns true if the request succeeds. Otherwise, returns an error.
         #
-        # {Amazon API Reference}[http://docs.amazonwebservices.com/AWSEC2/latest/APIReference/ApiReference-query-DeleteVolume.html]
+        # {Amazon API Reference}[http://docs.aws.amazon.com/AWSEC2/latest/APIReference/ApiReference-query-DeleteRouteTable.html]
         def delete_route_table(route_table_id)
           request(
             'Action'    => 'DeleteRouteTable',

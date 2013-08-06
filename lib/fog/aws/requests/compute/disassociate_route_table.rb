@@ -5,24 +5,18 @@ module Fog
 
         require 'fog/aws/parsers/compute/disassociate_route_table'
 
-        # Attach an Amazon EBS volume with a running instance, exposing as specified device
+        # Disassociates a subnet from a route table.
         #
         # ==== Parameters
-        # * instance_id<~String> - Id of instance to associate volume with
-        # * volume_id<~String> - Id of amazon EBS volume to associate with instance
-        # * device<~String> - Specifies how the device is exposed to the instance (e.g. "/dev/sdh")
-        #
+        # * AssociationId<~String> - The association ID representing the current association between the route table and subnet.
+        # 
         # ==== Returns
         # * response<~Excon::Response>:
         #   * body<~Hash>:
-        #     * 'attachTime'<~Time> - Time of attachment was initiated at
-        #     * 'device'<~String> - Device as it is exposed to the instance
-        #     * 'instanceId'<~String> - Id of instance for volume
-        #     * 'requestId'<~String> - Id of request
-        #     * 'status'<~String> - Status of volume
-        #     * 'volumeId'<~String> - Reference to volume
+        #     * 'requestId'<~String> - The ID of the request.
+        #     * 'return'<~Boolean> - Returns true if the request succeeds. Otherwise, returns an error.
         #
-        # {Amazon API Reference}[http://docs.amazonwebservices.com/AWSEC2/latest/APIReference/ApiReference-query-AttachVolume.html]
+        # {Amazon API Reference}[http://docs.aws.amazon.com/AWSEC2/latest/APIReference/ApiReference-query-DisassociateRouteTable.html]
         def disassociate_route_table(association_id)
           request(
             'Action'        => 'DisassociateRouteTable',

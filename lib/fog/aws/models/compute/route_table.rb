@@ -19,9 +19,9 @@ module Fog
           super
         end
 
-        # Removes an existing vpc
+        # Remove an existing route table
         #
-        # vpc.destroy
+        # route_tables.destroy
         #
         # ==== Returns
         #
@@ -35,15 +35,14 @@ module Fog
           true
         end
 
-        # Create a vpc
+        # Create a route table
         #
-        # >> g = AWS.vpcs.new(:cidr_block => "10.1.2.0/24")
-        # >> g.save
+        # >> routetable = connection.route_tables.new
+        # >> routetable.save
         #
         # == Returns:
         #
-        # True or an exception depending on the result. Keep in mind that this *creates* a new vpc.
-        # As such, it yields an InvalidGroup.Duplicate exception if you attempt to save an existing vpc.
+        # True or an exception depending on the result. Keep in mind that this *creates* a new route table.
         #
 
         def save

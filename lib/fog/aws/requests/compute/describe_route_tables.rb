@@ -5,30 +5,39 @@ module Fog
 
         require 'fog/aws/parsers/compute/describe_route_tables'
 
-        # Describe all or specified volumes.
+        # Describe one or more of your route tables.
         #
         # ==== Parameters
+        # * RouteTableId<~String> - One or more route table IDs.
         # * filters<~Hash> - List of filters to limit results with
         #
         # ==== Returns
         # * response<~Excon::Response>:
         #   * body<~Hash>:
-        #     * 'volumeSet'<~Array>:
-        #       * 'availabilityZone'<~String> - Availability zone for volume
-        #       * 'createTime'<~Time> - Timestamp for creation
-        #       * 'size'<~Integer> - Size in GiBs for volume
-        #       * 'snapshotId'<~String> - Snapshot volume was created from, if any
-        #       * 'status'<~String> - State of volume
-        #       * 'volumeId'<~String> - Reference to volume
-        #       * 'attachmentSet'<~Array>:
-        #         * 'attachmentTime'<~Time> - Timestamp for attachment
-        #         * 'deleteOnTermination'<~Boolean> - Whether or not to delete volume on instance termination
-        #         * 'device'<~String> - How value is exposed to instance
-        #         * 'instanceId'<~String> - Reference to attached instance
-        #         * 'status'<~String> - Attachment state
-        #         * 'volumeId'<~String> - Reference to volume
+        #     * 'requestId'<~String> - The ID of the request.
+        #     * 'routeTableSet'<~Array>:
+        #       * 'routeTableId'<~String> - The route table's ID.
+        #       * 'vpcId'<~String> - The ID of the VPC for the route table.
+        #       * 'routeSet'<~Array>:
+        #         * 'destinationCidrBlock'<~String> - The CIDR address block used for the destination match.
+        #         * 'gatewayId'<~String> - The ID of a gateway attached to your VPC.
+        #         * 'instanceId'<~String> - The ID of a NAT instance in your VPC.
+        #         * 'instanceOwnerId'<~String> - The owner of the instance.
+        #         * 'networkInterfaceId'<~String> - The network interface ID.
+        #         * 'state'<~String> - The state of the route. The blackhole state indicates that the route's target isn't available.
+        #         * 'origin'<~String> - Describes how the route was created.
+        #       * 'associationSet'<~Array>:
+        #         * 'RouteTableAssociationId'<~String> - An identifier representing the association between a route table and a subnet.
+        #         * 'routeTableId'<~String> - The ID of the route table.
+        #         * 'subnetId'<~String> - The ID of the subnet.
+        #         * 'main'<~Boolean> - Indicates whether this is the main route table.
+        #       * 'propagatingVgwSet'<~Array>:
+        #         * 'gatewayID'<~String> - The ID of the virtual private gateway (VGW).
+        #       * 'tagSet'<~Array>:
+        #         * 'key'<~String> - The tag key.
+        #         * 'value'<~String> - The tag value.
         #
-        # {Amazon API Reference}[http://docs.amazonwebservices.com/AWSEC2/latest/APIReference/ApiReference-query-DescribeVolumes.html]
+        # {Amazon API Reference}[http://docs.aws.amazon.com/AWSEC2/latest/APIReference/ApiReference-query-DescribeRouteTables.html]
         def describe_route_tables(filters = {})
           unless filters.is_a?(Hash)
             Fog::Logger.deprecation("describe_route_tables with #{filters.class} param is deprecated, use describe_route_tables('route-table-id' => []) instead [light_black](#{caller.first})[/]")
