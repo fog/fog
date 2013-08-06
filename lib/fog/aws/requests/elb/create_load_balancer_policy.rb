@@ -52,14 +52,10 @@ module Fog
             response = Excon::Response.new
 
             attributes = attributes.map do |key, value|
-              {"AttributeName" => key, "AttributeValue" => value.to_s}
-            end
-
-            # Update other policies
-            if %w[PublicKeyPolicyType ProxyProtocolPolicyType].include?(type_name)
-              unless load_balancer['Policies']['OtherPolicies'].include?(name)
-                load_balancer['Policies']['OtherPolicies'] << name
+              if key == "CookieExpirationPeriod" && !value
+                value = 0
               end
+              {"AttributeName" => key, "AttributeValue" => value.to_s}
             end
 
             load_balancer['Policies']['Proper'] << {

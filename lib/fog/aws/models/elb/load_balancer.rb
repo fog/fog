@@ -32,7 +32,6 @@ module Fog
               'PolicyNames' => new_listener.policy_names
             }]
           end
-          attributes['Policies'] ||= {'AppCookieStickinessPolicies' => [], 'LBCookieStickinessPolicies' => []}
           super
         end
 

@@ -37,8 +37,6 @@ module Fog
             response = Excon::Response.new
             response.status = 200
 
-            load_balancer['Policies']['LBCookieStickinessPolicies'] << { 'CookieExpirationPeriod' => cookie_expiration_period, 'PolicyName' => policy_name }
-
             create_load_balancer_policy(lb_name, policy_name, 'LBCookieStickinessPolicyType', {'CookieExpirationPeriod' => cookie_expiration_period})
 
             response.body = {

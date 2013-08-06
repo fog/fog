@@ -250,6 +250,7 @@ Shindo.tests('AWS::ELB | models', ['aws', 'elb']) do
       tests('create app policy') do
         elb.policies.create(:id => app_policy_id, :cookie => 'my-app-cookie', :cookie_stickiness => :app)
         returns(app_policy_id) { elb.policies.first.id }
+        returns("my-app-cookie") { elb.policies.get(app_policy_id).cookie }
       end
 
       tests('get policy') do
@@ -270,6 +271,7 @@ Shindo.tests('AWS::ELB | models', ['aws', 'elb']) do
       tests('setting a listener policy') do
         elb.set_listener_policy(80, lb_policy_id)
         returns([lb_policy_id]) { elb.listeners.get(80).policy_names }
+        returns(600) { elb.policies.get(lb_policy_id).expiration }
       end
 
       tests('unsetting a listener policy') do
