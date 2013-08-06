@@ -80,6 +80,7 @@ module Fog
       request :delete_volume
       request :delete_vpc
       request :deregister_image
+      request :describe_account_attributes
       request :describe_addresses
       request :describe_availability_zones
       request :describe_dhcp_options
@@ -192,7 +193,15 @@ module Fog
                       }
                     ],
                     'ownerId'             => owner_id
-                  }
+                  },
+                  'amazon-elb-sg' => {
+                    'groupDescription'   => 'amazon-elb-sg',
+                    'groupName'          => 'amazon-elb-sg',
+                    'groupId'            => 'amazon-elb',
+                    'ownerId'            => 'amazon-elb',
+                    'ipPermissionsEgree' => [],
+                    'ipPermissions'      => [],
+                  },
                 },
                 :network_interfaces => {},
                 :snapshots => {},
@@ -205,7 +214,33 @@ module Fog
                 :subnets => [],
                 :vpcs => [],
                 :dhcp_options => [],
-                :internet_gateways => []
+                :internet_gateways => [],
+                :account_attributes => [
+                  {
+                    "values"        => ["5"],
+                    "attributeName" => "vpc-max-security-groups-per-interface"
+                  },
+                  {
+                    "values"        => ["20"],
+                    "attributeName" => "max-instances"
+                  },
+                  {
+                    "values"        => ["EC2", "VPC"],
+                    "attributeName" => "supported-platforms"
+                  },
+                  {
+                    "values"        => ["none"],
+                    "attributeName" => "default-vpc"
+                  },
+                  {
+                    "values"        => ["5"],
+                    "attributeName" => "max-elastic-ips"
+                  },
+                  {
+                    "values"        => ["5"],
+                    "attributeName" => "vpc-max-elastic-ips"
+                  }
+                ]
               }
             end
           end
@@ -254,6 +289,11 @@ module Fog
           end
 
           images
+        end
+
+        def ec2_compatibility_mode(enabled=true)
+          values = enabled ? ["EC2", "VPC"] : ["VPC"]
+          self.data[:account_attributes].detect { |h| h["attributeName"] == "supported-platforms" }["values"] = values
         end
 
         def apply_tag_filters(resources, filters, resource_id_key)

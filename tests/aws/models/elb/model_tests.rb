@@ -57,7 +57,10 @@ Shindo.tests('AWS::ELB | models', ['aws', 'elb']) do
         end
       end
       tests('with vpc') do
+        Fog::Compute[:aws].ec2_compatibility_mode(false)
         elb2 = Fog::AWS[:elb].load_balancers.create(:id => "#{elb_id}-2", :subnet_ids => [@subnet_id])
+        tests("elb source group should be default_elb*").returns(true) { !!(elb2.source_group["GroupName"] =~ /default_elb_*/) }
+        tests("should have a 'default_elb_*' security group").returns(true) { Fog::Compute[:aws].security_groups.all.any? { |sg| sg.name =~ /default_elb/ } }
         tests("subnet ids are correct").returns(@subnet_id) { elb2.subnet_ids.first }
         elb2.destroy
       end
@@ -75,8 +78,10 @@ Shindo.tests('AWS::ELB | models', ['aws', 'elb']) do
      end
 
       tests('with availability zones') do
+        Fog::Compute[:aws].ec2_compatibility_mode(true)
         azs = @availability_zones[1..-1]
         elb2 = Fog::AWS[:elb].load_balancers.create(:id => "#{elb_id}-2", :availability_zones => azs)
+        tests("elb source group should be amazon-elb-sg").returns(true) { elb2.source_group["GroupName"] == 'amazon-elb-sg' }
         tests("availability zones are correct").returns(azs.sort) { elb2.availability_zones.sort }
         elb2.destroy
       end
