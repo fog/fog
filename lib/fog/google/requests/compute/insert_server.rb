@@ -30,8 +30,7 @@ module Fog
 
           if options.has_key? 'image'
             image_name = options.delete 'image'
-            # We don't know the owner of the image.
-            image = images.create({:name => image_name})
+            image = images.get(image_name)
             @image_url = @api_url + image.resource_url
             body_object['image'] = @image_url
           end
