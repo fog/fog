@@ -32,6 +32,7 @@ module Fog
       collection  :volume_attachments
 
       request_path 'fog/hp/requests/compute_v2'
+      request :add_security_group
       request :allocate_address
       request :associate_address
       request :attach_volume
@@ -73,6 +74,7 @@ module Fog
       request :reboot_server
       request :rebuild_server
       request :release_address
+      request :remove_security_group
       #request :resize_server
       #request :revert_resized_server
       request :server_action
