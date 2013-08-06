@@ -7,17 +7,25 @@ module Fog
       # A DigitalOcean Droplet
       #
       class Server < Fog::Compute::Server
-        
+
         identity  :id
         attribute :name
-       	attribute :state,	:aliases => 'status'
+        attribute :state, :aliases => 'status'
         attribute :image_id
         attribute :region_id
-        attribute :flavor_id,         :aliases => 'size_id'
+        attribute :flavor_id, :aliases => 'size_id'
         # Not documented in their API, but
         # available nevertheless
-        attribute :ip_address
+        attribute :public_ip_address, :aliases => 'ip_address'
         attribute :backups_active
+
+        attr_writer :ssh_keys
+
+        # Deprecated: Use public_ip_address instead.
+        def ip_address
+          Fog::Logger.warning("ip_address has been deprecated. Use public_ip_address instead")
+          public_ip_address
+        end
 
         # Reboot the server (soft reboot).
         #
@@ -52,7 +60,7 @@ module Fog
         # Works as a power switch.
         # The server consumes resources while powered off
         # so you are still charged.
-        # 
+        #
         # @see https://www.digitalocean.com/community/questions/am-i-charged-while-my-droplet-is-in-a-powered-off-state
         def stop
           requires :id
@@ -64,12 +72,31 @@ module Fog
         # The server consumes resources while powered on
         # so you will be charged.
         #
-        # Each time a server is spun up, even if for a few seconds, 
+        # Each time a server is spun up, even if for a few seconds,
         # it is charged for an hour.
         #
         def start
           requires :id
           service.power_on_server self.id
+        end
+
+        def setup(credentials = {})
+          requires :public_ip_address
+          require 'net/ssh'
+
+          commands = [
+            %{mkdir .ssh},
+            %{passwd -l #{username}},
+            %{echo "#{Fog::JSON.encode(Fog::JSON.sanitize(attributes))}" >> ~/attributes.json}
+          ]
+          if public_key
+            commands << %{echo "#{public_key}" >> ~/.ssh/authorized_keys}
+          end
+
+          # wait for aws to be ready
+          wait_for { sshable?(credentials) }
+
+          Fog::SSH.new(public_ip_address, username, credentials).run(commands)
         end
 
         # Creates the server (not to be called directly).
@@ -85,7 +112,7 @@ module Fog
         #                     :image_id  => image_id_here,
         #                     :flavor_id => flavor_id_here,
         #                     :region_id => region_id_here
-        # 
+        #
         # @return [Boolean]
         def save
           raise Fog::Errors::Error.new('Resaving an existing object may create a duplicate') if persisted?
@@ -93,11 +120,13 @@ module Fog
 
           options = {}
           if attributes[:ssh_key_ids]
-            options[:ssh_key_ids] = attributes[:ssh_key_ids] 
+            options[:ssh_key_ids] = attributes[:ssh_key_ids]
+          elsif @ssh_keys
+            options[:ssh_key_ids] = @ssh_keys.map(&:id)
           end
-          data = service.create_server name, 
-                                       flavor_id, 
-                                       image_id, 
+          data = service.create_server name,
+                                       flavor_id,
+                                       image_id,
                                        region_id,
                                        options
           merge_attributes(data.body['droplet'])
@@ -105,7 +134,7 @@ module Fog
         end
 
         # Destroy the server, freeing up the resources.
-        # 
+        #
         # DigitalOcean will stop charging you for the resources
         # the server was using.
         #
@@ -115,9 +144,9 @@ module Fog
         # IMPORTANT: As of 2013/01/31, you should wait some time to
         # destroy the server after creating it. If you try to destroy
         # the server too fast, the destroy event may be lost and the
-        # server will remain running and consuming resources, so 
+        # server will remain running and consuming resources, so
         # DigitalOcean will keep charging you.
-        # Double checked this with DigitalOcean staff and confirmed 
+        # Double checked this with DigitalOcean staff and confirmed
         # that it's the way it works right now.
         #
         # Double check the server has been destroyed!

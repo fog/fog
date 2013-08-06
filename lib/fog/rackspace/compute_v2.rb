@@ -54,6 +54,8 @@ module Fog
       collection :attachments
       model :network
       collection :networks
+      model :key_pair
+      collection :key_pairs
 
       request_path 'fog/rackspace/requests/compute_v2'
       request :list_servers
@@ -96,6 +98,11 @@ module Fog
       request :get_network
       request :create_network
       request :delete_network
+
+      request :list_keypairs
+      request :create_keypair
+      request :delete_keypair
+      request :get_keypair
 
       class Mock < Fog::Rackspace::Service
         include Fog::Rackspace::MockData
@@ -142,13 +149,13 @@ module Fog
         def request(params, parse_json = true, &block)
           super(params, parse_json, &block)
         rescue Excon::Errors::NotFound => error
-          raise NotFound.slurp(error, region)
+          raise NotFound.slurp(error, self)
         rescue Excon::Errors::BadRequest => error
-          raise BadRequest.slurp error
+          raise BadRequest.slurp(error, self)
         rescue Excon::Errors::InternalServerError => error
-          raise InternalServerError.slurp error
+          raise InternalServerError.slurp(error, self)
         rescue Excon::Errors::HTTPStatusError => error
-          raise ServiceError.slurp error
+          raise ServiceError.slurp(error, self)
         end
 
         def authenticate(options={})
@@ -162,6 +169,10 @@ module Fog
 
         def service_name
           :cloudServersOpenStack
+        end
+
+        def request_id_header
+          "X-Compute-Request-Id"
         end
 
         def region

@@ -17,19 +17,35 @@ module Fog
         end
 
         private
-        # Munge a hash like:
-        # {'LBCookieStickinessPolicies' => [policies...],
-        # 'AppCookieStickinessPolicies' => [policies...]}
-        # to a single array of policies with a cookie_stickiness value
         def munged_data
-          munged_data = []
-          data['LBCookieStickinessPolicies'].each do |policy|
-            munged_data << policy.merge(:cookie_stickiness => :lb)
-          end
-           data['AppCookieStickinessPolicies'].each do |policy|
-            munged_data << policy.merge(:cookie_stickiness => :app)
-          end
-           munged_data
+          data.inject([]){|m,e|
+            policy_attribute_descriptions = e["PolicyAttributeDescriptions"]
+
+            policy = {
+              :id => e["PolicyName"],
+              :type_name => e["PolicyTypeName"],
+              :policy_attributes => policy_attributes(policy_attribute_descriptions)
+            }
+
+            case e["PolicyTypeName"]
+            when 'AppCookieStickinessPolicyType'
+              cookie_name = policy_attribute_descriptions.detect{|h| h['AttributeName'] == 'CookieName'}['AttributeValue']
+              policy['CookieName'] = cookie_name if cookie_name
+            when 'LBCookieStickinessPolicyType'
+              cookie_expiration_period = policy_attribute_descriptions.detect{|h| h['AttributeName'] == 'CookieExpirationPeriod'}['AttributeValue'].to_i
+              policy['CookieExpirationPeriod'] = cookie_expiration_period if cookie_expiration_period > 0
+            end
+
+            m << policy
+            m
+          }
+        end
+
+        def policy_attributes(policy_attribute_descriptions)
+          policy_attribute_descriptions.inject({}){|m,e|
+            m[e["AttributeName"]] = e["AttributeValue"]
+            m
+          }
         end
 
       end
@@ -37,4 +53,3 @@ module Fog
     end
   end
 end
-

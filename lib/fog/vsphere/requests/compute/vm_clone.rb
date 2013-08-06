@@ -17,11 +17,8 @@ module Fog
           required_options.each do |param|
             raise ArgumentError, "#{required_options.join(', ')} are required" unless options.has_key? param
           end
-          # TODO This is ugly and needs to rethink mocks
-          unless Fog.mock?
-            raise ArgumentError, "#{options["datacenter"]} Doesn't Exist!" unless get_datacenter(options["datacenter"])
-            raise ArgumentError, "#{options["template_path"]} Doesn't Exist!" unless get_virtual_machine(options["template_path"], options["datacenter"])
-          end
+          raise Fog::Compute::Vsphere::NotFound, "Datacenter #{options["datacenter"]} Doesn't Exist!" unless get_datacenter(options["datacenter"])
+          raise Fog::Compute::Vsphere::NotFound, "Template #{options["template_path"]} Doesn't Exist!" unless get_virtual_machine(options["template_path"], options["datacenter"])
           options
         end
       end
@@ -291,12 +288,24 @@ module Fog
           # Option handling TODO Needs better method of checking
           options = vm_clone_check_options(options)
           notfound = lambda { raise Fog::Compute::Vsphere::NotFound, "Could not find VM template" }
-          list_virtual_machines.find(notfound) do |vm|
-            vm[:name] == options['template_path'].split("/")[-1]
+          template = list_virtual_machines.find(notfound) do |vm|
+            vm['name'] == options['template_path'].split("/")[-1]
           end
+
+          # generate a random id
+          id = [8,4,4,4,12].map{|i| Fog::Mock.random_hex(i)}.join("-")
+          new_vm = template.clone.merge({
+            "name" => options['name'],
+            "id" => id,
+            "instance_uuid" => id,
+            "path" => "/Datacenters/#{options['datacenter']}/#{options['dest_folder'] ? options['dest_folder']+"/" : ""}#{options['name']}"
+          })
+          self.data[:servers][id] = new_vm
+
           {
-            'vm_ref'   => 'vm-123',
-            'task_ref' => 'task-1234',
+            'vm_ref'   => "vm-#{Fog::Mock.random_numbers(3)}",
+            'new_vm'   => new_vm,
+            'task_ref' => "task-#{Fog::Mock.random_numbers(4)}",
           }
         end
 

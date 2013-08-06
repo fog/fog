@@ -25,7 +25,7 @@ Shindo.tests('AWS::IAM | server certificate requests', ['aws']) do
   }
 
   tests('#upload_server_certificate') do
-    public_key  = AWS::IAM::SERVER_CERT_PUBLIC_KEY
+    public_key  = AWS::IAM::SERVER_CERT
     private_key = AWS::IAM::SERVER_CERT_PRIVATE_KEY
     private_key_pkcs8 = AWS::IAM::SERVER_CERT_PRIVATE_KEY_PKCS8
     private_key_mismatch = AWS::IAM::SERVER_CERT_PRIVATE_KEY_MISMATCHED
@@ -68,7 +68,7 @@ Shindo.tests('AWS::IAM | server certificate requests', ['aws']) do
   end
 
   tests('#update_server_certificate') do
-    public_key  = AWS::IAM::SERVER_CERT_PUBLIC_KEY
+    public_key  = AWS::IAM::SERVER_CERT
     private_key = AWS::IAM::SERVER_CERT_PRIVATE_KEY
     key_name    = "update-key"
 

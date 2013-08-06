@@ -33,12 +33,12 @@ module Fog
           params.merge!(Fog::AWS.indexed_param('PolicyAttributes.member.%d.AttributeValue', attribute_value))
 
           request({
-            'Action'           => 'CreateLoadBalancerPolicy',
-            'LoadBalancerName' => lb_name,
-            'PolicyName'       => name,
-            'PolicyTypeName'   => type_name,
-            :parser            => Fog::Parsers::AWS::ELB::Empty.new
-          }.merge!(params))
+                    'Action'           => 'CreateLoadBalancerPolicy',
+                    'LoadBalancerName' => lb_name,
+                    'PolicyName'       => name,
+                    'PolicyTypeName'   => type_name,
+                    :parser            => Fog::Parsers::AWS::ELB::Empty.new
+                  }.merge!(params))
         end
 
       end
@@ -46,12 +46,15 @@ module Fog
       class Mock
         def create_load_balancer_policy(lb_name, name, type_name, attributes = {})
           if load_balancer = self.data[:load_balancers][lb_name]
-            raise Fog::AWS::IAM::DuplicatePolicyName if policy = load_balancer['Policies']['Proper'].find { |p| p['PolicyName'] == name }
-            raise Fog::AWS::IAM::PolicyTypeNotFound unless policy_type = self.data[:policy_types].find { |pt| pt['PolicyTypeName'] == type_name }
+            raise Fog::AWS::ELB::DuplicatePolicyName, name if policy = load_balancer['Policies']['Proper'].find { |p| p['PolicyName'] == name }
+            raise Fog::AWS::ELB::PolicyTypeNotFound, type_name unless policy_type = self.data[:policy_types].find { |pt| pt['PolicyTypeName'] == type_name }
 
             response = Excon::Response.new
 
             attributes = attributes.map do |key, value|
+              if key == "CookieExpirationPeriod" && !value
+                value = 0
+              end
               {"AttributeName" => key, "AttributeValue" => value.to_s}
             end
 

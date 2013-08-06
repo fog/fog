@@ -12,10 +12,11 @@ module Fog
 
     module Errors
       class ServiceError < Fog::Errors::Error
-        attr_reader :response_data, :status_code
+        attr_reader :response_data, :status_code, :transaction_id
 
         def to_s
-          status_code ? "[HTTP #{status_code}] #{super}" : super
+          status = status_code ? "HTTP #{status_code}" : "HTTP <Unknown>"
+          "[#{status} | #{transaction_id}] #{super}"
         end
 
         def self.slurp(error)
@@ -40,10 +41,16 @@ module Fog
           new_error = super(error, message)
           new_error.instance_variable_set(:@response_data, data)
           new_error.instance_variable_set(:@status_code, status_code)
+          new_error.set_transaction_id(error, service)
           new_error
         end
 
         private
+
+        def set_transaction_id(error, service)
+          return unless service && service.respond_to?(:request_id_header) && error.response
+          @transaction_id = error.response.headers[service.request_id_header]
+        end
 
         def self.extract_message(data)
           if data.is_a?(Hash)
@@ -67,7 +74,9 @@ module Fog
           unless new_error.response_data.nil? or new_error.response_data['badRequest'].nil?
             new_error.instance_variable_set(:@validation_errors, new_error.response_data['badRequest']['validationErrors'])
           end
-          new_error
+
+          new_error.instance_variable_set(:@status_code, status_code)
+          new_error.set_transaction_id(error, service)
         end
       end
     end
@@ -81,6 +90,7 @@ module Fog
     service(:load_balancers,   'rackspace/load_balancers',    'LoadBalancers')
     service(:identity,         'rackspace/identity',          'Identity')
     service(:databases,        'rackspace/databases',         'Databases')
+    service(:monitoring,       'rackspace/monitoring',        'Monitoring')
 
     def self.authenticate(options, connection_options = {})
       rackspace_auth_url = options[:rackspace_auth_url]

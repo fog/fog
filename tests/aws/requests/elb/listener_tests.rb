@@ -4,7 +4,7 @@ Shindo.tests('AWS::ELB | listener_tests', ['aws', 'elb']) do
 
   tests('success') do
     Fog::AWS[:elb].create_load_balancer(['us-east-1a'], @load_balancer_id, [{'LoadBalancerPort' => 80, 'InstancePort' => 80, 'Protocol' => 'HTTP'}])
-    @certificate = Fog::AWS[:iam].upload_server_certificate(AWS::IAM::SERVER_CERT_PUBLIC_KEY, AWS::IAM::SERVER_CERT_PRIVATE_KEY, @key_name).body['Certificate']
+    @certificate = Fog::AWS[:iam].upload_server_certificate(AWS::IAM::SERVER_CERT, AWS::IAM::SERVER_CERT_PRIVATE_KEY, @key_name).body['Certificate']
 
     tests("#create_load_balancer_listeners").formats(AWS::ELB::Formats::BASIC) do
       listeners = [

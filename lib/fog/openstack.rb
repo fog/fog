@@ -120,7 +120,7 @@ module Fog
       end if openstack_region
 
       if service['endpoints'].empty?
-        raise Errors::NotFound.new("No endpoints available for region '#{openstack_region}'")
+        raise Fog::Errors::NotFound.new("No endpoints available for region '#{openstack_region}'")
       end if openstack_region
 
       unless service

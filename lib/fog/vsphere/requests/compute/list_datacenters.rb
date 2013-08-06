@@ -15,6 +15,7 @@ module Fog
 
         protected
 
+        # RbVmomi::VIM::Datacenter Array
         def raw_datacenters
           @raw_datacenters ||= @connection.rootFolder.childEntity.grep(RbVmomi::VIM::Datacenter)
         end

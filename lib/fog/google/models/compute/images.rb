@@ -10,7 +10,14 @@ module Fog
         model Fog::Compute::Google::Image
 
         def all
-          data = connection.list_images.body["items"]
+          data = []
+          [ self.service.project,
+            'google',
+            'debian-cloud',
+            'centos-cloud',
+          ].each do |project|
+            data += service.list_images(project).body["items"]
+          end
           load(data)
         end
 

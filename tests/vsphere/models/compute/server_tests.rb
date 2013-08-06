@@ -26,7 +26,7 @@ Shindo.tests('Fog::Compute[:vsphere] | server model', ['vsphere']) do
         :connection_state,
         :hypervisor,
         :name,
-        :ipaddress]
+        :public_ip_address]
       tests("The server model should respond to") do
         attributes.each do |attribute|
           test("#{attribute}") { server.respond_to? attribute }

@@ -67,6 +67,12 @@ module Fog
             :rootpassword   => rootpassword,
             :transfer       => transfer     || "500",
           }
+
+          # optional options when creating a server:
+          [:ip, :ipv6, :description].each do |k|
+            options[k] = attributes[k] if attributes[k]
+          end
+
           data = service.create(options)
           merge_attributes(data.body['response']['server'])
           data.status == 200 ? true : false
