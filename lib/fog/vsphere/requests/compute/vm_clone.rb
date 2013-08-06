@@ -235,9 +235,18 @@ module Fog
                                                                       :pool => resource_pool,
                                                                       :diskMoveType => :moveChildMostDiskBacking)
           else
-            relocation_spec = RbVmomi::VIM.VirtualMachineRelocateSpec(:datastore => datastore_obj,
-                                                                      :pool => resource_pool,
-                                                                      :transform => options['transform'] || 'sparse')
+            transform = options['transform'] || 'sparse' # if option transform not set, thin provision format will be used by default
+            if (transform.empty?) 
+              # if the option transform explicitly set as '', then we skip this to use the same format as template
+              relocation_spec = RbVmomi::VIM.VirtualMachineRelocateSpec(:datastore => datastore_obj,
+                                                                        :pool => resource_pool)
+            else
+              # Otherwise, we'll use the specified provisioning format
+              # 'flat' is for thick provisioning format, 'sparse' is for thin provisioning format
+              relocation_spec = RbVmomi::VIM.VirtualMachineRelocateSpec(:datastore => datastore_obj,
+                                                                        :pool => resource_pool,
+                                                                        :transform => transform)
+            end
           end
           # And the clone specification
           clone_spec = RbVmomi::VIM.VirtualMachineCloneSpec(:location => relocation_spec,
