@@ -224,6 +224,7 @@ module Fog
                 :vpcs => [],
                 :dhcp_options => [],
                 :internet_gateways => [],
+                :route_tables => [],
                 :account_attributes => [
                   {
                     "values"        => ["5"],

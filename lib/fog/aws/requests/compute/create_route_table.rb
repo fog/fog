@@ -5,53 +5,62 @@ module Fog
 
         require 'fog/aws/parsers/compute/create_route_table'
 
-        # Creates a VPC with the CIDR block you specify.
+        # Creates a route table for the specified VPC.
         #
         # ==== Parameters
-        # * cidrBlock<~String> - The CIDR block you want the VPC to cover (e.g., 10.0.0.0/16).
-        # * options<~Hash>:
-        #   * InstanceTenancy<~String> - The allowed tenancy of instances launched into the VPC. A value of default 
-        #     means instances can be launched with any tenancy; a value of dedicated means instances must be launched with tenancy as dedicated.
-        #     please not that the documentation is incorrect instanceTenancy will not work while InstanceTenancy will
+        # * VpcId<~String> - The ID of the VPC.
         #
         # === Returns
         # * response<~Excon::Response>:
         # * body<~Hash>:
-        # * 'requestId'<~String> - Id of request
-        # * 'vpc'<~Array>:
-        # * 'vpcId'<~String> - The VPC's ID
-        # * 'state'<~String> - The current state of the VPC. ['pending', 'available']
-        # * 'cidrBlock'<~String> - The CIDR block the VPC covers.
-        # * 'dhcpOptionsId'<~String> - The ID of the set of DHCP options.
-        # * 'tagSet'<~Array>: Tags assigned to the resource.
-        # * 'key'<~String> - Tag's key
-        # * 'value'<~String> - Tag's value
+        # * 'requestId'<~String> - Id of the request
+        # * 'routeTableSet'<~Array> - Information about the newly created route table
+        # *   'routeTableId'<~String>
+        # *   'vpcId'<~String>
+        # *   'routeSet'<~Array>
+        # *     'item'<~Array>
+        # *       'destinationCidrBlock'<~String> - The CIDR address block used for the destination match.
+        # *       'gatewayId'<~String> - The ID of an Internet gateway attached to your VPC.
+        # *       'state'<~String> - The current state of the route table. ['pending', 'available']
         #
-        # {Amazon API Reference}[http://docs.amazonwebservices.com/AWSEC2/2011-07-15/APIReference/index.html?ApiReference-query-CreateVpc.html]
-        def create_route_table(vpc_id, options = {})
+        # {Amazon API Reference}[http://docs.aws.amazon.com/AWSEC2/latest/APIReference/ApiReference-query-CreateRouteTable.html]
+        def create_route_table(vpc_id)
           request({
             'Action' => 'CreateRouteTable',
             'VpcId' => vpc_id,
             :parser => Fog::Parsers::Compute::AWS::CreateRouteTable.new
-          }.merge!(options))
+          })
 
         end
       end
       
       class Mock
-        def create_route_table(vpc_id, options={})
-          self.data[:route_tables] = {
-              'routeTableId' => Fog::AWS::Mock.request_id,
-              'attachmentSet' => {},
+        def create_route_table(vpc_id)
+          response = Excon::Response.new
+          vpc = self.data[:vpcs].find { |vpc| vpc["vpcId"].eql? vpc_id }
+          unless vpc.nil?
+            response.status = 200
+            self.data[:route_tables].push({
+              'routeTableId' => "rtb-#{Fog::Mock.random_hex(8)}",
+              'vpcId' => vpc["vpcId"],
+              'routeSet' => {
+                'item' => {
+                  "destinationCidrBlock" => vpc["cidrBlock"],
+                  "gatewayId" => "local",
+                  "state" => "pending"
+                }
+              },
+              'associationSet' => {},
               'tagSet' => {}
-            }
-          Excon::Response.new(
-            :status => 200,
-            :body => {
+            })
+            response.body = {
               'requestId'=> Fog::AWS::Mock.request_id,
               'routeTableSet' => self.data[:route_tables]
             }
-            )
+            response
+          else
+            raise Fog::Compute::AWS::NotFound.new("The vpc ID '#{vpc_id }' does not exist")
+          end 
         end
       end
     end
