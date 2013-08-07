@@ -119,6 +119,10 @@ module Fog
         include Base
 
         def initialize(options={})
+          # api_key and username missing from instance variable sets
+          @rackspace_api_key = options[:rackspace_api_key]
+          @rackspace_username = options[:rackspace_username]
+          
           @connection_options = options[:connection_options] || {}
           @rackspace_auth_url = options[:rackspace_auth_url]
           @rackspace_cdn_url = options[:rackspace_cdn_url]
@@ -176,6 +180,15 @@ module Fog
           @auth_token = credentials['X-Auth-Token']
         end
 
+        # Fix for invalid auth_token, likely after 24 hours.
+        def authenticate(options={})
+         super({
+           :rackspace_api_key  => @rackspace_api_key,
+           :rackspace_username => @rackspace_username,
+           :rackspace_auth_url => @rackspace_auth_url,
+           :connection_options => @connection_options
+         })
+        end
       end
     end
   end
