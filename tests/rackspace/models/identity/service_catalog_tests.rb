@@ -18,10 +18,10 @@ Shindo.tests('Fog::Rackspace::ServiceCatalog | users', ['rackspace']) do
       returns(after_hash) { service_catalog.catalog }
     end
 
-    tests('missing region ') do
+    tests('missing region') do
       before_hash = {"access"=>{"token"=>{"expires"=>"2013-02-20T10:31:00.000-06:00", "tenant"=>{"name"=>"777", "id"=>"777"}, "id"=>"6ca10877-7c50-4a5c-b58f-004d835c39c3"}, "serviceCatalog"=> [{"type"=>"rax:load-balancer","name"=>"cloudLoadBalancers",  "endpoints"=>[{"region"=>"ORD", "tenantId"=>"777", "publicURL"=>"https://ord.loadbalancers.api.rackspacecloud.com/v1.0/777"}, {"tenantId"=>"777", "publicURL"=>"https://ord.loadbalancers.api.rackspacecloud.com/v1.0/777"}] }] }}
 
-      after_hash = {:cloudLoadBalancers=>{:ord=>"https://ord.loadbalancers.api.rackspacecloud.com/v1.0/777"}}
+      after_hash = {:cloudLoadBalancers=>{:ord=>"https://ord.loadbalancers.api.rackspacecloud.com/v1.0/777", :global=>"https://ord.loadbalancers.api.rackspacecloud.com/v1.0/777"}}
       service_catalog = Fog::Rackspace::Identity::ServiceCatalog.from_response(nil, before_hash)
       returns(after_hash) { service_catalog.catalog }
     end
