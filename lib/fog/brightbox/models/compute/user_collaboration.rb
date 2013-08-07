@@ -17,9 +17,24 @@ module Fog
           account['id'] || account[:id]
         end
 
+        def accept
+          requires :identity
+          data = service.accept_user_collaboration(identity)
+          merge_attributes(data)
+          true
+        end
+
+        def reject
+          requires :identity
+          data = service.reject_user_collaboration(identity)
+          merge_attributes(data)
+          true
+        end
+
         def destroy
           requires :identity
-          connection.destroy_user_collaboration(identity)
+          data = service.destroy_user_collaboration(identity)
+          merge_attributes(data)
           true
         end
 
