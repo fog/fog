@@ -40,8 +40,26 @@ module Fog
 
         def save
           requires :name
+          requires :preferred_kernel
+          requires :raw_disk
 
-          reload
+          options = {
+            'preferredKernel' => preferred_kernel,
+            'rawDisk'         => raw_disk,
+            'description'     => description,
+          }
+
+          service.insert_image(name, options)
+
+          data = service.backoff_if_unfound {
+            service.get_image(self.name).body
+          }
+
+          # Track the name of the project in which we insert the image
+          data.merge!('project' => service.project)
+          self.project = self.service.project
+
+          service.images.merge_attributes(data)
         end
 
         def resource_url
