@@ -18,8 +18,4 @@ Shindo.tests('AWS::RDS | db instance option requests', ['aws', 'rds']) do
 
   end
 
-  tests("failures") do
-    raises(Fog::AWS::RDS::Error) {Fog::AWS[:rds].describe_orderable_db_instance_options('doesntexist')}
-  end
-
 end
