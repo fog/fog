@@ -30,9 +30,17 @@ module Fog
           true
         end
 
+        def resend
+          requires :identity
+          data = service.resend_collaboration(identity)
+          merge_attributes(data)
+          true
+        end
+
         def destroy
           requires :identity
-          service.destroy_collaboration(identity)
+          data = service.destroy_collaboration(identity)
+          merge_attributes(data)
           true
         end
 

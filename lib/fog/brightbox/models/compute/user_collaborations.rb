@@ -12,6 +12,14 @@ module Fog
           load(data)
         end
 
+        def get(identifier)
+          return nil if identifier.nil? || identifier == ""
+          data = service.get_user_collaboration(identifier)
+          new(data)
+        rescue Excon::Errors::NotFound
+          nil
+        end
+
         def destroy
           requires :identity
           service.destroy_user_collaboration(identity)
