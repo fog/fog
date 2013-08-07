@@ -70,7 +70,8 @@ module Fog
         def endpoints_from_array(endpoints)
           hash = {}
           endpoints.each do |endpoint|
-            region = endpoint["region"].downcase.to_sym
+            region_name = endpoint["region"]
+            region = region_name ? region_name.downcase.to_sym : :global
             url = endpoint["publicURL"].freeze
             hash[region] = url
           end
