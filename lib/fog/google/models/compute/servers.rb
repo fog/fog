@@ -9,14 +9,14 @@ module Fog
 
         model Fog::Compute::Google::Server
 
-        def all(zone=nil)
-          if zone.nil?
+        def all(filters={})
+          if filters['zone'].nil?
             data = []
             service.list_zones.body['items'].each do |zone|
               data += service.list_servers(zone['name']).body["items"] || []
             end
           else
-            data = service.list_servers(zone).body["items"] || []
+            data = service.list_servers(filters['zone']).body["items"] || []
           end
           load(data)
         end
@@ -25,8 +25,11 @@ module Fog
           response = nil
           if zone.nil?
             service.list_zones.body['items'].each do |zone|
-              response = service.get_server(identity, zone['name'])
-              break if response.status == 200
+              begin
+                response = service.get_server(identity, zone['name'])
+                break if response.status == 200
+              rescue Fog::Errors::Error
+              end
             end
           else
             response = service.get_server(identity, zone)

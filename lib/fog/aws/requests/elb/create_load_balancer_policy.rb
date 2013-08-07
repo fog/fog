@@ -47,7 +47,7 @@ module Fog
         def create_load_balancer_policy(lb_name, name, type_name, attributes = {})
           if load_balancer = self.data[:load_balancers][lb_name]
             raise Fog::AWS::ELB::DuplicatePolicyName, name if policy = load_balancer['Policies']['Proper'].find { |p| p['PolicyName'] == name }
-            raise Fog::AWS::ELB::PolicyTypeNotFound, policy_type unless policy_type = self.data[:policy_types].find { |pt| pt['PolicyTypeName'] == type_name }
+            raise Fog::AWS::ELB::PolicyTypeNotFound, type_name unless policy_type = self.data[:policy_types].find { |pt| pt['PolicyTypeName'] == type_name }
 
             response = Excon::Response.new
 
