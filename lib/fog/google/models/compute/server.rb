@@ -32,9 +32,11 @@ module Fog
           ip = nil
           if self.network_interfaces.respond_to? :each
             self.network_interfaces.each do |netif|
-              netif["accessConfigs"].each do |access_config|
-                if access_config["name"] == "External NAT"
-                  ip = access_config['natIP']
+              if netif["accessConfigs"].respond_to? :each
+                netif["accessConfigs"].each do |access_config|
+                  if access_config["name"] == "External NAT"
+                    ip = access_config['natIP']
+                  end
                 end
               end
             end
