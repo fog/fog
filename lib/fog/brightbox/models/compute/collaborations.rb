@@ -8,13 +8,13 @@ module Fog
         model Fog::Compute::Brightbox::Collaboration
 
         def all
-          data = connection.list_collaborations
+          data = service.list_collaborations
           load(data)
         end
 
         def destroy
           requires :identity
-          connection.destroy_collaboration(identity)
+          service.destroy_collaboration(identity)
           true
         end
       end

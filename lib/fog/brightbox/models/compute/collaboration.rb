@@ -25,14 +25,14 @@ module Fog
             :email => email
           }.delete_if { |k, v| v.nil? || v == "" }
 
-          data = connection.create_collaboration(options)
+          data = service.create_collaboration(options)
           merge_attributes(data)
           true
         end
 
         def destroy
           requires :identity
-          connection.destroy_collaboration(identity)
+          service.destroy_collaboration(identity)
           true
         end
 
