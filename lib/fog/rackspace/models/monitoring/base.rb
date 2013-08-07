@@ -19,8 +19,8 @@ module Fog
         end
 
         def compare?(b)
-          a_o = prep
-          b_o = b.prep
+          a_o = params
+          b_o = b.params
           remain = a_o.reject {|key, value| b_o[key] === value}
           remain.empty?
         end
