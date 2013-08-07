@@ -51,6 +51,8 @@ module Fog
       request :describe_db_subnet_groups
       # TODO: :delete_db_subnet_group, :modify_db_subnet_group
 
+      request :describe_orderable_db_instance_options
+
       request :describe_db_log_files
       request :download_db_logfile_portion
 
@@ -72,6 +74,9 @@ module Fog
 
       model       :subnet_group
       collection  :subnet_groups
+
+      model       :instance_option
+      collection  :instance_options
 
       model       :log_file
       collection  :log_files
