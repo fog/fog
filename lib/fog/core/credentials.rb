@@ -50,11 +50,16 @@ module Fog
     @credentials = new_credentials
   end
 
+  def self.symbolize_credential?(key)
+    ![:headers].include?(key)
+  end
+
   def self.symbolize_credentials(args)
     if args.is_a? Hash
       copy = Array.new
       args.each do |key, value|
-        copy.push(key.to_sym, self.symbolize_credentials(value))
+        obj = symbolize_credential?(key) ? value : self.symbolize_credentials(value)
+        copy.push(key.to_sym, obj)
       end
       Hash[*copy]
     else

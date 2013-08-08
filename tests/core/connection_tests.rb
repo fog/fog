@@ -13,6 +13,16 @@ Shindo.tests('Fog::Core::Connection', ['core']) do
     end
   end
 
+  tests('new("http://example.com", false, options")') do
+    options = {
+      :headers => {'User-Agent' => 'custom agent'}
+    }
+    @instance = Fog::Core::Connection.new("http://example.com", true, options)
+    tests('user agent').returns('custom agent') do
+      @instance.instance_variable_get(:@excon).data[:headers]['User-Agent']
+    end
+  end
+
   tests('new("http://example.com", true)') do
     Fog::Core::Connection.new("http://example.com", true)
   end
