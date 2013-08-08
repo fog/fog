@@ -14,7 +14,7 @@ module Fog
         # * response<~Excon::Response>:
         # * body<~Hash>:
         # * 'requestId'<~String> - Id of the request
-        # * 'routeTableSet'<~Array> - Information about the newly created route table
+        # * 'routeTable'<~Array> - Information about the newly created route table
         # *   'routeTableId'<~String>
         # *   'vpcId'<~String>
         # *   'routeSet'<~Array>
@@ -30,7 +30,6 @@ module Fog
             'VpcId' => vpc_id,
             :parser => Fog::Parsers::Compute::AWS::CreateRouteTable.new
           })
-
         end
       end
       
@@ -40,22 +39,23 @@ module Fog
           vpc = self.data[:vpcs].find { |vpc| vpc["vpcId"].eql? vpc_id }
           unless vpc.nil?
             response.status = 200
-            self.data[:route_tables].push({
+            route_table = {
               'routeTableId' => "rtb-#{Fog::Mock.random_hex(8)}",
               'vpcId' => vpc["vpcId"],
-              'routeSet' => {
+              'routeSet' => [
                 'item' => {
                   "destinationCidrBlock" => vpc["cidrBlock"],
                   "gatewayId" => "local",
                   "state" => "pending"
                 }
-              },
-              'associationSet' => {},
+              ],
+              'associationSet' => [],
               'tagSet' => {}
-            })
+            }
+            self.data[:route_tables].push(route_table)
             response.body = {
               'requestId'=> Fog::AWS::Mock.request_id,
-              'routeTableSet' => self.data[:route_tables]
+              'routeTable' => route_table
             }
             response
           else

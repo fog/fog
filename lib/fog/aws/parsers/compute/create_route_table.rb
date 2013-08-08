@@ -11,7 +11,7 @@ module Fog
             @route = {}
             @association = {}
             @route_table = { 'routeSet' => [], 'tagSet' => {}, 'associationSet' => [] }
-            @response = { 'routeTableSet' => [] }
+            @response = { 'routeTable' => [] }
             @tag = {}
           end
 
@@ -59,7 +59,7 @@ module Fog
               when 'routeTableId', 'vpcId'
                 @route_table[name] = value
               when 'routeTable'
-                @response['routeTableSet'] << @route_table
+                @response['routeTable'] << @route_table
                 @route_table = { 'routeSet' => {}, 'tagSet' => {}, 'associationSet' => {} }
               when 'requestId'
                 @response[name] = value

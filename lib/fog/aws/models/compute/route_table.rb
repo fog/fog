@@ -48,25 +48,23 @@ module Fog
         def save
           requires :vpc_id
 
-          data = service.create_route_table(vpc_id).body['routeTableSet'].first
+          data = service.create_route_table(vpc_id).body['routeTable']
           new_attributes = data.reject {|key,value| key == 'requestId'}
           merge_attributes(new_attributes)
           true
         end
         
-        
-         private
+        private
 
-          def associationSet=(new_association_set)
-            merge_attributes(new_association_set.first || {})
-          end
-          
-          def routeSet=(new_route_set)
-            merge_attributes(new_route_set || {})
-          end
+        def associationSet=(new_association_set)
+          merge_attributes(new_association_set.first || {})
+        end
+
+        def routeSet=(new_route_set)
+          merge_attributes(new_route_set || {})
+        end
 
       end
-
     end
   end
 end
