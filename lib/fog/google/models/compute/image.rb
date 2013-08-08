@@ -28,6 +28,7 @@ module Fog
         # }
         attribute :raw_disk
 
+        attribute :status
 
         def reload
           requires :name
