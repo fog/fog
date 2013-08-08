@@ -20,6 +20,9 @@ module Fog
         { :bits => 64, :cores =>   13, :disk => 850,  :id =>  'm2.2xlarge', :name => 'High Memory Double Extra Large',    :ram => 35020.8},
         { :bits => 64, :cores =>   26, :disk => 1690, :id =>  'm2.4xlarge', :name => 'High Memory Quadruple Extra Large', :ram => 70041.6},
 
+        { :bits => 64, :cores =>   13, :disk => 0, :id =>  'm3.xlarge', :name => 'M3 Extra Large', :ram => 15360},
+        { :bits => 64, :cores =>   26, :disk => 0, :id =>  'm3.2xlarge', :name => 'M3 Double Extra Large', :ram => 30720},
+
         { :bits => 64, :cores =>   35, :disk => 2048, :id => "hi1.4xlarge", :name => "High I/O Quadruple Extra Large Instance", :ram => 61952},
 
         { :bits => 64, :cores => 33.5, :disk => 1690, :id => 'cc1.4xlarge', :name => 'Cluster Compute Quadruple Extra Large', :ram => 23552},
@@ -129,6 +132,22 @@ module Fog
         #        disk=1690,
         #        name="Cluster Compute Quadruple Extra Large",
         #        ram=23552
+        #      >,
+        #      <Fog::Compute::AWS::Flavor
+        #        id="m3.xlarge",
+        #        bits=64,
+        #        cores=13,
+        #        disk=0,
+        #        name="M3 Extra Large",
+        #        ram=15360
+        #      >,
+        #      <Fog::Compute::AWS::Flavor
+        #        id="m3.2xlarge",
+        #        bits=64,
+        #        cores=26,
+        #        disk=0,
+        #        name="M3 Double Extra Large",
+        #        ram=30720
         #      >,
         #      <Fog::AWS::Compute::Flavor
         #        id="cc2.8xlarge",
