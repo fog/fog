@@ -18,12 +18,19 @@ module Fog
             'project' => @project,
             'zone' => zone_name
           }
+
           if image_name
-            # We don't know the owner of the image.
-            image = images.create({:name => image_name})
+            begin
+              image = images.get(image_name)
+            rescue Fog::Errors::Error
+              # We don't know the owner of the image.
+              image = images.create({:name => image_name})
+            end
+
             @image_url = @api_url + image.resource_url
             parameters['sourceImage'] = @image_url
           end
+
           body_object = {
             'name' => disk_name,
             'sizeGb' => disk_size,
