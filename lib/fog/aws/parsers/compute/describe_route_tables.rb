@@ -32,7 +32,7 @@ module Fog
               case name
               when 'associationSet'
                 @in_association_set = false
-              when 'routeTableAssociationId', 'routeTableId', 'main'
+              when 'routeTableAssociationId', 'routeTableId', 'subnetId', 'main'
                 @association[name] = value
               when 'item'
                 @route_table['associationSet'] << @association
