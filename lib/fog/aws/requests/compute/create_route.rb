@@ -5,7 +5,7 @@ module Fog
 
         require 'fog/aws/parsers/compute/basic'
 
-        # Creates a route table within a VPC.
+        # Creates a route in a route table within a VPC.
         #
         # ==== Parameters
         # * RouteTableId<~String> - The ID of the route table for the route.
