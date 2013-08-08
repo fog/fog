@@ -76,7 +76,21 @@ module Fog
 
         def describe_policies(options = {})
           results = { 'ScalingPolicies' => [] }
-          self.data[:scaling_policies].each do |asp_name, asp_data|
+          policy_set = self.data[:scaling_policies]
+
+          for opt_key, opt_value in options
+            if opt_key == "PolicyNames" && opt_value != nil && opt_value != ""
+              policy_set = policy_set.reject do |asp_name, asp_data|
+                ![*options["PolicyNames"]].include?(asp_name)
+              end
+            elsif opt_key == "AutoScalingGroupName" && opt_value != nil && opt_value != ""
+              policy_set = policy_set.reject do |asp_name, asp_data|
+                options["AutoScalingGroupName"] != asp_data["AutoScalingGroupName"]
+              end
+            end
+          end
+
+          policy_set.each do |asp_name, asp_data|
             results['ScalingPolicies'] << {
               'PolicyName' => asp_name
             }.merge!(asp_data)
