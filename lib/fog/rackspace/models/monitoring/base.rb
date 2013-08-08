@@ -24,12 +24,6 @@ module Fog
           remain = a_o.reject {|key, value| b_o[key] === value}
           remain.empty?
         end
-
-        def entity_id
-          raise(ArgumentError, "entity with id is required for this operation") unless entity && entity.identity
-          entity.identity
-        end
-
       end
     end
   end
