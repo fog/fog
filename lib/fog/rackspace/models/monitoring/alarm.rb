@@ -7,14 +7,21 @@ module Fog
       class Alarm < Fog::Rackspace::Monitoring::Base
 
         identity :id
-        attribute :entity
-        attribute :entity_id
+        attribute :entity, :aliases => 'entity_id'
+        attribute :check, :aliases => 'check_id'
 
         attribute :label
         attribute :criteria
         attribute :check_type
-        attribute :check_id
         attribute :notification_plan_id
+
+        def entity=(obj)
+         attributes[:entity] = obj.is_a?(String) ? Entity.new(:id => obj) : obj
+        end
+
+        def check=(obj)
+          attributes[:check] = obj.is_a?(String) ? Check.new(:id => obj) : obj
+        end
 
         def params(options={})
           h = {
@@ -27,13 +34,14 @@ module Fog
 
         def save
           requires :notification_plan_id
-          requires :entity_id
+          requires :entity
+          requires :check
 
           if identity
-            data = service.update_alarm(entity_id, identity, params)
+            data = service.update_alarm(entity.id, identity, params)
           else
-            options = params('check_type' => check_type, 'check_id' => check_id)
-            data = service.create_alarm(entity_id, options)
+            options = params('check_type' => check_type, 'check_id' => check.id)
+            data = service.create_alarm(entity.id, options)
             self.id = data.headers['X-Object-ID']
           end
           true
@@ -41,7 +49,7 @@ module Fog
 
         def destroy
           requires :id
-          service.delete_alarm(entity.id,id)
+          service.delete_alarm(entity.id, id)
         end
 
       end
