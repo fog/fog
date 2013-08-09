@@ -17,10 +17,10 @@ Shindo.tests('Fog::Rackspace::Monitoring | alarm', ['rackspace','rackspace_monit
       check = Fog::Rackspace::Monitoring::Check.new(:id => check_id)
       check.entity = entity
       alarm = Fog::Rackspace::Monitoring::Alarm.new
-      alarm.check_id = check.id
+      alarm.check = check.id
       
       returns(Fog::Rackspace::Monitoring::Alarm) { alarm.class }
-      returns(check_id) { alarm.check_id }
+      returns(check_id) { alarm.check.id }
     end
   end
 
