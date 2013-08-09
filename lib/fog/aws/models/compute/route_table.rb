@@ -8,7 +8,6 @@ module Fog
 
         identity :id,                :aliases => 'routeTableId'
 
-        attribute :state
         attribute :vpc_id,           :aliases => 'vpcId'
         attribute :routes,           :aliases => 'routeSet'
         attribute :associations,     :aliases => 'associationSet'
@@ -48,7 +47,7 @@ module Fog
         def save
           requires :vpc_id
 
-          data = service.create_route_table(vpc_id).body['routeTable']
+          data = service.create_route_table(vpc_id).body['routeTable'].first
           new_attributes = data.reject {|key,value| key == 'requestId'}
           merge_attributes(new_attributes)
           true

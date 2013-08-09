@@ -21,7 +21,7 @@ module Fog
         # *     'item'<~Array>
         # *       'destinationCidrBlock'<~String> - The CIDR address block used for the destination match.
         # *       'gatewayId'<~String> - The ID of an Internet gateway attached to your VPC.
-        # *       'state'<~String> - The current state of the route table. ['pending', 'available']
+        # *       'state'<~String> - The state of the route. ['blackhole', 'available']
         #
         # {Amazon API Reference}[http://docs.aws.amazon.com/AWSEC2/latest/APIReference/ApiReference-query-CreateRouteTable.html]
         def create_route_table(vpc_id)
@@ -55,7 +55,7 @@ module Fog
             self.data[:route_tables].push(route_table)
             response.body = {
               'requestId'=> Fog::AWS::Mock.request_id,
-              'routeTable' => route_table
+              'routeTable' => [route_table]
             }
             response
           else

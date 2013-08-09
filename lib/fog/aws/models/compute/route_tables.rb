@@ -22,7 +22,6 @@ module Fog
         #>> AWS.route_tables.new
         # <Fog::Compute::AWS::RouteTable
         # id=nil,
-        # state=nil,
         # vpc_id=nil,
         # routes=nil,
         # associations=nil,
