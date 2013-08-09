@@ -49,12 +49,38 @@ module Fog
             :parser     => Fog::Parsers::Compute::AWS::DescribeRouteTables.new
           }.merge!(params))
         end
-
       end
 
       class Mock
+        def describe_route_tables(filters = {})
+          unless filters.is_a?(Hash)
+            Fog::Logger.deprecation("describe_route_tables with #{filters.class} param is deprecated, use describe_route_tables('route-table-id' => []) instead [light_black](#{caller.first})[/]")
+            filters = {'route-table-id' => [*filters]}
+          end
 
+          display_routes = self.data[:route_tables].dup
 
+          aliases = {
+            'route-table-id'  => 'routeTableId',
+            'vpc-id'          => 'vpcId'
+          }
+
+          for filter_key, filter_value in filters
+            filter_attribute = aliases[filter_key]
+            case filter_attribute
+            when 'routeTableId', 'vpcId'
+              display_routes.reject! { |routetable| routetable[filter_attribute] != filter_value }
+            end
+          end
+
+          Excon::Response.new(
+            :status => 200,
+            :body   => {
+              'requestId' => Fog::AWS::Mock.request_id,
+              'routeTableSet'    => display_routes
+            }
+          )
+        end
       end
     end
   end
