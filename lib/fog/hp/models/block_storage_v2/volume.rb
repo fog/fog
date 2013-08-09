@@ -35,7 +35,7 @@ module Fog
 
         # a volume can be attached to only one server at a time
         def server_id
-          attachments[0]['serverId'] if has_attachments?
+          attachments[0]['server_id'] if has_attachments?
         end
 
         # used for creating bootable volumes
