@@ -20,13 +20,8 @@ module Fog
           }
 
           if image_name
-            begin
-              image = images.get(image_name)
-            rescue Fog::Errors::Error
-              # We don't know the owner of the image.
-              image = images.create({:name => image_name})
-            end
-
+            image = images.get(image_name)
+            raise ArgumentError.new('Invalid image specified') unless image
             @image_url = @api_url + image.resource_url
             parameters['sourceImage'] = @image_url
           end
