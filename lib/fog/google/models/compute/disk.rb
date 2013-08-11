@@ -16,17 +16,28 @@ module Fog
         attribute :description, :aliases => 'description'
         attribute :size_gb, :aliases => 'sizeGb'
         attribute :self_link, :aliases => 'selfLink'
-        attribute :image_name, :aliases => 'image'
+        attribute :source_image, :aliases => 'sourceImage'
+        attribute :source_snapshot, :aliases => 'sourceSnapshot'
+        attribute :source_snapshot_id, :aliases => 'sourceSnapshot'
 
         def save
-          data = service.insert_disk(name, size_gb, zone_name, image_name).body
+          requires :name
+          requires :zone_name
+
+          options = {}
+          if source_image.nil?
+            options['sourceSnapshot'] = source_snapshot
+            options['sizeGb']         = size_gb
+          end
+
+          data = service.insert_disk(name, zone_name, source_image, options).body
           data = service.backoff_if_unfound {service.get_disk(name, zone_name).body}
           service.disks.merge_attributes(data)
         end
 
         def destroy
-          requires :name, :zone
-          service.delete_disk(name, zone)
+          requires :name, :zone_name
+          service.delete_disk(name, zone_name)
         end
 
         def zone
