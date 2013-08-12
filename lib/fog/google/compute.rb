@@ -19,6 +19,7 @@ module Fog
       request :list_zones
       request :list_global_operations
       request :list_zone_operations
+      request :list_snapshots
 
       request :get_server
       request :get_disk
@@ -27,6 +28,7 @@ module Fog
       request :get_machine_type
       request :get_network
       request :get_zone
+      request :get_snapshot
 
       request :delete_disk
       request :delete_firewall
@@ -55,6 +57,9 @@ module Fog
 
       model :disk
       collection :disks
+
+      model :snapshot
+      collection :snapshots
 
       class Mock
         include Collections
