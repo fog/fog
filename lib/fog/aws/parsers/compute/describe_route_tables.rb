@@ -9,7 +9,7 @@ module Fog
             @association = {}
             @in_association_set = false
             @in_route_set = false
-            @route = {}
+            @route = { 'destinationCidrBlock' => nil, 'gatewayId' => nil, 'instanceId' => nil, 'instanceOwnerId' => nil, 'networkInterfaceId' => nil, 'state' => nil, 'origin' => nil }
             @response = { 'routeTableSet' => [] }
             @tag = {}
             @route_table = { 'associationSet' => [], 'tagSet' => {}, 'routeSet' => [] }
@@ -50,11 +50,11 @@ module Fog
               end
             elsif @in_route_set
               case name
-              when 'destinationCidrBlock', 'gatewayId', 'state'
+              when 'destinationCidrBlock', 'gatewayId', 'instanceId', 'instanceOwnerId', 'networkInterfaceId', 'state', 'origin'
                 @route[name] = value
               when 'item'
                 @route_table['routeSet'] << @route
-                @route = {}
+                @route = { 'destinationCidrBlock' => nil, 'gatewayId' => nil, 'instanceId' => nil, 'instanceOwnerId' => nil, 'networkInterfaceId' => nil, 'state' => nil, 'origin' => nil }
               when 'routeSet'
                 @in_route_set = false
               end

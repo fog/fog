@@ -46,7 +46,11 @@ module Fog
                 'item' => {
                   "destinationCidrBlock" => vpc["cidrBlock"],
                   "gatewayId" => "local",
-                  "state" => "pending"
+                  "instanceId"=>nil, 
+                  "instanceOwnerId"=>nil, 
+                  "networkInterfaceId"=>nil, 
+                  "state" => "pending",
+                  "origin" => "CreateRouteTable"
                 }
               ],
               'associationSet' => [],
@@ -59,7 +63,7 @@ module Fog
             }
             response
           else
-            raise Fog::Compute::AWS::NotFound.new("The vpc ID '#{vpc_id }' does not exist")
+            raise Fog::Compute::AWS::NotFound.new("The vpc ID '#{vpc_id}' does not exist")
           end 
         end
       end
