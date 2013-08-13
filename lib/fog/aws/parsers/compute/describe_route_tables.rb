@@ -54,6 +54,7 @@ module Fog
                 @route[name] = value
               when 'item'
                 @route_table['routeSet'] << @route
+                @route = {}
               when 'routeSet'
                 @in_route_set = false
               end
