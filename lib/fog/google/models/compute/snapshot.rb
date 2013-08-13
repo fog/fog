@@ -26,7 +26,7 @@ module Fog
         end
 
         def resource_url
-          "#{self.project}/global/snapshots/#{name}"
+          "#{self.service.project}/global/snapshots/#{name}"
         end
 
       end
