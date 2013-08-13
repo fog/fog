@@ -12,7 +12,7 @@ module Fog
 
       class Real
 
-        def insert_disk(disk_name, disk_size, zone_name=@default_zone, image_name=nil)
+        def insert_disk(disk_name, zone_name, image_name=nil, opts={})
           api_method = @compute.disks.insert
           parameters = {
             'project' => @project,
@@ -26,10 +26,22 @@ module Fog
             parameters['sourceImage'] = @image_url
           end
 
-          body_object = {
-            'name' => disk_name,
-            'sizeGb' => disk_size,
-          }
+          body_object = { 'name' => disk_name }
+
+          # These must be present if image_name is not specified
+          if image_name.nil?
+            unless opts.has_key?(:sourceSnapshot) and opts.has_key?(:sizeGb)
+              raise ArgumentError.new('Must specify image OR snapshot and '\
+                                      'disk size when creating a disk.')
+            end
+
+            body_object['sizeGb'] = opts['sizeGb'].delete
+            # TODO 'get' the sourceSnapshot to validate that it exists?
+            body_object['sourceSnapshot'] = opts['sourceSnapshot'].delete
+          end
+
+          # Merge in any remaining options (only 'description' should remain)
+          body_object.merge(opts)
 
           result = self.build_result(api_method, parameters,
                                      body_object)
