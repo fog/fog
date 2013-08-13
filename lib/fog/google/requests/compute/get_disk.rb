@@ -16,6 +16,7 @@ module Fog
           if zone_name.start_with? 'http'
             zone_name = zone_name.split('/')[-1]
           end
+
           api_method = @compute.disks.get
           parameters = {
             'project' => @project,

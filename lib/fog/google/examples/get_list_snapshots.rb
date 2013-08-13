@@ -11,8 +11,10 @@ def test
   snap = snapshots.first
   # puts 'Fetching a single image from a global project...'
   # puts '------------------------------------------------'
-  snap = connection.snapshots.get(snap)
-  raise 'Could not GET the snapshot' unless snap
-  # puts snap.inspect
+  if !snap.nil?
+    snap = connection.snapshots.get(snap)
+    raise 'Could not GET the snapshot' unless snap
+    # puts snap.inspect
+  end
 
 end
