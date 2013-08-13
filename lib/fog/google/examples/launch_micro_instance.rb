@@ -5,7 +5,7 @@ def test
     :name => 'foggydisk',
     :size_gb => 10,
     :zone_name => 'us-central1-a',
-    :image_name => 'centos-6-v20130522',
+    :source_image => 'centos-6-v20130522',
   })
 
   disk.wait_for { disk.ready? }
