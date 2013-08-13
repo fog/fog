@@ -21,30 +21,29 @@ module Fog
         # * 'return'<~Boolean> - Returns true if the request succeeds. Otherwise, returns an error.
         #
         # {Amazon API Reference}[http://docs.aws.amazon.com/AWSEC2/latest/APIReference/ApiReference-query-CreateRoute.html]
-        def create_route(route_table_id, destination_cidr_block, internet_gateway_id=nil, instance_id=nil)
+        def create_route(route_table_id, destination_cidr_block, internet_gateway_id=nil, instance_id=nil, network_interface_id=nil)
+          request_vars = {
+            'Action'                => 'CreateRoute',
+            'RouteTableId'          => route_table_id,
+            'DestinationCidrBlock'  => destination_cidr_block,
+            :parser                 => Fog::Parsers::Compute::AWS::Basic.new
+          }
           if internet_gateway_id
-            request(
-              'Action'                => 'CreateRoute',
-              'RouteTableId'          => route_table_id,
-              'GatewayId'     => internet_gateway_id,
-              'DestinationCidrBlock'  => destination_cidr_block,
-              :parser                 => Fog::Parsers::Compute::AWS::Basic.new
-            )
+            request_vars['GatewayId'] = internet_gateway_id
           elsif instance_id
-            request(
-              'Action'                => 'CreateRoute',
-              'RouteTableId'          => route_table_id,
-              'InstanceId'            => instance_id,
-              'DestinationCidrBlock'  => destination_cidr_block,              
-              :parser                 => Fog::Parsers::Compute::AWS::Basic.new
-            )
+            request_vars['InstanceId'] = instance_id
+          elsif network_interface_id
+            request_vars['NetworkInterfaceId'] = network_interface_id         
           end
+          request(request_vars)
         end
-
       end
 
       class Mock
-        
+
+        def create_route(route_table_id, destination_cidr_block, internet_gateway_id=nil, instance_id=nil, network_interface_id=nil)
+
+        end        
       end
     end
   end
