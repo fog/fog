@@ -63,4 +63,25 @@ Shindo.tests do
       Fog.credentials_path
     }
   end
+
+  tests('symbolize_credential?') do
+    returns(true, "username") { Fog.symbolize_credential?(:username) }
+    returns(false, "headers") { Fog.symbolize_credential?(:headers) }
+  end
+
+  tests('symbolize_credentials') do
+    h = {
+      "a" => 3,
+      :something => 2,
+      "connection_options" => {"val" => 5},
+      :headers => { 'User-Agent' => "my user agent" }
+      }
+
+      returns({
+        :a => 3,
+        :something => 2,
+        :connection_options => {:val => 5},
+        :headers => { 'User-Agent' => "my user agent" }
+        }) { Fog.symbolize_credentials h }
+  end
 end

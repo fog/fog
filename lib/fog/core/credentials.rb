@@ -58,7 +58,7 @@ module Fog
     if args.is_a? Hash
       copy = Array.new
       args.each do |key, value|
-        obj = symbolize_credential?(key) ? value : self.symbolize_credentials(value)
+        obj = symbolize_credential?(key) ? self.symbolize_credentials(value) : value
         copy.push(key.to_sym, obj)
       end
       Hash[*copy]
