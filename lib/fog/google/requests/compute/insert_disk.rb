@@ -30,14 +30,16 @@ module Fog
 
           # These must be present if image_name is not specified
           if image_name.nil?
-            unless opts.has_key?(:sourceSnapshot) and opts.has_key?(:sizeGb)
+            unless opts.has_key?('sourceSnapshot') and opts.has_key?('sizeGb')
               raise ArgumentError.new('Must specify image OR snapshot and '\
                                       'disk size when creating a disk.')
             end
 
-            body_object['sizeGb'] = opts['sizeGb'].delete
-            # TODO 'get' the sourceSnapshot to validate that it exists?
-            body_object['sourceSnapshot'] = opts['sourceSnapshot'].delete
+            body_object['sizeGb'] = opts.delete('sizeGb')
+
+            snap = snapshots.get(opts.delete('sourceSnapshot'))
+            raise ArgumentError.new('Invalid source snapshot') unless snap
+            body_object['sourceSnapshot'] = @api_url + snap.resource_url
           end
 
           # Merge in any remaining options (only 'description' should remain)
