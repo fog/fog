@@ -102,7 +102,7 @@ Shindo.tests('Fog::CDN::Rackspace', ['rackspace']) do
     @service = Fog::CDN::Rackspace.new
     returns(true, "auth token populated") { !@service.send(:auth_token).nil? }
     @service.instance_variable_set("@auth_token", "bad-token")
-    returns(204) { @service.head_containers.status }
+    returns(true) { [200, 204].include? @service.get_containers.status }
   end
 
   pending if Fog.mocking?
