@@ -42,17 +42,15 @@ module Fog
             route_table = {
               'routeTableId' => "rtb-#{Fog::Mock.random_hex(8)}",
               'vpcId' => vpc["vpcId"],
-              'routeSet' => [
-                'item' => {
-                  "destinationCidrBlock" => vpc["cidrBlock"],
-                  "gatewayId" => "local",
-                  "instanceId"=>nil, 
-                  "instanceOwnerId"=>nil, 
-                  "networkInterfaceId"=>nil, 
-                  "state" => "pending",
-                  "origin" => "CreateRouteTable"
-                }
-              ],
+              'routeSet' => [{
+                "destinationCidrBlock" => vpc["cidrBlock"],
+                "gatewayId" => "local",
+                "instanceId"=>nil, 
+                "instanceOwnerId"=>nil, 
+                "networkInterfaceId"=>nil, 
+                "state" => "pending",
+                "origin" => "CreateRouteTable"
+              }],
               'associationSet' => [],
               'tagSet' => {}
             }
