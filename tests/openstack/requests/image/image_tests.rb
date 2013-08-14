@@ -1,15 +1,15 @@
 Shindo.tests('Fog::Image[:openstack] | image requests', ['openstack']) do
   openstack = Fog::Identity[:openstack]
   @image_attributes = {
-    'name'            => 'new image',
-    'owner'           => openstack.current_tenant['id'],
-    'is_public'       => 'true',
-    'copy_from'       => 'http://website.com/image.iso',
-    'disk_format'     => 'iso',
-    'properties'      =>
-      {'user_id'      => openstack.current_user['id'],
-       'owner_id'     => openstack.current_tenant['id']},
-    'container_format'=> 'bare' }
+    :name             => 'new image',
+    :owner            => openstack.current_tenant['id'],
+    :is_public        => true,
+    :copy_from        => 'http://website.com/image.iso',
+    :disk_format      => 'iso',
+    :properties       =>
+      {:user_id       => openstack.current_user['id'],
+       :owner_id      => openstack.current_tenant['id']},
+    :container_format => 'bare' }
 
   @image_format = {
     'name'             => String,
@@ -72,23 +72,38 @@ Shindo.tests('Fog::Image[:openstack] | image requests', ['openstack']) do
   ]
 
   tests('success') do
-    tests('#list_public_images').formats({'images' => [@image_format]}) do
+    tests('#list_public_images').data_matches_schema({'images' => [@image_format]}) do
       Fog::Image[:openstack].list_public_images.body
     end
 
-    tests('#list_public_images_detailed').formats({'images' => [@detailed_image_format]}) do
+    tests('#list_public_images_detailed').data_matches_schema({'images' => [@detailed_image_format]}) do
       Fog::Image[:openstack].list_public_images_detailed.body
     end
 
-    tests('#create_image').formats({'image' => @detailed_image_format}) do
-      @instance = Fog::Image[:openstack].create_image(@image_attributes).body
+    tests('#create_image').data_matches_schema({'image' => @detailed_image_format}) do
+      begin
+        if Fog.mocking?
+          image_attributes = @image_attributes
+        else
+          require 'tempfile'
+          image_attributes = @image_attributes.dup
+          image_attributes.delete(:copy_from)
+          test_iso = Tempfile.new(['fog_test_iso', '.iso'])
+          test_iso.write Fog::Mock.random_hex(32)
+          test_iso.close
+          image_attributes[:location] = test_iso.path
+        end
+        @instance = Fog::Image[:openstack].create_image(image_attributes).body
+      ensure
+        test_iso.delete if test_iso
+      end
     end
 
-    tests('#get_image').formats(@image_meta_format) do
+    tests('#get_image').data_matches_schema(@image_meta_format) do
        Fog::Image[:openstack].get_image(@instance['image']['id']).headers
     end
 
-    tests('#update_image').formats(@detailed_image_format) do
+    tests('#update_image').data_matches_schema(@detailed_image_format) do
        Fog::Image[:openstack].update_image({:id => @instance['image']['id'],
                                             :name => 'edit image'}).body['image']
     end
