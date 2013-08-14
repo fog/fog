@@ -115,17 +115,17 @@ module Fog
           begin
             super(params, parse_json, &block)
           rescue Excon::Errors::NotFound => error
-            raise NotFound.slurp(error, region)
+            raise NotFound.slurp(error, self)
           rescue Excon::Errors::BadRequest => error
-            raise BadRequest.slurp error
+            raise BadRequest.slurp(error, self)
           rescue Excon::Errors::InternalServerError => error
-            raise InternalServerError.slurp error
+            raise InternalServerError.slurp(error, self)
           rescue Excon::Errors::ServiceUnavailable => error
-            raise ServiceUnavailable.slurp error
+            raise ServiceUnavailable.slurp(error, self)
           rescue Excon::Errors::Conflict => error
-            raise Conflict.slurp error
+            raise Conflict.slurp(error, self)
           rescue Excon::Errors::HTTPStatusError => error
-            raise ServiceError.slurp error
+            raise ServiceError.slurp(error, self)
           end
         end
 
