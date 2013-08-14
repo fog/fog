@@ -42,7 +42,48 @@ module Fog
       class Mock
 
         def create_route(route_table_id, destination_cidr_block, internet_gateway_id=nil, instance_id=nil, network_interface_id=nil)
-
+          instance_owner_id = nil
+          route_table = self.data[:route_tables].find { |routetable| routetable["routeTableId"].eql? route_table_id }
+          if !route_table.nil? && destination_cidr_block
+            if !internet_gateway_id.nil? || !instance_id.nil? || !network_interface_id.nil?
+              if !internet_gateway_id.nil? && self.internet_gateways.all('internet-gateway-id'=>internet_gateway_id).first.nil?
+                raise Fog::Compute::AWS::NotFound.new("The gateway ID '#{internet_gateway_id}' does not exist")
+              elsif !instance_id.nil? && self.servers.all('instance-id'=>instance_id).first.nil?
+                message = 'Malformed => '
+                message << "Invalid id: #{instance_id}"
+                raise Fog::Compute::AWS::Error.new(message)
+              elsif !network_interface_id.nil? && self.network_interfaces.all('network-interface-id'=>network_interface_id).first.nil?
+                message = 'Malformed => '
+                message << "Invalid id: #{network_interface_id}"
+                raise Fog::Compute::AWS::Error.new(message)
+              else   
+                response = Excon::Response.new           
+                route_table['routeSet'].push({
+                  "destinationCidrBlock" => route_table_id,
+                  "gatewayId" => internet_gateway_id,
+                  "instanceId"=>instance_id, 
+                  "instanceOwnerId"=>instance_owner_id, 
+                  "networkInterfaceId"=>network_interface_id, 
+                  "state" => "pending",
+                  "origin" => "CreateRoute"
+                })
+                response.status = 200
+                response.body = {
+                  'requestId'=> Fog::AWS::Mock.request_id,
+                  'return' => true
+                }
+                response
+              end
+            else
+              message = 'MissingParameter => '
+              message << 'The request must contain either a gateway id, a network interface id, or an instance id'
+              raise Fog::Compute::AWS::Error.new(message)
+            end
+          elsif route_table.nil?
+            raise Fog::Compute::AWS::NotFound.new("The routeTable ID '#{route_table_id}' does not exist")
+          elsif destination_cidr_block.empty?
+            raise Fog::Compute::AWS::InvalidParameterValue.new("Value () for parameter destinationCidrBlock is invalid. This is not a valid CIDR block.")
+          end
         end        
       end
     end
