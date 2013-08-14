@@ -19,7 +19,7 @@ module Fog
           "[#{status} | #{transaction_id}] #{super}"
         end
 
-        def self.slurp(error)
+        def self.slurp(error, service=nil)
           data = nil
           message = nil
           status_code = nil
@@ -69,7 +69,7 @@ module Fog
         #TODO - Need to find a better way to print out these validation errors when they are thrown
         attr_reader :validation_errors
 
-        def self.slurp(error)
+        def self.slurp(error, service=nil)
           new_error = super(error)
           unless new_error.response_data.nil? or new_error.response_data['badRequest'].nil?
             new_error.instance_variable_set(:@validation_errors, new_error.response_data['badRequest']['validationErrors'])
