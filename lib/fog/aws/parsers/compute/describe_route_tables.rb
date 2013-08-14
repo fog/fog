@@ -6,7 +6,7 @@ module Fog
         class DescribeRouteTables < Fog::Parsers::Base
 
           def reset
-            @association = {}
+            @association = { 'routeTableAssociationId' => nil, 'routeTableId' => nil, 'subnetId' => nil, 'main' => false }
             @in_association_set = false
             @in_route_set = false
             @route = { 'destinationCidrBlock' => nil, 'gatewayId' => nil, 'instanceId' => nil, 'instanceOwnerId' => nil, 'networkInterfaceId' => nil, 'state' => nil, 'origin' => nil }
@@ -32,11 +32,17 @@ module Fog
               case name
               when 'associationSet'
                 @in_association_set = false
-              when 'routeTableAssociationId', 'routeTableId', 'subnetId', 'main'
+              when 'routeTableAssociationId', 'routeTableId', 'subnetId'
                 @association[name] = value
+              when 'main'
+                if value == 'true'
+                  @association[name] = true
+                else
+                  @association[name] = false
+                end
               when 'item'
                 @route_table['associationSet'] << @association
-                @association = {}
+                @association = { 'routeTableAssociationId' => nil, 'routeTableId' => nil, 'subnetId' => nil, 'main' => false }
               end
             elsif @in_tag_set
               case name
