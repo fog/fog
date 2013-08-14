@@ -18,8 +18,8 @@ module Fog
         # ==== See Also
         # http://docs.rackspace.com/files/api/v1/cf-devguide/content/Create_TempURL-d1a444.html
         def get_object_https_url(container, object, expires, options = {})
-          if @rackspace_temp_url_key.nil?
-            raise ArgumentError, "Storage must my instantiated with the :rackspace_temp_url_key option"
+          if @openstack_temp_url_key.nil?
+            raise ArgumentError, "Storage must my instantiated with the :openstack_temp_url_key option"
           end
 
           method         = 'GET'
@@ -28,7 +28,7 @@ module Fog
           object_path_unescaped = "#{@path}/#{Fog::OpenStack.escape(container)}/#{object}"
           string_to_sign = "#{method}\n#{expires}\n#{object_path_unescaped}"
 
-          hmac = Fog::HMAC.new('sha1', @rackspace_temp_url_key)
+          hmac = Fog::HMAC.new('sha1', @openstack_temp_url_key)
           sig  = sig_to_hex(hmac.sign(string_to_sign))
 
           "https://#{@host}#{object_path_escaped}?temp_url_sig=#{sig}&temp_url_expires=#{expires}"
