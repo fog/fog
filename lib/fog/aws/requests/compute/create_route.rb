@@ -59,7 +59,7 @@ module Fog
               else   
                 response = Excon::Response.new           
                 route_table['routeSet'].push({
-                  "destinationCidrBlock" => route_table_id,
+                  "destinationCidrBlock" => destination_cidr_block,
                   "gatewayId" => internet_gateway_id,
                   "instanceId"=>instance_id, 
                   "instanceOwnerId"=>instance_owner_id, 
