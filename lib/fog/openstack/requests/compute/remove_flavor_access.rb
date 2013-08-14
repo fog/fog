@@ -6,7 +6,7 @@ module Fog
           request(
             :body => MultiJson.encode({
               "removeTenantAccess" => {
-                "tenant" => tenant_id
+                "tenant" => tenant_id.to_s
               }
             }),
             :expects  => [200, 203],
