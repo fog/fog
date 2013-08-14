@@ -31,6 +31,29 @@ module Fog
 
       class Mock
         
+        def delete_route(route_table_id, destination_cidr_block)
+          route_table = self.data[:route_tables].find { |routetable| routetable["routeTableId"].eql? route_table_id }
+          unless route_table.nil?
+            route = route_table['routeSet'].find { |route| route["destinationCidrBlock"].eql? destination_cidr_block }
+            if !route.nil? && route['gatewayId'] != "local"
+              route_table['routeSet'].delete(route)
+              response = Excon::Response.new
+              response.status = 200
+              response.body = {
+                  'requestId'=> Fog::AWS::Mock.request_id,
+                  'return' => true
+              }
+              response
+            elsif route['gatewayId'] == "local"
+              # Cannot delete the default route
+              raise Fog::Compute::AWS::Error, "InvalidParameterValue => cannot remove local route #{destination_cidr_block} in route table #{route_table_id}"
+            else
+              raise Fog::Compute::AWS::NotFound.new("no route with destination-cidr-block #{destination_cidr_block} in route table #{route_table_id}") 
+            end
+          else
+            raise Fog::Compute::AWS::NotFound.new("no route with destination-cidr-block #{destination_cidr_block} in route table #{route_table_id}")
+          end
+        end
       end
     end
   end
