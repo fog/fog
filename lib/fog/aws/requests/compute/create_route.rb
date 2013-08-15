@@ -49,13 +49,11 @@ module Fog
               if !internet_gateway_id.nil? && self.internet_gateways.all('internet-gateway-id'=>internet_gateway_id).first.nil?
                 raise Fog::Compute::AWS::NotFound.new("The gateway ID '#{internet_gateway_id}' does not exist")
               elsif !instance_id.nil? && self.servers.all('instance-id'=>instance_id).first.nil?
-                message = 'Malformed => '
-                message << "Invalid id: #{instance_id}"
-                raise Fog::Compute::AWS::Error.new(message)
-              elsif !network_interface_id.nil? && self.network_interfaces.all('network-interface-id'=>network_interface_id).first.nil?
-                message = 'Malformed => '
-                message << "Invalid id: #{network_interface_id}"
-                raise Fog::Compute::AWS::Error.new(message)
+                raise Fog::Compute::AWS::NotFound.new("The instance ID '#{instance_id}' does not exist")
+              elsif !network_interface_id.nil? && self.network_interfaces.all('networkInterfaceId'=>network_interface_id).first.nil?
+                raise Fog::Compute::AWS::NotFound.new("The networkInterface ID '#{network_interface_id}' does not exist")
+              elsif !route_table['routeSet'].find { |route| route['destinationCidrBlock'].eql? destination_cidr_block }.nil?
+                raise Fog::Compute::AWS::Error, "RouteAlreadyExists => The route identified by #{destination_cidr_block} already exists."
               else   
                 response = Excon::Response.new           
                 route_table['routeSet'].push({
