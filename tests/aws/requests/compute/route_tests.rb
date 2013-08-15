@@ -40,7 +40,7 @@ Shindo.tests('Fog::Compute[:aws] | route table requests', ['aws']) do
   }
 
   vpc = Fog::Compute[:aws].vpcs.create('cidr_block' => '10.0.10.0/24')
-  if !Fog.mocking? do
+  if !Fog.mocking?
     vpc.wait_for { state.eql? "available" }
   end
   @subnet_id = Fog::Compute[:aws].create_subnet(vpc.id, '10.0.10.0/24').body['subnetSet'].first['subnetId']
@@ -116,7 +116,9 @@ Shindo.tests('Fog::Compute[:aws] | route table requests', ['aws']) do
     end
 
     Fog::Compute[:aws].servers.all('instance-id'=>instance.id).first.destroy
-    instance.wait_for { state.eql? "terminated" }
+    if !Fog.mocking?
+      instance.wait_for { state.eql? "terminated" }
+    end
     tests("#delete_route('#{@route_table_id}', '#{@destination_cidr_block}')").formats(AWS::Compute::Formats::BASIC) do
       Fog::Compute[:aws].delete_route(@route_table_id, @destination_cidr_block).body
     end
@@ -203,7 +205,7 @@ Shindo.tests('Fog::Compute[:aws] | route table requests', ['aws']) do
       Fog::Compute[:aws].create_route(@route_table_id, @destination_cidr_block, @internet_gateway_id)
       Fog::Compute[:aws].create_route(@route_table_id, @destination_cidr_block, nil, nil, @network_interface_id).body
     end
-    if !Fog.mocking? do
+    if !Fog.mocking?
       tests("#create_route less specific destination_cidr_block").raises(Fog::Compute::AWS::Error) do
         Fog::Compute[:aws].create_route(@route_table_id, '10.0.10.0/25', @internet_gateway_id)
        Fog::Compute[:aws].delete_route(@route_table_id, @destination_cidr_block).body
@@ -258,7 +260,9 @@ Shindo.tests('Fog::Compute[:aws] | route table requests', ['aws']) do
     end
 
     Fog::Compute[:aws].servers.all('instance-id'=>instance.id).first.destroy
-    instance.wait_for { state.eql? "terminated" }
+    if !Fog.mocking?
+      instance.wait_for { state.eql? "terminated" }
+    end
     Fog::Compute[:aws].delete_route(@route_table_id, @destination_cidr_block)
     Fog::Compute[:aws].disassociate_route_table(@association_id)
     Fog::Compute[:aws].delete_route_table(@route_table_id)
