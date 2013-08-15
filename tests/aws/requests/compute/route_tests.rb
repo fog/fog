@@ -40,7 +40,9 @@ Shindo.tests('Fog::Compute[:aws] | route table requests', ['aws']) do
   }
 
   vpc = Fog::Compute[:aws].vpcs.create('cidr_block' => '10.0.10.0/24')
-  vpc.wait_for { state.eql? "available" }
+  if !Fog.mocking? do
+    vpc.wait_for { state.eql? "available" }
+  end
   @subnet_id = Fog::Compute[:aws].create_subnet(vpc.id, '10.0.10.0/24').body['subnetSet'].first['subnetId']
   @network_interface = Fog::Compute[:aws].create_network_interface(@subnet_id, {"PrivateIpAddress" => "10.0.10.23"}).body
   @internet_gateway_id = Fog::Compute[:aws].create_internet_gateway.body['internetGatewaySet'].first['internetGatewayId']
@@ -121,7 +123,7 @@ Shindo.tests('Fog::Compute[:aws] | route table requests', ['aws']) do
 
     # Test disassociate_route_table(association_id)
     #
-    tests("#disassociate_route_table('#{@association_id}')").formats({'requestId'=>String, 'return'=>String}) do
+    tests("#disassociate_route_table('#{@association_id}')").formats(AWS::Compute::Formats::BASIC) do
       Fog::Compute[:aws].disassociate_route_table(@association_id).body
     end
 
@@ -130,8 +132,6 @@ Shindo.tests('Fog::Compute[:aws] | route table requests', ['aws']) do
     tests("#delete_route_table('#{@route_table_id}')").formats(AWS::Compute::Formats::BASIC) do
       Fog::Compute[:aws].delete_route_table(@route_table_id).body
     end
-    puts Fog::Compute[:aws].describe_internet_gateways
-
   end
   tests('failure') do
 
@@ -203,9 +203,11 @@ Shindo.tests('Fog::Compute[:aws] | route table requests', ['aws']) do
       Fog::Compute[:aws].create_route(@route_table_id, @destination_cidr_block, @internet_gateway_id)
       Fog::Compute[:aws].create_route(@route_table_id, @destination_cidr_block, nil, nil, @network_interface_id).body
     end
-    tests("#create_route less specific destination_cidr_block").raises(Fog::Compute::AWS::Error) do
-      Fog::Compute[:aws].create_route(@route_table_id, '10.0.10.0/25', @internet_gateway_id)
-      Fog::Compute[:aws].delete_route(@route_table_id, @destination_cidr_block).body
+    if !Fog.mocking? do
+      tests("#create_route less specific destination_cidr_block").raises(Fog::Compute::AWS::Error) do
+        Fog::Compute[:aws].create_route(@route_table_id, '10.0.10.0/25', @internet_gateway_id)
+       Fog::Compute[:aws].delete_route(@route_table_id, @destination_cidr_block).body
+      end
     end
 
     # Test describe_route_tables
