@@ -134,6 +134,28 @@ Shindo.tests('OpenStack | authenticate', ['openstack']) do
 
     end
 
+    tests("legacy v1 auth") do
+      headers = {
+        "X-Storage-Url"   => "https://swift.myhost.com/v1/AUTH_tenant",
+        "X-Auth-Token"    => "AUTH_yui193bdc00c1c46c5858788yuio0e1e2p",
+        "X-Trans-Id"      => "iu99nm9999f9b999c9b999dad9cd999e99",
+        "Content-Length"  => "0",
+        "Date"            => "Wed, 07 Aug 2013 11:11:11 GMT"
+      }
+
+      Excon.stub({:method => 'GET', :path => "/auth/v1.0"},
+                 {:status => 200, :body => "", :headers => headers})
+
+      returns("https://swift.myhost.com/v1/AUTH_tenant") do
+        Fog::OpenStack.authenticate_v1(
+          :openstack_auth_uri     => URI('https://swift.myhost.com/auth/v1.0'),
+          :openstack_username     => 'tenant:dev',
+          :openstack_api_key      => 'secret_key',
+          :openstack_service_type => %w[storage])[:server_management_url]
+      end
+
+    end
+
   ensure
     Excon.stubs.clear
     Excon.defaults[:mock] = @old_mock_value
