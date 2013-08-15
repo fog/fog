@@ -36,11 +36,10 @@ Shindo.tests('Fog::Rackspace::Monitoring | alarm_tests', ['rackspace','rackspace
     tests('#fail to create new alarm(-1)').raises(Fog::Rackspace::Monitoring::BadRequest) do
       account.create_alarm(entity_id, {:type => ""})
     end
-    # Commenting out update because incorrect update throws a 502
-    #tests('#fail to update invalid alarm(-1)').raises(Fog::Rackspace::Monitoring::NotFound) do
-      #options = { :testing => "Bar" }
-      #response = account.update_alarm(-1,-1,options)
-    #end
+    tests('#fail to update invalid alarm(-1)').raises(Fog::Rackspace::Monitoring::NotFound) do
+      options = { :testing => "Bar" }
+      response = account.update_alarm(-1,-1,options)
+    end
     tests('#fail to list alarms').raises(Fog::Rackspace::Monitoring::NotFound) do
       account.list_alarms(-1)
     end
