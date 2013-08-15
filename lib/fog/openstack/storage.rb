@@ -58,7 +58,7 @@ module Fog
         def reset_data
           self.class.data.delete(@openstack_username)
         end
-        
+
         def change_account(account)
           @original_path ||= @path
           version_string = @original_path.split('/')[1]
@@ -106,7 +106,7 @@ module Fog
         #     # List current user account details
         #     service = Fog::Storage[:openstack]
         #     service.request :method => 'HEAD'
-        #     
+        #
         # Would return something like:
         #
         #     Account:                      AUTH_1234
@@ -119,9 +119,9 @@ module Fog
         #
         #     service.change_account('AUTH_3333')
         #     service.request :method => 'HEAD'
-        # 
+        #
         # Would return something like:
-        #     
+        #
         #     Account:                      AUTH_3333
         #     Date:                         Tue, 05 Mar 2013 16:51:53 GMT
         #     X-Account-Bytes-Used:         23423433
@@ -131,9 +131,9 @@ module Fog
         # If we wan't to go back to our original admin account:
         #
         #     service.reset_account_name
-        # 
+        #
         def change_account(account)
-          @original_path ||= @path 
+          @original_path ||= @path
           version_string = @path.split('/')[1]
           @path = "/#{version_string}/#{account}"
         end
@@ -175,7 +175,7 @@ module Fog
         end
 
         private
-        
+
         def authenticate
           if !@openstack_management_url || @openstack_must_reauthenticate
             options = {
@@ -189,7 +189,7 @@ module Fog
               :openstack_endpoint_type => 'publicURL'
             }
 
-            credentials = Fog::OpenStack.authenticate_v2(options, @connection_options)
+            credentials = Fog::OpenStack.authenticate(options, @connection_options)
 
             @current_user = credentials[:user]
             @current_tenant = credentials[:tenant]

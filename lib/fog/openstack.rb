@@ -49,6 +49,15 @@ module Fog
     service(:volume,  'openstack/volume',  'Volume')
     service(:metering,  'openstack/metering',  'Metering')
 
+    def self.authenticate(options, connection_options = {})
+      case options[:openstack_auth_uri].path
+      when /v1(\.\d+)?/
+        authenticate_v1(options, connection_options)
+      else
+        authenticate_v2(options, connection_options)
+      end
+    end
+
     # legacy v1.0 style auth
     def self.authenticate_v1(options, connection_options = {})
       uri = options[:openstack_auth_uri]
@@ -69,7 +78,7 @@ module Fog
 
       return {
         :token => response.headers['X-Auth-Token'],
-        :server_management_url => response.headers['X-Server-Management-Url'],
+        :server_management_url => response.headers['X-Server-Management-Url'] || response.headers['X-Storage-Url'],
         :identity_public_endpoint => response.headers['X-Keystone']
       }
     end
