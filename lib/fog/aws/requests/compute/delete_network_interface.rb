@@ -3,7 +3,7 @@ module Fog
     class AWS
       class Real
 
-        require 'fog/aws/parsers/compute/delete_network_interface'
+        require 'fog/aws/parsers/compute/basic'
         # Deletes a network interface.
         #
         # ==== Parameters
@@ -20,7 +20,7 @@ module Fog
           request(
             'Action'             => 'DeleteNetworkInterface',
             'NetworkInterfaceId' => network_interface_id,
-            :parser => Fog::Parsers::Compute::AWS::DeleteNetworkInterface.new
+            :parser => Fog::Parsers::Compute::AWS::Basic.new
           )
         end
       end
