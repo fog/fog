@@ -304,12 +304,20 @@ Shindo.tests('Fog::Storage[:rackspace] | large object requests', ['rackspace']) 
         end
       end
 
-      tests('#delete_static_large_object with missing container').raises(Fog::Storage::Rackspace::NotFound) do
-        Fog::Storage[:rackspace].delete_static_large_object('fognoncontainer', 'fog_large_object')
+      tests('#delete_static_large_object with missing container') do
+        response = Fog::Storage[:rackspace].delete_static_large_object('fognoncontainer', 'fog_large_object')
+        returns(200) { response.status }
+        returns(0) { response.body["Number Not Found"] }
+        returns("400 Bad Request") { response.body["Response Status"]}
+        returns("Invalid bulk delete.") { response.body["Response Body"]}
       end
 
-      tests('#delete_static_large_object with missing manifest').raises(Fog::Storage::Rackspace::NotFound) do
-        Fog::Storage[:rackspace].delete_static_large_object(@directory.identity, 'fog_non_object')
+      tests('#delete_static_large_object with missing manifest') do
+        response = Fog::Storage[:rackspace].delete_static_large_object(@directory.identity, 'fog_non_object')
+        returns(200) { response.status }
+        returns(0) { response.body["Number Not Found"] }
+        returns("400 Bad Request") { response.body["Response Status"]}
+        returns("Invalid bulk delete.") { response.body["Response Body"]}
       end
 
       tests('#delete_static_large_object with missing segment') do
