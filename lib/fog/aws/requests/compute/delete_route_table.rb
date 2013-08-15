@@ -39,10 +39,10 @@ module Fog
                 'return' => true
               }
               response
-          elsif !route_table['associationSet'].empty?
-            raise Fog::Compute::AWS::Error, "DependencyViolation => The routeTable '#{route_table_id}' has dependencies and cannot be deleted."
           elsif route_table.nil?
             raise Fog::Compute::AWS::NotFound.new("The routeTable ID '#{route_table_id}' does not exist")
+          elsif !route_table['associationSet'].empty?
+            raise Fog::Compute::AWS::Error, "DependencyViolation => The routeTable '#{route_table_id}' has dependencies and cannot be deleted."
           end
         end
       end
