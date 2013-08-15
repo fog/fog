@@ -45,8 +45,6 @@ module Fog
           new_error
         end
 
-        private
-
         def set_transaction_id(error, service)
           return unless service && service.respond_to?(:request_id_header) && error.response
           @transaction_id = error.response.headers[service.request_id_header]
@@ -75,8 +73,10 @@ module Fog
             new_error.instance_variable_set(:@validation_errors, new_error.response_data['badRequest']['validationErrors'])
           end
 
+          status_code = error.response ? error.response.status : nil
           new_error.instance_variable_set(:@status_code, status_code)
           new_error.set_transaction_id(error, service)
+          new_error
         end
       end
     end
