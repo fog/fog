@@ -28,7 +28,23 @@ module Fog
       end
 
       class Mock
-
+        def delete_route_table(route_table_id)
+          route_table = self.data[:route_tables].find { |routetable| routetable["routeTableId"].eql? route_table_id }
+          if !route_table.nil? && route_table['associationSet'].empty?
+            self.data[:route_tables].delete(route_table)
+              response = Excon::Response.new
+              response.status = 200
+              response.body = {
+                'requestId'=> Fog::AWS::Mock.request_id,
+                'return' => true
+              }
+              response
+          elsif !route_table['associationSet'].empty?
+            raise Fog::Compute::AWS::Error, "DependencyViolation => The routeTable '#{route_table_id}' has dependencies and cannot be deleted."
+          elsif route_table.nil?
+            raise Fog::Compute::AWS::NotFound.new("The routeTable ID '#{route_table_id}' does not exist")
+          end
+        end
       end
     end
   end
