@@ -56,6 +56,7 @@ module Fog
               'Aaron Suggs',
               'Brian Hartsock',
               'Christopher Oliver',
+              'Daniel Reichert',
               'Decklin Foster',
               'Dylan Egan',
               'Erik Michaels-Ober',
