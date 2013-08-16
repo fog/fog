@@ -39,7 +39,20 @@ module Fog
       end
       
       class Mock
-       
+        def create_route_table(vpc_id, options={})
+          self.data[:route_tables] = {
+              'routeTableId' => Fog::AWS::Mock.request_id,
+              'attachmentSet' => {},
+              'tagSet' => {}
+            }
+          Excon::Response.new(
+            :status => 200,
+            :body => {
+              'requestId'=> Fog::AWS::Mock.request_id,
+              'routeTableSet' => self.data[:route_tables]
+            }
+            )
+        end
       end
     end
   end
