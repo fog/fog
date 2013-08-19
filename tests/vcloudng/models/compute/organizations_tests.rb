@@ -2,14 +2,21 @@ require_relative './helper.rb'
 
 VCR.use_cassette(File.basename(__FILE__)) do
   
-  Shindo.tests("Compute::Vcloudng | organizations", ['vcloudng']) do
+  Shindo.tests("Compute::Vcloudng | organizations", ['all']) do
     pending if Fog.mocking?
     organizations = vcloudng.organizations
     tests("#There is one organization").returns(1){ organizations.size }
+    
+    org = organizations.first
+    
     tests("Compute::Vcloudng | organization") do
-      org = organizations.first
       tests("#name").returns("DevOps"){ org.name }
       tests("#type").returns("application/vnd.vmware.vcloud.org+xml"){ org.type }
+    end
+    
+    tests("Compute::Vcloudng | organization", ['get']) do
+      tests("#get_by_name").returns(org.name) { organizations.get_by_name(org.name).name }
+      tests("#get").returns(org.id) { organizations.get(org.id).id }
     end
   end
 end

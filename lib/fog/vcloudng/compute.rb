@@ -106,11 +106,15 @@ module Fog
      class Model < Fog::Model
        def initialize(attrs={})
          super(attrs)
-         lazy_load_attrs = self.class.attributes - attributes.keys
          lazy_load_attrs.each do |attr|
            attributes[attr]= NonLoaded if attributes[attr].nil? 
            make_lazy_load_method(attr)
          end
+         self.class.attributes.each{|attr| make_attr_loaded_method(attr) }
+       end
+       
+       def lazy_load_attrs
+         @lazy_load_attrs ||= self.class.attributes - attributes.keys
        end
         
        def make_lazy_load_method(attr)

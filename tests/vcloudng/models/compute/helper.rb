@@ -17,3 +17,35 @@ def vcloudng
                                                                    } 
                                           )
 end
+
+def organizations 
+  @organizations ||= vcloudng.organizations
+end
+
+def organization
+  organizations.first
+end
+
+def catalogs
+  @catalogs ||= organization.catalogs
+end
+
+def catalog
+  catalogs.first
+end
+
+def vdcs
+  @vdcs ||= organization.vdcs
+end
+
+def vdc
+  vdcs.first
+end
+
+def vapps
+  @vapps ||= vdc.vapps
+end
+
+def vapp
+  vapps.detect {|vapp| vapp.vms.size >= 1 }
+end

@@ -15,9 +15,7 @@ module Fog
         attribute :description, :aliases => :Description
         attribute :deployed, :type => :boolean
         attribute :status
-        attribute :deployment_lease_in_seconds, :aliases => :LeaseSettingsSection, :squash => :DeploymentLeaseInSeconds
-        attribute :storage_lease_in_seconds, :aliases => :LeaseSettingsSection, :squash => :StorageLeaseInSeconds
-        attribute :startup_section, :aliases => :"ovf:StartupSection", :squash => :"ovf:Item"
+        attribute :lease_settings, :aliases => :LeaseSettingsSection
         attribute :network_section, :aliases => :"ovf:NetworkSection", :squash => :"ovf:Network"
         attribute :network_config, :aliases => :NetworkConfigSection, :squash => :NetworkConfig
         attribute :owner, :aliases => :Owner, :squash => :User

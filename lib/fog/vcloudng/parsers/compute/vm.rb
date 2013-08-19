@@ -8,7 +8,7 @@ module Fog
         class Vm < VcloudngParser
 
           def reset
-            @vm = {}
+            @vm = { :ip_address => '' }
             @in_operating_system = false
             @in_children = false
             @resource_type = nil

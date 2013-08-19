@@ -13,8 +13,7 @@ module Fog
         attribute :href
         attribute :description, :aliases => :Description
         attribute :available_networks, :aliases => :AvailableNetworks, :squash => :Network
-        attribute :compute_capacity_cpu , :aliases => :ComputeCapacity, :squash => :Cpu
-        attribute :compute_capacity_memory , :aliases => :ComputeCapacity, :squash => :Memory
+        attribute :compute_capacity, :aliases => :ComputeCapacity
         attribute :storage_capacity , :aliases => :StorageCapacity
         attribute :allocation_model, :aliases => :AllocationModel
         attribute :capabilities, :aliases => :Capabilities, :squash => :SupportedHardwareVersions
