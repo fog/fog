@@ -130,6 +130,7 @@ module Fog
             hash[region] = Hash.new do |region_hash, key|
               region_hash[key] = {
                 :clusters  => {}, # cache cluster data, indexed by cluster ID
+                :security_groups => {}, # security groups
               }
             end
           end
