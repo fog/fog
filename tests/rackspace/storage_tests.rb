@@ -112,5 +112,19 @@ Shindo.tests('Rackspace | Storage', ['rackspace']) do
     pending if Fog.mocking?    
      Fog::Storage[:rackspace].account
   end
+
+  tests('ssl') do
+    tests('ssl enabled') do
+      @service = Fog::Storage::Rackspace.new(:rackspace_cdn_ssl => true)
+      returns(true) { @service.ssl? }
+    end
+    tests('ssl disabled') do
+      @service = Fog::Storage::Rackspace.new(:rackspace_cdn_ssl => false)
+      returns(false) { @service.ssl? }
+
+      @service = Fog::Storage::Rackspace.new(:rackspace_cdn_ssl => nil)
+      returns(false) { @service.ssl? }
+    end
+  end
 end
 

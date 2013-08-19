@@ -77,6 +77,7 @@ module Fog
           require 'mime/types'
           @rackspace_api_key = options[:rackspace_api_key]
           @rackspace_username = options[:rackspace_username]
+          @rackspace_cdn_ssl = options[:rackspace_cdn_ssl]
         end
 
         def data
@@ -93,6 +94,10 @@ module Fog
 
         def region
           @rackspace_region
+        end
+
+        def ssl?
+          !!@rackspace_cdn_ssl
         end
 
       end
@@ -134,7 +139,7 @@ module Fog
         # @return [Boolean] return true if service is returning SSL-Secured URLs in public_url methods
         # @see Directory#public_url
         def ssl?
-          !rackspace_cdn_ssl.nil?
+          !!rackspace_cdn_ssl
         end
 
         # Resets presistent service connections
