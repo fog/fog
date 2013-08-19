@@ -190,11 +190,7 @@ Shindo.tests('Fog::Compute::RackspaceV2 | server', ['rackspace']) do
    end
 
    wait_for_server_deletion(@instance)
-   sleep 60 unless Fog.mocking?
-
-   tests("delete network #{@network.label}").succeeds do
-     @network.destroy if @network
-   end
+   delete_test_network(@network)
 
   #When after testing resize/resize_confirm we get a 409 when we try to resize_revert so I am going to split it into two blocks
   model_tests(service.servers, options, true) do
