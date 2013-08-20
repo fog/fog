@@ -125,6 +125,15 @@ module Fog
            end
          end
        end
+       
+       # it adds an attr_loaded? method to know if the value has been loaded yet or not: ie description_loaded?
+       def make_attr_loaded_method(attr)
+         self.class.instance_eval do 
+           define_method("#{attr}_loaded?") do
+             attributes[attr] != NonLoaded
+           end
+         end
+       end
         
        def inspect
          @inspecting = true

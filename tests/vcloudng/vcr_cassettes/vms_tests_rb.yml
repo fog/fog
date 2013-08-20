@@ -19,11 +19,11 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Mon, 19 Aug 2013 12:22:17 GMT, Mon, 19 Aug 2013 12:22:17 GMT
+      - Mon, 19 Aug 2013 14:40:15 GMT, Mon, 19 Aug 2013 14:40:16 GMT
       X-Vcloud-Authorization:
-      - pKqmjCmcEjNejI6Hmk5Nh4tkSSz1LacGICm8uz8rwwU=
+      - wv+cQrNws2WYU/IWL+VY7kIe0dIJdvh8JVaPw785bDc=
       Set-Cookie:
-      - vcloud-token=pKqmjCmcEjNejI6Hmk5Nh4tkSSz1LacGICm8uz8rwwU=; Secure; Path=/
+      - vcloud-token=wv+cQrNws2WYU/IWL+VY7kIe0dIJdvh8JVaPw785bDc=; Secure; Path=/
       Content-Type:
       - application/vnd.vmware.vcloud.session+xml;version=1.5
       Content-Length:
@@ -42,7 +42,7 @@ http_interactions:
         href=\"https://devlab.mdsol.com/api/query\"/>\n    <Link rel=\"entityResolver\"
         type=\"application/vnd.vmware.vcloud.entity+xml\" href=\"https://devlab.mdsol.com/api/entity/\"/>\n</Session>\n"
     http_version: 
-  recorded_at: Mon, 19 Aug 2013 12:24:28 GMT
+  recorded_at: Mon, 19 Aug 2013 14:42:27 GMT
 - request:
     method: get
     uri: https://devlab.mdsol.com/api/org
@@ -53,7 +53,7 @@ http_interactions:
       User-Agent:
       - fog/1.11.1
       Cookie:
-      - vcloud-token=pKqmjCmcEjNejI6Hmk5Nh4tkSSz1LacGICm8uz8rwwU=; Secure; Path=/
+      - vcloud-token=wv+cQrNws2WYU/IWL+VY7kIe0dIJdvh8JVaPw785bDc=; Secure; Path=/
       Accept:
       - application/*+xml;version=1.5
   response:
@@ -62,7 +62,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Mon, 19 Aug 2013 12:22:18 GMT, Mon, 19 Aug 2013 12:22:18 GMT
+      - Mon, 19 Aug 2013 14:40:17 GMT, Mon, 19 Aug 2013 14:40:17 GMT
       Content-Type:
       - application/vnd.vmware.vcloud.orglist+xml;version=1.5
       Content-Length:
@@ -75,7 +75,7 @@ http_interactions:
         http://10.194.1.65/api/v1.5/schema/master.xsd\">\n    <Org type=\"application/vnd.vmware.vcloud.org+xml\"
         name=\"DevOps\" href=\"https://devlab.mdsol.com/api/org/c6a4c623-c158-41cf-a87a-dbc1637ad55a\"/>\n</OrgList>\n"
     http_version: 
-  recorded_at: Mon, 19 Aug 2013 12:24:29 GMT
+  recorded_at: Mon, 19 Aug 2013 14:42:28 GMT
 - request:
     method: get
     uri: https://devlab.mdsol.com/api/org/c6a4c623-c158-41cf-a87a-dbc1637ad55a
@@ -86,7 +86,7 @@ http_interactions:
       User-Agent:
       - fog/1.11.1
       Cookie:
-      - vcloud-token=pKqmjCmcEjNejI6Hmk5Nh4tkSSz1LacGICm8uz8rwwU=; Secure; Path=/
+      - vcloud-token=wv+cQrNws2WYU/IWL+VY7kIe0dIJdvh8JVaPw785bDc=; Secure; Path=/
       Accept:
       - application/*+xml;version=1.5
   response:
@@ -95,7 +95,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Mon, 19 Aug 2013 12:22:19 GMT, Mon, 19 Aug 2013 12:22:20 GMT
+      - Mon, 19 Aug 2013 14:40:18 GMT, Mon, 19 Aug 2013 14:40:18 GMT
       Content-Type:
       - application/vnd.vmware.vcloud.org+xml;version=1.5
       Content-Length:
@@ -127,7 +127,7 @@ http_interactions:
         href=\"https://devlab.mdsol.com/api/org/c6a4c623-c158-41cf-a87a-dbc1637ad55a/metadata\"/>\n
         \   <Description/>\n    <FullName>DevOps</FullName>\n</Org>\n"
     http_version: 
-  recorded_at: Mon, 19 Aug 2013 12:24:31 GMT
+  recorded_at: Mon, 19 Aug 2013 14:42:29 GMT
 - request:
     method: get
     uri: https://devlab.mdsol.com/api/vdc/9a06a16b-12c6-44dc-aee1-06aa52262ea3
@@ -138,7 +138,7 @@ http_interactions:
       User-Agent:
       - fog/1.11.1
       Cookie:
-      - vcloud-token=pKqmjCmcEjNejI6Hmk5Nh4tkSSz1LacGICm8uz8rwwU=; Secure; Path=/
+      - vcloud-token=wv+cQrNws2WYU/IWL+VY7kIe0dIJdvh8JVaPw785bDc=; Secure; Path=/
       Accept:
       - application/*+xml;version=1.5
   response:
@@ -147,7 +147,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Mon, 19 Aug 2013 12:22:22 GMT, Mon, 19 Aug 2013 12:22:22 GMT
+      - Mon, 19 Aug 2013 14:40:19 GMT, Mon, 19 Aug 2013 14:40:19 GMT
       Content-Type:
       - application/vnd.vmware.vcloud.vdc+xml;version=1.5
       Content-Length:
@@ -231,7 +231,7 @@ http_interactions:
         \       </SupportedHardwareVersions>\n    </Capabilities>\n    <NicQuota>0</NicQuota>\n
         \   <NetworkQuota>1024</NetworkQuota>\n    <VmQuota>0</VmQuota>\n    <IsEnabled>true</IsEnabled>\n</Vdc>\n"
     http_version: 
-  recorded_at: Mon, 19 Aug 2013 12:24:33 GMT
+  recorded_at: Mon, 19 Aug 2013 14:42:30 GMT
 - request:
     method: get
     uri: https://devlab.mdsol.com/api/vApp/vapp-af4ef7ff-2fd2-4893-b23d-9ea74ff354c9
@@ -242,7 +242,7 @@ http_interactions:
       User-Agent:
       - fog/1.11.1
       Cookie:
-      - vcloud-token=pKqmjCmcEjNejI6Hmk5Nh4tkSSz1LacGICm8uz8rwwU=; Secure; Path=/
+      - vcloud-token=wv+cQrNws2WYU/IWL+VY7kIe0dIJdvh8JVaPw785bDc=; Secure; Path=/
       Accept:
       - application/*+xml;version=1.5
   response:
@@ -251,7 +251,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Mon, 19 Aug 2013 12:22:23 GMT, Mon, 19 Aug 2013 12:22:24 GMT
+      - Mon, 19 Aug 2013 14:40:20 GMT, Mon, 19 Aug 2013 14:40:20 GMT
       Content-Type:
       - application/vnd.vmware.vcloud.vApp+xml;version=1.5
       Content-Length:
@@ -311,7 +311,7 @@ http_interactions:
         href=\"https://devlab.mdsol.com/api/admin/user/652059cb-2b0a-4a82-b954-9c39d2c14571\"/>\n
         \   </Owner>\n    <InMaintenanceMode>false</InMaintenanceMode>\n</VApp>\n"
     http_version: 
-  recorded_at: Mon, 19 Aug 2013 12:24:35 GMT
+  recorded_at: Mon, 19 Aug 2013 14:42:32 GMT
 - request:
     method: get
     uri: https://devlab.mdsol.com/api/vApp/vapp-135597a7-b60c-4f0f-a7df-a79deb002cd2
@@ -322,7 +322,7 @@ http_interactions:
       User-Agent:
       - fog/1.11.1
       Cookie:
-      - vcloud-token=pKqmjCmcEjNejI6Hmk5Nh4tkSSz1LacGICm8uz8rwwU=; Secure; Path=/
+      - vcloud-token=wv+cQrNws2WYU/IWL+VY7kIe0dIJdvh8JVaPw785bDc=; Secure; Path=/
       Accept:
       - application/*+xml;version=1.5
   response:
@@ -331,7 +331,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Mon, 19 Aug 2013 12:22:26 GMT, Mon, 19 Aug 2013 12:22:26 GMT
+      - Mon, 19 Aug 2013 14:40:21 GMT, Mon, 19 Aug 2013 14:40:21 GMT
       Content-Type:
       - application/vnd.vmware.vcloud.vApp+xml;version=1.5
       Content-Length:
@@ -392,7 +392,7 @@ http_interactions:
         href=\"https://devlab.mdsol.com/api/admin/user/c3ca7b97-ddea-425f-8bdb-1fdb946f7349\"/>\n
         \   </Owner>\n    <InMaintenanceMode>false</InMaintenanceMode>\n</VApp>\n"
     http_version: 
-  recorded_at: Mon, 19 Aug 2013 12:24:38 GMT
+  recorded_at: Mon, 19 Aug 2013 14:42:33 GMT
 - request:
     method: get
     uri: https://devlab.mdsol.com/api/vApp/vapp-4c300067-f34b-4409-80d4-6ac1672d13ae
@@ -403,7 +403,7 @@ http_interactions:
       User-Agent:
       - fog/1.11.1
       Cookie:
-      - vcloud-token=pKqmjCmcEjNejI6Hmk5Nh4tkSSz1LacGICm8uz8rwwU=; Secure; Path=/
+      - vcloud-token=wv+cQrNws2WYU/IWL+VY7kIe0dIJdvh8JVaPw785bDc=; Secure; Path=/
       Accept:
       - application/*+xml;version=1.5
   response:
@@ -412,7 +412,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Mon, 19 Aug 2013 12:22:28 GMT, Mon, 19 Aug 2013 12:22:28 GMT
+      - Mon, 19 Aug 2013 14:40:22 GMT, Mon, 19 Aug 2013 14:40:22 GMT
       Content-Type:
       - application/vnd.vmware.vcloud.vApp+xml;version=1.5
       Content-Length:
@@ -473,7 +473,7 @@ http_interactions:
         href=\"https://devlab.mdsol.com/api/admin/user/c3ca7b97-ddea-425f-8bdb-1fdb946f7349\"/>\n
         \   </Owner>\n    <InMaintenanceMode>false</InMaintenanceMode>\n</VApp>\n"
     http_version: 
-  recorded_at: Mon, 19 Aug 2013 12:24:40 GMT
+  recorded_at: Mon, 19 Aug 2013 14:42:34 GMT
 - request:
     method: get
     uri: https://devlab.mdsol.com/api/vApp/vapp-26c75241-53e1-450c-ba9d-47176a28c83a
@@ -484,7 +484,7 @@ http_interactions:
       User-Agent:
       - fog/1.11.1
       Cookie:
-      - vcloud-token=pKqmjCmcEjNejI6Hmk5Nh4tkSSz1LacGICm8uz8rwwU=; Secure; Path=/
+      - vcloud-token=wv+cQrNws2WYU/IWL+VY7kIe0dIJdvh8JVaPw785bDc=; Secure; Path=/
       Accept:
       - application/*+xml;version=1.5
   response:
@@ -493,7 +493,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Mon, 19 Aug 2013 12:22:31 GMT, Mon, 19 Aug 2013 12:22:31 GMT
+      - Mon, 19 Aug 2013 14:40:23 GMT, Mon, 19 Aug 2013 14:40:23 GMT
       Content-Type:
       - application/vnd.vmware.vcloud.vApp+xml;version=1.5
       Content-Length:
@@ -539,10 +539,10 @@ http_interactions:
         \                   <IsInherited>true</IsInherited>\n                    <Gateway>10.192.0.1</Gateway>\n
         \                   <Netmask>255.255.252.0</Netmask>\n                    <Dns1>10.192.0.11</Dns1>\n
         \                   <Dns2>10.192.0.12</Dns2>\n                    <DnsSuffix>dev.ad.mdsol.com</DnsSuffix>\n
-        \                   <IpRanges>\n                        <IpRange>\n                            <StartAddress>10.192.0.100</StartAddress>\n
-        \                           <EndAddress>10.192.0.254</EndAddress>\n                        </IpRange>\n
-        \                       <IpRange>\n                            <StartAddress>10.192.1.32</StartAddress>\n
+        \                   <IpRanges>\n                        <IpRange>\n                            <StartAddress>10.192.1.32</StartAddress>\n
         \                           <EndAddress>10.192.3.254</EndAddress>\n                        </IpRange>\n
+        \                       <IpRange>\n                            <StartAddress>10.192.0.100</StartAddress>\n
+        \                           <EndAddress>10.192.0.254</EndAddress>\n                        </IpRange>\n
         \                   </IpRanges>\n                </IpScope>\n                <ParentNetwork
         name=\"DevOps - Dev Network Connection\" id=\"d5f47bbf-de27-4cf5-aaaa-56772f2ccd17\"
         href=\"https://devlab.mdsol.com/api/admin/network/d5f47bbf-de27-4cf5-aaaa-56772f2ccd17\"/>\n
@@ -553,7 +553,7 @@ http_interactions:
         href=\"https://devlab.mdsol.com/api/admin/user/c3ca7b97-ddea-425f-8bdb-1fdb946f7349\"/>\n
         \   </Owner>\n    <InMaintenanceMode>false</InMaintenanceMode>\n</VApp>\n"
     http_version: 
-  recorded_at: Mon, 19 Aug 2013 12:24:43 GMT
+  recorded_at: Mon, 19 Aug 2013 14:42:35 GMT
 - request:
     method: get
     uri: https://devlab.mdsol.com/api/vApp/vapp-499a3d4e-7156-4bd7-9c42-9c42d5afe3a1
@@ -564,7 +564,7 @@ http_interactions:
       User-Agent:
       - fog/1.11.1
       Cookie:
-      - vcloud-token=pKqmjCmcEjNejI6Hmk5Nh4tkSSz1LacGICm8uz8rwwU=; Secure; Path=/
+      - vcloud-token=wv+cQrNws2WYU/IWL+VY7kIe0dIJdvh8JVaPw785bDc=; Secure; Path=/
       Accept:
       - application/*+xml;version=1.5
   response:
@@ -573,7 +573,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Mon, 19 Aug 2013 12:22:33 GMT, Mon, 19 Aug 2013 12:22:34 GMT
+      - Mon, 19 Aug 2013 14:40:24 GMT, Mon, 19 Aug 2013 14:40:24 GMT
       Content-Type:
       - application/vnd.vmware.vcloud.vApp+xml;version=1.5
       Content-Length:
@@ -619,10 +619,10 @@ http_interactions:
         \                   <IsInherited>true</IsInherited>\n                    <Gateway>10.192.0.1</Gateway>\n
         \                   <Netmask>255.255.252.0</Netmask>\n                    <Dns1>10.192.0.11</Dns1>\n
         \                   <Dns2>10.192.0.12</Dns2>\n                    <DnsSuffix>dev.ad.mdsol.com</DnsSuffix>\n
-        \                   <IpRanges>\n                        <IpRange>\n                            <StartAddress>10.192.0.100</StartAddress>\n
-        \                           <EndAddress>10.192.0.254</EndAddress>\n                        </IpRange>\n
-        \                       <IpRange>\n                            <StartAddress>10.192.1.32</StartAddress>\n
+        \                   <IpRanges>\n                        <IpRange>\n                            <StartAddress>10.192.1.32</StartAddress>\n
         \                           <EndAddress>10.192.3.254</EndAddress>\n                        </IpRange>\n
+        \                       <IpRange>\n                            <StartAddress>10.192.0.100</StartAddress>\n
+        \                           <EndAddress>10.192.0.254</EndAddress>\n                        </IpRange>\n
         \                   </IpRanges>\n                </IpScope>\n                <ParentNetwork
         name=\"DevOps - Dev Network Connection\" id=\"d5f47bbf-de27-4cf5-aaaa-56772f2ccd17\"
         href=\"https://devlab.mdsol.com/api/admin/network/d5f47bbf-de27-4cf5-aaaa-56772f2ccd17\"/>\n
@@ -633,7 +633,7 @@ http_interactions:
         href=\"https://devlab.mdsol.com/api/admin/user/c3ca7b97-ddea-425f-8bdb-1fdb946f7349\"/>\n
         \   </Owner>\n    <InMaintenanceMode>false</InMaintenanceMode>\n</VApp>\n"
     http_version: 
-  recorded_at: Mon, 19 Aug 2013 12:24:45 GMT
+  recorded_at: Mon, 19 Aug 2013 14:42:36 GMT
 - request:
     method: get
     uri: https://devlab.mdsol.com/api/vApp/vapp-6202aaa7-499f-469e-b178-467c50d6d044
@@ -644,7 +644,7 @@ http_interactions:
       User-Agent:
       - fog/1.11.1
       Cookie:
-      - vcloud-token=pKqmjCmcEjNejI6Hmk5Nh4tkSSz1LacGICm8uz8rwwU=; Secure; Path=/
+      - vcloud-token=wv+cQrNws2WYU/IWL+VY7kIe0dIJdvh8JVaPw785bDc=; Secure; Path=/
       Accept:
       - application/*+xml;version=1.5
   response:
@@ -653,7 +653,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Mon, 19 Aug 2013 12:22:42 GMT, Mon, 19 Aug 2013 12:22:42 GMT
+      - Mon, 19 Aug 2013 14:40:25 GMT, Mon, 19 Aug 2013 14:40:25 GMT
       Content-Type:
       - application/vnd.vmware.vcloud.vApp+xml;version=1.5
       Content-Length:
@@ -700,10 +700,10 @@ http_interactions:
         \                   <IsInherited>true</IsInherited>\n                    <Gateway>10.192.0.1</Gateway>\n
         \                   <Netmask>255.255.252.0</Netmask>\n                    <Dns1>10.192.0.11</Dns1>\n
         \                   <Dns2>10.192.0.12</Dns2>\n                    <DnsSuffix>dev.ad.mdsol.com</DnsSuffix>\n
-        \                   <IpRanges>\n                        <IpRange>\n                            <StartAddress>10.192.0.100</StartAddress>\n
-        \                           <EndAddress>10.192.0.254</EndAddress>\n                        </IpRange>\n
-        \                       <IpRange>\n                            <StartAddress>10.192.1.32</StartAddress>\n
+        \                   <IpRanges>\n                        <IpRange>\n                            <StartAddress>10.192.1.32</StartAddress>\n
         \                           <EndAddress>10.192.3.254</EndAddress>\n                        </IpRange>\n
+        \                       <IpRange>\n                            <StartAddress>10.192.0.100</StartAddress>\n
+        \                           <EndAddress>10.192.0.254</EndAddress>\n                        </IpRange>\n
         \                   </IpRanges>\n                </IpScope>\n                <ParentNetwork
         name=\"DevOps - Dev Network Connection\" id=\"d5f47bbf-de27-4cf5-aaaa-56772f2ccd17\"
         href=\"https://devlab.mdsol.com/api/admin/network/d5f47bbf-de27-4cf5-aaaa-56772f2ccd17\"/>\n
@@ -714,7 +714,7 @@ http_interactions:
         href=\"https://devlab.mdsol.com/api/admin/user/c3ca7b97-ddea-425f-8bdb-1fdb946f7349\"/>\n
         \   </Owner>\n    <InMaintenanceMode>false</InMaintenanceMode>\n</VApp>\n"
     http_version: 
-  recorded_at: Mon, 19 Aug 2013 12:24:54 GMT
+  recorded_at: Mon, 19 Aug 2013 14:42:37 GMT
 - request:
     method: get
     uri: https://devlab.mdsol.com/api/vApp/vapp-b0bee1f6-62f7-4c91-bea6-5fd993e08490
@@ -725,7 +725,7 @@ http_interactions:
       User-Agent:
       - fog/1.11.1
       Cookie:
-      - vcloud-token=pKqmjCmcEjNejI6Hmk5Nh4tkSSz1LacGICm8uz8rwwU=; Secure; Path=/
+      - vcloud-token=wv+cQrNws2WYU/IWL+VY7kIe0dIJdvh8JVaPw785bDc=; Secure; Path=/
       Accept:
       - application/*+xml;version=1.5
   response:
@@ -734,7 +734,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Mon, 19 Aug 2013 12:22:46 GMT, Mon, 19 Aug 2013 12:22:46 GMT
+      - Mon, 19 Aug 2013 14:40:26 GMT, Mon, 19 Aug 2013 14:40:27 GMT
       Content-Type:
       - application/vnd.vmware.vcloud.vApp+xml;version=1.5
       Content-Length:
@@ -795,7 +795,7 @@ http_interactions:
         href=\"https://devlab.mdsol.com/api/admin/user/c3ca7b97-ddea-425f-8bdb-1fdb946f7349\"/>\n
         \   </Owner>\n    <InMaintenanceMode>false</InMaintenanceMode>\n</VApp>\n"
     http_version: 
-  recorded_at: Mon, 19 Aug 2013 12:24:58 GMT
+  recorded_at: Mon, 19 Aug 2013 14:42:38 GMT
 - request:
     method: get
     uri: https://devlab.mdsol.com/api/vApp/vapp-83314223-7d36-42b6-b03e-8ef619b9b152
@@ -806,7 +806,7 @@ http_interactions:
       User-Agent:
       - fog/1.11.1
       Cookie:
-      - vcloud-token=pKqmjCmcEjNejI6Hmk5Nh4tkSSz1LacGICm8uz8rwwU=; Secure; Path=/
+      - vcloud-token=wv+cQrNws2WYU/IWL+VY7kIe0dIJdvh8JVaPw785bDc=; Secure; Path=/
       Accept:
       - application/*+xml;version=1.5
   response:
@@ -815,7 +815,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Mon, 19 Aug 2013 12:22:49 GMT, Mon, 19 Aug 2013 12:22:49 GMT
+      - Mon, 19 Aug 2013 14:40:28 GMT, Mon, 19 Aug 2013 14:40:28 GMT
       Content-Type:
       - application/vnd.vmware.vcloud.vApp+xml;version=1.5
       Content-Length:
@@ -1032,7 +1032,7 @@ http_interactions:
         version=\"9216\"/>\n            </RuntimeInfoSection>\n            <VAppScopedLocalId>DEVAPP</VAppScopedLocalId>\n
         \       </Vm>\n    </Children>\n</VApp>\n"
     http_version: 
-  recorded_at: Mon, 19 Aug 2013 12:25:02 GMT
+  recorded_at: Mon, 19 Aug 2013 14:42:40 GMT
 - request:
     method: get
     uri: https://devlab.mdsol.com/api/vApp/vapp-83314223-7d36-42b6-b03e-8ef619b9b152
@@ -1043,7 +1043,7 @@ http_interactions:
       User-Agent:
       - fog/1.11.1
       Cookie:
-      - vcloud-token=pKqmjCmcEjNejI6Hmk5Nh4tkSSz1LacGICm8uz8rwwU=; Secure; Path=/
+      - vcloud-token=wv+cQrNws2WYU/IWL+VY7kIe0dIJdvh8JVaPw785bDc=; Secure; Path=/
       Accept:
       - application/*+xml;version=1.5
   response:
@@ -1052,7 +1052,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Mon, 19 Aug 2013 12:22:52 GMT, Mon, 19 Aug 2013 12:22:52 GMT
+      - Mon, 19 Aug 2013 14:40:29 GMT, Mon, 19 Aug 2013 14:40:29 GMT
       Content-Type:
       - application/vnd.vmware.vcloud.vApp+xml;version=1.5
       Content-Length:
@@ -1269,7 +1269,7 @@ http_interactions:
         version=\"9216\"/>\n            </RuntimeInfoSection>\n            <VAppScopedLocalId>DEVAPP</VAppScopedLocalId>\n
         \       </Vm>\n    </Children>\n</VApp>\n"
     http_version: 
-  recorded_at: Mon, 19 Aug 2013 12:25:04 GMT
+  recorded_at: Mon, 19 Aug 2013 14:42:41 GMT
 - request:
     method: get
     uri: https://devlab.mdsol.com/api/vApp/vapp-83314223-7d36-42b6-b03e-8ef619b9b152
@@ -1280,7 +1280,7 @@ http_interactions:
       User-Agent:
       - fog/1.11.1
       Cookie:
-      - vcloud-token=pKqmjCmcEjNejI6Hmk5Nh4tkSSz1LacGICm8uz8rwwU=; Secure; Path=/
+      - vcloud-token=wv+cQrNws2WYU/IWL+VY7kIe0dIJdvh8JVaPw785bDc=; Secure; Path=/
       Accept:
       - application/*+xml;version=1.5
   response:
@@ -1289,7 +1289,244 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Mon, 19 Aug 2013 12:22:54 GMT, Mon, 19 Aug 2013 12:22:55 GMT
+      - Mon, 19 Aug 2013 14:40:31 GMT, Mon, 19 Aug 2013 14:40:31 GMT
+      Content-Type:
+      - application/vnd.vmware.vcloud.vApp+xml;version=1.5
+      Content-Length:
+      - '21193'
+    body:
+      encoding: US-ASCII
+      string: ! "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<VApp xmlns=\"http://www.vmware.com/vcloud/v1.5\"
+        xmlns:ovf=\"http://schemas.dmtf.org/ovf/envelope/1\" xmlns:rasd=\"http://schemas.dmtf.org/wbem/wscim/1/cim-schema/2/CIM_ResourceAllocationSettingData\"
+        xmlns:vssd=\"http://schemas.dmtf.org/wbem/wscim/1/cim-schema/2/CIM_VirtualSystemSettingData\"
+        xmlns:vmw=\"http://www.vmware.com/schema/ovf\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"
+        deployed=\"false\" status=\"8\" name=\"webserver\" id=\"urn:vcloud:vapp:83314223-7d36-42b6-b03e-8ef619b9b152\"
+        type=\"application/vnd.vmware.vcloud.vApp+xml\" href=\"https://devlab.mdsol.com/api/vApp/vapp-83314223-7d36-42b6-b03e-8ef619b9b152\"
+        xsi:schemaLocation=\"http://schemas.dmtf.org/wbem/wscim/1/cim-schema/2/CIM_VirtualSystemSettingData
+        http://schemas.dmtf.org/wbem/wscim/1/cim-schema/2.22.0/CIM_VirtualSystemSettingData.xsd
+        http://www.vmware.com/schema/ovf http://www.vmware.com/schema/ovf http://schemas.dmtf.org/ovf/envelope/1
+        http://schemas.dmtf.org/ovf/envelope/1/dsp8023_1.1.0.xsd http://www.vmware.com/vcloud/v1.5
+        http://10.194.1.65/api/v1.5/schema/master.xsd http://schemas.dmtf.org/wbem/wscim/1/cim-schema/2/CIM_ResourceAllocationSettingData
+        http://schemas.dmtf.org/wbem/wscim/1/cim-schema/2.22.0/CIM_ResourceAllocationSettingData.xsd\">\n
+        \   <Link rel=\"power:powerOn\" href=\"https://devlab.mdsol.com/api/vApp/vapp-83314223-7d36-42b6-b03e-8ef619b9b152/power/action/powerOn\"/>\n
+        \   <Link rel=\"deploy\" type=\"application/vnd.vmware.vcloud.deployVAppParams+xml\"
+        href=\"https://devlab.mdsol.com/api/vApp/vapp-83314223-7d36-42b6-b03e-8ef619b9b152/action/deploy\"/>\n
+        \   <Link rel=\"down\" type=\"application/vnd.vmware.vcloud.vAppNetwork+xml\"
+        name=\"DevOps - Dev Network Connection\" href=\"https://devlab.mdsol.com/api/network/698cbc68-a4e8-4a2e-8e5e-65ed1d4aa890\"/>\n
+        \   <Link rel=\"down\" type=\"application/vnd.vmware.vcloud.controlAccess+xml\"
+        href=\"https://devlab.mdsol.com/api/vApp/vapp-83314223-7d36-42b6-b03e-8ef619b9b152/controlAccess/\"/>\n
+        \   <Link rel=\"controlAccess\" type=\"application/vnd.vmware.vcloud.controlAccess+xml\"
+        href=\"https://devlab.mdsol.com/api/vApp/vapp-83314223-7d36-42b6-b03e-8ef619b9b152/action/controlAccess\"/>\n
+        \   <Link rel=\"recompose\" type=\"application/vnd.vmware.vcloud.recomposeVAppParams+xml\"
+        href=\"https://devlab.mdsol.com/api/vApp/vapp-83314223-7d36-42b6-b03e-8ef619b9b152/action/recomposeVApp\"/>\n
+        \   <Link rel=\"up\" type=\"application/vnd.vmware.vcloud.vdc+xml\" href=\"https://devlab.mdsol.com/api/vdc/9a06a16b-12c6-44dc-aee1-06aa52262ea3\"/>\n
+        \   <Link rel=\"edit\" type=\"application/vnd.vmware.vcloud.vApp+xml\" href=\"https://devlab.mdsol.com/api/vApp/vapp-83314223-7d36-42b6-b03e-8ef619b9b152\"/>\n
+        \   <Link rel=\"remove\" href=\"https://devlab.mdsol.com/api/vApp/vapp-83314223-7d36-42b6-b03e-8ef619b9b152\"/>\n
+        \   <Link rel=\"down\" type=\"application/vnd.vmware.vcloud.owner+xml\" href=\"https://devlab.mdsol.com/api/vApp/vapp-83314223-7d36-42b6-b03e-8ef619b9b152/owner\"/>\n
+        \   <Link rel=\"down\" type=\"application/vnd.vmware.vcloud.metadata+xml\"
+        href=\"https://devlab.mdsol.com/api/vApp/vapp-83314223-7d36-42b6-b03e-8ef619b9b152/metadata\"/>\n
+        \   <Description/>\n    <LeaseSettingsSection type=\"application/vnd.vmware.vcloud.leaseSettingsSection+xml\"
+        href=\"https://devlab.mdsol.com/api/vApp/vapp-83314223-7d36-42b6-b03e-8ef619b9b152/leaseSettingsSection/\"
+        ovf:required=\"false\">\n        <ovf:Info>Lease settings section</ovf:Info>\n
+        \       <Link rel=\"edit\" type=\"application/vnd.vmware.vcloud.leaseSettingsSection+xml\"
+        href=\"https://devlab.mdsol.com/api/vApp/vapp-83314223-7d36-42b6-b03e-8ef619b9b152/leaseSettingsSection/\"/>\n
+        \       <DeploymentLeaseInSeconds>0</DeploymentLeaseInSeconds>\n        <StorageLeaseInSeconds>7776000</StorageLeaseInSeconds>\n
+        \       <StorageLeaseExpiration>2013-10-08T08:54:33.277Z</StorageLeaseExpiration>\n
+        \   </LeaseSettingsSection>\n    <ovf:StartupSection xmlns:ns12=\"http://www.vmware.com/vcloud/v1.5\"
+        ns12:href=\"https://devlab.mdsol.com/api/vApp/vapp-83314223-7d36-42b6-b03e-8ef619b9b152/startupSection/\"
+        ns12:type=\"application/vnd.vmware.vcloud.startupSection+xml\">\n        <ovf:Info>VApp
+        startup section</ovf:Info>\n        <ovf:Item ovf:stopDelay=\"0\" ovf:stopAction=\"powerOff\"
+        ovf:startDelay=\"0\" ovf:startAction=\"powerOn\" ovf:order=\"0\" ovf:id=\"DEVAPP\"/>\n
+        \       <Link rel=\"edit\" type=\"application/vnd.vmware.vcloud.startupSection+xml\"
+        href=\"https://devlab.mdsol.com/api/vApp/vapp-83314223-7d36-42b6-b03e-8ef619b9b152/startupSection/\"/>\n
+        \   </ovf:StartupSection>\n    <ovf:NetworkSection xmlns:ns12=\"http://www.vmware.com/vcloud/v1.5\"
+        ns12:href=\"https://devlab.mdsol.com/api/vApp/vapp-83314223-7d36-42b6-b03e-8ef619b9b152/networkSection/\"
+        ns12:type=\"application/vnd.vmware.vcloud.networkSection+xml\">\n        <ovf:Info>The
+        list of logical networks</ovf:Info>\n        <ovf:Network ovf:name=\"DevOps
+        - Dev Network Connection\">\n            <ovf:Description/>\n        </ovf:Network>\n
+        \       <ovf:Network ovf:name=\"none\">\n            <ovf:Description>This
+        is a special place-holder used for disconnected network interfaces.</ovf:Description>\n
+        \       </ovf:Network>\n    </ovf:NetworkSection>\n    <NetworkConfigSection
+        type=\"application/vnd.vmware.vcloud.networkConfigSection+xml\" href=\"https://devlab.mdsol.com/api/vApp/vapp-83314223-7d36-42b6-b03e-8ef619b9b152/networkConfigSection/\"
+        ovf:required=\"false\">\n        <ovf:Info>The configuration parameters for
+        logical networks</ovf:Info>\n        <Link rel=\"edit\" type=\"application/vnd.vmware.vcloud.networkConfigSection+xml\"
+        href=\"https://devlab.mdsol.com/api/vApp/vapp-83314223-7d36-42b6-b03e-8ef619b9b152/networkConfigSection/\"/>\n
+        \       <NetworkConfig networkName=\"DevOps - Dev Network Connection\">\n
+        \           <Link rel=\"repair\" href=\"https://devlab.mdsol.com/api/admin/network/698cbc68-a4e8-4a2e-8e5e-65ed1d4aa890/action/reset\"/>\n
+        \           <Description/>\n            <Configuration>\n                <IpScope>\n
+        \                   <IsInherited>true</IsInherited>\n                    <Gateway>10.192.0.1</Gateway>\n
+        \                   <Netmask>255.255.252.0</Netmask>\n                    <Dns1>10.192.0.11</Dns1>\n
+        \                   <Dns2>10.192.0.12</Dns2>\n                    <DnsSuffix>dev.ad.mdsol.com</DnsSuffix>\n
+        \                   <IpRanges>\n                        <IpRange>\n                            <StartAddress>10.192.0.100</StartAddress>\n
+        \                           <EndAddress>10.192.0.254</EndAddress>\n                        </IpRange>\n
+        \                       <IpRange>\n                            <StartAddress>10.192.1.32</StartAddress>\n
+        \                           <EndAddress>10.192.3.254</EndAddress>\n                        </IpRange>\n
+        \                   </IpRanges>\n                </IpScope>\n                <ParentNetwork
+        name=\"DevOps - Dev Network Connection\" id=\"d5f47bbf-de27-4cf5-aaaa-56772f2ccd17\"
+        href=\"https://devlab.mdsol.com/api/admin/network/d5f47bbf-de27-4cf5-aaaa-56772f2ccd17\"/>\n
+        \               <FenceMode>bridged</FenceMode>\n                <RetainNetInfoAcrossDeployments>false</RetainNetInfoAcrossDeployments>\n
+        \           </Configuration>\n            <IsDeployed>false</IsDeployed>\n
+        \       </NetworkConfig>\n        <NetworkConfig networkName=\"none\">\n            <Description>This
+        is a special place-holder used for disconnected network interfaces.</Description>\n
+        \           <Configuration>\n                <FenceMode>isolated</FenceMode>\n
+        \           </Configuration>\n            <IsDeployed>false</IsDeployed>\n
+        \       </NetworkConfig>\n    </NetworkConfigSection>\n    <Owner type=\"application/vnd.vmware.vcloud.owner+xml\">\n
+        \       <User type=\"application/vnd.vmware.admin.user+xml\" name=\"restebanez\"
+        href=\"https://devlab.mdsol.com/api/admin/user/c3ca7b97-ddea-425f-8bdb-1fdb946f7349\"/>\n
+        \   </Owner>\n    <InMaintenanceMode>false</InMaintenanceMode>\n    <Children>\n
+        \       <Vm needsCustomization=\"true\" deployed=\"false\" status=\"8\" name=\"DEVAPP\"
+        id=\"urn:vcloud:vm:4a37a2ea-b0dd-41ae-a879-5f0743b1ff77\" type=\"application/vnd.vmware.vcloud.vm+xml\"
+        href=\"https://devlab.mdsol.com/api/vApp/vm-4a37a2ea-b0dd-41ae-a879-5f0743b1ff77\">\n
+        \           <Link rel=\"power:powerOn\" href=\"https://devlab.mdsol.com/api/vApp/vm-4a37a2ea-b0dd-41ae-a879-5f0743b1ff77/power/action/powerOn\"/>\n
+        \           <Link rel=\"deploy\" type=\"application/vnd.vmware.vcloud.deployVAppParams+xml\"
+        href=\"https://devlab.mdsol.com/api/vApp/vm-4a37a2ea-b0dd-41ae-a879-5f0743b1ff77/action/deploy\"/>\n
+        \           <Link rel=\"edit\" type=\"application/vnd.vmware.vcloud.vm+xml\"
+        href=\"https://devlab.mdsol.com/api/vApp/vm-4a37a2ea-b0dd-41ae-a879-5f0743b1ff77\"/>\n
+        \           <Link rel=\"remove\" href=\"https://devlab.mdsol.com/api/vApp/vm-4a37a2ea-b0dd-41ae-a879-5f0743b1ff77\"/>\n
+        \           <Link rel=\"down\" type=\"application/vnd.vmware.vcloud.metadata+xml\"
+        href=\"https://devlab.mdsol.com/api/vApp/vm-4a37a2ea-b0dd-41ae-a879-5f0743b1ff77/metadata\"/>\n
+        \           <Link rel=\"screen:thumbnail\" href=\"https://devlab.mdsol.com/api/vApp/vm-4a37a2ea-b0dd-41ae-a879-5f0743b1ff77/screen\"/>\n
+        \           <Link rel=\"media:insertMedia\" type=\"application/vnd.vmware.vcloud.mediaInsertOrEjectParams+xml\"
+        href=\"https://devlab.mdsol.com/api/vApp/vm-4a37a2ea-b0dd-41ae-a879-5f0743b1ff77/media/action/insertMedia\"/>\n
+        \           <Link rel=\"media:ejectMedia\" type=\"application/vnd.vmware.vcloud.mediaInsertOrEjectParams+xml\"
+        href=\"https://devlab.mdsol.com/api/vApp/vm-4a37a2ea-b0dd-41ae-a879-5f0743b1ff77/media/action/ejectMedia\"/>\n
+        \           <Link rel=\"upgrade\" href=\"https://devlab.mdsol.com/api/vApp/vm-4a37a2ea-b0dd-41ae-a879-5f0743b1ff77/action/upgradeHardwareVersion\"/>\n
+        \           <Link rel=\"up\" type=\"application/vnd.vmware.vcloud.vApp+xml\"
+        href=\"https://devlab.mdsol.com/api/vApp/vapp-83314223-7d36-42b6-b03e-8ef619b9b152\"/>\n
+        \           <Description/>\n            <ovf:VirtualHardwareSection xmlns:ns12=\"http://www.vmware.com/vcloud/v1.5\"
+        ovf:transport=\"\" ns12:href=\"https://devlab.mdsol.com/api/vApp/vm-4a37a2ea-b0dd-41ae-a879-5f0743b1ff77/virtualHardwareSection/\"
+        ns12:type=\"application/vnd.vmware.vcloud.virtualHardwareSection+xml\">\n
+        \               <ovf:Info>Virtual hardware requirements</ovf:Info>\n                <ovf:System>\n
+        \                   <vssd:ElementName>Virtual Hardware Family</vssd:ElementName>\n
+        \                   <vssd:InstanceID>0</vssd:InstanceID>\n                    <vssd:VirtualSystemIdentifier>DEVAPP</vssd:VirtualSystemIdentifier>\n
+        \                   <vssd:VirtualSystemType>vmx-08</vssd:VirtualSystemType>\n
+        \               </ovf:System>\n                <ovf:Item>\n                    <rasd:Address>00:50:56:01:00:f4</rasd:Address>\n
+        \                   <rasd:AddressOnParent>0</rasd:AddressOnParent>\n                    <rasd:AutomaticAllocation>false</rasd:AutomaticAllocation>\n
+        \                   <rasd:Connection ns12:primaryNetworkConnection=\"true\"
+        ns12:ipAddressingMode=\"NONE\">none</rasd:Connection>\n                    <rasd:Description>E1000
+        ethernet adapter on \"none\"</rasd:Description>\n                    <rasd:ElementName>Network
+        adapter 0</rasd:ElementName>\n                    <rasd:InstanceID>1</rasd:InstanceID>\n
+        \                   <rasd:ResourceSubType>E1000</rasd:ResourceSubType>\n                    <rasd:ResourceType>10</rasd:ResourceType>\n
+        \               </ovf:Item>\n                <ovf:Item>\n                    <rasd:Address>0</rasd:Address>\n
+        \                   <rasd:Description>SCSI Controller</rasd:Description>\n
+        \                   <rasd:ElementName>SCSI Controller 0</rasd:ElementName>\n
+        \                   <rasd:InstanceID>2</rasd:InstanceID>\n                    <rasd:ResourceSubType>lsilogicsas</rasd:ResourceSubType>\n
+        \                   <rasd:ResourceType>6</rasd:ResourceType>\n                </ovf:Item>\n
+        \               <ovf:Item>\n                    <rasd:AddressOnParent>0</rasd:AddressOnParent>\n
+        \                   <rasd:Description>Hard disk</rasd:Description>\n                    <rasd:ElementName>Hard
+        disk 1</rasd:ElementName>\n                    <rasd:HostResource ns12:capacity=\"32768\"
+        ns12:busSubType=\"lsilogicsas\" ns12:busType=\"6\"/>\n                    <rasd:InstanceID>2000</rasd:InstanceID>\n
+        \                   <rasd:Parent>2</rasd:Parent>\n                    <rasd:ResourceType>17</rasd:ResourceType>\n
+        \               </ovf:Item>\n                <ovf:Item>\n                    <rasd:Address>0</rasd:Address>\n
+        \                   <rasd:Description>IDE Controller</rasd:Description>\n
+        \                   <rasd:ElementName>IDE Controller 0</rasd:ElementName>\n
+        \                   <rasd:InstanceID>3</rasd:InstanceID>\n                    <rasd:ResourceType>5</rasd:ResourceType>\n
+        \               </ovf:Item>\n                <ovf:Item>\n                    <rasd:AddressOnParent>1</rasd:AddressOnParent>\n
+        \                   <rasd:AutomaticAllocation>false</rasd:AutomaticAllocation>\n
+        \                   <rasd:Description>CD/DVD Drive</rasd:Description>\n                    <rasd:ElementName>CD/DVD
+        Drive 1</rasd:ElementName>\n                    <rasd:HostResource/>\n                    <rasd:InstanceID>3002</rasd:InstanceID>\n
+        \                   <rasd:Parent>3</rasd:Parent>\n                    <rasd:ResourceType>15</rasd:ResourceType>\n
+        \               </ovf:Item>\n                <ovf:Item>\n                    <rasd:AddressOnParent>0</rasd:AddressOnParent>\n
+        \                   <rasd:AutomaticAllocation>false</rasd:AutomaticAllocation>\n
+        \                   <rasd:Description>Floppy Drive</rasd:Description>\n                    <rasd:ElementName>Floppy
+        Drive 1</rasd:ElementName>\n                    <rasd:HostResource/>\n                    <rasd:InstanceID>8000</rasd:InstanceID>\n
+        \                   <rasd:ResourceType>14</rasd:ResourceType>\n                </ovf:Item>\n
+        \               <ovf:Item ns12:href=\"https://devlab.mdsol.com/api/vApp/vm-4a37a2ea-b0dd-41ae-a879-5f0743b1ff77/virtualHardwareSection/cpu\"
+        ns12:type=\"application/vnd.vmware.vcloud.rasdItem+xml\">\n                    <rasd:AllocationUnits>hertz
+        * 10^6</rasd:AllocationUnits>\n                    <rasd:Description>Number
+        of Virtual CPUs</rasd:Description>\n                    <rasd:ElementName>2
+        virtual CPU(s)</rasd:ElementName>\n                    <rasd:InstanceID>4</rasd:InstanceID>\n
+        \                   <rasd:Reservation>0</rasd:Reservation>\n                    <rasd:ResourceType>3</rasd:ResourceType>\n
+        \                   <rasd:VirtualQuantity>2</rasd:VirtualQuantity>\n                    <rasd:Weight>0</rasd:Weight>\n
+        \                   <Link rel=\"edit\" type=\"application/vnd.vmware.vcloud.rasdItem+xml\"
+        href=\"https://devlab.mdsol.com/api/vApp/vm-4a37a2ea-b0dd-41ae-a879-5f0743b1ff77/virtualHardwareSection/cpu\"/>\n
+        \               </ovf:Item>\n                <ovf:Item ns12:href=\"https://devlab.mdsol.com/api/vApp/vm-4a37a2ea-b0dd-41ae-a879-5f0743b1ff77/virtualHardwareSection/memory\"
+        ns12:type=\"application/vnd.vmware.vcloud.rasdItem+xml\">\n                    <rasd:AllocationUnits>byte
+        * 2^20</rasd:AllocationUnits>\n                    <rasd:Description>Memory
+        Size</rasd:Description>\n                    <rasd:ElementName>2560 MB of
+        memory</rasd:ElementName>\n                    <rasd:InstanceID>5</rasd:InstanceID>\n
+        \                   <rasd:Reservation>0</rasd:Reservation>\n                    <rasd:ResourceType>4</rasd:ResourceType>\n
+        \                   <rasd:VirtualQuantity>2560</rasd:VirtualQuantity>\n                    <rasd:Weight>0</rasd:Weight>\n
+        \                   <Link rel=\"edit\" type=\"application/vnd.vmware.vcloud.rasdItem+xml\"
+        href=\"https://devlab.mdsol.com/api/vApp/vm-4a37a2ea-b0dd-41ae-a879-5f0743b1ff77/virtualHardwareSection/memory\"/>\n
+        \               </ovf:Item>\n                <Link rel=\"edit\" type=\"application/vnd.vmware.vcloud.virtualHardwareSection+xml\"
+        href=\"https://devlab.mdsol.com/api/vApp/vm-4a37a2ea-b0dd-41ae-a879-5f0743b1ff77/virtualHardwareSection/\"/>\n
+        \               <Link rel=\"down\" type=\"application/vnd.vmware.vcloud.rasdItem+xml\"
+        href=\"https://devlab.mdsol.com/api/vApp/vm-4a37a2ea-b0dd-41ae-a879-5f0743b1ff77/virtualHardwareSection/cpu\"/>\n
+        \               <Link rel=\"edit\" type=\"application/vnd.vmware.vcloud.rasdItem+xml\"
+        href=\"https://devlab.mdsol.com/api/vApp/vm-4a37a2ea-b0dd-41ae-a879-5f0743b1ff77/virtualHardwareSection/cpu\"/>\n
+        \               <Link rel=\"down\" type=\"application/vnd.vmware.vcloud.rasdItem+xml\"
+        href=\"https://devlab.mdsol.com/api/vApp/vm-4a37a2ea-b0dd-41ae-a879-5f0743b1ff77/virtualHardwareSection/memory\"/>\n
+        \               <Link rel=\"edit\" type=\"application/vnd.vmware.vcloud.rasdItem+xml\"
+        href=\"https://devlab.mdsol.com/api/vApp/vm-4a37a2ea-b0dd-41ae-a879-5f0743b1ff77/virtualHardwareSection/memory\"/>\n
+        \               <Link rel=\"down\" type=\"application/vnd.vmware.vcloud.rasdItemsList+xml\"
+        href=\"https://devlab.mdsol.com/api/vApp/vm-4a37a2ea-b0dd-41ae-a879-5f0743b1ff77/virtualHardwareSection/disks\"/>\n
+        \               <Link rel=\"edit\" type=\"application/vnd.vmware.vcloud.rasdItemsList+xml\"
+        href=\"https://devlab.mdsol.com/api/vApp/vm-4a37a2ea-b0dd-41ae-a879-5f0743b1ff77/virtualHardwareSection/disks\"/>\n
+        \               <Link rel=\"down\" type=\"application/vnd.vmware.vcloud.rasdItemsList+xml\"
+        href=\"https://devlab.mdsol.com/api/vApp/vm-4a37a2ea-b0dd-41ae-a879-5f0743b1ff77/virtualHardwareSection/media\"/>\n
+        \               <Link rel=\"down\" type=\"application/vnd.vmware.vcloud.rasdItemsList+xml\"
+        href=\"https://devlab.mdsol.com/api/vApp/vm-4a37a2ea-b0dd-41ae-a879-5f0743b1ff77/virtualHardwareSection/networkCards\"/>\n
+        \               <Link rel=\"edit\" type=\"application/vnd.vmware.vcloud.rasdItemsList+xml\"
+        href=\"https://devlab.mdsol.com/api/vApp/vm-4a37a2ea-b0dd-41ae-a879-5f0743b1ff77/virtualHardwareSection/networkCards\"/>\n
+        \               <Link rel=\"down\" type=\"application/vnd.vmware.vcloud.rasdItemsList+xml\"
+        href=\"https://devlab.mdsol.com/api/vApp/vm-4a37a2ea-b0dd-41ae-a879-5f0743b1ff77/virtualHardwareSection/serialPorts\"/>\n
+        \               <Link rel=\"edit\" type=\"application/vnd.vmware.vcloud.rasdItemsList+xml\"
+        href=\"https://devlab.mdsol.com/api/vApp/vm-4a37a2ea-b0dd-41ae-a879-5f0743b1ff77/virtualHardwareSection/serialPorts\"/>\n
+        \           </ovf:VirtualHardwareSection>\n            <ovf:OperatingSystemSection
+        xmlns:ns12=\"http://www.vmware.com/vcloud/v1.5\" ovf:id=\"102\" ns12:href=\"https://devlab.mdsol.com/api/vApp/vm-4a37a2ea-b0dd-41ae-a879-5f0743b1ff77/operatingSystemSection/\"
+        ns12:type=\"application/vnd.vmware.vcloud.operatingSystemSection+xml\" vmw:osType=\"windows7Server64Guest\">\n
+        \               <ovf:Info>Specifies the operating system installed</ovf:Info>\n
+        \               <ovf:Description>Microsoft Windows Server 2008 R2 (64-bit)</ovf:Description>\n
+        \               <Link rel=\"edit\" type=\"application/vnd.vmware.vcloud.operatingSystemSection+xml\"
+        href=\"https://devlab.mdsol.com/api/vApp/vm-4a37a2ea-b0dd-41ae-a879-5f0743b1ff77/operatingSystemSection/\"/>\n
+        \           </ovf:OperatingSystemSection>\n            <NetworkConnectionSection
+        type=\"application/vnd.vmware.vcloud.networkConnectionSection+xml\" href=\"https://devlab.mdsol.com/api/vApp/vm-4a37a2ea-b0dd-41ae-a879-5f0743b1ff77/networkConnectionSection/\"
+        ovf:required=\"false\">\n                <ovf:Info>Specifies the available
+        VM network connections</ovf:Info>\n                <PrimaryNetworkConnectionIndex>0</PrimaryNetworkConnectionIndex>\n
+        \               <NetworkConnection network=\"none\" needsCustomization=\"true\">\n
+        \                   <NetworkConnectionIndex>0</NetworkConnectionIndex>\n                    <IsConnected>false</IsConnected>\n
+        \                   <MACAddress>00:50:56:01:00:f4</MACAddress>\n                    <IpAddressAllocationMode>NONE</IpAddressAllocationMode>\n
+        \               </NetworkConnection>\n                <Link rel=\"edit\" type=\"application/vnd.vmware.vcloud.networkConnectionSection+xml\"
+        href=\"https://devlab.mdsol.com/api/vApp/vm-4a37a2ea-b0dd-41ae-a879-5f0743b1ff77/networkConnectionSection/\"/>\n
+        \           </NetworkConnectionSection>\n            <GuestCustomizationSection
+        type=\"application/vnd.vmware.vcloud.guestCustomizationSection+xml\" href=\"https://devlab.mdsol.com/api/vApp/vm-4a37a2ea-b0dd-41ae-a879-5f0743b1ff77/guestCustomizationSection/\"
+        ovf:required=\"false\">\n                <ovf:Info>Specifies Guest OS Customization
+        Settings</ovf:Info>\n                <Enabled>true</Enabled>\n                <ChangeSid>false</ChangeSid>\n
+        \               <VirtualMachineId>4a37a2ea-b0dd-41ae-a879-5f0743b1ff77</VirtualMachineId>\n
+        \               <JoinDomainEnabled>false</JoinDomainEnabled>\n                <UseOrgSettings>false</UseOrgSettings>\n
+        \               <AdminPasswordEnabled>false</AdminPasswordEnabled>\n                <AdminPasswordAuto>true</AdminPasswordAuto>\n
+        \               <ResetPasswordRequired>false</ResetPasswordRequired>\n                <ComputerName>DEVAPP-001</ComputerName>\n
+        \               <Link rel=\"edit\" type=\"application/vnd.vmware.vcloud.guestCustomizationSection+xml\"
+        href=\"https://devlab.mdsol.com/api/vApp/vm-4a37a2ea-b0dd-41ae-a879-5f0743b1ff77/guestCustomizationSection/\"/>\n
+        \           </GuestCustomizationSection>\n            <RuntimeInfoSection
+        xmlns:ns12=\"http://www.vmware.com/vcloud/v1.5\" ns12:href=\"https://devlab.mdsol.com/api/vApp/vm-4a37a2ea-b0dd-41ae-a879-5f0743b1ff77/runtimeInfoSection\"
+        ns12:type=\"application/vnd.vmware.vcloud.virtualHardwareSection+xml\">\n
+        \               <ovf:Info>Specifies Runtime info</ovf:Info>\n                <VMWareTools
+        version=\"9216\"/>\n            </RuntimeInfoSection>\n            <VAppScopedLocalId>DEVAPP</VAppScopedLocalId>\n
+        \       </Vm>\n    </Children>\n</VApp>\n"
+    http_version: 
+  recorded_at: Mon, 19 Aug 2013 14:42:43 GMT
+- request:
+    method: get
+    uri: https://devlab.mdsol.com/api/vApp/vapp-83314223-7d36-42b6-b03e-8ef619b9b152
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - fog/1.11.1
+      Cookie:
+      - vcloud-token=wv+cQrNws2WYU/IWL+VY7kIe0dIJdvh8JVaPw785bDc=; Secure; Path=/
+      Accept:
+      - application/*+xml;version=1.5
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Date:
+      - Mon, 19 Aug 2013 14:40:32 GMT, Mon, 19 Aug 2013 14:40:33 GMT
       Content-Type:
       - application/vnd.vmware.vcloud.vApp+xml;version=1.5
       Content-Length:
@@ -1506,7 +1743,7 @@ http_interactions:
         version=\"9216\"/>\n            </RuntimeInfoSection>\n            <VAppScopedLocalId>DEVAPP</VAppScopedLocalId>\n
         \       </Vm>\n    </Children>\n</VApp>\n"
     http_version: 
-  recorded_at: Mon, 19 Aug 2013 12:25:07 GMT
+  recorded_at: Mon, 19 Aug 2013 14:42:45 GMT
 - request:
     method: get
     uri: https://devlab.mdsol.com/api/vApp/vapp-83314223-7d36-42b6-b03e-8ef619b9b152
@@ -1517,7 +1754,7 @@ http_interactions:
       User-Agent:
       - fog/1.11.1
       Cookie:
-      - vcloud-token=pKqmjCmcEjNejI6Hmk5Nh4tkSSz1LacGICm8uz8rwwU=; Secure; Path=/
+      - vcloud-token=wv+cQrNws2WYU/IWL+VY7kIe0dIJdvh8JVaPw785bDc=; Secure; Path=/
       Accept:
       - application/*+xml;version=1.5
   response:
@@ -1526,7 +1763,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Mon, 19 Aug 2013 12:23:26 GMT, Mon, 19 Aug 2013 12:23:26 GMT
+      - Mon, 19 Aug 2013 14:40:34 GMT, Mon, 19 Aug 2013 14:40:34 GMT
       Content-Type:
       - application/vnd.vmware.vcloud.vApp+xml;version=1.5
       Content-Length:
@@ -1743,7 +1980,7 @@ http_interactions:
         version=\"9216\"/>\n            </RuntimeInfoSection>\n            <VAppScopedLocalId>DEVAPP</VAppScopedLocalId>\n
         \       </Vm>\n    </Children>\n</VApp>\n"
     http_version: 
-  recorded_at: Mon, 19 Aug 2013 12:25:38 GMT
+  recorded_at: Mon, 19 Aug 2013 14:42:46 GMT
 - request:
     method: get
     uri: https://devlab.mdsol.com/api/vApp/vapp-83314223-7d36-42b6-b03e-8ef619b9b152
@@ -1754,7 +1991,7 @@ http_interactions:
       User-Agent:
       - fog/1.11.1
       Cookie:
-      - vcloud-token=pKqmjCmcEjNejI6Hmk5Nh4tkSSz1LacGICm8uz8rwwU=; Secure; Path=/
+      - vcloud-token=wv+cQrNws2WYU/IWL+VY7kIe0dIJdvh8JVaPw785bDc=; Secure; Path=/
       Accept:
       - application/*+xml;version=1.5
   response:
@@ -1763,7 +2000,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Mon, 19 Aug 2013 12:23:33 GMT, Mon, 19 Aug 2013 12:23:33 GMT
+      - Mon, 19 Aug 2013 14:40:35 GMT, Mon, 19 Aug 2013 14:40:36 GMT
       Content-Type:
       - application/vnd.vmware.vcloud.vApp+xml;version=1.5
       Content-Length:
@@ -1980,10 +2217,10 @@ http_interactions:
         version=\"9216\"/>\n            </RuntimeInfoSection>\n            <VAppScopedLocalId>DEVAPP</VAppScopedLocalId>\n
         \       </Vm>\n    </Children>\n</VApp>\n"
     http_version: 
-  recorded_at: Mon, 19 Aug 2013 12:25:48 GMT
+  recorded_at: Mon, 19 Aug 2013 14:42:48 GMT
 - request:
     method: get
-    uri: https://devlab.mdsol.com/api/vApp/vapp-83314223-7d36-42b6-b03e-8ef619b9b152
+    uri: https://devlab.mdsol.com/api/vApp/vm-4a37a2ea-b0dd-41ae-a879-5f0743b1ff77/virtualHardwareSection/disks
     body:
       encoding: US-ASCII
       string: ''
@@ -1991,7 +2228,7 @@ http_interactions:
       User-Agent:
       - fog/1.11.1
       Cookie:
-      - vcloud-token=pKqmjCmcEjNejI6Hmk5Nh4tkSSz1LacGICm8uz8rwwU=; Secure; Path=/
+      - vcloud-token=wv+cQrNws2WYU/IWL+VY7kIe0dIJdvh8JVaPw785bDc=; Secure; Path=/
       Accept:
       - application/*+xml;version=1.5
   response:
@@ -2000,222 +2237,267 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Mon, 19 Aug 2013 12:23:38 GMT, Mon, 19 Aug 2013 12:23:38 GMT
+      - Mon, 19 Aug 2013 14:40:37 GMT, Mon, 19 Aug 2013 14:40:37 GMT
       Content-Type:
-      - application/vnd.vmware.vcloud.vApp+xml;version=1.5
+      - application/vnd.vmware.vcloud.rasditemslist+xml;version=1.5
       Content-Length:
-      - '21193'
+      - '2008'
     body:
       encoding: US-ASCII
-      string: ! "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<VApp xmlns=\"http://www.vmware.com/vcloud/v1.5\"
-        xmlns:ovf=\"http://schemas.dmtf.org/ovf/envelope/1\" xmlns:rasd=\"http://schemas.dmtf.org/wbem/wscim/1/cim-schema/2/CIM_ResourceAllocationSettingData\"
-        xmlns:vssd=\"http://schemas.dmtf.org/wbem/wscim/1/cim-schema/2/CIM_VirtualSystemSettingData\"
-        xmlns:vmw=\"http://www.vmware.com/schema/ovf\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"
-        deployed=\"false\" status=\"8\" name=\"webserver\" id=\"urn:vcloud:vapp:83314223-7d36-42b6-b03e-8ef619b9b152\"
-        type=\"application/vnd.vmware.vcloud.vApp+xml\" href=\"https://devlab.mdsol.com/api/vApp/vapp-83314223-7d36-42b6-b03e-8ef619b9b152\"
-        xsi:schemaLocation=\"http://schemas.dmtf.org/wbem/wscim/1/cim-schema/2/CIM_VirtualSystemSettingData
-        http://schemas.dmtf.org/wbem/wscim/1/cim-schema/2.22.0/CIM_VirtualSystemSettingData.xsd
-        http://www.vmware.com/schema/ovf http://www.vmware.com/schema/ovf http://schemas.dmtf.org/ovf/envelope/1
-        http://schemas.dmtf.org/ovf/envelope/1/dsp8023_1.1.0.xsd http://www.vmware.com/vcloud/v1.5
-        http://10.194.1.65/api/v1.5/schema/master.xsd http://schemas.dmtf.org/wbem/wscim/1/cim-schema/2/CIM_ResourceAllocationSettingData
+      string: ! "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<RasdItemsList xmlns=\"http://www.vmware.com/vcloud/v1.5\"
+        xmlns:rasd=\"http://schemas.dmtf.org/wbem/wscim/1/cim-schema/2/CIM_ResourceAllocationSettingData\"
+        xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" type=\"application/vnd.vmware.vcloud.rasdItemsList+xml\"
+        href=\"https://devlab.mdsol.com/api/vApp/vm-4a37a2ea-b0dd-41ae-a879-5f0743b1ff77/virtualHardwareSection/disks\"
+        xsi:schemaLocation=\"http://www.vmware.com/vcloud/v1.5 http://10.194.1.65/api/v1.5/schema/master.xsd
+        http://schemas.dmtf.org/wbem/wscim/1/cim-schema/2/CIM_ResourceAllocationSettingData
         http://schemas.dmtf.org/wbem/wscim/1/cim-schema/2.22.0/CIM_ResourceAllocationSettingData.xsd\">\n
-        \   <Link rel=\"power:powerOn\" href=\"https://devlab.mdsol.com/api/vApp/vapp-83314223-7d36-42b6-b03e-8ef619b9b152/power/action/powerOn\"/>\n
-        \   <Link rel=\"deploy\" type=\"application/vnd.vmware.vcloud.deployVAppParams+xml\"
-        href=\"https://devlab.mdsol.com/api/vApp/vapp-83314223-7d36-42b6-b03e-8ef619b9b152/action/deploy\"/>\n
-        \   <Link rel=\"down\" type=\"application/vnd.vmware.vcloud.vAppNetwork+xml\"
-        name=\"DevOps - Dev Network Connection\" href=\"https://devlab.mdsol.com/api/network/698cbc68-a4e8-4a2e-8e5e-65ed1d4aa890\"/>\n
-        \   <Link rel=\"down\" type=\"application/vnd.vmware.vcloud.controlAccess+xml\"
-        href=\"https://devlab.mdsol.com/api/vApp/vapp-83314223-7d36-42b6-b03e-8ef619b9b152/controlAccess/\"/>\n
-        \   <Link rel=\"controlAccess\" type=\"application/vnd.vmware.vcloud.controlAccess+xml\"
-        href=\"https://devlab.mdsol.com/api/vApp/vapp-83314223-7d36-42b6-b03e-8ef619b9b152/action/controlAccess\"/>\n
-        \   <Link rel=\"recompose\" type=\"application/vnd.vmware.vcloud.recomposeVAppParams+xml\"
-        href=\"https://devlab.mdsol.com/api/vApp/vapp-83314223-7d36-42b6-b03e-8ef619b9b152/action/recomposeVApp\"/>\n
-        \   <Link rel=\"up\" type=\"application/vnd.vmware.vcloud.vdc+xml\" href=\"https://devlab.mdsol.com/api/vdc/9a06a16b-12c6-44dc-aee1-06aa52262ea3\"/>\n
-        \   <Link rel=\"edit\" type=\"application/vnd.vmware.vcloud.vApp+xml\" href=\"https://devlab.mdsol.com/api/vApp/vapp-83314223-7d36-42b6-b03e-8ef619b9b152\"/>\n
-        \   <Link rel=\"remove\" href=\"https://devlab.mdsol.com/api/vApp/vapp-83314223-7d36-42b6-b03e-8ef619b9b152\"/>\n
-        \   <Link rel=\"down\" type=\"application/vnd.vmware.vcloud.owner+xml\" href=\"https://devlab.mdsol.com/api/vApp/vapp-83314223-7d36-42b6-b03e-8ef619b9b152/owner\"/>\n
-        \   <Link rel=\"down\" type=\"application/vnd.vmware.vcloud.metadata+xml\"
-        href=\"https://devlab.mdsol.com/api/vApp/vapp-83314223-7d36-42b6-b03e-8ef619b9b152/metadata\"/>\n
-        \   <Description/>\n    <LeaseSettingsSection type=\"application/vnd.vmware.vcloud.leaseSettingsSection+xml\"
-        href=\"https://devlab.mdsol.com/api/vApp/vapp-83314223-7d36-42b6-b03e-8ef619b9b152/leaseSettingsSection/\"
-        ovf:required=\"false\">\n        <ovf:Info>Lease settings section</ovf:Info>\n
-        \       <Link rel=\"edit\" type=\"application/vnd.vmware.vcloud.leaseSettingsSection+xml\"
-        href=\"https://devlab.mdsol.com/api/vApp/vapp-83314223-7d36-42b6-b03e-8ef619b9b152/leaseSettingsSection/\"/>\n
-        \       <DeploymentLeaseInSeconds>0</DeploymentLeaseInSeconds>\n        <StorageLeaseInSeconds>7776000</StorageLeaseInSeconds>\n
-        \       <StorageLeaseExpiration>2013-10-08T08:54:33.277Z</StorageLeaseExpiration>\n
-        \   </LeaseSettingsSection>\n    <ovf:StartupSection xmlns:ns12=\"http://www.vmware.com/vcloud/v1.5\"
-        ns12:href=\"https://devlab.mdsol.com/api/vApp/vapp-83314223-7d36-42b6-b03e-8ef619b9b152/startupSection/\"
-        ns12:type=\"application/vnd.vmware.vcloud.startupSection+xml\">\n        <ovf:Info>VApp
-        startup section</ovf:Info>\n        <ovf:Item ovf:stopDelay=\"0\" ovf:stopAction=\"powerOff\"
-        ovf:startDelay=\"0\" ovf:startAction=\"powerOn\" ovf:order=\"0\" ovf:id=\"DEVAPP\"/>\n
-        \       <Link rel=\"edit\" type=\"application/vnd.vmware.vcloud.startupSection+xml\"
-        href=\"https://devlab.mdsol.com/api/vApp/vapp-83314223-7d36-42b6-b03e-8ef619b9b152/startupSection/\"/>\n
-        \   </ovf:StartupSection>\n    <ovf:NetworkSection xmlns:ns12=\"http://www.vmware.com/vcloud/v1.5\"
-        ns12:href=\"https://devlab.mdsol.com/api/vApp/vapp-83314223-7d36-42b6-b03e-8ef619b9b152/networkSection/\"
-        ns12:type=\"application/vnd.vmware.vcloud.networkSection+xml\">\n        <ovf:Info>The
-        list of logical networks</ovf:Info>\n        <ovf:Network ovf:name=\"DevOps
-        - Dev Network Connection\">\n            <ovf:Description/>\n        </ovf:Network>\n
-        \       <ovf:Network ovf:name=\"none\">\n            <ovf:Description>This
-        is a special place-holder used for disconnected network interfaces.</ovf:Description>\n
-        \       </ovf:Network>\n    </ovf:NetworkSection>\n    <NetworkConfigSection
-        type=\"application/vnd.vmware.vcloud.networkConfigSection+xml\" href=\"https://devlab.mdsol.com/api/vApp/vapp-83314223-7d36-42b6-b03e-8ef619b9b152/networkConfigSection/\"
-        ovf:required=\"false\">\n        <ovf:Info>The configuration parameters for
-        logical networks</ovf:Info>\n        <Link rel=\"edit\" type=\"application/vnd.vmware.vcloud.networkConfigSection+xml\"
-        href=\"https://devlab.mdsol.com/api/vApp/vapp-83314223-7d36-42b6-b03e-8ef619b9b152/networkConfigSection/\"/>\n
-        \       <NetworkConfig networkName=\"DevOps - Dev Network Connection\">\n
-        \           <Link rel=\"repair\" href=\"https://devlab.mdsol.com/api/admin/network/698cbc68-a4e8-4a2e-8e5e-65ed1d4aa890/action/reset\"/>\n
-        \           <Description/>\n            <Configuration>\n                <IpScope>\n
-        \                   <IsInherited>true</IsInherited>\n                    <Gateway>10.192.0.1</Gateway>\n
-        \                   <Netmask>255.255.252.0</Netmask>\n                    <Dns1>10.192.0.11</Dns1>\n
-        \                   <Dns2>10.192.0.12</Dns2>\n                    <DnsSuffix>dev.ad.mdsol.com</DnsSuffix>\n
-        \                   <IpRanges>\n                        <IpRange>\n                            <StartAddress>10.192.0.100</StartAddress>\n
-        \                           <EndAddress>10.192.0.254</EndAddress>\n                        </IpRange>\n
-        \                       <IpRange>\n                            <StartAddress>10.192.1.32</StartAddress>\n
-        \                           <EndAddress>10.192.3.254</EndAddress>\n                        </IpRange>\n
-        \                   </IpRanges>\n                </IpScope>\n                <ParentNetwork
-        name=\"DevOps - Dev Network Connection\" id=\"d5f47bbf-de27-4cf5-aaaa-56772f2ccd17\"
-        href=\"https://devlab.mdsol.com/api/admin/network/d5f47bbf-de27-4cf5-aaaa-56772f2ccd17\"/>\n
-        \               <FenceMode>bridged</FenceMode>\n                <RetainNetInfoAcrossDeployments>false</RetainNetInfoAcrossDeployments>\n
-        \           </Configuration>\n            <IsDeployed>false</IsDeployed>\n
-        \       </NetworkConfig>\n        <NetworkConfig networkName=\"none\">\n            <Description>This
-        is a special place-holder used for disconnected network interfaces.</Description>\n
-        \           <Configuration>\n                <FenceMode>isolated</FenceMode>\n
-        \           </Configuration>\n            <IsDeployed>false</IsDeployed>\n
-        \       </NetworkConfig>\n    </NetworkConfigSection>\n    <Owner type=\"application/vnd.vmware.vcloud.owner+xml\">\n
-        \       <User type=\"application/vnd.vmware.admin.user+xml\" name=\"restebanez\"
-        href=\"https://devlab.mdsol.com/api/admin/user/c3ca7b97-ddea-425f-8bdb-1fdb946f7349\"/>\n
-        \   </Owner>\n    <InMaintenanceMode>false</InMaintenanceMode>\n    <Children>\n
-        \       <Vm needsCustomization=\"true\" deployed=\"false\" status=\"8\" name=\"DEVAPP\"
-        id=\"urn:vcloud:vm:4a37a2ea-b0dd-41ae-a879-5f0743b1ff77\" type=\"application/vnd.vmware.vcloud.vm+xml\"
-        href=\"https://devlab.mdsol.com/api/vApp/vm-4a37a2ea-b0dd-41ae-a879-5f0743b1ff77\">\n
-        \           <Link rel=\"power:powerOn\" href=\"https://devlab.mdsol.com/api/vApp/vm-4a37a2ea-b0dd-41ae-a879-5f0743b1ff77/power/action/powerOn\"/>\n
-        \           <Link rel=\"deploy\" type=\"application/vnd.vmware.vcloud.deployVAppParams+xml\"
-        href=\"https://devlab.mdsol.com/api/vApp/vm-4a37a2ea-b0dd-41ae-a879-5f0743b1ff77/action/deploy\"/>\n
-        \           <Link rel=\"edit\" type=\"application/vnd.vmware.vcloud.vm+xml\"
-        href=\"https://devlab.mdsol.com/api/vApp/vm-4a37a2ea-b0dd-41ae-a879-5f0743b1ff77\"/>\n
-        \           <Link rel=\"remove\" href=\"https://devlab.mdsol.com/api/vApp/vm-4a37a2ea-b0dd-41ae-a879-5f0743b1ff77\"/>\n
-        \           <Link rel=\"down\" type=\"application/vnd.vmware.vcloud.metadata+xml\"
-        href=\"https://devlab.mdsol.com/api/vApp/vm-4a37a2ea-b0dd-41ae-a879-5f0743b1ff77/metadata\"/>\n
-        \           <Link rel=\"screen:thumbnail\" href=\"https://devlab.mdsol.com/api/vApp/vm-4a37a2ea-b0dd-41ae-a879-5f0743b1ff77/screen\"/>\n
-        \           <Link rel=\"media:insertMedia\" type=\"application/vnd.vmware.vcloud.mediaInsertOrEjectParams+xml\"
-        href=\"https://devlab.mdsol.com/api/vApp/vm-4a37a2ea-b0dd-41ae-a879-5f0743b1ff77/media/action/insertMedia\"/>\n
-        \           <Link rel=\"media:ejectMedia\" type=\"application/vnd.vmware.vcloud.mediaInsertOrEjectParams+xml\"
-        href=\"https://devlab.mdsol.com/api/vApp/vm-4a37a2ea-b0dd-41ae-a879-5f0743b1ff77/media/action/ejectMedia\"/>\n
-        \           <Link rel=\"upgrade\" href=\"https://devlab.mdsol.com/api/vApp/vm-4a37a2ea-b0dd-41ae-a879-5f0743b1ff77/action/upgradeHardwareVersion\"/>\n
-        \           <Link rel=\"up\" type=\"application/vnd.vmware.vcloud.vApp+xml\"
-        href=\"https://devlab.mdsol.com/api/vApp/vapp-83314223-7d36-42b6-b03e-8ef619b9b152\"/>\n
-        \           <Description/>\n            <ovf:VirtualHardwareSection xmlns:ns12=\"http://www.vmware.com/vcloud/v1.5\"
-        ovf:transport=\"\" ns12:href=\"https://devlab.mdsol.com/api/vApp/vm-4a37a2ea-b0dd-41ae-a879-5f0743b1ff77/virtualHardwareSection/\"
-        ns12:type=\"application/vnd.vmware.vcloud.virtualHardwareSection+xml\">\n
-        \               <ovf:Info>Virtual hardware requirements</ovf:Info>\n                <ovf:System>\n
-        \                   <vssd:ElementName>Virtual Hardware Family</vssd:ElementName>\n
-        \                   <vssd:InstanceID>0</vssd:InstanceID>\n                    <vssd:VirtualSystemIdentifier>DEVAPP</vssd:VirtualSystemIdentifier>\n
-        \                   <vssd:VirtualSystemType>vmx-08</vssd:VirtualSystemType>\n
-        \               </ovf:System>\n                <ovf:Item>\n                    <rasd:Address>00:50:56:01:00:f4</rasd:Address>\n
-        \                   <rasd:AddressOnParent>0</rasd:AddressOnParent>\n                    <rasd:AutomaticAllocation>false</rasd:AutomaticAllocation>\n
-        \                   <rasd:Connection ns12:primaryNetworkConnection=\"true\"
-        ns12:ipAddressingMode=\"NONE\">none</rasd:Connection>\n                    <rasd:Description>E1000
-        ethernet adapter on \"none\"</rasd:Description>\n                    <rasd:ElementName>Network
-        adapter 0</rasd:ElementName>\n                    <rasd:InstanceID>1</rasd:InstanceID>\n
-        \                   <rasd:ResourceSubType>E1000</rasd:ResourceSubType>\n                    <rasd:ResourceType>10</rasd:ResourceType>\n
-        \               </ovf:Item>\n                <ovf:Item>\n                    <rasd:Address>0</rasd:Address>\n
-        \                   <rasd:Description>SCSI Controller</rasd:Description>\n
-        \                   <rasd:ElementName>SCSI Controller 0</rasd:ElementName>\n
-        \                   <rasd:InstanceID>2</rasd:InstanceID>\n                    <rasd:ResourceSubType>lsilogicsas</rasd:ResourceSubType>\n
-        \                   <rasd:ResourceType>6</rasd:ResourceType>\n                </ovf:Item>\n
-        \               <ovf:Item>\n                    <rasd:AddressOnParent>0</rasd:AddressOnParent>\n
-        \                   <rasd:Description>Hard disk</rasd:Description>\n                    <rasd:ElementName>Hard
-        disk 1</rasd:ElementName>\n                    <rasd:HostResource ns12:capacity=\"32768\"
-        ns12:busSubType=\"lsilogicsas\" ns12:busType=\"6\"/>\n                    <rasd:InstanceID>2000</rasd:InstanceID>\n
-        \                   <rasd:Parent>2</rasd:Parent>\n                    <rasd:ResourceType>17</rasd:ResourceType>\n
-        \               </ovf:Item>\n                <ovf:Item>\n                    <rasd:Address>0</rasd:Address>\n
-        \                   <rasd:Description>IDE Controller</rasd:Description>\n
-        \                   <rasd:ElementName>IDE Controller 0</rasd:ElementName>\n
-        \                   <rasd:InstanceID>3</rasd:InstanceID>\n                    <rasd:ResourceType>5</rasd:ResourceType>\n
-        \               </ovf:Item>\n                <ovf:Item>\n                    <rasd:AddressOnParent>1</rasd:AddressOnParent>\n
-        \                   <rasd:AutomaticAllocation>false</rasd:AutomaticAllocation>\n
-        \                   <rasd:Description>CD/DVD Drive</rasd:Description>\n                    <rasd:ElementName>CD/DVD
-        Drive 1</rasd:ElementName>\n                    <rasd:HostResource/>\n                    <rasd:InstanceID>3002</rasd:InstanceID>\n
-        \                   <rasd:Parent>3</rasd:Parent>\n                    <rasd:ResourceType>15</rasd:ResourceType>\n
-        \               </ovf:Item>\n                <ovf:Item>\n                    <rasd:AddressOnParent>0</rasd:AddressOnParent>\n
-        \                   <rasd:AutomaticAllocation>false</rasd:AutomaticAllocation>\n
-        \                   <rasd:Description>Floppy Drive</rasd:Description>\n                    <rasd:ElementName>Floppy
-        Drive 1</rasd:ElementName>\n                    <rasd:HostResource/>\n                    <rasd:InstanceID>8000</rasd:InstanceID>\n
-        \                   <rasd:ResourceType>14</rasd:ResourceType>\n                </ovf:Item>\n
-        \               <ovf:Item ns12:href=\"https://devlab.mdsol.com/api/vApp/vm-4a37a2ea-b0dd-41ae-a879-5f0743b1ff77/virtualHardwareSection/cpu\"
-        ns12:type=\"application/vnd.vmware.vcloud.rasdItem+xml\">\n                    <rasd:AllocationUnits>hertz
-        * 10^6</rasd:AllocationUnits>\n                    <rasd:Description>Number
-        of Virtual CPUs</rasd:Description>\n                    <rasd:ElementName>2
-        virtual CPU(s)</rasd:ElementName>\n                    <rasd:InstanceID>4</rasd:InstanceID>\n
-        \                   <rasd:Reservation>0</rasd:Reservation>\n                    <rasd:ResourceType>3</rasd:ResourceType>\n
-        \                   <rasd:VirtualQuantity>2</rasd:VirtualQuantity>\n                    <rasd:Weight>0</rasd:Weight>\n
-        \                   <Link rel=\"edit\" type=\"application/vnd.vmware.vcloud.rasdItem+xml\"
-        href=\"https://devlab.mdsol.com/api/vApp/vm-4a37a2ea-b0dd-41ae-a879-5f0743b1ff77/virtualHardwareSection/cpu\"/>\n
-        \               </ovf:Item>\n                <ovf:Item ns12:href=\"https://devlab.mdsol.com/api/vApp/vm-4a37a2ea-b0dd-41ae-a879-5f0743b1ff77/virtualHardwareSection/memory\"
-        ns12:type=\"application/vnd.vmware.vcloud.rasdItem+xml\">\n                    <rasd:AllocationUnits>byte
-        * 2^20</rasd:AllocationUnits>\n                    <rasd:Description>Memory
-        Size</rasd:Description>\n                    <rasd:ElementName>2560 MB of
-        memory</rasd:ElementName>\n                    <rasd:InstanceID>5</rasd:InstanceID>\n
-        \                   <rasd:Reservation>0</rasd:Reservation>\n                    <rasd:ResourceType>4</rasd:ResourceType>\n
-        \                   <rasd:VirtualQuantity>2560</rasd:VirtualQuantity>\n                    <rasd:Weight>0</rasd:Weight>\n
-        \                   <Link rel=\"edit\" type=\"application/vnd.vmware.vcloud.rasdItem+xml\"
-        href=\"https://devlab.mdsol.com/api/vApp/vm-4a37a2ea-b0dd-41ae-a879-5f0743b1ff77/virtualHardwareSection/memory\"/>\n
-        \               </ovf:Item>\n                <Link rel=\"edit\" type=\"application/vnd.vmware.vcloud.virtualHardwareSection+xml\"
-        href=\"https://devlab.mdsol.com/api/vApp/vm-4a37a2ea-b0dd-41ae-a879-5f0743b1ff77/virtualHardwareSection/\"/>\n
-        \               <Link rel=\"down\" type=\"application/vnd.vmware.vcloud.rasdItem+xml\"
-        href=\"https://devlab.mdsol.com/api/vApp/vm-4a37a2ea-b0dd-41ae-a879-5f0743b1ff77/virtualHardwareSection/cpu\"/>\n
-        \               <Link rel=\"edit\" type=\"application/vnd.vmware.vcloud.rasdItem+xml\"
-        href=\"https://devlab.mdsol.com/api/vApp/vm-4a37a2ea-b0dd-41ae-a879-5f0743b1ff77/virtualHardwareSection/cpu\"/>\n
-        \               <Link rel=\"down\" type=\"application/vnd.vmware.vcloud.rasdItem+xml\"
-        href=\"https://devlab.mdsol.com/api/vApp/vm-4a37a2ea-b0dd-41ae-a879-5f0743b1ff77/virtualHardwareSection/memory\"/>\n
-        \               <Link rel=\"edit\" type=\"application/vnd.vmware.vcloud.rasdItem+xml\"
-        href=\"https://devlab.mdsol.com/api/vApp/vm-4a37a2ea-b0dd-41ae-a879-5f0743b1ff77/virtualHardwareSection/memory\"/>\n
-        \               <Link rel=\"down\" type=\"application/vnd.vmware.vcloud.rasdItemsList+xml\"
+        \   <Link rel=\"edit\" type=\"application/vnd.vmware.vcloud.rasdItemsList+xml\"
         href=\"https://devlab.mdsol.com/api/vApp/vm-4a37a2ea-b0dd-41ae-a879-5f0743b1ff77/virtualHardwareSection/disks\"/>\n
-        \               <Link rel=\"edit\" type=\"application/vnd.vmware.vcloud.rasdItemsList+xml\"
-        href=\"https://devlab.mdsol.com/api/vApp/vm-4a37a2ea-b0dd-41ae-a879-5f0743b1ff77/virtualHardwareSection/disks\"/>\n
-        \               <Link rel=\"down\" type=\"application/vnd.vmware.vcloud.rasdItemsList+xml\"
-        href=\"https://devlab.mdsol.com/api/vApp/vm-4a37a2ea-b0dd-41ae-a879-5f0743b1ff77/virtualHardwareSection/media\"/>\n
-        \               <Link rel=\"down\" type=\"application/vnd.vmware.vcloud.rasdItemsList+xml\"
-        href=\"https://devlab.mdsol.com/api/vApp/vm-4a37a2ea-b0dd-41ae-a879-5f0743b1ff77/virtualHardwareSection/networkCards\"/>\n
-        \               <Link rel=\"edit\" type=\"application/vnd.vmware.vcloud.rasdItemsList+xml\"
-        href=\"https://devlab.mdsol.com/api/vApp/vm-4a37a2ea-b0dd-41ae-a879-5f0743b1ff77/virtualHardwareSection/networkCards\"/>\n
-        \               <Link rel=\"down\" type=\"application/vnd.vmware.vcloud.rasdItemsList+xml\"
-        href=\"https://devlab.mdsol.com/api/vApp/vm-4a37a2ea-b0dd-41ae-a879-5f0743b1ff77/virtualHardwareSection/serialPorts\"/>\n
-        \               <Link rel=\"edit\" type=\"application/vnd.vmware.vcloud.rasdItemsList+xml\"
-        href=\"https://devlab.mdsol.com/api/vApp/vm-4a37a2ea-b0dd-41ae-a879-5f0743b1ff77/virtualHardwareSection/serialPorts\"/>\n
-        \           </ovf:VirtualHardwareSection>\n            <ovf:OperatingSystemSection
-        xmlns:ns12=\"http://www.vmware.com/vcloud/v1.5\" ovf:id=\"102\" ns12:href=\"https://devlab.mdsol.com/api/vApp/vm-4a37a2ea-b0dd-41ae-a879-5f0743b1ff77/operatingSystemSection/\"
-        ns12:type=\"application/vnd.vmware.vcloud.operatingSystemSection+xml\" vmw:osType=\"windows7Server64Guest\">\n
-        \               <ovf:Info>Specifies the operating system installed</ovf:Info>\n
-        \               <ovf:Description>Microsoft Windows Server 2008 R2 (64-bit)</ovf:Description>\n
-        \               <Link rel=\"edit\" type=\"application/vnd.vmware.vcloud.operatingSystemSection+xml\"
-        href=\"https://devlab.mdsol.com/api/vApp/vm-4a37a2ea-b0dd-41ae-a879-5f0743b1ff77/operatingSystemSection/\"/>\n
-        \           </ovf:OperatingSystemSection>\n            <NetworkConnectionSection
-        type=\"application/vnd.vmware.vcloud.networkConnectionSection+xml\" href=\"https://devlab.mdsol.com/api/vApp/vm-4a37a2ea-b0dd-41ae-a879-5f0743b1ff77/networkConnectionSection/\"
-        ovf:required=\"false\">\n                <ovf:Info>Specifies the available
-        VM network connections</ovf:Info>\n                <PrimaryNetworkConnectionIndex>0</PrimaryNetworkConnectionIndex>\n
-        \               <NetworkConnection network=\"none\" needsCustomization=\"true\">\n
-        \                   <NetworkConnectionIndex>0</NetworkConnectionIndex>\n                    <IsConnected>false</IsConnected>\n
-        \                   <MACAddress>00:50:56:01:00:f4</MACAddress>\n                    <IpAddressAllocationMode>NONE</IpAddressAllocationMode>\n
-        \               </NetworkConnection>\n                <Link rel=\"edit\" type=\"application/vnd.vmware.vcloud.networkConnectionSection+xml\"
-        href=\"https://devlab.mdsol.com/api/vApp/vm-4a37a2ea-b0dd-41ae-a879-5f0743b1ff77/networkConnectionSection/\"/>\n
-        \           </NetworkConnectionSection>\n            <GuestCustomizationSection
-        type=\"application/vnd.vmware.vcloud.guestCustomizationSection+xml\" href=\"https://devlab.mdsol.com/api/vApp/vm-4a37a2ea-b0dd-41ae-a879-5f0743b1ff77/guestCustomizationSection/\"
-        ovf:required=\"false\">\n                <ovf:Info>Specifies Guest OS Customization
-        Settings</ovf:Info>\n                <Enabled>true</Enabled>\n                <ChangeSid>false</ChangeSid>\n
-        \               <VirtualMachineId>4a37a2ea-b0dd-41ae-a879-5f0743b1ff77</VirtualMachineId>\n
-        \               <JoinDomainEnabled>false</JoinDomainEnabled>\n                <UseOrgSettings>false</UseOrgSettings>\n
-        \               <AdminPasswordEnabled>false</AdminPasswordEnabled>\n                <AdminPasswordAuto>true</AdminPasswordAuto>\n
-        \               <ResetPasswordRequired>false</ResetPasswordRequired>\n                <ComputerName>DEVAPP-001</ComputerName>\n
-        \               <Link rel=\"edit\" type=\"application/vnd.vmware.vcloud.guestCustomizationSection+xml\"
-        href=\"https://devlab.mdsol.com/api/vApp/vm-4a37a2ea-b0dd-41ae-a879-5f0743b1ff77/guestCustomizationSection/\"/>\n
-        \           </GuestCustomizationSection>\n            <RuntimeInfoSection
-        xmlns:ns12=\"http://www.vmware.com/vcloud/v1.5\" ns12:href=\"https://devlab.mdsol.com/api/vApp/vm-4a37a2ea-b0dd-41ae-a879-5f0743b1ff77/runtimeInfoSection\"
-        ns12:type=\"application/vnd.vmware.vcloud.virtualHardwareSection+xml\">\n
-        \               <ovf:Info>Specifies Runtime info</ovf:Info>\n                <VMWareTools
-        version=\"9216\"/>\n            </RuntimeInfoSection>\n            <VAppScopedLocalId>DEVAPP</VAppScopedLocalId>\n
-        \       </Vm>\n    </Children>\n</VApp>\n"
+        \   <Item>\n        <rasd:Address>0</rasd:Address>\n        <rasd:Description>SCSI
+        Controller</rasd:Description>\n        <rasd:ElementName>SCSI Controller 0</rasd:ElementName>\n
+        \       <rasd:InstanceID>2</rasd:InstanceID>\n        <rasd:ResourceSubType>lsilogicsas</rasd:ResourceSubType>\n
+        \       <rasd:ResourceType>6</rasd:ResourceType>\n    </Item>\n    <Item>\n
+        \       <rasd:AddressOnParent>0</rasd:AddressOnParent>\n        <rasd:Description>Hard
+        disk</rasd:Description>\n        <rasd:ElementName>Hard disk 1</rasd:ElementName>\n
+        \       <rasd:HostResource xmlns:ns12=\"http://www.vmware.com/vcloud/v1.5\"
+        ns12:capacity=\"32768\" ns12:busSubType=\"lsilogicsas\" ns12:busType=\"6\"></rasd:HostResource>\n
+        \       <rasd:InstanceID>2000</rasd:InstanceID>\n        <rasd:Parent>2</rasd:Parent>\n
+        \       <rasd:ResourceType>17</rasd:ResourceType>\n    </Item>\n    <Item>\n
+        \       <rasd:Address>0</rasd:Address>\n        <rasd:Description>IDE Controller</rasd:Description>\n
+        \       <rasd:ElementName>IDE Controller 0</rasd:ElementName>\n        <rasd:InstanceID>3</rasd:InstanceID>\n
+        \       <rasd:ResourceType>5</rasd:ResourceType>\n    </Item>\n</RasdItemsList>\n"
     http_version: 
-  recorded_at: Mon, 19 Aug 2013 12:25:51 GMT
+  recorded_at: Mon, 19 Aug 2013 14:42:48 GMT
+- request:
+    method: get
+    uri: https://devlab.mdsol.com/api/vApp/vm-4a37a2ea-b0dd-41ae-a879-5f0743b1ff77/virtualHardwareSection/disks
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - fog/1.11.1
+      Cookie:
+      - vcloud-token=wv+cQrNws2WYU/IWL+VY7kIe0dIJdvh8JVaPw785bDc=; Secure; Path=/
+      Accept:
+      - application/*+xml;version=1.5
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Date:
+      - Mon, 19 Aug 2013 14:40:38 GMT, Mon, 19 Aug 2013 14:40:38 GMT
+      Content-Type:
+      - application/vnd.vmware.vcloud.rasditemslist+xml;version=1.5
+      Content-Length:
+      - '2008'
+    body:
+      encoding: US-ASCII
+      string: ! "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<RasdItemsList xmlns=\"http://www.vmware.com/vcloud/v1.5\"
+        xmlns:rasd=\"http://schemas.dmtf.org/wbem/wscim/1/cim-schema/2/CIM_ResourceAllocationSettingData\"
+        xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" type=\"application/vnd.vmware.vcloud.rasdItemsList+xml\"
+        href=\"https://devlab.mdsol.com/api/vApp/vm-4a37a2ea-b0dd-41ae-a879-5f0743b1ff77/virtualHardwareSection/disks\"
+        xsi:schemaLocation=\"http://www.vmware.com/vcloud/v1.5 http://10.194.1.65/api/v1.5/schema/master.xsd
+        http://schemas.dmtf.org/wbem/wscim/1/cim-schema/2/CIM_ResourceAllocationSettingData
+        http://schemas.dmtf.org/wbem/wscim/1/cim-schema/2.22.0/CIM_ResourceAllocationSettingData.xsd\">\n
+        \   <Link rel=\"edit\" type=\"application/vnd.vmware.vcloud.rasdItemsList+xml\"
+        href=\"https://devlab.mdsol.com/api/vApp/vm-4a37a2ea-b0dd-41ae-a879-5f0743b1ff77/virtualHardwareSection/disks\"/>\n
+        \   <Item>\n        <rasd:Address>0</rasd:Address>\n        <rasd:Description>SCSI
+        Controller</rasd:Description>\n        <rasd:ElementName>SCSI Controller 0</rasd:ElementName>\n
+        \       <rasd:InstanceID>2</rasd:InstanceID>\n        <rasd:ResourceSubType>lsilogicsas</rasd:ResourceSubType>\n
+        \       <rasd:ResourceType>6</rasd:ResourceType>\n    </Item>\n    <Item>\n
+        \       <rasd:AddressOnParent>0</rasd:AddressOnParent>\n        <rasd:Description>Hard
+        disk</rasd:Description>\n        <rasd:ElementName>Hard disk 1</rasd:ElementName>\n
+        \       <rasd:HostResource xmlns:ns12=\"http://www.vmware.com/vcloud/v1.5\"
+        ns12:capacity=\"32768\" ns12:busSubType=\"lsilogicsas\" ns12:busType=\"6\"></rasd:HostResource>\n
+        \       <rasd:InstanceID>2000</rasd:InstanceID>\n        <rasd:Parent>2</rasd:Parent>\n
+        \       <rasd:ResourceType>17</rasd:ResourceType>\n    </Item>\n    <Item>\n
+        \       <rasd:Address>0</rasd:Address>\n        <rasd:Description>IDE Controller</rasd:Description>\n
+        \       <rasd:ElementName>IDE Controller 0</rasd:ElementName>\n        <rasd:InstanceID>3</rasd:InstanceID>\n
+        \       <rasd:ResourceType>5</rasd:ResourceType>\n    </Item>\n</RasdItemsList>\n"
+    http_version: 
+  recorded_at: Mon, 19 Aug 2013 14:42:49 GMT
+- request:
+    method: get
+    uri: https://devlab.mdsol.com/api/vApp/vm-4a37a2ea-b0dd-41ae-a879-5f0743b1ff77/virtualHardwareSection/disks
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - fog/1.11.1
+      Cookie:
+      - vcloud-token=wv+cQrNws2WYU/IWL+VY7kIe0dIJdvh8JVaPw785bDc=; Secure; Path=/
+      Accept:
+      - application/*+xml;version=1.5
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Date:
+      - Mon, 19 Aug 2013 14:40:39 GMT, Mon, 19 Aug 2013 14:40:39 GMT
+      Content-Type:
+      - application/vnd.vmware.vcloud.rasditemslist+xml;version=1.5
+      Content-Length:
+      - '2008'
+    body:
+      encoding: US-ASCII
+      string: ! "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<RasdItemsList xmlns=\"http://www.vmware.com/vcloud/v1.5\"
+        xmlns:rasd=\"http://schemas.dmtf.org/wbem/wscim/1/cim-schema/2/CIM_ResourceAllocationSettingData\"
+        xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" type=\"application/vnd.vmware.vcloud.rasdItemsList+xml\"
+        href=\"https://devlab.mdsol.com/api/vApp/vm-4a37a2ea-b0dd-41ae-a879-5f0743b1ff77/virtualHardwareSection/disks\"
+        xsi:schemaLocation=\"http://www.vmware.com/vcloud/v1.5 http://10.194.1.65/api/v1.5/schema/master.xsd
+        http://schemas.dmtf.org/wbem/wscim/1/cim-schema/2/CIM_ResourceAllocationSettingData
+        http://schemas.dmtf.org/wbem/wscim/1/cim-schema/2.22.0/CIM_ResourceAllocationSettingData.xsd\">\n
+        \   <Link rel=\"edit\" type=\"application/vnd.vmware.vcloud.rasdItemsList+xml\"
+        href=\"https://devlab.mdsol.com/api/vApp/vm-4a37a2ea-b0dd-41ae-a879-5f0743b1ff77/virtualHardwareSection/disks\"/>\n
+        \   <Item>\n        <rasd:Address>0</rasd:Address>\n        <rasd:Description>SCSI
+        Controller</rasd:Description>\n        <rasd:ElementName>SCSI Controller 0</rasd:ElementName>\n
+        \       <rasd:InstanceID>2</rasd:InstanceID>\n        <rasd:ResourceSubType>lsilogicsas</rasd:ResourceSubType>\n
+        \       <rasd:ResourceType>6</rasd:ResourceType>\n    </Item>\n    <Item>\n
+        \       <rasd:AddressOnParent>0</rasd:AddressOnParent>\n        <rasd:Description>Hard
+        disk</rasd:Description>\n        <rasd:ElementName>Hard disk 1</rasd:ElementName>\n
+        \       <rasd:HostResource xmlns:ns12=\"http://www.vmware.com/vcloud/v1.5\"
+        ns12:capacity=\"32768\" ns12:busSubType=\"lsilogicsas\" ns12:busType=\"6\"></rasd:HostResource>\n
+        \       <rasd:InstanceID>2000</rasd:InstanceID>\n        <rasd:Parent>2</rasd:Parent>\n
+        \       <rasd:ResourceType>17</rasd:ResourceType>\n    </Item>\n    <Item>\n
+        \       <rasd:Address>0</rasd:Address>\n        <rasd:Description>IDE Controller</rasd:Description>\n
+        \       <rasd:ElementName>IDE Controller 0</rasd:ElementName>\n        <rasd:InstanceID>3</rasd:InstanceID>\n
+        \       <rasd:ResourceType>5</rasd:ResourceType>\n    </Item>\n</RasdItemsList>\n"
+    http_version: 
+  recorded_at: Mon, 19 Aug 2013 14:42:50 GMT
+- request:
+    method: get
+    uri: https://devlab.mdsol.com/api/vApp/vm-4a37a2ea-b0dd-41ae-a879-5f0743b1ff77/virtualHardwareSection/disks
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - fog/1.11.1
+      Cookie:
+      - vcloud-token=wv+cQrNws2WYU/IWL+VY7kIe0dIJdvh8JVaPw785bDc=; Secure; Path=/
+      Accept:
+      - application/*+xml;version=1.5
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Date:
+      - Mon, 19 Aug 2013 14:40:40 GMT, Mon, 19 Aug 2013 14:40:40 GMT
+      Content-Type:
+      - application/vnd.vmware.vcloud.rasditemslist+xml;version=1.5
+      Content-Length:
+      - '2008'
+    body:
+      encoding: US-ASCII
+      string: ! "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<RasdItemsList xmlns=\"http://www.vmware.com/vcloud/v1.5\"
+        xmlns:rasd=\"http://schemas.dmtf.org/wbem/wscim/1/cim-schema/2/CIM_ResourceAllocationSettingData\"
+        xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" type=\"application/vnd.vmware.vcloud.rasdItemsList+xml\"
+        href=\"https://devlab.mdsol.com/api/vApp/vm-4a37a2ea-b0dd-41ae-a879-5f0743b1ff77/virtualHardwareSection/disks\"
+        xsi:schemaLocation=\"http://www.vmware.com/vcloud/v1.5 http://10.194.1.65/api/v1.5/schema/master.xsd
+        http://schemas.dmtf.org/wbem/wscim/1/cim-schema/2/CIM_ResourceAllocationSettingData
+        http://schemas.dmtf.org/wbem/wscim/1/cim-schema/2.22.0/CIM_ResourceAllocationSettingData.xsd\">\n
+        \   <Link rel=\"edit\" type=\"application/vnd.vmware.vcloud.rasdItemsList+xml\"
+        href=\"https://devlab.mdsol.com/api/vApp/vm-4a37a2ea-b0dd-41ae-a879-5f0743b1ff77/virtualHardwareSection/disks\"/>\n
+        \   <Item>\n        <rasd:Address>0</rasd:Address>\n        <rasd:Description>SCSI
+        Controller</rasd:Description>\n        <rasd:ElementName>SCSI Controller 0</rasd:ElementName>\n
+        \       <rasd:InstanceID>2</rasd:InstanceID>\n        <rasd:ResourceSubType>lsilogicsas</rasd:ResourceSubType>\n
+        \       <rasd:ResourceType>6</rasd:ResourceType>\n    </Item>\n    <Item>\n
+        \       <rasd:AddressOnParent>0</rasd:AddressOnParent>\n        <rasd:Description>Hard
+        disk</rasd:Description>\n        <rasd:ElementName>Hard disk 1</rasd:ElementName>\n
+        \       <rasd:HostResource xmlns:ns12=\"http://www.vmware.com/vcloud/v1.5\"
+        ns12:capacity=\"32768\" ns12:busSubType=\"lsilogicsas\" ns12:busType=\"6\"></rasd:HostResource>\n
+        \       <rasd:InstanceID>2000</rasd:InstanceID>\n        <rasd:Parent>2</rasd:Parent>\n
+        \       <rasd:ResourceType>17</rasd:ResourceType>\n    </Item>\n    <Item>\n
+        \       <rasd:Address>0</rasd:Address>\n        <rasd:Description>IDE Controller</rasd:Description>\n
+        \       <rasd:ElementName>IDE Controller 0</rasd:ElementName>\n        <rasd:InstanceID>3</rasd:InstanceID>\n
+        \       <rasd:ResourceType>5</rasd:ResourceType>\n    </Item>\n</RasdItemsList>\n"
+    http_version: 
+  recorded_at: Mon, 19 Aug 2013 14:42:51 GMT
+- request:
+    method: get
+    uri: https://devlab.mdsol.com/api/vApp/vm-4a37a2ea-b0dd-41ae-a879-5f0743b1ff77/guestCustomizationSection
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - fog/1.11.1
+      Cookie:
+      - vcloud-token=wv+cQrNws2WYU/IWL+VY7kIe0dIJdvh8JVaPw785bDc=; Secure; Path=/
+      Accept:
+      - application/*+xml;version=1.5
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Date:
+      - Mon, 19 Aug 2013 14:41:36 GMT, Mon, 19 Aug 2013 14:41:36 GMT
+      Content-Type:
+      - application/vnd.vmware.vcloud.guestcustomizationsection+xml;version=1.5
+      Content-Length:
+      - '1336'
+    body:
+      encoding: US-ASCII
+      string: ! "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<GuestCustomizationSection
+        xmlns=\"http://www.vmware.com/vcloud/v1.5\" xmlns:ovf=\"http://schemas.dmtf.org/ovf/envelope/1\"
+        type=\"application/vnd.vmware.vcloud.guestCustomizationSection+xml\" href=\"https://devlab.mdsol.com/api/vApp/vm-4a37a2ea-b0dd-41ae-a879-5f0743b1ff77/guestCustomizationSection/\"
+        ovf:required=\"false\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"
+        xsi:schemaLocation=\"http://schemas.dmtf.org/ovf/envelope/1 http://schemas.dmtf.org/ovf/envelope/1/dsp8023_1.1.0.xsd
+        http://www.vmware.com/vcloud/v1.5 http://10.194.1.65/api/v1.5/schema/master.xsd\">\n
+        \   <ovf:Info>Specifies Guest OS Customization Settings</ovf:Info>\n    <Enabled>true</Enabled>\n
+        \   <ChangeSid>false</ChangeSid>\n    <VirtualMachineId>4a37a2ea-b0dd-41ae-a879-5f0743b1ff77</VirtualMachineId>\n
+        \   <JoinDomainEnabled>false</JoinDomainEnabled>\n    <UseOrgSettings>false</UseOrgSettings>\n
+        \   <AdminPasswordEnabled>false</AdminPasswordEnabled>\n    <AdminPasswordAuto>true</AdminPasswordAuto>\n
+        \   <ResetPasswordRequired>false</ResetPasswordRequired>\n    <ComputerName>DEVAPP-001</ComputerName>\n
+        \   <Link rel=\"edit\" type=\"application/vnd.vmware.vcloud.guestCustomizationSection+xml\"
+        href=\"https://devlab.mdsol.com/api/vApp/vm-4a37a2ea-b0dd-41ae-a879-5f0743b1ff77/guestCustomizationSection/\"/>\n</GuestCustomizationSection>\n"
+    http_version: 
+  recorded_at: Mon, 19 Aug 2013 14:43:48 GMT
+- request:
+    method: get
+    uri: https://devlab.mdsol.com/api/vApp/vm-4a37a2ea-b0dd-41ae-a879-5f0743b1ff77/networkConnectionSection/
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - fog/1.11.1
+      Cookie:
+      - vcloud-token=wv+cQrNws2WYU/IWL+VY7kIe0dIJdvh8JVaPw785bDc=; Secure; Path=/
+      Accept:
+      - application/*+xml;version=1.5
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Date:
+      - Mon, 19 Aug 2013 14:41:37 GMT, Mon, 19 Aug 2013 14:41:37 GMT
+      Content-Type:
+      - application/vnd.vmware.vcloud.networkconnectionsection+xml;version=1.5
+      Content-Length:
+      - '1274'
+    body:
+      encoding: US-ASCII
+      string: ! "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<NetworkConnectionSection
+        xmlns=\"http://www.vmware.com/vcloud/v1.5\" xmlns:ovf=\"http://schemas.dmtf.org/ovf/envelope/1\"
+        type=\"application/vnd.vmware.vcloud.networkConnectionSection+xml\" href=\"https://devlab.mdsol.com/api/vApp/vm-4a37a2ea-b0dd-41ae-a879-5f0743b1ff77/networkConnectionSection/\"
+        ovf:required=\"false\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"
+        xsi:schemaLocation=\"http://schemas.dmtf.org/ovf/envelope/1 http://schemas.dmtf.org/ovf/envelope/1/dsp8023_1.1.0.xsd
+        http://www.vmware.com/vcloud/v1.5 http://10.194.1.65/api/v1.5/schema/master.xsd\">\n
+        \   <ovf:Info>Specifies the available VM network connections</ovf:Info>\n
+        \   <PrimaryNetworkConnectionIndex>0</PrimaryNetworkConnectionIndex>\n    <NetworkConnection
+        network=\"none\" needsCustomization=\"true\">\n        <NetworkConnectionIndex>0</NetworkConnectionIndex>\n
+        \       <IsConnected>false</IsConnected>\n        <MACAddress>00:50:56:01:00:f4</MACAddress>\n
+        \       <IpAddressAllocationMode>NONE</IpAddressAllocationMode>\n    </NetworkConnection>\n
+        \   <Link rel=\"edit\" type=\"application/vnd.vmware.vcloud.networkConnectionSection+xml\"
+        href=\"https://devlab.mdsol.com/api/vApp/vm-4a37a2ea-b0dd-41ae-a879-5f0743b1ff77/networkConnectionSection/\"/>\n</NetworkConnectionSection>\n"
+    http_version: 
+  recorded_at: Mon, 19 Aug 2013 14:43:49 GMT
 recorded_with: VCR 2.5.0

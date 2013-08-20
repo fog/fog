@@ -6,6 +6,10 @@ VCR.configure do |c|
   c.hook_into :webmock
 end
 
+def boolean?(item)
+  [TrueClass, FalseClass].include?(item.class)
+end
+
 def vcloudng 
   @vcloudng ||= Fog::Compute::Vcloudng.new(vcloudng_username: "#{ENV['IMEDIDATA_COM_USERNAME']}@devops", 
                                            vcloudng_password: ENV['IMEDIDATA_COM_PASSWORD'], 
@@ -48,4 +52,18 @@ end
 
 def vapp
   vapps.detect {|vapp| vapp.vms.size >= 1 }
+end
+
+
+def the_network
+  @network ||= organization.networks.get_by_name(NETWORK_NAME)
+end    
+  
+def the_catalog
+  @catalog ||= organization.catalogs.get_by_name(CATALOG_NAME)
+end
+  
+def the_catalog_item
+  return nil unless the_catalog
+  @catalog_item ||= the_catalog.catalog_items.get_by_name(CATALOG_ITEM_NAME)
 end
