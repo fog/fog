@@ -28,10 +28,11 @@ module Fog
 
       class Mock
 
-        def authorize_cache_security_group_ingress(name, opts = {})
-          unless (opts.key?('EC2SecurityGroupName') && opts.key?('EC2SecurityGroupOwnerId'))
-            raise ArgumentError, 'Must specify and EC2SecurityGroupName and EC2SecurityGroupOwnerId'
-          end
+        def authorize_cache_security_group_ingress(name, ec2_name, ec2_owner_id)
+          opts = {
+            'EC2SecurityGroupName' => ec2_name,
+            'EC2SecurityGroupOwnerId' => ec2_owner_id
+          }
 
           response = Excon::Response.new
 
@@ -40,18 +41,17 @@ module Fog
             if sec_group['EC2SecurityGroups'].detect{|h| h['EC2SecurityGroupName'] == opts['EC2SecurityGroupName']}
               raise Fog::AWS::Elasticache::AuthorizationAlreadyExists.new("AuthorizationAlreadyExists => #{opts['EC2SecurityGroupName']} is alreay defined")
             end
-            sec_group['EC2SecurityGroups'] << opts.merge({"Status" => 'authorizing'})
+            sec_group['EC2SecurityGroups'] << opts.merge({'Status' => 'authorizing'})
 
             response.status = 200
             response.body = {
-              "ResponseMetadata"=>{ "RequestId"=> Fog::AWS::Mock.request_id },
-              'AuthorizeDBSecurityGroupIngressResult' => {
-                'DBSecurityGroup' => sec_group
-              }
+              'ResponseMetadata'=>{ 'RequestId'=> Fog::AWS::Mock.request_id },
+              'CacheSecurityGroup' => sec_group
             }
+
             response
           else
-            raise Fog::AWS::Elasticache::NotFound.new("DBSecurityGroupNotFound => #{name} not found")
+            raise Fog::AWS::Elasticache::NotFound.new("CacheSecurityGroupNotFound => #{name} not found")
           end
 
         end
