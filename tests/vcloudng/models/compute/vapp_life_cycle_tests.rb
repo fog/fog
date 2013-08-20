@@ -1,3 +1,6 @@
+require File.expand_path(File.join(File.dirname(__FILE__), 'helper'))
+
+
 VAPP_NAME = "shindo02"
 NETWORK_NAME = "DevOps - Dev Network Connection"
 NETWORK_MODE = "POOL"

@@ -1,4 +1,4 @@
-require_relative './helper.rb'
+require File.expand_path(File.join(File.dirname(__FILE__), 'helper'))
 
 VCR.use_cassette(File.basename(__FILE__)) do
   
