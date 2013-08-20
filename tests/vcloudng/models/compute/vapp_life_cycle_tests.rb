@@ -3,14 +3,14 @@ NETWORK_NAME = "DevOps - Dev Network Connection"
 NETWORK_MODE = "POOL"
 CATALOG_NAME = "Public VM Templates"
 CATALOG_ITEM_NAME = "DEVWEB"
-TAGS = { company: "acme", environment: "testing" }
+TAGS = { :company => "acme", :environment => "testing" }
 
 
 VCR.use_cassette(File.basename(__FILE__)) do
   
   Shindo.tests("Compute::Vcloudng | vapp", ['creation']) do
     pending if Fog.mocking?
-    tests("#it creates a vApp from a catalog item").returns(true){ the_catalog_item.instantiate(VAPP_NAME, {network_id: the_network.id, network_name: NETWORK_NAME}) }
+    tests("#it creates a vApp from a catalog item").returns(true){ the_catalog_item.instantiate(VAPP_NAME, { :network_id => the_network.id, :network_name => NETWORK_NAME}) }
     vapp = vapps.get_by_name(VAPP_NAME)
     tests("#Finds the just created vApp").returns(VAPP_NAME) { vapp.name }
     tests("#it has one vm").returns(1) { vapp.vms.size}

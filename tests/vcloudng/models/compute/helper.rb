@@ -11,9 +11,9 @@ def boolean?(item)
 end
 
 def vcloudng 
-  @vcloudng ||= Fog::Compute::Vcloudng.new(vcloudng_username: "#{ENV['IMEDIDATA_COM_USERNAME']}@devops", 
-                                           vcloudng_password: ENV['IMEDIDATA_COM_PASSWORD'], 
-                                           vcloudng_host: 'devlab.mdsol.com', 
+  @vcloudng ||= Fog::Compute::Vcloudng.new(:vcloudng_username => "#{ENV['IMEDIDATA_COM_USERNAME']}@devops", 
+                                           :vcloudng_password => ENV['IMEDIDATA_COM_PASSWORD'], 
+                                           :vcloudng_host => 'devlab.mdsol.com', 
                                            :connection_options => {
                                                                     :ssl_verify_peer => false, 
                                                                     :connect_timeout => 200, 
