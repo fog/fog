@@ -3,76 +3,28 @@ module Fog
     class AutoScale
       class Real
 
-        def create_group
+        def create_group(launch_config, group_config, policies)
+
+          body['launchConfiguration'] = {
+            'args' => launch_config.args,
+            'type' => launch_config.type
+          }
+
+          body['groupConfiguration'] = {
+            'name' => group_config.name,
+            'cooldown' => group_config.cooldown, 
+            'maxEntities' => group_config.max_entities,
+            'minEntities' => group_config.min_entities,
+            'metadata' => group_config.metadata
+          }
+
+          body['scalingPolicies'] = policies.collect { |p| p.to_a }
+
           request(
             :expects => [201],
             :method => 'POST',
             :path => 'groups',
-            :body => <<-JSON
-             {
-                  \"groupConfiguration\": {
-                      \"name\": \"workers2\",
-                      \"cooldown\": 60,
-                      \"minEntities\": 5,
-                      \"maxEntities\": 25,
-                      \"metadata\": {
-                          \"firstkey\": \"this is a string\",
-                          \"secondkey\": \"1\"
-                      }
-                  },
-                  \"launchConfiguration\": {
-                      \"type\": \"launch_server\",
-                      \"args\": {
-                          \"server\": {
-                              \"flavorRef\": 3,
-                              \"name\": \"webhead\",
-                              \"imageRef\": \"0d589460-f177-4b0f-81c1-8ab8903ac7d8\",
-                              \"OS-DCF:diskConfig\": \"AUTO\",
-                              \"metadata\": {
-                                  \"mykey\": \"myvalue\"
-                              },
-                              \"personality\": [
-                                  {
-                                      \"path\": \"/root/.ssh/authorized_keys\",
-                                      \"contents\": \"ssh-rsa AAAAB3Nza...LiPk== user@example.net\"
-                                  }
-                              ],
-                              \"networks\": [
-                                  {
-                                      \"uuid\": \"11111111-1111-1111-1111-111111111111\"
-                                  }
-                              ]
-                          },
-                          \"loadBalancers\": [
-                              {
-                                  \"loadBalancerId\": 2200,
-                                  \"port\": 8081
-                              }
-                          ]
-                      }
-                  },
-                  \"scalingPolicies\": [
-                      {
-                          \"name\": \"scale up by 10\",
-                          \"change\": 10,
-                          \"cooldown\": 5,
-                          \"type\": \"webhook\"
-                      },
-                      {
-                          \"name\": \"scale down by 5.5 percent\",
-                          \"changePercent\": -5.5,
-                          \"cooldown\": 6,
-                          \"type\": \"webhook\"
-                      },
-                      {
-                          \"name\": \"set number of servers to 10\",
-                          \"desiredCapacity\": 10,
-                          \"cooldown\": 3,
-                          \"type\": \"webhook\"
-                      }
-                  ]
-              }
-            JSON
+            :body => Fog::JSON.encode(body)
           )
         end
       end

@@ -8,6 +8,22 @@ module Fog
       class ServiceError < Fog::Rackspace::Errors::ServiceError; end
       class InternalServerError < Fog::Rackspace::Errors::InternalServerError; end
 
+      class MissingArgumentException < InvalidStateException
+        def initialize(resource, argument)
+          @resource = resource
+          @argument = argument
+        end
+        def to_s
+          "This #{resource} resource requires the #{argument} argument"
+        end
+      end
+
+      class InvalidImageStateException < InvalidStateException
+         def to_s
+           "Image should have transitioned to '#{desired_state}' not '#{current_state}'"
+         end
+      end
+
       class BadRequest <  Fog::Rackspace::Errors::BadRequest
         attr_reader :validation_errors
 
@@ -36,16 +52,40 @@ module Fog
         recognizes :rackspace_auto_scale_url
 
         model_path 'fog/rackspace/models/auto_scale'
+        model :group
+        collection :groups
+        model :policy
+        collection :policies
+        model :group_config
+        model :launch_config
+        model :webhook
 
         request_path 'fog/rackspace/requests/auto_scale'
         request :list_groups
-        request :get_group
         request :create_group
+        request :get_group
         request :delete_group
         request :get_group_state
+        request :pause_group_state
+        request :resume_group_state
 
-        request :update_config
-        request :get_config
+        request :get_group_config
+        request :update_group_config
+        request :get_launch_config
+        request :replace_launch_config
+
+        request :get_policies
+        request :create_policy
+        request :get_policy
+        request :update_policy
+        request :delete_policy
+        request :execute_policy
+
+        request :execute_anonymous_webhook
+
+        request :get_webhook
+        request :update_webhook
+        request :delete_webhook
 
         class Mock < Fog::Rackspace::Service
           def initialize(options)
