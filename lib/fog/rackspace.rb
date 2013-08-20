@@ -81,6 +81,7 @@ module Fog
       end
     end
 
+    service(:auto_scale,       'rackspace/auto_scale',        'AutoScale')
     service(:block_storage,    'rackspace/block_storage',     'BlockStorage')
     service(:cdn,              'rackspace/cdn',               'CDN')
     service(:compute,          'rackspace/compute',           'Compute')
