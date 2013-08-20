@@ -63,6 +63,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency('fission')
   s.add_development_dependency('pry')
   s.add_development_dependency('google-api-client', '~>0.6.2')
+  s.add_development_dependency('vcr', '~>2.5.0')
 #  s.add_development_dependency('ruby-libvirt','~>0.4.0')
 
   s.files = `git ls-files`.split("\n")
