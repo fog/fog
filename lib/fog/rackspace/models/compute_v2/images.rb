@@ -50,7 +50,7 @@ module Fog
             'type'          => type
           }.merge!(options)
           merge_attributes(options)
-          # TODO look at storage/get_container.rb on how to merge options
+
           data = service.list_images(options).body['images']
           load(data)
         end
