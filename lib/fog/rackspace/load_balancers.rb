@@ -73,6 +73,7 @@ module Fog
       request :get_error_page
       request :set_error_page
       request :remove_error_page
+      request :get_stats
 
       module Shared
 
