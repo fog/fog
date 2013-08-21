@@ -77,7 +77,8 @@ Shindo.tests('Fog::Compute::RackspaceV2 | server', ['rackspace']) do
      end
 
     tests('#update').succeeds do
-      @instance.name = "fog_server_update"
+      new_name = "fog_server_update#{Time.now.to_i.to_s}"
+      @instance.name = new_name
       @instance.access_ipv4_address= "10.10.0.1"
       @instance.access_ipv6_address= "::1"
       @instance.save
@@ -85,7 +86,7 @@ Shindo.tests('Fog::Compute::RackspaceV2 | server', ['rackspace']) do
       @instance.reload
       returns("10.10.0.1") { @instance.access_ipv4_address }
       returns("::1") { @instance.access_ipv6_address }
-      returns("fog_server_update") { @instance.name }
+      returns(new_name) { @instance.name }
     end
     
     tests('#reboot("SOFT")').succeeds do
@@ -97,18 +98,6 @@ Shindo.tests('Fog::Compute::RackspaceV2 | server', ['rackspace']) do
     tests('#reboot("HARD")').succeeds do
       @instance.reboot('HARD')
       returns('HARD_REBOOT') { @instance.state }
-    end
-    
-    @instance.wait_for { ready? }
-    @test_image = nil
-    begin
-      tests('#create_image').succeeds do
-        @test_image = @instance.create_image('fog-test-image')
-        @test_image.reload
-        returns('SAVING') { @test_image.state }
-      end
-    ensure
-      @test_image.destroy unless @test_image.nil? || Fog.mocking?
     end
 
     sleep 30 unless Fog.mocking?
@@ -163,6 +152,18 @@ Shindo.tests('Fog::Compute::RackspaceV2 | server', ['rackspace']) do
       @instance.change_admin_password('somerandompassword')
       returns('PASSWORD') { @instance.state }
       returns('somerandompassword') { @instance.password }
+    end
+
+    @instance.wait_for { ready? }
+    @test_image = nil
+    begin
+      tests('#create_image').succeeds do
+        @test_image = @instance.create_image('fog-test-image')
+        @test_image.reload
+        returns('SAVING') { @test_image.state }
+      end
+    ensure
+      @test_image.destroy unless @test_image.nil? || Fog.mocking?
     end
 
     tests('attachments') do
