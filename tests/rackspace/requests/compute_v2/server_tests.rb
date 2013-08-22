@@ -118,6 +118,7 @@ Shindo.tests('Fog::Compute::RackspaceV2 | server_tests', ['rackspace']) do
 
     tests('#resize_server').succeeds do
       resize_flavor_id = Fog.mocking? ? flavor_id : service.flavors[1].id
+      puts "****RESIZING FROM: #{flavor_id} TO: #{resize_flavor_id}"
       service.resize_server(server_id, resize_flavor_id)
     end
     wait_for_server_state(service, server_id, 'VERIFY_RESIZE', 'ACTIVE')
