@@ -20,6 +20,11 @@ Shindo.tests('Fog::Rackspace::LoadBalancers | load_balancer', ['rackspace']) do
       end
 
       @instance.wait_for { ready? }
+
+      tests('#stats').succeeds do
+        @instance.stats
+      end
+
       tests('#enable_connection_logging').succeeds do
         @instance.enable_connection_logging
         returns(true) { @instance.connection_logging }

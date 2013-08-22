@@ -196,6 +196,11 @@ module Fog
           service.get_load_balancer_usage(identity, options).body
         end
 
+        def stats
+          requires :identity
+          service.get_stats(identity).body
+        end
+
         def error_page
           requires :identity
           service.get_error_page(identity).body['errorpage']['content']

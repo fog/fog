@@ -30,6 +30,13 @@ module Fog
          self.send authentication_method, options
       end
 
+      def request_without_retry(params, parse_json = true, &block)
+        response = @connection.request(request_params(params), &block)
+
+        process_response(response) if parse_json
+        response
+      end
+
       def request(params, parse_json = true, &block)
         first_attempt = true
         begin
