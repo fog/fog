@@ -49,7 +49,7 @@ module Fog
             :name => "fog-#{Time.now.to_i}",
             :image_name => "debian-7-wheezy-v20130617",
             :machine_type => "n1-standard-1",
-            :zone_name => "us-central1-a",
+            :zone_name => "us-central1-b",
             :private_key_path => File.expand_path("~/.ssh/id_rsa"),
             :public_key_path => File.expand_path("~/.ssh/id_rsa.pub"),
             :username => ENV['USER'],
