@@ -66,5 +66,24 @@ module Shindo
       @flavor_id ||= Fog.credentials[:rackspace_flavor_id] || service.flavors.first.id
     end
 
-  end  
+    # After a server has been successfully deleted they are still being reported as attached to a cloud network
+    # causing delete calls to fail. This method attempts to address that.
+    def delete_test_network(network)
+      return false if Fog.mocking? || network.nil?
+      attempt = 0
+      begin
+        network.destroy
+      rescue Fog::Compute::RackspaceV2::ServiceError => e
+        if attempt == 3
+           Fog::Logger.warning "Unable to delete #{network.label}"
+          return false
+        end
+         Fog::Logger.warning "Network #{network.label} Delete Fail Attempt #{attempt}- #{e.inspect}"
+        attempt += 1
+        sleep 60
+        retry
+      end
+      return true
+    end
+  end
 end
