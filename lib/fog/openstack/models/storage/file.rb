@@ -10,6 +10,7 @@ module Fog
 
         attribute :content_length,  :aliases => ['bytes', 'Content-Length'], :type => :integer
         attribute :content_type,    :aliases => ['content_type', 'Content-Type']
+        attribute :content_disposition, :aliases => ['content_disposition', 'Content-Disposition']
         attribute :etag,            :aliases => ['hash', 'Etag']
         attribute :last_modified,   :aliases => ['last_modified', 'Last-Modified'], :type => :time
         attribute :access_control_allow_origin, :aliases => ['Access-Control-Allow-Origin']
@@ -72,6 +73,7 @@ module Fog
         def save(options = {})
           requires :body, :directory, :key
           options['Content-Type'] = content_type if content_type
+          options['Content-Disposition'] = content_disposition if content_disposition
           options['Access-Control-Allow-Origin'] = access_control_allow_origin if access_control_allow_origin
           options['Origin'] = origin if origin
           options.merge!(metadata_to_headers)

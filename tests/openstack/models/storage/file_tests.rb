@@ -2,6 +2,10 @@ Shindo.tests('Fog::OpenStack::Storage | file', ['openstack']) do
 
   pending if Fog.mocking?
 
+  def object_attributes(file=@instance)
+    @instance.service.head_object(@directory.key, file.key).headers
+  end
+
   def object_meta_attributes
     @instance.service.head_object(@directory.key, @instance.key).headers.reject {|k, v| !(k =~ /X-Object-Meta-/)}
   end
@@ -67,7 +71,22 @@ Shindo.tests('Fog::OpenStack::Storage | file', ['openstack']) do
         end
 
       end
-    
+
+      tests('#content_disposition') do
+        before do
+          @instance = @directory.files.create :key => 'meta-test', :body => lorem_file, :content_disposition => 'ho-ho-ho'
+        end
+
+        after do
+          clear_metadata
+          @instance.save
+        end
+
+        tests("sets Content-Disposition on create").returns("ho-ho-ho") do
+          object_attributes(@instance)["Content-Disposition"]
+        end
+      end
+
       tests('#metadata keys') do
         
         after do
