@@ -67,6 +67,23 @@ module Fog
           end
         end
 
+        def add_ssh_key username, key
+          if self.metadata.nil?
+            self.metadata = Hash.new("")
+          end
+
+          # You can have multiple SSH keys, seperated by newlines.
+          # https://developers.google.com/compute/docs/console?hl=en#sshkeys
+          if !self.metadata["sshKeys"].empty?
+            self.metadata["sshKeys"] += "\n"
+          end
+
+          self.metadata["sshKeys"] += "#{username}:#{key.strip}"
+
+          return self.metadata
+        end
+
+
         def reload
           data = service.get_server(self.name, self.zone).body
           self.merge_attributes(data)
@@ -77,13 +94,11 @@ module Fog
           requires :machine_type
           requires :zone_name
 
-          if self.metadata.nil?
-            self.metadata = {}
+          if not service.zones.include? self.zone_name
+            raise ArgumentError.new "#{self.zone_name.inspect} is either down or you don't have permission to use it."
           end
 
-          self.metadata.merge!({
-            "sshKeys" => "#{username}:#{public_key.strip}"
-          }) if public_key
+          self.add_ssh_key(self.username, self.public_key) if self.public_key
 
           options = {
               'image' => image_name,
@@ -94,10 +109,11 @@ module Fog
               'disks' => disks,
               'kernel' => kernel,
               'metadata' => metadata
-          }
-          options.delete_if {|key, value| value.nil?}
+          }.delete_if {|key, value| value.nil?}
+
           service.insert_server(name, zone_name, options)
           data = service.backoff_if_unfound {service.get_server(self.name, self.zone_name).body}
+
           service.servers.merge_attributes(data)
         end
 

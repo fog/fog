@@ -112,6 +112,18 @@ module Fog
           @default_network = 'default'
         end
 
+        # TODO: Total hack, create zone and zones model.
+        def zones
+          zones = []
+          self.list_zones.data[:body]["items"].each do |z|
+            if z["status"] == "UP"
+              zones.push z["name"]
+            end
+          end
+
+          return zones
+        end
+
         def build_result(api_method, parameters, body_object=nil)
           if body_object
             result = @client.execute(
