@@ -26,6 +26,12 @@ module Fog
           service.vms(:vapp => self)
         end
 
+        def tags
+          requires :id
+          service.tags(:vm => self)
+        end
+        
+        
       end
     end
   end

@@ -95,10 +95,10 @@ module Fog
      request :put_vm_disks
      request :get_vm_network
      request :put_vm_network
-     request :get_vm_metadata
+     request :get_metadata
      request :post_vm_metadata
-     request :put_vm_metadata_value
-     request :delete_vm_metadata
+     request :put_metadata_value
+     request :delete_metadata
      request :post_vm_poweron
      request :get_request
      request :get_href

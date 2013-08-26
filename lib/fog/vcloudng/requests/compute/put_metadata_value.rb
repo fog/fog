@@ -3,7 +3,7 @@ module Fog
     class Vcloudng
       class Real
                 
-        def put_vm_metadata_value(vm_id, metadata_key, metadata_value)  
+        def put_metadata_value(vm_id, metadata_key, metadata_value)  
           body="
           <MetadataValue xmlns=\"http://www.vmware.com/vcloud/v1.5\">
               <Value>#{metadata_value}</Value>

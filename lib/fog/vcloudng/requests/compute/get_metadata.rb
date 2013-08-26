@@ -3,15 +3,15 @@ module Fog
     class Vcloudng
       class Real
         
-        def delete_vm_metadata(vm_id, metadata_key)
+        def get_metadata(vm_id)
           require 'fog/vcloudng/parsers/compute/metadata'
           
           request(
-            :expects  => 202,
+            :expects  => 200,
             :headers  => { 'Accept' => 'application/*+xml;version=1.5' },
-            :method   => 'DELETE',
-            :parser => Fog::ToHashDocument.new,
-            :path     => "vApp/#{vm_id}/metadata/#{URI.escape(metadata_key)}"
+            :method   => 'GET',
+            :parser => Fog::Parsers::Compute::Vcloudng::Metadata.new,
+            :path     => "vApp/#{vm_id}/metadata/"
           )
         end
 

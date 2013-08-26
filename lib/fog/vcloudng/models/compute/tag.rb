@@ -15,14 +15,14 @@ module Fog
           not_first_set = !value.nil?
           attributes[:value] = new_value
           if not_first_set && has_changed
-            response = service.put_vm_metadata_value(vm.id, id, value)
+            response = service.put_metadata_value(vm.id, id, value)
             service.process_task(response.body)
           end
         end
         
         
         def destroy
-          response = service.delete_vm_metadata(vm.id, id)
+          response = service.delete_metadata(vm.id, id)
           service.process_task(response.body)
         end
         
