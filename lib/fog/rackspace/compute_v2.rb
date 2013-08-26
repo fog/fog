@@ -80,6 +80,7 @@ module Fog
       request :delete_image
 
       request :list_flavors
+      request :list_flavors_detail
       request :get_flavor
 
       request :attach_volume
