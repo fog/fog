@@ -38,7 +38,7 @@ module Fog
     end
 
     def self.decode(obj)
-      MultiJson.decode(obj)
+      MultiJson.decode(obj) unless obj.is_a?(String) && obj.empty?
     end
   end
 end

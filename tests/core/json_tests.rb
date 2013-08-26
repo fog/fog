@@ -1,9 +1,9 @@
 Shindo.tests('Fog::JSON', ['core']) do
   tests('decode') do
-    tests('nil').raises(MultiJson::LoadError) do
+    tests('nil').raises(Exception) do
       Fog::JSON.decode(nil)
     end
-    tests('object').raises(MultiJson::LoadError) do
+    tests('object').raises(Exception) do
       Fog::JSON.decode(['a', 'b'])
     end
 
