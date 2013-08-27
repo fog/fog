@@ -9,7 +9,8 @@ module Fog
       class Vm < Model
         identity  :id
 
-        attribute :vapp_id                  
+        attribute :vapp_id
+        attribute :vapp_name
         attribute :name
         attribute :type
         attribute :href

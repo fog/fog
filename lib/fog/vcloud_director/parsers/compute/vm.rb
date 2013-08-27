@@ -30,6 +30,7 @@ module Fog
                  @vm.merge!(vapp.reject {|key,value| ![:href, :name, :status, :type].include?(key)})
                  @vm[:id] = @vm[:href].split('/').last
                  @vm[:vapp_id] = @response[:id]
+                 @vm[:vapp_name] = @response[:name]
                  @vm[:status] = human_status(@vm[:status])
              when 'Children'
                @in_children = true
