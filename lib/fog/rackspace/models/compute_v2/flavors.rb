@@ -15,9 +15,8 @@ module Fog
         # @raise [Fog::Compute::RackspaceV2::InternalServerError] - HTTP 500
         # @raise [Fog::Compute::RackspaceV2::ServiceError]
         # @note Fog's currentl implementation only returns 1000 flavors.
-        # @note Fog does not retrieve all flavor details. Please use #get to retrieve all details for a specific flavor.
         def all
-          data = service.list_flavors.body['flavors']
+          data = service.list_flavors_detail.body['flavors']
           load(data)
         end
 
