@@ -48,6 +48,10 @@ Shindo.tests('Fog::Compute::RackspaceV2 | image_tests', ['rackspace']) do
         service.list_images.body
       end
 
+      tests('#list_images_detail').formats(list_image_format) do
+        service.list_images_detail.body
+      end
+
       tests('#get_image').formats(get_image_format, false) do
         service.get_image(@image_id).body
       end
