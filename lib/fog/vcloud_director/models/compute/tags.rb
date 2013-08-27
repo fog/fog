@@ -22,12 +22,16 @@ module Fog
           service.process_task(response.body)
         end
         
+        def hash_items
+          @tags = service.get_metadata(vm.id).body
+          @tags[:metadata]
+        end
+        
 #        private
         
         def item_list
-          @tags = service.get_metadata(vm.id).body
           @items =[]
-          @tags[:metadata].each_pair{ |k,v| @items << {:id => k, :value => v }.merge(:vm => vm) }
+          hash_items.each_pair{ |k,v| @items << {:id => k, :value => v }.merge(:vm => vm) }
           @items
         end
         
