@@ -160,8 +160,9 @@ module Fog
           end
         end
 
-        def object_to_path(object_name=nil)
-          '/' + Fog::AWS.escape(object_name.to_s).gsub('%2F','/')
+        def canonical_path(params)
+          path = params[:path] || Fog::AWS.escape(params[:object_name].to_s).gsub('%2F','/')
+          '/' + path if path[0..0] != '/'
         end
 
         def bucket_to_path(bucket_name, path=nil)
@@ -193,8 +194,7 @@ module Fog
             host   = params[:host] || @host || region_to_host(region)
           end
 
-          path     = params[:path] || object_to_path(params[:object_name])
-          path     = '/' + path if path[0..0] != '/'
+          path     = canonical_path(params)
 
           if params[:bucket_name]
             bucket_name = params[:bucket_name]
@@ -460,12 +460,11 @@ DATA
             end
           end
 
-          canonical_path = (params[:path] || object_to_path(params[:object_name])).to_s
-          canonical_path = '/' + canonical_path if canonical_path[0..0] != '/'
+          path = canonical_path(params)
           if params[:bucket_name]
-            canonical_resource = "/#{params[:bucket_name]}#{canonical_path}"
+            canonical_resource = "/#{params[:bucket_name]}#{path}"
           else
-            canonical_resource = canonical_path
+            canonical_resource = path
           end
           canonical_resource << query_string
           string_to_sign << canonical_resource
