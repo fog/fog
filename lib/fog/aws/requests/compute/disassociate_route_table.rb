@@ -3,7 +3,7 @@ module Fog
     class AWS
       class Real
 
-        require 'fog/aws/parsers/compute/disassociate_route_table'
+        require 'fog/aws/parsers/compute/basic'
 
         # Disassociates a subnet from a route table.
         #

@@ -3,7 +3,7 @@ module Fog
     class AWS
       class Real
 
-        require 'fog/aws/parsers/compute/delete_vpc'
+        require 'fog/aws/parsers/compute/basic'
 
         # Deletes a VPC. You must detach or delete all gateways or other objects
         # that are dependent on the VPC first. For example, you must terminate
@@ -24,7 +24,7 @@ module Fog
           request(
             'Action' => 'DeleteVpc',
             'VpcId' => vpc_id,
-            :parser => Fog::Parsers::Compute::AWS::DeleteVpc.new
+            :parser => Fog::Parsers::Compute::AWS::Basic.new
           )
         end
       end
