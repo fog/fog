@@ -9,6 +9,7 @@ module Fog
         identity  :public_ip,            :aliases => 'publicIp'
 
         attribute :allocation_id,        :aliases => 'allocationId'
+        attribute :association_id,       :aliases => 'associationId'
         attribute :server_id,            :aliases => 'instanceId'
         attribute :network_interface_id, :aliases => 'networkInterfaceId'
         attribute :domain
