@@ -423,7 +423,7 @@ module Fog
 
           string_to_sign =
 <<-DATA
-#{params[:method].to_s.upcase}
+#{(params[:method] || 'GET').to_s.upcase}
 #{headers['Content-MD5']}
 #{headers['Content-Type']}
 #{expires}
