@@ -3,27 +3,26 @@ require 'fog/core/model'
 module Fog
   module Rackspace
     class AutoScale
-      class GroupConfig < Fog::AutoScale::Rackspace::Config
+      class GroupConfig < Fog::Model
 
-      	identity :id
-
+        attribute :group
       	attribute :name
       	attribute :cooldown
-      	attribute :min_entities
-      	attribute :max_entities
+      	attribute :min_entities, :aliases => 'minEntities'
+      	attribute :max_entities, :aliases => 'maxEntities'
       	attribute :metadata
 
       	def update
-          requires :identity
-          options = {
-            'name' => name,
-            'cooldown' => cooldown,
-            'min_entities' => min_entities,
-            'max_entities' => max_entities,
-            'metadata' => metadata
-          }
+          
+          options = {}
 
-          data = service.update_group_config(identity, options)
+          options['name'] = name unless name.nil?
+          options['cooldown'] = cooldown unless cooldown.nil?
+          options['minEntities'] = min_entities
+          options['maxEntities'] = max_entities
+          options['metadata'] = metadata unless metadata.nil?
+
+          data = service.update_group_config(group.id, options)
           merge_attributes(data.body)
           true
         end

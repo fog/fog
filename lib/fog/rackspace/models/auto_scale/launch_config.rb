@@ -3,21 +3,19 @@ require 'fog/core/model'
 module Fog
   module Rackspace
     class AutoScale
-      class LaunchConfig < Fog::AutoScale::Rackspace::Config
+      class LaunchConfig < Fog::Model
 
-      	identity :id
-
+        attribute :group
       	attribute :type
       	attribute :args
 
       	def update
-          requires :identity
-          options = {
-            'type' => type,
-            'args' => args
-          }
+          
+          options = {}
+          options['type'] = type unless type.nil?
+          options['args'] = args unless args.nil?
 
-          data = service.update_launch_config(identity, options)
+          data = service.update_launch_config(group.id, options)
           merge_attributes(data.body['launchConfiguration'])
           true
         end

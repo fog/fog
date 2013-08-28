@@ -1,4 +1,5 @@
 require 'fog/core/model'
+require 'fog/rackspace/models/auto_scale/webhooks'
 
 module Fog
   module Rackspace
@@ -23,74 +24,103 @@ module Fog
       	attribute :type
 
       	# hash depending on the type chosen
-   		#	- "cron": "23 * * * *"
-   		#	- "at": "2013-06-05T03:12Z"
-   		#	- "check": {
-		# 	      "label": "Website check 1",
-		# 	      "type": "remote.http",
-		# 	      "details": {
-		# 	          "url": "http://www.example.com",
-		# 	          "method": "GET"
-		# 	      },
-		# 	      "monitoring_zones_poll": [
-		# 	          "mzA"
-		# 	      ],
-		# 	      "timeout": 30,
-		# 	      "period": 100,
-		# 	      "target_alias": "default"
-		# 	  },
-		# 	  "alarm_criteria": {
-		# 	       "criteria": "if (metric[\"duration\"] >= 2) { return new AlarmStatus(OK); } return new AlarmStatus(CRITICAL);"
-		# 	  }
+     		#	- "cron": "23 * * * *"
+     		#	- "at": "2013-06-05T03:12Z"
+     		#	- "check": {
+    		# 	      "label": "Website check 1",
+    		# 	      "type": "remote.http",
+    		# 	      "details": {
+    		# 	          "url": "http://www.example.com",
+    		# 	          "method": "GET"
+    		# 	      },
+    		# 	      "monitoring_zones_poll": [
+    		# 	          "mzA"
+    		# 	      ],
+    		# 	      "timeout": 30,
+    		# 	      "period": 100,
+    		# 	      "target_alias": "default"
+    		# 	  },
+    		# 	  "alarm_criteria": {
+    		# 	       "criteria": "if (metric[\"duration\"] >= 2) { return new AlarmStatus(OK); } return new AlarmStatus(CRITICAL);"
+    		# 	  }
       	attribute :args
 
       	attribute :desiredCapacity
 
-		def check_options(options)
-        	if options[:type] == 'schedule'
-        		args = options['args']
-        		raise MissingArgumentException(self.name, "cron OR at") if args['cron'].nil? && args['at'].nil?
+		    def check_attributes
+          raise MissingArgumentException(self.name, type) if type.nil?
+
+        	if type == 'schedule'
+        		raise MissingArgumentException(self.name, "args[cron] OR args[at]") if args['cron'].nil? && args['at'].nil?
         	end
+
         	true
         end
 
-      	def create(options)
+      	def save
           requires :name, :type, :cooldown
 
-          check_options
+          check_attributes
+
+          options = {}
+          options['name'] = name unless name.nil?
+          options['change'] = change unless change.nil?
+          options['changePercent'] = changePercent unless changePercent.nil?
+          options['cooldown'] = cooldown unless cooldown.nil?
+          options['type'] = type unless type.nil?
+          options['desiredCapacity'] = desiredCapacity unless desiredCapacity.nil?
+
+          if type == 'schedule'
+            options['args'] = args
+          end
 
           data = service.create_policy(group_id, options)
-          merge_attributes(data.body['group'])
           true
         end
 
       	def update
       		requires :identity
 
-      		options = {
-      			'name' => name,
-      			'change' => change,
-      			'changePercent' => changePercent,
-      			'cooldown' => cooldown,
-      			'type' => type,
-      			'args' => args,
-      			'desiredCapacity' => desiredCapacity
-      		}
+          check_attributes
 
-      		data = service.update_policy(identity, options)
+      		options = {}
+          options['name'] = name unless name.nil?
+          options['change'] = change unless change.nil?
+          options['changePercent'] = changePercent unless changePercent.nil?
+          options['cooldown'] = cooldown unless cooldown.nil?
+          options['type'] = type unless type.nil?
+          options['desiredCapacity'] = desiredCapacity unless desiredCapacity.nil?
+
+          if type == 'schedule'
+            options['args'] = args
+          end
+
+      		data = service.update_policy(group_id, identity, options)
       		merge_attributes(data.body)
       		true
       	end
 
       	def destroy
       		requires :identity
-      		service.delete_policy(identity)
+      		service.delete_policy(group_id, identity)
+          true
       	end
 
       	def execute
       		requires :identity
-      		service.execute_policy(identity)
+      		service.execute_policy(group_id, identity)
+          true
       	end
+
+        def webhooks
+          data = service.list_webhooks(group_id, self.id)
+
+          Fog::Rackspace::AutoScale::Webhooks.new({
+            :service   => service,
+            :policy_id => self.id,
+            :group_id  => group_id
+          }).merge_attributes(data.body)
+        end
 
       end
   	end

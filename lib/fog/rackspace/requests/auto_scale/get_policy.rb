@@ -4,17 +4,17 @@ module Fog
 
       class Real
 
-        def get_group_state(group_id)
+        def get_policy(group_id, policy_id)
           request(
             :expects => [200],
             :method => 'GET',
-            :path => "groups/#{group_id}/state",
+            :path => "groups/#{group_id}/policies/#{policy_id}",
           )
         end
       end
 
       class Mock
-        def get_group_state(group_id)
+        def get_policy(group_id, policy_id)
           Fog::Mock.not_implemented
         end
       end

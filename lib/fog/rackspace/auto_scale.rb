@@ -8,7 +8,7 @@ module Fog
       class ServiceError < Fog::Rackspace::Errors::ServiceError; end
       class InternalServerError < Fog::Rackspace::Errors::InternalServerError; end
 
-      class MissingArgumentException < InvalidStateException
+      class MissingArgumentException
         def initialize(resource, argument)
           @resource = resource
           @argument = argument
@@ -16,12 +16,6 @@ module Fog
         def to_s
           "This #{resource} resource requires the #{argument} argument"
         end
-      end
-
-      class InvalidImageStateException < InvalidStateException
-         def to_s
-           "Image should have transitioned to '#{desired_state}' not '#{current_state}'"
-         end
       end
 
       class BadRequest <  Fog::Rackspace::Errors::BadRequest
@@ -54,11 +48,14 @@ module Fog
         model_path 'fog/rackspace/models/auto_scale'
         model :group
         collection :groups
-        model :policy
-        collection :policies
         model :group_config
         model :launch_config
+
+        model :policy
+        collection :policies
+
         model :webhook
+        collection :webhooks
 
         request_path 'fog/rackspace/requests/auto_scale'
         request :list_groups
@@ -72,9 +69,9 @@ module Fog
         request :get_group_config
         request :update_group_config
         request :get_launch_config
-        request :replace_launch_config
+        request :update_launch_config
 
-        request :get_policies
+        request :list_policies
         request :create_policy
         request :get_policy
         request :update_policy
@@ -84,6 +81,8 @@ module Fog
         request :execute_anonymous_webhook
 
         request :get_webhook
+        request :list_webhooks
+        request :create_webhook
         request :update_webhook
         request :delete_webhook
 
