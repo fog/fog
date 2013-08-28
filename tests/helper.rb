@@ -29,6 +29,19 @@ def array_differences(array_a, array_b)
   (array_a - array_b) | (array_b - array_a)
 end
 
+def deep_dup(obj)
+  if obj.is_a?(Hash)
+    ret = {}
+    obj.each {|k,v| ret[k] = deep_dup(v) }
+  elsif obj.is_a?(Array)
+    ret = []
+    obj.each {|v| ret << deep_dup(v) }
+  else
+    ret = obj.dup rescue obj
+  end
+  ret
+end
+
 # check to see which credentials are available and add others to the skipped tags list
 all_providers = Fog.registered_providers.map {|provider| provider.downcase}
 

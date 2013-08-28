@@ -95,53 +95,46 @@ module Fog
 
 
       body = retrieve_tokens_v2(options, connection_options)
-      service = get_service(body, service_type, service_name)
 
-      options[:unscoped_token] = body['access']['token']['id']
+      if tenant_name
+        service = get_service(body, service_type, service_name)
+      else
+        options[:unscoped_token] = body['access']['token']['id']
+        response = Fog::Connection.new(
+          "#{uri.scheme}://#{uri.host}:#{uri.port}/v2.0/tenants", false, connection_options).request({
+          :expects => [200, 204],
+          :headers => { 'Content-Type' => 'application/json',
+                        'Accept' => 'application/json',
+                        'X-Auth-Token' => options[:unscoped_token] },
+          :host    => uri.host,
+          :method  => 'GET'
+        })
 
-      unless service
-        unless tenant_name
-          response = Fog::Connection.new(
-            "#{uri.scheme}://#{uri.host}:#{uri.port}/v2.0/tenants", false, connection_options).request({
-            :expects => [200, 204],
-            :headers => {'Content-Type' => 'application/json',
-                         'Accept' => 'application/json',
-                         'X-Auth-Token' => body['access']['token']['id']},
-            :host    => uri.host,
-            :method  => 'GET'
-          })
-
-          body = Fog::JSON.decode(response.body)
-          if body['tenants'].empty?
-            raise Fog::Errors::NotFound.new('No Tenant Found')
-          else
-            options[:openstack_tenant] = body['tenants'].first['name']
-          end
+        tenants = Fog::JSON.decode(response.body)['tenants']
+        if tenants.empty?
+          raise Fog::Errors::NotFound, 'No Tenant Found'
+        elsif tenants.count > 1
+          available = tenants.map {|t| t['name'] }.join(', ')
+          raise Fog::Errors::NotFound, "Multiple tenants found. Choose one of '#{ available }'."
         end
 
+        options[:openstack_tenant] = tenants.first['name']
         body = retrieve_tokens_v2(options, connection_options)
         service = get_service(body, service_type, service_name)
-
       end
 
-      service['endpoints'] = service['endpoints'].select do |endpoint|
-        endpoint['region'] == openstack_region
-      end if openstack_region
-
-      if service['endpoints'].empty?
-        raise Fog::Errors::NotFound.new("No endpoints available for region '#{openstack_region}'")
-      end if openstack_region
-
       unless service
-        available = body['access']['serviceCatalog'].map { |endpoint|
-          endpoint['type']
-        }.sort.join ', '
+        available = body['access']['serviceCatalog'].map {|s| s['type'] }.join(', ')
+        missing = service_type.join(', ')
+        raise Fog::Errors::NotFound, "Could not find service(s) '#{ missing }' in '#{ available }'."
+      end
 
-        missing = service_type.join ', '
-
-        message = "Could not find service #{missing}.  Have #{available}"
-
-        raise Fog::Errors::NotFound, message
+      if openstack_region
+        service['endpoints'] = service['endpoints'].select do |endpoint|
+          endpoint['region'] == openstack_region
+        end
+        raise Fog::Errors::NotFound,
+          "No endpoints available for region '#{openstack_region}'" if service['endpoints'].empty?
       end
 
       if service['endpoints'].count > 1
@@ -149,12 +142,13 @@ module Fog
         raise Fog::Errors::NotFound.new("Multiple regions available choose one of these '#{regions}'")
       end
 
-      identity_service = get_service(body, identity_service_type) if identity_service_type
       tenant = body['access']['token']['tenant']
       user = body['access']['user']
-
       management_url = service['endpoints'].detect{|s| s[endpoint_type]}[endpoint_type]
-      identity_url   = identity_service['endpoints'].detect{|s| s['publicURL']}['publicURL'] if identity_service
+
+      if identity_service = get_service(body, identity_service_type)
+        identity_url = identity_service['endpoints'].detect{|s| s['publicURL']}['publicURL']
+      end if identity_service_type
 
       {
         :user                     => user,
@@ -163,20 +157,26 @@ module Fog
         :server_management_url    => management_url,
         :token                    => body['access']['token']['id'],
         :expires                  => body['access']['token']['expires'],
-        :current_user_id          => body['access']['user']['id'],
-        :unscoped_token           => options[:unscoped_token]
+        :current_user_id          => body['access']['user']['id']
       }
 
     end
 
     def self.get_service(body, service_type=[], service_name=nil)
-      body['access']['serviceCatalog'].detect do |s|
-        if service_name.nil? or service_name.empty?
+      services = body['access']['serviceCatalog'].select {|s|
+        if service_name.to_s.empty?
           service_type.include?(s['type'])
         else
-          service_type.include?(s['type']) and s['name'] == service_name
+          service_type.include?(s['type']) && s['name'] == service_name
         end
+      }
+      if services.count > 1
+        available = services.map {|s| s['type'] + '|' + s['name'] }.join(', ')
+        raise Fog::Errors::NotFound, "Multiple matching services found.\n" +
+            "Provide #openstack_service_type and/or #openstack_service_name\n" +
+            "to uniquely identify one of these services (type|name) '#{ available }'"
       end
+      services.first
     end
 
     def self.retrieve_tokens_v2(options, connection_options = {})
@@ -187,7 +187,7 @@ module Fog
       uri         = options[:openstack_auth_uri]
 
       connection = Fog::Connection.new(uri.to_s, false, connection_options)
-      request_body = {:auth => Hash.new}
+      request_body = {:auth => {:tenantName => tenant_name}}
 
       if auth_token
         request_body[:auth][:token] = {
@@ -199,15 +199,14 @@ module Fog
           :password => api_key
         }
       end
-      request_body[:auth][:tenantName] = tenant_name if tenant_name
 
       response = connection.request({
         :expects  => [200, 204],
-        :headers  => {'Content-Type' => 'application/json'},
+        :headers  => {'Content-Type' => 'application/json',
+                      'Accept' => 'application/json'},
         :body     => Fog::JSON.encode(request_body),
-        :host     => uri.host,
         :method   => 'POST',
-        :path     => (uri.path and not uri.path.empty?) ? uri.path : 'v2.0'
+        :path     => uri.path.chomp('/').empty? ? 'v2.0/tokens' : uri.path
       })
 
       Fog::JSON.decode(response.body)
