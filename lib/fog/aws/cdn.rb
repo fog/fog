@@ -47,7 +47,6 @@ module Fog
         end
 
         def initialize(options={})
-          require 'mime/types'
           @use_iam_profile = options[:use_iam_profile]
           setup_credentials(options)
         end
@@ -181,7 +180,7 @@ EOF
           params[:headers]['Date'] = Fog::Time.now.to_date_header
           params[:headers]['x-amz-security-token'] = @aws_session_token if @aws_session_token
           params[:headers]['Authorization'] = "AWS #{@aws_access_key_id}:#{signature(params)}"
-          params[:path] = "/#{@version}/#{params[:path]}" 
+          params[:path] = "/#{@version}/#{params[:path]}"
           @connection.request(params, &block)
         end
 

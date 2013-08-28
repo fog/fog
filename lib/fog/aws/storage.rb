@@ -335,7 +335,6 @@ module Fog
         end
 
         def initialize(options={})
-          require 'mime/types'
           @use_iam_profile = options[:use_iam_profile]
           setup_credentials(options)
           @region = options[:region] || DEFAULT_REGION
@@ -387,7 +386,6 @@ module Fog
         # * S3 object with connection to aws.
         def initialize(options={})
           require 'fog/core/parser'
-          require 'mime/types'
 
           @use_iam_profile = options[:use_iam_profile]
           setup_credentials(options)

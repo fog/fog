@@ -74,7 +74,6 @@ module Fog
         end
 
         def initialize(options={})
-          require 'mime/types'
           @rackspace_api_key = options[:rackspace_api_key]
           @rackspace_username = options[:rackspace_username]
           @rackspace_cdn_ssl = options[:rackspace_cdn_ssl]
@@ -108,7 +107,6 @@ module Fog
         attr_reader :rackspace_cdn_ssl
 
         def initialize(options={})
-          require 'mime/types'
           @rackspace_api_key = options[:rackspace_api_key]
           @rackspace_username = options[:rackspace_username]
           @rackspace_cdn_ssl = options[:rackspace_cdn_ssl]
