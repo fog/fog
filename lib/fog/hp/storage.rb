@@ -220,7 +220,6 @@ module Fog
         end
 
         def initialize(options={})
-          require 'mime/types'
           # deprecate hp_account_id
           if options[:hp_account_id]
             Fog::Logger.deprecation(":hp_account_id is deprecated, please use :hp_access_key instead.")
@@ -250,7 +249,6 @@ module Fog
         attr_reader :hp_cdn_ssl
 
         def initialize(options={})
-          require 'mime/types'
           # deprecate hp_account_id
           if options[:hp_account_id]
             Fog::Logger.deprecation(":hp_account_id is deprecated, please use :hp_access_key instead.")

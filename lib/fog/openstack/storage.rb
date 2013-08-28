@@ -45,7 +45,6 @@ module Fog
         end
 
         def initialize(options={})
-          require 'mime/types'
           @openstack_api_key = options[:openstack_api_key]
           @openstack_username = options[:openstack_username]
           @path = '/v1/AUTH_1234'
@@ -74,7 +73,6 @@ module Fog
       class Real
 
         def initialize(options={})
-          require 'mime/types'
           @openstack_api_key = options[:openstack_api_key]
           @openstack_username = options[:openstack_username]
           @openstack_auth_url = options[:openstack_auth_url]
