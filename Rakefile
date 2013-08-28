@@ -3,6 +3,7 @@ require 'date'
 require 'rubygems'
 require 'rubygems/package_task'
 require 'yard'
+require 'appraisal'
 require File.dirname(__FILE__) + '/lib/fog'
 
 #############################################################################
@@ -62,6 +63,9 @@ namespace :test do
   end
   task :openvz do
       sh("export FOG_MOCK=#{mock} && bundle exec shindont tests/openvz")
+  end
+  task :one, :file do |t, args|
+      sh("export FOG_MOCK=#{mock} && bundle exec shindont #{args[:file]}")
   end
 end
 
