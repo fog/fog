@@ -3,7 +3,8 @@ module Fog
     class AWS
       class Real
 
-        require 'fog/aws/parsers/compute/describe_network_interface_attribute'
+        require 'fog/aws/parsers/compute/basic'
+        
         # Resets a network interface attribute value
         #
         # ==== Parameters

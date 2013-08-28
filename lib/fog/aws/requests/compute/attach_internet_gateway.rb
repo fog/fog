@@ -3,7 +3,7 @@ module Fog
     class AWS
       class Real
 
-        require 'fog/aws/parsers/compute/attach_internet_gateway'
+        require 'fog/aws/parsers/compute/basic'
         # Attaches an Internet gateway to a VPC, enabling connectivity between the Internet and the VPC
         #
         # ==== Parameters
@@ -23,7 +23,7 @@ module Fog
             'InternetGatewayId'    => internet_gateway_id,
             'VpcId'                => vpc_id,
             :idempotent   => true,
-            :parser       => Fog::Parsers::Compute::AWS::AttachInternetGateway.new
+            :parser       => Fog::Parsers::Compute::AWS::Basic.new
           )
         end
 
