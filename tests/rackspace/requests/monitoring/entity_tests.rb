@@ -24,7 +24,6 @@ Shindo.tests('Fog::Rackspace::Monitoring | entity_tests', ['rackspace','rackspac
   end
   tests('failure') do
     tests('#create new entity(-1)').raises(Fog::Rackspace::Monitoring::BadRequest) do
-      pending if Fog.mocking? 
       account.create_entity(:label => "")
     end
     tests('#get entity(-1)').raises(Fog::Rackspace::Monitoring::NotFound) do
