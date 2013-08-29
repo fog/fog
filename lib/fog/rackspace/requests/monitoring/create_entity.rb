@@ -17,6 +17,11 @@ module Fog
       class Mock
 
         def create_entity(options = {})
+          
+          if options[:label] == ""  
+            raise Fog::Rackspace::Monitoring::BadRequest
+          end
+
           response = Excon::Response.new
           response.status = 201
           response.body = ""
