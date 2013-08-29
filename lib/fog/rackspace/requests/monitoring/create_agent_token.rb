@@ -16,6 +16,11 @@ module Fog
 
       class Mock
         def create_agent_token(options = {})
+          
+          if options == -1
+            raise TypeError
+          end
+
           response = Excon::Response.new
           response.status = 201
           response.body = ""

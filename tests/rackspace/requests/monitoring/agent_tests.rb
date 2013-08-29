@@ -23,7 +23,6 @@ Shindo.tests('Fog::Rackspace::Monitoring | agent_tests', ['rackspace','rackspace
   end
   tests('failure') do
     tests('#fail to create agent token(-1)').raises(TypeError) do
-      pending if Fog.mocking?
       account.create_agent_token(-1)
     end
     tests('#fail to get agent token(-1)').raises(TypeError) do
