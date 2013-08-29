@@ -18,7 +18,6 @@ Shindo.tests('Fog::Rackspace::Monitoring | agent_tests', ['rackspace','rackspace
       account.get_agent_token(agent_token).data[:headers]
     end
     tests('#delete agent token').formats(DELETE_HEADERS_FORMAT) do
-      pending if Fog.mocking?
       account.delete_agent_token(agent_token).data[:headers]
     end
   end
