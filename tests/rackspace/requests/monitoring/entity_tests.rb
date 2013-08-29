@@ -9,8 +9,7 @@ Shindo.tests('Fog::Rackspace::Monitoring | entity_tests', ['rackspace','rackspac
       response
     end
     tests('#get entity').formats(LIST_HEADERS_FORMAT) do
-      pending if Fog.mocking? 
-      account.get_entity(entity_id).data[:headers]
+      account.get_entity(:entity_id => "fooid")
     end
     tests('#update entity').formats(DATA_FORMAT) do
       pending if Fog.mocking? 
@@ -27,7 +26,6 @@ Shindo.tests('Fog::Rackspace::Monitoring | entity_tests', ['rackspace','rackspac
       account.create_entity(:label => "")
     end
     tests('#get entity(-1)').raises(Fog::Rackspace::Monitoring::NotFound) do
-      pending if Fog.mocking? 
       account.get_entity(-1)
     end
     tests('#update invalid entity(-1)').raises(Fog::Rackspace::Monitoring::NotFound) do
