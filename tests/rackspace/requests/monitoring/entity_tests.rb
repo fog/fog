@@ -17,7 +17,6 @@ Shindo.tests('Fog::Rackspace::Monitoring | entity_tests', ['rackspace','rackspac
       account.update_entity(entity_id,options).data
     end
     tests('#delete entity').formats(DELETE_DATA_FORMAT) do
-      pending if Fog.mocking? 
       account.delete_entity(entity_id).data
     end
   end
@@ -34,7 +33,6 @@ Shindo.tests('Fog::Rackspace::Monitoring | entity_tests', ['rackspace','rackspac
       response = account.update_entity(-1,options)
     end
     tests('#delete entity(-1)').raises(Fog::Rackspace::Monitoring::NotFound) do
-      pending if Fog.mocking? 
       account.delete_entity(-1)
     end
   end
