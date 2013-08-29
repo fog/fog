@@ -8,7 +8,6 @@ module Fog
           
           request(
             :expects  => 202,
-            :headers  => { 'Accept' => 'application/*+xml;version=1.5' },
             :method   => 'DELETE',
             :parser => Fog::ToHashDocument.new,
             :path     => "vApp/#{vm_id}/metadata/#{URI.escape(metadata_key)}"

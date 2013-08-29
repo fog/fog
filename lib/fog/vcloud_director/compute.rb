@@ -34,6 +34,7 @@ module Fog
        PATH   = '/api'
        PORT   = 443
        SCHEME = 'https'
+       API_VERSION = '5.1'
      end
      
      module Errors
@@ -43,8 +44,10 @@ module Fog
        
      
      requires :vcloud_director_username, :vcloud_director_password, :vcloud_director_host
+     recognizes :vcloud_director_api_version
      
      secrets :vcloud_director_password
+     
      
      model_path 'fog/vcloud_director/models/compute'
      model       :catalog
@@ -174,7 +177,7 @@ module Fog
      class Real
        include Fog::Compute::Helper
        
-       attr_reader :end_point
+       attr_reader :end_point, :api_version
 
        def initialize(options={})
          @vcloud_director_password = options[:vcloud_director_password]
@@ -187,13 +190,14 @@ module Fog
          @scheme     = options[:scheme]      || Fog::Compute::VcloudDirector::Defaults::SCHEME
          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
          @end_point = "#{@scheme}://#{@host}#{@path}/"
+         @api_version = options[:vcloud_director_api_version] || Fog::Compute::VcloudDirector::Defaults::API_VERSION
        end
          
        def auth_token
          response = @connection.request({
            :expects   => 200,
            :headers   => { 'Authorization' => "Basic #{Base64.encode64("#{@vcloud_director_username}:#{@vcloud_director_password}").delete("\r\n")}",
-                           'Accept' => 'application/*+xml;version=1.5'
+                           'Accept' => 'application/*+xml;version=' +  @api_version
                          },
            :host      => @host,
            :method    => 'POST',
@@ -223,7 +227,7 @@ module Fog
        end
          
        def do_request(params)
-         headers = {}
+         headers = { 'Accept' => 'application/*+xml;version=' +  @api_version }
          if @cookie
            headers.merge!('Cookie' => @cookie)
          end
@@ -270,7 +274,7 @@ module Fog
          raise Errors::Task.new "status: #{task.status}, error: #{task.error}" unless task.success?
        end
        
-       def add_id_from_href!(data={})
+       def add_id_from_href!(data={})         
          data[:id] = data[:href].split('/').last
        end
        

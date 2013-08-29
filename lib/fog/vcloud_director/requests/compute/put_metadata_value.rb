@@ -13,8 +13,7 @@ module Fog
           request(
             :body => body,
             :expects  => 202,                
-            :headers => { 'Content-Type' => "application/vnd.vmware.vcloud.metadata.value+xml",
-                        'Accept' => 'application/*+xml;version=1.5' },
+            :headers => { 'Content-Type' => "application/vnd.vmware.vcloud.metadata.value+xml" },
             :method   => 'PUT',
             :parser => Fog::ToHashDocument.new,
             :path     => "vApp/#{vm_id}/metadata/#{URI.escape(metadata_key)}"

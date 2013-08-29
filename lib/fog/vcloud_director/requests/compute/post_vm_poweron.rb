@@ -7,7 +7,6 @@ module Fog
           
           request(
             :expects  => 202,                
-            :headers => { 'Accept' => 'application/*+xml;version=1.5' },
             :method   => 'POST',
             :parser => Fog::ToHashDocument.new,
             :path     => "vApp/#{vm_id}/power/action/powerOn"

@@ -6,7 +6,6 @@ module Fog
         def get_catalog_item(catalog_item_id)
           request(
             :expects  => 200,
-            :headers  => { 'Accept' => 'application/*+xml;version=1.5' },
             :method   => 'GET',
             :parser => Fog::ToHashDocument.new,
             :path     => "catalogItem/#{catalog_item_id}"

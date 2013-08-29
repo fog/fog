@@ -7,7 +7,6 @@ module Fog
         def get_vm_customization(vm_id)
           request(
             :expects  => 200,
-            :headers  => { 'Accept' => 'application/*+xml;version=1.5' },
             :method   => 'GET',
             :parser => Fog::Parsers::Compute::VcloudDirector::VmCustomization.new,
             :path     => "vApp/#{vm_id}/guestCustomizationSection"

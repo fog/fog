@@ -22,7 +22,7 @@ module Fog
     module Compute
       module VcloudDirector
 
-        class Metadata
+        class MetadataBase
            
           attr_reader :attrs
           
@@ -44,15 +44,51 @@ module Fog
             @attrs[:metadata].merge!(Hash[k,v])
           end
           
+          # 1.5
           def header
-              '<Metadata xmlns="http://www.vmware.com/vcloud/v1.5" 
-                type="application/vnd.vmware.vcloud.metadata+xml"  
-                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-                xsi:schemaLocation="http://www.vmware.com/vcloud/v1.5 http://10.194.1.65/api/v1.5/schema/master.xsd">
-                '
+            '<Metadata xmlns="http://www.vmware.com/vcloud/v1.5" 
+              type="application/vnd.vmware.vcloud.metadata+xml"  
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+              xsi:schemaLocation="http://www.vmware.com/vcloud/v1.5 http://10.194.1.65/api/v1.5/schema/master.xsd">
+              '
           end
           
+          def metadata_entry
+            raise "This is an abstract class. Use the appropriate subclass"
+          end
           
+          # 5.1
+          #def header
+          #  '<Metadata xmlns="http://www.vmware.com/vcloud/v1.5" 
+          #    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+          #    type="application/vnd.vmware.vcloud.metadata+xml" 
+          #    href="https://devlab.mdsol.com/api/vApp/vm-345c3619-edcd-4a8c-a8b9-c69ace3f89d1/metadata"
+          #    xsi:schemaLocation="http://www.vmware.com/vcloud/v1.5 http://10.194.1.65/api/v1.5/schema/master.xsd">'
+          #end
+          
+          def tail
+            '</Metadata>'
+          end
+          
+        end
+        
+        class MetadataV51 < MetadataBase
+          def metadata_entry(key,value)
+            body = <<EOF
+            <MetadataEntry
+              type="application/vnd.vmware.vcloud.metadata.value+xml">
+              <Key>#{key}</Key>
+              <TypedValue
+                xsi:type="MetadataStringValue">
+                <Value>#{value}</Value>
+              </TypedValue>
+            </MetadataEntry>
+EOF
+          end
+            
+        end
+        
+        class MetadataV15 < MetadataBase
           def metadata_entry(key,value)
             body = <<EOF
             <MetadataEntry>
@@ -61,11 +97,6 @@ module Fog
             </MetadataEntry>
 EOF
           end
-          
-          def tail
-            '</Metadata>'
-          end
-          
         end
       end
     end

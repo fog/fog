@@ -7,7 +7,6 @@ module Fog
         def get_network(network_id)
          request(
             :expects  => 200,
-            :headers  => { 'Accept' => 'application/*+xml;version=1.5' },
             :method   => 'GET',
             :parser => Fog::Parsers::Compute::VcloudDirector::Network.new,
             :path     => "network/#{network_id}"

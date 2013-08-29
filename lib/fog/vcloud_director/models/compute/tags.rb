@@ -16,7 +16,12 @@ module Fog
         
         def create(key,value)
           item_list unless @tags
-          data = Fog::Generators::Compute::VcloudDirector::Metadata.new(@tags)
+          metadata_klass = case service.api_version
+                           when '5.1' ; Fog::Generators::Compute::VcloudDirector::MetadataV51
+                           when '1.5' ; Fog::Generators::Compute::VcloudDirector::MetadataV15
+                           else raise "API version: #{api_version} not supported"
+                           end
+          data = metadata_klass.new(@tags)
           data.add_item(key, value)
           response = service.post_vm_metadata(vm.id, data.attrs)
           service.process_task(response.body)

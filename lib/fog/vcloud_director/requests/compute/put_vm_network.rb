@@ -11,8 +11,7 @@ module Fog
           request(
             :body => data.generate_xml,
             :expects  => 202,                
-            :headers => { 'Content-Type' => 'application/vnd.vmware.vcloud.networkConnectionSection+xml',
-                        'Accept' => 'application/*+xml;version=1.5' },
+            :headers => { 'Content-Type' => 'application/vnd.vmware.vcloud.networkConnectionSection+xml' },
             :method   => 'PUT',
             :parser => Fog::ToHashDocument.new,
             :path     => "vApp/#{vm_id}/networkConnectionSection/"
