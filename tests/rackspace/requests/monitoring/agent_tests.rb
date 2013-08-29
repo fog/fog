@@ -1,5 +1,4 @@
 Shindo.tests('Fog::Rackspace::Monitoring | agent_tests', ['rackspace','rackspace_monitoring']) do
-  pending if Fog.mocking?
 
   account = Fog::Rackspace::Monitoring.new
   agent_token = nil
@@ -11,23 +10,29 @@ Shindo.tests('Fog::Rackspace::Monitoring | agent_tests', ['rackspace','rackspace
       response
     end
     tests('#list agent tokens').formats(LIST_HEADERS_FORMAT) do
+      pending if Fog.mocking?
       account.list_agent_tokens().data[:headers]
     end
     tests('#get agent token').formats(LIST_HEADERS_FORMAT) do
+      pending if Fog.mocking?
       account.get_agent_token(agent_token).data[:headers]
     end
     tests('#delete agent token').formats(DELETE_HEADERS_FORMAT) do
+      pending if Fog.mocking?
       account.delete_agent_token(agent_token).data[:headers]
     end
   end
   tests('failure') do
     tests('#fail to create agent token(-1)').raises(TypeError) do
+      pending if Fog.mocking?
       account.create_agent_token(-1)
     end
     tests('#fail to get agent token(-1)').raises(TypeError) do
+      pending if Fog.mocking?
       account.create_agent_token(-1)
     end
     tests('#fail to delete agent token(-1)').raises(Fog::Rackspace::Monitoring::NotFound) do
+      pending if Fog.mocking?
       account.delete_agent_token(-1)
     end
   end
