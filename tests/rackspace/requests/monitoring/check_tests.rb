@@ -1,5 +1,4 @@
 Shindo.tests('Fog::Rackspace::Monitoring | check_tests', ['rackspace', 'rackspace_monitoring']) do
-  pending if Fog.mocking? 
 
   account = Fog::Rackspace::Monitoring.new
   entity_id = account.create_entity(:label => "Foo").data[:headers]["X-Object-ID"]
