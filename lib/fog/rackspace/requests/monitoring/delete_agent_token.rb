@@ -14,6 +14,11 @@ module Fog
 
       class Mock
         def delete_agent_token(options = {})
+
+          if options == -1
+            raise Fog::Rackspace::Monitoring::NotFound
+          end
+
           response = Excon::Response.new
           response.status = 201
           response.body = ""

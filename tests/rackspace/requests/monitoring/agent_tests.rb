@@ -30,7 +30,6 @@ Shindo.tests('Fog::Rackspace::Monitoring | agent_tests', ['rackspace','rackspace
       account.create_agent_token(-1)
     end
     tests('#fail to delete agent token(-1)').raises(Fog::Rackspace::Monitoring::NotFound) do
-      pending if Fog.mocking?
       account.delete_agent_token(-1)
     end
   end
