@@ -2,13 +2,14 @@ module Fog
   module HP
     class DNS
       class Real
-        def create_record(domain_id, name, type, data)
+        def create_record(domain_id, name, type, data, priority)
 
           data = {
               :name=> name,
               :type=> type,
               :data=> data
           }
+          data[:priority] = priority.to_i unless priority.nil?
 
           request(
               :body    => Fog::JSON.encode(data),
@@ -20,7 +21,7 @@ module Fog
         end
       end
       class Mock
-        def create_record(domain_id, name, type, data)
+        def create_record(domain_id, name, type, data, priority)
           response        = Excon::Response.new
           response.status = 200
           data            = {
