@@ -17,6 +17,8 @@ module Fog
 
         def update_entity(entity_id, options)
 
+          account_id = Fog::Mock.random_numbers(6).to_s
+
           if entity_id == -1
            raise Fog::Rackspace::Monitoring::NotFound
           end
@@ -26,7 +28,7 @@ module Fog
           response.body = ""
           response.headers = {
             "Date"                  => Time.now.utc.to_s,
-            "Location"              => "https://monitoring.api.rackspacecloud.com/v1.0/55555/entities/" + entity_id.to_s,
+            "Location"              => "https://monitoring.api.rackspacecloud.com/v1.0/" + account_id + "/entities/" + entity_id.to_s,
             "X-Object-ID"           => entity_id.to_s,
             "X-RateLimit-Limit"     => "50000",
             "X-RateLimit-Remaining" => "47877",
@@ -37,7 +39,7 @@ module Fog
             "Content-Length"        => "0",
             "Content-Type"          => "text/plain"
           }
-          response.remote_ip = "1.1.1.1"
+          response.remote_ip = Fog::Rackspace::MockData.ipv4_address
           response
         end
       end 
