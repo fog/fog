@@ -3,8 +3,6 @@ class HP < Fog::Bin
 
     def class_for(key)
       case key
-      when :lb
-        Fog::HP::LB
       when :block_storage
         Fog::HP::BlockStorage
       when :block_storage_v2
@@ -13,6 +11,10 @@ class HP < Fog::Bin
         Fog::CDN::HP
       when :compute
         Fog::Compute::HP
+      when :dns
+        Fog::HP::DNS
+      when :lb
+        Fog::HP::LB
       when :network
         Fog::HP::Network
       when :storage
@@ -25,10 +27,8 @@ class HP < Fog::Bin
     def [](service)
       @@connections ||= Hash.new do |hash, key|
         hash[key] = case key
-        when :lb
-          Fog::HP::LB.new
         when :block_storage
-          Fog::Logger.deprecation "First Gen HP Cloud Block Storage service will be soon deprecated. Please use `Fog::HP::BlockStorageV2` provider to use Next Gen HP Cloud Block Storage service."
+          Fog::Logger.deprecation "HP Cloud Block Storage V1 service will be soon deprecated. Please use `Fog::HP::BlockStorageV2` provider to use latest HP Cloud Block Storage service."
           Fog::HP::BlockStorage.new
         when :block_storage_v2
           Fog::HP::BlockStorageV2.new
@@ -38,6 +38,10 @@ class HP < Fog::Bin
         when :compute
           Fog::Logger.warning("HP[:compute] is deprecated, use Compute[:hp] instead")
           Fog::Compute.new(:provider => 'HP')
+        when :dns
+          Fog::HP::DNS.new
+        when :lb
+          Fog::HP::LB.new
         when :network
           Fog::HP::Network.new
         when :storage

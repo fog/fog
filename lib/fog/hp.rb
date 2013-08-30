@@ -60,9 +60,10 @@ module Fog
     service(:block_storage_v2, 'hp/block_storage_v2', 'BlockStorageV2')
     service(:cdn,     'hp/cdn',     'CDN')
     service(:compute, 'hp/compute', 'Compute')
+    service(:dns,     'hp/lb',      'DNS')
+    service(:lb,      'hp/lb',      'LB')
     service(:network, 'hp/network', 'Network')
     service(:storage, 'hp/storage', 'Storage')
-    service(:lb,      'hp/lb',      'LB')
 
     # legacy swauth 1.0/1.1 style authentication
     def self.authenticate_v1(options, connection_options = {})
