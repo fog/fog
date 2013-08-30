@@ -17,10 +17,10 @@ module Fog
       class Mock
         def create_alarm(entity_id, options = {})
 
-          if options[:type] == ""
+          if options[:type]
             raise Fog::Rackspace::Monitoring::BadRequest
           end
-          
+
           response = Excon::Response.new
           response.status = 201
           response.body = ""
