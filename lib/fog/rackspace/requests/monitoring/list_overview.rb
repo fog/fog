@@ -30,11 +30,11 @@ module Fog
                   "id" => "en3mz0NMt9",
                   "label"=>"openchef11",
                   "ip_addresses" => { 
-                    "access_ip0_v6" => "1::1",
-                    "public0_v4"    => "1.1.1.1",
-                    "public1_v6"    => "1::1",
-                    "access_ip1_v4" => "1.1.1.1",
-                    "private0_v4"   => "10.10.10.10"
+                    "access_ip0_v6" => Fog::Rackspace::MockData.ipv6_address,
+                    "public0_v4"    => Fog::Rackspace::MockData.ipv4_address,
+                    "public1_v6"    => Fog::Rackspace::MockData.ipv6_address,
+                    "access_ip1_v4" => Fog::Rackspace::MockData.ipv4_address,
+                    "private0_v4"   => Fog::Rackspace::MockData.ipv4_address
                   },
                   "metadata" => {
                     "testing" => "Bar"
@@ -103,7 +103,7 @@ module Fog
             "Transfer-Encoding"     => "chunked"
           }
 
-          response.remote_ip = "1.1.1.1"
+          response.remote_ip = Fog::Rackspace::MockData.ipv4_address
           response
         end
       end          
