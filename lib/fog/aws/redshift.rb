@@ -78,7 +78,7 @@ module Fog
 
         def initialize(options={})
 
-          @use_redshift_profile = options[:use_redshift_profile]
+          @use_iam_profile = options[:use_iam_profile]
           @region = options[:region] || 'us-east-1'
           setup_credentials(options)
 
@@ -96,15 +96,9 @@ module Fog
 
         private
         def setup_credentials(options)
-<<<<<<< HEAD
-          @aws_access_key_id         = options[:aws_access_key_id]
-          @aws_secret_access_key     = options[:aws_secret_access_key]
-          @aws_session_token         = options[:aws_session_token]
-=======
           @aws_access_key_id      = options[:aws_access_key_id]
           @aws_secret_access_key  = options[:aws_secret_access_key]
           @aws_session_token      = options[:aws_session_token]
->>>>>>> 6c5358b... Initial redshift setup, describe_clusters support
           @aws_credentials_expire_at = options[:aws_credentials_expire_at]
 
           @signer = Fog::AWS::SignatureV4.new( @aws_access_key_id, @aws_secret_access_key,@region,'redshift')
@@ -115,11 +109,6 @@ module Fog
 
           parser = params.delete(:parser)
           date   = Fog::Time.now
-<<<<<<< HEAD
-
-=======
-          
->>>>>>> 6c5358b... Initial redshift setup, describe_clusters support
           params[:headers]['Date'] = date.to_date_header
           params[:headers]['x-amz-date'] = date.to_iso8601_basic
 
@@ -128,16 +117,7 @@ module Fog
           params[:headers]['x-amz-security-token'] = @aws_session_token if @aws_session_token
           params[:headers]['Authorization'] = @signer.sign params, date
 
-<<<<<<< HEAD
-          begin
-            response = @connection.request(params.merge(:parser => parser), &block)
-          rescue Excon::Errors::HTTPStatusError => error
-            match = Fog::AWS::Errors.match_error(error)
-          end
-
-=======
           response = @connection.request(params.merge(:parser => parser), &block)
->>>>>>> 6c5358b... Initial redshift setup, describe_clusters support
           if response.headers['Content-Type'] == 'application/json' && response.body.size > 0 #body will be empty if the streaming form has been used
             response.body  = Fog::JSON.decode(response.body)
           end
