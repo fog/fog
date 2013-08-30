@@ -14,12 +14,19 @@ module Fog
 
       class Mock
         def list_checks(entity_id)
+
+          check_id = Fog::Mock.random_letters(10)
+
+          if entity_id == -1
+            raise Fog::Rackspace::Monitoring::NotFound
+          end
+
           response = Excon::Response.new
           response.status = 200
           response.body = {
             "values"  => [
               {
-                "id"              => "mock_id",
+                "id"              => check_id,
                 "label"           => "load",
                 "type"            => "agent.load_average",
                 "details"         => {},
@@ -50,12 +57,12 @@ module Fog
             "X-RateLimit-Remaining" => "49627",
             "X-RateLimit-Window"    => "24 hours",
             "X-RateLimit-Type"      => "global",
-            "X-Response-Id"         =>" j23jlk234jl2j34j",
+            "X-Response-Id"         => "j23jlk234jl2j34j",
             "X-LB"                  => "dfw1-maas-prod-api0",
             "Vary"                  => "Accept-Encoding",
             "Transfer-Encoding"     => "chunked"
           }
-          response.remote_ip = "1.1.1.1"
+          response.remote_ip = Fog::Rackspace::MockData.ipv4_address
           response
         end
       end

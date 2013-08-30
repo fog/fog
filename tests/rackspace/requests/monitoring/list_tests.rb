@@ -45,11 +45,9 @@ Shindo.tests('Fog::Rackspace::Monitoring | list_tests', ['rackspace','rackspace_
   end
   tests('failure') do
     tests('#fail to list checks').raises(Fog::Rackspace::Monitoring::NotFound) do
-      pending if Fog.mocking?
       account.list_checks(-1)
     end
     tests('#fail to list check types').raises(ArgumentError) do
-      pending if Fog.mocking?
       account.list_check_types(-1)
     end
     # This test has been put on hold due to a bug that incorrectly returns 200 OK to this request
@@ -57,7 +55,6 @@ Shindo.tests('Fog::Rackspace::Monitoring | list_tests', ['rackspace','rackspace_
       #account.list_metrics(-1,-1)
     #end
     tests('#fail: 1 argument instead of 0 for list_notification_plans').raises(ArgumentError) do
-      pending if Fog.mocking?
       account.list_notification_plans('fail')
     end
     tests('#fail to get list of data points').raises(Fog::Rackspace::Monitoring::BadRequest) do

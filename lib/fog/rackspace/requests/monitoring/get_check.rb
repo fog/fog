@@ -22,7 +22,7 @@ module Fog
           response = Excon::Response.new
           response.status = 200
           response.body = {
-            "id"                    => "mock_id",
+            "id"                    => check_id,
             "label"                 => nil, 
             "type"                  => "remote.ping", 
             "details"               => {"count"=>5}, 
@@ -44,7 +44,7 @@ module Fog
             "X-RateLimit-Remaining" => "44676", 
             "X-RateLimit-Window"    => "24 hours", 
             "X-RateLimit-Type"      => "global", 
-            "X-Response-Id"         => ".rh-QScV.h-ord1-maas-prod-api0.r-uuWnOhLS.c-206541.ts-1377805994157.v-9c40430", 
+            "X-Response-Id"         => "jdnbono34090934nggn", 
             "X-LB"                  => "ord1-maas-prod-api0", 
             "Vary"                  => "Accept-Encoding", 
             "Transfer-Encoding"     => "chunked"
