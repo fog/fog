@@ -16,10 +16,11 @@ module Fog
       class Mock
         def list_overview(options={})
 
-          alarm_id = Fog::Mock.random_letters(10)
-          check_id = Fog::Mock.random_letters(10)
-          entity_id = Fog::Mock.random_letters(10)
+          alarm_id   = Fog::Mock.random_letters(10)
+          check_id   = Fog::Mock.random_letters(10)
+          entity_id  = Fog::Mock.random_letters(10)
           account_id = Fog::Mock.random_numbers(6).to_s
+          server_id  = Fog::Rackspace::MockData.uuid
 
           response = Excon::Response.new
           response.status = 200
@@ -27,8 +28,8 @@ module Fog
             "values" => [
               {
                 "entity" => {
-                  "id" => "en3mz0NMt9",
-                  "label"=>"openchef11",
+                  "id"           => entity_id,
+                  "label"        => "mock_entity",
                   "ip_addresses" => { 
                     "access_ip0_v6" => Fog::Rackspace::MockData.ipv6_address,
                     "public0_v4"    => Fog::Rackspace::MockData.ipv4_address,
@@ -40,7 +41,7 @@ module Fog
                     "testing" => "Bar"
                   },
                   "managed"    => false,
-                  "uri"        => "https://ord.servers.api.rackspacecloud.com/" + account_id + "/servers/12345678-9abc-def1-2345-6789abcdef12",
+                  "uri"        => "https://ord.servers.api.rackspacecloud.com/" + account_id + "/servers/" + server_id,
                   "agent_id"   => nil,
                   "created_at" => Time.now.to_i - 1,
                   "updated_at" => Time.now.to_i
