@@ -17,6 +17,9 @@ module Fog
       class Mock
         def create_alarm(entity_id, options = {})
 
+          alarm_id = Fog::Mock.random_letters(10)
+          account_id = Fog::Mock.random_numbers(6).to_s
+
           if options[:type]
             raise Fog::Rackspace::Monitoring::BadRequest
           end
@@ -26,8 +29,8 @@ module Fog
           response.body = ""
           response.headers = {
             "Date"                  => Time.now.utc.to_s,
-            "Location"              => "https://monitoring.api.rackspacecloud.com/v1.0/817815/entities/" + entity_id.to_s + "/alarms/fooalarmid",
-            "X-Object-ID"           => "fooalarmid",
+            "Location"              => "https://monitoring.api.rackspacecloud.com/v1.0/" + account_id + "/entities/" + entity_id.to_s + "/alarms/" + alarm_id,
+            "X-Object-ID"           => alarm_id,
             "X-RateLimit-Limit"     => "50000",
             "X-RateLimit-Remaining" => "47877",
             "X-RateLimit-Window"    => "24 hours",
@@ -37,8 +40,9 @@ module Fog
             "Content-Length"        => "0",
             "Content-Type"          => "text/plain"
           }
-          response.remote_ip = "1.1.1.1"
+          response.remote_ip = Fog::Rackspace::MockData.ipv4_address
           response
+        
         end
       end
     end
