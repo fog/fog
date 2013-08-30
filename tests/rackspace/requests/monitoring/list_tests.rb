@@ -28,7 +28,6 @@ Shindo.tests('Fog::Rackspace::Monitoring | list_tests', ['rackspace','rackspace_
      account.list_metrics(entity_id,check_id).data[:headers]
     end
     tests('#get overview list').formats(LIST_HEADERS_FORMAT) do
-      pending if Fog.mocking?
       account.list_overview().data[:headers]
     end
     tests('#list notification plans').formats(LIST_HEADERS_FORMAT) do
