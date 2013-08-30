@@ -28,14 +28,14 @@ module Fog
       request :create_cluster_security_group
       request :create_cluster_snapshot
       request :create_cluster_subnet_group
-      # request :modify_cluster
-      # request :modify_cluster_parameter_group
-      # request :modify_cluster_subnet_group  
-      # request :delete_cluster             
-      # request :delete_cluster_parameter_group
-      # request :delete_cluster_security_group
-      # request :delete_cluster_snapshot
-      # request :delete_cluster_subnet_group
+      request :modify_cluster
+      request :modify_cluster_parameter_group
+      request :modify_cluster_subnet_group  
+      request :delete_cluster             
+      request :delete_cluster_parameter_group
+      request :delete_cluster_security_group
+      request :delete_cluster_snapshot
+      request :delete_cluster_subnet_group
       # request :authorize_cluster_security_group_ingress
       # request :authorize_snapshot_access
       # request :copy_cluster_snapshot
