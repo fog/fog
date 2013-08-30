@@ -25,18 +25,16 @@ module Fog
       end
 
       class Mock
-        def describe_cache_security_groups(opts={})
+        def describe_cache_security_groups(name, opts={})
           response = Excon::Response.new
           sec_group_set = []
-          if opts.is_a?(String)
-            sec_group_name = opts
-            if sec_group = self.data[:security_groups][sec_group_name]
-              sec_group_set << sec_group
-            else
-              raise Fog::AWS::Elasticache::NotFound.new("Security Group #{sec_group_name} not found")
-            end
+
+          sec_group = self.data[:security_groups][name]
+
+          if sec_group
+            sec_group_set << sec_group
           else
-            sec_group_set = self.data[:security_groups].values
+            raise Fog::AWS::Elasticache::NotFound.new("Security Group #{name} not found")
           end
 
           # TODO: refactor to not delete items that we're iterating over. Causes

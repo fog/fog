@@ -26,8 +26,7 @@ module Fog
       class Mock
         def create_cache_security_group(name, description = name)
           response = Excon::Response.new
-          if self.data[:security_groups] and
-            self.data[:security_groups][name]
+          if self.data[:security_groups][name]
             raise Fog::AWS::Elasticache::IdentifierTaken.new("CacheClusterAlreadyExists => The security group '#{name}' already exists")
           end
 
