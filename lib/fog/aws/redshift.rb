@@ -23,11 +23,11 @@ module Fog
       request :describe_reserved_node_offerings
       request :describe_reserved_nodes
       request :describe_resize
-      # request :create_cluster
-      # request :create_cluster_parameter_group
-      # request :create_cluster_security_group
-      # request :create_cluster_snapshot
-      # request :create_cluster_subnet_group
+      request :create_cluster
+      request :create_cluster_parameter_group
+      request :create_cluster_security_group
+      request :create_cluster_snapshot
+      request :create_cluster_subnet_group
       # request :modify_cluster
       # request :modify_cluster_parameter_group
       # request :modify_cluster_subnet_group  
