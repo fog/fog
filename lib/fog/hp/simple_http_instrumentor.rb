@@ -30,6 +30,7 @@ module Excon
           $stderr.puts("Host: #{params[:host]} Port: #{params[:port]}")
           $stderr.puts("Accept: #{params[:headers]['Accept']}")
           $stderr.puts("X-Auth-Token: #{params[:headers]['X-Auth-Token']}")
+          $stderr.puts("Body: #{params[:body]}")
         elsif name.include?('.response')
           $stderr.puts("HTTP/1.1 #{params[:status]}")
           $stderr.puts("Content-Length: #{params[:headers]['Content-Length']}")
