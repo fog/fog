@@ -19,7 +19,6 @@ Shindo.tests('Fog::Rackspace::Monitoring | alarm_tests', ['rackspace','rackspace
       response
     end
     tests('#update alarm').formats(DATA_FORMAT) do
-      pending if Fog.mocking?
       options = { :label => "Bar"}
       account.update_alarm(entity_id,alarm_id,options).data
     end
@@ -39,7 +38,6 @@ Shindo.tests('Fog::Rackspace::Monitoring | alarm_tests', ['rackspace','rackspace
       account.create_alarm(entity_id, {:type => ""})
     end
     tests('#fail to update invalid alarm(-1)').raises(Fog::Rackspace::Monitoring::NotFound) do
-      pending if Fog.mocking?
       options = { :testing => "Bar" }
       response = account.update_alarm(-1,-1,options)
     end
