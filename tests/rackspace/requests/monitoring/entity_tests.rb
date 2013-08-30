@@ -9,7 +9,7 @@ Shindo.tests('Fog::Rackspace::Monitoring | entity_tests', ['rackspace','rackspac
       response
     end
     tests('#get entity').formats(LIST_HEADERS_FORMAT) do
-      account.get_entity(:entity_id => "fooid")
+      account.get_entity(:entity_id => "fooid").data[:headers]
     end
     tests('#update entity').formats(DATA_FORMAT) do
       options = { :metadata => {:testing => "Bar" }}

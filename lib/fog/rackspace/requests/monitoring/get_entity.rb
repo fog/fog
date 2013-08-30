@@ -28,15 +28,8 @@ module Fog
           response = Excon::Response.new
           response.status = 200
           response.body = {
-            "id"            => entity_id.to_s,
+            "id"            => entity_id,
             "label"         => entity_label,
-            "ip_addresses"  => {
-              "access_ip0_v6" => Fog::Rackspace::MockData.ipv6_address,
-              "public0_v4"    => Fog::Rackspace::MockData.ipv4_address,
-              "public1_v6"    => Fog::Rackspace::MockData.ipv6_address,
-              "access_ip1_v4" => Fog::Rackspace::MockData.ipv4_address,
-              "private0_v4"   => Fog::Rackspace::MockData.ipv4_address
-            },
              "metadata"     => nil,
              "managed"      => false,
              "uri"          => "https://ord.servers.api.rackspacecloud.com/" + account_id + "/servers/" + server_id,
@@ -57,6 +50,8 @@ module Fog
             "Vary"                  => "Accept-Encoding",
             "Transfer-Encoding"     => "chunked"
           }
+          response.remote_ip = Fog::Rackspace::MockData.ipv4_address
+          response
         end
       end
     end

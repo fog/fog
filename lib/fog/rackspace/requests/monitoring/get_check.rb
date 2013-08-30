@@ -49,7 +49,7 @@ module Fog
             "Vary"                  => "Accept-Encoding", 
             "Transfer-Encoding"     => "chunked"
           }
-
+          response.remote_ip = Fog::Rackspace::MockData.ipv4_address
           response
         end
       end
