@@ -31,6 +31,8 @@ class AWS < Fog::Bin
         Fog::AWS::Glacier
       when :iam
         Fog::AWS::IAM
+      when :redshift
+        Fog::AWS::Redshift
       when :sdb, :simpledb
         Fog::AWS::SimpleDB
       when :ses
@@ -87,6 +89,8 @@ class AWS < Fog::Bin
           Fog::AWS::Glacier.new
         when :iam
           Fog::AWS::IAM.new
+        when :redshift
+          Fog::AWS::Redshift.new          
         when :rds
           Fog::AWS::RDS.new
         when :eu_storage
