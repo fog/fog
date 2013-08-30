@@ -29,7 +29,6 @@ Shindo.tests('Fog::Rackspace::Monitoring | alarm_tests', ['rackspace','rackspace
       account.get_alarm(entity_id,alarm_id).data[:headers]
     end
     tests('#delete alarm').formats(DELETE_DATA_FORMAT) do
-      pending if Fog.mocking?
       account.delete_alarm(entity_id,alarm_id).data
     end
   end
@@ -48,7 +47,6 @@ Shindo.tests('Fog::Rackspace::Monitoring | alarm_tests', ['rackspace','rackspace
       account.get_alarm(-1,-1)
     end
     tests('#fail to delete alarm(-1)').raises(Fog::Rackspace::Monitoring::NotFound) do
-      pending if Fog.mocking?
       account.delete_alarm(-1,-1)
     end
   end
