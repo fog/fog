@@ -16,18 +16,15 @@ Shindo.tests('Fog::Rackspace::Monitoring | list_tests', ['rackspace','rackspace_
 
   tests('success') do
     tests('#get list of checks').formats(LIST_HEADERS_FORMAT) do
-      pending if Fog.mocking?
       account.list_checks(entity_id).data[:headers]
     end
     tests('#get list of check types').formats(LIST_HEADERS_FORMAT) do
-      pending if Fog.mocking?
       account.list_check_types().data[:headers]
     end
     tests('#get list of entities').formats(LIST_HEADERS_FORMAT) do
       account.list_entities().data[:headers]
     end
     tests('#get list of metrics').formats(LIST_HEADERS_FORMAT) do
-      pending if Fog.mocking?
      account.list_metrics(entity_id,check_id).data[:headers]
     end
     tests('#get overview list').formats(LIST_HEADERS_FORMAT) do
