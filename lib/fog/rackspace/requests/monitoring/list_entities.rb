@@ -15,23 +15,28 @@ module Fog
       
       class Mock
         def list_entities(options={})
+          account_id = Fog::Mock.random_numbers(6).to_s
+          server_id = Fog::Rackspace::MockData.uuid
+          entity_id = Fog::Mock.random_letters(10)
+          entity_label = Fog::Mock.random_letters(10)
+
           response = Excon::Response.new
           response.status = 200
           response.body = {
             "values"=> [
               {
-                "id"           => "foo_id",
-                "label"        => "foo_label",
+                "id"           => entity_id,
+                "label"        => entity_label,
                 "ip_addresses" => {
-                  "access_ip0_v6" => "::1",
-                  "public0_v4"    => "1.1.1.1",
-                  "public1_v6"    => "::1",
-                  "access_ip1_v4" => "1.1.1.1",
-                  "private0_v4"   => "10.10.10.1"
+                  "access_ip0_v6" => Fog::Rackspace::MockData.ipv6_address,
+                  "public0_v4"    => Fog::Rackspace::MockData.ipv4_address,
+                  "public1_v6"    => Fog::Rackspace::MockData.ipv6_address,
+                  "access_ip1_v4" => Fog::Rackspace::MockData.ipv4_address,
+                  "private0_v4"   => Fog::Rackspace::MockData.ipv4_address
                 },
                 "metadata"     => nil,
                 "managed"      => false,
-                "uri"          => "https://ord.servers.api.rackspacecloud.com/55555/servers/B0791A1C-E798-4D55-A24C-28EE0305245C",
+                "uri"          => "https://ord.servers.api.rackspacecloud.com/" + account_id + "/servers/" + server_id,
                 "agent_id"     => nil,
                 "created_at"   => Time.now.to_i - 1,
                 "updated_at"   => Time.now.to_i
@@ -52,7 +57,7 @@ module Fog
             "X-RateLimit-Remaining" => "49627",
             "X-RateLimit-Window"    => "24 hours",
             "X-RateLimit-Type"      => "global",
-            "X-Response-Id"         =>" j23jlk234jl2j34j",
+            "X-Response-Id"         => "j23jlk234jl2j34j",
             "X-LB"                  => "dfw1-maas-prod-api0",
             "Vary"                  => "Accept-Encoding",
             "Transfer-Encoding"     => "chunked"
