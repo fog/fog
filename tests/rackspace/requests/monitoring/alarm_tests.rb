@@ -1,5 +1,5 @@
 Shindo.tests('Fog::Rackspace::Monitoring | alarm_tests', ['rackspace','rackspace_monitoring']) do
-  pending if Fog.mocking?
+  
 
   account = Fog::Rackspace::Monitoring.new
   entity_id = account.create_entity(:label => "Foo").data[:headers]["X-Object-ID"]
@@ -19,16 +19,20 @@ Shindo.tests('Fog::Rackspace::Monitoring | alarm_tests', ['rackspace','rackspace
       response
     end
     tests('#update alarm').formats(DATA_FORMAT) do
+      pending if Fog.mocking?
       options = { :label => "Bar"}
       account.update_alarm(entity_id,alarm_id,options).data
     end
     tests('#list alarms').formats(LIST_HEADERS_FORMAT) do
+      pending if Fog.mocking?
       account.list_alarms(entity_id).data[:headers]
     end
     tests('#get alarm').formats(LIST_HEADERS_FORMAT) do
+      pending if Fog.mocking?
       account.get_alarm(entity_id,alarm_id).data[:headers]
     end
     tests('#delete alarm').formats(DELETE_DATA_FORMAT) do
+      pending if Fog.mocking?
       account.delete_alarm(entity_id,alarm_id).data
     end
   end
@@ -37,19 +41,23 @@ Shindo.tests('Fog::Rackspace::Monitoring | alarm_tests', ['rackspace','rackspace
       account.create_alarm(entity_id, {:type => ""})
     end
     tests('#fail to update invalid alarm(-1)').raises(Fog::Rackspace::Monitoring::NotFound) do
+      pending if Fog.mocking?
       options = { :testing => "Bar" }
       response = account.update_alarm(-1,-1,options)
     end
     tests('#fail to list alarms').raises(Fog::Rackspace::Monitoring::NotFound) do
+      pending if Fog.mocking?
       account.list_alarms(-1)
     end
     tests('#fail to get alarm').raises(Fog::Rackspace::Monitoring::NotFound) do
+      pending if Fog.mocking?
       account.get_alarm(-1,-1)
     end
     tests('#fail to delete alarm(-1)').raises(Fog::Rackspace::Monitoring::NotFound) do
+      pending if Fog.mocking?
       account.delete_alarm(-1,-1)
     end
   end
-  account.delete_check(entity_id,check_id)
-  account.delete_entity(entity_id)
+  account.delete_check(entity_id,check_id) unless Fog.mocking?
+  account.delete_entity(entity_id) unless Fog.mocking?
 end
