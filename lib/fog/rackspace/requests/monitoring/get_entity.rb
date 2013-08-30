@@ -17,6 +17,10 @@ module Fog
 
         def get_entity(entity_id)
 
+          account_id = Fog::Mock.random_numbers(6).to_s
+          server_id = Fog::Rackspace::MockData.uuid
+          entity_label = Fog::Mock.random_letters(10)
+
           if entity_id == -1
             raise Fog::Rackspace::Monitoring::NotFound
           end
@@ -25,17 +29,17 @@ module Fog
           response.status = 200
           response.body = {
             "id"            => entity_id.to_s,
-            "label"         => "foolabel",
+            "label"         => entity_label,
             "ip_addresses"  => {
-                "access_ip0_v6"  => "::1",
-                "public0_v4"     => "1.1.1.1",
-                "public1_v6"     => "::1",
-                "access_ip1_v4"  => "1.1.1.1",
-                "private0_v4"    => "10.10.10.1"
-              },
+              "access_ip0_v6" => Fog::Rackspace::MockData.ipv6_address,
+              "public0_v4"    => Fog::Rackspace::MockData.ipv4_address,
+              "public1_v6"    => Fog::Rackspace::MockData.ipv6_address,
+              "access_ip1_v4" => Fog::Rackspace::MockData.ipv4_address,
+              "private0_v4"   => Fog::Rackspace::MockData.ipv4_address
+            },
              "metadata"     => nil,
              "managed"      => false,
-             "uri"          => "https://ord.servers.api.rackspacecloud.com/55555/servers/27F99694-1775-4631-AFEA-0E1BA824ED86",
+             "uri"          => "https://ord.servers.api.rackspacecloud.com/" + account_id + "/servers/" + server_id,
              "agent_id"     => nil,
              "created_at"   => Time.now.to_i - 1,
              "updated_at"   => Time.now.to_i
