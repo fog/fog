@@ -17,12 +17,12 @@ module Fog
       request :describe_cluster_snapshots
       request :describe_cluster_subnet_groups
       request :describe_cluster_versions
-      # request :describe_default_cluster_parameters
-      # request :describe_events
-      # request :describe_orderable_cluster_options
-      # request :describe_reserved_node_offerings
-      # request :describe_reserved_nodes
-      # request :describe_resize
+      request :describe_default_cluster_parameters
+      request :describe_events
+      request :describe_orderable_cluster_options
+      request :describe_reserved_node_offerings
+      request :describe_reserved_nodes
+      request :describe_resize
       # request :create_cluster
       # request :create_cluster_parameter_group
       # request :create_cluster_security_group
