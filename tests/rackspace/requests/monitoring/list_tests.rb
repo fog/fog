@@ -34,7 +34,6 @@ Shindo.tests('Fog::Rackspace::Monitoring | list_tests', ['rackspace','rackspace_
       account.list_notification_plans().data[:headers]
     end
     tests('#get list of data points').formats(LIST_HEADERS_FORMAT) do
-      pending if Fog.mocking?
       options = {
         :points => 1,
         :from => now,
@@ -58,7 +57,6 @@ Shindo.tests('Fog::Rackspace::Monitoring | list_tests', ['rackspace','rackspace_
       account.list_notification_plans('fail')
     end
     tests('#fail to get list of data points').raises(Fog::Rackspace::Monitoring::BadRequest) do
-      pending if Fog.mocking?
       account.list_data_points(-1,-1,-1,-1).data
     end
   end

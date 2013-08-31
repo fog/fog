@@ -30,7 +30,7 @@ module Fog
             "X-RateLimit-Remaining" => "49627",
             "X-RateLimit-Window"    => "24 hours",
             "X-RateLimit-Type"      => "global",
-            "X-Response-Id"         => ".rh-lHJL.h-ord1-maas-prod-api1.r-AGRIH406.c-4085336.ts-1377785008661.v-e602877",
+            "X-Response-Id"         => "lsknvnslnv2083ovnsdbno00",
             "X-LB"                  => "ord1-maas-prod-api1",
             "Content-Length"        => "0",
             "Content-Type"          => "text/plain",
