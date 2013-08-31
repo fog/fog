@@ -13,6 +13,13 @@ module Fog
         end
 
       end
+
+      class Mock
+
+        def list_data_points(entity_id, check_id, metric_name, options)
+
+        end
+      end
     end
   end
 end

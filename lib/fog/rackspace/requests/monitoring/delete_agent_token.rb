@@ -35,7 +35,7 @@ module Fog
             "Content-Length"        => "0",
             "Content-Type"          => "text/plain",
           }
-          response.remote_ip = "1.1.1.1"
+          response.remote_ip = Fog::Rackspace::MockData.ipv4_address
           response
         end
       end
