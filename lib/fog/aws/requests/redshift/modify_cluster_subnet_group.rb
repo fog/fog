@@ -19,7 +19,7 @@ module Fog
         #
         # ==== See Also
         # http://docs.aws.amazon.com/redshift/latest/APIReference/API_ModifyClusterSubnetGroup.html               
-        def create_cluster_subnet_group(options = {})
+        def modify_cluster_subnet_group(options = {})
           cluster_subnet_group_name = options[:cluster_subnet_group_name]
           description               = options[:description]
 

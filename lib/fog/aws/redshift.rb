@@ -40,7 +40,7 @@ module Fog
       # request :authorize_snapshot_access
       # request :copy_cluster_snapshot
       # request :purchase_reserved_node_offering
-      # request :reboot_cluster
+      request :reboot_cluster
       # request :reset_cluster_parameter_group
       # request :restore_from_cluster_snapshot
       # request :revoke_cluster_security_group_ingress

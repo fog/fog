@@ -4,10 +4,10 @@ module Fog
       module AWS
         require 'fog/aws/parsers/redshift/cluster_parser'
 
-        class DescribeClusters < ClusterParser
+        class Cluster < ClusterParser
           def reset
             super
-            @response = {"ClusterSet" => []}
+            @response = {}
           end
 
           def start_element(name, attrs = [])
@@ -18,8 +18,7 @@ module Fog
             super
             case name
             when 'Cluster'
-              @response["ClusterSet"] << @cluster
-              @cluster = fresh_cluster
+              @response = @cluster
             end
           end
         end

@@ -2,7 +2,7 @@ module Fog
   module AWS
     class Redshift
       class Real
-        require 'fog/aws/parsers/redshift/cluster_parser'
+        require 'fog/aws/parsers/redshift/cluster'
 
         # ==== Parameters
         # 
@@ -35,7 +35,7 @@ module Fog
             :path       => path,
             :method     => :put,
             :query      => {},
-            :parser     => Fog::Parsers::Redshift::AWS::ClusterParser.new
+            :parser     => Fog::Parsers::Redshift::AWS::Cluster.new
           }
 
           params[:query]['Action']                           = 'DeleteCluster'
