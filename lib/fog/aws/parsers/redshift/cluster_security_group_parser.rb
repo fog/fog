@@ -39,7 +39,7 @@ module Fog
             when 'EC2SecurityGroupName', 'EC2SecurityGroupOwnerId', 'CIDRIP', 'Status'
               @list[name] = value
             when 'EC2SecurityGroup', 'IPRange'
-              @cluster_security_group[@list_name] << @list
+              @cluster_security_group[@list_name] << {name => @list}
               @list = {}
             end
           end

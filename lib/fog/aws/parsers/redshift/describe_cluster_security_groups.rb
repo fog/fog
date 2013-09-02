@@ -27,7 +27,7 @@ module Fog
             when 'Marker'
               @response[name] = value
             when 'ClusterSecurityGroup'
-              @response['ClusterSecurityGroups'] << @cluster_security_group
+              @response['ClusterSecurityGroups'] << { name => @cluster_security_group }
               @cluster_security_group = fresh_cluster_security_group
             end
           end

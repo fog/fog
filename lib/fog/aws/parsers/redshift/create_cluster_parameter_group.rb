@@ -9,7 +9,7 @@ module Fog
           # :description - (String)
           
           def reset
-            @response = {}
+            @response = {'ClusterParameterGroup'=>{}}
           end
 
           def start_element(name, attrs = [])
@@ -20,7 +20,7 @@ module Fog
             super
             case name
             when 'ParameterGroupName', 'ParameterGroupFamily', 'Description'
-              @response[name] = value
+              @response['ClusterParameterGroup'][name] = value
             end
           end
         end

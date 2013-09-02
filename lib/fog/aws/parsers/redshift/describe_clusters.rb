@@ -18,7 +18,7 @@ module Fog
             super
             case name
             when 'Cluster'
-              @response["ClusterSet"] << @cluster
+              @response["ClusterSet"] << {name => @cluster}
               @cluster = fresh_cluster
             end
           end

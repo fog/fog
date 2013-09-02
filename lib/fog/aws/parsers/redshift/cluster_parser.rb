@@ -127,13 +127,13 @@ module Fog
               @in_pending_modified_values = false
 
             when 'ClusterParameterGroup'
-              @cluster['ClusterParameterGroups'] << @cluster_parameter_group
+              @cluster['ClusterParameterGroups'] << {name => @cluster_parameter_group}
               @cluster_parameter_group = {}
             when 'ClusterSecurityGroup'
-              @cluster['ClusterSecurityGroups'] << @cluster_security_group
+              @cluster['ClusterSecurityGroups'] << {name => @cluster_security_group}
               @cluster_security_group = {}
             when 'VpcSecurityGroup'
-              @cluster['VpcSecurityGroups'] << @vpc_security_group
+              @cluster['VpcSecurityGroups'] << {name => @vpc_security_group}
               @vpc_security_group = {}
             end
           end

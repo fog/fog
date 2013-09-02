@@ -3,11 +3,14 @@ module Fog
     module Redshift
       module AWS
 
-        class ModifyClusterParameterGroup < Fog::Parsers::Base
+        require 'fog/aws/parsers/redshift/cluster_snapshot_parser'
+
+        class ClusterSnapshot < ClusterSnapshotParser
           # :parameter_group_name - (String)
           # :parameter_group_status - (String)
           
           def reset
+            super
             @response = {}
           end
 
@@ -18,8 +21,8 @@ module Fog
           def end_element(name)            
             super
             case name
-            when 'ParameterGroupName', 'ParameterGroupStatus'
-              @response[name] = value
+            when 'Snapshot'
+              @response = @snapshot
             end
           end
         end

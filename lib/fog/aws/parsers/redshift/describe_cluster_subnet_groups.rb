@@ -34,12 +34,12 @@ module Fog
             when 'Marker'
               @response[name] = value
             when 'ClusterSubnetGroup'
-              @response['ClusterSubnetGroups'] << @cluster_subnet_group
+              @response['ClusterSubnetGroups'] << {name => @cluster_subnet_group}
               @cluster_subnet_group = {'Subnets' => []}
             when 'ClusterSubnetGroupName', 'Description', 'VpcId', 'SubnetGroupStatus'
               @cluster_subnet_group[name] = value
             when 'Subnet'
-              @cluster_subnet_group['Subnets'] << @subnet if @subnet
+              @cluster_subnet_group['Subnets'] << {name => @subnet} if @subnet
               @subnet = {}
             when 'SubnetAvailabilityZone'
               @subnet['SubnetAvailabilityZone'] = {}

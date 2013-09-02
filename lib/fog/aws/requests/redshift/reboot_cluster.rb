@@ -15,7 +15,7 @@ module Fog
         # ==== See Also
         # http://docs.aws.amazon.com/redshift/latest/APIReference/API_DeleteCluster.html             
         def reboot_cluster(options = {})
-          cluster_identifier                = options[:cluster_identifier]        
+          cluster_identifier = options[:cluster_identifier]        
 
           path = "/"
           params = {
@@ -29,6 +29,7 @@ module Fog
           params[:query]['Action']                           = 'RebootCluster'
           params[:query]['ClusterIdentifier']                = cluster_identifier if cluster_identifier
           request(params)
+
         end
       end
     end

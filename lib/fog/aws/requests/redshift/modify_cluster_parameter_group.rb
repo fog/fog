@@ -2,7 +2,7 @@ module Fog
   module AWS
     class Redshift
       class Real
-        require 'fog/aws/parsers/redshift/modify_cluster_parameter_group'
+        require 'fog/aws/parsers/redshift/update_cluster_parameter_group_parser'
 
         # ==== Parameters
         # 
@@ -22,7 +22,7 @@ module Fog
             :path       => path,
             :method     => :put,
             :query      => {},
-            :parser     => Fog::Parsers::Redshift::AWS::ModifyClusterParameterGroup.new
+            :parser     => Fog::Parsers::Redshift::AWS::UpdateClusterParameterGroupParser.new
           }
 
           params[:query]['Action']             = 'ModifyClusterParameterGroup'

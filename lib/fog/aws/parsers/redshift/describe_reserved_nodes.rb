@@ -57,10 +57,10 @@ module Fog
             when 'RecurringChargeFrequency'
               @recurring_charge[name] = value
             when 'RecurringCharge'
-              @reserved_node['RecurringCharges'] << @recurring_charge
+              @reserved_node['RecurringCharges'] << {name => @recurring_charge}
               @recurring_charge = {}
             when 'ReservedNode'
-              @response['ReservedNodes'] << @reserved_node
+              @response['ReservedNodes'] << {name => @reserved_node}
               @reserved_node = fresh_reserved_node
             end
           end

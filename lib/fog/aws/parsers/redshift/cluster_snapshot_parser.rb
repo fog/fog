@@ -30,7 +30,11 @@ module Fog
           # :elapsed_time_in_seconds - (Integer)
 
           def reset
-            @response = { 'AccountsWithRestoreAccess' => [] }
+            @snapshot = fresh_snapshot
+          end
+
+          def fresh_snapshot
+            {'Snapshot' =>  { 'AccountsWithRestoreAccess' => [] }}
           end
 
           def start_element(name, attrs = [])
@@ -42,17 +46,17 @@ module Fog
             case name
             when 'SnapshotIdentifier', 'ClusterIdentifier', 'Status', 'AvailabilityZone', 'MasterUsername', 'ClusterVersion', 'SnapshotType', 'NodeType',
               'DBName', 'VpcId', 'OwnerAccount'
-              @response[name] = value
+              @snapshot['Snapshot'][name] = value
             when 'Port', 'NumberOfNodes', 'ElapsedTimeInSeconds', 'EstimatedSecondsToCompletion'
-              @response[name] = value.to_i
+              @snapshot['Snapshot'][name] = value.to_i
             when 'SnapshotCreateTime', 'ClusterCreateTime'
-              @response[name] = Time.parse(value)
+              @snapshot['Snapshot'][name] = Time.parse(value)
             when 'Encrypted'
-              @response[name] = (value == true)
+              @snapshot['Snapshot'][name] = (value == true)
             when 'TotalBackupSizeInMegaBytes', 'ActualIncrementalBackupSizeInMegaBytes', 'BackupProgressInMegaBytes', 'CurrentBackupRateInMegaBytesPerSecond'
-              @response[name] = value.to_f
+              @snapshot['Snapshot'][name] = value.to_f
             when 'AccountId'
-              @response['AccountsWithRestoreAccess'] << value
+              @snapshot['Snapshot']['AccountsWithRestoreAccess'] << value
             end
           end
         end

@@ -40,7 +40,7 @@ module Fog
             when 'Name'
               @subnet['SubnetAvailabilityZone'][name] = value
             when 'Subnet'
-              @response['Subnets'] << @subnet
+              @response['Subnets'] << {name => @subnet}
               @subnet = fresh_subnet
             end
           end

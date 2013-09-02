@@ -2,7 +2,7 @@ module Fog
   module AWS
     class Redshift
       class Real
-        require 'fog/aws/parsers/redshift/cluster_snapshot_parser'
+        require 'fog/aws/parsers/redshift/cluster_snapshot'
 
         # ==== Parameters
         # 
@@ -28,7 +28,7 @@ module Fog
             :path       => path,
             :method     => :put,
             :query      => {},
-            :parser     => Fog::Parsers::Redshift::AWS::ClusterSnapshotParser.new
+            :parser     => Fog::Parsers::Redshift::AWS::ClusterSnapshot.new
           }
 
           params[:query]['Action']             = 'CreateClusterSnapshot'

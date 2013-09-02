@@ -36,15 +36,15 @@ module Fog
       request :delete_cluster_security_group
       request :delete_cluster_snapshot
       request :delete_cluster_subnet_group
-      # request :authorize_cluster_security_group_ingress
-      # request :authorize_snapshot_access
-      # request :copy_cluster_snapshot
-      # request :purchase_reserved_node_offering
+      request :authorize_cluster_security_group_ingress 
+      request :authorize_snapshot_access                 
+      request :copy_cluster_snapshot                     
+      request :purchase_reserved_node_offering           
       request :reboot_cluster
-      # request :reset_cluster_parameter_group
-      # request :restore_from_cluster_snapshot
-      # request :revoke_cluster_security_group_ingress
-      # request :revoke_snapshot_access
+      request :reset_cluster_parameter_group            
+      request :restore_from_cluster_snapshot           
+      request :revoke_cluster_security_group_ingress       
+      request :revoke_snapshot_access                    
 
       class Mock
 
@@ -118,9 +118,6 @@ module Fog
           params[:headers]['Authorization'] = @signer.sign params, date
 
           response = @connection.request(params.merge(:parser => parser), &block)
-          if response.headers['Content-Type'] == 'application/json' && response.body.size > 0 #body will be empty if the streaming form has been used
-            response.body  = Fog::JSON.decode(response.body)
-          end
           response
         end
       end

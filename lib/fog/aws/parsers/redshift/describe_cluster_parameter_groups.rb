@@ -30,7 +30,7 @@ module Fog
             when 'ParameterGroupName', 'ParameterGroupFamily', 'Description'
               @parameter_group[name] = value
             when 'ClusterParameterGroup'
-              @response['ParameterGroups'] << @parameter_group
+              @response['ParameterGroups'] << {name => @parameter_group}
               @parameter_group = {}
             end
           end

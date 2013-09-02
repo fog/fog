@@ -35,7 +35,7 @@ module Fog
             when 'ClusterVersion'
               @cluster_version_depth -= 1
               if @cluster_version_depth == 0
-                @response['ClusterVersions'] << @cluster_version
+                @response['ClusterVersions'] << {name => @cluster_version}
                 @cluster_version = {}
               else
                 @cluster_version[name] = value

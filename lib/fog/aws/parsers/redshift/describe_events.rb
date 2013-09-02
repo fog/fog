@@ -33,7 +33,7 @@ module Fog
             when 'Date'
               @event[name] = Time.parse(value)
             when 'Event'
-              @response['Events'] << @event
+              @response['Events'] << {name => @event}
               @event = {}
             end
           end
