@@ -10,6 +10,18 @@ module Fog
         
         attribute :vapp
         
+        def get_by_metadata(key, value)
+          data = service.get_vms_by_metadata(key, value).body
+          items = data[:vm_records]
+          load(items)
+        end
+
+        def get_single_vm(vm_id)
+          item = service.get_vm(vm_id).body
+          return nil unless item
+          new(item[:vm])
+        end
+
         private
                 
         def get_by_id(item_id)
@@ -18,7 +30,7 @@ module Fog
         end
                         
         def item_list
-          data = service.get_vms(vapp.id).body
+          data = service.get_vms(vapp.id).body  # vapp.id
           items = data[:vms]
           items
         end

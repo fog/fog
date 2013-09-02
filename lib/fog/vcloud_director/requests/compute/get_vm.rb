@@ -2,14 +2,14 @@ module Fog
   module Compute
     class VcloudDirector
       class Real
-        require 'fog/vcloud_director/parsers/compute/vms'
+        require 'fog/vcloud_director/parsers/compute/vm'
         
-        def get_vms(vapp_id)
+        def get_vm(vm_id)
           request(
             :expects  => 200,
             :method   => 'GET',
-            :parser => Fog::Parsers::Compute::VcloudDirector::Vms.new,
-            :path     => "vApp/#{vapp_id}"
+            :parser => Fog::Parsers::Compute::VcloudDirector::Vm.new,
+            :path     => "vApp/#{vm_id}"
           )
         end
 

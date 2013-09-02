@@ -20,6 +20,29 @@ module Fog
         attribute :cpu, :type => :integer
         attribute :memory
         attribute :hard_disks, :aliases => :disks
+                
+        
+        def reload
+          # when collection.vapp is nil, it means it's fatherless, 
+          # vms from different vapps are loaded in the same collection.
+          # This situation comes from a "query" result
+          collection.vapp.nil? ? reload_single_vm : super
+        end
+        
+        def reload_single_vm
+          return unless data = begin
+            collection.get_single_vm(identity)
+          rescue Excon::Errors::SocketError
+            nil
+          end
+          # these two attributes don't exists in the get_single_vm response
+          # that's why i use the old attributes
+          data.attributes[:vapp_id] = attributes[:vapp_id]
+          data.attributes[:vapp_name] = attributes[:vapp_name]
+          new_attributes = data.attributes
+          merge_attributes(new_attributes)
+          self
+        end
         
         
         def power_on
@@ -46,10 +69,6 @@ module Fog
           requires :id
           service.disks(:vm => self)
         end
-        
-        #def reload
-        #  service.vms(:vapp_id => vapp_id).get(id)
-        #end
         
         def memory=(new_memory)
           has_changed = ( memory != new_memory.to_i )
