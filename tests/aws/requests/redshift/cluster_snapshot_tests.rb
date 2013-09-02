@@ -1,5 +1,5 @@
 Shindo.tests('Fog::Redshift[:aws] | cluster snapshot requests', ['aws']) do
-
+  pending if Fog.mocking?
   suffix = rand(65536).to_s(16)
   identifier = "test-snapshot-#{suffix}"
   cluster    = "test-cluster-#{suffix}"

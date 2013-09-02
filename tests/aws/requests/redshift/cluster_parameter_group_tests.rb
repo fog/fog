@@ -1,5 +1,5 @@
 Shindo.tests('Fog::Redshift[:aws] | cluster parameter group requests', ['aws']) do
-
+  pending if Fog.mocking?
   suffix = rand(65536).to_s(16)
   parameter_group = "test-cluster-parameter-group-#{suffix}"
 

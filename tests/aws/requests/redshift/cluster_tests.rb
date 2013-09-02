@@ -1,5 +1,5 @@
 Shindo.tests('Fog::Redshift[:aws] | cluster requests', ['aws']) do
-
+  pending if Fog.mocking?
   identifier = "test-cluster-#{rand(65536).to_s(16)}"
 
   @cluster_format = {
