@@ -165,7 +165,7 @@ module Fog
           end
 
           response
-        rescue Excon::Errors::Error => e
+        rescue Excon::Errors::HTTPStatusError => e
           raise_if_error!(e.request, e.response)
         end
 

@@ -1,5 +1,4 @@
 Shindo.tests('Fog::Rackspace::Monitoring | entity_tests', ['rackspace','rackspace_monitoring']) do
-
   account = Fog::Rackspace::Monitoring.new
   entity_id = nil
   tests('success') do
