@@ -1,5 +1,4 @@
 Shindo.tests('Fog::Rackspace::Monitoring | agent_tests', ['rackspace','rackspace_monitoring']) do
-  pending if Fog.mocking?
 
   account = Fog::Rackspace::Monitoring.new
   agent_token = nil
