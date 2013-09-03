@@ -1,0 +1,216 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://devlab.mdsol.com/api/sessions
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - fog/1.11.1
+      Authorization:
+      - Basic cmVzdGViYW5lekBkZXZvcHM6cGFzc3dvcmQqOA==
+      Accept:
+      - application/*+xml;version=1.5
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Date:
+      - Fri, 16 Aug 2013 13:52:32 GMT, Fri, 16 Aug 2013 13:52:32 GMT
+      X-Vcloud-Authorization:
+      - T3hKyKO2IxMq68dq7nYYv6WGCbVdcMIHJLfvWpbQY4Y=
+      Set-Cookie:
+      - vcloud-token=T3hKyKO2IxMq68dq7nYYv6WGCbVdcMIHJLfvWpbQY4Y=; Secure; Path=/
+      Content-Type:
+      - application/vnd.vmware.vcloud.session+xml;version=1.5
+      Content-Length:
+      - '1014'
+    body:
+      encoding: US-ASCII
+      string: ! "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<Session xmlns=\"http://www.vmware.com/vcloud/v1.5\"
+        user=\"restebanez\" org=\"DevOps\" type=\"application/vnd.vmware.vcloud.session+xml\"
+        href=\"https://devlab.mdsol.com/api/session/\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"
+        xsi:schemaLocation=\"http://www.vmware.com/vcloud/v1.5 http://10.194.1.65/api/v1.5/schema/master.xsd\">\n
+        \   <Link rel=\"down\" type=\"application/vnd.vmware.vcloud.orgList+xml\"
+        href=\"https://devlab.mdsol.com/api/org/\"/>\n    <Link rel=\"down\" type=\"application/vnd.vmware.admin.vcloud+xml\"
+        href=\"https://devlab.mdsol.com/api/admin/\"/>\n    <Link rel=\"down\" type=\"application/vnd.vmware.vcloud.org+xml\"
+        name=\"DevOps\" href=\"https://devlab.mdsol.com/api/org/c6a4c623-c158-41cf-a87a-dbc1637ad55a\"/>\n
+        \   <Link rel=\"down\" type=\"application/vnd.vmware.vcloud.query.queryList+xml\"
+        href=\"https://devlab.mdsol.com/api/query\"/>\n    <Link rel=\"entityResolver\"
+        type=\"application/vnd.vmware.vcloud.entity+xml\" href=\"https://devlab.mdsol.com/api/entity/\"/>\n</Session>\n"
+    http_version: 
+  recorded_at: Fri, 16 Aug 2013 13:54:32 GMT
+- request:
+    method: get
+    uri: https://devlab.mdsol.com/api/org
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - fog/1.11.1
+      Cookie:
+      - vcloud-token=T3hKyKO2IxMq68dq7nYYv6WGCbVdcMIHJLfvWpbQY4Y=; Secure; Path=/
+      Accept:
+      - application/*+xml;version=1.5
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Date:
+      - Fri, 16 Aug 2013 13:52:33 GMT, Fri, 16 Aug 2013 13:52:33 GMT
+      Content-Type:
+      - application/vnd.vmware.vcloud.orglist+xml;version=1.5
+      Content-Length:
+      - '494'
+    body:
+      encoding: US-ASCII
+      string: ! "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<OrgList xmlns=\"http://www.vmware.com/vcloud/v1.5\"
+        type=\"application/vnd.vmware.vcloud.orgList+xml\" href=\"https://devlab.mdsol.com/api/org/\"
+        xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://www.vmware.com/vcloud/v1.5
+        http://10.194.1.65/api/v1.5/schema/master.xsd\">\n    <Org type=\"application/vnd.vmware.vcloud.org+xml\"
+        name=\"DevOps\" href=\"https://devlab.mdsol.com/api/org/c6a4c623-c158-41cf-a87a-dbc1637ad55a\"/>\n</OrgList>\n"
+    http_version: 
+  recorded_at: Fri, 16 Aug 2013 13:54:33 GMT
+- request:
+    method: get
+    uri: https://devlab.mdsol.com/api/org
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - fog/1.11.1
+      Cookie:
+      - vcloud-token=T3hKyKO2IxMq68dq7nYYv6WGCbVdcMIHJLfvWpbQY4Y=; Secure; Path=/
+      Accept:
+      - application/*+xml;version=1.5
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Date:
+      - Fri, 16 Aug 2013 13:52:35 GMT, Fri, 16 Aug 2013 13:52:35 GMT
+      Content-Type:
+      - application/vnd.vmware.vcloud.orglist+xml;version=1.5
+      Content-Length:
+      - '494'
+    body:
+      encoding: US-ASCII
+      string: ! "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<OrgList xmlns=\"http://www.vmware.com/vcloud/v1.5\"
+        type=\"application/vnd.vmware.vcloud.orgList+xml\" href=\"https://devlab.mdsol.com/api/org/\"
+        xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://www.vmware.com/vcloud/v1.5
+        http://10.194.1.65/api/v1.5/schema/master.xsd\">\n    <Org type=\"application/vnd.vmware.vcloud.org+xml\"
+        name=\"DevOps\" href=\"https://devlab.mdsol.com/api/org/c6a4c623-c158-41cf-a87a-dbc1637ad55a\"/>\n</OrgList>\n"
+    http_version: 
+  recorded_at: Fri, 16 Aug 2013 13:54:34 GMT
+- request:
+    method: get
+    uri: https://devlab.mdsol.com/api/org/c6a4c623-c158-41cf-a87a-dbc1637ad55a
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - fog/1.11.1
+      Cookie:
+      - vcloud-token=T3hKyKO2IxMq68dq7nYYv6WGCbVdcMIHJLfvWpbQY4Y=; Secure; Path=/
+      Accept:
+      - application/*+xml;version=1.5
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Date:
+      - Fri, 16 Aug 2013 13:52:35 GMT, Fri, 16 Aug 2013 13:52:36 GMT
+      Content-Type:
+      - application/vnd.vmware.vcloud.org+xml;version=1.5
+      Content-Length:
+      - '2338'
+    body:
+      encoding: US-ASCII
+      string: ! "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<Org xmlns=\"http://www.vmware.com/vcloud/v1.5\"
+        name=\"DevOps\" id=\"urn:vcloud:org:c6a4c623-c158-41cf-a87a-dbc1637ad55a\"
+        type=\"application/vnd.vmware.vcloud.org+xml\" href=\"https://devlab.mdsol.com/api/org/c6a4c623-c158-41cf-a87a-dbc1637ad55a\"
+        xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://www.vmware.com/vcloud/v1.5
+        http://10.194.1.65/api/v1.5/schema/master.xsd\">\n    <Link rel=\"down\" type=\"application/vnd.vmware.vcloud.vdc+xml\"
+        name=\"DevOps - VDC\" href=\"https://devlab.mdsol.com/api/vdc/9a06a16b-12c6-44dc-aee1-06aa52262ea3\"/>\n
+        \   <Link rel=\"down\" type=\"application/vnd.vmware.vcloud.tasksList+xml\"
+        href=\"https://devlab.mdsol.com/api/tasksList/c6a4c623-c158-41cf-a87a-dbc1637ad55a\"/>\n
+        \   <Link rel=\"down\" type=\"application/vnd.vmware.vcloud.catalog+xml\"
+        name=\"Public VM Templates\" href=\"https://devlab.mdsol.com/api/catalog/4ee720e5-173a-41ac-824b-6f4908bac975\"/>\n
+        \   <Link rel=\"down\" type=\"application/vnd.vmware.vcloud.controlAccess+xml\"
+        href=\"https://devlab.mdsol.com/api/org/c6a4c623-c158-41cf-a87a-dbc1637ad55a/catalog/4ee720e5-173a-41ac-824b-6f4908bac975/controlAccess/\"/>\n
+        \   <Link rel=\"down\" type=\"application/vnd.vmware.vcloud.catalog+xml\"
+        name=\"prueba\" href=\"https://devlab.mdsol.com/api/catalog/ea0c6acf-c9c0-46b7-b19f-4b2d3bf8aa33\"/>\n
+        \   <Link rel=\"down\" type=\"application/vnd.vmware.vcloud.controlAccess+xml\"
+        href=\"https://devlab.mdsol.com/api/org/c6a4c623-c158-41cf-a87a-dbc1637ad55a/catalog/ea0c6acf-c9c0-46b7-b19f-4b2d3bf8aa33/controlAccess/\"/>\n
+        \   <Link rel=\"controlAccess\" type=\"application/vnd.vmware.vcloud.controlAccess+xml\"
+        href=\"https://devlab.mdsol.com/api/org/c6a4c623-c158-41cf-a87a-dbc1637ad55a/catalog/ea0c6acf-c9c0-46b7-b19f-4b2d3bf8aa33/action/controlAccess\"/>\n
+        \   <Link rel=\"add\" type=\"application/vnd.vmware.admin.catalog+xml\" href=\"https://devlab.mdsol.com/api/admin/org/c6a4c623-c158-41cf-a87a-dbc1637ad55a/catalogs\"/>\n
+        \   <Link rel=\"down\" type=\"application/vnd.vmware.vcloud.orgNetwork+xml\"
+        name=\"DevOps - Dev Network Connection\" href=\"https://devlab.mdsol.com/api/network/d5f47bbf-de27-4cf5-aaaa-56772f2ccd17\"/>\n
+        \   <Link rel=\"down\" type=\"application/vnd.vmware.vcloud.metadata+xml\"
+        href=\"https://devlab.mdsol.com/api/org/c6a4c623-c158-41cf-a87a-dbc1637ad55a/metadata\"/>\n
+        \   <Description/>\n    <FullName>DevOps</FullName>\n</Org>\n"
+    http_version: 
+  recorded_at: Fri, 16 Aug 2013 13:54:35 GMT
+- request:
+    method: get
+    uri: https://devlab.mdsol.com/api/org/c6a4c623-c158-41cf-a87a-dbc1637ad55a
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - fog/1.11.1
+      Cookie:
+      - vcloud-token=T3hKyKO2IxMq68dq7nYYv6WGCbVdcMIHJLfvWpbQY4Y=; Secure; Path=/
+      Accept:
+      - application/*+xml;version=1.5
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Date:
+      - Fri, 16 Aug 2013 13:52:37 GMT, Fri, 16 Aug 2013 13:52:37 GMT
+      Content-Type:
+      - application/vnd.vmware.vcloud.org+xml;version=1.5
+      Content-Length:
+      - '2338'
+    body:
+      encoding: US-ASCII
+      string: ! "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<Org xmlns=\"http://www.vmware.com/vcloud/v1.5\"
+        name=\"DevOps\" id=\"urn:vcloud:org:c6a4c623-c158-41cf-a87a-dbc1637ad55a\"
+        type=\"application/vnd.vmware.vcloud.org+xml\" href=\"https://devlab.mdsol.com/api/org/c6a4c623-c158-41cf-a87a-dbc1637ad55a\"
+        xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://www.vmware.com/vcloud/v1.5
+        http://10.194.1.65/api/v1.5/schema/master.xsd\">\n    <Link rel=\"down\" type=\"application/vnd.vmware.vcloud.vdc+xml\"
+        name=\"DevOps - VDC\" href=\"https://devlab.mdsol.com/api/vdc/9a06a16b-12c6-44dc-aee1-06aa52262ea3\"/>\n
+        \   <Link rel=\"down\" type=\"application/vnd.vmware.vcloud.tasksList+xml\"
+        href=\"https://devlab.mdsol.com/api/tasksList/c6a4c623-c158-41cf-a87a-dbc1637ad55a\"/>\n
+        \   <Link rel=\"down\" type=\"application/vnd.vmware.vcloud.catalog+xml\"
+        name=\"Public VM Templates\" href=\"https://devlab.mdsol.com/api/catalog/4ee720e5-173a-41ac-824b-6f4908bac975\"/>\n
+        \   <Link rel=\"down\" type=\"application/vnd.vmware.vcloud.controlAccess+xml\"
+        href=\"https://devlab.mdsol.com/api/org/c6a4c623-c158-41cf-a87a-dbc1637ad55a/catalog/4ee720e5-173a-41ac-824b-6f4908bac975/controlAccess/\"/>\n
+        \   <Link rel=\"down\" type=\"application/vnd.vmware.vcloud.catalog+xml\"
+        name=\"prueba\" href=\"https://devlab.mdsol.com/api/catalog/ea0c6acf-c9c0-46b7-b19f-4b2d3bf8aa33\"/>\n
+        \   <Link rel=\"down\" type=\"application/vnd.vmware.vcloud.controlAccess+xml\"
+        href=\"https://devlab.mdsol.com/api/org/c6a4c623-c158-41cf-a87a-dbc1637ad55a/catalog/ea0c6acf-c9c0-46b7-b19f-4b2d3bf8aa33/controlAccess/\"/>\n
+        \   <Link rel=\"controlAccess\" type=\"application/vnd.vmware.vcloud.controlAccess+xml\"
+        href=\"https://devlab.mdsol.com/api/org/c6a4c623-c158-41cf-a87a-dbc1637ad55a/catalog/ea0c6acf-c9c0-46b7-b19f-4b2d3bf8aa33/action/controlAccess\"/>\n
+        \   <Link rel=\"add\" type=\"application/vnd.vmware.admin.catalog+xml\" href=\"https://devlab.mdsol.com/api/admin/org/c6a4c623-c158-41cf-a87a-dbc1637ad55a/catalogs\"/>\n
+        \   <Link rel=\"down\" type=\"application/vnd.vmware.vcloud.orgNetwork+xml\"
+        name=\"DevOps - Dev Network Connection\" href=\"https://devlab.mdsol.com/api/network/d5f47bbf-de27-4cf5-aaaa-56772f2ccd17\"/>\n
+        \   <Link rel=\"down\" type=\"application/vnd.vmware.vcloud.metadata+xml\"
+        href=\"https://devlab.mdsol.com/api/org/c6a4c623-c158-41cf-a87a-dbc1637ad55a/metadata\"/>\n
+        \   <Description/>\n    <FullName>DevOps</FullName>\n</Org>\n"
+    http_version: 
+  recorded_at: Fri, 16 Aug 2013 13:54:36 GMT
+recorded_with: VCR 2.5.0
