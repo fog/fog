@@ -15,6 +15,8 @@ module Fog
       class Mock
         def get_agent_token(id)
 
+          token = Fog::Mock.random_letters(50).to_s
+
           if id == -1
             raise TypeError
           end
@@ -22,8 +24,8 @@ module Fog
           response = Excon::Response.new
           response.status = 200
           response.body = {
-            "id"      => "7e261310b36834a9969e389c8e90adc08629c00d4c74aaea5e42599cc07ba80d.55555",
-            "token"   => "7e261310b36834a9969e389c8e90adc08629c00d4c74aaea5e42599cc07ba80d.55555",
+            "id"      => token,
+            "token"   => token,
             "label"   => "mock_token"
           }
           response.headers = {
@@ -33,7 +35,7 @@ module Fog
             "X-RateLimit-Remaining" => "47903",
             "X-RateLimit-Window"    => "24 hours",
             "X-RateLimit-Type"      => "global",
-            "X-Response-Id"         => ".rh-lHJL.h-ord1-maas-prod-api1.r-5YqHhQwV.c-6259794.ts-1377798031450.v-e602877",
+            "X-Response-Id"         => "kvnsdonvosnv92989vbvbob",
             "X-LB"                  => "ord1-maas-prod-api0",
             "Vary"                  => "Accept-Encoding",
             "Transfer-Encoding"     => "chunked"

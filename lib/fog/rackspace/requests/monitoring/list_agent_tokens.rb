@@ -14,14 +14,17 @@ module Fog
       end
 
       class Mock
+
         def list_agent_tokens(options={})
+          token = Fog::Mock.random_letters(50).to_s
+
           response = Excon::Response.new
           response.status = 200
           response.body = {
             "values"=> [
               {
-                "id"      => "7e261310b36834a9969e389c8e90adc08629c00d4c74aaea5e42599cc07ba80d.55555",
-                "token"   => "7e261310b36834a9969e389c8e90adc08629c00d4c74aaea5e42599cc07ba80d.55555",
+                "id"      => token,
+                "token"   => token,
                 "label"   => "mock_token"
               }
             ],

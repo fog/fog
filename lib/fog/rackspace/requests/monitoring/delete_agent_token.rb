@@ -15,6 +15,9 @@ module Fog
       class Mock
         def delete_agent_token(options = {})
 
+          account_id = Fog::Mock.random_numbers(6).to_s
+          token = Fog::Mock.random_letters(50).to_s
+
           if options == -1
             raise Fog::Rackspace::Monitoring::NotFound
           end
@@ -24,8 +27,8 @@ module Fog
           response.body = ""
           response.headers = {
             "Date"                  => Time.now.utc.to_s,
-            "Location"              => "https://monitoring.api.rackspacecloud.com/v1.0/55555/agent_tokens/7e261310b36834a9969e389c8e90adc08629c00d4c74aaea5e42599cc07ba80d.55555",
-            "X-Object-ID"           => "7e261310b36834a9969e389c8e90adc08629c00d4c74aaea5e42599cc07ba80d.55555",
+            "Location"              => "https://monitoring.api.rackspacecloud.com/v1.0/" + account_id + "/agent_tokens/" + token,
+            "X-Object-ID"           => token,
             "X-RateLimit-Limit"     => "50000",
             "X-RateLimit-Remaining" => "49627",
             "X-RateLimit-Window"    => "24 hours",
