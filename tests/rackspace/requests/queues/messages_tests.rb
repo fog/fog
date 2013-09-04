@@ -47,8 +47,7 @@ Shindo.tests('Fog::Rackspace::Queues | messages_tests', ['rackspace']) do
          service.create_message(client_id, queue_name, '', 0)
        end
 
-       #TODO - Report bad error code to queueing team
-       tests("#get_message('queue_name', 'nonexistentmessage') => Does not exist").raises(Fog::Rackspace::Queues::ServiceError) do
+       tests("#get_message('queue_name', 'nonexistentmessage') => Does not exist").raises(Fog::Rackspace::Queues::NotFound) do
          service.get_message(client_id, queue_name, 'nonexistentmessage')
        end
 

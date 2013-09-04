@@ -51,7 +51,7 @@
   end
 
   tests('failure') do
-    tests("#get_claim('queue_name', 'nonexistentclaim') => Does not exist").raises(Fog::Rackspace::Queues::ServiceError) do
+    tests("#get_claim('queue_name', 'nonexistentclaim') => Does not exist").raises(Fog::Rackspace::Queues::NotFound) do
       service.get_claim(queue_name, 'nonexistentclaim')
     end
 

@@ -8,12 +8,14 @@ Shindo.tests('Fog::Rackspace::Queues | queue_tests', ['rackspace']) do
 
     queue_name = 'fog' + Time.now.to_i.to_s
 
-    tests("#list_queues").formats(LIST_QUEUES_FORMAT) do
-      service.list_queues.body
-    end
-
     tests("#create_queue(#{queue_name})").succeeds do
       service.create_queue(queue_name)
+    end
+
+    tests("#list_queues").formats(LIST_QUEUES_FORMAT) do
+      response = service.list_queues
+      puts response.inspect
+      response.body
     end
 
     tests("#get_queue(#{queue_name})").formats(QUEUE_FORMAT) do
