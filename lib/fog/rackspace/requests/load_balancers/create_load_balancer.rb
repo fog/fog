@@ -28,12 +28,11 @@ module Fog
       class Mock
         def create_load_balancer(name, protocol, port, virtual_ips, nodes, options = {})
           data = {"loadBalancer"=>{"name"=>name, "id"=>uniq_id, "protocol"=>protocol, "port"=>port, "algorithm"=>"RANDOM", "status"=>"BUILD",
-                                   "cluster"=>{"name"=>"ztm-n13.dfw1.lbaas.rackspace.net"}, "timeout"=>30, "created"=>{"time"=>"2013-08-20T20:52:44Z"},
-                                   "updated"=>{"time"=>"2013-08-20T20:52:44Z"}, "halfClosed"=>false, "connectionLogging"=>{"enabled"=>false}, "contentCaching"=>{"enabled"=>false}}}
-          data["virtual_ips"] = virtual_ips.collect {|n| {"virtualIps"=>[{"address"=>"192.237.192.152", "id"=>uniq_id, "type"=>n[:type], "ipVersion"=>"IPV4"}, {"address"=>"2001:4800:7901:0000:ba81:a6a5:0000:0002", "id"=>9153169, "type"=>"PUBLIC", "ipVersion"=>"IPV6"}], "sourceAddresses"=>{"ipv6Public"=>"2001:4800:7901::13/64", "ipv4Servicenet"=>"10.189.254.5", "ipv4Public"=>"166.78.44.5"}}
-          data["nodes"] = nodes.collect {|n| {"address"=>n[:address], "id"=>uniq_id, "type"=>"PRIMARY", "port"=>n[:port], "status"=>"ONLINE", "condition"=>"ENABLED", "weight"=>1}}
-          data = Excon::Response.new(:body => data, :status => 202)
-          }
+                                   "cluster"=>{"name"=>"my-cluster.rackspace.net"}, "timeout"=>30, "created"=>{"time"=> MockData.zulu_time},
+                                   "updated"=>{"time"=>MockData.zulu_time }, "halfClosed"=>false, "connectionLogging"=>{"enabled"=>false}, "contentCaching"=>{"enabled"=>false}}}
+          data["virtual_ips"] = virtual_ips.collect {|n| {"virtualIps"=>[{"address"=> MockData.ipv4_address, "id"=>uniq_id, "type"=>n[:type], "ipVersion"=>"IPV4"}, {"address"=> MockData.ipv6_address, "id"=> Fog::Mock.random_numbers(4), "type"=>"PUBLIC", "ipVersion"=>"IPV6"}], "sourceAddresses"=>{"ipv6Public"=> MockData.ipv6_address, "ipv4Servicenet"=>MockData.ipv4_address, "ipv4Public"=>MockData.ipv4_address}}
+          data["nodes"] = nodes.collect {|n| {"address"=>n[:address], "id"=>uniq_id, "type"=>"PRIMARY", "port"=>n[:port], "status"=>"ONLINE", "condition"=>"ENABLED", "weight"=>1}}}
+          Excon::Response.new(:body => data, :status => 202)
         end
       end
     end
