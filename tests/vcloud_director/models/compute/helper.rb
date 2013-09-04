@@ -4,6 +4,7 @@ require 'fog/vcloud_director/compute'
 VCR.configure do |c|
   c.cassette_library_dir = 'tests/vcloud_director/vcr_cassettes'
   c.hook_into :webmock
+  c.allow_http_connections_when_no_cassette = true
 end
 
 def boolean?(item)
