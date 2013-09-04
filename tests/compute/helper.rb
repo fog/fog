@@ -123,6 +123,7 @@ def compute_providers
       :provider_attributes => { :version => :v2 },
       :server_attributes => {
         :image_id => "23b564c9-c3e6-49f9-bc68-86c7a9ab5018", # Ubuntu 12.04 LTS (Precise Pangolin)
+        :flavor_id => 2,
         :name     => "fog_#{Time.now.to_i}"
       },
       :mocked => true
