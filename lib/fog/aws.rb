@@ -20,6 +20,7 @@ module Fog
     service(:glacier,         'aws/glacier',          'Glacier')
     service(:iam,             'aws/iam',              'IAM')
     service(:rds,             'aws/rds',              'RDS')
+    service(:redshift,        'aws/redshift',         'Redshift')
     service(:ses,             'aws/ses',              'SES')
     service(:simpledb,        'aws/simpledb',         'SimpleDB')
     service(:sns,             'aws/sns',              'SNS')
