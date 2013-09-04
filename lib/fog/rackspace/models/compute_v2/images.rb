@@ -39,7 +39,6 @@ module Fog
         # @raise [Fog::Compute::RackspaceV2::InternalServerError] - HTTP 500
         # @raise [Fog::Compute::RackspaceV2::ServiceError]
         # @note Fog's current implementation only returns 1000 images.
-        # @note Fog does not retrieve all image details. Please use get to retrieve all details for a specific image.
         # @see http://docs.rackspace.com/servers/api/v2/cs-devguide/content/List_Images-d1e4435.html
         def all(options = {})
           options = {
@@ -51,7 +50,7 @@ module Fog
           }.merge!(options)
           merge_attributes(options)
 
-          data = service.list_images(options).body['images']
+          data = service.list_images_detail(options).body['images']
           load(data)
         end
 

@@ -26,6 +26,8 @@ module Fog
       collection  :key_pairs
       model       :network_interface
       collection  :network_interfaces
+      model       :route_table
+      collection  :route_tables
       model       :security_group
       collection  :security_groups
       model       :server
@@ -48,6 +50,7 @@ module Fog
       request :associate_address
       request :associate_dhcp_options
       request :attach_network_interface
+      request :associate_route_table
       request :attach_internet_gateway
       request :attach_volume
       request :authorize_security_group_ingress
@@ -58,6 +61,8 @@ module Fog
       request :create_key_pair
       request :create_network_interface
       request :create_placement_group
+      request :create_route
+      request :create_route_table
       request :create_security_group
       request :create_snapshot
       request :create_spot_datafeed_subscription
@@ -73,6 +78,8 @@ module Fog
       request :delete_network_interface
       request :delete_security_group
       request :delete_placement_group
+      request :delete_route
+      request :delete_route_table
       request :delete_snapshot
       request :delete_spot_datafeed_subscription
       request :delete_subnet
@@ -92,6 +99,7 @@ module Fog
       request :describe_key_pairs
       request :describe_network_interface_attribute
       request :describe_network_interfaces
+      request :describe_route_tables
       request :describe_placement_groups
       request :describe_regions
       request :describe_reserved_instances_offerings
@@ -109,6 +117,7 @@ module Fog
       request :detach_internet_gateway
       request :detach_volume
       request :disassociate_address
+      request :disassociate_route_table
       request :get_console_output
       request :get_password_data
       request :import_key_pair
@@ -215,6 +224,7 @@ module Fog
                 :vpcs => [],
                 :dhcp_options => [],
                 :internet_gateways => [],
+                :route_tables => [],
                 :account_attributes => [
                   {
                     "values"        => ["5"],

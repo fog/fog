@@ -1,9 +1,14 @@
 Shindo.tests('Fog::Rackspace::Monitoring | list_tests', ['rackspace','rackspace_monitoring']) do
-  pending if Fog.mocking? 
 
   account = Fog::Rackspace::Monitoring.new
-  entity_id = account.create_entity(:label => "Foo").data[:headers]["X-Object-ID"]
-  check_id = account.create_check(entity_id,CHECK_CREATE_OPTIONS).data[:headers]["X-Object-ID"]
+  if Fog.mocking? 
+    entity_id = "peoigne93"
+    check_id = "2090wgn93"
+  else 
+    entity_id = account.create_entity(:label => "Foo").data[:headers]["X-Object-ID"]
+    check_id = account.create_check(entity_id,CHECK_CREATE_OPTIONS).data[:headers]["X-Object-ID"]
+  end
+
   metric_name = "idle_percent_average"
   now = Time.now.to_i
   SLEEP_TIME= 2
@@ -55,6 +60,6 @@ Shindo.tests('Fog::Rackspace::Monitoring | list_tests', ['rackspace','rackspace_
       account.list_data_points(-1,-1,-1,-1).data
     end
   end
-  account.delete_check(entity_id,check_id)
-  account.delete_entity(entity_id)
+  account.delete_check(entity_id,check_id) unless Fog.mocking?
+  account.delete_entity(entity_id) unless Fog.mocking?
 end

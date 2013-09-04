@@ -1,0 +1,42 @@
+require File.expand_path(File.join(File.dirname(__FILE__), 'helper'))
+
+VCR.use_cassette(File.basename(__FILE__)) do
+  
+  Shindo.tests("Compute::VcloudDirector | vdcs", ['all']) do
+    pending if Fog.mocking?
+    tests("#There is one or more vdc").returns(true){ organization.vdcs.size >= 1 }
+    
+    vdcs = organization.vdcs
+    vdc = vdcs.first
+        
+    tests("Compute::VcloudDirector | vdc") do
+      tests("#id").returns(String){ vdc.id.class }
+      tests("#name").returns(String){ vdc.name.class }
+      tests("#href").returns(String){ vdc.href.class }
+      tests("#type").returns("application/vnd.vmware.vcloud.vdc+xml"){ vdc.type }
+    end
+    
+    tests("Compute::VcloudDirector | vdc", ['lazy load attrs']) do
+      vdc.lazy_load_attrs.each do |lazy_attr|
+        tests("##{lazy_attr} is not loaded yet").returns(NonLoaded) { vdc.attributes[lazy_attr] }
+      end
+    end
+    
+    tests("Compute::VcloudDirector | vdc", ['load on demand']) do
+      tests("#description is not loaded yet").returns(NonLoaded) { vdc.attributes[:description] }
+      tests("#description is loaded on demand").returns(String) { vdc.description.class }
+      tests("#description is now loaded").returns(true) { vdc.attributes[:description] != NonLoaded }
+    end
+    
+    tests("Compute::VcloudDirector | vdc", ['lazy load attrs']) do
+      vdc.lazy_load_attrs.each do |lazy_attr|
+        tests("##{lazy_attr} is now loaded").returns(true) { vdc.attributes[lazy_attr] != NonLoaded }
+      end
+    end
+    
+    tests("Compute::VcloudDirector | vdc", ['get']) do
+      tests("#get_by_name").returns(vdc.name) { vdcs.get_by_name(vdc.name).name }
+      tests("#get").returns(vdc.id) { vdcs.get(vdc.id).id }
+    end
+  end
+end

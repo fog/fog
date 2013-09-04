@@ -47,7 +47,6 @@ module Fog
         include Utils
 
         def initialize(options = {})
-          require 'mime/types'
           require 'multi_json'
 
           configure_uri_options(options)
