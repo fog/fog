@@ -206,7 +206,7 @@ module Fog
            :parser    => Fog::ToHashDocument.new,
            :path      => "/api/sessions"  # curl http://example.com/api/versions | grep LoginUrl
          })
-         response.headers['Set-Cookie']
+         response.headers['Set-Cookie'] || response.headers['set-cookie']
        end
        
          
