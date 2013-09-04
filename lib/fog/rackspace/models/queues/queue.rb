@@ -37,7 +37,7 @@ module Fog
         end
 
         #Helper method to claim (dequeue) a single message, including destroying it
-        def dequeue(ttl, grace, options = {})
+        def dequeue(ttl, grace, options = {}, &block)
           claim = claims.create(
             options.merge(
             {

@@ -2,7 +2,7 @@
 
   pending if Fog.mocking?
 
-  service = Fog::Rackspace::Queues.new
+  service = Fog::Rackspace::Queues.new(:rackspace_queues_client_id => 'test_client')
 
   queue_name = 'fog' + Time.now.to_i.to_s
   client_id = 'fog-client-' + Time.now.to_i.to_s
@@ -51,7 +51,6 @@
   end
 
   tests('failure') do
-    #TODO - Escalate to queueing team
     tests("#get_claim('queue_name', 'nonexistentclaim') => Does not exist").raises(Fog::Rackspace::Queues::ServiceError) do
       service.get_claim(queue_name, 'nonexistentclaim')
     end

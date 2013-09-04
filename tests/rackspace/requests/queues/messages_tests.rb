@@ -2,7 +2,7 @@ Shindo.tests('Fog::Rackspace::Queues | messages_tests', ['rackspace']) do
 
   pending if Fog.mocking?
 
-  service = Fog::Rackspace::Queues.new
+  service = Fog::Rackspace::Queues.new(:rackspace_queues_client_id => 'test_client')
 
   queue_name = 'fog' + Time.now.to_i.to_s
   client_id = 'fog-client-' + Time.now.to_i.to_s

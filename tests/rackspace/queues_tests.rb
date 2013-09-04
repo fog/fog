@@ -9,7 +9,7 @@ Shindo.tests('Fog::Rackspace::Queues', ['rackspace']) do
   end
 
   tests('#authentication_method') do
-    @service = Fog::Rackspace::Queues.new
+    @service = Fog::Rackspace::Queues.new(:rackspace_queues_client_id => 'test_client')
 
     assert_method nil, :authenticate_v2
 
