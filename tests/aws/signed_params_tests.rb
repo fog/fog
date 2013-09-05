@@ -8,10 +8,10 @@ Shindo.tests('AWS | signed_params', ['aws']) do
   end
 
   tests('Keys should be canonicalised using Unicode NFC') do
-    returns( Fog::AWS.escape( ["C3A9".to_i(16)].pack("U*") ) ) { "%C3%A9" }
+    returns( Fog::AWS.escape( ["00E9".to_i(16)].pack("U*") ) ) { "%C3%A9" }
 
     tests('Characters with combining mark should be combined and then escaped') do
-      returns( Fog::AWS.escape( ["0065".to_i(16), "CC81".to_i(16)].pack("U*") ) ) { "%C3%A9" }
+      returns( Fog::AWS.escape( ["0065".to_i(16), "0301".to_i(16)].pack("U*") ) ) { "%C3%A9" }
     end
   end
 end
