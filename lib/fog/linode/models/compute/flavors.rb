@@ -13,8 +13,8 @@ module Fog
 
         def get(id)
           new flavors(id).first
-        rescue Fog::Linode::Compute::NotFound
-          nil
+        rescue Fog::Linode::Compute::NotFound, ArgumentError
+          raise "Can not find a flavor with id #{id}"
         end
 
         private
