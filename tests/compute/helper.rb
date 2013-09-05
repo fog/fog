@@ -120,9 +120,10 @@ def compute_providers
       }
     },
     :rackspace  => {
-      :provider_attributes => { :version => :v1 }, 
+      :provider_attributes => { :version => :v2 },
       :server_attributes => {
-        :image_id => 49, # image 49 = Ubuntu 10.04 LTS (lucid)
+        :image_id => "23b564c9-c3e6-49f9-bc68-86c7a9ab5018", # Ubuntu 12.04 LTS (Precise Pangolin)
+        :flavor_id => 2,
         :name     => "fog_#{Time.now.to_i}"
       },
       :mocked => true
