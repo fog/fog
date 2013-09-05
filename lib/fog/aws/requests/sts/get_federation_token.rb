@@ -41,6 +41,23 @@ module Fog
           })
         end
       end
+      class Mock
+        def get_federation_token(name, policy, duration=43200)
+          Excon::Response.new.tap do |response|
+            response.status = 200
+            response.body = {
+            'SessionToken'     => Fog::Mock.random_base64(580),
+            'SecretAccessKey'  => Fog::Mock.random_base64(40),
+            'Expiration'       => (DateTime.now + duration).strftime('%FT%TZ'),
+            'AccessKeyId'      => Fog::AWS::Mock.key_id(20),
+            'Arn'              => "arn:aws:sts::#{Fog::AWS::Mock.owner_id}:federated-user/#{name}",
+            'FederatedUserId'  => "#{Fog::AWS::Mock.owner_id}:#{name}",
+            'PackedPolicySize' => Fog::Mock.random_numbers(2),
+            'RequestId'        => Fog::AWS::Mock.request_id
+            }
+          end
+        end
+      end
     end
   end
 end
