@@ -8,7 +8,7 @@ module Fog
         @@data ||= Hash.new do |hash, key|
           hash[key] = begin
             #Compute V2
-            flavor_id  = Fog.credentials[:rackspace_flavor_id].to_s ||= Fog::Mock.random_numbers(1)
+            flavor_id  = Fog.credentials[:rackspace_flavor_id] ||= Fog::Mock.random_numbers(1)
             image_id   = Fog.credentials[:rackspace_image_id] ||= Fog::Rackspace::MockData.uuid
             image_name = Fog::Mock.random_letters(6)
             network_id = Fog::Rackspace::MockData.uuid
@@ -115,9 +115,9 @@ module Fog
 
             mock_data = {
               #Compute V2
-              :flavors  => Hash.new { |h,k| h[k] = flavor  unless k == NOT_FOUND_ID },
-              :images   => Hash.new { |h,k| h[k] = image   unless k == NOT_FOUND_ID },        
-              :networks => Hash.new { |h,k| h[k] = network unless k == NOT_FOUND_ID },
+              :flavors  => Hash.new { |h,k| h[k] = flavor  unless [NOT_FOUND_ID, '0'].include?(k) },
+              :images   => Hash.new { |h,k| h[k] = image   unless [NOT_FOUND_ID, '0'].include?(k) },
+              :networks => Hash.new { |h,k| h[k] = network unless [NOT_FOUND_ID, '0'].include?(k) },
               :keys     => [],
               :keypair  => key_pair,
               :keypairs => [],
