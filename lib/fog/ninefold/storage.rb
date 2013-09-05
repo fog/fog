@@ -26,7 +26,6 @@ module Fog
         include Utils
 
         def initialize(options={})
-          require 'mime/types'
           @ninefold_storage_token = options[:ninefold_storage_token]
           @ninefold_storage_secret = options[:ninefold_storage_secret]
         end

@@ -24,13 +24,13 @@ module Fog
       when :rackspace
         version = attributes.delete(:version) 
         version = version.to_s.downcase.to_sym unless version.nil?
-        if version == :v2
-          require 'fog/rackspace/compute_v2'
-           Fog::Compute::RackspaceV2.new(attributes)
-        else
+        if version == :v1
           Fog::Logger.deprecation "First Gen Cloud Servers are deprecated. Please use `:version => :v2` attribute to use Next Gen Cloud Servers."
           require 'fog/rackspace/compute'
           Fog::Compute::Rackspace.new(attributes)
+        else
+          require 'fog/rackspace/compute_v2'
+          Fog::Compute::RackspaceV2.new(attributes)
         end
       when :stormondemand
         require 'fog/storm_on_demand/compute'
@@ -38,6 +38,9 @@ module Fog
       when :vcloud
         require 'fog/vcloud/compute'
         Fog::Vcloud::Compute.new(attributes)
+      when :vcloud_director
+        require 'fog/vcloud_director/compute'
+        Fog::VcloudDirector::Compute.new(attributes)
       else
         if self.providers.include?(provider)
           require "fog/#{provider}/compute"

@@ -16,10 +16,15 @@ Shindo.tests('Fog::Rackspace::Identity', ['rackspace']) do
   tests('reauthentication') do
     pending if Fog.mocking?
 
-    @service = Fog::Rackspace::Identity.new  :rackspace_region => :ord
-    returns(true, "auth token populated") { !@service.auth_token.nil? }
-    @service.instance_variable_set("@auth_token", "bad-token")
-    returns(true) { [200, 203].include? @service.list_tenants.status }
+    tests('should reauth with valid credentials') do
+      @service = Fog::Rackspace::Identity.new  :rackspace_region => :ord
+      returns(true, "auth token populated") { !@service.auth_token.nil? }
+      @service.instance_variable_set("@auth_token", "bad-token")
+      returns(true) { [200, 203].include? @service.list_tenants.status }
+    end
+    tests('should terminate with incorrect credentials') do
+      raises(Excon::Errors::Unauthorized) { Fog::Rackspace::Identity.new :rackspace_api_key => 'bad_key' }
+    end
   end
 
 end
