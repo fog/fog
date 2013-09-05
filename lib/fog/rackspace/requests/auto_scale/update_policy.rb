@@ -16,7 +16,16 @@ module Fog
 
       class Mock
         def update_policy(group_id, policy_id, options)
-           Fog::Mock.not_implemented
+          group = self.data[:autoscale_groups][group_id]
+          if group.nil?
+            raise Fog::Rackspace::AutoScale::NotFound
+          end
+
+          policy = group['scalingPolicies'].detect { |p| p["id"] == policy_id }
+
+          policy.merge(options)
+
+          request(:body => policy)
         end
       end
     end

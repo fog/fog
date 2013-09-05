@@ -15,7 +15,13 @@ module Fog
 
       class Mock
         def get_group_config(group_id)
-          Fog::Mock.not_implemented
+          group = self.data[:autoscale_groups][group_id]
+
+          if group.nil?
+            raise Fog::Rackspace::AutoScale::NotFound
+          end
+
+          response(:body => {"groupConfiguration" => group['groupConfiguration']})
         end
       end
 

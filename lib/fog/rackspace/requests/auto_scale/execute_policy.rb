@@ -14,7 +14,7 @@ module Fog
 
       class Mock
         def execute_policy(group_id, policy_id)
-           Fog::Mock.not_implemented
+           response(:status => 202)
         end
       end
     end

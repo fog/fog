@@ -4,9 +4,7 @@ module Fog
       class Real
         def create_policy(group_id, options)
           
-          data = [
-            options
-          ]
+          data = [options]
 
           request(
             :method => 'POST',
@@ -19,7 +17,27 @@ module Fog
 
       class Mock
         def create_policy(group_id, options)
-          Fog::Mock.not_implemented
+          
+          group = self.data[:autoscale_groups][group_id]
+
+          if group.nil?
+            raise Fog::Rackspace::AutoScale::NotFound
+          end
+          
+          policy = {
+            "id" => Fog::Rackspace::MockData.uuid,
+            "name" => "set group to 5 servers",
+            "desiredCapacity" => 5,
+            "cooldown" => 1800,
+            "type" => "webhook"
+          }
+
+          group['scalingPolicies'] << policy
+          
+          body = [policy]
+
+          response(:body => body)
+
         end
       end
     end

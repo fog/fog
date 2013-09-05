@@ -14,7 +14,18 @@ module Fog
 
       class Mock
         def list_webhooks(group_id, policy_id)
-           Fog::Mock.not_implemented
+          
+          group = self.data[:autoscale_groups][group_id]
+          if group.nil?
+            raise Fog::Rackspace::AutoScale::NotFound
+          end
+
+          policy = group['scalingPolicies'].detect { |p| p["id"] == policy_id }
+          if policy.nil?
+            raise Fog::Rackspace::AutoScale::NotFound
+          end
+
+          response(:body => {'webhooks' => policy['webhooks']})
         end
       end
     end

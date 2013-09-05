@@ -14,7 +14,8 @@ module Fog
 
       class Mock
         def delete_group(group_id)
-           Fog::Mock.not_implemented
+           self.data[:autoscale_groups].delete(group_id)
+           response(:status => 204)
         end
       end
     end

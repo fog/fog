@@ -14,7 +14,19 @@ module Fog
 
       class Mock
         def delete_webhook(group_id, policy_id, webhook_id)
-           Fog::Mock.not_implemented
+          group = self.data[:autoscale_groups][group_id]
+          if group.nil?
+            raise Fog::Rackspace::AutoScale::NotFound
+          end
+
+          policy = group['policies'].detect { |p| p["id"] == policy_id }
+          if policy.nil?
+            raise Fog::Rackspace::AutoScale::NotFound
+          end
+
+          policy['webhooks'].delete_if { |w| w['id'] == webhook_id }
+
+          response(:status => 204)
         end
       end
     end

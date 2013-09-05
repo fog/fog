@@ -7,9 +7,13 @@ module Fog
   module Rackspace
     class AutoScale
       class Group < Fog::Model
-         
+        
+        # @!attribute [r] id
+        # @return [String] The autoscale group's id   
         identity :id
 
+        # @!attribute [r] links
+        # @return [Array] group links.
         attribute :links
 
         def initialize(attributes={})
@@ -17,18 +21,35 @@ module Fog
           super
         end
 
+        # Gets the group configuration for this autoscale group. The configuration describes the 
+        # minimum number of entities in the group, the maximum number of entities in the group, 
+        # the global cooldown time for the group, and other metadata.
+        #
+        # @return [Fog::Rackspace::AutoScale::GroupConfiguration] group_config if found
+        #
+        # @raise [Fog::Rackspace::AutoScale:::NotFound] - HTTP 404
+        # @raise [Fog::Rackspace::AutoScale:::BadRequest] - HTTP 400
+        # @raise [Fog::Rackspace::AutoScale:::InternalServerError] - HTTP 500
+        # @raise [Fog::Rackspace::AutoScale:::ServiceError]
+        #
+        # @see http://docs-internal.rackspace.com/cas/api/v1.0/autoscale-devguide/content/GET_getGroupConfig_v1.0__tenantId__groups__groupId__config_Configurations.html
         def group_config
-          data = service.get_group_config(identity)
-          attributes[:group_config] = begin 
-            Fog::Rackspace::AutoScale::GroupConfig.new({
-              :service => @service,
-              :group   => self
-            }).merge_attributes(data.body['groupConfiguration']) 
+          if attributes[:group_config].nil?
+            data = service.get_group_config(identity)
+            attributes[:group_config] = begin 
+              Fog::Rackspace::AutoScale::GroupConfig.new({
+                :service => @service,
+                :group   => self
+              }).merge_attributes(data.body['groupConfiguration']) 
+            end
           end
           attributes[:group_config]
         end
 
-        def group_config=(object={})
+        # Sets the configuration when this object is populated.
+        #
+        # @param object [Hash<String, String>] Object which will stock the object
+        def group_config=(object = {})
           if object.is_a?(Hash)
             attributes[:group_config] = begin 
               Fog::Rackspace::AutoScale::GroupConfig.new({
@@ -41,17 +62,34 @@ module Fog
           end
         end
 
+        # Gets the launch configuration for this autoscale group. The launch configuration describes 
+        # the details of how to create a server, from what image to create a server, which load balancers 
+        # to join the server to, which networks to add the server to, and other metadata.
+        #
+        # @return [Fog::Rackspace::AutoScale::LaunchConfiguration] group_config if found
+        #
+        # @raise [Fog::Rackspace::AutoScale:::NotFound] - HTTP 404
+        # @raise [Fog::Rackspace::AutoScale:::BadRequest] - HTTP 400
+        # @raise [Fog::Rackspace::AutoScale:::InternalServerError] - HTTP 500
+        # @raise [Fog::Rackspace::AutoScale:::ServiceError]
+        #
+        # @see http://docs-internal.rackspace.com/cas/api/v1.0/autoscale-devguide/content/GET_getLaunchConfig_v1.0__tenantId__groups__groupId__launch_Configurations.html
         def launch_config
-          data = service.get_launch_config(identity)
-          attributes[:launch_config] = begin 
-            Fog::Rackspace::AutoScale::LaunchConfig.new({
-              :service => @service,
-              :group   => self
-            }).merge_attributes(data.body['launchConfiguration']) 
+          if attributes[:launch_config].nil?
+            data = service.get_launch_config(identity)
+            attributes[:launch_config] = begin 
+              Fog::Rackspace::AutoScale::LaunchConfig.new({
+                :service => @service,
+                :group   => self
+              }).merge_attributes(data.body['launchConfiguration']) 
+            end
           end
           attributes[:launch_config]
         end
 
+        # Sets the configuration when this object is populated.
+        #
+        # @param object [Hash<String, String>] Object which will stock the object
         def launch_config=(object={})
           if object.is_a?(Hash)
             attributes[:launch_config] = begin 
@@ -65,6 +103,13 @@ module Fog
           end
         end
 
+        # For the specified autoscaling group, this operation returns a list of the scaling policies 
+        # that are available to the group. Each policy is described in terms of an ID, name, type, 
+        # adjustment, cooldown time, and links.
+        #
+        # @return [Fog::Rackspace::AutoScale::Policies] policies
+        #
+        # @see http://docs-internal.rackspace.com/cas/api/v1.0/autoscale-devguide/content/GET_getPolicies_v1.0__tenantId__groups__groupId__policies_Policies.html
         def policies
           @policies ||= begin
             Fog::Rackspace::AutoScale::Policies.new({
@@ -74,6 +119,18 @@ module Fog
           end
         end
 
+        # Creates group
+        # * requires attributes: :launch_config, :group_config, :policies
+        # 
+        # @return [Boolean] returns true if group is being created
+        #
+        # @raise [Fog::Rackspace::AutoScale:::NotFound] - HTTP 404
+        # @raise [Fog::Rackspace::AutoScale:::BadRequest] - HTTP 400
+        # @raise [Fog::Rackspace::AutoScale:::InternalServerError] - HTTP 500
+        # @raise [Fog::Rackspace::AutoScale:::ServiceError]
+        #
+        # @see Groups#create
+        # @see http://docs-internal.rackspace.com/cas/api/v1.0/autoscale-devguide/content/POST_createGroup_v1.0__tenantId__groups_Groups.html   
         def save
           requires :launch_config, :group_config, :policies
 
@@ -82,24 +139,66 @@ module Fog
           true
         end
 
+        # Destroy the group
+        #
+        # @return [Boolean] returns true if group has started deleting
+        #
+        # @raise [Fog::Rackspace::AutoScale:::NotFound] - HTTP 404
+        # @raise [Fog::Rackspace::AutoScale:::BadRequest] - HTTP 400
+        # @raise [Fog::Rackspace::AutoScale:::InternalServerError] - HTTP 500
+        # @raise [Fog::Rackspace::AutoScale:::ServiceError]
+        #
+        # @see http://docs-internal.rackspace.com/cas/api/v1.0/autoscale-devguide/content/DELETE_deleteGroup_v1.0__tenantId__groups__groupId__Groups.html
         def destroy
           requires :identity
-          service.delete_server(identity)
+          service.delete_group(identity)
           true
         end
 
+        # Get the current state of the autoscale group
+        #
+        # @return [String] the state of the group
+        #
+        # @raise [Fog::Rackspace::AutoScale:::NotFound] - HTTP 404
+        # @raise [Fog::Rackspace::AutoScale:::BadRequest] - HTTP 400
+        # @raise [Fog::Rackspace::AutoScale:::InternalServerError] - HTTP 500
+        # @raise [Fog::Rackspace::AutoScale:::ServiceError]
+        #
+        # @see http://docs-internal.rackspace.com/cas/api/v1.0/autoscale-devguide/content/GET_getGroupState_v1.0__tenantId__groups__groupId__state_Groups.html
         def state
           requires :identity
           data = service.get_group_state(identity)
           data.body['group']
         end
 
+        # This operation pauses all execution of autoscaling policies.
+        # 
+        # @note NOT IMPLEMENTED YET
+        # @return [Boolean] returns true if paused
+        #
+        # @raise [Fog::Rackspace::AutoScale:::NotFound] - HTTP 404
+        # @raise [Fog::Rackspace::AutoScale:::BadRequest] - HTTP 400
+        # @raise [Fog::Rackspace::AutoScale:::InternalServerError] - HTTP 500
+        # @raise [Fog::Rackspace::AutoScale:::ServiceError]
+        #
+        # @see http://docs-internal.rackspace.com/cas/api/v1.0/autoscale-devguide/content/POST_pauseGroup_v1.0__tenantId__groups__groupId__pause_Groups.html
         def pause
           requires :identity
           data = service.pause_group_state(identity)
           true
         end
 
+        # This operation resumes all execution of autoscaling policies.
+        # 
+        # @note NOT IMPLEMENTED YET
+        # @return [Boolean] returns true if resumed
+        #
+        # @raise [Fog::Rackspace::AutoScale:::NotFound] - HTTP 404
+        # @raise [Fog::Rackspace::AutoScale:::BadRequest] - HTTP 400
+        # @raise [Fog::Rackspace::AutoScale:::InternalServerError] - HTTP 500
+        # @raise [Fog::Rackspace::AutoScale:::ServiceError]
+        #
+        # @see http://docs-internal.rackspace.com/cas/api/v1.0/autoscale-devguide/content/POST_resumeGroup_v1.0__tenantId__groups__groupId__resume_Groups.html
         def resume
           requires :identity
           data = service.resume_group_state(identity)

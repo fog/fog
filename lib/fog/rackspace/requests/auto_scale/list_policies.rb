@@ -13,8 +13,9 @@ module Fog
       end
 
       class Mock
-        def list_groups(group_id)
-           Fog::Mock.not_implemented
+        def list_policies(group_id)
+          group = self.data[:autoscale_groups][group_id]
+          response(:body => {'policies' => group['scalingPolicies']})
         end
       end
     end

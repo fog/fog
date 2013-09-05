@@ -14,7 +14,16 @@ module Fog
 
       class Mock
         def delete_group(group_id, policy_id)
-           Fog::Mock.not_implemented
+           group = self.data[:autoscale_groups][group_id]
+
+          if group.nil?
+            raise Fog::Rackspace::AutoScale::NotFound
+          end
+
+          group['policies'].delete_if { |p| p['id'] == policy_id }
+
+          response(:status => 204)
+
         end
       end
     end

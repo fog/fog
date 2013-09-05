@@ -14,7 +14,7 @@ module Fog
 
       class Mock
         def execute_anonymous_webhook(capability_version, capability_hash)
-           Fog::Mock.not_implemented
+           response(:status => 202)
         end
       end
     end
