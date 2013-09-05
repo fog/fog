@@ -101,6 +101,9 @@ An alternate file may be used by placing its path in the FOG_RC environment vari
   :libvirt_ip_command:
   :ibm_username:
   :ibm_password:
+  :vcloud_director_host:
+  :vcloud_director_username:
+  :vcloud_director_password:
 #
 # End of Fog Credentials File
 #######################################################

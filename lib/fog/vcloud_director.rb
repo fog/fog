@@ -1,7 +1,7 @@
 require 'fog/core'
 
 module Fog
-  module Vcloud
+  module VcloudDirector
 
     extend Fog::Provider
 
