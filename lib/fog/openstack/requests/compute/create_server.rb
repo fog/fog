@@ -13,7 +13,7 @@ module Fog
           }
 
           vanilla_options = ['metadata', 'accessIPv4', 'accessIPv6',
-                             'availability_zone', 'user_data', 'key_name', 'adminPass']
+                             'availability_zone', 'user_data', 'key_name', 'adminPass', 'config_drive']
           vanilla_options.select{|o| options[o]}.each do |key|
             data['server'][key] = options[key]
           end
@@ -122,6 +122,7 @@ module Fog
             'created'    => '2012-09-27T00:04:18Z',
             'updated'    => '2012-09-27T00:04:27Z',
             'user_id'    => @openstack_username,
+            'config_drive' => options['config_drive'] || '',
           }
 
           response_data = {

@@ -31,6 +31,7 @@ module Fog
         attribute :user_id
         attribute :key_name
         attribute :fault
+        attribute :config_drive
         attribute :os_dcf_disk_config, :aliases => 'OS-DCF:diskConfig'
         attribute :os_ext_srv_attr_host, :aliases => 'OS-EXT-SRV-ATTR:host'
         attribute :os_ext_srv_attr_hypervisor_hostname, :aliases => 'OS-EXT-SRV-ATTR:hypervisor_hostname'
@@ -280,6 +281,7 @@ module Fog
             'availability_zone' => availability_zone,
             'user_data' => user_data_encoded,
             'key_name'    => key_name,
+            'config_drive' => config_drive,
             'security_groups' => @security_groups,
             'min_count'   => @min_count,
             'max_count'   => @max_count,
