@@ -16,6 +16,7 @@ Shindo.tests('Fog::Compute[:openstack] | server requests', ['openstack']) do
     'created'    => String,
     'updated'    => String,
     'user_id'    => String,
+    'config_drive' => String,
   }
 
   @create_format = {
