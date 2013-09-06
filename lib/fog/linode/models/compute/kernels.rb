@@ -13,8 +13,8 @@ module Fog
 
         def get(id)
           new kernels(id).first
-        rescue Fog::Compute::Linode::NotFound
-          nil
+        rescue Fog::Compute::Linode::NotFound, ArgumentError
+          raise "Can not find a kernel with id #{id}"
         end
 
         private

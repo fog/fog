@@ -13,8 +13,8 @@ module Fog
 
         def get(id)
           new images(id).first
-        rescue Fog::Compute::Linode::NotFound
-          nil
+        rescue Fog::Compute::Linode::NotFound, ArgumentError
+          raise "Can not find an image with id #{id}"
         end
 
         private
