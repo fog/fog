@@ -104,7 +104,8 @@ module Fog
             :display_name => display_name,
             :display_description => display_description,
             :volume_type => volume_type,
-            :availability_zone => availability_zone
+            :availability_zone => availability_zone,
+            :snapshot_id => attributes[:snapshot_id]
           })
           merge_attributes(data.body['volume'])
           true
