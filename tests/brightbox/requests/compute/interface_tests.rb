@@ -19,7 +19,7 @@ Shindo.tests('Fog::Compute[:brightbox] | interface requests', ['brightbox']) do
     tests("#get_interface('#{@interface_id}')") do
       pending if Fog.mocking?
       result = @test_service.get_interface(@interface_id)
-      formats(Brightbox::Compute::Formats::Full::INTERFACE, false) { result }
+      data_matches_schema(Brightbox::Compute::Formats::Full::INTERFACE, {:allow_extra_keys => true}) { result }
     end
 
     unless Fog.mocking?
