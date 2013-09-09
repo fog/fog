@@ -34,8 +34,6 @@ module Fog
             'EC2SecurityGroupOwnerId' => ec2_owner_id
           }
 
-          response = Excon::Response.new
-
           if sec_group = self.data[:security_groups][name]
 
             if sec_group['EC2SecurityGroups'].detect{|h| h['EC2SecurityGroupName'] == opts['EC2SecurityGroupName']}
@@ -43,13 +41,15 @@ module Fog
             end
             sec_group['EC2SecurityGroups'] << opts.merge({'Status' => 'authorizing'})
 
-            response.status = 200
-            response.body = {
-              'ResponseMetadata'=>{ 'RequestId'=> Fog::AWS::Mock.request_id },
-              'CacheSecurityGroup' => sec_group
-            }
-
-            response
+            Excon::Response.new(
+                {
+                    :status => 200,
+                    :body => {
+                        'ResponseMetadata'=>{ 'RequestId'=> Fog::AWS::Mock.request_id },
+                        'CacheSecurityGroup' => sec_group
+                    }
+                }
+            )
           else
             raise Fog::AWS::Elasticache::NotFound.new("CacheSecurityGroupNotFound => #{name} not found")
           end
