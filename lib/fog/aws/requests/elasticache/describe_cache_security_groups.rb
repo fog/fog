@@ -25,22 +25,18 @@ module Fog
       end
 
       class Mock
-        def describe_cache_security_groups(name, opts={})
-          response = Excon::Response.new
-          sec_group_set = []
+        def describe_cache_security_groups(name = nil, opts={})
 
-          sec_group = self.data[:security_groups][name]
-
-          if sec_group
-            sec_group_set << sec_group
+          if name
+            sec_group_set = [self.data[:security_groups][name]].compact
+            raise Fog::AWS::Elasticache::NotFound.new("Security Group #{name} not found") if sec_group_set.empty?
           else
-            raise Fog::AWS::Elasticache::NotFound.new("Security Group #{name} not found")
+            sec_group_set = self.data[:security_groups].values
           end
 
           # TODO: refactor to not delete items that we're iterating over. Causes
           # model tests to fail (currently pending)
           sec_group_set.each do |sec_group|
-
             # TODO: refactor to not delete items that we're iterating over. Causes
             # model tests to fail (currently pending)
             sec_group["EC2SecurityGroups"].each do |ec2_secg|
@@ -55,12 +51,16 @@ module Fog
             end
           end
 
-          response.status = 200
-          response.body = {
-            "ResponseMetadata"=>{ "RequestId"=> Fog::AWS::Mock.request_id },
-            "CacheSecurityGroups" => sec_group_set
-          }
-          response
+          Excon::Response.new(
+              {
+                  :status => 200,
+                  :body => {
+                      "ResponseMetadata"=>{ "RequestId"=> Fog::AWS::Mock.request_id },
+                      "CacheSecurityGroups" => sec_group_set
+                  }
+              }
+          )
+
         end
       end
     end

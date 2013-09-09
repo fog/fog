@@ -23,14 +23,13 @@ module Fog
 
       class Mock
         def delete_cache_security_group(name)
-          response = Excon::Response.new
-
           if self.data[:security_groups].delete(name)
-            response.status = 200
-            response.body = {
-              "ResponseMetadata"=>{ "RequestId"=> Fog::AWS::Mock.request_id },
-            }
-            response
+            Excon::Response.new(
+                {
+                    :status => 200,
+                    :body =>   { 'ResponseMetadata'=>{ 'RequestId'=> Fog::AWS::Mock.request_id } }
+                }
+            )
           else
             raise Fog::AWS::RDS::NotFound.new("DBSecurityGroupNotFound => #{name} not found")
           end
