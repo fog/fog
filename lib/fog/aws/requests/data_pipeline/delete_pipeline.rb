@@ -9,8 +9,7 @@ module Fog
         # ==== Parameters
         # * PipelineId <~String> - The id of the pipeline to delete
         # ==== Returns
-        # * response<~Excon::Response>:
-        #   * body<~Hash>:
+        # * success<~Boolean> - Whether the delete was successful
         def delete_pipeline(id)
           params = { 'pipelineId' => id }
 
@@ -19,7 +18,7 @@ module Fog
             :headers => { 'X-Amz-Target' => 'DataPipeline.DeletePipeline' },
           })
 
-          Fog::JSON.decode(response.body)
+          200 == response.status
         end
 
       end
