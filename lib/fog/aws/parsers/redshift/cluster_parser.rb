@@ -81,7 +81,7 @@ module Fog
             when 'ClusterCreateTime'
               @cluster[name] = Time.parse(value)
             when 'AllowVersionUpgrade', 'Encrypted', 'PubliclyAccessible'
-              @cluster[name] = (value == true)
+              @cluster[name] = (value == "true")
             when 'Address'
               @cluster['EndPoint'][name] = value            
             when 'Port'
