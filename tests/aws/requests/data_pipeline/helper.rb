@@ -17,6 +17,12 @@ class AWS
         ]
       }
 
+      QUERY_OBJECTS = {
+        "hasMoreResults" => Fog::Nullable::Boolean,
+        "marker" => Fog::Nullable::String,
+        "ids" => Fog::Nullable::Array,
+      }
+
       DESCRIBE_PIPELINES = {
         "pipelineDescriptionList" => [
           {

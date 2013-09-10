@@ -50,6 +50,20 @@ Shindo.tests('AWS::DataPipeline | pipeline_tests', ['aws', 'data_pipeline']) do
       Fog::AWS[:data_pipeline].get_pipeline_definition(@pipeline_id)
     end
 
+    tests("#query_objects") do
+      tests("for COMPONENTs").formats(AWS::DataPipeline::Formats::QUERY_OBJECTS) do
+        Fog::AWS[:data_pipeline].query_objects(@pipeline_id, 'COMPONENT')
+      end
+
+      tests("for INSTANCEs").formats(AWS::DataPipeline::Formats::QUERY_OBJECTS) do
+        Fog::AWS[:data_pipeline].query_objects(@pipeline_id, 'INSTANCE')
+      end
+
+      tests("for ATTEMPTs").formats(AWS::DataPipeline::Formats::QUERY_OBJECTS) do
+        Fog::AWS[:data_pipeline].query_objects(@pipeline_id, 'ATTEMPT')
+      end
+    end
+
     tests("#delete_pipeline").returns(true) do
       Fog::AWS[:data_pipeline].delete_pipeline(@pipeline_id)
     end
