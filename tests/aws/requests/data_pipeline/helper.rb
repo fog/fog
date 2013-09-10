@@ -38,7 +38,23 @@ class AWS
         "errored" => Fog::Boolean,
         "validationErrors" => Fog::Nullable::Array,
       }
-	
+
+      GET_PIPELINE_DEFINITION = {
+        "pipelineObjects" => [
+          {
+            "id" => String,
+            "name" => String,
+            "fields" => [
+              {
+                "key" => String,
+                "refValue" => Fog::Nullable::String,
+                "stringValue" => Fog::Nullable::String,
+              }
+            ]
+          }
+        ]
+      }
+
     end
   end
 end

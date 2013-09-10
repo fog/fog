@@ -15,6 +15,7 @@ module Fog
       request :describe_pipelines
       request :list_pipelines
       request :put_pipeline_definition
+      request :get_pipeline_definition
 
       model_path 'fog/aws/models/data_pipeline'
       model       :pipeline

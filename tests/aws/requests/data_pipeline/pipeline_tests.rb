@@ -46,6 +46,10 @@ Shindo.tests('AWS::DataPipeline | pipeline_tests', ['aws', 'data_pipeline']) do
       Fog::AWS[:data_pipeline].activate_pipeline(@pipeline_id)
     end
 
+    tests("#get_pipeline_definition").formats(AWS::DataPipeline::Formats::GET_PIPELINE_DEFINITION) do
+      Fog::AWS[:data_pipeline].get_pipeline_definition(@pipeline_id)
+    end
+
     tests("#delete_pipeline").returns(true) do
       Fog::AWS[:data_pipeline].delete_pipeline(@pipeline_id)
     end
