@@ -108,7 +108,8 @@ module Fog
      request :get_href    # this is used for manual testing
      request :get_vms_by_metadata
      request :get_vm
-     
+     request :post_task_cancel
+
      class Model < Fog::Model
        def initialize(attrs={})
          super(attrs)
