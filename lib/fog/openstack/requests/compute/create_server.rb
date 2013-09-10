@@ -13,7 +13,10 @@ module Fog
           }
 
           vanilla_options = ['metadata', 'accessIPv4', 'accessIPv6',
-                             'availability_zone', 'user_data', 'key_name', 'adminPass', 'config_drive']
+                             'availability_zone', 'user_data', 'key_name', 
+                             'adminPass', 'config_drive', 'min_count', 'max_count',
+                             'return_reservation_id'
+                            ]
           vanilla_options.select{|o| options[o]}.each do |key|
             data['server'][key] = options[key]
           end
