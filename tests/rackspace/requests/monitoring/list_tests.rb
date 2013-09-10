@@ -13,7 +13,7 @@ Shindo.tests('Fog::Rackspace::Monitoring | list_tests', ['rackspace','rackspace_
   now = Time.now.to_i
   SLEEP_TIME= 2
   sleep(SLEEP_TIME) unless Fog.mocking?
-
+  
   tests('success') do
     tests('#get list of checks').formats(LIST_HEADERS_FORMAT) do
       account.list_checks(entity_id).data[:headers]
@@ -33,6 +33,9 @@ Shindo.tests('Fog::Rackspace::Monitoring | list_tests', ['rackspace','rackspace_
     tests('#list notification plans').formats(LIST_HEADERS_FORMAT) do
       account.list_notification_plans().data[:headers]
     end
+    tests('#list notifications').formats(LIST_HEADERS_FORMAT) do
+      account.list_notifications().data[:headers]
+    end
     tests('#get list of data points').formats(LIST_HEADERS_FORMAT) do
       options = {
         :points => 1,
@@ -49,6 +52,10 @@ Shindo.tests('Fog::Rackspace::Monitoring | list_tests', ['rackspace','rackspace_
     tests('#fail to list check types').raises(ArgumentError) do
       account.list_check_types(-1)
     end
+    # This test has been put on hold due to a bug that incorrectly returns 200 OK to this request
+    # tests('#fail to list notifications').raises(ArgumentError) do
+    #   account.list_notifications(-1)
+    # end
     # This test has been put on hold due to a bug that incorrectly returns 200 OK to this request
     #tests('#fail to list metrics').raises(Fog::Rackspace::Monitoring::NotFound) do
       #account.list_metrics(-1,-1)
