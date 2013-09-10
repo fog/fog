@@ -6,6 +6,14 @@ class AWS
         'pipelineId' => String,
       }
 
+      FIELDS = [
+        {
+          "key" => String,
+          "refValue" => Fog::Nullable::String,
+          "stringValue" => Fog::Nullable::String,
+        }
+      ]
+
       LIST_PIPELINES = {
         "hasMoreResults" => Fog::Nullable::Boolean,
         "marker" => Fog::Nullable::String,
@@ -23,19 +31,25 @@ class AWS
         "ids" => Fog::Nullable::Array,
       }
 
+      DESCRIBE_OBJECTS = {
+        "hasMoreResults" => Fog::Nullable::Boolean,
+        "marker" => Fog::Nullable::String,
+        "pipelineObjects" => [
+          {
+            'id' => String,
+            'name' => String,
+            'fields' => FIELDS,
+          }
+        ]
+      }
+
       DESCRIBE_PIPELINES = {
         "pipelineDescriptionList" => [
           {
             "description" => Fog::Nullable::String,
             "name" => String,
             "pipelineId" => String,
-            "fields" => [
-              {
-                "key" => String,
-                "refValue" => Fog::Nullable::String,
-                "stringValue" => Fog::Nullable::String,
-              }
-            ]
+            "fields" => FIELDS,
           }
         ]
       }
@@ -50,13 +64,7 @@ class AWS
           {
             "id" => String,
             "name" => String,
-            "fields" => [
-              {
-                "key" => String,
-                "refValue" => Fog::Nullable::String,
-                "stringValue" => Fog::Nullable::String,
-              }
-            ]
+            "fields" => FIELDS,
           }
         ]
       }

@@ -64,6 +64,12 @@ Shindo.tests('AWS::DataPipeline | pipeline_tests', ['aws', 'data_pipeline']) do
       end
     end
 
+    tests('#describe_objects').formats(AWS::DataPipeline::Formats::DESCRIBE_OBJECTS) do
+      attempts = Fog::AWS[:data_pipeline].query_objects(@pipeline_id, 'ATTEMPT')
+      object_ids = attempts['ids'][0..5]
+      Fog::AWS[:data_pipeline].describe_objects(@pipeline_id, object_ids)
+    end
+
     tests("#delete_pipeline").returns(true) do
       Fog::AWS[:data_pipeline].delete_pipeline(@pipeline_id)
     end
