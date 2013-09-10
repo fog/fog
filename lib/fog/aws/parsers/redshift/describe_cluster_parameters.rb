@@ -35,7 +35,7 @@ module Fog
             when 'ParameterName', 'ParameterValue', 'Description', 'Source', 'DataType', 'AllowedValues', 'MinimumEngineVersion'
               @parameter[name] = value
             when 'IsModifiable'
-              @parameter[name] = (value == true)
+              @parameter[name] = (value == "true")
             when 'Parameter'
               @response['Parameters'] << {name => @parameter}
               @parameter = {}

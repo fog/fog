@@ -52,7 +52,7 @@ module Fog
             when 'SnapshotCreateTime', 'ClusterCreateTime'
               @snapshot['Snapshot'][name] = Time.parse(value)
             when 'Encrypted'
-              @snapshot['Snapshot'][name] = (value == true)
+              @snapshot['Snapshot'][name] = (value == "true")
             when 'TotalBackupSizeInMegaBytes', 'ActualIncrementalBackupSizeInMegaBytes', 'BackupProgressInMegaBytes', 'CurrentBackupRateInMegaBytesPerSecond'
               @snapshot['Snapshot'][name] = value.to_f
             when 'AccountId'
