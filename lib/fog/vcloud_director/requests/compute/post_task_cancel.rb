@@ -10,7 +10,7 @@ module Fog
         #
         # === Returns
         # * response<~Excon::Response>
-        #                                                                                         # {Amazon API Reference}[http://docs.amazonwebservices.com/AWSEC2/2012-03-01/APIReference/ApiReference-query-DeleteNetworkInterface.html]
+        #
         def post_task_cancel(task_id)
           request(
             :expects => 204,
