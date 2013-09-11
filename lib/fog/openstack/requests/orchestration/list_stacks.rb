@@ -4,7 +4,7 @@ module Fog
       class Real
 
         # List stacks.
-        # 
+        #
         # @param options [Hash]
         #
         # @return [Excon::Response]
@@ -22,7 +22,7 @@ module Fog
         #
         #
         # @see http://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_ListStacks.html
-        
+
         def list_stacks(options = {})
           request(
             :path => 'stacks',

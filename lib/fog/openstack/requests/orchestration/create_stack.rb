@@ -4,7 +4,7 @@ module Fog
       class Real
 
         # Create a stack.
-        # 
+        #
         # * stack_name [String] Name of the stack to create.
         # * options [Hash]:
         #   * :template_body [String] Structure containing the template body.
@@ -15,7 +15,7 @@ module Fog
         #   * :timeout_in_minutes [Integer] Minutes to wait before status is set to CREATE_FAILED
         #
         # @see http://docs.amazonwebservices.com/AWSCloudFormation/latest/APIReference/API_CreateStack.html
-        
+
         def create_stack(stack_name, options = {})
           params = {
             :stack_name => stack_name

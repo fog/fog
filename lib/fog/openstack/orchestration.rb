@@ -210,7 +210,7 @@ module Fog
 
           @port   = uri.port
           @scheme = uri.scheme
-           
+
           # Not all implementations have identity service in the catalog
           if @openstack_identity_public_endpoint || @openstack_management_url
             @identity_connection = Fog::Connection.new(
