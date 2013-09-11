@@ -43,7 +43,9 @@ module Fog
 
         def save
           requires :vpc_id, :cidr_block
-          data = service.create_subnet(vpc_id, cidr_block).body['subnetSet'].first
+          options = {}
+          options['AvailabilityZone'] = availability_zone if availability_zone
+          data = service.create_subnet(vpc_id, cidr_block, options).body['subnetSet'].first
           new_attributes = data.reject {|key,value| key == 'requestId'}
           merge_attributes(new_attributes)
           true
