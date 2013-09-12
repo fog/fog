@@ -20,9 +20,9 @@ module Fog
         
         def item_list
           data = service.get_organizations.body
-          org = data[:Org] # there is only a single Org
-          service.add_id_from_href!(org)
-          [org]
+          orgs = data[:Org].is_a?(Hash) ? [data[:Org]] : data[:Org]
+          orgs.each {|org| service.add_id_from_href!(org)}
+          orgs
         end
         
       end
