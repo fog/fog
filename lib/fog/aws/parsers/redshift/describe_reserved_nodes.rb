@@ -61,7 +61,7 @@ module Fog
               @recurring_charge = {}
             when 'ReservedNode'
               @response['ReservedNodes'] << {name => @reserved_node}
-              @reserved_node = fresh_reserved_node
+              @reserved_node = fresh_reserved_nodes
             end
           end
         end
