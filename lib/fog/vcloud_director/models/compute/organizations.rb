@@ -20,7 +20,7 @@ module Fog
         
         def item_list
           data = service.get_organizations.body
-          orgs = data[:Org].is_a?(Array) ? data[:Org] : [data[:Org]]
+          orgs = data[:Org].is_a?(Hash) ? [data[:Org]] : data[:Org]
           orgs.each {|org| service.add_id_from_href!(org)}
           orgs
         end
