@@ -11,20 +11,19 @@ def boolean?(item)
   [TrueClass, FalseClass].include?(item.class)
 end
 
-def vcloud_director 
-  @vcloud_director ||= Fog::Compute::VcloudDirector.new(:vcloud_director_username => "#{ENV['IMEDIDATA_COM_USERNAME']}@devops", 
-                                           :vcloud_director_password => ENV['IMEDIDATA_COM_PASSWORD'], 
-                                           :vcloud_director_host => 'devlab.mdsol.com',
-                                           :vcloud_director_api_version => '5.1',
-                                           :connection_options => {
-                                                                    :ssl_verify_peer => false, 
-                                                                    :connect_timeout => 200, 
-                                                                    :read_timeout => 200 
-                                                                   } 
-                                          )
+def vcloud_director
+  @vcloud_director ||= Fog::Compute::VcloudDirector.new(
+    :vcloud_director_host => 'devlab.mdsol.com',
+    :vcloud_director_api_version => '5.1',
+    :connection_options => {
+      :ssl_verify_peer => false,
+      :connect_timeout => 200,
+      :read_timeout => 200
+    }
+  )
 end
 
-def organizations 
+def organizations
   @organizations ||= vcloud_director.organizations
 end
 
@@ -56,15 +55,14 @@ def vapp
   vapps.detect {|vapp| vapp.vms.size >= 1 }
 end
 
-
 def the_network
   @network ||= organization.networks.get_by_name(NETWORK_NAME)
-end    
-  
+end
+
 def the_catalog
   @catalog ||= organization.catalogs.get_by_name(CATALOG_NAME)
 end
-  
+
 def the_catalog_item
   return nil unless the_catalog
   @catalog_item ||= the_catalog.catalog_items.get_by_name(CATALOG_ITEM_NAME)
