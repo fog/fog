@@ -197,19 +197,14 @@ module Fog
        end
          
        def auth_token
-         response = @connection.request({
-           :expects   => 200,
-           :headers   => { 'Authorization' => "Basic #{Base64.encode64("#{@vcloud_director_username}:#{@vcloud_director_password}").delete("\r\n")}",
-                           'Accept' => 'application/*+xml;version=' +  @api_version
-                         },
-           :host      => @host,
-           :method    => 'POST',
-           :parser    => Fog::ToHashDocument.new,
-           :path      => "/api/sessions"  # curl http://example.com/api/versions | grep LoginUrl
-         })
-         response.headers['Set-Cookie'] || response.headers['set-cookie']
+         login if @auth_token.nil?
+         @auth_token
        end
-       
+
+       def org_name
+         login if @org_name.nil?
+         @org_name
+       end
          
        def reload
          @cookie = nil # verify that this makes the connection to be restored, if so use Excon::Errors::Forbidden instead of Excon::Errors::Unauthorized
@@ -281,8 +276,26 @@ module Fog
          data[:id] = data[:href].split('/').last
        end
        
-     end
+       private
 
+       def login
+         headers = {
+           'Authorization' => "Basic #{Base64.encode64("#{@vcloud_director_username}:#{@vcloud_director_password}").delete("\r\n")}",
+           'Accept'        => 'application/*+xml;version=' + @api_version
+         }
+         response = @connection.request({
+           :expects => 200,
+           :headers => headers,
+           :host    => @host,
+           :method  => 'POST',
+           :parser  => Fog::ToHashDocument.new,
+           :path    => '/api/sessions'  # curl http://example.com/api/versions | grep LoginUrl
+         })
+         @auth_token = response.headers['Set-Cookie'] || response.headers['set-cookie']
+         @org_name = response.body[:org]
+       end
+
+     end
 
      class Mock
      end
