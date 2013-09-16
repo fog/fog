@@ -12,6 +12,7 @@ EOF
             :body    => body,
             :expects => 202,
             :method  => 'POST',
+            :parser => Fog::ToHashDocument.new,
             :headers => {'Content-Type' => 'application/vnd.vmware.vcloud.undeployVAppParams+xml' },
             :path    => "vApp/#{vapp_id}/action/undeploy"
           )

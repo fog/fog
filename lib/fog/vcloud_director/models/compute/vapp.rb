@@ -32,7 +32,8 @@ module Fog
         end
 
         def undeploy
-          service.undeploy(id)
+          response = service.undeploy(id)
+          service.process_task(response.body)
         end
 
       end
