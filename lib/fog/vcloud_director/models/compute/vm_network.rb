@@ -5,10 +5,9 @@ module Fog
     class VcloudDirector
 
       class VmNetwork < Model
-        
-        
+
         identity  :id
-                  
+
         attribute :type
         attribute :href
         attribute :info
@@ -19,12 +18,12 @@ module Fog
         attribute :is_connected
         attribute :mac_address
         attribute :ip_address_allocation_mode
-        
+
         def save
           response = service.put_vm_network(id, attributes)
           service.process_task(response.body)
         end
-        
+
       end
     end
   end

@@ -7,9 +7,9 @@ module Fog
 
       class Vms < Collection
         model Fog::Compute::VcloudDirector::Vm
-        
+
         attribute :vapp
-        
+
         def get_by_metadata(key, value)
           data = service.get_vms_by_metadata(key, value).body
           items = data[:vm_records]
@@ -23,18 +23,18 @@ module Fog
         end
 
         private
-                
+
         def get_by_id(item_id)
           item = item_list.detect{ |vm| vm[:id] == item_id }
           item
         end
-                        
+
         def item_list
           data = service.get_vms(vapp.id).body  # vapp.id
           items = data[:vms]
           items
         end
-        
+
       end
     end
   end

@@ -7,8 +7,7 @@ module Fog
 
       class Organizations < Collection
         model Fog::Compute::VcloudDirector::Organization
-        
-        
+
         private
 
         def get_by_id(org_id)
@@ -17,14 +16,14 @@ module Fog
           service.add_id_from_href!(org)
           org
         end
-        
+
         def item_list
           data = service.get_organizations.body
           orgs = data[:Org].is_a?(Hash) ? [data[:Org]] : data[:Org]
           orgs.each {|org| service.add_id_from_href!(org)}
           orgs
         end
-        
+
       end
     end
   end

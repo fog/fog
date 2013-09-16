@@ -7,13 +7,13 @@ module Fog
 
       class Tags < Collection
         model Fog::Compute::VcloudDirector::Tag
-        
+
         attribute :vm
-        
+
         def get_by_name(tag_name)
           get(tag_name)
         end
-        
+
         def create(key,value)
           item_list unless @tags
           metadata_klass = case service.api_version
@@ -26,26 +26,25 @@ module Fog
           response = service.post_vm_metadata(vm.id, data.attrs)
           service.process_task(response.body)
         end
-        
+
         def hash_items
           @tags = service.get_metadata(vm.id).body
           @tags[:metadata]
         end
-        
+
 #        private
-        
+
         def item_list
           @items =[]
           hash_items.each_pair{ |k,v| @items << {:id => k, :value => v }.merge(:vm => vm) }
           @items
         end
-        
+
         def get_by_id(item_id)
           item_list unless @items
-          @items.detect{ |i| i[:id] == item_id}          
+          @items.detect{ |i| i[:id] == item_id}
         end
 
-        
       end
     end
   end

@@ -7,14 +7,14 @@ module Fog
 
       class VmNetworks < Collection
         model Fog::Compute::VcloudDirector::VmNetwork
-        
+
         attribute :vm
-        
+
         def get(id)
           data = service.get_vm_network(id).body
           new(data)
         end
-        
+
       end
     end
   end

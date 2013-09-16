@@ -5,8 +5,8 @@ module Fog
     class VcloudDirector
 
       class Tag < Model
-        
-        
+
+
         identity  :id
         attribute :value
 
@@ -19,13 +19,13 @@ module Fog
             service.process_task(response.body)
           end
         end
-        
-        
+
+
         def destroy
           response = service.delete_metadata(vm.id, id)
           service.process_task(response.body)
         end
-        
+
         def vm
           attributes[:vm]
         end

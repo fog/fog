@@ -5,9 +5,9 @@ module Fog
     class VcloudDirector
 
       class Disk < Model # there is no lazy_load in disks
-        
+
         identity  :id
-        
+
         attribute :address
         attribute :description
         attribute :name
@@ -18,7 +18,7 @@ module Fog
         attribute :capacity
         attribute :bus_sub_type
         attribute :bus_type
-        
+
         # TODO Virtual machine disk sizes may only be increased, not decreased.
         def capacity=(new_capacity)
           has_changed = ( capacity != new_capacity.to_i )
@@ -32,11 +32,11 @@ module Fog
             service.process_task(response.body)
           end
         end
-        
+
         def all_disks
           attributes[:all_disks] # this is passed at instantiation time
         end
-        
+
         def destroy
           num_disk = name.scan(/\d+/).first.to_i
           data = Fog::Generators::Compute::VcloudDirector::Disks.new(all_disks)

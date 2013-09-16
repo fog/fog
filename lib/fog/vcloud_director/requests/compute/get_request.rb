@@ -5,11 +5,12 @@ module Fog
 
         def get_request(uri)
           request(
-            :expects  => 200,
-            :method   => 'GET',
-            :path     => uri
+            :expects => 200,
+            :method  => 'GET',
+            :path    => uri
           )
         end
+
       end
     end
   end

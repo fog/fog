@@ -74,11 +74,11 @@ module Fog
             super
             case name
             when 'OrgNetwork', 'OrgVdcNetwork' # OrgVdcNetwork belongs to 5.1
-               network = extract_attributes(attributes)
-               @response.merge!(network.reject {|key,value| ![:href, :name, :type].include?(key)})
-               @response[:id] = @response[:href].split('/').last
-             when 'Description', 
-               @response[:description] = value
+              network = extract_attributes(attributes)
+              @response.merge!(network.reject {|key,value| ![:href, :name, :type].include?(key)})
+              @response[:id] = @response[:href].split('/').last
+            when 'Description',
+              @response[:description] = value
             end
           end
 
@@ -99,7 +99,7 @@ module Fog
               @ip_range = {}
             end
           end
-          
+
         end
 
       end

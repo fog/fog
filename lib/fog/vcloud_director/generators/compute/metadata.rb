@@ -5,7 +5,7 @@
 #  :href=>
 #   "https://example.com/api/vApp/vm-18545e82-d919-4071-ae7e-d1300d9d8112/metadata",
 #  :id=>"vm-18545e82-d919-4071-ae7e-d1300d9d8112"}
-# 
+#
 # <Metadata xmlns="http://www.vmware.com/vcloud/v1.5" type="application/vnd.vmware.vcloud.metadata+xml"  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.vmware.com/vcloud/v1.5 http://10.194.1.65/api/v1.5/schema/master.xsd">
 #   <MetadataEntry>
 #         <Key>buenas si</Key>
@@ -23,13 +23,13 @@ module Fog
       module VcloudDirector
 
         class MetadataBase
-           
+
           attr_reader :attrs
-          
+
           def initialize(attrs={})
             @attrs = attrs
           end
-          
+
           def generate_xml
             output = ""
             output << header
@@ -39,39 +39,39 @@ module Fog
             output << tail
             output
           end
-          
+
           def add_item(k,v)
             @attrs[:metadata].merge!(Hash[k,v])
           end
-          
+
           # 1.5
           def header
-            '<Metadata xmlns="http://www.vmware.com/vcloud/v1.5" 
-              type="application/vnd.vmware.vcloud.metadata+xml"  
-              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+            '<Metadata xmlns="http://www.vmware.com/vcloud/v1.5"
+              type="application/vnd.vmware.vcloud.metadata+xml"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
               xsi:schemaLocation="http://www.vmware.com/vcloud/v1.5 http://10.194.1.65/api/v1.5/schema/master.xsd">
               '
           end
-          
+
           def metadata_entry
             raise "This is an abstract class. Use the appropriate subclass"
           end
-          
+
           # 5.1
           #def header
-          #  '<Metadata xmlns="http://www.vmware.com/vcloud/v1.5" 
-          #    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-          #    type="application/vnd.vmware.vcloud.metadata+xml" 
+          #  '<Metadata xmlns="http://www.vmware.com/vcloud/v1.5"
+          #    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          #    type="application/vnd.vmware.vcloud.metadata+xml"
           #    href="https://devlab.mdsol.com/api/vApp/vm-345c3619-edcd-4a8c-a8b9-c69ace3f89d1/metadata"
           #    xsi:schemaLocation="http://www.vmware.com/vcloud/v1.5 http://10.194.1.65/api/v1.5/schema/master.xsd">'
           #end
-          
+
           def tail
             '</Metadata>'
           end
-          
+
         end
-        
+
         class MetadataV51 < MetadataBase
           def metadata_entry(key,value)
             body = <<EOF
@@ -85,9 +85,9 @@ module Fog
             </MetadataEntry>
 EOF
           end
-            
+
         end
-        
+
         class MetadataV15 < MetadataBase
           def metadata_entry(key,value)
             body = <<EOF
@@ -98,6 +98,7 @@ EOF
 EOF
           end
         end
+#
       end
     end
   end

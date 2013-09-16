@@ -12,7 +12,7 @@
 #  :is_connected=>true,
 #  :mac_address=>"00:50:56:01:00:8d",
 #  :ip_address_allocation_mode=>"POOL"}
-# 
+#
 #
 # This is what it generates
 #
@@ -28,20 +28,20 @@
 #     </NetworkConnection>
 #     <Link rel="edit" type="application/vnd.vmware.vcloud.networkConnectionSection+xml" href="https://example.com/api/vApp/vm-8b74d95a-ee91-4f46-88d8-fc92be0dbaae/networkConnectionSection/"/>
 # </NetworkConnectionSection>
-# 
+#
 module Fog
   module Generators
     module Compute
       module VcloudDirector
 
         class VmNetwork
-           
+
           attr_reader :attrs
-          
+
           def initialize(attrs={})
             @attrs = attrs
           end
-          
+
           def generate_xml
             output = ""
             output << header
@@ -49,58 +49,57 @@ module Fog
             output << tail
             output
           end
-          
+
           def network
             @attrs[:network]
           end
-          
+
           def network=(new_network_name)
             @attrs[:network] = new_network_name
           end
-          
+
           def ip_address
             @attrs[:ip_address]
           end
-          
+
           def ip_address=(new_ip_address)
             @attrs[:ip_address] = new_ip_address
           end
-          
+
           def is_connected
             @attrs[:is_connected]
           end
-          
+
           def is_connected=(new_is_connected)
             @attrs[:is_connected] = new_is_connected
           end
-          
+
           def ip_address_allocation_mode
             @attrs[:ip_address_allocation_mode]
           end
-          
+
           def ip_address_allocation_mode=(new_ip_address_allocation_mode)
             @attrs[:ip_address_allocation_mode] = new_ip_address_allocation_mode
           end
-          
+
           def header
-              '<NetworkConnectionSection xmlns="http://www.vmware.com/vcloud/v1.5" 
-                 xmlns:ovf="http://schemas.dmtf.org/ovf/envelope/1" 
-                 type="application/vnd.vmware.vcloud.networkConnectionSection+xml" 
-                 ovf:required="false" 
-                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-                   xsi:schemaLocation="http://schemas.dmtf.org/ovf/envelope/1 
-                   http://schemas.dmtf.org/ovf/envelope/1/dsp8023_1.1.0.xsd 
+              '<NetworkConnectionSection xmlns="http://www.vmware.com/vcloud/v1.5"
+                 xmlns:ovf="http://schemas.dmtf.org/ovf/envelope/1"
+                 type="application/vnd.vmware.vcloud.networkConnectionSection+xml"
+                 ovf:required="false"
+                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://schemas.dmtf.org/ovf/envelope/1
+                   http://schemas.dmtf.org/ovf/envelope/1/dsp8023_1.1.0.xsd
                    http://www.vmware.com/vcloud/v1.5 http://10.194.1.65/api/v1.5/schema/master.xsd">'
-              
+
           end
-          
-          
+
           def body(opts={})
             body = <<EOF
             <ovf:Info>#{opts[:info]}</ovf:Info>
                  <PrimaryNetworkConnectionIndex>#{opts[:primary_network_connection_index]}</PrimaryNetworkConnectionIndex>
-                 <NetworkConnection 
-                     network="#{opts[:network]}" 
+                 <NetworkConnection
+                     network="#{opts[:network]}"
                      needsCustomization="#{opts[:needs_customization]}">
                      <NetworkConnectionIndex>#{opts[:network_connection_index]}</NetworkConnectionIndex>
                      <IpAddress>#{opts[:ip_address]}</IpAddress>
@@ -110,12 +109,13 @@ module Fog
                  </NetworkConnection>
 EOF
           end
-          
+
           def tail
             '</NetworkConnectionSection>'
           end
-          
+
         end
+
       end
     end
   end

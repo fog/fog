@@ -6,7 +6,6 @@ module Fog
 
       class Vapp < Model
 
-
         identity  :id
 
         attribute :name
