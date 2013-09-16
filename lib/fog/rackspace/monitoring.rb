@@ -40,6 +40,8 @@ module Fog
       collection  :data_points
       model       :check_type
       collection  :check_types
+      model       :notification
+      collection  :notifications
 
       request_path 'fog/rackspace/requests/monitoring'
       request      :list_agent_tokens
@@ -52,26 +54,31 @@ module Fog
       request      :list_check_types
       request      :list_overview
       request      :list_notification_plans
+      request      :list_notifications
 
       request      :get_agent_token
       request      :get_alarm
       request      :get_alarm_example
       request      :get_check
       request      :get_entity
+      request      :get_notification
 
       request      :create_agent_token
       request      :create_alarm
       request      :create_check
       request      :create_entity
+      request      :create_notification
 
       request      :update_check
       request      :update_entity
       request      :update_alarm
+      request      :update_notification
 
       request      :delete_agent_token
       request      :delete_alarm
       request      :delete_check
       request      :delete_entity
+      request      :delete_notification
 
       request      :evaluate_alarm_example
 

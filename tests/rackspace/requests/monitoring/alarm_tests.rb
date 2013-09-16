@@ -1,5 +1,5 @@
 Shindo.tests('Fog::Rackspace::Monitoring | alarm_tests', ['rackspace','rackspace_monitoring']) do
-  pending if Fog.mocking?
+  
 
   account = Fog::Rackspace::Monitoring.new
   entity_id = account.create_entity(:label => "Foo").data[:headers]["X-Object-ID"]
@@ -50,6 +50,6 @@ Shindo.tests('Fog::Rackspace::Monitoring | alarm_tests', ['rackspace','rackspace
       account.delete_alarm(-1,-1)
     end
   end
-  account.delete_check(entity_id,check_id)
-  account.delete_entity(entity_id)
+  account.delete_check(entity_id,check_id) unless Fog.mocking?
+  account.delete_entity(entity_id) unless Fog.mocking?
 end

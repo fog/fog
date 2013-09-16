@@ -29,6 +29,8 @@ module Fog
         attribute :notification_config,
           :aliases => 'NotificationConfiguration', :type => :hash
 
+        attr_accessor :parameter_group_name
+
         def ready?
           status == 'available'
         end
@@ -57,7 +59,7 @@ module Fog
               :port                         => port,
               :preferred_availablility_zone => zone,
               :preferred_maintenance_window => maintenance_window,
-              :parameter_group_name => parameter_group['CacheParameterGroupName'],
+              :parameter_group_name         => parameter_group_name || parameter_group['CacheParameterGroupName'],
             }
           )
         end

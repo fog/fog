@@ -10,39 +10,39 @@ Shindo.tests('Fog::Compute[:brightbox] | api client requests', ['brightbox']) do
       pending if Fog.mocking?
       result = Fog::Compute[:brightbox].create_application(create_options)
       @application_id = result["id"]
-      formats(Brightbox::Compute::Formats::Full::APPLICATION, false) { result }
+      data_matches_schema(Brightbox::Compute::Formats::Full::APPLICATION, {:allow_extra_keys => true}) { result }
     end
 
     tests("#list_applications") do
       pending if Fog.mocking?
       result = Fog::Compute[:brightbox].list_applications
-      formats(Brightbox::Compute::Formats::Collection::APPLICATION, false) { result }
+      data_matches_schema(Brightbox::Compute::Formats::Collection::APPLICATION, {:allow_extra_keys => true}) { result }
     end
 
     tests("#get_application('#{@application_id}')") do
       pending if Fog.mocking?
       result = Fog::Compute[:brightbox].get_application(@application_id)
-      formats(Brightbox::Compute::Formats::Full::APPLICATION, false) { result }
+      data_matches_schema(Brightbox::Compute::Formats::Full::APPLICATION, {:allow_extra_keys => true}) { result }
     end
 
     update_options = {:name => "Fog@#{Time.now.iso8601}"}
     tests("#update_application('#{@application_id}', #{update_options.inspect})") do
       pending if Fog.mocking?
       result = Fog::Compute[:brightbox].update_application(@application_id, update_options)
-      formats(Brightbox::Compute::Formats::Full::APPLICATION, false) { result }
+      data_matches_schema(Brightbox::Compute::Formats::Full::APPLICATION, {:allow_extra_keys => true}) { result }
     end
 
     tests("#reset_secret_application('#{@application_id}')") do
       pending if Fog.mocking?
       result = Fog::Compute[:brightbox].reset_secret_application(@application_id)
-      formats(Brightbox::Compute::Formats::Full::APPLICATION, false) { result }
+      data_matches_schema(Brightbox::Compute::Formats::Full::APPLICATION, {:allow_extra_keys => true}) { result }
       test("new secret is visible") { ! result["secret"].nil?  }
     end
 
     tests("#destroy_application('#{@application_id}')") do
       pending if Fog.mocking?
       result = Fog::Compute[:brightbox].destroy_application(@application_id)
-      formats(Brightbox::Compute::Formats::Full::APPLICATION, false) { result }
+      data_matches_schema(Brightbox::Compute::Formats::Full::APPLICATION, {:allow_extra_keys => true}) { result }
     end
 
   end
