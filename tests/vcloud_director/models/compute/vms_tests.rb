@@ -1,16 +1,16 @@
 require File.expand_path(File.join(File.dirname(__FILE__), 'helper'))
 
 VCR.use_cassette(File.basename(__FILE__)) do
-  
-  Shindo.tests("Compute::VcloudDirector | vms", ['all']) do
+
+  Shindo.tests("Compute::VcloudDirector | vms", ['vclouddirector', 'all']) do
     pending if Fog.mocking?
     vapp = vapps.detect {|vapp| vapp.vms.size >= 1 }
-    
+
     tests("#There is more than one vm").returns(true){ vapp.vms.size >= 1 }
-    
+
     vms = vapp.vms
     vm = vms.first
-        
+
     tests("Compute::VcloudDirector | vm") do
       tests("#model").returns(Fog::Compute::VcloudDirector::Vm){vm.class}
       tests("#id").returns(String){ vm.id.class }
@@ -25,16 +25,16 @@ VCR.use_cassette(File.basename(__FILE__)) do
       tests("#memory").returns(Fixnum){ vm.memory.class }
       tests("#hard_disks").returns(Array){ vm.hard_disks.class }
     end
-    
+
     tests("Compute::VcloudDirector | vm", ['get']) do
       tests("#get_by_name").returns(vm.name) { vms.get_by_name(vm.name).name }
       tests("#get").returns(vm.id) { vms.get(vm.id).id }
     end
-    
+
     tests("Compute::VcloudDirector | vm | disks") do
       tests("#collection").returns(Fog::Compute::VcloudDirector::Disks){ vm.disks.class }
       tests("#get_by_name").returns(Fog::Compute::VcloudDirector::Disk) { vm.disks.get_by_name("Hard disk 1").class }
-      
+
       hard_disk = vm.disks.get_by_name("Hard disk 1")
       tests("#id").returns(2000){ hard_disk.id }
       tests("#name").returns("Hard disk 1"){ hard_disk.name }
@@ -46,7 +46,7 @@ VCR.use_cassette(File.basename(__FILE__)) do
       tests("#bus_sub_type").returns("lsilogicsas"){ hard_disk.bus_sub_type }
       tests("#bus_type").returns(6){ hard_disk.bus_type }
     end
-    
+
     tests("Compute::VcloudDirector | vm | customization") do
       customization = vm.customization
       tests("#model").returns(Fog::Compute::VcloudDirector::VmCustomization){customization.class}
@@ -62,7 +62,7 @@ VCR.use_cassette(File.basename(__FILE__)) do
       tests("#admin_password_enabled").returns(true){ boolean? customization.admin_password_enabled }
       tests("#reset_password_required").returns(true){ boolean? customization.reset_password_required }
     end
-    
+
     tests("Compute::VcloudDirector | vm | network") do
       network = vm.network
       tests("#model").returns(Fog::Compute::VcloudDirector::VmNetwork){network.class}
@@ -76,14 +76,14 @@ VCR.use_cassette(File.basename(__FILE__)) do
       tests("#mac_address").returns(String){ network.mac_address.class }
       tests("#ip_address_allocation_mode").returns(String){ network.ip_address_allocation_mode.class }
       tests("#needs_customization").returns(true){ boolean? network.needs_customization }
-      tests("#is_connected").returns(true){ boolean? network.is_connected }      
+      tests("#is_connected").returns(true){ boolean? network.is_connected }
     end
-    
+
     tests("Compute::VcloudDirector | vm | tags") do
       tags = vm.tags
       tests("#collection").returns(Fog::Compute::VcloudDirector::Tags){ tags.class }
     end
-    
+
 
   end
 end
