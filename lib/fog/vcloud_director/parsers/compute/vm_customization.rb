@@ -24,7 +24,7 @@ module Fog
 
           def end_element(name)
             case name
-            when 'Enabled', 
+            when 'Enabled',
               @response[:enabled] = (value == "true")
             when 'ChangeSid'
               @response[:change_sid] = (value == "true")
@@ -44,11 +44,10 @@ module Fog
               @response[:computer_name] = value
             when 'CustomizationScript'
               @response[:has_customization_script] = !value.empty?
-              @response[:customization_script] = CGI::unescapeHTML(value) if @response[:has_customization_script] 
+              @response[:customization_script] = CGI::unescapeHTML(value) if @response[:has_customization_script]
             end
-            
           end
-          
+
         end
 
       end

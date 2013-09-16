@@ -3,8 +3,6 @@ module Fog
     module Compute
       module VcloudDirector
 
-
-
         class Disks < VcloudDirectorParser
 
           def reset
@@ -17,7 +15,7 @@ module Fog
             super
             case name
             when 'HostResource'
-              @host_resource = extract_attributes(attributes)              
+              @host_resource = extract_attributes(attributes)
             end
           end
 
@@ -48,9 +46,8 @@ module Fog
               @response[:disks] << @disk
               @host_resource = nil
               @disk = {}
-            end   
+            end
           end
-          
 
         end
 

@@ -5,9 +5,9 @@ module Fog
     class VcloudDirector
 
       class Network < Model
-        
+
         identity  :id
-                  
+
         attribute :name
         attribute :type
         attribute :href
@@ -19,7 +19,7 @@ module Fog
         attribute :dns2
         attribute :dns_suffix
         attribute :ip_ranges, :type => :array
-        
+
       end
     end
   end

@@ -7,10 +7,9 @@ module Fog
 
       class VmCustomizations < Collection
         model Fog::Compute::VcloudDirector::VmCustomization
-        
+
         attribute :vm
-        
-        
+
       end
     end
   end

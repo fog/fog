@@ -16,18 +16,18 @@ module Fog
           def start_element(name, attributes)
             super
             case name
-              when 'OperatingSystemSection'
-                @in_operating_system = true
-              when 'Vm'
-                 vm_attrs = extract_attributes(attributes)
-                 @response[:vm].merge!(vm_attrs.reject {|key,value| ![:href, :name, :status, :type].include?(key)})
-                 @response[:vm][:id] = @response[:vm][:href].split('/').last
-                 @response[:vm][:status] = human_status(@response[:vm][:status])
-             when 'HostResource'
-               @current_host_resource = extract_attributes(attributes)
-             when 'Link'
-               @links << extract_attributes(attributes)
-             end
+            when 'OperatingSystemSection'
+              @in_operating_system = true
+            when 'Vm'
+              vm_attrs = extract_attributes(attributes)
+              @response[:vm].merge!(vm_attrs.reject {|key,value| ![:href, :name, :status, :type].include?(key)})
+              @response[:vm][:id] = @response[:vm][:href].split('/').last
+              @response[:vm][:status] = human_status(@response[:vm][:status])
+            when 'HostResource'
+              @current_host_resource = extract_attributes(attributes)
+            when 'Link'
+              @links << extract_attributes(attributes)
+            end
           end
 
           def end_element(name)
@@ -58,19 +58,19 @@ module Fog
             when 'Link'
               @response[:vm][:links] = @links
             end
-            
+
           end
-          
+
           def human_status(status)
             case status
-              when '0', 0
-            'creating'
-              when '8', 8
-            'off'
-              when '4', 4
-            'on'
+            when '0', 0
+              'creating'
+            when '8', 8
+              'off'
+            when '4', 4
+              'on'
             else
-            'unknown'
+              'unknown'
             end
           end
 
