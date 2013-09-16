@@ -10,7 +10,7 @@ GET_GROUP_HEADERS_FORMAT = {
 }
 
 GROUP_DELETE_DATA_FORMAT = {
-  :body=>nil, 
+  :body=>Hash, 
   :headers=> {
     "Content-Type"=>String, 
     "Via"=>String, 
@@ -143,10 +143,10 @@ LAUNCH_CONFIG_OPTIONS = {
 }
 
 GROUP_CONFIG_OPTIONS = {
-	"max_entities" => 10,
+	"maxEntities" => 10,
 	"cooldown" => 360,
 	"name" => "testscalinggroup198547",
-	"min_entities" => 0,
+	"minEntities" => 0,
 	"metadata" => {
 	  "gc_meta_key_2" => "gc_meta_value_2",
 	  "gc_meta_key_1" => "gc_meta_value_1"

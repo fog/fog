@@ -5,30 +5,12 @@ module Fog
 
         def create_group(launch_config, group_config, policies)
 
-          if !launch_config.is_a?(LaunchConfig)
-            raise ArgumentError, 'launch_config needs to be an instance of Fog::Rackspace::AutoScale::LaunchConfig'
-          end
-
-          if !group_config.is_a?(GroupConfig)
-            raise ArgumentError, 'group_config needs to be an instance of Fog::Rackspace::AutoScale::GroupConfig'
-          end
-
           body = {
-            'launchConfiguration' => {
-              'args' => launch_config.args,
-              'type' => launch_config.type
-            },
-            'groupConfiguration' => {
-              'name' => group_config.name,
-              'cooldown' => group_config.cooldown, 
-              'maxEntities' => group_config.max_entities,
-              'minEntities' => group_config.min_entities
-            },
+            'launchConfiguration' => launch_config,
+            'groupConfiguration' => group_config,
             'scalingPolicies' => policies
           }
 
-          body['groupConfiguration']['metadata'] = group_config.metadata unless group_config.metadata.nil?
-          
           request(
             :expects => [201],
             :method => 'POST',

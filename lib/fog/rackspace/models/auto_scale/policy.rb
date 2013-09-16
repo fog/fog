@@ -28,7 +28,7 @@ module Fog
       	
         # @!attribute [r] changePercent
         # @return [Fixnum] The percentage change to the autoscale group's number of units
-        attribute :changePercent
+        attribute :change_percent, :aliases => 'changePercent'
 
       	# @!attribute [r] cooldown
         # @return [Fixnum] The policy's cooldown
@@ -41,7 +41,7 @@ module Fog
 
       	# @!attribute [r] args
         # @note An example might be:
-        #
+        # @example See below:
      		#	- "cron": "23 * * * *"
      		#	- "at": "2013-06-05T03:12Z"
      		#	- "check": {
@@ -67,19 +67,19 @@ module Fog
 
         # @!attribute [r] desiredCapacity
         # @return [Fixnum] The desired capacity of the group
-      	attribute :desiredCapacity
+      	attribute :desired_capacity, :aliases => 'desiredCapacity'
 
         # Basic sanity check to make sure attributes are valid
         #
-        # @raise MissingArgumentException If no type is set
-        # @raise MissingArgumentException If args attribute is missing required keys (if type == 'schedule')
+        # @raise ArgumentError If no type is set
+        # @raise ArgumentError If args attribute is missing required keys (if type == 'schedule')
 		    
         # @return [Boolean] Returns true if the check passes
         def check_attributes
-          raise MissingArgumentException(self.name, type) if type.nil?
+          raise ArgumentError, "This #{self.name} resource requires the #{type} argument" if type.nil?
 
         	if type == 'schedule'
-        		raise MissingArgumentException(self.name, "args[cron] OR args[at]") if args['cron'].nil? && args['at'].nil?
+        		raise ArgumentError, "This #{self.name} resource requires the args[cron] OR args[at] argument" if args['cron'].nil? && args['at'].nil?
         	end
 
         	true
@@ -96,7 +96,7 @@ module Fog
         # @raise [Fog::Rackspace::AutoScale:::ServiceError]
         #
         # @see Policies#create
-        # @see http://docs-internal.rackspace.com/cas/api/v1.0/autoscale-devguide/content/POST_createPolicies_v1.0__tenantId__groups__groupId__policies_Policies.html
+        # @see http://docs.rackspace.com/cas/api/v1.0/autoscale-devguide/content/POST_createPolicies_v1.0__tenantId__groups__groupId__policies_Policies.html
         def save
           requires :name, :type, :cooldown
 
@@ -105,10 +105,10 @@ module Fog
           options = {}
           options['name'] = name unless name.nil?
           options['change'] = change unless change.nil?
-          options['changePercent'] = changePercent unless changePercent.nil?
+          options['changePercent'] = change_percent unless change_percent.nil?
           options['cooldown'] = cooldown unless cooldown.nil?
           options['type'] = type unless type.nil?
-          options['desiredCapacity'] = desiredCapacity unless desiredCapacity.nil?
+          options['desiredCapacity'] = desired_capacity unless desired_capacity.nil?
 
           if type == 'schedule'
             options['args'] = args
@@ -128,7 +128,7 @@ module Fog
         # @raise [Fog::Rackspace::AutoScale:::InternalServerError] - HTTP 500
         # @raise [Fog::Rackspace::AutoScale:::ServiceError]
         #
-        # @see http://docs-internal.rackspace.com/cas/api/v1.0/autoscale-devguide/content/PUT_putPolicy_v1.0__tenantId__groups__groupId__policies__policyId__Policies.html
+        # @see http://docs.rackspace.com/cas/api/v1.0/autoscale-devguide/content/PUT_putPolicy_v1.0__tenantId__groups__groupId__policies__policyId__Policies.html
         def update
       		requires :identity
 
@@ -137,10 +137,10 @@ module Fog
       		options = {}
           options['name'] = name unless name.nil?
           options['change'] = change unless change.nil?
-          options['changePercent'] = changePercent unless changePercent.nil?
+          options['changePercent'] = change_percent unless change_percent.nil?
           options['cooldown'] = cooldown unless cooldown.nil?
           options['type'] = type unless type.nil?
-          options['desiredCapacity'] = desiredCapacity unless desiredCapacity.nil?
+          options['desiredCapacity'] = desired_capacity unless desired_capacity.nil?
 
           if type == 'schedule'
             options['args'] = args
@@ -160,7 +160,7 @@ module Fog
         # @raise [Fog::Rackspace::AutoScale:::InternalServerError] - HTTP 500
         # @raise [Fog::Rackspace::AutoScale:::ServiceError]
         #
-        # @see http://docs-internal.rackspace.com/cas/api/v1.0/autoscale-devguide/content/DELETE_deletePolicy_v1.0__tenantId__groups__groupId__policies__policyId__Policies.html
+        # @see http://docs.rackspace.com/cas/api/v1.0/autoscale-devguide/content/DELETE_deletePolicy_v1.0__tenantId__groups__groupId__policies__policyId__Policies.html
         def destroy
       		requires :identity
       		service.delete_policy(group_id, identity)
@@ -176,7 +176,7 @@ module Fog
         # @raise [Fog::Rackspace::AutoScale:::InternalServerError] - HTTP 500
         # @raise [Fog::Rackspace::AutoScale:::ServiceError]
         #
-        # @see http://docs-internal.rackspace.com/cas/api/v1.0/autoscale-devguide/content/POST_executePolicy_v1.0__tenantId__groups__groupId__policies__policyId__execute_Policies.html
+        # @see http://docs.rackspace.com/cas/api/v1.0/autoscale-devguide/content/POST_executePolicy_v1.0__tenantId__groups__groupId__policies__policyId__execute_Policies.html
         def execute
       		requires :identity
       		service.execute_policy(group_id, identity)

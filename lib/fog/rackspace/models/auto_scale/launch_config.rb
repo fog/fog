@@ -26,7 +26,7 @@ module Fog
         # @raise [Fog::Rackspace::AutoScale:::InternalServerError] - HTTP 500
         # @raise [Fog::Rackspace::AutoScale:::ServiceError]
         #
-        # @see http://docs-internal.rackspace.com/cas/api/v1.0/autoscale-devguide/content/PUT_putLaunchConfig_v1.0__tenantId__groups__groupId__launch_Configurations.html
+        # @see http://docs.rackspace.com/cas/api/v1.0/autoscale-devguide/content/PUT_putLaunchConfig_v1.0__tenantId__groups__groupId__launch_Configurations.html
         def update
           
           options = {}

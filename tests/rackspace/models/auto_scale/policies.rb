@@ -15,7 +15,9 @@ Shindo.tests('Fog::Rackspace::AutoScale | policies', ['rackspace', 'rackspace_au
     :type => 'webhook'
   }
 
-  collection_tests(group.policies, options, false)
-
-  group.destroy
+  begin
+    collection_tests(group.policies, options, false)
+  ensure
+    group.destroy
+  end
 end

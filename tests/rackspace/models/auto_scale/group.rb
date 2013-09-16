@@ -9,12 +9,11 @@ Shindo.tests('Fog::Rackspace::AutoScale | group', ['rackspace', 'rackspace_autos
 		:group_config => GROUP_CONFIG_OPTIONS
 	}
 
-	model_tests(service.groups, options, false) do
 
+	model_tests(service.groups, options, false) do
 		tests('#policies').succeeds do
 			@instance.policies
 		end
-
 	end
 
 end

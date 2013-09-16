@@ -26,7 +26,7 @@ module Fog
       	attribute :max_entities, :aliases => 'maxEntities'
 
         # @!attribute [r] metadata
-        # @return [Array] The group's metadata
+        # @return [Hash] The group's metadata
       	attribute :metadata
 
         # Update this group's configuration
@@ -38,7 +38,7 @@ module Fog
         # @raise [Fog::Rackspace::AutoScale:::InternalServerError] - HTTP 500
         # @raise [Fog::Rackspace::AutoScale:::ServiceError]
         #
-        # @see http://docs-internal.rackspace.com/cas/api/v1.0/autoscale-devguide/content/PUT_putGroupConfig_v1.0__tenantId__groups__groupId__config_Configurations.html
+        # @see http://docs.rackspace.com/cas/api/v1.0/autoscale-devguide/content/PUT_putGroupConfig_v1.0__tenantId__groups__groupId__config_Configurations.html
         def update
           
           options = {}

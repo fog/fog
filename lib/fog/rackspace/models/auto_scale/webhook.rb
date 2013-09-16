@@ -22,7 +22,7 @@ module Fog
         attribute :name
       	
         # @!attribute [r] metadata
-        # @return [Array] The metadata
+        # @return [Hash] The metadata
         attribute :metadata
       	
         # @!attribute [r] links
@@ -62,7 +62,7 @@ module Fog
         # @raise [Fog::Rackspace::AutoScale:::InternalServerError] - HTTP 500
         # @raise [Fog::Rackspace::AutoScale:::ServiceError]
         #
-        # @see http://docs-internal.rackspace.com/cas/api/v1.0/autoscale-devguide/content/PUT_putWebhook_v1.0__tenantId__groups__groupId__policies__policyId__webhooks__webhookId__Webhooks.html
+        # @see http://docs.rackspace.com/cas/api/v1.0/autoscale-devguide/content/PUT_putWebhook_v1.0__tenantId__groups__groupId__policies__policyId__webhooks__webhookId__Webhooks.html
         def update
       		requires :identity
 
@@ -84,7 +84,7 @@ module Fog
         # @raise [Fog::Rackspace::AutoScale:::InternalServerError] - HTTP 500
         # @raise [Fog::Rackspace::AutoScale:::ServiceError]
         #
-        # @see http://docs-internal.rackspace.com/cas/api/v1.0/autoscale-devguide/content/DELETE_deleteWebhook_v1.0__tenantId__groups__groupId__policies__policyId__webhooks__webhookId__Webhooks.html
+        # @see http://docs.rackspace.com/cas/api/v1.0/autoscale-devguide/content/DELETE_deleteWebhook_v1.0__tenantId__groups__groupId__policies__policyId__webhooks__webhookId__Webhooks.html
         def destroy
       		requires :identity 
       		service.delete_webhook(group_id, policy_id, identity)
@@ -95,8 +95,8 @@ module Fog
         # @return [String] the URL
         def execution_url
           requires :links
-          link = links.select { |l| l['rel'] == 'capability' } 
-          link[0]['href']
+          link = links.find { |l| l['rel'] == 'capability' } 
+          link['href'] rescue nil
         end
 
       end

@@ -16,11 +16,6 @@ module Fog
         # @return [Array] group links.
         attribute :links
 
-        def initialize(attributes={})
-          @service = attributes[:service]
-          super
-        end
-
         # Gets the group configuration for this autoscale group. The configuration describes the 
         # minimum number of entities in the group, the maximum number of entities in the group, 
         # the global cooldown time for the group, and other metadata.
@@ -32,16 +27,11 @@ module Fog
         # @raise [Fog::Rackspace::AutoScale:::InternalServerError] - HTTP 500
         # @raise [Fog::Rackspace::AutoScale:::ServiceError]
         #
-        # @see http://docs-internal.rackspace.com/cas/api/v1.0/autoscale-devguide/content/GET_getGroupConfig_v1.0__tenantId__groups__groupId__config_Configurations.html
+        # @see http://docs.rackspace.com/cas/api/v1.0/autoscale-devguide/content/GET_getGroupConfig_v1.0__tenantId__groups__groupId__config_Configurations.html
         def group_config
           if attributes[:group_config].nil?
             data = service.get_group_config(identity)
-            attributes[:group_config] = begin 
-              Fog::Rackspace::AutoScale::GroupConfig.new({
-                :service => @service,
-                :group   => self
-              }).merge_attributes(data.body['groupConfiguration']) 
-            end
+            attributes[:group_config] = load_model('GroupConfig', data.body['groupConfiguration'])
           end
           attributes[:group_config]
         end
@@ -51,12 +41,7 @@ module Fog
         # @param object [Hash<String, String>] Object which will stock the object
         def group_config=(object = {})
           if object.is_a?(Hash)
-            attributes[:group_config] = begin 
-              Fog::Rackspace::AutoScale::GroupConfig.new({
-                :service => @service,
-                :group   => self
-              }).merge_attributes(object) 
-            end
+            attributes[:group_config] = load_model('GroupConfig', object)
           else
             attributes[:group_config] = object
           end
@@ -73,16 +58,11 @@ module Fog
         # @raise [Fog::Rackspace::AutoScale:::InternalServerError] - HTTP 500
         # @raise [Fog::Rackspace::AutoScale:::ServiceError]
         #
-        # @see http://docs-internal.rackspace.com/cas/api/v1.0/autoscale-devguide/content/GET_getLaunchConfig_v1.0__tenantId__groups__groupId__launch_Configurations.html
+        # @see http://docs.rackspace.com/cas/api/v1.0/autoscale-devguide/content/GET_getLaunchConfig_v1.0__tenantId__groups__groupId__launch_Configurations.html
         def launch_config
           if attributes[:launch_config].nil?
             data = service.get_launch_config(identity)
-            attributes[:launch_config] = begin 
-              Fog::Rackspace::AutoScale::LaunchConfig.new({
-                :service => @service,
-                :group   => self
-              }).merge_attributes(data.body['launchConfiguration']) 
-            end
+            attributes[:launch_config] = load_model('LaunchConfig', data.body['launchConfiguration'])
           end
           attributes[:launch_config]
         end
@@ -92,12 +72,7 @@ module Fog
         # @param object [Hash<String, String>] Object which will stock the object
         def launch_config=(object={})
           if object.is_a?(Hash)
-            attributes[:launch_config] = begin 
-              Fog::Rackspace::AutoScale::LaunchConfig.new({
-                :service => @service,
-                :group   => self
-              }).merge_attributes(object) 
-            end
+            attributes[:launch_config] = load_model('LaunchConfig', object)
           else
             attributes[:launch_config] = object
           end
@@ -109,14 +84,9 @@ module Fog
         #
         # @return [Fog::Rackspace::AutoScale::Policies] policies
         #
-        # @see http://docs-internal.rackspace.com/cas/api/v1.0/autoscale-devguide/content/GET_getPolicies_v1.0__tenantId__groups__groupId__policies_Policies.html
+        # @see http://docs.rackspace.com/cas/api/v1.0/autoscale-devguide/content/GET_getPolicies_v1.0__tenantId__groups__groupId__policies_Policies.html
         def policies
-          @policies ||= begin
-            Fog::Rackspace::AutoScale::Policies.new({
-              :service => service,
-              :group => self
-            })
-          end
+          @policies ||= load_model('Policies')
         end
 
         # Creates group
@@ -130,11 +100,23 @@ module Fog
         # @raise [Fog::Rackspace::AutoScale:::ServiceError]
         #
         # @see Groups#create
-        # @see http://docs-internal.rackspace.com/cas/api/v1.0/autoscale-devguide/content/POST_createGroup_v1.0__tenantId__groups_Groups.html   
+        # @see http://docs.rackspace.com/cas/api/v1.0/autoscale-devguide/content/POST_createGroup_v1.0__tenantId__groups_Groups.html   
         def save
           requires :launch_config, :group_config, :policies
 
-          data = service.create_group(launch_config, group_config, policies)
+          launch_config_hash = {
+            'args' => launch_config.args,
+            'type' => launch_config.type
+          }
+          group_config_hash = {
+            'name' => group_config.name,
+            'cooldown' => group_config.cooldown, 
+            'maxEntities' => group_config.max_entities,
+            'minEntities' => group_config.min_entities
+          }
+          group_config_hash['metadata'] = group_config.metadata if group_config.metadata
+
+          data = service.create_group(launch_config_hash, group_config_hash, policies)
           merge_attributes(data.body['group'])
           true
         end
@@ -148,7 +130,7 @@ module Fog
         # @raise [Fog::Rackspace::AutoScale:::InternalServerError] - HTTP 500
         # @raise [Fog::Rackspace::AutoScale:::ServiceError]
         #
-        # @see http://docs-internal.rackspace.com/cas/api/v1.0/autoscale-devguide/content/DELETE_deleteGroup_v1.0__tenantId__groups__groupId__Groups.html
+        # @see http://docs.rackspace.com/cas/api/v1.0/autoscale-devguide/content/DELETE_deleteGroup_v1.0__tenantId__groups__groupId__Groups.html
         def destroy
           requires :identity
           service.delete_group(identity)
@@ -164,7 +146,7 @@ module Fog
         # @raise [Fog::Rackspace::AutoScale:::InternalServerError] - HTTP 500
         # @raise [Fog::Rackspace::AutoScale:::ServiceError]
         #
-        # @see http://docs-internal.rackspace.com/cas/api/v1.0/autoscale-devguide/content/GET_getGroupState_v1.0__tenantId__groups__groupId__state_Groups.html
+        # @see http://docs.rackspace.com/cas/api/v1.0/autoscale-devguide/content/GET_getGroupState_v1.0__tenantId__groups__groupId__state_Groups.html
         def state
           requires :identity
           data = service.get_group_state(identity)
@@ -181,7 +163,7 @@ module Fog
         # @raise [Fog::Rackspace::AutoScale:::InternalServerError] - HTTP 500
         # @raise [Fog::Rackspace::AutoScale:::ServiceError]
         #
-        # @see http://docs-internal.rackspace.com/cas/api/v1.0/autoscale-devguide/content/POST_pauseGroup_v1.0__tenantId__groups__groupId__pause_Groups.html
+        # @see http://docs.rackspace.com/cas/api/v1.0/autoscale-devguide/content/POST_pauseGroup_v1.0__tenantId__groups__groupId__pause_Groups.html
         def pause
           requires :identity
           data = service.pause_group_state(identity)
@@ -198,11 +180,25 @@ module Fog
         # @raise [Fog::Rackspace::AutoScale:::InternalServerError] - HTTP 500
         # @raise [Fog::Rackspace::AutoScale:::ServiceError]
         #
-        # @see http://docs-internal.rackspace.com/cas/api/v1.0/autoscale-devguide/content/POST_resumeGroup_v1.0__tenantId__groups__groupId__resume_Groups.html
+        # @see http://docs.rackspace.com/cas/api/v1.0/autoscale-devguide/content/POST_resumeGroup_v1.0__tenantId__groups__groupId__resume_Groups.html
         def resume
           requires :identity
           data = service.resume_group_state(identity)
           true
+        end
+
+        private
+
+        def load_model(class_name, attrs = nil)
+          # Can use either Kernel.const_get or do an eval() - first is quicker
+          model = Kernel.const_get("Fog::Rackspace::AutoScale::#{class_name}").new({
+            :service => @service,
+            :group   => self
+          })
+          if service && attrs
+            model.merge_attributes(attrs)
+          end
+          model
         end
 
       end

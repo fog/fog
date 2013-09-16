@@ -3,21 +3,8 @@ Shindo.tests('Fog::Rackspace::AutoScale | config_tests', ['rackspace', 'rackspac
   pending if Fog.mocking?
   service = Fog::Rackspace::AutoScale.new :rackspace_region => :ord
 
-  @launch_config = begin 
-    Fog::Rackspace::AutoScale::LaunchConfig.new({
-      :service => @service,
-      :group   => self
-    }).merge_attributes(LAUNCH_CONFIG_OPTIONS) 
-  end
-
-  @group_config = begin 
-    Fog::Rackspace::AutoScale::GroupConfig.new({
-      :service => @service,
-      :group   => self
-    }).merge_attributes(GROUP_CONFIG_OPTIONS) 
-  end
-
-  @group_id = service.create_group(@launch_config, @group_config, POLICIES_OPTIONS).body['group']['id']
+  @group = service.create_group(LAUNCH_CONFIG_OPTIONS, GROUP_CONFIG_OPTIONS, POLICIES_OPTIONS).body['group']
+  @group_id = @group['id']
 
   tests('success') do
     tests('#get group config').formats({"groupConfiguration" => GROUP_CONFIG_FORMAT}) do
@@ -55,7 +42,10 @@ Shindo.tests('Fog::Rackspace::AutoScale | config_tests', ['rackspace', 'rackspac
     end
   end
 
-  # If you execute a DELETE, it returns a 403 and says there are "entities" attached to the group. What?
-  #service.delete_group(@group_id)
+  # @group['scalingPolicies'].each do |p|
+  #   service.delete_policy(@group_id, p['id'])
+  # end
+
+  # service.delete_group(@group_id)
 
 end

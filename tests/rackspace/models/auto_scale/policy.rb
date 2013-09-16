@@ -16,12 +16,14 @@ Shindo.tests('Fog::Rackspace::AutoScale | policy', ['rackspace', 'rackspace_auto
     :group_id => group.id
   }
 
-  model_tests(group.policies, options, false) do
-
-    tests('#webhooks').succeeds do
-      @instance.webhooks
+  begin
+    model_tests(group.policies, options, false) do
+      tests('#webhooks').succeeds do
+        @instance.webhooks
+      end
     end
-
+  ensure
+    group.destroy
   end
 
 end

@@ -2,22 +2,7 @@ Shindo.tests('Fog::Rackspace::AutoScale | webhook_tests', ['rackspace', 'rackspa
   pending if Fog.mocking?
   service = Fog::Rackspace::AutoScale.new :rackspace_region => :ord
 
-  @launch_config = begin 
-    Fog::Rackspace::AutoScale::LaunchConfig.new({
-      :service => @service,
-      :group   => self
-    }).merge_attributes(LAUNCH_CONFIG_OPTIONS) 
-  end
-
-  @group_config = begin 
-    Fog::Rackspace::AutoScale::GroupConfig.new({
-      :service => @service,
-      :group   => self
-    }).merge_attributes(GROUP_CONFIG_OPTIONS) 
-  end
-
-  @group_id = service.create_group(@launch_config, @group_config, POLICIES_OPTIONS).body['group']['id']
-  
+  @group_id = service.create_group(LAUNCH_CONFIG_OPTIONS, GROUP_CONFIG_OPTIONS, POLICIES_OPTIONS).body['group']['id']
   @policy_id = service.create_policy(@group_id, POLICY_OPTIONS).body['policies'][0]['id']
 
   tests('success') do
