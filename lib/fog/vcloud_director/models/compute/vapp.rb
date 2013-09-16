@@ -5,10 +5,10 @@ module Fog
     class VcloudDirector
 
       class Vapp < Model
-        
-        
+
+
         identity  :id
-                  
+
         attribute :name
         attribute :type
         attribute :href
@@ -20,7 +20,7 @@ module Fog
         attribute :network_config, :aliases => :NetworkConfigSection, :squash => :NetworkConfig
         attribute :owner, :aliases => :Owner, :squash => :User
         attribute :InMaintenanceMode, :type => :boolean
-        
+
         def vms
           requires :id
           service.vms(:vapp => self)
@@ -30,8 +30,11 @@ module Fog
           requires :id
           service.tags(:vm => self)
         end
-        
-        
+
+        def undeploy
+          service.undeploy(id)
+        end
+
       end
     end
   end

@@ -109,6 +109,7 @@ module Fog
      request :get_vms_by_metadata
      request :get_vm
      request :post_task_cancel
+     request :undeploy
 
      class Model < Fog::Model
        def initialize(attrs={})
