@@ -24,9 +24,9 @@
 #
 # This is what it generates
 #
-# <vcloud:RasdItemsList xmlns:vcloud="http://www.vmware.com/vcloud/v1.5" 
-#    xmlns:rasd="http://schemas.dmtf.org/wbem/wscim/1/cim-schema/2/CIM_ResourceAllocationSettingData" 
-#    type="application/vnd.vmware.vcloud.rasdItemsList+xml" 
+# <vcloud:RasdItemsList xmlns:vcloud="http://www.vmware.com/vcloud/v1.5"
+#    xmlns:rasd="http://schemas.dmtf.org/wbem/wscim/1/cim-schema/2/CIM_ResourceAllocationSettingData"
+#    type="application/vnd.vmware.vcloud.rasdItemsList+xml"
 #    >
 #  <vcloud:Item>
 #    <rasd:Address>0</rasd:Address>
@@ -37,7 +37,7 @@
 #    <rasd:ResourceType>6</rasd:ResourceType>
 #  </vcloud:Item><vcloud:Item>
 #    <rasd:AddressOnParent>0</rasd:AddressOnParent>
-#    <rasd:Description>Hard disk</rasd:Description> 
+#    <rasd:Description>Hard disk</rasd:Description>
 #    <rasd:ElementName>Hard disk 1</rasd:ElementName>
 #    <rasd:HostResource vcloud:capacity="16384" vcloud:busSubType="VirtualSCSI" vcloud:busType="6"></rasd:HostResource>
 #    <rasd:InstanceID>2000</rasd:InstanceID>
@@ -50,25 +50,25 @@
 #     <rasd:InstanceID>3</rasd:InstanceID>
 #     <rasd:ResourceType>5</rasd:ResourceType>
 #  </vcloud:Item></vcloud:RasdItemsList>
-# 
+#
 module Fog
   module Generators
     module Compute
       module VcloudDirector
 
         class Disks
-          
+
           def initialize(items=[])
             @items = items[:disks]
           end
-          
+
           def modify_hard_disk_size(disk_number, new_size)
             found = false
             @items.each do |item|
               if item[:resource_type] == 17
                 if item[:name] == "Hard disk #{disk_number}"
                   found = true
-                  raise "Hard disk size can't be reduced" if item[:capacity].to_i > new_size.to_i 
+                  raise "Hard disk size can't be reduced" if item[:capacity].to_i > new_size.to_i
                   item[:capacity] = new_size
                 end
               end
@@ -76,24 +76,24 @@ module Fog
             raise "Hard disk #{disk_number} not found" unless found
             true
           end
-          
+
           def add_hard_disk(size)
             new_hard_disk = last_hard_disk.dup
             new_hard_disk[:capacity] = size
             new_hard_disk[:name] = increase_hard_disk_name(new_hard_disk[:name])
-            new_hard_disk[:address_on_parent] += 1 
-            new_hard_disk[:id] += 1 
+            new_hard_disk[:address_on_parent] += 1
+            new_hard_disk[:id] += 1
             @items << new_hard_disk
           end
-          
+
           def delete_hard_disk(disk_number)
             @items.delete_if {|item| item[:resource_type] == 17 && item[:name] =~ /#{disk_number}$/ }
           end
-          
+
           def disks
             { :disks => @items }
           end
-          
+
           def generate_xml
             output = ""
             output << header
@@ -110,21 +110,21 @@ module Fog
             output << tail
             output
           end
-          
+
           def header
-            '<vcloud:RasdItemsList xmlns:vcloud="http://www.vmware.com/vcloud/v1.5" 
-              xmlns:rasd="http://schemas.dmtf.org/wbem/wscim/1/cim-schema/2/CIM_ResourceAllocationSettingData" 
+            '<vcloud:RasdItemsList xmlns:vcloud="http://www.vmware.com/vcloud/v1.5"
+              xmlns:rasd="http://schemas.dmtf.org/wbem/wscim/1/cim-schema/2/CIM_ResourceAllocationSettingData"
               type="application/vnd.vmware.vcloud.rasdItemsList+xml">'
           end
-          
+
           def tail
             '</vcloud:RasdItemsList>'
           end
-          
+
           def hard_disk_item(opts={})
             "<vcloud:Item>
               <rasd:AddressOnParent>#{opts[:address_on_parent]}</rasd:AddressOnParent>
-              <rasd:Description>#{opts[:description]}</rasd:Description> 
+              <rasd:Description>#{opts[:description]}</rasd:Description>
               <rasd:ElementName>#{opts[:name]}</rasd:ElementName>
               <rasd:HostResource vcloud:capacity=\"#{opts[:capacity]}\" vcloud:busSubType=\"#{opts[:bus_sub_type]}\" vcloud:busType=\"#{opts[:bus_type]}\"></rasd:HostResource>
               <rasd:InstanceID>#{opts[:id]}</rasd:InstanceID>
@@ -132,7 +132,7 @@ module Fog
               <rasd:ResourceType>17</rasd:ResourceType>
             </vcloud:Item>"
           end
-          
+
           def ide_controller_item(opts={})
             "<vcloud:Item>
                <rasd:Address>#{opts[:address]}</rasd:Address>
@@ -142,7 +142,7 @@ module Fog
                <rasd:ResourceType>5</rasd:ResourceType>
             </vcloud:Item>"
           end
-          
+
           def scsi_controller(opts={})
             "<vcloud:Item>
               <rasd:Address>#{opts[:address]}</rasd:Address>
@@ -153,9 +153,9 @@ module Fog
               <rasd:ResourceType>6</rasd:ResourceType>
             </vcloud:Item>"
           end
-          
+
           # helpers
-          
+
           def last_hard_disk
              hard_disks = @items.select{|item| item[:resource_type] == 17}
              names = hard_disks.map{|item| item[:name] }
@@ -163,11 +163,11 @@ module Fog
              last_number = only_numbers.sort.last # get the last number
              hard_disks.detect{|hard_disk| hard_disk[:name] =~ /#{last_number}$/  }
           end
-          
+
           def increase_hard_disk_name(hard_disk_name)
             hard_disk_name.gsub(/(\d+)$/) { $1.to_i + 1 }
           end
-          
+
         end
       end
     end

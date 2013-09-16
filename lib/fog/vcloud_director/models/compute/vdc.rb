@@ -5,9 +5,9 @@ module Fog
     class VcloudDirector
 
       class Vdc < Model
-        
+
         identity  :id
-                  
+
         attribute :name
         attribute :type
         attribute :href
@@ -21,13 +21,12 @@ module Fog
         attribute :network_quota ,:aliases => :NetworkQuota, :type => :integer
         attribute :vm_quota ,:aliases => :VmQuota, :type => :integer
         attribute :is_enabled ,:aliases => :IsEnabled, :type => :boolean
-        
+
         def vapps
           requires :id
           service.vapps(:vdc => self)
         end
-        
-        
+
       end
     end
   end

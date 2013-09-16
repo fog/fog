@@ -7,18 +7,18 @@ module Fog
 
       class CatalogItems < Collection
         model Fog::Compute::VcloudDirector::CatalogItem
-        
+
         attribute :catalog
-        
+
         private
-        
+
         def item_list
           data = service.get_catalog(catalog.id).body
           items = data[:CatalogItems][:CatalogItem].select { |link| link[:type] == "application/vnd.vmware.vcloud.catalogItem+xml" }
           items.each{|item| service.add_id_from_href!(item) }
           items
         end
-        
+
         def get_by_id(item_id)
           item = service.get_catalog_item(item_id).body
           item[:vapp_template_id] = item[:Entity][:href].split('/').last

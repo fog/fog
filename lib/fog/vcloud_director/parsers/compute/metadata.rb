@@ -17,14 +17,14 @@
 #         <Value>adios</Value>
 #     </MetadataEntry>
 # </Metadata>
-# 
+#
 #
 # {:metadata=>{"buenas si"=>"no tanto ya", "hola"=>"adios"},
 #  :type=>"application/vnd.vmware.vcloud.metadata+xml",
 #  :href=>
 #   "https://example.com/api/vApp/vm-18545e82-d919-4071-ae7e-d1300d9d8112/metadata",
 #  :id=>"vm-18545e82-d919-4071-ae7e-d1300d9d8112"}
-# 
+#
 module Fog
   module Parsers
     module Compute
@@ -57,7 +57,7 @@ module Fog
               @response[:metadata].merge!(Hash[@key, @val])
             end
           end
-          
+
         end
 
       end

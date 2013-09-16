@@ -5,10 +5,9 @@ module Fog
     class VcloudDirector
 
       class VmCustomization < Model
-        
-        
+
         identity  :id
-                  
+
         attribute :type
         attribute :href
         attribute :enabled
@@ -20,21 +19,21 @@ module Fog
         attribute :virtual_machine_id
         attribute :computer_name
         attribute :has_customization_script
-        
+
         # bug: for some reason if the customization_script has /r, is showed here as /n. Looks likes is something in excon
         def script
           attributes[:customization_script]
         end
-        
+
         def script=(new_script)
           attributes[:customization_script] = new_script
         end
-        
+
         def save
           response = service.put_vm_customization(id, attributes)
           service.process_task(response.body)
         end
-        
+
       end
     end
   end
