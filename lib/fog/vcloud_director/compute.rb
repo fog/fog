@@ -98,6 +98,7 @@ module Fog
       request :put_metadata_value
       request :delete_metadata
       request :post_vm_poweron
+      request :post_vm_poweroff
       request :get_request # this is used for manual testing
       request :get_href    # this is used for manual testing
       request :get_vms_by_metadata
