@@ -155,7 +155,6 @@ module Fog
             'KernelId'                    => kernel_id,
             'KeyName'                     => key_name,
             'Monitoring.Enabled'          => monitoring,
-            'NetworkInterface.n.AssociatePublicIpAddress' => associate_public_ip,
             'Placement.AvailabilityZone'  => availability_zone,
             'Placement.GroupName'         => placement_group,
             'Placement.Tenancy'           => tenancy,
