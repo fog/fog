@@ -1,6 +1,7 @@
 require 'fog/core'
 require 'fog/aws/credential_fetcher'
 require 'fog/aws/signaturev4'
+require 'unicode'
 module Fog
   module AWS
     extend Fog::Provider
@@ -85,7 +86,8 @@ module Fog
     end
 
     def self.escape(string)
-      string.gsub(/([^a-zA-Z0-9_.\-~]+)/) {
+      string = Unicode::normalize_C(string)
+      string.gsub(/([^a-zA-Z0-9_.\-~\/]+)/) {
         "%" + $1.unpack("H2" * $1.bytesize).join("%").upcase
       }
     end
