@@ -8,7 +8,7 @@ module Fog
           request(
             :expects => [200],
             :method => 'GET',
-            :path => "groups/#{group_id}/policies/#{policy_id}",
+            :path => "groups/#{group_id}/policies/#{policy_id}"
           )
         end
       end
