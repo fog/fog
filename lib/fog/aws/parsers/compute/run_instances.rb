@@ -74,6 +74,8 @@ module Fog
               @response[name] = value
             when 'ebsOptimized'
               @instance['ebsOptimized'] = (value == 'true')
+            when 'associatePublicIP'
+              @instance['associatePublicIP'] = (value == 'true')              
             end
           end
 
