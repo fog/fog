@@ -19,7 +19,7 @@ module Fog
         end
 
         def public_ip_address
-          ips.find{|ip| ip.ip !~ /^192/}.ip
+          ips.find{|ip| ip.ip !~ /^192\.168\./}.ip
         end
 
         def disks
