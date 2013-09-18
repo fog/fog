@@ -10,6 +10,7 @@ fog is the Ruby cloud services library, top to bottom:
 [![Gem Version](https://fury-badge.herokuapp.com/rb/fog.png)](http://badge.fury.io/rb/fog)
 [![Dependency Status](https://gemnasium.com/fog/fog.png)](https://gemnasium.com/fog/fog)
 [![Code Climate](https://codeclimate.com/github/fog/fog.png)](https://codeclimate.com/github/fog/fog)
+[![Coverage Status](https://coveralls.io/repos/fog/fog/badge.png?branch=master)](https://coveralls.io/r/fog/fog?branch=master)
 
 ## Getting Started
 
