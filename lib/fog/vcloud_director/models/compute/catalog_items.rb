@@ -12,9 +12,13 @@ module Fog
 
         private
 
+        def ensure_list(items)
+          items.is_a?(Hash) ? [items] : items
+        end
+
         def item_list
           data = service.get_catalog(catalog.id).body
-          items = data[:CatalogItems][:CatalogItem].select { |link| link[:type] == "application/vnd.vmware.vcloud.catalogItem+xml" }
+          items = ensure_list(data[:CatalogItems][:CatalogItem]).select { |link| link[:type] == "application/vnd.vmware.vcloud.catalogItem+xml" }
           items.each{|item| service.add_id_from_href!(item) }
           items
         end
