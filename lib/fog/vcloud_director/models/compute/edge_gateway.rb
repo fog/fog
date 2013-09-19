@@ -10,6 +10,8 @@ module Fog
 
         attribute :href
 
+        attribute :name
+
         attribute :configuration, :aliases => :Configuration
 
       end
