@@ -69,6 +69,9 @@ module Fog
       collection :vm_networks
       model      :tag # this is called metadata in vcloud
       collection :tags
+      model      :edge_gateway
+      collection :edge_gateways
+
 
       request_path 'fog/vcloud_director/requests/compute'
       request :get_organizations
@@ -105,6 +108,8 @@ module Fog
       request :get_vm
       request :post_task_cancel
       request :post_vapp_undeploy
+      request :get_edge_gateways
+      request :get_edge_gateway
 
       class Model < Fog::Model
         def initialize(attrs={})
