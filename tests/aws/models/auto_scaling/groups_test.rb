@@ -20,7 +20,7 @@ Shindo.tests('AWS::AutoScaling | group', ['aws', 'auto_scaling_m']) do
   end
   
   test("setting attributes in the constructor") do
-    group = Fog::AWS[:auto_scaling].groups.new(min_size: 1, max_size: 2)
+    group = Fog::AWS[:auto_scaling].groups.new(:min_size => 1, :max_size => 2)
     group.min_size == 1 && group.max_size == 2
   end
 
