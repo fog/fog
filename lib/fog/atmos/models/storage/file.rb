@@ -60,7 +60,8 @@ module Fog
           file = directory.files.head(key)
           self.objectid = if file && file.to_s.strip != "" then file.attributes['x-emc-meta'].scan(/objectid=(\w+),/).flatten[0] else nil end
           if self.objectid && self.objectid.to_s.strip != ""
-            uri = URI::HTTP.build(:scheme => service.ssl? ? "http" : "https" , :host => service.host, :port => service.port.to_i, :path => "/rest/objects/#{self.objectid}" )
+            klass = service.ssl? ? URI::HTTPS : URI::HTTP
+            uri = klass.build(:host => service.host, :port => service.port.to_i, :path => "/rest/objects/#{self.objectid}" )
 
             sb = "GET\n"
             sb += uri.path.downcase + "\n"
