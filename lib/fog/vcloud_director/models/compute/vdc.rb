@@ -27,11 +27,6 @@ module Fog
           service.vapps(:vdc => self)
         end
 
-        def delete_vapp(vapp_id)
-          response = service.delete_vapp(vapp_id)
-          service.process_task(response.body)
-        end
-
       end
     end
   end
