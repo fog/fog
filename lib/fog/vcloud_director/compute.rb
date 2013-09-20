@@ -105,6 +105,7 @@ module Fog
       request :get_vm
       request :post_task_cancel
       request :post_vapp_undeploy
+      request :delete_vapp
 
       class Model < Fog::Model
         def initialize(attrs={})

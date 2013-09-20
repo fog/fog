@@ -45,6 +45,11 @@ module Fog
           service.process_task(response.body)
         end
 
+        def destroy
+          response = service.delete_vapp(id)
+          service.process_task(response.body)
+        end
+
       end
     end
   end
