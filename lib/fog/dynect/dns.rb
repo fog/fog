@@ -18,7 +18,7 @@ module Fog
       request_path 'fog/dynect/requests/dns'
       request :delete_record
       request :delete_zone
-      request :get_node_list
+      request :get_all_records
       request :get_record
       request :get_zone
       request :post_record
@@ -85,7 +85,7 @@ module Fog
 
             params[:headers] ||= {}
             params[:headers]['Content-Type'] = 'application/json'
-            params[:headers]['API-Version'] = @version
+            #params[:headers]['API-Version'] = @version
             params[:headers]['Auth-Token'] = auth_token unless params[:path] == 'Session'
             params[:path] = "#{@path}/#{params[:path]}" unless params[:path] =~ %r{^#{Regexp.escape(@path)}/}
 

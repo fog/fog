@@ -10,19 +10,19 @@ module Fog
         # * options<~Hash>
         #   * fqdn<~String> - fully qualified domain name of node to lookup
 
-        def get_node_list(zone, options = {})
+        def get_all_records(zone, options = {})
           requested_fqdn = options['fqdn'] || options[:fqdn]
           request(
             :expects  => 200,
             :idempotent => true,
             :method   => :get,
-            :path     => ['NodeList', zone, requested_fqdn].compact.join('/')
+            :path     => ['AllRecord', zone, requested_fqdn].compact.join('/')
           )
         end
       end
 
       class Mock
-        def get_node_list(zone, options = {})
+        def get_all_records(zone, options = {})
           raise Fog::DNS::Dynect::NotFound unless zone = self.data[:zones][zone]
 
           response = Excon::Response.new
