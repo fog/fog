@@ -70,7 +70,7 @@ module Fog
           @path       = options[:path]        || '/REST'
           @persistent = options[:persistent]  || false
           @scheme     = options[:scheme]      || 'https'
-          @version    = options[:version]     || '2.3.1'
+          @version    = options[:version]     || '3.5.2'
           @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
         end
 
@@ -85,7 +85,7 @@ module Fog
 
             params[:headers] ||= {}
             params[:headers]['Content-Type'] = 'application/json'
-            #params[:headers]['API-Version'] = @version
+            params[:headers]['API-Version'] = @version
             params[:headers]['Auth-Token'] = auth_token unless params[:path] == 'Session'
             params[:path] = "#{@path}/#{params[:path]}" unless params[:path] =~ %r{^#{Regexp.escape(@path)}/}
 

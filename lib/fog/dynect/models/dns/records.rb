@@ -15,21 +15,10 @@ module Fog
           requires :zone
           data = []
           service.get_all_records(zone.domain, options).body['data'].each do |url|
-            (_, r, t, z, fqdn, id) = url.split('/')
+            (_, _, t, _, fqdn, id) = url.split('/')
             type = t.gsub(/Record$/, '')
             record = service.get_record(type, zone.domain, fqdn, 'record_id' => id).body['data']
 
-            # data in format ['/REST/xRecord/domain/fqdn/identity]
-            #records.map! do |record|
-            #  tokens = record.split('/')
-            #  {
-            #    :identity => tokens.last,
-            #    :fqdn     => fqdn,
-            #    :type     => tokens[2][0...-6] # everything before 'Record'
-            #  }
-            #end
-            #
-            #data.concat(records)
             data << {
                 :identity => record['record_id'],
                 :fqdn => record['fqdn'],
