@@ -44,6 +44,8 @@ Shindo.tests('Fog::Storage[:openstack] | object requests', ["openstack"]) do
     tests("put_object with block") do
       pending if Fog.mocking?
 
+      WebMock.disable! # https://github.com/bblimke/webmock/issues/307
+
       tests("#put_object('fogobjecttests', 'fog_object', &block)").succeeds do
         begin
           file = lorem_file
@@ -55,6 +57,8 @@ Shindo.tests('Fog::Storage[:openstack] | object requests', ["openstack"]) do
           file.close
         end
       end
+
+      WebMock.enable!
 
       tests('#get_object').succeeds do
         Fog::Storage[:openstack].get_object('fogobjecttests', 'fog_block_object').body == lorem_file.read

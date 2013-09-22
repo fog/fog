@@ -12,10 +12,14 @@ module Fog
         # * options<~Hash> - config headers for object. Defaults to {}.
         #
         def put_object(container, object, data, options = {}, &block)
-          data = Fog::Storage.parse_data(data)
-          headers = data[:headers].merge!(options)
-
-          params = block_given? ? { :request_block => block } : { :body => data[:body] }
+          if block_given?
+            params = { :request_block => block }
+            headers = options
+          else
+            data = Fog::Storage.parse_data(data)
+            headers = data[:headers].merge!(options)
+            params = { :body => data[:body] }
+          end
 
           params.merge!(
             :expects    => 201,
