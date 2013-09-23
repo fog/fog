@@ -18,6 +18,7 @@ module Fog
       request_path 'fog/dynect/requests/dns'
       request :delete_record
       request :delete_zone
+      request :get_node_list
       request :get_all_records
       request :get_record
       request :get_zone
