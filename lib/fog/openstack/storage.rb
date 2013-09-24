@@ -140,7 +140,7 @@ module Fog
           @path = @original_path
         end
 
-        def request(params, parse_json = true, &block)
+        def request(params, parse_json = true)
           begin
             response = @connection.request(params.merge({
               :headers  => {
@@ -149,7 +149,7 @@ module Fog
               }.merge!(params[:headers] || {}),
               :host     => @host,
               :path     => "#{@path}/#{params[:path]}",
-            }), &block)
+            }))
           rescue Excon::Errors::Unauthorized => error
             if error.response.body != 'Bad username or password' # token expiration
               @openstack_must_reauthenticate = true
