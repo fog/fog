@@ -55,7 +55,11 @@ module Fog
       private
 
       def process_response(response)
-        if response && response.body && response.body.is_a?(String) && Fog::Rackspace.json_response?(response)
+        if response &&
+           response.body &&
+           response.body.is_a?(String) &&
+           !response.body.strip.empty? &&
+           Fog::Rackspace.json_response?(response)
           begin
             response.body = Fog::JSON.decode(response.body)
           rescue MultiJson::DecodeError => e
