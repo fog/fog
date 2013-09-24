@@ -111,22 +111,20 @@ module Fog
 
         private
 
-        def request(params, parse_json = true, &block)
-          begin
-            super(params, parse_json, &block)
-          rescue Excon::Errors::NotFound => error
-            raise NotFound.slurp(error, self)
-          rescue Excon::Errors::BadRequest => error
-            raise BadRequest.slurp(error, self)
-          rescue Excon::Errors::InternalServerError => error
-            raise InternalServerError.slurp(error, self)
-          rescue Excon::Errors::ServiceUnavailable => error
-            raise ServiceUnavailable.slurp(error, self)
-          rescue Excon::Errors::Conflict => error
-            raise Conflict.slurp(error, self)
-          rescue Excon::Errors::HTTPStatusError => error
-            raise ServiceError.slurp(error, self)
-          end
+        def request(params, parse_json = true)
+          super
+        rescue Excon::Errors::NotFound => error
+          raise NotFound.slurp(error, self)
+        rescue Excon::Errors::BadRequest => error
+          raise BadRequest.slurp(error, self)
+        rescue Excon::Errors::InternalServerError => error
+          raise InternalServerError.slurp(error, self)
+        rescue Excon::Errors::ServiceUnavailable => error
+          raise ServiceUnavailable.slurp(error, self)
+        rescue Excon::Errors::Conflict => error
+          raise Conflict.slurp(error, self)
+        rescue Excon::Errors::HTTPStatusError => error
+          raise ServiceError.slurp(error, self)
         end
 
         def array_to_query_string(arr)
