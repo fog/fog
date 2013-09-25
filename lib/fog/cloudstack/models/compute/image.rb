@@ -24,8 +24,8 @@ module Fog
         attribute :is_public, :aliases => 'ispublic'
         attribute :is_ready, :aliases => 'isready'
         attribute :name
-        attribute :os_type_id, :aliases => 'ostypeid'
-        attribute :os_type_name, :aliases => 'ostypename'
+        attribute :os_type_id,         :aliases => 'ostypeid'
+        attribute :os_type_name,       :aliases => 'ostypename'
         attribute :password_enabled,   :aliases => 'passwordenabled'
         attribute :project
         attribute :project_id, :aliases => 'projectid'
