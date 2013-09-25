@@ -93,7 +93,7 @@ Shindo.tests('Dynect::dns | DNS requests', ['dynect', 'dns']) do
     })
 
     tests("put_record('A', '#{@domain}', '#{@fqdn}', 'address' => '1.2.3.4')").formats(post_record_format) do
-      @dns.ut_record('A', @domain, @fqdn, {'address' => '1.2.3.4'}).body
+      @dns.put_record('A', @domain, @fqdn, {'address' => '1.2.3.4'}).body
     end
 
     publish_zone_format = shared_format.merge({
