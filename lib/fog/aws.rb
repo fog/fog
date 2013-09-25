@@ -283,6 +283,41 @@ module Fog
       def self.rds_address(db_name,region)
         "#{db_name}.#{Fog::Mock.random_letters(rand(12) + 4)}.#{region}.rds.amazonaws.com"
       end
+
+      def self.message_response(service, destination, message, options = {})
+        Excon::Response.new.tap do |response|
+          if (destination)
+            response.status = 200
+
+            now        = Time.now
+            message_id = Fog::AWS::Mock.send("#{service}_message_id")
+            md5        = Digest::MD5.hexdigest(message)
+
+            destination[:messages][message_id] = {
+              'MessageId'  => message_id,
+              'Body'       => message,
+              'MD5OfBody'  => md5,
+              'Attributes' => {
+                'SenderId'      => message_id,
+                'SentTimestamp' => now
+              }
+            }
+
+            destination['Attributes']['LastModifiedTimestamp'] = now
+
+            response.body = {
+              'ResponseMetadata' => {
+                'RequestId' => Fog::AWS::Mock.request_id
+              },
+              'MessageId'        => message_id,
+              'MD5OfMessageBody' => md5
+            }
+          else
+            response.status = 404
+            raise(Excon::Errors.status_error({:expects => 200}, response))
+          end
+        end
+      end
     end
 
     def self.parse_security_group_options(group_name, options)

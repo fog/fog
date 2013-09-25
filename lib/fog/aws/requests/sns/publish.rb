@@ -32,38 +32,7 @@ module Fog
       class Mock
 
         def publish(arn, message, options = {})
-          Excon::Response.new.tap do |response|
-            if (topic = data[:topics][arn])
-              response.status = 200
-
-              now        = Time.now
-              message_id = Fog::AWS::Mock.sns_message_id
-              md5        = Digest::MD5.hexdigest(message)
-
-              topic[:messages][message_id] = {
-                'MessageId'  => message_id,
-                'Body'       => message,
-                'MD5OfBody'  => md5,
-                'Attributes' => {
-                  'SenderId'      => Fog::AWS::Mock.sns_message_id,
-                  'SentTimestamp' => now
-                }
-              }
-
-              topic['Attributes']['LastModifiedTimestamp'] = now
-
-              response.body = {
-                'ResponseMetadata' => {
-                  'RequestId' => Fog::AWS::Mock.request_id
-                },
-                'MessageId'        => message_id,
-                'MD5OfMessageBody' => md5
-              }
-            else
-              response.status = 404
-              raise(Excon::Errors.status_error({:expects => 200}, response))
-            end
-          end
+          Fog::AWS::Mock.message_response(:sns, data[:topics][arn], message, options)
         end
 
       end
