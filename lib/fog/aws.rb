@@ -225,6 +225,8 @@ module Fog
         alias :reserved_instances_offering_id :request_id
         alias :sqs_message_id :request_id
         alias :sqs_sender_id :request_id
+        alias :sns_message_id :request_id
+        alias :sns_sender_id :request_id
       end
 
       def self.reservation_id

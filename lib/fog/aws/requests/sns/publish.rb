@@ -37,22 +37,20 @@ module Fog
               response.status = 200
 
               now        = Time.now
-              message_id = Fog::AWS::Mock.message_id
+              message_id = Fog::AWS::Mock.sns_message_id
               md5        = Digest::MD5.hexdigest(message)
 
-              queue[:messages][message_id] = {
+              topic[:messages][message_id] = {
                 'MessageId'  => message_id,
                 'Body'       => message,
                 'MD5OfBody'  => md5,
                 'Attributes' => {
-                  'SenderId'      => Fog::AWS::Mock.message_id,
+                  'SenderId'      => Fog::AWS::Mock.sns_message_id,
                   'SentTimestamp' => now
                 }
               }
 
-              queue['Attributes']['LastModifiedTimestamp'] = now
-
-#<Excon::Response:0x00000007bac690 @data={:body=>{"MessageId"=>"6196d103-43eb-5761-aa1c-9bbe48eae574", "RequestId"=>"903392f1-fe8b-5501-b3e1-d84cf58aa714"}, :headers=>{"x-amzn-RequestId"=>"903392f1-fe8b-5501-b3e1-d84cf58aa714", "Content-Type"=>"text/xml", "Content-Length"=>"294", "Date"=>"Wed, 25 Sep 2013 16:01:05 GMT"}, :status=>200, :remote_ip=>"176.32.96.164"}, @body="", @headers={"x-amzn-RequestId"=>"903392f1-fe8b-5501-b3e1-d84cf58aa714", "Content-Type"=>"text/xml", "Content-Length"=>"294", "Date"=>"Wed, 25 Sep 2013 16:01:05 GMT"}, @status=200, @remote_ip="176.32.96.164">
+              topic['Attributes']['LastModifiedTimestamp'] = now
 
               response.body = {
                 'ResponseMetadata' => {

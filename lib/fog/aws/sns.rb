@@ -30,7 +30,7 @@ module Fog
             hash[region] = Hash.new do |region_hash, key|
               region_hash[key] = {
                 :owner_id => Fog::AWS::Mock.owner_id,
-                :queues   => {}
+                :topics   => {}
               }
             end
           end
