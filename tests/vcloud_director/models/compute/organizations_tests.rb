@@ -5,12 +5,12 @@ VCR.use_cassette(File.basename(__FILE__)) do
   Shindo.tests("Compute::VcloudDirector | organizations", ['vclouddirector', 'all']) do
     pending if Fog.mocking?
     organizations = vcloud_director.organizations
-    tests("#There is one organization").returns(1){ organizations.size }
+    tests("#There is at least one organization").returns(true){ organizations.size >= 1 }
 
     org = organizations.first
 
     tests("Compute::VcloudDirector | organization") do
-      tests("#name").returns("DevOps"){ org.name }
+      tests("#name").returns(String){ org.name.class }
       tests("#type").returns("application/vnd.vmware.vcloud.org+xml"){ org.type }
     end
 

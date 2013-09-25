@@ -4,7 +4,7 @@ VCR.use_cassette(File.basename(__FILE__)) do
 
   Shindo.tests("Compute::VcloudDirector | vms", ['vclouddirector', 'all']) do
     pending if Fog.mocking?
-    vapp = vapps.detect {|vapp| vapp.vms.size >= 1 }
+    vapp = vapps.detect {|v| v.vms.size >= 1}
 
     tests("#There is more than one vm").returns(true){ vapp.vms.size >= 1 }
 
@@ -43,7 +43,7 @@ VCR.use_cassette(File.basename(__FILE__)) do
       tests("#address_on_parent").returns(0){ hard_disk.address_on_parent }
       tests("#parent").returns(2){ hard_disk.parent }
       tests("#capacity").returns(Fixnum){ hard_disk.capacity.class }
-      tests("#bus_sub_type").returns("lsilogicsas"){ hard_disk.bus_sub_type }
+      tests("#bus_sub_type").returns(String){ hard_disk.bus_sub_type.class }
       tests("#bus_type").returns(6){ hard_disk.bus_type }
     end
 

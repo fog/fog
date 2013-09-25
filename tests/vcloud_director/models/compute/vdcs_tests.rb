@@ -29,7 +29,9 @@ VCR.use_cassette(File.basename(__FILE__)) do
     end
 
     tests("Compute::VcloudDirector | vdc", ['lazy load attrs']) do
-      vdc.lazy_load_attrs.each do |lazy_attr|
+      lazy_attrs = vdc.lazy_load_attrs
+      lazy_attrs.delete(:storage_capacity) if vcloud_director.api_version.to_f >= 5.1
+      lazy_attrs.each do |lazy_attr|
         tests("##{lazy_attr} is now loaded").returns(true) { vdc.attributes[lazy_attr] != NonLoaded }
       end
     end
