@@ -25,6 +25,7 @@ module Fog
       request :post_session
       request :post_zone
       request :put_zone
+      request :put_record
 
       class JobIncomplete < Error; end
 
