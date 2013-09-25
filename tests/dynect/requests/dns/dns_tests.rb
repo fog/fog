@@ -82,9 +82,13 @@ Shindo.tests('Dynect::dns | DNS requests', ['dynect', 'dns']) do
     put_record_format = shared_format.merge({
       'data' => {
         'fqdn'        => String,
-        'rdata'       => {
-          'address' => String
-        },
+        'ARecords'    => [
+          {
+            'rdata'      => {
+              'address'   => String
+            }
+          }
+        ],
         'record_id'   => Integer,
         'record_type' => String,
         'ttl'         => Integer,
