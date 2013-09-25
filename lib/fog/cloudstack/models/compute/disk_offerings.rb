@@ -9,11 +9,6 @@ module Fog
 
         model Fog::Compute::Cloudstack::DiskOffering
 
-        #def all
-        #  data = connection.list_disk_offerings["listdiskofferingsresponse"]["diskoffering"] || []
-        #  load(data)
-        #end
-
         def all(options = {})
           response = service.list_disk_offerings(options)
           disk_offerings_data = response["listdiskofferingsresponse"]["diskoffering"] || []
