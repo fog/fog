@@ -3,7 +3,7 @@ module Fog
     class Dynect
       class Real
 
-        # Create a record
+        # Update or replace a record
         #
         # ==== Parameters
         # * type<~String> - type of record in ['AAAA', 'ANY', 'A', 'CNAME', 'DHCID', 'DNAME', 'DNSKEY', 'DS', 'KEY', 'LOC', 'MX', 'NSA', 'NS', 'PTR', 'PX', 'RP', 'SOA', 'SPF', 'SRV', 'SSHFP', 'TXT']
