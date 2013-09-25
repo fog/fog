@@ -79,6 +79,27 @@ Shindo.tests('Dynect::dns | DNS requests', ['dynect', 'dns']) do
       @dns.post_record('A', @domain, @fqdn, {'address' => '1.2.3.4'}).body
     end
 
+    put_record_format = shared_format.merge({
+      'data' => {
+        'fqdn'        => String,
+        'ARecords'    => [
+          {
+            'rdata'      => {
+              'address'   => String
+            }
+          }
+        ],
+        'record_id'   => Integer,
+        'record_type' => String,
+        'ttl'         => Integer,
+        'zone'        => String
+      }
+    })
+
+    tests("put_record('A', '#{@domain}', '#{@fqdn}', 'address' => '1.2.3.4')").formats(post_record_format) do
+      @dns.put_record('A', @domain, @fqdn, {'address' => '1.2.3.4'}).body
+    end
+
     publish_zone_format = shared_format.merge({
       'data' => {
         'serial'        => Integer,
