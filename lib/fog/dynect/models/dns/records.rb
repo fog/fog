@@ -38,8 +38,9 @@ module Fog
         def get(record_id)
           requires :zone
 
-          list = service.get_all_records(zone.domain, options).body['data']
+          list = service.get_all_records(zone.domain, {}).body['data']
           url = list.detect { |e| e =~ /\/#{record_id}$/ }
+          return unless url
           (_, _, t, _, fqdn, id) = url.split('/')
           type = t.gsub(/Record$/, '')
           record = service.get_record(type, zone.domain, fqdn, 'record_id' => id).body['data']
