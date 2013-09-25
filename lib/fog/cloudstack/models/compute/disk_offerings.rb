@@ -17,6 +17,7 @@ module Fog
         def all(options = {})
           response = service.list_disk_offerings(options)
           disk_offerings_data = response["listdiskofferingsresponse"]["diskoffering"] || []
+          load(disk_offerings_data)
         end
 
         def get(disk_offering_id)

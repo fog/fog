@@ -2,9 +2,6 @@ module Fog
   module Compute
     class Cloudstack
       class DiskOffering < Fog::Model
-<<<<<<< .merge_file_gka5Z4
-        identity  :id
-=======
         identity  :id,              :aliases => 'id'
         attribute :created
         attribute :disk_size,       :aliases => 'disk_size'
@@ -12,17 +9,10 @@ module Fog
         attribute :domain
         attribute :domain_id,       :aliases => 'domainid'
         attribute :is_customized,   :aliases => 'iscustomized'
->>>>>>> .merge_file_f5aL51
         attribute :name
         attribute :storage_type,    :aliases => 'storagetype'
         attribute :tags
 
-<<<<<<< .merge_file_gka5Z4
-      end
-    end
-  end
-end
-=======
 
         def save
           requires :display_text, :name
@@ -54,4 +44,3 @@ end
     end # Cloudstack
   end # Compute
 end # Fog
->>>>>>> .merge_file_f5aL51
