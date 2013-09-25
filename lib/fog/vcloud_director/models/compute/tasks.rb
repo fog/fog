@@ -21,7 +21,7 @@ module Fog
 
         def item_list
           data = service.get_tasks_list(organization.id).body
-          tasks = data[:Task].is_a?(Array) ? data[:Task] : [data[:Task]]
+          tasks = ensure_list(data[:Task])
           tasks.each {|task| service.add_id_from_href!(task)}
         end
 

@@ -173,6 +173,10 @@ module Fog
           items = item_list.map {|item| get_by_id(item[:id])}
           load(items)
         end
+
+        def ensure_list(items)
+          items.is_a?(Hash) ? [items] : items
+        end
       end
 
       class Real
