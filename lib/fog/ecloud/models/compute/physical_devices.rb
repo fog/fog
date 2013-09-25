@@ -10,12 +10,12 @@ module Fog
         model Fog::Compute::Ecloud::PhysicalDevice
 
         def all
-          data = connection.get_physical_devices(href).body[:PhysicalDevice] || []
+          data = service.get_physical_devices(href).body[:PhysicalDevice] || []
           load(data)
         end
 
         def get(uri)
-          if data = connection.get_physical_device(uri)
+          if data = service.get_physical_device(uri)
             new(data.body)
           end
         rescue Fog::Errors::NotFound

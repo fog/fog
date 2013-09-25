@@ -21,6 +21,18 @@ module Fog
         end
 
       end
+
+      class Mock
+
+        def delete_domain(name)
+          self.data[:records].delete name
+          self.data[:domains].reject! { |domain| domain["domain"]["name"] == name }
+          response = Excon::Response.new
+          response.status = 200
+          response
+        end
+
+      end
     end
   end
 end

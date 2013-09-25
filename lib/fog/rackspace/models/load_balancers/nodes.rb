@@ -11,13 +11,13 @@ module Fog
 
         def all
           requires :load_balancer
-          data = connection.list_nodes(load_balancer.id).body['nodes']
+          data = service.list_nodes(load_balancer.id).body['nodes']
           load(data)
         end
 
         def get(node_id)
           requires :load_balancer
-          if node = connection.get_node(load_balancer.id, node_id).body['node']
+          if node = service.get_node(load_balancer.id, node_id).body['node']
             new(node)
           end
         rescue Fog::Rackspace::LoadBalancers::NotFound

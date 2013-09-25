@@ -10,7 +10,7 @@ module Fog
         model Fog::Compute::Libvirt::Interface
 
         def all(filter={})
-          load(connection.list_interfaces(filter))
+          load(service.list_interfaces(filter))
         end
 
         def get(name)

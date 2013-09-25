@@ -38,10 +38,9 @@ module Fog
         attribute :server_type
 
         def initialize(attributes={})
-          # Call super first to initialize the 'connection' object for our default image
+          # Call super first to initialize the service object for our default image
           super
-          # FIXME connection is actually <Fog::Compute::Brightbox::Real> not <Fog::Connection>
-          self.image_id ||= connection.default_image
+          self.image_id ||= service.default_image
         end
 
         def zone_id
@@ -70,7 +69,7 @@ module Fog
 
         def snapshot
           requires :identity
-          connection.snapshot_server(identity)
+          service.snapshot_server(identity)
         end
 
         # Directly requesting a server reboot is not supported in the API
@@ -97,36 +96,44 @@ module Fog
 
         def start
           requires :identity
-          connection.start_server(identity)
+          service.start_server(identity)
           true
         end
 
         def stop
           requires :identity
-          connection.stop_server(identity)
+          service.stop_server(identity)
           true
         end
 
         def shutdown
           requires :identity
-          connection.shutdown_server(identity)
+          service.shutdown_server(identity)
           true
         end
 
         def destroy
           requires :identity
-          connection.destroy_server(identity)
+          service.destroy_server(identity)
           true
         end
 
         def flavor
           requires :flavor_id
-          connection.flavors.get(flavor_id)
+          service.flavors.get(flavor_id)
         end
 
         def image
           requires :image_id
-          connection.images.get(image_id)
+          service.images.get(image_id)
+        end
+
+        # Returns the public DNS name of the server
+        #
+        # @return [String]
+        #
+        def dns_name
+          ["public", fqdn].join(".")
         end
 
         def private_ip_address
@@ -151,12 +158,12 @@ module Fog
 
         def activate_console
           requires :identity
-          response = connection.activate_console_server(identity)
+          response = service.activate_console_server(identity)
           [response["console_url"], response["console_token"], response["console_token_expires"]]
         end
 
         def save
-          raise Fog::Errors::Error.new('Resaving an existing object may create a duplicate') if identity
+          raise Fog::Errors::Error.new('Resaving an existing object may create a duplicate') if persisted?
           requires :image_id
           options = {
             :image => image_id,
@@ -168,7 +175,7 @@ module Fog
           unless flavor_id.nil? || flavor_id == ""
             options.merge!(:server_type => flavor_id)
           end
-          data = connection.create_server(options)
+          data = service.create_server(options)
           merge_attributes(data)
           true
         end
@@ -184,14 +191,14 @@ module Fog
         # Soft reboots often timeout if the OS missed the request so we do more
         # error checking trying to detect the timeout
         #
-        # @fixme - Using side effect of wait_for's (evaluated block) to detect timeouts
+        # @todo Needs cleaner error handling when the OS times out
         def soft_reboot
           shutdown
-          if wait_for(20) { ! ready? }
-            # Server is now down, start it up again
+          # FIXME Using side effect of wait_for's (evaluated block) to detect timeouts
+          begin
+            wait_for(20) { ! ready? }
             start
-          else
-            # We timed out
+          rescue Fog::Errors::Timeout => e
             false
           end
         end

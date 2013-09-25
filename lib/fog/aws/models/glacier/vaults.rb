@@ -10,12 +10,12 @@ module Fog
         model Fog::AWS::Glacier::Vault
 
         def all
-          data = connection.list_vaults.body['VaultList']
+          data = service.list_vaults.body['VaultList']
           load(data)
         end
 
         def get(key)
-          data = connection.describe_vault(key).body
+          data = service.describe_vault(key).body
           new(data)
         rescue Excon::Errors::NotFound
           nil

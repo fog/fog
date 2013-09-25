@@ -30,14 +30,16 @@ module Fog
         attribute :backup_retention_period, :aliases => 'BackupRetentionPeriod', :type => :integer
         attribute :license_model, :aliases => 'LicenseModel'
         attribute :db_subnet_group_name, :aliases => 'DBSubnetGroupName'
+        attribute :publicly_accessible, :aliases => 'PubliclyAccessible'
+        attribute :vpc_security_groups, :aliases => 'VpcSecurityGroups'
 
         attr_accessor :password, :parameter_group_name, :security_group_names, :port
 
         def create_read_replica(replica_id, options={})
           options[:security_group_names] ||= options['DBSecurityGroups']
           params = self.class.new(options).attributes_to_params
-          connection.create_db_instance_read_replica(replica_id, id, params)
-          connection.servers.get(replica_id)
+          service.create_db_instance_read_replica(replica_id, id, params)
+          service.servers.get(replica_id)
         end
 
         def ready?
@@ -46,42 +48,42 @@ module Fog
 
         def destroy(snapshot_identifier=nil)
           requires :id
-          connection.delete_db_instance(id, snapshot_identifier, snapshot_identifier.nil?)
+          service.delete_db_instance(id, snapshot_identifier, snapshot_identifier.nil?)
           true
         end
 
         def reboot
-          connection.reboot_db_instance(id)
+          service.reboot_db_instance(id)
           true
         end
 
         def snapshots
           requires :id
-          connection.snapshots(:server => self)
+          service.snapshots(:server => self)
         end
 
         def tags
           requires :id
-          connection.list_tags_for_resource(id).
+          service.list_tags_for_resource(id).
             body['ListTagsForResourceResult']['TagList']
         end
 
         def add_tags(new_tags)
           requires :id
-          connection.add_tags_to_resource(id, new_tags)
+          service.add_tags_to_resource(id, new_tags)
           tags
         end
 
         def remove_tags(tag_keys)
           requires :id
-          connection.remove_tags_from_resource(id, tag_keys)
+          service.remove_tags_from_resource(id, tag_keys)
           tags
         end
 
         def modify(immediately, options)
           options[:security_group_names] ||= options['DBSecurityGroups']
           params = self.class.new(options).attributes_to_params
-          data = connection.modify_db_instance(id, immediately, params)
+          data = service.modify_db_instance(id, immediately, params)
           merge_attributes(data.body['ModifyDBInstanceResult']['DBInstance'])
           true
         end
@@ -94,7 +96,7 @@ module Fog
 
           self.flavor_id ||= 'db.m1.small'
 
-          data = connection.create_db_instance(id, attributes_to_params)
+          data = service.create_db_instance(id, attributes_to_params)
           merge_attributes(data.body['CreateDBInstanceResult']['DBInstance'])
           true
         end
@@ -120,7 +122,8 @@ module Fog
             'PreferredBackupWindow'         => preferred_backup_window,
             'MultiAZ'                       => multi_az,
             'LicenseModel'                  => license_model,
-            'DBSubnetGroupName'             => db_subnet_group_name
+            'DBSubnetGroupName'             => db_subnet_group_name,
+            'PubliclyAccessible'            => publicly_accessible
           }
 
           options.delete_if {|key, value| value.nil?}

@@ -60,7 +60,7 @@ module Fog
 
         def get(key, options = {}, &block)
           requires :directory
-          data = connection.get_object(directory.key, key, options, &block)
+          data = service.get_object(directory.key, key, options, &block)
           file_data = data.headers.merge({
             :body => data.body,
             :key  => key
@@ -72,17 +72,17 @@ module Fog
 
         def get_http_url(key, expires)
           requires :directory
-          connection.get_object_http_url(directory.key, key, expires)
+          service.get_object_http_url(directory.key, key, expires)
         end
 
         def get_https_url(key, expires)
           requires :directory
-          connection.get_object_https_url(directory.key, key, expires)
+          service.get_object_https_url(directory.key, key, expires)
         end
 
         def head(key, options = {})
           requires :directory
-          data = connection.head_object(directory.key, key, options)
+          data = service.head_object(directory.key, key, options)
           file_data = data.headers.merge({
             :key => key
           })

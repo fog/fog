@@ -10,12 +10,12 @@ module Fog
         model Fog::Compute::Cloudstack::Volume
 
         def all
-          data = connection.list_volumes["listvolumesresponse"]["volume"] || []
+          data = service.list_volumes["listvolumesresponse"]["volume"] || []
           load(data)
         end
 
         def get(volume_id)
-          if volume = connection.list_volumes('id' => volume_id)["listvolumesresponse"]["volume"].first
+          if volume = service.list_volumes('id' => volume_id)["listvolumesresponse"]["volume"].first
             new(volume)
           end
         rescue Fog::Compute::Cloudstack::BadRequest

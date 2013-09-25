@@ -3,15 +3,13 @@ module Fog
     class AWS
       class Real
 
-        # Delete a streaming distribution from CloudFront
+        # Delete a streaming distribution from CloudFront.
         #
-        # ==== Parameters
-        # * distribution_id<~String> - Id of distribution to delete
-        # * etag<~String> - etag of that distribution from earlier get or put
+        # @param [String] distribution_id Id of distribution to delete.
+        # @param [String] etag Etag of that distribution from earlier get or put
         #
-        # ==== See Also
-        # http://docs.amazonwebservices.com/AmazonCloudFront/latest/APIReference/DeleteStreamingDistribution.html
-
+        # @see http://docs.amazonwebservices.com/AmazonCloudFront/latest/APIReference/DeleteStreamingDistribution.html
+        
         def delete_streaming_distribution(distribution_id, etag)
           request({
             :expects    => 204,

@@ -15,12 +15,12 @@ module Fog
 
         def destroy
           requires :identity, :load_balancer
-          connection.delete_node(load_balancer.identity, identity)
+          service.delete_node(load_balancer.identity, identity)
           true
         end
 
         def save
-          if identity
+          if persisted?
             update
           else
             create
@@ -38,7 +38,7 @@ module Fog
           unless weight.nil?
             options[:weight] = weight
           end
-          data = connection.create_node(load_balancer.id, address, port, condition, options)
+          data = service.create_node(load_balancer.id, address, port, condition, options)
           merge_attributes(data.body['nodes'][0])
         end
 
@@ -50,7 +50,7 @@ module Fog
           unless weight.nil?
             options[:weight] = weight
           end
-          connection.update_node(load_balancer.id, identity, options)
+          service.update_node(load_balancer.id, identity, options)
         end
       end
     end

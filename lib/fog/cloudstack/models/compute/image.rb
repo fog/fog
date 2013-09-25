@@ -24,9 +24,15 @@ module Fog
         attribute :is_public, :aliases => 'ispublic'
         attribute :is_ready, :aliases => 'isready'
         attribute :name
+<<<<<<< .merge_file_HZH2m6
         attribute :os_type_id, :aliases => 'ostypeid'
         attribute :os_type_name, :aliases => 'ostypename'
         attribute :password_enabled, :aliases => 'ostypename'
+=======
+        attribute :os_type_id,         :aliases => 'ostypeid'
+        attribute :os_type_name,       :aliases => 'ostypename'
+        attribute :password_enabled,   :aliases => 'passwordenabled'
+>>>>>>> .merge_file_9OGET7
         attribute :project
         attribute :project_id, :aliases => 'projectid'
         attribute :removed
@@ -57,13 +63,13 @@ module Fog
               'virtualmachineid' => virtual_machine_id,
               'volumeid' => volume_id
           }
-          data = connection.create_template(options)
+          data = service.create_template(options)
           merge_attributes(data['createtemplateresponse'])
         end
 
         def destroy
           requires :id
-          connection.delete_template('id' => self.id)
+          service.delete_template('id' => self.id)
           true
         end
 

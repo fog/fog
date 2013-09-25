@@ -24,7 +24,7 @@ module Fog
         #
         def associate(vpc_id)
           requires :id
-          connection.attach_dhcp_option(id, vpc_id)
+          service.attach_dhcp_option(id, vpc_id)
           #reload
         end
 
@@ -39,7 +39,7 @@ module Fog
 
         def destroy
           requires :id
-          connection.delete_dhcp_options(id)
+          service.delete_dhcp_options(id)
           true
         end
 
@@ -55,7 +55,7 @@ module Fog
 
         def save
           requires :dhcp_configuration_set
-          data = connection.create_dhcp_options(dhcp_configuration_set).body['dhcpOptionsSet'].first
+          data = service.create_dhcp_options(dhcp_configuration_set).body['dhcpOptionsSet'].first
           new_attributes = data.reject {|key,value| key == 'requestId'}
           merge_attributes(new_attributes)
           true

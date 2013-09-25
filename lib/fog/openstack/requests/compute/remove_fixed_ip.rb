@@ -20,7 +20,7 @@ module Fog
       end # class Real
 
       class Mock
-        def remove_fixed_ip(server_id, network_id)
+        def remove_fixed_ip(server_id, address)
           true
         end # def remove_fixed_ip
       end # class Mock

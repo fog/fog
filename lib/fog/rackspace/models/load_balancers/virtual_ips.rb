@@ -24,7 +24,7 @@ module Fog
         private
         def all_raw
           requires :load_balancer
-          connection.list_virtual_ips(load_balancer.id).body['virtualIps']
+          service.list_virtual_ips(load_balancer.id).body['virtualIps']
         end
       end
     end

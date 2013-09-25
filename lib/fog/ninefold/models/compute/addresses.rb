@@ -10,13 +10,13 @@ module Fog
         model Fog::Compute::Ninefold::Address
 
         def all
-          data = connection.list_public_ip_addresses
+          data = service.list_public_ip_addresses
           load(data)
         end
 
         def get(identifier)
           return nil if identifier.nil? || identifier == ""
-          data = connection.list_public_ip_addresses(:id => identifier)
+          data = service.list_public_ip_addresses(:id => identifier)
           if data.empty?
             nil
           else

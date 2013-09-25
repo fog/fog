@@ -15,7 +15,7 @@ module Fog
           marker = nil
           finished = false
           while !finished
-            data = connection.describe_load_balancers('Marker' => marker).body
+            data = service.describe_load_balancers('Marker' => marker).body
             result.concat(data['DescribeLoadBalancersResult']['LoadBalancerDescriptions'])
             marker = data['DescribeLoadBalancersResult']['NextMarker']
             finished = marker.nil?
@@ -25,7 +25,7 @@ module Fog
 
         def get(identity)
           if identity
-            data = connection.describe_load_balancers('LoadBalancerNames' => identity).body['DescribeLoadBalancersResult']['LoadBalancerDescriptions'].first
+            data = service.describe_load_balancers('LoadBalancerNames' => identity).body['DescribeLoadBalancersResult']['LoadBalancerDescriptions'].first
             new(data)
           end
         rescue Fog::AWS::ELB::NotFound

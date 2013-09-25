@@ -16,25 +16,25 @@ module Fog
         def destroy
           requires :id
 
-          connection.delete_security_group(id)
+          service.delete_security_group(id)
           true
         end
 
         def save
           requires :name, :description
 
-          data = connection.create_security_group(name, description)
+          data = service.create_security_group(name, description)
           merge_attributes(data.body['security_group'])
           true
         end
 
         def create_rule(range, ip_protocol = "tcp", cidr = "0.0.0.0/0", group_id=nil)
           requires :id
-          connection.create_security_group_rule(id, ip_protocol, range.min, range.max, cidr, group_id)
+          service.create_security_group_rule(id, ip_protocol, range.min, range.max, cidr, group_id)
         end
 
         def delete_rule(rule_id)
-          connection.delete_security_group_rule(rule_id)
+          service.delete_security_group_rule(rule_id)
           true
         end
 

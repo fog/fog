@@ -10,18 +10,20 @@ module Fog
         # * object<~String> - Name of object to look for
         #
         def get_object(container, object, &block)
-          params = {}
-
           if block_given?
-            params[:response_block] = Proc.new
+            response = request(
+              :response_block  => block,
+              :expects  => 200,
+              :method   => 'GET',
+              :path     => "#{Fog::HP.escape(container)}/#{Fog::HP.escape(object)}"
+            )
+          else
+            response = request({
+              :expects  => 200,
+              :method   => 'GET',
+              :path     => "#{Fog::HP.escape(container)}/#{Fog::HP.escape(object)}"
+            }, false, &block)
           end
-
-          response = request(params.merge!({
-            :block    => block,
-            :expects  => 200,
-            :method   => 'GET',
-            :path     => "#{Fog::HP.escape(container)}/#{Fog::HP.escape(object)}"
-          }), false)
           response
         end
 
@@ -41,7 +43,7 @@ module Fog
             if (object = container[:objects][object_name])
               if options['If-Match'] && options['If-Match'] != object['ETag']
                 response.status = 412
-              elsif options['If-Modified-Since'] && options['If-Modified-Since'] > Time.parse(object['Last-Modified'])
+              elsif options['If-Modified-Since'] && options['If-Modified-Since'] >= Time.parse(object['Last-Modified'])
                 response.status = 304
               elsif options['If-None-Match'] && options['If-None-Match'] == object['ETag']
                 response.status = 304

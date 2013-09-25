@@ -6,14 +6,7 @@ module Fog
         def vm_destroy(options = {})
           raise ArgumentError, "instance_uuid is a required parameter" unless options.has_key? 'instance_uuid'
 
-          # Find the VM Object
-          search_filter = { :uuid => options['instance_uuid'], 'vmSearch' => true, 'instanceUuid' => true }
-          vm_mob_ref = @connection.searchIndex.FindAllByUuid(search_filter).first
-
-          unless vm_mob_ref.kind_of? RbVmomi::VIM::VirtualMachine
-            raise Fog::Vsphere::Errors::NotFound,
-              "Could not find VirtualMachine with instance uuid #{options['instance_uuid']}"
-          end
+          vm_mob_ref = get_vm_ref(options['instance_uuid'])
           task = vm_mob_ref.Destroy_Task
           task.wait_for_completion
           { 'task_state' => task.info.state }

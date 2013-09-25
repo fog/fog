@@ -14,13 +14,13 @@ module Fog
         def all
           requires :zone
           clear
-          data = connection.list_records(zone.id).body.map {|record| record['record']}
+          data = service.list_records(zone.id).body.map {|record| record['record']}
           load(data)
         end
 
         def get(record_id)
           requires :zone
-          data = connection.get_record(zone.id, record_id).body["record"]
+          data = service.get_record(zone.id, record_id).body["record"]
           new(data)
         rescue Excon::Errors::NotFound
           nil

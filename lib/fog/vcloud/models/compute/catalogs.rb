@@ -10,13 +10,13 @@ module Fog
         attribute :organization_uri
 
         def all
-          org_uri = self.organization_uri || connection.default_organization_uri
-          data = connection.get_organization(org_uri).links.select { |link| link[:type] == "application/vnd.vmware.vcloud.catalog+xml" }
+          org_uri = self.organization_uri || service.default_organization_uri
+          data = service.get_organization(org_uri).links.select { |link| link[:type] == "application/vnd.vmware.vcloud.catalog+xml" }
           load(data)
         end
 
         def get(uri)
-          connection.get_catalog(uri)
+          service.get_catalog(uri)
         rescue Fog::Errors::NotFound
           nil
         end

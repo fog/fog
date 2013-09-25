@@ -1,18 +1,22 @@
 ![fog](http://geemus.s3.amazonaws.com/fog.png)
 
-fog is the Ruby cloud computing library, top to bottom:
+fog is the Ruby cloud services library, top to bottom:
 
 * Collections provide a simplified interface, making clouds easier to work with and switch between.
 * Requests allow power users to get the most out of the features of each individual cloud.
 * Mocks make testing and integrating a breeze.
 
 [![Build Status](https://secure.travis-ci.org/fog/fog.png?branch=master)](http://travis-ci.org/fog/fog)
+[![Gem Version](https://fury-badge.herokuapp.com/rb/fog.png)](http://badge.fury.io/rb/fog)
+[![Dependency Status](https://gemnasium.com/fog/fog.png)](https://gemnasium.com/fog/fog)
+[![Code Climate](https://codeclimate.com/github/fog/fog.png)](https://codeclimate.com/github/fog/fog)
+[![Coverage Status](https://coveralls.io/repos/fog/fog/badge.png?branch=master)](https://coveralls.io/r/fog/fog?branch=master)
 
 ## Getting Started
 
     sudo gem install fog
 
-Now type `fog` to try stuff, confident that fog will let you know what to do. 
+Now type `fog` to try stuff, confident that fog will let you know what to do.
 Here is an example of wading through server creation for Amazon Elastic Compute Cloud:
 
     >> server = Compute[:aws].servers.create
@@ -24,10 +28,31 @@ Here is an example of wading through server creation for Amazon Elastic Compute 
     >> server.destroy # cleanup after yourself or regret it, trust me
     true
 
+## Ruby 1.8.7
+
+The maintainers of this project, in concert with the maintainers of Ruby,
+**strongly** recommend using the latest patchlevel of Ruby 1.9.2 or later.
+[As of July 1, 2013, Ruby 1.8.7 is no longer officially maintained.][retired]
+This means fixes will no longer be provided, even for known security
+vulnerabilities.
+
+[retired]: http://www.ruby-lang.org/en/news/2013/06/30/we-retire-1-8-7/
+
+With this caveat, if you wish to bundle `fog` into your application on Ruby
+1.8.7, you must add the following line to your `Gemfile`.
+
+    gem 'nokogiri', '~>1.5.0'
+
+Also, ensure that you are using LibXML version 2.8.0, since there is an
+[issue with LibXML version 2.9.0][issue829] ([and 2.9.1][issue904]).
+
+[issue829]: https://github.com/sparklemotion/nokogiri/issues/829
+[issue904]: https://github.com/sparklemotion/nokogiri/issues/904
+
 ## Collections
 
 A high level interface to each cloud is provided through collections, such as `images` and `servers`.
-You can see a list of available collections by calling `collections` on the connection object. 
+You can see a list of available collections by calling `collections` on the connection object.
 You can try it out using the `fog` command:
 
     >> Compute[:aws].collections
@@ -97,8 +122,8 @@ It will return an [excon](http://github.com/geemus/excon) response, which has `b
 
 ## Go forth and conquer
 
-Play around and use the console to explore or check out [fog.io](http://fog.io) for more details and examples. 
-Once you are ready to start scripting fog, here is a quick hint on how to make connections without the command line thing to help you.
+Play around and use the console to explore or check out [fog.io](http://fog.io) and the [provider documentation](http://fog.io/about/provider_documentation.html)
+for more details and examples. Once you are ready to start scripting fog, here is a quick hint on how to make connections without the command line thing to help you.
 
     # create a compute connection
     compute = Fog::Compute.new(:provider => 'AWS', :aws_access_key_id => ACCESS_KEY_ID, :aws_secret_access_key => SECRET_ACCESS_KEY)
@@ -112,28 +137,27 @@ geemus says: "That should give you everything you need to get started, but let m
 
 ## Contributing
 
-* Find something you would like to work on. For suggestions look for the `easy`, `medium` and `hard` tags in the [issues](https://github.com/fog/fog/issues)
+* Find something you would like to work on.
+  * Look for anything you can help with in the [issue tracker](https://github.com/fog/fog/issues).
+  * Look at the [code quality metrics](https://codeclimate.com/github/fog/fog) for anything you can help clean up.
+  * Or anything else!
 * Fork the project and do your work in a topic branch.
-* Add a config at `~/.fog` for the component you want to test.
+  * Make sure your changes will work on both Ruby 1.8.7 and Ruby 1.9
+* Add a config at `tests/.fog` for the component you want to test.
 * Add shindo tests to prove your code works and run all the tests using `bundle exec rake`.
-* Rebase your branch against fog/fog to make sure everything is up to date.
+* Rebase your branch against `fog/fog` to make sure everything is up to date.
 * Commit your changes and send a pull request.
 
 ## Additional Resources
 
-[fog.io](http://fog.io)
-
-## Sponsorship
-
-![Engine Yard](http://www.engineyard.com/images/logo.png)
-
-All new work on fog is sponsored by [Engine Yard](http://engineyard.com)
+* [fog.io](http://fog.io)
+* [Provider Documentation](http://fog.io/about/provider_documentation.html)
 
 ## Copyright
 
 (The MIT License)
 
-Copyright (c) 2010 [geemus (Wesley Beary)](http://github.com/geemus)
+Copyright (c) 2013 [geemus (Wesley Beary)](http://github.com/geemus)
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the

@@ -16,8 +16,8 @@ module Fog
         attribute :updated_at,  :aliases => 'updated-at'
 
         # <custom-nameservers>ns1.example.com,ns2.example.com</custom-nameservers>
-        # <custom-ns type="boolean">true</custom-ns> 
-        # <hostmaster>dnsadmin@example.com</hostmaster> 
+        # <custom-ns type="boolean">true</custom-ns>
+        # <hostmaster>dnsadmin@example.com</hostmaster>
         # <notes nil="true"/>
         # <ns1 nil="true"/>
         # <nx-ttl nil="true"></nx-ttl>
@@ -27,13 +27,12 @@ module Fog
 
         def initialize(attributes={})
           self.type ||= 'pri_sec'
-          self.ttl  ||= 3600
           super
         end
 
         def destroy
           requires :identity
-          connection.delete_zone(identity)
+          service.delete_zone(identity)
           true
         end
 
@@ -41,7 +40,7 @@ module Fog
           @records ||= begin
             Fog::DNS::Zerigo::Records.new(
               :zone       => self,
-              :connection => connection
+              :service => service
             )
           end
         end
@@ -57,6 +56,7 @@ module Fog
         end
 
         def save
+          self.ttl ||= 3600
           requires :domain, :type, :ttl
           options = {}
           # * options<~Hash> - optional paramaters
@@ -71,11 +71,11 @@ module Fog
           #   * restrict_axfr<~String> - indicates if AXFR transfers should be restricted to IPs in axfr-ips
           #   * tag_list<~String> - List of all tags associated with this domain
           data = unless identity
-            connection.create_zone(domain, ttl, type, options)
+            service.create_zone(domain, ttl, type, options)
           else
             options[:default_ttl] = ttl
             options[:ns_type]     = type
-            connection.update_zone(identity, options)
+            service.update_zone(identity, options)
           end
           merge_attributes(data.body)
           true

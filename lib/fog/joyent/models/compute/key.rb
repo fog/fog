@@ -11,7 +11,7 @@ module Fog
 
         def destroy
           requires :name
-          self.connection.delete_key(name)
+          service.delete_key(name)
         end
       end
     end

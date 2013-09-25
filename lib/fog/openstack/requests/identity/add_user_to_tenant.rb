@@ -13,12 +13,17 @@ module Fog
 
       class Mock
         def add_user_to_tenant(tenant_id, user_id, role_id)
+          role = self.data[:roles][role_id]
+          self.data[:user_tenant_membership][tenant_id] ||= {}
+          self.data[:user_tenant_membership][tenant_id][user_id] ||= []
+          self.data[:user_tenant_membership][tenant_id][user_id].push(role['id']).uniq!
+
           response = Excon::Response.new
           response.status = 200
           response.body = {
             'role' => {
-              'id' => '503df61a99d6461fb247cdb6a3f3a4dd',
-              'name' => 'admin'
+              'id'   => role['id'],
+              'name' => role['name']
             }
           }
           response

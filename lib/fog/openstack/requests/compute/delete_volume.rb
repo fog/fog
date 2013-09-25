@@ -14,11 +14,18 @@ module Fog
       end
 
       class Mock
+
         def delete_volume(volume_id)
           response = Excon::Response.new
-          response.status = 204
-          response
+          if list_volumes.body['volumes'].map { |v| v['id'] }.include? volume_id
+            self.data[:volumes].delete(volume_id)
+            response.status = 204
+            response
+          else
+            raise Fog::Compute::OpenStack::NotFound
+          end
         end
+
       end
 
     end

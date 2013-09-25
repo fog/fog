@@ -9,16 +9,17 @@ module Fog
         model Fog::Volume::OpenStack::Volume
 
         def all(detailed=true)
-          load(connection.list_volumes(detailed).body['volumes'])
+          load(service.list_volumes(detailed).body['volumes'])
         end
 
-        def find_by_id(volume_id)
-          if volume = connection.get_volume_details(volume_id).body['volume']
+        def get(volume_id)
+          if volume = service.get_volume_details(volume_id).body['volume']
             new(volume)
           end
         rescue Fog::Volume::OpenStack::NotFound
           nil
         end
+        alias_method :find_by_id, :get
       end
 
     end

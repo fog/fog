@@ -11,23 +11,64 @@ module Fog
       model_path 'fog/vsphere/models/compute'
       model :server
       collection :servers
+      model :datacenter
+      collection :datacenters
+      model :interface
+      collection :interfaces
+      model :volume
+      collection :volumes
+      model :template
+      collection :templates
+      model :cluster
+      collection :clusters
+      model :resource_pool
+      collection :resource_pools
+      model :network
+      collection :networks
+      model :datastore
+      collection :datastores
+      model :folder
+      collection :folders
+      model :customvalue
+      collection :customvalues
+      model :customfield
+      collection :customfields
 
       request_path 'fog/vsphere/requests/compute'
       request :current_time
-      request :find_vm_by_ref
       request :list_virtual_machines
       request :vm_power_off
       request :vm_power_on
       request :vm_reboot
       request :vm_clone
-      request :vm_create
       request :vm_destroy
       request :vm_migrate
-      request :datacenters
+      request :list_datacenters
+      request :get_datacenter
+      request :list_clusters
+      request :get_cluster
+      request :list_resource_pools
+      request :get_resource_pool
+      request :list_networks
+      request :get_network
+      request :list_datastores
+      request :get_datastore
+      request :list_templates
+      request :get_template
+      request :get_folder
+      request :list_folders
+      request :create_vm
+      request :list_vm_interfaces
+      request :modify_vm_interface
+      request :list_vm_volumes
+      request :get_virtual_machine
       request :vm_reconfig_hardware
       request :vm_reconfig_memory
       request :vm_reconfig_cpus
       request :vm_config_vnc
+      request :create_folder
+      request :list_vm_customvalues
+      request :list_customfields
 
       module Shared
 
@@ -36,11 +77,14 @@ module Fog
         attr_reader :vsphere_server
         attr_reader :vsphere_username
 
+        protected
+
         ATTR_TO_PROP = {
           :id => 'config.instanceUuid',
           :name => 'name',
           :uuid => 'config.uuid',
-          :instance_uuid => 'config.instanceUuid',
+          :template => 'config.template',
+          :parent => 'parent',
           :hostname => 'summary.guest.hostName',
           :operatingsystem => 'summary.guest.guestFullName',
           :ipaddress => 'guest.ipAddress',
@@ -49,10 +93,16 @@ module Fog
           :hypervisor => 'runtime.host',
           :tools_state => 'guest.toolsStatus',
           :tools_version => 'guest.toolsVersionStatus',
-          :is_a_template => 'config.template',
           :memory_mb => 'config.hardware.memoryMB',
           :cpus   => 'config.hardware.numCPU',
+          :overall_status => 'overallStatus',
+          :guest_id => 'summary.guest.guestId',
         }
+
+        def convert_vm_view_to_attr_hash(vms)
+          vms = @connection.serviceContent.propertyCollector.collectMultiple(vms,*ATTR_TO_PROP.values.uniq)
+          vms.map { |vm| props_to_attr_hash(*vm) }
+        end
 
         # Utility method to convert a VMware managed object into an attribute hash.
         # This should only really be necessary for the real class.
@@ -62,6 +112,10 @@ module Fog
           return nil unless vm_mob_ref
 
           props = vm_mob_ref.collect!(*ATTR_TO_PROP.values.uniq)
+          props_to_attr_hash vm_mob_ref, props
+        end
+
+        def props_to_attr_hash vm_mob_ref, props
           # NOTE: Object.tap is in 1.8.7 and later.
           # Here we create the hash object that this method returns, but first we need
           # to add a few more attributes that require additional calls to the vSphere
@@ -75,15 +129,48 @@ module Fog
             attrs['mo_ref'] = vm_mob_ref._ref
             # The name method "magically" appears after a VM is ready and
             # finished cloning.
-            if attrs['hypervisor'].kind_of?(RbVmomi::VIM::HostSystem) then
-              # If it's not ready, set the hypervisor to nil
-              attrs['hypervisor'] = attrs['hypervisor'].name rescue nil
+            if attrs['hypervisor'].kind_of?(RbVmomi::VIM::HostSystem)
+              host = attrs['hypervisor']
+              attrs['datacenter'] = Proc.new { parent_attribute(host.path, :datacenter)[1] rescue nil }
+              attrs['cluster']    = Proc.new { parent_attribute(host.path, :cluster)[1] rescue nil }
+              attrs['hypervisor'] = Proc.new { host.name rescue nil }
+              attrs['resource_pool'] = Proc.new {(vm_mob_ref.resourcePool || host.resourcePool).name rescue nil}
             end
             # This inline rescue catches any standard error.  While a VM is
             # cloning, a call to the macs method will throw and NoMethodError
-            attrs['mac_addresses'] = vm_mob_ref.macs rescue nil
-            attrs['path'] = get_folder_path(vm_mob_ref.parent)
+            attrs['mac_addresses'] = Proc.new {vm_mob_ref.macs rescue nil}
+            # Rescue nil to catch testing while vm_mob_ref isn't reaL??
+            attrs['path'] = "/"+attrs['parent'].path.map(&:last).join('/') rescue nil
+            attrs['relative_path'] = (attrs['path'].split('/').reject {|e| e.empty?} - ["Datacenters", attrs['datacenter'], "vm"]).join("/") rescue nil
           end
+        end
+        # returns the parent object based on a type
+        # provides both real RbVmomi object and its name.
+        # e.g.
+        #[Datacenter("datacenter-2"), "dc-name"]
+        def parent_attribute path, type
+          element = case type
+                      when :datacenter
+                        RbVmomi::VIM::Datacenter
+                      when :cluster
+                        RbVmomi::VIM::ClusterComputeResource
+                      when :host
+                        RbVmomi::VIM::HostSystem
+                      else
+                        raise "Unknown type"
+                    end
+          path.select {|x| x[0].is_a? element}.flatten
+        rescue
+          nil
+        end
+
+        # returns vmware managed obj id string
+        def managed_obj_id obj
+          obj.to_s.match(/\("([^"]+)"\)/)[1]
+        end
+
+        def is_uuid?(id)
+          !(id =~ /[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}/).nil?
         end
 
       end
@@ -91,6 +178,126 @@ module Fog
       class Mock
 
         include Shared
+
+        def self.data
+          @data ||= Hash.new do |hash, key|
+            hash[key] = {
+              :servers => {
+                "5032c8a5-9c5e-ba7a-3804-832a03e16381" => {
+                 "resource_pool"    => "Resources",
+                 "memory_mb"        => 2196,
+                 "mac_addresses"    => { "Network adapter 1" => "00:50:56:a9:00:28" },
+                 "power_state"      => "poweredOn",
+                 "cpus"             => 1,
+                 "hostname"         => "dhcp75-197.virt.bos.redhat.com",
+                 "mo_ref"           => "vm-562",
+                 "connection_state" => "connected",
+                 "overall_status"   => "green",
+                 "datacenter"       => "Solutions",
+                 "volumes"          =>
+                    [{
+                      "id"        => "6000C29c-a47d-4cd9-5249-c371de775f06",
+                      "datastore" => "Storage1",
+                      "mode"      => "persistent",
+                      "size"      => 8388608,
+                      "thin"      => true,
+                      "name"      => "Hard disk 1",
+                      "filename"  => "[Storage1] rhel6-mfojtik/rhel6-mfojtik.vmdk",
+                      "size_gb"   => 8
+                     }],
+                 "interfaces"       =>
+                    [{"mac"     => "00:50:56:a9:00:28",
+                      "network" => "VM Network",
+                      "name"    => "Network adapter 1",
+                      "status"  => "ok",
+                      "summary" => "VM Network",
+                     }],
+                 "hypervisor"       => "gunab.puppetlabs.lan",
+                 "guest_id"         => "rhel6_64Guest",
+                 "tools_state"      => "toolsOk",
+                 "cluster"          => "Solutionscluster",
+                 "name"             => "rhel64",
+                 "operatingsystem"  => "Red Hat Enterprise Linux 6 (64-bit)",
+                 "path"             => "/Datacenters/Solutions/vm",
+                 "uuid"             => "4229f0e9-bfdc-d9a7-7bac-12070772e6dc",
+                 "instance_uuid"    => "5032c8a5-9c5e-ba7a-3804-832a03e16381",
+                 "id"               => "5032c8a5-9c5e-ba7a-3804-832a03e16381",
+                 "tools_version"    => "guestToolsUnmanaged",
+                 "ipaddress"        => "192.168.100.184",
+                 "template"         => false
+                },
+                "502916a3-b42e-17c7-43ce-b3206e9524dc" => {
+                 "resource_pool"    => "Resources",
+                 "memory_mb"        => 512,
+                 "power_state"      => "poweredOn",
+                 "mac_addresses"    => { "Network adapter 1" => "00:50:56:a9:00:00" },
+                 "hostname"         => nil,
+                 "cpus"             => 1,
+                 "connection_state" => "connected",
+                 "mo_ref"           => "vm-621",
+                 "overall_status"   => "green",
+                 "datacenter"       => "Solutions",
+                 "volumes"          =>
+                    [{"thin"      => false,
+                      "size_gb"   => 10,
+                      "datastore" => "datastore1",
+                      "filename"  => "[datastore1] i-1342439683/i-1342439683.vmdk",
+                      "size"      => 10485762,
+                      "name"      => "Hard disk 1",
+                      "mode"      => "persistent",
+                      "id"        => "6000C29b-f364-d073-8316-8e98ac0a0eae" }],
+                 "interfaces"       =>
+                    [{ "summary" => "VM Network",
+                      "mac"     => "00:50:56:a9:00:00",
+                      "status"  => "ok",
+                      "network" => "VM Network",
+                      "name"    => "Network adapter 1" }],
+                 "hypervisor"       => "gunab.puppetlabs.lan",
+                 "guest_id"         => nil,
+                 "cluster"          => "Solutionscluster",
+                 "tools_state"      => "toolsNotInstalled",
+                 "name"             => "i-1342439683",
+                 "operatingsystem"  => nil,
+                 "path"             => "/",
+                 "tools_version"    => "guestToolsNotInstalled",
+                 "uuid"             => "4229e0de-30cb-ceb2-21f9-4d8d8beabb52",
+                 "instance_uuid"    => "502916a3-b42e-17c7-43ce-b3206e9524dc",
+                 "id"               => "502916a3-b42e-17c7-43ce-b3206e9524dc",
+                 "ipaddress"        => nil,
+                 "template"         => false
+                },
+                "5029c440-85ee-c2a1-e9dd-b63e39364603" => {
+                 "resource_pool"    => "Resources",
+                 "memory_mb"        => 2196,
+                 "power_state"      => "poweredOn",
+                 "mac_addresses"    => { "Network adapter 1" => "00:50:56:b2:00:af" },
+                 "hostname"         => "centos56gm.localdomain",
+                 "cpus"             => 1,
+                 "connection_state" => "connected",
+                 "mo_ref"           => "vm-715",
+                 "overall_status"   => "green",
+                 "datacenter"       => "Solutions",
+                 "hypervisor"       => "gunab.puppetlabs.lan",
+                 "guest_id"         => "rhel6_64Guest",
+                 "cluster"          => "Solutionscluster",
+                 "tools_state"      => "toolsOk",
+                 "name"             => "jefftest",
+                 "operatingsystem"  => "Red Hat Enterprise Linux 6 (64-bit)",
+                 "path"             => "/",
+                 "tools_version"    => "guestToolsUnmanaged",
+                 "ipaddress"        => "192.168.100.187",
+                 "uuid"             => "42329da7-e8ab-29ec-1892-d6a4a964912a",
+                 "instance_uuid"    => "5029c440-85ee-c2a1-e9dd-b63e39364603",
+                 "id"               => "5029c440-85ee-c2a1-e9dd-b63e39364603",
+                 "template"         => false
+                }
+              },
+              :datacenters => {
+                "Solutions" => {:name => "Solutions", :status => "grey"}
+              }
+            }
+          end
+        end
 
         def initialize(options={})
           require 'rbvmomi'
@@ -102,6 +309,13 @@ module Fog
           @vsphere_rev = '4.0'
         end
 
+        def data
+          self.class.data[@vsphere_username]
+        end
+
+        def reset_data
+          self.class.data.delete(@vsphere_username)
+        end
       end
 
       class Real

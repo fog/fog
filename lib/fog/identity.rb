@@ -8,16 +8,20 @@ module Fog
     def self.new(attributes)
       attributes = attributes.dup # Prevent delete from having side effects
       case provider = attributes.delete(:provider).to_s.downcase.to_sym
-      when :openstack
-        require 'fog/openstack/identity'
-        Fog::Identity::OpenStack.new(attributes)
+      when :rackspace
+        require 'fog/rackspace/identity'
+        Fog::Rackspace::Identity.new(attributes)
       else
+        if self.providers.include?(provider)
+          require "fog/#{provider}/identity"
+          return Fog::Identity.const_get(Fog.providers[provider]).new(attributes)
+        end
         raise ArgumentError.new("#{provider} has no identity service")
       end
     end
 
     def self.providers
-      Fog.services[:idenity]
+      Fog.services[:identity]
     end
 
   end

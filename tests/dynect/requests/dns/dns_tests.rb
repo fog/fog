@@ -1,6 +1,3 @@
-require 'spec'
-require 'spec/mocks'
-
 Shindo.tests('Dynect::dns | DNS requests', ['dynect', 'dns']) do
 
   shared_format = {
@@ -178,7 +175,7 @@ Shindo.tests('Dynect::dns | DNS requests', ['dynect', 'dns']) do
       old_mock_value = Excon.defaults[:mock]
       Excon.stubs.clear
 
-      tests("returns final response from a complete job") do
+      tests("returns final response from a complete job").returns({"status" => "success"}) do
         begin
           Excon.defaults[:mock] = true
 
@@ -187,14 +184,14 @@ Shindo.tests('Dynect::dns | DNS requests', ['dynect', 'dns']) do
           Excon.stub({:method => :get, :path => "/REST/Zone/example.com"}, {:status => 307, :body => '/REST/Job/150576635', :headers => {'Content-Type' => 'text/html', 'Location' => '/REST/Job/150576635'}})
           Excon.stub({:method => :get, :path => "/REST/Job/150576635"}, {:status => 307, :body => '{"status":"success"}', :headers => {'Content-Type' => 'application/json'}})
 
-          Fog::DNS::Dynect::Real.new.request(:method => :get, :path => "Zone/example.com").body.should == { "status" => "success" }
+          Fog::DNS::Dynect::Real.new.request(:method => :get, :path => "Zone/example.com").body
         ensure
           Excon.stubs.clear
           Excon.defaults[:mock] = old_mock_value
         end
       end
 
-      tests("passes expects through when polling a job") do
+      tests("passes expects through when polling a job").returns({"status" => "success"}) do
         begin
           Excon.defaults[:mock] = true
 
@@ -203,7 +200,7 @@ Shindo.tests('Dynect::dns | DNS requests', ['dynect', 'dns']) do
           Excon.stub({:method => :get, :path => "/REST/Zone/example.com"}, {:status => 307, :body => '/REST/Job/150576635', :headers => {'Content-Type' => 'text/html', 'Location' => '/REST/Job/150576635'}})
           Excon.stub({:method => :get, :path => "/REST/Job/150576635"}, {:status => 404, :body => '{"status":"success"}', :headers => {'Content-Type' => 'application/json'}})
 
-          Fog::DNS::Dynect::Real.new.request(:method => :get, :expects => 404, :path => "Zone/example.com").body.should == { "status" => "success" }
+          Fog::DNS::Dynect::Real.new.request(:method => :get, :expects => 404, :path => "Zone/example.com").body
         ensure
           Excon.stubs.clear
           Excon.defaults[:mock] = old_mock_value

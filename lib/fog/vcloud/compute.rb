@@ -11,7 +11,7 @@ module Fog
       end
 
       def check_href!(opts = {})
-        self.href = connection.default_vdc_href unless href
+        self.href = service.default_vdc_href unless href
         unless href
           if opts.is_a?(String)
             t = Hash.new
@@ -61,7 +61,7 @@ module Fog
         class_eval <<-EOS, __FILE__,__LINE__
           def #{item}
             load_unless_loaded!
-            connection.get_#{item}(link_up[:href])
+            service.get_#{item}(link_up[:href])
           end
         EOS
       end
@@ -105,6 +105,8 @@ module Fog
       collection :vdcs
       model :organization
       collection :organizations
+      model :tag
+      collection :tags
 
       request_path 'fog/vcloud/requests/compute'
       request :clone_vapp
@@ -117,6 +119,7 @@ module Fog
       request :configure_vm_name_description
       request :configure_vm_disks
       request :configure_vm_password
+      request :configure_vm_network
       request :delete_vapp
       request :get_catalog_item
       request :get_customization_options
@@ -134,6 +137,10 @@ module Fog
       request :power_reset
       request :power_shutdown
       request :undeploy
+      request :get_metadata
+      request :delete_metadata
+      request :configure_metadata
+      request :configure_vm_customization_script
 
       class Mock
 
@@ -224,7 +231,7 @@ module Fog
         # header from that call.
         def do_login
           @login_results = login
-          @cookie = @login_results.headers['Set-Cookie']
+          @cookie = @login_results.headers['Set-Cookie'] || @login_results.headers['set-cookie']
         end
 
         def ensure_unparsed(uri)
@@ -300,7 +307,7 @@ module Fog
 
         # Use this to set the Authorization header for login
         def authorization_header
-          "Basic #{Base64.encode64("#{@username}:#{@password}").chomp!}"
+          "Basic #{Base64.encode64("#{@username}:#{@password}").delete("\r\n")}"
         end
 
         # Actually do the request
@@ -356,9 +363,9 @@ module Fog
           def get_#{type}(uri)
             Fog::Vcloud::Compute::#{type.to_s.capitalize}.new(
               self.request(basic_request_params(uri)).body.merge(
-                :connection => self,
+                :service => self,
                 :collection => Fog::Vcloud::Compute::#{type.to_s.capitalize}s.new(
-                  :connection => self
+                  :service => self
                 )
               )
             )

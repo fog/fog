@@ -23,7 +23,7 @@ module Fog
 
         def retrieve_users
           requires :instance
-          data = connection.list_users(instance.identity).body['users']
+          data = service.list_users(instance.identity).body['users']
         end
       end
     end

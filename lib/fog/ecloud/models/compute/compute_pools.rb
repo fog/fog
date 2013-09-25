@@ -13,12 +13,12 @@ module Fog
 
         def all
           check_href!(:message => "the Compute Pool href of the Environment you want to enumerate")
-          data = connection.get_compute_pools(href).body[:ComputePool]
+          data = service.get_compute_pools(href).body[:ComputePool]
           load(data)
         end
 
         def get(uri)
-          if data = connection.get_compute_pool(uri)
+          if data = service.get_compute_pool(uri)
             new(data.body)
           end
         rescue Fog::Errors::NotFound

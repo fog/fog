@@ -12,11 +12,11 @@ module Fog
         attribute :secret
 
         def save
-          raise Fog::Errors::Error.new('Resaving an existing object may create a duplicate') if identity
+          raise Fog::Errors::Error.new('Resaving an existing object may create a duplicate') if persisted?
           options = {
             :name => name
           }.delete_if {|k,v| v.nil? || v == "" }
-          data = connection.create_application(options)
+          data = service.create_application(options)
           merge_attributes(data)
           true
         end

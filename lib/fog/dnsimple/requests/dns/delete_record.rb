@@ -16,6 +16,18 @@ module Fog
         end
 
       end
+
+      class Mock
+
+        def delete_record(domain, record_id)
+          self.data[:records][domain].reject! { |record| record["record"]["id"] == record_id }
+          response = Excon::Response.new
+          response.status = 200
+          response
+        end
+
+      end
+
     end
   end
 end

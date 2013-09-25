@@ -18,48 +18,24 @@ module Fog
       end
 
       class Mock
-        def list_security_groups
-          self.data[:security_groups] ||= [
-            { "rules" => [
-              { "from_port" => 44,
-                "group" => {},
-                "ip_protocol" => "tcp",
-                "to_port" => 55,
-                "parent_group_id" => 1,
-                "ip_range" => {"cidr"=>"10.10.10.10/24"},
-                "id" => Fog::Mock.random_numbers(2).to_i
-              },
-              { "from_port" => 2,
-                "group" => {},
-                "ip_protocol" => "tcp",
-                "to_port" => 3,
-                "parent_group_id" => 1,
-                "ip_range" => {"cidr"=>"10.10.10.10/24"},
-                "id" => Fog::Mock.random_numbers(2).to_i
-              } ],
-              "tenant_id" => @openstack_tenant,
-              "id" => Fog::Mock.random_numbers(2).to_i,
-              "name" => "default",
-              "description" => "default"
-            },
-            {
-              "rules" => [
-              { "from_port" => 44,
-                "group" => {},
-                "ip_protocol" => "tcp",
-                "to_port" => 55,
-                "parent_group_id" => 2,
-                "ip_range" => { "cidr"=>"10.10.10.10/24" },
-                "id"=> Fog::Mock.random_numbers(2).to_i
-              } ],
-            "tenant_id" => @openstack_tenant,
-            "id" => Fog::Mock.random_numbers(2).to_i,
-            "name" => "test",
-            "description" => "this is a test"
-            }
-          ]
+        def list_security_groups(server_id = nil)
+          security_groups = self.data[:security_groups].values
+
+          groups = if server_id then
+                     server_group_names =
+                       Array(self.data[:server_security_group_map][server_id])
+
+                     server_group_names.map do |name|
+                       security_groups.find do |sg|
+                         sg['name'] == name
+                       end
+                     end.compact
+                   else
+                     security_groups
+                   end
+
           Excon::Response.new(
-            :body     => { 'security_groups' => self.data[:security_groups].values },
+            :body     => { 'security_groups' => groups },
             :headers  => {
               "X-Compute-Request-Id" => "req-#{Fog::Mock.random_base64(36)}",
               "Content-Type" => "application/json",

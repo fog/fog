@@ -16,7 +16,7 @@ module Fog
       end
 
       class Mock
-        def allocate_address
+        def allocate_address(pool = nil)
           response = Excon::Response.new
           response.status = 200
           response.headers = {

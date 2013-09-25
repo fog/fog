@@ -7,7 +7,7 @@ module Fog
       class NetworkInterface < Fog::Model
 
         identity  :network_interface_id,        :aliases => 'networkInterfaceId'
-        attribute :state     
+        attribute :state
         attribute :request_id,                  :aliases => 'requestId'
         attribute :network_interface_id,        :aliases => 'networkInterfaceId'
         attribute :subnet_id,                   :aliases => 'subnetId'
@@ -40,7 +40,7 @@ module Fog
         def destroy
           requires :network_interface_id
 
-          connection.delete_network_interface(network_interface_id)
+          service.delete_network_interface(network_interface_id)
           true
         end
 
@@ -58,7 +58,7 @@ module Fog
 
         def save
           requires :subnet_id
-          data = connection.create_network_interface(subnet_id).body['networkInterface']
+          data = service.create_network_interface(subnet_id).body['networkInterface']
           new_attributes = data.reject {|key,value| key == 'requestId'}
           merge_attributes(new_attributes)
           true

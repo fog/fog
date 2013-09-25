@@ -12,7 +12,7 @@ module Fog
 
         def destroy
          requires :id
-         connection.delete_public_ip(id)
+         service.delete_public_ip(id)
          true
         end
 

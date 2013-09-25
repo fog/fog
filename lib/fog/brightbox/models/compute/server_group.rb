@@ -25,7 +25,7 @@ module Fog
             :name => name,
             :description => description
           }.delete_if {|k,v| v.nil? || v == "" }
-          data = connection.create_server_group(options)
+          data = service.create_server_group(options)
           merge_attributes(data)
           true
         end
@@ -33,7 +33,7 @@ module Fog
         def servers
           srv_ids = server_ids.collect {|srv| srv["id"]}
           srv_ids.collect do |srv_id|
-            connection.servers.get(srv_id)
+            service.servers.get(srv_id)
           end
         end
 
@@ -46,7 +46,7 @@ module Fog
           options = {
             :servers => server_references(identifiers)
           }
-          data = connection.add_servers_server_group identity, options
+          data = service.add_servers_server_group identity, options
           merge_attributes data
         end
 
@@ -59,7 +59,7 @@ module Fog
           options = {
             :servers => server_references(identifiers)
           }
-          data = connection.remove_servers_server_group identity, options
+          data = service.remove_servers_server_group identity, options
           merge_attributes data
         end
 
@@ -74,13 +74,13 @@ module Fog
             :servers => server_references(identifiers),
             :destination => destination_group_id
           }
-          data = connection.move_servers_server_group identity, options
+          data = service.move_servers_server_group identity, options
           merge_attributes data
         end
 
         def destroy
           requires :identity
-          connection.destroy_server_group(identity)
+          service.destroy_server_group(identity)
           true
         end
 

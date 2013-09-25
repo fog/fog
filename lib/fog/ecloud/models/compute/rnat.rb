@@ -11,11 +11,11 @@ module Fog
         attribute :public_ip, :aliases => :PublicIp
 
         def networks
-          @networks = Fog::Compute::Ecloud::Networks.new(:connection => connection, :href => href)
+          @networks = Fog::Compute::Ecloud::Networks.new(:service => service, :href => href)
         end
 
         def associations
-          @associations = Fog::Compute::Ecloud::Associations.new(:connection => connection, :href => href)
+          @associations = Fog::Compute::Ecloud::Associations.new(:service => service, :href => href)
         end
 
         def id

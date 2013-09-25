@@ -4,9 +4,9 @@ Shindo.tests('Fog::Compute[:cloudstack] | os type requests', ['cloudstack']) do
     'listostypesresponse'  => {
       'count' => Integer,
       'ostype' => [
-        'id' => Integer,
+        'id' => String,
         'description' => String,
-        'oscategoryid' => Integer
+        'oscategoryid' => String
       ]
     }
   }
@@ -24,7 +24,6 @@ Shindo.tests('Fog::Compute[:cloudstack] | os type requests', ['cloudstack']) do
   tests('success') do
 
     tests('#list_os_types').formats(@os_types_format) do
-      pending if Fog.mocking?
       Fog::Compute[:cloudstack].list_os_types
     end
     

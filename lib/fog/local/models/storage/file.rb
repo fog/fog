@@ -40,8 +40,8 @@ module Fog
 
         def copy(target_directory_key, target_file_key, options={})
           requires :directory, :key
-          connection.copy_object(directory.key, key, target_directory_key, target_file_key)
-          target_directory = connection.directories.new(:key => target_directory_key)
+          service.copy_object(directory.key, key, target_directory_key, target_file_key)
+          target_directory = service.directories.new(:key => target_directory_key)
           target_directory.files.get(target_file_key)
         end
 
@@ -55,7 +55,7 @@ module Fog
               next
             end
             # don't delete the containing directory or higher
-            if dir_path == connection.path_to(directory.key)
+            if dir_path == service.path_to(directory.key)
               break
             end
             pwd = Dir.pwd
@@ -77,11 +77,11 @@ module Fog
         def public_url
           requires :directory, :key
 
-          if connection.endpoint
+          if service.endpoint
             escaped_directory = URI.escape(directory.key)
             escaped_key = URI.escape(key)
 
-            ::File.join(connection.endpoint, escaped_directory, escaped_key)
+            ::File.join(service.endpoint, escaped_directory, escaped_key)
           else
             nil
           end
@@ -121,7 +121,7 @@ module Fog
         end
 
         def path
-          connection.path_to(::File.join(directory.key, key))
+          service.path_to(::File.join(directory.key, key))
         end
 
       end

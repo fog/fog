@@ -32,6 +32,15 @@ LOAD_BALANCER_USAGE_FORMAT = {
   ]
 }
 
+LOAD_BALANCER_STATS_FORMAT = {
+    'connectTimeOut' => Integer,
+    'connectError' => Integer,
+    'connectFailure' => Integer,
+    'dataTimedOut' => Integer,
+    'keepAliveTimedOut' => Integer,
+    'maxConn' => Integer
+}
+
 SSL_TERMINATION_FORMAT = {
   'sslTermination' => {
     'certificate' => String,
@@ -78,7 +87,11 @@ SESSION_PERSISTENCE_FORMAT = {
     'persistenceType' => Fog::Nullable::String
   }
 }
-
+CONTENT_CACHING_FORMAT = {
+  'contentCaching' => {
+    'enabled' => Fog::Boolean
+  }
+}
 ACCESS_LIST_FORMAT = {
   'accessList' => [
     {
@@ -128,6 +141,7 @@ LOAD_BALANCERS_DETAIL_FORMAT = {
       'algorithm' => String,
       'sourceAddresses' => SOURCE_ADDRESSES,
       'status' => String,
+      'timeout' => Integer,
       'virtualIps' => [VIRTUAL_IP_FORMAT],
       'nodes' => [SINGLE_NODE_FORMAT],
       'created' => { 'time' => String },
@@ -143,6 +157,7 @@ LOAD_BALANCER_FORMAT = {
     'algorithm' => String,
     'sourceAddresses' => SOURCE_ADDRESSES,
     'status' => String,
+    'timeout' => Integer,
     'cluster' => { 'name' => String },
     'virtualIps' => [VIRTUAL_IP_FORMAT],
     'nodes' => [SINGLE_NODE_FORMAT],

@@ -9,8 +9,7 @@ Shindo.tests("Storage[:aws] | file", ["aws"]) do
   }
 
   directory_attributes = {
-    # Add a random suffix to prevent collision
-    :key => "fogfilestests-#{rand(65536)}"
+    :key => uniq_id("fogfilestests")
   }
 
   @directory = Fog::Storage[:aws].directories.create(directory_attributes)

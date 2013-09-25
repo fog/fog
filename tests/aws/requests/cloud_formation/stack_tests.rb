@@ -144,6 +144,16 @@ Shindo.tests('AWS::CloudFormation | stack requests', ['aws', 'cloudformation']) 
       Fog::AWS[:cloud_formation].delete_stack(@stack_name)
     end
 
+    tests("list_stacks").succeeds do
+      pending if Fog.mocking?
+      Fog::AWS[:cloud_formation].list_stacks.body
+    end
+
+    tests("list_stack_resources").succeeds do
+      pending if Fog.mocking?
+      Fog::AWS[:cloud_formation].list_stack_resources("StackName"=>@stack_name).body
+    end
+
     unless Fog.mocking?
       @keypair.destroy
     end

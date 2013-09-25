@@ -10,12 +10,12 @@ module Fog
         model Fog::AWS::RDS::SubnetGroup
 
         def all
-          data = connection.describe_db_subnet_groups.body['DescribeDBSubnetGroupsResult']['DBSubnetGroups']
+          data = service.describe_db_subnet_groups.body['DescribeDBSubnetGroupsResult']['DBSubnetGroups']
           load(data) # data is an array of attribute hashes
         end
 
         def get(identity)
-          data = connection.describe_db_subnet_groups(identity).body['DescribeDBSubnetGroupsResult']['DBSubnetGroups'].first
+          data = service.describe_db_subnet_groups(identity).body['DescribeDBSubnetGroupsResult']['DBSubnetGroups'].first
           new(data) # data is an attribute hash
         rescue Fog::AWS::RDS::NotFound
           nil

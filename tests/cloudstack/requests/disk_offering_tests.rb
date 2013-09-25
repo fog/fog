@@ -4,14 +4,15 @@ Shindo.tests('Fog::Compute[:cloudstack] | disk offering requests', ['cloudstack'
     'listdiskofferingsresponse'  => {
       'count' => Integer,
       'diskoffering' => [
-        'id' => Integer,
+        'id' => String,
         'created' => String,
         'disksize' => Integer,
         'displaytext' => String,
         'domain' => Fog::Nullable::String,
-        'domainid' => Fog::Nullable::Integer,
+        'domainid' => Fog::Nullable::String,
         'iscustomized' => Fog::Boolean,
         'name' => String,
+        'storagetype' => String,
         'tags' => Fog::Nullable::String
       ]
     }
@@ -20,7 +21,6 @@ Shindo.tests('Fog::Compute[:cloudstack] | disk offering requests', ['cloudstack'
   tests('success') do
 
     tests('#list_disk_offerings').formats(@disk_offerings_format) do
-      pending if Fog.mocking?
       Fog::Compute[:cloudstack].list_disk_offerings
     end
 

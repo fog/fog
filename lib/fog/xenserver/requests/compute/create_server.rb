@@ -7,6 +7,10 @@ module Fog
           @connection.request({:parser => Fog::Parsers::XenServer::Base.new, :method => 'VM.get_by_name_label' }, label)
         end
         
+        def get_vm_by_uuid(uuid)
+          @connection.request({:parser => Fog::Parsers::XenServer::Base.new, :method => 'VM.get_by_uuid' }, uuid)
+        end
+
         def create_server_raw(config = {})
           config[:name_label] = config[:name] if config[:name]
           config.delete :name

@@ -1,9 +1,9 @@
 require 'fog/core'
 require 'fog/aws/credential_fetcher'
 require 'fog/aws/signaturev4'
+require 'unicode'
 module Fog
   module AWS
-
     extend Fog::Provider
 
     service(:auto_scaling,    'aws/auto_scaling',     'AutoScaling')
@@ -12,6 +12,7 @@ module Fog
     service(:compute,         'aws/compute',          'Compute')
     service(:cloud_formation, 'aws/cloud_formation',  'CloudFormation')
     service(:cloud_watch,     'aws/cloud_watch',      'CloudWatch')
+    service(:data_pipeline,   'aws/data_pipeline',     'DataPipeline')
     service(:dynamodb,        'aws/dynamodb',         'DynamoDB')
     service(:dns,             'aws/dns',              'DNS')
     service(:elasticache,     'aws/elasticache',      'Elasticache')
@@ -20,6 +21,7 @@ module Fog
     service(:glacier,         'aws/glacier',          'Glacier')
     service(:iam,             'aws/iam',              'IAM')
     service(:rds,             'aws/rds',              'RDS')
+    service(:redshift,        'aws/redshift',         'Redshift')
     service(:ses,             'aws/ses',              'SES')
     service(:simpledb,        'aws/simpledb',         'SimpleDB')
     service(:sns,             'aws/sns',              'SNS')
@@ -84,7 +86,8 @@ module Fog
     end
 
     def self.escape(string)
-      string.gsub(/([^a-zA-Z0-9_.\-~]+)/) {
+      string = Unicode::normalize_C(string)
+      string.gsub(/([^a-zA-Z0-9_.\-~\/]+)/) {
         "%" + $1.unpack("H2" * $1.bytesize).join("%").upcase
       }
     end
@@ -300,6 +303,17 @@ module Fog
         options.delete('GroupName')
       end
       options
+    end
+
+    module Errors
+      def self.match_error(error)
+        matcher = lambda {|s| s.match(/(?:.*<Code>(.*)<\/Code>)(?:.*<Message>(.*)<\/Message>)/m)}
+        [error.message, error.response.body].each(&Proc.new {|s|
+          match = matcher.call(s)
+          return {:code => match[1].split('.').last, :message => match[2]} if match
+        })
+        {} # we did not match the message or response body
+      end
     end
   end
 end

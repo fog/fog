@@ -10,12 +10,12 @@ module Fog
         model Fog::Compute::IBM::Server
 
         def all
-          load(connection.list_instances.body['instances'])
+          load(service.list_instances.body['instances'])
         end
 
         def get(server_id)
           begin
-            new(connection.get_instance(server_id).body)
+            new(service.get_instance(server_id).body)
           rescue Fog::Compute::IBM::NotFound
             nil
           end

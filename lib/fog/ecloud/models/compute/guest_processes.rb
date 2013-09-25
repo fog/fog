@@ -10,12 +10,12 @@ module Fog
         model Fog::Compute::Ecloud::GuestProcess
 
         def all
-          data = connection.get_guest_processes(href).body[:GuestProcess]
+          data = service.get_guest_processes(href).body[:GuestProcess]
           load(data)
         end
 
         def get(uri)
-          if data = connection.get_guest_process(uri)
+          if data = service.get_guest_process(uri)
             new(data.body)
           end
         rescue Fog::Errors::NotFound

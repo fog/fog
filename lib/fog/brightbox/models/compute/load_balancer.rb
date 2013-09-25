@@ -32,7 +32,7 @@ module Fog
         end
 
         def save
-          raise Fog::Errors::Error.new('Resaving an existing object may create a duplicate') if identity
+          raise Fog::Errors::Error.new('Resaving an existing object may create a duplicate') if persisted?
           requires :nodes, :listeners, :healthcheck
           options = {
             :nodes => nodes,
@@ -41,14 +41,14 @@ module Fog
             :policy => policy,
             :name => name
           }.delete_if {|k,v| v.nil? || v == "" }
-          data = connection.create_load_balancer(options)
+          data = service.create_load_balancer(options)
           merge_attributes(data)
           true
         end
 
         def destroy
           requires :identity
-          connection.destroy_load_balancer(identity)
+          service.destroy_load_balancer(identity)
           true
         end
 

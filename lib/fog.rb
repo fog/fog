@@ -1,22 +1,48 @@
-require File.join(File.dirname(__FILE__), 'fog', 'core')
+# necessary when requiring fog without rubygems while also
+# maintaining ruby 1.8.7 support (can't use require_relative)
+__LIB_DIR__ = File.expand_path(File.dirname(__FILE__))
+$LOAD_PATH.unshift __LIB_DIR__ unless $LOAD_PATH.include?(__LIB_DIR__)
 
-module Fog
-
-  unless const_defined?(:VERSION)
-    VERSION = '1.7.0'
-  end
-
-end
-
-# FIXME: these should go away (force usage of Fog::[Compute, CDN, DNS, Storage]  etc)
-require 'fog/providers'
+# any one of these can be required separately.
+# they all depend on fog/core for shared functionality.
+require 'fog/atmos'
+require 'fog/aws'
+require 'fog/bluebox'
+require 'fog/brightbox'
+require 'fog/cloudstack'
+require 'fog/clodo'
+require 'fog/digitalocean'
+require 'fog/dnsimple'
+require 'fog/dnsmadeeasy'
+require 'fog/dreamhost'
+require 'fog/dynect'
+require 'fog/ecloud'
+require 'fog/glesys'
+require 'fog/go_grid'
+require 'fog/google'
+require 'fog/hp'
+require 'fog/ibm'
+require 'fog/internet_archive'
+require 'fog/joyent'
+require 'fog/libvirt'
+require 'fog/linode'
+require 'fog/local'
+require 'fog/bare_metal_cloud'
+require 'fog/ninefold'
+require 'fog/rackspace'
+require 'fog/riakcs'
+require 'fog/openstack'
+require 'fog/ovirt'
+require 'fog/serverlove'
+require 'fog/storm_on_demand'
 require 'fog/terremark'
+require 'fog/vcloud'
+require 'fog/vcloud_director'
+require 'fog/vmfusion'
+require 'fog/vsphere'
+require 'fog/voxel'
+require 'fog/xenserver'
+require 'fog/zerigo'
+require 'fog/cloudsigma'
+require 'fog/openvz'
 
-require 'fog/compute'
-require 'fog/identity'
-require 'fog/image'
-require 'fog/volume'
-require 'fog/cdn'
-require 'fog/dns'
-require 'fog/network'
-require 'fog/storage'

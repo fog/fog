@@ -88,7 +88,7 @@ module Fog
 
         def all(filters = filters)
           self.filters = filters
-          data = connection.describe_network_interfaces(filters).body
+          data = service.describe_network_interfaces(filters).body
           load(data['networkInterfaceSet'])
         end
 
@@ -126,7 +126,7 @@ module Fog
 
         def get(nic_id)
           if nic_id
-            self.class.new(:connection => connection).all('network-interface-id' => nic_id).first
+            self.class.new(:service => service).all('network-interface-id' => nic_id).first
           end
         end
       end

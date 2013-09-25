@@ -198,6 +198,7 @@ module Fog
         @elb_hosted_zone_mapping ||= {
           "ap-northeast-1" => "Z2YN17T5R711GT",
           "ap-southeast-1" => "Z1WI8VXHPB1R38",
+          "ap-southeast-2" => "Z2999QAZ9SRTIC",
           "eu-west-1"      => "Z3NF1Z3NOM5OY2",
           "sa-east-1"      => "Z2ES78Y61JGQKS",
           "us-east-1"      => "Z3DZXE0Q79N41H",

@@ -17,6 +17,10 @@ module Fog
         #       * 'bytes'<~Integer>: - Number of bytes used by container
         #       * 'count'<~Integer>: - Number of items in container
         #       * 'name'<~String>: - Name of container
+        # @raise [Fog::Storage::Rackspace::NotFound] - HTTP 404
+        # @raise [Fog::Storage::Rackspace::BadRequest] - HTTP 400
+        # @raise [Fog::Storage::Rackspace::InternalServerError] - HTTP 500
+        # @raise [Fog::Storage::Rackspace::ServiceError]
         def get_containers(options = {})
           options = options.reject {|key, value| value.nil?}
           request(

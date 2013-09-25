@@ -3,7 +3,7 @@ module Fog
     class OpenStack
       class Real
 
-        def revert_resized_server(server_id)
+        def revert_resize_server(server_id)
           body = { 'revertResize' => nil }
           server_action(server_id, body)
         end
@@ -12,7 +12,7 @@ module Fog
 
       class Mock
 
-        def revert_resized_server(server_id)
+        def revert_resize_server(server_id)
           response = Excon::Response.new
           response.status = 202
 

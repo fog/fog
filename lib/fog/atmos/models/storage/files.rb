@@ -19,7 +19,7 @@ module Fog
           requires :directory
           directory ? ns = directory.key : ns = ''
           ns = ns + '/' unless ns =~ /\/$/
-          data = connection.get_namespace(ns).body[:DirectoryList]
+          data = service.get_namespace(ns).body[:DirectoryList]
           data = {:DirectoryEntry => []} if data.kind_of? String
           data[:DirectoryEntry] = [data[:DirectoryEntry]] if data[:DirectoryEntry].kind_of? Hash
           files = data[:DirectoryEntry].select {|de| de[:FileType] == 'regular'}
@@ -32,7 +32,7 @@ module Fog
 
         def get(key, &block)
           requires :directory
-          data = connection.get_namespace(directory.key + key, :parse => false)#, &block)
+          data = service.get_namespace(directory.key + key, :parse => false)#, &block)
           file_data = data.headers.merge({
             :body => data.body,
             :key  => key
@@ -51,7 +51,7 @@ module Fog
 
         def head(key, options = {})
           requires :directory
-          data = connection.head_namespace(directory.key + key, :parse => false)
+          data = service.head_namespace(directory.key + key, :parse => false)
           file_data = data.headers.merge({
             :body => data.body,
             :key => key

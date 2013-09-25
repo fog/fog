@@ -35,19 +35,19 @@ module Fog
 
         def destroy
           requires :identity
-          self.jobid = extract_job_id(connection.disassociate_ip_address(:id => identity))
+          self.jobid = extract_job_id(service.disassociate_ip_address(:id => identity))
           true
         end
 
         def enable_static_nat(server)
           server.kind_of?(Integer) ? serverid = server : serverid = server.identity
-          res = connection.enable_static_nat(:virtualmachineid => serverid, :ipaddressid => identity)
+          res = service.enable_static_nat(:virtualmachineid => serverid, :ipaddressid => identity)
           reload
           to_boolean(res['success'])
         end
 
         def disable_static_nat()
-          self.jobid = extract_job_id(connection.disable_static_nat(:ipaddressid => identity))
+          self.jobid = extract_job_id(service.disable_static_nat(:ipaddressid => identity))
           true
         end
 
@@ -59,7 +59,7 @@ module Fog
         end
 
         def ready?
-          if jobid && connection.query_async_job_result(:jobid => jobid)['jobstatus'] == 0
+          if jobid && service.query_async_job_result(:jobid => jobid)['jobstatus'] == 0
             false
           else # No running job, we are ready. Refresh data.
             reload
@@ -77,7 +77,7 @@ module Fog
             :account => account,
             :domainid => domainid
           }.delete_if {|k,v| v.nil? || v == "" }
-          data = connection.associate_ip_address(options)
+          data = service.associate_ip_address(options)
           merge_attributes(data)
           true
         end

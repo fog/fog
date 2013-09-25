@@ -21,10 +21,10 @@ Shindo.tests('Fog::Compute[:vsphere]', ['vsphere']) do
 
     tests("When converting an incomplete vm object") do
       test("it should return a Hash") do
-        compute.convert_vm_mob_ref_to_attr_hash(fake_vm_mob_ref).kind_of? Hash
+        compute.send(:convert_vm_mob_ref_to_attr_hash, fake_vm_mob_ref).kind_of? Hash
       end
       tests("The converted Hash should") do
-        attr_hash = compute.convert_vm_mob_ref_to_attr_hash(fake_vm_mob_ref)
+        attr_hash = compute.send(:convert_vm_mob_ref_to_attr_hash, fake_vm_mob_ref)
         test("have a name") { attr_hash['name'] == 'fakevm' }
         test("have a mo_ref") {attr_hash['mo_ref'] == 'vm-123' }
         test("have an id") { attr_hash['id'] == 'vm-123' }
@@ -33,7 +33,7 @@ Shindo.tests('Fog::Compute[:vsphere]', ['vsphere']) do
     end
 
     tests("When passed a nil object") do
-      attr_hash = compute.convert_vm_mob_ref_to_attr_hash(nil)
+      attr_hash = compute.send :convert_vm_mob_ref_to_attr_hash, nil
       test("it should return a nil object") do
         attr_hash.nil?
       end

@@ -57,7 +57,10 @@ Shindo.tests('AWS::ELB | models', ['aws', 'elb']) do
         end
       end
       tests('with vpc') do
+        Fog::Compute[:aws].ec2_compatibility_mode(false)
         elb2 = Fog::AWS[:elb].load_balancers.create(:id => "#{elb_id}-2", :subnet_ids => [@subnet_id])
+        tests("elb source group should be default_elb*").returns(true) { !!(elb2.source_group["GroupName"] =~ /default_elb_*/) }
+        tests("should have a 'default_elb_*' security group").returns(true) { Fog::Compute[:aws].security_groups.all.any? { |sg| sg.name =~ /default_elb/ } }
         tests("subnet ids are correct").returns(@subnet_id) { elb2.subnet_ids.first }
         elb2.destroy
       end
@@ -75,15 +78,17 @@ Shindo.tests('AWS::ELB | models', ['aws', 'elb']) do
      end
 
       tests('with availability zones') do
+        Fog::Compute[:aws].ec2_compatibility_mode(true)
         azs = @availability_zones[1..-1]
         elb2 = Fog::AWS[:elb].load_balancers.create(:id => "#{elb_id}-2", :availability_zones => azs)
+        tests("elb source group should be amazon-elb-sg").returns(true) { elb2.source_group["GroupName"] == 'amazon-elb-sg' }
         tests("availability zones are correct").returns(azs.sort) { elb2.availability_zones.sort }
         elb2.destroy
       end
 
       # Need to sleep here for IAM changes to propgate
       tests('with ListenerDescriptions') do
-        @certificate = Fog::AWS[:iam].upload_server_certificate(AWS::IAM::SERVER_CERT_PUBLIC_KEY, AWS::IAM::SERVER_CERT_PRIVATE_KEY, @key_name).body['Certificate']
+        @certificate = Fog::AWS[:iam].upload_server_certificate(AWS::IAM::SERVER_CERT, AWS::IAM::SERVER_CERT_PRIVATE_KEY, @key_name).body['Certificate']
         sleep(10) unless Fog.mocking?
         listeners = [{
             'Listener' => {
@@ -250,6 +255,7 @@ Shindo.tests('AWS::ELB | models', ['aws', 'elb']) do
       tests('create app policy') do
         elb.policies.create(:id => app_policy_id, :cookie => 'my-app-cookie', :cookie_stickiness => :app)
         returns(app_policy_id) { elb.policies.first.id }
+        returns("my-app-cookie") { elb.policies.get(app_policy_id).cookie }
       end
 
       tests('get policy') do
@@ -270,6 +276,7 @@ Shindo.tests('AWS::ELB | models', ['aws', 'elb']) do
       tests('setting a listener policy') do
         elb.set_listener_policy(80, lb_policy_id)
         returns([lb_policy_id]) { elb.listeners.get(80).policy_names }
+        returns(600) { elb.policies.get(lb_policy_id).expiration }
       end
 
       tests('unsetting a listener policy') do
@@ -277,8 +284,33 @@ Shindo.tests('AWS::ELB | models', ['aws', 'elb']) do
         returns([]) { elb.listeners.get(80).policy_names }
       end
 
+      public_key_policy_id = 'fog-public-key-policy'
+      tests('create public key policy') do
+        elb.policies.create(:id => public_key_policy_id, :type_name => 'PublicKeyPolicyType', :policy_attributes => {'PublicKey' => AWS::IAM::SERVER_CERT_PUBLIC_KEY})
+        policy = elb.policies.get(public_key_policy_id)
+
+        returns(public_key_policy_id) { policy.id }
+        returns("PublicKeyPolicyType") { policy.type_name }
+        returns(AWS::IAM::SERVER_CERT_PUBLIC_KEY) { policy.policy_attributes["PublicKey"] }
+      end
+
       tests('a malformed policy') do
         raises(ArgumentError) { elb.policies.create(:id => 'foo', :cookie_stickiness => 'invalid stickiness') }
+      end
+    end
+
+    tests('backend server descriptions') do
+      tests('default') do
+        returns(0) { elb.backend_server_descriptions.size }
+      end
+
+      tests('with a backend policy') do
+        policy = "EnableProxyProtocol"
+        port = 80
+        elb.policies.create(:id => policy, :type_name => 'ProxyProtocolPolicyType', :policy_attributes => { "ProxyProtocol" => true })
+        Fog::AWS[:elb].set_load_balancer_policies_for_backend_server(elb.id, port, [policy]).body
+        elb.reload
+        returns([policy]) { elb.backend_server_descriptions.get(port).policy_names }
       end
     end
 

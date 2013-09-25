@@ -29,11 +29,14 @@ If you should ever need to remove the library:
 The Ruby Fog library is well documented on the community web site at {fog.io}[http://fog.io], but for specific examples
 using HP's extensions, see:
 
-* {HP Cloud Fog library - Object Storage Examples}[https://build.hpcloud.com/bindings/fog/object-storage]
-* {HP Cloud Fog library - Compute Examples}[https://build.hpcloud.com/bindings/fog/compute]
-* {HP Cloud Fog library - CDN Examples}[https://build.hpcloud.com/bindings/fog/cdn]
+* {HP Cloud Fog library - Object Storage Examples}[https://docs.hpcloud.com/bindings/fog/object-storage]
+* {HP Cloud Fog library - Compute Examples}[https://docs.hpcloud.com/bindings/fog/compute]
+* {HP Cloud Fog library - CDN Examples}[https://docs.hpcloud.com/bindings/fog/cdn]
+* {HP Cloud Fog library - Block Storage Examples}[https://docs.hpcloud.com/bindings/fog/block-storage]
 
-Having trouble? {Get help over at the Forums}[https://connect.hpcloud.com]
+Having trouble? Get help over at the {Forums}[https://community.hpcloud.com/forum] or
+at the {Knowledge Base}[https://community.hpcloud.com/knowledge-base] areas.
+
 
 == Notice
 
@@ -56,5 +59,3 @@ PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS 
 FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
 OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 DEALINGS IN THE SOFTWARE.
-
-

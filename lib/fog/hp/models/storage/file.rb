@@ -31,14 +31,14 @@ module Fog
 
         def copy(target_directory_key, target_file_key)
           requires :directory, :key
-          target_directory = connection.directories.new(:key => target_directory_key)
-          connection.put_object(target_directory_key, target_file_key, nil, {'X-Copy-From' => "/#{directory.key}/#{key}" })
+          target_directory = service.directories.new(:key => target_directory_key)
+          service.put_object(target_directory_key, target_file_key, nil, {'X-Copy-From' => "/#{directory.key}/#{key}" })
           target_directory.files.get(target_file_key)
         end
 
         def destroy
           requires :directory, :key
-          connection.delete_object(directory.key, key)
+          service.delete_object(directory.key, key)
           true
         end
 
@@ -65,10 +65,20 @@ module Fog
           self.collection.get_cdn_url(self.key)
         end
 
+        def cdn_public_ssl_url
+          requires :key
+          self.collection.get_cdn_ssl_url(self.key)
+        end
+
+        def temp_signed_url(expires_secs, method)
+          requires :directory, :key
+          service.get_object_temp_url(directory.key, key, expires_secs, method)
+        end
+
         def save(options = {})
           requires :body, :directory, :key
           options['Content-Type'] = content_type if content_type
-          data = connection.put_object(directory.key, key, body, options)
+          data = service.put_object(directory.key, key, body, options)
           merge_attributes(data.headers)
           self.content_length = Fog::Storage.get_body_size(body)
           true

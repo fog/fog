@@ -8,16 +8,15 @@ module Fog
         # ==== Parameters
         # * name<~String> - Name of server
         # * flavor_id<~Integer> - Id of flavor for server
-        # * image_id<~Integer> - Id of image for server
+        # * image_id<~Integer> - Id of image for server. If block_device_mapping is passed, this is ignored.
         # * options<~Hash>:
         #   * 'metadata'<~Hash> - Up to 5 key value pairs containing 255 bytes of info
         #   * 'min_count'<~Integer> - Number of servers to create. Defaults to 1.
         #   * 'max_count'<~Integer> - Max. number of servers to create. Defaults to being equal to min_count.
         #   * 'key_name'<~String> - Name of keypair to be used
         #   * 'security_groups'<~Array> - one or more security groups to be used
-        #   * 'availability_zone'<~String> - the availability zone to be used
         #   * 'personality'<~Array>: Up to 5 files to customize server
-        #     * file<~Hash>:
+        #     * 'file'<~Hash>:
         #       * 'contents'<~String> - Contents of file (10kb total of contents)
         #       * 'path'<~String> - Path to file (255 bytes total of path strings)
         #   * 'accessIPv4'<~String> - IPv4 IP address
@@ -28,17 +27,34 @@ module Fog
         #   * body<~Hash>:
         #   * 'server'<~Hash>:
         #     * 'addresses'<~Hash>:
-        #       * 'public'<~Array> - public address strings
-        #       * 'private'<~Array> - private address strings
-        #     * 'adminPass'<~String> - Admin password for server
-        #     * 'flavorId'<~Integer> - Id of servers current flavor
+        #       * 'private'<~Array> - private and public fixed and floating ip addresses
+        #     * 'flavor'<~Hash>
+        #       * 'id'<~String> - id of the flavor
+        #       * 'links'<~Array> - array of flavor links
+        #     * 'id'<~Integer> - id of server
+        #     * 'image'<~Hash> - id of image used to boot server
+        #       * 'id'<~String> - id of the image
+        #       * 'links'<~Array> - array of image links
+        #     * 'links'<~Array> - array of server links
         #     * 'hostId'<~String>
-        #     * 'id'<~Integer> - Id of server
-        #     * 'imageId'<~Integer> - Id of image used to boot server
         #     * 'metadata'<~Hash> - metadata
-        #     * 'name'<~String> - Name of server
-        #     * 'progress'<~Integer> - Progress through current status
-        #     * 'status'<~String> - Current server status
+        #     * 'name'<~String> - name of server
+        #     * 'accessIPv4'<~String> - IPv4 ip address
+        #     * 'accessIPv6'<~String> - IPv6 ip address
+        #     * 'progress'<~Integer> - progress through current status
+        #     * 'status'<~String> - current server status
+        #     * 'created'<~String> - created date time stamp
+        #     * 'updated'<~String> - updated date time stamp
+        #     * 'user_id'<~String> - user id
+        #     * 'tenant_id'<~String> - tenant id
+        #     * 'uuid'<~String> - uuid of the server
+        #     * 'config_drive'<~String> - config drive
+        #     * 'security_groups'<~Array of Hash>
+        #       * 'id'<~Integer> - id of the security group
+        #       * 'name'<~String> - name of the security group
+        #       * 'links'<~Array> - array of security group links
+        #     * 'key_name'<~String> - name of the keypair
+        #     * 'adminPass'<~String> - admin password for server
         def create_server(name, flavor_id, image_id, options = {})
           data = {
             'server' => {
@@ -47,15 +63,11 @@ module Fog
               'name'       => name
             }
           }
-          if options['metadata']
-            data['server']['metadata'] = options['metadata']
+          l_options = ['metadata', 'accessIPv4', 'accessIPv6', 'key_name', 'config_drive', 'user_data']
+          l_options.select{|o| options[o]}.each do |key|
+            data['server'][key] = options[key]
           end
-          if options['accessIPv4']
-            data['server']['accessIPv4'] = options['accessIPv4']
-          end
-          if options['accessIPv6']
-            data['server']['accessIPv6'] = options['accessIPv6']
-          end
+
           if options['personality']
             data['server']['personality'] = []
             for file in options['personality']
@@ -70,9 +82,6 @@ module Fog
           data['server']['min_count'] = min_count
           data['server']['max_count'] = max_count
 
-          if options['key_name']
-            data['server']['key_name'] = options['key_name']
-          end
           if options['security_groups']
             data['server']['security_groups'] = []
             for sg in options['security_groups']
@@ -80,9 +89,6 @@ module Fog
                 'name' => sg
               }
             end
-          end
-          if options['availability_zone']
-            data['server']['availability_zone'] = options['availability_zone']
           end
 
           request(
@@ -101,11 +107,11 @@ module Fog
           response = Excon::Response.new
           response.status = 202
 
-          #if options['security_groups']
-          #  sec_group_name = options['security_groups'][0]
-          #else
-          #  sec_group_name = "default"
-          #end
+          if options['security_groups']
+            sec_group_name = options['security_groups'][0]
+          else
+            sec_group_name = "default"
+          end
           data = {
             'addresses' => { "private"=>[{"version"=>4, "addr"=>Fog::HP::Mock.ip_address}] },
             'flavor'    => {"id"=>"#{flavor_id}", "links"=>[{"href"=>"http://nova1:8774/admin/flavors/#{flavor_id}", "rel"=>"bookmark"}]},
@@ -125,7 +131,7 @@ module Fog
             'tenant_id' => Fog::HP::Mock.user_id.to_s,
             'uuid'      => "95253a45-9ead-43c6-90b3-65da2ef048b3",
             'config_drive' => "",
-            #'security_groups' => [{"name"=>"#{sec_group_name}", "links"=>[{"href"=>"http://nova1:8774/v1.1/admin//os-security-groups/111", "rel"=>"bookmark"}], "id"=>111}],
+            'security_groups' => [{"name"=>"#{sec_group_name}", "links"=>[{"href"=>"http://nova1:8774/v1.1/admin//os-security-groups/111", "rel"=>"bookmark"}], "id"=>111}],
             'key_name'  => options['key_name'] || ""
           }
           self.data[:last_modified][:servers][data['id']] = Time.now

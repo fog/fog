@@ -68,7 +68,7 @@ module Fog
             filters = {'volume-id' => [*filters]}
           end
           self.filters = filters
-          data = connection.describe_volumes(filters).body
+          data = service.describe_volumes(filters).body
           load(data['volumeSet'])
           if server
             self.replace(self.select {|volume| volume.server_id == server.id})
@@ -102,7 +102,7 @@ module Fog
 
         def get(volume_id)
           if volume_id
-            self.class.new(:connection => connection).all('volume-id' => volume_id).first
+            self.class.new(:service => service).all('volume-id' => volume_id).first
           end
         end
 

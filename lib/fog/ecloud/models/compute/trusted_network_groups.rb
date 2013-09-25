@@ -10,13 +10,13 @@ module Fog
         model Fog::Compute::Ecloud::TrustedNetworkGroup
 
         def all
-          data = connection.get_trusted_network_groups(href).body
+          data = service.get_trusted_network_groups(href).body
           data = data[:TrustedNetworkGroup] ? data[:TrustedNetworkGroup] : data
           load(data)
         end
 
         def get(uri)
-          if data = connection.get_trusted_network_group(uri)
+          if data = service.get_trusted_network_group(uri)
             new(data.body)
           end
         rescue Fog::Errors::NotFound

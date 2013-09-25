@@ -7,24 +7,22 @@ module Fog
         # Form should look like: <form action="http://#{bucket_name}.s3.amazonaws.com/" method="post" enctype="multipart/form-data">
         # These hidden fields should then appear, followed by a field named 'file' which is either a textarea or file input.
         #
-        # ==== Parameters
-        # * options<~Hash>:
-        #   * acl<~String> - access control list, in ['private', 'public-read', 'public-read-write', 'authenticated-read', 'bucket-owner-read', 'bucket-owner-full-control']
-        #   * Cache-Control - same as REST header
-        #   * Content-Type - same as REST header
-        #   * Content-Disposition - same as REST header
-        #   * Content-Encoding - same as REST header
-        #   * Expires - same as REST header
-        #   * key - key for object, set to '${filename}' to use filename provided by user
-        #   * policy - security policy for upload
-        #   * success_action_redirect - url to redirct to upon success
-        #   * success_action_status - status code to return on success, in [200, 201, 204]
-        #   * x-amz-security-token - devpay security token
-        #   * x-amz-meta-... - meta data tags
+        # @param options Hash:
+        # @option options acl [String] access control list, in ['private', 'public-read', 'public-read-write', 'authenticated-read', 'bucket-owner-read', 'bucket-owner-full-control']
+        # @option options Cache-Control [String] same as REST header
+        # @option options Content-Type [String] same as REST header
+        # @option options Content-Disposition [String] same as REST header
+        # @option options Content-Encoding [String] same as REST header
+        # @option options Expires same as REST header
+        # @option options key key for object, set to '${filename}' to use filename provided by user
+        # @option options policy security policy for upload
+        # @option options success_action_redirect url to redirct to upon success
+        # @option options success_action_status status code to return on success, in [200, 201, 204]
+        # @option options x-amz-security token devpay security token
+        # @option options x-amz-meta... meta data tags
         #
-        # ==== See Also
-        # http://docs.amazonwebservices.com/AmazonS3/latest/dev/HTTPPOSTForms.html
-
+        # @see http://docs.amazonwebservices.com/AmazonS3/latest/dev/HTTPPOSTForms.html
+        # 
         def post_object_hidden_fields(options = {})
           if options['policy']
             options['policy'] = Base64.encode64(Fog::JSON.encode(options['policy'])).gsub("\n", "")

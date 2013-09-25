@@ -5,28 +5,26 @@ module Fog
 
         # Get an object from S3
         #
-        # ==== Parameters
-        # * bucket_name<~String> - Name of bucket to read from
-        # * object_name<~String> - Name of object to read
-        # * options<~Hash>:
-        #   * 'If-Match'<~String> - Returns object only if its etag matches this value, otherwise returns 412 (Precondition Failed).
-        #   * 'If-Modified-Since'<~Time> - Returns object only if it has been modified since this time, otherwise returns 304 (Not Modified).
-        #   * 'If-None-Match'<~String> - Returns object only if its etag differs from this value, otherwise returns 304 (Not Modified)
-        #   * 'If-Unmodified-Since'<~Time> - Returns object only if it has not been modified since this time, otherwise returns 412 (Precodition Failed).
-        #   * 'Range'<~String> - Range of object to download
-        #   * 'versionId'<~String> - specify a particular version to retrieve
+        # @param bucket_name [String] Name of bucket to read from
+        # @param object_name [String] Name of object to read
+        # @param options [Hash]
+        # @option options If-Match [String] Returns object only if its etag matches this value, otherwise returns 412 (Precondition Failed).
+        # @option options If-Modified-Since [Time] Returns object only if it has been modified since this time, otherwise returns 304 (Not Modified).
+        # @option options If-None-Match [String] Returns object only if its etag differs from this value, otherwise returns 304 (Not Modified)
+        # @option options If-Unmodified-Since [Time] Returns object only if it has not been modified since this time, otherwise returns 412 (Precodition Failed).
+        # @option options Range [String] Range of object to download
+        # @option options versionId [String] specify a particular version to retrieve
+        # @option options query[Hash] specify additional query string
         #
-        # ==== Returns
-        # * response<~Excon::Response>:
-        #   * body<~String> - Contents of object
-        #   * headers<~Hash>:
-        #     * 'Content-Length'<~String> - Size of object contents
-        #     * 'Content-Type'<~String> - MIME type of object
-        #     * 'ETag'<~String> - Etag of object
-        #     * 'Last-Modified'<~String> - Last modified timestamp for object
+        # @return [Excon::Response] response:
+        #   * body [String]- Contents of object
+        #   * headers [Hash]:
+        #     * Content-Length [String] - Size of object contents
+        #     * Content-Type [String] - MIME type of object
+        #     * ETag [String] - Etag of object
+        #     * Last-Modified [String] - Last modified timestamp for object
         #
-        # ==== See Also
-        # http://docs.amazonwebservices.com/AmazonS3/latest/API/RESTObjectGET.html
+        # @see http://docs.amazonwebservices.com/AmazonS3/latest/API/RESTObjectGET.html
 
         def get_object(bucket_name, object_name, options = {}, &block)
           unless bucket_name
@@ -37,8 +35,11 @@ module Fog
           end
 
           params = { :headers => {} }
+
+          params[:query] = options.delete('query') || {}
+
           if version_id = options.delete('versionId')
-            params[:query] = {'versionId' => version_id}
+            params[:query] = params[:query].merge({'versionId' => version_id})
           end
           params[:headers].merge!(options)
           if options['If-Modified-Since']
@@ -54,10 +55,10 @@ module Fog
 
           request(params.merge!({
             :expects  => [ 200, 206 ],
-            :host     => "#{bucket_name}.#{@host}",
+            :bucket_name => bucket_name,
+            :object_name => object_name,
             :idempotent => true,
             :method   => 'GET',
-            :path     => CGI.escape(object_name),
           }))
         end
 
@@ -86,7 +87,7 @@ module Fog
             if (object && !object[:delete_marker])
               if options['If-Match'] && options['If-Match'] != object['ETag']
                 response.status = 412
-              elsif options['If-Modified-Since'] && options['If-Modified-Since'] > Time.parse(object['Last-Modified'])
+              elsif options['If-Modified-Since'] && options['If-Modified-Since'] >= Time.parse(object['Last-Modified'])
                 response.status = 304
               elsif options['If-None-Match'] && options['If-None-Match'] == object['ETag']
                 response.status = 304

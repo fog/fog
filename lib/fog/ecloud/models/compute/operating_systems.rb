@@ -14,7 +14,7 @@ module Fog
         end
 
         def get(uri)
-          if data = connection.get_operating_system(uri)
+          if data = service.get_operating_system(uri)
             new(data.body)
           end
         rescue Fog::Errors::NotFound

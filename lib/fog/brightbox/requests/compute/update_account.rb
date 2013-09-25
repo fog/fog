@@ -2,40 +2,39 @@ module Fog
   module Compute
     class Brightbox
       class Real
-
-        # Requests an update to the currently scoped account
+        # Update some details of the account.
         #
-        # === Parameters:
+        # @overload update_account(identifier, options)
+        #   @param [String] identifier Unique reference to identify the resource
+        #   @param [Hash] options
+        #   @option options [String] :name Account name
+        #   @option options [String] :address_1 First line of address
+        #   @option options [String] :address_2 Second line of address
+        #   @option options [String] :city City part of address
+        #   @option options [String] :county County part of address
+        #   @option options [String] :postcode Postcode or Zipcode
+        #   @option options [String] :country_code ISO 3166-1 two letter code (example: `GB`)
+        #   @option options [String] :vat_registration_number Must be a valid EU VAT number or `nil`
+        #   @option options [String] :telephone_number Valid International telephone number in E.164 format prefixed with `+`
         #
-        # <tt>identifier <String></tt>:: The identifier to request (Default is +nil+)
-        # <tt>options <Hash></tt>:: Hash of options for update
+        # @overload update_account(options)
+        #   @deprecated Use {Fog::Compute::Brightbox::Real#update_scoped_account} instead
         #
-        # === Options:
+        #   @param [Hash] options
+        #   @option options [String] :name Account name
+        #   @option options [String] :address_1 First line of address
+        #   @option options [String] :address_2 Second line of address
+        #   @option options [String] :city City part of address
+        #   @option options [String] :county County part of address
+        #   @option options [String] :postcode Postcode or Zipcode
+        #   @option options [String] :country_code ISO 3166-1 two letter code (example: `GB`)
+        #   @option options [String] :vat_registration_number Must be a valid EU VAT number or `nil`
+        #   @option options [String] :telephone_number Valid International telephone number in E.164 format prefixed with `+`
         #
-        # <tt>name</tt>:: Account name
-        # <tt>address_1</tt>:: First line of address
-        # <tt>address_2</tt>:: Second line of address
-        # <tt>city</tt>:: City part of address
-        # <tt>county</tt>:: County part of address
-        # <tt>postcode</tt>:: Postal code
-        # <tt>country_code</tt>:: ISO 3166-1 two letter code (example: +GB+)
-        # <tt>vat_registration_number</tt>:: Valid EU VAT Number or +nil+
-        # <tt>telephone_number</tt>:: Valid International telephone number in E.164 format prefixed with ’+’
+        # @return [Hash] if successful Hash version of JSON object
+        # @return [NilClass] if no options were passed
         #
-        # === Returns:
-        #
-        # <tt>Hash</tt>:: The JSON response parsed to a Hash
-        # <tt>nil</tt>:: If no options were passed to update
-        #
-        # === Notes:
-        #
-        # This also supports a deprecated form where if an identifier is not
-        # passed then the scoping account is updated instead. This should not
-        # be used in new code. Use #update_scoped_account instead.
-        #
-        # === Reference:
-        #
-        # https://api.gb1.brightbox.com/1.0/#account_update_account
+        # @see https://api.gb1.brightbox.com/1.0/#account_update_account
         #
         def update_account(*args)
           if args.size == 2
@@ -52,7 +51,7 @@ module Fog
             Fog::Logger.deprecation("update_account() without a parameter is deprecated, use update_scoped_account instead [light_black](#{caller.first})[/]")
             update_scoped_account(options)
           else
-            request("put", "/1.0/accounts/#{identifier}", [200], options)
+            wrapped_request("put", "/1.0/accounts/#{identifier}", [200], options)
           end
         end
 

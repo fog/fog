@@ -10,12 +10,12 @@ module Fog
         model Fog::Compute::Ecloud::BackupInternetService
 
         def all
-          data = connection.get_backup_internet_services(href).body
+          data = service.get_backup_internet_services(href).body
           load(data)
         end
 
         def get(uri)
-          if data = connection.get_backup_internet_service(uri)
+          if data = service.get_backup_internet_service(uri)
             new(data.body)
           end
         rescue Fog::Errors::NotFound
@@ -29,7 +29,7 @@ module Fog
         def create(options)
           options[:uri] = href + "/action/createBackupInternetService"
           options[:enabled] ||= true
-          data = connection.backup_internet_service_create(options)
+          data = service.backup_internet_service_create(options)
           new(data)
         end
 

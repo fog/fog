@@ -9,12 +9,12 @@ module Fog
         model Fog::Rackspace::Databases::Flavor
 
         def all
-          data = connection.list_flavors.body['flavors']
+          data = service.list_flavors.body['flavors']
           load(data)
         end
 
         def get(flavor_id)
-          data = connection.get_flavor(flavor_id).body['flavor']
+          data = service.get_flavor(flavor_id).body['flavor']
           new(data)
         rescue Fog::Rackspace::Databases::NotFound
           nil

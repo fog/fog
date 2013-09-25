@@ -13,8 +13,14 @@ module Fog
 
       class Mock
         def list_roles_for_user_on_tenant(tenant_id, user_id)
+          self.data[:user_tenant_membership][tenant_id] ||= {}
+          self.data[:user_tenant_membership][tenant_id][user_id] ||= []
+          roles = self.data[:user_tenant_membership][tenant_id][user_id].map do |role_id|
+            self.data[:roles][role_id]
+          end
+
           Excon::Response.new(
-            :body   => { 'roles' => self.data[:roles].values },
+            :body   => { 'roles' => roles },
             :status => 200
           )
         end # def list_roles_for_user_on_tenant

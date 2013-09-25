@@ -12,7 +12,7 @@ module Fog
         attribute :server
 
         def all
-          data = connection.grid_image_list.body['list']
+          data = service.grid_image_list.body['list']
           load(data)
           if server
             self.replace(self.select {|image| image.server_id == server.id})
@@ -20,7 +20,7 @@ module Fog
         end
 
         def get(image_id)
-          response = connection.grid_image_get.body['list'][image_id]
+          response = service.grid_image_get.body['list'][image_id]
           new(data)
         rescue Fog::Compute::GoGrid::NotFound
           nil

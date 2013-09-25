@@ -47,7 +47,7 @@ module Fog
 
         def destroy
           requires :id
-          connection.delete_server(id)
+          service.delete_server(id)
           true
         end
 
@@ -66,15 +66,15 @@ module Fog
         end
 
         def add_ip_address
-          connection.add_ip_address(id)
+          service.add_ip_address(id)
         end
 
         def move_ip_address(ip_address)
-          connection.move_ip_address(id, ip_address)
+          service.move_ip_address(id, ip_address)
         end
 
         def delete_ip_address(ip_address)
-          connection.delete_ip_address(id, ip_address)
+          service.delete_ip_address(id, ip_address)
         end
 
         def ready?
@@ -83,14 +83,14 @@ module Fog
 
         def reboot(type = 'SOFT')
           requires :id
-          connection.reboot_server(id, type)
+          service.reboot_server(id, type)
           true
         end
 
         def save
-          raise Fog::Errors::Error.new('Resaving an existing object may create a duplicate') if identity
+          raise Fog::Errors::Error.new('Resaving an existing object may create a duplicate') if persisted?
           requires :image_id
-          data = connection.create_server(image_id, attributes)
+          data = service.create_server(image_id, attributes)
           merge_attributes(data.body['server'])
           true
         end

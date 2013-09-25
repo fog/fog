@@ -63,7 +63,7 @@ module Fog
             filters = {'subnet-id' => [*filters]}
           end
           self.filters = filters
-          data = connection.describe_subnets(filters).body
+          data = service.describe_subnets(filters).body
           load(data['subnetSet'])
         end
 
@@ -88,7 +88,7 @@ module Fog
 
         def get(subnet_id)
           if subnet_id
-            self.class.new(:connection => connection).all('subnet-id' => subnet_id).first
+            self.class.new(:service => service).all('subnet-id' => subnet_id).first
           end
         end
 

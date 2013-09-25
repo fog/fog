@@ -29,6 +29,7 @@ module Fog
         #   * 'LaunchSpecification.SecurityGroup'<~Array> or <~String> - Name of security group(s) for instances, not supported in VPC
         #   * 'LaunchSpecification.SecurityGroupId'<~Array> or <~String> - Id of security group(s) for instances, use this or LaunchSpecification.SecurityGroup
         #   * 'LaunchSpecification.UserData'<~String> -  Additional data to provide to booting instances
+        #   * 'LaunchSpecification.EbsOptimized'<~Boolean> - Whether the instance is optimized for EBS I/O
         #   * 'Type'<~String> - spot instance request type in ['one-time', 'persistent']
         #   * 'ValidFrom'<~Time> - start date for request
         #   * 'ValidUntil'<~Time> - end date for request

@@ -9,14 +9,12 @@ module Fog
       class Directory < Fog::Model
         VALID_ACLS = ['private', 'public-read', 'public-read-write', 'authenticated-read']
 
-        # See http://docs.amazonwebservices.com/AmazonS3/latest/API/RESTBucketPUT.html
-        INVALID_LOCATIONS = ['us-east-1']
-
         attr_reader :acl
 
         identity  :key,           :aliases => ['Name', 'name']
 
-        attribute :creation_date, :aliases => 'CreationDate'
+        attribute :creation_date, :aliases => 'CreationDate', :type => 'time'
+        attribute :location,      :aliases => 'LocationConstraint', :type => 'string'
 
         def acl=(new_acl)
           unless VALID_ACLS.include?(new_acl)
@@ -28,54 +26,50 @@ module Fog
 
         def destroy
           requires :key
-          connection.delete_bucket(key)
+          service.delete_bucket(key)
           true
         rescue Excon::Errors::NotFound
           false
         end
 
         def location
-          requires :key
-          attributes[:location] || bucket_location || self.connection.region
+          @location ||= (bucket_location || self.service.region)
         end
 
+        # NOTE: you can't change the region once the bucket is created
         def location=(new_location)
-          if INVALID_LOCATIONS.include?(new_location)
-            raise ArgumentError, "location must not include any of #{INVALID_LOCATIONS.join(', ')}. See http://docs.amazonwebservices.com/AmazonS3/latest/API/RESTBucketPUT.html"
-          else
-            merge_attributes(:location => new_location)
-          end
+          @location = new_location
         end
 
         def files
-          @files ||= Fog::Storage::AWS::Files.new(:directory => self, :connection => connection)
+          @files ||= Fog::Storage::AWS::Files.new(:directory => self, :service => service)
         end
 
         def payer
           requires :key
-          data = connection.get_request_payment(key)
+          data = service.get_request_payment(key)
           data.body['Payer']
         end
 
         def payer=(new_payer)
           requires :key
-          connection.put_request_payment(key, new_payer)
+          service.put_request_payment(key, new_payer)
           @payer = new_payer
         end
 
         def versioning?
           requires :key
-          data = connection.get_bucket_versioning(key)
+          data = service.get_bucket_versioning(key)
           data.body['VersioningConfiguration']['Status'] == 'Enabled'
         end
 
         def versioning=(new_versioning)
           requires :key
-          connection.put_bucket_versioning(key, new_versioning ? 'Enabled' : 'Suspended')
+          service.put_bucket_versioning(key, new_versioning ? 'Enabled' : 'Suspended')
         end
 
         def versions
-          @versions ||= Fog::Storage::AWS::Versions.new(:directory => self, :connection => connection)
+          @versions ||= Fog::Storage::AWS::Versions.new(:directory => self, :service => service)
         end
 
         def public=(new_public)
@@ -85,12 +79,10 @@ module Fog
 
         def public_url
           requires :key
-          if connection.get_bucket_acl(key).body['AccessControlList'].detect {|grant| grant['Grantee']['URI'] == 'http://acs.amazonaws.com/groups/global/AllUsers' && grant['Permission'] == 'READ'}
-            if key.to_s =~ /^(?:[a-z]|\d(?!\d{0,2}(?:\.\d{1,3}){3}$))(?:[a-z0-9]|\-(?![\.])){1,61}[a-z0-9]$/
-              "https://#{key}.s3.amazonaws.com"
-            else
-              "https://s3.amazonaws.com/#{key}"
-            end
+          if service.get_bucket_acl(key).body['AccessControlList'].detect {|grant| grant['Grantee']['URI'] == 'http://acs.amazonaws.com/groups/global/AllUsers' && grant['Permission'] == 'READ'}
+            service.request_url(
+              :bucket_name => key
+            )
           else
             nil
           end
@@ -103,19 +95,30 @@ module Fog
 
           options['x-amz-acl'] = acl if acl
 
-          if location = attributes[:location] || (self.connection.region != 'us-east-1' && self.connection.region)
+          # http://docs.aws.amazon.com/AmazonS3/latest/API/RESTBucketPUT.html
+          # Ignore the default region us-east-1
+          if !persisted? && location != DEFAULT_REGION
             options['LocationConstraint'] = location
           end
 
-          connection.put_bucket(key, options)
+          service.put_bucket(key, options)
+          attributes[:is_persisted] = true
 
           true
+        end
+
+        def persisted?
+          # is_persisted is true in case of directories.get or after #save
+          # creation_date is set in case of directories.all
+          attributes[:is_persisted] || !!attributes[:creation_date]
         end
 
         private
 
         def bucket_location
-          data = connection.get_bucket_location(key)
+          requires :key
+          return nil unless persisted?
+          data = service.get_bucket_location(key)
           data.body['LocationConstraint']
         end
 

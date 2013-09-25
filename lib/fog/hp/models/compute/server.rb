@@ -1,4 +1,5 @@
 require 'fog/compute/models/server'
+require 'fog/hp/models/compute/metadata'
 
 module Fog
   module Compute
@@ -24,6 +25,9 @@ module Fog
         attribute :tenant_id
         attribute :user_id
         attribute :key_name
+        attribute :security_groups
+        attribute :config_drive
+        attribute :user_data_encoded
         # these are implemented as methods
         attribute :image_id
         attribute :flavor_id
@@ -31,47 +35,81 @@ module Fog
         attribute :public_ip_address
 
         attr_reader :password
-        attr_writer :image_id, :flavor_id
+        attr_writer :private_key, :private_key_path
+        attr_writer :public_key, :public_key_path
+        attr_writer :username, :image_id, :flavor_id, :network_name
 
         def initialize(attributes = {})
           # assign these attributes first to prevent race condition with new_record?
-          self.security_groups = attributes.delete(:security_groups)
           self.min_count = attributes.delete(:min_count)
           self.max_count = attributes.delete(:max_count)
+          self.block_device_mapping = attributes.delete(:block_device_mapping)
           super
+        end
+
+        def console_output(num_lines)
+          requires :id
+          service.get_console_output(id, num_lines)
+        end
+
+        def metadata
+          @metadata ||= begin
+            Fog::Compute::HP::Metadata.new({
+              :service => service,
+              :parent => self
+            })
+          end
+        end
+
+        def metadata=(new_metadata={})
+          metas = []
+          new_metadata.each_pair {|k,v| metas << {"key" => k, "value" => v} }
+          metadata.load(metas)
+        end
+
+        def user_data=(ascii_userdata)
+          self.user_data_encoded = [ascii_userdata].pack('m')  # same as Base64.encode64
         end
 
         def destroy
           requires :id
-          connection.delete_server(id)
+          service.delete_server(id)
           true
-        end
-
-        def images
-          requires :id
-          connection.images(:server => self)
         end
 
         def key_pair
           requires :key_name
 
-          connection.key_pairs.get(key_name)
+          service.key_pairs.get(key_name)
         end
 
         def key_pair=(new_keypair)
           self.key_name = new_keypair && new_keypair.name
         end
 
+        def network_name
+          @network_name ||= "private"
+        end
+
         def private_ip_address
-          addr = addresses.nil? ? nil : addresses.fetch('private', []).first
+          addr = addresses.nil? ? nil : addresses.fetch(network_name, []).first
           addr["addr"] if addr
+        end
+
+        def private_key_path
+          @private_key_path ||= Fog.credentials[:private_key_path]
+          @private_key_path &&= File.expand_path(@private_key_path)
+        end
+
+        def private_key
+          @private_key ||= private_key_path && File.read(private_key_path)
         end
 
         def public_ip_address
           # FIX: Both the private and public ips are bundled under "private" network name
           # So hack to get to the public ip address
           if !addresses.nil?
-            addr = addresses.fetch('private', [])
+            addr = addresses.fetch(network_name, [])
             # if we have more than 1 address, then the return the second address which is public
             if addr.count > 1
               addr[1]["addr"]
@@ -81,6 +119,15 @@ module Fog
           else
             nil
           end
+        end
+
+        def public_key_path
+          @public_key_path ||= Fog.credentials[:public_key_path]
+          @public_key_path &&= File.expand_path(@public_key_path)
+        end
+
+        def public_key
+          @public_key ||= public_key_path && File.read(public_key_path)
         end
 
         def image_id
@@ -107,74 +154,93 @@ module Fog
           @max_count = new_max_count
         end
 
-        def security_groups=(new_security_groups)
-          @security_groups = new_security_groups
+        def block_device_mapping=(new_block_device_mapping)
+          @block_device_mapping = new_block_device_mapping
         end
 
-        def security_groups   
-          @security_groups
-        end
-        
         def ready?
           self.state == 'ACTIVE'
         end
 
         def change_password(admin_password)
           requires :id
-          connection.change_password_server(id, admin_password)
+          service.change_password_server(id, admin_password)
           true
+        end
+
+        def windows_password()
+          requires :id
+          service.get_windows_password(id)
         end
 
         def reboot(type = 'SOFT')
           requires :id
-          connection.reboot_server(id, type)
+          service.reboot_server(id, type)
           true
         end
 
         def rebuild(image_id, name, admin_pass=nil, metadata=nil, personality=nil)
           requires :id
-          connection.rebuild_server(id, image_id, name, admin_pass, metadata, personality)
+          service.rebuild_server(id, image_id, name, admin_pass, metadata, personality)
           true
         end
 
         def resize(flavor_id)
           requires :id
-          connection.resize_server(id, flavor_id)
+          service.resize_server(id, flavor_id)
           true
         end
 
         def revert_resize
           requires :id
-          connection.revert_resized_server(id)
+          service.revert_resized_server(id)
           true
         end
 
         def confirm_resize
           requires :id
-          connection.confirm_resized_server(id)
+          service.confirm_resized_server(id)
           true
         end
 
         def create_image(name, metadata={})
           requires :id
-          connection.create_image(id, name, metadata)
+          service.create_image(id, name, metadata)
+        end
+
+        def volume_attachments
+          requires :id
+          if vols = service.list_server_volumes(id).body
+            vols["volumeAttachments"]
+          end
         end
 
         def save
-          raise Fog::Errors::Error.new('Resaving an existing object may create a duplicate') if identity
-          requires :flavor_id, :image_id, :name
+          raise Fog::Errors::Error.new('Resaving an existing object may create a duplicate') if persisted?
+          requires :flavor_id, :name
+          meta_hash = {}
+          metadata.each { |meta| meta_hash.store(meta.key, meta.value) }
           options = {
-            'metadata'    => metadata,
-            'personality' => personality,
-            'accessIPv4'  => accessIPv4,
-            'accessIPv6'  => accessIPv6,
-            'min_count'   => @min_count,
-            'max_count'   => @max_count,
-            'key_name'    => key_name,
-            'security_groups' => @security_groups
+            'metadata'        => meta_hash,
+            'personality'     => personality,
+            'accessIPv4'      => accessIPv4,
+            'accessIPv6'      => accessIPv6,
+            'min_count'       => @min_count,
+            'max_count'       => @max_count,
+            'key_name'        => key_name,
+            'security_groups' => security_groups,
+            'config_drive'    => config_drive,
+            'user_data'       => user_data_encoded
           }
           options = options.reject {|key, value| value.nil?}
-          data = connection.create_server(name, flavor_id, image_id, options)
+          # either create a regular server or a persistent server based on input
+          if image_id
+            # create a regular server using the image
+            data = service.create_server(name, flavor_id, image_id, options)
+          elsif image_id.nil? && !@block_device_mapping.nil? && !@block_device_mapping.empty?
+            # create a persistent server using the bootable volume in the block_device_mapping
+            data = service.create_persistent_server(name, flavor_id, @block_device_mapping, options)
+          end
           merge_attributes(data.body['server'])
           true
         end
@@ -191,6 +257,10 @@ module Fog
         rescue Errno::ECONNREFUSED
           sleep(1)
           retry
+        end
+
+        def username
+          @username ||= 'root'
         end
 
         private

@@ -1,4 +1,4 @@
-Shindo.tests('Fog::Compute[:hp] | flavor requests', ["hp"]) do
+Shindo.tests("Fog::Compute[:hp] | flavor requests", ['hp']) do
 
   @flavor_format = {
     'rxtx_quota' => Integer,

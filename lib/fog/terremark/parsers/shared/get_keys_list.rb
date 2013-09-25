@@ -4,8 +4,7 @@ module Fog
     module Terremark
       module Shared
 
-        class GetKeysList < Fog::Parsers::Base
-
+        class GetKeysList < TerremarkParser
           def reset
             @response = { 'Keys' => [] }
             @key = {}
@@ -15,25 +14,12 @@ module Fog
             super
             case name
             when 'Id', 'Href', 'Name', 'IsDefault','FingerPrint'
-              data = {}
-              until attributes.empty?
-                data[attributes.shift] = attributes.shift
-              end
+              data = extract_attributes(attributes)
               @key[name] = data
             when 'Key'
-              until attributes.empty?
-                @key[attributes.shift] = attributes.shift
-              end
+              @key = extract_attributes(attributes)
             when 'Keys'
-              keys_list = {}
-              until attributes.empty?
-                if attributes.first.is_a?(Array)
-                  attribute = attributes.shift
-                  keys_list[attribute.first] = attribute.last
-                else
-                  keys_list[attributes.shift] = attributes.shift
-                end
-              end
+              keys_list = extract_attributes(attributes)
               @response['href'] = keys_list['href']
             end
           end

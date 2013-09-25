@@ -23,13 +23,12 @@ module Fog
         attribute :set_identifier,:aliases => ['SetIdentifier']
 
         def initialize(attributes={})
-          self.ttl ||= 3600
           super
         end
 
         def destroy
           options = attributes_to_options('DELETE')
-          connection.change_resource_record_sets(zone.id, [options])
+          service.change_resource_record_sets(zone.id, [options])
           true
         end
 
@@ -38,8 +37,9 @@ module Fog
         end
 
         def save
+          self.ttl ||= 3600
           options = attributes_to_options('CREATE')
-          data = connection.change_resource_record_sets(zone.id, [options]).body
+          data = service.change_resource_record_sets(zone.id, [options]).body
           merge_attributes(data)
           true
         end
@@ -54,7 +54,7 @@ module Fog
           merge_attributes(new_attributes)
           options << attributes_to_options('CREATE')
 
-          data = connection.change_resource_record_sets(zone.id, options).body
+          data = service.change_resource_record_sets(zone.id, options).body
           merge_attributes(data)
           true
         end
@@ -69,7 +69,7 @@ module Fog
         def reload
           # If we have a change_id (newly created or modified), then reload performs a get_change to update status.
           if change_id
-            data = connection.get_change(change_id).body
+            data = service.get_change(change_id).body
             merge_attributes(data)
             self
           else

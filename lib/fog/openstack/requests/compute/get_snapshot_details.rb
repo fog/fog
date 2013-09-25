@@ -16,7 +16,7 @@ module Fog
 
       class Mock
 
-        def get_snapshot_details(detailed=true)
+        def get_snapshot_details(snapshot_id)
           response = Excon::Response.new
           response.status = 200
           response.body = {

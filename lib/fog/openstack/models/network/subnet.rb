@@ -18,7 +18,8 @@ module Fog
         attribute :tenant_id
 
         def initialize(attributes)
-          @connection = attributes[:connection]
+          # Old 'connection' is renamed as service and should be used instead
+          prepare_service_value(attributes)
           super
         end
 
@@ -29,7 +30,7 @@ module Fog
 
         def create
           requires :network_id, :cidr, :ip_version
-          merge_attributes(connection.create_subnet(self.network_id,
+          merge_attributes(service.create_subnet(self.network_id,
                                                     self.cidr,
                                                     self.ip_version,
                                                     self.attributes).body['subnet'])
@@ -38,14 +39,14 @@ module Fog
 
         def update
           requires :id, :network_id, :cidr, :ip_version
-          merge_attributes(connection.update_subnet(self.id,
+          merge_attributes(service.update_subnet(self.id,
                                                     self.attributes).body['subnet'])
           self
         end
 
         def destroy
           requires :id
-          connection.delete_subnet(self.id)
+          service.delete_subnet(self.id)
           true
         end
 

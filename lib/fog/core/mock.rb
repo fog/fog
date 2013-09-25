@@ -34,6 +34,22 @@ module Fog
       raise Fog::Errors::MockNotImplemented.new("Contributions welcome!")
     end
 
+    def self.random_ip(opts = {:version => :v4})
+      version = opts[:version]
+      if version == :v6
+        bit_length = 128
+        family = Socket::AF_INET6
+      elsif version == :v4
+        bit_length = 32
+        family = Socket::AF_INET
+      else
+        raise ArgumentError, "Unknown IP version: #{version}"
+      end
+
+      seed = 1 + rand((2**bit_length)-1)
+      IPAddr.new(seed, family).to_s
+    end
+
     def self.random_base64(length)
       random_selection(
         "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/",

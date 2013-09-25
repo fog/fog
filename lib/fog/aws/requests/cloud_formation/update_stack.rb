@@ -5,25 +5,21 @@ module Fog
 
         require 'fog/aws/parsers/cloud_formation/update_stack'
 
-        # Update a stack
+        # Update a stack.
         #
-        # ==== Parameters
-        # * stack_name<~String>: name of the stack to update
-        # * options<~Hash>:
-        #   * TemplateBody<~String>: structure containing the template body
+        # @param [String] stack_name Name of the stack to update.
+        # @param [Hash] options
+        #   * TemplateBody [String] Structure containing the template body.
         #   or (one of the two Template parameters is required)
-        #   * TemplateURL<~String>: URL of file containing the template body
-        #   * Parameters<~Hash>: Hash of providers to supply to template
-        #   * Capabilities<~Array>: List of capabilties the stack is granted. Currently CAPABILITY_IAM
-        #     for allowing the creation of IAM resources
+        #   * TemplateURL [String] URL of file containing the template body.
+        #   * Parameters [Hash] Hash of providers to supply to template.
+        #   * Capabilities [Array] List of capabilties the stack is granted. Currently CAPABILITY_IAM for allowing the creation of IAM resources.
         #
-        # ==== Returns
-        # * response<~Excon::Response>:
-        #   * body<~Hash>:
-        #     * 'StackId'<~String> - Id of the stack being updated
+        # @return [Excon::Response]
+        #   * body [Hash]:
+        #     * StackId [String] - Id of the stack being updated
         #
-        # ==== See Also
-        # http://docs.amazonwebservices.com/AWSCloudFormation/latest/APIReference/API_UpdateStack.html
+        # @see http://docs.amazonwebservices.com/AWSCloudFormation/latest/APIReference/API_UpdateStack.html
         #
         def update_stack(stack_name, options = {})
           params = {

@@ -5,16 +5,13 @@ module Fog
 
         # Delete an object from S3
         #
-        # ==== Parameters
-        # * bucket_name<~String> - Name of bucket containing object to delete
-        # * object_name<~String> - Name of object to delete
+        # @param bucket_name [String] Name of bucket containing object to delete
+        # @param object_name [String] Name of object to delete
         #
-        # ==== Returns
-        # * response<~Excon::Response>:
-        #   * status<~Integer> - 204
+        # @return [Excon::Response] response:
+        #   * status [Integer] - 204
         #
-        # ==== See Also
-        # http://docs.amazonwebservices.com/AmazonS3/latest/API/RESTObjectDELETE.html
+        # @see http://docs.amazonwebservices.com/AmazonS3/latest/API/RESTObjectDELETE.html
 
         def delete_object(bucket_name, object_name, options = {})
           if version_id = options.delete('versionId')
@@ -27,7 +24,7 @@ module Fog
           request({
             :expects    => 204,
             :headers    => headers,
-            :host       => "#{bucket_name}.#{@host}",
+            :bucket_name => bucket_name,
             :idempotent => true,
             :method     => 'DELETE',
             :path       => path

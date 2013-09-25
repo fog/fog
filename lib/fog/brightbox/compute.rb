@@ -1,11 +1,11 @@
 require 'fog/brightbox'
 require 'fog/compute'
+require 'fog/brightbox/compute/shared'
+require 'fog/brightbox/compute/image_selector'
 
 module Fog
   module Compute
     class Brightbox < Fog::Service
-
-      API_URL = "https://api.gb1.brightbox.com/"
 
       # Client credentials
       requires :brightbox_client_id, :brightbox_secret
@@ -15,6 +15,12 @@ module Fog
 
       # User credentials (still requires client details)
       recognizes :brightbox_username, :brightbox_password, :brightbox_account
+
+      # Cached tokens
+      recognizes :brightbox_access_token, :brightbox_refresh_token
+
+      # Automatic token management
+      recognizes :brightbox_token_management
 
       # Excon connection settings
       recognizes :persistent
@@ -26,6 +32,8 @@ module Fog
       model       :application
       collection  :api_clients
       model       :api_client
+      collection  :collaborations
+      model       :collaboration
       collection  :servers
       model       :server
       collection  :server_groups
@@ -46,37 +54,45 @@ module Fog
       model       :cloud_ip
       collection  :users
       model       :user
+      collection  :user_collaborations
+      model       :user_collaboration
 
       request_path 'fog/brightbox/requests/compute'
+      request :accept_user_collaboration
       request :activate_console_server
       request :add_listeners_load_balancer
       request :add_nodes_load_balancer
       request :add_servers_server_group
       request :apply_to_firewall_policy
+      request :accept_user_collaboration
       request :remove_firewall_policy
       request :create_api_client
       request :create_application
       request :create_cloud_ip
+      request :create_collaboration
       request :create_firewall_policy
       request :create_firewall_rule
       request :create_image
       request :create_load_balancer
       request :create_server
       request :create_server_group
-      request :destroy_api_client
-      request :destroy_application
-      request :destroy_cloud_ip
-      request :destroy_firewall_policy
-      request :destroy_firewall_rule
-      request :destroy_image
-      request :destroy_load_balancer
-      request :destroy_server
-      request :destroy_server_group
+      request :delete_api_client
+      request :delete_application
+      request :delete_cloud_ip
+      request :delete_collaboration
+      request :delete_firewall_policy
+      request :delete_firewall_rule
+      request :delete_image
+      request :delete_load_balancer
+      request :delete_server
+      request :delete_server_group
+      request :delete_user_collaboration
       request :get_account
       request :get_api_client
       request :get_application
       request :get_authenticated_user
       request :get_cloud_ip
+      request :get_collaboration
       request :get_firewall_policy
       request :get_firewall_rule
       request :get_image
@@ -87,11 +103,13 @@ module Fog
       request :get_server_group
       request :get_server_type
       request :get_user
+      request :get_user_collaboration
       request :get_zone
       request :list_accounts
       request :list_api_clients
       request :list_applications
       request :list_cloud_ips
+      request :list_collaborations
       request :list_firewall_policies
       request :list_images
       request :list_load_balancers
@@ -99,15 +117,21 @@ module Fog
       request :list_server_types
       request :list_servers
       request :list_users
+      request :list_user_collaborations
       request :list_zones
       request :map_cloud_ip
       request :move_servers_server_group
+      request :reject_user_collaboration
       request :remove_listeners_load_balancer
       request :remove_nodes_load_balancer
       request :remove_servers_server_group
+      request :resend_collaboration
       request :reset_ftp_password_account
+      request :reset_ftp_password_scoped_account
       request :reset_secret_api_client
       request :reset_secret_application
+      request :resend_collaboration
+      request :reject_user_collaboration
       request :shutdown_server
       request :snapshot_server
       request :start_server
@@ -117,6 +141,7 @@ module Fog
       request :update_api_client
       request :update_application
       request :update_cloud_ip
+      request :update_firewall_policy
       request :update_firewall_rule
       request :update_image
       request :update_load_balancer
@@ -125,160 +150,137 @@ module Fog
       request :update_server_group
       request :update_user
 
-      module Shared
-        # Returns an identifier for the default image for use
-        #
-        # Currently tries to find the latest version Ubuntu LTS (i686) widening
-        # up to the latest, official version of Ubuntu available.
-        #
-        # Highly recommended that you actually select the image you want to run
-        # on your servers yourself!
-        #
-        # @return [String, nil]
-        def default_image
-          return @default_image_id unless @default_image_id.nil?
-          @default_image_id = Fog.credentials[:brightbox_default_image] || select_default_image
-        end
-      end
-
+      # The Mock Service allows you to run a fake instance of the Service
+      # which makes no real connections.
+      #
+      # @todo Implement
+      #
       class Mock
-        include Shared
+        include Fog::Brightbox::Compute::Shared
 
-        def initialize(options)
-          @brightbox_client_id = options[:brightbox_client_id] || Fog.credentials[:brightbox_client_id]
-          @brightbox_secret = options[:brightbox_secret] || Fog.credentials[:brightbox_secret]
+        def request(method, path, expected_responses, parameters = {})
+          _request
         end
 
-        def request(options)
-          raise "Not implemented"
+        def request_access_token(connection, credentials)
+          _request
         end
 
       private
+
+        def _request
+          raise Fog::Errors::MockNotImplemented
+        end
+
         def select_default_image
           "img-mockd"
         end
       end
 
+      # The Real Service actually makes real connections to the Brightbox
+      # service.
+      #
       class Real
-        include Shared
+        include Fog::Brightbox::Compute::Shared
 
-        def initialize(options)
-          # Currently authentication and api endpoints are the same but may change
-          @auth_url             = options[:brightbox_auth_url] || Fog.credentials[:brightbox_auth_url] || API_URL
-          @api_url              = options[:brightbox_api_url] || Fog.credentials[:brightbox_api_url] || API_URL
-          @connection_options   = options[:connection_options] || {}
-          @brightbox_client_id  = options[:brightbox_client_id] || Fog.credentials[:brightbox_client_id]
-          @brightbox_secret     = options[:brightbox_secret] || Fog.credentials[:brightbox_secret]
-          @brightbox_username   = options[:brightbox_username] || Fog.credentials[:brightbox_username]
-          @brightbox_password   = options[:brightbox_password] || Fog.credentials[:brightbox_password]
-          @brightbox_account    = options[:brightbox_account] || Fog.credentials[:brightbox_account]
-          @persistent           = options[:persistent] || false
-          @connection = Fog::Connection.new(@api_url, @persistent, @connection_options)
+        # Makes an API request to the given path using passed options or those
+        # set with the service setup
+        #
+        # @todo Standard Fog behaviour is to return the Excon::Response but
+        #   this was unintentionally changed to be the Hash version of the
+        #   data in the body. This loses access to some details and should
+        #   be corrected in a backwards compatible manner
+        #
+        # @overload request(params)
+        #   @param [Hash] params Excon compatible options
+        #   @option params [String] :body text to be sent over a socket
+        #   @option params [Hash<Symbol, String>] :headers The default headers to supply in a request
+        #   @option params [String] :host The destination host's reachable DNS name or IP, in the form of a String
+        #   @option params [String] :path appears after 'scheme://host:port/'
+        #   @option params [Fixnum] :port The port on which to connect, to the destination host
+        #   @option params [Hash]   :query appended to the 'scheme://host:port/path/' in the form of '?key=value'
+        #   @option params [String] :scheme The protocol; 'https' causes OpenSSL to be used
+        #   @return [Excon::Response]
+        #   @see https://github.com/geemus/excon/blob/master/lib/excon/connection.rb
+        #
+        # @overload request(method, path, expected_responses, params = {})
+        #   @param [String] method HTTP method to use for the request
+        #   @param [String] path   The absolute path for the request
+        #   @param [Array<Fixnum>] expected_responses HTTP response codes that have been successful
+        #   @param [Hash] params Keys and values for JSON
+        #   @option params [String] :account_id The scoping account if required
+        #   @deprecated #request with multiple arguments is deprecated
+        #     since it is inconsistent with original fog version.
+        #   @return [Hash]
+        def request(*args)
+          if args.size == 1
+            authenticated_request(*args)
+          else
+            Fog::Logger.deprecation("#request with multiple parameters is deprecated, use #wrapped_request instead [light_black](#{caller.first})[/]")
+            wrapped_request(*args)
+          end
         end
 
-        def request(method, url, expected_responses, options = {})
-          request_options = {
-            :method   => method.to_s.upcase,
-            :path     => url,
-            :expects  => expected_responses
-          }
-          options[:account_id] = @brightbox_account if options[:account_id].nil? && @brightbox_account
-          request_options[:body] = Fog::JSON.encode(options) unless options.empty?
-          make_request(request_options)
-        end
-
-        # Returns the scoped account being used for requests
+        # Makes a request but with seperated arguments and parses the response to a hash
         #
-        # API Clients:: This is the owning account
-        # User Apps::   This is the account specified by either +account_id+
-        #               option on a connection or the +brightbox_account+
-        #               setting in your configuration
+        # @note #wrapped_request is the non-standard form of request introduced by mistake
         #
-        # === Returns:
+        # @param [String] method HTTP method to use for the request
+        # @param [String] path   The absolute path for the request
+        # @param [Array<Fixnum>] expected_responses HTTP response codes that have been successful
+        # @param [Hash]  parameters Keys and values for JSON
+        # @option parameters [String] :account_id The scoping account if required
         #
-        # <tt>Fog::Compute::Brightbox::Account</tt>
-        #
-        def account
-          Fog::Compute::Brightbox::Account.new(get_scoped_account)
+        # @return [Hash]
+        def wrapped_request(method, path, expected_responses, parameters = {})
+          _wrapped_request(method, path, expected_responses, parameters)
         end
 
       private
-        def get_oauth_token(options = {})
-          auth_url = options[:brightbox_auth_url] || @auth_url
 
-          connection = Fog::Connection.new(auth_url)
-          authentication_body_hash = if @brightbox_username && @brightbox_password
-            {
-              'client_id' => @brightbox_client_id,
-              'grant_type' => 'password',
-              'username' => @brightbox_username,
-              'password' => @brightbox_password
-            }
-          else
-            {'client_id' => @brightbox_client_id, 'grant_type' => 'none'}
+        # Wrapped request is the non-standard form of request introduced by mistake
+        #
+        # @param [String] method HTTP method to use for the request
+        # @param [String] path   The absolute path for the request
+        # @param [Array<Fixnum>] expected_responses HTTP response codes that have been successful
+        # @param [Hash]  parameters Keys and values for JSON
+        # @option parameters [String] :account_id The scoping account if required
+        #
+        # @return [Hash]
+        def _wrapped_request(method, path, expected_responses, parameters = {})
+          request_options = {
+            :method   => method.to_s.upcase,
+            :path     => path,
+            :expects  => expected_responses
+          }
+
+          # Select the account to scope for this request
+          account = scoped_account(parameters.fetch(:account_id, nil))
+          if account
+            request_options[:query] = { :account_id => account }
           end
-          @authentication_body = Fog::JSON.encode(authentication_body_hash)
 
-          response = connection.request({
-            :path => "/token",
-            :expects  => 200,
-            :headers  => {
-              'Authorization' => "Basic " + Base64.encode64("#{@brightbox_client_id}:#{@brightbox_secret}").chomp,
-              'Content-Type' => 'application/json'
-            },
-            :method   => 'POST',
-            :body     => @authentication_body
-          })
-          @oauth_token = Fog::JSON.decode(response.body)["access_token"]
-          return @oauth_token
-        end
+          request_options[:body] = Fog::JSON.encode(parameters) unless parameters.empty?
 
-        def make_request(params)
-          begin
-            get_oauth_token if @oauth_token.nil?
-            response = authenticated_request(params)
-          rescue Excon::Errors::Unauthorized
-            get_oauth_token
-            response = authenticated_request(params)
-          end
+          response = make_request(request_options)
+
+          # FIXME We should revert to returning the Excon::Request after a suitable
+          # configuration option is in place to switch back to this incorrect behaviour
           unless response.body.empty?
-            response = Fog::JSON.decode(response.body)
+            Fog::JSON.decode(response.body)
+          else
+            response
           end
-        end
-
-        def authenticated_request(options)
-          headers = options[:headers] || {}
-          headers.merge!("Authorization" => "OAuth #{@oauth_token}", "Content-Type" => "application/json")
-          options[:headers] = headers
-          @connection.request(options)
         end
 
         # Queries the API and tries to select the most suitable official Image
         # to use if the user chooses not to select their own.
+        #
+        # @return [String] if image is found, the image's identifier
+        # @return [NilClass] if no image found or an error occured
+        #
         def select_default_image
-          return @default_image_id unless @default_image_id.nil?
-
-          all_images = list_images
-          official_images = all_images.select {|img| img["official"] == true}
-          ubuntu_lts_images = official_images.select {|img| img["name"] =~ /Ubuntu.*LTS/}
-          ubuntu_lts_i686_images = ubuntu_lts_images.select {|img| img["arch"] == "i686"}
-
-          if ubuntu_lts_i686_images.empty?
-            # Accept other architectures
-            if ubuntu_lts_images.empty?
-              # Accept non-LTS versions of Ubuntu
-              unsorted_images = official_images.select {|img| img["name"] =~ /Ubuntu/}
-            else
-              unsorted_images = ubuntu_lts_images
-            end
-          else
-            unsorted_images = ubuntu_lts_i686_images
-          end
-
-          # Get the latest and use it's ID for the default image
-          @default_image_id = unsorted_images.sort {|a,b| a["created_at"] <=> b["created_at"]}.first["id"]
-        rescue
-          nil
+          Fog::Brightbox::Compute::ImageSelector.new(list_images).latest_ubuntu
         end
       end
 

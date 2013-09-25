@@ -45,12 +45,33 @@ posuere eu odio. Donec sodales, ante porta condimentum
 <MyResponse>
 }
 
+  @xmlNS = %{
+<myns:MyResponse>
+  <myns:MyObject>
+    <myns:key1>value1</myns:key1>
+    <myns:key2>value2</myns:key2>
+    <myns:myArray>
+      <myns:id>1</myns:id>
+      <myns:id>2</myns:id>
+      <myns:id>3</myns:id>
+    </myns:myArray>
+    <myns:longText>
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+Donec quis metus arcu, quis cursus turpis.
+Aliquam leo lacus, luctus vel iaculis id,
+posuere eu odio. Donec sodales, ante porta condimentum
+</myns:longText>
+    <myns:key3>value3</myns:key3>
+  </myns:MyObject>
+<myns:MyResponse>
+}
+
   @response = {
-    'key1' => 'value1',
-    'key2' => 'value2',
-    'key3' => 'value3',
-    'myArray' => [1,2,3],
-    'longText' => %{
+      'key1' => 'value1',
+      'key2' => 'value2',
+      'key3' => 'value3',
+      'myArray' => [1,2,3],
+      'longText' => %{
 Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 Donec quis metus arcu, quis cursus turpis.
 Aliquam leo lacus, luctus vel iaculis id,
@@ -58,10 +79,15 @@ posuere eu odio. Donec sodales, ante porta condimentum
 }
   }
 
-
   tests('TestParser').returns(@response, "returns the response") do
     test_parser = TestParser.new
     Nokogiri::XML::SAX::Parser.new(test_parser).parse(@xml)
+    test_parser.response
+  end
+
+  tests('TestParser for namespaces').returns(@response, "returns the response") do
+    test_parser = TestParser.new
+    Nokogiri::XML::SAX::Parser.new(test_parser).parse(@xmlNS)
     test_parser.response
   end
 end

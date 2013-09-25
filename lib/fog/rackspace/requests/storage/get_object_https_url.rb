@@ -14,7 +14,10 @@ module Fog
         # ==== Returns
         # * response<~Excon::Response>:
         #   * body<~String> - url for object
-        #
+        # @raise [Fog::Storage::Rackspace::NotFound] - HTTP 404
+        # @raise [Fog::Storage::Rackspace::BadRequest] - HTTP 400
+        # @raise [Fog::Storage::Rackspace::InternalServerError] - HTTP 500
+        # @raise [Fog::Storage::Rackspace::ServiceError]
         # ==== See Also
         # http://docs.rackspace.com/files/api/v1/cf-devguide/content/Create_TempURL-d1a444.html
         def get_object_https_url(container, object, expires, options = {})
@@ -24,14 +27,14 @@ module Fog
 
           method         = 'GET'
           expires        = expires.to_i
-          object_path_escaped   = "#{@path}/#{Fog::Rackspace.escape(container)}/#{Fog::Rackspace.escape(object,"/")}"
-          object_path_unescaped = "#{@path}/#{Fog::Rackspace.escape(container)}/#{object}"
+          object_path_escaped   = "#{@uri.path}/#{Fog::Rackspace.escape(container)}/#{Fog::Rackspace.escape(object,"/")}"
+          object_path_unescaped = "#{@uri.path}/#{Fog::Rackspace.escape(container)}/#{object}"
           string_to_sign = "#{method}\n#{expires}\n#{object_path_unescaped}"
 
           hmac = Fog::HMAC.new('sha1', @rackspace_temp_url_key)
           sig  = sig_to_hex(hmac.sign(string_to_sign))
 
-          "https://#{@host}#{object_path_escaped}?temp_url_sig=#{sig}&temp_url_expires=#{expires}"
+          "https://#{@uri.host}#{object_path_escaped}?temp_url_sig=#{sig}&temp_url_expires=#{expires}"
         end
 
         private

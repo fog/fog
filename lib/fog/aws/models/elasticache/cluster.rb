@@ -29,13 +29,15 @@ module Fog
         attribute :notification_config,
           :aliases => 'NotificationConfiguration', :type => :hash
 
+        attr_accessor :parameter_group_name
+
         def ready?
           status == 'available'
         end
 
         def destroy
           requires :id
-          connection.delete_cache_cluster(id)
+          service.delete_cache_cluster(id)
           true
         end
 
@@ -45,7 +47,7 @@ module Fog
           parameter_group     ||= Hash.new
           notification_config ||= Hash.new
 
-          connection.create_cache_cluster(
+          service.create_cache_cluster(
             id, {
               :node_type                    => node_type,
               :security_group_names         => security_groups,
@@ -57,7 +59,7 @@ module Fog
               :port                         => port,
               :preferred_availablility_zone => zone,
               :preferred_maintenance_window => maintenance_window,
-              :parameter_group_name => parameter_group['CacheParameterGroupName'],
+              :parameter_group_name         => parameter_group_name || parameter_group['CacheParameterGroupName'],
             }
           )
         end

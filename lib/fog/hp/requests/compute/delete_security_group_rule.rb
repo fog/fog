@@ -25,14 +25,14 @@ module Fog
           response = Excon::Response.new
 
           sg_rule = nil
+
           self.data[:security_groups].each do |_, sgv|
             if sgv['rules']
-              sg_rule_index = sgv['rules'].find_index { |r| !r.nil? && r['id'] == security_group_rule_id }
-              if sg_rule_index
-                sg_rule = sgv['rules'].delete_at sg_rule_index
-              end
+              sg_rule = sgv['rules'].delete_if { |r| !r.nil? && r['id'] == security_group_rule_id }
+              break if sg_rule
             end
           end
+
           if sg_rule && !sg_rule.empty?
             response.status = 202
             response.body = "202 Accepted\n\nThe request is accepted for processing.\n\n   "

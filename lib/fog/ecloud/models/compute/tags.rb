@@ -10,12 +10,12 @@ module Fog
         model Fog::Compute::Ecloud::Tag
 
         def all
-          data = connection.get_tags(href).body[:DeviceTag]
+          data = service.get_tags(href).body[:DeviceTag]
           load(data)
         end
 
         def get(uri)
-          if data = connection.get_tag(uri)
+          if data = service.get_tag(uri)
             new(data.body)
           end
         rescue Fog::Errors::NotFound

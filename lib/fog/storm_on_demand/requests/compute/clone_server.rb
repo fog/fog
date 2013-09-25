@@ -5,7 +5,7 @@ module Fog
 
         def clone_server(options = {})
           request(
-            :path     => "/storm/server/clone",
+            :path     => "/Storm/Server/clone",
             :body     => Fog::JSON.encode({:params => options})
           )
         end

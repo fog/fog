@@ -66,7 +66,6 @@ module Fog
         include Utils
 
         def initialize(options={})
-          require 'mime/types'
           setup_credentials(options)
         end
 
@@ -80,8 +79,6 @@ module Fog
         include Utils
 
         def initialize(options={})
-          require 'mime/types'
-
           setup_credentials(options)
           @connection_options = options[:connection_options] || {}
           @hmac               = Fog::HMAC.new('sha1', @storage_secret_decoded)

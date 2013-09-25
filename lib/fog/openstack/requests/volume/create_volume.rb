@@ -12,7 +12,8 @@ module Fog
             }
           }
 
-          vanilla_options = ['snapshot_id']
+          vanilla_options = [:snapshot_id, :imageRef, :volume_type,
+            :source_volid]
           vanilla_options.select{|o| options[o]}.each do |key|
             data['volume'][key] = options[key]
           end
@@ -38,7 +39,8 @@ module Fog
               'display_description' => description,
               'size'                => size,
               'status'              => 'creating',
-              'snapshot_id'         => options["snapshot_id"] || nil,
+              'snapshot_id'         => options[:snapshot_id] || nil,
+              'image_id'            => options[:imageRef] || nil,
               'volume_type'         => nil,
               'availability_zone'   => 'nova',
               'created_at'          => Time.now,

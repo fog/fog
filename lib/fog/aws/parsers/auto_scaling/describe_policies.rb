@@ -20,13 +20,13 @@ module Fog
           def reset_alarm
             @alarm = {}
           end
-          
+
           def start_element(name, attrs = [])
             super
             case name
             when 'Alarms'
-              @in_alarms = true              
-            end            
+              @in_alarms = true
+            end
           end
 
           def end_element(name)
@@ -36,7 +36,7 @@ module Fog
 
             when 'AdjustmentType', 'AutoScalingGroupName', 'PolicyARN', 'PolicyName'
               @scaling_policy[name] = value
-            when 'Cooldown', 'ScalingAdjustment'
+            when 'Cooldown', 'MinAdjustmentStep', 'ScalingAdjustment'
               @scaling_policy[name] = value.to_i
 
             when 'NextToken'
@@ -47,7 +47,7 @@ module Fog
 
             when 'DescribePoliciesResponse'
               @response['DescribePoliciesResult'] = @results
-            
+
             when 'Alarms'
               @in_alarms = false
             when 'member'

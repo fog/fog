@@ -27,7 +27,7 @@ module Fog
           requires :raw
 
           ::Fission::VM.clone(@raw[:fission].name,name)
-          return connection.servers.get(name)
+          return service.servers.get(name)
         end
 
         # Destroy, deletes the VM from the local disk but only hard stops the VM

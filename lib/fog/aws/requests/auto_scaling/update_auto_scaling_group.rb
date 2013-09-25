@@ -1,7 +1,6 @@
 module Fog
   module AWS
     class AutoScaling
-
       class Real
 
         require 'fog/aws/parsers/auto_scaling/basic'
@@ -52,6 +51,9 @@ module Fog
         # ==== See Also
         # http://docs.amazonwebservices.com/AutoScaling/latest/APIReference/API_UpdateAutoScalingGroup.html
         #
+
+        ExpectedOptions[:update_auto_scaling_group] = %w[AvailabilityZones DefaultCooldown DesiredCapacity HealthCheckGracePeriod HealthCheckType LaunchConfigurationName MaxSize MinSize PlacementGroup TerminationPolicies VPCZoneIdentifier]
+
         def update_auto_scaling_group(auto_scaling_group_name, options = {})
           if availability_zones = options.delete('AvailabilityZones')
             options.merge!(AWS.indexed_param('AvailabilityZones.member.%d', [*availability_zones]))
@@ -71,6 +73,11 @@ module Fog
       class Mock
 
         def update_auto_scaling_group(auto_scaling_group_name, options = {})
+          unexpected_options = options.keys - ExpectedOptions[:update_auto_scaling_group]
+          unless unexpected_options.empty?
+            raise Fog::AWS::AutoScaling::ValidationError.new("Options #{unexpected_options.join(',')} should not be included in request")
+          end
+
           unless self.data[:auto_scaling_groups].has_key?(auto_scaling_group_name)
             raise Fog::AWS::AutoScaling::ValidationError.new('AutoScalingGroup name not found - null')
           end

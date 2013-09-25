@@ -20,7 +20,7 @@ Shindo.tests('Fog::Compute[:openstack] | security group requests', ['openstack']
   }
 
   tests('success') do
-    tests('#create_security_group(name, description)').formats({"security_group" => [@security_group_format]}) do
+    tests('#create_security_group(name, description)').formats({"security_group" => @security_group_format}) do
       Fog::Compute[:openstack].create_security_group('from_shindo_test', 'this is from the shindo test').body
     end
 
@@ -44,8 +44,16 @@ Shindo.tests('Fog::Compute[:openstack] | security group requests', ['openstack']
     end
 
     tests('#delete_security_group(security_group_id)').succeeds do
-      group_id = Fog::Compute[:openstack].list_security_groups.body['security_groups'].last['id']
-      Fog::Compute[:openstack].delete_security_group(group_id)
+      compute = Fog::Compute[:openstack]
+
+      group_id = compute.list_security_groups.body['security_groups'].last['id']
+
+      compute.delete_security_group(group_id)
+
+      returns(false) {
+        groups = compute.list_security_groups.body['security_groups']
+        groups.any? { |group| group['id'] == group_id }
+      }
     end
   end # tests('success')
 end

@@ -3,7 +3,11 @@ Shindo.tests('AWS::ELB | load_balancer_tests', ['aws', 'elb']) do
   @key_name = 'fog-test'
 
   tests('success') do
-    @certificate = Fog::AWS[:iam].upload_server_certificate(AWS::IAM::SERVER_CERT_PUBLIC_KEY, AWS::IAM::SERVER_CERT_PRIVATE_KEY, @key_name).body['Certificate']
+    if (Fog::AWS[:iam].get_server_certificate(@key_name) rescue nil)
+      Fog::AWS[:iam].delete_server_certificate(@key_name)
+    end
+
+    @certificate = Fog::AWS[:iam].upload_server_certificate(AWS::IAM::SERVER_CERT, AWS::IAM::SERVER_CERT_PRIVATE_KEY, @key_name).body['Certificate']
 
     tests("#create_load_balancer").formats(AWS::ELB::Formats::CREATE_LOAD_BALANCER) do
       zones = ['us-east-1a']

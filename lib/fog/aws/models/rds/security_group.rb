@@ -19,7 +19,7 @@ module Fog
 
         def destroy
           requires :id
-          connection.delete_db_security_group(id)
+          service.delete_db_security_group(id)
           true
         end
 
@@ -27,7 +27,7 @@ module Fog
           requires :id
           requires :description
 
-          data = connection.create_db_security_group(id, description).body['CreateDBSecurityGroupResult']['DBSecurityGroup']
+          data = service.create_db_security_group(id, description).body['CreateDBSecurityGroupResult']['DBSecurityGroup']
           merge_attributes(data)
           true
         end
@@ -55,7 +55,7 @@ module Fog
         end
 
         def authorize_ingress(opts)
-          data = connection.authorize_db_security_group_ingress(id, opts).body['AuthorizeDBSecurityGroupIngressResult']['DBSecurityGroup']
+          data = service.authorize_db_security_group_ingress(id, opts).body['AuthorizeDBSecurityGroupIngressResult']['DBSecurityGroup']
           merge_attributes(data)
         end
 
@@ -72,7 +72,7 @@ module Fog
         end
 
         def revoke_ingress(opts)
-          data = connection.revoke_db_security_group_ingress(id, opts).body['RevokeDBSecurityGroupIngressResult']['DBSecurityGroup']
+          data = service.revoke_db_security_group_ingress(id, opts).body['RevokeDBSecurityGroupIngressResult']['DBSecurityGroup']
           merge_attributes(data)
         end
 

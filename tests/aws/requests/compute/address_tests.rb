@@ -49,6 +49,10 @@ Shindo.tests('Fog::Compute[:aws] | address requests', ['aws']) do
       Fog::Compute[:aws].disassociate_address(@public_ip).body
     end
 
+    tests("#associate_addresses('#{@server.id}', nil, nil, '#{@vpc_allocation_id}')").formats(AWS::Compute::Formats::BASIC) do
+      Fog::Compute[:aws].associate_address(@server.id, nil, nil, @vpc_allocation_id).body
+    end
+
     tests("#release_address('#{@public_ip}')").formats(AWS::Compute::Formats::BASIC) do
       Fog::Compute[:aws].release_address(@public_ip).body
     end

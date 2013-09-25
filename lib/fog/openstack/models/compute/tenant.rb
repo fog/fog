@@ -16,7 +16,7 @@ module Fog
 
         def usage(start_date, end_date)
           requires :id
-          connection.get_usage(self.id, start_date, end_date).body['tenant_usage']
+          service.get_usage(self.id, start_date, end_date).body['tenant_usage']
         end
       end # class Tenant
     end # class OpenStack

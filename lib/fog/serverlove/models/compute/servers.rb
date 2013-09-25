@@ -10,12 +10,12 @@ module Fog
         model Fog::Compute::Serverlove::Server
 
         def all
-          data = connection.get_servers.body
+          data = service.get_servers.body
           load(data)
         end
 
         def get(server_id)
-          data = connection.get_server(server_id).body
+          data = service.get_server(server_id).body
           new(data)
         end
 

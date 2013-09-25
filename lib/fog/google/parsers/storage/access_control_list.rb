@@ -17,8 +17,8 @@ module Fog
             when 'Entries'
               @in_entries = true
             when 'Scope'
-              key, value = attrs.first
-              @entry['Scope'][key] = value
+              struct = attrs.first
+              @entry['Scope'][struct.localname] = struct.value
             end
           end
 

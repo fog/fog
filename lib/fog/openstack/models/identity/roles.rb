@@ -8,11 +8,11 @@ module Fog
         model Fog::Identity::OpenStack::Role
 
         def all
-          load(connection.list_roles.body['roles'])
+          load(service.list_roles.body['roles'])
         end
 
         def get(id)
-          connection.get_role(id)
+          service.get_role(id)
         end
 
       end

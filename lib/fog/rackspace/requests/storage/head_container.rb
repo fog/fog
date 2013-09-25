@@ -13,6 +13,10 @@ module Fog
         #   * headers<~Hash>:
         #     * 'X-Container-Object-Count'<~String> - Count of containers
         #     * 'X-Container-Bytes-Used'<~String>   - Bytes used
+        # @raise [Fog::Storage::Rackspace::NotFound] - HTTP 404
+        # @raise [Fog::Storage::Rackspace::BadRequest] - HTTP 400
+        # @raise [Fog::Storage::Rackspace::InternalServerError] - HTTP 500
+        # @raise [Fog::Storage::Rackspace::ServiceError]
         def head_container(container)
           request(
             :expects  => 204,

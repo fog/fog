@@ -14,10 +14,8 @@ module Fog
             case name
             when 'SessionToken', 'SecretAccessKey', 'Expiration', 'AccessKeyId'
               @response[name] = @value.strip
-            when 'Arn', 'FederatedUserId'
+            when 'Arn', 'FederatedUserId', 'PackedPolicySize'
               @response[name] = @value.strip
-            when 'PackedPolicySize'
-              @response[name] = @value
             when 'RequestId'
               @response[name] = @value
             end

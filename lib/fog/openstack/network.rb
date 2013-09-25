@@ -3,12 +3,13 @@ require 'fog/openstack'
 module Fog
   module Network
     class OpenStack < Fog::Service
+      SUPPORTED_VERSIONS = /v2(\.0)*/
 
       requires :openstack_auth_url
       recognizes :openstack_auth_token, :openstack_management_url, :persistent,
-                 :openstack_service_name, :openstack_tenant,
-                 :openstack_api_key, :openstack_username,
-                 :current_user, :current_tenant
+                 :openstack_service_type, :openstack_service_name, :openstack_tenant,
+                 :openstack_api_key, :openstack_username, :openstack_endpoint_type,
+                 :current_user, :current_tenant, :openstack_region
 
       ## MODELS
       #
@@ -19,6 +20,18 @@ module Fog
       collection  :ports
       model       :subnet
       collection  :subnets
+      model       :floating_ip
+      collection  :floating_ips
+      model       :router
+      collection  :routers
+      model       :lb_pool
+      collection  :lb_pools
+      model       :lb_member
+      collection  :lb_members
+      model       :lb_health_monitor
+      collection  :lb_health_monitors
+      model       :lb_vip
+      collection  :lb_vips
 
       ## REQUESTS
       #
@@ -45,8 +58,62 @@ module Fog
       request :get_subnet
       request :update_subnet
 
+      # FloatingIp CRUD
+      request :list_floating_ips
+      request :create_floating_ip
+      request :delete_floating_ip
+      request :get_floating_ip
+      request :associate_floating_ip
+      request :disassociate_floating_ip
+
+      # Router CRUD
+      request :list_routers
+      request :create_router
+      request :delete_router
+      request :get_router
+      request :update_router
+      request :add_router_interface
+      request :remove_router_interface
+
+      # LBaaS Pool CRUD
+      request :list_lb_pools
+      request :create_lb_pool
+      request :delete_lb_pool
+      request :get_lb_pool
+      request :get_lb_pool_stats
+      request :update_lb_pool
+
+      # LBaaS Member CRUD
+      request :list_lb_members
+      request :create_lb_member
+      request :delete_lb_member
+      request :get_lb_member
+      request :update_lb_member
+
+      # LBaaS Health Monitor CRUD
+      request :list_lb_health_monitors
+      request :create_lb_health_monitor
+      request :delete_lb_health_monitor
+      request :get_lb_health_monitor
+      request :update_lb_health_monitor
+      request :associate_lb_health_monitor
+      request :disassociate_lb_health_monitor
+
+      # LBaaS VIP CRUD
+      request :list_lb_vips
+      request :create_lb_vip
+      request :delete_lb_vip
+      request :get_lb_vip
+      request :update_lb_vip
+
       # Tenant
       request :set_tenant
+
+      # Quota
+      request :get_quotas
+      request :get_quota
+      request :update_quota
+      request :delete_quota
 
       class Mock
         def self.data
@@ -55,6 +122,29 @@ module Fog
               :networks => {},
               :ports => {},
               :subnets => {},
+              :floating_ips => {},
+              :routers => {},
+              :lb_pools => {},
+              :lb_members => {},
+              :lb_health_monitors => {},
+              :lb_vips => {},
+              :quota => {
+                "subnet" => 10,
+                "router" => 10,
+                "port" => 50,
+                "network" => 10,
+                "floatingip" => 50
+              },
+              :quotas => [
+                {
+                  "subnet" => 10,
+                  "network" => 10,
+                  "floatingip" => 50,
+                  "tenant_id" => Fog::Mock.random_hex(8),
+                  "router" => 10,
+                  "port" => 30
+                }
+              ],
             }
           end
         end
@@ -107,7 +197,10 @@ module Fog
           @openstack_auth_uri             = URI.parse(options[:openstack_auth_url])
           @openstack_management_url       = options[:openstack_management_url]
           @openstack_must_reauthenticate  = false
-          @openstack_service_name         = options[:openstack_service_name] || ['network']
+          @openstack_service_type         = options[:openstack_service_type] || ['network']
+          @openstack_service_name         = options[:openstack_service_name]
+          @openstack_endpoint_type        = options[:openstack_endpoint_type] || 'publicURL'
+          @openstack_region               = options[:openstack_region]
 
           @connection_options = options[:connection_options] || {}
 
@@ -126,7 +219,8 @@ module Fog
             :openstack_auth_token     => @auth_token,
             :openstack_management_url => @openstack_management_url,
             :current_user             => @current_user,
-            :current_tenant           => @current_tenant }
+            :current_tenant           => @current_tenant,
+            :openstack_region         => @openstack_region }
         end
 
         def reload
@@ -143,8 +237,6 @@ module Fog
               }.merge!(params[:headers] || {}),
               :host     => @host,
               :path     => "#{@path}/#{params[:path]}"#,
-              # Causes errors for some requests like tenants?limit=1
-              # :query    => ('ignore_awful_caching' << Time.now.to_i.to_s)
             }))
           rescue Excon::Errors::Unauthorized => error
             if error.response.body != 'Bad username or password' # token expiration
@@ -178,8 +270,10 @@ module Fog
               :openstack_username => @openstack_username,
               :openstack_auth_uri => @openstack_auth_uri,
               :openstack_auth_token => @openstack_auth_token,
+              :openstack_service_type => @openstack_service_type,
               :openstack_service_name => @openstack_service_name,
-              :openstack_endpoint_type => 'adminURL'
+              :openstack_endpoint_type => @openstack_endpoint_type,
+              :openstack_region => @openstack_region
             }
 
             credentials = Fog::OpenStack.authenticate_v2(options, @connection_options)
@@ -199,33 +293,15 @@ module Fog
           @host   = uri.host
           @path   = uri.path
           @path.sub!(/\/$/, '')
-          unless @path.match(/^\/v(\d)+(\.)?(\d)*$/)
-            @path = "/" + retrieve_current_version(uri)
+          unless @path.match(SUPPORTED_VERSIONS)
+            @path = "/" + Fog::OpenStack.get_supported_version(SUPPORTED_VERSIONS,
+                                                               uri,
+                                                               @auth_token,
+                                                               @connection_options)
           end
           @port   = uri.port
           @scheme = uri.scheme
           true
-        end
-
-        def retrieve_current_version(uri)
-          response = Fog::Connection.new(
-            "#{uri.scheme}://#{uri.host}:#{uri.port}", false, @connection_options).request({
-              :expects => [200, 204],
-              :headers => {'Content-Type' => 'application/json',
-                           'Accept' => 'application/json',
-                           'X-Auth-Token' => @auth_token},
-              :host    => uri.host,
-              :method  => 'GET'
-          })
-
-          body = Fog::JSON.decode(response.body)
-          version = nil
-          unless body['versions'].empty?
-            current_version = body['versions'].detect { |x| x["status"] == "CURRENT" }
-            version = current_version["id"]
-          end
-          raise Errors::NotFound.new('No API versions found') if version.nil?
-          version
         end
 
       end

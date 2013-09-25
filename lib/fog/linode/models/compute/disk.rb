@@ -10,15 +10,15 @@ module Fog
 
         def save
           requires :server
-          raise Fog::Errors::Error.new('Resaving an existing object may create a duplicate') if identity
+          raise Fog::Errors::Error.new('Resaving an existing object may create a duplicate') if persisted?
           @type, @image, @stack_script, @name, @password, @size =
             attributes.values_at :type, :image, :stack_script, :name, :password, :size
           create_disk
-        end        
+        end
 
         def destroy
           requires :identity, :server
-          connection.linode_disk_delete server.id, id
+          service.linode_disk_delete server.id, id
         end
 
         def server
@@ -40,18 +40,18 @@ module Fog
         end
 
         def create_disk_type
-          self.id = connection.linode_disk_create(server.id, "#{@name}_#{@type}", @type, @size).body['DATA']['DiskID']
+          self.id = service.linode_disk_create(server.id, "#{@name}_#{@type}", @type, @size).body['DATA']['DiskID']
           reload
         end
 
         def create_disk_from_image
-          disk = connection.linode_disk_createfromdistribution server.id, @image.id, "#{@name}_main", @size, @password
+          disk = service.linode_disk_createfromdistribution server.id, @image.id, "#{@name}_main", @size, @password
           self.id = disk.body['DATA']['DiskID']
           reload
-        end        
+        end
 
         def create_disk_from_stack_script
-          disk = connection.linode_disk_createfromstackscript(server.id, @stack_script.id, @image.id,
+          disk = service.linode_disk_createfromstackscript(server.id, @stack_script.id, @image.id,
                                                               "#{@name}_main", @size, @password, @stack_script.options)
           self.id = disk.body['DATA']['DiskID']
           reload

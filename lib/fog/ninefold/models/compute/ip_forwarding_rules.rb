@@ -10,13 +10,13 @@ module Fog
         model Fog::Compute::Ninefold::IpForwardingRule
 
         def all
-          data = connection.list_ip_forwarding_rules
+          data = service.list_ip_forwarding_rules
           load(data)
         end
 
         def get(identifier)
           return nil if identifier.nil? || identifier == ""
-          data = connection.list_ip_forwarding_rules(:id => identifier)
+          data = service.list_ip_forwarding_rules(:id => identifier)
           if data.empty?
             nil
           else

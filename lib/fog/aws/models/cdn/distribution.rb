@@ -37,7 +37,7 @@ module Fog
           @invalidations ||= begin
             Fog::CDN::AWS::Invalidations.new(
               :distribution => self,
-              :connection => connection
+              :service => service
             )
           end
         end
@@ -54,15 +54,15 @@ module Fog
         private
 
         def delete_distribution(identity, etag)
-          connection.delete_distribution(identity, etag)
+          service.delete_distribution(identity, etag)
         end
 
         def put_distribution_config(identity, etag, options)
-          connection.put_distribution_config(identity, etag, options)
+          service.put_distribution_config(identity, etag, options)
         end
 
         def post_distribution(options = {})
-          connection.post_distribution(options)
+          service.post_distribution(options)
         end
 
         def attributes_to_options

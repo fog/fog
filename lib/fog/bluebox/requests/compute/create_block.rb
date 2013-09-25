@@ -12,7 +12,7 @@ module Fog
         # * options<~Hash>:
         #     * password<~String>   - Password for block
         #   or
-        #     * public_key<~String> - SSH public key
+        #     * ssh_public_key<~String> - SSH public key
         #     * username<~String>   - Defaults to deploy
         #
         # ==== Returns
@@ -20,7 +20,7 @@ module Fog
         #   * body<~Hash>:
         def create_block(product_id, template_id, location_id, options = {})
 
-          unless options.has_key?('password') || options.has_key?('public_key')
+          unless options.has_key?('password') || options.has_key?('ssh_public_key')
             raise ArgumentError, 'Either password or public_key must be supplied'
           end
 
@@ -30,14 +30,12 @@ module Fog
             'location' => location_id
           }
 
-          body = URI.encode options.map {|k,v| "#{k}=#{v}"}.join('&')
-
           request(
             :expects  => 200,
             :method   => 'POST',
             :path     => '/api/blocks.json',
             :query    => query,
-            :body     => URI.encode(body)
+            :body     => options.map {|k,v| "#{CGI.escape(k)}=#{CGI.escape(v)}"}.join('&')
           )
         end
 

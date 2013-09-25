@@ -26,18 +26,20 @@ module Fog
         attribute :updated
         attribute :name
         attribute :state,               :aliases => 'status'
+        attribute :timeout
         attribute :nodes
 
         def initialize(attributes)
-          #HACK - Since we are hacking how sub-collections work, we have to make sure the connection is valid first.
-          @connection = attributes[:connection]
+          #HACK - Since we are hacking how sub-collections work, we have to make sure the service is valid first.
+          # Old 'connection' is renamed as service and should be used instead
+          @service = attributes[:service] || attributes[:connection]
           super
         end
 
         def access_rules
           @access_rules ||= begin
             Fog::Rackspace::LoadBalancers::AccessRules.new({
-              :connection => connection,
+              :service => service,
               :load_balancer => self})
           end
         end
@@ -49,7 +51,7 @@ module Fog
         def nodes
           @nodes ||= begin
             Fog::Rackspace::LoadBalancers::Nodes.new({
-              :connection => connection,
+              :service => service,
               :load_balancer => self})
           end
         end
@@ -60,25 +62,25 @@ module Fog
 
         def ssl_termination
           requires :identity
-          ssl_termination = connection.get_ssl_termination(identity).body['sslTermination']
+          ssl_termination = service.get_ssl_termination(identity).body['sslTermination']
         rescue Fog::Rackspace::LoadBalancers::NotFound
           nil
         end
 
         def enable_ssl_termination(securePort, privatekey, certificate, options = {})
           requires :identity
-          connection.set_ssl_termination(identity, securePort, privatekey, certificate, options)
+          service.set_ssl_termination(identity, securePort, privatekey, certificate, options)
         end
 
         def disable_ssl_termination
           requires :identity
-          connection.remove_ssl_termination(identity)
+          service.remove_ssl_termination(identity)
         end
 
         def virtual_ips
           @virtual_ips ||= begin
             Fog::Rackspace::LoadBalancers::VirtualIps.new({
-              :connection => connection,
+              :service => service,
               :load_balancer => self})
           end
         end
@@ -87,75 +89,92 @@ module Fog
           virtual_ips.load(new_virtual_ips)
         end
 
+        def enable_content_caching
+          requires :identity
+          service.set_content_caching identity, true
+          true
+        end
+
+        def disable_content_caching
+          requires :identity
+          service.set_content_caching identity, false
+          true
+        end
+
+        def content_caching
+          requires :identity
+          service.get_content_caching(identity).body['contentCaching']['enabled']
+        end
+
         def enable_connection_logging
           requires :identity
-          connection.set_connection_logging identity, true
+          service.set_connection_logging identity, true
           attributes[:connection_logging] = true
         end
 
         def disable_connection_logging
           requires :identity
-          connection.set_connection_logging identity, false
+          service.set_connection_logging identity, false
           attributes[:connection_logging] = false
         end
 
         def health_monitor
           requires :identity
-          monitor = connection.get_monitor(identity).body['healthMonitor']
+          monitor = service.get_monitor(identity).body['healthMonitor']
           monitor.count == 0 ? nil : monitor
         end
 
         def enable_health_monitor(type, delay, timeout, attempsBeforeDeactivation, options = {})
           requires :identity
-          connection.set_monitor(identity, type, delay, timeout, attempsBeforeDeactivation, options)
+          service.set_monitor(identity, type, delay, timeout, attempsBeforeDeactivation, options)
           true
         end
 
         def disable_health_monitor
           requires :identity
-          connection.remove_monitor(identity)
+          service.remove_monitor(identity)
           true
         end
 
         def connection_throttling
           requires :identity
-          throttle = connection.get_connection_throttling(identity).body['connectionThrottle']
+          throttle = service.get_connection_throttling(identity).body['connectionThrottle']
           throttle.count == 0 ? nil : throttle
         end
 
         def enable_connection_throttling(max_connections, min_connections, max_connection_rate, rate_interval)
           requires :identity
-          connection.set_connection_throttling(identity, max_connections, min_connections, max_connection_rate, rate_interval)
+          service.set_connection_throttling(identity, max_connections, min_connections, max_connection_rate, rate_interval)
           true
         end
 
         def disable_connection_throttling
           requires :identity
-          connection.remove_connection_throttling(identity)
+          service.remove_connection_throttling(identity)
           true
         end
 
         def session_persistence
           requires :identity
-          persistence = connection.get_session_persistence(identity).body['sessionPersistence']
+          persistence = service.get_session_persistence(identity).body['sessionPersistence']
           persistence.count == 0 ? nil : persistence
         end
 
         def enable_session_persistence(type)
           requires :identity
-          connection.set_session_persistence(identity, type)
+          service.set_session_persistence(identity, type)
           true
         end
 
         def disable_session_persistence
           requires :identity
-          connection.remove_session_persistence(identity)
+          service.remove_session_persistence(identity)
           true
         end
 
         def destroy
           requires :identity
-          connection.delete_load_balancer(identity)
+          service.delete_load_balancer(identity)
           true
         end
 
@@ -164,7 +183,7 @@ module Fog
         end
 
         def save
-          if identity
+          if persisted?
             update
           else
             create
@@ -174,46 +193,50 @@ module Fog
 
         def usage(options = {})
           requires :identity
-          connection.get_load_balancer_usage(identity, options).body
+          service.get_load_balancer_usage(identity, options).body
+        end
+
+        def stats
+          requires :identity
+          service.get_stats(identity).body
         end
 
         def error_page
           requires :identity
-          connection.get_error_page(identity).body['errorpage']['content']
+          service.get_error_page(identity).body['errorpage']['content']
         end
 
         def error_page=(content)
           requires :identity
-          connection.set_error_page identity, content
+          service.set_error_page identity, content
         end
 
         def reset_error_page
           requires :identity
-          connection.remove_error_page identity
+          service.remove_error_page identity
         end
 
         private
         def create
           requires :name, :protocol, :port, :virtual_ips, :nodes
 
-          if algorithm
-            options = { :algorithm => algorithm }
-          else
-            options = {}
-          end
+          options = {}
+          options[:algorithm] = algorithm if algorithm
+          options[:timeout] = timeout if timeout
 
-          data = connection.create_load_balancer(name, protocol, port, virtual_ips_hash, nodes_hash, options)
+          data = service.create_load_balancer(name, protocol, port, virtual_ips_hash, nodes_hash, options)
           merge_attributes(data.body['loadBalancer'])
         end
 
         def update
-          requires :name, :protocol, :port, :algorithm
+          requires :name, :protocol, :port, :algorithm, :timeout
           options = {
             :name => name,
             :algorithm => algorithm,
             :protocol => protocol,
-            :port => port}
-          connection.update_load_balancer(identity, options)
+            :port => port,
+            :timeout => timeout }
+          service.update_load_balancer(identity, options)
 
           #TODO - Should this bubble down to nodes? Without tracking changes this would be very inefficient.
           # For now, individual nodes will have to be saved individually after saving an LB

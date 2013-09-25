@@ -10,12 +10,12 @@ module Fog
         model Fog::Compute::Ecloud::User
 
         def all
-          data = connection.get_users(href).body[:User]
+          data = service.get_users(href).body[:User]
           load(data)
         end
 
         def get(uri)
-          if data = connection.get_user(uri)
+          if data = service.get_user(uri)
             new(data.body)
           end
         rescue Fog::Errors::NotFound

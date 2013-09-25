@@ -27,6 +27,7 @@ module Fog
 
       class Mock
         def create_security_group_rule(parent_group_id, ip_protocol, from_port, to_port, cidr, group_id=nil)
+          parent_group_id = parent_group_id.to_i
           response = Excon::Response.new
           response.status = 200
           response.headers = {

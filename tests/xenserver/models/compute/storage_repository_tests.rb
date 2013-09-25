@@ -2,10 +2,14 @@ Shindo.tests('Fog::Compute[:xenserver] | StorageRepository model', ['xenserver']
 
   storage_repositories = Fog::Compute[:xenserver].storage_repositories
   storage_repository = storage_repositories.first
+  conn = Fog::Compute[:xenserver]
 
   tests('The StorageRepository model should') do
     tests('have the action') do
       test('reload') { storage_repository.respond_to? 'reload' }
+      test('destroy') { storage_repository.respond_to? 'destroy' }
+      test('scan') { storage_repository.respond_to? 'scan' }
+      test('save') { storage_repository.respond_to? 'save' }
     end
     tests('have attributes') do
       model_attribute_hash = storage_repository.attributes
@@ -25,7 +29,9 @@ Shindo.tests('Fog::Compute[:xenserver] | StorageRepository model', ['xenserver']
         :tags,
         :__vdis,
         :physical_size,
-        :physical_utilisation
+        :physical_utilisation,
+        :virtual_allocation,
+        :sm_config
       ]
       tests("The StorageRepository model should respond to") do
         attributes.each do |attribute|
@@ -57,6 +63,51 @@ Shindo.tests('Fog::Compute[:xenserver] | StorageRepository model', ['xenserver']
           pbd.is_a? Fog::Compute::XenServer::PBD
         }
       end
+    end
+  end
+
+  tests('#save should') do
+    sr = nil
+    test('save with required attributes') do
+      sr = conn.storage_repositories.create :name => 'FOG TEST SR',
+                                            :host => conn.hosts.first,
+                                            :type => 'ext',
+                                            :device_config => { :device => '/dev/sdb' }
+      !(conn.storage_repositories.find { |sr| sr.name == 'FOG TEST SR' }).nil?
+    end
+    # Cleanup
+    sr.pbds.each { |pbd| pbd.unplug }
+    sr.destroy
+    test('save with additional attributes') do
+      sr = conn.storage_repositories.create :name => 'FOG TEST SR',
+                                            :host => conn.hosts.first,
+                                            :type => 'ext',
+                                            :content_type => 'user',
+                                            :device_config => { :device => '/dev/sdb' },
+                                            :shared => false
+      !(conn.storage_repositories.find { |sr| sr.name == 'FOG TEST SR' }).nil?
+    end
+    # Cleanup
+    sr.pbds.each { |pbd| pbd.unplug }
+    sr.destroy
+    test('return sane defaults') do
+      sr = conn.storage_repositories.create :name => 'FOG TEST SR',
+                                            :host => conn.hosts.first,
+                                            :type => 'ext',
+                                            :device_config => { :device => '/dev/sdb' }
+      sr.reload
+      (sr.content_type == 'user') and \
+        (sr.shared == false) and (sr.sm_config.is_a? Hash) and \
+        (sr.description == '')
+    end
+  end
+
+  tests('#destroy should') do
+    test('destroy existing FOG TEST SR') do 
+      sr = (conn.storage_repositories.find { |sr| sr.name == 'FOG TEST SR' })
+      sr.pbds.each { |pbd| pbd.unplug }
+      sr.destroy
+      (conn.storage_repositories.find { |sr| sr.name == 'FOG TEST SR' }).nil?
     end
   end
 

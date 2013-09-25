@@ -14,7 +14,7 @@ module Fog
           node_hash[:uri] = client.uri
           xml = client.sys_info rescue nil
           [:uuid, :manufacturer, :product, :serial].each do |attr|
-            node_hash[attr] = node_attr(attr, xml)
+            node_hash[attr] = node_attr(attr, xml) rescue nil
           end if xml
 
           node_hash[:hostname] = client.hostname

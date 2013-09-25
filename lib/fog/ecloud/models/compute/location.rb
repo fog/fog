@@ -11,7 +11,7 @@ module Fog
         attribute :type, :aliases => :Type
 
         def catalog(org_href)
-          @catalog ||= Fog::Compute::Ecloud::Catalog.new(:connection => connection, :href => "/cloudapi/ecloud/admin/catalog/organizations/#{org_href.scan(/\d+/)[0]}/locations/#{id}")
+          @catalog ||= Fog::Compute::Ecloud::Catalog.new(:service => service, :href => "/cloudapi/ecloud/admin/catalog/organizations/#{org_href.scan(/\d+/)[0]}/locations/#{id}")
         end
 
         def id

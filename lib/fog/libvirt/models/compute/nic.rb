@@ -7,6 +7,7 @@ module Fog
       class Nic < Fog::Model
 
         identity :mac
+        attribute :id
         attribute :type
         attribute :network
         attribute :bridge
@@ -28,14 +29,14 @@ module Fog
         def save
           raise Fog::Errors::Error.new('Creating a new nic is not yet implemented. Contributions welcome!')
           #requires :server
-          #connection.attach_nic(domain , self)
+          #service.attach_nic(domain , self)
         end
 
         def destroy
           raise Fog::Errors::Error.new('Destroying an interface is not yet implemented. Contributions welcome!')
           #requires :server
           ##detach the nic
-          #connection.detach_nic(domain, mac)
+          #service.detach_nic(domain, mac)
         end
 
         private

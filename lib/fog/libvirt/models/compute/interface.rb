@@ -15,7 +15,7 @@ module Fog
         end
 
         def shutdown
-          connection.destroy_interface(mac)
+          service.destroy_interface(mac)
         end
 
         def active?

@@ -1,4 +1,4 @@
-Shindo.tests('Fog::Storage[:hp] | container requests', ["hp"]) do
+Shindo.tests("Fog::Storage[:hp] | container requests", ['hp']) do
 
   @container_format = [String]
 

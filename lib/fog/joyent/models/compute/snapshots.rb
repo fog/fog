@@ -8,13 +8,13 @@ module Fog
         model Fog::Compute::Joyent::Snapshot
 
         def create(machine_id, snapshot_name)
-          data = self.connection.create_machine_snapshot(machine_id, snapshot_name).body
+          data = self.service.create_machine_snapshot(machine_id, snapshot_name).body
           data['machine_id'] = machine_id
           new(data)
         end
 
         def all(machine_id)
-          data = self.connection.list_machine_snapshots(machine_id).body.map do |m|
+          data = service.list_machine_snapshots(machine_id).body.map do |m|
             m["machine_id"] = machine_id
             m
           end
@@ -22,7 +22,7 @@ module Fog
         end
 
         def get(machine_id, snapshot_name)
-          data = self.connection.get_machine_snapshot(machine_id, snapshot_name).body
+          data = service.get_machine_snapshot(machine_id, snapshot_name).body
           if data
             data["machine_id"] = machine_id
             new(data)

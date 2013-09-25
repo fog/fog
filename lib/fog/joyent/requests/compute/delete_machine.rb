@@ -6,7 +6,7 @@ module Fog
           request(
             :path => "/my/machines/#{machine_id}",
             :method => "DELETE",
-            :expects => [200, 204]
+            :expects => [200, 204, 410]
           )
         end
       end

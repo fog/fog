@@ -8,12 +8,12 @@ module Fog
         model Fog::Compute::Brightbox::ApiClient
 
         def all
-          data = connection.list_api_clients
+          data = service.list_api_clients
           load(data)
         end
 
         def get(identifier = nil)
-          data = connection.get_api_client(identifier)
+          data = service.get_api_client(identifier)
           new(data)
         rescue Excon::Errors::NotFound
           nil

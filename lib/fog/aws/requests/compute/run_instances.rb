@@ -28,6 +28,8 @@ module Fog
         #     * 'Ebs.SnapshotId'<~String> - id of snapshot to boot volume from
         #     * 'Ebs.VolumeSize'<~String> - size of volume in GiBs required unless snapshot is specified
         #     * 'Ebs.DeleteOnTermination'<~String> - specifies whether or not to delete the volume on instance termination
+        #     * 'Ebs.VolumeType'<~String> - Type of EBS volue. Valid options in ['standard', 'io1'] default is 'standard'.
+        #     * 'Ebs.Iops'<~String> - The number of I/O operations per second (IOPS) that the volume supports. Required when VolumeType is 'io1'
         #   * 'ClientToken'<~String> - unique case-sensitive token for ensuring idempotency
         #   * 'DisableApiTermination'<~Boolean> - specifies whether or not to allow termination of the instance from the api
         #   * 'SecurityGroup'<~Array> or <~String> - Name of security group(s) for instances (not supported for VPC)
@@ -143,6 +145,8 @@ module Fog
               'blockDeviceMapping'  => [],
               'clientToken'         => options['clientToken'],
               'dnsName'             => nil,
+              'ebsOptimized'        => options['EbsOptimized'] || false,
+              'hypervisor'          => 'xen',
               'imageId'             => image_id,
               'instanceId'          => instance_id,
               'instanceState'       => { 'code' => 0, 'name' => 'pending' },
@@ -156,7 +160,7 @@ module Fog
               'productCodes'        => [],
               'reason'              => nil,
               'rootDeviceType'      => 'instance-store',
-              'ebsOptimized'        => options['EbsOptimized'] || false
+              'virtualizationType'  => 'paravirtual'
             }
             instances_set << instance
             self.data[:instances][instance_id] = instance.merge({

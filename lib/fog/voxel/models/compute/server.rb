@@ -22,13 +22,13 @@ module Fog
 
         def destroy
           requires :id
-          connection.voxcloud_delete(id)
+          service.voxcloud_delete(id)
           true
         end
 
         def image
           requires :image_id
-          connection.images.get(image_id)
+          service.images.get(image_id)
         end
 
         def ready?
@@ -45,19 +45,19 @@ module Fog
 
         def reboot
           requires :id
-          connection.devices_power(id, :reboot)
+          service.devices_power(id, :reboot)
           true
         end
 
         def state
-          @state ||= connection.voxcloud_status(id).body['devices'].first['status']
+          @state ||= service.voxcloud_status(id).body['devices'].first['status']
         end
 
         def save
-          raise Fog::Errors::Error.new('Resaving an existing object may create a duplicate') if identity
+          raise Fog::Errors::Error.new('Resaving an existing object may create a duplicate') if persisted?
           requires :name, :image_id, :processing_cores, :facility, :disk_size
 
-          data = connection.voxcloud_create({
+          data = service.voxcloud_create({
             :disk_size => disk_size,
             :facility => facility,
             :hostname => name,

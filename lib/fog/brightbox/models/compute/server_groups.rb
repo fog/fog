@@ -10,13 +10,13 @@ module Fog
         model Fog::Compute::Brightbox::ServerGroup
 
         def all
-          data = connection.list_server_groups
+          data = service.list_server_groups
           load(data)
         end
 
         def get(identifier)
           return nil if identifier.nil? || identifier == ""
-          data = connection.get_server_group(identifier)
+          data = service.get_server_group(identifier)
           new(data)
         rescue Excon::Errors::NotFound
           nil

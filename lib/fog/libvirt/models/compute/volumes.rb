@@ -10,7 +10,7 @@ module Fog
         model Fog::Compute::Libvirt::Volume
 
         def all(filter = {})
-          load(connection.list_volumes(filter))
+          load(service.list_volumes(filter))
         end
 
         def get(key)

@@ -8,9 +8,20 @@ module Fog
         # ==== Parameters
         # * container<~String> - Name for container, should be < 256 bytes and must not contain '/'
         #
-        def put_object(container, object, data, options = {})
+        def put_object(container, object, data, options = {}, &block)
           data = Fog::Storage.parse_data(data)
           headers = data[:headers].merge!(options)
+          if block_given?
+            headers['Transfer-Encoding'] = 'chunked'
+            headers.delete('Content-Length')
+            return request(
+              :request_block     => block,
+              :expects  => 201,
+              :headers  => headers,
+              :method   => 'PUT',
+              :path     => "#{Fog::HP.escape(container)}/#{Fog::HP.escape(object)}"
+            )
+          end
           if headers.has_key?('Transfer-Encoding')
             headers.delete('Content-Length')
           end

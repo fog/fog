@@ -10,12 +10,12 @@ module Fog
         model Fog::Compute::Ecloud::ServerConfigurationOption
 
         def all
-          data = connection.get_server_configuration_options(href).body
+          data = service.get_server_configuration_options(href).body
           load(data)
         end
 
         def get(uri)
-          if data = connection.get_server_configuration_option(uri)
+          if data = service.get_server_configuration_option(uri)
             new(data.body)
           end
         rescue Fog::Errors::NotFound

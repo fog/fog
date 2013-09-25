@@ -27,6 +27,18 @@ module Fog
         end
 
       end
+
+      class Mock
+
+        def list_records(domain)
+          response = Excon::Response.new
+          response.status = 200
+          response.body = self.data[:records][domain] || []
+          response
+        end
+
+      end
+
     end
   end
 end

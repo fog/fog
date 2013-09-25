@@ -17,11 +17,11 @@ module Fog
 
         def all(filters = filters)
           self.filters = filters
-          load(connection.list_networks(filters).body['networks'])
+          load(service.list_networks(filters).body['networks'])
         end
 
         def get(network_id)
-          if network = connection.get_network(network_id).body['network']
+          if network = service.get_network(network_id).body['network']
             new(network)
           end
         rescue Fog::Network::OpenStack::NotFound

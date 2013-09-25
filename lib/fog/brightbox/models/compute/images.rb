@@ -10,12 +10,12 @@ module Fog
         model Fog::Compute::Brightbox::Image
 
         def all
-          data = connection.list_images
+          data = service.list_images
           load(data)
         end
 
         def get(identifier)
-          data = connection.get_image(identifier)
+          data = service.get_image(identifier)
           new(data)
         rescue Excon::Errors::NotFound
           nil

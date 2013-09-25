@@ -11,12 +11,12 @@ module Fog
 
         def all
           clear
-          data = connection.list_domains.body.map {|zone| zone['domain']}
+          data = service.list_domains.body.map {|zone| zone['domain']}
           load(data)
         end
 
         def get(zone_id)
-          data = connection.get_domain(zone_id).body['domain']
+          data = service.get_domain(zone_id).body['domain']
           new(data)
         rescue Excon::Errors::NotFound
           nil

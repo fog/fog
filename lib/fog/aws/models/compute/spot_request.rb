@@ -3,7 +3,7 @@ require 'fog/compute/models/server'
 module Fog
   module Compute
     class AWS
-      
+
       class SpotRequest < Fog::Compute::Server
 
         identity :id,                          :aliases => 'spotInstanceRequestId'
@@ -21,6 +21,7 @@ module Fog
         attribute :availability_zone_group,    :aliases => 'availabilityZoneGroup'
         attribute :product_description,        :aliases => 'productDescription'
 
+        attribute :ebs_optimized,              :aliases => 'LaunchSpecification.EbsOptimized'
         attribute :groups,                     :aliases => 'LaunchSpecification.SecurityGroup'
         attribute :key_name,                   :aliases => 'LaunchSpecification.KeyName'
         attribute :availability_zone,          :aliases => 'LaunchSpecification.Placement.AvailabilityZone'
@@ -29,16 +30,24 @@ module Fog
         attribute :monitoring,                 :aliases => 'LaunchSpecification.Monitoring'
         attribute :block_device_mapping,       :aliases => 'LaunchSpecification.BlockDeviceMapping'
         attribute :subnet_id,                  :aliases => 'LaunchSpecification.SubnetId'
+        attribute :iam_instance_profile,       :aliases => 'LaunchSpecification.IamInstanceProfile'
+
         attribute :tags,                       :aliases => 'tagSet'
         attribute :fault,                      :squash  => 'message'
         attribute :user_data
-        
+
+        attr_writer   :iam_instance_profile_name, :iam_instance_profile_arn
+
         def initialize(attributes={})
           self.groups ||= ["default"]
           self.flavor_id ||= 't1.micro'
           self.image_id   ||= begin
             self.username = 'ubuntu'
-            case attributes[:connection].instance_variable_get(:@region) # Ubuntu 10.04 LTS 64bit (EBS)
+
+            # Old 'connection' is renamed as service and should be used instead
+            prepare_service_value(attributes)
+
+            case @service.instance_variable_get(:@region) # Ubuntu 10.04 LTS 64bit (EBS)
             when 'ap-northeast-1'
               'ami-5e0fa45f'
             when 'ap-southeast-1'
@@ -57,14 +66,14 @@ module Fog
         def destroy
           requires :id
 
-          connection.cancel_spot_instance_requests(id)
+          service.cancel_spot_instance_requests(id)
           true
         end
 
         def key_pair
           requires :key_name
 
-          connection.key_pairs.all(key_name).first
+          service.key_pairs.all(key_name).first
         end
 
         def key_pair=(new_keypair)
@@ -86,25 +95,18 @@ module Fog
             'LaunchSpecification.KeyName'                    => key_name,
             'LaunchSpecification.Monitoring.Enabled'         => monitoring,
             'LaunchSpecification.Placement.AvailabilityZone' => availability_zone,
-            'LaunchSpecification.SecurityGroup'              => groups,
+            'LaunchSpecification.SecurityGroupId'            => groups,
+            'LaunchSpecification.EbsOptimized'               => ebs_optimized,
             'LaunchSpecification.UserData'                   => user_data,
             'LaunchSpecification.SubnetId'                   => subnet_id,
+            'LaunchSpecification.IamInstanceProfile.Arn'     => @iam_instance_profile_arn,
+            'LaunchSpecification.IamInstanceProfile.Name'    => @iam_instance_profile_name,
             'Type'                                           => request_type,
             'ValidFrom'                                      => valid_from,
             'ValidUntil'                                     => valid_until }
           options.delete_if {|key, value| value.nil?}
-          
-          # If subnet is defined then this is a Virtual Private Cloud.
-          # subnet & security group cannot co-exist. Attempting to specify
-          # both subnet and groups will cause an error.  Instead please make
-          # use of Security Group Ids when working in a VPC.
-          if subnet_id
-            options.delete('LaunchSpecification.SecurityGroup')
-          else
-            options.delete('LaunchSpecification.SubnetId')
-          end
 
-          data = connection.request_spot_instances(image_id, flavor_id, price, options).body
+          data = service.request_spot_instances(image_id, flavor_id, price, options).body
           spot_instance_request = data['spotInstanceRequestSet'].first
           spot_instance_request['launchSpecification'].each do |name,value|
             spot_instance_request['LaunchSpecification.' + name[0,1].upcase + name[1..-1]] = value
@@ -117,4 +119,4 @@ module Fog
       end
     end
   end
-end     
+end

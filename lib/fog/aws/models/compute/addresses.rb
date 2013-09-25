@@ -60,7 +60,7 @@ module Fog
             filters = {'public-ip' => [*filters]}
           end
           self.filters = filters
-          data = connection.describe_addresses(filters).body
+          data = service.describe_addresses(filters).body
           load(
             data['addressesSet'].map do |address|
               address.reject {|key, value| value.nil? || value.empty? }
@@ -81,7 +81,7 @@ module Fog
 
         def get(public_ip)
           if public_ip
-            self.class.new(:connection => connection).all('public-ip' => public_ip).first
+            self.class.new(:service => service).all('public-ip' => public_ip).first
           end
         end
 

@@ -3,7 +3,7 @@ module Fog
     module Terremark
       module Shared
 
-        class InternetService < Fog::Parsers::Base
+        class InternetService < TerremarkParser
 
           def reset
             @in_public_ip_address = false
@@ -14,10 +14,7 @@ module Fog
             super
             case name
             when 'Href'
-              data = {}
-              until attributes.empty?
-                data[attributes.shift] = attributes.shift
-              end
+              data = extract_attributes(attributes)
               if @in_public_ip_address
                 @response['PublicIpAddress'][name] = data
               else

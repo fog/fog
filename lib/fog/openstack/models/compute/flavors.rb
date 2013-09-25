@@ -9,13 +9,13 @@ module Fog
 
         model Fog::Compute::OpenStack::Flavor
 
-        def all
-          data = connection.list_flavors_detail.body['flavors']
+        def all(options = {})
+          data = service.list_flavors_detail(options).body['flavors']
           load(data)
         end
 
         def get(flavor_id)
-          data = connection.get_flavor_details(flavor_id).body['flavor']
+          data = service.get_flavor_details(flavor_id).body['flavor']
           new(data)
         rescue Fog::Compute::OpenStack::NotFound
           nil

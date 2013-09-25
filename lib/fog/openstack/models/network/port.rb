@@ -17,7 +17,8 @@ module Fog
         attribute :tenant_id
 
         def initialize(attributes)
-          @connection = attributes[:connection]
+          # Old 'connection' is renamed as service and should be used instead
+          prepare_service_value(attributes)
           super
         end
 
@@ -28,21 +29,21 @@ module Fog
 
         def create
           requires :network_id
-          merge_attributes(connection.create_port(self.network_id,
+          merge_attributes(service.create_port(self.network_id,
                                                   self.attributes).body['port'])
           self
         end
 
         def update
           requires :id, :network_id
-          merge_attributes(connection.update_port(self.id,
+          merge_attributes(service.update_port(self.id,
                                                   self.attributes).body['port'])
           self
         end
 
         def destroy
           requires :id
-          connection.delete_port(self.id)
+          service.delete_port(self.id)
           true
         end
 

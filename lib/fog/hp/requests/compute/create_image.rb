@@ -18,10 +18,7 @@ module Fog
         def create_image(server_id, name, metadata = {})
           body = { 'createImage' =>
                        { 'name' => name,
-                         'metadata' =>
-                             { 'ImageType' => metadata[:image_type],
-                               'ImageVersion' => metadata[:image_version]
-                             }
+                         'metadata' => metadata
                        }
                  }
           server_action(server_id, body)
@@ -39,19 +36,19 @@ module Fog
 
           data = {
             'id'        => image_id,
-            'server'    => {"id"=>"3", "links"=>[{"href"=>"http://nova1:8774/v1.1/servers/#{server_id}", "rel"=>"bookmark"}]},
+            'server'    => {"id"=>server_id, "links"=>[{"href"=>"http://nova1:8774/v1.1/servers/#{server_id}", "rel"=>"bookmark"}]},
             'links'     => [{"href"=>"http://nova1:8774/v1.1/tenantid/images/#{image_id}", "rel"=>"self"}, {"href"=>"http://nova1:8774/tenantid/images/#{image_id}", "rel"=>"bookmark"}],
             'metadata'  => metadata || {},
             'name'      => name || "image_#{rand(999)}",
             'progress'  => 0,
             'status'    => 'SAVING',
-            'updated'   => "",
-            'created'   => ""
+            'updated'   => "2012-01-01T13:32:20Z",
+            'created'   => "2012-01-01T13:32:20Z"
           }
 
           self.data[:last_modified][:images][data['id']] = Time.now
           self.data[:images][data['id']] = data
-          response.headers = {'Content-Length' => '0', 'Content-Type' => 'text/html; charset=UTF-8', 'Date' => Time.now, 'Location' => "http://nova1:8774/v1.1/images/#{@image_id}"}
+          response.headers = {'Content-Length' => '0', 'Content-Type' => 'text/html; charset=UTF-8', 'Date' => Time.now, 'Location' => "http://nova1:8774/v1.1/images/#{image_id}"}
           response.body = "" # { 'image' => data } no data is sent
           response
         end

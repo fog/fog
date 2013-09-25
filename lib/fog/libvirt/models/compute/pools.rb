@@ -10,7 +10,7 @@ module Fog
         model Fog::Compute::Libvirt::Pool
 
         def all(filter = {})
-          load(connection.list_pools(filter))
+          load(service.list_pools(filter))
         end
 
         def get(uuid)

@@ -10,12 +10,12 @@ module Fog
         model Fog::Compute::IBM::Key
 
         def all
-          load(connection.list_keys.body['keys'])
+          load(service.list_keys.body['keys'])
         end
 
         def get(key_id)
           begin
-            new(connection.get_key(key_id).body)
+            new(service.get_key(key_id).body)
           rescue Fog::Compute::IBM::NotFound
             nil
           end
@@ -26,7 +26,7 @@ module Fog
         end
 
         def default=(key_name)
-          connection.modify_key(key_name, 'default' => true)
+          service.modify_key(key_name, 'default' => true)
         end
 
       end

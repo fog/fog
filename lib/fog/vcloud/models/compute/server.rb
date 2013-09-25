@@ -18,7 +18,7 @@ module Fog
 
         attribute :vapp_scoped_local_id, :aliases => :VAppScopedLocalId
 
-        attribute :network_connections, :aliases => :NetworkConnectionSection, :squash => :NetworkConnection
+        attribute :network_connections, :aliases => :NetworkConnectionSection#, :squash => :NetworkConnection
         attribute :virtual_hardware, :aliases => :'ovf:VirtualHardwareSection', :squash => :'ovf:Item'
 
         attribute :guest_customization, :aliases => :GuestCustomizationSection
@@ -27,6 +27,20 @@ module Fog
         attribute :tasks, :aliases => :Tasks, :type => :array
 
         has_up :vapp
+        
+        def tags
+          Fog::Vcloud::Compute::Tags.new(:service => service, :href => href + '/metadata')
+        end
+        
+        def customization_script
+          load_unless_loaded!
+          self.guest_customization[:CustomizationScript]
+        end
+        
+        def customization_script=(custom_script)
+          @changed = true
+          @update_custom_script = custom_script
+        end
 
         def computer_name
           load_unless_loaded!
@@ -72,7 +86,7 @@ module Fog
 
         # This is the real power-off operation
         def undeploy
-          connection.undeploy href
+          service.undeploy href
         end
 
         def graceful_restart
@@ -104,7 +118,7 @@ module Fog
 
         def cpus=(qty)
           return if qty.nil? or qty.size == 0
-           
+
           @changed = true
           @update_cpu_value = qty
           qty
@@ -123,7 +137,14 @@ module Fog
           @update_memory_value = amount
           amount
         end
-
+        def network
+          network_connections[:NetworkConnection] if network_connections
+        end
+        def network=(network_info)
+          @changed = true
+          @update_network = network_info
+          network_info
+        end
         def disks
           disk_mess.map do |dm|
             { :number => dm[:"rasd:AddressOnParent"].to_i, :size => dm[:"rasd:HostResource"][:vcloud_capacity].to_i, :resource => dm[:"rasd:HostResource"], :disk_data => dm }
@@ -175,7 +196,7 @@ module Fog
         end
 
         def save
-          if new_record?
+          unless persisted?
             #Lame ...
             raise RuntimeError, "Should not be here"
           else
@@ -184,43 +205,55 @@ module Fog
                 raise RuntimeError, "Can't save cpu, name or memory changes while the VM is on."
               end
             end
+            
+            if @update_custom_script
+              guest_customization[:CustomizationScript] = @update_custom_script.to_s
+              service.configure_vm_customization_script(guest_customization)
+              wait_for { ready? }
+            end
 
             if @update_password
                 guest_customization[:AdminPassword] = @update_password.to_s
-                connection.configure_vm_password(guest_customization)
+                service.configure_vm_password(guest_customization)
                 wait_for { ready? }
             end
 
             if @update_cpu_value
               cpu_mess[:"rasd:VirtualQuantity"] = @update_cpu_value.to_s
-              connection.configure_vm_cpus(cpu_mess)
-              wait_for { ready? }
-            end
-                
-            if @update_memory_value
-              memory_mess[:"rasd:VirtualQuantity"] = @update_memory_value.to_s
-              connection.configure_vm_memory(memory_mess)
+              service.configure_vm_cpus(cpu_mess)
               wait_for { ready? }
             end
 
+            if @update_memory_value
+              memory_mess[:"rasd:VirtualQuantity"] = @update_memory_value.to_s
+              service.configure_vm_memory(memory_mess)
+              wait_for { ready? }
+            end
+
+            if @update_network
+              network_connections[:NetworkConnection][:network] = @update_network[:network_name]
+              network_connections[:NetworkConnection][:IpAddressAllocationMode] = @update_network[:network_mode]
+              service.configure_vm_network(network_connections)
+              wait_for { ready? }
+            end
             if @disk_change == :deleted
               data = disk_mess.delete_if do |vh|
                 vh[:'rasd:ResourceType'] == '17' &&
                   vh[:'rasd:AddressOnParent'].to_s == @remove_disk.to_s
               end
-              connection.configure_vm_disks(self.href, data)
+              service.configure_vm_disks(self.href, data)
               wait_for { ready? }
             end
             if @disk_change == :added
               data = disk_mess
               data << @add_disk
-              connection.configure_vm_disks(self.href, data)
+              service.configure_vm_disks(self.href, data)
               wait_for { ready? }
             end
             if @name_changed || @description_changed
               edit_uri = links.select {|i| i[:rel] == 'edit'}
               edit_uri = edit_uri.kind_of?(Array) ? edit_uri.flatten[0][:href] : edit_uri[:href]
-              connection.configure_vm_name_description(edit_uri, self.name, self.description)
+              service.configure_vm_name_description(edit_uri, self.name, self.description)
               wait_for { ready? }
             end
           end
@@ -236,7 +269,7 @@ module Fog
           wait_for { off? } # be sure..
           wait_for { ready? } # be doubly sure..
           sleep 2 # API lies. need to give it some time to be happy.
-          connection.delete_vapp(href).body[:status] == "running"
+          service.delete_vapp(href).body[:status] == "running"
         end
         alias :delete :destroy
 
@@ -248,6 +281,7 @@ module Fog
           @update_password = nil
           @update_cpu_value = nil
           @update_memory_value = nil
+          @update_network = nil
           @name_changed = false
           @description_changed = nil
         end
@@ -286,7 +320,7 @@ module Fog
         def power_operation(op)
           requires :href
           begin
-            connection.send(op.keys.first, href + "/power/action/#{op.values.first}" )
+            service.send(op.keys.first, href + "/power/action/#{op.values.first}" )
           rescue Excon::Errors::InternalServerError => e
             #Frankly we shouldn't get here ...
             raise e unless e.to_s =~ /because it is already powered o(n|ff)/
@@ -295,7 +329,7 @@ module Fog
         end
 
         def reload_status
-          server = connection.get_server(href)
+          server = service.get_server(href)
           self.status = server.status
           self.tasks = server.tasks
         end

@@ -10,7 +10,7 @@ module Fog
         model Fog::Compute::Ecloud::Association
 
         def all
-          data = connection.get_associations(href).body
+          data = service.get_associations(href).body
           if data[:Associations]
             data = data[:Associations]
             if data.is_a?(String) && data.empty?
@@ -23,7 +23,7 @@ module Fog
         end
 
         def get(uri)
-          if data = connection.get_association(uri)
+          if data = service.get_association(uri)
             new(data.body)
           end
         rescue Fog::Errors::NotFound

@@ -20,7 +20,12 @@ module Fog
       class Real
 
         def initialize(options={})
-          require 'fission'
+          begin
+            require 'fission'
+          rescue LoadError => e
+            retry if require('rubygems')
+            raise e.message
+          end
         end
 
       end

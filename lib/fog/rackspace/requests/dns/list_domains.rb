@@ -5,8 +5,8 @@ module Fog
         def list_domains(options={})
 
           path = 'domains'
-          if !options.empty?
-            path = path + '?' + array_to_query_string(options)
+          unless options.empty?
+            path += "?#{array_to_query_string(options)}"
           end
 
           request(

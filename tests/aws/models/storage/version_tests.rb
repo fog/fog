@@ -7,7 +7,7 @@ Shindo.tests("Storage[:aws] | version", ["aws"]) do
   }
 
   directory_attributes = {
-      :key => 'fogfilestests'
+      :key => uniq_id('fogfilestests')
   }
 
   @directory = Fog::Storage[:aws].directories.create(directory_attributes)
@@ -16,7 +16,7 @@ Shindo.tests("Storage[:aws] | version", ["aws"]) do
   model_tests(@directory.files, file_attributes, Fog.mocking?) do
 
     @version_instance = @instance.versions.first
-    @directory.connection.put_object(@directory.key, @instance.key, 'second version content')
+    @directory.service.put_object(@directory.key, @instance.key, 'second version content')
 
     tests("#file") do
       tests("#file should return the object associated with the version").returns(@version_instance.version) do

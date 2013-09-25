@@ -4,13 +4,13 @@ module Fog
 
       module Mock
         def vdcs(options = {})
-          Fog::Terremark::Shared::Vdcs.new(options.merge(:connection => self))
+          Fog::Terremark::Shared::Vdcs.new(options.merge(:service => self))
         end
       end
 
       module Real
         def vdcs(options = {})
-          Fog::Terremark::Shared::Vdcs.new(options.merge(:connection => self))
+          Fog::Terremark::Shared::Vdcs.new(options.merge(:service => self))
         end
       end
 
@@ -19,14 +19,14 @@ module Fog
         model Fog::Terremark::Shared::Vdc
 
         def all
-          data = connection.get_organization(organization_id).body['Links'].select do |entity|
+          data = service.get_organization(organization_id).body['Links'].select do |entity|
             entity['type'] == 'application/vnd.vmware.vcloud.vdc+xml'
           end
           load(data)
         end
 
         def get(vdc_id)
-          if vdc_id && vdc = connection.get_vdc(vdc_id).body
+          if vdc_id && vdc = service.get_vdc(vdc_id).body
             new(vdc)
           elsif !vdc_id
             nil
@@ -36,7 +36,7 @@ module Fog
         end
 
         def organization_id
-          @vdc_id ||= connection.default_organization_id
+          @vdc_id ||= service.default_organization_id
         end
 
         private

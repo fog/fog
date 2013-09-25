@@ -5,6 +5,7 @@ module Fog
 
       class IdentifierTaken < Fog::Errors::Error; end
       class InvalidInstance < Fog::Errors::Error; end
+      class AuthorizationAlreadyExists < Fog::Errors::Error; end
 
       requires :aws_access_key_id, :aws_secret_access_key
       recognizes :region, :host, :path, :port, :scheme, :persistent, :use_iam_profile, :aws_session_token, :aws_credentials_expire_at
@@ -24,6 +25,7 @@ module Fog
       request :reset_cache_parameter_group
       request :describe_engine_default_parameters
       request :describe_cache_parameters
+      request :describe_reserved_cache_nodes
 
       request :create_cache_security_group
       request :delete_cache_security_group
@@ -87,12 +89,13 @@ module Fog
             :host               => @host,
             :path               => @path,
             :port               => @port,
-            :version            => '2011-07-15'
+            #:version            => '2011-07-15'
+            :version            => '2012-11-15'
           }
           )
 
           begin
-            response = @connection.request({
+            @connection.request({
               :body       => body,
               :expects    => 200,
               :headers    => { 'Content-Type' => 'application/x-www-form-urlencoded' },
@@ -102,24 +105,20 @@ module Fog
               :parser     => parser
             })
           rescue Excon::Errors::HTTPStatusError => error
-            if match = error.message.match(/<Code>(.*)<\/Code>/m)
-              case match[1]
-              when 'CacheSecurityGroupNotFound', 'CacheParameterGroupNotFound',
-                'CacheClusterNotFound'
-                raise Fog::AWS::Elasticache::NotFound
-              when 'CacheSecurityGroupAlreadyExists'
-                raise Fog::AWS::Elasticache::IdentifierTaken
-              when 'InvalidParameterValue'
-                raise Fog::AWS::Elasticache::InvalidInstance
-              else
-                raise
-              end
-            else
-              raise
-            end
+            match = Fog::AWS::Errors.match_error(error)
+            raise if match.empty?
+            raise case match[:code]
+                  when 'CacheSecurityGroupNotFound', 'CacheParameterGroupNotFound', 'CacheClusterNotFound'
+                    Fog::AWS::Elasticache::NotFound.slurp(error, match[:message])
+                  when 'CacheSecurityGroupAlreadyExists'
+                    Fog::AWS::Elasticache::IdentifierTaken.slurp(error, match[:message])
+                  when 'InvalidParameterValue'
+                    Fog::AWS::Elasticache::InvalidInstance.slurp(error, match[:message])
+                  else
+                    Fog::AWS::Elasticache::Error.slurp(error, "#{match[:code]} => #{match[:message]}")
+                  end
           end
 
-          response
         end
 
       end
@@ -130,10 +129,9 @@ module Fog
         def self.data
           @data ||= Hash.new do |hash, region|
             hash[region] = Hash.new do |region_hash, key|
-              owner_id = Fog::AWS::Mock.owner_id
-              security_group_id = Fog::AWS::Mock.security_group_id
               region_hash[key] = {
                 :clusters  => {}, # cache cluster data, indexed by cluster ID
+                :security_groups => {}, # security groups
               }
             end
           end

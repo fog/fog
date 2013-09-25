@@ -22,16 +22,16 @@ module Fog
 
       class Mock # :nodoc:all
         def put_container(container_name, options = {})
-          acl = options['X-Container-Read'] || 'private'
-          if !['private', 'public-read'].include?(acl)
-            #raise Excon::Errors::BadRequest.new('invalid X-Container-Read')
-          else
-            self.data[:acls][:container][container_name] = self.class.acls(acl)
+          read_h  = options['X-Container-Read']  || ''
+          write_h = options['X-Container-Write'] || ''
+          unless options
+            read_acl, write_acl = self.class.header_to_perm_acl(read_h, write_h)
+            self.data[:acls][:container][container_name] = {:read_acl => read_acl, :write_acl => write_acl}
           end
 
           response = Excon::Response.new
           container = {
-            :objects        => {},
+            :objects  => {}
           }
           if self.data[:containers][container_name]
             response.status = 202
