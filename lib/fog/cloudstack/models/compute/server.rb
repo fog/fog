@@ -35,6 +35,8 @@ module Fog
         attribute :root_device_type,                        :aliases => 'rootdevicetype'
         attribute :security_group_list,    :type => :array, :aliases => 'securitygroup'
         attribute :nics,                   :type => :array, :aliases => 'nic'
+        attribute :key_pair,                                :aliases => 'keypair'
+        attribute :user_data,                               :aliases => 'userdata'
 
         attr_accessor :network_ids, :disk_offering_id, :ip_address, :ip_to_network_list
         attr_writer :security_group_ids
@@ -90,6 +92,8 @@ module Fog
             'ipaddress'         => ip_address,
             'iptonetworklist'   => ip_to_network_list,
             'projectid'         => project_id,
+            'keypair'           => key_pair,
+            'userdata'          => user_data
           }
 
           options.merge!('networkids' => network_ids) if network_ids

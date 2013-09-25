@@ -25,6 +25,7 @@ module Fog
         attribute :server_id,                  :aliases => 'virtualmachineid'
         attribute :server_name,                :aliases => 'vmname'
         attribute :server_display_name,        :aliases => 'vmdisplayname'
+        attribute :device_id,                  :aliases => 'deviceid'
 
         attr_accessor :snapshot_id, :project_id
 
