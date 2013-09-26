@@ -7,8 +7,9 @@ module Fog
       def data
         @@data ||= Hash.new do |hash, key|
           hash[key] = begin
+
             #Compute V2
-            flavor_id  = Fog.credentials[:rackspace_flavor_id] ||= Fog::Mock.random_numbers(1)
+            flavor_id  = Fog.credentials[:rackspace_flavor_id] ||= '3'
             image_id   = Fog.credentials[:rackspace_image_id] ||= Fog::Rackspace::MockData.uuid
             image_name = Fog::Mock.random_letters(6)
             network_id = Fog::Rackspace::MockData.uuid
@@ -113,6 +114,67 @@ module Fog
               "extra_specs" => {},
             }
 
+            #AutoScale
+            launch_config = {
+              "args" => {
+                  "loadBalancers" => [
+                    {
+                      "port" => 8080,
+                      "loadBalancerId" => 9099
+                    }
+                  ],
+                  "server" => {
+                    "name" => "autoscale_server",
+                    "imageRef" => "0d589460-f177-4b0f-81c1-8ab8903ac7d8",
+                    "flavorRef" => "2",
+                    "OS-DCF =>diskConfig" => "AUTO",
+                    "metadata" => {
+                      "build_config" => "core",
+                      "meta_key_1" => "meta_value_1",
+                      "meta_key_2" => "meta_value_2"
+                    },
+                    "networks" => [
+                      {
+                        "uuid" => "11111111-1111-1111-1111-111111111111"
+                      },
+                      {
+                        "uuid" => "00000000-0000-0000-0000-000000000000"
+                      }
+                    ],
+                    "personality" => [
+                      {
+                        "path" => "/root/.csivh",
+                        "contents" => "VGhpcyBpcyBhIHRlc3QgZmlsZS4="
+                      }
+                    ]
+                  }
+                },
+                "type" => "launch_server"
+            }
+
+            group_config = {
+              "max_entities" => 10,
+              "cooldown" => 360,
+              "name" => "testscalinggroup198547",
+              "min_entities" => 0,
+              "metadata" => {
+                "gc_meta_key_2" => "gc_meta_value_2",
+                "gc_meta_key_1" => "gc_meta_value_1"
+              }
+            }
+
+            policy = {
+              "cooldown" => 0,
+              "type" => "webhook",
+              "name" => "scale up by 1",
+              "change" => 1
+            }
+
+            webhook = {
+              "name" => "webhook name",
+              "metadata" => {'foo' => 'bar'}
+            }
+
             mock_data = {
               #Compute V2
               :flavors  => Hash.new { |h,k| h[k] = flavor  unless [NOT_FOUND_ID, '0'].include?(k) },
@@ -128,6 +190,9 @@ module Fog
               :snapshots          => {},
               :volume_attachments => [],
               :volume_types       => {volume_type1_id => volume_type1, volume_type2_id => volume_type2},
+
+              #Autoscale
+              :autoscale_groups => {}
             }
             
             # seed with initial data

@@ -18,7 +18,7 @@ module Fog
           load(data)
         end
 
-        def get(key)
+        def get(key, options = {})
           if ::File.directory?(service.path_to(key))
             new(:key => key)
           else
