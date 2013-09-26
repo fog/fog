@@ -4,8 +4,16 @@ module Fog
 
       class Mock
 
-        def list_servers
-          Fog::Mock.not_implemented
+        def list_servers(zone_name)
+          zone = self.data[:zones][zone_name]
+          raise Fog::Errors::Error.new("Invalid value for field 'zone': '#{zone_name}'.  Unknown zone.") if zone.nil?
+          servers = self.data[:servers].values.select{|s| s["zone"] == zone["selfLink"]}
+          build_response(:body => {
+            "kind" => "compute#instanceList",
+            "selfLink" => "https://www.googleapis.com/compute/v1beta15/projects/#{@project}/zones/#{zone_name}/instances",
+            "id" => "projects/#{@project}/zones/#{zone_name}/instances",
+            "items" => servers
+          })
         end
 
       end
