@@ -126,6 +126,11 @@ module Fog
         @auth_token || @identity_service.auth_token
       end
 
+      def select_options(keys)
+        return nil unless @options && keys
+        @options.select {|k,v| keys.include?(k)}
+      end
+
     end
   end
 end
