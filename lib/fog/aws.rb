@@ -320,7 +320,7 @@ module Fog
       end
 
       def self.data(extras={})
-        @data ||= Hash.new do |hash, region|
+        Hash.new do |hash, region|
           hash[region] = Hash.new do |region_hash, key|
             region_hash[key] = {
               :owner_id => Fog::AWS::Mock.owner_id,

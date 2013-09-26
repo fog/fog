@@ -21,7 +21,7 @@ module Fog
 
       class Mock
         def self.data
-          Fog::AWS::Mock.data(:queues => {})
+          @data ||= Fog::AWS::Mock.data(:queues => {})
         end
 
         def self.reset
