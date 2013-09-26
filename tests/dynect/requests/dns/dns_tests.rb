@@ -137,6 +137,14 @@ Shindo.tests('Dynect::dns | DNS requests', ['dynect', 'dns']) do
       @dns.get_node_list(@domain).body
     end
 
+    get_all_records_format = shared_format.merge({
+      'data' => [String]
+    })
+
+    tests("get_all_records('#{@domain}')").formats(get_all_records_format) do
+      @dns.get_all_records(@domain).body
+    end
+
     get_records_format = shared_format.merge({
       'data' => [String]
     })
