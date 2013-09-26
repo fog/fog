@@ -13,8 +13,6 @@ end
 
 def vcloud_director
   @vcloud_director ||= Fog::Compute::VcloudDirector.new(
-    :vcloud_director_host => 'devlab.mdsol.com',
-    :vcloud_director_api_version => '5.1',
     :connection_options => {
       :ssl_verify_peer => false,
       :connect_timeout => 200,
