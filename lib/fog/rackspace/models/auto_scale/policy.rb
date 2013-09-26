@@ -40,7 +40,6 @@ module Fog
         attribute :type
 
       	# @!attribute [r] args
-        # @note An example might be:
         # @example See below:
      		#	- "cron": "23 * * * *"
      		#	- "at": "2013-06-05T03:12Z"

@@ -45,8 +45,8 @@ module Fog
           requires :name
 
           options = {}
-          options['name'] = name unless name.nil?
-          options['metadata'] = metadata unless metadata.nil?
+          options['name'] = name if name
+          options['metadata'] = metadata if metadata
 
           data = service.create_webhook(group_id, policy_id, options)
           merge_attributes(data.body['webhooks'][0])
