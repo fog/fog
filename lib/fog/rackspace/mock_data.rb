@@ -7,8 +7,9 @@ module Fog
       def data
         @@data ||= Hash.new do |hash, key|
           hash[key] = begin
+
             #Compute V2
-            flavor_id  = Fog.credentials[:rackspace_flavor_id] ||= Fog::Mock.random_numbers(1)
+            flavor_id  = Fog.credentials[:rackspace_flavor_id] ||= '3'
             image_id   = Fog.credentials[:rackspace_image_id] ||= Fog::Rackspace::MockData.uuid
             image_name = Fog::Mock.random_letters(6)
             network_id = Fog::Rackspace::MockData.uuid
