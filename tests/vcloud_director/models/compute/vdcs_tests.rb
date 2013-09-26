@@ -10,10 +10,10 @@ VCR.use_cassette(File.basename(__FILE__)) do
     vdc = vdcs.first
 
     tests("Compute::VcloudDirector | vdc") do
-      tests("#id").returns(String){ vdc.id.class }
-      tests("#name").returns(String){ vdc.name.class }
-      tests("#href").returns(String){ vdc.href.class }
-      tests("#type").returns("application/vnd.vmware.vcloud.vdc+xml"){ vdc.type }
+      tests("#id").returns(String) { vdc.id.class }
+      tests("#name").returns(String) { vdc.name.class }
+      tests("#href").returns(String) { vdc.href.class }
+      tests("#type").returns("application/vnd.vmware.vcloud.vdc+xml") { vdc.type }
     end
 
     tests("Compute::VcloudDirector | vdc", ['lazy load attrs']) do
@@ -41,4 +41,5 @@ VCR.use_cassette(File.basename(__FILE__)) do
       tests("#get").returns(vdc.id) { vdcs.get(vdc.id).id }
     end
   end
+
 end
