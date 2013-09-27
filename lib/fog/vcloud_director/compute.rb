@@ -228,6 +228,7 @@ module Fog
           end
         end
 
+        # @api private
         def do_request(params)
           headers = { 'Accept' => 'application/*+xml;version=' +  @api_version }
           if @cookie
@@ -325,6 +326,7 @@ module Fog
                 :name => org_name,
                 :uuid => uuid
               },
+              :tasks => [],
               :vdc => {
                 :description => 'vDC for mocking',
                 :name => 'MockVDC',
@@ -392,6 +394,7 @@ module Fog
         def xsi_schema_location
           "http://www.vmware.com/vcloud/v1.5 http://#{@host}#{@path}/v1.5/schema/master.xsd"
         end
+
       end
     end
   end
