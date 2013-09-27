@@ -31,9 +31,9 @@ module Fog
         #   virtual machine.
         # @option customization [Boolean] :admin_password_auto NOT IMPLEMENTED
         # @option customization [String] :admin_password NOT IMPLEMENTED
-        # @option customization [Boolean] :reset_password_required - True if
-        #   the administrator password for this virtual machine must be reset
-        #   after first use.
+        # @option customization [Boolean] :reset_password_required True if the
+        #   administrator password for this virtual machine must be reset after
+        #   first use.
         # @option customization [String] :customization_script Script to run on
         #   guest customization. The entire script must appear in this element.
         # @option customization [String] :computer_name Computer name to assign
