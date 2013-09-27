@@ -11,10 +11,14 @@ module Fog
       model_path 'fog/vsphere/models/compute'
       model :server
       collection :servers
+      model :servertype
+      collection :servertypes
       model :datacenter
       collection :datacenters
       model :interface
       collection :interfaces
+      model :interfacetype
+      collection :interfacetypes
       model :volume
       collection :volumes
       model :template
@@ -67,6 +71,10 @@ module Fog
       request :vm_reconfig_cpus
       request :vm_config_vnc
       request :create_folder
+      request :list_server_types
+      request :get_server_type
+      request :list_interface_types
+      request :get_interface_type
       request :list_vm_customvalues
       request :list_customfields
 
@@ -96,7 +104,7 @@ module Fog
           :memory_mb => 'config.hardware.memoryMB',
           :cpus   => 'config.hardware.numCPU',
           :overall_status => 'overallStatus',
-          :guest_id => 'summary.guest.guestId',
+          :guest_id => 'config.guestId',
         }
 
         def convert_vm_view_to_attr_hash(vms)
