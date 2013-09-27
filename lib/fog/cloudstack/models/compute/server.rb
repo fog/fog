@@ -87,6 +87,7 @@ module Fog
             'zoneid'            => zone_id,
             'networkids'        => network_ids,
             'diskofferingid'    => disk_offering_id,
+            'name'              => name,
             'displayname'       => display_name,
             'group'             => group,
             'domainid'          => domain_id,
