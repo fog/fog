@@ -13,6 +13,7 @@ module Fog
         attribute :summary
         attribute :type
         attribute :key
+        attribute :virtualswitch
 
         def initialize(attributes={} )
           super defaults.merge(attributes)
