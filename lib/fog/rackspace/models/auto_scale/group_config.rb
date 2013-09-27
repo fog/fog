@@ -53,9 +53,10 @@ module Fog
           true
         end
 
-        # Saves group's configuration.
+        # Saves group configuration.
         # This method will only save existing group configurations. New group configurations are created when a scaling group is created
-        # @return [Boolean] true if server has started saving
+        #
+        # @return [Boolean] true if group config was saved
         def save
           if group.id
             update
@@ -65,13 +66,13 @@ module Fog
           end
         end
 
+        # Reloads group configuration
         def reload
           if group.id
             data = service.get_group_config(group.id)
             merge_attributes data.body['groupConfiguration']
           end
         end
-
 
       end
   	end

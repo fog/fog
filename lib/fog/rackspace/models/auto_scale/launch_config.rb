@@ -33,9 +33,29 @@ module Fog
           options['type'] = type unless type.nil?
           options['args'] = args unless args.nil?
 
-          data = service.update_launch_config(group.id, options)
-          merge_attributes(data.body['launchConfiguration'])
+          service.update_launch_config(group.id, options)
           true
+        end
+
+        # Saves group launch configuration.
+        # This method will only save existing group configurations. New group configurations are created when a scaling group is created
+        #
+        # @return [Boolean] true if launch group was saved
+        def save
+          if group.id
+            update
+            true
+          else
+            raise "New #{self.class} are created when a new Fog::Rackspace::AutoScale::Group is created"
+          end
+        end
+
+        # Reloads group launch configuration
+        def reload
+          if group.id
+            data = service.get_launch_config(group.id)
+            merge_attributes data.body['launchConfiguration']
+          end
         end
 
       end
