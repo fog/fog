@@ -2,8 +2,7 @@ module Fog
   module Compute
     class VcloudDirector
       class Real
-
-        # TODO move all the logic to a generator
+        # @todo Move all the logic to a generator.
 
         def instantiate_vapp_template(vapp_name, template_id, options = {})
           params = populate_uris(options.merge(:vapp_name => vapp_name, :template_id => template_id))
@@ -20,6 +19,8 @@ module Fog
             :path    => "vdc/#{params[:vdc_id]}/action/instantiateVAppTemplate"
           )
         end
+
+        private
 
         def validate_uris(options ={})
           [:vdc_uri, :network_uri].each do |opt_uri|
@@ -80,44 +81,6 @@ module Fog
             "xmlns:xsd" => "http://www.w3.org/2001/XMLSchema"
           }
         end
-
-#        def validate_instantiate_vapp_template_options options
-#          # :network_uri removed, if not specified will use template network config.
-#          valid_opts = [:catalog_item_uri, :name, :vdc_uri]
-#          unless valid_opts.all? { |opt| options.has_key?(opt) }
-#            raise ArgumentError.new("Required data missing: #{(valid_opts - options.keys).map(&:inspect).join(", ")}")
-#          end
-#
-#          catalog_item_uri = options[:catalog_item_uri]
-#
-#          # Figure out the template_uri
-#          catalog_item = get_catalog_item( catalog_item_uri ).body
-#          catalog_item[:Entity] = [ catalog_item[:Entity] ] if catalog_item[:Entity].is_a?(Hash)
-#          catalog_item[:Link] = [ catalog_item[:Link] ] if catalog_item[:Link].is_a?(Hash)
-#
-#          options[:template_uri] = begin
-#             catalog_item[:Entity].detect { |entity| entity[:type] == "application/vnd.vmware.vcloud.vAppTemplate+xml" }[:href]
-#          rescue
-#            raise RuntimeError.new("Unable to locate template uri for #{catalog_item_uri}")
-#          end
-#
-#          customization_options = begin
-#              get_vapp_template(options[:template_uri]).body[:Children][:Vm][:GuestCustomizationSection]
-#          rescue
-#            raise RuntimeError.new("Unable to get customization options for #{catalog_item_uri}")
-#          end
-#
-#          # Check to see if we can set the password
-#          if options[:password] and customization_options[:AdminPasswordEnabled] == "false"
-#            raise ArgumentError.new("This catalog item (#{catalog_item_uri}) does not allow setting a password.")
-#          end
-#
-#          # According to the docs if CustomizePassword is "true" then we NEED to set a password
-#          if customization_options[:AdminPasswordEnabled] == "true" and customization_options[:AdminPasswordAuto] == "false" and ( options[:password].nil? or options[:password].empty? )
-#            raise ArgumentError.new("This catalog item (#{catalog_item_uri}) requires a :password to instantiate.")
-#          end
-#        end
-
       end
     end
   end

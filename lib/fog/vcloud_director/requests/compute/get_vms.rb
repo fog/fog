@@ -2,9 +2,14 @@ module Fog
   module Compute
     class VcloudDirector
       class Real
-
         require 'fog/vcloud_director/parsers/compute/vms'
 
+        # Retrieve a vApp or VM.
+        #
+        # @param [String] vapp_id
+        # @return [Excon::Response]
+        #   * body<~Hash>:
+        # @see #get_vapp
         def get_vms(vapp_id)
           request(
             :expects => 200,
@@ -13,7 +18,6 @@ module Fog
             :path    => "vApp/#{vapp_id}"
           )
         end
-
       end
     end
   end
