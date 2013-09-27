@@ -6,7 +6,7 @@ module Fog
     class HP < Fog::Service
 
       requires    :hp_secret_key, :hp_tenant_id, :hp_avl_zone
-      recognizes  :hp_auth_uri, :hp_cdn_uri
+      recognizes  :hp_auth_uri, :hp_cdn_uri, :hp_service_type
       recognizes  :hp_use_upass_auth_style, :hp_auth_version, :user_agent
       recognizes  :persistent, :connection_options
       recognizes  :hp_access_key, :hp_account_id  # :hp_account_id is deprecated use hp_access_key instead
@@ -81,7 +81,7 @@ module Fog
           ### Set an option to use the style of authentication desired; :v1 or :v2 (default)
           auth_version = options[:hp_auth_version] || :v2
           ### Pass the service name for object storage to the authentication call
-          options[:hp_service_type] = "CDN"
+          options[:hp_service_type] ||= "CDN"
           @hp_tenant_id = options[:hp_tenant_id]
 
           ### Make the authentication call
