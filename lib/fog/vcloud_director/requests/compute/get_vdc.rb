@@ -2,6 +2,13 @@ module Fog
   module Compute
     class VcloudDirector
       class Real
+        # Retrieve a vDC.
+        #
+        # @param [String] vdc_id ID of the vDC to retrieve.
+        # @return [Excon::Response]
+        #   * body<~Hash>:
+        # @see http://pubs.vmware.com/vcd-51/topic/com.vmware.vcloud.api.reference.doc_51/doc/operations/GET-Vdc.html
+        #   vCloud API Documentation
         def get_vdc(vdc_id)
           request(
             :expects => 200,
@@ -14,8 +21,13 @@ module Fog
 
       class Mock
         def get_vdc(vdc_id)
+          response = Excon::Response.new
+
           vdc = data[:vdc]
-          raise Excon::Errors::NotFound unless vdc_id == vdc[:uuid]
+          unless vdc_id == vdc[:uuid]
+            response.status = 403
+            raise(Excon::Errors.status_error({:expects => 200}, response))
+          end
 
           body =
             {:xmlns=>xmlns,
@@ -142,11 +154,10 @@ module Fog
             #    :href=>make_href("vdcStorageProfile/#{profile[:uuid]}")}]}
           end
 
-          Excon::Response.new(
-            :body => body,
-            :headers => {'Content-Type' => "#{body[:type]};version=#{api_version}"},
-            :status => 200
-          )
+          response.status = 200
+          response.headers = {'Content-Type' => "#{body[:type]};version=#{api_version}"}
+          response.body = body
+          response
         end
       end
     end

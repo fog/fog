@@ -12,11 +12,10 @@ module Fog
         # A Session object expires after a configurable interval of client
         # inactivity.
         #
-        # === Returns
-        # * response<~Excon::Response>:
+        # @return [Excon::Response]
         #   * body<~Hash>:
-        #
-        # {vCloud API Documentation}[http://pubs.vmware.com/vcd-51/topic/com.vmware.vcloud.api.reference.doc_51/doc/operations/GET-CurrentSession.html]
+        # @see http://pubs.vmware.com/vcd-51/topic/com.vmware.vcloud.api.reference.doc_51/doc/operations/GET-CurrentSession.html
+        #   vCloud API Documentation
         def get_current_session
           request(
             :expects    => 200,

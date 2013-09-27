@@ -107,6 +107,7 @@ module Fog
       request :post_vapp_undeploy
       request :delete_vapp
       request :get_current_session
+      request :get_supported_versions
 
       class Model < Fog::Model
         def initialize(attrs={})
@@ -227,6 +228,7 @@ module Fog
           end
         end
 
+        # @api private
         def do_request(params)
           headers = { 'Accept' => 'application/*+xml;version=' +  @api_version }
           if @cookie
@@ -324,6 +326,7 @@ module Fog
                 :name => org_name,
                 :uuid => uuid
               },
+              :tasks => [],
               :vdc => {
                 :description => 'vDC for mocking',
                 :name => 'MockVDC',
@@ -391,6 +394,7 @@ module Fog
         def xsi_schema_location
           "http://www.vmware.com/vcloud/v1.5 http://#{@host}#{@path}/v1.5/schema/master.xsd"
         end
+
       end
     end
   end

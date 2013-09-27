@@ -1,29 +1,31 @@
-#
-#
-# {:metadata=>{"buenas si"=>"no tanto ya", "hola"=>"adios"},
-#  :type=>"application/vnd.vmware.vcloud.metadata+xml",
-#  :href=>
-#   "https://example.com/api/vApp/vm-18545e82-d919-4071-ae7e-d1300d9d8112/metadata",
-#  :id=>"vm-18545e82-d919-4071-ae7e-d1300d9d8112"}
-#
-# <Metadata xmlns="http://www.vmware.com/vcloud/v1.5" type="application/vnd.vmware.vcloud.metadata+xml"  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.vmware.com/vcloud/v1.5 http://10.194.1.65/api/v1.5/schema/master.xsd">
-#   <MetadataEntry>
-#         <Key>buenas si</Key>
-#         <Value>no tanto ya</Value>
-#     </MetadataEntry>
-#     <MetadataEntry">
-#         <Key>hola</Key>
-#         <Value>adios</Value>
-#     </MetadataEntry>
-# </Metadata>
-
 module Fog
   module Generators
     module Compute
       module VcloudDirector
-
+        #   {:metadata=>
+        #    {"buenas si"=>"no tanto ya",
+        #     "hola"=>"adios"},
+        #    :type=>"application/vnd.vmware.vcloud.metadata+xml",
+        #    :href=>
+        #     "https://example.com/api/vApp/vm-18545e82-d919-4071-ae7e-d1300d9d8112/metadata",
+        #    :id=>"vm-18545e82-d919-4071-ae7e-d1300d9d8112"}
+        #
+        # This is what it generates:
+        #
+        #   <Metadata xmlns="http://www.vmware.com/vcloud/v1.5" type="application/vnd.vmware.vcloud.metadata+xml"  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.vmware.com/vcloud/v1.5 http://10.194.1.65/api/v1.5/schema/master.xsd">
+        #     <MetadataEntry>
+        #       <Key>buenas si</Key>
+        #       <Value>no tanto ya</Value>
+        #     </MetadataEntry>
+        #     <MetadataEntry">
+        #       <Key>hola</Key>
+        #       <Value>adios</Value>
+        #     </MetadataEntry>
+        #   </Metadata>
+        #
+        # @see http://pubs.vmware.com/vcd-51/topic/com.vmware.vcloud.api.reference.doc_51/doc/types/MetadataType.html
+        #   vCloud API Documentation
         class MetadataBase
-
           attr_reader :attrs
 
           def initialize(attrs={})
@@ -69,7 +71,6 @@ module Fog
           def tail
             '</Metadata>'
           end
-
         end
 
         class MetadataV51 < MetadataBase
@@ -85,7 +86,6 @@ module Fog
             </MetadataEntry>
 EOF
           end
-
         end
 
         class MetadataV15 < MetadataBase
@@ -98,7 +98,6 @@ EOF
 EOF
           end
         end
-#
       end
     end
   end
