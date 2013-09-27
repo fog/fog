@@ -2,19 +2,32 @@ module Fog
   module Compute
     class VcloudDirector
       class Real
-        def get_organization(organization_id)
+        # Retrieve an organization.
+        #
+        # @param [String] org_id ID of the organization.
+        # @return [Excon:Response]
+        #   * body<~Hash>:
+        # @see http://pubs.vmware.com/vcd-51/topic/com.vmware.vcloud.api.reference.doc_51/doc/operations/GET-Organization.html
+        #   vCloud API Documentation
+        def get_organization(org_id)
           request({
             :expects => 200,
             :method  => 'GET',
             :parser  => Fog::ToHashDocument.new,
-            :path    => "org/#{organization_id}"
+            :path    => "org/#{org_id}"
           })
         end
       end
 
       class Mock
-        def get_organization(organization_id)
+        def get_organization(org_id)
+          response = Excon::Response.new
+
           org = data[:org]
+          unless org_id == org[:uuid]
+            response.status = 403
+            raise(Excon::Errors.status_error({:expects => 200}, response))
+          end
 
           body =
             {:xmlns=>xmlns,
@@ -60,11 +73,10 @@ module Fog
              :href=>make_href("network/#{network[:uuid]}")}
           end
 
-          Excon::Response.new(
-            :body => body,
-            :headers => {'Content-Type' => "#{body[:type]};version=#{api_version}"},
-            :status => 200
-          )
+          response.status = 200
+          response.headers = {'Content-Type' => "#{body[:type]};version=#{api_version}"}
+          response.body = body
+          response
         end
       end
     end
