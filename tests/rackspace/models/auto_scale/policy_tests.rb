@@ -1,5 +1,5 @@
-Shindo.tests('Fog::Rackspace::AutoScale | policies', ['rackspace', 'rackspace_autoscale']) do 
-  pending if Fog.mocking?
+Shindo.tests('Fog::Rackspace::AutoScale | policy', ['rackspace', 'rackspace_autoscale']) do
+
   service = Fog::Rackspace::AutoScale.new :rackspace_region => :ord
 
   group = service.groups.create({
@@ -12,12 +12,18 @@ Shindo.tests('Fog::Rackspace::AutoScale | policies', ['rackspace', 'rackspace_au
     :name => "policy 2",
     :change => 5,
     :cooldown => 100,
-    :type => 'webhook'
+    :type => 'webhook',
+    :group_id => group.id
   }
 
   begin
-    collection_tests(group.policies, options, false)
+    model_tests(group.policies, options, false) do
+      tests('#webhooks').succeeds do
+        @instance.webhooks
+      end
+    end
   ensure
     group.destroy
   end
+
 end

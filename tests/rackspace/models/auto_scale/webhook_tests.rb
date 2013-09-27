@@ -1,5 +1,5 @@
 Shindo.tests('Fog::Rackspace::AutoScale | webhook', ['rackspace', 'rackspace_autoscale']) do
-  
+
   service = Fog::Rackspace::AutoScale.new :rackspace_region => :ord
 
   group = service.groups.create({
@@ -26,7 +26,7 @@ Shindo.tests('Fog::Rackspace::AutoScale | webhook', ['rackspace', 'rackspace_aut
   }
 
   begin
-    model_tests(policy.webhooks, options, false) 
+    model_tests(policy.webhooks, options, false)
   ensure
     policy.destroy
     group.destroy
