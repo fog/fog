@@ -49,10 +49,29 @@ module Fog
           options['maxEntities'] = max_entities
           options['metadata'] = metadata unless metadata.nil?
 
-          data = service.update_group_config(group.id, options)
-          merge_attributes(data.body)
+          service.update_group_config(group.id, options)
           true
         end
+
+        # Saves group's configuration.
+        # This method will only save existing group configurations. New group configurations are created when a scaling group is created
+        # @return [Boolean] true if server has started saving
+        def save
+          if group.id
+            update
+            true
+          else
+            raise "New #{self.class} are created when a new Fog::Rackspace::AutoScale::Group is created"
+          end
+        end
+
+        def reload
+          if group.id
+            data = service.get_group_config(group.id)
+            merge_attributes data.body['groupConfiguration']
+          end
+        end
+
 
       end
   	end
