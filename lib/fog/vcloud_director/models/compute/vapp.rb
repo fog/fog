@@ -35,6 +35,21 @@ module Fog
           service.process_task(response.body)
         end
 
+        def power_on
+          response = service.post_vm_poweron(id)
+          service.process_task(response.body)
+        end
+
+        def power_off
+          response = service.post_vm_poweroff(id)
+          service.process_task(response.body)
+        end
+
+        def destroy
+          response = service.delete_vapp(id)
+          service.process_task(response.body)
+        end
+
       end
     end
   end

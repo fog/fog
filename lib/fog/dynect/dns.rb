@@ -19,12 +19,14 @@ module Fog
       request :delete_record
       request :delete_zone
       request :get_node_list
+      request :get_all_records
       request :get_record
       request :get_zone
       request :post_record
       request :post_session
       request :post_zone
       request :put_zone
+      request :put_record
 
       class JobIncomplete < Error; end
 
@@ -70,7 +72,7 @@ module Fog
           @path       = options[:path]        || '/REST'
           @persistent = options[:persistent]  || false
           @scheme     = options[:scheme]      || 'https'
-          @version    = options[:version]     || '2.3.1'
+          @version    = options[:version]     || '3.5.2'
           @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
         end
 

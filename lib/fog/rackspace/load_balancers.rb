@@ -120,8 +120,8 @@ module Fog
           @connection = Fog::Connection.new(endpoint_uri.to_s, @persistent, @connection_options)
         end
 
-        def request(params, parse_json = true, &block)
-          super(params, parse_json, &block)
+        def request(params, parse_json = true)
+          super
         rescue Excon::Errors::NotFound => error
           raise NotFound.slurp(error, self)
         rescue Excon::Errors::BadRequest => error

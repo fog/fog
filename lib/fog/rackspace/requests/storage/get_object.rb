@@ -13,19 +13,17 @@ module Fog
         # @raise [Fog::Storage::Rackspace::InternalServerError] - HTTP 500
         # @raise [Fog::Storage::Rackspace::ServiceError]
         def get_object(container, object, &block)
-          params = {}
-
-          if block_given?
-            params[:response_block] = Proc.new
-          end
-
-          request(params.merge!({
+          params = {
             :expects  => 200,
             :method   => 'GET',
             :path     => "#{Fog::Rackspace.escape(container)}/#{Fog::Rackspace.escape(object)}"
-          }),
-          false,
-          &block)
+          }
+
+          if block_given?
+            params[:response_block] = block
+          end
+
+          request(params, false)
         end
 
       end

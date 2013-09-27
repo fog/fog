@@ -3,6 +3,8 @@ class Rackspace < Fog::Bin
 
     def class_for(key)
       case key
+      when :auto_scale
+        Fog::Rackspace::AutoScale
       when :block_storage
         Fog::Rackspace::BlockStorage 
       when :cdn
@@ -31,6 +33,8 @@ class Rackspace < Fog::Bin
     def [](service)
       @@connections ||= Hash.new do |hash, key|
         hash[key] = case key
+        when :auto_scale
+          Fog::Rackspace::AutoScale.new
         when :cdn
           Fog::Logger.warning("Rackspace[:cdn] is not recommended, use CDN[:rackspace] for portability")
           Fog::CDN.new(:provider => 'Rackspace')

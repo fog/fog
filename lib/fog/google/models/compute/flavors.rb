@@ -15,8 +15,8 @@ module Fog
           load(data)
         end
 
-        def get(identity)
-          data = connection.get_machine_type(identity).body
+        def get(identity, zone_name = nil)
+          data = connection.get_machine_type(identity, zone_name).body
           new(data)
         rescue Excon::Errors::NotFound
           nil

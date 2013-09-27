@@ -30,17 +30,17 @@ module Fog
          self.send authentication_method, options
       end
 
-      def request_without_retry(params, parse_json = true, &block)
-        response = @connection.request(request_params(params), &block)
+      def request_without_retry(params, parse_json = true)
+        response = @connection.request(request_params(params))
 
         process_response(response) if parse_json
         response
       end
 
-      def request(params, parse_json = true, &block)
+      def request(params, parse_json = true)
         first_attempt = true
         begin
-          response = @connection.request(request_params(params), &block)
+          response = @connection.request(request_params(params))
         rescue Excon::Errors::Unauthorized => error
           raise error unless first_attempt
           first_attempt = false
@@ -55,7 +55,11 @@ module Fog
       private
 
       def process_response(response)
-        if response && response.body && response.body.is_a?(String) && Fog::Rackspace.json_response?(response)
+        if response &&
+           response.body &&
+           response.body.is_a?(String) &&
+           !response.body.strip.empty? &&
+           Fog::Rackspace.json_response?(response)
           begin
             response.body = Fog::JSON.decode(response.body)
           rescue MultiJson::DecodeError => e
@@ -66,8 +70,7 @@ module Fog
       end
 
       def headers(options={})
-        h = {
-          'Content-Type' => 'application/json',
+        { 'Content-Type' => 'application/json',
           'Accept' => 'application/json',
           'X-Auth-Token' => auth_token
         }.merge(options[:headers] || {})
@@ -85,7 +88,7 @@ module Fog
         if v2_authentication?
           :authenticate_v2
         else
-          Fog::Logger.deprecation "Authentication using a v1.0/v1.1 endpoint is deprecated. Please specify a v2.0 endpoint using :rackpace_auth_url.\ 
+          Fog::Logger.deprecation "Authentication using a v1.0/v1.1 endpoint is deprecated. Please specify a v2.0 endpoint using :rackpace_auth_url.\
           For a list of v2.0 endpoints refer to http://docs.rackspace.com/auth/api/v2.0/auth-client-devguide/content/Endpoints-d1e180.html"
          :authenticate_v1
         end
@@ -121,6 +124,11 @@ module Fog
 
       def auth_token
         @auth_token || @identity_service.auth_token
+      end
+
+      def select_options(keys)
+        return nil unless @options && keys
+        @options.select {|k,v| keys.include?(k)}
       end
 
     end

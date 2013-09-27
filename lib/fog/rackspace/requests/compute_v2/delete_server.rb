@@ -12,11 +12,11 @@ module Fog
         # @raise [Fog::Compute::RackspaceV2::ServiceError]
         # @see http://docs.rackspace.com/servers/api/v2/cs-devguide/content/Delete_Server-d1e2883.html
         def delete_server(server_id)
-          request(
+          request({
             :expects => [204],
             :method => 'DELETE',
             :path => "servers/#{server_id}"
-          )
+          }, false)
         end
       end
 

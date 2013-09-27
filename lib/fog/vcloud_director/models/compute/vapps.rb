@@ -21,7 +21,9 @@ module Fog
 
         def item_list
           data = service.get_vdc(vdc.id).body
-          items = data[:ResourceEntities][:ResourceEntity].select { |link| link[:type] == "application/vnd.vmware.vcloud.vApp+xml" }
+          return [] if data[:ResourceEntities].empty?
+          resource_entities = data[:ResourceEntities][:ResourceEntity].is_a?(Hash) ? [ data[:ResourceEntities][:ResourceEntity] ] : data[:ResourceEntities][:ResourceEntity]
+          items = resource_entities.select { |link| link[:type] == "application/vnd.vmware.vcloud.vApp+xml" }
           items.each{|item| service.add_id_from_href!(item) }
           items
         end
