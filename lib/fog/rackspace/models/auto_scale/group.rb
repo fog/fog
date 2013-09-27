@@ -190,8 +190,7 @@ module Fog
         private
 
         def load_model(class_name, attrs = nil)
-          # Can use either Kernel.const_get or do an eval() - first is quicker
-          model = Kernel.const_get("Fog::Rackspace::AutoScale::#{class_name}").new({
+          model = Fog::Rackspace::AutoScale.const_get(class_name).new({
             :service => @service,
             :group   => self
           })
