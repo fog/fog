@@ -141,6 +141,7 @@ module Fog
             instance_id = Fog::AWS::Mock.instance_id
             instance = {
               'amiLaunchIndex'      => i,
+              'associatePublicIP'   => options['associatePublicIP'] || false,
               'architecture'        => 'i386',
               'blockDeviceMapping'  => [],
               'clientToken'         => options['clientToken'],
