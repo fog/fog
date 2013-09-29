@@ -2,18 +2,31 @@ module Fog
   module Compute
     class VcloudDirector
       class Real
-        # @todo Move all the logic to a generator.
-
-        def instantiate_vapp_template(vapp_name, template_id, options = {})
+        # Create a vApp from a vApp template.
+        #
+        # The response includes a Task element. You can monitor the task to to
+        # track the creation of the vApp.
+        #
+        # @param [String] vapp_name
+        # @param [String] template_id
+        # @param [Hash] options
+        # @return [Excon::Response]
+        #   * body<~Hash>:
+        # @see http://pubs.vmware.com/vcd-51/topic/com.vmware.vcloud.api.reference.doc_51/doc/operations/POST-InstantiateVAppTemplate.html
+        #   vCloud API Documentaion
+        # @since vCloud API version 0.9
+        # @todo Replace with #post_instantiate_vapp_template
+        def instantiate_vapp_template(vapp_name, template_id, options={})
           params = populate_uris(options.merge(:vapp_name => vapp_name, :template_id => template_id))
           validate_uris(params)
 
+          # @todo Move all the logic to a generator.
           data = generate_instantiate_vapp_template_request(params)
 
           request(
             :body    => data,
             :expects => 201,
-            :headers => { 'Content-Type' => 'application/vnd.vmware.vcloud.instantiateVAppTemplateParams+xml' },
+            :headers => {'Content-Type' => 'application/vnd.vmware.vcloud.instantiateVAppTemplateParams+xml'},
             :method  => 'POST',
             :parser  => Fog::ToHashDocument.new,
             :path    => "vdc/#{params[:vdc_id]}/action/instantiateVAppTemplate"
@@ -22,7 +35,7 @@ module Fog
 
         private
 
-        def validate_uris(options ={})
+        def validate_uris(options={})
           [:vdc_uri, :network_uri].each do |opt_uri|
             result = default_organization_body[:Link].detect {|org| org[:href] == options[opt_uri]}
             raise("#{opt_uri}: #{options[opt_uri]} not found") unless result

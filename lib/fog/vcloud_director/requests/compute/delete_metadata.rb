@@ -12,6 +12,7 @@ module Fog
         #   * body<~Hash>:
         # @see http://pubs.vmware.com/vcd-51/topic/com.vmware.vcloud.api.reference.doc_51/doc/operations/GET-VAppMetadataItem-metadata.html
         #   vCloud API Documentation
+        # @since vCloud API version 1.5
         def delete_metadata(vm_id, metadata_key)
           request(
             :expects => 202,

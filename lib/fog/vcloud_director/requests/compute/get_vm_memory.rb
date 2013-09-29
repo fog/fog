@@ -9,12 +9,14 @@ module Fog
         #   * body<~Hash>:
         # @see http://pubs.vmware.com/vcd-51/topic/com.vmware.vcloud.api.reference.doc_51/doc/operations/GET-MemoryRasdItem.html
         #   vCloud API Documentation
+        # @since vCloud API version 0.9
         def get_vm_memory(vm_id)
           request(
-            :expects => 200,
-            :method  => 'GET',
-            :parser  => Fog::ToHashDocument.new,
-            :path    => "vApp/#{vm_id}/virtualHardwareSection/memory"
+            :expects    => 200,
+            :idempotent => true,
+            :method     => 'GET',
+            :parser     => Fog::ToHashDocument.new,
+            :path       => "vApp/#{vm_id}/virtualHardwareSection/memory"
           )
         end
       end

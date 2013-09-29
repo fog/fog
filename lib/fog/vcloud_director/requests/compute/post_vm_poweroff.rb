@@ -16,6 +16,7 @@ module Fog
         #   * body<~Hash>:
         # @see http://pubs.vmware.com/vcd-51/topic/com.vmware.vcloud.api.reference.doc_51/doc/operations/POST-PowerOffVApp.html
         #   vCloud API Documentation
+        # @since vCloud API version 0.9
         def post_vm_poweroff(vm_id)
           request(
             :expects => 202,

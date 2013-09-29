@@ -372,7 +372,7 @@ module Fog
           @region                 = options[:region] ||= 'us-east-1'
           @instrumentor           = options[:instrumentor]
           @instrumentor_name      = options[:instrumentor_name] || 'fog.aws.compute'
-          @version                = options[:version]     ||  '2012-12-01'
+          @version                = options[:version]     ||  '2013-08-15'
 
           if @endpoint = options[:endpoint]
             endpoint = URI.parse(@endpoint)

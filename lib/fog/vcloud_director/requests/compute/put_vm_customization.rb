@@ -42,13 +42,14 @@ module Fog
         #   * body<~Hash>:
         # @see http://pubs.vmware.com/vcd-51/topic/com.vmware.vcloud.api.reference.doc_51/doc/operations/PUT-GuestCustomizationSection-vApp.html
         #   vCloud API Documentation
+        # @since vCloud API version 1.0
         def put_vm_customization(vm_id, customization={})
           data = Fog::Generators::Compute::VcloudDirector::Customization.new(customization)
 
           request(
             :body    => data.generate_xml,
             :expects => 202,
-            :headers => { 'Content-Type' => 'application/vnd.vmware.vcloud.guestCustomizationSection+xml' },
+            :headers => {'Content-Type' => 'application/vnd.vmware.vcloud.guestCustomizationSection+xml'},
             :method  => 'PUT',
             :parser  => Fog::ToHashDocument.new,
             :path    => "vApp/#{vm_id}/guestCustomizationSection"

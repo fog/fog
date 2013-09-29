@@ -10,6 +10,7 @@ module Fog
         #   * body<~Hash>:
         # @see http://pubs.vmware.com/vcd-51/topic/com.vmware.vcloud.api.reference.doc_51/doc/operations/GET-TaskList.html
         #   vCloud API Documentation
+        # @since vCloud API version 0.9
         def get_tasks_list(org_id)
           request(
             :expects    => 200,

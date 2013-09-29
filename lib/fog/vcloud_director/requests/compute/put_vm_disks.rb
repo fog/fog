@@ -17,13 +17,14 @@ module Fog
         #   * body<~Hash>:
         # @see http://pubs.vmware.com/vcd-51/topic/com.vmware.vcloud.api.reference.doc_51/doc/operations/PUT-Disks.html
         #   vCloud API Documentation
+        # @since vCloud API version 0.9
         def put_vm_disks(vm_id, disks=[])
           data = Fog::Generators::Compute::VcloudDirector::Disks.new(disks)
 
           request(
             :body    => data.generate_xml,
             :expects => 202,
-            :headers => { 'Content-Type' => 'application/vnd.vmware.vcloud.rasdItemsList+xml' },
+            :headers => {'Content-Type' => 'application/vnd.vmware.vcloud.rasdItemsList+xml'},
             :method  => 'PUT',
             :parser  => Fog::ToHashDocument.new,
             :path    => "vApp/#{vm_id}/virtualHardwareSection/disks"

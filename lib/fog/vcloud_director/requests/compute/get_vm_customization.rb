@@ -11,12 +11,14 @@ module Fog
         #   * body<~Hash>:
         # @see http://pubs.vmware.com/vcd-51/topic/com.vmware.vcloud.api.reference.doc_51/doc/operations/GET-GuestCustomizationSystemSection-vApp.html
         #   vCloud API Documentation
+        # @since vCloud API version 1.0
         def get_vm_customization(vm_id)
           request(
-            :expects => 200,
-            :method  => 'GET',
-            :parser  => Fog::Parsers::Compute::VcloudDirector::VmCustomization.new,
-            :path    => "vApp/#{vm_id}/guestCustomizationSection"
+            :expects    => 200,
+            :idempotent => true,
+            :method     => 'GET',
+            :parser     => Fog::Parsers::Compute::VcloudDirector::VmCustomization.new,
+            :path       => "vApp/#{vm_id}/guestCustomizationSection"
           )
         end
       end

@@ -12,6 +12,7 @@ module Fog
         #   * body<~Hash>:
         # @see http://pubs.vmware.com/vcd-51/topic/com.vmware.vcloud.api.reference.doc_51/doc/operations/PUT-VAppMetadataItem-metadata.html
         #   vCloud API Documentation
+        # @since vCloud API version 1.5
         def put_metadata_value(vm_id, metadata_key, metadata_value)
           body="
           <MetadataValue xmlns=\"http://www.vmware.com/vcloud/v1.5\">
@@ -21,7 +22,7 @@ module Fog
           request(
             :body    => body,
             :expects => 202,
-            :headers => { 'Content-Type' => "application/vnd.vmware.vcloud.metadata.value+xml" },
+            :headers => {'Content-Type' => "application/vnd.vmware.vcloud.metadata.value+xml"},
             :method  => 'PUT',
             :parser  => Fog::ToHashDocument.new,
             :path    => "vApp/#{vm_id}/metadata/#{URI.escape(metadata_key)}"
