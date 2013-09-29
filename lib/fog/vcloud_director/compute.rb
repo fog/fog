@@ -106,6 +106,8 @@ module Fog
       request :post_task_cancel
       request :post_vapp_undeploy
       request :delete_vapp
+      request :get_current_session
+      request :get_supported_versions
 
       class Model < Fog::Model
         def initialize(attrs={})
@@ -226,6 +228,7 @@ module Fog
           end
         end
 
+        # @api private
         def do_request(params)
           headers = { 'Accept' => 'application/*+xml;version=' +  @api_version }
           if @cookie
@@ -296,12 +299,103 @@ module Fog
           @auth_token = response.headers['Set-Cookie'] || response.headers['set-cookie']
           @org_name = response.body[:org]
         end
-
       end
 
       class Mock
-      end
+        attr_reader :end_point, :api_version
 
+        def data
+          @@data ||= Hash.new do |hash, key|
+            hash[key] = {
+              :catalog => {
+                :name => 'Default Catalog',
+                :uuid => uuid
+              },
+              :catalog_items => [{
+                :type => 'vAppTemplate',
+                :name => 'vAppTemplate 1',
+                :uuid => uuid
+              }],
+              :networks => [{
+                :name => 'Default Network',
+                :uuid => uuid
+              }],
+              :org => {
+                :description => 'Organization for mocking',
+                :full_name => 'Mock Organization',
+                :name => org_name,
+                :uuid => uuid
+              },
+              :tasks => [],
+              :vdc => {
+                :description => 'vDC for mocking',
+                :name => 'MockVDC',
+                :uuid => uuid
+              }
+            }
+          end[@vcloud_director_username]
+        end
+
+        def initialize(options={})
+          @vcloud_director_password = options[:vcloud_director_password]
+          @vcloud_director_username = options[:vcloud_director_username]
+          #@connection_options = options[:connection_options] || {}
+          @host = options[:vcloud_director_host]
+          @path = options[:path] || Fog::Compute::VcloudDirector::Defaults::PATH
+          @persistent = options[:persistent] || false
+          @port = options[:port] || Fog::Compute::VcloudDirector::Defaults::PORT
+          @scheme = options[:scheme] || Fog::Compute::VcloudDirector::Defaults::SCHEME
+          #@connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
+          @end_point = "#{@scheme}://#{@host}#{@path}/"
+          @api_version = options[:vcloud_director_api_version] || Fog::Compute::VcloudDirector::Defaults::API_VERSION
+        end
+
+        def auth_token
+          @auth_token || Fog::Mock.random_base64(32)
+        end
+
+        def org_name
+          @org_name ||=
+            begin
+              username = @vcloud_director_username.split('@')
+              unless username.size == 2
+                Fog::Logger.warning('vcloud_director_username should be in the form user@org_name')
+              end
+              username.last || 'vcd_org_name'
+            end
+        end
+
+        def user_name
+          @user_name ||= @vcloud_director_username.split('@').first
+        end
+
+        def uuid
+          [8,4,4,4,12].map {|i| Fog::Mock.random_hex(i)}.join('-')
+        end
+
+        def add_id_from_href!(data={})
+          data[:id] = data[:href].split('/').last
+        end
+
+        private
+
+        def make_href(path)
+          "#{@end_point}#{path}"
+        end
+
+        def xmlns
+          'http://www.vmware.com/vcloud/v1.5'
+        end
+
+        def xmlns_xsi
+          'http://www.w3.org/2001/XMLSchema-instance'
+        end
+
+        def xsi_schema_location
+          "http://www.vmware.com/vcloud/v1.5 http://#{@host}#{@path}/v1.5/schema/master.xsd"
+        end
+
+      end
     end
   end
 end

@@ -1,66 +1,77 @@
-# VMware vCloud director 1.5 API client
+# VMware vCloud Director 5.1 API client
 
-### Introduction
+## Introduction
 
-Collection and Model representation in vcloud_director fog provider
+Collection and Model representation in vcloud_director fog provider.
 
-```
+```no-highlight
 Organizations
   Organization
-	vdcs -> vdc -> vapps -> vapp -> vms -> vm -> customizations -> script
+    vdcs -> vdc -> vapps -> vapp -> vms -> vm -> customizations -> script
                                               -> network
                                               -> disks -> disk
                                               -> tags -> tag
                                               -> power_on
     networks -> network
-	catalogs -> catalog -> catalog_items -> catalog_item -> instantiate_vapp
-		
+  catalogs -> catalog -> catalog_items -> catalog_item -> instantiate_vapp
 ```
 
-#### Actions
+### Actions
 
 Every collection supports the following methods:
 
-method name       | lazy load 
----               | --- 
-get(id)           | false 
+Method Name       | Lazy Load
+----------------- | ---------
+get(id)           | false
 get_by_name(name) | false
 all               | true
 all(false)        | false
 
+### Lazy Loading
 
-#### Lazy load
-</br>
-When listing a collection (ie: ```vdc.vapps```), lazy load will be used by default to improve the performance, otherwise it will make as many requests as items are in the collection. 
+When listing a collection (eg: `vdc.vapps`), lazy load will be used by default
+to improve the performance, otherwise it will make as many requests as items
+are in the collection.
 
+You can disable lazy load using the explict caller and passing a *false*
+option: `vdc.vapps.all(false)`.
 
-You can disable lazy load using the explict caller and passing a *false* option ```vdc.vapps.all(false)```
-Attributes showing the value **NonLoaded** will be populated when accessing the value, if there are more than one **NonLoaded** values the first time accessing on any of those values will populate the others.
+Attributes showing the value **NonLoaded** will be populated when accessing the
+value, if there are more than one **NonLoaded** values the first time accessing
+on any of those values will populate the others.
 
+You can explicitly load those attributes with the `reload` method:
 
-You can explicitly load those attributes with the ```reload``` method:
-
-```
+```ruby
 org = vcloud.organizations.first
 org.reload
 ```
 
-Lazy load isn't used with ```get``` and ```get_by_name``` methods are used
+Lazy load isn't used with `get` and `get_by_name` methods are used.
 
-### Initialize
-
-
+## Initialization
 
 ```ruby
-vcloud = Fog::Compute::VcloudDirector.new(vcloud_director_username: "<username>@org_name_", vcloud_director_password: "<password>", vcloud_director_host: 'example.com', :connection_options => {:ssl_verify_peer => false, :connect_timeout => 200, :read_timeout => 200 } )
+vcloud = Fog::Compute::VcloudDirector.new(
+  vcloud_director_username: "<username>@<org_name>",
+  vcloud_director_password: "<password>",
+  vcloud_director_host: 'example.com',
+  :connection_options => {
+    :ssl_verify_peer => false,
+    :connect_timeout => 200,
+    :read_timeout => 200
+  }
+)
 ```
 
-### Organizations 
-</br>
+## Organizations
 
-- List organizations
+### List Organizations
 
-Note that when listing, by default all the attrs but **id, name, type** and **href** are not loaded. To disable lazy_loading, just specify false: , another option is to reload a specific item: ```vcloud.organizations.first.reload```
+Note that when listing, by default only the attributes `id`, `name`, `type`,
+and `href` are loaded. To disable lazy loading, and load all attributes, just
+specify `false`. Another option is to reload a specific item:
+`vcloud.organizations.first.reload`
 
 ```ruby
 vcloud.organizations
@@ -79,23 +90,24 @@ vcloud.organizations
   >
 ```
 
-- Get a specific organization by id
+### Retrieve an Organization by Id
 
 ```ruby
 org = vcloud.organizations.get("c6a4c623-c158-41cf-a87a-dbc1637ad55a")
 ```
 
-- Get a specific organization by name
+### Retrieve an Organization by Name
 
 ```ruby
 org = vcloud.organizations.get_by_name("DevOps")
 ```
 
-### vDCs
-</br>
-it shows the Organization's vDCs
+## vDCs
 
-- List vDCs
+It shows the Organization's vDCs.
+
+### List vDCs
+
 ```ruby
 org = vcloud.organizations.first
 org.vdcs
@@ -131,7 +143,7 @@ org.vdcs
   >
 ```
 
-- Get a vDC
+### Retrieve a vDC
 
 ```ruby
 org = vcloud.organizations.first
@@ -155,12 +167,11 @@ org.vdcs.get_by_name("DevOps - VDC")
     vm_quota=0,
     is_enabled=true
   >
-
 ```
 
-#### Vapps
+## vApps
 
-- List
+### List vApps
 
 ```ruby
 org = vcloud.organizations.first
@@ -223,7 +234,8 @@ vdc.vapps
   >
 ```
 
-- Get
+### Retrieve a vApp
+
 ```ruby
 org = vcloud.organizations.first
 vdc = org.vdcs.first
@@ -248,17 +260,14 @@ vdc.vapps.get_by_name("segundo")
   >
 ```
 
+## VMs
 
-#### VMs
-
-- List
-
+### List VMs
 
 ```ruby
 org = vcloud.organizations.first
 vdc = org.vdcs.first
 vapp = vdc.vapps.get_by_name("segundo")
-
 vapp.vms
 ```
 ```ruby
@@ -295,15 +304,14 @@ vapp.vms
       >
     ]
   >
-
 ```
-- Get
+
+### Retrieve a VM
 
 ```ruby
 org = vcloud.organizations.first
 vdc = org.vdcs.first
 vapp = vdc.vapps.get_by_name("segundo")
-
 vapp.vms.get_by_name("DEVWEB")
 ```
 ```ruby
@@ -322,61 +330,57 @@ vapp.vms.get_by_name("DEVWEB")
   >
 ```
 
-- Modfy CPU
+### Modify CPU
 
 ```ruby
 org = vcloud.organizations.first
 vdc = org.vdcs.first
-vdc.vapps.get_by_name("segundo")
+vapp = vdc.vapps.get_by_name("segundo")
 vm = vapp.vms.get_by_name("DEVWEB")
-
 vm.cpu = 4
 ```
-```ruby
+```no-highlight
 ...  success
 4
 ```
 
-- Modify Memory
+### Modify Memory
 
 ```ruby
 org = vcloud.organizations.first
 vdc = org.vdcs.first
-vdc.vapps.get_by_name("segundo")
+vapp = vdc.vapps.get_by_name("segundo")
 vm = vapp.vms.get_by_name("DEVWEB")
-
-vm.cpu = 4
+vm.memory = 4096
 ```
-```ruby
+```no-highlight
 ...  success
 4096
 ```
 
-- power_on
+### Power On a VM
 
 ```ruby
 org = vcloud.organizations.first
 vdc = org.vdcs.first
-vdc.vapps.get_by_name("segundo")
+vapp = vdc.vapps.get_by_name("segundo")
 vm = vapp.vms.get_by_name("DEVWEB")
-
 vm.power_on
 ```
-```ruby
+```no-highlight
 .....  success
 true
 ```
 
-#### VM Customization
+## VM Customization
 
-- Show
+### Retrieve VM Customization
 
 ```ruby
 org = vcloud.organizations.first
 vdc = org.vdcs.first
-vdc.vapps.get_by_name("segundo")
+vapp = vdc.vapps.get_by_name("segundo")
 vm = vapp.vms.get_by_name("DEVWEB")
-
 vm.customization
 ```
 ```ruby
@@ -396,38 +400,36 @@ vm.customization
   >
 ```
 
-- modify one or more attrs
+### Modify VM Customization
 
-Customization attribute's model requires to `save` it after setting the attributes
+Customization attributes model requires to `save` it after setting the
+attributes.
 
 ```ruby
 org = vcloud.organizations.first
 vdc = org.vdcs.first
-vdc.vapps.get_by_name("segundo")
+vapp = vdc.vapps.get_by_name("segundo")
 vm = vapp.vms.get_by_name("DEVWEB")
 customization = vm.customization
-
 customization.compute_name = "NEWNAME"
 customization.enabled = false
 customization.script = "new userdata script"
 customization.save
 ```
-```ruby
+```no-highlight
 ..  success
 true
 ```
 
+## VM Network
 
-#### VM Network
-
-- Show
+### Show VM Networks
 
 ```ruby
 org = vcloud.organizations.first
 vdc = org.vdcs.first
-vdc.vapps.get_by_name("segundo")
+vapp = vdc.vapps.get_by_name("segundo")
 vm = vapp.vms.get_by_name("DEVWEB")
-
 vm.network
 ```
 ```ruby
@@ -444,41 +446,36 @@ vm.network
     mac_address="00:50:56:01:00:ea",
     ip_address_allocation_mode="POOL"
   >
-
 ```
 
-- modify one or more attrs
+### Modify one or more attributes
 
-Network attribute's model requires to `save` it after setting the attributes
-
-```ruby
-org = vcloud.organizations.first
-vdc = org.vdcs.first
-vdc.vapps.get_by_name("segundo")
-vm = vapp.vms.get_by_name("DEVWEB")
-network = vm.network
-
-network.is_connected = false
-network.ip_address_allocation_mode = "DHCP"
-network.save
-```
-```ruby
-..  success
-true
-```
-
-
-#### VM Disk
-
-- List
-
+Network attributes model requires to `save` it after setting the attributes.
 
 ```ruby
 org = vcloud.organizations.first
 vdc = org.vdcs.first
 vapp = vdc.vapps.get_by_name("segundo")
 vm = vapp.vms.get_by_name("DEVWEB")
+network = vm.network
+network.is_connected = false
+network.ip_address_allocation_mode = "DHCP"
+network.save
+```
+```no-highlight
+..  success
+true
+```
 
+## VM Disk
+
+### List VM Disks
+
+```ruby
+org = vcloud.organizations.first
+vdc = org.vdcs.first
+vapp = vdc.vapps.get_by_name("segundo")
+vm = vapp.vms.get_by_name("DEVWEB")
 vm.disks
 ```
 ```ruby
@@ -538,24 +535,24 @@ vm.disks
       >
     ]
   >
-
 ```
 
-- Create a new disk
+### Create a New Disk
 
 ```ruby
 org = vcloud.organizations.first
 vdc = org.vdcs.first
 vapp = vdc.vapps.get_by_name("segundo")
 vm = vapp.vms.get_by_name("DEVWEB")
-disks = vm.disks
-disks.create(1024)
+vm.disks.create(1024)
 ```
-```ruby
+```no-highlight
 ...  success
 true
 ```
-The new disk should show up
+
+The new disk should show up.
+
 ```ruby
 >> vm.disks
   <Fog::Compute::VcloudDirector::Disks
@@ -627,52 +624,47 @@ The new disk should show up
       >
     ]
   >
-
 ```
 
-- Modify the hard disk size
+### Modify the Hard Disk Size
 
 ```ruby
 org = vcloud.organizations.first
 vdc = org.vdcs.first
 vapp = vdc.vapps.get_by_name("segundo")
 vm = vapp.vms.get_by_name("DEVWEB")
-disks = vm.disks
-
-disks.get_by_name("Hard disk 2").capacity = 2048
+disk = vm.disks.get_by_name("Hard disk 2")
+disk.capacity = 2048
 ```
-```ruby
+```no-highlight
 ...  success
 true
 ```
 
-- Delete a hard disk
+### Destroy a Hard Disk
 
 ```ruby
 org = vcloud.organizations.first
 vdc = org.vdcs.first
 vapp = vdc.vapps.get_by_name("segundo")
 vm = vapp.vms.get_by_name("DEVWEB")
-disks = vm.disks
-
-disks.get_by_name("Hard disk 2").destroy
+disk = vm.disks.get_by_name("Hard disk 2")
+disk.destroy
 ```
-```ruby
+```no-highlight
 ...  success
 true
 ```
 
+## VM Tags
 
-#### VM Tags
-
-- List
+### List VM Tags
 
 ```ruby
 org = vcloud.organizations.first
 vdc = org.vdcs.first
 vapp = vdc.vapps.get_by_name("segundo")
 vm = vapp.vms.get_by_name("DEVWEB")
-
 vm.tags
 ```
 ```ruby
@@ -709,32 +701,29 @@ vm.tags
       >
     ]
   >
-
 ```
 
-- Create a tag
+### Create a Tag
 
 ```ruby
 org = vcloud.organizations.first
 vdc = org.vdcs.first
 vapp = vdc.vapps.get_by_name("segundo")
 vm = vapp.vms.get_by_name("DEVWEB")
-
 vm.tags.create('this_is_a_key', 'this_is_a_value')
 ```
-```ruby
+```no-highlight
  success
 true
 ```
 
-- Get a tag
+### Retrieve a Tag
 
 ```ruby
 org = vcloud.organizations.first
 vdc = org.vdcs.first
 vapp = vdc.vapps.get_by_name("segundo")
 vm = vapp.vms.get_by_name("DEVWEB")
-
 vm.tags.get_by_name('this_is_a_key')
 ```
 ```ruby
@@ -744,41 +733,40 @@ vm.tags.get_by_name('this_is_a_key')
   >
 ```
 
-- Edit a tag
+### Modify a Tag
 
 ```ruby
 org = vcloud.organizations.first
 vdc = org.vdcs.first
 vapp = vdc.vapps.get_by_name("segundo")
 vm = vapp.vms.get_by_name("DEVWEB")
-
 vm.tags.get_by_name('this_is_a_key').value = 'new_value'
 ```
-```ruby
+```no-highlight
   success
 "new_value"
 ```
 
-- Delete a tag
+### Destroy a Tag
 
 ```ruby
 org = vcloud.organizations.first
 vdc = org.vdcs.first
 vapp = vdc.vapps.get_by_name("segundo")
 vm = vapp.vms.get_by_name("DEVWEB")
-
 vm.tags.get_by_name('this_is_a_key').destroy
 ```
-```ruby
+```no-highlight
   success
 true
 ```
 
-### Networks
-</br>
-it shows the Organization's Networks
+## Networks
 
-- List
+It shows the Organization's Networks.
+
+### List Networks
+
 ```ruby
 org = vcloud.organizations.first
 org.networks
@@ -811,7 +799,8 @@ org.networks
   >
 ```
 
-- Get
+### Retrieve a Network
+
 ```ruby
 org = vcloud.organizations.first
 org.networks.get_by_name("DevOps - Dev Network Connection")
@@ -831,16 +820,17 @@ org.networks.get_by_name("DevOps - Dev Network Connection")
     dns_suffix="dev.ad.mdsol.com",
     ip_ranges=[{:start_address=>"10.192.0.100", :end_address=>"10.192.3.254"}]
   >
-
 ```
 
-### Catalogs
-</br>
-it shows the Organization's Catalogs
+## Catalogs
 
-- List
+It shows the Organization's Catalogs.
+
+### List Catalogs
+
 ```ruby
 org = vcloud.organizations.first
+org.catalogs
 ```
 ```ruby
   <Fog::Compute::VcloudDirector::Catalogs
@@ -870,10 +860,10 @@ org = vcloud.organizations.first
       >
     ]
   >
-
 ```
 
-- Get
+### Retrieve a Catalog
+
 ```ruby
 org = vcloud.organizations.first
 org.catalogs.get("4ee720e5-173a-41ac-824b-6f4908bac975") # or get_by_name("Public VM Templates")
@@ -887,12 +877,11 @@ org.catalogs.get("4ee720e5-173a-41ac-824b-6f4908bac975") # or get_by_name("Publi
     description="",
     is_published=true
   >
-
 ```
 
-#### Catalog Items
+## Catalog Items
 
-- List
+### List Catalog Items
 
 ```ruby
 org = vcloud.organizations.first
@@ -936,9 +925,10 @@ catalog.catalog_items
       >
     ]
   >
-
 ```
-- Get
+
+### Retrieve a Catalog Item
+
 ```ruby
 org = vcloud.organizations.first
 catalog = org.catalogs.first
@@ -953,28 +943,25 @@ catalog.catalog_items.get_by_name('DEVAPP')
     description="Windows Server 2008 R2 Application Server",
     vapp_template_id="vappTemplate-b5902d57-7906-49c8-8af5-bbebe0a60a97"
   >
-
 ```
 
-- Instantiate
+### Instantiate a vApp Template
 
-it creates a Vapp from a CatalogItem. 
+It creates a Vapp from a CatalogItem.
 
 ```ruby
 org = vcloud.organizations.first
 catalog = org.catalogs.first
-devapp = catalog.catalog_items.get_by_name('DEVAPP')
-devapp.instantiate('webserver')
+template = catalog.catalog_items.get_by_name('DEVAPP')
+template.instantiate('webserver')
 ```
+
+It there were more than one vDC or/and network you'd have to specify it as a
+second param:
+
 ```ruby
-1%
-5%
-40%
-80%
-100%
+template.instantiate('webserver', {
+  vdc_id: "9a06a16b-12c6-44dc-aee1-06aa52262ea3",
+  network_id: "d5f47bbf-de27-4cf5-aaaa-56772f2ccd17"
+}
 ```
-
-It there were more than one vDC or/and network you'd have to specify it as a second param, 
-
-```devapp.instantiate('webserver', {vdc_id: "9a06a16b-12c6-44dc-aee1-06aa52262ea3", network_id: "d5f47bbf-de27-4cf5-aaaa-56772f2ccd17"}```
-
