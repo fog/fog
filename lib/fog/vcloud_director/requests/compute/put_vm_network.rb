@@ -41,13 +41,14 @@ module Fog
         #   * body<~Hash>:
         # @see http://pubs.vmware.com/vcd-51/topic/com.vmware.vcloud.api.reference.doc_51/doc/operations/PUT-NetworkConnectionSystemSection-vApp.html
         #   vCloud API Documentation
+        # @since vCloud API version 0.9
         def put_vm_network(vm_id, network={})
           data = Fog::Generators::Compute::VcloudDirector::VmNetwork.new(network)
 
           request(
             :body    => data.generate_xml,
             :expects => 202,
-            :headers => { 'Content-Type' => 'application/vnd.vmware.vcloud.networkConnectionSection+xml' },
+            :headers => {'Content-Type' => 'application/vnd.vmware.vcloud.networkConnectionSection+xml'},
             :method  => 'PUT',
             :parser  => Fog::ToHashDocument.new,
             :path    => "vApp/#{vm_id}/networkConnectionSection/"

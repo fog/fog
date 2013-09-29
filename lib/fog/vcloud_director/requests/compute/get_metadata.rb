@@ -9,14 +9,16 @@ module Fog
         #   * body<~Hash>:
         # @see http://pubs.vmware.com/vcd-51/topic/com.vmware.vcloud.api.reference.doc_51/doc/operations/GET-VAppMetadata.html
         #   vCloud API Documentation
+        # @since vCloud API version 1.5
         def get_metadata(vm_id)
           require 'fog/vcloud_director/parsers/compute/metadata'
 
           request(
-            :expects => 200,
-            :method  => 'GET',
-            :parser  => Fog::Parsers::Compute::VcloudDirector::Metadata.new,
-            :path    => "vApp/#{vm_id}/metadata/"
+            :expects    => 200,
+            :idempotent => true,
+            :method     => 'GET',
+            :parser     => Fog::Parsers::Compute::VcloudDirector::Metadata.new,
+            :path       => "vApp/#{vm_id}/metadata/"
           )
         end
       end

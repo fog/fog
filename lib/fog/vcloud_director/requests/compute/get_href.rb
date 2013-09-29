@@ -8,6 +8,7 @@ module Fog
         def get_href(href)
           request(
             :expects       => 200,
+            :idempotent    => true,
             :method        => 'GET',
             :parser        => Fog::ToHashDocument.new,
             :override_path => true,

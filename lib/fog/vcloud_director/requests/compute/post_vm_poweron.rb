@@ -16,6 +16,7 @@ module Fog
         #   * body<~Hash>:
         # @see http://pubs.vmware.com/vcd-51/topic/com.vmware.vcloud.api.reference.doc_51/doc/operations/POST-PowerOnVApp.html
         #   vCloud Director API
+        # @since vCloud API version 0.9
         def post_vm_poweron(vm_id)
           request(
             :expects => 202,

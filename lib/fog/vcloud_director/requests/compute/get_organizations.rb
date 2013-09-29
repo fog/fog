@@ -10,12 +10,14 @@ module Fog
         #   * body<~Hash>:
         # @see http://pubs.vmware.com/vcd-51/topic/com.vmware.vcloud.api.reference.doc_51/doc/operations/GET-Organizations.html
         #   vCloud API Documentation
+        # @since vCloud API version 0.9
         def get_organizations
           request({
-            :expects => 200,
-            :method  => 'GET',
-            :parser  => Fog::ToHashDocument.new,
-            :path    => 'org'
+            :expects    => 200,
+            :idempotent => true,
+            :method     => 'GET',
+            :parser     => Fog::ToHashDocument.new,
+            :path       => 'org'
           })
         end
       end

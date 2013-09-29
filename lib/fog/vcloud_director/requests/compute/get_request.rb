@@ -7,9 +7,10 @@ module Fog
         # @api private
         def get_request(uri)
           request(
-            :expects => 200,
-            :method  => 'GET',
-            :path    => uri
+            :expects    => 200,
+            :idempotent => true,
+            :method     => 'GET',
+            :path       => uri
           )
         end
       end

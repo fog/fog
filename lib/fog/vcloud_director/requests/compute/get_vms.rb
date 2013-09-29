@@ -12,10 +12,11 @@ module Fog
         # @see #get_vapp
         def get_vms(vapp_id)
           request(
-            :expects => 200,
-            :method  => 'GET',
-            :parser  => Fog::Parsers::Compute::VcloudDirector::Vms.new,
-            :path    => "vApp/#{vapp_id}"
+            :expects    => 200,
+            :idempotent => true,
+            :method     => 'GET',
+            :parser     => Fog::Parsers::Compute::VcloudDirector::Vms.new,
+            :path       => "vApp/#{vapp_id}"
           )
         end
       end
