@@ -307,46 +307,30 @@ module Fog
         def data
           @@data ||= Hash.new do |hash, key|
             hash[key] = {
-              :catalogs => {
-                uuid => {
-                  :name => 'Default Catalog'
-                }
+              :catalog => {
+                :name => 'Default Catalog',
+                :uuid => uuid
               },
-              :catalog_items => {
-                uuid => {
-                  :type => 'vAppTemplate',
-                  :name => 'vAppTemplate 1'
-                }
-              },
-              :medias => {},
-              :networks => {
-                uuid => {
-                  :Description => 'Network for mocking',
-                  :Dns1 => '8.8.8.8',
-                  :Dns2 => '8.8.4.4',
-                  :DnsSuffix => 'example.com',
-                  :Gateway => '192.168.1.1',
-                  :IpRanges => [{
-                    :StartAddress=>'192.168.1.2',
-                    :EndAddress=>'192.168.1.254'
-                  }],
-                  :IsInherited => false,
-                  :Netmask => '255.255.255.0',
-                  :name => 'Default Network'
-                }
-              },
+              :catalog_items => [{
+                :type => 'vAppTemplate',
+                :name => 'vAppTemplate 1',
+                :uuid => uuid
+              }],
+              :networks => [{
+                :name => 'Default Network',
+                :uuid => uuid
+              }],
               :org => {
                 :description => 'Organization for mocking',
                 :full_name => 'Mock Organization',
                 :name => org_name,
                 :uuid => uuid
               },
-              :tasks => {},
-              :vdcs => {
-                uuid => {
-                  :description => 'vDC for mocking',
-                  :name => 'MockVDC'
-                }
+              :tasks => [],
+              :vdc => {
+                :description => 'vDC for mocking',
+                :name => 'MockVDC',
+                :uuid => uuid
               }
             }
           end[@vcloud_director_username]
@@ -397,10 +381,6 @@ module Fog
 
         def make_href(path)
           "#{@end_point}#{path}"
-        end
-
-        def valid_uuid?(uuid)
-          /^\h{8}-\h{4}-\h{4}-\h{4}-\h{12}$/.match(uuid)
         end
 
         def xmlns
