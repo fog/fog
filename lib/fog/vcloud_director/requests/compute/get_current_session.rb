@@ -54,6 +54,7 @@ module Fog
                {:rel => 'entityResolver',
                 :type => 'application/vnd.vmware.vcloud.entity+xml',
                 :href => make_href('entity/')}]}
+
           if @api_version.to_f >= 5.1
             body[:Link] << {
               :rel => 'down:extensibility',

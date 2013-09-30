@@ -1,23 +1,8 @@
 Shindo.tests('Compute::VcloudDirector | versions requests', ['vclouddirector']) do
 
-  SUPPORTED_VERSIONS_FORMAT = {
-    :xmlns => 'http://www.vmware.com/vcloud/versions',
-    :xmlns_xsi => 'http://www.w3.org/2001/XMLSchema-instance',
-    :xsi_schemaLocation => String,
-    :VersionInfo => [{
-      :Version => String,
-      :LoginUrl => String,
-      :MediaTypeMapping => [{
-        :MediaType => String,
-        :ComplexTypeName => String,
-        :SchemaLocation => String
-      }]
-    }]
-  }
-
   @service = Fog::Compute::VcloudDirector.new
 
-  tests('#get_supported_versions').formats(SUPPORTED_VERSIONS_FORMAT) do
+  tests('#get_supported_versions').formats(VcloudDirector::Compute::Schema::SUPPORTED_VERSIONS_TYPE) do
     @versions = @service.get_supported_versions.body
   end
 
