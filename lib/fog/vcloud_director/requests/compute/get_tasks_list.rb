@@ -26,10 +26,6 @@ module Fog
         def get_tasks_list(org_id)
           response = Excon::Response.new
 
-          unless valid_uuid?(org_id)
-            response.status = 400
-            raise(Excon::Errors.status_error({:expects => 200}, response))
-          end
           unless org_id == data[:org][:uuid]
             response.status = 403
             raise(Excon::Errors.status_error({:expects => 200}, response))
@@ -43,7 +39,7 @@ module Fog
              :href=>make_href("tasksList/#{org_id}"),
              :xsi_schemaLocation=>xsi_schema_location}
 
-          tasks = data[:tasks].map do |id, task|
+          body[:Tasks] = data[:tasks].map do |task|
             {:status => task[:status],
              :startTime => task[:startTime].iso8601,
              :operationName => task[:operationName],
@@ -52,9 +48,9 @@ module Fog
              :endTime => task[:endTime].iso8601,
              :cancelRequested => task[:cancelRequested].to_s,
              :name => task[:name],
-             :id => "urn:vcloud:task:#{id}",
+             :id => "urn:vcloud:task:#{task[:uuid]}",
              :type => 'application/vnd.vmware.vcloud.task+xml',
-             :href => make_href("task/#{id}"),
+             :href => make_href("task/#{task[:uuid]}"),
              :Owner =>
               {:type => "application/vnd.vmware.vcloud.vApp+xml",
                :name => "vApp_#{user_name}_0",
@@ -70,8 +66,6 @@ module Fog
              :Progress => task[:Progress].to_s,
              :Details => task[:Details] || ''}
           end
-          tasks = tasks.first if tasks.size == 1
-          body[:Task] = tasks
 
           response.status = 200
           response.headers = {'Content-Type' => "#{body[:type]};version=#{api_version}"}

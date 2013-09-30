@@ -2,25 +2,6 @@ class VcloudDirector
   module Compute
     module Schema
 
-      # Mapping of a content media type to a xsd complex type.
-      MEDIA_TYPE_MAPPING_TYPE = {
-        :MediaType => String,
-        :ComplexTypeName => String,
-        :SchemaLocation => String
-      }
-
-      # Information for one version of the API.
-      VERSION_INFO_TYPE = {
-        :Version => String,
-        :LoginUrl => String,
-        :MediaTypeMapping => [MEDIA_TYPE_MAPPING_TYPE]
-      }
-
-      # List all supported versions.
-      SUPPORTED_VERSIONS_TYPE = {
-        :VersionInfo => [VERSION_INFO_TYPE]
-      }
-
       # The standard error message type used in the vCloud REST API.
       ERROR_TYPE = {
         :majorErrorCode => String,

@@ -20,23 +20,6 @@ module Fog
           )
         end
       end
-
-      class Mock
-        def get_catalog(catalog_id)
-          response = Excon::Response.new
-
-          unless valid_uuid?(catalog_id)
-            response.status = 400
-            raise Excon::Error.status_error({:expects => 200}, response)
-          end
-          unless catalog = data[:catalogs][catalog_id]
-            response.status = 403
-            raise Excon::Error.status_error({:expects => 200}, response)
-          end
-
-          Fog::Mock.not_implemented
-        end
-      end
     end
   end
 end
