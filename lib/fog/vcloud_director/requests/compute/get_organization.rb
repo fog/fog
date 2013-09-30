@@ -25,70 +25,54 @@ module Fog
         def get_organization(org_id)
           response = Excon::Response.new
 
-          unless valid_uuid?(org_id)
-            response.status = 400
-            raise Excon::Errors.status_error({:expects => 200}, response)
-          end
-          unless org_id == data[:org][:uuid]
+          org = data[:org]
+          unless org_id == org[:uuid]
             response.status = 403
             raise(Excon::Errors.status_error({:expects => 200}, response))
           end
-          org = data[:org]
 
           body =
             {:xmlns=>xmlns,
              :xmlns_xsi=>xmlns_xsi,
              :name=>org[:name],
-             :id=>"urn:vcloud:org:#{org_id}",
+             :id=>"urn:vcloud:org:#{org[:uuid]}",
              :type=>"application/vnd.vmware.vcloud.org+xml",
-             :href=>make_href("org/#{org_id}"),
+             :href=>make_href("org/#{org[:uuid]}"),
              :xsi_schemaLocation=>xsi_schema_location,
              :Link=>
               [{:rel=>"down",
+                :type=>"application/vnd.vmware.vcloud.vdc+xml",
+                :name=>data[:vdc][:name],
+                :href=>make_href("vdc/#{data[:vdc][:uuid]}")},
+               {:rel=>"down",
                 :type=>"application/vnd.vmware.vcloud.tasksList+xml",
-                :href=>make_href("tasksList/#{org_id}")},
+                :href=>make_href("tasksList/#{org[:uuid]}")},
+               {:rel=>"down",
+                :type=>"application/vnd.vmware.vcloud.catalog+xml",
+                :name=>data[:catalog][:name],
+                :href=>make_href("catalog/#{data[:catalog][:uuid]}")},
+               {:rel=>"down",
+                :type=>"application/vnd.vmware.vcloud.controlAccess+xml",
+                :href=>
+                 make_href("org/#{org[:uuid]}/catalog/#{data[:catalog][:uuid]}/controlAccess/")},
+               {:rel=>"controlAccess",
+                :type=>"application/vnd.vmware.vcloud.controlAccess+xml",
+                :href=>
+                 make_href("org/#{org[:uuid]}/catalog/#{data[:catalog][:uuid]}/action/controlAccess")},
                {:rel=>"add",
                 :type=>"application/vnd.vmware.admin.catalog+xml",
-                :href=>make_href("admin/org/#{org_id}/catalogs")},
+                :href=>make_href("admin/org/#{org[:uuid]}/catalogs")},
                {:rel=>"down",
                 :type=>"application/vnd.vmware.vcloud.metadata+xml",
-                :href=>make_href("org/#{org_id}/metadata")}],
+                :href=>make_href("org/#{org[:uuid]}/metadata")}],
              :Description=>org[:description]||'',
              :FullName=>org[:full_name]}
 
-          body[:Link] += data[:catalogs].map do |id, catalog|
-            [{:rel=>"down",
-              :type=>"application/vnd.vmware.vcloud.catalog+xml",
-              :name=>catalog[:name],
-              :href=>make_href("catalog/#{id}")},
-             {:rel=>"down",
-              :type=>"application/vnd.vmware.vcloud.controlAccess+xml",
-              :href=>make_href("org/#{org_id}/catalog/#{id}/controlAccess/")},
-             {:rel=>"controlAccess",
-              :type=>"application/vnd.vmware.vcloud.controlAccess+xml",
-              :href=>
-               make_href("org/#{org_id}/catalog/#{id}/action/controlAccess")}]
-          end.flatten
-
-          body[:Link] += data[:networks].map do |id, network|
+          body[:Link] += data[:networks].map do |network|
             {:rel=>"down",
              :type=>"application/vnd.vmware.vcloud.orgNetwork+xml",
              :name=>network[:name],
-             :href=>make_href("network/#{id}")}
-          end
-
-          body[:Link] += data[:vdcs].map do |id, vdc|
-            {:rel=>"down",
-             :type=>"application/vnd.vmware.vcloud.vdc+xml",
-             :name=>vdc[:name],
-             :href=>make_href("vdc/#{id}")}
-          end
-
-          if api_version.to_f >= 5.1
-            body[:Link] <<
-              {:rel=>"down",
-               :type=>"application/vnd.vmware.vcloud.supportedSystemsInfo+xml",
-               :href=>make_href('supportedSystemsInfo/')}
+             :href=>make_href("network/#{network[:uuid]}")}
           end
 
           response.status = 200
