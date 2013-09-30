@@ -154,6 +154,18 @@ module Fog
           true
         end
 
+        # Saves the policy
+        # Creates policy if it is new, otherwise it will update it
+        # @return [Boolean] true if policy has saved
+        def save
+          if persisted?
+            update
+          else
+            create
+          end
+          true
+        end
+
         # Destroy the policy
         #
         # @return [Boolean] returns true if policy has started deleting
