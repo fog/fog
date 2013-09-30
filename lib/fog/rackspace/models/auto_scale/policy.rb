@@ -10,9 +10,9 @@ module Fog
         # @return [String] The policy id   
       	identity :id
 
-        # @!attribute [r] group_id
-        # @return [String] The autoscale group's id
-      	attribute :group_id
+        # @!attribute [r] group
+        # @return [Group] The autoscale group
+	attribute :group
 
       	# @!attribute [r] links
         # @return [Array] Policy links
@@ -84,6 +84,10 @@ module Fog
         	true
         end
 
+        def group=(group)
+          attributes[:group] = group.is_a?(Group) ? group : service.groups.new(:id => group)
+        end
+
       	# Creates policy
         # * requires attributes: :name, :type, :cooldown
         # 
@@ -113,7 +117,7 @@ module Fog
             options['args'] = args
           end
 
-          data = service.create_policy(group_id, options)
+          data = service.create_policy(group.id, options)
           merge_attributes(data.body['policies'][0])
           true
         end
@@ -145,7 +149,7 @@ module Fog
             options['args'] = args
           end
 
-      		data = service.update_policy(group_id, identity, options)
+		data = service.update_policy(group.id, identity, options)
       		merge_attributes(data.body)
       		true
       	end
@@ -162,7 +166,7 @@ module Fog
         # @see http://docs.rackspace.com/cas/api/v1.0/autoscale-devguide/content/DELETE_deletePolicy_v1.0__tenantId__groups__groupId__policies__policyId__Policies.html
         def destroy
       		requires :identity
-      		service.delete_policy(group_id, identity)
+		service.delete_policy(group.id, identity)
           true
       	end
 
@@ -178,7 +182,7 @@ module Fog
         # @see http://docs.rackspace.com/cas/api/v1.0/autoscale-devguide/content/POST_executePolicy_v1.0__tenantId__groups__groupId__policies__policyId__execute_Policies.html
         def execute
       		requires :identity
-      		service.execute_policy(group_id, identity)
+		service.execute_policy(group.id, identity)
           true
       	end
 
@@ -191,12 +195,14 @@ module Fog
         # @raise [Fog::Rackspace::AutoScale:::InternalServerError] - HTTP 500
         # @raise [Fog::Rackspace::AutoScale:::ServiceError]
         def webhooks
-          data = service.list_webhooks(group_id, self.id)
+          requires :identity
+
+          data = service.list_webhooks(group.id, identity)
 
           Fog::Rackspace::AutoScale::Webhooks.new({
             :service   => service,
-            :policy_id => self.id,
-            :group_id  => group_id
+            :policy_id => identity,
+            :group_id  => group.id
           }).merge_attributes(data.body)
         end
 
