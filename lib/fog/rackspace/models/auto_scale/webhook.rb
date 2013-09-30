@@ -5,7 +5,7 @@ module Fog
     class AutoScale
       class Webhook < Fog::Model
 
-      	# @!attribute [r] id
+        # @!attribute [r] id
         # @return [String] The webhook id   
         identity :id
 
@@ -17,19 +17,19 @@ module Fog
         # @return [String] The policy id (i.e. parent)
         attribute :policy_id
 
-      	# @!attribute [r] name
+        # @!attribute [r] name
         # @return [String] The webhook name
         attribute :name
-      	
+
         # @!attribute [r] metadata
         # @return [Hash] The metadata
         attribute :metadata
-      	
+
         # @!attribute [r] links
         # @return [Array] The webhook links
         attribute :links
 
-        # Creates webhook
+        # Create webhook
         # * requires attribute: :name
         # 
         # @return [Boolean] returns true if webhook is being created
@@ -41,7 +41,7 @@ module Fog
         #
         # @see Webhooks#create
         # @see 
-        def save
+        def create
           requires :name
 
           options = {}
@@ -53,7 +53,7 @@ module Fog
           true
         end
 
-      	# Updates the webhook
+        # Updates the webhook
         #
         # @return [Boolean] returns true if webhook has started updating
         #
@@ -64,18 +64,30 @@ module Fog
         #
         # @see http://docs.rackspace.com/cas/api/v1.0/autoscale-devguide/content/PUT_putWebhook_v1.0__tenantId__groups__groupId__policies__policyId__webhooks__webhookId__Webhooks.html
         def update
-      		requires :identity
+          requires :identity
 
-      		options = {
-      			'name' => name,
-      			'metadata' => metadata
-      		}
+          options = {
+            'name' => name,
+            'metadata' => metadata
+          }
 
-      		data = service.update_webhook(group_id, policy_id, identity, options)
-      		merge_attributes(data.body)
-      	end
+          data = service.update_webhook(group_id, policy_id, identity, options)
+          merge_attributes(data.body)
+        end
 
-      	# Destroy the webhook
+        # Saves the webhook
+        # Creates hook if it is new, otherwise it will update it
+        # @return [Boolean] true if policy has saved
+        def save
+          if persisted?
+            update
+          else
+            create
+          end
+          true
+        end
+
+        # Destroy the webhook
         #
         # @return [Boolean] returns true if webhook has started deleting
         #
@@ -86,10 +98,10 @@ module Fog
         #
         # @see http://docs.rackspace.com/cas/api/v1.0/autoscale-devguide/content/DELETE_deleteWebhook_v1.0__tenantId__groups__groupId__policies__policyId__webhooks__webhookId__Webhooks.html
         def destroy
-      		requires :identity 
-      		service.delete_webhook(group_id, policy_id, identity)
+          requires :identity
+          service.delete_webhook(group_id, policy_id, identity)
           true
-      	end
+        end
 
         # Retrieves the URL for anonymously executing the policy webhook
         # @return [String] the URL
@@ -100,6 +112,6 @@ module Fog
         end
 
       end
-  	end
+    end
   end
 end
