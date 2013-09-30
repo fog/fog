@@ -21,7 +21,7 @@ module Fog
         attribute :progress
         attribute :accessIPv4
         attribute :accessIPv6
-        attribute :availability_zone
+        attribute :availability_zone, :aliases => 'OS-EXT-AZ:availability_zone'
         attribute :user_data_encoded
         attribute :state,       :aliases => 'status'
         attribute :created,     :type => :time
