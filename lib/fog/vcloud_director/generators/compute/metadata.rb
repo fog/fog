@@ -48,11 +48,12 @@ module Fog
 
           # 1.5
           def header
-            '<Metadata xmlns="http://www.vmware.com/vcloud/v1.5"
-              type="application/vnd.vmware.vcloud.metadata+xml"
+            <<-END
+            <Metadata
+              xmlns="http://www.vmware.com/vcloud/v1.5"
               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-              xsi:schemaLocation="http://www.vmware.com/vcloud/v1.5 http://10.194.1.65/api/v1.5/schema/master.xsd">
-              '
+              type="application/vnd.vmware.vcloud.metadata+xml">
+            END
           end
 
           def metadata_entry
@@ -69,33 +70,33 @@ module Fog
           #end
 
           def tail
-            '</Metadata>'
+            <<-END
+            </Metadata>
+            END
           end
         end
 
         class MetadataV51 < MetadataBase
-          def metadata_entry(key,value)
-            body = <<EOF
-            <MetadataEntry
-              type="application/vnd.vmware.vcloud.metadata.value+xml">
+          def metadata_entry(key, value)
+            <<-END
+            <MetadataEntry type="application/vnd.vmware.vcloud.metadata.value+xml">
               <Key>#{key}</Key>
-              <TypedValue
-                xsi:type="MetadataStringValue">
+              <TypedValue xsi:type="MetadataStringValue">
                 <Value>#{value}</Value>
               </TypedValue>
             </MetadataEntry>
-EOF
+            END
           end
         end
 
         class MetadataV15 < MetadataBase
-          def metadata_entry(key,value)
-            body = <<EOF
+          def metadata_entry(key, value)
+            <<-END
             <MetadataEntry>
-               <Key>#{key}</Key>
-               <Value>#{value}</Value>
+              <Key>#{key}</Key>
+              <Value>#{value}</Value>
             </MetadataEntry>
-EOF
+            END
           end
         end
       end
