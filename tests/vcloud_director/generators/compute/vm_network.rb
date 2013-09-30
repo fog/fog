@@ -85,33 +85,34 @@ module Fog
           private
 
           def header
-            <<-END
-            <NetworkConnectionSection xmlns="http://www.vmware.com/vcloud/v1.5"
-              xmlns:ovf="http://schemas.dmtf.org/ovf/envelope/1"
-              type="application/vnd.vmware.vcloud.networkConnectionSection+xml">
-            END
+              '<NetworkConnectionSection xmlns="http://www.vmware.com/vcloud/v1.5"
+                 xmlns:ovf="http://schemas.dmtf.org/ovf/envelope/1"
+                 type="application/vnd.vmware.vcloud.networkConnectionSection+xml"
+                 ovf:required="false"
+                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://schemas.dmtf.org/ovf/envelope/1
+                   http://schemas.dmtf.org/ovf/envelope/1/dsp8023_1.1.0.xsd
+                   http://www.vmware.com/vcloud/v1.5 http://10.194.1.65/api/v1.5/schema/master.xsd">'
           end
 
           def body(opts={})
-            <<-END
-              <ovf:Info>#{opts[:info]}</ovf:Info>
-              <PrimaryNetworkConnectionIndex>#{opts[:primary_network_connection_index]}</PrimaryNetworkConnectionIndex>
-              <NetworkConnection
-                network="#{opts[:network]}"
-                needsCustomization="#{opts[:needs_customization]}">
-                <NetworkConnectionIndex>#{opts[:network_connection_index]}</NetworkConnectionIndex>
-                <IpAddress>#{opts[:ip_address]}</IpAddress>
-                <IsConnected>#{opts[:is_connected]}</IsConnected>
-                <MACAddress>#{opts[:mac_address]}</MACAddress>
-                <IpAddressAllocationMode>#{opts[:ip_address_allocation_mode]}</IpAddressAllocationMode>
-              </NetworkConnection>
-            END
+            body = <<EOF
+            <ovf:Info>#{opts[:info]}</ovf:Info>
+                 <PrimaryNetworkConnectionIndex>#{opts[:primary_network_connection_index]}</PrimaryNetworkConnectionIndex>
+                 <NetworkConnection
+                     network="#{opts[:network]}"
+                     needsCustomization="#{opts[:needs_customization]}">
+                     <NetworkConnectionIndex>#{opts[:network_connection_index]}</NetworkConnectionIndex>
+                     <IpAddress>#{opts[:ip_address]}</IpAddress>
+                     <IsConnected>#{opts[:is_connected]}</IsConnected>
+                     <MACAddress>#{opts[:mac_address]}</MACAddress>
+                     <IpAddressAllocationMode>#{opts[:ip_address_allocation_mode]}</IpAddressAllocationMode>
+                 </NetworkConnection>
+EOF
           end
 
           def tail
-            <<-END
-            </NetworkConnectionSection>
-            END
+            '</NetworkConnectionSection>'
           end
         end
       end

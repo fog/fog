@@ -29,7 +29,7 @@ module Fog
 
           request({
             :headers  => headers,
-            :host     => "#{bucket_name}.#{@host}",
+            :bucket_name => bucket_name,
             :expects  => [200, 202, 409],
             :body     => data,
             :method   => 'POST',
