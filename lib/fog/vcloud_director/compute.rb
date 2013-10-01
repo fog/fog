@@ -110,6 +110,10 @@ module Fog
       request :post_cancel_task
       request :post_power_off_vapp
       request :post_power_on_vapp
+      request :post_reboot_vapp
+      request :post_reset_vapp
+      request :post_shutdown_vapp
+      request :post_suspend_vapp
       request :post_undeploy_vapp
       request :post_upload_media
       request :post_vapp_metadata_item_metadata
