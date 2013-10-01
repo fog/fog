@@ -33,7 +33,7 @@ module Fog
         def post_undeploy_vapp(vapp_id, options={})
           body = <<-END
           <UndeployVAppParams xmlns="http://www.vmware.com/vcloud/v1.5">
-            <UndeployPowerAction>#{options[:UndeployPowerAction]||''}</UndeployPowerAction>
+            <UndeployPowerAction>#{options[:UndeployPowerAction]|| 'powerOff' }</UndeployPowerAction>
           </UndeployVAppParams>
           END
 

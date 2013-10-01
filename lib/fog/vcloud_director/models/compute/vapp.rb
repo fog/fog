@@ -31,8 +31,7 @@ module Fog
         end
 
         def undeploy
-          # @todo Call #post_undeploy_vapp not #undeploy
-          response = service.undeploy(id)
+          response = service.post_undeploy_vapp(id)
           service.process_task(response.body)
         end
 
@@ -82,6 +81,11 @@ module Fog
           requires :id
           response = service.delete_vapp(id)
           service.process_task(response.body)
+        end
+        
+        def undeploy_and_destroy
+          undeploy
+          destroy
         end
 
       end
