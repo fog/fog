@@ -2,6 +2,9 @@ module Fog
   module Compute
     class VcloudDirector
       class Real
+        extend Fog::Deprecation
+        deprecate :put_vm_network, :put_network_connection_system_section_vapp
+
         require 'fog/vcloud_director/generators/compute/vm_network'
 
         # Update the network connection section of a VM.
@@ -9,7 +12,7 @@ module Fog
         # This operation is asynchronous and returns a task that you can
         # monitor to track the progress of the request.
         #
-        # @param [String] vm_id
+        # @param [String] vm_id Object identifier of the VM.
         # @param [Hash] network
         # @option network [String] :info
         # @option network [Integer] :primary_network_connection_index Virtual
@@ -42,7 +45,7 @@ module Fog
         # @see http://pubs.vmware.com/vcd-51/topic/com.vmware.vcloud.api.reference.doc_51/doc/operations/PUT-NetworkConnectionSystemSection-vApp.html
         #   vCloud API Documentation
         # @since vCloud API version 0.9
-        def put_vm_network(vm_id, network={})
+        def put_network_connection_system_section_vapp(vm_id, network={})
           data = Fog::Generators::Compute::VcloudDirector::VmNetwork.new(network)
 
           request(

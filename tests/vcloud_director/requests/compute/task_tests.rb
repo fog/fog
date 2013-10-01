@@ -8,12 +8,12 @@ Shindo.tests('Compute::VcloudDirector | task requests', ['vclouddirector']) do
     @org_uuid = org_href.split('/').last
   end
 
-  tests('#get_tasks_list').data_matches_schema(VcloudDirector::Compute::Schema::TASKS_LIST_TYPE) do
-    @tasks_list = @service.get_tasks_list(@org_uuid).body
+  tests('#get_task_list').data_matches_schema(VcloudDirector::Compute::Schema::TASKS_LIST_TYPE) do
+    @tasks_list = @service.get_task_list(@org_uuid).body
   end
 
   tests('retrieve non-existent TasksList').raises(Excon::Errors::Forbidden) do
-    @service.get_tasks_list('00000000-0000-0000-0000-000000000000')
+    @service.get_task_list('00000000-0000-0000-0000-000000000000')
   end
 
 end

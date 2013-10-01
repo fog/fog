@@ -4,7 +4,7 @@ module Fog
       class Real
         # Retrieve a catalog.
         #
-        # @param [String] catalog_id ID of the catalog to retrieve.
+        # @param [String] catalog_id Object identifier of the catalog.
         # @return [Excon::Response]
         #   * hash<~Hash>:
         # @see http://pubs.vmware.com/vcd-51/topic/com.vmware.vcloud.api.reference.doc_51/doc/operations/GET-Catalog.html
@@ -29,7 +29,7 @@ module Fog
             response.status = 400
             raise Excon::Error.status_error({:expects => 200}, response)
           end
-          unless catalog = data[:catalogs][catalog_id]
+          unless data[:catalogs].has_key?(catalog_id)
             response.status = 403
             raise Excon::Error.status_error({:expects => 200}, response)
           end

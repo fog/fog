@@ -20,7 +20,7 @@ module Fog
         attribute :ip_address_allocation_mode
 
         def save
-          response = service.put_vm_network(id, attributes)
+          response = service.put_network_connection_system_section_vapp(id, attributes)
           service.process_task(response.body)
         end
 

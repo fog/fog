@@ -138,7 +138,9 @@ module Fog
               :headers  => {
                 'Content-Type' => 'application/json',
                 'Accept' => 'application/json',
-                'X-Auth-Token' => @auth_token
+                'X-Auth-Token' => @auth_token,
+                'X-Auth-User'  => @openstack_username,
+                'X-Auth-Key'   => @openstack_api_key
               }.merge!(params[:headers] || {}),
               :host     => @host,
               :path     => "#{@path}/#{@tenant_id}/#{params[:path]}",

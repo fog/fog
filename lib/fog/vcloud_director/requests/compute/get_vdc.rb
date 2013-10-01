@@ -4,7 +4,7 @@ module Fog
       class Real
         # Retrieve a vDC.
         #
-        # @param [String] vdc_id ID of the vDC to retrieve.
+        # @param [String] vdc_id Object identifier of the vDC.
         # @return [Excon::Response]
         #   * body<~Hash>:
         # @see http://pubs.vmware.com/vcd-51/topic/com.vmware.vcloud.api.reference.doc_51/doc/operations/GET-Vdc.html
