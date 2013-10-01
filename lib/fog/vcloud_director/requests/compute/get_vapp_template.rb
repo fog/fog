@@ -4,7 +4,8 @@ module Fog
       class Real
         # Retrieve a vApp template.
         #
-        # @param [String] vapp_template_id ID of the vApp template to retrieve.
+        # @param [String] vapp_template_id Object identifier of the vApp
+        #   template.
         # @return [Excon::Response]
         #   * body<~Hash>:
         # @see http://pubs.vmware.com/vcd-51/topic/com.vmware.vcloud.api.reference.doc_51/doc/operations/GET-VAppTemplate.html

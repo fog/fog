@@ -31,17 +31,18 @@ module Fog
         end
 
         def undeploy
+          # @todo Call #post_undeploy_vapp not #undeploy
           response = service.undeploy(id)
           service.process_task(response.body)
         end
 
         def power_on
-          response = service.post_vm_poweron(id)
+          response = service.post_power_on_vapp(id)
           service.process_task(response.body)
         end
 
         def power_off
-          response = service.post_vm_poweroff(id)
+          response = service.post_power_off_vapp(id)
           service.process_task(response.body)
         end
 

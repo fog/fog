@@ -49,7 +49,7 @@ module Fog
         end
 
         def cancel
-          service.post_task_cancel(id)
+          service.post_cancel_task(id)
         end
 
       end

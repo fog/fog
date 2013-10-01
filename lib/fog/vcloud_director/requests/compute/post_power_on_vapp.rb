@@ -2,6 +2,9 @@ module Fog
   module Compute
     class VcloudDirector
       class Real
+        extend Fog::Deprecation
+        deprecate :post_vm_poweron, :post_power_on_vapp
+
         # Power on a vApp or VM.
         #
         # If used on a vApp, powers on all VMs in the vApp. If used on a VM,
@@ -11,18 +14,18 @@ module Fog
         # This operation is asynchronous and returns a task that you can
         # monitor to track the progress of the request.
         #
-        # @param [String] vm_id ID of the vApp or VM to power on.
+        # @param [String] id Object identifier of the vApp or VM.
         # @return [Excon::Response]
         #   * body<~Hash>:
         # @see http://pubs.vmware.com/vcd-51/topic/com.vmware.vcloud.api.reference.doc_51/doc/operations/POST-PowerOnVApp.html
         #   vCloud Director API
         # @since vCloud API version 0.9
-        def post_vm_poweron(vm_id)
+        def post_power_on_vapp(id)
           request(
             :expects => 202,
             :method  => 'POST',
             :parser  => Fog::ToHashDocument.new,
-            :path    => "vApp/#{vm_id}/power/action/powerOn"
+            :path    => "vApp/#{id}/power/action/powerOn"
           )
         end
       end

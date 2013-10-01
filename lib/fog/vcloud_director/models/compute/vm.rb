@@ -44,12 +44,12 @@ module Fog
 
 
         def power_on
-          response = service.post_vm_poweron(id)
+          response = service.post_power_on_vapp(id)
           service.process_task(response.body)
         end
 
         def power_off
-          response = service.post_vm_poweroff(id)
+          response = service.post_power_off_vapp(id)
           service.process_task(response.body)
         end
 
@@ -78,7 +78,7 @@ module Fog
           not_first_set = !memory.nil?
           attributes[:memory] = new_memory.to_i
           if not_first_set && has_changed
-            response = service.put_vm_memory(id, memory)
+            response = service.put_memory(id, memory)
             service.process_task(response.body)
           end
         end
@@ -88,7 +88,7 @@ module Fog
           not_first_set = !cpu.nil?
           attributes[:cpu] = new_cpu.to_i
           if not_first_set && has_changed
-            response = service.put_vm_cpu(id, cpu)
+            response = service.put_cpu(id, cpu)
             service.process_task(response.body)
           end
         end

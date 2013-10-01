@@ -2,6 +2,9 @@ module Fog
   module Compute
     class VcloudDirector
       class Real
+        extend Fog::Deprecation
+        deprecate :put_metadata_value, :put_vapp_metadata_item_metadata
+
         # Set the value for the specified metadata key to the value provided,
         # overwriting any existing value.
         #
@@ -13,7 +16,7 @@ module Fog
         # @see http://pubs.vmware.com/vcd-51/topic/com.vmware.vcloud.api.reference.doc_51/doc/operations/PUT-VAppMetadataItem-metadata.html
         #   vCloud API Documentation
         # @since vCloud API version 1.5
-        def put_metadata_value(vm_id, metadata_key, metadata_value)
+        def put_vapp_metadata_item_metadata(vm_id, metadata_key, metadata_value)
           body="
           <MetadataValue xmlns=\"http://www.vmware.com/vcloud/v1.5\">
               <Value>#{metadata_value}</Value>
