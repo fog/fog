@@ -5,7 +5,22 @@ module Fog
       class Mock
 
         def get_machine_type(machine_type_name, zone_name = nil)
-          Fog::Mock.not_implemented
+          zone_name = self.data[:zones].keys.first if zone_name.nil?
+          get_zone(zone_name)
+          machine_type = self.data[:machine_types][zone_name][machine_type_name] || {
+            "error" => {
+             "errors" => [
+              {
+               "domain" => "global",
+               "reason" => "notFound",
+               "message" => "The resource 'projects/google/zones/#{zone_name}/machineTypes/#{machine_type_name}' was not found"
+              }
+             ],
+             "code" => 404,
+             "message" => "The resource 'projects/google/zones/#{zone_name}/machineTypes/#{machine_type_name}' was not found"
+            }
+          }
+          build_response(:body => machine_type)
         end
 
       end

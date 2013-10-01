@@ -5,7 +5,20 @@ module Fog
       class Mock
 
         def get_zone(zone_name)
-          Fog::Mock.not_implemented
+          zone = self.data[:zones][zone_name] || {
+            "error" => {
+              "errors" => [
+               {
+                "domain" => "global",
+                "reason" => "notFound",
+                "message" => "The resource 'projects/#{project}/zones/#{zone_name}' was not found"
+               }
+              ],
+              "code" => 404,
+              "message" => "The resource 'projects/#{project}/zones/#{zone_name}' was not found"
+            }
+          }
+          build_response(:body => zone)
         end
 
       end
