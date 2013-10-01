@@ -25,18 +25,18 @@ module Fog
         attribute :vpc_zone_identifier,       :aliases => 'VPCZoneIdentifier'
 
         def initialize(attributes={})
-          attributes['Instances'] = []
-          self.default_cooldown = 300
-          self.desired_capacity = 0
-          self.enabled_metrics = []
-          self.health_check_grace_period = 0
-          self.health_check_type = 'EC2'
-          self.load_balancer_names = []
-          self.max_size = 0
-          self.min_size = 0
-          self.suspended_processes = []
-          self.tags = []
-          self.termination_policies = ['Default']
+          attributes['Instances'] ||= []
+          self.default_cooldown ||= 300
+          self.desired_capacity ||= 0
+          self.enabled_metrics ||= []
+          self.health_check_grace_period ||= 0
+          self.health_check_type ||= 'EC2'
+          self.load_balancer_names ||= []
+          self.max_size ||= 0
+          self.min_size ||= 0
+          self.suspended_processes ||= []
+          self.tags ||= []
+          self.termination_policies ||= ['Default']
           super
         end
 
