@@ -136,6 +136,10 @@ module Fog
           status == 'on'
         end
         
+        def vapp
+          # get_by_metadata returns a vm collection where every vapp parent is orpahn
+          collection.vapp ||= service.vapps.get(vapp_id)
+        end
 
       end
     end
