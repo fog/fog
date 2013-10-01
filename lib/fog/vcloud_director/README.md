@@ -5,15 +5,16 @@
 Collection and Model representation in vcloud_director fog provider.
 
 ```no-highlight
-Organizations
-  Organization
+organizations
+  organization
     vdcs -> vdc -> vapps -> vapp -> vms -> vm -> customizations -> script
                                               -> network
                                               -> disks -> disk
                                               -> tags -> tag
                                               -> power_on
     networks -> network
-  catalogs -> catalog -> catalog_items -> catalog_item -> instantiate_vapp
+    catalogs -> catalog -> catalog_items -> catalog_item -> instantiate_vapp
+    medias -> media
 ```
 
 ### Actions
