@@ -126,6 +126,11 @@ module Fog
           end
         end
 
+        def ready?
+          reload
+          status == 'on'
+        end
+
       end
     end
   end
