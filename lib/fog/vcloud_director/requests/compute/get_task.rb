@@ -4,7 +4,7 @@ module Fog
       class Real
         # Retrieve a task.
         #
-        # @param [String] task_id ID of the task to retrieve.
+        # @param [String] task_id The object identifier of the task.
         # @return [Excon::Response]
         #   * body<~Hash>:
         # @see http://pubs.vmware.com/vcd-51/topic/com.vmware.vcloud.api.reference.doc_51/doc/operations/GET-Task.html
@@ -29,7 +29,7 @@ module Fog
             response.status = 400
             raise Excon::Error.status_error({:expects => 200}, response)
           end
-          unless task = data[:tasks][task_id]
+          unless data[:tasks].has_key?(task_id)
             response.status = 403
             raise Excon::Error.status_error({:expects => 200}, response)
           end

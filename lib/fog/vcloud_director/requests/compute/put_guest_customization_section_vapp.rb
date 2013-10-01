@@ -2,6 +2,9 @@ module Fog
   module Compute
     class VcloudDirector
       class Real
+        extend Fog::Deprecation
+        deprecate :put_vm_customization, :put_guest_customization_section_vapp
+
         require 'fog/vcloud_director/generators/compute/customization'
 
         # Updates the guest customization section of a VM.
@@ -9,7 +12,7 @@ module Fog
         # This operation is asynchronous and returns a task that you can
         # monitor to track the progress of the request.
         #
-        # @param [String] vm_id ID of the VM to customize.
+        # @param [String] vm_id Object identifier of the VM.
         # @param [Hash] customization
         # @option customization [Boolean] :enabled True if guest customization
         #   is enabled.
@@ -43,7 +46,7 @@ module Fog
         # @see http://pubs.vmware.com/vcd-51/topic/com.vmware.vcloud.api.reference.doc_51/doc/operations/PUT-GuestCustomizationSection-vApp.html
         #   vCloud API Documentation
         # @since vCloud API version 1.0
-        def put_vm_customization(vm_id, customization={})
+        def put_guest_customization_section_vapp(vm_id, customization={})
           data = Fog::Generators::Compute::VcloudDirector::Customization.new(customization)
 
           request(

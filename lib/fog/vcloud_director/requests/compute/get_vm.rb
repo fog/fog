@@ -6,6 +6,7 @@ module Fog
 
         # Retrieve a vApp or VM.
         #
+        # @note This should probably be deprecated.
         # @param [String] vm_id
         # @return [Excon::Response]
         #   * body<~Hash>:

@@ -2,16 +2,19 @@ module Fog
   module Compute
     class VcloudDirector
       class Real
+        extend Fog::Deprecation
+        deprecate :get_tasks_list, :get_task_list
+
         # Retrieve a list of this organization's queued, running, or recently
         # completed tasks.
         #
-        # @param [String] org_id ID of the organization.
+        # @param [String] org_id Object identifier of the organization.
         # @return [Excon::Response]
         #   * body<~Hash>:
         # @see http://pubs.vmware.com/vcd-51/topic/com.vmware.vcloud.api.reference.doc_51/doc/operations/GET-TaskList.html
         #   vCloud API Documentation
         # @since vCloud API version 0.9
-        def get_tasks_list(org_id)
+        def get_task_list(org_id)
           request(
             :expects    => 200,
             :idempotent => true,
@@ -23,7 +26,7 @@ module Fog
       end
 
       class Mock
-        def get_tasks_list(org_id)
+        def get_task_list(org_id)
           response = Excon::Response.new
 
           unless valid_uuid?(org_id)
