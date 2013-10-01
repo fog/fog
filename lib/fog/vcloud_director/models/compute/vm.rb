@@ -17,7 +17,7 @@ module Fog
         attribute :operating_system
         attribute :ip_address
         attribute :cpu, :type => :integer
-        attribute :memory
+        attribute :memory, :type => :integer
         attribute :hard_disks, :aliases => :disks
 
         def reload
@@ -125,6 +125,7 @@ module Fog
             service.process_task(response.body)
           end
         end
+        
         def power_off
           response = service.post_power_off_vm(id)
           service.process_task(response.body)
