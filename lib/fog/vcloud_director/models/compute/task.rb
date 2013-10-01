@@ -8,23 +8,24 @@ module Fog
 
         identity  :id
 
-        attribute :name
-        attribute :type
         attribute :href
-        attribute :status
+        attribute :type
+        attribute :name
+        attribute :end_time, :aliases => :endTime, :type => :time
+        attribute :expiry_time, :aliases => :expiryTime, :type => :time
         attribute :operation
         attribute :operation_name, :aliases => :operationName
-        attribute :expiry_time, :aliases => :expiryTime, :type => :time
-        attribute :end_time, :aliases => :endTime, :type => :time
         attribute :start_time, :aliases => :startTime, :type => :time
+        attribute :status
+        attribute :description, :aliases => :Description
         attribute :error, :aliases => :Error
-        attribute :result, :aliases => :Result
         attribute :progress, :aliases => :Progress, :type => :integer
 
         # Since 5.1
         attribute :operation_key, :aliases => :operationKey
         attribute :cancel_requested, :aliases => :cancelRequested, :type => :boolean
         attribute :service_namespace, :aliases => :serviceNamespace
+        attribute :details, :aliases => :Details
 
         def ready?
           status == 'success'
