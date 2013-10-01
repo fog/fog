@@ -2,6 +2,8 @@ module Fog
   module Compute
     class VcloudDirector
       class Real
+        require 'fog/vcloud_director/generators/compute/undeploy_vapp_params'
+
         # Undeploy a vApp/VM.
         #
         # Undeployment deallocates all resources used by the vApp and the VMs it contains.
@@ -31,16 +33,12 @@ module Fog
         #   vCloud API Documentation
         # @since vCloud API version 0.9
         def post_undeploy_vapp(vapp_id, options={})
-          body = <<-END
-          <UndeployVAppParams xmlns="http://www.vmware.com/vcloud/v1.5">
-            <UndeployPowerAction>#{options[:UndeployPowerAction]||''}</UndeployPowerAction>
-          </UndeployVAppParams>
-          END
+          body = Fog::Generators::Compute::VcloudDirector::UndeployVappParams.new(options)
 
           request(
-            :body    => body,
+            :body    => body.to_xml,
             :expects => 202,
-            :headers => {'Content-Type' => 'application/vnd.vmware.vcloud.undeployVAppParams+xml' },
+            :headers => {'Content-Type' => 'application/vnd.vmware.vcloud.undeployVAppParams+xml'},
             :method  => 'POST',
             :parser  => Fog::ToHashDocument.new,
             :path    => "vApp/#{vapp_id}/action/undeploy"
