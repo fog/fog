@@ -109,6 +109,7 @@ module Fog
       request :instantiate_vapp_template
       request :post_cancel_task
       request :post_power_off_vapp
+      request :post_power_off_vm
       request :post_power_on_vapp
       request :post_reboot_vapp
       request :post_reset_vapp
