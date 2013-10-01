@@ -5,11 +5,16 @@ module Fog
 
         # Create a new object
         #
+        # When passed a block, it will make a chunked request, calling
+        # the block for chunks until it returns an empty string.
+        # In this case the data parameter is ignored.
+        #
         # ==== Parameters
         # * container<~String> - Name for container, should be < 256 bytes and must not contain '/'
         # * object<~String> - Name for object
         # * data<~String|File> - data to upload
-        # * options<~Hash> - config headers for object. Defaults to {}.
+        # * options<~Hash> - config headers for object. Defaults to #{}.
+        # * block<~Proc> - chunker
         # @raise [Fog::Storage::Rackspace::NotFound] - HTTP 404
         # @raise [Fog::Storage::Rackspace::BadRequest] - HTTP 400
         # @raise [Fog::Storage::Rackspace::InternalServerError] - HTTP 500
