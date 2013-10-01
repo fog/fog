@@ -63,13 +63,6 @@ module Fog
           service.process_task(response.body)
         end
 
-        # Shut down all VMs in the vApp.
-        def shutdown
-          requires :id
-          response = service.post_shutdown_vapp(id)
-          service.process_task(response.body)
-        end
-
         # Suspend all VMs in the vApp.
         def shutdown
           requires :id
