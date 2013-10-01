@@ -131,6 +131,11 @@ module Fog
           service.process_task(response.body)
         end
         
+        def ready?
+          reload
+          status == 'on'
+        end
+        
 
       end
     end
