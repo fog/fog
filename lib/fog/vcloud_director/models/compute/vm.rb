@@ -42,14 +42,45 @@ module Fog
           self
         end
 
+        # Power off the VM.
+        def power_off
+          requires :id
+          response = service.post_power_off_vapp(id)
+          service.process_task(response.body)
+        end
 
+        # Power on the VM.
         def power_on
+          requires :id
           response = service.post_power_on_vapp(id)
           service.process_task(response.body)
         end
 
-        def power_off
-          response = service.post_power_off_vapp(id)
+        # Reboot the VM.
+        def reboot
+          requires :id
+          response = service.post_reboot_vapp(id)
+          service.process_task(response.body)
+        end
+
+        # Reset the VM.
+        def reset
+          requires :id
+          response = service.post_reset_vapp(id)
+          service.process_task(response.body)
+        end
+
+        # Shut down the VM.
+        def shutdown
+          requires :id
+          response = service.post_shutdown_vapp(id)
+          service.process_task(response.body)
+        end
+
+        # Suspend the VM.
+        def suspend
+          requires :id
+          response = service.post_suspend_vapp(id)
           service.process_task(response.body)
         end
 
@@ -59,11 +90,13 @@ module Fog
         end
 
         def customization
+          requires :id
           data = service.get_vm_customization(id).body
           service.vm_customizations.new(data)
         end
 
         def network
+          requires :id
           data = service.get_vm_network(id).body
           service.vm_networks.new(data)
         end
