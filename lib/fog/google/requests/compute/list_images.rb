@@ -4,8 +4,14 @@ module Fog
 
       class Mock
 
-        def list_images
-          Fog::Mock.not_implemented
+        def list_images(project=@project)
+          images = self.class.data[project][:images].values
+          build_response(:body => {
+            "kind" => "compute#imageList",
+            "selfLink" => "https://www.googleapis.com/compute/v1beta15/projects/#{project}/global/images",
+            "id" => "projects/#{project}/global/images",
+            "items" => images
+          })
         end
 
       end
