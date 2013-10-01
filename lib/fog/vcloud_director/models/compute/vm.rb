@@ -125,6 +125,11 @@ module Fog
             service.process_task(response.body)
           end
         end
+        def power_off
+          response = service.post_power_off_vm(id)
+          service.process_task(response.body)
+        end
+        
 
       end
     end
