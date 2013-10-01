@@ -61,6 +61,9 @@ module Fog
       model :snapshot
       collection :snapshots
 
+      model :zone
+      collection :zones
+
       module Shared
         attr_reader :project
 
@@ -795,19 +798,6 @@ module Fog
           @default_network = 'default'
         end
 
-        # TODO: Total hack, create zone and zones model.
-        def zones
-          zones = []
-          self.list_zones.data[:body]["items"].each do |z|
-            if z["status"] == "UP"
-              zones.push z["name"]
-            end
-          end
-
-          return zones
-        end
-
-        # returns Google::APIClient::Result
         def build_result(api_method, parameters, body_object=nil)
           if body_object
             result = @client.execute(
