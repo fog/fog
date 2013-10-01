@@ -108,6 +108,10 @@ module Fog
       request :delete_vapp
       request :get_current_session
       request :get_supported_versions
+      request :delete_media
+      request :get_media
+      request :get_media_owner
+      request :post_upload_media
 
       class Model < Fog::Model
         def initialize(attrs={})
@@ -383,6 +387,10 @@ module Fog
 
         def user_name
           @user_name ||= @vcloud_director_username.split('@').first
+        end
+
+        def user_uuid
+          @user_uuid ||= uuid
         end
 
         def uuid

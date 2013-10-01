@@ -115,7 +115,7 @@ class VcloudDirector
         :status => Fog::Nullable::String,
         :Description => Fog::Nullable::String,
       # :Tasks => TASKS_IN_PROGRESS_TYPE,
-        :Files => FILES_LIST_TYPE
+      # :Files => FILES_LIST_TYPE
       })
 
       # Container for references to ResourceEntity objects in this vDC.
