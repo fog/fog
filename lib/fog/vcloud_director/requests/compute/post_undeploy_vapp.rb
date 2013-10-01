@@ -30,8 +30,7 @@ module Fog
         # @see http://pubs.vmware.com/vcd-51/topic/com.vmware.vcloud.api.reference.doc_51/doc/operations/POST-UndeployVApp.html
         #   vCloud API Documentation
         # @since vCloud API version 0.9
-        # @todo Rename as #post_undeploy_vapp
-        def undeploy(vapp_id, options={})
+        def post_undeploy_vapp(vapp_id, options={})
           body = <<-END
           <UndeployVAppParams xmlns="http://www.vmware.com/vcloud/v1.5">
             <UndeployPowerAction>#{options[:UndeployPowerAction]||''}</UndeployPowerAction>
