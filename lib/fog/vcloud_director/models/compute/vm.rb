@@ -17,7 +17,7 @@ module Fog
         attribute :operating_system
         attribute :ip_address
         attribute :cpu, :type => :integer
-        attribute :memory
+        attribute :memory, :type => :integer
         attribute :hard_disks, :aliases => :disks
 
         def reload
