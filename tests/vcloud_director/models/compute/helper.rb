@@ -26,7 +26,7 @@ def organizations
 end
 
 def organization
-  organizations.first
+  @organization ||= organizations.get_by_name(vcloud_director.org_name)
 end
 
 def catalogs

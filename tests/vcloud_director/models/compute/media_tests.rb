@@ -6,6 +6,7 @@ VCR.use_cassette(File.basename(__FILE__)) do
     pending if Fog.mocking?
 
     medias = vdc.medias
+    pending if medias.all.empty?
     media = medias.first
 
     tests('Compute::VcloudDirector | media') do

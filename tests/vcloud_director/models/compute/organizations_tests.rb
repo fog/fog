@@ -6,7 +6,7 @@ VCR.use_cassette(File.basename(__FILE__)) do
     organizations = vcloud_director.organizations
     tests("#There is at least one organization").returns(true) { organizations.size >= 1 }
 
-    org = organizations.first
+    org = organizations.get_by_name(vcloud_director.org_name)
 
     tests("Compute::VcloudDirector | organization") do
       tests("#name").returns(String) { org.name.class }
