@@ -69,6 +69,8 @@ module Fog
       collection :vm_networks
       model      :tag # this is called metadata in vcloud
       collection :tags
+      model      :media
+      collection :medias # sic
 
       request_path 'fog/vcloud_director/requests/compute'
       request :get_organizations
