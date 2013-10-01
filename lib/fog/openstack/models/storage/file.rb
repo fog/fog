@@ -69,6 +69,11 @@ module Fog
           requires :key
           self.collection.get_url(self.key)
         end
+        
+        def temp_signed_url(expires_secs, method)
+          requires :directory, :key
+          service.generate_object_temp_url(directory.key, key, expires_secs, method)
+        end
 
         def save(options = {})
           requires :body, :directory, :key
