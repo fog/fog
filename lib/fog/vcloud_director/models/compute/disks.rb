@@ -14,7 +14,7 @@ module Fog
           item_list unless @disks
           data = Fog::Generators::Compute::VcloudDirector::Disks.new(@disks)
           data.add_hard_disk(size)
-          response = service.put_vm_disks(vm.id, data.disks)
+          response = service.put_disks(vm.id, data.disks)
           service.process_task(response.body)
         end
 

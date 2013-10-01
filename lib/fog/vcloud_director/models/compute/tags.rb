@@ -23,7 +23,7 @@ module Fog
                            end
           data = metadata_klass.new(@tags)
           data.add_item(key, value)
-          response = service.post_vm_metadata(vm.id, data.attrs)
+          response = service.post_vapp_metadata_item_metadata(vm.id, data.attrs)
           service.process_task(response.body)
         end
 

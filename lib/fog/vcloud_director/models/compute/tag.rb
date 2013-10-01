@@ -6,7 +6,6 @@ module Fog
 
       class Tag < Model
 
-
         identity  :id
         attribute :value
 
@@ -15,14 +14,13 @@ module Fog
           not_first_set = !value.nil?
           attributes[:value] = new_value
           if not_first_set && has_changed
-            response = service.put_metadata_value(vm.id, id, value)
+            response = service.put_vapp_metadata_item_metadata(vm.id, id, value)
             service.process_task(response.body)
           end
         end
 
-
         def destroy
-          response = service.delete_metadata(vm.id, id)
+          response = service.delete_vapp_metadata_item_metadata(vm.id, id)
           service.process_task(response.body)
         end
 

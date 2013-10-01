@@ -2,27 +2,34 @@ module Fog
   module Compute
     module Helper
 
+      # @api private
       def catalog_item_end_point(catalog_item_id = nil)
         end_point + ( catalog_item_id ? "catalogItem/#{catalog_item_id}" : "catalogItem" )
       end
 
+      # @api private
       def network_end_point(network_id = nil)
         end_point + ( network_id ? "network/#{network_id}" : "network" )
       end
 
+      # @api private
       def vapp_template_end_point(vapp_template_id = nil)
         end_point + ( vapp_template_id ? "vAppTemplate/#{vapp_template_id}" : "vAppTemplate" )
       end
 
+      # @api private
       def vdc_end_point(vdc_id = nil)
         end_point + ( vdc_id ? "vdc/#{vdc_id}" : "vdc" )
       end
 
+      # @api private
       def endpoint
         end_point
       end
 
-      #  A single organization can have multiple Org vDCs.
+      # A single organization can have multiple Org vDCs.
+      # @api private
+      # @deprecated
       def default_vdc_id
         if default_organization_id
           @default_vdc_id ||= begin
@@ -40,7 +47,9 @@ module Fog
         end
       end
 
-      #  A single organization can have multiple Org vDCs.
+      # A single organization can have multiple Org vDCs.
+      # @api private
+      # @deprecated
       def default_vdc_body
         return nil unless default_vdc_id
         @default_vdc_body ||= begin
@@ -50,18 +59,24 @@ module Fog
         end
       end
 
+      # @api private
+      # @deprecated
       def default_network_name
         return nil unless default_vdc_body
         return nil unless network = default_vdc_body[:AvailableNetworks][:Network]
         network["name"]
       end
 
+      # @api private
+      # @deprecated
       def default_network_id
         return nil unless default_vdc_body
         return nil unless network = default_vdc_body[:AvailableNetworks][:Network]
         network[:href].split('/').last
       end
 
+      # @api private
+      # @deprecated
       def default_network_name
         if default_vdc_id
           @default_network_name ||= begin
@@ -71,6 +86,8 @@ module Fog
         end
       end
 
+      # @api private
+      # @deprecated
       def default_organization_id
         @default_organization_id ||= begin
           org = get_organizations.body[:Org]
@@ -79,6 +96,8 @@ module Fog
         end
       end
 
+      # @api private
+      # @deprecated
       def default_organization_body
         return nil unless default_organization_id
         @default_organization_body ||= begin
