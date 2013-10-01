@@ -9,9 +9,9 @@ Shindo.tests('Compute::VcloudDirector | network requests', ['vclouddirector']) d
     :is_inherited => Fog::Boolean,
     :gateway => String,
     :netmask => String,
-    :dns1 => String,
-    :dns2 => String,
-    :dns_suffix => String,
+    :dns1 => Fog::Nullable::String,
+    :dns2 => Fog::Nullable::String,
+    :dns_suffix => Fog::Nullable::String,
     :ip_ranges => [{
       :start_address => String,
       :end_address => String
