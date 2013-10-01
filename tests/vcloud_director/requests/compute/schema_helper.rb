@@ -223,6 +223,40 @@ class VcloudDirector
         #:VdcStorageProfiles => VDC_STORAGE_PROFILES_TYPE # >= 5.1
       })
 
+      # Information about an individual operating system.
+      OPERATING_SYSTEM_INFO_TYPE = {
+        :OperatingSystemId => String,
+        :DefaultHardDiskAdapterType => String,
+        :MinimumHardDiskSizeGigabytes => String,
+        :MinimumMemoryMegabytes => String,
+        :Name => String,
+        :InternalName => String,
+        :Supported => String,
+        :x64 => String,
+        :MaximumCpuCount => String,
+        :MinimumHardwareVersion => String,
+        :PersonalizationEnabled => String,
+        :PersonalizationAuto => String,
+        :SysprepPackagingSupported => String,
+        :SupportsMemHotAdd => String,
+        :cimOsId => String,
+        :CimVersion => String,
+        :SupportedForCreate => String
+      }
+
+      # Represents an operating system family.
+      OPERATING_SYSTEM_FAMILY_INFO_TYPE = {
+        :Name => String,
+        :OperatingSystemFamilyId => String,
+        :OperatingSystem => [OPERATING_SYSTEM_INFO_TYPE]
+      }
+
+      # Operating systems available for use on virtual machines owned by this
+      # organization.
+      SUPPORTED_OPERATING_SYSTEMS_INFO_TYPE = RESOURCE_TYPE.merge({
+        :OperatingSystemFamilyInfo => [OPERATING_SYSTEM_FAMILY_INFO_TYPE]
+      })
+
     end
   end
 end

@@ -92,6 +92,7 @@ module Fog
       request :get_organization
       request :get_organizations
       request :get_request # this is used for manual testing
+      request :get_supported_systems_info
       request :get_supported_versions
       request :get_task
       request :get_task_list
