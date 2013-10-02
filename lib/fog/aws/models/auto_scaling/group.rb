@@ -35,7 +35,7 @@ module Fog
           self.max_size = 0
           self.min_size = 0
           self.suspended_processes = []
-          self.tags = []
+          self.tags = {}
           self.termination_policies = ['Default']
           super
         end
