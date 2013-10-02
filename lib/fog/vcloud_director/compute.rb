@@ -98,7 +98,9 @@ module Fog
       request :get_task_list
       request :get_vapp
       request :get_vapp_metadata
+      request :get_vapp_ovf_descriptor
       request :get_vapp_template
+      request :get_vapp_template_ovf_descriptor
       request :get_vdc
       request :get_vm
       request :get_vm_customization
