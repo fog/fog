@@ -22,9 +22,7 @@ module Fog
         # @see http://docs.rackspace.com/cas/api/v1.0/autoscale-devguide/content/GET_getPolicies_v1.0__tenantId__groups__groupId__policies_Policies.html
         def all
           data = service.list_policies(group.id).body['policies']
-          policies = load(data)
-          policies.each {|p| p.group = group }
-          policies
+          load(data)
         end
 
         # Returns an individual autoscale policy
@@ -40,9 +38,7 @@ module Fog
         # @see http://docs.rackspace.com/cas/api/v1.0/autoscale-devguide/content/GET_getPolicy_v1.0__tenantId__groups__groupId__policies__policyId__Policies.html
         def get(policy_id)
           data = service.get_policy(group.id, policy_id).body['policy']
-          policy = new(data)
-          policy.group = group
-          policy
+          new(data)
         rescue Fog::Rackspace::AutoScale::NotFound
           nil
         end
@@ -58,8 +54,11 @@ module Fog
         # 
         # @see http://docs.rackspace.com/cas/api/v1.0/autoscale-devguide/content/POST_createPolicies_v1.0__tenantId__groups__groupId__policies_Policies.html
         def create(attributes = {})
-           attribute[:group] = group
           super(attributes)
+        end
+
+        def new(attributes = {})
+          super({:group => group}.merge(attributes))
         end
 
       end

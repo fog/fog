@@ -9,13 +9,13 @@ module Fog
         # @return [String] The webhook id   
         identity :id
 
-        # @!attribute [r] id
-        # @return [String] The group id (i.e. grand-parent)
-        attribute :group_id
+        # @!attribute [r] group
+        # @return [String] The associated group
+        attribute :group
         
-        # @!attribute [r] id
-        # @return [String] The policy id (i.e. parent)
-        attribute :policy_id
+        # @!attribute [r] policy
+        # @return [String] The associated policy
+        attribute :policy
 
         # @!attribute [r] name
         # @return [String] The webhook name
@@ -48,7 +48,7 @@ module Fog
           options['name'] = name if name
           options['metadata'] = metadata if metadata
 
-          data = service.create_webhook(group_id, policy_id, options)
+          data = service.create_webhook(group.id, policy.id, options)
           merge_attributes(data.body['webhooks'][0])
           true
         end
@@ -71,8 +71,9 @@ module Fog
             'metadata' => metadata
           }
 
-          data = service.update_webhook(group_id, policy_id, identity, options)
+          data = service.update_webhook(group.id, policy.id, identity, options)
           merge_attributes(data.body)
+          true
         end
 
         # Saves the webhook
@@ -99,7 +100,7 @@ module Fog
         # @see http://docs.rackspace.com/cas/api/v1.0/autoscale-devguide/content/DELETE_deleteWebhook_v1.0__tenantId__groups__groupId__policies__policyId__webhooks__webhookId__Webhooks.html
         def destroy
           requires :identity
-          service.delete_webhook(group_id, policy_id, identity)
+          service.delete_webhook(group.id, policy.id, identity)
           true
         end
 

@@ -9,7 +9,7 @@ module Fog
       class Group < Fog::Model
         
         # @!attribute [r] id
-        # @return [String] The autoscale group's id   
+        # @return [String] The autoscale group's id
         identity :id
 
         # @!attribute [r] links

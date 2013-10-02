@@ -42,7 +42,6 @@ module Fog
         def update
           
           options = {}
-
           options['name'] = name unless name.nil?
           options['cooldown'] = cooldown unless cooldown.nil?
           options['minEntities'] = min_entities

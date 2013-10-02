@@ -10,7 +10,6 @@ GET_GROUP_HEADERS_FORMAT = {
 }
 
 GROUP_DELETE_DATA_FORMAT = {
-  :body=>Hash, 
   :headers=> {
     "Content-Type"=>String, 
     "Via"=>String, 

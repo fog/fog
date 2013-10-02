@@ -100,7 +100,7 @@ module Fog
         #
         # @see Policies#create
         # @see http://docs.rackspace.com/cas/api/v1.0/autoscale-devguide/content/POST_createPolicies_v1.0__tenantId__groups__groupId__policies_Policies.html
-        def save
+        def create
           requires :name, :type, :cooldown
 
           check_attributes
@@ -209,13 +209,11 @@ module Fog
         def webhooks
           requires :identity
 
-          data = service.list_webhooks(group.id, identity)
-
-          Fog::Rackspace::AutoScale::Webhooks.new({
+          @webhooks ||= Fog::Rackspace::AutoScale::Webhooks.new({
             :service   => service,
-            :policy_id => identity,
-            :group_id  => group.id
-          }).merge_attributes(data.body)
+            :policy => self,
+            :group  => group
+          })
         end
 
       end
