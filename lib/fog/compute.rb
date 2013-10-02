@@ -21,7 +21,7 @@ module Fog
           require 'fog/hp/compute_v2'
            Fog::Compute::HPV2.new(attributes)
         else
-          Fog::Logger.deprecation "HP Cloud Compute V1 service will be soon deprecated. Please use `:version => :v2` attribute to use HP Cloud Compute V2 service."
+          Fog::Logger.deprecation "HP Cloud Compute V1 service will be soon deprecated. Please use `:version => v2` attribute to use HP Cloud Compute V2 service."
           require 'fog/hp/compute'
           Fog::Compute::HP.new(attributes)
         end

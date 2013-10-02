@@ -109,9 +109,18 @@ module Fog
           self.addresses.keys unless self.addresses.nil?
         end
 
+        def private_ip_addresses
+          return nil if addresses.nil?
+          addr = []
+          addresses.each { |key, value|
+            ipaddr = value.first
+            addr << ipaddr["addr"] unless ipaddr.nil?
+          }
+          addr
+        end
+
         def private_ip_address
-          addr = addresses.nil? ? nil : addresses.fetch(network_name, []).first
-          addr['addr'] if addr
+          private_ip_addresses.first
         end
 
         def private_key_path
@@ -123,20 +132,23 @@ module Fog
           @private_key ||= private_key_path && File.read(private_key_path)
         end
 
-        def public_ip_address
-          # FIX: Both the private and public ips are bundled under 'custom' network name
-          # So hack to get to the public ip address
-          if !addresses.nil?
-            addr = addresses.fetch(network_name, [])
-            # if we have more than 1 address, then the return the second address which is public
-            if addr.count > 1
-              addr[1]["addr"]
-            else
-              nil
+        def public_ip_addresses
+          return nil if addresses.nil?
+          addr = []
+          addresses.each { |key, value|
+            if value.count > 1
+              value = value.dup
+              value.delete_at(0)
+              value.each { |ipaddr|
+                addr << ipaddr["addr"]
+              }
             end
-          else
-            nil
-          end
+          }
+          addr
+        end
+
+        def public_ip_address
+          public_ip_addresses.first
         end
 
         def public_key_path
