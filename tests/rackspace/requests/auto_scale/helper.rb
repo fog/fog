@@ -131,6 +131,15 @@ WEBHOOK_FORMAT = {
     "links" => Array
 }
 
+LIST_WEBHOOKS_FORMAT = [
+  {
+    "id" => String,
+    "name" => String,
+    "links"=>[{"href" => String, "rel" => String }],
+    "metadata"=>{}
+  }
+]
+
 ### OPTIONS
 
 LAUNCH_CONFIG_OPTIONS = {
