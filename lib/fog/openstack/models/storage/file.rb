@@ -65,15 +65,24 @@ module Fog
           new_public
         end
 
+        # Get a url for file.
+        # 
+        #     required attributes: key
+        # 
+        # @param expires [String] number of seconds (since 1970-01-01 00:00) before url expires
+        # @param options [Hash]
+        # @return [String] url
+        # 
+        def url(expires, options = {})
+          requires :directory, :key
+          self.service.create_temp_url_with_service_scheme(self.directory.key, self.key, expires, "GET", options = {})
+        end
+
         def public_url
           requires :key
           self.collection.get_url(self.key)
         end
         
-        def temp_signed_url(expires_secs, method)
-          requires :directory, :key
-          service.generate_object_temp_url(directory.key, key, expires_secs, method)
-        end
 
         def save(options = {})
           requires :body, :directory, :key
