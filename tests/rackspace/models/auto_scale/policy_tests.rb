@@ -13,18 +13,22 @@ Shindo.tests('Fog::Rackspace::AutoScale | policy', ['rackspace', 'rackspace_auto
 
     options = {
       :name => "policy 2",
-      :change => 5,
+      :change => 1,
       :cooldown => 100,
       :type => 'webhook',
       :group => group
     }
 
     model_tests(group.policies, options, false) do
+      tests('#execute').succeeds do
+        @instance.execute
+      end
       tests('#webhooks').succeeds do
         @instance.webhooks
       end
     end
   ensure
+    deactive_auto_scale_group(group)
     group.destroy if group
   end
 

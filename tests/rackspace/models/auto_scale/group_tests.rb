@@ -14,6 +14,22 @@ Shindo.tests('Fog::Rackspace::AutoScale | group', ['rackspace', 'rackspace_autos
 		tests('#policies').succeeds do
 			@instance.policies
 		end
+
+		tests('#launch_config').succeeds do
+      @instance.launch_config
+	  end
+
+	  tests('#group_config').succeeds do
+      @instance.group_config
+    end
+
+    tests('#state').succeeds do
+      @instance.state
+    end
+
+    tests('deactive scaling group').succeeds do
+      deactive_auto_scale_group(@instance)
+    end
 	end
 
 end

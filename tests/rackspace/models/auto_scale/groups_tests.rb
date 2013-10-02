@@ -8,6 +8,10 @@ Shindo.tests('Fog::Rackspace::AutoScale | groups', ['rackspace', 'rackspace_auto
     :launch_config => LAUNCH_CONFIG_OPTIONS
   }
 
-  collection_tests(service.groups, options, false)
+  collection_tests(service.groups, options, false) do
+    tests('deactive scaling group').succeeds do
+      deactive_auto_scale_group(@instance)
+    end
+  end
 
 end

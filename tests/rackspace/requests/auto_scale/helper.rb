@@ -1,5 +1,34 @@
 ### FORMATS
 
+LIST_GROUPS_FORMAT =
+  { "groups_links"=>[],
+    "groups"=> [
+      {
+        "paused"=> Fog::Boolean,
+        "desiredCapacity"=> Integer,
+        "links"=>[{"href"=> String, "rel"=> String}],
+        "active"=>[],
+        "pendingCapacity"=> Integer,
+        "activeCapacity"=> Integer,
+        "id"=> String,
+        "name"=> String
+        }
+      ]
+  }
+
+GROUP_STATE_FORMAT =  {
+  "group" => {
+    "paused"=> Fog::Boolean,
+    "desiredCapacity" => Integer,
+    "links"=>[{"href" => String, "rel"=> String}],
+    "active"=>[],
+    "pendingCapacity" => Integer,
+    "activeCapacity" => Integer,
+    "id" => String,
+    "name"=> String
+    }
+  }
+
 GET_GROUP_HEADERS_FORMAT = {
   "Content-Type"=>String, 
   "Via"=>String, 
@@ -142,7 +171,7 @@ LAUNCH_CONFIG_OPTIONS = {
 }
 
 GROUP_CONFIG_OPTIONS = {
-	"maxEntities" => 10,
+	"maxEntities" => 3,
 	"cooldown" => 360,
 	"name" => "testscalinggroup198547",
 	"minEntities" => 0,
@@ -178,3 +207,11 @@ WEBHOOK_OPTIONS = {
     "name" => "webhook name",
     "metadata" => {'foo' => 'bar'}
 }
+
+def deactive_auto_scale_group(group)
+  return unless group
+  config = group.group_config
+  config.min_entities = 0
+  config.max_entities = 0
+  config.save
+end

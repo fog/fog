@@ -28,9 +28,14 @@ Shindo.tests('Fog::Rackspace::AutoScale | webhook', ['rackspace', 'rackspace_aut
       :policy => policy
     }
 
-    model_tests(policy.webhooks, options, false)
+    model_tests(policy.webhooks, options, false) do
+      tests('#execution_url').succeeds do
+        @instance.execution_url
+      end
+    end
   ensure
     policy.destroy if policy
+    deactive_auto_scale_group(group)
     group.destroy if group
   end
 
