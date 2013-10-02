@@ -20,6 +20,7 @@ module Fog
           }.merge(options)
 
           request(
+            :expects  => 202,
             :path => 'stacks',
             :method => 'PUT',
             :body => MultiJson.encode(params)
