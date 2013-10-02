@@ -75,7 +75,7 @@ module Fog
         # 
         def url(expires, options = {})
           requires :directory, :key
-          self.service.create_temp_url_with_service_scheme(self.directory.key, self.key, expires, "GET", options = {})
+          self.service.create_temp_url(directory.key, key, expires, "GET", options)
         end
 
         def public_url

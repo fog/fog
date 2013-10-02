@@ -15,7 +15,7 @@ module Fog
         # * response<~Excon::Response>:
         #   * body<~String> - url for object
         def get_object_https_url(container, object, expires, options = {})
-          create_temp_url(container, object, expires, "GET", "https", options)
+          create_temp_url(container, object, expires, "GET", options.merge(:scheme => "https"))
         end
         
         # Get an expiring object http url
@@ -29,7 +29,7 @@ module Fog
         # * response<~Excon::Response>:
         #   * body<~String> - url for object
         def get_object_http_url(container, object, expires, options = {})
-          create_temp_url(container, object, expires, "GET", "http", options)
+          create_temp_url(container, object, expires, "GET", options.merge(:scheme => "http"))
         end
         
         # creates a temporary url 
@@ -48,10 +48,11 @@ module Fog
         #
         # ==== See Also
         # http://docs.rackspace.com/files/api/v1/cf-devguide/content/Create_TempURL-d1a444.html
-        def create_temp_url(container, object, expires, method, scheme, options = {})
+        def create_temp_url(container, object, expires, method, options = {})
           raise ArgumentError, "Insufficient parameters specified." unless (container && object && expires && method)
           raise ArgumentError, "Storage must my instantiated with the :openstack_temp_url_key option" if @openstack_temp_url_key.nil?
           
+          scheme = options[:scheme] || @scheme
           
           # POST not allowed
           allowed_methods = %w{GET PUT HEAD}
@@ -69,11 +70,6 @@ module Fog
           sig  = sig_to_hex(hmac.sign(string_to_sign))
 
           "#{scheme}://#{@host}#{object_path_escaped}?temp_url_sig=#{sig}&temp_url_expires=#{expires}"
-        end
-        
-        # Creates a temporary url using the scheme specified in the service configuration
-        def create_temp_url_with_service_scheme(container, object, expires, method, options = {})
-          create_temp_url(container, object, expires, method, @scheme, options)
         end
         
         private
