@@ -163,7 +163,7 @@ module Fog
               end
           end
 
-          if response.status == 200 && !response.body.empty?
+          if !response.body.empty? and response.get_header('Content-Type') =~ /application\/json/ then
             response.body = Fog::JSON.decode(response.body)
           end
 

@@ -98,7 +98,9 @@ module Fog
       request :get_task_list
       request :get_vapp
       request :get_vapp_metadata
+      request :get_vapp_ovf_descriptor
       request :get_vapp_template
+      request :get_vapp_template_ovf_descriptor
       request :get_vdc
       request :get_vm
       request :get_vm_customization
@@ -108,6 +110,7 @@ module Fog
       request :get_vms_by_metadata
       request :instantiate_vapp_template
       request :post_cancel_task
+      request :post_capture_vapp
       request :post_power_off_vapp
       request :post_power_on_vapp
       request :post_reboot_vapp
