@@ -22,6 +22,7 @@ module Fog
           }.merge(options)
 
           request(
+            :expects  => 201,
             :path => 'stacks',
             :method => 'POST',
             :body => MultiJson.encode(params)
@@ -45,8 +46,10 @@ module Fog
           }
 
           response = Excon::Response.new
-          response.status = 202
-          response.body = {}
+          response.status = 201
+          response.body = {
+            'id' => stack_id,
+            'links'=>[{"href"=>"http://localhost:8004/v1/fake_tenant_id/stacks/#{stack_name}/#{stack_id}", "rel"=>"self"}]}
           response
         end
       end
