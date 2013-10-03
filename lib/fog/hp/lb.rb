@@ -150,7 +150,7 @@ module Fog
           rescue Excon::Errors::HTTPStatusError => error
             raise case error
                     when Excon::Errors::NotFound
-                      Fog::HP::BlockStorage::NotFound.slurp(error)
+                      Fog::HP::LB::NotFound.slurp(error)
                     else
                       error
                   end

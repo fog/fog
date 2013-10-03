@@ -2,7 +2,7 @@ Shindo.tests('Fog::CDN::HP', ['hp', 'cdn']) do
   credentials = {
     :auth_token => 'auth_token',
     :endpoint_url => 'http://127.0.0.1/cdnpath/',
-    :cdn_endpoint_url => "http://127.0.0.1/cdnpath/",
+    :cdn_endpoint_url => 'http://127.0.0.1/cdnpath/',
     :service_catalog => {
       :"CDN" => {
       :zone => 'http://127.0.0.1/cdnpath/'}},

@@ -2,19 +2,26 @@ module Fog
   module HP
     class DNS
       class Real
-        # Get servers for existing domain
+        # Get authoritative nameservers for existing DNS domain
         #
         # ==== Parameters
-        # * instance_id<~Integer> - Id of the domain with servers
+        # * domain_id<~String> - UUId of the domain to get nameservers for
         #
         # ==== Returns
         # * response<~Excon::Response>:
-        # *TBD
-        def get_servers_hosting_domain(instance_id)
+        #   * body<~Hash>:
+        #     * 'nameservers'<~Array>:
+        #       * 'id'<~String> - UUID of the domain
+        #       * 'name'<~String> - Name of the domain
+        #       * 'ttl'<~Integer> - TTL for the domain
+        #       * 'email'<~String> - Email for the domain
+        #       * 'serial'<~Integer> - Serial number for the domain
+        #       * 'created_at'<~String> - created date time stamp
+        def get_servers_hosting_domain(domain_id)
           request(
-              :expects => [200, 203],
+              :expects => 200,
               :method  => 'GET',
-              :path    => "domains/#{instance_id}/servers"
+              :path    => "domains/#{domain_id}/servers"
           )
         end
 
@@ -22,18 +29,33 @@ module Fog
 
       class Mock
 
-        def get_servers_hosting_domain(instance_id)
-          if domain = find_domain(instance_id)
+        def get_servers_hosting_domain(domain_id)
+          response = Excon::Response.new
+          if list_domains.body['domains'].detect { |_| _['id'] == domain_id }
             response.status = 200
-            response.body   = {'domain' => domain}
+            response.body   = { 'servers' => dummy_servers }
             response
           else
-            response.status = 400
-            raise(Excon::Errors.status_error({:expects => 200}, response))
+            raise Fog::HP::DNS::NotFound
           end
-          response
         end
 
+        def dummy_servers
+          [
+              {
+                  'id'         => Fog::HP::Mock.uuid.to_s,
+                  'name'       => 'ns1.provider.com.',
+                  'created_at' => '2012-01-01T13:32:20Z',
+                  'updated_at' => '2012-01-01T13:32:20Z'
+              },
+              {
+                  'id'         => Fog::HP::Mock.uuid.to_s,
+                  'name'       => 'ns2.provider.com.',
+                  'created_at' => '2012-01-01T13:32:20Z',
+                  'updated_at' => '2012-01-01T13:32:20Z'
+              },
+          ]
+        end
       end
     end
   end

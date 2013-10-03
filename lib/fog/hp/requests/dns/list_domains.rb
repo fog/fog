@@ -2,11 +2,20 @@ module Fog
   module HP
     class DNS
       class Real
-        # List all flavors (IDs and names only)
-
+        # List all DNS domains
+      # ==== Returns
+      # * response<~Excon::Response>:
+      #   * body<~Hash>:
+      #     * 'domains'<~Array>:
+      #       * 'id'<~String> - UUID of the domain
+      #       * 'name'<~String> - Name of the domain
+      #       * 'ttl'<~Integer> - TTL for the domain
+      #       * 'email'<~String> - Email for the domain
+      #       * 'serial'<~Integer> - Serial number for the domain
+      #       * 'created_at'<~String> - created date time stamp
         def list_domains
           request(
-              :expects => [200],
+              :expects => 200,
               :method  => 'GET',
               :path    => 'domains'
           )
@@ -17,13 +26,9 @@ module Fog
       class Mock
         def list_domains
           response        = Excon::Response.new
+          domains = self.data[:domains].values
           response.status = 200
-          response.body   = {
-              "domains" => [
-                {"name" => "domain1.com.", "created_at" => "2012-11-01T20:11:08.000000", "email" => "nsadmin@example.org", "ttl" => 3600, "serial" => 1351800668, "id" => "09494b72-b65b-4297-9efb-187f65a0553e"},
-                {"name" => "domain2.com.", "created_at" => "2012-11-01T20:09:48.000000", "email" => "nsadmin@example.org", "ttl" => 3600, "serial" => 1351800588, "id" => "89acac79-38e7-497d-807c-a011e1310438"}
-              ]
-          }
+          response.body = { 'domains' => domains }
           response
         end
 
