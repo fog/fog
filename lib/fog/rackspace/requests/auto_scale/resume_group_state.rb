@@ -7,7 +7,7 @@ module Fog
           request(
             :expects => [204],
             :method => 'POST',
-            :path => "groups/#{group_id}/resume",
+            :path => "groups/#{group_id}/resume"
           )
         end
       end
