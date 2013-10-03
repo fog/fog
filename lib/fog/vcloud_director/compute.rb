@@ -69,44 +69,63 @@ module Fog
       collection :vm_networks
       model      :tag # this is called metadata in vcloud
       collection :tags
+      model      :media
+      collection :medias # sic
 
       request_path 'fog/vcloud_director/requests/compute'
-      request :get_organizations
-      request :get_organization
+      request :delete_media
+      request :delete_vapp
+      request :delete_vapp_metadata_item_metadata
       request :get_catalog
       request :get_catalog_item
-      request :get_vdc
-      request :get_vapp_template
-      request :get_vapp
-      request :get_vms
-      request :instantiate_vapp_template
-      request :get_task
-      request :get_tasks_list
-      request :get_vm_customization
-      request :put_vm_customization
-      request :get_network
-      request :get_vm_cpu
-      request :put_vm_cpu
-      request :get_vm_memory
-      request :put_vm_memory
-      request :get_vm_disks
-      request :put_vm_disks
-      request :get_vm_network
-      request :put_vm_network
-      request :get_metadata
-      request :post_vm_metadata
-      request :put_metadata_value
-      request :delete_metadata
-      request :post_vm_poweron
-      request :post_vm_poweroff
-      request :get_request # this is used for manual testing
-      request :get_href    # this is used for manual testing
-      request :get_vms_by_metadata
-      request :get_vm
-      request :post_task_cancel
-      request :post_vapp_undeploy
-      request :delete_vapp
+      request :get_cpu_rasd_item
       request :get_current_session
+      request :get_disks_rasd_items_list
+      request :get_guest_customization_system_section_vapp
+      request :get_href # this is used for manual testing
+      request :get_media
+      request :get_media_owner
+      request :get_memory_rasd_item
+      request :get_metadata
+      request :get_network
+      request :get_network_connection_system_section_vapp
+      request :get_organization
+      request :get_organizations
+      request :get_request # this is used for manual testing
+      request :get_supported_systems_info
+      request :get_supported_versions
+      request :get_task
+      request :get_task_list
+      request :get_vapp
+      request :get_vapp_metadata
+      request :get_vapp_ovf_descriptor
+      request :get_vapp_template
+      request :get_vapp_template_ovf_descriptor
+      request :get_vdc
+      request :get_vm
+      request :get_vm_customization
+      request :get_vm_disks
+      request :get_vm_network
+      request :get_vms
+      request :get_vms_by_metadata
+      request :instantiate_vapp_template
+      request :post_cancel_task
+      request :post_capture_vapp
+      request :post_power_off_vapp
+      request :post_power_on_vapp
+      request :post_reboot_vapp
+      request :post_reset_vapp
+      request :post_shutdown_vapp
+      request :post_suspend_vapp
+      request :post_undeploy_vapp
+      request :post_upload_media
+      request :post_vapp_metadata_item_metadata
+      request :put_cpu
+      request :put_disks
+      request :put_guest_customization_section_vapp
+      request :put_memory
+      request :put_network_connection_system_section_vapp
+      request :put_vapp_metadata_item_metadata
 
       class Model < Fog::Model
         def initialize(attrs={})
@@ -227,6 +246,7 @@ module Fog
           end
         end
 
+        # @api private
         def do_request(params)
           headers = { 'Accept' => 'application/*+xml;version=' +  @api_version }
           if @cookie
@@ -305,29 +325,46 @@ module Fog
         def data
           @@data ||= Hash.new do |hash, key|
             hash[key] = {
-              :catalog => {
-                :name => 'Default Catalog',
-                :uuid => uuid
+              :catalogs => {
+                uuid => {
+                  :name => 'Default Catalog'
+                }
               },
-              :catalog_items => [{
-                :type => 'vAppTemplate',
-                :name => 'vAppTemplate 1',
-                :uuid => uuid
-              }],
-              :networks => [{
-                :name => 'Default Network',
-                :uuid => uuid
-              }],
+              :catalog_items => {
+                uuid => {
+                  :type => 'vAppTemplate',
+                  :name => 'vAppTemplate 1'
+                }
+              },
+              :medias => {},
+              :networks => {
+                uuid => {
+                  :Description => 'Network for mocking',
+                  :Dns1 => '8.8.8.8',
+                  :Dns2 => '8.8.4.4',
+                  :DnsSuffix => 'example.com',
+                  :Gateway => '192.168.1.1',
+                  :IpRanges => [{
+                    :StartAddress=>'192.168.1.2',
+                    :EndAddress=>'192.168.1.254'
+                  }],
+                  :IsInherited => false,
+                  :Netmask => '255.255.255.0',
+                  :name => 'Default Network'
+                }
+              },
               :org => {
                 :description => 'Organization for mocking',
                 :full_name => 'Mock Organization',
                 :name => org_name,
                 :uuid => uuid
               },
-              :vdc => {
-                :description => 'vDC for mocking',
-                :name => 'MockVDC',
-                :uuid => uuid
+              :tasks => {},
+              :vdcs => {
+                uuid => {
+                  :description => 'vDC for mocking',
+                  :name => 'MockVDC'
+                }
               }
             }
           end[@vcloud_director_username]
@@ -366,6 +403,10 @@ module Fog
           @user_name ||= @vcloud_director_username.split('@').first
         end
 
+        def user_uuid
+          @user_uuid ||= uuid
+        end
+
         def uuid
           [8,4,4,4,12].map {|i| Fog::Mock.random_hex(i)}.join('-')
         end
@@ -380,6 +421,10 @@ module Fog
           "#{@end_point}#{path}"
         end
 
+        def valid_uuid?(uuid)
+          /^[\da-f]{8}(?:-[\da-f]{4}){3}-[\da-f]{12}$/.match(uuid.downcase)
+        end
+
         def xmlns
           'http://www.vmware.com/vcloud/v1.5'
         end
@@ -391,6 +436,7 @@ module Fog
         def xsi_schema_location
           "http://www.vmware.com/vcloud/v1.5 http://#{@host}#{@path}/v1.5/schema/master.xsd"
         end
+
       end
     end
   end

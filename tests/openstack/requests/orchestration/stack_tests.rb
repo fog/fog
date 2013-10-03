@@ -10,8 +10,13 @@ Shindo.tests('Fog::Orchestration[:openstack] | stack requests', ['openstack']) d
     'updated_time'        => Time
   }
 
+  @create_format = {
+    'id'                  => String,
+    'links'               => Array,
+  }
+
   tests('success') do
-    tests('#create_stack("teststack")').formats({}) do
+    tests('#create_stack("teststack")').formats(@create_format) do
       Fog::Orchestration[:openstack].create_stack("teststack").body
     end
 

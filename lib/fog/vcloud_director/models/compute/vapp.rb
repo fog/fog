@@ -31,21 +31,55 @@ module Fog
         end
 
         def undeploy
+          # @todo Call #post_undeploy_vapp not #undeploy
           response = service.undeploy(id)
           service.process_task(response.body)
         end
 
-        def power_on
-          response = service.post_vm_poweron(id)
+        # Power off all VMs in the vApp.
+        def power_off
+          requires :id
+          response = service.post_power_off_vapp(id)
           service.process_task(response.body)
         end
 
-        def power_off
-          response = service.post_vm_poweroff(id)
+        # Power on all VMs in the vApp.
+        def power_on
+          requires :id
+          response = service.post_power_on_vapp(id)
+          service.process_task(response.body)
+        end
+
+        # Reboot all VMs in the vApp.
+        def reboot
+          requires :id
+          response = service.post_reboot_vapp(id)
+          service.process_task(response.body)
+        end
+
+        # Reset all VMs in the vApp.
+        def reset
+          requires :id
+          response = service.post_reset_vapp(id)
+          service.process_task(response.body)
+        end
+
+        # Shut down all VMs in the vApp.
+        def shutdown
+          requires :id
+          response = service.post_shutdown_vapp(id)
+          service.process_task(response.body)
+        end
+
+        # Suspend all VMs in the vApp.
+        def suspend
+          requires :id
+          response = service.post_suspend_vapp(id)
           service.process_task(response.body)
         end
 
         def destroy
+          requires :id
           response = service.delete_vapp(id)
           service.process_task(response.body)
         end

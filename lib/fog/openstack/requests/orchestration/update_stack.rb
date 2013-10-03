@@ -5,22 +5,22 @@ module Fog
 
         # Update a stack.
         #
+        # @param [String] stack_id ID of the stack to update.
         # @param [String] stack_name Name of the stack to update.
         # @param [Hash] options
-        #   * :template_body [String] Structure containing the template body.
+        #   * :template [String] Structure containing the template body.
         #   or (one of the two Template parameters is required)
         #   * :template_url [String] URL of file containing the template body.
         #   * :parameters [Hash] Hash of providers to supply to template.
         #
-        # @see http://docs.amazonwebservices.com/AWSCloudFormation/latest/APIReference/API_UpdateStack.html
-        #
-        def update_stack(stack_name, options = {})
+        def update_stack(stack_id, stack_name, options = {})
           params = {
             :stack_name => stack_name
           }.merge(options)
 
           request(
-            :path => 'stacks',
+            :expects  => 202,
+            :path => "stacks/#{stack_name}/#{stack_id}",
             :method => 'PUT',
             :body => MultiJson.encode(params)
           )

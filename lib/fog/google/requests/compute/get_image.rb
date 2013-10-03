@@ -4,8 +4,21 @@ module Fog
 
       class Mock
 
-        def get_image(image_name)
-          Fog::Mock.not_implemented
+        def get_image(image_name, project=@project)
+          image = self.class.data[project][:images][image_name] || {
+            "error" => {
+              "errors" => [
+                {
+                  "domain" => "global",
+                  "reason" => "invalid",
+                  "message" => "Invalid value for field 'resource.images': 'https://www.googleapis.com/compute/v1beta15/projects/#{project}/global/images/#{image_name}'.  Resource was not found."
+                }
+              ],
+              "code" => 400,
+              "message" => "Invalid value for field 'resource.images': 'https://www.googleapis.com/compute/v1beta15/projects/#{project}/global/images/#{image_name}'.  Resource was not found."
+            }
+          }
+          build_response(:body => image)
         end
 
       end

@@ -22,4 +22,5 @@ spec/credentials.yml
 vendor/*
 tags
 tests/digitalocean/fixtures/
+tests/vcloud_director/fixtures/vcloud/v1.5/schema/*.xsd
 tests/vcloud_director/vcr_cassettes/
