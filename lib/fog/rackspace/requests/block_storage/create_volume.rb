@@ -77,7 +77,7 @@ module Fog
               "availability_zone"   => "nova",
               "metadata"            => {},
             }
-            if options[:snapshot_id]
+            if snapshot_id = options[:snapshot_id]
               snapshot = self.data[:snapshots][snapshot_id]
               volume.merge!("size" => snapshot["size"])
             end
