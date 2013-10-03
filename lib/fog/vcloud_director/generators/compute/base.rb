@@ -4,32 +4,51 @@ module Fog
       module VcloudDirector
         class Base
 
-          attr_reader :options
+          attr_reader :builder, :data, :root_attributes
 
-          def initialize(options)
-            @options = options
+          # @param [Hash] data
+          def initialize(data={})
+            @data = data
+            @root_attributes = {}
           end
 
           # @return [String]
           def to_xml
-            builder.to_xml(:ident => 0)
+            build
+            builder.doc.root.to_xml(:ident => 0)
           end
 
           # @return [String]
           def pretty_xml
-            builder.to_xml
+            build
+            builder.doc.root.to_xml
           end
 
           # @api private
           # @return [Nokogiri::XML::Document]
           def doc
+            build
             builder.doc
           end
 
           protected
 
-          # @api private
-          def builder
+          def build
+            @root_attributes.delete_if {|k, v| v.nil?}
+            @builder ||= Nokogiri::XML::Builder.new do |xml|
+              xml.send(self.class.to_s.split('::').last, @root_attributes) do |x|
+                inner_build(x)
+              end
+            end
+          end
+
+          def with(root)
+            @root_attributes.delete_if {|k, v| v.nil?}
+            @builder ||= Nokogiri::XML::Builder.with(root) do |xml|
+              xml.send(self.class.to_s.split('::').last, @root_attributes) do |x|
+                inner_build(x)
+              end
+            end
           end
 
         end
