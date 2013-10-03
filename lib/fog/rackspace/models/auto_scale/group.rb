@@ -103,6 +103,7 @@ module Fog
         # @see http://docs.rackspace.com/cas/api/v1.0/autoscale-devguide/content/POST_createGroup_v1.0__tenantId__groups_Groups.html   
         def save
           requires :launch_config, :group_config, :policies
+          raise Fog::Errors::Error.new("You should update launch_config and group_config directly") if persisted?
 
           launch_config_hash = {
             'args' => launch_config.args,
