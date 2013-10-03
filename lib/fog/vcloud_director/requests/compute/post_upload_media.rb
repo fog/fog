@@ -2,6 +2,8 @@ module Fog
   module Compute
     class VcloudDirector
       class Real
+        require 'fog/vcloud_director/generators/compute/media.rb'
+
         # Upload a media image.
         #
         # The response includes an upload link for the media image.
@@ -18,16 +20,10 @@ module Fog
         #   vCloud API Documentation
         # @since vCloud API version 0.9
         def post_upload_media(vdc_id, name, image_type, size, options={})
-          body = <<-END
-          <Media xmlns="http://www.vmware.com/vcloud/v1.5"
-            name="#{name}"
-            imageType="#{image_type}"
-            size="#{size}">
-          </Media>
-          END
+          body = Fog::Generators::Compute::VcloudDirector::Media.new(name, image_type, size, options)
 
           request(
-            :body    => body,
+            :body    => body.to_xml,
             :expects => 201,
             :headers => {'Content-Type' => 'application/vnd.vmware.vcloud.media+xml'},
             :method  => 'POST',

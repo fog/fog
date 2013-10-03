@@ -16,6 +16,7 @@ module Fog
         attribute :size, :type => :integer
         attribute :description, :aliases => :Description
 
+        # @return [Boolean]
         def destroy
           requires :id
           response = service.delete_media(id)

@@ -2,33 +2,30 @@ module Fog
   module Generators
     module Compute
       module VcloudDirector
-        require 'fog/vcloud_director/generators/compute/base'
+        require 'fog/vcloud_director/generators/compute/params_type'
+
+        attr_reader :source
 
         # Parameters for a captureVapp request.
         # @see http://pubs.vmware.com/vcd-51/topic/com.vmware.vcloud.api.reference.doc_51/doc/types/CaptureVAppParamsType.html
         #   vCloud API Documentation
-        class CaptureVappParams < Base
+        class CaptureVAppParams < ParamsType
 
-          attr_reader :name, :source_href
-
-          def initialize(name, source_href, options={})
-            super options
-            @name = name
-            @source_href = source_href
+          # @params [Hash] data
+          def initialize(source_href, data={})
+            data[:source] = {:href => source_href}
+            super data
+            @root_attributes[:'xmlns:ovf'] = 'http://schemas.dmtf.org/ovf/envelope/1'
+            @source = {:href => source_href}
           end
 
-          # @api private
-          # @return [Nokogiri::XML::Builder]
-          def builder
-            @builder ||= Nokogiri::XML::Builder.new do |xml|
-              attrs = {:xmlns => 'http://www.vmware.com/vcloud/v1.5', :name => name}
-              xml.CaptureVAppParams(attrs) {
-                xml.Description options[:Description] || ''
-                xml.Source(:href => source_href)
-              }
-            end
-          end
+          protected
 
+          def inner_build(xml)
+            super
+            xml.Source(:href => data.delete(:source)[:href])
+            #xml.VdcStorageProfile(:href => source_href) # since 5.1
+          end
         end
       end
     end
