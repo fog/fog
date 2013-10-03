@@ -78,25 +78,15 @@ max_entities = get_user_input_as_int "Enter maximum number of servers"
 server_name = get_user_input "Enter base name for servers in scaling group '#{scaling_group_name}'"
 
 # retrieve list of images from computer service
-images = compute_service.images
+print "Loading available server images...."
+images = compute_service.images.all
+puts "[DONE]"
 
 # prompt for server image
 image = select_image(images)
 
 # pick first server flavor
 flavor = compute_service.flavors.first
-
-# create server template
-# server_template = compute_service.servers.new :name => server_name,
-#   :flavor_id => flavor.id,
-#   :image_id => image.id,
-#   :disk_config => "MANUAL",
-#   :metadata => { "created_by" => "autoscale sample script" },
-#   :networks => [INTERNET, SERVICE_NET],
-#   :personality => {
-#     "path" => "/root/.csivh",
-#     "contents" => "VGhpcyBpcyBhIHRlc3QgZmlsZS4="
-#   }
 
 server_template =   {
   "name" => "autoscale_server",
@@ -125,7 +115,7 @@ server_template =   {
   }
 
 # create launch configuration
-launch_config = Fog::Rackspace::AutoScale::LaunchConfig.new :type => :launch_server, :args => {:server => s }
+launch_config = Fog::Rackspace::AutoScale::LaunchConfig.new :type => :launch_server, :args => {:server => server_template }
 
 # create group configuration
 group_config = Fog::Rackspace::AutoScale::GroupConfig.new :max_entities => max_entities,
@@ -138,5 +128,5 @@ group_config = Fog::Rackspace::AutoScale::GroupConfig.new :max_entities => max_e
 group = auto_scale_service.groups.create :group_config => group_config,
   :launch_config => launch_config
 
-puts "Scaling Group #{scaling_group_name} (#{group.id}) was created!"
+puts "\nScaling Group #{scaling_group_name} (#{group.id}) was created!"
 puts "State: #{group.state}"

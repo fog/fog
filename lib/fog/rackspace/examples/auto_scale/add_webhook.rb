@@ -71,4 +71,4 @@ webhook_name = get_user_input "Enter name for webhook"
 # create webhook
 webhook = policy.webhooks.create :name => webhook_name
 
-puts "Webhook #{webhook.name} was successfully added - #{webhook.execution_url}"
+puts "\nWebhook #{webhook.name} was successfully added - #{webhook.execution_url}"

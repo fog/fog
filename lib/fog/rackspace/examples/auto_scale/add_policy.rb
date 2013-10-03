@@ -65,4 +65,4 @@ change = get_user_input_as_int "Enter change increment"
 
 group.policies.create :name => policy_name, :cooldown => cooldown, :type => 'webhook', :change => change
 
-puts "Policy #{policy_name} was successfully added to group"
+puts "\nPolicy #{policy_name} was successfully added to group"
