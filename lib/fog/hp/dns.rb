@@ -12,13 +12,11 @@ module Fog
 
       secrets :hp_secret_key
 
-#      model_path 'fog/hp/models/dns'
-#      model      :domain
-#      collection :domains
-#      model      :record
-#      collection :records
-#      model      :server
-
+      model_path 'fog/hp/models/dns'
+      model      :domain
+      collection :domains
+      model      :record
+      collection :records
 
       request_path 'fog/hp/requests/dns'
       request :create_domain
@@ -38,7 +36,8 @@ module Fog
         def self.data
           @data ||= Hash.new do |hash, key|
             hash[key] = {
-
+              :domains => {},
+              :records => {}
             }
           end
         end
@@ -135,7 +134,7 @@ module Fog
           rescue Excon::Errors::HTTPStatusError => error
             raise case error
                     when Excon::Errors::NotFound
-                      Fog::HP::BlockStorage::NotFound.slurp(error)
+                      Fog::HP::DNS::NotFound.slurp(error)
                     else
                       error
                   end

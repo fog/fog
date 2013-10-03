@@ -3,9 +3,37 @@ module Fog
     class DNS
 
       class Real
-        def update_record(domain_id, record_id, options)
+        # Update an existing DNS record
+        #
+        # ==== Parameters
+        # * domain_id<~String> - UUId of domain to delete
+        # * record_id<~String> - UUId of record to get
+        # * options<~Hash>:
+        #   * 'name'<~String> - Name of record
+        #   * 'type'<~String> - Type of the record i.e. 'A'
+        #   * 'data'<~String> - Data required by the record
+        #   * 'priority'<~Integer> - Priority
+        #
+        # ==== Returns
+        # * response<~Excon::Response>:
+        #   * body<~Hash>:
+        #     * 'id'<~String> - UUID of the record
+        #     * 'name'<~String> - Name of the record
+        #     * 'type'<~String> - Type of the record
+        #     * 'domain_id'<~String> - UUID of the domain
+        #     * 'ttl'<~Integer> - TTL of the record
+        #     * 'data'<~String> - Data required by the record
+        #     * 'priority'<~Integer> - Priority for the record
+        #     * 'created_at'<~String> - created date time stamp
+        #     * 'updated_at'<~String> - updated date time stamp
+        def update_record(domain_id, record_id, options={})
+          l_options = [:name, :type, :data, :priority]
+          l_options.select{|o| options[o]}.each do |key|
+            data[key] = options[key]
+          end
+
           request(
-            :body    => Fog::JSON.encode(options),
+            :body    => Fog::JSON.encode(data),
             :expects => 200,
             :method  => 'PUT',
             :path    => "domains/#{domain_id}/records/#{record_id}"
@@ -16,22 +44,21 @@ module Fog
 
       class Mock
         def update_record(domain_id, record_id, options)
-          if record = find_record(domain_id, record_id)
-            if options['name']
-              domain['name'] = options['name']
-            end
+          response = Excon::Response.new
+          if record = list_records_in_a_domain(domain_id).body['records'].detect { |_| _['id'] == record_id }
+            record['name']      = options[:name]      if options[:name]
+            record['type']      = options[:type]      if options[:type]
+            record['data']      = options[:data]      if options[:data]
+            record['priority']  = options[:priority]  if options[:priority]
+
             response.status = 200
             response.body   = record
             response
           else
             raise Fog::HP::DNS::NotFound
           end
-          response
         end
 
-        def find_record(domain_id, record_id)
-          list_records_in_a_domain(domain_id).body['records'].detect { |_| _['id'] == record_id }
-        end
       end
 
     end
