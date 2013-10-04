@@ -19,5 +19,5 @@ def test
   # The network won't have any firewall rules, so we won't be able to ssh in.
   server.wait_for { ready? }
 
-  raise "Cloud not delete server." unless server.destroy
+  raise "Could not delete server." unless server.destroy
 end
