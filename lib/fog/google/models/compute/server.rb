@@ -74,6 +74,10 @@ module Fog
 
           # You can have multiple SSH keys, seperated by newlines.
           # https://developers.google.com/compute/docs/console?hl=en#sshkeys
+          if !self.metadata["sshKeys"]
+            self.metadata["sshKeys"] = ""
+          end
+
           if !self.metadata["sshKeys"].empty?
             self.metadata["sshKeys"] += "\n"
           end
