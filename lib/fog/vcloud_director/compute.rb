@@ -126,6 +126,8 @@ module Fog
       request :put_memory
       request :put_network_connection_system_section_vapp
       request :put_vapp_metadata_item_metadata
+      request :get_edge_gateways
+      request :get_edge_gateway
 
       class Model < Fog::Model
         def initialize(attrs={})
