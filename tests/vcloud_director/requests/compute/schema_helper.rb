@@ -316,7 +316,7 @@ class VcloudDirector
         :IsEnabled => String,
         :DefaultAction => String,
         :LogDefaultAction => String,
-        :FirewallRule	=> [FIREWALL_RULE_TYPE]
+        #:FirewallRule	=> [FIREWALL_RULE_TYPE]  # not required
       }
 
       #Represents the SNAT and DNAT rules.
@@ -344,7 +344,7 @@ class VcloudDirector
         :IsEnabled => String,
         :NatType => Fog::Nullable::String,
         :Policy => Fog::Nullable::String,
-        :NatRule => [NAT_RULE_TYPE],
+        #:NatRule => [NAT_RULE_TYPE],  # not required
         :ExternalIp => Fog::Nullable::String
       }
 

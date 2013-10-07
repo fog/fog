@@ -43,6 +43,8 @@ Shindo.tests('Compute::VcloudDirector | edge gateway requests', ['vclouddirector
 
 
   tests('Retrieve non-existent edge gateway').raises(Excon::Errors::Forbidden) do
+    pending if Fog.mocking?
+
     @service.get_edge_gateway('00000000-0000-0000-0000-000000000000')
   end
 
