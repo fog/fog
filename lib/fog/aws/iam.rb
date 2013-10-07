@@ -102,7 +102,9 @@ module Fog
                 ghash[gkey] = {
                   :group_id   => Fog::AWS::Mock.key_id,
                   :arn        => "arn:aws:iam::#{Fog::AWS::Mock.owner_id}:group/#{gkey}",
-                  :members    => []
+                  :members    => [],
+                  :created_at  => Time.now,
+                  :policies    => {}
                 }
               end
             }
