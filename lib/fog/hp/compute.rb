@@ -189,7 +189,9 @@ module Fog
           @connection_options = options[:connection_options] || {}
           ### Set an option to use the style of authentication desired; :v1 or :v2 (default)
           ### A symbol is required, we should ensure that the value is loaded as a symbol
-          auth_version = options[:hp_auth_version].to_sym || :v2
+          auth_version = options[:hp_auth_version] || :v2
+          auth_version = auth_version.to_s.downcase.to_sym
+          
           ### Pass the service name for compute via the options hash
           options[:hp_service_type] = "Compute"
           @hp_tenant_id = options[:hp_tenant_id]
