@@ -5,9 +5,10 @@ module Fog
         # Create a new DNS domain
         #
         # ==== Parameters
-        # * 'name'<~String> - Name of domain
-        # * 'email'<~String> - email for the domain
+        # * 'name'<~String> - Name of the domain
+        # * 'email'<~String> - Email for the domain
         # * options<~Hash>:
+        #   * 'description'<~String> - Description for the domain
         #   * 'ttl'<~String> - TTL for the domain
         #
         # ==== Returns
@@ -15,6 +16,7 @@ module Fog
         #   * body<~Hash>:
         #     * 'id'<~String> - UUID of the domain
         #     * 'name'<~String> - Name of the domain
+        #     * 'description'<~String> - Description for the domain
         #     * 'ttl'<~Integer> - TTL for the domain
         #     * 'email'<~String> - Email for the domain
         #     * 'serial'<~Integer> - Serial number for the domain
@@ -26,7 +28,7 @@ module Fog
             :email => email
           }
 
-          l_options = [:ttl]
+          l_options = [:description, :ttl]
           l_options.select{|o| options[o]}.each do |key|
             data[key] = options[key]
           end
@@ -48,9 +50,10 @@ module Fog
           data = {
               'id'         => Fog::HP::Mock.uuid.to_s,
               'name'       => name || 'domain1.com.',
-              'ttl'        => options[:ttl] || 3600,
               'email'      => email || 'nsadmin@example.org',
-              'serial'     => 1351800588,
+              'description' => options[:description] || 'desc domain1.com.',
+              'ttl'        => options[:ttl] || 3600,
+              'serial'     => Fog::Mock.random_numbers(10).to_i,
               'created_at' => '2012-01-01T13:32:20Z'
           }
           self.data[:domains][data['id']] = data

@@ -5,8 +5,8 @@ module Fog
         # Delete a DNS Record
         #
         # ==== Parameters
-        # * domain_id<~Integer> - Id of domain for record
-        # * record_id<~Integer> - Id of record to delete
+        # * 'domain_id'<~String> - UUId of domain for record
+        # * 'record_id'<~String> - UUId of record to delete
         #
         def delete_record(domain_id, record_id)
           request(

@@ -6,14 +6,15 @@ module Fog
         # Get details of an existing DNS record
         #
         # ==== Parameters
-        # * domain_id<~String> - UUId of domain for record
-        # * record_id<~String> - UUId of record to get
+        # * 'domain_id'<~String> - UUId of domain for record
+        # * 'record_id'<~String> - UUId of record to get
         #
         # ==== Returns
         # * response<~Excon::Response>:
         #   * body<~Hash>:
         #     * 'id'<~String> - UUID of the record
         #     * 'name'<~String> - Name of the record
+        #     * 'description'<~String> - Description for the record
         #     * 'type'<~String> - Type of the record
         #     * 'domain_id'<~String> - UUId of the domain
         #     * 'ttl'<~Integer> - TTL of the record
