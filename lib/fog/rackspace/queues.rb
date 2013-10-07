@@ -13,7 +13,6 @@ module Fog
       requires :rackspace_api_key, :rackspace_username, :rackspace_queues_client_id
       recognizes :rackspace_auth_url
       recognizes :rackspace_auth_token
-      recognizes :rackspace_endpoint
       recognizes :rackspace_region
       recognizes :rackspace_queues_url
 
@@ -65,15 +64,13 @@ module Fog
           @rackspace_auth_url = options[:rackspace_auth_url]
           @rackspace_must_reauthenticate = false
           @connection_options = options[:connection_options] || {}
-          @rackspace_endpoint = Fog::Rackspace.normalize_url(options[:rackspace_queues_url] || options[:rackspace_endpoint])
+          @rackspace_region = options[:rackspace_region] || :ord
 
           unless v2_authentication?
             raise Fog::Errors::NotImplemented.new("V2 authentication required for Queues")
           end
 
           authenticate
-
-          deprecation_warnings(options)
 
           @persistent = options[:persistent] || false
           @connection = Fog::Connection.new(endpoint_uri.to_s, @persistent, @connection_options)
@@ -112,17 +109,6 @@ module Fog
 
         def client_id=(client_id)
           @rackspace_queues_client_id = client_id
-        end
-
-        private
-
-        def deprecation_warnings(options)
-          Fog::Logger.deprecation("The :rackspace_endpoint option is deprecated. Please use :rackspace_queues_url for custom endpoints") if options[:rackspace_endpoint]
-
-          # if [DFW_ENDPOINT, ORD_ENDPOINT, LON_ENDPOINT].include?(@rackspace_endpoint) && v2_authentication?
-          #   regions = @identity_service.service_catalog.display_service_regions(service_name)
-          #   Fog::Logger.deprecation("Please specify region using :rackspace_region rather than :rackspace_endpoint. Valid region for :rackspace_region are #{regions}.")
-          # end
         end
       end
     end

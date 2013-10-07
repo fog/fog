@@ -32,8 +32,9 @@ Shindo.tests('Fog::Rackspace::Queues | messages_tests', ['rackspace']) do
         service.get_message(client_id, queue_name, message_id).body
       end
 
-      #TODO - Report bad error code to queueing team
       tests("#delete_message(#{queue_name}, #{message_id}, { :claim_id => '10' })").raises(Fog::Rackspace::Queues::ServiceError) do
+        #API team should be changing this
+        pending
         service.delete_message(queue_name, message_id, { :claim_id => '10' })
       end
 
