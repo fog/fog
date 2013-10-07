@@ -13,6 +13,7 @@ module Fog
         attribute :summary
         attribute :type
         attribute :key
+        attribute :virtualswitch
 
         def initialize(attributes={} )
           if attributes.has_key? :type and attributes[:type].is_a? String then

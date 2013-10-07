@@ -50,7 +50,7 @@ module Fog
         end
 
         def create_nic_backing nic, attributes
-          raw_network = get_raw_network(nic.network, attributes[:datacenter])
+          raw_network = get_raw_network(nic.network, attributes[:datacenter], if nic.virtualswitch then nic.virtualswitch end)
 
           if raw_network.kind_of? RbVmomi::VIM::DistributedVirtualPortgroup
             RbVmomi::VIM.VirtualEthernetCardDistributedVirtualPortBackingInfo(
