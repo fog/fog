@@ -6,30 +6,38 @@ module Fog
         # Create a new DNS record
         #
         # ==== Parameters
+        # * 'domain_id'<~String> - UUId of the domain
         # * 'name'<~String> - Name of record
         # * 'type'<~String> - Type of the record i.e. 'A'
         # * 'data'<~String> - Data required by the record
-        # * 'priority'<~String> - Priority
+        # * options<~Hash>:
+        #   * 'description'<~String> - Description for the record
+        #   * 'priority'<~Integer> - Priority
+        #   * 'ttl'<~Integer> - TTL of the record
         #
         # ==== Returns
         # * response<~Excon::Response>:
         #   * body<~Hash>:
         #     * 'id'<~String> - UUID of the record
         #     * 'name'<~String> - Name of the record
+        #     * 'description'<~String> - Description for the record
         #     * 'type'<~String> - Type of the record
         #     * 'domain_id'<~String> - UUID of the domain
         #     * 'ttl'<~Integer> - TTL of the record
         #     * 'data'<~String> - Data required by the record
-        #     * 'priority'<~String> - Priority for the record
+        #     * 'priority'<~Integer> - Priority for the record
         #     * 'created_at'<~String> - created date time stamp
         #     * 'updated_at'<~String> - updated date time stamp
-        def create_record(domain_id, name, type, data, priority=nil)
+        def create_record(domain_id, name, type, data, options={})
           data = {
               :name => name,
               :type => type,
               :data => data
           }
-          data[:priority] = priority.to_i unless priority.nil?
+          l_options = [:description, :priority, :ttl]
+          l_options.select{|o| options[o]}.each do |key|
+            data[key] = options[key]
+          end
 
           request(
               :body    => Fog::JSON.encode(data),
@@ -41,8 +49,7 @@ module Fog
         end
       end
       class Mock
-        def create_record(domain_id, name, type, data, priority)
-          priority = priority.to_i unless priority.nil?
+        def create_record(domain_id, name, type, data, options={})
           response        = Excon::Response.new
           if list_domains.body['domains'].detect {|_| _['id'] == domain_id}
             response.status = 200
@@ -52,8 +59,9 @@ module Fog
                 'name'         => name || 'www.example.com.',
                 'type'         => type || 'A',
                 'data'         => data || '15.185.172.152',
-                'ttl'          => 3600,
-                'priority'     => priority || nil,
+                'ttl'          => options['ttl'] || 3600,
+                'description'  => options['description'] || 'desc for www.example.com.',
+                'priority'     => options['priority'] || nil,
                 'created_at'   => '2012-11-02T19:56:26.366792',
                 'updated_at'   => '2012-11-02T19:56:26.366792'
             }

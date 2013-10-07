@@ -4,12 +4,16 @@ module Fog
       class Real
         # List DNS records for a given domain
         #
+        # ==== Parameters
+        # * 'domain_id'<~String> - UUId of domain for record
+        #
         # ==== Returns
         # * response<~Excon::Response>:
         #   * body<~Hash>:
         #     * 'records'<~Array>:
         #       * 'id'<~String> - UUID of the record
         #       * 'name'<~String> - Name of the record
+        #       * 'description'<~String> - Description for the record
         #       * 'type'<~String> - Type of the record
         #       * 'domain_id'<~String> - UUID of the domain
         #       * 'ttl'<~Integer> - TTL of the record

@@ -2,11 +2,12 @@ Shindo.tests("HP::DNS | record requests", ['hp', 'dns', 'record']) do
   @record_format = {
     'id'          => String,
     'name'        => String,
+    'description' => String,
     'type'        => String,
     'domain_id'   => String,
     'ttl'         => Integer,
     'data'        => String,
-    'priority'    => Integer,
+    'priority'    => Fog::Nullable::Integer,
     'created_at'  => String,
     'updated_at'  => String
   }
@@ -19,8 +20,8 @@ Shindo.tests("HP::DNS | record requests", ['hp', 'dns', 'record']) do
     @record_name = 'www.fogtest.com.'
     @record_data = '15.185.172.152'
 
-    tests("#create_record(#{@domain_id}, #{@record_name}, 'A', #{@record_data}, 1)").formats(@record_format) do
-      data = HP[:dns].create_record(@domain_id, @record_name, 'A', @record_data, 1).body
+    tests("#create_record(#{@domain_id}, #{@record_name}, 'A', #{@record_data})").formats(@record_format) do
+      data = HP[:dns].create_record(@domain_id, @record_name, 'A', @record_data).body
       @record_id = data['id']
       data
     end

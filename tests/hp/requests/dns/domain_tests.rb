@@ -2,6 +2,7 @@ Shindo.tests("HP::DNS | domain requests", ['hp', 'dns', 'domain']) do
   @domain_format = {
     'id'          => String,
     'name'        => String,
+    'description' => String,
     'ttl'         => Integer,
     'serial'      => Integer,
     'email'       => String,
