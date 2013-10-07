@@ -15,6 +15,7 @@ Shindo.tests('HP::DNS | record model', ['hp', 'dns', 'record']) do
 
     tests('Update via #save').succeeds do
       @record.name = 'www.fogupdate.com.'
+      @record.description = 'desc for record'
       @record.save
     end
 
