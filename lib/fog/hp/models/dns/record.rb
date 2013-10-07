@@ -48,7 +48,7 @@ module Fog
 
         def update
           requires :id, :domain_id
-          ### Inconsistent API behavior - does not return 'domain'
+          ### Inconsistent API behavior - does not return 'record'
           merge_attributes(service.update_record(self.domain_id, id, attributes).body)
           true
         end

@@ -34,8 +34,8 @@ Shindo.tests("HP::DNS | record requests", ['hp', 'dns', 'record']) do
       HP[:dns].get_record(@domain_id, @record_id).body
     end
 
-    tests("#update_record(#{@domain_id}, #{@record_id}, {:email => 'updated@fogtest.com'})").formats(@record_format) do
-      HP[:dns].update_record(@domain_id, @record_id, {:email => 'updated@fogtest.com'}).body
+    tests("#update_record(#{@domain_id}, #{@record_id}, {:description => 'desc for record'})").formats(@record_format) do
+      HP[:dns].update_record(@domain_id, @record_id, {:description => 'desc for record'}).body
     end
 
     tests("#delete_record(#{@domain_id}, #{@record_id})").succeeds do
