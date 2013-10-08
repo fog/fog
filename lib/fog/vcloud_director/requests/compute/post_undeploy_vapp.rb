@@ -2,8 +2,6 @@ module Fog
   module Compute
     class VcloudDirector
       class Real
-        require 'fog/vcloud_director/generators/compute/undeploy_vapp_params'
-
         # Undeploy a vApp/VM.
         #
         # Undeployment deallocates all resources used by the vApp and the VMs it contains.
@@ -11,7 +9,7 @@ module Fog
         # This operation is asynchronous and returns a task that you can
         # monitor to track the progress of the request.
         #
-        # @param [String] vapp_id Object identifier of the vApp.
+        # @param [String] id Object identifier of the vApp.
         # @param [Hash] options
         # @option options [String] :UndeployPowerAction The specified action is
         #   applied to all virtual machines in the vApp. All values other than
@@ -32,23 +30,29 @@ module Fog
         # @see http://pubs.vmware.com/vcd-51/topic/com.vmware.vcloud.api.reference.doc_51/doc/operations/POST-UndeployVApp.html
         #   vCloud API Documentation
         # @since vCloud API version 0.9
-        def post_undeploy_vapp(vapp_id, options={})
-          body = Fog::Generators::Compute::VcloudDirector::UndeployVappParams.new(options)
+        def post_undeploy_vapp(id, options={})
+          body = Nokogiri::XML::Builder.new do
+            UndeployVAppParams {
+              if options.key?[:UndeployPowerAction]
+                UndeployPowerAction options[:UndeployPowerAction]
+              end
+            }
+          end.to_xml
 
           request(
-            :body    => body.to_xml,
+            :body    => body,
             :expects => 202,
             :headers => {'Content-Type' => 'application/vnd.vmware.vcloud.undeployVAppParams+xml'},
             :method  => 'POST',
             :parser  => Fog::ToHashDocument.new,
-            :path    => "vApp/#{vapp_id}/action/undeploy"
+            :path    => "vApp/#{id}/action/undeploy"
           )
         end
 
         # @deprecated Use {#post_undeploy_vapp} instead.
-        def undeploy(vapp_id)
+        def undeploy(id)
           Fog::Logger.deprecation("#{self} => ##{undeploy} is deprecated, use ##{post_undeploy_vapp} instead [light_black](#{caller.first})[/]")
-          post_undeploy_vapp(vapp_id, :UndeployPowerAction => 'shutdown')
+          post_undeploy_vapp(id, :UndeployPowerAction => 'shutdown')
         end
       end
     end

@@ -12,14 +12,12 @@ module Fog
         # This operation is asynchronous and returns a task that you can
         # monitor to track the progress of the request.
         #
-        # @param [String] vm_id Object identifier of the VM.
+        # @param [String] id Object identifier of the VM.
         # @param [Hash] customization
         # @option customization [Boolean] :enabled True if guest customization
         #   is enabled.
         # @option customization [Boolean] :change_sid True if customization can
         #   change the Windows SID of this virtual machine.
-        # @option customization [String] :virtual_machine_id Virtual machine ID
-        #   to apply.
         # @option customization [Boolean] :join_domain_enabled True if this
         #   virtual machine can join a Windows Domain.
         # @option customization [Boolean] :use_org_settings True if
@@ -46,7 +44,7 @@ module Fog
         # @see http://pubs.vmware.com/vcd-51/topic/com.vmware.vcloud.api.reference.doc_51/doc/operations/PUT-GuestCustomizationSection-vApp.html
         #   vCloud API Documentation
         # @since vCloud API version 1.0
-        def put_guest_customization_section_vapp(vm_id, customization={})
+        def put_guest_customization_section_vapp(id, customization={})
           data = Fog::Generators::Compute::VcloudDirector::Customization.new(customization)
 
           request(
@@ -55,7 +53,7 @@ module Fog
             :headers => {'Content-Type' => 'application/vnd.vmware.vcloud.guestCustomizationSection+xml'},
             :method  => 'PUT',
             :parser  => Fog::ToHashDocument.new,
-            :path    => "vApp/#{vm_id}/guestCustomizationSection"
+            :path    => "vApp/#{id}/guestCustomizationSection"
           )
         end
       end

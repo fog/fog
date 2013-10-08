@@ -4,91 +4,92 @@ module Fog
       class Real
         # Retrieve an organization.
         #
-        # @param [String] org_id The object identifier of the organization.
+        # @param [String] id The object identifier of the organization.
         # @return [Excon:Response]
         #   * body<~Hash>:
         # @see http://pubs.vmware.com/vcd-51/topic/com.vmware.vcloud.api.reference.doc_51/doc/operations/GET-Organization.html
         #   vCloud API Documentation
         # @since vCloud API version 0.9
-        def get_organization(org_id)
-          request({
+        def get_organization(id)
+          response = request({
             :expects    => 200,
             :idempotent => true,
             :method     => 'GET',
             :parser     => Fog::ToHashDocument.new,
-            :path       => "org/#{org_id}"
+            :path       => "org/#{id}"
           })
+          response.body[:Tasks] ||= {:Task => []}
+          response.body[:Tasks][:Task] = [response.body[:Tasks][:Task]] if response.body[:Tasks][:Task].is_a?(Hash)
+          response
         end
       end
 
       class Mock
-        def get_organization(org_id)
+        def get_organization(id)
           response = Excon::Response.new
 
-          unless valid_uuid?(org_id)
+          unless valid_uuid?(id)
             response.status = 400
             raise Excon::Errors.status_error({:expects => 200}, response)
           end
-          unless org_id == data[:org][:uuid]
+          unless id == data[:org][:uuid]
             response.status = 403
             raise(Excon::Errors.status_error({:expects => 200}, response))
           end
           org = data[:org]
 
           body =
-            {:xmlns=>xmlns,
-             :xmlns_xsi=>xmlns_xsi,
-             :name=>org[:name],
-             :id=>"urn:vcloud:org:#{org_id}",
+            {:href=>make_href("org/#{id}"),
              :type=>"application/vnd.vmware.vcloud.org+xml",
-             :href=>make_href("org/#{org_id}"),
-             :xsi_schemaLocation=>xsi_schema_location,
+             :id=>"urn:vcloud:org:#{id}",
+             :name=>org[:name],
              :Link=>
-              [{:rel=>"down",
+              [{:href=>make_href("tasksList/#{id}"),
                 :type=>"application/vnd.vmware.vcloud.tasksList+xml",
-                :href=>make_href("tasksList/#{org_id}")},
-               {:rel=>"add",
+                :rel=>"down"},
+               {:href=>make_href("admin/org/#{id}/catalogs"),
                 :type=>"application/vnd.vmware.admin.catalog+xml",
-                :href=>make_href("admin/org/#{org_id}/catalogs")},
-               {:rel=>"down",
+                :rel=>"add"},
+               {:href=>make_href("org/#{id}/metadata"),
                 :type=>"application/vnd.vmware.vcloud.metadata+xml",
-                :href=>make_href("org/#{org_id}/metadata")}],
+                :rel=>"down"}],
              :Description=>org[:description]||'',
+             :Tasks=>{:Task=>[]},
              :FullName=>org[:full_name]}
 
-          body[:Link] += data[:catalogs].map do |id, catalog|
-            [{:rel=>"down",
-              :type=>"application/vnd.vmware.vcloud.catalog+xml",
+          body[:Link] += data[:catalogs].map do |catalog_id, catalog|
+            [{:href=>make_href("catalog/#{catalog_id}"),
               :name=>catalog[:name],
-              :href=>make_href("catalog/#{id}")},
-             {:rel=>"down",
+              :type=>"application/vnd.vmware.vcloud.catalog+xml",
+              :rel=>"down"},
+             {:href=>make_href("org/#{id}/catalog/#{catalog_id}/controlAccess/"),
               :type=>"application/vnd.vmware.vcloud.controlAccess+xml",
-              :href=>make_href("org/#{org_id}/catalog/#{id}/controlAccess/")},
-             {:rel=>"controlAccess",
+              :rel=>"down"},
+             {:href=>
+               make_href("org/#{id}/catalog/#{catalog_id}/action/controlAccess"),
               :type=>"application/vnd.vmware.vcloud.controlAccess+xml",
-              :href=>
-               make_href("org/#{org_id}/catalog/#{id}/action/controlAccess")}]
+              :rel=>"controlAccess"}]
           end.flatten
 
-          body[:Link] += data[:networks].map do |id, network|
-            {:rel=>"down",
-             :type=>"application/vnd.vmware.vcloud.orgNetwork+xml",
+          body[:Link] += data[:networks].map do |network_id, network|
+            {:href=>make_href("network/#{network_id}"),
              :name=>network[:name],
-             :href=>make_href("network/#{id}")}
+             :type=>"application/vnd.vmware.vcloud.orgNetwork+xml",
+             :rel=>"down"}
           end
 
-          body[:Link] += data[:vdcs].map do |id, vdc|
-            {:rel=>"down",
-             :type=>"application/vnd.vmware.vcloud.vdc+xml",
+          body[:Link] += data[:vdcs].map do |vdc_id, vdc|
+            {:href=>make_href("vdc/#{vdc_id}"),
              :name=>vdc[:name],
-             :href=>make_href("vdc/#{id}")}
+             :type=>"application/vnd.vmware.vcloud.vdc+xml",
+             :rel=>"down"}
           end
 
           if api_version.to_f >= 5.1
             body[:Link] <<
-              {:rel=>"down",
+              {:href=>make_href('supportedSystemsInfo/'),
                :type=>"application/vnd.vmware.vcloud.supportedSystemsInfo+xml",
-               :href=>make_href('supportedSystemsInfo/')}
+               :rel=>"down"}
           end
 
           response.status = 200
