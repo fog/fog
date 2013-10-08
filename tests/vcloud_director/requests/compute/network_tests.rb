@@ -19,20 +19,19 @@ Shindo.tests('Compute::VcloudDirector | network requests', ['vclouddirector']) d
   }
 
   @service = Fog::Compute::VcloudDirector.new
-
-  tests('Get current organization') do
-    session = @service.get_current_session.body
-    link = session[:Link].detect do |l|
-      l[:type] == 'application/vnd.vmware.vcloud.org+xml'
-    end
-    @org = @service.get_organization(link[:href].split('/').last).body
-  end
+  @org = VcloudDirector::Compute::Helper.current_org(@service)
 
   tests('#get_network').data_matches_schema(GET_NETWORK_FORMAT) do
     link = @org[:Link].detect do |l|
       l[:rel] == 'down' && l[:type] == 'application/vnd.vmware.vcloud.orgNetwork+xml'
     end
-    @service.get_network(link[:href].split('/').last).body
+    @network_id = link[:href].split('/').last
+    @service.get_network(@network_id).body
+  end
+
+  tests('#get_network_metadata').data_matches_schema(VcloudDirector::Compute::Schema::METADATA_TYPE) do
+    pending if Fog.mocking?
+    @service.get_network_metadata(@network_id).body
   end
 
   tests('Retrieve non-existent OrgNetwork').raises(Excon::Errors::Forbidden) do

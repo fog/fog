@@ -73,25 +73,49 @@ module Fog
       collection :medias # sic
 
       request_path 'fog/vcloud_director/requests/compute'
+      request :delete_logout
       request :delete_media
+      request :delete_shadow_vm
       request :delete_vapp
       request :delete_vapp_metadata_item_metadata
+      request :get_allocated_ip_addresses
       request :get_catalog
       request :get_catalog_item
+      request :get_catalog_item_metadata
+      request :get_catalog_metadata
+      request :get_catalogs_from_query
       request :get_cpu_rasd_item
       request :get_current_session
+      request :get_disk
+      request :get_disk_metadata
+      request :get_disk_owner
+      request :get_disks_from_query
       request :get_disks_rasd_items_list
+      request :get_entity
       request :get_guest_customization_system_section_vapp
       request :get_href # this is used for manual testing
+      request :get_lease_settings_section_vapp
       request :get_media
+      request :get_media_metadata
       request :get_media_owner
+      request :get_medias_from_query
       request :get_memory_rasd_item
       request :get_metadata
       request :get_network
+      request :get_network_config_section_vapp
       request :get_network_connection_system_section_vapp
+      request :get_network_metadata
+      request :get_network_section_vapp
+      request :get_operating_system_section
       request :get_organization
+      request :get_organization_metadata
       request :get_organizations
+      request :get_product_sections_vapp
       request :get_request # this is used for manual testing
+      request :get_runtime_info_section_type
+      request :get_shadow_vm
+      request :get_snapshot_section
+      request :get_startup_section
       request :get_supported_systems_info
       request :get_supported_versions
       request :get_task
@@ -99,18 +123,40 @@ module Fog
       request :get_vapp
       request :get_vapp_metadata
       request :get_vapp_ovf_descriptor
+      request :get_vapp_owner
       request :get_vapp_template
+      request :get_vapp_template_metadata
       request :get_vapp_template_ovf_descriptor
+      request :get_vapp_templates_from_query
+      request :get_vapps_in_lease_from_query
       request :get_vdc
+      request :get_vdc_metadata
+      request :get_vdc_storage_profile
+      request :get_vdc_storage_profile_metadata
       request :get_vm
+      request :get_vm_compliance_results
       request :get_vm_customization
       request :get_vm_disks
       request :get_vm_network
+      request :get_vm_pending_question
       request :get_vms
       request :get_vms_by_metadata
+      request :get_vms_disks_attached_to
+      request :get_vms_in_lease_from_query
       request :instantiate_vapp_template
       request :post_cancel_task
       request :post_capture_vapp
+      request :post_check_vm_compliance
+      request :post_clone_media
+      request :post_clone_vapp
+      request :post_clone_vapp_template
+      request :post_deploy_vapp
+      request :post_disable_nested_hv
+      request :post_enable_nested_hv
+      request :post_enter_maintenance_mode
+      request :post_exit_maintenance_mode
+      request :post_install_vmware_tools
+      request :post_login_session
       request :post_power_off_vapp
       request :post_power_on_vapp
       request :post_reboot_vapp
@@ -118,7 +164,9 @@ module Fog
       request :post_shutdown_vapp
       request :post_suspend_vapp
       request :post_undeploy_vapp
+      request :post_upgrade_hw_version
       request :post_upload_media
+      request :post_upload_vapp_template
       request :post_vapp_metadata_item_metadata
       request :put_cpu
       request :put_disks
@@ -265,7 +313,6 @@ module Fog
             :body    => params[:body],
             :expects => params[:expects],
             :headers => headers.merge!(params[:headers] || {}),
-            :host    => @host,
             :method  => params[:method],
             :parser  => params[:parser],
             :path    => path
@@ -309,7 +356,6 @@ module Fog
           response = @connection.request({
             :expects => 200,
             :headers => headers,
-            :host    => @host,
             :method  => 'POST',
             :parser  => Fog::ToHashDocument.new,
             :path    => '/api/sessions'  # curl http://example.com/api/versions | grep LoginUrl

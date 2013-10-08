@@ -11,6 +11,8 @@ module Fog
         # @param [String] image_type Media image type. One of: iso, floppy.
         # @param [Integer] size Size of the media file, in bytes.
         # @param [Hash] options
+        # @option options [String] :operationKey Optional unique identifier to
+        #   support idempotent semantics for create and delete operations.
         # @option options [String] :Description Optional description.
         # @return [Excon::Response]
         #   * body<~Hash>:
@@ -18,13 +20,15 @@ module Fog
         #   vCloud API Documentation
         # @since vCloud API version 0.9
         def post_upload_media(vdc_id, name, image_type, size, options={})
-          body = <<-END
-          <Media xmlns="http://www.vmware.com/vcloud/v1.5"
-            name="#{name}"
-            imageType="#{image_type}"
-            size="#{size}">
-          </Media>
-          END
+          body = Nokogiri::XML::Builder.new do
+            attrs = {:name => name, :image_type => image_type, :size => size}
+            attrs[:operationKey] = options[:operationKey] if options.key?(:operationKey)
+            Media(attrs) {
+              if options.key?(:Description)
+                Description options[:Description]
+              end
+            }
+          end.to_xml
 
           request(
             :body    => body,
@@ -53,12 +57,13 @@ module Fog
             response.status = 400
             raise Excon::Errors.status_error({:expects => 201}, response)
           end
-          unless data[:vdcs].has_key?(vdc_id)
+          unless vdc = data[:vdcs][vdc_id]
             response.status = 403
             raise Excon::Errors.status_error({:expects => 201}, response)
           end
 
           Fog::Mock.not_implemented
+          vdc.is_used_here # avoid warning from syntax checker
         end
       end
     end
