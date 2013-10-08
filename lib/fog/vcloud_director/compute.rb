@@ -265,7 +265,6 @@ module Fog
             :body    => params[:body],
             :expects => params[:expects],
             :headers => headers.merge!(params[:headers] || {}),
-            :host    => @host,
             :method  => params[:method],
             :parser  => params[:parser],
             :path    => path
@@ -309,7 +308,6 @@ module Fog
           response = @connection.request({
             :expects => 200,
             :headers => headers,
-            :host    => @host,
             :method  => 'POST',
             :parser  => Fog::ToHashDocument.new,
             :path    => '/api/sessions'  # curl http://example.com/api/versions | grep LoginUrl

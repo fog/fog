@@ -9,7 +9,6 @@ module Fog
         def get_supported_versions
           @connection.request(
             :expects    => 200,
-            :host       => @host,
             :idempotent => true,
             :method     => 'GET',
             :parser     => Fog::ToHashDocument.new,
