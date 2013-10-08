@@ -8,9 +8,9 @@ module Fog
 
         model Fog::Rackspace::AutoScale::Group
 
-        # Returns list of autoscale grouos
+        # Returns list of autoscale groups
         #
-        # @return [Fog::Rackspace::AutoScale::Groups] Retrieves a list images.
+        # @return [Fog::Rackspace::AutoScale::Groups] Retrieves a list groups.
         #
         # @raise [Fog::Rackspace::AutoScale:::NotFound] - HTTP 404
         # @raise [Fog::Rackspace::AutoScale:::BadRequest] - HTTP 400
@@ -25,7 +25,7 @@ module Fog
 
         # Returns an individual autoscale group
         #
-        # @return [Fog::Rackspace::AutoScale::Group] Retrieves a list images.
+        # @return [Fog::Rackspace::AutoScale::Group] Retrieves a list groups.
         # @return nil if not found
         #
         # @raise [Fog::Rackspace::AutoScale:::NotFound] - HTTP 404

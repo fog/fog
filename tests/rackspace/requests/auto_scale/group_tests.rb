@@ -9,14 +9,26 @@ Shindo.tests('Fog::Rackspace::AutoScale | group_tests', ['rackspace', 'rackspace
       @group_id = response['group']['id']
 			response
 		end
-    tests('#get group').formats(GET_GROUP_HEADERS_FORMAT) do
-      service.get_group(@group_id).data[:headers]
+		tests('#list_groups').formats(LIST_GROUPS_FORMAT) do
+      service.list_groups.body
+	  end
+    tests('#get group').succeeds do
+      [200, 204].include? service.get_group(@group_id).status
     end
     tests('#get group - body').formats(GROUP_FORMAT) do
       service.get_group(@group_id).body
     end
-    tests('#delete group').formats(GROUP_DELETE_DATA_FORMAT) do
-      service.delete_group(@group_id).data
+    tests('#get_group_state').formats(GROUP_STATE_FORMAT) do
+      service.get_group_state(@group_id).body
+    end
+    tests('#pause_group_state') do
+      pending
+    end
+    tests('#resume_group_state') do
+      pending
+    end
+    tests('#delete group').returns(204) do
+      service.delete_group(@group_id).status
     end
 	end
 
