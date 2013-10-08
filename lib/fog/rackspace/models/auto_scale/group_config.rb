@@ -42,16 +42,35 @@ module Fog
         def update
           
           options = {}
-
           options['name'] = name unless name.nil?
           options['cooldown'] = cooldown unless cooldown.nil?
           options['minEntities'] = min_entities
           options['maxEntities'] = max_entities
           options['metadata'] = metadata unless metadata.nil?
 
-          data = service.update_group_config(group.id, options)
-          merge_attributes(data.body)
+          service.update_group_config(group.id, options)
           true
+        end
+
+        # Saves group configuration.
+        # This method will only save existing group configurations. New group configurations are created when a scaling group is created
+        #
+        # @return [Boolean] true if group config was saved
+        def save
+          if group.id
+            update
+            true
+          else
+            raise "New #{self.class} are created when a new Fog::Rackspace::AutoScale::Group is created"
+          end
+        end
+
+        # Reloads group configuration
+        def reload
+          if group.id
+            data = service.get_group_config(group.id)
+            merge_attributes data.body['groupConfiguration']
+          end
         end
 
       end

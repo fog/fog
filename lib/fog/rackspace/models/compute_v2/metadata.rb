@@ -84,7 +84,6 @@ module Fog
 
         # Creates new metadata
         def new(attributes = {})
-          requires :parent
           super({ :parent => parent }.merge!(attributes))
         end
 

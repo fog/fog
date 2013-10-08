@@ -123,6 +123,10 @@ module Fog
             :autoscale
           end
 
+          def request_id_header
+            "x-response-id"
+          end
+
           def region
             @options[:rackspace_region]
           end
