@@ -2,8 +2,6 @@ module Fog
   module Compute
     class VcloudDirector
       class Real
-        require 'fog/vcloud_director/generators/compute/capture_vapp_params'
-
         # Create a vApp template from a vApp.
         #
         # The response includes a Task element. You can monitor the task to to
@@ -20,12 +18,17 @@ module Fog
         #   vCloud API Documentation
         # @since vCloud API version 0.9
         def post_capture_vapp(vdc_id, name, source_id, options={})
-          body = Fog::Generators::Compute::VcloudDirector::CaptureVappParams.new(
-            name, "#{endpoint}vApp/#{source_id}", options
-          )
+          body = Nokogiri::XML::Builder.new do
+            CaptureVAppParams(:name => name) {
+              if options.key?(:Description)
+                Description options[:Description]
+              end
+              Source(:href => "#{endpoint}vApp/#{source_id}")
+            }
+          end.to_xml
 
           request(
-            :body    => body.to_xml,
+            :body    => body,
             :expects => 201,
             :headers => {'Content-Type' => 'application/vnd.vmware.vcloud.captureVAppParams+xml'},
             :method  => 'POST',

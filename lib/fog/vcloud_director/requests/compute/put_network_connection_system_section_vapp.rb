@@ -12,7 +12,7 @@ module Fog
         # This operation is asynchronous and returns a task that you can
         # monitor to track the progress of the request.
         #
-        # @param [String] vm_id Object identifier of the VM.
+        # @param [String] id Object identifier of the VM.
         # @param [Hash] network
         # @option network [String] :info
         # @option network [Integer] :primary_network_connection_index Virtual
@@ -45,7 +45,7 @@ module Fog
         # @see http://pubs.vmware.com/vcd-51/topic/com.vmware.vcloud.api.reference.doc_51/doc/operations/PUT-NetworkConnectionSystemSection-vApp.html
         #   vCloud API Documentation
         # @since vCloud API version 0.9
-        def put_network_connection_system_section_vapp(vm_id, network={})
+        def put_network_connection_system_section_vapp(id, network={})
           data = Fog::Generators::Compute::VcloudDirector::VmNetwork.new(network)
 
           request(
@@ -54,7 +54,7 @@ module Fog
             :headers => {'Content-Type' => 'application/vnd.vmware.vcloud.networkConnectionSection+xml'},
             :method  => 'PUT',
             :parser  => Fog::ToHashDocument.new,
-            :path    => "vApp/#{vm_id}/networkConnectionSection/"
+            :path    => "vApp/#{id}/networkConnectionSection/"
           )
         end
       end

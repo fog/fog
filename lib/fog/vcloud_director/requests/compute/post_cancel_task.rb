@@ -7,17 +7,17 @@ module Fog
 
         # Cancel a task.
         #
-        # @param [String] task_id Object identifier of the task.
+        # @param [String] id Object identifier of the task.
         # @return [Excon::Response]
         #   * body<~Hash>:
         # @see http://pubs.vmware.com/vcd-51/topic/com.vmware.vcloud.api.reference.doc_51/doc/operations/POST-CancelTask.html
         #   vCloud API Documentation
         # @since vCloud API version 1.5
-        def post_cancel_task(task_id)
+        def post_cancel_task(id)
           request(
             :expects => 204,
             :method  => 'POST',
-            :path    => "task/#{task_id}/action/cancel"
+            :path    => "task/#{id}/action/cancel"
           )
         end
       end

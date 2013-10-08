@@ -10,18 +10,18 @@ module Fog
         # Delete the specified key and its value from vApp or VM metadata.
         #
         # @param [String] id Object identifier of the vApp or VM.
-        # @param [String] metadata_key
+        # @param [String] key Key of the metadata item.
         # @return [Excon::Response]
         #   * body<~Hash>:
         # @see http://pubs.vmware.com/vcd-51/topic/com.vmware.vcloud.api.reference.doc_51/doc/operations/DELETE-VAppMetadataItem-metadata.html
         #   vCloud API Documentation
         # @since vCloud API version 1.5
-        def delete_vapp_metadata_item_metadata(id, metadata_key)
+        def delete_vapp_metadata_item_metadata(id, key)
           request(
             :expects => 202,
             :method  => 'DELETE',
             :parser  => Fog::ToHashDocument.new,
-            :path    => "vApp/#{id}/metadata/#{URI.escape(metadata_key)}"
+            :path    => "vApp/#{id}/metadata/#{URI.escape(key)}"
           )
         end
       end

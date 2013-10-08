@@ -14,6 +14,16 @@ module Fog
         #
         # @return [Excon::Response]
         #   * body<~Hash>:
+        #     * :href<~String> - The URI of the entity.
+        #     * :type<~String> - The MIME type of the entity.
+        #     * :org<~String> - The name of the user's organization.
+        #     * :user<~String> - The name of the user that owns the session
+        #     * :Link<~Array<Hash>]:
+        #       * :href<~String> - Contains the URI to the linked entity.
+        #       * :name<~String> - Contains the name of the linked entity.
+        #       * :type<~String> - Contains the type of the linked entity.
+        #       * :rel<~String> - Defines the relationship of the link to the
+        #         object that contains it.
         # @see http://pubs.vmware.com/vcd-51/topic/com.vmware.vcloud.api.reference.doc_51/doc/operations/GET-CurrentSession.html
         #   vCloud API Documentation
         def get_current_session
@@ -30,36 +40,33 @@ module Fog
       class Mock
         def get_current_session
           body =
-            {:xmlns => xmlns,
-             :xmlns_xsi => xmlns_xsi,
-             :user => user_name,
-             :org => data[:org][:name],
+            {:href => make_href('session/'),
              :type => 'application/vnd.vmware.vcloud.session+xml',
-             :href => make_href('session/'),
-             :xsi_schemaLocation=> xsi_schema_location,
+             :org => data[:org][:name],
+             :user => user_name,
              :Link =>
-               [{:rel => 'down',
-                 :type => 'application/vnd.vmware.vcloud.orgList+xml',
-                 :href => make_href('org/')},
-               {:rel => 'down',
+              [{:href => make_href('org/'),
+                :type => 'application/vnd.vmware.vcloud.orgList+xml',
+                :rel => 'down'},
+               {:href => make_href('admin/'),
                 :type => 'application/vnd.vmware.admin.vcloud+xml',
-                :href => make_href('admin/')},
-               {:rel => 'down',
-                :type => 'application/vnd.vmware.vcloud.org+xml',
+                :rel => 'down'},
+               {:href => make_href("org/#{data[:org][:uuid]}"),
                 :name => data[:org][:name],
-                :href => make_href("org/#{data[:org][:uuid]}")},
-               {:rel => 'down',
+                :type => 'application/vnd.vmware.vcloud.org+xml',
+                :rel => 'down'},
+               {:href => make_href('query'),
                 :type => 'application/vnd.vmware.vcloud.query.queryList+xml',
-                :href => make_href('query')},
-               {:rel => 'entityResolver',
+                :rel => 'down'},
+               {:href => make_href('entity/'),
                 :type => 'application/vnd.vmware.vcloud.entity+xml',
-                :href => make_href('entity/')}]}
+                :rel => 'entityResolver'}]}
 
           if @api_version.to_f >= 5.1
             body[:Link] << {
-              :rel => 'down:extensibility',
+              :href => make_href('extensibility'),
               :type => 'application/vnd.vmware.vcloud.apiextensibility+xml',
-              :href => make_href('extensibility')
+              :rel => 'down:extensibility'
             }
           end
 
