@@ -1,3 +1,4 @@
+require 'fog/rackspace/models/auto_scale/group_builder'
 require 'fog/rackspace/models/auto_scale/group'
 require 'fog/rackspace/models/compute_v2/flavor'
 require 'fog/rackspace/models/load_balancers/load_balancer'
