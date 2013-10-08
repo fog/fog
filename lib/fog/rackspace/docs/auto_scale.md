@@ -4,24 +4,24 @@ This document explains how to get started using auto scale with Fog. It assumes 
 
 ## Basic Concepts
 
-Autoscale is a service that enables you to scale your application by adding or removing servers based on monitoring events, a schedule, or arbitrary webhooks.
+Auto Scale is a service that enables you to scale your application by adding or removing servers based on monitoring events, a schedule, or arbitrary webhooks.
 
-Autoscale functions by linking three services:
+Auto Scale functions by linking three services:
 
 * Monitoring (such as Monitoring as a Service)
-* Autoscale API
+* Auto Scale
 * Servers and Load Balancers
 
 
 ## Workflow
 
-An Autoscaling group is monitored by Rackspace Cloud Monitoring. When Monitoring triggers an alarm for high utilization within the Autoscaling group, a webhook is triggered. The webhook calls the autoscale service, which consults a policy in accordance with the webhook. The policy determines how many additional Cloud Servers should be added or removed in accordance with the alarm.
+A scaling group is monitored by Rackspace Cloud Monitoring. When Monitoring triggers an alarm for high utilization within the Autoscaling group, a webhook is triggered. The webhook calls the auto scale service, which consults a policy in accordance with the webhook. The policy determines how many additional Cloud Servers should be added or removed in accordance with the alarm.
 
-Alarms may trigger scaling up or scaling down. Scale down events always remove the oldest server in the group.
+Alarms may trigger scaling up or scaling down. Scale-down events always remove the oldest server in the group.
 
 Cooldowns allow you to ensure that you don't scale up or down too fast. When a scaling policy runs, both the scaling policy cooldown and the group cooldown start. Any additional requests to the group are discarded while the group cooldown is active. Any additional requests to the specific policy are discarded when the policy cooldown is active.
 
-It is important to remember that Autoscale does not configure anything within a server. This means that all images should be self-provisioning. It is up to you to make sure that your services are configured to function properly when the server is started. We recommend using something like Chef, Salt, or Puppet.
+It is important to remember that Auto Scale does not configure anything within a server. This means that all images should be self-provisioning. It is up to you to make sure that your services are configured to function properly when the server is started. We recommend using something like Chef, Salt, or Puppet.
 
 
 ## Starting irb console
@@ -125,7 +125,7 @@ Fog supports passing additional connection parameters to its underlying HTTP lib
 
 ## Fog Abstractions
 
-Fog provides both a **model** and **request** abstraction. The request abstraction provides the most efficient interface and the model abstraction wraps the request abstraction to provide a convenient `ActiveModel` like interface.
+Fog provides both a **model** and **request** abstraction. The request abstraction provides the most efficient interface and the model abstraction wraps the request abstraction to provide a convenient `ActiveModel`-like interface.
 
 ### Request Layer
 
@@ -160,7 +160,7 @@ To view response body:
 
 	response.body
 
-This will return:
+returns:
 
 	{"groups_links"=>[], "groups"=>[{"paused"=>false, "desiredCapacity"=>0, "links"=>[{"href"=>"https://ord.autoscale.api.rackspacecloud.com/v1.0/555/groups/b45e6107-26ca-4a93-869d-46bf20005df3/", "rel"=>"self"}], "active"=>[], "pendingCapacity"=>0, "activeCapacity"=>0, "id"=>"b45e6107-26ca-4a93-869d-46bf20005df3", "name"=>"fog-scailing-group"}]}
 
@@ -227,7 +227,7 @@ The remainder of this document details the model abstraction.
 
 ## The Scaling Group
 
-The **Scaling Group** is the basic unit of Autoscaling. It determines the minimum and maximum number of servers that exist at any time for the group, the cooldown period between Autoscaling events, the configuration for each new server, the load balancer to add these servers to (optional), and any policies that are used for this group.
+* The **Scaling Group** is the basic unit of automatic scaling. It determines the minimum and maximum number of servers that exist at any time for the group, the cooldown period between scaling events, the configuration for each new server, the load balancer to add these servers to (optional), and any policies that are used for this group.
 
 ### List Scaling Groups
 
@@ -246,7 +246,7 @@ This returns a collection of `Fog::Rackspace::AutoScale::Group` objects:
     ]
   >
 
-To view the [launch configuration](#launch-configuration) for a group execute the following:
+To view the [launch configuration](#launch-configurations) for a group execute the following:
 
     groups = service.groups
     group = group.first
@@ -277,7 +277,7 @@ This returns the following:
 
 The `active` key holds a list of the IDs of the servers created as part of this scaling group. The `paused` key shows whether or not the scaling group's response to alarms is active or not. There are 3 'capacity'-related keys: `activeCapacity`, `desiredCapacity`, and `pendingCapacity`:
 
-Key | Respresents
+Key | Represents
 ---- | ----
 **activeCapacity** | The number of active servers that are part of this scaling group
 **desiredCapacity** | The target number of servers for this scaling group, based on the combination of configuration settings and monitoring alarm responses
@@ -285,19 +285,19 @@ Key | Respresents
 
 ### Pausing a Scaling Group's Policies
 
-To pause a scaling groups execution:
+To pause a scaling group's execution:
 
     group.pause
 
-There is a corresponding `resume` method to reactive execution:
+There is a corresponding `resume` method to resume execution:
 
     group.resume
 
 ### Creating a Scaling Group
 
-As you can imagine there are a lot of options avaliable to you when creating a scaling group, in order to ease the burden a builder has been provided.
+There are many options available to you when creating a scaling group. In order to ease the burden, a builder is provided.
 
-To create a scaling group with the builder you will need to first include the builder in your script:
+To create a scaling group with the builder you first include the builder in your script:
 
     require 'fog/rackspace/models/auto_scale/group_builder'
 
@@ -331,9 +331,9 @@ And then use the builder as follows:
 
     group = Fog::Rackspace::AutoScale::GroupBuilder.build(service, attributes)
 
-This creates the Scaling Group with the name `MyScalingGroup`, and returns a `Fog::Rackspace::AutoScale::Group` object representing the new group. Since the `:min_entities` is 2, it immediately creates 2 servers for the group, based on the image whose ID is in the variable `my_image`. When they are created, they are then added to the load balancer whose ID is `1234`, and receive requests on port 80.
+This creates the scaling group with the name `MyScalingGroup`, and returns a `Fog::Rackspace::AutoScale::Group` object representing the new group. Since the `:min_entities` is 2, it immediately creates 2 servers for the group, based on the image whose ID is in the variable `my_image`. When they are created, they are then added to the load balancer whose ID is `1234`, and receive requests on port 80.
 
-Note that the `:server_name` parameter represents a base string to which Autoscale prepends a 10-character prefix to create a unique name for each server. The prefix always begins with 'as' and is followed by 8 random hex digits. For example, if you set the server_name to 'testgroup', and the scaling group creates 3 servers, their names would look like these:
+Note that the `:server_name` parameter represents a base string to which Autoscale prepends a 10-character prefix to create a unique name for each server. The prefix always begins with 'as' and is followed by 8 random hex digits and a dash (-). For example, if you set the server_name to 'testgroup', and the scaling group creates 3 servers, their names would look like these:
 
     as5defddd4-testgroup
     as92e512fe-testgroup
@@ -353,17 +353,17 @@ Parameter | Required | Default | Notes
 **:disk_config** | no | MANUAL | Determines if the server's disk is partitioned to the full size of the flavor ('AUTO') or just to the size of the image ('MANUAL').
 **:server_metadata** | no |  | Arbitrary key-value pairs you want to associate with your servers.
 **:personality** | no |  | Small text files that are created on the new servers. _Personality_ is discussed in the [Rackspace Cloud Servers documentation](http://docs.rackspace.com/servers/api/v2/cs-devguide/content/Server_Personality-d1e2543.html)
-**:networks** | no |  | Any array of networks to which you want to attach new servers. See the [Create Servers documentation](http://docs.rackspace.com/servers/api/v2/cs-devguide/content/CreateServers.html) for standard network ids..
+**:networks** | no |  | Any array of networks to which you want to attach new servers. See the [Create Servers documentation](http://docs.rackspace.com/servers/api/v2/cs-devguide/content/CreateServers.html) for standard network IDs.
 **:load_balancers** | no |  | Either a  hash of {:port, :loadBalancerId} or a `Fog::Rackspace::LoadBalancers::LoadBalancer` object.
 **scaling_policies** | no |  | You can define the scaling policies when you create the group, or add them later.
 
 ### Updating a Scaling Configuration Group
 
-A group's scaling configuraton can be updated via the `Fog::Rackspace::AutoScale::GroupConfig` object. You can retrieve this object by executing the following:
+A group's scaling configuration can be updated via the `Fog::Rackspace::AutoScale::GroupConfig` object. You can retrieve this object by executing the following:
 
     group_config = group.group_config
 
-Avaliable options on group config include  `:max_entities`, `:name`, `:cooldown`, `:min_entities`, `:metadata`. To update a scaling group, pass one or more of these as keyword arguments. For example, to change the cooldown period to 2 minutes and increase the maximum entities to 16, you call:
+Available options on `group_config` include  `:max_entities`, `:name`, `:cooldown`, `:min_entities`, `:metadata`. To update a scaling group, pass one or more of these as keyword arguments. For example, to change the cooldown period to 2 minutes and increase the maximum entities to 16, you call:
 
     group_config.cooldown = 120
     group_config.max_entities = 16
@@ -390,7 +390,7 @@ Once the servers are deleted you can then delete the scaling group.
 
 Each scaling group has an associated **launch configuration**. This determines the properties of servers that are created in response to a scaling event.
 
-The `:server_name` represents a base string to which Autoscale prepends a 10-character prefix. The prefix always begins with 'as' and is followed by 8 random hex digits. For example, if you set the `server_name` to 'testgroup', and the scaling group creates 3 servers, their names would look like these:
+The `:server_name` represents a base string to which Autoscale prepends a 10-character prefix. The prefix always begins with 'as' and is followed by 8 random hex digits and a dash (-). For example, if you set the `server_name` to 'testgroup', and the scaling group creates 3 servers, their names would look like these:
 
     as5defddd4-testgroup
     as92e512fe-testgroup
@@ -400,7 +400,7 @@ To retrieve the launch config:
 
     launch_config = group.launch_config
 
-The launch configuration contains two attributes `:type` and `:args`. The only launch type currently avaliable for auto scale is `:launch_server`. The `args` attribute contains a hash with the launch server configuration options which looks like the following:
+The launch configuration contains two attributes `:type` and `:args`. The only launch type currently available for auto scale is `:launch_server`. The `args` attribute contains a hash with the launch server configuration options as follows:
 
     {"server"=>{
         "name"=>"autoscale_server",
@@ -411,24 +411,24 @@ The launch configuration contains two attributes `:type` and `:args`. The only l
         "OS-DCF =>diskConfig"=>"MANUAL",
         "metadata"=>{}}}
 
-Changes to the args attribute can be saved by executing the `save` method on the `LaunchConfig`. For example if you wanted to change the disk configuration to `AUTO`, you would do the following:
+Changes to the args attribute can be saved by executing the `save` method on the `launch_config`. For example if you wanted to change the disk configuration to `AUTO`, you would do the following:
 
     launch_config.args["server"]["OS-DCF =>diskConfig"] = "AUTO"
     launch_config.save
 
-**Note**: If you pass any metadata values in this call, it must be the full set of metadata for the Launch Configuration, since the underlying API call **overwrites** any existing metadata.
+**Note**: If you pass any metadata values in this call, it must be the full set of metadata for the launch configuration, since the underlying API call **overwrites** any existing metadata.
 
 ## Policies
 
 When an alarm is triggered in Cloud Monitoring, it calls the webhook associated with a particular policy. The policy is designed to update the scaling group to increase or decrease the number of servers in response to the particular alarm.
 
-To list the policies for a given scaling group do the following:
+To list the policies for a given scaling group use the following:
 
     policies = group.policies
 
 ### Creating a Policy
 
-To add a policy to a scaling group you would do the following:
+To add a policy to a scaling group use the following:
 
     group.policies.create :name => 'Scale by one server', :cooldown => 360, :type => 'webhook', :change => 1
 
@@ -471,7 +471,7 @@ To list the webhooks for a given policy:
     webhooks = policy.webhooks
 
 
-### Creating a webhook
+### Creating a Webhook
 
 To add a webhook to a policy:
 
@@ -482,7 +482,7 @@ The `:name` parameter is required; the `:metadata` parameter is optional. You ca
 
     webhook.execution_url
 
-### Updating a webhook
+### Updating a Webhook
 
 You may update a webhook at any time to change either its name or its metadata:
 
