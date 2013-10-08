@@ -65,10 +65,14 @@ module Fog
             server_template
           end
 
+          def model?(obj)
+            obj.class.ancestors.include?(Fog::Model)
+          end
+
           def get_id(type, attributes)
             id = attributes["#{type}_id".to_sym]
             type_key = type.to_sym
-            id ||= attributes[type_key].respond_to?(:id) ? attributes[type_key].id : attributes[type_key]
+            id ||= model?(attributes[type_key]) ? attributes[type_key].id : attributes[type_key]
           end
 
           def networks_to_hash(networks)
