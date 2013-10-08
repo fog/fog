@@ -11,8 +11,6 @@ module Fog
         #   vCloud API Documentation
         # @since vCloud API version 1.5
         def get_vapp_metadata(id)
-          require 'fog/vcloud_director/parsers/compute/metadata'
-
           request(
             :expects    => 200,
             :idempotent => true,

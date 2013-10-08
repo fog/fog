@@ -88,7 +88,7 @@ class VcloudDirector
       TASK_TYPE = ENTITY_TYPE.merge({
         :cancelRequested => Fog::Nullable::String,
         :endTime => Fog::Nullable::String,
-        :expiryTime => Fog::Nullable::String,
+        :expiryTime => String,
         :operation => Fog::Nullable::String,
         :operationName => Fog::Nullable::String,
         :serviceNamespace => Fog::Nullable::String,
@@ -106,7 +106,7 @@ class VcloudDirector
 
       # A list of queued, running, or recently completed tasks.
       TASKS_IN_PROGRESS_TYPE = {
-        :Task => TASK_TYPE
+        :Task => [TASK_TYPE]
       }
 
       # Base type that represents a resource entity such as a vApp template or
@@ -130,6 +130,17 @@ class VcloudDirector
       # vDC.
       SUPPORTED_HARDWARE_VERSIONS_TYPE = {
         :SupportedHardwareVersion => SUPPORTED_HARDWARE_VERSION_TYPE
+      }
+
+      # Represents a base type for VAppType and VmType.
+      ABSTRACT_VAPP_TYPE = RESOURCE_ENTITY_TYPE.merge({
+        :deployed => String,
+        :DateCreated => String
+      })
+
+      VAPP_CHILDREN_TYPE = {
+        #:VApp => ABSTRACT_VAPP_TYPE,
+        :Vm => ABSTRACT_VAPP_TYPE
       }
 
       # Container for references to available organization vDC networks.
@@ -172,6 +183,14 @@ class VcloudDirector
         :VdcStorageProfile => REFERENCE_TYPE
       }
 
+      # Represents the user view of a Catalog object.
+      CATALOG_TYPE = ENTITY_TYPE.merge({
+        #:Owner => OWNER_TYPE,
+        #:CatalogItems => CATALOG_ITEMS_TYPE,
+        :IsPublished => String,
+        :DateCreated => String
+      })
+
       # Represents a Media object.
       MEDIA_TYPE = RESOURCE_ENTITY_TYPE.merge({
         :imageType => String,
@@ -179,6 +198,10 @@ class VcloudDirector
         :Owner => OWNER_TYPE,
         # TODO:
         #:VdcStorageProfiles => VDC_STORAGE_PROFILES_TYPE # >= 5.1
+      })
+
+      METADATA_TYPE = RESOURCE_TYPE.merge({
+        #:MetadataEntry => METADATA_ENTRY_TYPE
       })
 
       # Represents a list of organizations.
@@ -189,6 +212,7 @@ class VcloudDirector
       # Represents the user view of a vCloud Director organization.
       ORG_TYPE = ENTITY_TYPE.merge({
         :Description => Fog::Nullable::String,
+        :Tasks => TASKS_IN_PROGRESS_TYPE,
         :FullName => String,
         :IsEnabled => Fog::Nullable::String
       })
@@ -203,6 +227,14 @@ class VcloudDirector
       # A list of tasks.
       TASKS_LIST_TYPE = ENTITY_TYPE.merge({
         #:Task => TASK_TYPE
+      })
+
+      # Represents a vApp.
+      VAPP_TYPE = ABSTRACT_VAPP_TYPE.merge({
+        :ovfDescriptorUploaded => String,
+        :Owner => OWNER_TYPE,
+        :InMaintenanceMode => String,
+        :Children => VAPP_CHILDREN_TYPE
       })
 
       # Represents the user view of an organization vDC.
