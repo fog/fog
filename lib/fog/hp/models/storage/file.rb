@@ -60,6 +60,18 @@ module Fog
           self.collection.get_url(self.key)
         end
 
+        # Get a url for file.
+        # 
+        # required attributes: key
+        # 
+        # @param expires [String] number of seconds (since 1970-01-01 00:00) before url expires
+        # @param options [Hash]
+        # @return [String] url
+        def url(expires, options = {})
+          requires :key
+          self.collection.get_https_url(key, expires, options)
+        end
+
         def cdn_public_url
           requires :key
           self.collection.get_cdn_url(self.key)
