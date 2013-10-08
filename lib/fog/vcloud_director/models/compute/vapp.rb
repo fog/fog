@@ -44,7 +44,7 @@ module Fog
         # * default (Use the actions, order, and delay specified in the
         #   StartupSection)
         def undeploy(action='powerOff')
-          response = service.post_undeploy_action(id, :UndeployPowerAction => action)
+          response = service.post_undeploy_vapp(id, :UndeployPowerAction => action)
           service.process_task(response.body)
         end
 
