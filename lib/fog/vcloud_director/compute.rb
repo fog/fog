@@ -326,6 +326,11 @@ module Fog
 
         def data
           @@data ||= Hash.new do |hash, key|
+
+            vdc_uuid = uuid
+            default_network_uuid = uuid
+            uplink_network_uuid = uuid
+
             hash[key] = {
               :catalogs => {
                 uuid => {
@@ -340,19 +345,55 @@ module Fog
               },
               :medias => {},
               :networks => {
-                uuid => {
-                  :Description => 'Network for mocking',
+                default_network_uuid => {
+                  :ApplyRateLimit => "false",
+                  :Description => 'Org Network for mocking',
                   :Dns1 => '8.8.8.8',
                   :Dns2 => '8.8.4.4',
                   :DnsSuffix => 'example.com',
                   :Gateway => '192.168.1.1',
+                  :InterfaceType => "internal",
                   :IpRanges => [{
                     :StartAddress=>'192.168.1.2',
                     :EndAddress=>'192.168.1.254'
                   }],
                   :IsInherited => false,
                   :Netmask => '255.255.255.0',
-                  :name => 'Default Network'
+                  :name => 'Default Network',
+                  :SubnetParticipation => {
+                      :Gateway => "192.168.1.0",
+                      :Netmask => "255.255.0.0",
+                      :IpAddress => "192.168.1.0"
+                  },
+                  :UseForDefaultRoute => "false"
+                },
+                uplink_network_uuid => {
+                  :ApplyRateLimit => "false",
+                  :Description => 'Uplink Network for mocking',
+                  :Dns1 => '8.8.8.8',
+                  :Dns2 => '8.8.4.4',
+                  :DnsSuffix => 'example.com',
+                  :Gateway => '198.51.100.1',
+                  :InterfaceType => "uplink",
+                  :IpRanges => [{
+                    :StartAddress=>'198.51.100.2',
+                    :EndAddress=>'198.51.100.254'
+                  }],
+                  :IsInherited => false,
+                  :Netmask => '255.255.255.0',
+                  :name => 'uplink Network',
+                  :SubnetParticipation => {
+                    :Gateway => "198.51.100.81",
+                    :Netmask => "255.255.255.248",
+                    :IpAddress => "198.51.100.83",
+                    :IpRanges => {
+                      :IpRange => {
+                        :StartAddress => "198.51.100.84",
+                        :EndAddress => "198.51.100.86"
+                      }
+                    }
+                  },
+                  :UseForDefaultRoute => "true"
                 }
               },
               :org => {
@@ -363,9 +404,16 @@ module Fog
               },
               :tasks => {},
               :vdcs => {
-                uuid => {
+                  vdc_uuid => {
                   :description => 'vDC for mocking',
                   :name => 'MockVDC'
+                }
+              },
+              :edge_gateways => {
+                uuid => {
+                  :name => 'MockEdgeGateway',
+                  :vdc => vdc_uuid,
+                  :networks => [uplink_network_uuid, default_network_uuid]
                 }
               }
             }

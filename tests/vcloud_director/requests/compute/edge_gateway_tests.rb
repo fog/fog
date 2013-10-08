@@ -18,8 +18,6 @@ Shindo.tests('Compute::VcloudDirector | edge gateway requests', ['vclouddirector
   end
 
   tests('#get_edge_gateways').data_matches_schema(VcloudDirector::Compute::Schema::QUERY_RESULT_RECORDS_TYPE) do
-    pending if Fog.mocking?
-
     @edge_gateways = @service.get_edge_gateways(@vdc_id).body
 
     # ensure that EdgeGatewayRecord is a list
@@ -28,26 +26,23 @@ Shindo.tests('Compute::VcloudDirector | edge gateway requests', ['vclouddirector
     end
 
     @edge_gateways[:EdgeGatewayRecord].each do |result|
-      tests("each EdgeGatewayRecord should follow schema")
-          .data_matches_schema(VcloudDirector::Compute::Schema::QUERY_RESULT_EDGE_GATEWAY_RECORD_TYPE) { result }
+      tests("each EdgeGatewayRecord should follow schema").
+        data_matches_schema(VcloudDirector::Compute::Schema::QUERY_RESULT_EDGE_GATEWAY_RECORD_TYPE) { result }
     end
 
     @edge_gateways
   end
 
   tests('#get_edge_gateway').data_matches_schema(VcloudDirector::Compute::Schema::GATEWAY_TYPE) do
-    pending if Fog.mocking?
-
     @service.get_edge_gateway(@edge_gateways[:EdgeGatewayRecord].first[:href].split('/').last).body
   end
 
-
   tests('Retrieve non-existent edge gateway').raises(Excon::Errors::Forbidden) do
-    pending if Fog.mocking?
-
     @service.get_edge_gateway('00000000-0000-0000-0000-000000000000')
   end
 
-
+  tests('Retrieve edge gateways for non-existent VDC').raises(Excon::Errors::Forbidden) do
+    @service.get_edge_gateways('00000000-0000-0000-0000-000000000000')
+  end
 
 end
