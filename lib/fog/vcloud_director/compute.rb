@@ -82,12 +82,15 @@ module Fog
       request :get_catalog
       request :get_catalog_item
       request :get_catalog_item_metadata
+      request :get_catalog_item_metadata_item_metadata
       request :get_catalog_metadata
+      request :get_catalog_metadata_item_metadata
       request :get_catalogs_from_query
       request :get_cpu_rasd_item
       request :get_current_session
       request :get_disk
       request :get_disk_metadata
+      request :get_disk_metadata_item_metadata
       request :get_disk_owner
       request :get_disks_from_query
       request :get_disks_rasd_items_list
@@ -97,6 +100,7 @@ module Fog
       request :get_lease_settings_section_vapp
       request :get_media
       request :get_media_metadata
+      request :get_media_metadata_item_metadata
       request :get_media_owner
       request :get_medias_from_query
       request :get_memory_rasd_item
@@ -105,10 +109,12 @@ module Fog
       request :get_network_config_section_vapp
       request :get_network_connection_system_section_vapp
       request :get_network_metadata
+      request :get_network_metadata_item_metadata
       request :get_network_section_vapp
       request :get_operating_system_section
       request :get_organization
       request :get_organization_metadata
+      request :get_organization_metadata_item_metadata
       request :get_organizations
       request :get_product_sections_vapp
       request :get_request # this is used for manual testing
@@ -122,17 +128,21 @@ module Fog
       request :get_task_list
       request :get_vapp
       request :get_vapp_metadata
+      request :get_vapp_metadata_item_metadata
       request :get_vapp_ovf_descriptor
       request :get_vapp_owner
       request :get_vapp_template
       request :get_vapp_template_metadata
+      request :get_vapp_template_metadata_item_metadata
       request :get_vapp_template_ovf_descriptor
       request :get_vapp_templates_from_query
       request :get_vapps_in_lease_from_query
       request :get_vdc
       request :get_vdc_metadata
-      request :get_vdc_storage_profile
-      request :get_vdc_storage_profile_metadata
+      request :get_vdc_metadata_item_metadata
+      request :get_vdc_storage_class
+      request :get_vdc_storage_class_metadata
+      request :get_vdc_storage_class_metadata_item_metadata
       request :get_vm
       request :get_vm_compliance_results
       request :get_vm_customization
