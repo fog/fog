@@ -4,19 +4,19 @@ module Fog
       class Real
         # Retrieve a vDC.
         #
-        # @param [String] vdc_id Object identifier of the vDC.
+        # @param [String] id Object identifier of the vDC.
         # @return [Excon::Response]
         #   * body<~Hash>:
         # @see http://pubs.vmware.com/vcd-51/topic/com.vmware.vcloud.api.reference.doc_51/doc/operations/GET-Vdc.html
         #   vCloud API Documentation
         # @since vCloud API version 0.9
-        def get_vdc(vdc_id)
+        def get_vdc(id)
           request(
             :expects    => 200,
             :idempotent => true,
             :method     => 'GET',
             :parser     => Fog::ToHashDocument.new,
-            :path       => "vdc/#{vdc_id}"
+            :path       => "vdc/#{id}"
           )
         end
       end

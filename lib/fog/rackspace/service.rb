@@ -128,7 +128,12 @@ module Fog
 
       def select_options(keys)
         return nil unless @options && keys
-        @options.select {|k,v| keys.include?(k)}
+        selected = {}
+        keys.each do |k|
+          selected[k] = @options[k]
+        end
+
+        selected
       end
 
     end

@@ -9,7 +9,7 @@ module Fog
       class Group < Fog::Model
         
         # @!attribute [r] id
-        # @return [String] The autoscale group's id   
+        # @return [String] The autoscale group's id
         identity :id
 
         # @!attribute [r] links
@@ -103,6 +103,7 @@ module Fog
         # @see http://docs.rackspace.com/cas/api/v1.0/autoscale-devguide/content/POST_createGroup_v1.0__tenantId__groups_Groups.html   
         def save
           requires :launch_config, :group_config, :policies
+          raise Fog::Errors::Error.new("You should update launch_config and group_config directly") if persisted?
 
           launch_config_hash = {
             'args' => launch_config.args,
@@ -190,8 +191,7 @@ module Fog
         private
 
         def load_model(class_name, attrs = nil)
-          # Can use either Kernel.const_get or do an eval() - first is quicker
-          model = Kernel.const_get("Fog::Rackspace::AutoScale::#{class_name}").new({
+          model = Fog::Rackspace::AutoScale.const_get(class_name).new({
             :service => @service,
             :group   => self
           })

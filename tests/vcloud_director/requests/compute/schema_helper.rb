@@ -88,7 +88,7 @@ class VcloudDirector
       TASK_TYPE = ENTITY_TYPE.merge({
         :cancelRequested => Fog::Nullable::String,
         :endTime => Fog::Nullable::String,
-        :expiryTime => Fog::Nullable::String,
+        :expiryTime => String,
         :operation => Fog::Nullable::String,
         :operationName => Fog::Nullable::String,
         :serviceNamespace => Fog::Nullable::String,
@@ -106,7 +106,7 @@ class VcloudDirector
 
       # A list of queued, running, or recently completed tasks.
       TASKS_IN_PROGRESS_TYPE = {
-        :Task => TASK_TYPE
+        :Task => [TASK_TYPE]
       }
 
       # Base type that represents a resource entity such as a vApp template or
@@ -130,6 +130,17 @@ class VcloudDirector
       # vDC.
       SUPPORTED_HARDWARE_VERSIONS_TYPE = {
         :SupportedHardwareVersion => SUPPORTED_HARDWARE_VERSION_TYPE
+      }
+
+      # Represents a base type for VAppType and VmType.
+      ABSTRACT_VAPP_TYPE = RESOURCE_ENTITY_TYPE.merge({
+        :deployed => String,
+        :DateCreated => String
+      })
+
+      VAPP_CHILDREN_TYPE = {
+        #:VApp => ABSTRACT_VAPP_TYPE,
+        :Vm => ABSTRACT_VAPP_TYPE
       }
 
       # Container for references to available organization vDC networks.
@@ -172,6 +183,14 @@ class VcloudDirector
         :VdcStorageProfile => REFERENCE_TYPE
       }
 
+      # Represents the user view of a Catalog object.
+      CATALOG_TYPE = ENTITY_TYPE.merge({
+        #:Owner => OWNER_TYPE,
+        #:CatalogItems => CATALOG_ITEMS_TYPE,
+        :IsPublished => String,
+        :DateCreated => String
+      })
+
       # Represents a Media object.
       MEDIA_TYPE = RESOURCE_ENTITY_TYPE.merge({
         :imageType => String,
@@ -179,6 +198,10 @@ class VcloudDirector
         :Owner => OWNER_TYPE,
         # TODO:
         #:VdcStorageProfiles => VDC_STORAGE_PROFILES_TYPE # >= 5.1
+      })
+
+      METADATA_TYPE = RESOURCE_TYPE.merge({
+        #:MetadataEntry => METADATA_ENTRY_TYPE
       })
 
       # Represents a list of organizations.
@@ -189,6 +212,7 @@ class VcloudDirector
       # Represents the user view of a vCloud Director organization.
       ORG_TYPE = ENTITY_TYPE.merge({
         :Description => Fog::Nullable::String,
+        :Tasks => TASKS_IN_PROGRESS_TYPE,
         :FullName => String,
         :IsEnabled => Fog::Nullable::String
       })
@@ -203,6 +227,14 @@ class VcloudDirector
       # A list of tasks.
       TASKS_LIST_TYPE = ENTITY_TYPE.merge({
         #:Task => TASK_TYPE
+      })
+
+      # Represents a vApp.
+      VAPP_TYPE = ABSTRACT_VAPP_TYPE.merge({
+        :ovfDescriptorUploaded => String,
+        :Owner => OWNER_TYPE,
+        :InMaintenanceMode => String,
+        :Children => VAPP_CHILDREN_TYPE
       })
 
       # Represents the user view of an organization vDC.
@@ -256,6 +288,243 @@ class VcloudDirector
       SUPPORTED_OPERATING_SYSTEMS_INFO_TYPE = RESOURCE_TYPE.merge({
         :OperatingSystemFamilyInfo => [OPERATING_SYSTEM_FAMILY_INFO_TYPE]
       })
+
+      # Container for query results in records format.
+      #   Combine with QUERY_RESULT_RECORD_TYPE subtypes to validate query results
+      QUERY_RESULT_RECORDS_TYPE  =  {
+        :href => Fog::Nullable::String,
+        :type => Fog::Nullable::String,
+        :name => Fog::Nullable::String,
+        :page => Fog::Nullable::String,
+        :pageSize => Fog::Nullable::String,
+        :total => Fog::Nullable::String,
+      }
+
+      # Base type for a single record from query result in records format.
+      # Subtypes define more specific elements.
+      QUERY_RESULT_RECORD_TYPE  = {
+        :href => String,
+        :id => Fog::Nullable::String,
+        :type => Fog::Nullable::String
+      }
+
+      # Type for a single edgeGateway query result in records format.
+      QUERY_RESULT_EDGE_GATEWAY_RECORD_TYPE = QUERY_RESULT_RECORD_TYPE.merge({
+        :gatewayStatus => String,
+        :haStatus => String,
+        :isBusy => String,
+        :name => String,
+        :numberOfExtNetworks => String,
+        :numberOfOrgNetworks=> String,
+        :vdc => String
+      })
+
+      FIREWALL_RULE_TYPE__PROTOCOLS = {
+        :Icmp => Fog::Nullable::String,
+        :Asny => Fog::Nullable::String,
+        :Other => Fog::Nullable::String
+      }
+
+
+      # Represents a firewall rule.
+      FIREWALL_RULE_TYPE = {
+        :Id => String,
+        :IsEnabled => String,
+        :MatchOnTranslate => Fog::Nullable::String,
+        :Description => Fog::Nullable::String,
+        :Policy => Fog::Nullable::String,
+        :IcmpSubType => Fog::Nullable::String,
+        :Port => Fog::Nullable::String,
+        :DestinationPortRange => String,
+        :SourcePort => Fog::Nullable::String,
+        :SourcePortRange	=> String,
+        :Direction => Fog::Nullable::String,
+        :EnableLogging => Fog::Nullable::String,
+        :Protocols => FIREWALL_RULE_TYPE__PROTOCOLS
+      }
+
+      # Represents a network firewall service.
+      FIREWALL_SERVICE_TYPE = {
+        :IsEnabled => String,
+        :DefaultAction => String,
+        :LogDefaultAction => String,
+        #:FirewallRule	=> [FIREWALL_RULE_TYPE]  # not required
+      }
+
+      #Represents the SNAT and DNAT rules.
+      GATEWAY_NAT_RULE_TYPE = {
+        :Interface => REFERENCE_TYPE,
+        :OriginalIp => String,
+        :OriginalPort => Fog::Nullable::String,
+        :TranslatedIp => String,
+        :TranslatedPort => Fog::Nullable::String,
+        :Protocol => Fog::Nullable::String,
+        :IcmpSubType => Fog::Nullable::String
+      }
+
+      #Represents a NAT rule.
+      NAT_RULE_TYPE = {
+        :Description => Fog::Nullable::String,
+        :RuleType => String,
+        :IsEnabled => String,
+        :Id => String,
+        :GatewayNatRule => GATEWAY_NAT_RULE_TYPE
+      }
+
+      # Represents a NAT network service.
+      NAT_SERVICE_TYPE = {
+        :IsEnabled => String,
+        :NatType => Fog::Nullable::String,
+        :Policy => Fog::Nullable::String,
+        #:NatRule => [NAT_RULE_TYPE],  # not required
+        :ExternalIp => Fog::Nullable::String
+      }
+
+      # Represents a service port in a load balancer pool.
+      LB_POOL_SERVICE_PORT_TYPE = {
+        :IsEnabled => Fog::Nullable::String,
+        :Protocol => String,
+        :Algorithm => Fog::Nullable::String,
+        :Port => String,
+        :HealthCheckPort => String,
+        #:HealthCheck =>	LBPoolHealthCheckType  # not required
+      }
+
+      # Represents a member in a load balancer pool.
+      LB_POOL_MEMBER_TYPE = {
+        :IpAddress => String,
+        :Weight => String,
+        :ServicePort => [LB_POOL_SERVICE_PORT_TYPE]
+      }
+
+      # Represents a load balancer pool.
+      LOAD_BALANCER_POOL_TYPE = {
+        :Id => Fog::Nullable::String,
+        :Name => String,
+        :Description => Fog::Nullable::String,
+        :ServicePort => [LB_POOL_SERVICE_PORT_TYPE],
+        :Member => [LB_POOL_MEMBER_TYPE],
+        :Operational => String,
+        :ErrorDetails => Fog::Nullable::String
+      }
+
+      # Represents persistence type for a load balancer service profile.
+      LB_PERSISTENCE_TYPE = {
+        :Method => String,
+        :CookieName => Fog::Nullable::String,
+        :CookieMode => Fog::Nullable::String
+      }
+
+      # Represents service profile for a load balancing virtual server.
+      LB_VIRTUAL_SERVER_SERVICE_PROFILE_TYPE = {
+        :IsEnabled => String,
+        :Protocol => String,
+        :Port => String,
+        :Persistence => LB_PERSISTENCE_TYPE
+      }
+
+      # Information about a vendor service template. This is optional.
+      VENDOR_TEMPLATE_TYPE = {
+        :Name => String,
+        :Id => String
+      }
+
+      # Represents a load balancer virtual server.
+      LOAD_BALANCER_VIRTUAL_SERVER_TYPE = {
+        :IsEnabled => String,
+        :Name => String,
+        :Description => Fog::Nullable::String,
+        :Interface => REFERENCE_TYPE,
+        :IpAddress => String,
+        :ServiceProfile => [LB_VIRTUAL_SERVER_SERVICE_PROFILE_TYPE],
+        :Logging => String,
+        :Pool => String,
+        #:LoadBalancerTemplates => VENDOR_TEMPLATE_TYPE  # not required
+      }
+
+      # Represents gateway load balancer service.
+      LOAD_BALANCER_SERVICE_TYPE = {
+        :Pool => LOAD_BALANCER_POOL_TYPE,
+        :VirtualServer => LOAD_BALANCER_VIRTUAL_SERVER_TYPE,
+        :IsEnabled => Fog::Nullable::String
+      }
+
+      # Represents Gateway DHCP service.
+      GATEWAY_DHCP_SERVICE_TYPE = {
+        :IsEnabled => String,
+        #:Pool => DHCP_POOL_SERVICE_TYPE  # not required
+      }
+
+      # Represents edge gateway services.
+      GATEWAY_FEATURES_TYPE = {
+        #:StaticRoutingService	=> STATIC_ROUTING_SERVICE_TYPE, #not required
+        #:GatewayIpsecVpnService	=> GATEWAY_IPSEC_VPN_SERVICE_TYPE, #not required
+        #:GatewayDhcpService	=> GATEWAY_DHCP_SERVICE_TYPE, #not required
+        #:LoadBalancerService	=> LOAD_BALANCER_SERVICE_TYPE,  #not required
+        :NatService	=> NAT_SERVICE_TYPE,
+        :FirewallService => FIREWALL_SERVICE_TYPE
+      }
+
+      # Represents a range of IP addresses, start and end inclusive.
+      IP_RANGE_TYPE = {
+        :StartAddress => String,
+        :EndAddress => String
+      }
+
+      # Represents a list of IP ranges.
+      IP_RANGES_TYPE = {
+        :IpRange => [IP_RANGE_TYPE]
+      }
+
+      # Allows to chose which subnets a gateway can be part of
+      SUBNET_PARTICIPATION_TYPE = {
+        :Gateway => String,
+        :Netmask => String,
+        :IpAddress => String,
+        :IpRanges => IP_RANGES_TYPE
+      }
+
+      # Gateway Interface configuration.
+      GATEWAY_INTERFACE_TYPE = {
+        :Name	=> String,
+        :DisplayName => String,
+        :Network => REFERENCE_TYPE,
+        :InterfaceType	=> String,
+        #:SubnetParticipation => [SUBNET_PARTICIPATION_TYPE], #bug in parser means list or hash
+        :ApplyRateLimit	=> String,
+        :InRateLimit	=> Fog::Nullable::String,
+        :OutRateLimit	=> Fog::Nullable::String,
+        :UseForDefaultRoute	=> String,
+      }
+
+      # A list of Gateway Interfaces.
+      GATEWAY_INTERFACES_TYPE = {
+        :GatewayInterface	=> [GATEWAY_INTERFACE_TYPE]
+      }
+
+      # Gateway Configuration.
+      GATEWAY_CONFIGURATION_TYPE = {
+        :BackwardCompatibilityMode => Fog::Nullable::String,
+        :GatewayBackingConfig	=> String,
+        :GatewayInterfaces => GATEWAY_INTERFACES_TYPE,
+        :EdgeGatewayServiceConfiguration => GATEWAY_FEATURES_TYPE,
+        :HaEnabled => Fog::Nullable::String,
+        :UseDefaultRouteForDnsRelay	=> Fog::Nullable::String
+      }
+
+      # Represents a gateway.
+      GATEWAY_TYPE = {
+        :href	=> String,
+        :type	=> String,
+        :id	=> String,
+        :operationKey	=> Fog::Nullable::String,
+        :name	=> String,
+        :status	=> Fog::Nullable::String,
+        #:Link	=> LINK_TYPE, # not required
+        :Description	=> Fog::Nullable::String,
+        #:Tasks	=> TASKS_IN_PROGRESS_TYPE,  # not required
+        :Configuration => GATEWAY_CONFIGURATION_TYPE
+      }
 
     end
   end

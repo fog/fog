@@ -1,14 +1,7 @@
 Shindo.tests('Compute::VcloudDirector | media requests', ['vclouddirector']) do
 
   @service = Fog::Compute::VcloudDirector.new
-
-  tests('Get current organization') do
-    session = @service.get_current_session.body
-    link = session[:Link].detect do |l|
-      l[:type] == 'application/vnd.vmware.vcloud.org+xml'
-    end
-    @org = @service.get_organization(link[:href].split('/').last).body
-  end
+  @org = VcloudDirector::Compute::Helper.current_org(@service)
 
   tests('Each vDC') do
     @org[:Link].select do |l|
@@ -29,6 +22,10 @@ Shindo.tests('Compute::VcloudDirector | media requests', ['vclouddirector']) do
             pending if Fog.mocking?
             @service.get_media(@media_id).body
           end
+          tests("#get_media_metadata(#{@media_id})").data_matches_schema(VcloudDirector::Compute::Schema::METADATA_TYPE) do
+            pending if Fog.mocking?
+            @service.get_media_metadata(@media_id).body
+          end
           tests("#get_media_owner(#{@media_id})").data_matches_schema(VcloudDirector::Compute::Schema::OWNER_TYPE) do
             pending if Fog.mocking?
             @service.get_media_owner(@media_id).body
@@ -36,6 +33,11 @@ Shindo.tests('Compute::VcloudDirector | media requests', ['vclouddirector']) do
         end
       end
     end
+  end
+
+  tests('#get_medias_from_query').returns(Hash) do
+    pending if Fog.mocking?
+    @service.get_medias_from_query.body.class
   end
 
   tests('Upload to non-existent vDC').raises(Excon::Errors::Forbidden) do

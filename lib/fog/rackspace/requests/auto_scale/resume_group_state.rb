@@ -4,12 +4,11 @@ module Fog
       class Real
 
         def resume_group_state(group_id)
-          Fog::Real.not_implemented
-          # request(
-          #   :expects => [204],
-          #   :method => 'POST',
-          #   :path => 'groups/#{group_id}/resume'
-          # )
+          request(
+            :expects => [204],
+            :method => 'POST',
+            :path => "groups/#{group_id}/resume"
+          )
         end
       end
 

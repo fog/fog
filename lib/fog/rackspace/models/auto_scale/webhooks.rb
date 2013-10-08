@@ -8,8 +8,8 @@ module Fog
 
         model Fog::Rackspace::AutoScale::Webhook
 
-        attr_accessor :group_id
-        attr_accessor :policy_id
+        attr_accessor :group
+        attr_accessor :policy
 
         # Returns list of autoscale webhooks
         #
@@ -20,7 +20,7 @@ module Fog
         # @raise [Fog::Rackspace::AutoScale:::InternalServerError] - HTTP 500
         # @raise [Fog::Rackspace::AutoScale:::ServiceError]
         def all
-          data = service.list_webhooks(group_id, policy_id).body['webhooks']
+          data = service.list_webhooks(group.id, policy.id).body['webhooks']
           load(data)
         end
 
@@ -35,10 +35,8 @@ module Fog
         # @raise [Fog::Rackspace::AutoScale:::ServiceError]
         # 
         # @see http://docs.rackspace.com/cas/api/v1.0/autoscale-devguide/content/GET_getWebhook_v1.0__tenantId__groups__groupId__policies__policyId__webhooks__webhookId__Webhooks.html
-        def get(webhook_id)          
-          data = service.get_webhook(group_id, policy_id, webhook_id).body['webhook']
-          data['group_id'] = group_id
-          data['policy_id'] = policy_id
+        def get(webhook_id)
+          data = service.get_webhook(group.id, policy.id, webhook_id).body['webhook']
           new(data)
         rescue Fog::Rackspace::AutoScale::NotFound
           nil
@@ -53,11 +51,12 @@ module Fog
         # @raise [Fog::Rackspace::AutoScale:::InternalServerError] - HTTP 500
         # @raise [Fog::Rackspace::AutoScale:::ServiceError]
         def create(attributes = {})
-          attributes['group_id'] = group_id
-          attributes['policy_id'] = policy_id
           super(attributes)
         end
 
+        def new(attributes = {})
+          super({:group => group, :policy => policy}.merge(attributes))
+        end
       end
     end
   end

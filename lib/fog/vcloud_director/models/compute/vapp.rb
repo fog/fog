@@ -30,9 +30,21 @@ module Fog
           service.tags(:vm => self)
         end
 
-        def undeploy
-          # @todo Call #post_undeploy_vapp not #undeploy
-          response = service.undeploy(id)
+        # @param [String] action The specified action is applied to all virtual
+        #   machines in the vApp. All values other than **default** ignore
+        #   actions, order, and delay specified in the StartupSection. One of:
+        # * powerOff (Power off the virtual machines. This is the default
+        #   action if this attribute is missing or empty)
+        # * suspend (Suspend the virtual machines)
+        # * shutdown (Shut down the virtual machines)
+        # * force (Attempt to power off the virtual machines. Failures in
+        #   undeploying the virtual machine or associated networks are ignored.
+        #   All references to the vApp and its virtual machines are removed
+        #   from the database)
+        # * default (Use the actions, order, and delay specified in the
+        #   StartupSection)
+        def undeploy(action='powerOff')
+          response = service.post_undeploy_vapp(id, :UndeployPowerAction => action)
           service.process_task(response.body)
         end
 
