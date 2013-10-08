@@ -250,6 +250,9 @@ module Fog
       class Real
         include Fog::Compute::Helper
 
+        extend Fog::Deprecation
+        deprecate :auth_token, :vcloud_token
+
         attr_reader :end_point, :api_version
 
         def initialize(options={})
@@ -266,9 +269,9 @@ module Fog
           @api_version = options[:vcloud_director_api_version] || Fog::Compute::VcloudDirector::Defaults::API_VERSION
         end
 
-        def auth_token
-          login if @auth_token.nil?
-          @auth_token
+        def vcloud_token
+          login if @vcloud_token.nil?
+          @vcloud_token
         end
 
         def org_name
@@ -277,29 +280,25 @@ module Fog
         end
 
         def reload
-          @cookie = nil # verify that this makes the connection to be restored, if so use Excon::Errors::Forbidden instead of Excon::Errors::Unauthorized
           @connection.reset
         end
 
         def request(params)
-          unless @cookie
-            @cookie = auth_token
-          end
           begin
             do_request(params)
           # this is to know if Excon::Errors::Unauthorized really happens
           #rescue Excon::Errors::Unauthorized
-          #  @cookie = auth_token
+          #  login
           #  do_request(params)
           end
         end
 
         # @api private
         def do_request(params)
-          headers = { 'Accept' => 'application/*+xml;version=' +  @api_version }
-          if @cookie
-            headers.merge!('Cookie' => @cookie)
-          end
+          headers = {
+            'Accept' => "application/*+xml;version=#{@api_version}",
+            'x-vcloud-authorization' => vcloud_token
+          }
           if params[:path]
             if params[:override_path] == true
               path = params[:path]
@@ -317,11 +316,11 @@ module Fog
             :parser  => params[:parser],
             :path    => path
           })
-        rescue => @e
-          raise @e unless @e.class.to_s =~ /^Excon::Errors/
-          if @e.respond_to?(:response)
-            puts @e.response.status
-            puts CGI::unescapeHTML(@e.response.body)
+        rescue => e
+          raise e unless e.class.to_s =~ /^Excon::Errors/
+          if e.respond_to?(:response)
+            puts e.response.status
+            puts CGI::unescapeHTML(e.response.body)
           end
           raise @e
         end
@@ -349,19 +348,19 @@ module Fog
         private
 
         def login
-          headers = {
-            'Authorization' => "Basic #{Base64.encode64("#{@vcloud_director_username}:#{@vcloud_director_password}").delete("\r\n")}",
-            'Accept'        => 'application/*+xml;version=' + @api_version
-          }
-          response = @connection.request({
-            :expects => 200,
-            :headers => headers,
-            :method  => 'POST',
-            :parser  => Fog::ToHashDocument.new,
-            :path    => '/api/sessions'  # curl http://example.com/api/versions | grep LoginUrl
-          })
-          @auth_token = response.headers['Set-Cookie'] || response.headers['set-cookie']
+          response = post_login_session
+          x_vcloud_authorization = response.headers.keys.detect do |key|
+            key.downcase == 'x-vcloud-authorization'
+          end
+          @vcloud_token = response.headers[x_vcloud_authorization]
           @org_name = response.body[:org]
+        end
+
+        # @note This isn't needed.
+        def logout
+          delete_logout
+          @vcloud_token = nil
+          @org_name = nil
         end
       end
 
@@ -430,8 +429,8 @@ module Fog
           @api_version = options[:vcloud_director_api_version] || Fog::Compute::VcloudDirector::Defaults::API_VERSION
         end
 
-        def auth_token
-          @auth_token || Fog::Mock.random_base64(32)
+        def vcloud_token
+          @vcloud_token || Fog::Mock.random_base64(32)
         end
 
         def org_name
