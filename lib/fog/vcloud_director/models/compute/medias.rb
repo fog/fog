@@ -30,10 +30,7 @@ module Fog
           headers = {
             'Content-Length' => io.size,
             'Content-Type' => 'application/octet-stream',
-            # FIXME: use x-vcloud-authorization once auth_token contains only
-            # the actual auth token.
-            'Cookie' => service.auth_token,
-            #'x-vcloud-authorization' => service.auth_token
+            'x-vcloud-authorization' => service.vcloud_token
           }
           chunker = lambda do
             # to_s will convert the nil received after everything is read to
