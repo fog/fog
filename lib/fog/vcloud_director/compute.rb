@@ -334,7 +334,7 @@ module Fog
             puts e.response.status
             puts CGI::unescapeHTML(e.response.body)
           end
-          raise @e
+          raise e
         end
 
         def process_task(response_body)
