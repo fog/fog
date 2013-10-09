@@ -41,13 +41,15 @@ Shindo.tests('Fog::Storage[:openstack] | object requests', ["openstack"]) do
       Fog::Storage[:openstack].delete_object('fogobjecttests', 'fog_object')
     end
 
-    tests("#get_object_http_url('#{@directory.identity}', 'fog_object', expiration timestamp)").returns(true) do
+    tests("#get_object_http_url('directory.identity', 'fog_object', expiration timestamp)").returns(true) do
+      pending if Fog.mocking?
       object_url = Fog::Storage[:openstack].get_object_http_url(@directory.identity, 'fog_object', (Time.now + 60))
 
       (object_url =~ /http:\/\/\S+\/v1\/AUTH_\S+\/#{@directory.identity}\/fog_object\?temp_url_sig=\S+&temp_url_expires=\d+/) != nil
     end
 
-    tests("#get_object_https_url('#{@directory.identity}', 'fog_object', expiration timestamp)").returns(true) do
+    tests("#get_object_https_url('directory.identity', 'fog_object', expiration timestamp)").returns(true) do
+      pending if Fog.mocking?
       object_url = Fog::Storage[:openstack].get_object_https_url(@directory.identity, 'fog_object', (Time.now + 60))
 
       (object_url =~ /https:\/\/\S+\/v1\/AUTH_\S+\/#{@directory.identity}\/fog_object\?temp_url_sig=\S+&temp_url_expires=\d+/) != nil
