@@ -1,8 +1,3 @@
-LINKS_FORMAT = [{
-  'href' => String,
-  'rel' => String
-}]
-
 FLAVOR_FORMAT = {
   'id' => Integer,
   'name' => String,
