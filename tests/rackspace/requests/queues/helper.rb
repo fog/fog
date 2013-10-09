@@ -1,11 +1,6 @@
 VALID_TTL = 300
 VALID_GRACE = 300
 
-LINKS_FORMAT = [{
-  'href' => String,
-  'rel' => String
-}]
-
 METADATA_FORMAT = {
 }
 

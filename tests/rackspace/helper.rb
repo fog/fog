@@ -1,3 +1,8 @@
+LINKS_FORMAT = [{
+  'href' => String,
+  'rel' => String
+}]
+
 module Shindo
   class Tests
 
