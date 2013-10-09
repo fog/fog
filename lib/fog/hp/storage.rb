@@ -217,19 +217,11 @@ module Fog
           end
 
           expires        = expires.to_i
-
-          # split up the storage uri
-          uri = URI.parse(@hp_storage_uri)
-          host   = uri.host
-          path   = uri.path
-          port   = uri.port
-          uri_scheme = uri.scheme
-          
-          scheme = options[:scheme] || uri_scheme
+          scheme = options[:scheme] || @scheme
           
           # do not encode before signature generation, encode after
-          sig_path = "#{path}/#{container}/#{object}"
-          encoded_path = "#{path}/#{Fog::HP.escape(container)}/#{Fog::HP.escape(object)}"
+          sig_path = "#{@path}/#{container}/#{object}"
+          encoded_path = "#{@path}/#{Fog::HP.escape(container)}/#{Fog::HP.escape(object)}"
 
           string_to_sign = "#{method}\n#{expires}\n#{sig_path}"
 
@@ -254,11 +246,7 @@ module Fog
           end
           
           # generate the temp url using the signature and expiry
-          if scheme == "http"
-            "#{scheme}://#{host}#{encoded_path}?temp_url_sig=#{signature}&temp_url_expires=#{expires}"          
-          else
-            "#{scheme}://#{host}:#{port}#{encoded_path}?temp_url_sig=#{signature}&temp_url_expires=#{expires}"          
-          end
+          "#{scheme}://#{@host}#{encoded_path}?temp_url_sig=#{signature}&temp_url_expires=#{expires}"          
         end
       end
 
