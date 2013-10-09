@@ -334,7 +334,7 @@ module Fog
             puts e.response.status
             puts CGI::unescapeHTML(e.response.body)
           end
-          raise @e
+          raise e
         end
 
         def process_task(response_body)
@@ -497,10 +497,12 @@ module Fog
           @org_name ||=
             begin
               username = @vcloud_director_username.split('@')
-              unless username.size == 2
+              if username.size >= 2 # may be 'email_address@org_name'
+                username.last
+              else
                 Fog::Logger.warning('vcloud_director_username should be in the form user@org_name')
+                'vcd_org_name'
               end
-              username.last || 'vcd_org_name'
             end
         end
 

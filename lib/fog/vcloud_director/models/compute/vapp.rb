@@ -44,55 +44,96 @@ module Fog
         # * default (Use the actions, order, and delay specified in the
         #   StartupSection)
         def undeploy(action='powerOff')
-          response = service.post_undeploy_vapp(id, :UndeployPowerAction => action)
+          begin
+            response = service.post_undeploy_vapp(id, :UndeployPowerAction => action)
+          rescue Excon::Errors::BadRequest => ex
+            puts ex.message
+            return false
+          end
           service.process_task(response.body)
         end
+
 
         # Power off all VMs in the vApp.
         def power_off
           requires :id
-          response = service.post_power_off_vapp(id)
+          begin
+            response = service.post_power_off_vapp(id)
+          rescue Excon::Errors::BadRequest => ex
+            puts ex.message
+            return false
+          end
           service.process_task(response.body)
         end
 
         # Power on all VMs in the vApp.
         def power_on
           requires :id
-          response = service.post_power_on_vapp(id)
+          begin
+            response = service.post_power_on_vapp(id)
+          rescue Excon::Errors::BadRequest => ex
+            puts ex.message
+            return false
+          end
           service.process_task(response.body)
         end
 
         # Reboot all VMs in the vApp.
         def reboot
           requires :id
-          response = service.post_reboot_vapp(id)
+          begin
+            response = service.post_reboot_vapp(id)
+          rescue Excon::Errors::BadRequest => ex
+            puts ex.message
+            return false
+          end
           service.process_task(response.body)
         end
 
         # Reset all VMs in the vApp.
         def reset
           requires :id
-          response = service.post_reset_vapp(id)
+          begin
+            response = service.post_reset_vapp(id)
+          rescue Excon::Errors::BadRequest => ex
+            puts ex.message
+            return false
+          end
           service.process_task(response.body)
         end
 
         # Shut down all VMs in the vApp.
         def shutdown
           requires :id
-          response = service.post_shutdown_vapp(id)
+          begin
+            response = service.post_shutdown_vapp(id)
+          rescue Excon::Errors::BadRequest => ex
+            puts ex.message
+            return false
+          end
           service.process_task(response.body)
         end
 
         # Suspend all VMs in the vApp.
         def suspend
           requires :id
-          response = service.post_suspend_vapp(id)
+          begin
+            response = service.post_suspend_vapp(id)
+          rescue Excon::Errors::BadRequest => ex
+            puts ex.message
+            return false
+          end
           service.process_task(response.body)
         end
 
         def destroy
           requires :id
-          response = service.delete_vapp(id)
+          begin
+            response = service.delete_vapp(id)
+          rescue Excon::Errors::BadRequest => ex
+            puts ex.message
+            return false
+          end
           service.process_task(response.body)
         end
 
