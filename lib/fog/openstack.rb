@@ -72,7 +72,6 @@ module Fog
           'X-Auth-Key'  => @openstack_api_key,
           'X-Auth-User' => @openstack_username
         },
-        :host     => uri.host,
         :method   => 'GET',
         :path     =>  (uri.path and not uri.path.empty?) ? uri.path : 'v1.0'
       })
@@ -108,7 +107,6 @@ module Fog
             :headers => {'Content-Type' => 'application/json',
                          'Accept' => 'application/json',
                          'X-Auth-Token' => body['access']['token']['id']},
-            :host    => uri.host,
             :method  => 'GET'
           })
 
@@ -206,7 +204,6 @@ module Fog
         :expects  => [200, 204],
         :headers  => {'Content-Type' => 'application/json'},
         :body     => Fog::JSON.encode(request_body),
-        :host     => uri.host,
         :method   => 'POST',
         :path     => (uri.path and not uri.path.empty?) ? uri.path : 'v2.0'
       })
@@ -221,7 +218,6 @@ module Fog
         :headers => {'Content-Type' => 'application/json',
                      'Accept' => 'application/json',
                      'X-Auth-Token' => auth_token},
-        :host    => uri.host,
         :method  => 'GET'
       })
 
