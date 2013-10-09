@@ -75,6 +75,7 @@ if Fog.mock?
     :libvirt_uri                      => 'qemu://libvirt/system',
     :rackspace_api_key                => 'rackspace_api_key',
     :rackspace_username               => 'rackspace_username',
+    :rackspace_queues_client_id       => 'test-fog-mock-queue',
     :riakcs_access_key_id             => 'riakcs_access_key_id',
     :riakcs_secret_access_key         => 'riakcs_secret_access_key',
     :storm_on_demand_username         => 'storm_on_demand_username',
