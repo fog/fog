@@ -1,6 +1,18 @@
 module Fog
   module HP
     class LB
+
+      # List all load balancer nodes
+      #
+      # ==== Returns
+      # * response<~Excon::Response>:
+      #   * body<~Hash>:
+      #     * 'nodes'<~Array>: Nodes for the load balancer
+      #       * 'id'<~String> - UUId for the node
+      #       * 'address'<~String> - Address for the node
+      #       * 'port'<~String> - Port for the node
+      #       * 'condition'<~String> - Condition for the node e.g. 'ENABLED'
+      #       * 'status'<~String> - Status for the node e.g. 'ONLINE'
       class Real
         def list_load_balancer_nodes(load_balancer_id)
           response = request(
@@ -14,44 +26,15 @@ module Fog
       class Mock
         def list_load_balancer_nodes(load_balancer_id)
           response = Excon::Response.new
-          if lb = find_load_balancer(load_balancer_id)
+          if lb = get_load_balancer(load_balancer_id).body
             response.status = 200
-            response.body   = {
-              "nodes" => [
-                {
-                  "id"        => "410",
-                  "address"   => "10.1.1.1",
-                  "port"      => "80",
-                  "condition" => "ENABLED",
-                  "status"    => "ONLINE"
-                },
-                {
-                  "id"        => "236",
-                  "address"   => "10.1.1.2",
-                  "port"      => "80",
-                  "condition" => "ENABLED",
-                  "status"    => "ONLINE"
-                },
-                {
-                  "id"        => "2815",
-                  "address"   => "10.1.1.3",
-                  "port"      => "83",
-                  "condition" => "DISABLED",
-                  "status"    => "OFFLINE"
-                },
-              ]
-            }
+            response.body   = {'nodes' => lb['nodes']}
+            response
           else
             raise Fog::HP::LB::NotFound
           end
-
-          response
-
         end
 
-        def find_load_balancer(record_id)
-          list_load_balancers.body['loadBalancers'].detect { |_| _['id'] == record_id }
-        end
       end
     end
   end

@@ -1,45 +1,38 @@
 module Fog
   module HP
     class LB
+
+      # List all load balancers
+      #
+      # ==== Returns
+      # * response<~Excon::Response>:
+      #   * body<~Hash>:
+      #     * 'loadBalancers'<~Array>:
+      #       * 'id'<~String> - UUID of the load balancer
+      #       * 'name'<~String> - Name of the load balancer
+      #       * 'protocol'<~String> - Protocol for the load balancer
+      #       * 'port'<~String> - Port for the load balancer
+      #       * 'algorithm'<~String> - Algorithm for the load balancer
+      #       * 'status'<~String> - Status for the load balancer
+      #       * 'created'<~String> - created date time stamp
+      #       * 'updated'<~String> - updated date time stamp
+      #       * 'nodeCount'<~Integer> - Nodes attached to the load balancer
       class Real
         def list_load_balancers
-          response = request(
+          request(
             :expects => 200,
             :method  => 'GET',
             :path    => 'loadbalancers'
           )
-          response
         end
 
       end
       class Mock
         def list_load_balancers
           response = Excon::Response.new
+          lbs = self.data[:lbs].values
           response.status = 200
-          response.body = {
-              "loadBalancers" => [
-                {
-                  "name"      => "lb-site1",
-                  "id"        => "71",
-                  "protocol"  => "HTTP",
-                  "port"      => "80",
-                  "algorithm" => "LEAST_CONNECTIONS",
-                  "status"    => "ACTIVE",
-                  "created"   => "2010-11-30T03=>23=>42Z",
-                  "updated"   => "2010-11-30T03=>23=>44Z"
-              },
-                {
-                  "name"      => "lb-site2",
-                  "id"        => "166",
-                  "protocol"  => "TCP",
-                  "port"      => "9123",
-                  "algorithm" => "ROUND_ROBIN",
-                  "status"    => "ACTIVE",
-                  "created"   => "2010-11-30T03:23:42Z",
-                  "updated"   => "2010-11-30T03:23:44Z"
-              }
-            ]
-          }
+          response.body = { 'loadBalancers' => lbs }
           response
         end
       end

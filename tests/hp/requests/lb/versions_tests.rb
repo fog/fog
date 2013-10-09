@@ -1,4 +1,4 @@
-Shindo.tests("Fog::HP::LB | list versions", ['hp', 'lb', 'versions']) do
+Shindo.tests("HP::LB | versions requests", ['hp', 'lb', 'versions']) do
   @version_format = {
     'id'        => String,
     'links'     => [Hash],
@@ -8,7 +8,7 @@ Shindo.tests("Fog::HP::LB | list versions", ['hp', 'lb', 'versions']) do
 
   tests('success') do
 
-    tests("#list_versions").formats({'versions' => [@version_format]}) do
+    tests('#list_versions').formats({'versions' => [@version_format]}) do
       HP[:lb].list_versions.body
     end
   end

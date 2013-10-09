@@ -1,6 +1,15 @@
 module Fog
   module HP
     class LB
+
+      # List protocols
+      #
+      # ==== Returns
+      # * response<~Excon::Response>:
+      #   * body<~Hash>:
+      #     * 'protocols'<~Array>:
+      #       * 'name'<~String> - Name of the protocol
+      #       * 'port'<~String> - Port of the protocol
       class Real
         def list_protocols
           response = request(
@@ -14,14 +23,9 @@ module Fog
       class Mock
         def list_protocols
           response = Excon::Response.new
+          protocols  = self.data[:protocols].values
           response.status = 200
-          response.body   = {
-            "protocols" => [
-              { "name" => "HTTP", "port" => 80 },
-              { "name" => "TCP", "port" => 443 }
-            ]
-          }
-
+          response.body   = { 'protocols' => protocols }
           response
         end
       end
