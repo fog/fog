@@ -72,8 +72,7 @@ An alternate file may be used by placing its path in the FOG_RC environment vari
   :libvirt_uri:
   :rackspace_api_key:
   :rackspace_username:
-  :rackspace_servicenet:
-  :rackspace_cdn_ssl:
+  :rackspace_queues_client_id:
   :riakcs_access_key_id:
   :riakcs_secret_access_key:
   :stormondemand_username:
