@@ -5,9 +5,9 @@ module Fog
 
         def list_versions
           request(
-            :expects => [200, 204],
+            :expects => 200,
             :method  => 'GET',
-            :path    => ""
+            :path    => ''
           )
         end
       end
@@ -15,12 +15,9 @@ module Fog
 
         def list_versions
           response        = Excon::Response.new
+          versions       = self.data[:versions].values
           response.status = 200
-          response.body   = {
-            "versions" => [
-              {"id" => "v1.1", "links" => [{"href" => "http://api-docs.hpcloud.com", "rel" => "self"}], "status" => "CURRENT", "updated" => "2012-12-18T18:30:02.25Z"}
-            ]
-          }
+          response.body   = { 'versions' => versions }
           response
         end
 

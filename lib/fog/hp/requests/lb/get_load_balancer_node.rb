@@ -2,23 +2,38 @@ module Fog
   module HP
     class LB
       class Real
+
+      # Get details for an existing load balancer node
+      #
+      # ==== Parameters
+      # * 'load_balancer_id'<~String> - UUId of the load balancer to get
+      # * 'node_id'<~String> - UUId of node to get
+      #
+      # ==== Returns
+      # * response<~Excon::Response>:
+      #   * body<~Hash>:
+      #     * 'id'<~String> - UUId for the node
+      #     * 'address'<~String> - Address for the node
+      #     * 'port'<~String> - Port for the node
+      #     * 'condition'<~String> - Condition for the node e.g. 'ENABLED'
+      #     * 'status'<~String> - Status for the node e.g. 'ONLINE'
         def get_load_balancer_node(load_balancer_id, node_id)
-          response = request(
+          request(
             :expects => 200,
             :method  => 'GET',
             :path    => "loadbalancers/#{load_balancer_id}/nodes/#{node_id}"
           )
-          response
-
         end
       end
+
       class Mock
         def get_load_balancer_node(load_balancer_id, node_id)
           response = Excon::Response.new
-          if load_b = get_load_balancer(load_balancer_id).body
-           if node = find_node(load_b,node_id)
+          if get_load_balancer(load_balancer_id)
+           if node = find_node(load_balancer_id, node_id)
              response.status = 200
              response.body = node
+             response
            else
              raise Fog::HP::LB::NotFound
            end
@@ -26,11 +41,11 @@ module Fog
             raise Fog::HP::LB::NotFound
           end
 
-          response
         end
 
-        def find_node(lb,node_id)
-          lb['nodes'].detect { |_| _['id'] == node_id }
+        def find_node(load_balancer_id, node_id)
+          nodes = list_load_balancer_nodes(load_balancer_id).body['nodes']
+          nodes.select {|n| n['id'] == node_id}
         end
 
       end

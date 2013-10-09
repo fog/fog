@@ -4,11 +4,10 @@ module Fog
   module HP
     class LB < Fog::Service
 
-      requires :hp_secret_key, :hp_tenant_id, :hp_avl_zone
-      recognizes :hp_auth_uri, :credentials
-      recognizes :persistent, :connection_options
-      recognizes :hp_use_upass_auth_style, :hp_auth_version, :user_agent
-      recognizes :hp_access_key, :hp_account_id # :hp_account_id is deprecated use hp_access_key instead
+      requires    :hp_access_key, :hp_secret_key, :hp_tenant_id, :hp_avl_zone
+      recognizes  :hp_auth_uri, :credentials
+      recognizes  :persistent, :connection_options
+      recognizes  :hp_use_upass_auth_style, :hp_auth_version, :user_agent
 
       secrets :hp_secret_key
 
@@ -35,15 +34,13 @@ module Fog
       request       :delete_load_balancer_node
       request       :get_load_balancer
       request       :get_load_balancer_node
-      request       :get_version
-      request       :get_virtual_ips
       request       :list_algorithms
       request       :list_limits
       request       :list_load_balancer_nodes
+      request       :list_load_balancer_virtual_ips
       request       :list_load_balancers
       request       :list_protocols
       request       :list_versions
-      request       :list_load_balancer_virtual_ips
       request       :update_load_balancer
       request       :update_load_balancer_node
 
@@ -53,7 +50,32 @@ module Fog
         def self.data
           @data ||= Hash.new do |hash, key|
             hash[key] = {
-
+                :versions => {
+                  "v1.1" => { "id" => "v1.1",
+                              "links" => [{"href" => "http://api-docs.hpcloud.com", "rel" => "self"}],
+                              "status" => "CURRENT",
+                              "updated" => "2012-12-18T18:30:02.25Z"
+                  }
+                },
+                :limits => {
+                  "absolute" => {
+                    "values" => {
+                      "maxLoadBalancerNameLength" => 128,
+                      "maxLoadBalancers"          => 20,
+                      "maxNodesPerLoadBalancer"   => 5,
+                      "maxVIPsPerLoadBalancer"    => 1
+                    }
+                  }
+                },
+                :lbs => {},
+                :protocols => {
+                  "HTTP" => { "name" => "HTTP", "port" => 80 },
+                  "TCP"  => { "name" => "TCP", "port"  => 443 }
+                },
+                :algorithms => {
+                  "ROUND_ROBIN"       => { "name" => "ROUND_ROBIN" },
+                  "LEAST_CONNECTIONS" => { "name" => "LEAST_CONNECTIONS"}
+                }
             }
           end
         end
@@ -63,15 +85,7 @@ module Fog
         end
 
         def initialize(options={})
-          # deprecate hp_account_id
-          if options[:hp_account_id]
-            Fog::Logger.deprecation(":hp_account_id is deprecated, please use :hp_access_key instead.")
-            @hp_access_key = options.delete(:hp_account_id)
-          end
           @hp_access_key = options[:hp_access_key]
-          unless @hp_access_key
-            raise ArgumentError.new("Missing required arguments: hp_access_key. :hp_account_id is deprecated, please use :hp_access_key instead.")
-          end
         end
 
         def data
@@ -89,15 +103,7 @@ module Fog
 
 
         def initialize(options={})
-          # deprecate hp_account_id
-          if options[:hp_account_id]
-            Fog::Logger.deprecation(":hp_account_id is deprecated, please use :hp_access_key instead.")
-            options[:hp_access_key] = options.delete(:hp_account_id)
-          end
           @hp_access_key = options[:hp_access_key]
-          unless @hp_access_key
-            raise ArgumentError.new("Missing required arguments: hp_access_key. :hp_account_id is deprecated, please use :hp_access_key instead.")
-          end
           @hp_secret_key      = options[:hp_secret_key]
           @hp_auth_uri        = options[:hp_auth_uri]
           @connection_options = options[:connection_options] || {}
@@ -140,20 +146,20 @@ module Fog
         def request(params, parse_json = true, &block)
           begin
             response = @connection.request(params.merge!({
-                                                             :headers => {
-                                                                 'Content-Type' => 'application/json',
-                                                                 'X-Auth-Token' => @auth_token
-                                                             }.merge!(params[:headers] || {}),
-                                                             :host    => @host,
-                                                             :path    => "#{@path}/#{params[:path]}",
-                                                         }), &block)
+               :headers => {
+                 'Content-Type' => 'application/json',
+                 'X-Auth-Token' => @auth_token
+               }.merge!(params[:headers] || {}),
+               :host    => @host,
+               :path    => "#{@path}/#{params[:path]}",
+           }), &block)
           rescue Excon::Errors::HTTPStatusError => error
             raise case error
-                    when Excon::Errors::NotFound
-                      Fog::HP::LB::NotFound.slurp(error)
-                    else
-                      error
-                  end
+            when Excon::Errors::NotFound
+              Fog::HP::LB::NotFound.slurp(error)
+            else
+              error
+            end
           end
           if !response.body.empty? && parse_json && response.headers['Content-Type'] =~ %r{application/json}
             response.body = Fog::JSON.decode(response.body)
