@@ -68,7 +68,6 @@ Shindo.tests('Fog::Rackspace::Service', ['rackspace']) do
     REQUEST_HASH = {
       :path=>"/endpoint/my_service",
       :headers=>{"Content-Type"=>"application/json", "Accept"=>"application/json", "X-Auth-Token"=>"my_auth_token"},
-      :host=>"fog.io"
     }.freeze
 
     uri = URI.parse("http://fog.io/endpoint")

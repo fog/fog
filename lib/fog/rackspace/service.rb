@@ -79,7 +79,6 @@ module Fog
       def request_params(params)
         params.merge({
           :headers  => headers(params),
-          :host     => endpoint_uri.host,
           :path     => "#{endpoint_uri.path}/#{params[:path]}"
         })
       end
