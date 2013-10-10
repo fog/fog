@@ -1,5 +1,4 @@
 require File.expand_path(File.join(File.dirname(__FILE__), '..', 'rackspace'))
-require 'uuidtools'
 
 module Fog
   module Rackspace
@@ -62,7 +61,7 @@ module Fog
         def initialize(options = {})
           @rackspace_api_key = options[:rackspace_api_key]
           @rackspace_username = options[:rackspace_username]
-          @rackspace_queues_client_id = options[:rackspace_queues_client_id] || UUIDTools::UUID.random_create.to_s
+          @rackspace_queues_client_id = options[:rackspace_queues_client_id] || Fog::UUID.uuid
           @rackspace_auth_url = options[:rackspace_auth_url]
           @rackspace_must_reauthenticate = false
           @connection_options = options[:connection_options] || {}
