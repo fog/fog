@@ -41,8 +41,4 @@ Shindo.tests('Compute::VcloudDirector | edge gateway requests', ['vclouddirector
     @service.get_edge_gateway('00000000-0000-0000-0000-000000000000')
   end
 
-  tests('Retrieve edge gateways for non-existent VDC').raises(Excon::Errors::Forbidden) do
-    @service.get_edge_gateways('00000000-0000-0000-0000-000000000000')
-  end
-
 end

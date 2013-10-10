@@ -143,6 +143,17 @@ class VcloudDirector
         :Vm => ABSTRACT_VAPP_TYPE
       }
 
+      # Controls access to the resource.
+      ACCESS_SETTING_TYPE = {
+        :Subject => REFERENCE_TYPE,
+        :AccessLevel => String
+      }
+
+      # A list of access settings for a resource.
+      ACCESS_SETTINGS_TYPE = {
+        :AccessSettingType => [ACCESS_SETTING_TYPE]
+      }
+
       # Container for references to available organization vDC networks.
       AVAILABLE_NETWORKS_TYPE = {
         :Network => [REFERENCE_TYPE]
@@ -173,15 +184,48 @@ class VcloudDirector
         :Memory => CAPACITY_WITH_USAGE_TYPE
       }
 
+      # Represents a guest customization settings.
+      GUEST_CUSTOMIZATION_SECTION_TYPE = { # TODO: extends Section_Type
+        :Enabled => Fog::Nullable::String,
+        :ChangeSid => Fog::Nullable::String,
+        :VirtualMachineId => Fog::Nullable::String,
+        :JoinDomainEnabled => Fog::Nullable::String,
+        :UseOrgSettings => Fog::Nullable::String,
+        :DomainName => Fog::Nullable::String,
+        :DomainUserName => Fog::Nullable::String,
+        :DomainUserPassword => Fog::Nullable::String,
+        :MachineObjectOU => Fog::Nullable::String,
+        :AdminPasswordEnabled => Fog::Nullable::String,
+        :AdminPasswordAuto => Fog::Nullable::String,
+        :AdminPassword => Fog::Nullable::String,
+        :ResetPasswordRequired => Fog::Nullable::String,
+        :CustomizationScript => Fog::Nullable::String,
+        :ComputerName => String,
+        :Link => LINK_TYPE
+      }
+
       # Represents the owner of this entity.
       OWNER_TYPE = RESOURCE_TYPE.merge({
         :User => REFERENCE_TYPE
       })
 
+      # VMware Tools and other runtime information for this virtual machine.
+      RUNTIME_INFO_SECTION_TYPE = { # TODO: extends Section_Type
+        :VMWareTools => {
+          :version => Fog::Nullable::String
+        }
+      }
+
       # Container for references to storage profiles associated with a vDC.
       VDC_STORAGE_PROFILES_TYPE = {
         :VdcStorageProfile => REFERENCE_TYPE
       }
+
+      # Allows you to specify certain capabilities of this virtual machine.
+      VM_CAPABILITIES_TYPE = RESOURCE_TYPE.merge({
+        :MemoryHotAddEnabled => String,
+        :CpuHotAddEnabled => String
+      })
 
       # Represents the user view of a Catalog object.
       CATALOG_TYPE = ENTITY_TYPE.merge({
@@ -190,6 +234,13 @@ class VcloudDirector
         :IsPublished => String,
         :DateCreated => String
       })
+
+      # Specifies access controls for a resource.
+      CONTROL_ACCESS_PARAMS_TYPE = {
+        :IsSharedToEveryone => String,
+        :EveryoneAccessLevel => Fog::Nullable::String,
+      # :AccessSettings => ACCESS_SETTINGS_TYPE
+      }
 
       # Represents a Media object.
       MEDIA_TYPE = RESOURCE_ENTITY_TYPE.merge({
@@ -337,7 +388,7 @@ class VcloudDirector
         :Port => Fog::Nullable::String,
         :DestinationPortRange => String,
         :SourcePort => Fog::Nullable::String,
-        :SourcePortRange	=> String,
+        :SourcePortRange => String,
         :Direction => Fog::Nullable::String,
         :EnableLogging => Fog::Nullable::String,
         :Protocols => FIREWALL_RULE_TYPE__PROTOCOLS
@@ -348,7 +399,7 @@ class VcloudDirector
         :IsEnabled => String,
         :DefaultAction => String,
         :LogDefaultAction => String,
-        #:FirewallRule	=> [FIREWALL_RULE_TYPE]  # not required
+        #:FirewallRule => [FIREWALL_RULE_TYPE]  # not required
       }
 
       #Represents the SNAT and DNAT rules.
@@ -387,7 +438,7 @@ class VcloudDirector
         :Algorithm => Fog::Nullable::String,
         :Port => String,
         :HealthCheckPort => String,
-        #:HealthCheck =>	LBPoolHealthCheckType  # not required
+        #:HealthCheck => LBPoolHealthCheckType  # not required
       }
 
       # Represents a member in a load balancer pool.
@@ -457,11 +508,11 @@ class VcloudDirector
 
       # Represents edge gateway services.
       GATEWAY_FEATURES_TYPE = {
-        #:StaticRoutingService	=> STATIC_ROUTING_SERVICE_TYPE, #not required
-        #:GatewayIpsecVpnService	=> GATEWAY_IPSEC_VPN_SERVICE_TYPE, #not required
-        #:GatewayDhcpService	=> GATEWAY_DHCP_SERVICE_TYPE, #not required
-        #:LoadBalancerService	=> LOAD_BALANCER_SERVICE_TYPE,  #not required
-        :NatService	=> NAT_SERVICE_TYPE,
+        #:StaticRoutingService => STATIC_ROUTING_SERVICE_TYPE, #not required
+        #:GatewayIpsecVpnService => GATEWAY_IPSEC_VPN_SERVICE_TYPE, #not required
+        #:GatewayDhcpService => GATEWAY_DHCP_SERVICE_TYPE, #not required
+        #:LoadBalancerService => LOAD_BALANCER_SERVICE_TYPE,  #not required
+        #:NatService => NAT_SERVICE_TYPE,  #not required
         :FirewallService => FIREWALL_SERVICE_TYPE
       }
 
@@ -486,43 +537,43 @@ class VcloudDirector
 
       # Gateway Interface configuration.
       GATEWAY_INTERFACE_TYPE = {
-        :Name	=> String,
+        :Name => String,
         :DisplayName => String,
         :Network => REFERENCE_TYPE,
-        :InterfaceType	=> String,
+        :InterfaceType => String,
         #:SubnetParticipation => [SUBNET_PARTICIPATION_TYPE], #bug in parser means list or hash
-        :ApplyRateLimit	=> String,
-        :InRateLimit	=> Fog::Nullable::String,
-        :OutRateLimit	=> Fog::Nullable::String,
-        :UseForDefaultRoute	=> String,
+        :ApplyRateLimit => String,
+        :InRateLimit => Fog::Nullable::String,
+        :OutRateLimit => Fog::Nullable::String,
+        :UseForDefaultRoute => String,
       }
 
       # A list of Gateway Interfaces.
       GATEWAY_INTERFACES_TYPE = {
-        :GatewayInterface	=> [GATEWAY_INTERFACE_TYPE]
+        :GatewayInterface => [GATEWAY_INTERFACE_TYPE]
       }
 
       # Gateway Configuration.
       GATEWAY_CONFIGURATION_TYPE = {
         :BackwardCompatibilityMode => Fog::Nullable::String,
-        :GatewayBackingConfig	=> String,
+        :GatewayBackingConfig => String,
         :GatewayInterfaces => GATEWAY_INTERFACES_TYPE,
         :EdgeGatewayServiceConfiguration => GATEWAY_FEATURES_TYPE,
         :HaEnabled => Fog::Nullable::String,
-        :UseDefaultRouteForDnsRelay	=> Fog::Nullable::String
+        :UseDefaultRouteForDnsRelay => Fog::Nullable::String
       }
 
       # Represents a gateway.
       GATEWAY_TYPE = {
-        :href	=> String,
-        :type	=> String,
-        :id	=> String,
-        :operationKey	=> Fog::Nullable::String,
-        :name	=> String,
-        :status	=> Fog::Nullable::String,
-        #:Link	=> LINK_TYPE, # not required
-        :Description	=> Fog::Nullable::String,
-        #:Tasks	=> TASKS_IN_PROGRESS_TYPE,  # not required
+        :href => String,
+        :type => String,
+        :id => String,
+        :operationKey => Fog::Nullable::String,
+        :name => String,
+        :status => Fog::Nullable::String,
+        #:Link => LINK_TYPE, # not required
+        :Description => Fog::Nullable::String,
+        #:Tasks => TASKS_IN_PROGRESS_TYPE,  # not required
         :Configuration => GATEWAY_CONFIGURATION_TYPE
       }
 

@@ -17,6 +17,11 @@ Shindo.tests('Compute::VcloudDirector | catalog requests', ['vclouddirector']) d
     @service.get_catalog_metadata(@catalog_id).body
   end
 
+  tests('#get_control_access_params_catalog').data_matches_schema(VcloudDirector::Compute::Schema::CONTROL_ACCESS_PARAMS_TYPE) do
+    pending if Fog.mocking?
+    @service.get_control_access_params_catalog(@org[:href].split('/').last, @catalog_id).body
+  end
+
   tests('#get_catalogs_from_query').returns(Hash) do
     pending if Fog.mocking?
     @service.get_catalogs_from_query.body.class

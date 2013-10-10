@@ -2,7 +2,7 @@ module Fog
   module Compute
     class VcloudDirector
       class Real
-        #require 'fog/vcloud_director/parsers/compute/vm_customization'
+        require 'fog/vcloud_director/parsers/compute/vm_customization'
 
         # Retrieves the guest customization section of a VM.
         #
@@ -20,8 +20,7 @@ module Fog
             :expects    => 200,
             :idempotent => true,
             :method     => 'GET',
-            #:parser     => Fog::Parsers::Compute::VcloudDirector::VmCustomization.new,
-            :parser     => Fog::ToHashDocument.new,
+            :parser     => Fog::Parsers::Compute::VcloudDirector::VmCustomization.new,
             :path       => "vApp/#{id}/guestCustomizationSection"
           )
         end

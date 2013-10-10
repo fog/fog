@@ -45,42 +45,73 @@ module Fog
         # Power off the VM.
         def power_off
           requires :id
-          response = service.post_power_off_vapp(id)
+          begin
+            response = service.post_power_off_vapp(id)
+          rescue Excon::Errors::BadRequest => ex
+            Fog::Logger.debug(ex.message)
+            return false
+          end
           service.process_task(response.body)
         end
 
         # Power on the VM.
         def power_on
           requires :id
-          response = service.post_power_on_vapp(id)
+          begin
+            response = service.post_power_on_vapp(id)
+          rescue Excon::Errors::BadRequest => ex
+            Fog::Logger.debug(ex.message)
+            return false
+          end
           service.process_task(response.body)
         end
+
 
         # Reboot the VM.
         def reboot
           requires :id
-          response = service.post_reboot_vapp(id)
+          begin
+            response = service.post_reboot_vapp(id)
+          rescue Excon::Errors::BadRequest => ex
+            Fog::Logger.debug(ex.message)
+            return false
+          end
           service.process_task(response.body)
         end
 
         # Reset the VM.
         def reset
           requires :id
-          response = service.post_reset_vapp(id)
+          begin
+            response = service.post_reset_vapp(id)
+          rescue Excon::Errors::BadRequest => ex
+            Fog::Logger.debug(ex.message)
+            return false
+          end
           service.process_task(response.body)
         end
 
         # Shut down the VM.
         def shutdown
           requires :id
-          response = service.post_shutdown_vapp(id)
+          begin
+            response = service.post_shutdown_vapp(id)
+          rescue Excon::Errors::BadRequest => ex
+            Fog::Logger.debug(ex.message)
+            return false
+          end
           service.process_task(response.body)
         end
 
         # Suspend the VM.
         def suspend
           requires :id
-          response = service.post_suspend_vapp(id)
+          begin
+            response = service.post_suspend_vapp(id)
+          rescue Excon::Errors::BadRequest => ex
+            Fog::Logger.debug(ex.message)
+            return false
+          end
           service.process_task(response.body)
         end
 

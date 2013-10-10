@@ -73,11 +73,18 @@ module Fog
       collection :medias # sic
 
       request_path 'fog/vcloud_director/requests/compute'
+      request :delete_catalog_item
+      request :delete_catalog_item_metadata_item_metadata
+      request :delete_disk
+      request :delete_disk_metadata_item_metadata
       request :delete_logout
       request :delete_media
+      request :delete_media_metadata_item_metadata
       request :delete_shadow_vm
       request :delete_vapp
       request :delete_vapp_metadata_item_metadata
+      request :delete_vapp_template
+      request :delete_vapp_template_metadata_item_metadata
       request :get_allocated_ip_addresses
       request :get_catalog
       request :get_catalog_item
@@ -86,6 +93,8 @@ module Fog
       request :get_catalog_metadata
       request :get_catalog_metadata_item_metadata
       request :get_catalogs_from_query
+      request :get_control_access_params_catalog
+      request :get_control_access_params_vapp
       request :get_cpu_rasd_item
       request :get_current_session
       request :get_disk
@@ -96,9 +105,12 @@ module Fog
       request :get_disks_rasd_items_list
       request :get_entity
       request :get_guest_customization_system_section_vapp
+      request :get_guest_customization_system_section_vapp_template
       request :get_href # this is used for manual testing
       request :get_lease_settings_section_vapp
+      request :get_lease_settings_section_vapp_template
       request :get_media
+      request :get_media_drives_rasd_items_list
       request :get_media_metadata
       request :get_media_metadata_item_metadata
       request :get_media_owner
@@ -106,19 +118,25 @@ module Fog
       request :get_memory_rasd_item
       request :get_metadata
       request :get_network
+      request :get_network_cards_items_list
       request :get_network_config_section_vapp
+      request :get_network_config_section_vapp_template
       request :get_network_connection_system_section_vapp
+      request :get_network_connection_system_section_vapp_template
       request :get_network_metadata
       request :get_network_metadata_item_metadata
       request :get_network_section_vapp
+      request :get_network_section_vapp_template
       request :get_operating_system_section
       request :get_organization
       request :get_organization_metadata
       request :get_organization_metadata_item_metadata
       request :get_organizations
       request :get_product_sections_vapp
+      request :get_product_sections_vapp_template
       request :get_request # this is used for manual testing
       request :get_runtime_info_section_type
+      request :get_serial_ports_items_list
       request :get_shadow_vm
       request :get_snapshot_section
       request :get_startup_section
@@ -132,9 +150,11 @@ module Fog
       request :get_vapp_ovf_descriptor
       request :get_vapp_owner
       request :get_vapp_template
+      request :get_vapp_template_customization_system_section
       request :get_vapp_template_metadata
       request :get_vapp_template_metadata_item_metadata
       request :get_vapp_template_ovf_descriptor
+      request :get_vapp_template_owner
       request :get_vapp_templates_from_query
       request :get_vapps_in_lease_from_query
       request :get_vdc
@@ -143,7 +163,9 @@ module Fog
       request :get_vdc_storage_class
       request :get_vdc_storage_class_metadata
       request :get_vdc_storage_class_metadata_item_metadata
+      request :get_virtual_hardware_section
       request :get_vm
+      request :get_vm_capabilities
       request :get_vm_compliance_results
       request :get_vm_customization
       request :get_vm_disks
@@ -154,23 +176,35 @@ module Fog
       request :get_vms_disks_attached_to
       request :get_vms_in_lease_from_query
       request :instantiate_vapp_template
+      request :post_acquire_ticket
+      request :post_attach_disk
       request :post_cancel_task
       request :post_capture_vapp
       request :post_check_vm_compliance
       request :post_clone_media
       request :post_clone_vapp
       request :post_clone_vapp_template
+      request :post_consolidate_vm_vapp
+      request :post_consolidate_vm_vapp_template
       request :post_deploy_vapp
+      request :post_detach_disk
       request :post_disable_nested_hv
+      request :post_disable_vapp_template_download
+      request :post_discard_vapp_state
+      request :post_eject_cd_rom
       request :post_enable_nested_hv
+      request :post_enable_vapp_template_download
       request :post_enter_maintenance_mode
       request :post_exit_maintenance_mode
+      request :post_insert_cd_rom
       request :post_install_vmware_tools
       request :post_login_session
       request :post_power_off_vapp
       request :post_power_on_vapp
       request :post_reboot_vapp
+      request :post_remove_all_snapshots
       request :post_reset_vapp
+      request :post_revert_snapshot
       request :post_shutdown_vapp
       request :post_suspend_vapp
       request :post_undeploy_vapp

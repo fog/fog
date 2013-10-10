@@ -18,10 +18,13 @@ Shindo.tests('Compute::VcloudDirector | vapp requests', ['vclouddirector']) do
           r[:type] == 'application/vnd.vmware.vcloud.vApp+xml'
         end.each do |v|
           @vapp_id = v[:href].split('/').last
-          tests("#get_vapp(#{@vapp_id})").data_matches_schema(VcloudDirector::Compute::Schema::VAPP_TYPE) do
-            pending
-            @service.get_vapp(@vapp_id).body
+
+          #tests("#get_vapp(#{@vapp_id})").data_matches_schema(VcloudDirector::Compute::Schema::VAPP_TYPE) do
+          tests("#get_vapp(#{@vapp_id})").returns(Hash) do
+            pending if Fog.mocking?
+            @service.get_vapp(@vapp_id).body.class
           end
+
           tests("#get_lease_settings_section_vapp(#{@vapp_id})").returns(Hash) do
             pending if Fog.mocking?
             @service.get_lease_settings_section_vapp(@vapp_id).body.class
@@ -42,13 +45,20 @@ Shindo.tests('Compute::VcloudDirector | vapp requests', ['vclouddirector']) do
             pending if Fog.mocking?
             @service.get_startup_section(@vapp_id).body.class
           end
-          tests("#get_vapp_owner(#{@vapp_id})").data_matches_schema(VcloudDirector::Compute::Schema::METADATA_TYPE) do
+
+          tests("#get_vapp_metadata(#{@vapp_id})").data_matches_schema(VcloudDirector::Compute::Schema::METADATA_TYPE) do
             pending if Fog.mocking?
             @service.get_vapp_metadata(@vapp_id).body
           end
+
           tests("#get_vapp_owner(#{@vapp_id})").data_matches_schema(VcloudDirector::Compute::Schema::OWNER_TYPE) do
             pending if Fog.mocking?
             @service.get_vapp_owner(@vapp_id).body
+          end
+
+          tests("#get_control_access_params_vapp(#{@vapp_id})").data_matches_schema(VcloudDirector::Compute::Schema::CONTROL_ACCESS_PARAMS_TYPE) do
+            pending if Fog.mocking?
+            @service.get_control_access_params_vapp(@vapp_id).body
           end
         end
       end
