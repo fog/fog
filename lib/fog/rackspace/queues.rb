@@ -1,4 +1,5 @@
 require File.expand_path(File.join(File.dirname(__FILE__), '..', 'rackspace'))
+require 'uuidtools'
 
 module Fog
   module Rackspace
@@ -10,11 +11,12 @@ module Fog
       class BadRequest < Fog::Rackspace::Errors::BadRequest; end
       class MethodNotAllowed < Fog::Rackspace::Errors::BadRequest; end
 
-      requires :rackspace_api_key, :rackspace_username, :rackspace_queues_client_id
+      requires :rackspace_api_key, :rackspace_username
       recognizes :rackspace_auth_url
       recognizes :rackspace_auth_token
       recognizes :rackspace_region
       recognizes :rackspace_queues_url
+      recognizes :rackspace_queues_client_id
 
 
       model_path 'fog/rackspace/models/queues'
@@ -60,7 +62,7 @@ module Fog
         def initialize(options = {})
           @rackspace_api_key = options[:rackspace_api_key]
           @rackspace_username = options[:rackspace_username]
-          @rackspace_queues_client_id = options[:rackspace_queues_client_id]
+          @rackspace_queues_client_id = options[:rackspace_queues_client_id] || UUIDTools::UUID.random_create.to_s
           @rackspace_auth_url = options[:rackspace_auth_url]
           @rackspace_must_reauthenticate = false
           @connection_options = options[:connection_options] || {}
