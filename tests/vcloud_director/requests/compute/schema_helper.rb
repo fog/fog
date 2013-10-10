@@ -512,7 +512,7 @@ class VcloudDirector
         #:GatewayIpsecVpnService => GATEWAY_IPSEC_VPN_SERVICE_TYPE, #not required
         #:GatewayDhcpService => GATEWAY_DHCP_SERVICE_TYPE, #not required
         #:LoadBalancerService => LOAD_BALANCER_SERVICE_TYPE,  #not required
-        :NatService => NAT_SERVICE_TYPE,
+        #:NatService => NAT_SERVICE_TYPE,  #not required
         :FirewallService => FIREWALL_SERVICE_TYPE
       }
 
