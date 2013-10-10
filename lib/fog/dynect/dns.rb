@@ -91,7 +91,7 @@ module Fog
             params[:headers]['Auth-Token'] = auth_token unless params[:path] == 'Session'
             params[:path] = "#{@path}/#{params[:path]}" unless params[:path] =~ %r{^#{Regexp.escape(@path)}/}
 
-            response = @connection.request(params.merge!({:host => @host}))
+            response = @connection.request(params)
 
             if response.body.empty?
               response.body = {}
