@@ -4,7 +4,8 @@ module Fog
       class Real
         # Undeploy a vApp/VM.
         #
-        # Undeployment deallocates all resources used by the vApp and the VMs it contains.
+        # Undeployment deallocates all resources used by the vApp and the VMs
+        # it contains.
         #
         # This operation is asynchronous and returns a task that you can
         # monitor to track the progress of the request.
