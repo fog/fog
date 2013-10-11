@@ -155,8 +155,10 @@ module Fog
           signature = Base64.encode64( digest ).chomp()
           params[:headers]["x-emc-signature"] = signature
 
-          parse = params[:parse]
-          
+          params.delete(:host) #invalid excon request parameter
+
+          parse = params.delete(:parse)        
+        
           begin
             response = @connection.request(params, &block)
           rescue Excon::Errors::HTTPStatusError => error
