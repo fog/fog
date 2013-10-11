@@ -155,6 +155,10 @@ module Fog
           signature = Base64.encode64( digest ).chomp()
           params[:headers]["x-emc-signature"] = signature
 
+          params.delete(:host) #invalid excon request parameter
+
+          parse = params.delete(:parse)        
+        
           begin
             response = @connection.request(params, &block)
           rescue Excon::Errors::HTTPStatusError => error
@@ -166,7 +170,7 @@ module Fog
             end
           end
           unless response.body.empty?
-            if params[:parse]
+            if parse
               document = Fog::ToHashDocument.new
               parser = Nokogiri::XML::SAX::PushParser.new(document)
               parser << response.body
