@@ -21,10 +21,6 @@ Excon.defaults.merge!(:debug_request => true, :debug_response => true)
 
 require File.expand_path(File.join(File.dirname(__FILE__), 'helpers', 'mock_helper'))
 
-# Live tests will not run for the Rackspace provider without :rackspace_queues_client_id in the .fog file.
-# I am anticipating this issue to occur frequently. I am hoping this line mitigates this issue.
-Fog.credentials[:rackspace_queues_client_id] ||= 'test-fog-mock-queue'
-
 def lorem_file
   File.open(File.dirname(__FILE__) + '/lorem.txt', 'r')
 end
