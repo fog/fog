@@ -1,16 +1,9 @@
 Shindo.tests('Compute::VcloudDirector | edge gateway requests', ['vclouddirector']) do
 
   @service = Fog::Compute::VcloudDirector.new
+  @org = VcloudDirector::Compute::Helper.current_org(@service)
 
-  tests('Get current organization') do
-    session = @service.get_current_session.body
-    link = session[:Link].detect do |l|
-      l[:type] == 'application/vnd.vmware.vcloud.org+xml'
-    end
-    @org = @service.get_organization(link[:href].split('/').last).body
-  end
-
-  tests('Get first vdc') do
+  tests('Get first vDC') do
     link = @org[:Link].detect do |l|
       l[:type] == 'application/vnd.vmware.vcloud.vdc+xml'
     end
