@@ -9,10 +9,7 @@ Shindo.tests('Compute::VcloudDirector | organization requests', ['vclouddirector
   tests('#get_organization').data_matches_schema(VcloudDirector::Compute::Schema::ORG_TYPE) do
     org = @org_list[:Org].detect {|o| o[:name] == @service.org_name}
     @org_uuid = org[:href].split('/').last
-    body = @service.get_organization(@org_uuid).body
-    require 'pp'
-    pp body
-    body
+    @service.get_organization(@org_uuid).body
   end
 
   tests('#get_organization_metadata').data_matches_schema(VcloudDirector::Compute::Schema::METADATA_TYPE) do
