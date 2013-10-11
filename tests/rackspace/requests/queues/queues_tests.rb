@@ -2,7 +2,7 @@ Shindo.tests('Fog::Rackspace::Queues | queue_tests', ['rackspace']) do
 
   pending if Fog.mocking?
 
-  service = Fog::Rackspace::Queues.new(:rackspace_queues_client_id => 'test_client')
+  service = Fog::Rackspace::Queues.new
 
   tests('success') do
 
@@ -14,7 +14,6 @@ Shindo.tests('Fog::Rackspace::Queues | queue_tests', ['rackspace']) do
 
     tests("#list_queues").formats(LIST_QUEUES_FORMAT) do
       response = service.list_queues
-      puts response.inspect
       response.body
     end
 

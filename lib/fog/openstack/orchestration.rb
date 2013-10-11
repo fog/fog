@@ -142,7 +142,6 @@ module Fog
                 'X-Auth-User'  => @openstack_username,
                 'X-Auth-Key'   => @openstack_api_key
               }.merge!(params[:headers] || {}),
-              :host     => @host,
               :path     => "#{@path}/#{@tenant_id}/#{params[:path]}",
               :query    => params[:query]
             }))
