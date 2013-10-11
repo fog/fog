@@ -6,7 +6,7 @@ module Fog
         require 'fog/aws/parsers/iam/get_user_policy'
 
         # Get User Policy
-        # 
+        #
         # ==== Parameters
         # * 'PolicyName'<~String>: Name of the policy to get
         # * 'UserName'<~String>: Name of the User who the policy is associated with.
@@ -33,16 +33,16 @@ module Fog
       end
       class Mock
         def get_user_policy(policy_name, user_name)
-          raise Fog::AWS::IAM::NotFound.new("The user with name #{user} cannot be found.") unless self.data[:users].key?(user_name)
+          raise Fog::AWS::IAM::NotFound.new("The user with name #{user_name} cannot be found.") unless self.data[:users].key?(user_name)
           raise Fog::AWS::IAM::NotFound.new("The policy with name #{policy_name} cannot be found.") unless self.data[:users][user_name][:policies].key?(policy_name)
           Excon::Response.new.tap do |response|
-            response.body = { 'Policy' =>  { 
+            response.body = { 'Policy' =>  {
                                 'PolicyName' => policy_name,
                                 'UserName' => user_name,
                                 'PolicyDocument' => data[:users][user_name][:policies][policy_name]
                               },
                               'IsTruncated' => false,
-                              'RequestId'   => Fog::AWS::Mock.request_id 
+                              'RequestId'   => Fog::AWS::Mock.request_id
                             }
             response.status = 200
           end
