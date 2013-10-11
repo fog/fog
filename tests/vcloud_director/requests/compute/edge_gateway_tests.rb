@@ -18,12 +18,12 @@ Shindo.tests('Compute::VcloudDirector | edge gateway requests', ['vclouddirector
       @edge_gateways[:EdgeGatewayRecord] = [@edge_gateways[:EdgeGatewayRecord]]
     end
 
-    @edge_gateways[:EdgeGatewayRecord].each do |result|
-      tests("each EdgeGatewayRecord should follow schema").
-        data_matches_schema(VcloudDirector::Compute::Schema::QUERY_RESULT_EDGE_GATEWAY_RECORD_TYPE) { result }
-    end
-
     @edge_gateways
+  end
+
+  @edge_gateways[:EdgeGatewayRecord].each do |result|
+    tests("each EdgeGatewayRecord").
+      data_matches_schema(VcloudDirector::Compute::Schema::QUERY_RESULT_EDGE_GATEWAY_RECORD_TYPE) { result }
   end
 
   tests('#get_edge_gateway').data_matches_schema(VcloudDirector::Compute::Schema::GATEWAY_TYPE) do
