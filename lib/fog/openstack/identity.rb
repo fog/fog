@@ -192,7 +192,7 @@ module Fog
           @connection_options = options[:connection_options] || {}
 
           @openstack_current_user_id = options[:openstack_current_user_id]
-          
+
           @openstack_endpoint_type = options[:openstack_endpoint_type] || 'adminURL'
 
           @current_user = options[:current_user]
@@ -227,7 +227,6 @@ module Fog
                 'Accept' => 'application/json',
                 'X-Auth-Token' => @auth_token
               }.merge!(params[:headers] || {}),
-              :host     => @host,
               :path     => "#{@path}/#{params[:path]}"#,
             }))
           rescue Excon::Errors::Unauthorized => error

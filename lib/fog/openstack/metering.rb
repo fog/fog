@@ -144,7 +144,6 @@ module Fog
                 'Accept' => 'application/json',
                 'X-Auth-Token' => @auth_token
               }.merge!(params[:headers] || {}),
-              :host     => @host,
               :path     => "#{@path}/v2/#{params[:path]}"#,
               # Causes errors for some requests like tenants?limit=1
               # :query    => ('ignore_awful_caching' << Time.now.to_i.to_s)
