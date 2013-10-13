@@ -370,12 +370,13 @@ module Fog
             path = "#{@path}"
           end
           @connection.request({
-            :body    => params[:body],
-            :expects => params[:expects],
-            :headers => headers.merge!(params[:headers] || {}),
-            :method  => params[:method],
-            :parser  => params[:parser],
-            :path    => path
+            :body       => params[:body],
+            :expects    => params[:expects],
+            :headers    => headers.merge!(params[:headers] || {}),
+            :idempotent => params[:idempotent],
+            :method     => params[:method],
+            :parser     => params[:parser],
+            :path       => path
           })
         rescue => e
           raise e unless e.class.to_s =~ /^Excon::Errors/
