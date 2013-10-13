@@ -136,12 +136,15 @@ module Fog
           body[:ResourceEntities][:ResourceEntity] = resources
 
           if api_version.to_f >= 5.1
-            # TODO
-            #body[:VdcStorageProfiles] =
-            # {:VdcStorageProfile=>
-            #  [{:type=>"application/vnd.vmware.vcloud.vdcStorageProfile+xml",
-            #    :name=>profile[:name],
-            #    :href=>make_href("vdcStorageProfile/#{profile[:uuid]}")}]}
+            body[:VdcStorageProfiles] = {}
+            body[:VdcStorageProfiles][:VdcStorageProfile] =
+              data[:vdc_storage_classes].select do |id, storage_class|
+                storage_class[:vdc] == vdc_id
+              end.map do |id, storage_class|
+                {:type => 'application/vnd.vmware.vcloud.vdcStorageProfile+xml',
+                 :name => storage_class[:name],
+                 :href => make_href("vdcStorageProfile/#{id}")}
+              end
           end
 
           response.status = 200

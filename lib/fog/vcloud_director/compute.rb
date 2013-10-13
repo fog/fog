@@ -450,6 +450,13 @@ module Fog
                   :name => 'vAppTemplate 1'
                 }
               },
+              :edge_gateways => {
+                uuid => {
+                  :name => 'MockEdgeGateway',
+                  :networks => [uplink_network_uuid, default_network_uuid],
+                  :vdc => vdc_uuid
+                }
+              },
               :medias => {},
               :networks => {
                 default_network_uuid => {
@@ -510,17 +517,20 @@ module Fog
                 :uuid => uuid
               },
               :tasks => {},
-              :vdcs => {
-                  vdc_uuid => {
-                  :description => 'vDC for mocking',
-                  :name => 'MockVDC'
+              :vdc_storage_classes => {
+                uuid => {
+                  :default => true,
+                  :enabled => true,
+                  :limit => 2 * 1024 * 1024,
+                  :name => 'DefaultMockStorageClass',
+                  :units => 'MB',
+                  :vdc => vdc_uuid,
                 }
               },
-              :edge_gateways => {
-                uuid => {
-                  :name => 'MockEdgeGateway',
-                  :vdc => vdc_uuid,
-                  :networks => [uplink_network_uuid, default_network_uuid]
+              :vdcs => {
+                vdc_uuid => {
+                  :description => 'vDC for mocking',
+                  :name => 'MockVDC'
                 }
               }
             }
