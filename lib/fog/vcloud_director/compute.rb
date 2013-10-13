@@ -325,6 +325,11 @@ module Fog
           @org_name
         end
 
+        def user_name
+          login if @user_name.nil?
+          @user_name
+        end
+
         def reload
           @connection.reset
         end
@@ -400,6 +405,7 @@ module Fog
           end
           @vcloud_token = response.headers[x_vcloud_authorization]
           @org_name = response.body[:org]
+          @user_name = response.body[:user]
         end
 
         # @note This isn't needed.
