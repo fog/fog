@@ -153,9 +153,9 @@ Shindo.tests('Compute::VcloudDirector | media requests', ['vclouddirector']) do
     end
   end
 
-  tests('#get_medias_from_query').returns(Hash) do
+  tests('#get_medias_from_query').data_matches_schema(VcloudDirector::Compute::Schema::CONTAINER_TYPE) do
     pending if Fog.mocking?
-    @service.get_medias_from_query.body.class
+    @service.get_medias_from_query.body
   end
 
   tests('Upload to non-existent vDC').raises(Excon::Errors::Forbidden) do

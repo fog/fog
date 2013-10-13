@@ -17,6 +17,11 @@ Shindo.tests('Compute::VcloudDirector | organization requests', ['vclouddirector
     @service.get_organization_metadata(@org_uuid).body
   end
 
+  tests('#get_organizations_from_query').data_matches_schema(VcloudDirector::Compute::Schema::CONTAINER_TYPE) do
+    pending if Fog.mocking?
+    @service.get_organizations_from_query.body
+  end
+
   tests('retrieve non-existent Org').raises(Excon::Errors::Forbidden) do
     @service.get_organization('00000000-0000-0000-0000-000000000000')
   end
