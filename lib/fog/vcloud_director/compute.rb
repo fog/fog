@@ -178,7 +178,7 @@ module Fog
       request :get_vms_by_metadata
       request :get_vms_disks_attached_to
       request :get_vms_in_lease_from_query
-      request :instantiate_vapp_template
+      request :instantiate_vapp_template # to be deprecated
       request :post_acquire_ticket
       request :post_attach_disk
       request :post_cancel_task
@@ -201,6 +201,7 @@ module Fog
       request :post_exit_maintenance_mode
       request :post_insert_cd_rom
       request :post_install_vmware_tools
+      request :post_instantiate_vapp_template
       request :post_login_session
       request :post_power_off_vapp
       request :post_power_on_vapp
