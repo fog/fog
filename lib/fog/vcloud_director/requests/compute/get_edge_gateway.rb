@@ -2,9 +2,9 @@ module Fog
   module Compute
     class VcloudDirector
       class Real
-        # Retrieve an edge gateway
+        # Retrieve an edge gateway.
         #
-        # @param [String] id Object identifier of the Edge Gateway
+        # @param [String] id Object identifier of the edge gateway.
         # @return [Excon::Response]
         #   * body<~Hash>:
         # @see http://pubs.vmware.com/vcd-51/topic/com.vmware.vcloud.api.reference.doc_51/doc/operations/GET-EdgeGateway.html
@@ -28,7 +28,6 @@ module Fog
             response.status = 400
             raise Excon::Errors.status_error({:expects => 200}, response)
           end
-
           unless edge_gateway = data[:edge_gateways][id]
             response.status = 403
             raise Excon::Errors.status_error({:expects => 200}, response)
@@ -59,20 +58,19 @@ module Fog
                       :href => make_href("admin/edgeGateway/#{id}/action/syncSyslogServerSettings")}],
             :Description => "vCloud CI (nft00052i2)",
             :Configuration =>
-              {:GatewayBackingConfig => "compact",
-               :GatewayInterfaces =>
-                 {:GatewayInterface => []},
-               :EdgeGatewayServiceConfiguration =>
-                 {:FirewallService =>
-                 {:IsEnabled => "true",
-                     :DefaultAction => "drop",
-                     :LogDefaultAction => "false"},
-                  :NatService => {:IsEnabled => "true"}},
-               :HaEnabled => "false",
-               :UseDefaultRouteForDnsRelay => "false"}}
+             {:GatewayBackingConfig => "compact",
+              :GatewayInterfaces =>
+               {:GatewayInterface => []},
+              :EdgeGatewayServiceConfiguration =>
+               {:FirewallService =>
+                {:IsEnabled => "true",
+                 :DefaultAction => "drop",
+                 :LogDefaultAction => "false"},
+                :NatService => {:IsEnabled => "true"}},
+              :HaEnabled => "false",
+              :UseDefaultRouteForDnsRelay => "false"}}
 
           body[:Configuration][:GatewayInterfaces][:GatewayInterface] += edge_gateway[:networks].map do |network|
-
             extras = {
               :Network => {
                 :type => "application/vnd.vmware.admin.network+xml",
@@ -82,7 +80,6 @@ module Fog
               :Name => data[:networks][network][:name],
               :DisplayName => data[:networks][network][:name]
             }
-
             data[:networks][network].merge extras
           end
 

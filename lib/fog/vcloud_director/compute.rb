@@ -104,7 +104,6 @@ module Fog
       request :get_disks_from_query
       request :get_disks_rasd_items_list
       request :get_edge_gateway
-      request :get_edge_gateways
       request :get_entity
       request :get_guest_customization_system_section_vapp
       request :get_guest_customization_system_section_vapp_template
@@ -130,6 +129,7 @@ module Fog
       request :get_network_section_vapp
       request :get_network_section_vapp_template
       request :get_operating_system_section
+      request :get_org_vdc_gateways
       request :get_organization
       request :get_organization_metadata
       request :get_organization_metadata_item_metadata

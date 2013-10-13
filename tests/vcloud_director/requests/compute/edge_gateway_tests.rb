@@ -10,9 +10,9 @@ Shindo.tests('Compute::VcloudDirector | edge gateway requests', ['vclouddirector
     @vdc_id = link[:href].split('/').last
   end
 
-  tests('#get_edge_gateways').data_matches_schema(VcloudDirector::Compute::Schema::QUERY_RESULT_RECORDS_TYPE) do
+  tests('#get_org_vdc_gateways').data_matches_schema(VcloudDirector::Compute::Schema::QUERY_RESULT_RECORDS_TYPE) do
     begin
-      @edge_gateways = @service.get_edge_gateways(@vdc_id).body
+      @edge_gateways = @service.get_org_vdc_gateways(@vdc_id).body
     rescue Excon::Errors::Unauthorized # bug, may be localised
       retry
     end
