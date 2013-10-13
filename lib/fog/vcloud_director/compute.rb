@@ -103,6 +103,8 @@ module Fog
       request :get_disk_owner
       request :get_disks_from_query
       request :get_disks_rasd_items_list
+      request :get_edge_gateway
+      request :get_edge_gateways
       request :get_entity
       request :get_guest_customization_system_section_vapp
       request :get_guest_customization_system_section_vapp_template
@@ -208,18 +210,26 @@ module Fog
       request :post_shutdown_vapp
       request :post_suspend_vapp
       request :post_undeploy_vapp
+      request :post_update_catalog_item_metadata
+      request :post_update_disk_metadata
+      request :post_update_media_metadata
+      request :post_update_vapp_metadata
+      request :post_update_vapp_template_metadata
       request :post_upgrade_hw_version
       request :post_upload_media
       request :post_upload_vapp_template
-      request :post_vapp_metadata_item_metadata
+      request :post_vm_metadata # deprecated
+      request :put_catalog_item_metadata_item_metadata
       request :put_cpu
+      request :put_disk_metadata_item_metadata
       request :put_disks
       request :put_guest_customization_section_vapp
+      request :put_media_metadata_item_metadata
       request :put_memory
+      request :put_metadata_value # deprecated
       request :put_network_connection_system_section_vapp
       request :put_vapp_metadata_item_metadata
-      request :get_edge_gateways
-      request :get_edge_gateway
+      request :put_vapp_template_metadata_item_metadata
 
       class Model < Fog::Model
         def initialize(attrs={})

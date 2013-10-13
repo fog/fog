@@ -5,16 +5,16 @@ module Fog
         # Set the value for the specified metadata key to the value provided,
         # overwriting any existing value.
         #
-        # @param [String] id Object identifier of the vApp or VM.
+        # @param [String] id Object identifier of the media object.
         # @param [String] key Key of the metadata item.
         # @param [Boolean,DateTime,Fixnum,String] value Value of the metadata
         #   item.
         # @return [Excon::Response]
         #   * body<~Hash>:
-        # @see http://pubs.vmware.com/vcd-51/topic/com.vmware.vcloud.api.reference.doc_51/doc/operations/PUT-VAppMetadataItem-metadata.html
+        # @see http://pubs.vmware.com/vcd-51/topic/com.vmware.vcloud.api.reference.doc_51/doc/operations/PUT-MediaMetadataItem-metadata.html
         #   vCloud API Documentation
         # @since vCloud API version 1.5
-        def put_vapp_metadata_item_metadata(id, key, value)
+        def put_media_metadata_item_metadata(id, key, value)
           body = Nokogiri::XML::Builder.new do
             attrs = {
               :xmlns => 'http://www.vmware.com/vcloud/v1.5',
@@ -41,7 +41,7 @@ module Fog
             :headers => {'Content-Type' => 'application/vnd.vmware.vcloud.metadata.value+xml'},
             :method  => 'PUT',
             :parser  => Fog::ToHashDocument.new,
-            :path    => "vApp/#{id}/metadata/#{URI.escape(key)}"
+            :path    => "media/#{id}/metadata/#{URI.escape(key)}"
           )
         end
       end

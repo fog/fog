@@ -2,19 +2,19 @@ module Fog
   module Compute
     class VcloudDirector
       class Real
-        # Set the value for the specified metadata key to the value provided,
+        # Set the metadata value for the specified key to the value provided,
         # overwriting any existing value.
         #
-        # @param [String] id Object identifier of the vApp or VM.
+        # @param [String] id Object identifier of the catalog item.
         # @param [String] key Key of the metadata item.
         # @param [Boolean,DateTime,Fixnum,String] value Value of the metadata
         #   item.
         # @return [Excon::Response]
         #   * body<~Hash>:
-        # @see http://pubs.vmware.com/vcd-51/topic/com.vmware.vcloud.api.reference.doc_51/doc/operations/PUT-VAppMetadataItem-metadata.html
+        # @see http://pubs.vmware.com/vcd-51/topic/com.vmware.vcloud.api.reference.doc_51/doc/operations/PUT-CatalogItemMetadataItem-metadata.html
         #   vCloud API Documentation
         # @since vCloud API version 1.5
-        def put_vapp_metadata_item_metadata(id, key, value)
+        def put_catalog_item_metadata_item_metadata(id, key, value)
           body = Nokogiri::XML::Builder.new do
             attrs = {
               :xmlns => 'http://www.vmware.com/vcloud/v1.5',
@@ -41,7 +41,7 @@ module Fog
             :headers => {'Content-Type' => 'application/vnd.vmware.vcloud.metadata.value+xml'},
             :method  => 'PUT',
             :parser  => Fog::ToHashDocument.new,
-            :path    => "vApp/#{id}/metadata/#{URI.escape(key)}"
+            :path    => "catalogItem/#{id}/metadata/#{URI.escape(key)}"
           )
         end
       end

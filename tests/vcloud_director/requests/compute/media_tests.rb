@@ -42,9 +42,80 @@ Shindo.tests('Compute::VcloudDirector | media requests', ['vclouddirector']) do
       end
       tests("owner[:User][:name]").returns(@service.user_name) { @owner[:User][:name] }
 
-      tests("#get_media_metadata(#{@media_id})").data_matches_schema(VcloudDirector::Compute::Schema::METADATA_TYPE) do
+      tests("#put_media_metadata_item_metadata(#{@media_id})").data_matches_schema(VcloudDirector::Compute::Schema::TASK_TYPE) do
         pending if Fog.mocking?
-        @service.get_media_metadata(@media_id).body
+        @task = @service.put_media_metadata_item_metadata(@media_id, 'fog-test-key', 'fog-test-value').body
+      end
+      @service.process_task(@task)
+
+      tests("#put_media_metadata_item_metadata(#{@media_id})") do
+        pending if Fog.mocking?
+        tests("#put_media_metadata_item_metadata(Boolean)").returns(true) do
+          task = @service.put_media_metadata_item_metadata(@media_id, 'fog-test-boolean', true).body
+          @service.process_task(task)
+        end
+        tests("#put_media_metadata_item_metadata(DateTime)").returns(true) do
+          task = @service.put_media_metadata_item_metadata(@media_id, 'fog-test-datetime', DateTime.now).body
+          @service.process_task(task)
+        end
+        tests("#put_media_metadata_item_metadata(Number)").returns(true) do
+          task = @service.put_media_metadata_item_metadata(@media_id, 'fog-test-number', 111).body
+          @service.process_task(task)
+        end
+      end
+
+      tests("#post_update_media_metadata(#{@media_id})").data_matches_schema(VcloudDirector::Compute::Schema::TASK_TYPE) do
+        pending if Fog.mocking?
+        metadata = {
+          'fog-test-key-update' => 'fog-test-value-update',
+          'fog-test-boolean-update' => false,
+          'fog-test-datetime-update' => DateTime.now,
+          'fog-test-number-update' => 222
+        }
+        @task = @service.post_update_media_metadata(@media_id, metadata).body
+      end
+      @service.process_task(@task)
+
+      tests("#get_media_metadata(#{@media_id})") do
+        pending if Fog.mocking?
+        tests('response format').data_matches_schema(VcloudDirector::Compute::Schema::METADATA_TYPE) do
+          @metadata = @service.get_media_metadata(@media_id).body
+        end
+        tests('TypedValue') do
+          pending if @service.api_version.to_f < 5.1
+          tests('key').returns('MetadataStringValue') do
+            entry = @metadata[:MetadataEntry].detect {|e| e[:Key] == 'fog-test-key'}
+            entry[:TypedValue][:xsi_type]
+          end
+          tests('boolean').returns('MetadataBooleanValue') do
+            entry = @metadata[:MetadataEntry].detect {|e| e[:Key] == 'fog-test-boolean'}
+            entry[:TypedValue][:xsi_type]
+          end
+          tests('datetime').returns('MetadataDateTimeValue') do
+            entry = @metadata[:MetadataEntry].detect {|e| e[:Key] == 'fog-test-datetime'}
+            entry[:TypedValue][:xsi_type]
+          end
+          tests('number').returns('MetadataNumberValue') do
+            entry = @metadata[:MetadataEntry].detect {|e| e[:Key] == 'fog-test-number'}
+            entry[:TypedValue][:xsi_type]
+          end
+          tests('key-update').returns('MetadataStringValue') do
+            entry = @metadata[:MetadataEntry].detect {|e| e[:Key] == 'fog-test-key-update'}
+            entry[:TypedValue][:xsi_type]
+          end
+          tests('boolean-update').returns('MetadataBooleanValue') do
+            entry = @metadata[:MetadataEntry].detect {|e| e[:Key] == 'fog-test-boolean-update'}
+            entry[:TypedValue][:xsi_type]
+          end
+          tests('datetime-update').returns('MetadataDateTimeValue') do
+            entry = @metadata[:MetadataEntry].detect {|e| e[:Key] == 'fog-test-datetime-update'}
+            entry[:TypedValue][:xsi_type]
+          end
+          tests('number-update').returns('MetadataNumberValue') do
+            entry = @metadata[:MetadataEntry].detect {|e| e[:Key] == 'fog-test-number-update'}
+            entry[:TypedValue][:xsi_type]
+          end
+        end
       end
 
       tests("#post_clone_media(#{@media_id})").data_matches_schema(VcloudDirector::Compute::Schema::MEDIA_TYPE) do
