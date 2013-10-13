@@ -11,9 +11,7 @@ Shindo.tests('Compute::VcloudDirector | vdc requests', ['vclouddirector']) do
     vdc = @service.get_vdc(@vdc_id).body
     vdc[:AvailableNetworks][:Network] = [vdc[:AvailableNetworks][:Network]] if vdc[:AvailableNetworks][:Network].is_a?(Hash)
     vdc[:ResourceEntities][:ResourceEntity] = [vdc[:ResourceEntities][:ResourceEntity]] if vdc[:ResourceEntities][:ResourceEntity].is_a?(Hash)
-    if vdc.has_key?(:VdcStorageProfiles)
-      vdc[:VdcStorageProfiles][:VdcStorageProfile] = [vdc[:VdcStorageProfiles][:VdcStorageProfile]] if vdc[:VdcStorageProfiles][:VdcStorageProfile].is_a?(Hash)
-    end
+    vdc[:VdcStorageProfiles][:VdcStorageProfile] = [vdc[:VdcStorageProfiles][:VdcStorageProfile]] if vdc[:VdcStorageProfiles][:VdcStorageProfile].is_a?(Hash)
     vdc
   end
 
