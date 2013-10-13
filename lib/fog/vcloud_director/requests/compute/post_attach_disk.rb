@@ -22,7 +22,10 @@ module Fog
         # @since vCloud API version 5.1
         def post_attach_disk(id, disk_id, options={})
           body = Nokogiri::XML::Builder.new do
-            DiskAttachOrDetachParams {
+            attrs = {
+              :xmlns => 'http://www.vmware.com/vcloud/v1.5'
+            }
+            DiskAttachOrDetachParams(attrs) {
               Disk(:href => "#{@end_point}disk/#{media_id}")
               if options.key?(:BusNumber)
                 BusNumber options[:BusNumber]

@@ -16,7 +16,10 @@ module Fog
         # @since vCloud API version 0.9
         def post_insert_cd_rom(id, media_id)
           body = Nokogiri::XML::Builder.new do
-            MediaInsertOrEjectParams {
+            attrs = {
+              :xmlns => 'http://www.vmware.com/vcloud/v1.5'
+            }
+            MediaInsertOrEjectParams(attrs) {
               Media(:href => "#{@end_point}media/#{media_id}")
             }
           end.to_xml

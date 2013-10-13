@@ -2,26 +2,30 @@ module Fog
   module Compute
     class VcloudDirector
       class Real
+        extend Fog::Deprecation
+        deprecate :get_edge_gateways, :get_org_vdc_gateways
+
         # List all gateways for this Org vDC.
         #
-        # @param [String] vdc_id Object identifier of the VDC
+        # @param [String] id Object identifier of the vDC.
         # @return [Excon::Response]
         #   * body<~Hash>:
         # @see http://pubs.vmware.com/vcd-51/topic/com.vmware.vcloud.api.reference.doc_51/doc/operations/GET-OrgVdcGateways.html
         #   vCloud API Documentation
         # @since vCloud API version 5.1
-        def get_edge_gateways(vdc_id)
+        def get_org_vdc_gateways(id)
           request(
-            :expects => 200,
-            :method  => 'GET',
-            :parser  => Fog::ToHashDocument.new,
-            :path    => "admin/vdc/#{vdc_id}/edgeGateways"
+            :expects    => 200,
+            :idempotent => true,
+            :method     => 'GET',
+            :parser     => Fog::ToHashDocument.new,
+            :path       => "admin/vdc/#{id}/edgeGateways"
           )
         end
       end
 
       class Mock
-        def get_edge_gateways(vdc_id)
+        def get_org_vdc_gateways(vdc_id)
           response = Excon::Response.new
 
           unless valid_uuid?(vdc_id)

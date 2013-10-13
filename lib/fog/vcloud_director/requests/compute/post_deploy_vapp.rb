@@ -27,7 +27,9 @@ module Fog
         # @since vCloud API version 0.9
         def post_deploy_vapp(id, options={})
           body = Nokogiri::XML::Builder.new do
-            attrs = {}
+            attrs = {
+              :xmlns => 'http://www.vmware.com/vcloud/v1.5'
+            }
             attr[:deploymentLeaseSeconds] = options[:deploymentLeaseSeconds] if options.key?[:deploymentLeaseSeconds]
             attr[:forceCustomization] = options[:forceCustomization] if options.key?[:forceCustomization]
             attr[:powerOn] = options[:powerOn] if options.key?[:powerOn]

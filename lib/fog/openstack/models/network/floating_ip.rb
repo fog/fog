@@ -10,7 +10,7 @@ module Fog
         attribute :port_id
         attribute :tenant_id
         attribute :fixed_ip_address
-
+        attribute :floating_ip_address
 
 
 

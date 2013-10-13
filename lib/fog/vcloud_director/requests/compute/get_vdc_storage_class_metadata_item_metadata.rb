@@ -5,7 +5,6 @@ module Fog
         # Retrieve metadata associated with the vDC storage profile.
         #
         # @param [String] id Object identifier of the vDC storage profile.
-        # @param [String] domain
         # @param [String] key Key of the metadata.
         # @return [Excon::Response]
         #   * body<~Hash>:

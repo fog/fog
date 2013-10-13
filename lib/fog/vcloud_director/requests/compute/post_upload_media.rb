@@ -21,7 +21,12 @@ module Fog
         # @since vCloud API version 0.9
         def post_upload_media(vdc_id, name, image_type, size, options={})
           body = Nokogiri::XML::Builder.new do
-            attrs = {:name => name, :image_type => image_type, :size => size}
+            attrs = {
+              :xmlns => 'http://www.vmware.com/vcloud/v1.5',
+              :name => name,
+              :imageType => image_type,
+              :size => size
+            }
             attrs[:operationKey] = options[:operationKey] if options.key?(:operationKey)
             Media(attrs) {
               if options.key?(:Description)

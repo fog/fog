@@ -2,10 +2,13 @@ module Fog
   module Compute
     class VcloudDirector
       class Real
+        # List all supported versions.
+        #
         # @return [Excon::Response]
         #   * body<~Hash>:
         # @see http://pubs.vmware.com/vcd-51/topic/com.vmware.vcloud.api.reference.doc_51/doc/operations/GET-SupportedVersions.html
         #   vCloud API Documentation (5.5)
+        # @since vCloud API version 0.9
         def get_supported_versions
           @connection.request(
             :expects    => 200,

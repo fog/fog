@@ -9,7 +9,7 @@ Shindo.tests('Fog::Rackspace::Queues', ['rackspace']) do
   end
 
   tests('#authentication_method') do
-    @service = Fog::Rackspace::Queues.new(:rackspace_queues_client_id => 'test_client')
+    @service = Fog::Rackspace::Queues.new
 
     assert_method nil, :authenticate_v2
 
@@ -97,4 +97,22 @@ Shindo.tests('Fog::Rackspace::Queues', ['rackspace']) do
     data = @service.queues
     returns(true) { data.is_a? Array }
   end
+
+  tests('client_id') do
+    pending if Fog.mocking?
+
+    tests('should generate uuid if a client id is not provided').succeeds do
+      pending unless Fog::UUID.supported?
+      service = Fog::Rackspace::Queues.new
+      service.client_id =~ /[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/
+    end
+    tests('should use specified uuid').succeeds do
+      pending unless Fog::UUID.supported?
+      my_uuid = Fog::UUID.uuid
+      service = Fog::Rackspace::Queues.new :rackspace_queues_client_id => my_uuid
+      service.client_id == my_uuid
+    end
+
+  end
+
 end

@@ -96,7 +96,7 @@ class VcloudDirector
         :status => String,
       # :Tasks => TASKS_IN_PROGRESS_TYPE, # not happening!
         :Owner => REFERENCE_TYPE,
-        :Error => ERROR_TYPE,
+      # :Error => ERROR_TYPE,
         :User => REFERENCE_TYPE,
         :Organization => REFERENCE_TYPE,
         :Progress => Fog::Nullable::String,
@@ -218,7 +218,7 @@ class VcloudDirector
 
       # Container for references to storage profiles associated with a vDC.
       VDC_STORAGE_PROFILES_TYPE = {
-        :VdcStorageProfile => REFERENCE_TYPE
+        :VdcStorageProfile => [REFERENCE_TYPE]
       }
 
       # Allows you to specify certain capabilities of this virtual machine.
@@ -247,8 +247,7 @@ class VcloudDirector
         :imageType => String,
         :size => String,
         :Owner => OWNER_TYPE,
-        # TODO:
-        #:VdcStorageProfiles => VDC_STORAGE_PROFILES_TYPE # >= 5.1
+        :VdcStorageProfile => REFERENCE_TYPE
       })
 
       METADATA_TYPE = RESOURCE_TYPE.merge({
@@ -302,8 +301,15 @@ class VcloudDirector
         :UsedNetworkCount => String,
         :VmQuota => Fog::Nullable::String,
         :IsEnabled => Fog::Nullable::String,
-        # TODO:
-        #:VdcStorageProfiles => VDC_STORAGE_PROFILES_TYPE # >= 5.1
+        :VdcStorageProfiles => VDC_STORAGE_PROFILES_TYPE # >= 5.1
+      })
+
+      # Represents a storage profile in an organization vDC.
+      VDC_STORAGE_PROFILE_TYPE = ENTITY_TYPE.merge({
+        :Enabled => Fog::Nullable::String,
+        :Units => String,
+        :Limit => String,
+        :Default => String
       })
 
       # Information about an individual operating system.
