@@ -12,10 +12,11 @@ module Fog
         # @since vCloud API version 5.1
         def get_edge_gateway(id)
           request(
-            :expects => 200,
-            :method  => 'GET',
-            :parser  => Fog::ToHashDocument.new,
-            :path    => "admin/edgeGateway/#{id}"
+            :expects    => 200,
+            :idempotent => true,
+            :method     => 'GET',
+            :parser     => Fog::ToHashDocument.new,
+            :path       => "admin/edgeGateway/#{id}"
           )
         end
       end
