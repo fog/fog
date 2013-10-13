@@ -4,6 +4,8 @@ Shindo.tests('Compute::VcloudDirector | media requests', ['vclouddirector']) do
   @org = VcloudDirector::Compute::Helper.current_org(@service)
   @media_name = VcloudDirector::Compute::Helper.test_name
 
+  pending if Fog.mocking?
+
   tests('Upload and manipulate a media object') do
     File.open(VcloudDirector::Compute::Helper.fixture('test.iso'), 'rb') do |iso|
       tests('#post_upload_media').data_matches_schema(VcloudDirector::Compute::Schema::MEDIA_TYPE) do
