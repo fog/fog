@@ -146,6 +146,7 @@ module Fog
       request :get_supported_versions
       request :get_task
       request :get_task_list
+      request :get_thumbnail
       request :get_vapp
       request :get_vapp_metadata
       request :get_vapp_metadata_item_metadata
