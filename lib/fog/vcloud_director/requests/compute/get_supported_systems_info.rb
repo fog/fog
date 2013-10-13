@@ -2,6 +2,9 @@ module Fog
   module Compute
     class VcloudDirector
       class Real
+        # List operating systems available for use on virtual machines owned by
+        # this organization.
+        #
         # @return [Excon::Response]
         #   * body<~Hash>:
         # @see http://pubs.vmware.com/vcd-51/topic/com.vmware.vcloud.api.reference.doc_51/doc/operations/GET-SupportedSystemsInfo.html

@@ -6,7 +6,7 @@ module Fog
         #
         # @param [String] id Object identifier of the vApp.
         # @return [Excon::Response]
-        #   * body<~String> -
+        #   * body<~String> - the OVF descriptor.
         # @see http://pubs.vmware.com/vcd-51/topic/com.vmware.vcloud.api.reference.doc_51/doc/operations/GET-VAppOvfDescriptor.html
         #   vCloud API Documentation
         # @since vCloud API version 5.1
