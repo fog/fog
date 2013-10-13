@@ -33,7 +33,10 @@ module Fog
         # @since vCloud API version 0.9
         def post_undeploy_vapp(id, options={})
           body = Nokogiri::XML::Builder.new do
-            UndeployVAppParams {
+            attrs = {
+              :xmlns => 'http://www.vmware.com/vcloud/v1.5'
+            }
+            UndeployVAppParams(attrs) {
               if options.key?[:UndeployPowerAction]
                 UndeployPowerAction options[:UndeployPowerAction]
               end

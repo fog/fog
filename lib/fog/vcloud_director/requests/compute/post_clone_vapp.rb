@@ -27,7 +27,10 @@ module Fog
         # @since vCloud API version 0.9
         def post_clone_vapp(vdc_id, name, source_id, options={})
           body = Nokogiri::XML::Builder.new do
-            attrs = {:name => name}
+            attrs = {
+              :xmlns => 'http://www.vmware.com/vcloud/v1.5',
+              :name => name
+            }
             attrs[:deploy] = options[:deploy] if options.key?(:deploy)
             attrs[:powerOn] = options[:powerOn] if options.key?(:powerOn)
             CloneVAppParams(attrs) {
