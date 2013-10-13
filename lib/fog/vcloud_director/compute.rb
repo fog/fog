@@ -103,6 +103,7 @@ module Fog
       request :get_disk_owner
       request :get_disks_from_query
       request :get_disks_rasd_items_list
+      request :get_edge_gateway
       request :get_entity
       request :get_guest_customization_system_section_vapp
       request :get_guest_customization_system_section_vapp_template
@@ -128,6 +129,7 @@ module Fog
       request :get_network_section_vapp
       request :get_network_section_vapp_template
       request :get_operating_system_section
+      request :get_org_vdc_gateways
       request :get_organization
       request :get_organization_metadata
       request :get_organization_metadata_item_metadata
@@ -208,18 +210,26 @@ module Fog
       request :post_shutdown_vapp
       request :post_suspend_vapp
       request :post_undeploy_vapp
+      request :post_update_catalog_item_metadata
+      request :post_update_disk_metadata
+      request :post_update_media_metadata
+      request :post_update_vapp_metadata
+      request :post_update_vapp_template_metadata
       request :post_upgrade_hw_version
       request :post_upload_media
       request :post_upload_vapp_template
-      request :post_vapp_metadata_item_metadata
+      request :post_vm_metadata # deprecated
+      request :put_catalog_item_metadata_item_metadata
       request :put_cpu
+      request :put_disk_metadata_item_metadata
       request :put_disks
       request :put_guest_customization_section_vapp
+      request :put_media_metadata_item_metadata
       request :put_memory
+      request :put_metadata_value # deprecated
       request :put_network_connection_system_section_vapp
       request :put_vapp_metadata_item_metadata
-      request :get_edge_gateways
-      request :get_edge_gateway
+      request :put_vapp_template_metadata_item_metadata
 
       class Model < Fog::Model
         def initialize(attrs={})
@@ -325,6 +335,11 @@ module Fog
           @org_name
         end
 
+        def user_name
+          login if @user_name.nil?
+          @user_name
+        end
+
         def reload
           @connection.reset
         end
@@ -355,12 +370,13 @@ module Fog
             path = "#{@path}"
           end
           @connection.request({
-            :body    => params[:body],
-            :expects => params[:expects],
-            :headers => headers.merge!(params[:headers] || {}),
-            :method  => params[:method],
-            :parser  => params[:parser],
-            :path    => path
+            :body       => params[:body],
+            :expects    => params[:expects],
+            :headers    => headers.merge!(params[:headers] || {}),
+            :idempotent => params[:idempotent],
+            :method     => params[:method],
+            :parser     => params[:parser],
+            :path       => path
           })
         rescue => e
           raise e unless e.class.to_s =~ /^Excon::Errors/
@@ -400,6 +416,7 @@ module Fog
           end
           @vcloud_token = response.headers[x_vcloud_authorization]
           @org_name = response.body[:org]
+          @user_name = response.body[:user]
         end
 
         # @note This isn't needed.

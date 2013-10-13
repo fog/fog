@@ -96,7 +96,7 @@ class VcloudDirector
         :status => String,
       # :Tasks => TASKS_IN_PROGRESS_TYPE, # not happening!
         :Owner => REFERENCE_TYPE,
-        :Error => ERROR_TYPE,
+      # :Error => ERROR_TYPE,
         :User => REFERENCE_TYPE,
         :Organization => REFERENCE_TYPE,
         :Progress => Fog::Nullable::String,
