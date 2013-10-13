@@ -84,6 +84,14 @@ class VcloudDirector
         :File => FILE_TYPE
       }
 
+      # Container for query result sets.
+      CONTAINER_TYPE = RESOURCE_TYPE.merge({
+        :name => String,
+        :page => String,
+        :pageSize => String,
+        :total => String
+      })
+
       # Represents an asynchronous operation in vCloud Director.
       TASK_TYPE = ENTITY_TYPE.merge({
         :cancelRequested => Fog::Nullable::String,
@@ -348,18 +356,11 @@ class VcloudDirector
 
       # Container for query results in records format.
       #   Combine with QUERY_RESULT_RECORD_TYPE subtypes to validate query results
-      QUERY_RESULT_RECORDS_TYPE  =  {
-        :href => Fog::Nullable::String,
-        :type => Fog::Nullable::String,
-        :name => Fog::Nullable::String,
-        :page => Fog::Nullable::String,
-        :pageSize => Fog::Nullable::String,
-        :total => Fog::Nullable::String,
-      }
+      QUERY_RESULT_RECORDS_TYPE = CONTAINER_TYPE
 
       # Base type for a single record from query result in records format.
       # Subtypes define more specific elements.
-      QUERY_RESULT_RECORD_TYPE  = {
+      QUERY_RESULT_RECORD_TYPE = {
         :href => String,
         :id => Fog::Nullable::String,
         :type => Fog::Nullable::String

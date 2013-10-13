@@ -105,6 +105,7 @@ module Fog
       request :get_disks_rasd_items_list
       request :get_edge_gateway
       request :get_entity
+      request :get_groups_from_query
       request :get_guest_customization_system_section_vapp
       request :get_guest_customization_system_section_vapp_template
       request :get_href # this is used for manual testing
@@ -134,6 +135,7 @@ module Fog
       request :get_organization_metadata
       request :get_organization_metadata_item_metadata
       request :get_organizations
+      request :get_organizations_from_query
       request :get_product_sections_vapp
       request :get_product_sections_vapp_template
       request :get_request # this is used for manual testing
@@ -147,6 +149,7 @@ module Fog
       request :get_task
       request :get_task_list
       request :get_thumbnail
+      request :get_users_from_query
       request :get_vapp
       request :get_vapp_metadata
       request :get_vapp_metadata_item_metadata
@@ -166,6 +169,7 @@ module Fog
       request :get_vdc_storage_class
       request :get_vdc_storage_class_metadata
       request :get_vdc_storage_class_metadata_item_metadata
+      request :get_vdcs_from_query
       request :get_virtual_hardware_section
       request :get_vm
       request :get_vm_capabilities
@@ -378,7 +382,8 @@ module Fog
             :idempotent => params[:idempotent],
             :method     => params[:method],
             :parser     => params[:parser],
-            :path       => path
+            :path       => path,
+            :query      => params[:query]
           })
         rescue => e
           raise e unless e.class.to_s =~ /^Excon::Errors/

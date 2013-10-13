@@ -65,9 +65,9 @@ Shindo.tests('Compute::VcloudDirector | vapp requests', ['vclouddirector']) do
     end
   end
 
-  tests('#get_vapps_in_lease_from_query').returns(Hash) do
+  tests('#get_vapps_in_lease_from_query').data_matches_schema(VcloudDirector::Compute::Schema::CONTAINER_TYPE) do
     pending if Fog.mocking?
-    @service.get_vapps_in_lease_from_query.body.class
+    @service.get_vapps_in_lease_from_query.body
   end
 
   tests('Retrieve non-existent vApp').raises(Excon::Errors::Forbidden) do
