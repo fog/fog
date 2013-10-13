@@ -8,13 +8,14 @@ module Fog
         # controller properties of a VM.
         #
         # @deprecated Use {#get_disks_rasd_items_list} instead.
+        # @todo Log deprecation warning.
+        #
         # @param [String] id
         # @return [Excon::Response]
         #   * body<~Hash>:
+        #
         # @see http://pubs.vmware.com/vcd-51/topic/com.vmware.vcloud.api.reference.doc_51/doc/operations/GET-DisksRasdItemsList.html
-        #   vCloud API Documentation
         # @since vCloud API version 0.9
-        # @todo Log deprecation warning.
         def get_vm_disks(id)
           request(
             :expects    => 200,

@@ -10,8 +10,8 @@ module Fog
         # @param [String] id Object identifier of the VM.
         # @return [Excon::Response]
         #   * body<~Hash>:
+        #
         # @see http://pubs.vmware.com/vcd-51/topic/com.vmware.vcloud.api.reference.doc_51/doc/operations/POST-InstallVMwareTools.html
-        #   vCloud API Documentation
         # @since vCloud API version 1.5
         def post_install_vmware_tools(id)
           request(

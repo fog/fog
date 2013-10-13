@@ -10,8 +10,8 @@ module Fog
         # @param [String] key Key of the metadata.
         # @return [Excon::Response]
         #   * body<~Hash>:
+        #
         # @see http://pubs.vmware.com/vcd-51/topic/com.vmware.vcloud.api.reference.doc_51/doc/operations/GET-OrganizationMetadataItem-metadata.html
-        #   vCloud API Documentation
         # @since vCloud API version 5.1
         def get_organization_metadata_item_metadata(id, domain, key)
           request(

@@ -59,7 +59,6 @@ module Fog
         #   </vcloud:RasdItemsList>
         #
         # @see http://pubs.vmware.com/vcd-51/topic/com.vmware.vcloud.api.reference.doc_51/doc/types/RasdItemsListType.html
-        #   vCloud API Documentation
         class Disks
           def initialize(items=[])
             @items = items[:disks]

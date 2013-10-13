@@ -14,8 +14,8 @@ module Fog
         #       * :href<~String> - Contains the URI to the linked entity.
         #       * :name<~String> - Contains the name of the linked entity.
         #       * :type<~String> - Contains the type of the linked entity.
+        #
         # @see http://pubs.vmware.com/vcd-51/topic/com.vmware.vcloud.api.reference.doc_51/doc/operations/GET-Organizations.html
-        #   vCloud API Documentation
         # @since vCloud API version 0.9
         def get_organizations
           response = request({

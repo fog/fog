@@ -14,8 +14,8 @@ module Fog
         # @option options [String] :Description Optional description.
         # @return [Excon::Response]
         #   * body<~Hash>:
+        #
         # @see http://pubs.vmware.com/vcd-51/topic/com.vmware.vcloud.api.reference.doc_51/doc/operations/POST-UploadVAppTemplate.html
-        #   vCloud API Documentation
         # @since vCloud API version 0.9
         def post_upload_vapp_template(vdc_id, name, options={})
           body = Nokogiri::XML::Builder.new do

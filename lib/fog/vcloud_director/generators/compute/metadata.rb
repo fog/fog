@@ -24,7 +24,6 @@ module Fog
         #   </Metadata>
         #
         # @see http://pubs.vmware.com/vcd-51/topic/com.vmware.vcloud.api.reference.doc_51/doc/types/MetadataType.html
-        #   vCloud API Documentation
         class MetadataBase
           attr_reader :attrs
 

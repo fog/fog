@@ -14,8 +14,8 @@ module Fog
         # @param [Integer] memory Memory size in Megabytes.
         # @return [Excon::Response]
         #   * body<~Hash>:
+        #
         # @see http://pubs.vmware.com/vcd-51/topic/com.vmware.vcloud.api.reference.doc_51/doc/operations/PUT-Memory.html
-        #   vCloud API Documentation
         # @since vCloud API version 0.9
         def put_memory(id, memory)
           data = <<EOF

@@ -6,9 +6,9 @@ module Fog
         #
         # @param [String] id Object identifier of the vAppTemplate.
         # @return [Excon::Response]
-        #   * body<~String> -
+        #   * body<~String> - the OVF descriptor.
+        #
         # @see http://pubs.vmware.com/vcd-51/topic/com.vmware.vcloud.api.reference.doc_51/doc/operations/GET-VAppTemplateOvfDescriptor.html
-        #   vCloud API Documentation
         # @since vCloud API version 0.9
         def get_vapp_template_ovf_descriptor(id)
           request(

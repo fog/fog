@@ -12,8 +12,24 @@ module Fog
         # @param [String] id Object identifier of the vDC storage profile.
         # @return [Excon::Response]
         #   * body<~Hash>:
+        #     * :href<~String> - The URI of the entity.
+        #     * :type<~String> - The MIME type of the entity.
+        #     * :id<~String> - The entity identifier, expressed in URN format.
+        #       The value of this attribute uniquely identifies the entity,
+        #       persists for the life of the entity, and is never reused.
+        #     * :name<~String> - The name of the entity.
+        #     * :Description<~String> - Optional description.
+        #     * :Enabled<~String> - True if this storage profile is enabled for
+        #       use in the vDC.
+        #     * :Units<~String> - Units used to define :Limit.
+        #     * :Limit<~String> - Maximum number of :Units allocated for this
+        #       storage profile.
+        #     * :Default<~String> - True if this is default storage profile for
+        #       this vDC. The default storage profile is used when an object
+        #       that can specify a storage profile is created with no storage
+        #       profile specified.
+        #
         # @see http://pubs.vmware.com/vcd-51/topic/com.vmware.vcloud.api.reference.doc_51/doc/operations/GET-VdcStorageClass.html
-        #   vCloud API Documentation
         def get_vdc_storage_class(id)
           request(
             :expects    => 200,

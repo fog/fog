@@ -8,8 +8,8 @@ module Fog
         # @param [Hash{String=>Boolean,DateTime,Fixnum,String}] metadata
         # @return [Excon::Response]
         #   * body<~Hash>:
+        #
         # @see http://pubs.vmware.com/vcd-51/topic/com.vmware.vcloud.api.reference.doc_51/doc/operations/POST-UpdateVAppMetadata.html
-        #   vCloud API Documentation
         # @since vCloud API version 1.5
         def post_update_vapp_metadata(id, metadata={})
           body = Nokogiri::XML::Builder.new do

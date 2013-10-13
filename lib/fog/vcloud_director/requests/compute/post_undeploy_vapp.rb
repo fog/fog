@@ -28,8 +28,8 @@ module Fog
         #     StartupSection).
         # @return [Excon::Response]
         #   * body<~Hash>:
+        #
         # @see http://pubs.vmware.com/vcd-51/topic/com.vmware.vcloud.api.reference.doc_51/doc/operations/POST-UndeployVApp.html
-        #   vCloud API Documentation
         # @since vCloud API version 0.9
         def post_undeploy_vapp(id, options={})
           body = Nokogiri::XML::Builder.new do

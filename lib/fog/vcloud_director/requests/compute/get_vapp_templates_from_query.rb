@@ -9,8 +9,8 @@ module Fog
         #
         # @return [Excon::Response]
         #   * hash<~Hash>:
+        #
         # @see http://pubs.vmware.com/vcd-51/topic/com.vmware.vcloud.api.reference.doc_51/doc/operations/GET-VAppTemplatesFromQuery.html
-        #   vCloud API Documentation
         # @since vCloud API version 1.5
         def get_vapp_templates_from_query
           request(

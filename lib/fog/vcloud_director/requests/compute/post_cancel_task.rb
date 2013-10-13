@@ -9,9 +9,8 @@ module Fog
         #
         # @param [String] id Object identifier of the task.
         # @return [Excon::Response]
-        #   * body<~Hash>:
+        #
         # @see http://pubs.vmware.com/vcd-51/topic/com.vmware.vcloud.api.reference.doc_51/doc/operations/POST-CancelTask.html
-        #   vCloud API Documentation
         # @since vCloud API version 1.5
         def post_cancel_task(id)
           request(

@@ -8,8 +8,8 @@ module Fog
         # @param [String] key Key of the metadata.
         # @return [Excon::Response]
         #   * body<~Hash>:
+        #
         # @see http://pubs.vmware.com/vcd-51/topic/com.vmware.vcloud.api.reference.doc_51/doc/operations/GET-VdcStorageClassMetadataItem-metadata.html
-        #   vCloud API Documentation
         def get_vdc_storage_class_metadata_item_metadata(id, key)
           request(
             :expects    => 200,

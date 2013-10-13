@@ -42,8 +42,8 @@ module Fog
         #   * NONE (No IP addressing mode specified.)
         # @return [Excon::Response]
         #   * body<~Hash>:
+        #
         # @see http://pubs.vmware.com/vcd-51/topic/com.vmware.vcloud.api.reference.doc_51/doc/operations/PUT-NetworkConnectionSystemSection-vApp.html
-        #   vCloud API Documentation
         # @since vCloud API version 0.9
         def put_network_connection_system_section_vapp(id, network={})
           data = Fog::Generators::Compute::VcloudDirector::VmNetwork.new(network)

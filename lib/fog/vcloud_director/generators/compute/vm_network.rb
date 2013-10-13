@@ -34,7 +34,6 @@ module Fog
         #   </NetworkConnectionSection>
         #
         # @see http://pubs.vmware.com/vcd-51/topic/com.vmware.vcloud.api.reference.doc_51/doc/types/NetworkConnectionSectionType.html
-        #   vCloud API Documentation
         class VmNetwork
           attr_reader :attrs
 

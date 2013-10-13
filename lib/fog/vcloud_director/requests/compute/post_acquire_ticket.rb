@@ -12,7 +12,6 @@ module Fog
         # @raise [Excon::Errors::Conflict]
         #
         # @see http://pubs.vmware.com/vcd-51/topic/com.vmware.vcloud.api.reference.doc_51/doc/operations/POST-AcquireTicket.html
-        #   vCloud API Documentation
         # @since vCloud API version 0.9
         def post_acquire_ticket(id)
           request(
