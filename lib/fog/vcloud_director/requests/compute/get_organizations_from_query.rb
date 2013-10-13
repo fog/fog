@@ -2,7 +2,8 @@ module Fog
   module Compute
     class VcloudDirector
       class Real
-        # Retrieves a list of vApps by using REST API general QueryHandler.
+        # Retrieves a list of organizations by using REST API general
+        # QueryHandler.
         #
         # @param [Hash] options
         # @option options [String] :sortAsc (Sorted by database ID) Sort
@@ -28,16 +29,16 @@ module Fog
         #       references.
         #     * :total<~String> - Total number of records or references in the
         #       container.
-        #     * :VAppRecord<~Array<Hash>>:
+        #     * :OrganizationRecord<~Array<Hash>>:
         #       * TODO
         #     * :firstPage<~Integer> - First page in the result set.
         #     * :previousPage<~Integer> - Previous page in the result set.
         #     * :nextPage<~Integer> - Next page in the result set.
         #     * :lastPage<~Integer> - Last page in the result set.
         #
-        # @see http://pubs.vmware.com/vcd-51/topic/com.vmware.vcloud.api.reference.doc_51/doc/operations/GET-VAppsInLeaseFromQuery.html
+        # @see http://pubs.vmware.com/vcd-51/topic/com.vmware.vcloud.api.reference.doc_51/doc/operations/GET-OrganizationsFromQuery.html
         # @since vCloud API version 1.5
-        def get_vapps_in_lease_from_query(options={})
+        def get_organizations_from_query(options={})
           query = {}
           query[:sortAsc] = options[:sortAsc] if options[:sortAsc]
           query[:sortDesc] = options[:sortDesc] if options[:sortDesc]
@@ -50,10 +51,10 @@ module Fog
             :idempotent => true,
             :method     => 'GET',
             :parser     => Fog::ToHashDocument.new,
-            :path       => 'vApps/query',
+            :path       => 'admin/orgs/query',
             :query      => query
           )
-          response.body[:VAppRecord] = [response.body[:VAppRecord]] if response.body[:VAppRecord].is_a?(Hash)
+          response.body[:OrganizationRecord] = [response.body[:OrganizationRecord]] if response.body[:OrganizationRecord].is_a?(Hash)
 
           %w[firstPage previousPage nextPage lastPage].each do |rel|
             if link = response.body[:Link].detect {|l| l[:rel] == rel}
