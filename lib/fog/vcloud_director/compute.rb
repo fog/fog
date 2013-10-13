@@ -34,10 +34,15 @@ module Fog
         API_VERSION = '5.1'
       end
 
-      module Errors
-        class ServiceError < Fog::Errors::Error; end
-        class Task < ServiceError; end
-      end
+      class ServiceError < Fog::VcloudDirector::Errors::ServiceError; end
+
+      class BadRequest < Fog::VcloudDirector::Errors::BadRequest; end
+      class Unauthorized < Fog::VcloudDirector::Errors::Unauthorized; end
+      class Forbidden < Fog::VcloudDirector::Errors::Forbidden; end
+      class Conflict < Fog::VcloudDirector::Errors::Conflict; end
+
+      class DuplicateName < Fog::VcloudDirector::Errors::DuplicateName; end
+      class TaskError < Fog::VcloudDirector::Errors::TaskError; end
 
       requires :vcloud_director_username, :vcloud_director_password, :vcloud_director_host
       recognizes :vcloud_director_api_version
@@ -385,13 +390,14 @@ module Fog
             :path       => path,
             :query      => params[:query]
           })
-        rescue => e
-          raise e unless e.class.to_s =~ /^Excon::Errors/
-          if e.respond_to?(:response)
-            puts e.response.status
-            puts CGI::unescapeHTML(e.response.body)
+        rescue Excon::Errors::HTTPStatusError => error
+          raise case error
+          when Excon::Errors::BadRequest   then BadRequest.slurp(error);
+          when Excon::Errors::Unauthorized then Unauthorized.slurp(error);
+          when Excon::Errors::Forbidden    then Forbidden.slurp(error);
+          when Excon::Errors::Conflict     then Conflict.slurp(error);
+          else                                  ServiceError.slurp(error)
           end
-          raise e
         end
 
         def process_task(response_body)
@@ -407,7 +413,7 @@ module Fog
 
         def wait_and_raise_unless_success(task)
           task.wait_for { non_running? }
-          raise Errors::Task.new "status: #{task.status}, error: #{task.error}" unless task.success?
+          raise TaskError.new "status: #{task.status}, error: #{task.error}" unless task.success?
         end
 
         def add_id_from_href!(data={})
@@ -594,10 +600,6 @@ module Fog
 
         def make_href(path)
           "#{@end_point}#{path}"
-        end
-
-        def valid_uuid?(uuid)
-          /^[\da-f]{8}(?:-[\da-f]{4}){3}-[\da-f]{12}$/.match(uuid.downcase)
         end
 
         def xmlns

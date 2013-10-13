@@ -8,6 +8,8 @@ module Fog
         # @return [Excon::Response]
         #   * body<~Hash>:
         #
+        # @raise [Fog::Compute::VcloudDirector::Forbidden]
+        #
         # @see http://pubs.vmware.com/vcd-51/topic/com.vmware.vcloud.api.reference.doc_51/doc/operations/GET-Vdc.html
         # @since vCloud API version 0.9
         def get_vdc(id)
@@ -25,13 +27,10 @@ module Fog
         def get_vdc(vdc_id)
           response = Excon::Response.new
 
-          unless valid_uuid?(vdc_id)
-            response.status = 400
-            raise Excon::Errors.status_error({:expects => 200}, response)
-          end
           unless vdc = data[:vdcs][vdc_id]
-            response.status = 403
-            raise Excon::Errors.status_error({:expects => 200}, response)
+            raise Fog::Compute::VcloudDirector::Forbidden.new(
+              "No access to entity \"com.vmware.vcloud.entity.vdc:#{vdc_id}\"."
+            )
           end
 
           body =

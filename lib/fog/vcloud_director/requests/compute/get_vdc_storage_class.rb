@@ -29,6 +29,8 @@ module Fog
         #       that can specify a storage profile is created with no storage
         #       profile specified.
         #
+        # @raise [Fog::Compute::VcloudDirector::Forbidden]
+        #
         # @see http://pubs.vmware.com/vcd-51/topic/com.vmware.vcloud.api.reference.doc_51/doc/operations/GET-VdcStorageClass.html
         def get_vdc_storage_class(id)
           request(
@@ -43,11 +45,10 @@ module Fog
 
       class Mock
         def get_vdc_storage_class(id)
-          response = Excon::Response.new
-
           unless vdc_storage_class = data[:vdc_storage_classes][id]
-            response.status = 403
-            raise Excon::Errors.status_error({:expects => 200}, response)
+            raise Fog::Compute::VcloudDirector::Forbidden.new(
+              "No access to entity \"(com.vmware.vcloud.entity.vdcstorageProfile:#{id})\"."
+            )
           end
 
           body =
@@ -70,10 +71,11 @@ module Fog
              :Limit=>vdc_storage_class[:limit].to_s,
              :Default=>vdc_storage_class[:default].to_s}
 
-          response.status = 200
-          response.headers = {'Content-Type' => "#{body[:type]};version=#{api_version}"}
-          response.body = body
-          response
+          Excon::Response.new(
+            :status => 200,
+            :headers => {'Content-Type' => "#{body[:type]};version=#{api_version}"},
+            :body => body
+          )
         end
       end
     end

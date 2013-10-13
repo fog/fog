@@ -12,6 +12,8 @@ module Fog
         # @return [Excon::Response]
         #   * body<~Hash>:
         #
+        # @raise [Fog::Compute::VcloudDirector::Forbidden]
+        #
         # @see http://pubs.vmware.com/vcd-51/topic/com.vmware.vcloud.api.reference.doc_51/doc/operations/GET-TaskList.html
         # @since vCloud API version 0.9
         def get_task_list(id)
@@ -27,15 +29,10 @@ module Fog
 
       class Mock
         def get_task_list(id)
-          response = Excon::Response.new
-
-          unless valid_uuid?(id)
-            response.status = 400
-            raise(Excon::Errors.status_error({:expects => 200}, response))
-          end
           unless id == data[:org][:uuid]
-            response.status = 403
-            raise(Excon::Errors.status_error({:expects => 200}, response))
+            raise Fog::Compute::VcloudDirector::Forbidden.new(
+              "No access to entity \"com.vmware.vcloud.entity.org:#{id}\"."
+            )
           end
 
           body =
@@ -76,10 +73,11 @@ module Fog
           tasks = tasks.first if tasks.size == 1
           body[:Task] = tasks
 
-          response.status = 200
-          response.headers = {'Content-Type' => "#{body[:type]};version=#{api_version}"}
-          response.body = body
-          response
+          Excon::Response.new(
+            :status => 200,
+            :headers => {'Content-Type' => "#{body[:type]};version=#{api_version}"},
+            :body => body
+          )
         end
       end
     end
