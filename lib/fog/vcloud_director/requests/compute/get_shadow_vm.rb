@@ -7,8 +7,8 @@ module Fog
         # @param [String] id The object identifier of the shadow VM.
         # @return [Excon::Response]
         #   * body<~Hash>:
+        #
         # @see http://pubs.vmware.com/vcd-51/topic/com.vmware.vcloud.api.reference.doc_51/doc/operations/GET-ShadowVm.html
-        #   vCloud API Documentation
         def get_shadow_vm(id)
           request(
             :expects    => 200,

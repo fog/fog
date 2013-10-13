@@ -12,8 +12,8 @@ module Fog
         # @param [Hash] options
         # @return [Excon::Response]
         #   * body<~Hash>:
+        #
         # @see http://pubs.vmware.com/vcd-51/topic/com.vmware.vcloud.api.reference.doc_51/doc/operations/POST-InstantiateVAppTemplate.html
-        #   vCloud API Documentaion
         # @since vCloud API version 0.9
         def instantiate_vapp_template(vapp_name, template_id, options={})
           params = populate_uris(options.merge(:vapp_name => vapp_name, :template_id => template_id))

@@ -42,7 +42,6 @@ module Fog
         #   </vcloud:GuestCustomizationSection>
         #
         # @see http://pubs.vmware.com/vcd-51/topic/com.vmware.vcloud.api.reference.doc_51/doc/types/GuestCustomizationSectionType.html
-        #   vCloud API Documentation
         class Customization
           def initialize(attrs={})
             @attrs = attrs

@@ -7,8 +7,8 @@ module Fog
         # @param [String] id Object identifier of the vDC.
         # @return [Excon::Response]
         #   * body<~Hash>:
+        #
         # @see http://pubs.vmware.com/vcd-51/topic/com.vmware.vcloud.api.reference.doc_51/doc/operations/GET-Vdc.html
-        #   vCloud API Documentation
         # @since vCloud API version 0.9
         def get_vdc(id)
           request(
@@ -136,12 +136,15 @@ module Fog
           body[:ResourceEntities][:ResourceEntity] = resources
 
           if api_version.to_f >= 5.1
-            # TODO
-            #body[:VdcStorageProfiles] =
-            # {:VdcStorageProfile=>
-            #  [{:type=>"application/vnd.vmware.vcloud.vdcStorageProfile+xml",
-            #    :name=>profile[:name],
-            #    :href=>make_href("vdcStorageProfile/#{profile[:uuid]}")}]}
+            body[:VdcStorageProfiles] = {}
+            body[:VdcStorageProfiles][:VdcStorageProfile] =
+              data[:vdc_storage_classes].select do |id, storage_class|
+                storage_class[:vdc] == vdc_id
+              end.map do |id, storage_class|
+                {:type => 'application/vnd.vmware.vcloud.vdcStorageProfile+xml',
+                 :name => storage_class[:name],
+                 :href => make_href("vdcStorageProfile/#{id}")}
+              end
           end
 
           response.status = 200

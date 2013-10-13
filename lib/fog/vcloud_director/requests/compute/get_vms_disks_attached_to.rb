@@ -7,8 +7,8 @@ module Fog
         # @param [String] id Object identifier of the disk.
         # @return [Excon::Response]
         #   * body<~Hash>:
+        #
         # @see http://pubs.vmware.com/vcd-51/topic/com.vmware.vcloud.api.reference.doc_51/doc/operations/GET-VmsDisksAttachedTo.html
-        #   vCloud API Documentation
         # @since vCloud API version 5.1
         def get_vms_disks_attached_to(id)
           request(

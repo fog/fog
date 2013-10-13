@@ -11,12 +11,15 @@ module Fog
         # @param [String] disk_id Object identifier of the disk.
         # @return [Excon::Response]
         #   * body<~Hash>:
+        #
         # @see http://pubs.vmware.com/vcd-51/topic/com.vmware.vcloud.api.reference.doc_51/doc/operations/POST-DetachDisk.html
-        #   vCloud API Documentation
         # @since vCloud API version 5.1
         def post_detach_disk(id, disk_id)
           body = Nokogiri::XML::Builder.new do
-            DiskAttachOrDetachParams {
+            attrs = {
+              :xmlns => 'http://www.vmware.com/vcloud/v1.5'
+            }
+            DiskAttachOrDetachParams(attrs) {
               Disk(:href => "#{@end_point}disk/#{media_id}")
             }
           end.to_xml

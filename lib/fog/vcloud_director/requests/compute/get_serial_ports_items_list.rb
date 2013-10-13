@@ -7,8 +7,8 @@ module Fog
         # @param [String] id Object identifier of the VM.
         # @return [Excon::Response]
         #   * body<~Hash>:
+        #
         # @see http://pubs.vmware.com/vcd-51/topic/com.vmware.vcloud.api.reference.doc_51/doc/operations/GET-SerialPortsItemsList.html
-        #   vCloud API Documentation
         # @since vCloud API version 1.5
         def get_serial_ports_items_list(id)
           request(

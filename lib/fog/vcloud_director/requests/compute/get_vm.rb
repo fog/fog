@@ -7,9 +7,11 @@ module Fog
         # Retrieve a vApp or VM.
         #
         # @note This should probably be deprecated.
+        #
         # @param [String] id Object identifier of the vApp or VM.
         # @return [Excon::Response]
         #   * body<~Hash>:
+        #
         # @see #get_vapp
         def get_vm(id)
           request(

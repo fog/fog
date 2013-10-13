@@ -10,8 +10,8 @@ module Fog
         # @param [String] id Object identifier of the vDC storage profile.
         # @return [Excon::Response]
         #   * body<~Hash>:
+        #
         # @see http://pubs.vmware.com/vcd-51/topic/com.vmware.vcloud.api.reference.doc_51/doc/operations/GET-VdcStorageClassMetadata.html
-        #   vCloud API Documentation
         def get_vdc_storage_class_metadata(id)
           request(
             :expects    => 200,

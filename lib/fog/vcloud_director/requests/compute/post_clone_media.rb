@@ -8,7 +8,6 @@ module Fog
         # track the creation of the vApp template.
         #
         # @param [String] vdc_id Object identifier of the vDC.
-        # @param [String] name Name of the cloned media object.
         # @param [String] source_id Object identifier of the source media
         #   object.
         # @param [Hash] options
@@ -18,12 +17,15 @@ module Fog
         #   Defaults to false if empty or missing.
         # @return [Excon::Response]
         #   * body<~Hash>:
+        #
         # @see http://pubs.vmware.com/vcd-51/topic/com.vmware.vcloud.api.reference.doc_51/doc/operations/POST-CloneMedia.html
-        #   vCloud API Documentation
         # @since vCloud API version 0.9
-        def post_clone_media(vdc_id, name, source_id, options={})
+        def post_clone_media(vdc_id, source_id, options={})
           body = Nokogiri::XML::Builder.new do
-            CloneMediaParams(:name => name) {
+            attrs = {
+              :xmlns => 'http://www.vmware.com/vcloud/v1.5'
+            }
+            CloneMediaParams(attrs) {
               if options.key?(:Description)
                 Description options[:Description]
               end

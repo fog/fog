@@ -17,12 +17,16 @@ module Fog
         #   source object after the operation completes.
         # @return [Excon::Response]
         #   * body<~Hash>:
+        #
         # @see http://pubs.vmware.com/vcd-51/topic/com.vmware.vcloud.api.reference.doc_51/doc/operations/POST-CloneVAppTemplate.html
-        #   vCloud API Documentation
         # @since vCloud API version 0.9
         def post_clone_vapp_template(vdc_id, name, source_id, options={})
           body = Nokogiri::XML::Builder.new do
-            CloneVAppTemplateParams(:name => name) {
+            attrs = {
+              :xmlns => 'http://www.vmware.com/vcloud/v1.5',
+              :name => name
+            }
+            CloneVAppTemplateParams(attrs) {
               if options.key?(:Description)
                 Description options[:Description]
               end

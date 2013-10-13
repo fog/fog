@@ -8,8 +8,8 @@ module Fog
         # @param [String] key Key of the metadata item.
         # @return [Excon::Response]
         #   * body<~Hash>:
+        #
         # @see http://pubs.vmware.com/vcd-51/topic/com.vmware.vcloud.api.reference.doc_51/doc/operations/DELETE-DiskMetadataItem-metadata.html
-        #   vCloud API Documentation
         # @since vCloud API version 5.1
         def delete_disk_metadata_item_metadata(id, key)
           request(
