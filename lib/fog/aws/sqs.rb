@@ -111,6 +111,8 @@ module Fog
         end
 
         def request(params)
+          refresh_credentials_if_expired
+
           idempotent  = params.delete(:idempotent)
           parser      = params.delete(:parser)
           path        = params.delete(:path)
