@@ -109,6 +109,7 @@ module Fog
       request :get_disks_rasd_items_list
       request :get_edge_gateway
       request :get_entity
+      request :get_execute_query
       request :get_groups_from_query
       request :get_guest_customization_system_section_vapp
       request :get_guest_customization_system_section_vapp_template

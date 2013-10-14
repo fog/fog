@@ -4,6 +4,7 @@ module Fog
       class Real
         require 'fog/vcloud_director/parsers/compute/vms_by_metadata'
 
+        # @see #get_vms_in_lease_by_query
         def get_vms_by_metadata(key,value)
           request(
             :expects    => 200,
