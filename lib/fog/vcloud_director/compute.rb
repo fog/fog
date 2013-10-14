@@ -220,7 +220,7 @@ module Fog
       request :put_vapp_metadata_item_metadata
       request :get_edge_gateways
       request :get_edge_gateway
-      request :post_configure_edge_gateway
+      request :post_configure_edge_gateway_services
 
       class Model < Fog::Model
         def initialize(attrs={})
