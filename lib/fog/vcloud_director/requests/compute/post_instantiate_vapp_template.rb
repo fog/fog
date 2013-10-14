@@ -45,6 +45,8 @@ module Fog
         # @return [Excon::Response]
         #   * body<~Hash>:
         #
+        # @raise Fog::Compute::VcloudDirector::DuplicateName
+        #
         # @see http://pubs.vmware.com/vcd-51/topic/com.vmware.vcloud.api.reference.doc_51/doc/operations/POST-InstantiateVAppTemplate.html
         # @since vCloud API version 0.9
         def post_instantiate_vapp_template(id, vapp_template_id, name, options={})
@@ -109,14 +111,21 @@ module Fog
             }
           end.to_xml
 
-          request(
-            :body    => body,
-            :expects => 201,
-            :headers => {'Content-Type' => 'application/vnd.vmware.vcloud.instantiateVAppTemplateParams+xml'},
-            :method  => 'POST',
-            :parser  => Fog::ToHashDocument.new,
-            :path    => "vdc/#{id}/action/instantiateVAppTemplate"
-          )
+          begin
+            request(
+              :body    => body,
+              :expects => 201,
+              :headers => {'Content-Type' => 'application/vnd.vmware.vcloud.instantiateVAppTemplateParams+xml'},
+              :method  => 'POST',
+              :parser  => Fog::ToHashDocument.new,
+              :path    => "vdc/#{id}/action/instantiateVAppTemplate"
+            )
+          rescue Fog::Compute::VcloudDirector::BadRequest => e
+            if e.minor_error_code == 'DUPLICATE_NAME'
+              raise Fog::Compute::VcloudDirector::DuplicateName.new(e.message)
+            end
+            raise
+          end
         end
       end
     end
