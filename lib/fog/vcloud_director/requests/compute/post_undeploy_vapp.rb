@@ -39,7 +39,7 @@ module Fog
               :xmlns => 'http://www.vmware.com/vcloud/v1.5'
             }
             UndeployVAppParams(attrs) {
-              if options.key?[:UndeployPowerAction]
+              if options[:UndeployPowerAction]
                 UndeployPowerAction options[:UndeployPowerAction]
               end
             }
