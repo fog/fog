@@ -29,7 +29,7 @@ module Fog
               if options.key?(:Description)
                 Description options[:Description]
               end
-              Source(:href => "#{endpoint}media/#{source_id}")
+              Source(:href => "#{end_point}media/#{source_id}")
               if options.key?(:IsSourceDelete)
                 IsSourceDelete options[:IsSourceDelete]
               end
