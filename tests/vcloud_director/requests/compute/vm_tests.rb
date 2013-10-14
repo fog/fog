@@ -105,17 +105,17 @@ Shindo.tests('Compute::VcloudDirector | vm requests', ['vclouddirector']) do
     @service.get_vms_in_lease_from_query.body
   end
 
-  #tests('Retrieve non-existent vApp').raises(Excon::Errors::Forbidden) do
+  #tests('Retrieve non-existent vApp').raises(Fog::Compute::VcloudDirector::Forbidden) do
   #  pending if Fog.mocking?
   #  @service.get_vapp('00000000-0000-0000-0000-000000000000')
   #end
 
-  #tests('Retrieve owner of non-existent vApp').raises(Excon::Errors::Forbidden) do
+  #tests('Retrieve owner of non-existent vApp').raises(Fog::Compute::VcloudDirector::Forbidden) do
   #  pending if Fog.mocking?
   #  @service.get_vapp_owner('00000000-0000-0000-0000-000000000000')
   #end
 
-  #tests('Delete non-existent vApp').raises(Excon::Errors::Forbidden) do
+  #tests('Delete non-existent vApp').raises(Fog::Compute::VcloudDirector::Forbidden) do
   #  pending if Fog.mocking?
   #  @service.delete_vapp('00000000-0000-0000-0000-000000000000')
   #end

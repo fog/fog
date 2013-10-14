@@ -34,7 +34,7 @@ Shindo.tests('Compute::VcloudDirector | network requests', ['vclouddirector']) d
     @service.get_network_metadata(@network_id).body
   end
 
-  tests('Retrieve non-existent OrgNetwork').raises(Excon::Errors::Forbidden) do
+  tests('Retrieve non-existent OrgNetwork').raises(Fog::Compute::VcloudDirector::Forbidden) do
     @service.get_network('00000000-0000-0000-0000-000000000000')
   end
 

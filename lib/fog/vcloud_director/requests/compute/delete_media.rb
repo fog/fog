@@ -11,6 +11,8 @@ module Fog
         # @return [Excon::Response]
         #   * body<~Hash>:
         #
+        # @raise [Fog::Compute::VcloudDirector::Forbidden]
+        #
         # @see http://pubs.vmware.com/vcd-51/topic/com.vmware.vcloud.api.reference.doc_51/doc/operations/DELETE-Media.html
         # @since vCloud API version 0.9
         def delete_media(id)
@@ -25,15 +27,10 @@ module Fog
 
       class Mock
         def delete_media(id)
-          response = Excon::Response.new
-
-          unless valid_uuid?(id)
-            response.status = 400
-            raise Excon::Errors.status_error({:expects => 202}, response)
-          end
           unless media = data[:medias][id]
-            response.status = 403
-            raise Excon::Errors.status_error({:expects => 202}, response)
+            raise Fog::Compute::VcloudDirector::Forbidden.new(
+              "No access to entity \"(com.vmware.vcloud.entity.media:#{id})\""
+            )
           end
 
           Fog::Mock.not_implemented
