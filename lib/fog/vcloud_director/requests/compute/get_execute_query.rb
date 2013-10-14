@@ -97,8 +97,8 @@ module Fog
             )
             response.body[:Link] = [response.body[:Link]] if response.body[:Link].is_a?(Hash)
             record = "#{response.body[:name]}Record".to_sym
-            response.body[record] ||= []
             response.body[record] = [response.body[record]] if response.body[record].is_a?(Hash)
+            response.body[record] ||= []
 
             %w[firstPage previousPage nextPage lastPage].each do |rel|
               if link = response.body[:Link].detect {|l| l[:rel] == rel}
