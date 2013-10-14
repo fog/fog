@@ -8,6 +8,8 @@ module Fog
         # @return [Excon:Response]
         #   * body<~Hash>:
         #
+        # @raise [Fog::Compute::VcloudDirector::Forbidden]
+        #
         # @see http://pubs.vmware.com/vcd-51/topic/com.vmware.vcloud.api.reference.doc_51/doc/operations/GET-Organization.html
         # @since vCloud API version 0.9
         def get_organization(id)
@@ -26,15 +28,10 @@ module Fog
 
       class Mock
         def get_organization(id)
-          response = Excon::Response.new
-
-          unless valid_uuid?(id)
-            response.status = 400
-            raise Excon::Errors.status_error({:expects => 200}, response)
-          end
           unless id == data[:org][:uuid]
-            response.status = 403
-            raise(Excon::Errors.status_error({:expects => 200}, response))
+            raise Fog::Compute::VcloudDirector::Forbidden.new(
+              "No access to entity \"com.vmware.vcloud.entity.org:#{id}\""
+            )
           end
           org = data[:org]
 
@@ -92,10 +89,11 @@ module Fog
                :rel=>"down"}
           end
 
-          response.status = 200
-          response.headers = {'Content-Type' => "#{body[:type]};version=#{api_version}"}
-          response.body = body
-          response
+          Excon::Response.new(
+            :body    => body,
+            :headers => {'Content-Type' => "#{body[:type]};version=#{api_version}"},
+            :status  => 200
+          )
         end
       end
     end

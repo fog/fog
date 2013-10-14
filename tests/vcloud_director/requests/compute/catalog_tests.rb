@@ -27,8 +27,7 @@ Shindo.tests('Compute::VcloudDirector | catalog requests', ['vclouddirector']) d
     @service.get_catalogs_from_query.body
   end
 
-  tests('Retrieve non-existent Catalog').raises(Excon::Errors::Forbidden) do
-    pending if Fog.mocking?
+  tests('Retrieve non-existent Catalog').raises(Fog::Compute::VcloudDirector::Forbidden) do
     @service.get_catalog('00000000-0000-0000-0000-000000000000')
   end
 

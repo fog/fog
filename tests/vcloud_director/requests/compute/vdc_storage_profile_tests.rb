@@ -21,7 +21,7 @@ Shindo.tests('Compute::VcloudDirector | vdc_storage_profile requests', ['vcloudd
     end
   end
 
-  tests('Retrieve non-existent vDC storage profile').raises(Excon::Errors::Forbidden) do
+  tests('Retrieve non-existent vDC storage profile').raises(Fog::Compute::VcloudDirector::Forbidden) do
     @service.get_vdc_storage_class('00000000-0000-0000-0000-000000000000')
   end
 

@@ -25,7 +25,7 @@ Shindo.tests('Compute::VcloudDirector | vdc requests', ['vclouddirector']) do
     @service.get_vdcs_from_query.body
   end
 
-  tests('Retrieve non-existent vDC').raises(Excon::Errors::Forbidden) do
+  tests('Retrieve non-existent vDC').raises(Fog::Compute::VcloudDirector::Forbidden) do
     @service.get_vdc('00000000-0000-0000-0000-000000000000')
   end
 

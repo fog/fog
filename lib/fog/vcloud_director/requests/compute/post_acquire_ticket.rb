@@ -9,7 +9,7 @@ module Fog
         # @return [Excon::Response]
         #   * body<~Hash>:
         #
-        # @raise [Excon::Errors::Conflict]
+        # @raise [Fog::Compute::VcloudDirector::Conflict]
         #
         # @see http://pubs.vmware.com/vcd-51/topic/com.vmware.vcloud.api.reference.doc_51/doc/operations/POST-AcquireTicket.html
         # @since vCloud API version 0.9

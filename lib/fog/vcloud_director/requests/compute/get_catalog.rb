@@ -8,6 +8,8 @@ module Fog
         # @return [Excon::Response]
         #   * hash<~Hash>:
         #
+        # @raise [Fog::Compute::VcloudDirector::Forbidden]
+        #
         # @see http://pubs.vmware.com/vcd-51/topic/com.vmware.vcloud.api.reference.doc_51/doc/operations/GET-Catalog.html
         # @since vCloud API version 0.9
         def get_catalog(id)
@@ -23,15 +25,10 @@ module Fog
 
       class Mock
         def get_catalog(id)
-          response = Excon::Response.new
-
-          unless valid_uuid?(id)
-            response.status = 400
-            raise Excon::Error.status_error({:expects => 200}, response)
-          end
           unless catalog = data[:catalogs][id]
-            response.status = 403
-            raise Excon::Error.status_error({:expects => 200}, response)
+            raise Fog::Compute::VcloudDirector::Forbidden.new(
+              "No access to entity \"(com.vmware.vcloud.entity.catalog:#{id})\"."
+            )
           end
 
           Fog::Mock.not_implemented
