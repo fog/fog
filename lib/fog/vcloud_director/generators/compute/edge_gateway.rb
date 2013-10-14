@@ -54,7 +54,7 @@ module Fog
                       IsEnabled rule[:is_enabled]
                       Id rule[:id]
                       GatewayNatRule {
-                        Interface('type' => "application/vnd.vmware.admin.network+xml", 'name' => rule[:interface][:name], 'href' => rule[:interface][:href])
+                        Interface(:name => rule[:interface][:name], :href => rule[:interface][:href])
                         OriginalIp rule[:original][:ip]
                         OriginalPort rule[:original][:port] if rule[:original][:port]
                         TranslatedIp rule[:translated][:ip]
@@ -109,7 +109,7 @@ module Fog
                       IsEnabled virtual_server[:is_enabled]
                       Name virtual_server[:name]
                       Description virtual_server[:description]
-                      Interface(:href => virtual_server[:interface][:href], :name => virtual_server[:interface][:name], :type => 'application/vnd.vmware.vcloud.orgVdcNetwork+xml')
+                      Interface(:href => virtual_server[:interface][:href], :name => virtual_server[:interface][:name] )
                       IpAddress virtual_server[:ip_address]
                       virtual_server[:service_profiles].each do |service_profile|
                         ServiceProfile {
