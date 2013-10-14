@@ -10,7 +10,8 @@ module Fog
           def generate_xml
             firewall_config = @configuration[:firewall_service]
             nat_config = @configuration[:nat_service]
-            body = Nokogiri::XML::Builder.new(:encoding => 'UTF-8') do
+            lb_config = @configuration[:load_balancer_service]
+            Nokogiri::XML::Builder.new(:encoding => 'UTF-8') do
               EdgeGatewayServiceConfiguration(
                   'xmlns' => "http://www.vmware.com/vcloud/v1.5",
                   'xmlns:xsi' => "http://www.w3.org/2001/XMLSchema-instance",
@@ -63,10 +64,75 @@ module Fog
                     }
                   end
                 } if nat_config
+
+                LoadBalancerService {
+                  IsEnabled lb_config[:is_enabled] if lb_config[:is_enabled]
+                  lb_config[:pools].each do |pool|
+                    Pool {
+                      Name pool[:name]
+
+                      pool[:service_ports].each do |service_port|
+                        ServicePort {
+                          IsEnabled service_port[:is_enabled]
+                          Protocol service_port[:protocol]
+                          Algorithm service_port[:algorithm]
+                          Port service_port[:port]
+                          HealthCheckPort service_port[:health_check_port]
+                          HealthCheck {
+                            Mode service_port[:health_check][:mode]  #tcp, http, ssl
+                            HealthThreshold service_port[:health_check][:health_threshold]
+                            UnhealthThreshold service_port[:health_check][:unhealth_threshold]
+                            Interval service_port[:health_check][:interval]
+                            Timeout service_port[:health_check][:timeout]
+                          }
+                        }
+                      end
+
+                      pool[:members].each do |member|
+                        Member {
+                          IpAddress member[:ip_address]
+                          Weight member[:weight]
+                          member[:service_ports].each do |member_service_port|
+                          ServicePort {
+                            Protocol member_service_port[:protocol]
+                            Port member_service_port[:port]
+                            HealthCheckPort member_service_port[:health_check_port]
+                          }
+                          end
+                        }
+                      end
+
+                    }
+                  end
+                  lb_config[:virtual_servers].each do |virtual_server|
+                    VirtualServer {
+                      IsEnabled virtual_server[:is_enabled]
+                      Name virtual_server[:name]
+                      Description virtual_server[:description]
+                      Interface(:href => virtual_server[:interface][:href], :name => virtual_server[:interface][:name], :type => 'application/vnd.vmware.vcloud.orgVdcNetwork+xml')
+                      IpAddress virtual_server[:ip_address]
+                      virtual_server[:service_profiles].each do |service_profile|
+                        ServiceProfile {
+                          IsEnabled service_profile[:is_enabled]
+                          Protocol service_profile[:protocol]
+                          Port service_profile[:port]
+                          Persistence {
+                            Method service_profile[:persistence][:method]
+                            if service_profile[:persistence][:method] == 'COOKIE'
+                              CookieName service_profile[:persistence][:cookie_name]
+                              CookieMode service_profile[:persistence][:cookie_mode]
+                            end
+                          }
+                        }
+                      end
+                      Logging virtual_server[:logging]
+                      Pool  virtual_server[:pool]
+                    }
+                  end
+                } if lb_config
+
               }
             end.to_xml
-            p body
-            body
           end
 
 
