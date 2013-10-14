@@ -223,7 +223,6 @@ module Fog
       request :post_upgrade_hw_version
       request :post_upload_media
       request :post_upload_vapp_template
-      request :post_vm_metadata # deprecated
       request :put_catalog_item_metadata_item_metadata
       request :put_cpu
       request :put_disk_metadata_item_metadata
