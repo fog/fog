@@ -60,7 +60,7 @@ module Fog
               if options.key?(:Description)
                 Description options[:Description]
               end
-              if instantiation_params = :options[:InstantiationParams]
+              if instantiation_params = options[:InstantiationParams]
                 InstantiationParams {
                   if section = instantiation_params[:LeaseSettingsSection]
                     LeaseSettingsSection {
