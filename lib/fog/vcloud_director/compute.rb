@@ -1,6 +1,5 @@
 require 'fog/vcloud_director'
 require 'fog/compute'
-require 'fog/vcloud_director/requests/compute/helper'
 
 class VcloudDirectorParser < Fog::Parsers::Base
   def extract_attributes(attributes_xml)
@@ -310,8 +309,6 @@ module Fog
       end
 
       class Real
-        include Fog::Compute::Helper
-
         extend Fog::Deprecation
         deprecate :auth_token, :vcloud_token
 
