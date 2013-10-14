@@ -4,9 +4,8 @@ Shindo.tests('Compute::VcloudDirector | media requests', ['vclouddirector']) do
   @org = VcloudDirector::Compute::Helper.current_org(@service)
   @media_name = VcloudDirector::Compute::Helper.test_name
 
-  pending if Fog.mocking?
-
   tests('Upload and manipulate a media object') do
+    pending if Fog.mocking?
     File.open(VcloudDirector::Compute::Helper.fixture('test.iso'), 'rb') do |iso|
       tests('#post_upload_media').data_matches_schema(VcloudDirector::Compute::Schema::MEDIA_TYPE) do
         pending if Fog.mocking?
@@ -139,27 +138,47 @@ Shindo.tests('Compute::VcloudDirector | media requests', ['vclouddirector']) do
   end
 
   tests('Media item no longer exists') do
-    tests("#get_media(#{@media_id})").raises(Excon::Errors::Forbidden) do
+    pending if Fog.mocking?
+    tests("#get_media(#{@media_id})").raises(Fog::Compute::VcloudDirector::Forbidden) do
       @service.get_media(@media_id)
     end
-    tests("#get_media_owner(#{@media_id})").raises(Excon::Errors::Forbidden) do
+    tests("#get_media_owner(#{@media_id})").raises(Fog::Compute::VcloudDirector::Forbidden) do
       @service.get_media_owner(@media_id)
     end
-    tests("#get_media_metadata(#{@media_id})").raises(Excon::Errors::Forbidden) do
+    tests("#get_media_metadata(#{@media_id})").raises(Fog::Compute::VcloudDirector::Forbidden) do
       @service.get_media_metadata(@media_id)
     end
-    tests("#delete_media(#{@media_id})").raises(Excon::Errors::Forbidden) do
+    tests("#delete_media(#{@media_id})").raises(Fog::Compute::VcloudDirector::Forbidden) do
       @service.delete_media(@media_id)
     end
   end
 
-  tests('#get_medias_from_query').returns(Hash) do
+  tests('#get_medias_from_query').data_matches_schema(VcloudDirector::Compute::Schema::CONTAINER_TYPE) do
     pending if Fog.mocking?
-    @service.get_medias_from_query.body.class
+    @service.get_medias_from_query.body
   end
 
-  tests('Upload to non-existent vDC').raises(Excon::Errors::Forbidden) do
+  tests('Invalid image_type').raises(Fog::Compute::VcloudDirector::BadRequest) do
+    @service.post_upload_media('00000000-0000-0000-0000-000000000000', 'test.iso', 'isox', 0)
+  end
+  tests('Invalid size').raises(Fog::Compute::VcloudDirector::BadRequest) do
+    @service.post_upload_media('00000000-0000-0000-0000-000000000000', 'test.iso', 'iso', -1)
+  end
+
+  tests('Upload to non-existent vDC').raises(Fog::Compute::VcloudDirector::Forbidden) do
+    @service.post_upload_media('00000000-0000-0000-0000-000000000000', 'test.iso', 'iso', 0)
+  end
+
+  tests('Retrieve non-existent Media').raises(Fog::Compute::VcloudDirector::Forbidden) do
     @service.get_media('00000000-0000-0000-0000-000000000000')
+  end
+
+  tests('Retrieve owner of non-existent Media').raises(Fog::Compute::VcloudDirector::Forbidden) do
+    @service.get_media_owner('00000000-0000-0000-0000-000000000000')
+  end
+
+  tests('Delete non-existent Media').raises(Fog::Compute::VcloudDirector::Forbidden) do
+    @service.delete_media('00000000-0000-0000-0000-000000000000')
   end
 
 end

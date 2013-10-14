@@ -17,10 +17,15 @@ Shindo.tests('Compute::VcloudDirector | vdc requests', ['vclouddirector']) do
 
   tests('#get_vdc_metadata').data_matches_schema(VcloudDirector::Compute::Schema::METADATA_TYPE) do
     pending if Fog.mocking?
-    @service.get_vdc_metadata(@vdc_id)
+    @service.get_vdc_metadata(@vdc_id).body
   end
 
-  tests('Retrieve non-existent vDC').raises(Excon::Errors::Forbidden) do
+  tests('#get_vdcs_from_query').data_matches_schema(VcloudDirector::Compute::Schema::CONTAINER_TYPE) do
+    pending if Fog.mocking?
+    @service.get_vdcs_from_query.body
+  end
+
+  tests('Retrieve non-existent vDC').raises(Fog::Compute::VcloudDirector::Forbidden) do
     @service.get_vdc('00000000-0000-0000-0000-000000000000')
   end
 

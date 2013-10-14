@@ -10,6 +10,8 @@ module Fog
         # @return [Excon::Response]
         #   * body<~Hash>:
         #
+        # @raise [Fog::Compute::VcloudDirector::Forbidden]
+        #
         # @see http://pubs.vmware.com/vcd-51/topic/com.vmware.vcloud.api.reference.doc_51/doc/operations/GET-Network.html
         # @since vCloud API version 0.9
         def get_network(id)
@@ -25,15 +27,10 @@ module Fog
 
       class Mock
         def get_network(id)
-          response = Excon::Response.new
-
-          unless valid_uuid?(id)
-            response.status = 400
-            raise Excon::Errors.status_error({:expect => 200}, response)
-          end
           unless network = data[:networks][id]
-            response.status = 403
-            raise Excon::Errors.status_error({:expect => 200}, response)
+            raise Fog::Compute::VcloudDirector::Forbidden.new(
+              'This operation is denied.'
+            )
           end
 
           body =
@@ -54,10 +51,11 @@ module Fog
              :end_address=>ip_range[:EndAddress]}
           end
 
-          response.status = 200
-          response.headers = {'Content-Type' => "#{body[:type]};version=#{api_version}"}
-          response.body = body
-          response
+          Excon::Response.new(
+            :status => 200,
+            :headers => {'Content-Type' => "#{body[:type]};version=#{api_version}"},
+            :body => body
+          )
         end
       end
     end

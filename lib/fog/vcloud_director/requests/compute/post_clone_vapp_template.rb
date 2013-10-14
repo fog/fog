@@ -30,7 +30,7 @@ module Fog
               if options.key?(:Description)
                 Description options[:Description]
               end
-              Source(:href => "#{endpoint}vAppTemplate/#{source_id}")
+              Source(:href => "#{end_point}vAppTemplate/#{source_id}")
               if options.key?(:IsSourceDelete)
                 IsSourceDelete options[:IsSourceDelete]
               end

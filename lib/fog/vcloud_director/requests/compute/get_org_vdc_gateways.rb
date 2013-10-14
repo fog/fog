@@ -11,6 +11,8 @@ module Fog
         # @return [Excon::Response]
         #   * body<~Hash>:
         #
+        # @raise [Fog::Compute::VcloudDirector::Forbidden]
+        #
         # @see http://pubs.vmware.com/vcd-51/topic/com.vmware.vcloud.api.reference.doc_51/doc/operations/GET-OrgVdcGateways.html
         # @since vCloud API version 5.1
         def get_org_vdc_gateways(id)
@@ -26,15 +28,10 @@ module Fog
 
       class Mock
         def get_org_vdc_gateways(vdc_id)
-          response = Excon::Response.new
-
-          unless valid_uuid?(vdc_id)
-            response.status = 400
-            raise Excon::Errors.status_error({:expects => 200}, response)
-          end
-          unless vdc = data[:vdcs][vdc_id]
-            response.status = 403
-            raise Excon::Errors.status_error({:expects => 200}, response)
+          unless data[:vdcs][vdc_id]
+            raise Fog::Compute::VcloudDirector::Forbidden.new(
+              "No access to entity \"(com.vmware.vcloud.entity.vdc:#{vdc_id})\"."
+            )
           end
 
           body =
@@ -72,10 +69,11 @@ module Fog
              :isSyslogServerSettingInSync => "true"}
           end
 
-          response.status = 200
-          response.headers = {'Content-Type' => "#{body[:type]};version=#{api_version}"}
-          response.body = body
-          response
+          Excon::Response.new(
+            :status => 200,
+            :headers => {'Content-Type' => "#{body[:type]};version=#{api_version}"},
+            :body => body
+          )
         end
       end
     end

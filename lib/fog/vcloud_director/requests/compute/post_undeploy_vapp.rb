@@ -29,6 +29,8 @@ module Fog
         # @return [Excon::Response]
         #   * body<~Hash>:
         #
+        # @raise [Fog::Compute::VcloudDirector::BadRequest]
+        #
         # @see http://pubs.vmware.com/vcd-51/topic/com.vmware.vcloud.api.reference.doc_51/doc/operations/POST-UndeployVApp.html
         # @since vCloud API version 0.9
         def post_undeploy_vapp(id, options={})
@@ -37,7 +39,7 @@ module Fog
               :xmlns => 'http://www.vmware.com/vcloud/v1.5'
             }
             UndeployVAppParams(attrs) {
-              if options.key?[:UndeployPowerAction]
+              if options[:UndeployPowerAction]
                 UndeployPowerAction options[:UndeployPowerAction]
               end
             }

@@ -8,6 +8,8 @@ module Fog
         # @return [Excon::Response]
         #   * body<~Hash>:
         #
+        # @raise [Fog::Compute::VcloudDirector::Forbidden]
+        #
         # @see http://pubs.vmware.com/vcd-51/topic/com.vmware.vcloud.api.reference.doc_51/doc/operations/GET-EdgeGateway.html
         # @since vCloud API version 5.1
         def get_edge_gateway(id)
@@ -23,15 +25,10 @@ module Fog
 
       class Mock
         def get_edge_gateway(id)
-          response = Excon::Response.new
-
-          unless valid_uuid?(id)
-            response.status = 400
-            raise Excon::Errors.status_error({:expects => 200}, response)
-          end
           unless edge_gateway = data[:edge_gateways][id]
-            response.status = 403
-            raise Excon::Errors.status_error({:expects => 200}, response)
+            raise Fog::Compute::VcloudDirector::Forbidden.new(
+              "No access to entity \"(com.vmware.vcloud.entity.gateway:#{id})\""
+            )
           end
 
           vdc_id = edge_gateway[:vdc]
@@ -41,7 +38,7 @@ module Fog
             :xmlns_xsi => xmlns_xsi,
             :status => "1",
             :name => edge_gateway[:name],
-            :id => "urn:vcloud:gateway:27805d5d-868b-4678-b30b-11e14ad34eca",
+            :id => "urn:vcloud:gateway:#{id}",
             :type => "application/vnd.vmware.admin.edgeGateway+xml",
             :href => make_href("admin/edgeGateway/#{id}"),
             :xsi_schemaLocation => xsi_schema_location,
@@ -84,10 +81,11 @@ module Fog
             data[:networks][network].merge extras
           end
 
-          response.status = 200
-          response.headers = {'Content-Type' => "#{body[:type]};version=#{api_version}"}
-          response.body = body
-          response
+          Excon::Response.new(
+            :status => 200,
+            :headers => {'Content-Type' => "#{body[:type]};version=#{api_version}"},
+            :body => body
+          )
         end
       end
     end

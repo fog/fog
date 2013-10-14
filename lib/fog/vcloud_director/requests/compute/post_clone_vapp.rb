@@ -40,7 +40,7 @@ module Fog
               InstantiationParams {
                 # TODO
               }
-              Source(:href => "#{endpoint}vApp/#{source_id}")
+              Source(:href => "#{end_point}vApp/#{source_id}")
               if options.key?(:IsSourceDelete)
                 IsSourceDelete options[:IsSourceDelete]
               end

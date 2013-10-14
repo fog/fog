@@ -27,7 +27,7 @@ module Fog
               if options.key?(:Description)
                 Description options[:Description]
               end
-              Source(:href => "#{endpoint}vApp/#{source_id}")
+              Source(:href => "#{end_point}vApp/#{source_id}")
             }
           end.to_xml
 

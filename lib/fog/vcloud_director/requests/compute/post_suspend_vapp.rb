@@ -15,6 +15,8 @@ module Fog
         # @return [Excon::Response]
         #   * body<~Hash>:
         #
+        # @raise [Fog::Compute::VcloudDirector::BadRequest]
+        #
         # @see http://pubs.vmware.com/vcd-51/topic/com.vmware.vcloud.api.reference.doc_51/doc/operations/POST-SuspendVApp.html
         # @since vCloud API version 0.9
         def post_suspend_vapp(id)
