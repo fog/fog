@@ -12,9 +12,10 @@ module Fog
           load(data)
         end
 
-        def get(record_id)
-          record = service.get_protocol_details(record_id).body['protocol']
-          new(record)
+        def get(name)
+          data = service.list_protocols.body['protocols']
+          protocol = data.detect {|p| p['name'] == name}
+          new(protocol)
         rescue Fog::HP::LB::NotFound
           nil
         end

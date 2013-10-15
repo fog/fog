@@ -12,9 +12,10 @@ module Fog
           load(data)
         end
 
-        def get(record_id)
-          record = service.get_algorithm_details(record_id).body['algorithm']
-          new(record)
+        def get(name)
+          data = service.list_algorithms.body['algorithms']
+          algorithm = data.detect {|algo| algo['name'] == name}
+          new(algorithm)
         rescue Fog::HP::LB::NotFound
           nil
         end

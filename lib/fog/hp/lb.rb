@@ -14,16 +14,12 @@ module Fog
       model_path 'fog/hp/models/lb'
       model       :algorithm
       collection  :algorithms
-      model       :limit
-      collection  :limits
       model       :load_balancer
       collection  :load_balancers
       model       :node
       collection  :nodes
       model       :protocol
       collection  :protocols
-      model       :version
-      collection  :versions
       model       :virtual_ip
       collection  :virtual_ips
 
@@ -148,6 +144,7 @@ module Fog
             response = @connection.request(params.merge!({
                :headers => {
                  'Content-Type' => 'application/json',
+                 'Accept'       => 'application/json',
                  'X-Auth-Token' => @auth_token
                }.merge!(params[:headers] || {}),
                :host    => @host,

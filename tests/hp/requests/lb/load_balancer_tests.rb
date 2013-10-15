@@ -1,4 +1,4 @@
-Shindo.tests("HP::LB | load balancers requests", ['hp', 'lb', 'load_balancers']) do
+Shindo.tests("HP::LB | load balancers requests", ['hp', 'lb', 'load_balancer']) do
   @lb_format = {
     'id'        => String,
     'name'      => String,

@@ -5,15 +5,18 @@ module Fog
     class LB
 
       class LoadBalancer < Fog::Model
-        identity :id
+        identity  :id
+
         attribute :name
         attribute :protocol
         attribute :port
         attribute :algorithm
         attribute :status
+        attribute :status_description, :aliases => 'statusDescription'
         attribute :nodes
-        attribute :virtualIps
-        attribute :created_at, :aliases => 'created'
+        attribute :virtual_ips, :aliases => 'virtualIps'
+        attribute :node_count,  :aliases => 'nodeCount'
+        attribute :created_at,  :aliases => 'created'
         attribute :updated_at , :aliases => 'updated'
 
         def destroy
@@ -30,19 +33,50 @@ module Fog
           identity ? update : create
         end
 
+        def nodes
+          @nodes ||= begin
+            Fog::HP::LB::Nodes.new({
+              :service  => service,
+              :load_balancer   => self
+            })
+          end
+        end
+
+        def nodes=(new_nodes=[])
+          nodes.load(new_nodes)
+        end
+
         private
 
         def create
-          merge_attributes(service.create_load_balancer(name, nodes, attributes).body)
+          requires :name, :nodes
+
+          options = {}
+          options['virtualIps'] = virtual_ips if virtual_ips
+          options['port']       = port if port
+          options['protocol']   = protocol if protocol
+          options['algorithm']  = algorithm if algorithm
+          merge_attributes(service.create_load_balancer(name, nodes_to_hash, options).body)
           true
         end
 
         def update
           requires :id
-          merge_attributes(service.update_load_balancer(id, attributes).body)
+
+          options = {}
+          options['name']       = name if name
+          options['algorithm']  = algorithm if algorithm
+          service.update_load_balancer(id, options).body
           true
         end
 
+        def nodes_to_hash
+          if nodes
+            nodes.collect do |node|
+              { 'address' => node.address, 'port' => node.port, 'condition' => node.condition }
+            end
+          end
+        end
       end
     end
   end
