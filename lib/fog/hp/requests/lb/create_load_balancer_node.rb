@@ -6,10 +6,10 @@ module Fog
       #
       # ==== Parameters
       # * 'load_balancer_id'<~String> - UUId of load balancer to create node for
-      # * 'nodes'<~ArrayOfHash> - Nodes for the load balancer
-      #   * 'address'<~String> - Address for the node
-      #   * 'port'<~String> - Port for the node
+      # * 'address'<~String> - Address for the node
+      # * 'port'<~String> - Port for the node
       # * options<~Hash>:
+      #   * 'condition'<~String> - Condition for the node. Valid values are ['ENABLED', 'DISABLED']
       #
       # ==== Returns
       # * response<~Excon::Response>:
@@ -18,14 +18,23 @@ module Fog
       #       * 'id'<~String> - UUID of the node
       #       * 'address'<~String> - Address for the node
       #       * 'port'<~String> - Port for the node
-      #       * 'condition'<~String> - Condition for the node
+      #       * 'condition'<~String> - Condition for the node. Valid values are ['ENABLED', 'DISABLED']
       #       * 'status'<~String> - Status for the node
       class Real
-        def create_load_balancer_node(load_balancer_id, nodes, options={})
+        def create_load_balancer_node(load_balancer_id, address, port, options={})
           data = {
-            'nodes' => nodes
+            'nodes' => [
+                {
+                    'address' => address,
+                    'port'    => port
+                }
+            ]
           }
-          response = request(
+          if options['condition']
+            data['nodes'][0]['condition'] = options['condition']
+          end
+
+          request(
             :body    => Fog::JSON.encode(data),
             :expects => 202,
             :method  => 'POST',
@@ -35,17 +44,16 @@ module Fog
         end
       end
       class Mock
-        def create_load_balancer_node(load_balancer_id, nodes, options={})
-          ### Call: {"nodes" => [{"address" => "15.185.1.1", "port" => "80"}]}
+        def create_load_balancer_node(load_balancer_id, address, port, options={})
           response = Excon::Response.new
           if get_load_balancer(load_balancer_id)
             response.status = 202
 
             data = {
                 'id'        => Fog::HP::Mock.uuid.to_s,
-                'address'   => nodes[0]['address'],
-                'port'      => nodes[0]['port'],
-                'condition' => 'ENABLED',
+                'address'   => address,
+                'port'      => port,
+                'condition' => options['condition'] || 'ENABLED',
                 'status'    => 'ONLINE'
             }
 

@@ -5,17 +5,21 @@ module Fog
   module HP
     class LB
       class Nodes < Fog::Collection
+
         model Fog::HP::LB::Node
 
+        attr_accessor :load_balancer
+
         def all
-          data = service.list_load_balancer_nodes(@attributes[:load_balancer_id]).body['nodes']
+          requires :load_balancer
+          data = service.list_load_balancer_nodes(load_balancer.id).body['nodes']
           load(data)
-          self.each{ |x| x.load_balancer_id = @attributes[:load_balancer_id] }
         end
 
-        def get(record_id)
-          record = service.get_load_balancer_node(@attributes[:load_balancer_id], record_id).body['node']
-          new(record)
+        def get(node_id)
+          requires :load_balancer
+          node = service.get_load_balancer_node(load_balancer.id, node_id).body
+          new(node)
         rescue Fog::HP::LB::NotFound
           nil
         end

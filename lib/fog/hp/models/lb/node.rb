@@ -5,22 +5,21 @@ module Fog
     class LB
       class Node < Fog::Model
 
-        identity :id
+        identity  :id
+
         attribute :address
         attribute :port
         attribute :condition
         attribute :status
-        attribute :load_balancer_id
 
         def destroy
-          requires :id
-          requires :load_balancer_id
-          service.delete_load_balancer_node(load_balancer_id, id)
+          requires :id, :load_balancer
+          service.delete_load_balancer_node(load_balancer.id, id)
           true
         end
 
         def ready?
-          self.status == 'ACTIVE'
+          self.status == 'ONLINE'
         end
 
         def save
@@ -29,16 +28,22 @@ module Fog
 
         private
 
+        def load_balancer
+          collection.load_balancer
+        end
+
         def create
-          requires :load_balancer_id
-          merge_attributes(service.create_load_balancer_node(load_balancer_id, {'nodes' => [attributes]}).body)
+          requires :load_balancer, :address, :port
+          options = {}
+          options['condition'] = condition if condition
+          data = service.create_load_balancer_node(load_balancer.id, address, port, options)
+          merge_attributes(data.body['nodes'][0])
           true
         end
 
         def update
-          requires :id
-          requires :load_balancer_id
-          service.update_load_balancer_node(load_balancer_id, id, attributes[:condition])
+          requires :id, :load_balancer, :condition
+          service.update_load_balancer_node(load_balancer.id, id, condition)
           true
         end
 

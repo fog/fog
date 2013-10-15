@@ -13,6 +13,11 @@ module Fog
       #   * 'port'<~String> - Port for the load balancer, defaults to '80'
       #   * 'protocol'<~String> - Protocol for the load balancer, defaults to 'HTTP'
       #   * 'algorithm'<~String> - Algorithm for the load balancer, defaults to 'ROUND_ROBIN'
+      #   * 'virtualIps'<~ArrayOfHash> - Virtual IPs for the load balancer
+      #     * 'id'<~String> - UUId for the virtual IP
+      #     * 'address'<~String> - Address for the virtual IP
+      #     * 'type'<~String> - Type for the virtual IP
+      #     * 'ipVersion'<~String> - IP Version for the virtual IP
       #
       # ==== Returns
       # * response<~Excon::Response>:
@@ -28,6 +33,11 @@ module Fog
       #     * 'nodes'<~ArrayOfHash> - Nodes for the load balancer
       #       * 'address'<~String> - Address for the node
       #       * 'port'<~String> - Port for the node
+      #     * 'virtualIps'<~ArrayOfHash> - Virtual IPs for the load balancer
+      #       * 'id'<~String> - UUId for the virtual IP
+      #       * 'address'<~String> - Address for the virtual IP
+      #       * 'type'<~String> - Type for the virtual IP
+      #       * 'ipVersion'<~String> - IP Version for the virtual IP
       class Real
         def create_load_balancer(name, nodes, options={})
           ### Inconsistent behavior. Should be passing in as a 'loadbalancer' => {'name', 'nodes'}
@@ -79,7 +89,7 @@ module Fog
               'updated'   => '2012-01-01T13:32:20Z',
               'nodes'     => nodes
           }
-          if options['virtualIps']
+          if (!options['virtualIps'].nil? && !options['virtualIps'].empty?)
             data['virtualIps'] = options['virtualIps']
           else
             data['virtualIps'] = [{

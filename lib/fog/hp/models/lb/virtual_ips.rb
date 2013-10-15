@@ -5,17 +5,24 @@ module Fog
   module HP
     class LB
       class VirtualIps < Fog::Collection
+
         model Fog::HP::LB::VirtualIp
 
+        attr_accessor :load_balancer
+
         def all
-          data = service.list_load_balancer_virtual_ips(@attributes[:load_balancer_id]).body['virtualIps']
+          requires :load_balancer
+
+          data = service.list_load_balancer_virtual_ips(load_balancer.id).body['virtualIps']
           load(data)
-          self.each{ |x| x.load_balancer_id = @attributes[:load_balancer_id] }
         end
 
-        def get(record_id)
-          record = service.get_virtual_ip_details(record_id).body['virtual_ip']
-          new(record)
+        def get(vip_id)
+          requires :load_balancer
+
+          data = service.list_load_balancer_virtual_ips(load_balancer.id).body['virtualIps']
+          vip = data.detect {|vip| vip['id'].to_s == vip_id}
+          new(vip)
         rescue Fog::HP::LB::NotFound
           nil
         end

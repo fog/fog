@@ -12,9 +12,10 @@ module Fog
           load(data)
         end
 
-        def get(record_id)
-          record = service.get_load_balancer_details(record_id).body['load_balancer']
-          new(record)
+        def get(lb_id)
+          ### Inconsistent API - does not return a 'loadBalancer'
+          lb = service.get_load_balancer(lb_id).body
+          new(lb)
         rescue Fog::HP::LB::NotFound
           nil
         end

@@ -7,9 +7,27 @@ module Fog
         identity :id
 
         attribute :address
-        attribute :ip_version, :alias => "ipVersion"
+        attribute :ip_version, :alias => 'ipVersion'
         attribute :type
-        attribute :load_balancer_id
+
+        def destroy
+          raise Fog::HP::LB::NotFound.new('Operation not allowed.')
+        end
+
+        def create(params)
+          raise Fog::HP::LB::NotFound.new('Operation not allowed.')
+        end
+
+        def save
+          raise Fog::HP::LB::NotFound.new('Operation not allowed.')
+        end
+
+        private
+
+        def load_balancer
+          collection.load_balancer
+        end
+
       end
     end
   end

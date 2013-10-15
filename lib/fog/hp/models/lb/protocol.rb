@@ -6,6 +6,19 @@ module Fog
       class Protocol < Fog::Model
         identity :name
         attribute :port
+
+        def destroy
+          raise Fog::HP::LB::NotFound.new('Operation not allowed.')
+        end
+
+        def create(params)
+          raise Fog::HP::LB::NotFound.new('Operation not allowed.')
+        end
+
+        def save
+          raise Fog::HP::LB::NotFound.new('Operation not allowed.')
+        end
+
       end
     end
   end
