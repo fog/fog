@@ -8,7 +8,7 @@ module Fog
           end
 
           def generate_xml
-            Nokogiri::XML::Builder.new(:encoding => 'UTF-8') do |xml|
+            Nokogiri::XML::Builder.new do |xml|
               xml.EdgeGatewayServiceConfiguration('xmlns' => "http://www.vmware.com/vcloud/v1.5"){
                 build_firewall_service(xml)
                 build_nat_service(xml)
@@ -20,41 +20,40 @@ module Fog
           private
 
           def build_load_balancer_service(xml)
-            lb_config = @configuration[:load_balancer_service]
+            lb_config = @configuration[:LoadBalancerService]
             return unless lb_config
 
             xml.LoadBalancerService {
-              xml.IsEnabled lb_config[:is_enabled] if lb_config[:is_enabled]
-              lb_config[:pools].each do |pool|
+              xml.IsEnabled lb_config[:IsEnabled] if lb_config.key?(:IsEnabled)
+              lb_config[:Pool].each do |pool|
                 xml.Pool {
-                  xml.Name pool[:name]
+                  xml.Name pool[:Name]
 
-                  pool[:service_ports].each do |service_port|
+                  pool[:ServicePort].each do |service_port|
                     xml.ServicePort {
-                      xml.IsEnabled service_port[:is_enabled]
-                      xml.Protocol service_port[:protocol]
-                      xml.Algorithm service_port[:algorithm]
-                      xml.Port service_port[:port]
-                      xml.HealthCheckPort service_port[:health_check_port]
+                      xml.IsEnabled service_port[:IsEnabled]
+                      xml.Protocol service_port[:Protocol]
+                      xml.Algorithm service_port[:Algorithm]
+                      xml.Port service_port[:Port]
+                      xml.HealthCheckPort service_port[:HealthCheckPort]
                       xml.HealthCheck {
-                        xml.Mode service_port[:health_check][:mode] #tcp, http, ssl
-                        xml.HealthThreshold service_port[:health_check][:health_threshold]
-                        xml.UnhealthThreshold service_port[:health_check][:unhealth_threshold]
-                        xml.Interval service_port[:health_check][:interval]
-                        xml.Timeout service_port[:health_check][:timeout]
+                        xml.Mode service_port[:HealthCheck][:Mode]
+                        xml.HealthThreshold service_port[:HealthCheck][:HealthThreshold]
+                        xml.UnhealthThreshold service_port[:HealthCheck][:UnhealthThreshold]
+                        xml.Interval service_port[:HealthCheck][:Interval]
+                        xml.Timeout service_port[:HealthCheck][:Timeout]
                       }
                     }
                   end
-
-                  pool[:members].each do |member|
+                  pool[:Member].each do |member|
                     xml.Member {
-                      xml.IpAddress member[:ip_address]
-                      xml.Weight member[:weight]
-                      member[:service_ports].each do |member_service_port|
+                      xml.IpAddress member[:IpAddress]
+                      xml.Weight member[:Weight]
+                      member[:ServicePort].each do |member_service_port|
                         xml.ServicePort {
-                          xml.Protocol member_service_port[:protocol]
-                          xml.Port member_service_port[:port]
-                          xml.HealthCheckPort member_service_port[:health_check_port]
+                          xml.Protocol member_service_port[:Protocol]
+                          xml.Port member_service_port[:Port]
+                          xml.HealthCheckPort member_service_port[:HealthCheckPort]
                         }
                       end
                     }
@@ -62,53 +61,54 @@ module Fog
 
                 }
               end
-              lb_config[:virtual_servers].each do |virtual_server|
+              lb_config[:VirtualServer].each do |virtual_server|
                 xml.VirtualServer {
-                  xml.IsEnabled virtual_server[:is_enabled]
-                  xml.Name virtual_server[:name]
-                  xml.Description virtual_server[:description]
-                  xml.Interface(:href => virtual_server[:interface][:href], :name => virtual_server[:interface][:name])
-                  xml.IpAddress virtual_server[:ip_address]
-                  virtual_server[:service_profiles].each do |service_profile|
+                  xml.IsEnabled virtual_server[:IsEnabled]
+                  xml.Name virtual_server[:Name]
+                  xml.Description virtual_server[:Description]
+                  xml.Interface(:href => virtual_server[:Interface][:href], :name => virtual_server[:Interface][:name])
+                  xml.IpAddress virtual_server[:IpAddress]
+                  virtual_server[:ServiceProfile].each do |service_profile|
                     xml.ServiceProfile {
-                      xml.IsEnabled service_profile[:is_enabled]
-                      xml.Protocol service_profile[:protocol]
-                      xml.Port service_profile[:port]
+                      xml.IsEnabled service_profile[:IsEnabled]
+                      xml.Protocol service_profile[:Protocol]
+                      xml.Port service_profile[:Port]
                       xml.Persistence {
-                        xml.Method service_profile[:persistence][:method]
-                        if service_profile[:persistence][:method] == 'COOKIE'
-                          xml.CookieName service_profile[:persistence][:cookie_name]
-                          xml.CookieMode service_profile[:persistence][:cookie_mode]
+                        xml.Method service_profile[:Persistence][:method]
+                        if service_profile[:Persistence][:Method] == 'COOKIE'
+                          xml.CookieName service_profile[:Persistence][:CookieName]
+                          xml.CookieMode service_profile[:Persistence][:CookieMode]
                         end
                       }
                     }
                   end
-                  xml.Logging virtual_server[:logging]
-                  xml.Pool virtual_server[:pool]
+                  xml.Logging virtual_server[:Logging]
+                  xml.Pool virtual_server[:Pool]
                 }
               end
             }
           end
 
           def build_nat_service(xml)
-            nat_config = @configuration[:nat_service]
+            nat_config = @configuration[:NatService]
             return unless nat_config
 
             xml.NatService {
-              xml.IsEnabled nat_config[:is_enabled]
+              xml.IsEnabled nat_config[:IsEnabled]
 
-              nat_config[:rules].each do |rule|
+              nat_config[:NatRule].each do |rule|
                 xml.NatRule {
-                  xml.RuleType rule[:rule_type]
-                  xml.IsEnabled rule[:is_enabled]
-                  xml.Id rule[:id]
+                  xml.RuleType rule[:RuleType]
+                  xml.IsEnabled rule[:IsEnabled]
+                  xml.Id rule[:Id]
+                  gateway_nat_rule = rule[:GatewayNatRule]
                   xml.GatewayNatRule {
-                    xml.Interface(:name => rule[:interface][:name], :href => rule[:interface][:href])
-                    xml.OriginalIp rule[:original][:ip]
-                    xml.OriginalPort rule[:original][:port] if rule[:original][:port]
-                    xml.TranslatedIp rule[:translated][:ip]
-                    xml.TranslatedPort rule[:translated][:port] if rule[:translated][:port]
-                    xml.Protocol rule[:protocol] if rule[:rule_type] == "DNAT"
+                    xml.Interface(:name => gateway_nat_rule[:Interface][:name], :href => gateway_nat_rule[:Interface][:href])
+                    xml.OriginalIp gateway_nat_rule[:OriginalIp]
+                    xml.OriginalPort gateway_nat_rule[:OriginalPort] if gateway_nat_rule.key?(:OriginalPort)
+                    xml.TranslatedIp gateway_nat_rule[:TranslatedIp]
+                    xml.TranslatedPort gateway_nat_rule[:TranslatedPort] if gateway_nat_rule.key?(:TranslatedPort)
+                    xml.Protocol gateway_nat_rule[:Protocol] if rule[:RuleType] == "DNAT"
                   }
                 }
               end
@@ -116,39 +116,39 @@ module Fog
           end
 
           def build_firewall_service(xml)
-            firewall_config = @configuration[:firewall_service]
+            firewall_config = @configuration[:FirewallService]
             return unless firewall_config
 
             xml.FirewallService {
-              xml.IsEnabled 'true'
-              xml.DefaultAction firewall_config[:default_action] if firewall_config[:default_action]
-              xml.LogDefaultAction firewall_config[:log_default_action] if firewall_config[:log_default_action]
-              firewall_config[:rules].each do |rule|
+              xml.IsEnabled firewall_config[:IsEnabled]
+              xml.DefaultAction firewall_config[:DefaultAction] if firewall_config.key?(:DefaultAction)
+              xml.LogDefaultAction firewall_config[:LogDefaultAction] if firewall_config.key?(:LogDefaultAction)
+              firewall_config[:FirewallRule].each do |rule|
+                p rule
                 xml.FirewallRule {
-                  xml.Id rule[:id]
-                  xml.IsEnabled rule[:is_enabled] if rule[:is_enabled]
-                  xml.MatchOnTranslate rule[:match_on_translate] if rule[:match_on_translate]
-                  xml.Description rule[:description]
-                  xml.Policy rule[:policy]
+                  xml.Id rule[:Id]
+                  xml.IsEnabled rule[:IsEnabled] if rule.key?(:IsEnabled)
+                  xml.MatchOnTranslate rule[:MatchOnTranslate] if rule.key?(:MatchOnTranslate)
+                  xml.Description rule[:Description]
+                  xml.Policy rule[:Policy]
 
                   xml.Protocols {
-                    rule[:protocols].each do |protocol|
-                      xml.send(protocol.to_s.capitalize, true)
+                    rule[:Protocols].each do |protocol, is_enabled|
+                      xml.send(protocol.to_s.capitalize, is_enabled)
                     end
                   }
-                  xml.IcmpSubType "any" if rule[:protocols].include? :icmp
-                  xml.Port rule[:destination][:port] == "Any" ? "-1" : rule[:destination][:port]
-                  xml.DestinationPortRange rule[:destination][:port]
-                  xml.DestinationIp rule[:destination][:ip]
-                  xml.SourcePort rule[:source][:port] == "Any" ? "-1" : rule[:source][:port]
-                  xml.SourcePortRange rule[:source][:port]
-                  xml.SourceIp rule[:source][:ip]
+                  xml.IcmpSubType "any" if (rule[:Protocols].include?(:Icmp)  && rule[:Protocols][:Icmp] == true )
+                  xml.Port rule[:Port] == "Any" ? "-1" : rule[:Port]
+                  xml.DestinationPortRange rule[:DestinationPortRange]
+                  xml.DestinationIp rule[:DestinationIp]
+                  xml.SourcePort rule[:SourcePort] == "Any" ? "-1" : rule[:SourcePort]
+                  xml.SourcePortRange rule[:SourcePortRange]
+                  xml.SourceIp rule[:SourceIp]
                 }
 
               end
             }
           end
-
 
         end
       end
