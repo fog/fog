@@ -95,10 +95,12 @@ module Fog
               :path       => 'query',
               :query      => query.map {|q| URI.escape(q)}.join('&')
             )
-            response.body[:Link] = [response.body[:Link]] if response.body[:Link].is_a?(Hash)
-            record = "#{response.body[:name]}Record".to_sym
-            response.body[record] = [response.body[record]] if response.body[record].is_a?(Hash)
-            response.body[record] ||= []
+            ensure_list! response.body, :Link
+            # TODO: figure out the right key (this isn't it)
+            #ensure_list! response.body,
+            #  response.body[:type] == 'application/vnd.vmware.vcloud.query.references+xml' ?
+            #    "#{response.body[:name]}Reference".to_sym :
+            #    "#{response.body[:name]}Record".to_sym
 
             %w[firstPage previousPage nextPage lastPage].each do |rel|
               if link = response.body[:Link].detect {|l| l[:rel] == rel}

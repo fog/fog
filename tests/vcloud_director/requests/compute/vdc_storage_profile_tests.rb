@@ -5,7 +5,6 @@ Shindo.tests('Compute::VcloudDirector | vdc_storage_profile requests', ['vcloudd
   @vdc_id = VcloudDirector::Compute::Helper.first_vdc_id(@org)
   @vdc = @service.get_vdc(@vdc_id).body
 
-  @vdc[:VdcStorageProfiles][:VdcStorageProfile] = [@vdc[:VdcStorageProfiles][:VdcStorageProfile]] if @vdc[:VdcStorageProfiles][:VdcStorageProfile].is_a?(Hash)
   @vdc[:VdcStorageProfiles][:VdcStorageProfile].each do |storage_profile|
     @vdc_storage_profile_id = storage_profile[:href].split('/').last
 

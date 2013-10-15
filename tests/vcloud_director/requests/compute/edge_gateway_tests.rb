@@ -16,12 +16,6 @@ Shindo.tests('Compute::VcloudDirector | edge gateway requests', ['vclouddirector
     rescue Fog::Compute::VcloudDirector::Unauthorized # bug, may be localised
       retry
     end
-
-    # ensure that EdgeGatewayRecord is a list
-    if @edge_gateways[:EdgeGatewayRecord].is_a?(Hash)
-      @edge_gateways[:EdgeGatewayRecord] = [@edge_gateways[:EdgeGatewayRecord]]
-    end
-
     @edge_gateways
   end
 
