@@ -191,6 +191,7 @@ module Fog
       request :get_vms_in_lease_from_query
       request :instantiate_vapp_template # to be deprecated
       request :post_acquire_ticket
+      request :post_answer_vm_pending_question
       request :post_attach_disk
       request :post_cancel_task
       request :post_capture_vapp
