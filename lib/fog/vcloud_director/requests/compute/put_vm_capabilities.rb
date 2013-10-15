@@ -4,6 +4,8 @@ module Fog
       class Real
         # Update VM's capabilities.
         #
+        # @note The signature of this method is subject to change.
+        #
         # @param [String] id Object identifier of the VM.
         # @param [Hash] options
         # @option options [Boolean] :MemoryHotAddEnabled True if the virtual
