@@ -4,18 +4,18 @@ Shindo.tests('Fog::Rackspace::Monitoring | entity_tests', ['rackspace','rackspac
   tests('success') do
     tests('#create new entity').formats(DATA_FORMAT) do
       response = account.create_entity(:label => "Foo").data
-      entity_id = response[:headers]["X-Object-ID"]
+      @entity_id = response[:headers]["X-Object-ID"]
       response
     end
     tests('#get entity').formats(LIST_HEADERS_FORMAT) do
-      account.get_entity(:entity_id => "fooid").data[:headers]
+      account.get_entity(@entity_id).data[:headers]
     end
     tests('#update entity').formats(DATA_FORMAT) do
       options = { :metadata => {:testing => "Bar" }}
-      account.update_entity(entity_id,options).data
+      account.update_entity(@entity_id,options).data
     end
     tests('#delete entity').formats(DELETE_DATA_FORMAT) do
-      account.delete_entity(entity_id).data
+      account.delete_entity(@entity_id).data
     end
   end
   tests('failure') do
