@@ -120,7 +120,7 @@ module Fog
         end
 
         def private_ip_address
-          private_ip_addresses.first
+          private_ip_addresses.first if private_ip_addresses
         end
 
         def private_key_path
@@ -148,7 +148,7 @@ module Fog
         end
 
         def public_ip_address
-          public_ip_addresses.first
+          public_ip_addresses.first if public_ip_addresses
         end
 
         def public_key_path
