@@ -109,7 +109,6 @@ module Fog
           'X-Auth-Key'  => @rackspace_api_key,
           'X-Auth-User' => @rackspace_username
         },
-        :host     => uri.host,
         :method   => 'GET',
         :path     =>  (uri.path and not uri.path.empty?) ? uri.path : 'v1.0'
       })
