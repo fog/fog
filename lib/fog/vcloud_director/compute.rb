@@ -135,6 +135,7 @@ module Fog
       request :get_network_section_vapp
       request :get_network_section_vapp_template
       request :get_operating_system_section
+      request :get_org_settings
       request :get_org_vdc_gateways
       request :get_organization
       request :get_organization_metadata
@@ -168,6 +169,7 @@ module Fog
       request :get_vapp_template_owner
       request :get_vapp_templates_from_query
       request :get_vapps_in_lease_from_query
+      request :get_vcloud
       request :get_vdc
       request :get_vdc_metadata
       request :get_vdc_metadata_item_metadata
