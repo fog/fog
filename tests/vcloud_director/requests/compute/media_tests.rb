@@ -153,9 +153,17 @@ Shindo.tests('Compute::VcloudDirector | media requests', ['vclouddirector']) do
     end
   end
 
-  tests('#get_medias_from_query').data_matches_schema(VcloudDirector::Compute::Schema::CONTAINER_TYPE) do
+  tests('#get_medias_from_query') do
     pending if Fog.mocking?
-    @service.get_medias_from_query.body
+    %w[idrecords records references].each do |format|
+      tests(":format => #{format}") do
+        tests('#body').data_matches_schema(VcloudDirector::Compute::Schema::CONTAINER_TYPE) do
+          @body = @service.get_medias_from_query(:format => format).body
+        end
+        key = (format == 'references') ? 'MediaReference' : 'MediaRecord'
+        tests("#body.key?(:#{key})").returns(true) { @body.key?(key.to_sym) }
+      end
+    end
   end
 
   tests('Invalid image_type').raises(Fog::Compute::VcloudDirector::BadRequest) do

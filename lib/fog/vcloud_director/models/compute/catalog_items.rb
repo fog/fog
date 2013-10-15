@@ -14,8 +14,10 @@ module Fog
 
         def item_list
           data = service.get_catalog(catalog.id).body
-          items = ensure_list(data[:CatalogItems][:CatalogItem]).select { |link| link[:type] == "application/vnd.vmware.vcloud.catalogItem+xml" }
-          items.each{|item| service.add_id_from_href!(item) }
+          items = data[:CatalogItems][:CatalogItem].select do |link|
+            link[:type] == 'application/vnd.vmware.vcloud.catalogItem+xml'
+          end
+          items.each {|item| service.add_id_from_href!(item)}
           items
         end
 

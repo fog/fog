@@ -25,7 +25,7 @@ module Fog
             :parser     => Fog::ToHashDocument.new,
             :path       => 'org'
           })
-          response.body[:Org] = [response.body[:Org]] if response.body[:Org].is_a?(Hash)
+          ensure_list! response.body, :Org
           response
         end
       end
