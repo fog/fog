@@ -4,27 +4,25 @@ LIST_GROUPS_FORMAT =
   { "groups_links"=>[],
     "groups"=> [
       {
-        "paused"=> Fog::Boolean,
-        "desiredCapacity"=> Integer,
-        "links"=>[{"href"=> String, "rel"=> String}],
-        "active"=>[],
-        "pendingCapacity"=> Integer,
-        "activeCapacity"=> Integer,
-        "id"=> String,
-        "name"=> String
+        "state" => {
+          "paused"=> Fog::Boolean,
+          "desiredCapacity"=> Integer,
+          "active"=>[],
+          "pendingCapacity"=> Integer,
+          "activeCapacity"=> Integer,
+          "name"=> String
         }
-      ]
+      }
+    ]
   }
 
 GROUP_STATE_FORMAT =  {
   "group" => {
     "paused"=> Fog::Boolean,
     "desiredCapacity" => Integer,
-    "links"=>[{"href" => String, "rel"=> String}],
     "active"=>[],
     "pendingCapacity" => Integer,
     "activeCapacity" => Integer,
-    "id" => String,
     "name"=> String
     }
   }
