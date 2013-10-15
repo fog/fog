@@ -20,8 +20,7 @@ module Fog
             :parser     => Fog::ToHashDocument.new,
             :path       => "org/#{id}"
           })
-          response.body[:Tasks] ||= {:Task => []}
-          response.body[:Tasks][:Task] = [response.body[:Tasks][:Task]] if response.body[:Tasks][:Task].is_a?(Hash)
+          ensure_list! response.body, :Tasks, :Task
           response
         end
       end

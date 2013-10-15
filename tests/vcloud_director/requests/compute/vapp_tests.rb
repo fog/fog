@@ -8,11 +8,6 @@ Shindo.tests('Compute::VcloudDirector | vapp requests', ['vclouddirector']) do
       l[:type] == 'application/vnd.vmware.vcloud.vdc+xml'
     end.each do |link|
       @vdc = @service.get_vdc(link[:href].split('/').last).body
-      if @vdc[:ResourceEntities].is_a?(String)
-        @vdc[:ResourceEntities] = {:ResourceEntity => []}
-      elsif @vdc[:ResourceEntities][:ResourceEntity].is_a?(Hash)
-        @vdc[:ResourceEntities][:ResourceEntity] = [@vdc[:ResourceEntities][:ResourceEntity]]
-      end
       tests('Each vApp') do
         @vdc[:ResourceEntities][:ResourceEntity].select do |r|
           r[:type] == 'application/vnd.vmware.vcloud.vApp+xml'
@@ -65,9 +60,17 @@ Shindo.tests('Compute::VcloudDirector | vapp requests', ['vclouddirector']) do
     end
   end
 
-  tests('#get_vapps_in_lease_from_query').data_matches_schema(VcloudDirector::Compute::Schema::CONTAINER_TYPE) do
+  tests('#get_vapps_in_lease_from_query') do
     pending if Fog.mocking?
-    @service.get_vapps_in_lease_from_query.body
+    %w[idrecords records references].each do |format|
+      tests(":format => #{format}") do
+        tests('#body').data_matches_schema(VcloudDirector::Compute::Schema::CONTAINER_TYPE) do
+          @body = @service.get_vapps_in_lease_from_query(:format => format).body
+        end
+        key = (format == 'references') ? 'VAppReference' : 'VAppRecord'
+        tests("#body.key?(:#{key})").returns(true) { @body.key?(key.to_sym) }
+      end
+    end
   end
 
   tests('Retrieve non-existent vApp').raises(Fog::Compute::VcloudDirector::Forbidden) do

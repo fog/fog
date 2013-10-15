@@ -16,13 +16,15 @@ module Fog
         # @see http://pubs.vmware.com/vcd-51/topic/com.vmware.vcloud.api.reference.doc_51/doc/operations/GET-OrgVdcGateways.html
         # @since vCloud API version 5.1
         def get_org_vdc_gateways(id)
-          request(
+          response = request(
             :expects    => 200,
             :idempotent => true,
             :method     => 'GET',
             :parser     => Fog::ToHashDocument.new,
             :path       => "admin/vdc/#{id}/edgeGateways"
           )
+          ensure_list! response.body, :EdgeGatewayRecord
+          response
         end
       end
 

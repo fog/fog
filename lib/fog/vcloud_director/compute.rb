@@ -308,10 +308,6 @@ module Fog
           items = item_list.map {|item| get_by_id(item[:id])}
           load(items)
         end
-
-        def ensure_list(items)
-          items.is_a?(Hash) ? [items] : items
-        end
       end
 
       class Real
@@ -435,6 +431,23 @@ module Fog
           delete_logout
           @vcloud_token = nil
           @org_name = nil
+        end
+
+        # Compensate for Fog::ToHashDocument shortcomings.
+        # @param [Hash] hash
+        # @param [String,Symbol] key1
+        # @param [String,Symbol] key2
+        # @return [Hash]
+        def ensure_list!(hash, key1, key2=nil)
+          if key2.nil?
+            hash[key1] ||= []
+            hash[key1] = [hash[key1]] if hash[key1].is_a?(Hash)
+          else
+            hash[key1] ||= {key2 => []}
+            hash[key1] = {key2 => []} if hash[key1].empty?
+            hash[key1][key2] = [hash[key1][key2]] if hash[key1][key2].is_a?(Hash)
+          end
+          hash
         end
       end
 

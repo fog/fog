@@ -2,9 +2,10 @@ require File.expand_path(File.join(File.dirname(__FILE__), 'helper'))
 
 Shindo.tests("Compute::VcloudDirector | catalogs", ['vclouddirector', 'all']) do
   pending if Fog.mocking?
-  tests("#There is one or more catalog").returns(true){ organization.catalogs.size >= 1 }
 
+  pending if organization.catalogs.empty?
   catalogs = organization.catalogs
+  tests("#There is one or more catalog").returns(true) { catalogs.size >= 1 }
   catalog = catalogs.first
 
   tests("Compute::VcloudDirector | catalog") do
