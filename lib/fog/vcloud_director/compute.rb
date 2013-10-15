@@ -184,6 +184,7 @@ module Fog
       request :post_clone_media
       request :post_clone_vapp
       request :post_clone_vapp_template
+      request :post_configure_edge_gateway_services
       request :post_consolidate_vm_vapp
       request :post_consolidate_vm_vapp_template
       request :post_deploy_vapp
@@ -220,7 +221,6 @@ module Fog
       request :put_vapp_metadata_item_metadata
       request :get_edge_gateways
       request :get_edge_gateway
-      request :post_configure_edge_gateway_services
 
       class Model < Fog::Model
         def initialize(attrs={})
