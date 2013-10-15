@@ -8,11 +8,7 @@ Shindo.tests('Compute::VcloudDirector | vdc requests', ['vclouddirector']) do
       l[:rel] == 'down' && l[:type] == 'application/vnd.vmware.vcloud.vdc+xml'
     end
     @vdc_id = link[:href].split('/').last
-    vdc = @service.get_vdc(@vdc_id).body
-    vdc[:AvailableNetworks][:Network] = [vdc[:AvailableNetworks][:Network]] if vdc[:AvailableNetworks][:Network].is_a?(Hash)
-    vdc[:ResourceEntities][:ResourceEntity] = [vdc[:ResourceEntities][:ResourceEntity]] if vdc[:ResourceEntities][:ResourceEntity].is_a?(Hash)
-    vdc[:VdcStorageProfiles][:VdcStorageProfile] = [vdc[:VdcStorageProfiles][:VdcStorageProfile]] if vdc[:VdcStorageProfiles][:VdcStorageProfile].is_a?(Hash)
-    vdc
+    @service.get_vdc(@vdc_id).body
   end
 
   tests('#get_vdc_metadata').data_matches_schema(VcloudDirector::Compute::Schema::METADATA_TYPE) do
@@ -20,9 +16,17 @@ Shindo.tests('Compute::VcloudDirector | vdc requests', ['vclouddirector']) do
     @service.get_vdc_metadata(@vdc_id).body
   end
 
-  tests('#get_vdcs_from_query').data_matches_schema(VcloudDirector::Compute::Schema::CONTAINER_TYPE) do
+  tests('#get_vdcs_from_query') do
     pending if Fog.mocking?
-    @service.get_vdcs_from_query.body
+    %w[idrecords records references].each do |format|
+      tests(":format => #{format}") do
+        tests('#body').data_matches_schema(VcloudDirector::Compute::Schema::CONTAINER_TYPE) do
+          @body = @service.get_vdcs_from_query(:format => format).body
+        end
+        key = (format == 'references') ? 'OrgVdcReference' : 'OrgVdcRecord'
+        tests("#body.key?(:#{key})").returns(true) { @body.key?(key.to_sym) }
+      end
+    end
   end
 
   tests('Retrieve non-existent vDC').raises(Fog::Compute::VcloudDirector::Forbidden) do

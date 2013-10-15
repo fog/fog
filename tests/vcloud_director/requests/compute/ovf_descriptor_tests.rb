@@ -9,7 +9,6 @@ Shindo.tests('Compute::VcloudDirector | ovf requests', ['vclouddirector']) do
       l[:type] == 'application/vnd.vmware.vcloud.vdc+xml'
     end
     @vdc = @service.get_vdc(link[:href].split('/').last).body
-    @vdc[:ResourceEntities][:ResourceEntity] = [@vdc[:ResourceEntities][:ResourceEntity]] if @vdc[:ResourceEntities][:ResourceEntity].is_a?(Hash)
   end
 
   # 'Envelope' is the outer type of the parsed XML document.

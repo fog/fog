@@ -29,7 +29,7 @@ module Fog
             :parser     => Fog::ToHashDocument.new,
             :path       => "entity/#{id}"
           })
-          response.body[:Link] = [response.body[:Link]] if response.body[:Link].is_a?(Hash)
+          ensure_list! response.body, :Link
           response
         end
       end

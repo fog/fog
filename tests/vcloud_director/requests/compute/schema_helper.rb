@@ -148,7 +148,7 @@ class VcloudDirector
 
       VAPP_CHILDREN_TYPE = {
         #:VApp => ABSTRACT_VAPP_TYPE,
-        :Vm => ABSTRACT_VAPP_TYPE
+        :Vm => [ABSTRACT_VAPP_TYPE]
       }
 
       # Controls access to the resource.
@@ -286,7 +286,6 @@ class VcloudDirector
       TASKS_LIST_TYPE = ENTITY_TYPE.merge({
         #:Task => TASK_TYPE
       })
-
       # Represents a vApp.
       VAPP_TYPE = ABSTRACT_VAPP_TYPE.merge({
         :ovfDescriptorUploaded => String,
