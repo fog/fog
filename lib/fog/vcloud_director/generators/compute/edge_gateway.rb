@@ -124,7 +124,6 @@ module Fog
               xml.DefaultAction firewall_config[:DefaultAction] if firewall_config.key?(:DefaultAction)
               xml.LogDefaultAction firewall_config[:LogDefaultAction] if firewall_config.key?(:LogDefaultAction)
               firewall_config[:FirewallRule].each do |rule|
-                p rule
                 xml.FirewallRule {
                   xml.Id rule[:Id]
                   xml.IsEnabled rule[:IsEnabled] if rule.key?(:IsEnabled)

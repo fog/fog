@@ -22,9 +22,7 @@ module Fog
         # @since vCloud API version 5.1
         def post_configure_edge_gateway_services(id, configuration)
           body = Fog::Generators::Compute::VcloudDirector::EdgeGateway.new(configuration).generate_xml
-          File.open('/tmp/lb.xml', 'w') do |file|
-            file.write(body)
-          end
+
           request(
               :body => body,
               :expects => 202,
