@@ -69,7 +69,7 @@ Shindo.tests('Fog::DNS::Rackspace', ['rackspace']) do
     pending if Fog.mocking?
 
     tests('no params').succeeds do
-      @service = Fog::DNS::Rackspace.new
+      @service = Fog::DNS::Rackspace.new :rackspace_region => nil
       returns(true, "auth token populated") { !@service.send(:auth_token).nil? }
       returns(false, "path populated") { @service.instance_variable_get("@uri").host.nil? }
       returns(true, "contains tenant id") {  (@service.instance_variable_get("@uri").path =~ /\/v1\.0\/\d+$/) != nil} #dns does not error if tenant id is missing
