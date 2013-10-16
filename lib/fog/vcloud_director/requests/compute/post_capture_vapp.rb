@@ -14,8 +14,8 @@ module Fog
         # @option options [String] :Description Optional description.
         # @return [Excon::Response]
         #   * body<~Hash>:
+        #
         # @see http://pubs.vmware.com/vcd-51/topic/com.vmware.vcloud.api.reference.doc_51/doc/operations/POST-CaptureVApp.html
-        #   vCloud API Documentation
         # @since vCloud API version 0.9
         def post_capture_vapp(vdc_id, name, source_id, options={})
           body = Nokogiri::XML::Builder.new do
@@ -27,7 +27,7 @@ module Fog
               if options.key?(:Description)
                 Description options[:Description]
               end
-              Source(:href => "#{endpoint}vApp/#{source_id}")
+              Source(:href => "#{end_point}vApp/#{source_id}")
             }
           end.to_xml
 

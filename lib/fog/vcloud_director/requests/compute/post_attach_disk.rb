@@ -17,8 +17,8 @@ module Fog
         #   specified by :BusNumber. Ignored if :BusNumber is empty or missing.
         # @return [Excon::Response]
         #   * body<~Hash>:
+        #
         # @see http://pubs.vmware.com/vcd-51/topic/com.vmware.vcloud.api.reference.doc_51/doc/operations/POST-AttachDisk.html
-        #   vCloud API Documentation
         # @since vCloud API version 5.1
         def post_attach_disk(id, disk_id, options={})
           body = Nokogiri::XML::Builder.new do

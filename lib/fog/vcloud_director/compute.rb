@@ -1,6 +1,5 @@
 require 'fog/vcloud_director'
 require 'fog/compute'
-require 'fog/vcloud_director/requests/compute/helper'
 
 class VcloudDirectorParser < Fog::Parsers::Base
   def extract_attributes(attributes_xml)
@@ -34,13 +33,18 @@ module Fog
         API_VERSION = '5.1'
       end
 
-      module Errors
-        class ServiceError < Fog::Errors::Error; end
-        class Task < ServiceError; end
-      end
+      class ServiceError < Fog::VcloudDirector::Errors::ServiceError; end
+
+      class BadRequest < Fog::VcloudDirector::Errors::BadRequest; end
+      class Unauthorized < Fog::VcloudDirector::Errors::Unauthorized; end
+      class Forbidden < Fog::VcloudDirector::Errors::Forbidden; end
+      class Conflict < Fog::VcloudDirector::Errors::Conflict; end
+
+      class DuplicateName < Fog::VcloudDirector::Errors::DuplicateName; end
+      class TaskError < Fog::VcloudDirector::Errors::TaskError; end
 
       requires :vcloud_director_username, :vcloud_director_password, :vcloud_director_host
-      recognizes :vcloud_director_api_version
+      recognizes :vcloud_director_api_version, :vcloud_director_show_progress
 
       secrets :vcloud_director_password
 
@@ -105,6 +109,8 @@ module Fog
       request :get_disks_rasd_items_list
       request :get_edge_gateway
       request :get_entity
+      request :get_execute_query
+      request :get_groups_from_query
       request :get_guest_customization_system_section_vapp
       request :get_guest_customization_system_section_vapp_template
       request :get_href # this is used for manual testing
@@ -129,11 +135,13 @@ module Fog
       request :get_network_section_vapp
       request :get_network_section_vapp_template
       request :get_operating_system_section
+      request :get_org_settings
       request :get_org_vdc_gateways
       request :get_organization
       request :get_organization_metadata
       request :get_organization_metadata_item_metadata
       request :get_organizations
+      request :get_organizations_from_query
       request :get_product_sections_vapp
       request :get_product_sections_vapp_template
       request :get_request # this is used for manual testing
@@ -147,6 +155,7 @@ module Fog
       request :get_task
       request :get_task_list
       request :get_thumbnail
+      request :get_users_from_query
       request :get_vapp
       request :get_vapp_metadata
       request :get_vapp_metadata_item_metadata
@@ -160,12 +169,14 @@ module Fog
       request :get_vapp_template_owner
       request :get_vapp_templates_from_query
       request :get_vapps_in_lease_from_query
+      request :get_vcloud
       request :get_vdc
       request :get_vdc_metadata
       request :get_vdc_metadata_item_metadata
       request :get_vdc_storage_class
       request :get_vdc_storage_class_metadata
       request :get_vdc_storage_class_metadata_item_metadata
+      request :get_vdcs_from_query
       request :get_virtual_hardware_section
       request :get_vm
       request :get_vm_capabilities
@@ -178,8 +189,9 @@ module Fog
       request :get_vms_by_metadata
       request :get_vms_disks_attached_to
       request :get_vms_in_lease_from_query
-      request :instantiate_vapp_template
+      request :instantiate_vapp_template # to be deprecated
       request :post_acquire_ticket
+      request :post_answer_vm_pending_question
       request :post_attach_disk
       request :post_cancel_task
       request :post_capture_vapp
@@ -187,6 +199,7 @@ module Fog
       request :post_clone_media
       request :post_clone_vapp
       request :post_clone_vapp_template
+      request :post_configure_edge_gateway_services
       request :post_consolidate_vm_vapp
       request :post_consolidate_vm_vapp_template
       request :post_deploy_vapp
@@ -201,6 +214,7 @@ module Fog
       request :post_exit_maintenance_mode
       request :post_insert_cd_rom
       request :post_install_vmware_tools
+      request :post_instantiate_vapp_template
       request :post_login_session
       request :post_power_off_vapp
       request :post_power_on_vapp
@@ -219,7 +233,6 @@ module Fog
       request :post_upgrade_hw_version
       request :post_upload_media
       request :post_upload_vapp_template
-      request :post_vm_metadata # deprecated
       request :put_catalog_item_metadata_item_metadata
       request :put_cpu
       request :put_disk_metadata_item_metadata
@@ -231,6 +244,7 @@ module Fog
       request :put_network_connection_system_section_vapp
       request :put_vapp_metadata_item_metadata
       request :put_vapp_template_metadata_item_metadata
+      request :put_vm_capabilities
 
       class Model < Fog::Model
         def initialize(attrs={})
@@ -298,19 +312,14 @@ module Fog
           items = item_list.map {|item| get_by_id(item[:id])}
           load(items)
         end
-
-        def ensure_list(items)
-          items.is_a?(Hash) ? [items] : items
-        end
       end
 
       class Real
-        include Fog::Compute::Helper
-
         extend Fog::Deprecation
         deprecate :auth_token, :vcloud_token
 
-        attr_reader :end_point, :api_version
+        attr_reader :end_point, :api_version, :show_progress
+        alias_method :show_progress?, :show_progress
 
         def initialize(options={})
           @vcloud_director_password = options[:vcloud_director_password]
@@ -324,6 +333,8 @@ module Fog
           @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
           @end_point = "#{@scheme}://#{@host}#{@path}/"
           @api_version = options[:vcloud_director_api_version] || Fog::Compute::VcloudDirector::Defaults::API_VERSION
+          @show_progress = options[:vcloud_director_show_progress]
+          @show_progress = $stdin.tty? if @show_progress.nil?
         end
 
         def vcloud_token
@@ -377,15 +388,17 @@ module Fog
             :idempotent => params[:idempotent],
             :method     => params[:method],
             :parser     => params[:parser],
-            :path       => path
+            :path       => path,
+            :query      => params[:query]
           })
-        rescue => e
-          raise e unless e.class.to_s =~ /^Excon::Errors/
-          if e.respond_to?(:response)
-            puts e.response.status
-            puts CGI::unescapeHTML(e.response.body)
+        rescue Excon::Errors::HTTPStatusError => error
+          raise case error
+          when Excon::Errors::BadRequest   then BadRequest.slurp(error);
+          when Excon::Errors::Unauthorized then Unauthorized.slurp(error);
+          when Excon::Errors::Forbidden    then Forbidden.slurp(error);
+          when Excon::Errors::Conflict     then Conflict.slurp(error);
+          else                                  ServiceError.slurp(error)
           end
-          raise e
         end
 
         def process_task(response_body)
@@ -401,11 +414,29 @@ module Fog
 
         def wait_and_raise_unless_success(task)
           task.wait_for { non_running? }
-          raise Errors::Task.new "status: #{task.status}, error: #{task.error}" unless task.success?
+          raise TaskError.new "status: #{task.status}, error: #{task.error}" unless task.success?
         end
 
         def add_id_from_href!(data={})
           data[:id] = data[:href].split('/').last
+        end
+
+        # Compensate for Fog::ToHashDocument shortcomings.
+        # @api private
+        # @param [Hash] hash
+        # @param [String,Symbol] key1
+        # @param [String,Symbol] key2
+        # @return [Hash]
+        def ensure_list!(hash, key1, key2=nil)
+          if key2.nil?
+            hash[key1] ||= []
+            hash[key1] = [hash[key1]] if hash[key1].is_a?(Hash)
+          else
+            hash[key1] ||= {key2 => []}
+            hash[key1] = {key2 => []} if hash[key1].empty?
+            hash[key1][key2] = [hash[key1][key2]] if hash[key1][key2].is_a?(Hash)
+          end
+          hash
         end
 
         private
@@ -426,6 +457,7 @@ module Fog
           @vcloud_token = nil
           @org_name = nil
         end
+
       end
 
       class Mock
@@ -588,10 +620,6 @@ module Fog
 
         def make_href(path)
           "#{@end_point}#{path}"
-        end
-
-        def valid_uuid?(uuid)
-          /^[\da-f]{8}(?:-[\da-f]{4}){3}-[\da-f]{12}$/.match(uuid.downcase)
         end
 
         def xmlns

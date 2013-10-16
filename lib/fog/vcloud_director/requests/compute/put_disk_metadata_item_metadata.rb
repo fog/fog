@@ -11,8 +11,8 @@ module Fog
         #   item.
         # @return [Excon::Response]
         #   * body<~Hash>:
+        #
         # @see http://pubs.vmware.com/vcd-51/topic/com.vmware.vcloud.api.reference.doc_51/doc/operations/PUT-DiskMetadataItem-metadata.html
-        #   vCloud API Documentation
         # @since vCloud API version 5.1
         def put_disk_metadata_item_metadata(id, key, value)
           body = Nokogiri::XML::Builder.new do

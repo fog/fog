@@ -22,8 +22,8 @@ module Fog
         #   source object after the operation completes.
         # @return [Excon::Response]
         #   * body<~Hash>:
+        #
         # @see http://pubs.vmware.com/vcd-51/topic/com.vmware.vcloud.api.reference.doc_51/doc/operations/POST-CloneVApp.html
-        #   vCloud API Documentation
         # @since vCloud API version 0.9
         def post_clone_vapp(vdc_id, name, source_id, options={})
           body = Nokogiri::XML::Builder.new do
@@ -40,7 +40,7 @@ module Fog
               InstantiationParams {
                 # TODO
               }
-              Source(:href => "#{endpoint}vApp/#{source_id}")
+              Source(:href => "#{end_point}vApp/#{source_id}")
               if options.key?(:IsSourceDelete)
                 IsSourceDelete options[:IsSourceDelete]
               end

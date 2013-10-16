@@ -14,8 +14,10 @@ module Fog
         # @param [String] id Object identifier of the vApp or VM.
         # @return [Excon::Response]
         #   * body<~Hash>:
+        #
+        # @raise [Fog::Compute::VcloudDirector::BadRequest]
+        #
         # @see http://pubs.vmware.com/vcd-51/topic/com.vmware.vcloud.api.reference.doc_51/doc/operations/POST-ShutdownVApp.html
-        #   vCloud API Documentation
         # @since vCloud API version 0.9
         def post_shutdown_vapp(id)
           request(

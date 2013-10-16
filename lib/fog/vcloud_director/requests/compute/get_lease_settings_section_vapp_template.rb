@@ -7,8 +7,8 @@ module Fog
         # @param [String] id Object identifier of the vApp template.
         # @return [Excon::Response]
         #   * body<~Hash>:
+        #
         # @see http://pubs.vmware.com/vcd-51/topic/com.vmware.vcloud.api.reference.doc_51/doc/operations/GET-LeaseSettingsSection-vAppTemplate.html
-        #   vCloud API Documentation
         # @since vCloud API version 0.9
         def get_lease_settings_section_vapp_template(id)
           request(

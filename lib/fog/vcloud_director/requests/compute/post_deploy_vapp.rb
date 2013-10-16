@@ -22,17 +22,17 @@ module Fog
         #   on vApp on deployment, if not set default value is true.
         # @return [Excon::Response]
         #   * body<~Hash>:
-        # @see 
-        #   vCloud API Documentation
+        #
+        # @see http://pubs.vmware.com/vcd-51/topic/com.vmware.vcloud.api.reference.doc_51/doc/operations/POST-DeployVApp.html
         # @since vCloud API version 0.9
         def post_deploy_vapp(id, options={})
           body = Nokogiri::XML::Builder.new do
             attrs = {
               :xmlns => 'http://www.vmware.com/vcloud/v1.5'
             }
-            attr[:deploymentLeaseSeconds] = options[:deploymentLeaseSeconds] if options.key?[:deploymentLeaseSeconds]
-            attr[:forceCustomization] = options[:forceCustomization] if options.key?[:forceCustomization]
-            attr[:powerOn] = options[:powerOn] if options.key?[:powerOn]
+            attr[:deploymentLeaseSeconds] = options[:deploymentLeaseSeconds] if options.key?(:deploymentLeaseSeconds)
+            attr[:forceCustomization] = options[:forceCustomization] if options.key?(:forceCustomization)
+            attr[:powerOn] = options[:powerOn] if options.key?(:powerOn)
             DeployVAppParams(attrs)
           end.to_xml
 

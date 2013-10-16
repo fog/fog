@@ -7,17 +7,23 @@ module Fog
         # @param [String] id Object identifier of the vDC.
         # @return [Excon::Response]
         #   * body<~Hash>:
+        #
+        # @raise [Fog::Compute::VcloudDirector::Forbidden]
+        #
         # @see http://pubs.vmware.com/vcd-51/topic/com.vmware.vcloud.api.reference.doc_51/doc/operations/GET-Vdc.html
-        #   vCloud API Documentation
         # @since vCloud API version 0.9
         def get_vdc(id)
-          request(
+          response = request(
             :expects    => 200,
             :idempotent => true,
             :method     => 'GET',
             :parser     => Fog::ToHashDocument.new,
             :path       => "vdc/#{id}"
           )
+          ensure_list! response.body, :ResourceEntities, :ResourceEntity
+          ensure_list! response.body, :AvailableNetworks, :Network
+          ensure_list! response.body, :VdcStorageProfiles, :VdcStorageProfile
+          response
         end
       end
 
@@ -25,13 +31,10 @@ module Fog
         def get_vdc(vdc_id)
           response = Excon::Response.new
 
-          unless valid_uuid?(vdc_id)
-            response.status = 400
-            raise Excon::Errors.status_error({:expects => 200}, response)
-          end
           unless vdc = data[:vdcs][vdc_id]
-            response.status = 403
-            raise Excon::Errors.status_error({:expects => 200}, response)
+            raise Fog::Compute::VcloudDirector::Forbidden.new(
+              "No access to entity \"com.vmware.vcloud.entity.vdc:#{vdc_id}\"."
+            )
           end
 
           body =
@@ -118,22 +121,19 @@ module Fog
              :VmQuota=>"100",
              :IsEnabled=>"true"}
 
-          networks = data[:networks].map do |id, network|
-            {:type=>"application/vnd.vmware.vcloud.network+xml",
-             :name=>network[:name],
-             :href=>make_href("network/#{id}")}
-          end
-          networks = networks.first if networks.size == 1
-          body[:AvailableNetworks][:Network] = networks
+          body[:ResourceEntities][:ResourceEntity] =
+            data[:catalog_items].map do |id, item|
+              {:type=>"application/vnd.vmware.vcloud.#{item[:type]}+xml",
+               :name=>item[:name],
+               :href=>make_href("#{item[:type]}/#{item[:type]}-#{id}")}
+            end
 
-          resources = data[:catalog_items].map do |id, item|
-            {:type=>"application/vnd.vmware.vcloud.#{item[:type]}+xml",
-             :name=>item[:name],
-             :href=>
-              make_href("#{item[:type]}/#{item[:type]}-#{id}")}
+          body[:AvailableNetworks][:Network] =
+            data[:networks].map do |id, network|
+              {:type=>"application/vnd.vmware.vcloud.network+xml",
+               :name=>network[:name],
+               :href=>make_href("network/#{id}")}
           end
-          resources = resources.first if resources.size == 1
-          body[:ResourceEntities][:ResourceEntity] = resources
 
           if api_version.to_f >= 5.1
             body[:VdcStorageProfiles] = {}

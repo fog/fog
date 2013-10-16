@@ -4,19 +4,19 @@ Shindo.tests('Compute::VcloudDirector | media requests', ['vclouddirector']) do
   @org = VcloudDirector::Compute::Helper.current_org(@service)
   @media_name = VcloudDirector::Compute::Helper.test_name
 
-  pending if Fog.mocking?
-
   tests('Upload and manipulate a media object') do
+    pending if Fog.mocking?
+
     File.open(VcloudDirector::Compute::Helper.fixture('test.iso'), 'rb') do |iso|
       tests('#post_upload_media').data_matches_schema(VcloudDirector::Compute::Schema::MEDIA_TYPE) do
-        pending if Fog.mocking?
         @vdc_id = VcloudDirector::Compute::Helper.first_vdc_id(@org)
         @media = @service.post_upload_media(@vdc_id, @media_name, 'iso', iso.size).body
       end
 
-      file = @media[:Files][:File]
-      file[:Link] = [file[:Link]] if file[:Link].is_a?(Hash)
-      link = file[:Link].detect {|l| l[:rel] == 'upload:default'}
+      tests('media object has an upload link').returns(true) do
+        @link = @media[:Files][:File][:Link]
+        @link[:rel] == 'upload:default'
+      end
 
       headers = {
         'Content-Length' => iso.size,
@@ -24,14 +24,13 @@ Shindo.tests('Compute::VcloudDirector | media requests', ['vclouddirector']) do
         'x-vcloud-authorization' => @service.vcloud_token
       }
       Excon.put(
-        link[:href], :body => iso.read, :expects => 200, :headers => headers
+        @link[:href], :body => iso.read, :expects => 200, :headers => headers
       )
 
       @service.process_task(@media[:Tasks][:Task])
       @media_id = @media[:href].split('/').last
 
       tests("#get_media(#{@media_id})").data_matches_schema(VcloudDirector::Compute::Schema::MEDIA_TYPE) do
-        pending if Fog.mocking?
         @media = @service.get_media(@media_id).body
       end
       tests("media[:name]").returns(@media_name) { @media[:name] }
@@ -39,19 +38,16 @@ Shindo.tests('Compute::VcloudDirector | media requests', ['vclouddirector']) do
       tests("media[:size]").returns(iso.size) { @media[:size].to_i }
 
       tests("#get_media_owner(#{@media_id})").data_matches_schema(VcloudDirector::Compute::Schema::OWNER_TYPE) do
-        pending if Fog.mocking?
         @owner = @service.get_media_owner(@media_id).body
       end
       tests("owner[:User][:name]").returns(@service.user_name) { @owner[:User][:name] }
 
       tests("#put_media_metadata_item_metadata(#{@media_id})").data_matches_schema(VcloudDirector::Compute::Schema::TASK_TYPE) do
-        pending if Fog.mocking?
         @task = @service.put_media_metadata_item_metadata(@media_id, 'fog-test-key', 'fog-test-value').body
       end
       @service.process_task(@task)
 
       tests("#put_media_metadata_item_metadata(#{@media_id})") do
-        pending if Fog.mocking?
         tests("#put_media_metadata_item_metadata(Boolean)").returns(true) do
           task = @service.put_media_metadata_item_metadata(@media_id, 'fog-test-boolean', true).body
           @service.process_task(task)
@@ -67,7 +63,6 @@ Shindo.tests('Compute::VcloudDirector | media requests', ['vclouddirector']) do
       end
 
       tests("#post_update_media_metadata(#{@media_id})").data_matches_schema(VcloudDirector::Compute::Schema::TASK_TYPE) do
-        pending if Fog.mocking?
         metadata = {
           'fog-test-key-update' => 'fog-test-value-update',
           'fog-test-boolean-update' => false,
@@ -79,7 +74,6 @@ Shindo.tests('Compute::VcloudDirector | media requests', ['vclouddirector']) do
       @service.process_task(@task)
 
       tests("#get_media_metadata(#{@media_id})") do
-        pending if Fog.mocking?
         tests('response format').data_matches_schema(VcloudDirector::Compute::Schema::METADATA_TYPE) do
           @metadata = @service.get_media_metadata(@media_id).body
         end
@@ -121,7 +115,6 @@ Shindo.tests('Compute::VcloudDirector | media requests', ['vclouddirector']) do
       end
 
       tests("#post_clone_media(#{@media_id})").data_matches_schema(VcloudDirector::Compute::Schema::MEDIA_TYPE) do
-        pending if Fog.mocking?
         @media = @service.post_clone_media(@vdc_id, @media_id, :IsSourceDelete => true).body
       end
       @service.process_task(@media[:Tasks][:Task])
@@ -131,7 +124,6 @@ Shindo.tests('Compute::VcloudDirector | media requests', ['vclouddirector']) do
       end
 
       tests("#delete_media(#{@media_id})").data_matches_schema(VcloudDirector::Compute::Schema::TASK_TYPE) do
-        pending if Fog.mocking?
         @task = @service.delete_media(@media_id).body
       end
       @service.process_task(@task)
@@ -139,27 +131,55 @@ Shindo.tests('Compute::VcloudDirector | media requests', ['vclouddirector']) do
   end
 
   tests('Media item no longer exists') do
-    tests("#get_media(#{@media_id})").raises(Excon::Errors::Forbidden) do
+    pending if Fog.mocking?
+    tests("#get_media(#{@media_id})").raises(Fog::Compute::VcloudDirector::Forbidden) do
       @service.get_media(@media_id)
     end
-    tests("#get_media_owner(#{@media_id})").raises(Excon::Errors::Forbidden) do
+    tests("#get_media_owner(#{@media_id})").raises(Fog::Compute::VcloudDirector::Forbidden) do
       @service.get_media_owner(@media_id)
     end
-    tests("#get_media_metadata(#{@media_id})").raises(Excon::Errors::Forbidden) do
+    tests("#get_media_metadata(#{@media_id})").raises(Fog::Compute::VcloudDirector::Forbidden) do
       @service.get_media_metadata(@media_id)
     end
-    tests("#delete_media(#{@media_id})").raises(Excon::Errors::Forbidden) do
+    tests("#delete_media(#{@media_id})").raises(Fog::Compute::VcloudDirector::Forbidden) do
       @service.delete_media(@media_id)
     end
   end
 
-  tests('#get_medias_from_query').returns(Hash) do
+  tests('#get_medias_from_query') do
     pending if Fog.mocking?
-    @service.get_medias_from_query.body.class
+    %w[idrecords records references].each do |format|
+      tests(":format => #{format}") do
+        tests('#body').data_matches_schema(VcloudDirector::Compute::Schema::CONTAINER_TYPE) do
+          @body = @service.get_medias_from_query(:format => format).body
+        end
+        key = (format == 'references') ? 'MediaReference' : 'MediaRecord'
+        tests("#body.key?(:#{key})").returns(true) { @body.key?(key.to_sym) }
+      end
+    end
   end
 
-  tests('Upload to non-existent vDC').raises(Excon::Errors::Forbidden) do
+  tests('Invalid image_type').raises(Fog::Compute::VcloudDirector::BadRequest) do
+    @service.post_upload_media('00000000-0000-0000-0000-000000000000', 'test.iso', 'isox', 0)
+  end
+  tests('Invalid size').raises(Fog::Compute::VcloudDirector::BadRequest) do
+    @service.post_upload_media('00000000-0000-0000-0000-000000000000', 'test.iso', 'iso', -1)
+  end
+
+  tests('Upload to non-existent vDC').raises(Fog::Compute::VcloudDirector::Forbidden) do
+    @service.post_upload_media('00000000-0000-0000-0000-000000000000', 'test.iso', 'iso', 0)
+  end
+
+  tests('Retrieve non-existent Media').raises(Fog::Compute::VcloudDirector::Forbidden) do
     @service.get_media('00000000-0000-0000-0000-000000000000')
+  end
+
+  tests('Retrieve owner of non-existent Media').raises(Fog::Compute::VcloudDirector::Forbidden) do
+    @service.get_media_owner('00000000-0000-0000-0000-000000000000')
+  end
+
+  tests('Delete non-existent Media').raises(Fog::Compute::VcloudDirector::Forbidden) do
+    @service.delete_media('00000000-0000-0000-0000-000000000000')
   end
 
 end

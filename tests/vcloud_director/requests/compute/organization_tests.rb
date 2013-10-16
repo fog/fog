@@ -17,7 +17,20 @@ Shindo.tests('Compute::VcloudDirector | organization requests', ['vclouddirector
     @service.get_organization_metadata(@org_uuid).body
   end
 
-  tests('retrieve non-existent Org').raises(Excon::Errors::Forbidden) do
+  tests('#get_organizations_from_query') do
+    pending if Fog.mocking?
+    %w[idrecords records references].each do |format|
+      tests(":format => #{format}") do
+        tests('#body').data_matches_schema(VcloudDirector::Compute::Schema::CONTAINER_TYPE) do
+          @body = @service.get_organizations_from_query(:format => format).body
+        end
+        key = (format == 'references') ? 'OrganizationReference' : 'OrganizationRecord'
+        tests("#body.key?(:#{key})").returns(true) { @body.key?(key.to_sym) }
+      end
+    end
+  end
+
+  tests('retrieve non-existent Org').raises(Fog::Compute::VcloudDirector::Forbidden) do
     @service.get_organization('00000000-0000-0000-0000-000000000000')
   end
 

@@ -5,7 +5,6 @@ Shindo.tests('Compute::VcloudDirector | vdc_storage_profile requests', ['vcloudd
   @vdc_id = VcloudDirector::Compute::Helper.first_vdc_id(@org)
   @vdc = @service.get_vdc(@vdc_id).body
 
-  @vdc[:VdcStorageProfiles][:VdcStorageProfile] = [@vdc[:VdcStorageProfiles][:VdcStorageProfile]] if @vdc[:VdcStorageProfiles][:VdcStorageProfile].is_a?(Hash)
   @vdc[:VdcStorageProfiles][:VdcStorageProfile].each do |storage_profile|
     @vdc_storage_profile_id = storage_profile[:href].split('/').last
 
@@ -21,7 +20,7 @@ Shindo.tests('Compute::VcloudDirector | vdc_storage_profile requests', ['vcloudd
     end
   end
 
-  tests('Retrieve non-existent vDC storage profile').raises(Excon::Errors::Forbidden) do
+  tests('Retrieve non-existent vDC storage profile').raises(Fog::Compute::VcloudDirector::Forbidden) do
     @service.get_vdc_storage_class('00000000-0000-0000-0000-000000000000')
   end
 

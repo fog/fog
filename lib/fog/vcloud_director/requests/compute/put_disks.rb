@@ -18,8 +18,8 @@ module Fog
         #   * disks is the body of #get_vm_disks
         # @return [Excon::Response]
         #   * body<~Hash>:
+        #
         # @see http://pubs.vmware.com/vcd-51/topic/com.vmware.vcloud.api.reference.doc_51/doc/operations/PUT-Disks.html
-        #   vCloud API Documentation
         # @since vCloud API version 0.9
         def put_disks(id, disks=[])
           data = Fog::Generators::Compute::VcloudDirector::Disks.new(disks)

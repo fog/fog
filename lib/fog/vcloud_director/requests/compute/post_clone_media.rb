@@ -17,8 +17,8 @@ module Fog
         #   Defaults to false if empty or missing.
         # @return [Excon::Response]
         #   * body<~Hash>:
+        #
         # @see http://pubs.vmware.com/vcd-51/topic/com.vmware.vcloud.api.reference.doc_51/doc/operations/POST-CloneMedia.html
-        #   vCloud API Documentation
         # @since vCloud API version 0.9
         def post_clone_media(vdc_id, source_id, options={})
           body = Nokogiri::XML::Builder.new do
@@ -29,7 +29,7 @@ module Fog
               if options.key?(:Description)
                 Description options[:Description]
               end
-              Source(:href => "#{endpoint}media/#{source_id}")
+              Source(:href => "#{end_point}media/#{source_id}")
               if options.key?(:IsSourceDelete)
                 IsSourceDelete options[:IsSourceDelete]
               end

@@ -93,7 +93,7 @@ module Fog
           response.status = 202
 
           server_id = Fog::Mock.random_numbers(6).to_s
-          identity = Fog::Identity[:openstack]
+          identity = Fog::Identity::OpenStack.new :openstack_auth_url => credentials[:openstack_auth_url]
           user = identity.users.find { |u|
             u.name == @openstack_username
           }

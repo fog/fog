@@ -7,8 +7,8 @@ module Fog
         # @param [String] id The object identifier of the VM.
         # @return [Excon::Response]
         #   * body<~Hash>:
+        #
         # @see http://pubs.vmware.com/vcd-51/topic/com.vmware.vcloud.api.reference.doc_51/doc/operations/GET-OperatingSystemSection.html
-        #   vCloud API Documentation
         # @since vCloud API version 0.9
         def get_operating_system_section(id)
           request(

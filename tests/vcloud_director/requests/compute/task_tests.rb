@@ -9,8 +9,12 @@ Shindo.tests('Compute::VcloudDirector | task requests', ['vclouddirector']) do
     @tasks_list = @service.get_task_list(@org_uuid).body
   end
 
-  tests('retrieve non-existent TasksList').raises(Excon::Errors::Forbidden) do
+  tests('retrieve non-existent TasksList').raises(Fog::Compute::VcloudDirector::Forbidden) do
     @service.get_task_list('00000000-0000-0000-0000-000000000000')
+  end
+
+  tests('retrieve non-existent Task').raises(Fog::Compute::VcloudDirector::Forbidden) do
+    @service.get_task('00000000-0000-0000-0000-000000000000')
   end
 
 end

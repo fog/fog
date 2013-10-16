@@ -16,8 +16,11 @@ module Fog
         # @option options [String] :Description Optional description.
         # @return [Excon::Response]
         #   * body<~Hash>:
+        #
+        # @raise [Fog::Compute::VcloudDirector::BadRequest]
+        # @raise [Fog::Compute::VcloudDirector::Forbidden]
+        #
         # @see http://pubs.vmware.com/vcd-51/topic/com.vmware.vcloud.api.reference.doc_51/doc/operations/POST-UploadMedia.html
-        #   vCloud API Documentation
         # @since vCloud API version 0.9
         def post_upload_media(vdc_id, name, image_type, size, options={})
           body = Nokogiri::XML::Builder.new do
@@ -48,23 +51,20 @@ module Fog
 
       class Mock
         def post_upload_media(vdc_id, name, image_type, size, options={})
-          response = Excon::Response.new
-
-          unless valid_uuid?(vdc_id)
-            response.status = 400
-            raise Excon::Errors.status_error({:expects => 201}, response)
-          end
           unless ['iso','floppy'].include?(image_type)
-            response.status = 400
-            raise Excon::Errors.status_error({:expects => 201}, response)
+            raise Fog::Compute::VcloudDirector::BadRequest.new(
+              'The value of parameter imageType is incorrect.'
+            )
           end
-          unless size =~ /^\d+$/
-            response.status = 400
-            raise Excon::Errors.status_error({:expects => 201}, response)
+          unless size.to_s =~ /^\d+$/
+            raise Fog::Compute::VcloudDirector::BadRequest.new(
+              'validation error on field \'size\': must be greater than or equal to 0'
+            )
           end
           unless vdc = data[:vdcs][vdc_id]
-            response.status = 403
-            raise Excon::Errors.status_error({:expects => 201}, response)
+            raise Fog::Compute::VcloudDirector::Forbidden.new(
+              "No access to entity \"(com.vmware.vcloud.entity.vdc:#{vdc_id})\"."
+            )
           end
 
           Fog::Mock.not_implemented

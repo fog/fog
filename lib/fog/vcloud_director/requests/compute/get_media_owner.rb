@@ -7,8 +7,10 @@ module Fog
         # @param [String] id Object identifier of the media object.
         # @return [Excon::Response]
         #   * body<~Hash>:
+        #
+        # @raise [Fog::Compute::VcloudDirector::Forbidden]
+        #
         # @see http://pubs.vmware.com/vcd-51/topic/com.vmware.vcloud.api.reference.doc_51/doc/operations/GET-MediaOwner.html
-        #   vCloud API Documentation
         # @since vCloud API version 1.5
         def get_media_owner(id)
           request(
@@ -23,15 +25,10 @@ module Fog
 
       class Mock
         def get_media_owner(id)
-          response = Excon::Response.new
-
-          unless valid_uuid?(id)
-            response.status = 400
-            raise Excon::Errors.status_error({:expects => 200}, response)
-          end
           unless media = data[:medias][id]
-            response.status = 403
-            raise Excon::Errors.status_error({:expects => 200}, response)
+            raise Fog::Compute::VcloudDirector::Forbidden.new(
+              "No access to entity \"com.vmware.vcloud.entity.media:#{id}\"."
+            )
           end
 
           Fog::Mock.not_implemented

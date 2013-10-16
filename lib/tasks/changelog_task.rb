@@ -73,6 +73,7 @@ module Fog
               'nightshade427',
               'Patrick Debois',
               'Paul Thornthwaite',
+              'Rodrigo Estebanez',
               'Rupak Ganguly',
               'Stepan G. Fedorov',
               'Wesley Beary'

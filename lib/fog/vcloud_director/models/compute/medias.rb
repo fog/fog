@@ -64,7 +64,7 @@ module Fog
         def item_list
           data = service.get_vdc(vdc.id).body
           return [] if data[:ResourceEntities].empty?
-          items = ensure_list(data[:ResourceEntities][:ResourceEntity]).select do |resource|
+          items = data[:ResourceEntities][:ResourceEntity].select do |resource|
             resource[:type] == 'application/vnd.vmware.vcloud.media+xml'
           end
           items.each {|item| service.add_id_from_href!(item)}

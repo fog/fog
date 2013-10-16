@@ -13,15 +13,9 @@ Shindo.tests('Compute::VcloudDirector | edge gateway requests', ['vclouddirector
   tests('#get_org_vdc_gateways').data_matches_schema(VcloudDirector::Compute::Schema::QUERY_RESULT_RECORDS_TYPE) do
     begin
       @edge_gateways = @service.get_org_vdc_gateways(@vdc_id).body
-    rescue Excon::Errors::Unauthorized # bug, may be localised
+    rescue Fog::Compute::VcloudDirector::Unauthorized # bug, may be localised
       retry
     end
-
-    # ensure that EdgeGatewayRecord is a list
-    if @edge_gateways[:EdgeGatewayRecord].is_a?(Hash)
-      @edge_gateways[:EdgeGatewayRecord] = [@edge_gateways[:EdgeGatewayRecord]]
-    end
-
     @edge_gateways
   end
 
@@ -34,10 +28,10 @@ Shindo.tests('Compute::VcloudDirector | edge gateway requests', ['vclouddirector
     @service.get_edge_gateway(@edge_gateways[:EdgeGatewayRecord].first[:href].split('/').last).body
   end
 
-  tests('Retrieve non-existent edge gateway').raises(Excon::Errors::Forbidden) do
+  tests('Retrieve non-existent edge gateway').raises(Fog::Compute::VcloudDirector::Forbidden) do
     begin
       @service.get_edge_gateway('00000000-0000-0000-0000-000000000000')
-    rescue Excon::Errors::Unauthorized # bug, may be localised
+    rescue Fog::Compute::VcloudDirector::Unauthorized # bug, may be localised
       retry
     end
   end

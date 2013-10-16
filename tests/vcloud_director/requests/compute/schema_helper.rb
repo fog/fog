@@ -84,6 +84,14 @@ class VcloudDirector
         :File => FILE_TYPE
       }
 
+      # Container for query result sets.
+      CONTAINER_TYPE = RESOURCE_TYPE.merge({
+        :name => String,
+        :page => String,
+        :pageSize => String,
+        :total => String
+      })
+
       # Represents an asynchronous operation in vCloud Director.
       TASK_TYPE = ENTITY_TYPE.merge({
         :cancelRequested => Fog::Nullable::String,
@@ -140,7 +148,7 @@ class VcloudDirector
 
       VAPP_CHILDREN_TYPE = {
         #:VApp => ABSTRACT_VAPP_TYPE,
-        :Vm => ABSTRACT_VAPP_TYPE
+        :Vm => [ABSTRACT_VAPP_TYPE]
       }
 
       # Controls access to the resource.
@@ -278,7 +286,6 @@ class VcloudDirector
       TASKS_LIST_TYPE = ENTITY_TYPE.merge({
         #:Task => TASK_TYPE
       })
-
       # Represents a vApp.
       VAPP_TYPE = ABSTRACT_VAPP_TYPE.merge({
         :ovfDescriptorUploaded => String,
@@ -348,18 +355,11 @@ class VcloudDirector
 
       # Container for query results in records format.
       #   Combine with QUERY_RESULT_RECORD_TYPE subtypes to validate query results
-      QUERY_RESULT_RECORDS_TYPE  =  {
-        :href => Fog::Nullable::String,
-        :type => Fog::Nullable::String,
-        :name => Fog::Nullable::String,
-        :page => Fog::Nullable::String,
-        :pageSize => Fog::Nullable::String,
-        :total => Fog::Nullable::String,
-      }
+      QUERY_RESULT_RECORDS_TYPE = CONTAINER_TYPE
 
       # Base type for a single record from query result in records format.
       # Subtypes define more specific elements.
-      QUERY_RESULT_RECORD_TYPE  = {
+      QUERY_RESULT_RECORD_TYPE = {
         :href => String,
         :id => Fog::Nullable::String,
         :type => Fog::Nullable::String
@@ -583,6 +583,43 @@ class VcloudDirector
         :Configuration => GATEWAY_CONFIGURATION_TYPE
       }
 
+      ORGANIZATION_REFERENCE_TYPE = REFERENCE_TYPE
+      PROVIDER_VDC_REFERENCE_TYPE = REFERENCE_TYPE
+      RIGHT_REFERENCE_TYPE = REFERENCE_TYPE
+      ROLE_REFERENCE_TYPE = REFERENCE_TYPE
+
+      # Represents the admin view of this cloud.
+      ORGANIZATION_REFERENCES_TYPE = {
+        :OrganizationReference => [REFERENCE_TYPE]
+      }
+
+      # Container for references to Provider vDCs.
+      PROVIDER_VDC_REFERENCES_TYPE = {
+        :ProviderVdcReference => [PROVIDER_VDC_REFERENCE_TYPE]
+      }
+
+      # Container for references to rights.
+      RIGHT_REFERENCES_TYPE = {
+        :RightReference => [RIGHT_REFERENCE_TYPE]
+      }
+
+      # Container for references to roles.
+      ROLE_REFERENCES_TYPE = {
+        :RoleReference => [ROLE_REFERENCE_TYPE]
+      }
+
+      # Container for references to ExternalNetwork objects.
+      NETWORKS_TYPE = {
+        :Network => [REFERENCE_TYPE]
+      }
+
+      VCLOUD_TYPE = ENTITY_TYPE.merge({
+        :OrganizationReferences => ORGANIZATION_REFERENCES_TYPE,
+        :ProviderVdcReferences => PROVIDER_VDC_REFERENCES_TYPE,
+        :RightReferences => RIGHT_REFERENCES_TYPE,
+        :RoleReferences => ROLE_REFERENCES_TYPE,
+        :Networks => NETWORKS_TYPE
+      })
     end
   end
 end

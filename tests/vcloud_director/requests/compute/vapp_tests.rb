@@ -8,11 +8,6 @@ Shindo.tests('Compute::VcloudDirector | vapp requests', ['vclouddirector']) do
       l[:type] == 'application/vnd.vmware.vcloud.vdc+xml'
     end.each do |link|
       @vdc = @service.get_vdc(link[:href].split('/').last).body
-      if @vdc[:ResourceEntities].is_a?(String)
-        @vdc[:ResourceEntities] = {:ResourceEntity => []}
-      elsif @vdc[:ResourceEntities][:ResourceEntity].is_a?(Hash)
-        @vdc[:ResourceEntities][:ResourceEntity] = [@vdc[:ResourceEntities][:ResourceEntity]]
-      end
       tests('Each vApp') do
         @vdc[:ResourceEntities][:ResourceEntity].select do |r|
           r[:type] == 'application/vnd.vmware.vcloud.vApp+xml'
@@ -65,22 +60,30 @@ Shindo.tests('Compute::VcloudDirector | vapp requests', ['vclouddirector']) do
     end
   end
 
-  tests('#get_vapps_in_lease_from_query').returns(Hash) do
+  tests('#get_vapps_in_lease_from_query') do
     pending if Fog.mocking?
-    @service.get_vapps_in_lease_from_query.body.class
+    %w[idrecords records references].each do |format|
+      tests(":format => #{format}") do
+        tests('#body').data_matches_schema(VcloudDirector::Compute::Schema::CONTAINER_TYPE) do
+          @body = @service.get_vapps_in_lease_from_query(:format => format).body
+        end
+        key = (format == 'references') ? 'VAppReference' : 'VAppRecord'
+        tests("#body.key?(:#{key})").returns(true) { @body.key?(key.to_sym) }
+      end
+    end
   end
 
-  tests('Retrieve non-existent vApp').raises(Excon::Errors::Forbidden) do
+  tests('Retrieve non-existent vApp').raises(Fog::Compute::VcloudDirector::Forbidden) do
     pending if Fog.mocking?
     @service.get_vapp('00000000-0000-0000-0000-000000000000')
   end
 
-  tests('Retrieve owner of non-existent vApp').raises(Excon::Errors::Forbidden) do
+  tests('Retrieve owner of non-existent vApp').raises(Fog::Compute::VcloudDirector::Forbidden) do
     pending if Fog.mocking?
     @service.get_vapp_owner('00000000-0000-0000-0000-000000000000')
   end
 
-  tests('Delete non-existent vApp').raises(Excon::Errors::Forbidden) do
+  tests('Delete non-existent vApp').raises(Fog::Compute::VcloudDirector::Forbidden) do
     pending if Fog.mocking?
     @service.delete_vapp('00000000-0000-0000-0000-000000000000')
   end

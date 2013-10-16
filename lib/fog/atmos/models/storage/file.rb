@@ -11,6 +11,7 @@ module Fog
         attribute :content_length,  :aliases => ['bytes', 'Content-Length'], :type => :integer
         attribute :content_type,    :aliases => ['content_type', 'Content-Type']
         attribute :objectid,        :aliases => :ObjectID
+        attribute :created_at,      :aliases => :ctime
 
         def body
           attributes[:body] ||= if objectid
@@ -42,14 +43,15 @@ module Fog
           true
         end
 
-        # def owner=(new_owner)
-        #   if new_owner
-        #     attributes[:owner] = {
-        #       :display_name => new_owner['DisplayName'],
-        #       :id           => new_owner['ID']
-        #     }
-        #   end
-        # end
+        def meta_data
+         requires :directory, :key
+          service.get_namespace([directory.key, key].join('/') + "?metadata/system")
+        end
+
+        def file_size
+          data = meta_data
+          meta_data.headers["x-emc-meta"].match(/size=\d+/).to_s.gsub(/size=/,"")
+        end
 
         def public=(new_public)
           # NOOP - we don't need to flag files as public, getting the public URL for a file handles it.

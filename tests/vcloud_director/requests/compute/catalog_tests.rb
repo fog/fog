@@ -22,13 +22,20 @@ Shindo.tests('Compute::VcloudDirector | catalog requests', ['vclouddirector']) d
     @service.get_control_access_params_catalog(@org[:href].split('/').last, @catalog_id).body
   end
 
-  tests('#get_catalogs_from_query').returns(Hash) do
+  tests('#get_catalogs_from_query') do
     pending if Fog.mocking?
-    @service.get_catalogs_from_query.body.class
+    %w[idrecords records references].each do |format|
+      tests(":format => #{format}") do
+        tests('#body').data_matches_schema(VcloudDirector::Compute::Schema::CONTAINER_TYPE) do
+          @body = @service.get_catalogs_from_query(:format => format).body
+        end
+        key = (format == 'references') ? 'CatalogReference' : 'CatalogRecord'
+        tests("#body.key?(:#{key})").returns(true) { @body.key?(key.to_sym) }
+      end
+    end
   end
 
-  tests('Retrieve non-existent Catalog').raises(Excon::Errors::Forbidden) do
-    pending if Fog.mocking?
+  tests('Retrieve non-existent Catalog').raises(Fog::Compute::VcloudDirector::Forbidden) do
     @service.get_catalog('00000000-0000-0000-0000-000000000000')
   end
 
