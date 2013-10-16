@@ -79,7 +79,7 @@ Shindo.tests('Fog::Rackspace::Databases', ['rackspace']) do |variable|
     pending if Fog.mocking?
 
     tests('no params').succeeds do
-      @service = Fog::Rackspace::Databases.new
+      @service = Fog::Rackspace::Databases.new :rackspace_region => nil
       returns(true, "auth token populated") { !@service.send(:auth_token).nil? }
       returns(true) { (@service.instance_variable_get("@uri").host =~ /dfw/) != nil }
       @service.flavors

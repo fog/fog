@@ -78,7 +78,7 @@ Shindo.tests('Fog::Rackspace::LoadBalancers', ['rackspace']) do
     pending if Fog.mocking?
 
     tests('no params').succeeds do
-      @service = Fog::Rackspace::LoadBalancers.new
+      @service = Fog::Rackspace::LoadBalancers.new :rackspace_region => nil
       returns(true, "auth token populated") { !@service.send(:auth_token).nil? }
       returns(true) { (@service.instance_variable_get("@uri").host =~ /dfw/) != nil }
       @service.list_load_balancers

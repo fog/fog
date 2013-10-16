@@ -76,7 +76,7 @@ Shindo.tests('Fog::CDN::Rackspace', ['rackspace']) do
     pending if Fog.mocking?
     
     tests('no params').succeeds do
-      @service = Fog::CDN::Rackspace.new
+      @service = Fog::CDN::Rackspace.new :rackspace_region => nil
       returns(true, "auth token populated") { !@service.send(:auth_token).nil? }
       returns(true, "uses DFW") { (@service.instance_variable_get("@uri").host =~ /cdn1/) != nil }
       @service.get_containers
