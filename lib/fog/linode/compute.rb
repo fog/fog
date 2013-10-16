@@ -95,7 +95,7 @@ module Fog
           params[:query] ||= {}
           params[:query].merge!(:api_key => @linode_api_key)
 
-          response = @connection.request(params.merge!({:host => @host}))
+          response = @connection.request(params)
 
           unless response.body.empty?
             response.body = Fog::JSON.decode(response.body)
