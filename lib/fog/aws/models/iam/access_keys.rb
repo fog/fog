@@ -11,7 +11,6 @@ module Fog
 
         def initialize(attributes = {})
           @username = attributes[:username]
-          raise ArgumentError.new("Can't get an access_key's user without a username") unless @username
           super
         end
 

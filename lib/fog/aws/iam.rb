@@ -88,6 +88,10 @@ module Fog
             hash[key] = {
               :owner_id => Fog::AWS::Mock.owner_id,
               :server_certificates => {},
+              :access_keys => [{
+                "Status" => "Active",
+                "AccessKeyId" => key
+              }],
               :users => Hash.new do |uhash, ukey|
                 uhash[ukey] = {
                   :user_id     => Fog::AWS::Mock.key_id,
