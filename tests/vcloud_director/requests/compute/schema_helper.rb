@@ -583,6 +583,43 @@ class VcloudDirector
         :Configuration => GATEWAY_CONFIGURATION_TYPE
       }
 
+      ORGANIZATION_REFERENCE_TYPE = REFERENCE_TYPE
+      PROVIDER_VDC_REFERENCE_TYPE = REFERENCE_TYPE
+      RIGHT_REFERENCE_TYPE = REFERENCE_TYPE
+      ROLE_REFERENCE_TYPE = REFERENCE_TYPE
+
+      # Represents the admin view of this cloud.
+      ORGANIZATION_REFERENCES_TYPE = {
+        :OrganizationReference => [REFERENCE_TYPE]
+      }
+
+      # Container for references to Provider vDCs.
+      PROVIDER_VDC_REFERENCES_TYPE = {
+        :ProviderVdcReference => [PROVIDER_VDC_REFERENCE_TYPE]
+      }
+
+      # Container for references to rights.
+      RIGHT_REFERENCES_TYPE = {
+        :RightReference => [RIGHT_REFERENCE_TYPE]
+      }
+
+      # Container for references to roles.
+      ROLE_REFERENCES_TYPE = {
+        :RoleReference => [ROLE_REFERENCE_TYPE]
+      }
+
+      # Container for references to ExternalNetwork objects.
+      NETWORKS_TYPE = {
+        :Network => [REFERENCE_TYPE]
+      }
+
+      VCLOUD_TYPE = ENTITY_TYPE.merge({
+        :OrganizationReferences => ORGANIZATION_REFERENCES_TYPE,
+        :ProviderVdcReferences => PROVIDER_VDC_REFERENCES_TYPE,
+        :RightReferences => RIGHT_REFERENCES_TYPE,
+        :RoleReferences => ROLE_REFERENCES_TYPE,
+        :Networks => NETWORKS_TYPE
+      })
     end
   end
 end
