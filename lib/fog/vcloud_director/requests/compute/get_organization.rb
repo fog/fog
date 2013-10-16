@@ -13,13 +13,13 @@ module Fog
         # @see http://pubs.vmware.com/vcd-51/topic/com.vmware.vcloud.api.reference.doc_51/doc/operations/GET-Organization.html
         # @since vCloud API version 0.9
         def get_organization(id)
-          response = request({
+          response = request(
             :expects    => 200,
             :idempotent => true,
             :method     => 'GET',
             :parser     => Fog::ToHashDocument.new,
             :path       => "org/#{id}"
-          })
+          )
           ensure_list! response.body, :Tasks, :Task
           response
         end

@@ -135,6 +135,7 @@ module Fog
       request :get_network_section_vapp
       request :get_network_section_vapp_template
       request :get_operating_system_section
+      request :get_org_settings
       request :get_org_vdc_gateways
       request :get_organization
       request :get_organization_metadata
@@ -168,6 +169,7 @@ module Fog
       request :get_vapp_template_owner
       request :get_vapp_templates_from_query
       request :get_vapps_in_lease_from_query
+      request :get_vcloud
       request :get_vdc
       request :get_vdc_metadata
       request :get_vdc_metadata_item_metadata
@@ -189,6 +191,7 @@ module Fog
       request :get_vms_in_lease_from_query
       request :instantiate_vapp_template # to be deprecated
       request :post_acquire_ticket
+      request :post_answer_vm_pending_question
       request :post_attach_disk
       request :post_cancel_task
       request :post_capture_vapp
@@ -241,6 +244,7 @@ module Fog
       request :put_network_connection_system_section_vapp
       request :put_vapp_metadata_item_metadata
       request :put_vapp_template_metadata_item_metadata
+      request :put_vm_capabilities
 
       class Model < Fog::Model
         def initialize(attrs={})
