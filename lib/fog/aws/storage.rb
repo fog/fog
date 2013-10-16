@@ -161,11 +161,19 @@ module Fog
         end
 
         def object_to_path(object_name=nil)
-          '/' + Fog::AWS.escape(object_name.to_s).gsub('%2F','/')
+          '/' + escape(object_name.to_s).gsub('%2F','/')
         end
 
         def bucket_to_path(bucket_name, path=nil)
-          "/#{Fog::AWS.escape(bucket_name.to_s)}#{path}"
+          "/#{escape(bucket_name.to_s)}#{path}"
+        end
+
+        # NOTE: differs fram Fog::AWS.escape by NOT escaping `/`
+        def escape(string)
+          string = Unicode::normalize_C(string)
+          string.gsub(/([^a-zA-Z0-9_.\-~\/]+)/) {
+            "%" + $1.unpack("H2" * $1.bytesize).join("%").upcase
+          }
         end
 
         # Transforms things like bucket_name, object_name, region
@@ -232,7 +240,7 @@ module Fog
         def params_to_url(params)
           query = params[:query] && params[:query].map do |key, value|
             if value
-              [key, Fog::AWS.escape(value.to_s)].join('=')
+              [key, escape(value.to_s)].join('=')
             else
               key
             end
