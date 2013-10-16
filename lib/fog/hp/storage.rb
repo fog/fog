@@ -146,9 +146,69 @@ module Fog
           write_h = write_header.split(',') unless write_header.nil?
           return read_h, write_h
         end
+        
+        # Get an expiring object https url
+        #
+        # ==== Parameters
+        # * container<~String> - Name of container containing object
+        # * object<~String> - Name of object to get expiring url for
+        # * expires<~Time> - An expiry time for this url
+        #
+        # ==== Returns
+        # * response<~Excon::Response>:
+        #   * body<~String> - url for object
+        def get_object_https_url(container, object, expires, options = {})
+          create_temp_url(container, object, expires, "GET", options.merge(:scheme => "https"))
+        end
+        
+        # Get an expiring object http url
+        #
+        # ==== Parameters
+        # * container<~String> - Name of container containing object
+        # * object<~String> - Name of object to get expiring url for
+        # * expires<~Time> - An expiry time for this url
+        #
+        # ==== Returns
+        # * response<~Excon::Response>:
+        #   * body<~String> - url for object
+        def get_object_http_url(container, object, expires, options = {})
+          create_temp_url(container, object, expires, "GET", options.merge(:scheme => "http"))
+        end
 
+        # Get an object http url expiring in the given amount of seconds
+        #
+        # ==== Parameters
+        # * container<~String> - Name of container containing object
+        # * object<~String> - Name of object to get expiring url for
+        # * expires_secs<~Integer> - the amount of seconds from now until the url expires
+        #
+        # ==== Returns
+        # * response<~Excon::Response>:
+        #   * body<~String> - url for object
         def generate_object_temp_url(container, object, expires_secs, method)
-          return unless (container && object && expires_secs && method)
+          expiration_time = (Time.now + expires_secs.to_i).to_i
+          create_temp_url(container, object, expiration_time, method, {})
+        end
+        
+        # creates a temporary url 
+        #
+        # ==== Parameters
+        # * container<~String> - Name of container containing object
+        # * object<~String> - Name of object to get expiring url for
+        # * expires<~Time> - An expiry time for this url
+        # * method<~String> - The method to use for accessing the object (GET, PUT, HEAD)
+        # * scheme<~String> - The scheme to use (http, https)
+        # * options<~Hash> - An optional options hash
+        #
+        # ==== Returns
+        # * response<~Excon::Response>:
+        #   * body<~String> - url for object
+        #
+        # ==== See Also
+        # http://docs.rackspace.com/files/api/v1/cf-devguide/content/Create_TempURL-d1a444.html
+        def create_temp_url(container, object, expires, method, options = {})
+          raise ArgumentError, "Insufficient parameters specified." unless (container && object && expires && method)
+          raise ArgumentError, "Storage must my instantiated with the :os_account_meta_temp_url_key option" if @os_account_meta_temp_url_key.nil?
 
           # POST not allowed
           allowed_methods = %w{GET PUT HEAD}
@@ -156,23 +216,17 @@ module Fog
             raise ArgumentError.new("Invalid method '#{method}' specified. Valid methods are: #{allowed_methods.join(', ')}")
           end
 
-          expires = (Time.now + expires_secs.to_i).to_i
-
-          # split up the storage uri
-          uri = URI.parse(@hp_storage_uri)
-          host   = uri.host
-          path   = uri.path
-          port   = uri.port
-          scheme = uri.scheme
-
+          expires        = expires.to_i
+          scheme = options[:scheme] || @scheme
+          
           # do not encode before signature generation, encode after
-          sig_path = "#{path}/#{container}/#{object}"
-          encoded_path = "#{path}/#{Fog::HP.escape(container)}/#{Fog::HP.escape(object)}"
+          sig_path = "#{@path}/#{container}/#{object}"
+          encoded_path = "#{@path}/#{Fog::HP.escape(container)}/#{Fog::HP.escape(object)}"
 
           string_to_sign = "#{method}\n#{expires}\n#{sig_path}"
-                    
-          signature = nil          
-          
+
+          signature = nil
+
           # HP uses a different strategy to create the signature that is passed to swift than OpenStack.
           # As the HP provider is broadly used by OpenStack users the OpenStack strategy is applied when
           # the @os_account_meta_temp_url_key is given.
@@ -190,11 +244,10 @@ module Fog
             signature     = @hp_tenant_id.to_s + ":" + @hp_access_key.to_s + ":" + signed_string
             signature     = Fog::HP.escape(signature)
           end
-
+          
           # generate the temp url using the signature and expiry
-          "#{scheme}://#{host}:#{port}#{encoded_path}?temp_url_sig=#{signature}&temp_url_expires=#{expires}"
+          "#{scheme}://#{@host}#{encoded_path}?temp_url_sig=#{signature}&temp_url_expires=#{expires}"          
         end
-
       end
 
       class Mock

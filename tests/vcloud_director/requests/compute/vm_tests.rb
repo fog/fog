@@ -14,7 +14,6 @@ Shindo.tests('Compute::VcloudDirector | vm requests', ['vclouddirector']) do
         end.each do |vapp|
           vapp_id = vapp[:href].split('/').last
           vapp = @service.get_vapp(vapp_id).body
-          vapp[:Children][:Vm] = [vapp[:Children][:Vm]] if vapp[:Children][:Vm].is_a?(Hash)
 
           tests('Each VM') do
             vapp[:Children][:Vm].each do |vm|

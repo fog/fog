@@ -54,14 +54,10 @@ Lazy load isn't used with `get` and `get_by_name` methods are used.
 
 ```ruby
 vcloud = Fog::Compute::VcloudDirector.new(
-  vcloud_director_username: "<username>@<org_name>",
-  vcloud_director_password: "<password>",
-  vcloud_director_host: 'example.com',
-  :connection_options => {
-    :ssl_verify_peer => false,
-    :connect_timeout => 200,
-    :read_timeout => 200
-  }
+  :vcloud_director_username => "<username>@<org_name>",
+  :vcloud_director_password => "<password>",
+  :vcloud_director_host => 'api.example.com',
+  :vcloud_director_show_progress => false, # task progress bar on/off
 )
 ```
 
@@ -341,7 +337,6 @@ vm = vapp.vms.get_by_name("DEVWEB")
 vm.cpu = 4
 ```
 ```no-highlight
-...  success
 4
 ```
 
@@ -355,7 +350,6 @@ vm = vapp.vms.get_by_name("DEVWEB")
 vm.memory = 4096
 ```
 ```no-highlight
-...  success
 4096
 ```
 
@@ -369,7 +363,6 @@ vm = vapp.vms.get_by_name("DEVWEB")
 vm.power_on
 ```
 ```no-highlight
-.....  success
 true
 ```
 
@@ -418,7 +411,6 @@ customization.script = "new userdata script"
 customization.save
 ```
 ```no-highlight
-..  success
 true
 ```
 
@@ -464,7 +456,6 @@ network.ip_address_allocation_mode = "DHCP"
 network.save
 ```
 ```no-highlight
-..  success
 true
 ```
 
@@ -548,7 +539,6 @@ vm = vapp.vms.get_by_name("DEVWEB")
 vm.disks.create(1024)
 ```
 ```no-highlight
-...  success
 true
 ```
 
@@ -638,7 +628,6 @@ disk = vm.disks.get_by_name("Hard disk 2")
 disk.capacity = 2048
 ```
 ```no-highlight
-...  success
 true
 ```
 
@@ -653,7 +642,6 @@ disk = vm.disks.get_by_name("Hard disk 2")
 disk.destroy
 ```
 ```no-highlight
-...  success
 true
 ```
 
@@ -714,7 +702,6 @@ vm = vapp.vms.get_by_name("DEVWEB")
 vm.tags.create('this_is_a_key', 'this_is_a_value')
 ```
 ```no-highlight
- success
 true
 ```
 
@@ -744,7 +731,6 @@ vm = vapp.vms.get_by_name("DEVWEB")
 vm.tags.get_by_name('this_is_a_key').value = 'new_value'
 ```
 ```no-highlight
-  success
 "new_value"
 ```
 
@@ -758,7 +744,6 @@ vm = vapp.vms.get_by_name("DEVWEB")
 vm.tags.get_by_name('this_is_a_key').destroy
 ```
 ```no-highlight
-  success
 true
 ```
 

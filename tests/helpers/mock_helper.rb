@@ -51,6 +51,7 @@ if Fog.mock?
     :hp_secret_key                    => 'hp_secret_key',
     :hp_tenant_id                     => 'hp_tenant_id',
     :hp_avl_zone                      => 'hp_avl_zone',
+    :os_account_meta_temp_url_key     => 'os_account_meta_temp_url_key',
     :ibm_username                     => 'ibm_username',
     :ibm_password                     => 'ibm_password',
     :joyent_username                  => "joyentuser",

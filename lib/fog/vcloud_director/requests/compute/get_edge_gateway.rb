@@ -13,13 +13,33 @@ module Fog
         # @see http://pubs.vmware.com/vcd-51/topic/com.vmware.vcloud.api.reference.doc_51/doc/operations/GET-EdgeGateway.html
         # @since vCloud API version 5.1
         def get_edge_gateway(id)
-          request(
-            :expects    => 200,
-            :idempotent => true,
-            :method     => 'GET',
-            :parser     => Fog::ToHashDocument.new,
-            :path       => "admin/edgeGateway/#{id}"
+          response = request(
+              :expects => 200,
+              :idempotent => true,
+              :method => 'GET',
+              :parser => Fog::ToHashDocument.new,
+              :path => "admin/edgeGateway/#{id}"
           )
+
+          edge_gateway_service_configuration = response.body[:Configuration][:EdgeGatewayServiceConfiguration]
+
+          ensure_list! edge_gateway_service_configuration[:FirewallService], :FirewallRule
+          ensure_list! edge_gateway_service_configuration[:NatService], :NatRule
+          ensure_list! edge_gateway_service_configuration[:LoadBalancerService], :Pool
+          ensure_list! edge_gateway_service_configuration[:LoadBalancerService], :VirtualServer
+
+          edge_gateway_service_configuration[:LoadBalancerService][:Pool].each do |pool|
+            ensure_list! pool, :ServicePort
+            ensure_list! pool, :Member
+            pool[:Member].each do |member|
+              ensure_list! member, :ServicePort
+            end
+          end
+
+          edge_gateway_service_configuration[:LoadBalancerService][:VirtualServer].each do |virtual_server|
+            ensure_list! virtual_server, :ServiceProfile
+          end
+          response
         end
       end
 

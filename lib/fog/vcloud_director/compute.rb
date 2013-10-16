@@ -44,7 +44,7 @@ module Fog
       class TaskError < Fog::VcloudDirector::Errors::TaskError; end
 
       requires :vcloud_director_username, :vcloud_director_password, :vcloud_director_host
-      recognizes :vcloud_director_api_version
+      recognizes :vcloud_director_api_version, :vcloud_director_show_progress
 
       secrets :vcloud_director_password
 
@@ -135,6 +135,7 @@ module Fog
       request :get_network_section_vapp
       request :get_network_section_vapp_template
       request :get_operating_system_section
+      request :get_org_settings
       request :get_org_vdc_gateways
       request :get_organization
       request :get_organization_metadata
@@ -168,6 +169,7 @@ module Fog
       request :get_vapp_template_owner
       request :get_vapp_templates_from_query
       request :get_vapps_in_lease_from_query
+      request :get_vcloud
       request :get_vdc
       request :get_vdc_metadata
       request :get_vdc_metadata_item_metadata
@@ -189,6 +191,7 @@ module Fog
       request :get_vms_in_lease_from_query
       request :instantiate_vapp_template # to be deprecated
       request :post_acquire_ticket
+      request :post_answer_vm_pending_question
       request :post_attach_disk
       request :post_cancel_task
       request :post_capture_vapp
@@ -241,6 +244,7 @@ module Fog
       request :put_network_connection_system_section_vapp
       request :put_vapp_metadata_item_metadata
       request :put_vapp_template_metadata_item_metadata
+      request :put_vm_capabilities
 
       class Model < Fog::Model
         def initialize(attrs={})
@@ -314,7 +318,8 @@ module Fog
         extend Fog::Deprecation
         deprecate :auth_token, :vcloud_token
 
-        attr_reader :end_point, :api_version
+        attr_reader :end_point, :api_version, :show_progress
+        alias_method :show_progress?, :show_progress
 
         def initialize(options={})
           @vcloud_director_password = options[:vcloud_director_password]
@@ -328,6 +333,8 @@ module Fog
           @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
           @end_point = "#{@scheme}://#{@host}#{@path}/"
           @api_version = options[:vcloud_director_api_version] || Fog::Compute::VcloudDirector::Defaults::API_VERSION
+          @show_progress = options[:vcloud_director_show_progress]
+          @show_progress = $stdin.tty? if @show_progress.nil?
         end
 
         def vcloud_token
