@@ -44,7 +44,7 @@ module Fog
       class TaskError < Fog::VcloudDirector::Errors::TaskError; end
 
       requires :vcloud_director_username, :vcloud_director_password, :vcloud_director_host
-      recognizes :vcloud_director_api_version
+      recognizes :vcloud_director_api_version, :vcloud_director_show_progress
 
       secrets :vcloud_director_password
 
@@ -318,7 +318,8 @@ module Fog
         extend Fog::Deprecation
         deprecate :auth_token, :vcloud_token
 
-        attr_reader :end_point, :api_version
+        attr_reader :end_point, :api_version, :show_progress
+        alias_method :show_progress?, :show_progress
 
         def initialize(options={})
           @vcloud_director_password = options[:vcloud_director_password]
@@ -332,6 +333,8 @@ module Fog
           @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
           @end_point = "#{@scheme}://#{@host}#{@path}/"
           @api_version = options[:vcloud_director_api_version] || Fog::Compute::VcloudDirector::Defaults::API_VERSION
+          @show_progress = options[:vcloud_director_show_progress]
+          @show_progress = $stdin.tty? if @show_progress.nil?
         end
 
         def vcloud_token
