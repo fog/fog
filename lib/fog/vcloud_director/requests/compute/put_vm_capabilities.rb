@@ -34,6 +34,7 @@ module Fog
             :expects => 202,
             :headers => {'Content-Type' => 'application/vnd.vmware.vcloud.vmCapabilitiesSection+xml'},
             :method  => 'PUT',
+            :parser  => Fog::ToHashDocument.new,
             :path    => "vApp/#{id}/vmCapabilities"
           )
         end
