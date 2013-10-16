@@ -1,6 +1,16 @@
+0.0.22 10/16/2013
+=================
+- add support for new LoadBalancer provider
+  - add load balancer model and request layer with mocking support
+  - add node model and request layer with mocking support
+  - add virtual_ip, protocol and algorithm models and request layer with mocking support
+- add support for new DNS provider
+  - add domain model and request layer with mocking support
+  - add record model and request layer with mocking support
+
 0.0.21 06/11/2013
 =================
-- add support for new Networking (Quantum) provider (Grizzly release)
+- add support for new Networking (Neutron) provider (Grizzly release)
   - add network model and request layer with mocking support
   - add router model and request layer with mocking support
   - add subnet model and request layer with mocking support
