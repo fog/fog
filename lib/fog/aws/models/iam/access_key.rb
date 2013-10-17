@@ -14,7 +14,11 @@ module Fog
         def save
           requires :username
 
-          data = service.create_access_key('UserName'=> username).body["AccessKey"]
+          if !persisted?
+            data = service.create_access_key('UserName'=> username).body["AccessKey"]
+          else
+            data = service.update_access_key(id, status, "UserName" => username).body["AccessKey"]
+          end
           merge_attributes(data)
           true
         end
