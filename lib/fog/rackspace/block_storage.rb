@@ -26,8 +26,6 @@ module Fog
 
       model :volume_type
       collection :volume_types
-      model :snapshot
-      collection :snapshots
 
       model :snapshot
       collection :snapshots
