@@ -23,22 +23,27 @@ module Fog
 
           edge_gateway_service_configuration = response.body[:Configuration][:EdgeGatewayServiceConfiguration]
 
-          ensure_list! edge_gateway_service_configuration[:FirewallService], :FirewallRule
-          ensure_list! edge_gateway_service_configuration[:NatService], :NatRule
-          ensure_list! edge_gateway_service_configuration[:LoadBalancerService], :Pool
-          ensure_list! edge_gateway_service_configuration[:LoadBalancerService], :VirtualServer
+          ensure_list! edge_gateway_service_configuration[:FirewallService], :FirewallRule if edge_gateway_service_configuration[:FirewallService]
+          ensure_list! edge_gateway_service_configuration[:NatService], :NatRule if edge_gateway_service_configuration[:NatService]
 
-          edge_gateway_service_configuration[:LoadBalancerService][:Pool].each do |pool|
-            ensure_list! pool, :ServicePort
-            ensure_list! pool, :Member
-            pool[:Member].each do |member|
-              ensure_list! member, :ServicePort
+          if edge_gateway_service_configuration[:LoadBalancerService]
+
+            ensure_list! edge_gateway_service_configuration[:LoadBalancerService], :Pool
+            edge_gateway_service_configuration[:LoadBalancerService][:Pool].each do |pool|
+              ensure_list! pool, :ServicePort
+              ensure_list! pool, :Member
+              pool[:Member].each do |member|
+                ensure_list! member, :ServicePort
+              end
             end
+
+            ensure_list! edge_gateway_service_configuration[:LoadBalancerService], :VirtualServer
+            edge_gateway_service_configuration[:LoadBalancerService][:VirtualServer].each do |virtual_server|
+              ensure_list! virtual_server, :ServiceProfile
+            end
+
           end
 
-          edge_gateway_service_configuration[:LoadBalancerService][:VirtualServer].each do |virtual_server|
-            ensure_list! virtual_server, :ServiceProfile
-          end
           response
         end
       end
