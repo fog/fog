@@ -34,6 +34,18 @@ module Fog
         end
 
       end
+
+      class Mock
+        def post_configure_edge_gateway_services(id, configuration)
+          unless data[:edge_gateways][id]
+            raise Fog::Compute::VcloudDirector::Forbidden.new(
+                      "No access to entity \"(com.vmware.vcloud.entity.edgegateway:#{id})\"."
+                  )
+          end
+          data[:edge_gateways][id][:Configuration][:EdgeGatewayServiceConfiguration] = configuration
+          Excon::Response.new(:body => {:name => 'mock_task', :href => '/10000000000000000000000000000000' })
+        end
+      end
     end
   end
 end
