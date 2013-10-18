@@ -3,7 +3,7 @@ module Fog
     class VcloudDirector
       class Real
 
-        require 'fog/vcloud_director/generators/compute/edge_gateway'
+        require 'fog/vcloud_director/generators/compute/edge_gateway_service_configuration'
 
         # Configure edge gateway services like firewall, nat and load balancer.
         #
@@ -21,7 +21,7 @@ module Fog
         #   vCloud API Documentaion
         # @since vCloud API version 5.1
         def post_configure_edge_gateway_services(id, configuration)
-          body = Fog::Generators::Compute::VcloudDirector::EdgeGateway.new(configuration).generate_xml
+          body = Fog::Generators::Compute::VcloudDirector::EdgeGatewayServiceConfiguration.new(configuration).generate_xml
 
           request(
               :body => body,
