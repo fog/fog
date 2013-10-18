@@ -44,7 +44,7 @@ module Fog
       ]
 
       requires :aws_access_key_id, :aws_secret_access_key
-      recognizes :endpoint, :region, :host, :path, :port, :scheme, :persistent, :use_iam_profile, :aws_session_token, :aws_credentials_expire_at, :path_style
+      recognizes :endpoint, :region, :host, :port, :scheme, :persistent, :use_iam_profile, :aws_session_token, :aws_credentials_expire_at, :path_style
 
       secrets    :aws_secret_access_key, :hmac
 
@@ -403,17 +403,11 @@ module Fog
           if @endpoint = options[:endpoint]
             endpoint = URI.parse(@endpoint)
             @host = endpoint.host
-            @path = if endpoint.path.empty?
-              '/'
-            else
-              endpoint.path
-            end
             @scheme = endpoint.scheme
             @port = endpoint.port
           else
             @region     = options[:region]      || DEFAULT_REGION
             @host       = options[:host]        || region_to_host(@region)
-            @path       = options[:path]        || '/'
             @scheme     = options[:scheme]      || DEFAULT_SCHEME
             @port       = options[:port]        || DEFAULT_SCHEME_PORT[@scheme]
             @path_style = options[:path_style]  || false
