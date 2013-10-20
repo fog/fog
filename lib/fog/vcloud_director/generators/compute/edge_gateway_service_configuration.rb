@@ -2,7 +2,7 @@ module Fog
   module Generators
     module Compute
       module VcloudDirector
-        class EdgeGateway
+        class EdgeGatewayServiceConfiguration
           def initialize(configuration={})
             @configuration = configuration
           end
