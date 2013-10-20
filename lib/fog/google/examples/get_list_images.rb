@@ -19,9 +19,8 @@ def test
   if custom_img_name
     # puts 'Fetching a single image from the custom project'
     # puts '----------------------------------------------'
-    img = connection.images.get(custom_img_name)
+    img = connection.images.get(custom_img_name.name)
     raise 'Could not GET the (custom) image' unless img
     # puts img.inspect
   end
-
 end

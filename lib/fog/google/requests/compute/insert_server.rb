@@ -125,7 +125,7 @@ module Fog
           if ! network.nil?
             networkInterface = { 'network' => @api_url + @project + "/global/networks/#{network}" }
             if external_ip
-              networkInterface['accessConfigs'] = [{'type' => 'ONE_TO_ONE_NAT', 'name' => 'External NAT'}]
+              networkInterface['accessConfigs'] = [{'type' => 'ONE_TO_ONE_NAT', 'name' => 'External NAT', 'natIP' => external_ip}]
             end
             networkInterfaces <<  networkInterface
           end
