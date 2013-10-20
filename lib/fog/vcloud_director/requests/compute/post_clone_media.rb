@@ -36,13 +36,64 @@ module Fog
             }
           end.to_xml
 
-          request(
+          response = request(
             :body    => body,
             :expects => 201,
             :headers => {'Content-Type' => 'application/vnd.vmware.vcloud.cloneMediaParams+xml'},
             :method  => 'POST',
             :parser  => Fog::ToHashDocument.new,
             :path    => "vdc/#{vdc_id}/action/cloneMedia"
+          )
+          ensure_list! response.body, :Files, :File
+          response
+        end
+      end
+
+      class Mock
+        def post_clone_media(vdc_id, source_id, options={})
+          # TODO: check this happens.
+          unless source_media = data[:medias][source_id]
+            raise Fog::Compute::VcloudDirector::Forbidden.new(
+              "No access to entity \"(com.vmware.vcloud.entity.media:#{source_id})\"."
+            )
+          end
+          unless data[:vdcs][vdc_id]
+            raise Fog::Compute::VcloudDirector::Forbidden.new(
+              "No access to entity \"(com.vmware.vcloud.entity.vdc:#{vdc_id})\"."
+            )
+          end
+
+          media_id = uuid
+          media_name = "#{source_media[:name]}-copy-#{uuid}"
+
+          owner = {
+            :href => make_href("media/#{media_id}"),
+            :type => 'application/vnd.vmware.vcloud.media+xml'
+          }
+          task_id = enqueue_task(
+            "Copy Media File #{media_name}(#{media_id})", 'vdcCopyMedia', owner,
+            :on_success => lambda do
+              data[:medias][media_id][:status] = 1
+            end
+          )
+
+          media = source_media.dup.merge(
+            :name => media_name,
+            :status => 0,
+            :tasks => [task_id]
+          )
+          data[:medias][media_id] = media
+
+          body = {
+            :xmlns => xmlns,
+            :xmlns_xsi => xmlns_xsi,
+            :xsi_schemaLocation => xsi_schema_location
+          }.merge(media_body(media_id))
+
+          Excon::Response.new(
+            :status => 201,
+            :headers => {'Content-Type' => "#{body[:type]};version=#{api_version}"},
+            :body => body
           )
         end
       end

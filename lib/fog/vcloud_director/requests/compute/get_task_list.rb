@@ -11,7 +11,78 @@ module Fog
         # @param [String] id Object identifier of the organization.
         # @return [Excon::Response]
         #   * body<~Hash>:
+        #     * :href<~String> - The URI of the entity.
+        #     * :type<~String> - The MIME type of the entity.
+        #     * :id<~String> - The entity identifier, expressed in URN format.
+        #       The value of this attribute uniquely identifies the entity,
+        #       persists for the life of the entity, and is never reused.
+        #     * :name<~String> - The name of the entity.
+        #     * :Task<~Array<Hash>>:
+        #       * :href<~String> - The URI of the entity.
+        #       * :type<~String> - The MIME type of the entity.
+        #       * :id<~String> - The entity identifier, expressed in URN
+        #         format. The value of this attribute uniquely identifies the
+        #         entity, persists for the life of the entity, and is never
+        #         reused.
+        #       * :operationKey<~String> - Optional unique identifier to
+        #         support idempotent semantics for create and delete
+        #         operations.
+        #       * :name<~String> - The name of the entity.
+        #       * :cancelRequested<~String> - Whether user has requested this
+        #         processing to be canceled.
+        #       * :endTime<~String> - The date and time that processing of the
+        #         task was completed. May not be present if the task is still
+        #         being executed.
+        #       * :expiryTime<~String> - The date and time at which the task
+        #         resource will be destroyed and no longer available for
+        #         retrieval. May not be present if the task has not been
+        #         executed or is still being executed.
+        #       * :operation<~String> - A message describing the operation that
+        #         is tracked by this task.
+        #       * :operationName<~String> - The short name of the operation
+        #         that is tracked by this task.
+        #       * :serviceNamespace<~String> - Identifier of the service that
+        #         created the task.
+        #       * :startTime<~String> - The date and time the system started
+        #         executing the task. May not be present if the task has not
+        #         been executed yet.
+        #       * :status<~String> - The execution status of the task.
+        #       * :Link<~Array<Hash>>:
+        #       * :Description<~String> - Optional description.
+        #       * :Owner<~Hash> - Reference to the owner of the task. This is
+        #         typically the object that the task is creating or updating.
+        #         * :href<~String> - Contains the URI to the entity.
+        #         * :name<~String> - Contains the name of the entity.
+        #         * :type<~String> - Contains the type of the entity.
+        #       * :Error<~Hash> - Represents error information from a failed
+        #         task.
+        #         * :majorErrorCode<~String> - The class of the error.  Matches
+        #           the HTTP status code.
+        #         * :message<~String> - An one line, human-readable message
+        #           describing the error that occurred.
+        #         * :minorErrorCode<~String> - Resource-specific error code.
+        #         * :stackTrace<~String> - The stack trace of the exception.
+        #         * :vendorSpecificErrorCode<~String> - A vendor- or
+        #           implementation-specific error code that can reference
+        #           specific modules or source lines for diagnostic purposes.
+        #       * :User<~Hash> - The user who started the task.
+        #         * :href<~String> - Contains the URI to the entity.
+        #         * :name<~String> - Contains the name of the entity.
+        #         * :type<~String> - Contains the type of the entity.
+        #       * :Organization<~Hash> - The organization to which the :User
+        #         belongs.
+        #         * :href<~String> - Contains the URI to the entity.
+        #         * :name<~String> - Contains the name of the entity.
+        #         * :type<~String> - Contains the type of the entity.
+        #       * :Progress<~String> - Read-only indicator of task progress as
+        #         an approximate percentage between 0 and 100. Not available
+        #         for all tasks.
+        #       * :Params
+        #       * :Details<~String> - Detailed message about the task. Also
+        #         contained by the :Owner entity when task status is
+        #         preRunning.
         #
+        # @raise [Fog::Compute::VcloudDirector::BadRequest]
         # @raise [Fog::Compute::VcloudDirector::Forbidden]
         #
         # @see http://pubs.vmware.com/vcd-51/topic/com.vmware.vcloud.api.reference.doc_51/doc/operations/GET-TaskList.html
@@ -37,43 +108,15 @@ module Fog
             )
           end
 
-          body =
-            {:xmlns=>xmlns,
-             :xmlns_xsi=>xmlns_xsi,
-             :name=>"Tasks Lists",
-             :type=>"application/vnd.vmware.vcloud.tasksList+xml",
-             :href=>make_href("tasksList/#{id}"),
-             :xsi_schemaLocation=>xsi_schema_location}
-
-          tasks = data[:tasks].map do |task_id, task|
-            {:status => task[:status],
-             :startTime => task[:startTime].iso8601,
-             :operationName => task[:operationName],
-             :operation => task[:operation],
-             :expiryTime => task[:expiryTime].utc.iso8601,
-             :endTime => task[:endTime].iso8601,
-             :cancelRequested => task[:cancelRequested].to_s,
-             :name => task[:name],
-             :id => "urn:vcloud:task:#{id}",
-             :type => 'application/vnd.vmware.vcloud.task+xml',
-             :href => make_href("task/#{task_id}"),
-             :Owner =>
-              {:type => "application/vnd.vmware.vcloud.vApp+xml",
-               :name => "vApp_#{user_name}_0",
-               :href=> make_href("vApp/vapp-#{uuid}")},
-             :User =>
-              {:type => "application/vnd.vmware.admin.user+xml",
-               :name => user_name,
-               :href => make_href("admin/user/#{user_uuid}")},
-             :Organization =>
-              {:type => "application/vnd.vmware.vcloud.org+xml",
-               :name => org_name,
-               :href => make_href("org/#{org_uuid}")},
-             :Progress => task[:Progress].to_s,
-             :Details => task[:Details] || ''}
-          end
-          tasks = tasks.first if tasks.size == 1
-          body[:Task] = tasks
+          body = {
+            :xmlns => xmlns,
+            :xmlns_xsi => xmlns_xsi,
+            :xsi_schemaLocation => xsi_schema_location,
+            :href => make_href("tasksList/#{id}"),
+            :type => "application/vnd.vmware.vcloud.tasksList+xml",
+            :name => "Tasks Lists",
+            :Task => data[:tasks].keys.map {|task_id| task_body(task_id)}
+          }
 
           Excon::Response.new(
             :status => 200,

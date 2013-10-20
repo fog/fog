@@ -11,11 +11,15 @@ class VcloudDirector
       end
 
       def self.current_org(service)
+        service.get_organization(current_org_id(service)).body
+      end
+
+      def self.current_org_id(service)
         session = service.get_current_session.body
         link = session[:Link].detect do |l|
           l[:type] == 'application/vnd.vmware.vcloud.org+xml'
         end
-        service.get_organization(link[:href].split('/').last).body
+        link[:href].split('/').last
       end
 
       def self.first_vdc_id(org)
