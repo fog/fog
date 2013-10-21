@@ -162,8 +162,6 @@ module Fog
           :headers => {
               'Content-Type' => 'application/json'
           },
-          :host => @host,
-          :port => @port,
           :method => 'POST',
           :body => Fog::JSON.encode(request_body),
           :path => @auth_path
