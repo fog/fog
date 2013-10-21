@@ -103,6 +103,7 @@ module Fog
           :tools_version => 'guest.toolsVersionStatus',
           :memory_mb => 'config.hardware.memoryMB',
           :cpus   => 'config.hardware.numCPU',
+          :corespersocket   => 'config.hardware.numCoresPerSocket',
           :overall_status => 'overallStatus',
           :guest_id => 'config.guestId',
         }

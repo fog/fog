@@ -36,6 +36,7 @@ module Fog
         attribute :relative_path
         attribute :memory_mb
         attribute :cpus
+        attribute :corespersocket
         attribute :interfaces
         attribute :volumes
         attribute :customvalues
@@ -66,12 +67,12 @@ module Fog
 
         def vm_reconfig_memory(options = {})
           requires :instance_uuid, :memory
-          service.vm_reconfig_memory('instance_uuid' => instance_uuid, 'memory' => memory)
+          service.vm_reconfig_memory('instance_uuid' => instance_uuid, 'memory' => memory_mb)
         end
 
         def vm_reconfig_cpus(options = {})
-          requires :instance_uuid, :cpus
-          service.vm_reconfig_cpus('instance_uuid' => instance_uuid, 'cpus' => cpus)
+          requires :instance_uuid, :cpus, :corespersocket
+          service.vm_reconfig_cpus('instance_uuid' => instance_uuid, 'cpus' => cpus, 'corespersocket' => corespersocket)
         end
 
         def vm_reconfig_hardware(hardware_spec, options = {})
@@ -162,6 +163,10 @@ module Fog
           memory_mb * 1024 * 1024
         end
 
+        def sockets
+          cpus / corespersocket
+        end
+        
         def mac
           interfaces.first.mac unless interfaces.empty?
         end
@@ -230,6 +235,7 @@ module Fog
         def defaults
           {
             :cpus      => 1,
+#            :corespersocket => 1,
             :memory_mb => 512,
 #            :guest_id  => 'otherGuest',
             :path      => '/'

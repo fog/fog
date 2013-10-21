@@ -211,7 +211,7 @@ module Fog
         unless recognizes.empty?
           unrecognized = options.keys - requirements - recognized
           unless unrecognized.empty?
-            raise ArgumentError, "Unrecognized arguments: #{unrecognized.join(', ')}"
+            Fog::Logger.warning("Unrecognized arguments: #{unrecognized.join(', ')}")
           end
         end
       end

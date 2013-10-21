@@ -6,11 +6,11 @@ module Fog
     class HP < Fog::Service
 
       requires    :hp_secret_key, :hp_tenant_id, :hp_avl_zone
-      recognizes  :hp_auth_uri, :hp_cdn_ssl, :hp_cdn_uri
+      recognizes  :hp_auth_uri, :hp_cdn_ssl, :hp_cdn_uri, :hp_service_type
       recognizes  :persistent, :connection_options
       recognizes  :hp_use_upass_auth_style, :hp_auth_version, :user_agent
       recognizes  :hp_access_key, :hp_account_id  # :hp_account_id is deprecated use hp_access_key instead
-      
+
       # :os_account_meta_temp_url_key is an OpenStack specific setting used to generate temporary urls.
       recognizes  :os_account_meta_temp_url_key
 
@@ -321,7 +321,7 @@ module Fog
           auth_version = auth_version.to_s.downcase.to_sym
           
           ### Pass the service name for object storage to the authentication call
-          options[:hp_service_type] = "Object Storage"
+          options[:hp_service_type] ||= "Object Storage"
           @hp_tenant_id = options[:hp_tenant_id]
           @hp_avl_zone  = options[:hp_avl_zone]
           @os_account_meta_temp_url_key = options[:os_account_meta_temp_url_key]
