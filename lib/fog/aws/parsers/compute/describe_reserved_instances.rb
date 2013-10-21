@@ -26,6 +26,7 @@ module Fog
             when 'start','end'
               @reserved_instance[name] = Time.parse(value)
             end
+
           end
 
         end
