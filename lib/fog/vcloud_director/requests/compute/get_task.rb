@@ -119,7 +119,7 @@ module Fog
             :id => "urn:vcloud:tasl:#{id}",
             :name => task[:name],
             :cancelRequested => task[:cancel_requested].to_s,
-            :expiryTime => task[:expiry_time].iso8601,
+            :expiryTime => task[:expiry_time].strftime('%Y-%m-%dT%H:%M:%S%z'),
             :operation => task[:operation],
             :operationName => task[:operation_name],
             :serviceNamespace => task[:service_namespace],
@@ -139,8 +139,8 @@ module Fog
             :Progress => task[:progress].to_s,
             :Details => task[:details] || '',
           }
-          body[:endTime] = task[:end_time].iso8601 if task[:end_time]
-          body[:startTime] = task[:start_time].iso8601 if task[:start_time]
+          body[:endTime] = task[:end_time].strftime('%Y-%m-%dT%H:%M:%S%z') if task[:end_time]
+          body[:startTime] = task[:start_time].strftime('%Y-%m-%dT%H:%M:%S%z') if task[:start_time]
           body[:Description] = task[:description] if task[:description]
 
           if task[:status] == 'running'
