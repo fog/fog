@@ -116,6 +116,7 @@ Shindo.tests('Fog::Compute[:aws] | instance requests', ['aws']) do
       'instanceType'        => String,
       'availabilityZone'    => String,
       'start'               => Time,
+      'end'                 => Time,
       'duration'            => Integer,
       'fixedPrice'          => Float,
       'usagePrice'          => Float,
