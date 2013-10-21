@@ -10,6 +10,7 @@ module Fog
             :guestId      => attributes[:guest_id],
             :files        => { :vmPathName => vm_path_name(attributes) },
             :numCPUs      => attributes[:cpus],
+            :numCoresPerSocket => attributes[:corespersocket],
             :memoryMB     => attributes[:memory_mb],
             :deviceChange => device_change(attributes),
             :extraConfig  => extra_config(attributes),
