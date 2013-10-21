@@ -31,7 +31,7 @@ module Fog
               PV_kernel
               PV_ramdisk
               PV_legacy_args
-              HVM_boot_params
+              HVM_boot_policy
               HVM_boot_params
           }.each do |k|
             if config[k.downcase.to_sym]
