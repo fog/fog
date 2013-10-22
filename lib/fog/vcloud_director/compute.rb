@@ -486,7 +486,22 @@ module Fog
                 uuid => {
                   :name => 'MockEdgeGateway',
                   :networks => [uplink_network_uuid, default_network_uuid],
-                  :vdc => vdc_uuid
+                  :vdc => vdc_uuid,
+                  :Configuration => {
+                    :GatewayBackingConfig => "compact",
+                    :GatewayInterfaces => {
+                      :GatewayInterface => []},
+                    :EdgeGatewayServiceConfiguration => {
+                      :FirewallService => {
+                        :IsEnabled => "true",
+                        :DefaultAction => "drop",
+                        :LogDefaultAction => "false",
+                        :FirewallRule => []
+                      },
+                      :NatService => {:IsEnabled => "true"}},
+                    :HaEnabled => "false",
+                    :UseDefaultRouteForDnsRelay => "false"
+                  }
                 }
               },
               :medias => {},
