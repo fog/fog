@@ -135,6 +135,31 @@ for more details and examples. Once you are ready to start scripting fog, here i
 
 geemus says: "That should give you everything you need to get started, but let me know if there is anything I can do to help!"
 
+## Versioning
+
+Fog library aims to adhere to [Semantic Versioning 2.0.0][semver], although it does not
+address challenges of multi-provider libraries. Semantic versioning is only guaranteed for
+the common API, not any provider-specific extensions.  You may also need to update your
+configuration from time to time (even between Fog releases) as providers update or deprecate
+services.
+
+However, we still aim for forwards compatibility within Fog major versions.  As a result of this policy, you can (and
+should) specify a dependency on this gem using the [Pessimistic Version
+Constraint][pvc] with two digits of precision. For example:
+
+```ruby
+spec.add_dependency 'fog', '~> 1.0'
+```
+
+This means your project is compatible with Fog 1.0 up until 2.0.  You can also set a higher minimum version:
+
+```ruby
+spec.add_dependency 'fog', '~> 1.16'
+```
+
+[semver]: http://semver.org/
+[pvc]: http://guides.rubygems.org/patterns/
+
 ## Contributing
 
 * Find something you would like to work on.
