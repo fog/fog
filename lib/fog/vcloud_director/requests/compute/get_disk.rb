@@ -35,7 +35,7 @@ module Fog
           )
           ensure_list! response.body, :Link
           ensure_list! response.body, :Tasks, :Task
-          #ensure_list! response.body, :Files, :File
+          ensure_list! response.body, :Files, :File
           response
         end
       end
