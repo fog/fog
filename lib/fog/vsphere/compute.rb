@@ -343,8 +343,35 @@ module Fog
           @vsphere_ssl      = options[:vsphere_ssl] || true
           @vsphere_expected_pubkey_hash = options[:vsphere_expected_pubkey_hash]
           @vsphere_must_reauthenticate = false
-
+          @vsphere_is_vcenter = nil
           @connection = nil
+          connect
+          negotiate_revision(options[:vsphere_rev])
+          authenticate
+        end
+
+        def reload
+          connect
+          # Check if the negotiation was ever run
+          if @vsphere_is_vcenter.nil?
+            negotiate
+          end
+          authenticate
+        end
+
+        private
+        def negotiate_revision(revision = nil)
+          # Negotiate the API revision
+          if not revision
+            rev = @connection.serviceContent.about.apiVersion
+            @connection.rev = [ rev, ENV['FOG_VSPHERE_REV'] || '4.1' ].min
+          end
+
+          @vsphere_is_vcenter = @connection.serviceContent.about.apiType == "VirtualCenter"
+          @vsphere_rev = @connection.rev
+        end
+
+        def connect
           # This is a state variable to allow digest validation of the SSL cert
           bad_cert = false
           loop do
@@ -366,20 +393,7 @@ module Fog
           if bad_cert then
             validate_ssl_connection
           end
-
-          # Negotiate the API revision
-          if not options[:vsphere_rev]
-            rev = @connection.serviceContent.about.apiVersion
-            @connection.rev = [ rev, ENV['FOG_VSPHERE_REV'] || '4.1' ].min
-          end
-
-          @vsphere_is_vcenter = @connection.serviceContent.about.apiType == "VirtualCenter"
-          @vsphere_rev = @connection.rev
-
-          authenticate
         end
-
-        private
 
         def authenticate
           begin
