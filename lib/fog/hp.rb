@@ -85,8 +85,6 @@ module Fog
           'X-Auth-Key'  => @hp_secret_key,
           'X-Auth-User' => @hp_access_key
         },
-        :host     => @host,
-        :port     => @port,
         :method   => 'GET',
         :path     => @auth_path
       })
@@ -162,8 +160,6 @@ module Fog
           :headers => {
               'Content-Type' => 'application/json'
           },
-          :host => @host,
-          :port => @port,
           :method => 'POST',
           :body => Fog::JSON.encode(request_body),
           :path => @auth_path
