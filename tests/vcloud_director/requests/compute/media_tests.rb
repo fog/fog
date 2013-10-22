@@ -32,7 +32,8 @@ Shindo.tests('Compute::VcloudDirector | media requests', ['vclouddirector']) do
     File.open(VcloudDirector::Compute::Helper.fixture('test.iso'), 'rb') do |iso|
       tests('#post_upload_media').data_matches_schema(VcloudDirector::Compute::Schema::MEDIA_TYPE) do
         @vdc_id = VcloudDirector::Compute::Helper.first_vdc_id(@org)
-        @media = @service.post_upload_media(@vdc_id, @media_name, 'iso', iso.size).body
+        @size = File.size(iso.path)
+        @media = @service.post_upload_media(@vdc_id, @media_name, 'iso', @size).body
       end
 
       tests('media object has exactly one file').returns(true) do
@@ -46,7 +47,7 @@ Shindo.tests('Compute::VcloudDirector | media requests', ['vclouddirector']) do
 
       unless Fog.mocking?
         headers = {
-          'Content-Length' => iso.size,
+          'Content-Length' => @size,
           'Content-Type' => 'application/octet-stream',
           'x-vcloud-authorization' => @service.vcloud_token
         }
@@ -63,7 +64,7 @@ Shindo.tests('Compute::VcloudDirector | media requests', ['vclouddirector']) do
       end
       tests("media[:name]").returns(@media_name) { @media[:name] }
       tests("media[:imageType]").returns('iso') { @media[:imageType] }
-      tests("media[:size]").returns(iso.size) { @media[:size].to_i }
+      tests("media[:size]").returns(@size) { @media[:size].to_i }
 
       tests("#get_media_owner(#{@media_id})").data_matches_schema(VcloudDirector::Compute::Schema::OWNER_TYPE) do
         @owner = @service.get_media_owner(@media_id).body
