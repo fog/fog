@@ -9,7 +9,7 @@ Shindo.tests('Fog::Compute::RackspaceV2 | server', ['rackspace']) do
   options = {
     :name => "fog_server_#{Time.now.to_i.to_s}",
     :flavor_id => rackspace_test_flavor_id(service),
-    :image_id => rackspace_test_image_id(service), 
+    :image_id => rackspace_test_image_id(service),
     :metadata => { 'fog_test' => 'true' },
     :networks => [@network.id]
   }
@@ -75,6 +75,13 @@ Shindo.tests('Fog::Compute::RackspaceV2 | server', ['rackspace']) do
      tests("includes #{@network.label}").returns(true) do
        @instance.addresses.keys.include?(@network.label)
      end
+
+    tests('#create').succeeds do
+      pending unless Fog.mocking?
+      original_options = Marshal.load(Marshal.dump(options))
+      @instance.create(options)
+      returns(true) { original_options == options }
+    end
 
     tests('#update').succeeds do
       new_name = "fog_server_update#{Time.now.to_i.to_s}"

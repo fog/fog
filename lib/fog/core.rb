@@ -30,6 +30,8 @@ require 'fog/core/scp'
 require 'fog/core/time'
 require 'fog/core/timeout'
 require 'fog/core/wait_for'
+require 'fog/core/class_from_string'
+require 'fog/core/uuid'
 
 # data exchange specific (to be extracted and used on a per provider basis)
 require 'fog/xml'

@@ -7,15 +7,21 @@ module Fog
         # http://docs.amazonwebservices.com/IAM/latest/APIReference/API_GetGroupPolicy.html
 
           def reset
-            @response = {}
+            @response = { 'Policy' => {} }
           end
 
           def end_element(name)
             case name
-            when 'GroupName', 'PolicyName', 'PolicyDocument'
-              @response[name] = @value
+            when 'GroupName', 'PolicyName'
+              @response[name] = value
+            when 'PolicyDocument'
+              @response['Policy'][name] = if decoded_string = URI.decode(value)
+                                  Fog::JSON.decode(decoded_string) rescue value
+                                else
+                                  value
+                                end
             when 'RequestId'
-              @response[name] = @value
+              @response[name] = value
             end
           end
 

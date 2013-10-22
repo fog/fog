@@ -161,11 +161,19 @@ module Fog
         end
 
         def object_to_path(object_name=nil)
-          '/' + Fog::AWS.escape(object_name.to_s).gsub('%2F','/')
+          '/' + escape(object_name.to_s).gsub('%2F','/')
         end
 
         def bucket_to_path(bucket_name, path=nil)
-          "/#{Fog::AWS.escape(bucket_name.to_s)}#{path}"
+          "/#{escape(bucket_name.to_s)}#{path}"
+        end
+
+        # NOTE: differs fram Fog::AWS.escape by NOT escaping `/`
+        def escape(string)
+          string = Unicode::normalize_C(string)
+          string.gsub(/([^a-zA-Z0-9_.\-~\/]+)/) {
+            "%" + $1.unpack("H2" * $1.bytesize).join("%").upcase
+          }
         end
 
         # Transforms things like bucket_name, object_name, region
@@ -176,9 +184,9 @@ module Fog
 
           if params[:scheme]
             scheme = params[:scheme]
-            port   = params[:port]
+            port   = params[:port] || DEFAULT_SCHEME_PORT[scheme]
           else
-            scheme = @scheme || DEFAULT_SCHEME
+            scheme = @scheme
             port   = @port
           end
           if DEFAULT_SCHEME_PORT[scheme] == port
@@ -217,7 +225,7 @@ module Fog
             :host         => host,
             :port         => port,
             :path         => path,
-            :headers      => headers,
+            :headers      => headers
           })
 
           #
@@ -232,7 +240,7 @@ module Fog
         def params_to_url(params)
           query = params[:query] && params[:query].map do |key, value|
             if value
-              [key, Fog::AWS.escape(value.to_s)].join('=')
+              [key, escape(value.to_s)].join('=')
             else
               key
             end
@@ -410,12 +418,10 @@ module Fog
             @port       = options[:port]        || DEFAULT_SCHEME_PORT[@scheme]
             @path_style = options[:path_style]  || false
           end
-
-          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}#{@path}", @persistent, @connection_options)
         end
 
         def reload
-          @connection.reset
+          @connection.reset if @connection
         end
 
         def signature(params, expires)
@@ -485,6 +491,20 @@ DATA
           @hmac = Fog::HMAC.new('sha1', @aws_secret_access_key)
         end
 
+        def connection(scheme, host, port)
+          uri = "#{scheme}://#{host}:#{port}"
+          if @persistent
+            unless uri == @connection_uri
+              @connection_uri = uri
+              reload
+              @connection = nil
+            end
+          else
+            @connection = nil
+          end
+          @connection ||= Fog::Connection.new(uri, @persistent, @connection_options)
+        end
+
         def request(params, &block)
           refresh_credentials_if_expired
 
@@ -494,7 +514,9 @@ DATA
           signature = signature(params, expires)
 
           params = request_params(params)
-          params.delete(:port) unless params[:port]
+          scheme = params.delete(:scheme)
+          host   = params.delete(:host)
+          port   = params.delete(:port) || DEFAULT_SCHEME_PORT[scheme]
 
           params[:headers]['Date'] = expires
           params[:headers]['Authorization'] = "AWS #{@aws_access_key_id}:#{signature}"
@@ -502,12 +524,12 @@ DATA
           original_params = params.dup
 
           begin
-            response = @connection.request(params, &block)
+            response = connection(scheme, host, port).request(params, &block)
           rescue Excon::Errors::TemporaryRedirect => error
             headers = (error.response.is_a?(Hash) ? error.response[:headers] : error.response.headers)
             uri = URI.parse(headers['Location'])
             Fog::Logger.warning("fog: followed redirect to #{uri.host}, connecting to the matching region will be more performant")
-            response = Fog::Connection.new("#{@scheme}://#{uri.host}:#{@port}", false, @connection_options).request(original_params, &block)
+            response = Fog::Connection.new("#{uri.scheme}://#{uri.host}:#{uri.port}", false, @connection_options).request(original_params, &block)
           end
 
           response

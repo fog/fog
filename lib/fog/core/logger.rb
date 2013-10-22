@@ -5,7 +5,7 @@ module Fog
       :deprecation  => ::STDOUT,
       :warning      => ::STDOUT
     }
-    
+
     @channels[:debug] = ::STDOUT if ENV['DEBUG']
 
     def self.[](channel)
@@ -17,20 +17,19 @@ module Fog
     end
 
     def self.debug(message)
-      self.write(:debug, "[light_black][DEBUG] #{message}[/]\n")
+      self.write(:debug, "[light_black][fog][DEBUG] #{message}[/]\n")
     end
 
     def self.deprecation(message)
-      self.write(:deprecation, "[yellow][DEPRECATION] #{message}[/]\n")
+      self.write(:deprecation, "[yellow][fog][DEPRECATION] #{message}[/]\n")
     end
 
     def self.warning(message)
-      self.write(:warning, "[yellow][WARNING] #{message}[/]\n")
+      self.write(:warning, "[yellow][fog][WARNING] #{message}[/]\n")
     end
 
     def self.write(key, value)
       if channel = @channels[key]
-        value.gsub(Formatador::INDENT_REGEX, '')
         message = if channel.tty?
           value.gsub(Formatador::PARSE_REGEX) { "\e[#{Formatador::STYLES[$1.to_sym]}m" }.gsub(Formatador::INDENT_REGEX, '')
         else

@@ -27,8 +27,9 @@ module Fog
           options = {}
           if source_image.nil?
             options['sourceSnapshot'] = source_snapshot
-            options['sizeGb']         = size_gb
           end
+
+          options['sizeGb'] = size_gb
 
           data = service.insert_disk(name, zone_name, source_image, options).body
           data = service.backoff_if_unfound {service.get_disk(name, zone_name).body}

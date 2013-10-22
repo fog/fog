@@ -23,9 +23,10 @@ module Fog
               @reserved_instance = {}
             when 'requestId'
               @response[name] = value
-            when 'start'
+            when 'start','end'
               @reserved_instance[name] = Time.parse(value)
             end
+
           end
 
         end

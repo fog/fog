@@ -42,7 +42,6 @@ module Fog
         #   </vcloud:GuestCustomizationSection>
         #
         # @see http://pubs.vmware.com/vcd-51/topic/com.vmware.vcloud.api.reference.doc_51/doc/types/GuestCustomizationSectionType.html
-        #   vCloud API Documentation
         class Customization
           def initialize(attrs={})
             @attrs = attrs
@@ -59,15 +58,11 @@ module Fog
           private
 
           def header
-            '<GuestCustomizationSection xmlns="http://www.vmware.com/vcloud/v1.5"
+            <<-END
+            <GuestCustomizationSection xmlns="http://www.vmware.com/vcloud/v1.5"
               xmlns:ovf="http://schemas.dmtf.org/ovf/envelope/1"
-              type="application/vnd.vmware.vcloud.guestCustomizationSection+xml"
-              ovf:required="false"
-              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-              xsi:schemaLocation="http://schemas.dmtf.org/ovf/envelope/1
-                http://schemas.dmtf.org/ovf/envelope/1/dsp8023_1.1.0.xsd
-                http://www.vmware.com/vcloud/v1.5
-                http://zone01.bluelock.com/api/v1.5/schema/master.xsd">'
+              type="application/vnd.vmware.vcloud.guestCustomizationSection+xml">
+            END
           end
 
           # The order matters: http://communities.vmware.com/thread/448760?start=0&tstart=0
@@ -83,7 +78,7 @@ module Fog
           #   * " &quot;
           #   * ' &apos;
           def body(opts={})
-            body = "
+            <<-END
               <ovf:Info>Specifies Guest OS Customization Settings</ovf:Info>
               <Enabled>#{opts[:enabled]}</Enabled>
               <ChangeSid>#{opts[:change_sid]}</ChangeSid>
@@ -94,11 +89,14 @@ module Fog
               <AdminPasswordAuto>#{opts[:admin_password_auto]}</AdminPasswordAuto>
               <ResetPasswordRequired>#{opts[:reset_password_required]}</ResetPasswordRequired>
               <CustomizationScript>#{CGI::escapeHTML(opts[:customization_script]).gsub(/\r/, "&#13;")}</CustomizationScript>
-              <ComputerName>#{opts[:computer_name]}</ComputerName>"
+              <ComputerName>#{opts[:computer_name]}</ComputerName>
+            END
           end
 
           def tail
-            '</GuestCustomizationSection>'
+            <<-END
+            </GuestCustomizationSection>
+            END
           end
         end
       end

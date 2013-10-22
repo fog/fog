@@ -21,6 +21,8 @@ module Fog
       request :copy_object
       request :delete_container
       request :delete_object
+      request :delete_multiple_objects
+      request :delete_static_large_object
       request :get_container
       request :get_containers
       request :get_object
@@ -31,6 +33,8 @@ module Fog
       request :put_container
       request :put_object
       request :put_object_manifest
+      request :put_dynamic_obj_manifest
+      request :put_static_obj_manifest
 
       class Mock
 
@@ -145,9 +149,9 @@ module Fog
             response = @connection.request(params.merge({
               :headers  => {
                 'Content-Type' => 'application/json',
+                'Accept' => 'application/json',
                 'X-Auth-Token' => @auth_token
               }.merge!(params[:headers] || {}),
-              :host     => @host,
               :path     => "#{@path}/#{params[:path]}",
             }))
           rescue Excon::Errors::Unauthorized => error

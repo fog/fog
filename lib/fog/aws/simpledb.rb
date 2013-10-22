@@ -182,7 +182,6 @@ module Fog
             :body       => body,
             :expects    => 200,
             :headers    => { 'Content-Type' => 'application/x-www-form-urlencoded; charset=utf-8' },
-            :host       => @host,
             :idempotent => idempotent,
             :method     => 'POST',
             :parser     => parser

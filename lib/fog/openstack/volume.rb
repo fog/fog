@@ -29,7 +29,7 @@ module Fog
       request :list_snapshots
       request :get_snapshot_details
       request :delete_snapshot
- 
+
       request :update_quota
       request :get_quota
       request :get_quota_defaults
@@ -157,7 +157,6 @@ module Fog
                 'Accept' => 'application/json',
                 'X-Auth-Token' => @auth_token
               }.merge!(params[:headers] || {}),
-              :host     => @host,
               :path     => "#{@path}/#{params[:path]}"#,
             }))
           rescue Excon::Errors::Unauthorized => error

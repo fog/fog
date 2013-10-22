@@ -74,6 +74,10 @@ module Fog
 
           # You can have multiple SSH keys, seperated by newlines.
           # https://developers.google.com/compute/docs/console?hl=en#sshkeys
+          if !self.metadata["sshKeys"]
+            self.metadata["sshKeys"] = ""
+          end
+
           if !self.metadata["sshKeys"].empty?
             self.metadata["sshKeys"] += "\n"
           end
@@ -94,7 +98,7 @@ module Fog
           requires :machine_type
           requires :zone_name
 
-          if not service.zones.include? self.zone_name
+          if not service.zones.find{ |zone| zone.name == self.zone_name }
             raise ArgumentError.new "#{self.zone_name.inspect} is either down or you don't have permission to use it."
           end
 

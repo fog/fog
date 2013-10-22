@@ -198,17 +198,18 @@ module Fog
         #   * BUILD -> ERROR (on error)
         def create(options)
           requires :name, :image_id, :flavor_id
+          modified_options = Marshal.load(Marshal.dump(options))
 
-          options[:networks] ||= attributes[:networks]
-          options[:disk_config] = disk_config unless disk_config.nil?
-          options[:metadata] = metadata.to_hash unless @metadata.nil?
-          options[:personality] = personality unless personality.nil?
-          options[:keypair] ||= attributes[:keypair]
+          modified_options[:networks] ||= attributes[:networks]
+          modified_options[:disk_config] = disk_config unless disk_config.nil?
+          modified_options[:metadata] = metadata.to_hash unless @metadata.nil?
+          modified_options[:personality] = personality unless personality.nil?
+          modified_options[:keypair] ||= attributes[:keypair]
 
-          if options[:networks]
-            options[:networks].map! { |id| { :uuid => id } }
+          if modified_options[:networks]
+            modified_options[:networks].map! { |id| { :uuid => id } }
           end
-          data = service.create_server(name, image_id, flavor_id, 1, 1, options)
+          data = service.create_server(name, image_id, flavor_id, 1, 1, modified_options)
           merge_attributes(data.body['server'])
           true
         end

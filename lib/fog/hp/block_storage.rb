@@ -5,7 +5,7 @@ module Fog
     class BlockStorage < Fog::Service
 
       requires    :hp_secret_key, :hp_tenant_id, :hp_avl_zone
-      recognizes  :hp_auth_uri
+      recognizes  :hp_auth_uri, :hp_service_type
       recognizes  :persistent, :connection_options
       recognizes  :hp_use_upass_auth_style, :hp_auth_version, :user_agent
       recognizes  :hp_access_key, :hp_account_id  # :hp_account_id is deprecated use hp_access_key instead
@@ -104,9 +104,12 @@ module Fog
           @hp_auth_uri   = options[:hp_auth_uri]
           @connection_options = options[:connection_options] || {}
           ### Set an option to use the style of authentication desired; :v1 or :v2 (default)
+          ### A symbol is required, we should ensure that the value is loaded as a symbol
           auth_version = options[:hp_auth_version] || :v2
+          auth_version = auth_version.to_s.downcase.to_sym
+
           ### Pass the service name for object storage to the authentication call
-          options[:hp_service_type] = "Block Storage"
+          options[:hp_service_type] ||= "Block Storage"
           @hp_tenant_id = options[:hp_tenant_id]
           @hp_avl_zone  = options[:hp_avl_zone]
 

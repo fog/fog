@@ -6,17 +6,23 @@ module Fog
 
         # Retrieves the guest customization section of a VM.
         #
-        # @param [String] vm_id
+        # @deprecated Use {#get_guest_customization_system_section_vapp}
+        #   instead.
+        # @todo Log deprecation warning.
+        #
+        # @param [String] id Object identifier of the VM.
         # @return [Excon::Response]
         #   * body<~Hash>:
+        #
         # @see http://pubs.vmware.com/vcd-51/topic/com.vmware.vcloud.api.reference.doc_51/doc/operations/GET-GuestCustomizationSystemSection-vApp.html
-        #   vCloud API Documentation
-        def get_vm_customization(vm_id)
+        # @since vCloud API version 1.0
+        def get_vm_customization(id)
           request(
-            :expects => 200,
-            :method  => 'GET',
-            :parser  => Fog::Parsers::Compute::VcloudDirector::VmCustomization.new,
-            :path    => "vApp/#{vm_id}/guestCustomizationSection"
+            :expects    => 200,
+            :idempotent => true,
+            :method     => 'GET',
+            :parser     => Fog::Parsers::Compute::VcloudDirector::VmCustomization.new,
+            :path       => "vApp/#{id}/guestCustomizationSection"
           )
         end
       end

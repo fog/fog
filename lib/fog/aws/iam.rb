@@ -88,6 +88,10 @@ module Fog
             hash[key] = {
               :owner_id => Fog::AWS::Mock.owner_id,
               :server_certificates => {},
+              :access_keys => [{
+                "Status" => "Active",
+                "AccessKeyId" => key
+              }],
               :users => Hash.new do |uhash, ukey|
                 uhash[ukey] = {
                   :user_id     => Fog::AWS::Mock.key_id,
@@ -102,7 +106,9 @@ module Fog
                 ghash[gkey] = {
                   :group_id   => Fog::AWS::Mock.key_id,
                   :arn        => "arn:aws:iam::#{Fog::AWS::Mock.owner_id}:group/#{gkey}",
-                  :members    => []
+                  :members    => [],
+                  :created_at  => Time.now,
+                  :policies    => {}
                 }
               end
             }
@@ -203,7 +209,6 @@ module Fog
             :expects    => 200,
             :idempotent => idempotent,
             :headers    => { 'Content-Type' => 'application/x-www-form-urlencoded' },
-            :host       => @host,
             :method     => 'POST',
             :parser     => parser
           })

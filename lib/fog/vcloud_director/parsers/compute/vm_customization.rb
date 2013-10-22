@@ -24,7 +24,7 @@ module Fog
 
           def end_element(name)
             case name
-            when 'Enabled',
+            when 'Enabled'
               @response[:enabled] = (value == "true")
             when 'ChangeSid'
               @response[:change_sid] = (value == "true")

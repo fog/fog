@@ -79,7 +79,6 @@ module Fog
       def request_params(params)
         params.merge({
           :headers  => headers(params),
-          :host     => endpoint_uri.host,
           :path     => "#{endpoint_uri.path}/#{params[:path]}"
         })
       end
@@ -128,7 +127,12 @@ module Fog
 
       def select_options(keys)
         return nil unless @options && keys
-        @options.select {|k,v| keys.include?(k)}
+        selected = {}
+        keys.each do |k|
+          selected[k] = @options[k]
+        end
+
+        selected
       end
 
     end

@@ -1,3 +1,599 @@
+1.16.0 10/16/2013 13a86cd41e8ea10022fb822cb0b4340cbf2c023d
+==========================================================
+
+Stats! { 'collaborators' => 53, 'downloads' => 3423389, 'forks' => 951, 'open_issues' => 178, 'watchers' => 2751 }
+
+MVP! Rodrigo Estebanez
+
+[#2112]
+  Allows non VCR HTTP connections. thanks Paul Thornthwaite
+
+[AWS|SQS]
+  Fix iam credentials not being refreshed. thanks Frederick Cheung
+
+[Brightbox]
+  Servers can now have their groups updated. thanks Hemant Kumar
+  Switches to new format helper. thanks Paul Thornthwaite
+  Expands on some tests. thanks Paul Thornthwaite
+  Adds missing images attributes. thanks Paul Thornthwaite
+  Breaks schemas from test helper. thanks Paul Thornthwaite
+
+[Rackspace|Load Balancers]
+  Added get_stats and mock for create_load_balancer. thanks Michael Jackson
+
+[aws|autoscaling]
+  don't pass host to request. thanks geemus
+
+[aws|compute]
+  remove :host from request parameters. thanks Brian D. Burns
+
+[aws|sdb]
+  don't pass host to request. thanks geemus
+
+[aws|storage]
+  mark post_object_restore test pending unless mocking. thanks Brian D. Burns
+
+[cloudsigma|compute]
+  add firewall policies. thanks fred-secludit
+
+[core]
+  removing uuidtools dependency; added Fog::UUID class. thanks Kyle Rames
+  updated UUID to use it's own UUID implementation if one was not available from the ruby lib. thanks Kyle Rames
+
+[google]
+  Create zone and zones models. thanks Carlos Sanchez
+  Zone is a required parameter of machine_types request. thanks Carlos Sanchez
+  Add mock data. thanks Carlos Sanchez
+
+[google|compute]
+  Set default zone to be one not in maintence. thanks Nat Welch
+  Update bootstrap image to debian-7-wheezy-v20130816. thanks Nat Welch
+  Fix metadata bug. thanks Nat Welch
+  Make sure we always set disk image size. thanks Nat Welch
+
+[misc]
+  Local storage's File quacks like other Directories. thanks Andy Lindeman
+  Fixes SignatureDoesNotMatch error. thanks Bradley Schaefer
+  Adding example to bootstrap server with custom ssh_key. thanks Brendan Fosberry
+  require mime/types in Fog::Storage. thanks Brian D. Burns
+  Add fog Elasticache security group mocking. thanks Brian Nelson
+  Fix Fog::AWS::Elasticache::Mock#authorize_cache_security_group_ingress. thanks Brian Nelson
+  Fix for Mock AWS::Elasticache::SecurityGroup deletion. thanks Brian Nelson
+  Fixes for comments on pull request. thanks Brian Nelson
+  More fixes to AWS::Elasticache mocking. thanks Brian Nelson
+  Another fix from @jbence comments to simplify Excon response in authorize_cache_security_group_ingress. thanks Brian Nelson
+  Attempt to fix parameter group assignment when creating AWS::Elasticache clusters. thanks Brian Nelson
+  Only HTTPStatusError has request and response. thanks Carlos Sanchez
+  support retrieving edge gateway status. thanks Dan Abel
+  ensuring tests are good for empty orgs and are skipped when mocking. thanks Dan Abel
+  Mocks for get_edge_gateways & get edge gateway. thanks Dan Abel
+  Corrected edge_gateway schema and removed bad test. thanks Dan Abel
+  vcloud_director - improving edge gateway tests. thanks Dan Abel
+  Minor whitespace cleanups. thanks Dan Prince
+  All OpenStack heat requests must contain User/Key. thanks Dan Prince
+  Jsonify all OS orchestration requests. thanks Dan Prince
+  Fix orchestration request status codes. thanks Dan Prince
+  OpenStack orchestration update_stack fixes. thanks Dan Prince
+  Use ruby-style attribute setters in AutoScaling::Group initializer. thanks David Faber
+  Use old hash syntax to support older ruby versions. thanks David Faber
+  Fix for https urls in atmos. thanks David Prater
+  Fog::Storage::OpenStack::Real#put_object: Don't use data when block is provided. thanks Dmitry Gutov
+  Fog::Storage::OpenStack::Real#put_object: Document the block parameter     Fog::Storage::Rackspace::Real#put_object: Same. thanks Dmitry Gutov
+  Initial support for redshift, with describe_cluster requests and corresponding parsers. thanks Efe Yardimci
+  Adding the remaining describe requests. thanks Efe Yardimci
+  Support for create requests, along with parsers. thanks Efe Yardimci
+  Modify and Delete requests added. thanks Efe Yardimci
+  adding redshift to service list. thanks Efe Yardimci
+  Starting adding tests, some cleanup. thanks Efe Yardimci
+  refactoring common parser code. cluster requests tests. thanks Efe Yardimci
+  refactored duplicate parser code, added more request tests, converted all parser responses to be key,value pairs. thanks Efe Yardimci
+  marked mocking tests pending. thanks Efe Yardimci
+  Fix incorrect boolean expression; should have been string comparison. thanks Efe Yardimci
+  typo fix. thanks Efe Yardimci
+  openstack | add min_count, max_count, return_reservation_id. thanks Eric Stonfer
+  Update excon dependency to version ~>0.26.0. thanks Erik Michaels-Ober
+  Update vcr dependency to version ~>2.6. thanks Erik Michaels-Ober
+  Update webmock dependency to version ~>1.14. thanks Erik Michaels-Ober
+  Update excon dependency to version ~>0.27.0. thanks Erik Michaels-Ober
+  ec2 - added support for associating public ip with vpc instance on launch. thanks Gabriel Rosendorf
+  removed duplicate NetworkInterface.n.AssociatePublicIpAddress option. thanks Gabriel Rosendorf
+  cleaned up logic for multiple security groups for vpc instances with manually specified network interfaces. thanks Gabriel Rosendorf
+  added instance request and server model tests for associate_public_ip. thanks Gabriel Rosendorf
+  vpc associate_public_ip test. thanks Gabriel Rosendorf
+  Add alias for openstack availablilty zone server attribute. thanks Greg Blomquist
+  Adds backwards compatibility comment. thanks Hendrik Volkmer
+  Adding a few more ensure blocks for resource deletion. thanks Jamie H
+  Modifying array for 1.8.7 Gemfile to pass. thanks Jamie H
+  Removing trailing slashes from method calls for 1.8.7. thanks Jamie H
+  Fixing minor issues with doc annotations, removing unused file, adding Shindo tests. thanks Jamie H
+  Adding the red herrings. thanks Jamie H
+  Adding notifications for Rackspace Monitoring. thanks Jim Salinas
+  support for aws compute route tables. TODO: add mocks. thanks Jon Palmer
+  fixed route table parser. actually response data now. thanks Jon Palmer
+  added association_id to address model. thanks Jon Palmer
+  Quick doc update with some available EBS properties. thanks Jon-Erik Schneiderhan
+  Implement group_policy mocks and unit tests. thanks Jose Luis Salas
+  IAM::get_group_policy returns PolicyDocument Hash. thanks Jose Luis Salas
+  added put_record for dynect. thanks Josh Blancett
+  added shindo config for dynect put_record. thanks Josh Blancett
+  fixed typo. thanks Josh Blancett
+  added put_record to requests in dynect class. thanks Josh Blancett
+  added support for both update and replace for dynect put_record request. thanks Josh Blancett
+  fixed doc info. thanks Josh Blancett
+  fixed data formatting for testing dynect put_record. thanks Josh Blancett
+  refactors get_object_https_url request, adds temp_signed_url method to file class. thanks Julian Weber
+  adapts aws method signatures for temp url generation. thanks Julian Weber
+  refactors create_temp_url method to use the options hash for schemes instead of a parameter. thanks Julian Weber
+  adds object tests for get_http_url, get_https_url. thanks Julian Weber
+  Hp provider: ensures that hp_auth_version is loaded as symbol. thanks Julian Weber
+  changes sym conversion as discussed with rupakg. thanks Julian Weber
+  implements the get_http_url, get_https_url and url functions according to the openstack and aws providers. thanks Julian Weber
+  refactor: duplicate parsing of the storage_uri, file#url uses service.create_temp_url to be able to pass options now. thanks Julian Weber
+  adds :os_account_meta_temp_url_key to test mock helper. thanks Julian Weber
+  corrects object_tests, also working in mock mode now. thanks Julian Weber
+  Don’t escape '/' characters in keys. thanks Keith Duncan
+  Add support for canonicalising AWS keys. thanks Keith Duncan
+  Fix the Unicode strings for Ruby 1.8.7. thanks Keith Duncan
+  Pack takes Unicode characters, not UTF-8 encodings. thanks Keith Duncan
+  Added correct description comment to describe_route_tables, disassociate_route_table, delete_route, delete_route_table, create_route, and route_table(s) model. thanks Kyla Kolb
+  Created more tests for create_route and cleaned up code. thanks Kyla Kolb
+  Allowed vpc to be pending when in mock mode, fixed Boolean value for disassociate route table, excluded less specific cidr block for mock mode. thanks Kyla Kolb
+  removing unnecessary :hosts parameters from dynect and openstack requests. thanks Kyle Rames
+  Revert "[rackspace] updated shindo helper to add :rackspace_queues_client_id to credentials if it does not already exist. Hopefully this will make it easier to run Rackspace tests". thanks Kyle Rames
+  added uuidtools gem to dependencies. thanks Kyle Rames
+  support "name" on cloudstack deploy. thanks Mark Phillips
+  AWS Data Pipeline delete endpoint does not return a JSON body string. thanks Matt Gillooly
+  add support for AWS Data Pipeline's GetPipelineDefinition endpoint. thanks Matt Gillooly
+  add support for AWS Data Pipeline's QueryObjects endpoint. thanks Matt Gillooly
+  add support for AWS Data Pipeline's DescribeObjects endpoint. thanks Matt Gillooly
+  Add support for multiple sshkeys and downed zones. thanks Nat Welch
+  Added Coveralls.io coverage badge to README.md. thanks Nick Merwin
+  Revert "[vcloud_director] More mocking.". thanks Nick Osborn
+  Remove webmock. thanks Nick Osborn
+  Fix mocking for create server request. thanks Reinaldo Junior
+  added in mock for create_route_table. thanks Robert Clark
+  Added mocks for create_route_table and updated description comment. thanks Robert Clark
+  Added subnetId to describe_route_tables parser. thanks Robert Clark
+  Change routeTableSet to routeTable for createRouteTable, since it only returns one on creation, yet our mocks were not showing that same functionality. thanks Robert Clark
+  Updated description and added mock for associateRouteTable. thanks Robert Clark
+  Corrected description for createRoute to be more accurate. thanks Robert Clark
+  Setup VPC mocks to create a default route table. thanks Robert Clark
+  Added describe_route_tables mock. thanks Robert Clark
+  Removed state from route_table model because route_tables don't seem to have a state, routes do. Also fixes create_route_tables mock. thanks Robert Clark
+  Added network_interface_id and did a cleanup of create route. thanks Robert Clark
+  Fixed bug in parser where object memory reference was not being cleared. thanks Robert Clark
+  Updated routeSet to include all possible parameters, as some were being ignored by the parser. thanks Robert Clark
+  Added mock for create_route. thanks Robert Clark
+  Typo in default route. thanks Robert Clark
+  Do not wrap default route in item. thanks Robert Clark
+  Updated association to always contain optional fields. thanks Robert Clark
+  Added delete_route mock. thanks Robert Clark
+  Updated associate_route_table mock to return the correct association id and with additional fields that were previously missing. thanks Robert Clark
+  Added mock for disassociate_route_table. thanks Robert Clark
+  Added delete_route_table mock. thanks Robert Clark
+  Fixed error happening when the route_table was nil. thanks Robert Clark
+  Added spots to ignore for mocks in tests. thanks Robert Clark
+  Updated create route to make additional checks so it passed our tests. thanks Robert Clark
+  Cleaned up unnecessary parsers. thanks Robert Clark
+  Authentication + get_organizations working, need to be cleaned up. thanks Rodrigo Estebanez
+  get_organization implemented. thanks Rodrigo Estebanez
+  refactor get_organizations, not overriding the path, require parses in the request class. thanks Rodrigo Estebanez
+  get_catalog implemented. thanks Rodrigo Estebanez
+  get_catalog_item implemented. thanks Rodrigo Estebanez
+  get_vapp_template implemented. thanks Rodrigo Estebanez
+  clean-up. thanks Rodrigo Estebanez
+  get_vdc implemented. thanks Rodrigo Estebanez
+  fix defaults. thanks Rodrigo Estebanez
+  get_network implemented. thanks Rodrigo Estebanez
+  end_point helpers. thanks Rodrigo Estebanez
+  default_network_name. thanks Rodrigo Estebanez
+  clean-up. thanks Rodrigo Estebanez
+  implemented: default_organization_body, default_vdc_body, default_catalog_id, get_network_name_by_network_id. thanks Rodrigo Estebanez
+  instantiate_vapp_template before even test it. thanks Rodrigo Estebanez
+  get_app first implementation, parser isn't working properly. thanks Rodrigo Estebanez
+  parse description and links, remove non existing attar property. thanks Rodrigo Estebanez
+  Fix parser, adding links, and IsPublish attrs. thanks Rodrigo Estebanez
+  Fix get_network parser: adding IpRanges, Dns1, Dns2, DnsSuffix, RetainNetInfoAcrossDeployments, IsInherited     Implement String#to_bool. thanks Rodrigo Estebanez
+  clean-up mdsol domain. thanks Rodrigo Estebanez
+  GetOrganization sample comment. thanks Rodrigo Estebanez
+  using template_id instead of catalog_item_id. populate_uris and validate_uris implemented. thanks Rodrigo Estebanez
+  get_vapp_template parser. thanks Rodrigo Estebanez
+  parsed body as comment. thanks Rodrigo Estebanez
+  parsed body as comment. thanks Rodrigo Estebanez
+  parsed body as comment. thanks Rodrigo Estebanez
+  make clouding a fog service. thanks Rodrigo Estebanez
+  organization model working. thanks Rodrigo Estebanez
+  catalog and catalogs model. thanks Rodrigo Estebanez
+  catalog_items model. thanks Rodrigo Estebanez
+  vdc model implemented. thanks Rodrigo Estebanez
+  miscelanea. thanks Rodrigo Estebanez
+  adapting catalog to the new parser. thanks Rodrigo Estebanez
+  adapting organization to the new parser. thanks Rodrigo Estebanez
+  adapting catalog_item to the new parser. thanks Rodrigo Estebanez
+  adapting vdc to the new parser. thanks Rodrigo Estebanez
+  using new parser. thanks Rodrigo Estebanez
+  removing all parsers. thanks Rodrigo Estebanez
+  many changes... thanks Rodrigo Estebanez
+  remove parsers. clear debugging output. thanks Rodrigo Estebanez
+  vms and vm_customizations. thanks Rodrigo Estebanez
+  network request, parser and model implemented. thanks Rodrigo Estebanez
+  set_cpu implemented. thanks Rodrigo Estebanez
+  set memory and vm.reload. thanks Rodrigo Estebanez
+  modifying disk working. thanks Rodrigo Estebanez
+  add disk implemented. thanks Rodrigo Estebanez
+  delete disks. thanks Rodrigo Estebanez
+  disk model implemented, yeah!!. thanks Rodrigo Estebanez
+  vm customizations first try: it fails when it puts. thanks Rodrigo Estebanez
+  make vm_customization to work. thanks Rodrigo Estebanez
+  network and networks model implemented. thanks Rodrigo Estebanez
+  experiment with dynamic requests based on links. thanks Rodrigo Estebanez
+  tags implemented. thanks Rodrigo Estebanez
+  lot of small improvments. thanks Rodrigo Estebanez
+  Finally i got it fixed!!!. thanks Rodrigo Estebanez
+  power_on a vm. thanks Rodrigo Estebanez
+  power_on refactored to use process_task method. thanks Rodrigo Estebanez
+  instead of making the requests at save time, they are made when setting. thanks Rodrigo Estebanez
+  use only capacity= instead of save. thanks Rodrigo Estebanez
+  improved status. thanks Rodrigo Estebanez
+  using process_task. thanks Rodrigo Estebanez
+  process_task it accepts the body instead of the response excon object. thanks Rodrigo Estebanez
+  make the request when the value is set. thanks Rodrigo Estebanez
+  organizations refactored. thanks Rodrigo Estebanez
+  implementing lazy_load. thanks Rodrigo Estebanez
+  using NonLoaded class instead of nil. thanks Rodrigo Estebanez
+  make catalogs lazy_load. thanks Rodrigo Estebanez
+  using metaprogramming to automatically generate all the lazy_loader methods. thanks Rodrigo Estebanez
+  create a vcloud model class with the common code. thanks Rodrigo Estebanez
+  renamed everyone to lazy_load. thanks Rodrigo Estebanez
+  subclass to use the new Collection class. thanks Rodrigo Estebanez
+  using vcloud classes Model and Collection. thanks Rodrigo Estebanez
+  symbolize extract keys. thanks Rodrigo Estebanez
+  better naming of local vars. thanks Rodrigo Estebanez
+  refactor to user vcloud classes. thanks Rodrigo Estebanez
+  refactor vdc to use vcloud classes. thanks Rodrigo Estebanez
+  refactor vapp to use the vcloud classes. thanks Rodrigo Estebanez
+  refactor vm to use vcloud classes. thanks Rodrigo Estebanez
+  disks fully refactor to use the vcloud classes. thanks Rodrigo Estebanez
+  better erring. thanks Rodrigo Estebanez
+  string -> sym. thanks Rodrigo Estebanez
+  string -> sym. thanks Rodrigo Estebanez
+  tags refactored. thanks Rodrigo Estebanez
+  documentation. thanks Rodrigo Estebanez
+  devlab -> example.com. thanks Rodrigo Estebanez
+  basic vcloudng shindo test using VCR. thanks Rodrigo Estebanez
+  using a helper. thanks Rodrigo Estebanez
+  Tests organizations, vdcs, catalogs, catalog_items and RO vapps. thanks Rodrigo Estebanez
+  vm and vapp life cycle tests. thanks Rodrigo Estebanez
+  Adding VCR dependency in the gemspec. thanks Rodrigo Estebanez
+  webmock dependency added. thanks Rodrigo Estebanez
+  make tests 1.8.7 compatible. thanks Rodrigo Estebanez
+  make tests 1.8.7 compatible. thanks Rodrigo Estebanez
+  adding metadata support for vapp too. thanks Rodrigo Estebanez
+  Rename Vcloudng to VcloudDirector. thanks Rodrigo Estebanez
+  adding vapp_name to the vm model. thanks Rodrigo Estebanez
+  adding a hash_items method to show the tags as a hash. thanks Rodrigo Estebanez
+  Make VcloudDirector to support 5.1. Default version now is 5.1. thanks Rodrigo Estebanez
+  get_vms_by_metadata. thanks Rodrigo Estebanez
+  clean-up. thanks Rodrigo Estebanez
+  returns the vapp_id instead of true. thanks Rodrigo Estebanez
+  memory is an integer     Conflicts:     	lib/fog/vcloud_director/models/compute/vm.rb. thanks Rodrigo Estebanez
+  adding ready? method     Conflicts:     	lib/fog/vcloud_director/models/compute/vm.rb. thanks Rodrigo Estebanez
+  accessing to the parent vapp even if the vm is orphan (query result)     Conflicts:     	lib/fog/vcloud_director/models/compute/vm.rb. thanks Rodrigo Estebanez
+  defaults are set when the param is not passed. thanks Rodrigo Estebanez
+  Fix: tags implementation was defective. thanks Rodrigo Estebanez
+  each_with_index makes it more concise. thanks Rodrigo Estebanez
+  reverting back. tags is a hash. thanks Rodrigo Estebanez
+  vcloud_director customization syntax Fix: extra comma was preventing to set the status correctly. thanks Rodrigo Estebanez
+  remove instantiate_vapp_template helper dependencies     require vdc_id as a instantiate_vapp_template param     remove unnecessary helper. thanks Rodrigo Estebanez
+  - make tags model to use post_undeploy_vapp     - fix syntax error in post_undeploy_vapp method     - remove post_vm_metadata. thanks Rodrigo Estebanez
+  fix invalid syntax. thanks Rodrigo Estebanez
+  fix situation where the content of the param can be false and not set the attr. thanks Rodrigo Estebanez
+  add list_entities request mock. thanks Ryan Richard
+  add create_entity mock support. thanks Ryan Richard
+  add create_entity failure support. thanks Ryan Richard
+  add get_entity mock support. thanks Ryan Richard
+  add delete_entity mock support. thanks Ryan Richard
+  add update_entities mock support, minor change to variables in Real. thanks Ryan Richard
+  add create_alarm mock support. thanks Ryan Richard
+  minor change to failure condition. thanks Ryan Richard
+  update to obfuscate various IDs in tests. thanks Ryan Richard
+  list_alarm and get_alarm mock support. thanks Ryan Richard
+  add update_alarm mock support, update Real parameters to convention. thanks Ryan Richard
+  delete_alarm mock support. thanks Ryan Richard
+  obfuscate more data. thanks Ryan Richard
+  obfuscate all entity mocks. thanks Ryan Richard
+  enable 2 failure tests, minor obfuscates. thanks Ryan Richard
+  fix missing response.remote_ip. thanks Ryan Richard
+  mock framework for list_data_points. thanks Ryan Richard
+  list_data_points mock support. thanks Ryan Richard
+  one last obfuscate pass. thanks Ryan Richard
+  fix missing record data in dynect dns. thanks Shawn Catanzarite
+  remove commented code and update API version. thanks Shawn Catanzarite
+  add get_node_list request again, add test for get_all_records request. thanks Shawn Catanzarite
+  speed things up for get calls. add find_by_name filter. still needs some refactoring. thanks Shawn Catanzarite
+  remove find_by_name for now. thanks Shawn Catanzarite
+  options not used. return nil unless we find a matching url in response. thanks Shawn Catanzarite
+  fix for - fog fails to load vdc with 1 or 0 vapps. thanks Sneha Somwanshi
+  corrected the check for empty string. thanks Sneha Somwanshi
+  vapp returns false if power action returns bad_request. thanks Sneha Somwanshi
+  fixing typo in raising exception. thanks Sneha Somwanshi
+  vm should return false if power action returns bad_request. thanks Sneha Somwanshi
+  first cut - configuring firewall edgegateway service. thanks Sneha Somwanshi
+  posting xml to configure nat service. thanks Sneha Somwanshi
+  adding optional fields for nat and firewall service. thanks Sneha Somwanshi
+  configuring load balancer service. thanks Sneha Somwanshi
+  element type is not required , when href is provided. thanks Sneha Somwanshi
+  renamed service post method according to documentation. thanks Sneha Somwanshi
+  broke generator code into smaller methods. thanks Sneha Somwanshi
+  moved method up in alphabetical order. thanks Sneha Somwanshi
+  using Camel case for edgegateway configuration. thanks Sneha Somwanshi
+  removed print statements added for debugging. thanks Sneha Somwanshi
+  generalize server and floating ip create. thanks Terry Howe
+  formatting clean up. thanks Thomas Cate
+  added create_agent test. thanks Thomas Cate
+  added delete_agent_token tests. thanks Thomas Cate
+  fixed failure test for create_agent_token. thanks Thomas Cate
+  fixed failure test for delete_agent_token. thanks Thomas Cate
+  finished all token tests. thanks Thomas Cate
+  added mock data for check tests. thanks Thomas Cate
+  added list_checks and list_check_types mocks. thanks Thomas Cate
+  added list_metrics. thanks Thomas Cate
+  added list_overview mock. thanks Thomas Cate
+  use mock for ip info. thanks Thomas Cate
+  use fog mock data for uuid and entity_id. thanks Thomas Cate
+  added list_notification_plans mock data. thanks Thomas Cate
+  Support filters in images collection. thanks Thomas Kadauke
+  Fix test. thanks Thomas Kadauke
+  Pass on filters to volume endpoint, mainly to allow admin to get volumes from all tenants. thanks Thomas Kadauke
+  CRUD for OpenStack heat's Stack model. thanks Thomas Kadauke
+  Tests for previous commit. thanks Thomas Kadauke
+  Store mock stacks in memory to make tests more realistic. thanks Thomas Kadauke
+  Grab parse flag before it hits the connection. thanks Toby Hede
+  Delete invalid connection keys before request is made. thanks Toby Hede
+  Add Atmos meta_data request and file_size. thanks Toby Hede
+  Allow passing Content-Disposition header when saving file into Openstack cloud. thanks Yauheni Kryudziuk
+  Create list_snapshot_images.rb. thanks dJason
+  Update list_images.rb. thanks dJason
+  Update images.rb. thanks dJason
+  Update images.rb. thanks dJason
+  Delete list_snapshot_images.rb. thanks dJason
+  Update list_images.rb. thanks dJason
+  add mock. thanks fred-secludit
+  adding new models. thanks fred-secludit
+  fix / escaping in AWS param signing. thanks geemus
+  fix S3 vs EC2 escaping differences. thanks geemus
+  tighten mime-types dependency for 1.8.7. thanks geemus
+  Strip new lines from PackedPolicySize response from GetFederationToken. thanks gregburek
+  Add minimal documentation in GetFederationToken request. thanks gregburek
+  Add mocks for GetFederationToken and enable use. thanks gregburek
+  Adding models, collections and making a start on request classes. thanks jamiehannaford
+  Initial commit for Rackspace's new Autoscale features. Most functionality is incorporated, including:     - Scaling groups     - Configuration (group configuration and launch configuration)     - Scaling policies     - Webhooks. thanks jamiehannaford
+  Removing two superfluous files. thanks jamiehannaford
+  Shindo tests are completed; finished adding Mock data. thanks jamiehannaford
+  fix for linode using public ip blocks in 192.*. thanks jblancett
+  Add ability to specify availability zone for subnet during creation. thanks jschneiderhan
+
+[openstack]
+  remove :host from Excon request params. thanks Brian D. Burns
+  make a couple storage tests pending if mocking. thanks Kyle Rames
+
+[openstack|compute]
+  Add support for config_drive. thanks Ferran Rodenas
+
+[openstack|storage]
+  remove deprecated response block from request. thanks Brian D. Burns
+  add default Accept header. thanks Brian D. Burns
+  add #delete_multiple_objects. thanks Brian D. Burns
+  patch #delete_multiple_objects for Swift v1.8. thanks Brian D. Burns
+  add methods for SLO support. thanks Brian D. Burns
+  add #put_dynamic_obj_manifest. thanks Brian D. Burns
+  patch #delete_static_large_object for Swift v1.8. thanks Brian D. Burns
+
+[rackpace|auto_scale]
+  adding missing require for group builder in tests. thanks Kyle Rames
+
+[rackspace]
+  remove deprecated response block from request. thanks Brian D. Burns
+  Don't parse JSON in delete_server. thanks David Wittman
+  A test to reveal a bug in server.create. thanks Joonas Reynders
+  Fixes issue #2187 Compute.servers.bootstrap mutates the :networks option. thanks Joonas Reynders
+  fixing broken tests. thanks Kyle Rames
+  fixing connection deprecation warnings. thanks Kyle Rames
+  fixing resize server test; updated server test to make network deletion more robust. thanks Kyle Rames
+  fixes issue #2080 - Recursive loop in rackspace compute authentication. thanks Kyle Rames
+  making server tests more robust. thanks Kyle Rames
+  removing debug puts. thanks Kyle Rames
+  updating to only parse json if the body of the response has data. thanks Kyle Rames
+  hardcoding flavor_id used by mock data. thanks Kyle Rames
+  removing :host from list of request parameters. See PR #2223 for details. thanks Kyle Rames
+  moved LINKS_FORMAT to top level helper as it is used by multiple specs. thanks Kyle Rames
+  updated shindo helper to add :rackspace_queues_client_id to credentials if it does not already exist. Hopefully this will make it easier to run Rackspace tests. thanks Kyle Rames
+  removing :host key from authentication_v1 requests. thanks Kyle Rames
+  fix excluding extra characters in Rackspace.escape. thanks Sami Samhuri
+  fix non-SSL public CDN URLs. thanks Sami Samhuri
+
+[rackspace|auto scale]
+  fixed update method on launch config; added save and reload method. thanks Kyle Rames
+
+[rackspace|auto_scale]
+  renamed the model tests to follow fog conventions. thanks Kyle Rames
+  fixed a bug retrieving sub-objects of group. thanks Kyle Rames
+  fixed bug with group_config.update; added save and reload method. thanks Kyle Rames
+  added transaction ids to exceptions. thanks Kyle Rames
+  added implementation for resume. thanks Kyle Rames
+  updating policy to have a reference to the group rather than the group_id. thanks Kyle Rames
+  fixing formatting. thanks Kyle Rames
+  added a save method to policy. thanks Kyle Rames
+  added save method to webhook. thanks Kyle Rames
+  adding autoscale examples. thanks Kyle Rames
+  fixing formatting and documentation; updated collections to pass along dependent parent models. thanks Kyle Rames
+  adding examples. thanks Kyle Rames
+  adding tests. thanks Kyle Rames
+  fixing tests. thanks Kyle Rames
+  fixing example formatting. thanks Kyle Rames
+  updated to throw an exception if you try to save a persisted group. thanks Kyle Rames
+  marking group tests as pending if mocking. thanks Kyle Rames
+  tweaking syntax for ruby 1.8.7. thanks Kyle Rames
+  update create scaling group to use GroupBuilder. thanks Kyle Rames
+  adding auto scale getting started doc. thanks Kyle Rames
+  updating getting started docs. thanks Kyle Rames
+  fixing 1.8.7 incompatibility. thanks Kyle Rames
+
+[rackspace|auto_scaling]
+  making policy and web hook model tests pending if mocking. thanks Kyle Rames
+
+[rackspace|autoscale]
+  starting on rackspace auto scale implementation. thanks Kyle Rames
+  updating tests to reflect formatting changes. thanks Kyle Rames
+
+[rackspace|block_storage]
+  updated Volume#create to honor snapshot_id attribute. thanks Kyle Rames
+
+[rackspace|blockstrage]
+  fixed mock error. thanks Eugene Howe
+
+[rackspace|compute]
+  fixing broken tests. thanks Kyle Rames
+  switching default compute provider to Fog::Compute::RackspaceV2. thanks Kyle Rames
+
+[rackspace|compute_v2]
+  Flavor list returns details. thanks Chris Wuest
+  Image list returns details. thanks Chris Wuest
+  tests for new requests. thanks Chris Wuest
+  fixing broken test. thanks Kyle Rames
+  fixing broken tests. thanks Kyle Rames
+  adding private network creation/deletion examples. thanks Kyle Rames
+  removing parent requirement from new method as it prevents us from creating metadata on new servers. thanks Kyle Rames
+
+[rackspace|databases]
+  updating requests to support schema changes. thanks Kyle Rames
+
+[rackspace|load balancers]
+  fixing broken test. thanks Kyle Rames
+
+[rackspace|monitoring]
+  adding mocks for get_entity. thanks Kyle Rames
+  fixing broken tests. thanks Kyle Rames
+
+[rackspace|queueing]
+  Cleaned up tests and authentication logic. thanks Brian Hartsock
+
+[rackspace|queues]
+  Addition of Rackspace Cloud Queues. thanks Brian Hartsock
+  Fixed some PR comments;  Pass more information to underlying exceptions. thanks Brian Hartsock
+  Added :rackspace_queues_client_id to tests to make it easier to run; Couple other PR tweaks. thanks Brian Hartsock
+  fixed broken tests. thanks Brian Hartsock
+  updated Fog::Rackspace::Queues to generate UUID for client id if it is not provided with one. thanks Kyle Rames
+  updated to use FOG::UUID. thanks Kyle Rames
+
+[rackspace|storage]
+  fixed broken object test. thanks Kyle Rames
+
+[vSphere]
+  Support passing of a distributed switch for each interface. thanks Marc Grimme
+  Support datacenters that are located below folders not in root folder. thanks Marc Grimme
+
+[vSphere:]
+  Implementation of Query for Guesttype and NICTypes. thanks Marc Grimme
+
+[vcloud_director]
+  tests for #ensure_list!. thanks Dan Abel
+  Use options in instantiate. thanks Nick Osborn
+  'Set-Cookie' may be lowercase. thanks Nick Osborn
+  Fix module name. thanks Nick Osborn
+  Allow for multiple Orgs. thanks Nick Osborn
+  make available to Fog::Bin. thanks Nick Osborn
+  add keys to Errors.missing_credentials. thanks Nick Osborn
+  Improve support for Tasks. thanks Nick Osborn
+  Fix copy & paste fail. thanks Nick Osborn
+  Allow for multiple Orgs, rephrased. thanks Nick Osborn
+  Integrate tests. thanks Nick Osborn
+  Deconflate Org name and FullName. thanks Nick Osborn
+  Capture org name at login. thanks Nick Osborn
+  whitespace cleanup. thanks Nick Osborn
+  Update README. thanks Nick Osborn
+  Start mocking requests. thanks Nick Osborn
+  Add get_supported_versions request. thanks Nick Osborn
+  Better mocking and documentation. thanks Nick Osborn
+  Fix minor documentation typo. thanks Nick Osborn
+  Set :idempotent on GET requests. thanks Nick Osborn
+  More mocking. thanks Nick Osborn
+  Correct docs for get_catalog_item. thanks Nick Osborn
+  More mocking (1.8.7 compliant). thanks Nick Osborn
+  Add media-related requests. thanks Nick Osborn
+  Add basic media model. thanks Nick Osborn
+  Add tests for task model. thanks Nick Osborn
+  Request method renaming. thanks Nick Osborn
+  Add media(s) to README. thanks Nick Osborn
+  Add get_supported_systems_info request. thanks Nick Osborn
+  Add remaining vApp/VM power actions. thanks Nick Osborn
+  Properly rename undeploy -> post_undeploy_vapp. thanks Nick Osborn
+  fix vapp#suspend. thanks Nick Osborn
+  Fix :UndeployPowerAction in post_undeploy_vapp. thanks Nick Osborn
+  Add get_*_ovf_descriptor methods. thanks Nick Osborn
+  Add post_capture_vapp request. thanks Nick Osborn
+  New & refactored XML generators. thanks Nick Osborn
+  Add #create to medias collection. thanks Nick Osborn
+  Use post_undeploy_vapp. thanks Nick Osborn
+  Use post_undeploy_vapp. thanks Nick Osborn
+  Don't pass :host to request. thanks Nick Osborn
+  Implement more API requests. thanks Nick Osborn
+  Use x-vcloud-authorization header. thanks Nick Osborn
+  Implement get*_metadata_item requests. thanks Nick Osborn
+  Remove vcr. thanks Nick Osborn
+  Cater for email@org_name usernames. thanks Nick Osborn
+  Yet more request methods. thanks Nick Osborn
+  Move parser commentary out of top-level docs. thanks Nick Osborn
+  Make test be less chatty. thanks Nick Osborn
+  Use current_org in edge_gateway_tests. thanks Nick Osborn
+  Supply xmlns with request bodies. thanks Nick Osborn
+  Improve tests. thanks Nick Osborn
+  Add post/put metadata methods. thanks Nick Osborn
+  get_edge_gateways -> get_org_vdc_networks. thanks Nick Osborn
+  Make get_edge_gateway idempotent. thanks Nick Osborn
+  Really make GET requests idempotent. thanks Nick Osborn
+  Implement get_thumbnail request. thanks Nick Osborn
+  Documentation fixes. thanks Nick Osborn
+  Mocking for vDC storage profiles. thanks Nick Osborn
+  Expose URLs in method docs. thanks Nick Osborn
+  Add post_instantiate_vapp_template request. thanks Nick Osborn
+  Improve support for query service. thanks Nick Osborn
+  Raise provider-specific exceptions. thanks Nick Osborn
+  Remove extraneous :. thanks Nick Osborn
+  Call `end_point` not `endpoint`. thanks Nick Osborn
+  Explicitly handle duplicate names. thanks Nick Osborn
+  Add general queries handler. thanks Nick Osborn
+  Support fields,filter,format for packaged queries. thanks Nick Osborn
+  Do ensure_list in request methods. thanks Nick Osborn
+  Minor test cleanups. thanks Nick Osborn
+  Add #get_org_settings and #get_vcloud. thanks Nick Osborn
+  Add #post_answer_vm_pending_question. thanks Nick Osborn
+  Add #put_vm_capabilities. thanks Nick Osborn
+  Fancy progress bar for async tasks. thanks Nick Osborn
+  Doc update for get,put_vm_capabilities. thanks Nick Osborn
+  Parse response in #put_vm_capabilities. thanks Nick Osborn
+  Add ability to undeploy vApp. thanks Philip Potter
+  wait for undeploy to finish before returning. thanks Philip Potter
+  rename undeploy.rb to match other request files. thanks Philip Potter
+  Add power_off for vm. thanks rsalm
+  Added power_on, power_off to vApp. thanks rsalm
+  Fix listing catalog items when only a single item exists. thanks rsalm
+  Added support for deleting vApps. thanks rsalm
+  Implement vapp.destroy and get rid off vdc.delete_vapp. thanks rsalm
+  Move ensure_list to VCloudDirector::Collection.     Replace inline wrap implementations in Tasks and Organizations with     ensure_list. thanks rsalm
+
+[vcloud_director|tests]
+  Remove vcr_cassettes_old/. thanks Nick Osborn
+  Don't hardcode API host. thanks Nick Osborn
+  mv *_test.rb *.tests.rb. thanks Nick Osborn
+  Make tests work. thanks Nick Osborn
+  Remove and ignore vcr_cassettes/. thanks Nick Osborn
+  Avoid warning about username. thanks Nick Osborn
+  Add generator tests. thanks Nick Osborn
+  Fix some edge cases. thanks Nick Osborn
+  Mark media tests pending when mocking. thanks Nick Osborn
+
+
 1.15.0 08/16/2013 73c5497a16a5374b6bec2f533da872aee682a73a
 ==========================================================
 

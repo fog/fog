@@ -40,19 +40,23 @@ module Fog
 
         def list_access_keys(options = {})
           #FIXME: Doesn't do anything with options, aside from UserName
-          user = options['UserName']
-
-          if data[:users].has_key? user
-            Excon::Response.new.tap do |response|
-              response.body = { 'AccessKeys' => data[:users][user][:access_keys].map do |akey|
-                                                  {'Status' => akey['Status'], 'AccessKeyId' => akey['AccessKeyId']}
-                                                end,
-                                 'IsTruncated' => false,
-                                 'RequestId' => Fog::AWS::Mock.request_id }
-              response.status = 200
+          if user = options['UserName']
+            if data[:users].has_key? user
+              access_keys_data = data[:users][user][:access_keys]
+            else
+              raise Fog::AWS::IAM::NotFound.new("The user with name #{user} cannot be found.")
             end
           else
-            raise Fog::AWS::IAM::NotFound.new("The user with name #{user} cannot be found.")
+            access_keys_data = data[:access_keys]
+          end
+
+          Excon::Response.new.tap do |response|
+            response.body = { 'AccessKeys' => access_keys_data.map do |akey|
+                                                {'Status' => akey['Status'], 'AccessKeyId' => akey['AccessKeyId']}
+                                              end,
+                               'IsTruncated' => false,
+                               'RequestId' => Fog::AWS::Mock.request_id }
+            response.status = 200
           end
         end
       end

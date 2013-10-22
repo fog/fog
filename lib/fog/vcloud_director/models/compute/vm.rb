@@ -17,7 +17,7 @@ module Fog
         attribute :operating_system
         attribute :ip_address
         attribute :cpu, :type => :integer
-        attribute :memory
+        attribute :memory, :type => :integer
         attribute :hard_disks, :aliases => :disks
 
         def reload
@@ -42,14 +42,76 @@ module Fog
           self
         end
 
-
-        def power_on
-          response = service.post_vm_poweron(id)
+        # Power off the VM.
+        def power_off
+          requires :id
+          begin
+            response = service.post_power_off_vapp(id)
+          rescue Fog::Compute::VcloudDirector::BadRequest => ex
+            Fog::Logger.debug(ex.message)
+            return false
+          end
           service.process_task(response.body)
         end
 
-        def power_off
-          response = service.post_vm_poweroff(id)
+        # Power on the VM.
+        def power_on
+          requires :id
+          begin
+            response = service.post_power_on_vapp(id)
+          rescue Fog::Compute::VcloudDirector::BadRequest => ex
+            Fog::Logger.debug(ex.message)
+            return false
+          end
+          service.process_task(response.body)
+        end
+
+
+        # Reboot the VM.
+        def reboot
+          requires :id
+          begin
+            response = service.post_reboot_vapp(id)
+          rescue Fog::Compute::VcloudDirector::BadRequest => ex
+            Fog::Logger.debug(ex.message)
+            return false
+          end
+          service.process_task(response.body)
+        end
+
+        # Reset the VM.
+        def reset
+          requires :id
+          begin
+            response = service.post_reset_vapp(id)
+          rescue Fog::Compute::VcloudDirector::BadRequest => ex
+            Fog::Logger.debug(ex.message)
+            return false
+          end
+          service.process_task(response.body)
+        end
+
+        # Shut down the VM.
+        def shutdown
+          requires :id
+          begin
+            response = service.post_shutdown_vapp(id)
+          rescue Fog::Compute::VcloudDirector::BadRequest => ex
+            Fog::Logger.debug(ex.message)
+            return false
+          end
+          service.process_task(response.body)
+        end
+
+        # Suspend the VM.
+        def suspend
+          requires :id
+          begin
+            response = service.post_suspend_vapp(id)
+          rescue Fog::Compute::VcloudDirector::BadRequest => ex
+            Fog::Logger.debug(ex.message)
+            return false
+          end
           service.process_task(response.body)
         end
 
@@ -59,11 +121,13 @@ module Fog
         end
 
         def customization
+          requires :id
           data = service.get_vm_customization(id).body
           service.vm_customizations.new(data)
         end
 
         def network
+          requires :id
           data = service.get_vm_network(id).body
           service.vm_networks.new(data)
         end
@@ -78,7 +142,7 @@ module Fog
           not_first_set = !memory.nil?
           attributes[:memory] = new_memory.to_i
           if not_first_set && has_changed
-            response = service.put_vm_memory(id, memory)
+            response = service.put_memory(id, memory)
             service.process_task(response.body)
           end
         end
@@ -88,9 +152,19 @@ module Fog
           not_first_set = !cpu.nil?
           attributes[:cpu] = new_cpu.to_i
           if not_first_set && has_changed
-            response = service.put_vm_cpu(id, cpu)
+            response = service.put_cpu(id, cpu)
             service.process_task(response.body)
           end
+        end
+
+        def ready?
+          reload
+          status == 'on'
+        end
+
+        def vapp
+          # get_by_metadata returns a vm collection where every vapp parent is orpahn
+          collection.vapp ||= service.vapps.get(vapp_id)
         end
 
       end

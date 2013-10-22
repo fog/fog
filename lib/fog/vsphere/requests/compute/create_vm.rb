@@ -10,6 +10,7 @@ module Fog
             :guestId      => attributes[:guest_id],
             :files        => { :vmPathName => vm_path_name(attributes) },
             :numCPUs      => attributes[:cpus],
+            :numCoresPerSocket => attributes[:corespersocket],
             :memoryMB     => attributes[:memory_mb],
             :deviceChange => device_change(attributes),
             :extraConfig  => extra_config(attributes),
@@ -50,7 +51,7 @@ module Fog
         end
 
         def create_nic_backing nic, attributes
-          raw_network = get_raw_network(nic.network, attributes[:datacenter])
+          raw_network = get_raw_network(nic.network, attributes[:datacenter], if nic.virtualswitch then nic.virtualswitch end)
 
           if raw_network.kind_of? RbVmomi::VIM::DistributedVirtualPortgroup
             RbVmomi::VIM.VirtualEthernetCardDistributedVirtualPortBackingInfo(

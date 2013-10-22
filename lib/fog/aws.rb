@@ -87,7 +87,7 @@ module Fog
 
     def self.escape(string)
       string = Unicode::normalize_C(string)
-      string.gsub(/([^a-zA-Z0-9_.\-~\/]+)/) {
+      string.gsub(/([^a-zA-Z0-9_.\-~]+)/) {
         "%" + $1.unpack("H2" * $1.bytesize).join("%").upcase
       }
     end

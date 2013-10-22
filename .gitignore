@@ -22,4 +22,3 @@ spec/credentials.yml
 vendor/*
 tags
 tests/digitalocean/fixtures/
-tests/vcloud_director/vcr_cassettes/

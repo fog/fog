@@ -20,9 +20,8 @@ module Fog
         private
 
         def item_list
-          data = service.get_tasks_list(organization.id).body
-          tasks = ensure_list(data[:Task])
-          tasks.each {|task| service.add_id_from_href!(task)}
+          data = service.get_task_list(organization.id).body
+          data[:Task].each {|task| service.add_id_from_href!(task)}
         end
 
       end

@@ -59,7 +59,6 @@ module Fog
         #   </vcloud:RasdItemsList>
         #
         # @see http://pubs.vmware.com/vcd-51/topic/com.vmware.vcloud.api.reference.doc_51/doc/types/RasdItemsListType.html
-        #   vCloud API Documentation
         class Disks
           def initialize(items=[])
             @items = items[:disks]
@@ -115,17 +114,22 @@ module Fog
           end
 
           def header
-            '<vcloud:RasdItemsList xmlns:vcloud="http://www.vmware.com/vcloud/v1.5"
+            <<-END
+            <vcloud:RasdItemsList xmlns:vcloud="http://www.vmware.com/vcloud/v1.5"
               xmlns:rasd="http://schemas.dmtf.org/wbem/wscim/1/cim-schema/2/CIM_ResourceAllocationSettingData"
-              type="application/vnd.vmware.vcloud.rasdItemsList+xml">'
+              type="application/vnd.vmware.vcloud.rasdItemsList+xml">
+            END
           end
 
           def tail
-            '</vcloud:RasdItemsList>'
+            <<-END
+            </vcloud:RasdItemsList>
+            END
           end
 
           def hard_disk_item(opts={})
-            "<vcloud:Item>
+            <<-END
+            <vcloud:Item>
               <rasd:AddressOnParent>#{opts[:address_on_parent]}</rasd:AddressOnParent>
               <rasd:Description>#{opts[:description]}</rasd:Description>
               <rasd:ElementName>#{opts[:name]}</rasd:ElementName>
@@ -133,28 +137,33 @@ module Fog
               <rasd:InstanceID>#{opts[:id]}</rasd:InstanceID>
               <rasd:Parent>#{opts[:parent]}</rasd:Parent>
               <rasd:ResourceType>17</rasd:ResourceType>
-            </vcloud:Item>"
+            </vcloud:Item>
+            END
           end
 
           def ide_controller_item(opts={})
-            "<vcloud:Item>
-               <rasd:Address>#{opts[:address]}</rasd:Address>
-               <rasd:Description>#{opts[:description]}</rasd:Description>
-               <rasd:ElementName>#{opts[:name]}</rasd:ElementName>
-               <rasd:InstanceID>#{opts[:id]}</rasd:InstanceID>
-               <rasd:ResourceType>5</rasd:ResourceType>
-            </vcloud:Item>"
+            <<-END
+            <vcloud:Item>
+              <rasd:Address>#{opts[:address]}</rasd:Address>
+              <rasd:Description>#{opts[:description]}</rasd:Description>
+              <rasd:ElementName>#{opts[:name]}</rasd:ElementName>
+              <rasd:InstanceID>#{opts[:id]}</rasd:InstanceID>
+              <rasd:ResourceType>5</rasd:ResourceType>
+            </vcloud:Item>
+            END
           end
 
           def scsi_controller(opts={})
-            "<vcloud:Item>
+            <<-END
+            <vcloud:Item>
               <rasd:Address>#{opts[:address]}</rasd:Address>
               <rasd:Description>#{opts[:description]}</rasd:Description>
               <rasd:ElementName>#{opts[:name]}</rasd:ElementName>
               <rasd:InstanceID>#{opts[:id]}</rasd:InstanceID>
               <rasd:ResourceSubType>#{opts[:resource_sub_type]}</rasd:ResourceSubType>
               <rasd:ResourceType>6</rasd:ResourceType>
-            </vcloud:Item>"
+            </vcloud:Item>
+            END
           end
 
           # helpers

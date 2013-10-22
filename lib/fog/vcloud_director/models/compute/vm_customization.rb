@@ -20,7 +20,8 @@ module Fog
         attribute :computer_name
         attribute :has_customization_script
 
-        # bug: for some reason if the customization_script has /r, is showed here as /n. Looks likes is something in excon
+        # bug: for some reason if the customization_script has /r, is showed
+        # here as /n. Looks likes is something in excon
         def script
           attributes[:customization_script]
         end
@@ -30,7 +31,7 @@ module Fog
         end
 
         def save
-          response = service.put_vm_customization(id, attributes)
+          response = service.put_guest_customization_section_vapp(id, attributes)
           service.process_task(response.body)
         end
 

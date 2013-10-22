@@ -3,37 +3,47 @@ Shindo.tests('Fog::Rackspace::AutoScale | policy_tests', ['rackspace', 'rackspac
   pending if Fog.mocking?
   service = Fog::Rackspace::AutoScale.new :rackspace_region => :ord
 
-  @group_id = service.create_group(LAUNCH_CONFIG_OPTIONS, GROUP_CONFIG_OPTIONS, POLICIES_OPTIONS).body['group']['id']
+  begin
+    @group_id = service.create_group(LAUNCH_CONFIG_OPTIONS, GROUP_CONFIG_OPTIONS, POLICIES_OPTIONS).body['group']['id']
 
-  tests('success') do
-    tests('#list policies').formats(POLICIES_FORMAT) do
-      service.list_policies(@group_id).body['policies']
-    end
-    tests('#create policy').formats(201) do
-      response = service.create_policy(@group_id, POLICY_OPTIONS)
-      @policy_id = response.body['policies'][0]['id']
-      response.data[:status]
-    end
+    tests('success') do
+      tests('#list policies').formats(POLICIES_FORMAT) do
+        service.list_policies(@group_id).body['policies']
+      end
+      tests('#create_policy').returns(201) do
+        response = service.create_policy(@group_id, POLICY_OPTIONS)
+        @policy_id = response.body['policies'][0]['id']
+        response.status
+      end
 
-    tests('#get policy').formats(POLICY_FORMAT) do
-      response = service.get_policy(@group_id, @policy_id)
-      response.body['policy']
-    end
+      tests('#get_policy').formats(POLICY_FORMAT) do
+        response = service.get_policy(@group_id, @policy_id)
+        response.body['policy']
+      end
 
-    tests('#update policy').formats(204) do
-      response = service.update_policy(@group_id, @policy_id, {
-        'name' => 'foo', 
-        'changePercent' => 1, 
-        'type' => 'webhook', 
-        'cooldown' => 100
-      })
-      response.data[:status]
+      tests('#execute_policy').returns(202) do
+        service.execute_policy(@group_id, @policy_id).status
+      end
+
+      tests('#update_policy').returns(204) do
+        response = service.update_policy(@group_id, @policy_id, {
+          'name' => 'foo',
+          'changePercent' => 1,
+          'type' => 'webhook',
+          'cooldown' => 100
+        })
+        response.status
+      end
+
+      tests('#delete_policy').returns(204) do
+        response = service.delete_policy(@group_id, @policy_id)
+        response.status
+      end
     end
-    
-    tests('#delete policy').formats(204) do
-      response = service.delete_policy(@group_id, @policy_id)
-      response.data[:status]
-    end
+  ensure
+    group = service.groups.get(@group_id)
+    deactive_auto_scale_group(group)
+    group.destroy
   end
 
   tests('failure') do
