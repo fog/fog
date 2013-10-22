@@ -89,7 +89,7 @@ Shindo.tests('Compute::VcloudDirector | edge gateway requests', ['vclouddirector
   tests('Configure non-existent edge gateway').raises(Fog::Compute::VcloudDirector::Forbidden) do
     begin
       @service.post_configure_edge_gateway_services('00000000-0000-0000-0000-000000000000', {})
-    rescue Fog::Compute::VcloudDirector::Unauthorized
+    rescue Fog::Compute::VcloudDirector::Unauthorized # bug, may be localised
       retry
     end
   end
