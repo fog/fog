@@ -94,6 +94,7 @@ module Fog
       string = begin
                  Unicode::normalize_C(string)
                rescue
+                 Fog::Logger.warning("Fog::AWS string escaping will not normalize Unicode characters on JRuby, pending a fix for issue #2279")
                  string
                end
 
