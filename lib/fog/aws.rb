@@ -1,7 +1,12 @@
 require 'fog/core'
 require 'fog/aws/credential_fetcher'
 require 'fog/aws/signaturev4'
-require 'unicode'
+begin
+  require 'unicode'
+rescue LoadError
+  # Temporarily ignored.  This should only impact JRuby.
+end
+
 module Fog
   module AWS
     extend Fog::Provider
@@ -86,7 +91,13 @@ module Fog
     end
 
     def self.escape(string)
-      string = Unicode::normalize_C(string)
+      string = begin
+                 Unicode::normalize_C(string)
+               rescue
+                 Fog::Logger.warning("Fog::AWS string escaping will not normalize Unicode characters on JRuby, pending a fix for issue #2279")
+                 string
+               end
+
       string.gsub(/([^a-zA-Z0-9_.\-~]+)/) {
         "%" + $1.unpack("H2" * $1.bytesize).join("%").upcase
       }
