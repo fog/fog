@@ -20,6 +20,24 @@ module Fog
           )
         end
       end
+
+      class Mock
+        def post_cancel_task(id)
+          unless task = data[:tasks][id]
+            raise Fog::Compute::VcloudDirector::Forbidden.new(
+              'No access to entity "com.vmware.vcloud.entity.task:%s"' % id
+            )
+          end
+
+          # @note Tasks don't actually get cancelled (confirmed VCloud Director
+          #   bug) so we'll emulate that. Set the flag and we're done!
+          task[:cancel_requested] = true
+
+          Excon::Response.new(
+            :status => 204
+          )
+        end
+      end
     end
   end
 end
