@@ -37,6 +37,7 @@ module Fog
       collection :customvalues
       model :customfield
       collection :customfields
+      model :scsicontroller
 
       request_path 'fog/vsphere/requests/compute'
       request :current_time
@@ -77,6 +78,7 @@ module Fog
       request :get_interface_type
       request :list_vm_customvalues
       request :list_customfields
+      request :get_vm_first_scsi_controller
 
       module Shared
 

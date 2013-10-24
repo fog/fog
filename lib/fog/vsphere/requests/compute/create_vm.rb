@@ -44,7 +44,7 @@ module Fog
           end
 
           if (disks = attributes[:volumes])
-            devices << create_controller
+            devices << create_controller(attributes[:scsi_controller]||attributes["scsi_controller"]||{})
             devices << disks.map { |disk| create_disk(disk, disks.index(disk)) }
           end
           devices.flatten
@@ -80,15 +80,41 @@ module Fog
           }
         end
 
-        def create_controller operation = :add, controller_key = 1000, bus_id = 0
+        def create_controller options=nil
+          options=if options
+                    controller_default_options.merge(Hash[options.map{|k,v| [k.to_sym,v] }])
+                  else 
+                    controller_default_options 
+                  end
+          controller_class=if options[:type].is_a? String then 
+                             Fog::class_from_string options[:type], "RbVmomi::VIM"
+                           else 
+                             options[:type] 
+                           end
           {
-            :operation => operation,
-            :device    => RbVmomi::VIM.VirtualLsiLogicController(
-              :key       => controller_key,
-              :busNumber => bus_id,
-              :sharedBus => :noSharing
-            )
+            :operation => options[:operation],
+            :device    => controller_class.new({
+              :key       => options[:key],
+              :busNumber => options[:bus_id],
+              :sharedBus => controller_get_shared_from_options(options),
+            })
           }
+        end
+
+        def controller_default_options
+          {:operation => "add", :type => RbVmomi::VIM.VirtualLsiLogicController.class, :key => 1000, :bus_id => 0, :shared => false }
+        end
+
+        def controller_get_shared_from_options options
+          if (options.has_key? :shared and options[:shared]==false) or not options.has_key? :shared then
+            :noSharing
+          elsif options[:shared]==true then
+            :virtualSharing
+          elsif options[:shared].is_a? String
+            options[:shared]
+          else
+            :noSharing
+          end
         end
 
         def create_disk disk, index = 0, operation = :add, controller_key = 1000
