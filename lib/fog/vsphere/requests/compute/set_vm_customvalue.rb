@@ -10,6 +10,7 @@ module Fog
       end
       class Mock
         def set_vm_customvalue(vm_id, key, value)
+          nil
         end
       end
     end
