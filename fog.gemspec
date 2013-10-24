@@ -65,7 +65,9 @@ Gem::Specification.new do |s|
   s.add_development_dependency('fission')
   s.add_development_dependency('pry')
   s.add_development_dependency('google-api-client', '~>0.6.2')
-  s.add_development_dependency('ruby-libvirt','~>0.4.0') unless RUBY_PLATFORM == 'java'
+  if ENV["FOG_USE_LIBVIRT"] && RUBY_PLATFORM != 'java'
+    s.add_development_dependency('ruby-libvirt','~>0.4.0')
+  end
 
   s.files = `git ls-files`.split("\n")
   s.test_files = `git ls-files -- {spec,tests}/*`.split("\n")
