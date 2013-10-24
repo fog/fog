@@ -168,9 +168,15 @@ module Fog
           "/#{escape(bucket_name.to_s)}#{path}"
         end
 
-        # NOTE: differs fram Fog::AWS.escape by NOT escaping `/`
+        # NOTE: differs from Fog::AWS.escape by NOT escaping `/`
         def escape(string)
-          string = Unicode::normalize_C(string)
+          string = begin
+            ::Unicode::normalize_C(string)
+          rescue
+            Fog::Logger.warning("Fog::Storage::AWS string escaping will not normalize Unicode characters on JRuby, pending a fix for issue #2279")
+            string
+          end
+
           string.gsub(/([^a-zA-Z0-9_.\-~\/]+)/) {
             "%" + $1.unpack("H2" * $1.bytesize).join("%").upcase
           }
