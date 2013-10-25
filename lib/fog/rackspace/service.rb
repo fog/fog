@@ -52,6 +52,10 @@ module Fog
         response
       end
 
+      def service_net?
+        false
+      end
+
       private
 
       def process_response(response)
@@ -118,7 +122,7 @@ module Fog
       end
 
       def endpoint_uri_v2
-        @uri = @identity_service.service_catalog.get_endpoint(service_name, region)
+        @uri = @identity_service.service_catalog.get_endpoint(service_name, region, service_net?)
       end
 
       def auth_token
