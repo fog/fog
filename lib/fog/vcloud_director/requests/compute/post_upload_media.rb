@@ -22,6 +22,7 @@ module Fog
         #
         # @see http://pubs.vmware.com/vcd-51/topic/com.vmware.vcloud.api.reference.doc_51/doc/operations/POST-UploadMedia.html
         # @since vCloud API version 0.9
+        # @todo Support vDC Storage Profiles.
         def post_upload_media(vdc_id, name, image_type, size, options={})
           body = Nokogiri::XML::Builder.new do
             attrs = {
@@ -38,7 +39,7 @@ module Fog
             }
           end.to_xml
 
-          request(
+          response = request(
             :body    => body,
             :expects => 201,
             :headers => {'Content-Type' => 'application/vnd.vmware.vcloud.media+xml'},
@@ -46,6 +47,8 @@ module Fog
             :parser  => Fog::ToHashDocument.new,
             :path    => "vdc/#{vdc_id}/media"
           )
+          ensure_list! response.body, :Files, :File
+          response
         end
       end
 
@@ -61,14 +64,55 @@ module Fog
               'validation error on field \'size\': must be greater than or equal to 0'
             )
           end
-          unless vdc = data[:vdcs][vdc_id]
+          unless data[:vdcs][vdc_id]
             raise Fog::Compute::VcloudDirector::Forbidden.new(
               "No access to entity \"(com.vmware.vcloud.entity.vdc:#{vdc_id})\"."
             )
           end
 
-          Fog::Mock.not_implemented
-          vdc.is_used_here # avoid warning from syntax checker
+          media_id = uuid
+          file_id = uuid
+
+          owner = {
+            :href => make_href("media/#{media_id}"),
+            :type => 'application/vnd.vmware.vcloud.media+xml'
+          }
+          task_id = enqueue_task(
+            "Importing Media File #{name}(#{file_id})", 'vdcUploadMedia', owner,
+            :on_success => lambda do
+              media = data[:medias][media_id]
+              media[:file][:bytes_transferred] = media[:size]
+              media[:status] = 1
+            end
+          )
+
+          media = {
+            :description => options[:Description],
+            :file => {
+              :bytes_transferred => 0,
+              :uuid => file_id
+            },
+            :image_type => image_type,
+            :name => name,
+            :size => size.to_i,
+            :status => 0,
+            :tasks => [task_id],
+            :vdc_id => vdc_id,
+            :vdc_storage_class => data[:vdc_storage_classes].detect {|k,v| v[:default]}.first
+          }
+          data[:medias][media_id] = media
+
+          body = {
+            :xmlns => xmlns,
+            :xmlns_xsi => xmlns_xsi,
+            :xsi_schemaLocation => xsi_schema_location
+          }.merge(media_body(media_id))
+
+          Excon::Response.new(
+            :status => 201,
+            :headers => {'Content-Type' => "#{body[:type]};version=#{api_version}"},
+            :body => body
+          )
         end
       end
     end

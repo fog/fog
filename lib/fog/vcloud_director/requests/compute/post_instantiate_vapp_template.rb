@@ -74,10 +74,10 @@ module Fog
                         StorageLeaseInSeconds section[:StorageLeaseInSeconds]
                       end
                       if section.key?(:DeploymentLeaseExpiration)
-                        DeploymentLeaseExpiration section[:DeploymentLeaseExpiration].iso8601
+                        DeploymentLeaseExpiration section[:DeploymentLeaseExpiration].strftime('%Y-%m-%dT%H:%M:%S%z')
                       end
                       if section.key?(:StorageLeaseExpiration)
-                        StorageLeaseExpiration section[:StorageLeaseExpiration].iso8601
+                        StorageLeaseExpiration section[:StorageLeaseExpiration].strftime('%Y-%m-%dT%H:%M:%S%z')
                       end
                     }
                   end

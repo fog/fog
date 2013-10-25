@@ -168,9 +168,9 @@ module Fog
           "/#{escape(bucket_name.to_s)}#{path}"
         end
 
-        # NOTE: differs fram Fog::AWS.escape by NOT escaping `/`
+        # NOTE: differs from Fog::AWS.escape by NOT escaping `/`
         def escape(string)
-          string = Unicode::normalize_C(string)
+          string = defined?(::UNF::Normalizer) ? ::UNF::Normalizer.normalize(string, :nfc) : string
           string.gsub(/([^a-zA-Z0-9_.\-~\/]+)/) {
             "%" + $1.unpack("H2" * $1.bytesize).join("%").upcase
           }
