@@ -1,10 +1,11 @@
 require 'fog/core'
 require 'fog/aws/credential_fetcher'
 require 'fog/aws/signaturev4'
+
 begin
-  require 'unicode'
+  require 'unf/normalizer'
 rescue LoadError
-  # Temporarily ignored.  This should only impact JRuby.
+  Fog::Logger.warning("Unable to load the 'unf' gem. Your AWS strings may not be properly encoded.")
 end
 
 module Fog
@@ -91,13 +92,7 @@ module Fog
     end
 
     def self.escape(string)
-      string = begin
-                 ::Unicode::normalize_C(string)
-               rescue
-                 Fog::Logger.warning("Fog::AWS string escaping will not normalize Unicode characters on JRuby, pending a fix for issue #2279")
-                 string
-               end
-
+      string = defined?(::UNF::Normalizer) ? ::UNF::Normalizer.normalize(string, :nfc) : string
       string.gsub(/([^a-zA-Z0-9_.\-~]+)/) {
         "%" + $1.unpack("H2" * $1.bytesize).join("%").upcase
       }
