@@ -109,5 +109,6 @@ Shindo.tests('Fog::Rackspace::ServiceCatalog | users', ['rackspace']) do
 
   tests('display_service_regions') do
     returns(":dfw, :ord, :global") { @service_catalog.display_service_regions(:cloudServersOpenStack) }
+    returns(":dfw, :ord") { @service_catalog.display_service_regions(:cloudFiles, true) }
   end
 end

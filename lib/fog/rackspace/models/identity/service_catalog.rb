@@ -14,26 +14,30 @@ module Fog
         def services
           catalog.collect {|s| s["name"]}
         end
-        
-        def get_endpoints(service_type)
+
+        def get_endpoints(service_type, service_net=false)
           h = catalog.find {|service| service["name"] == service_type.to_s}
-          h ? h["endpoints"] : {}
+          return {} unless h
+
+          key = network_type_key(service_net)
+          h["endpoints"].select {|e| e[key]}
         end
+
         
-        def display_service_regions(service_type)
-          endpoints = get_endpoints(service_type)
+        def display_service_regions(service_type, service_net=false)
+          endpoints = get_endpoints(service_type, service_net)
           regions = endpoints.collect do |e|
             e["region"] ? ":#{e["region"].downcase}" : ":global"
           end
           regions.join(", ")
         end
         
-        def get_endpoint(service_type, region=nil, service_net=nil)
+        def get_endpoint(service_type, region=nil, service_net=false)
           service_region = region_key(region)
 
-          network_type = service_net ? "internalURL" : "publicURL"
+          network_type = network_type_key(service_net)
 
-          endpoints = get_endpoints(service_type)
+          endpoints = get_endpoints(service_type, service_net)
           raise "Unable to locate endpoint for service #{service_type}" if endpoints.empty?
 
           if endpoints.size > 1 && region.nil?
@@ -64,6 +68,10 @@ module Fog
 
         private
         
+        def network_type_key(service_net)
+          service_net ? "internalURL" : "publicURL"
+        end
+
         def matching_region?(h, region)
           region_key(h["region"]) == region
         end
