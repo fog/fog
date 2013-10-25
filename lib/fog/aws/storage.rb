@@ -170,7 +170,7 @@ module Fog
 
         # NOTE: differs from Fog::AWS.escape by NOT escaping `/`
         def escape(string)
-          string = ::UNF::Normalizer.normalize(string, :nfc)
+          string = defined?(::UNF::Normalizer) ? ::UNF::Normalizer.normalize(string, :nfc) : string
           string.gsub(/([^a-zA-Z0-9_.\-~\/]+)/) {
             "%" + $1.unpack("H2" * $1.bytesize).join("%").upcase
           }
