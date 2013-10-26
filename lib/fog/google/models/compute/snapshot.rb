@@ -15,6 +15,7 @@ module Fog
         attribute :source_disk       , :aliases => 'sourceDisk'
         attribute :source_disk_id    , :aliases => 'sourceDiskId'
         attribute :description
+        attribute :status
 
         def reload
           requires :name
