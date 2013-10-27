@@ -13,7 +13,7 @@ module Fog
           if filters['zone'].nil?
             data = []
             service.list_zones.body['items'].each do |zone|
-              data += service.list_servers(zone['name']).body["items"] || []
+              data += service.list_disks(zone['name']).body["items"] || []
             end
           else
             data = service.list_disks(filters['zone']).body["items"] || []
