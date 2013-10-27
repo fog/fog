@@ -81,7 +81,7 @@ class VcloudDirector
 
       # Represents a list of files to be transferred (uploaded or downloaded).
       FILES_LIST_TYPE = {
-        :File => FILE_TYPE
+        :File => [FILE_TYPE]
       }
 
       # Container for query result sets.
@@ -123,7 +123,7 @@ class VcloudDirector
         :status => Fog::Nullable::String,
         :Description => Fog::Nullable::String,
       # :Tasks => TASKS_IN_PROGRESS_TYPE,
-      # :Files => FILES_LIST_TYPE
+      #  :Files => FILES_LIST_TYPE
       })
 
       # Container for references to ResourceEntity objects in this vDC.
@@ -619,6 +619,19 @@ class VcloudDirector
         :RightReferences => RIGHT_REFERENCES_TYPE,
         :RoleReferences => ROLE_REFERENCES_TYPE,
         :Networks => NETWORKS_TYPE
+      })
+
+      # Represents a named disk.
+      DISK_TYPE = RESOURCE_ENTITY_TYPE.merge({
+        :busSubType => Fog::Nullable::String,
+        :busType => Fog::Nullable::String,
+        :size => String,
+        :StorageProfile => REFERENCE_TYPE,
+        :Owner => OWNER_TYPE
+      })
+
+      VMS_TYPE = RESOURCE_TYPE.merge({
+        :VmReference => [REFERENCE_TYPE]
       })
     end
   end

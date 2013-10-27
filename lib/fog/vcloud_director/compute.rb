@@ -187,7 +187,7 @@ module Fog
       request :get_vm_pending_question
       request :get_vms
       request :get_vms_by_metadata
-      request :get_vms_disks_attached_to
+      request :get_vms_disk_attached_to
       request :get_vms_in_lease_from_query
       request :instantiate_vapp_template # to be deprecated
       request :post_acquire_ticket
@@ -231,6 +231,7 @@ module Fog
       request :post_update_vapp_metadata
       request :post_update_vapp_template_metadata
       request :post_upgrade_hw_version
+      request :post_upload_disk
       request :post_upload_media
       request :post_upload_vapp_template
       request :put_catalog_item_metadata_item_metadata
@@ -482,6 +483,7 @@ module Fog
                   :name => 'vAppTemplate 1'
                 }
               },
+              :disks => {},
               :edge_gateways => {
                 uuid => {
                   :name => 'MockEdgeGateway',
@@ -625,6 +627,63 @@ module Fog
 
         def uuid
           [8,4,4,4,12].map {|i| Fog::Mock.random_hex(i)}.join('-')
+        end
+
+        # Create a task.
+        #
+        # @param [String] operation A message describing the operation that is
+        #   tracked by this task.
+        # @param [String] operation_name The short name of the operation that
+        #   is tracked by this task.
+        # @param [Hash] owner Reference to the owner of the task. This is
+        #   typically the object that the task is creating or updating.
+        #   * :href<~String> - Contains the URI to the entity.
+        #   * :type<~String> - Contains the MIME type of the entity.
+        # @return [String] Object identifier of the task.
+        def enqueue_task(operation, operation_name, owner, options={})
+          task_id = uuid
+          now = DateTime.now
+
+          data[:tasks][task_id] = {
+            :cancel_requested => false,
+            :details => '',
+            :expiry_time => now + 86400, # in 24 hours
+            :name => 'task',
+            :progress => 1,
+            :service_namespace => 'com.vmware.vcloud',
+            :start_time => now,
+            :status => 'running',
+          }.merge(options).merge(
+            :operation => operation,
+            :operation_name => operation_name,
+            :owner => owner
+          )
+
+          task_id
+        end
+
+        # @note As far as this method is concerned, the only possible task
+        #   states are 'running' and 'success'.
+        #
+        # @param [Hash] response_body
+        # @return [Boolean]
+        def process_task(response_body)
+          task_id = response_body[:href].split('/').last
+          task = data[:tasks][task_id]
+
+          if task[:status] == 'running'
+            task[:end_time] = DateTime.now
+            task[:progress] = 100
+            task[:status] = 'success'
+
+            if task[:on_success]
+              task[:on_success].call
+              task.delete(:on_success)
+            end
+          end
+
+          return true if task[:status] == 'success'
+          raise TaskError.new "status: #{task[:status]}, error: #{task[:Error]}"
         end
 
         def add_id_from_href!(data={})

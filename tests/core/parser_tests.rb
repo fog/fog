@@ -46,7 +46,7 @@ posuere eu odio. Donec sodales, ante porta condimentum
 }
 
   @xmlNS = %{
-<myns:MyResponse>
+<myns:MyResponse xmlns:myns="http://www.example.com/">
   <myns:MyObject>
     <myns:key1>value1</myns:key1>
     <myns:key2>value2</myns:key2>
