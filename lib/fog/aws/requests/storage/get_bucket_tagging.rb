@@ -32,6 +32,22 @@ module Fog
         end
 
       end
+
+      class Mock # :nodoc:all
+
+        def get_bucket_tagging(bucket_name)
+          response = Excon::Response.new
+          if bucket = self.data[:buckets][bucket_name]
+            response.status = 200
+            response.body = {'BucketTagging' => {'Key1' => 'Value1', 'Key2' => 'Value2'}}
+          else
+            response.status = 404
+            raise(Excon::Errors.status_error({:expects => 200}, response))
+          end
+          response
+        end
+      end
+
     end
   end
 end

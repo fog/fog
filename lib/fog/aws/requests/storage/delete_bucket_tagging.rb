@@ -24,6 +24,22 @@ module Fog
 
       end
 
+      class Mock # :nodoc:all
+
+        def delete_bucket_tagging(bucket_name)
+          response = Excon::Response.new
+          if self.data[:buckets][bucket_name]
+            response.status = 204
+          else
+            response.status = 404
+            raise(Excon::Errors.status_error({:expects => 204}, response))
+          end
+
+          response
+        end
+
+      end
+
     end
   end
 end
