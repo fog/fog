@@ -5,7 +5,7 @@ module Fog
     class Network < Fog::Service
 
       requires    :hp_access_key, :hp_secret_key, :hp_tenant_id, :hp_avl_zone
-      recognizes  :hp_auth_uri, :credentials
+      recognizes  :hp_auth_uri, :credentials, :hp_service_type
       recognizes  :persistent, :connection_options
       recognizes  :hp_use_upass_auth_style, :hp_auth_version, :user_agent
 
@@ -128,7 +128,7 @@ module Fog
           ### Set an option to use the style of authentication desired; :v1 or :v2 (default)
           auth_version = options[:hp_auth_version] || :v2
           ### Pass the service name for network to the authentication call
-          options[:hp_service_type] = "Networking"
+          options[:hp_service_type] ||= "Networking"
           @hp_tenant_id = options[:hp_tenant_id]
           @hp_avl_zone  = options[:hp_avl_zone]
 
