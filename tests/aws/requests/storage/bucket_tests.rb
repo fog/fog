@@ -275,10 +275,6 @@ Shindo.tests('Fog::Storage[:aws] | bucket requests', ["aws"]) do
       Fog::Storage[:aws].put_bucket_cors(@aws_bucket_name, cors)
     end
 
-    tests("#delete_bucket('#{@aws_bucket_name}')").succeeds do
-      Fog::Storage[:aws].delete_bucket(@aws_bucket_name)
-    end
-
     tests("bucket tagging") do
 
       tests("#put_bucket_tagging('#{@aws_bucket_name}')").succeeds do
@@ -293,6 +289,10 @@ Shindo.tests('Fog::Storage[:aws] | bucket requests', ["aws"]) do
       tests("#delete_bucket_tagging('#{@aws_bucket_name}')").succeeds do
         Fog::Storage[:aws].delete_bucket_tagging(@aws_bucket_name)
       end
+    end
+
+    tests("#delete_bucket('#{@aws_bucket_name}')").succeeds do
+      Fog::Storage[:aws].delete_bucket(@aws_bucket_name)
     end
 
   end
