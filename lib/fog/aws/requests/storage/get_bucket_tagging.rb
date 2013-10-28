@@ -37,9 +37,9 @@ module Fog
 
         def get_bucket_tagging(bucket_name)
           response = Excon::Response.new
-          if bucket = self.data[:buckets][bucket_name]
+          if bucket = self.data[:buckets][bucket_name] && bucket[:tagging]
             response.status = 200
-            response.body = {'BucketTagging' => {'Key1' => 'Value1', 'Key2' => 'Value2'}}
+            response.body = {'BucketTagging' => bucket[:tagging]}
           else
             response.status = 404
             raise(Excon::Errors.status_error({:expects => 200}, response))

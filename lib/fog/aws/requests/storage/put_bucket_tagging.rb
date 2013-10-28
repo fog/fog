@@ -42,6 +42,7 @@ DATA
         def put_bucket_tagging(bucket_name, tags)
           response = Excon::Response.new
           if self.data[:buckets][bucket_name]
+            self.data[:buckets][bucket_name][:tagging] = tags
             response.status = 204
           else
             response.status = 404

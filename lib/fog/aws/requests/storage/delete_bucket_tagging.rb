@@ -28,7 +28,8 @@ module Fog
 
         def delete_bucket_tagging(bucket_name)
           response = Excon::Response.new
-          if self.data[:buckets][bucket_name]
+          if bucket = self.data[:buckets][bucket_name]
+            bucket.delete(:tagging)
             response.status = 204
           else
             response.status = 404
