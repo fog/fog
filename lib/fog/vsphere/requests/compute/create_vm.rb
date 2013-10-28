@@ -92,11 +92,11 @@ module Fog
         end
 
         def create_disk disk, index = 0, operation = :add, controller_key = 1000
-          {
+          payload = {
             :operation     => operation,
-            :fileOperation => :create,
+            :fileOperation => operation == :add ? :create : :destroy,
             :device        => RbVmomi::VIM.VirtualDisk(
-              :key           => index,
+              :key           => disk.key || index,
               :backing       => RbVmomi::VIM.VirtualDiskFlatVer2BackingInfo(
                 :fileName        => "[#{disk.datastore}]",
                 :diskMode        => disk.mode.to_sym,
@@ -107,6 +107,12 @@ module Fog
               :capacityInKB  => disk.size
             )
           }
+
+          if operation == :add && disk.thin == false && disk.eager_zero
+            payload[:device][:backing][:eagerlyScrub] = disk.eager_zero
+          end
+
+          payload
         end
 
         def extra_config attributes

@@ -201,9 +201,9 @@ module Fog
         end
 
         def volumes
-          attributes[:volumes] ||= id.nil? ? [] : service.volumes( :vm => self )
+          attributes[:volumes] ||= id.nil? ? [] : service.volumes(:server => self)
         end
-        
+
         def customvalues
           attributes[:customvalues] ||= id.nil? ? [] : service.customvalues( :vm => self )
         end
