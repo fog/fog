@@ -64,9 +64,20 @@ module Fog
             end
           end
 
-          service.add_vm_volume(self)
+          data = service.add_vm_volume(self)
 
-          true
+          if data['task_state'] == 'success'
+            # We have to query vSphere to get the volume attributes since the task handle doesn't include that info.
+            created = server.volumes.all.find { |volume| volume.unit_number == self.unit_number }
+
+            self.id = created.id
+            self.key = created.key
+            self.filename = created.filename
+
+            true
+          else
+            false
+          end
         end
 
         def server
