@@ -15,33 +15,32 @@ module Fog
           catalog.collect {|s| s["name"]}
         end
 
-        def get_endpoints(service_type, service_net=false)
-          h = catalog.find {|service| service["name"] == service_type.to_s}
+        def get_endpoints(service_name, service_net=false)
+          h = catalog.find {|service| service["name"] == service_name.to_s}
           return {} unless h
-
           key = network_type_key(service_net)
           h["endpoints"].select {|e| e[key]}
         end
 
         
-        def display_service_regions(service_type, service_net=false)
-          endpoints = get_endpoints(service_type, service_net)
+        def display_service_regions(service_name, service_net=false)
+          endpoints = get_endpoints(service_name, service_net)
           regions = endpoints.collect do |e|
             e["region"] ? ":#{e["region"].downcase}" : ":global"
           end
           regions.join(", ")
         end
         
-        def get_endpoint(service_type, region=nil, service_net=false)
+        def get_endpoint(service_name, region=nil, service_net=false)
           service_region = region_key(region)
 
           network_type = network_type_key(service_net)
 
-          endpoints = get_endpoints(service_type, service_net)
-          raise "Unable to locate endpoint for service #{service_type}" if endpoints.empty?
+          endpoints = get_endpoints(service_name, service_net)
+          raise "Unable to locate endpoint for service #{service_name}" if endpoints.empty?
 
           if endpoints.size > 1 && region.nil?
-            raise "There are multiple endpoints available for #{service_type}. Please specify one of the following regions: #{display_service_regions(service_type)}."
+            raise "There are multiple endpoints available for #{service_name}. Please specify one of the following regions: #{display_service_regions(service_name)}."
           end
 
           # select multiple endpoints
@@ -53,7 +52,7 @@ module Fog
             return endpoints[0][network_type]
           end
 
-          raise "Unknown region :#{region} for service #{service_type}. Please use one of the following regions: #{display_service_regions(service_type)}"
+          raise "Unknown region :#{region} for service #{service_name}. Please use one of the following regions: #{display_service_regions(service_name)}"
         end
         
         def reload

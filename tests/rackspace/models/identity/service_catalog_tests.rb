@@ -61,24 +61,39 @@ Shindo.tests('Fog::Rackspace::ServiceCatalog | users', ['rackspace']) do
     end
     
     tests('with one endpoint') do
-      tests('no region specified').returns("https://blockstorage.api.rackspacecloud.com/v1/777") do
-        list = [{"type"=>"volume", "endpoints"=>[{"tenantId"=>"777", "publicURL"=>"https://blockstorage.api.rackspacecloud.com/v1/777"}], "name"=>"cloudBlockStorage"}]
-        service_catalog = Fog::Rackspace::Identity::ServiceCatalog.new(:service => nil, :catalog => list)
-        service_catalog.get_endpoint(:cloudBlockStorage)
+      tests('catalog contains global endpoint') do
+        catalog_hash =  [{"type"=>"volume", "endpoints"=>[{"tenantId"=>"777", "publicURL"=>"https://blockstorage.api.rackspacecloud.com/v1/777"}], "name"=>"cloudBlockStorage"}]
+        @service_catalog = Fog::Rackspace::Identity::ServiceCatalog.new(:service => nil, :catalog => catalog_hash)
+
+        tests('no region specifed').returns("https://blockstorage.api.rackspacecloud.com/v1/777") do
+          @service_catalog.get_endpoint(:cloudBlockStorage)
+        end
+        tests('region specifed').returns("https://blockstorage.api.rackspacecloud.com/v1/777") do
+          @service_catalog.get_endpoint(:cloudBlockStorage, :ord)
+        end
       end
-      tests('specify region as :global').returns("https://blockstorage.api.rackspacecloud.com/v1/777") do
-        list = [{"type"=>"volume", "endpoints"=>[{"tenantId"=>"777", "publicURL"=>"https://blockstorage.api.rackspacecloud.com/v1/777"}], "name"=>"cloudBlockStorage"}]
-        service_catalog = Fog::Rackspace::Identity::ServiceCatalog.new(:service => nil, :catalog => list)
-        service_catalog.get_endpoint(:cloudBlockStorage, :global)
-      end
-      tests('wrong region') do
-        list = [{"type"=>"volume", "endpoints"=>[{"region" => "ORD", "tenantId"=>"777", "publicURL"=>"https://ord.blockstorage.api.rackspacecloud.com/v1/777"}], "name"=>"cloudBlockStorage"}]
-        service_catalog = Fog::Rackspace::Identity::ServiceCatalog.new(:service => nil, :catalog => list)
-        raises(RuntimeError) { service_catalog.get_endpoint(:cloudBlockStorage, :dfw) }
+      tests('catalog does not contain global endpoint') do
+        catalog_hash =   [{"type"=>"volume", "endpoints"=>[{"region" => "ORD", "tenantId"=>"777", "publicURL"=>"https://ord.blockstorage.api.rackspacecloud.com/v1/777"}], "name"=>"cloudBlockStorage"}]
+        @service_catalog = Fog::Rackspace::Identity::ServiceCatalog.new(:service => nil, :catalog => catalog_hash)
+
+        tests('non-existing region') do
+          raises(RuntimeError) { @service_catalog.get_endpoint(:cloudBlockStorage, :dfw) }
+        end
+        tests('existing region').returns("https://ord.blockstorage.api.rackspacecloud.com/v1/777") do
+          @service_catalog.get_endpoint(:cloudBlockStorage, :ord)
+        end
       end
     end
 
     tests('endpoint type') do
+      catalog_hash =  [{"type"=>"object-store", "endpoints"=>[{"internalURL"=>"https://snet-storage101.dfw1.clouddrive.com/v1/Mosso777", "region"=>"DFW",
+      "tenantId"=>"Mosso777",
+      "publicURL"=>"https://storage101.dfw1.clouddrive.com/v1/Mosso777"},
+      {"internalURL"=>"https://snet-storage101.ord1.clouddrive.com/v1/Mosso777", "region"=>"ORD",
+      "tenantId"=>"Mosso777",
+      "publicURL"=>"https://storage101.ord1.clouddrive.com/v1/Mosso777"}], "name"=>"cloudFiles"}]
+      @service_catalog = Fog::Rackspace::Identity::ServiceCatalog.new(:service => nil, :catalog => catalog_hash)
+
       returns("https://storage101.ord1.clouddrive.com/v1/Mosso777") { @service_catalog.get_endpoint(:cloudFiles, :ord) }
       returns("https://snet-storage101.ord1.clouddrive.com/v1/Mosso777") { @service_catalog.get_endpoint(:cloudFiles, :ord, true) }
       returns("https://storage101.ord1.clouddrive.com/v1/Mosso777") { @service_catalog.get_endpoint(:cloudFiles, :ord, false) }
@@ -108,7 +123,32 @@ Shindo.tests('Fog::Rackspace::ServiceCatalog | users', ['rackspace']) do
   end
 
   tests('display_service_regions') do
-    returns(":dfw, :ord, :global") { @service_catalog.display_service_regions(:cloudServersOpenStack) }
-    returns(":dfw, :ord") { @service_catalog.display_service_regions(:cloudFiles, true) }
+
+    tests('with global endpoint').returns(":dfw, :ord, :global") do
+      catalog_hash =  [{"type"=>"compute", "endpoints"=>[{"region"=>"DFW", "versionId"=>"2",
+      "tenantId"=>"777", "versionList"=>"https://dfw.servers.api.rackspacecloud.com/", "versionInfo"=>"https://dfw.servers.api.rackspacecloud.com/v2",
+      "publicURL"=>"https://dfw.servers.api.rackspacecloud.com/v2/777"}, {"region"=>"ORD", "versionId"=>"2", "tenantId"=>"777",
+      "versionList"=>"https://ord.servers.api.rackspacecloud.com/", "versionInfo"=>"https://ord.servers.api.rackspacecloud.com/v2",
+      "publicURL"=>"https://ord.servers.api.rackspacecloud.com/v2/777"}, {"versionId"=>"2", "tenantId"=>"777", "versionList"=>"https://servers.api.rackspacecloud.com/", "versionInfo"=>"https://servers.api.rackspacecloud.com/v2", "publicURL"=>"https://servers.api.rackspacecloud.com/v2/777"}], "name"=>"cloudServersOpenStack"}]
+      @service_catalog = Fog::Rackspace::Identity::ServiceCatalog.new(:service => nil, :catalog => catalog_hash)
+
+     @service_catalog.display_service_regions(:cloudServersOpenStack)
+    end
+
+    tests('endpoint types') do
+      catalog_hash =  [{"type"=>"object-store", "endpoints"=>[{"internalURL"=>"https://snet-storage101.dfw1.clouddrive.com/v1/Mosso777", "region"=>"DFW",
+      "tenantId"=>"Mosso777",
+      "publicURL"=>"https://storage101.dfw1.clouddrive.com/v1/Mosso777"},
+      { "region"=>"ORD",
+      "tenantId"=>"Mosso777",
+      "publicURL"=>"https://storage101.ord1.clouddrive.com/v1/Mosso777"}], "name"=>"cloudFiles"},]
+      @service_catalog = Fog::Rackspace::Identity::ServiceCatalog.new(:service => nil, :catalog => catalog_hash)
+      tests('public').returns(":dfw, :ord") do
+        @service_catalog.display_service_regions(:cloudFiles)
+      end
+      tests('private').returns(":dfw") do
+        @service_catalog.display_service_regions(:cloudFiles, true)
+      end
+    end
   end
 end
