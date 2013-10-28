@@ -15,11 +15,6 @@ rvm:
 script: bundle exec rake travis
 
 matrix:
-  allow_failures:
-    - rvm: jruby-18mode
-      gemfile: Gemfile.1.8.7
-    - rvm: jruby-19mode
-      gemfile: Gemfile
   exclude:
     - rvm: 1.8.7
       gemfile: Gemfile
