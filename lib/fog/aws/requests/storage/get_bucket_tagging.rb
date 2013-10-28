@@ -37,7 +37,7 @@ module Fog
 
         def get_bucket_tagging(bucket_name)
           response = Excon::Response.new
-          if self.data[:buckets][bucket_name] && self.data[:bucket_tagging] && self.data[:bucket_tagging][bucket_name]
+          if self.data[:buckets][bucket_name] && self.data[:bucket_tagging][bucket_name]
             response.status = 200
             response.body = {'BucketTagging' => self.data[:bucket_tagging][bucket_name]}
           else

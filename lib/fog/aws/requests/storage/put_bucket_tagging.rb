@@ -43,7 +43,6 @@ DATA
           response = Excon::Response.new
 
           if self.data[:buckets][bucket_name]
-            self.data[:bucket_tagging] ||= {}
             self.data[:bucket_tagging][bucket_name] = tags
             response.status = 204
           else

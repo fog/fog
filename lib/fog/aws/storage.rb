@@ -336,7 +336,8 @@ module Fog
                 :buckets => {},
                 :cors => {
                   :bucket => {}
-                }
+                },
+                :bucket_tagging => {}
               }
             end
           end
