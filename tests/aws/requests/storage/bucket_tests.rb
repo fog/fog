@@ -283,7 +283,7 @@ Shindo.tests('Fog::Storage[:aws] | bucket requests', ["aws"]) do
 
       tests("#get_bucket_tagging('#{@aws_bucket_name}')").
         returns('BucketTagging' => {'Key1' => 'Value1', 'Key2' => 'Value2'}) do
-        Fog::Storage[:aws].get_bucket_tagging(@aws_bucket_name)
+        Fog::Storage[:aws].get_bucket_tagging(@aws_bucket_name).body
       end
 
       tests("#delete_bucket_tagging('#{@aws_bucket_name}')").succeeds do
