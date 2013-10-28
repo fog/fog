@@ -49,7 +49,19 @@ module Fog
           requires :server_id, :size, :datastore
 
           if unit_number.nil?
-            self.unit_number = server.volumes.size
+            used_unit_numbers = server.volumes.collect { |volume| volume.unit_number }
+            max_unit_number = used_unit_numbers.max
+
+            if max_unit_number > server.volumes.size
+              # If the max ID exceeds the number of volumes, there must be a hole in the range. Find a hole and use it.
+              self.unit_number = max_unit_number.times.to_a.find { |i| used_unit_numbers.exclude?(i) }
+            else
+              self.unit_number = max_unit_number + 1
+            end
+          else
+            if server.volumes.any? { |volume| volume.unit_number == self.unit_number && volume.id != self.id }
+              raise "A volume already exists with that unit_number, so we can't save the new volume"
+            end
           end
 
           service.add_vm_volume(self)
