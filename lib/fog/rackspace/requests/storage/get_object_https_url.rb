@@ -34,7 +34,8 @@ module Fog
           hmac = Fog::HMAC.new('sha1', @rackspace_temp_url_key)
           sig  = sig_to_hex(hmac.sign(string_to_sign))
 
-          "https://#{@uri.host}#{object_path_escaped}?temp_url_sig=#{sig}&temp_url_expires=#{expires}"
+          scheme = options[:scheme] ? options[:scheme] : @uri.scheme
+          "#{scheme}://#{@uri.host}#{object_path_escaped}?temp_url_sig=#{sig}&temp_url_expires=#{expires}"
         end
 
         private

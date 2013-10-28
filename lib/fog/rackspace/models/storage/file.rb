@@ -160,6 +160,25 @@ module Fog
           directory.public?
         end
         
+
+        # Get a url for file.
+        #
+        #     required attributes: key
+        #
+        # @param expires [String] number of seconds (since 1970-01-01 00:00) before url expires
+        # @param options [Hash]
+        # @return [String] url
+        # @note This URL does not use the Rackspace CDN
+        #
+        def url(expires, options = {})
+          requires :key
+          if service.ssl?
+            service.get_object_https_url(directory.key, key, expires, options)
+          else
+            service.get_object_http_url(directory.key, key, expires, options)
+          end
+        end
+
         # Returns the public url for the file.
         # If the file has not been published to the CDN, this method will return nil as it is not publically accessible. This method will return the approprate
         # url in the following order:
