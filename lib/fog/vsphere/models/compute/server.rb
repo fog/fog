@@ -129,12 +129,13 @@ module Fog
           req_options['datacenter'] = "#{datacenter}"
           # Perform the actual clone
           clone_results = service.vm_clone(req_options)
+          # We need to assign the service, otherwise we can't reload the model
+          clone_results['new_vm'][:service] = self.service
           # Create the new VM model. TODO This only works when "wait=true"
           new_vm = self.class.new(clone_results['new_vm'])
-          # We need to assign the collection and the connection otherwise we
+          # We need to assign the collection otherwise we
           # cannot reload the model.
           new_vm.collection = self.collection
-          new_vm.service = service
           # Return the new VM model.
           new_vm
         end
