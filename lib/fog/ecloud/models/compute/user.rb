@@ -19,11 +19,11 @@ module Fog
         attribute :is_multifactor_authentication_enabled, :aliases => :IsMultifactorAuthenticationEnabled, :type => :boolean
 
         def roles
-          @roles = Fog::Compute::Ecloud::Roles.new(:service => service, :href => "/cloudapi/ecloud/admin/roles/users/#{id}")
+          @roles = Fog::Compute::Ecloud::Roles.new(:service => service, :href => "#{service.base_path}/admin/roles/users/#{id}")
         end
 
         def api_keys
-          @api_keys = Fog::Compute::Ecloud::ApiKeys.new(:service => service, :href => "/cloudapi/ecloud/admin/apiKeys/users/#{id}")
+          @api_keys = Fog::Compute::Ecloud::ApiKeys.new(:service => service, :href => "#{service.base_path}/admin/apiKeys/users/#{id}")
         end
 
         def id

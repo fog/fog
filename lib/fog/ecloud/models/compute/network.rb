@@ -14,7 +14,7 @@ module Fog
         attribute :rnat_address,      :aliases => :RnatAddress
 
         def rnats
-          @rnats ||= Fog::Compute::Ecloud::Rnats.new(:service => service, :href => "cloudapi/ecloud/rnats/networks/#{id}")
+          @rnats ||= Fog::Compute::Ecloud::Rnats.new(:service => service, :href => "#{service.base_path}/rnats/networks/#{id}")
         end
 
         def ips

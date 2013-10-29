@@ -27,7 +27,7 @@ module Fog
         end
 
         def monitors
-          @monitors ||= Fog::Compute::Ecloud::Monitors.new(:service => service, :href => "/cloudapi/ecloud/internetServices/#{id}/monitor")
+          @monitors ||= Fog::Compute::Ecloud::Monitors.new(:service => service, :href => "#{service.base_path}/internetServices/#{id}/monitor")
         end
 
         def save

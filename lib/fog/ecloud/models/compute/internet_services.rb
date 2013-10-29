@@ -26,7 +26,7 @@ module Fog
         end
 
         def create(options)
-          options[:uri] = "/cloudapi/ecloud/internetServices/publicIps/#{public_ip_id}/action/createInternetService"
+          options[:uri] = "#{service.base_path}/internetServices/publicIps/#{public_ip_id}/action/createInternetService"
           options[:protocol]           ||= "TCP"
           options[:enabled]            ||= true
           options[:description]        ||= ""

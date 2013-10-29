@@ -26,7 +26,7 @@ module Fog
         end
 
         def create(options = {})
-          options[:uri] = "/cloudapi/ecloud/layoutRows/environments/#{environment_id}/action/createLayoutRow"
+          options[:uri] = "#{service.base_path}/layoutRows/environments/#{environment_id}/action/createLayoutRow"
           data = service.rows_create(options).body
           new(data)
         end
