@@ -26,6 +26,11 @@ Shindo.tests('Fog::Compute[:aws] | internet_gateway requests', ['aws']) do
     tests('#describe_internet_gateways').formats(@internet_gateways_format) do
       Fog::Compute[:aws].describe_internet_gateways.body
     end
+    
+    tests('#describe_internet_gateways with tags').formats(@internet_gateways_format) do
+      Fog::Compute[:aws].create_tags @igw_id, {"environment" => "production"}
+      Fog::Compute[:aws].describe_internet_gateways.body
+    end
 
     tests("#attach_internet_gateway('#{@igw_id}, #{@vpc_id}')").formats(AWS::Compute::Formats::BASIC) do
       Fog::Compute[:aws].attach_internet_gateway(@igw_id, @vpc_id).body
