@@ -56,10 +56,8 @@ Shindo.tests('Fog::Rackspace::Storage | file', ['rackspace']) do
     :key => "fogfilestests-#{rand(65536)}"
   }
 
-  @directory = Fog::Storage[:rackspace].
-    directories.
-    create(directory_attributes)
-
+  @service = Fog::Storage.new :provider => 'rackspace', :rackspace_temp_url_key => "my_secret"
+  @directory = @service.directories.create(directory_attributes)
 
   model_tests(@directory.files, file_attributes, Fog.mocking?) do
 
@@ -126,13 +124,28 @@ Shindo.tests('Fog::Rackspace::Storage | file', ['rackspace']) do
       tests('urls') do
         tests('no CDN') do
           
+          tests('url') do
+            tests('http').succeeds do
+              expire_time = Time.now + 3600
+              url = @instance.url(expire_time)
+              url =~ /^http:/
+            end
+            tests('https').succeeds do
+              @directory.service.instance_variable_set "@rackspace_cdn_ssl", true
+              expire_time = Time.now + 3600
+              url = @instance.url(expire_time)
+              url =~ /^https:/
+            end
+            @directory.service.instance_variable_set "@rackspace_cdn_ssl", false
+          end
+
           tests('#public_url') do
 
              tests('http').returns(nil) do
                @instance.public_url
               end
 
-              @directory.cdn_cname = "my_cname.com"        
+              @directory.cdn_cname = "my_cname.com"
               tests('cdn_cname').returns(nil) do
                 @instance.public_url
               end
@@ -142,7 +155,7 @@ Shindo.tests('Fog::Rackspace::Storage | file', ['rackspace']) do
               tests('ssl').returns(nil) do
                 @instance.public_url
               end   
-              @directory.service.instance_variable_set "@rackspace_cdn_ssl", nil             
+              @directory.service.instance_variable_set "@rackspace_cdn_ssl", nil
            end
 
            tests('#ios_url').returns(nil) do
