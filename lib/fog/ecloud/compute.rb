@@ -247,6 +247,7 @@ module Fog
 
       module Shared
 
+        attr_accessor :base_path
         attr_reader :versions_uri
 
         def validate_data(required_opts = [], options = {})
@@ -266,8 +267,6 @@ module Fog
 
       class Real
         include Shared
-
-        attr_reader :base_path
 
         class << self
           def basic_request(name, expects=[200], method=:get, headers={}, body='')

@@ -2,6 +2,7 @@ provider, config = :ecloud, compute_providers[:ecloud]
 
 Shindo.tests("Fog::Compute[:#{provider}] | servers", [provider.to_s, "operations"]) do
   connection   = Fog::Compute[provider]
+  connection.base_path = '/cloudapi/spec'
   organization = connection.organizations.first
   environment  = organization.environments.find{|e| e.name == config[:server_attributes][:environment_name]} || organization.environments.first
   public_ip    = environment.public_ips.first
@@ -129,6 +130,7 @@ end
 
 Shindo.tests("Fog::Compute[:#{provider}] | server", [provider.to_s, "attributes"]) do
   connection   = Fog::Compute[provider]
+  connection.base_path = '/cloudapi/spec'
   organization = connection.organizations.first
   environment  = organization.environments.find{|e| e.name == config[:server_attributes][:environment_name]} || organization.environments.first
   public_ip    = environment.public_ips.first
