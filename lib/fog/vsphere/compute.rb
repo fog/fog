@@ -77,6 +77,7 @@ module Fog
       request :get_interface_type
       request :list_vm_customvalues
       request :list_customfields
+      request :set_vm_customvalue
 
       module Shared
 
