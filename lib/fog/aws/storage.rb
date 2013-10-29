@@ -220,6 +220,11 @@ module Fog
             end
           end
 
+          # For endpoints that have a path
+          if @path && @path != "/"
+            path = [@path, path].join('/')
+          end
+
           ret = params.merge({
             :scheme       => scheme,
             :host         => host,
@@ -406,10 +411,11 @@ module Fog
             @path = if endpoint.path.empty?
               '/'
             else
-              endpoint.path
+              endpoint.path.sub(/\/+$/, '')
             end
             @scheme = endpoint.scheme
             @port = endpoint.port
+            @path_style = options.fetch(:path_style, true)
           else
             @region     = options[:region]      || DEFAULT_REGION
             @host       = options[:host]        || region_to_host(@region)
