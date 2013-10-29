@@ -12,10 +12,12 @@ Shindo.tests('Fog::Rackspace::Monitoring | list_tests', ['rackspace','rackspace_
   tests('success') do
     
     tests('#get list of monitoring zones').formats(LIST_MONITORING_ZONE) do
+      pending if mocking?
       account.list_monitoring_zones.body
     end
 
     tests('#get a monitoring zone').formats(GET_MONITORING_ZONE) do
+      pending if mocking?
       account.get_monitoring_zone('mzdfw').body
     end
 
