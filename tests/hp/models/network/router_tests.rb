@@ -25,9 +25,9 @@ Shindo.tests('HP::Network | networking router model', ['hp', 'networking', 'rout
     tests("#add_interface(#{@subnet.id}, nil) - with subnet").succeeds do
       @router.add_interface(@subnet.id)
     end
-    tests("#remove_interface(#{@subnet.id}, nil) - with subnet").succeeds do
-      @router.remove_interface(@subnet.id)
-    end
+    #tests("#remove_interface(#{@subnet.id}, nil) - with subnet").succeeds do
+    #  @router.remove_interface(@subnet.id)
+    #end
     tests("#add_interface(nil, #{@port.id}) - with port").succeeds do
       @router.add_interface(nil, @port.id)
     end

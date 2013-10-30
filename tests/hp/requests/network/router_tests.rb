@@ -48,13 +48,13 @@ Shindo.tests('HP::Network | networking router requests', ['hp', 'networking', 'r
       HP[:network].update_router(@router_id, attributes).body
     end
 
-    tests("#add_router_interface(#{@router_id}, '1111111111') - using subnet_id").formats(@router_interface_format) do
-      HP[:network].add_router_interface(@router_id, '1111111111').body
+    tests("#add_router_interface(#{@router_id}, '1111111111', nil) - using subnet_id").formats(@router_interface_format) do
+      HP[:network].add_router_interface(@router_id, '1111111111', nil).body
     end
 
-    tests("#remove_router_interface(#{@router_id}, '1111111111') - using subnet_id").formats('') do
-      HP[:network].remove_router_interface(@router_id, '1111111111').body
-    end
+    #tests("#remove_router_interface(#{@router_id}, '1111111111', nil) - using subnet_id").formats('') do
+    #  HP[:network].remove_router_interface(@router_id, '1111111111', nil).body
+    #end
 
     tests("#add_router_interface(#{@router_id}, nil, #{@port_id}) - using port_id").formats(@router_interface_format) do
       HP[:network].add_router_interface(@router_id, nil, @port_id).body

@@ -16,15 +16,10 @@ Shindo.tests("Fog::Compute::HPV2 | address requests", ['hp', 'v2', 'compute', 'a
     @server_name = 'fogservertest'
     @server_id = nil
 
-    # check to see if there are any existing servers, otherwise create one
-    if (data = service.list_servers(:status => 'ACTIVE').body['servers'][0])
-      @server_id = data['id']
-    else
-      #@server = service.servers.create(:name => @server_name, :flavor_id => 100, :image_id => @base_image_id)
-      #@server.wait_for { ready? }
-      data = service.create_server(@server_name, 100, @base_image_id).body['server']
-      @server_id = data['id']
-    end
+    @server = service.servers.create(:name => @server_name, :flavor_id => 100, :image_id => @base_image_id)
+    @server.wait_for { ready? }
+    #data = service.create_server(@server_name, 100, @base_image_id).body['server']
+    #@server_id = data['id']
 
     tests("#list_addresses").formats({'floating_ips' => [@floating_ips_format]}) do
       service.list_addresses.body
@@ -41,23 +36,24 @@ Shindo.tests("Fog::Compute::HPV2 | address requests", ['hp', 'v2', 'compute', 'a
       service.get_address(@address_id).body['floating_ip']
     end
 
-    tests("#associate_address('#{@server_id}', '#{@ip_address}')").succeeds do
-      service.associate_address(@server_id, @ip_address)
-      #tests("#get_address('#{@address_id}')").succeeds do
-      #  instance_id = service.get_address(@address_id).body['floating_ip']['instance_id']
-      #  @server_id == instance_id
+    tests("#associate_address('#{@server.id}', '#{@ip_address}')").succeeds do
+      service.associate_address(@server.id, @ip_address)
+      #tests("#get_address").returns(@ip_address, "server has associated ip address") do
+      #  @server.reload
+      #  @server.addresses['custom'][0]['addr']
       #end
     end
 
-    tests("#disassociate_address('#{@server_id}', '#{@ip_address}')").succeeds do
-      service.disassociate_address(@server_id, @ip_address)
-    end
+    #tests("#disassociate_address('#{@server.id}', '#{@ip_address}')").succeeds do
+    #  service.disassociate_address(@server.id, @ip_address)
+    #end
 
     tests("#release_address('#{@address_id}')").succeeds do
       service.release_address(@address_id)
     end
 
-    service.delete_server(@server_id)
+    @server.destroy
+    #service.delete_server(@server_id)
 
   end
 
