@@ -15,6 +15,18 @@ Shindo.tests('Fog::Rackspace::Monitoring | list_tests', ['rackspace','rackspace_
   sleep(SLEEP_TIME) unless Fog.mocking?
   
   tests('success') do
+    
+    tests('#get list of monitoring zones').formats(LIST_MONITORING_ZONE) do
+      pending if Fog.mocking?
+      account.list_monitoring_zones.body
+    end
+
+    tests('#get a monitoring zone').formats(GET_MONITORING_ZONE) do
+      pending if Fog.mocking?
+      account.get_monitoring_zone('mzdfw').body
+    end
+
+
     tests('#get list of checks').formats(LIST_HEADERS_FORMAT) do
       account.list_checks(entity_id).data[:headers]
     end

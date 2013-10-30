@@ -98,6 +98,9 @@ module Fog
 
       request      :evaluate_alarm_example
 
+      request      :list_monitoring_zones
+      request      :get_monitoring_zone
+
 
       class Mock < Fog::Rackspace::Service
 
