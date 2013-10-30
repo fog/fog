@@ -101,7 +101,7 @@ module Fog
           requires :instance_uuid
           if ready?
             # need to turn it off before destroying
-            stop
+            stop(options)
             wait_for { !ready? }
           end
           service.vm_destroy('instance_uuid' => instance_uuid)
