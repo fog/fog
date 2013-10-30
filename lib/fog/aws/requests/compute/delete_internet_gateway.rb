@@ -30,7 +30,7 @@ module Fog
           Excon::Response.new.tap do |response|
             if internet_gateway_id
               response.status = 200
-              self.data[:internet_gateways].reject! { |v| v['internetGatewayId'] == internet_gateway_id }
+              self.data[:internet_gateways].delete(internet_gateway_id)
             
               response.body = {
                 'requestId' => Fog::AWS::Mock.request_id,

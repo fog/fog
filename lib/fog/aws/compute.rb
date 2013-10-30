@@ -223,7 +223,6 @@ module Fog
                 :subnets => [],
                 :vpcs => [],
                 :dhcp_options => [],
-                :internet_gateways => [],
                 :route_tables => [],
                 :account_attributes => [
                   {
