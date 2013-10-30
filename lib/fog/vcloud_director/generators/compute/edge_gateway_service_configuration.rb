@@ -143,6 +143,7 @@ module Fog
                   xml.SourcePort rule[:SourcePort] == "Any" ? "-1" : rule[:SourcePort]
                   xml.SourcePortRange rule[:SourcePortRange]
                   xml.SourceIp rule[:SourceIp]
+                  xml.EnableLogging rule[:EnableLogging] if rule.key?(:EnableLogging)
                 }
 
               end

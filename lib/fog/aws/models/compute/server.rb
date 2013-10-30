@@ -65,7 +65,7 @@ module Fog
           prepare_service_value(attributes)
 
           self.image_id   ||= begin
-            self.username = 'ubuntu'
+            self.username ||= 'ubuntu'
             case @service.instance_variable_get(:@region) # Ubuntu 10.04 LTS 64bit (EBS)
             when 'ap-northeast-1'
               'ami-5e0fa45f'

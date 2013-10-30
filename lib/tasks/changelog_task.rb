@@ -55,6 +55,7 @@ module Fog
             if [
               'Aaron Suggs',
               'Brian Hartsock',
+              'Chris Roberts',
               'Christopher Oliver',
               'Daniel Reichert',
               'Decklin Foster',

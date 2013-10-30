@@ -1,3 +1,111 @@
+1.17.0 10/29/2013 9f0627eec16e636bfe86895bbd36f89d7a017737
+==========================================================
+
+Stats! { 'collaborators' => 53, 'downloads' => 3531286, 'forks' => 964, 'open_issues' => 177, 'watchers' => 2765 }
+
+MVP! Chris Roberts
+
+[Brightbox]
+  Add SSL settings to load balancer. thanks Paul Thornthwaite
+
+[aws|iam]
+  Don't pass :host to Excon request. thanks Robert Bousquet
+
+[aws|storage]
+  ensure connection uses correct scheme, host and port. thanks Brian D. Burns
+  remove unused :path option. thanks Brian D. Burns
+
+[core]
+  log warning for unrecognized arguments. thanks Brian D. Burns
+  identify origin of log messages. thanks Brian D. Burns
+  Make `ruby-libvirt` dependency optional. thanks Paul Thornthwaite
+
+[google|compute]
+  examples tweaks. thanks Nat Welch
+  Fix externalIP setup. thanks Nat Welch
+
+[google|storage]
+  ensure connection uses correct URI. thanks Brian D. Burns
+
+[jruby]
+  Ignore failures until fully supported. thanks Paul Thornthwaite
+
+[linode|compute]
+  Avoid passing host to request. thanks Fletcher Nichol
+
+[linode|dns]
+  avoid passing host to request. thanks geemus
+
+[misc]
+  Create a Snapshot based on a Disk. thanks Akshay Moghe
+  Add s3 bucket tagging support. thanks Chris Roberts
+  Add mocks in for bucket tagging and include in bucket tests. thanks Chris Roberts
+  Store tag information in mock and check for set tags in `put_bucket_tagging`. thanks Chris Roberts
+  Namespace tagging and move tagging tests prior to bucket deletion. thanks Chris Roberts
+  Return `body` out of test so we have proper value to match against expected `returns`. thanks Chris Roberts
+  Move mock storage initialization and remove storage checks. thanks Chris Roberts
+  AWS IAM userless key management. thanks Jacob Burkhart & Shai Rosenfeld
+  Removed errant :host argument. thanks Jon Topper
+  aws/compute: Hotfix, wrong Name argument for copy_image. thanks Jonas Pfenniger
+  Added testing in JRuby for Travis. thanks Kevin Menard
+  Don't load a couple MRI-only development dependencies on JRuby. thanks Kevin Menard
+  Temporary hack around #2279 to get fog loading on JRuby. thanks Kevin Menard
+  Added logging message for JRuby users to know they're at a disadvantage. thanks Kevin Menard
+  Scope the Unicode module so NameErrors make more sense. thanks Kevin Menard
+  Handle another case of the 'unicode' gem breaking things on JRuby. thanks Kevin Menard
+  Added a JRuby workaround in a test that's failing due to a JRuby bug. thanks Kevin Menard
+  Bound the 'myns' XML namespace to keep Nokogiri on JRuby happy. thanks Kevin Menard
+  Replaced the 'unicode' gem with 'unf' so it'll work with JRuby. thanks Kevin Menard
+  Made the 'unf' dependency optional. thanks Kevin Menard
+  Added a development dependency on 'unf' so the AWS escaping tests will pass. thanks Kevin Menard
+  Don't ignore JRuby failures in Travis any longer, since all known ones have been addressed. thanks Kevin Menard
+  Semantic Versioning (and Pessimistic Versioning Constraint) notice. thanks Max Lincoln
+  Update GCE to v1beta16. thanks Nat Welch
+  @icco can't spell. thanks Nat Welch
+  Fix bug in list images example. thanks Nat Welch
+  typo. thanks Nat Welch
+  Forgot to update Google Readme. thanks Nat Welch
+  allow custom hp_service_type. thanks Omar Reiss
+  applied hp_service_type fix on all services. thanks Omar Reiss
+  add v1 auth fix #2248. thanks Peter Bonnell
+  Add EnableLogging field to FirewallService XML. thanks Philip Potter
+  ensuring that edgegateway list elements are list. thanks Sneha Somwanshi
+  corrected name of edgegateway generator. thanks Sneha Somwanshi
+  tests for configure edge gateways. thanks Sneha Somwanshi
+  added comment on test. thanks Sneha Somwanshi
+  Add a reload() method to the vSphere service. thanks Timur Alperovich
+  Assign service to clone_result before new instance of vm. thanks Xavier Fontrodona
+  add end date for aws instance reservations. thanks aabes
+  - update compute api version to 2013/10/01      - add 'end' to described_reserved_instance. thanks aabes
+  fix mock for purchase ri. thanks aabes
+  Update create_server.rb. thanks avic85
+  Removed host params for excon connections. thanks ccloes
+  Invalid Excon request keys: :host, :port. thanks wenlock
+
+[rackspace]
+  setting rackspace_region to nil in default tests to override any settings loaded via Fog.credentials. thanks Kyle Rames
+
+[rackspace|block_storage]
+  fixing merge issue. thanks Kyle Rames
+
+[vSphere]
+  Implemented feature to specify a socket cpu layout as specified in vmware API. If not used numCoresPerSocket is left out and default VMware behaviour is used.     [vSphere] also fixed bug in vm_reconfig_memory: wrong memory value passed to reconfig_hardware (memory in bytes instead of memory in MB). thanks Marc Grimme
+
+[vcloud_director]
+  improoved tests for #ensure_list!. thanks Dan Abel
+  fixes so that non configured gateway are supported. thanks Dan Abel
+  Change input options structure. thanks Nick Osborn
+  strftime not iso8601 for ruby 1.8.7. thanks Nick Osborn
+  Mocking for tasks. thanks Nick Osborn
+  strftime not iso8601 for ruby 1.8.7. thanks Nick Osborn
+  Consistent usage of ensure_list! in get_disk. thanks Nick Osborn
+  Fix ruby 1.9-isms in media_tests. thanks Nick Osborn
+
+[vsphere|compute]
+  Small code cleanup. thanks Kevin Menard
+  cleanup merge conflicts with clone method. thanks Mick Pollard
+
+
 1.16.0 10/16/2013 13a86cd41e8ea10022fb822cb0b4340cbf2c023d
 ==========================================================
 

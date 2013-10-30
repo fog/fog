@@ -15,7 +15,7 @@ module Fog
         attribute :port_range, :aliases => :PortRange
 
         def tasks
-          @tasks = Fog::Compute::Ecloud::Tasks.new(:service => service, :href => "/cloudapi/ecloud/tasks/virtualMachines/#{id}")
+          @tasks = Fog::Compute::Ecloud::Tasks.new(:service => service, :href => "#{service.base_path}/tasks/virtualMachines/#{id}")
         end
 
         def id

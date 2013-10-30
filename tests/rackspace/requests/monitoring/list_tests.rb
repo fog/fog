@@ -39,8 +39,8 @@ Shindo.tests('Fog::Rackspace::Monitoring | list_tests', ['rackspace','rackspace_
     tests('#get list of data points').formats(LIST_HEADERS_FORMAT) do
       options = {
         :points => 1,
-        :from => now,
-        :to => now+SLEEP_TIME
+        :from => now * 1000,
+        :to => (now+SLEEP_TIME) * 1000
       }
       account.list_data_points(entity_id,check_id,metric_name,options).data[:headers]
     end
