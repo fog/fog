@@ -5,7 +5,7 @@ module Fog
     class BlockStorage < Fog::Service
 
       requires    :hp_secret_key, :hp_tenant_id, :hp_avl_zone
-      recognizes  :hp_auth_uri, :hp_service_type
+      recognizes  :hp_auth_uri, :credentials, :hp_service_type
       recognizes  :persistent, :connection_options
       recognizes  :hp_use_upass_auth_style, :hp_auth_version, :user_agent
       recognizes  :hp_access_key, :hp_account_id  # :hp_account_id is deprecated use hp_access_key instead
@@ -43,6 +43,7 @@ module Fog
             :hp_auth_uri    => @hp_auth_uri,
             :hp_tenant_id   => @hp_tenant_id,
             :hp_avl_zone    => @hp_avl_zone,
+            :credentials    => @credentials,
             :connection_options => @connection_options
           )
         end
@@ -89,6 +90,7 @@ module Fog
 
       class Real
         include Utils
+        attr_reader :credentials
 
         def initialize(options={})
           # deprecate hp_account_id
@@ -119,6 +121,7 @@ module Fog
             credentials = Fog::HP.authenticate_v2(options, @connection_options)
             # the CS service catalog returns the block storage endpoint
             @hp_block_uri = credentials[:endpoint_url]
+            @credentials = credentials
           else
             # Call the legacy v1.0/v1.1 authentication
             credentials = Fog::HP.authenticate_v1(options, @connection_options)
@@ -150,8 +153,7 @@ module Fog
                 'Accept'       => 'application/json',
                 'X-Auth-Token' => @auth_token
               }.merge!(params[:headers] || {}),
-              :host     => @host,
-              :path     => "#{@path}/#{params[:path]}",
+              :path     => "#{@path}/#{params[:path]}"
             }), &block)
           rescue Excon::Errors::HTTPStatusError => error
             raise case error

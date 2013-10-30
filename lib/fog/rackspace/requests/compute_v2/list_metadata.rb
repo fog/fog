@@ -13,7 +13,7 @@ module Fog
         # @raise [Fog::Compute::RackspaceV2::BadRequest] - HTTP 400
         # @raise [Fog::Compute::RackspaceV2::InternalServerError] - HTTP 500
         # @raise [Fog::Compute::RackspaceV2::ServiceError]
-        # @see http://docs.rackspace.com/servers/api/v2/cs-devguide/content/List_Metadata-d1e5089.html       
+        # @see http://docs.rackspace.com/servers/api/v2/cs-devguide/content/List_Metadata-d1e5089.html
         def list_metadata(collection, obj_id)
           request(
             :expects => [200, 203],

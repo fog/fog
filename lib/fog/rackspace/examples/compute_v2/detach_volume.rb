@@ -12,7 +12,7 @@ end
 
 def select_server(servers)
   abort "\nThere are not any servers in the Chicago region. Try running create_server.rb\n\n" if servers.empty?
-  
+
   puts "\nSelect Server For Volume Detachment:\n\n"
   servers.each_with_index do |server, i|
     puts "\t #{i}. #{server.name} [#{server.public_ip_address}]"
@@ -24,7 +24,7 @@ end
 
 def select_attachment(attachments)
   abort "\nThis server does not contain any volumes in the Chicago region. Try running server_attachments.rb\n\n" if attachments.empty?
-  
+
   puts "\nSelect Volume To Detach:\n\n"
   attachments.each_with_index do |attachment, i|
     puts "\t #{i}. #{attachment.device}"

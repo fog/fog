@@ -1,11 +1,12 @@
 require 'fog/core'
+require 'fog/hp/simple_http_instrumentor'
 
 module Fog
   module HP
 
     # define a specific version for the HP Provider
     unless const_defined?(:VERSION)
-      VERSION = '0.0.20'
+      VERSION = '0.0.22'
     end
 
     extend Fog::Provider
@@ -55,10 +56,14 @@ module Fog
       end
     end
 
+    service(:block_storage, 'hp/block_storage', 'BlockStorage')
+    service(:block_storage_v2, 'hp/block_storage_v2', 'BlockStorageV2')
     service(:cdn,     'hp/cdn',     'CDN')
     service(:compute, 'hp/compute', 'Compute')
+    service(:dns,     'hp/dns',     'DNS')
+    service(:lb,      'hp/lb',      'LB')
+    service(:network, 'hp/network', 'Network')
     service(:storage, 'hp/storage', 'Storage')
-    service(:block_storage, 'hp/block_storage', 'BlockStorage')
 
     # legacy swauth 1.0/1.1 style authentication
     def self.authenticate_v1(options, connection_options = {})
@@ -99,8 +104,43 @@ module Fog
       }
     end
 
+    def self.service_catalog(options, connection_options = {})
+      creds = authenticate_v2(options, connection_options)
+      return {} if creds.nil?
+      return {} if creds[:service_catalog].nil?
+      return creds[:service_catalog]
+    end
+
     # keystone based control services style authentication
     def self.authenticate_v2(options, connection_options = {})
+      unless options[:credentials].nil?
+        expires = true
+        begin
+          expire = DateTime.parse(options[:credentials][:expires])
+          expires = false if expire > DateTime.now
+        rescue
+        end
+        if expires
+          options = options.clone
+          options.delete(:credentials)
+        else
+          service_catalog = options[:credentials][:service_catalog]
+          type  = options[:hp_service_type]
+          zone   = options[:hp_avl_zone]
+          begin
+            creds = options[:credentials].clone
+            creds[:endpoint_url] = get_endpoint_url(service_catalog, type, zone)
+            begin
+              creds[:cdn_endpoint_url] = get_endpoint_url(service_catalog, "CDN", zone)
+            rescue
+            end
+            return creds
+          rescue
+          end
+          options = options.clone
+          options.delete(:credentials)
+        end
+      end
       hp_auth_uri = options[:hp_auth_uri] || "https://region-a.geo-1.identity.hpcloudsvc.com:35357/v2.0/tokens"
       # append /tokens if missing from auth uri
       @hp_auth_uri = hp_auth_uri.include?('tokens')? hp_auth_uri : hp_auth_uri + "tokens"
@@ -170,18 +210,22 @@ module Fog
 
       ### fish out auth_token and endpoint for the service
       auth_token = body['access']['token']['id']
-      endpoint_url = get_endpoint_from_catalog(body['access']['serviceCatalog'], @hp_service_type, @hp_avl_zone)
-      # If service is Storage, then get the CDN endpoint as well. 'Name' is unique instead of 'Type'
-      if @hp_service_type == "Object Storage"
-        cdn_endpoint_url = get_endpoint_from_catalog(body['access']['serviceCatalog'], "CDN", @hp_avl_zone)
+      expires = body['access']['token']['expires']
+      service_catalog = get_service_catalog(body['access']['serviceCatalog'])
+      endpoint_url = get_endpoint_url(service_catalog, @hp_service_type, @hp_avl_zone)
+      begin
+        cdn_endpoint_url = get_endpoint_url(service_catalog, "CDN", @hp_avl_zone)
+      rescue
       end
 
-      return {
+      creds = {
         :auth_token => auth_token,
+        :expires => expires,
+        :service_catalog => service_catalog,
         :endpoint_url => endpoint_url,
         :cdn_endpoint_url => cdn_endpoint_url
       }
-
+      return creds
     end
 
     # CGI.escape, but without special treatment on spaces
@@ -191,22 +235,50 @@ module Fog
       end
     end
 
+    # converts any attributes hash from aliased keys to original attribute keys
+    def self.convert_aliased_attributes_to_original(model, attributes)
+      original_attributes = {}
+      attributes.each do |k, v|
+        if orig_key = model.aliases.invert[k]
+          original_attributes[orig_key] = v
+        else
+          original_attributes[k] = v
+        end
+      end
+      original_attributes
+    end
+
     private
 
-    def self.get_endpoint_from_catalog(service_catalog, service_type, avl_zone)
-      raise "Unable to parse service catalog." unless service_catalog
-      service_item = service_catalog.detect do |s|
-        # 'Name' is unique instead of 'Type'
-        s["name"] == service_type
-      end
-      if service_item and service_item['endpoints']
-        endpoint = service_item['endpoints'].detect do |ep|
-          ep['region'] == avl_zone
+    def self.get_service_catalog(body)
+      raise "Unable to parse service catalog." unless body
+      service_catalog = {}
+      body.each do |s|
+        name = s["name"]
+        next if name.nil?
+        name = name.to_sym
+        next if s['endpoints'].nil?
+        service_catalog[name] = {}
+        s['endpoints'].each do |ep|
+          next if ep['region'].nil?
+          next if ep['publicURL'].nil?
+          next if ep['publicURL'].empty?
+          service_catalog[name][ep['region'].to_sym] = ep['publicURL']
         end
-        endpoint_url = endpoint['publicURL'] if endpoint
-        raise "Unable to retrieve endpoint service url for availability zone '#{avl_zone}' from service catalog. " if endpoint_url.nil?
-        return endpoint_url
       end
+      return service_catalog
+    end
+
+    def self.get_endpoint_url(service_catalog, service_type, avl_zone)
+      return nil if service_type.nil?
+      service_type = service_type.to_sym
+      avl_zone = avl_zone.to_sym
+      unless service_catalog[service_type].nil?
+        unless service_catalog[service_type][avl_zone].nil?
+          return service_catalog[service_type][avl_zone]
+        end
+      end
+      raise "Unable to retrieve endpoint service url for availability zone '#{avl_zone}' from service catalog. "
     end
 
     def self.set_user_agent_header(conn_opts, base_str, client_str)
@@ -255,6 +327,23 @@ module Fog
           ip << Fog::Mock.random_numbers(rand(3) + 1).to_i.to_s # remove leading 0
         end
         ip.join('.')
+      end
+
+      def self.uuid
+        # pattern of 8-4-4-4-12 hexadecimal digits
+        uuid = []
+        [8,4,4,4,12].each do |x|
+          uuid << Fog::Mock.random_hex(x)
+        end
+        uuid.join('-')
+      end
+
+      def self.mac_address
+        mac_add = []
+        6.times do
+          mac_add << Fog::Mock.random_hex(2)
+        end
+        mac_add.join(':')
       end
 
     end

@@ -152,7 +152,7 @@ module Fog
 
 
         # Get publicly acessible url via http GET.
-        # 
+        #
         #     required attributes: directory, key
         # 
         # @return [String] public url

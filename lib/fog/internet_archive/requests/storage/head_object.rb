@@ -13,7 +13,7 @@ module Fog
         # @option options [String] If-None-Match Returns object only if its etag differs from this value, otherwise returns 304 (Not Modified)
         # @option options [Time]   If-Unmodified-Since Returns object only if it has not been modified since this time, otherwise returns 412 (Precodition Failed).
         # @option options [String] Range Range of object to download
-        # 
+        #
         # @return [Excon::Response] response: 
         #   * body [String] Contents of object
         #   * headers [Hash]: 

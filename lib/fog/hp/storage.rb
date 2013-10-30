@@ -6,7 +6,7 @@ module Fog
     class HP < Fog::Service
 
       requires    :hp_secret_key, :hp_tenant_id, :hp_avl_zone
-      recognizes  :hp_auth_uri, :hp_cdn_ssl, :hp_cdn_uri, :hp_service_type
+      recognizes  :hp_auth_uri, :hp_cdn_ssl, :hp_cdn_uri, :credentials, :hp_service_type
       recognizes  :persistent, :connection_options
       recognizes  :hp_use_upass_auth_style, :hp_auth_version, :user_agent
       recognizes  :hp_access_key, :hp_account_id  # :hp_account_id is deprecated use hp_access_key instead
@@ -41,6 +41,8 @@ module Fog
       request :head_object
       request :head_shared_container
       request :head_shared_object
+      request :post_container
+      request :post_object
       request :put_container
       request :put_object
       request :put_shared_object
@@ -57,6 +59,7 @@ module Fog
               :hp_cdn_uri     => @hp_cdn_uri,
               :hp_tenant_id   => @hp_tenant_id,
               :hp_avl_zone    => @hp_avl_zone,
+              :credentials    => @credentials,
               :connection_options => @connection_options
             )
             if @cdn.enabled?
@@ -203,9 +206,6 @@ module Fog
         # ==== Returns
         # * response<~Excon::Response>:
         #   * body<~String> - url for object
-        #
-        # ==== See Also
-        # http://docs.rackspace.com/files/api/v1/cf-devguide/content/Create_TempURL-d1a444.html
         def create_temp_url(container, object, expires, method, options = {})
           raise ArgumentError, "Insufficient parameters specified." unless (container && object && expires && method)
           raise ArgumentError, "Storage must my instantiated with the :os_account_meta_temp_url_key option" if @os_account_meta_temp_url_key.nil?
@@ -299,6 +299,7 @@ module Fog
 
       class Real
         include Utils
+        attr_reader :credentials
         attr_reader :hp_cdn_ssl
 
         def initialize(options={})
@@ -333,6 +334,7 @@ module Fog
             # the CS service catalog returns the cdn endpoint
             @hp_storage_uri = credentials[:endpoint_url]
             @hp_cdn_uri  = credentials[:cdn_endpoint_url]
+            @credentials = credentials
           else
             # Call the legacy v1.0/v1.1 authentication
             credentials = Fog::HP.authenticate_v1(options, @connection_options)
@@ -365,7 +367,6 @@ module Fog
                 'Accept'       => 'application/json',
                 'X-Auth-Token' => @auth_token
               }.merge!(params[:headers] || {}),
-              :host     => @host,
               :path     => "#{@path}/#{params[:path]}",
             }), &block)
           rescue Excon::Errors::HTTPStatusError => error
@@ -391,7 +392,6 @@ module Fog
                 'Accept'       => 'application/json',
                 'X-Auth-Token' => @auth_token
               }.merge!(params[:headers] || {}),
-              :host     => @host,
               :path     => "#{params[:path]}",
             }), &block)
           rescue Excon::Errors::HTTPStatusError => error
