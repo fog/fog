@@ -54,8 +54,12 @@ module Shindo
       until current_state == state
         current_state = service.get_server(server_id).body['server']['status']
         if error_states
-          error_states = Array(error_states)           
-          raise "ERROR! Server should have transitioned to '#{state}' not '#{current_state}'" if error_states.include?(current_state)
+          error_states = Array(error_states)
+          if error_states.include?(current_state)
+            Fog::Logger.warning caller
+            Fog::Logger.warning "ERROR! Server should have transitioned to '#{state}' not '#{current_state}'"
+            return
+          end
         end
         sleep 10 unless Fog.mocking?
       end
