@@ -21,6 +21,8 @@ module Fog
               :path => "admin/edgeGateway/#{id}"
           )
 
+          ensure_list! response.body[:Configuration], :GatewayInterfaces, :GatewayInterface
+
           edge_gateway_service_configuration = response.body[:Configuration][:EdgeGatewayServiceConfiguration]
 
           ensure_list! edge_gateway_service_configuration[:FirewallService], :FirewallRule if edge_gateway_service_configuration[:FirewallService]
