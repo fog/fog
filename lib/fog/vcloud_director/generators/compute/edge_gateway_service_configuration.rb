@@ -128,21 +128,22 @@ module Fog
                   xml.Id rule[:Id]
                   xml.IsEnabled rule[:IsEnabled] if rule.key?(:IsEnabled)
                   xml.MatchOnTranslate rule[:MatchOnTranslate] if rule.key?(:MatchOnTranslate)
-                  xml.Description rule[:Description]
-                  xml.Policy rule[:Policy]
+                  xml.Description rule[:Description] if rule.key?[:Description]
+                  xml.Policy rule[:Policy] if rule.key?[:Policy]
 
                   xml.Protocols {
-                    rule[:Protocols].each do |protocol, is_enabled|
-                      xml.send(protocol.to_s.capitalize, is_enabled)
+                    rule[:Protocols].each do |key, value|
+                      xml.send(key.to_s.capitalize, value)
                     end
                   }
-                  xml.IcmpSubType "any" if (rule[:Protocols].include?(:Icmp)  && rule[:Protocols][:Icmp] == true )
-                  xml.Port rule[:Port] == "Any" ? "-1" : rule[:Port]
+                  xml.IcmpSubType rule[:IcmpSubType] if rule.key?[:IcmpSubType]
+                  xml.Port rule[:Port] if rule.key?[:Port]
                   xml.DestinationPortRange rule[:DestinationPortRange]
                   xml.DestinationIp rule[:DestinationIp]
-                  xml.SourcePort rule[:SourcePort] == "Any" ? "-1" : rule[:SourcePort]
+                  xml.SourcePort rule[:SourcePort] if rule.key?[:SourcePort]
                   xml.SourcePortRange rule[:SourcePortRange]
                   xml.SourceIp rule[:SourceIp]
+                  xml.Direction rule[:Direction] if rule.key?[:Direction] #Firewall rule direction is allowed only in backward compatibility mode.
                   xml.EnableLogging rule[:EnableLogging] if rule.key?(:EnableLogging)
                 }
 
