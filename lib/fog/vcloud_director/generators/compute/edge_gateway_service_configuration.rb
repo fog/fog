@@ -28,7 +28,7 @@ module Fog
               lb_config[:Pool].each do |pool|
                 xml.Pool {
                   xml.Name pool[:Name]
-
+                  xml.Description pool[:Description] if pool.key?(:Description)
                   pool[:ServicePort].each do |service_port|
                     xml.ServicePort {
                       xml.IsEnabled service_port[:IsEnabled]
@@ -38,6 +38,7 @@ module Fog
                       xml.HealthCheckPort service_port[:HealthCheckPort]
                       xml.HealthCheck {
                         xml.Mode service_port[:HealthCheck][:Mode]
+                        xml.Uri service_port[:HealthCheck][:Uri]
                         xml.HealthThreshold service_port[:HealthCheck][:HealthThreshold]
                         xml.UnhealthThreshold service_port[:HealthCheck][:UnhealthThreshold]
                         xml.Interval service_port[:HealthCheck][:Interval]
