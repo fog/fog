@@ -1,8 +1,5 @@
 Shindo.tests('Fog::Compute::RackspaceV2 | server_tests', ['rackspace']) do
   service   = Fog::Compute.new(:provider => 'Rackspace', :version => 'V2')
-  image_id  = Fog.credentials[:rackspace_image_id]
-  image_id ||= Fog.mocking? ? service.images.first.id : service.images.find {|image| image.name =~ /Ubuntu/}.id # use the first Ubuntu image
-  flavor_id = Fog.credentials[:rackspace_flavor_id] || service.flavors.first.id
 
   link_format = {
     'href' => String,
@@ -62,8 +59,8 @@ Shindo.tests('Fog::Compute::RackspaceV2 | server_tests', ['rackspace']) do
 
     server_id = nil
     server_name = "fog#{Time.now.to_i.to_s}"
-    image_id = image_id
-    flavor_id = flavor_id
+    image_id = rackspace_test_image_id(service)
+    flavor_id = rackspace_test_flavor_id(service)
 
     tests("#create_server(#{server_name}, #{image_id}, #{flavor_id}, 1, 1)").formats(create_server_format) do
       body = service.create_server(server_name, image_id, flavor_id, 1, 1).body
@@ -117,7 +114,7 @@ Shindo.tests('Fog::Compute::RackspaceV2 | server_tests', ['rackspace']) do
     wait_for_server_state(service, server_id, 'ACTIVE', 'ERROR')
 
     tests('#resize_server').succeeds do
-      resize_flavor_id = Fog.mocking? ? flavor_id : service.flavors[1].id
+      resize_flavor_id = Fog.mocking? ? flavor_id : service.flavors[2].id
       service.resize_server(server_id, resize_flavor_id)
     end
     wait_for_server_state(service, server_id, 'VERIFY_RESIZE', 'ACTIVE')
