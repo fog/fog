@@ -1,3 +1,411 @@
+1.18.0 10/31/2013 5442bc7e893eb73dae8bb5ee8ef0845c78c43627
+==========================================================
+
+Stats! { 'collaborators' => 53, 'downloads' => 3557402, 'forks' => 967, 'open_issues' => 171, 'watchers' => 2767 }
+
+MVP! Mike Hagedorn
+
+[aws|compute]
+  mock instance tenancy on servers. thanks Eugene Howe
+  Fixed a typo. thanks Kevin Menard
+
+[aws|data_pipeline]
+  don't pass host to request. thanks Matt Gillooly
+
+[ecloud|compute]
+  Replace /cloudapi/ecloud with a configurable path. thanks Todd Willey
+
+[hp]
+  Add a simple http instrumentor. thanks Rupak Ganguly
+  Fix a small issue with the simple instrumentor. Remove igonore_aweful_caching from compute provider. thanks Rupak Ganguly
+  Another fix to the simple instrumentor. thanks Rupak Ganguly
+  Bump version and update changelog. thanks Rupak Ganguly
+  Add a simple http instrumentor. thanks Rupak Ganguly
+  Fix a small issue with the simple instrumentor. Remove igonore_aweful_caching from compute provider. thanks Rupak Ganguly
+  Another fix to the simple instrumentor. thanks Rupak Ganguly
+  Bump version and update changelog. thanks Rupak Ganguly
+
+[hp|block_storage_v2]
+  Add a new Block Storage V2 provider for next gen block storage services. thanks Rupak Ganguly
+  Add request methods for volumes, along with tests. thanks Rupak Ganguly
+  Add the compute_v2 instance helper method. thanks Rupak Ganguly
+  Add volume model, fix some mocks, and add volume tests. thanks Rupak Ganguly
+  Add request methods for snapshots, along with tests. thanks Rupak Ganguly
+  Add snapshot model along with tests. thanks Rupak Ganguly
+  Add request methods for volume backups, along with tests. thanks Rupak Ganguly
+  Fix status for request methods. thanks Rupak Ganguly
+  Add details to the volumes and snapshots collection. Add new helper methods for corresponding statuses. Add collection tests for volumes and snapshots. thanks Rupak Ganguly
+  Add volume backups model, along with tests. thanks Rupak Ganguly
+  Add a new Block Storage V2 provider for next gen block storage services. thanks Rupak Ganguly
+  Add request methods for volumes, along with tests. thanks Rupak Ganguly
+  Add the compute_v2 instance helper method. thanks Rupak Ganguly
+  Add volume model, fix some mocks, and add volume tests. thanks Rupak Ganguly
+  Add request methods for snapshots, along with tests. thanks Rupak Ganguly
+  Add snapshot model along with tests. thanks Rupak Ganguly
+  Add request methods for volume backups, along with tests. thanks Rupak Ganguly
+  Fix status for request methods. thanks Rupak Ganguly
+  Add details to the volumes and snapshots collection. Add new helper methods for corresponding statuses. Add collection tests for volumes and snapshots. thanks Rupak Ganguly
+  Add volume backups model, along with tests. thanks Rupak Ganguly
+
+[hp|compute]
+  Add vnc console feature into request layer and server model. thanks Rupak Ganguly
+  Fix deprecation messaging. thanks Rupak Ganguly
+  Add vnc console feature into request layer and server model. thanks Rupak Ganguly
+  Fix deprecation messaging. thanks Rupak Ganguly
+
+[hp|compute_v2]
+  Add new HP Compute V2 provider. Add request methods for servers. thanks Rupak Ganguly
+  Remove aweful caching from query. thanks Rupak Ganguly
+  Add filter options to query for servers. thanks Rupak Ganguly
+  Update attributes, mocks and inline help. thanks Rupak Ganguly
+  Add capability to pass networks while creating a server. thanks Rupak Ganguly
+  Add tests for request methods for server. thanks Rupak Ganguly
+  Add the request methods for reboot, rebuild and create_image for servers. thanks Rupak Ganguly
+  Add request methods for flavors, along with tests. thanks Rupak Ganguly
+  Add request methods for images, along with tests. thanks Rupak Ganguly
+  Add request methods for keypairs, along with tests. thanks Rupak Ganguly
+  Add metadata request methods for servers and images, along with tests. thanks Rupak Ganguly
+  Add request methods for console, along with tests. thanks Rupak Ganguly
+  Add request methods for floating ip addresses, along with tests. thanks Rupak Ganguly
+  Add request methods for server addresses, along with tests. thanks Rupak Ganguly
+  Add models for servers, images and metadata. thanks Rupak Ganguly
+  Add tests for servers, images and metadata. thanks Rupak Ganguly
+  Add models for flavors and key pairs, along with tests. thanks Rupak Ganguly
+  Add address model along with tests. thanks Rupak Ganguly
+  Fix some tests. thanks Rupak Ganguly
+  Fix mocks for server addresses. Fix create_server and server model to accept networks and availability zones params. thanks Rupak Ganguly
+  Add request methods and models for availability zones, along with tests. thanks Rupak Ganguly
+  Add request methods for volume attachments for server, along with tests. thanks Rupak Ganguly
+  Add volume attachment methods to the server model. thanks Rupak Ganguly
+  Add update_name for server model. thanks Rupak Ganguly
+  Update server model with flavor and image methods. Also, update the create_image method to return image model. Update tests as well. thanks Rupak Ganguly
+  Update rebuild method of the server model. thanks Rupak Ganguly
+  Refactor server model to add volume attachments. thanks Rupak Ganguly
+  Add method to retrieve windows instance password after it is created. Also, add tests for persistent server. thanks Rupak Ganguly
+  Fix network_name for 1.8.7 compatibility. thanks Rupak Ganguly
+  Add request method for limits. thanks Rupak Ganguly
+  Add request and server model methods to add security groups to server after creation, along with tests. thanks Rupak Ganguly
+  Fix a minor bug. thanks Rupak Ganguly
+  Add new HP Compute V2 provider. Add request methods for servers. thanks Rupak Ganguly
+  Remove aweful caching from query. thanks Rupak Ganguly
+  Add filter options to query for servers. thanks Rupak Ganguly
+  Update attributes, mocks and inline help. thanks Rupak Ganguly
+  Add capability to pass networks while creating a server. thanks Rupak Ganguly
+  Add tests for request methods for server. thanks Rupak Ganguly
+  Add the request methods for reboot, rebuild and create_image for servers. thanks Rupak Ganguly
+  Add request methods for flavors, along with tests. thanks Rupak Ganguly
+  Add request methods for images, along with tests. thanks Rupak Ganguly
+  Add request methods for keypairs, along with tests. thanks Rupak Ganguly
+  Add metadata request methods for servers and images, along with tests. thanks Rupak Ganguly
+  Add request methods for console, along with tests. thanks Rupak Ganguly
+  Add request methods for floating ip addresses, along with tests. thanks Rupak Ganguly
+  Add request methods for server addresses, along with tests. thanks Rupak Ganguly
+  Add models for servers, images and metadata. thanks Rupak Ganguly
+  Add tests for servers, images and metadata. thanks Rupak Ganguly
+  Add models for flavors and key pairs, along with tests. thanks Rupak Ganguly
+  Add address model along with tests. thanks Rupak Ganguly
+  Fix some tests. thanks Rupak Ganguly
+  Fix mocks for server addresses. Fix create_server and server model to accept networks and availability zones params. thanks Rupak Ganguly
+  Add request methods and models for availability zones, along with tests. thanks Rupak Ganguly
+  Add request methods for volume attachments for server, along with tests. thanks Rupak Ganguly
+  Add volume attachment methods to the server model. thanks Rupak Ganguly
+  Add update_name for server model. thanks Rupak Ganguly
+  Update server model with flavor and image methods. Also, update the create_image method to return image model. Update tests as well. thanks Rupak Ganguly
+  Update rebuild method of the server model. thanks Rupak Ganguly
+  Refactor server model to add volume attachments. thanks Rupak Ganguly
+  Add method to retrieve windows instance password after it is created. Also, add tests for persistent server. thanks Rupak Ganguly
+  Fix network_name for 1.8.7 compatibility. thanks Rupak Ganguly
+  Add request method for limits. thanks Rupak Ganguly
+  Add request and server model methods to add security groups to server after creation, along with tests. thanks Rupak Ganguly
+  Fix a minor bug. thanks Rupak Ganguly
+
+[hp|dns]
+  Add the HP DNS provider along with the tests. thanks Rupak Ganguly
+  Add DNS model tests and updated models and mocks. thanks Rupak Ganguly
+  Fix update_record issue and fix tests. thanks Rupak Ganguly
+  Add the HP DNS provider along with the tests. thanks Rupak Ganguly
+  Add DNS model tests and updated models and mocks. thanks Rupak Ganguly
+  Fix update_record issue and fix tests. thanks Rupak Ganguly
+
+[hp|dns,lb]
+  Add DNS and LB provider registration. thanks Rupak Ganguly
+  Add DNS and LB provider registration. thanks Rupak Ganguly
+
+[hp|lb]
+  Add request layer for methods for load balancer along with tests. thanks Rupak Ganguly
+  Add HP provider models for Load Balancer along with tests. thanks Rupak Ganguly
+  Add request layer for methods for load balancer along with tests. thanks Rupak Ganguly
+  Add HP provider models for Load Balancer along with tests. thanks Rupak Ganguly
+
+[hp|network]
+  Add the HP Network (Quantum) provider. thanks Rupak Ganguly
+  Add request method for list_networks. thanks Rupak Ganguly
+  Add request method for get_network. thanks Rupak Ganguly
+  Add request method for create_network. thanks Rupak Ganguly
+  Add request method for delete_network. thanks Rupak Ganguly
+  Add request method for update_network. thanks Rupak Ganguly
+  Add bin support for network provider. thanks Rupak Ganguly
+  Add tests for request methods for network provider. thanks Rupak Ganguly
+  Add request methods for subnets. thanks Rupak Ganguly
+  Add tests for request methods of subnets. thanks Rupak Ganguly
+  Add request methods for ports and tests to go along. thanks Rupak Ganguly
+  Update create_port to add security groups. thanks Rupak Ganguly
+  Minor edits. thanks Rupak Ganguly
+  Add the request methods for floating ips, along with the tests. thanks Rupak Ganguly
+  Minor chnages to inline docs and mocks. thanks Rupak Ganguly
+  Add the request methods for routers. thanks Rupak Ganguly
+  Fix the mocks for remove router logic. thanks Rupak Ganguly
+  Add tests for routers. thanks Rupak Ganguly
+  Add a mock external network. Fix some mocks and tests. thanks Rupak Ganguly
+  Add models for network, along with tests. thanks Rupak Ganguly
+  Minor changes to network model. thanks Rupak Ganguly
+  Add models for subnets, along with tests. thanks Rupak Ganguly
+  Add models for ports, along with tests. thanks Rupak Ganguly
+  Add models for floating ips, along with tests. thanks Rupak Ganguly
+  Add models for routers, along with tests. thanks Rupak Ganguly
+  Add router interface methods and tests to router models. thanks Rupak Ganguly
+  Fix minor bug. thanks Rupak Ganguly
+  Add request methods for networking security groups. thanks Rupak Ganguly
+  Add tests for request methods for networking security groups. thanks Rupak Ganguly
+  Add request methods for networking security group rules, along with tests. thanks Rupak Ganguly
+  Add models for security groups, along with tests. thanks Rupak Ganguly
+  Add security group rules model, along with tests. thanks Rupak Ganguly
+  Add a ready? method to the network model. thanks Rupak Ganguly
+  Add the request methods for floating ips, along with the tests. thanks Rupak Ganguly
+  Minor chnages to inline docs and mocks. thanks Rupak Ganguly
+  Add the request methods for routers. thanks Rupak Ganguly
+  Update network provider to cache credentials. thanks Rupak Ganguly
+  Add ready? method for port and router model. thanks Rupak Ganguly
+  Add a extra check for responses that return not JSON data. thanks Rupak Ganguly
+  Add the HP Network (Quantum) provider. thanks Rupak Ganguly
+  Add request method for list_networks. thanks Rupak Ganguly
+  Add request method for get_network. thanks Rupak Ganguly
+  Add request method for create_network. thanks Rupak Ganguly
+  Add request method for delete_network. thanks Rupak Ganguly
+  Add request method for update_network. thanks Rupak Ganguly
+  Add bin support for network provider. thanks Rupak Ganguly
+  Add tests for request methods for network provider. thanks Rupak Ganguly
+  Add request methods for subnets. thanks Rupak Ganguly
+  Add tests for request methods of subnets. thanks Rupak Ganguly
+  Add request methods for ports and tests to go along. thanks Rupak Ganguly
+  Update create_port to add security groups. thanks Rupak Ganguly
+  Minor edits. thanks Rupak Ganguly
+  Add the request methods for floating ips, along with the tests. thanks Rupak Ganguly
+  Minor chnages to inline docs and mocks. thanks Rupak Ganguly
+  Add the request methods for routers. thanks Rupak Ganguly
+  Fix the mocks for remove router logic. thanks Rupak Ganguly
+  Add tests for routers. thanks Rupak Ganguly
+  Add a mock external network. Fix some mocks and tests. thanks Rupak Ganguly
+  Add models for network, along with tests. thanks Rupak Ganguly
+  Minor changes to network model. thanks Rupak Ganguly
+  Add models for subnets, along with tests. thanks Rupak Ganguly
+  Add models for ports, along with tests. thanks Rupak Ganguly
+  Add models for floating ips, along with tests. thanks Rupak Ganguly
+  Add models for routers, along with tests. thanks Rupak Ganguly
+  Add router interface methods and tests to router models. thanks Rupak Ganguly
+  Fix minor bug. thanks Rupak Ganguly
+  Add request methods for networking security groups. thanks Rupak Ganguly
+  Add tests for request methods for networking security groups. thanks Rupak Ganguly
+  Add request methods for networking security group rules, along with tests. thanks Rupak Ganguly
+  Add models for security groups, along with tests. thanks Rupak Ganguly
+  Add security group rules model, along with tests. thanks Rupak Ganguly
+  Add a ready? method to the network model. thanks Rupak Ganguly
+  Add the request methods for floating ips, along with the tests. thanks Rupak Ganguly
+  Minor chnages to inline docs and mocks. thanks Rupak Ganguly
+  Add the request methods for routers. thanks Rupak Ganguly
+  Update network provider to cache credentials. thanks Rupak Ganguly
+  Add ready? method for port and router model. thanks Rupak Ganguly
+  Add a extra check for responses that return not JSON data. thanks Rupak Ganguly
+
+[hp|storage]
+  Minor fixes to post_container and post_object methods and tests. thanks Rupak Ganguly
+  Add attributes to directory model and update collection to save these for the static web. thanks Rupak Ganguly
+  Add a metadata implementation for object storage directory. thanks Rupak Ganguly
+  Minor fixes to directory metadata and along with tests for metadata. thanks Rupak Ganguly
+  Minor fixes to post_container and post_object methods and tests. thanks Rupak Ganguly
+  Add attributes to directory model and update collection to save these for the static web. thanks Rupak Ganguly
+  Add a metadata implementation for object storage directory. thanks Rupak Ganguly
+  Minor fixes to directory metadata and along with tests for metadata. thanks Rupak Ganguly
+
+[misc]
+  Fix parser typo that caused failure in #describe_internet_gateways when the gateway had tags. thanks David Faber
+  Add support to #create_tags mock for internet gateways. thanks David Faber
+  Fix initialization of instances array in AWS autoscaling group. thanks David Faber
+  Fix initialization of instances array in AWS autoscaling group. thanks David Faber
+  Remove override of instances instance-setting in autoscale groups. thanks Jose Diaz-Gonzalez
+  rake mock[<provider>] and live[<provider] tasks. thanks Max Lincoln
+  fix usage for mock. thanks Max Lincoln
+  added dns files. thanks Mike Hagedorn
+  added dns stuff. thanks Mike Hagedorn
+  added to bin for provider. thanks Mike Hagedorn
+  added lb to bin. thanks Mike Hagedorn
+  cleaned up dns stuff. thanks Mike Hagedorn
+  beginnings for LB adapter. thanks Mike Hagedorn
+  more requests... thanks Mike Hagedorn
+  versioning logic. thanks Mike Hagedorn
+  create lb node request logic. thanks Mike Hagedorn
+  clean up copy and paste error. thanks Mike Hagedorn
+  took dns refs out of lbaas branch. thanks Mike Hagedorn
+  model tweaks. thanks Mike Hagedorn
+  fixed request registration. thanks Mike Hagedorn
+  file rename. thanks Mike Hagedorn
+  added list tests. thanks Mike Hagedorn
+  added limits unit test. thanks Mike Hagedorn
+  get load balancer tests. thanks Mike Hagedorn
+  more node tests. thanks Mike Hagedorn
+  delete node/lb tests. thanks Mike Hagedorn
+  added dns files. thanks Mike Hagedorn
+  added dns stuff. thanks Mike Hagedorn
+  added to bin for provider. thanks Mike Hagedorn
+  added lb to bin. thanks Mike Hagedorn
+  cleaned up dns stuff. thanks Mike Hagedorn
+  beginnings for LB adapter. thanks Mike Hagedorn
+  more requests... thanks Mike Hagedorn
+  versioning logic. thanks Mike Hagedorn
+  create lb node request logic. thanks Mike Hagedorn
+  clean up copy and paste error. thanks Mike Hagedorn
+  took dns refs out of lbaas branch. thanks Mike Hagedorn
+  model tweaks. thanks Mike Hagedorn
+  fixed request registration. thanks Mike Hagedorn
+  file rename. thanks Mike Hagedorn
+  added list tests. thanks Mike Hagedorn
+  added limits unit test. thanks Mike Hagedorn
+  get load balancer tests. thanks Mike Hagedorn
+  more node tests. thanks Mike Hagedorn
+  delete node/lb tests. thanks Mike Hagedorn
+  make Disks model zone agnostic. thanks Nat Welch
+  small typo. thanks Nat Welch
+  expand variable names. thanks Nat Welch
+  added tests for monigtoring zones. thanks Paul Vudmaska
+  add pending if mocking to tests. thanks Paul Vudmaska
+  using Fog.mocking rather than mocking?. thanks Paul Vudmaska
+  Update changelog and bump version. thanks Rupak Ganguly
+  Fix minor thing. thanks Rupak Ganguly
+  Fix minor things in console request methods. thanks Rupak Ganguly
+  Minor fix to failing test. thanks Rupak Ganguly
+  Minor inline doc updates. thanks Rupak Ganguly
+  Minor fix to desc. of tests. thanks Rupak Ganguly
+  Minor fix to inline help. thanks Rupak Ganguly
+  Remove the metadata attribute, and let it be lazy loaded as needed per image object. thanks Rupak Ganguly
+  Add a capability to filter collections based on aliased or original attributes. Also, add capability to specify :details => true to fetch details, non-details call being the default. thanks Rupak Ganguly
+  Remove the metadata attribute, and let it be lazy loaded as needed per server object. thanks Rupak Ganguly
+  Add subnets collection to the network model. thanks Rupak Ganguly
+  Add a helper method for network_names. Also, update network_name methdo to set itself to the first network with a public ip address by default. thanks Rupak Ganguly
+  Bump version and update changelog. thanks Rupak Ganguly
+  Minor fix to mocks. thanks Rupak Ganguly
+  Fix small typo. thanks Rupak Ganguly
+  [hp|compute_v2]Minor fixes to mocks. thanks Rupak Ganguly
+  Add a body for the request portion for the instrumentor. thanks Rupak Ganguly
+  Remove HP version info from user-agent. thanks Rupak Ganguly
+  Update newer providers to expose hp_service_type as was done in #2177. thanks Rupak Ganguly
+  Remove some files that were added during merge. thanks Rupak Ganguly
+  Update changelog and bump version. thanks Rupak Ganguly
+  Fix minor thing. thanks Rupak Ganguly
+  Fix minor things in console request methods. thanks Rupak Ganguly
+  Minor fix to failing test. thanks Rupak Ganguly
+  Minor inline doc updates. thanks Rupak Ganguly
+  Minor fix to desc. of tests. thanks Rupak Ganguly
+  Minor fix to inline help. thanks Rupak Ganguly
+  Remove the metadata attribute, and let it be lazy loaded as needed per image object. thanks Rupak Ganguly
+  Add a capability to filter collections based on aliased or original attributes. Also, add capability to specify :details => true to fetch details, non-details call being the default. thanks Rupak Ganguly
+  Remove the metadata attribute, and let it be lazy loaded as needed per server object. thanks Rupak Ganguly
+  Add subnets collection to the network model. thanks Rupak Ganguly
+  Add a helper method for network_names. Also, update network_name methdo to set itself to the first network with a public ip address by default. thanks Rupak Ganguly
+  Bump version and update changelog. thanks Rupak Ganguly
+  Minor fix to mocks. thanks Rupak Ganguly
+  Fix small typo. thanks Rupak Ganguly
+  [hp|compute_v2]Minor fixes to mocks. thanks Rupak Ganguly
+  Add a body for the request portion for the instrumentor. thanks Rupak Ganguly
+  Remove HP version info from user-agent. thanks Rupak Ganguly
+  Update newer providers to expose hp_service_type as was done in #2177. thanks Rupak Ganguly
+  Remove some files that were added during merge. thanks Rupak Ganguly
+  Remove tests temporarily. thanks Rupak Ganguly
+  Fix tests temporarily for 1.8.7. thanks Rupak Ganguly
+  fixing firewall config to follow api documentation. thanks Sneha Somwanshi
+  Added missing health check uri and pool description. thanks Sneha Somwanshi
+  Should define the username only if empty. thanks Sylvain Kalache
+  Update lib/fog/hp.rb. thanks Terry Howe
+  Update lib/fog/hp/models/compute_v2/server.rb. thanks Terry Howe
+  Update lib/fog/hp/models/compute_v2/server.rb. thanks Terry Howe
+  fix error in volumes. thanks Terry Howe
+  Update create_record.rb. thanks Terry Howe
+  Update version.rb. thanks Terry Howe
+  Update versions.rb. thanks Terry Howe
+  make HP a bit more like openstack generic. thanks Terry Howe
+  changes to make old ips work better and activate network for HP. thanks Terry Howe
+  excon update fix. thanks Terry Howe
+  Update lib/fog/hp.rb. thanks Terry Howe
+  Update lib/fog/hp/models/compute_v2/server.rb. thanks Terry Howe
+  Update lib/fog/hp/models/compute_v2/server.rb. thanks Terry Howe
+  fix error in volumes. thanks Terry Howe
+  Update create_record.rb. thanks Terry Howe
+  Update version.rb. thanks Terry Howe
+  Update versions.rb. thanks Terry Howe
+  make HP a bit more like openstack generic. thanks Terry Howe
+  changes to make old ips work better and activate network for HP. thanks Terry Howe
+  excon update fix. thanks Terry Howe
+  When not mocked, test against LiveSpec api endpoint. thanks Todd Willey
+  Map a single-value hash to arrays when needed. thanks Todd Willey
+  Specify tests to come from Living Spec. thanks Todd Willey
+  add Chris Roberts to MVP list. thanks geemus
+  bump excon dependency. thanks geemus
+  syntax fix. thanks geemus
+  dxsdk-27 authentication caching. thanks howete
+  dxsdk-27 add the test back in. thanks howete
+  dxsdk-27 modification as pre rupak. thanks howete
+  dxsdk-27 make generic credentials. thanks howete
+  dxsdk-27 make generic credentials. thanks howete
+  dxsdk-321 add credentials for convenience methods. thanks howete
+  add a post object request for after and at deletes. thanks howete
+  correcting mock. thanks howete
+  dxsdk-335 add tests and a post_container request. thanks howete
+  monkey patch start. thanks howete
+  add service catalog call. thanks howete
+  merge. thanks howete
+  update LBaaS to what works with the current version in pro. thanks howete
+  make the updates for version and virtual ip. thanks howete
+  dxcli-847 fixes for 1.8.7 ruby. thanks howete
+  dxcli-847 add mikes tests back in. thanks howete
+  dxcli-863 versions error from fog call. thanks howete
+  dxsdk-27 authentication caching. thanks howete
+  dxsdk-27 add the test back in. thanks howete
+  dxsdk-27 modification as pre rupak. thanks howete
+  dxsdk-27 make generic credentials. thanks howete
+  dxsdk-27 make generic credentials. thanks howete
+  dxsdk-321 add credentials for convenience methods. thanks howete
+  add a post object request for after and at deletes. thanks howete
+  correcting mock. thanks howete
+  dxsdk-335 add tests and a post_container request. thanks howete
+  monkey patch start. thanks howete
+  add service catalog call. thanks howete
+  merge. thanks howete
+  update LBaaS to what works with the current version in pro. thanks howete
+  make the updates for version and virtual ip. thanks howete
+  dxcli-847 fixes for 1.8.7 ruby. thanks howete
+  dxcli-847 add mikes tests back in. thanks howete
+  dxcli-863 versions error from fog call. thanks howete
+
+[rackspace]
+  fixing broken tests. thanks Kyle Rames
+
+[rackspace|monitoring]
+  updating BadRequest exceptions to include validation errors. thanks Kyle Rames
+
+[rackspace|storage]
+  implement get_http_url and get_https_url. See issue #2103 for more information. thanks Kyle Rames
+  set tests to pending if mocking. thanks Kyle Rames
+
+[vcloud_director]
+  fix or skip tests that fail in real environment. thanks Dan Abel
+  test should fail fast, and use a clearly test id and description. thanks Dan Abel
+  Ensure task :Owner is always present. thanks Nick Osborn
+
+[vsphere|compute]
+  Added the ability to create and destroy new volumes. thanks Kevin Menard
+  Be more intelligent about auto-picking a unit number for a volume. thanks Kevin Menard
+  Refresh the local volume attributes upon successful save and accurately report save failures. thanks Kevin Menard
+
+
 1.17.0 10/29/2013 9f0627eec16e636bfe86895bbd36f89d7a017737
 ==========================================================
 

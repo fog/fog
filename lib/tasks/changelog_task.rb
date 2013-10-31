@@ -69,6 +69,7 @@ module Fog
               'Lincoln Stoll',
               'Luqman Amjad',
               'Michael Zeng',
+              'Mike Hagedorn',
               'Nat Welch',
               'Nick Osborn',
               'nightshade427',
