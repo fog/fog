@@ -9,8 +9,15 @@ module Fog
 
         model Fog::Compute::Google::Disk
 
-        def all(zone)
-          data = service.list_disks(zone).body["items"] || []
+        def all(filters={})
+          if filters['zone'].nil?
+            data = []
+            service.list_zones.body['items'].each do |zone|
+              data += service.list_disks(zone['name']).body["items"] || []
+            end
+          else
+            data = service.list_disks(filters['zone']).body["items"] || []
+          end
           load(data)
         end
 
