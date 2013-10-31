@@ -16,6 +16,8 @@ module Fog
       model       :volume
       collection  :volumes
 
+      model       :volume_type
+      collection  :volume_types
 
       request_path 'fog/openstack/requests/volume'
 
@@ -24,6 +26,9 @@ module Fog
       request :create_volume
       request :get_volume_details
       request :delete_volume
+
+      request :list_volume_types
+      request :get_volume_type_details
 
       request :create_volume_snapshot
       request :list_snapshots
