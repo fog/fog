@@ -42,28 +42,24 @@ module Shindo
 
    def wait_for_server_deletion(server)
      return if Fog.mocking?
-     tests('wait_for_server_deletion') do
-       begin
-         server.wait_for { state = 'DELETED' }
-       rescue Fog::Compute::RackspaceV2::NotFound => e
-         # do nothing
-       end
+     begin
+       @instance.wait_for { state = 'DELETED' }
+     rescue Fog::Compute::RackspaceV2::NotFound => e
+       # do nothing
      end
    end
 
     def wait_for_server_state(service, server_id, state, error_states=nil)
-      tests("wait_for_server_state('#{state}')") do
-        current_state = nil
-        until current_state == state
-          current_state = service.get_server(server_id).body['server']['status']
-          if error_states
-            error_states = Array(error_states)
-            raise "ERROR! Server should have transitioned to '#{state}' not '#{current_state}'" if error_states.include?(current_state)
-          end
-          sleep 10 unless Fog.mocking?
+      current_state = nil
+      until current_state == state
+        current_state = service.get_server(server_id).body['server']['status']
+        if error_states
+          error_states = Array(error_states)           
+          raise "ERROR! Server should have transitioned to '#{state}' not '#{current_state}'" if error_states.include?(current_state)
         end
-        sleep 30 unless Fog.mocking?
+        sleep 10 unless Fog.mocking?
       end
+      sleep 30 unless Fog.mocking?
     end
 
     def rackspace_test_image_id(service) 
@@ -78,23 +74,21 @@ module Shindo
     # After a server has been successfully deleted they are still being reported as attached to a cloud network
     # causing delete calls to fail. This method attempts to address that.
     def delete_test_network(network)
-      tests('delete_test_network') do
-        return false if Fog.mocking? || network.nil?
-        attempt = 0
-        begin
-          network.destroy
-        rescue Fog::Compute::RackspaceV2::ServiceError => e
-          if attempt == 3
-             Fog::Logger.warning "Unable to delete #{network.label}"
-            return false
-          end
-           Fog::Logger.warning "Network #{network.label} Delete Fail Attempt #{attempt}- #{e.inspect}"
-          attempt += 1
-          sleep 60
-          retry
+      return false if Fog.mocking? || network.nil?
+      attempt = 0
+      begin
+        network.destroy
+      rescue Fog::Compute::RackspaceV2::ServiceError => e
+        if attempt == 3
+           Fog::Logger.warning "Unable to delete #{network.label}"
+          return false
         end
-        return true
+         Fog::Logger.warning "Network #{network.label} Delete Fail Attempt #{attempt}- #{e.inspect}"
+        attempt += 1
+        sleep 60
+        retry
       end
+      return true
     end
   end
 end
