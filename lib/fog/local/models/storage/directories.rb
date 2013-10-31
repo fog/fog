@@ -10,12 +10,17 @@ module Fog
         model Fog::Storage::Local::Directory
 
         def all
-          data = Dir.entries(service.local_root).select do |entry|
-            entry[0...1] != '.' && ::File.directory?(service.path_to(entry))
-          end.map do |entry|
-            {:key => entry}
+          if ::File.directory?(service.local_root)
+            data = Dir.entries(service.local_root).select do |entry|
+              entry[0...1] != '.' && ::File.directory?(service.path_to(entry))
+            end.map do |entry|
+              {:key => entry}
+            end
+            load(data)
+          else
+            clear
+            self
           end
-          load(data)
         end
 
         def get(key, options = {})
