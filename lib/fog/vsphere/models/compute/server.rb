@@ -178,7 +178,7 @@ module Fog
         end
 
         def interfaces
-          attributes[:interfaces] ||= id.nil? ? [] : service.interfaces( :vm => self )
+          attributes[:interfaces] ||= id.nil? ? [] : service.interfaces( :server => self )
         end
         
         def interface_ready? attrs

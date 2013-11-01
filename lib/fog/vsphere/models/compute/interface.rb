@@ -14,16 +14,32 @@ module Fog
         attribute :type
         attribute :key
         attribute :virtualswitch
+        attribute :server_id
 
-        def initialize(attributes={} )
+        def initialize(attributes = {})
+          # Assign server first to prevent race condition with persisted?
+          self.server_id = attributes.delete(:server_id)
+
           if attributes.has_key? :type and attributes[:type].is_a? String then
-             attributes[:type]=Fog.class_from_string(attributes[:type], "RbVmomi::VIM")
+             attributes[:type] = Fog.class_from_string(attributes[:type], "RbVmomi::VIM")
           end
+
           super defaults.merge(attributes)
         end
 
         def to_s
           name
+        end
+
+        def server
+          requires :server_id
+          service.servers.get(server_id)
+        end
+
+        def destroy
+          requires :server_id, :key, :type
+
+          service.destroy_vm_interface(server_id, :key => key, :type => type)
         end
 
         private
