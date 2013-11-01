@@ -75,13 +75,22 @@ module Fog
         # @see http://pubs.vmware.com/vcd-51/topic/com.vmware.vcloud.api.reference.doc_51/doc/operations/GET-Task.html
         # @since vCloud API version 0.9
         def get_task(id)
-          request(
+          response = request(
             :expects    => 200,
             :idempotent => true,
             :method     => 'GET',
             :parser     => Fog::ToHashDocument.new,
             :path       => "task/#{id}"
           )
+
+          # vCloud Director bug: Owner may be absent for some tasks, fix
+          # targeted for 5.1.3 (due out at the beginning Q1 2014).
+          #
+          # We'd prefer that Owner is always present; if nothing else, this
+          # let's the tests pass.
+          response.body[:Owner] ||= {:href => '', :name => nil, :type => nil}
+
+          response
         end
       end
 
