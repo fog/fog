@@ -32,15 +32,16 @@ module Fog
 
           case server
             when Fog::Compute::Vsphere::Server
-              interface=service.get_vm_interface(server.id, :key => id, :mac=> id, :name => id)
+              interface = service.get_vm_interface(server.id, :key => id, :mac=> id, :name => id)
             when Fog::Compute::Vsphere::Template
-              interface=service.get_template_interfaces(server.id, :key => id, :mac=> id, :name => id)
+              interface = service.get_template_interfaces(server.id, :key => id, :mac=> id, :name => id)
             else
+
             raise 'interfaces should have vm or template'
           end
 
           if interface 
-            Fog::Compute::Vsphere::Interface.new(interface) 
+            Fog::Compute::Vsphere::Interface.new(interface.merge(:server_id => server.id, :service => service))
           else
             nil         
           end
