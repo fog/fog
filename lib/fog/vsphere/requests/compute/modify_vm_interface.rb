@@ -14,14 +14,14 @@ module Fog
           raise ArgumentError, "instance id is a required parameter" unless vmid
 
           interface=get_vm_interface(vmid, options)
-          vm_reconfig_hardware('instance_uuid' => vmid, 'hardware_spec' => {'deviceChange'=>[create_interface(interface, interface.key, :remove)]})
+          vm_reconfig_hardware('instance_uuid' => vmid, 'hardware_spec' => {'deviceChange'=>[create_interface(interface, interface[:key], :remove)]})
         end
         
         def update_vm_interface(vmid, options = {})
           raise ArgumentError, "instance id is a required parameter" unless vmid
 
           interface=get_vm_interface(vmid, options)
-          vm_reconfig_hardware('instance_uuid' => vmid, 'hardware_spec' => {'deviceChange'=>[create_interface(interface, interface.key, :edit)]})          
+          vm_reconfig_hardware('instance_uuid' => vmid, 'hardware_spec' => {'deviceChange'=>[create_interface(interface, interface[:key], :edit)]})
         end
 
         private
