@@ -155,7 +155,6 @@ module Fog
             :expects    => 200,
             :headers    => { 'Content-Type' => 'application/x-www-form-urlencoded' },
             :idempotent => idempotent,
-            :host       => @host,
             :method     => 'POST',
             :parser     => parser
           })
