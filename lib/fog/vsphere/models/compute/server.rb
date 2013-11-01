@@ -186,8 +186,9 @@ module Fog
         end
 
         def add_interface attrs
-          wait_for { not ready? } if interface_ready? attrs
-          service.add_vm_interface(id, attrs)
+          Fog::Logger.deprecation("<server>.add_interface is deprecated. Call <server>.interfaces.create instead.")
+
+          interfaces.create(attrs)
         end
 
         def update_interface attrs
@@ -196,8 +197,9 @@ module Fog
         end
 
         def destroy_interface attrs
-          wait_for { not ready? } if interface_ready? attrs
-          service.destroy_vm_interface(id, attrs)
+          Fog::Logger.deprecation("<server>.destroy_vm_interface is deprecated. Call <server>.interfaces.get(:key => <nic_key>).destroy instead.")
+
+          interfaces.get(attrs[:key] || attrs['key']).destroy
         end
 
         def volumes
