@@ -21,7 +21,9 @@ module Fog
           self.server_id = attributes.delete(:server_id)
 
           if attributes.has_key? :type and attributes[:type].is_a? String then
-             attributes[:type] = Fog.class_from_string(attributes[:type], "RbVmomi::VIM")
+            attributes[:type] = Fog.class_from_string(attributes[:type], "RbVmomi::VIM")
+          else
+            attributes[:type] = Fog.class_from_string("VirtualE1000", "RbVmomi::VIM")
           end
 
           super defaults.merge(attributes)
