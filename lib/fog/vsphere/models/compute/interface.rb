@@ -4,6 +4,8 @@ module Fog
 
       class Interface < Fog::Model
 
+        SAVE_MUTEX = Mutex.new
+
         identity :mac
         alias :id :mac
 
@@ -42,6 +44,34 @@ module Fog
           requires :server_id, :key, :type
 
           service.destroy_vm_interface(server_id, :key => key, :type => type)
+        end
+
+        def save
+          raise Fog::Errors::Error.new('Resaving an existing object may create a duplicate') if persisted?
+          requires :server_id, :type, :network
+
+          # Our approach of finding the newly created interface is rough.  We assume that the :key value always increments
+          # and thus the highest :key value must correspond to the created interface.  Since this has an inherent race
+          # condition we need to gate the saves.
+          SAVE_MUTEX.synchronize do
+            data = service.add_vm_interface(server_id, attributes)
+
+            if data['task_state'] == 'success'
+              # We have to query vSphere to get the interface attributes since the task handle doesn't include that info.
+              created = server.interfaces.all.sort_by(&:key).last
+
+              self.mac = created.mac
+              self.name = created.name
+              self.status = created.status
+              self.summary = created.summary
+              self.key = created.key
+              self.virtualswitch = created.virtualswitch
+
+              true
+            else
+              false
+            end
+          end
         end
 
         private

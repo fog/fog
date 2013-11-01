@@ -48,7 +48,7 @@ module Fog
 
         def new(attributes = {})
           if server
-            super({ :server => server }.merge(attributes))
+            super({ :server_id => server.id  }.merge(attributes))
           else
             super
           end
