@@ -19,6 +19,17 @@ module Fog
         attribute :dns2
         attribute :dns_suffix
         attribute :ip_ranges, :type => :array
+        
+        def destroy
+                  requires :id
+                  begin
+                    response = service.delete_network(id)
+                  rescue Fog::Compute::VcloudDirector::BadRequest => ex
+                    Fog::Logger.debug(ex.message)
+                    return false
+                  end
+                  service.process_task(response.body)
+                end
 
       end
     end
