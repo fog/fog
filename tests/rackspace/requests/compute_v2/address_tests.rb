@@ -1,10 +1,12 @@
 Shindo.tests('Fog::Compute::RackspaceV2 | address requests', ['rackspace']) do
 
   @service = Fog::Compute.new(:provider => 'Rackspace', :version => 'V2')
+  image_id  = rackspace_test_image_id(@service)
+  flavor_id = rackspace_test_flavor_id(@service)
   
   tests('success') do
     unless Fog.mocking?
-      @server = @service.servers.create(:flavor_id => 2, :image_id => "8a3a9f96-b997-46fd-b7a8-a9e740796ffd", :name => "address-tests-#{Time.now.to_i}")
+      @server = @service.servers.create(:flavor_id => flavor_id, :image_id => image_id, :name => "address-tests-#{Time.now.to_i}")
       @server.wait_for { ready? }
       @server_id = @server.id
     else
