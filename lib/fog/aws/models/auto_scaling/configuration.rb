@@ -9,6 +9,7 @@ module Fog
         attribute :arn,                   :aliases => 'LaunchConfigurationARN'
         attribute :block_device_mappings, :aliases => 'BlockDeviceMappings'
         attribute :created_at,            :aliases => 'CreatedTime'
+        attribute :iam_instance_profile,  :aliases => 'IamInstanceProfile'
         attribute :image_id,              :aliases => 'ImageId'
         #attribute :instance_monitoring,   :aliases => 'InstanceMonitoring'
         attribute :instance_monitoring,   :aliases => 'InstanceMonitoring', :squash => 'Enabled'
