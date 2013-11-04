@@ -581,6 +581,7 @@ class Brightbox
           "listeners"       => [Brightbox::Compute::Formats::Struct::LB_LISTENER],
           "policy"          => String,
           "healthcheck"     => Brightbox::Compute::Formats::Struct::LB_HEALTHCHECK,
+          "certificate"     => Fog::Nullable::Hash,
           "created_at"      => String,
           "deleted_at"      => Fog::Nullable::String,
           "account"         => Brightbox::Compute::Formats::Nested::ACCOUNT,

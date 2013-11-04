@@ -36,7 +36,9 @@ module Fog
               :filename => vol.backing.fileName,
               :datastore => (vol.backing.datastore.name rescue(nil)),
               :size => vol.capacityInKB,
-              :name => vol.deviceInfo.label
+              :name => vol.deviceInfo.label,
+              :key => vol.key,
+              :unit_number => vol.unitNumber
             }
           end
         end

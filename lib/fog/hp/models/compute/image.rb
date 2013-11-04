@@ -1,5 +1,5 @@
 require 'fog/core/model'
-require 'fog/openstack/models/compute/metadata'
+require 'fog/hp/models/compute/metadata'
 
 module Fog
   module Compute

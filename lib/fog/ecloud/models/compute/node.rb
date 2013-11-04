@@ -18,7 +18,7 @@ module Fog
         end
 
         def tasks
-          @tasks ||= Fog::Compute::Ecloud::Tasks.new(:service => service, :href => "/cloudapi/ecloud/tasks/virtualMachines/#{id}")
+          @tasks ||= Fog::Compute::Ecloud::Tasks.new(:service => service, :href => "#{service.base_path}/tasks/virtualMachines/#{id}")
         end
 
         def delete

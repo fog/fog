@@ -42,6 +42,11 @@ module Fog
         # @see http://docs.rackspace.com/files/api/v1/cf-devguide/content/CORS_Container_Header-d1e1300.html
         attribute :origin,          :aliases => ['Origin']
 
+        # @!attribute [rw] content_encoding
+        # @return [String] The content encoding of the file
+        # @see http://docs.rackspace.com/files/api/v1/cf-devguide/content/Enabling_File_Compression_with_the_Content-Encoding_Header-d1e2198.html
+        attribute :content_encoding, :aliases => 'Content-Encoding'
+
         # @!attribute [r] directory
         # @return [Fog::Storage::Rackspace::Directory] directory containing file
         attr_accessor :directory
@@ -87,6 +92,7 @@ module Fog
           options['Content-Type'] ||= content_type if content_type
           options['Access-Control-Allow-Origin'] ||= access_control_allow_origin if access_control_allow_origin
           options['Origin'] ||= origin if origin
+          options['Content-Encoding'] ||= content_encoding if content_encoding
           service.copy_object(directory.key, key, target_directory_key, target_file_key, options)
           target_directory = service.directories.new(:key => target_directory_key)
           target_directory.files.get(target_file_key)
@@ -160,6 +166,25 @@ module Fog
           directory.public?
         end
         
+
+        # Get a url for file.
+        #
+        #     required attributes: key
+        #
+        # @param expires [String] number of seconds (since 1970-01-01 00:00) before url expires
+        # @param options [Hash]
+        # @return [String] url
+        # @note This URL does not use the Rackspace CDN
+        #
+        def url(expires, options = {})
+          requires :key
+          if service.ssl?
+            service.get_object_https_url(directory.key, key, expires, options)
+          else
+            service.get_object_http_url(directory.key, key, expires, options)
+          end
+        end
+
         # Returns the public url for the file.
         # If the file has not been published to the CDN, this method will return nil as it is not publically accessible. This method will return the approprate
         # url in the following order:
@@ -228,6 +253,7 @@ module Fog
           options['Origin'] = origin if origin
           options['Content-Disposition'] = content_disposition if content_disposition
           options['Etag'] = etag if etag
+          options['Content-Encoding'] = content_encoding if content_encoding
           options.merge!(metadata.to_headers)
 
           data = service.put_object(directory.key, key, body, options)

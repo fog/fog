@@ -13,9 +13,25 @@ module Fog
       class IdentifierTaken < Fog::Errors::Error; end
       class ServiceError < Fog::Rackspace::Errors::ServiceError; end
       class InternalServerError < Fog::Rackspace::Errors::InternalServerError; end
-      class BadRequest < Fog::Rackspace::Errors::BadRequest; end
       class Conflict < Fog::Rackspace::Errors::Conflict; end
       class ServiceUnavailable < Fog::Rackspace::Errors::ServiceUnavailable; end
+
+
+      class BadRequest < Fog::Rackspace::Errors::BadRequest
+        attr_reader :validation_errors
+
+        def self.slurp(error, service=nil)
+          new_error = super(error)
+          if  new_error.response_data && new_error.response_data['details']
+            new_error.instance_variable_set(:@validation_errors, new_error.response_data['details'])
+          end
+
+          status_code = error.response ? error.response.status : nil
+          new_error.instance_variable_set(:@status_code, status_code)
+          new_error.set_transaction_id(error, service)
+          new_error
+        end
+      end
 
       requires :rackspace_api_key, :rackspace_username
       recognizes :rackspace_auth_url
@@ -81,6 +97,9 @@ module Fog
       request      :delete_notification
 
       request      :evaluate_alarm_example
+
+      request      :list_monitoring_zones
+      request      :get_monitoring_zone
 
 
       class Mock < Fog::Rackspace::Service

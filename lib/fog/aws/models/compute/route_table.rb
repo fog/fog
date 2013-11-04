@@ -30,7 +30,7 @@ module Fog
         def destroy
           requires :id
 
-          service.delete_route_table (id)
+          service.delete_route_table(id)
           true
         end
 

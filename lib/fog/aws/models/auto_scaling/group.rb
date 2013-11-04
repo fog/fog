@@ -25,7 +25,7 @@ module Fog
         attribute :vpc_zone_identifier,       :aliases => 'VPCZoneIdentifier'
 
         def initialize(attributes={})
-          attributes['Instances'] = []
+          self.instances = []
           self.default_cooldown = 300
           self.desired_capacity = 0
           self.enabled_metrics = []

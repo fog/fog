@@ -25,12 +25,14 @@ Shindo.tests('Compute::VcloudDirector | network requests', ['vclouddirector']) d
     link = @org[:Link].detect do |l|
       l[:rel] == 'down' && l[:type] == 'application/vnd.vmware.vcloud.orgNetwork+xml'
     end
+    pending unless link # nothing to test here cannot continue
     @network_id = link[:href].split('/').last
     @service.get_network(@network_id).body
   end
 
   tests('#get_network_metadata').data_matches_schema(VcloudDirector::Compute::Schema::METADATA_TYPE) do
     pending if Fog.mocking?
+    pending unless @network_id  # nothing to test here cannot continue
     @service.get_network_metadata(@network_id).body
   end
 

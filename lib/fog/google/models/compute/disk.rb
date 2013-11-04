@@ -84,7 +84,7 @@ module Fog
           self
         end
 
-        def create_snapshot(snap_name, snap_desc)
+        def create_snapshot(snapshot_name, snapshot_description="")
           requires :name
           requires :zone_name
 
@@ -93,18 +93,18 @@ module Fog
           end
 
           options = {
-            'name'        => snap_name,
-            'description' => snap_desc,
+            'name'        => snapshot_name,
+            'description' => snapshot_description,
           }
 
           service.insert_snapshot(name, self.zone, service.project, options)
           data = service.backoff_if_unfound {
-            service.get_snapshot(snap_name, service.project).body
+            service.get_snapshot(snapshot_name, service.project).body
           }
           service.snapshots.merge_attributes(data)
 
           # Try to return the representation of the snapshot we created
-          service.snapshots.get(snap_name)
+          service.snapshots.get(snapshot_name)
         end
 
         RUNNING_STATE = "READY"

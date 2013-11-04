@@ -55,6 +55,7 @@ module Fog
             if [
               'Aaron Suggs',
               'Brian Hartsock',
+              'Chris Roberts',
               'Christopher Oliver',
               'Daniel Reichert',
               'Decklin Foster',
@@ -68,6 +69,7 @@ module Fog
               'Lincoln Stoll',
               'Luqman Amjad',
               'Michael Zeng',
+              'Mike Hagedorn',
               'Nat Welch',
               'Nick Osborn',
               'nightshade427',

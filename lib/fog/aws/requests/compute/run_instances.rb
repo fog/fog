@@ -156,7 +156,7 @@ module Fog
               'keyName'             => options['KeyName'],
               'launchTime'          => Time.now,
               'monitoring'          => { 'state' => options['Monitoring.Enabled'] || false },
-              'placement'           => { 'availabilityZone' => options['Placement.AvailabilityZone'] || Fog::AWS::Mock.availability_zone(@region), 'groupName' => nil, 'tenancy' => 'default' },
+              'placement'           => { 'availabilityZone' => options['Placement.AvailabilityZone'] || Fog::AWS::Mock.availability_zone(@region), 'groupName' => nil, 'tenancy' => options['Placement.Tenancy'] || 'default' },
               'privateDnsName'      => nil,
               'productCodes'        => [],
               'reason'              => nil,

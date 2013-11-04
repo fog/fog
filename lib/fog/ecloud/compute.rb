@@ -10,8 +10,10 @@ module Fog
       attr_reader :authentication_method, :version
 
       #### Credentials
-      #requires 
-      recognizes :ecloud_username, :ecloud_password, :ecloud_version, :ecloud_access_key, :ecloud_private_key, :ecloud_authentication_method
+      #requires
+      recognizes :ecloud_username, :ecloud_password, :ecloud_version,
+                 :ecloud_access_key, :ecloud_private_key,
+                 :ecloud_authentication_method
 
       #### Models
       model_path 'fog/ecloud/models/compute'
@@ -245,6 +247,7 @@ module Fog
 
       module Shared
 
+        attr_accessor :base_path
         attr_reader :versions_uri
 
         def validate_data(required_opts = [], options = {})
@@ -258,7 +261,7 @@ module Fog
         end
 
         def default_organization_uri
-          "/cloudapi/ecloud/organizations/"
+          "#{@base_path}/organizations"
         end
       end
 
@@ -283,6 +286,7 @@ module Fog
 
         def initialize(options = {})
           require 'fog/core/parser'
+          @base_path               = options[:base_path] || '/cloudapi/ecloud'
           @connections             = {}
           @connection_options      = options[:connection_options] || {}
           @host                    = options[:ecloud_host] || API_URL
@@ -793,6 +797,7 @@ module Fog
         end
 
         def initialize(options={})
+          @base_path = '/cloudapi/ecloud'
           @ecloud_api_key = options[:ecloud]
         end
 

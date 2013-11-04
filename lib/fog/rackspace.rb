@@ -64,8 +64,11 @@ module Fog
       class ServiceUnavailable < ServiceError; end
       class MethodNotAllowed < ServiceError; end
       class BadRequest < ServiceError
-        #TODO - Need to find a better way to print out these validation errors when they are thrown
         attr_reader :validation_errors
+
+        def to_s
+          "#{super} - #{validation_errors}"
+        end
 
         def self.slurp(error, service=nil)
           new_error = super(error)

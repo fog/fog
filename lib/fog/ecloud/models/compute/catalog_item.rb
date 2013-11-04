@@ -12,7 +12,7 @@ module Fog
         attribute :files, :aliases => :Files
 
         def configuration
-          @configuration = Fog::Compute::Ecloud::CatalogConfigurations.new(:service => service, :href => "/cloudapi/ecloud/admin/catalog/#{id}/configuration")
+          @configuration = Fog::Compute::Ecloud::CatalogConfigurations.new(:service => service, :href => "#{service.base_path}/admin/catalog/#{id}/configuration")
         end
 
         def id

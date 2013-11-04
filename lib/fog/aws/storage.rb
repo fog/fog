@@ -34,6 +34,7 @@ module Fog
         response-content-type
         response-expires
         restore
+        tagging
         torrent
         uploadId
         uploads
@@ -44,7 +45,7 @@ module Fog
       ]
 
       requires :aws_access_key_id, :aws_secret_access_key
-      recognizes :endpoint, :region, :host, :path, :port, :scheme, :persistent, :use_iam_profile, :aws_session_token, :aws_credentials_expire_at, :path_style
+      recognizes :endpoint, :region, :host, :port, :scheme, :persistent, :use_iam_profile, :aws_session_token, :aws_credentials_expire_at, :path_style
 
       secrets    :aws_secret_access_key, :hmac
 
@@ -65,6 +66,7 @@ module Fog
       request :delete_bucket_website
       request :delete_object
       request :delete_multiple_objects
+      request :delete_bucket_tagging
       request :get_bucket
       request :get_bucket_acl
       request :get_bucket_cors
@@ -73,6 +75,7 @@ module Fog
       request :get_bucket_logging
       request :get_bucket_object_versions
       request :get_bucket_policy
+      request :get_bucket_tagging
       request :get_bucket_versioning
       request :get_bucket_website
       request :get_object
@@ -95,6 +98,7 @@ module Fog
       request :put_bucket_lifecycle
       request :put_bucket_logging
       request :put_bucket_policy
+      request :put_bucket_tagging
       request :put_bucket_versioning
       request :put_bucket_website
       request :put_object
@@ -332,7 +336,8 @@ module Fog
                 :buckets => {},
                 :cors => {
                   :bucket => {}
-                }
+                },
+                :bucket_tagging => {}
               }
             end
           end
@@ -403,17 +408,11 @@ module Fog
           if @endpoint = options[:endpoint]
             endpoint = URI.parse(@endpoint)
             @host = endpoint.host
-            @path = if endpoint.path.empty?
-              '/'
-            else
-              endpoint.path
-            end
             @scheme = endpoint.scheme
             @port = endpoint.port
           else
             @region     = options[:region]      || DEFAULT_REGION
             @host       = options[:host]        || region_to_host(@region)
-            @path       = options[:path]        || '/'
             @scheme     = options[:scheme]      || DEFAULT_SCHEME
             @port       = options[:port]        || DEFAULT_SCHEME_PORT[@scheme]
             @path_style = options[:path_style]  || false

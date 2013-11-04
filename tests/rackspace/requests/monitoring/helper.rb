@@ -34,6 +34,70 @@ DELETE_DATA_FORMAT = {
   :remote_ip => String
 }
 
+LIST_MONITORING_ZONE = {
+    "values"=>
+      [{"id"=>String,
+        "label"=> Fog::Nullable::String,
+        "country_code"=> String,
+        "source_ips"=>[String, String]}],
+     "metadata"=>
+      {"count"=>Integer,
+       "limit"=>Integer,
+       "marker"=>Fog::Nullable::String,
+       "next_marker"=>Fog::Nullable::String,
+       "next_href"=>Fog::Nullable::String
+     }
+}
+
+GET_MONITORING_ZONE = {
+    "id" => String,
+    "label" => String,
+    "country_code" => String,
+    "source_ips" => [String]
+}
+
+
+# {"values"=>
+#   [{"id"=>"ch4GimHQsQ",
+#     "label"=>nil,
+#     "type"=>"remote.http",
+#     "details"=>
+#      {"url"=>"http://www.rackspace.com",
+#       "method"=>"GET",
+#       "follow_redirects"=>true,
+#       "include_body"=>false},
+#     "monitoring_zones_poll"=>["mzdfw"],
+#     "timeout"=>30,
+#     "period"=>100,
+#     "target_alias"=>nil,
+#     "target_hostname"=>"rackspace.com",
+#     "target_resolver"=>"IPv4",
+#     "disabled"=>false,
+#     "collectors"=>["coeT7x1iF3"],
+#     "metadata"=>nil,
+#     "created_at"=>1377803830760,
+#     "updated_at"=>1377803830760}],
+#  "metadata"=>
+#   {"count"=>1,
+#    "limit"=>100,
+#    "marker"=>nil,
+#    "next_marker"=>nil,
+#    "next_href"=>nil}}
+
+
+# {"values"=>
+#   [{"id"=>String,
+#     "label"=>String,
+#     "country_code"=>String,
+#     "source_ips"=>[String, String]}],
+#  "metadata"=>
+#   {"count"=>Integer,
+#    "limit"=>Integer,
+#    "marker"=>nil,
+#    "next_marker"=>nil,
+#    "next_href"=>nil}}   
+
+
 CHECK_CREATE_OPTIONS = {
   :details => {
     :url => 'http://www.rackspace.com',

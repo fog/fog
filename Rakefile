@@ -65,6 +65,24 @@ namespace :test do
   end
 end
 
+desc 'Run mocked tests for a specific provider'
+task :mock, :provider do |t, args|
+  if args.to_a.size != 1
+    fail 'USAGE: rake mock[<provider>]'
+  end
+  provider = args[:provider]
+  sh("export FOG_MOCK=true && bundle exec shindont tests/#{provider}")
+end
+
+desc 'Run live tests against a specific provider'
+task :live, :provider do |t, args|
+  if args.to_a.size != 1
+    fail 'USAGE: rake live[<provider>]'
+  end
+  provider = args[:provider]
+  sh("export FOG_MOCK=false && bundle exec shindont tests/#{provider}")
+end
+
 task :nuke do
   Fog.providers.each do |provider|
     next if ['Vmfusion'].include?(provider)

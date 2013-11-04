@@ -61,7 +61,7 @@ module Fog
         # @raise [Fog::Compute::RackspaceV2::BadRequest] - HTTP 400
         # @raise [Fog::Compute::RackspaceV2::InternalServerError] - HTTP 500
         # @raise [Fog::Compute::RackspaceV2::ServiceError]
-        # @see http://docs.rackspace.com/servers/api/v2/cs-devguide/content/Get_Image_Details-d1e4848.html 
+        # @see http://docs.rackspace.com/servers/api/v2/cs-devguide/content/Get_Image_Details-d1e4848.html
         def get(image_id)
           data = service.get_image(image_id).body['image']
           new(data)

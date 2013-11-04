@@ -82,7 +82,7 @@ module Fog
           requires :key
           self.collection.get_url(self.key)
         end
-        
+
 
         def save(options = {})
           requires :body, :directory, :key
