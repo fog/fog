@@ -76,6 +76,7 @@ module Fog
         end
         
         def region_key(region)
+          return region.to_s.upcase if region.is_a? Symbol
           (region.nil? || region.empty?) ? "GLOBAL" : region.to_s.upcase
         end
         
