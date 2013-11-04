@@ -314,6 +314,35 @@ Shindo.tests('Fog::Rackspace::Storage | file', ['rackspace']) do
 
     end
 
+    tests("#content_encoding") do
+
+      tests("#content_encoding should default to nil").returns(nil) do
+        @instance.save
+        @instance.content_encoding
+      end
+
+      @instance.content_encoding = 'gzip'
+      @instance.save
+      tests("#content_encoding should return the content encoding").returns('gzip') do
+        @instance.content_encoding
+      end
+      @instance.attributes.delete('content_encoding')
+
+      @instance.content_encoding = 'foo'
+      @instance.save
+      tests("#content_encoding= should update content_encoding").returns('bar') do
+        @instance.content_encoding = 'bar'
+        @instance.save
+        @instance.content_encoding
+      end
+
+      tests("#content_encoding= should not blow up on nil") do
+        @instance.content_encoding = nil
+        @instance.save
+      end
+
+    end
+
   end
 
   @directory.destroy
