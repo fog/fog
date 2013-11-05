@@ -46,6 +46,7 @@ module Fog
         attribute :resource_pool
         attribute :instance_uuid # move this --> id
         attribute :guest_id
+        attribute :scsi_controller # this is the first scsi controller. Right now no more of them can be used.
 
         def initialize(attributes={} )
           super defaults.merge(attributes)
@@ -53,6 +54,7 @@ module Fog
           initialize_interfaces
           initialize_volumes
           initialize_customvalues
+          initialize_scsi_controller
         end
 
         # Lazy Loaded Attributes
@@ -208,6 +210,10 @@ module Fog
           attributes[:customvalues] ||= id.nil? ? [] : service.customvalues( :vm => self )
         end
 
+        def scsi_controller
+          self.attributes[:scsi_controller] ||= service.get_vm_first_scsi_controller(id)
+        end
+
         def folder
           return nil unless datacenter and path
           attributes[:folder] ||= service.folders(:datacenter => datacenter, :type => :vm).get(path)
@@ -265,6 +271,13 @@ module Fog
             self.attributes[:customvalues].map { |cfield| cfield.is_a?(Hash) ? service.customvalue.new(cfield) : cfield}
           end
         end
+
+        def initialize_scsi_controller
+          if attributes[:scsi_controller] and attributes[:scsi_controller].is_a?(Hash)
+            Fog::Compute::Vsphere::SCSIController.new(self.attributes[:scsi_controller])
+          end
+        end
+
       end
 
     end
