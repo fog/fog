@@ -88,7 +88,7 @@ module Fog
         end
 
         def stop(options = {})
-          options = { :force => !tools_installed? }.merge(options)
+          options = { :force => !tools_installed? || !tools_running? }.merge(options)
           requires :instance_uuid
           service.vm_power_off('instance_uuid' => instance_uuid, 'force' => options[:force])
         end
@@ -103,7 +103,7 @@ module Fog
           requires :instance_uuid
           if ready?
             # need to turn it off before destroying
-            stop
+            stop(options)
             wait_for { !ready? }
           end
           service.vm_destroy('instance_uuid' => instance_uuid)
@@ -153,6 +153,10 @@ module Fog
 
         def tools_installed?
           tools_state != "toolsNotInstalled"
+        end
+
+        def tools_running?
+          tools_state == "toolsOk"
         end
 
         # defines VNC attributes on the hypervisor
