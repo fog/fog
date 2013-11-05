@@ -31,6 +31,11 @@ module Fog
           requires :id
           service.vapps(:vdc => self)
         end
+        
+        def edgegateways
+          requires :id
+          service.edgegateways(:vdc => self)
+        end
 
       end
     end

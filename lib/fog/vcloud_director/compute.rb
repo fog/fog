@@ -51,6 +51,8 @@ module Fog
       model_path 'fog/vcloud_director/models/compute'
       model      :catalog
       collection :catalogs
+      model      :edgegateway
+      collection :edgegateways
       model      :organization
       collection :organizations
       model      :catalog_item
@@ -84,6 +86,7 @@ module Fog
       request :delete_logout
       request :delete_media
       request :delete_media_metadata_item_metadata
+      request :delete_network
       request :delete_shadow_vm
       request :delete_vapp
       request :delete_vapp_metadata_item_metadata
@@ -137,6 +140,7 @@ module Fog
       request :get_operating_system_section
       request :get_org_settings
       request :get_org_vdc_gateways
+      request :get_org_vdc_gateway
       request :get_organization
       request :get_organization_metadata
       request :get_organization_metadata_item_metadata
@@ -202,6 +206,7 @@ module Fog
       request :post_configure_edge_gateway_services
       request :post_consolidate_vm_vapp
       request :post_consolidate_vm_vapp_template
+      request :post_create_org_vdc_network
       request :post_deploy_vapp
       request :post_detach_disk
       request :post_disable_nested_hv

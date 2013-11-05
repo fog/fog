@@ -12,6 +12,9 @@ organizations
                                               -> disks -> disk
                                               -> tags -> tag
                                               -> power_on
+                                              
+                -> edgegateways -> edgegateway
+                
     networks -> network
     catalogs -> catalog -> catalog_items -> catalog_item -> instantiate_vapp
     medias -> media
@@ -163,6 +166,23 @@ org.vdcs.get_by_name("DevOps - VDC")
     network_quota=1024,
     vm_quota=0,
     is_enabled=true
+  >
+```
+
+### Retrieve an EdgeGateway
+
+```ruby
+org = vcloud.organizations.first
+vdc = org.vdcs.first
+vdc.gateways.first
+```
+```ruby
+  <Fog::Compute::VcloudDirector::Edgegateway
+    id="5f0c433d7-55e7-615c-bdfa-21fbf66cc9e1",
+    name="Test Gateway",
+    type=NonLoaded,
+    href="https://https://example.com/api/admin/edgeGateway/5f0c433d7-55e7-615c-bdfa-21fbf66cc9e1",
+    edgegatewayserviceconfiguration=NonLoaded
   >
 ```
 
@@ -807,6 +827,49 @@ org.networks.get_by_name("DevOps - Dev Network Connection")
     ip_ranges=[{:start_address=>"10.192.0.100", :end_address=>"10.192.3.254"}]
   >
 ```
+
+###Create A NatRouted Organization VDC Network
+
+```ruby
+org = vcloud.organizations.first
+vdc = org.vdcs.first
+gateway = vdc.gateways.first
+
+
+netspec = {
+                :name => "Test_Routed_Net2",
+                :gateway => "192.168.2.1",
+                :netmask => "255.255.255.0",
+                :dns1 => "8.8.8.8",
+                :poolstartaddress => "192.168.2.50",
+                :poolendaddress => "192.168.2.100",
+                :fencemode => "natRouted",
+                :gatewayhref => gateway.href
+    }
+    
+vcloud.post_create_org_vdc_network(vdc.id,netspec)
+```
+
+###Create An Isolated Organization VDC Network
+
+```ruby
+org = vcloud.organizations.first
+vdc = org.vdcs.first
+
+
+netspec = {
+                :name => "Test_Routed_Net2",
+                :gateway => "192.168.2.1",
+                :netmask => "255.255.255.0",
+                :dns1 => "8.8.8.8",
+                :poolstartaddress => "192.168.2.50",
+                :poolendaddress => "192.168.2.100",
+                :fencemode => "isolated",
+    }
+    
+vcloud.post_create_org_vdc_network(vdc.id,netspec)
+```
+
 
 ## Catalogs
 
