@@ -42,8 +42,26 @@ module Fog
                       "No access to entity \"(com.vmware.vcloud.entity.edgegateway:#{id})\"."
                   )
           end
-          data[:edge_gateways][id][:Configuration][:EdgeGatewayServiceConfiguration] = configuration
-          Excon::Response.new(:body => {:name => 'mock_task', :href => '/10000000000000000000000000000000' })
+
+          owner = {:href => '', :name => nil, :type => nil} #known-bug: admin-api does not return owner.
+          task_id = enqueue_task(
+              "Configuring edgegateway(#{id})", 'networkConfigureEdgeGatewayServices', owner,
+              :on_success => lambda do
+                data[:edge_gateways][id][:Configuration][:EdgeGatewayServiceConfiguration] = configuration
+              end
+          )
+
+          body = {
+              :xmlns => xmlns,
+              :xmlns_xsi => xmlns_xsi,
+              :xsi_schemaLocation => xsi_schema_location,
+          }.merge(task_body(task_id))
+
+          Excon::Response.new(
+              :status => 202,
+              :headers => {'Content-Type' => "#{body[:type]};version=#{api_version}"},
+              :body => body
+          )
         end
       end
     end
