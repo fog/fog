@@ -5,28 +5,17 @@ Shindo.tests('Fog::Compute[:brightbox] | interface requests', ['brightbox']) do
   tests('success') do
 
     unless Fog.mocking?
-      server = @test_service.servers.first
+      @test_server = Brightbox::Compute::TestSupport.get_test_server
+      @interface_id = @test_server.interfaces.first["id"]
 
-      # If no server is available, create one just for the test
-      unless server
-        @test_server = Brightbox::Compute::TestSupport.get_test_server
-        server = @test_server
+      tests("#get_interface('#{@interface_id}')") do
+        pending if Fog.mocking?
+        result = @test_service.get_interface(@interface_id)
+        data_matches_schema(Brightbox::Compute::Formats::Full::INTERFACE, {:allow_extra_keys => true}) { result }
       end
 
-      @interface_id = server.interfaces.first["id"]
+      @test_server.destroy
     end
-
-    tests("#get_interface('#{@interface_id}')") do
-      pending if Fog.mocking?
-      result = @test_service.get_interface(@interface_id)
-      data_matches_schema(Brightbox::Compute::Formats::Full::INTERFACE, {:allow_extra_keys => true}) { result }
-    end
-
-    unless Fog.mocking?
-      # If we created a server just for this test, clean it up
-      @test_server.destroy if @test_server
-    end
-
   end
 
   tests('failure') do
@@ -41,5 +30,4 @@ Shindo.tests('Fog::Compute[:brightbox] | interface requests', ['brightbox']) do
       @test_service.get_interface()
     end
   end
-
 end
