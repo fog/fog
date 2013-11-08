@@ -9,6 +9,7 @@ def test
     :private_key_path => File.expand_path("~/.ssh/id_rsa"),
     :public_key_path => File.expand_path("~/.ssh/id_rsa.pub"),
     :user => ENV['USER'],
+    :tags => ["fog"]
   })
 
   # My own wait_for because it hides errors
