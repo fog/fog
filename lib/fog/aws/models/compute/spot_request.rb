@@ -42,7 +42,7 @@ module Fog
           self.groups ||= ["default"]
           self.flavor_id ||= 't1.micro'
           self.image_id   ||= begin
-            self.username = 'ubuntu'
+            self.username ||= 'ubuntu'
 
             # Old 'connection' is renamed as service and should be used instead
             prepare_service_value(attributes)

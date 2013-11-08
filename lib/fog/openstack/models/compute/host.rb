@@ -8,10 +8,11 @@ module Fog
       class Host < Fog::Model
 
         attribute :host_name
-        attribute :service
+        attribute :service_name
         attribute :details
 
         def initialize(attributes)
+          attributes["service_name"] = attributes.delete "service"
           # Old 'connection' is renamed as service and should be used instead
           prepare_service_value(attributes)
           super
@@ -19,6 +20,8 @@ module Fog
 
         def details
           service.get_host_details(self.host_name).body['host']
+        rescue Fog::Compute::OpenStack::NotFound
+          nil
         end
 
       end

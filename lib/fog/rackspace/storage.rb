@@ -191,10 +191,7 @@ module Fog
 
         def endpoint_uri(service_endpoint_url=nil)
           return @uri if @uri
-
-          @uri = super(@rackspace_storage_url || service_endpoint_url, :rackspace_storage_url)
-          @uri.host = "snet-#{@uri.host}" if service_net?
-          @uri
+          super(@rackspace_storage_url || service_endpoint_url, :rackspace_storage_url)
         end
 
         private

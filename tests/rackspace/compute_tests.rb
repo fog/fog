@@ -81,11 +81,6 @@ Shindo.tests('Rackspace | Compute', ['rackspace']) do
       returns(true, "auth token populated") { !@service.send(:auth_token).nil? }
       returns(true, "uses custom endpoint") { (@service.instance_variable_get("@uri").host =~ /my-custom-endpoint\.com/) != nil }
     end
-    tests('rackspace_servicenet') do
-      @service = Fog::Compute::Rackspace.new :rackspace_servicenet => true
-      returns(true, "auth token populated") { !@service.send(:auth_token).nil? }
-      returns(true, "uses custom endpoint") { (@service.instance_variable_get("@uri").host =~ /snet-/) != nil }
-    end
   end
 
   tests('reauthentication') do

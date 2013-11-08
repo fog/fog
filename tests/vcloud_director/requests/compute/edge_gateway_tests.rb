@@ -66,7 +66,7 @@ Shindo.tests('Compute::VcloudDirector | edge gateway requests', ['vclouddirector
     raise('fail fast if our test firewall rule already exists - its likely left over from a broken test run') if rule
 
     response = @service.post_configure_edge_gateway_services(@edge_gateway_id, @new_edge_gateway_configuration)
-    @service.process_task(response.body) unless Fog.mocking?
+    @service.process_task(response.body)
 
     tests('#check for new firewall rule').returns(@new_edge_gateway_configuration[:FirewallService][:FirewallRule]) do
       edge_gateway = @service.get_edge_gateway(@edge_gateway_id).body
@@ -76,7 +76,7 @@ Shindo.tests('Compute::VcloudDirector | edge gateway requests', ['vclouddirector
     tests('#remove the firewall rule added by test').returns(nil) do
       response = @service.post_configure_edge_gateway_services(@edge_gateway_id,
                                                                @orginal_gateway_conf[:Configuration][:EdgeGatewayServiceConfiguration])
-      @service.process_task(response.body) unless Fog.mocking?
+      @service.process_task(response.body)
       edge_gateway = @service.get_edge_gateway(@edge_gateway_id).body
       edge_gateway[:Configuration][:EdgeGatewayServiceConfiguration][:FirewallService][:FirewallRule].find { |rule| rule[:Id] == FIREWALL_RULE_ID }
     end

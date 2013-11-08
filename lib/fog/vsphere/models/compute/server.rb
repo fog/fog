@@ -46,6 +46,7 @@ module Fog
         attribute :resource_pool
         attribute :instance_uuid # move this --> id
         attribute :guest_id
+        attribute :scsi_controller # this is the first scsi controller. Right now no more of them can be used.
 
         def initialize(attributes={} )
           super defaults.merge(attributes)
@@ -53,6 +54,7 @@ module Fog
           initialize_interfaces
           initialize_volumes
           initialize_customvalues
+          initialize_scsi_controller
         end
 
         # Lazy Loaded Attributes
@@ -86,7 +88,7 @@ module Fog
         end
 
         def stop(options = {})
-          options = { :force => !tools_installed? }.merge(options)
+          options = { :force => !tools_installed? || !tools_running? }.merge(options)
           requires :instance_uuid
           service.vm_power_off('instance_uuid' => instance_uuid, 'force' => options[:force])
         end
@@ -101,7 +103,7 @@ module Fog
           requires :instance_uuid
           if ready?
             # need to turn it off before destroying
-            stop
+            stop(options)
             wait_for { !ready? }
           end
           service.vm_destroy('instance_uuid' => instance_uuid)
@@ -153,6 +155,10 @@ module Fog
           tools_state != "toolsNotInstalled"
         end
 
+        def tools_running?
+          tools_state == "toolsOk"
+        end
+
         # defines VNC attributes on the hypervisor
         def config_vnc(options = {})
           requires :instance_uuid
@@ -178,7 +184,7 @@ module Fog
         end
 
         def interfaces
-          attributes[:interfaces] ||= id.nil? ? [] : service.interfaces( :vm => self )
+          attributes[:interfaces] ||= id.nil? ? [] : service.interfaces( :server => self )
         end
         
         def interface_ready? attrs
@@ -186,8 +192,9 @@ module Fog
         end
 
         def add_interface attrs
-          wait_for { not ready? } if interface_ready? attrs
-          service.add_vm_interface(id, attrs)
+          Fog::Logger.deprecation("<server>.add_interface is deprecated. Call <server>.interfaces.create instead.")
+
+          interfaces.create(attrs)
         end
 
         def update_interface attrs
@@ -196,8 +203,9 @@ module Fog
         end
 
         def destroy_interface attrs
-          wait_for { not ready? } if interface_ready? attrs
-          service.destroy_vm_interface(id, attrs)
+          Fog::Logger.deprecation("<server>.destroy_vm_interface is deprecated. Call <server>.interfaces.get(:key => <nic_key>).destroy instead.")
+
+          interfaces.get(attrs[:key] || attrs['key']).destroy
         end
 
         def volumes
@@ -206,6 +214,10 @@ module Fog
 
         def customvalues
           attributes[:customvalues] ||= id.nil? ? [] : service.customvalues( :vm => self )
+        end
+
+        def scsi_controller
+          self.attributes[:scsi_controller] ||= service.get_vm_first_scsi_controller(id)
         end
 
         def folder
@@ -265,6 +277,13 @@ module Fog
             self.attributes[:customvalues].map { |cfield| cfield.is_a?(Hash) ? service.customvalue.new(cfield) : cfield}
           end
         end
+
+        def initialize_scsi_controller
+          if attributes[:scsi_controller] and attributes[:scsi_controller].is_a?(Hash)
+            Fog::Compute::Vsphere::SCSIController.new(self.attributes[:scsi_controller])
+          end
+        end
+
       end
 
     end
