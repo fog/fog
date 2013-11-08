@@ -12,6 +12,9 @@ module Fog
       DFW_ENDPOINT = 'https://dfw.databases.api.rackspacecloud.com/v1.0'
       LON_ENDPOINT = 'https://lon.databases.api.rackspacecloud.com/v1.0'
       ORD_ENDPOINT = 'https://ord.databases.api.rackspacecloud.com/v1.0'
+      IAD_ENDPOINT = 'https://iad.databases.api.rackspacecloud.com/v1.0'
+      SYS_ENDPOINT = 'https://syd.databases.api.rackspacecloud.com/v1.0'
+      HKG_ENDPOINT = 'https://hkg.databases.api.rackspacecloud.com/v1.0'
 
       requires :rackspace_api_key, :rackspace_username
       recognizes :rackspace_auth_url
@@ -126,6 +129,15 @@ module Fog
             when LON_ENDPOINT
               @rackspace_endpoint = nil
               @rackspace_region = :lon
+            when IAD_ENDPOINT
+              @rackspace_endpoint = nil
+              @rackspace_region = :iad
+            when SYD_ENDPOINT
+              @rackspace_endpoint = nil
+              @rackspace_region = :syd
+            when HKG_ENDPOINT
+              @rackspace_endpoint = nil
+              @rackspace_region = :hkg
             else
               # we are actually using a custom endpoint
               @rackspace_region = options[:rackspace_region] || :dfw
@@ -139,7 +151,7 @@ module Fog
         def deprecation_warnings(options)
           Fog::Logger.deprecation("The :rackspace_endpoint option is deprecated. Please use :rackspace_database_url for custom endpoints") if options[:rackspace_endpoint]
 
-          if [DFW_ENDPOINT, ORD_ENDPOINT, LON_ENDPOINT].include?(@rackspace_endpoint) && v2_authentication?
+          if [DFW_ENDPOINT, ORD_ENDPOINT, LON_ENDPOINT, IAD_ENDPOINT, HKG_ENDPOINT, SYD_ENDPOINT].include?(@rackspace_endpoint) && v2_authentication?
             regions = @identity_service.service_catalog.display_service_regions(service_name)
             Fog::Logger.deprecation("Please specify region using :rackspace_region rather than :rackspace_endpoint. Valid region for :rackspace_region are #{regions}.")
           end
