@@ -43,7 +43,7 @@ module Fog
           options = {}
           for key in ['ExecutableBy', 'ImageId', 'Owner']
             if filters.is_a?(Hash) && filters.key?(key)
-              options[key] = filters.delete(key)
+              options.merge!(Fog::AWS.indexed_request_param(key, filters.delete(key)))
             end
           end
           params = Fog::AWS.indexed_filters(filters).merge!(options)
