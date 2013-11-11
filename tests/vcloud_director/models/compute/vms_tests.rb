@@ -4,7 +4,8 @@ Shindo.tests("Compute::VcloudDirector | vms", ['vclouddirector', 'all']) do
   pending if Fog.mocking?
   vapp = vapps.detect {|v| v.vms.size >= 1}
 
-  tests("#There is more than one vm").returns(true){ vapp.vms.size >= 1 }
+  # we can't run these tests if there is no vapps with a vm in them
+  pending unless vapp
 
   vms = vapp.vms
   vm = vms.first
