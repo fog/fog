@@ -121,6 +121,7 @@ module Fog
             },
             'Instances' => [],
             'ListenerDescriptions' => listeners,
+            'LoadBalancerAttributes' => {'CrossZoneLoadBalancing' => {'Enabled' => false}},
             'LoadBalancerName' => lb_name,
             'Policies' => {
               'AppCookieStickinessPolicies' => [],
