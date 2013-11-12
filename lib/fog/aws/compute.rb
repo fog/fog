@@ -126,6 +126,7 @@ module Fog
       request :modify_network_interface_attribute
       request :modify_snapshot_attribute
       request :modify_volume_attribute
+      request :modify_vpc_attribute
       request :purchase_reserved_instances_offering
       request :reboot_instances
       request :release_address
