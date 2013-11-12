@@ -33,6 +33,30 @@ module Fog
         end
 
       end
+
+      class Mock
+        def get_change(change_id)
+          response = Excon::Response.new
+          # find the record with matching change_id
+          # records = data[:zones].values.map{|z| z[:records].values.map{|r| r.values}}.flatten
+          change = self.data[:changes][change_id]
+
+          if change
+            response.status = 200
+            response.body = {
+              'Id' => change[:id],
+              'Status' => 'INSYNC', # TODO do some logic here
+              'SubmittedAt' => change[:submitted_at]
+            }
+            response
+          else
+            response.status = 404
+            response.body = "<?xml version=\"1.0\"?><ErrorResponse xmlns=\"https://route53.amazonaws.com/doc/2012-02-29/\"><Error><Type>Sender</Type><Code>NoSuchChange</Code><Message>Could not find resource with ID: #{change_id}</Message></Error><RequestId>#{Fog::AWS::Mock.request_id}</RequestId></ErrorResponse>"
+            raise(Excon::Errors.status_error({:expects => 200}, response))
+          end
+        end
+      end
+
     end
   end
 end

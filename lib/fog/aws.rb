@@ -270,7 +270,7 @@ module Fog
         "zone-#{Fog::Mock.random_hex(8)}"
       end
       def self.change_id
-        "change-#{Fog::Mock.random_hex(8)}"
+        Fog::Mock.random_letters_and_numbers(14)
       end
       def self.nameservers
         [

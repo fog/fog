@@ -74,6 +74,13 @@ module Fog
       rand(max).to_s
     end
 
+    def self.random_letters_and_numbers(length)
+      random_selection(
+        'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789',
+        length
+      )
+    end
+
     def self.random_selection(characters, length)
       selection = ''
       length.times do
