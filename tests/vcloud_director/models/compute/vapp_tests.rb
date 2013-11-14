@@ -2,7 +2,9 @@ require File.expand_path(File.join(File.dirname(__FILE__), 'helper'))
 
 Shindo.tests("Compute::VcloudDirector | vapps", ['vclouddirector', 'all']) do
   pending if Fog.mocking?
-  tests("#There is more than one vapp").returns(true){ vdc.vapps.size >= 1 }
+
+  # unless there is atleast one vapp we cannot run these tests
+  pending if vdc.vapps.empty?
 
   vapps = vdc.vapps
   vapp = vapps.first
