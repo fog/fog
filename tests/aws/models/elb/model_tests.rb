@@ -193,6 +193,12 @@ Shindo.tests('AWS::ELB | models', ['aws', 'elb']) do
       returns(@availability_zones) { elb.availability_zones.sort }
     end
 
+    tests('cross_zone_load_balancing') do
+      returns(false) {elb.cross_zone_load_balancing?}
+      elb.cross_zone_load_balancing = true
+      returns(true) {elb.cross_zone_load_balancing?}
+    end
+
     tests('default health check') do
       default_health_check = {
         "HealthyThreshold"=>10,

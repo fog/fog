@@ -18,6 +18,7 @@ module Fog
         attribute :disks, :aliases => 'disks'
         attribute :kernel, :aliases => 'kernel'
         attribute :metadata
+        attribute :tags, :squash => 'items'
 
         def destroy
           requires :name, :zone
@@ -112,7 +113,8 @@ module Fog
               'externalIp' => external_ip,
               'disks' => disks,
               'kernel' => kernel,
-              'metadata' => metadata
+              'metadata' => metadata,
+              'tags' => tags
           }.delete_if {|key, value| value.nil?}
 
           service.insert_server(name, zone_name, options)

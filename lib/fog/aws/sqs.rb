@@ -4,7 +4,7 @@ module Fog
   module AWS
     class SQS < Fog::Service
       extend Fog::AWS::CredentialFetcher::ServiceMethods
-      
+
       requires :aws_access_key_id, :aws_secret_access_key
       recognizes :region, :host, :path, :port, :scheme, :persistent, :aws_session_token, :use_iam_profile, :aws_credentials_expire_at
 
@@ -30,7 +30,7 @@ module Fog
             end
           end
         end
-        
+
         def self.reset
           @data = nil
         end
@@ -123,9 +123,7 @@ module Fog
               :aws_access_key_id  => @aws_access_key_id,
               :aws_session_token  => @aws_session_token,
               :hmac               => @hmac,
-              :host               => @host,
               :path               => path || @path,
-              :port               => @port,
               :version            => '2009-02-01'
             }
           )

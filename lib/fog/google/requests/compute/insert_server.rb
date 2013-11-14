@@ -115,18 +115,16 @@ module Fog
           end
 
           # ExternalIP is default value for server creation
+          access_config = {'type' => 'ONE_TO_ONE_NAT', 'name' => 'External NAT'}
+          # leave natIP undefined to use an IP from a shared ephemeral IP address pool
           if options.has_key? 'externalIp'
-            external_ip = options.delete 'externalIp'
-          else
-             external_ip = true
+            access_config['natIP'] = options.delete 'externalIp'
           end
 
           networkInterfaces = []
           if ! network.nil?
             networkInterface = { 'network' => @api_url + @project + "/global/networks/#{network}" }
-            if external_ip
-              networkInterface['accessConfigs'] = [{'type' => 'ONE_TO_ONE_NAT', 'name' => 'External NAT', 'natIP' => external_ip}]
-            end
+            networkInterface['accessConfigs'] = [access_config]
             networkInterfaces <<  networkInterface
           end
 
@@ -146,6 +144,8 @@ module Fog
           end
 
           options['metadata'] = format_metadata options['metadata'] if options['metadata']
+
+          body_object['tags'] = { 'items' => options.delete('tags') } if options['tags']
 
           if options['kernel']
             body_object['kernel'] = @api_url + "google/global/kernels/#{options.delete 'kernel'}"

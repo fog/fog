@@ -36,6 +36,12 @@ Shindo.tests('AWS::ELB | load_balancer_tests', ['aws', 'elb']) do
       end
     end
 
+    tests("modify_load_balancer_attributes") do
+      Fog::AWS[:elb].modify_load_balancer_attributes(@load_balancer_id, 'CrossZoneLoadBalancing' => {'Enabled' => true}).body
+      response = Fog::AWS[:elb].describe_load_balancer_attributes(@load_balancer_id).body
+      response['DescribeLoadBalancerAttributesResult']['LoadBalancerAttributes']['CrossZoneLoadBalancing']['Enabled'] == true
+    end
+
     tests("#configure_health_check").formats(AWS::ELB::Formats::CONFIGURE_HEALTH_CHECK) do
       health_check = {
         'Target' => 'HTTP:80/index.html',

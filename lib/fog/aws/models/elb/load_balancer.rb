@@ -35,6 +35,16 @@ module Fog
           super
         end
 
+        def cross_zone_load_balancing?
+          requires :id
+          service.describe_load_balancer_attributes(id).body['DescribeLoadBalancerAttributesResult']['LoadBalancerAttributes']['CrossZoneLoadBalancing']['Enabled']
+        end
+
+        def cross_zone_load_balancing= value
+          requires :id
+          service.modify_load_balancer_attributes(id, 'CrossZoneLoadBalancing' => {'Enabled' => value})
+        end
+
         def register_instances(instances)
           requires :id
           data = service.register_instances_with_load_balancer(instances, id).body['RegisterInstancesWithLoadBalancerResult']
