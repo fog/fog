@@ -31,7 +31,7 @@ module Fog
         attribute :license_model, :aliases => 'LicenseModel'
         attribute :db_subnet_group_name, :aliases => 'DBSubnetGroupName'
         attribute :publicly_accessible, :aliases => 'PubliclyAccessible'
-        attribute :vpc_security_groups, :aliases => 'VpcSecurityGroups'
+        attribute :vpc_security_groups, :aliases => 'VpcSecurityGroups', :type => :array
 
         attr_accessor :password, :parameter_group_name, :security_group_names, :port
 
@@ -123,7 +123,8 @@ module Fog
             'MultiAZ'                       => multi_az,
             'LicenseModel'                  => license_model,
             'DBSubnetGroupName'             => db_subnet_group_name,
-            'PubliclyAccessible'            => publicly_accessible
+            'PubliclyAccessible'            => publicly_accessible,
+            'VpcSecurityGroups'             => vpc_security_groups,
           }
 
           options.delete_if {|key, value| value.nil?}
