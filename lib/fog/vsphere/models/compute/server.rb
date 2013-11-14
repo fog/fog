@@ -255,7 +255,7 @@ module Fog
             :cpus      => 1,
 #            :corespersocket => 1,
             :memory_mb => 512,
-#            :guest_id  => 'otherGuest',
+            :guest_id  => 'otherGuest',
             :path      => '/'
           }
         end
