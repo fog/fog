@@ -168,7 +168,7 @@ module Fog
           @port       = options[:port]        || 443
           @scheme     = options[:scheme]      || 'https'
           @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}#{@path}", @persistent, @connection_options)
-          @version    = options[:version] || '2012-09-17' #'2011-04-01'
+          @version    = options[:version] || '2013-05-15'
         end
 
         def owner_id
