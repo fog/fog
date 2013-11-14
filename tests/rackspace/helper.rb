@@ -69,7 +69,7 @@ module Shindo
     def rackspace_test_image_id(service)
       image_id  = Fog.credentials[:rackspace_image_id]
       # I chose to use the first Ubuntu because it will work with the smallest flavor and it doesn't require a license
-      image_id ||= Fog.mocking? ? @service.images.first.id : @service.images.find {|image| image.name =~ /Ubuntu/}.id # use the first Ubuntu image
+      image_id ||= Fog.mocking? ? service.images.first.id : service.images.find {|image| image.name =~ /Ubuntu/}.id # use the first Ubuntu image
     end
 
     def rackspace_test_flavor_id(service)
