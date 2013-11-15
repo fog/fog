@@ -60,6 +60,9 @@ module Fog
         require 'time'
 
         def create_hosted_zone(name, options = {})
+          # Append a trailing period to the name if absent.
+          name = name + "." unless name.end_with?(".")
+
           response = Excon::Response.new
           if list_hosted_zones.body['HostedZones'].find_all {|z| z['Name'] == name}.size < self.data[:limits][:duplicate_domains]
             response.status = 201
@@ -77,6 +80,12 @@ module Fog
               :comment => options[:comment],
               :records => {}
             }
+            change = {
+              :id => Fog::AWS::Mock.change_id,
+              :status => 'INSYNC',
+              :submitted_at => Time.now.utc.iso8601
+            }
+            self.data[:changes][change[:id]] = change
             response.body = {
               'HostedZone' => {
                 'Id' => zone_id,
@@ -85,9 +94,9 @@ module Fog
                 'Comment' => options[:comment]
               },
               'ChangeInfo' => {
-                'Id' => "/change/#{Fog::AWS::Mock.change_id}",
-                'Status' => 'INSYNC',
-                'SubmittedAt' => Time.now.utc.iso8601
+                'Id' => change[:id],
+                'Status' => change[:status],
+                'SubmittedAt' => change[:submitted_at]
               },
               'NameServers' => Fog::AWS::Mock.nameservers
             }
