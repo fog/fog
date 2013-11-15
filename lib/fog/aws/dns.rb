@@ -34,7 +34,8 @@ module Fog
                 :limits => {
                   :duplicate_domains => 5
                 },
-                :zones => {}
+                :zones => {},
+                :changes => {}
               }
             end
           end
