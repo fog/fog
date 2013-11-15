@@ -82,7 +82,7 @@ module Fog
             }
             change = {
               :id => Fog::AWS::Mock.change_id,
-              :status => 'INSYNC',
+              :status => 'PENDING',
               :submitted_at => Time.now.utc.iso8601
             }
             self.data[:changes][change[:id]] = change
