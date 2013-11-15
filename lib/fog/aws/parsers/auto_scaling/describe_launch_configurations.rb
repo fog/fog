@@ -69,6 +69,8 @@ module Fog
             when 'KernelId', 'RamdiskId', 'UserData'
               @launch_configuration[name] = value
 
+            when 'AssociatePublicIpAddress'
+              @in_associate_public_ip = false
             when 'BlockDeviceMappings'
               @in_block_device_mappings = false
             when 'LaunchConfigurations'
