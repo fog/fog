@@ -12,12 +12,12 @@ module Fog
         attribute :claim_id
 
         def identity
-          if href
-            href.split('/').last
-          else
-            nil
-          end
+          return nil unless href
+
+          match = href.match(/(\/(\w+))*\??/)
+          match ? match[-1] : nil
         end
+        alias :id :identity
 
         def save
           requires :queue, :client_id, :body, :ttl

@@ -32,4 +32,20 @@ Shindo.tests('Fog::Rackspace::Queues | message', ['rackspace']) do
   ensure
     queue.destroy
   end
+
+  tests('identity') do
+    tests('nil') do
+      message = Fog::Rackspace::Queues::Message.new :href => nil
+      returns(nil) { message.id }
+    end
+    tests('with claim id') do
+      message = Fog::Rackspace::Queues::Message.new :href => '/v1/queues/queue1/messages/528b7e4bb04a584f2eb805a3?claim_id=528b7e6aef913e6d2977ee6d'
+      returns('528b7e4bb04a584f2eb805a3') { message.id }
+    end
+    tests('without claim id') do
+      message = Fog::Rackspace::Queues::Message.new :href => '/v1/queues/queue1/messages/528b7e4bb04a584f2eb805a3'
+      returns('528b7e4bb04a584f2eb805a3') { message.id }
+    end
+  end
+
 end
