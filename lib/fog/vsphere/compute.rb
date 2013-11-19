@@ -80,6 +80,7 @@ module Fog
       request :list_vm_customvalues
       request :list_customfields
       request :get_vm_first_scsi_controller
+      request :set_vm_customvalue
 
       module Shared
 
