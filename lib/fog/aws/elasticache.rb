@@ -35,6 +35,7 @@ module Fog
 
       request :create_cache_subnet_group
       request :describe_cache_subnet_groups
+      request :delete_cache_subnet_group
 
       request :describe_events
 
@@ -105,7 +106,6 @@ module Fog
               :expects    => 200,
               :headers    => { 'Content-Type' => 'application/x-www-form-urlencoded' },
               :idempotent => idempotent,
-              :host       => @host,
               :method     => 'POST',
               :parser     => parser
             })

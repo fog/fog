@@ -19,7 +19,7 @@ module Fog
           def end_element(name)
             case name
             when 'CacheSubnetGroup'
-              @response['DescribeCacheSubnetGroupsResult']['CacheSubnetGroups'] << @db_subnet_group
+              @response['DescribeCacheSubnetGroupsResult']['CacheSubnetGroups'] << @cache_subnet_group
               @cache_subnet_group = fresh_subnet_group
             when 'Marker'
               @response['DescribeCacheSubnetGroupsResult']['Marker'] = value

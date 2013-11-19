@@ -17,8 +17,8 @@ module Fog
             case name
             when 'VpcId' then @cache_subnet_group['VpcId'] = value
             when 'SubnetGroupStatus' then @cache_subnet_group['SubnetGroupStatus'] = value
-            when 'DBSubnetGroupDescription' then @cache_subnet_group['CacheSubnetGroupDescription'] = value
-            when 'DBSubnetGroupName' then @cache_subnet_group['CacheSubnetGroupName'] = value
+            when 'CacheSubnetGroupDescription' then @cache_subnet_group['CacheSubnetGroupDescription'] = value
+            when 'CacheSubnetGroupName' then @cache_subnet_group['CacheSubnetGroupName'] = value
             when 'SubnetIdentifier' then @cache_subnet_group['Subnets'] << value
             when 'Marker'
               @response['DescribeCacheSubnetGroupsResult']['Marker'] = value

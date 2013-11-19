@@ -1,6 +1,6 @@
 module Fog
   module AWS
-    class RDS
+    class Elasticache
       class Real
 
         require 'fog/aws/parsers/elasticache/create_cache_subnet_group'
