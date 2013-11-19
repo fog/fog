@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-# This example demonstrates posting a message to a queue with the Rackpace Open Cloud
+# This example demonstrates listing messages in a queue with the Rackpace Open Cloud
 
 require 'rubygems' #required for Ruby 1.8.x
 require 'fog'
@@ -8,6 +8,12 @@ require 'fog'
 def get_user_input(prompt)
   print "#{prompt}: "
   gets.chomp
+end
+
+def get_user_boolean(prompt)
+  str = get_user_input(prompt)
+  return false unless str
+  str.match(/y(es)?/i) ? true : false
 end
 
 def select_queue(queues)
@@ -47,13 +53,12 @@ queues = service.queues
 # prompt for queue to delete
 queue = select_queue(queues)
 
-# prompt for queue message
-message = get_user_input "Enter Queue Message"
+queue.messages.echo = get_user_boolean "Do you want to include your own messages? [y/N]"
 
-# time to live TTL = 1 hour
-ttl = 3600
+queue.messages.include_claimed = get_user_boolean "Do you want to include claimed messages? [y/N]"
 
-# post message to queue
-queue.messages.create :body => message, :ttl => ttl
+puts "\n\nThe following messages are in the '#{queue.name}' queue:\n\n"
 
-puts "The message has been successfully posted"
+queue.messages.each do |message|
+  puts message.inspect
+end

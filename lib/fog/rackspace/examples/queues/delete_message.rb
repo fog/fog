@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-# This example demonstrates posting a message to a queue with the Rackpace Open Cloud
+# This example demonstrates deleting a message with the Rackpace Open Cloud
 
 require 'rubygems' #required for Ruby 1.8.x
 require 'fog'
@@ -11,9 +11,9 @@ def get_user_input(prompt)
 end
 
 def select_queue(queues)
-  abort "\nThere are not any queues to post a message to in the Chicago region. Try running create_queue.rb\n\n" if queues.empty?
+  abort "\nThere are not any queues in the Chicago region. Try running create_queue.rb\n\n" if queues.empty?
 
-  puts "\nSelect Queue:\n\n"
+  puts "\nSelect Queue To Delete:\n\n"
   queues.each_with_index do |queue, i|
     puts "\t #{i}. #{queue.name}"
   end
@@ -21,6 +21,19 @@ def select_queue(queues)
   delete_str = get_user_input "\nEnter Queue Number"
   queues[delete_str.to_i]
 end
+
+def select_message(messages)
+  abort "\nThere are not any messages in the Chicago region. Try running post_message.rb\n\n" if messages.empty?
+
+  puts "\nSelect Message To Delete:\n\n"
+  messages.each_with_index do |message, i|
+    puts "\t #{i}. [#{message.id}] #{message.body[0..50]}"
+  end
+
+  delete_str = get_user_input "\nEnter Message Number"
+  messages[delete_str.to_i]
+end
+
 
 # Use username defined in ~/.fog file, if absent prompt for username.
 # For more details on ~/.fog refer to http://fog.io/about/getting_started.html
@@ -36,24 +49,24 @@ end
 
 # create Queue Service
 service = Fog::Rackspace::Queues.new({
-  # :rackspace_username   => rackspace_username,
-  # :rackspace_api_key    => rackspace_api_key,
+  :rackspace_username   => rackspace_username,
+  :rackspace_api_key    => rackspace_api_key,
   :rackspace_region => :ord #Use Chicago Region
 })
 
 # retrieve list of queues
 queues = service.queues
 
-# prompt for queue to delete
+# prompt for queue
 queue = select_queue(queues)
 
-# prompt for queue message
-message = get_user_input "Enter Queue Message"
+#retrieve list of messages
+messages = queue.messages
 
-# time to live TTL = 1 hour
-ttl = 3600
+# prompt for message
+message = select_message(messages)
 
-# post message to queue
-queue.messages.create :body => message, :ttl => ttl
+# delete message
+message.destroy
 
-puts "The message has been successfully posted"
+puts "\nMessage #{message.id} has been destroyed\n"

@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-# This example demonstrates posting a message to a queue with the Rackpace Open Cloud
+# This example demonstrates claiming messages with the Rackpace Open Cloud
 
 require 'rubygems' #required for Ruby 1.8.x
 require 'fog'
@@ -11,9 +11,9 @@ def get_user_input(prompt)
 end
 
 def select_queue(queues)
-  abort "\nThere are not any queues to post a message to in the Chicago region. Try running create_queue.rb\n\n" if queues.empty?
+  abort "\nThere are not any queues the Chicago region. Try running create_queue.rb\n\n" if queues.empty?
 
-  puts "\nSelect Queue:\n\n"
+  puts "\nSelect Queue To Delete:\n\n"
   queues.each_with_index do |queue, i|
     puts "\t #{i}. #{queue.name}"
   end
@@ -44,16 +44,17 @@ service = Fog::Rackspace::Queues.new({
 # retrieve list of queues
 queues = service.queues
 
-# prompt for queue to delete
+# prompt for queue
 queue = select_queue(queues)
 
-# prompt for queue message
-message = get_user_input "Enter Queue Message"
+# prompt for number of messages to claim
+num_claims = get_user_input "Enter Number of Messages to Claim"
 
-# time to live TTL = 1 hour
-ttl = 3600
+# Claim messages
+claim = queue.claims.create :ttl => 300, :grace => 100, :limit => num_claims
 
-# post message to queue
-queue.messages.create :body => message, :ttl => ttl
+puts "The following messages have been claimed for the next 5 minutes [#{claim.id}]"
 
-puts "The message has been successfully posted"
+claim.messages.each do |message|
+  puts "\t[#{message.id}] #{message.body[0..50]}"
+end
