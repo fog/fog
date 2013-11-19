@@ -12,6 +12,8 @@ module Fog
         attribute :limit
         attribute :messages
 
+        alias :id :identity
+
         def save
           if identity.nil?
             create

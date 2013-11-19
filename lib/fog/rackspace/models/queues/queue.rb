@@ -33,7 +33,7 @@ module Fog
 
         #Helper method to enqueue a single message
         def enqueue(body, ttl, options = {})
-          messages.create(options.merge(options.merge({:body => body, :ttl => ttl})))
+          messages.create(options.merge({:body => body, :ttl => ttl}))
         end
 
         #Helper method to claim (dequeue) a single message, including destroying it
