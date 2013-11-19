@@ -95,8 +95,7 @@ module Fog
             :host               => @host,
             :path               => @path,
             :port               => @port,
-            #:version            => '2011-07-15'
-            :version            => '2012-11-15'
+            :version            => '2013-06-15'
           }
           )
 

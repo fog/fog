@@ -51,7 +51,7 @@ module Fog
               @cache_cluster[name] = DateTime.parse(value)
             when 'CacheSecurityGroup'
               @cache_cluster["#{name}s"] << @security_group unless @security_group.empty?
-            when 'CacheSecurityGroupName', 'Status'
+            when 'CacheSecurityGroupName', 'Status', 'CacheSubnetGroupName'
               @cache_cluster[name] = value
             when 'CacheNode'
               @cache_cluster["#{name}s"] << @cache_node unless @cache_node.empty?
