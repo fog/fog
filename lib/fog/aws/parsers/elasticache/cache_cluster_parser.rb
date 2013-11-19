@@ -52,7 +52,7 @@ module Fog
             when 'CacheSecurityGroup'
               @cache_cluster["#{name}s"] << @security_group unless @security_group.empty?
             when 'CacheSecurityGroupName', 'Status'
-              @security_group[name] = value
+              @cache_cluster[name] = value
             when 'CacheNode'
               @cache_cluster["#{name}s"] << @cache_node unless @cache_node.empty?
               @cache_node = nil
