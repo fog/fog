@@ -43,9 +43,11 @@ module Fog
 
           if change
             response.status = 200
+            submitted_at = Time.parse(change[:submitted_at])
             response.body = {
               'Id' => change[:id],
-              'Status' => 'INSYNC', # TODO do some logic here
+              # set as insync after some time
+              'Status' => (submitted_at + (Fog.timeout/4).to_i) < Time.now ? 'INSYNC' : change[:status],
               'SubmittedAt' => change[:submitted_at]
             }
             response
