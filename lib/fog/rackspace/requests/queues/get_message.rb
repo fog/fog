@@ -2,6 +2,19 @@ module Fog
   module Rackspace
     class Queues
       class Real
+
+        # This operation gets the specified message from the specified queue.
+        # If no unclaimed messages are available, the API returns a 204 No Content message.
+        #
+        # @param [String] client_id UUID for the client instance.
+        # @param [String] queue_name Specifies the name of the queue.
+        # @param [Integer] message_id Specifies the message ID.
+        # @return [Excon::Response] response
+        # @raise [Fog::Rackspace::Queues::NotFound] - HTTP 404
+        # @raise [Fog::Rackspace::Queues::BadRequest] - HTTP 400
+        # @raise [Fog::Rackspace::Queues::InternalServerError] - HTTP 500
+        # @raise [Fog::Rackspace::Queues::ServiceError]
+        # @see  http://docs.rackspace.com/queues/api/v1.0/cq-devguide/content/GET_getSpecificMessage__version__queues__queue_name__messages__messageId__message-operations-dle001.html
         def get_message(client_id, queue_name, message_id)
           request(
             :expects => 200,
