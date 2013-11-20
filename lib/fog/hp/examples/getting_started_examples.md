@@ -11,9 +11,9 @@ These examples currently supports HP Cloud Compute, HP Cloud Object Storage, HP 
 * [Installation Instructions](https://github.com/fog/fog/blob/master/lib/fog/hp/docs/install.md)
 * [Connecting to the Service](https://github.com/fog/fog/blob/master/lib/fog/hp/docs/connect.md)
 * [Compute Examples](https://github.com/fog/fog/blob/master/lib/fog/hp/examples/compute.md)
-* [Object Storage Examples](https://github.com/fog/fog/blob/master/lib/fog/hp/examples/object-storage.md)
+* [Object Storage Examples](https://github.com/fog/fog/blob/master/lib/fog/hp/examples/object_storage.md)
 * [CDN Examples](https://github.com/fog/fog/blob/master/lib/fog/hp/examples/cdn.md)
-* [Block Storage Examples](https://github.com/fog/fog/blob/master/lib/fog/hp/examples/block-storage.md)
+* [Block Storage Examples](https://github.com/fog/fog/blob/master/lib/fog/hp/examples/block_storage.md)
 
 ##Version 13.5 Extensions to Ruby Fog Bindings
 
