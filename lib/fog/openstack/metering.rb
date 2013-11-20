@@ -43,7 +43,6 @@ module Fog
         end
 
         def initialize(options={})
-          require 'multi_json'
           @openstack_username = options[:openstack_username]
           @openstack_tenant   = options[:openstack_tenant]
           @openstack_auth_uri = URI.parse(options[:openstack_auth_url])
@@ -90,8 +89,6 @@ module Fog
         attr_reader :current_tenant
 
         def initialize(options={})
-          require 'multi_json'
-
           @openstack_auth_token = options[:openstack_auth_token]
 
           unless @openstack_auth_token
@@ -165,7 +162,7 @@ module Fog
             end
           end
           unless response.body.empty?
-            response.body = MultiJson.decode(response.body)
+            response.body = Fog::JSON.decode(response.body)
           end
           response
         end

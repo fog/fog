@@ -25,12 +25,12 @@ module Fog
             :expects  => 201,
             :path => 'stacks',
             :method => 'POST',
-            :body => MultiJson.encode(params)
+            :body => Fog::JSON.encode(params)
           )
         end
 
       end
-      
+
       class Mock
         def create_stack(stack_name, options = {})
           stack_id = Fog::Mock.random_hex(32)

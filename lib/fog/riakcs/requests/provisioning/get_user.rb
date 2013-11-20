@@ -7,7 +7,7 @@ module Fog
 
         def get_user(key_id)
           response = @s3_connection.get_object('riak-cs', "user/#{key_id}", { 'Accept' => 'application/json' })
-          response.body = MultiJson.decode(response.body)
+          response.body = Fog::JSON.decode(response.body)
           response
         end
       end

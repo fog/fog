@@ -10,10 +10,9 @@ module Fog
   # The intent is to provide common code for provider APIs using JSON but not
   # require it for those using XML.
   #
-  # @todo Add +require "fog/json" and/or +include Fog::JSON+ to providers using
-  #   its services
-  #
   module JSON
+    class EncodeError < Fog::Errors::Error; end
+    class DecodeError < Fog::Errors::Error; end
 
     def self.sanitize(data)
       case data
@@ -35,10 +34,14 @@ module Fog
 
     def self.encode(obj)
       MultiJson.encode(obj)
+    rescue => err
+      raise EncodeError.slurp(err)
     end
 
     def self.decode(obj)
       MultiJson.decode(obj)
+    rescue => err
+      raise DecodeError.slurp(err)
     end
   end
 end

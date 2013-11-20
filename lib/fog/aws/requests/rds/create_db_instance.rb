@@ -26,6 +26,7 @@ module Fog
         # @param PreferredMaintenanceWindow [String] The weekly time range (in UTC) during which system maintenance can occur, which may result in an outage
         # @param DBSubnetGroupName [String] The name, if any, of the VPC subnet for this RDS instance
         # @param PubliclyAcccesible [Boolean] Whether an RDS instance inside of the VPC subnet should have a public-facing endpoint
+        # @param VpcSecurityGroups [Array] A list of VPC Security Groups to authorize on this DB instance
         # 
         # @return [Excon::Response]:
         #   * body [Hash]:
@@ -35,6 +36,10 @@ module Fog
 
           if security_groups = options.delete('DBSecurityGroups')
             options.merge!(Fog::AWS.indexed_param('DBSecurityGroups.member.%d', [*security_groups]))
+          end
+
+          if vpc_security_groups = options.delete('VpcSecurityGroups')
+            options.merge!(Fog::AWS.indexed_param('VpcSecurityGroupIds.member.%d', [*vpc_security_groups]))
           end
 
           request({
@@ -105,7 +110,8 @@ module Fog
 #                 "LatestRestorableTime" => nil,
                  "AvailabilityZone" => options["AvailabilityZone"],
                  "DBSubnetGroupName" => options["DBSubnetGroupName"],
-                 "PubliclyAccessible" => options["PubliclyAccessible"]
+                 "PubliclyAccessible" => options["PubliclyAccessible"],
+                 "VpcSecurityGroups" => options["VpcSecurityGroups"],
              }
 
 

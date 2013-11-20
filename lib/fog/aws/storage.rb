@@ -174,6 +174,14 @@ module Fog
 
         # NOTE: differs from Fog::AWS.escape by NOT escaping `/`
         def escape(string)
+          unless @unf_loaded_or_warned
+            begin
+              require('unf/normalizer')
+            rescue LoadError
+              Fog::Logger.warning("Unable to load the 'unf' gem. Your AWS strings may not be properly encoded.")
+            end
+            @unf_loaded_or_warned = true
+          end
           string = defined?(::UNF::Normalizer) ? ::UNF::Normalizer.normalize(string, :nfc) : string
           string.gsub(/([^a-zA-Z0-9_.\-~\/]+)/) {
             "%" + $1.unpack("H2" * $1.bytesize).join("%").upcase
@@ -405,6 +413,8 @@ module Fog
           @connection_options     = options[:connection_options] || {}
           @persistent = options.fetch(:persistent, false)
 
+          @path_style = options[:path_style]  || false
+
           if @endpoint = options[:endpoint]
             endpoint = URI.parse(@endpoint)
             @host = endpoint.host
@@ -415,7 +425,6 @@ module Fog
             @host       = options[:host]        || region_to_host(@region)
             @scheme     = options[:scheme]      || DEFAULT_SCHEME
             @port       = options[:port]        || DEFAULT_SCHEME_PORT[@scheme]
-            @path_style = options[:path_style]  || false
           end
         end
 

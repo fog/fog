@@ -41,8 +41,6 @@ module Fog
         include Utils
 
         def initialize(options = {})
-          require 'multi_json'
-
           configure_uri_options(options)
           @riakcs_access_key_id     = options[:riakcs_access_key_id]
           @riakcs_secret_access_key = options[:riakcs_secret_access_key]

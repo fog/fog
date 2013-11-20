@@ -26,7 +26,7 @@ module Fog
               if message.nil? and !data.values.first.nil?
                 message = data.values.first['message']
               end
-            rescue MultiJson::DecodeError
+            rescue Fog::JSON::DecodeError
               message = error.response.body  #### body is not in JSON format, so just return as is
             end
           end
