@@ -68,6 +68,9 @@ module Fog
               @launch_configuration[name] = value
             when 'KernelId', 'RamdiskId', 'UserData'
               @launch_configuration[name] = value
+
+            when 'AssociatePublicIpAddress'
+              @in_associate_public_ip = false
             when 'IamInstanceProfile'
               @launch_configuration[name] = value
             when 'SpotPrice'
