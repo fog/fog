@@ -20,4 +20,4 @@ The contents of the credentials should be treated like a set of data.  The conte
 The same credentials may be used to create connections for Compute, Object Storage, CDN, Block Storage, and other services.
 
 ---------
-[Documentation Home]((https://github.com/fog/fog/blob/master/lib/fog/hp/README.md) | [Examples](https://github.com/fog/fog/blob/master/lib/fog/hp/examples/getting_started_examples.md)
+[Documentation Home](https://github.com/fog/fog/blob/master/lib/fog/hp/README.md) | [Examples](https://github.com/fog/fog/blob/master/lib/fog/hp/examples/getting_started_examples.md)
