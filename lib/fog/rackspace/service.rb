@@ -66,7 +66,7 @@ module Fog
            Fog::Rackspace.json_response?(response)
           begin
             response.body = Fog::JSON.decode(response.body)
-          rescue MultiJson::DecodeError => e
+          rescue Fog::JSON::DecodeError => e
             Fog::Logger.warning("Error Parsing response json - #{e}")
             response.body = {}
           end
