@@ -12,6 +12,7 @@ module Fog
         attribute :freespace
         attribute :accessible # reachable by at least one hypervisor
         attribute :capacity
+        attribute :uncommitted
 
         def to_s
           name
