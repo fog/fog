@@ -130,4 +130,4 @@ Its recommended that you uninstall a previous version prior to upgrading. To uni
         gem uninstall fog
 
 ---------
-[Documentation Home]((https://github.com/fog/fog/blob/master/lib/fog/hp/README.md) | [Examples](https://github.com/fog/fog/blob/master/lib/fog/hp/examples/getting_started_examples.md)
+[Documentation Home](https://github.com/fog/fog/blob/master/lib/fog/hp/README.md) | [Examples](https://github.com/fog/fog/blob/master/lib/fog/hp/examples/getting_started_examples.md)
