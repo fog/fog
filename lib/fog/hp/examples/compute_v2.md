@@ -8,7 +8,7 @@ The HP Cloud services provides compute support using two abstractions: [a model 
 
 This page discusses the following topics:
 
-* [Connecting to the Service](https://github.com/fog/fog/blob/master/lib/fog/hp/docs/connect.md)
+* [Connecting to the Service](#connecting-to-the-service)
 
 **Model Layer Examples**
 
@@ -31,6 +31,34 @@ This page discusses the following topics:
 * [Request Keypair Operations](#request-keypair-operations)
 * [Request Address Operations](#request-address-operations)
 
+## Connecting to the Service
+
+To connect to the HP Cloud Compute V2 Service, follow these steps:
+
+1. Enter IRB
+
+        irb
+
+2. Require the Fog library
+
+        require 'fog'
+
+3. Establish a connection to the HP Cloud Compute V2 service
+
+        conn = Fog::Compute.new(
+               :provider => "HP",
+               :version => :v2,
+               :hp_access_key => "<your_ACCESS_KEY>",
+               :hp_secret_key => "<your_SECRET_KEY>",
+               :hp_auth_uri => "<IDENTITY_ENDPOINT_URL>",
+               :hp_tenant_id => "<your_TENANT_ID>",
+               :hp_avl_zone => "<your_AVAILABILITY_ZONE>",
+               <other optional parameters>
+               )
+
+**Note**: You must use the `:hp_access_key` parameter rather than the now-deprecated  `:hp_account_id` parameter you might have used in previous Ruby Fog versions.
+
+You can find the values the access key, secret key, and other values by clicking the [`API Keys`](https://console.hpcloud.com/account/api_keys) button in the [Console Dashboard](https://console.hpcloud.com/dashboard).
 
 ## Model Server Operations
 
