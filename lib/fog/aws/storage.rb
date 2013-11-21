@@ -413,6 +413,8 @@ module Fog
           @connection_options     = options[:connection_options] || {}
           @persistent = options.fetch(:persistent, false)
 
+          @path_style = options[:path_style]  || false
+
           if @endpoint = options[:endpoint]
             endpoint = URI.parse(@endpoint)
             @host = endpoint.host
@@ -423,7 +425,6 @@ module Fog
             @host       = options[:host]        || region_to_host(@region)
             @scheme     = options[:scheme]      || DEFAULT_SCHEME
             @port       = options[:port]        || DEFAULT_SCHEME_PORT[@scheme]
-            @path_style = options[:path_style]  || false
           end
         end
 

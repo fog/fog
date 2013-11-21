@@ -4,7 +4,7 @@ module Fog
       class Real
         def remove_flavor_access(flavor_ref, tenant_id)
           request(
-            :body => MultiJson.encode({
+            :body => Fog::JSON.encode({
               "removeTenantAccess" => {
                 "tenant" => tenant_id.to_s
               }

@@ -4,7 +4,7 @@ module Fog
       class Real
         def add_flavor_access(flavor_ref, tenant_id)
           request(
-            :body => MultiJson.encode({
+            :body => Fog::JSON.encode({
               "addTenantAccess" => {
                 "tenant" => tenant_id
               }

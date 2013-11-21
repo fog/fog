@@ -14,7 +14,6 @@ module Fog
           changelog << ('=' * changelog[0].length)
           changelog << ''
 
-          require 'multi_json'
           github_repo_data = Fog::JSON.decode(Excon.get('https://api.github.com/repos/fog/fog', :headers => {'User-Agent' => 'geemus'}).body)
           data = github_repo_data.reject {|key, value| !['forks', 'open_issues', 'watchers'].include?(key)}
           github_collaborator_data = Fog::JSON.decode(Excon.get('https://api.github.com/repos/fog/fog/collaborators', :headers => {'User-Agent' => 'geemus'}).body)
