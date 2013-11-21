@@ -1,4 +1,3 @@
-require 'fog/aws'
 require 'fog/storage'
 
 module Fog

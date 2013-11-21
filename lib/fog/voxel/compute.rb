@@ -1,4 +1,3 @@
-require 'fog/voxel'
 require 'fog/compute'
 
 module Fog

@@ -1,4 +1,3 @@
-require 'fog/storm_on_demand'
 require 'fog/compute'
 require 'fog/storm_on_demand/shared'
 

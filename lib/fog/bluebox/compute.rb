@@ -1,4 +1,3 @@
-require 'fog/bluebox'
 require 'fog/compute'
 
 module Fog

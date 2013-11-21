@@ -1,5 +1,3 @@
-require 'fog/hp'
-
 module Fog
   module HP
     class BlockStorage < Fog::Service

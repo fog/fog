@@ -1,5 +1,3 @@
-require 'fog/openstack'
-
 module Fog
   module Image
     class OpenStack < Fog::Service

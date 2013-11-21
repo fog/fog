@@ -1,5 +1,3 @@
-require File.expand_path(File.join(File.dirname(__FILE__), '..', 'riakcs'))
-
 module Fog
   module RiakCS
     class Provisioning < Fog::Service

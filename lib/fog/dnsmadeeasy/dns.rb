@@ -1,4 +1,3 @@
-require 'fog/dnsmadeeasy'
 require 'fog/dns'
 
 module Fog

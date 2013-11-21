@@ -1,5 +1,3 @@
-require 'fog/openstack'
-
 module Fog
   module Network
     class OpenStack < Fog::Service

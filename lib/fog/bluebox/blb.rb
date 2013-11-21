@@ -1,5 +1,3 @@
-require 'fog/bluebox'
-
 module Fog
   module Bluebox
     class BLB < Fog::Service

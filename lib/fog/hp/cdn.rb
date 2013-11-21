@@ -1,4 +1,3 @@
-require 'fog/hp'
 require 'fog/cdn'
 
 module Fog

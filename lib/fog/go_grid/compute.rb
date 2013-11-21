@@ -1,4 +1,3 @@
-require 'fog/go_grid'
 require 'fog/compute'
 
 module Fog

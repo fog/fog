@@ -1,5 +1,3 @@
-require 'fog/aws'
-
 module Fog
   module AWS
     class RDS < Fog::Service

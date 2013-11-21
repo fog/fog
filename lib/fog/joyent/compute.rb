@@ -1,4 +1,3 @@
-require 'fog/joyent'
 require 'fog/joyent/errors'
 require 'fog/compute'
 require 'net/ssh'
