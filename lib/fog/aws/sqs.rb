@@ -21,14 +21,7 @@ module Fog
 
       class Mock
         def self.data
-          @data ||= Hash.new do |hash, region|
-            hash[region] = Hash.new do |region_hash, key|
-              region_hash[key] = {
-                :owner_id => Fog::AWS::Mock.owner_id,
-                :queues   => {}
-              }
-            end
-          end
+          @data ||= Fog::AWS::Mock.data(:queues => {})
         end
 
         def self.reset

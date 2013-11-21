@@ -29,6 +29,14 @@ module Fog
 
       end
 
+      class Mock
+
+        def publish(arn, message, options = {})
+          Fog::AWS::Mock.message_response(:sns, data[:topics][arn], message, options)
+        end
+
+      end
+
     end
   end
 end

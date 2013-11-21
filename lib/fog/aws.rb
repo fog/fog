@@ -233,6 +233,8 @@ module Fog
         alias :reserved_instances_offering_id :request_id
         alias :sqs_message_id :request_id
         alias :sqs_sender_id :request_id
+        alias :sns_message_id :request_id
+        alias :sns_sender_id :request_id
       end
 
       def self.reservation_id
@@ -288,6 +290,51 @@ module Fog
 
       def self.rds_address(db_name,region)
         "#{db_name}.#{Fog::Mock.random_letters(rand(12) + 4)}.#{region}.rds.amazonaws.com"
+      end
+
+      def self.message_response(service, destination, message, options = {})
+        Excon::Response.new.tap do |response|
+          if (destination)
+            response.status = 200
+
+            now        = Time.now
+            message_id = Fog::AWS::Mock.send("#{service}_message_id")
+            md5        = Digest::MD5.hexdigest(message)
+
+            destination[:messages][message_id] = {
+              'MessageId'  => message_id,
+              'Body'       => message,
+              'MD5OfBody'  => md5,
+              'Attributes' => {
+                'SenderId'      => message_id,
+                'SentTimestamp' => now
+              }
+            }
+
+            destination['Attributes']['LastModifiedTimestamp'] = now
+
+            response.body = {
+              'ResponseMetadata' => {
+                'RequestId' => Fog::AWS::Mock.request_id
+              },
+              'MessageId'        => message_id,
+              'MD5OfMessageBody' => md5
+            }
+          else
+            response.status = 404
+            raise(Excon::Errors.status_error({:expects => 200}, response))
+          end
+        end
+      end
+
+      def self.data(extras={})
+        Hash.new do |hash, region|
+          hash[region] = Hash.new do |region_hash, key|
+            region_hash[key] = {
+              :owner_id => Fog::AWS::Mock.owner_id,
+            }.merge(extras)
+          end
+        end
       end
     end
 
