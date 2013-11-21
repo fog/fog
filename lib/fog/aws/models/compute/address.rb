@@ -12,6 +12,7 @@ module Fog
         attribute :association_id,       :aliases => 'associationId'
         attribute :server_id,            :aliases => 'instanceId'
         attribute :network_interface_id, :aliases => 'networkInterfaceId'
+        attribute :association_id,       :aliases => 'associationId'
         attribute :domain
 
         def initialize(attributes = {})

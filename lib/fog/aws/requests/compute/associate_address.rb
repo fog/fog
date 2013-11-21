@@ -51,6 +51,8 @@ module Fog
               allocation_ip = describe_addresses( 'allocation-id'  => "#{allocation_id}").body['addressesSet'].first
               if !allocation_ip.nil?
                 public_ip = allocation_ip['publicIp']
+                allocation_ip['associationId'] = "eipassoc-#{Fog::Mock.random_hex(8)}"
+                address = allocation_ip
               end
             end
             if !address.nil?
@@ -77,7 +79,7 @@ module Fog
               response.body = {
                 'requestId'     => Fog::AWS::Mock.request_id,
                 'return'        => true,
-                'associationId' => Fog::AWS::Mock.request_id
+                'associationId' => address['associationId']
               }
             end
             response
