@@ -7,6 +7,7 @@ module Fog
 
         identity  :id,                    :aliases => 'LaunchConfigurationName'
         attribute :arn,                   :aliases => 'LaunchConfigurationARN'
+        attribute :associate_public_ip,   :aliases => 'AssociatePublicIpAddress'
         attribute :block_device_mappings, :aliases => 'BlockDeviceMappings'
         attribute :created_at,            :aliases => 'CreatedTime'
         attribute :iam_instance_profile,  :aliases => 'IamInstanceProfile'

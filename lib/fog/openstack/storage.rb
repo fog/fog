@@ -26,6 +26,7 @@ module Fog
       request :get_container
       request :get_containers
       request :get_object
+      request :get_object_http_url
       request :get_object_https_url
       request :head_container
       request :head_containers
@@ -35,6 +36,7 @@ module Fog
       request :put_object_manifest
       request :put_dynamic_obj_manifest
       request :put_static_obj_manifest
+      request :post_set_meta_temp_url_key
 
       class Mock
 
