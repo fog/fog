@@ -33,7 +33,7 @@ module Fog
         end
 
         def delete_notification_configuration
-          service.delete_vault_notification_configuration
+          service.delete_vault_notification_configuration(id)
         end
 
         def save
