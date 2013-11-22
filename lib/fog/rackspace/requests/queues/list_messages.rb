@@ -11,10 +11,17 @@ module Fog
         # @param [String] client_id UUID for the client instance.
         # @param [String] queue_name Specifies the name of the queue.
         # @param [Hash] options
-        # @option options [String] :marker - Specifies an opaque string that the client can use to request the next batch of messages. The marker parameter communicates to the server which messages the client has already received. If you do not specify a value, the API returns all messages at the head of the queue (up to the limit).
-        # @option options [Integer] :limit - When more messages are available than can be returned in a single request, the client can pick up the next batch of messages by simply using the URI template parameters returned from the previous call in the "next" field. Specifies up to 10 messages (the default value) to return. If you do not specify a value for the limit parameter, the default value of 10 is used.
-        # @option options [String] :echo - Determines whether the API returns a client's own messages. The echo parameter is a Boolean value (true or false) that determines whether the API returns a client's own messages, as determined by the uuid portion of the User-Agent header. If you do not specify a value, echo uses the default value of false. If you are experimenting with the API, you might want to set echo=true in order to see the messages that you posted.
-        # @option options [String] :include_claimed - Determines whether the API returns claimed messages and unclaimed messages. The include_claimed parameter is a Boolean value (true or false) that determines whether the API returns claimed messages and unclaimed messages. If you do not specify a value, include_claimed uses the default value of false (only unclaimed messages are returned).
+        # @option options [String] :marker - Specifies an opaque string that the client can use to request the next batch of messages. The marker parameter communicates to the
+        #   server which messages the client has already received. If you do not specify a value, the API returns all messages at the head of the queue (up to the limit).
+        # @option options [Integer] :limit - When more messages are available than can be returned in a single request, the client can pick up the next batch of messages
+        #   by simply using the URI template parameters returned from the previous call in the "next" field. Specifies up to 10 messages (the default value) to return.
+        #   If you do not specify a value for the limit parameter, the default value of 10 is used.
+        # @option options [String] :echo - Determines whether the API returns a client's own messages. The echo parameter is a Boolean value (true or false) that determines
+        #   whether the API returns a client's own messages, as determined by the uuid portion of the User-Agent header. If you do not specify a value, echo uses the default
+        #   value of false. If you are experimenting with the API, you might want to set echo=true in order to see the messages that you posted.
+        # @option options [String] :include_claimed - Determines whether the API returns claimed messages and unclaimed messages. The include_claimed parameter is a Boolean
+        #   value (true or false) that determines whether the API returns claimed messages and unclaimed messages. If you do not specify a value, include_claimed uses the
+        #   default value of false (only unclaimed messages are returned).
         # @return [Excon::Response] response
         # @raise [Fog::Rackspace::Queues::NotFound] - HTTP 404
         # @raise [Fog::Rackspace::Queues::BadRequest] - HTTP 400

@@ -7,7 +7,7 @@ module Fog
         # Claims with malformed IDs or claims that are not found by ID are ignored.
         #
         # @param [String] queue_name Specifies the name of the queue.
-        # @param [String] Specifies the claim ID.
+        # @param [String] claim_id Specifies the claim ID.
         # @return [Excon::Response] response
         # @raise [Fog::Rackspace::Queues::NotFound] - HTTP 404
         # @raise [Fog::Rackspace::Queues::BadRequest] - HTTP 400

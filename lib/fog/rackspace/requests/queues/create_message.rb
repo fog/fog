@@ -8,9 +8,9 @@ module Fog
         #
         # @param [String] client_id UUID for the client instance.
         # @param [String] queue_name Specifies the name of the queue.
-        # @param [String, Hash, Array] body The body attribute specifies an arbitrary document that constitutes the body of the message being sent. The size of this body is limited to 256 KB, excluding whitespace. The document must be valid JSON.
+        # @param [String, Hash, Array] body The body attribute specifies an arbitrary document that constitutes the body of the message being sent.
+        #   The size of this body is limited to 256 KB, excluding whitespace. The document must be valid JSON.
         # @param [Integer] ttl The ttl attribute specifies how long the server waits before releasing the claim. The ttl value must be between 60 and 43200 seconds (12 hours).
-        # @param [Integer] grace The grace attribute specifies the message grace period in seconds. The value of grace value must be between 60 and 43200 seconds (12 hours).
         # @return [Excon::Response] response
         # @raise [Fog::Rackspace::Queues::NotFound] - HTTP 404
         # @raise [Fog::Rackspace::Queues::BadRequest] - HTTP 400

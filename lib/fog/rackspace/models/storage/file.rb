@@ -139,7 +139,7 @@ module Fog
         end
 
         # Set last modified
-        # @param [String, Fog::Time] timestamp
+        # @param [String, Fog::Time] obj
         def last_modified=(obj)
           if obj.nil? || obj == "" || obj.is_a?(Time)
             attributes[:last_modified] = obj

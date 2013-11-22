@@ -24,7 +24,7 @@ module Fog
         end
 
         # Fetch keypair details
-        # @param  [String] key_name: name of the key to request
+        # @param  [String] key_name name of the key to request
         # @return [Fog::Compute::RackspaceV2::Keypair] the requested keypair or 'nil' when not found
         # @raise  [Fog::Compute::RackspaceV2::BadRequest]
         # @raise  [Fog::Compute::RackspaceV2::InternalServerError]

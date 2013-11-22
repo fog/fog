@@ -4,7 +4,6 @@ module Fog
       class Real
 
         # This operation gets the specified message from the specified queue.
-        # If no unclaimed messages are available, the API returns a 204 No Content message.
         #
         # @param [String] client_id UUID for the client instance.
         # @param [String] queue_name Specifies the name of the queue.
