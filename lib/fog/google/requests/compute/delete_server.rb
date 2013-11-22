@@ -32,16 +32,16 @@ module Fog
             "kind" => "compute#operation",
             "id" => "10035781241131638365",
             "name" => "operation-1380213292196-4e74bf2fbc3c1-ae707d47",
-            "zone" => "https://www.googleapis.com/compute/v1beta15/projects/#{@project}/zones/#{zone_name}",
+            "zone" => "https://www.googleapis.com/compute/#{api_version}/projects/#{@project}/zones/#{zone_name}",
             "operationType" => "delete",
-            "targetLink" => "https://www.googleapis.com/compute/v1beta15/projects/#{@project}/zones/#{zone_name}/instances/#{server_name}",
+            "targetLink" => "https://www.googleapis.com/compute/#{api_version}/projects/#{@project}/zones/#{zone_name}/instances/#{server_name}",
             "targetId" => "14544909043643897380",
             "status" => "PENDING",
             "user" => "123456789012-qwertyuiopasdfghjkl1234567890qwe@developer.gserviceaccount.com",
             "progress" => 0,
             "insertTime" => Time.now.iso8601,
             "startTime" => Time.now.iso8601,
-            "selfLink" => "https://www.googleapis.com/compute/v1beta15/projects/#{@project}/zones/#{zone_name}/operations/operation-1380213292196-4e74bf2fbc3c1-ae707d47"
+            "selfLink" => "https://www.googleapis.com/compute/#{api_version}/projects/#{@project}/zones/#{zone_name}/operations/operation-1380213292196-4e74bf2fbc3c1-ae707d47"
           })
         end
 

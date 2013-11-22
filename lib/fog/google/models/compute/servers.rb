@@ -47,13 +47,14 @@ module Fog
         def bootstrap(new_attributes = {})
           defaults = {
             :name => "fog-#{Time.now.to_i}",
-            :image_name => "debian-7-wheezy-v20130816",
+            :image_name => "debian-7-wheezy-v20131014",
             :machine_type => "n1-standard-1",
             :zone_name => "us-central1-b",
             :private_key_path => File.expand_path("~/.ssh/id_rsa"),
             :public_key_path => File.expand_path("~/.ssh/id_rsa.pub"),
             :username => ENV['USER'],
           }
+
           if new_attributes[:disks]
             new_attributes[:disks].each do |disk|
               defaults.delete :image_name if disk['boot']

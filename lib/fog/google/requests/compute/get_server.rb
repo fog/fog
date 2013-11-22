@@ -6,6 +6,7 @@ module Fog
 
         def get_server(server_name, zone_name)
           server = self.data[:servers][server_name]
+          get_zone(zone_name)
           zone = self.data[:zones][zone_name]
           if server.nil? or server["zone"] != zone["selfLink"]
             return build_response(:body => {
