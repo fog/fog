@@ -16,6 +16,16 @@ module Fog
         { :bits => 32, :cores =>   5,  :disk => 350,  :id =>  'c1.medium',  :name => 'High-CPU Medium',      :ram => 1740.8},
         { :bits => 64, :cores =>  20,  :disk => 1690, :id =>  'c1.xlarge',  :name => 'High-CPU Extra Large', :ram => 7168},
 
+        { :bits => 64, :cores =>   7,  :disk =>  32,  :id => 'c3.large',    :name => 'C3 Large',                 :ram => 3750},
+        { :bits => 64, :cores =>  14,  :disk =>  80,  :id => 'c3.xlarge',   :name => 'C3 Extra Large',           :ram => 7168},
+        { :bits => 64, :cores =>  28,  :disk => 160,  :id => 'c3.2xlarge',  :name => 'C3 Double Extra Large',    :ram => 15360},
+        { :bits => 64, :cores =>  55,  :disk => 320,  :id => 'c3.4xlarge',  :name => 'C3 Quadruple Extra Large', :ram => 30720},
+        { :bits => 64, :cores => 108,  :disk => 640,  :id => 'c3.8xlarge',  :name => 'C3 Eight Extra Large',     :ram => 61440},
+
+        { :bits => 64, :cores =>   26, :disk => 60,   :id => 'g2.2xlarge',  :name => 'GPU Double Extra Large', :ram => 15360},
+
+        { :bits => 64, :cores =>   35, :disk => 50331648, :id => 'hs1.8xlarge', :name => 'High Storage Eight Extra Large', :ram => 119808},
+
         { :bits => 64, :cores =>  6.5, :disk => 420,  :id =>  'm2.xlarge',  :name => 'High-Memory Extra Large',           :ram => 17510.4},
         { :bits => 64, :cores =>   13, :disk => 850,  :id =>  'm2.2xlarge', :name => 'High Memory Double Extra Large',    :ram => 35020.8},
         { :bits => 64, :cores =>   26, :disk => 1690, :id =>  'm2.4xlarge', :name => 'High Memory Quadruple Extra Large', :ram => 70041.6},
