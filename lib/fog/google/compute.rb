@@ -73,9 +73,12 @@ module Fog
           response.body = body
           if response.body["error"]
             response.status = response.body["error"]["code"]
-
-            response.body["error"]["errors"].each do |error|
-              raise Fog::Errors::Error.new(error["message"])
+            msg = response.body["error"]["errors"].map{|error| error["message"]}.join(", ")
+            case response.status
+            when 404
+              raise Fog::Errors::NotFound.new(msg)
+            else
+              raise Fog::Errors::Error.new(msg)
             end
           else
             response.status = 200
