@@ -85,7 +85,7 @@ module Fog
                                     "Accept" => "application/json",
                                     "Content-Type" => "application/json" })
 
-          response = @connection.request(params.merge!({:host => @host}))
+          response = @connection.request(params)
 
           unless response.body.empty?
             response.body = Fog::JSON.decode(response.body)
