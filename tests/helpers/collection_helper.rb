@@ -36,11 +36,19 @@ def collection_tests(collection, params = {}, mocks_implemented = true)
     tests('Enumerable') do
       pending if Fog.mocking? && !mocks_implemented
 
-      [
+      methods = [
         'all?', 'any?', 'find',  'detect', 'collect', 'map',
         'find_index', 'flat_map', 'collect_concat', 'group_by',
         'none?', 'one?'
-      ].each do |enum_method|
+      ]
+
+      # JRuby 1.7.5+ issue causes a SystemStackError: stack level too deep
+      # https://github.com/jruby/jruby/issues/1265
+      if RUBY_PLATFORM == "java" and JRUBY_VERSION =~ /1\.7\.[5-8]/
+        methods.delete('all?')
+      end
+
+      methods.each do |enum_method|
         if collection.respond_to?(enum_method)
           tests("##{enum_method}").succeeds do
             block_called = false

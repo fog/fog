@@ -32,10 +32,7 @@ matrix:
     - rvm: jruby-head
       gemfile: Gemfile.1.8.7
 
-  # all? tests Failing in 1.7.5+ https://github.com/jruby/jruby/issues/1265
   allow_failures:
-    - rvm: jruby-18mode
-    - rvm: jruby-19mode
     - rvm: jruby-head
 
 notifications:
