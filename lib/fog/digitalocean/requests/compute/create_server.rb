@@ -24,6 +24,8 @@ module Fog
             query_hash[:ssh_key_ids] = options[:ssh_key_ids]
           end
 
+          query_hash[:private_networking] = !!options[:private_networking]
+
           request(
             :expects  => [200],
             :method   => 'GET',

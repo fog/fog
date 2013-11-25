@@ -17,6 +17,7 @@ module Fog
         # Not documented in their API, but
         # available nevertheless
         attribute :public_ip_address, :aliases => 'ip_address'
+        attribute :private_ip_address
         attribute :backups_active
 
         attr_writer :ssh_keys
@@ -124,6 +125,9 @@ module Fog
           elsif @ssh_keys
             options[:ssh_key_ids] = @ssh_keys.map(&:id)
           end
+
+          options[:private_networking] = !!attributes[:private_networking]
+
           data = service.create_server name,
                                        flavor_id,
                                        image_id,
