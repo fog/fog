@@ -4,7 +4,7 @@ module Fog
       class Real
 
         # Delete the key specified with key_name
-        # @param  [String] key_name: name of the key to delete
+        # @param  [String] key_name name of the key to delete
         # @return [Excon::Response] response
         # @raise  [Fog::Compute::RackspaceV2::NotFound]
         # @raise  [Fog::Compute::RackspaceV2::BadRequest]

@@ -2,6 +2,13 @@ module Fog
   module Rackspace
     class Queues
       class Real
+
+        # This operation posts the specified message or messages.
+        # @note You can submit up to 10 messages in a single request.
+        #
+        # @param [String] queue_name Specifies the name of the queue.
+        # @param [Integer] ttl The ttl attribute specifies how long the server waits before releasing the claim. The ttl value must be between 60 and 43200 seconds (12 hours).
+        # @see http://docs.rackspace.com/queues/api/v1.0/cq-devguide/content/PATCH_updateClaim__version__queues__queue_name__claims__claimId__claims-operations-dle001.html
         def update_claim(queue_name, claim_id, ttl)
           body = {
             :ttl => ttl

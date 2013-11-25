@@ -4,7 +4,7 @@ module Fog
       class Real
 
         # Retreive single keypair details
-        # @param [String] key_name: name of the key for which to request the details
+        # @param [String] key_name name of the key for which to request the details
         # @return  [Excon::Response] response :
         #   * body [Hash]: -
         #     * 'keypair' [Hash]: -
