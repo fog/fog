@@ -20,6 +20,14 @@ module Fog
         attribute :metadata
         attribute :tags, :squash => 'items'
 
+        def flavor_id
+          machine_type
+        end
+
+        def flavor_id=(flavor_id)
+          machine_type=flavor_id
+        end
+
         def destroy
           requires :name, :zone
           service.delete_server(name, zone)
