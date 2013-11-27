@@ -142,7 +142,7 @@ This returns:
 
 #### Example Request
 
-To request a list of volume types:
+To request a list of auto scale groups:
 
 	response = service.list_groups
 
