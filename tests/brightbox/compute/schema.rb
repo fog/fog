@@ -525,19 +525,6 @@ class Brightbox
           "firewall_policy" => Brightbox::Compute::Formats::Nested::FIREWALL_POLICY
         }
 
-        #FIREWALL_RULE = {
-          #"id"              => String,
-          #"resource_type"   => String,
-          #"url"             => String,
-          #"source"          => String,
-          #"source_port"     => String,
-          #"destination"     => String,
-          #"destination_port" => String,
-          #"protocol"        => String,
-          #"icmp_type_name"  => String,
-          #"description"     => Fog::Nullable::String
-        #}
-
         IMAGE = {
           "name"            => String,
           "created_at"      => String,

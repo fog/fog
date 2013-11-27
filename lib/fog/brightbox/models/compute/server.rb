@@ -180,6 +180,13 @@ module Fog
           true
         end
 
+        # Replaces the server's identifier with it's interface's identifier for Cloud IP mapping
+        #
+        # @return [String] the identifier to pass to a Cloud IP mapping request
+        def mapping_identity
+          interfaces.first["id"]
+        end
+
       private
         # Hard reboots are fast, avoiding the OS by doing a "power off"
         def hard_reboot
