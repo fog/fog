@@ -26,13 +26,16 @@ module Fog
         attribute :port_translators
         attribute :name
 
+        # Attempt to map or point the Cloud IP to the destination resource.
+        #
+        # @param [Object] destination
+        #
         def map(destination)
           requires :identity
-          case destination
-          when Fog::Compute::Brightbox::Server
-            final_destination = destination.interfaces.first["id"]
-          when Fog::Compute::Brightbox::LoadBalancer
-            final_destination = destination.id
+          if destination.respond_to?(:mapping_identity)
+            final_destination = destination.mapping_identity
+          elsif destination.respond_to?(:identity)
+            final_destination = destination.identity
           else
             final_destination = destination
           end
