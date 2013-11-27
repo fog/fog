@@ -166,7 +166,7 @@ module Fog
           _request
         end
 
-      private
+        private
 
         def _request
           raise Fog::Errors::MockNotImplemented
@@ -236,7 +236,7 @@ module Fog
           _wrapped_request(method, path, expected_responses, parameters)
         end
 
-      private
+        private
 
         # Wrapped request is the non-standard form of request introduced by mistake
         #
@@ -256,20 +256,18 @@ module Fog
 
           # Select the account to scope for this request
           account = scoped_account(parameters.fetch(:account_id, nil))
-          if account
-            request_options[:query] = { :account_id => account }
-          end
+          request_options[:query] = { :account_id => account } if account
 
           request_options[:body] = Fog::JSON.encode(parameters) unless parameters.empty?
 
           response = make_request(request_options)
 
-          # FIXME We should revert to returning the Excon::Request after a suitable
+          # FIXME: We should revert to returning the Excon::Request after a suitable
           # configuration option is in place to switch back to this incorrect behaviour
-          unless response.body.empty?
-            Fog::JSON.decode(response.body)
-          else
+          if response.body.empty?
             response
+          else
+            Fog::JSON.decode(response.body)
           end
         end
 

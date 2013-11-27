@@ -26,7 +26,7 @@ module Fog
             :server_group => server_group_id,
             :name => name,
             :description => description
-          }.delete_if {|k,v| v.nil? || v == "" }
+          }.delete_if { |k, v| v.nil? || v == "" }
           data = service.create_firewall_policy(options)
           merge_attributes(data)
           true
@@ -54,12 +54,10 @@ module Fog
 
         def destroy
           requires :identity
-          data = service.destroy_firewall_policy(identity)
+          service.destroy_firewall_policy(identity)
           true
         end
-
       end
-
     end
   end
 end
