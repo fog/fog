@@ -29,13 +29,16 @@ module Fog
       request :get_network
       request :get_zone
       request :get_snapshot
+      request :get_global_operation
+      request :get_zone_operation
 
       request :delete_disk
       request :delete_firewall
       request :delete_image
       request :delete_network
-      request :delete_operation
       request :delete_server
+      request :delete_global_operation
+      request :delete_zone_operation
 
       request :insert_disk
       request :insert_firewall
@@ -59,6 +62,9 @@ module Fog
       model :disk
       collection :disks
 
+      model :operation
+      collection :operations
+
       model :snapshot
       collection :snapshots
 
@@ -73,10 +79,10 @@ module Fog
           @api_version = 'v1beta16'
         end
 
-        def build_excon_response(body)
+        def build_excon_response(body, status=200)
           response = Excon::Response.new
           response.body = body
-          if response.body["error"]
+          if response.body and response.body["error"]
             response.status = response.body["error"]["code"]
             msg = response.body["error"]["errors"].map{|error| error["message"]}.join(", ")
             case response.status
@@ -86,7 +92,7 @@ module Fog
               raise Fog::Errors::Error.new(msg)
             end
           else
-            response.status = 200
+            response.status = status
           end
           response
         end
@@ -763,7 +769,8 @@ module Fog
                   }
                 end,
                 :images => {},
-                :disks => {}
+                :disks => {},
+                :operations => {}
               }
             end
           end
@@ -782,6 +789,9 @@ module Fog
           self.class.data(api_version).delete(@project)
         end
 
+        def random_operation
+          "operation-#{Fog::Mock.random_numbers(13)}-#{Fog::Mock.random_hex(13)}-#{Fog::Mock.random_hex(8)}"
+        end
       end
 
       class Real
@@ -842,7 +852,7 @@ module Fog
         # result = Google::APIClient::Result
         # returns Excon::Response
         def build_response(result)
-          build_excon_response(Fog::JSON.decode(result.body))
+          build_excon_response(result.body.nil? ? nil : Fog::JSON.decode(result.body), result.status)
         end
 
       end
