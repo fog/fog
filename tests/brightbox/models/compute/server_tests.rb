@@ -1,21 +1,19 @@
 Shindo.tests("Fog::Compute[:brightbox] | Server model", ["brightbox"]) do
-
   pending if Fog.mocking?
 
   tests("success") do
-
-    unless Fog.mocking?
-      @server = Brightbox::Compute::TestSupport.get_test_server
-      server_id = @server.id
-    end
+    @server = Brightbox::Compute::TestSupport.get_test_server
+    server_id = @server.id
 
     tests("#dns_name") do
-      pending if Fog.mocking?
       returns("public.#{@server.fqdn}") { @server.dns_name }
     end
 
-    unless Fog.mocking?
-      @server.destroy
+    tests("#mapping_identity") do
+      first_interface_id = @server.interfaces.first["id"]
+      returns(first_interface_id) { @server.mapping_identity }
     end
+
+    @server.destroy
   end
 end
