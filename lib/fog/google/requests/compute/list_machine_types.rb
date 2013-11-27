@@ -6,10 +6,10 @@ module Fog
 
         def list_machine_types(zone_name)
           get_zone(zone_name)
-          machine_types = self.class.data[project][:machine_types][zone_name].values
+          machine_types = data[:machine_types][zone_name].values
           build_response(:body => {
             "kind" => "compute#machineTypeList",
-            "selfLink" => "https://www.googleapis.com/compute/v1beta15/projects/#{@project}/zones/#{zone_name}/machineTypes",
+            "selfLink" => "https://www.googleapis.com/compute/#{api_version}/projects/#{@project}/zones/#{zone_name}/machineTypes",
             "id" => "projects/high-cistern-340/zones/us-central1-a/machineTypes",
             "items" => machine_types
           })

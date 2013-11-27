@@ -58,10 +58,12 @@ Shindo.tests('Fog::Compute[:google] | image requests', ['google']) do
     source = 'https://www.google.com/images/srpr/logo4w.png'
 
     tests("#insert_image").formats(@insert_image_format) do
+      pending if Fog.mocking?
       @google.insert_image(image_name, source).body
     end
 
     tests("#get_image").formats(@get_image_format) do
+      pending if Fog.mocking?
       @google.insert_image(image_name, source)
       @google.get_image(image_name).body
     end
@@ -71,6 +73,7 @@ Shindo.tests('Fog::Compute[:google] | image requests', ['google']) do
     end
 
     tests("#delete_image").formats(@delete_image_format) do
+      pending if Fog.mocking?
       @google.insert_image(image_name, source)
       @google.delete_image(image_name).body
     end

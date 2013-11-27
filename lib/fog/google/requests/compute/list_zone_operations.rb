@@ -4,7 +4,7 @@ module Fog
 
       class Mock
 
-        def list_zone_operations
+        def list_zone_operations(zone)
           Fog::Mock.not_implemented
         end
 

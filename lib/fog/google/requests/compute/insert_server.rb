@@ -3,6 +3,27 @@ module Fog
     class Google
 
       class Mock
+        include Shared
+
+        def handle_disks(options, zone_name)
+          disks = []
+          i = 0
+          options.delete('disks').each do |disk|
+            disk = Disk.new(disk) unless disk.is_a? Disk
+            disks << {
+              "kind"=>"compute#attachedDisk",
+              "index"=>i,
+              "type"=>"PERSISTENT",
+              "mode"=>"READ_WRITE",
+              "source"=>"https://www.googleapis.com/compute/#{api_version}/projects/#{@project}/zones/#{zone_name}/disks/#{disk.name}",
+              "deviceName"=>"persistent-disk-#{i}",
+              "boot"=>true
+            }
+            i+=1
+          end
+          disks
+        end
+
         def insert_server(server_name, zone_name, options={}, *deprecated_args)
 
           # check that image and zone exist
@@ -10,7 +31,7 @@ module Fog
           if options.has_key? 'image'
             ([ @project ] + Fog::Compute::Google::Images::GLOBAL_PROJECTS).each do |project|
               image_project = project
-              break if self.class.data[project][:images][options['image']]
+              break if data(project)[:images][options['image']]
             end
             get_image(options['image'], image_project) # ok if image exists, will fail otherwise
           end
@@ -20,17 +41,17 @@ module Fog
             "kind" => "compute#instance",
             "id" => Fog::Mock.random_numbers(19),
             "creationTimestamp" => Time.now.iso8601,
-            "zone" => "https://www.googleapis.com/compute/v1beta15/projects/#{@project}/zones/#{zone_name}",
+            "zone" => "https://www.googleapis.com/compute/#{api_version}/projects/#{@project}/zones/#{zone_name}",
             "status" => "PROVISIONING",
             "name" => server_name,
             "tags" => { "fingerprint" => "42WmSpB8rSM=" },
-            "machineType" => "https://www.googleapis.com/compute/v1beta15/projects/#{@project}/zones/#{zone_name}/machineTypes/#{options['machineType']}",
-            "image" => "https://www.googleapis.com/compute/v1beta15/projects/centos-cloud/global/images/#{options['image']}",
-            "kernel" => "https://www.googleapis.com/compute/v1beta15/projects/google/global/kernels/gce-v20130813",
+            "machineType" => "https://www.googleapis.com/compute/#{api_version}/projects/#{@project}/zones/#{zone_name}/machineTypes/#{options['machineType']}",
+            "image" => "https://www.googleapis.com/compute/#{api_version}/projects/#{image_project}/global/images/#{options['image']}",
+            "kernel" => "https://www.googleapis.com/compute/#{api_version}/projects/google/global/kernels/gce-v20130813",
             "canIpForward" => false,
             "networkInterfaces" => [
               {
-                "network" => "https://www.googleapis.com/compute/v1beta15/projects/#{@project}/global/networks/default",
+                "network" => "https://www.googleapis.com/compute/#{api_version}/projects/#{@project}/global/networks/default",
                 "networkIP" => Fog::Mock.random_ip,
                 "name" => "nic0",
                 "accessConfigs" => [
@@ -43,7 +64,7 @@ module Fog
                 ]
               }
             ],
-            "disks" => [
+            "disks" => options['disks'] ? handle_disks(options, zone_name) : [
               {
                 "kind" => "compute#attachedDisk",
                 "index" => 0,
@@ -61,28 +82,41 @@ module Fog
                 }
               ]
             },
-            "selfLink" => "https://www.googleapis.com/compute/v1beta15/projects/#{@project}/zones/#{zone_name}/instances/#{server_name}"
+            "selfLink" => "https://www.googleapis.com/compute/#{api_version}/projects/#{@project}/zones/#{zone_name}/instances/#{server_name}"
           }
 
           build_response(:body => {
             "kind" => "compute#operation",
             "id" => "4639689000254420481",
             "name" => "operation-1380213292196-4e74bf2fbc3c1-ae707d47",
-            "zone" => "https://www.googleapis.com/compute/v1beta15/projects/#{@project}/zones/#{zone_name}",
+            "zone" => "https://www.googleapis.com/compute/#{api_version}/projects/#{@project}/zones/#{zone_name}",
             "operationType" => "insert",
-            "targetLink" => "https://www.googleapis.com/compute/v1beta15/projects/#{@project}/zones/#{zone_name}/instances/#{server_name}",
+            "targetLink" => "https://www.googleapis.com/compute/#{api_version}/projects/#{@project}/zones/#{zone_name}/instances/#{server_name}",
             "status" => "PENDING",
             "user" => "123456789012-qwertyuiopasdfghjkl1234567890qwe@developer.gserviceaccount.com",
             "progress" => 0,
             "insertTime" => Time.now.iso8601,
             "startTime" => Time.now.iso8601,
-            "selfLink" => "https://www.googleapis.com/compute/v1beta15/projects/#{@project}/zones/#{zone_name}/operations/operation-1380213292196-4e74bf2fbc3c1-ae707d47"
+            "selfLink" => "https://www.googleapis.com/compute/#{api_version}/projects/#{@project}/zones/#{zone_name}/operations/operation-1380213292196-4e74bf2fbc3c1-ae707d47"
           })
         end
 
       end
 
       class Real
+        include Shared
+
+        def handle_disks(options)
+          disks = []
+          options.delete('disks').each do |disk|
+            if disk.is_a? Disk
+              disks << disk.get_object
+            else
+              disks << disk
+            end
+          end
+          disks
+        end
 
         def format_metadata(metadata)
           { "items" => metadata.map {|k,v| {"key" => k, "value" => v}} }
@@ -131,17 +165,7 @@ module Fog
           # TODO: add other networks
           body_object['networkInterfaces'] = networkInterfaces
 
-          if options['disks']
-            disks = []
-            options.delete('disks').each do |disk|
-              if disk.is_a? Disk
-                disks << disk.get_object
-              else
-                disks << disk
-              end
-            end
-            body_object['disks'] = disks
-          end
+          body_object['disks'] = handle_disks(options) if options['disks']
 
           options['metadata'] = format_metadata options['metadata'] if options['metadata']
 

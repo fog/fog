@@ -1,4 +1,5 @@
 Shindo.tests('Fog::Compute[:google] | network requests', ['google']) do
+  pending if Fog.mocking?
 
   @google = Fog::Compute[:google]
 

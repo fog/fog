@@ -66,7 +66,12 @@ module Fog
       collection :zones
 
       module Shared
-        attr_reader :project
+        attr_reader :project, :api_version
+
+        def shared_initialize(options = {})
+          @project = options[:google_project]
+          @api_version = 'v1beta16'
+        end
 
         def build_excon_response(body)
           response = Excon::Response.new
@@ -101,6 +106,7 @@ module Fog
           end
           result
         end
+
       end
 
       class Mock
@@ -108,7 +114,7 @@ module Fog
         include Shared
 
         def initialize(options={})
-          @project = options[:google_project]
+          shared_initialize(options)
         end
 
         def build_response(params={})
@@ -116,7 +122,7 @@ module Fog
           build_excon_response(body)
         end
 
-        def self.data
+        def self.data(api_version)
           @data ||= Hash.new do |hash, key|
             case key
             when 'google'
@@ -124,51 +130,51 @@ module Fog
                 :images => {
                   "centos-6-2-v20120621" => {
                     "kind" => "compute#image",
-                    "selfLink" => "https://www.googleapis.com/compute/v1beta15/projects/google/global/images/centos-6-2-v20120621",
+                    "selfLink" => "https://www.googleapis.com/compute/#{api_version}/projects/google/global/images/centos-6-2-v20120621",
                     "id" => "12920641029336858796",
                     "creationTimestamp" => "2012-06-21T22:59:56.392-07:00",
                     "name" => "centos-6-2-v20120621",
                     "description" => "CentOS 6.2; Created Thu, 21 Jun 2012 14:22:21 +0000",
                     "sourceType" => "RAW",
-                    "preferredKernel" => "https://www.googleapis.com/compute/v1beta15/projects/google/global/kernels/gce-20120621",
+                    "preferredKernel" => "https://www.googleapis.com/compute/#{api_version}/projects/google/global/kernels/gce-20120621",
                     "rawDisk" => {
                       "containerType" => "TAR",
                       "source" => ""
                     },
                     "deprecated" => {
                       "state" => "DELETED",
-                      "replacement" => "https://www.googleapis.com/compute/v1beta15/projects/google/global/images/centos-6-v20130104"
+                      "replacement" => "https://www.googleapis.com/compute/#{api_version}/projects/google/global/images/centos-6-v20130104"
                     },
                     "status" => "READY"
                   },
                   "centos-6-v20120912" => {
                     "kind" => "compute#image",
-                    "selfLink" => "https://www.googleapis.com/compute/v1beta15/projects/google/global/images/centos-6-v20120912",
+                    "selfLink" => "https://www.googleapis.com/compute/#{api_version}/projects/google/global/images/centos-6-v20120912",
                     "id" => "12994279803511049620",
                     "creationTimestamp" => "2012-09-18T08:52:47.584-07:00",
                     "name" => "centos-6-v20120912",
                     "description" => "CentOS 6; Created Wed, 12 Sep 2012 00:00:00 +0000",
                     "sourceType" => "RAW",
-                    "preferredKernel" => "https://www.googleapis.com/compute/v1beta15/projects/google/global/kernels/gce-v20120912",
+                    "preferredKernel" => "https://www.googleapis.com/compute/#{api_version}/projects/google/global/kernels/gce-v20120912",
                     "rawDisk" => {
                       "containerType" => "TAR",
                       "source" => ""
                     },
                     "deprecated" => {
                       "state" => "DEPRECATED",
-                      "replacement" => "https://www.googleapis.com/compute/v1beta15/projects/google/global/images/centos-6-v20130104"
+                      "replacement" => "https://www.googleapis.com/compute/#{api_version}/projects/google/global/images/centos-6-v20130104"
                     },
                     "status" => "READY"
                   },
                   "centos-6-v20121106" => {
                     "kind" => "compute#image",
-                    "selfLink" => "https://www.googleapis.com/compute/v1beta15/projects/google/global/images/centos-6-v20121106",
+                    "selfLink" => "https://www.googleapis.com/compute/#{api_version}/projects/google/global/images/centos-6-v20121106",
                     "id" => "13037720516378381209",
                     "creationTimestamp" => "2012-11-09T11:40:41.079-08:00",
                     "name" => "centos-6-v20121106",
                     "description" => "SCSI-enabled CentOS 6; Created Tue, 06 Nov 2012 00:00:00 +0000",
                     "sourceType" => "RAW",
-                    "preferredKernel" => "https://www.googleapis.com/compute/v1beta15/projects/google/global/kernels/gce-v20121106",
+                    "preferredKernel" => "https://www.googleapis.com/compute/#{api_version}/projects/google/global/kernels/gce-v20121106",
                     "rawDisk" => {
                       "containerType" => "TAR",
                       "source" => ""
@@ -182,13 +188,13 @@ module Fog
                 :images => {
                   "debian-6-squeeze-v20130816" => {
                     "kind" => "compute#image",
-                    "selfLink" => "https://www.googleapis.com/compute/v1beta15/projects/debian-cloud/global/images/debian-6-squeeze-v20130816",
+                    "selfLink" => "https://www.googleapis.com/compute/#{api_version}/projects/debian-cloud/global/images/debian-6-squeeze-v20130816",
                     "id" => "14841592146580482051",
                     "creationTimestamp" => "2013-09-04T13:21:53.292-07:00",
                     "name" => "debian-6-squeeze-v20130816",
                     "description" => "Debian GNU/Linux 6.0.7 (squeeze) built on 2013-08-16",
                     "sourceType" => "RAW",
-                    "preferredKernel" => "https://www.googleapis.com/compute/v1beta15/projects/google/global/kernels/gce-v20130813",
+                    "preferredKernel" => "https://www.googleapis.com/compute/#{api_version}/projects/google/global/kernels/gce-v20130813",
                     "rawDisk" => {
                       "containerType" => "TAR",
                       "source" => ""
@@ -197,13 +203,28 @@ module Fog
                   },
                   "debian-7-wheezy-v20130816" => {
                     "kind" => "compute#image",
-                    "selfLink" => "https://www.googleapis.com/compute/v1beta15/projects/debian-cloud/global/images/debian-7-wheezy-v20130816",
+                    "selfLink" => "https://www.googleapis.com/compute/#{api_version}/projects/debian-cloud/global/images/debian-7-wheezy-v20130816",
                     "id" => "4213305957435180899",
                     "creationTimestamp" => "2013-09-04T13:24:30.479-07:00",
                     "name" => "debian-7-wheezy-v20130816",
                     "description" => "Debian GNU/Linux 7.1 (wheezy) built on 2013-08-16",
                     "sourceType" => "RAW",
-                    "preferredKernel" => "https://www.googleapis.com/compute/v1beta15/projects/google/global/kernels/gce-v20130813",
+                    "preferredKernel" => "https://www.googleapis.com/compute/#{api_version}/projects/google/global/kernels/gce-v20130813",
+                    "rawDisk" => {
+                      "containerType" => "TAR",
+                      "source" => ""
+                    },
+                    "status" => "READY"
+                  },
+                  "debian-7-wheezy-v20131014" => {
+                    "kind" => "compute#image",
+                    "selfLink" => "https://www.googleapis.com/compute/#{api_version}/projects/debian-cloud/global/images/debian-7-wheezy-v20131014",
+                    "id" => "4213305957435180899",
+                    "creationTimestamp" => "2013-09-04T13:24:30.479-07:00",
+                    "name" => "debian-7-wheezy-v20131014",
+                    "description" => "Debian GNU/Linux 7.1 (wheezy) built on 2013-10-14",
+                    "sourceType" => "RAW",
+                    "preferredKernel" => "https://www.googleapis.com/compute/#{api_version}/projects/google/global/kernels/gce-v20130813",
                     "rawDisk" => {
                       "containerType" => "TAR",
                       "source" => ""
@@ -217,13 +238,13 @@ module Fog
                 :images => {
                   "centos-6-v20130813" => {
                     "kind" => "compute#image",
-                    "selfLink" => "https://www.googleapis.com/compute/v1beta15/projects/centos-cloud/global/images/centos-6-v20130813",
+                    "selfLink" => "https://www.googleapis.com/compute/#{api_version}/projects/centos-cloud/global/images/centos-6-v20130813",
                     "id" => "4670523370938782739",
                     "creationTimestamp" => "2013-08-19T11:56:47.004-07:00",
                     "name" => "centos-6-v20130813",
                     "description" => "SCSI-enabled CentOS 6; Created Tue, 13 Aug 2013 00:00:00 +0000",
                     "sourceType" => "RAW",
-                    "preferredKernel" => "https://www.googleapis.com/compute/v1beta15/projects/google/global/kernels/gce-v20130813",
+                    "preferredKernel" => "https://www.googleapis.com/compute/#{api_version}/projects/google/global/kernels/gce-v20130813",
                     "rawDisk" => {
                       "containerType" => "TAR",
                       "source" => ""
@@ -239,17 +260,17 @@ module Fog
                     "kind" => "compute#instance",
                     "id" => "1361932147851415727",
                     "creationTimestamp" => "2013-09-26T04:55:43.881-07:00",
-                    "zone" => "https://www.googleapis.com/compute/v1beta15/projects/#{key}/zones/us-central1-a",
+                    "zone" => "https://www.googleapis.com/compute/#{api_version}/projects/#{key}/zones/us-central1-a",
                     "status" => "RUNNING",
                     "name" => "fog-1380196541",
                     "tags" => { "fingerprint" => "42WmSpB8rSM=" },
-                    "machineType" => "https://www.googleapis.com/compute/v1beta15/projects/#{key}/zones/us-central1-a/machineTypes/n1-standard-1",
-                    "image" => "https://www.googleapis.com/compute/v1beta15/projects/centos-cloud/global/images/centos-6-v20130813",
-                    "kernel" => "https://www.googleapis.com/compute/v1beta15/projects/google/global/kernels/gce-v20130813",
+                    "machineType" => "https://www.googleapis.com/compute/#{api_version}/projects/#{key}/zones/us-central1-a/machineTypes/n1-standard-1",
+                    "image" => "https://www.googleapis.com/compute/#{api_version}/projects/centos-cloud/global/images/centos-6-v20130813",
+                    "kernel" => "https://www.googleapis.com/compute/#{api_version}/projects/google/global/kernels/gce-v20130813",
                     "canIpForward" => false,
                     "networkInterfaces" => [
                       {
-                        "network" => "https://www.googleapis.com/compute/v1beta15/projects/#{key}/global/networks/default",
+                        "network" => "https://www.googleapis.com/compute/#{api_version}/projects/#{key}/global/networks/default",
                         "networkIP" => "10.240.121.54",
                         "name" => "nic0",
                         "accessConfigs" => [
@@ -280,13 +301,13 @@ module Fog
                         }
                       ]
                     },
-                    "selfLink" => "https://www.googleapis.com/compute/v1beta15/projects/#{key}/zones/us-central1-a/instances/fog-1380196541"
+                    "selfLink" => "https://www.googleapis.com/compute/#{api_version}/projects/#{key}/zones/us-central1-a/instances/fog-1380196541"
                   }
                 },
                 :zones => {
                   "europe-west1-a" => {
                     "kind" => "compute#zone",
-                    "selfLink" => "https://www.googleapis.com/compute/v1beta15/projects/#{key}/zones/europe-west1-a",
+                    "selfLink" => "https://www.googleapis.com/compute/#{api_version}/projects/#{key}/zones/europe-west1-a",
                     "id" => "10419676573632995924",
                     "creationTimestamp" => "2013-09-26T02:56:13.115-07:00",
                     "name" => "europe-west1-a",
@@ -306,27 +327,28 @@ module Fog
                       {"metric" => "DISKS", "limit" => 16.0, "usage" => 0.0},
                       {"metric" => "DISKS_TOTAL_GB", "limit" => 2048.0, "usage" => 0.0}
                     ],
-                    "region" => "https://www.googleapis.com/compute/v1beta15/projects/#{key}/regions/europe-west1"
+                    "region" => "https://www.googleapis.com/compute/#{api_version}/projects/#{key}/regions/europe-west1"
                   },
                   "us-central1-a" => {
                     "kind" => "compute#zone",
-                    "selfLink" => "https://www.googleapis.com/compute/v1beta15/projects/#{key}/zones/us-central1-a",
+                    "selfLink" => "https://www.googleapis.com/compute/#{api_version}/projects/#{key}/zones/us-central1-a",
                     "id" => "6562457277909136262",
                     "creationTimestamp" => "2013-09-26T02:56:13.116-07:00",
                     "name" => "us-central1-a",
                     "description" => "us-central1-a",
                     "status" => "UP",
+                    "maintenanceWindows" => nil,
                     "quotas" => [
                       {"metric" => "INSTANCES", "limit" => 16.0, "usage" => 1.0},
                       {"metric" => "CPUS", "limit" => 24.0, "usage" => 1.0},
                       {"metric" => "DISKS", "limit" => 16.0, "usage" => 0.0},
                       {"metric" => "DISKS_TOTAL_GB", "limit" => 2048.0, "usage" => 0.0}
                     ],
-                    "region" => "https://www.googleapis.com/compute/v1beta15/projects/#{key}/regions/us-central1"
+                    "region" => "https://www.googleapis.com/compute/#{api_version}/projects/#{key}/regions/us-central1"
                   },
                   "us-central1-b" => {
                     "kind" => "compute#zone",
-                    "selfLink" => "https://www.googleapis.com/compute/v1beta15/projects/#{key}/zones/us-central1-b",
+                    "selfLink" => "https://www.googleapis.com/compute/#{api_version}/projects/#{key}/zones/us-central1-b",
                     "id" => "8701502109626061015",
                     "creationTimestamp" => "2013-09-26T02:56:13.124-07:00",
                     "name" => "us-central1-b",
@@ -342,11 +364,11 @@ module Fog
                       {"metric" => "DISKS", "limit" => 16.0, "usage" => 0.0},
                       {"metric" => "DISKS_TOTAL_GB", "limit" => 2048.0, "usage" => 0.0}
                     ],
-                    "region" => "https://www.googleapis.com/compute/v1beta15/projects/#{key}/regions/us-central1"
+                    "region" => "https://www.googleapis.com/compute/#{api_version}/projects/#{key}/regions/us-central1"
                   },
                   "us-central2-a" => {
                     "kind" => "compute#zone",
-                    "selfLink" => "https://www.googleapis.com/compute/v1beta15/projects/#{key}/zones/us-central2-a",
+                    "selfLink" => "https://www.googleapis.com/compute/#{api_version}/projects/#{key}/zones/us-central2-a",
                     "id" => "13611654493253680292",
                     "creationTimestamp" => "2013-09-26T02:56:13.125-07:00",
                     "name" => "us-central2-a",
@@ -366,7 +388,7 @@ module Fog
                       {"metric" => "DISKS", "limit" => 16.0, "usage" => 0.0},
                       {"metric" => "DISKS_TOTAL_GB", "limit" => 2048.0, "usage" => 0.0}
                     ],
-                    "region" => "https://www.googleapis.com/compute/v1beta15/projects/#{key}/regions/us-central2"
+                    "region" => "https://www.googleapis.com/compute/#{api_version}/projects/#{key}/regions/us-central2"
                   }
                 },
                 :machine_types => Hash.new do |machine_types_hash, zone|
@@ -383,7 +405,7 @@ module Fog
                       "maximumPersistentDisks" => 4,
                       "maximumPersistentDisksSizeGb" => "3072",
                       "zone" => zone,
-                      "selfLink" => "https://www.googleapis.com/compute/v1beta15/projects/#{key}/zones/#{zone}/machineTypes/f1-micro"
+                      "selfLink" => "https://www.googleapis.com/compute/#{api_version}/projects/#{key}/zones/#{zone}/machineTypes/f1-micro"
                     },
                     "g1-small" => {
                       "kind" => "compute#machineType",
@@ -397,7 +419,7 @@ module Fog
                       "maximumPersistentDisks" => 4,
                       "maximumPersistentDisksSizeGb" => "3072",
                       "zone" => zone,
-                      "selfLink" => "https://www.googleapis.com/compute/v1beta15/projects/#{key}/zones/#{zone}/machineTypes/g1-small"
+                      "selfLink" => "https://www.googleapis.com/compute/#{api_version}/projects/#{key}/zones/#{zone}/machineTypes/g1-small"
                     },
                     "n1-highcpu-2" => {
                       "kind" => "compute#machineType",
@@ -411,7 +433,7 @@ module Fog
                       "maximumPersistentDisks" => 16,
                       "maximumPersistentDisksSizeGb" => "10240",
                       "zone" => zone,
-                      "selfLink" => "https://www.googleapis.com/compute/v1beta15/projects/#{key}/zones/#{zone}/machineTypes/n1-highcpu-2"
+                      "selfLink" => "https://www.googleapis.com/compute/#{api_version}/projects/#{key}/zones/#{zone}/machineTypes/n1-highcpu-2"
                     },
                     "n1-highcpu-2-d" => {
                       "kind" => "compute#machineType",
@@ -430,7 +452,7 @@ module Fog
                       "maximumPersistentDisks" => 16,
                       "maximumPersistentDisksSizeGb" => "10240",
                       "zone" => zone,
-                      "selfLink" => "https://www.googleapis.com/compute/v1beta15/projects/#{key}/zones/#{zone}/machineTypes/n1-highcpu-2-d"
+                      "selfLink" => "https://www.googleapis.com/compute/#{api_version}/projects/#{key}/zones/#{zone}/machineTypes/n1-highcpu-2-d"
                     },
                     "n1-highcpu-4" => {
                       "kind" => "compute#machineType",
@@ -444,7 +466,7 @@ module Fog
                       "maximumPersistentDisks" => 16,
                       "maximumPersistentDisksSizeGb" => "10240",
                       "zone" => zone,
-                      "selfLink" => "https://www.googleapis.com/compute/v1beta15/projects/#{key}/zones/#{zone}/machineTypes/n1-highcpu-4"
+                      "selfLink" => "https://www.googleapis.com/compute/#{api_version}/projects/#{key}/zones/#{zone}/machineTypes/n1-highcpu-4"
                     },
                     "n1-highcpu-4-d" => {
                       "kind" => "compute#machineType",
@@ -463,7 +485,7 @@ module Fog
                       "maximumPersistentDisks" => 16,
                       "maximumPersistentDisksSizeGb" => "10240",
                       "zone" => zone,
-                      "selfLink" => "https://www.googleapis.com/compute/v1beta15/projects/#{key}/zones/#{zone}/machineTypes/n1-highcpu-4-d"
+                      "selfLink" => "https://www.googleapis.com/compute/#{api_version}/projects/#{key}/zones/#{zone}/machineTypes/n1-highcpu-4-d"
                     },
                     "n1-highcpu-8" => {
                       "kind" => "compute#machineType",
@@ -477,7 +499,7 @@ module Fog
                       "maximumPersistentDisks" => 16,
                       "maximumPersistentDisksSizeGb" => "10240",
                       "zone" => zone,
-                      "selfLink" => "https://www.googleapis.com/compute/v1beta15/projects/#{key}/zones/#{zone}/machineTypes/n1-highcpu-8"
+                      "selfLink" => "https://www.googleapis.com/compute/#{api_version}/projects/#{key}/zones/#{zone}/machineTypes/n1-highcpu-8"
                     },
                     "n1-highcpu-8-d" => {
                       "kind" => "compute#machineType",
@@ -499,7 +521,7 @@ module Fog
                       "maximumPersistentDisks" => 16,
                       "maximumPersistentDisksSizeGb" => "10240",
                       "zone" => zone,
-                      "selfLink" => "https://www.googleapis.com/compute/v1beta15/projects/#{key}/zones/#{zone}/machineTypes/n1-highcpu-8-d"
+                      "selfLink" => "https://www.googleapis.com/compute/#{api_version}/projects/#{key}/zones/#{zone}/machineTypes/n1-highcpu-8-d"
                     },
                     "n1-highmem-2" => {
                       "kind" => "compute#machineType",
@@ -513,7 +535,7 @@ module Fog
                       "maximumPersistentDisks" => 16,
                       "maximumPersistentDisksSizeGb" => "10240",
                       "zone" => zone,
-                      "selfLink" => "https://www.googleapis.com/compute/v1beta15/projects/#{key}/zones/#{zone}/machineTypes/n1-highmem-2"
+                      "selfLink" => "https://www.googleapis.com/compute/#{api_version}/projects/#{key}/zones/#{zone}/machineTypes/n1-highmem-2"
                     },
                     "n1-highmem-2-d" => {
                       "kind" => "compute#machineType",
@@ -532,7 +554,7 @@ module Fog
                       "maximumPersistentDisks" => 16,
                       "maximumPersistentDisksSizeGb" => "10240",
                       "zone" => zone,
-                      "selfLink" => "https://www.googleapis.com/compute/v1beta15/projects/#{key}/zones/#{zone}/machineTypes/n1-highmem-2-d"
+                      "selfLink" => "https://www.googleapis.com/compute/#{api_version}/projects/#{key}/zones/#{zone}/machineTypes/n1-highmem-2-d"
                     },
                     "n1-highmem-4" => {
                       "kind" => "compute#machineType",
@@ -546,7 +568,7 @@ module Fog
                       "maximumPersistentDisks" => 16,
                       "maximumPersistentDisksSizeGb" => "10240",
                       "zone" => zone,
-                      "selfLink" => "https://www.googleapis.com/compute/v1beta15/projects/#{key}/zones/#{zone}/machineTypes/n1-highmem-4"
+                      "selfLink" => "https://www.googleapis.com/compute/#{api_version}/projects/#{key}/zones/#{zone}/machineTypes/n1-highmem-4"
                     },
                     "n1-highmem-4-d" => {
                       "kind" => "compute#machineType",
@@ -565,7 +587,7 @@ module Fog
                       "maximumPersistentDisks" => 16,
                       "maximumPersistentDisksSizeGb" => "10240",
                       "zone" => zone,
-                      "selfLink" => "https://www.googleapis.com/compute/v1beta15/projects/#{key}/zones/#{zone}/machineTypes/n1-highmem-4-d"
+                      "selfLink" => "https://www.googleapis.com/compute/#{api_version}/projects/#{key}/zones/#{zone}/machineTypes/n1-highmem-4-d"
                     },
                     "n1-highmem-8" => {
                       "kind" => "compute#machineType",
@@ -579,7 +601,7 @@ module Fog
                       "maximumPersistentDisks" => 16,
                       "maximumPersistentDisksSizeGb" => "10240",
                       "zone" => zone,
-                      "selfLink" => "https://www.googleapis.com/compute/v1beta15/projects/#{key}/zones/#{zone}/machineTypes/n1-highmem-8"
+                      "selfLink" => "https://www.googleapis.com/compute/#{api_version}/projects/#{key}/zones/#{zone}/machineTypes/n1-highmem-8"
                     },
                     "n1-highmem-8-d" => {
                       "kind" => "compute#machineType",
@@ -601,7 +623,7 @@ module Fog
                       "maximumPersistentDisks" => 16,
                       "maximumPersistentDisksSizeGb" => "10240",
                       "zone" => zone,
-                      "selfLink" => "https://www.googleapis.com/compute/v1beta15/projects/#{key}/zones/#{zone}/machineTypes/n1-highmem-8-d"
+                      "selfLink" => "https://www.googleapis.com/compute/#{api_version}/projects/#{key}/zones/#{zone}/machineTypes/n1-highmem-8-d"
                     },
                     "n1-standard-1" => {
                       "kind" => "compute#machineType",
@@ -615,7 +637,7 @@ module Fog
                       "maximumPersistentDisks" => 16,
                       "maximumPersistentDisksSizeGb" => "10240",
                       "zone" => zone,
-                      "selfLink" => "https://www.googleapis.com/compute/v1beta15/projects/#{key}/zones/#{zone}/machineTypes/n1-standard-1"
+                      "selfLink" => "https://www.googleapis.com/compute/#{api_version}/projects/#{key}/zones/#{zone}/machineTypes/n1-standard-1"
                     },
                     "n1-standard-1-d" => {
                       "kind" => "compute#machineType",
@@ -634,7 +656,7 @@ module Fog
                       "maximumPersistentDisks" => 16,
                       "maximumPersistentDisksSizeGb" => "10240",
                       "zone" => zone,
-                      "selfLink" => "https://www.googleapis.com/compute/v1beta15/projects/#{key}/zones/#{zone}/machineTypes/n1-standard-1-d"
+                      "selfLink" => "https://www.googleapis.com/compute/#{api_version}/projects/#{key}/zones/#{zone}/machineTypes/n1-standard-1-d"
                     },
                     "n1-standard-2" => {
                       "kind" => "compute#machineType",
@@ -648,7 +670,7 @@ module Fog
                       "maximumPersistentDisks" => 16,
                       "maximumPersistentDisksSizeGb" => "10240",
                       "zone" => zone,
-                      "selfLink" => "https://www.googleapis.com/compute/v1beta15/projects/#{key}/zones/#{zone}/machineTypes/n1-standard-2"
+                      "selfLink" => "https://www.googleapis.com/compute/#{api_version}/projects/#{key}/zones/#{zone}/machineTypes/n1-standard-2"
                     },
                     "n1-standard-2-d" => {
                       "kind" => "compute#machineType",
@@ -667,7 +689,7 @@ module Fog
                       "maximumPersistentDisks" => 16,
                       "maximumPersistentDisksSizeGb" => "10240",
                       "zone" => zone,
-                      "selfLink" => "https://www.googleapis.com/compute/v1beta15/projects/#{key}/zones/#{zone}/machineTypes/n1-standard-2-d"
+                      "selfLink" => "https://www.googleapis.com/compute/#{api_version}/projects/#{key}/zones/#{zone}/machineTypes/n1-standard-2-d"
                     },
                     "n1-standard-4" => {
                       "kind" => "compute#machineType",
@@ -681,7 +703,7 @@ module Fog
                       "maximumPersistentDisks" => 16,
                       "maximumPersistentDisksSizeGb" => "10240",
                       "zone" => zone,
-                      "selfLink" => "https://www.googleapis.com/compute/v1beta15/projects/#{key}/zones/#{zone}/machineTypes/n1-standard-4"
+                      "selfLink" => "https://www.googleapis.com/compute/#{api_version}/projects/#{key}/zones/#{zone}/machineTypes/n1-standard-4"
                     },
                     "n1-standard-4-d" => {
                       "kind" => "compute#machineType",
@@ -700,7 +722,7 @@ module Fog
                       "maximumPersistentDisks" => 16,
                       "maximumPersistentDisksSizeGb" => "10240",
                       "zone" => zone,
-                      "selfLink" => "https://www.googleapis.com/compute/v1beta15/projects/#{key}/zones/#{zone}/machineTypes/n1-standard-4-d"
+                      "selfLink" => "https://www.googleapis.com/compute/#{api_version}/projects/#{key}/zones/#{zone}/machineTypes/n1-standard-4-d"
                     },
                     "n1-standard-8" => {
                       "kind" => "compute#machineType",
@@ -714,7 +736,7 @@ module Fog
                       "maximumPersistentDisks" => 16,
                       "maximumPersistentDisksSizeGb" => "10240",
                       "zone" => zone,
-                      "selfLink" => "https://www.googleapis.com/compute/v1beta15/projects/#{key}/zones/#{zone}/machineTypes/n1-standard-8"
+                      "selfLink" => "https://www.googleapis.com/compute/#{api_version}/projects/#{key}/zones/#{zone}/machineTypes/n1-standard-8"
                     },
                     "n1-standard-8-d" => {
                       "kind" => "compute#machineType",
@@ -736,11 +758,12 @@ module Fog
                       "maximumPersistentDisks" => 16,
                       "maximumPersistentDisksSizeGb" => "10240",
                       "zone" => zone,
-                      "selfLink" => "https://www.googleapis.com/compute/v1beta15/projects/#{key}/zones/#{zone}/machineTypes/n1-standard-8-d"
+                      "selfLink" => "https://www.googleapis.com/compute/#{api_version}/projects/#{key}/zones/#{zone}/machineTypes/n1-standard-8-d"
                      }
                   }
                 end,
-                :images => {}
+                :images => {},
+                :disks => {}
               }
             end
           end
@@ -750,13 +773,13 @@ module Fog
           @data = nil
         end
 
-        def data
-          self.class.data[@project]
+        def data(project = @project)
+          self.class.data(api_version)[project]
         end
 
         def reset_data
           # not particularly useful because it deletes zones
-          self.class.data.delete(@project)
+          self.class.data(api_version).delete(@project)
         end
 
       end
@@ -767,10 +790,9 @@ module Fog
 
         def initialize(options)
           base_url = 'https://www.googleapis.com/compute/'
-          api_version = 'v1beta16'
           api_scope_url = 'https://www.googleapis.com/auth/compute'
+          shared_initialize(options)
 
-          @project = options[:google_project]
           google_client_email = options[:google_client_email]
           @api_url = base_url + api_version + '/projects/'
 

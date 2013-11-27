@@ -4,7 +4,7 @@ module Fog
 
       class Mock
 
-        def insert_image(image_name)
+        def insert_image(image_name, options={})
           Fog::Mock.not_implemented
         end
 
