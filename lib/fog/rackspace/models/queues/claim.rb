@@ -80,12 +80,14 @@ module Fog
             })
           attributes[:messages] = messages.collect do |message|
             if message.instance_of? Fog::Rackspace::Queues::Message
+              message.claim_id = self.id
               message
             else
               Fog::Rackspace::Queues::Message.new(
                 message.merge({
                   :service => service,
-                  :collection => message_collection
+                  :collection => message_collection,
+                  :claim_id => self.id
                 }.merge(message))
               )
             end
