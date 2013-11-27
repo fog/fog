@@ -78,6 +78,14 @@ module Fog
       request      :get_check
       request      :get_entity
       request      :get_notification
+      request      :get_cpus_info
+      request      :get_disks_info
+      request      :get_filesystems_info
+      request      :get_memory_info
+      request      :get_network_interfaces_info
+      request      :get_processes_info
+      request      :get_system_info
+      request      :get_logged_in_user_info
 
       request      :create_agent_token
       request      :create_alarm
