@@ -18,7 +18,7 @@ module Fog::Brightbox::OAuth2
     header_content = "#{credentials.client_id}:#{credentials.client_secret}"
     encoded_credentials = Base64.encode64(header_content).chomp
 
-    connection.request({
+    connection.request(
       :path => "/token",
       :expects  => 200,
       :headers  => {
@@ -27,7 +27,7 @@ module Fog::Brightbox::OAuth2
       },
       :method   => 'POST',
       :body     => Fog::JSON.encode(token_strategy.authorization_body_data)
-    })
+    )
   end
 
   # Encapsulates credentials required to request access tokens from the
@@ -152,7 +152,7 @@ module Fog::Brightbox::OAuth2
     end
   end
 
-private
+  private
 
   # This updates the current credentials if passed a valid response
   #

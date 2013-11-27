@@ -43,9 +43,7 @@ module Fog
           merge_attributes(data)
           true
         end
-
       end
     end
   end
 end
-

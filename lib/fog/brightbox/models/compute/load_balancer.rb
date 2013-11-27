@@ -52,7 +52,7 @@ module Fog
             :name => name,
             :certificate_pem => certificate_pem,
             :certificate_private_key => certificate_private_key
-          }.delete_if {|k,v| v.nil? || v == "" }
+          }.delete_if { |k, v| v.nil? || v == "" }
           data = service.create_load_balancer(options)
           merge_attributes(data)
           true
@@ -94,16 +94,13 @@ module Fog
           end
         end
 
-      private
+        private
 
         def time_or_original(value)
-          begin
-            Time.parse(value)
-          rescue TypeError, ArgumentError
-            value
-          end
+          Time.parse(value)
+        rescue TypeError, ArgumentError
+          value
         end
-
       end
     end
   end
