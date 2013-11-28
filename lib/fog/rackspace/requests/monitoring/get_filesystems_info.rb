@@ -36,7 +36,7 @@ module Fog
                 "total"           => Fog::Mock.random_numbers(9).to_s,
                 "files"           => Fog::Mock.random_numbers(6).to_s,
                 "free_files"      => Fog::Mock.random_numbers(6).to_s,
-              }
+              },
               {
                 "dir_name"        => "/proc",
                 "dev_name"        => "proc",
