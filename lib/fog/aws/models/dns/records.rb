@@ -33,7 +33,7 @@ module Fog
           data['NextRecordIdentifier'] = nil unless data.has_key?('NextRecordIdentifier')
 
           merge_attributes(data.reject {|key, value| !['IsTruncated', 'MaxItems', 'NextRecordName', 'NextRecordType', 'NextRecordIdentifier'].include?(key)})
-          load(data)
+          load(data['ResourceRecordSets'])
         end
 
         #
