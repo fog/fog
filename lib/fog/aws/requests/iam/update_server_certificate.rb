@@ -32,6 +32,33 @@ module Fog
         end
 
       end
+
+      class Mock
+        def update_server_certificate(server_certificate_name, options = {})
+          new_server_certificate_name = options['NewServerCertificateName']
+          if self.data[:server_certificates][new_server_certificate_name]
+            raise Fog::AWS::IAM::EntityAlreadyExists.new("The Server Certificate with name #{server_certificate_name} already exists.")
+          end
+          unless certificate = self.data[:server_certificates].delete(server_certificate_name)
+            raise Fog::AWS::IAM::NotFound.new("The Server Certificate with name #{server_certificate_name} cannot be found.")
+          end
+
+          if new_server_certificate_name
+            certificate['ServerCertificateName'] = new_server_certificate_name
+          end
+
+          if new_path = options['NewPath']
+            certificate['Path'] = new_path
+          end
+
+          self.data[:server_certificates][certificate['ServerCertificateName']] = certificate
+
+          Excon::Response.new.tap do |response|
+            response.body = { 'RequestId' => Fog::AWS::Mock.request_id }
+            response.status = 200
+          end
+        end
+      end
     end
   end
 end

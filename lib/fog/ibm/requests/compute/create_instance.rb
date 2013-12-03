@@ -15,7 +15,7 @@ module Fog
         #   * :ip<~String> - The ID of a static IP address to associate with this instance
         #   * :volume_id<~String> - The ID of a storage volume to associate with this instance
         #   * :vlan_id<~String> - The ID of a Vlan offering to associate with this instance.
-        #   * :secondary_ip<~String> - The ID of a static IP address to associate with this instance as secondary IP
+        #   * :secondary_ip<~String> - Comma separated list of static IP IDs to associate with this instance.
         #   * :is_mini_ephermal<~Boolean> - Whether or not the instance should be provisioned with the root segment only
         #   * :configuration_data<~Hash> - Arbitrary name/value pairs defined by the image being created
         #   * :anti_collocation_instance<~String> - The ID of an existing anti-collocated instance.
@@ -32,24 +32,29 @@ module Fog
         #     * 'imageId'<~String>:
         #     * 'launchTime'<~Integer>: epoch time in ms representing when the instance was launched
         def create_instance(name, image_id, instance_type, location, options={})
+          body_data     = {
+            'name'                    => name,
+            'imageID'                 => image_id,
+            'instanceType'            => instance_type,
+            'location'                => location,
+            'publicKey'               => options[:key_name],
+            'ip'                      => options[:ip],
+            'volumeID'                => options[:volume_id],
+            'vlanID'                  => options[:vlan_id],
+            'isMiniEphemeral'        => options[:is_mini_ephemeral],
+            'Configuration Data'      => options[:configuration_data],
+            'antiCollocationInstance' => options[:anti_collocation_instance]
+          }
+          if options[:secondary_ip]
+            options[:secondary_ip].split(',').map(&:strip).each_with_index do |n, idx|
+              body_data.merge!({"secondary.ip.#{idx}" => n})
+            end 
+          end
           request(
             :method   => 'POST',
             :expects  => 200,
             :path     => '/instances',
-            :body     => {
-              'name'                    => name,
-              'imageID'                 => image_id,
-              'instanceType'            => instance_type,
-              'location'                => location,
-              'publicKey'               => options[:key_name],
-              'ip'                      => options[:ip],
-              'volumeID'                => options[:volume_id],
-              'vlanID'                  => options[:vlan_id],
-              'SecondaryIP'             => options[:secondary_ip],
-              'isMiniEphemeral'        => options[:is_mini_ephemeral],
-              'Configuration Data'      => options[:configuration_data],
-              'antiCollocationInstance' => options[:anti_collocation_instance],
-            }
+            :body     => body_data
           )
         end
 

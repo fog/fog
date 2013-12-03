@@ -14,18 +14,20 @@ module Fog
 
         def all
           data = []
-          connection.get_organization(href).body[:Locations][:Location].each do |d| 
-            if d[:Environments][:Environment].is_a?(Array)
-              d[:Environments][:Environment].each { |e| data << e }
+          service.get_organization(href).body[:Locations][:Location].each do |d|
+            environments = d[:Environments]
+            next unless environments
+            if environments[:Environment].is_a?(Array)
+              environments[:Environment].each { |e| data << e }
             else
-              data << d[:Environments][:Environment]
+              data << environments[:Environment]
             end
           end
           load(data)
         end
 
         def get(uri)
-          if data = connection.get_environment(uri)
+          if data = service.get_environment(uri)
             new(data.body)
           end
         rescue Fog::Errors::NotFound

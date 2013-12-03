@@ -24,7 +24,7 @@ module Fog
         private
 
         def retrieve_roles
-          data = connection.list_user_roles(user.identity).body['roles']
+          data = service.list_user_roles(user.identity).body['roles']
         end
       end
     end

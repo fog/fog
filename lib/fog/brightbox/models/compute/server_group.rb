@@ -3,7 +3,6 @@ require 'fog/core/model'
 module Fog
   module Compute
     class Brightbox
-
       # A server group is a collection of servers
       #
       # Certain actions can accept a server group and affect all members
@@ -24,16 +23,16 @@ module Fog
           options = {
             :name => name,
             :description => description
-          }.delete_if {|k,v| v.nil? || v == "" }
-          data = connection.create_server_group(options)
+          }.delete_if { |k, v| v.nil? || v == "" }
+          data = service.create_server_group(options)
           merge_attributes(data)
           true
         end
 
         def servers
-          srv_ids = server_ids.collect {|srv| srv["id"]}
-          srv_ids.collect do |srv_id|
-            connection.servers.get(srv_id)
+          srv_ids = server_ids.map { |srv| srv["id"] }
+          srv_ids.map do |srv_id|
+            service.servers.get(srv_id)
           end
         end
 
@@ -41,12 +40,12 @@ module Fog
         #
         # @param [Array] identifiers array of server identifier strings to add
         # @return [Fog::Compute::ServerGroup]
-        def add_servers identifiers
+        def add_servers(identifiers)
           requires :identity
           options = {
             :servers => server_references(identifiers)
           }
-          data = connection.add_servers_server_group identity, options
+          data = service.add_servers_server_group identity, options
           merge_attributes data
         end
 
@@ -54,12 +53,12 @@ module Fog
         #
         # @param [Array] identifiers array of server identifier strings to remove
         # @return [Fog::Compute::ServerGroup]
-        def remove_servers identifiers
+        def remove_servers(identifiers)
           requires :identity
           options = {
             :servers => server_references(identifiers)
           }
-          data = connection.remove_servers_server_group identity, options
+          data = service.remove_servers_server_group identity, options
           merge_attributes data
         end
 
@@ -68,28 +67,27 @@ module Fog
         # @param [Array] identifiers array of server identifier strings to move
         # @param [String] destination_group_id destination server group identifier
         # @return [Fog::Compute::ServerGroup]
-        def move_servers identifiers, destination_group_id
+        def move_servers(identifiers, destination_group_id)
           requires :identity
           options = {
             :servers => server_references(identifiers),
             :destination => destination_group_id
           }
-          data = connection.move_servers_server_group identity, options
+          data = service.move_servers_server_group identity, options
           merge_attributes data
         end
 
         def destroy
           requires :identity
-          connection.destroy_server_group(identity)
+          service.destroy_server_group(identity)
           true
         end
 
-      protected
+        protected
 
-        def server_references identifiers
-          identifiers.map {|id| {"server" => id} }
+        def server_references(identifiers)
+          identifiers.map { |id| { "server" => id } }
         end
-
       end
     end
   end

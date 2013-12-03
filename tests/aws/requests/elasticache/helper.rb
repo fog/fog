@@ -63,6 +63,23 @@ class AWS
         'SourceType'                  => String,
       }
       EVENT_LIST = [EVENT]
+      
+      RESERVED_CACHE_CLUSTER = {
+        'CacheNodeCount'                => Integer,
+        'CacheNodeType'                 => String,
+        'Duration'                      => Integer,
+        'FixedPrice'                    => Float,
+        'OfferingType'                  => String,
+        'ProductDescription'            => String,
+        'RecurringCharges'              => Array,
+        'ReservedCacheNodeId'           => String,
+        'ReservedCacheNodesOfferingId'  => String,
+        'StartTime'                     => DateTime,
+        'State'                         => String,
+        'UsagePrice'                    => Float
+      }
+      RESERVED_CACHE_CLUSTER_LIST = [RESERVED_CACHE_CLUSTER]
+      
     end
   end
 end

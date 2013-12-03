@@ -5,29 +5,25 @@ module Fog
 
         require 'fog/aws/parsers/cloud_formation/create_stack'
 
-        # Create a stack
-        #
-        # ==== Parameters
-        # * stack_name<~String>: name of the stack to create
-        # * options<~Hash>:
-        #   * TemplateBody<~String>: structure containing the template body
+        # Create a stack.
+        # 
+        # * stack_name [String] Name of the stack to create.
+        # * options [Hash]:
+        #   * TemplateBody [String] Structure containing the template body.
         #   or (one of the two Template parameters is required)
-        #   * TemplateURL<~String>: URL of file containing the template body
-        #   * DisableRollback<~Boolean>: Controls rollback on stack creation failure, defaults to false
-        #   * NotificationARNs<~Array>: List of SNS topics to publish events to
-        #   * Parameters<~Hash>: Hash of providers to supply to template
-        #   * TimeoutInMinutes<~Integer>: Minutes to wait before status is set to CREATE_FAILED
-        #   * Capabilities<~Array>: List of capabilties the stack is granted. Currently CAPABILITY_IAM
-        #     for allowing the creation of IAM resources
+        #   * TemplateURL [String] URL of file containing the template body.
+        #   * DisableRollback [Boolean] Controls rollback on stack creation failure, defaults to false.
+        #   * NotificationARNs [Array] List of SNS topics to publish events to.
+        #   * Parameters [Hash] Hash of providers to supply to template
+        #   * TimeoutInMinutes [Integer] Minutes to wait before status is set to CREATE_FAILED
+        #   * Capabilities [Array] List of capabilties the stack is granted. Currently CAPABILITY_IAM for allowing the creation of IAM resources
         #
-        # ==== Returns
-        # * response<~Excon::Response>:
-        #   * body<~Hash>:
-        #     * 'StackId'<~String> - Id of the new stack
+        # @return [Excon::Response]:
+        #   * body [Hash:
+        #     * StackId [String] - Id of the new stack
         #
-        # ==== See Also
-        # http://docs.amazonwebservices.com/AWSCloudFormation/latest/APIReference/API_CreateStack.html
-        #
+        # @see http://docs.amazonwebservices.com/AWSCloudFormation/latest/APIReference/API_CreateStack.html
+        
         def create_stack(stack_name, options = {})
           params = {
             'StackName' => stack_name,
@@ -49,6 +45,23 @@ module Fog
                 "Parameters.member.#{index}.ParameterValue" => options['Parameters'][key]
               })
             end
+          end
+
+          num_tags = 0
+          if options['Tags']
+            options['Tags'].keys.each_with_index do |key, index|
+              index += 1 # tags are 1-indexed
+              num_tags += 1 # 10 tag max
+
+              params.merge!({
+                "Tags.member.#{index}.Key"   => key,
+                "Tags.member.#{index}.Value" => options['Tags'][key]
+              })
+            end
+          end
+
+          if num_tags > 10
+            raise ArgumentError.new("a maximum of 10 tags can be specified <#{num_tags}>")
           end
 
           if options['TemplateBody']

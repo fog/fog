@@ -3,7 +3,8 @@ module Fog
     module Terremark
       module Shared
 
-        class GetOrganizations < Fog::Parsers::Base
+        class GetOrganizations < TerremarkParser
+          # include Fog::Terremark::Shared::Parser
 
           def reset
             @response = { 'OrgList' => [] }
@@ -12,7 +13,7 @@ module Fog
           def start_element(name, attributes)
             super
             if name == 'Org'
-              organization = {}
+              organization = extract_attributes(attributes)
               until attributes.empty?
                 if attributes.first.is_a?(Array)
                   attribute = attributes.shift

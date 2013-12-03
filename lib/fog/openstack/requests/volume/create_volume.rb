@@ -12,12 +12,13 @@ module Fog
             }
           }
 
-          vanilla_options = ['snapshot_id']
+          vanilla_options = [:snapshot_id, :imageRef, :volume_type,
+            :source_volid]
           vanilla_options.select{|o| options[o]}.each do |key|
             data['volume'][key] = options[key]
           end
           request(
-            :body     => MultiJson.encode(data),
+            :body     => Fog::JSON.encode(data),
             :expects  => [200, 202],
             :method   => 'POST',
             :path     => "volumes"
@@ -33,16 +34,17 @@ module Fog
           response.status = 202
           response.body = {
             'volume' => {
-              'id'                 => Fog::Mock.random_numbers(2),
-              'displayName'        => name,
-              'displayDescription' => description,
-              'size'               => size,
-              'status'             => 'creating',
-              'snapshotId'         => '4',
-              'volumeType'         => nil,
-              'availabilityZone'   => 'nova',
-              'createdAt'          => Time.now,
-              'attchments'         => []
+              'id'                  => Fog::Mock.random_numbers(2),
+              'display_name'        => name,
+              'display_description' => description,
+              'size'                => size,
+              'status'              => 'creating',
+              'snapshot_id'         => options[:snapshot_id] || nil,
+              'image_id'            => options[:imageRef] || nil,
+              'volume_type'         => nil,
+              'availability_zone'   => 'nova',
+              'created_at'          => Time.now,
+              'attachments'         => []
             }
           }
           response

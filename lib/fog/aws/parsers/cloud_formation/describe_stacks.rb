@@ -27,7 +27,7 @@ module Fog
           def end_element(name)
             if @in_outputs
               case name
-              when 'OutputKey', 'OutputValue'
+              when 'OutputKey', 'OutputValue', 'Description'
                 @output[name] = value
               when 'member'
                 @stack['Outputs'] << @output

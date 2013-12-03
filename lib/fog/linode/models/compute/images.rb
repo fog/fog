@@ -19,9 +19,9 @@ module Fog
 
         private
         def images(id=nil)
-          connection.avail_distributions(id).body['DATA'].map { |image| map_image image }
+          service.avail_distributions(id).body['DATA'].map { |image| map_image image }
         end
-        
+
         def map_image(image)
           image = image.each_with_object({}) { |(k, v), h| h[k.downcase.to_sym] = v  }
           image.merge!(:id => image[:distributionid], :name => image[:label], :image_size => image[:minimagesize],

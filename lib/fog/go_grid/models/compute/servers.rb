@@ -10,7 +10,7 @@ module Fog
         model Fog::Compute::GoGrid::Server
 
         def all
-          data = connection.grid_server_list.body['list']
+          data = service.grid_server_list.body['list']
           load(data)
         end
 
@@ -22,7 +22,7 @@ module Fog
         end
 
         def get(server_id)
-          if server_id && server = connection.grid_server_get(server_id).body['list'].first
+          if server_id && server = service.grid_server_get(server_id).body['list'].first
             new(server)
           end
         rescue Fog::Compute::GoGrid::NotFound

@@ -4,7 +4,7 @@ module Fog
   module Compute
     class Ecloud
       class Tasks < Fog::Ecloud::Collection
-        
+
         model Fog::Compute::Ecloud::Task
 
         identity :href
@@ -12,13 +12,13 @@ module Fog
         attribute :total_count, :aliases => :TotalCount
 
         def all
-          data = connection.get_tasks(href).body
+          data = service.get_tasks(href).body
           data = data[:Task] ? data[:Task] : data
           load(data)
         end
 
         def get(uri)
-          if data = connection.get_task(uri)
+          if data = service.get_task(uri)
             new(data.body)
           end
         rescue Fog::Errors::NotFound

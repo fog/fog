@@ -10,12 +10,12 @@ module Fog
         model Fog::Compute::Cloudstack::Job
 
         def all
-          data = connection.list_async_jobs["listasyncjobsresponse"]["asyncjobs"] || []
+          data = service.list_async_jobs["listasyncjobsresponse"]["asyncjobs"] || []
           load(data)
         end
 
         def get(job_id)
-          if job = connection.query_async_job_result('jobid' => job_id)["queryasyncjobresultresponse"]
+          if job = service.query_async_job_result('jobid' => job_id)["queryasyncjobresultresponse"]
             new(job)
           end
         rescue Fog::Compute::Cloudstack::BadRequest

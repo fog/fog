@@ -35,8 +35,6 @@ module Fog
             response = Excon::Response.new
             response.status = 200
 
-            load_balancer['Policies']['AppCookieStickinessPolicies'] << { 'CookieName' => cookie_name, 'PolicyName' => policy_name }
-
             create_load_balancer_policy(lb_name, policy_name, 'AppCookieStickinessPolicyType', {'CookieName' => cookie_name})
 
             response.body = {

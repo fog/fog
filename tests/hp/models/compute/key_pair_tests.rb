@@ -1,4 +1,4 @@
-Shindo.tests("Fog::Compute[:hp] | key_pair", ["hp"]) do
+Shindo.tests("Fog::Compute[:hp] | key_pair", ['hp']) do
 
   model_tests(Fog::Compute[:hp].key_pairs, {:name => 'fogkeyname'}, true)
 

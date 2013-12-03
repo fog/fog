@@ -32,7 +32,7 @@ module Fog
         def destroy
           requires :id
 
-          connection.delete_vpc(id)
+          service.delete_vpc(id)
           true
         end
 
@@ -50,7 +50,7 @@ module Fog
         def save
           requires :cidr_block
 
-          data = connection.create_vpc(cidr_block).body['vpcSet'].first
+          data = service.create_vpc(cidr_block).body['vpcSet'].first
           new_attributes = data.reject {|key,value| key == 'requestId'}
           merge_attributes(new_attributes)
           true

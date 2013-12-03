@@ -16,7 +16,7 @@ module Fog
         def destroy
           requires :name
 
-          connection.delete_key_pair(name)
+          service.delete_key_pair(name)
           true
         end
 
@@ -24,9 +24,9 @@ module Fog
           requires :name
 
           data = if public_key
-            connection.import_key_pair(name, public_key).body
+            service.import_key_pair(name, public_key).body
           else
-            connection.create_key_pair(name).body
+            service.create_key_pair(name).body
           end
           new_attributes = data.reject {|key,value| !['keyFingerprint', 'keyMaterial', 'keyName'].include?(key)}
           merge_attributes(new_attributes)
@@ -35,7 +35,7 @@ module Fog
         end
 
         def write(path="#{ENV['HOME']}/.ssh/fog_#{Fog.credential.to_s}_#{name}.pem")
-          
+
           if writable?
             split_private_key = private_key.split(/\n/)
             File.open(path, "w") do |f|

@@ -19,13 +19,13 @@ module Fog
 
         def save
           requires :load_balancer, :instance_port, :lb_port, :protocol, :instance_protocol
-          connection.create_load_balancer_listeners(load_balancer.id, [to_params])
+          service.create_load_balancer_listeners(load_balancer.id, [to_params])
           reload
         end
 
         def destroy
           requires :load_balancer, :lb_port
-          connection.delete_load_balancer_listeners(load_balancer.id, [lb_port])
+          service.delete_load_balancer_listeners(load_balancer.id, [lb_port])
           reload
         end
 

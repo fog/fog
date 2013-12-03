@@ -41,7 +41,7 @@ module Fog
 
           snapshot_data = {
             'Status'               => 'creating',
-            #'SnapshotType'         => 'manual', # In a newer RDS version
+            'SnapshotType'         => 'manual', 
             'DBInstanceIdentifier' => identifier,
             'DBSnapshotIdentifier' => name,
             'InstanceCreateTime'   => Time.now

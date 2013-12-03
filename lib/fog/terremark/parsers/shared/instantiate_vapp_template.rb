@@ -3,7 +3,7 @@ module Fog
     module Terremark
       module Shared
 
-        class InstantiateVappTemplate < Fog::Parsers::Base
+        class InstantiateVappTemplate < TerremarkParser
 
           def reset
             @property_key
@@ -14,21 +14,10 @@ module Fog
             super
             case name
             when 'Link'
-              link = {}
-              until attributes.empty?
-                link[attributes.shift] = attributes.shift
-              end
+              link = extract_attributes(attributes)
               @response['Links'] << link
             when 'VApp'
-              vapp_template = {}
-              until attributes.empty?
-                if attributes.first.is_a?(Array)
-                  attribute = attributes.shift
-                  vapp_template[attribute.first] = attribute.last
-                else
-                  vapp_template[attributes.shift] = attributes.shift
-                end
-              end
+              vapp_template = extract_attributes(attributes)
               @response.merge!(vapp_template.reject {|key, value| !['href', 'name', 'size', 'status', 'type'].include?(key)})
             end
           end

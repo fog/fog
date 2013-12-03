@@ -17,32 +17,10 @@ module Fog
       class Mock
 
         def list_volumes(detailed=true)
-          response = Excon::Response.new
-          response.status = 200
-          self.data[:volumes] ||= [
-            { "status" => "available",
-              "displayDescription" => "",
-              "availabilityZone" => "nova",
-              "displayName" => "test 1",
-              "attachments" => [{}],
-              "volumeType" => nil,
-              "snapshotId" => Fog::Mock.random_numbers(2),
-              "size" => 1,
-              "id" => "6",
-              "createdAt" => Time.now },
-            { "status" => "available",
-              "displayDescription" => "",
-              "availabilityZone" => "nova",
-              "displayName" => "test 2",
-              "attachments" => [{}],
-              "volumeType" => nil,
-              "snapshotId" => Fog::Mock.random_numbers(2),
-              "size" => 1,
-              "id" => "8",
-              "createdAt" => Time.now}
-            ]
-          response.body = { 'volumes' => self.data[:volumes] }
-          response
+          Excon::Response.new(
+            :body   => { 'volumes' => self.data[:volumes].values },
+            :status => 200
+          )
         end
       end
 

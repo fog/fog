@@ -16,6 +16,16 @@ module Fog
 
       class Mock
 
+        def get_server_volumes(server_id)
+          response = Excon::Response.new
+          response.status = 200
+          data = self.data[:volumes].values.find_all do |vol|
+            vol['attachments'].find { |attachment| attachment["serverId"] == server_id }
+          end
+          response.body = { 'volumeAttachments' => data.collect! { |vol| vol['attachments'] }.flatten(1) }
+          response
+        end
+
       end
 
     end

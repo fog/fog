@@ -161,6 +161,23 @@ Shindo.tests('Fog::Compute[:aws] | network interface requests', ['aws']) do
      Fog::Compute[:aws].delete_network_interface(@nic_id).body
     end
 
+    @server.destroy
+    if !Fog.mocking?
+      @server.wait_for { state == 'terminated' }
+      # despite the fact that the state goes to 'terminated' we need a little delay for aws to do its thing
+    sleep 5
+    end
+
+    # Bring up another server to test vpc public IP association
+    @server = Fog::Compute[:aws].servers.create(:flavor_id => 'm1.small', :subnet_id => @subnet_id, :associate_public_ip => true)
+    @server.wait_for { ready? }
+    @instance_id = @server.id
+
+    test("#associate_public_ip") do
+      server = Fog::Compute[:aws].servers.get(@instance_id)
+      server.public_ip_address.nil? == false
+    end
+
     # Clean up resources
     @server.destroy
     if !Fog.mocking?

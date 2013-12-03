@@ -53,6 +53,8 @@ module Fog
               'snapshot'
             when /^vol\-[a-z0-9]{8}$/i
               'volume'
+            when /^igw\-[a-z0-9]{8}$/i
+              'internet_gateway'
             end
             if type && ((type == 'image' && visible_images[resource_id]) || self.data[:"#{type}s"][resource_id])
               { 'resourceId' => resource_id, 'resourceType' => type }

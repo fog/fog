@@ -13,12 +13,12 @@ module Fog
         identity :href
 
         def all
-          data = connection.get_organization(href).body[:Locations][:Location]
+          data = service.get_organization(href).body[:Locations][:Location]
           load(data)
         end
 
         def get(uri)
-          if data = connection.get_location(uri)
+          if data = service.get_location(uri)
             new(data.body)
           end
         rescue Fog::Errors::NotFound

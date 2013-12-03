@@ -18,13 +18,13 @@ module Fog
 
         def all(filters = filters)
           self.filters = filters
-          data = connection.describe_tags(filters).body
+          data = service.describe_tags(filters).body
           load(data['tagSet'])
         end
-        
+
         def get(key)
           if key
-            self.class.new(:connection => connection).all('key' => key)
+            self.class.new(:service => service).all('key' => key)
           end
         end
       end

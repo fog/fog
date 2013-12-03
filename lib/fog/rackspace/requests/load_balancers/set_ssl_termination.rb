@@ -4,9 +4,9 @@ module Fog
       class Real
         def set_ssl_termination(load_balancer_id, securePort, privatekey, certificate, options = {})
           data = {
-            securePort: securePort,
-            privatekey: privatekey,
-            certificate: certificate
+            :securePort => securePort,
+            :privatekey => privatekey,
+            :certificate => certificate
           }
 
           if options.has_key? :intermediate_certificate

@@ -12,7 +12,7 @@ module Fog
 
           def end_element(name)
             case name
-            when 'availabilityZone', 'currencyCode', 'instanceType', 'instanceTenancy', 'productDescription', 'reservedInstancesOfferingId'
+            when 'availabilityZone', 'currencyCode', 'instanceType', 'offeringType', 'instanceTenancy', 'productDescription', 'reservedInstancesOfferingId'
               @reserved_instances_offering[name] = value
             when 'duration'
               @reserved_instances_offering[name] = value.to_i

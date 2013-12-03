@@ -3,20 +3,11 @@ module Fog
     class Rackspace
       class Real
 
-        # Create a new object
+        # Create a new dynamic large object manifest
         #
-        # ==== Parameters
-        # * container<~String> - Name for container, should be < 256 bytes and must not contain '/'
-        # * object<~String> - Name for object
-        #
-        def put_object_manifest(container, object)
-          path = "#{Fog::Rackspace.escape(container)}/#{Fog::Rackspace.escape(object)}"
-          request(
-            :expects  => 201,
-            :headers  => {'X-Object-Manifest' => path},
-            :method   => 'PUT',
-            :path     => path
-          )
+        # This is an alias for {#put_dynamic_obj_manifest} for backward compatibility.
+        def put_object_manifest(container, object, options = {})
+          put_dynamic_obj_manifest(container, object, options)
         end
 
       end

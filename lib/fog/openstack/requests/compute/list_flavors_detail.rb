@@ -3,11 +3,12 @@ module Fog
     class OpenStack
       class Real
 
-        def list_flavors_detail
+        def list_flavors_detail(options = {})
           request(
             :expects  => [200, 203],
             :method   => 'GET',
-            :path     => 'flavors/detail.json'
+            :path     => 'flavors/detail.json',
+            :query    => options
           )
         end
 
@@ -15,7 +16,7 @@ module Fog
 
       class Mock
 
-        def list_flavors_detail
+        def list_flavors_detail(options = {})
           response = Excon::Response.new
           response.status = 200
           response.body = {

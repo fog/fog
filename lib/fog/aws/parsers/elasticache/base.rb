@@ -3,8 +3,6 @@ module Fog
     module AWS
       module Elasticache
 
-        require 'fog/aws/parsers/elasticache/base'
-
         # Base parser for ResponseMetadata, RequestId
         class Base < Fog::Parsers::Base
 

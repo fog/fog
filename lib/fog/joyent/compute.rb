@@ -1,6 +1,7 @@
 require 'fog/joyent'
 require 'fog/joyent/errors'
 require 'fog/compute'
+require 'net/ssh'
 
 module Fog
   module Compute
@@ -9,8 +10,11 @@ module Fog
 
       recognizes :joyent_password
       recognizes :joyent_url
+
       recognizes :joyent_keyname
       recognizes :joyent_keyfile
+      recognizes :joyent_keyphrase
+      recognizes :joyent_version
 
       model_path 'fog/joyent/models/compute'
       request_path 'fog/joyent/requests/compute'
@@ -71,7 +75,10 @@ module Fog
       request :delete_machine_tag
       request :delete_all_machine_tags
 
-
+      # Networks
+      collection :networks
+      model :network
+      request :list_networks
 
       class Mock
         def self.data
@@ -96,12 +103,12 @@ module Fog
 
       class Real
         def initialize(options = {})
+
           @connection_options = options[:connection_options] || {}
           @persistent = options[:persistent] || false
 
           @joyent_url = options[:joyent_url] || 'https://us-sw-1.api.joyentcloud.com'
           @joyent_version = options[:joyent_version] || '~6.5'
-
           @joyent_username = options[:joyent_username]
 
           unless @joyent_username
@@ -111,16 +118,15 @@ module Fog
           if options[:joyent_keyname] && options[:joyent_keyfile]
             if File.exists?(options[:joyent_keyfile])
               @joyent_keyname = options[:joyent_keyname]
-              @joyent_key = File.read(options[:joyent_keyfile])
+              @joyent_keyfile = options[:joyent_keyfile]
+              @joyent_keyphrase = options[:joyent_keyphrase]
 
-              if @joyent_key.lines.first.include?('-----BEGIN DSA PRIVATE KEY-----')
-                @key = OpenSSL::PKey::DSA.new(@joyent_key)
-              elsif @joyent_key.lines.first.include?('-----BEGIN RSA PRIVATE KEY-----')
-                @key = OpenSSL::PKey::RSA.new(@joyent_key)
-              else
-                raise ArgumentError, "options[joyent_keyfile] provided must be an RSA or DSA private key"
-              end
+              @key_manager = Net::SSH::Authentication::KeyManager.new(nil, {
+                :keys_only => true,
+                :passphrase => @joyent_keyphrase
+              })
 
+              @key_manager.add(@joyent_keyfile)
 
               @header_method = method(:header_for_signature_auth)
             else
@@ -129,7 +135,6 @@ module Fog
 
           elsif options[:joyent_password]
             @joyent_password = options[:joyent_password]
-
             @header_method = method(:header_for_basic_auth)
           else
             raise ArgumentError, "Must provide either a joyent_password or joyent_keyname and joyent_keyfile pair"
@@ -142,26 +147,26 @@ module Fog
           )
         end
 
-        def request(request = {})
-          request[:headers] = {
+        def request(opts = {})
+          opts[:headers] = {
             "X-Api-Version" => @joyent_version,
             "Content-Type" => "application/json",
             "Accept" => "application/json"
-          }.merge(request[:headers] || {}).merge(@header_method.call) 
+          }.merge(opts[:headers] || {}).merge(@header_method.call)
 
-          if request[:body]
-            request[:body] = Fog::JSON.encode(request[:body])
+          if opts[:body]
+            opts[:body] = Fog::JSON.encode(opts[:body])
           end
 
-          response = @connection.request(request)
 
+          response = @connection.request(opts)
           if response.headers["Content-Type"] == "application/json"
             response.body = json_decode(response.body)
           end
 
-          raise_if_error!(request, response)
-
           response
+        rescue Excon::Errors::HTTPStatusError => e
+          raise_if_error!(e.request, e.response)
         end
 
         private
@@ -179,28 +184,40 @@ module Fog
 
         def header_for_signature_auth
           date = Time.now.utc.httpdate
-          begin
-            signature = Base64.encode64(@key.sign("sha256", date)).delete("\r\n")
-          rescue OpenSSL::PKey::PKeyError => e
-            if e.message == 'wrong public key type'
-              puts 'ERROR: Your version of ruby/openssl does not suport DSA key signing'
-              puts 'see: http://bugs.ruby-lang.org/issues/4734'
-              puts 'workaround: Please use an RSA key instead'
-            end
-            raise
+
+          # Force KeyManager to load the key(s)
+          @key_manager.each_identity {}
+
+          key = @key_manager.known_identities.keys.first
+
+          sig = if key.kind_of? OpenSSL::PKey::RSA
+            @key_manager.sign(key, date)[15..-1]
+          else
+            key = OpenSSL::PKey::DSA.new(File.read(@joyent_keyfile), @joyent_keyphrase)
+            key.sign('sha1', date)
           end
+
           key_id = "/#{@joyent_username}/keys/#{@joyent_keyname}"
+          key_type = key.class.to_s.split('::').last.downcase.to_sym
+
+          unless [:rsa, :dsa].include? key_type
+            raise Joyent::Errors::Unauthorized.new('Invalid key type -- only rsa or dsa key is supported')
+          end
+
+          signature = Base64.encode64(sig).delete("\r\n")
 
           {
             "Date" => date,
-            "Authorization" => "Signature keyId=\"#{key_id}\",algorithm=\"rsa-sha256\" #{signature}"
+            "Authorization" => "Signature keyId=\"#{key_id}\",algorithm=\"#{key_type}-sha1\" #{signature}"
           }
+        rescue Net::SSH::Authentication::KeyManagerError => e
+          raise Joyent::Errors::Unauthorized.new('SSH Signing Error: :#{e.message}', e)
         end
 
         def decode_time_attrs(obj)
           if obj.kind_of?(Hash)
-            obj["created"] = Time.parse(obj["created"]) if obj["created"]
-            obj["updated"] = Time.parse(obj["updated"]) if obj["updated"]
+            obj["created"] = Time.parse(obj["created"]) unless obj["created"].nil? or obj["created"] == ''
+            obj["updated"] = Time.parse(obj["updated"]) unless obj["updated"].nil? or obj["updated"] == ''
           elsif obj.kind_of?(Array)
             obj.map do |o|
               decode_time_attrs(o)
@@ -213,27 +230,27 @@ module Fog
         def raise_if_error!(request, response)
           case response.status
           when 401 then
-            raise Errors::Unauthorized.new('Invalid credentials were used', request, response)
+            raise Joyent::Errors::Unauthorized.new('Invalid credentials were used', request, response)
           when 403 then
-            raise Errors::Forbidden.new('No permissions to the specified resource', request, response)
+            raise Joyent::Errors::Forbidden.new('No permissions to the specified resource', request, response)
           when 404 then
-            raise Errors::NotFound.new('Requested resource was not found', request, response)
+            raise Joyent::Errors::NotFound.new('Requested resource was not found', request, response)
           when 405 then
-            raise Errors::MethodNotAllowed.new('Method not supported for the given resource', request, response)
+            raise Joyent::Errors::MethodNotAllowed.new('Method not supported for the given resource', request, response)
           when 406 then
-            raise Errors::NotAcceptable.new('Try sending a different Accept header', request, response)
+            raise Joyent::Errors::NotAcceptable.new('Try sending a different Accept header', request, response)
           when 409 then
-            raise Errors::Conflict.new('Most likely invalid or missing parameters', request, response)
+            raise Joyent::Errors::Conflict.new('Most likely invalid or missing parameters', request, response)
           when 414 then
-            raise Errors::RequestEntityTooLarge.new('You sent too much data', request, response)
+            raise Joyent::Errors::RequestEntityTooLarge.new('You sent too much data', request, response)
           when 415 then
-            raise Errors::UnsupportedMediaType.new('You encoded your request in a format we don\'t understand', request, response)
+            raise Joyent::Errors::UnsupportedMediaType.new('You encoded your request in a format we don\'t understand', request, response)
           when 420 then
-            raise Errors::PolicyNotForfilled.new('You are sending too many requests', request, response)
+            raise Joyent::Errors::PolicyNotForfilled.new('You are sending too many requests', request, response)
           when 449 then
-            raise Errors::RetryWith.new('Invalid API Version requested; try with a different API Version', request, response)
+            raise Joyent::Errors::RetryWith.new('Invalid API Version requested; try with a different API Version', request, response)
           when 503 then
-            raise Errors::ServiceUnavailable.new('Either there\'s no capacity in this datacenter, or we\'re in a maintenance window', request, response)
+            raise Joyent::Errors::ServiceUnavailable.new('Either there\'s no capacity in this datacenter, or we\'re in a maintenance window', request, response)
           end
         end
 

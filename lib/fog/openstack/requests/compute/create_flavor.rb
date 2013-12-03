@@ -12,7 +12,7 @@ module Fog
         def create_flavor(attributes)
           # Get last flavor id
           flavor_ids = Array.new
-          flavors = list_flavors_detail.body['flavors']
+          flavors = list_flavors_detail.body['flavors'] + list_flavors_detail(:is_public => false).body['flavors']
           flavors.each do |flavor|
             flavor_ids << flavor['id'].to_i
           end
@@ -29,12 +29,13 @@ module Fog
               'id' => attributes[:flavor_id],
               'swap' => attributes[:swap],
               'OS-FLV-EXT-DATA:ephemeral' => attributes[:ephemeral],
+              'os-flavor-access:is_public' => attributes[:is_public],
               'rxtx_factor' => attributes[:rxtx_factor]
             }
           }
 
           request(
-            :body => MultiJson.encode(data),
+            :body => Fog::JSON.encode(data),
             :expects => 200,
             :method => 'POST',
             :path => 'flavors'
@@ -67,8 +68,10 @@ module Fog
                   "rel" => "bookmark"
                 }
               ],
-              "rxtx_factor" => attributes[:rxtx_factor] || 1,
+              "rxtx_factor" => attributes[:rxtx_factor] || 1.0,
               "OS-FLV-EXT-DATA:ephemeral" => attributes[:ephemeral] || 0,
+              "os-flavor-access:is_public" => attributes[:is_public] || false,
+              "OS-FLV-DISABLED:disabled" => attributes[:disabled] || false,
               "ram" => attributes[:ram],
               "id" => "11",
               "swap" => attributes[:swap] || ""

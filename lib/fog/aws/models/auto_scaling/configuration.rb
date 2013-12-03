@@ -7,8 +7,10 @@ module Fog
 
         identity  :id,                    :aliases => 'LaunchConfigurationName'
         attribute :arn,                   :aliases => 'LaunchConfigurationARN'
+        attribute :associate_public_ip,   :aliases => 'AssociatePublicIpAddress'
         attribute :block_device_mappings, :aliases => 'BlockDeviceMappings'
         attribute :created_at,            :aliases => 'CreatedTime'
+        attribute :iam_instance_profile,  :aliases => 'IamInstanceProfile'
         attribute :image_id,              :aliases => 'ImageId'
         #attribute :instance_monitoring,   :aliases => 'InstanceMonitoring'
         attribute :instance_monitoring,   :aliases => 'InstanceMonitoring', :squash => 'Enabled'
@@ -18,6 +20,8 @@ module Fog
         attribute :ramdisk_id,            :aliases => 'RamdiskId'
         attribute :security_groups,       :aliases => 'SecurityGroups'
         attribute :user_data,             :aliases => 'UserData'
+        attribute :spot_price,            :aliases => 'SpotPrice'
+        
 
         def initialize(attributes={})
           #attributes[:availability_zones] ||= %w(us-east-1a us-east-1b us-east-1c us-east-1d)
@@ -41,7 +45,7 @@ module Fog
 
           options = Hash[self.class.aliases.map { |key, value| [key, send(value)] }]
           options.delete_if { |key, value| value.nil? }
-          connection.create_launch_configuration(image_id, instance_type, id, options) #, listeners.map{|l| l.to_params})
+          service.create_launch_configuration(image_id, instance_type, id, options) #, listeners.map{|l| l.to_params})
 
           # reload instead of merge attributes b/c some attrs (like HealthCheck)
           # may be set, but only the DNS name is returned in the create_load_balance
@@ -56,7 +60,7 @@ module Fog
 
         def destroy
           requires :id
-          connection.delete_launch_configuration(id)
+          service.delete_launch_configuration(id)
         end
 
       end

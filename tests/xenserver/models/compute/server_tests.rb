@@ -10,8 +10,8 @@ Shindo.tests('Fog::Compute[:xenserver] | server model', ['xenserver']) do
   (servers.templates.find_all { |t| t.name == test_ephemeral_vm_name}).each do |s|
     s.destroy
   end
-  
-  server = Fog::Compute[:xenserver].servers.create(:name => test_ephemeral_vm_name, 
+
+  server = Fog::Compute[:xenserver].servers.create(:name => test_ephemeral_vm_name,
                                                    :template_name => test_template_name)
   server.reload
 
@@ -25,13 +25,13 @@ Shindo.tests('Fog::Compute[:xenserver] | server model', ['xenserver']) do
     end
     tests('have attributes') do
       model_attribute_hash = server.attributes
-      attributes = [ 
+      attributes = [
         :reference,
         :uuid,
         :is_a_template,
         :__affinity,
         :allowed_operations,
-        :consoles,
+        :__consoles,
         :domarch,
         :domid,
         :__guest_metrics,
@@ -47,9 +47,9 @@ Shindo.tests('Fog::Compute[:xenserver] | server model', ['xenserver']) do
         :name_description,
         :other_config,
         :power_state,
-        :pv_args,            
+        :pv_args,
         :__resident_on,
-        :__vbds,            
+        :__vbds,
         :__vifs,
         :vcpus_params,
         :vcpus_at_startup,
@@ -60,7 +60,8 @@ Shindo.tests('Fog::Compute[:xenserver] | server model', ['xenserver']) do
         :pv_kernel,
         :pv_ramdisk,
         :pv_legacy_args,
-        :pv_bootloader_args
+        :pv_bootloader_args,
+        :snapshots
       ]
       tests("The server model should respond to") do
         attributes.each do |attribute|
@@ -83,7 +84,7 @@ Shindo.tests('Fog::Compute[:xenserver] | server model', ['xenserver']) do
     tests("it should create a server") do
       s = nil
       test("named #{test_ephemeral_vm_name}") do
-        s = servers.create(:name => test_ephemeral_vm_name, 
+        s = servers.create(:name => test_ephemeral_vm_name,
                            :template_name => test_template_name)
         servers.get(s.reference).name == test_ephemeral_vm_name
       end
@@ -93,7 +94,7 @@ Shindo.tests('Fog::Compute[:xenserver] | server model', ['xenserver']) do
       s = nil
       # The template has 2 VIFs already, we add 2 more
       test("with 4 NICs") do
-        s = servers.create(:name => test_ephemeral_vm_name, 
+        s = servers.create(:name => test_ephemeral_vm_name,
                            :template_name => test_template_name,
                            :networks => [connection.default_network, connection.default_network])
         s.reload
@@ -106,9 +107,16 @@ Shindo.tests('Fog::Compute[:xenserver] | server model', ['xenserver']) do
   tests("A real server should") do
     tests("return valid vbds") do
       test("as an array") { server.vbds.kind_of? Array }
-      server.vbds.each { |i| 
-          test("and each VBD should be a Fog::Compute::XenServer::VBD") { i.kind_of? Fog::Compute::XenServer::VBD }
-      } 
+      server.vbds.each { |i|
+        test("and each VBD should be a Fog::Compute::XenServer::VBD") { i.kind_of? Fog::Compute::XenServer::VBD }
+      }
+    end
+
+    tests('return valid consoles') do
+      test('as an array') { server.consoles.kind_of? Array }
+      server.consoles.each { |i|
+        test('and each Console should be a Fog::Compute::XenServer::Console') { i.kind_of? Fog::Compute::XenServer::Console }
+      }
     end
 
     test("have 0 or more networks") { server.networks.kind_of? Array }
@@ -130,33 +138,42 @@ Shindo.tests('Fog::Compute[:xenserver] | server model', ['xenserver']) do
     test("always stop when I say stop('hard')") do
       server.stop 'hard'
     end
-    
+
     # shutdown is async apparently, we wait
     test("not be running when it's stopped") do
       server.wait_for { !server.running? }
       true
     end
-    
+
     test("do nothing when I say stop('hard') but it's not running") do
       server.stop('hard') == false
     end
-    
+
     test("always start when I say start") do
       server.start
     end
-    
+
     # start is async apparently, we wait
     test("be running if I started the server") do
       server.wait_for { server.running? }
       true
     end
-    
+
     test("set attribute PV_bootloader to supergrub") do
       server.set_attribute 'PV_bootloader', 'supergrub'
       server.reload
       server.pv_bootloader == 'supergrub'
     end
-    
+
+    tests("Creating a snapshot") do
+      snap_ref = server.snapshot('newsnapshot')
+      tests("it should create a snapshot") do
+        snap_ref = server.snapshot('newsnapshot')
+        servers.get(snap_ref).reference == snap_ref
+      end
+      test("and destroy it afterwards") { servers.get(snap_ref).destroy }
+    end
+
     test("be able to be destroyed!") do
       server.destroy
       servers.get_by_name('fog-test-server-shindo') == nil

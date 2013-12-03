@@ -5,8 +5,11 @@ module Fog
   module CDN
     class HP < Fog::Service
 
-      requires    :hp_secret_key, :hp_account_id, :hp_tenant_id
-      recognizes  :hp_auth_uri, :hp_cdn_uri, :persistent, :connection_options, :hp_use_upass_auth_style, :hp_auth_version
+      requires    :hp_secret_key, :hp_tenant_id, :hp_avl_zone
+      recognizes  :hp_auth_uri, :hp_cdn_uri, :credentials, :hp_service_type
+      recognizes  :hp_use_upass_auth_style, :hp_auth_version, :user_agent
+      recognizes  :persistent, :connection_options
+      recognizes  :hp_access_key, :hp_account_id  # :hp_account_id is deprecated use hp_access_key instead
 
       secrets     :hp_secret_key
 
@@ -39,28 +42,51 @@ module Fog
         end
 
         def initialize(options={})
-          @hp_account_id = options[:hp_account_id]
+          # deprecate hp_account_id
+          if options[:hp_account_id]
+            Fog::Logger.deprecation(":hp_account_id is deprecated, please use :hp_access_key instead.")
+            @hp_access_key = options.delete(:hp_account_id)
+          end
+          @hp_access_key = options[:hp_access_key]
+          unless @hp_access_key
+            raise ArgumentError.new("Missing required arguments: hp_access_key. :hp_account_id is deprecated, please use :hp_access_key instead.")
+          end
         end
 
         def data
-          self.class.data[@hp_account_id]
+          self.class.data[@hp_access_key]
         end
 
         def reset_data
-          self.class.data.delete(@hp_account_id)
+          self.class.data.delete(@hp_access_key)
         end
 
       end
 
       class Real
         include Utils
+        attr_reader :credentials
 
         def initialize(options={})
+          # deprecate hp_account_id
+          if options[:hp_account_id]
+            Fog::Logger.deprecation(":hp_account_id is deprecated, please use :hp_access_key instead.")
+            options[:hp_access_key] = options.delete(:hp_account_id)
+          end
+          @hp_access_key = options[:hp_access_key]
+          unless @hp_access_key
+            raise ArgumentError.new("Missing required arguments: hp_access_key. :hp_account_id is deprecated, please use :hp_access_key instead.")
+          end
+          @hp_secret_key = options[:hp_secret_key]
           @connection_options = options[:connection_options] || {}
           ### Set an option to use the style of authentication desired; :v1 or :v2 (default)
+          ### A symbol is required, we should ensure that the value is loaded as a symbol
           auth_version = options[:hp_auth_version] || :v2
-          ### Pass the service type for object storage to the authentication call
-          options[:hp_service_type] = "hpext:cdn"
+          auth_version = auth_version.to_s.downcase.to_sym
+
+          ### Pass the service name for object storage to the authentication call
+          options[:hp_service_type] ||= "CDN"
+          @hp_tenant_id = options[:hp_tenant_id]
 
           ### Make the authentication call
           if (auth_version == :v2)
@@ -69,6 +95,7 @@ module Fog
             ### When using the v2 CS authentication, the CDN Mgmt comes from the service catalog
             @hp_cdn_uri = credentials[:endpoint_url]
             cdn_mgmt_url = @hp_cdn_uri
+            @credentials = credentials
           else
             # Call the legacy v1.0/v1.1 authentication
             credentials = Fog::HP.authenticate_v1(options, @connection_options)
@@ -106,9 +133,9 @@ module Fog
             response = @connection.request(params.merge!({
               :headers  => {
                 'Content-Type' => 'application/json',
+                'Accept'       => 'application/json',
                 'X-Auth-Token' => @auth_token
               }.merge!(params[:headers] || {}),
-              :host     => @host,
               :path     => "#{@path}/#{params[:path]}",
             }), &block)
           rescue Excon::Errors::HTTPStatusError => error

@@ -9,8 +9,9 @@ module Fog
 
         model Fog::Compute::Cloudstack::Server
 
-        def all
-          data = connection.list_virtual_machines["listvirtualmachinesresponse"]["virtualmachine"] || []
+        def all(attributes={})
+          response = service.list_virtual_machines(attributes)
+          data = response["listvirtualmachinesresponse"]["virtualmachine"] || []
           load(data)
         end
 
@@ -21,8 +22,9 @@ module Fog
         end
 
         def get(server_id)
-          if server = connection.list_virtual_machines('id' => server_id)["listvirtualmachinesresponse"]["virtualmachine"].first
-            new(server)
+          servers = service.list_virtual_machines('id' => server_id)["listvirtualmachinesresponse"]["virtualmachine"]
+          unless servers.nil? || servers.empty?
+            new(servers.first)
           end
         rescue Fog::Compute::Cloudstack::BadRequest
           nil

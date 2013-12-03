@@ -19,13 +19,13 @@ Shindo.tests('Fog::Compute[:brightbox] | image requests', ['brightbox']) do
       pending if Fog.mocking?
       result = Fog::Compute[:brightbox].list_images
       @image_id = result.first["id"]
-      formats(Brightbox::Compute::Formats::Collection::IMAGES, false) { result }
+      data_matches_schema(Brightbox::Compute::Formats::Collection::IMAGES, {:allow_extra_keys => true}) { result }
     end
 
     tests("#get_image('#{@image_id}')") do
       pending if Fog.mocking?
       result = Fog::Compute[:brightbox].get_image(@image_id)
-      formats(Brightbox::Compute::Formats::Full::IMAGE, false) { result }
+      data_matches_schema(Brightbox::Compute::Formats::Full::IMAGE, {:allow_extra_keys => true}) { result }
     end
 
     ## Until Image creation can be automated, we shouldn't be updating Images randomly

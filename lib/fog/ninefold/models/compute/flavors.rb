@@ -10,12 +10,12 @@ module Fog
         model Fog::Compute::Ninefold::Flavor
 
         def all
-          data = connection.list_service_offerings
+          data = service.list_service_offerings
           load(data)
         end
 
         def get(identifier)
-          data = connection.list_service_offerings(:id => identifier)
+          data = service.list_service_offerings(:id => identifier)
           if data.empty?
             nil
           else

@@ -10,12 +10,12 @@ module Fog
         model Fog::Compute::Clodo::Image
 
         def all
-          data = connection.list_images_detail.body['images']
+          data = service.list_images_detail.body['images']
           load(data)
         end
 
         def get(image_id)
-          image = connection.get_image_details(image_id).body['image']
+          image = service.get_image_details(image_id).body['image']
           new(image) if image
         rescue Fog::Compute::Clodo::NotFound
           nil

@@ -55,7 +55,7 @@ module Fog
             response
           else
             response.status = 404
-            response.body = "<?xml version=\"1.0\"?><Response><Errors><Error><Code>NoSuchHostedZone</Code><Message>A hosted zone with the specified hosted zone ID does not exist.</Message></Error></Errors><RequestID>#{Fog::AWS::Mock.request_id}</RequestID></Response>"
+            response.body = "<?xml version=\"1.0\"?><ErrorResponse xmlns=\"https://route53.amazonaws.com/doc/2012-02-29/\"><Error><Type>Sender</Type><Code>NoSuchHostedZone</Code><Message>The specified hosted zone does not exist.</Message></Error><RequestId>#{Fog::AWS::Mock.request_id}</RequestId></ErrorResponse>"
             raise(Excon::Errors.status_error({:expects => 200}, response))
           end
         end

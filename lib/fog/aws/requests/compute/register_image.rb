@@ -102,7 +102,7 @@ module Fog
                 'ebs' => {}
               }
               ["DeviceName","VirtualName"].each do |n|
-                block_device_mapping = bd[n] if bd[n]
+                block_device_mapping[n] = bd[n] if bd[n]
               end
               ["SnapshotId","VolumeSize","NoDevice","DeleteOnTermination"].each do |n|
                 block_device_mapping['ebs'][n] = bd[n] if bd[n]

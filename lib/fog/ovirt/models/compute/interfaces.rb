@@ -14,16 +14,16 @@ module Fog
         def all(filters = {})
           requires :vm
           if vm.is_a? Fog::Compute::Ovirt::Server
-            load connection.list_vm_interfaces(vm.id)
+            load service.list_vm_interfaces(vm.id)
           elsif vm.is_a? Fog::Compute::Ovirt::Template
-            load connection.list_template_interfaces(vm.id)
+            load service.list_template_interfaces(vm.id)
           else
             raise 'interfaces should have vm or template'
           end
         end
 
         def get(id)
-          new connection.get_interface(id)
+          new service.get_interface(id)
         end
 
      end

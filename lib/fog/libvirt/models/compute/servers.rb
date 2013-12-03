@@ -10,11 +10,11 @@ module Fog
         model Fog::Compute::Libvirt::Server
 
         def all(filter={})
-          load(connection.list_domains(filter))
+          load(service.list_domains(filter))
         end
 
         def get(uuid)
-          data = connection.list_domains(:uuid => uuid)
+          data = service.list_domains(:uuid => uuid)
           new data.first if data
         end
 

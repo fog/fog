@@ -111,7 +111,7 @@ Shindo.tests('Fog::DNS[:rackspace] | DNS requests', ['rackspace', 'dns']) do
       Fog::DNS[:rackspace].list_domains :limit => 5, :offset => 8
     end
 
-    tests('list_domain_details 34335353').raises(Fog::Rackspace::Errors::NotFound) do
+    tests('list_domain_details 34335353').raises(Fog::DNS::Rackspace::NotFound) do
       Fog::DNS[:rackspace].list_domain_details 34335353
     end
 

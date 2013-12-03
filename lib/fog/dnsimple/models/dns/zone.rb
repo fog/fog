@@ -14,7 +14,7 @@ module Fog
         attribute :updated_at
 
         def destroy
-          connection.delete_domain(identity)
+          service.delete_domain(identity)
           true
         end
 
@@ -22,7 +22,7 @@ module Fog
           @records ||= begin
             Fog::DNS::DNSimple::Records.new(
               :zone       => self,
-              :connection => connection
+              :service => service
             )
           end
         end
@@ -38,7 +38,7 @@ module Fog
 
         def save
           requires :domain
-          data = connection.create_domain(domain).body["domain"]
+          data = service.create_domain(domain).body["domain"]
           merge_attributes(data)
           true
         end

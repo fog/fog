@@ -14,8 +14,17 @@ module Fog
 
       class Mock
         def list_users(tenant_id = nil)
+          users = self.data[:users].values
+
+          if tenant_id
+            users = users.select {
+              |user| user['tenantId'] == tenant_id
+            }
+          end
+                         
+          
           Excon::Response.new(
-            :body   => { 'users' => self.data[:users].values },
+            :body   => { 'users' => users },
             :status => 200
           )
         end

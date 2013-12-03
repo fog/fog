@@ -3,8 +3,8 @@ module Fog
     class Glesys
       class Real
 
-        def template_list(options = {})
-          request("/server/templates", options)
+        def template_list
+          request("/server/templates")
         end
       end
 

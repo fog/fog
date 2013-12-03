@@ -25,12 +25,12 @@ module Fog
 
         def destroy
           requires :identity
-          self.jobid = extract_job_id(connection.delete_ip_forwarding_rule(:id => identity))
+          self.jobid = extract_job_id(service.delete_ip_forwarding_rule(:id => identity))
           true
         end
 
         def ready?
-          if jobid && connection.query_async_job_result(:jobid => jobid)['jobstatus'] == 0
+          if jobid && service.query_async_job_result(:jobid => jobid)['jobstatus'] == 0
             false
           else # No running job, we are ready. Refresh data.
             reload
@@ -58,7 +58,7 @@ module Fog
             :startport => startport,
             :endport => endport
           }.delete_if {|k,v| v.nil? || v == "" }
-          data = connection.create_ip_forwarding_rule(options)
+          data = service.create_ip_forwarding_rule(options)
           merge_attributes(data)
           true
         end

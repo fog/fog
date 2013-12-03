@@ -10,7 +10,7 @@ module Fog
         model Fog::Compute::GoGrid::Password
 
         def all
-          data = connection.support_password_list.body['list']
+          data = service.support_password_list.body['list']
           load(data)
         end
 
@@ -21,8 +21,8 @@ module Fog
         end
 
         def get(id)
-          #if server_id && server = connection.grid_server_get(server_id).body['list']
-          if id && server = connection.support_password_get(id).body['list']
+          #if server_id && server = service.grid_server_get(server_id).body['list']
+          if id && server = service.support_password_get(id).body['list']
             new(server)
           end
         rescue Fog::Compute::GoGrid::NotFound

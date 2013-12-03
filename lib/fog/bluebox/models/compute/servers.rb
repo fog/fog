@@ -10,7 +10,7 @@ module Fog
         model Fog::Compute::Bluebox::Server
 
         def all
-          data = connection.get_blocks.body
+          data = service.get_blocks.body
           load(data)
         end
 
@@ -22,7 +22,7 @@ module Fog
         end
 
         def get(server_id)
-          if server_id && server = connection.get_block(server_id).body
+          if server_id && server = service.get_block(server_id).body
             new(server)
           end
         rescue Fog::Compute::Bluebox::NotFound

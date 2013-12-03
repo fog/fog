@@ -1,7 +1,7 @@
 Shindo.tests('Fog::DNS[:zerigo] | DNS requests', ['zerigo', 'dns']) do
 
   # tests assume have a free acccount - ie need to limit # of zones to max of 3
-
+  MAX_ZONE_COUNT = 3
   @domain = ''
   @org_zone_count = 0
   @new_zones = []
@@ -156,21 +156,67 @@ Shindo.tests('Fog::DNS[:zerigo] | DNS requests', ['zerigo', 'dns']) do
 
     end
     
-    test('list zones - make sure total count is correct') do
-       pending if Fog.mocking?
+    test("list zones - make sure total count is #{@org_zone_count+1}") do
+      pending if Fog.mocking?
 
-       result= false
+      result= false
 
-       response = Fog::DNS[:zerigo].list_zones()
-       if response.status == 200
-         zones = response.body['zones']
-         if (@org_zone_count+1) == zones.count
-           result= true;
-         end
-       end
+      response = Fog::DNS[:zerigo].list_zones()
+      if response.status == 200
+        zones = response.body['zones']
+        if (@org_zone_count+1) == zones.count
+          result= true;
+        end
+      end
 
-       result
-     end
+      result
+    end
+    
+    test('list zones with pagination') do
+      pending if Fog.mocking?
+    
+      result = false
+      
+      # make enough zones to paginate
+      number_zones_to_create = MAX_ZONE_COUNT-@org_zone_count-1
+      number_zones_to_create.times do |i|
+        domain = generate_unique_domain
+        options = { :nx_ttl => 1800, :active => 'N', :hostmaster => "netops@#{domain}", 
+                    :notes => 'for client ABC', :tag_list=> "sample-tag-#{i}" }
+        response = Fog::DNS[:zerigo].create_zone( domain, 14400, 'pri', options )
+        if response.status == 201
+          @new_zones << response.body['id']
+        else
+          return false
+        end
+      end
+
+      total_zone_count_response = Fog::DNS[:zerigo].list_zones()
+      if total_zone_count_response.status == 200
+        if number_zones_to_create > 0
+          zones_we_should_see = @new_zones.dup
+          total_zone_count = total_zone_count_response.headers['X-Query-Count'].to_i
+        else
+          zones_we_should_see = total_zone_count_response.body['zones'].collect {|z| z['id']}
+          total_zone_count = zones_we_should_see.count
+        end
+
+        total_zone_count.times do |i|
+          # zerigo pages are 1-indexed, not 0-indexed
+          response = Fog::DNS[:zerigo].list_zones(:per_page => 1, :page => i+1)
+          zones = response.body['zones']
+          if 1 == zones.count
+            zones_we_should_see.delete(zones.first['id'])
+          end
+        end
+        
+        if zones_we_should_see.empty?
+          result = true
+        end
+      end
+    
+      result
+    end
     
     test('create record - simple A record') do
       pending if Fog.mocking?

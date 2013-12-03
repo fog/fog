@@ -10,7 +10,7 @@ module Fog
         attribute :raw
 
         def networks
-          connection.list_networks(id)
+          service.list_networks(id)
         end
 
         def to_s

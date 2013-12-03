@@ -16,7 +16,8 @@ module Fog
           request(
             :path => "/my/machines",
             :method => "GET",
-            :query => options
+            :query => options,
+            :expects => 200
           )
         end
       end

@@ -23,7 +23,7 @@ module Fog
 
         def retrieve_databases
           requires :instance
-          data = connection.list_databases(instance.id).body['databases']
+          data = service.list_databases(instance.id).body['databases']
         end
       end
     end

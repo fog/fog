@@ -15,7 +15,7 @@ Shindo.tests('Fog::Compute[:aws] | security group requests', ['aws']) do
         'fromPort'    => Fog::Nullable::Integer,
         'groups'      => [{ 'groupName' => Fog::Nullable::String, 'userId' => String, 'groupId' => String }],
         'ipProtocol'  => String,
-        'ipRanges'    => [],
+        'ipRanges'    => [Fog::Nullable::Hash],
         'toPort'      => Fog::Nullable::Integer,
       }],
       'ipPermissionsEgress' => [],

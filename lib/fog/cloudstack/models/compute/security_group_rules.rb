@@ -12,7 +12,7 @@ module Fog
         attribute :security_group_id, :type => :string
 
         def security_group
-          connection.security_groups.get(self.security_group_id)
+          service.security_groups.get(self.security_group_id)
         end
 
         def create(attributes)

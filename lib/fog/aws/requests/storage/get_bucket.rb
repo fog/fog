@@ -7,38 +7,35 @@ module Fog
 
         # List information about objects in an S3 bucket
         #
-        # ==== Parameters
-        # * bucket_name<~String> - name of bucket to list object keys from
-        # * options<~Hash> - config arguments for list.  Defaults to {}.
-        #   * 'delimiter'<~String> - causes keys with the same string between the prefix
+        # @param bucket_name [String] name of bucket to list object keys from
+        # @param options [Hash] config arguments for list.  Defaults to {}.
+        # @option options delimiter [String] causes keys with the same string between the prefix
         #     value and the first occurence of delimiter to be rolled up
-        #   * 'marker'<~String> - limits object keys to only those that appear
+        # @option options marker [String] limits object keys to only those that appear
         #     lexicographically after its value.
-        #   * 'max-keys'<~Integer> - limits number of object keys returned
-        #   * 'prefix'<~String> - limits object keys to those beginning with its value.
+        # @option options max-keys [Integer] limits number of object keys returned
+        # @option options prefix [String] limits object keys to those beginning with its value.
         #
-        # ==== Returns
-        # * response<~Excon::Response>:
-        #   * body<~Hash>:
-        #     * 'Delimeter'<~String> - Delimiter specified for query
-        #     * 'IsTruncated'<~Boolean> - Whether or not the listing is truncated
-        #     * 'Marker'<~String> - Marker specified for query
-        #     * 'MaxKeys'<~Integer> - Maximum number of keys specified for query
-        #     * 'Name'<~String> - Name of the bucket
-        #     * 'Prefix'<~String> - Prefix specified for query
-        #     * 'CommonPrefixes'<~Array> - Array of strings for common prefixes
-        #     * 'Contents'<~Array>:
-        #       * 'ETag'<~String>: Etag of object
-        #       * 'Key'<~String>: Name of object
-        #       * 'LastModified'<~String>: Timestamp of last modification of object
-        #       * 'Owner'<~Hash>:
-        #         * 'DisplayName'<~String> - Display name of object owner
-        #         * 'ID'<~String> - Id of object owner
-        #       * 'Size'<~Integer> - Size of object
-        #       * 'StorageClass'<~String> - Storage class of object
+        # @return [Excon::Response] response:
+        #   * body [Hash]:
+        #     * Delimeter [String] - Delimiter specified for query
+        #     * IsTruncated [Boolean] - Whether or not the listing is truncated
+        #     * Marker [String]- Marker specified for query
+        #     * MaxKeys [Integer] - Maximum number of keys specified for query
+        #     * Name [String] - Name of the bucket
+        #     * Prefix [String] - Prefix specified for query
+        #     * CommonPrefixes [Array] - Array of strings for common prefixes
+        #     * Contents [Array]:
+        #       * ETag [String] - Etag of object
+        #       * Key [String] - Name of object
+        #       * LastModified [String] - Timestamp of last modification of object
+        #       * Owner [Hash]:
+        #         * DisplayName [String] - Display name of object owner
+        #         * ID [String] - Id of object owner
+        #       * Size [Integer] - Size of object
+        #       * StorageClass [String] - Storage class of object
         #
-        # ==== See Also
-        # http://docs.amazonwebservices.com/AmazonS3/latest/API/RESTBucketGET.html
+        # @see http://docs.amazonwebservices.com/AmazonS3/latest/API/RESTBucketGET.html
 
         def get_bucket(bucket_name, options = {})
           unless bucket_name
@@ -47,7 +44,7 @@ module Fog
           request({
             :expects  => 200,
             :headers  => {},
-            :host     => "#{bucket_name}.#{@host}",
+            :bucket_name => bucket_name,
             :idempotent => true,
             :method   => 'GET',
             :parser   => Fog::Parsers::Storage::AWS::GetBucket.new,

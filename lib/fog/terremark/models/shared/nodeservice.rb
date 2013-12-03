@@ -16,12 +16,12 @@ module Fog
         attribute :InternetServiceId
 
         def destroy
-          connection.delete_node_service(self.Id)
+          service.delete_node_service(self.Id)
         end
 
         def save
          requires :Name, :Port, :InternetServiceId
-            data = connection.add_node_service(
+            data = service.add_node_service(
                 service_id = self.InternetServiceId,
                 ip = self.IpAddress,
                 name = self.Name,
@@ -29,7 +29,7 @@ module Fog
                 options = {"Enabled" => 'true',
                            "Description" => self.Name,
                 }
-            
+
             )
             merge_attributes(data.body)
             true

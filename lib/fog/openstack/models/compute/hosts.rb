@@ -10,12 +10,12 @@ module Fog
         model Fog::Compute::OpenStack::Host
 
         def all
-          data = connection.list_hosts.body['hosts']
+          data = service.list_hosts.body['hosts']
           load(data)
         end
 
         def get(host_name)
-          if host = connection.get_host_details(host_name).body['host']
+          if host = service.get_host_details(host_name).body['host']
             new({
               'host_name' => host_name,
               'details' => host}

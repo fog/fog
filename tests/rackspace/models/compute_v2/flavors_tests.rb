@@ -1,7 +1,4 @@
 Shindo.tests('Fog::Compute::RackspaceV2 | flavors', ['rackspace']) do
-
-  pending if Fog.mocking?
-
   service = Fog::Compute::RackspaceV2.new
 
   tests("success") do
@@ -10,11 +7,11 @@ Shindo.tests('Fog::Compute::RackspaceV2 | flavors', ['rackspace']) do
     end
 
     tests("#get").succeeds do
-      service.flavors.get(2)
+      service.flavors.get(service.flavors.first.id)
     end
   end
 
   tests("failure").returns(nil) do
-    service.flavors.get('some_random_identity')
+    service.flavors.get(Fog::Rackspace::MockData::NOT_FOUND_ID)
   end
 end

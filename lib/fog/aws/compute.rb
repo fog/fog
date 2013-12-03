@@ -7,7 +7,7 @@ module Fog
       extend Fog::AWS::CredentialFetcher::ServiceMethods
 
       requires :aws_access_key_id, :aws_secret_access_key
-      recognizes :endpoint, :region, :host, :path, :port, :scheme, :persistent, :aws_session_token, :use_iam_profile, :aws_credentials_expire_at, :instrumentor, :instrumentor_name
+      recognizes :endpoint, :region, :host, :path, :port, :scheme, :persistent, :aws_session_token, :use_iam_profile, :aws_credentials_expire_at, :instrumentor, :instrumentor_name, :version
 
       secrets    :aws_secret_access_key, :hmac, :aws_session_token
 
@@ -26,6 +26,8 @@ module Fog
       collection  :key_pairs
       model       :network_interface
       collection  :network_interfaces
+      model       :route_table
+      collection  :route_tables
       model       :security_group
       collection  :security_groups
       model       :server
@@ -48,6 +50,7 @@ module Fog
       request :associate_address
       request :associate_dhcp_options
       request :attach_network_interface
+      request :associate_route_table
       request :attach_internet_gateway
       request :attach_volume
       request :authorize_security_group_ingress
@@ -58,6 +61,8 @@ module Fog
       request :create_key_pair
       request :create_network_interface
       request :create_placement_group
+      request :create_route
+      request :create_route_table
       request :create_security_group
       request :create_snapshot
       request :create_spot_datafeed_subscription
@@ -65,12 +70,16 @@ module Fog
       request :create_tags
       request :create_volume
       request :create_vpc
+      request :copy_image
+      request :copy_snapshot
       request :delete_dhcp_options
       request :delete_internet_gateway
       request :delete_key_pair
       request :delete_network_interface
       request :delete_security_group
       request :delete_placement_group
+      request :delete_route
+      request :delete_route_table
       request :delete_snapshot
       request :delete_spot_datafeed_subscription
       request :delete_subnet
@@ -78,6 +87,7 @@ module Fog
       request :delete_volume
       request :delete_vpc
       request :deregister_image
+      request :describe_account_attributes
       request :describe_addresses
       request :describe_availability_zones
       request :describe_dhcp_options
@@ -89,6 +99,7 @@ module Fog
       request :describe_key_pairs
       request :describe_network_interface_attribute
       request :describe_network_interfaces
+      request :describe_route_tables
       request :describe_placement_groups
       request :describe_regions
       request :describe_reserved_instances_offerings
@@ -106,6 +117,7 @@ module Fog
       request :detach_internet_gateway
       request :detach_volume
       request :disassociate_address
+      request :disassociate_route_table
       request :get_console_output
       request :get_password_data
       request :import_key_pair
@@ -113,6 +125,8 @@ module Fog
       request :modify_instance_attribute
       request :modify_network_interface_attribute
       request :modify_snapshot_attribute
+      request :modify_volume_attribute
+      request :modify_vpc_attribute
       request :purchase_reserved_instances_offering
       request :reboot_instances
       request :release_address
@@ -189,7 +203,15 @@ module Fog
                       }
                     ],
                     'ownerId'             => owner_id
-                  }
+                  },
+                  'amazon-elb-sg' => {
+                    'groupDescription'   => 'amazon-elb-sg',
+                    'groupName'          => 'amazon-elb-sg',
+                    'groupId'            => 'amazon-elb',
+                    'ownerId'            => 'amazon-elb',
+                    'ipPermissionsEgree' => [],
+                    'ipPermissions'      => [],
+                  },
                 },
                 :network_interfaces => {},
                 :snapshots => {},
@@ -202,7 +224,33 @@ module Fog
                 :subnets => [],
                 :vpcs => [],
                 :dhcp_options => [],
-                :internet_gateways => []
+                :route_tables => [],
+                :account_attributes => [
+                  {
+                    "values"        => ["5"],
+                    "attributeName" => "vpc-max-security-groups-per-interface"
+                  },
+                  {
+                    "values"        => ["20"],
+                    "attributeName" => "max-instances"
+                  },
+                  {
+                    "values"        => ["EC2", "VPC"],
+                    "attributeName" => "supported-platforms"
+                  },
+                  {
+                    "values"        => ["none"],
+                    "attributeName" => "default-vpc"
+                  },
+                  {
+                    "values"        => ["5"],
+                    "attributeName" => "max-elastic-ips"
+                  },
+                  {
+                    "values"        => ["5"],
+                    "attributeName" => "vpc-max-elastic-ips"
+                  }
+                ]
               }
             end
           end
@@ -212,13 +260,15 @@ module Fog
           @data = nil
         end
 
+        attr_accessor :region
+
         def initialize(options={})
           @use_iam_profile = options[:use_iam_profile]
           @aws_credentials_expire_at = Time::now + 20
           setup_credentials(options)
           @region = options[:region] || 'us-east-1'
 
-          unless ['ap-northeast-1', 'ap-southeast-1', 'eu-west-1', 'us-east-1', 'us-west-1', 'us-west-2', 'sa-east-1'].include?(@region)
+          unless ['ap-northeast-1', 'ap-southeast-1', 'ap-southeast-2', 'eu-west-1', 'us-east-1', 'us-west-1', 'us-west-2', 'sa-east-1'].include?(@region)
             raise ArgumentError, "Unknown region: #{@region.inspect}"
           end
         end
@@ -249,6 +299,11 @@ module Fog
           end
 
           images
+        end
+
+        def ec2_compatibility_mode(enabled=true)
+          values = enabled ? ["EC2", "VPC"] : ["VPC"]
+          self.data[:account_attributes].detect { |h| h["attributeName"] == "supported-platforms" }["values"] = values
         end
 
         def apply_tag_filters(resources, filters, resource_id_key)
@@ -317,6 +372,7 @@ module Fog
           @region                 = options[:region] ||= 'us-east-1'
           @instrumentor           = options[:instrumentor]
           @instrumentor_name      = options[:instrumentor_name] || 'fog.aws.compute'
+          @version                = options[:version]     ||  '2013-10-01'
 
           if @endpoint = options[:endpoint]
             endpoint = URI.parse(@endpoint)
@@ -362,7 +418,7 @@ module Fog
               :host               => @host,
               :path               => @path,
               :port               => @port,
-              :version            => '2012-07-20'
+              :version            => @version
             }
           )
 
@@ -381,21 +437,18 @@ module Fog
               :expects    => 200,
               :headers    => { 'Content-Type' => 'application/x-www-form-urlencoded' },
               :idempotent => idempotent,
-              :host       => @host,
               :method     => 'POST',
               :parser     => parser
             })
         rescue Excon::Errors::HTTPStatusError => error
-          if match = error.message.match(/<Code>(.*)<\/Code><Message>(.*)<\/Message>/)
-            raise case match[1].split('.').last
-                  when 'NotFound', 'Unknown'
-                    Fog::Compute::AWS::NotFound.slurp(error, match[2])
-                  else
-                    Fog::Compute::AWS::Error.slurp(error, "#{match[1]} => #{match[2]}")
-                  end
-          else
-            raise error
-          end
+          match = Fog::AWS::Errors.match_error(error)
+          raise if match.empty?
+          raise case match[:code]
+                when 'NotFound', 'Unknown'
+                  Fog::Compute::AWS::NotFound.slurp(error, match[:message])
+                else
+                  Fog::Compute::AWS::Error.slurp(error, "#{match[:code]} => #{match[:message]}")
+                end
         end
 
       end

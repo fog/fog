@@ -8,12 +8,12 @@ module Fog
         model Fog::Compute::Joyent::Key
 
         def all
-          data = connection.list_keys.body
+          data = service.list_keys.body
           load(data)
         end
 
         def get(keyname)
-          data = connection.get_key(keyname).body
+          data = service.get_key(keyname).body
           if data
             new(data)
           else
@@ -25,7 +25,7 @@ module Fog
           raise ArgumentError, "option [name] required" unless params.key?(:name)
           raise ArgumentError, "option [key] required" unless params.key?(:key)
 
-          self.connection.create_key(params)
+          service.create_key(params)
         end
 
       end

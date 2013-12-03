@@ -11,10 +11,12 @@ module Fog
 
         def all
           r_data = []
-          data = connection.get_templates(href).body[:Families]
+          data = service.get_templates(href).body[:Families]
           data[:Family].is_a?(Hash) ? data = [data[:Family]] : data = data[:Family]
           data.each do |d|
-            d[:Categories][:Category].each do |cat|
+            cats = d[:Categories][:Category]
+            cats = [cats] if cats.is_a?(Hash)
+            cats.each do |cat|
               cat[:OperatingSystems][:OperatingSystem].is_a?(Hash) ? cat = [cat[:OperatingSystems][:OperatingSystem]] : cat = cat[:OperatingSystems][:OperatingSystem]
               cat.each do |os|
                 os[:Templates][:Template].is_a?(Hash) ? os = [os[:Templates][:Template]] : os = os[:Templates][:Template]
@@ -28,7 +30,7 @@ module Fog
         end
 
         def get(uri)
-          if data = connection.get_template(uri)
+          if data = service.get_template(uri)
             new(data.body)
           end
         rescue Fog::Errors::NotFound

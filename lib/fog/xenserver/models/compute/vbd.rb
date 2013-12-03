@@ -3,13 +3,13 @@ require 'fog/core/model'
 module Fog
   module Compute
     class XenServer
-    
+
       class VBD < Fog::Model
         # API Reference here:
         # http://docs.vmd.citrix.com/XenServer/5.6.0/1.0/en_gb/api/?c=VBD
-        
+
         identity :reference
-        
+
         attribute :uuid
         attribute :currently_attached
         attribute :allowed_operations
@@ -23,7 +23,7 @@ module Fog
         attribute :userdevice
         attribute :empty
         attribute :type
-        attribute :mode        
+        attribute :mode
         attribute :storage_lock
         attribute :runtime_properties
         attribute :unpluggable
@@ -38,36 +38,36 @@ module Fog
         # May return nil
         #
         def vdi
-          connection.vdis.get __vdi
+          service.vdis.get __vdi
         end
 
         #
         # TODO: May it return nil?
         #
         def server
-          connection.servers.get __vm
+          service.servers.get __vm
         end
 
         def save
           requires :vdi, :server
-          ref = connection.create_vbd attributes[:server], attributes[:vdi], attributes
-          merge_attributes connection.vbds.get(ref).attributes
+          ref = service.create_vbd attributes[:server], attributes[:vdi], attributes
+          merge_attributes service.vbds.get(ref).attributes
         end
 
         def unplug
-          connection.unplug_vbd reference
+          service.unplug_vbd reference
         end
 
         def unplug_force
-          connection.unplug_force_vbd reference
+          service.unplug_force_vbd reference
         end
-        
+
         def eject
-          connection.eject_vbd reference
+          service.eject_vbd reference
         end
-        
+
         def insert(vdi)
-          connection.insert_vbd reference, vdi.reference
+          service.insert_vbd reference, vdi.reference
         end
 
         #
@@ -79,12 +79,12 @@ module Fog
         #
         def metrics
           return nil unless currently_attached
-          rec = connection.get_record( __metrics, 'VBD_metrics' )
+          rec = service.get_record( __metrics, 'VBD_metrics' )
           Fog::Compute::XenServer::VbdMetrics.new(rec)
         end
 
       end
-      
+
     end
   end
 end

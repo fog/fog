@@ -5,7 +5,7 @@ class Glesys
 
         LIST = {
           'debug' => {
-            'input' => []
+            'input' => Array
           },
           'servers' => [{
             'serverid' => String,
@@ -122,7 +122,7 @@ class Glesys
               'current' => Fog::Nullable::Integer,
               'unit'    => String
             },
-            'warnings'  => []
+            'warnings'  => Array
           },
           'status' => {
             'timestamp' => String,
@@ -161,7 +161,7 @@ class Glesys
             'netmask'     => Fog::Nullable::String,
             'broadcast'   => Fog::Nullable::String,
             'gateway'     => Fog::Nullable::String,
-            'nameservers' => [],
+            'nameservers' => Array,
             'datacenter'  => String,
             'serverid'    => Fog::Nullable::String,
             'platform'    => String,
@@ -189,7 +189,7 @@ class Glesys
             'ipversion'   => Integer,
             'datacenter'  => String,
             'platform'    => String,
-            "ipaddresses" => []
+            "ipaddresses" => Array
           },
           'status' => {
             'timestamp' => String,
@@ -214,7 +214,7 @@ class Glesys
             'netmask'     => String,
             'broadcast'   => String,
             'gateway'     => String,
-            'nameservers' => [],
+            'nameservers' => Array,
             'datacenter'  => String,
             'serverid'    => Fog::Nullable::String,
             'platform'    => String,

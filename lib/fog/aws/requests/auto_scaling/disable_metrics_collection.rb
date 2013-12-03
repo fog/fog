@@ -42,7 +42,7 @@ module Fog
       class Mock
 
         def disable_metrics_collection(auto_scaling_group_name, options = {})
-          unless data[:auto_scaling_groups].has_key?(auto_scaling_group_name)
+          unless self.data[:auto_scaling_groups].has_key?(auto_scaling_group_name)
             Fog::AWS::AutoScaling::ValidationError.new("Group #{auto_scaling_group_name} not found")
           end
 

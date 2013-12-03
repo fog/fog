@@ -20,7 +20,7 @@ module Fog
         # Return events related to this version
         def events
           requires :label, :application_name
-          connection.events.all({
+          service.events.all({
                                     'ApplicationName' => application_name,
                                     'VersionLabel' => label
                                 })
@@ -29,7 +29,7 @@ module Fog
         # Returns environments running this version
         def environments
           requires :label, :application_name
-          connection.environments.all({
+          service.environments.all({
                                     'ApplicationName' => application_name,
                                     'VersionLabel' => label
                                 })
@@ -37,7 +37,7 @@ module Fog
 
         def destroy(delete_source_bundle = nil)
           requires :label, :application_name
-          connection.delete_application_version(application_name, label, delete_source_bundle)
+          service.delete_application_version(application_name, label, delete_source_bundle)
           true
         end
 
@@ -53,7 +53,7 @@ module Fog
           }
           options.delete_if {|key, value| value.nil?}
 
-          data = connection.create_application_version(options).body['CreateApplicationVersionResult']['ApplicationVersion']
+          data = service.create_application_version(options).body['CreateApplicationVersionResult']['ApplicationVersion']
           merge_attributes(data)
           true
         end
@@ -69,7 +69,7 @@ module Fog
           }
           options.delete_if {|key, value| value.nil?}
 
-          data = connection.update_application_version(options).body['UpdateApplicationVersionResult']['ApplicationVersion']
+          data = service.update_application_version(options).body['UpdateApplicationVersionResult']['ApplicationVersion']
           merge_attributes(data)
         end
       end

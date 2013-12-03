@@ -19,13 +19,28 @@ def compute_providers
       },
       :mocked => false
     },
-    :openstack => {
-      :mocked => true,
+    :ecloud => {
       :server_attributes => {
-        :flavor_ref => 2,
-        :image_ref  => "0e09fbd6-43c5-448a-83e9-0d3d05f9747e",
-        :name       => "fog_#{Time.now.to_i}"
-      }
+        :name                 => "VM4",
+        :row                  => "Layout Row 1",
+        :group                => "Layout Group 1",
+        :catalog_network_name => "bridged",
+        :description          => "blarg",
+        :operating_system => {
+          :name =>  "Red Hat Enterprise Linux 5 (64-bit)",
+          :href => "/cloudapi/ecloud/operatingsystems/rhel5_64guest/computepools/963",
+        },
+        :organization_uri => 'organizations/2'
+      }.tap do |hash|
+        [:template_href, :network_uri,
+         :environment_name, :organization_uri].each do |k|
+          key = "ecloud_#{k}".to_sym
+          if Fog.credentials[key]
+            hash[k]= Fog.credentials[key]
+          end
+        end
+      end,
+      :mocked => true,
     },
     :cloudstack => {
       :provider_attributes => {
@@ -47,6 +62,14 @@ def compute_providers
           end
         end
       end,
+      :snapshot_attributes => {:volume_id => "89198f7c-0245-aa1d-136a-c5f479ef9db7"}.tap do |hash|
+        [:volume_id, :domain_id, :policy_id].each do |k|
+          key = "cloudstack_#{k}".to_sym
+          if Fog.credentials[key]
+            hash[k]= Fog.credentials[key]
+          end
+        end
+      end,
       :security_group_attributes => {:name => "cloudstack.sg.#{Time.now.to_i}"},
       :security_group_rule_attributes => {
         :cidr => '0.0.0.0/0',
@@ -54,6 +77,7 @@ def compute_providers
         :end_port => 456,
         :protocol => 'tcp'
       },
+      :disk_offering_attributes => { :name => "new disk offering", :display_text => 'New Disk Offering' },
       :mocked => true
     },
     :glesys   => {
@@ -78,12 +102,30 @@ def compute_providers
     :joyent => {
       :mocked => false
     },
+    :hp       => {
+      :server_attributes => {
+        :flavor_id => 100,
+        :image_id => 1242,
+        :name     => "fog_#{Time.now.to_i}"
+      },
+      :mocked => true
+    },
     :ninefold   => {
       :mocked => false
     },
-    :rackspace  => {
+    :openstack => {
+      :mocked => true,
       :server_attributes => {
-        :image_id => 49, # image 49 = Ubuntu 10.04 LTS (lucid)
+        :flavor_ref => 2,
+        :image_ref  => "0e09fbd6-43c5-448a-83e9-0d3d05f9747e",
+        :name       => "fog_#{Time.now.to_i}"
+      }
+    },
+    :rackspace  => {
+      :provider_attributes => { :version => :v2 },
+      :server_attributes => {
+        :image_id => "23b564c9-c3e6-49f9-bc68-86c7a9ab5018", # Ubuntu 12.04 LTS (Precise Pangolin)
+        :flavor_id => 2,
         :name     => "fog_#{Time.now.to_i}"
       },
       :mocked => true

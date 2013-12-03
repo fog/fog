@@ -15,7 +15,7 @@ module Fog
 
         def customization_options
           load_unless_loaded!
-          if data = connection.get_customization_options( link[:href] ).body
+          if data = service.get_customization_options( link[:href] ).body
             data.delete_if { |key, value| [:xmlns_i, :xmlns].include?(key) }
             data
           else
@@ -23,6 +23,14 @@ module Fog
           end
         end
 
+        def password_enabled?
+          load_unless_loaded!
+          customization_options = service.get_vapp_template(self.entity[:href]).body[:Children][:Vm][:GuestCustomizationSection]
+          return false if customization_options[:AdminPasswordEnabled] == "false"
+          return true if customization_options[:AdminPasswordEnabled] == "true" \
+            and customization_options[:AdminPasswordAuto] == "false" \
+            and ( options[:password].nil? or options[:password].empty? )
+        end
       end
     end
   end

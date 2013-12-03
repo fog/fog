@@ -4,13 +4,13 @@ module Fog
 
       module Mock
         def addresses(options = {})
-          Fog::Terremark::Shared::Addresses.new(options.merge(:connection => self))
+          Fog::Terremark::Shared::Addresses.new(options.merge(:service => self))
         end
       end
 
       module Real
         def addresses(options = {})
-          Fog::Terremark::Shared::Addresses.new(options.merge(:connection => self))
+          Fog::Terremark::Shared::Addresses.new(options.merge(:service => self))
         end
       end
 
@@ -19,11 +19,11 @@ module Fog
         model Fog::Terremark::Shared::Address
 
         def all
-          load(connection.get_public_ips(vdc_id).body['PublicIpAddresses'])
+          load(service.get_public_ips(vdc_id).body['PublicIpAddresses'])
         end
 
         def get(ip_id)
-          if ip_id && ip = connection.get_public_ip(ip_id).body
+          if ip_id && ip = service.get_public_ip(ip_id).body
             new(ip)
           elsif !ip_id
             nil
@@ -33,7 +33,7 @@ module Fog
         end
 
         def vdc_id
-          @vdc_id ||= connection.default_vdc_id
+          @vdc_id ||= service.default_vdc_id
         end
 
         private

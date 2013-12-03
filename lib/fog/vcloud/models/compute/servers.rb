@@ -19,7 +19,7 @@ module Fog
         end
 
         def get(uri)
-          connection.get_vapp(uri)
+          service.get_vapp(uri)
         rescue Fog::Errors::NotFound
           nil
         end
@@ -27,7 +27,7 @@ module Fog
         def create options
           check_href!
           options[:vdc_uri] = href
-          data = connection.instantiate_vapp_template(options).body
+          data = service.instantiate_vapp_template(options).body
           object = new(data)
           object
         end
@@ -40,9 +40,9 @@ module Fog
 
         def init_vapp
           Fog::Vcloud::Compute::Vapp.new(
-            :connection => connection,
+            :service => service,
             :href => self.href,
-            :collection => Fog::Vcloud::Compute::Vapps.new(:connection => connection)
+            :collection => Fog::Vcloud::Compute::Vapps.new(:service => service)
           )
         end
 

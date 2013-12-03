@@ -16,6 +16,16 @@ module Fog
 
       class Mock
 
+        def list_address_pools
+          response = Excon::Response.new
+          response.status = 200
+          response.body = { 
+            'floating_ip_pools' => [
+              { 'name' => 'nova' }
+            ]
+          }
+          response
+        end
 
       end
     end

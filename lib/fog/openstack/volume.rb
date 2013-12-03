@@ -6,15 +6,18 @@ module Fog
 
       requires :openstack_auth_url
       recognizes :openstack_auth_token, :openstack_management_url, :persistent,
-                 :openstack_service_name, :openstack_tenant,
+                 :openstack_service_type, :openstack_service_name, :openstack_tenant,
                  :openstack_api_key, :openstack_username,
-                 :current_user, :current_tenant
+                 :current_user, :current_tenant,
+                 :openstack_endpoint_type
 
       model_path 'fog/openstack/models/volume'
 
       model       :volume
       collection  :volumes
 
+      model       :volume_type
+      collection  :volume_types
 
       request_path 'fog/openstack/requests/volume'
 
@@ -24,10 +27,17 @@ module Fog
       request :get_volume_details
       request :delete_volume
 
+      request :list_volume_types
+      request :get_volume_type_details
+
       request :create_volume_snapshot
       request :list_snapshots
       request :get_snapshot_details
       request :delete_snapshot
+
+      request :update_quota
+      request :get_quota
+      request :get_quota_defaults
 
       request :set_tenant
 
@@ -36,7 +46,12 @@ module Fog
           @data ||= Hash.new do |hash, key|
             hash[key] = {
               :users => {},
-              :tenants => {}
+              :tenants => {},
+              :quota => {
+                'gigabytes' => 1000,
+                'volumes'   => 10,
+                'snapshots' => 10
+              }
             }
           end
         end
@@ -46,8 +61,17 @@ module Fog
         end
 
         def initialize(options={})
-          require 'multi_json'
           @openstack_username = options[:openstack_username]
+          @openstack_tenant   = options[:openstack_tenant]
+          @openstack_auth_uri = URI.parse(options[:openstack_auth_url])
+
+          @auth_token = Fog::Mock.random_base64(64)
+          @auth_token_expiration = (Time.now.utc + 86400).iso8601
+
+          management_url = URI.parse(options[:openstack_auth_url])
+          management_url.port = 8776
+          management_url.path = '/v1'
+          @openstack_management_url = management_url.to_s
 
           @data ||= { :users => {} }
           unless @data[:users].find {|u| u['name'] == options[:openstack_username]}
@@ -83,8 +107,6 @@ module Fog
         attr_reader :current_tenant
 
         def initialize(options={})
-          require 'multi_json'
-
           @openstack_auth_token = options[:openstack_auth_token]
 
           unless @openstack_auth_token
@@ -101,8 +123,10 @@ module Fog
           @openstack_auth_uri             = URI.parse(options[:openstack_auth_url])
           @openstack_management_url       = options[:openstack_management_url]
           @openstack_must_reauthenticate  = false
-          @openstack_service_name         = options[:openstack_service_name] || ['volume']
+          @openstack_service_type         = options[:openstack_service_type] || ['volume']
+          @openstack_service_name         = options[:openstack_service_name]
 
+          @openstack_endpoint_type        = options[:openstack_endpoint_type] || 'adminURL'
           @connection_options = options[:connection_options] || {}
 
           @current_user = options[:current_user]
@@ -132,12 +156,10 @@ module Fog
             response = @connection.request(params.merge({
               :headers  => {
                 'Content-Type' => 'application/json',
+                'Accept' => 'application/json',
                 'X-Auth-Token' => @auth_token
               }.merge!(params[:headers] || {}),
-              :host     => @host,
               :path     => "#{@path}/#{params[:path]}"#,
-              # Causes errors for some requests like tenants?limit=1
-              # :query    => ('ignore_awful_caching' << Time.now.to_i.to_s)
             }))
           rescue Excon::Errors::Unauthorized => error
             if error.response.body != 'Bad username or password' # token expiration
@@ -156,7 +178,7 @@ module Fog
             end
           end
           unless response.body.empty?
-            response.body = MultiJson.decode(response.body)
+            response.body = Fog::JSON.decode(response.body)
           end
           response
         end
@@ -164,15 +186,16 @@ module Fog
         private
 
         def authenticate
-          if @openstack_must_reauthenticate || @openstack_auth_token.nil?
+          if !@openstack_management_url || @openstack_must_reauthenticate
             options = {
               :openstack_tenant   => @openstack_tenant,
               :openstack_api_key  => @openstack_api_key,
               :openstack_username => @openstack_username,
               :openstack_auth_uri => @openstack_auth_uri,
               :openstack_auth_token => @openstack_auth_token,
+              :openstack_service_type => @openstack_service_type,
               :openstack_service_name => @openstack_service_name,
-              :openstack_endpoint_type => 'adminURL'
+              :openstack_endpoint_type => @openstack_endpoint_type
             }
 
             credentials = Fog::OpenStack.authenticate_v2(options, @connection_options)

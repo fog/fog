@@ -1,19 +1,19 @@
-require 'fog/core/model'
+require 'fog/compute/models/server'
 
 module Fog
   module Compute
     class Clodo
 
-      class Server < Fog::Model
+      class Server < Fog::Compute::Server
 
         identity :id
 
         attribute :addresses
         attribute :name
         attribute :image_id,    :aliases => 'imageId'
-	attribute :type
+        attribute :type
         attribute :state,       :aliases => 'status'
-	attribute :type
+        attribute :type
         attribute :vps_memory
         attribute :vps_memory_max
         attribute :vps_os_title
@@ -40,8 +40,6 @@ module Fog
         attribute :vps_user_pass
         attribute :vps_vnc_pass
 
-        attr_writer :private_key, :private_key_path, :public_key, :public_key_path, :username
-
         def initialize(attributes={})
           self.image_id   ||= attributes[:vps_os] ? attributes[:vps_os] : 666
           super attributes
@@ -49,7 +47,7 @@ module Fog
 
         def destroy
           requires :id
-          connection.delete_server(id)
+          service.delete_server(id)
           true
         end
 
@@ -62,39 +60,21 @@ module Fog
           nil
         end
 
-        def private_key_path
-          @private_key_path ||= Fog.credentials[:private_key_path]
-          @private_key_path &&= File.expand_path(@private_key_path)
-        end
-
-        def private_key
-          @private_key ||= private_key_path && File.read(private_key_path)
-        end
-
         def public_ip_address
           pubaddrs = addresses && addresses['public'] ? addresses['public'].select {|ip| ip['primary_ip']} : nil
           pubaddrs && !pubaddrs.empty? ? pubaddrs.first['ip'] : nil
         end
 
         def add_ip_address
-          connection.add_ip_address(id)
+          service.add_ip_address(id)
         end
 
         def move_ip_address(ip_address)
-          connection.move_ip_address(id, ip_address)
+          service.move_ip_address(id, ip_address)
         end
 
         def delete_ip_address(ip_address)
-          connection.delete_ip_address(id, ip_address)
-        end
-
-        def public_key_path
-          @public_key_path ||= Fog.credentials[:public_key_path]
-          @public_key_path &&= File.expand_path(@public_key_path)
-        end
-
-        def public_key
-          @public_key ||= public_key_path && File.read(public_key_path)
+          service.delete_ip_address(id, ip_address)
         end
 
         def ready?
@@ -103,14 +83,14 @@ module Fog
 
         def reboot(type = 'SOFT')
           requires :id
-          connection.reboot_server(id, type)
+          service.reboot_server(id, type)
           true
         end
 
         def save
-          raise Fog::Errors::Error.new('Resaving an existing object may create a duplicate') if identity
+          raise Fog::Errors::Error.new('Resaving an existing object may create a duplicate') if persisted?
           requires :image_id
-          data = connection.create_server(image_id, attributes)
+          data = service.create_server(image_id, attributes)
           merge_attributes(data.body['server'])
           true
         end
@@ -129,28 +109,11 @@ module Fog
         end
 
         def ssh(commands)
-          requires :public_ip_address, :identity, :username
-
-          options = {}
-          options[:key_data] = [private_key] if private_key
-          options[:password] = password if password
-          Fog::SSH.new(public_ip_address, username, options).run(commands)
+          super(commands, password ? {:password => password} : {})
         end
 
-        def scp(local_path, remote_path, upload_options = {})
-          requires :public_ip_address, :username
-
-          scp_options = {}
-          scp_options[:key_data] = [private_key] if private_key
-          Fog::SCP.new(public_ip_address, username, scp_options).upload(local_path, remote_path, upload_options)
-        end
-
-        def username
-          @username ||= 'root'
-        end
-
-	def password
-	 vps_root_pass
+        def password
+          vps_root_pass
         end
 
         private

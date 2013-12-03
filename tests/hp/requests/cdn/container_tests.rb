@@ -1,4 +1,4 @@
-Shindo.tests('Fog::CDN[:hp] | container requests', ["hp"]) do
+Shindo.tests("Fog::CDN[:hp] | container requests", ['hp']) do
 
   @cdn_containers_format = [{
     'x-cdn-ssl-uri' => String,

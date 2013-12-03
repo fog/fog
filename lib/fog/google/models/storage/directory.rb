@@ -21,7 +21,7 @@ module Fog
 
         def destroy
           requires :key
-          connection.delete_bucket(key)
+          service.delete_bucket(key)
           true
         rescue Excon::Errors::NotFound
           false
@@ -31,7 +31,7 @@ module Fog
           @files ||= begin
             Fog::Storage::Google::Files.new(
               :directory    => self,
-              :connection   => connection
+              :service   => service
             )
           end
         end
@@ -47,11 +47,11 @@ module Fog
 
         def public_url
           requires :key
-          if connection.get_bucket_acl(key).body['AccessControlList'].detect {|entry| entry['Scope']['type'] == 'AllUsers' && entry['Permission'] == 'READ'}
+          if service.get_bucket_acl(key).body['AccessControlList'].detect {|entry| entry['Scope']['type'] == 'AllUsers' && entry['Permission'] == 'READ'}
             if key.to_s =~ /^(?:[a-z]|\d(?!\d{0,2}(?:\.\d{1,3}){3}$))(?:[a-z0-9]|\.(?![\.\-])|\-(?![\.])){1,61}[a-z0-9]$/
-              "https://#{key}.commondatastorage.googleapis.com"
+              "https://#{key}.storage.googleapis.com"
             else
-              "https://commondatastorage.googleapis.com/#{key}"
+              "https://storage.googleapis.com/#{key}"
             end
           else
             nil
@@ -67,7 +67,7 @@ module Fog
           if @location
             options['LocationConstraint'] = @location
           end
-          connection.put_bucket(key, options)
+          service.put_bucket(key, options)
           true
         end
 

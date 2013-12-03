@@ -1,8 +1,12 @@
+require "fog/core/deprecated_connection_accessors"
+
 module Fog
   class Collection < Array
-
     extend Fog::Attributes::ClassMethods
     include Fog::Attributes::InstanceMethods
+    include Fog::Core::DeprecatedConnectionAccessors
+
+    attr_reader :service
 
     Array.public_instance_methods(false).each do |method|
       unless [:reject, :select, :slice].include?(method.to_sym)
@@ -37,8 +41,6 @@ module Fog
       end
     end
 
-    attr_accessor :connection
-
     remove_method :clear
     def clear
       @loaded = true
@@ -56,10 +58,19 @@ module Fog
       object.destroy
     end
 
+    # Creates a new Fog::Collection based around the passed service
+    #
+    # @param [Hash] attributes
+    # @option attributes [Fog::Service] service Instance of a service
+    #
+    # @return [Fog::Collection]
+    #
     def initialize(attributes = {})
+      @service = attributes.delete(:service)
       @loaded = false
       merge_attributes(attributes)
     end
+
 
     remove_method :inspect
     def inspect
@@ -103,10 +114,10 @@ module Fog
         raise(ArgumentError.new("Initialization parameters must be an attributes hash, got #{attributes.class} #{attributes.inspect}"))
       end
       model.new(
-        attributes.merge(
+        {
           :collection => self,
-          :connection => connection
-        )
+          :service => service
+        }.merge(attributes)
       )
     end
 
@@ -128,6 +139,24 @@ module Fog
 
     def lazy_load
       self.all
+    end
+
+  end
+
+  # Base class for collection classes whose 'all' method returns only a single page of results and passes the
+  # 'Marker' option along as self.filters[:marker]
+  class PagedCollection < Collection
+
+    def each(filters=filters)
+      if block_given?
+        begin
+          page = self.all(filters)
+          # We need to explicitly use the base 'each' method here on the page, otherwise we get infinite recursion
+          base_each = Fog::Collection.instance_method(:each)
+          base_each.bind(page).call { |item| yield item }
+        end while self.filters[:marker]
+      end
+      self
     end
 
   end

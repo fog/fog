@@ -13,12 +13,12 @@ module Fog
 
         def all
           requires :zone
-          data = connection.domain_resource_list(zone.id).body['DATA']
+          data = service.domain_resource_list(zone.id).body['DATA']
           load(data)
         end
 
         def get(record_id)
-          if data = connection.domain_resource_list(zone.id, record_id).body['DATA'].first
+          if data = service.domain_resource_list(zone.id, record_id).body['DATA'].first
             new(data)
           else
             nil

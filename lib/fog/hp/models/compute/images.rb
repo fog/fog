@@ -9,19 +9,14 @@ module Fog
 
         model Fog::Compute::HP::Image
 
-        attribute :server
-
         def all
-          data = connection.list_images_detail.body['images']
+          data = service.list_images_detail.body['images']
           load(data)
-          if server
-            self.replace(self.select {|image| image.server.id == server.id})
-          end
           self
         end
 
         def get(image_id)
-          data = connection.get_image_details(image_id).body['image']
+          data = service.get_image_details(image_id).body['image']
           new(data)
         rescue Fog::Compute::HP::NotFound
           nil

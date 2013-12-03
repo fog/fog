@@ -3,11 +3,12 @@ module Fog
     class OpenStack
       class Real
 
-        def list_images_detail
+        def list_images_detail(filters = {})
           request(
             :expects  => [200, 203],
             :method   => 'GET',
-            :path     => 'images/detail.json'
+            :path     => 'images/detail.json',
+            :query    => filters
           )
         end
 
@@ -15,7 +16,7 @@ module Fog
 
       class Mock
 
-        def list_images_detail
+        def list_images_detail(filters = {})
           response = Excon::Response.new
 
           images = self.data[:images].values

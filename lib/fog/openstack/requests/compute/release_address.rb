@@ -15,8 +15,20 @@ module Fog
 
       class Mock
 
+        def release_address(address_id)
+          response = Excon::Response.new
+          response.status = 202
+          response.headers = {
+            "Content-Type" => "text/html; charset=UTF-8",
+            "Content-Length" => "0",
+            "Date" => Date.new
+          }
+          response.body = {}
+          response
+        end
 
-      end
+      end # mock
+
     end
   end
 end

@@ -3,7 +3,7 @@ module Fog
     class AWS
       class Real
 
-        require 'fog/aws/parsers/compute/associate_dhcp_options'
+        require 'fog/aws/parsers/compute/basic'
         # 
         #
         # ==== Parameters
@@ -24,7 +24,7 @@ module Fog
             'DhcpOptionsId'        => dhcp_options_id,
             'VpcId'                => vpc_id,
             :idempotent   => true,
-            :parser       => Fog::Parsers::Compute::AWS::AttachInternetGateway.new
+            :parser       => Fog::Parsers::Compute::AWS::Basic.new
           )
         end
 

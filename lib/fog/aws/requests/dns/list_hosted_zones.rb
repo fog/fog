@@ -53,12 +53,7 @@ module Fog
       class Mock
 
         def list_hosted_zones(options = {})
-
-          if options[:max_items].nil?
-            maxitems = 100
-          else
-            maxitems = options[:max_items]
-          end
+          maxitems = [options[:max_items]||100,100].min
 
           if options[:marker].nil?
             start = 0
@@ -82,8 +77,8 @@ module Fog
               }
             end,
             'Marker' => options[:marker].to_s,
-            'MaxItems' => options[:max_items].to_s,
-            'IsTruncated' => truncated.to_s
+            'MaxItems' => maxitems,
+            'IsTruncated' => truncated
           }
 
           if truncated

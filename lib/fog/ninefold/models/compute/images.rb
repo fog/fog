@@ -10,12 +10,12 @@ module Fog
         model Fog::Compute::Ninefold::Image
 
         def all(offering = 'executable')
-          data = connection.list_templates(:templatefilter => offering)
+          data = service.list_templates(:templatefilter => offering)
           load(data)
         end
 
         def get(identifier, offering = 'executable')
-          data = connection.list_templates(:templatefilter => offering, :id => identifier)
+          data = service.list_templates(:templatefilter => offering, :id => identifier)
           if data.empty?
             nil
           else

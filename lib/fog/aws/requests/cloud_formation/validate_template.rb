@@ -5,21 +5,18 @@ module Fog
 
         require 'fog/aws/parsers/cloud_formation/validate_template'
 
-        # Describe stacks
+        # Describe stacks.
         #
-        # ==== Parameters
-        # * options<~Hash>:
-        #   * 'TemplateBody'<~String> - template structure
-        #   * 'TemplateURL'<~String> - template url
+        # @param [Hash] options
+        # @option options [String] TemplateBody template structure
+        # @option options [String] TemplateURL template url
         #
-        # ==== Returns
-        # * response<~Excon::Response>:
-        #   * body<~Hash>:
-        #     * 'Description'<~String> - description found within the template
-        #     * 'Parameters'<~String> - list of template parameter structures
+        # @return [Excon::Response]
+        #   * body [Hash]:
+        #     * Description [String] - description found within the template
+        #     * Parameters [String] - list of template parameter structures
         #
-        # ==== See Also
-        # http://docs.amazonwebservices.com/AWSCloudFormation/latest/APIReference/API_ValidateTemplate.html
+        # @see http://docs.amazonwebservices.com/AWSCloudFormation/latest/APIReference/API_ValidateTemplate.html
         #
         def validate_template(options = {})
           request({

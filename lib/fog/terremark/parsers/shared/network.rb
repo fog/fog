@@ -3,7 +3,7 @@ module Fog
     module Terremark
       module Shared
 
-        class Network < Fog::Parsers::Base
+        class Network < TerremarkParser
 
           def reset
             @response = {
@@ -15,12 +15,7 @@ module Fog
             super
             case name
             when "Network"
-              until attributes.empty?
-                val = attributes.shift
-                if val.is_a?(String)
-                  @response[val] = attributes.shift
-                end
-              end
+              @response = extract_attributes(attributes)
               if @response.has_key?("name")
                 @response["subnet"] = @response["name"]
               end
@@ -28,10 +23,7 @@ module Fog
                 @response["id"] = @response["href"].split("/").last
               end
             when "Link"
-              link = {}
-              until attributes.empty?
-                link[attributes.shift] = attributes.shift
-              end
+              link = extract_attributes(attributes)
               @response["links"] << link
             end
           end

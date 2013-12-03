@@ -6,14 +6,14 @@ module Fog
       extend Fog::AWS::CredentialFetcher::ServiceMethods
 
       class IdentifierTaken < Fog::Errors::Error; end
-      
+
       class AuthorizationAlreadyExists < Fog::Errors::Error; end
 
       requires :aws_access_key_id, :aws_secret_access_key
-      recognizes :region, :host, :path, :port, :scheme, :persistent, :use_iam_profile, :aws_session_token, :aws_credentials_expire_at
+      recognizes :region, :host, :path, :port, :scheme, :persistent, :use_iam_profile, :aws_session_token, :aws_credentials_expire_at, :version
 
       request_path 'fog/aws/requests/rds'
-
+      request :describe_events
       request :create_db_instance
       request :modify_db_instance
       request :describe_db_instances
@@ -23,10 +23,13 @@ module Fog
       request :describe_db_engine_versions
       request :describe_db_reserved_instances
 
+      request :add_tags_to_resource
+      request :list_tags_for_resource
+      request :remove_tags_from_resource
+
       request :describe_db_snapshots
       request :create_db_snapshot
       request :delete_db_snapshot
-
 
       request :create_db_parameter_group
       request :delete_db_parameter_group
@@ -44,11 +47,22 @@ module Fog
       request :restore_db_instance_from_db_snapshot
       request :restore_db_instance_to_point_in_time
 
+      request :create_db_subnet_group
+      request :describe_db_subnet_groups
+      # TODO: :delete_db_subnet_group, :modify_db_subnet_group
+
+      request :describe_orderable_db_instance_options
+
+      request :describe_db_log_files
+      request :download_db_logfile_portion
+
       model_path 'fog/aws/models/rds'
       model       :server
       collection  :servers
+
       model       :snapshot
       collection  :snapshots
+
       model       :parameter_group
       collection  :parameter_groups
 
@@ -58,6 +72,15 @@ module Fog
       model       :security_group
       collection  :security_groups
 
+      model       :subnet_group
+      collection  :subnet_groups
+
+      model       :instance_option
+      collection  :instance_options
+
+      model       :log_file
+      collection  :log_files
+
       class Mock
 
         def self.data
@@ -66,6 +89,7 @@ module Fog
               region_hash[key] = {
                 :servers => {},
                 :security_groups => {},
+                :subnet_groups => {},
                 :snapshots => {},
                 :parameter_groups => {"default.mysql5.1" => { "DBParameterGroupFamily"=>"mysql5.1",
                                                               "Description"=>"Default parameter group for mysql5.1",
@@ -90,7 +114,7 @@ module Fog
           @use_iam_profile = options[:use_iam_profile]
           @region = options[:region] || 'us-east-1'
 
-          unless ['ap-northeast-1', 'ap-southeast-1', 'eu-west-1', 'us-east-1', 'us-west-1', 'us-west-2', 'sa-east-1'].include?(@region)
+          unless ['ap-northeast-1', 'ap-southeast-1', 'ap-southeast-2', 'eu-west-1', 'us-east-1', 'us-west-1', 'us-west-2', 'sa-east-1'].include?(@region)
             raise ArgumentError, "Unknown region: #{@region.inspect}"
           end
 
@@ -111,6 +135,8 @@ module Fog
       end
 
       class Real
+        attr_reader :region
+
         include Fog::AWS::CredentialFetcher::ConnectionMethods
         # Initialize connection to ELB
         #
@@ -135,13 +161,18 @@ module Fog
           setup_credentials(options)
           @connection_options     = options[:connection_options] || {}
 
-          options[:region] ||= 'us-east-1'
-          @host = options[:host] || "rds.#{options[:region]}.amazonaws.com"
+          @region     = options[:region]      || 'us-east-1'
+          @host       = options[:host]        || "rds.#{@region}.amazonaws.com"
           @path       = options[:path]        || '/'
           @persistent = options[:persistent]  || false
           @port       = options[:port]        || 443
           @scheme     = options[:scheme]      || 'https'
           @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}#{@path}", @persistent, @connection_options)
+          @version    = options[:version] || '2013-05-15'
+        end
+
+        def owner_id
+          @owner_id ||= security_groups.get('default').owner_id
         end
 
         def reload
@@ -156,7 +187,7 @@ module Fog
           @aws_session_token     = options[:aws_session_token]
           @aws_credentials_expire_at = options[:aws_credentials_expire_at]
 
-          @hmac = Fog::HMAC.new('sha256', @aws_secret_access_key)          
+          @hmac = Fog::HMAC.new('sha256', @aws_secret_access_key)
         end
 
         def request(params)
@@ -174,38 +205,41 @@ module Fog
               :host               => @host,
               :path               => @path,
               :port               => @port,
-              :version            => '2012-01-15' #'2011-04-01'
+              :version            => @version
             }
           )
 
           begin
-            response = @connection.request({
+            @connection.request({
               :body       => body,
               :expects    => 200,
               :headers    => { 'Content-Type' => 'application/x-www-form-urlencoded' },
               :idempotent => idempotent,
-              :host       => @host,
               :method     => 'POST',
               :parser     => parser
             })
           rescue Excon::Errors::HTTPStatusError => error
-            if match = error.message.match(/<Code>(.*)<\/Code>[\s\\\w]+<Message>(.*)<\/Message>/m)
-              case match[1].split('.').last
-              when 'DBInstanceNotFound', 'DBParameterGroupNotFound', 'DBSnapshotNotFound', 'DBSecurityGroupNotFound'
-                raise Fog::AWS::RDS::NotFound.slurp(error, match[2])
-              when 'DBParameterGroupAlreadyExists'
-                raise Fog::AWS::RDS::IdentifierTaken.slurp(error, match[2])
-              when 'AuthorizationAlreadyExists'
-                raise Fog::AWS::RDS::AuthorizationAlreadyExists.slurp(error, match[2])
+            match = Fog::AWS::Errors.match_error(error)
+            if match.empty?
+              case error.message
+              when 'Not Found'
+                raise Fog::AWS::RDS::NotFound.slurp(error, 'RDS Instance not found')
               else
                 raise
               end
             else
-              raise
+              raise case match[:code]
+                    when 'DBInstanceNotFound', 'DBParameterGroupNotFound', 'DBSnapshotNotFound', 'DBSecurityGroupNotFound'
+                      Fog::AWS::RDS::NotFound.slurp(error, match[:message])
+                    when 'DBParameterGroupAlreadyExists'
+                      Fog::AWS::RDS::IdentifierTaken.slurp(error, match[:message])
+                    when 'AuthorizationAlreadyExists'
+                      Fog::AWS::RDS::AuthorizationAlreadyExists.slurp(error, match[:message])
+                    else
+                      Fog::AWS::RDS::Error.slurp(error, "#{match[:code]} => #{match[:message]}")
+                    end
             end
           end
-
-          response
         end
 
       end

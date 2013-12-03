@@ -36,7 +36,6 @@ module Fog
         #         * 'DisplayName'<~String> - Display name of object owner
         #         * 'ID'<~String> - Id of object owner
         #       * 'Size'<~Integer> - Size of object
-        #       * 'StorageClass'<~String> - Storage class of object
         #
         def get_bucket(bucket_name, options = {})
           unless bucket_name
@@ -69,7 +68,7 @@ module Fog
                   (options['prefix'] && object['Key'][0...options['prefix'].length] != options['prefix']) ||
                   (options['marker'] && object['Key'] <= options['marker'])
                 end.map do |object|
-                  data = object.reject {|key, value| !['ETag', 'Key', 'StorageClass'].include?(key)}
+                  data = object.reject {|key, value| !['ETag', 'Key'].include?(key)}
                   data.merge!({
                     'LastModified' => Time.parse(object['Last-Modified']),
                     'Owner'        => bucket['Owner'],

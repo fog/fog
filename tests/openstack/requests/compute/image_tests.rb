@@ -17,12 +17,12 @@ Shindo.tests('Fog::Compute[:openstack] | image requests', ['openstack']) do
   }
 
   tests('success') do
-
+    # Setup
     @image_id = Fog::Compute[:openstack].images[0].id
-
     unless Fog.mocking?
       Fog::Compute[:openstack].images.get(@image_id).wait_for { ready? }
     end
+
     tests("#get_image_details(#{@image_id})").formats(@image_format) do
       pending if Fog.mocking?
       Fog::Compute[:openstack].get_image_details(@image_id).body['image']
@@ -36,14 +36,13 @@ Shindo.tests('Fog::Compute[:openstack] | image requests', ['openstack']) do
       Fog::Compute[:openstack].list_images_detail.body
     end
 
+    # Teardown
     unless Fog.mocking?
       Fog::Compute[:openstack].images.get(@image_id).wait_for { ready? }
     end
-
   end
 
   tests('failure') do
-
     tests('#delete_image(0)').raises(Fog::Compute::OpenStack::NotFound) do
       pending if Fog.mocking?
       Fog::Compute[:openstack].delete_image(0)

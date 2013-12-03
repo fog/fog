@@ -8,32 +8,32 @@ module Fog
         attribute :type, :aliases => :Type
         attribute :other_links, :aliases => :Links
         attribute :protocol, :aliases => :Protocol
-        attribute :enabled, :aliases => :Enabled, :type => :boolean 
+        attribute :enabled, :aliases => :Enabled, :type => :boolean
         attribute :description, :aliases => :Description
         attribute :persistence, :aliases => :Persistence
         attribute :redirect_url, :aliases => :RedirectUrl
 
         def tasks
-          @tasks = Fog::Compute::Ecloud::Tasks.new(:connection => connection, :href => href)
+          @tasks = Fog::Compute::Ecloud::Tasks.new(:service => service, :href => href)
         end
 
         def internet_services
-          @internet_services = Fog::Compute::Ecloud::InternetServices.new(:connection => connection, :href => href)
+          @internet_services = Fog::Compute::Ecloud::InternetServices.new(:service => service, :href => href)
         end
 
         def node_services
-          @node_services = Fog::Compute::Ecloud::NodeServices.new(:connection => connection, :href => href)
+          @node_services = Fog::Compute::Ecloud::NodeServices.new(:service => service, :href => href)
         end
 
         def edit(options)
           options[:uri] = href
-          data = connection.backup_internet_service_edit(options).body
+          data = service.backup_internet_service_edit(options).body
           object = collection.from_data(data)
         end
 
         def delete
-          data = connection.backup_internet_service_delete(href).body
-          task = Fog::Compute::Ecloud::Tasks.new(:connection => connection, :href => data[:href])[0]
+          data = service.backup_internet_service_delete(href).body
+          task = Fog::Compute::Ecloud::Tasks.new(:service => service, :href => data[:href])[0]
         end
 
         def id

@@ -312,6 +312,59 @@ class Ninefold
         }
         FORWARDING_RULES = [FORWARDING_RULE]
       end
+      module LoadBalancers
+        CREATE_LOAD_BALANCER_RULE_RESPONSE = {
+          "id"=>Integer,
+          "account"=>String,
+          "algorithm"=>String,
+          "cidrlist"=>String,
+          "domain"=>String,
+          "domainid"=>Integer,
+          "name"=>String,
+          "privateport"=>String,
+          "publicip"=>String,
+          "publicipid"=>Integer,
+          "publicport"=>String,
+          "state"=>String,
+          "zoneid"=>Integer
+        }
+        ASSIGN_LOAD_BALANCER_RULE_RESPONSE = {
+          "success"=>Fog::Boolean
+        }
+        LIST_LOAD_BALANCER_RULES_RESPONSE = {
+          "id"=>Integer,
+          "name"=>String,
+          "publicipid"=>Integer,
+          "publicip"=>String,
+          "publicport"=>String,
+          "privateport"=>String,
+          "algorithm"=>String,
+          "cidrlist"=>String,
+          "account"=>String,
+          "domainid"=>Integer,
+          "domain"=>String,
+          "state"=>String,
+          "zoneid"=>Integer
+        }
+        UPDATE_LOAD_BALANCER_RULE_RESPONSE = {
+          "id"=>Integer,
+          "name"=>String,
+          "publicipid"=>Integer,
+          "publicip"=>String,
+          "publicport"=>String,
+          "privateport"=>String,
+          "algorithm"=>String,
+          "cidrlist"=>String,
+          "account"=>String,
+          "domainid"=>Integer,
+          "domain"=>String,
+          "state"=>String,
+          "zoneid"=>Integer
+        }
+        REMOVE_FROM_LOAD_BALANCER_RULE_RESPONSE = {
+          "success"=>Fog::Boolean
+        }
+      end
     end
   end
 end

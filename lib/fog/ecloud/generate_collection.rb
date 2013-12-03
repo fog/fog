@@ -20,7 +20,7 @@ if options[:methods]
   methods = options[:methods].map do |m|
     m = <<METHOD
 def #{m[0]}
-          @#{m[0]} = Fog::Compute::Ecloud::#{m[0].camelize}.new(:connection => connection, :href => "#{m[1]}")
+          @#{m[0]} = Fog::Compute::Ecloud::#{m[0].camelize}.new(:service => service, :href => "#{m[1]}")
         end
 METHOD
   end.join("\n        ")
@@ -51,12 +51,12 @@ module Fog
         model Fog::Compute::Ecloud::#{options[:model].camelize}
 
         def all
-          data = connection.get_#{options[:collection]}(href).body
+          data = service.get_#{options[:collection]}(href).body
           load(data)
         end
 
         def get(uri)
-          if data = connection.get_#{options[:model]}(uri)
+          if data = service.get_#{options[:model]}(uri)
             new(data.body)
           end
         rescue Fog::Errors::NotFound

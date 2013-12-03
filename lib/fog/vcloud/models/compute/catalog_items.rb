@@ -10,8 +10,8 @@ module Fog
         attribute :href, :aliases => :Href
 
         def all
-          catalog_item_info = connection.get_catalog_item(self.href)
-          items = connection.get_catalog_item(self.href).body[:CatalogItems]
+          catalog_item_info = service.get_catalog_item(self.href)
+          items = service.get_catalog_item(self.href).body[:CatalogItems]
           if items.size > 0
             data = items[:CatalogItem]
             load(data)
@@ -19,7 +19,7 @@ module Fog
         end
 
         def get(uri)
-          if data = connection.get_catalog_item(uri)
+          if data = service.get_catalog_item(uri)
             new(data.body)
           end
         rescue Fog::Errors::NotFound
@@ -27,7 +27,7 @@ module Fog
         end
 
         def organization_uri
-          @organization_uri ||= connection.default_organization_uri
+          @organization_uri ||= service.default_organization_uri
         end
 
       end

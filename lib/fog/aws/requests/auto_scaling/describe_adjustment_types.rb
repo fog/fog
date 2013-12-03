@@ -23,8 +23,9 @@ module Fog
         #
         def describe_adjustment_types()
           request({
-            'Action' => 'DescribeAdjustmentTypes',
-            :parser  => Fog::Parsers::AWS::AutoScaling::DescribeAdjustmentTypes.new
+            'Action'    => 'DescribeAdjustmentTypes',
+            :idempotent => true,
+            :parser     => Fog::Parsers::AWS::AutoScaling::DescribeAdjustmentTypes.new
           })
         end
 
@@ -34,7 +35,7 @@ module Fog
 
         def describe_adjustment_types()
           results = { 'AdjustmentTypes' => [] }
-          data[:adjustment_types].each do |adjustment_type|
+          self.data[:adjustment_types].each do |adjustment_type|
             results['AdjustmentTypes'] << { 'AdjustmentType' => adjustment_type }
           end
           response = Excon::Response.new

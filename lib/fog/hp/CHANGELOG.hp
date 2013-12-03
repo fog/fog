@@ -1,0 +1,156 @@
+0.0.22 10/16/2013
+=================
+- add support for new LoadBalancer provider
+  - add load balancer model and request layer with mocking support
+  - add node model and request layer with mocking support
+  - add virtual_ip, protocol and algorithm models and request layer with mocking support
+- add support for new DNS provider
+  - add domain model and request layer with mocking support
+  - add record model and request layer with mocking support
+
+0.0.21 06/11/2013
+=================
+- add support for new Networking (Neutron) provider (Grizzly release)
+  - add network model and request layer with mocking support
+  - add router model and request layer with mocking support
+  - add subnet model and request layer with mocking support
+  - add port model and request layer with mocking support
+  - add floating ip model and request layer with mocking support
+  - add security group/rule model and request layer with mocking support
+- add support for new Compute V2 provider (Grizzly release)
+  - remove support for security group/rule model and request layer
+  - revise support for server, flavor, image, keypair, floating ip, metadata models and request layers
+  - add support for availability zone model and request layer
+  - add support for volume attachment model and request layer
+- add support for new BlockStorage V2 (Cinder) provider (Grizzly release)
+  - add volume model and request layer with mocking support
+  - add snapshot model and request layer with mocking support
+  - add volume backups model and request layer with mocking support
+  - remove bootable volume model as it now accessible via volume model
+- add support for caching auth credentials
+- add filter query support to all new V2 collections
+- add side by side support for both Compute and BlockStorage, V1/V2 providers
+
+0.0.20 03/13/2013
+=================
+- add Accept header with application/json for all requests
+- add support for user_data while creating servers in Compute
+- add support for one/two way container synchronisation in Object Storage
+- merge with upstream fog v1.10.0
+
+0.0.19 01/25/2013
+=================
+- update Block Storage namespace to be Fog::HP::BlockStorage
+- merge with upstream fog v1.9.0
+- deprecate hp_account_id to use hp_access_key instead
+- fix temp_url to use signer that is backward compatible to 1.8.7
+- fix issue in Storage provider with service catalog having an invalid CDN endpoint
+- Happy New Year to all...
+
+0.0.18 12/04/2012
+=================
+- add support for controlled access via cross-tenant ACLs
+- add support for creating bootable volumes
+- add support for creating persistent server instances using bootable volumes
+
+0.0.17 10/16/2012
+=================
+- add support for generating temporary urls
+- add support for retrieving encrypted password for Windows instances
+- add support for creating Windows instances
+
+0.0.16 08/15/2012
+=================
+- add support for User-Agent string in header
+- add support for Snapshots API to BlockStorage provider
+- add support for Volumes API to BlockStorage provider
+- add BlockStorage service to HP provider
+- upgrade to excon 0.14.0 to take advantage of instrumentation
+- add a head method for  the directories collection
+- update image model
+- update put_object and get_object to accept blocks
+
+0.0.15 06/08/2012
+=================
+- add metadata attribute in server and image models to manage metadata
+- add metadata model and request layer functionality with mocking support
+- add tests for metadata
+- upgrade to excon 0.13.0 to take advantage of ssl passthru functionality
+- add security_groups attribute to the server model
+- add support for future availability zones for all HP services
+- change hp_avl_zone to be a required parameter for all HP services
+- add support for console output in compute service
+- add helper method for cdn public ssl url
+- add tests for storage, compute and cdn services
+- improve quality of mocks to match real implementation
+
+0.0.14 02/23/2012
+=================
+ - minor fix for public ip address
+ - minor fix for exceptions raised by CDN service
+ - add keypair get/set methods to server model
+
+0.0.13 02/09/2012
+=================
+ - provide access to availability zones for compute
+ - minor fix for CS authentication uri
+ - update inline documentation
+ - update README_HP with copyright message
+
+0.0.12 02/02/2012
+=================
+ - integrate CS authentication
+ - refactor HP provider to work with legacy v1 authentication as well
+ - integrate CDN to work with Storage provider
+ - add additional attributes for CDN provider
+ - remove bits and add cores as alias to vcpus in flavor model
+ - update inline documentation
+ - update README_HP with copyright message
+
+0.0.11 01/09/2012
+=================
+ - add ability to customize various connection timeouts options
+ - add CDN service capabilities
+ - integrate the CDN service with the Storage service
+ - add a new CDN Uri option to Storage service
+ - incorporate Diablo 4 API changes
+    - update image, server and flavor models
+    - update create_image and create_server calls
+    - add rebuild_server and change_password_server calls
+ - new extensions APIs
+    - add keypair model and request layer with mocking support
+    - add security group model and request layer with mocking support
+    - add security group rule model and request layer with mocking support
+    - add address model and request layer with mocking support
+    - update server model with address management methods
+    - update server creation to use keypairs, security groups and other options
+ - update inline documentation
+
+0.0.10 10/18/2011
+=================
+ - merge with upstream fog v1.0.0
+
+0.0.9 09/21/2011
+================
+ - minor bug fixes
+ - add support for special char. including '?' in container and object names
+ - fix public_url for special char. in container and object names
+
+0.0.8 08/29/2011
+================
+ - add README_HP.rdoc
+ - add CHANGELOG.hp
+ - remove resize_server, confirm_resized_server and revert_resized_server from HP Cloud Compute
+
+0.0.7 08/10/2011
+================
+ - minor fixes
+ - added acl support to directory
+ - added public? method to directory model
+ - added mock support for HP Cloud Object Storage
+
+0.0.6 07/26/2011
+================
+ - initial release with name change to 'hpfog'
+ - HP provider for HP Cloud Object Storage
+ - HP provider for HP Cloud Compute

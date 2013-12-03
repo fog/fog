@@ -10,12 +10,12 @@ module Fog
         model Fog::Compute::Ecloud::StorageUsageDetail
 
         def all
-          data = connection.get_storage_usage_detail_summary(href).body[:VirtualMachines][:VirtualMachine]
+          data = service.get_storage_usage_detail_summary(href).body[:VirtualMachines][:VirtualMachine]
           load(data)
         end
 
         def get(uri)
-          if data = connection.get_storage_usage_detail(uri)
+          if data = service.get_storage_usage_detail(uri)
             new(data.body)
           end
         rescue Fog::Errors::NotFound

@@ -10,12 +10,12 @@ module Fog
         model Fog::Compute::Ecloud::CpuUsageDetail
 
         def all
-          data = connection.get_cpu_usage_detail_summary(href).body[:CpuUsageDetailSummary][:CpuUsageDetail]
+          data = service.get_cpu_usage_detail_summary(href).body[:CpuUsageDetailSummary][:CpuUsageDetail]
           load(data)
         end
 
         def get(uri)
-          if data = connection.get_cpu_usage_detail(uri)
+          if data = service.get_cpu_usage_detail(uri)
             new(data.body)
           end
         rescue Fog::Errors::NotFound

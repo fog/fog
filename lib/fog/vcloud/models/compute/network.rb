@@ -15,7 +15,7 @@ module Fog
 
         def parent_network
           return nil if configuration[:ParentNetwork].nil?
-          @parent_network ||= connection.get_network(configuration[:ParentNetwork][:href])
+          @parent_network ||= service.get_network(configuration[:ParentNetwork][:href])
         end
       end
     end

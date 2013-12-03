@@ -1,6 +1,3 @@
-require 'spec'
-require 'spec/mocks'
-
 Shindo.tests('Dynect::dns | DNS requests', ['dynect', 'dns']) do
 
   shared_format = {
@@ -82,6 +79,27 @@ Shindo.tests('Dynect::dns | DNS requests', ['dynect', 'dns']) do
       @dns.post_record('A', @domain, @fqdn, {'address' => '1.2.3.4'}).body
     end
 
+    put_record_format = shared_format.merge({
+      'data' => {
+        'fqdn'        => String,
+        'ARecords'    => [
+          {
+            'rdata'      => {
+              'address'   => String
+            }
+          }
+        ],
+        'record_id'   => Integer,
+        'record_type' => String,
+        'ttl'         => Integer,
+        'zone'        => String
+      }
+    })
+
+    tests("put_record('A', '#{@domain}', '#{@fqdn}', 'address' => '1.2.3.4')").formats(post_record_format) do
+      @dns.put_record('A', @domain, @fqdn, {'address' => '1.2.3.4'}).body
+    end
+
     publish_zone_format = shared_format.merge({
       'data' => {
         'serial'        => Integer,
@@ -117,6 +135,14 @@ Shindo.tests('Dynect::dns | DNS requests', ['dynect', 'dns']) do
 
     tests("get_node_list('#{@domain}')").formats(get_node_list_format) do
       @dns.get_node_list(@domain).body
+    end
+
+    get_all_records_format = shared_format.merge({
+      'data' => [String]
+    })
+
+    tests("get_all_records('#{@domain}')").formats(get_all_records_format) do
+      @dns.get_all_records(@domain).body
     end
 
     get_records_format = shared_format.merge({
@@ -178,7 +204,7 @@ Shindo.tests('Dynect::dns | DNS requests', ['dynect', 'dns']) do
       old_mock_value = Excon.defaults[:mock]
       Excon.stubs.clear
 
-      tests("returns final response from a complete job") do
+      tests("returns final response from a complete job").returns({"status" => "success"}) do
         begin
           Excon.defaults[:mock] = true
 
@@ -187,14 +213,14 @@ Shindo.tests('Dynect::dns | DNS requests', ['dynect', 'dns']) do
           Excon.stub({:method => :get, :path => "/REST/Zone/example.com"}, {:status => 307, :body => '/REST/Job/150576635', :headers => {'Content-Type' => 'text/html', 'Location' => '/REST/Job/150576635'}})
           Excon.stub({:method => :get, :path => "/REST/Job/150576635"}, {:status => 307, :body => '{"status":"success"}', :headers => {'Content-Type' => 'application/json'}})
 
-          Fog::DNS::Dynect::Real.new.request(:method => :get, :path => "Zone/example.com").body.should == { "status" => "success" }
+          Fog::DNS::Dynect::Real.new.request(:method => :get, :path => "Zone/example.com").body
         ensure
           Excon.stubs.clear
           Excon.defaults[:mock] = old_mock_value
         end
       end
 
-      tests("passes expects through when polling a job") do
+      tests("passes expects through when polling a job").returns({"status" => "success"}) do
         begin
           Excon.defaults[:mock] = true
 
@@ -203,7 +229,7 @@ Shindo.tests('Dynect::dns | DNS requests', ['dynect', 'dns']) do
           Excon.stub({:method => :get, :path => "/REST/Zone/example.com"}, {:status => 307, :body => '/REST/Job/150576635', :headers => {'Content-Type' => 'text/html', 'Location' => '/REST/Job/150576635'}})
           Excon.stub({:method => :get, :path => "/REST/Job/150576635"}, {:status => 404, :body => '{"status":"success"}', :headers => {'Content-Type' => 'application/json'}})
 
-          Fog::DNS::Dynect::Real.new.request(:method => :get, :expects => 404, :path => "Zone/example.com").body.should == { "status" => "success" }
+          Fog::DNS::Dynect::Real.new.request(:method => :get, :expects => 404, :path => "Zone/example.com").body
         ensure
           Excon.stubs.clear
           Excon.defaults[:mock] = old_mock_value

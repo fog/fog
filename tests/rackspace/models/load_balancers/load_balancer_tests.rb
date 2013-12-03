@@ -20,6 +20,11 @@ Shindo.tests('Fog::Rackspace::LoadBalancers | load_balancer', ['rackspace']) do
       end
 
       @instance.wait_for { ready? }
+
+      tests('#stats').succeeds do
+        @instance.stats
+      end
+
       tests('#enable_connection_logging').succeeds do
         @instance.enable_connection_logging
         returns(true) { @instance.connection_logging }
@@ -34,6 +39,23 @@ Shindo.tests('Fog::Rackspace::LoadBalancers | load_balancer', ['rackspace']) do
       tests('#disable_connection_logging').succeeds do
         @instance.disable_connection_logging
         returns(false) { @instance.connection_logging }
+      end
+
+   @instance.wait_for { ready? }
+      tests('#enable_content_caching').succeeds do
+        @instance.enable_content_caching
+        returns(true) { @instance.content_caching }
+      end
+
+      tests('#enable_content_caching after reload').succeeds do
+        @instance.reload
+        returns(true) { @instance.content_caching }
+      end
+
+      @instance.wait_for { ready? }
+      tests('#disable_content_caching').succeeds do
+        @instance.disable_content_caching
+        returns(false) { @instance.content_caching }
       end
 
       tests('#usage').succeeds do
@@ -150,8 +172,10 @@ Shindo.tests('Fog::Rackspace::LoadBalancers | load_balancer', ['rackspace']) do
     tests('create(...with algorithm...)') do
       attributes = LOAD_BALANCER_ATTRIBUTES.clone
       attributes[:algorithm] = 'LEAST_CONNECTIONS'
+      attributes[:timeout] = 60
       @lb = @service.load_balancers.create attributes
       returns('LEAST_CONNECTIONS') { @lb.algorithm }
+      returns(60) { @lb.timeout }
 
       @lb.wait_for { ready? }
 

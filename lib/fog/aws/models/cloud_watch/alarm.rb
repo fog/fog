@@ -46,13 +46,13 @@ module Fog
           options = Hash[self.class.aliases.map { |key, value| [key, send(value)] }]
           options.delete_if { |key, value| value.nil? }
 
-          connection.put_metric_alarm(options)
+          service.put_metric_alarm(options)
           reload
         end
 
         def destroy
           requires :id
-          connection.delete_alarms(id)
+          service.delete_alarms(id)
         end
       end
     end

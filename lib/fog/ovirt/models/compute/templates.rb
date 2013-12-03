@@ -10,11 +10,11 @@ module Fog
         model Fog::Compute::Ovirt::Template
 
         def all(filters = {})
-          load connection.list_templates(filters)
+          load service.list_templates(filters)
         end
 
         def get(id)
-          new connection.get_template(id)
+          new service.get_template(id)
         end
 
       end

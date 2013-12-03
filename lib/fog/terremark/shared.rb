@@ -23,7 +23,7 @@ module Fog
         def parse(data)
           case data['type']
           when 'application/vnd.vmware.vcloud.vApp+xml'
-            servers.new(data.merge!(:connection => self))
+            servers.new(data.merge!(:service => self))
           else
             data
           end

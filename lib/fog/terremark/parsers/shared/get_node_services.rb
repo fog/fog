@@ -3,7 +3,7 @@ module Fog
     module Terremark
       module Shared
 
-        class GetNodeServices < Fog::Parsers::Base
+        class GetNodeServices < TerremarkParser
 
           def reset
             @node_service = {}

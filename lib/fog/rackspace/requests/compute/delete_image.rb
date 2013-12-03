@@ -34,7 +34,7 @@ module Fog
             response
           else
             response.status = 400
-            raise(Excon::Errors.status_error({:expects => 202}, response))
+            raise Fog::Compute::Rackspace::NotFound.new
           end
 
         end

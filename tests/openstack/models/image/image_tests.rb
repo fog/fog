@@ -31,5 +31,6 @@ Shindo.tests("Fog::Image[:openstack] | image", ['openstack']) do
     tests('#destroy').succeeds do
       @instance.destroy == true
     end
+
   end
 end

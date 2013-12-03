@@ -5,27 +5,23 @@ module Fog
 
         require 'fog/aws/parsers/cdn/post_invalidation'
 
-        # List information about distributions in CloudFront
+        # List information about distributions in CloudFront.
         #
-        # ==== Parameters
-        # * distribution_id<~String> - Id of distribution for invalidations
-        # * paths<~Array> - Array of string paths to objects to invalidate
-        # * caller_reference<~String> - Used to prevent replay, defaults to Time.now.to_i.to_s
+        # @param distribution_id [String] Id of distribution for invalidations.
+        # @param paths [Array] Array of string paths to objects to invalidate.
+        # @param caller_reference [String] Used to prevent replay, defaults to Time.now.to_i.to_s.
         #
+        # @return [Excon::Response]
+        #   * body [Hash]:
+        #     * Id [String] - Id of invalidation.
+        #     * Status [String] - Status of invalidation.
+        #     * CreateTime [Integer] - Time of invalidation creation.
+        #     * InvalidationBatch [Array]:
+        #       * Path [Array] - Array of strings of objects to invalidate.
+        #       * CallerReference [String] - Used to prevent replay, defaults to Time.now.to_i.to_s.
         #
-        # ==== Returns
-        # * response<~Excon::Response>:
-        #   * body<~Hash>:
-        #     * 'Id'<~String> - Id of invalidation
-        #     * 'Status'<~String> - Status of invalidation
-        #     * 'CreateTime'<~Integer> - Time of invalidation creation
-        #     * 'InvalidationBatch'<~Array>:
-        #       * 'Path'<~Array> - Array of strings of objects to invalidate
-        #       * 'CallerReference'<~String> - Used to prevent replay, defaults to Time.now.to_i.to_s
-        #
-        # ==== See Also
-        # http://docs.amazonwebservices.com/AmazonCloudFront/latest/APIReference/CreateInvalidation.html
-
+        # @see http://docs.amazonwebservices.com/AmazonCloudFront/latest/APIReference/CreateInvalidation.html
+        
         def post_invalidation(distribution_id, paths, caller_reference = Time.now.to_i.to_s)
           body = '<?xml version="1.0" encoding="UTF-8"?>'
           body << "<InvalidationBatch>"
@@ -46,6 +42,39 @@ module Fog
         end
 
       end
+
+      class Mock
+
+        def post_invalidation(distribution_id, paths, caller_reference = Time.now.to_i.to_s)
+          distribution = self.data[:distributions][distribution_id]
+          if distribution
+            invalidation_id = Fog::CDN::AWS::Mock.distribution_id
+            invalidation = {
+              'Id' => invalidation_id,
+              'Status' => 'InProgress',
+              'CreateTime' => Time.now.utc.iso8601,
+              'InvalidationBatch' => {
+                'CallerReference' => caller_reference,
+                'Path' => paths
+              }
+            }
+
+            distribution['InProgressInvalidationBatches'] += 1
+
+            self.data[:invalidations][distribution_id] ||= {}
+            self.data[:invalidations][distribution_id][invalidation_id] = invalidation
+
+            response = Excon::Response.new
+            response.status = 201
+            response.body = invalidation
+            response
+          else
+            Fog::CDN::AWS::Mock.error(:no_such_distribution)
+          end
+        end
+
+      end
+
     end
   end
 end

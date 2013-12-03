@@ -8,14 +8,14 @@ module Fog
       class Vdis < Fog::Collection
 
         model Fog::Compute::XenServer::VDI
-        
+
         def all(options = {})
-          data = connection.get_records 'VDI'
+          data = service.get_records 'VDI'
           load(data)
         end
 
         def get( vdi_ref )
-          if vdi_ref && vdi = connection.get_record( vdi_ref, 'VDI' )
+          if vdi_ref && vdi = service.get_record( vdi_ref, 'VDI' )
             new(vdi)
           end
         rescue Fog::XenServer::NotFound

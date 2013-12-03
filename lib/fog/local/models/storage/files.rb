@@ -14,19 +14,19 @@ module Fog
         def all
           requires :directory
           if directory.collection.get(directory.key)
-            pwd = Dir.pwd
-            Dir.chdir(connection.path_to(directory.key))
-            data = Dir.glob('**/*').reject do |file|
-              ::File.directory?(file)
-            end.map do |key|
-              path = file_path(key)
-              {
-                :content_length => ::File.size(path),
-                :key            => key,
-                :last_modified  => ::File.mtime(path)
-              }
-            end
-            Dir.chdir(pwd)
+            data = []
+            Dir.chdir(service.path_to(directory.key)) {
+              data = Dir.glob('**/*').reject do |file|
+                ::File.directory?(file)
+              end.map do |key|
+                path = file_path(key)
+                {
+                  :content_length => ::File.size(path),
+                  :key            => key,
+                  :last_modified  => ::File.mtime(path)
+                }
+              end
+            }
             load(data)
           else
             nil
@@ -78,7 +78,7 @@ module Fog
         private
 
         def file_path(key)
-          connection.path_to(::File.join(directory.key, key))
+          service.path_to(::File.join(directory.key, key))
         end
 
       end

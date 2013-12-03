@@ -1,8 +1,6 @@
 Shindo.tests('AWS::AutoScaling | model_tests', ['aws', 'auto_scaling']) do
 
   tests('success') do
-    pending if Fog.mocking?
-
     lc = nil
     lc_id = 'fog-model-lc'
 
@@ -62,7 +60,7 @@ Shindo.tests('AWS::AutoScaling | model_tests', ['aws', 'auto_scaling']) do
 
       tests('suspend processes') do
         asg.suspend_processes()
-        #tests('processes suspended').returns([]) { asg.suspended_processes }
+        tests('processes suspended').returns([]) { asg.suspended_processes }
       end
 
       tests('resume processes') do

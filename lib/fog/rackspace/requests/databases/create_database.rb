@@ -6,8 +6,8 @@ module Fog
           data = {
             'databases' => [{
               'name' => name,
-              'character_set' => options[:character_set],
-              'collate' => options[:collate]
+              'character_set' => options[:character_set] || 'utf8',
+              'collate' => options[:collate] || 'utf8_general_ci'
             }]
           }
 

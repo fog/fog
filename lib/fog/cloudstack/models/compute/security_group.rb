@@ -15,7 +15,7 @@ module Fog
 
         def destroy
           requires :id
-          connection.delete_security_group('id' => self.id)
+          service.delete_security_group('id' => self.id)
           true
         end
 
@@ -37,12 +37,12 @@ module Fog
             'projectid'   => self.project_id,
             'domainid'    => self.domain_id,
           }
-          data = connection.create_security_group(options)
+          data = service.create_security_group(options)
           merge_attributes(data['createsecuritygroupresponse']['securitygroup'])
         end
 
         def rules
-          connection.security_group_rules.all("security_group_id" => self.id)
+          service.security_group_rules.all("security_group_id" => self.id)
         end
       end # SecurityGroup
     end # Cloudstack

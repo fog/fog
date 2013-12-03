@@ -13,18 +13,18 @@ module Fog
 
         def all
           requires :zone
-          data = connection.list_records(zone.identity)
+          data = service.list_records(zone.identity)
           load(data.body['records'])
         end
 
         def get(record_id)
           requires :zone
-          data = connection.list_record_details(zone.identity, record_id).body
+          data = service.list_record_details(zone.identity, record_id).body
           new(data)
         #nil or empty string will trigger an argument error
         rescue ArgumentError
           nil
-        rescue Fog::Rackspace::Errors::NotFound
+        rescue Fog::DNS::Rackspace::NotFound
           nil
         end
 

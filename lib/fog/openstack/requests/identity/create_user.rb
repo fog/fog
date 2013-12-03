@@ -15,7 +15,7 @@ module Fog
           }
 
           request(
-            :body     => MultiJson.encode(data),
+            :body     => Fog::JSON.encode(data),
             :expects  => [200, 202],
             :method   => 'POST',
             :path     => '/users'
@@ -30,7 +30,7 @@ module Fog
           response = Excon::Response.new
           response.status = 200
           data = {
-            'id'       => Fog::Mock.random_numbers(6).to_s,
+            'id'       => Fog::Mock.random_hex(32),
             'name'     => name,
             'email'    => email,
             'tenantId' => tenantId,

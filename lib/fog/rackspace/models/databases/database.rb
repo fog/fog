@@ -11,13 +11,13 @@ module Fog
 
         def save
           requires :identity, :instance
-          connection.create_database(instance.identity, identity, :character_set => character_set, :collate => collate)
+          service.create_database(instance.identity, identity, :character_set => character_set, :collate => collate)
           true
         end
 
         def destroy
           requires :identity, :instance
-          connection.delete_database(instance.identity, identity)
+          service.delete_database(instance.identity, identity)
           true
         end
 

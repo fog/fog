@@ -10,9 +10,9 @@ module Fog
 
         def save
           requires :server
-          raise Fog::Errors::Error.new('Resaving an existing object may create a duplicate') if identity
-          
-          connection.linode_ip_addprivate server.id
+          raise Fog::Errors::Error.new('Resaving an existing object may create a duplicate') if persisted?
+
+          service.linode_ip_addprivate server.id
           server.ips.all.find { |ip| !ip.public }
         end
 

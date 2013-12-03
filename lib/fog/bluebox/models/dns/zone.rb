@@ -19,7 +19,6 @@ module Fog
         attribute :minimum
 
         def initialize(attributes = {})
-          self.ttl ||= 3600
           super(attributes)
         end
 
@@ -31,7 +30,7 @@ module Fog
           @records ||= begin
             Fog::DNS::Bluebox::Records.new(
               :zone       => self,
-              :connection => connection
+              :service => service
             )
           end
         end
@@ -46,15 +45,16 @@ module Fog
 
         def destroy
           requires :identity
-          connection.delete_zone(identity)
+          service.delete_zone(identity)
           true
         end
 
         def save
+          self.ttl ||= 3600
           requires :domain, :ttl
           options = attributes.dup
           options[:name] = options.delete(:domain)
-          data = identity.nil? ? connection.create_zone(options) : connection.update_zone(identity, options)
+          data = identity.nil? ? service.create_zone(options) : service.update_zone(identity, options)
           merge_attributes(data.body)
           true
         end

@@ -6,11 +6,12 @@ module Fog
           response = @identity_connection.request({
             :expects => [200, 204],
             :headers => {'Content-Type' => 'application/json',
+                         'Accept' => 'application/json',
                          'X-Auth-Token' => @auth_token},
             :method  => 'GET',
             :path    => '/v2.0/tenants'
           })
-          response.body = MultiJson.decode(response.body)
+          response.body = Fog::JSON.decode(response.body)
           response
         end
       end
@@ -20,6 +21,7 @@ module Fog
           response = Excon::Response.new
           response.status = [200, 204][rand(1)]
           response.body = {
+            'tenants_links' => [],
             'tenants' => [
               {'id' => '1',
                'description' => 'Has access to everything',

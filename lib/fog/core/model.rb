@@ -1,12 +1,22 @@
+require "fog/core/deprecated_connection_accessors"
+
 module Fog
   class Model
 
     extend Fog::Attributes::ClassMethods
     include Fog::Attributes::InstanceMethods
+    include Fog::Core::DeprecatedConnectionAccessors
 
-    attr_accessor :collection, :connection
+    attr_accessor :collection
+    attr_reader :service
 
     def initialize(new_attributes = {})
+      # TODO Remove compatibility with old connection option
+      @service = new_attributes.delete(:service)
+      if @service.nil? && new_attributes[:connection]
+        Fog::Logger.deprecation("Passing :connection option is deprecated, use :service instead [light_black](#{caller.first})[/]")
+        @service = new_attributes[:connection]
+      end
       merge_attributes(new_attributes)
     end
 
@@ -50,18 +60,19 @@ module Fog
     end
 
     def wait_for(timeout=Fog.timeout, interval=1, &block)
-      reload
-      retries = 3
-      Fog.wait_for(timeout, interval) do
+      reload_has_succeeded = false
+      duration = Fog.wait_for(timeout, interval) do # Note that duration = false if it times out
         if reload
-          retries = 3
-        elsif retries > 0
-          retries -= 1
-          sleep(1)
-        elsif retries == 0
-          raise Fog::Errors::Error.new("Reload failed, #{self.class} #{self.identity} went away.")
+          reload_has_succeeded = true
+          instance_eval(&block)
+        else
+          false
         end
-        instance_eval(&block)
+      end
+      if reload_has_succeeded
+        return duration # false if timeout; otherwise {:duration => elapsed time }
+      else
+        raise Fog::Errors::Error.new("Reload failed, #{self.class} #{self.identity} not present.")
       end
     end
 

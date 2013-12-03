@@ -8,18 +8,18 @@ module Fog
       class Pbds < Fog::Collection
 
         model Fog::Compute::XenServer::PBD
-        
+
         def initialize(attributes)
           super
         end
 
         def all(options = {})
-          data = connection.get_records 'PBD'
+          data = service.get_records 'PBD'
           load(data)
         end
 
         def get( ref )
-          if ref && obj = connection.get_record( ref, 'PBD' )
+          if ref && obj = service.get_record( ref, 'PBD' )
             new(obj)
           else
             nil

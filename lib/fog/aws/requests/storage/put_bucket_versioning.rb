@@ -5,12 +5,10 @@ module Fog
 
         # Change versioning status for an S3 bucket
         #
-        # ==== Parameters
-        # * bucket_name<~String> - name of bucket to modify
-        # * status<~String> - Status to change to in ['Enabled', 'Suspended']
+        # @param bucket_name [String] name of bucket to modify
+        # @param status [String] Status to change to in ['Enabled', 'Suspended']
         #
-        # ==== See Also
-        # http://docs.amazonwebservices.com/AmazonS3/latest/API/RESTBucketPUTVersioningStatus.html
+        # @see http://docs.amazonwebservices.com/AmazonS3/latest/API/RESTBucketPUTVersioningStatus.html
 
         def put_bucket_versioning(bucket_name, status)
           data =
@@ -24,7 +22,7 @@ DATA
             :body     => data,
             :expects  => 200,
             :headers  => {},
-            :host     => "#{bucket_name}.#{@host}",
+            :bucket_name => bucket_name,
             :method   => 'PUT',
             :query    => {'versioning' => nil}
           })

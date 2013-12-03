@@ -9,12 +9,12 @@ module Fog
         model Fog::Compute::Voxel::Server
 
         def all
-          data = connection.devices_list.body['devices'].select {|device| device['type']['id'] == '3'}
+          data = service.devices_list.body['devices'].select {|device| device['type']['id'] == '3'}
           load(data)
         end
 
         def get(device_id)
-          if device_id && server = connection.devices_list(device_id).body['devices']
+          if device_id && server = service.devices_list(device_id).body['devices']
             new(server.first)
           end
         rescue Fog::Service::Error => error

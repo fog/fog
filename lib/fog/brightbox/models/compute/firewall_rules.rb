@@ -11,7 +11,7 @@ module Fog
 
         def get(identifier)
           return nil if identifier.nil? || identifier == ""
-          data = connection.get_firewall_rule(identifier)
+          data = service.get_firewall_rule(identifier)
           new(data)
         rescue Excon::Errors::NotFound
           nil

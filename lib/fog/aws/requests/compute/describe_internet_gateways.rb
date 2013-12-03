@@ -40,7 +40,7 @@ module Fog
 
       class Mock
         def describe_internet_gateways(filters = {})
-          internet_gateways = self.data[:internet_gateways]
+          internet_gateways = self.data[:internet_gateways].values
 
           if filters['internet-gateway-id']
             internet_gateways = internet_gateways.reject {|internet_gateway| internet_gateway['internetGatewayId'] != filters['internet-gateway-id']}

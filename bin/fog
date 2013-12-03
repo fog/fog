@@ -1,7 +1,29 @@
 #!/usr/bin/env ruby
+
 require File.expand_path(File.join(File.dirname(__FILE__), '..', 'lib', 'fog'))
+require 'optparse'
 require 'irb'
 require 'yaml'
+
+options = OptionParser.new do |opts|
+  opts.banner = 'usage: fog [options] CREDENTIAL'
+
+  opts.on('-C', '--credentials-path FILE', 'Path to the credentials file') do |file|
+    Fog.credentials_path = file
+  end
+
+  opts.on_tail('-v', '--version', 'Prints the version') do
+    puts Fog::VERSION
+    exit
+  end
+
+  opts.on_tail('-h', '--help', 'Prints this message') do
+    puts opts
+    exit
+  end
+end
+options.parse!
+
 Fog.credential = ARGV.first ? ARGV.first.to_sym : nil
 Fog.mock! if ENV['FOG_MOCK']
 if Fog.credentials.empty?
@@ -36,6 +58,10 @@ else
   IRB.conf[:PROMPT][:FOG][:RETURN] = "%s\n"
   @irb.context.prompt_mode = :FOG
   @irb.context.workspace = IRB::WorkSpace.new(binding)
+
+  trap 'INT' do
+    @irb.signal_handle
+  end
 
   Formatador.display_line('Welcome to fog interactive!')
   Formatador.display_line(":#{Fog.credential} provides #{providers}")

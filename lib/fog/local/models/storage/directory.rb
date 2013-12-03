@@ -24,7 +24,7 @@ module Fog
           @files ||= begin
             Fog::Storage::Local::Files.new(
               :directory    => self,
-              :connection   => connection
+              :service   => service
             )
           end
         end
@@ -40,14 +40,14 @@ module Fog
         def save
           requires :key
 
-          Dir.mkdir(path)
+          FileUtils.mkpath(path)
           true
         end
 
         private
 
         def path
-          connection.path_to(key)
+          service.path_to(key)
         end
 
       end

@@ -9,8 +9,7 @@ Shindo.tests("Storage[:aws] | file", ["aws"]) do
   }
 
   directory_attributes = {
-    # Add a random suffix to prevent collision
-    :key => "fogfilestests-#{rand(65536)}"
+    :key => uniq_id("fogfilestests")
   }
 
   @directory = Fog::Storage[:aws].directories.create(directory_attributes)
@@ -45,6 +44,10 @@ Shindo.tests("Storage[:aws] | file", ["aws"]) do
       end
 
       tests('#versions are all for the correct key').returns(true) do
+        # JRuby 1.7.5+ issue causes a SystemStackError: stack level too deep
+        # https://github.com/jruby/jruby/issues/1265
+        pending if RUBY_PLATFORM == "java" and JRUBY_VERSION =~ /1\.7\.[5-8]/
+
         @instance.versions.all? { |v| v.key == @instance.key }
       end
     end

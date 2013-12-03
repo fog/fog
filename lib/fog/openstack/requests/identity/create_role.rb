@@ -10,7 +10,7 @@ module Fog
           }
 
           request(
-            :body     => MultiJson.encode(data),
+            :body     => Fog::JSON.encode(data),
             :expects  => [200, 202],
             :method   => 'POST',
             :path   => '/OS-KSADM/roles'
@@ -21,7 +21,7 @@ module Fog
       class Mock
         def create_role(name)
           data = {
-            'id'   => Fog::Mock.random_numbers(6).to_s,
+            'id'   => Fog::Mock.random_hex(32),
             'name' => name
           }
           self.data[:roles][data['id']] = data

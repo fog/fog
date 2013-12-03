@@ -8,6 +8,11 @@ class AWS
         'ResponseMetadata' => {'RequestId' => String}
       }
 
+      DB_AVAILABILITY_ZONE_OPTION = {
+          'Name' => String,
+          'ProvisionedIopsCapable' => Fog::Boolean
+      }
+
       DB_PARAMETER_GROUP = {
           'DBParameterGroupFamily' => String,
           'DBParameterGroupName'=> String,
@@ -52,12 +57,49 @@ class AWS
         }
       })
 
+      DB_SUBNET_GROUP = {
+        'DBSubnetGroupName' => String,
+        'DBSubnetGroupDescription' => String,
+        'SubnetGroupStatus' => String,
+        'VpcId' => String,
+        'Subnets' => [String]
+      }
+
+      CREATE_DB_SUBNET_GROUP = BASIC.merge({
+        'CreateDBSubnetGroupResult' => {
+          'DBSubnetGroup' => DB_SUBNET_GROUP
+        }
+      })
+
+      DESCRIBE_DB_SUBNET_GROUPS = BASIC.merge({
+        'DescribeDBSubnetGroupsResult' => {
+          'DBSubnetGroups' => [DB_SUBNET_GROUP]
+        }
+      })
+
       DESCRIBE_DB_PARAMETER_GROUP = {
         'ResponseMetadata' => {'RequestId' => String},
         'DescribeDBParameterGroupsResult' =>{
           'DBParameterGroups' => [DB_PARAMETER_GROUP]
         }
       }
+
+      ORDERABLE_DB_INSTANCE_OPTION = {
+          'MultiAZCapable' => Fog::Boolean,
+          'Engine' => String,
+          'LicenseModel' => String,
+          'ReadReplicaCapable' => Fog::Boolean,
+          'EngineVersion' => String,
+          'AvailabilityZones' => [DB_AVAILABILITY_ZONE_OPTION],
+          'DBInstanceClass' => String,
+          'Vpc' => Fog::Boolean
+      }
+
+      DESCRIBE_ORDERABLE_DB_INSTANCE_OPTION = BASIC.merge({
+          'DescribeOrderableDBInstanceOptionsResult' =>{
+              'OrderableDBInstanceOptions' => [ORDERABLE_DB_INSTANCE_OPTION]
+          }
+      })
 
       MODIFY_PARAMETER_GROUP = BASIC.merge({
         'ModifyDBParameterGroupResult' => {
@@ -85,6 +127,19 @@ class AWS
 
       })
 
+      DB_LOG_FILE = {
+        'LastWritten' => Time,
+        'Size' => Integer,
+        'LogFileName' => String
+      }
+
+      DESCRIBE_DB_LOG_FILES = BASIC.merge({
+        'DescribeDBLogFilesResult' => {
+          'Marker' => Fog::Nullable::String,
+          'DBLogFiles' => [DB_LOG_FILE]
+        }
+      })
+
       SNAPSHOT={
         'AllocatedStorage' => Integer,
         'AvailabilityZone' => String,
@@ -96,7 +151,8 @@ class AWS
         'MasterUsername' => String,
         'Port' => Integer,
         'SnapshotCreateTime' => Fog::Nullable::Time,
-        'Status' => String
+        'Status' => String,
+        'SnapshotType' => String
       }
       INSTANCE = {
         'AllocatedStorage' => Integer,
@@ -116,6 +172,7 @@ class AWS
             'DBSecurityGroupName' => String
           }],
         'DBSubnetGroupName' => Fog::Nullable::String,
+        'PubliclyAccessible' => Fog::Boolean,
         'Endpoint' => {
           'Address' => Fog::Nullable::String,
           'Port' => Fog::Nullable::Integer
@@ -201,6 +258,12 @@ class AWS
           'DBSnapshot' => SNAPSHOT
         }
       })
+
+      LIST_TAGS_FOR_RESOURCE = {
+        'ListTagsForResourceResult' => {
+          'TagList' => Fog::Nullable::Hash
+        }
+      }
 
     end
 

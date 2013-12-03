@@ -20,14 +20,14 @@ module Fog
 
         def all(filters = filters)
           self.filters = filters
-          data = connection.describe_db_security_groups(filters).body['DescribeDBSecurityGroupsResult']['DBSecurityGroups']
+          data = service.describe_db_security_groups(filters).body['DescribeDBSecurityGroupsResult']['DBSecurityGroups']
           load(data) # data is an array of attribute hashes
         end
 
         # Example:
         # get('my_db_security_group') # => model for my_db_security_group
         def get(identity)
-          data = connection.describe_db_security_groups(identity).body['DescribeDBSecurityGroupsResult']['DBSecurityGroups'].first
+          data = service.describe_db_security_groups(identity).body['DescribeDBSecurityGroupsResult']['DBSecurityGroups'].first
           new(data) # data is an attribute hash
         rescue Fog::AWS::RDS::NotFound
           nil

@@ -4,7 +4,7 @@ module Fog
   module AWS
     class SQS < Fog::Service
       extend Fog::AWS::CredentialFetcher::ServiceMethods
-      
+
       requires :aws_access_key_id, :aws_secret_access_key
       recognizes :region, :host, :path, :port, :scheme, :persistent, :aws_session_token, :use_iam_profile, :aws_credentials_expire_at
 
@@ -30,7 +30,7 @@ module Fog
             end
           end
         end
-        
+
         def self.reset
           @data = nil
         end
@@ -40,7 +40,7 @@ module Fog
           setup_credentials(options)
           @region = options[:region] || 'us-east-1'
 
-          unless ['ap-northeast-1', 'ap-southeast-1', 'eu-west-1', 'us-east-1', 'us-west-1', 'us-west-2', 'sa-east-1'].include?(@region)
+          unless ['ap-northeast-1', 'ap-southeast-1', 'ap-southeast-2', 'eu-west-1', 'us-east-1', 'us-west-1', 'us-west-2', 'sa-east-1'].include?(@region)
             raise ArgumentError, "Unknown region: #{@region.inspect}"
           end
         end
@@ -107,10 +107,12 @@ module Fog
         end
 
         def path_from_queue_url(queue_url)
-          queue_url.split('.com', 2).last
+          queue_url.split('.com', 2).last.sub(/^:[0-9]+/, '')
         end
 
         def request(params)
+          refresh_credentials_if_expired
+
           idempotent  = params.delete(:idempotent)
           parser      = params.delete(:parser)
           path        = params.delete(:path)
@@ -121,9 +123,7 @@ module Fog
               :aws_access_key_id  => @aws_access_key_id,
               :aws_session_token  => @aws_session_token,
               :hmac               => @hmac,
-              :host               => @host,
               :path               => path || @path,
-              :port               => @port,
               :version            => '2009-02-01'
             }
           )

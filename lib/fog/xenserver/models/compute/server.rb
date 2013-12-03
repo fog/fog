@@ -7,14 +7,14 @@ module Fog
       class Server < Fog::Compute::Server
         # API Reference here:
         # http://docs.vmd.citrix.com/XenServer/5.6.0/1.0/en_gb/api/?c=VM
-        
+
         identity :reference
-        
+
         attribute :uuid
         attribute :name,                 :aliases => :name_label
         attribute :__affinity,           :aliases => :affinity
         attribute :allowed_operations
-        attribute :consoles
+        attribute :__consoles
         attribute :domarch
         attribute :domid
         attribute :tags
@@ -50,17 +50,22 @@ module Fog
         attribute :hvm_boot_policy,      :aliases => :HVM_boot_policy
         attribute :hvm_boot_params,      :aliases => :HVM_boot_params
         attribute :pci_bus,              :aliases => :PCI_bus
+        attribute :snapshots
 
         def initialize(attributes={})
           super
         end
 
         def vbds
-          __vbds.collect {|vbd| connection.vbds.get vbd }
+          __vbds.collect {|vbd| service.vbds.get vbd }
         end
 
         def affinity
-          connection.hosts.get __affinity
+          service.hosts.get __affinity
+        end
+
+        def consoles
+          __consoles.collect {|console| service.consoles.get console }
         end
 
         def destroy
@@ -74,26 +79,26 @@ module Fog
                 if vbd.vdi.allowed_operations.include?("destroy")
             end
           end
-          connection.destroy_server( reference )
+          service.destroy_server( reference )
           true
         end
 
         def set_attribute(name, *val)
-          data = connection.set_attribute( 'VM', reference, name, *val )
+          data = service.set_attribute( 'VM', reference, name, *val )
           # Do not reload automatically for performance reasons
           # We can set multiple attributes at the same time and
           # then reload manually
           #reload
         end
-        
+
         def refresh
-          data = connection.get_record( reference, 'VM' )
+          data = service.get_record( reference, 'VM' )
           merge_attributes( data )
           true
         end
 
         def vifs
-          __vifs.collect { |vif| connection.vifs.get vif }
+          __vifs.collect { |vif| service.vifs.get vif }
         end
 
         # associations
@@ -102,44 +107,44 @@ module Fog
         end
 
         def resident_on
-          connection.hosts.get __resident_on
+          service.hosts.get __resident_on
         end
-        
+
         #
         # This is not always present in XenServer VMs
         # Guest needs XenTools installed to report this AFAIK
         def guest_metrics
           return nil unless __guest_metrics
-          rec = connection.get_record( __guest_metrics, 'VM_guest_metrics' )
+          rec = service.get_record( __guest_metrics, 'VM_guest_metrics' )
           Fog::Compute::XenServer::GuestMetrics.new(rec)
         end
 
         def tools_installed?
           !guest_metrics.nil?
         end
-        
+
         def home_hypervisor
-          connection.hosts.first
+          service.hosts.first
         end
-        
+
         def mac_address
           networks.first.MAC
         end
-        
+
         def running?
           reload
           power_state == "Running"
         end
-        
+
         def halted?
           reload
           power_state == "Halted"
         end
-        
+
         # operations
         def start
           return false if running?
-          connection.start_server( reference )
+          service.start_server( reference )
           true
         end
 
@@ -149,25 +154,25 @@ module Fog
           if params[:auto_start].nil?
             auto_start = true
           else
-            auto_start = params[:auto_start] 
+            auto_start = params[:auto_start]
           end
           if template_name
-            attr = connection.get_record(
-              connection.create_server( name, template_name, nets, :auto_start => auto_start),
+            attr = service.get_record(
+              service.create_server( name, template_name, nets, :auto_start => auto_start),
               'VM'
             )
           else
-            attr = connection.get_record(
-              connection.create_server_raw(attributes),
+            attr = service.get_record(
+              service.create_server_raw(attributes),
               'VM'
             )
           end
-          merge_attributes attr 
+          merge_attributes attr
           true
         end
 
         def reboot(stype = 'clean')
-          connection.reboot_server(reference, stype)
+          service.reboot_server(reference, stype)
           true
         end
 
@@ -181,7 +186,7 @@ module Fog
 
         def stop(stype = 'clean')
           return false if !running?
-          connection.shutdown_server( reference, stype )
+          service.shutdown_server( reference, stype )
           wait_for { power_state == 'Halted' }
           true
         end
@@ -195,15 +200,16 @@ module Fog
         end
 
         def provision
-          connection.provision_server reference
+          service.provision_server reference
         end
 
-        # def snapshot
-        #   requires :reference, :name_label
-        #   data = connection.snapshot_server(@reference, @name_label)
-        #   merge_attributes(data.body)
-        #   true
-        # end
+        def snapshot(name)
+          service.snapshot_server(reference, name)
+        end
+
+        def revert(snapshot_ref)
+          service.snapshot_revert(snapshot_ref)
+        end
       end
 
     end

@@ -7,13 +7,13 @@ module Fog
 
       module Mock
         def tasks
-          Fog::Terremark::Shared::Tasks.new(:connection => self)
+          Fog::Terremark::Shared::Tasks.new(:service => self)
         end
       end
 
       module Real
         def tasks
-          Fog::Terremark::Shared::Tasks.new(:connection => self)
+          Fog::Terremark::Shared::Tasks.new(:service => self)
         end
       end
 
@@ -22,12 +22,12 @@ module Fog
         model Fog::Terremark::Shared::Task
 
         def all
-          data = connection.get_tasks_list(task_list_id).body['Tasks']
+          data = service.get_tasks_list(task_list_id).body['Tasks']
           load(data)
         end
 
         def get(task_id)
-          if task_id && task = connection.get_task(task_id).body
+          if task_id && task = service.get_task(task_id).body
             new(task)
           elsif !task_id
             nil
@@ -38,7 +38,7 @@ module Fog
 
         def task_list_id
           @task_list_id ||=
-            if connection.default_organization_id && organization = connection.get_organization(connection.default_organization_id).body
+            if service.default_organization_id && organization = service.get_organization(service.default_organization_id).body
               organization['Links'].detect {|link| link['type'] == 'application/vnd.vmware.vcloud.tasksList+xml'}['href'].split('/').last.to_i
             else
               nil

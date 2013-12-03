@@ -23,13 +23,12 @@ module Fog
         attribute :zone_id,     :aliases => 'zone-id'
 
         def initialize(attributes={})
-          self.ttl    ||= 3600
           super
         end
 
         def destroy
           requires :identity
-          connection.delete_host(identity)
+          service.delete_host(identity)
           true
         end
 
@@ -45,12 +44,12 @@ module Fog
           options[:priority]  = priority if priority
           options[:ttl]       = ttl if ttl
 
-          if identity
+          if persisted?
             options[:host_type] = type
             options[:data]      = value
-            connection.update_host(identity, options)
+            service.update_host(identity, options)
           else
-            data = connection.create_host(@zone.id, type, value, options)
+            data = service.create_host(@zone.id, type, value, options)
             merge_attributes(data.body)
           end
 

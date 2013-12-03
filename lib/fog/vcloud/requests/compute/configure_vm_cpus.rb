@@ -24,7 +24,7 @@ EOF
           request(
             :body     => body,
             :expects  => 202,
-            :headers  => {'Content-Type' => vm_data[:"vcloud_type"] },
+            :headers  => { 'Content-Type' => vm_data[:"vcloud_type"] || 'application/vnd.vmware.vcloud.rasdItem+xml' },
             :method   => 'PUT',
             :uri      => "#{edit_uri}",
             :parse    => true

@@ -15,14 +15,27 @@ module Fog
             @adjustment_type = {}
           end
 
+          def start_element(name, attrs = [])
+            super
+            case name
+            when 'AdjustmentTypes'
+              @in_adjustment_types = true
+            end
+          end
+
           def end_element(name)
             case name
             when 'member'
-              @results['AdjustmentTypes'] << @adjustment_type
-              reset_adjustment_type
+              if @in_adjustment_types
+                @results['AdjustmentTypes'] << @adjustment_type
+                reset_adjustment_type
+              end
 
             when 'AdjustmentType'
               @adjustment_type[name] = value
+
+            when 'AdjustmentTypes'
+              @in_adjustment_types = false
 
             when 'RequestId'
               @response['ResponseMetadata'][name] = value

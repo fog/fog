@@ -18,7 +18,7 @@ module Fog
 
         def all(filters = filters)
           self.filters = filters
-          data = connection.list_servers_detail(filters).body['servers']
+          data = service.list_servers_detail(filters).body['servers']
           load(data)
         end
 
@@ -30,7 +30,7 @@ module Fog
         end
 
         def get(server_id)
-          if server = connection.get_server_details(server_id).body['server']
+          if server = service.get_server_details(server_id).body['server']
             new(server)
           end
         rescue Fog::Compute::OpenStack::NotFound

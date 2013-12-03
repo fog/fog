@@ -9,23 +9,26 @@ module Fog
         model Fog::Compute::Joyent::Server
 
         def all
-          load(self.connection.list_machines().body)
+          load(service.list_machines().body)
         end
 
         def create(params = {})
-          data = self.connection.create_machine(params).body
+          data = service.create_machine(params).body
           server = new(data)
+          server
+        end
+
+        def bootstrap(new_attributes = {})
+          server = create(new_attributes)
           server.wait_for { ready? }
           server
         end
 
-        def bootstrap
-          # XXX TOXO
-        end
-
         def get(machine_id)
-          data = self.connection.get_machine(machine_id).body
-          new(data)
+          data = service.get_machine(machine_id).body
+          server = new(data)
+          server.tags = server.list_tags if server.tags.nil?
+          server
         end
 
       end

@@ -2,7 +2,7 @@
 
 Shindo.tests('AWS | url', ["aws"]) do
 
-  @expires = DateTime.parse('2013-01-01T00:00:00Z').to_time.utc.to_i
+  @expires = Time.utc(2013,1,1).utc.to_i
 
   @storage = Fog::Storage.new(
     :provider => 'AWS',
@@ -14,15 +14,17 @@ Shindo.tests('AWS | url', ["aws"]) do
   @file = @storage.directories.new(:key => 'fognonbucket').files.new(:key => 'test.txt')
 
   if Fog.mock?
-    signature = Fog::Storage::AWS.new.signature(nil)
+    signature = Fog::Storage::AWS.new.signature(nil, nil)
   else
     signature = 'tajHIhKHAdFYsigmzybCpaq8N0Q%3D'
   end
 
-  tests('#url w/ response-cache-control').returns(
-    "https://fognonbucket.s3.amazonaws.com/test.txt?response-cache-control=No-cache&AWSAccessKeyId=123&Signature=#{signature}&Expires=1356998400"
-  ) do
-    @file.url(@expires, :query => { 'response-cache-control' => 'No-cache' })
+  if RUBY_VERSION > '1.8.7' # ruby 1.8.x doesn't provide hash ordering
+    tests('#url w/ response-cache-control').returns(
+      "https://fognonbucket.s3.amazonaws.com/test.txt?response-cache-control=No-cache&AWSAccessKeyId=123&Signature=#{signature}&Expires=1356998400"
+    ) do
+      @file.url(@expires, :query => { 'response-cache-control' => 'No-cache' })
+    end
   end
 
 end

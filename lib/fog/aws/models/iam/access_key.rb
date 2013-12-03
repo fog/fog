@@ -10,28 +10,32 @@ module Fog
         attribute :username, :aliases => 'UserName'
         attribute :secret_access_key, :aliases => 'SecretAccessKey'
         attribute :status, :aliases => 'Status'
-        
+
         def save
           requires :username
 
-          data = connection.create_access_key('UserName'=> username).body["AccessKey"]
+          if !persisted?
+            data = service.create_access_key('UserName'=> username).body["AccessKey"]
+          else
+            data = service.update_access_key(id, status, "UserName" => username).body["AccessKey"]
+          end
           merge_attributes(data)
           true
         end
-        
+
         def destroy
           requires :id
           requires :username
 
-          connection.delete_access_key(id,'UserName'=> username)
+          service.delete_access_key(id,'UserName'=> username)
           true
         end
-        
+
         def user
           requires :username
-          connection.users.get(username)
+          service.users.get(username)
         end
-        
+
       end
     end
   end

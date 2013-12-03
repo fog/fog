@@ -19,6 +19,8 @@ module Fog
 
       model_path 'fog/cloudstack/models/compute'
       model :address
+      model :disk_offering
+      collection :disk_offerings
       model :flavor
       collection :flavors
       model :job
@@ -33,6 +35,8 @@ module Fog
       collection :security_group_rules
       model :volume
       collection :volumes
+      model :snapshot
+      collection :snapshots
       model :zone
       collection :zones
 
@@ -44,6 +48,7 @@ module Fog
       request :authorize_security_group_ingress
       request :change_service_for_virtual_machine
       request :create_account
+      request :create_disk_offering
       request :create_domain
       request :create_load_balancer_rule
       request :create_network
@@ -56,6 +61,7 @@ module Fog
       request :create_volume
       request :create_zone
       request :delete_account
+      request :delete_disk_offering
       request :delete_domain
       request :delete_load_balancer_rule
       request :delete_port_forwarding_rule
@@ -418,8 +424,73 @@ module Fog
               :domains         => {domain_id => domain},
               :servers         => {},
               :jobs            => {},
-              :volumes         => {},
+              :volumes         => {
+                "89198f7c-0245-aa1d-136a-c5f479ef9db7" => {
+                  "id"=> "89198f7c-0245-aa1d-136a-c5f479ef9db7",
+                  "name"=>"test volume",
+                  "zoneid"=> zone_id,
+                  "zonename"=>"zone-00",
+                  "type"=>"DATADISK",
+                  "deviceid"=>1,
+                  "virtualmachineid"=> "51dcffee-5f9f-29a4-acee-2717e1a3656b",
+                  "vmname"=>"i-2824-11621-VM",
+                  "vmdisplayname"=>"test vm",
+                  "vmstate"=>"Running",
+                  "size"=>17179869184,
+                  "created"=>"2013-04-16T12:33:41+0000",
+                  "state"=>"Ready",
+                  "account"=> 'accountname',
+                  "domainid"=> domain_id,
+                  "domain"=> domain_name,
+                  "storagetype"=>"shared",
+                  "hypervisor"=>"KVM",
+                  "diskofferingid"=> "cc4de87d-672d-4353-abb5-6a8a4c0abf59",
+                  "diskofferingname"=>"Small Disk",
+                  "diskofferingdisplaytext"=>"Small Disk [16GB Disk]",
+                  "storage"=>"ps1",
+                  "attached"=>"2013-04-16T12:34:07+0000",
+                  "destroyed"=>false,
+                  "isextractable"=>false
+                  },
+                },
               :security_groups => {},
+              :snapshots       => {},
+              :disk_offerings  => {
+                "cc4de87d-672d-4353-abb5-6a8a4c0abf59" => {
+                  "id"           => "cc4de87d-672d-4353-abb5-6a8a4c0abf59",
+                  "domainid"     => domain_id,
+                  "domain"       => domain_name,
+                  "name"         => "Small Disk",
+                  "displaytext"  => "Small Disk [16GB Disk]",
+                  "disksize"     => 16,
+                  "created"      => "2013-02-21T03:12:520300",
+                  "iscustomized" => false,
+                  "storagetype"  =>  "shared"
+                },
+                "d5deeb0c-de03-4ebf-820a-dc74221bcaeb" => {
+                  "id"           => "d5deeb0c-de03-4ebf-820a-dc74221bcaeb",
+                  "domainid"     => domain_id,
+                  "domain"       => domain_name,
+                  "name"         => "Medium Disk",
+                  "displaytext"  => "Medium Disk [32GB Disk]",
+                  "disksize"     => 32,
+                  "created"      => "2013-02-21T03:12:520300",
+                  "iscustomized" => false,
+                  "storagetype"  => "shared"
+                }
+              },
+              :os_types  => {
+                "51ef854d-279e-4e68-9059-74980fd7b29b" => {
+                  "id"           => "51ef854d-279e-4e68-9059-74980fd7b29b",
+                  "oscategoryid" => "56f67279-e082-45c3-a01c-d290d6cd4ce2",
+                  "description"  => "Asianux 3(32-bit)"
+                  },
+                "daf124c8-95d8-4756-8e1c-1871b073babb" => {
+                  "id"           => "daf124c8-95d8-4756-8e1c-1871b073babb",
+                  "oscategoryid" => "56f67279-e082-45c3-a01c-d290d6cd4ce2",
+                  "description"  => "Asianux 3(64-bit)"
+                  }
+              }
             }
           end
         end

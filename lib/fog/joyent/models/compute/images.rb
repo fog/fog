@@ -10,11 +10,11 @@ module Fog
         model Fog::Compute::Joyent::Image
 
         def all
-          load(connection.list_datasets().body)
+          load(service.list_datasets().body)
         end
 
         def get(id)
-          data = connection.get_dataset(id).body
+          data = service.get_dataset(id).body
           new(data)
         end
 

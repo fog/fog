@@ -31,14 +31,14 @@ module Fog
           options = Hash[self.class.aliases.map { |key, value| [key, send(value)] }]
           options.delete_if { |key, value| value.nil? }
 
-          connection.put_scaling_policy(adjustment_type, auto_scaling_group_name, id, scaling_adjustment, options)
+          service.put_scaling_policy(adjustment_type, auto_scaling_group_name, id, scaling_adjustment, options)
           reload
         end
 
         def destroy
           requires :id
           requires :auto_scaling_group_name
-          connection.delete_policy(auto_scaling_group_name, id)
+          service.delete_policy(auto_scaling_group_name, id)
         end
       end
     end

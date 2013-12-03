@@ -10,7 +10,7 @@ module Fog
         model Fog::Compute::Libvirt::Network
 
         def all(filter={})
-          load(connection.list_networks(filter))
+          load(service.list_networks(filter))
         end
 
         def get(uuid)

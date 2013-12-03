@@ -7,9 +7,11 @@ module Fog
 
       requires :openstack_auth_url
       recognizes :openstack_auth_token, :openstack_management_url,
-                 :persistent, :openstack_service_name, :openstack_tenant,
+                 :persistent, :openstack_service_type, :openstack_service_name,
+                 :openstack_tenant,
                  :openstack_api_key, :openstack_username, :openstack_identity_endpoint,
-                 :current_user, :current_tenant, :openstack_region
+                 :current_user, :current_tenant, :openstack_region,
+                 :openstack_endpoint_type
 
       ## MODELS
       #
@@ -69,6 +71,7 @@ module Fog
       request :remove_fixed_ip
       request :server_diagnostics
       request :boot_from_snapshot
+      request :reset_server_state
 
       # Server Extenstions
       request :get_console_output
@@ -90,12 +93,21 @@ module Fog
       request :create_flavor
       request :delete_flavor
 
+      # Flavor Access
+      request :add_flavor_access
+      request :remove_flavor_access
+      request :list_tenants_with_flavor_access
+
       # Metadata
       request :list_metadata
       request :get_metadata
       request :set_metadata
       request :update_metadata
       request :delete_metadata
+
+      # Metadatam
+      request :delete_meta
+      request :update_meta
 
       # Address
       request :list_addresses
@@ -125,6 +137,7 @@ module Fog
       # Tenant
       request :list_tenants
       request :set_tenant
+      request :get_limits
 
       # Volume
       request :list_volumes
@@ -152,9 +165,13 @@ module Fog
       # Hosts
       request :list_hosts
       request :get_host_details
-      
+
 
       class Mock
+        attr_reader :auth_token
+        attr_reader :auth_token_expiration
+        attr_reader :current_user
+        attr_reader :current_tenant
 
         def self.data
           @data ||= Hash.new do |hash, key|
@@ -181,19 +198,41 @@ module Fog
               },
               :servers => {},
               :key_pairs => {},
-              :security_groups => {},
+              :security_groups => {
+                0 => {
+                  "id"          => 0,
+                  "tenant_id"   => Fog::Mock.random_hex(8),
+                  "name"        => "default",
+                  "description" => "default",
+                  "rules"       => [
+                    { "id"              => 0,
+                      "parent_group_id" => 0,
+                      "from_port"       => 68,
+                      "to_port"         => 68,
+                      "ip_protocol"     => "udp",
+                      "ip_range"        => { "cidr" => "0.0.0.0/0" },
+                      "group"           => {}, },
+                  ],
+                },
+              },
+              :server_security_group_map => {},
               :addresses => {},
               :quota => {
-                'metadata_items' => 128,
+                'security_group_rules' => 20,
+                'security_groups' => 10,
                 'injected_file_content_bytes' => 10240,
+                'injected_file_path_bytes' => 256,
                 'injected_files' => 5,
-                'gigabytes' => 1000,
-                'ram' => 51200,
-                'floating_ips' => 10,
-                'instances' => 10,
-                'volumes' => 10,
-                'cores' => 20,
-              }
+                'metadata_items' => 128,
+                'floating_ips'   => 10,
+                'instances'      => 10,
+                'key_pairs'      => 10,
+                'gigabytes'      => 5000,
+                'volumes'        => 10,
+                'cores'          => 20,
+                'ram'            => 51200
+              },
+              :volumes => {}
             }
           end
         end
@@ -204,15 +243,29 @@ module Fog
 
         def initialize(options={})
           @openstack_username = options[:openstack_username]
-          @openstack_tenant   = options[:openstack_tenant]
+          @openstack_auth_uri = URI.parse(options[:openstack_auth_url])
+
+          @current_tenant = options[:openstack_tenant]
+
+          @auth_token = Fog::Mock.random_base64(64)
+          @auth_token_expiration = (Time.now.utc + 86400).iso8601
+
+          management_url = URI.parse(options[:openstack_auth_url])
+          management_url.port = 8774
+          management_url.path = '/v1.1/1'
+          @openstack_management_url = management_url.to_s
+
+          identity_public_endpoint = URI.parse(options[:openstack_auth_url])
+          identity_public_endpoint.port = 5000
+          @openstack_identity_public_endpoint = identity_public_endpoint.to_s
         end
 
         def data
-          self.class.data["#{@openstack_username}-#{@openstack_tenant}"]
+          self.class.data["#{@openstack_username}-#{@current_tenant}"]
         end
 
         def reset_data
-          self.class.data.delete("#{@openstack_username}-#{@openstack_tenant}")
+          self.class.data.delete("#{@openstack_username}-#{@current_tenant}")
         end
 
         def credentials
@@ -226,14 +279,16 @@ module Fog
 
       class Real
         attr_reader :auth_token
+        attr_reader :auth_token_expiration
         attr_reader :current_user
         attr_reader :current_tenant
 
         def initialize(options={})
           @openstack_auth_token = options[:openstack_auth_token]
+          @auth_token        = options[:openstack_auth_token]
           @openstack_identity_public_endpoint = options[:openstack_identity_endpoint]
 
-          unless @openstack_auth_token
+          unless @auth_token
             missing_credentials = Array.new
             @openstack_api_key  = options[:openstack_api_key]
             @openstack_username = options[:openstack_username]
@@ -247,8 +302,10 @@ module Fog
           @openstack_auth_uri   = URI.parse(options[:openstack_auth_url])
           @openstack_management_url       = options[:openstack_management_url]
           @openstack_must_reauthenticate  = false
-          @openstack_service_name = options[:openstack_service_name] || ['nova', 'compute']
-          @openstack_identity_service_name = options[:openstack_identity_service_name] || 'identity'
+          @openstack_service_type = options[:openstack_service_type] || ['nova', 'compute']
+          @openstack_service_name = options[:openstack_service_name]
+          @openstack_identity_service_type = options[:openstack_identity_service_type] || 'identity'
+          @openstack_endpoint_type = options[:openstack_endpoint_type] || 'publicURL'
           @openstack_region      = options[:openstack_region]
 
           @connection_options = options[:connection_options] || {}
@@ -282,11 +339,11 @@ module Fog
             response = @connection.request(params.merge({
               :headers  => {
                 'Content-Type' => 'application/json',
+                'Accept' => 'application/json',
                 'X-Auth-Token' => @auth_token
               }.merge!(params[:headers] || {}),
-              :host     => @host,
               :path     => "#{@path}/#{@tenant_id}/#{params[:path]}",
-              :query    => params[:query] || ('ignore_awful_caching' << Time.now.to_i.to_s)
+              :query    => params[:query]
             }))
           rescue Excon::Errors::Unauthorized => error
             if error.response.body != 'Bad username or password' # token expiration
@@ -305,7 +362,7 @@ module Fog
               end
           end
 
-          unless response.body.empty?
+          if !response.body.empty? and response.get_header('Content-Type') == 'application/json'
             response.body = Fog::JSON.decode(response.body)
           end
 
@@ -315,19 +372,22 @@ module Fog
         private
 
         def authenticate
-          if @openstack_must_reauthenticate || @openstack_auth_token.nil?
+          if !@openstack_management_url || @openstack_must_reauthenticate
             options = {
-              :openstack_api_key  => @openstack_api_key,
-              :openstack_username => @openstack_username,
-              :openstack_auth_token => @openstack_auth_token,
-              :openstack_auth_uri => @openstack_auth_uri,
-              :openstack_region   => @openstack_region,
-              :openstack_tenant   => @openstack_tenant,
+              :openstack_api_key    => @openstack_api_key,
+              :openstack_username   => @openstack_username,
+              :openstack_auth_token => @auth_token,
+              :openstack_auth_uri   => @openstack_auth_uri,
+              :openstack_region     => @openstack_region,
+              :openstack_tenant     => @openstack_tenant,
+              :openstack_service_type => @openstack_service_type,
               :openstack_service_name => @openstack_service_name,
-              :openstack_identity_service_name => @openstack_identity_service_name
+              :openstack_identity_service_type => @openstack_identity_service_type,
+              :openstack_endpoint_type => @openstack_endpoint_type
             }
 
             if @openstack_auth_uri.path =~ /\/v2.0\//
+
               credentials = Fog::OpenStack.authenticate_v2(options, @connection_options)
             else
               credentials = Fog::OpenStack.authenticate_v1(options, @connection_options)
@@ -338,28 +398,31 @@ module Fog
 
             @openstack_must_reauthenticate = false
             @auth_token               = credentials[:token]
+            @auth_token_expiration    = credentials[:expires]
             @openstack_management_url = credentials[:server_management_url]
             @openstack_identity_public_endpoint  = credentials[:identity_public_endpoint]
-            uri = URI.parse(@openstack_management_url)
-          else
-            @auth_token = @openstack_auth_token
-            uri = URI.parse(@openstack_management_url)
           end
 
+          uri = URI.parse(@openstack_management_url)
           @host   = uri.host
           @path, @tenant_id = uri.path.scan(/(\/.*)\/(.*)/).flatten
 
           @path.sub!(/\/$/, '')
           unless @path.match(/1\.1|v2/)
-            raise Fog::Compute::OpenStack::ServiceUnavailable.new(
+            raise Fog::OpenStack::Errors::ServiceUnavailable.new(
                     "OpenStack binding only supports version 2 (a.k.a. 1.1)")
           end
 
           @port   = uri.port
           @scheme = uri.scheme
-          @identity_connection = Fog::Connection.new(
-            @openstack_identity_public_endpoint,
-            false, @connection_options)
+
+          # Not all implementations have identity service in the catalog
+          if @openstack_identity_public_endpoint || @openstack_management_url
+            @identity_connection = Fog::Connection.new(
+              @openstack_identity_public_endpoint || @openstack_management_url,
+              false, @connection_options)
+          end
+
           true
         end
 

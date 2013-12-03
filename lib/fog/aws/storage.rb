@@ -6,8 +6,46 @@ module Fog
     class AWS < Fog::Service
       extend Fog::AWS::CredentialFetcher::ServiceMethods
 
+      COMPLIANT_BUCKET_NAMES = /^(?:[a-z]|\d(?!\d{0,2}(?:\.\d{1,3}){3}$))(?:[a-z0-9]|\.(?![\.\-])|\-(?![\.])){1,61}[a-z0-9]$/
+
+      DEFAULT_REGION = 'us-east-1'
+
+      DEFAULT_SCHEME = 'https'
+      DEFAULT_SCHEME_PORT = {
+        'http' => 80,
+        'https' => 443
+      }
+
+      VALID_QUERY_KEYS = %w[
+        acl
+        cors
+        delete
+        lifecycle
+        location
+        logging
+        notification
+        partNumber
+        policy
+        requestPayment
+        response-cache-control
+        response-content-disposition
+        response-content-encoding
+        response-content-language
+        response-content-type
+        response-expires
+        restore
+        tagging
+        torrent
+        uploadId
+        uploads
+        versionId
+        versioning
+        versions
+        website
+      ]
+
       requires :aws_access_key_id, :aws_secret_access_key
-      recognizes :endpoint, :region, :host, :path, :port, :scheme, :persistent, :use_iam_profile, :aws_session_token, :aws_credentials_expire_at
+      recognizes :endpoint, :region, :host, :port, :scheme, :persistent, :use_iam_profile, :aws_session_token, :aws_credentials_expire_at, :path_style
 
       secrets    :aws_secret_access_key, :hmac
 
@@ -22,17 +60,22 @@ module Fog
       request :complete_multipart_upload
       request :copy_object
       request :delete_bucket
+      request :delete_bucket_cors
       request :delete_bucket_lifecycle
       request :delete_bucket_policy
       request :delete_bucket_website
       request :delete_object
+      request :delete_multiple_objects
+      request :delete_bucket_tagging
       request :get_bucket
       request :get_bucket_acl
+      request :get_bucket_cors
       request :get_bucket_lifecycle
       request :get_bucket_location
       request :get_bucket_logging
       request :get_bucket_object_versions
       request :get_bucket_policy
+      request :get_bucket_tagging
       request :get_bucket_versioning
       request :get_bucket_website
       request :get_object
@@ -48,11 +91,14 @@ module Fog
       request :list_multipart_uploads
       request :list_parts
       request :post_object_hidden_fields
+      request :post_object_restore
       request :put_bucket
       request :put_bucket_acl
+      request :put_bucket_cors
       request :put_bucket_lifecycle
       request :put_bucket_logging
       request :put_bucket_policy
+      request :put_bucket_tagging
       request :put_bucket_versioning
       request :put_bucket_website
       request :put_object
@@ -75,11 +121,11 @@ module Fog
         end
 
         def http_url(params, expires)
-          scheme_host_path_query(params.merge(:scheme => 'http', :port => 80), expires)
+          signed_url(params.merge(:scheme => 'http'), expires)
         end
 
         def https_url(params, expires)
-          scheme_host_path_query(params.merge(:scheme => 'https', :port => 443), expires)
+          signed_url(params.merge(:scheme => 'https'), expires)
         end
 
         def url(params, expires)
@@ -87,32 +133,142 @@ module Fog
           https_url(params, expires)
         end
 
+        def request_url(params)
+          params = request_params(params)
+          params_to_url(params)
+        end
+
+        def signed_url(params, expires)
+          expires = expires.to_i
+          if @aws_session_token
+            params[:headers]||= {}
+            params[:headers]['x-amz-security-token'] = @aws_session_token
+          end
+          signature = signature(params, expires)
+          params = request_params(params)
+
+          params[:query] = (params[:query] || {}).merge({
+            'AWSAccessKeyId' => @aws_access_key_id,
+            'Signature' => signature,
+            'Expires' => expires,
+          })
+          params[:query]['x-amz-security-token'] = @aws_session_token if @aws_session_token
+
+          params_to_url(params)
+        end
+
         private
 
-        def scheme_host_path_query(params, expires)
-          params[:scheme] ||= @scheme
-          if params[:port] == 80 && params[:scheme] == 'http'
-            params.delete(:port)
+        def region_to_host(region=nil)
+          case region.to_s
+          when DEFAULT_REGION, ''
+            's3.amazonaws.com'
+          else
+            "s3-#{region}.amazonaws.com"
           end
-          if params[:port] == 443 && params[:scheme] == 'https'
-            params.delete(:port)
+        end
+
+        def object_to_path(object_name=nil)
+          '/' + escape(object_name.to_s).gsub('%2F','/')
+        end
+
+        def bucket_to_path(bucket_name, path=nil)
+          "/#{escape(bucket_name.to_s)}#{path}"
+        end
+
+        # NOTE: differs from Fog::AWS.escape by NOT escaping `/`
+        def escape(string)
+          unless @unf_loaded_or_warned
+            begin
+              require('unf/normalizer')
+            rescue LoadError
+              Fog::Logger.warning("Unable to load the 'unf' gem. Your AWS strings may not be properly encoded.")
+            end
+            @unf_loaded_or_warned = true
           end
-          params[:headers] ||= {}
-          params[:headers]['Date'] = expires.to_i
-          params[:path] = Fog::AWS.escape(params[:path]).gsub('%2F', '/')
-          query = []
-          params[:headers]['x-amz-security-token'] = @aws_session_token if @aws_session_token
-          if params[:query]
-            for key, value in params[:query]
-              query << "#{key}=#{Fog::AWS.escape(value)}"
+          string = defined?(::UNF::Normalizer) ? ::UNF::Normalizer.normalize(string, :nfc) : string
+          string.gsub(/([^a-zA-Z0-9_.\-~\/]+)/) {
+            "%" + $1.unpack("H2" * $1.bytesize).join("%").upcase
+          }
+        end
+
+        # Transforms things like bucket_name, object_name, region
+        #
+        # Should yield the same result when called f*f
+        def request_params(params)
+          headers  = params[:headers] || {}
+
+          if params[:scheme]
+            scheme = params[:scheme]
+            port   = params[:port] || DEFAULT_SCHEME_PORT[scheme]
+          else
+            scheme = @scheme
+            port   = @port
+          end
+          if DEFAULT_SCHEME_PORT[scheme] == port
+            port = nil
+          end
+
+          if params[:region]
+            region = params[:region]
+            host   = params[:host] || region_to_host(region)
+          else
+            region = @region       || DEFAULT_REGION
+            host   = params[:host] || @host || region_to_host(region)
+          end
+
+          path     = params[:path] || object_to_path(params[:object_name])
+          path     = '/' + path if path[0..0] != '/'
+
+          if params[:bucket_name]
+            bucket_name = params[:bucket_name]
+
+            path_style = params.fetch(:path_style, @path_style)
+            if !path_style && COMPLIANT_BUCKET_NAMES !~ bucket_name
+              Fog::Logger.warning("fog: the specified s3 bucket name(#{bucket_name}) is not a valid dns name, which will negatively impact performance.  For details see: http://docs.amazonwebservices.com/AmazonS3/latest/dev/BucketRestrictions.html")
+              path_style = true
+            end
+
+            if path_style
+              path = bucket_to_path bucket_name, path
+            else
+              host = [bucket_name, host].join('.')
             end
           end
-          query << "AWSAccessKeyId=#{@aws_access_key_id}"
-          query << "Signature=#{Fog::AWS.escape(signature(params))}"
-          query << "Expires=#{params[:headers]['Date']}"
-          query << "x-amz-security-token=#{Fog::AWS.escape(@aws_session_token)}" if @aws_session_token
-          port_part = params[:port] && ":#{params[:port]}"
-          "#{params[:scheme]}://#{params[:host]}#{port_part}/#{params[:path]}?#{query.join('&')}"
+
+          ret = params.merge({
+            :scheme       => scheme,
+            :host         => host,
+            :port         => port,
+            :path         => path,
+            :headers      => headers
+          })
+
+          #
+          ret.delete(:path_style)
+          ret.delete(:bucket_name)
+          ret.delete(:object_name)
+          ret.delete(:region)
+
+          ret
+        end
+
+        def params_to_url(params)
+          query = params[:query] && params[:query].map do |key, value|
+            if value
+              [key, escape(value.to_s)].join('=')
+            else
+              key
+            end
+          end.join('&')
+
+          URI::Generic.build({
+            :scheme => params[:scheme],
+            :host   => params[:host],
+            :port   => params[:port],
+            :path   => params[:path],
+            :query  => query,
+          }).to_s
         end
 
       end
@@ -189,7 +345,11 @@ module Fog
                   :bucket => {},
                   :object => {}
                 },
-                :buckets => {}
+                :buckets => {},
+                :cors => {
+                  :bucket => {}
+                },
+                :bucket_tagging => {}
               }
             end
           end
@@ -200,18 +360,11 @@ module Fog
         end
 
         def initialize(options={})
-          require 'mime/types'
           @use_iam_profile = options[:use_iam_profile]
           setup_credentials(options)
-          options[:region] ||= 'us-east-1'
-          @host = options[:host] || case options[:region]
-          when 'us-east-1'
-            's3.amazonaws.com'
-          else
-            "s3-#{options[:region]}.amazonaws.com"
-          end
-          @scheme = options[:scheme] || 'https'
-          @region = options[:region]
+          @region = options[:region] || DEFAULT_REGION
+          @host   = options[:host]   || region_to_host(@region)
+          @scheme = options[:scheme] || DEFAULT_SCHEME
         end
 
         def data
@@ -222,7 +375,7 @@ module Fog
           self.class.data[@region].delete(@aws_access_key_id)
         end
 
-        def signature(params)
+        def signature(params, expires)
           "foo"
         end
 
@@ -258,54 +411,44 @@ module Fog
         # * S3 object with connection to aws.
         def initialize(options={})
           require 'fog/core/parser'
-          require 'mime/types'
 
           @use_iam_profile = options[:use_iam_profile]
           setup_credentials(options)
           @connection_options     = options[:connection_options] || {}
-          
+          @persistent = options.fetch(:persistent, false)
+
+          @path_style = options[:path_style]  || false
+
           if @endpoint = options[:endpoint]
             endpoint = URI.parse(@endpoint)
             @host = endpoint.host
-            @path = if endpoint.path.empty?
-              '/'
-            else
-              endpoint.path
-            end
-            @port = endpoint.port
             @scheme = endpoint.scheme
+            @port = endpoint.port
           else
-            options[:region] ||= 'us-east-1'
-            @region = options[:region]
-            @host = options[:host] || case options[:region]
-            when 'us-east-1'
-              's3.amazonaws.com'
-            else
-              "s3-#{options[:region]}.amazonaws.com"
-            end
-            @path       = options[:path]        || '/'
-            @persistent = options.fetch(:persistent, false)
-            @port       = options[:port]        || 443
-            @scheme     = options[:scheme]      || 'https'
+            @region     = options[:region]      || DEFAULT_REGION
+            @host       = options[:host]        || region_to_host(@region)
+            @scheme     = options[:scheme]      || DEFAULT_SCHEME
+            @port       = options[:port]        || DEFAULT_SCHEME_PORT[@scheme]
           end
-          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}#{@path}", @persistent, @connection_options)
         end
 
         def reload
-          @connection.reset
+          @connection.reset if @connection
         end
 
-        def signature(params)
+        def signature(params, expires)
+          headers = params[:headers] || {}
+
           string_to_sign =
 <<-DATA
 #{params[:method].to_s.upcase}
-#{params[:headers]['Content-MD5']}
-#{params[:headers]['Content-Type']}
-#{params[:headers]['Date']}
+#{headers['Content-MD5']}
+#{headers['Content-Type']}
+#{expires}
 DATA
 
           amz_headers, canonical_amz_headers = {}, ''
-          for key, value in params[:headers]
+          for key, value in headers
             if key[0..5] == 'x-amz-'
               amz_headers[key] = value
             end
@@ -316,52 +459,33 @@ DATA
           end
           string_to_sign << canonical_amz_headers
 
-          subdomain = params[:host].split(".#{@host}").first
-          unless subdomain =~ /^(?:[a-z]|\d(?!\d{0,2}(?:\.\d{1,3}){3}$))(?:[a-z0-9]|\.(?![\.\-])|\-(?![\.])){1,61}[a-z0-9]$/
-            Fog::Logger.warning("fog: the specified s3 bucket name(#{subdomain}) is not a valid dns name, which will negatively impact performance.  For details see: http://docs.amazonwebservices.com/AmazonS3/latest/dev/BucketRestrictions.html")
-            params[:host] = params[:host].split("#{subdomain}.")[-1]
-            if params[:path]
-              params[:path] = "#{subdomain}/#{params[:path]}"
-            else
-              params[:path] = subdomain
+
+          query_string = ''
+          if params[:query]
+            query_args = []
+            for key in params[:query].keys.sort
+              if VALID_QUERY_KEYS.include?(key)
+                value = params[:query][key]
+                if value
+                  query_args << "#{key}=#{value}"
+                else
+                  query_args << key
+                end
+              end
             end
-            subdomain = nil
+            if query_args.any?
+              query_string = '?' + query_args.join('&')
+            end
           end
 
-          canonical_resource  = @path.dup
-          unless subdomain.nil? || subdomain == @host
-            canonical_resource << "#{Fog::AWS.escape(subdomain).downcase}/"
+          canonical_path = (params[:path] || object_to_path(params[:object_name])).to_s
+          canonical_path = '/' + canonical_path if canonical_path[0..0] != '/'
+          if params[:bucket_name]
+            canonical_resource = "/#{params[:bucket_name]}#{canonical_path}"
+          else
+            canonical_resource = canonical_path
           end
-          canonical_resource << params[:path].to_s
-          canonical_resource << '?'
-          for key in (params[:query] || {}).keys.sort
-            if %w{
-              acl
-              lifecycle
-              location
-              logging
-              notification
-              partNumber
-              policy
-              requestPayment
-              response-cache-control
-              response-content-disposition
-              response-content-encoding
-              response-content-language
-              response-content-type
-              response-expires
-              torrent
-              uploadId
-              uploads
-              versionId
-              versioning
-              versions
-              website
-            }.include?(key)
-              canonical_resource << "#{key}#{"=#{params[:query][key]}" unless params[:query][key].nil?}&"
-            end
-          end
-          canonical_resource.chop!
+          canonical_resource << query_string
           string_to_sign << canonical_resource
 
           signed_string = @hmac.sign(string_to_sign)
@@ -379,21 +503,45 @@ DATA
           @hmac = Fog::HMAC.new('sha1', @aws_secret_access_key)
         end
 
+        def connection(scheme, host, port)
+          uri = "#{scheme}://#{host}:#{port}"
+          if @persistent
+            unless uri == @connection_uri
+              @connection_uri = uri
+              reload
+              @connection = nil
+            end
+          else
+            @connection = nil
+          end
+          @connection ||= Fog::Connection.new(uri, @persistent, @connection_options)
+        end
+
         def request(params, &block)
           refresh_credentials_if_expired
 
-          params[:headers]['Date'] = Fog::Time.now.to_date_header
+          expires = Fog::Time.now.to_date_header
+
           params[:headers]['x-amz-security-token'] = @aws_session_token if @aws_session_token
-          params[:headers]['Authorization'] = "AWS #{@aws_access_key_id}:#{signature(params)}"
+          signature = signature(params, expires)
+
+          params = request_params(params)
+          scheme = params.delete(:scheme)
+          host   = params.delete(:host)
+          port   = params.delete(:port) || DEFAULT_SCHEME_PORT[scheme]
+
+          params[:headers]['Date'] = expires
+          params[:headers]['Authorization'] = "AWS #{@aws_access_key_id}:#{signature}"
           # FIXME: ToHashParser should make this not needed
           original_params = params.dup
 
           begin
-            response = @connection.request(params, &block)
+            response = connection(scheme, host, port).request(params, &block)
           rescue Excon::Errors::TemporaryRedirect => error
-            uri = URI.parse(error.response.headers['Location'])
+            headers = (error.response.is_a?(Hash) ? error.response[:headers] : error.response.headers)
+            uri = URI.parse(headers['Location'])
             Fog::Logger.warning("fog: followed redirect to #{uri.host}, connecting to the matching region will be more performant")
-            response = Fog::Connection.new("#{@scheme}://#{uri.host}:#{@port}", false, @connection_options).request(original_params, &block)
+            response = Fog::Connection.new("#{uri.scheme}://#{uri.host}:#{uri.port}", false, @connection_options).request(original_params, &block)
           end
 
           response

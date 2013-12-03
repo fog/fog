@@ -15,7 +15,15 @@ module Fog
 
       class Mock
 
-
+        def get_user_by_name(name)
+          response = Excon::Response.new
+          response.status = 200
+          user = self.data[:users].values.select {|user| user['name'] == name}[0]
+          response.body = {
+            'user' => user
+          }
+          response
+        end
 
       end
     end

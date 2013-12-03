@@ -15,6 +15,8 @@ class AWS < Fog::Bin
         Fog::AWS::CloudWatch
       when :compute
         Fog::Compute::AWS
+      when :data_pipeline
+        Fog::AWS::DataPipeline
       when :ddb, :dynamodb
         Fog::AWS::DynamoDB
       when :dns
@@ -25,8 +27,12 @@ class AWS < Fog::Bin
         Fog::AWS::ELB
       when :emr
         Fog::AWS::EMR
+      when :glacier
+        Fog::AWS::Glacier
       when :iam
         Fog::AWS::IAM
+      when :redshift
+        Fog::AWS::Redshift
       when :sdb, :simpledb
         Fog::AWS::SimpleDB
       when :ses
@@ -66,6 +72,8 @@ class AWS < Fog::Bin
         when :compute
           Fog::Logger.warning("AWS[:compute] is not recommended, use Compute[:aws] for portability")
           Fog::Compute.new(:provider => 'AWS')
+        when :data_pipeline
+          Fog::AWS::DataPipeline
         when :ddb, :dynamodb
           Fog::AWS::DynamoDB.new
         when :dns
@@ -77,8 +85,12 @@ class AWS < Fog::Bin
           Fog::AWS::ELB.new
         when :emr
           Fog::AWS::EMR.new
+        when :glacier
+          Fog::AWS::Glacier.new
         when :iam
           Fog::AWS::IAM.new
+        when :redshift
+          Fog::AWS::Redshift.new          
         when :rds
           Fog::AWS::RDS.new
         when :eu_storage
