@@ -12,8 +12,11 @@ module Fog
         attribute  :vpc_id, :aliases => 'VpcId'
         attribute  :subnet_ids, :aliases => 'Subnets'
 
-        # TODO: ready?
-        #
+        def ready?
+          requires :status
+          status == 'Complete'
+        end
+
         def save
           requires :description, :id, :subnet_ids
           service.create_db_subnet_group(id, subnet_ids, description)
