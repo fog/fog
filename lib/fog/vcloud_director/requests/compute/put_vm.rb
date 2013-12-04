@@ -13,6 +13,10 @@ module Fog
         # @param [String] id Object identifier of the VM.
         # @param [String] name of the VM.
         # @param [Hash] options
+        #   * :Description<~String>: - description to be assigned.
+        #   * :StorageProfile<~Hash>: - storage profile to be assigned.
+        #     * :name<~String>
+        #     * :href<~String>
         # @return [Excon::Response]
         #   * body<~Hash>:
         #
