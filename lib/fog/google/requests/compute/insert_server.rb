@@ -174,7 +174,7 @@ module Fog
           if options['kernel']
             body_object['kernel'] = @api_url + "google/global/kernels/#{options.delete 'kernel'}"
           end
-          body_object.merge! options # Adds in all remaining options that weren't explicitly handled.
+          body_object.merge!(options) # Adds in all remaining options that weren't explicitly handled.
 
           result = self.build_result(api_method, parameters,
                                      body_object=body_object)
