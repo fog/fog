@@ -32,9 +32,10 @@ module Fog
         # @see http://docs.amazonwebservices.com/AmazonS3/latest/API/multiobjectdeleteapi.html
         
         def delete_multiple_objects(bucket_name, object_names, options = {})
+          headers = options.dup
           data = "<Delete>"
-          data << "<Quiet>true</Quiet>" if options.delete(:quiet)
-          version_ids = options.delete('versionId')
+          data << "<Quiet>true</Quiet>" if headers.delete(:quiet)
+          version_ids = headers.delete('versionId')
           object_names.each do |object_name|
             data << "<Object>"
             data << "<Key>#{CGI.escapeHTML(object_name)}</Key>"
@@ -46,7 +47,6 @@ module Fog
           end
           data << "</Delete>"
 
-          headers = options
           headers['Content-Length'] = data.length
           headers['Content-MD5'] = Base64.encode64(Digest::MD5.digest(data)).
                                    gsub("\n", '')
@@ -67,11 +67,13 @@ module Fog
       class Mock # :nodoc:all
 
         def delete_multiple_objects(bucket_name, object_names, options = {})
+          headers = options.dup
+          headers.delete(:quiet)
           response = Excon::Response.new
           if bucket = self.data[:buckets][bucket_name]
             response.status = 200
             response.body = { 'DeleteResult' => [] }
-            version_ids = options.delete('versionId')
+            version_ids = headers.delete('versionId')
             object_names.each do |object_name|
               object_version = version_ids.nil? ? nil : version_ids[object_name]
               response.body['DeleteResult'] << delete_object_helper(bucket,
