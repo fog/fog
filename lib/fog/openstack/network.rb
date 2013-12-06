@@ -118,10 +118,40 @@ module Fog
       class Mock
         def self.data
           @data ||= Hash.new do |hash, key|
+            network_id = Fog::UUID.uuid
+            subnet_id  = Fog::UUID.uuid
+            tenant_id  = Fog::Mock.random_hex(8)
+
             hash[key] = {
-              :networks => {},
+              :networks => {
+                network_id => {
+                  'id'                    => network_id,
+                  'name'                  => 'Public',
+                  'subnets'               => [subnet_id],
+                  'shared'                => true,
+                  'status'                => 'ACTIVE',
+                  'tenant_id'             => tenant_id,
+                  'provider_network_type' => 'vlan',
+                  'router:external'       => false,
+                  'admin_state_up'        => true,
+                }
+              },
               :ports => {},
-              :subnets => {},
+              :subnets => {
+                subnet_id => {
+                  'id'               => subnet_id,
+                  'name'             => "Public",
+                  'network_id'       => network_id,
+                  'cidr'             => "192.168.0.0/22",
+                  'ip_version'       => 4,
+                  'gateway_ip'       => Fog::Mock.random_ip,
+                  'allocation_pools' => [],
+                  'dns_nameservers'  => [Fog::Mock.random_ip, Fog::Mock.random_ip],
+                  'host_routes'      => [Fog::Mock.random_ip],
+                  'enable_dhcp'      => true,
+                  'tenant_id'        => tenant_id,
+                }
+              },
               :floating_ips => {},
               :routers => {},
               :lb_pools => {},
@@ -140,7 +170,7 @@ module Fog
                   "subnet" => 10,
                   "network" => 10,
                   "floatingip" => 50,
-                  "tenant_id" => Fog::Mock.random_hex(8),
+                  "tenant_id" => tenant_id,
                   "router" => 10,
                   "port" => 30
                 }

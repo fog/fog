@@ -1,13 +1,13 @@
 Shindo.tests('Fog::Network[:openstack] | network requests', ['openstack']) do
 
   @network_format = {
-    'id'                        => String,
-    'name'                      => String,
-    'subnets'                   => Array,
-    'shared'                    => Fog::Boolean,
-    'status'                    => String,
-    'admin_state_up'            => Fog::Boolean,
-    'tenant_id'                 => String
+    'id'              => String,
+    'name'            => String,
+    'subnets'         => Array,
+    'shared'          => Fog::Boolean,
+    'status'          => String,
+    'admin_state_up'  => Fog::Boolean,
+    'tenant_id'       => String,
   }
 
   @network_format_extensions = {
@@ -98,7 +98,7 @@ Shindo.tests('Fog::Network[:openstack] | network requests', ['openstack']) do
       Fog::Network[:openstack].delete_network(0)
     end
   end
-      
+
   # Cleaning up the mess
   Fog::Network[:openstack].networks.each do |n|
     Fog::Network[:openstack].delete_network(n.id)
