@@ -4,7 +4,7 @@ module Fog
 
       class Mock
 
-        def list_zone_operations(zone)
+        def delete_zone_operation(zone, operation)
           Fog::Mock.not_implemented
         end
 
@@ -13,11 +13,15 @@ module Fog
       class Real
         # https://developers.google.com/compute/docs/reference/latest/zoneOperations
 
-        def list_zone_operations(zone)
-          api_method = @compute.zone_operations.list
+        def delete_zone_operation(zone_name, operation)
+          if zone_name.start_with? 'http'
+            zone_name = zone_name.split('/')[-1]
+          end
+          api_method = @compute.zone_operations.delete
           parameters = {
-            'zone' => zone,
             'project' => @project,
+            'zone' => zone_name,
+            'operation' => operation
           }
 
           result = self.build_result(api_method, parameters)
