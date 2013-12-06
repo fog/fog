@@ -61,12 +61,16 @@ module Fog
           }
           option = options.delete(:primary_network_connection_index)
           options[:PrimaryNetworkConnectionIndex] ||= option unless option.nil?
-          unless options.key?(:NetworkConnection)
-            deprecated.each do |from, to|
-              if options.key?(from)
-                options[:NetworkConnection] ||= [{}]
-                options[:NetworkConnection].first[to] = options.delete(from)
+          if !options.key?(:NetworkConnection) && options.key?(:connections)
+            connections = options[:connections]
+            options[:NetworkConnection] = []
+            connections.each do |connection|
+              deprecated.each do |from, to|
+                if connection.key?(from)
+                  connection[to] = connection.delete(from)
+                end
               end
+              options[:NetworkConnection] << connection
             end
           end
 
@@ -95,11 +99,11 @@ module Fog
                     if nic.key?(:IpAddress)
                       IpAddress nic[:IpAddress]
                     end
-                    IsConnected nic[:IsConnected]
+                    IsConnected nic[:IsConnected] || 'true'
                     if nic.key?(:MACAddress)
                       MACAddress nic[:MACAddress]
                     end
-                    IpAddressAllocationMode nic[:IpAddressAllocationMode]
+                    IpAddressAllocationMode nic[:IpAddressAllocationMode] || 'POOL'
                   }
                 end
               end

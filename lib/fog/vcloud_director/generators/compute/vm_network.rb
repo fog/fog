@@ -49,36 +49,12 @@ module Fog
             output
           end
 
-          def network
-            @attrs[:network]
+          def connections
+            @attrs[:connections]
           end
 
-          def network=(new_network_name)
-            @attrs[:network] = new_network_name
-          end
-
-          def ip_address
-            @attrs[:ip_address]
-          end
-
-          def ip_address=(new_ip_address)
-            @attrs[:ip_address] = new_ip_address
-          end
-
-          def is_connected
-            @attrs[:is_connected]
-          end
-
-          def is_connected=(new_is_connected)
-            @attrs[:is_connected] = new_is_connected
-          end
-
-          def ip_address_allocation_mode
-            @attrs[:ip_address_allocation_mode]
-          end
-
-          def ip_address_allocation_mode=(new_ip_address_allocation_mode)
-            @attrs[:ip_address_allocation_mode] = new_ip_address_allocation_mode
+          def connections=(new_connections)
+            @attrs[:connections] = new_connections
           end
 
           private
@@ -92,19 +68,25 @@ module Fog
           end
 
           def body(opts={})
-            <<-END
+            connections = <<-END
               <ovf:Info>#{opts[:info]}</ovf:Info>
               <PrimaryNetworkConnectionIndex>#{opts[:primary_network_connection_index]}</PrimaryNetworkConnectionIndex>
-              <NetworkConnection
-                network="#{opts[:network]}"
-                needsCustomization="#{opts[:needs_customization]}">
-                <NetworkConnectionIndex>#{opts[:network_connection_index]}</NetworkConnectionIndex>
-                <IpAddress>#{opts[:ip_address]}</IpAddress>
-                <IsConnected>#{opts[:is_connected]}</IsConnected>
-                <MACAddress>#{opts[:mac_address]}</MACAddress>
-                <IpAddressAllocationMode>#{opts[:ip_address_allocation_mode]}</IpAddressAllocationMode>
-              </NetworkConnection>
             END
+
+            opts[:connections].each do |connection|
+              connections << <<-END
+                <NetworkConnection
+                  network="#{connection[:network]}"
+                  needsCustomization="#{connection[:needs_customization]}">
+                  <NetworkConnectionIndex>#{connection[:network_connection_index]}</NetworkConnectionIndex>
+                  <IpAddress>#{connection[:ip_address]}</IpAddress>
+                  <IsConnected>#{connection[:is_connected]}</IsConnected>
+                  <MACAddress>#{connection[:mac_address]}</MACAddress>
+                  <IpAddressAllocationMode>#{connection[:ip_address_allocation_mode]}</IpAddressAllocationMode>
+                </NetworkConnection>
+              END
+            end
+            connections
           end
 
           def tail
