@@ -14,6 +14,7 @@ module Fog
         attribute :change_sid
         attribute :join_domain_enabled
         attribute :use_org_settings
+        attribute :admin_password_auto
         attribute :admin_password_enabled
         attribute :reset_password_required
         attribute :virtual_machine_id
