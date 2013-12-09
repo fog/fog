@@ -62,8 +62,11 @@ DATA
           else
             bucket['LocationConstraint'] = nil
           end
-          unless self.data[:buckets][bucket_name]
+          if !self.data[:buckets][bucket_name] || self.region == 'us-east-1'
             self.data[:buckets][bucket_name] = bucket
+          else
+            response.status = 409
+            raise(Excon::Errors.status_error({:expects => 200}, response))
           end
           response
         end

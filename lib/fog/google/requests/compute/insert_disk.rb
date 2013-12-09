@@ -16,9 +16,10 @@ module Fog
           end
           get_zone(zone_name)
 
+          id = Fog::Mock.random_numbers(19).to_s
           self.data[:disks][disk_name] = {
             "kind" => "compute#disk",
-            "id" => Fog::Mock.random_numbers(19),
+            "id" => id,
             "creationTimestamp" => Time.now.iso8601,
             "zone" => "https://www.googleapis.com/compute/#{api_version}/projects/#{@project}/zones/#{zone_name}",
             "status" => "READY",
@@ -27,20 +28,24 @@ module Fog
             "selfLink" => "https://www.googleapis.com/compute/#{api_version}/projects/#{@project}/zones/#{zone_name}/disks/#{disk_name}"
           }
 
-          build_response(:body => {
+          operation = self.random_operation
+          self.data[:operations][operation] = {
             "kind" => "compute#operation",
-            "id" => "12498846269172327286",
-            "name" => "operation-1385124218076-4ebc35cfbe9f1-476486c5",
+            "id" => Fog::Mock.random_numbers(19).to_s,
+            "name" => operation,
             "zone" => "https://www.googleapis.com/compute/#{api_version}/projects/#{@project}/zones/#{zone_name}",
             "operationType" => "insert",
             "targetLink" => "https://www.googleapis.com/compute/#{api_version}/projects/#{@project}/zones/#{zone_name}/disks/#{disk_name}",
-            "status" => "PENDING",
+            "targetId" => id,
+            "status" => Fog::Compute::Google::Operation::PENDING_STATE,
             "user" => "123456789012-qwertyuiopasdfghjkl1234567890qwe@developer.gserviceaccount.com",
             "progress" => 0,
             "insertTime" => Time.now.iso8601,
             "startTime" => Time.now.iso8601,
-            "selfLink" => "https://www.googleapis.com/compute/#{api_version}/projects/#{@project}/zones/#{zone_name}/operations/operation-1385124218076-4ebc35cfbe9f1-476486c5"
-          })
+            "selfLink" => "https://www.googleapis.com/compute/#{api_version}/projects/#{@project}/zones/#{zone_name}/operations/#{operation}"
+          }
+
+          build_response(:body => self.data[:operations][operation])
         end
 
       end
@@ -78,7 +83,7 @@ module Fog
           end
 
           # Merge in any remaining options (only 'description' should remain)
-          body_object.merge(opts)
+          body_object.merge!(opts)
 
           result = self.build_result(api_method, parameters,
                                      body_object)

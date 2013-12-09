@@ -14,9 +14,10 @@ module Fog
     class Connection
       require 'xmlrpc/client'
     
-      def initialize(host)
+      def initialize(host, timeout)
         @factory = XMLRPC::Client.new(host, '/')
         @factory.set_parser(NokogiriStreamParser.new)
+        @factory.timeout = timeout
       end
     
       def authenticate( username, password )

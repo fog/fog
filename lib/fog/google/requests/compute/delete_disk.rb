@@ -6,23 +6,26 @@ module Fog
 
         def delete_disk(disk_name, zone_name)
           get_disk(disk_name, zone_name)
-          self.data[:disks].delete disk_name
 
-          build_response(:body => {
+          operation = self.random_operation
+          self.data[:operations][operation] = {
             "kind" => "compute#operation",
-            "id" => "7145812689701515415",
-            "name" => "operation-1385125998242-4ebc3c7173e70-11e1ad0b",
+            "id" => Fog::Mock.random_numbers(19).to_s,
+            "name" => operation,
             "zone" => "https://www.googleapis.com/compute/#{api_version}/projects/#{@project}/zones/#{zone_name}",
             "operationType" => "delete",
             "targetLink" => "https://www.googleapis.com/compute/#{api_version}/projects/#{@project}/zones/#{zone_name}/disks/#{disk_name}",
-            "targetId" => "6817095360746367667",
-            "status" => "PENDING",
+            "targetId" => self.data[:disks][disk_name]["id"],
+            "status" => Fog::Compute::Google::Operation::PENDING_STATE,
             "user" => "123456789012-qwertyuiopasdfghjkl1234567890qwe@developer.gserviceaccount.com",
             "progress" => 0,
             "insertTime" => Time.now.iso8601,
             "startTime" => Time.now.iso8601,
-            "selfLink" => "https://www.googleapis.com/compute/#{api_version}/projects/#{@project}/zones/#{zone_name}/operations/operation-1385125998242-4ebc3c7173e70-11e1ad0b"
-          })
+            "selfLink" => "https://www.googleapis.com/compute/#{api_version}/projects/#{@project}/zones/#{zone_name}/operations/#{operation}"
+          }
+          self.data[:disks].delete disk_name
+
+          build_response(:body => self.data[:operations][operation])
         end
 
       end

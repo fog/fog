@@ -330,5 +330,9 @@ Shindo.tests('AWS::ELB | models', ['aws', 'elb']) do
     end
 
     Fog::AWS[:iam].delete_server_certificate(@key_name)
+
+    @igw.destroy
+    @subnet.destroy
+    @vpc.destroy
   end
 end

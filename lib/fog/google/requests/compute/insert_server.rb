@@ -37,9 +37,10 @@ module Fog
           end
           get_zone(zone_name)
 
+          id = Fog::Mock.random_numbers(19).to_s
           self.data[:servers][server_name] = {
             "kind" => "compute#instance",
-            "id" => Fog::Mock.random_numbers(19),
+            "id" => id,
             "creationTimestamp" => Time.now.iso8601,
             "zone" => "https://www.googleapis.com/compute/#{api_version}/projects/#{@project}/zones/#{zone_name}",
             "status" => "PROVISIONING",
@@ -85,20 +86,24 @@ module Fog
             "selfLink" => "https://www.googleapis.com/compute/#{api_version}/projects/#{@project}/zones/#{zone_name}/instances/#{server_name}"
           }
 
-          build_response(:body => {
+          operation = self.random_operation
+          self.data[:operations][operation] = {
             "kind" => "compute#operation",
-            "id" => "4639689000254420481",
-            "name" => "operation-1380213292196-4e74bf2fbc3c1-ae707d47",
+            "id" => Fog::Mock.random_numbers(19).to_s,
+            "name" => operation,
             "zone" => "https://www.googleapis.com/compute/#{api_version}/projects/#{@project}/zones/#{zone_name}",
             "operationType" => "insert",
             "targetLink" => "https://www.googleapis.com/compute/#{api_version}/projects/#{@project}/zones/#{zone_name}/instances/#{server_name}",
-            "status" => "PENDING",
+            "targetId" => id,
+            "status" => Fog::Compute::Google::Operation::PENDING_STATE,
             "user" => "123456789012-qwertyuiopasdfghjkl1234567890qwe@developer.gserviceaccount.com",
             "progress" => 0,
             "insertTime" => Time.now.iso8601,
             "startTime" => Time.now.iso8601,
-            "selfLink" => "https://www.googleapis.com/compute/#{api_version}/projects/#{@project}/zones/#{zone_name}/operations/operation-1380213292196-4e74bf2fbc3c1-ae707d47"
-          })
+            "selfLink" => "https://www.googleapis.com/compute/#{api_version}/projects/#{@project}/zones/#{zone_name}/operations/#{operation}"
+          }
+
+          build_response(:body => self.data[:operations][operation])
         end
 
       end
@@ -174,7 +179,7 @@ module Fog
           if options['kernel']
             body_object['kernel'] = @api_url + "google/global/kernels/#{options.delete 'kernel'}"
           end
-          body_object.merge! options # Adds in all remaining options that weren't explicitly handled.
+          body_object.merge!(options) # Adds in all remaining options that weren't explicitly handled.
 
           result = self.build_result(api_method, parameters,
                                      body_object=body_object)

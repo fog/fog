@@ -4,20 +4,20 @@ module Fog
 
       class Mock
 
-        def list_zone_operations(zone)
+        def get_global_operation(operation)
           Fog::Mock.not_implemented
         end
 
       end
 
       class Real
-        # https://developers.google.com/compute/docs/reference/latest/zoneOperations
+        # https://developers.google.com/compute/docs/reference/latest/globalOperations
 
-        def list_zone_operations(zone)
-          api_method = @compute.zone_operations.list
+        def get_global_operation(operation)
+          api_method = @compute.global_operations.get
           parameters = {
-            'zone' => zone,
             'project' => @project,
+            'operation' => operation
           }
 
           result = self.build_result(api_method, parameters)

@@ -28,21 +28,25 @@ module Fog
           server = self.data[:servers][server_name]
           server["status"] = "STOPPED"
           server["mock-deletionTimestamp"] = Time.now.iso8601
-          build_response(:body => {
+
+          operation = self.random_operation
+          self.data[:operations][operation] = {
             "kind" => "compute#operation",
-            "id" => "10035781241131638365",
-            "name" => "operation-1380213292196-4e74bf2fbc3c1-ae707d47",
+            "id" => Fog::Mock.random_numbers(19).to_s,
+            "name" => operation,
             "zone" => "https://www.googleapis.com/compute/#{api_version}/projects/#{@project}/zones/#{zone_name}",
             "operationType" => "delete",
             "targetLink" => "https://www.googleapis.com/compute/#{api_version}/projects/#{@project}/zones/#{zone_name}/instances/#{server_name}",
-            "targetId" => "14544909043643897380",
-            "status" => "PENDING",
+            "targetId" => self.data[:servers][server_name]["id"],
+            "status" => Fog::Compute::Google::Operation::PENDING_STATE,
             "user" => "123456789012-qwertyuiopasdfghjkl1234567890qwe@developer.gserviceaccount.com",
             "progress" => 0,
             "insertTime" => Time.now.iso8601,
             "startTime" => Time.now.iso8601,
-            "selfLink" => "https://www.googleapis.com/compute/#{api_version}/projects/#{@project}/zones/#{zone_name}/operations/operation-1380213292196-4e74bf2fbc3c1-ae707d47"
-          })
+            "selfLink" => "https://www.googleapis.com/compute/#{api_version}/projects/#{@project}/zones/#{zone_name}/operations/#{operation}"
+          }
+
+          build_response(:body => self.data[:operations][operation])
         end
 
       end
