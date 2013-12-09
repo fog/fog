@@ -8,7 +8,7 @@ module Fog
 
     service(:compute, 'cloudstack/compute','Compute')
 
-    @@digest  = OpenSSL::Digest::Digest.new('sha1')
+    @@digest  = OpenSSL::Digest.new('sha1')
 
     def self.escape(string)
       string = CGI::escape(string)
