@@ -31,7 +31,7 @@ Shindo.tests('Fog::Compute[:xenserver] | server model', ['xenserver']) do
         :is_a_template,
         :__affinity,
         :allowed_operations,
-        :__consoles,
+        :consoles,
         :domarch,
         :domid,
         :__guest_metrics,
@@ -113,8 +113,8 @@ Shindo.tests('Fog::Compute[:xenserver] | server model', ['xenserver']) do
     end
 
     tests('return valid consoles') do
-      test('as an array') { server.consoles.kind_of? Array }
-      server.consoles.each { |i|
+      test('as an array') { server.get_consoles.kind_of? Array }
+      server.get_consoles.each { |i|
         test('and each Console should be a Fog::Compute::XenServer::Console') { i.kind_of? Fog::Compute::XenServer::Console }
       }
     end
