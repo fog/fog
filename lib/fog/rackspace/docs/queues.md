@@ -1,10 +1,10 @@
-#Queues
+#Cloud Queues (queues)
 
 This document explains how to get started using queues with Fog. It assumes you have read the [Getting Started with Fog and the Rackspace Open Cloud](getting_started.md) document.
 
 ## Basic Concepts
 
-Queues is an open source, scalable, and highly available message and notifications service, based on the OpenStack Marconi project. Users of this service can create and manage a producer-consumer or a publisher-subscriber model. Unlimited queues and messages give users the flexibility they need to create powerful web applications in the cloud.
+Cloud Queues is an open source, scalable, and highly available message and notifications service, based on the OpenStack Marconi project. Users of this service can create and manage a producer-consumer or a publisher-subscriber model. Unlimited queues and messages give users the flexibility they need to create powerful web applications in the cloud.
 
 It consists of a few basic components: queues, messages, claims, and statistics. In the producer-consumer model, users create queues in which producers, or servers, can post messages. Workers, or consumers, can then claim those messages and delete them after they complete the actions associated with the messages. A single claim can contain multiple messages, and administrators can query claims for status.
 
@@ -55,7 +55,7 @@ By default `Fog::Rackspace::Queues` will authenticate against the US authenticat
 
 ### Regions
 
-Alternative regions are specified using the key `:rackspace_region `. A list of regions available for auto scale can be found by executing the following:
+Alternative regions are specified using the key `:rackspace_region `. A list of regions available for cloud queues can be found by executing the following:
 
 	identity_service = Fog::Identity({
 		:provider            => 'Rackspace',                     # Rackspace Fog provider
@@ -74,7 +74,7 @@ Rackspace Private Cloud installations can skip specifying a region and directly 
 
 ### Client ID
 
-The Rackspace Queue service requires every client define a client id to help identify messages and claims specific to the client. This client id should take the form of a UUID and can be generated using fog as follows:
+The Rackspace Queue service requires that every client define a client id to help identify messages and claims specific to the client. This client id should take the form of a UUID and can be generated using fog as follows:
 
     Fog::UUID.uuid
 
@@ -156,7 +156,7 @@ To view response body:
 
 	response.body
 
-returns:
+This returns:
 
 	{"queues"=>[{"href"=>"/v1/queues/demo-queue", "name"=>"demo-queue"}], "links"=>[{"href"=>"/v1/queues?marker=demo-queue", "rel"=>"next"}]}
 
@@ -225,7 +225,7 @@ The remainder of this document details the model abstraction.
 
 Queues require a unique name. If you try to create a queue with a name that already exists, fog will throw a `Fog::Rackspace::Queues::ServiceError` exception with a 204 status code.
 
-This is is how you would create a queue named demo-queue
+To create a queue named demo-queue
 
     begin
       queue = service.queues.create :name => 'demo-queue'
@@ -239,7 +239,7 @@ This is is how you would create a queue named demo-queue
 
 Messages can be any type of data, as long as they do not exceed 256 KB in length. Typical message bodies range from simple values, to a chunk of XML, or a list of JSON values. Fog handles the JSON-encoding required to post the message.
 
-You can post a message a mesage to your queue as follows:
+You can post a message a message to your queue as follows:
 
     queue.messages.create :body => 'The laces were out!', :ttl => 360
 
@@ -247,11 +247,11 @@ You must supply both a body and a value for `ttl`. The value of `ttl` must be be
 
 ## Listing Messages in a Queue
 
-Messages in a queue can be listed as follows:
+To list messages:
 
     queue.messages
 
-You can change the behavor by setting the follow attributes on the messages colleciton:
+You can change the behavior by setting the follow attributes on the messages collection:
 
 Parameter | Default | Effect
 ---- | ---- | ----
@@ -260,7 +260,7 @@ Parameter | Default | Effect
 **marker** | `nil` | Used for pagination.
 **limit** | `10` | The maximum number of messages to return. Note that you may receive fewer than the specified limit if there aren't that many available messages in the queue.
 
-For example, to include claimed messages you would do the following:
+For example, to include claimed messages:
 
     queue.messages.include_claimed = true
     queue.messages
@@ -273,7 +273,7 @@ Messages can be claimed and processed as follows:
 
     claims = queue.claims.create :ttl => 300, :grace => 100, :limit => 10
 
-An explanation of the parameters of this call follows:
+The parameters for this call are described in the following table:
 
 Parameter | Default | Notes
 ---- | ---- | ----
@@ -281,16 +281,16 @@ Parameter | Default | Notes
 **grace** |  | The grace attribute specifies the message grace period in seconds. The value of the grace period must be between 60 and 43200 seconds (12 hours). To deal with workers that have stopped responding (for up to 1209600 seconds or 14 days, including claim lifetime), the server extends the lifetime of claimed messages to be at least as long as the lifetime of the claim itself, plus the specified grace period. If a claimed message would normally live longer than the grace period, its expiration is not adjusted.
 **limit** | 10 | The number of messages to claim. The maximum number of messages you may claim at once is 20.
 
-If the claim is successful it will return a `Fog::Rackspace::Queues::Claims` object if there are not any available messages it will return `false`.
+If the claim is successful it will return a `Fog::Rackspace::Queues::Claims` object; if there are not any available messages it will return `false`.
 
-You can iterate through the claimed messages as follows:
+To iterate through the claimed messages:
 
     claim.messages.each do |message|
       # process message here
       message.destroy
     end
 
-**Note** You will want to call the `destroy` method on the message after processing to insure it is not processed more than once.
+**Note:** You will want to call the `destroy` method on the message after processing to insure it is not processed more than once.
 
 ## Renewing a Claim
 
