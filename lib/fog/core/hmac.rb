@@ -18,7 +18,7 @@ module Fog
     private
 
     def setup_sha1
-      @digest = OpenSSL::Digest::Digest.new('sha1')
+      @digest = OpenSSL::Digest.new('sha1')
       @signer = lambda do |data|
         OpenSSL::HMAC.digest(@digest, @key, data)
       end
@@ -26,7 +26,7 @@ module Fog
 
     def setup_sha256
       begin
-        @digest = OpenSSL::Digest::Digest.new('sha256')
+        @digest = OpenSSL::Digest.new('sha256')
         @signer = lambda do |data|
           OpenSSL::HMAC.digest(@digest, @key, data)
         end
