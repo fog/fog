@@ -48,6 +48,14 @@ Shindo.tests('Fog::Storage[:aws] | bucket requests', ["aws"]) do
       @aws_owner = Fog::Storage[:aws].get_bucket_acl(Fog::Storage[:aws].directories.first.key).body['Owner']
     end
 
+    tests('put existing bucket - default region') do
+      Fog::Storage[:aws].put_bucket(@aws_bucket_name)
+
+      tests("#put_bucket('#{@aws_bucket_name}') existing").succeeds do
+        Fog::Storage[:aws].put_bucket(@aws_bucket_name)
+      end
+    end    
+
     tests("#get_service").formats(@service_format) do
       Fog::Storage[:aws].get_service.body
     end
@@ -337,6 +345,15 @@ Shindo.tests('Fog::Storage[:aws] | bucket requests', ["aws"]) do
       Fog::Storage[:aws].put_bucket_website('fognonbucket', 'index.html')
     end
 
+    tests('put existing bucket - non-default region') do
+      storage_eu_endpoint = Fog::Storage[:aws]
+      storage_eu_endpoint.region = "eu-west-1"
+      storage_eu_endpoint.put_bucket(@aws_bucket_name)
+
+      tests("#put_bucket('#{@aws_bucket_name}') existing").raises(Excon::Errors::Conflict) do
+        storage_eu_endpoint.put_bucket(@aws_bucket_name)
+      end
+    end
   end
 
   # don't keep the bucket around

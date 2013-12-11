@@ -26,7 +26,7 @@ module Fog
         #     * 'LastModified'<~Time> - date object was last modified
         #
         def copy_object(source_bucket_name, source_object_name, target_bucket_name, target_object_name, options = {})
-          headers = { 'x-goog-copy-source' => "/#{source_bucket_name}/#{source_object_name}" }.merge!(options)
+          headers = { 'x-goog-copy-source' => "/#{source_bucket_name}/#{source_object_name}" }.merge(options)
           request({
             :expects  => 200,
             :headers  => headers,

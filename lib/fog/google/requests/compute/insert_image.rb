@@ -30,7 +30,7 @@ module Fog
           }
 
           # Merge in the remaining params (only 'description' should remain)
-          body_object.merge(options)
+          body_object.merge!(options)
 
           result = self.build_result(api_method,
                                      parameters,
