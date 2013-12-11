@@ -6,23 +6,56 @@ module Fog
 
       class Host < Fog::Model
         # API Reference here:
-        # http://docs.vmd.citrix.com/XenServer/5.6.0/1.0/en_gb/api/?c=host
+        # http://docs.vmd.citrix.com/XenServer/6.2.0/1.0/en_gb/api/?c=host
 
         identity :reference
 
-        attribute :name,              :aliases => :name_label
+        attribute :name,                                :aliases => :name_label
         attribute :uuid
         attribute :address
         attribute :allowed_operations
+        attribute :api_version_major,                   :aliases => :API_version_major
+        attribute :api_version_minor,                   :aliases => :API_version_minor
+        attribute :api_version_vendor,                  :aliases => :API_version_vendor
+        attribute :api_version_vendor_implementation,   :aliases => :API_version_vendor_implementation
+        attribute :bios_strings
+        attribute :blobs
+        attribute :capabilities
+        attribute :chipset_info
+        attribute :cpu_configuration
+        attribute :cpu_info
+        attribute :__crash_dump_sr,                     :aliases => :crash_dump_sr
+        attribute :__crashdumps,                        :aliases => :crashdumps
+        attribute :current_operations
         attribute :enabled
+        attribute :external_auth_configuration
+        attribute :external_auth_service_name
+        attribute :external_auth_type
+        attribute :guest_vcpus_params,                  :aliases => :guest_VCPUs_params
+        attribute :ha_network_peers
+        attribute :ha_statefiles
         attribute :hostname
-        attribute :__metrics,          :aliases => :metrics
-        attribute :name_description
+        attribute :license_params
+        attribute :license_server
+        attribute :__local_cache_sr,                    :aliases => :local_cache_sr
+        attribute :logging
+        attribute :memory_overhead
+        attribute :__metrics,                           :aliases => :metrics
+        attribute :description,                         :aliases => :name_description
         attribute :other_config
-        attribute :__pbds,            :aliases => :PBDs
-        attribute :__pifs,            :aliases => :PIFs
-        attribute :__resident_vms,      :aliases => :resident_VMs
-        attribute :__host_cpus,         :aliases => :host_CPUs
+        attribute :patches
+        attribute :__pbds,                              :aliases => :PBDs
+        attribute :__pcis,                              :aliases => :PCIs
+        attribute :__pgpus,                             :aliases => :PGPUs
+        attribute :__pifs,                              :aliases => :PIFs
+        attribute :power_on_config
+        attribute :power_on_mode
+        attribute :__resident_vms,                      :aliases => :resident_VMs
+        attribute :sched_policy
+        attribute :supported_bootloaders
+        attribute :suspend_image_sr
+        attribute :tags
+        attribute :__host_cpus,                         :aliases => :host_CPUs
         attribute :edition
         attribute :software_version
         
