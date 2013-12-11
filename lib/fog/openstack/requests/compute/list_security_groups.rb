@@ -23,7 +23,7 @@ module Fog
 
           groups = if server_id then
                      server_group_names =
-                       self.data[:server_security_group_map][server_id]
+                       Array(self.data[:server_security_group_map][server_id])
 
                      server_group_names.map do |name|
                        security_groups.find do |sg|

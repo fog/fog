@@ -15,7 +15,7 @@ module Fog
         # @raise [Fog::Compute::RackspaceV2::BadRequest] - HTTP 400
         # @raise [Fog::Compute::RackspaceV2::InternalServerError] - HTTP 500
         # @raise [Fog::Compute::RackspaceV2::ServiceError]
-        # @see http://docs.rackspace.com/servers/api/v2/cs-devguide/content/Create_or_Update_a_Metadata_Item-d1e5633.html       
+        # @see http://docs.rackspace.com/servers/api/v2/cs-devguide/content/Create_or_Update_a_Metadata_Item-d1e5633.html
         def set_metadata_item(collection, obj_id, key, value)
           request(
             :expects => 200,

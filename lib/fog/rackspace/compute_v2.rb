@@ -1,3 +1,4 @@
+require 'fog/rackspace'
 require 'fog/compute'
 
 module Fog
@@ -54,6 +55,8 @@ module Fog
       collection :attachments
       model :network
       collection :networks
+      model :key_pair
+      collection :key_pairs
 
       request_path 'fog/rackspace/requests/compute_v2'
       request :list_servers
@@ -74,10 +77,12 @@ module Fog
 
       request :create_image
       request :list_images
+      request :list_images_detail
       request :get_image
       request :delete_image
 
       request :list_flavors
+      request :list_flavors_detail
       request :get_flavor
 
       request :attach_volume
@@ -96,6 +101,11 @@ module Fog
       request :get_network
       request :create_network
       request :delete_network
+
+      request :list_keypairs
+      request :create_keypair
+      request :delete_keypair
+      request :get_keypair
 
       class Mock < Fog::Rackspace::Service
         include Fog::Rackspace::MockData
@@ -139,49 +149,33 @@ module Fog
           @connection = Fog::Connection.new(endpoint_uri.to_s, @persistent, @connection_options)
         end
 
-        def request(params)
-          begin
-            response = @connection.request(params.merge!({
-              :headers  => {
-                'Content-Type' => 'application/json',
-                'Accept' => 'application/json',
-                'X-Auth-Token' => auth_token
-              }.merge!(params[:headers] || {}),
-              :host     => endpoint_uri.host,
-              :path     => "#{endpoint_uri.path}/#{params[:path]}"
-            }))
-          rescue Excon::Errors::NotFound => error
-            raise NotFound.slurp(error, region)
-          rescue Excon::Errors::BadRequest => error
-            raise BadRequest.slurp error
-          rescue Excon::Errors::InternalServerError => error
-            raise InternalServerError.slurp error
-          rescue Excon::Errors::HTTPStatusError => error
-            raise ServiceError.slurp error
-          end
-
-          unless response.body.empty?
-            begin
-              response.body = Fog::JSON.decode(response.body)
-            rescue MultiJson::DecodeError => e
-              response.body = {}
-            end
-          end
-          response
+        def request(params, parse_json = true)
+          super
+        rescue Excon::Errors::NotFound => error
+          raise NotFound.slurp(error, self)
+        rescue Excon::Errors::BadRequest => error
+          raise BadRequest.slurp(error, self)
+        rescue Excon::Errors::InternalServerError => error
+          raise InternalServerError.slurp(error, self)
+        rescue Excon::Errors::HTTPStatusError => error
+          raise ServiceError.slurp(error, self)
         end
 
-        def authenticate
-          options = {
+        def authenticate(options={})
+          super({
             :rackspace_api_key => @rackspace_api_key,
             :rackspace_username => @rackspace_username,
             :rackspace_auth_url => @rackspace_auth_url,
             :connection_options => @connection_options
-          }
-          super(options)
+          })
         end
 
         def service_name
           :cloudServersOpenStack
+        end
+
+        def request_id_header
+          "X-Compute-Request-Id"
         end
 
         def region

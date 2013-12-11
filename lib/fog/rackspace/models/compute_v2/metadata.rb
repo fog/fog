@@ -46,7 +46,7 @@ module Fog
         # Retrieve specific value for key from Metadata.
         # * If key is of type String, this method will return the value of the metadatum
         # * If key is of type Fixnum, this method will return a Fog::Compute::RackspaceV2::Metadatum object (legacy)
-        # @param [#key] key 
+        # @param [#key] key
         # @return [#value] 
         def [](key)
           return super(key) if key.is_a?(Integer)
@@ -58,7 +58,7 @@ module Fog
         # Set value for key.
         # * If key is of type String, this method will set/add the value to Metadata
         # * If key is of type Fixnum, this method will set a Fog::Compute::RackspaceV2::Metadatum object (legacy)
-        # @param [#key] key 
+        # @param [#key] key
         # @return [String] 
         def []=(key, value)
           return super(key,value) if key.is_a?(Integer)          
@@ -84,7 +84,6 @@ module Fog
 
         # Creates new metadata
         def new(attributes = {})
-          requires :parent
           super({ :parent => parent }.merge!(attributes))
         end
 

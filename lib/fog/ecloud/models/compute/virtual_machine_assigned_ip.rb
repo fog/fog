@@ -18,7 +18,7 @@ module Fog
           network_id = @network.href.match(/(\d+)$/)[1]
           address_ip = network_address[:IpAddresses][:IpAddress]
           @address = self.service.ip_addresses.new(
-            :href => "/cloudapi/ecloud/ipaddresses/networks/#{network_id}/#{address_ip}",
+            :href => "#{service.base_path}/ipaddresses/networks/#{network_id}/#{address_ip}",
             :name => address_ip
           )
         end

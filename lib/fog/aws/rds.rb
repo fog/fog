@@ -10,7 +10,7 @@ module Fog
       class AuthorizationAlreadyExists < Fog::Errors::Error; end
 
       requires :aws_access_key_id, :aws_secret_access_key
-      recognizes :region, :host, :path, :port, :scheme, :persistent, :use_iam_profile, :aws_session_token, :aws_credentials_expire_at
+      recognizes :region, :host, :path, :port, :scheme, :persistent, :use_iam_profile, :aws_session_token, :aws_credentials_expire_at, :version
 
       request_path 'fog/aws/requests/rds'
       request :describe_events
@@ -51,11 +51,18 @@ module Fog
       request :describe_db_subnet_groups
       # TODO: :delete_db_subnet_group, :modify_db_subnet_group
 
+      request :describe_orderable_db_instance_options
+
+      request :describe_db_log_files
+      request :download_db_logfile_portion
+
       model_path 'fog/aws/models/rds'
       model       :server
       collection  :servers
+
       model       :snapshot
       collection  :snapshots
+
       model       :parameter_group
       collection  :parameter_groups
 
@@ -67,6 +74,12 @@ module Fog
 
       model       :subnet_group
       collection  :subnet_groups
+
+      model       :instance_option
+      collection  :instance_options
+
+      model       :log_file
+      collection  :log_files
 
       class Mock
 
@@ -155,6 +168,7 @@ module Fog
           @port       = options[:port]        || 443
           @scheme     = options[:scheme]      || 'https'
           @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}#{@path}", @persistent, @connection_options)
+          @version    = options[:version] || '2013-05-15'
         end
 
         def owner_id
@@ -191,38 +205,41 @@ module Fog
               :host               => @host,
               :path               => @path,
               :port               => @port,
-              :version            => '2012-09-17' #'2011-04-01'
+              :version            => @version
             }
           )
 
           begin
-            response = @connection.request({
+            @connection.request({
               :body       => body,
               :expects    => 200,
               :headers    => { 'Content-Type' => 'application/x-www-form-urlencoded' },
               :idempotent => idempotent,
-              :host       => @host,
               :method     => 'POST',
               :parser     => parser
             })
           rescue Excon::Errors::HTTPStatusError => error
-            if match = error.response.body.match(/(?:.*<Code>(.*)<\/Code>)(?:.*<Message>(.*)<\/Message>)/m)
-              case match[1].split('.').last
-              when 'DBInstanceNotFound', 'DBParameterGroupNotFound', 'DBSnapshotNotFound', 'DBSecurityGroupNotFound'
-                raise Fog::AWS::RDS::NotFound.slurp(error, match[2])
-              when 'DBParameterGroupAlreadyExists'
-                raise Fog::AWS::RDS::IdentifierTaken.slurp(error, match[2])
-              when 'AuthorizationAlreadyExists'
-                raise Fog::AWS::RDS::AuthorizationAlreadyExists.slurp(error, match[2])
+            match = Fog::AWS::Errors.match_error(error)
+            if match.empty?
+              case error.message
+              when 'Not Found'
+                raise Fog::AWS::RDS::NotFound.slurp(error, 'RDS Instance not found')
               else
                 raise
               end
             else
-              raise
+              raise case match[:code]
+                    when 'DBInstanceNotFound', 'DBParameterGroupNotFound', 'DBSnapshotNotFound', 'DBSecurityGroupNotFound'
+                      Fog::AWS::RDS::NotFound.slurp(error, match[:message])
+                    when 'DBParameterGroupAlreadyExists'
+                      Fog::AWS::RDS::IdentifierTaken.slurp(error, match[:message])
+                    when 'AuthorizationAlreadyExists'
+                      Fog::AWS::RDS::AuthorizationAlreadyExists.slurp(error, match[:message])
+                    else
+                      Fog::AWS::RDS::Error.slurp(error, "#{match[:code]} => #{match[:message]}")
+                    end
             end
           end
-
-          response
         end
 
       end

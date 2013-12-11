@@ -51,7 +51,12 @@ module Fog
         # @return [String] server status. 
         # @see http://docs.rackspace.com/servers/api/v2/cs-devguide/content/List_Servers-d1e2078.html#server_status
         attribute :state, :aliases => 'status'
-                
+
+        # @!attribute [r] state_ext
+        # @return [String] server (extended) status. 
+        # @see http://docs.rackspace.com/servers/api/v2/cs-devguide/content/List_Servers-d1e2078.html#server_status
+        attribute :state_ext, :aliases => 'OS-EXT-STS:task_state'
+
         # @!attribute [r] progress
         # @return [Fixnum] The build completion progress, as a percentage. Value is from 0 to 100.
         attribute :progress
@@ -193,17 +198,18 @@ module Fog
         #   * BUILD -> ERROR (on error)
         def create(options)
           requires :name, :image_id, :flavor_id
+          modified_options = Marshal.load(Marshal.dump(options))
 
-          options[:networks] ||= attributes[:networks]
-          options[:disk_config] = disk_config unless disk_config.nil?
-          options[:metadata] = metadata.to_hash unless @metadata.nil?
-          options[:personality] = personality unless personality.nil?
+          modified_options[:networks] ||= attributes[:networks]
+          modified_options[:disk_config] = disk_config unless disk_config.nil?
+          modified_options[:metadata] = metadata.to_hash unless @metadata.nil?
+          modified_options[:personality] = personality unless personality.nil?
+          modified_options[:keypair] ||= attributes[:keypair]
 
-          if options[:networks]
-            options[:networks].map! { |id| { :uuid => id } }
+          if modified_options[:networks]
+            modified_options[:networks].map! { |id| { :uuid => id } }
           end
-
-          data = service.create_server(name, image_id, flavor_id, 1, 1, options)
+          data = service.create_server(name, image_id, flavor_id, 1, 1, modified_options)
           merge_attributes(data.body['server'])
           true
         end
@@ -331,7 +337,7 @@ module Fog
         # Server's private IPv4 address
         # @return [String] private IPv4 address
         def private_ip_address
-          addresses['private'].select{|a| a["version"] == 4}[0]["addr"]
+          addresses['private'].select{|a| a["version"] == 4}[0]["addr"] rescue ''
         end
 
         # Server's public IPv4 address
@@ -420,7 +426,7 @@ module Fog
         # @raise [Fog::Compute::RackspaceV2::BadRequest] - HTTP 400
         # @raise [Fog::Compute::RackspaceV2::InternalServerError] - HTTP 500
         # @raise [Fog::Compute::RackspaceV2::ServiceError]
-        # @note All resizes are automatically confirmed after 24 hours if you do not explicitly confirm or revert the resize.        
+        # @note All resizes are automatically confirmed after 24 hours if you do not explicitly confirm or revert the resize.
         # @see http://docs.rackspace.com/servers/api/v2/cs-devguide/content/Confirm_Resized_Server-d1e3868.html
         # @see #resize
         #

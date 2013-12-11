@@ -9,7 +9,9 @@ module Fog
               'flavorRef' => flavor_id,
               'volume' => {
                 'size' => volume_size
-              }
+              },
+              'databases' => [
+              ]
             }
           }
 

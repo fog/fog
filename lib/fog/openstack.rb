@@ -47,6 +47,17 @@ module Fog
     service(:network, 'openstack/network', 'Network')
     service(:storage, 'openstack/storage', 'Storage')
     service(:volume,  'openstack/volume',  'Volume')
+    service(:metering,  'openstack/metering',  'Metering')
+    service(:orchestration,  'openstack/orchestration',  'Orchestration')
+
+    def self.authenticate(options, connection_options = {})
+      case options[:openstack_auth_uri].path
+      when /v1(\.\d+)?/
+        authenticate_v1(options, connection_options)
+      else
+        authenticate_v2(options, connection_options)
+      end
+    end
 
     # legacy v1.0 style auth
     def self.authenticate_v1(options, connection_options = {})
@@ -61,14 +72,13 @@ module Fog
           'X-Auth-Key'  => @openstack_api_key,
           'X-Auth-User' => @openstack_username
         },
-        :host     => uri.host,
         :method   => 'GET',
         :path     =>  (uri.path and not uri.path.empty?) ? uri.path : 'v1.0'
       })
 
       return {
         :token => response.headers['X-Auth-Token'],
-        :server_management_url => response.headers['X-Server-Management-Url'],
+        :server_management_url => response.headers['X-Server-Management-Url'] || response.headers['X-Storage-Url'],
         :identity_public_endpoint => response.headers['X-Keystone']
       }
     end
@@ -97,7 +107,6 @@ module Fog
             :headers => {'Content-Type' => 'application/json',
                          'Accept' => 'application/json',
                          'X-Auth-Token' => body['access']['token']['id']},
-            :host    => uri.host,
             :method  => 'GET'
           })
 
@@ -119,7 +128,7 @@ module Fog
       end if openstack_region
 
       if service['endpoints'].empty?
-        raise Errors::NotFound.new("No endpoints available for region '#{openstack_region}'")
+        raise Fog::Errors::NotFound.new("No endpoints available for region '#{openstack_region}'")
       end if openstack_region
 
       unless service
@@ -195,7 +204,6 @@ module Fog
         :expects  => [200, 204],
         :headers  => {'Content-Type' => 'application/json'},
         :body     => Fog::JSON.encode(request_body),
-        :host     => uri.host,
         :method   => 'POST',
         :path     => (uri.path and not uri.path.empty?) ? uri.path : 'v2.0'
       })
@@ -210,7 +218,6 @@ module Fog
         :headers => {'Content-Type' => 'application/json',
                      'Accept' => 'application/json',
                      'X-Auth-Token' => auth_token},
-        :host    => uri.host,
         :method  => 'GET'
       })
 

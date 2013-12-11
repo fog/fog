@@ -3,6 +3,7 @@ Shindo.tests('Fog::Compute[:aws] | instance requests', ['aws']) do
   @instance_format = {
     'architecture'        => String,
     'amiLaunchIndex'      => Integer,
+    'associatePublicIP'   => Fog::Nullable::Boolean,    
     'attachmentId'        => Fog::Nullable::String,
     'blockDeviceMapping'  => [Fog::Nullable::Hash],
     'clientToken'         => Fog::Nullable::String,
@@ -115,6 +116,7 @@ Shindo.tests('Fog::Compute[:aws] | instance requests', ['aws']) do
       'instanceType'        => String,
       'availabilityZone'    => String,
       'start'               => Time,
+      'end'                 => Time,
       'duration'            => Integer,
       'fixedPrice'          => Float,
       'usagePrice'          => Float,

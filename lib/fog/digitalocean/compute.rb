@@ -90,14 +90,43 @@ module Fog
           params[:query].merge!(:api_key   => @digitalocean_api_key)
           params[:query].merge!(:client_id => @digitalocean_client_id)
 
-          response = @connection.request(params)
+          response = retry_event_lock { parse @connection.request(params) }
 
           unless response.body.empty?
-            response.body = Fog::JSON.decode(response.body)
             if response.body['status'] != 'OK'
-              raise Fog::Errors::Error.new response.body.to_s
+              case response.body['error_message']
+              when /No Droplets Found/
+                raise Fog::Errors::NotFound.new
+              else
+                raise Fog::Errors::Error.new response.body.to_s
+              end
             end
           end
+          response
+        end
+
+        private
+
+        def parse(response)
+          return response if response.body.empty?
+          response.body = Fog::JSON.decode(response.body)
+          response
+        end
+
+        def retry_event_lock
+          count   = 0
+          reponse = nil
+          while count < 5
+            response = yield
+
+            if response.body && response.body['error_message'] =~ /There is already a pending event for the droplet/
+              count += 1
+              sleep count ** 3
+            else
+              break
+            end
+          end
+
           response
         end
 

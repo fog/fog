@@ -17,7 +17,8 @@ module Fog
 
         def detach_volume(server_id, attachment_id)
           response = Excon::Response.new
-          if self.data[:volumes][attachment_id]['attachments'].reject! { |attachment| attachment['serverId'] == server_id }
+          if self.data[:volumes][attachment_id] &&
+             self.data[:volumes][attachment_id]['attachments'].reject! { |attachment| attachment['serverId'] == server_id }
             response.status = 202
             response
           else

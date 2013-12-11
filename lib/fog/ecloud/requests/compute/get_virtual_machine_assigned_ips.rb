@@ -5,7 +5,7 @@ module Fog
       class Real
         def get_virtual_machine_assigned_ips(virtual_machine_id)
           request(
-            :uri => "/cloudapi/ecloud/virtualmachines/#{virtual_machine_id}/assignedips",
+            :uri => "#{base_path}/virtualmachines/#{virtual_machine_id}/assignedips",
             :parse   => true
           )
         end

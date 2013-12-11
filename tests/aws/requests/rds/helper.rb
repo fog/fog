@@ -8,6 +8,11 @@ class AWS
         'ResponseMetadata' => {'RequestId' => String}
       }
 
+      DB_AVAILABILITY_ZONE_OPTION = {
+          'Name' => String,
+          'ProvisionedIopsCapable' => Fog::Boolean
+      }
+
       DB_PARAMETER_GROUP = {
           'DBParameterGroupFamily' => String,
           'DBParameterGroupName'=> String,
@@ -79,6 +84,23 @@ class AWS
         }
       }
 
+      ORDERABLE_DB_INSTANCE_OPTION = {
+          'MultiAZCapable' => Fog::Boolean,
+          'Engine' => String,
+          'LicenseModel' => String,
+          'ReadReplicaCapable' => Fog::Boolean,
+          'EngineVersion' => String,
+          'AvailabilityZones' => [DB_AVAILABILITY_ZONE_OPTION],
+          'DBInstanceClass' => String,
+          'Vpc' => Fog::Boolean
+      }
+
+      DESCRIBE_ORDERABLE_DB_INSTANCE_OPTION = BASIC.merge({
+          'DescribeOrderableDBInstanceOptionsResult' =>{
+              'OrderableDBInstanceOptions' => [ORDERABLE_DB_INSTANCE_OPTION]
+          }
+      })
+
       MODIFY_PARAMETER_GROUP = BASIC.merge({
         'ModifyDBParameterGroupResult' => {
           'DBParameterGroupName' => String
@@ -103,6 +125,19 @@ class AWS
           'Parameters' => [DB_PARAMETER]
         }
 
+      })
+
+      DB_LOG_FILE = {
+        'LastWritten' => Time,
+        'Size' => Integer,
+        'LogFileName' => String
+      }
+
+      DESCRIBE_DB_LOG_FILES = BASIC.merge({
+        'DescribeDBLogFilesResult' => {
+          'Marker' => Fog::Nullable::String,
+          'DBLogFiles' => [DB_LOG_FILE]
+        }
       })
 
       SNAPSHOT={
@@ -137,6 +172,7 @@ class AWS
             'DBSecurityGroupName' => String
           }],
         'DBSubnetGroupName' => Fog::Nullable::String,
+        'PubliclyAccessible' => Fog::Boolean,
         'Endpoint' => {
           'Address' => Fog::Nullable::String,
           'Port' => Fog::Nullable::Integer

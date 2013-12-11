@@ -16,8 +16,9 @@ module Fog
         # @raise [Fog::Compute::RackspaceV2::InternalServerError] - HTTP 500
         # @raise [Fog::Compute::RackspaceV2::ServiceError]
         # @note Fog's current implementation only returns 1000 servers
+        # @note The filter parameter on the method is just to maintain compatability with other providers that support filtering.
         # @see http://docs.rackspace.com/servers/api/v2/cs-devguide/content/List_Servers-d1e2078.html
-        def all
+        def all(filters = {})
           data = service.list_servers.body['servers']
           load(data)
         end
@@ -28,7 +29,7 @@ module Fog
         # @raise [Fog::Compute::RackspaceV2::BadRequest] - HTTP 400
         # @raise [Fog::Compute::RackspaceV2::InternalServerError] - HTTP 500
         # @raise [Fog::Compute::RackspaceV2::ServiceError]
-        # @note This method is incompatible with Cloud Servers utlizing RackConnect. RackConnect users 
+        # @note This method is incompatible with Cloud Servers utlizing RackConnect. RackConnect users
         #     should use server personalization to install keys.  Please see Server#personality for more information.
         # @example
         #   service.servers.bootstrap :name => 'bootstrap-server',

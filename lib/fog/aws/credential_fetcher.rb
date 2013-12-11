@@ -1,4 +1,5 @@
-require 'fog/core/json'
+require "fog/json"
+
 module Fog
   module AWS
     module CredentialFetcher
@@ -14,7 +15,7 @@ module Fog
 
               session = Fog::JSON.decode(role_data)
               credentials = {}
-              credentials[:aws_access_key_id] = session['AccessKeyId']  
+              credentials[:aws_access_key_id] = session['AccessKeyId']
               credentials[:aws_secret_access_key] = session['SecretAccessKey']
               credentials[:aws_session_token] = session['Token']
               credentials[:aws_credentials_expire_at] = Time.xmlschema session['Expiration']
@@ -31,7 +32,7 @@ module Fog
       end
 
       module ConnectionMethods
-        
+
         def refresh_credentials_if_expired
           refresh_credentials if credentials_expired?
         end
@@ -39,8 +40,8 @@ module Fog
         private
 
         def credentials_expired?
-          @use_iam_profile && 
-            (!@aws_credentials_expire_at || 
+          @use_iam_profile &&
+            (!@aws_credentials_expire_at ||
              (@aws_credentials_expire_at && Fog::Time.now > @aws_credentials_expire_at - 15)) #new credentials become available from around 5 minutes before expiration time
         end
 
@@ -61,4 +62,3 @@ module Fog
     end
   end
 end
-

@@ -78,7 +78,7 @@ module Fog
         end
       end
 
-      def download(remote_path, local_path, download_options = {})
+      def download(remote_path, local_path, download_options = {}, &block)
         begin
           Net::SCP.start(@address, @username, @options) do |scp|
             scp.download!(remote_path, local_path, download_options) do |ch, name, sent, total|

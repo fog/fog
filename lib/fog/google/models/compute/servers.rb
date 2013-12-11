@@ -9,33 +9,36 @@ module Fog
 
         model Fog::Compute::Google::Server
 
-        def all(zone=nil)
-          if zone.nil?
+        def all(filters={})
+          if filters['zone'].nil?
             data = []
             service.list_zones.body['items'].each do |zone|
               data += service.list_servers(zone['name']).body["items"] || []
             end
           else
-            data = service.list_servers(zone).body["items"] || []
+            data = service.list_servers(filters['zone']).body["items"] || []
           end
           load(data)
         end
 
         def get(identity, zone=nil)
-          data = nil
+          response = nil
           if zone.nil?
             service.list_zones.body['items'].each do |zone|
-              data = service.get_server(identity, zone['name']).body
-              break if data["code"] == 200
+              begin
+                response = service.get_server(identity, zone['name'])
+                break if response.status == 200
+              rescue Fog::Errors::Error
+              end
             end
           else
-            data = service.get_server(identity, zone).body
+            response = service.get_server(identity, zone)
           end
 
-          if data["code"] != 200
+          if response.nil? or response.status != 200
             nil
           else
-            new(data)
+            new(response.body)
           end
         rescue Excon::Errors::NotFound
           nil
@@ -44,15 +47,22 @@ module Fog
         def bootstrap(new_attributes = {})
           defaults = {
             :name => "fog-#{Time.now.to_i}",
-            :image_name => "gcel-12-04-v20130225",
+            :image_name => "debian-7-wheezy-v20130816",
             :machine_type => "n1-standard-1",
-            :zone_name => "us-central1-a",
+            :zone_name => "us-central1-b",
             :private_key_path => File.expand_path("~/.ssh/id_rsa"),
             :public_key_path => File.expand_path("~/.ssh/id_rsa.pub"),
+            :username => ENV['USER'],
           }
+          if new_attributes[:disks]
+            new_attributes[:disks].each do |disk|
+              defaults.delete :image_name if disk['boot']
+            end
+          end
 
           server = create(defaults.merge(new_attributes))
-          server.wait_for(Fog.timeout, 30) { ready? }
+          server.wait_for { sshable? }
+
           server
         end
       end

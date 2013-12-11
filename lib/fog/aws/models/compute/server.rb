@@ -12,6 +12,7 @@ module Fog
 
         attr_accessor :architecture
         attribute :ami_launch_index,         :aliases => 'amiLaunchIndex'
+        attribute :associate_public_ip,      :aliases => 'associatePublicIP'
         attribute :availability_zone,        :aliases => 'availabilityZone'
         attribute :block_device_mapping,     :aliases => 'blockDeviceMapping'
         attribute :network_interfaces,       :aliases => 'networkInterfaces'
@@ -64,7 +65,7 @@ module Fog
           prepare_service_value(attributes)
 
           self.image_id   ||= begin
-            self.username = 'ubuntu'
+            self.username ||= 'ubuntu'
             case @service.instance_variable_get(:@region) # Ubuntu 10.04 LTS 64bit (EBS)
             when 'ap-northeast-1'
               'ami-5e0fa45f'
@@ -172,6 +173,20 @@ module Fog
           # use of Security Group Ids when working in a VPC.
           if subnet_id
             options.delete('SecurityGroup')
+            if associate_public_ip
+              options['NetworkInterface.0.DeviceIndex'] = 0
+              options['NetworkInterface.0.AssociatePublicIpAddress'] = associate_public_ip
+              options['NetworkInterface.0.SubnetId'] = options['SubnetId']
+              options.delete('SubnetId')
+              if options['SecurityGroupId'].kind_of?(Array)
+                options['SecurityGroupId'].each {|id|
+                  options["NetworkInterface.0.SecurityGroupId.#{options['SecurityGroupId'].index(id)}"] = id
+                }
+              else
+                options["NetworkInterface.0.SecurityGroupId.0"] = options['SecurityGroupId']
+              end
+              options.delete('SecurityGroupId')              
+            end
           else
             options.delete('SubnetId')
           end

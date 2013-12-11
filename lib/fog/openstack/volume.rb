@@ -16,6 +16,8 @@ module Fog
       model       :volume
       collection  :volumes
 
+      model       :volume_type
+      collection  :volume_types
 
       request_path 'fog/openstack/requests/volume'
 
@@ -25,11 +27,14 @@ module Fog
       request :get_volume_details
       request :delete_volume
 
+      request :list_volume_types
+      request :get_volume_type_details
+
       request :create_volume_snapshot
       request :list_snapshots
       request :get_snapshot_details
       request :delete_snapshot
- 
+
       request :update_quota
       request :get_quota
       request :get_quota_defaults
@@ -56,7 +61,6 @@ module Fog
         end
 
         def initialize(options={})
-          require 'multi_json'
           @openstack_username = options[:openstack_username]
           @openstack_tenant   = options[:openstack_tenant]
           @openstack_auth_uri = URI.parse(options[:openstack_auth_url])
@@ -103,8 +107,6 @@ module Fog
         attr_reader :current_tenant
 
         def initialize(options={})
-          require 'multi_json'
-
           @openstack_auth_token = options[:openstack_auth_token]
 
           unless @openstack_auth_token
@@ -157,7 +159,6 @@ module Fog
                 'Accept' => 'application/json',
                 'X-Auth-Token' => @auth_token
               }.merge!(params[:headers] || {}),
-              :host     => @host,
               :path     => "#{@path}/#{params[:path]}"#,
             }))
           rescue Excon::Errors::Unauthorized => error
@@ -177,7 +178,7 @@ module Fog
             end
           end
           unless response.body.empty?
-            response.body = MultiJson.decode(response.body)
+            response.body = Fog::JSON.decode(response.body)
           end
           response
         end

@@ -25,6 +25,9 @@ module Fog
             "event_id" => Fog::Mock.random_numbers(1).to_i,
             "status" => "OK"
           }
+
+          server = self.data[:servers].reject! { |s| s['id'] == id }
+
           response
         end
 

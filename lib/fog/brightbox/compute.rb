@@ -1,13 +1,11 @@
 require 'fog/brightbox'
 require 'fog/compute'
-require 'fog/brightbox/oauth2'
+require 'fog/brightbox/compute/shared'
 require 'fog/brightbox/compute/image_selector'
 
 module Fog
   module Compute
     class Brightbox < Fog::Service
-
-      API_URL = "https://api.gb1.brightbox.com/"
 
       # Client credentials
       requires :brightbox_client_id, :brightbox_secret
@@ -34,6 +32,8 @@ module Fog
       model       :application
       collection  :api_clients
       model       :api_client
+      collection  :collaborations
+      model       :collaboration
       collection  :servers
       model       :server
       collection  :server_groups
@@ -54,17 +54,22 @@ module Fog
       model       :cloud_ip
       collection  :users
       model       :user
+      collection  :user_collaborations
+      model       :user_collaboration
 
       request_path 'fog/brightbox/requests/compute'
+      request :accept_user_collaboration
       request :activate_console_server
       request :add_listeners_load_balancer
       request :add_nodes_load_balancer
       request :add_servers_server_group
       request :apply_to_firewall_policy
+      request :accept_user_collaboration
       request :remove_firewall_policy
       request :create_api_client
       request :create_application
       request :create_cloud_ip
+      request :create_collaboration
       request :create_firewall_policy
       request :create_firewall_rule
       request :create_image
@@ -74,17 +79,20 @@ module Fog
       request :delete_api_client
       request :delete_application
       request :delete_cloud_ip
+      request :delete_collaboration
       request :delete_firewall_policy
       request :delete_firewall_rule
       request :delete_image
       request :delete_load_balancer
       request :delete_server
       request :delete_server_group
+      request :delete_user_collaboration
       request :get_account
       request :get_api_client
       request :get_application
       request :get_authenticated_user
       request :get_cloud_ip
+      request :get_collaboration
       request :get_firewall_policy
       request :get_firewall_rule
       request :get_image
@@ -95,11 +103,13 @@ module Fog
       request :get_server_group
       request :get_server_type
       request :get_user
+      request :get_user_collaboration
       request :get_zone
       request :list_accounts
       request :list_api_clients
       request :list_applications
       request :list_cloud_ips
+      request :list_collaborations
       request :list_firewall_policies
       request :list_images
       request :list_load_balancers
@@ -107,16 +117,21 @@ module Fog
       request :list_server_types
       request :list_servers
       request :list_users
+      request :list_user_collaborations
       request :list_zones
       request :map_cloud_ip
       request :move_servers_server_group
+      request :reject_user_collaboration
       request :remove_listeners_load_balancer
       request :remove_nodes_load_balancer
       request :remove_servers_server_group
+      request :resend_collaboration
       request :reset_ftp_password_account
       request :reset_ftp_password_scoped_account
       request :reset_secret_api_client
       request :reset_secret_application
+      request :resend_collaboration
+      request :reject_user_collaboration
       request :shutdown_server
       request :snapshot_server
       request :start_server
@@ -135,220 +150,13 @@ module Fog
       request :update_server_group
       request :update_user
 
-      module Shared
-        include Fog::Brightbox::OAuth2
-
-        # Creates a new instance of the Brightbox Compute service
-        #
-        # @note If you create service using just a refresh token when it
-        #   expires the service will no longer be able to authenticate.
-        #
-        # @param [Hash] options
-        # @option options [String] :brightbox_api_url   Override the default (or configured) API endpoint
-        # @option options [String] :brightbox_auth_url  Override the default (or configured) API authentication endpoint
-        # @option options [String] :brightbox_client_id Client identifier to authenticate with (overrides configured)
-        # @option options [String] :brightbox_secret    Client secret to authenticate with (overrides configured)
-        # @option options [String] :brightbox_username  Email or user identifier for user based authentication
-        # @option options [String] :brightbox_password  Password for user based authentication
-        # @option options [String] :brightbox_account   Account identifier to scope this connection to
-        # @option options [String] :connection_options  Settings to pass to underlying {Fog::Connection}
-        # @option options [Boolean] :persistent         Sets a persistent HTTP {Fog::Connection}
-        # @option options [String] :brightbox_access_token  Sets the OAuth access token to use rather than requesting a new token
-        # @option options [String] :brightbox_refresh_token Sets the refresh token to use when requesting a newer access token
-        # @option options [String] :brightbox_token_management Overide the existing behaviour to request access tokens if expired (default is `true`)
-        #
-        def initialize(options)
-          # Currently authentication and api endpoints are the same but may change
-          @auth_url            = options[:brightbox_auth_url]  || Fog.credentials[:brightbox_auth_url] || API_URL
-          @auth_connection     = Fog::Connection.new(@auth_url)
-
-          @api_url             = options[:brightbox_api_url]   || Fog.credentials[:brightbox_api_url]  || API_URL
-          @connection_options  = options[:connection_options]  || {}
-          @persistent          = options[:persistent]          || false
-          @connection          = Fog::Connection.new(@api_url, @persistent, @connection_options)
-
-          # Authentication options
-          client_id            = options[:brightbox_client_id] || Fog.credentials[:brightbox_client_id]
-          client_secret        = options[:brightbox_secret]    || Fog.credentials[:brightbox_secret]
-
-          username             = options[:brightbox_username]  || Fog.credentials[:brightbox_username]
-          password             = options[:brightbox_password]  || Fog.credentials[:brightbox_password]
-          @configured_account  = options[:brightbox_account]   || Fog.credentials[:brightbox_account]
-          # Request account can be changed at anytime and changes behaviour of future requests
-          @scoped_account      = @configured_account
-
-          credential_options   = {:username => username, :password => password}
-          @credentials         = CredentialSet.new(client_id, client_secret, credential_options)
-
-          # If existing tokens have been cached, allow continued use of them in the service
-          @credentials.update_tokens(options[:brightbox_access_token], options[:brightbox_refresh_token])
-
-          @token_management    = options.fetch(:brightbox_token_management, true)
-        end
-
-        # Sets the scoped account for future requests
-        # @param [String] scoped_account Identifier of the account to scope request to
-        def scoped_account=(scoped_account)
-          @scoped_account = scoped_account
-        end
-
-        # This returns the account identifier that the request should be scoped by
-        # based on the options passed to the request and current configuration
-        #
-        # @param [String] options_account Any identifier passed into the request
-        #
-        # @return [String, nil] The account identifier to scope the request to or nil
-        def scoped_account(options_account = nil)
-          [options_account, @scoped_account].compact.first
-        end
-
-        # Resets the scoped account back to intially configured one
-        def scoped_account_reset
-          @scoped_account = @configured_account
-        end
-
-        # Returns the scoped account being used for requests
-        #
-        # * For API clients this is the owning account
-        # * For User applications this is the account specified by either +account_id+
-        #   option on the service or the +brightbox_account+ setting in your configuration
-        #
-        # @return [Fog::Compute::Brightbox::Account]
-        #
-        def account
-          account_data = get_scoped_account.merge(:service => self)
-          Fog::Compute::Brightbox::Account.new(account_data)
-        end
-
-        # Returns true if authentication is being performed as a user
-        # @return [Boolean]
-        def authenticating_as_user?
-          @credentials.user_details?
-        end
-
-        # Returns true if an access token is set
-        # @return [Boolean]
-        def access_token_available?
-          !! @credentials.access_token
-        end
-
-        # Returns the current access token or nil
-        # @return [String,nil]
-        def access_token
-          @credentials.access_token
-        end
-
-        # Returns the current refresh token or nil
-        # @return [String,nil]
-        def refresh_token
-          @credentials.refresh_token
-        end
-
-        # Returns the current token expiry time in seconds or nil
-        # @return [Number,nil]
-        def expires_in
-          @credentials.expires_in
-        end
-
-        # Requests a new access token
-        #
-        # @return [String] New access token
-        def get_access_token
-          begin
-            get_access_token!
-          rescue Excon::Errors::Unauthorized, Excon::Errors::BadRequest
-            @credentials.update_tokens(nil, nil)
-          end
-          @credentials.access_token
-        end
-
-        # Requests a new access token and raises if there is a problem
-        #
-        # @return [String] New access token
-        # @raise [Excon::Errors::BadRequest] The credentials are expired or incorrect
-        #
-        def get_access_token!
-          response = request_access_token(@auth_connection, @credentials)
-          update_credentials_from_response(@credentials, response)
-          @credentials.access_token
-        end
-
-        # Returns an identifier for the default image for use
-        #
-        # Currently tries to find the latest version of Ubuntu (i686) from
-        # Brightbox.
-        #
-        # Highly recommended that you actually select the image you want to run
-        # on your servers yourself!
-        #
-        # @return [String] if image is found, returns the identifier
-        # @return [NilClass] if no image is found or an error occurs
-        #
-        def default_image
-          return @default_image_id unless @default_image_id.nil?
-          @default_image_id = Fog.credentials[:brightbox_default_image] || select_default_image
-        end
-
-      private
-
-        # This makes a request of the API based on the configured setting for
-        # token management.
-        #
-        # @param [Hash] options Excon compatible options
-        # @see https://github.com/geemus/excon/blob/master/lib/excon/connection.rb
-        #
-        # @return [Hash] Data of response body
-        #
-        def make_request(options)
-          if @token_management
-            managed_token_request(options)
-          else
-            authenticated_request(options)
-          end
-        end
-
-        # This request checks for access tokens and will ask for a new one if
-        # it receives Unauthorized from the API before repeating the request
-        #
-        # @param [Hash] options Excon compatible options
-        #
-        # @return [Excon::Response]
-        def managed_token_request(options)
-          begin
-            get_access_token unless access_token_available?
-            response = authenticated_request(options)
-          rescue Excon::Errors::Unauthorized
-            get_access_token
-            response = authenticated_request(options)
-          end
-        end
-
-        # This request makes an authenticated request of the API using currently
-        # setup credentials.
-        #
-        # @param [Hash] options Excon compatible options
-        #
-        # @see https://github.com/geemus/excon/blob/master/lib/excon/connection.rb
-        #
-        # @return [Excon::Response]
-        def authenticated_request(options)
-          headers = options[:headers] || {}
-          headers.merge!("Authorization" => "OAuth #{@credentials.access_token}", "Content-Type" => "application/json")
-          options[:headers] = headers
-          # TODO This is just a wrapper around a call to Excon::Connection#request
-          #   so can be extracted from Compute by passing in the connection,
-          #   credentials and options
-          @connection.request(options)
-        end
-      end
-
       # The Mock Service allows you to run a fake instance of the Service
       # which makes no real connections.
       #
       # @todo Implement
       #
       class Mock
-        include Shared
+        include Fog::Brightbox::Compute::Shared
 
         def request(method, path, expected_responses, parameters = {})
           _request
@@ -373,7 +181,7 @@ module Fog
       # service.
       #
       class Real
-        include Shared
+        include Fog::Brightbox::Compute::Shared
 
         # Makes an API request to the given path using passed options or those
         # set with the service setup

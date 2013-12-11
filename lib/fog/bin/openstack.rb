@@ -15,6 +15,10 @@ class OpenStack < Fog::Bin
         Fog::Storage::OpenStack
       when :volume
         Fog::Volume::OpenStack
+      when :metering
+        Fog::Metering::OpenStack
+      when :orchestration
+        Fog::Orchestration::OpenStack
       else
         raise ArgumentError, "Unrecognized service: #{key}"
       end
@@ -41,6 +45,12 @@ class OpenStack < Fog::Bin
         when :volume
           Fog::Logger.warning("OpenStack[:volume] is not recommended, use Volume[:openstack] for portability")
           Fog::Volume.new(:provider => 'OpenStack')
+        when :metering
+          Fog::Logger.warning("OpenStack[:metering] is not recommended, use Metering[:openstack] for portability")
+          Fog::Metering.new(:provider => 'OpenStack')
+        when :orchestration
+          Fog::Logger.warning("OpenStack[:orchestration] is not recommended, use Orchestration[:openstack] for portability")
+          Fog::Orchestration.new(:provider => 'OpenStack')
         else
           raise ArgumentError, "Unrecognized service: #{key.inspect}"
         end

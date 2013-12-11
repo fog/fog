@@ -68,7 +68,13 @@ module Fog
               @launch_configuration[name] = value
             when 'KernelId', 'RamdiskId', 'UserData'
               @launch_configuration[name] = value
+            when 'IamInstanceProfile'
+              @launch_configuration[name] = value
+            when 'SpotPrice'
+              @launch_configuration[name] = value.to_f
 
+            when 'AssociatePublicIpAddress'
+              @in_associate_public_ip = false
             when 'BlockDeviceMappings'
               @in_block_device_mappings = false
             when 'LaunchConfigurations'

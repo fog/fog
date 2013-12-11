@@ -9,7 +9,7 @@ module Fog
                  :openstack_api_key
       recognizes :persistent, :openstack_service_name,
                  :openstack_service_type, :openstack_tenant,
-                 :openstack_region
+                 :openstack_region, :openstack_temp_url_key
 
       model_path 'fog/openstack/models/storage'
       model       :directory
@@ -21,9 +21,12 @@ module Fog
       request :copy_object
       request :delete_container
       request :delete_object
+      request :delete_multiple_objects
+      request :delete_static_large_object
       request :get_container
       request :get_containers
       request :get_object
+      request :get_object_http_url
       request :get_object_https_url
       request :head_container
       request :head_containers
@@ -31,6 +34,9 @@ module Fog
       request :put_container
       request :put_object
       request :put_object_manifest
+      request :put_dynamic_obj_manifest
+      request :put_static_obj_manifest
+      request :post_set_meta_temp_url_key
 
       class Mock
 
@@ -45,7 +51,6 @@ module Fog
         end
 
         def initialize(options={})
-          require 'mime/types'
           @openstack_api_key = options[:openstack_api_key]
           @openstack_username = options[:openstack_username]
           @path = '/v1/AUTH_1234'
@@ -58,7 +63,7 @@ module Fog
         def reset_data
           self.class.data.delete(@openstack_username)
         end
-        
+
         def change_account(account)
           @original_path ||= @path
           version_string = @original_path.split('/')[1]
@@ -74,7 +79,6 @@ module Fog
       class Real
 
         def initialize(options={})
-          require 'mime/types'
           @openstack_api_key = options[:openstack_api_key]
           @openstack_username = options[:openstack_username]
           @openstack_auth_url = options[:openstack_auth_url]
@@ -86,6 +90,7 @@ module Fog
           @openstack_region       = options[:openstack_region]
           @openstack_tenant       = options[:openstack_tenant]
           @connection_options     = options[:connection_options] || {}
+          @openstack_temp_url_key = options[:openstack_temp_url_key]
           authenticate
           @persistent = options[:persistent] || false
           @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
@@ -105,7 +110,7 @@ module Fog
         #     # List current user account details
         #     service = Fog::Storage[:openstack]
         #     service.request :method => 'HEAD'
-        #     
+        #
         # Would return something like:
         #
         #     Account:                      AUTH_1234
@@ -118,9 +123,9 @@ module Fog
         #
         #     service.change_account('AUTH_3333')
         #     service.request :method => 'HEAD'
-        # 
+        #
         # Would return something like:
-        #     
+        #
         #     Account:                      AUTH_3333
         #     Date:                         Tue, 05 Mar 2013 16:51:53 GMT
         #     X-Account-Bytes-Used:         23423433
@@ -130,9 +135,9 @@ module Fog
         # If we wan't to go back to our original admin account:
         #
         #     service.reset_account_name
-        # 
+        #
         def change_account(account)
-          @original_path ||= @path 
+          @original_path ||= @path
           version_string = @path.split('/')[1]
           @path = "/#{version_string}/#{account}"
         end
@@ -141,16 +146,16 @@ module Fog
           @path = @original_path
         end
 
-        def request(params, parse_json = true, &block)
+        def request(params, parse_json = true)
           begin
             response = @connection.request(params.merge({
               :headers  => {
                 'Content-Type' => 'application/json',
+                'Accept' => 'application/json',
                 'X-Auth-Token' => @auth_token
               }.merge!(params[:headers] || {}),
-              :host     => @host,
               :path     => "#{@path}/#{params[:path]}",
-            }), &block)
+            }))
           rescue Excon::Errors::Unauthorized => error
             if error.response.body != 'Bad username or password' # token expiration
               @openstack_must_reauthenticate = true
@@ -174,7 +179,7 @@ module Fog
         end
 
         private
-        
+
         def authenticate
           if !@openstack_management_url || @openstack_must_reauthenticate
             options = {
@@ -188,7 +193,7 @@ module Fog
               :openstack_endpoint_type => 'publicURL'
             }
 
-            credentials = Fog::OpenStack.authenticate_v2(options, @connection_options)
+            credentials = Fog::OpenStack.authenticate(options, @connection_options)
 
             @current_user = credentials[:user]
             @current_tenant = credentials[:tenant]

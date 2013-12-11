@@ -15,10 +15,12 @@ module Fog
         def all
           data = []
           service.get_organization(href).body[:Locations][:Location].each do |d|
-            if d[:Environments][:Environment].is_a?(Array)
-              d[:Environments][:Environment].each { |e| data << e }
+            environments = d[:Environments]
+            next unless environments
+            if environments[:Environment].is_a?(Array)
+              environments[:Environment].each { |e| data << e }
             else
-              data << d[:Environments][:Environment]
+              data << environments[:Environment]
             end
           end
           load(data)

@@ -23,7 +23,7 @@ end
 
 def select_server(servers)
   abort "\nThere are not any servers to resize in the Chicago region. Try running create_server.rb\n\n" if servers.empty?
-  
+
   puts "\nSelect Server Resize:\n\n"
   servers.each_with_index do |server, i|
     puts "\t #{i}. #{server.name} [#{server.public_ip_address}]"

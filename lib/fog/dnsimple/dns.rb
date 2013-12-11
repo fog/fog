@@ -29,7 +29,10 @@ module Fog
 
         def self.data
           @data ||= Hash.new do |hash, key|
-            hash[key] = {}
+            hash[key] = {
+              :domains => [],
+              :records => {}
+            }
           end
         end
 
@@ -82,7 +85,7 @@ module Fog
                                     "Accept" => "application/json",
                                     "Content-Type" => "application/json" })
 
-          response = @connection.request(params.merge!({:host => @host}))
+          response = @connection.request(params)
 
           unless response.body.empty?
             response.body = Fog::JSON.decode(response.body)

@@ -18,7 +18,7 @@ module Fog
         attribute :receive_string, :aliases => :ReceiveString
 
         def edit(options = {})
-          href = "/cloudapi/ecloud/internetServices/#{internet_service_id}/monitor?type="
+          href = "#{service.base_path}/internetServices/#{internet_service_id}/monitor?type="
           case type
           when "application/vnd.tmrk.cloud.pingMonitor"
             options[:uri] = href + "ping"

@@ -52,6 +52,11 @@ module Fog
       request :get_vlan
       request :update_vlan
 
+      model :rule
+      model :fwpolicy
+      collection :fwpolicies
+      request :list_fwpolicies
+
       model :subscription
       collection :subscriptions
       request :list_subscriptions

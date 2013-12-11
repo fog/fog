@@ -231,7 +231,7 @@ module Fog
         # header from that call.
         def do_login
           @login_results = login
-          @cookie = @login_results.headers['Set-Cookie']
+          @cookie = @login_results.headers['Set-Cookie'] || @login_results.headers['set-cookie']
         end
 
         def ensure_unparsed(uri)

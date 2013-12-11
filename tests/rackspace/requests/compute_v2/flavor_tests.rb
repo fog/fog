@@ -18,7 +18,7 @@ Shindo.tests('Fog::Compute::RackspaceV2 | flavor_tests', ['rackspace']) do
 
   get_flavor_format = {
     'flavor' => flavor_format.merge({
-      'OS-FLV-DISABLED:disabled' => Fog::Boolean,
+      'OS-FLV-EXT-DATA:ephemeral' => Integer,
       'rxtx_factor' => Float,
       'swap' => Integer
     })
@@ -30,6 +30,12 @@ Shindo.tests('Fog::Compute::RackspaceV2 | flavor_tests', ['rackspace']) do
   tests('success') do
     tests('#list_flavors').formats(list_flavor_format) do
       body = service.list_flavors.body
+      flavor_id = body['flavors'][0]['id']
+      body
+    end
+
+    tests('#list_flavors_detail').formats(list_flavor_format) do
+      body = service.list_flavors_detail.body
       flavor_id = body['flavors'][0]['id']
       body
     end

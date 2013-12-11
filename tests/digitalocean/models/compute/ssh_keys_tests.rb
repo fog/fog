@@ -19,9 +19,13 @@ Shindo.tests('Fog::Compute[:digitalocean] | ssh_keys collection', ['digitalocean
 
     tests('should be able to get a model') do
       test('by instance id') do
-        service.ssh_keys.get(key.id).kind_of? Fog::Compute::DigitalOcean::SshKey
+        retrieved_key = service.ssh_keys.get(key.id)
+        test { retrieved_key.kind_of? Fog::Compute::DigitalOcean::SshKey }
+        test { retrieved_key.name == key.name }
       end
     end
+
+    key.destroy
 
   end
 

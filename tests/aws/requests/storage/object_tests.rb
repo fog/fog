@@ -47,6 +47,7 @@ Shindo.tests('AWS::Storage | object requests', ['aws']) do
     end
 
     tests("#post_object_restore('#{@directory.identity}', 'fog_object')").succeeds do
+      pending unless Fog.mocking?
       Fog::Storage[:aws].post_object_restore(@directory.identity, 'fog_object')
     end
 

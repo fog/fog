@@ -16,7 +16,7 @@ module Fog
         end
 
         def find_by_id(id)
-          self.find {|image| image.id == id}
+          all.find {|image| image.id == id}
         end
         alias_method :get, :find_by_id
 

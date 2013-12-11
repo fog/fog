@@ -14,6 +14,10 @@ Shindo.tests("Fog::Storage[:hp] | container requests", ['hp']) do
       Fog::Storage[:hp].put_container('fogcontainertests')
     end
 
+    tests("#post_container('fogcontainertests', {'X-Container-Meta-Foo' => 'foometa'})").succeeds do
+      Fog::Storage[:hp].post_container('fogcontainertests', {'X-Container-Meta-Foo' => 'foometa'})
+    end
+
     tests("#get_container('fogcontainertests')").formats(@container_format) do
       Fog::Storage[:hp].get_container('fogcontainertests').body
     end
@@ -55,6 +59,10 @@ Shindo.tests("Fog::Storage[:hp] | container requests", ['hp']) do
 
     tests("#get_container('fognoncontainer')").raises(Fog::Storage::HP::NotFound) do
       Fog::Storage[:hp].get_container('fognoncontainer')
+    end
+
+    tests("#post_container('fognoncontainer', {})").raises(Fog::Storage::HP::NotFound) do
+      Fog::Storage[:hp].post_container('fognoncontainer', {})
     end
 
     tests("#head_container('fognoncontainer')").raises(Fog::Storage::HP::NotFound) do

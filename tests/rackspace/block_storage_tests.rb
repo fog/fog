@@ -79,13 +79,14 @@ Shindo.tests('Fog::Rackspace::BlockStorage', ['rackspace']) do
     pending if Fog.mocking?
 
     tests('no params').succeeds do
-      @service = Fog::Rackspace::BlockStorage.new
+      @service = Fog::Rackspace::BlockStorage.new :rackspace_region => nil
       returns(true, "auth token populated") { !@service.send(:auth_token).nil? }
       returns(true) { (@service.instance_variable_get("@uri").host =~ /dfw/) != nil }
       @service.list_volumes
     end
     tests('specify old contstant style service endoint').succeeds do
-      @service = Fog::Rackspace::BlockStorage.new :rackspace_endpoint =>  Fog::Rackspace::BlockStorage::ORD_ENDPOINT
+      @service = Fog::Rackspace::BlockStorage.new :rackspace_endpoint => Fog::Rackspace::BlockStorage::ORD_ENDPOINT
+      returns(true) { (@service.instance_variable_get("@uri").to_s =~ /#{Fog::Rackspace::BlockStorage::ORD_ENDPOINT}/ ) != nil }
       @service.list_volumes
     end
     tests('specify region') do
@@ -98,6 +99,20 @@ Shindo.tests('Fog::Rackspace::BlockStorage', ['rackspace']) do
       @service = Fog::Rackspace::BlockStorage.new :rackspace_block_storage_url => 'https://my-custom-endpoint.com'
       returns(true, "auth token populated") { !@service.send(:auth_token).nil? }
       returns(true, "uses custom endpoint") { (@service.instance_variable_get("@uri").host =~ /my-custom-endpoint\.com/) != nil }
+    end
+  end
+
+  tests('reauthentication') do
+    pending if Fog.mocking?
+
+    tests('should reauth with valid credentials') do
+      @service = Fog::Rackspace::BlockStorage.new  :rackspace_region => :ord
+      returns(true, "auth token populated") { !@service.send(:auth_token).nil? }
+      @service.instance_variable_set("@auth_token", "bad-token")
+      returns(200) { @service.list_volumes.status }
+    end
+    tests('should terminate with incorrect credentials') do
+      raises(Excon::Errors::Unauthorized) {Fog::Rackspace::BlockStorage.new :rackspace_api_key => 'bad_key' }
     end
   end
 

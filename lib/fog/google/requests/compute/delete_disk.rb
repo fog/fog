@@ -12,7 +12,11 @@ module Fog
 
       class Real
 
-        def delete_disk(disk_name, zone_name=@default_zone)
+        def delete_disk(disk_name, zone_name)
+          if zone_name.start_with? 'http'
+            zone_name = zone_name.split('/')[-1]
+          end
+
           api_method = @compute.disks.delete
           parameters = {
             'project' => @project,

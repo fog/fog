@@ -47,11 +47,6 @@ module Fog
           super
         end
 
-        def console_output(num_lines)
-          requires :id
-          service.get_console_output(id, num_lines)
-        end
-
         def metadata
           @metadata ||= begin
             Fog::Compute::HP::Metadata.new({
@@ -69,6 +64,20 @@ module Fog
 
         def user_data=(ascii_userdata)
           self.user_data_encoded = [ascii_userdata].pack('m')  # same as Base64.encode64
+        end
+
+        def console_output(num_lines)
+          requires :id
+          service.get_console_output(id, num_lines)
+        end
+
+        def vnc_console_url(type='novnc')
+          requires :id
+          if resp = service.get_vnc_console(id, type).body
+            resp['console']['url']
+          else
+            nil
+          end
         end
 
         def destroy
@@ -91,9 +100,18 @@ module Fog
           @network_name ||= "private"
         end
 
+        def private_ip_addresses
+          return nil if addresses.nil?
+          addr = []
+          addresses.each { |key, value|
+            ipaddr = value.first
+            addr << ipaddr["addr"] unless ipaddr.nil?
+          }
+          addr
+        end
+
         def private_ip_address
-          addr = addresses.nil? ? nil : addresses.fetch(network_name, []).first
-          addr["addr"] if addr
+          private_ip_addresses.first
         end
 
         def private_key_path
@@ -105,20 +123,23 @@ module Fog
           @private_key ||= private_key_path && File.read(private_key_path)
         end
 
-        def public_ip_address
-          # FIX: Both the private and public ips are bundled under "private" network name
-          # So hack to get to the public ip address
-          if !addresses.nil?
-            addr = addresses.fetch(network_name, [])
-            # if we have more than 1 address, then the return the second address which is public
-            if addr.count > 1
-              addr[1]["addr"]
-            else
-              nil
+        def public_ip_addresses
+          return nil if addresses.nil?
+          addr = []
+          addresses.each { |key, value|
+            if value.count > 1
+              value = value.dup
+              value.delete_at(0)
+              value.each { |ipaddr|
+                addr << ipaddr["addr"]
+              }
             end
-          else
-            nil
-          end
+          }
+          addr
+        end
+
+        def public_ip_address
+          public_ip_addresses.first
         end
 
         def public_key_path

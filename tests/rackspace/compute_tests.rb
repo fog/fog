@@ -65,7 +65,7 @@ Shindo.tests('Rackspace | Compute', ['rackspace']) do
     pending if Fog.mocking?
 
     tests('no params').succeeds do
-      @service = Fog::Compute::Rackspace.new
+      @service = Fog::Compute::Rackspace.new :rackspace_region => nil
       returns(true, "auth token populated") { !@service.send(:auth_token).nil? }
       returns(true) { (@service.instance_variable_get("@uri").host == 'servers.api.rackspacecloud.com') != nil }
       @service.list_flavors
@@ -81,10 +81,20 @@ Shindo.tests('Rackspace | Compute', ['rackspace']) do
       returns(true, "auth token populated") { !@service.send(:auth_token).nil? }
       returns(true, "uses custom endpoint") { (@service.instance_variable_get("@uri").host =~ /my-custom-endpoint\.com/) != nil }
     end
-    tests('rackspace_servicenet') do
-      @service = Fog::Compute::Rackspace.new :rackspace_servicenet => true
+  end
+
+  tests('reauthentication') do
+    pending if Fog.mocking?
+
+    tests('should reauth with valid credentials') do
+      @service =  Fog::Compute::Rackspace.new
       returns(true, "auth token populated") { !@service.send(:auth_token).nil? }
-      returns(true, "uses custom endpoint") { (@service.instance_variable_get("@uri").host =~ /snet-/) != nil }
+      @service.instance_variable_set("@auth_token", "bad-token")
+      returns(true) { [200, 203].include?(@service.list_flavors.status) }
     end
+    tests('should terminate with incorrect credentials') do
+      raises(Excon::Errors::Unauthorized) { Fog::Compute::Rackspace.new :rackspace_api_key => 'bad_key' }
+    end
+
   end
 end

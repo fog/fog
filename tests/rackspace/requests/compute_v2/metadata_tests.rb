@@ -1,6 +1,8 @@
 Shindo.tests('Fog::Compute::RackspaceV2 | metadata_tests', ['rackspace']) do
   
   @service = Fog::Compute.new(:provider => 'Rackspace', :version => 'V2')
+  image_id  = rackspace_test_image_id(@service)
+  flavor_id = rackspace_test_flavor_id(@service)
   
   tests('success') do
     begin
@@ -9,10 +11,10 @@ Shindo.tests('Fog::Compute::RackspaceV2 | metadata_tests', ['rackspace']) do
       unless Fog.mocking?
         name = "fog-server-metadata-#{Time.now.to_i}"
         @server = @service.servers.create(:name => name, 
-                                          :flavor_id => 2,
-                                          :image_id => '3afe97b2-26dc-49c5-a2cc-a2fc8d80c001',
+                                          :flavor_id => flavor_id,
+                                          :image_id => image_id,
                                           :metadata => metadata)
-        @server.wait_for(timeout = 1500) { ready? }
+        @server.wait_for { ready? }
         
         
         @server_id = @server.id
@@ -40,12 +42,12 @@ Shindo.tests('Fog::Compute::RackspaceV2 | metadata_tests', ['rackspace']) do
             @service.set_metadata_item("servers", @server_id, "environment", "test").body
           end
           tests('delete_metadata_item').succeeds do
-            @service.delete_metadata_item("servers", @server_id, "environment").body
+            @service.delete_metadata_item("servers", @server_id, "environment")
           end
         end
         
         tests("images") do
-          @image.wait_for(timeout = 1500) { ready? } unless Fog.mocking?
+          @image.wait_for { ready? } unless Fog.mocking?
           
           tests('list_metadata').returns(metadata) do
             h = @service.list_metadata("images", @image_id).body
@@ -66,7 +68,7 @@ Shindo.tests('Fog::Compute::RackspaceV2 | metadata_tests', ['rackspace']) do
             @service.set_metadata_item("images", @image_id, "environment", "test").body
           end
           tests('delete_metadata_item').succeeds do
-            @service.delete_metadata_item("images", @image_id, "environment").body
+            @service.delete_metadata_item("images", @image_id, "environment")
           end
         end
     ensure

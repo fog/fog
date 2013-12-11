@@ -28,6 +28,8 @@ module Fog
         #     * 'Ebs.SnapshotId'<~String> - id of snapshot to boot volume from
         #     * 'Ebs.VolumeSize'<~String> - size of volume in GiBs required unless snapshot is specified
         #     * 'Ebs.DeleteOnTermination'<~String> - specifies whether or not to delete the volume on instance termination
+        #     * 'Ebs.VolumeType'<~String> - Type of EBS volue. Valid options in ['standard', 'io1'] default is 'standard'.
+        #     * 'Ebs.Iops'<~String> - The number of I/O operations per second (IOPS) that the volume supports. Required when VolumeType is 'io1'
         #   * 'ClientToken'<~String> - unique case-sensitive token for ensuring idempotency
         #   * 'DisableApiTermination'<~Boolean> - specifies whether or not to allow termination of the instance from the api
         #   * 'SecurityGroup'<~Array> or <~String> - Name of security group(s) for instances (not supported for VPC)
@@ -139,6 +141,7 @@ module Fog
             instance_id = Fog::AWS::Mock.instance_id
             instance = {
               'amiLaunchIndex'      => i,
+              'associatePublicIP'   => options['associatePublicIP'] || false,
               'architecture'        => 'i386',
               'blockDeviceMapping'  => [],
               'clientToken'         => options['clientToken'],
@@ -153,7 +156,7 @@ module Fog
               'keyName'             => options['KeyName'],
               'launchTime'          => Time.now,
               'monitoring'          => { 'state' => options['Monitoring.Enabled'] || false },
-              'placement'           => { 'availabilityZone' => options['Placement.AvailabilityZone'] || Fog::AWS::Mock.availability_zone(@region), 'groupName' => nil, 'tenancy' => 'default' },
+              'placement'           => { 'availabilityZone' => options['Placement.AvailabilityZone'] || Fog::AWS::Mock.availability_zone(@region), 'groupName' => nil, 'tenancy' => options['Placement.Tenancy'] || 'default' },
               'privateDnsName'      => nil,
               'productCodes'        => [],
               'reason'              => nil,

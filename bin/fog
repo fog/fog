@@ -1,7 +1,29 @@
 #!/usr/bin/env ruby
+
 require File.expand_path(File.join(File.dirname(__FILE__), '..', 'lib', 'fog'))
+require 'optparse'
 require 'irb'
 require 'yaml'
+
+options = OptionParser.new do |opts|
+  opts.banner = 'usage: fog [options] CREDENTIAL'
+
+  opts.on('-C', '--credentials-path FILE', 'Path to the credentials file') do |file|
+    Fog.credentials_path = file
+  end
+
+  opts.on_tail('-v', '--version', 'Prints the version') do
+    puts Fog::VERSION
+    exit
+  end
+
+  opts.on_tail('-h', '--help', 'Prints this message') do
+    puts opts
+    exit
+  end
+end
+options.parse!
+
 Fog.credential = ARGV.first ? ARGV.first.to_sym : nil
 Fog.mock! if ENV['FOG_MOCK']
 if Fog.credentials.empty?

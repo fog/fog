@@ -1,4 +1,4 @@
-require 'nokogiri'
+require "nokogiri"
 
 module Fog
   module Parsers

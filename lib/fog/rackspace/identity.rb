@@ -3,6 +3,7 @@ require 'fog/rackspace'
 module Fog
   module Rackspace
     class Identity < Fog::Service
+
       US_ENDPOINT = 'https://identity.api.rackspacecloud.com/v2.0'
       UK_ENDPOINT = 'https://lon.identity.api.rackspacecloud.com/v2.0'
 
@@ -33,7 +34,7 @@ module Fog
       request :update_user
       request :delete_user
 
-      class Mock
+      class Mock < Fog::Rackspace::Service
         attr_reader :service_catalog
         
         def request
@@ -41,7 +42,7 @@ module Fog
         end
       end
 
-      class Real
+      class Real < Fog::Rackspace::Service
         attr_reader :service_catalog, :auth_token
         
         def initialize(options={})
@@ -50,36 +51,19 @@ module Fog
           @rackspace_region = options[:rackspace_region]
           @rackspace_auth_url = options[:rackspace_auth_url] || US_ENDPOINT
 
-          uri = URI.parse(@rackspace_auth_url)
-          @host = uri.host
-          @path = uri.path
-          @port = uri.port
-          @scheme = uri.scheme
+          @uri = URI.parse(@rackspace_auth_url)
+          @host = @uri.host
+          @path = @uri.path
+          @port = @uri.port
+          @scheme = @uri.scheme
           @persistent = options[:persistent] || false
           @connection_options = options[:connection_options] || {}
-          @connection = Fog::Connection.new(uri.to_s, @persistent, @connection_options)
+          @connection = Fog::Connection.new(@uri.to_s, @persistent, @connection_options)
 
           authenticate
         end
         
-        def request(params)
-          begin
-            parameters = params.merge!({
-              :headers => {
-                'Content-Type' => 'application/json',
-                'Accept' => 'application/json',
-                'X-Auth-Token' => @auth_token
-              },
-              :host => @host,
-              :path => "#{@path}/#{params[:path]}"
-            })
-            response = @connection.request(parameters)
-            response.body = Fog::JSON.decode(response.body) unless response.body.empty?
-            response
-          end
-        end
-        
-        def authenticate
+        def authenticate(options={})
           data = self.create_token(@rackspace_username, @rackspace_api_key).body
           @service_catalog = ServiceCatalog.from_response(self, data)
           @auth_token = data['access']['token']['id']

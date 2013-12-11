@@ -9,20 +9,53 @@ module Fog
 
         model Fog::Compute::Google::Image
 
+        GLOBAL_PROJECTS = [ 'google',
+                            'debian-cloud',
+                            'centos-cloud',
+                          ]
+
         def all
-          data = connection.list_images.body["items"]
+          data = []
+          all_projects = GLOBAL_PROJECTS + [ self.service.project ]
+
+          all_projects.each do |project|
+            images = service.list_images(project).body["items"] || []
+
+            # Keep track of the project in which we found the image(s)
+            images.each { |img| img[:project] = project }
+            data += images
+          end
+
           load(data)
         end
 
         def get(identity)
-          data = connection.get_image(identity).body
+          # Search own project before global projects
+          all_projects = [ self.service.project ] + GLOBAL_PROJECTS
+
+          data = nil
+          all_projects.each do |project|
+            begin
+              data = service.get_image(identity, project).body
+              data[:project] = project
+            rescue Fog::Errors::Error
+              next
+            else
+              break
+            end
+          end
+
+          # If it wasn't found in any project, raise
+          if data.nil?
+            raise Fog::Errors::Error.new('Unable to find the specified image '\
+                                         'in the following projects: '\
+                                         "#{all_projects.join(', ')}")
+          end
+
           new(data)
-        rescue Excon::Errors::NotFound
-          nil
         end
 
       end
-
     end
   end
 end

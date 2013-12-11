@@ -18,7 +18,7 @@ module Fog
           new(data)
         rescue Excon::Errors::NotFound
           nil
-        rescue Excon::Errors::NotAuthorized
+        rescue Excon::Errors::Unauthorized
           nil
         end
 
@@ -27,7 +27,7 @@ module Fog
           new(data)
         rescue Excon::Errors::NotFound
           nil
-        rescue Excon::Errors::NotAuthorized
+        rescue Excon::Errors::Unauthorized
           nil
         end
       end

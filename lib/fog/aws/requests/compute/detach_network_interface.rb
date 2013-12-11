@@ -3,7 +3,7 @@ module Fog
     class AWS
       class Real
 
-        require 'fog/aws/parsers/compute/detach_network_interface'
+        require 'fog/aws/parsers/compute/basic'
         # Detaches a network interface.
         #
         # ==== Parameters
@@ -22,7 +22,7 @@ module Fog
             'Action'       => 'DetachNetworkInterface',
             'AttachmentId' => attachment_id,
             'Force'        => force,
-            :parser        => Fog::Parsers::Compute::AWS::DetachNetworkInterface.new
+            :parser        => Fog::Parsers::Compute::AWS::Basic.new
           )
         end
       end

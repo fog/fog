@@ -21,7 +21,7 @@ module Fog
         attribute :progress
         attribute :accessIPv4
         attribute :accessIPv6
-        attribute :availability_zone
+        attribute :availability_zone, :aliases => 'OS-EXT-AZ:availability_zone'
         attribute :user_data_encoded
         attribute :state,       :aliases => 'status'
         attribute :created,     :type => :time
@@ -31,6 +31,7 @@ module Fog
         attribute :user_id
         attribute :key_name
         attribute :fault
+        attribute :config_drive
         attribute :os_dcf_disk_config, :aliases => 'OS-DCF:diskConfig'
         attribute :os_ext_srv_attr_host, :aliases => 'OS-EXT-SRV-ATTR:host'
         attribute :os_ext_srv_attr_hypervisor_hostname, :aliases => 'OS-EXT-SRV-ATTR:hypervisor_hostname'
@@ -41,6 +42,7 @@ module Fog
 
         attr_reader :password
         attr_writer :image_ref, :flavor_ref, :nics, :os_scheduler_hints
+        attr_accessor :block_device_mapping
 
 
         def initialize(attributes={})
@@ -52,6 +54,7 @@ module Fog
           self.max_count = attributes.delete(:max_count)
           self.nics = attributes.delete(:nics)
           self.os_scheduler_hints = attributes.delete(:os_scheduler_hints)
+          self.block_device_mapping = attributes.delete(:block_device_mapping)
 
           super
         end
@@ -267,10 +270,10 @@ module Fog
           true
         end
 
-        # TODO: Implement /os-volumes-boot support with 'block_device_mapping'
         def save
           raise Fog::Errors::Error.new('Resaving an existing object may create a duplicate') if persisted?
-          requires :flavor_ref, :image_ref, :name
+          requires :flavor_ref, :name
+          requires_one :image_ref, :block_device_mapping
           options = {
             'personality' => personality,
             'accessIPv4' => accessIPv4,
@@ -278,11 +281,13 @@ module Fog
             'availability_zone' => availability_zone,
             'user_data' => user_data_encoded,
             'key_name'    => key_name,
+            'config_drive' => config_drive,
             'security_groups' => @security_groups,
             'min_count'   => @min_count,
             'max_count'   => @max_count,
             'nics' => @nics,
             'os:scheduler_hints' => @os_scheduler_hints,
+            'block_device_mapping' => @block_device_mapping
           }
           options['metadata'] = metadata.to_hash unless @metadata.nil?
           options = options.reject {|key, value| value.nil?}

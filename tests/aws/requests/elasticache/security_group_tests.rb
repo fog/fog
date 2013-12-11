@@ -1,10 +1,9 @@
 Shindo.tests('AWS::Elasticache | security group requests', ['aws', 'elasticache']) do
 
   tests('success') do
-    pending if Fog.mocking?
 
     name = 'fog-test'
-    description = 'Fog Test Group'
+    description = 'Fog Test Security Group'
 
     tests(
     '#create_cache_security_group'
@@ -74,6 +73,8 @@ Shindo.tests('AWS::Elasticache | security group requests', ['aws', 'elasticache'
       tests(
       '#revoke_cache_security_group_ingress'
       ).formats(AWS::Elasticache::Formats::SINGLE_SECURITY_GROUP) do
+        pending if Fog.mocking?
+
         body = AWS[:elasticache].revoke_cache_security_group_ingress(
           name, ec2_group.name, ec2_group.owner_id
         ).body

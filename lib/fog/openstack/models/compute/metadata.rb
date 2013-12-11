@@ -18,7 +18,7 @@ module Fog
           requires :parent
           metadata = service.list_metadata(collection_name, @parent.id).body['metadata']
           metas = []
-          metadata.each_pair {|k,v| metas << {"key" => k, "value" => v} }
+          metadata.each_pair {|k,v| metas << {"key" => k, "value" => v} } unless metadata.nil?
           load(metas)
         end
 

@@ -7,15 +7,17 @@ fog is the Ruby cloud services library, top to bottom:
 * Mocks make testing and integrating a breeze.
 
 [![Build Status](https://secure.travis-ci.org/fog/fog.png?branch=master)](http://travis-ci.org/fog/fog)
-[![Gem Version](https://fury-badge.herokuapp.com/rb/fog.png)](http://badge.fury.io/rb/fog)
 [![Dependency Status](https://gemnasium.com/fog/fog.png)](https://gemnasium.com/fog/fog)
 [![Code Climate](https://codeclimate.com/github/fog/fog.png)](https://codeclimate.com/github/fog/fog)
+[![Coverage Status](https://coveralls.io/repos/fog/fog/badge.png?branch=master)](https://coveralls.io/r/fog/fog?branch=master)
+[![Gem Version](https://fury-badge.herokuapp.com/rb/fog.png)](http://badge.fury.io/rb/fog)
+[![Gittip](http://img.shields.io/gittip/geemus.png)](https://www.gittip.com/geemus/)
 
 ## Getting Started
 
     sudo gem install fog
 
-Now type `fog` to try stuff, confident that fog will let you know what to do. 
+Now type `fog` to try stuff, confident that fog will let you know what to do.
 Here is an example of wading through server creation for Amazon Elastic Compute Cloud:
 
     >> server = Compute[:aws].servers.create
@@ -27,10 +29,31 @@ Here is an example of wading through server creation for Amazon Elastic Compute 
     >> server.destroy # cleanup after yourself or regret it, trust me
     true
 
+## Ruby 1.8.7
+
+The maintainers of this project, in concert with the maintainers of Ruby,
+**strongly** recommend using the latest patchlevel of Ruby 1.9.2 or later.
+[As of July 1, 2013, Ruby 1.8.7 is no longer officially maintained.][retired]
+This means fixes will no longer be provided, even for known security
+vulnerabilities.
+
+[retired]: http://www.ruby-lang.org/en/news/2013/06/30/we-retire-1-8-7/
+
+With this caveat, if you wish to bundle `fog` into your application on Ruby
+1.8.7, you must add the following line to your `Gemfile`.
+
+    gem 'nokogiri', '~>1.5.0'
+
+Also, ensure that you are using LibXML version 2.8.0, since there is an
+[issue with LibXML version 2.9.0][issue829] ([and 2.9.1][issue904]).
+
+[issue829]: https://github.com/sparklemotion/nokogiri/issues/829
+[issue904]: https://github.com/sparklemotion/nokogiri/issues/904
+
 ## Collections
 
 A high level interface to each cloud is provided through collections, such as `images` and `servers`.
-You can see a list of available collections by calling `collections` on the connection object. 
+You can see a list of available collections by calling `collections` on the connection object.
 You can try it out using the `fog` command:
 
     >> Compute[:aws].collections
@@ -112,6 +135,31 @@ for more details and examples. Once you are ready to start scripting fog, here i
     # storage operations go here
 
 geemus says: "That should give you everything you need to get started, but let me know if there is anything I can do to help!"
+
+## Versioning
+
+Fog library aims to adhere to [Semantic Versioning 2.0.0][semver], although it does not
+address challenges of multi-provider libraries. Semantic versioning is only guaranteed for
+the common API, not any provider-specific extensions.  You may also need to update your
+configuration from time to time (even between Fog releases) as providers update or deprecate
+services.
+
+However, we still aim for forwards compatibility within Fog major versions.  As a result of this policy, you can (and
+should) specify a dependency on this gem using the [Pessimistic Version
+Constraint][pvc] with two digits of precision. For example:
+
+```ruby
+spec.add_dependency 'fog', '~> 1.0'
+```
+
+This means your project is compatible with Fog 1.0 up until 2.0.  You can also set a higher minimum version:
+
+```ruby
+spec.add_dependency 'fog', '~> 1.16'
+```
+
+[semver]: http://semver.org/
+[pvc]: http://guides.rubygems.org/patterns/
 
 ## Contributing
 

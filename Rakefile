@@ -53,21 +53,34 @@ require "tasks/test_task"
 Fog::Rake::TestTask.new
 
 namespace :test do
+  mock = 'true' || ENV['FOG_MOCK']
   task :travis do
-    [true].each do |mock|
       sh("export FOG_MOCK=#{mock} && bundle exec shindont")
-    end
   end
   task :vsphere do
-    [true].each do |mock|
       sh("export FOG_MOCK=#{mock} && bundle exec shindont tests/vsphere")
-    end
   end
   task :openvz do
-    [true].each do |mock|
       sh("export FOG_MOCK=#{mock} && bundle exec shindont tests/openvz")
-    end
   end
+end
+
+desc 'Run mocked tests for a specific provider'
+task :mock, :provider do |t, args|
+  if args.to_a.size != 1
+    fail 'USAGE: rake mock[<provider>]'
+  end
+  provider = args[:provider]
+  sh("export FOG_MOCK=true && bundle exec shindont tests/#{provider}")
+end
+
+desc 'Run live tests against a specific provider'
+task :live, :provider do |t, args|
+  if args.to_a.size != 1
+    fail 'USAGE: rake live[<provider>]'
+  end
+  provider = args[:provider]
+  sh("export FOG_MOCK=false && bundle exec shindont tests/#{provider}")
 end
 
 task :nuke do
@@ -194,7 +207,8 @@ require "tasks/changelog_task"
 Fog::Rake::ChangelogTask.new
 
 task :coveralls_push_workaround do
-  if Gem::Version.new(RUBY_VERSION) > Gem::Version.new('1.9')
+  use_coveralls = (Gem::Version.new(RUBY_VERSION) > Gem::Version.new('1.9.2'))
+  if (ENV['COVERAGE'] != 'false') && use_coveralls
     require 'coveralls/rake/task'
     Coveralls::RakeTask.new
     Rake::Task["coveralls:push"].invoke

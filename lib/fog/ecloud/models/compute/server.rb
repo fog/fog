@@ -39,11 +39,11 @@ module Fog
         end
 
         def tasks
-          @tasks ||= self.service.tasks(:href => "/cloudapi/ecloud/tasks/virtualMachines/#{id}")
+          @tasks ||= self.service.tasks(:href => "#{service.base_path}/tasks/virtualMachines/#{id}")
         end
 
         def processes
-          @processes ||= Fog::Compute::Ecloud::GuestProcesses.new(:service, service, :href => "/cloudapi/ecloud/virtualMachines/#{id}/guest/processes")
+          @processes ||= Fog::Compute::Ecloud::GuestProcesses.new(:service, service, :href => "#{service.base_path}/virtualMachines/#{id}/guest/processes")
         end
 
         def hardware_configuration=(hardware_configuration)
@@ -51,12 +51,12 @@ module Fog
         end
 
         def hardware_configuration
-          @hardware_configuration ||= self.service.hardware_configurations.new(:href => "/cloudapi/ecloud/virtualMachines/#{id}/hardwareConfiguration")
+          @hardware_configuration ||= self.service.hardware_configurations.new(:href => "#{service.base_path}/virtualMachines/#{id}/hardwareConfiguration")
           @hardware_configuration.reload
         end
 
         def configuration
-          @configuration ||= Fog::Compute::Ecloud::ServerConfigurationOptions.new(:service => service, :href => "/cloudapi/ecloud/virtualMachines/#{id}/configurationOptions")[0]
+          @configuration ||= Fog::Compute::Ecloud::ServerConfigurationOptions.new(:service => service, :href => "#{service.base_path}/virtualMachines/#{id}/configurationOptions")[0]
         end
 
         def ips
@@ -64,7 +64,7 @@ module Fog
         end
 
         def networks
-          @networks ||= self.service.networks(:href => "/cloudapi/ecloud/virtualMachines/#{id}/assignedIps")
+          @networks ||= self.service.networks(:href => "#{service.base_path}/virtualMachines/#{id}/assignedIps")
         end
 
         def power_on
@@ -108,16 +108,16 @@ module Fog
                 options[:ips][index] = ip
               end
             end
-            data = service.virtual_machine_copy("/cloudapi/ecloud/virtualMachines/computePools/#{compute_pool_id}/action/copyVirtualMachine", options).body
+            data = service.virtual_machine_copy("#{service.base_path}/virtualMachines/computePools/#{compute_pool_id}/action/copyVirtualMachine", options).body
           elsif options[:type] == :identical
-            data = service.virtual_machine_copy_identical("/cloudapi/ecloud/virtualMachines/computePools/#{compute_pool_id}/action/copyIdenticalVirtualMachine", options).body
+            data = service.virtual_machine_copy_identical("#{service.base_path}/virtualMachines/computePools/#{compute_pool_id}/action/copyIdenticalVirtualMachine", options).body
           end
           vm = collection.from_data(data)
           vm
         end
 
         def rnats
-          rnats = Fog::Compute::Ecloud::Rnats.new(:service => service, :href => "/cloudapi/ecloud/rnats/environments/#{environment_id}")
+          rnats = Fog::Compute::Ecloud::Rnats.new(:service => service, :href => "#{service.base_path}/rnats/environments/#{environment_id}")
           associations = nil
           rnats.each do |rnat|
             if rnats.index(rnat) == 0
@@ -148,7 +148,7 @@ module Fog
 
         def create_rnat(options)
           options[:host_ip_href] ||= ips.first.href
-          options[:uri] = "/cloudapi/ecloud/rnats/environments/#{environment_id}/action/createAssociation"
+          options[:uri] = "#{service.base_path}/rnats/environments/#{environment_id}/action/createAssociation"
           data = service.rnat_associations_create_device(options).body
           rnat = Fog::Compute::Ecloud::Associations.new(:service => service, :href => data[:href])[0]
         end

@@ -12,7 +12,7 @@ module Fog
             }
           }
 
-          request(
+          request_without_retry(
             :body => Fog::JSON.encode(data),
             :expects => [200, 203],
             :method => 'POST',

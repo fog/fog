@@ -19,7 +19,7 @@ module Fog
         # @raise [Fog::Compute::RackspaceV2::ServiceError]
         def destroy
           requires :identity
-          connection.delete_metadata_item(collection_name, parent.id, key)
+          service.delete_metadata_item(collection_name, parent.id, key)
           true
         end
 
@@ -31,7 +31,7 @@ module Fog
         # @raise [Fog::Compute::RackspaceV2::ServiceError]
         def save
           requires :identity, :value
-          connection.set_metadata_item(collection_name, parent.id, key, value)
+          service.set_metadata_item(collection_name, parent.id, key, value)
           true
         end
 

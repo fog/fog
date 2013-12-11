@@ -2,17 +2,17 @@ require 'fog/xenserver'
 require 'fog/compute'
 
 module Fog
-  module Compute 
+  module Compute
     class XenServer < Fog::Service
 
       require 'fog/xenserver/utilities'
       require 'fog/xenserver/parser'
-      
+
       requires :xenserver_username
       requires :xenserver_password
       requires :xenserver_url
       recognizes :xenserver_defaults
-      
+
       model_path 'fog/xenserver/models/compute'
       model :server
       collection :servers
@@ -40,6 +40,8 @@ module Fog
       model  :host_cpu
       model  :vlan
       collection :vlans
+      model  :console
+      collection :consoles
 
       request_path 'fog/xenserver/requests/compute'
       request :create_server
@@ -74,9 +76,11 @@ module Fog
       request :destroy_network
       request :create_vlan
       request :destroy_vlan
-    
+      request :snapshot_server
+      request :snapshot_revert
+
       class Real
-        
+
         def initialize(options={})
           @host        = options[:xenserver_url]
           @username    = options[:xenserver_username]
@@ -89,7 +93,7 @@ module Fog
         def reload
           @connection.authenticate(@username, @password)
         end
-        
+
         def default_template=(name)
           @defaults[:template] = name
         end
@@ -100,13 +104,13 @@ module Fog
             (s.name == @defaults[:template]) or (s.uuid == @defaults[:template])
           end
         end
-        
+
         def default_network
           networks.find { |n| n.name == (@defaults[:network] || "Pool-wide network associated with eth0") }
         end
-        
+
       end
-      
+
       class Mock
 
         def self.data
@@ -114,13 +118,13 @@ module Fog
             hash[key] = {}
           end
         end
-        
+
         def self.reset_data(keys=data.keys)
           for key in [*keys]
             data.delete(key)
           end
         end
-        
+
         def initialize(options={})
           @host        = options[:xenserver_pool_master]
           @username    = options[:xenserver_username]
@@ -128,7 +132,7 @@ module Fog
           @connection  = Fog::Connection.new(@host)
           @connection.authenticate(@username, @password)
         end
-        
+
       end
     end
   end

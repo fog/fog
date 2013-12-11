@@ -12,8 +12,6 @@ Shindo.tests('Fog::DNS[:aws] | DNS requests', ['aws', 'dns']) do
   tests('success') do
 
     test('get current zone count') do
-      pending if Fog.mocking?
-
       @org_zone_count= 0
       response = @r53_connection.list_hosted_zones
       if response.status == 200
@@ -25,8 +23,6 @@ Shindo.tests('Fog::DNS[:aws] | DNS requests', ['aws', 'dns']) do
     end
 
     test('create simple zone') {
-      pending if Fog.mocking?
-
       result = false
 
       response = @r53_connection.create_hosted_zone(@domain_name)
@@ -55,8 +51,6 @@ Shindo.tests('Fog::DNS[:aws] | DNS requests', ['aws', 'dns']) do
     }
 
     test("get status of change #{@change_id}") {
-      pending if Fog.mocking?
-
       result = false
       response = @r53_connection.get_change(@change_id)
       if response.status == 200
@@ -70,8 +64,6 @@ Shindo.tests('Fog::DNS[:aws] | DNS requests', ['aws', 'dns']) do
     }
 
     test("get info on hosted zone #{@zone_id}") {
-      pending if Fog.mocking?
-
       result = false
 
       response = @r53_connection.get_hosted_zone(@zone_id)
@@ -83,7 +75,6 @@ Shindo.tests('Fog::DNS[:aws] | DNS requests', ['aws', 'dns']) do
         ns_servers = response.body['NameServers']
 
         # AWS returns domain with a dot at end - so when compare, remove dot
-
         if (zone_id == @zone_id) and (name.chop == @domain_name) and (caller_ref.length > 0) and
            (ns_servers.count > 0)
            result = true
@@ -94,8 +85,6 @@ Shindo.tests('Fog::DNS[:aws] | DNS requests', ['aws', 'dns']) do
     }
 
     test('list zones') do
-      pending if Fog.mocking?
-
       result = false
 
       response = @r53_connection.list_hosted_zones
@@ -120,8 +109,6 @@ Shindo.tests('Fog::DNS[:aws] | DNS requests', ['aws', 'dns']) do
     end
 
     test("add a A resource record") {
-      pending if Fog.mocking?
-
       # create an A resource record
       host = 'www.' + @domain_name
       ip_addrs = ['1.2.3.4']
@@ -142,8 +129,6 @@ Shindo.tests('Fog::DNS[:aws] | DNS requests', ['aws', 'dns']) do
     }
 
     test("add a CNAME resource record") {
-      pending if Fog.mocking?
-
       # create a CNAME resource record
       host = 'mail.' + @domain_name
       value = ['www.' + @domain_name]
@@ -164,8 +149,6 @@ Shindo.tests('Fog::DNS[:aws] | DNS requests', ['aws', 'dns']) do
     }
 
     test("add a MX resource record") {
-      pending if Fog.mocking?
-
       # create a MX resource record
       host = @domain_name
       value = ['7 mail.' + @domain_name]
@@ -186,8 +169,6 @@ Shindo.tests('Fog::DNS[:aws] | DNS requests', ['aws', 'dns']) do
     }
 
     test("add an ALIAS resource record") {
-      pending if Fog.mocking?
-
       # create a load balancer
       @elb_connection.create_load_balancer(["us-east-1a"], "fog", [{"Protocol" => "HTTP", "LoadBalancerPort" => "80", "InstancePort" => "80"}])
 
@@ -213,7 +194,7 @@ Shindo.tests('Fog::DNS[:aws] | DNS requests', ['aws', 'dns']) do
       puts "DNS Name (ELB): #{dns_name}"
       puts "Zone ID for Route 53: #{@zone_id}"
 
-      sleep 120
+      sleep 120 unless Fog.mocking?
       response = @r53_connection.change_resource_record_sets(@zone_id, change_batch, options)
       if response.status == 200
         change_id = response.body['Id']
@@ -225,15 +206,11 @@ Shindo.tests('Fog::DNS[:aws] | DNS requests', ['aws', 'dns']) do
     }
 
     tests("list resource records").formats(AWS::DNS::Formats::LIST_RESOURCE_RECORD_SETS)  {
-      pending if Fog.mocking?
-
       # get resource records for zone
       @r53_connection.list_resource_record_sets(@zone_id).body
     }
 
     test("delete #{@new_records.count} resource records") {
-      pending if Fog.mocking?
-
       result = true
 
       change_batch = []
@@ -252,8 +229,6 @@ Shindo.tests('Fog::DNS[:aws] | DNS requests', ['aws', 'dns']) do
     }
 
     test("delete hosted zone #{@zone_id}") {
-      pending if Fog.mocking?
-
       # cleanup the ELB as well
       @elb_connection.delete_load_balancer("fog")
 

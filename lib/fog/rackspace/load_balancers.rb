@@ -73,6 +73,7 @@ module Fog
       request :get_error_page
       request :set_error_page
       request :remove_error_page
+      request :get_stats
 
       module Shared
 
@@ -119,41 +120,25 @@ module Fog
           @connection = Fog::Connection.new(endpoint_uri.to_s, @persistent, @connection_options)
         end
 
-        def request(params)
-          #TODO - Unify code with other rackspace services
-          begin
-            response = @connection.request(params.merge!({
-              :headers  => {
-                'Content-Type' => 'application/json',
-                'Accept' => 'application/json',
-                'X-Auth-Token' => auth_token
-              }.merge!(params[:headers] || {}),
-              :host     => endpoint_uri.host,
-              :path     => "#{endpoint_uri.path}/#{params[:path]}"
-            }))
-          rescue Excon::Errors::NotFound => error
-            raise NotFound.slurp(error, region)
-          rescue Excon::Errors::BadRequest => error
-            raise BadRequest.slurp error
-          rescue Excon::Errors::InternalServerError => error
-            raise InternalServerError.slurp error
-          rescue Excon::Errors::HTTPStatusError => error
-            raise ServiceError.slurp error
-          end
-          unless response.body.empty?
-            response.body = Fog::JSON.decode(response.body)
-          end
-          response
+        def request(params, parse_json = true)
+          super
+        rescue Excon::Errors::NotFound => error
+          raise NotFound.slurp(error, self)
+        rescue Excon::Errors::BadRequest => error
+          raise BadRequest.slurp(error, self)
+        rescue Excon::Errors::InternalServerError => error
+          raise InternalServerError.slurp(error, self)
+        rescue Excon::Errors::HTTPStatusError => error
+          raise ServiceError.slurp(error, self)
         end
 
-        def authenticate
-          options = {
+        def authenticate(options={})
+          super({
             :rackspace_api_key => @rackspace_api_key,
             :rackspace_username => @rackspace_username,
             :rackspace_auth_url => @rackspace_auth_url,
             :connection_options => @connection_options
-          }
-          super(options)
+          })
         end
 
         def service_name

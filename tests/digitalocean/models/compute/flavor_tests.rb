@@ -2,14 +2,14 @@ Shindo.tests("Fog::Compute[:digitalocean] | flavor model", ['digitalocean', 'com
 
   service = Fog::Compute[:digitalocean]
   flavor  = service.flavors.first
-  
+
   tests('The flavor model should') do
     tests('have the action') do
       test('reload') { flavor.respond_to? 'reload' }
     end
     tests('have attributes') do
       model_attribute_hash = flavor.attributes
-      attributes = [ 
+      attributes = [
         :id,
         :name,
       ]

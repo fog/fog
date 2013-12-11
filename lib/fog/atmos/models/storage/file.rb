@@ -11,6 +11,7 @@ module Fog
         attribute :content_length,  :aliases => ['bytes', 'Content-Length'], :type => :integer
         attribute :content_type,    :aliases => ['content_type', 'Content-Type']
         attribute :objectid,        :aliases => :ObjectID
+        attribute :created_at,      :aliases => :ctime
 
         def body
           attributes[:body] ||= if objectid
@@ -42,14 +43,15 @@ module Fog
           true
         end
 
-        # def owner=(new_owner)
-        #   if new_owner
-        #     attributes[:owner] = {
-        #       :display_name => new_owner['DisplayName'],
-        #       :id           => new_owner['ID']
-        #     }
-        #   end
-        # end
+        def meta_data
+         requires :directory, :key
+          service.get_namespace([directory.key, key].join('/') + "?metadata/system")
+        end
+
+        def file_size
+          data = meta_data
+          meta_data.headers["x-emc-meta"].match(/size=\d+/).to_s.gsub(/size=/,"")
+        end
 
         def public=(new_public)
           # NOOP - we don't need to flag files as public, getting the public URL for a file handles it.
@@ -58,9 +60,10 @@ module Fog
         # By default, expire in 5 years
         def public_url(expires = (Time.now + 5 * 365 * 24 * 60 * 60))
           file = directory.files.head(key)
-          self.objectid = if file.present? then file.attributes['x-emc-meta'].scan(/objectid=(\w+),/).flatten[0] else nil end
-          if self.objectid.present?
-            uri = URI::HTTP.build(:scheme => service.ssl? ? "http" : "https" , :host => service.host, :port => service.port.to_i, :path => "/rest/objects/#{self.objectid}" )
+          self.objectid = if file && file.to_s.strip != "" then file.attributes['x-emc-meta'].scan(/objectid=(\w+),/).flatten[0] else nil end
+          if self.objectid && self.objectid.to_s.strip != ""
+            klass = service.ssl? ? URI::HTTPS : URI::HTTP
+            uri = klass.build(:host => service.host, :port => service.port.to_i, :path => "/rest/objects/#{self.objectid}" )
 
             sb = "GET\n"
             sb += uri.path.downcase + "\n"

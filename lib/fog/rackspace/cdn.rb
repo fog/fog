@@ -13,13 +13,13 @@ module Fog
       request :post_container
       request :put_container
       request :delete_object
-      
-      
+
+
       module Base
-        URI_HEADERS = { 
+        URI_HEADERS = {
           "X-Cdn-Ios-Uri" => :ios_uri,
           "X-Cdn-Uri" => :uri,
-          "X-Cdn-Streaming-Uri" => :streaming_uri, 
+          "X-Cdn-Streaming-Uri" => :streaming_uri,
           "X-Cdn-Ssl-Uri" => :ssl_uri
         }.freeze
 
@@ -29,6 +29,10 @@ module Fog
 
         def region
           @rackspace_region
+        end
+
+        def request_id_header
+          "X-Trans-Id"
         end
 
         def endpoint_uri(service_endpoint_url=nil)
@@ -49,7 +53,7 @@ module Fog
           return {} unless publish
           urls_from_headers(response.headers)
         end
-        
+
         # Returns hash of urls for container
         # @param [Fog::Storage::Rackspace::Directory] container to retrieve urls for
         # @return [Hash] hash containing urls for published container
@@ -58,7 +62,7 @@ module Fog
         # @raise [Fog::Storage::Rackspace::ServiceError]
         # @note If unable to find container or container is not published this method will return an empty hash.
         def urls(container)
-          begin 
+          begin
             response = head_container(container.key)
             return {} unless response.headers['X-Cdn-Enabled'] == 'True'
             urls_from_headers response.headers
@@ -66,17 +70,17 @@ module Fog
             {}
           end
         end
-        
+
         private
-        
+
         def urls_from_headers(headers)
           h = {}
           URI_HEADERS.keys.each do | header |
-            key = URI_HEADERS[header]              
+            key = URI_HEADERS[header]
             h[key] = headers[header]
           end
           h
-        end        
+        end
       end
 
       class Mock < Fog::Rackspace::Service
@@ -99,22 +103,26 @@ module Fog
         def data
           self.class.data[@rackspace_username]
         end
-        
+
         def purge(object)
-          return true if object.is_a? Fog::Storage::Rackspace::File            
-          raise Fog::Errors::NotImplemented.new("#{object.class} does not support CDN purging") if object       
+          return true if object.is_a? Fog::Storage::Rackspace::File
+          raise Fog::Errors::NotImplemented.new("#{object.class} does not support CDN purging") if object
         end
 
         def reset_data
           self.class.data.delete(@rackspace_username)
         end
-        
+
       end
 
       class Real < Fog::Rackspace::Service
         include Base
 
         def initialize(options={})
+          # api_key and username missing from instance variable sets
+          @rackspace_api_key = options[:rackspace_api_key]
+          @rackspace_username = options[:rackspace_username]
+
           @connection_options = options[:connection_options] || {}
           @rackspace_auth_url = options[:rackspace_auth_url]
           @rackspace_cdn_url = options[:rackspace_cdn_url]
@@ -139,7 +147,7 @@ module Fog
         def reload
           @cdn_connection.reset
         end
-        
+
         # Purges File
         # @param [Fog::Storage::Rackspace::File] file to be purged from the CDN
         # @raise [Fog::Errors::NotImplemented] returned when non file parameters are specified
@@ -147,45 +155,40 @@ module Fog
           unless file.is_a? Fog::Storage::Rackspace::File
             raise Fog::Errors::NotImplemented.new("#{object.class} does not support CDN purging")  if object
           end
-          
+
           delete_object file.directory.key, file.key
           true
-        end        
+        end
 
         def request(params, parse_json = true)
-          begin
-            response = @connection.request(params.merge!({
-              :headers  => {
-                'Content-Type' => 'application/json',
-                'Accept' => 'application/json',
-                'X-Auth-Token' => auth_token
-              }.merge!(params[:headers] || {}),
-              :host     => endpoint_uri.host,
-              :path     => "#{endpoint_uri.path}/#{params[:path]}",
-            }))
-          rescue Excon::Errors::NotFound => error
-            raise Fog::Storage::Rackspace::NotFound.slurp(error, region)
-          rescue Excon::Errors::BadRequest => error
-            raise Fog::Storage::Rackspace::BadRequest.slurp error
-          rescue Excon::Errors::InternalServerError => error
-            raise Fog::Storage::Rackspace::InternalServerError.slurp error
-          rescue Excon::Errors::HTTPStatusError => error
-            raise Fog::Storage::Rackspace::ServiceError.slurp error
-          end
-          if !response.body.empty? && parse_json && response.headers['Content-Type'] =~ %r{application/json}
-            response.body = Fog::JSON.decode(response.body)
-          end
-          response
+          super
+        rescue Excon::Errors::NotFound => error
+          raise Fog::Storage::Rackspace::NotFound.slurp(error, self)
+        rescue Excon::Errors::BadRequest => error
+          raise Fog::Storage::Rackspace::BadRequest.slurp(error, self)
+        rescue Excon::Errors::InternalServerError => error
+          raise Fog::Storage::Rackspace::InternalServerError.slurp(error, self)
+        rescue Excon::Errors::HTTPStatusError => error
+          raise Fog::Storage::Rackspace::ServiceError.slurp(error, self)
         end
-        
-        private 
-      
+
+        private
+
         def authenticate_v1(options)
           credentials = Fog::Rackspace.authenticate(options, @connection_options)
           endpoint_uri credentials['X-CDN-Management-Url']
           @auth_token = credentials['X-Auth-Token']
         end
 
+        # Fix for invalid auth_token, likely after 24 hours.
+        def authenticate(options={})
+         super({
+           :rackspace_api_key  => @rackspace_api_key,
+           :rackspace_username => @rackspace_username,
+           :rackspace_auth_url => @rackspace_auth_url,
+           :connection_options => @connection_options
+         })
+        end
       end
     end
   end

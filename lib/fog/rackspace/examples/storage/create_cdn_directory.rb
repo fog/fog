@@ -28,7 +28,7 @@ service = Fog::Storage.new({
   :rackspace_username   => rackspace_username,
   :rackspace_api_key    => rackspace_api_key,
   :rackspace_region => :ord #Use Chicago Region
-  }) 
+  })
   
 # prompt for directory name
 directory_name = get_user_input "\nEnter name of directory to create"
