@@ -14,6 +14,10 @@ module Fog
         attribute :availability_zone,           :aliases => 'availabilityZone'
         attribute :tag_set,                     :aliases => 'tagSet'
 
+        def ready?
+          requires :state
+          state == 'available'
+        end
 
         # Removes an existing subnet
         #

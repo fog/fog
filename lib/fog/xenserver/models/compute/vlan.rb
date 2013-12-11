@@ -6,12 +6,13 @@ module Fog
 
       class VLAN < Fog::Model
         # API Reference here:
-        # @see http://docs.vmd.citrix.com/XenServer/5.6.0/1.0/en_gb/api/?c=VLAN
+        # @see http://docs.vmd.citrix.com/XenServer/6.2.0/1.0/en_gb/api/?c=VLAN
 
         identity :reference
 
         attribute :uuid
         attribute :tag,                :type => :integer
+        attribute :other_config
         attribute :__untagged_pif,     :aliases => :untagged_PIF
         attribute :__tagged_pif,       :aliases => :tagged_PIF
 
