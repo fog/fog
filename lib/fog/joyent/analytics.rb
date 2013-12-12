@@ -24,6 +24,9 @@ module Fog
       collection :joyent_modules
       model :joyent_module
 
+      collection :metrics
+      model :metric
+
       class Mock
         def self.data
           @data ||= Hash.new do |hash, key|

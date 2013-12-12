@@ -16,7 +16,6 @@ module Fog
         # { 'apache' => {'label' => 'Apache'}}
         # where the key is the name of the module
         def new(attributes = {})
-          puts attributes.inspect
           name, other_attributes = attributes
           super(other_attributes.merge('name' => name))
         end
