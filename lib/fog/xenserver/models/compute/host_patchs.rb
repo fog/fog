@@ -4,7 +4,7 @@ require 'fog/xenserver/models/compute/host_patch'
 module Fog
   module Compute
     class XenServer
-      class HostPatches < Fog::Collection
+      class HostPatchs < Fog::Collection
         model Fog::Compute::XenServer::HostPatch
 
         def all(options={})
