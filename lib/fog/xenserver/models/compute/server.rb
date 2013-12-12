@@ -18,12 +18,12 @@ module Fog
         attribute :actions_after_reboot
         attribute :actions_after_shutdown
         attribute :allowed_operations
+        attribute :__consoles,                  :aliases => :consoles
         attribute :__attached_pcis,             :aliases => :attached_PCIs
         attribute :bios_strings
         attribute :blobs
         attribute :blocked_operations
         attribute :__children,                  :aliases => :children
-        attribute :__consoles
         attribute :__crash_dumps,               :aliases => :crash_dumps
         attribute :current_operations
         attribute :domarch
