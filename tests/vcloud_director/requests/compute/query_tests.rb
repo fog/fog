@@ -19,17 +19,35 @@ Shindo.tests('Compute::VcloudDirector | query requests', ['vclouddirector']) do
   end.sort_by do |link|
     [link[:name], link[:href]]
   end.each do |link|
+
     href = Nokogiri::XML.fragment(link[:href])
     query = CGI.parse(URI.parse(href.text).query)
     type = query['type'].first
     format = query['format'].first
     next if %w[right role strandedUser].include?(type)
     tests("type => #{type}, format => #{format}") do
+
       pending if Fog.mocking? && (format != 'records' || type != 'orgVdcNetwork')
+
       tests("#get_execute_query").data_matches_schema(VcloudDirector::Compute::Schema::CONTAINER_TYPE) do
         @body = @service.get_execute_query(type, :format => format).body
       end
       tests("resource type").returns(link[:type]) { @body[:type] }
+
+      unless ( type == 'event' || type == 'edgeGateway' )
+        records_key = @body.keys.detect {|key| key.to_s =~ /Record|Reference$/}
+        if records = @body[records_key]
+          records.first do |record|
+            case format
+            when 'records'
+              tests("record is correct schema").data_matches_schema(VcloudDirector::Compute::Schema::REFERENCE_TYPE) do
+                record
+              end
+            end
+          end
+        end
+      end
+
     end
   end
 
