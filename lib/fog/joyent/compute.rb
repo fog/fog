@@ -173,6 +173,9 @@ module Fog
 
           response
         rescue Excon::Errors::HTTPStatusError => e
+          if e.response.headers["Content-Type"] == "application/json"
+            e.response.body = json_decode(e.response.body)
+          end
           raise_if_error!(e.request, e.response)
         end
 
