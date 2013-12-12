@@ -99,12 +99,14 @@ module Fog
 
         def backoff_if_unfound(&block)
           retries_remaining = 10
+          sleep_time = 0.1
           begin
             result = block.call
           rescue Exception => msg
             if msg.to_s.include? 'was not found' and retries_remaining > 0
               retries_remaining -= 1
-              sleep 0.1
+              sleep sleep_time
+              sleep_time *= 1.6
               retry
             else
               raise msg
