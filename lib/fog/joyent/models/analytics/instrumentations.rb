@@ -12,6 +12,11 @@ module Fog
           load(data)
         end
 
+        def get(id)
+          data = service.get_instrumentation(id).body
+          new(data)
+        end
+
       end
     end
   end

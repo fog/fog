@@ -18,6 +18,8 @@ module Fog
 
       request :describe_analytics
       request :list_instrumentations
+      request :get_instrumentation
+      request :create_instrumentation
 
 
       model_path 'fog/joyent/models/analytics'
@@ -132,6 +134,9 @@ module Fog
 
           response
         rescue Excon::Errors::HTTPStatusError => e
+          if e.response.headers["Content-Type"] == "application/json"
+            e.response.body = json_decode(e.response.body)
+          end
           raise_if_error!(e.request, e.response)
         end
 
