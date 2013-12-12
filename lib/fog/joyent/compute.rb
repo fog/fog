@@ -13,6 +13,7 @@ module Fog
 
       recognizes :joyent_keyname
       recognizes :joyent_keyfile
+      recognizes :joyent_keydata
       recognizes :joyent_keyphrase
       recognizes :joyent_version
 
@@ -115,24 +116,30 @@ module Fog
             raise ArgumentError, "options[:joyent_username] required"
           end
 
-          if options[:joyent_keyname] && options[:joyent_keyfile]
-            if File.exists?(options[:joyent_keyfile])
-              @joyent_keyname = options[:joyent_keyname]
-              @joyent_keyfile = options[:joyent_keyfile]
-              @joyent_keyphrase = options[:joyent_keyphrase]
-
-              @key_manager = Net::SSH::Authentication::KeyManager.new(nil, {
+          if options[:joyent_keyname]
+            @joyent_keyname = options[:joyent_keyname]
+            @joyent_keyphrase = options[:joyent_keyphrase]
+            @key_manager = Net::SSH::Authentication::KeyManager.new(nil, {
                 :keys_only => true,
                 :passphrase => @joyent_keyphrase
-              })
+            })
+            @header_method = method(:header_for_signature_auth)
 
-              @key_manager.add(@joyent_keyfile)
-
-              @header_method = method(:header_for_signature_auth)
-            else
-              raise ArgumentError, "options[:joyent_keyfile] provided does not exist."
+            if options[:joyent_keyfile]
+              if File.exists?(options[:joyent_keyfile])
+                @joyent_keyfile = options[:joyent_keyfile]
+                @key_manager.add(@joyent_keyfile)
+              else
+                raise ArgumentError, "options[:joyent_keyfile] provided does not exist."
+              end
+            elsif options[:joyent_keydata]
+              if options[:joyent_keydata].to_s.empty?
+                raise ArgumentError, 'options[:joyent_keydata] must not be blank'
+              else
+                @joyent_keydata = options[:joyent_keydata]
+                @key_manager.add_key_data(@joyent_keydata)
+              end
             end
-
           elsif options[:joyent_password]
             @joyent_password = options[:joyent_password]
             @header_method = method(:header_for_basic_auth)
