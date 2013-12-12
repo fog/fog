@@ -27,6 +27,9 @@ module Fog
       collection :metrics
       model :metric
 
+      collection :fields
+      model :field
+
       class Mock
         def self.data
           @data ||= Hash.new do |hash, key|
