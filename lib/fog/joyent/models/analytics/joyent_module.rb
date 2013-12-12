@@ -6,7 +6,9 @@ module Fog
   module Joyent
     class Analytics
       class JoyentModule < Fog::Model
+        attribute :name
         attribute :label
+
       end
     end
   end
