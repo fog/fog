@@ -187,10 +187,13 @@ module Fog
             data[data_type].each do |id, dr|
               r = {}
               if name.nil? || dr[:name] == name
-                #TODO r[:vdcName] = data[:vdcs]...
+                vdc_id = dr[:vdc]
+                if data[:vdcs][vdc_id] && data[:vdcs][vdc_id].key?(:name)
+                  r[:vdcName] = data[:vdcs][vdc_id][:name]
+                end
                 r[:name] = dr[:name]
-                r[:vdc]  = make_href("vdc/#{v[:vdc_id]}") if dr.key?(:vdc_id)
-                r[:href] = make_href("networks/#{id}")
+                r[:vdc]  = make_href("vdc/#{vdc_id}") if vdc_id
+                r[:href] = make_href("admin/network/#{id}")
                 mapping = {
                   :description    => :Description,
                   :netmask        => :Netmask,
