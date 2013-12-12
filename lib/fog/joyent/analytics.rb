@@ -33,6 +33,9 @@ module Fog
       collection :types
       model :type
 
+      collection :transformations
+      model :transformation
+
       class Mock
         def self.data
           @data ||= Hash.new do |hash, key|
