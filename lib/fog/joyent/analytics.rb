@@ -17,6 +17,7 @@ module Fog
       request_path 'fog/joyent/requests/analytics'
 
       request :describe_analytics
+      request :list_instrumentations
 
 
       model_path 'fog/joyent/models/analytics'
@@ -35,6 +36,9 @@ module Fog
 
       collection :transformations
       model :transformation
+
+      collection :instrumentations
+      model :instrumentation
 
       class Mock
         def self.data
