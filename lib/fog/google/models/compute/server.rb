@@ -20,9 +20,23 @@ module Fog
         attribute :metadata
         attribute :tags, :squash => 'items'
 
+        def flavor_id
+          machine_type
+        end
+
+        def flavor_id=(flavor_id)
+          machine_type=flavor_id
+        end
+
         def destroy
           requires :name, :zone
-          service.delete_server(name, zone)
+          operation = service.delete_server(name, zone)
+          # wait until "RUNNING" or "DONE" to ensure the operation doesn't fail, raises exception on error
+          Fog.wait_for do
+            operation = service.get_zone_operation(zone_name, operation.body["name"])
+            operation.body["status"] != "PENDING"
+          end
+          operation
         end
 
         def image

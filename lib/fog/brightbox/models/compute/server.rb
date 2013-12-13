@@ -37,7 +37,7 @@ module Fog
         attribute :zone
         attribute :server_type
 
-        def initialize(attributes={})
+        def initialize(attributes = {})
           # Call super first to initialize the service object for our default image
           super
           self.image_id ||= service.default_image
@@ -83,10 +83,10 @@ module Fog
         def reboot(use_hard_reboot = true)
           requires :identity
           if ready?
-            unless use_hard_reboot
-              soft_reboot
-            else
+            if use_hard_reboot
               hard_reboot
+            else
+              soft_reboot
             end
           else
             # Not able to reboot if not ready in the first place
@@ -137,23 +137,23 @@ module Fog
         end
 
         def private_ip_address
-          unless interfaces.empty?
-            interfaces.first["ipv4_address"]
-          else
+          if interfaces.empty?
             nil
+          else
+            interfaces.first["ipv4_address"]
           end
         end
 
         def public_ip_address
-          unless cloud_ips.empty?
-            cloud_ips.first["public_ip"]
-          else
+          if cloud_ips.empty?
             nil
+          else
+            cloud_ips.first["public_ip"]
           end
         end
 
         def ready?
-          self.state == 'active'
+          state == "active"
         end
 
         def activate_console
@@ -171,20 +171,28 @@ module Fog
             :zone => zone_id,
             :user_data => user_data,
             :server_groups => server_groups
-          }.delete_if {|k,v| v.nil? || v == "" }
-          unless flavor_id.nil? || flavor_id == ""
-            options.merge!(:server_type => flavor_id)
-          end
+          }.delete_if { |k, v| v.nil? || v == "" }
+
+          options.merge!(:server_type => flavor_id) unless flavor_id.nil? || flavor_id == ""
+
           data = service.create_server(options)
           merge_attributes(data)
           true
         end
 
-      private
+        # Replaces the server's identifier with it's interface's identifier for Cloud IP mapping
+        #
+        # @return [String] the identifier to pass to a Cloud IP mapping request
+        def mapping_identity
+          interfaces.first["id"]
+        end
+
+        private
+
         # Hard reboots are fast, avoiding the OS by doing a "power off"
         def hard_reboot
           stop
-          wait_for { ! ready? }
+          wait_for { !ready? }
           start
         end
 
@@ -194,11 +202,11 @@ module Fog
         # @todo Needs cleaner error handling when the OS times out
         def soft_reboot
           shutdown
-          # FIXME Using side effect of wait_for's (evaluated block) to detect timeouts
+          # FIXME: Using side effect of wait_for's (evaluated block) to detect timeouts
           begin
-            wait_for(20) { ! ready? }
+            wait_for(20) { !ready? }
             start
-          rescue Fog::Errors::Timeout => e
+          rescue Fog::Errors::Timeout
             false
           end
         end

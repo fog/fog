@@ -38,6 +38,10 @@ Shindo.tests('AWS::RDS | subnet group requests', ['aws', 'rds']) do
       Fog::AWS[:rds].describe_db_subnet_groups.body
     end
 
+    tests("#delete_db_subnet_group").formats(AWS::RDS::Formats::BASIC) do
+      Fog::AWS[:rds].delete_db_subnet_group(@subnet_group_name).body
+    end
+
   end
 
   @subnets.each do |sn|

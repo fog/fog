@@ -93,7 +93,7 @@ module Fog
 
         def new(attributes = {})
           requires :directory
-          super({ :directory => directory }.merge!(attributes))
+          super({ :directory => directory }.merge(attributes))
         end
 
       end

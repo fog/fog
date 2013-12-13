@@ -15,7 +15,7 @@ module Fog
         end
 
         def get(identity)
-          data = connection.get_zone(identity).body
+          data = service.get_zone(identity).body
           new(data)
         rescue Excon::Errors::NotFound
           nil

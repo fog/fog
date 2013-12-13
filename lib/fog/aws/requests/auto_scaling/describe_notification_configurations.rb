@@ -11,7 +11,7 @@ module Fog
         #
         # ==== Parameters
         # * options<~Hash>:
-        #   * 'AutoScalingGroupsName'<~String> - The name of the Auto Scaling
+        #   * 'AutoScalingGroupNames'<~String> - The name of the Auto Scaling
         #     group.
         #   * 'MaxRecords'<~Integer> - The maximum number of records to return.
         #   * 'NextToken'<~String> - A string that is used to mark the start of

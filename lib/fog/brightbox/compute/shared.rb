@@ -63,7 +63,7 @@ module Fog
           # Request account can be changed at anytime and changes behaviour of future requests
           @scoped_account      = @configured_account
 
-          credential_options   = {:username => username, :password => password}
+          credential_options   = { :username => username, :password => password }
           @credentials         = CredentialSet.new(client_id, client_secret, credential_options)
 
           # If existing tokens have been cached, allow continued use of them in the service
@@ -175,7 +175,7 @@ module Fog
           @default_image_id = Fog.credentials[:brightbox_default_image] || select_default_image
         end
 
-      private
+        private
 
         # This makes a request of the API based on the configured setting for
         # token management.
@@ -200,13 +200,11 @@ module Fog
         #
         # @return [Excon::Response]
         def managed_token_request(options)
-          begin
-            get_access_token unless access_token_available?
-            response = authenticated_request(options)
-          rescue Excon::Errors::Unauthorized
-            get_access_token
-            response = authenticated_request(options)
-          end
+          get_access_token unless access_token_available?
+          authenticated_request(options)
+        rescue Excon::Errors::Unauthorized
+          get_access_token
+          authenticated_request(options)
         end
 
         # This request makes an authenticated request of the API using currently
@@ -221,7 +219,7 @@ module Fog
           headers = options[:headers] || {}
           headers.merge!("Authorization" => "OAuth #{@credentials.access_token}", "Content-Type" => "application/json")
           options[:headers] = headers
-          # TODO This is just a wrapper around a call to Excon::Connection#request
+          # TODO: This is just a wrapper around a call to Excon::Connection#request
           #   so can be extracted from Compute by passing in the connection,
           #   credentials and options
           @connection.request(options)

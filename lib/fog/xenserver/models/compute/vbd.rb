@@ -6,7 +6,7 @@ module Fog
 
       class VBD < Fog::Model
         # API Reference here:
-        # http://docs.vmd.citrix.com/XenServer/5.6.0/1.0/en_gb/api/?c=VBD
+        # http://docs.vmd.citrix.com/XenServer/6.2.0/1.0/en_gb/api/?c=VBD
 
         identity :reference
 
@@ -22,8 +22,8 @@ module Fog
         attribute :type
         attribute :userdevice
         attribute :empty
-        attribute :type
         attribute :mode
+        attribute :other_config
         attribute :storage_lock
         attribute :runtime_properties
         attribute :unpluggable
@@ -31,6 +31,7 @@ module Fog
         attribute :qos_supported_algorithms
         attribute :qos_algorithm_params
         attribute :qos_algorithm_type
+        attribute :qos_supported_algorithms
         attribute :empty
         attribute :__metrics,           :aliases => :metrics
 

@@ -9,7 +9,7 @@ module Fog
                  :openstack_service_type, :openstack_service_name, :openstack_tenant,
                  :openstack_api_key, :openstack_username,
                  :current_user, :current_tenant,
-                 :openstack_endpoint_type
+                 :openstack_endpoint_type, :openstack_region
 
       model_path 'fog/openstack/models/volume'
 
@@ -125,6 +125,7 @@ module Fog
           @openstack_must_reauthenticate  = false
           @openstack_service_type         = options[:openstack_service_type] || ['volume']
           @openstack_service_name         = options[:openstack_service_name]
+          @openstack_region               = options[:openstack_region]
 
           @openstack_endpoint_type        = options[:openstack_endpoint_type] || 'adminURL'
           @connection_options = options[:connection_options] || {}
@@ -188,6 +189,7 @@ module Fog
         def authenticate
           if !@openstack_management_url || @openstack_must_reauthenticate
             options = {
+              :openstack_region   => @openstack_region,
               :openstack_tenant   => @openstack_tenant,
               :openstack_api_key  => @openstack_api_key,
               :openstack_username => @openstack_username,

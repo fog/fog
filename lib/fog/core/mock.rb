@@ -30,8 +30,8 @@ module Fog
       @delay = new_delay
     end
 
-    def self.not_implemented
-      raise Fog::Errors::MockNotImplemented.new("Contributions welcome!")
+    def self.not_implemented(message = 'Contributions welcome!')
+      raise Fog::Errors::MockNotImplemented.new(message)
     end
 
     def self.random_ip(opts = {:version => :v4})

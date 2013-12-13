@@ -35,7 +35,7 @@ module Fog
             :destination => destination,
             :destination_port => destination_port,
             :icmp_type_name => icmp_type_name
-          }.delete_if {|k,v| v.nil? || v == "" }
+          }.delete_if { |k, v| v.nil? || v == "" }
           data = service.create_firewall_rule(options)
           merge_attributes(data)
           true

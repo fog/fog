@@ -6,7 +6,7 @@ module Fog
 
       class VDI < Fog::Model
         # API Reference here:
-        # http://docs.vmd.citrix.com/XenServer/5.6.0/1.0/en_gb/api/?c=VDI
+        # http://docs.vmd.citrix.com/XenServer/6.2.0/1.0/en_gb/api/?c=VDI
 
         identity :reference
 
@@ -22,6 +22,7 @@ module Fog
         attribute :read_only
         attribute :current_operations
         attribute :allowed_operations
+        attribute :__crash_dumps,               :aliases => :crash_dumps
         attribute :type
         attribute :other_config
         attribute :tags
@@ -30,6 +31,8 @@ module Fog
         attribute :missing
         attribute :location
         attribute :managed
+        attribute :metadata_latest
+        attribute :metadata_of_pool
         attribute :allow_caching
         attribute :on_boot
         attribute :sm_config

@@ -46,6 +46,14 @@ module Fog
         def describe_subnets(filters = {})
           subnets = self.data[:subnets]
 
+          # Transition from pending to available
+          subnets.each do |subnet|
+            case subnet['state']
+              when 'pending'
+                subnet['state'] = 'available'
+            end
+          end
+
           if filters['subnet-id']
             subnets = subnets.reject {|subnet| subnet['subnetId'] != filters['subnet-id']}
           end
