@@ -1,7 +1,4 @@
 Shindo.tests('Fog::Rackspace::Identity | tokens', ['rackspace']) do
-
-  pending if Fog.mock?
-
   ROLE_FORMAT = {
     'id' => String,
     'name' => String,
