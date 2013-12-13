@@ -6,7 +6,7 @@ module Fog
 
       class PBD < Fog::Model
         # API Reference here:
-        # http://docs.vmd.citrix.com/XenServer/5.6.0/1.0/en_gb/api/?c=PBD
+        # http://docs.vmd.citrix.com/XenServer/6.2.0/1.0/en_gb/api/?c=PBD
 
         identity :reference
 
@@ -14,6 +14,8 @@ module Fog
         attribute :__host,             :aliases => :host
         attribute :__sr,               :aliases => :SR
         attribute :currently_attached
+        attribute :device_config
+        attribute :other_config
 
         def sr
           service.storage_repositories.get __sr

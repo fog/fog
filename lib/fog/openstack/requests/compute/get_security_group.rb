@@ -15,32 +15,22 @@ module Fog
 
       class Mock
         def get_security_group(security_group_id)
+          security_group = self.data[:security_groups][security_group_id.to_s]
           response = Excon::Response.new
-          response.status = 200
-          response.headers = {
-            "X-Compute-Request-Id" => "req-63a90344-7c4d-42e2-936c-fd748bced1b3",
-            "Content-Type" => "application/json",
-            "Content-Length" => "167",
-            "Date" => Date.new
-          }
-          response.body = {
-            "security_group" => {
-              "rules" => [{
-                "from_port" => 44,
-                "group" => {},
-                "ip_protocol" => "tcp",
-                "to_port" => 55,
-                "parent_group_id" => 1,
-                "ip_range" => {
-                  "cidr" => "10.10.10.10/24"
-                }, "id"=>1
-              }],
-              "tenant_id" => "d5183375ab0343f3a0b4b05f547aefc2",
-              "id"=>security_group_id,
-              "name"=>"default",
-              "description"=>"default"
+          if security_group
+            response.status = 200
+            response.headers = {
+              "X-Compute-Request-Id" => "req-63a90344-7c4d-42e2-936c-fd748bced1b3",
+              "Content-Type" => "application/json",
+              "Content-Length" => "167",
+              "Date" => Date.new
             }
-          }
+            response.body = {
+              "security_group" => security_group
+            }
+          else
+            raise Fog::Compute::OpenStack::NotFound, "Security group #{security_group_id} does not exist"
+          end
           response
         end
       end # mock

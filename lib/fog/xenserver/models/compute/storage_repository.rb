@@ -6,15 +6,18 @@ module Fog
 
       class StorageRepository < Fog::Model
         # API Reference here:
-        # http://docs.vmd.citrix.com/XenServer/5.6.0/1.0/en_gb/api/?c=SR
+        # http://docs.vmd.citrix.com/XenServer/6.2.0/1.0/en_gb/api/?c=SR
 
         identity :reference
 
         attribute :name,                 :aliases => :name_label
         attribute :description,          :aliases => :name_description
         attribute :uuid
+        attribute :blobs
         attribute :allowed_operations
         attribute :current_operations
+        attribute :introduced_by
+        attribute :local_cache_enabled
         attribute :content_type
         attribute :other_config
         attribute :__pbds,               :aliases => :PBDs
