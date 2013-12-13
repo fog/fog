@@ -202,6 +202,7 @@ module Fog
       request :post_configure_edge_gateway_services
       request :post_consolidate_vm_vapp
       request :post_consolidate_vm_vapp_template
+      request :post_create_org_vdc_network
       request :post_deploy_vapp
       request :post_detach_disk
       request :post_disable_nested_hv
