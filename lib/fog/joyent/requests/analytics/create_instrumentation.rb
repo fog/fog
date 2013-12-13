@@ -7,7 +7,7 @@ module Fog
               :path => "#{@joyent_username}/analytics/instrumentations",
               :method => "POST",
               :body => values,
-              :expects => 200
+              :expects => [200,201]
           )
         end
       end

@@ -15,7 +15,10 @@ module Fog
         def get(id)
           data = service.get_instrumentation(id).body
           new(data)
+        rescue Fog::Compute::Joyent::Errors::NotFound
+          nil
         end
+
 
       end
     end
