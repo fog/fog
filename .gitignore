@@ -3,6 +3,7 @@
 *.rbc
 *.sw?
 .rvmrc
+.ruby-version
 .bundle
 .DS_Store
 .idea
