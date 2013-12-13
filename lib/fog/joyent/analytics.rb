@@ -20,7 +20,7 @@ module Fog
       request :list_instrumentations
       request :get_instrumentation
       request :create_instrumentation
-
+	    request :delete_instrumentation
 
       model_path 'fog/joyent/models/analytics'
 
