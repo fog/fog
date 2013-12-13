@@ -84,6 +84,7 @@ module Fog
       request :delete_logout
       request :delete_media
       request :delete_media_metadata_item_metadata
+      request :delete_network
       request :delete_shadow_vm
       request :delete_vapp
       request :delete_vapp_metadata_item_metadata
