@@ -244,6 +244,7 @@ module Fog
       request :put_metadata_value # deprecated
       request :put_network_connection_system_section_vapp
       request :put_vapp_metadata_item_metadata
+      request :put_vapp_name_and_description
       request :put_vapp_template_metadata_item_metadata
       request :put_vm
       request :put_vm_capabilities
