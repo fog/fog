@@ -23,7 +23,7 @@ module Fog
 
       class Mock
         def create_token(username, api_key)
-          unless username == 'baduser'
+          unless username == 'baduser' || api_key == 'bad_key'
             compute_tenant = Fog::Mock.random_numbers(6)
             object_tenant = generate_object_tenant
 
