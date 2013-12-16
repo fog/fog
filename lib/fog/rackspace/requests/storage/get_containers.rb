@@ -32,6 +32,29 @@ module Fog
         end
 
       end
+
+      class Mock
+        def get_containers(options = {})
+          results = []
+          data.each do |container, files|
+            next if container == :meta
+
+            total = files.keys.
+              reject { |k| k == :meta }.
+              inject(0) { |sum, k| sum + files[k].bytes }
+            results << {
+              "name" => container,
+              "count" => files.size,
+              "bytes" => total
+            }
+          end
+          response = Excon::Response.new
+          response.status = 200
+          response.body = results
+          response
+        end
+      end
+
     end
   end
 end
