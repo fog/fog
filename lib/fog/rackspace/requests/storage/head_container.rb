@@ -27,6 +27,22 @@ module Fog
         end
 
       end
+
+      class Mock
+        def head_container(container)
+          escaped = Fog::Rackspace.escape(container)
+
+          unless data.has_key?(escaped)
+            raise Fog::Storage::Rackspace::NotFound.new
+          end
+
+          response = Excon::Response.new
+          response.status = 204
+          response.headers = data[escaped][:meta].dup
+          response
+        end
+      end
+
     end
   end
 end
