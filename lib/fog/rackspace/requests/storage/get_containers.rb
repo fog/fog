@@ -44,7 +44,7 @@ module Fog
               inject(0) { |sum, k| sum + files[k].bytes }
             results << {
               "name" => container,
-              "count" => files.size,
+              "count" => files.size - 1,
               "bytes" => total
             }
           end
