@@ -21,7 +21,6 @@ Shindo.tests('Fog::Storage[:rackspace] | container requests', ["rackspace"]) do
     end
 
     tests("#get_container('fogcontainertests')").formats(@container_format) do
-      pending if Fog.mocking?
       Fog::Storage[:rackspace].get_container('fogcontainertests').body
     end
 
@@ -30,7 +29,6 @@ Shindo.tests('Fog::Storage[:rackspace] | container requests', ["rackspace"]) do
     end
 
     tests("#head_container('fogcontainertests')").succeeds do
-      pending if Fog.mocking?
       Fog::Storage[:rackspace].head_container('fogcontainertests')
     end
 
