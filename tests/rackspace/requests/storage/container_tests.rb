@@ -11,7 +11,6 @@ Shindo.tests('Fog::Storage[:rackspace] | container requests', ["rackspace"]) do
   tests('success') do
 
     tests("#put_container('fogcontainertests', {})").succeeds do
-      pending if Fog.mocking?
       Fog::Storage[:rackspace].put_container('fogcontainertests')
     end
 

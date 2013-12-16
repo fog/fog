@@ -21,6 +21,28 @@ module Fog
         end
 
       end
+
+      class Mock
+        def put_container(name, options={})
+          escaped = Fog::Rackspace.escape(name)
+          response = Excon::Response.new
+          meta = {}
+          options.keys.each do |k|
+            meta[k] = options[k] if k =~ /^X-Container-Meta/
+          end
+          meta['X-Container-Object-Count'] = 0
+          meta['X-Container-Bytes-Used'] = 0
+          data[escaped] = { :meta => meta }
+
+          if data.has_key?(escaped)
+            response.status = 202 # Accepted
+          else
+            response.status = 201 # Created
+          end
+          response
+        end
+      end
+
     end
   end
 end
