@@ -60,6 +60,12 @@ module Fog
               end
             end
           EOS
+        when :timestamp
+          class_eval <<-EOS, __FILE__, __LINE__
+            def #{name}=(new_#{name})
+              attributes[:#{name}] = Time.at(new_#{name}.to_i)
+            end
+          EOS
         when :array
           class_eval <<-EOS, __FILE__, __LINE__
           def #{name}=(new_#{name})
