@@ -171,9 +171,8 @@ spec.add_dependency 'fog', '~> 1.16'
 
 ## Getting Help
 
-* [General Documentation](http://fog.io)
-* [Provider Specific Documentation](http://fog.io/about/provider_documentation.html)
-
+* [General Documentation](http://fog.io).
+* [Provider Specific Documentation](http://fog.io/about/provider_documentation.html).
 * Ask specific questions on [Stack Overflow](http://stackoverflow.com/questions/tagged/fog)
 * Report bugs and discuss potential features in [Github issues](https://github.com/fog/fog/issues).
 
