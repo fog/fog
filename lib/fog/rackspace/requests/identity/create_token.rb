@@ -68,209 +68,141 @@ module Fog
           "FogMockFS_#{uuid}"
         end
 
-        # Create a service catalog entry with the provided name and type, and
-        # "endpoint" sections for each region.
-        def with_regions(name, type)
-          endpoints = %w{ORD DFW SYD IAD HKG}.map do |region|
-            yield region
-          end
-          { "name" => name, "type" => type, "endpoints" => endpoints }
-        end
-
         # Construct a full, fake service catalog.
+        #
+        # @param compute_tenant [String] Tenant ID to be used in entries for
+        #   compute-based services (most of them).
+        # @param object_tenant [String] Tenant ID to be used in object-store
+        #   related entries.
+        #
+        # @return [Hash] A fully-populated, valid service catalog.
         def build_service_catalog(compute_tenant, object_tenant)
           [
-            cloud_files_cdn_entry(object_tenant),
-            cloud_files_entry(object_tenant),
-            cloud_monitoring_entry(compute_tenant),
-            cloud_servers_openstack_entry(compute_tenant),
-            cloud_block_storage_entry(compute_tenant),
-            cloud_databases_entry(compute_tenant),
-            cloud_load_balancers_entry(compute_tenant),
-            cloud_dns_entry(compute_tenant),
-            cloud_orchestration_entry(compute_tenant),
-            cloud_queues_entry(compute_tenant),
-            cloud_backup_entry(compute_tenant),
-            cloud_images_entry(compute_tenant),
-            autoscale_entry(compute_tenant),
-            cloud_servers_entry(compute_tenant)
+            service_catalog_entry("cloudFilesCDN", "rax:object-cdn", object_tenant,
+              :public_url => lambda do |r|
+                "https://cdn#{Fog::Mock.random_numbers(1)}.clouddrive.com/v1/#{object_tenant}"
+              end),
+
+            service_catalog_entry("cloudFiles", "object-store", object_tenant,
+              :internal_url_snet => true,
+              :public_url => lambda do |r|
+                "https://storage101.#{r}#{Fog::Mock.random_numbers(1)}.clouddrive.com/v1/#{object_tenant}"
+              end),
+
+            service_catalog_entry("cloudMonitoring", "rax:monitor", compute_tenant,
+              :single_endpoint => true, :rackspace_api_name => 'monitoring'),
+
+            service_catalog_entry("cloudServersOpenStack", "compute", compute_tenant,
+              :version_base_url => lambda { |r| "https://#{r}.servers.api.rackspacecloud.com" },
+              :version_id => "2"),
+
+            service_catalog_entry("cloudBlockStorage", "volume", compute_tenant,
+              :rackspace_api_name => 'blockstorage', :rackspace_api_version => '1'),
+
+            service_catalog_entry("cloudDatabases", "rax:database", compute_tenant,
+              :rackspace_api_name => 'databases'),
+
+            service_catalog_entry("cloudLoadBalancers", "rax:load-balander", compute_tenant,
+              :rackspace_api_name => 'loadbalancers'),
+
+            service_catalog_entry("cloudDNS", "rax:dns", compute_tenant,
+              :single_endpoint => true, :rackspace_api_name => 'dns'),
+
+            service_catalog_entry("cloudOrchestration", "orchestration", compute_tenant,
+              :rackspace_api_name => 'orchestration', :rackspace_api_version => '1'),
+
+            service_catalog_entry("cloudQueues", "rax:queues", compute_tenant,
+              :internal_url_snet => true,
+              :rackspace_api_name => 'queues', :rackspace_api_version => '1'),
+
+            service_catalog_entry("cloudBackup", "rax:backup", compute_tenant,
+              :rackspace_api_name => 'backup'),
+
+            service_catalog_entry("cloudImages", "image", compute_tenant,
+              :rackspace_api_name => 'images', :rackspace_api_version => '2'),
+
+            service_catalog_entry("autoscale", "rax:autoscale", compute_tenant,
+              :rackspace_api_name => 'autoscale'),
+
+            service_catalog_entry("cloudServers", "compute", compute_tenant,
+              :single_endpoint => true,
+              :version_base_url => lambda { |r| "https://servers.api.rackspacecloud.com" },
+              :version_id => '1.0')
           ]
         end
 
-        def cloud_files_cdn_entry(tenant_id)
-          with_regions("cloudFilesCDN", "rax:object-cdn") do |region|
-            {
-              "region" => region,
-              "tenantId" => tenant_id,
-              "publicURL" => "https://cdn#{Fog::Mock.random_numbers(1)}" +
-                ".clouddrive.com/v1/#{tenant_id}"
-            }
+        # Generate an individual service catalog entry for a fake service
+        # catalog. Understands common patterns used within Rackspace
+        # service catalogs.
+        #
+        # @param name [String] The required "name" attribute of the
+        #   service catalog entry.
+        # @param type [String] The required "type" attribute.
+        # @param tenant_id [String] Tenant ID to be used for this service.
+        #
+        # @param options [Hash] Control the contents of the generated entry.
+        # @option options [Proc] :public_url Callable invoked with each region
+        #    (or `nil`) to generate a `publicURL` for that region.
+        # @option options [Boolean] :single_endpoint If `true`, only a single
+        #    endpoint entry will be generated, rather than an endpoint for each
+        #    region.
+        # @option options [Boolean] :internal_url_snet If `true`, an internalURL
+        #    entry will be generated by prepending "snet-" to the publicURL.
+        # @option options [String] :rackspace_api_name If specified, will generate
+        #    publicURL as a Rackspace API URL.
+        # @option options [String] :rackspace_api_version (`"1.0"`) Specify the
+        #    version of the Rackspace API URL.
+        #
+        # @return [Hash] A valid service catalog entry.
+        def service_catalog_entry(name, type, tenant_id, options)
+          if options[:rackspace_api_name]
+            api_name = options[:rackspace_api_name]
+            api_version = options[:rackspace_api_version] || "1.0"
+            options[:public_url] = lambda do |r|
+              prefix = r ? "#{r}." : ""
+              "https://#{prefix}#{api_name}.api.rackspacecloud.com/v#{api_version}/#{tenant_id}"
+            end
           end
-        end
 
-        def cloud_files_entry(tenant_id)
-          with_regions("cloudFiles", "object-store") do |region|
-            postfix = "#{region.downcase}#{Fog::Mock.random_numbers(1)}" +
-              ".clouddrive.com/v1/#{tenant_id}"
-
-            {
-              "region" => region,
-              "tenantId" => tenant_id,
-              "publicURL" => "https://storage101.#{postfix}",
-              "internalURL" => "https://snet-storage101.#{postfix}"
-            }
+          entry = { "name" => name, "type" => type }
+          if options[:single_endpoint]
+            entry["endpoints"] = [endpoint_entry(tenant_id, nil, options)]
+          else
+            entry["endpoints"] = %w{ORD DFW SYD IAD HKG}.map do |region|
+              endpoint_entry(tenant_id, region, options)
+            end
           end
+          entry
         end
 
-        def cloud_monitoring_entry(tenant_id)
-          {
-            "name" => "cloudMonitoring",
-            "endpoints" => [
-              {
-                "tenantId" => tenant_id,
-                "publicURL" => "https://monitoring.api.rackspacecloud.com/v1.0/#{tenant_id}"
-              }
-            ],
-            "type" => "rax:monitor"
-          }
-        end
+        # Helper method that generates a single endpoint hash within a service
+        # catalog entry.
+        #
+        # @param tenant_id [String] The tenant ID used for this endpoint.
+        # @param region [String, nil] The region to include in this endpoint, if any.
+        # @param options [Hash] Options inherited from {#service_catalog_entry}.
+        #
+        # @return [Hash] A well-formed endpoint hash.
+        def endpoint_entry(tenant_id, region, options)
+          endpoint = { "tenantId" => tenant_id }
+          endpoint["region"] = region if region
+          r = region.downcase if region
+          endpoint["publicURL"] = options[:public_url].call(r) if options[:public_url]
 
-        def cloud_servers_openstack_entry(tenant_id)
-          with_regions("cloudServersOpenStack", "compute") do |region|
-            base = "https://#{region.downcase}.servers.api.rackspacecloud.com/"
-
-            {
-              "region" => region,
-              "tenantId" => tenant_id,
-              "publicURL" => "#{base}/v2/#{tenant_id}",
-              "versionInfo" => "#{base}/v2",
-              "versionList" => "#{base}",
-              "versionId" => "2"
-            }
+          if options[:internal_url_snet]
+            endpoint["internalURL"] = endpoint["publicURL"].gsub(%r{^https://}, "https://snet-")
           end
-        end
 
-        def cloud_block_storage_entry(tenant_id)
-          with_regions("cloudBlockStorage", "volume") do |region|
-            {
-              "region" => region,
-              "tenantId" => tenant_id,
-              "publicURL" => "https://#{region.downcase}.blockstorage.api." +
-                "rackspacecloud.com/v1/#{tenant_id}"
-            }
+          endpoint["internalURL"] = options[:internal_url].call(r) if options[:internal_url]
+          if options[:version_base_url] && options[:version_id]
+            base = options[:version_base_url].call(r)
+            version = options[:version_id]
+            endpoint["publicURL"] = "#{base}/v#{version}/#{tenant_id}"
+            endpoint["versionInfo"] = "#{base}/v#{version}"
+            endpoint["versionList"] = base
+            endpoint["versionId"] = version
           end
-        end
-
-        def cloud_databases_entry(tenant_id)
-          with_regions("cloudDatabases", "rax:database") do |region|
-            {
-              "region" => region,
-              "tenantId" => tenant_id,
-              "publicURL" => "https://#{region.downcase}.databases.api." +
-                "rackspacecloud.com/v1.0/#{tenant_id}"
-            }
-          end
-        end
-
-        def cloud_load_balancers_entry(tenant_id)
-          with_regions("cloudLoadBalancers", "rax:load-balancer") do |region|
-            {
-              "region" => region,
-              "tenantId" => tenant_id,
-              "publicURL" => "https://#{region.downcase}.loadbalancers.api." +
-                "rackspacecloud.com/v1.0/#{tenant_id}"
-            }
-          end
-        end
-
-        def cloud_dns_entry(tenant_id)
-          {
-            "name" => "cloudDNS",
-            "endpoints" => [
-              {
-                "tenantId" => tenant_id,
-                "publicURL" => "https://dns.api.rackspacecloud.com/" +
-                  "v1.0/#{tenant_id}"
-              }
-            ],
-            "type" => "rax:dns"
-          }
-        end
-
-        def cloud_orchestration_entry(tenant_id)
-          with_regions("cloudOrchestration", "orchestration") do |region|
-            {
-              "region" => region,
-              "tenantId" => tenant_id,
-              "publicURL" => "https://#{region.downcase}.orchestration." +
-                "api.rackspacecloud.com/v1/#{tenant_id}"
-            }
-          end
-        end
-
-        def cloud_queues_entry(tenant_id)
-          with_regions("cloudQueues", "rax:queues") do |region|
-            postfix = "#{region.downcase}.queues.api.rackspacecloud.com" +
-              "/v1/#{tenant_id}"
-
-            {
-              "region" => region,
-              "tenantId" => tenant_id,
-              "publicURL" => "https://#{postfix}",
-              "internalURL" => "https://snet-#{postfix}"
-            }
-          end
-        end
-
-        def cloud_backup_entry(tenant_id)
-          with_regions("cloudBackup", "rax:backup") do |region|
-            {
-              "region" => region,
-              "tenantId" => tenant_id,
-              "publicURL" => "https://#{region.downcase}.backup.api." +
-                "rackspacecloud.com/v1.0/#{tenant_id}"
-            }
-          end
-        end
-
-        def cloud_images_entry(tenant_id)
-          with_regions("cloudImages", "image") do |region|
-            {
-              "region" => region,
-              "tenantId" => tenant_id,
-              "publicURL" => "https://#{region.downcase}.images.api." +
-                "rackspacecloud.com/v2/#{tenant_id}"
-            }
-          end
-        end
-
-        def autoscale_entry(tenant_id)
-          with_regions("autoscale", "rax:autoscale") do |region|
-            {
-              "region" => region,
-              "tenantId" => tenant_id,
-              "publicURL" => "https://#{region.downcase}.autoscale.api." +
-                "rackspacecloud.com/v1.0/#{tenant_id}"
-            }
-          end
-        end
-
-        def cloud_servers_entry(tenant_id)
-          base = "https://servers.api.rackspacecloud.com/"
-
-          {
-            "name" => "cloudServers",
-            "type" => "compute",
-            "endpoints" => [
-              {
-                "tenantId" => tenant_id,
-                "publicURL" => "#{base}/v1.0/#{tenant_id}",
-                "versionInfo" => "#{base}/v1.0",
-                "versionList" => base,
-                "versionId" => "1.0"
-              }
-             ]
-          }
+          endpoint
         end
       end
     end
