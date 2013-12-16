@@ -43,6 +43,28 @@ module Fog
         end
 
       end
+
+      class Mock
+        def get_container(container, options = {})
+          escaped = Fog::Rackspace.escape(container)
+
+          unless data.has_key?(escaped)
+            raise Fog::Storage::Rackspace::NotFound.new
+          end
+
+          results = []
+          data[escaped].each do |key, mock_file|
+            next if key == :meta
+            results << mock_file.to_h
+          end
+
+          response = Excon::Response.new
+          response.status = 200
+          response.body = results
+          response
+        end
+      end
+
     end
   end
 end
