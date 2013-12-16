@@ -58,7 +58,14 @@ module Fog
             response
           else
             response = Excon::Response.new
-            response
+            response.status = 401
+            response.body = {
+              "unauthorized" => {
+                "code" => 401,
+                "message" => "Username or API key is invalid."
+              }
+            }
+            raise Excon::Errors::Unauthorized.new('Unauthorized', nil, response)
           end
         end
 

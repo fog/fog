@@ -37,6 +37,9 @@ module Fog
       class Mock < Fog::Rackspace::Service
         attr_reader :service_catalog
         
+        def initialize(options={})
+        end
+
         def request
           Fog::Mock.not_implemented
         end
