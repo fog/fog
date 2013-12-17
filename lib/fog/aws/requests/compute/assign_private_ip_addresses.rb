@@ -46,7 +46,7 @@ module Fog
             }
             response
           else
-            raise Fog::Compute::AWS::Error.new("You cannot specify .")
+            raise Fog::Compute::AWS::Error.new("You may specify secondaryPrivateIpAddressCount or specific secondary private IP addresses, but not both.")
           end
         end
 
