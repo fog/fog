@@ -47,14 +47,6 @@ module Fog
           
           response = Excon::Response.new
           response.status = 200
-          
-          if private_ip_addresses = options.delete('PrivateIpAddresses')
-            options.merge!(Fog::AWS.indexed_param('PrivateIpAddress.%d', [*private_ip_addresses]))
-            puts '!!!!!!!!!!!!!!!'
-            puts options
-          end
-
-
           response.body = {
             'requestId' => Fog::AWS::Mock.request_id,
             'return' => true
