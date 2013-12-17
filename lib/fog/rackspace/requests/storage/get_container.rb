@@ -1,6 +1,7 @@
 module Fog
   module Storage
     class Rackspace
+
       class Real
 
         # Get details for container and total bytes stored
@@ -47,14 +48,11 @@ module Fog
       class Mock
         def get_container(container, options = {})
           escaped = Fog::Rackspace.escape(container)
-
-          unless data.has_key?(escaped)
-            raise Fog::Storage::Rackspace::NotFound.new
-          end
+          c = data[escaped]
+          raise Fog::Storage::Rackspace::NotFound.new if c.nil?
 
           results = []
-          data[escaped].each do |key, mock_file|
-            next if key == :meta
+          c.objects.each do |key, mock_file|
             results << mock_file.to_h
           end
 

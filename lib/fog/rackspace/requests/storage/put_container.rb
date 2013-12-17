@@ -1,6 +1,7 @@
 module Fog
   module Storage
     class Rackspace
+
       class Real
 
         # Create a new container
@@ -25,15 +26,14 @@ module Fog
       class Mock
         def put_container(name, options={})
           escaped = Fog::Rackspace.escape(name)
-          response = Excon::Response.new
-          meta = {}
-          options.keys.each do |k|
-            meta[k] = options[k] if k =~ /^X-Container-Meta/
-          end
-          meta['X-Container-Object-Count'] = 0
-          meta['X-Container-Bytes-Used'] = 0
-          data[escaped] = { :meta => meta }
 
+          container = MockContainer.new
+          options.keys.each do |k|
+            container.meta[k] = options[k] if k =~ /^X-Container-Meta/
+          end
+          data[escaped] = container
+
+          response = Excon::Response.new
           if data.has_key?(escaped)
             response.status = 202 # Accepted
           else

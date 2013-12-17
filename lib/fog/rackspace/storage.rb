@@ -64,6 +64,32 @@ module Fog
       class Mock < Fog::Rackspace::Service
         include Utils
 
+        class MockContainer
+          attr_reader :objects, :meta
+
+          def initialize
+            @objects, @meta = {}, {}
+          end
+
+          def empty?
+            @objects.empty?
+          end
+
+          def bytes_used
+            @objects.values.map { |o| o.size }.inject(0) { |a, b| a + b }
+          end
+
+          def headers
+            @meta.merge({
+              'X-Container-Object-Count' => @objects.size,
+              'X-Container-Bytes-Used' => bytes_used
+            })
+          end
+        end
+
+        class MockObject
+        end
+
         def self.data
           @data ||= Hash.new do |hash, key|
             hash[key] = {}

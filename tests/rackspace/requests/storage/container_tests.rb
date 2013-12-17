@@ -39,12 +39,10 @@ Shindo.tests('Fog::Storage[:rackspace] | container requests', ["rackspace"]) do
     end
 
     tests("#head_containers").succeeds do
-      pending if Fog.mocking?
       Fog::Storage[:rackspace].head_containers
     end
 
     tests("#delete_container('fogcontainertests')").succeeds do
-      pending if Fog.mocking?
       Fog::Storage[:rackspace].delete_container('fogcontainertests')
     end
 

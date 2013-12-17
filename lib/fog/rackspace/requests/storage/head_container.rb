@@ -31,14 +31,15 @@ module Fog
       class Mock
         def head_container(container)
           escaped = Fog::Rackspace.escape(container)
+          c = data[escaped]
 
-          unless data.has_key?(escaped)
+          if c.nil?
             raise Fog::Storage::Rackspace::NotFound.new
           end
 
           response = Excon::Response.new
           response.status = 204
-          response.headers = data[escaped][:meta].dup
+          response.headers = c.headers
           response
         end
       end
