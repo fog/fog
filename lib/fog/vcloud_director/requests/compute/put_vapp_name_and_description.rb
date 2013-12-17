@@ -11,9 +11,10 @@ module Fog
         # to track the progress of the request.
         #
         #
-        # @param [String] id Object identifier of the VM.
-        # @param [String] name of the VM.
-        # @param [String] description to be assigned.
+        # @param [String] id Object identifier of the vApp.
+        # @param [String] name of the vApp.
+        # @param [Hash] options
+        #   * :Description<~String>: - description to be assigned (optional)
         # @return [Excon::Response]
         #   * body<~Hash>:
         #
