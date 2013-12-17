@@ -45,9 +45,14 @@ module Fog
           true
         end
 
-        def values(since, n)
+        # Get a set of datapoints back for an instrumentation
+        # use start_time and ndatapoints so we can get back a range of datapoints
+        # the interval between datapoints should correspond to the granularity of the instrumentation
+        # @param [Time] start_time
+        # @param [Integer] ndatapoints
+        def values(start_time, ndatapoints)
           requires :id
-          data = service.get_instrumentation_value(self.uris.find {|uri| uri['name'] == 'value_raw'}['uri'], since, n).body
+          data = service.get_instrumentation_value(self.uris.find {|uri| uri['name'] == 'value_raw'}['uri'], start_time, ndatapoints).body
           data.map do |datum|
             Fog::Joyent::Analytics::Value.new(datum)
           end
