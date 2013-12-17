@@ -47,6 +47,7 @@ module Fog
 
       request_path 'fog/aws/requests/compute'
       request :allocate_address
+      request :assign_private_ip_addresses
       request :associate_address
       request :associate_dhcp_options
       request :attach_network_interface
