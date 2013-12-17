@@ -25,7 +25,7 @@ module Fog
             raise Fog::Compute::AWS::Error.new("You may specify secondaryPrivateIpAddressCount or specific secondary private IP addresses, but not both.")
           end
           
-          if private_ip_address = options.delete('PrivateIpAddresses')
+          if private_ip_addresses = options.delete('PrivateIpAddresses')
             options.merge!(Fog::AWS.indexed_param('PrivateIpAddress.%d', [*private_ip_addresses]))
           end
           
