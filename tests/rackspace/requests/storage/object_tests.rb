@@ -1,8 +1,6 @@
 Shindo.tests('Fog::Storage[:rackspace] | object requests', ["rackspace"]) do
 
-  unless Fog.mocking?
-    @directory = Fog::Storage[:rackspace].directories.create(:key => 'fogobjecttests')
-  end
+  @directory = Fog::Storage[:rackspace].directories.create(:key => 'fogobjecttests')
 
   module RackspaceStorageHelpers
     def override_path(path)

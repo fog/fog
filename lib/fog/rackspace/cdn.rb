@@ -35,6 +35,12 @@ module Fog
           "X-Trans-Id"
         end
 
+        # Returns true if CDN service is enabled
+        # @return [Boolean]
+        def enabled?
+          @enabled
+        end
+
         def endpoint_uri(service_endpoint_url=nil)
           @uri = super(@rackspace_cdn_url || service_endpoint_url, :rackspace_cdn_url)
         end
@@ -98,6 +104,7 @@ module Fog
 
         def initialize(options={})
           @rackspace_username = options[:rackspace_username]
+          @enabled = false
         end
 
         def data
@@ -135,12 +142,6 @@ module Fog
             @connection = Fog::Connection.new(endpoint_uri.to_s, @persistent, @connection_options)
             @enabled = true
           end
-        end
-
-        # Returns true if CDN service is enabled
-        # @return [Boolean]
-        def enabled?
-          @enabled
         end
 
         # Resets CDN connection
