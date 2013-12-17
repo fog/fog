@@ -13,17 +13,18 @@ Shindo.tests('Fog::Compute[:aws] | internet_gateway requests', ['aws']) do
     @network_interface_id =  @network_interface.network_interface_id
 
     @ip_address = Fog::AWS::Mock.ip_address
+    @second_ip_address = Fog::AWS::Mock.ip_address
 
-    tests("#assign_private_ip_addresses('#{@network_interface_id}', '#{@ip_address}')").formats(AWS::Compute::Formats::BASIC) do
-      Fog::Compute[:aws].assign_private_ip_addresses(@network_interface_id, @ip_address).body
+    tests("#assign_private_ip_addresses('#{@network_interface_id}', {'PrivateIpAddresses'=>['#{@ip_address}','#{@second_ip_address}']})").formats(AWS::Compute::Formats::BASIC) do
+      Fog::Compute[:aws].assign_private_ip_addresses(@network_interface_id, { 'PrivateIpAddresses' =>[@ip_address, @second_ip_address]}).body
     end
 
-    tests("#assign_private_ip_addresses('#{@network_interface_id}', nil, 4)").formats(AWS::Compute::Formats::BASIC) do
-      Fog::Compute[:aws].assign_private_ip_addresses(@network_interface_id, nil, 4).body
+    tests("#assign_private_ip_addresses('#{@network_interface_id}', {'SecondaryPrivateIpAddressCount'=>4})").formats(AWS::Compute::Formats::BASIC) do
+      Fog::Compute[:aws].assign_private_ip_addresses(@network_interface_id, {'SecondaryPrivateIpAddressCount'=>4}).body
     end
 
-    tests("#assign_private_ip_addresses('#{@network_interface_id}', @ip_address, nil, true)").formats(AWS::Compute::Formats::BASIC) do
-      Fog::Compute[:aws].assign_private_ip_addresses(@network_interface_id, @ip_address, nil, true).body
+    tests("#assign_private_ip_addresses('#{@network_interface_id}', {'PrivateIpAddresses'=>['#{@ip_address}','#{@second_ip_address}'], 'AllowReassignment'=>true })").formats(AWS::Compute::Formats::BASIC) do
+      Fog::Compute[:aws].assign_private_ip_addresses(@network_interface_id, { 'PrivateIpAddresses' =>[@ip_address, @second_ip_address], 'AllowReassignment'=>true }).body
     end
 
     @network_interface.destroy
@@ -44,9 +45,9 @@ Shindo.tests('Fog::Compute[:aws] | internet_gateway requests', ['aws']) do
 
     @ip_address = Fog::AWS::Mock.ip_address
 
-    tests("#assign_private_ip_addresses('#{@network_interface_id}', @ip_address, nil, true)").raises(Fog::Compute::AWS::Error) do
-      Fog::Compute[:aws].assign_private_ip_addresses(@network_interface_id, @ip_address, 4).body
+    tests("#assign_private_ip_addresses('#{@network_interface_id}', {'PrivateIpAddresses'=>['#{@ip_address}','#{@second_ip_address}'], 'SecondaryPrivateIpAddressCount'=>4 })").raises(Fog::Compute::AWS::Error) do
+      Fog::Compute[:aws].assign_private_ip_addresses(@network_interface_id, { 'PrivateIpAddresses' =>[@ip_address, @second_ip_address], 'SecondaryPrivateIpAddressCount'=>4 }).body
     end
-    
+
   end
 end
