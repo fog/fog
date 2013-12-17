@@ -51,17 +51,14 @@ Shindo.tests('Fog::Storage[:rackspace] | container requests', ["rackspace"]) do
   tests('failure') do
 
     tests("#get_container('fognoncontainer')").raises(Fog::Storage::Rackspace::NotFound) do
-      pending if Fog.mocking?
       Fog::Storage[:rackspace].get_container('fognoncontainer')
     end
 
     tests("#head_container('fognoncontainer')").raises(Fog::Storage::Rackspace::NotFound) do
-      pending if Fog.mocking?
       Fog::Storage[:rackspace].head_container('fognoncontainer')
     end
 
     tests("#delete_container('fognoncontainer')").raises(Fog::Storage::Rackspace::NotFound) do
-      pending if Fog.mocking?
       Fog::Storage[:rackspace].delete_container('fognoncontainer')
     end
 
