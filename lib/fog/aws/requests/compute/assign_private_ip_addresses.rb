@@ -24,7 +24,7 @@ module Fog
           request(
             'Action'  => 'AssignPrivateIpAddresses',
             'NetworkInterfaceId' => network_interface_id,
-            'PrivateIpAddress.n' => private_ip_address,
+            'PrivateIpAddress.0' => private_ip_address,
             'SecondaryPrivateIpAddressCount' => secondary_private_ip_address_count,
             'AllowReassignment' => allow_reassignment,
             :parser   => Fog::Parsers::Compute::AWS::AssignPrivateIpAddresses.new
@@ -36,7 +36,18 @@ module Fog
       class Mock
 
         def assign_private_ip_addresses(network_interface_id, private_ip_address=nil, secondary_private_ip_address_count=nil, allow_reassignment=false)
+          response = Excon::Response.new
 
+          if (private_ip_address && !secondary_private_ip_address_count) || (!private_ip_address && secondary_private_ip_address_count)
+            response.status = 200
+            response.body = {
+              'requestId' => Fog::AWS::Mock.request_id,
+              'return' => true
+            }
+            response
+          else
+            raise Fog::Compute::AWS::Error.new("You cannot specify .")
+          end
         end
 
       end
