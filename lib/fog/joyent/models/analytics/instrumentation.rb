@@ -45,6 +45,14 @@ module Fog
           true
         end
 
+        def values(since, n)
+          requires :id
+          data = service.get_instrumentation_value(self.uris.find {|uri| uri['name'] == 'value_raw'}['uri'], since, n).body
+          data.map do |datum|
+            Fog::Joyent::Analytics::Value.new(datum)
+          end
+        end
+
       end
     end
   end
