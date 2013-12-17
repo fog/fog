@@ -21,6 +21,7 @@ module Fog
       request :get_instrumentation
       request :create_instrumentation
 	    request :delete_instrumentation
+      request :get_instrumentation_value
 
       model_path 'fog/joyent/models/analytics'
 
@@ -41,6 +42,9 @@ module Fog
 
       collection :instrumentations
       model :instrumentation
+
+      model :value
+
 
       class Mock
         def self.data
