@@ -30,8 +30,8 @@ module Fog
         end
         params[:headers] ||= {}
         params[:headers]['User-Agent'] ||= "fog/#{Fog::VERSION}"
+        params.merge!(:persistent => params.fetch(:persistent, persistent))
         @excon = Excon.new(url, params)
-        @persistent = persistent
       end
 
       # Makes a request using the connection using Excon
@@ -53,7 +53,6 @@ module Fog
       # @raise [Excon::Errors::SocketError]
       #
       def request(params, &block)
-        reset unless @persistent
         @excon.request(params, &block)
       end
 
