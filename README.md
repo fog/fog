@@ -169,23 +169,35 @@ spec.add_dependency 'fog', '~> 1.16'
 [semver]: http://semver.org/
 [pvc]: http://guides.rubygems.org/patterns/
 
-## Contributing
+## Getting Help
 
-* Find something you would like to work on.
-  * Look for anything you can help with in the [issue tracker](https://github.com/fog/fog/issues).
-  * Look at the [code quality metrics](https://codeclimate.com/github/fog/fog) for anything you can help clean up.
-  * Or anything else!
-* Fork the project and do your work in a topic branch.
-  * Make sure your changes will work on both Ruby 1.8.7 and Ruby 1.9
-* Add a config at `tests/.fog` for the component you want to test.
-* Add shindo tests to prove your code works and run all the tests using `bundle exec rake`.
-* Rebase your branch against `fog/fog` to make sure everything is up to date.
-* Commit your changes and send a pull request.
+* [General Documentation](http://fog.io).
+* [Provider Specific Documentation](http://fog.io/about/provider_documentation.html).
+* Ask specific questions on [Stack Overflow](http://stackoverflow.com/questions/tagged/fog)
+* Report bugs and discuss potential features in [Github issues](https://github.com/fog/fog/issues).
 
-## Additional Resources
+## Getting Involved
 
-* [fog.io](http://fog.io)
-* [Provider Documentation](http://fog.io/about/provider_documentation.html)
+New contributors are always welcome, when it doubt please ask questions. We strive to be an open and welcoming community. Please be nice to one another.
+
+### Coding
+
+* Pick a task:
+  * Offer feedback on open [pull requests](https://github.com/fog/fog/pulls).
+  * Review open [issues](https://github.com/fog/fog/issues) for things to help on.
+  * [Create an issue](https://github.com/fog/fog/issues/new) to start a discussion on additions or features.
+* Fork the project, add your changes and tests to cover them in a topic branch.
+* Commit your changes and rebase against `fog/fog` to ensure everything is up to date.
+* [Submit a pull request](https://github.com/fog/fog/compare/)
+
+### Non-Coding
+
+* Offer feedback on open [issues](https://github.com/fog/fog/issues).
+* Write and help edit [documentation](https://github.com/fog/fog.github.com).
+* Translate [documentation](https://github.com/fog/fog.github.com) in to other languages.
+* Organize or volunteer at events.
+* [Donate](https://www.gittip.com/geemus/)
+* Discuss other ideas for contribution with [geemus](mailto:geemus+fog@gmail.com).
 
 ## Copyright
 

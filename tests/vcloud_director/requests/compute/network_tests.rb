@@ -7,7 +7,7 @@ Shindo.tests('Compute::VcloudDirector | network requests', ['vclouddirector']) d
     :id => String,
     :description => Fog::Nullable::String,
     :is_inherited => Fog::Boolean,
-    :gateway => String,
+    :gateway => Fog::Nullable::String,
     :netmask => String,
     :dns1 => Fog::Nullable::String,
     :dns2 => Fog::Nullable::String,

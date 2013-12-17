@@ -34,11 +34,17 @@ Shindo.tests('Compute::VcloudDirector | edge gateway requests', ['vclouddirector
   @service = Fog::Compute::VcloudDirector.new
   @org = VcloudDirector::Compute::Helper.current_org(@service)
 
-  tests('Get first vDC') do
-    link = @org[:Link].detect do |l|
-      l[:type] == 'application/vnd.vmware.vcloud.vdc+xml'
+  tests('Get first vDC with an EdgeGatewayRecord') do
+    @org[:Link].each do |l|
+      if l[:type] == 'application/vnd.vmware.vcloud.vdc+xml'
+        id = l[:href].split('/').last
+        edge_gateways = @service.get_org_vdc_gateways(id).body
+        if edge_gateways && edge_gateways[:EdgeGatewayRecord].size >= 1 
+          @vdc_id = id
+          break
+        end
+      end
     end
-    @vdc_id = link[:href].split('/').last
   end
 
   tests('#get_org_vdc_gateways').data_matches_schema(VcloudDirector::Compute::Schema::QUERY_RESULT_RECORDS_TYPE) do
@@ -52,17 +58,20 @@ Shindo.tests('Compute::VcloudDirector | edge gateway requests', ['vclouddirector
 
   @edge_gateways[:EdgeGatewayRecord].each do |result|
     tests("each EdgeGatewayRecord").
-      data_matches_schema(VcloudDirector::Compute::Schema::QUERY_RESULT_EDGE_GATEWAY_RECORD_TYPE) { result }
+      data_matches_schema(VcloudDirector::Compute::Schema::QUERY_RESULT_EDGE_GATEWAY_RECORD_TYPE) do
+        result
+      end
   end
 
   tests('#get_edge_gateway').data_matches_schema(VcloudDirector::Compute::Schema::GATEWAY_TYPE) do
     @edge_gateway_id = @edge_gateways[:EdgeGatewayRecord].first[:href].split('/').last
-    @orginal_gateway_conf = @service.get_edge_gateway(@edge_gateway_id).body
+    @original_gateway_conf = @service.get_edge_gateway(@edge_gateway_id).body
   end
+
 
   tests('#configure_edge_gateway_services') do
 
-    rule = @orginal_gateway_conf[:Configuration][:EdgeGatewayServiceConfiguration][:FirewallService][:FirewallRule].find { |rule| rule[:Id] == FIREWALL_RULE_ID }
+    rule = @original_gateway_conf[:Configuration][:EdgeGatewayServiceConfiguration][:FirewallService][:FirewallRule].find { |rule| rule[:Id] == FIREWALL_RULE_ID }
     raise('fail fast if our test firewall rule already exists - its likely left over from a broken test run') if rule
 
     response = @service.post_configure_edge_gateway_services(@edge_gateway_id, @new_edge_gateway_configuration)
@@ -75,7 +84,7 @@ Shindo.tests('Compute::VcloudDirector | edge gateway requests', ['vclouddirector
 
     tests('#remove the firewall rule added by test').returns(nil) do
       response = @service.post_configure_edge_gateway_services(@edge_gateway_id,
-                                                               @orginal_gateway_conf[:Configuration][:EdgeGatewayServiceConfiguration])
+                                                               @original_gateway_conf[:Configuration][:EdgeGatewayServiceConfiguration])
       @service.process_task(response.body)
       edge_gateway = @service.get_edge_gateway(@edge_gateway_id).body
       edge_gateway[:Configuration][:EdgeGatewayServiceConfiguration][:FirewallService][:FirewallRule].find { |rule| rule[:Id] == FIREWALL_RULE_ID }
