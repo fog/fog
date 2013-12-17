@@ -8,10 +8,10 @@ module Fog
         # Assigns one or more secondary private IP addresses to the specified network interface.
         #
         # ==== Parameters
-        # * network_interface_id<~String> - The ID of the network interface
-        # * private_ip_address<~String> - One or more IP addresses to be assigned as a secondary private IP address (conditional)
-        # * secondary_private_ip_address_count<~String> - The number of secondary IP addresses to assign (conditional)
-        # * allow_reassignment<~Boolean> - Whether to reassign an IP address
+        # * NetworkInterfaceId<~String> - The ID of the network interface
+        # * PrivateIpAddresses<~Array> - One or more IP addresses to be assigned as a secondary private IP address (conditional)
+        # * SecondaryPrivateIpAddressCount<~String> - The number of secondary IP addresses to assign (conditional)
+        # * AllowReassignment<~Boolean> - Whether to reassign an IP address
         # ==== Returns
         # * response<~Excon::Response>:
         #   * body<~Hash>:
@@ -19,35 +19,47 @@ module Fog
         #     * 'return'<~Boolean> - success?
         #
         # {Amazon API Reference}[http://docs.aws.amazon.com/AWSEC2/latest/APIReference/ApiReference-query-AssignPrivateIpAddresses.html]
-        def assign_private_ip_addresses(network_interface_id, private_ip_address=nil, secondary_private_ip_address_count=nil, allow_reassignment=false)
-          domain = domain == 'vpc' ? 'vpc' : 'standard'
-          request(
+        def assign_private_ip_addresses(network_interface_id, options={})
+
+          if options['PrivateIpAddresses'] && options['SecondaryPrivateIpAddressCount']
+            raise Fog::Compute::AWS::Error.new("You may specify secondaryPrivateIpAddressCount or specific secondary private IP addresses, but not both.")
+          end
+          
+          if private_ip_address = options.delete('PrivateIpAddresses')
+            options.merge!(Fog::AWS.indexed_param('PrivateIpAddress.%d', [*private_ip_addresses]))
+          end
+          
+          request({
             'Action'  => 'AssignPrivateIpAddresses',
             'NetworkInterfaceId' => network_interface_id,
-            'PrivateIpAddress.0' => private_ip_address,
-            'SecondaryPrivateIpAddressCount' => secondary_private_ip_address_count,
-            'AllowReassignment' => allow_reassignment,
             :parser   => Fog::Parsers::Compute::AWS::AssignPrivateIpAddresses.new
-          )
+          }.merge(options))
         end
 
       end
 
       class Mock
 
-        def assign_private_ip_addresses(network_interface_id, private_ip_address=nil, secondary_private_ip_address_count=nil, allow_reassignment=false)
-          response = Excon::Response.new
-
-          if (private_ip_address && !secondary_private_ip_address_count) || (!private_ip_address && secondary_private_ip_address_count)
-            response.status = 200
-            response.body = {
-              'requestId' => Fog::AWS::Mock.request_id,
-              'return' => true
-            }
-            response
-          else
+        def assign_private_ip_addresses(network_interface_id, options={})
+          if options['PrivateIpAddresses'] && options['SecondaryPrivateIpAddressCount']
             raise Fog::Compute::AWS::Error.new("You may specify secondaryPrivateIpAddressCount or specific secondary private IP addresses, but not both.")
           end
+          
+          response = Excon::Response.new
+          response.status = 200
+          
+          if private_ip_addresses = options.delete('PrivateIpAddresses')
+            options.merge!(Fog::AWS.indexed_param('PrivateIpAddress.%d', [*private_ip_addresses]))
+            puts '!!!!!!!!!!!!!!!'
+            puts options
+          end
+
+
+          response.body = {
+            'requestId' => Fog::AWS::Mock.request_id,
+            'return' => true
+          }
+          response
         end
 
       end
