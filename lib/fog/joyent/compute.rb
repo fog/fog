@@ -6,6 +6,7 @@ require 'net/ssh'
 module Fog
   module Compute
     class Joyent < Fog::Service
+
       requires :joyent_username
 
       recognizes :joyent_password
@@ -37,6 +38,8 @@ module Fog
       model :image
       request :list_datasets
       request :get_dataset
+      request :list_images
+      request :get_image
 
       # Flavors
       collection :flavors
@@ -103,6 +106,9 @@ module Fog
       end # Mock
 
       class Real
+        attr_accessor :joyent_version
+        attr_accessor :joyent_url
+
         def initialize(options = {})
 
           @connection_options = options[:connection_options] || {}
