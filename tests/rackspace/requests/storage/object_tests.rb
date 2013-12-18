@@ -11,7 +11,6 @@ Shindo.tests('Fog::Storage[:rackspace] | object requests', ["rackspace"]) do
   tests('success') do
 
     tests("#put_object('fogobjecttests', 'fog_object')").succeeds do
-      pending if Fog.mocking?
       Fog::Storage[:rackspace].put_object('fogobjecttests', 'fog_object', lorem_file)
     end
 
@@ -35,7 +34,6 @@ Shindo.tests('Fog::Storage[:rackspace] | object requests', ["rackspace"]) do
     end
 
     tests("#delete_object('fogobjecttests', 'fog_object')").succeeds do
-      pending if Fog.mocking?
       Fog::Storage[:rackspace].delete_object('fogobjecttests', 'fog_object')
     end
 
@@ -204,8 +202,6 @@ Shindo.tests('Fog::Storage[:rackspace] | object requests', ["rackspace"]) do
 
   end
 
-  unless Fog.mocking?
-    @directory.destroy
-  end
+  @directory.destroy
 
 end

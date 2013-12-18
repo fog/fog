@@ -88,6 +88,12 @@ module Fog
         end
 
         class MockObject
+          attr_reader :hash, :bytes, :content_type, :last_modified
+
+          def initialize data
+            @bytes = data[:headers]['Content-Length']
+            @content_type = data[:headers]['Content-Type']
+          end
         end
 
         def self.data
