@@ -1,6 +1,7 @@
 module Fog
   module Storage
     class Rackspace
+
       class Real
 
         # Get details for object
@@ -27,6 +28,30 @@ module Fog
         end
 
       end
+
+      class Mock
+        def get_object(container, object, &block)
+          escaped_container = Fog::Rackspace.escape(container)
+          escaped_object = Fog::Rackspace.escape(object)
+
+          c = self.data[escaped_container]
+          raise Fog::Storage::Rackspace::NotFound.new if c.nil?
+
+          o = c.objects[escaped_object]
+          raise Fog::Storage::Rackspace::NotFound.new if o.nil?
+
+          if block_given?
+            # Just send it all in one chunk.
+            block.call(o.body, 0, o.bytes)
+          end
+
+          # TODO set headers
+          response = Excon::Response.new
+          response.body = o.body
+          response
+        end
+      end
+
     end
   end
 end

@@ -88,11 +88,16 @@ module Fog
         end
 
         class MockObject
-          attr_reader :hash, :bytes, :content_type, :last_modified
+          attr_reader :body, :hash, :bytes, :content_type, :last_modified
 
           def initialize data
             @bytes = data[:headers]['Content-Length']
             @content_type = data[:headers]['Content-Type']
+            if data[:body].respond_to? :read
+              @body = data[:body].read
+            else
+              @body = data[:body]
+            end
           end
         end
 
