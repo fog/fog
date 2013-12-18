@@ -1,25 +1,25 @@
 module Fog
-  module Compute
-    class BareMetalCloud
+  module BareMetalCloud
+    class LoadBalancing
       class Real
 
-        # Reboot a running server
+        # Cancel an existing farm
         #
         # ==== Parameters
         # * options<~Hash>: Optional or Required arguments
-        #   * serverId<~String> - The id of the server to reboot
+        #   * farmId<~String>   - Id of the farm
         #
         # ==== Returns
         # * response<~Excon::Response>:
         #   * body<~Hash>:
-        #     * 'reboot-server-response'<~String>    - Empty string
+        #     * 'cancel-farm-response'<~String>    - Empty string
         #
-        def reboot_server(options = {})
+        def cancel_farm(options = {})
           request(
             :expects  => 200,
             :method   => 'GET',
             :parser   => Fog::ToHashDocument.new,
-            :path     => 'api/rebootServer',
+            :path     => 'api/cancelFarm',
             :query    => options
           )
         end

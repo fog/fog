@@ -6,6 +6,6 @@ module Fog
     extend Fog::Provider
 
     service(:compute, 'bare_metal_cloud/compute', 'Compute')
-
+    service(:loadbalancing, 'bare_metal_cloud/loadbalancing', 'LoadBalancing')
   end
 end

@@ -5,6 +5,10 @@ module Fog
 
         # List servers
         #
+        # ==== Parameters
+        # * options<~Hash>: Optional or Required arguments
+        #   * no parameters are required
+        #
         # ==== Returns
         # * response<~Excon::Response>:
         #   * body<~Hash>:
@@ -21,12 +25,13 @@ module Fog
         #       * 'notes'<~String>  - Notes about the server
         #       * 'state'<~String>  - State of the server
         #
-        def list_servers
+        def list_servers(options = {})
           request(
             :expects  => 200,
             :method   => 'GET',
             :parser   => Fog::ToHashDocument.new,
-            :path     => 'api/listServers'
+            :path     => 'api/listServers',
+            :query    => options
           )
         end
 

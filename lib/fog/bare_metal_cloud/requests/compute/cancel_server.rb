@@ -6,7 +6,8 @@ module Fog
         # Shutdown a running server
         #
         # ==== Parameters
-        # * serverId<~String> - The id of the server to shutdown
+        # * options<~Hash>: Optional or Required arguments
+        #   * serverId<~String> - The id of the server to be cancelled
         #
         # ==== Returns
         # * response<~Excon::Response>:
@@ -14,13 +15,13 @@ module Fog
         #     * 'server'<~Hash>:
         #       * 'id'<~String> - Id of the image
         #
-        def cancel_server(server_id)
+        def cancel_server(options = {})
           request(
             :expects  => 200,
             :method   => 'GET',
             :parser   => Fog::ToHashDocument.new,
             :path     => 'api/cancelServer',
-            :query    => {'serverId' => server_id}
+            :query    => options
           )
         end
 

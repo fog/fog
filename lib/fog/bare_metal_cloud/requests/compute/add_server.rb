@@ -6,8 +6,8 @@ module Fog
         # Boot a new server
         #
         # ==== Parameters
-        # * planId<~String> - The id of the plan to boot the server with
-        # * options<~Hash>: optional extra arguments
+        # * options<~Hash>: Optional or Required arguments
+        #   * planId<~String> - The id of the plan to boot the server with
         #   * imageId<~String>  - Optional image to boot server from
         #   * name<~String>     - Name to boot new server with
         #
@@ -17,13 +17,13 @@ module Fog
         #     * 'server'<~Hash>:
         #       * 'id'<~String> - Id of the image
         #
-        def add_server(plan_id, options = {})
+        def add_server(options = {})
           request(
             :expects  => 200,
             :method   => 'GET',
             :parser   => Fog::ToHashDocument.new,
             :path     => 'api/addServer',
-            :query    => {'planId' => plan_id}.merge!(options)
+            :query    => options
           )
         end
 
