@@ -59,7 +59,7 @@ Shindo.tests('Compute::VcloudDirector | query requests', ['vclouddirector']) do
           tests('all records').returns(@service.data[:networks].size) do
             output[:OrgVdcNetworkRecords].size
           end
-          output = @service.get_execute_query('orgVdcNetwork', :filter => 'name==Default Network').body
+          output = @service.get_execute_query('orgVdcNetwork', :filter => 'name==vDC1 backend network').body
           tests(':filter by name').returns(1) do
             output[:OrgVdcNetworkRecords].size
           end
