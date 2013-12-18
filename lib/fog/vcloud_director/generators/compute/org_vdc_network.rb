@@ -35,11 +35,13 @@ module Fog
                             IsEnabled    ip_scope[:IsEnabled]   if ip_scope.key?(:IsEnabled)
                             if ip_ranges = ip_scope[:IpRanges]
                               IpRanges {
-                                ip_ranges.each do |ip_range|
-                                  IpRange {
-                                    StartAddress ip_range[:StartAddress]
-                                    EndAddress   ip_range[:EndAddress]
-                                  }
+                                ip_ranges.each do |h|
+                                  if h.key?(:IpRange)
+                                    IpRange {
+                                      StartAddress h[:IpRange][:StartAddress]
+                                      EndAddress   h[:IpRange][:EndAddress]
+                                    }
+                                  end
                                 end
                               }
                             end
