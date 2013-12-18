@@ -1,6 +1,9 @@
 Shindo.tests("Fog::Compute[:google] | server model", ['google']) do
 
-  model_tests(Fog::Compute[:google].disks, {:name => 'fogservername', :zone_name => 'us-central1-a', :machine_type => 'n1-standard-1'})
+  @zone = 'us-central1-a'
+  @disk = create_test_disk(Fog::Compute[:google], @zone)
+
+  model_tests(Fog::Compute[:google].servers, {:name => 'fogservername', :zone_name => @zone, :machine_type => 'n1-standard-1', :disks => [@disk]})
 
   tests('servers') do
     @instance = nil

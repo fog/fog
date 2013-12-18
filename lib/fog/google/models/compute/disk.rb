@@ -57,20 +57,22 @@ module Fog
           end
         end
 
-        def get_as_boot_disk(writable=true)
+        def get_object(writable=true, boot=false, device_name=nil)
           mode = writable ? 'READ_WRITE' : 'READ_ONLY'
           return {
-              'name' => name,
-              'type' => 'PERSISTENT',
-              'boot' => true,
-              'source' => self_link,
-              'mode' => mode
-          }
+            'boot' => boot,
+            'source' => self_link,
+            'mode' => mode,
+            'deviceName' => device_name
+          }.select { |k, v| !v.nil? }
+        end
+
+        def get_as_boot_disk(writable=true)
+          get_object(writable, true)
         end
 
         def ready?
           data = service.get_disk(self.name, self.zone_name).body
-          data['zone_name'] = self.zone_name
           self.merge_attributes(data)
           self.status == RUNNING_STATE
         end
