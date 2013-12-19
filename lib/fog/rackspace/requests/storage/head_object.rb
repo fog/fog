@@ -1,6 +1,7 @@
 module Fog
   module Storage
     class Rackspace
+
       class Real
 
         # Get headers for object
@@ -21,6 +22,25 @@ module Fog
         end
 
       end
+
+      class Mock
+        def head_object(container, object)
+          escaped_container = Fog::Rackspace.escape(container)
+          escaped_object = Fog::Rackspace.escape(object)
+
+          c = self.data[escaped_container]
+          raise Fog::Storage::Rackspace::NotFound.new if c.nil?
+
+          o = c.objects[escaped_object]
+          raise Fog::Storage::Rackspace::NotFound.new if o.nil?
+
+          response = Excon::Response.new
+          response.status = 200
+          response.headers = o.to_headers
+          response
+        end
+      end
+
     end
   end
 end

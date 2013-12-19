@@ -88,7 +88,8 @@ module Fog
         end
 
         class MockObject
-          attr_reader :body, :hash, :bytes, :content_type, :last_modified
+          attr_reader :hash, :bytes, :content_type, :last_modified
+          attr_reader :body, :meta
 
           def initialize data
             @bytes = data[:headers]['Content-Length']
@@ -98,6 +99,18 @@ module Fog
             else
               @body = data[:body]
             end
+            @last_modified = Time.now.utc
+            @hash = Base64.encode64(Digest::MD5.digest(@body)).strip
+            @meta = {}
+          end
+
+          def to_headers
+            {
+              'Content-Type' => @content_type,
+              'Content-Length' => @bytes,
+              'Last-Modified' => @last_modified.strftime('%a, %b %d %Y %H:%M:%S %Z'),
+              'ETag' => @hash
+            }.merge(@meta)
           end
         end
 
