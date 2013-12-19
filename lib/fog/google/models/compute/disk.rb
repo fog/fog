@@ -25,7 +25,7 @@ module Fog
           requires :zone_name
 
           options = {}
-          if source_image.nil?
+          if source_image.nil? && !source_snapshot.nil?
             options['sourceSnapshot'] = source_snapshot
           end
 
