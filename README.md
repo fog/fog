@@ -176,25 +176,10 @@ spec.add_dependency 'fog', '~> 1.16'
 * Ask specific questions on [Stack Overflow](http://stackoverflow.com/questions/tagged/fog)
 * Report bugs and discuss potential features in [Github issues](https://github.com/fog/fog/issues).
 
-## Getting Involved
+## Contributing
 
-New contributors are always welcome, when it doubt please ask questions. We strive to be an open and welcoming community. Please be nice to one another.
+Please refer to [CONTRIBUTING.md](https://github.com/fog/fog/blob/master/CONTRIBUTING.md).
 
-### Coding
+## License
 
-* Pick a task:
-  * Offer feedback on open [pull requests](https://github.com/fog/fog/pulls).
-  * Review open [issues](https://github.com/fog/fog/issues) for things to help on.
-  * [Create an issue](https://github.com/fog/fog/issues/new) to start a discussion on additions or features.
-* Fork the project, add your changes and tests to cover them in a topic branch.
-* Commit your changes and rebase against `fog/fog` to ensure everything is up to date.
-* [Submit a pull request](https://github.com/fog/fog/compare/)
-
-### Non-Coding
-
-* Offer feedback on open [issues](https://github.com/fog/fog/issues).
-* Write and help edit [documentation](https://github.com/fog/fog.github.com).
-* Translate [documentation](https://github.com/fog/fog.github.com) in to other languages.
-* Organize or volunteer at events.
-* [Donate](https://www.gittip.com/geemus/)
-* Discuss other ideas for contribution with [geemus](mailto:geemus+fog@gmail.com).
+Please refer to [LICENSE.md](https://github.com/fog/fog/blob/master/LICENSE.md).
