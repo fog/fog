@@ -24,7 +24,7 @@ module Fog
           response = Excon::Response.new
           response.status = 200
           response.body = {
-            "values"  => [
+            "info"  => [
               {
                 "read_bytes"      => Fog::Mock.random_numbers(10).to_s,
                 "reads"           => Fog::Mock.random_numbers(6).to_s,

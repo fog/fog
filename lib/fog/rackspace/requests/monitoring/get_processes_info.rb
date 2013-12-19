@@ -27,7 +27,7 @@ module Fog
           response = Excon::Response.new
           response.status = 200
           response.body = {
-            "values"  => [
+            "info"  => [
               {
                 "pid"             => Fog::Mock.random_numbers(4).to_s,
                 "exe_name"        => "/usr/share/nova-agent/0.0.1.38/sbin/nova-agent",

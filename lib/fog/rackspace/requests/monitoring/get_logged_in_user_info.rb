@@ -24,7 +24,7 @@ module Fog
           response = Excon::Response.new
           response.status = 200
           response.body = {
-            "values"  => [
+            "info"  => [
               {
                 "user"      => "root",
                 "device"    => "pts/1",

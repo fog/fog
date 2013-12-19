@@ -24,7 +24,7 @@ module Fog
           response = Excon::Response.new
           response.status = 200
           response.body = {
-            "values"  => [
+            "info"  => [
               {
                 "dir_name"        => "/",
                 "dev_name"        => "/dev/xvda1",

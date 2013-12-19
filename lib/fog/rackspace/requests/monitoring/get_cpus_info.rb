@@ -24,7 +24,7 @@ module Fog
           response = Excon::Response.new
           response.status = 200
           response.body = {
-            "values"  => [
+            "info"  => [
               {
                 "name"            => "cpu.0",
                 "vendor"          => "AMD",
