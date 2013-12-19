@@ -20,11 +20,11 @@ module Fog
         # @param [Hash] options
         # @option options [String] :Description Optional description.
         # @option options [Hash] :Configuration Network configuration.
-        # @option options [Hash] :EdgeGateway  EdgeGateway that connects this 
+        # @option options [Hash] :EdgeGateway  EdgeGateway that connects this
         #   Org vDC network. Applicable only for routed networks.
-        # @option options [Hash] :ServiceConfig Specifies the service 
+        # @option options [Hash] :ServiceConfig Specifies the service
         #   configuration for an isolated Org vDC networks.
-        # @option options [Boolean] :IsShared True if this network is shared 
+        # @option options [Boolean] :IsShared True if this network is shared
         #   to multiple Org vDCs.
         #   * :Configuration<~Hash>: NetworkConfigurationType
         #     * :IpScopes<~Hash>:
@@ -75,6 +75,99 @@ module Fog
               "No access to entity \"(com.vmware.vcloud.entity.vdc:#{vdc_id})\"."
             )
           end
+
+          type = 'network'
+          id = uuid
+
+          # Description
+          # Configuration
+          #   IpScopes
+          #     IpScope
+          #       IsInherited
+          #       Gateway
+          #       Netmask
+          #       Dns1
+          #       Dns2
+          #       DnsSuffix
+          #       IsEnabled
+          #       IpRanges
+          #         IpRange
+          #           StartAddress
+          #           EndAddress
+          #   FenceMode
+          # EdgeGateway
+          # IsShared
+
+          network_body = {
+            :name           => name,
+            :vdc            => vdc_id,
+          }
+
+          [:Description, :IsShared].each do |key|
+            network_body[key] = options[key] if options.key?(key)
+          end
+
+          if options.key?(:EdgeGateway)
+            network_body[:EdgeGateway] =
+              options[:EdgeGateway][:href].split('/').last
+          end
+
+          if configuration = options[:Configuration]
+            if ip_scopes = configuration[:IpScopes]
+              if ip_scope = ip_scopes[:IpScope]
+                [:IsInherited, :Gateway, :Netmask,
+                  :Dns1, :Dns2, :DnsSuffix, :IsEnabled].each do |key|
+                    network_body[key] = ip_scope[key] if ip_scope.key?(key)
+                end
+                if ip_ranges = ip_scope[:IpRanges]
+                  network_body[:IpRanges] = []
+                  ip_ranges.each do |ipr|
+                    network_body[:IpRanges] << {
+                      :StartAddress => ipr[:IpRange][:StartAddress],
+                      :EndAddress   => ipr[:IpRange][:EndAddress]
+                    }
+                  end
+                end
+              end
+            end
+            network_body[:FenceMode] = configuration[:FenceMode] if ip_scope.key?(:FenceMode)
+          end
+
+          owner = {
+            :href => make_href("#{type}/#{id}"),
+            :type => "application/vnd.vmware.vcloud.#{type}+xml"
+          }
+          task_id = enqueue_task(
+            "Adding #{type} #{name} (#{id})", 'CreateOrgVdcNetwork', owner,
+            :on_success => lambda do
+              data[:networks][id] = network_body
+            end
+          )
+
+          body = {
+            :xmlns => xmlns,
+            :xmlns_xsi => xmlns_xsi,
+            :xsi_schemaLocation => xsi_schema_location,
+            :href => make_href("admin/network/#{id}"),
+            :name => name,
+            :id => "urn:vcloud:network:#{id}",
+            :type => "application/vnd.vmware.vcloud.orgVdcNetwork+xml",
+            :Link => [
+              {:rel=>"up", :type=>"application/vnd.vmware.vcloud.vdc+xml", :href=>make_href("vdc/#{vdc_id}")},
+              {:rel=>"down", :type=>"application/vnd.vmware.vcloud.metadata+xml", :href=>make_href("admin/network/#{id}/metadata")},
+              {:rel=>"down", :type=>"application/vnd.vmware.vcloud.allocatedNetworkAddress+xml", :href=>make_href("admin/network/#{id}/allocatedAddresses/")},
+            ],
+          }.merge(options)
+
+          body[:Tasks] = {
+            :Task => task_body(task_id)
+          }
+
+          Excon::Response.new(
+            :status => 201,
+            :headers => {'Content-Type' => "#{body[:type]};version=#{api_version}"},
+            :body => body
+          )
 
         end
       end
