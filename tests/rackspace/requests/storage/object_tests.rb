@@ -75,8 +75,6 @@ Shindo.tests('Fog::Storage[:rackspace] | object requests', ["rackspace"]) do
     end
 
     tests("put_object with block") do
-      pending if Fog.mocking?
-
       tests("#put_object('fogobjecttests', 'fog_object', &block)").succeeds do
         begin
           file = lorem_file

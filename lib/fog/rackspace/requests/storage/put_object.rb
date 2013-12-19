@@ -46,6 +46,15 @@ module Fog
           c = self.data[escaped_container]
           raise Fog::Storage::Rackspace::NotFound.new if c.nil?
 
+          if block_given?
+            data = ""
+            loop do
+              chunk = yield
+              break if chunk.empty?
+              data << chunk
+            end
+          end
+
           data = Fog::Storage.parse_data(data)
 
           o = MockObject.new data
