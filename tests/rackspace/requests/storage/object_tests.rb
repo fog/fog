@@ -36,7 +36,6 @@ Shindo.tests('Fog::Storage[:rackspace] | object requests', ["rackspace"]) do
 
     # an object key with no special characters
     tests("#get_object_http_url('fogobjecttests', 'fog_object','expiration timestamp')").succeeds do
-      pending if Fog.mocking?
       expires_at = 1344149532 # 2012-08-05 16:52:12 +1000
       storage    = Fog::Storage::Rackspace.new(:rackspace_temp_url_key => "super_secret")
       storage.extend RackspaceStorageHelpers
@@ -47,7 +46,6 @@ Shindo.tests('Fog::Storage[:rackspace] | object requests', ["rackspace"]) do
 
     # an object key with no special characters
     tests("#get_object_https_url('fogobjecttests', 'fog_object','expiration timestamp')").succeeds do
-      pending if Fog.mocking?
       expires_at = 1344149532 # 2012-08-05 16:52:12 +1000
       storage    = Fog::Storage::Rackspace.new(:rackspace_temp_url_key => "super_secret")
       storage.extend RackspaceStorageHelpers
@@ -58,7 +56,6 @@ Shindo.tests('Fog::Storage[:rackspace] | object requests', ["rackspace"]) do
 
     # an object key nested under a /
     tests("#get_object_https_url('fogobjecttests', 'fog/object','expiration timestamp')").succeeds do
-      pending if Fog.mocking?
       expires_at = 1344149532 # 2012-08-05 16:52:12 +1000
       storage    = Fog::Storage::Rackspace.new(:rackspace_temp_url_key => "super_secret")
       storage.extend RackspaceStorageHelpers
@@ -69,7 +66,6 @@ Shindo.tests('Fog::Storage[:rackspace] | object requests', ["rackspace"]) do
 
     # an object key containing a -
     tests("#get_object_https_url('fogobjecttests', 'fog-object','expiration timestamp')").succeeds do
-      pending if Fog.mocking?
       expires_at = 1344149532 # 2012-08-05 16:52:12 +1000
       storage    = Fog::Storage::Rackspace.new(:rackspace_temp_url_key => "super_secret")
       storage.extend RackspaceStorageHelpers

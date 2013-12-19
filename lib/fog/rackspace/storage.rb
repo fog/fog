@@ -42,7 +42,21 @@ module Fog
       request :put_static_obj_manifest
       request :post_set_meta_temp_url_key
 
-      module Utils
+      module Common
+        def apply_options(options)
+          @rackspace_api_key = options[:rackspace_api_key]
+          @rackspace_username = options[:rackspace_username]
+          @rackspace_cdn_ssl = options[:rackspace_cdn_ssl]
+          @rackspace_auth_url = options[:rackspace_auth_url]
+          @rackspace_servicenet = options[:rackspace_servicenet]
+          @rackspace_auth_token = options[:rackspace_auth_token]
+          @rackspace_storage_url = options[:rackspace_storage_url]
+          @rackspace_cdn_url = options[:rackspace_cdn_url]
+          @rackspace_region = options[:rackspace_region] || :dfw
+          @rackspace_temp_url_key = options[:rackspace_temp_url_key]
+          @rackspace_must_reauthenticate = false
+          @connection_options = options[:connection_options] || {}
+        end
 
         def cdn
           @cdn ||= Fog::CDN.new(
@@ -59,10 +73,40 @@ module Fog
           end
         end
 
+        def service_net?
+          @rackspace_servicenet == true
+        end
+
+        def authenticate
+          if @rackspace_must_reauthenticate || @rackspace_auth_token.nil?
+            options = {
+              :rackspace_api_key  => @rackspace_api_key,
+              :rackspace_username => @rackspace_username,
+              :rackspace_auth_url => @rackspace_auth_url,
+              :connection_options => @connection_options
+            }
+            super(options)
+          else
+            @auth_token = @rackspace_auth_token
+            @uri = URI.parse(@rackspace_storage_url)
+          end
+        end
+
+        def service_name
+          :cloudFiles
+        end
+
+        def request_id_header
+          "X-Trans-Id"
+        end
+
+        def region
+          @rackspace_region
+        end
       end
 
       class Mock < Fog::Rackspace::Service
-        include Utils
+        include Common
 
         class MockContainer
           attr_reader :objects, :meta
@@ -125,9 +169,9 @@ module Fog
         end
 
         def initialize(options={})
-          @rackspace_api_key = options[:rackspace_api_key]
-          @rackspace_username = options[:rackspace_username]
-          @rackspace_cdn_ssl = options[:rackspace_cdn_ssl]
+          apply_options(options)
+          authenticate
+          endpoint_uri
         end
 
         def data
@@ -138,38 +182,18 @@ module Fog
           self.class.data.delete(@rackspace_username)
         end
 
-        def service_name
-          :cloudFiles
-        end
-
-        def region
-          @rackspace_region
-        end
-
         def ssl?
           !!@rackspace_cdn_ssl
         end
-
       end
 
       class Real < Fog::Rackspace::Service
-        include Utils
+        include Common
 
         attr_reader :rackspace_cdn_ssl
 
         def initialize(options={})
-          @rackspace_api_key = options[:rackspace_api_key]
-          @rackspace_username = options[:rackspace_username]
-          @rackspace_cdn_ssl = options[:rackspace_cdn_ssl]
-          @rackspace_auth_url = options[:rackspace_auth_url]
-          @rackspace_servicenet = options[:rackspace_servicenet]
-          @rackspace_auth_token = options[:rackspace_auth_token]
-          @rackspace_storage_url = options[:rackspace_storage_url]
-          @rackspace_cdn_url = options[:rackspace_cdn_url]
-          @rackspace_region = options[:rackspace_region] || :dfw
-          @rackspace_temp_url_key = options[:rackspace_temp_url_key]
-          @rackspace_must_reauthenticate = false
-          @connection_options     = options[:connection_options] || {}
+          apply_options(options)
 
           authenticate
           @persistent = options[:persistent] || false
@@ -208,37 +232,6 @@ module Fog
           raise ServiceError.slurp(error, self)
         end
 
-        def service_net?
-          @rackspace_servicenet == true
-        end
-
-        def authenticate
-          if @rackspace_must_reauthenticate || @rackspace_auth_token.nil?
-            options = {
-              :rackspace_api_key  => @rackspace_api_key,
-              :rackspace_username => @rackspace_username,
-              :rackspace_auth_url => @rackspace_auth_url,
-              :connection_options => @connection_options
-            }
-            super(options)
-          else
-            @auth_token = @rackspace_auth_token
-            @uri = URI.parse(@rackspace_storage_url)
-          end
-        end
-
-        def service_name
-          :cloudFiles
-        end
-
-        def request_id_header
-          "X-Trans-Id"
-        end
-
-        def region
-          @rackspace_region
-        end
-
         def endpoint_uri(service_endpoint_url=nil)
           return @uri if @uri
           super(@rackspace_storage_url || service_endpoint_url, :rackspace_storage_url)
@@ -251,8 +244,8 @@ module Fog
           endpoint_uri credentials['X-Storage-Url']
           @auth_token = credentials['X-Auth-Token']
         end
-
       end
+
     end
   end
 end
