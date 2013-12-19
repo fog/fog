@@ -150,6 +150,7 @@ module Fog
         class MockObject
           attr_reader :hash, :bytes, :content_type, :last_modified
           attr_reader :body, :meta
+          attr_accessor :static_manifest
 
           def initialize data
             data = Fog::Storage.parse_data(data)
@@ -162,8 +163,13 @@ module Fog
               @body = data[:body]
             end
             @last_modified = Time.now.utc
-            @hash = Base64.encode64(Digest::MD5.digest(@body)).strip
+            @hash = Digest::MD5.hexdigest(@body)
             @meta = {}
+            @static_manifest = false
+          end
+
+          def large_object_prefix
+            @meta['X-Object-Manifest']
           end
 
           def to_headers

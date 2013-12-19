@@ -1,52 +1,47 @@
 Shindo.tests('Fog::Storage[:rackspace] | large object requests', ['rackspace']) do
 
-  unless Fog.mocking?
-    @directory  = Fog::Storage[:rackspace].directories.create(:key => 'foglargeobjecttests')
-    @directory2 = Fog::Storage[:rackspace].directories.create(:key => 'foglargeobjecttests2')
-    @segments = {
-      :a => {
-        :container => @directory.identity,
-        :name      => 'fog_large_object/a',
-        :data      => 'a' * (1024**2 + 10),
-        :size      => 1024**2 + 10,
-        :etag      => 'c2e97007d59f0c19b850debdcb80cca5'
-      },
-      :b => {
-        :container => @directory.identity,
-        :name      => 'fog_large_object/b',
-        :data      => 'b' * (1024**2 + 20),
-        :size      => 1024**2 + 20,
-        :etag      => 'd35f50622a1259daad75ff7d5512c7ef'
-      },
-      :c => {
-        :container => @directory.identity,
-        :name      => 'fog_large_object2/a',
-        :data      => 'c' * (1024**2 + 30),
-        :size      => 1024**2 + 30,
-        :etag      => '901d3531a87d188041d4d5b43cb464c1'
-      },
-      :d => {
-        :container => @directory2.identity,
-        :name      => 'fog_large_object2/b',
-        :data      => 'd' * (1024**2 + 40),
-        :size      => 1024**2 + 40,
-        :etag      => '350c0e00525198813920a157df185c8d'
-      }
+  @directory  = Fog::Storage[:rackspace].directories.create(:key => 'foglargeobjecttests')
+  @directory2 = Fog::Storage[:rackspace].directories.create(:key => 'foglargeobjecttests2')
+  @segments = {
+    :a => {
+      :container => @directory.identity,
+      :name      => 'fog_large_object/a',
+      :data      => 'a' * (1024**2 + 10),
+      :size      => 1024**2 + 10,
+      :etag      => 'c2e97007d59f0c19b850debdcb80cca5'
+    },
+    :b => {
+      :container => @directory.identity,
+      :name      => 'fog_large_object/b',
+      :data      => 'b' * (1024**2 + 20),
+      :size      => 1024**2 + 20,
+      :etag      => 'd35f50622a1259daad75ff7d5512c7ef'
+    },
+    :c => {
+      :container => @directory.identity,
+      :name      => 'fog_large_object2/a',
+      :data      => 'c' * (1024**2 + 30),
+      :size      => 1024**2 + 30,
+      :etag      => '901d3531a87d188041d4d5b43cb464c1'
+    },
+    :d => {
+      :container => @directory2.identity,
+      :name      => 'fog_large_object2/b',
+      :data      => 'd' * (1024**2 + 40),
+      :size      => 1024**2 + 40,
+      :etag      => '350c0e00525198813920a157df185c8d'
     }
-  end
+  }
 
   tests('success') do
 
     tests('upload test segments').succeeds do
-      pending if Fog.mocking?
-
       @segments.each_value do |segment|
         Fog::Storage[:rackspace].put_object(segment[:container], segment[:name], segment[:data])
       end
     end
 
     tests('dynamic large object requests') do
-      pending if Fog.mocking?
 
       tests('#put_object_manifest alias').succeeds do
         Fog::Storage[:rackspace].put_object_manifest(@directory.identity, 'fog_large_object')
@@ -110,7 +105,6 @@ Shindo.tests('Fog::Storage[:rackspace] | large object requests', ['rackspace']) 
     end
 
     tests('static large object requests') do
-      pending if Fog.mocking?
 
       tests('single container') do
 
@@ -209,7 +203,6 @@ Shindo.tests('Fog::Storage[:rackspace] | large object requests', ['rackspace']) 
   tests('failure') do
 
     tests('dynamic large object requests') do
-      pending if Fog.mocking?
 
       tests('#put_dynamic_obj_manifest with missing container').raises(Fog::Storage::Rackspace::NotFound) do
         Fog::Storage[:rackspace].put_dynamic_obj_manifest('fognoncontainer', 'fog_large_object')
@@ -218,7 +211,6 @@ Shindo.tests('Fog::Storage[:rackspace] | large object requests', ['rackspace']) 
     end
 
     tests('static large object requests') do
-      pending if Fog.mocking?
 
       tests('upload test segments').succeeds do
         Fog::Storage[:rackspace].put_object(@segments[:a][:container], @segments[:a][:name], @segments[:a][:data])
@@ -358,8 +350,6 @@ Shindo.tests('Fog::Storage[:rackspace] | large object requests', ['rackspace']) 
 
   end
 
-  unless Fog.mocking?
-    @directory.destroy
-    @directory2.destroy
-  end
+  @directory.destroy
+  @directory2.destroy
 end
