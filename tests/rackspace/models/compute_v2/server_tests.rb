@@ -195,7 +195,35 @@ Shindo.tests('Fog::Compute::RackspaceV2 | server', ['rackspace']) do
     end
 
     @instance.wait_for { ready? }
-   end
+  end
+
+  tests('#setup') do
+    perform_setup = lambda { |attributes|
+      Fog::SSH::Mock.data.clear
+
+      server = Fog::Compute::RackspaceV2::Server.new(attributes)
+
+      address = 123
+
+      server.ipv4_address = address
+      server.identity = "bar"
+      server.public_key = "baz"
+
+      server.setup
+
+      Fog::SSH::Mock.data[address].first[:commands]
+    }
+
+    test("leaves user unlocked only when requested") do
+      perform_setup.call(:service => service, :no_passwd_lock => true)
+                   .none? { |c| c =~ /passwd\s+-l\s+root/ } 
+    end
+
+    test("locks user by default") do
+      perform_setup.call(:service => service)
+                   .one? { |c| c =~ /passwd\s+-l\s+root/ }
+    end
+  end
 
   #When after testing resize/resize_confirm we get a 409 when we try to resize_revert so I am going to split it into two blocks
   model_tests(service.servers, options, true) do
