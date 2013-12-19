@@ -1,3 +1,6 @@
+
+require 'pp'
+
 Shindo.tests('Compute::VcloudDirector | network requests', ['vclouddirector']) do
 
   GET_NETWORK_FORMAT = {
@@ -20,6 +23,7 @@ Shindo.tests('Compute::VcloudDirector | network requests', ['vclouddirector']) d
 
   @service = Fog::Compute::VcloudDirector.new
   @org = VcloudDirector::Compute::Helper.current_org(@service)
+  @created_net_id = nil
 
   tests('Create network in non-existent vDC').raises(Fog::Compute::VcloudDirector::Forbidden) do
     @service.post_create_org_vdc_network('00000000-0000-0000-0000-000000000000', 'bob')
@@ -27,6 +31,10 @@ Shindo.tests('Compute::VcloudDirector | network requests', ['vclouddirector']) d
 
   tests('Delete non-existent OrgNetwork').raises(Fog::Compute::VcloudDirector::Forbidden) do
     @service.delete_network('00000000-0000-0000-0000-000000000000')
+  end
+
+  tests('Retrieve non-existent OrgNetwork').raises(Fog::Compute::VcloudDirector::Forbidden) do
+    @service.get_network('00000000-0000-0000-0000-000000000000')
   end
 
   tests('#get_network').data_matches_schema(GET_NETWORK_FORMAT) do
@@ -44,23 +52,52 @@ Shindo.tests('Compute::VcloudDirector | network requests', ['vclouddirector']) d
     @service.get_network_metadata(@network_id).body
   end
 
-  tests('Retrieve non-existent OrgNetwork').raises(Fog::Compute::VcloudDirector::Forbidden) do
-    @service.get_network('00000000-0000-0000-0000-000000000000')
+  tests('#post_create_org_vdc_network') do
+    pending unless Fog.mocking?
+    link = @org[:Link].detect do |l|
+      l[:rel] == 'down' && l[:type] == 'application/vnd.vmware.vcloud.vdc+xml'
+    end
+
+    vdc_id = link[:href].split('/').last
+    name = VcloudDirector::Compute::Helper.test_name
+
+    options = {
+      :Description => "Testing post_create_org_vdc_network #{name}",
+      :Configuration => {
+        :IpScopes => {
+          :IpScope => {
+            :IsInherited => 'false',
+            :Gateway => '198.51.100.1',
+            :Netmask => '255.255.255.0',
+            :Dns1    => '198.51.100.2',
+            :Dns2    => '198.51.100.3',
+            :DnsSuffix => 'example.com',
+            :IpRanges => [
+              { :IpRange => { :StartAddress => '198.51.100.10', :EndAddress => '198.51.100.20' } },
+              { :IpRange => { :StartAddress => '198.51.100.30', :EndAddress => '198.51.100.40' } },
+            ]
+          },
+        },
+        :FenceMode => 'isolated',
+      }
+    }
+
+    body = @service.post_create_org_vdc_network(vdc_id, name, options).body
+    @created_net_id = body[:href].split('/').last if body[:href]
+    @service.process_task(body[:Tasks][:Task]) if body && body.key?(:Tasks)
+
+    tests('fetched name matches created name').returns(name) do
+      net = @service.get_network(@created_net_id).body
+      net[:name]
+    end
   end
 
-  # at the moment just test delete_network in Mock mode, until we have
-  # ability to create a test one in Real mode
-  if Fog.mocking?
-    # TODO replace with a Query API lookup when available
-    net_id = @service.data[:networks].keys.first
-    @delete_task = @service.delete_network(net_id).body
-    tests('#delete_network returns Task').data_matches_schema(VcloudDirector::Compute::Schema::TASK_TYPE) do
-      @delete_task
-    end
+  tests('#delete_network') do
+    pending unless Fog.mocking?
+    @delete_task = @service.delete_network(@created_net_id).body
     @service.process_task(@delete_task)
-    tests('#delete_network succeeds').returns(nil) do
-      # network missing now?
-      net_id = @service.data[:networks][net_id]
+    tests('created network has been deleted').raises(Fog::Compute::VcloudDirector::Forbidden) do
+      @service.get_network(@created_net_id)
     end
   end
 
