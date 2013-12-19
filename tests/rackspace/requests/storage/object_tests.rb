@@ -124,38 +124,30 @@ Shindo.tests('Fog::Storage[:rackspace] | object requests', ["rackspace"]) do
   tests('failure') do
 
     tests("#get_object('fogobjecttests', 'fog_non_object')").raises(Fog::Storage::Rackspace::NotFound) do
-      pending if Fog.mocking?
       Fog::Storage[:rackspace].get_object('fogobjecttests', 'fog_non_object')
     end
 
     tests("#get_object('fognoncontainer', 'fog_non_object')").raises(Fog::Storage::Rackspace::NotFound) do
-      pending if Fog.mocking?
       Fog::Storage[:rackspace].get_object('fognoncontainer', 'fog_non_object')
     end
 
     tests("#head_object('fogobjecttests', 'fog_non_object')").raises(Fog::Storage::Rackspace::NotFound) do
-      pending if Fog.mocking?
       Fog::Storage[:rackspace].head_object('fogobjecttests', 'fog_non_object')
     end
 
     tests("#head_object('fognoncontainer', 'fog_non_object')").raises(Fog::Storage::Rackspace::NotFound) do
-      pending if Fog.mocking?
       Fog::Storage[:rackspace].head_object('fognoncontainer', 'fog_non_object')
     end
 
     tests("#delete_object('fogobjecttests', 'fog_non_object')").raises(Fog::Storage::Rackspace::NotFound) do
-      pending if Fog.mocking?
       Fog::Storage[:rackspace].delete_object('fogobjecttests', 'fog_non_object')
     end
 
     tests("#delete_object('fognoncontainer', 'fog_non_object')").raises(Fog::Storage::Rackspace::NotFound) do
-      pending if Fog.mocking?
       Fog::Storage[:rackspace].delete_object('fognoncontainer', 'fog_non_object')
     end
 
     tests('#delete_multiple_objects') do
-      pending if Fog.mocking?
-
       expected = {
         "Number Not Found"  => 2,
         "Response Status"   => "200 OK",

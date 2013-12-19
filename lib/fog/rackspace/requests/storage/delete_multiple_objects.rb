@@ -82,10 +82,6 @@ module Fog
             "Number Deleted" => 0
           }
 
-          prefixed = object_names.map do |name|
-            container ? "#{container}/#{name}" : name
-          end
-
           object_names.each do |name|
             if container
               cname, oname = container, name
@@ -102,7 +98,13 @@ module Fog
             end
 
             if oname.nil?
-              # No object name specified; delete the container
+              # No object name specified; delete the container if it's nonempty
+              unless c.empty?
+                results["Response Status"] = "400 Bad Request"
+                results["Errors"] << [cname, "409 Conflict"]
+                next
+              end
+
               data.delete escaped_cname
               results["Number Deleted"] += 1
               next
