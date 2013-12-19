@@ -63,7 +63,8 @@ module Fog
             'boot' => boot,
             'source' => self_link,
             'mode' => mode,
-            'deviceName' => device_name
+            'deviceName' => device_name,
+            'type' => 'PERSISTENT'
           }.select { |k, v| !v.nil? }
         end
 
