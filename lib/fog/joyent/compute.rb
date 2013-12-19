@@ -18,11 +18,17 @@ module Fog
       recognizes :joyent_keyphrase
       recognizes :joyent_version
 
+      secrets :joyent_password, :joyent_keydata, :joyent_keyphrase
+
       model_path 'fog/joyent/models/compute'
       request_path 'fog/joyent/requests/compute'
 
       request :list_datacenters
       # request :get_datacenter
+
+      # Datacenters
+      collection :datacenters
+      model :datacenter
 
       # Keys
       collection :keys
