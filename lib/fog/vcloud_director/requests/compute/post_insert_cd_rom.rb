@@ -20,7 +20,7 @@ module Fog
               :xmlns => 'http://www.vmware.com/vcloud/v1.5'
             }
             MediaInsertOrEjectParams(attrs) {
-              Media(:href => "#{@end_point}media/#{media_id}")
+              Media(:href => "#{end_point}media/#{media_id}")
             }
           end.to_xml
 

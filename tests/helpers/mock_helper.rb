@@ -82,7 +82,7 @@ if Fog.mock?
     :vcloud_host                      => 'vcloud_host',
     :vcloud_password                  => 'vcloud_password',
     :vcloud_username                  => 'vcloud_username',
-    :vcloud_director_host             => 'vcloud_director_host',
+    :vcloud_director_host             => 'vcloud-director-host',
     :vcloud_director_password         => 'vcloud_director_password',
     :vcloud_director_username         => 'vcd_user@vcd_org_name',
     :voxel_api_key                    => 'voxel_api_key',
