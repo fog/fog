@@ -37,14 +37,7 @@ module Fog
                 "time"      => Time.now.to_i - 50,
                 "host"      => "somehost2.company.local"
               }              
-            ],
-            "metadata" => {
-              "count"       => 1,
-              "limit"       => 100,
-              "marker"      => nil,
-              "next_marker" => nil,
-              "next_href"   => nil
-            }
+            ]
           }
           response.headers = {
             "Date"                  => Time.now.utc.to_s,

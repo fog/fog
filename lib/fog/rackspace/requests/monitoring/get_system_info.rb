@@ -32,14 +32,7 @@ module Fog
                 "vendor"          => "CentOS",
                 "vendor_version"  => "5.10"
               }
-            ],
-            "metadata" => {
-              "count"       => 1,
-              "limit"       => 100,
-              "marker"      => nil,
-              "next_marker" => nil,
-              "next_href"   => nil
-            }
+            ]
           }
           response.headers = {
             "Date"                  => Time.now.utc.to_s,

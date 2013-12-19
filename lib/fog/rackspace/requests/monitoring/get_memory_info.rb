@@ -26,26 +26,19 @@ module Fog
           response.body = {
             "info"  => [
               {
-                "actual_free"     => Fog::Mock.random_numbers(9).to_s,
-                "actual_used"     => Fog::Mock.random_numbers(8).to_s,
-                "free"            => Fog::Mock.random_numbers(7).to_s,
-                "used"            => Fog::Mock.random_numbers(9).to_s,
-                "total"           => Fog::Mock.random_numbers(10).to_s,
-                "ram"           => Fog::Mock.random_numbers(4).to_s,
-                "swap_total"      => Fog::Mock.random_numbers(10).to_s,
-                "swap_used"       => Fog::Mock.random_numbers(8).to_s,
-                "swap_free"       => Fog::Mock.random_numbers(10).to_s,                
-                "swap_page_in"    => Fog::Mock.random_numbers(3).to_s,
-                "swap_page_out"   => Fog::Mock.random_numbers(3).to_s,
+                "actual_free"     => Fog::Mock.random_numbers(9).to_i,
+                "actual_used"     => Fog::Mock.random_numbers(8).to_i,
+                "free"            => Fog::Mock.random_numbers(7).to_i,
+                "used"            => Fog::Mock.random_numbers(9).to_i,
+                "total"           => Fog::Mock.random_numbers(10).to_i,
+                "ram"           => Fog::Mock.random_numbers(4).to_i,
+                "swap_total"      => Fog::Mock.random_numbers(10).to_i,
+                "swap_used"       => Fog::Mock.random_numbers(8).to_i,
+                "swap_free"       => Fog::Mock.random_numbers(10).to_i,                
+                "swap_page_in"    => Fog::Mock.random_numbers(3).to_i,
+                "swap_page_out"   => Fog::Mock.random_numbers(3).to_i,
               }
-            ],
-            "metadata" => {
-              "count"       => 1,
-              "limit"       => 100,
-              "marker"      => nil,
-              "next_marker" => nil,
-              "next_href"   => nil
-            }
+            ]
           }
           response.headers = {
             "Date"                  => Time.now.utc.to_s,

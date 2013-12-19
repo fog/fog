@@ -29,27 +29,20 @@ module Fog
                 "name"            => "cpu.0",
                 "vendor"          => "AMD",
                 "model"           => "Opteron",
-                "mhz"             => Fog::Mock.random_numbers(4).to_s,
-                "idle"            => Fog::Mock.random_numbers(10).to_s,
-                "irq"             => Fog::Mock.random_numbers(5).to_s,
-                "soft_irq"        => Fog::Mock.random_numbers(7).to_s,
-                "nice"            => Fog::Mock.random_numbers(9).to_s,
-                "stolen"          => Fog::Mock.random_numbers(7).to_s,
-                "sys"             => Fog::Mock.random_numbers(7).to_s,
-                "user"            => Fog::Mock.random_numbers(9).to_s,
-                "wait"            => Fog::Mock.random_numbers(7).to_s,  
-                "total"           => Fog::Mock.random_numbers(11).to_s,
+                "mhz"             => Fog::Mock.random_numbers(4).to_i,
+                "idle"            => Fog::Mock.random_numbers(10).to_i,
+                "irq"             => Fog::Mock.random_numbers(5).to_i,
+                "soft_irq"        => Fog::Mock.random_numbers(7).to_i,
+                "nice"            => Fog::Mock.random_numbers(9).to_i,
+                "stolen"          => Fog::Mock.random_numbers(7).to_i,
+                "sys"             => Fog::Mock.random_numbers(7).to_i,
+                "user"            => Fog::Mock.random_numbers(9).to_i,
+                "wait"            => Fog::Mock.random_numbers(7).to_i,  
+                "total"           => Fog::Mock.random_numbers(11).to_i,
                 "total_cores"     => 1,
                 "total_sockets"   => 1
               }
-            ],
-            "metadata" => {
-              "count"       => 1,
-              "limit"       => 100,
-              "marker"      => nil,
-              "next_marker" => nil,
-              "next_href"   => nil
-            }
+            ]
           }
           response.headers = {
             "Date"                  => Time.now.utc.to_s,

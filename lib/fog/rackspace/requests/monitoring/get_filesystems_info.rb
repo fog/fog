@@ -30,12 +30,12 @@ module Fog
                 "dev_name"        => "/dev/xvda1",
                 "sys_type_name"   => "ext4",
                 "options"         => "rw,noatime,acl,errors=remount-ro,barrier=0",
-                "free"            => Fog::Mock.random_numbers(8).to_s,
-                "used"            => Fog::Mock.random_numbers(5).to_s,
-                "avail"           => Fog::Mock.random_numbers(7).to_s,
-                "total"           => Fog::Mock.random_numbers(9).to_s,
-                "files"           => Fog::Mock.random_numbers(6).to_s,
-                "free_files"      => Fog::Mock.random_numbers(6).to_s,
+                "free"            => Fog::Mock.random_numbers(8).to_i,
+                "used"            => Fog::Mock.random_numbers(5).to_i,
+                "avail"           => Fog::Mock.random_numbers(7).to_i,
+                "total"           => Fog::Mock.random_numbers(9).to_i,
+                "files"           => Fog::Mock.random_numbers(6).to_i,
+                "free_files"      => Fog::Mock.random_numbers(6).to_i,
               },
               {
                 "dir_name"        => "/proc",
@@ -43,14 +43,7 @@ module Fog
                 "sys_type_name"    => "ext4",
                 "options"         => "rw",
               }
-            ],
-            "metadata" => {
-              "count"       => 1,
-              "limit"       => 100,
-              "marker"      => nil,
-              "next_marker" => nil,
-              "next_href"   => nil
-            }
+            ]
           }
           response.headers = {
             "Date"                  => Time.now.utc.to_s,

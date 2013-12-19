@@ -26,23 +26,16 @@ module Fog
           response.body = {
             "info"  => [
               {
-                "read_bytes"      => Fog::Mock.random_numbers(10).to_s,
-                "reads"           => Fog::Mock.random_numbers(6).to_s,
-                "rtime"           => Fog::Mock.random_numbers(6).to_s,
-                "write_bytes"     => Fog::Mock.random_numbers(10).to_s,
-                "writes"          => Fog::Mock.random_numbers(8).to_s,
-                "wtime"           => Fog::Mock.random_numbers(9).to_s,
-                "time"            => Fog::Mock.random_numbers(7).to_s,
+                "read_bytes"      => Fog::Mock.random_numbers(10).to_i,
+                "reads"           => Fog::Mock.random_numbers(6).to_i,
+                "rtime"           => Fog::Mock.random_numbers(6).to_i,
+                "write_bytes"     => Fog::Mock.random_numbers(10).to_i,
+                "writes"          => Fog::Mock.random_numbers(8).to_i,
+                "wtime"           => Fog::Mock.random_numbers(9).to_i,
+                "time"            => Fog::Mock.random_numbers(7).to_i,
                 "name"            => "/dev/xvda1"
               }
-            ],
-            "metadata" => {
-              "count"       => 1,
-              "limit"       => 100,
-              "marker"      => nil,
-              "next_marker" => nil,
-              "next_href"   => nil
-            }
+            ]
           }
           response.headers = {
             "Date"                  => Time.now.utc.to_s,

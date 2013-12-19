@@ -29,35 +29,28 @@ module Fog
           response.body = {
             "info"  => [
               {
-                "pid"             => Fog::Mock.random_numbers(4).to_s,
+                "pid"             => Fog::Mock.random_numbers(4).to_i,
                 "exe_name"        => "/usr/share/nova-agent/0.0.1.38/sbin/nova-agent",
                 "exe_cwd"         => "/",
                 "exe_root"        => "/",
-                "time_total"      => Fog::Mock.random_numbers(3).to_s,
-                "time_sys"        => Fog::Mock.random_numbers(2).to_s,
-                "time_user"       => Fog::Mock.random_numbers(2).to_s,
+                "time_total"      => Fog::Mock.random_numbers(3).to_i,
+                "time_sys"        => Fog::Mock.random_numbers(2).to_i,
+                "time_user"       => Fog::Mock.random_numbers(2).to_i,
                 "time_start_time" => Time.now.utc.to_i - 10000,
                 "state_name"      => "nova-agent",
-                "state_ppid"      => Fog::Mock.random_numbers(3).to_s,
+                "state_ppid"      => Fog::Mock.random_numbers(3).to_i,
                 "state_priority"  => "15",
-                "state_threads"   => Fog::Mock.random_numbers(1).to_s,
-                "memory_size"     => Fog::Mock.random_numbers(9).to_s,
-                "memory_resident" => Fog::Mock.random_numbers(7).to_s,
-                "memory_share"    => Fog::Mock.random_numbers(6).to_s,
-                "memory_major_faults"    => memory_major_faults.to_s,
-                "memory_minor_faults"    => memory_minor_faults.to_s,
-                "memory_page_faults"     => memory_page_faults.to_s,
+                "state_threads"   => Fog::Mock.random_numbers(1).to_i,
+                "memory_size"     => Fog::Mock.random_numbers(9).to_i,
+                "memory_resident" => Fog::Mock.random_numbers(7).to_i,
+                "memory_share"    => Fog::Mock.random_numbers(6).to_i,
+                "memory_major_faults"    => memory_major_faults.to_i,
+                "memory_minor_faults"    => memory_minor_faults.to_i,
+                "memory_page_faults"     => memory_page_faults.to_i,
                 "cred_user"       => "root",
                 "cred_group"      => "root"
               }
-            ],
-            "metadata" => {
-              "count"       => 1,
-              "limit"       => 100,
-              "marker"      => nil,
-              "next_marker" => nil,
-              "next_href"   => nil
-            }
+            ]
           }
           response.headers = {
             "Date"                  => Time.now.utc.to_s,
