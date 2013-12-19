@@ -97,8 +97,6 @@ Shindo.tests('Fog::Storage[:rackspace] | object requests', ["rackspace"]) do
     end
 
     tests('#delete_multiple_objects') do
-      pending if Fog.mocking?
-
       Fog::Storage[:rackspace].put_object('fogobjecttests', 'fog_object', lorem_file)
       Fog::Storage[:rackspace].put_object('fogobjecttests', 'fog_object2', lorem_file)
       Fog::Storage[:rackspace].directories.create(:key => 'fogobjecttests2')

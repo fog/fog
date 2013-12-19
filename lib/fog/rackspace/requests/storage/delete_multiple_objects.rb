@@ -1,6 +1,7 @@
 module Fog
   module Storage
     class Rackspace
+
       class Real
 
         # Deletes multiple objects or containers with a single request.
@@ -70,6 +71,62 @@ module Fog
         end
 
       end
+
+      class Mock
+        def delete_multiple_objects(container, object_names, options = {})
+          results = {
+            "Number Not Found" => 0,
+            "Response Status" => "200 OK",
+            "Response Body" => "",
+            "Errors" => [],
+            "Number Deleted" => 0
+          }
+
+          prefixed = object_names.map do |name|
+            container ? "#{container}/#{name}" : name
+          end
+
+          object_names.each do |name|
+            if container
+              cname, oname = container, name
+            else
+              cname, oname = name.split('/', 2)
+            end
+
+            escaped_cname = Fog::Rackspace.escape(cname)
+            c = data[escaped_cname]
+            if c.nil?
+              # Container not found
+              results["Number Not Found"] += 1
+              next
+            end
+
+            if oname.nil?
+              # No object name specified; delete the container
+              data.delete escaped_cname
+              results["Number Deleted"] += 1
+              next
+            end
+
+            escaped_oname = Fog::Rackspace.escape(oname)
+            o = c.objects[escaped_oname]
+            if o.nil?
+              # Object not found.
+              results["Number Not Found"] += 1
+              next
+            end
+
+            c.objects.delete escaped_oname
+            results["Number Deleted"] += 1
+          end
+
+          response = Excon::Response.new
+          response.status = 200
+          response.body = results
+          response
+        end
+      end
+
     end
   end
 end
