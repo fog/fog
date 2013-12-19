@@ -89,8 +89,7 @@ module Fog
               cname, oname = name.split('/', 2)
             end
 
-            escaped_cname = Fog::Rackspace.escape(cname)
-            c = data[escaped_cname]
+            c = mock_container cname
             if c.nil?
               # Container not found
               results["Number Not Found"] += 1
@@ -105,20 +104,19 @@ module Fog
                 next
               end
 
-              data.delete escaped_cname
+              remove_container cname
               results["Number Deleted"] += 1
               next
             end
 
-            escaped_oname = Fog::Rackspace.escape(oname)
-            o = c.objects[escaped_oname]
+            o = c.mock_object oname
             if o.nil?
               # Object not found.
               results["Number Not Found"] += 1
               next
             end
 
-            c.objects.delete escaped_oname
+            c.remove_object oname
             results["Number Deleted"] += 1
           end
 

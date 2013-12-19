@@ -25,15 +25,9 @@ module Fog
 
       class Mock
         def delete_object(container, object)
-          escaped_container = Fog::Rackspace.escape(container)
-          escaped_object = Fog::Rackspace.escape(object)
-
-          c = self.data[escaped_container]
-          raise Fog::Storage::Rackspace::NotFound.new if c.nil?
-
-          raise Fog::Storage::Rackspace::NotFound.new unless c.objects.has_key? escaped_object
-
-          c.objects.delete escaped_object
+          c = mock_container! container
+          c.mock_object! object
+          c.remove_object object
 
           response = Excon::Response.new
           response.status = 204

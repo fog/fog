@@ -25,14 +25,8 @@ module Fog
 
       class Mock
         def head_object(container, object)
-          escaped_container = Fog::Rackspace.escape(container)
-          escaped_object = Fog::Rackspace.escape(object)
-
-          c = self.data[escaped_container]
-          raise Fog::Storage::Rackspace::NotFound.new if c.nil?
-
-          o = c.objects[escaped_object]
-          raise Fog::Storage::Rackspace::NotFound.new if o.nil?
+          c = mock_container! container
+          o = c.mock_object! object
 
           response = Excon::Response.new
           response.status = 200

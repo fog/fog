@@ -129,6 +129,22 @@ module Fog
               'X-Container-Bytes-Used' => bytes_used
             })
           end
+
+          def mock_object name
+            @objects[Fog::Rackspace.escape(name)]
+          end
+
+          def mock_object! name
+            mock_object(name) or raise Fog::Storage::Rackspace::NotFound.new
+          end
+
+          def add_object name, data
+            @objects[Fog::Rackspace.escape(name)] = MockObject.new(data)
+          end
+
+          def remove_object name
+            @objects.delete Fog::Rackspace.escape(name)
+          end
         end
 
         class MockObject
@@ -136,6 +152,8 @@ module Fog
           attr_reader :body, :meta
 
           def initialize data
+            data = Fog::Storage.parse_data(data)
+
             @bytes = data[:headers]['Content-Length']
             @content_type = data[:headers]['Content-Type']
             if data[:body].respond_to? :read
@@ -180,6 +198,18 @@ module Fog
 
         def reset_data
           self.class.data.delete(@rackspace_username)
+        end
+
+        def mock_container cname
+          data[Fog::Rackspace.escape(cname)]
+        end
+
+        def mock_container! cname
+          mock_container(cname) or raise Fog::Storage::Rackspace::NotFound.new
+        end
+
+        def remove_container cname
+          data.delete Fog::Rackspace.escape(cname)
         end
 
         def ssl?

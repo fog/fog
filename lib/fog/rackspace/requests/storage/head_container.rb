@@ -30,12 +30,7 @@ module Fog
 
       class Mock
         def head_container(container)
-          escaped = Fog::Rackspace.escape(container)
-          c = data[escaped]
-
-          if c.nil?
-            raise Fog::Storage::Rackspace::NotFound.new
-          end
+          c = mock_container! container
 
           response = Excon::Response.new
           response.status = 204

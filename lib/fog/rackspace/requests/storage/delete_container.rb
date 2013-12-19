@@ -24,18 +24,10 @@ module Fog
 
       class Mock
         def delete_container(name)
-          escaped = Fog::Rackspace.escape(name)
-          container = data[escaped]
+          c = mock_container! name
 
-          if container.nil?
-            raise Fog::Storage::Rackspace::NotFound.new
-          end
-
-          if !container.empty?
-            raise Excon::Errors::Conflict.new 'Conflict'
-          end
-
-          data.delete escaped
+          raise Excon::Errors::Conflict.new 'Conflict' unless c.empty?
+          remove_container name
 
           response = Excon::Response.new
           response.status = 204

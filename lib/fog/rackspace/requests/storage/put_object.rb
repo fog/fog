@@ -40,11 +40,7 @@ module Fog
 
       class Mock
         def put_object(container, object, data, options = {}, &block)
-          escaped_container = Fog::Rackspace.escape(container)
-          escaped_object = Fog::Rackspace.escape(object)
-
-          c = self.data[escaped_container]
-          raise Fog::Storage::Rackspace::NotFound.new if c.nil?
+          c = mock_container! container
 
           if block_given?
             data = ""
@@ -55,10 +51,7 @@ module Fog
             end
           end
 
-          data = Fog::Storage.parse_data(data)
-
-          o = MockObject.new data
-          c.objects[escaped_object] = o
+          c.add_object object, data
 
           response = Excon::Response.new
           response.status = 201

@@ -47,13 +47,17 @@ module Fog
 
       class Mock
         def get_container(container, options = {})
-          escaped = Fog::Rackspace.escape(container)
-          c = data[escaped]
-          raise Fog::Storage::Rackspace::NotFound.new if c.nil?
+          c = mock_container! container
 
           results = []
           c.objects.each do |key, mock_file|
-            results << mock_file.to_h
+            results << {
+              "hash" => mock_file.hash,
+              "last_modified" => mock_file.last_modified.strftime('%Y-%m-%dT%H:%M:%S.%L'),
+              "bytes" => mock_file.bytes,
+              "name" => key,
+              "content_type" => mock_file.content_type
+            }
           end
 
           response = Excon::Response.new

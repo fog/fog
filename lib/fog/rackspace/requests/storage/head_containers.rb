@@ -28,7 +28,7 @@ module Fog
 
       class Mock
         def head_containers
-          bytes_used = 0
+          bytes_used = data.values.map { |c| c.bytes_used }.inject(0) { |a, b| a + b }
           container_count = data.size
 
           response = Excon::Response.new
