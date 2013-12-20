@@ -25,20 +25,14 @@ module Fog
 
       class Mock
         def put_container(name, options={})
-          escaped = Fog::Rackspace.escape(name)
-
-          container = MockContainer.new
+          existed = ! mock_container(name).nil?
+          container = add_container(name)
           options.keys.each do |k|
             container.meta[k] = options[k].to_s if k =~ /^X-Container-Meta/
           end
-          data[escaped] = container
 
           response = Excon::Response.new
-          if data.has_key?(escaped)
-            response.status = 202 # Accepted
-          else
-            response.status = 201 # Created
-          end
+          response.status = existed ? 202 : 201
           response
         end
       end

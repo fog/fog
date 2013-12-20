@@ -121,9 +121,10 @@ module Fog
         include Common
 
         class MockContainer
-          attr_reader :objects, :meta
+          attr_reader :objects, :meta, :service
 
-          def initialize
+          def initialize service
+            @service = service
             @objects, @meta = {}, {}
           end
 
@@ -132,7 +133,7 @@ module Fog
           end
 
           def bytes_used
-            @objects.values.map { |o| o.bytes }.inject(0) { |a, b| a + b }
+            @objects.values.map { |o| o.bytes_used }.inject(0) { |a, b| a + b }
           end
 
           def to_headers
@@ -151,7 +152,7 @@ module Fog
           end
 
           def add_object name, data
-            @objects[Fog::Rackspace.escape(name)] = MockObject.new(data)
+            @objects[Fog::Rackspace.escape(name)] = MockObject.new(data, service)
           end
 
           def remove_object name
@@ -160,14 +161,15 @@ module Fog
         end
 
         class MockObject
-          attr_reader :hash, :bytes, :content_type, :last_modified
-          attr_reader :body, :meta
+          attr_reader :hash, :bytes_used, :content_type, :last_modified
+          attr_reader :body, :meta, :service
           attr_accessor :static_manifest
 
-          def initialize data
+          def initialize data, service
             data = Fog::Storage.parse_data(data)
+            @service = service
 
-            @bytes = data[:headers]['Content-Length']
+            @bytes_used = data[:headers]['Content-Length']
             @content_type = data[:headers]['Content-Type']
             if data[:body].respond_to? :read
               @body = data[:body].read
@@ -180,6 +182,57 @@ module Fog
             @static_manifest = false
           end
 
+          def static_manifest?
+            @static_manifest
+          end
+
+          def dynamic_manifest?
+            ! large_object_prefix.nil?
+          end
+
+          def each_part
+            case
+            when dynamic_manifest?
+              # Concatenate the contents and sizes of each matching object.
+              # Note that cname and oprefix are already escaped.
+              cname, oprefix = large_object_prefix.split('/', 2)
+
+              target_container = service.data[cname]
+              if target_container
+                keys = target_container.objects.keys.
+                  select { |name| name.start_with? oprefix }.
+                  sort
+
+                keys.each do |name|
+                  yield target_container.objects[name]
+                end
+              else
+                Fog::Logger.warning "Invalid container in dynamic object manifest: #{cname}"
+                yield self
+              end
+            when static_manifest?
+              Fog::JSON.decode(body).each do |segment|
+                cname, oname = segment['path'].split('/', 2)
+
+                cont = service.mock_container cname
+                unless cont
+                  Fog::Logger.warning "Invalid container in static object manifest: #{cname}"
+                  next
+                end
+
+                obj = cont.mock_object oname
+                unless obj
+                  Fog::Logger.warning "Invalid object in static object manifest: #{oname}"
+                  next
+                end
+
+                yield obj
+              end
+            else
+              yield self
+            end
+          end
+
           def large_object_prefix
             @meta['X-Object-Manifest']
           end
@@ -187,7 +240,7 @@ module Fog
           def to_headers
             {
               'Content-Type' => @content_type,
-              'Content-Length' => @bytes,
+              'Content-Length' => @bytes_used,
               'Last-Modified' => @last_modified.strftime('%a, %b %d %Y %H:%M:%S %Z'),
               'ETag' => @hash
             }.merge(@meta)
@@ -237,6 +290,10 @@ module Fog
 
         def mock_container! cname
           mock_container(cname) or raise Fog::Storage::Rackspace::NotFound.new
+        end
+
+        def add_container cname
+          data[Fog::Rackspace.escape(cname)] = MockContainer.new(self)
         end
 
         def remove_container cname

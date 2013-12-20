@@ -77,7 +77,7 @@ module Fog
               errors << [segment[:path], 'Etag Mismatch']
             end
 
-            unless target_object.bytes == segment[:size_bytes]
+            unless target_object.bytes_used == segment[:size_bytes]
               errors << [segment[:path], 'Size Mismatch']
             end
           end

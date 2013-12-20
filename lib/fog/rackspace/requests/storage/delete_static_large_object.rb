@@ -55,7 +55,7 @@ module Fog
           return not_found(object) unless o
 
           # What happens if o isn't a static large object?
-          raise Fog::Storage::Rackspace::BadRequest.new unless o.static_manifest
+          raise Fog::Storage::Rackspace::BadRequest.new unless o.static_manifest?
 
           segments = Fog::JSON.decode(o.body)
           paths = segments.map { |s| s['path'] }

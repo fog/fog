@@ -36,38 +36,9 @@ module Fog
 
           body, size = "", 0
 
-          # Recognize an X-Object-Manifest header.
-          prefix = o.large_object_prefix
-          if prefix
-            # Concatenate the contents and sizes of each matching object.
-            # Note that cname and oprefix are already escaped.
-            cname, oprefix = prefix.split('/', 2)
-
-            target_container = data[cname]
-            if target_container
-              target_container.objects.each do |name, obj|
-                next unless name.start_with? oprefix
-                body << obj.body
-                size += obj.bytes
-              end
-            end
-          elsif o.static_manifest
-            segments = Fog::JSON.decode(o.body)
-            segments.each do |segment|
-              cname, oname = segment['path'].split('/', 2)
-
-              target_container = mock_container cname
-              next unless target_container
-
-              target_object = target_container.mock_object oname
-              next unless target_object
-
-              body << target_object.body
-              size += target_object.bytes
-            end
-          else
-            body = o.body
-            size = o.bytes
+          o.each_part do |part|
+            body << part.body
+            size += part.bytes_used
           end
 
           if block_given?
@@ -75,9 +46,9 @@ module Fog
             block.call(body, 0, size)
           end
 
-          # TODO set headers
           response = Excon::Response.new
           response.body = body
+          response.headers = o.to_headers
           response
         end
       end
