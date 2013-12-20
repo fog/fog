@@ -103,6 +103,13 @@ module Fog
         def region
           @rackspace_region
         end
+
+        # Return Account Details
+        # @return [Fog::Storage::Rackspace::Account] account details object
+        def account
+          account = Fog::Storage::Rackspace::Account.new(:service => self)
+          account.reload
+        end
       end
 
       class Mock < Fog::Rackspace::Service
@@ -188,8 +195,17 @@ module Fog
           end
         end
 
+        def self.account_meta
+          @account_meta ||= Hash.new do |hash, key|
+            hash[key] = {
+              'X-Account-Meta-Temp-Url-Key' => Fog::Mock.random_hex(32)
+            }
+          end
+        end
+
         def self.reset
           @data = nil
+          @account_meta = nil
         end
 
         def initialize(options={})
@@ -200,6 +216,10 @@ module Fog
 
         def data
           self.class.data[@rackspace_username]
+        end
+
+        def account_meta
+          self.class.account_meta[@rackspace_username]
         end
 
         def reset_data
@@ -235,13 +255,6 @@ module Fog
           @persistent = options[:persistent] || false
           Excon.defaults[:ssl_verify_peer] = false if service_net?
           @connection = Fog::Connection.new(endpoint_uri.to_s, @persistent, @connection_options)
-        end
-
-        # Return Account Details
-        # @return [Fog::Storage::Rackspace::Account] account details object
-        def account
-          account = Fog::Storage::Rackspace::Account.new(:service => self)
-          account.reload
         end
 
         # Using SSL?
