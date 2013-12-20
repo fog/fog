@@ -120,22 +120,40 @@ module Fog
       class Mock < Fog::Rackspace::Service
         include Common
 
+        # An in-memory container for use with Rackspace storage mocks. Includes
+        # many `objects` mapped by (escaped) object name. Tracks container
+        # metadata.
         class MockContainer
           attr_reader :objects, :meta, :service
 
+          # Create a new container. Generally, you should call
+          # {Fog::Rackspace::Storage#add_container} instead.
           def initialize service
             @service = service
             @objects, @meta = {}, {}
           end
 
+          # Determine if this container contains any MockObjects or not.
+          #
+          # @return [Boolean]
           def empty?
             @objects.empty?
           end
 
+          # Total sizes of all objects added to this container.
+          #
+          # @return [Integer] The number of bytes occupied by each contained
+          #   object.
           def bytes_used
             @objects.values.map { |o| o.bytes_used }.inject(0) { |a, b| a + b }
           end
 
+          # Render the HTTP headers that would be associated with this
+          # container.
+          #
+          # @return [Hash<String, String>] Any metadata supplied to this
+          #   container, plus additional headers indicating the container's
+          #   size.
           def to_headers
             @meta.merge({
               'X-Container-Object-Count' => @objects.size,
@@ -143,28 +161,50 @@ module Fog
             })
           end
 
+          # Access a MockObject within this container by (unescaped) name.
+          #
+          # @return [MockObject, nil] Return the MockObject at this name if
+          #   one exists; otherwise, `nil`.
           def mock_object name
             @objects[Fog::Rackspace.escape(name)]
           end
 
+          # Access a MockObject with a specific name, raising a
+          # `Fog::Storage::Rackspace::NotFound` exception if none are present.
+          #
+          # @param name [String] (Unescaped) object name.
+          # @return [MockObject] The object within this container with the
+          #   specified name.
           def mock_object! name
             mock_object(name) or raise Fog::Storage::Rackspace::NotFound.new
           end
 
+          # Add a new MockObject to this container. An existing object with
+          # the same name will be overwritten.
+          #
+          # @param name [String] The object's name, unescaped.
+          # @param data [String, #read] The contents of the object.
           def add_object name, data
             @objects[Fog::Rackspace.escape(name)] = MockObject.new(data, service)
           end
 
+          # Remove a MockObject from the container by name. No effect if the
+          # object is not present beforehand.
+          #
+          # @param name [String] The (unescaped) object name to remove.
           def remove_object name
             @objects.delete Fog::Rackspace.escape(name)
           end
         end
 
+        # An in-memory Swift object.
         class MockObject
           attr_reader :hash, :bytes_used, :content_type, :last_modified
           attr_reader :body, :meta, :service
           attr_accessor :static_manifest
 
+          # Construct a new object. Generally, you should call
+          # {MockContainer#add_object} instead of instantiating these directly.
           def initialize data, service
             data = Fog::Storage.parse_data(data)
             @service = service
@@ -182,14 +222,33 @@ module Fog
             @static_manifest = false
           end
 
+          # Determine if this object was created as a static large object
+          # manifest.
+          #
+          # @return [Boolean]
           def static_manifest?
             @static_manifest
           end
 
+          # Determine if this object has the metadata header that marks it as a
+          # dynamic large object manifest.
+          #
+          # @return [Boolean]
           def dynamic_manifest?
             ! large_object_prefix.nil?
           end
 
+          # Iterate through each MockObject that contains a part of the data for
+          # this logical object. In the normal case, this will only yield the
+          # receiver directly. For dynamic and static large object manifests,
+          # however, this call will yield each MockObject that contains a part
+          # of the whole, in sequence.
+          #
+          # Manifests that refer to containers or objects that don't exist will
+          # skip those sections and log a warning, instead.
+          #
+          # @yield [MockObject] Each object that holds a part of this logical
+          #   object.
           def each_part
             case
             when dynamic_manifest?
@@ -233,10 +292,21 @@ module Fog
             end
           end
 
+          # Access the object name prefix that controls which other objects
+          # comprise a dynamic large object.
+          #
+          # @return [String, nil] The object name prefix, or `nil` if none is
+          #   present.
           def large_object_prefix
             @meta['X-Object-Manifest']
           end
 
+          # Construct the fake HTTP headers that should be returned on requests
+          # targetting this object. Includes computed `Content-Type`,
+          # `Content-Length`, `Last-Modified` and `ETag` headers in addition to
+          # whatever metadata has been associated with this object manually.
+          #
+          # @return [Hash<String, String>] Header values stored in a Hash.
           def to_headers
             {
               'Content-Type' => @content_type,
@@ -253,6 +323,10 @@ module Fog
           end
         end
 
+        # Access or create account-wide metadata.
+        #
+        # @return [Hash<String,String>] A metadata hash pre-populated with
+        #   a (fake) temp URL key.
         def self.account_meta
           @account_meta ||= Hash.new do |hash, key|
             hash[key] = {
@@ -284,18 +358,39 @@ module Fog
           self.class.data.delete(@rackspace_username)
         end
 
+        # Access a MockContainer with the specified name, if one exists.
+        #
+        # @param cname [String] The (unescaped) container name.
+        # @return [MockContainer, nil] The named MockContainer, or `nil` if
+        #   none exist.
         def mock_container cname
           data[Fog::Rackspace.escape(cname)]
         end
 
+        # Access a MockContainer with the specified name, raising a
+        # {Fog::Storage::Rackspace::NotFound} exception if none exist.
+        #
+        # @param cname [String] The (unescaped) container name.
+        # @throws [Fog::Storage::Rackspace::NotFound] If no container with the
+        #   given name exists.
+        # @return [MockContainer] The existing MockContainer.
         def mock_container! cname
           mock_container(cname) or raise Fog::Storage::Rackspace::NotFound.new
         end
 
+        # Create and add a new, empty MockContainer with the given name. An
+        # existing container with the same name will be replaced.
+        #
+        # @param cname [String] The (unescaped) container name.
+        # @return [MockContainer] The container that was added.
         def add_container cname
           data[Fog::Rackspace.escape(cname)] = MockContainer.new(self)
         end
 
+        # Remove a MockContainer with the specified name. No-op if the
+        # container does not exist.
+        #
+        # @param cname [String] The (unescaped) container name.
         def remove_container cname
           data.delete Fog::Rackspace.escape(cname)
         end
