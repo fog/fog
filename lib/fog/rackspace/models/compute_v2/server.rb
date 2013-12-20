@@ -532,6 +532,8 @@ module Fog
           ]
           commands.compact
 
+          @password = nil if password_lock
+
           Fog::SSH.new(public_ip_address, username, credentials).run(commands)
         rescue Errno::ECONNREFUSED
           sleep(1)
