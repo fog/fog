@@ -38,7 +38,6 @@ Shindo.tests('Rackspace | Storage', ['rackspace']) do
   end
 
   tests('authentation v2') do
-    pending if Fog.mocking?
 
     tests('variables populated').succeeds do
       @service = Fog::Storage::Rackspace.new :rackspace_auth_url => 'https://identity.api.rackspacecloud.com/v2.0', :connection_options => { :ssl_verify_peer => true }
@@ -71,7 +70,6 @@ Shindo.tests('Rackspace | Storage', ['rackspace']) do
   end
 
   tests('default auth') do
-    pending if Fog.mocking?
 
     tests('no params').succeeds do
       @service = Fog::Storage::Rackspace.new :rackspace_region => nil
@@ -98,7 +96,6 @@ Shindo.tests('Rackspace | Storage', ['rackspace']) do
   end
 
   tests('reauthentication') do
-    pending if Fog.mocking?
 
     tests('should reauth with valid credentials') do
       @service = Fog::Storage::Rackspace.new
@@ -112,8 +109,7 @@ Shindo.tests('Rackspace | Storage', ['rackspace']) do
   end
 
   tests('account').succeeds do
-    pending if Fog.mocking?
-     Fog::Storage[:rackspace].account
+    Fog::Storage[:rackspace].account
   end
 
   tests('ssl') do

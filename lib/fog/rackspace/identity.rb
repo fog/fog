@@ -43,7 +43,7 @@ module Fog
           @auth_token = data['access']['token']['id']
         end
 
-        def interpret_options(options)
+        def apply_options(options)
           @rackspace_username = options[:rackspace_username]
           @rackspace_api_key = options[:rackspace_api_key]
           @rackspace_region = options[:rackspace_region]
@@ -63,7 +63,7 @@ module Fog
         include Common
 
         def initialize(options={})
-          interpret_options(options)
+          apply_options(options)
 
           authenticate
         end
@@ -73,7 +73,7 @@ module Fog
         include Common
         
         def initialize(options={})
-          interpret_options(options)
+          apply_options(options)
           @connection = Fog::Connection.new(@uri.to_s, @persistent, @connection_options)
 
           authenticate

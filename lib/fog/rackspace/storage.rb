@@ -104,6 +104,11 @@ module Fog
           @rackspace_region
         end
 
+        def endpoint_uri(service_endpoint_url=nil)
+          return @uri if @uri
+          super(@rackspace_storage_url || service_endpoint_url, :rackspace_storage_url)
+        end
+
         # Return Account Details
         # @return [Fog::Storage::Rackspace::Account] account details object
         def account
@@ -241,6 +246,14 @@ module Fog
         def ssl?
           !!@rackspace_cdn_ssl
         end
+
+        private
+
+        def authenticate_v1(options)
+          uuid = Fog::Rackspace::MockData.uuid
+          endpoint_uri "https://storage101.#{region}1.clouddrive.com/v1/MockCloudFS_#{uuid}"
+          @auth_token = Fog::Mock.random_hex(32)
+        end
       end
 
       class Real < Fog::Rackspace::Service
@@ -279,11 +292,6 @@ module Fog
           raise InternalServerError.slurp(error, self)
         rescue Excon::Errors::HTTPStatusError => error
           raise ServiceError.slurp(error, self)
-        end
-
-        def endpoint_uri(service_endpoint_url=nil)
-          return @uri if @uri
-          super(@rackspace_storage_url || service_endpoint_url, :rackspace_storage_url)
         end
 
         private
