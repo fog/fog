@@ -1,7 +1,5 @@
 Shindo.tests('Fog::Rackspace::Storage | directory', ['rackspace']) do
 
-  pending if Fog.mocking?
-
   @service = Fog::Storage[:rackspace]
   
   def container_meta_attributes

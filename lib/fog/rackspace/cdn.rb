@@ -23,6 +23,17 @@ module Fog
           "X-Cdn-Ssl-Uri" => :ssl_uri
         }.freeze
 
+        def apply_options(options)
+          # api_key and username missing from instance variable sets
+          @rackspace_api_key = options[:rackspace_api_key]
+          @rackspace_username = options[:rackspace_username]
+
+          @connection_options = options[:connection_options] || {}
+          @rackspace_auth_url = options[:rackspace_auth_url]
+          @rackspace_cdn_url = options[:rackspace_cdn_url]
+          @rackspace_region = options[:rackspace_region] || :dfw
+        end
+
         def service_name
           :cloudFilesCDN
         end
@@ -103,8 +114,9 @@ module Fog
         end
 
         def initialize(options={})
-          @rackspace_username = options[:rackspace_username]
-          @enabled = false
+          apply_options(options)
+          authenticate(options)
+          @enabled = !! endpoint_uri
         end
 
         def data
@@ -126,14 +138,7 @@ module Fog
         include Base
 
         def initialize(options={})
-          # api_key and username missing from instance variable sets
-          @rackspace_api_key = options[:rackspace_api_key]
-          @rackspace_username = options[:rackspace_username]
-
-          @connection_options = options[:connection_options] || {}
-          @rackspace_auth_url = options[:rackspace_auth_url]
-          @rackspace_cdn_url = options[:rackspace_cdn_url]
-          @rackspace_region = options[:rackspace_region] || :dfw
+          apply_options(options)
           authenticate(options)
           @enabled = false
           @persistent = options[:persistent] || false
