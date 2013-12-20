@@ -66,6 +66,12 @@ module Fog
               assoc = add_route_association(default_route.id, nil, true)
               route_table["associationSet"].push(assoc)
 
+              # Create a default network ACL
+              default_nacl = self.network_acls.new(:vpc_id => vpc_id)
+              default_nacl.save
+              # Manually override since Amazon doesn't let you create a default one
+              self.data[:network_acls][default_nacl.network_acl_id]['default'] = true
+
               response.body = {
                 'requestId' => Fog::AWS::Mock.request_id,
                 'vpcSet'    => self.data[:vpcs]

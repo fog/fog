@@ -36,6 +36,10 @@ module Fog
               response.status = 200
               self.data[:vpcs].reject! { |v| v['vpcId'] == vpc_id }
 
+              # Delete the default network ACL
+              network_acl_id = self.network_acls.all('vpc-id' => vpc_id, 'default' => true).first.network_acl_id
+              self.data[:network_acls].delete(network_acl_id)
+
               response.body = {
                 'requestId' => Fog::AWS::Mock.request_id,
                 'return' => true
