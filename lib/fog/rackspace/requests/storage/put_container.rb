@@ -29,7 +29,7 @@ module Fog
 
           container = MockContainer.new
           options.keys.each do |k|
-            container.meta[k] = options[k] if k =~ /^X-Container-Meta/
+            container.meta[k] = options[k].to_s if k =~ /^X-Container-Meta/
           end
           data[escaped] = container
 

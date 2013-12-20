@@ -127,10 +127,10 @@ module Fog
           end
 
           def bytes_used
-            @objects.values.map { |o| o.size }.inject(0) { |a, b| a + b }
+            @objects.values.map { |o| o.bytes }.inject(0) { |a, b| a + b }
           end
 
-          def headers
+          def to_headers
             @meta.merge({
               'X-Container-Object-Count' => @objects.size,
               'X-Container-Bytes-Used' => bytes_used

@@ -34,7 +34,7 @@ module Fog
 
           response = Excon::Response.new
           response.status = 204
-          response.headers = c.headers
+          response.headers = c.to_headers
           response
         end
       end

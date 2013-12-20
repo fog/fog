@@ -62,6 +62,7 @@ module Fog
 
           response = Excon::Response.new
           response.status = 200
+          response.headers = c.to_headers
           response.body = results
           response
         end
