@@ -26,6 +26,10 @@ module Fog
           self.status == PENDING_STATE
         end
 
+        def failed?
+          !self.error.nil?
+        end
+
         def reload
           requires :name
 
@@ -42,8 +46,12 @@ module Fog
           Fog.wait_for do
             self.reload
             block.call(self) unless block.nil?
-            target_status == self.status.downcase.to_sym
+            !self.pending?
           end
+          if self.failed?
+            raise self.error['errors'].first['message']
+          end
+          self
         end
 
 

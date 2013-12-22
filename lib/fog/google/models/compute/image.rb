@@ -6,7 +6,6 @@ module Fog
 
       class Image < Fog::Model
 
-        # why not id ?
         identity :name
 
         attribute :id
@@ -23,12 +22,8 @@ module Fog
         # the image belongs to by tracking it in this attribute.
         attribute :project
 
-        # A RawDisk, e.g. -
-        # {
-        #   :source         => url_to_gcs_file,
-        #   :container_type => 'TAR',
-        #   :sha1Checksum   => ,
-        # }
+        # a RawDisk - link to Google Storage file with disk.raw archive
+        # TODO: think if you can use Fog::Storage::Google::File here.
         attribute :raw_disk
 
         attribute :status
