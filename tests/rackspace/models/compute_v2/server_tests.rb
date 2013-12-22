@@ -198,30 +198,58 @@ Shindo.tests('Fog::Compute::RackspaceV2 | server', ['rackspace']) do
   end
 
   tests('#setup') do
-    perform_setup = lambda { |attributes|
+    ATTRIBUTES = {
+      :name => "foo",
+      :image_id => 42,
+      :flavor_id => 42
+    }
+
+    create_server = lambda { |attributes|
+      service = Fog::Compute::RackspaceV2.new
+      attributes.merge!(:service => service)
+
       Fog::SSH::Mock.data.clear
 
       server = Fog::Compute::RackspaceV2::Server.new(attributes)
+      server.save(attributes)
 
-      address = 123
+      @address = 123
 
-      server.ipv4_address = address
+      server.ipv4_address = @address
       server.identity = "bar"
       server.public_key = "baz"
 
       server.setup
 
-      Fog::SSH::Mock.data[address].first[:commands]
+      server
+    }
+
+    commands = lambda { 
+      Fog::SSH::Mock.data[@address].first[:commands] 
     }
 
     test("leaves user unlocked only when requested") do
-      perform_setup.call(:service => service, :no_passwd_lock => true)
-                   .none? { |c| c =~ /passwd\s+-l\s+root/ } 
+      create_server.call(ATTRIBUTES.merge(:no_passwd_lock => true))
+      commands.call.none? { |c| c =~ /passwd\s+-l\s+root/ } 
+    end
+
+    test("provide a password when the passed isn't locked") do
+      pwd = create_server.call(
+        ATTRIBUTES.merge(:no_passwd_lock => true)
+      ).password
+
+      # shindo expects a boolean not truthyness :-(
+      !!pwd
     end
 
     test("locks user by default") do
-      perform_setup.call(:service => service)
-                   .one? { |c| c =~ /passwd\s+-l\s+root/ }
+      create_server.call(ATTRIBUTES)
+      commands.call.one? { |c| c =~ /passwd\s+-l\s+root/ }
+    end
+
+    test("nils password when password is locked") do
+      pwd = create_server.call(ATTRIBUTES).password
+      pwd.nil?
     end
   end
 

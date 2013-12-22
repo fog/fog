@@ -59,10 +59,11 @@ Shindo.tests('Fog::Compute[:google] | server requests', ['google']) do
     zone_name = "us-central1-a"
 
     tests("#insert_server").formats(@insert_server_format) do
+      disk = create_test_disk(Fog::Compute[:google], zone_name)
       @google.insert_server(
         server_name,
         zone_name,
-        { 'image' => image_name, 'machineType' => machine_type }
+        { 'image' => image_name, 'machineType' => machine_type, 'disks' => [disk] }
       ).body
     end
 

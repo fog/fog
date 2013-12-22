@@ -15,7 +15,6 @@ module Fog
         attribute :creation_timestamp, :aliases => 'creationTimestamp'
         attribute :deprecated
         attribute :description
-        
 
         # This attribute is not available in the representation of an
         # 'image' returned by the GCE servser (see GCE API). However,
@@ -33,6 +32,14 @@ module Fog
         attribute :raw_disk
 
         attribute :status
+
+        def preferred_kernel=(args)
+          Fog::Logger.deprecation("preferred_kernel= is no longer used [light_black](#{caller.first})[/]")
+        end
+        def preferred_kernel
+          Fog::Logger.deprecation("preferred_kernel is no longer used [light_black](#{caller.first})[/]")
+          nil
+        end
 
         def reload
           requires :name
@@ -53,8 +60,6 @@ module Fog
           
           operation = service.operations.new(response.body)
           operation.wait
-
-          puts "Fog::Image#save -> operation: " + operation.inspect
 
           data = service.backoff_if_unfound {
             service.get_image(self.name).body

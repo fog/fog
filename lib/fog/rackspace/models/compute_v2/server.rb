@@ -522,13 +522,18 @@ module Fog
         # @see Servers#bootstrap
         def setup(credentials = {})
           requires :public_ip_address, :identity, :public_key, :username
+
           commands = [
             %{mkdir .ssh},
             %{echo "#{public_key}" >> ~/.ssh/authorized_keys},
             password_lock,
             %{echo "#{Fog::JSON.encode(attributes)}" >> ~/attributes.json},
             %{echo "#{Fog::JSON.encode(metadata)}" >> ~/metadata.json}
-          ].compact
+          ]
+          commands.compact
+
+          @password = nil if password_lock
+
           Fog::SSH.new(public_ip_address, username, credentials).run(commands)
         rescue Errno::ECONNREFUSED
           sleep(1)

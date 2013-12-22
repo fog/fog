@@ -14,8 +14,7 @@ def test
     :machine_type => "f1-micro",
     :zone_name => "us-central1-a",
     :disks => [ disk.get_as_boot_disk(true) ],
-    :user => ENV['USER'],
-    :kernel => 'gce-v20130522',
+    :user => ENV['USER']
   }
 
   server = connection.servers.bootstrap params
