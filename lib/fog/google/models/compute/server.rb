@@ -132,10 +132,6 @@ module Fog
           self.merge_attributes(data)
         end
 
-        # def machine_type_url
-        #   "http://www.googleapis.com/compute/v1/projects/#{service.project}/global/machineTypes/#{machine_type}"
-        # end
-
         def save
           requires :name
           requires :machine_type
@@ -147,9 +143,6 @@ module Fog
           end
 
           self.add_ssh_key(self.username, self.public_key) if self.public_key
-
-          # 'g1-small' default ???
-          # validate machine types ???
 
           options = {
               'machineType' => machine_type,
@@ -165,6 +158,7 @@ module Fog
 
           # handle errors in response.error ???
           # maybe do it in another thread ???
+          # maybe do it asynchronously
           operation = service.operations.new(response.body)
           operation.wait
           

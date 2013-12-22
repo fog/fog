@@ -66,8 +66,7 @@ module Fog
           }
 
           # Track the name of the project in which we insert the image
-          # data.merge!('project' => service.project)
-          data = {}
+          data.merge!('project' => service.project)
           
           self.project = self.service.project
 
@@ -75,7 +74,6 @@ module Fog
         end
 
         def resource_url
-          # "compute/v1/projects/#{project}/global/images/#{image}"
           "#{self.project}/global/images/#{name}"
         end
 
