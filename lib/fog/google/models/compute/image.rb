@@ -6,12 +6,16 @@ module Fog
 
       class Image < Fog::Model
 
+        # why not id ?
         identity :name
 
+        attribute :id
         attribute :kind
+        attribute :self_link, :aliases => 'selfLink'
         attribute :creation_timestamp, :aliases => 'creationTimestamp'
+        attribute :deprecated
         attribute :description
-        attribute :preferred_kernel, :aliases => 'preferredKernel'
+        
 
         # This attribute is not available in the representation of an
         # 'image' returned by the GCE servser (see GCE API). However,
@@ -41,30 +45,42 @@ module Fog
 
         def save
           requires :name
-          requires :preferred_kernel
           requires :raw_disk
 
-          options = {
-            'preferredKernel' => preferred_kernel,
-            'rawDisk'         => raw_disk,
-            'description'     => description,
-          }
+          options = { 'description'     => description }
 
-          service.insert_image(name, options)
+          response = service.insert_image(name, raw_disk, options)
+          
+          operation = service.operations.new(response.body)
+          operation.wait
+
+          puts "Fog::Image#save -> operation: " + operation.inspect
 
           data = service.backoff_if_unfound {
             service.get_image(self.name).body
           }
 
           # Track the name of the project in which we insert the image
-          data.merge!('project' => service.project)
+          # data.merge!('project' => service.project)
+          data = {}
+          
           self.project = self.service.project
 
           service.images.merge_attributes(data)
         end
 
         def resource_url
+          # "compute/v1/projects/#{project}/global/images/#{image}"
           "#{self.project}/global/images/#{name}"
+        end
+
+        def delete
+          requires :name
+
+          response = service.delete_image(name)
+
+          operation = service.operations.new(response.body)
+          operation.wait          
         end
 
       end

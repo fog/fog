@@ -134,8 +134,8 @@ module Fog
           end
           api_method = @compute.instances.insert
           parameters = {
-              'project' => @project,
-              'zone' => zone_name,
+            'project' => @project,
+            'zone' => zone_name,
           }
           body_object = {:name => server_name}
 
@@ -145,6 +145,9 @@ module Fog
             @image_url = @api_url + image.resource_url
             body_object['image'] = @image_url
           end
+
+          # https://developers.google.com/compute/docs/api/python-guide
+          # machine_type_url = '%s/zones/%s/machineTypes/%s' % (project_url, DEFAULT_ZONE, DEFAULT_MACHINE_TYPE)
           body_object['machineType'] = @api_url + @project + "/zones/#{zone_name}/machineTypes/#{options.delete 'machineType'}"
           network = nil
           if options.has_key? 'network'
@@ -184,6 +187,7 @@ module Fog
           result = self.build_result(api_method, parameters,
                                      body_object=body_object)
           response = self.build_response(result)
+
         end
       end
     end

@@ -108,6 +108,10 @@ module Fog
           self.merge_attributes(data)
         end
 
+        # def machine_type_url
+        #   "http://www.googleapis.com/compute/v1/projects/#{service.project}/global/machineTypes/#{machine_type}"
+        # end
+
         def save
           requires :name
           requires :machine_type
@@ -118,6 +122,9 @@ module Fog
           end
 
           self.add_ssh_key(self.username, self.public_key) if self.public_key
+
+          # 'g1-small' default ???
+          # validate machine types ???
 
           options = {
               'image' => image_name,
@@ -131,10 +138,39 @@ module Fog
               'tags' => tags
           }.delete_if {|key, value| value.nil?}
 
-          service.insert_server(name, zone_name, options)
-          data = service.backoff_if_unfound {service.get_server(self.name, self.zone_name).body}
+          response = service.insert_server(name, zone_name, options)
 
-          service.servers.merge_attributes(data)
+          # handle errors in response.error ???
+          # maybe do it in another thread ???
+          operation = service.operations.new(response.body)
+          operation.wait
+          
+          # check if server is available
+          data = service.backoff_if_unfound { service.get_server(self.name, self.zone_name).body }
+
+          # service.servers.merge_attributes(data)
+          self.merge_attributes(data)
+
+          self
+        end
+
+        def reset 
+          requires :name
+          requires :zone_name
+
+          response = service.reset_server(name, zone_name)
+
+          # handle errors in response.error ???
+          # maybe do it in another thread ???
+          operation = service.operations.new(response.body)
+          operation.wait
+
+          # check if server is available
+          data = service.backoff_if_unfound { service.get_server(self.name, self.zone_name).body }
+
+          # service.servers.merge_attributes(data)
+          self.merge_attributes(data)
+          self          
         end
 
       end
