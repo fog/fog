@@ -54,7 +54,6 @@ module Fog
           self
         end
 
-
         PENDING_STATE = "PENDING"
         RUNNING_STATE = "RUNNING"
         DONE_STATE = "DONE"
