@@ -8,21 +8,24 @@ Google Cloud Storage originally was very similar to Amazon's S3. Because of this
 
 ## Compute
 
-Google Compute Engine is a Virtual Machine hosting service. Currently it is built on version [v1beta16](https://developers.google.com/compute/docs/reference/v1beta16/) of the GCE API.
+Google Compute Engine is a Virtual Machine hosting service. Currently it is built on version [v1](https://developers.google.com/compute/docs/reference/v1/) of the GCE API.
 
-Our implementation of the API currently supports 
+Our implementation of the API currently supports
 
  * Server creation, deletion and bootstrapping
- * All server "flavors" (micro and normal)
  * Persistent Disk creation and deletion
  * Image lookup
+ * Network and Firewall configuration
+ * Operations
+ * Snapshots
+ * Instance Metadata
 
 Features we are looking forward to implementing in the future:
 
- * Network and Firewall configuration
  * Global Metadata support
  * Image creation
+ * Load balancer configuration
 
-v1beta16 is still in beta, so we can imagine lots of changes to the API. If you are using Fog to interact with GCE, please keep Fog up to date and [file issues](https://github.com/fog/fog/issues?labels=google) for any anomalies you see.
+If you are using Fog to interact with GCE, please keep Fog up to date and [file issues](https://github.com/fog/fog/issues?labels=google) for any anomalies you see or features you would like.
 
 Thanks!
