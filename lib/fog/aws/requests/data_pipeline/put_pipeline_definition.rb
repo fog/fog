@@ -28,35 +28,43 @@ module Fog
 
         # Take a list of pipeline object hashes as specified in the Data Pipeline JSON format
         # and transform it into the format expected by the API
-        private
         def transform_objects(objects)
-          output = []
+          objects.map { |object| JSONObject.new(object).to_api }
+        end
 
-          objects.each do |object|
-            new_object = {}
-            new_object['id'] = object.delete('id')
-            new_object['name'] = object.delete('name') || new_object['id']
-
-            new_object['fields'] = []
-            object.each do |key, value|
-              if value.is_a?(Hash)
-                new_object['fields'] << { 'key' => key, 'refValue' => value['ref'] }
-
-              elsif value.is_a?(Array)
-                value.each do |v|
-                  new_object['fields'] << { 'key' => key, 'stringValue' => v }
-                end
-
-              else
-                new_object['fields'] << { 'key' => key, 'stringValue' => value }
-
-              end
-            end
-
-            output << new_object
+        class JSONObject
+          def initialize(object)
+            @json_fields = object.clone
+            @id = @json_fields.delete('id')
+            @name = @json_fields.delete('name') || @id
           end
 
-          output
+          def to_api
+            {
+              'id' => @id,
+              'name' => @name,
+              'fields' => fields
+            }
+          end
+
+        private
+
+          def fields
+            @json_fields.map{|k,v| field_for_kv(k,v)}.flatten
+          end
+
+          def field_for_kv(key, value)
+            if value.is_a?(Hash)
+              { 'key' => key, 'refValue' => value['ref'] }
+
+            elsif value.is_a?(Array)
+              value.map { |subvalue| field_for_kv(key, subvalue) }
+
+            else
+              { 'key' => key, 'stringValue' => value }
+
+            end
+          end
         end
 
       end
