@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 require 'fog/compute/models/server'
 require 'fog/rackspace/models/compute_v2/metadata'
 
@@ -521,13 +522,19 @@ module Fog
         # @see Servers#bootstrap
         def setup(credentials = {})
           requires :public_ip_address, :identity, :public_key, :username
-          Fog::SSH.new(public_ip_address, username, credentials).run([
+
+          commands = [
             %{mkdir .ssh},
             %{echo "#{public_key}" >> ~/.ssh/authorized_keys},
-            %{passwd -l #{username}},
+            password_lock,
             %{echo "#{Fog::JSON.encode(attributes)}" >> ~/attributes.json},
             %{echo "#{Fog::JSON.encode(metadata)}" >> ~/metadata.json}
-          ])
+          ]
+          commands.compact
+
+          @password = nil if password_lock
+
+          Fog::SSH.new(public_ip_address, username, credentials).run(commands)
         rescue Errno::ECONNREFUSED
           sleep(1)
           retry
@@ -537,6 +544,10 @@ module Fog
 
         def adminPass=(new_admin_pass)
           @password = new_admin_pass
+        end
+
+        def password_lock
+          "passwd -l #{username}" unless attributes[:no_passwd_lock] 
         end
       end
     end

@@ -56,6 +56,17 @@ module Fog
                 'tagSet'                   => {}
               })
 
+              # Add this subnet to the default network ACL
+              accid = Fog::AWS::Mock.network_acl_association_id
+              default_nacl = self.data[:network_acls].values.detect { |nacl| nacl['vpcId'] == vpcId && nacl['default'] }
+              if default_nacl
+                default_nacl['associationSet'] << {
+                  'networkAclAssociationId' => accid,
+                  'networkAclId'            => default_nacl['networkAclId'],
+                  'subnetId'                => self.data[:subnets].last['subnetId'],
+                }
+              end
+
               response.body = {
                 'requestId'    => Fog::AWS::Mock.request_id,
                 'subnetSet'    => self.data[:subnets]

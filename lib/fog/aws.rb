@@ -251,6 +251,12 @@ module Fog
         "sg-#{Fog::Mock.random_hex(8)}"
       end
 
+      def self.network_acl_id
+        "acl-#{Fog::Mock.random_hex(8)}"
+      end
+      def self.network_acl_association_id
+        "aclassoc-#{Fog::Mock.random_hex(8)}"
+      end
       def self.network_interface_id
         "eni-#{Fog::Mock.random_hex(8)}"
       end
