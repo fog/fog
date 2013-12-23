@@ -4,9 +4,6 @@ Shindo.tests('Fog::Rackspace::Monitoring | agent_tests', ['rackspace','rackspace
   agent_token = nil
   options = { "label" => "Bar" }
   values_format = Hash
-#  values_format = {
-#        'info' => Fog::Nullable::Hash
-#  }
   
   tests('success') do
     tests('#create new agent token').formats(DATA_FORMAT) do
