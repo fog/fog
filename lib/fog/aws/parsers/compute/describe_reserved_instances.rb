@@ -5,9 +5,25 @@ module Fog
 
         class DescribeReservedInstances < Fog::Parsers::Base
 
+          def get_default_item
+            {'tagSet' => {}, 'recurringCharges' => {}}
+          end
+
           def reset
-            @reserved_instance = {}
+            @context = []
+            # Note:  <recurringCharges> should also be handled as a set, but do not want to disrupt anyone relying on
+            # it currently being flatted
+            @contexts = ['reservedInstancesSet', 'tagSet']
+            @reserved_instance = get_default_item
             @response = { 'reservedInstancesSet' => [] }
+            @tag = {}
+          end
+
+          def start_element(name, attrs = [])
+            super
+            if @contexts.include?(name)
+              @context.push(name)
+            end
           end
 
           def end_element(name)
@@ -18,9 +34,19 @@ module Fog
               @reserved_instance[name] = value.to_i
             when 'fixedPrice', 'amount', 'usagePrice'
               @reserved_instance[name] = value.to_f
+            when *@contexts
+              @context.pop
             when 'item'
-              @response['reservedInstancesSet'] << @reserved_instance
-              @reserved_instance = {}
+              case @context.last
+              when 'reservedInstancesSet'
+                @response['reservedInstancesSet'] << @reserved_instance
+                @reserved_instance = get_default_item
+              when 'tagSet'
+                @reserved_instance['tagSet'][@tag['key']] = @tag['value']
+                @tag = {}
+              end
+            when 'key', 'value'
+              @tag[name] = value
             when 'requestId'
               @response[name] = value
             when 'start','end'
