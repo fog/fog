@@ -15,13 +15,12 @@ module Fog
       class Mock
         def get_processes_info(agent_id)
 
-          agent_id = Fog::Rackspace::MockData.uuid
           memory_major_faults = Fog::Mock.random_numbers(1).to_i
           memory_minor_faults = Fog::Mock.random_numbers(3).to_i
           memory_page_faults = memory_major_faults+memory_minor_faults
 
           if agent_id == -1
-            raise Fog::Rackspace::Monitoring::NotFound
+            raise Fog::Rackspace::Monitoring::BadRequest
           end
           
           response = Excon::Response.new

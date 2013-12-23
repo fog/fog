@@ -15,10 +15,8 @@ module Fog
       class Mock
         def get_cpus_info(agent_id)
 
-          agent_id = Fog::Rackspace::MockData.uuid
-
           if agent_id == -1
-            raise Fog::Rackspace::Monitoring::NotFound
+            raise Fog::Rackspace::Monitoring::BadRequest
           end
 
           response = Excon::Response.new

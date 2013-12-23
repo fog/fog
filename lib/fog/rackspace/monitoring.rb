@@ -61,6 +61,7 @@ module Fog
 
       request_path 'fog/rackspace/requests/monitoring'
       request      :list_agent_tokens
+      request      :list_agents
       request      :list_alarms
       request      :list_alarm_examples
       request      :list_checks
@@ -72,6 +73,7 @@ module Fog
       request      :list_notification_plans
       request      :list_notifications
 
+      request      :get_agent
       request      :get_agent_token
       request      :get_alarm
       request      :get_alarm_example
