@@ -40,7 +40,7 @@ module Fog
           else
             new(response.body)
           end
-        rescue Excon::Errors::NotFound
+        rescue Fog::Errors::NotFound
           nil
         end
 
