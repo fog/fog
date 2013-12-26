@@ -73,7 +73,7 @@ task :mock, :provider do |t, args|
     fail 'USAGE: rake mock[<provider>]'
   end
   provider = args[:provider]
-  sh("export FOG_MOCK=true PROVIDER=#{provider} && bundle exec shindont tests/#{provider}")
+  sh("export FOG_MOCK=true && bundle exec shindont tests/#{provider}")
 end
 
 desc 'Run live tests against a specific provider'
