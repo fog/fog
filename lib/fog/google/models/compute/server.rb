@@ -7,7 +7,7 @@ module Fog
     class Google
 
       class Server < Fog::Compute::Server
-        include Fog::Compute::Google::AttributeConvertor
+        include Fog::Compute::Google::AttributeConverter
 
         identity :name
 

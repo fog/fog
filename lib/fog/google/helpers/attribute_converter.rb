@@ -2,7 +2,7 @@
 module Fog
   module Compute
     class Google
-      module AttributeConvertor
+      module AttributeConverter
 
         def self.included(base)
           base.extend(ClassMethods)
