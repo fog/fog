@@ -26,7 +26,7 @@ module Fog
         def reload
           requires :identity
 
-          data = collection.get(identity, zone)
+          data = collection.get(identity, zone_name)
           new_attributes = data.attributes
           merge_attributes(new_attributes)
           self
