@@ -82,7 +82,7 @@ task :live, :provider do |t, args|
     fail 'USAGE: rake live[<provider>]'
   end
   provider = args[:provider]
-  sh("export FOG_MOCK=false && bundle exec shindont tests/#{provider}")
+  sh("export FOG_MOCK=false PROVIDER=#{provider} && bundle exec shindont tests/#{provider}")
 end
 
 task :nuke do
