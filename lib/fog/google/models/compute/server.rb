@@ -1,6 +1,6 @@
 require 'fog/compute/models/server'
 require 'net/ssh/proxy/command'
-require 'fog/google/helpers/attribute_convertor'
+require 'fog/google/helpers/attribute_converter'
 
 module Fog
   module Compute
