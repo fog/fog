@@ -47,7 +47,9 @@ module Fog
       request :insert_server
       request :insert_snapshot
 
+      request :reset_server
       request :set_metadata
+
 
       model_path 'fog/google/models/compute'
       model :server
