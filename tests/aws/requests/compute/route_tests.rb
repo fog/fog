@@ -43,7 +43,7 @@ Shindo.tests('Fog::Compute[:aws] | route table requests', ['aws']) do
   if !Fog.mocking?
     vpc.wait_for { state.eql? "available" }
   end
-  @subnet_id = Fog::Compute[:aws].create_subnet(vpc.id, '10.0.10.0/24').body['subnetSet'].first['subnetId']
+  @subnet_id = Fog::Compute[:aws].create_subnet(vpc.id, '10.0.10.0/24').body['subnet']['subnetId']
   @network_interface = Fog::Compute[:aws].create_network_interface(@subnet_id, {"PrivateIpAddress" => "10.0.10.23"}).body
   @internet_gateway_id = Fog::Compute[:aws].create_internet_gateway.body['internetGatewaySet'].first['internetGatewayId']
   @network_interface_id = @network_interface['networkInterface']['networkInterfaceId']
