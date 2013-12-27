@@ -39,7 +39,7 @@ module Fog
         def destroy
           requires :name, :zone_name
           operation = service.operations.new(service.delete_disk(name, zone_name).body)
-          operation.wait_for { ready? }
+          operation.wait_for { !pending? }
           operation 
         end
 
