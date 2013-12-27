@@ -1,4 +1,5 @@
 Shindo.tests("Fog::Compute[:aws] | network_acl", ['aws']) do
+  Fog::Compute::AWS::Mock.reset if Fog.mocking?
   @vpc    = Fog::Compute[:aws].vpcs.create('cidr_block' => '10.0.10.0/24')
   @subnet = Fog::Compute[:aws].subnets.create('vpc_id' => @vpc.id, 'cidr_block' => '10.0.10.16/28')
 
