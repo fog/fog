@@ -64,7 +64,7 @@ module Fog
           })
 
           begin
-            response = @connection.request(params.merge!({:host => @host}))
+            response = @connection.request(params)
           rescue Excon::Errors::HTTPStatusError => error
             raise case error
             when Excon::Errors::NotFound
