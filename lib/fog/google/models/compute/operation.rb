@@ -13,7 +13,10 @@ module Fog
         attribute :creation_timestamp, :aliases => 'creationTimestamp'
         attribute :zone_name, :aliases => 'zone'
         attribute :status, :aliases => 'status'
+        attribute :status_message, :aliases => 'statusMessage'
         attribute :self_link, :aliases => 'selfLink'
+        attribute :error, :aliases => 'error'
+        attribute :progress, :aliases => 'progress'
 
         def ready?
           self.status == DONE_STATE
@@ -23,12 +26,31 @@ module Fog
           self.status == PENDING_STATE
         end
 
-        def reload
-          requires :identity
+        def failed?
+          !self.error.nil?
+        end
 
-          data = collection.get(identity, zone_name)
+        def reload
+          requires :name
+
+          data = collection.get(name, zone_name)
+
           new_attributes = data.attributes
-          merge_attributes(new_attributes)
+
+          self.merge_attributes(new_attributes)
+          self
+        end
+
+        # wait until operation will have desired status
+        def wait(target_status = :done, &block)
+          Fog.wait_for do
+            self.reload
+            block.call(self) unless block.nil?
+            !self.pending?
+          end
+          if self.failed?
+            raise self.error['errors'].first['message']
+          end
           self
         end
 
