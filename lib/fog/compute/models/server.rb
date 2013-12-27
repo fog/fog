@@ -64,6 +64,10 @@ module Fog
 
         options = ssh_options.merge(options)
 
+        Fog::Logger.warning '!!!'
+        Fog::Logger.warning public_ip_address.to_s
+        Fog::Logger.warning username
+        Fog::Logger.warning options.inspect
         Fog::SSH.new(public_ip_address, username, options).run(commands, &blk)
       end
 

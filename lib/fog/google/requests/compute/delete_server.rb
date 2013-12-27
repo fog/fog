@@ -22,7 +22,7 @@ module Fog
       class Mock
         include Shared
 
-        def delete_server(server_name, zone_name=nil)
+        def delete_server(server_name, zone_name = nil)
           zone_name = find_zone(zone_name)
           get_server(server_name, zone_name)
           server = self.data[:servers][server_name]
@@ -54,7 +54,7 @@ module Fog
       class Real
         include Shared
 
-        def delete_server(server_name, zone_name=nil)
+        def delete_server(server_name, zone_name = nil)
           zone_name = find_zone(zone_name)
           api_method = @compute.instances.delete
           parameters = {

@@ -22,8 +22,7 @@ module Fog
             'IPv4Range' => ip_range
           }
 
-          result = self.build_result(api_method, parameters,
-                                     body_object=body_object)
+          result = self.build_result(api_method, parameters, body_object)
           response = self.build_response(result)
         end
 

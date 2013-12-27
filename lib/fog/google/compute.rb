@@ -47,9 +47,9 @@ module Fog
       request :insert_server
       request :insert_snapshot
 
-      request :reset_server
       request :set_metadata
 
+      request :reset_server
 
       model_path 'fog/google/models/compute'
       model :server
@@ -72,6 +72,9 @@ module Fog
 
       model :zone
       collection :zones
+      
+      model :network
+      collection :networks
 
       module Shared
         attr_reader :project, :api_version

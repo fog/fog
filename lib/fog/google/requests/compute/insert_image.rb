@@ -15,9 +15,7 @@ module Fog
         def insert_image(image_name, image_source, options={})
           api_method = @compute.images.insert
 
-          parameters = {
-            'project' => @project
-          }
+          parameters = {'project' => @project}
 
           body_object = {
             'name'            => image_name,
