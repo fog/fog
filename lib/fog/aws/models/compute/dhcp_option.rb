@@ -24,8 +24,8 @@ module Fog
         #
         def associate(vpc_id)
           requires :id
-          service.attach_dhcp_option(id, vpc_id)
-          #reload
+          service.associate_dhcp_options(id, vpc_id)
+          reload
         end
 
         # Removes an existing dhcp configuration set
