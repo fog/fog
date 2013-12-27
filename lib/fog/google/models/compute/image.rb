@@ -49,7 +49,7 @@ module Fog
           requires :name
           requires :raw_disk
 
-          options = { 'description'     => description }
+          options = { 'description' => description }
 
           response = service.insert_image(name, raw_disk, options)
           
