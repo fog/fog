@@ -139,11 +139,25 @@ module Fog
 
           min_count.times do |i|
             instance_id = Fog::AWS::Mock.instance_id
+            availability_zone = options['Placement.AvailabilityZone'] || Fog::AWS::Mock.availability_zone(@region)
+
+            block_device_mapping = (options['BlockDeviceMapping'] || []).inject([]) do |mapping, device|
+              volume_id = create_volume(availability_zone, device["Ebs.VolumeSize"]).data[:body]["volumeId"]
+
+              mapping << {
+                "deviceName"          => device["DeviceName"],
+                "volumeId"            => volume_id,
+                "status"              => "attached",
+                "attachTime"          => Time.now,
+                "deleteOnTermination" => true,
+              }
+            end
+
             instance = {
               'amiLaunchIndex'      => i,
               'associatePublicIP'   => options['associatePublicIP'] || false,
               'architecture'        => 'i386',
-              'blockDeviceMapping'  => [],
+              'blockDeviceMapping'  => block_device_mapping,
               'clientToken'         => options['clientToken'],
               'dnsName'             => nil,
               'ebsOptimized'        => options['EbsOptimized'] || false,
@@ -156,7 +170,7 @@ module Fog
               'keyName'             => options['KeyName'],
               'launchTime'          => Time.now,
               'monitoring'          => { 'state' => options['Monitoring.Enabled'] || false },
-              'placement'           => { 'availabilityZone' => options['Placement.AvailabilityZone'] || Fog::AWS::Mock.availability_zone(@region), 'groupName' => nil, 'tenancy' => options['Placement.Tenancy'] || 'default' },
+              'placement'           => { 'availabilityZone' => availability_zone, 'groupName' => nil, 'tenancy' => options['Placement.Tenancy'] || 'default' },
               'privateDnsName'      => nil,
               'productCodes'        => [],
               'reason'              => nil,
