@@ -50,6 +50,9 @@ module Fog
       request :set_metadata
 
       request :reset_server
+      request :attach_disk
+      request :detach_disk
+
 
       model_path 'fog/google/models/compute'
       model :server

@@ -6,6 +6,7 @@ module Fog
 
       class Disk < Fog::Model
 
+        # this is not identity as I understand, the :id is uniq identificator 
         identity :name
 
         attribute :kind, :aliases => 'kind'
@@ -21,8 +22,7 @@ module Fog
         attribute :source_snapshot_id, :aliases => 'sourceSnapshot'
 
         def save
-          requires :name
-          requires :zone_name
+          requires :name, :zone_name
 
           options = {}
           if source_image.nil? && !source_snapshot.nil?
@@ -31,9 +31,15 @@ module Fog
 
           options['sizeGb'] = size_gb
 
-          data = service.insert_disk(name, zone_name, source_image, options).body
-          data = service.backoff_if_unfound {service.get_disk(name, zone_name).body}
-          service.disks.merge_attributes(data)
+          response = service.insert_disk(name, zone_name, source_image, options)
+          operation = service.operations.new(response.body)
+          operation.wait
+
+          data = service.backoff_if_unfound { service.get_disk(name, zone_name).body }
+
+          self.merge_attributes(data)
+
+          self
         end
 
         def destroy
@@ -42,6 +48,7 @@ module Fog
           operation.wait_for { !pending? }
           operation 
         end
+        alias_method :delete, :destroy
 
         def zone
           if self.zone_name.is_a? String

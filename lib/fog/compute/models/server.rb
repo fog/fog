@@ -72,6 +72,9 @@ module Fog
       end
 
       def sshable?(options={})
+        puts 'ready? > ' + ready?.to_s
+        puts 'public_ip_address > ' + public_ip_address.to_s
+
         ready? && !public_ip_address.nil? && !!Timeout::timeout(8) { ssh('pwd', options) }
       rescue SystemCallError, Net::SSH::AuthenticationFailed, Net::SSH::Disconnect, Timeout::Error
         false

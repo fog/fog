@@ -15,6 +15,7 @@ module Fog
         attribute :status, :aliases => 'status'
         attribute :status_message, :aliases => 'statusMessage'
         attribute :self_link, :aliases => 'selfLink'
+        # attribute :target_link, :aliases => 'targetLink'
         attribute :error, :aliases => 'error'
         attribute :progress, :aliases => 'progress'
 
