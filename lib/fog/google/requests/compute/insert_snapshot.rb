@@ -12,7 +12,7 @@ module Fog
 
       class Real
 
-        def insert_snapshot(disk_name, zone_name, project=@project, opts={})
+        def insert_snapshot(disk_name, zone_name, opts={})
 
           # This is unfortunate, since we might be called from 2 contexts
           # 1. disk.snapshot <-- here validation of disk_name is not needed
@@ -31,7 +31,9 @@ module Fog
           }
 
           snap_name = opts.delete('name')
+          puts "snap_name = #{snap_name}"
           raise ArgumentError.new('Must specify snapshot name') unless snap_name
+          raise ArgumentError.new('Snapshot name should be 63 letters long.') if snap_name.size > 63
           body_object = { 'name' => snap_name }
 
           # Merge in any remaining options (description)

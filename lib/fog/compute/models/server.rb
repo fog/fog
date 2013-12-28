@@ -64,17 +64,11 @@ module Fog
 
         options = ssh_options.merge(options)
 
-        Fog::Logger.warning '!!!'
-        Fog::Logger.warning public_ip_address.to_s
-        Fog::Logger.warning username
-        Fog::Logger.warning options.inspect
+        Fog::Logger.debug "Trying to ssh to server #{public_ip_address} as #{username}."
         Fog::SSH.new(public_ip_address, username, options).run(commands, &blk)
       end
 
       def sshable?(options={})
-        puts 'ready? > ' + ready?.to_s
-        puts 'public_ip_address > ' + public_ip_address.to_s
-
         ready? && !public_ip_address.nil? && !!Timeout::timeout(8) { ssh('pwd', options) }
       rescue SystemCallError, Net::SSH::AuthenticationFailed, Net::SSH::Disconnect, Timeout::Error
         false

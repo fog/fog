@@ -37,6 +37,7 @@ module Fog
       request :delete_image
       request :delete_network
       request :delete_server
+      request :delete_snapshot      
       request :delete_global_operation
       request :delete_zone_operation
 

@@ -121,9 +121,7 @@ module Fog
 
 
         def reload
-          puts 'reload > ' + self.name + ' ' +  self.zone_name
           data = service.get_server(self.name, self.zone_name).body
-          puts 'result > ' + data.inspect
           @attached_disks = nil # it is made to reload #attached_disks next time it will be called 
           self.merge_attributes(data)
           self
@@ -178,8 +176,11 @@ module Fog
 
         def set_metadata(metadata = {})
           requires :name, :zone_name
-          puts self.metadata.inspect
-
+          if !self.metadata.is_a?(Hash) || self.metadata['fingerprint'].nil? 
+            raise "Server metadata should be Hash and have 'fingerprint' key.\n" +
+                  "'fingerprint' key is returned after get_server request.\n" + 
+                  "You can't call set_metadata on new instances. Have a good day."
+          end
           response = service.set_metadata(name, zone_name, self.metadata['fingerprint'], metadata)
           service.operations.new(response.body)
         end
@@ -213,7 +214,8 @@ module Fog
           requires :disks
           @attached_disks ||= self.disks.map do |disk|
             # we can work without parsing, but not now
-            _, zone, name = disk['source'].match(/https\:\/\/www\.googleapis\.com\/compute\/v1\/projects\/project\/zones\/(.+)\/disks\/(.+)/).to_a
+            puts "disk >> " + disk.inspect
+            _, __, zone, name = disk['source'].match(/^https\:\/\/www\.googleapis\.com\/compute\/v1\/projects\/(.+)\/zones\/(.+)\/disks\/(.+)$/).to_a
             response = service.get_disk(name, zone)
             service.disks.new(response.body)
           end
