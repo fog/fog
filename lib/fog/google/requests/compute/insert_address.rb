@@ -13,7 +13,7 @@ module Fog
       class Real
 
         def insert_address(address_name,region_name)
-          api_method = @compute.addresss.insert
+          api_method = @compute.addresses.insert
           parameters = {
             'project' => @project,
             'region' => region_name

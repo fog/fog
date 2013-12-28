@@ -4,7 +4,7 @@ module Fog
 
       class Mock
 
-        def delete_address(address_name)
+        def delete_address(address_name,region_name)
           Fog::Mock.not_implemented
         end
 
@@ -13,7 +13,7 @@ module Fog
       class Real
 
         def delete_address(address_name,region_name)
-          api_method = @compute.addresss.delete
+          api_method = @compute.addresses.delete
           parameters = {
             'project' => @project,
             'address' => address_name,

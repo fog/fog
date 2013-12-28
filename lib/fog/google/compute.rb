@@ -23,7 +23,7 @@ module Fog
       request :list_snapshots
 
       request :get_server
-	  request :get_disk
+	  request :get_address
       request :get_disk
       request :get_firewall
       request :get_image
@@ -53,6 +53,7 @@ module Fog
       request :insert_snapshot
 
       request :set_metadata
+	  request :set_tags
 
       model_path 'fog/google/models/compute'
       model :server

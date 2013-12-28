@@ -13,7 +13,7 @@ module Fog
       class Real
 
         def get_address(address_name,region_name)
-          api_method = @compute.addresss.get
+          api_method = @compute.addresses.get
           parameters = {
             'project' => @project,
             'address' => address_name,
