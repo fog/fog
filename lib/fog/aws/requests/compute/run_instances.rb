@@ -142,14 +142,20 @@ module Fog
             availability_zone = options['Placement.AvailabilityZone'] || Fog::AWS::Mock.availability_zone(@region)
 
             block_device_mapping = (options['BlockDeviceMapping'] || []).inject([]) do |mapping, device|
-              volume_id = create_volume(availability_zone, device["Ebs.VolumeSize"]).data[:body]["volumeId"]
+              device_name           = device.fetch("DeviceName", "/dev/sda1")
+              volume_size           = device.fetch("Ebs.VolumeSize", 15)            # @todo should pull this from the image
+              delete_on_termination = device.fetch("Ebs.DeleteOnTermination", true) # @todo should pull this from the image
+
+              volume_id = create_volume(availability_zone, volume_size).data[:body]["volumeId"]
+
+              self.data[:volumes][volume_id].merge!("DeleteOnTermination" => delete_on_termination)
 
               mapping << {
-                "deviceName"          => device["DeviceName"],
+                "deviceName"          => device_name,
                 "volumeId"            => volume_id,
                 "status"              => "attached",
                 "attachTime"          => Time.now,
-                "deleteOnTermination" => true,
+                "deleteOnTermination" => delete_on_termination,
               }
             end
 
