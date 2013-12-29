@@ -19,6 +19,7 @@ module Fog
         attribute :public_ip_address, :aliases => 'ip_address'
         attribute :private_ip_address
         attribute :backups_active
+        attribute :created_at
 
         attr_writer :ssh_keys
 

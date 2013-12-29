@@ -5,7 +5,7 @@ def service
 end
 
 def fog_test_server_attributes
-  image = service.images.find { |i| i.name == 'Ubuntu 12.04 x64' }
+  image = service.images.find { |i| i.name == 'Ubuntu 13.10 x64' }
   region = service.regions.find { |r| r.name == 'New York 1' }
   flavor = service.flavors.find { |r| r.name == '512MB' }
 
