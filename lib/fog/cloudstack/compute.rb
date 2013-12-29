@@ -39,8 +39,25 @@ module Fog
       collection :snapshots
       model :zone
       collection :zones
+      model :nat
+      collection :nats
+      model :vlan
+      collection :vlans
+      model :ipaddress
+      collection :ipaddresses
+      model :network
+      collection :networks
+      model :disk_offering
+      collection :disk_offerings
+      model :key_pair
+      collection :key_pairs
+      model :ostype
+      collection :ostypes
+      model :firewall
+      collection :firewalls
 
       request :acquire_ip_address
+      request :disassociate_ip_address
       request :assign_to_load_balancer_rule
       request :assign_virtual_machine
       request :attach_volume
@@ -59,6 +76,7 @@ module Fog
       request :create_snapshot_policy
       request :create_user
       request :create_volume
+      request :create_vlan_ip_range
       request :create_zone
       request :delete_account
       request :delete_disk_offering
@@ -71,6 +89,7 @@ module Fog
       request :delete_snapshot_policies
       request :delete_template
       request :delete_user
+      request :delete_vlan_ip_range
       request :delete_volume
       request :detach_volume
       request :deploy_virtual_machine
@@ -118,6 +137,7 @@ module Fog
       request :list_usage_records
       request :list_users
       request :list_virtual_machines
+      request :list_vlan_ip_ranges
       request :list_volumes
       request :list_zones
       request :migrate_virtual_machine
@@ -138,6 +158,9 @@ module Fog
       request :update_user
       request :update_resource_count
       request :update_virtual_machine
+      request :enable_static_nat
+      request :disable_static_nat
+      request :create_firewall_rule
 
       class Real
 

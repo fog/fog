@@ -1,0 +1,11 @@
+require 'fog/cloudstack'
+require 'fog/compute'
+require "../lib/fog/cloudstack/compute"
+require "../lib/fog/cloudstack/models/compute/servers"
+
+describe 'Cloudstack' do
+it 'should handle duplicated subscriber' do
+  cloudstack = Fog::Compute.new(:provider => 'Cloudstack')
+
+end
+  end
