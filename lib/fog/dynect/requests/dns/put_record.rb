@@ -19,10 +19,11 @@ module Fog
           path = ["#{type}Record", zone, fqdn].join('/')
           path += "/#{options.delete('record_id')}" if options['record_id']
           request(
-            :body     => Fog::JSON.encode(options),
-            :expects  => 200,
-            :method   => :put,
-            :path     => path
+            :body       => Fog::JSON.encode(options),
+            :expects    => 200,
+            :idempotent => true,
+            :method     => :put,
+            :path       => path
           )
         end
       end
