@@ -6,7 +6,7 @@ module Fog
 
         def delete_snapshot(snapshot_name, zone_name)
           Fog::Mock.not_implemented
-		end  
+        end  
 
       end
 
@@ -21,7 +21,7 @@ module Fog
           parameters = {
             'project' => @project,
             'snapshot' => snapshot_name,
-            'zone' => zone_name
+            'zone' => zone_name,
           }
 
           result = self.build_result(api_method, parameters)

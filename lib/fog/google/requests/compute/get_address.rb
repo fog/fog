@@ -4,7 +4,7 @@ module Fog
 
       class Mock
 
-        def get_address(address_name,region_name)
+        def get_address(address_name, region_name)
           Fog::Mock.not_implemented
         end
 
@@ -12,7 +12,7 @@ module Fog
 
       class Real
 
-        def get_address(address_name,region_name)
+        def get_address(address_name, region_name)
           api_method = @compute.addresses.get
           parameters = {
             'project' => @project,

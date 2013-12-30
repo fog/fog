@@ -19,18 +19,15 @@ module Fog
             'instance' => instance,
             'zone' => zone
           }
-          body_object = {
-            "items" => tags
-          }
+          body_object = { "items" => tags }
           result = self.build_result(
             api_method,
             parameters,
-            body_object=body_object)
+            body_object=body_object
+          )
           response = self.build_response(result)
         end
-
       end
-
     end
   end
 end
