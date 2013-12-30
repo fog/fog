@@ -3,18 +3,15 @@ module Fog
     class Google
 
       class Mock
-
-        def insert_firewall(firewall_name, source_range, allowed,
-                            network=@default_network)
+          def insert_firewall(firewall_name, allowed, source_range=[], source_tags=[], network=@default_network)
           Fog::Mock.not_implemented
         end
 
       end
 
       class Real
-
-        def insert_firewall(firewall_name, source_range, allowed,
-                            network=@default_network)
+        
+        def insert_firewall(firewall_name, allowed, source_range=[], source_tags=[], network=@default_network)
           api_method = @compute.firewalls.insert
           parameters = {
             'project' => @project,
@@ -22,9 +19,10 @@ module Fog
           body_object = {
             "name" => firewall_name,
             "network" => "#{@api_url}#{@project}/global/networks/#{network}",
-            "sourceRanges" => source_range,
-            "allowed" => allowed
+             "allowed" => allowed
           }
+          body_object["sourceRanges"] = source_range if !source_range.empty?
+		  body_object["sourceTags"]  = source_tags  if !source_tags.empty?		  
 
           result = self.build_result(api_method, parameters,
                                      body_object=body_object)
