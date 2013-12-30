@@ -13,11 +13,11 @@ module Fog
       class Real
 
         def set_tags(instance, zone, tags=[])
-          api_method = @compute.instance.set_tags
+          api_method = @compute.instances.set_tags
           parameters = {
             'project' => @project,
             'instance' => instance,
-            'zone' => zone,
+            'zone' => zone
           }
           body_object = {
             "items" => tags
