@@ -39,6 +39,8 @@ module Fog
       collection :snapshots
       model :zone
       collection :zones
+      model :vlan
+      collection :vlans
 
       request :acquire_ip_address
       request :assign_to_load_balancer_rule
@@ -138,6 +140,13 @@ module Fog
       request :update_user
       request :update_resource_count
       request :update_virtual_machine
+      request :list_vlan_ip_ranges
+      request :associate_ip_address
+      request :disassociate_ip_address
+      request :create_vlan_ip_range
+      request :delete_vlan_ip_range
+      request :enable_static_nat
+      request :disable_static_nat
 
       class Real
 
@@ -490,6 +499,49 @@ module Fog
                   "oscategoryid" => "56f67279-e082-45c3-a01c-d290d6cd4ce2",
                   "description"  => "Asianux 3(64-bit)"
                   }
+              },
+              :vlan_ip_ranges => {
+                'id'                => '745c3088-4d8d-4198-8b1b-053658596cb9',
+                'account'           => 'accountname',
+                'description'       => 'ip ranges',
+                'domain'            => domain,
+                'domainid'          => domain_id,
+                'forvirtualnetwork' => true,
+                'networkid'         => network_id,
+                'physicalnetworkid' => '745c3088-4d8d-4198-8b1b-053658596cb9',
+                'poid'              => '745c3088-4d8d-4198-8b1b-053658596cb9',
+                'podname'           => 'podname',
+                'project'           => 'projectname',
+                'projectid'         => '745c3088-4d8d-4198-8b1b-053658596cb9',
+                'zoneid'            => '745c3088-4d8d-4198-8b1b-053658596cb9',
+                'gateway'           => '172.17.13.254',
+                'netmask'           => '255.255.255.0',
+                'startip'           => '172.17.13.232',
+                'endip'             => '172.17.13.232',
+                'vlan'              => 102
+              },
+              :ip_info => {
+                'id'                        => '745c3088-4d8d-4198-8b1b-053658596cb9',
+                'account'                   => 'accountname',
+                'description'               => 'ip ranges',
+                'domain'                    => domain,
+                'domainid'                  => domain_id,
+                'associatednetworkid'       => '745c3088-4d8d-4198-8b1b-053658596cb9',
+                'forvirtualnetwork'         => true,
+                'ipaddress'                 => '172.17.13.232',
+                'issourcenat'               => true,
+                'isstaticnat'               => true,
+                'jobid'                     =>  '745c3088-4d8d-4198-8b1b-053658596cb9',
+                'jobstatus'                 => 'pending',
+                'networkid'                 => '745c3088-4d8d-4198-8b1b-053658596cb9',
+                'state'                     => 'Allocated',
+                'virtualmachinedisplayname' => 'vm',
+                'virtualmachineid'          => '745c3088-4d8d-4198-8b1b-053658596cb9',
+                'virtualmachinename'        => '745c3088-4d8d-4198-8b1b-053658596cb9',
+                'vlanid'                    => 102,
+                'vlanname'                  => 'vlan',
+                'zoneid'                    => 100,
+                'zonename'                  => 'zone'
               }
             }
           end

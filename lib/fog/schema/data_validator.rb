@@ -105,7 +105,6 @@ module Fog
       #
       def validate_value(validator, value, options)
         Fog::Logger.write :debug, "[yellow][DEBUG] #{value.inspect} against #{validator.inspect}[/]\n"
-
         case validator
         when Array
           return false if value.is_a?(Hash)
