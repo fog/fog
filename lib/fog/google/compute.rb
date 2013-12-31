@@ -52,6 +52,8 @@ module Fog
       request :insert_server
       request :insert_snapshot
 
+	  request :attach_disk
+	  request :detach_disk
       request :set_metadata
 	  request :set_tags
 
