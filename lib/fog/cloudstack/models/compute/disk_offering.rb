@@ -12,7 +12,8 @@ module Fog
         attribute :name
         attribute :storage_type,    :aliases => 'storagetype'
         attribute :tags
-
+        attribute :display_text,    :aliases => 'displaytext'
+        attribute :disk_size,       :aliases => 'disksize'
 
         def save
           requires :display_text, :name

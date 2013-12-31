@@ -39,10 +39,27 @@ module Fog
       collection :snapshots
       model :zone
       collection :zones
+      model :nat
+      collection :nats
+      model :vlan
+      collection :vlans
+      model :ipaddress
+      collection :ipaddresses
+      model :network
+      collection :networks
+      model :disk_offering
+      collection :disk_offerings
+      model :key_pair
+      collection :key_pairs
+      model :ostype
+      collection :ostypes
+      model :firewall
+      collection :firewalls
 
       request :acquire_ip_address
       request :assign_to_load_balancer_rule
       request :assign_virtual_machine
+      request :associate_ip_address
       request :attach_volume
       request :authorize_security_group_egress
       request :authorize_security_group_ingress
@@ -57,9 +74,13 @@ module Fog
       request :create_ssh_key_pair
       request :create_snapshot
       request :create_snapshot_policy
+      request :create_tags
+      request :create_template
       request :create_user
+      request :create_vlan_ip_range
       request :create_volume
       request :create_zone
+      request :copy_template
       request :delete_account
       request :delete_disk_offering
       request :delete_domain
@@ -69,13 +90,18 @@ module Fog
       request :delete_ssh_key_pair
       request :delete_snapshot
       request :delete_snapshot_policies
+      request :delete_tags 
       request :delete_template
       request :delete_user
+      request :delete_vlan_ip_range
       request :delete_volume
       request :detach_volume
       request :deploy_virtual_machine
       request :destroy_virtual_machine
+      request :disassociate_ip_address
+      request :disable_static_nat
       request :disable_user
+      request :enable_static_nat
       request :enable_user
       request :generate_usage_records
       request :get_vm_password
@@ -114,10 +140,12 @@ module Fog
       request :list_snapshot_policies
       request :list_ssh_key_pairs
       request :list_storage_pools
+      request :list_tags
       request :list_templates
       request :list_usage_records
       request :list_users
       request :list_virtual_machines
+      request :list_vlan_ip_ranges
       request :list_volumes
       request :list_zones
       request :migrate_virtual_machine
@@ -490,6 +518,49 @@ module Fog
                   "oscategoryid" => "56f67279-e082-45c3-a01c-d290d6cd4ce2",
                   "description"  => "Asianux 3(64-bit)"
                   }
+              },
+              :vlan_ip_ranges => {
+                'id'                => '745c3088-4d8d-4198-8b1b-053658596cb9',
+                'account'           => 'accountname',
+                'description'       => 'ip ranges',
+                'domain'            => domain,
+                'domainid'          => domain_id,
+                'forvirtualnetwork' => true,
+                'networkid'         => network_id,
+                'physicalnetworkid' => '745c3088-4d8d-4198-8b1b-053658596cb9',
+                'poid'              => '745c3088-4d8d-4198-8b1b-053658596cb9',
+                'podname'           => 'podname',
+                'project'           => 'projectname',
+                'projectid'         => '745c3088-4d8d-4198-8b1b-053658596cb9',
+                'zoneid'            => '745c3088-4d8d-4198-8b1b-053658596cb9',
+                'gateway'           => '172.17.13.254',
+                'netmask'           => '255.255.255.0',
+                'startip'           => '172.17.13.232',
+                'endip'             => '172.17.13.232',
+                'vlan'              => 102
+              },
+              :ip_info => {
+                'id'                        => '745c3088-4d8d-4198-8b1b-053658596cb9',
+                'account'                   => 'accountname',
+                'description'               => 'ip ranges',
+                'domain'                    => domain,
+                'domainid'                  => domain_id,
+                'associatednetworkid'       => '745c3088-4d8d-4198-8b1b-053658596cb9',
+                'forvirtualnetwork'         => true,
+                'ipaddress'                 => '172.17.13.232',
+                'issourcenat'               => true,
+                'isstaticnat'               => true,
+                'jobid'                     =>  '745c3088-4d8d-4198-8b1b-053658596cb9',
+                'jobstatus'                 => 'pending',
+                'networkid'                 => '745c3088-4d8d-4198-8b1b-053658596cb9',
+                'state'                     => 'Allocated',
+                'virtualmachinedisplayname' => 'vm',
+                'virtualmachineid'          => '745c3088-4d8d-4198-8b1b-053658596cb9',
+                'virtualmachinename'        => '745c3088-4d8d-4198-8b1b-053658596cb9',
+                'vlanid'                    => 102,
+                'vlanname'                  => 'vlan',
+                'zoneid'                    => 100,
+                'zonename'                  => 'zone'
               }
             }
           end
