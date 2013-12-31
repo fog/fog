@@ -29,6 +29,7 @@ module Fog
       request :get_image
       request :get_machine_type
       request :get_network
+	  request :get_project
       request :get_zone
       request :get_snapshot
       request :get_global_operation
@@ -55,6 +56,7 @@ module Fog
 	  request :attach_disk
 	  request :detach_disk
       request :set_metadata
+	  request :set_common_instance_metadata
 	  request :set_tags
 
       model_path 'fog/google/models/compute'
