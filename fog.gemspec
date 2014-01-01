@@ -55,6 +55,7 @@ Gem::Specification.new do |s|
   ## List your development dependencies here. Development dependencies are
   ## those that are only needed during development
   s.add_development_dependency('jekyll') unless RUBY_PLATFORM == 'java'
+  s.add_development_dependency('azure', '~>0.6')
   s.add_development_dependency('rake')
   s.add_development_dependency('rbvmomi')
   s.add_development_dependency('yard')
@@ -65,6 +66,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency('pry')
   s.add_development_dependency('google-api-client', '~>0.6.2')
   s.add_development_dependency('unf')
+  s.add_development_dependency('json')
   if ENV["FOG_USE_LIBVIRT"] && RUBY_PLATFORM != 'java'
     s.add_development_dependency('ruby-libvirt','~>0.4.0')
   end
