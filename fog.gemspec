@@ -53,6 +53,7 @@ Gem::Specification.new do |s|
   ## those that are only needed during development
   s.add_development_dependency('minitest')
   s.add_development_dependency('jekyll') unless RUBY_PLATFORM == 'java'
+  s.add_development_dependency('azure', '~>0.6')
   s.add_development_dependency('rake')
   s.add_development_dependency('rbvmomi')
   s.add_development_dependency('yard')
@@ -65,6 +66,8 @@ Gem::Specification.new do |s|
 
   if ENV["FOG_USE_LIBVIRT"]
     s.add_development_dependency('ruby-libvirt','~> 0.5.0')
+  s.add_development_dependency('unf')
+  s.add_development_dependency('json')
   end
 
   s.files = `git ls-files`.split("\n") - `git ls-files -- providers/`.split("\n")

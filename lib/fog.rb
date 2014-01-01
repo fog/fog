@@ -20,6 +20,7 @@ require 'fog/core/deprecated_connection_accessors'
 # they all depend on fog/core for shared functionality.
 require 'fog/atmos'
 require 'fog/aws'
+require 'fog/azure'
 require 'fog/bluebox'
 require 'fog/brightbox'
 require 'fog/cloudstack'
