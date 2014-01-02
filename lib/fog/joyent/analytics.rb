@@ -61,7 +61,6 @@ module Fog
         def initialize(options = {})
           @joyent_username = options[:joyent_username] || Fog.credentials[:joyent_username]
           @joyent_password = options[:joyent_password] || Fog.credentials[:joyent_password]
-          @mutex = Mutex.new
         end
 
         def request(opts)
@@ -71,7 +70,7 @@ module Fog
 
       class Real
         def initialize(options = {})
-
+          @mutex = Mutex.new
           @connection_options = options[:connection_options] || {}
           @persistent = options[:persistent] || false
 
@@ -166,7 +165,7 @@ module Fog
           @mutex.synchronize do
             @key_manager.each_identity {}
           end
-          
+
           key = @key_manager.known_identities.keys.first
 
           sig = if key.kind_of? OpenSSL::PKey::RSA
