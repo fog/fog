@@ -1,5 +1,6 @@
 require 'fog/joyent'
 require 'fog/joyent/errors'
+require 'thread'
 
 module Fog
   module Joyent
@@ -60,6 +61,7 @@ module Fog
         def initialize(options = {})
           @joyent_username = options[:joyent_username] || Fog.credentials[:joyent_username]
           @joyent_password = options[:joyent_password] || Fog.credentials[:joyent_password]
+          @mutex = Mutex.new
         end
 
         def request(opts)
@@ -161,8 +163,10 @@ module Fog
           date = Time.now.utc.httpdate
 
           # Force KeyManager to load the key(s)
-          @key_manager.each_identity {}
-
+          @mutex.synchronize do
+            @key_manager.each_identity {}
+          end
+          
           key = @key_manager.known_identities.keys.first
 
           sig = if key.kind_of? OpenSSL::PKey::RSA
