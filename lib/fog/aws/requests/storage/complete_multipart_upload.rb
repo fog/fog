@@ -47,6 +47,29 @@ module Fog
         end
 
       end # Real
+
+      class Mock # :nodoc:all
+        require 'fog/aws/requests/storage/shared_mock_methods'
+        include Fog::Storage::AWS::SharedMockMethods
+
+        def complete_multipart_upload(bucket_name, object_name, upload_id, parts)
+          bucket = verify_mock_bucket_exists(bucket_name)
+          upload_info = get_upload_info(bucket_name, upload_id)
+          body = parts.map { |pid| upload_info[:parts][pid.to_i] }.join
+          object = store_mock_object(bucket, object_name, body, upload_info[:options])
+
+          response = Excon::Response.new
+          response.status = 200
+          response.body = {
+            'Content-Length'   => object['Content-Length'],
+            'Content-Type'     => object['Content-Type'],
+            'ETag'             => object['ETag'],
+            'Last-Modified'    => object['Last-Modified'],
+          }
+          response.headers['x-amz-version-id'] = object['VersionId'] if object['VersionId'] != 'null'
+          response
+        end
+      end # Mock
     end # Storage
   end # AWS
 end # Fog

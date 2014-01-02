@@ -44,66 +44,30 @@ module Fog
 
       class Mock # :nodoc:all
 
+        require 'fog/aws/requests/storage/shared_mock_methods'
+        include Fog::Storage::AWS::SharedMockMethods
+
         def put_object(bucket_name, object_name, data, options = {})
-          acl = options['x-amz-acl'] || 'private'
-          if !['private', 'public-read', 'public-read-write', 'authenticated-read'].include?(acl)
-            raise Excon::Errors::BadRequest.new('invalid x-amz-acl')
-          else
-            self.data[:acls][:object][bucket_name] ||= {}
-            self.data[:acls][:object][bucket_name][object_name] = self.class.acls(acl)
-          end
+          define_mock_acl(bucket_name, object_name, options)
 
-          data = Fog::Storage.parse_data(data)
-          unless data[:body].is_a?(String)
-            data[:body] = data[:body].read
-          end
+          data = parse_mock_data(data)
+          bucket = verify_mock_bucket_exists(bucket_name)
+
+          options['Content-Type'] ||= data[:headers]['Content-Type']
+          options['Content-Length'] ||= data[:headers]['Content-Length']
+          object = store_mock_object(bucket, object_name, data[:body], options)
+
           response = Excon::Response.new
-          if (bucket = self.data[:buckets][bucket_name])
-            response.status = 200
-            object = {
-              :body             => data[:body],
-              'Content-Type'    => options['Content-Type'] || data[:headers]['Content-Type'],
-              'ETag'            => Digest::MD5.hexdigest(data[:body]),
-              'Key'             => object_name,
-              'Last-Modified'   => Fog::Time.now.to_date_header,
-              'Content-Length'  => options['Content-Length'] || data[:headers]['Content-Length'],
-              'StorageClass'    => options['x-amz-storage-class'] || 'STANDARD',
-              'VersionId'       => bucket[:versioning] == 'Enabled' ? Fog::Mock.random_base64(32) : 'null'
-            }
+          response.status = 200
 
-            for key, value in options
-              case key
-              when 'Cache-Control', 'Content-Disposition', 'Content-Encoding', 'Content-MD5', 'Expires', /^x-amz-meta-/
-                object[key] = value
-              end
-            end
+          response.headers = {
+            'Content-Length'   => object['Content-Length'],
+            'Content-Type'     => object['Content-Type'],
+            'ETag'             => object['ETag'],
+            'Last-Modified'    => object['Last-Modified'],
+          }
 
-            if bucket[:versioning]
-              bucket[:objects][object_name] ||= []
-
-              # When versioning is suspended, putting an object will create a new 'null' version if the latest version
-              # is a value other than 'null', otherwise it will replace the latest version.
-              if bucket[:versioning] == 'Suspended' && bucket[:objects][object_name].first['VersionId'] == 'null'
-                bucket[:objects][object_name].shift
-              end
-
-              bucket[:objects][object_name].unshift(object)
-            else
-              bucket[:objects][object_name] = [object]
-            end
-
-            response.headers = {
-              'Content-Length'   => object['Content-Length'],
-              'Content-Type'     => object['Content-Type'],
-              'ETag'             => object['ETag'],
-              'Last-Modified'    => object['Last-Modified'],
-            }
-
-            response.headers['x-amz-version-id'] = object['VersionId'] if object['VersionId'] != 'null'
-          else
-            response.status = 404
-            raise(Excon::Errors.status_error({:expects => 200}, response))
-          end
+          response.headers['x-amz-version-id'] = object['VersionId'] if object['VersionId'] != 'null'
           response
         end
 

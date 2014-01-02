@@ -39,6 +39,30 @@ module Fog
         end
 
       end # Real
+
+      class Mock # :nodoc:all
+        require 'fog/aws/requests/storage/shared_mock_methods'
+        include Fog::Storage::AWS::SharedMockMethods
+
+        def initiate_multipart_upload(bucket_name, object_name, options = {})
+          verify_mock_bucket_exists(bucket_name)
+          upload_id = UUID.uuid
+          self.data[:multipart_uploads][bucket_name] ||= {}
+          self.data[:multipart_uploads][bucket_name][upload_id] = {
+            :parts => {},
+            :options => options,
+          }
+
+          response = Excon::Response.new
+          response.status = 200
+          response.body = {
+            "Bucket" => bucket_name,
+            "Key" => object_name,
+            "UploadId" => upload_id,
+          }
+          response
+        end
+      end # Mock
     end # Storage
   end # AWS
 end # Fog
