@@ -116,6 +116,8 @@ module Fog
 
           authenticate
 
+          deprecation_warnings(options)
+
           @persistent = options[:persistent] || false
           @connection = Fog::Connection.new(endpoint_uri.to_s, @persistent, @connection_options)
         end
@@ -185,6 +187,10 @@ module Fog
           if [DFW_ENDPOINT, ORD_ENDPOINT, LON_ENDPOINT].include?(@rackspace_endpoint) && v2_authentication?
             regions = @identity_service.service_catalog.display_service_regions(service_name)
             Fog::Logger.deprecation("Please specify region using :rackspace_region rather than :rackspace_endpoint. Valid regions for :rackspace_region are #{regions}.")
+          end
+
+          unless options[:rackspace_region]
+            Fog::Logger.deprecation("Default region support will be removed in an upcoming release. Please switch to manually setting your endpoint. This requires settng the :rackspace_region option")
           end
         end
 
