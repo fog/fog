@@ -6,7 +6,7 @@ module Fog
     
       class HostMetrics < Fog::Model
         # API Reference here:
-        # http://docs.vmd.citrix.com/XenServer/5.6.0/1.0/en_gb/api/?c=VM_host_metrics
+        # http://docs.vmd.citrix.com/XenServer/6.2.0/1.0/en_gb/api/?c=host_metrics
         
         identity :reference
         

@@ -4,7 +4,8 @@ module Fog
 
       class Mock
 
-        def insert_firewall(firewall_name)
+        def insert_firewall(firewall_name, source_range, allowed,
+                            network=@default_network)
           Fog::Mock.not_implemented
         end
 

@@ -121,7 +121,7 @@ module Fog
           options['Content-MD5'] = content_md5 if content_md5
           options['Content-Type'] = content_type if content_type
           options['Expires'] = expires if expires
-          options.merge(metadata)
+          options.merge!(metadata)
 
           data = service.put_object(directory.key, key, body, options)
           merge_attributes(data.headers.reject {|key, value| ['Content-Length', 'Content-Type'].include?(key)})

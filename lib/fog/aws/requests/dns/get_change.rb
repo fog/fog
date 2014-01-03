@@ -47,7 +47,7 @@ module Fog
             response.body = {
               'Id' => change[:id],
               # set as insync after some time
-              'Status' => (submitted_at + (Fog.timeout/4).to_i) < Time.now ? 'INSYNC' : change[:status],
+              'Status' => (submitted_at + Fog::Mock.delay) < Time.now ? 'INSYNC' : change[:status],
               'SubmittedAt' => change[:submitted_at]
             }
             response

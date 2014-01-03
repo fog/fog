@@ -55,6 +55,8 @@ Fog::Rake::TestTask.new
 namespace :test do
   mock = 'true' || ENV['FOG_MOCK']
   task :travis do
+      # jruby coveralls causes an OOM in travis
+      ENV['COVERAGE'] = 'false' if RUBY_PLATFORM == 'java'
       sh("export FOG_MOCK=#{mock} && bundle exec shindont")
   end
   task :vsphere do

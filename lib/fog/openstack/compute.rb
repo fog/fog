@@ -28,6 +28,8 @@ module Fog
       collection  :addresses
       model       :security_group
       collection  :security_groups
+      model       :security_group_rule
+      collection  :security_group_rules
       model       :key_pair
       collection  :key_pairs
       model       :tenant
@@ -128,6 +130,7 @@ module Fog
       request :create_security_group_rule
       request :delete_security_group
       request :delete_security_group_rule
+      request :get_security_group_rule
 
       # Key Pair
       request :list_key_pairs

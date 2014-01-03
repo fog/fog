@@ -5,10 +5,12 @@ module Fog
     class XenServer
       class Console < Fog::Model
         # API Reference here:
-        # http://docs.vmd.citrix.com/XenServer/6.0.0/1.0/en_gb/api/?c=console
+        # http://docs.vmd.citrix.com/XenServer/6.2.0/1.0/en_gb/api/?c=console
 
         identity :reference
+
         attribute :location
+        attribute :other_config
         attribute :protocol
         attribute :uuid
         attribute :__vm, aliases: :VM

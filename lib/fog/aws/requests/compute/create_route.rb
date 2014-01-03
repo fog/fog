@@ -11,7 +11,7 @@ module Fog
         # * RouteTableId<~String> - The ID of the route table for the route.
         # * DestinationCidrBlock<~String> - The CIDR address block used for the destination match. Routing decisions are based on the most specific match.
         # * GatewayId<~String> - The ID of an Internet gateway attached to your VPC.
-        # * InstanceId<~String> - he ID of a NAT instance in your VPC. The operation fails if you specify an instance ID unless exactly one network interface is attached.
+        # * InstanceId<~String> - The ID of a NAT instance in your VPC. The operation fails if you specify an instance ID unless exactly one network interface is attached.
         # * NetworkInterfaceId<~String> - The ID of a network interface.
         #
         # === Returns

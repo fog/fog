@@ -27,7 +27,6 @@ module Fog
         # @return [String] the id of the claim
         attribute :claim_id
 
-
         # @!attribute [r] identity
         # @return [String] The messages identity
         def identity

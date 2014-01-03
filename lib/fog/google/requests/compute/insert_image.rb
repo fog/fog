@@ -4,7 +4,7 @@ module Fog
 
       class Mock
 
-        def insert_image(image_name)
+        def insert_image(image_name, options={})
           Fog::Mock.not_implemented
         end
 
@@ -30,7 +30,7 @@ module Fog
           }
 
           # Merge in the remaining params (only 'description' should remain)
-          body_object.merge(options)
+          body_object.merge!(options)
 
           result = self.build_result(api_method,
                                      parameters,

@@ -1,6 +1,6 @@
 #Auto Scale (AutoScale)
 
-This document explains how to get started using auto scale with Fog. It assumes you have read the [Getting Started with Fog and the Rackspace Open Cloud](getting_started.md) document.
+This document explains how to get started using Auto Scale with Fog. It assumes you have read the [Getting Started with Fog and the Rackspace Open Cloud](getting_started.md) document.
 
 ## Basic Concepts
 
@@ -15,7 +15,7 @@ Auto Scale functions by linking three services:
 
 ## Workflow
 
-A scaling group is monitored by Rackspace Cloud Monitoring. When Monitoring triggers an alarm for high utilization within the Autoscaling group, a webhook is triggered. The webhook calls the auto scale service, which consults a policy in accordance with the webhook. The policy determines how many additional Cloud Servers should be added or removed in accordance with the alarm.
+A scaling group is monitored by Rackspace Cloud Monitoring. When Monitoring triggers an alarm for high utilization within the Autoscaling group, a webhook is triggered. The webhook calls the Auto Scale service, which consults a policy in accordance with the webhook. The policy determines how many additional Cloud Servers should be added or removed in accordance with the alarm.
 
 Alarms may trigger scaling up or scaling down. Scale-down events always remove the oldest server in the group.
 
@@ -43,7 +43,7 @@ If using Ruby 1.9.x execute:
 
 ## Create Service
 
-Next, create a connection to auto scale:
+Next, create a connection to Auto Scale:
 
 Using a US-based account:
 
@@ -68,7 +68,7 @@ To learn more about obtaining cloud credentials refer to the [Getting Started wi
 
 By default `Fog::Rackspace::AutoScale` will authenticate against the US authentication endpoint. You can specify alternative authentication endpoints using the key `:rackspace_auth_url`. Please refer to [Alternate Authentication Endpoints](http://docs.rackspace.com/auth/api/v2.0/auth-client-devguide/content/Endpoints-d1e180.html) for a list of alternative Rackspace authentication endpoints.
 
-Alternative regions are specified using the key `:rackspace_region `. A list of regions available for auto scale can be found by executing the following:
+Alternative regions are specified using the key `:rackspace_region `. A list of regions available for Auto Scale can be found by executing the following:
 
 	identity_service = Fog::Identity({
 		:provider            => 'Rackspace',                     # Rackspace Fog provider
@@ -142,7 +142,7 @@ This returns:
 
 #### Example Request
 
-To request a list of volume types:
+To request a list of Auto Scale groups:
 
 	response = service.list_groups
 
@@ -165,7 +165,7 @@ returns:
 	{"groups_links"=>[], "groups"=>[{"paused"=>false, "desiredCapacity"=>0, "links"=>[{"href"=>"https://ord.autoscale.api.rackspacecloud.com/v1.0/555/groups/b45e6107-26ca-4a93-869d-46bf20005df3/", "rel"=>"self"}], "active"=>[], "pendingCapacity"=>0, "activeCapacity"=>0, "id"=>"b45e6107-26ca-4a93-869d-46bf20005df3", "name"=>"fog-scailing-group"}]}
 
 
-To learn more about auto scale request methods refer to [rdoc](http://rubydoc.info/gems/fog/Fog/Rackspace/AutoScale/Real). To learn more about Excon refer to [Excon GitHub repo](https://github.com/geemus/excon).
+To learn more about Auto Scale request methods refer to [rdoc](http://rubydoc.info/gems/fog/Fog/Rackspace/AutoScale/Real). To learn more about Excon refer to [Excon GitHub repo](https://github.com/geemus/excon).
 
 ### Model Layer
 
@@ -369,7 +369,7 @@ Available options on `group_config` include  `:max_entities`, `:name`, `:cooldow
     group_config.max_entities = 16
     group_config.save
 
-**Note**: If you pass any metadata values in this call, it must be the full set of metadata for the Scaling Group, since the underlying API call **overwrites** any existing metadata.
+**Note**: If you pass any metadata values in this call, it must be the full set of metadata for the scaling group, since the underlying API call **overwrites** any existing metadata.
 
 ### Deleting a Scaling Group
 
@@ -400,7 +400,7 @@ To retrieve the launch config:
 
     launch_config = group.launch_config
 
-The launch configuration contains two attributes `:type` and `:args`. The only launch type currently available for auto scale is `:launch_server`. The `args` attribute contains a hash with the launch server configuration options as follows:
+The launch configuration contains two attributes `:type` and `:args`. The only launch type currently available for Auto Scale is `:launch_server`. The `args` attribute contains a hash with the launch server configuration options as follows:
 
     {"server"=>{
         "name"=>"autoscale_server",
@@ -436,7 +436,7 @@ To add a policy to a scaling group use the following:
 Parameter | Required | Default | Notes
 ---- | ---- | ---- | ----
 **:name** | yes |  |
-**:type** | yes | | This can be "webhook", "schedule" or "cloud_monitoring"
+**:type** | yes | | This can be "webhook", "schedule" or "cloud monitoring"
 **:cooldown** | yes |  | Period in seconds after a policy execution in which further events are ignored. This is separate from the overall cooldown for the scaling group.
 **:change** | no | | Can be positive or negative, which makes this a scale-up or scale-down policy, respectively. If this value is specified you can not specify `:change_percent`.
 **:change_percent** | no | | The percentage change to the autoscale group's number of units. If this value is specified you can not specify `:change`.

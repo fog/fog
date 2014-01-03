@@ -10,6 +10,7 @@ module Fog
         attribute :host_name
         attribute :service_name
         attribute :details
+        attribute :zone
 
         def initialize(attributes)
           attributes["service_name"] = attributes.delete "service"

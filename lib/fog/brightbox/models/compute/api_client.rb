@@ -14,7 +14,7 @@ module Fog
           options = {
             :name => name,
             :description => description
-          }.delete_if {|k,v| v.nil? || v == "" }
+          }.delete_if { |k, v| v.nil? || v == "" }
           data = service.create_api_client(options)
           merge_attributes(data)
           true

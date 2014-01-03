@@ -31,7 +31,7 @@ module Fog
         def invite(email, role)
           return nil if email.nil? || email == ""
           return nil if role.nil? || role == ""
-          options = {:email => email, :role => role}
+          options = { :email => email, :role => role }
           data = service.create_collaboration(options)
           new(data)
         end
