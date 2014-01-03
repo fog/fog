@@ -10,6 +10,16 @@ module Fog
           )
         end
       end
+
+      class Mock
+        def get_instrumentation(id)
+          raise Fog::Compute::Joyent::Errors::NotFound.new('not found') unless id == self.data[:instrumentation]['id']
+          response = Excon::Response.new
+          response.status = 200
+          response.body = self.data[:instrumentation]
+          response
+        end
+      end
     end
   end
 end

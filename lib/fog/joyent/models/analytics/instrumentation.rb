@@ -20,20 +20,46 @@ module Fog
         attribute :value_scope, aliases: 'value-scope'
         attribute :uris, :type => :array
 
+        def initialize(attributes={})
+          self.decomposition = []
+          self.value_arity = 'scalar'
+          self.retention_time = 600
+          self.idle_max = 3600
+          self.persist_data = false
+          self.value_scope = 'interval'
+          super
+        end
+
         def crtime=(new_crtime)
           attributes[:crtime] = Time.at(new_crtime.to_i / 1000)
         end
 
+        def decomposition=(value)
+          attributes[:decomposition] = value
+          self.value_dimension = self.decomposition.size + 1
+          self.decomposition
+        end
+
         def save
           requires :joyent_module, :stat
-          munged_attributes = attributes.dup
-          munged_attributes[:module] = munged_attributes.delete(:joyent_module)
-          munged_attributes[:'value-dimension'] = munged_attributes.delete(:value_dimension) || (self.decomposition.size + 1)
-          munged_attributes[:'value-arity'] = munged_attributes.delete(:value_arity) || 'scalar'
-          munged_attributes[:'retention-time'] = munged_attributes.delete(:retention_time) || 600
-          munged_attributes[:'idle-max'] = munged_attributes.delete(:idle_max) || 3600
-          munged_attributes[:'persist-data'] = munged_attributes.delete(:persist_data) || false
-          munged_attributes[:'value-scope'] = munged_attributes.delete(:value_scope) || 'interval'
+          #munged_attributes = attributes.dup
+          #munged_attributes[:module] = munged_attributes.delete(:joyent_module)
+          #munged_attributes[:'value-dimension'] = munged_attributes.delete(:value_dimension) || (self.decomposition.size + 1)
+          #munged_attributes[:'value-arity'] = munged_attributes.delete(:value_arity) || 'scalar'
+          #munged_attributes[:'retention-time'] = munged_attributes.delete(:retention_time) || 600
+          #munged_attributes[:'idle-max'] = munged_attributes.delete(:idle_max) || 3600
+          #munged_attributes[:'persist-data'] = munged_attributes.delete(:persist_data) || false
+          #munged_attributes[:'value-scope'] = munged_attributes.delete(:value_scope) || 'interval'
+          munged_attributes = remap_attributes(self.attributes.dup, {
+              :joyent_module => 'module',
+              :value_dimension => 'value-dimension',
+              :value_arity => 'value-arity',
+              :retention_time => 'retention-time',
+              :idle_max => 'idle-max',
+              :persist_data => 'persist-data',
+              :value_scope => 'value-scope'
+          })
+
           data = service.create_instrumentation(munged_attributes)
           merge_attributes(data.body)
           true

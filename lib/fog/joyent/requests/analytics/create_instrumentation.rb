@@ -15,7 +15,7 @@ module Fog
       class Mock
         def create_instrumentation(values = {})
           response = Excon::Response.new
-          response.status = 200
+          response.status = 201
           response.body = self.data[:instrumentation]
           response
         end
