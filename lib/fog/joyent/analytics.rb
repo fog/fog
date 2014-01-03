@@ -71,6 +71,19 @@ module Fog
                            'uris' =>
                                [{ "uri" => "/#{@joyent_username}/analytics/instrumentations/63/value/raw",
                                   "name" => "value_raw" }] }
+                       when :values
+                         {
+                           'value' => { 'zoneid' => 0 },
+                           'transformations' => {},
+                           'start_time' => Time.now.utc - 600,
+                           'duration' => 30,
+                           'end_time' => Time.now.utc - 570,
+                           'nsources' => 1,
+                           'minreporting' => 1,
+                           'requested_start_time' => Time.now.utc - 600,
+                           'requested_duration' => 30,
+                           'requested_end_time' => Time.now.utc - 570
+                         }
                        else
                          {}
                        end

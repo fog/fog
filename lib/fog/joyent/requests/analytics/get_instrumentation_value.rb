@@ -6,7 +6,6 @@ module Fog
           request(
               :path => url,
               :method => 'GET',
-              :debug_request => true,
               :expects => 200,
               :query => {
                   :ndatapoints => ndatapoints,
@@ -14,6 +13,15 @@ module Fog
                   :duration => duration
               }
           )
+        end
+      end
+
+      class Mock
+        def get_instrumentation_value(url, requested_start_time, ndatapoints, duration)
+          response = Excon::Response.new
+          response.status = 200
+          response.body = [self.data[:values]]
+          response
         end
       end
     end
