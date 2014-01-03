@@ -1,4 +1,4 @@
-Shindo.tests("Fog::Joyent::Analytics | instrumentations", %w{joyent}) do
+Shindo.tests("Fog::Joyent[:analytics] | instrumentation requests", %w{joyent}) do
 
   @analytics = Fog::Joyent[:analytics]
 
