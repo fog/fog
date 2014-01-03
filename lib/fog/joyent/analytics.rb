@@ -50,7 +50,30 @@ module Fog
       class Mock
         def self.data
           @data ||= Hash.new do |hash, key|
-            hash[key] = {}
+            hash[key] =case key
+                       when :instrumentation
+                         { 'module' => "cpu",
+                           'stat' => "usage",
+                           'predicate' => {},
+                           'decomposition' => ["zonename"],
+                           'value-dimension' => 2,
+                           'value-arity' => "discrete-decomposition",
+                           'enabled' => true,
+                           'retention-time' => 86400,
+                           'idle-max' => 86400,
+                           'transformations' => [],
+                           'nsources' => 3,
+                           'granularity' => 30,
+                           'persist-data' => false,
+                           'crtime' => 1388690982000,
+                           'value-scope' => "point",
+                           'id' => "63",
+                           'uris' =>
+                               [{ "uri" => "/#{@joyent_username}/analytics/instrumentations/63/value/raw",
+                                  "name" => "value_raw" }] }
+                       else
+                         {}
+                       end
           end
         end
 
@@ -61,6 +84,8 @@ module Fog
         def initialize(options = {})
           @joyent_username = options[:joyent_username] || Fog.credentials[:joyent_username]
           @joyent_password = options[:joyent_password] || Fog.credentials[:joyent_password]
+          @joyent_url = 'https://us-sw-1.api.joyentcloud.com'
+          @joyent_version = '~7'
         end
 
         def request(opts)
