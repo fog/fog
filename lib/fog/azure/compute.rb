@@ -17,6 +17,9 @@ module Fog
 
       class Mock
         include Collections
+        def initialize(options)
+          @vm_svc = nil
+        end
       end
 
       class Real
