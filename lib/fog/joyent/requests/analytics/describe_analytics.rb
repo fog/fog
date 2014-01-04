@@ -15,7 +15,7 @@ module Fog
         def describe_analytics
           response = Excon::Response.new
           response.status = 200
-          response.body = self.data[:fields]
+          response.body = self.data[:describe_analytics]
           response
         end
       end

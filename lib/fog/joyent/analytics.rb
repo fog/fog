@@ -84,7 +84,7 @@ module Fog
                            'requested_duration' => 30,
                            'requested_end_time' => Time.now.utc - 570
                          }
-                       when :fields
+                       when :describe_analytics
                          {
                              'fields' => {
                                  'zonename' => {
@@ -94,6 +94,11 @@ module Fog
                                  'pid' => {
                                      'label' => 'process identifier',
                                      'type' => 'string'
+                                 }
+                             },
+                             'modules' => {
+                                 'cpu' => {
+                                     'label' => 'CPU'
                                  }
                              }
                          }
