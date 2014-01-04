@@ -21,7 +21,7 @@ module Fog
       request :list_instrumentations
       request :get_instrumentation
       request :create_instrumentation
-	    request :delete_instrumentation
+      request :delete_instrumentation
       request :get_instrumentation_value
 
       model_path 'fog/joyent/models/analytics'
@@ -73,16 +73,16 @@ module Fog
                                   "name" => "value_raw" }] }
                        when :values
                          {
-                           'value' => { 'zoneid' => 0 },
-                           'transformations' => {},
-                           'start_time' => Time.now.utc - 600,
-                           'duration' => 30,
-                           'end_time' => Time.now.utc - 570,
-                           'nsources' => 1,
-                           'minreporting' => 1,
-                           'requested_start_time' => Time.now.utc - 600,
-                           'requested_duration' => 30,
-                           'requested_end_time' => Time.now.utc - 570
+                             'value' => { 'zoneid' => 0 },
+                             'transformations' => {},
+                             'start_time' => Time.now.utc - 600,
+                             'duration' => 30,
+                             'end_time' => Time.now.utc - 570,
+                             'nsources' => 1,
+                             'minreporting' => 1,
+                             'requested_start_time' => Time.now.utc - 600,
+                             'requested_duration' => 30,
+                             'requested_end_time' => Time.now.utc - 570
                          }
                        when :describe_analytics
                          {
@@ -99,6 +99,25 @@ module Fog
                              'modules' => {
                                  'cpu' => {
                                      'label' => 'CPU'
+                                 }
+                             },
+                             'transformations' => {
+                                 'geolocate' => {
+                                     'label' => 'geolocate IP addresses',
+                                     'fields' => ['raddr'] }
+                             },
+                             'metrics' => [{
+                                               "module" => "cpu",
+                                               "stat" => "thread_executions",
+                                               "label" => "thread executions",
+                                               "interval" => "interval",
+                                               "fields" => ["hostname", "zonename", "runtime"],
+                                               "unit" => "operations"
+                                           }],
+                             'types' => {
+                                 'string' => {
+                                     'arity' => "discrete",
+                                     'unit' => ""
                                  }
                              }
                          }

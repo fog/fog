@@ -1,4 +1,4 @@
-Shindo.tests("Fog::Joyent[:analytics] | instrumentation", %w{joyent analytics instrumentation }) do
+Shindo.tests("Fog::Joyent[:analytics] | instrumentation", %w{joyent }) do
   model_tests(Fog::Joyent[:analytics].instrumentations, {:joyent_module => 'cpu', :stat => 'usage'}, true)
 
   @analytics = Fog::Joyent[:analytics]
