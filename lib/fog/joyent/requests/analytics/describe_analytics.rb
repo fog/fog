@@ -10,6 +10,15 @@ module Fog
           )
         end
       end
+
+      class Mock
+        def describe_analytics
+          response = Excon::Response.new
+          response.status = 200
+          response.body = self.data[:fields]
+          response
+        end
+      end
     end
   end
 end

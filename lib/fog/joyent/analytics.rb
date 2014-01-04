@@ -84,6 +84,19 @@ module Fog
                            'requested_duration' => 30,
                            'requested_end_time' => Time.now.utc - 570
                          }
+                       when :fields
+                         {
+                             'fields' => {
+                                 'zonename' => {
+                                     'label' => 'zone name',
+                                     'type' => 'string'
+                                 },
+                                 'pid' => {
+                                     'label' => 'process identifier',
+                                     'type' => 'string'
+                                 }
+                             }
+                         }
                        else
                          {}
                        end
