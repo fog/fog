@@ -258,9 +258,9 @@ module Fog
 
               target_container = service.data[cname]
               if target_container
-                keys = target_container.objects.keys.
-                  select { |name| name.start_with? oprefix }.
-                  sort
+                all = target_container.objects.keys
+                matching = all.select { |name| name.start_with? oprefix }
+                keys = matching.sort
 
                 keys.each do |name|
                   yield target_container.objects[name]
