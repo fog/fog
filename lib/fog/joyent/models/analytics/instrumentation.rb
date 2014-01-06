@@ -42,7 +42,8 @@ module Fog
 
         def save
           requires :joyent_module, :stat
-          munged_attributes = remap_attributes(self.attributes.dup, {
+          munged_attributes = self.attributes.dup
+          remap_attributes(munged_attributes, {
               :joyent_module => 'module',
               :value_dimension => 'value-dimension',
               :value_arity => 'value-arity',
