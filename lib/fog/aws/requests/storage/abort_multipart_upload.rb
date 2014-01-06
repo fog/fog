@@ -30,7 +30,7 @@ module Fog
 
         def abort_multipart_upload(bucket_name, object_name, upload_id)
           verify_mock_bucket_exists(bucket_name)
-          upload_info = self.data[:multipart_uploads][bucket_name].delete(upload_id)
+          upload_info = get_upload_info(bucket_name, upload_id, true)
           response = Excon::Response.new
           if upload_info
             response.status = 204

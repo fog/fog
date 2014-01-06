@@ -30,8 +30,12 @@ module Fog
           raise(Excon::Errors.status_error({:expects => 200}, response))
         end
 
-        def get_upload_info(bucket_name, upload_id)
-          upload_info = self.data[:multipart_uploads][bucket_name][upload_id]
+        def get_upload_info(bucket_name, upload_id, delete = false)
+          if delete
+            upload_info = self.data[:multipart_uploads][bucket_name].delete(upload_id)
+          else
+            upload_info = self.data[:multipart_uploads][bucket_name][upload_id]
+          end
 
           if !upload_info
             response = Excon::Response.new
