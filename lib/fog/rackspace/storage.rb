@@ -128,7 +128,7 @@ module Fog
 
           # Create a new container. Generally, you should call
           # {Fog::Rackspace::Storage#add_container} instead.
-          def initialize service
+          def initialize(service)
             @service = service
             @objects, @meta = {}, {}
           end
@@ -165,7 +165,7 @@ module Fog
           #
           # @return [MockObject, nil] Return the MockObject at this name if
           #   one exists; otherwise, `nil`.
-          def mock_object name
+          def mock_object(name)
             @objects[Fog::Rackspace.escape(name)]
           end
 
@@ -175,7 +175,7 @@ module Fog
           # @param name [String] (Unescaped) object name.
           # @return [MockObject] The object within this container with the
           #   specified name.
-          def mock_object! name
+          def mock_object!(name)
             mock_object(name) or raise Fog::Storage::Rackspace::NotFound.new
           end
 
@@ -184,7 +184,7 @@ module Fog
           #
           # @param name [String] The object's name, unescaped.
           # @param data [String, #read] The contents of the object.
-          def add_object name, data
+          def add_object(name, data)
             @objects[Fog::Rackspace.escape(name)] = MockObject.new(data, service)
           end
 
@@ -192,7 +192,7 @@ module Fog
           # object is not present beforehand.
           #
           # @param name [String] The (unescaped) object name to remove.
-          def remove_object name
+          def remove_object(name)
             @objects.delete Fog::Rackspace.escape(name)
           end
         end
@@ -205,7 +205,7 @@ module Fog
 
           # Construct a new object. Generally, you should call
           # {MockContainer#add_object} instead of instantiating these directly.
-          def initialize data, service
+          def initialize(data, service)
             data = Fog::Storage.parse_data(data)
             @service = service
 
@@ -363,7 +363,7 @@ module Fog
         # @param cname [String] The (unescaped) container name.
         # @return [MockContainer, nil] The named MockContainer, or `nil` if
         #   none exist.
-        def mock_container cname
+        def mock_container(cname)
           data[Fog::Rackspace.escape(cname)]
         end
 
@@ -374,7 +374,7 @@ module Fog
         # @throws [Fog::Storage::Rackspace::NotFound] If no container with the
         #   given name exists.
         # @return [MockContainer] The existing MockContainer.
-        def mock_container! cname
+        def mock_container!(cname)
           mock_container(cname) or raise Fog::Storage::Rackspace::NotFound.new
         end
 
@@ -383,7 +383,7 @@ module Fog
         #
         # @param cname [String] The (unescaped) container name.
         # @return [MockContainer] The container that was added.
-        def add_container cname
+        def add_container(cname)
           data[Fog::Rackspace.escape(cname)] = MockContainer.new(self)
         end
 
@@ -391,7 +391,7 @@ module Fog
         # container does not exist.
         #
         # @param cname [String] The (unescaped) container name.
-        def remove_container cname
+        def remove_container(cname)
           data.delete Fog::Rackspace.escape(cname)
         end
 

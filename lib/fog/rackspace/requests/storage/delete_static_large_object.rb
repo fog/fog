@@ -63,7 +63,7 @@ module Fog
           delete_multiple_objects(nil, paths)
         end
 
-        def not_found path
+        def not_found(path)
           response = Excon::Response.new
           response.status = 200
           response.body = {
