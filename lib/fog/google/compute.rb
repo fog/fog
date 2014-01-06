@@ -11,6 +11,7 @@ module Fog
 
       request_path 'fog/google/requests/compute'
       request :list_servers
+      request :list_addresses
       request :list_disks
       request :list_firewalls
       request :list_images
@@ -22,6 +23,7 @@ module Fog
       request :list_snapshots
 
       request :get_server
+      request :get_address
       request :get_disk
       request :get_firewall
       request :get_image
@@ -32,7 +34,9 @@ module Fog
       request :get_global_operation
       request :get_zone_operation
 
+      request :delete_address
       request :delete_disk
+      request :delete_snapshot
       request :delete_firewall
       request :delete_image
       request :delete_network
@@ -40,6 +44,7 @@ module Fog
       request :delete_global_operation
       request :delete_zone_operation
 
+      request :insert_address
       request :insert_disk
       request :insert_firewall
       request :insert_image
@@ -48,6 +53,7 @@ module Fog
       request :insert_snapshot
 
       request :set_metadata
+      request :set_tags
 
       model_path 'fog/google/models/compute'
       model :server
@@ -118,7 +124,6 @@ module Fog
           end
           result
         end
-
       end
 
       class Mock
@@ -818,7 +823,7 @@ module Fog
           @data = nil
         end
 
-        def data(project = @project)
+        def data(project=@project)
           self.class.data(api_version)[project]
         end
 

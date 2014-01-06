@@ -29,6 +29,7 @@ Shindo.tests("Fog::Compute[:digitalocean] | server model", ['digitalocean', 'com
         :flavor_id,
         :region_id,
         :image_id,
+        :created_at,
         :ssh_keys=
       ]
       tests("The server model should respond to") do
