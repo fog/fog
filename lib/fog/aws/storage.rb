@@ -349,7 +349,8 @@ module Fog
                 :cors => {
                   :bucket => {}
                 },
-                :bucket_tagging => {}
+                :bucket_tagging => {},
+                :multipart_uploads => {}
               }
             end
           end
