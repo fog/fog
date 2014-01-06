@@ -10,8 +10,6 @@ module Fog
 
         attribute :bits
         attribute :cores
-        attribute :cpu
-        attribute :cpu_speed
         attribute :disk
         attribute :name
         attribute :ram
