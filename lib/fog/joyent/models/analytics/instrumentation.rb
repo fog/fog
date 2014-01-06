@@ -42,14 +42,6 @@ module Fog
 
         def save
           requires :joyent_module, :stat
-          #munged_attributes = attributes.dup
-          #munged_attributes[:module] = munged_attributes.delete(:joyent_module)
-          #munged_attributes[:'value-dimension'] = munged_attributes.delete(:value_dimension) || (self.decomposition.size + 1)
-          #munged_attributes[:'value-arity'] = munged_attributes.delete(:value_arity) || 'scalar'
-          #munged_attributes[:'retention-time'] = munged_attributes.delete(:retention_time) || 600
-          #munged_attributes[:'idle-max'] = munged_attributes.delete(:idle_max) || 3600
-          #munged_attributes[:'persist-data'] = munged_attributes.delete(:persist_data) || false
-          #munged_attributes[:'value-scope'] = munged_attributes.delete(:value_scope) || 'interval'
           munged_attributes = remap_attributes(self.attributes.dup, {
               :joyent_module => 'module',
               :value_dimension => 'value-dimension',
