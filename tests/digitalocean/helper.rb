@@ -5,15 +5,10 @@ def service
 end
 
 def fog_test_server_attributes
-<<<<<<< HEAD
-  image = service.images.find { |i| i.name == 'Ubuntu 13.10 x64' }
-=======
-
   # Hard coding numbers because requests from tests are sometimes failing.
   # TODO: Mock properly instead
   image = service.images.find { |i| i.name == 'Ubuntu 13.10 x64' }
   image_id = image.nil? ? 1505447 : image.id
->>>>>>> master
   region = service.regions.find { |r| r.name == 'New York 1' }
   region_id = region.nil? ? 4 : region.id
   flavor = service.flavors.find { |r| r.name == '512MB' }
