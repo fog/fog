@@ -24,7 +24,6 @@ Shindo.tests('Fog::Compute[:google] | image requests', ['google']) do
       'name' => String,
       'description' => String,
       'sourceType' => String,
-      'preferredKernel' => String,
       'rawDisk' => {
         'containerType' => String,
         'source' => String

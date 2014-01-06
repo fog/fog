@@ -11,6 +11,7 @@ module Fog
 
       request_path 'fog/google/requests/compute'
       request :list_servers
+      request :list_addresses
       request :list_disks
       request :list_firewalls
       request :list_images
@@ -22,6 +23,7 @@ module Fog
       request :list_snapshots
 
       request :get_server
+      request :get_address
       request :get_disk
       request :get_firewall
       request :get_image
@@ -32,7 +34,9 @@ module Fog
       request :get_global_operation
       request :get_zone_operation
 
+      request :delete_address
       request :delete_disk
+      request :delete_snapshot
       request :delete_firewall
       request :delete_image
       request :delete_network
@@ -40,6 +44,7 @@ module Fog
       request :delete_global_operation
       request :delete_zone_operation
 
+      request :insert_address
       request :insert_disk
       request :insert_firewall
       request :insert_image
@@ -48,6 +53,7 @@ module Fog
       request :insert_snapshot
 
       request :set_metadata
+      request :set_tags
 
       model_path 'fog/google/models/compute'
       model :server
@@ -76,7 +82,7 @@ module Fog
 
         def shared_initialize(options = {})
           @project = options[:google_project]
-          @api_version = 'v1beta16'
+          @api_version = 'v1'
         end
 
         def build_excon_response(body, status=200)
@@ -84,7 +90,11 @@ module Fog
           response.body = body
           if response.body and response.body["error"]
             response.status = response.body["error"]["code"]
-            msg = response.body["error"]["errors"].map{|error| error["message"]}.join(", ")
+            if response.body["error"]["errors"]
+              msg = response.body["error"]["errors"].map{|error| error["message"]}.join(", ")
+            else
+              msg = "Error [#{response.body["error"]["code"]}]: #{response.body["error"]["message"] || "GCE didn't return an error message"}"
+            end
             case response.status
             when 404
               raise Fog::Errors::NotFound.new(msg)
@@ -114,7 +124,6 @@ module Fog
           end
           result
         end
-
       end
 
       class Mock
@@ -144,7 +153,6 @@ module Fog
                     "name" => "centos-6-2-v20120621",
                     "description" => "CentOS 6.2; Created Thu, 21 Jun 2012 14:22:21 +0000",
                     "sourceType" => "RAW",
-                    "preferredKernel" => "https://www.googleapis.com/compute/#{api_version}/projects/google/global/kernels/gce-20120621",
                     "rawDisk" => {
                       "containerType" => "TAR",
                       "source" => ""
@@ -163,7 +171,6 @@ module Fog
                     "name" => "centos-6-v20120912",
                     "description" => "CentOS 6; Created Wed, 12 Sep 2012 00:00:00 +0000",
                     "sourceType" => "RAW",
-                    "preferredKernel" => "https://www.googleapis.com/compute/#{api_version}/projects/google/global/kernels/gce-v20120912",
                     "rawDisk" => {
                       "containerType" => "TAR",
                       "source" => ""
@@ -182,7 +189,6 @@ module Fog
                     "name" => "centos-6-v20121106",
                     "description" => "SCSI-enabled CentOS 6; Created Tue, 06 Nov 2012 00:00:00 +0000",
                     "sourceType" => "RAW",
-                    "preferredKernel" => "https://www.googleapis.com/compute/#{api_version}/projects/google/global/kernels/gce-v20121106",
                     "rawDisk" => {
                       "containerType" => "TAR",
                       "source" => ""
@@ -202,7 +208,6 @@ module Fog
                     "name" => "debian-6-squeeze-v20130816",
                     "description" => "Debian GNU/Linux 6.0.7 (squeeze) built on 2013-08-16",
                     "sourceType" => "RAW",
-                    "preferredKernel" => "https://www.googleapis.com/compute/#{api_version}/projects/google/global/kernels/gce-v20130813",
                     "rawDisk" => {
                       "containerType" => "TAR",
                       "source" => ""
@@ -217,7 +222,6 @@ module Fog
                     "name" => "debian-7-wheezy-v20130816",
                     "description" => "Debian GNU/Linux 7.1 (wheezy) built on 2013-08-16",
                     "sourceType" => "RAW",
-                    "preferredKernel" => "https://www.googleapis.com/compute/#{api_version}/projects/google/global/kernels/gce-v20130813",
                     "rawDisk" => {
                       "containerType" => "TAR",
                       "source" => ""
@@ -232,12 +236,26 @@ module Fog
                     "name" => "debian-7-wheezy-v20131014",
                     "description" => "Debian GNU/Linux 7.1 (wheezy) built on 2013-10-14",
                     "sourceType" => "RAW",
-                    "preferredKernel" => "https://www.googleapis.com/compute/#{api_version}/projects/google/global/kernels/gce-v20130813",
                     "rawDisk" => {
                       "containerType" => "TAR",
                       "source" => ""
                     },
                     "status" => "READY"
+                  },
+                  "debian-7-wheezy-v20131120" => {
+                    "kind" => "compute#image",
+                    "selfLink" => "https://www.googleapis.com/compute/#{api_version}/projects/debian-cloud/global/images/debian-7-wheezy-v20131120",
+                    "id" => "17312518942796567788",
+                    "creationTimestamp" => "2013-11-25T15:17:00.436-08:00",
+                    "name" => "debian-7-wheezy-v20131120",
+                    "description" => "Debian GNU/Linux 7.2 (wheezy) built on 2013-11-20",
+                    "sourceType" => "RAW",
+                    "rawDisk" => {
+                      "containerType" => "TAR",
+                      "source" => ""
+                    },
+                    "status" => "READY",
+                    "archiveSizeBytes" => "341857472"
                   }
                 }
               }
@@ -252,7 +270,6 @@ module Fog
                     "name" => "centos-6-v20130813",
                     "description" => "SCSI-enabled CentOS 6; Created Tue, 13 Aug 2013 00:00:00 +0000",
                     "sourceType" => "RAW",
-                    "preferredKernel" => "https://www.googleapis.com/compute/#{api_version}/projects/google/global/kernels/gce-v20130813",
                     "rawDisk" => {
                       "containerType" => "TAR",
                       "source" => ""
@@ -273,8 +290,6 @@ module Fog
                     "name" => "fog-1380196541",
                     "tags" => { "fingerprint" => "42WmSpB8rSM=" },
                     "machineType" => "https://www.googleapis.com/compute/#{api_version}/projects/#{key}/zones/us-central1-a/machineTypes/n1-standard-1",
-                    "image" => "https://www.googleapis.com/compute/#{api_version}/projects/centos-cloud/global/images/centos-6-v20130813",
-                    "kernel" => "https://www.googleapis.com/compute/#{api_version}/projects/google/global/kernels/gce-v20130813",
                     "canIpForward" => false,
                     "networkInterfaces" => [
                       {
@@ -295,8 +310,11 @@ module Fog
                       {
                         "kind" => "compute#attachedDisk",
                         "index" => 0,
-                        "type" => "SCRATCH",
-                        "mode" => "READ_WRITE"
+                        "type" => "PERSISTENT",
+                        "mode" => "READ_WRITE",
+                        "source" => "https://www.googleapis.com/compute/#{api_version}/projects/#{key}/zones/us-central1-a/disks/fog-1",
+                        "deviceName" => "persistent-disk-0",
+                        "boot" => true
                       }
                     ],
                     "metadata" => {
@@ -771,7 +789,30 @@ module Fog
                   }
                 end,
                 :images => {},
-                :disks => {},
+                :disks => {
+                  "fog-1" => {
+                    "kind" => "compute#disk",
+                    "id" => "3338131294770784461",
+                    "creationTimestamp" => "2013-12-18T19:47:10.583-08:00",
+                    "zone" => "https://www.googleapis.com/compute/#{api_version}/projects/#{key}/zones/us-central1-a",
+                    "status" => "READY",
+                    "name" => "fog-1",
+                    "sizeGb" => "10",
+                    "selfLink" => "https://www.googleapis.com/compute/#{api_version}/projects/#{key}/zones/us-central1-a/disks/fog-1",
+                    "sourceImage" => "https://www.googleapis.com/compute/#{api_version}/projects/debian-cloud/global/images/debian-7-wheezy-v20131120",
+                    "sourceImageId" => "17312518942796567788"
+                  },
+                  "fog-2" => {
+                    "kind" => "compute#disk",
+                    "id" => "3338131294770784462",
+                    "creationTimestamp" => "2013-12-18T19:47:10.583-08:00",
+                    "zone" => "https://www.googleapis.com/compute/#{api_version}/projects/#{key}/zones/us-central1-a",
+                    "status" => "READY",
+                    "name" => "fog-2",
+                    "sizeGb" => "10",
+                    "selfLink" => "https://www.googleapis.com/compute/#{api_version}/projects/#{key}/zones/us-central1-a/disks/fog-1"
+                  }
+                },
                 :operations => {}
               }
             end
@@ -782,7 +823,7 @@ module Fog
           @data = nil
         end
 
-        def data(project = @project)
+        def data(project=@project)
           self.class.data(api_version)[project]
         end
 

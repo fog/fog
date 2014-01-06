@@ -33,13 +33,13 @@ module Fog
 
         # Set file's access control list (ACL).
         # 
-        #     valid acls: private, public-read, public-read-write, authenticated-read
+        #     valid acls: private, public-read, public-read-write, authenticated-read, bucket-owner-read, bucket-owner-full-control
         # 
         # @param [String] new_acl one of valid options
         # @return [String] @acl
         # 
         def acl=(new_acl)
-          valid_acls = ['private', 'public-read', 'public-read-write', 'authenticated-read']
+          valid_acls = ['private', 'public-read', 'public-read-write', 'authenticated-read', 'bucket-owner-read', 'bucket-owner-full-control']
           unless valid_acls.include?(new_acl)
             raise ArgumentError.new("acl must be one of [#{valid_acls.join(', ')}]")
           end

@@ -169,45 +169,17 @@ spec.add_dependency 'fog', '~> 1.16'
 [semver]: http://semver.org/
 [pvc]: http://guides.rubygems.org/patterns/
 
+## Getting Help
+
+* [General Documentation](http://fog.io).
+* [Provider Specific Documentation](http://fog.io/about/provider_documentation.html).
+* Ask specific questions on [Stack Overflow](http://stackoverflow.com/questions/tagged/fog)
+* Report bugs and discuss potential features in [Github issues](https://github.com/fog/fog/issues).
+
 ## Contributing
 
-* Find something you would like to work on.
-  * Look for anything you can help with in the [issue tracker](https://github.com/fog/fog/issues).
-  * Look at the [code quality metrics](https://codeclimate.com/github/fog/fog) for anything you can help clean up.
-  * Or anything else!
-* Fork the project and do your work in a topic branch.
-  * Make sure your changes will work on both Ruby 1.8.7 and Ruby 1.9
-* Add a config at `tests/.fog` for the component you want to test.
-* Add shindo tests to prove your code works and run all the tests using `bundle exec rake`.
-* Rebase your branch against `fog/fog` to make sure everything is up to date.
-* Commit your changes and send a pull request.
+Please refer to [CONTRIBUTING.md](https://github.com/fog/fog/blob/master/CONTRIBUTING.md).
 
-## Additional Resources
+## License
 
-* [fog.io](http://fog.io)
-* [Provider Documentation](http://fog.io/about/provider_documentation.html)
-
-## Copyright
-
-(The MIT License)
-
-Copyright (c) 2013 [geemus (Wesley Beary)](http://github.com/geemus)
-
-Permission is hereby granted, free of charge, to any person obtaining
-a copy of this software and associated documentation files (the
-"Software"), to deal in the Software without restriction, including
-without limitation the rights to use, copy, modify, merge, publish,
-distribute, sublicense, and/or sell copies of the Software, and to
-permit persons to whom the Software is furnished to do so, subject to
-the following conditions:
-
-The above copyright notice and this permission notice shall be
-included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
-LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
-OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
-WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+Please refer to [LICENSE.md](https://github.com/fog/fog/blob/master/LICENSE.md).

@@ -29,7 +29,6 @@ module Fog
               'Content-Type' => 'application/json',
               'Authorization' => 'Basic ' << Base64.encode64("#{@storm_on_demand_username}:#{@storm_on_demand_password}").chomp
             }.merge!(params[:headers] || {}),
-            :host     => @host,
             :path     => "#{@path}/#{API_VERSION}#{params[:path]}",
             :expects  => 200,
             :method   => :post

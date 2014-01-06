@@ -9,7 +9,7 @@ module Fog
     attr_reader :service
 
     Array.public_instance_methods(false).each do |method|
-      unless [:reject, :select, :slice].include?(method.to_sym)
+      unless [:reject, :select, :slice, :clear, :inspect].include?(method.to_sym)
         class_eval <<-EOS, __FILE__, __LINE__
           def #{method}(*args)
             unless @loaded
@@ -41,7 +41,6 @@ module Fog
       end
     end
 
-    remove_method :clear
     def clear
       @loaded = true
       super
@@ -72,7 +71,6 @@ module Fog
     end
 
 
-    remove_method :inspect
     def inspect
       Thread.current[:formatador] ||= Formatador.new
       data = "#{Thread.current[:formatador].indentation}<#{self.class.name}\n"

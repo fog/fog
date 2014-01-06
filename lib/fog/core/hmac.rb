@@ -25,22 +25,9 @@ module Fog
     end
 
     def setup_sha256
-      begin
-        @digest = OpenSSL::Digest.new('sha256')
-        @signer = lambda do |data|
-          OpenSSL::HMAC.digest(@digest, @key, data)
-        end
-      rescue RuntimeError => error
-        unless error.message == 'Unsupported digest algorithm (sha256).'
-          raise error
-        else
-          require 'hmac-sha2'
-          @hmac = ::HMAC::SHA256.new(@key)
-          @signer = lambda do |data|
-            @hmac.update(data)
-            @hmac.digest
-          end
-        end
+      @digest = OpenSSL::Digest.new('sha256')
+      @signer = lambda do |data|
+        OpenSSL::HMAC.digest(@digest, @key, data)
       end
     end
 

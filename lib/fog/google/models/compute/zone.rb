@@ -14,6 +14,7 @@ module Fog
         attribute :end_time, :aliases => 'endTime'
         attribute :quotas
         attribute :region
+        attribute :self_link, :aliases => 'selfLink'
 
         def up?
           self.status == "UP"

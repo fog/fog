@@ -24,6 +24,8 @@ module Fog
       collection  :internet_gateways
       model       :key_pair
       collection  :key_pairs
+      model       :network_acl
+      collection  :network_acls
       model       :network_interface
       collection  :network_interfaces
       model       :route_table
@@ -47,6 +49,7 @@ module Fog
 
       request_path 'fog/aws/requests/compute'
       request :allocate_address
+      request :assign_private_ip_addresses
       request :associate_address
       request :associate_dhcp_options
       request :attach_network_interface
@@ -59,6 +62,8 @@ module Fog
       request :create_internet_gateway
       request :create_image
       request :create_key_pair
+      request :create_network_acl
+      request :create_network_acl_entry
       request :create_network_interface
       request :create_placement_group
       request :create_route
@@ -75,6 +80,8 @@ module Fog
       request :delete_dhcp_options
       request :delete_internet_gateway
       request :delete_key_pair
+      request :delete_network_acl
+      request :delete_network_acl_entry
       request :delete_network_interface
       request :delete_security_group
       request :delete_placement_group
@@ -97,6 +104,7 @@ module Fog
       request :describe_reserved_instances
       request :describe_instance_status
       request :describe_key_pairs
+      request :describe_network_acls
       request :describe_network_interface_attribute
       request :describe_network_interfaces
       request :describe_route_tables
@@ -130,6 +138,8 @@ module Fog
       request :purchase_reserved_instances_offering
       request :reboot_instances
       request :release_address
+      request :replace_network_acl_association
+      request :replace_network_acl_entry
       request :register_image
       request :request_spot_instances
       request :reset_network_interface_attribute
@@ -213,6 +223,7 @@ module Fog
                     'ipPermissions'      => [],
                   },
                 },
+                :network_acls => {},
                 :network_interfaces => {},
                 :snapshots => {},
                 :volumes => {},

@@ -43,7 +43,7 @@ module Fog
           Excon::Response.new.tap do |response|
             if cidrBlock 
               response.status = 200
-              vpc_id = Fog::AWS::Mock.request_id
+              vpc_id = Fog::AWS::Mock.vpc_id
               self.data[:vpcs].push({
                 'vpcId'         => vpc_id,
                 'state'         => 'pending',
@@ -65,6 +65,12 @@ module Fog
               # add_route_association(routeTableId, subnetId, main=false) is declared in assocate_route_table.rb
               assoc = add_route_association(default_route.id, nil, true)
               route_table["associationSet"].push(assoc)
+
+              # Create a default network ACL
+              default_nacl = self.network_acls.new(:vpc_id => vpc_id)
+              default_nacl.save
+              # Manually override since Amazon doesn't let you create a default one
+              self.data[:network_acls][default_nacl.network_acl_id]['default'] = true
 
               response.body = {
                 'requestId' => Fog::AWS::Mock.request_id,

@@ -1,3 +1,265 @@
+1.19.0 12/19/2013 15180fd7c0993f7fe6cfdc861a4db7ada14825ad
+==========================================================
+
+Stats! { 'collaborators' => 53, 'downloads' => 3970307, 'forks' => 1015, 'open_issues' => 149, 'watchers' => 2831 }
+
+MVP! Mike Pountney
+
+[AWS]
+  add modify_vpc_attribute. thanks Eric Stonfer
+  add modify_vpc_attribute. thanks Eric Stonfer
+
+[AWS|Autoscaling]
+  Fix option name in documentation. thanks Frederick Cheung
+
+[AWS|RDS]
+  Support for creating and removing subnet groups. thanks Akshay Joshi
+
+[AWS|Storage]
+  fixed signed urls when using session tokens. thanks Frederick Cheung
+
+[Brightbox]
+  Fix test issue with reusing servers. thanks Paul Thornthwaite
+  Add new SSL cert metadata attributes. thanks Paul Thornthwaite
+  Remove commented resource from schema. thanks Paul Thornthwaite
+  Fix typo in yard tag. thanks Paul Thornthwaite
+  Clean up Cloud IP mapping code. thanks Paul Thornthwaite
+  Code style clean up. thanks Paul Thornthwaite
+
+[OS|Volume]
+  Add listing/showing volume types. thanks Grzesiek Kolodziejczyk
+
+[aws]
+  Implement missing mocks for Route 53. thanks Carlos Sanchez
+  style fix for address model. thanks Eric Stonfer
+  narrow scope of unf warning. thanks geemus
+
+[aws:storage]
+  path_style option availability. thanks David Illsley
+
+[aws|cloudwatch]
+  remove :host key from request. thanks Brian D. Burns
+
+[aws|dns]
+  Don't set mock changes to INSYNC immediately, only after some timeout. thanks Carlos Sanchez
+
+[aws|elb]
+  support for cross zone load balancing. thanks Frederick Cheung
+
+[aws|rds]
+  Implement `ready?` for subnet group. thanks Akshay Joshi
+  Support Iops parameter. thanks Eric Hankins
+
+[aws|sqs]
+  remove host/port from request. thanks geemus
+
+[aws|storage]
+  warn/load unf as needed. thanks geemus
+
+[bluebox]
+  remove :host from excon request. thanks Sam Cooper
+
+[core]
+  use Excon :persistent option. thanks Brian D. Burns
+
+[digitalocean]
+  Add support for private networking. thanks Trae Robrock
+
+[dnsimple]
+  remove host from request. thanks Jose Luis Salas
+
+[general]
+  Allow default wait_for interval to be overiden globally. thanks radekg
+  Merge Forg.interval and Fog.timeout into a single file. thanks radekg
+
+[google]
+  natIP is set to true when it must be an ip. thanks Carlos Sanchez
+  Add support for instance tags. thanks Carlos Sanchez
+  Add support for instance tags. thanks Carlos Sanchez
+  Raise Fog::Errors::NotFound on 404. thanks Carlos Sanchez
+  Implement disk mocks and enable tests. thanks Carlos Sanchez
+  Alias flavor_id and machine_type for consistency with other providers. thanks Carlos Sanchez
+  Instances are created without description, and disk size is ignored. thanks Carlos Sanchez
+  Implement operation model. thanks Carlos Sanchez
+
+[hp]
+  Add documentation and examples for the provider for HP Cloud Services. thanks Rupak Ganguly
+  Fix links in some documentation pages. thanks Rupak Ganguly
+  Fix a few more documentation page links. thanks Rupak Ganguly
+  Fix connection section for newer services. thanks Rupak Ganguly
+
+[misc]
+  Get VcloudDirector working again in fog interactive. Fixes #2373. thanks Adam Heinz
+  Use OpenSSL::Digest instead of deprecated OpenSSL::Digest::Digest. thanks Akira Matsuda
+  Add new AWS EC2 flavors to the compute model. thanks Alfred Moreno
+  Add exponential backoff to backoff_if_unfound. thanks Andrew Leonard
+  add in 'AssociatePublicIpAddress' to launch configuration creation. thanks Andrew Stangl
+  merge upstream changes and resolve merge conflict. thanks Andrew Stangl
+  add in 'AssociatePublicIpAddress' to launch configuration creation. thanks Andrew Stangl
+  remove duplicate code introduced during rebase. thanks Andrew Stangl
+  tidy up and remove whitespace. thanks Andrew Stangl
+  use original error message if none given. thanks Brian D. Burns
+  use Fog::JSON. thanks Brian D. Burns
+  Add ready? method to aws VPC and Subnet models. thanks Brian Nelson
+  Add pending -> available transitions for AWS VPC and Subnets. thanks Brian Nelson
+  all? not working in JRuby 1.7.5+. Configure Travis. thanks Carlos Sanchez
+  Disable specific tests that don't pass on jruby 1.7.5+. thanks Carlos Sanchez
+  Disable coveralls on travis with jruby. thanks Carlos Sanchez
+  Ensure vpc created in a test doesn't affect another. thanks Carlos Sanchez
+  Allows custom username for aws spot instances. thanks Casey Abernathy
+  Added content_encoding attribute to Rackspace storage. thanks Cezar Sa Espinola
+  Remove :host key in RDS request method to eliminate excon warning. thanks David Faber
+  Remove stray private key. thanks Dominic Cleal
+  Update excon dependency to version ~>0.30.0. thanks Erik Michaels-Ober
+  Fix typo in documentation. thanks Erik Michaels-Ober
+  ecloud api version bump. thanks Eugene Howe
+  Lock user by default. thanks Evan Light
+  Updated docs to reflect RackConnect compatibility. thanks Evan Light
+  Typo. thanks Evan Light
+  service attribute conflicts with the service defined in the parent. thanks Evan Petrie
+  details sometimes fails with a not-found. thanks Evan Petrie
+  Add index for describe_images parameters that use them. thanks James Bence
+  Make changes to a copy of the options parameter. thanks Joe Yates
+  Give 'versionId' value the expected structure. thanks Joe Yates
+  Add IAMInstanceProfile support to launch configs. thanks Jon Topper
+  Improve support for VPC Security Groups in RDS. thanks Jon Topper
+  Add IAMInstanceProfile support to launch configs. thanks Jon Topper
+  Improve support for VPC Security Groups in RDS. thanks Jon Topper
+  Remove duplication. thanks Jon Topper
+  Update S3 ACL whitelist. thanks Keith Barrette
+  Revert "[rackspace] wrapping test blocks around test helpers to prevent unexpected shindo exceptions". thanks Kyle Rames
+  merging in changes. thanks Kyle Rames
+  Added syntax highlighting for ruby code fragments. thanks Mark IJbema
+  Add request to set VM annotations in vSphere. thanks Martin Matuska
+  Add the uncommitted property to the vsphere datastore object. thanks Martin Matuska
+  changed shutdown to reboot in reboot server method. thanks Matheus Mina
+  changed __consoles to consoles and renamed consoles method to get_consoles. thanks Matheus Mina
+  fixed tests. thanks Matheus Mina
+  fixed consoles to use :aliases. thanks Matheus Mina
+  fixed AWS::Glacier::Vault.delete_notification_configuration so that it passes the ID to the underlying core request. thanks Matt Pokress
+  Allow custom Mock.not_implemented message. thanks Mike Pountney
+  Allow custom Mock.not_implemented message. thanks Mike Pountney
+  ignore .ruby-version. thanks Mike Pountney
+  vApp rename via put_vapp_name_and_description. thanks Mike Pountney
+  use std options={} format for optional parameters. thanks Mike Pountney
+  Find all and by-name Mock for Query API orgVdcNetwork. thanks Mike Pountney
+  improve network mock test data, to include vdc & IsShared. thanks Mike Pountney
+  fix tests for running against live environment. thanks Mike Pountney
+  make Mock vcloud_director_host an FQDN. thanks Mike Pountney
+  rename Mock vcloud_director_host to pass URI.parse. thanks Mike Pountney
+  Add delete_network request. thanks Mike Pountney
+  add Mock for post_create_network, use this to create/delete network in tests. thanks Mike Pountney
+  Modified AWS S3 mock, so that it errors when creating an existing bucket. thanks Nassos Antoniou
+  return NS and SOA records as per https://github.com/fog/fog/issues/2419 - this allows us to work with NS subdelegations, as well as the NS and SOA records while the type can't be changed, the values and TTLs can be. thanks Nathan Sullivan
+  Added parameter to force request timeout on xen. thanks Paulo Henrique Lopes Ribeiro
+  Adding more XenServer models. thanks Paulo Henrique Lopes Ribeiro
+  Forget to reference models on main class. thanks Paulo Henrique Lopes Ribeiro
+  adding spot price to launch configurations. thanks Rodrigo Estebanez
+  Sometimes :Environments is not a key. thanks Sarah Vessels
+  Fog::Storage::Local#directories#all: Don't break when :local_root folder is missing. thanks Sjoerd Andringa
+  Also call #load in case of missing local root folder. thanks Sjoerd Andringa
+  using new way of task mocking for edgegateway tests. thanks Sneha Somwanshi
+  updated documentation for put_vm. thanks Sneha Somwanshi
+  openstack modifications. thanks Thom Mahoney & Eugene Howe
+  openstack modifications. thanks Thom Mahoney & Eugene Howe
+  Need to list block in the argument list to access the variable. thanks Trae Robrock
+  Update describe_addresses.rb. thanks Virender Khatri
+  Update address.rb. thanks Virender Khatri
+  add gittip shield. thanks geemus
+  fix for broken AWS records tests. thanks geemus
+  expanding/rewriting the getting-help/involved section of README. thanks geemus
+  fix spacing for getting help section of README. thanks geemus
+  streamline openstack security groups tests. thanks geemus
+  move license to LICENSE.md. thanks geemus
+  add CONTRIBUTING.md. thanks geemus
+  just refer to contrib/license in readme to DRY. thanks geemus
+  Create parser for AWS assign private ip addresses. thanks joe
+  Assign private ip parser. thanks joe
+  add assign private ip request path. thanks joe
+  fix typo and add mock. thanks joe
+  Update error message on tests. thanks joe
+  private ip tests. thanks joe
+  pass options as a hash add support for multiple ips. thanks joe
+  update tests to reflect argument hash. thanks joe
+  remove debugging. thanks joe
+  fix variable name typo. thanks joe
+  remove unneeded test and destroy objects. thanks joe
+
+[openstack|compute]
+  Basic examples for Compute. thanks Daniel Lobato
+
+[openstack|storage]
+  adding missing request methods to Storage service. thanks Kyle Rames
+  updating request to use the proper file structure. thanks Kyle Rames
+
+[rackspace]
+  updating compute and storage to pull service net urls from service catalog. thanks Kyle Rames
+  wrapping test blocks around test helpers to prevent unexpected shindo exceptions. thanks Kyle Rames
+  updating test helper to log errors and not throw exceptions to prevent shindo from halting if an error occurs. thanks Kyle Rames
+  fixing more live tests. thanks Kyle Rames
+  fixing broken tests caused by bad helper. thanks Kyle Rames
+  apply documentation edits. thanks Kyle Rames
+  apply documentation edits. thanks Kyle Rames
+
+[rackspace|compute]
+  compute_v2 should require fog/rackspace. thanks Brian D. Burns
+
+[rackspace|identity]
+  re-implementing service catalog in hopes of providing a faster more flexible solution. thanks Kyle Rames
+  updated service catalog support service net. thanks Kyle Rames
+  updated service catalog to return global endpoint if specified region endpoint does not exist. thanks Kyle Rames
+  tweaking service catalog to support ruby 1.8.7. thanks Kyle Rames
+
+[rackspace|queues]
+  adding examples create queue, delete queue, and post message. thanks Kyle Rames
+  adding id alias for identity; fixed bug in message#identity that returned the id along with the claim_id query string; removed redundant code. thanks Kyle Rames
+  adding more examples. thanks Kyle Rames
+  fixing examples. thanks Kyle Rames
+  adding request YARD docs. thanks Kyle Rames
+  adding YARD docs. thanks Kyle Rames
+  adding the queues getting started guide. thanks Kyle Rames
+  updating set_messages= to populate the claim_id attribute on messages in order for destroy to work properly. thanks Kyle Rames
+  adding the queues getting started guide. thanks Kyle Rames
+
+[vSphere]
+  Implementation of feature to specify scsi_controller type at create type and also support the attribute scsi_controller to return the right class. thanks Marc Grimme
+
+[vcloud_director]
+  fix models vms_test so is pending on empty environment. thanks Dan Abel
+  tests become pending not failing on absense of testable resources. thanks Dan Abel
+  post_create_org_vdc_network. thanks Mike Pountney
+  fix to input format for post_create_org_vdc_network. thanks Mike Pountney
+  fix query test to handle delete_network. thanks Mike Pountney
+  Fix medias#create - issue #2440. thanks Nick Osborn
+  s/@end_point/end_point/. thanks Nick Osborn
+  update name, description and storage_profile for vm. thanks Sneha Somwanshi
+  ensure that MetadataEntry is a list. thanks Sneha Somwanshi
+  Show guest customization "admin password auto". thanks Stefano Tortarolo
+  Handle Guest admin password. thanks Stefano Tortarolo
+  allow nullable for gateway in network tests. thanks geemus
+
+[vclouddirector]
+  Shore up tests re EdgeGateway. thanks Mike Pountney
+  correct put_vapp_name_and_description documentation. thanks Mike Pountney
+
+[vsphere|compute]
+  restore default guest_id so setting it is optional. thanks Dominic Cleal
+  Force shutdown a server if VMware Tools is installed, but isn't running. thanks Kevin Menard
+  Pass server shutdown options through to the stop operation so the caller can force shutdown if desired. thanks Kevin Menard
+  get_vm_interface returns a hash, not an object that responds to :key. thanks Kevin Menard
+  Renamed 'vm' to 'server' to be more in line with other fog providers. thanks Kevin Menard
+  Backed out the changed to use a hash and fixed the conversion to an Interface class. thanks Kevin Menard
+  Implemented idiomatic interface destruction. thanks Kevin Menard
+  Default to a VirtualE1000 NIC if not configured. thanks Kevin Menard
+  Implemented idiomatic interface creation. thanks Kevin Menard
+  interfaces#get now properly initializes the Interface object. thanks Kevin Menard
+  Deprecated the old interface creation and destruction methods now that the idiomatic ones exist. thanks Kevin Menard
+
+[xenserver]
+  Updated models to have all attributes from version 6.2.0. thanks Paulo Henrique Lopes Ribeiro
+  Adding more XenServer Models. thanks Paulo Henrique Lopes Ribeiro
+
+
 1.18.0 10/31/2013 5442bc7e893eb73dae8bb5ee8ef0845c78c43627
 ==========================================================
 

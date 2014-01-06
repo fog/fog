@@ -13,7 +13,7 @@ Shindo.tests('AWS::RDS | subnet group requests', ['aws', 'rds']) do
   subnet_range = 8
   @subnets = (1..4).map do
     subnet = Fog::Compute[:aws].create_subnet(@vpc.id, "10.#{vpc_range}.#{subnet_range}.0/24",
-      'AvailabilityZone' => subnet_az).body['subnetSet'].first
+      'AvailabilityZone' => subnet_az).body['subnet']
     subnet_az = subnet_az.succ
     subnet_range *= 2
     subnet

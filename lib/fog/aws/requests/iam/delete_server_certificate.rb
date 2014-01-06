@@ -36,7 +36,9 @@ module Fog
             'RequestId' => Fog::AWS::Mock.request_id
           }
 
-          self.data[:server_certificates].delete(server_certificate_name)
+          unless self.data[:server_certificates].delete(server_certificate_name)
+            raise Fog::AWS::IAM::NotFound.new("The Server Certificate with name #{server_certificate_name} cannot be found.")
+          end
 
           response
         end
