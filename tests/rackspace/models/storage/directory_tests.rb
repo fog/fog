@@ -1,7 +1,5 @@
 Shindo.tests('Fog::Rackspace::Storage | directory', ['rackspace']) do
 
-  pending if Fog.mocking?
-
   @service = Fog::Storage[:rackspace]
   
   def container_meta_attributes
@@ -92,9 +90,8 @@ Shindo.tests('Fog::Rackspace::Storage | directory', ['rackspace']) do
 
    directory_attributes[:metadata] = {:draft => 'true'}
 
-   tests('metadata')  do
-     pending if Fog.mocking?
-     
+   tests('metadata') do
+
      model_tests(@service.directories, directory_attributes, Fog.mocking?) do
        tests('sets metadata on create').returns('true') do
          @instance.metadata.data
