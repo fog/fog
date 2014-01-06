@@ -5,7 +5,6 @@ def service
 end
 
 def fog_test_server_attributes
-
   # Hard coding numbers because requests from tests are sometimes failing.
   # TODO: Mock properly instead
   image = service.images.find { |i| i.name == 'Ubuntu 13.10 x64' }
