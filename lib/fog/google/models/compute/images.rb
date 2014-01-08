@@ -12,7 +12,8 @@ module Fog
         GLOBAL_PROJECTS = [ 'google',
                             'debian-cloud',
                             'centos-cloud',
-                            'rhel-cloud',
+                          # RHEL removed from this list because not everyone has access to it.
+                          #  'rhel-cloud', 
                           ]
 
         def all
