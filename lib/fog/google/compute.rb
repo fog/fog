@@ -1,5 +1,6 @@
 require 'fog/google'
 require 'fog/compute'
+require 'fog/google/helpers/requests_helper'
 
 module Fog
   module Compute
@@ -55,7 +56,6 @@ module Fog
       request :reset_server
       request :set_metadata
       request :set_tags
-
 
       model_path 'fog/google/models/compute'
       model :server

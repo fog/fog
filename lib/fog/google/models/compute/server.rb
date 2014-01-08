@@ -1,13 +1,11 @@
 require 'fog/compute/models/server'
 require 'net/ssh/proxy/command'
-require 'fog/google/helpers/attribute_converter'
 
 module Fog
   module Compute
     class Google
 
       class Server < Fog::Compute::Server
-        include Fog::Compute::Google::AttributeConverter
 
         identity :name
 
@@ -21,9 +19,6 @@ module Fog
         attribute :metadata
         attribute :tags, :squash => 'items'
         attribute :self_link, :aliases => 'selfLink'
-
-        convert_attribute :zone_name
-        convert_attribute :machine_type
 
         def image_name=(args)
           Fog::Logger.deprecation("image_name= is no longer used [light_black](#{caller.first})[/]")
@@ -56,7 +51,7 @@ module Fog
         end
 
         def destroy
-          requires :name, :zone_name
+          requires :name, :zone
           operation = service.delete_server(name, zone)
           # wait until "RUNNING" or "DONE" to ensure the operation doesn't fail, raises exception on error
           Fog.wait_for do
