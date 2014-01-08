@@ -26,7 +26,7 @@ module Fog
             key_data.merge!("public_key" => attributes)
           end
 
-          key_data.merge!(attributes) unless attributes.nil?
+          key_data.merge!(attributes) if attributes.is_a?(Hash)
 
           data = {
             'keypair' => key_data
