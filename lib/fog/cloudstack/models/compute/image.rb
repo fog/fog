@@ -61,6 +61,23 @@ module Fog
           merge_attributes(data['createtemplateresponse'])
         end
 
+        def update
+          requires :id
+
+          options = {
+            'id'               => id,
+            'bootable'         => bootable,
+            'displaytext'      => display_text,
+            'format'           => format,
+            'name'             => name,
+            'ostypeid'         => os_type_id,
+            'passwordenabled'  => password_enabled,
+          }
+
+          data = service.update_template(options)
+          merge_attributes(data['updatetemplateresponse'])
+        end
+
         def destroy
           requires :id
           service.delete_template('id' => self.id)
