@@ -51,7 +51,7 @@ module Fog
           )
         end
 
-        # Authorize a new port range for a security group
+        # Authorize a new ingress port range for a security group
         #
         #  >> g = AWS.security_groups.all(:description => "something").first
         #  >> g.authorize_port_range(20..21)
@@ -103,6 +103,46 @@ module Fog
             name,
             'GroupId'       => group_id,
             'IpPermissions' => [ ip_permission ]
+          )
+        end
+        
+        # Authorize a new egress port range for a security group
+        #
+        #  >> g = AWS.security_groups.all(:description => "something").first
+        #  >> g.authorize_port_range_egress(20..21)
+        #
+        # == Parameters:
+        # range::
+        #   A Range object representing the port range you want to open up. E.g., 20..21
+        #
+        # options::
+        #   A hash that can contain any of the following keys:
+        #    :cidr_ip (defaults to "0.0.0.0/0")
+        #    :group - group_id, cannot be used with :cidr_ip
+        #    :ip_protocol (defaults to "tcp")
+        
+        def authorize_port_range_egress(range, options = {})
+          requires :group_id
+
+          ip_permission = {
+            'FromPort'   => range.min,
+            'ToPort'     => range.max,
+            'IpProtocol' => options[:ip_protocol] || 'tcp'
+          }
+
+          if options[:group].nil?
+            ip_permission['IpRanges'] = [
+              { 'CidrIp' => options[:cidr_ip] || '0.0.0.0/0' }
+            ]
+          else
+            ip_permission['Groups'] = [
+              {'GroupId' => options[:group]}
+            ]
+          end
+
+          service.authorize_security_group_egress(
+            group_id,
+            [ ip_permission ]
           )
         end
 
@@ -165,7 +205,7 @@ module Fog
           )
         end
 
-        # Revoke an existing port range for a security group
+        # Revoke an existing ingress port range for a security group
         #
         #  >> g = AWS.security_groups.all(:description => "something").first
         #  >> g.revoke_port_range(20..21)
@@ -217,6 +257,46 @@ module Fog
             name,
             'GroupId'       => group_id,
             'IpPermissions' => [ ip_permission ]
+          )
+        end
+
+        # Revoke an existing egress port range for a security group
+        #
+        #  >> g = AWS.security_groups.all(:description => "something").first
+        #  >> g.revoke_port_range(20..21)
+        #
+        # == Parameters:
+        # range::
+        #   A Range object representing the port range you want to open up. E.g., 20..21
+        #
+        # options::
+        #   A hash that can contain any of the following keys:
+        #    :cidr_ip (defaults to "0.0.0.0/0")
+        #    :group - group_id, cannot be used with :cidr_ip
+        #    :ip_protocol (defaults to "tcp")
+
+        def revoke_port_range_egress(range, options = {})
+          requires_one :group_id
+
+          ip_permission = {
+            'FromPort'   => range.min,
+            'ToPort'     => range.max,
+            'IpProtocol' => options[:ip_protocol] || 'tcp'
+          }
+
+          if options[:group].nil?
+            ip_permission['IpRanges'] = [
+              { 'CidrIp' => options[:cidr_ip] || '0.0.0.0/0' }
+            ]
+          else
+            ip_permission['Groups'] = [
+              {'GroupId' => options[:group]}
+            ]
+          end
+
+          service.revoke_security_group_egress(
+            group_id,
+            [ ip_permission ]
           )
         end
 
