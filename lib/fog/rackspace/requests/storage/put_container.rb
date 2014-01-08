@@ -1,6 +1,7 @@
 module Fog
   module Storage
     class Rackspace
+
       class Real
 
         # Create a new container
@@ -21,6 +22,21 @@ module Fog
         end
 
       end
+
+      class Mock
+        def put_container(name, options={})
+          existed = ! mock_container(name).nil?
+          container = add_container(name)
+          options.keys.each do |k|
+            container.meta[k] = options[k].to_s if k =~ /^X-Container-Meta/
+          end
+
+          response = Excon::Response.new
+          response.status = existed ? 202 : 201
+          response
+        end
+      end
+
     end
   end
 end

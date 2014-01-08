@@ -23,6 +23,24 @@ module Fog
         end
 
       end # Real
+
+      class Mock # :nodoc:all
+        require 'fog/aws/requests/storage/shared_mock_methods'
+        include Fog::Storage::AWS::SharedMockMethods
+
+        def abort_multipart_upload(bucket_name, object_name, upload_id)
+          verify_mock_bucket_exists(bucket_name)
+          upload_info = get_upload_info(bucket_name, upload_id, true)
+          response = Excon::Response.new
+          if upload_info
+            response.status = 204
+            response
+          else
+            response.status = 404
+            raise(Excon::Errors.status_error({:expects => 204}, response))
+          end
+        end
+      end # Mock
     end # Storage
   end # AWS
 end # Fog

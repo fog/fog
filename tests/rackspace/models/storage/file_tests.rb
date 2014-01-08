@@ -30,8 +30,6 @@ Shindo.tests('Fog::Rackspace::Storage | file', ['rackspace']) do
     end
   end
 
-  pending if Fog.mocking?
-
   def object_attributes(file=@instance)
     @instance.service.head_object(@directory.key, file.key).headers
   end

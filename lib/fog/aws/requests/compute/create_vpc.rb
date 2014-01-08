@@ -43,7 +43,7 @@ module Fog
           Excon::Response.new.tap do |response|
             if cidrBlock 
               response.status = 200
-              vpc_id = Fog::AWS::Mock.request_id
+              vpc_id = Fog::AWS::Mock.vpc_id
               self.data[:vpcs].push({
                 'vpcId'         => vpc_id,
                 'state'         => 'pending',

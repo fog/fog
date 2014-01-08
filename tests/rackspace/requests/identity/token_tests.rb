@@ -1,7 +1,4 @@
 Shindo.tests('Fog::Rackspace::Identity | tokens', ['rackspace']) do
-
-  pending if Fog.mock?
-
   ROLE_FORMAT = {
     'id' => String,
     'name' => String,
@@ -55,6 +52,7 @@ Shindo.tests('Fog::Rackspace::Identity | tokens', ['rackspace']) do
     end
 
     tests('uses connection options').returns(true) do
+      pending if Fog.mocking?
       identity_service = Fog::Rackspace::Identity.new(:connection_options => { :ssl_verify_peer => true })
 
       connection = identity_service.instance_variable_get("@connection")

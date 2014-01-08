@@ -154,6 +154,10 @@ module Fog
             regions = @identity_service.service_catalog.display_service_regions(service_name)
             Fog::Logger.deprecation("Please specify region using :rackspace_region rather than :rackspace_endpoint. Valid region for :rackspace_region are #{regions}.")
           end
+
+          unless options[:rackspace_region]
+            Fog::Logger.deprecation("Default region support will be removed in an upcoming release. Please switch to manually setting your endpoint. This requires settng the :rackspace_region option")
+          end
         end
 
         def append_tenant_v1(credentials)

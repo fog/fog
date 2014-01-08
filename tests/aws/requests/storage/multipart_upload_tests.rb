@@ -11,7 +11,6 @@ Shindo.tests('Fog::Storage[:aws] | multipart upload requests', ["aws"]) do
     }
 
     tests("#initiate_multipart_upload('#{@directory.identity}')", 'fog_multipart_upload').formats(@initiate_multipart_upload_format) do
-      pending if Fog.mocking?
       data = Fog::Storage[:aws].initiate_multipart_upload(@directory.identity, 'fog_multipart_upload').body
       @upload_id = data['UploadId']
       data
@@ -49,7 +48,6 @@ Shindo.tests('Fog::Storage[:aws] | multipart upload requests', ["aws"]) do
     @parts = []
 
     tests("#upload_part('#{@directory.identity}', 'fog_multipart_upload', '#{@upload_id}', 1, ('x' * 6 * 1024 * 1024))").succeeds do
-      pending if Fog.mocking?
       data = Fog::Storage[:aws].upload_part(@directory.identity, 'fog_multipart_upload', @upload_id, 1, ('x' * 6 * 1024 * 1024))
       @parts << data.headers['ETag']
     end
@@ -80,9 +78,7 @@ Shindo.tests('Fog::Storage[:aws] | multipart upload requests', ["aws"]) do
       Fog::Storage[:aws].list_parts(@directory.identity, 'fog_multipart_upload', @upload_id).body
     end
 
-    if !Fog.mocking?
-      @parts << Fog::Storage[:aws].upload_part(@directory.identity, 'fog_multipart_upload', @upload_id, 2, ('x' * 4 * 1024 * 1024)).headers['ETag']
-    end
+    @parts << Fog::Storage[:aws].upload_part(@directory.identity, 'fog_multipart_upload', @upload_id, 2, ('x' * 4 * 1024 * 1024)).headers['ETag']
 
     @complete_multipart_upload_format = {
       'Bucket'    => String,
@@ -92,25 +88,18 @@ Shindo.tests('Fog::Storage[:aws] | multipart upload requests', ["aws"]) do
     }
 
     tests("#complete_multipart_upload('#{@directory.identity}', 'fog_multipart_upload', '#{@upload_id}', #{@parts.inspect})").formats(@complete_multipart_upload_format) do
-      pending if Fog.mocking?
       Fog::Storage[:aws].complete_multipart_upload(@directory.identity, 'fog_multipart_upload', @upload_id, @parts).body
     end
 
     tests("#get_object('#{@directory.identity}', 'fog_multipart_upload').body").succeeds do
-      pending if Fog.mocking?
       Fog::Storage[:aws].get_object(@directory.identity, 'fog_multipart_upload').body == ('x' * 10 * 1024 * 1024)
     end
 
-    if !Fog.mocking?
-      @directory.files.new(:key => 'fog_multipart_upload').destroy
-    end
+    @directory.files.new(:key => 'fog_multipart_upload').destroy
 
-    if !Fog.mocking?
-      @upload_id = Fog::Storage[:aws].initiate_multipart_upload(@directory.identity, 'fog_multipart_abort').body['UploadId']
-    end
+    @upload_id = Fog::Storage[:aws].initiate_multipart_upload(@directory.identity, 'fog_multipart_abort').body['UploadId']
 
     tests("#abort_multipart_upload('#{@directory.identity}', 'fog_multipart_abort', '#{@upload_id}')").succeeds do
-      pending if Fog.mocking?
       Fog::Storage[:aws].abort_multipart_upload(@directory.identity, 'fog_multipart_abort', @upload_id)
     end
 

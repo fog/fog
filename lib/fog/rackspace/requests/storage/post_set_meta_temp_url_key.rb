@@ -35,6 +35,16 @@ module Fog
 
       end
 
+      class Mock
+        def post_set_meta_temp_url_key(key)
+          account_meta['X-Account-Meta-Temp-Url-Key'] = key
+
+          response = Excon::Response.new
+          response.status = 204
+          response
+        end
+      end
+
     end
   end
 end

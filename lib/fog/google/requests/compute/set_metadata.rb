@@ -29,9 +29,7 @@ module Fog
 
           response = self.build_response(result)
         end
-
       end
-
     end
   end
 end
