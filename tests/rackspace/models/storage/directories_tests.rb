@@ -1,9 +1,6 @@
 Shindo.tests('Fog::Rackspace::Storage | directories', ['rackspace']) do
 
-  pending if Fog.mocking?
-
   @service = Fog::Storage[:rackspace]
-
 
   begin
     @name = "fog-directories-test-#{Time.now.to_i.to_s}"

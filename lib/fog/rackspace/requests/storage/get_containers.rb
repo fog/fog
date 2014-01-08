@@ -32,6 +32,23 @@ module Fog
         end
 
       end
+
+      class Mock
+        def get_containers(options = {})
+          results = data.map do |name, container|
+            {
+              "name" => name,
+              "count" => container.objects.size,
+              "bytes" => container.bytes_used
+            }
+          end
+          response = Excon::Response.new
+          response.status = 200
+          response.body = results
+          response
+        end
+      end
+
     end
   end
 end

@@ -1,7 +1,5 @@
 Shindo.tests('Fog::Rackspace::Storage | account', ['rackspace']) do
 
-  pending if Fog.mocking?
-
   @account = Fog::Storage[:rackspace].account
 
   tests('load') do

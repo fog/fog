@@ -75,7 +75,7 @@ module Fog
             when 'ebsOptimized'
               @instance['ebsOptimized'] = (value == 'true')
             when 'associatePublicIP'
-              @instance['associatePublicIP'] = (value == 'true')              
+              @instance['associatePublicIP'] = (value == 'true')
             end
           end
 

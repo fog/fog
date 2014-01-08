@@ -10,7 +10,9 @@ module Fog
           request(
             :expects  => [200],
             :method   => 'GET',
-            :path     => "droplets/#{id}/destroy"
+            :path     => "droplets/#{id}/destroy",
+            # We scrub data so future users can't read our disks.
+            :query    => {:scrub_data => '1' },
           )
         end
 

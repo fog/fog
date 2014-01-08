@@ -2,7 +2,7 @@ module Fog
   module Storage
     class Rackspace
 
-      class Real
+      module Common
 
         # Get an expiring object https url from Cloud Files
         #
@@ -47,7 +47,14 @@ module Fog
             h.size == 1 ? "0#{h}" : h
           }.join
         end
+      end
 
+      class Mock
+        include Common
+      end
+
+      class Real
+        include Common
       end
 
     end

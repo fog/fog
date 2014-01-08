@@ -2,8 +2,7 @@ module Fog
   module Storage
     class Rackspace
 
-      class Real
-
+      module Common
         # Get an expiring object http url from Cloud Files
         #
         # ==== Parameters
@@ -23,6 +22,14 @@ module Fog
         def get_object_http_url(container, object, expires, options = {})
           get_object_https_url(container, object, expires, options.merge(:scheme => 'http'))
         end
+      end
+
+      class Real
+        include Common
+      end
+
+      class Mock
+        include Common
       end
 
     end

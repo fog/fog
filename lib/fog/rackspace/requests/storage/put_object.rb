@@ -1,6 +1,7 @@
 module Fog
   module Storage
     class Rackspace
+
       class Real
 
         # Create a new object
@@ -36,6 +37,44 @@ module Fog
           request(params)
         end
       end
+
+      class Mock
+        HeaderOptions = %w{
+          Content-Type Access-Control-Allow-Origin Origin Content-Disposition
+          Etag Content-Encoding
+        }.freeze
+
+        def put_object(container, object, data, options = {}, &block)
+          c = mock_container! container
+
+          if block_given?
+            data = ""
+            loop do
+              chunk = yield
+              break if chunk.empty?
+              data << chunk
+            end
+          end
+
+          o = c.add_object object, data
+          options.keys.each do |k|
+            o.meta[k] = options[k].to_s if k =~ /^X-Object-Meta/
+            o.meta[k] = options[k] if HeaderOptions.include? k
+          end
+
+          # Validate the provided Etag
+          etag = o.meta['Etag']
+          if etag && etag != o.hash
+            c.remove_object object
+            raise Fog::Storage::Rackspace::ServiceError.new
+          end
+
+          response = Excon::Response.new
+          response.status = 201
+          response
+        end
+      end
+
     end
   end
 end
