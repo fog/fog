@@ -18,11 +18,18 @@ module Fog
         # @raise [Fog::Compute::RackspaceV2::InternalServerError]
         # @raise [Fog::Compute::RackspaceV2::ServiceError]
         # @see   http://docs.rackspace.com/servers/api/v2/cs-devguide/content/CreateKeyPair.html
-        def create_keypair(key_name, public_key=nil)
+        def create_keypair(key_name, attributes = nil)
+          key_data = { 'name' => key_name }
+
+          if attributes.is_a?(String)
+            Fog::Logger.deprecation "Passing the public key as the 2nd arg is deprecated, please pass a hash of attributes."
+            key_data.merge!("public_key" => attributes)
+          end
+
+          key_data.merge!(attributes) if attributes.is_a?(Hash)
+
           data = {
-            'keypair' => {
-              'name' => key_name
-            }
+            'keypair' => key_data
           }
 
           request(
@@ -35,9 +42,13 @@ module Fog
       end
 
       class Mock
-        def create_keypair(key_name, public_key=nil)
+        def create_keypair(key_name, attributes = nil)
             # 409 response when already existing
             raise Fog::Compute::RackspaceV2::ServiceError if not self.data[:keypairs].select { |k| key_name.include? k['keypair']['name'] }.first.nil?
+
+            if attributes.is_a?(String)
+              Fog::Logger.deprecation "Passing the public key as the 2nd arg is deprecated, please pass a hash of attributes."
+            end
 
             k = self.data[:keypair]
             k['name'] = key_name

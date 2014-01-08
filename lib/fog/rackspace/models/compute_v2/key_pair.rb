@@ -33,7 +33,7 @@ module Fog
         # @raise  [Fog::Compute::RackspaceV2::ServiceError]
         def save
           requires :name
-          data = service.create_keypair(name, public_key)
+          data = service.create_keypair(name, attributes)
           merge_attributes(data.body['keypair'])
           data.body['keypair']['name'] == name
         end
