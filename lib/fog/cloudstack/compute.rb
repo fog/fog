@@ -59,6 +59,7 @@ module Fog
       request :create_snapshot_policy
       request :create_user
       request :create_volume
+      request :create_template
       request :create_zone
       request :delete_account
       request :delete_disk_offering
