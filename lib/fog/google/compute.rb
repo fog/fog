@@ -1,10 +1,11 @@
 require 'fog/google'
 require 'fog/compute'
-require 'fog/google/helpers/requests_helper'
 
 module Fog
   module Compute
     class Google < Fog::Service
+
+      require 'fog/google/helpers/requests_helper'
 
       requires :google_project
       requires :google_client_email

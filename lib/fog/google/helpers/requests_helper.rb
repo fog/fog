@@ -22,9 +22,14 @@ module Fog
 
       end
 
+      class Mock
+        include Fog::Compute::Google::RequestsHelper
+      end
+
+      class Real
+        include Fog::Compute::Google::RequestsHelper
+      end
+
     end
-
+  end
 end
-
-Fog::Compute::Google::Mock.send(:include, Fog::Compute::Google::RequestsHelper)
-Fog::Compute::Google::Real.send(:include, Fog::Compute::Google::RequestsHelper)
