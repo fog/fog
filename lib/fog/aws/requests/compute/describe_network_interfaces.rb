@@ -47,6 +47,10 @@ module Fog
         # *   'tagSet'<~Array>:             - Tags assigned to the resource.
         # *     'key'<~String>              - Tag's key
         # *     'value'<~String>            - Tag's value
+        # *   'privateIpAddresses' <~Array>:
+        # *     'privateIpAddress'<~String> - One of the additional private ip address
+        # *     'privateDnsName'<~String>   - The private DNS associate to the ip address
+        # *     'primay'<~String>           - Whether main ip associate with NIC true of false
         #
         # {Amazon API Reference}[http://docs.amazonwebservices.com/AWSEC2/2012-03-01/APIReference/index.html?ApiReference-query-DescribeNetworkInterfaces.html]
         def describe_network_interfaces(filters = {})
