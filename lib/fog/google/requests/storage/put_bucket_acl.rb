@@ -19,7 +19,7 @@ module Fog
     #{tag('ID', acl['Owner']['ID'])}
   </Owner>
   <Entries>
-    #{entries_list(acl['AccessControlList'].dup)}
+    #{entries_list(acl['AccessControlList'])}
   </Entries>
 </AccessControlList>
 DATA
