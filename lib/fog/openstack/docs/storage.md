@@ -427,7 +427,3 @@ file.destroy
 ## Support and Feedback
 
 Your feedback is appreciated! If you have specific issues with the **fog** SDK, you should file an [issue via Github](https://github.com/fog/fog/issues).
-
-For general feedback and support requests, send an email to: <sdk-support@rackspace.com>.
-
-</tr><td>Read timeout for connection (default: 60 seconds)</td><td>:read_timeout</td>
