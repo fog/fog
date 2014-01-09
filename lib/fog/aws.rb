@@ -192,11 +192,7 @@ module Fog
       end
 
       def self.ip_address
-        ip = []
-        4.times do
-          ip << Fog::Mock.random_numbers(rand(3) + 1).to_i.to_s # remove leading 0
-        end
-        ip.join('.')
+        Fog::Mock.random_ip
       end
 
       def self.private_ip_address

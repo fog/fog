@@ -51,6 +51,7 @@ module Fog
               allocation_ip = describe_addresses( 'allocation-id'  => "#{allocation_id}").body['addressesSet'].first
               if !allocation_ip.nil?
                 public_ip = allocation_ip['publicIp']
+                address = public_ip.nil? ? nil : self.data[:addresses][public_ip]
               end
             end
             if !address.nil?
