@@ -230,12 +230,6 @@ To create a directory:
 service.directories.create :key => 'backups'
 ```
 
-To create a directory utilizing CDN:
-
-```ruby
-service.directories.create :key => 'web-assets', :public => true
-```
-
 ### Additional Parameters
 
 The `create` method also supports the following key values:
@@ -251,17 +245,6 @@ The `create` method also supports the following key values:
 </tr>
 </table>
 
-
-## Update Directory
-
-Cloud Files supports updating the `public` attribute to enable/disable CDN.
-
-To update this attribute:
-
-```ruby
-directory.public = false
-directory.save
-```
 
 ## Delete Directory
 
