@@ -669,15 +669,15 @@ class Brightbox
         API_CLIENTS = [Brightbox::Compute::Formats::Collected::API_CLIENT]
         APPLICATION = [Brightbox::Compute::Formats::Collected::APPLICATION]
         CLOUD_IPS = [Brightbox::Compute::Formats::Collected::CLOUD_IP]
-        IMAGES = [Brightbox::Compute::Formats::Collected::IMAGE]
+        COLLABORATIONS = [Brightbox::Compute::Formats::Collected::COLLABORATION]
         FIREWALL_POLICIES = [Brightbox::Compute::Formats::Collected::FIREWALL_POLICY]
+        IMAGES = [Brightbox::Compute::Formats::Collected::IMAGE]
         LOAD_BALANCERS = [Brightbox::Compute::Formats::Collected::LOAD_BALANCER]
         SERVERS = [Brightbox::Compute::Formats::Collected::SERVER]
         SERVER_GROUPS = [Brightbox::Compute::Formats::Collected::SERVER_GROUP]
         SERVER_TYPES = [Brightbox::Compute::Formats::Collected::SERVER_TYPE]
         USERS = [Brightbox::Compute::Formats::Collected::USER]
         ZONES = [Brightbox::Compute::Formats::Collected::ZONE]
-        COLLABORATIONS = [Brightbox::Compute::Formats::Collected::COLLABORATION]
       end
     end
   end
