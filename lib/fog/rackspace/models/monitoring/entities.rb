@@ -13,7 +13,7 @@ module Fog
 
         def all(options={})
           data = service.list_entities(options).body
-          marker = data['metadata']['next_marker']
+          self.marker = data['metadata']['next_marker']
 
           load(data['values'])
         end
