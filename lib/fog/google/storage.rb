@@ -31,6 +31,7 @@ module Fog
       request :put_bucket
       request :put_bucket_acl
       request :put_object
+      request :put_object_acl
       request :put_object_url
 
       module Utils
