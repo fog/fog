@@ -183,9 +183,7 @@ module Fog
           groups = service.list_security_groups(id).body['security_groups']
 
           groups.map do |group|
-            sg = Fog::Compute::OpenStack::SecurityGroup.new group
-            sg.connection = service
-            sg
+            Fog::Compute::OpenStack::SecurityGroup.new group.merge({:service => service})
           end
         end
 
