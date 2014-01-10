@@ -250,8 +250,6 @@ This returns a collection of `Fog::Compute::RackspaceV2::Image` models:
         >,
 	…
 
-**Note**: In order to speed up access `service.images` does not retrieve all attribute values. To retrieve additional details you will either need to `reload` each individual image or use the request abstraction.
-
 ## Get Image
 
 To retrieve individual image:
@@ -276,13 +274,11 @@ This returns an `Fog::Compute::RackspaceV2::Image` instance:
       links=[{"href"=>"https://ord.servers.api.rackspacecloud.com/v2/772045/images/8a3a9f96-b997-46fd-b7a8-a9e740796ffd", "rel"=>"self"}, {"href"=>"https://ord.servers.api.rackspacecloud.com/772045/images/8a3a9f96-b997-46fd-b7a8-a9e740796ffd", "rel"=>"bookmark"}, {"href"=>"https://ord.images.api.rackspacecloud.com/772045/images/8a3a9f96-b997-46fd-b7a8-a9e740796ffd", "type"=>"application/vnd.openstack.image", "rel"=>"alternate"}]
     > 
     
-**Note**: This request populates all Image attributes.
-
 ## List Flavors
 
 To retrieve a list of available flavors:
 
-	service.images
+	service.flavors
 	
 This returns a collection of `Fog::Compute::RackspaceV2::Flavor` models:
 
@@ -305,8 +301,6 @@ This returns a collection of `Fog::Compute::RackspaceV2::Flavor` models:
         links=[{"href"=>"https://dfw.servers.api.rackspacecloud.com/v2/772045/flavors/3", "rel"=>"self"}, {"href"=>"https://dfw.servers.api.rackspacecloud.com/772045/flavors/3", "rel"=>"bookmark"}]
       >,
 	…
-	
-**Note**: In order to speed up access `service.flavors` does not retrieve all attribute values. To retrieve additional details you will either need to `reload` each individual flavor or use the request abstraction.
 
 
 ## Get Flavor
@@ -325,8 +319,6 @@ This returns a `Fog::Compute::RackspaceV2::Flavor` instance:
     vcpus=1,
     links=[{"href"=>"https://dfw.servers.api.rackspacecloud.com/v2/772045/flavors/2", "rel"=>"self"}, {"href"=>"https://dfw.servers.api.rackspacecloud.com/772045/flavors/2", "rel"=>"bookmark"}]
     >
-    
-**Note**: This request populates all Flavor attributes.
 
 
 ## List Servers
@@ -486,7 +478,7 @@ The `create` method also supports the following key values:
 	</tr>
 	<tr>
 		<td>:personality</td>
-		<td>Array of files to be injected onto the server. Please refer to the Fog <a href="http://rubydoc.info/github/fog/fog/Fog/Compute/RackspaceV2/Servers:bootstrap">bootstrap </a> API documentation for further information.</td>
+		<td>Array of files to be injected onto the server. Please refer to the Fog <a href="http://rubydoc.info/github/fog/fog/Fog/Compute/RackspaceV2/Server:personality">personality </a> API documentation for further information.</td>
 	</tr>
 </table>
 
