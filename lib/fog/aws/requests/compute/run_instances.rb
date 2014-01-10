@@ -36,7 +36,7 @@ module Fog
         #   * 'SecurityGroupId'<~Array> or <~String> - id's of security group(s) for instances, use this or SecurityGroup
         #   * 'InstanceInitiatedShutdownBehaviour'<~String> - specifies whether volumes are stopped or terminated when instance is shutdown, in [stop, terminate]
         #   * 'InstanceType'<~String> - Type of instance to boot. Valid options
-        #     in ['t1.micro', 'm1.small', 'm1.large', 'm1.xlarge', 'c1.medium', 'c1.xlarge', 'm2.xlarge', m2.2xlarge', 'm2.4xlarge', 'cc1.4xlarge', 'cc2.8xlarge', 'cg1.4xlarge']
+        #     in ['t1.micro', 'm1.small', 'm1.medium', 'm1.large', 'm1.xlarge', 'c1.medium', 'c1.xlarge', 'c3.large', 'c3.xlarge', 'c3.2xlarge', 'c3.4xlarge', 'c3.8xlarge', 'g2.2xlarge', 'hs1.8xlarge', 'm2.xlarge', 'm2.2xlarge', 'm2.4xlarge', 'cr1.8xlarge', 'm3.xlarge', 'm3.2xlarge', 'hi1.4xlarge', 'cc1.4xlarge', 'cc2.8xlarge', 'cg1.4xlarge', 'i2.xlarge', 'i2.2xlarge', 'i2.4xlarge', 'i2.8xlarge']
         #     default is 'm1.small'
         #   * 'KernelId'<~String> - Id of kernel with which to launch
         #   * 'KeyName'<~String> - Name of a keypair to add to booting instances

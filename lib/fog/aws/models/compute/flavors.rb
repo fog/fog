@@ -26,9 +26,10 @@ module Fog
 
         { :bits => 64, :cores =>   35, :disk => 50331648, :id => 'hs1.8xlarge', :name => 'High Storage Eight Extra Large', :ram => 119808},
 
-        { :bits => 64, :cores =>  6.5, :disk => 420,  :id =>  'm2.xlarge',  :name => 'High-Memory Extra Large',           :ram => 17510.4},
-        { :bits => 64, :cores =>   13, :disk => 850,  :id =>  'm2.2xlarge', :name => 'High Memory Double Extra Large',    :ram => 35020.8},
-        { :bits => 64, :cores =>   26, :disk => 1690, :id =>  'm2.4xlarge', :name => 'High Memory Quadruple Extra Large', :ram => 70041.6},
+        { :bits => 64, :cores =>  6.5, :disk => 420,  :id =>  'm2.xlarge',   :name => 'High-Memory Extra Large',           :ram => 17510.4},
+        { :bits => 64, :cores =>   13, :disk => 850,  :id =>  'm2.2xlarge',  :name => 'High Memory Double Extra Large',    :ram => 35020.8},
+        { :bits => 64, :cores =>   26, :disk => 1690, :id =>  'm2.4xlarge',  :name => 'High Memory Quadruple Extra Large', :ram => 70041.6},
+        { :bits => 64, :cores =>   88, :disk => 240,  :id =>  'cr1.8xlarge', :name => 'High Memory Eight Extra Large',     :ram => 249856},
 
         { :bits => 64, :cores =>   13, :disk => 0, :id =>  'm3.xlarge', :name => 'M3 Extra Large', :ram => 15360},
         { :bits => 64, :cores =>   26, :disk => 0, :id =>  'm3.2xlarge', :name => 'M3 Double Extra Large', :ram => 30720},
@@ -37,7 +38,12 @@ module Fog
 
         { :bits => 64, :cores => 33.5, :disk => 1690, :id => 'cc1.4xlarge', :name => 'Cluster Compute Quadruple Extra Large', :ram => 23552},
         { :bits => 64, :cores =>   88, :disk => 3370, :id => 'cc2.8xlarge', :name => 'Cluster Compute Eight Extra Large',     :ram => 61952},
-        { :bits => 64, :cores => 33.5, :disk => 1690, :id => 'cg1.4xlarge', :name => 'Cluster GPU Quadruple Extra Large',     :ram => 22528}
+        { :bits => 64, :cores => 33.5, :disk => 1690, :id => 'cg1.4xlarge', :name => 'Cluster GPU Quadruple Extra Large',     :ram => 22528},
+
+        { :bits => 64, :cores => 14,   :disk => 800,  :id => 'i2.xlarge',  :name => 'I2 Extra Large',           :ram => 31232},
+        { :bits => 64, :cores => 27,   :disk => 1600, :id => 'i2.2xlarge', :name => 'I2 Double Extra Large',    :ram => 62464},
+        { :bits => 64, :cores => 53,   :disk => 3200, :id => 'i2.4xlarge', :name => 'I2 Quadruple Extra Large', :ram => 124928},
+        { :bits => 64, :cores => 104,  :disk => 6400, :id => 'i2.8xlarge', :name => 'I2 Eight Extra Large',     :ram => 249856}
       ]
 
       class Flavors < Fog::Collection
