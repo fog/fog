@@ -17,6 +17,16 @@ module Fog
         attribute :metadata
         attribute :links
         attribute :name
+
+        # @!attribute [rw] personality
+        # @note This attribute is only used for server creation. This field will be nil on subsequent retrievals.
+        # @return [Hash] Hash containing data to inject into the file system of the cloud server instance during server creation.
+        # @example To inject fog.txt into file system
+        #   :personality => [{ :path => '/root/fog.txt',
+        #                      :contents => Base64.encode64('Fog was here!')
+        #                   }]
+        # @see #create
+        # @see http://docs.openstack.org/api/openstack-compute/2/content/Server_Personality-d1e2543.html
         attribute :personality
         attribute :progress
         attribute :accessIPv4
