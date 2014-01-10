@@ -16,7 +16,8 @@ module Fog
           request(
               :method => "GET",
               :path => "/#{@joyent_username}/images",
-              :expects => 200
+              :expects => 200,
+              :idempotent => true
           )
         end
       end

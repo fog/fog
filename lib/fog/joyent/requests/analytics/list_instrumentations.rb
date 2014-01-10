@@ -6,7 +6,8 @@ module Fog
           request(
               :path => "#{@joyent_username}/analytics/instrumentations",
               :method => "GET",
-              :expects => 200
+              :expects => 200,
+              :idempotent => true
           )
         end
       end

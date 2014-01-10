@@ -7,6 +7,7 @@ module Fog
               :path => url,
               :method => 'GET',
               :expects => 200,
+              :idempotent => true,
               :query => {
                   :ndatapoints => ndatapoints,
                   :start_time => requested_start_time.to_i,
