@@ -52,22 +52,27 @@ The Storage service supports the following additional parameters:
 <td>:persistent</td>
 <td>If set to true, the service will use a persistent connection.</td>
 </tr>
- <tr>
- <td>:openstack_service_name</td>
- </tr>
- <tr>
- <td>:openstack_service_type</td>
- </tr>
- <tr>
- <td>:openstack_tenant</td>
- </tr>
- <tr>
- <td>:openstack_region</td>
- </tr>
- <tr>
- <td>:openstack_temp_url_key</td>
- </tr>
- </table>
+<tr>
+<td>:openstack_service_name</td>
+<td></td>
+</tr>
+<tr>
+<td>:openstack_service_type</td>
+<td></td>
+</tr>
+<tr>
+<td>:openstack_tenant</td>
+<td></td>
+</tr>
+<tr>
+<td>:openstack_region</td>
+<td></td>
+</tr>
+<tr>
+<td>:openstack_temp_url_key</td>
+<td></td>
+</tr>
+</table>
 
 
 ### Optional Connection Parameters
