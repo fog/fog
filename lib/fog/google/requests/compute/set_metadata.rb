@@ -12,16 +12,10 @@ module Fog
 
       class Real
 
-        def set_metadata(instance, zone_name_or_url = nil, metadata={})
+        def set_metadata(instance, zone_name_or_url, metadata={})
           api_method = @compute.instances.set_metadata
 
-          zone_name = get_zone_name(zone_name_or_url) || instance_zone_name(instance)
-
-          parameters = {
-            'project' => @project,
-            'instance' => instance,
-            'zone' => zone_name
-          }
+          parameters = instance_request_parameters(instance, zone_name_or_url)
 
           body_object = {
             'items' => metadata.to_a.map { |pair| { :key => pair[0], :value => pair[1] } }

@@ -13,10 +13,8 @@ module Fog
       class Real
         # https://developers.google.com/compute/docs/reference/latest/zoneOperations
 
-        def delete_zone_operation(zone_name, operation)
-          if zone_name.start_with? 'http'
-            zone_name = zone_name.split('/')[-1]
-          end
+        def delete_zone_operation(zone_name_or_url, operation)
+          zone_name = get_zone_name(zone_name_or_url)
           api_method = @compute.zone_operations.delete
           parameters = {
             'project' => @project,

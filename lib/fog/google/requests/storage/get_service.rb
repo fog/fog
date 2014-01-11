@@ -24,7 +24,7 @@ module Fog
             :idempotent => true,
             :method   => 'GET',
             :parser   => Fog::Parsers::Storage::Google::GetService.new,
-            :url      => @host
+            # :url      => @host
           })
         end
 
