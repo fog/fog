@@ -59,7 +59,7 @@ module Fog
       end
     end
 
-    def wait_for(timeout=Fog.timeout, interval=1, &block)
+    def wait_for(timeout = Fog.timeout, interval = 1, &block)
       reload_has_succeeded = false
       duration = Fog.wait_for(timeout, interval) do # Note that duration = false if it times out
         if reload

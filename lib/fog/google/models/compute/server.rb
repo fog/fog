@@ -51,13 +51,10 @@ module Fog
         end
 
         def destroy
-          requires :name, :zone
-          operation = service.delete_server(name, zone)
-          # wait until "RUNNING" or "DONE" to ensure the operation doesn't fail, raises exception on error
-          Fog.wait_for do
-            operation = service.get_zone_operation(zone_name, operation.body["name"])
-            operation.body["status"] != "PENDING"
-          end
+          requires :name, :zone_name
+          response = service.delete_server(name, zone_name)
+          operation = service.operations.new(response.body)
+          operation.wait_for { ready? }
           operation
         end
 
@@ -154,10 +151,12 @@ module Fog
               'tags' => tags
           }.delete_if {|key, value| value.nil?}
 
-          service.insert_server(name, zone_name, options)
-          data = service.backoff_if_unfound {service.get_server(self.name, self.zone_name).body}
+          response = service.insert_server(name, zone_name, options)
+          operation = service.operations.new(response.body)
+          operation.wait_for { ready? }
 
-          service.servers.merge_attributes(data)
+          data = service.backoff_if_unfound {service.get_server(self.name, self.zone_name).body}
+          merge_attributes(data)
         end
 
         def reset 

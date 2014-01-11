@@ -10,6 +10,7 @@ module Fog
 
         attribute :kind, :aliases => 'kind'
         attribute :id, :aliases => 'id'
+        attribute :operation_type, :aliases => 'operationType'
         attribute :creation_timestamp, :aliases => 'creationTimestamp'
         attribute :zone_name, :aliases => 'zone'
         attribute :status, :aliases => 'status'

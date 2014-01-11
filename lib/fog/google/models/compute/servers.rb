@@ -82,6 +82,7 @@ module Fog
 
           server
         end
+
       end
     end
   end
