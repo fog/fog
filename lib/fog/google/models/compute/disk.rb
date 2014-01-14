@@ -1,5 +1,4 @@
 require 'fog/core/model'
-require 'fog/google/helpers/attribute_converter'
 
 module Fog
   module Compute
@@ -7,9 +6,6 @@ module Fog
 
       class Disk < Fog::Model
 
-        include Fog::Compute::Google::AttributeConverter
-
-        # this is not identity as I understand, the :id is uniq identificator 
         identity :name
 
         attribute :kind, :aliases => 'kind'
@@ -23,8 +19,6 @@ module Fog
         attribute :source_image, :aliases => 'sourceImage'
         attribute :source_snapshot, :aliases => 'sourceSnapshot'
         attribute :source_snapshot_id, :aliases => 'sourceSnapshot'
-
-        convert_attribute :zone_name
 
         def save
           requires :name, :zone_name
