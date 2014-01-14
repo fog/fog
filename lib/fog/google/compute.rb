@@ -5,6 +5,8 @@ module Fog
   module Compute
     class Google < Fog::Service
 
+      require 'fog/google/helpers/requests_helper'
+
       requires :google_project
       requires :google_client_email
       requires :google_key_location
@@ -52,6 +54,7 @@ module Fog
       request :insert_server
       request :insert_snapshot
 
+      request :reset_server
       request :set_metadata
       request :set_tags
 

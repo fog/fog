@@ -48,22 +48,26 @@ Shindo.tests('Fog::Compute[:google] | image requests', ['google']) do
       'kind' => String,
       'id' => String,
       'selfLink' => String,
-      'items' => [@get_image_format]
+      'items' => [ @get_image_format ]
   }
 
   tests('success') do
 
-    image_name = 'test-image'
+    image_name = 'fog-test-image-' + Time.now.to_i.to_s
     source = 'https://www.google.com/images/srpr/logo4w.png'
 
     tests("#insert_image").formats(@insert_image_format) do
       pending if Fog.mocking?
-      @google.insert_image(image_name, source).body
+      operation = @google.insert_image(image_name, source).body
+      # wait operation
+      Fog.wait_for do
+        operation = @google.get_global_operation(operation['name']).body
+        operation['status'] == 'DONE'
+      end
     end
 
     tests("#get_image").formats(@get_image_format) do
       pending if Fog.mocking?
-      @google.insert_image(image_name, source)
       @google.get_image(image_name).body
     end
 
@@ -73,7 +77,6 @@ Shindo.tests('Fog::Compute[:google] | image requests', ['google']) do
 
     tests("#delete_image").formats(@delete_image_format) do
       pending if Fog.mocking?
-      @google.insert_image(image_name, source)
       @google.delete_image(image_name).body
     end
 

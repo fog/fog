@@ -30,24 +30,26 @@ Shindo.tests('Fog::Storage[:google] | bucket requests', ["google"]) do
       }
     }
 
-    tests("#put_bucket('fogbuckettests')").succeeds do
-      Fog::Storage[:google].put_bucket('fogbuckettests')
+    fog_bucket_name = 'fog-bucket-tests-' + Time.now.to_i.to_s
+
+    tests("#put_bucket('#{fog_bucket_name}')").succeeds do
+      Fog::Storage[:google].put_bucket(fog_bucket_name)
     end
 
     tests("#get_service").formats(@service_format) do
       Fog::Storage[:google].get_service.body
     end
 
-    file = Fog::Storage[:google].directories.get('fogbuckettests').files.create(:body => 'y', :key => 'x')
+    file = Fog::Storage[:google].directories.get(fog_bucket_name).files.create(:body => 'y', :key => 'x')
 
-    tests("#get_bucket('fogbuckettests)").formats(@bucket_format) do
-      Fog::Storage[:google].get_bucket('fogbuckettests').body
+    tests("#get_bucket(#{fog_bucket_name})").formats(@bucket_format) do
+      Fog::Storage[:google].get_bucket(fog_bucket_name).body
     end
 
     file.destroy
 
-    tests("#delete_bucket('fogbuckettests')").succeeds do
-      Fog::Storage[:google].delete_bucket('fogbuckettests')
+    tests("#delete_bucket(#{fog_bucket_name})").succeeds do
+      Fog::Storage[:google].delete_bucket(fog_bucket_name)
     end
 
   end

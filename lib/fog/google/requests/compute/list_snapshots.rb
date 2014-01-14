@@ -12,13 +12,11 @@ module Fog
 
       class Real
 
-        def list_snapshots(project=nil)
+        def list_snapshots(project = @project)
           api_method = @compute.snapshots.list
-          project=@project if project.nil?
           parameters = {
             'project' => project
           }
-
           result = self.build_result(api_method, parameters)
           response = self.build_response(result)
         end

@@ -18,9 +18,8 @@ module Fog
 
       class Real
 
-        def list_images(project=nil)
+        def list_images(project = @project)
           api_method = @compute.images.list
-          project=@project if project.nil?
           parameters = {
             'project' => project
           }

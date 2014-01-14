@@ -46,7 +46,7 @@ module Fog
 
         def bootstrap(new_attributes = {})
           name = "fog-#{Time.now.to_i}"
-          zone = "us-central1-b"
+          zone = 'us-central1-b'
 
           disks = new_attributes[:disks]
 
@@ -56,7 +56,7 @@ module Fog
               :name => name,
               :size_gb => 10,
               :zone_name => zone,
-              :source_image => "debian-7-wheezy-v20131120",
+              :source_image => 'debian-7-wheezy-v20131120',
             }
 
             # backwards compatibility to pre-v1
@@ -70,11 +70,11 @@ module Fog
           defaults = {
             :name => name,
             :disks => disks,
-            :machine_type => "n1-standard-1",
+            :machine_type => 'n1-standard-1',
             :zone_name => zone,
-            :private_key_path => File.expand_path("~/.ssh/id_rsa"),
-            :public_key_path => File.expand_path("~/.ssh/id_rsa.pub"),
-            :username => ENV['USER'],
+            :private_key_path => File.expand_path('~/.ssh/google_id_rsa'),
+            :public_key_path => File.expand_path('~/.ssh/google_id_rsa.pub'),
+            :username => ENV['USER']
           }
 
           server = create(defaults.merge(new_attributes))
@@ -82,6 +82,7 @@ module Fog
 
           server
         end
+
       end
     end
   end

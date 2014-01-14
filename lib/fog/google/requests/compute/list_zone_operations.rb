@@ -13,13 +13,9 @@ module Fog
       class Real
         # https://developers.google.com/compute/docs/reference/latest/zoneOperations
 
-        def list_zone_operations(zone)
+        def list_zone_operations(zone_name_or_url)
           api_method = @compute.zone_operations.list
-          parameters = {
-            'zone' => zone,
-            'project' => @project,
-          }
-
+          parameters = zone_request_parameters(zone_name_or_url)
           result = self.build_result(api_method, parameters)
           response = self.build_response(result)
         end

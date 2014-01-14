@@ -12,7 +12,7 @@ module Fog
 
       class Real
 
-        def insert_snapshot(disk_name, zone_name, project=@project, opts={})
+        def insert_snapshot(disk_name, zone_name_or_url, project=@project, options={})
 
           # This is unfortunate, since we might be called from 2 contexts
           # 1. disk.snapshot <-- here validation of disk_name is not needed
@@ -24,18 +24,14 @@ module Fog
 
           api_method = @compute.disks.create_snapshot
 
-          parameters = {
-            'disk'    => disk_name,
-            'zone'    => zone_name,
-            'project' => @project,
-          }
+          parameters = disk_request_parameters(disk_name, zone_name_or_url)
 
-          snap_name = opts.delete('name')
-          raise ArgumentError.new('Must specify snapshot name') unless snap_name
-          body_object = { 'name' => snap_name }
+          snapshot_name = options.delete('name')
+          raise ArgumentError.new('Must specify snapshot name') unless snapshot_name
+          body_object = { 'name' => snapshot_name }
 
           # Merge in any remaining options (description)
-          body_object.merge(opts)
+          body_object.merge(options)
 
           result = self.build_result(api_method, parameters,
                                      body_object)

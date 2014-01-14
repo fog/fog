@@ -13,10 +13,10 @@ module Fog
       class Real
         # https://developers.google.com/compute/docs/reference/latest/globalOperations
 
-        def list_global_operations
+        def list_global_operations(project = @project)
           api_method = @compute.global_operations.list
           parameters = {
-            'project' => @project
+            'project' => project
           }
 
           result = self.build_result(api_method, parameters)
