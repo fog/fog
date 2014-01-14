@@ -12,7 +12,7 @@ module Fog
 
       class Mock
 
-        def update_server(server_id, group_name)
+        def add_security_group(server_id, group_name)
           response = Excon::Response.new
           response.status = 200
           response
