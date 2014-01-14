@@ -54,9 +54,9 @@ Shindo.tests('Fog::Compute[:google] | server requests', ['google']) do
   tests('success') do
 
     server_name = 'new-server-test'
-    image_name = "centos-6-v20130813"
-    machine_type = "n1-standard-1"
-    zone_name = "us-central1-a"
+    image_name = 'debian-7-wheezy-v20131120'
+    machine_type = 'n1-standard-1'
+    zone_name = 'us-central1-a'
 
     tests("#insert_server").formats(@insert_server_format) do
       disk = create_test_disk(Fog::Compute[:google], zone_name)
