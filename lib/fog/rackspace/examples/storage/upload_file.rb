@@ -40,6 +40,6 @@ directory = service.directories.create :key => directory_name, :public => true
 upload_file = File.join(File.dirname(__FILE__), "lorem.txt")
 file = directory.files.create :key => 'sample.txt', :body => File.open(upload_file, "r")
 
-puts "You should not be able to view this file via CDN at #{file.public_url}"
+puts "You should be able to view this file via CDN at #{file.public_url}"
 puts "To delete the container and associated file please execute the delete_directory.rb script\n\n"
   
