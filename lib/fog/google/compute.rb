@@ -841,6 +841,8 @@ module Fog
         include Collections
         include Shared
 
+        attr_reader :client, :compute, :api_url
+
         def initialize(options)
           base_url = 'https://www.googleapis.com/compute/'
           api_scope_url = 'https://www.googleapis.com/auth/compute'
