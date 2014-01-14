@@ -43,6 +43,7 @@ module Fog
       request :delete_image
       request :delete_network
       request :delete_server
+      request :delete_snapshot      
       request :delete_global_operation
       request :delete_zone_operation
 
@@ -54,9 +55,12 @@ module Fog
       request :insert_server
       request :insert_snapshot
 
-      request :reset_server
       request :set_metadata
       request :set_tags
+
+      request :reset_server
+      request :attach_disk
+      request :detach_disk
 
       model_path 'fog/google/models/compute'
       model :server
@@ -79,6 +83,9 @@ module Fog
 
       model :zone
       collection :zones
+      
+      model :network
+      collection :networks
 
       module Shared
         attr_reader :project, :api_version

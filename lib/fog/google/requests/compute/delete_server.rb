@@ -19,6 +19,8 @@ module Fog
         def delete_server(server_name, zone_name_or_url = nil)
           zone_name = zone_name_or_url.nil? ? find_zone(server_name) : get_zone_name(zone_name_or_url)
           
+          get_server(server_name, zone_name)
+
           server = self.data[:servers][server_name]
           server["status"] = "STOPPED"
           server["mock-deletionTimestamp"] = Time.now.iso8601
@@ -50,6 +52,7 @@ module Fog
 
         def delete_server(instance_name, zone_name_or_url = nil)
           zone_name = zone_name_or_url.nil? ? find_zone(server_name) : get_zone_name(zone_name_or_url)
+
           api_method = @compute.instances.delete
           parameters = instance_request_parameters(instance_name, zone_name_or_url)
 
