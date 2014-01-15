@@ -64,7 +64,6 @@ module Fog
 
         options = ssh_options.merge(options)
 
-        Fog::Logger.debug "Trying to ssh to server #{public_ip_address} as #{username}."
         Fog::SSH.new(public_ip_address, username, options).run(commands, &blk)
       end
 

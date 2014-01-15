@@ -93,11 +93,11 @@ module Fog
           self
         end
 
-        def create_snapshot(snapshot_name, snapshot_description = "")
+        def create_snapshot(snapshot_name, snapshot_description = '')
           requires :name, :zone_name
 
-          if snapshot_name.nil? or snapshot_name.empty?
-            raise ArgumentError, 'Invalid snapshot name'
+          if snapshot_name.nil? || snapshot_name.empty?
+            raise(ArgumentError, 'Invalid snapshot name')
           end
 
           options = {
@@ -109,14 +109,13 @@ module Fog
           operation = service.operations.new(response.body)
           operation.wait
 
-          data = service.backoff_if_unfound { service.get_snapshot(snapshot_name).body }
-          # service.snapshots.merge_attributes(data)
-
-          # Try to return the representation of the snapshot we created
-          service.snapshots.get(snapshot_name)
+          response = service.backoff_if_unfound { service.get_snapshot(snapshot_name) }
+          attributes = response.body
+          self.merge_attributes(attributes)
+          self
         end
 
-        RUNNING_STATE = "READY"
+        RUNNING_STATE = 'READY'
 
       end
     end

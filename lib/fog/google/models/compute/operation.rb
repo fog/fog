@@ -16,7 +16,7 @@ module Fog
         attribute :status, :aliases => 'status'
         attribute :status_message, :aliases => 'statusMessage'
         attribute :self_link, :aliases => 'selfLink'
-        # attribute :target_link, :aliases => 'targetLink'
+        attribute :target_link, :aliases => 'targetLink'
         attribute :error, :aliases => 'error'
         attribute :progress, :aliases => 'progress'
 
@@ -33,7 +33,7 @@ module Fog
         end
 
         def reload
-          requires :name
+          requires :identity
 
           data = collection.get(name, zone_name)
 
@@ -56,9 +56,9 @@ module Fog
           self
         end
 
-        PENDING_STATE = "PENDING"
-        RUNNING_STATE = "RUNNING"
-        DONE_STATE = "DONE"
+        PENDING_STATE = 'PENDING'
+        RUNNING_STATE = 'RUNNING'
+        DONE_STATE    = 'DONE'
 
       end
     end

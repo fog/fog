@@ -18,9 +18,9 @@ module Fog
           parameters = instance_request_parameters(instance, zone_name_or_url)
 
           request_body = {
-            'type' => 'PERSISTENT', # there are 2 possible values: 'PERSISTENT' and 'SCRATCH' (depricated)
-            'mode' => options[:mode] || 'READ_WRITE', # possible valuese: READ_WRITE and READ_ONLY
-            'source' => disk_url, # The fully-qualified URL to the Persistent Disk resource.
+            'type' => 'PERSISTENT',                   # possible values: 'PERSISTENT' and 'SCRATCH' (depricated)
+            'mode' => options[:mode] || 'READ_WRITE', # possible values: 'READ_WRITE' and 'READ_ONLY'
+            'source' => disk_url,                     # The fully-qualified URL to the Persistent Disk resource.
             'deviceName' => options[:device_name],
             'boot' => options[:boot] || false
           }
@@ -31,9 +31,7 @@ module Fog
 
           response = self.build_response(result)
         end
-
       end
-
     end
   end
 end

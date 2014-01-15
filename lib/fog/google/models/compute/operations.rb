@@ -16,8 +16,7 @@ module Fog
             response = service.get_zone_operation(zone, identity)
           end
           return nil if response.nil?
-          # creates new model instance based on attributes
-          new(response.body)
+          self.new(response.body)
         end
 
         # TODO: list function

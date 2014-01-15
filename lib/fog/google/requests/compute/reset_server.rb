@@ -12,8 +12,8 @@ module Fog
         def reset_server(instance_name, zone_name_or_url)
           api_method = @compute.instances.reset
           parameters = instance_request_parameters(instance_name, zone_name_or_url)
-          result   = self.build_result(api_method, parameters)
-          response = self.build_response(result)
+          result     = self.build_result(api_method, parameters)
+          response   = self.build_response(result)
         end
       end
 

@@ -33,12 +33,11 @@ module Fog
           "#{self.service.project}/global/snapshots/#{name}"
         end
 
-        def destroy
+        def delete
           requires :name
           response = service.delete_snapshot(name)
           service.operations.new(response.body)
         end
-        alias_method :delete, :destroy
 
       end
 
