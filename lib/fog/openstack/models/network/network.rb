@@ -12,14 +12,10 @@ module Fog
         attribute :status
         attribute :admin_state_up
         attribute :tenant_id
-        attribute :provider_network_type,       
-                  :aliases =>  'provider:network_type'
-        attribute :provider_physical_network,
-                  :aliases => 'provider:physical_network'
-        attribute :provider_segmentation_id,
-                  :aliases => 'provider:segmentation_id'
-        attribute :router_external,
-                  :aliases => 'router:external'
+        attribute :provider_network_type,     :aliases => 'provider:network_type'
+        attribute :provider_physical_network, :aliases => 'provider:physical_network'
+        attribute :provider_segmentation_id,  :aliases => 'provider:segmentation_id'
+        attribute :router_external,           :aliases => 'router:external'
 
         def initialize(attributes)
           # Old 'connection' is renamed as service and should be used instead
@@ -38,8 +34,7 @@ module Fog
 
         def update
           requires :id
-          merge_attributes(service.update_network(self.id,
-                                                     self.attributes).body['network'])
+          merge_attributes(service.update_network(self.id, self.attributes).body['network'])
           self
         end
 
@@ -48,7 +43,6 @@ module Fog
           service.delete_network(self.id)
           true
         end
-
       end
     end
   end
