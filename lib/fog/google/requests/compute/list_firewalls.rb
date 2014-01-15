@@ -4,7 +4,7 @@ module Fog
 
       class Mock
 
-        def list_firewalls
+        def list_firewalls(project = @project)
           Fog::Mock.not_implemented
         end
 

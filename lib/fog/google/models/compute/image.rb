@@ -54,7 +54,7 @@ module Fog
           response = service.insert_image(name, raw_disk, options)
           
           operation = service.operations.new(response.body)
-          operation.wait
+          operation.wait_for { ready? }
 
           data = service.backoff_if_unfound {
             service.get_image(self.name).body
@@ -78,7 +78,7 @@ module Fog
           response = service.delete_image(name)
 
           operation = service.operations.new(response.body)
-          operation.wait          
+          operation.wait_for { ready? }
         end
 
       end

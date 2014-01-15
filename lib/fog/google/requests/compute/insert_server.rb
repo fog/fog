@@ -26,7 +26,6 @@ module Fog
 
         def insert_server(server_name, zone_name, options={}, *deprecated_args)
 
-          # machine_type_url = get_machine_type_url(options['machineType'])
           url_prefix = "https://www.googleapis.com/compute/#{api_version}/projects/#{@project}"
           zone_url = "#{url_prefix}/zones/#{zone_name}"
           machine_type_url = "#{zone_url}/machineTypes/#{machine_type_name}"

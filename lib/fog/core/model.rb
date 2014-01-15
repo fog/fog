@@ -1,13 +1,11 @@
-require 'fog/core/deprecated_connection_accessors'
+require "fog/core/deprecated_connection_accessors"
 
-# create alias Fog::Core::Model ???
 module Fog
   class Model
 
     extend Fog::Attributes::ClassMethods
     include Fog::Attributes::InstanceMethods
     include Fog::Core::DeprecatedConnectionAccessors
-    
 
     attr_accessor :collection
     attr_reader :service
@@ -61,7 +59,7 @@ module Fog
       end
     end
 
-    def wait_for(timeout = Fog.timeout, interval = 1, &block)
+    def wait_for(timeout=Fog.timeout, interval=1, &block)
       reload_has_succeeded = false
       duration = Fog.wait_for(timeout, interval) do # Note that duration = false if it times out
         if reload

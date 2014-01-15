@@ -4,7 +4,7 @@ module Fog
 
       class Mock
 
-        def list_global_operations
+        def list_global_operations(project = @project)
           Fog::Mock.not_implemented
         end
 

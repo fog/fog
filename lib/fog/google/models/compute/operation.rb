@@ -21,10 +21,12 @@ module Fog
         attribute :progress, :aliases => 'progress'
 
         def ready?
+          requires :status
           self.status == DONE_STATE
         end
 
         def pending?
+          requires :status
           self.status == PENDING_STATE
         end
 
@@ -40,19 +42,6 @@ module Fog
           new_attributes = data.attributes
 
           self.merge_attributes(new_attributes)
-          self
-        end
-
-        # wait until operation will have desired status
-        def wait(target_status = :done, &block)
-          Fog.wait_for do
-            self.reload
-            block.call(self) unless block.nil?
-            !self.pending?
-          end
-          if self.failed?
-            raise self.error['errors'].first['message']
-          end
           self
         end
 

@@ -32,7 +32,7 @@ module Fog
 
           response = service.insert_disk(name, zone_name, source_image, options)
           operation = service.operations.new(response.body)
-          operation.wait
+          operation.wait_for { ready? }
 
           data = service.backoff_if_unfound { service.get_disk(name, zone_name).body }
 
@@ -44,7 +44,6 @@ module Fog
         def destroy
           requires :name, :zone_name
           operation = service.operations.new(service.delete_disk(name, zone_name).body)
-          operation.wait_for { ready? }
           operation 
         end
         alias_method :delete, :destroy
@@ -107,12 +106,12 @@ module Fog
 
           response = service.insert_snapshot(name, zone_name, options)
           operation = service.operations.new(response.body)
-          operation.wait
+          operation.wait_for { ready? }
 
           response = service.backoff_if_unfound { service.get_snapshot(snapshot_name) }
           attributes = response.body
-          self.merge_attributes(attributes)
-          self
+          snapshot = service.snapshots.new(attributes)
+          snapshot
         end
 
         RUNNING_STATE = 'READY'
