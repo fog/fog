@@ -72,8 +72,8 @@ module Fog
             :disks => disks,
             :machine_type => 'n1-standard-1',
             :zone_name => zone,
-            :private_key_path => File.expand_path("~/.ssh/google_id_rsa"),
-            :public_key_path => File.expand_path("~/.ssh/google_id_rsa.pub"),
+            :private_key_path => File.expand_path("~/.ssh/id_rsa"),
+            :public_key_path => File.expand_path("~/.ssh/id_rsa.pub"),
             :username => ENV['USER'],
           }
 
