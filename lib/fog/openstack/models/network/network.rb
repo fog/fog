@@ -27,6 +27,10 @@ module Fog
           identity ? update : create
         end
 
+        def subnets
+          service.subnets.select {|s| s.network_id == self.id }
+        end
+
         def create
           merge_attributes(service.create_network(self.attributes).body['network'])
           self
