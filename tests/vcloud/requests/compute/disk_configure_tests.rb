@@ -1,11 +1,3 @@
-begin
-  require 'rspec'
-  require 'rspec/mocks'
-rescue LoadError
-  require 'spec'
-  require 'spec/mocks'
-end
-
 Shindo.tests("Vcloud::Compute | disk_requests", ['vcloud']) do
 
   @xmlns = {
