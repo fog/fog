@@ -191,6 +191,8 @@ module Fog
                   "port" => 30
                 }
               ],
+              :security_groups      => {},
+              :security_group_rules => {},
             }
           end
         end
