@@ -44,7 +44,7 @@ module Fog
 
           limit = options[:limit] || 10
 
-          claim = MockClaim.new(ttl, grace)
+          claim = queue.add_claim(ttl, grace)
 
           claimed = queue.messages.select do |message|
             ! message.claimed?

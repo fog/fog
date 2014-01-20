@@ -92,12 +92,12 @@ module Fog
 
         # An in-memory Queue implementation.
         class MockQueue
-          attr_accessor :name, :metadata, :messages
+          attr_accessor :name, :metadata, :messages, :claims
           attr_accessor :claimed, :free
 
           def initialize(name)
-            @name = name
-            @messages, @metadata = [], {}
+            @name, @metadata = name, {}
+            @messages, @claims = [], {}
             @claimed, @free = 0, 0
             @id_counter = Fog::Mock.random_hex(24).to_i(16)
           end
@@ -121,6 +121,16 @@ module Fog
             message = MockMessage.new(id, self, client_id, data, ttl)
             @messages << message
             message
+          end
+
+          # Create a new MockClaim.
+          #
+          # @param ttl [Integer] Time-to-live for the claim.
+          # @param grace [Integer] Grace period that's added to messages included in this claim.
+          def add_claim(ttl, grace)
+            claim = MockClaim.new(self, ttl, grace)
+            claims[claim.id] = claim
+            claim
           end
         end
 
@@ -165,11 +175,41 @@ module Fog
         end
 
         class MockClaim
-          attr_reader :id, :ttl, :grace
+          attr_reader :id, :queue, :ttl, :grace
 
-          def initialize ttl, grace
+          def initialize(queue, ttl, grace)
+            @queue = queue
             @id = Fog::Mock.random_hex(24)
             @ttl, @grace = ttl, grace
+            @created = Time.now.to_i
+          end
+
+          # Determine how long ago this claim was created, in seconds.
+          #
+          # @return [Integer]
+          def age
+            Time.now.to_i - @created
+          end
+
+          # Access the collection of messages owned by this claim.
+          #
+          # @return [Array<Message>]
+          def messages
+            @queue.messages.select { |m| m.claim == self }
+          end
+
+          # Convert this claim into a GET payload.
+          #
+          # @return [Hash]
+          def to_h
+            ms = messages.map { |m| m.to_h }
+
+            {
+              "age" => age,
+              "href" => "/v1/queues/#{@queue.name}/claims/#{@id}",
+              "ttl" => @ttl,
+              "messages" => ms
+            }
           end
         end
 
