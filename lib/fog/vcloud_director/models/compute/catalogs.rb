@@ -10,6 +10,10 @@ module Fog
 
         attribute :organization
 
+        def create(catalog_attrs)
+          service.post_create_catalog(organization.id, catalog_attrs[:name], catalog_attrs[:description])
+        end
+
         private
 
         def get_by_id(item_id)
