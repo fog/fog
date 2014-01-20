@@ -92,14 +92,13 @@ module Fog
 
         # An in-memory Queue implementation.
         class MockQueue
-          attr_accessor :messages
-          attr_accessor :metadata
+          attr_accessor :name, :metadata, :messages
           attr_accessor :claimed, :free
 
-          def initialize
-            @messages = []
-            @metadata = {}
-            @claimed, @free = 0, 0, 0
+          def initialize(name)
+            @name = name
+            @messages, @metadata = [], {}
+            @claimed, @free = 0, 0
             @id_counter = Fog::Mock.random_hex(24).to_i(16)
           end
 
@@ -119,7 +118,7 @@ module Fog
           def add_message(client_id, data, ttl)
             id = @id_counter.to_s(16)
             @id_counter += 1
-            message = MockMessage.new(id, client_id, data, ttl)
+            message = MockMessage.new(id, self, client_id, data, ttl)
             @messages << message
             message
           end
@@ -127,12 +126,33 @@ module Fog
 
         # A single message posted to an in-memory MockQueue.
         class MockMessage
-          attr_accessor :id, :data, :ttl, :producer_id
+          attr_accessor :id, :queue, :data, :ttl, :producer_id, :claimant_id
 
           # Create a new message. Use {MockQueue#add_message} instead.
-          def initialize(id, client_id, data, ttl)
-            @id, @producer_id = id, client_id
-            @data, @ttl = client_id, data, ttl
+          def initialize(id, queue, client_id, data, ttl)
+            @id, @queue, @producer_id = id, queue, client_id
+            @data, @ttl = data, ttl
+            @created = Time.now.to_i
+            @claimant_id = nil
+          end
+
+          # Determine how long ago this message was created, in seconds.
+          #
+          # @return [Integer]
+          def age
+            Time.now.to_i - @created
+          end
+
+          # Convert this message to a GET payload.
+          #
+          # @return [Hash]
+          def to_h
+            {
+              "body" => @data,
+              "age" => age,
+              "ttl" => @ttl,
+              "href" => "/v1/queues/#{@queue.name}/messages/#{@id}"
+            }
           end
         end
 

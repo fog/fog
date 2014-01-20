@@ -1,6 +1,7 @@
 module Fog
   module Rackspace
     class Queues
+
       class Real
 
         # This operation gets the specified message from the specified queue.
@@ -22,7 +23,24 @@ module Fog
             :headers => { 'Client-ID' => client_id }
           )
         end
+
       end
+
+      class Mock
+        def get_message(client_id, queue_name, message_id)
+          queue = data[queue_name]
+          raise NotFound.new unless queue
+
+          message = queue.messages.find { |msg| msg.id == message_id }
+          raise NotFound.new unless message
+
+          response = Excon::Response.new
+          response.status = 200
+          response.body = message.to_h
+          response
+        end
+      end
+
     end
   end
 end

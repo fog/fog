@@ -30,7 +30,7 @@ module Fog
           existed = ! data[queue_name].nil?
 
           unless existed
-            data[queue_name] = MockQueue.new
+            data[queue_name] = MockQueue.new(queue_name)
           end
 
           response = Excon::Response.new
