@@ -42,23 +42,8 @@ module Fog
       request :update_claim
       request :delete_claim
 
-      class Mock < Fog::Rackspace::Service
-        def request(params)
-          Fog::Mock.not_implemented
-        end
-      end
-
-      class Real < Fog::Rackspace::Service
-
-        def service_name
-          :cloudQueues
-        end
-
-        def region
-          @rackspace_region
-        end
-
-        def initialize(options = {})
+      module Common
+        def apply_options(options)
           @rackspace_api_key = options[:rackspace_api_key]
           @rackspace_username = options[:rackspace_username]
           @rackspace_queues_client_id = options[:rackspace_queues_client_id] || Fog::UUID.uuid
@@ -70,25 +55,14 @@ module Fog
           unless v2_authentication?
             raise Fog::Errors::NotImplemented.new("V2 authentication required for Queues")
           end
-
-          authenticate
-
-          @persistent = options[:persistent] || false
-          @connection = Fog::Connection.new(endpoint_uri.to_s, @persistent, @connection_options)
         end
 
-        def request(params, parse_json = true, &block)
-          super(params, parse_json, &block)
-        rescue Excon::Errors::NotFound => error
-          raise NotFound.slurp(error, self)
-        rescue Excon::Errors::BadRequest => error
-          raise BadRequest.slurp(error, self)
-        rescue Excon::Errors::InternalServerError => error
-          raise InternalServerError.slurp(error, self)
-        rescue Excon::Errors::MethodNotAllowed => error
-          raise MethodNotAllowed.slurp(error, self)
-        rescue Excon::Errors::HTTPStatusError => error
-          raise ServiceError.slurp(error, self)
+        def service_name
+          :cloudQueues
+        end
+
+        def region
+          @rackspace_region
         end
 
         def endpoint_uri(service_endpoint_url=nil)
@@ -110,6 +84,47 @@ module Fog
 
         def client_id=(client_id)
           @rackspace_queues_client_id = client_id
+        end
+      end
+
+      class Mock < Fog::Rackspace::Service
+        include Common
+
+        def initialize(options = {})
+          apply_options(options)
+          authenticate
+          endpoint_uri
+        end
+
+        def request(params)
+          Fog::Mock.not_implemented
+        end
+      end
+
+      class Real < Fog::Rackspace::Service
+        include Common
+
+        def initialize(options = {})
+          apply_options(options)
+
+          authenticate
+
+          @persistent = options[:persistent] || false
+          @connection = Fog::Connection.new(endpoint_uri.to_s, @persistent, @connection_options)
+        end
+
+        def request(params, parse_json = true, &block)
+          super(params, parse_json, &block)
+        rescue Excon::Errors::NotFound => error
+          raise NotFound.slurp(error, self)
+        rescue Excon::Errors::BadRequest => error
+          raise BadRequest.slurp(error, self)
+        rescue Excon::Errors::InternalServerError => error
+          raise InternalServerError.slurp(error, self)
+        rescue Excon::Errors::MethodNotAllowed => error
+          raise MethodNotAllowed.slurp(error, self)
+        rescue Excon::Errors::HTTPStatusError => error
+          raise ServiceError.slurp(error, self)
         end
       end
     end
