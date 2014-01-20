@@ -38,7 +38,7 @@ module Fog
 
           message = queue.messages.detect { |m| m.id == message_id }
 
-          if message.claimed?
+          if message && message.claimed?
             unless message.claim.id == claim_id
               # FIXME Exception
             end
@@ -47,6 +47,8 @@ module Fog
               # Currently succeeds.
             end
           end
+
+          queue.messages.reject! { |m| m.id == message_id }
 
           response = Excon::Response.new
           response.status = 204

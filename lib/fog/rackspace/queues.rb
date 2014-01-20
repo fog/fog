@@ -160,7 +160,7 @@ module Fog
 
             claims.keys.dup.each do |id|
               claim = claims[id]
-              if claim.expired?
+              if claim.expired? || claim.messages.empty?
                 claim.messages.each { |m| m.claim = nil }
                 claims.delete(id)
               end
