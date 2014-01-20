@@ -60,7 +60,7 @@ module Fog
           else
             response.status = 200
             response.body = {
-              "messages" => messages.map(&:to_h),
+              "messages" => messages.map { |m| m.to_h },
               "links" => [{
                 "href" => "#{PATH_BASE}/#{queue_name}/messages?marker=#{next_marker}",
                 "rel" => "next"
