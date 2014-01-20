@@ -1,6 +1,7 @@
 module Fog
   module Rackspace
     class Queues
+
       class Real
 
         # This operation posts the specified message or messages.
@@ -31,6 +32,25 @@ module Fog
           )
         end
       end
+
+      class Mock
+        def create_message(client_id, queue_name, body, ttl)
+          queue = data[queue_name]
+          raise NotFound.new unless queue
+
+          message = queue.add_message(client_id, body, ttl)
+
+          # FIXME: refactor /v1/queues out to an inherited constant
+          response = Excon::Response.new
+          response.status = 201
+          response.body = {
+            "partial" => false,
+            "resources" => ["/v1/queues/#{queue_name}/messages/#{message.id}"]
+          }
+          response
+        end
+      end
+
     end
   end
 end

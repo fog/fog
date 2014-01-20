@@ -92,12 +92,47 @@ module Fog
 
         # An in-memory Queue implementation.
         class MockQueue
+          attr_accessor :messages
           attr_accessor :metadata
-          attr_accessor :claimed, :total, :free
+          attr_accessor :claimed, :free
 
           def initialize
+            @messages = []
             @metadata = {}
-            @claimed, @total, @free = 0, 0, 0
+            @claimed, @free = 0, 0, 0
+            @id_counter = Fog::Mock.random_hex(24).to_i(16)
+          end
+
+          # The total number of messages currently on the queue.
+          #
+          # @return [Integer]
+          def total
+            @messages.size
+          end
+
+          # Append a new message to the queue.
+          #
+          # @param client_id [String] UUID for the service object.
+          # @param data [Hash] Message payload.
+          # @param ttl [Integer] Number of seconds that the message should exist.
+          # @return [MockMessage] The message object that was created.
+          def add_message(client_id, data, ttl)
+            id = @id_counter.to_s(16)
+            @id_counter += 1
+            message = MockMessage.new(id, client_id, data, ttl)
+            @messages << message
+            message
+          end
+        end
+
+        # A single message posted to an in-memory MockQueue.
+        class MockMessage
+          attr_accessor :id, :data, :ttl, :producer_id
+
+          # Create a new message. Use {MockQueue#add_message} instead.
+          def initialize(id, client_id, data, ttl)
+            @id, @producer_id = id, client_id
+            @data, @ttl = client_id, data, ttl
           end
         end
 
