@@ -10,7 +10,7 @@ Shindo.tests('Fog::Rackspace::Queues | messages', ['rackspace']) do
     :body => "blah"
   }
 
-  collection_tests(queue.messages, options, false)
+  collection_tests(queue.messages, options)
 
   queue.destroy
 end
