@@ -90,14 +90,30 @@ module Fog
       class Mock < Fog::Rackspace::Service
         include Common
 
+        # An in-memory Queue implementation.
+        class MockQueue
+          attr_accessor :metadata
+
+          def initialize
+            @metadata = {}
+          end
+        end
+
         def initialize(options = {})
           apply_options(options)
           authenticate
           endpoint_uri
         end
 
-        def request(params)
-          Fog::Mock.not_implemented
+        # FIXME Refactor commonalities from Fog::Rackspace::Storage to... somewhere.
+        def self.data
+          @data ||= Hash.new do |hash, key|
+            hash[key] = {}
+          end
+        end
+
+        def data
+          self.class.data[@rackspace_username]
         end
       end
 

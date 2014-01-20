@@ -1,8 +1,8 @@
 module Fog
   module Rackspace
     class Queues
-      class Real
 
+      class Real
         # This operation creates a new queue.
         # The body of the request is empty.
         #
@@ -22,6 +22,21 @@ module Fog
           )
         end
       end
+
+      class Mock
+        def create_queue(queue_name)
+          existed = ! data[queue_name].nil?
+
+          unless existed
+            data[queue_name] = MockQueue.new
+          end
+
+          response = Excon::Response.new
+          response.status = existed ? 201 : 204
+          response
+        end
+      end
+
     end
   end
 end
