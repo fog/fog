@@ -1,6 +1,7 @@
 module Fog
   module Rackspace
     class Queues
+
       class Real
 
         # This operation returns queue statistics, including how many messages are in the queue, categorized by status.
@@ -19,7 +20,27 @@ module Fog
             :path => "queues/#{queue_name}/stats"
           )
         end
+
       end
+
+      class Mock
+        def get_queue_stats(queue_name)
+          queue = data[queue_name]
+          raise NotFound.new unless queue
+
+          response = Excon::Response.new
+          response.status = 200
+          response.body = {
+            "messages" => {
+              "claimed" => queue.claimed,
+              "total" => queue.total,
+              "free" => queue.free
+            }
+          }
+          response
+        end
+      end
+
     end
   end
 end

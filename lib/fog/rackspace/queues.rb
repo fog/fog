@@ -93,9 +93,11 @@ module Fog
         # An in-memory Queue implementation.
         class MockQueue
           attr_accessor :metadata
+          attr_accessor :claimed, :total, :free
 
           def initialize
             @metadata = {}
+            @claimed, @total, @free = 0, 0, 0
           end
         end
 
