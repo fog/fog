@@ -42,7 +42,7 @@ module Fog
           end
 
           if detailed
-            queue_data.map! { |d| d["metadata"] = data[d["name"]].metadata }
+            queue_data.each { |d| d["metadata"] = data[d["name"]].metadata }
           end
 
           response = Excon::Response.new
