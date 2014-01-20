@@ -195,9 +195,17 @@ module Fog
           end
         end
 
+        # Reservation indicating that a consumer is in the process of handling a collection of
+        # messages from a queue.
         class MockClaim
           attr_accessor :id, :queue, :ttl, :grace
 
+          # Create a new MockClaim. Clients should use {MockQueue#add_claim} instead.
+          #
+          # @param queue [MockQueue] The queue that owns this claim.
+          # @param ttl [Integer] Duration, in seconds, that this queue should last.
+          # @param grace [Integer] Extra life granted to messages within this claim after this
+          #   claim expires, to give another consumer a chance to process it.
           def initialize(queue, ttl, grace)
             @queue = queue
             @id = Fog::Mock.random_hex(24)
