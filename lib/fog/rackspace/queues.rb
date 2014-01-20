@@ -143,6 +143,13 @@ module Fog
             Time.now.to_i - @created
           end
 
+          # Return true if this message has been claimed.
+          #
+          # @return [Boolean]
+          def claimed?
+            ! @claimant_id.nil?
+          end
+
           # Convert this message to a GET payload.
           #
           # @return [Hash]

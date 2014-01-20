@@ -38,6 +38,8 @@ module Fog
           queue = data[queue_name]
           raise NotFound.new unless queue
 
+          raise BadRequest.new if body.nil? || body.empty?
+
           message = queue.add_message(client_id, body, ttl)
 
           # FIXME: refactor /v1/queues out to an inherited constant

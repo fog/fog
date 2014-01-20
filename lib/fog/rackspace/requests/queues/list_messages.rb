@@ -53,7 +53,7 @@ module Fog
           next_marker = marker + limit + 1
           messages = queue.messages[marker...next_marker]
           messages.reject! { |m| m.producer_id == client_id } unless echo
-          messages.select! { |m| m.claimant_id.nil? } unless include_claimed
+          messages.reject! { |m| m.claimed? } unless include_claimed
 
           response = Excon::Response.new
           if queue.messages.empty?
