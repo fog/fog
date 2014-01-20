@@ -1,6 +1,7 @@
 module Fog
   module Rackspace
     class Queues
+
       class Real
 
         # This operation claims a set of messages (up to the value of the limit parameter) from oldest to newest and skips any messages that are already claimed.
@@ -33,7 +34,32 @@ module Fog
             :query => query
           )
         end
+
       end
+
+      class Mock
+        def create_claim(queue_name, ttl, grace, options = {})
+          queue = data[queue_name]
+          raise NotFound.new unless queue
+
+          limit = options[:limit] || 10
+
+          claim = MockClaim.new(ttl, grace)
+
+          claimed = queue.messages.select do |message|
+            ! message.claimed?
+          end.first(limit)
+
+          claimed.each { |message| message.claim = claim }
+
+          response = Excon::Response.new
+          response.status = 201
+          response.body = claimed.map { |msg| msg.to_h }
+          response.headers['Location'] = "/v1/queues/#{queue_name}/claims/#{claim.id}"
+          response
+        end
+      end
+
     end
   end
 end

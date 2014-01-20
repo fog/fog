@@ -126,14 +126,15 @@ module Fog
 
         # A single message posted to an in-memory MockQueue.
         class MockMessage
-          attr_accessor :id, :queue, :data, :ttl, :producer_id, :claimant_id
+          attr_accessor :id, :queue, :data, :ttl, :producer_id
+          attr_accessor :claim
 
           # Create a new message. Use {MockQueue#add_message} instead.
           def initialize(id, queue, client_id, data, ttl)
             @id, @queue, @producer_id = id, queue, client_id
             @data, @ttl = data, ttl
             @created = Time.now.to_i
-            @claimant_id = nil
+            @claim = nil
           end
 
           # Determine how long ago this message was created, in seconds.
@@ -147,7 +148,7 @@ module Fog
           #
           # @return [Boolean]
           def claimed?
-            ! @claimant_id.nil?
+            ! @claim.nil?
           end
 
           # Convert this message to a GET payload.
@@ -160,6 +161,15 @@ module Fog
               "ttl" => @ttl,
               "href" => "/v1/queues/#{@queue.name}/messages/#{@id}"
             }
+          end
+        end
+
+        class MockClaim
+          attr_reader :id, :ttl, :grace
+
+          def initialize ttl, grace
+            @id = Fog::Mock.random_hex(24)
+            @ttl, @grace = ttl, grace
           end
         end
 
