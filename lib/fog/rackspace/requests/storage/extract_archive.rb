@@ -6,7 +6,7 @@ module Fog
 
         # Extract Archive
         #
-        # See http://docs.rackspace.com/files/api/v1/cf-devguide/content/Extract_Archive-d1e2338.html
+        # @see http://docs.rackspace.com/files/api/v1/cf-devguide/content/Extract_Archive-d1e2338.html
         #
         # ==== Parameters
         # * container<~String>      - Name for container, should be < 256 bytes and must not contain '/'
