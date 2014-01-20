@@ -45,7 +45,7 @@ module Fog
             end
           else
             unless claim_id
-              # Exception
+              # Currently succeeds.
             end
           end
 
