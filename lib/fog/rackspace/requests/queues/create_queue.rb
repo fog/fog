@@ -25,6 +25,8 @@ module Fog
 
       class Mock
         def create_queue(queue_name)
+          raise MethodNotAllowed.new if queue_name.nil? || queue_name.empty?
+
           existed = ! data[queue_name].nil?
 
           unless existed
