@@ -66,7 +66,7 @@ module Fog
           response = Excon::Response.new
           response.status = 201
           response.body = claimed.map { |msg| msg.to_h }
-          response.headers['Location'] = "/v1/queues/#{queue_name}/claims/#{claim.id}"
+          response.headers['Location'] = "#{PATH_BASE}/#{queue_name}/claims/#{claim.id}"
           response
         end
       end

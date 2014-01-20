@@ -49,7 +49,7 @@ module Fog
           response.status = 201
           response.body = {
             "partial" => false,
-            "resources" => ["/v1/queues/#{queue_name}/messages/#{message.id}"]
+            "resources" => ["#{PATH_BASE}/#{queue_name}/messages/#{message.id}"]
           }
           response
         end

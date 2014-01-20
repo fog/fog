@@ -90,6 +90,8 @@ module Fog
       class Mock < Fog::Rackspace::Service
         include Common
 
+        PATH_BASE = "/v1/queues"
+
         # An in-memory Queue implementation.
         class MockQueue
           attr_accessor :name, :metadata, :messages, :claims
@@ -217,7 +219,7 @@ module Fog
               "body" => @data,
               "age" => age,
               "ttl" => @ttl,
-              "href" => "/v1/queues/#{@queue.name}/messages/#{@id}"
+              "href" => "#{PATH_BASE}/#{@queue.name}/messages/#{@id}"
             }
           end
         end
@@ -281,7 +283,7 @@ module Fog
 
             {
               "age" => age,
-              "href" => "/v1/queues/#{@queue.name}/claims/#{@id}",
+              "href" => "#{PATH_BASE}/#{@queue.name}/claims/#{@id}",
               "ttl" => @ttl,
               "messages" => ms
             }

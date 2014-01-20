@@ -38,7 +38,7 @@ module Fog
 
           queue_names = queue_names[start_index..stop_index]
           queue_data = queue_names.map do |qname|
-            { "href" => "/v1/queues/#{qname}", "name" => qname }
+            { "href" => "#{PATH_BASE}/#{qname}", "name" => qname }
           end
 
           if detailed
@@ -52,7 +52,7 @@ module Fog
             response.status = 200
             response.body = {
               "queues" => queue_data,
-              "links" => [{ "href" => "/v1/queues?marker=#{queue_names.last}", "rel" => "next" }]
+              "links" => [{ "href" => "#{PATH_BASE}?marker=#{queue_names.last}", "rel" => "next" }]
             }
           end
           response
