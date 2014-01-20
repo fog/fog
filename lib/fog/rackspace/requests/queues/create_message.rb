@@ -44,7 +44,6 @@ module Fog
           encoded = Fog::JSON.decode(Fog::JSON.encode(body))
           message = queue.add_message(client_id, encoded, ttl)
 
-          # FIXME: refactor /v1/queues out to an inherited constant
           response = Excon::Response.new
           response.status = 201
           response.body = {
