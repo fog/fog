@@ -38,17 +38,22 @@ module Fog
 
           message = queue.messages.detect { |m| m.id == message_id }
 
+          perform_delete = true
           if message && message.claimed?
             unless message.claim.id == claim_id
-              # FIXME Exception
+              # Currently returns a 204 without deleting!
+              perform_delete = false
             end
           else
-            unless claim_id
-              # Currently succeeds.
+            if claim_id
+              # Currently returns a 204 without deleting!
+              perform_delete = false
             end
           end
 
-          queue.messages.reject! { |m| m.id == message_id }
+          if perform_delete
+            queue.messages.reject! { |m| m.id == message_id }
+          end
 
           response = Excon::Response.new
           response.status = 204

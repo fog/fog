@@ -208,6 +208,7 @@ module Fog
           # plus the claim's grace period.
           def extend_life
             return unless @claim
+            # FIXME: make sure this is an *increase*
             @ttl = claim.message_end_of_life - @created
           end
 
