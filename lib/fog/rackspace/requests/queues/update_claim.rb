@@ -27,9 +27,7 @@ module Fog
       class Mock
         def update_claim(queue_name, claim_id, ttl)
           queue = mock_queue!(queue_name)
-
-          claim = queue.claims[claim_id]
-          raise NotFound.new unless claim
+          claim = queue.claim!(claim_id)
 
           claim.touch!
           claim.ttl = ttl

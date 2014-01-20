@@ -27,9 +27,7 @@ module Fog
       class Mock
         def delete_claim(queue_name, claim_id)
           queue = mock_queue!(queue_name)
-
-          claim = queue.claims[claim_id]
-          raise NotFound.new unless claim
+          claim = queue.claim!(claim_id)
 
           claim.messages.each do |message|
             message.claim = nil

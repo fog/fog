@@ -144,6 +144,15 @@ module Fog
             claims[claim.id] = claim
             claim
           end
+
+          # Access an existing MockClaim by id.
+          #
+          # @param claim_id [String] An ID of an existing claim.
+          # @raises [Fog::Rackspace::Queues::NotFound] If no MockClaim with this ID exists.
+          # @return [MockClaim] The requested MockClaim.
+          def claim!(claim_id)
+            claims[claim_id] or raise NotFound.new
+          end
         end
 
         # A single message posted to an in-memory MockQueue.
