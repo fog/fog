@@ -127,6 +127,7 @@ module Fog
           raise ServiceError.slurp(error, self)
         end
       end
+
     end
   end
 end
