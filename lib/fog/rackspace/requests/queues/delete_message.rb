@@ -39,8 +39,8 @@ module Fog
           message = queue.messages.detect { |m| m.id == message_id }
 
           if message.claimed?
-            unless message.claimant_id == claim_id
-              # Exception
+            unless message.claim.id == claim_id
+              # FIXME Exception
             end
           else
             unless claim_id

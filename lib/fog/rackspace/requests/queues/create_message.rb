@@ -39,7 +39,10 @@ module Fog
 
           raise BadRequest.new if body.nil? || body.empty?
 
-          message = queue.add_message(client_id, body, ttl)
+          # Round-trip +body+ through the JSON parser to turn Symbols into Strings, as though
+          # it's coming back from the server.
+          encoded = Fog::JSON.decode(Fog::JSON.encode(body))
+          message = queue.add_message(client_id, encoded, ttl)
 
           # FIXME: refactor /v1/queues out to an inherited constant
           response = Excon::Response.new
