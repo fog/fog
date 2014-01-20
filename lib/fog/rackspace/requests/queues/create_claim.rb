@@ -50,6 +50,12 @@ module Fog
             ! message.claimed?
           end.first(limit)
 
+          if claimed.empty?
+            response = Excon::Response.new
+            response.status = 204
+            return response
+          end
+
           claimed.each { |message| message.claim = claim }
 
           response = Excon::Response.new
