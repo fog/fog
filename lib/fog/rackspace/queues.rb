@@ -175,12 +175,17 @@ module Fog
         end
 
         class MockClaim
-          attr_reader :id, :queue, :ttl, :grace
+          attr_accessor :id, :queue, :ttl, :grace
 
           def initialize(queue, ttl, grace)
             @queue = queue
             @id = Fog::Mock.random_hex(24)
             @ttl, @grace = ttl, grace
+            touch!
+          end
+
+          # Set or reset the creation time of the claim to the present.
+          def touch!
             @created = Time.now.to_i
           end
 

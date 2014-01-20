@@ -1,6 +1,7 @@
 module Fog
   module Rackspace
     class Queues
+
       class Real
 
         # This operation posts the specified message or messages.
@@ -20,7 +21,26 @@ module Fog
             :path => "queues/#{queue_name}/claims/#{claim_id}"
           )
         end
+
       end
+
+      class Mock
+        def update_claim(queue_name, claim_id, ttl)
+          queue = data[queue_name]
+          raise NotFound.new unless queue
+
+          claim = queue.claims[claim_id]
+          raise NotFound.new unless claim
+
+          claim.touch!
+          claim.ttl = ttl
+
+          response = Excon::Response.new
+          response.status = 204
+          response
+        end
+      end
+
     end
   end
 end
