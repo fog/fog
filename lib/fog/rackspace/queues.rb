@@ -93,12 +93,10 @@ module Fog
         # An in-memory Queue implementation.
         class MockQueue
           attr_accessor :name, :metadata, :messages, :claims
-          attr_accessor :claimed, :free
 
           def initialize(name)
             @name, @metadata = name, {}
             @messages, @claims = [], {}
-            @claimed, @free = 0, 0
             @id_counter = Fog::Mock.random_hex(24).to_i(16)
           end
 
@@ -107,6 +105,20 @@ module Fog
           # @return [Integer]
           def total
             @messages.size
+          end
+
+          # The number of messages currently held by a claim.
+          #
+          # @return [Integer]
+          def claimed
+            @messages.count { |msg| msg.claimed? }
+          end
+
+          # The number of messages not held by any claim.
+          #
+          # @return [Integer]
+          def free
+            @messages.count { |msg| ! msg.claimed? }
           end
 
           # Append a new message to the queue.
