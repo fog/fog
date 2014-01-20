@@ -39,8 +39,7 @@ module Fog
 
       class Mock
         def create_claim(queue_name, ttl, grace, options = {})
-          queue = data[queue_name]
-          raise NotFound.new unless queue
+          queue = mock_queue!(queue_name)
 
           limit = options[:limit] || 10
 

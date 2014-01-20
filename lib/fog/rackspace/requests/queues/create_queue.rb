@@ -27,11 +27,8 @@ module Fog
         def create_queue(queue_name)
           raise MethodNotAllowed.new if queue_name.nil? || queue_name.empty?
 
-          existed = ! data[queue_name].nil?
-
-          unless existed
-            data[queue_name] = MockQueue.new(queue_name)
-          end
+          existed = ! mock_queue(queue_name).nil?
+          add_queue(queue_name) unless existed
 
           response = Excon::Response.new
           response.status = existed ? 201 : 204

@@ -35,8 +35,7 @@ module Fog
 
       class Mock
         def create_message(client_id, queue_name, body, ttl)
-          queue = data[queue_name]
-          raise NotFound.new unless queue
+          queue = mock_queue!(queue_name)
 
           raise BadRequest.new if body.nil? || body.empty?
 

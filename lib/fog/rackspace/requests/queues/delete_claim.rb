@@ -26,8 +26,7 @@ module Fog
 
       class Mock
         def delete_claim(queue_name, claim_id)
-          queue = data[queue_name]
-          raise NotFound.new unless queue
+          queue = mock_queue!(queue_name)
 
           claim = queue.claims[claim_id]
           raise NotFound.new unless claim

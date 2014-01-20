@@ -25,9 +25,9 @@ module Fog
 
       class Mock
         def get_queue_stats(queue_name)
-          queue = data[queue_name]
-          raise NotFound.new unless queue
+          queue = mock_queue!(queue_name)
 
+          # FIXME add the other stats that are present on a nonempty queue.
           response = Excon::Response.new
           response.status = 200
           response.body = {

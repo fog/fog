@@ -23,7 +23,7 @@ module Fog
 
       class Mock
         def get_queue(queue_name)
-          if data[queue_name].nil?
+          if mock_queue(queue_name).nil?
             raise NotFound.new
           else
             response = Excon::Response.new

@@ -28,8 +28,7 @@ module Fog
 
       class Mock
         def get_message(client_id, queue_name, message_id)
-          queue = data[queue_name]
-          raise NotFound.new unless queue
+          queue = mock_queue!(queue_name)
 
           message = queue.messages.find { |msg| msg.id == message_id }
           raise NotFound.new unless message

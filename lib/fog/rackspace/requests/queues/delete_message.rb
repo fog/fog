@@ -32,8 +32,7 @@ module Fog
 
       class Mock
         def delete_message(queue_name, message_id, options = {})
-          queue = data[queue_name]
-          raise NotFound.new unless queue
+          queue = mock_queue!(queue_name)
 
           claim_id = options[:claim_id]
 

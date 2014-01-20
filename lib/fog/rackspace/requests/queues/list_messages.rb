@@ -42,8 +42,7 @@ module Fog
 
       class Mock
         def list_messages(client_id, queue_name, options = {})
-          queue = data[queue_name]
-          raise NotFound.new unless queue
+          queue = mock_queue!(queue_name)
 
           marker = (options[:marker] || "0").to_i
           limit = options[:limit] || 10
@@ -59,6 +58,7 @@ module Fog
           if queue.messages.empty?
             response.status = 204
           else
+            response.status = 200
             response.body = {
               "messages" => messages.map(&:to_h),
               "links" => [{

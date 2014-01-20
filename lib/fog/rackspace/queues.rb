@@ -234,6 +234,35 @@ module Fog
         def data
           self.class.data[@rackspace_username]
         end
+
+        # Create and remember a MockQueue with a given name. An existing MockQueue with the same
+        # name will be overridden without warning.
+        #
+        # @param [String] Valid queue name.
+        # @return [MockQueue] The MockQueue that was created.
+        def add_queue(queue_name)
+          queue = MockQueue.new(queue_name)
+          data[queue_name] = queue
+          queue
+        end
+
+        # Access a MockQueue with the specified name, or return `nil`.
+        #
+        # @param queue_name [String] Valid queue name.
+        # @return [MockQueue|UndefinedObject] The queue with the specified name, or `nil` if
+        #   it doesn't exist.
+        def mock_queue(queue_name)
+          data[queue_name]
+        end
+
+        # Access a MockQueue with the specified name, raising an exception if it doesn't exist.
+        #
+        # @param queue_name [String] Valid queue name.
+        # @raises [Fog::Rackspace::Queue::NotFound] If there is no queue with the specified name.
+        # @return [MockQueue] The queue with the specified name.
+        def mock_queue!(queue_name)
+          mock_queue(queue_name) or raise NotFound.new
+        end
       end
 
       class Real < Fog::Rackspace::Service
