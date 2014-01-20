@@ -153,6 +153,19 @@ module Fog
           def claim!(claim_id)
             claims[claim_id] or raise NotFound.new
           end
+
+          # Remove any messages or claims whose ttls have expired.
+          def ageoff
+            messages.reject! { |m| m.expired? }
+
+            claims.keys.dup.each do |id|
+              claim = claims[id]
+              if claim.expired?
+                claim.messages.each { |m| m.claim = nil }
+                claims.delete(id)
+              end
+            end
+          end
         end
 
         # A single message posted to an in-memory MockQueue.
@@ -180,6 +193,20 @@ module Fog
           # @return [Boolean]
           def claimed?
             ! @claim.nil?
+          end
+
+          # Determine if this message has lived longer than its designated ttl.
+          #
+          # @return [Boolean]
+          def expired?
+            age > ttl
+          end
+
+          # Extend the {#ttl} of this message to include the lifetime of the claim it belongs to,
+          # plus the claim's grace period.
+          def extend_life
+            return unless @claim
+            @ttl = claim.message_end_of_life - @created
           end
 
           # Convert this message to a GET payload.
@@ -218,11 +245,25 @@ module Fog
             @created = Time.now.to_i
           end
 
+          # Calculate the time at which messages belonging to this claim should expire.
+          #
+          # @return [Integer] Seconds since the epoch.
+          def message_end_of_life
+            @created + @ttl + @grace
+          end
+
           # Determine how long ago this claim was created, in seconds.
           #
           # @return [Integer]
           def age
             Time.now.to_i - @created
+          end
+
+          # Determine if this claim has lasted longer than its designated ttl.
+          #
+          # @return [Boolean]
+          def expired?
+            age > ttl
           end
 
           # Access the collection of messages owned by this claim.
@@ -291,6 +332,17 @@ module Fog
         # @return [MockQueue] The queue with the specified name.
         def mock_queue!(queue_name)
           mock_queue(queue_name) or raise NotFound.new
+        end
+
+        # Remove any messages or expire any claims that have exceeded their ttl values. Invoked
+        # before every request.
+        def ageoff
+          data.values.each { |q| q.ageoff }
+        end
+
+        def request(params)
+          ageoff
+          super
         end
       end
 

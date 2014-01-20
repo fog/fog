@@ -55,7 +55,13 @@ module Fog
             return response
           end
 
-          claimed.each { |message| message.claim = claim }
+          claimed.each do |message|
+            message.claim = claim
+
+            # Extend the message's lifetime to include the lifetime of the claim, plus the claim's
+            # grace period.
+            message.extend_life
+          end
 
           response = Excon::Response.new
           response.status = 201
