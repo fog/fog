@@ -11,6 +11,7 @@ module Fog
         attribute :content_length,  :aliases => 'Content-Length', :type => :integer
         # attribute :content_type,    :aliases => 'Content-Type'
         attribute :last_modified,   :aliases => 'Last-Modified'
+        attribute :encryption
 
         require 'uri'
 
