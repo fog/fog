@@ -297,7 +297,6 @@ module Fog
           endpoint_uri
         end
 
-        # FIXME Refactor commonalities from Fog::Rackspace::Storage to... somewhere.
         def self.data
           @data ||= Hash.new do |hash, key|
             hash[key] = {}
