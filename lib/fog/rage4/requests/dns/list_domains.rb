@@ -3,7 +3,7 @@ module Fog
     class Rage4
       class Real
 
-        # Get the details for all domains in your account.
+        # Get the lsit of all domains for your account.
         # ==== Parameters
         #
         # ==== Returns
