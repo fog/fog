@@ -39,10 +39,10 @@ module Fog
 
           raise BadRequest.new if body.nil? || body.empty?
 
-          # Round-trip +body+ through the JSON parser to turn Symbols into Strings, as though
-          # it's coming back from the server.
-          encoded = Fog::JSON.decode(Fog::JSON.encode(body))
-          message = queue.add_message(client_id, encoded, ttl)
+          # Ensure that any Symbol keys within +body+ are converted to Strings, just as being
+          # round-tripped through the API will.
+          converted = MockData.stringify(body)
+          message = queue.add_message(client_id, converted, ttl)
 
           response = Excon::Response.new
           response.status = 201
