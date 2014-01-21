@@ -1,0 +1,38 @@
+require 'fog/core/collection'
+require 'fog/rage4/models/dns/record'
+
+module Fog
+  module DNS
+    class Rage4
+
+      class Records < Fog::Collection
+
+        attribute :zone
+
+        model Fog::DNS::Rage4::Record
+
+        def all
+          requires :zone
+          clear
+          data = service.list_records(zone.id).body.map {|record| record['record']}
+          load(data)
+        end
+
+        def get(record_id)
+          requires :zone
+          data = service.get_record(zone.id, record_id).body["record"]
+          new(data)
+        rescue Excon::Errors::NotFound
+          nil
+        end
+
+        def new(attributes = {})
+          requires :zone
+          super({ :zone => zone }.merge!(attributes))
+        end
+
+      end
+
+    end
+  end
+end
