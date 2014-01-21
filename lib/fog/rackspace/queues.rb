@@ -123,6 +123,20 @@ module Fog
             @messages.count { |msg| ! msg.claimed? }
           end
 
+          # The oldest published message on this queue, or `nil`.
+          #
+          # @return [MockMessage|UndefinedObject]
+          def oldest
+            @messages.first
+          end
+
+          # The most recently published message on this queue, or `nil`.
+          #
+          # @return [MockMessage|UndefinedObject]
+          def newest
+            @messages.last
+          end
+
           # Append a new message to the queue.
           #
           # @param client_id [String] UUID for the service object.
@@ -173,7 +187,7 @@ module Fog
         # A single message posted to an in-memory MockQueue.
         class MockMessage
           attr_accessor :id, :queue, :data, :ttl, :producer_id
-          attr_accessor :claim
+          attr_accessor :claim, :created
 
           # Create a new message. Use {MockQueue#add_message} instead.
           def initialize(id, queue, client_id, data, ttl)
@@ -188,6 +202,13 @@ module Fog
           # @return [Integer]
           def age
             Time.now.to_i - @created
+          end
+
+          # Generate a URI segment that identifies this message.
+          #
+          # @return [String]
+          def href
+            "#{PATH_BASE}/#{@queue.name}/messages/#{@id}"
           end
 
           # Return true if this message has been claimed.
@@ -220,7 +241,7 @@ module Fog
               "body" => @data,
               "age" => age,
               "ttl" => @ttl,
-              "href" => "#{PATH_BASE}/#{@queue.name}/messages/#{@id}"
+              "href" => href
             }
           end
         end
