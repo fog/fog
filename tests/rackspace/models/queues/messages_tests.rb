@@ -1,7 +1,5 @@
 Shindo.tests('Fog::Rackspace::Queues | messages', ['rackspace']) do
 
-  pending if Fog.mocking?
-
   service = Fog::Rackspace::Queues.new
   queue = service.queues.create({
     :name => "fog_queue_#{Time.now.to_i.to_s}",
@@ -12,7 +10,7 @@ Shindo.tests('Fog::Rackspace::Queues | messages', ['rackspace']) do
     :body => "blah"
   }
 
-  collection_tests(queue.messages, options, false)
+  collection_tests(queue.messages, options)
 
   queue.destroy
 end

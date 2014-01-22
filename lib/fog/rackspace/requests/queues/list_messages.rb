@@ -1,6 +1,7 @@
 module Fog
   module Rackspace
     class Queues
+
       class Real
 
         # This operation gets the message or messages in the specified queue.
@@ -38,6 +39,38 @@ module Fog
           )
         end
       end
+
+      class Mock
+        def list_messages(client_id, queue_name, options = {})
+          queue = mock_queue!(queue_name)
+
+          marker = (options[:marker] || "0").to_i
+          limit = options[:limit] || 10
+          echo = options[:echo] || false
+          include_claimed = options[:include_claimed] || false
+
+          next_marker = marker + limit + 1
+          messages = queue.messages[marker...next_marker]
+          messages.reject! { |m| m.producer_id == client_id } unless echo
+          messages.reject! { |m| m.claimed? } unless include_claimed
+
+          response = Excon::Response.new
+          if queue.messages.empty?
+            response.status = 204
+          else
+            response.status = 200
+            response.body = {
+              "messages" => messages.map { |m| m.to_h },
+              "links" => [{
+                "href" => "#{PATH_BASE}/#{queue_name}/messages?marker=#{next_marker}",
+                "rel" => "next"
+              }]
+            }
+          end
+          response
+        end
+      end
+
     end
   end
 end
