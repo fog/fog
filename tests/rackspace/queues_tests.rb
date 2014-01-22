@@ -1,8 +1,5 @@
 Shindo.tests('Fog::Rackspace::Queues', ['rackspace']) do
 
-  pending if Fog.mocking?
-
-
   def assert_method(url, method)
     @service.instance_variable_set "@rackspace_auth_url", url
     returns(method) { @service.send :authentication_method }
@@ -25,16 +22,12 @@ Shindo.tests('Fog::Rackspace::Queues', ['rackspace']) do
   end
 
   tests('authentication v1') do
-    pending if Fog.mocking?
-
     raises(Fog::Errors::NotImplemented) do
       @service = Fog::Rackspace::Queues.new :rackspace_auth_url => 'https://identity.api.rackspacecloud.com/v1.0'
     end
   end
 
   tests('authentication v2') do
-    pending if Fog.mocking?
-
     tests('variables populated').succeeds do
       @service = Fog::Rackspace::Queues.new :rackspace_auth_url => 'https://identity.api.rackspacecloud.com/v2.0', :connection_options => { :ssl_verify_peer => true }
       returns(true, "auth token populated") { !@service.send(:auth_token).nil? }
@@ -63,8 +56,6 @@ Shindo.tests('Fog::Rackspace::Queues', ['rackspace']) do
   end
 
   tests('default auth') do
-    pending if Fog.mocking?
-
     tests('no params').succeeds do
       #We consistently use DFW as our default but queues doesn't have a DFW default region yet.
       # We can enable this test once they have a DFW region (which they will)
@@ -83,8 +74,6 @@ Shindo.tests('Fog::Rackspace::Queues', ['rackspace']) do
   end
 
   tests('reauthentication') do
-    pending if Fog.mocking?
-
     @service = Fog::Rackspace::Queues.new
     returns(true, "auth token populated") { !@service.send(:auth_token).nil? }
     @service.instance_variable_set("@auth_token", "bad_token")
@@ -99,8 +88,6 @@ Shindo.tests('Fog::Rackspace::Queues', ['rackspace']) do
   end
 
   tests('client_id') do
-    pending if Fog.mocking?
-
     tests('should generate uuid if a client id is not provided').succeeds do
       pending unless Fog::UUID.supported?
       service = Fog::Rackspace::Queues.new

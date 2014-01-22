@@ -1,7 +1,4 @@
 Shindo.tests('Fog::Rackspace::Queues | messages_tests', ['rackspace']) do
-
-  pending if Fog.mocking?
-
   service = Fog::Rackspace::Queues.new
 
   queue_name = 'fog' + Time.now.to_i.to_s
@@ -11,10 +8,7 @@ Shindo.tests('Fog::Rackspace::Queues | messages_tests', ['rackspace']) do
   service.create_queue(queue_name)
 
   begin
-
     tests('success') do
-
-
       tests("#list_message(#{client_id}, #{queue_name}, {:echo => true}) => No Content").returns(204) do
         service.list_messages(client_id, queue_name, {:echo => true}).status
       end

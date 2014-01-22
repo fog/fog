@@ -1,6 +1,7 @@
 module Fog
   module Rackspace
     class Queues
+
       class Real
 
         # This operation posts the specified message or messages.
@@ -31,6 +32,28 @@ module Fog
           )
         end
       end
+
+      class Mock
+        def create_message(client_id, queue_name, body, ttl)
+          queue = mock_queue!(queue_name)
+
+          raise BadRequest.new if body.nil? || body.empty?
+
+          # Ensure that any Symbol keys within +body+ are converted to Strings, just as being
+          # round-tripped through the API will.
+          converted = MockData.stringify(body)
+          message = queue.add_message(client_id, converted, ttl)
+
+          response = Excon::Response.new
+          response.status = 201
+          response.body = {
+            "partial" => false,
+            "resources" => ["#{PATH_BASE}/#{queue_name}/messages/#{message.id}"]
+          }
+          response
+        end
+      end
+
     end
   end
 end

@@ -15,7 +15,7 @@ module Fog
           request(
             :method   => 'DELETE',
             :expects  => 202,
-            :path     => "/os-keypairs/#{key_name}"
+            :path     => "/os-keypairs/#{URI.escape(key_name)}"
           )
         end
       end
