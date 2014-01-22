@@ -10,6 +10,7 @@ def server_tests(connection, params = {}, mocks_implemented = true)
     end
 
     responds_to([:ready?, :state])
+    yield if block_given?
 
     tests('#reboot').succeeds do
       pending if Fog.mocking? && !mocks_implemented

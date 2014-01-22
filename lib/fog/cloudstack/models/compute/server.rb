@@ -42,6 +42,9 @@ module Fog
         attr_accessor :network_ids, :disk_offering_id, :ip_address, :ip_to_network_list
         attr_writer :security_group_ids
 
+        alias_method :public_ip_address, :ip_address
+        alias_method :public_ip_address=, :ip_address=
+
         def addresses
           nics.map{|nic| Address.new(nic)}
         end
