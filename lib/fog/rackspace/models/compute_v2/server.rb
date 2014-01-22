@@ -521,7 +521,7 @@ module Fog
         # Setup server for SSH access
         # @see Servers#bootstrap
         def setup(credentials = {})
-          requires :public_ip_address, :identity, :public_key, :username
+          requires :ssh_ip_address, :identity, :public_key, :username
 
           commands = [
             %{mkdir .ssh},
@@ -534,7 +534,7 @@ module Fog
 
           @password = nil if password_lock
 
-          Fog::SSH.new(public_ip_address, username, credentials).run(commands)
+          Fog::SSH.new(ssh_ip_address, username, credentials).run(commands)
         rescue Errno::ECONNREFUSED
           sleep(1)
           retry

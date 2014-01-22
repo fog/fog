@@ -54,7 +54,7 @@ module Fog
 
       def scp(local_path, remote_path, upload_options = {})
         require 'net/scp'
-        requires :public_ip_address, :username
+        requires :ssh_ip_address, :username
 
         Fog::SCP.new(ssh_ip_address, username, ssh_options).upload(local_path, remote_path, upload_options)
       end
