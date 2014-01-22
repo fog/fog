@@ -9,15 +9,15 @@ module Fog
         attribute :stat
         attribute :predicate
         attribute :decomposition, :type => :array
-        attribute :value_dimension, aliases: 'value-dimension', :type => :integer
-        attribute :value_arity, aliases: 'value-arity'
-        attribute :retention_time, aliases: 'retention-time', :type => :integer
+        attribute :value_dimension, :aliases => 'value-dimension', :type => :integer
+        attribute :value_arity, :aliases => 'value-arity'
+        attribute :retention_time, :aliases => 'retention-time', :type => :integer
         attribute :granularity, :type => :integer
-        attribute :idle_max, aliases: 'idle-max', :type => :integer
+        attribute :idle_max, :aliases => 'idle-max', :type => :integer
         attribute :transformations, :type => :array
-        attribute :persist_data, aliases: 'persist-data', :type => :boolean
+        attribute :persist_data, :aliases => 'persist-data', :type => :boolean
         attribute :crtime
-        attribute :value_scope, aliases: 'value-scope'
+        attribute :value_scope, :aliases => 'value-scope'
         attribute :uris, :type => :array
 
         def initialize(attributes={})
