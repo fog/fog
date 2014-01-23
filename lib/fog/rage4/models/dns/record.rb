@@ -9,7 +9,7 @@ module Fog
 
         identity :id
 
-        attribute :name,        :aliases => "domain"
+        attribute :name
         attribute :value,       :aliases => "content"
         attribute :ttl
         attribute :zone_id,     :aliases => "domain_id"
@@ -18,6 +18,10 @@ module Fog
 
         def initialize(attributes={})
           super
+        end
+
+        def domain
+          name
         end
 
         def destroy
