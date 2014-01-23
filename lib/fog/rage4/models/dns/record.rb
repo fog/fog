@@ -43,7 +43,7 @@ module Fog
           end
 
           merge_attributes(options)
-          merge_atributes(name: name, value: value, type: type)
+          merge_atributes(:name =>  name, :value => value, :type => type)
           true
         end
 
