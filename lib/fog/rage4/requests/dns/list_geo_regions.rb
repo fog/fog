@@ -3,13 +3,15 @@ module Fog
     class Rage4
       class Real
 
-        # List all the record types available
+        # List all the geo regions available
         # ==== Parameters
         #
         # ==== Returns
         # * response<~Excon::Response>:
         #   * body<~Array>:
-        #     * 'domains'<~Hash>
+        #     * 'record types'<~Hash>
+        #       *'name' <~String> geo record  name
+        #       *'value' <~Integer> Integer value of the type
 
         def list_geo_regions
           request(

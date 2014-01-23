@@ -16,58 +16,22 @@ module Fog
 
       request_path 'fog/rage4/requests/dns'
       request :list_domains
-      request :get_domain
-      request :get_domain_by_name
       request :create_domain
       request :create_domain_vanity
       request :create_reverse_domain_4
-      request :create_reverse_domain_6
+      request :get_domain
+      request :get_domain_by_name
       request :update_domain
       request :delete_domain
-      request :import_domain
-      request :sync_domain
-
-      request :export_zone_file
       request :show_current_usage
       request :show_global_usage
       request :list_record_types
       request :list_geo_regions
-      request :list_records
-
       request :create_record
       request :update_record
+      request :list_records
       request :delete_record
       request :set_record_failover
-
-      class Mock
-
-        def self.data
-          @data ||= Hash.new do |hash, key|
-            hash[key] = {
-              :domains => [],
-              :records => {}
-            }
-          end
-        end
-
-        def self.reset
-          @data = nil
-        end
-
-        def initialize(options={})
-          @rage4_email = options[:rage4_email]
-          @rage4_password  = options[:rage4_api_key]
-        end
-
-        def data
-          self.class.data[@rage4_email]
-        end
-
-        def reset_data
-          self.class.data.delete(@rage4_email)
-        end
-
-      end
 
       class Real
 

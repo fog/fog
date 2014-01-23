@@ -10,8 +10,6 @@ module Fog
         identity :id
 
         attribute :domain,     :aliases => 'name'
-        attribute :created_at
-        attribute :updated_at
 
         def destroy
           service.delete_domain(identity)
@@ -21,7 +19,7 @@ module Fog
         def records
           @records ||= begin
             Fog::DNS::Rage4::Records.new(
-              :zone       => self,
+              :zone    => self,
               :service => service
             )
           end
@@ -36,7 +34,7 @@ module Fog
 
         def save
           requires :domain
-          data = service.create_domain(domain).body["domain"]
+          data = service.create_domain(domain).body["id"]
           merge_attributes(data)
           true
         end

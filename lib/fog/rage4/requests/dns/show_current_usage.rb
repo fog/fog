@@ -3,16 +3,13 @@ module Fog
     class Rage4
       class Real
 
-        # Delete a specific omain
+        # Shows current usage for a single domain
         # ==== Parameters
-        # * id<~Integer> - numeric ID
+        # * id<~Integer> - domain name numeric ID
         #
         # ==== Returns
         # * response<~Excon::Response>:
-        #   * body<~Hash>:
-        #      * 'status'<~Boolean>
-        #      * 'id'<~Integer>
-        #      * 'error'<~String>
+        #   * body<~Array>
         def show_current_usage(id)
           request(
                   :expects  => 200,

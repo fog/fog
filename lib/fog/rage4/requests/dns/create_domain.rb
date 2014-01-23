@@ -6,6 +6,7 @@ module Fog
         # Create a domain.
         # ==== Parameters
         # * name<~String> - domain name
+        # * email<~String> - email of owner of domain, defaults to email of credentials
         #
         # ==== Returns
         # * response<~Excon::Response>:
@@ -13,6 +14,8 @@ module Fog
         #      * 'status'<~Boolean>
         #      * 'id'<~Integer>
         #      * 'error'<~String>
+        #
+
         def create_domain(name, options = {})
           email = options[:email] || @rage4_email
           request(

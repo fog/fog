@@ -7,6 +7,7 @@ module Fog
         # ==== Parameters
         # * name<~String> - domain name
         # * nsname<~String> - vanity ns domain name
+        # * nsprefix<~String> - prefix for the domain name, defaults to 'ns'
         #
         # ==== Returns
         # * response<~Excon::Response>:
@@ -20,7 +21,7 @@ module Fog
           request(
                   :expects  => 200,
                   :method   => 'GET',
-                  :path     => "/rapi/createregulardomain/?name=#{name}&email=#{email}" +
+                  :path     => "/rapi/createregulardomainext/?name=#{name}&email=#{email}" +
                     "&nsname=#{nsname}&nsprefix=#{nsprefix}"
           )
         end

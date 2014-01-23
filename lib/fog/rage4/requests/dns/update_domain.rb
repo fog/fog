@@ -5,7 +5,7 @@ module Fog
 
         # Update an existing domain
         # ==== Parameters
-        # * domain<~Integer> - domain integer value
+        # * id<~Integer> - domain integer value
         # * email <~String> - email of domain owner
         # * nsprefix<~String> - vanity ns prefix (nullable)
         # * nsname<~String> - vanity ns domain name (nullable)
@@ -18,10 +18,10 @@ module Fog
         #      * 'status'<~Boolean>
         #      * 'id'<~Integer>
         #      * 'error'<~String>
-        def update_domain(name, options = {})
+        def update_domain(id, options = {})
           email = options[:email] || @rage4_email
 
-          path = "/rapi/updatedomain/?name=#{name}&email=#{email}"
+          path = "/rapi/updatedomain/#{id}?email=#{email}"
 
           path << "&nsname=#{options[:nsname]}"              if options[:nsname]
           path << "&nsprefix=#{options[:nsprefix]}"          if options[:nsprefix]

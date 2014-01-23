@@ -32,23 +32,23 @@ module Fog
         def create_record(domain_id, name, content, type, options = {})
 
 
-          path = "/rapi/createregulardomain/#{domain_id}?"
+          path = "/rapi/createrecord/#{domain_id}"
           path << "?name=#{name}&content=#{content}&type=#{type}"
 
           path << "&priority=#{options[:priority]}" if options[:priority]
 
-          failovercontent = options[:failover] || false
-          path << "&failover=#{options[:failover]}"
+          failover = options[:failover] || 'false'
+          path << "&failover=#{failover}"
 
-          path << "&failovercontent=#{failovercontent}" if options[:failovercontent]
+          path << "&failovercontent=#{options[:failovercontent]}" if options[:failovercontent]
 
           ttl = options[:ttl] || 3600
           path << "&ttl=#{ttl}"
 
           path << "&geozone=#{options[:geozone]}" if options[:geozone]
-          path << "&geozone=#{options[:geolock]}" if options[:geolock]
-          path << "&geozone=#{options[:geolat]}"  if options[:geolat]
-          path << "&geozone=#{options[:geolong]}"  if options[:geolong]
+          path << "&geolock=#{options[:geolock]}" if options[:geolock]
+          path << "&geolat=#{options[:geolat]}"   if options[:geolat]
+          path << "&geolong=#{options[:geolong]}" if options[:geolong]
 
           request(
                   :expects  => 200,

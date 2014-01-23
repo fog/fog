@@ -3,10 +3,10 @@ module Fog
     class Rage4
       class Real
 
-        # Create a domain.
+        # Create a reverse domain for an ipv4 address .
         # ==== Parameters
-        # * name<~String> - domain name
-        # * subnet<~Integer> - subnet integer
+        # * name<~String> - expects an ipv5 address
+        # * subnet<~Integer> - subnet ie: 9 for /9, range is /8 to /30
         #
         # ==== Returns
         # * response<~Excon::Response>:

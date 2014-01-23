@@ -37,7 +37,7 @@ def dns_providers
       }
     },
     :rage4 => {
-      :mocked => false,
+      :mocked => false
     }
   }
 end

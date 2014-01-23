@@ -9,8 +9,9 @@ module Fog
         # ==== Returns
         # * response<~Excon::Response>:
         #   * body<~Array>:
-        #     * 'domains'<~Hash>
-
+        #     * 'record types'<~Hash>
+        #       *'name' <~String> record type name
+        #       *'value' <~Integer> Integer value of the type
         def list_record_types
           request(
                   :expects  => 200,

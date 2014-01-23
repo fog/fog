@@ -3,9 +3,9 @@ module Fog
     class Rage4
       class Real
 
-        # Delete a specific omrecordain
+        # Delete a specific record
         # ==== Parameters
-        # * id<~Integer> - numeric ID
+        # * id<~Integer> - numeric record ID
         #
         # ==== Returns
         # * response<~Excon::Response>:

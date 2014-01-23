@@ -3,7 +3,7 @@ module Fog
     class Rage4
       class Real
 
-        # Delete a specific omain
+        # Delete a specific domain
         # ==== Parameters
         # * id<~Integer> - numeric ID
         #

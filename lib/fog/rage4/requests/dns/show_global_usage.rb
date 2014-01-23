@@ -3,16 +3,18 @@ module Fog
     class Rage4
       class Real
 
-        # Delete a specific omain
+        # Shows global usage for all domains
         # ==== Parameters
         #
         # ==== Returns
         # * response<~Excon::Response>:
+        #   * body<~Array>
+
         def show_global_usage
           request(
                   :expects  => 200,
                   :method   => 'GET',
-                  :path     => "/rapi/showcurrentglobalusage/#{id}" )
+                  :path     => "/rapi/showcurrentglobalusage/" )
 
         end
 

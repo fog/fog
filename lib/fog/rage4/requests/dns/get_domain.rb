@@ -3,7 +3,7 @@ module Fog
     class Rage4
       class Real
 
-        # Get the details for a specific domain in your account. .
+        # Get the details for a specific domain in your account.
         # ==== Parameters
         # * id<~Integer> - numeric ID
         #
@@ -21,20 +21,6 @@ module Fog
                   :method   => 'GET',
                   :path     => "/rapi/getdomain/#{id}" )
 
-        end
-
-      end
-
-      class Mock
-
-        def get_domain(id)
-          domain = self.data[:domains].detect do |domain|
-            domain["domain"]["id"] == id
-          end
-          response = Excon::Response.new
-          response.status = 200
-          response.body = domain
-          response
         end
 
       end
