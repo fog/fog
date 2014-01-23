@@ -1,8 +1,8 @@
 module Fog
   module Rackspace
     class Queues
-      class Real
 
+      class Real
         # This operation verifies whether the specified queue exists.
         #
         # @param [String] queue_name Specifies the name of the queue.
@@ -20,6 +20,19 @@ module Fog
           )
         end
       end
+
+      class Mock
+        def get_queue(queue_name)
+          if mock_queue(queue_name).nil?
+            raise NotFound.new
+          else
+            response = Excon::Response.new
+            response.status = 204
+            response
+          end
+        end
+      end
+
     end
   end
 end

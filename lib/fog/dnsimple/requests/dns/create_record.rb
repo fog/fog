@@ -6,40 +6,35 @@ module Fog
         # Create a new host in the specified zone
         #
         # ==== Parameters
-        # * domain<~String>
+        # * domain<~String> - domain name or numeric ID
         # * name<~String>
         # * type<~String>
         # * content<~String>
         # * options<~Hash> - optional
         #   * priority<~Integer>
         #   * ttl<~Integer>
+        #
         # ==== Returns
         # * response<~Excon::Response>:
-        #   * body<~Hash>
-        #     * name<~String>
-        #     * ttl<~Integer>
-        #     * created_at<~String>
-        #     * special_type<~String>
-        #     * updated_at<~String>
-        #     * domain_id<~Integer>
-        #     * id<~Integer>
-        #     * content<~String>
-        #     * record_type<~String>
-        #     * prio<~Integer>
+        #   * body<~Hash>:
+        #     * 'record'<~Hash> The representation of the record.
         def create_record(domain, name, type, content, options = {})
-
           body = {
             "record" => {
               "name" => name,
               "record_type" => type,
-              "content" => content } }
+              "content" => content
+            }
+          }
 
           body["record"].merge!(options)
 
-          request( :body     => Fog::JSON.encode(body),
-                   :expects  => 201,
-                   :method   => 'POST',
-                   :path     => "/domains/#{domain}/records" )
+          request(
+            :body     => Fog::JSON.encode(body),
+            :expects  => 201,
+            :method   => 'POST',
+            :path     => "/domains/#{domain}/records"
+          )
         end
 
       end
@@ -47,23 +42,25 @@ module Fog
       class Mock
 
         def create_record(domain, name, type, content, options = {})
-          response = Excon::Response.new
-          response.status = 201
           body = {
             "record" => {
+              "id" => Fog::Mock.random_numbers(1).to_i,
+              "domain_id" => domain,
               "name" => name,
-              "record_type" => type,
               "content" => content,
+              "ttl" => 3600,
+              "prio" => nil,
+              "record_type" => type,
+              "system_record" => nil,
               "created_at" => Time.now.iso8601,
               "updated_at" => Time.now.iso8601,
-              "id" => Fog::Mock.random_numbers(1).to_i,
-              "domain_id" => domain
             }.merge(options)
           }
-
           self.data[:records][domain] ||= []
           self.data[:records][domain] << body
 
+          response = Excon::Response.new
+          response.status = 201
           response.body = body
           response
         end

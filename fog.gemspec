@@ -48,7 +48,7 @@ Gem::Specification.new do |s|
   s.add_dependency('mime-types')
   s.add_dependency('net-scp', '~>1.1')
   s.add_dependency('net-ssh', '>=2.1.3')
-  s.add_dependency('nokogiri', '~>1.5')
+  s.add_dependency('nokogiri', '>=1.5.11')
 
   ## List your development dependencies here. Development dependencies are
   ## those that are only needed during development
@@ -57,7 +57,6 @@ Gem::Specification.new do |s|
   s.add_development_dependency('rbvmomi')
   s.add_development_dependency('yard')
   s.add_development_dependency('thor')
-  s.add_development_dependency('rspec', '~>1.3.1')
   s.add_development_dependency('rbovirt', '>=0.0.11')
   s.add_development_dependency('shindo', '~>0.3.4')
   s.add_development_dependency('fission')

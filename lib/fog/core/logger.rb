@@ -2,11 +2,11 @@ module Fog
   class Logger
 
     @channels = {
-      :deprecation  => ::STDOUT,
-      :warning      => ::STDOUT
+      :deprecation  => ::STDERR,
+      :warning      => ::STDERR
     }
 
-    @channels[:debug] = ::STDOUT if ENV['DEBUG']
+    @channels[:debug] = ::STDERR if ENV['DEBUG']
 
     def self.[](channel)
       @channels[channel]

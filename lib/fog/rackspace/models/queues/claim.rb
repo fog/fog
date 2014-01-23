@@ -94,6 +94,14 @@ module Fog
           end
         end
 
+        def initialize(new_attributes = {})
+          # A hack in support of the #messages= hack up above. #messages= requires #collection to
+          # be populated first to succeed, which is always the case in modern Rubies that preserve
+          # Hash ordering, but not in 1.8.7.
+          @collection = new_attributes.delete(:collection)
+          super(new_attributes)
+        end
+
         private
 
         def queue
