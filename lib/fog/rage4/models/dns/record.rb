@@ -9,7 +9,7 @@ module Fog
 
         identity :id
 
-        attribute :name
+        attribute :name         :aliases => "domain"
         attribute :value,       :aliases => "content"
         attribute :ttl
         attribute :zone_id,     :aliases => "domain_id"
