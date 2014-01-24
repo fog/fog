@@ -4,7 +4,7 @@ module Fog
   module Compute
     class Server < Fog::Model
 
-      attr_writer :username, :private_key, :private_key_path, :public_key, :public_key_path, :ssh_port, :ssh_ip_address, :ssh_options
+      attr_writer :username, :private_key, :private_key_path, :public_key, :public_key_path, :ssh_port, :ssh_options
 
       def username
         @username ||= 'root'
@@ -35,11 +35,27 @@ module Fog
         @ssh_port ||= 22
       end
 
+      # Sets the proc used to determine the IP Address used for ssh/scp interactions.
+      # @example
+      #   service.servers.bootstrap :name => 'bootstrap-server',
+      #                             :flavor_id => service.flavors.first.id,
+      #                             :image_id => service.images.find {|img| img.name =~ /Ubuntu/}.id,
+      #                             :public_key_path => '~/.ssh/fog_rsa.pub',
+      #                             :private_key_path => '~/.ssh/fog_rsa',
+      #                             :ssh_ip_address => Proc.new {|server| server.private_ip_address }
+      #
+      # @note By default scp/ssh will use the public_ip_address if this proc is not set.
+      def ssh_ip_address=(proc)
+        @ssh_ip_address = proc
+      end
+
       # IP Address used for ssh/scp interactions with server.
       # @return [String] IP Address
       # @note By default this returns the public_ip_address
       def ssh_ip_address
-        @ssh_ip_address ||= public_ip_address
+        return public_ip_address unless @ssh_ip_address
+        return @ssh_ip_address.call(self) if @ssh_ip_address.is_a?(Proc)
+        @ssh_ip_address
       end
 
       def ssh_options
