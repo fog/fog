@@ -14,7 +14,16 @@ module Fog
         attribute :ttl
         attribute :zone_id,     :aliases => "domain_id"
         attribute :type,        :aliases => "record_type"
-        attribute :priority,    :aliases => "prio"
+        attribute :priority,    :aliases => "priority"
+        attribute :domain_id
+        attribute :geo_region_id
+        attribute :failover_enabled
+        attribute :failover_content
+        attribute :geo_lat
+        attribute :geo_long
+        attribute :geo_lock
+        attribute :is_active
+
 
         def initialize(attributes={})
           super
@@ -36,8 +45,12 @@ module Fog
         def save
           requires :name, :type, :value
           options = {}
-          options[:prio] = priority if priority
+          options[:priority] = priority if priority
           options[:ttl]  = ttl if ttl
+          options[:geozone] = geo_region_id if geo_region_id
+          options[:geolock] = geo_lock if geo_lock
+          options[:geolat] = geo_lat if geo_lat
+          options[:geolong] = geo_long if geo_long
 
           # decide whether its a new record or update of an existing
           if id.nil?
