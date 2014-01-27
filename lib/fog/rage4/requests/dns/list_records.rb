@@ -12,8 +12,6 @@ module Fog
         #   * records<Array~>
         #     * name<~String>
         #     * ttl<~Integer>
-        #     * created_at<~String>
-        #     * special_type<~String>
         #     * updated_at<~String>
         #     * domain_id<~Integer>
         #     * id<~Integer>
