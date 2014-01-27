@@ -21,7 +21,7 @@ module Fog
         #     * 'associationId'<~String> - association Id for eip to node (vpc only)
         #
         # {Amazon API Reference}[http://docs.amazonwebservices.com/AWSEC2/latest/APIReference/ApiReference-query-AssociateAddress.html]
-        def associate_address(instance_id=nil, public_ip=nil, network_interface_id=nil, allocation_id=nil)
+        def associate_address(instance_id=nil, public_ip=nil, network_interface_id=nil, allocation_id=nil, private_ip_address=nil, allow_reassociation=false)
           # Cannot specify an allocation ip and a public IP at the same time.  If you have an allocation Id presumably you are in a VPC
           # so we will null out the public IP
           public_ip = allocation_id.nil? ? public_ip : nil
@@ -31,6 +31,8 @@ module Fog
             'InstanceId'         => instance_id,
             'NetworkInterfaceId' => network_interface_id,
             'PublicIp'           => public_ip,
+            'PrivateIpAddress'   => private_ip_address,
+            'AllowReassociation' => allow_reassociation,
             :idempotent          => true,
             :parser              => Fog::Parsers::Compute::AWS::AssociateAddress.new
           )
@@ -40,7 +42,7 @@ module Fog
 
       class Mock
 
-        def associate_address(instance_id=nil, public_ip=nil, network_interface_id=nil, allocation_id=nil)
+        def associate_address(instance_id=nil, public_ip=nil, network_interface_id=nil, allocation_id=nil, private_ip_address=nil, allow_reassociation=nil)
           public_ip = allocation_id.nil? ? public_ip : nil
           response = Excon::Response.new
           response.status = 200
