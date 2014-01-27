@@ -4,7 +4,7 @@ module Fog
 
       class Mock
 
-        def get_zone_operation(zone_name, operation)
+        def get_zone_operation(zone_name_or_url, operation)
           operation = self.data[:operations][operation]
           if operation
             case operation["status"]
@@ -37,12 +37,9 @@ module Fog
       class Real
         # https://developers.google.com/compute/docs/reference/latest/zoneOperations
 
-        def get_zone_operation(zone_name, operation)
-          if zone_name.start_with? 'http'
-            zone_name = zone_name.split('/')[-1]
-          end
-
+        def get_zone_operation(zone_name_or_url, operation)
           api_method = @compute.zone_operations.get
+          zone_name = get_zone_name(zone_name_or_url)
           parameters = {
             'project' => @project,
             'zone' => zone_name,

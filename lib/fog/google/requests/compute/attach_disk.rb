@@ -15,7 +15,7 @@ module Fog
         def attach_disk(instance_name, disk_url, zone_name_or_url, options = {})
 
           api_method = @compute.instances.attach_disk
-          parameters = instance_request_parameters(instance, zone_name_or_url)
+          parameters = instance_request_parameters(instance_name, zone_name_or_url)
 
           request_body = {
             'type' => 'PERSISTENT',                   # possible values: 'PERSISTENT' and 'SCRATCH' (depricated)

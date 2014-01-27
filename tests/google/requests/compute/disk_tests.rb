@@ -69,7 +69,11 @@ Shindo.tests('Fog::Compute[:google] | disk requests', ['google']) do
 
     # These will all fail if errors happen on insert
     tests("#insert_disk").formats(@insert_disk_format) do
-      @google.insert_disk(disk_name, zone_name, image_name).body
+      operation = @google.insert_disk(disk_name, zone_name, image_name).body
+      Fog.wait_for do
+        operation = @google.get_zone_operation(operation['name'], operation['zone']).body
+        operation['status'] == 'DONE'
+      end
     end
 
     tests("#get_disk").formats(@get_disk_format) do

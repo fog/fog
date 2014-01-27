@@ -4,7 +4,7 @@ module Fog
 
       class Mock
 
-        def insert_snapshot(snap_name)
+        def insert_snapshot(disk_name, zone_name_or_url, options = {})
           Fog::Mock.not_implemented
         end
 
@@ -12,7 +12,7 @@ module Fog
 
       class Real
 
-        def insert_snapshot(disk_name, zone_name_or_url, project_name = @project, options = {})
+        def insert_snapshot(disk_name, zone_name_or_url, options = {})
 
           # This is unfortunate, since we might be called from 2 contexts
           # 1. disk.snapshot <-- here validation of disk_name is not needed
@@ -28,7 +28,7 @@ module Fog
 
           snapshot_name = options.delete('name')
           raise ArgumentError.new('Must specify snapshot name') unless snapshot_name
-          raise ArgumentError.new('Snapshot name should be 63 letters long.') if snap_name.size > 63
+          raise ArgumentError.new('Snapshot name should be 63 letters long.') if snapshot_name.size > 63
           body_object = { 'name' => snapshot_name }
 
           # Merge in any remaining options (description)

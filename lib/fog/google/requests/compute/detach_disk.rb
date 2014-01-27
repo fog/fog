@@ -16,9 +16,9 @@ module Fog
           api_method = @compute.instances.detach_disk
           
           parameters = instance_request_parameters(instance_name, zone_name_or_url)
-          parameters.medrge!({ 'deviceName' => device_name })
+          parameters.merge!({ 'deviceName' => device_name })
           
-          result = self.build_result(api_method, parameters, body_object)
+          result = self.build_result(api_method, parameters)
           response = self.build_response(result)
         end
 

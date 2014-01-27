@@ -192,7 +192,7 @@ module Fog
             puts disk.self_link
             disk_device_to_detach = self.disks.find { |attached_disk| attached_disk['source'] == disk.self_link }
             device_name = disk_device_to_detach['deviceName']
-            response = service.detach_disk(self.name, device_name, zone_name, options)
+            response = service.detach_disk(self.name, zone_name, device_name)
             service.operations.new(response.body)
           else
             raise 'Currently Server#detach method accepts only Disk object.'

@@ -14,7 +14,8 @@ module Fog
 
         def set_metadata(instance, zone_name_or_url, fingerprint, metadata = {})
           api_method = @compute.instances.set_metadata
-          parameters = zone_request_parameters(zone_name_or_url)
+          zone_name = get_zone_name(zone_name_or_url)
+          parameters = {project: @project, zone: zone_name, instance: instance}
 
           body_object = {
             'fingerprint' => fingerprint,
