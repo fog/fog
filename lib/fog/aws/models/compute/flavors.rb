@@ -14,7 +14,7 @@ module Fog
           :cores => 2,
           :disk => 0,
           :ram => 613,
-          :ebs_optimized => false
+          :ebs_optimized_available => false
         },
         ###### M1 instances ######
         {
@@ -24,7 +24,7 @@ module Fog
           :cores =>   1,
           :disk => 160,
           :ram => 1740.8,
-          :ebs_optimized => false
+          :ebs_optimized_available => false
         },
         {
           :id =>  'm1.medium',
@@ -33,7 +33,7 @@ module Fog
           :cores =>   2,
           :disk => 400,
           :ram => 3750,
-          :ebs_optimized => false
+          :ebs_optimized_available => false
         },
         {
           :id =>  'm1.large',
@@ -42,7 +42,7 @@ module Fog
           :cores =>   4,
           :disk => 850,
           :ram => 7680,
-          :ebs_optimized => true
+          :ebs_optimized_available => true
         },
         {
           :id =>  'm1.xlarge',
@@ -51,7 +51,7 @@ module Fog
           :cores =>   8,
           :disk => 1690,
           :ram => 15360,
-          :ebs_optimized => true
+          :ebs_optimized_available => true
         },
         ###### C1 instances ######
         {
@@ -61,7 +61,7 @@ module Fog
           :disk => 350,
           :name => 'High-CPU Medium',
           :ram => 1740.8,
-          :ebs_optimized => false
+          :ebs_optimized_available => false
         },
         {
           :id =>  'c1.xlarge',
@@ -70,7 +70,7 @@ module Fog
           :cores =>  20,
           :disk => 1690,
           :ram => 7168,
-          :ebs_optimized => true
+          :ebs_optimized_available => true
         },
         ###### C3 instances ######
         {
@@ -80,7 +80,7 @@ module Fog
           :cores =>   7,
           :disk =>  32,
           :ram => 3750,
-          :ebs_optimized => false
+          :ebs_optimized_available => false
         },
         {
           :id => 'c3.xlarge',
@@ -89,7 +89,7 @@ module Fog
           :cores =>  14,
           :disk =>  80,
           :ram => 7168,
-          :ebs_optimized => true
+          :ebs_optimized_available => true
         },
         {
           :id => 'c3.2xlarge',
@@ -98,7 +98,7 @@ module Fog
           :cores =>  28,
           :disk => 160,
           :ram => 15360,
-          :ebs_optimized => true
+          :ebs_optimized_available => true
         },
         {
           :id => 'c3.4xlarge',
@@ -107,7 +107,7 @@ module Fog
           :cores =>  55,
           :disk => 320,
           :ram => 30720,
-          :ebs_optimized => true
+          :ebs_optimized_available => true
         },
         {
           :id => 'c3.8xlarge',
@@ -116,7 +116,7 @@ module Fog
           :cores => 108,
           :disk => 640,
           :ram => 61440,
-          :ebs_optimized => false
+          :ebs_optimized_available => false
         },
         ###### G2 instances ######
         {
@@ -126,7 +126,7 @@ module Fog
           :cores =>   26,
           :disk => 60,
           :ram => 15360,
-          :ebs_optimized => true
+          :ebs_optimized_available => true
         },
         ###### HS1 instances ######
         {
@@ -136,7 +136,7 @@ module Fog
           :cores =>   35,
           :disk => 50331648,
           :ram => 119808,
-          :ebs_optimized => false
+          :ebs_optimized_available => false
         },
         ###### M2 instances ######
         {
@@ -146,7 +146,7 @@ module Fog
           :cores =>  6.5,
           :disk => 420,
           :ram => 17510.4,
-          :ebs_optimized => false
+          :ebs_optimized_available => false
         },
         {
           :id =>  'm2.2xlarge',
@@ -155,7 +155,7 @@ module Fog
           :cores =>   13,
           :disk => 850,
           :ram => 35020.8,
-          :ebs_optimized => true
+          :ebs_optimized_available => true
         },
         {
           :id =>  'm2.4xlarge',
@@ -164,7 +164,7 @@ module Fog
           :cores =>   26,
           :disk => 1690,
           :ram => 70041.6,
-          :ebs_optimized => true
+          :ebs_optimized_available => true
         },
         ###### CR1 instances ######
         {
@@ -174,7 +174,7 @@ module Fog
           :cores =>   88,
           :disk => 240,
           :ram => 249856,
-          :ebs_optimized => false
+          :ebs_optimized_available => false
         },
         ###### M3 instances ######
         {
@@ -184,7 +184,7 @@ module Fog
           :cores =>   13,
           :disk => 0,
           :ram => 15360,
-          :ebs_optimized => true
+          :ebs_optimized_available => true
         },
         {
           :id =>  'm3.2xlarge',
@@ -193,7 +193,7 @@ module Fog
           :cores =>   26,
           :disk => 0,
           :ram => 30720,
-          :ebs_optimized => true
+          :ebs_optimized_available => true
         },
         ###### HI1 instances ######
         {
@@ -203,7 +203,7 @@ module Fog
           :cores =>   35,
           :disk => 2048,
           :ram => 61952,
-          :ebs_optimized => false
+          :ebs_optimized_available => false
         },
         ###### CC1 instances ######
         {
@@ -213,7 +213,7 @@ module Fog
           :cores => 33.5,
           :disk => 1690,
           :ram => 23552,
-          :ebs_optimized => false
+          :ebs_optimized_available => false
         },
         ###### CC2 instances ######
         {
@@ -223,7 +223,7 @@ module Fog
           :cores =>   88,
           :disk => 3370,
           :ram => 61952,
-          :ebs_optimized => false
+          :ebs_optimized_available => false
         },
         ###### CG1 instances ######
         {
@@ -233,7 +233,7 @@ module Fog
           :cores => 33.5,
           :disk => 1690,
           :ram => 22528,
-          :ebs_optimized => false
+          :ebs_optimized_available => false
         },
         ###### I2 instances ######
         {
@@ -243,7 +243,7 @@ module Fog
           :cores => 14,
           :disk => 800,
           :ram => 31232,
-          :ebs_optimized => true
+          :ebs_optimized_available => true
         },
         {
           :id => 'i2.2xlarge',
@@ -252,7 +252,7 @@ module Fog
           :cores => 27,
           :disk => 1600,
           :ram => 62464,
-          :ebs_optimized => true
+          :ebs_optimized_available => true
         },
         {
           :id => 'i2.4xlarge',
@@ -261,7 +261,7 @@ module Fog
           :cores => 53,
           :disk => 3200,
           :ram => 124928,
-          :ebs_optimized => true
+          :ebs_optimized_available => true
         },
         {
           :id => 'i2.8xlarge',
@@ -270,7 +270,7 @@ module Fog
           :cores => 104,
           :disk => 6400,
           :ram => 249856,
-          :ebs_optimized => false
+          :ebs_optimized_available => false
         }
       ]
 
@@ -296,7 +296,7 @@ module Fog
         #        disk=0,
         #        name="Micro Instance",
         #        ram=613
-        #        ebs_optimized=false
+        #        ebs_optimized_available=false
         #      >,
         #      <Fog::AWS::Compute::Flavor
         #        id="m1.small",
@@ -305,7 +305,7 @@ module Fog
         #        disk=160,
         #        name="Small Instance",
         #        ram=1740.8
-        #        ebs_optimized=false
+        #        ebs_optimized_available=false
         #      >,
         #      <Fog::AWS::Compute::Flavor
         #        id="m1.medium",
@@ -314,7 +314,7 @@ module Fog
         #        disk=400,
         #        name="Medium Instance",
         #        ram=3750
-        #        ebs_optimized=false
+        #        ebs_optimized_available=false
         #      >,
         #      <Fog::AWS::Compute::Flavor
         #        id="m1.large",
@@ -323,7 +323,7 @@ module Fog
         #        disk=850,
         #        name="Large Instance",
         #        ram=7680
-        #        ebs_optimized=true
+        #        ebs_optimized_available=true
         #      >,
         #      <Fog::AWS::Compute::Flavor
         #        id="m1.xlarge",
@@ -332,7 +332,7 @@ module Fog
         #        disk=1690,
         #        name="Extra Large Instance",
         #        ram=15360
-        #        ebs_optimized=true
+        #        ebs_optimized_available=true
         #      >,
         #      <Fog::AWS::Compute::Flavor
         #        id="c1.medium",
@@ -341,7 +341,7 @@ module Fog
         #        disk=350,
         #        name="High-CPU Medium",
         #        ram=1740.8
-        #        ebs_optimized=false
+        #        ebs_optimized_available=false
         #      >,
         #      <Fog::AWS::Compute::Flavor
         #        id="c1.xlarge",
@@ -350,7 +350,7 @@ module Fog
         #        disk=1690,
         #        name="High-CPU Extra Large",
         #        ram=7168
-        #        ebs_optimized=true
+        #        ebs_optimized_available=true
         #      >,
         #      <Fog::AWS::Compute::Flavor
         #        id="m2.xlarge",
@@ -359,7 +359,7 @@ module Fog
         #        disk=420,
         #        name="High-Memory Extra Large",
         #        ram=17510.4
-        #        ebs_optimized=false
+        #        ebs_optimized_available=false
         #      >,
         #      <Fog::AWS::Compute::Flavor
         #        id="m2.2xlarge",
@@ -368,7 +368,7 @@ module Fog
         #        disk=850,
         #        name="High Memory Double Extra Large",
         #        ram=35020.8
-        #        ebs_optimized=true
+        #        ebs_optimized_available=true
         #      >,
         #      <Fog::AWS::Compute::Flavor
         #        id="m2.4xlarge",
@@ -377,7 +377,7 @@ module Fog
         #        disk=1690,
         #        name="High Memory Quadruple Extra Large",
         #        ram=70041.6
-        #        ebs_optimized=true
+        #        ebs_optimized_available=true
         #      >,
         #      <Fog::AWS::Compute::Flavor
         #        id="cc1.4xlarge",
@@ -386,7 +386,7 @@ module Fog
         #        disk=1690,
         #        name="Cluster Compute Quadruple Extra Large",
         #        ram=23552
-        #        ebs_optimized=false
+        #        ebs_optimized_available=false
         #      >,
         #      <Fog::Compute::AWS::Flavor
         #        id="m3.xlarge",
@@ -395,7 +395,7 @@ module Fog
         #        disk=0,
         #        name="M3 Extra Large",
         #        ram=15360
-        #        ebs_optimized=true
+        #        ebs_optimized_available=true
         #      >,
         #      <Fog::Compute::AWS::Flavor
         #        id="m3.2xlarge",
@@ -404,7 +404,7 @@ module Fog
         #        disk=0,
         #        name="M3 Double Extra Large",
         #        ram=30720
-        #        ebs_optimized=true
+        #        ebs_optimized_available=true
         #      >,
         #      <Fog::AWS::Compute::Flavor
         #        id="cc2.8xlarge",
@@ -413,7 +413,7 @@ module Fog
         #        disk=3370,
         #        name="Cluster Compute Eight Extra Large",
         #        ram=61952
-        #        ebs_optimized=false
+        #        ebs_optimized_available=false
         #      >,
         #      <Fog::AWS::Compute::Flavor
         #        id="cg1.4xlarge",
@@ -422,7 +422,7 @@ module Fog
         #        disk=1690,
         #        name="Cluster GPU Quadruple Extra Large",
         #        ram=22528
-        #        ebs_optimized=false
+        #        ebs_optimized_available=false
         #      >
         #    ]
         #  >
@@ -464,7 +464,7 @@ module Fog
         #  disk=0,
         #  name="Micro Instance",
         #  ram=613
-        #  ebs_optimized=false
+        #  ebs_optimized_available=false
         #>
         #
 
