@@ -6,7 +6,6 @@ module Fog
     class AWS
 
       FLAVORS = [
-        ###### T1 instances ######
         {
           :id =>  't1.micro',
           :name => 'Micro Instance',
@@ -16,7 +15,6 @@ module Fog
           :ram => 613,
           :ebs_optimized_available => false
         },
-        ###### M1 instances ######
         {
           :id =>  'm1.small',
           :name => 'Small Instance',
@@ -53,7 +51,6 @@ module Fog
           :ram => 15360,
           :ebs_optimized_available => true
         },
-        ###### C1 instances ######
         {
           :id =>  'c1.medium',
           :bits => 32,
@@ -72,7 +69,6 @@ module Fog
           :ram => 7168,
           :ebs_optimized_available => true
         },
-        ###### C3 instances ######
         {
           :id => 'c3.large',
           :name => 'C3 Large',
@@ -118,7 +114,6 @@ module Fog
           :ram => 61440,
           :ebs_optimized_available => false
         },
-        ###### G2 instances ######
         {
           :id => 'g2.2xlarge',
           :name => 'GPU Double Extra Large',
@@ -128,7 +123,6 @@ module Fog
           :ram => 15360,
           :ebs_optimized_available => true
         },
-        ###### HS1 instances ######
         {
           :id => 'hs1.8xlarge',
           :name => 'High Storage Eight Extra Large',
@@ -138,7 +132,6 @@ module Fog
           :ram => 119808,
           :ebs_optimized_available => false
         },
-        ###### M2 instances ######
         {
           :id =>  'm2.xlarge',
           :name => 'High-Memory Extra Large',
@@ -166,7 +159,6 @@ module Fog
           :ram => 70041.6,
           :ebs_optimized_available => true
         },
-        ###### CR1 instances ######
         {
           :id =>  'cr1.8xlarge',
           :name => 'High Memory Eight Extra Large',
@@ -176,7 +168,6 @@ module Fog
           :ram => 249856,
           :ebs_optimized_available => false
         },
-        ###### M3 instances ######
         {
           :id =>  'm3.xlarge',
           :name => 'M3 Extra Large',
@@ -195,7 +186,6 @@ module Fog
           :ram => 30720,
           :ebs_optimized_available => true
         },
-        ###### HI1 instances ######
         {
           :id => "hi1.4xlarge",
           :name => "High I/O Quadruple Extra Large Instance",
@@ -205,7 +195,6 @@ module Fog
           :ram => 61952,
           :ebs_optimized_available => false
         },
-        ###### CC1 instances ######
         {
           :id => 'cc1.4xlarge',
           :name => 'Cluster Compute Quadruple Extra Large',
@@ -215,7 +204,6 @@ module Fog
           :ram => 23552,
           :ebs_optimized_available => false
         },
-        ###### CC2 instances ######
         {
           :id => 'cc2.8xlarge',
           :name => 'Cluster Compute Eight Extra Large',
@@ -225,7 +213,6 @@ module Fog
           :ram => 61952,
           :ebs_optimized_available => false
         },
-        ###### CG1 instances ######
         {
           :id => 'cg1.4xlarge',
           :name => 'Cluster GPU Quadruple Extra Large',
@@ -235,7 +222,6 @@ module Fog
           :ram => 22528,
           :ebs_optimized_available => false
         },
-        ###### I2 instances ######
         {
           :id => 'i2.xlarge',
           :name => 'I2 Extra Large',
