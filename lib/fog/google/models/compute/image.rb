@@ -78,7 +78,7 @@ module Fog
           response = service.delete_image(name)
 
           operation = service.operations.new(response.body)
-          operation.wait_for { ready? }
+          operation
         end
 
       end
