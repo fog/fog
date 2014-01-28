@@ -1,5 +1,9 @@
 language: ruby
 
+gemfile:
+  - Gemfile
+  - Gemfile.1.8.7
+
 rvm:
   - 1.8.7
   - 1.9.2
@@ -14,23 +18,26 @@ script: bundle exec rake travis
 
 matrix:
   include:
-    - rvm: 1.8.7
-      gemfile: Gemfile.1.8.7
-    - rvm: 1.9.2
-      gemfile: Gemfile
-    - rvm: 1.9.3
-      gemfile: Gemfile
-      env: COVERAGE=true
-    - rvm: 2.0.0
-      gemfile: Gemfile
     - rvm: 2.1.0
       gemfile: Gemfile
-    - rvm: jruby-18mode
+      env: COVERAGE=true
+  exclude:
+    - rvm: 1.8.7
+      gemfile: Gemfile
+    - rvm: 1.9.2
       gemfile: Gemfile.1.8.7
+    - rvm: 1.9.3
+      gemfile: Gemfile.1.8.7
+    - rvm: 2.0.0
+      gemfile: Gemfile.1.8.7
+    - rvm: 2.1.0
+      gemfile: Gemfile.1.8.7
+    - rvm: jruby-18mode
+      gemfile: Gemfile
     - rvm: jruby-19mode
-      gemfile: Gemfile
+      gemfile: Gemfile.1.8.7
     - rvm: jruby-head
-      gemfile: Gemfile
+      gemfile: Gemfile.1.8.7
 
   allow_failures:
     - rvm: jruby-head
