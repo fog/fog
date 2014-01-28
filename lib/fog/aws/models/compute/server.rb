@@ -15,7 +15,7 @@ module Fog
         attribute :associate_public_ip,      :aliases => 'associatePublicIP'
         attribute :availability_zone,        :aliases => 'availabilityZone'
         attribute :block_device_mapping,     :aliases => 'blockDeviceMapping'
-        attribute :network_interfaces,       :aliases => 'networkInterfaces'
+        attribute :network_interfaces,       :aliases => 'networkInterface'
         attribute :client_token,             :aliases => 'clientToken'
         attribute :dns_name,                 :aliases => 'dnsName'
         attribute :ebs_optimized,            :aliases => 'ebsOptimized'
@@ -58,7 +58,7 @@ module Fog
 
 
         def initialize(attributes={})
-          self.groups     ||= ["default"] unless (attributes[:subnet_id] || attributes[:security_group_ids])
+          self.groups     ||= ["default"] unless (attributes[:subnet_id] || attributes[:security_group_ids] || attributes[:network_interfaces])
           self.flavor_id  ||= 't1.micro'
 
           # Old 'connection' is renamed as service and should be used instead
@@ -146,6 +146,7 @@ module Fog
 
           options = {
             'BlockDeviceMapping'          => block_device_mapping,
+            'NetworkInterface'            => network_interfaces,
             'ClientToken'                 => client_token,
             'EbsOptimized'                => ebs_optimized,
             'IamInstanceProfile.Arn'      => @iam_instance_profile_arn,
