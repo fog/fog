@@ -25,6 +25,7 @@ module Fog
         #    ami_launch_index=nil,
         #    availability_zone=nil,
         #    block_device_mapping=nil,
+        #    network_interfaces=nil,
         #    client_token=nil,
         #    dns_name=nil,
         #    groups=["default"],
