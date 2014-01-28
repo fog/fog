@@ -13,6 +13,7 @@ module Fog
         attribute :disk
         attribute :name
         attribute :ram
+        attribute :ebs_optimized_available
 
       end
 
