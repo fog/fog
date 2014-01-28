@@ -56,6 +56,10 @@ module Fog
           service.destroy_cloud_ip(identity)
         end
 
+        def destination_id
+          server_id || load_balancer || server_group || interface_id
+        end
+
       end
 
     end
