@@ -250,6 +250,11 @@ module Fog
 
         def save(options = {})
           requires :key
+          meta_hash = {}
+          metadata.each { |meta| meta_hash.store(meta.key, meta.value) }
+          if meta_hash
+            options.merge!(meta_hash)
+          end
           # write out the acls into the headers before save
           options.merge!(service.perm_acl_to_header(@read_acl, @write_acl))
           options.merge!({'X-Container-Sync-To' => self.sync_to}) unless self.sync_to.nil?
@@ -259,11 +264,6 @@ module Fog
           options.merge!({'X-Container-Meta-Web-Listings-Css' => self.web_listings_css}) unless self.web_listings_css.nil?
           options.merge!({'X-Container-Meta-Web-Error' => self.web_error}) unless self.web_error.nil?
           # get the metadata and merge them in
-          meta_hash = {}
-          metadata.each { |meta| meta_hash.store(meta.key, meta.value) }
-          if meta_hash
-            options.merge!(meta_hash)
-          end
           service.put_container(key, options)
           # Added an extra check to see if CDN is enabled for the container
           if (!service.cdn.nil? && service.cdn.enabled?)
