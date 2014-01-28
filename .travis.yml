@@ -4,6 +4,8 @@ gemfile:
   - Gemfile
   - Gemfile.1.8.7
 
+env: COVERAGE=true
+
 rvm:
   - 1.8.7
   - 1.9.2
