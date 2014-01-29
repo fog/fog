@@ -169,11 +169,29 @@ module Fog
           :ebs_optimized_available => false
         },
         {
+          :id                      => 'm3.medium',
+          :name                    => 'M3 Medium',
+          :bits                    => 64,
+          :cores                   => 3,
+          :disk                    => 4,
+          :ram                     => 3840,
+          :ebs_optimized_available => false,
+        },
+        {
+          :id                      => 'm3.large',
+          :name                    => 'M3 Large',
+          :bits                    => 64,
+          :cores                   => 6.5,
+          :disk                    => 32,
+          :ram                     => 7168,
+          :ebs_optimized_available => false,
+        },
+        {
           :id                      => 'm3.xlarge',
           :name                    => 'M3 Extra Large',
           :bits                    => 64,
           :cores                   => 13,
-          :disk                    => 0,
+          :disk                    => 80,
           :ram                     => 15360,
           :ebs_optimized_available => true
         },
@@ -182,7 +200,7 @@ module Fog
           :name                    => 'M3 Double Extra Large',
           :bits                    => 64,
           :cores                   => 26,
-          :disk                    => 0,
+          :disk                    => 160,
           :ram                     => 30720,
           :ebs_optimized_available => true
         },
