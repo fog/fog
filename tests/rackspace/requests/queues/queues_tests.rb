@@ -1,11 +1,7 @@
 Shindo.tests('Fog::Rackspace::Queues | queue_tests', ['rackspace']) do
-
-  pending if Fog.mocking?
-
   service = Fog::Rackspace::Queues.new
 
   tests('success') do
-
     queue_name = 'fog' + Time.now.to_i.to_s
 
     tests("#create_queue(#{queue_name})").succeeds do
@@ -38,6 +34,5 @@ Shindo.tests('Fog::Rackspace::Queues | queue_tests', ['rackspace']) do
     tests("#get_queue('nonexistentqueue') => Does not exist").raises(Fog::Rackspace::Queues::NotFound) do
       service.get_queue('nonexistentqueue')
     end
-
   end
 end

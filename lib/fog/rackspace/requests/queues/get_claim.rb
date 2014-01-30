@@ -1,6 +1,7 @@
 module Fog
   module Rackspace
     class Queues
+
       class Real
 
         # This operation queries the specified claim for the specified queue. Claims with malformed IDs or claims that are not found by ID are ignored.
@@ -20,7 +21,21 @@ module Fog
             :path => "queues/#{queue_name}/claims/#{claim_id}"
           )
         end
+
       end
+
+      class Mock
+        def get_claim(queue_name, claim_id)
+          queue = mock_queue!(queue_name)
+          claim = queue.claim!(claim_id)
+
+          response = Excon::Response.new
+          response.status = 200
+          response.body = claim.to_h
+          response
+        end
+      end
+
     end
   end
 end

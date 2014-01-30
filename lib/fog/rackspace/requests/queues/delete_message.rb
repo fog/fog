@@ -1,6 +1,7 @@
 module Fog
   module Rackspace
     class Queues
+
       class Real
 
         # This operation immediately deletes the specified message.
@@ -26,7 +27,40 @@ module Fog
             :query => query
           )
         end
+
       end
+
+      class Mock
+        def delete_message(queue_name, message_id, options = {})
+          queue = mock_queue!(queue_name)
+
+          claim_id = options[:claim_id]
+
+          message = queue.messages.detect { |m| m.id == message_id }
+
+          perform_delete = true
+          if message && message.claimed?
+            unless message.claim.id == claim_id
+              # Currently returns a 204 without deleting!
+              perform_delete = false
+            end
+          else
+            if claim_id
+              # Currently returns a 204 without deleting!
+              perform_delete = false
+            end
+          end
+
+          if perform_delete
+            queue.messages.reject! { |m| m.id == message_id }
+          end
+
+          response = Excon::Response.new
+          response.status = 204
+          response
+        end
+      end
+
     end
   end
 end

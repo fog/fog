@@ -4,6 +4,7 @@ def servers_tests(connection, params = {}, mocks_implemented = true)
 
     if !Fog.mocking? || mocks_implemented
       @instance.wait_for { ready? }
+      yield if block_given?
     end
 
   end

@@ -75,7 +75,7 @@ module Fog
                       xml.Protocol service_profile[:Protocol]
                       xml.Port service_profile[:Port]
                       xml.Persistence {
-                        xml.Method service_profile[:Persistence][:method]
+                        xml.Method service_profile[:Persistence][:Method]
                         if service_profile[:Persistence][:Method] == 'COOKIE'
                           xml.CookieName service_profile[:Persistence][:CookieName]
                           xml.CookieMode service_profile[:Persistence][:CookieMode]
