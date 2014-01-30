@@ -5,12 +5,12 @@ module Fog
     class SakuraCloud
       class Server < Fog::Model
 
-        identity :id, aliases => :ID
-        attribute :name, aliases => :Name
-        attribute :server_plan, aliases => :ServerPlan
-        attribute :instance, aliases => :Instance
-        attribute :disks, aliases => :Disks
-        attribute :interfaces, aliases => :Interfaces
+        identity :id, :aliases => 'ID'
+        attribute :name, :aliases => 'Name'
+        attribute :server_plan, :aliases => 'ServerPlan'
+        attribute :instance, :aliases => 'Instance'
+        attribute :disks, :aliases => 'Disks'
+        attribute :interfaces, :aliases => 'Interfaces'
 
         def save
           requires :name, :server_plan
@@ -36,16 +36,6 @@ module Fog
         end
         alias_method :destroy, :delete
 
-        def wait_for(user = 'root')
-          requires :id
-          ip = @attributes[:interfaces].first['IPAddress']
-          begin
-            ssh = Fog::SSH.new(ip, user, :timeout => 3)
-          rescue Net::SSH::AuthenticationFailed
-            Fog::Loger.warning("Net::SSH::AuthenticationFailed")
-          end
-          ssh.run('id')
-        end
       end
     end
   end

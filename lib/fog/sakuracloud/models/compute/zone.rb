@@ -5,9 +5,9 @@ module Fog
     class SakuraCloud
       class Zone < Fog::Model
 
-        identity :id, aliases => :ID
-        attribute :name, aliases => :Name
-        attribute :description, aliases => :Description
+        identity :id, :aliases => 'ID'
+        attribute :name, :aliases => 'Name'
+        attribute :description, :aliases => 'Description'
 
       end
     end

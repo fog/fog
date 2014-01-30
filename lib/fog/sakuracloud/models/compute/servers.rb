@@ -26,7 +26,7 @@ module Fog
                               :plan  => options[:diskplan].to_i,
                               :source_archive => options[:sourcearchive].to_s
           Fog::Logger.warning("Waiting disk until available")
-          disk.wait_for
+          disk.wait_for { availability == 'available' }
           Fog::Logger.warning("Create Server")
           server = create :name => Fog::UUID.uuid,
                           :server_plan =>  options[:serverplan]

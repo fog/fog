@@ -5,8 +5,8 @@ module Fog
     class SakuraCloud
       class Plan < Fog::Model
 
-        identity :id, aliases => :ID
-        attribute :name, aliases => :Name
+        identity :id, :aliases => 'ID'
+        attribute :name, :aliases => 'Name'
 
       end
     end

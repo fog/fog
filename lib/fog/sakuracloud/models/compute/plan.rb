@@ -5,11 +5,11 @@ module Fog
     class SakuraCloud
       class Plan < Fog::Model
 
-        identity :id, aliases => :ID
-        attribute :name, aliases => :Name
-        attribute :server_class, aliases => :ServiceClass
-        attribute :cpu, aliases => :CPU
-        attribute :memory_mb, aliases => :MemoryMB
+        identity :id, :aliases => 'ID'
+        attribute :name, :aliases => 'Name'
+        attribute :server_class, :aliases => 'ServiceClass'
+        attribute :cpu, :aliases => 'CPU'
+        attribute :memory_mb, :aliases => 'MemoryMB'
 
 
       end
