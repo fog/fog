@@ -5,8 +5,8 @@ module Fog
     class SakuraCloud
       class Archive < Fog::Model
 
-        identity :ID
-        attribute :Name
+        identity :id, aliases => :ID
+        attribute :name, aliases => :Name
 
       end
     end

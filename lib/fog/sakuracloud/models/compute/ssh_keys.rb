@@ -13,7 +13,7 @@ module Fog
         end
 
         def get(id)
-          all.find { |f| f.ID == id }
+          all.find { |f| f.id == id }
         rescue Fog::Errors::NotFound
           nil
         end

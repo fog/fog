@@ -5,9 +5,9 @@ module Fog
     class SakuraCloud
       class SshKey < Fog::Model
 
-        identity :ID
-        attribute :Name
-        attribute :PublicKey
+        identity :id, aliases => :ID
+        attribute :name, aliases => :Name
+        attribute :public_key, aliases => :PublicKey
 
       end
     end

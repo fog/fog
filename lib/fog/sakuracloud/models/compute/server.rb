@@ -5,41 +5,40 @@ module Fog
     class SakuraCloud
       class Server < Fog::Model
 
-        identity :ID
-        attribute :Name
-        attribute :ServerPlan
-        attribute :Instance
-        attribute :Disks
-        attribute :Interfaces
+        identity :id, aliases => :ID
+        attribute :name, aliases => :Name
+        attribute :server_plan, aliases => :ServerPlan
+        attribute :instance, aliases => :Instance
+        attribute :disks, aliases => :Disks
+        attribute :interfaces, aliases => :Interfaces
 
         def save
-          requires :Name, :ServerPlan
-          data = service.create_server(@attributes[:Name], @attributes[:ServerPlan]).body["Server"]
+          requires :name, :server_plan
+          data = service.create_server(@attributes[:name], @attributes[:server_plan]).body["Server"]
           merge_attributes(data)
           true
         end
 
         def boot
-          requires :ID
-          service.boot_server(@attributes[:ID])
+          requires :id
+          service.boot_server(@attributes[:id])
         end
 
         def stop(force = false)
-          requires :ID
-          service.stop_server(@attributes[:ID], force)
+          requires :id
+          service.stop_server(@attributes[:id], force)
         end
 
         def delete(disks = [])
-          requires :ID
-          service.delete_server(@attributes[:ID], disks)
+          requires :id
+          service.delete_server(@attributes[:id], disks)
           true
         end
         alias_method :destroy, :delete
 
         def wait_for(user = 'root')
-          # pending
-          requires :ID
-          ip = @attributes[:Interfaces].first['IPAddress']
+          requires :id
+          ip = @attributes[:interfaces].first['IPAddress']
           begin
             ssh = Fog::SSH.new(ip, user, :timeout => 3)
           rescue Net::SSH::AuthenticationFailed
