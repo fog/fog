@@ -37,7 +37,7 @@ server = compute.servers.create_with({
   :sakuracloud_api_token_secret => 'YOUR_API_TOKEN_SECRET',
   :diskplan => 4,                   # Type SSD
   :sourcearchive => '112500463685', # Ubuntu12.04
-  :sshkey => '11260003****',        # Your SSH Key ID
+  :sshkey => '11260003****',        # Your SSH Key id
   :serverplan => '2001'            # Server Type
 })
 ```
@@ -80,12 +80,12 @@ use `volume.plans`.
 > volume.plans
 
 => [  <Fog::Volume::SakuraCloud::Plan
-    ID=4,
-    Name="SSDプラン"
+    id=4,
+    name="SSDプラン"
   >,
    <Fog::Volume::SakuraCloud::Plan
-    ID=2,
-    Name="標準プラン"
+    id=2,
+    name="標準プラン"
   >]
 ```
 
@@ -106,72 +106,72 @@ volume = Fog::Volume::SakuraCloud.new(
 > volume.archives
 
 => [  <Fog::Volume::SakuraCloud::Archive
-    ID="112500514887",
-    Name="CentOS 5.10 64bit (基本セット)"
+    id="112500514887",
+    name="CentOS 5.10 64bit (基本セット)"
   >,
    <Fog::Volume::SakuraCloud::Archive
-    ID="112500571575",
-    Name="CentOS 6.5 64bit (基本セット)"
+    id="112500571575",
+    name="CentOS 6.5 64bit (基本セット)"
   >,
    <Fog::Volume::SakuraCloud::Archive
-    ID="112500556904",
-    Name="Scientific Linux 6.4 64bit (基本セット)"
+    id="112500556904",
+    name="Scientific Linux 6.4 64bit (基本セット)"
   >,
    <Fog::Volume::SakuraCloud::Archive
-    ID="112500587018",
-    Name="Scientific Linux 6.5 RC1 64bit (基本セット)"
+    id="112500587018",
+    name="Scientific Linux 6.5 RC1 64bit (基本セット)"
   >,
    <Fog::Volume::SakuraCloud::Archive
-    ID="112500556903",
-    Name="FreeBSD 8.3 64bit (基本セット)"
+    id="112500556903",
+    name="FreeBSD 8.3 64bit (基本セット)"
   >,
    <Fog::Volume::SakuraCloud::Archive
-    ID="112500556906",
-    Name="FreeBSD 9.1 64bit (基本セット)"
+    id="112500556906",
+    name="FreeBSD 9.1 64bit (基本セット)"
   >,
    <Fog::Volume::SakuraCloud::Archive
-    ID="112500556907",
-    Name="Ubuntu Server 13.04 64bit (基本セット)"
+    id="112500556907",
+    name="Ubuntu Server 13.04 64bit (基本セット)"
   >,
    <Fog::Volume::SakuraCloud::Archive
-    ID="112500463685",
-    Name="Ubuntu Server 12.04.3 LTS 64bit (基本セット)"
+    id="112500463685",
+    name="Ubuntu Server 12.04.3 LTS 64bit (基本セット)"
   >,
    <Fog::Volume::SakuraCloud::Archive
-    ID="112500490219",
-    Name="Ubuntu Server 13.10 64bit(基本セット)"
+    id="112500490219",
+    name="Ubuntu Server 13.10 64bit(基本セット)"
   >,
    <Fog::Volume::SakuraCloud::Archive
-    ID="112500556909",
-    Name="Debian GNU/Linux 6.0.7 64bit (基本セット)"
+    id="112500556909",
+    name="Debian GNU/Linux 6.0.7 64bit (基本セット)"
   >,
 -- snip --
 ```
 
 #### Create volume from templates(archives)
 
-use `volume.disks.create` with `:Name`, `:Plan`(Plan ID) and `:SourceArchive`(ID, optional)
+use `volume.disks.create` with `:name`, `:plan`(Plan id) and `:source_archive`(id, optional)
 
 ##### Example: Create SSD installed 'Ubuntu 12.04'.
 
 ```
-disk = volume.disks.create :Name => 'foobar',
-                           :Plan  => 4,  # Type SSD
-                           :SourceArchive => 112500463685 # Ubuntu12.04
+disk = volume.disks.create :name => 'foobar',
+                           :plan  => 4,  # Type SSD
+                           :source_archive => 112500463685 # Ubuntu12.04
 ```
 
 It creates disk.
 
 ```
 =>   <Fog::Volume::SakuraCloud::Disk
-    ID="112600053876",
-    Name="foobar",
+    id="112600053876",
+    name="foobar",
     Connection="virtio",
     Availability="migrating",
-    Plan={"ID"=>4, "StorageClass"=>"iscsi1204", "Name"=>"SSDプラン"},
+    Plan={"id"=>4, "StorageClass"=>"iscsi1204", "name"=>"SSDプラン"},
     SizeMB=20480,
     SourceDisk=nil,
-    SourceArchive={"ID"=>"112500463685", "Name"=>"Ubuntu Server 12.04.3 LTS 64bit (基本セット)", "Availability"=>"available", "SizeMB"=>20480, "Plan"=>{"ID"=>2, "StorageClass"=>"iscsi1204", "Name"=>"標準プラン"}, "Storage"=>{"ID"=>"3100297001", "Class"=>"iscsi1204", "Name"=>"sac-is1b-arc-st01", "Zone"=>{"ID"=>31002, "Name"=>"is1b", "Region"=>{"ID"=>310, "Name"=>"石狩"}}, "DiskPlan"=>{"ID"=>2, "StorageClass"=>"iscsi1204", "Name"=>"標準プラン"}}, "BundleInfo"=>nil}
+    SourceArchive={"id"=>"112500463685", "name"=>"Ubuntu Server 12.04.3 LTS 64bit (基本セット)", "Availability"=>"available", "SizeMB"=>20480, "Plan"=>{"id"=>2, "StorageClass"=>"iscsi1204", "name"=>"標準プラン"}, "Storage"=>{"id"=>"3100297001", "Class"=>"iscsi1204", "name"=>"sac-is1b-arc-st01", "Zone"=>{"id"=>31002, "name"=>"is1b", "Region"=>{"id"=>310, "name"=>"石狩"}}, "DiskPlan"=>{"id"=>2, "StorageClass"=>"iscsi1204", "name"=>"標準プラン"}}, "BundleInfo"=>nil}
   >
 ```
 
@@ -183,33 +183,33 @@ use `volume.disks`
 > volume.disks
 
 => [  <Fog::Volume::SakuraCloud::Disk
-    ID="112600053837",
-    Name="ed86efca-d7f1-4367-97df-30e16c4f331e",
+    id="112600053837",
+    name="ed86efca-d7f1-4367-97df-30e16c4f331e",
     Connection="virtio",
     Availability="available",
-    Plan={"ID"=>4, "StorageClass"=>"iscsi1204", "Name"=>"SSDプラン"},
+    Plan={"id"=>4, "StorageClass"=>"iscsi1204", "name"=>"SSDプラン"},
     SizeMB=20480,
     SourceDisk=nil,
-    SourceArchive={"ID"=>"112500463685", "Name"=>"Ubuntu Server 12.04.3 LTS 64bit (基本セット)", "Availability"=>"available", "SizeMB"=>20480, "Plan"=>{"ID"=>2, "StorageClass"=>"iscsi1204", "Na
+    SourceArchive={"id"=>"112500463685", "name"=>"Ubuntu Server 12.04.3 LTS 64bit (基本セット)", "Availability"=>"available", "SizeMB"=>20480, "Plan"=>{"id"=>2, "StorageClass"=>"iscsi1204", "Na
   >,
    <Fog::Volume::SakuraCloud::Disk
-    ID="112600053840",
-    Name="2a3f571a-2562-49e1-a4ea-86f7cf34c571",
+    id="112600053840",
+    name="2a3f571a-2562-49e1-a4ea-86f7cf34c571",
     Connection="virtio",
     Availability="available",
-    Plan={"ID"=>4, "StorageClass"=>"iscsi1204", "Name"=>"SSDプラン"},
+    Plan={"id"=>4, "StorageClass"=>"iscsi1204", "name"=>"SSDプラン"},
     SizeMB=20480,
     SourceDisk=nil,
-    SourceArchive={"ID"=>"112500463685", "Name"=>"Ubuntu Server 12.04.3 LTS 64bit (基本セット)", "Availability"=>"available", "SizeMB"=>20480, "Plan"=>{"ID"=>2, "StorageClass"=>"iscsi1204", "Na
+    SourceArchive={"id"=>"112500463685", "name"=>"Ubuntu Server 12.04.3 LTS 64bit (基本セット)", "Availability"=>"available", "SizeMB"=>20480, "Plan"=>{"id"=>2, "StorageClass"=>"iscsi1204", "Na
   >,
 -- snip --
 
 ```
 
-Get Disk ID or any attributes.
+Get Disk id or any attributes.
 
 ```
-> volume.disks.first.ID
+> volume.disks.first.id
 => "112600053837"
 
 > volume.disks.first.SizeMB
@@ -220,7 +220,7 @@ or
 
 ```
 > disk = volume.disks.first
-> disk.ID
+> disk.id
 => "112600053837"
 ```
 
@@ -229,20 +229,20 @@ You can reload disk attributes.
 ```
 > disk.reload
 =>   <Fog::Volume::SakuraCloud::Disk
-    ID="112600053837",
-    Name="ed86efca-d7f1-4367-97df-30e16c4f331e",
+    id="112600053837",
+    name="ed86efca-d7f1-4367-97df-30e16c4f331e",
     Connection="virtio",
     Availability="available",
-    Plan={"ID"=>4, "StorageClass"=>"iscsi1204", "Name"=>"SSDプラン"},
+    Plan={"id"=>4, "StorageClass"=>"iscsi1204", "name"=>"SSDプラン"},
     SizeMB=20480,
     SourceDisk=nil,
-    SourceArchive={"ID"=>"112500463685", "Name"=>"Ubuntu Server 12.04.3 LTS 64bit (基本セット)", "Availability"=>"available", "SizeMB"=>20480, "Plan"=>{"ID"=>2, "StorageClass"=>"iscsi1204", "Name"=>"標準プラン"}, "Storage"=>{"ID"=>"3100297001", "Class"=>"iscsi1204", "Name"=>"sac-is1b-arc-st01", "Zone"=>{"ID"=>31002, "Name"=>"is1b", "Region"=>{"ID"=>310, "Name"=>"石狩"}}, "DiskPlan"=>{"ID"=>2, "StorageClass"=>"iscsi1204", "Name"=>"標準プラン"}}, "BundleInfo"=>nil}
+    SourceArchive={"id"=>"112500463685", "name"=>"Ubuntu Server 12.04.3 LTS 64bit (基本セット)", "Availability"=>"available", "SizeMB"=>20480, "Plan"=>{"id"=>2, "StorageClass"=>"iscsi1204", "name"=>"標準プラン"}, "Storage"=>{"id"=>"3100297001", "Class"=>"iscsi1204", "name"=>"sac-is1b-arc-st01", "Zone"=>{"id"=>31002, "name"=>"is1b", "Region"=>{"id"=>310, "name"=>"石狩"}}, "DiskPlan"=>{"id"=>2, "StorageClass"=>"iscsi1204", "name"=>"標準プラン"}}, "BundleInfo"=>nil}
   >
 ```
 
 #### Delete disk
 
-use `volume.disks.delete('Disk_ID')`
+use `volume.disks.delete('Disk_id')`
 
 ```
 > volume.disks.delete('112600053837')
@@ -285,8 +285,8 @@ use `compute.ssh_keys`
 > compute.ssh_keys
 
 => [  <Fog::Compute::SakuraCloud::SshKey
-    ID="11260003****",
-    Name="sawanobori",
+    id="11260003****",
+    name="sawanobori",
     PublicKey="ssh-rsa ***********************"
   >]
 ```
@@ -296,7 +296,7 @@ use `compute.ssh_keys`
 
 Work with Volume service.
 
-use `configure` method with SSH Key ID.
+use `configure` method with SSH Key id.
 
 ##### Example
 
@@ -338,15 +338,15 @@ use `compute.plans`.
 > compute.plans
 
 => [  <Fog::Compute::SakuraCloud::Plan
-    ID=1001,
-    Name="プラン/1Core-1GB",
+    id=1001,
+    name="プラン/1Core-1GB",
     ServiceClass="cloud/plan/1core-1gb",
     CPU=1,
     MemoryMB=1024
   >,
    <Fog::Compute::SakuraCloud::Plan
-    ID=2001,
-    Name="プラン/1Core-2GB",
+    id=2001,
+    name="プラン/1Core-2GB",
     ServiceClass="cloud/plan/1core-2gb",
     CPU=1,
     MemoryMB=2048
@@ -363,25 +363,25 @@ use `compute.zones`.
 > compute.zones
 
 => [  <Fog::Compute::SakuraCloud::Zone
-    ID=31001,
-    Name="is1a",
+    id=31001,
+    name="is1a",
     Description="石狩第1ゾーン"
   >,
    <Fog::Compute::SakuraCloud::Zone
-    ID=31002,
-    Name="is1b",
+    id=31002,
+    name="is1b",
     Description="石狩第2ゾーン"
   >]
 ```
 
 #### Create server
 
-use `volume.servers.create` with `:Name`, `:ServerPlan`(Plan ID)
+use `volume.servers.create` with `:name`, `:ServerPlan`(Plan id)
 
 ##### Example: Create server with public switch connection.
 
 ```
-server = compute.servers.create :Name => 'foobar',
+server = compute.servers.create :name => 'foobar',
                                 :ServerPlan  => 2001
 ```
 
@@ -389,12 +389,12 @@ It creates server.
 
 ```
 =>   <Fog::Compute::SakuraCloud::Server
-    ID="112600055437",
-    Name="foobar",
-    ServerPlan={"ID"=>2001, "Name"=>"プラン/1Core-2GB", "CPU"=>1, "MemoryMB"=>2048, "ServiceClass"=>"cloud/plan/1core-2gb", "Availability"=>"available"},
-    Instance={"Server"=>{"ID"=>"112600055437"}, "Status"=>"down", "BeforeStatus"=>nil, "StatusChangedAt"=>nil, "MigrationProgress"=>nil, "MigrationSchedule"=>nil, "IsMigrating"=>nil, "MigrationAllowed"=>nil, "ModifiedAt"=>"2014-01-30T23:54:47+09:00", "Host"=>nil, "CDROM"=>nil, "CDROMStorage"=>nil},
+    id="112600055437",
+    name="foobar",
+    ServerPlan={"id"=>2001, "name"=>"プラン/1Core-2GB", "CPU"=>1, "MemoryMB"=>2048, "ServiceClass"=>"cloud/plan/1core-2gb", "Availability"=>"available"},
+    Instance={"Server"=>{"id"=>"112600055437"}, "Status"=>"down", "BeforeStatus"=>nil, "StatusChangedAt"=>nil, "MigrationProgress"=>nil, "MigrationSchedule"=>nil, "IsMigrating"=>nil, "MigrationAllowed"=>nil, "ModifiedAt"=>"2014-01-30T23:54:47+09:00", "Host"=>nil, "CDROM"=>nil, "CDROMStorage"=>nil},
     Disks=[],
-    Interfaces=[{"ID"=>"112600055438", "MACAddress"=>"9C:A3:BA:30:13:28", "IPAddress"=>"133.242.236.247", "UserIPAddress"=>nil, "HostName"=>nil, "Switch"=>{"ID"=>"112500556860", "Name"=>"スイッチ", "Scope"=>"shared", "Subnet"=>{"ID"=>nil, "NetworkAddress"=>"133.242.236.0", "NetworkMaskLen"=>24, "DefaultRoute"=>"133.242.236.1", "Internet"=>{"BandWidthMbps"=>100}}, "UserSubnet"=>nil}, "PacketFilter"=>nil}]
+    Interfaces=[{"id"=>"112600055438", "MACAddress"=>"9C:A3:BA:30:13:28", "IPAddress"=>"133.242.236.247", "UserIPAddress"=>nil, "Hostname"=>nil, "Switch"=>{"id"=>"112500556860", "name"=>"スイッチ", "Scope"=>"shared", "Subnet"=>{"id"=>nil, "NetworkAddress"=>"133.242.236.0", "NetworkMaskLen"=>24, "DefaultRoute"=>"133.242.236.1", "Internet"=>{"BandWidthMbps"=>100}}, "UserSubnet"=>nil}, "PacketFilter"=>nil}]
   >
 ```
 
@@ -406,12 +406,12 @@ use `compute.servers`
 > compute.servers
 
 => [  <Fog::Compute::SakuraCloud::Server
-    ID="112600055437",
-    Name="foobar",
-    ServerPlan={"ID"=>2001, "Name"=>"プラン/1Core-2GB", "CPU"=>1, "MemoryMB"=>2048, "ServiceClass"=>"cloud/plan/1core-2gb", "Availability"=>"available"},
-    Instance={"Server"=>{"ID"=>"112600055437"}, "Status"=>"down", "BeforeStatus"=>nil, "StatusChangedAt"=>nil, "MigrationProgress"=>nil, "MigrationSchedule"=>nil, "IsMigrating"=>nil, "MigrationAllowed"=>nil, "ModifiedAt"=>"2014-01-30T23:54:47+09:00", "Host"=>nil, "CDROM"=>nil, "CDROMStorage"=>nil},
+    id="112600055437",
+    name="foobar",
+    ServerPlan={"id"=>2001, "name"=>"プラン/1Core-2GB", "CPU"=>1, "MemoryMB"=>2048, "ServiceClass"=>"cloud/plan/1core-2gb", "Availability"=>"available"},
+    Instance={"Server"=>{"id"=>"112600055437"}, "Status"=>"down", "BeforeStatus"=>nil, "StatusChangedAt"=>nil, "MigrationProgress"=>nil, "MigrationSchedule"=>nil, "IsMigrating"=>nil, "MigrationAllowed"=>nil, "ModifiedAt"=>"2014-01-30T23:54:47+09:00", "Host"=>nil, "CDROM"=>nil, "CDROMStorage"=>nil},
     Disks=[],
-    Interfaces=[{"ID"=>"112600055438", "MACAddress"=>"9C:A3:BA:30:13:28", "IPAddress"=>"133.242.236.247", "UserIPAddress"=>nil, "HostName"=>nil, "Switch"=>{"ID"=>"112500556860", "Name"=>"スイッチ", "Scope"=>"shared", "Subnet"=>{"ID"=>nil, "NetworkAddress"=>"133.242.236.0", "NetworkMaskLen"=>24, "DefaultRoute"=>"133.242.236.1", "Internet"=>{"BandWidthMbps"=>100}}, "UserSubnet"=>nil}, "PacketFilter"=>nil}]
+    Interfaces=[{"id"=>"112600055438", "MACAddress"=>"9C:A3:BA:30:13:28", "IPAddress"=>"133.242.236.247", "UserIPAddress"=>nil, "Hostname"=>nil, "Switch"=>{"id"=>"112500556860", "name"=>"スイッチ", "Scope"=>"shared", "Subnet"=>{"id"=>nil, "NetworkAddress"=>"133.242.236.0", "NetworkMaskLen"=>24, "DefaultRoute"=>"133.242.236.1", "Internet"=>{"BandWidthMbps"=>100}}, "UserSubnet"=>nil}, "PacketFilter"=>nil}]
   >]
 
 ```
