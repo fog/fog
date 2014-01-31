@@ -180,13 +180,18 @@ module Fog
 
             network_interfaces = (options['NetworkInterface'] || []).inject([]) do |mapping, device|
               device_index          = device.fetch("DeviceIndex", 0)
-              subnet_id             = device.fetch("SubnetId", Fog::AWS::Mock.subnet_id)
-              private_ip_address    = device.fetch("PrivateIpAddress", Fog::AWS::Mock.ip_address)
+              subnet_id             = device.fetch("SubnetId", options[:subnet_id] ||  Fog::AWS::Mock.subnet_id)
+              private_ip_address    = device.fetch("PrivateIpAddress", options[:private_ip_address] || Fog::AWS::Mock.private_ip_address)
               delete_on_termination = device.fetch("DeleteOnTermination", true)
+              description           = device.fetch("Description", "mock_network_interface")
+              security_group_id     = device.fetch("SecurityGroupId", self.data[:security_groups]['default']['groupId'])
+              interface_options     = {
+                  "PrivateIpAddress"   => private_ip_address,
+                  "GroupSet"           => device.fetch("GroupSet", [security_group_id]),
+                  "Description"        => description
+              }
 
-              interface_id = Fog::AWS::Mock.network_interface_id
-
-              self.data[:interfaces][interface_id].merge!("DeleteOnTermination" => delete_on_termination)
+              interface_id = device.fetch("NetworkInterfaceId", create_network_interface(subnet_id, interface_options))
 
               mapping << {
                 "networkInterfaceId"  => interface_id,
