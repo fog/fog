@@ -51,6 +51,7 @@ module Fog
             'Engine' => source['Engine'],
             'EngineVersion' => options['EngineVersion'] || '5.5.12',
             'InstanceCreateTime' => nil,
+            'Iops' => source['Iops'],
             'LatestRestorableTime' => nil,
             'LicenseModel' => 'general-public-license',
             'MasterUsername' => source['MasterUsername'],
