@@ -157,6 +157,10 @@ module Fog
           self.state == 'ACTIVE'
         end
 
+        def failed?
+          self.state == 'ERROR'
+        end
+
         def change_password(admin_password)
           requires :id
           service.change_server_password(id, admin_password)
