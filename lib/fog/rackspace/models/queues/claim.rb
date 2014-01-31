@@ -117,7 +117,7 @@ module Fog
           response = service.create_claim(queue.identity, ttl, grace, options)
 
           if [200, 201].include? response.status
-            self.identity = response.headers['Location'].split('/').last
+            self.identity = response.get_header('Location').split('/').last
             self.messages = response.body
 
             #Since Claims aren't a server side collection, we need to
