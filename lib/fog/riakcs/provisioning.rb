@@ -1,4 +1,4 @@
-require File.expand_path(File.join(File.dirname(__FILE__), '..', 'riakcs'))
+require 'fog/riakcs'
 
 module Fog
   module RiakCS
