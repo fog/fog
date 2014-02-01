@@ -1,3 +1,5 @@
+require 'fog/clodo'
+
 module Fog
   module Compute
     class Clodo < Fog::Service

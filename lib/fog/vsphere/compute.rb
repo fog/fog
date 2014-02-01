@@ -1,3 +1,4 @@
+require 'fog/vsphere'
 require 'digest/sha2'
 
 module Fog
