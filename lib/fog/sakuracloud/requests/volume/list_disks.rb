@@ -23,23 +23,23 @@ module Fog
           "Disks" =>
             [
             {"Index" => 0,
-              :ID =>112600053890,
-              :Name =>"foober1",
-              :Connection  => "virtio",
-              :Availability=>"available",
-              :SizeMB=>20480,
-              :Plan=> {},
-              :SourceDisk => nil,
-              :SourceArchive => {}},
+              "ID" =>112600053890,
+              "Name" =>"foober1",
+              "Connection" => "virtio",
+              "Availability"=>"available",
+              "SizeMB"=>20480,
+              "Plan"=> {},
+              "SourceDisk" => nil,
+              "SourceArchive" => {}},
             {"Index" => 1,
-              :ID =>112600053891,
-              :Name =>"foober2",
-              :Connection  => "virtio",
-              :Availability=>"available",
-              :SizeMB=>20480,
-              :Plan=> {},
-              :SourceDisk => nil,
-              :SourceArchive => {}}
+              "ID" =>112600053891,
+              "Name" =>"foober2",
+              "Connection"  => "virtio",
+              "Availability"=>"available",
+              "SizeMB"=>20480,
+              "Plan"=> {},
+              "SourceDisk" => nil,
+              "SourceArchive" => {}}
             ]
           }
           response

@@ -3,12 +3,12 @@ Shindo.tests('Fog::Volume[:sakuracloud] | list_disks request', ['sakuracloud', '
 
   @disks_format = {
     'Index'        => Integer,
-    :ID            => Integer,
-    :Name          => String,
-    :Connection    => String,
-    :Availability  => String,
-    :SizeMB        => Integer,
-    :Plan          => Hash
+    'ID'           => Integer,
+    'Name'         => String,
+    'Connection'   => String,
+    'Availability' => String,
+    'SizeMB'       => Integer,
+    'Plan'         => Hash
   }
 
   tests('success') do

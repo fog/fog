@@ -23,13 +23,13 @@ module Fog
           "Zones" =>
             [
             {"Index"=>0,
-               :ID=>31001,
-               :Name=>"is1a",
-               :Description=>"石狩第1ゾーン"},
+               "ID"=>31001,
+               "Name"=>"is1a",
+               "Description"=>"石狩第1ゾーン"},
             {"Index"=>1,
-               :ID=>31002,
-               :Name=>"is1b",
-               :Description=>"石狩第2ゾーン"}
+               "ID"=>31002,
+               "Name"=>"is1b",
+               "Description"=>"石狩第2ゾーン"}
             ]
           }
           response

@@ -3,11 +3,11 @@ Shindo.tests('Fog::Compute[:sakuracloud] | list_servers request', ['sakuracloud'
 
   @servers_format = {
     'Index'        => Integer,
-    :ID            => Integer,
-    :Name          => String,
-    :ServerPlan    => Hash,
-    :Instance      => Hash,
-    :Disks         => Array
+    'ID'           => Integer,
+    'Name'         => String,
+    'ServerPlan'   => Hash,
+    'Instance'     => Hash,
+    'Disks'        => Array
   }
 
   tests('success') do

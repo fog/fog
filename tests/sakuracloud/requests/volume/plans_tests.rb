@@ -3,8 +3,8 @@ Shindo.tests('Fog::Volume[:sakuracloud] | list_plans request', ['sakuracloud', '
 
   @plan_format = {
     'Index'        => Integer,
-    :ID            => Integer,
-    :Name          => String,
+    'ID'           => Integer,
+    'Name'         => String,
     'Availability' => String
   }
 

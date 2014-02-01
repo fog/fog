@@ -3,10 +3,10 @@ Shindo.tests('Fog::Compute[:sakuracloud] | list_plans request', ['sakuracloud', 
 
   @plan_format = {
     'Index'        => Integer,
-    :ID            => Integer,
-    :Name          => String,
-    :CPU           => Integer,
-    :MemoryMB      => Integer,
+    'ID'           => Integer,
+    'Name'         => String,
+    'CPU'          => Integer,
+    'MemoryMB'     => Integer,
     'Availability' => String
   }
 
