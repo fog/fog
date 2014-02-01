@@ -1,5 +1,4 @@
 require 'fog/openstack'
-require 'fog/aws/cloud_formation'
 
 module Fog
   module Orchestration
