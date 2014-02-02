@@ -41,14 +41,14 @@ module Fog
       end
     end
 
-    service(:compute , 'openstack/compute' , 'Compute' )
-    service(:image, 'openstack/image', 'Image')
-    service(:identity, 'openstack/identity', 'Identity')
-    service(:network, 'openstack/network', 'Network')
-    service(:storage, 'openstack/storage', 'Storage')
-    service(:volume,  'openstack/volume',  'Volume')
-    service(:metering,  'openstack/metering',  'Metering')
-    service(:orchestration,  'openstack/orchestration',  'Orchestration')
+    service(:compute ,      'Compute')
+    service(:image,         'Image')
+    service(:identity,      'Identity')
+    service(:network,       'Network')
+    service(:storage,       'Storage')
+    service(:volume,        'Volume')
+    service(:metering,      'Metering')
+    service(:orchestration, 'Orchestration')
 
     def self.authenticate(options, connection_options = {})
       case options[:openstack_auth_uri].path

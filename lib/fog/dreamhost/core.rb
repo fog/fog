@@ -5,7 +5,7 @@ module Fog
 
     extend Fog::Provider
 
-    service(:dns, 'dreamhost/dns', 'DNS')
+    service(:dns, 'DNS')
 
   end
 end

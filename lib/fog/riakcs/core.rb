@@ -115,8 +115,8 @@ module Fog
 
     extend Fog::Provider
 
-    service(:provisioning, 'riakcs/provisioning', 'Provisioning')
-    service(:usage,        'riakcs/usage',        'Usage')
+    service(:provisioning, 'Provisioning')
+    service(:usage,        'Usage')
 
   end
 end

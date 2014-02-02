@@ -6,7 +6,7 @@ module Fog
 
     extend Fog::Provider
 
-    service(:compute, 'ecloud/compute', 'Compute')
+    service(:compute, 'Compute')
 
     def self.keep(hash, *keys)
       {}.tap do |kept|

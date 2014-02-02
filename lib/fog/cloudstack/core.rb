@@ -6,7 +6,7 @@ module Fog
 
     extend Fog::Provider
 
-    service(:compute, 'cloudstack/compute','Compute')
+    service(:compute, 'Compute')
 
     @@digest  = OpenSSL::Digest.new('sha1')
 

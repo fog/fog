@@ -5,7 +5,7 @@ module Fog
 
     extend Fog::Provider
 
-    service(:compute, 'bare_metal_cloud/compute', 'Compute')
+    service(:compute, 'Compute')
 
   end
 end

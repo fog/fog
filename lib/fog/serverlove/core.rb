@@ -4,7 +4,7 @@ module Fog
   module Serverlove
     extend Fog::Provider
 
-    service(:compute, 'serverlove/compute', 'Compute')
+    service(:compute, 'Compute')
 
   end
 end

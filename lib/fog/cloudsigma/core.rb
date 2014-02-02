@@ -4,6 +4,6 @@ module Fog
   module CloudSigma
     extend Fog::Provider
 
-    service(:compute, 'cloudsigma/compute', 'Compute')
+    service(:compute, 'Compute')
   end
 end

@@ -5,7 +5,7 @@ module Fog
 
     extend Fog::Provider
 
-    service(:compute, 'clodo/compute', 'Compute')
+    service(:compute, 'Compute')
 
     def self.authenticate(options)
       clodo_auth_url = options[:clodo_auth_url] || "api.clodo.ru"

@@ -12,7 +12,7 @@ module Fog
 
     extend Fog::Provider
 
-    service(:storage, 'internet_archive/storage', 'Storage')
+    service(:storage, 'Storage')
 
     def self.indexed_param(key, values)
       params = {}

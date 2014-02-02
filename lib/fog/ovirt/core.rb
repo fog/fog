@@ -11,7 +11,7 @@ module Fog
       class NotFound < ServiceError; end
     end
 
-    service(:compute, 'ovirt/compute', 'Compute')
+    service(:compute, 'Compute')
 
   end
 end

@@ -5,8 +5,8 @@ module Fog
 
     extend Fog::Provider
 
-    service(:compute, 'ibm/compute', 'Compute')
-    service(:storage, 'ibm/storage', 'Storage')
+    service(:compute, 'Compute')
+    service(:storage, 'Storage')
 
     # Provisioning is very slow. We'll pass this arg explicitly until there's a way
     # to set the default timeout on a per-provider basis.

@@ -5,7 +5,7 @@ module Fog
 
     extend Fog::Provider
 
-    service(:storage, 'local/storage', 'Storage')
+    service(:storage, 'Storage')
 
   end
 end

@@ -62,6 +62,6 @@ module Fog
       class TaskError < ServiceError; end
     end
 
-    service(:compute, 'vcloud_director/compute', 'Compute')
+    service(:compute, 'Compute')
   end
 end

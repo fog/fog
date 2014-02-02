@@ -9,7 +9,7 @@ module Fog
 
     extend Fog::Provider
     
-    service(:compute, 'xenserver/compute', 'Compute')  
+    service(:compute, 'Compute')  
     
     class Connection
       require 'xmlrpc/client'
