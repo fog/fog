@@ -1,4 +1,4 @@
-require 'fog/riakcs'
+require 'fog/riakcs/core'
 require 'time'
 
 module Fog

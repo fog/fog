@@ -1,4 +1,4 @@
-require 'fog/serverlove'
+require 'fog/serverlove/core'
 
 module Fog
   module Compute

@@ -1,4 +1,4 @@
-require 'fog/riakcs'
+require 'fog/riakcs/core'
 
 module Fog
   module RiakCS

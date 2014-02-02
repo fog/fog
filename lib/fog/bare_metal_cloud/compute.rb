@@ -1,4 +1,4 @@
-require 'fog/bare_metal_cloud'
+require 'fog/bare_metal_cloud/core'
 require 'fog/compute'
 
 module Fog

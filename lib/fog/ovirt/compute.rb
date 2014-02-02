@@ -1,4 +1,4 @@
-require 'fog/ovirt'
+require 'fog/ovirt/core'
 
 module Fog
   module Compute

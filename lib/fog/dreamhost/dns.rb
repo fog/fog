@@ -1,4 +1,4 @@
-require 'fog/dreamhost'
+require 'fog/dreamhost/core'
 require 'fog/dns'
 
 module Fog

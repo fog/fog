@@ -1,4 +1,4 @@
-require 'fog/cloudsigma'
+require 'fog/cloudsigma/core'
 require 'fog/cloudsigma/connection'
 require 'fog/compute'
 

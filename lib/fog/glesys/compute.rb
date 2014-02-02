@@ -1,4 +1,4 @@
-require 'fog/glesys'
+require 'fog/glesys/core'
 
 module Fog
   module Compute

@@ -1,4 +1,4 @@
-require 'fog/clodo'
+require 'fog/clodo/core'
 
 module Fog
   module Compute

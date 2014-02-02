@@ -1,4 +1,4 @@
-require 'fog/aws'
+require 'fog/aws/core'
 
 module Fog
   module AWS
