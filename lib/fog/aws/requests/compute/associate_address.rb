@@ -23,18 +23,38 @@ module Fog
         #     * 'associationId'<~String> - association Id for eip to node (vpc only)
         #
         # {Amazon API Reference}[http://docs.amazonwebservices.com/AWSEC2/latest/APIReference/ApiReference-query-AssociateAddress.html]
-        def associate_address(instance_id=nil, public_ip=nil, network_interface_id=nil, allocation_id=nil, private_ip_address=nil, allow_reassociation=false)
+        def associate_address(*args)
+
+          if args.first.kind_of? Hash
+            params = {
+              :instance_id => nil,
+              :public_ip => nil,
+              :network_interface_id => nil,
+              :allocation_id => nil,
+              :private_ip_address => nil,
+              :allow_reassociation => nil,
+            }.merge(args.first)
+          else args.first.kind_of? Hash
+            params = {
+                :instance_id => args[0] || nil,
+                :public_ip => args[1] || nil,
+                :network_interface_id => args[2] || nil,
+                :allocation_id => args[3] || nil,
+                :private_ip_address => args[4] || nil,
+                :allow_reassociation => args[5] || nil,
+            }
+          end
           # Cannot specify an allocation ip and a public IP at the same time.  If you have an allocation Id presumably you are in a VPC
           # so we will null out the public IP
-          public_ip = allocation_id.nil? ? public_ip : nil
+          params[:public_ip] = params[:allocation_id].nil? ? params[:public_ip] : nil
           request(
             'Action'             => 'AssociateAddress',
-            'AllocationId'       => allocation_id,
-            'InstanceId'         => instance_id,
-            'NetworkInterfaceId' => network_interface_id,
-            'PublicIp'           => public_ip,
-            'PrivateIpAddress'   => private_ip_address,
-            'AllowReassociation' => allow_reassociation,
+            'AllocationId'       => params[:allocation_id],
+            'InstanceId'         => params[:instance_id],
+            'NetworkInterfaceId' => params[:network_interface_id],
+            'PublicIp'           => params[:public_ip],
+            'PrivateIpAddress'   => params[:private_ip_address],
+            'AllowReassociation' => params[:allow_reassociation],
             :idempotent          => true,
             :parser              => Fog::Parsers::Compute::AWS::AssociateAddress.new
           )
@@ -44,15 +64,34 @@ module Fog
 
       class Mock
 
-        def associate_address(instance_id=nil, public_ip=nil, network_interface_id=nil, allocation_id=nil, private_ip_address=nil, allow_reassociation=nil)
-          public_ip = allocation_id.nil? ? public_ip : nil
+        def associate_address(*args)
+          if args.first.kind_of? Hash
+            params = {
+              :instance_id => nil,
+              :public_ip => nil,
+              :network_interface_id => nil,
+              :allocation_id => nil,
+              :private_ip_address => nil,
+              :allow_reassociation => nil,
+            }.merge(args.first)
+          else args.first.kind_of? Hash
+            params = {
+                :instance_id => args[0] || nil,
+                :public_ip => args[1] || nil,
+                :network_interface_id => args[2] || nil,
+                :allocation_id => args[3] || nil,
+                :private_ip_address => args[4] || nil,
+                :allow_reassociation => args[5] || nil,
+            }
+          end
+          params[:public_ip] = params[:allocation_id].nil? ? params[:public_ip] : nil
           response = Excon::Response.new
           response.status = 200
-          instance = self.data[:instances][instance_id]
-          address = public_ip.nil? ? nil : self.data[:addresses][public_ip]
-          if ((instance && address) || (instance &&  !allocation_id.nil?) || (!allocation_id.nil? && !network_interface_id.nil?))
-            if !allocation_id.nil?
-              allocation_ip = describe_addresses( 'allocation-id'  => "#{allocation_id}").body['addressesSet'].first
+          instance = self.data[:instances][params[:instance_id]]
+          address = params[:public_ip].nil? ? nil : self.data[:addresses][params[:public_ip]]
+          if ((instance && address) || (instance &&  !params[:allocation_id].nil?) || (!params[:allocation_id].nil? && !network_interface_id.nil?))
+            if !params[:allocation_id].nil?
+              allocation_ip = describe_addresses( 'allocation-id'  => "#{params[:allocation_id]}").body['addressesSet'].first
               if !allocation_ip.nil?
                 public_ip = allocation_ip['publicIp']
                 address = public_ip.nil? ? nil : self.data[:addresses][public_ip]
@@ -62,23 +101,23 @@ module Fog
               if current_instance = self.data[:instances][address['instanceId']]
                 current_instance['ipAddress'] = current_instance['originalIpAddress']
               end
-              address['instanceId'] = instance_id
+              address['instanceId'] = params[:instance_id]
             end
             # detach other address (if any)
             if self.data[:addresses][instance['ipAddress']]
               self.data[:addresses][instance['ipAddress']]['instanceId'] = nil
             end
-            if !public_ip.nil?
-              instance['ipAddress'] = public_ip
-              instance['dnsName'] = Fog::AWS::Mock.dns_name_for(public_ip)
+            if !params[:public_ip].nil?
+              instance['ipAddress'] = params[:public_ip]
+              instance['dnsName'] = Fog::AWS::Mock.dns_name_for(params[:public_ip])
             end
             response.status = 200
-            if !instance_id.nil? && !public_ip.nil?
+            if !params[:instance_id].nil? && !params[:public_ip].nil?
               response.body = {
                 'requestId' => Fog::AWS::Mock.request_id,
                 'return'    => true
               }
-            elsif !allocation_id.nil?
+            elsif !params[:allocation_id].nil?
               response.body = {
                 'requestId'     => Fog::AWS::Mock.request_id,
                 'return'        => true,
