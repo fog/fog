@@ -100,6 +100,12 @@ module Fog
               @vpc_security_group = {}
             when 'VpcSecurityGroupId'
               @vpc_security_group[name] = value
+            when 'Iops'
+              if @in_pending_modified_values
+                @pending_modified_values[name] = value.to_i
+              else
+                @db_instance[name] = value.to_i
+              end
             when 'AllocatedStorage'
               if @in_pending_modified_values
                 @pending_modified_values[name] = value.to_i
