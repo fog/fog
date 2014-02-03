@@ -33,6 +33,10 @@ module Fog
       request :authorize_cache_security_group_ingress
       request :revoke_cache_security_group_ingress
 
+      request :create_cache_subnet_group
+      request :describe_cache_subnet_groups
+      request :delete_cache_subnet_group
+
       request :describe_events
 
       model_path 'fog/aws/models/elasticache'
@@ -42,6 +46,8 @@ module Fog
       collection :security_groups
       model :parameter_group
       collection :parameter_groups
+      model :subnet_group
+      collection :subnet_groups
 
       class Real
         include Fog::AWS::CredentialFetcher::ConnectionMethods
@@ -89,8 +95,7 @@ module Fog
             :host               => @host,
             :path               => @path,
             :port               => @port,
-            #:version            => '2011-07-15'
-            :version            => '2012-11-15'
+            :version            => '2013-06-15'
           }
           )
 
@@ -100,7 +105,6 @@ module Fog
               :expects    => 200,
               :headers    => { 'Content-Type' => 'application/x-www-form-urlencoded' },
               :idempotent => idempotent,
-              :host       => @host,
               :method     => 'POST',
               :parser     => parser
             })
@@ -132,6 +136,7 @@ module Fog
               region_hash[key] = {
                 :clusters  => {}, # cache cluster data, indexed by cluster ID
                 :security_groups => {}, # security groups
+                :subnet_groups => {},
               }
             end
           end
