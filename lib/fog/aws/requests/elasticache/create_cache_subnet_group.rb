@@ -36,7 +36,11 @@ module Fog
             raise Fog::AWS::Elasticache::IdentifierTaken.new("CacheSubnetGroupAlreadyExists => The subnet group '#{name}' already exists")
           end
 
-          subnets = subnet_ids.map { |snid| Fog::Compute[:aws].subnets.get(snid) }
+          collection = Fog::Compute[:aws]
+          collection.region = @region
+          subnets = collection.subnets
+
+          subnets = subnet_ids.map { |snid| subnets.get(snid) }
           vpc_id = subnets.first.vpc_id
 
           data = {
