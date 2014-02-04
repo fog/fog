@@ -235,13 +235,39 @@ Shindo.tests('Fog::Compute[:aws] | route table requests', ['aws']) do
 
     # Tests replace_route
     #   - no parameters
+    #   - passing a nonexisiting route table and an exisiting internet gateway
     #   - passing a nonexisiting route table
+    #   - passing a nonexisting route table and an exisiting instance
+    #   - passing a nonexisiting instance
+    #   - passing a nonexsiting route table and an exisiting network interface
+    #   - passing a nonexisiting network interface
+    #   - attempting to add a route at a less specific destination cidr block
     #
     tests('#replace_route').raises(ArgumentError) do
       Fog::Compute[:aws].replace_route
     end
     tests("#replace_route('rtb-00000000', '#{@destination_cidr_block}')").raises(Fog::Compute::AWS::NotFound) do
       Fog::Compute[:aws].replace_route('rtb-00000000', @destination_cidr_block)
+    end
+    tests("#replace_route('#{@route_table_id}', '#{@destination_cidr_block}', 'igw-00000000')").raises(Fog::Compute::AWS::NotFound) do
+      Fog::Compute[:aws].replace_route(@route_table_id, @destination_cidr_block, 'igw-00000000')
+    end
+    tests("#replace_route('rtb-00000000', '#{@destination_cidr_block}', 'nil', '#{instance.id}')").raises(Fog::Compute::AWS::NotFound) do
+      Fog::Compute[:aws].replace_route('rtb-00000000', @destination_cidr_block, instance.id)
+    end
+    tests("#replace_route('#{@route_table_id}', '#{@destination_cidr_block}', 'nil', 'i-00000000')").raises(Fog::Compute::AWS::NotFound) do
+      Fog::Compute[:aws].replace_route(@route_table_id, @destination_cidr_block, nil, 'i-00000000')
+    end
+    tests("#replace_route('#{@route_table_id}', '#{@destinationCidrBlock}', 'nil', 'nil', 'eni-00000000')").raises(Fog::Compute::AWS::NotFound) do
+      Fog::Compute[:aws].replace_route(@route_table_id, @destination_cidr_block, nil, nil, 'eni-00000000')
+    end
+    tests("#replace_route('#rtb-00000000', '#{@destination_cidr_block}', 'nil, 'nil', '#{@network_interface_id}')").raises(Fog::Compute::AWS::NotFound) do
+      Fog::Compute[:aws].replace_route('rtb-00000000', @destination_cidr_block, nil, nil, @network_interface_id)
+    end
+    if !Fog.mocking?
+      tests("#create_route less specific destination_cidr_block").raises(Fog::Compute::AWS::Error) do
+        Fog::Compute[:aws].replace_route(@route_table_id, '10.0.10.0/25', @internet_gateway_id)
+      end
     end
 
     # Test describe_route_tables
