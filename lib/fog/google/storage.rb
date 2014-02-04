@@ -1,4 +1,4 @@
-require 'fog/google'
+require 'fog/google/core'
 require 'fog/storage'
 
 module Fog

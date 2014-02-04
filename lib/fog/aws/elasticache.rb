@@ -1,3 +1,5 @@
+require 'fog/aws/core'
+
 module Fog
   module AWS
     class Elasticache < Fog::Service

@@ -1,4 +1,4 @@
-require 'fog/openstack'
+require 'fog/openstack/core'
 require 'fog/storage'
 
 module Fog

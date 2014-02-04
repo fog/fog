@@ -1,4 +1,4 @@
-require 'fog/cloudstack'
+require 'fog/cloudstack/core'
 require 'fog/compute'
 require 'digest/md5'
 
