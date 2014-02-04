@@ -28,11 +28,8 @@ module Fog
       collection  :metadata
       model       :server
       collection  :servers
-      model       :security_group
-      collection  :security_groups
       model       :volume_attachment
       collection  :volume_attachments
-
 
       request_path 'fog/hp/requests/compute_v2'
       request :add_security_group
@@ -42,16 +39,11 @@ module Fog
       #request :confirm_resized_server
       request :create_image
       request :create_key_pair
-      request :create_security_group
-      request :create_security_group_rule
       request :create_server
       request :create_persistent_server
       request :delete_image
       request :delete_key_pair
       request :delete_meta
-      request :delete_security_group
-      request :delete_security_group_rule
-      request :create_security_group
       request :delete_server
       request :detach_volume
       request :disassociate_address
@@ -62,7 +54,6 @@ module Fog
       request :get_key_pair
       request :get_meta
       request :get_windows_password
-      request :get_security_group
       request :get_server_details
       request :get_server_volume_details
       request :get_vnc_console
@@ -75,7 +66,6 @@ module Fog
       request :list_key_pairs
       request :list_limits
       request :list_metadata
-      request :list_security_groups
       request :list_server_addresses
       request :list_server_addresses_by_network
       request :list_server_volumes
@@ -144,14 +134,12 @@ module Fog
               :last_modified => {
                 :images  => {},
                 :key_pairs => {},
-                :security_groups => {},
                 :servers => {},
                 :addresses => {},
                 :volume_attachments => {},
               },
               :images  => {},
               :key_pairs => {},
-              :security_groups => {},
               :servers => {},
               :addresses => {},
               :volume_attachments => {},
