@@ -1,11 +1,2 @@
-require 'fog/core'
+require 'fog/rage4/dns'
 
-module Fog
-  module Rage4
-
-    extend Fog::Provider
-
-    service(:dns, 'rage4/dns', 'DNS')
-
-  end
-end
