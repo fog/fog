@@ -17,7 +17,12 @@ module Fog
 
         def get(zone_name)
           data = service.get_domain_by_name(zone_name).body
-          new(data)
+
+          if data["status"] && !data["status"]
+            nil
+          else
+            new(data)
+          end
         rescue Excon::Errors::NotFound
           nil
         end

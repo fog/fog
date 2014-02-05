@@ -24,7 +24,7 @@ module Fog
           if !data.empty?
             new(data.first)
           else
-            new()
+            nil
           end
         rescue Excon::Errors::NotFound
           nil
