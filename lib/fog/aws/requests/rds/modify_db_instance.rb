@@ -19,6 +19,7 @@ module Fog
         # * DBParameterGroupName <~String> The name of the DB Parameter Group to apply to this DB Instance  
         # * DBSecurityGroups <~Array> A list of DB Security Groups to authorize on this DB Instance 
         # * EngineVersion <~String> The version number of the database engine to upgrade to.
+        # * Iops <~Integer> IOPS rate
         # * MasterUserPassword  <~String> The new password for the DB Instance master user
         # * MultiAZ <~Boolean> Specifies if the DB Instance is a Multi-AZ deployment
         # * PreferredBackupWindow <~String> The daily time range during which automated backups are created if automated backups are enabled

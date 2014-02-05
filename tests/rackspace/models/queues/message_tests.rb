@@ -1,7 +1,5 @@
 Shindo.tests('Fog::Rackspace::Queues | message', ['rackspace']) do
 
-  pending if Fog.mocking?
-
   service = Fog::Rackspace::Queues.new
   queue = service.queues.create({
     :name => "fog_instance_#{Time.now.to_i.to_s}",
@@ -11,7 +9,7 @@ Shindo.tests('Fog::Rackspace::Queues | message', ['rackspace']) do
     :body => { :key => 'value' }
   }
   begin
-    model_tests(queue.messages, options, false) do
+    model_tests(queue.messages, options) do
       tests('#href').returns(true) do
         !@instance.href.nil?
       end

@@ -99,6 +99,43 @@ class Brightbox
           "reverse_dns"     => String
         }
 
+        DATABASE_SERVER = {
+          "id"              => String,
+          "resource_type"   => String,
+          "url"             => String,
+          "name"            => String,
+          "description"     => String,
+          "allow_access"    => Array,
+          "database_version" => String,
+          "status"          => String,
+          "created_at"      => String,
+          "deleted_at"      => Fog::Nullable::String
+        }
+
+        DATABASE_SNAPSHOT = {
+          "id"              => String,
+          "resource_type"   => String,
+          "url"             => String,
+          "name"            => String,
+          "description"     => String,
+          "database_version" => String,
+          "size"            => Integer,
+          "status"          => String,
+          "created_at"      => String,
+          "deleted_at"      => Fog::Nullable::String,
+          "account"         => Brightbox::Compute::Formats::Nested::ACCOUNT
+        }
+
+        DATABASE_SERVER_TYPE = {
+          "id"              => String,
+          "resource_type"   => String,
+          "url"             => String,
+          "name"            => String,
+          "description"     => String,
+          "ram"             => Integer,
+          "disk_size"       => Integer
+        }
+
         FIREWALL_POLICY = {
           "id"              => String,
           "resource_type"   => String,
@@ -288,6 +325,43 @@ class Brightbox
           "load_balancer"   => Fog::Brightbox::Nullable::LoadBalancer,
           "server"          => Fog::Brightbox::Nullable::Server,
           "server_group"     => Fog::Brightbox::Nullable::ServerGroup
+        }
+
+        DATABASE_SERVER = {
+          "id"              => String,
+          "resource_type"   => String,
+          "url"             => String,
+          "name"            => String,
+          "description"     => String,
+          "allow_access"    => Array,
+          "database_version" => String,
+          "status"          => String,
+          "created_at"      => String,
+          "deleted_at"      => Fog::Nullable::String
+        }
+
+        DATABASE_SNAPSHOT = {
+          "id"              => String,
+          "resource_type"   => String,
+          "url"             => String,
+          "name"            => String,
+          "description"     => String,
+          "database_version" => String,
+          "size"            => Integer,
+          "status"          => String,
+          "created_at"      => String,
+          "deleted_at"      => Fog::Nullable::String,
+          "account"         => Brightbox::Compute::Formats::Nested::ACCOUNT
+        }
+
+        DATABASE_SERVER_TYPE = {
+          "id"              => String,
+          "resource_type"   => String,
+          "url"             => String,
+          "name"            => String,
+          "description"     => String,
+          "ram"             => Integer,
+          "disk_size"       => Integer
         }
 
         FIREWALL_POLICY = {
@@ -498,6 +572,45 @@ class Brightbox
           "server_group"    => Fog::Brightbox::Nullable::ServerGroup
         }
 
+        DATABASE_SERVER = {
+          "id"              => String,
+          "resource_type"   => String,
+          "url"             => String,
+          "name"            => String,
+          "description"     => String,
+          "admin_username"  => Fog::Nullable::String,
+          "admin_password"  => Fog::Nullable::String,
+          "allow_access"    => Array,
+          "database_version" => String,
+          "status"          => String,
+          "created_at"      => String,
+          "deleted_at"      => Fog::Nullable::String
+        }
+
+        DATABASE_SNAPSHOT = {
+          "id"              => String,
+          "resource_type"   => String,
+          "url"             => String,
+          "name"            => String,
+          "description"     => String,
+          "database_version" => String,
+          "size"            => Integer,
+          "status"          => String,
+          "created_at"      => String,
+          "deleted_at"      => Fog::Nullable::String,
+          "account"         => Brightbox::Compute::Formats::Nested::ACCOUNT
+        }
+
+        DATABASE_SERVER_TYPE = {
+          "id"              => String,
+          "resource_type"   => String,
+          "url"             => String,
+          "name"            => String,
+          "description"     => String,
+          "ram"             => Integer,
+          "disk_size"       => Integer
+        }
+
         FIREWALL_POLICY = {
           "id"              => String,
           "resource_type"   => String,
@@ -669,15 +782,18 @@ class Brightbox
         API_CLIENTS = [Brightbox::Compute::Formats::Collected::API_CLIENT]
         APPLICATION = [Brightbox::Compute::Formats::Collected::APPLICATION]
         CLOUD_IPS = [Brightbox::Compute::Formats::Collected::CLOUD_IP]
-        IMAGES = [Brightbox::Compute::Formats::Collected::IMAGE]
+        COLLABORATIONS = [Brightbox::Compute::Formats::Collected::COLLABORATION]
+        DATABASE_SERVERS = [Brightbox::Compute::Formats::Collected::DATABASE_SERVER]
+        DATABASE_SERVER_TYPES = [Brightbox::Compute::Formats::Collected::DATABASE_SERVER_TYPE]
+        DATABASE_SNAPSHOTS = [Brightbox::Compute::Formats::Collected::DATABASE_SNAPSHOT]
         FIREWALL_POLICIES = [Brightbox::Compute::Formats::Collected::FIREWALL_POLICY]
+        IMAGES = [Brightbox::Compute::Formats::Collected::IMAGE]
         LOAD_BALANCERS = [Brightbox::Compute::Formats::Collected::LOAD_BALANCER]
         SERVERS = [Brightbox::Compute::Formats::Collected::SERVER]
         SERVER_GROUPS = [Brightbox::Compute::Formats::Collected::SERVER_GROUP]
         SERVER_TYPES = [Brightbox::Compute::Formats::Collected::SERVER_TYPE]
         USERS = [Brightbox::Compute::Formats::Collected::USER]
         ZONES = [Brightbox::Compute::Formats::Collected::ZONE]
-        COLLABORATIONS = [Brightbox::Compute::Formats::Collected::COLLABORATION]
       end
     end
   end

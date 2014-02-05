@@ -16,6 +16,25 @@ class AWS
       SINGLE_SECURITY_GROUP = BASIC.merge('CacheSecurityGroup' => SECURITY_GROUP)
       DESCRIBE_SECURITY_GROUPS = {'CacheSecurityGroups' => [SECURITY_GROUP]}
 
+      CACHE_SUBNET_GROUP = {
+        'CacheSubnetGroupName' => String,
+        'CacheSubnetGroupDescription' => String,
+        'VpcId' => String,
+        'Subnets' => [String]
+      }
+
+      CREATE_CACHE_SUBNET_GROUP = BASIC.merge({
+         'CreateCacheSubnetGroupResult' => {
+           'CacheSubnetGroup' => CACHE_SUBNET_GROUP
+         }
+       })
+
+      DESCRIBE_CACHE_SUBNET_GROUPS = BASIC.merge({
+        'DescribeCacheSubnetGroupsResult' => {
+          'CacheSubnetGroups' => [CACHE_SUBNET_GROUP]
+        }
+      })
+
       # Cache Parameter Groups
       PARAMETER_GROUP = {
         'CacheParameterGroupFamily' => String,

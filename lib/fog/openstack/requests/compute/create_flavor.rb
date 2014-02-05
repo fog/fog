@@ -18,7 +18,7 @@ module Fog
           end
 
           # Set flavor id
-          attributes[:flavor_id] = attributes[:flavor_id] || flavor_ids.sort.last + 1
+          attributes[:flavor_id] = attributes[:flavor_id] || ((flavor_ids.length > 0) ? (flavor_ids.sort.last) + 1 : 1)
 
           data = {
             'flavor' => {

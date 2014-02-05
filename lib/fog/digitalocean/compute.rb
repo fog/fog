@@ -1,4 +1,4 @@
-require 'fog/digitalocean'
+require 'fog/digitalocean/core'
 require 'fog/compute'
 
 module Fog

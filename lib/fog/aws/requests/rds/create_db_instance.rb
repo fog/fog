@@ -18,6 +18,7 @@ module Fog
         # @param DBSecurityGroups [Array] A list of DB Security Groups to authorize on this DB Instance
         # @param Engine [String] The name of the database engine to be used for this instance.
         # @param EngineVersion [String] The version number of the database engine to use.
+        # @param Iops [Integer] IOPS rate
         # @param MasterUsername [String] The db master user
         # @param MasterUserPassword [String] The new password for the DB Instance master user
         # @param MultiAZ [Boolean] Specifies if the DB Instance is a Multi-AZ deployment
@@ -98,6 +99,7 @@ module Fog
                  "DBInstanceStatus"=>"creating",
                  "BackupRetentionPeriod"=> options["BackupRetentionPeriod"] || 1,
                  "AllocatedStorage"=> options["AllocatedStorage"],
+                 "Iops" => options["Iops"],
                  "DBParameterGroups"=> # I think groups should be in the self.data method
                           [{"DBParameterGroupName"=>"default.mysql5.5",
                             "ParameterApplyStatus"=>"in-sync"}],

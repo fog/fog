@@ -1,12 +1,10 @@
 Shindo.tests('Fog::Rackspace::Queues | queue', ['rackspace']) do
 
-  pending if Fog.mocking?
-
   service = Fog::Rackspace::Queues.new
   options = {
     :name => "fog_instance_#{Time.now.to_i.to_s}",
   }
-  model_tests(service.queues, options, false) do
+  model_tests(service.queues, options) do
 
     tests('#stats').formats(QUEUE_STATS_FORMAT['messages']) do
       @instance.stats

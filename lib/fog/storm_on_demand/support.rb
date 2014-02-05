@@ -1,4 +1,4 @@
-require 'fog/storm_on_demand'
+require 'fog/storm_on_demand/core'
 require 'fog/support'
 require 'fog/storm_on_demand/shared'
 

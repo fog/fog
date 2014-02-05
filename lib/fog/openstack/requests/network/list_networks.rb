@@ -1,7 +1,6 @@
 module Fog
   module Network
     class OpenStack
-
       class Real
         def list_networks(filters = {})
           request(

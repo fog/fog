@@ -140,7 +140,7 @@ module Fog
         #     valid new_publics: public_read, private
         # 
         # @param [String] new_public
-        # @return [String] new_puplic 
+        # @return [String] new_public 
         # 
         def public=(new_public)
           if new_public

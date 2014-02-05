@@ -19,6 +19,7 @@ module Fog
         attribute :capacity
         attribute :allocation
         attribute :format_type
+        attribute :backing_volume
 
         # Can be created by passing in :xml => "<xml to create volume>"
         # A volume always belongs to a pool, :pool_name => "<name of pool>"

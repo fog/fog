@@ -1,4 +1,4 @@
-require 'fog/openstack'
+require 'fog/openstack/core'
 require 'fog/storage'
 
 module Fog
@@ -172,7 +172,7 @@ module Fog
               error
             end
           end
-          if !response.body.empty? && parse_json && response.headers['Content-Type'] =~ %r{application/json}
+          if !response.body.empty? && parse_json && response.get_header('Content-Type') =~ %r{application/json}
             response.body = Fog::JSON.decode(response.body)
           end
           response
