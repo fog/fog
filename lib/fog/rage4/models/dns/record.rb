@@ -34,7 +34,7 @@ module Fog
         end
 
         def destroy
-          service.delete_record(identity)
+          service.delete_record(id)
           true
         end
 

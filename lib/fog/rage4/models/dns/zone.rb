@@ -12,7 +12,7 @@ module Fog
         attribute :domain,     :aliases => 'name'
 
         def destroy
-          service.delete_domain(identity)
+          service.delete_domain(id)
           true
         end
 
