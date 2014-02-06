@@ -480,6 +480,11 @@ The `create` method also supports the following key values:
 		<td>:personality</td>
 		<td>Array of files to be injected onto the server. Please refer to the Fog <a href="http://rubydoc.info/github/fog/fog/Fog/Compute/RackspaceV2/Server:personality">personality </a> API documentation for further information.</td>
 	</tr>
+	<tr>
+		<td>:config_drive</td>
+		<td>Whether a read-only configuration drive is attached. Refer to  Next Gen Server API documentation - <a
+href="http://docs.rackspace.com/servers/api/v2/cs-devguide/content/config_drive_ext.html">Config Drive Extension</a>.</td>
+	</tr>
 </table>
 
 ## Bootstrap
