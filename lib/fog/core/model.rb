@@ -48,6 +48,20 @@ module Fog
     end
 
     def to_json(options = {})
+
+      #Any class "attr_accessor" will not be included without the following block:
+      #Example: :architecture in lib/fog/aws/models/compute/server.rb
+      begin
+        attribs = attributes.dup
+        instance_variables.find_all do |var|
+          var = var.to_s.gsub('@', '')
+          next if %w(collection username password service attributes).include? var
+          key = var.to_sym
+          attribs[key] = self.__send__(var) unless attribs.include? key
+        end
+      rescue
+      end
+
       Fog::JSON.encode(attributes)
     end
 
