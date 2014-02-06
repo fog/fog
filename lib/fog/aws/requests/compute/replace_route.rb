@@ -23,7 +23,7 @@ module Fog
         #
         # {Amazon API Reference}[http://docs.aws.amazon.com/AWSEC2/latest/APIReference/ApiReference-query-ReplaceRoute.html]
         def replace_route(route_table_id, destination_cidr_block, options = {})
-          options['DestinationCidrBlock'] = destination_cidr_block
+          options['DestinationCidrBlock'] ||= destination_cidr_block
 
           request({
             'Action' => 'ReplaceRoute',
@@ -38,8 +38,8 @@ module Fog
       class Mock
 
         def replace_route(route_table_id, destination_cidr_block, options = {})
-          options['instanceOwnerId'] = nil
-          options['DestinationCidrBlock'] = destination_cidr_block
+          options['instanceOwnerId'] ||= nil
+          options['DestinationCidrBlock'] ||= destination_cidr_block
 
           route_table = self.data[:route_tables].find { |routetable| routetable["routeTableId"].eql? route_table_id }
           if !route_table.nil? && destination_cidr_block
