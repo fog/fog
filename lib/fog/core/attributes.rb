@@ -66,6 +66,8 @@ module Fog
             attributes[:#{name}] = [*new_#{name}]
           end
           EOS
+        when :readonly
+          #do not create a setter
         else
           if squash = options[:squash]
             class_eval <<-EOS, __FILE__, __LINE__
