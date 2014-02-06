@@ -55,7 +55,7 @@ module Fog
 
           @region = options[:region] || 'us-east-1'
 
-          unless ['ap-northeast-1', 'ap-southeast-1', 'ap-southeast-2', 'eu-west-1', 'sa-east-1', 'us-east-1', 'us-west-1', 'us-west-2'].include?(@region)
+          unless supported_regions.include?(@region)
             raise ArgumentError, "Unknown region: #{@region.inspect}"
           end
         end
@@ -66,6 +66,11 @@ module Fog
 
         def reset_data
           self.class.data[@region].delete(@aws_access_key_id)
+        end
+
+        def supported_regions
+          @supported_regions ||= ['ap-northeast-1', 'ap-southeast-1', 'ap-southeast-2',
+            'eu-west-1', 'sa-east-1', 'us-east-1', 'us-west-1', 'us-west-2']
         end
       end
 

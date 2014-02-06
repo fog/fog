@@ -152,8 +152,7 @@ module Fog
           @aws_credentials_expire_at = Time::now + 20
           setup_credentials(options)
           @region = options[:region] || 'us-east-1'
-          unless ['ap-northeast-1', 'ap-southeast-1', 'eu-west-1', 'us-east-1',
-                  'us-west-1', 'us-west-2', 'sa-east-1'].include?(@region)
+          unless supported_regions.include?(@region)
             raise ArgumentError, "Unknown region: #{@region.inspect}"
           end
         end
@@ -188,6 +187,11 @@ module Fog
                 "#{cluster_id}.#{node_id}.use1.cache.amazonaws.com"
             }
           end
+        end
+
+        def supported_regions
+          @supported_regions ||= ['ap-northeast-1', 'ap-southeast-1', 'eu-west-1', 
+            'us-east-1', 'us-west-1', 'us-west-2', 'sa-east-1']
         end
       end
 
