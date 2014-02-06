@@ -1,3 +1,5 @@
+require 'fog/ovirt/core'
+
 module Fog
   module Compute
     class Ovirt < Fog::Service

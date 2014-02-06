@@ -1,4 +1,4 @@
-require 'fog/openvz'
+require 'fog/openvz/core'
 require 'fog/compute'
 
 module Fog

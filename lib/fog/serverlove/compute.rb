@@ -1,3 +1,5 @@
+require 'fog/serverlove/core'
+
 module Fog
   module Compute
     class Serverlove < Fog::Service

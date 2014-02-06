@@ -1,5 +1,5 @@
+require 'fog/openstack/core'
 require 'fog/compute'
-require 'fog/openstack'
 
 module Fog
   module Compute

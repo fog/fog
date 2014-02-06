@@ -1,4 +1,4 @@
-require 'fog/hp'
+require 'fog/hp/core'
 
 module Fog
   module HP
