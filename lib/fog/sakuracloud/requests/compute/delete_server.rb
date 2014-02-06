@@ -15,7 +15,7 @@ module Fog
             :expects  => [200],
             :method => 'DELETE',
             :path => "#{Fog::SakuraCloud::SAKURACLOUD_API_ENDPOINT}/server/#{id}",
-            :body => Fog::JSON.encode(body),
+            :body => Fog::JSON.encode(body)
           )
         end
       end # Real

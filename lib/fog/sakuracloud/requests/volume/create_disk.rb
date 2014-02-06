@@ -25,7 +25,7 @@ module Fog
             :expects  => [202],
             :method => 'POST',
             :path => "#{Fog::SakuraCloud::SAKURACLOUD_API_ENDPOINT}/disk",
-            :body => Fog::JSON.encode(body),
+            :body => Fog::JSON.encode(body)
           )
         end
       end # Real
