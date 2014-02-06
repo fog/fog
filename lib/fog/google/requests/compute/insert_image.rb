@@ -12,25 +12,21 @@ module Fog
 
       class Real
 
-        def insert_image(image_name, options={})
+        def insert_image(image_name, image_source, options={})
           api_method = @compute.images.insert
 
-          parameters = {
-            'project' => @project,
-          }
+          parameters = {'project' => @project}
 
           body_object = {
-            'sourceType'      => 'RAW',
             'name'            => image_name,
-            'rawDisk'         => options.delete('rawDisk')
+            'rawDisk'         => { 'source' => image_source },
+            'sourceType'      => 'RAW'
           }
 
           # Merge in the remaining params (only 'description' should remain)
           body_object.merge!(options)
 
-          result = self.build_result(api_method,
-                                     parameters,
-                                     body_object=body_object)
+          result = self.build_result(api_method, parameters, body_object)
           response = self.build_response(result)
         end
 

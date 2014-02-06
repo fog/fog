@@ -1,6 +1,7 @@
 Shindo.tests('Fog::Storage[:google] | object requests', ["google"]) do
 
-  @directory = Fog::Storage[:google].directories.create(:key => 'fogobjecttests')
+  bucket_name = 'fog-test-bucket-' + Time.now.to_i.to_s
+  @directory = Fog::Storage[:google].directories.create(:key => bucket_name)
 
   tests('success') do
 

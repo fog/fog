@@ -81,6 +81,14 @@ module Fog
           end
         end
 
+        def add_acl(scope_type, permission)
+          requires :directory, :key
+          current_acl = service.get_object_acl(directory.key, key).body
+          new_acl = current_acl.dup
+          new_acl['AccessControlList'] = (current_acl['AccessControlList'] + [{"Scope" => {"type" => scope_type}, "Permission"=> permission}])
+          current_acl = service.put_object_acl(directory.key, key, new_acl)
+        end        
+
         def public=(new_public)
           if new_public
             @acl = 'public-read'

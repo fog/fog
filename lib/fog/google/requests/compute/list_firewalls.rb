@@ -4,7 +4,7 @@ module Fog
 
       class Mock
 
-        def list_firewalls
+        def list_firewalls(project = @project)
           Fog::Mock.not_implemented
         end
 
@@ -12,10 +12,10 @@ module Fog
 
       class Real
 
-        def list_firewalls
+        def list_firewalls(project = @project)
           api_method = @compute.firewalls.list
           parameters = {
-            'project' => @project
+            'project' => project
           }
 
           result = self.build_result(api_method, parameters)

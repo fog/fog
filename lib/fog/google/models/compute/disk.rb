@@ -21,8 +21,7 @@ module Fog
         attribute :source_snapshot_id, :aliases => 'sourceSnapshot'
 
         def save
-          requires :name
-          requires :zone_name
+          requires :name, :zone_name
 
           options = {}
           if source_image.nil? && !source_snapshot.nil?
@@ -31,21 +30,23 @@ module Fog
 
           options['sizeGb'] = size_gb
 
-          data = service.insert_disk(name, zone_name, source_image, options).body
-          data = service.backoff_if_unfound {service.get_disk(name, zone_name).body}
-          service.disks.merge_attributes(data)
+          response = service.insert_disk(name, zone_name, source_image, options)
+          operation = service.operations.new(response.body)
+          operation.wait_for { ready? }
+
+          data = service.backoff_if_unfound { service.get_disk(name, zone_name).body }
+
+          self.merge_attributes(data)
+
+          self
         end
 
         def destroy
           requires :name, :zone_name
-          operation = service.delete_disk(name, zone_name)
-          # wait until "RUNNING" or "DONE" to ensure the operation doesn't fail, raises exception on error
-          Fog.wait_for do
-            operation = service.get_zone_operation(zone_name, operation.body["name"])
-            operation.body["status"] != "PENDING"
-          end
-          operation
+          operation = service.operations.new(service.delete_disk(name, zone_name).body)
+          operation 
         end
+        alias_method :delete, :destroy
 
         def zone
           if self.zone_name.is_a? String
@@ -91,30 +92,29 @@ module Fog
           self
         end
 
-        def create_snapshot(snapshot_name, snapshot_description="")
-          requires :name
-          requires :zone_name
+        def create_snapshot(snapshot_name, snapshot_description = '')
+          requires :name, :zone_name
 
-          if snap_name.nil? or snap_name.empty?
-            raise ArgumentError, 'Invalid snapshot name'
+          if snapshot_name.nil? || snapshot_name.empty?
+            raise(ArgumentError, 'Invalid snapshot name')
           end
 
           options = {
             'name'        => snapshot_name,
-            'description' => snapshot_description,
+            'description' => snapshot_description
           }
 
-          service.insert_snapshot(name, self.zone, service.project, options)
-          data = service.backoff_if_unfound {
-            service.get_snapshot(snapshot_name, service.project).body
-          }
-          service.snapshots.merge_attributes(data)
+          response = service.insert_snapshot(name, zone_name, options)
+          operation = service.operations.new(response.body)
+          operation.wait_for { ready? }
 
-          # Try to return the representation of the snapshot we created
-          service.snapshots.get(snapshot_name)
+          response = service.backoff_if_unfound { service.get_snapshot(snapshot_name) }
+          attributes = response.body
+          snapshot = service.snapshots.new(attributes)
+          snapshot
         end
 
-        RUNNING_STATE = "READY"
+        RUNNING_STATE = 'READY'
 
       end
     end

@@ -66,11 +66,16 @@ Shindo.tests('Fog::Compute[:google] | firewall requests', ['google']) do
 
     tests("#insert_firewall").formats(@insert_firewall_format) do
       @google.insert_firewall(firewall_name, source_range, allowed).body
+      # wait 
     end
 
     # TODO: Get better matching for firewall responses.
     tests("#get_firewall").succeeds do
-      @google.get_firewall(firewall_name)
+      operation = @google.get_firewall(firewall_name).body
+      Fog.wait_for do
+        operation = @google.get_global_operation(operation['name']).body
+        operation['status'] == 'DONE'
+      end      
     end
 
     tests("#list_firewalls").succeeds do

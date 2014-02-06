@@ -26,8 +26,9 @@ module Fog
 
         def insert_server(server_name, zone_name, options={}, *deprecated_args)
 
-          # check that zone exists
-          get_zone(zone_name)
+          url_prefix = "https://www.googleapis.com/compute/#{api_version}/projects/#{@project}"
+          zone_url = "#{url_prefix}/zones/#{zone_name}"
+          machine_type_url = "#{zone_url}/machineTypes/#{machine_type_name}"
 
           if options['disks'].nil? or options['disks'].empty?
             raise ArgumentError.new "Empty value for field 'disks'. Boot disk must be specified"
@@ -38,15 +39,15 @@ module Fog
             "kind" => "compute#instance",
             "id" => id,
             "creationTimestamp" => Time.now.iso8601,
-            "zone" => "https://www.googleapis.com/compute/#{api_version}/projects/#{@project}/zones/#{zone_name}",
+            "zone" => zone_url,
             "status" => "PROVISIONING",
             "name" => server_name,
             "tags" => { "fingerprint" => "42WmSpB8rSM=" },
-            "machineType" => "https://www.googleapis.com/compute/#{api_version}/projects/#{@project}/zones/#{zone_name}/machineTypes/#{options['machineType']}",
+            "machineType" => machine_type_url,
             "canIpForward" => false,
             "networkInterfaces" => [
               {
-                "network" => "https://www.googleapis.com/compute/#{api_version}/projects/#{@project}/global/networks/default",
+                "network" => "/global/networks/default",
                 "networkIP" => Fog::Mock.random_ip,
                 "name" => "nic0",
                 "accessConfigs" => [
@@ -124,12 +125,12 @@ module Fog
           end
           api_method = @compute.instances.insert
           parameters = {
-              'project' => @project,
-              'zone' => zone_name,
+            'project' => @project,
+            'zone' => zone_name
           }
           body_object = {:name => server_name}
 
-          body_object['machineType'] = @api_url + @project + "/zones/#{zone_name}/machineTypes/#{options.delete 'machineType'}"
+          body_object['machineType'] = @api_url + @project + "/zones/#{zone_name}/machineTypes/#{options.delete('machineType')}"
           network = nil
           if options.has_key? 'network'
             network = options.delete 'network'
@@ -159,14 +160,13 @@ module Fog
           end
           body_object['disks'] = handle_disks(options)
 
-          options['metadata'] = format_metadata options['metadata'] if options['metadata']
+          options['metadata'] = format_metadata(options['metadata']) if options['metadata']
 
           body_object['tags'] = { 'items' => options.delete('tags') } if options['tags']
 
           body_object.merge!(options) # Adds in all remaining options that weren't explicitly handled.
 
-          result = self.build_result(api_method, parameters,
-                                     body_object=body_object)
+          result = self.build_result(api_method, parameters, body_object)
           response = self.build_response(result)
         end
       end

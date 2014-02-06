@@ -9,6 +9,7 @@ module Fog
         identity :name
 
         attribute :kind
+        attribute :id
         attribute :self_link         , :aliases => 'selfLink'
         attribute :creation_timestamp, :aliases => 'creationTimestamp'
         attribute :disk_size_gb      , :aliases => 'diskSizeGb'
@@ -17,10 +18,12 @@ module Fog
         attribute :description
         attribute :status
 
+        
+
         def reload
           requires :name
 
-          data = service.get_snapshot(name, self.service.project).body
+          data = service.get_snapshot(name).body
 
           self.merge_attributes(data)
           self
@@ -28,6 +31,12 @@ module Fog
 
         def resource_url
           "#{self.service.project}/global/snapshots/#{name}"
+        end
+
+        def delete
+          requires :name
+          response = service.delete_snapshot(name)
+          service.operations.new(response.body)
         end
 
       end

@@ -51,15 +51,12 @@ module Fog
         end
 
         def destroy
-          requires :name, :zone
-          operation = service.delete_server(name, zone)
-          # wait until "RUNNING" or "DONE" to ensure the operation doesn't fail, raises exception on error
-          Fog.wait_for do
-            operation = service.get_zone_operation(zone_name, operation.body["name"])
-            operation.body["status"] != "PENDING"
-          end
+          requires :name, :zone_name
+          response = service.delete_server(name, zone_name)
+          operation = service.operations.new(response.body)
           operation
         end
+        alias_method :delete, :destroy
 
         # not used since v1
         def image
@@ -93,17 +90,8 @@ module Fog
         end
 
         def ready?
+          requires :state
           self.state == RUNNING
-        end
-
-        def zone
-          if self.zone_name.is_a? String
-            service.get_zone(self.zone_name.split('/')[-1]).body["name"]
-          elsif zone_name.is_a? Excon::Response
-            service.get_zone(zone_name.body["name"]).body["name"]
-          else
-            self.zone_name
-          end
         end
 
         def add_ssh_key username, key
@@ -128,8 +116,10 @@ module Fog
 
 
         def reload
-          data = service.get_server(self.name, self.zone).body
+          data = service.get_server(self.name, self.zone_name).body
+          @attached_disks = nil # it is made to reload #attached_disks next time it will be called 
           self.merge_attributes(data)
+          self
         end
 
         def save
@@ -154,11 +144,72 @@ module Fog
               'tags' => tags
           }.delete_if {|key, value| value.nil?}
 
-          service.insert_server(name, zone_name, options)
-          data = service.backoff_if_unfound {service.get_server(self.name, self.zone_name).body}
+          response = service.insert_server(name, zone_name, options)
 
-          service.servers.merge_attributes(data)
+          operation = service.operations.new(response.body)
+          operation.wait_for { ready? }
+
+          data = service.backoff_if_unfound { service.get_server(self.name, self.zone_name).body }
+          merge_attributes(data)
+
+          self
         end
+
+        def reset 
+          requires :name, :zone_name
+          response = service.reset_server(name, zone_name)
+          service.operations.new(response.body)
+        end
+        alias_method :reboot, :reset
+
+
+        def set_metadata(metadata = {})
+          requires :name, :zone_name
+          if !self.metadata.is_a?(Hash) || self.metadata['fingerprint'].nil? 
+            raise "Server metadata should be Hash and have 'fingerprint' key.\n" +
+                  "'fingerprint' key is returned after get_server request.\n" + 
+                  "You can't call set_metadata on new instances. Have a good day."
+          end
+          response = service.set_metadata(name, zone_name, self.metadata['fingerprint'], metadata)
+          service.operations.new(response.body)
+        end
+
+        def attach(disk, options = {})
+          requires :name, :zone_name
+          if disk.is_a?(Disk)
+            response = service.attach_disk(self.name, disk.self_link, zone_name, options)
+            service.operations.new(response.body)
+          else
+            raise 'Currently Server#attach method accepts only Disk object.'
+          end
+        end
+
+        def detach(disk, options = {})
+          requires :name, :zone_name
+          if disk.is_a?(Disk)
+            puts self.disks.inspect
+            puts disk.inspect
+            puts disk.self_link
+            disk_device_to_detach = self.disks.find { |attached_disk| attached_disk['source'] == disk.self_link }
+            device_name = disk_device_to_detach['deviceName']
+            response = service.detach_disk(self.name, zone_name, device_name)
+            service.operations.new(response.body)
+          else
+            raise 'Currently Server#detach method accepts only Disk object.'
+          end
+        end
+
+        def attached_disks
+          requires :disks
+          @attached_disks ||= self.disks.map do |disk|
+            # we can work without parsing, but not now
+            puts "disk >> " + disk.inspect
+            _, __, zone, name = disk['source'].match(/^https\:\/\/www\.googleapis\.com\/compute\/v1\/projects\/(.+)\/zones\/(.+)\/disks\/(.+)$/).to_a
+            response = service.get_disk(name, zone)
+            service.disks.new(response.body)
+          end
+        end
+
 
       end
     end

@@ -16,8 +16,10 @@ module Fog
             response = service.get_zone_operation(zone, identity)
           end
           return nil if response.nil?
-          new(response.body)
+          self.new(response.body)
         end
+
+        # TODO: list function
 
       end
 
