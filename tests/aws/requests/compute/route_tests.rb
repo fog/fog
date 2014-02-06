@@ -246,6 +246,9 @@ Shindo.tests('Fog::Compute[:aws] | route table requests', ['aws']) do
     tests('#replace_route').raises(ArgumentError) do
       Fog::Compute[:aws].replace_route
     end
+    tests("#replace_route('rtb-00000000', '#{@destination_cidr_block}', '#{@internet_gateway_id}')").raises(Fog::Compute::AWS::NotFound) do
+      Fog::Compute[:aws].replace_route('rtb-00000000', @destination_cidr_block, @internet_gateway_id)
+    end
     tests("#replace_route('rtb-00000000', '#{@destination_cidr_block}')").raises(Fog::Compute::AWS::NotFound) do
       Fog::Compute[:aws].replace_route('rtb-00000000', @destination_cidr_block)
     end
