@@ -184,6 +184,7 @@ module Fog
       auth_token  = options[:openstack_auth_token] || options[:unscoped_token]
       uri         = options[:openstack_auth_uri]
 
+      #add 'tokens' to the login path if omitted
       uri.path  = uri.path.include?('tokens') ? uri.path : uri.path + "/tokens"
 
       connection = Fog::Connection.new(uri.to_s, false, connection_options)
