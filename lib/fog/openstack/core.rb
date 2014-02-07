@@ -93,7 +93,6 @@ module Fog
       endpoint_type         = (options[:openstack_endpoint_type] || 'publicURL').to_s
       openstack_region      = options[:openstack_region]
 
-
       body = retrieve_tokens_v2(options, connection_options)
       service = get_service(body, service_type, service_name)
 
@@ -184,6 +183,8 @@ module Fog
       tenant_name = options[:openstack_tenant].to_s
       auth_token  = options[:openstack_auth_token] || options[:unscoped_token]
       uri         = options[:openstack_auth_uri]
+
+      uri.path  = uri.path.include?('tokens') ? uri.path : uri.path + "/tokens"
 
       connection = Fog::Connection.new(uri.to_s, false, connection_options)
       request_body = {:auth => Hash.new}
