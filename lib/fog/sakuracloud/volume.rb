@@ -33,6 +33,8 @@ module Fog
             options[:sakuracloud_api_token],
             options[:sakuracloud_api_token_secret]
           ].join(':'))
+          Fog.credentials[:sakuracloud_api_token]        = options[:sakuracloud_api_token]
+          Fog.credentials[:sakuracloud_api_token_secret] = options[:sakuracloud_api_token_secret]
 
           @sakuracloud_api_url = options[:sakuracloud_api_url] || 'https://secure.sakura.ad.jp'
 

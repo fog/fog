@@ -32,13 +32,16 @@ compute = Fog::Compute::SakuraCloud.new(
 )
 
 
-server = compute.servers.create_with({
+server = compute.servers.create({
   :sakuracloud_api_token => 'YOUR_API_TOKEN',
   :sakuracloud_api_token_secret => 'YOUR_API_TOKEN_SECRET',
-  :diskplan => 4,                   # Type SSD
-  :sourcearchive => '112500463685', # Ubuntu12.04
-  :sshkey => '11260003****',        # Your SSH Key id
-  :serverplan => '2001'            # Server Type
+  :sshkey => '11260003****',          # Your SSH Key id
+  :serverplan => '2001',              # Server Type
+  :volume => {
+    :diskplan => 4,                   # Type SSD
+    :sourcearchive => '112500463685'  # Ubuntu12.04
+  },
+  :boot => true
 })
 ```
 
