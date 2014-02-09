@@ -10,6 +10,5 @@ module Fog
 
     service(:compute, 'sakuracloud/compute', 'Compute')
     service(:volume, 'sakuracloud/volume', 'Volume')
-
   end
 end
