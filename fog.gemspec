@@ -51,8 +51,6 @@ Gem::Specification.new do |s|
   s.add_dependency('net-ssh',       '>=2.1.3')
   s.add_dependency('nokogiri',      '>=1.5.11')
 
-  s.add_dependency('fog-rackspace', '0.0.1')
-
   ## List your development dependencies here. Development dependencies are
   ## those that are only needed during development
   s.add_development_dependency('jekyll') unless RUBY_PLATFORM == 'java'
