@@ -3,13 +3,17 @@ module Fog
     class Joyent
       class Flavor < Fog::Model
 
-        identity :name
+        identity :id
 
         attribute :name
         attribute :memory
         attribute :swap
         attribute :disk
-        attribute :default
+        attribute :vcpus
+        attribute :default, :type => :boolean
+        attribute :description
+        attribute :version
+        attribute :group
 
       end
     end

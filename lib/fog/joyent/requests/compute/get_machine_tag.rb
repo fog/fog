@@ -9,7 +9,8 @@ module Fog
             :path => "/my/machines/#{machine_id}/tags/#{tagname}",
             :method => "GET",
             :headers => {"Accept" => "text/plain"},
-            :expects => 200
+            :expects => 200,
+            :idempotent => true
           )
         end
 

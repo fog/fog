@@ -47,6 +47,18 @@ module Fog
         # @see http://docs.rackspace.com/files/api/v1/cf-devguide/content/Enabling_File_Compression_with_the_Content-Encoding_Header-d1e2198.html
         attribute :content_encoding, :aliases => 'Content-Encoding'
 
+        # @!attribute [rw] delete_at
+        # A Unix Epoch Timestamp, in integer form, representing the time when this object will be automatically deleted.
+        # @return [Integer] the unix epoch timestamp of when this object will be automatically deleted
+        # @see http://docs.rackspace.com/files/api/v1/cf-devguide/content/Expiring_Objects-e1e3228.html
+        attribute :delete_at, :aliases => ['X-Delete-At']
+
+        # @!attribute [rw] delete_after
+        # A number of seconds representing how long from now this object will be automatically deleted.
+        # @return [Integer] the number of seconds until this object will be automatically deleted
+        # @see http://docs.rackspace.com/files/api/v1/cf-devguide/content/Expiring_Objects-e1e3228.html
+        attribute :delete_after, :aliases => ['X-Delete-After']
+
         # @!attribute [r] directory
         # @return [Fog::Storage::Rackspace::Directory] directory containing file
         attr_accessor :directory
@@ -254,6 +266,8 @@ module Fog
           options['Content-Disposition'] = content_disposition if content_disposition
           options['Etag'] = etag if etag
           options['Content-Encoding'] = content_encoding if content_encoding
+          options['X-Delete-At'] = delete_at if delete_at
+          options['X-Delete-After'] = delete_after if delete_after
           options.merge!(metadata.to_headers)
 
           data = service.put_object(directory.key, key, body, options)

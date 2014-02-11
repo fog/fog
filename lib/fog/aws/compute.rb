@@ -140,6 +140,7 @@ module Fog
       request :release_address
       request :replace_network_acl_association
       request :replace_network_acl_entry
+      request :replace_route
       request :register_image
       request :request_spot_instances
       request :reset_network_interface_attribute
