@@ -41,6 +41,54 @@ Shindo.tests("Fog::Compute[:openstack] | server", ['openstack']) do
       end
     end
 
+    tests('#failed') do
+      
+      fog = Fog::Compute[:openstack]
+
+      flavor = fog.flavors.first.id
+      image  = fog.images.first.id     
+
+      tests('successful server').returns(false) do
+        server = fog.servers.new( :name       => 'test server',
+                                  :flavor_ref => flavor,
+                                  :image_ref  => image,
+                                  :state      => 'success' )
+        result = server.failed?
+
+        unless Fog.mocking?
+          server.destroy if server
+          begin
+            fog.servers.get(server.id).wait_for do false end
+          rescue Fog::Errors::Error
+            # ignore, server went away
+          end
+        end
+
+        result
+
+      end
+
+      tests('failed server').returns(true) do
+        server = fog.servers.new( :name       => 'test server',
+                                  :flavor_ref => flavor,
+                                  :image_ref  => image,
+                                  :state      => 'ERROR' )
+        result = server.failed?
+        
+        unless Fog.mocking?
+          server.destroy if server
+          begin
+            fog.servers.get(server.id).wait_for do false end
+          rescue Fog::Errors::Error
+            # ignore, server went away
+          end
+        end
+
+        result
+
+      end
+
+    end
 
     tests('#metadata').succeeds do
       fog = Fog::Compute[:openstack]
