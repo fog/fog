@@ -6,8 +6,8 @@ module Fog
   module Joyent
     extend Fog::Provider
 
-    service(:analytics, 'joyent/analytics', 'Analytics')
-    service(:compute, 'joyent/compute', 'Compute')
+    service(:analytics, 'Analytics')
+    service(:compute, 'Compute')
 
   end
 end
