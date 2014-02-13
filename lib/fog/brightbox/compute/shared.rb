@@ -33,9 +33,9 @@ module Fog
         # @option options [String] :brightbox_account
         #   Account identifier to scope this connection to
         # @option options [String] :connection_options
-        #   Settings to pass to underlying {Fog::Connection}
+        #   Settings to pass to underlying {Fog::Core::Connection}
         # @option options [Boolean] :persistent
-        #   Sets a persistent HTTP {Fog::Connection}
+        #   Sets a persistent HTTP {Fog::Core::Connection}
         # @option options [String] :brightbox_access_token
         #   Sets the OAuth access token to use rather than requesting a new token
         # @option options [String] :brightbox_refresh_token
@@ -46,12 +46,12 @@ module Fog
         def initialize(options)
           # Currently authentication and api endpoints are the same but may change
           @auth_url            = options[:brightbox_auth_url]  || Fog.credentials[:brightbox_auth_url] || API_URL
-          @auth_connection     = Fog::Connection.new(@auth_url)
+          @auth_connection     = Fog::Core::Connection.new(@auth_url)
 
           @api_url             = options[:brightbox_api_url]   || Fog.credentials[:brightbox_api_url]  || API_URL
           @connection_options  = options[:connection_options]  || {}
           @persistent          = options[:persistent]          || false
-          @connection          = Fog::Connection.new(@api_url, @persistent, @connection_options)
+          @connection          = Fog::Core::Connection.new(@api_url, @persistent, @connection_options)
 
           # Authentication options
           client_id            = options[:brightbox_client_id] || Fog.credentials[:brightbox_client_id]
