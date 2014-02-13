@@ -32,7 +32,7 @@ module Fog
             }
             response
           else
-            raise Fog::AWS::RDS::NotFound.new("CacheParameterGroup not found: #{name}")
+            raise Fog::AWS::Elasticache::NotFound.new("CacheParameterGroup not found: #{name}")
           end
         end
       end
