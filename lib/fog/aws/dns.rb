@@ -1,5 +1,4 @@
 require 'fog/aws/core'
-require 'fog/dns'
 
 module Fog
   module DNS

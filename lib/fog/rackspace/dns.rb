@@ -1,5 +1,4 @@
 require 'fog/rackspace/core'
-require 'fog/dns'
 
 module Fog
   module DNS

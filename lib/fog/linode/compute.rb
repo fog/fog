@@ -1,5 +1,4 @@
 require 'fog/linode/core'
-require 'fog/compute'
 
 module Fog
   module Compute
