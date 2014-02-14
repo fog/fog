@@ -1,5 +1,4 @@
 require 'fog/openstack/core'
-require 'fog/metering'
 
 module Fog
   module Metering

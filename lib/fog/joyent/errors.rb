@@ -1,4 +1,5 @@
 require 'fog/joyent/core'
+
 module Fog
   module Compute
     class Joyent < Fog::Service

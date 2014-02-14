@@ -1,5 +1,4 @@
 require 'fog/brightbox/core'
-require 'fog/compute'
 require 'fog/brightbox/compute/shared'
 require 'fog/brightbox/compute/image_selector'
 

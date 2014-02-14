@@ -1,5 +1,4 @@
 require 'fog/vcloud/core'
-require 'fog/compute'
 
 module Fog
   module Vcloud

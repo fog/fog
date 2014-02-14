@@ -1,5 +1,4 @@
 require 'fog/ninefold/core'
-require 'fog/compute'
 
 module Fog
   module Compute
