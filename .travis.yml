@@ -21,6 +21,9 @@ matrix:
       gemfile: Gemfile
       env: COVERAGE=true
   exclude:
+    - rvm: 2.1.0
+      gemfile: Gemfile
+      env:
     - rvm: 1.8.7
       gemfile: Gemfile
     - rvm: 1.9.3
@@ -29,7 +32,6 @@ matrix:
       gemfile: Gemfile.1.8.7
     - rvm: 2.1.0
       gemfile: Gemfile.1.8.7
-      env:
     - rvm: jruby-18mode
       gemfile: Gemfile
     - rvm: jruby-19mode
