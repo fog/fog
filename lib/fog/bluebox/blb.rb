@@ -1,4 +1,4 @@
-require 'fog/bluebox'
+require 'fog/bluebox/core'
 
 module Fog
   module Bluebox

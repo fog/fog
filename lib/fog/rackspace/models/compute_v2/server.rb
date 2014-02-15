@@ -137,10 +137,16 @@ module Fog
         # @return [String] The image Id.
         # @see http://docs.rackspace.com/servers/api/v2/cs-devguide/content/List_Images-d1e4435.html
         attribute :image_id, :aliases => 'image', :squash => 'id'
+
         # @!attribute [r] password
         # @return [String] Password for system adminstrator account. 
         # @note This value is ONLY populated on server creation.
-        attr_reader :password 
+        attr_reader :password
+
+        # @!attribute [rw] key_name
+        # @return [String] The name of the key_pair used for server.
+        # @note The key_pair/key_name is used to specify the keypair used for server creation. It is not populated by cloud servers.
+        attribute :key_name
 
 
         def initialize(attributes={})
@@ -168,6 +174,27 @@ module Fog
         # @param [Hash] hash contains key value pairs
         def metadata=(hash={})
           metadata.from_hash(hash)
+        end
+
+        # Returns the key pair based on the key_name of the server
+        # @return [KeyPair]
+        # @note The key_pair/key_name is used to specify the keypair used for server creation. It is not populated by cloud servers.
+        def key_pair
+          requires :key_name
+
+          service.key_pairs.get(key_name)
+        end
+
+        # Sets the key_pair used by the server.
+        # @param new_keypair [KeyPair] key_pair object for server
+        # @note The key_pair/key_name is used to specify the keypair used for server creation. It is not populated by cloud servers.
+        def key_pair=(new_keypair)
+          if new_keypair.is_a?(String)
+             Fog::Logger.deprecation("#key_pair= should be used to set KeyPair objects. Please use #key_name method instead")
+            self.key_name = new_keypair
+          else
+            self.key_name = new_keypair && new_keypair.name
+          end
         end
 
         # Saves the server.
@@ -201,11 +228,16 @@ module Fog
           requires :name, :image_id, :flavor_id
           modified_options = Marshal.load(Marshal.dump(options))
 
+          if attributes[:keypair]
+            Fog::Logger.deprecation(":keypair has been depreciated. Please use :key_name instead.")
+            modified_options[:key_name] = attributes[:keypair]
+          end
+
           modified_options[:networks] ||= attributes[:networks]
           modified_options[:disk_config] = disk_config unless disk_config.nil?
           modified_options[:metadata] = metadata.to_hash unless @metadata.nil?
           modified_options[:personality] = personality unless personality.nil?
-          modified_options[:keypair] ||= attributes[:keypair]
+          modified_options[:key_name] ||= attributes[:key_name]
 
           if modified_options[:networks]
             modified_options[:networks].map! { |id| { :uuid => id } }
@@ -521,7 +553,7 @@ module Fog
         # Setup server for SSH access
         # @see Servers#bootstrap
         def setup(credentials = {})
-          requires :public_ip_address, :identity, :public_key, :username
+          requires :ssh_ip_address, :identity, :public_key, :username
 
           commands = [
             %{mkdir .ssh},
@@ -534,7 +566,7 @@ module Fog
 
           @password = nil if password_lock
 
-          Fog::SSH.new(public_ip_address, username, credentials).run(commands)
+          Fog::SSH.new(ssh_ip_address, username, credentials).run(commands)
         rescue Errno::ECONNREFUSED
           sleep(1)
           retry

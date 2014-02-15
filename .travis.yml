@@ -17,6 +17,10 @@ rvm:
 script: bundle exec rake travis
 
 matrix:
+  include:
+    - rvm: 2.1.0
+      gemfile: Gemfile
+      env: COVERAGE=true
   exclude:
     - rvm: 1.8.7
       gemfile: Gemfile

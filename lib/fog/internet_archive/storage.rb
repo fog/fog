@@ -1,4 +1,4 @@
-require 'fog/internet_archive'
+require 'fog/internet_archive/core'
 require 'fog/storage'
 
 module Fog

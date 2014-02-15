@@ -1,6 +1,7 @@
 module Fog
   module Rackspace
     class Queues
+
       class Real
 
         # This operation immediately releases a claim, making any remaining, undeleted) messages that are associated with the claim available to other workers.
@@ -22,6 +23,23 @@ module Fog
           )
         end
       end
+
+      class Mock
+        def delete_claim(queue_name, claim_id)
+          queue = mock_queue!(queue_name)
+          claim = queue.claim!(claim_id)
+
+          claim.messages.each do |message|
+            message.claim = nil
+          end
+          queue.claims.delete(claim_id)
+
+          response = Excon::Response.new
+          response.status = 204
+          response
+        end
+      end
+
     end
   end
 end

@@ -28,6 +28,10 @@ module Fog
           :aliases => 'CacheSecurityGroups', :type => :array
         attribute :notification_config,
           :aliases => 'NotificationConfiguration', :type => :hash
+        attribute :cache_subnet_group_name,
+          :aliases => 'CacheSubnetGroupName'
+        attribute :vpc_security_groups,
+          :aliases => 'VpcSecurityGroups', :type => :array
 
         attr_accessor :parameter_group_name
 
@@ -60,6 +64,8 @@ module Fog
               :preferred_availablility_zone => zone,
               :preferred_maintenance_window => maintenance_window,
               :parameter_group_name         => parameter_group_name || parameter_group['CacheParameterGroupName'],
+              :cache_subnet_group_name      => cache_subnet_group_name,
+              :vpc_security_groups          => vpc_security_groups,
             }
           )
         end

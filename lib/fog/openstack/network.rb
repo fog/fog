@@ -1,4 +1,4 @@
-require 'fog/openstack'
+require 'fog/openstack/core'
 
 module Fog
   module Network
@@ -32,6 +32,10 @@ module Fog
       collection  :lb_health_monitors
       model       :lb_vip
       collection  :lb_vips
+      model       :security_group
+      collection  :security_groups
+      model       :security_group_rule
+      collection  :security_group_rules
 
       ## REQUESTS
       #
@@ -106,6 +110,18 @@ module Fog
       request :get_lb_vip
       request :update_lb_vip
 
+      # Security Group
+      request :create_security_group
+      request :delete_security_group
+      request :get_security_group
+      request :list_security_groups
+
+      # Security Group Rules
+      request :create_security_group_rule
+      request :delete_security_group_rule
+      request :get_security_group_rule
+      request :list_security_group_rules
+
       # Tenant
       request :set_tenant
 
@@ -175,6 +191,8 @@ module Fog
                   "port" => 30
                 }
               ],
+              :security_groups      => {},
+              :security_group_rules => {},
             }
           end
         end

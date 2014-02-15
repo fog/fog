@@ -1,4 +1,4 @@
-require 'fog/brightbox'
+require 'fog/brightbox/core'
 require 'fog/compute'
 require 'fog/brightbox/compute/shared'
 require 'fog/brightbox/compute/image_selector'
@@ -48,6 +48,12 @@ module Fog
       model       :image
       collection  :load_balancers
       model       :load_balancer
+      collection  :database_servers
+      model       :database_server
+      collection  :database_snapshots
+      model       :database_snapshot
+      collection  :database_types
+      model       :database_type
       collection  :zones
       model       :zone
       collection  :cloud_ips
@@ -74,6 +80,7 @@ module Fog
       request :create_firewall_rule
       request :create_image
       request :create_load_balancer
+      request :create_database_server
       request :create_server
       request :create_server_group
       request :delete_api_client
@@ -84,6 +91,8 @@ module Fog
       request :delete_firewall_rule
       request :delete_image
       request :delete_load_balancer
+      request :delete_database_server
+      request :delete_database_snapshot
       request :delete_server
       request :delete_server_group
       request :delete_user_collaboration
@@ -98,6 +107,9 @@ module Fog
       request :get_image
       request :get_interface
       request :get_load_balancer
+      request :get_database_server
+      request :get_database_snapshot
+      request :get_database_type
       request :get_scoped_account
       request :get_server
       request :get_server_group
@@ -113,6 +125,9 @@ module Fog
       request :list_firewall_policies
       request :list_images
       request :list_load_balancers
+      request :list_database_servers
+      request :list_database_snapshots
+      request :list_database_types
       request :list_server_groups
       request :list_server_types
       request :list_servers
@@ -128,11 +143,13 @@ module Fog
       request :resend_collaboration
       request :reset_ftp_password_account
       request :reset_ftp_password_scoped_account
+      request :reset_password_database_server
       request :reset_secret_api_client
       request :reset_secret_application
       request :resend_collaboration
       request :reject_user_collaboration
       request :shutdown_server
+      request :snapshot_database_server
       request :snapshot_server
       request :start_server
       request :stop_server
@@ -145,6 +162,8 @@ module Fog
       request :update_firewall_rule
       request :update_image
       request :update_load_balancer
+      request :update_database_server
+      request :update_database_snapshot
       request :update_scoped_account
       request :update_server
       request :update_server_group

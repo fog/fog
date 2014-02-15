@@ -1,8 +1,8 @@
 module Fog
   module Rackspace
     class Queues
-      class Real
 
+      class Real
         # This operation lists queues for the project. The queues are sorted alphabetically by name.
         # @note A request to list queues when you have no queues in your account returns 204, instead of 200, because there was no information to send back.
         #
@@ -25,6 +25,40 @@ module Fog
           )
         end
       end
+
+      class Mock
+        def list_queues(options={})
+          limit = options[:limit] || 10
+          marker = options[:marker]
+          detailed = options[:detailed] || false
+
+          queue_names = data.keys.sort
+          start_index = marker.nil? ? 0 : queue_names.count { |name| name <= marker }
+          stop_index = start_index + limit
+
+          queue_names = queue_names[start_index..stop_index]
+          queue_data = queue_names.map do |qname|
+            { "href" => "#{PATH_BASE}/#{qname}", "name" => qname }
+          end
+
+          if detailed
+            queue_data.each { |d| d["metadata"] = data[d["name"]].metadata }
+          end
+
+          response = Excon::Response.new
+          if data.empty?
+            response.status = 204
+          else
+            response.status = 200
+            response.body = {
+              "queues" => queue_data,
+              "links" => [{ "href" => "#{PATH_BASE}?marker=#{queue_names.last}", "rel" => "next" }]
+            }
+          end
+          response
+        end
+      end
+
     end
   end
 end

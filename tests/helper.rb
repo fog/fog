@@ -1,6 +1,6 @@
 require 'simplecov'
 
-if ENV['COVERAGE'] != 'false' && RUBY_VERSION != "1.9.2"
+if ENV['COVERAGE'] == 'true' && RUBY_VERSION != "1.9.2"
   require 'coveralls'
   SimpleCov.command_name "shindo:#{Process.pid.to_s}"
   SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter[
