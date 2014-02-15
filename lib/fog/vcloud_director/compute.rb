@@ -1,5 +1,4 @@
-require 'fog/vcloud_director'
-require 'fog/compute'
+require 'fog/vcloud_director/core'
 
 class VcloudDirectorParser < Fog::Parsers::Base
   def extract_attributes(attributes_xml)

@@ -1,5 +1,4 @@
-require 'fog/xenserver'
-require 'fog/compute'
+require 'fog/xenserver/core'
 
 module Fog
   module Compute

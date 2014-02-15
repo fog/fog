@@ -1,5 +1,4 @@
-require 'fog/bluebox'
-require 'fog/compute'
+require 'fog/bluebox/core'
 
 module Fog
   module Compute

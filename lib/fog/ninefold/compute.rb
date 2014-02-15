@@ -1,5 +1,4 @@
-require 'fog/ninefold'
-require 'fog/compute'
+require 'fog/ninefold/core'
 
 module Fog
   module Compute

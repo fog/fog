@@ -1,4 +1,3 @@
-require 'fog'
 module Fog
   module Storage
     class Rackspace

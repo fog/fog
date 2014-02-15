@@ -1,7 +1,7 @@
 for provider, config in dns_providers
 
   # FIXME: delay/timing breaks things :(
-  next if [:dnsmadeeasy].include?(provider)
+  next if [:dnsmadeeasy, :rage4].include?(provider)
 
   domain_name = uniq_id + '.com'
 

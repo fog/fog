@@ -1,5 +1,4 @@
-require 'fog/dnsimple'
-require 'fog/dns'
+require 'fog/dnsimple/core'
 
 module Fog
   module DNS

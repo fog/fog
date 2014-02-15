@@ -1,5 +1,4 @@
-require 'fog/dynect'
-require 'fog/dns'
+require 'fog/dynect/core'
 
 module Fog
   module DNS

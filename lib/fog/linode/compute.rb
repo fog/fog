@@ -1,5 +1,4 @@
-require 'fog/linode'
-require 'fog/compute'
+require 'fog/linode/core'
 
 module Fog
   module Compute

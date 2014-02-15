@@ -8,7 +8,7 @@ module Fog::Brightbox::OAuth2
   # This builds the simplest form of requesting an access token
   # based on the arguments passed in
   #
-  # @param [Fog::Connection] connection
+  # @param [Fog::Core::Connection] connection
   # @param [CredentialSet] credentials
   #
   # @return [Excon::Response]

@@ -1,5 +1,4 @@
-require 'fog/aws'
-require 'fog/cdn'
+require 'fog/aws/core'
 
 module Fog
   module CDN

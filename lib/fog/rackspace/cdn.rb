@@ -1,5 +1,4 @@
-require 'fog/rackspace'
-require 'fog/cdn'
+require 'fog/rackspace/core'
 
 module Fog
   module CDN

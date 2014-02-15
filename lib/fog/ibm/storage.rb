@@ -1,5 +1,4 @@
-require 'fog/ibm'
-require 'fog/storage'
+require 'fog/ibm/core'
 
 module Fog
   module Storage

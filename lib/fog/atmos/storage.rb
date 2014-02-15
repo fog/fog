@@ -1,5 +1,4 @@
-require 'fog/atmos'
-require 'fog/storage'
+require 'fog/atmos/core'
 
 module Fog
   module Storage

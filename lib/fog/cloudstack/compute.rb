@@ -1,5 +1,4 @@
-require 'fog/cloudstack'
-require 'fog/compute'
+require 'fog/cloudstack/core'
 require 'digest/md5'
 
 module Fog

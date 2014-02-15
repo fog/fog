@@ -1,5 +1,4 @@
-require 'fog/linode'
-require 'fog/dns'
+require 'fog/linode/core'
 
 module Fog
   module DNS

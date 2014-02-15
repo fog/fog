@@ -1,5 +1,4 @@
-require 'fog/zerigo'
-require 'fog/dns'
+require 'fog/zerigo/core'
 
 module Fog
   module DNS

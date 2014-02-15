@@ -1,5 +1,4 @@
-require 'fog/dnsmadeeasy'
-require 'fog/dns'
+require 'fog/dnsmadeeasy/core'
 
 module Fog
   module DNS
