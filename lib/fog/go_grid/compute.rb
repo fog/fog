@@ -1,4 +1,4 @@
-require 'fog/go_grid'
+require 'fog/go_grid/core'
 require 'fog/compute'
 
 module Fog

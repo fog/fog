@@ -23,6 +23,7 @@ module Fog
         attribute :server_id, :aliases => "server", :squash => "id"
         attribute :load_balancer, :alias => "load_balancer", :squash => "id"
         attribute :server_group, :alias => "server_group", :squash => "id"
+        attribute :database_server, :alias => "database_server", :squash => "id"
         attribute :port_translators
         attribute :name
 
@@ -54,6 +55,10 @@ module Fog
         def destroy
           requires :identity
           service.destroy_cloud_ip(identity)
+        end
+
+        def destination_id
+          server_id || load_balancer || server_group || database_server || interface_id
         end
 
       end

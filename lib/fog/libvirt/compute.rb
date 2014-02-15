@@ -1,4 +1,4 @@
-require 'fog/libvirt'
+require 'fog/libvirt/core'
 require 'fog/compute'
 require 'fog/libvirt/models/compute/util/util'
 require 'fog/libvirt/models/compute/util/uri'

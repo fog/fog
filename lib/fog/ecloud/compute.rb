@@ -1,3 +1,4 @@
+require 'fog/ecloud/core'
 require 'fog/ecloud/collection'
 require 'fog/ecloud/model'
 require 'builder'

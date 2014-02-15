@@ -12,6 +12,7 @@ module Fog
         # * options <~Hash> - All optional parameters should be set in this Hash:
         #   * :node_type <~String> - The size (flavor) of the cache Nodes
         #   * :security_group_names <~Array> - Array of Elasticache::SecurityGroup names
+        #   * :vpc_security_groups <~Array> - Array
         #   * :num_nodes <~Integer> - The number of nodes in the Cluster
         #   * :auto_minor_version_upgrade <~TrueFalseClass>
         #   * :parameter_group_name <~String> - Name of the Cluster's ParameterGroup
@@ -21,20 +22,13 @@ module Fog
         #   * :port <~Integer> - The memcached port number
         #   * :preferred_availablility_zone <~String>
         #   * :preferred_maintenance_window <~String>
+        #   * :cache_subnet_group_name <~String>
         # === Returns
         # * response <~Excon::Response>:
         #   * body <~Hash>
         def create_cache_cluster(id, options = {})
-          # Construct Cache Security Group parameters in the format:
-          #   CacheSecurityGroupNames.member.N => "security_group_name"
-          group_names = options[:security_group_names] || ['default']
-          sec_group_params = group_names.inject({}) do |group_hash, name|
-            index = group_names.index(name) + 1
-            group_hash["CacheSecurityGroupNames.member.#{index}"] = name
-            group_hash
-          end
-          # Merge the Cache Security Group parameters with the normal options
-          request(sec_group_params.merge(
+
+          req_options = {
             'Action'          => 'CreateCacheCluster',
             'CacheClusterId'  => id.strip,
             'CacheNodeType'   => options[:node_type]  || 'cache.m1.large',
@@ -42,13 +36,25 @@ module Fog
             'NumCacheNodes'   => options[:num_nodes]  || 1,
             'AutoMinorVersionUpgrade'     => options[:auto_minor_version_upgrade],
             'CacheParameterGroupName'     => options[:parameter_group_name],
+            'CacheSubnetGroupName'        => options[:cache_subnet_group_name],
             'EngineVersion'               => options[:engine_version],
             'NotificationTopicArn'        => options[:notification_topic_arn],
             'Port'                        => options[:port],
             'PreferredAvailabilityZone'   => options[:preferred_availablility_zone],
             'PreferredMaintenanceWindow'  => options[:preferred_maintenance_window],
             :parser => Fog::Parsers::AWS::Elasticache::SingleCacheCluster.new
-          ))
+          }
+
+          if cache_security_groups = options.delete(:security_group_names)
+              req_options.merge!(Fog::AWS.indexed_param('CacheSecurityGroupNames.member.%d', [*cache_security_groups]))
+          end
+
+          if vpc_security_groups = options.delete(:vpc_security_groups)
+              req_options.merge!(Fog::AWS.indexed_param('SecurityGroupIds.member.%d', [*vpc_security_groups]))
+          end
+
+          request( req_options )
+
         end
       end
 
@@ -66,6 +72,7 @@ module Fog
             'CacheSecurityGroups' => [],
             'CacheParameterGroup' => { 'CacheParameterGroupName' =>
                 options[:parameter_group_name] || 'default.memcached1.4' },
+            'CacheSubnetGroupName' => options[:cache_subnet_group_name],
             'PendingModifiedValues'       => {},
             'AutoMinorVersionUpgrade'     =>
               options[:auto_minor_version_upgrade]    || 'true',

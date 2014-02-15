@@ -24,6 +24,7 @@ module Fog
           end
           directory.files.merge_attributes(options)
           directory.files.instance_variable_set(:@loaded, true)
+
           data.body.each do |file|
             directory.files << directory.files.new(file)
           end

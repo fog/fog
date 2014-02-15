@@ -59,7 +59,13 @@ module Fog
             { :uuid => '00000000-0000-0000-0000-000000000000' },
             { :uuid => '11111111-1111-1111-1111-111111111111' }
           ]
-          data['server']['key_name'] = options[:keypair] unless options[:keypair].nil?
+
+          if options[:keypair]
+            Fog::Logger.deprecation(":keypair has been depreciated. Please use :key_name instead.")
+            options[:key_name] = options[:keypair]
+          end
+
+          data['server']['key_name'] = options[:key_name] unless options[:key_name].nil?
 
           request(
             :body    => Fog::JSON.encode(data),

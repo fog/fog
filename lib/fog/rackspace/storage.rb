@@ -1,4 +1,4 @@
-require 'fog/rackspace'
+require 'fog/rackspace/core'
 require 'fog/storage'
 
 module Fog
@@ -41,6 +41,7 @@ module Fog
       request :put_dynamic_obj_manifest
       request :put_static_obj_manifest
       request :post_set_meta_temp_url_key
+      request :extract_archive
 
       module Common
         def apply_options(options)

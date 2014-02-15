@@ -1,4 +1,4 @@
-require 'fog/vcloud_director'
+require 'fog/vcloud_director/core'
 require 'fog/compute'
 
 class VcloudDirectorParser < Fog::Parsers::Base
