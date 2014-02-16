@@ -12,7 +12,7 @@ module Fog
 
       class Real
 
-        def set_metadata(instance, zone, metadata={})
+        def set_metadata(instance, zone, metadata={}, fingerprint)
           api_method = @compute.instances.set_metadata
           parameters = {
             'project' => @project,
@@ -20,6 +20,7 @@ module Fog
             'zone' => zone
           }
           body_object = {
+            'fingerprint' => fingerprint,
             "items" => metadata.to_a.map {|pair| { :key => pair[0], :value => pair[1] } }
           }
           result = self.build_result(
