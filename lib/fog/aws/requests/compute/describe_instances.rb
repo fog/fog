@@ -206,9 +206,6 @@ module Fog
             if self.data[:instances][instance['instanceId']]
 
               instance['networkInterfaces'] = self.data[:network_interfaces].select{|ni,ni_conf|
-                  if ! ni_conf['attachment']
-                    raise "No attachment: #{ni.class}"
-                  end
                   ni_conf['attachment']['instanceId'] == instance['instanceId']
                 }.map{|ni,ni_conf|
                   {
