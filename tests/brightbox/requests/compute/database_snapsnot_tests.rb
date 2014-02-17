@@ -15,7 +15,7 @@ Shindo.tests('Fog::Compute[:brightbox] | database snapshot requests', ['brightbo
     tests("#list_database_snapshots") do
       result = service.list_database_snapshots
       data_matches_schema(Brightbox::Compute::Formats::Collection::DATABASE_SNAPSHOTS, {:allow_extra_keys => true}) { result }
-      @database_snapshot_id = result.first["id"]
+      @database_snapshot_id = result.last["id"]
     end
 
     tests("#get_database_snapshot('#{@database_snapshot_id}')") do
