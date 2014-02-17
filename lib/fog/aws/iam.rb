@@ -35,6 +35,7 @@ module Fog
       request :delete_signing_certificate
       request :delete_user
       request :delete_user_policy
+      request :get_account_summary
       request :get_group
       request :get_group_policy
       request :get_instance_profile
