@@ -58,22 +58,15 @@ module Fog
 
         def associate_address(*args)
           if args.first.kind_of? Hash
+            params = args.first
+          else 
             params = {
-              :instance_id => nil,
-              :public_ip => nil,
-              :network_interface_id => nil,
-              :allocation_id => nil,
-              :private_ip_address => nil,
-              :allow_reassociation => nil,
-            }.merge(args.first)
-          else args.first.kind_of? Hash
-            params = {
-                :instance_id => args[0] || nil,
-                :public_ip => args[1] || nil,
-                :network_interface_id => args[2] || nil,
-                :allocation_id => args[3] || nil,
-                :private_ip_address => args[4] || nil,
-                :allow_reassociation => args[5] || nil,
+                :instance_id => args[0],
+                :public_ip => args[1],
+                :network_interface_id => args[2],
+                :allocation_id => args[3],
+                :private_ip_address => args[4],
+                :allow_reassociation => args[5],
             }
           end
           params[:public_ip] = params[:allocation_id].nil? ? params[:public_ip] : nil
