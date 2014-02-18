@@ -1,5 +1,6 @@
 require 'fog/core'
 require 'fog/aws/credential_fetcher'
+require 'fog/aws/region_methods'
 require 'fog/aws/signaturev4'
 
 module Fog
