@@ -53,19 +53,7 @@ Shindo.tests("Fog::Compute[:openstack] | server", ['openstack']) do
                                   :flavor_ref => flavor,
                                   :image_ref  => image,
                                   :state      => 'success' )
-        result = server.failed?
-
-        unless Fog.mocking?
-          server.destroy if server
-          begin
-            fog.servers.get(server.id).wait_for do false end
-          rescue Fog::Errors::Error
-            # ignore, server went away
-          end
-        end
-
-        result
-
+        server.failed?
       end
 
       tests('failed server').returns(true) do
@@ -73,19 +61,7 @@ Shindo.tests("Fog::Compute[:openstack] | server", ['openstack']) do
                                   :flavor_ref => flavor,
                                   :image_ref  => image,
                                   :state      => 'ERROR' )
-        result = server.failed?
-        
-        unless Fog.mocking?
-          server.destroy if server
-          begin
-            fog.servers.get(server.id).wait_for do false end
-          rescue Fog::Errors::Error
-            # ignore, server went away
-          end
-        end
-
-        result
-
+        server.failed?
       end
 
     end
