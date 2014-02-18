@@ -613,6 +613,32 @@ class VcloudDirector
         :Network => [REFERENCE_TYPE]
       }
 
+      NETWORK_CONFIGURATION_TYPE = {
+        :IpScopes => {
+          :IpScope => {
+            :IsInherited => String,
+            :Gateway => String,
+            :Netmask => String,
+            :Dns1 => String,
+            :Dns2 => String,
+            :IsEnabled=> String,
+          }
+        },
+        :FenceMode => String,
+        :RetainNetInfoAcrossDeployments => String,
+      }
+
+      NETWORK_TYPE = {
+        :name => String,
+        :href => String,
+        :type => String,
+        :status => String,
+        :id => String,
+        :Description => String,
+        :Configuration => NETWORK_CONFIGURATION_TYPE,
+        :IsShared => String,
+      }
+
       VCLOUD_TYPE = ENTITY_TYPE.merge({
         :OrganizationReferences => ORGANIZATION_REFERENCES_TYPE,
         :ProviderVdcReferences => PROVIDER_VDC_REFERENCES_TYPE,
