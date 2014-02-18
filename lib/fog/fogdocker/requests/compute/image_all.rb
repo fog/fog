@@ -3,7 +3,9 @@ module Fog
     class Fogdocker
       class Real
         def image_all(filters = {})
-          downcase_hash_keys Docker::Image.all.map(&:info)
+          Docker::Image.all.map do |image|
+            downcase_hash_keys(image.info)
+          end
         end
       end
       class Mock

@@ -12,13 +12,16 @@ module Fog
 
         attribute :name
         attribute :created
-        attribute :ip
-        attribute :state
-        attribute :cpu_shares,         :aliases => 'cpus'
-        attribute :memory
+        attribute :network_settings_ipaddress,  :aliases => 'ipaddress'
+        attribute :network_settings_bridge,     :aliases => 'bridge'
+        attribute :state_running
+        attribute :state_pid
+        attribute :config_cpu_shares,           :aliases => 'cpus'
+        attribute :config_memory,               :aliases => 'memory'
+        attribute :config_hostname,             :aliases => 'hostname'
         attribute :host
         attribute :image
-        attribute :exposed_ports
+        attribute :config_exposed_ports,        :aliases => 'exposed_ports'
         attribute :volumes
 
         #raw = {"ID"=>"2ce79789656e4f7474624be6496dc6d988899af30d556574389a19aade2f9650",
@@ -71,11 +74,11 @@ module Fog
         # }
 
         def ready?
-          state['running'] == true
+          state_running == true
         end
 
         def stopped?
-          state['running'] == false
+          state_running == false
         end
 
         def mac

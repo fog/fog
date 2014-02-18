@@ -44,17 +44,9 @@ module Fog
           Docker.authenticate!('username' => username, 'password' => password, 'email' => email) unless username. nil? || username.empty?
         end
 
-        def downcase_hash_keys(h)
-          if h.is_a?(Hash)
-            h.keys.each do |key|
-              new_key = key.to_s.downcase
-              h[new_key] = h.delete(key)
-              downcase_hash_keys(h[new_key])
-            end
-          elsif h.respond_to?(:each)
-            h.each { |e| downcase_hash_keys(e) }
-          end
-          h
+        def downcase_hash_keys(hash, k = [])
+          return {k.join('_').gsub(/([a-z])([A-Z])/,'\1_\2').downcase => hash} unless hash.is_a?(Hash)
+          hash.inject({}){ |h, v| h.merge! downcase_hash_keys(v[-1], k + [v[0]]) }
         end
 
       end

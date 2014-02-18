@@ -9,7 +9,9 @@ module Fog
         # before – Show only containers created before Id, include non-running ones.
         # size – true or false, Show the containers sizes
         def container_all(filters = {})
-          downcase_hash_keys Docker::Container.all(filters.merge(:all => true)).map(&:info)
+          Docker::Container.all(filters.merge(:all => true)).map do |container|
+            downcase_hash_keys(container.info)
+          end
         end
 
       end
@@ -21,7 +23,7 @@ module Fog
                'command'    => '/bin/bash',
                'created'    => '1389876158',
                'status'     => 'Up 45 hours',
-               'state'      => {'running' => 'true'},
+               'state_running' => true,
                'ports'      =>  nil,
                'sizerw'     =>  0,
                'sizerootfs' =>  0,
