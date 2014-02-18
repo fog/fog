@@ -20,7 +20,7 @@ Shindo.tests('Fog::Compute[:aws] | region requests', ['aws']) do
 
     tests("#incorrect_region") do
 
-      raises(ArgumentError, "Incorrect region world-antarctica-1") do
+      raises(ArgumentError, "Unknown region: world-antarctica-1") do
         Fog::Compute::AWS.new({:aws_access_key_id => 'dummykey', 
                 :aws_secret_access_key => 'dummysecret', 
                 :aws_session_token => 'dummytoken',
