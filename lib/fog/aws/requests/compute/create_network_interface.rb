@@ -95,7 +95,7 @@ module Fog
                   end
                 end
               elsif self.data[:network_interfaces].map{ |ni,ni_conf| ni_conf['privateIpAddress'] }.include?options['PrivateIpAddress']
-                raise Fog::Compute::AWS::Error.new("InUse => The specified address is already in use.")
+                raise Fog::Compute::AWS::Error.new('InUse => The specified address is already in use.')
               end
 
               data = {
