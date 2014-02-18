@@ -26,7 +26,23 @@ module Fog
 
       class Mock
         def describe_cache_parameter_groups(name = nil, options = {})
-          Fog::Mock.not_implemented
+          response = Excon::Response.new
+          parameter_set = []
+          if name
+            if server = self.data[:parameter_groups][name]
+              parameter_set << server
+            else
+              raise Fog::AWS::Elasticache::NotFound.new("CacheParameterGroup #{name} not found")
+            end
+          else
+            parameter_set = self.data[:parameter_groups].values
+          end
+
+
+          response.status = 200
+
+          response.body = { "CacheParameterGroups" => parameter_set }
+          response
         end
       end
     end

@@ -1,5 +1,6 @@
+require 'fog/aws/core'
+
 # See http://docs.amazonwebservices.com/general/latest/gr/signature-version-4.html
-#
 module Fog
   module AWS
     class SignatureV4

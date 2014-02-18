@@ -1,5 +1,4 @@
 require 'fog/rage4/core'
-require 'fog/dns'
 
 module Fog
   module DNS

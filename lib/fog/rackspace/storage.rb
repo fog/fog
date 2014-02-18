@@ -1,5 +1,4 @@
 require 'fog/rackspace/core'
-require 'fog/storage'
 
 module Fog
   module Storage

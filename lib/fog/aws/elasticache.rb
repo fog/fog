@@ -139,7 +139,16 @@ module Fog
                 :clusters  => {}, # cache cluster data, indexed by cluster ID
                 :security_groups => {}, # security groups
                 :subnet_groups => {},
-              }
+                :parameter_groups => {"default.memcached1.4" => { "CacheParameterGroupFamily"=>"memcached1.4",
+                                                                  "Description"=>"Default parameter group for memcached1.4",
+                                                                  "CacheParameterGroupName"=>"default.memcached1.4"
+                                                                },
+                                      "default.redis2.6" =>     {"CacheParameterGroupFamily"=>"redis2.6",
+                                                                 "Description"=>"Default parameter group for redis2.6",
+                                                                 "CacheParameterGroupName"=>"default.redis2.6"
+                                                                }
+                                      }
+                                  }
             end
           end
         end

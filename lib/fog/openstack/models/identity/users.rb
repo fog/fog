@@ -22,6 +22,15 @@ module Fog
             )
         end
 
+        def find_by_name(name)
+          self.find {|user| user.name == name} ||
+            Fog::Identity::OpenStack::User.new(
+              service.get_user_by_name(name).body['user'].merge(
+                'service' => service
+              )
+            )
+        end
+
         def destroy(id)
           user = self.find_by_id(id)
           user.destroy

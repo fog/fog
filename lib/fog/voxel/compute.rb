@@ -1,5 +1,4 @@
 require 'fog/voxel/core'
-require 'fog/compute'
 
 module Fog
   module Compute

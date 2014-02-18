@@ -13,6 +13,7 @@ module Fog
         attribute :mac, :type => :string
         attribute :model, :type => :string
         attribute :vlan
+        attribute :firewall_policy
         model_attribute :ip_v4_conf, IPConf
         model_attribute :ip_v6_conf, IPConf
 

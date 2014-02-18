@@ -1,5 +1,4 @@
 require 'fog/bluebox/core'
-require 'fog/dns'
 
 module Fog
   module DNS
