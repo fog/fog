@@ -12,7 +12,7 @@ module Fog
 
       class Real
 
-        def set_metadata(instance, zone, metadata={}, fingerprint)
+        def set_metadata(instance, zone, fingerprint, metadata={})
           api_method = @compute.instances.set_metadata
           parameters = {
             'project' => @project,
