@@ -110,6 +110,12 @@ module Fog
         #              the remaining disk space is left unpartitioned. This enables images to have non-EXT3 file systems, multiple partitions, 
         #              and so on, and enables you to manage the disk configuration.
         attribute :disk_config, :aliases => 'OS-DCF:diskConfig'
+
+
+        # @!attribute [rw] config_drive_ext
+        # @return [Boolean] whether a read-only configuration drive is attached
+        # @see http://docs.rackspace.com/servers/api/v2/cs-devguide/content/config_drive_ext.html
+        attribute :config_drive
         
         # @!attribute [r] bandwidth
         # @return [Array] The amount of bandwidth used for the specified audit period.
@@ -211,7 +217,7 @@ module Fog
 
         # Creates server
         # * requires attributes: service:, :name, :image_id, and :flavor_id
-        # * optional attributes :disk_config, :metadata, :personality
+        # * optional attributes :disk_config, :metadata, :personality, :config_drive
         # @return [Boolean] returns true if server is being created
         # @raise [Fog::Compute::RackspaceV2::NotFound] - HTTP 404
         # @raise [Fog::Compute::RackspaceV2::BadRequest] - HTTP 400
@@ -237,6 +243,7 @@ module Fog
           modified_options[:disk_config] = disk_config unless disk_config.nil?
           modified_options[:metadata] = metadata.to_hash unless @metadata.nil?
           modified_options[:personality] = personality unless personality.nil?
+          modified_options[:config_drive] = config_drive unless config_drive.nil?
           modified_options[:key_name] ||= attributes[:key_name]
 
           if modified_options[:networks]
