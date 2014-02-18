@@ -4,7 +4,6 @@ module Fog
     def initialize(url, persistent=false, params={})
       Excon.defaults[:headers]['User-Agent'] ||= "fog/#{Fog::VERSION}"
       @excon = Excon.new(url, params)
-      @excon.defaults[:ssl_verify_peer] = false
       @persistent = persistent
     end
 
