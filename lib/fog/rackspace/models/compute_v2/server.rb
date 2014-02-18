@@ -115,7 +115,7 @@ module Fog
         # @!attribute [rw] config_drive_ext
         # @return [Boolean] whether a read-only configuration drive is attached
         # @see http://docs.rackspace.com/servers/api/v2/cs-devguide/content/config_drive_ext.html
-        attibute :config_drive
+        attribute :config_drive
         
         # @!attribute [r] bandwidth
         # @return [Array] The amount of bandwidth used for the specified audit period.
