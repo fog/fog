@@ -163,6 +163,7 @@ module Fog
 
       class Mock
         include Fog::AWS::CredentialFetcher::ConnectionMethods
+        include Fog::AWS::RegionMethods
 
         def self.data
           @data ||= Hash.new do |hash, region|
@@ -278,10 +279,7 @@ module Fog
           @aws_credentials_expire_at = Time::now + 20
           setup_credentials(options)
           @region = options[:region] || 'us-east-1'
-
-          unless ['ap-northeast-1', 'ap-southeast-1', 'ap-southeast-2', 'eu-west-1', 'us-east-1', 'us-west-1', 'us-west-2', 'sa-east-1'].include?(@region)
-            raise ArgumentError, "Unknown region: #{@region.inspect}"
-          end
+          validate_aws_region @region
         end
 
         def region_data
@@ -351,6 +349,7 @@ module Fog
 
       class Real
         include Fog::AWS::CredentialFetcher::ConnectionMethods
+        include Fog::AWS::RegionMethods
         # Initialize connection to EC2
         #
         # ==== Notes
@@ -385,9 +384,7 @@ module Fog
           @instrumentor_name      = options[:instrumentor_name] || 'fog.aws.compute'
           @version                = options[:version]     ||  '2013-10-01'
 
-          unless ['ap-northeast-1', 'ap-southeast-1', 'ap-southeast-2', 'eu-west-1', 'us-east-1', 'us-west-1', 'us-west-2', 'sa-east-1'].include?(options[:region])
-            raise ArgumentError, "Unknown region: #{@region.inspect}"
-          end
+          validate_aws_region @region
 
           if @endpoint = options[:endpoint]
             endpoint = URI.parse(@endpoint)
