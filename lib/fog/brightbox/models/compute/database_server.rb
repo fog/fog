@@ -18,6 +18,9 @@ module Fog
         attribute :database_engine
         attribute :database_version
 
+        attribute :maintenance_weekday
+        attribute :maintenance_hour
+
         attribute :created_at, :type => :time
         attribute :updated_at, :type => :time
         attribute :deleted_at, :type => :time
@@ -36,6 +39,11 @@ module Fog
           }
 
           options[:allow_access] = allow_access if allow_access
+
+          # These may be nil which sets them to default values upstream
+          # TODO: Dirty track the values so we don't send them when already nil
+          options[:maintenance_weekday] = maintenance_weekday
+          options[:maintenance_hour] = maintenance_hour
 
           if persisted?
             data = update_database_server(options)
