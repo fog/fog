@@ -1,4 +1,5 @@
 require 'fog/core'
+require 'fog/json'
 require 'uri'
 
 module Fog

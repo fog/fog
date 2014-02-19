@@ -1,4 +1,5 @@
 require 'fog/core'
+require 'fog/xml'
 
 module Fog
   module BareMetalCloud
