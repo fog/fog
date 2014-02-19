@@ -3,6 +3,7 @@ language: ruby
 script: bundle exec rake travis
 
 matrix:
+  fast_finish: true
   include:
     - rvm: 1.8.7
       gemfile: Gemfile.1.8.7
