@@ -57,7 +57,7 @@ namespace :test do
   task :travis do
       # jruby coveralls causes an OOM in travis
       ENV['COVERAGE'] = 'false' if RUBY_PLATFORM == 'java'
-      sh("export FOG_MOCK=#{mock} && bundle exec shindont")
+      sh("bundle exec shindont")
   end
   task :vsphere do
       sh("export FOG_MOCK=#{mock} && bundle exec shindont tests/vsphere")
