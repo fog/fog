@@ -8,7 +8,7 @@ module Fog
         # deregister an image
         #
         # ==== Parameters
-        # * image_id<~String> - Id of image to deregister 
+        # * image_id<~String> - Id of image to deregister
         #
         # ==== Returns
         # * response<~Excon::Response>:
@@ -31,7 +31,7 @@ module Fog
 
         def deregister_image(image_id)
           response = Excon::Response.new
-          if image_id 
+          if image_id
             response.status = 200
             response.body = {
               'requestId' => Fog::AWS::Mock.request_id,

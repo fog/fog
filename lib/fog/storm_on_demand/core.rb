@@ -14,7 +14,7 @@ module Fog
     service(:support, 'Support')
     service(:account, 'Account')
     service(:vpn, 'VPN')
-    
+
   end
 end
 

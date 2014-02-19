@@ -22,7 +22,7 @@ module Fog
           vols = service.list_volumes(options).body['items']
           load(vols)
         end
-        
+
       end
 
     end

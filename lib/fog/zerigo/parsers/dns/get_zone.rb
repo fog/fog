@@ -20,7 +20,7 @@ module Fog
               @in_hosts= true
             end
           end
-          
+
           def end_element(name)
             if (@in_hosts)
               #in hosts part of response
@@ -47,7 +47,7 @@ module Fog
                 @response[name] = value
               end
             end
-            
+
           end
 
         end

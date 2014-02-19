@@ -46,12 +46,12 @@ module Fog
         def destroy
           service.destroy_sr reference
         end
-        
+
         def save
           requires :name
           requires :type
 
-          # host is not a model attribute (not in XAPI at least), 
+          # host is not a model attribute (not in XAPI at least),
           # but we need it here
           host = attributes[:host]
           raise ArgumentError.new('host is required for this operation') unless
@@ -63,7 +63,7 @@ module Fog
           # create_sr request provides sane defaults if some attributes are
           # missing
           attr = service.get_record(
-            service.create_sr( host.reference, 
+            service.create_sr( host.reference,
                                   name,
                                   type,
                                   description || '',
@@ -74,10 +74,10 @@ module Fog
                                   sm_config || {}),
             'SR'
           )
-          merge_attributes attr 
+          merge_attributes attr
           true
         end
-        
+
         def set_attribute(name, *val)
           data = service.set_attribute( 'SR', reference, name, *val )
           # Do not reload automatically for performance reasons

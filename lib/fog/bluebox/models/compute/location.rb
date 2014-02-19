@@ -7,7 +7,7 @@ module Fog
       class Location < Fog::Model
 
         identity :id
-        
+
         attribute :description
 
       end

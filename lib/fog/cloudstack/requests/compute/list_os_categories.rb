@@ -10,7 +10,7 @@ module Fog
           options.merge!(
             'command' => 'listOsCategories'
           )
-          
+
           request(options)
         end
 

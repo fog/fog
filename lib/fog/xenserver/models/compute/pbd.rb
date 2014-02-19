@@ -28,7 +28,7 @@ module Fog
         def host
           service.hosts.get __host
         end
-        
+
         def unplug
           service.unplug_pbd reference
         end

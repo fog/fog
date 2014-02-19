@@ -16,11 +16,11 @@ module Fog
         # * response<~Excon::Response>:
         #   * body<~Hash>:
         def create_cache_subnet_group(name, subnet_ids, description = name)
-          params = { 
+          params = {
             'Action' => 'CreateCacheSubnetGroup',
             'CacheSubnetGroupName' => name,
             'CacheSubnetGroupDescription' => description,
-            :parser => Fog::Parsers::AWS::Elasticache::CreateCacheSubnetGroup.new 
+            :parser => Fog::Parsers::AWS::Elasticache::CreateCacheSubnetGroup.new
           }
           params.merge!(Fog::AWS.indexed_param("SubnetIds.member", Array(subnet_ids)))
           request(params)

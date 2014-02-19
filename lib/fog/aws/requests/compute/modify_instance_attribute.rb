@@ -20,7 +20,7 @@ module Fog
         #   'GroupId'<~Array> - One or more groups to add instance to (VPC only)
         #
         # {Amazon API Reference}[http://docs.amazonwebservices.com/AWSEC2/latest/APIReference/ApiReference-query-ModifyInstanceAttribute.html]
-        #        
+        #
         def modify_instance_attribute(instance_id, attributes)
           params = {}
           params.merge!(Fog::AWS.indexed_param('GroupId', attributes.delete('GroupId') || []))

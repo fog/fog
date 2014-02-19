@@ -20,7 +20,7 @@ module Fog
       collection   :regions
       model        :ssh_key
       collection   :ssh_keys
-      
+
       request_path 'fog/digitalocean/requests/compute'
       request      :list_servers
       request      :list_images
@@ -39,7 +39,7 @@ module Fog
       request      :get_ssh_key
       request      :destroy_ssh_key
 
-      # request :digitalocean_resize      
+      # request :digitalocean_resize
 
       class Mock
 

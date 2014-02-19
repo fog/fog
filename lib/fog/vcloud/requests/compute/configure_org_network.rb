@@ -5,7 +5,7 @@ module Fog
       class Real
 
         def generate_outbound_rule()
-          outbound_rule = <<EOF 
+          outbound_rule = <<EOF
             <ns0:FirewallRule>
             <ns0:IsEnabled>true</ns0:IsEnabled>
             <ns0:Description>OUTGOING</ns0:Description>
@@ -26,7 +26,7 @@ EOF
         def generate_tcp_rules(tcp_ports)
           firewall_rules = ""
           tcp_ports.each do |port|
-            firewall_rules << <<EOF 
+            firewall_rules << <<EOF
                     <ns0:FirewallRule>
                     <ns0:IsEnabled>true</ns0:IsEnabled>
                     <ns0:Description>#{port}</ns0:Description>
@@ -49,7 +49,7 @@ EOF
         def generate_udp_rules(udp_ports)
           firewall_rules = ""
           udp_ports.each do |port|
-              firewall_rules << <<EOF 
+              firewall_rules << <<EOF
                     <ns0:FirewallRule>
                     <ns0:IsEnabled>true</ns0:IsEnabled>
                     <ns0:Description>#{port}</ns0:Description>
@@ -74,7 +74,7 @@ EOF
           firewall_body = ""
           if not enable_firewall
             firewall_body = "<ns0:IsEnabled>false</ns0:IsEnabled>"
-        
+
           else
             firewall_rules = generate_outbound_rule + generate_tcp_rules(portmap["TCP"]) + generate_udp_rules(portmap["UDP"])
                     firewall_body = <<EOF

@@ -5,12 +5,12 @@ module Fog
     class Identity
       class ServiceCatalog < Fog::Model
         attr_reader :catalog
-        
+
         def initialize(attributes)
           @service = attributes.delete(:service)
           @catalog = attributes.delete(:catalog) || {}
         end
-        
+
         def services
           catalog.collect {|s| s["name"]}
         end
@@ -22,7 +22,7 @@ module Fog
           h["endpoints"].select {|e| e[key]}
         end
 
-        
+
         def display_service_regions(service_name, service_net=false)
           endpoints = get_endpoints(service_name, service_net)
           regions = endpoints.collect do |e|
@@ -30,7 +30,7 @@ module Fog
           end
           regions.join(", ")
         end
-        
+
         def get_endpoint(service_name, region=nil, service_net=false)
           service_region = region_key(region)
 
@@ -54,19 +54,19 @@ module Fog
 
           raise "Unknown region :#{region} for service #{service_name}. Please use one of the following regions: #{display_service_regions(service_name)}"
         end
-        
+
         def reload
           @service.authenticate
           @catalog = @service.service_catalog.catalog
           self
         end
-                
+
         def self.from_response(service, hash)
           ServiceCatalog.new :service => service, :catalog => hash["access"]["serviceCatalog"]
         end
 
         private
-        
+
         def network_type_key(service_net)
           service_net ? "internalURL" : "publicURL"
         end
@@ -74,12 +74,12 @@ module Fog
         def matching_region?(h, region)
           region_key(h["region"]) == region
         end
-        
+
         def region_key(region)
           return region.to_s.upcase if region.is_a? Symbol
           (region.nil? || region.empty?) ? "GLOBAL" : region.to_s.upcase
         end
-        
+
       end
     end
   end

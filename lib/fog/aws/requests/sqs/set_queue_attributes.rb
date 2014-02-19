@@ -27,7 +27,7 @@ module Fog
         end
 
       end
-      
+
       class Mock
         def set_queue_attributes(queue_url, attribute_name, attribute_value)
           Excon::Response.new.tap do |response|

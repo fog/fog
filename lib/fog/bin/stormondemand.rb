@@ -5,7 +5,7 @@ class StormOnDemand < Fog::Bin
       case key
       when :compute
         Fog::Compute::StormOnDemand
-      else 
+      else
         raise ArgumentError, "Unsupported #{self} service: #{key}"
       end
     end

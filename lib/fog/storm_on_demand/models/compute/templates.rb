@@ -18,7 +18,7 @@ module Fog
           tpl = service.get_template_details(:id => template_id).body
           new(tpl)
         end
-        
+
       end
 
     end

@@ -30,7 +30,7 @@ module Fog
         #         * Message [String] - Error description
         #
         # @see http://docs.amazonwebservices.com/AmazonS3/latest/API/multiobjectdeleteapi.html
-        
+
         def delete_multiple_objects(bucket_name, object_names, options = {})
           data = "<Delete>"
           data << "<Quiet>true</Quiet>" if options.delete(:quiet)

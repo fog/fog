@@ -17,7 +17,7 @@ module Fog
           data = service.list_zones(options).body
           load(data)
         end
-        
+
       end
     end
   end

@@ -5,13 +5,13 @@ module Fog
 
         require 'fog/zerigo/parsers/dns/count_hosts'
 
-        # total number of hosts available for the specified zone. It is the same value as provided 
+        # total number of hosts available for the specified zone. It is the same value as provided
         # in the X-Query-Count header in the list_hosts API method
         #
         # ==== Returns
-        # * response<~Excon::Response>: 
+        # * response<~Excon::Response>:
         #   * body<~Hash>
-        #     * 'count'<~Integer> 
+        #     * 'count'<~Integer>
         #   * 'status'<~Integer> - 200 indicates success
         def count_hosts(zone_id)
           request(

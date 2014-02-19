@@ -90,7 +90,7 @@ class AWS < Fog::Bin
         when :iam
           Fog::AWS::IAM.new
         when :redshift
-          Fog::AWS::Redshift.new          
+          Fog::AWS::Redshift.new
         when :rds
           Fog::AWS::RDS.new
         when :eu_storage

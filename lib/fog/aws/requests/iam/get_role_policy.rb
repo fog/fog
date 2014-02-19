@@ -6,7 +6,7 @@ module Fog
         require 'fog/aws/parsers/iam/get_role_policy'
 
         # Get Role Policy
-        # 
+        #
         # ==== Parameters
         # * 'PolicyName'<~String>: Name of the policy to get
         # * 'RoleName'<~String>: Name of the Role who the policy is associated with.

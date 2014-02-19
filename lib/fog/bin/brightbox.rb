@@ -5,7 +5,7 @@ class Brightbox < Fog::Bin
       case key
       when :compute
         Fog::Compute::Brightbox
-      else 
+      else
         raise ArgumentError, "Unrecognized service: #{key}"
       end
     end

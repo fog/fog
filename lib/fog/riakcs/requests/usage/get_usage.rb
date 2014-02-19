@@ -42,22 +42,22 @@ module Fog
           response
         end
       end
-      
+
       class Mock
         include Utils
 
-        def get_usage(access_key, options = {})  
+        def get_usage(access_key, options = {})
           Excon::Response.new.tap do |response|
             response.status = 200
             response.headers['Content-Type'] = 'application/json'
             response.body = {
-              'Access' => { 
+              'Access' => {
                 'Nodes'   => [],
-                'Errors'  => [] 
+                'Errors'  => []
               },
-              'Storage' => { 
+              'Storage' => {
                 'Samples' => [],
-                'Errors'  => [] 
+                'Errors'  => []
               }
             }
           end

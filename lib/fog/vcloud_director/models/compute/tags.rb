@@ -13,7 +13,7 @@ module Fog
         def get_by_name(tag_name)
           get(tag_name)
         end
-        
+
         def get_by_id(item_id)
           item_list unless @items
           @items.detect{ |i| i[:id] == item_id}
@@ -30,7 +30,7 @@ module Fog
         end
 
         private
-        
+
         def item_list
           @items =[]
           hash_items.each_pair{ |k,v| @items << {:id => k, :value => v }.merge(:vm => vm) }

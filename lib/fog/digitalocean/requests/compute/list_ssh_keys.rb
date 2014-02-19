@@ -1,6 +1,6 @@
 module Fog
   module Compute
-    class DigitalOcean 
+    class DigitalOcean
       class Real
 
         def list_ssh_keys(options = {})

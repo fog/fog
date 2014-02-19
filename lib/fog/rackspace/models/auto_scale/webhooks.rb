@@ -33,7 +33,7 @@ module Fog
         # @raise [Fog::Rackspace::AutoScale:::BadRequest] - HTTP 400
         # @raise [Fog::Rackspace::AutoScale:::InternalServerError] - HTTP 500
         # @raise [Fog::Rackspace::AutoScale:::ServiceError]
-        # 
+        #
         # @see http://docs.rackspace.com/cas/api/v1.0/autoscale-devguide/content/GET_getWebhook_v1.0__tenantId__groups__groupId__policies__policyId__webhooks__webhookId__Webhooks.html
         def get(webhook_id)
           data = service.get_webhook(group.id, policy.id, webhook_id).body['webhook']

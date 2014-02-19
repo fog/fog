@@ -5,7 +5,7 @@ class Zerigo < Fog::Bin
       case key
       when :dns
         Fog::DNS::Zerigo
-      else 
+      else
         raise ArgumentError, "Unrecognized service: #{key}"
       end
     end

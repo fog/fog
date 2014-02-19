@@ -110,13 +110,13 @@ module Fog
         def get(key, &block)
           requires :directory
           data = service.get_object(directory.key, key, &block)
-          metadata = Metadata.from_headers(self, data.headers)  
+          metadata = Metadata.from_headers(self, data.headers)
           file_data = data.headers.merge({
             :body => data.body,
             :key  => key,
             :metadata => metadata
           })
-          
+
           new(file_data)
         rescue Fog::Storage::Rackspace::NotFound
           nil
@@ -136,7 +136,7 @@ module Fog
             Files::file_url directory.public_url, key
           end
         end
-        
+
         # Get a temporary http url for a file.
         #
         # required attributes: key

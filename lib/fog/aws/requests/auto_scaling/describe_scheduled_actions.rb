@@ -47,8 +47,8 @@ module Fog
         #           group.
         #         * 'MinSize'<~Integer> - The minimum size of the Auto Scaling
         #           group.
-        #         * 'Recurrence'<~String> - The time when recurring future 
-        #           actions will start. Start time is specified by the user 
+        #         * 'Recurrence'<~String> - The time when recurring future
+        #           actions will start. Start time is specified by the user
         #           following the Unix cron syntax format.
         #         * 'ScheduledActionARN'<~String> - The Amazon Resource Name
         #           (ARN) of this scheduled action.

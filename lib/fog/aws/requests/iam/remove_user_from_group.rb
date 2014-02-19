@@ -6,7 +6,7 @@ module Fog
         require 'fog/aws/parsers/iam/basic'
 
         # Remove a user from a group
-        # 
+        #
         # ==== Parameters
         # * group_name<~String>: name of the group
         # * user_name<~String>: name of user to remove

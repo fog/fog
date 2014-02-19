@@ -19,7 +19,7 @@ module Fog
         attribute :solution, :aliases => :Solution
         attribute :history, :aliases => :History
 
-        
+
         def id
           href.scan(/\d+/)[0]
         end

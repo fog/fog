@@ -33,7 +33,7 @@ module Fog
           requires :identity
           service.update_zone({:id => identity}.merge!(options))
         end
-        
+
       end
     end
   end

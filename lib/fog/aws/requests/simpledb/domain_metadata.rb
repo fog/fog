@@ -40,7 +40,7 @@ module Fog
           response = Excon::Response.new
           if domain = self.data[:domains][domain_name]
             response.status = 200
-          
+
             attribute_names = []
             attribute_values = []
             for item in domain.values
@@ -51,7 +51,7 @@ module Fog
                 end
               end
             end
-          
+
             response.body = {
               'AttributeNameCount'        => attribute_names.length,
               'AttributeNamesSizeBytes'   => attribute_names.join('').length,
