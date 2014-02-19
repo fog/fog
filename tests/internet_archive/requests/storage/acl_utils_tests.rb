@@ -1,6 +1,6 @@
 require 'fog/internet_archive/requests/storage/acl_utils'
 
-Shindo.tests('Fog::Storage::InternetArchive | ACL utils', ["internet_archive"]) do
+Shindo.tests('Fog::Storage::InternetArchive | ACL utils', ["internetarchive"]) do
   tests(".hash_to_acl") do
     tests(".hash_to_acl({}) at xpath //AccessControlPolicy").returns("", "has an empty AccessControlPolicy") do
       xml = Fog::Storage::InternetArchive.hash_to_acl({})
