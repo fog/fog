@@ -1,4 +1,5 @@
 require 'fog/core'
+require 'fog/json'
 require 'fog/hp/simple_http_instrumentor'
 
 module Fog
