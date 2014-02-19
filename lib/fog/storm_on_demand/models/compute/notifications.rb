@@ -22,7 +22,7 @@ module Fog
           data = service.get_notification(options).body
           new(data)
         end
-        
+
       end
 
     end

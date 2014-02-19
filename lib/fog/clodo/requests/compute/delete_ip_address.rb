@@ -36,7 +36,7 @@ module Fog
           raise Excon::Errors::BadRequest.new "Address not found" unless pa && pa.reject! {|addr|
             addr['ip'] == ip
           }
-          
+
           response = Excon::Response.new
           response.status = 204
           response

@@ -19,7 +19,7 @@ module Fog
 
           account_id = Fog::Mock.random_numbers(6).to_s
           mock_id = Fog::Mock.random_letters(10).to_s
-          
+
           if options[:type] == ""
             raise Fog::Rackspace::Monitoring::BadRequest
           end

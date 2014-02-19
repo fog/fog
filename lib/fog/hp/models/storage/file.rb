@@ -61,9 +61,9 @@ module Fog
         end
 
         # Get a url for file.
-        # 
+        #
         # required attributes: key
-        # 
+        #
         # @param expires [String] number of seconds (since 1970-01-01 00:00) before url expires
         # @param options [Hash]
         # @return [String] url

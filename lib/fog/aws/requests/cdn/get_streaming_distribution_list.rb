@@ -7,7 +7,7 @@ module Fog
 
         # List information about distributions in CloudFront.
         #
-        # @param options [Hash] Config arguments for list. 
+        # @param options [Hash] Config arguments for list.
         # @option options Marker [String] Limits object keys to only those that appear lexicographically after its value.
         # @option options MaxItems [Integer] Limits number of object keys returned.
         #
@@ -37,7 +37,7 @@ module Fog
         #       * TrustedSigners [Array] - Trusted signers.
         #
         # @see http://docs.amazonwebservices.com/AmazonCloudFront/latest/APIReference/ListStreamingDistributions.html
-        
+
         def get_streaming_distribution_list(options = {})
           request({
             :expects    => 200,

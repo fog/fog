@@ -6,7 +6,7 @@ class Rackspace < Fog::Bin
       when :auto_scale
         Fog::Rackspace::AutoScale
       when :block_storage
-        Fog::Rackspace::BlockStorage 
+        Fog::Rackspace::BlockStorage
       when :cdn
         Fog::CDN::Rackspace
       when :compute

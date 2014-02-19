@@ -8,14 +8,14 @@ module Fog
           def reset
             @db_engine_version = fresh_engine_version
           end
-          
+
           def fresh_engine_version
             {}
           end
 
           def start_element(name, attrs = [])
             super
-            
+
           end
 
           def end_element(name)
@@ -25,7 +25,7 @@ module Fog
             when 'DBParameterGroupFamily' then @db_engine_version['DBParameterGroupFamily'] = @value
             when 'DBEngineVersionIdentifier' then @db_engine_version['DBEngineVersionIdentifier'] = @value
             when 'Engine' then @db_engine_version['Engine'] = @value
-            when 'EngineVersion' then @db_engine_version['EngineVersion'] = @value            
+            when 'EngineVersion' then @db_engine_version['EngineVersion'] = @value
             end
           end
         end

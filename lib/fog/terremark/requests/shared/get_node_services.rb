@@ -13,8 +13,8 @@ module Fog
         # ==== Returns
         # * response<~Excon::Response>:
         #   * body<~Hash>:
-       
-        #       
+
+        #
         def get_node_services(service_id)
            request(
             :expects  => 200,

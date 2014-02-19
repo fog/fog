@@ -24,7 +24,7 @@ module Fog
           )
         end
       end
-      
+
       class Mock
         def delete_network_interface(network_interface_id)
           response = Excon::Response.new

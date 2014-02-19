@@ -10,7 +10,7 @@ module Fog
         # ==== Parameters
         # * cidrBlock<~String> - The CIDR block you want the VPC to cover (e.g., 10.0.0.0/16).
         # * options<~Hash>:
-        #   * InstanceTenancy<~String> - The allowed tenancy of instances launched into the VPC. A value of default 
+        #   * InstanceTenancy<~String> - The allowed tenancy of instances launched into the VPC. A value of default
         #     means instances can be launched with any tenancy; a value of dedicated means instances must be launched with tenancy as dedicated.
         #     please not that the documentation is incorrect instanceTenancy will not work while InstanceTenancy will
         #
@@ -37,11 +37,11 @@ module Fog
 
         end
       end
-      
+
       class Mock
         def create_vpc(cidrBlock)
           Excon::Response.new.tap do |response|
-            if cidrBlock 
+            if cidrBlock
               response.status = 200
               vpc_id = Fog::AWS::Mock.vpc_id
               self.data[:vpcs].push({
@@ -50,13 +50,13 @@ module Fog
                 'cidrBlock'     => cidrBlock,
                 'dhcpOptionsId' => Fog::AWS::Mock.request_id,
                 'tagSet'        => {}
-            
+
               })
 
               #Creates a default route for the subnet
               default_route = self.route_tables.new(:vpc_id => vpc_id)
               default_route.save
-              
+
               # You are not able to push a main route in the normal AWS, so we are re-implementing some of the
               # associate_route_table here in order to accomplish this.
               route_table = self.data[:route_tables].find { |routetable| routetable["routeTableId"].eql? default_route.id }

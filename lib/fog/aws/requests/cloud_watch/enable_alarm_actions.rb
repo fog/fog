@@ -1,7 +1,7 @@
 module Fog
   module AWS
     class CloudWatch
-      class Real     
+      class Real
 
         require 'fog/aws/parsers/cloud_watch/enable_alarm_actions'
 
@@ -24,7 +24,7 @@ module Fog
               :parser     => Fog::Parsers::AWS::CloudWatch::EnableAlarmActions.new
             }.merge(options))
         end
-      end     
+      end
     end
   end
 end

@@ -3,7 +3,7 @@ require 'fog/dreamhost/models/dns/zone'
 
 module Fog
   module DNS
-    class Dreamhost 
+    class Dreamhost
 
       #
       # Dreamhost API has no concept of 'Zone', but we

@@ -5,23 +5,23 @@ module Fog
         require 'fog/aws/parsers/redshift/describe_cluster_subnet_groups'
 
         # ==== Parameters
-        # 
+        #
         # @param [Hash] options
-        # * :cluster_subnet_group_name - (String) 
+        # * :cluster_subnet_group_name - (String)
         #    The name of the cluster subnet group for which information is requested.
-        # * :max_records - (Integer) 
+        # * :max_records - (Integer)
         #    The maximum number of records to include in the response. If more than the
-        #    MaxRecords value is available, a marker is included in the response so that the 
+        #    MaxRecords value is available, a marker is included in the response so that the
         #    following results can be retrieved. Constrained between [20,100]. Default is 100.
-        # * :marker - (String) 
-        #    The marker returned from a previous request. If this parameter is specified, the 
+        # * :marker - (String)
+        #    The marker returned from a previous request. If this parameter is specified, the
         #    response includes records beyond the marker only, up to MaxRecords.
         #
         # ==== Returns
         # * response<~Excon::Response>:
         #
         # ==== See Also
-        # http://docs.aws.amazon.com/redshift/latest/APIReference/API_DescribeClusterSubnetGroups.html               
+        # http://docs.aws.amazon.com/redshift/latest/APIReference/API_DescribeClusterSubnetGroups.html
         def describe_cluster_subnet_groups(cluster_subnet_group_name=nil, marker=nil,max_records=nil)
           path = "/"
           params = {

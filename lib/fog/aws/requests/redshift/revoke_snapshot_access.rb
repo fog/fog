@@ -5,16 +5,16 @@ module Fog
         require 'fog/aws/parsers/redshift/cluster_snapshot'
 
         # ==== Parameters
-        # 
+        #
         # @param [Hash] options
-        # * :snapshot_identifier - required - (String) 
+        # * :snapshot_identifier - required - (String)
         #    The identifier of the snapshot that the account can no longer access.
         # * :snapshot_cluster_identifier - (String)
         # * :account_with_restore_access - required - (String)
         #    The identifier of the AWS customer account that can no longer restore the specified snapshot.
         #
         # ==== See Also
-        # http://docs.aws.amazon.com/redshift/latest/APIReference/API_RevokeSnapshotAccess.html  
+        # http://docs.aws.amazon.com/redshift/latest/APIReference/API_RevokeSnapshotAccess.html
         def revoke_snapshot_access(options = {})
           snapshot_identifier         = options[:snapshot_identifier]
           snapshot_cluster_identifier = options[:snapshot_cluster_identifier]

@@ -12,12 +12,12 @@ module Fog
         # * ApplyImmediately <~Boolean> - whether to apply the changes immediately or wait for the next maintenance window
         #
         # * AllocatedStorage  <~Integer> Storage space, in GB
-        # * AllowMajorVersionUpgrade <~Boolean> Must be set to true if EngineVersion specifies a different major version  
-        # * AutoMinorVersionUpgrade <~Boolean> Indicates that minor version upgrades will be applied automatically to the DB Instance during the maintenance window 
+        # * AllowMajorVersionUpgrade <~Boolean> Must be set to true if EngineVersion specifies a different major version
+        # * AutoMinorVersionUpgrade <~Boolean> Indicates that minor version upgrades will be applied automatically to the DB Instance during the maintenance window
         # * BackupRetentionPeriod  <~Integer> 0-8 The number of days to retain automated backups.
-        # * DBInstanceClass <~String> The new compute and memory capacity of the DB Instanc 
-        # * DBParameterGroupName <~String> The name of the DB Parameter Group to apply to this DB Instance  
-        # * DBSecurityGroups <~Array> A list of DB Security Groups to authorize on this DB Instance 
+        # * DBInstanceClass <~String> The new compute and memory capacity of the DB Instanc
+        # * DBParameterGroupName <~String> The name of the DB Parameter Group to apply to this DB Instance
+        # * DBSecurityGroups <~Array> A list of DB Security Groups to authorize on this DB Instance
         # * EngineVersion <~String> The version number of the database engine to upgrade to.
         # * Iops <~Integer> IOPS rate
         # * MasterUserPassword  <~String> The new password for the DB Instance master user

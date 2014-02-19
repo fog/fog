@@ -198,7 +198,7 @@ module Fog
                     }
                   ]
               }
-              
+
             }
           end
         end

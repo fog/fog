@@ -11,28 +11,28 @@ module Fog
         #     * ID [String] Unique identifier for the rule
         #     * Prefix [String] Prefix identifying one or more objects to which the rule applies
         #     * Enabled [Boolean] if rule is currently being applied
-        #     * Expiration [Hash] Container for the object expiration rule. 
+        #     * Expiration [Hash] Container for the object expiration rule.
         #       * Days [Integer] lifetime, in days, of the objects that are subject to the rule
         #       * Date [Date] Indicates when the specific rule take effect.
-        #         The date value must conform to the ISO 8601 format. The time is always midnight UTC. 
-        #     * Transition [Hash] Container for the transition rule that describes when objects transition 
+        #         The date value must conform to the ISO 8601 format. The time is always midnight UTC.
+        #     * Transition [Hash] Container for the transition rule that describes when objects transition
         #       to the Glacier storage class
         #       * Days [Integer] lifetime, in days, of the objects that are subject to the rule
         #       * Date [Date] Indicates when the specific rule take effect.
-        #         The date value must conform to the ISO 8601 format. The time is always midnight UTC. 
+        #         The date value must conform to the ISO 8601 format. The time is always midnight UTC.
         #       * StorageClass [String] Indicates the Amazon S3 storage class to which you want the object
-        #         to transition to. 
+        #         to transition to.
         #
-        # 
+        #
         # @see http://docs.amazonwebservices.com/AmazonS3/latest/API/RESTBucketPUTlifecycle.html
-        # 
+        #
         def put_bucket_lifecycle(bucket_name, lifecycle)
           builder = Nokogiri::XML::Builder.new do
             LifecycleConfiguration {
               lifecycle['Rules'].each do |rule|
                 Rule {
                   ID rule['ID']
-                  Prefix rule['Prefix'] 
+                  Prefix rule['Prefix']
                   Status rule['Enabled'] ? 'Enabled' : 'Disabled'
                   unless (rule['Expiration'] or rule['Transition'])
                     Expiration { Days rule['Days'] }

@@ -31,7 +31,7 @@ module Fog
           	"last_connected"  => Time.now.to_i - 120
           }
         ],
-                    
+
            "metadata" => {
              "count"       => 1,
              "limit"       => 100,
@@ -39,8 +39,8 @@ module Fog
              "next_marker" => nil,
              "next_href"   => nil
             }
-          }          
-          
+          }
+
           response.headers = {
             "Date"                  => Time.now.utc.to_s,
             "Content-Type"          => "application/json; charset=UTF-8",

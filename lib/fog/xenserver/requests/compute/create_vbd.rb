@@ -3,7 +3,7 @@ module Fog
     class XenServer
 
       class Real
-        
+
         def create_vbd( vm_ref, vdi_ref, config = {} )
           raise ArgumentError.new('Invalid config') if config.nil?
           vm_ref = vm_ref.reference if vm_ref.kind_of? Fog::Compute::XenServer::Server
@@ -28,11 +28,11 @@ module Fog
       end
 
       class Mock
-        
+
         def create_vbd( config )
           Fog::Mock.not_implemented
         end
-        
+
       end
 
     end

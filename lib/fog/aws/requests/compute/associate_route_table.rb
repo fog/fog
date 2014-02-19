@@ -56,7 +56,7 @@ module Fog
 
         def add_route_association(routeTableId, subnetId, main=nil)
           response = {
-              "routeTableAssociationId" => "rtbassoc-#{Fog::Mock.random_hex(8)}", 
+              "routeTableAssociationId" => "rtbassoc-#{Fog::Mock.random_hex(8)}",
               "routeTableId" => routeTableId,
               "subnetId" => nil,
               "main" => false
@@ -66,9 +66,9 @@ module Fog
           else
             response['subnetId'] = subnetId
           end
-          response   
+          response
         end
-        
+
       end
     end
   end

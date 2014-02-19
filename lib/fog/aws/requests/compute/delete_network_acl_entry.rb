@@ -28,7 +28,7 @@ module Fog
           )
         end
       end
-      
+
       class Mock
         def delete_network_acl_entry(network_acl_id, rule_number, egress)
           response = Excon::Response.new

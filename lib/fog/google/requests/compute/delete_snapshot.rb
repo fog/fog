@@ -6,7 +6,7 @@ module Fog
 
         def delete_snapshot(snapshot_name, zone_name)
           Fog::Mock.not_implemented
-        end  
+        end
 
       end
 

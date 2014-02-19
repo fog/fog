@@ -5,20 +5,20 @@ module Fog
         require 'fog/aws/parsers/redshift/cluster_snapshot'
 
         # ==== Parameters
-        # 
+        #
         # @param [Hash] options
-        # * :source_snapshot_identifier - required - (String) 
+        # * :source_snapshot_identifier - required - (String)
         #    The identifier for the source snapshot. Constraints: Must be the identifier for
         #    a valid automated snapshot whose state is "available".
         # * :source_snapshot_cluster_identifier - (String)
-        # * :target_snapshot_identifier - required - (String) 
-        #    The identifier given to the new manual snapshot. Constraints: Cannot be null, 
+        # * :target_snapshot_identifier - required - (String)
+        #    The identifier given to the new manual snapshot. Constraints: Cannot be null,
         #    empty, or blank. Must contain from 1 to 255 alphanumeric characters or hyphens.
-        #    First character must be a letter. Cannot end with a hyphen or contain two 
+        #    First character must be a letter. Cannot end with a hyphen or contain two
         #    consecutive hyphens. Must be unique for the AWS account that is making the request.
         #
         # ==== See Also
-        # http://docs.aws.amazon.com/redshift/latest/APIReference/API_CopyClusterSnapshot.html  
+        # http://docs.aws.amazon.com/redshift/latest/APIReference/API_CopyClusterSnapshot.html
         def copy_cluster_snapshot(options = {})
           source_snapshot_identifier         = options[:source_snapshot_identifier]
           source_snapshot_cluster_identifier = options[:source_snapshot_cluster_identifier]

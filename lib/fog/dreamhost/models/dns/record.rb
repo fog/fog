@@ -9,7 +9,7 @@ module Fog
         identity  :name, :aliases => 'record'
 
         attribute :value
-        attribute :zone     
+        attribute :zone
         attribute :type
         attribute :editable
         attribute :account_id

@@ -2,7 +2,7 @@ module Fog
   module Compute
     class RackspaceV2
       class Real
-        
+
         # Reboots server
         # @param [String] server_id
         # @param [String<SOFT,HARD>] type type of reboot

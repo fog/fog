@@ -17,11 +17,11 @@ module Fog
         #     * gtdLocation<~String> Global Traffic Director location. Values: DEFAULT, US_EAST, US_WEST, EUROPE
         #   * status<~Integer> - 201 - secondary entry successfully created or modified, 400 - secondary entry name or IP addresses not valid, see errors in response content
         def create_secondary(secondary_name, ip_addresses)
-          
+
           body = {
             "ip" => [*ip_addresses]
           }
-          
+
           request(
             :expects  => 201,
             :method   => 'PUT',

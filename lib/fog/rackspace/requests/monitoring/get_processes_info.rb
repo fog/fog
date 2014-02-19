@@ -22,7 +22,7 @@ module Fog
           if agent_id == -1
             raise Fog::Rackspace::Monitoring::BadRequest
           end
-          
+
           response = Excon::Response.new
           response.status = 200
           response.body = {

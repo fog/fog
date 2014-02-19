@@ -18,7 +18,7 @@ module Fog
           end
 
           def end_element(name)
-            
+
             case name
             when 'RequestId'
               @response[name] = value

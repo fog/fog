@@ -6,7 +6,7 @@ module Fog
         require 'fog/aws/parsers/iam/basic'
 
         # removes a role from an instance profile
-        # 
+        #
         # Make sure you do not have any Amazon EC2 instances running with the role you are about to remove from the instance profile.
         # ==== Parameters
         # * instance_profile_name<~String>: Name of the instance profile to update.

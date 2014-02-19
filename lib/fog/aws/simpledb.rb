@@ -4,7 +4,7 @@ module Fog
   module AWS
     class SimpleDB < Fog::Service
       extend Fog::AWS::CredentialFetcher::ServiceMethods
-      
+
       requires :aws_access_key_id, :aws_secret_access_key
       recognizes :host, :nil_string, :path, :port, :scheme, :persistent, :region, :aws_session_token, :use_iam_profile, :aws_credentials_expire_at
 

@@ -26,7 +26,7 @@ module Fog
       request :list_tickets
       request :reply_ticket
       request :list_ticket_types
-      
+
       class Mock
 
         def self.data

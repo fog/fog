@@ -13,11 +13,11 @@ module Fog
         # * response<~Excon::Response>:
         #   * body<~Hash>:
         def delete_db_parameter_group(group_name)
-          
+
           request({
             'Action'  => 'DeleteDBParameterGroup',
             'DBParameterGroupName' => group_name,
-            
+
             :parser   => Fog::Parsers::AWS::RDS::DeleteDbParameterGroup.new
           })
         end
@@ -28,7 +28,7 @@ module Fog
 
         def delete_db_parameter_group(group_name)
           response = Excon::Response.new
-          
+
           if self.data[:parameter_groups].delete(group_name)
             response.status = 200
             response.body = {

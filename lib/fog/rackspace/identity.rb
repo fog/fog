@@ -71,7 +71,7 @@ module Fog
 
       class Real < Fog::Rackspace::Service
         include Common
-        
+
         def initialize(options={})
           apply_options(options)
           @connection = Fog::Connection.new(@uri.to_s, @persistent, @connection_options)

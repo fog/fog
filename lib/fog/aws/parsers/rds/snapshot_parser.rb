@@ -8,14 +8,14 @@ module Fog
           def reset
             @db_snapshot = fresh_snapshot
           end
-          
+
           def fresh_snapshot
             {}
           end
 
           def start_element(name, attrs = [])
             super
-            
+
           end
 
           def end_element(name)

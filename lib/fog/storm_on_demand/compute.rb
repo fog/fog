@@ -60,7 +60,7 @@ module Fog
       request :current_notifications
       request :get_notification
       request :resolve_notification
-      
+
       class Mock
 
         def self.data

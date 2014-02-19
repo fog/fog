@@ -43,7 +43,7 @@ module Fog
       request :get_zone
       request :list_zones
       request :update_zone
-      
+
       class Mock
 
         def self.data

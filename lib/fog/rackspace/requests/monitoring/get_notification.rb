@@ -27,7 +27,7 @@ module Fog
               "type" => "email",
               "updated_at" => 1378784136307
           }
-          
+
           response.headers = {
             "Date"=> Time.now.utc.to_s,
             "Content-Type"=>"application/json; charset=UTF-8",

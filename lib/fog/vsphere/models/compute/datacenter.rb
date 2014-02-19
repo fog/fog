@@ -28,7 +28,7 @@ module Fog
         def virtual_machines filters = {}
           service.servers({ :datacenter => path.join("/") }.merge(filters))
         end
-        
+
         def servertypes filters={}
           service.servertypes({:datacenter => name }.merge(filters))
         end

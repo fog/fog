@@ -2,7 +2,7 @@ module Fog
   module Compute
     class RackspaceV2
       class Real
-        
+
         # Retrieves all metadata associated with a server or an image.
         # @param [String<images, servers>] collection type of metadata
         # @param [String] obj_id id of the object where the metadata is attached
@@ -22,7 +22,7 @@ module Fog
           )
         end
       end
-      
+
       class Mock
         def list_metadata(collection, obj_id)
           raise Fog::Compute::RackspaceV2::NotFound if obj_id == 0

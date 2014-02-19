@@ -17,7 +17,7 @@ module Fog
 
       class Mock
         def create_webhook(group_id, policy_id, options)
-          
+
           group = self.data[:autoscale_groups][group_id]
           if group.nil?
             raise Fog::Rackspace::AutoScale::NotFound

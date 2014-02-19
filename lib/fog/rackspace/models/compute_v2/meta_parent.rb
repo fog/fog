@@ -3,7 +3,7 @@ module Fog
     class RackspaceV2
       module MetaParent
 
-        # Parent of metadata 
+        # Parent of metadata
         # @return [#parent] parent of metadata
         def parent
           @parent

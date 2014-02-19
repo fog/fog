@@ -28,7 +28,7 @@ module Fog
         # @raise [Fog::Compute::RackspaceV2::InternalServerError] - HTTP 500
         # @raise [Fog::Compute::RackspaceV2::ServiceError]
         # @see http://docs.rackspace.com/servers/api/v2/cs-devguide/content/Get_Flavor_Details-d1e4317.html
-        def get(flavor_id)          
+        def get(flavor_id)
           data = service.get_flavor(flavor_id).body['flavor']
           new(data)
         rescue Fog::Compute::RackspaceV2::NotFound

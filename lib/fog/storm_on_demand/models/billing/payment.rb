@@ -9,9 +9,9 @@ module Fog
         def initialize(attributes={})
           super
         end
-        
+
       end
-      
+
     end
   end
 end

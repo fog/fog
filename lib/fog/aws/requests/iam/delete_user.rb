@@ -6,7 +6,7 @@ module Fog
         require 'fog/aws/parsers/iam/basic'
 
         # Delete a user
-        # 
+        #
         # ==== Parameters
         # * user_name<~String>: name of the user to delete
         #

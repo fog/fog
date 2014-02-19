@@ -7,7 +7,7 @@ http://docs.vmd.citrix.com/XenServer/6.0.0/1.0/en_gb/api/?c=SR
 Create the XenServer connection first, as usual:
 
 ```ruby
-require 'fog'                                                               
+require 'fog'
 require 'net/scp'
 require 'pp'
 
@@ -35,7 +35,7 @@ xenserver.storage_repositories.select { |sr| sr.content_type == 'iso' }
 Filter storage repositories by allowed operations:
 
 ```ruby
-rw_srs = xenserver.storage_repositories.select do |sr| 
+rw_srs = xenserver.storage_repositories.select do |sr|
   # Are we allowed to create a VDI here?
   sr.allowed_operations.include? 'vdi_create'
 end
@@ -69,7 +69,7 @@ sr.vdis.each do |vdi|
   puts vdi.virtual_size
   puts vdi.read_only
   # ["update", "resize", "destroy", "clone", "copy", "snapshot"],
-  puts vdi.allowed_operations 
+  puts vdi.allowed_operations
 end
 ```
 
