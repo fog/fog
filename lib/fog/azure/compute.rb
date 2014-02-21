@@ -1,4 +1,5 @@
 require 'fog/compute'
+require 'fog/azure/core'
 require 'azure'
 
 module Fog
@@ -10,6 +11,7 @@ module Fog
 
       request_path 'fog/azure/requests/compute'
       request :list_virtual_machines
+      request :create_virtual_machine
 
       model_path 'fog/azure/models/compute'
       model :server
@@ -28,7 +30,7 @@ module Fog
           ::Azure.configure do |cfg|
             cfg.management_certificate = options[:azure_pem]
             cfg.subscription_id = options[:azure_sub_id]
-            cfg.management_endpoint = "https://management.core.windows.net"
+            cfg.management_endpoint = "https://management.core.windows.net" #fix to use option if available
           end
           @vm_svc = ::Azure::VirtualMachineManagementService.new
         end
