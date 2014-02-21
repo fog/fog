@@ -31,14 +31,14 @@ module Fog
           "LocalPort"=>"80"}, {"Name"=>"SSH", "Vip"=>"123.45.67.89",
           "PublicPort"=>"22", "LocalPort"=>"22"}]
           vm.role_size = 'Medium'
-          vm.storage_account_name = 'stg-accnt'
+          #vm.storage_account_name = 'stg-accnt'
           vm.os_type = 'Linux'
           vm.disk_name = 'cool-vm-cool-vm-0-20130207005053'
           vm.virtual_network_name = ''
-          vm.password = nil
+          #vm.password = nil
           vm.vm_user = nil
           vm.image = nil
-          vm.virtual_network = nil
+          #vm.virtual_network = nil
           list = [vm]
         end
 

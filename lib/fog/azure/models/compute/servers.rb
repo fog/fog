@@ -14,11 +14,11 @@ module Fog
           service.list_virtual_machines.each do |vm|
             hash = {}
             vm.instance_variables.each {|var| hash[var.to_s.delete("@")] = vm.instance_variable_get(var) }
-            hash[:storage_account_name] = vm.storage_account_name
-            hash[:password] = vm.password
+            #hash[:storage_account_name] = vm.storage_account_name
+            #hash[:password] = vm.password
             hash[:vm_user] = vm.vm_user
             hash[:image] = vm.image
-            hash[:virtual_network] = vm.virtual_network
+            #hash[:virtual_network] = vm.virtual_network
             servers << hash
           end
           load(servers)
@@ -47,28 +47,24 @@ module Fog
         #   nil
         # end
 
-        # def bootstrap(new_attributes = {})
-        #   defaults = {
-        #     :name => "fog-#{Time.now.to_i}",
-        #     :image_name => "debian-7-wheezy-v20131014",
-        #     :machine_type => "n1-standard-1",
-        #     :zone_name => "us-central1-b",
-        #     :private_key_path => File.expand_path("~/.ssh/id_rsa"),
-        #     :public_key_path => File.expand_path("~/.ssh/id_rsa.pub"),
-        #     :username => ENV['USER'],
-        #   }
+        def bootstrap(new_attributes = {})
+          defaults = {
+            :vm_name => "fog-#{Time.now.to_i}",
+            :vm_user => 'azureuser',
+            :image => "b39f27a8b8c64d52b05eac6a62ebad85__Ubuntu-12_04_3-LTS-amd64-server-20131205-en-us-30GB",
+            :location => "Central US",
+            :private_key_file => File.expand_path("~/.ssh/id_rsa"),
+            :public_key_file => File.expand_path("~/.ssh/id_rsa.pub"),
+            :vm_size => "Small",
+          }
 
-        #   if new_attributes[:disks]
-        #     new_attributes[:disks].each do |disk|
-        #       defaults.delete :image_name if disk['boot']
-        #     end
-        #   end
 
-        #   server = create(defaults.merge(new_attributes))
-        #   server.wait_for { sshable? }
+          server = create(defaults.merge(new_attributes))
+          server.wait_for { sshable? }
 
-        #   server
-        # end
+          server
+        end
+        
       end
     end
   end
