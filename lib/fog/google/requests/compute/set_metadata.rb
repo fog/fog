@@ -4,7 +4,7 @@ module Fog
 
       class Mock
 
-        def set_metadata(instance, zone, metadata={})
+        def set_metadata(instance, zone, fingerprint, metadata={})
           Fog::Mock.not_implemented
         end
 
@@ -12,6 +12,18 @@ module Fog
 
       class Real
 
+        # Set an instance metadata
+        #
+        # ==== Parameters
+        # * instance<~String> - Instance name (identity)
+        # * zone<~String> - Zone short name (without the full path)
+        # * fingerprint<~String> - The fingerprint of the last metadata. Can be retrieved by reloading the compute object, and checking the metadata fingerprint field.
+        #     instance.reload
+        #     fingerprint = instance.metadata['fingerprint']
+        # * metadata<~Hash> - A new metadata
+        #
+        # ==== Returns
+        # * response<~Excon::Response>
         def set_metadata(instance, zone, fingerprint, metadata={})
           api_method = @compute.instances.set_metadata
           parameters = {
