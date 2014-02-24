@@ -17,7 +17,7 @@ Shindo.tests("Fog::Compute[:openstack] | server", ['openstack']) do
 -000000000000',
                                                          :fixed_ip_address => '192.168.11.3')
 
-      server.associate_address(ip1)
+      server.associate_address(ip1.fixed_ip_address)
       server.reload
 
       returns( ["192.168.11.3"] ) { server.floating_ip_addresses }
