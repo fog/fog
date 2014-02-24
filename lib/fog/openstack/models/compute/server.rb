@@ -123,7 +123,18 @@ module Fog
 
           # Return them all, leading with manually assigned addresses
           manual = all_addresses.map{|addr| addr["ip"]}
-          manual + ( all_floating - manual )
+
+          all_floating.sort{ |a,b| 
+            a_manual = manual.include? a
+            b_manual = manual.include? b
+
+            if a_manual and !b_manual 
+              -1
+            elsif !a_manual and b_manual 
+              1
+            else 0 end
+          }
+
         end
 
         alias_method :public_ip_addresses, :floating_ip_addresses
