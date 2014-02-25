@@ -44,14 +44,14 @@ module Fog
             if cidrBlock
               response.status = 200
               vpc_id = Fog::AWS::Mock.vpc_id
-              self.data[:vpcs].push({
+              vpc = {
                 'vpcId'         => vpc_id,
                 'state'         => 'pending',
                 'cidrBlock'     => cidrBlock,
                 'dhcpOptionsId' => Fog::AWS::Mock.request_id,
                 'tagSet'        => {}
-
-              })
+              }
+              self.data[:vpcs].push(vpc)
 
               #Creates a default route for the subnet
               default_route = self.route_tables.new(:vpc_id => vpc_id)
@@ -74,7 +74,7 @@ module Fog
 
               response.body = {
                 'requestId' => Fog::AWS::Mock.request_id,
-                'vpcSet'    => self.data[:vpcs]
+                'vpcSet'    => [vpc]
               }
             else
               response.status = 400
