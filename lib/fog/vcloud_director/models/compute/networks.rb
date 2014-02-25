@@ -30,7 +30,8 @@ module Fog
           data[:ip_ranges] = []
           raw_ip_ranges = ip_scope[:IpRanges][:IpRange]
           data[:ip_ranges] = raw_ip_ranges.map do |ip_range|
-            { start_address: ip_range[:StartAddress], end_address: ip_range[:EndAddress] }
+            { :start_address => ip_range[:StartAddress],
+              :end_address   => ip_range[:EndAddress] }
           end
           data
         end
