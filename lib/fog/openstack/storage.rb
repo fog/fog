@@ -92,7 +92,7 @@ module Fog
           @openstack_temp_url_key = options[:openstack_temp_url_key]
           authenticate
           @persistent = options[:persistent] || false
-          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
+          @connection = Fog::Core::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
         end
 
         def reload

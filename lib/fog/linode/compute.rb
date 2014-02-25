@@ -83,7 +83,7 @@ module Fog
           @host   = options[:host]    || "api.linode.com"
           @port   = options[:port]    || 443
           @scheme = options[:scheme]  || 'https'
-          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", options[:persistent])
+          @connection = Fog::Core::Connection.new("#{@scheme}://#{@host}:#{@port}", options[:persistent])
         end
 
         def reload

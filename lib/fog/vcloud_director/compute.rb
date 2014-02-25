@@ -335,7 +335,7 @@ module Fog
           @persistent = options[:persistent]  || false
           @port       = options[:port]        || Fog::Compute::VcloudDirector::Defaults::PORT
           @scheme     = options[:scheme]      || Fog::Compute::VcloudDirector::Defaults::SCHEME
-          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
+          @connection = Fog::XML::SAXParserConnection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
           @end_point = "#{@scheme}://#{@host}#{@path}/"
           @api_version = options[:vcloud_director_api_version] || Fog::Compute::VcloudDirector::Defaults::API_VERSION
           @show_progress = options[:vcloud_director_show_progress]
@@ -670,7 +670,7 @@ module Fog
           @persistent = options[:persistent] || false
           @port = options[:port] || Fog::Compute::VcloudDirector::Defaults::PORT
           @scheme = options[:scheme] || Fog::Compute::VcloudDirector::Defaults::SCHEME
-          #@connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
+          #@connection = Fog::XML::SAXParserConnection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
           @end_point = "#{@scheme}://#{@host}#{@path}/"
           @api_version = options[:vcloud_director_api_version] || Fog::Compute::VcloudDirector::Defaults::API_VERSION
         end

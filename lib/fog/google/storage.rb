@@ -283,7 +283,7 @@ DATA
           else
             @connection = nil
           end
-          @connection ||= Fog::Connection.new(uri, @persistent, @connection_options)
+          @connection ||= Fog::Core::Connection.new(uri, @persistent, @connection_options)
         end
 
         private
