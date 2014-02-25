@@ -126,6 +126,7 @@ module Fog
       request :get_metadata
       request :get_network
       request :get_network_cards_items_list
+      request :get_network_complete
       request :get_network_config_section_vapp
       request :get_network_config_section_vapp_template
       request :get_network_connection_system_section_vapp
