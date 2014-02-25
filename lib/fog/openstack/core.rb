@@ -63,7 +63,7 @@ module Fog
     # legacy v1.0 style auth
     def self.authenticate_v1(options, connection_options = {})
       uri = options[:openstack_auth_uri]
-      connection = Fog::Connection.new(uri.to_s, false, connection_options)
+      connection = Fog::Core::Connection.new(uri.to_s, false, connection_options)
       @openstack_api_key  = options[:openstack_api_key]
       @openstack_username = options[:openstack_username]
 
@@ -102,7 +102,7 @@ module Fog
 
       unless service
         unless tenant_name
-          response = Fog::Connection.new(
+          response = Fog::Core::Connection.new(
             "#{uri.scheme}://#{uri.host}:#{uri.port}/v2.0/tenants", false, connection_options).request({
             :expects => [200, 204],
             :headers => {'Content-Type' => 'application/json',
@@ -186,7 +186,7 @@ module Fog
       auth_token  = options[:openstack_auth_token] || options[:unscoped_token]
       uri         = options[:openstack_auth_uri]
 
-      connection = Fog::Connection.new(uri.to_s, false, connection_options)
+      connection = Fog::Core::Connection.new(uri.to_s, false, connection_options)
       request_body = {:auth => Hash.new}
 
       if auth_token
@@ -213,7 +213,7 @@ module Fog
     end
 
     def self.get_supported_version(supported_versions, uri, auth_token, connection_options = {})
-      connection = Fog::Connection.new("#{uri.scheme}://#{uri.host}:#{uri.port}", false, connection_options)
+      connection = Fog::Core::Connection.new("#{uri.scheme}://#{uri.host}:#{uri.port}", false, connection_options)
       response = connection.request({
         :expects => [200, 204, 300],
         :headers => {'Content-Type' => 'application/json',

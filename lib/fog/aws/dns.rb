@@ -99,7 +99,7 @@ module Fog
           @scheme     = options[:scheme]      || 'https'
           @version    = options[:version]     || '2012-02-29'
 
-          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}#{@path}", @persistent, @connection_options)
+          @connection = Fog::XML::SAXParserConnection.new("#{@scheme}://#{@host}:#{@port}#{@path}", @persistent, @connection_options)
         end
 
         def reload

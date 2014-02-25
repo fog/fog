@@ -115,7 +115,7 @@ module Fog
             @path   = uri.path.chomp("/")
             @port   = uri.port
             @scheme = uri.scheme
-            @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
+            @connection = Fog::Core::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
             @enabled = true
           end
         end
