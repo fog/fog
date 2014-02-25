@@ -19,7 +19,7 @@ module Fog
             :idempotent => true,
             :method     => 'GET',
             :parser     => Fog::ToHashDocument.new,
-            :path       => "network/#{id}"
+            :path       => "admin/network/#{id}"
           )
         end
       end
