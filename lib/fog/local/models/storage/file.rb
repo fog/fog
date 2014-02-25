@@ -1,3 +1,4 @@
+require 'fileutils'
 require 'fog/core/model'
 
 module Fog
@@ -103,6 +104,8 @@ module Fog
           file = ::File.new(path, 'wb')
           if body.is_a?(String)
             file.write(body)
+          elsif body.kind_of? ::File and ::File.exists?(body.path)
+            FileUtils.cp(body.path, path)
           else
             file.write(body.read)
           end
