@@ -34,7 +34,44 @@ module Fog
             )
           end
 
-          Fog::Mock.not_implemented
+          body = {
+            :name => network[:name],
+            :href => make_href("network/#{id}"),
+            :type => "application/vnd.vmware.vcloud.orgNetwork+xml",
+            :id   => id,
+            :Description => network[:Description],
+            :Configuration => {
+              :IpScopes => {
+                :IpScope => {
+                  :IsInherited => network[:IsInherited],
+                  :Gateway     => network[:Gateway],
+                  :Netmask     => network[:Netmask],
+                  :Dns1        => network[:Dns1],
+                  :Dns2        => network[:Dns2],
+                  :DnsSuffix   => network[:DnsSuffix],
+                  :IsEnabled   => true,
+                  :IpRanges    => {
+                    :IpRange => [],
+                  },
+                }
+              },
+              :FenceMode => network[:FenceMode],
+              :RetainNetInfoAcrossDeployments => false,
+            },
+            :IsShared => network[:IsShared],
+          }
+
+          body[:Configuration][:IpScopes][:IpScope][:IpRanges][:IpRange] =
+            network[:IpRanges].map do |ip_range|
+              {:StartAddress => ip_range[:StartAddress],
+               :EndAddress   => ip_range[:EndAddress]}
+            end
+
+          Excon::Response.new(
+            :status => 200,
+            :headers => {'Content-Type' => "#{body[:type]};version=#{api_version}"},
+            :body => body
+          )
 
         end
       end
