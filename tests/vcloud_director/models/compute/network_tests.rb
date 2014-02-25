@@ -1,7 +1,5 @@
 require File.expand_path(File.join(File.dirname(__FILE__), 'helper'))
 
-require 'pp'
-
 Shindo.tests("Compute::VcloudDirector | networks", ['vclouddirector', 'all']) do
 
   # unless there is at least one network we cannot run these tests
@@ -16,8 +14,12 @@ Shindo.tests("Compute::VcloudDirector | networks", ['vclouddirector', 'all']) do
   # we can explicitly test lazy loading on it, and also so
   # we stand a greater chance of having other fields populated.
   network = networks.detect do |net|
-    network_raw = service.get_network(net.id).body
-    network_raw[:gateway].class == String
+    network_raw = service.get_network_complete(net.id).body
+    begin
+      network_raw[:Configuration][:IpScopes][:IpScope][:Gateway].class == String
+    rescue
+      false
+    end
   end
 
   # We don't have a sufficiently populated network to test against
@@ -33,8 +35,6 @@ Shindo.tests("Compute::VcloudDirector | networks", ['vclouddirector', 'all']) do
     tests("#type").returns("application/vnd.vmware.vcloud.orgNetwork+xml"){ network.type }
   end
 
-  pp network
-  pp network_raw
 
   tests("Compute::VcloudDirector | network", ['lazy load attrs']) do
     network.lazy_load_attrs.each do |lazy_attr|
@@ -43,18 +43,15 @@ Shindo.tests("Compute::VcloudDirector | networks", ['vclouddirector', 'all']) do
   end
 
   tests("Compute::VcloudDirector | network", ['load on demand']) do
+    network_raw_gateway = network_raw[:Configuration][:IpScopes][:IpScope][:Gateway]
     tests("#gateway is not loaded yet").returns(NonLoaded) { network.attributes[:gateway] }
-    tests("#gateway is loaded on demand").returns(network_raw[:gateway]) { network.gateway }
+    tests("#gateway is loaded on demand").returns(network_raw_gateway) { network.gateway }
     tests("#gateway is now loaded").returns(true) { network.attributes[:gateway] != NonLoaded }
   end
 
-  tests("Compute::VcloudDirector | network", ['all available optional fields should now be loaded with data']) do
-    [ :description, :dns1, :dns2, :dns_suffix, :ip_ranges, :is_inherited ].each do |field|
-      next unless network_raw[field] # lazy loading does not load missing fields :/
+  tests("Compute::VcloudDirector | network", ['all lazy load attrs should now be loaded with data']) do
+    network.lazy_load_attrs.each do |field|
       tests("##{field.to_s} is now loaded").returns(true) { network.attributes[field] != NonLoaded }
-      tests("##{field.to_s} value is as expected").returns(network_raw[field]) do
-        eval "network.#{field.to_s}"
-      end
     end
   end
 

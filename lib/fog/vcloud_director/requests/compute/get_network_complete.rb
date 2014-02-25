@@ -14,13 +14,15 @@ module Fog
         # @see http://pubs.vmware.com/vcd-51/topic/com.vmware.vcloud.api.reference.doc_51/doc/operations/GET-Network.html
         # @since vCloud API version 0.9
         def get_network_complete(id)
-          request(
+          response = request(
             :expects    => 200,
             :idempotent => true,
             :method     => 'GET',
             :parser     => Fog::ToHashDocument.new,
             :path       => "admin/network/#{id}"
           )
+          ensure_list! response.body[:Configuration][:IpScopes][:IpScope], :IpRanges, :IpRange
+          response
         end
       end
 
