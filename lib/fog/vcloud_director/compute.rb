@@ -446,11 +446,15 @@ module Fog
         private
 
         def login
-          response = post_login_session
-          x_vcloud_authorization = response.headers.keys.detect do |key|
-            key.downcase == 'x-vcloud-authorization'
+          if @vcloud_token = ENV['FOG_VCLOUD_TOKEN']
+            response = get_current_session
+          else
+            response = post_login_session
+            x_vcloud_authorization = response.headers.keys.detect do |key|
+              key.downcase == 'x-vcloud-authorization'
+            end
+            @vcloud_token = response.headers[x_vcloud_authorization]
           end
-          @vcloud_token = response.headers[x_vcloud_authorization]
           @org_name = response.body[:org]
           @user_name = response.body[:user]
         end
