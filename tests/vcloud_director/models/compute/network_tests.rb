@@ -10,19 +10,15 @@ Shindo.tests("Compute::VcloudDirector | networks", ['vclouddirector', 'all']) do
   networks = organization.networks
   network_raw = nil
 
-  # Find a network that at least has a gateway element, so
-  # we can explicitly test lazy loading on it, and also so
-  # we stand a greater chance of having other fields populated.
+  # Run initial tests against a natRouted network, since these
+  # are more likely to be created, and must be populated with
+  # Gateway and EdgeGateway sections
   network = networks.detect do |net|
     network_raw = service.get_network_complete(net.id).body
-    begin
-      network_raw[:Configuration][:IpScopes][:IpScope][:Gateway].class == String
-    rescue
-      false
-    end
+    network_raw[:Configuration][:FenceMode] == 'natRouted'
   end
 
-  # We don't have a sufficiently populated network to test against
+  # We don't have a sufficiently populated natRouted network to test against
   pending if network_raw.nil?
 
   UUID_REGEX = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/
@@ -34,7 +30,6 @@ Shindo.tests("Compute::VcloudDirector | networks", ['vclouddirector', 'all']) do
     tests("#href").returns(String) { network.href.class }
     tests("#type").returns("application/vnd.vmware.vcloud.orgNetwork+xml"){ network.type }
   end
-
 
   tests("Compute::VcloudDirector | network", ['lazy load attrs']) do
     network.lazy_load_attrs.each do |lazy_attr|
@@ -69,6 +64,22 @@ Shindo.tests("Compute::VcloudDirector | networks", ['vclouddirector', 'all']) do
   tests("Compute::VcloudDirector | networks", ['get']) do
     tests("#get_by_name").returns(network.name) { networks.get_by_name(network.name).name }
     tests("#get").returns(network.id) { networks.get(network.id).id }
+  end
+
+  # Now let's also check against an isolated network, since these have some
+  # additional features like DHCP ServiceConfigurations.
+  isolated_network_raw = nil
+  isolated_network = networks.detect do |net|
+    isolated_network_raw = service.get_network_complete(net.id).body
+    isolated_network_raw[:Configuration][:FenceMode] == 'isolated'
+  end
+
+  pending if isolated_network_raw.nil?
+
+  tests("Compute::VcloudDirector | isolated network", ['load on demand']) do
+    tests("#fence_mode is not loaded yet").returns(NonLoaded) { isolated_network.attributes[:fence_mode] }
+    tests("#fence_mode is loaded on demand").returns('isolated') { isolated_network.fence_mode }
+    tests("#fence_mode is now loaded").returns(true) { isolated_network.attributes[:fence_mode] != NonLoaded }
   end
 
 end

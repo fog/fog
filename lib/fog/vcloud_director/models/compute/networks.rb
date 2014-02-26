@@ -20,7 +20,9 @@ module Fog
           service.add_id_from_href!(data)
           data[:name] = raw_network[:name]
           data[:description] = raw_network[:Description]
-          ip_scope = raw_network[:Configuration][:IpScopes][:IpScope]
+          net_config = raw_network[:Configuration]
+          data[:fence_mode] = net_config[:FenceMode]
+          ip_scope = net_config[:IpScopes][:IpScope]
           data[:is_inherited] = ip_scope[:IsInherited]
           data[:gateway] = ip_scope[:Gateway]
           data[:netmask] = ip_scope[:Netmask]
