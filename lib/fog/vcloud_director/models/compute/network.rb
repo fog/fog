@@ -13,6 +13,7 @@ module Fog
         attribute :href
         attribute :description
         attribute :is_inherited
+        attribute :is_shared
         attribute :fence_mode
         attribute :gateway
         attribute :netmask

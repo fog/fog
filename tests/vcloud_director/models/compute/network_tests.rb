@@ -58,6 +58,12 @@ Shindo.tests("Compute::VcloudDirector | networks", ['vclouddirector', 'all']) do
     end
   end
 
+  tests("Compute::VcloudDirector | network", ['is_shared is a string boolean']) do
+    tests("#is_shared is either 'true' or 'false'").returns(true) {
+      [ 'false', 'true' ].include?(network.is_shared)
+    }
+  end
+
   # NB: get_by_name is buggy with orgVdcNetworks - network names are only
   # unique per-vDC, not per organization.
   # As a result, it returns the *first* network matching that name.
