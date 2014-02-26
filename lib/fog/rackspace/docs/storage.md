@@ -269,6 +269,13 @@ To retrieve a specific directory:
 
 	service.directories.get "blue"
 
+**Note** As a general rule, only use `get` when you want to iterate over the contents of a `Directory`
+
+This call is similar to...
+
+    service.directories.new :key => "blue"
+
+... except the `get` method makes an HTTP call that returns metadata for up to the first 10,000 files. **This can be slow!**
 
 This returns a `Fog::Storage::Rackspace::Directory` instance:
 
@@ -278,8 +285,6 @@ This returns a `Fog::Storage::Rackspace::Directory` instance:
     count=1,
     cdn_cname=nil
     >
-
-**Note**: This will retrieve the metadata for up to the first 10,000 files in the directory. This can be slow!
 
 ## Create Directory
 
