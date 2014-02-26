@@ -279,7 +279,7 @@ This returns a `Fog::Storage::Rackspace::Directory` instance:
     cdn_cname=nil
     >
 
-**Note**: This will retrieve the metadata for up to the first 10,000 files in the directory. <u>This can be slow!</u>
+**Note**: This will retrieve the metadata for up to the first 10,000 files in the directory. This can be slow!
 
 ## Create Directory
 
