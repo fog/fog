@@ -43,22 +43,22 @@ module Fog
             :Configuration => {
               :IpScopes => {
                 :IpScope => {
-                  :IsInherited => network[:IsInherited],
+                  :IsInherited => network[:IsInherited].to_s,
                   :Gateway     => network[:Gateway],
                   :Netmask     => network[:Netmask],
                   :Dns1        => network[:Dns1],
                   :Dns2        => network[:Dns2],
                   :DnsSuffix   => network[:DnsSuffix],
-                  :IsEnabled   => true,
+                  :IsEnabled   => true.to_s,
                   :IpRanges    => {
                     :IpRange => [],
                   },
                 }
               },
               :FenceMode => network[:FenceMode],
-              :RetainNetInfoAcrossDeployments => false,
+              :RetainNetInfoAcrossDeployments => false.to_s,
             },
-            :IsShared => network[:IsShared],
+            :IsShared => network[:IsShared].to_s,
           }
 
           body[:Configuration][:IpScopes][:IpScope][:IpRanges][:IpRange] =
