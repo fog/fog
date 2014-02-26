@@ -269,6 +269,7 @@ To retrieve a specific directory:
 
 	service.directories.get "blue"
 
+
 This returns a `Fog::Storage::Rackspace::Directory` instance:
 
 	<Fog::Storage::Rackspace::Directory
@@ -277,6 +278,8 @@ This returns a `Fog::Storage::Rackspace::Directory` instance:
     count=1,
     cdn_cname=nil
     >
+
+**Note**: This will retrieve the metadata for up to the first 10,000 files in the directory. <u>This can be slow!</u>
 
 ## Create Directory
 
@@ -336,6 +339,25 @@ To upload a file into a directory:
 	file = directory.files.create :key => 'space.jpg', :body => File.open "space.jpg"
 	
 **Note**: For files larger than 5 GB please refer to the [Upload Large Files](#upload_large_files) section.
+
+If you only need a `Directory` so that you can create a file (as above), you can accomplish this without
+an HTTP call as below:
+
+    dir = service.directories.new :key => "blue"
+	file = dir.files.new(...)
+	file.save
+
+This will **not** retrieve the metadata for files in the `Directory`.
+
+However, if the `Directory` does not already exist in Cloud Files, the `save` call will return with a 404.
+
+In this case, you will need to `save` the `Directory` first...
+
+    dir.save
+
+... before you can...
+
+    file.save
 
 ### Additional Parameters
 
