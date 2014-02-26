@@ -86,7 +86,7 @@ module Fog
 
           @connection_options[:ssl_verify_peer] = false
 
-          @connection = Fog::XML::SAXParserConnection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
+          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
         end
 
         def request(method_name, options = {})

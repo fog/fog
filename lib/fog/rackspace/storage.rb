@@ -419,7 +419,7 @@ module Fog
           authenticate
           @persistent = options[:persistent] || false
           Excon.defaults[:ssl_verify_peer] = false if service_net?
-          @connection = Fog::Core::Connection.new(endpoint_uri.to_s, @persistent, @connection_options)
+          @connection = Fog::Connection.new(endpoint_uri.to_s, @persistent, @connection_options)
         end
 
         # Using SSL?

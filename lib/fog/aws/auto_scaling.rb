@@ -104,7 +104,7 @@ module Fog
           @port       = options[:port]        || 443
           @persistent = options[:persistent]  || false
           @scheme     = options[:scheme]      || 'https'
-          @connection = Fog::XML::SAXParserConnection.new("#{@scheme}://#{@host}:#{@port}#{@path}", @persistent, @connection_options)
+          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}#{@path}", @persistent, @connection_options)
         end
 
         def reload

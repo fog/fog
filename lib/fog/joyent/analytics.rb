@@ -188,7 +188,7 @@ module Fog
             raise ArgumentError, "Must provide either a joyent_password or joyent_keyname and joyent_keyfile pair"
           end
 
-          @connection = Fog::Core::Connection.new(
+          @connection = Fog::Connection.new(
               @joyent_url,
               @persistent,
               @connection_options

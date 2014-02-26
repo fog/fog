@@ -164,7 +164,7 @@ module Fog
           @host        = options[:xenserver_pool_master]
           @username    = options[:xenserver_username]
           @password    = options[:xenserver_password]
-          @connection  = Fog::Core::Connection.new(@host)
+          @connection  = Fog::Connection.new(@host)
           @connection.authenticate(@username, @password)
         end
 

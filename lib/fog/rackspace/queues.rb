@@ -378,7 +378,7 @@ module Fog
           authenticate
 
           @persistent = options[:persistent] || false
-          @connection = Fog::Core::Connection.new(endpoint_uri.to_s, @persistent, @connection_options)
+          @connection = Fog::Connection.new(endpoint_uri.to_s, @persistent, @connection_options)
         end
 
         def request(params, parse_json = true, &block)

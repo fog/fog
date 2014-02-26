@@ -83,7 +83,7 @@ module Fog
           @hmac               = Fog::HMAC.new('sha1', @storage_secret_decoded)
           @persistent = options.fetch(:persistent, false)
 
-          @connection = Fog::Core::Connection.new("#{@prefix}://#{@storage_host}:#{@storage_port}",
+          @connection = Fog::Connection.new("#{@prefix}://#{@storage_host}:#{@storage_port}",
               @persistent, @connection_options)
         end
 

@@ -74,7 +74,7 @@ module Fog
 
         def initialize(options={})
           apply_options(options)
-          @connection = Fog::Core::Connection.new(@uri.to_s, @persistent, @connection_options)
+          @connection = Fog::Connection.new(@uri.to_s, @persistent, @connection_options)
 
           authenticate
         end

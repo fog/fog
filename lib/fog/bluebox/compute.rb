@@ -68,7 +68,7 @@ module Fog
           @persistent = options[:persistent]      || false
           @port       = options[:bluebox_port]    || 443
           @scheme     = options[:bluebox_scheme]  || 'https'
-          @connection = Fog::Core::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
+          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
         end
 
         def reload

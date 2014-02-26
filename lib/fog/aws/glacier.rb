@@ -134,7 +134,7 @@ module Fog
           @port       = options[:port]        || 443
           @scheme     = options[:scheme]      || 'https'
 
-          @connection = Fog::XML::SAXParserConnection.new("#{@scheme}://#{@host}:#{@port}#{@path}", @persistent, @connection_options)
+          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}#{@path}", @persistent, @connection_options)
         end
 
 
