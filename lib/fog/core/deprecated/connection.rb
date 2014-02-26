@@ -12,15 +12,14 @@ module Fog
   #
   # @see https://github.com/geemus/excon/blob/master/lib/excon/connection.rb
   #
-  class Connection < Fog::XML::SAXParserConnection
+  class Connection < Fog::XML::Connection
     def request(params, &block)
-      if (parser = params.delete(:parser))
-        Fog::Logger.deprecation("Fog::Connection is deprecated use Fog::XML::SAXParserConnection instead [light_black](#{caller.first})[/]")
-        super(parser, params)
+      if params.key?(:parser)
+        Fog::Logger.deprecation("Fog::Connection is deprecated use Fog::XML::Connection instead [light_black](#{caller.first})[/]")
       else
         Fog::Logger.deprecation("Fog::Connection is deprecated use Fog::Core::Connection instead [light_black](#{caller.first})[/]")
-        original_request(params)
       end
+      super(params)
     end
   end
 end
