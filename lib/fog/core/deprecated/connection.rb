@@ -15,8 +15,10 @@ module Fog
   class Connection < Fog::XML::SAXParserConnection
     def request(params, &block)
       if (parser = params.delete(:parser))
+        Fog::Logger.deprecation("Fog::Connection is deprecated use Fog::XML::SAXParserConnection instead [light_black](#{caller.first})[/]")
         super(parser, params)
       else
+        Fog::Logger.deprecation("Fog::Connection is deprecated use Fog::Core::Connection instead [light_black](#{caller.first})[/]")
         original_request(params)
       end
     end
