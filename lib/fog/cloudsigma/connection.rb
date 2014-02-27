@@ -37,7 +37,7 @@ module Fog
           @api_version = options[:cloudsigma_api_version] || '2.0'
           @path_prefix = "#{@api_path_prefix}/#{@api_version}/"
 
-          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
+          @connection = Fog::XML::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
         end
 
         def request(params)

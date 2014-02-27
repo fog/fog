@@ -53,7 +53,7 @@ module Fog
           @connection_options       = options[:connection_options] || {}
           @persistent               = options[:persistent]         || false
 
-          @raw_connection = Fog::Connection.new(riakcs_uri, @persistent, @connection_options)
+          @raw_connection = Fog::XML::Connection.new(riakcs_uri, @persistent, @connection_options)
 
           @s3_connection  = Fog::Storage.new(
             :provider              => 'AWS',
