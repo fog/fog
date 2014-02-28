@@ -10,7 +10,7 @@ module Fog
           unless (data[:hosts] || data[:networks])
             raise ArgumentError.new("Required data missing: Either hosts or networks must be present")
           end
-          
+
 
           request(
             :body => generate_edit_trusted_network_groups_request(data),
@@ -50,4 +50,4 @@ module Fog
       end
     end
   end
-end          
+end

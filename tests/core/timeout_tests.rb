@@ -1,5 +1,5 @@
 Shindo.tests('Fog#timeout', 'core') do
-  tests('timeout').returns(600) do
+  tests('timeout').returns(FOG_TESTING_TIMEOUT) do
     Fog.timeout
   end
 

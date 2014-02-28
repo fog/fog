@@ -1,4 +1,3 @@
-require 'fog'
 module Fog
   module Storage
     class Rackspace
@@ -12,7 +11,7 @@ module Fog
         # * container<~String>      - Name for container, should be < 256 bytes and must not contain '/'
         # * data<~String|File>      - file to upload
         # * archive_format<~String> - "tar", "tar.gz", or "tar.bz2"
-        
+
         # @raise [Fog::Storage::Rackspace::NotFound] - HTTP 404
         # @raise [Fog::Storage::Rackspace::BadRequest] - HTTP 400
         # @raise [Fog::Storage::Rackspace::InternalServerError] - HTTP 500

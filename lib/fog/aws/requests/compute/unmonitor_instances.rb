@@ -46,7 +46,7 @@ module Fog
           response.body = {'requestId' => 'some_request_id', 'instancesSet' => instances_set}
           response
         end
-        
+
       end
 
     end

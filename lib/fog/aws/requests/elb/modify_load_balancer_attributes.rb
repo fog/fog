@@ -41,7 +41,7 @@ module Fog
           if attributes['CrossZoneLoadBalancing']
             load_balancer['LoadBalancerAttributes'].merge! attributes
           end
-          
+
           response = Excon::Response.new
 
           response.status = 200

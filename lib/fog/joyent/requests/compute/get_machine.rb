@@ -20,7 +20,8 @@ module Fog
           request(
             :method => "GET",
             :path => "/my/machines/#{uuid}",
-            :expects => [200, 410]
+            :expects => [200, 410],
+            :idempotent => true
           )
         end
       end

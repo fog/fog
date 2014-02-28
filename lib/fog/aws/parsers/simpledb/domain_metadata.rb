@@ -25,7 +25,7 @@ module Fog
           end
 
         end
-        
+
       end
     end
   end

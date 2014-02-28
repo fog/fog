@@ -16,7 +16,7 @@ module Fog
         # @raise [Fog::Rackspace::AutoScale:::BadRequest] - HTTP 400
         # @raise [Fog::Rackspace::AutoScale:::InternalServerError] - HTTP 500
         # @raise [Fog::Rackspace::AutoScale:::ServiceError]
-        # 
+        #
         # @see http://docs.rackspace.com/cas/api/v1.0/autoscale-devguide/content/GET_getGroups_v1.0__tenantId__groups_Groups.html
         def all
           data = service.list_groups.body['groups']
@@ -32,9 +32,9 @@ module Fog
         # @raise [Fog::Rackspace::AutoScale:::BadRequest] - HTTP 400
         # @raise [Fog::Rackspace::AutoScale:::InternalServerError] - HTTP 500
         # @raise [Fog::Rackspace::AutoScale:::ServiceError]
-        # 
+        #
         # @see http://docs.rackspace.com/cas/api/v1.0/autoscale-devguide/content/GET_getGroupManifest_v1.0__tenantId__groups__groupId__Groups.html
-        def get(group_id)          
+        def get(group_id)
           data = service.get_group(group_id).body['group']
           new(data)
         rescue Fog::Rackspace::AutoScale::NotFound

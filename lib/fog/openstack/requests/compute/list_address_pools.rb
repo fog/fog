@@ -19,7 +19,7 @@ module Fog
         def list_address_pools
           response = Excon::Response.new
           response.status = 200
-          response.body = { 
+          response.body = {
             'floating_ip_pools' => [
               { 'name' => 'nova' }
             ]

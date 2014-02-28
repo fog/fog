@@ -10,7 +10,7 @@ module Fog
           options.merge!(
             'command' => 'listIsos'
           )
-          
+
           request(options)
         end
 

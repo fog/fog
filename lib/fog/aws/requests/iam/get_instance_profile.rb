@@ -6,7 +6,7 @@ module Fog
         require 'fog/aws/parsers/iam/instance_profile'
 
         # Retrieves information about an instance profile
-        # 
+        #
         # http://docs.amazonwebservices.com/IAM/latest/APIReference/API_GetInstanceProfile.html
         # ==== Parameters
         # * instance_profile_name<~String> - Name of instance_profile to retrieve the information for
@@ -23,7 +23,7 @@ module Fog
         #       * Roles<~Array> -
         #         role<~Hash>:
         #           * 'Arn'<~String> -
-        #           * 'AssumeRolePolicyDocument'<~String<  
+        #           * 'AssumeRolePolicyDocument'<~String<
         #           * 'Path'<~String> -
         #           * 'RoleId'<~String> -
         #           * 'RoleName'<~String> -

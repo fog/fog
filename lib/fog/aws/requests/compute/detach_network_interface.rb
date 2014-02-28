@@ -26,7 +26,7 @@ module Fog
           )
         end
       end
-      
+
       class Mock
         def detach_network_interface(attachment_id, force = false)
           response = Excon::Response.new

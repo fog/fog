@@ -26,7 +26,7 @@ module Fog
           requires :identity
           service.resolve_notification(:id => identity).body
         end
-        
+
       end
 
     end

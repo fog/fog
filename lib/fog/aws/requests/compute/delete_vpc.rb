@@ -28,7 +28,7 @@ module Fog
           )
         end
       end
-      
+
       class Mock
         def delete_vpc(vpc_id)
           Excon::Response.new.tap do |response|

@@ -10,7 +10,7 @@ module Fog
           #   :cluster_type - (String)
           #   :node_type - (String)
           #   :availability_zones - (Array)
-          #     :name - (String) 
+          #     :name - (String)
 
           def reset
             @response = { 'OrderableClusterOptions' => [] }
@@ -30,8 +30,8 @@ module Fog
             end
           end
 
-          def end_element(name)         
-            super   
+          def end_element(name)
+            super
             case name
             when 'Marker'
               @response[name] = value

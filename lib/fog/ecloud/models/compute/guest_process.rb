@@ -5,7 +5,7 @@ module Fog
         identity :name
 
         attribute :process_id, :aliases => :ProcessId
-        
+
         def id
           href.scan(/\d+/)[0]
         end

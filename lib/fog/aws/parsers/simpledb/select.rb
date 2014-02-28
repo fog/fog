@@ -19,7 +19,7 @@ module Fog
             when 'Item'
               @item_name = @attribute_name = nil
             when 'Name'
-              if @item_name.nil? 
+              if @item_name.nil?
                 @item_name = value
                 response['Items'][@item_name] = {}
               else

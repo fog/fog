@@ -4,7 +4,7 @@ module Fog
       class Real
 
         require 'fog/aws/parsers/iam/list_account_aliases'
-    
+
         def list_account_aliases(options = {})
           request({
             'Action'  => 'ListAccountAliases',

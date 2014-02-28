@@ -6,7 +6,7 @@ module Fog
         require 'fog/aws/parsers/iam/create_user'
 
         # Create a new user
-        # 
+        #
         # ==== Parameters
         # * user_name<~String>: name of the user to create (do not include path)
         # * path<~String>: optional path to group, defaults to '/'

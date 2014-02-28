@@ -3,7 +3,7 @@ require 'fog/storm_on_demand/models/network/firewall'
 
 module Fog
   module Network
-    class StormOnDemand 
+    class StormOnDemand
       class Firewalls < Fog::Collection
         model Fog::Network::StormOnDemand::Firewall
 
@@ -25,7 +25,7 @@ module Fog
           service.update_firewall(options)
           true
         end
-        
+
       end
     end
   end

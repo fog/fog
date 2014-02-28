@@ -1,7 +1,7 @@
 module Fog
   module Parsers
     module AWS
-      module Elasticache 
+      module Elasticache
 
         class DescribeReservedCacheNodes < Fog::Parsers::Base
 
@@ -34,4 +34,4 @@ module Fog
     end
   end
 end
-   
+

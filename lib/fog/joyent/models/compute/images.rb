@@ -10,11 +10,20 @@ module Fog
         model Fog::Compute::Joyent::Image
 
         def all
-          load(service.list_datasets().body)
+          # the API call for getting images changed from 6.5 to 7.0.  Joyent seems to still support the old url, but no idea for how long
+          if service.joyent_version.gsub(/[^0-9.]/,'').to_f < 7.0
+            load(service.list_datasets.body)
+          else
+            load(service.list_images.body)
+          end
         end
 
         def get(id)
-          data = service.get_dataset(id).body
+          data = if service.joyent_version.gsub(/[^0-9.]/,'').to_f < 7.0
+            service.get_dataset(id).body
+          else
+            service.get_image(id).body
+          end
           new(data)
         end
 

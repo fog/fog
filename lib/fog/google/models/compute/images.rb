@@ -13,7 +13,7 @@ module Fog
                             'debian-cloud',
                             'centos-cloud',
                           # RHEL removed from this list because not everyone has access to it.
-                          #  'rhel-cloud', 
+                          #  'rhel-cloud',
                           ]
 
         def all

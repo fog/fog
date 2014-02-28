@@ -1,3 +1,5 @@
+require 'fog/clodo/core'
+
 module Fog
   module Compute
     class Clodo < Fog::Service
@@ -82,7 +84,7 @@ module Fog
           @clodo_must_reauthenticate = false
           authenticate
           Excon.ssl_verify_peer = false if options[:clodo_servicenet] == true
-          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", options[:persistent])
+          @connection = Fog::XML::Connection.new("#{@scheme}://#{@host}:#{@port}", options[:persistent])
         end
 
         def reload

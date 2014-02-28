@@ -7,11 +7,11 @@ require 'pp'
 #
 # Uses the account impersonation feature recently added to the
 # OpenStack Storage service in Fog (See https://github.com/fog/fog/pull/1632).
-# 
+#
 # Should be available in Fog 1.10.0+1.
 #
-# Setting account quotas is only supported in Swift 1.8.0+ 
-# using the brand new account_quota middleware introduced in 
+# Setting account quotas is only supported in Swift 1.8.0+
+# using the brand new account_quota middleware introduced in
 # OpenStack Grizzly (currently unreleased as of 2013/04/03).
 #
 # https://github.com/openstack/swift/blob/master/swift/common/middleware/account_quotas.py
@@ -23,7 +23,7 @@ password = 'secret'
 
 Excon.defaults[:ssl_verify_peer] = false
 
-# 
+#
 # We are going to use the Identity (Keystone) service
 # to retrieve the list of tenants available and find
 # the tenant we want to set the quotas for.
@@ -50,14 +50,14 @@ id.tenants.each do |t|
   puts "Changing account to #{t.name}"
   st.change_account "AUTH_#{t.id}"
 
-  # Now we're adding the required header to the demo@test.lan 
+  # Now we're adding the required header to the demo@test.lan
   # tenant account, limiting the account bytes to 1048576 (1MB)
   #
   # Uploading more than 1MB will return 413: Request Entity Too Large
   st.request :method => 'POST',
              :headers => { 'X-Account-Meta-Quota-Bytes' => '1048576' }
 
-  # We can list the account details to verify the new 
+  # We can list the account details to verify the new
   # header has been added
   pp st.request :method => 'HEAD'
 end

@@ -12,7 +12,7 @@ def test
 
   disk.wait_for { disk.ready? }
 
-  server = connection.servers.create(defaults = { 
+  server = connection.servers.create(defaults = {
     :name => name,
     :disks => [disk],
     :machine_type => "n1-standard-1",

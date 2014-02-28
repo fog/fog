@@ -50,7 +50,7 @@ module Fog
               if data[:destination][:external_ip_address]
                 xml.ExternalIpAddress data[:external_ip_address]
               end
-              if data[:destination][:external_network] 
+              if data[:destination][:external_network]
                 xml.ExternalNetwork do
                   xml.Address data[:destination][:external_network][:address]
                   xml.Size data[:destination][:external_network][:size]
@@ -76,4 +76,4 @@ module Fog
       end
     end
   end
-end          
+end

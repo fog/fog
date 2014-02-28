@@ -26,9 +26,9 @@ module Fog
         # *   'description'<~String>        - The description
         # *   'ownerId'<~String>            - The ID of the person who created the interface
         # *   'requesterId'<~String>        - The ID ot teh entity requesting this interface
-        # *   'requesterManaged'<~String>   - 
+        # *   'requesterManaged'<~String>   -
         # *   'status'<~String>             - "available" or "in-use"
-        # *   'macAddress'<~String>         - 
+        # *   'macAddress'<~String>         -
         # *   'privateIpAddress'<~String>   - IP address of the interface within the subnet
         # *   'privateDnsName'<~String>     - The private DNS name
         # *   'sourceDestCheck'<~Boolean>   - Flag indicating whether traffic to or from the instance is validated
@@ -60,7 +60,7 @@ module Fog
 
         end
       end
-      
+
       class Mock
         def create_network_interface(subnetId, options = {})
           response = Excon::Response.new

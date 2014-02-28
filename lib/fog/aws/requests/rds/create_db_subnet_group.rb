@@ -35,6 +35,8 @@ module Fog
 
           # collection = Fog::Compute::AWS.new(:aws_access_key_id => 'mock key', :aws_secret_access_key => 'mock secret')
           collection = Fog::Compute[:aws]
+          collection.region = @region
+
           subnets = subnet_ids.map do |snid|
             subnet = collection.subnets.get(snid)
             raise Fog::AWS::RDS::NotFound.new("InvalidSubnet => The subnet '#{snid}' was not found") if subnet.nil?

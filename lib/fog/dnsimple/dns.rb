@@ -1,5 +1,4 @@
-require 'fog/dnsimple'
-require 'fog/dns'
+require 'fog/dnsimple/core'
 
 module Fog
   module DNS
@@ -71,7 +70,7 @@ module Fog
           @persistent = options[:persistent]  || false
           @port       = options[:port]        || 443
           @scheme     = options[:scheme]      || 'https'
-          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
+          @connection = Fog::XML::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
         end
 
         def reload

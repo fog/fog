@@ -9,7 +9,7 @@ module Fog
         # @param [String] etag Etag of that distribution from earlier get or put
         #
         # @see http://docs.amazonwebservices.com/AmazonCloudFront/latest/APIReference/DeleteStreamingDistribution.html
-        
+
         def delete_streaming_distribution(distribution_id, etag)
           request({
             :expects    => 204,

@@ -1,4 +1,4 @@
-require 'fog/rackspace'
+require 'fog/rackspace/core'
 
 module Fog
   module Rackspace
@@ -119,7 +119,7 @@ module Fog
           deprecation_warnings(options)
 
           @persistent = options[:persistent] || false
-          @connection = Fog::Connection.new(endpoint_uri.to_s, @persistent, @connection_options)
+          @connection = Fog::XML::Connection.new(endpoint_uri.to_s, @persistent, @connection_options)
         end
 
         def request(params, parse_json = true)

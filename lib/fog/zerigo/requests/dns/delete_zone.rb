@@ -10,7 +10,7 @@ module Fog
         # ==== Returns
         # * response<~Excon::Response>:
         #   * 'status'<~Integer> - 200 indicates success
-        
+
         def delete_zone(zone_id)
           request(
             :expects  => 200,

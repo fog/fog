@@ -6,7 +6,7 @@ module Fog
 
       class LbBackend < Fog::Model
         identity :id
-        
+
         attribute :name
         attribute :lb_machines
         attribute :monitoring_url

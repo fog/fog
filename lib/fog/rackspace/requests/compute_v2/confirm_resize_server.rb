@@ -2,7 +2,7 @@ module Fog
   module Compute
     class RackspaceV2
       class Real
-        
+
         # Confirm server resize operation
         # @param [String] server_id The id of the server to revert
         # @return [Excon::Response] response
@@ -15,7 +15,7 @@ module Fog
         #
         # * Status Transition:
         #   * VERIFY_RESIZE -> ACTIVE
-        #   * VERIFY_RESIZE -> ERROR (on error)        
+        #   * VERIFY_RESIZE -> ERROR (on error)
         def confirm_resize_server(server_id)
           data = {
             'confirmResize' => nil

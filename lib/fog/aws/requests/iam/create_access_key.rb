@@ -6,7 +6,7 @@ module Fog
         require 'fog/aws/parsers/iam/create_access_key'
 
         # Create a access keys for user (by default detects user from access credentials)
-        # 
+        #
         # ==== Parameters
         # * options<~Hash>:
         #   * 'UserName'<~String> - name of the user to create (do not include path)

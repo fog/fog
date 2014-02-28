@@ -15,6 +15,9 @@ module Fog
         attribute :disk
         attribute :metadata
         attribute :tags
+        attribute :package
+        attribute :image
+        attribute :primary_ip, :aliases => 'primaryIp'
 
         attribute :created, :type => :time
         attribute :updated, :type => :time

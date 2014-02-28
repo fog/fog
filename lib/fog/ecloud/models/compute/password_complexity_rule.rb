@@ -39,7 +39,7 @@ module Fog
         def minimum_generations_before_reuse
           custom_rules[:MinimumGenerationsBeforeReuse]
         end
-        
+
         def id
           href.scan(/\d+/)[0]
         end

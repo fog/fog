@@ -14,7 +14,7 @@ module Fog
           #   :allowed_values - (String)
           #   :is_modifiable - (Boolean)
           #   :minimum_engine_version - (String)
-          
+
           def reset
             @response = { 'Parameters' => [] }
           end
@@ -27,8 +27,8 @@ module Fog
             end
           end
 
-          def end_element(name)     
-            super       
+          def end_element(name)
+            super
             case name
             when 'Marker'
               @response[name] = value

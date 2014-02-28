@@ -1,6 +1,6 @@
 module Fog
   module AWS
-    class Elasticache 
+    class Elasticache
       class Real
 
         require 'fog/aws/parsers/elasticache/describe_reserved_cache_nodes'
@@ -21,7 +21,7 @@ module Fog
           if opts[:max_records]
             params['MaxRecords'] = opts[:max_records]
           end
-          
+
           request({
             'Action'  => 'DescribeReservedCacheNodes',
             :parser   => Fog::Parsers::AWS::Elasticache::DescribeReservedCacheNodes.new

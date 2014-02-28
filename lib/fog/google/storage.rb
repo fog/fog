@@ -1,5 +1,4 @@
-require 'fog/google'
-require 'fog/storage'
+require 'fog/google/core'
 
 module Fog
   module Storage
@@ -284,7 +283,7 @@ DATA
           else
             @connection = nil
           end
-          @connection ||= Fog::Connection.new(uri, @persistent, @connection_options)
+          @connection ||= Fog::XML::Connection.new(uri, @persistent, @connection_options)
         end
 
         private

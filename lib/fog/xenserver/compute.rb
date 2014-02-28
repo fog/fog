@@ -1,5 +1,4 @@
-require 'fog/xenserver'
-require 'fog/compute'
+require 'fog/xenserver/core'
 
 module Fog
   module Compute
@@ -165,7 +164,7 @@ module Fog
           @host        = options[:xenserver_pool_master]
           @username    = options[:xenserver_username]
           @password    = options[:xenserver_password]
-          @connection  = Fog::Connection.new(@host)
+          @connection  = Fog::XML::Connection.new(@host)
           @connection.authenticate(@username, @password)
         end
 

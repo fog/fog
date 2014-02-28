@@ -12,7 +12,7 @@ end
 
 def select_server(servers)
   abort "\nThere are not any servers in the Chicago region. Try running create_server.rb\n\n" if servers.empty?
-  
+
   puts "\nSelect Server For Volume Detachment:\n\n"
   servers.each_with_index do |server, i|
     puts "\t #{i}. #{server.name} [#{server.public_ip_address}]"
@@ -24,7 +24,7 @@ end
 
 def select_attachment(attachments)
   abort "\nThis server does not contain any volumes in the Chicago region. Try running server_attachments.rb\n\n" if attachments.empty?
-  
+
   puts "\nSelect Volume To Detach:\n\n"
   attachments.each_with_index do |attachment, i|
     puts "\t #{i}. #{attachment.device}"
@@ -96,7 +96,7 @@ puts "Now Creating Snapshot #{snapshot_name}"
 snapshot = cbs_service.snapshots.create :display_name => snapshot_name, :volume_id => attachment.volume_id
 
 begin
-  # Check every 5 seconds to see if snapshot is in the available state (ready?). 
+  # Check every 5 seconds to see if snapshot is in the available state (ready?).
   # If the available has not been built in 5 minutes (600 seconds) an exception will be raised.
   snapshot.wait_for(600, 5) do
     print "."

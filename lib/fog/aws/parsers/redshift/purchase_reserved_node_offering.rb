@@ -4,7 +4,7 @@ module Fog
       module AWS
 
         class PurchaseReservedNodeOffering < Fog::Parsers::Base
-          
+
           # :reserved_node_id - (String)
           # :reserved_node_offering_id - (String)
           # :node_type - (String)
@@ -31,8 +31,8 @@ module Fog
             end
           end
 
-          def end_element(name)    
-            super        
+          def end_element(name)
+            super
             case name
             when 'ReservedNodeId', 'ReservedNodeOfferingId', 'NodeType', 'CurrencyCode', 'State', 'OfferingType'
               @response[name] = value

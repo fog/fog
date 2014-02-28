@@ -4,7 +4,7 @@ module Fog
       class Real
 
         def update_webhook(group_id, policy_id, webhook_id, options)
-          
+
           body = options
 
           request(

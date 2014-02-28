@@ -20,7 +20,7 @@ module Fog
           service.update_ruleset(:ruleset => ruleset, :rules => rules)
           true
         end
-        
+
       end
     end
   end

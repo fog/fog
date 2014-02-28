@@ -10,7 +10,7 @@ module Fog
         # ==== Parameters
         # * host_id<~Integer> - ID of the host record to retrieve
         # ==== Returns
-        # * response<~Excon::Response>: 
+        # * response<~Excon::Response>:
         #   * body<~Hash>:
         #     * 'created-at'<~String>
         #     * 'data'<~String>

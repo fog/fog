@@ -6,7 +6,7 @@ module Fog
         require 'fog/aws/parsers/iam/list_users'
 
         # List users
-        # 
+        #
         # ==== Parameters
         # * options<~Hash>:
         #   * 'Marker'<~String>: used to paginate subsequent requests

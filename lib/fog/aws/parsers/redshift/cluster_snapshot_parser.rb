@@ -41,8 +41,8 @@ module Fog
             super
           end
 
-          def end_element(name)  
-            super          
+          def end_element(name)
+            super
             case name
             when 'SnapshotIdentifier', 'ClusterIdentifier', 'Status', 'AvailabilityZone', 'MasterUsername', 'ClusterVersion', 'SnapshotType', 'NodeType',
               'DBName', 'VpcId', 'OwnerAccount'

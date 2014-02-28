@@ -9,7 +9,7 @@ module Fog
             next if filters.has_key?(:id) and filters[:id] != nictype
             interface_type_attributes(nictype, servertype_name, datacenter_name)
           end.compact
-        end 
+        end
         def interface_type_attributes(nic, servertype, datacenter)
           {
             :id => nic,

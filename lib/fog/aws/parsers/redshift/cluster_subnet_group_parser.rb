@@ -12,8 +12,8 @@ module Fog
           #   :subnet_identifier - (String)
           #   :subnet_availability_zone - (Hash)
           #     :name - (String)
-          #   :subnet_status - (String) 
-          
+          #   :subnet_status - (String)
+
           def reset
             @response = { 'Subnets' => [] }
           end
@@ -30,7 +30,7 @@ module Fog
             end
           end
 
-          def end_element(name)            
+          def end_element(name)
             super
             case name
             when 'ClusterSubnetGroupName', 'Desciption', 'VpcId', 'SubnetGroupStatus'

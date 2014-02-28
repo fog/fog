@@ -12,8 +12,8 @@ module Fog
         # * options<~Hash>:
         #   * enableDnsSupport<~Boolean> - Indicates whether DNS resolution is supported for the VPC. If this attribute is true, the Amazon DNS
         #     server resolves DNS hostnames for your instances to their corresponding IP addresses; otherwise, it does not.
-        #   * enableDnsHostnames<~Boolean> - Indicates whether the instances launched in the VPC get DNS hostnames. If this attribute is true, 
-        #     instances in the VPC get DNS hostnames; otherwise, they do not. You can only set enableDnsHostnames to true if you also set the 
+        #   * enableDnsHostnames<~Boolean> - Indicates whether the instances launched in the VPC get DNS hostnames. If this attribute is true,
+        #     instances in the VPC get DNS hostnames; otherwise, they do not. You can only set enableDnsHostnames to true if you also set the
         #     EnableDnsSupport attribute to true.
         #
         # ==== Returns

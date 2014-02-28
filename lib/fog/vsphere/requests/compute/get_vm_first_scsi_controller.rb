@@ -13,7 +13,7 @@ module Fog
             :shared_bus  => ctrl.sharedBus.to_s,
             :unit_number => ctrl.scsiCtlrUnitNumber,
             :key => ctrl.key,
-          } 
+          }
         end
 
       end

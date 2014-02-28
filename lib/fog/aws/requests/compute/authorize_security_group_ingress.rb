@@ -184,13 +184,29 @@ module Fog
                   'ipProtocol' => permission['IpProtocol'],
                   'fromPort' => Integer(permission['FromPort']),
                   'toPort' => Integer(permission['ToPort']),
-                  'groups' => (permission['Groups'] || []).map {|g| {'groupName' => g['GroupName'], 'userId' => g['UserId'] || self.data[:owner_id], 'groupId' => self.data[:security_groups][g['GroupName']] && self.data[:security_groups][g['GroupName']]['groupId']} },
+                  'groups' => (permission['Groups'] || []).map do |authorized_group|
+                    security_group = if group_name = authorized_group['GroupName']
+                                       self.data[:security_groups][group_name] || {}
+                                     elsif group_id = authorized_group['GroupId']
+                                       self.data[:security_groups].values.find { |sg| sg['groupId'] == group_id }
+                                     end
+
+                    {'groupName' => authorized_group['GroupName'] || security_group["groupName"], 'userId' => authorized_group['UserId'] || self.data[:owner_id], 'groupId' => authorized_group["GroupId"] || security_group['groupId']}
+                  end,
                   'ipRanges' => (permission['IpRanges'] || []).map {|r| { 'cidrIp' => r['CidrIp'] } }
                 }
               else
                 normalized_permissions << {
                   'ipProtocol' => permission['IpProtocol'],
-                  'groups' => (permission['Groups'] || []).map {|g| {'groupName' => g['GroupName'], 'userId' => g['UserId'] || self.data[:owner_id], 'groupId' => self.data[:security_groups][g['GroupName']]['groupId']} },
+                  'groups' => (permission['Groups'] || []).map do |authorized_group|
+                    security_group = if group_name = authorized_group['GroupName']
+                                       self.data[:security_groups][group_name] || {}
+                                     elsif group_id = authorized_group['GroupId']
+                                       self.data[:security_groups].values.find { |sg| sg['groupId'] == group_id }
+                                     end
+
+                    {'groupName' => authorized_group['GroupName'] || security_group["groupName"], 'userId' => authorized_group['UserId'] || self.data[:owner_id], 'groupId' => authorized_group["GroupId"] || security_group['groupId']}
+                  end,
                   'ipRanges' => (permission['IpRanges'] || []).map {|r| { 'cidrIp' => r['CidrIp'] } }
                 }
               end

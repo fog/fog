@@ -16,7 +16,7 @@ module Fog
         #
         # * Status Transition:
         #   * VERIFY_RESIZE -> ACTIVE
-        #   * VERIFY_RESIZE -> ERROR (on error)        
+        #   * VERIFY_RESIZE -> ERROR (on error)
         def resize_server(server_id, flavor_id)
           data = {
             'resize' => {
