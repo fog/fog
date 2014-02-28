@@ -123,7 +123,15 @@ module Fog
 
         def volumes
           # lazy loading of volumes
-          @volumes ||= (@volumes_path || []).map{|path| service.volumes.all(:path => path).first }
+          @volumes ||= (@volumes_path || []).map do |path|
+            # try to know if path is a fully-qualified path
+            # or a name for network devices
+            if path =~ /\A((\/)|([a-z]:\\))/
+              service.volumes.all(:path => path).first
+            else
+              service.volumes.all(:name => File.basename(path)).first
+            end
+          end
         end
 
         def private_ip_address
