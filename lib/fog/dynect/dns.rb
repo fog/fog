@@ -119,16 +119,24 @@ module Fog
           response
         end
 
-        def poll_job(response, original_expects, time_to_wait = 10)
+        def poll_job(response, original_expects, time_to_wait = 60)
           job_location = response.headers['Location']
 
-          Fog.wait_for(time_to_wait) do
-            response = request(:expects => original_expects, :method => :get, :path => job_location)
-            response.body['status'] != 'incomplete'
-          end
-
-          if response.body['status'] == 'incomplete'
-            raise JobIncomplete.new("Job #{response.body['job_id']} is still incomplete")
+          # Dyn says that most jobs take 0-2 seconds but sometimes spike to 30
+          # seconds or more. If a call takes longer than five seconds to
+          # complete, they recommend polling /REST/Job/ every ten seconds until
+          # completion, with a maximum timeout of 60 seconds.
+          begin
+            Fog.wait_for([ 5, time_to_wait ].min) do
+              response = request(:expects => original_expects, :method => :get, :path => job_location)
+              response.body['status'] != 'incomplete'
+            end
+          rescue Fog::Errors::TimeoutError => e
+            raise if time_to_wait <= 5
+            Fog.wait_for(time_to_wait-5, 10) do
+              response = request(:expects => original_expects, :method => :get, :path => job_location)
+              response.body['status'] != 'incomplete'
+            end
           end
 
           response
