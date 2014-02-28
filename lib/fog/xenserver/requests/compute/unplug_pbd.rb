@@ -6,7 +6,7 @@ module Fog
 
         def unplug_pbd( ref )
           @connection.request(
-            {:parser => Fog::Parsers::XenServer::Base.new, :method => 'PBD.unplug'}, 
+            {:parser => Fog::Parsers::XenServer::Base.new, :method => 'PBD.unplug'},
             ref
           )
         end

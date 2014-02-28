@@ -58,7 +58,7 @@ module Fog
         attribute :__host_cpus,                         :aliases => :host_CPUs
         attribute :edition
         attribute :software_version
-        
+
         def pifs
           __pifs.collect { |pif| service.pifs.get pif }
         end
@@ -92,10 +92,10 @@ module Fog
         end
 
         #
-        # Reboot the host disabling it first unless auto_disable is 
+        # Reboot the host disabling it first unless auto_disable is
         # set to false
-        # 
-        # This function can only be called if there are no currently running 
+        #
+        # This function can only be called if there are no currently running
         # VMs on the host and it is disabled. If there are running VMs, it will
         # raise an exception.
         #
@@ -107,19 +107,19 @@ module Fog
           disable if auto_disable
           service.reboot_host(reference)
         end
-        
+
         #
-        # Puts the host into a state in which no new VMs can be started. 
+        # Puts the host into a state in which no new VMs can be started.
         # Currently active VMs on the host continue to execute.
         #
         # @see http://docs.vmd.citrix.com/XenServer/6.0.0/1.0/en_gb/api/?c=host
         #
-        def disable 
+        def disable
           service.disable_host(reference)
         end
-        
+
         #
-        # Puts the host into a state in which new VMs can be started. 
+        # Puts the host into a state in which new VMs can be started.
         #
         # @see http://docs.vmd.citrix.com/XenServer/6.0.0/1.0/en_gb/api/?c=host
         #
@@ -128,10 +128,10 @@ module Fog
         end
 
         #
-        # Shutdown the host disabling it first unless auto_disable is 
+        # Shutdown the host disabling it first unless auto_disable is
         # set to false.
         #
-        # This function can only be called if there are no currently running 
+        # This function can only be called if there are no currently running
         # VMs on the host and it is disabled. If there are running VMs, it will
         # raise an exception.
         #
@@ -143,7 +143,7 @@ module Fog
           disable if auto_disable
           service.shutdown_host(reference)
         end
-        
+
         def set_attribute(name, *val)
           data = service.set_attribute( 'host', reference, name, *val )
           # Do not reload automatically for performance reasons

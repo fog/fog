@@ -7,22 +7,22 @@ module Fog
         #
         # @param bucket_name [String] Name of bucket to read from
         # @param object_name [String] Name of object to read
-        # @param options [Hash]: 
+        # @param options [Hash]:
         # @option options [String] If-Match Returns object only if its etag matches this value, otherwise returns 412 (Precondition Failed).
         # @option options [Time]   If-Modified-Since Returns object only if it has been modified since this time, otherwise returns 304 (Not Modified).
         # @option options [String] If-None-Match Returns object only if its etag differs from this value, otherwise returns 304 (Not Modified)
         # @option options [Time]   If-Unmodified-Since Returns object only if it has not been modified since this time, otherwise returns 412 (Precodition Failed).
         # @option options [String] Range Range of object to download
         # @option options [String] versionId specify a particular version to retrieve
-        # 
-        # @return [Excon::Response] response: 
+        #
+        # @return [Excon::Response] response:
         #   * body [String] Contents of object
-        #   * headers [Hash]: 
+        #   * headers [Hash]:
         #     * Content-Length [String] - Size of object contents
         #     * Content-Type [String] - MIME type of object
         #     * ETag [String] - Etag of object
         #     * Last-Modified - [String] Last modified timestamp for object
-        # 
+        #
         # @see http://docs.amazonwebservices.com/AmazonS3/latest/API/RESTObjectHEAD.html
         #
         def head_object(bucket_name, object_name, options={})

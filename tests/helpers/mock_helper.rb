@@ -100,6 +100,10 @@ if Fog.mock?
     :libvirt_username                 => 'root',
     :libvirt_password                 => 'password',
     :cloudsigma_username              => 'csuname',
-    :cloudsigma_password              => 'cspass'
+    :cloudsigma_password              => 'cspass',
+    :docker_username                  => 'docker-fan',
+    :docker_password                  => 'i<3docker',
+    :docker_email                     => 'dockerfan@gmail.com',
+    :docker_url                       => 'unix://var/run/docker.sock'
   }.merge(Fog.credentials)
 end

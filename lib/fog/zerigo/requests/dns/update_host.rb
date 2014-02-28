@@ -15,7 +15,7 @@ module Fog
         #   * priority<~Integer> - Note: required for MX or SRV records
         #   * ttl<~Integer>
         # ==== Returns
-        # * response<~Excon::Response>: 
+        # * response<~Excon::Response>:
         #   * 'status'<~Integer> - 200 for success
         #
         def update_host(host_id, options = {})

@@ -6,7 +6,7 @@ module Fog
         require 'fog/aws/parsers/iam/basic'
 
         # Delete an access key
-        # 
+        #
         # ==== Parameters
         # * access_key_id<~String> - Access key id to delete
         # * options<~Hash>:

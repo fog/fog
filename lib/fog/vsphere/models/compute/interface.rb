@@ -22,8 +22,10 @@ module Fog
           # Assign server first to prevent race condition with persisted?
           self.server_id = attributes.delete(:server_id)
 
-          if attributes.has_key? :type and attributes[:type].is_a? String then
-            attributes[:type] = Fog.class_from_string(attributes[:type], "RbVmomi::VIM")
+          if attributes.has_key? :type then
+            if attributes[:type].is_a? String then
+              attributes[:type] = Fog.class_from_string(attributes[:type], "RbVmomi::VIM")
+            end
           else
             attributes[:type] = Fog.class_from_string("VirtualE1000", "RbVmomi::VIM")
           end

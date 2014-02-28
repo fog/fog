@@ -9,12 +9,12 @@ module Fog
         # http://docs.amazonwebservices.com/ElasticMapReduce/latest/API/API_TerminateJobFlows.html
         # ==== Parameters
         # * JobFlowIds <~String list> - list of strings that uniquely identify the job flows to protect
-        # 
+        #
         # ==== Returns
         # * response<~Excon::Response>:
         #   * body<~Hash>
         def terminate_job_flows(options={})
-          
+
           if job_ids = options.delete('JobFlowIds')
             options.merge!(Fog::AWS.serialize_keys('JobFlowIds', job_ids))
           end

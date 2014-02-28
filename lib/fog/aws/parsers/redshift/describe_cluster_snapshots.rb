@@ -21,8 +21,8 @@ module Fog
             end
           end
 
-          def end_element(name)   
-            super         
+          def end_element(name)
+            super
             case name
             when 'Marker'
               @response[name] = value

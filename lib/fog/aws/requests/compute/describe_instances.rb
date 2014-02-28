@@ -92,37 +92,37 @@ module Fog
           instance_set = apply_tag_filters(instance_set, filters, 'instanceId')
 
           aliases = {
-            'architecture'      => 'architecture',
-            'availability-zone' => 'availabilityZone',
-            'client-token'      => 'clientToken',
-            'dns-name'         => 'dnsName',
-            'group-id'          => 'groupId',
-            'image-id'          => 'imageId',
-            'instance-id'       => 'instanceId',
-            'instance-lifecycle'  => 'instanceLifecycle',
-            'instance-type'     => 'instanceType',
-            'ip-address'        => 'ipAddress',
-            'kernel-id'         => 'kernelId',
-            'key-name'          => 'key-name',
-            'launch-index'      => 'launchIndex',
-            'launch-time'       => 'launchTime',
-            'monitoring-state'  => 'monitoringState',
-            'owner-id'          => 'ownerId',
-            'placement-group-name' => 'placementGroupName',
-            'platform'          => 'platform',
-            'private-dns-name'  => 'privateDnsName',
-            'private-ip-address'  => 'privateIpAddress',
-            'product-code'      => 'productCode',
-            'ramdisk-id'        => 'ramdiskId',
-            'reason'            => 'reason',
-            'requester-id'      => 'requesterId',
-            'reservation-id'    => 'reservationId',
-            'root-device-name'  => 'rootDeviceName',
-            'root-device-type'  => 'rootDeviceType',
+            'architecture'             => 'architecture',
+            'availability-zone'        => 'availabilityZone',
+            'client-token'             => 'clientToken',
+            'dns-name'                 => 'dnsName',
+            'group-id'                 => 'groupId',
+            'image-id'                 => 'imageId',
+            'instance-id'              => 'instanceId',
+            'instance-lifecycle'       => 'instanceLifecycle',
+            'instance-type'            => 'instanceType',
+            'ip-address'               => 'ipAddress',
+            'kernel-id'                => 'kernelId',
+            'key-name'                 => 'key-name',
+            'launch-index'             => 'launchIndex',
+            'launch-time'              => 'launchTime',
+            'monitoring-state'         => 'monitoringState',
+            'owner-id'                 => 'ownerId',
+            'placement-group-name'     => 'placementGroupName',
+            'platform'                 => 'platform',
+            'private-dns-name'         => 'privateDnsName',
+            'private-ip-address'       => 'privateIpAddress',
+            'product-code'             => 'productCode',
+            'ramdisk-id'               => 'ramdiskId',
+            'reason'                   => 'reason',
+            'requester-id'             => 'requesterId',
+            'reservation-id'           => 'reservationId',
+            'root-device-name'         => 'rootDeviceName',
+            'root-device-type'         => 'rootDeviceType',
             'spot-instance-request-id' => 'spotInstanceRequestId',
-            'subnet-id'         => 'subnetId',
-            'virtualization-type' => 'virtualizationType',
-            'vpc-id'            => 'vpcId'
+            'subnet-id'                => 'subnetId',
+            'virtualization-type'      => 'virtualizationType',
+            'vpc-id'                   => 'vpcId'
           }
           block_device_mapping_aliases = {
             'attach-time'           => 'attachTime',
@@ -151,6 +151,10 @@ module Fog
               instance_set = instance_set.reject{|instance| ![*filter_value].include?(instance['stateReason'][aliased_key])}
             elsif filter_key == "group-name"
               instance_set = instance_set.reject {|instance| !instance['groupSet'].include?(filter_value)}
+            elsif filter_key == "group-id"
+              group_ids = [*filter_value]
+              security_group_names = self.data[:security_groups].values.select { |sg| group_ids.include?(sg['groupId']) }.map { |sg| sg['groupName'] }
+              instance_set = instance_set.reject {|instance| (security_group_names & instance['groupSet']).empty?}
             else
               aliased_key = aliases[filter_key]
               instance_set = instance_set.reject {|instance| ![*filter_value].include?(instance[aliased_key])}
@@ -204,6 +208,19 @@ module Fog
             end
 
             if self.data[:instances][instance['instanceId']]
+
+              instance['networkInterfaces'] = self.data[:network_interfaces].select{|ni,ni_conf|
+                  ni_conf['attachment']['instanceId'] == instance['instanceId']
+                }.map{|ni,ni_conf|
+                  {
+                    'ownerId' => ni_conf['ownerId'],
+                    'subnetId' => ni_conf['subnetId'],
+                    'vpcId' => ni_conf['vpcId'],
+                    'networkInterfaceId' => ni_conf['networkInterfaceId'],
+                    'groupSet' => ni_conf['groupSet'],
+                    'attachmentId' => ni_conf['attachment']['attachmentId']
+                  }
+                }
 
               reservation_set[instance['reservationId']] ||= {
                 'groupSet'      => instance['groupSet'],

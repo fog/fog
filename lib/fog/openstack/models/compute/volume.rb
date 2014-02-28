@@ -51,6 +51,11 @@ module Fog
           service.detach_volume(server_id, attachment_id)
           true
         end
+
+        def ready?
+          self.status == "available"
+        end
+
       end
 
     end

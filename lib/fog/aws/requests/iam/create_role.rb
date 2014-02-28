@@ -21,9 +21,9 @@ module Fog
         require 'fog/aws/parsers/iam/single_role'
 
         # Creates a new role for your AWS account
-        # 
+        #
         # ==== Parameters
-        # * RoleName<~String>: name of the role to create 
+        # * RoleName<~String>: name of the role to create
         # * AssumeRolePolicyDocument<~String>: The policy that grants an entity permission to assume the role.
         # * Path<~String>: This parameter is optional. If it is not included, it defaults to a slash (/).
         # ==== Returns
@@ -31,7 +31,7 @@ module Fog
         #   * body<~Hash>:
         #     * 'Role'<~Hash>:
         #       * 'Arn'<~String> -
-        #       * 'AssumeRolePolicyDocument'<~String<  
+        #       * 'AssumeRolePolicyDocument'<~String<
         #       * 'Path'<~String> -
         #       * 'RoleId'<~String> -
         #       * 'RoleName'<~String> -

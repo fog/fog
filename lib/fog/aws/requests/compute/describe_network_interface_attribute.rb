@@ -39,7 +39,7 @@ module Fog
           )
         end
       end
-      
+
       class Mock
         def describe_network_interface_attribute(network_interface_id, attribute)
           response = Excon::Response.new

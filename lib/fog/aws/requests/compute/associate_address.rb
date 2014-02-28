@@ -8,7 +8,7 @@ module Fog
         # Associate an elastic IP address with an instance
         #
         # ==== Parameters
-        # * instance_id<~String> - Id of instance to associate address with (conditional) 
+        # * instance_id<~String> - Id of instance to associate address with (conditional)
         # * public_ip<~String> - Public ip to assign to instance (conditional)
         # * network_interface_id<~String> - Id of a nic to associate address with (required in a vpc instance with more than one nic) (conditional)
         # * allocation_id<~String> - Allocation Id to associate address with (vpc only) (conditional)

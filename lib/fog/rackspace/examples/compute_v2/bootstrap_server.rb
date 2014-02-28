@@ -12,7 +12,7 @@ def get_user_input(prompt)
   gets.chomp
 end
 
-# Use username defined in ~/.fog file, if absent prompt for username. 
+# Use username defined in ~/.fog file, if absent prompt for username.
 # For more details on ~/.fog refer to http://fog.io/about/getting_started.html
 def rackspace_username
   Fog.credentials[:rackspace_username] || get_user_input("Enter Rackspace Username")
@@ -54,7 +54,7 @@ ssh_key = generate_ssh_key
 # reload flavor in order to retrieve all of its attributes
 flavor.reload
 
-puts "\nNow creating server '#{server_name}' the following with specifications:\n" 
+puts "\nNow creating server '#{server_name}' the following with specifications:\n"
 puts "\t* #{flavor.ram} MB RAM"
 puts "\t* #{flavor.disk} GB"
 puts "\t* #{flavor.vcpus} CPU(s)"
@@ -63,8 +63,8 @@ puts "\n"
 
 begin
   # bootstrap server
-  server = service.servers.bootstrap :name => server_name, 
-                                     :flavor_id => flavor.id, 
+  server = service.servers.bootstrap :name => server_name,
+                                     :flavor_id => flavor.id,
                                      :image_id => image.id,
                                      :private_key => ssh_key.private_key,
                                      :public_key => ssh_key.ssh_public_key
@@ -85,12 +85,12 @@ begin
   else
     puts "An error occured, please try again"
   end
-  
+
 rescue Fog::Errors::TimeoutError
   puts "[TIMEOUT]\n\n"
-  
+
   puts "This server is currently #{server.progress}% into the build process and is taking longer to complete than expected."
-  puts "You can continute to monitor the build process through the web console at https://mycloud.rackspace.com/\n\n" 
+  puts "You can continute to monitor the build process through the web console at https://mycloud.rackspace.com/\n\n"
 end
 
 puts "To delete the server please execute the delete_server.rb script\n\n"

@@ -6,7 +6,7 @@ module Fog
         require 'fog/aws/parsers/cloud_formation/list_stacks'
 
         # List stacks.
-        # 
+        #
         # @param options [Hash]
         #
         # @return [Excon::Response]
@@ -23,7 +23,7 @@ module Fog
         #
         #
         # @see http://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_ListStacks.html
-        
+
         def list_stacks(options = {})
           request({
             'Action'    => 'ListStacks',

@@ -5,25 +5,25 @@ module Fog
         require 'fog/aws/parsers/redshift/describe_orderable_cluster_options'
 
         # ==== Parameters
-        # 
+        #
         # @param [Hash] options
         # * :cluster_version - (String)
-        #    The version filter value. Specify this parameter to show only the available 
-        #    offerings matching the specified version. Default: All versions. Constraints: 
+        #    The version filter value. Specify this parameter to show only the available
+        #    offerings matching the specified version. Default: All versions. Constraints:
         #    Must be one of the version returned from DescribeClusterVersions.
-        # * :node_type - (String) 
-        #    The node type filter value. Specify this parameter to show only the available 
+        # * :node_type - (String)
+        #    The node type filter value. Specify this parameter to show only the available
         #    offerings matching the specified node type.
-        # * :max_records - (Integer) 
+        # * :max_records - (Integer)
         #    The maximum number of records to include in the response. If more than the
-        #    MaxRecords value is available, a marker is included in the response so that the 
+        #    MaxRecords value is available, a marker is included in the response so that the
         #    following results can be retrieved. Constrained between [20,100]. Default is 100.
-        # * :marker - (String) 
-        #    The marker returned from a previous request. If this parameter is specified, the 
+        # * :marker - (String)
+        #    The marker returned from a previous request. If this parameter is specified, the
         #    response includes records beyond the marker only, up to MaxRecords.
         #
         # ==== See Also
-        # http://docs.aws.amazon.com/redshift/latest/APIReference/API_DescribeOrderableClusterOptions.html               
+        # http://docs.aws.amazon.com/redshift/latest/APIReference/API_DescribeOrderableClusterOptions.html
         def describe_orderable_cluster_options(options = {})
           cluster_version = options[:cluster_version]
           node_type       = options[:node_type]

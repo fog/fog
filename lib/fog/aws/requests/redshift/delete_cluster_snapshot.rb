@@ -5,19 +5,19 @@ module Fog
         require 'fog/aws/parsers/redshift/cluster_snapshot'
 
         # ==== Parameters
-        # 
+        #
         # @param [Hash] options
         # * :snapshot_identifier - required - (String)
-        #    A unique identifier for the snapshot that you are requesting. This identifier 
+        #    A unique identifier for the snapshot that you are requesting. This identifier
         #    must be unique for all snapshots within the AWS account. Constraints: Cannot be
-        #    null, empty, or blank Must contain from 1 to 255 alphanumeric characters or 
+        #    null, empty, or blank Must contain from 1 to 255 alphanumeric characters or
         #    hyphens First character must be a letter Cannot end with a hyphen or contain two
         #    consecutive hyphens Example: my-snapshot-id
-        # * :snapshot_cluster_identifier - required - (String) 
+        # * :snapshot_cluster_identifier - required - (String)
         #    The cluster identifier for which you want a snapshot.
         #
         # ==== See Also
-        # http://docs.aws.amazon.com/redshift/latest/APIReference/API_CreateClusterSnapshot.html  
+        # http://docs.aws.amazon.com/redshift/latest/APIReference/API_CreateClusterSnapshot.html
         def delete_cluster_snapshot(options = {})
           snapshot_identifier         = options[:snapshot_identifier]
           snapshot_cluster_identifier = options[:snapshot_cluster_identifier]

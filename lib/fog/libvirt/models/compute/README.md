@@ -1,5 +1,5 @@
 This model implements the connection with a libvirt URI.
-A libvirt URI can either be local or remote. 
+A libvirt URI can either be local or remote.
 
 To learn more on the specific libvirt URI syntax see:
 

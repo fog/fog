@@ -149,7 +149,7 @@ module Fog
 
           if type.nil?
             body = all_types
-          else 
+          else
             body = fetch_items(type, options)
           end
 

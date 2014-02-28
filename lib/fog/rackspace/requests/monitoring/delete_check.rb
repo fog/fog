@@ -14,7 +14,7 @@ module Fog
 
       class Mock
         def delete_check(entity_id, check_id)
-          
+
           if entity_id == -1 || check_id == -1
             raise Fog::Rackspace::Monitoring::NotFound
           end

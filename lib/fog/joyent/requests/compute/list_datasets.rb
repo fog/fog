@@ -15,7 +15,8 @@ module Fog
         def list_datasets
           request(
             :method => "GET",
-            :path => "/my/datasets"
+            :path => "/my/datasets",
+            :idempotent => true
           )
         end
       end

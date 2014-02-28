@@ -37,7 +37,7 @@ module Fog
         #       * TrustedSigners [Array] - Trusted signers.
         #
         # @see http://docs.amazonwebservices.com/AmazonCloudFront/latest/APIReference/GetDistribution.html
-        
+
         def get_distribution(distribution_id)
           request({
             :expects    => 200,

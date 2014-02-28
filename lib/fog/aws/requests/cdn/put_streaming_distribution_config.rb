@@ -9,7 +9,7 @@ module Fog
         #
         # @param distribution_id [String] - Id of distribution to update config for.
         # @param options [Hash] - Config for distribution.
-        # 
+        #
         #   REQUIRED:
         #   * S3Origin [Hash]:
         #     * DNSName [String] Origin to associate with distribution, ie 'mybucket.s3.amazonaws.com'.
@@ -40,7 +40,7 @@ module Fog
         #       * TrustedSigners [Array] - Trusted signers.
         #
         # @see http://docs.amazonwebservices.com/AmazonCloudFront/latest/APIReference/PutStreamingDistribution.html
-        
+
         def put_streaming_distribution_config(distribution_id, etag, options = {})
           data = '<?xml version="1.0" encoding="UTF-8"?>'
           data << "<StreamingDistributionConfig xmlns=\"http://cloudfront.amazonaws.com/doc/#{@version}/\">"

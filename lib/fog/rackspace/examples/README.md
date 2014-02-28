@@ -22,7 +22,7 @@ For more information please refer to the [Getting Started with Fog and the Racks
 
 ## Credentials
 
-Examples will prompt for Rackspace Open Cloud credentials. Prompts can be skipped by creating a `.fog` file in the user's home directory. This is an example of a `.fog` file for the Rackspace Open Cloud: 
+Examples will prompt for Rackspace Open Cloud credentials. Prompts can be skipped by creating a `.fog` file in the user's home directory. This is an example of a `.fog` file for the Rackspace Open Cloud:
 
 	default:
     	rackspace_username: RACKSPACE_USERNAME

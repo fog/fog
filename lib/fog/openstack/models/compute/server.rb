@@ -103,6 +103,7 @@ module Fog
         def all_addresses
           # currently openstack API does not tell us what is a floating ip vs a fixed ip for the vm listing,
           # we fall back to get all addresses and filter sadly.
+          # Only includes manually-assigned addresses, not auto-assigned
           @all_addresses ||= service.list_all_addresses.body["floating_ips"].select{|data| data['instance_id'] == id}
         end
 
@@ -118,7 +119,22 @@ module Fog
         end
 
         def floating_ip_addresses
-          all_addresses.map{|addr| addr["ip"]}
+          all_floating=addresses.values.flatten.select{ |data| data["OS-EXT-IPS:type"]=="floating" }.map{|addr| addr["addr"] }
+
+          # Return them all, leading with manually assigned addresses
+          manual = all_addresses.map{|addr| addr["ip"]}
+
+          all_floating.sort{ |a,b| 
+            a_manual = manual.include? a
+            b_manual = manual.include? b
+
+            if a_manual and !b_manual 
+              -1
+            elsif !a_manual and b_manual 
+              1
+            else 0 end
+          }
+
         end
 
         alias_method :public_ip_addresses, :floating_ip_addresses
@@ -155,6 +171,10 @@ module Fog
 
         def ready?
           self.state == 'ACTIVE'
+        end
+
+        def failed?
+          self.state == 'ERROR'
         end
 
         def change_password(admin_password)

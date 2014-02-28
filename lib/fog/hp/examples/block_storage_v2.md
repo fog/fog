@@ -2,7 +2,7 @@
 
 HP Cloud block storage provides support for volumes and snapshots. The latest HP Cloud deployment, version 13.5, takes advantage of more OpenStack functionality and the block storage service uses slightly different commands (often noted by *v2* in the commands) than the previous 12.12 version. Verify which version of HP Cloud you are working with.
 
-A volume can store boot images, user data or both. They provide customers with persistent and flexible permanent storage. You can think of it as list of USB devices, that can be plugged in anywhere at will. Volumes can be attached to server instances and mounted. 
+A volume can store boot images, user data or both. They provide customers with persistent and flexible permanent storage. You can think of it as list of USB devices, that can be plugged in anywhere at will. Volumes can be attached to server instances and mounted.
 
 Snapshots are saved volume images at specific moments in time. You can take a snapshot of a volume and then use that snapshot to create a new volume.
 
@@ -99,14 +99,14 @@ This section discusses the volume operations you can perform using the model abs
 6. Create a volume from a volume snapshot:
 
         new_volume = conn.volumes.create(
-                :name => 'VolumeFromSnapshot', 
+                :name => 'VolumeFromSnapshot',
                 :snapshot_id => "<snapshot_id>")
 **Note**: The size of the volume you create from a snapshot, is the same as that of the snapshot.
 
 7. Create a volume from another source volume:
 
         new_volume = conn.volumes.create(
-                :name => 'VolumeClone', 
+                :name => 'VolumeClone',
                 :source_volid => "<source_volid>")
 **Note**: The size of the volume you create from a source volume, is the same as that of the source volume.
 
@@ -114,8 +114,8 @@ This section discusses the volume operations you can perform using the model abs
 
         # assuming we have a server
         server.volume_attachments.create(
-                :server_id => server.id, 
-                :volume_id => "<volume_id>", 
+                :server_id => server.id,
+                :volume_id => "<volume_id>",
                 :device => "/dev/sdf")
         # => true
 **Note**: The device parameter is the mount point on the server instance to which the volume is attached (for example, `/dev/sdf`).
@@ -126,7 +126,7 @@ This section discusses the volume operations you can perform using the model abs
         server.volume_attachments.all
 
 10. Detach a volume from a server:
-        
+
         # assuming we have a server
         att_vol = server.volume_attachments.get("<volume_id>")
         att_vol.destroy
@@ -161,7 +161,7 @@ This section discusses the snapshot operations you can perform using the model a
 
         snapshot = conn.snapshots.all(:display_name => 'My Snapshot')
         snapshot.name            # returns name of the snapshot
-        snapshot.description     # returns the description of the snapshot           
+        snapshot.description     # returns the description of the snapshot
         snapshot.created_at      # returns the date the snapshot was created
         snapshot.status          # returns the state of the snapshot e.g., available
 
@@ -169,7 +169,7 @@ This section discusses the snapshot operations you can perform using the model a
 
         snapshot = conn.snapshots.get("<snapshot_id>")
         snapshot.name            # returns name of the volume
-        snapshot.description     # returns the description of the snapshot           
+        snapshot.description     # returns the description of the snapshot
         snapshot.status          # returns the state of the snapshot e.g., available
         snapshot.created_at      # returns the date the snapshot was created
         snapshot.volume_id       # returns the volume ID
@@ -180,7 +180,7 @@ This section discusses the snapshot operations you can perform using the model a
                :volume_id => "<volume_id>",
                :name => "TestSnapshot",
                :description => "My Test Snapshot")
-               
+
         snapshot.id              # returns the id of the volume
         snapshot.name            # => "TestVolume"
         snapshot.description     # returns the description of the snapshot
@@ -215,7 +215,7 @@ This section discusses the volume backup operations you can perform using the mo
 3. Obtain the details of a volume backup by ID:
 
         volume = conn.volume_backups.get("<volume_backup_id>")
-        
+
         volume.name             # returns the name of the volume backup
         volume.status           # provides the status of the volume backup e.g., available
         volume.created_at       # provides the date the backup was created
@@ -291,19 +291,19 @@ This section discusses the volume operations you can perform using the request a
 
 7. Create a new volume from an existing image:
 
-        conn.create_volume('display_name' => 'Test Volume 1', 
-                        'display_description' => 'Test Volume from image', 
-                        'size' => 10, 
+        conn.create_volume('display_name' => 'Test Volume 1',
+                        'display_description' => 'Test Volume from image',
+                        'size' => 10,
                         'imageRef' => "<image_id>")
 
 8. Create a new volume from an existing snapshot:
 
         response = conn.create_volume(
-                'display_name' => 'Test Volume 2', 
-                'display_description' => 'New Volume from Snapshot', 
+                'display_name' => 'Test Volume 2',
+                'display_description' => 'New Volume from Snapshot',
                 'snapshot_id' => "<snapshot_id>")
         volume = response.body['volume']
-        
+
         volume['id']                         # returns the id of the new volume
         volume['display_name']               # => "Test Volume 2"
         volume['size']                       # => 1
@@ -314,16 +314,16 @@ This section discusses the volume operations you can perform using the request a
 9. Create a new volume from an existing volume:
 
         conn.create_volume(
-                'display_name' => 'Test Volume 3', 
-                'display_description' => 'Test volume from another image', 
+                'display_name' => 'Test Volume 3',
+                'display_description' => 'Test volume from another image',
                 'source_volid' => "<source_volid>")
 
 10. Create a new bootable volume from an suitable single-part image:
 
         conn.create_volume(
-                'display_name' => "TestBootVol", 
-                'display_description' => "My Test Boot Volume", 
-                'size' => 10, 
+                'display_name' => "TestBootVol",
+                'display_description' => "My Test Boot Volume",
+                'size' => 10,
                 'imageRef' => "<bootable_image_id>")
 **Note**: You can use a bootable volume to create a persistent server instance.
 
@@ -352,7 +352,7 @@ This section discusses the volume operations you can perform using the request a
 
 14. Update a volume:
 
-        conn.update_volume("<volume_id>", 
+        conn.update_volume("<volume_id>",
                 {'display_name' => 'Test Volume Update'})
 
 15. Delete an existing volume:
@@ -392,7 +392,7 @@ This section discusses the snapshot operations you can perform using the request
 5. Create a new snapshot:
 
         response = conn.create_snapshot("<volume_id>",
-                'display_name' => 'Test Snapshot', 
+                'display_name' => 'Test Snapshot',
                 'display_description' => 'Test Snapshot from Vol Test')
         snapshot = response.body['snapshot']
         snapshot['id']                           # returns the id of the new volume

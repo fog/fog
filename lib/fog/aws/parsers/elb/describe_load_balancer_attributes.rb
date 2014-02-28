@@ -12,7 +12,7 @@ module Fog
 
           def start_element(name, attrs = [])
             super
-            case name 
+            case name
             when 'CrossZoneLoadBalancing'
               @cross_zone_load_balancing = {}
             end

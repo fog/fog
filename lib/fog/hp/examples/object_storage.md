@@ -1,6 +1,6 @@
 # Examples for working with HP Cloud Object Storage Service
 
-The HP Cloud Extensions to Ruby Fog libary provides Object Storage services support using two abstractions: a model layer and a request layer. Executing commands in both layers are detailed in this page. 
+The HP Cloud Extensions to Ruby Fog libary provides Object Storage services support using two abstractions: a model layer and a request layer. Executing commands in both layers are detailed in this page.
 
 The examples on this page can be executed from within a Ruby console (IRB):
 
@@ -101,7 +101,7 @@ To grant access to an object or a container:
         mydir.save                               # share the url for access to container
         mydir.public_url
         # => "https://objects.xxxx.hpcloud.net:443/v1/1111111/rgtest2"
-     
+
         myfile = mydir.files.get("sample.txt")   # share the url for access to object
         myfile.public_url
         # => "https://objects.xxxx.hpcloud.net:443/v1/1111111/rgtest2/sample.txt"
@@ -114,41 +114,41 @@ To grant access to an object or a container:
         sd.url
         # => "https://objects.xxxx.hpcloud.net:443/v1/1111111/rgtest2"
         sd.files
-        
+
   **Note**: If the grantee does not have access, the system generates an exception of type `Fog::HP::Errors::Forbidden`.
-        
+
 2. Use the shared URLs to get the metadata for a container:
 
         sd = conn.shared_directories.head(mydir.public_url)
-    
+
   **Note**: If the grantee does not have access, the system generates an exception of type `Fog::HP::Errors::Forbidden`.
 
 3. Use the shared URLs to get the contents of a shared object:
 
         sd = conn.shared_directories.get(mydir.public_url)
         sf = sd.files.get('sample.txt')
-        
+
 4. Use the shared URLs to get the metadata for a shared object:
 
         sd = conn.shared_directories.get(mydir.public_url)
         sf = sd.files.head('sample.txt')
-        
+
 5. Use the shared URLs to put a new object or file into a shared container:
 
         sd = conn.shared_directories.get(mydir.public_url)
         sf = sd.files.create(:key => 'tiny2.txt', :body => "This is another text file.")
-        
+
   **Note**: If the grantee does not have access, the system generates an exception of type `Fog::HP::Errors::Forbidden`.
-        
+
 6. Use the shared URLs to update an existing object or file in a shared container:
 
         sd = conn.shared_directories.get(mydir.public_url)
         sf = sd.files.new(:key => 'sample.txt')
         sf.body = "This is another text file."
         sf.save
-        
+
   **Note**: If the grantee does not have access, the system generates an exception of type `Fog::HP::Errors::Forbidden`.
-        
+
 7. Use the shared URLs to delete an existing object or file from a shared container:
 
         sd = conn.shared_directories.get(mydir.public_url)
@@ -194,7 +194,7 @@ Synchronizing containers creates a one-way association from containers to the sy
         # sync the source -> target
         dir_a.sync(target_dir_b, "boogieman") # => true
         dir_a.save # => true
-        
+
         # sync the target -> source
         target_dir_b.sync(dir_a, "boogieman") # => true
         target_dir_b.save #=> true
@@ -285,7 +285,7 @@ Synchronizing containers creates a one-way association from containers to the sy
 
         # creates a TempUrl to access sample.txt and access expires in 240 secs
         conn.get_object_temp_url("fog-rocks", "sample.txt", 240, "GET")
-        
+
 11. Delete a file from an existing container:
 
         conn.delete_object("fog-rocks", "sample.txt")
@@ -295,12 +295,12 @@ Synchronizing containers creates a one-way association from containers to the sy
 
         # Note: a container needs to be empty before it can be deleted!
         conn.delete_container("fog-rocks")
-        
+
 ### Using Object ACLs
 
 To use object ACLs in the request abstraction layer, you need to have already been granted permission to access the objects or containers.  (See the section on [Using Object ACLs](#UsingObjectACLsModelLayer) in the Model Layer section above for information on granting access.)
 
-1. Use the shared URLs to get the contents of a shared container: 
+1. Use the shared URLs to get the contents of a shared container:
 
         conn.get_shared_container(mydir.public_url)
 
@@ -311,27 +311,27 @@ To use object ACLs in the request abstraction layer, you need to have already be
         conn.head_shared_container(mydir.public_url)
 
   **Note**: If the grantee does not have access, the system generates an exception of type `Fog::HP::Errors::Forbidden`.
-  
+
 3. Use the shared URLs to get the contents of a shared object:
 
         conn.get_shared_object(myfile.public_url)
-        
+
 4. Use the shared URLs to get the metadata for a shared object
 
         conn.head_shared_object(myfile.public_url)
-        
+
 5. Use the shared URLs to put a new object or file into a shared container:
 
         conn.put_shared_object(mydir.public_url, 'tiny.txt', File.read('tiny.txt'))
-        
+
   **Note**: If the grantee does not have access, the system generates an exception of type `Fog::HP::Errors::Forbidden`.
-        
+
 6. Use the shared URLs to update an existing object or file in a shared container:
 
         conn.put_shared_object(mydir.public_url, 'sample.txt', "This text needed some update.")
-        
+
   **Note**: If the grantee does not have access, the system generates an exception of type `Fog::HP::Errors::Forbidden`.
-        
+
 7. Use the shared URLs to delete an existing object or file from a shared container:
 
         conn.delete_shared_object(myfile.public_url)
@@ -345,7 +345,7 @@ Synchronizing containers creates a one-way association from containers to the sy
         # create source and target containers
         conn.put_container('imp_stuff')
         conn.put_container('sync_archive')
-        
+
         # create some objects in the source container
         conn.put_object('imp_stuff', 'imp_1.txt', "This is a small file but it is very important.")
         conn.put_object('imp_stuff', 'imp_2.txt', File.open('/path/to/file/imp_2.txt'))

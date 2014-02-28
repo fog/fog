@@ -4,7 +4,7 @@
 
   See https://github.com/fog/fog/blob/master/lib/fog/xenserver/examples/networks-and-vlans.rb
 
-# 1.9.0 2013/01/19 
+# 1.9.0 2013/01/19
 
 * Added missing HostCpu model
 
@@ -13,7 +13,7 @@
 
   See http://docs.vmd.citrix.com/XenServer/6.0.0/1.0/en_gb/api/?c=host_cpu
 
-* Host model improvements 
+* Host model improvements
 
   Added missing host attributes:
 
@@ -37,10 +37,10 @@
 
   - Added missing create/destroy/save operations
   - Added missing generic set_attribute method
-  
+
   See http://docs.vmd.citrix.com/XenServer/6.0.0/1.0/en_gb/api/?c=SR
 
-* Pool model improvements 
+* Pool model improvements
 
   - Added missing suspend_image_sr attribute
   - Added default_sr getter/setter

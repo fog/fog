@@ -8,10 +8,10 @@ module Fog
           def reset
             @response = {}
           end
-          
+
           def end_element(name)
             case name
-            when 'Id'  
+            when 'Id'
               @response[name] = value.sub('/change/', '')
             when 'Status', 'SubmittedAt'
               @response[name] = value

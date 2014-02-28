@@ -6,7 +6,7 @@ module Fog
         require 'fog/aws/parsers/cloud_formation/list_stack_resources'
 
         # List stack resources.
-        # 
+        #
         # @param options [Hash]
         # @option options StackName [String] Name of the stack to describe.
         #
@@ -22,7 +22,7 @@ module Fog
         #
         #
         # @see http://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_ListStacks.html
-        
+
         def list_stack_resources(options = {})
           request({
             'Action'    => 'ListStackResources',

@@ -55,7 +55,7 @@ module Fog
               optional_tags+= "<tag-list>#{value}</tag-list>"
             end
           }
-          
+
           request(
             :body     => %Q{<?xml version="1.0" encoding="UTF-8"?><zone>#{optional_tags}</zone>},
             :expects  => 200,

@@ -29,7 +29,7 @@ module Fog
           )
         end
       end
-      
+
 
       class Mock
 

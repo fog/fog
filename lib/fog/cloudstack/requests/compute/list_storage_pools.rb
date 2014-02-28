@@ -10,7 +10,7 @@ module Fog
           options.merge!(
             'command' => 'listStoragePools'
           )
-          
+
           request(options)
         end
 

@@ -5,6 +5,8 @@ module Fog
       class Template < Fog::Model
 
         identity :id
+        attribute :name
+        attribute :uuid
 
       end
 
