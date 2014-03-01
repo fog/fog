@@ -15,7 +15,7 @@ module Fog
         attribute :associate_public_ip,      :aliases => 'associatePublicIP'
         attribute :availability_zone,        :aliases => 'availabilityZone'
         attribute :block_device_mapping,     :aliases => 'blockDeviceMapping'
-        attribute :network_interfaces,       :aliases => 'networkInterface'
+        attribute :network_interfaces,       :aliases => 'networkInterfaces'
         attribute :client_token,             :aliases => 'clientToken'
         attribute :dns_name,                 :aliases => 'dnsName'
         attribute :ebs_optimized,            :aliases => 'ebsOptimized'
