@@ -146,7 +146,7 @@ module Fog
 
           options = {
             'BlockDeviceMapping'          => block_device_mapping,
-            'NetworkInterface'            => network_interfaces,
+            'NetworkInterfaces'           => network_interfaces,
             'ClientToken'                 => client_token,
             'EbsOptimized'                => ebs_optimized,
             'IamInstanceProfile.Arn'      => @iam_instance_profile_arn,
