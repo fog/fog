@@ -9,8 +9,8 @@ module Fog
             @block_device_mapping = {}
             @network_interfaces = {}
             @context = []
-            @contexts = ['networkInterface', 'blockDeviceMapping', 'groupSet', 'placement', 'productCodes']
-            @instance = { 'networkInterface' => [], 'blockDeviceMapping' => [], 'instanceState' => {}, 'monitoring' => {}, 'placement' => {}, 'productCodes' => [] }
+            @contexts = ['networkInterfaces', 'blockDeviceMapping', 'groupSet', 'placement', 'productCodes']
+            @instance = { 'networkInterfaces' => [], 'blockDeviceMapping' => [], 'instanceState' => {}, 'monitoring' => {}, 'placement' => {}, 'productCodes' => [] }
             @response = { 'groupSet' => [], 'instancesSet' => [] }
           end
 
@@ -60,12 +60,12 @@ module Fog
               when 'blockDeviceMapping'
                 @instance['blockDeviceMapping'] << @block_device_mapping
                 @block_device_mapping = {}
-              when 'networkInterface'
-                @instance['networkInterface'] << @network_interfaces
+              when 'networkInterfaces'
+                @instance['networkInterfaces'] << @network_interfaces
                 @network_interfaces = {}
               when nil
                 @response['instancesSet'] << @instance
-                @instance = { 'networkInterface' => [], 'blockDeviceMapping' => [], 'instanceState' => {}, 'monitoring' => {}, 'placement' => {}, 'productCodes' => [] }
+                @instance = { 'networkInterfaces' => [], 'blockDeviceMapping' => [], 'instanceState' => {}, 'monitoring' => {}, 'placement' => {}, 'productCodes' => [] }
               end
             when 'launchTime'
               @instance[name] = Time.parse(value)
