@@ -30,7 +30,7 @@ module Fog
         #     * 'Ebs.DeleteOnTermination'<~String> - specifies whether or not to delete the volume on instance termination
         #     * 'Ebs.VolumeType'<~String> - Type of EBS volue. Valid options in ['standard', 'io1'] default is 'standard'.
         #     * 'Ebs.Iops'<~String> - The number of I/O operations per second (IOPS) that the volume supports. Required when VolumeType is 'io1'
-        #   * 'NetworkInterface'<~Array>: array of hashes
+        #   * 'NetworkInterfaces'<~Array>: array of hashes
         #     * 'NetworkInterfaceId'<~String> - An existing interface to attach to a single instance
         #     * 'DeviceIndex'<~String> - The device index. Applies both to attaching an existing network interface and creating a network interface
         #     * 'SubnetId'<~String> - The subnet ID. Applies only when creating a network interface
@@ -120,7 +120,7 @@ module Fog
           if options['UserData']
             options['UserData'] = Base64.encode64(options['UserData'])
           end
-          if network_interfaces = options.delete('NetworkInterface')
+          if network_interfaces = options.delete('NetworkInterfaces')
             network_interfaces.each_with_index do |mapping, index|
               for key, value in mapping
                 options.merge!({ format("NetworkInterface.%d.#{key}", index) => value })
@@ -178,7 +178,7 @@ module Fog
               }
             end
 
-            network_interfaces = (options['NetworkInterface'] || []).inject([]) do |mapping, device|
+            network_interfaces = (options['NetworkInterfaces'] || []).inject([]) do |mapping, device|
               device_index          = device.fetch("DeviceIndex", 0)
               subnet_id             = device.fetch("SubnetId", options[:subnet_id] ||  Fog::AWS::Mock.subnet_id)
               private_ip_address    = device.fetch("PrivateIpAddress", options[:private_ip_address] || Fog::AWS::Mock.private_ip_address)
@@ -207,7 +207,7 @@ module Fog
               'associatePublicIP'   => options['associatePublicIP'] || false,
               'architecture'        => 'i386',
               'blockDeviceMapping'  => block_device_mapping,
-              'networkInterface'    => network_interfaces,
+              'networkInterfaces'   => network_interfaces,
               'clientToken'         => options['clientToken'],
               'dnsName'             => nil,
               'ebsOptimized'        => options['EbsOptimized'] || false,
