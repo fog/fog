@@ -12,6 +12,9 @@ module Fog
 
         attribute :name
         attribute :created
+        attribute :path
+        attribute :args
+        attribute :hostname
         attribute :ipaddress,                   :aliases => 'network_settings_ipaddress'
         attribute :bridge,                      :aliases => 'network_settings_bridge'
         attribute :state_running
@@ -19,6 +22,8 @@ module Fog
         attribute :cores,                       :aliases => 'config_cpu_shares'
         attribute :memory,                      :aliases => 'config_memory'
         attribute :hostname,                    :aliases => 'config_hostname'
+        attribute :cmd,                         :aliases => 'config_cmd'
+        attribute :entrypoint,                  :aliases => 'config_entrypoint'
         attribute :host
         attribute :image
         attribute :exposed_ports,               :aliases => 'config_exposed_ports'
