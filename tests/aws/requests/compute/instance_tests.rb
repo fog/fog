@@ -6,6 +6,7 @@ Shindo.tests('Fog::Compute[:aws] | instance requests', ['aws']) do
     'associatePublicIP'   => Fog::Nullable::Boolean,
     'attachmentId'        => Fog::Nullable::String,
     'blockDeviceMapping'  => [Fog::Nullable::Hash],
+    'networkInterfaces'   => [Fog::Nullable::Hash],
     'clientToken'         => Fog::Nullable::String,
     'dnsName'             => NilClass,
     'ebsOptimized'        => Fog::Boolean,
