@@ -49,6 +49,10 @@ module Fog
           hash.inject({}){ |h, v| h.merge! downcase_hash_keys(v[-1], k + [v[0]]) }
         end
 
+        def camelize_hash_keys(hash)
+          Hash[ hash.map {|k, v| [k.to_s.camelize, v] }]
+        end
+
       end
     end
   end
