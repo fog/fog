@@ -79,11 +79,12 @@ module Fog
         # }
 
         def ready?
-          state_running == true
+          reload if state_running.nil?
+          state_running
         end
 
         def stopped?
-          state_running == false
+          !ready?
         end
 
         def mac
