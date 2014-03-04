@@ -1,8 +1,8 @@
-# How To Change the Default Storage Repository to File-based VHD-on-EXT3 
+# How To Change the Default Storage Repository to File-based VHD-on-EXT3
 
 **NOTE: Requires fog > 1.8 (currently in development as of this writing)**
 
-This tutorial explains how to convert a local Logical Volume Manager (LVM) 
+This tutorial explains how to convert a local Logical Volume Manager (LVM)
 based storage repository into a file-based (VHD) storage repository.
 
 It's the fog/xenserver version of the original Citrix KB article:
@@ -33,7 +33,7 @@ Find the default LVM storage repository:
 # Equivalent to:
 # xe sr-list type=lvm
 #
-lvm_sr = nil 
+lvm_sr = nil
 conn.storage_repositories.each do |sr|
   lvm_sr = sr if sr.type == 'lvm'
 end
@@ -55,7 +55,7 @@ if lvm_sr
     pbd.unplug if pbd.storage_repository.uuid == lvm_sr.uuid
   end
   # Destroy the SR
-  lvm_sr.destroy 
+  lvm_sr.destroy
 end
 ```
 
@@ -66,7 +66,7 @@ Create a new VHD-backed SR:
 # Equivalent to:
 #
 # xe sr-create content-type="local SR" \
-#              host-uuid=5d189b7a-cd5e-4029-9940-d4daaa34633d \ 
+#              host-uuid=5d189b7a-cd5e-4029-9940-d4daaa34633d \
 #              type=ext device-config-device=/dev/sda3 shared=false \
 #              name-label="Local File SR"
 #

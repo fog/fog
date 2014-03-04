@@ -18,7 +18,7 @@ module Fog
           if agent_id == -1
             raise Fog::Rackspace::Monitoring::BadRequest
           end
-          
+
           response = Excon::Response.new
           response.status = 200
           response.body = {
@@ -34,7 +34,7 @@ module Fog
                 "device"    => "pts/2",
                 "time"      => Time.now.to_i - 50,
                 "host"      => "somehost2.company.local"
-              }              
+              }
             ]
           }
           response.headers = {

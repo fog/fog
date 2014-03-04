@@ -6,7 +6,7 @@ module Fog
         require 'fog/aws/parsers/iam/list_groups'
 
         # List groups
-        # 
+        #
         # ==== Parameters
         # * options<~Hash>:
         #   * 'Marker'<~String>: used to paginate subsequent requests

@@ -30,6 +30,18 @@ module Fog
         #     * 'Ebs.DeleteOnTermination'<~String> - specifies whether or not to delete the volume on instance termination
         #     * 'Ebs.VolumeType'<~String> - Type of EBS volue. Valid options in ['standard', 'io1'] default is 'standard'.
         #     * 'Ebs.Iops'<~String> - The number of I/O operations per second (IOPS) that the volume supports. Required when VolumeType is 'io1'
+        #   * 'NetworkInterfaces'<~Array>: array of hashes
+        #     * 'NetworkInterfaceId'<~String> - An existing interface to attach to a single instance
+        #     * 'DeviceIndex'<~String> - The device index. Applies both to attaching an existing network interface and creating a network interface
+        #     * 'SubnetId'<~String> - The subnet ID. Applies only when creating a network interface
+        #     * 'Description'<~String> - A description. Applies only when creating a network interface
+        #     * 'PrivateIpAddress'<~String> - The primary private IP address. Applies only when creating a network interface
+        #     * 'SecurityGroupId'<~String> - The ID of the security group. Applies only when creating a network interface.
+        #     * 'DeleteOnTermination'<~String> - Indicates whether to delete the network interface on instance termination.
+        #     * 'PrivateIpAddresses.PrivateIpAddress'<~String> - The private IP address. This parameter can be used multiple times to specify explicit private IP addresses for a network interface, but only one private IP address can be designated as primary.
+        #     * 'PrivateIpAddresses.Primary'<~Bool> - Indicates whether the private IP address is the primary private IP address.
+        #     * 'SecondaryPrivateIpAddressCount'<~Bool> - The number of private IP addresses to assign to the network interface.
+        #     * 'AssociatePublicIpAddress'<~String> - Indicates whether to assign a public IP address to an instance in a VPC. The public IP address is assigned to a specific network interface
         #   * 'ClientToken'<~String> - unique case-sensitive token for ensuring idempotency
         #   * 'DisableApiTermination'<~Boolean> - specifies whether or not to allow termination of the instance from the api
         #   * 'SecurityGroup'<~Array> or <~String> - Name of security group(s) for instances (not supported for VPC)
@@ -108,6 +120,13 @@ module Fog
           if options['UserData']
             options['UserData'] = Base64.encode64(options['UserData'])
           end
+          if network_interfaces = options.delete('NetworkInterfaces')
+            network_interfaces.each_with_index do |mapping, index|
+              for key, value in mapping
+                options.merge!({ format("NetworkInterface.%d.#{key}", index) => value })
+              end
+            end
+          end
 
           idempotent = !(options['ClientToken'].nil? || options['ClientToken'].empty?)
 
@@ -159,11 +178,36 @@ module Fog
               }
             end
 
+            network_interfaces = (options['NetworkInterfaces'] || []).inject([]) do |mapping, device|
+              device_index          = device.fetch("DeviceIndex", 0)
+              subnet_id             = device.fetch("SubnetId", options[:subnet_id] ||  Fog::AWS::Mock.subnet_id)
+              private_ip_address    = device.fetch("PrivateIpAddress", options[:private_ip_address] || Fog::AWS::Mock.private_ip_address)
+              delete_on_termination = device.fetch("DeleteOnTermination", true)
+              description           = device.fetch("Description", "mock_network_interface")
+              security_group_id     = device.fetch("SecurityGroupId", self.data[:security_groups]['default']['groupId'])
+              interface_options     = {
+                  "PrivateIpAddress"   => private_ip_address,
+                  "GroupSet"           => device.fetch("GroupSet", [security_group_id]),
+                  "Description"        => description
+              }
+
+              interface_id = device.fetch("NetworkInterfaceId", create_network_interface(subnet_id, interface_options))
+
+              mapping << {
+                "networkInterfaceId"  => interface_id,
+                "subnetId"            => subnet_id,
+                "status"              => "attached",
+                "attachTime"          => Time.now,
+                "deleteOnTermination" => delete_on_termination,
+              }
+            end
+
             instance = {
               'amiLaunchIndex'      => i,
               'associatePublicIP'   => options['associatePublicIP'] || false,
               'architecture'        => 'i386',
               'blockDeviceMapping'  => block_device_mapping,
+              'networkInterfaces'   => network_interfaces,
               'clientToken'         => options['clientToken'],
               'dnsName'             => nil,
               'ebsOptimized'        => options['EbsOptimized'] || false,

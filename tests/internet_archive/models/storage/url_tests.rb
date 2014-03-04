@@ -1,6 +1,6 @@
 # encoding: utf-8
 
-Shindo.tests('InternetArchive | url', ["internet_archive"]) do
+Shindo.tests('InternetArchive | url', ["internetarchive"]) do
 
   @expires = Time.utc(2013,1,1).utc.to_i
 

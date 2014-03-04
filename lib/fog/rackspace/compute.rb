@@ -1,5 +1,4 @@
 require 'fog/rackspace/core'
-require 'fog/compute'
 
 module Fog
   module Compute
@@ -198,7 +197,7 @@ module Fog
           authenticate
           Excon.defaults[:ssl_verify_peer] = false if service_net?
           @persistent = options[:persistent] || false
-          @connection = Fog::Connection.new(endpoint_uri.to_s, @persistent, @connection_options)
+          @connection = Fog::XML::Connection.new(endpoint_uri.to_s, @persistent, @connection_options)
         end
 
         def reload

@@ -73,7 +73,7 @@ module Fog
             :query      => query.map {|q| URI.escape(q)}.join('&')
           )
           ensure_list! response.body, :Link
-          ensure_list! response.body, 
+          ensure_list! response.body,
             response.body[:type] == 'application/vnd.vmware.vcloud.query.references+xml' ?
               :OrgVdcReference : :OrgVdcRecord
 

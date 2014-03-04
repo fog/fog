@@ -1,5 +1,4 @@
 require 'fog/hp/core'
-require 'fog/storage'
 
 module Fog
   module Storage
@@ -149,7 +148,7 @@ module Fog
           write_h = write_header.split(',') unless write_header.nil?
           return read_h, write_h
         end
-        
+
         # Get an expiring object https url
         #
         # ==== Parameters
@@ -163,7 +162,7 @@ module Fog
         def get_object_https_url(container, object, expires, options = {})
           create_temp_url(container, object, expires, "GET", options.merge(:scheme => "https"))
         end
-        
+
         # Get an expiring object http url
         #
         # ==== Parameters
@@ -192,8 +191,8 @@ module Fog
           expiration_time = (Time.now + expires_secs.to_i).to_i
           create_temp_url(container, object, expiration_time, method, {})
         end
-        
-        # creates a temporary url 
+
+        # creates a temporary url
         #
         # ==== Parameters
         # * container<~String> - Name of container containing object
@@ -218,7 +217,7 @@ module Fog
 
           expires        = expires.to_i
           scheme = options[:scheme] || @scheme
-          
+
           # do not encode before signature generation, encode after
           sig_path = "#{@path}/#{container}/#{object}"
           encoded_path = "#{@path}/#{Fog::HP.escape(container)}/#{Fog::HP.escape(object)}"
@@ -236,17 +235,17 @@ module Fog
           else
             # Only works with 1.9+ Not compatible with 1.8.7
             #signed_string = Digest::HMAC.hexdigest(string_to_sign, @hp_secret_key, Digest::SHA1)
-          
-            # Compatible with 1.8.7 onwards          
+
+            # Compatible with 1.8.7 onwards
             hmac = OpenSSL::HMAC.new(@hp_secret_key, OpenSSL::Digest::SHA1.new)
             signed_string = hmac.update(string_to_sign).hexdigest
-            
+
             signature     = @hp_tenant_id.to_s + ":" + @hp_access_key.to_s + ":" + signed_string
             signature     = Fog::HP.escape(signature)
           end
-          
+
           # generate the temp url using the signature and expiry
-          "#{scheme}://#{@host}#{encoded_path}?temp_url_sig=#{signature}&temp_url_expires=#{expires}"          
+          "#{scheme}://#{@host}#{encoded_path}?temp_url_sig=#{signature}&temp_url_expires=#{expires}"
         end
       end
 
@@ -284,7 +283,7 @@ module Fog
           end
           @hp_secret_key = options[:hp_secret_key]
           @hp_tenant_id = options[:hp_tenant_id]
-          @os_account_meta_temp_url_key = options[:os_account_meta_temp_url_key]        
+          @os_account_meta_temp_url_key = options[:os_account_meta_temp_url_key]
         end
 
         def data
@@ -320,7 +319,7 @@ module Fog
           ### A symbol is required, we should ensure that the value is loaded as a symbol
           auth_version = options[:hp_auth_version] || :v2
           auth_version = auth_version.to_s.downcase.to_sym
-          
+
           ### Pass the service name for object storage to the authentication call
           options[:hp_service_type] ||= "Object Storage"
           @hp_tenant_id = options[:hp_tenant_id]
@@ -352,7 +351,7 @@ module Fog
           @port   = uri.port
           @scheme = uri.scheme
 
-          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
+          @connection = Fog::XML::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
         end
 
         def reload

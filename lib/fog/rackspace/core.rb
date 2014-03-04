@@ -1,4 +1,5 @@
 require 'fog/core'
+require 'fog/json'
 require 'fog/rackspace/mock_data'
 require 'fog/rackspace/service'
 require 'fog/rackspace/errors'
@@ -103,7 +104,7 @@ module Fog
       url = rackspace_auth_url.match(/^https?:/) ? \
                 rackspace_auth_url : 'https://' + rackspace_auth_url
       uri = URI.parse(url)
-      connection = Fog::Connection.new(url, false, connection_options)
+      connection = Fog::XML::Connection.new(url, false, connection_options)
       @rackspace_api_key  = options[:rackspace_api_key]
       @rackspace_username = options[:rackspace_username]
       response = connection.request({

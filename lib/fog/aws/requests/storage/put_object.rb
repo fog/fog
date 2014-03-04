@@ -25,7 +25,7 @@ module Fog
         #     * ETag [String] etag of new object
         #
         # @see http://docs.amazonwebservices.com/AmazonS3/latest/API/RESTObjectPUT.html
-        
+
         def put_object(bucket_name, object_name, data, options = {})
           data = Fog::Storage.parse_data(data)
           headers = data[:headers].merge!(options)

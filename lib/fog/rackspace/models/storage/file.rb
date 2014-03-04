@@ -36,7 +36,7 @@ module Fog
         # @return [String] string containing a list of space delimited URLs
         # @see http://docs.rackspace.com/files/api/v1/cf-devguide/content/CORS_Container_Header-d1e1300.html
         attribute :access_control_allow_origin, :aliases => ['Access-Control-Allow-Origin']
-        
+
         # @!attribute [rw] origin
         # @return [String] The origin is the URI of the object's host.
         # @see http://docs.rackspace.com/files/api/v1/cf-devguide/content/CORS_Container_Header-d1e1300.html
@@ -133,13 +133,13 @@ module Fog
           end
           attributes[:metadata]
         end
-        
+
         # File metadata
         # @return [Fog::Storage::Rackspace::Metadata] metadata key value pairs.
         def metadata
           attributes[:metadata] ||= Fog::Storage::Rackspace::Metadata.new(self)
         end
-        
+
         # Required for compatibility with other Fog providers. Not Used.
         def owner=(new_owner)
           if new_owner
@@ -177,7 +177,7 @@ module Fog
         def public?
           directory.public?
         end
-        
+
 
         # Get a url for file.
         #
@@ -213,7 +213,7 @@ module Fog
         def public_url
           Files::file_url directory.public_url, key
         end
-        
+
         # URL used to stream video to iOS devices without needing to convert your video
         # @return [String] iOS URL
         # @raise [Fog::Storage::Rackspace::NotFound] - HTTP 404
@@ -224,7 +224,7 @@ module Fog
         def ios_url
           Files::file_url directory.ios_url, key
         end
-        
+
         # URL used to stream resources
         # @return [String] streaming url
         # @raise [Fog::Storage::Rackspace::NotFound] - HTTP 404
@@ -234,8 +234,8 @@ module Fog
         # @see http://docs.rackspace.com/files/api/v1/cf-devguide/content/Streaming-CDN-Enabled_Containers-d1f3721.html
         def streaming_url
           Files::file_url directory.streaming_url, key
-        end      
-        
+        end
+
         # Immediately purge file from the CDN network
         # @raise [Fog::Storage::Rackspace::NotFound] - HTTP 404
         # @raise [Fog::Storage::Rackspace::BadRequest] - HTTP 400
@@ -272,7 +272,7 @@ module Fog
 
           data = service.put_object(directory.key, key, body, options)
           update_attributes_from(data)
-          
+
           self.content_length = Fog::Storage.get_body_size(body)
           self.content_type ||= Fog::Storage.get_content_type(body)
           true

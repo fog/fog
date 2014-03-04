@@ -31,7 +31,7 @@ module Fog
           if self.data[:security_groups] and self.data[:security_groups][name]
             raise Fog::AWS::RDS::IdentifierTaken.new("DBInstanceAlreadyExists => The security group '#{name}' already exists")
           end
-          
+
           data = {
             'DBSecurityGroupName' => name,
             'DBSecurityGroupDescription' => description,
@@ -45,7 +45,7 @@ module Fog
             'CreateDBSecurityGroupResult' => { 'DBSecurityGroup' => data }
           }
           response
-          
+
         end
 
       end

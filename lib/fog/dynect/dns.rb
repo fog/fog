@@ -1,5 +1,4 @@
 require 'fog/dynect/core'
-require 'fog/dns'
 
 module Fog
   module DNS
@@ -73,7 +72,7 @@ module Fog
           @persistent = options[:persistent]  || false
           @scheme     = options[:scheme]      || 'https'
           @version    = options[:version]     || '3.5.2'
-          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
+          @connection = Fog::XML::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
         end
 
         def auth_token

@@ -6,7 +6,7 @@ module Fog
         require 'fog/aws/parsers/iam/update_user'
 
         # Update a user
-        # 
+        #
         # ==== Parameters
         # * user_name<~String> - Required. Name of the User to update. If you're changing the name of the User, this is the original User name.
         # * options<~Hash>:

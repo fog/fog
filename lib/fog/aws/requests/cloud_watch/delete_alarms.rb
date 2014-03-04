@@ -8,7 +8,7 @@ module Fog
         # Delete a list of alarms
         # ==== Options
         # * AlarmNames<~Array>: A list of alarms to be deleted
-        # 
+        #
         # ==== Returns
         # * response<~Excon::Response>:
         #

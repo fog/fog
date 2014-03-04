@@ -7,7 +7,7 @@ module Fog
         # === Parameters
         # * lb_backend_id<~String> - ID of backend
         # * lb_machine_id<~String> - ID of machine
-        # 
+        #
         # ==== Returns
         # * response<~Excon::Response>:
         #   * body<~String> - success or failure message

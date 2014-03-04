@@ -2,9 +2,9 @@ module Fog
   module Parsers
     module AWS
       module RDS
-        
+
         require 'fog/aws/parsers/rds/db_parser'
-        
+
         class CreateDBInstance < Fog::Parsers::AWS::RDS::DbParser
 
           def reset
@@ -13,7 +13,7 @@ module Fog
           end
 
           def start_element(name, attrs = [])
-            super            
+            super
           end
 
           def end_element(name)

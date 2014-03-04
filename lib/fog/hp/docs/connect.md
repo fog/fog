@@ -18,9 +18,9 @@ To connect to the HP Cloud, follow these steps:
 
         require 'rubygems'
         require 'fog'
-        
+
     **Note**: If the `require 'rubygems'` command returns a value of `false`, enter IRB with the following command:
-    
+
         irb -r 'rubygems'
 
 3. Establish a connection to the desired HP Cloud service
@@ -107,8 +107,8 @@ Use this parameter to set different timeout values.  You can set the timeouts pa
                ...
                ...
                :connection_options => {
-                      :connect_timeout => <time_in_secs>, 
-                      :read_timeout => <time_in_secs>, 
+                      :connect_timeout => <time_in_secs>,
+                      :read_timeout => <time_in_secs>,
                       :write_timeout => <time_in_secs>})
 
 ### Proxy
@@ -119,7 +119,7 @@ Use this parameter to specify a proxy URL for both  HTTP and HTTPS connections. 
                ...
                ...
                :connection_options => {:proxy => 'http://myproxyurl:4444'})
-               
+
 ### HTTPS/SSL
 
 By default, peer certificates are verified when you use secure socket layer (SSL) for HTTPS.  Sometimes this does not work due to configurations in different operating systems, causing connection errors. To help avoid this, you can set  HTTPS/SSL parameters.  To set the path to the certificates:
@@ -128,7 +128,7 @@ By default, peer certificates are verified when you use secure socket layer (SSL
                ...
                ...
                :connection_options => {:ssl_ca_path => "/path/to/certs"})
-             
+
 To set the path to a certificate file:
 
         conn = Fog::Compute.new(

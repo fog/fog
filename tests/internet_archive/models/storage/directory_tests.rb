@@ -1,4 +1,4 @@
-Shindo.tests("Storage[:internet_archive] | directory", ["internet_archive"]) do
+Shindo.tests("Storage[:internet_archive] | directory", ["internetarchive"]) do
 
   directory_attributes = {
     :key => "fogdirectorytests-#{rand(65536)}",

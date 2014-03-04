@@ -96,7 +96,7 @@ module Fog
 
             authenticate
 
-            @connection = Fog::Connection.new(endpoint_uri.to_s, @options[:persistent], @options[:connection_options])
+            @connection = Fog::XML::Connection.new(endpoint_uri.to_s, @options[:persistent], @options[:connection_options])
           end
 
           def request(params, parse_json = true, &block)

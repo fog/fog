@@ -17,7 +17,7 @@ module Fog
         #   * priority<~Integer> - Note: required for MX or SRV records
         #   * ttl<~Integer>
         # ==== Returns
-        # * response<~Excon::Response>: 
+        # * response<~Excon::Response>:
         #   * body<~Hash>
         #     * 'created-at'<~String>
         #     * 'data'<~String>
@@ -30,9 +30,9 @@ module Fog
         #     * 'ttl'<~Integer>
         #     * 'updated-at'<~String>
         #     * 'zone-id'<~String>
-        #   * 'status'<~Integer> - 201 if successful        
+        #   * 'status'<~Integer> - 201 if successful
         def create_host(zone_id, host_type, data, options = {})
-          
+
           optional_tags= ''
           options.each { |option, value|
             case option
@@ -46,7 +46,7 @@ module Fog
               optional_tags+= "<ttl>#{value}</ttl>"
             end
           }
-            
+
           request(
             :body     => %Q{<?xml version="1.0" encoding="UTF-8"?><host><host-type>#{host_type}</host-type><data>#{data}</data>#{optional_tags}</host>},
             :expects  => 201,

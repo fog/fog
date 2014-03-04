@@ -1,5 +1,4 @@
 require 'fog/vcloud_director/core'
-require 'fog/compute'
 
 class VcloudDirectorParser < Fog::Parsers::Base
   def extract_attributes(attributes_xml)
@@ -127,6 +126,7 @@ module Fog
       request :get_metadata
       request :get_network
       request :get_network_cards_items_list
+      request :get_network_complete
       request :get_network_config_section_vapp
       request :get_network_config_section_vapp_template
       request :get_network_connection_system_section_vapp
@@ -335,7 +335,7 @@ module Fog
           @persistent = options[:persistent]  || false
           @port       = options[:port]        || Fog::Compute::VcloudDirector::Defaults::PORT
           @scheme     = options[:scheme]      || Fog::Compute::VcloudDirector::Defaults::SCHEME
-          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
+          @connection = Fog::XML::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
           @end_point = "#{@scheme}://#{@host}#{@path}/"
           @api_version = options[:vcloud_director_api_version] || Fog::Compute::VcloudDirector::Defaults::API_VERSION
           @show_progress = options[:vcloud_director_show_progress]
@@ -447,11 +447,15 @@ module Fog
         private
 
         def login
-          response = post_login_session
-          x_vcloud_authorization = response.headers.keys.detect do |key|
-            key.downcase == 'x-vcloud-authorization'
+          if @vcloud_token = ENV['FOG_VCLOUD_TOKEN']
+            response = get_current_session
+          else
+            response = post_login_session
+            x_vcloud_authorization = response.headers.keys.detect do |key|
+              key.downcase == 'x-vcloud-authorization'
+            end
+            @vcloud_token = response.headers[x_vcloud_authorization]
           end
-          @vcloud_token = response.headers[x_vcloud_authorization]
           @org_name = response.body[:org]
           @user_name = response.body[:user]
         end
@@ -666,7 +670,7 @@ module Fog
           @persistent = options[:persistent] || false
           @port = options[:port] || Fog::Compute::VcloudDirector::Defaults::PORT
           @scheme = options[:scheme] || Fog::Compute::VcloudDirector::Defaults::SCHEME
-          #@connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
+          #@connection = Fog::XML::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
           @end_point = "#{@scheme}://#{@host}#{@path}/"
           @api_version = options[:vcloud_director_api_version] || Fog::Compute::VcloudDirector::Defaults::API_VERSION
         end

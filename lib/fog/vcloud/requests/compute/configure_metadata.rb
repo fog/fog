@@ -8,7 +8,7 @@ module Fog
           unless valid_opts.all? { |opt| opts.has_key?(opt) }
             raise ArgumentError.new("Required data missing: #{(valid_opts - opts.keys).map(&:inspect).join(", ")}")
           end
-          
+
           body = <<EOF
           <Metadata
              type="application/vnd.vmware.vcloud.metadata+xml"

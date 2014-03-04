@@ -6,19 +6,19 @@ module Fog
         class DescribeReservedNodes < Fog::Parsers::Base
           # :marker - (String)
           # :reserved_nodes - (Array)
-          #   :reserved_node_id - (String) 
-          #   :reserved_node_offering_id - (String) 
-          #   :node_type - (String) 
+          #   :reserved_node_id - (String)
+          #   :reserved_node_offering_id - (String)
+          #   :node_type - (String)
           #   :start_time - (Time)
-          #   :duration - (Integer) 
-          #   :fixed_price - (Numeric) 
-          #   :usage_price - (Numeric) 
+          #   :duration - (Integer)
+          #   :fixed_price - (Numeric)
+          #   :usage_price - (Numeric)
           #   :currency_code - (String)
-          #   :node_count - (Integer) 
-          #   :state - (String) 
-          #   :offering_type - (String) 
-          #   :recurring_charges - (Array) 
-          #     :recurring_charge_amount - (Numeric) 
+          #   :node_count - (Integer)
+          #   :state - (String)
+          #   :offering_type - (String)
+          #   :recurring_charges - (Array)
+          #     :recurring_charge_amount - (Numeric)
           #     :recurring_charge_frequency - (String)
 
           def reset
@@ -39,8 +39,8 @@ module Fog
             end
           end
 
-          def end_element(name)    
-            super        
+          def end_element(name)
+            super
             case name
             when 'Marker'
               @response[name] = value

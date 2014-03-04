@@ -1,5 +1,4 @@
 require 'fog/rackspace/core'
-require 'fog/storage'
 
 module Fog
   module Storage
@@ -420,7 +419,7 @@ module Fog
           authenticate
           @persistent = options[:persistent] || false
           Excon.defaults[:ssl_verify_peer] = false if service_net?
-          @connection = Fog::Connection.new(endpoint_uri.to_s, @persistent, @connection_options)
+          @connection = Fog::XML::Connection.new(endpoint_uri.to_s, @persistent, @connection_options)
         end
 
         # Using SSL?

@@ -11,16 +11,16 @@ module Fog
         # * InstanceGroups <~InstanceGroupModifyConfig list> - Instance groups to change
         #   * InstanceCount <~Integer> - Target size for instance group
         #   * InstanceGroupId <~String> - Unique ID of the instance group to expand or shrink
-        # 
+        #
         # ==== Returns
         # * response<~Excon::Response>:
         #   * body<~Hash>
         def modify_instance_groups(options={})
-          
+
           if job_ids = options.delete('InstanceGroups')
             options.merge!(Fog::AWS.serialize_keys('InstanceGroups', job_ids))
           end
-    
+
           request({
             'Action'  => 'ModifyInstanceGroups',
             :parser   => Fog::Parsers::AWS::EMR::ModifyInstanceGroups.new,

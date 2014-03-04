@@ -1,5 +1,4 @@
 require 'fog/aws/core'
-require 'fog/cdn'
 
 module Fog
   module CDN
@@ -155,7 +154,7 @@ EOF
           @port       = options[:port]      || 443
           @scheme     = options[:scheme]    || 'https'
           @version    = options[:version]  || '2010-11-01'
-          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}#{@path}", @persistent, @connection_options)
+          @connection = Fog::XML::Connection.new("#{@scheme}://#{@host}:#{@port}#{@path}", @persistent, @connection_options)
         end
 
         def reload

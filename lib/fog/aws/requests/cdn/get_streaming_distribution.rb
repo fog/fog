@@ -30,7 +30,7 @@ module Fog
         #       * TrustedSigners [Array] - Trusted signers.
         #
         # @see http://docs.amazonwebservices.com/AmazonCloudFront/latest/APIReference/GetStreamingDistribution.html
-        
+
         def get_streaming_distribution(distribution_id)
           request({
             :expects    => 200,

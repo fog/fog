@@ -63,7 +63,7 @@ module Fog
         def master
           service.hosts.get __master
         end
-        
+
         def set_attribute(name, *val)
           data = service.set_attribute( 'pool', reference, name, *val )
           # Do not reload automatically for performance reasons

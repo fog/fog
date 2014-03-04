@@ -12,7 +12,7 @@ module Fog
         #   * body<~Array>:
         #     * machine<~Hash>:
         #       * id<~String> - machine ID
-        #       * ip<~String> - machine IP address for this member (v4 or v6) 
+        #       * ip<~String> - machine IP address for this member (v4 or v6)
         #       * port<~Integer> - service port for this member
         #       * hostname<~String> - name as registered with Box Panel
         #       * acl_name<~String> - name of ACL for this machine

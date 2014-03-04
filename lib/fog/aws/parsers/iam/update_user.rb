@@ -5,7 +5,7 @@ module Fog
 
         class UpdateUser < Fog::Parsers::Base
         # http://docs.amazonwebservices.com/IAM/latest/APIReference/index.html?API_UpdateUser.html
-        
+
           def reset
             @response = { 'User' => {} }
           end

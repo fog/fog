@@ -2,6 +2,27 @@ Shindo.tests("Fog::Compute[:openstack] | server", ['openstack']) do
 
   tests('success') do
 
+    tests('#floating_ips').succeeds do
+      fog = Fog::Compute[:openstack]
+      net = Fog::Network[:openstack]
+      flavor = fog.flavors.first.id
+      image  = fog.images.first.id
+
+      server = fog.servers.new(:name       => 'test server',
+                               :flavor_ref => flavor,
+                               :image_ref  => image)
+      server.save
+
+      ip1 = net.floating_ips.create(:floating_network_id => 'f0000000-0000-0000-0000\
+-000000000000',
+                                                         :fixed_ip_address => '192.168.11.3')
+
+      server.associate_address(ip1.fixed_ip_address)
+      server.reload
+
+      returns( ["192.168.11.3"] ) { server.floating_ip_addresses }
+    end
+
     tests('#security_groups').succeeds do
       fog = Fog::Compute[:openstack]
 
@@ -41,6 +62,30 @@ Shindo.tests("Fog::Compute[:openstack] | server", ['openstack']) do
       end
     end
 
+    tests('#failed') do
+      
+      fog = Fog::Compute[:openstack]
+
+      flavor = fog.flavors.first.id
+      image  = fog.images.first.id     
+
+      tests('successful server').returns(false) do
+        server = fog.servers.new( :name       => 'test server',
+                                  :flavor_ref => flavor,
+                                  :image_ref  => image,
+                                  :state      => 'success' )
+        server.failed?
+      end
+
+      tests('failed server').returns(true) do
+        server = fog.servers.new( :name       => 'test server',
+                                  :flavor_ref => flavor,
+                                  :image_ref  => image,
+                                  :state      => 'ERROR' )
+        server.failed?
+      end
+
+    end
 
     tests('#metadata').succeeds do
       fog = Fog::Compute[:openstack]

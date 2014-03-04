@@ -1,4 +1,5 @@
 require 'fog/core'
+require 'fog/json'
 
 module Fog
   module StormOnDemand
@@ -14,7 +15,7 @@ module Fog
     service(:support, 'Support')
     service(:account, 'Account')
     service(:vpn, 'VPN')
-    
+
   end
 end
 

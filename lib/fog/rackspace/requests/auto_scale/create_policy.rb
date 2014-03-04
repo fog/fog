@@ -3,7 +3,7 @@ module Fog
     class AutoScale
       class Real
         def create_policy(group_id, options)
-          
+
           data = [options]
 
           request(
@@ -17,13 +17,13 @@ module Fog
 
       class Mock
         def create_policy(group_id, options)
-          
+
           group = self.data[:autoscale_groups][group_id]
 
           if group.nil?
             raise Fog::Rackspace::AutoScale::NotFound
           end
-          
+
           policy = {
             "id" => Fog::Rackspace::MockData.uuid,
             "name" => "set group to 5 servers",
@@ -33,7 +33,7 @@ module Fog
           }
 
           group['scalingPolicies'] << policy
-          
+
           body = [policy]
 
           response(:body => body)

@@ -14,7 +14,7 @@ module Fog
         #     * TemplateBody [String] - structure containing the template body (json)
         #
         # @see http://docs.amazonwebservices.com/AWSCloudFormation/latest/APIReference/API_GetTemplate.html
-        
+
         def get_template(stack_name)
           request(
             'Action'    => 'GetTemplate',

@@ -5,7 +5,7 @@ class Clodo < Fog::Bin
       case key
       when :compute
         Fog::Compute::Clodo
-      else 
+      else
         raise ArgumentError, "Unrecognized service: #{key}"
       end
     end

@@ -11,8 +11,8 @@ module Fog
         attribute :hmacsha1_enabled, :aliases => :HMACSHA1Enabled, :type => :boolean
         attribute :hmacsha256_enabled, :aliases => :HMACSHA256Enabled, :type => :boolean
         attribute :hmacsha512_enabled, :aliases => :HMACSHA512Enabled, :type => :boolean
-        
-        
+
+
         def id
           href.scan(/\d+/)[0]
         end

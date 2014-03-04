@@ -6,7 +6,7 @@ module Fog
         require 'fog/aws/parsers/iam/basic'
 
         # Remove a policy from a user
-        # 
+        #
         # ==== Parameters
         # * user_name<~String>: name of the user
         # * policy_name<~String>: name of policy document

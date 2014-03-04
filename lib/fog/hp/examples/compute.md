@@ -1,4 +1,4 @@
-# Examples for working with HP Cloud Compute Service v12.12  
+# Examples for working with HP Cloud Compute Service v12.12
 
 The HP Cloud Extensions to Ruby Fog libary provides Compute services support using two abstractions: a model layer and a request layer. Both layers are detailed below. The code samples on this page can be executed from within a Ruby console (IRB):
 
@@ -33,7 +33,7 @@ This page discusses the following topics:
 
 ## Model Server Operations
 
-1. List all available servers for an account: 
+1. List all available servers for an account:
 
         servers = conn.servers
         servers.size   # returns no. of servers
@@ -121,18 +121,18 @@ This page discusses the following topics:
         )
         new_server.user_data = "This is some un-encoded user data"
         new_server.save
-    
+
     The personalization options are:
-    
+
     *config_drive*
     : Disk accessible to the server that contains a FAT filesystem. If `config_drive` parameter is set to `true` at the time of server creation, the configuration drive is created.
-    
+
     *user_data_encoded* or *user_data*
     : Allows additional metadata to be inserted during server creation by supplying a Base64-encoded string in the `user_data_encoded` parameter, or by providing an unencoded string with the `user_data` attribute. Note that encoding the data on the client is faster and more efficient.
-    
+
     *personality*
     : Allows files to be injected into the server instance after its creation. The file `contents` are Base64 encoded and injected into the location specified by `path`.
-    
+
     **Note**: The above personalization options are not supported on Windows server instances.
 
 7. Get console output:
@@ -455,7 +455,7 @@ This page discusses the following topics:
         response = conn.create_server("My Windows Server", flavor_id, image_id)
         win_server = response.body['server']
         server_id = win_server['id']                # returns the id of the new server
-        # Retrieve the encrypted password 
+        # Retrieve the encrypted password
         conn.get_windows_password(server_id)
         # => "Im6ZJ8auyMRnkJ24KKWQvTgWDug1s ... y0uY1BcHLJ5OrkEPHhQoQntIKOoQ=\n"
     **Note**: You must retrieve the Windows password immediately after you create the Windows instance. Also, make sure you have a security rule defined to open RDP port 3389 so that you can connect to the Windows server.
@@ -496,18 +496,18 @@ This page discusses the following topics:
         )
         server = response.body['server']
         server['id']                                # returns the id of the new server
-    
+
     The personalization options are:
-    
+
     *config_drive*
     : Disk accessible to the server that contains a FAT filesystem. If `config_drive` parameter is set to `true` at the time of server creation, the configuration drive is created.
-    
+
     *user_data_encoded*
     : Allows additional metadata to be inserted during server creation by supplying a Base64-encoded string in the `user_data_encoded` parameter.
-    
+
     *personality*
     : Allows files to be injected into the server instance after its creation. The file `contents` are Base64 encoded and injected into the location specified by `path`.
-    
+
     **Note**: The above personalization options are not supported on Windows server instances.
 
 8. Update the name for a server:
@@ -561,37 +561,37 @@ This page discusses the following topics:
                           {'Meta1' => 'MetaValue1', 'Meta2' => 'MetaValue2'}
                         }
                    )
-        response.body['server']['metadata']        
+        response.body['server']['metadata']
         # => {"Meta1"=>"MetaValue1", "Meta2"=>"MetaValue2"}
 
 2. List the existing metadata:
 
         response = conn.list_metadata("servers", server_id)
-        response.body['metadata']       
+        response.body['metadata']
         # => {"Meta1"=>"MetaValue1", "Meta2"=>"MetaValue2"}
 
 3. Set new values to the existing metadata:
 
         response = conn.set_metadata("servers", server_id, {"MetaNew1" => "MetaNewValue1"})
-        response.body['metadata']      
+        response.body['metadata']
         # => {"MetaNew1"=>"MetaNewValue1"}
 
 4. Update the existing metadata:
 
         response = conn.update_metadata("servers", server_id, {"Meta2" => "MetaValue2"})
-        response.body['metadata']      
+        response.body['metadata']
         # => {"Meta2"=>"MetaValue2"}
 
 5. Get a metadata item:
 
         response = conn.get_meta("servers", server_id, "Meta1")
-        response.body['meta']       
+        response.body['meta']
         # => {"Meta1"=>"MetaValue1"}
 
 6. Set a new metadata item or update an existing metadata item:
 
         response = conn.update_meta("servers", server_id, "Meta1", "MetaUpdated1")
-        response.body['meta']       
+        response.body['meta']
         # => {"Meta1"=>"MetaUpdated1"}
 
 7. Delete a metadata item:
@@ -661,31 +661,31 @@ This page discusses the following topics:
 2. List the existing metadata:
 
         response = conn.list_metadata("images", image_id)
-        response.body['metadata']   
+        response.body['metadata']
         #  => {"Meta1"=>"MetaValue1", "Meta2"=>"MetaValue2"}
 
 3. Set new values to the existing metadata:
 
         response = conn.set_metadata("images", image_id, {"MetaNew1" => "MetaNewValue1"})
-        response.body['metadata']   
+        response.body['metadata']
         # => {"MetaNew1"=>"MetaNewValue1"}
 
 4. Update the existing metadata:
 
         response = conn.update_metadata("images", image_id, {"Meta2" => "MetaValue2"})
-        response.body['metadata']   
+        response.body['metadata']
         # => {"Meta2"=>"MetaValue2"}
 
 5. Get a metadata item:
 
         response = conn.get_meta("images", image_id, "Meta1")
-        response.body['meta']       
+        response.body['meta']
         # => {"Meta1"=>"MetaValue1"}
 
 6. Update a metadata item:
 
         response = conn.update_meta("images", image_id, "Meta1", "MetaUpdated1")
-        response.body['meta']       
+        response.body['meta']
         # => {"Meta1"=>"MetaUpdated1"}
 
 7. Delete a metadata item:

@@ -24,11 +24,11 @@ module Fog
           if options['PrivateIpAddresses'] && options['SecondaryPrivateIpAddressCount']
             raise Fog::Compute::AWS::Error.new("You may specify secondaryPrivateIpAddressCount or specific secondary private IP addresses, but not both.")
           end
-          
+
           if private_ip_addresses = options.delete('PrivateIpAddresses')
             options.merge!(Fog::AWS.indexed_param('PrivateIpAddress.%d', [*private_ip_addresses]))
           end
-          
+
           request({
             'Action'  => 'AssignPrivateIpAddresses',
             'NetworkInterfaceId' => network_interface_id,
@@ -44,7 +44,7 @@ module Fog
           if options['PrivateIpAddresses'] && options['SecondaryPrivateIpAddressCount']
             raise Fog::Compute::AWS::Error.new("You may specify secondaryPrivateIpAddressCount or specific secondary private IP addresses, but not both.")
           end
-          
+
           response = Excon::Response.new
           response.status = 200
           response.body = {

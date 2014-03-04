@@ -1,6 +1,6 @@
 require 'fog/internet_archive/requests/storage/cors_utils'
 
-Shindo.tests('Fog::Storage::InternetArchive | CORS utils', ["internet_archive"]) do
+Shindo.tests('Fog::Storage::InternetArchive | CORS utils', ["internetarchive"]) do
   tests(".hash_to_cors") do
     tests(".hash_to_cors({}) at xpath //CORSConfiguration").returns("", "has an empty CORSConfiguration") do
       xml = Fog::Storage::InternetArchive.hash_to_cors({})

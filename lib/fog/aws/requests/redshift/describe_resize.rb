@@ -5,15 +5,15 @@ module Fog
         require 'fog/aws/parsers/redshift/describe_resize'
 
         # ==== Parameters
-        # 
+        #
         # @param [Hash] options
         # * :cluster_identifier - required - (String)
-        #    The unique identifier of a cluster whose resize progress you are requesting. 
-        #    This parameter isn't case-sensitive. By default, resize operations for all 
+        #    The unique identifier of a cluster whose resize progress you are requesting.
+        #    This parameter isn't case-sensitive. By default, resize operations for all
         #    clusters defined for an AWS account are returned.
         #
         # ==== See Also
-        # http://docs.aws.amazon.com/redshift/latest/APIReference/API_DescribeResize.html             
+        # http://docs.aws.amazon.com/redshift/latest/APIReference/API_DescribeResize.html
         def describe_resize(options = {})
           cluster_identifier = options[:cluster_identifier]
 

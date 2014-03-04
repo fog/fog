@@ -16,7 +16,7 @@ module Fog
           request( :expects  => 200,
                    :method   => 'GET',
                    :path     => "/",
-                   :query    => { 
+                   :query    => {
                      :record    => record,
                      :type      => type,
                      :value     => value,

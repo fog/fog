@@ -8,7 +8,7 @@ module Fog
         # Describe the load balancer attributes
         # http://docs.aws.amazon.com/ElasticLoadBalancing/latest/APIReference/API_DescribeLoadBalancerAttributes.html
         # ==== Parameters
-        # * lb_name<~String> - The mnemonic name associated with the LoadBalancer. 
+        # * lb_name<~String> - The mnemonic name associated with the LoadBalancer.
         #
         # ==== Returns
         # * response<~Excon::Response>:

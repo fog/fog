@@ -16,12 +16,12 @@ module Fog
           request( :expects  => 200,
                    :method   => "GET",
                    :path     => "/",
-                   :query    => { 
+                   :query    => {
                      :cmd      => 'dns-remove_record',
                      :type     => type,
                      :record   => name,
                      :value    => value,
-                   } 
+                   }
                  )
         end
 
