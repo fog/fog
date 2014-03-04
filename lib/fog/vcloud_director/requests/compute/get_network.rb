@@ -6,6 +6,8 @@ module Fog
 
         # Retrieve an organization network.
         #
+        # @deprecated Use {#get_network_complete} instead
+        #
         # @param [String] id Object identifier of the network.
         # @return [Excon::Response]
         #   * body<~Hash>:
@@ -15,6 +17,7 @@ module Fog
         # @see http://pubs.vmware.com/vcd-51/topic/com.vmware.vcloud.api.reference.doc_51/doc/operations/GET-Network.html
         # @since vCloud API version 0.9
         def get_network(id)
+          Fog::Logger.deprecation("#{self} => #get_network is deprecated, use #get_network_complete instead [light_black](#{caller.first})[/]")
           request(
             :expects    => 200,
             :idempotent => true,
@@ -27,6 +30,7 @@ module Fog
 
       class Mock
         def get_network(id)
+          Fog::Logger.deprecation("#{self} => #get_network is deprecated, use #get_network_complete instead [light_black](#{caller.first})[/]")
           unless network = data[:networks][id]
             raise Fog::Compute::VcloudDirector::Forbidden.new(
               'This operation is denied.'

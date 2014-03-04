@@ -1,5 +1,6 @@
 require "nokogiri"
 require "fog/core/parser"
+require "fog/xml/sax_parser_connection"
 
 module Fog
 
@@ -15,7 +16,14 @@ module Fog
   #   its services
   #
   module XML
+    class Connection < Fog::XML::SAXParserConnection
+      def request(params, &block)
+        if (parser = params.delete(:parser))
+          super(parser, params)
+        else
+          original_request(params)
+        end
+      end
+    end
   end
 end
-
-require "fog/xml/sax_parser_connection"
