@@ -144,6 +144,18 @@ module Fog
             # Rescue nil to catch testing while vm_mob_ref isn't reaL??
             attrs['path'] = "/"+attrs['parent'].path.map(&:last).join('/') rescue nil
             attrs['relative_path'] = (attrs['path'].split('/').reject {|e| e.empty?} - ["Datacenters", attrs['datacenter'], "vm"]).join("/") rescue nil
+            #Save virtual disk info into attrs
+            begin
+              disks = vm_mob_ref.config.hardware.device.select{|d| d.class.to_s =~ /VirtualDisk/}
+              attrs['disks'] = disks.map { |d| 
+                {
+                  label:d.deviceInfo.label,summary:d.deviceInfo.summary,
+                  filename:d.backing.fileName,uuid:d.backing.uuid
+                }.to_json 
+              }
+            rescue
+              attrs['disks'] = []
+            end
           end
         end
         # returns the parent object based on a type
