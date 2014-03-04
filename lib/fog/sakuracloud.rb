@@ -1,4 +1,6 @@
 require 'fog/core'
+require 'fog/sakuracloud/compute'
+require 'fog/sakuracloud/volume'
 
 module Fog
   module SakuraCloud
