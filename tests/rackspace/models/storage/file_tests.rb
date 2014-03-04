@@ -30,8 +30,6 @@ Shindo.tests('Fog::Rackspace::Storage | file', ['rackspace']) do
     end
   end
 
-  pending if Fog.mocking?
-
   def object_attributes(file=@instance)
     @instance.service.head_object(@directory.key, file.key).headers
   end
@@ -280,6 +278,55 @@ Shindo.tests('Fog::Rackspace::Storage | file', ['rackspace']) do
 
     end
 
+    tests("#delete_at") do
+      tests("#delete_at should default to nil").returns(nil) do
+        @instance.delete_at
+      end
+
+      @instance.delete_at = 1
+      @instance.save
+      tests("#delete_at should return delete_at attribute").returns(1) do
+        @instance.delete_at
+      end
+
+      @instance.delete_at = 1
+      @instance.save
+      tests("#delete_at= should update delete_at").returns(2) do
+        @instance.delete_at = 2
+        @instance.save
+        @instance.delete_at
+      end
+
+      tests("#delete_at= should not blow up on nil") do
+        @instance.delete_at = nil
+        @instance.save
+      end
+    end
+
+    tests("#delete_after") do
+      tests("#delete_after should default to nil").returns(nil) do
+        @instance.delete_after
+      end
+
+      @instance.delete_after = 1
+      @instance.save
+      tests("#delete_after should return delete_after attribute").returns(1) do
+        @instance.delete_after
+      end
+
+      @instance.delete_after = 1
+      @instance.save
+      tests("#delete_after= should update delete_after").returns(2) do
+        @instance.delete_after = 2
+        @instance.save
+        @instance.delete_after
+      end
+
+      tests("#delete_after= should not blow up on nil") do
+        @instance.delete_after = nil
+        @instance.save
+      end
+    end
   end
 
 

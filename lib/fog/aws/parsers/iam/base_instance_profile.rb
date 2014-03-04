@@ -29,7 +29,7 @@ module Fog
                   @role = {}
                 end
               end
-            end 
+            end
           end
 
           def end_element(name)

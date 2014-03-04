@@ -6,7 +6,7 @@ module Fog
         require 'fog/aws/parsers/iam/list_policies'
 
         # Lists the names of policies associated with a role
-        # 
+        #
         # ==== Parameters
         # * role_name<~String>: the role to list policies for
         # * options<~Hash>:
@@ -21,7 +21,7 @@ module Fog
         #     * 'IsTruncated<~Boolean> - Whether or not results were truncated
         #     * 'Marker'<~String> - appears when IsTruncated is true as the next marker to use
         #     * 'RequestId'<~String> - Id of the request
-        #     
+        #
         # ==== See Also
         # http://docs.amazonwebservices.com/IAM/latest/APIReference/API_ListRoleProfiles.html
         #

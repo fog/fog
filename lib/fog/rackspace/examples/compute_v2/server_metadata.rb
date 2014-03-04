@@ -5,7 +5,7 @@
 require 'rubygems' #required for Ruby 1.8.x
 require './lib/fog'
 
-# Use username defined in ~/.fog file, if absent prompt for username. 
+# Use username defined in ~/.fog file, if absent prompt for username.
 # For more details on ~/.fog refer to http://fog.io/about/getting_started.html
 def rackspace_username
   Fog.credentials[:rackspace_username] || get_user_input("Enter Rackspace Username")
@@ -40,13 +40,13 @@ flavor = service.flavors.first
 image = service.images.find {|image| image.name =~ /Ubuntu/}
 
 #create server
-server = service.servers.create :name => 'meta-cumulus', 
-                                :flavor_id => flavor.id, 
+server = service.servers.create :name => 'meta-cumulus',
+                                :flavor_id => flavor.id,
                                 :image_id => image.id,
                                 :metadata => { 'color' => 'red'}
 
 puts "Waiting for server to be created\n"
-server.wait_for(600, 5) do 
+server.wait_for(600, 5) do
   print "."
   STDOUT.flush
   ready?

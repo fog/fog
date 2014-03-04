@@ -1,6 +1,6 @@
 module Fog
   module AWS
-    class RDS 
+    class RDS
       class Real
 
         require 'fog/aws/parsers/rds/event_list'

@@ -1,5 +1,4 @@
-require 'fog/voxel'
-require 'fog/compute'
+require 'fog/voxel/core'
 
 module Fog
   module Compute
@@ -87,7 +86,7 @@ module Fog
 
           @connection_options[:ssl_verify_peer] = false
 
-          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
+          @connection = Fog::XML::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
         end
 
         def request(method_name, options = {})

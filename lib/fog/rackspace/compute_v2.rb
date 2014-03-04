@@ -1,5 +1,4 @@
-require 'fog/rackspace'
-require 'fog/compute'
+require 'fog/rackspace/core'
 
 module Fog
   module Compute
@@ -146,7 +145,7 @@ module Fog
           deprecation_warnings(options)
 
           @persistent = options[:persistent] || false
-          @connection = Fog::Connection.new(endpoint_uri.to_s, @persistent, @connection_options)
+          @connection = Fog::XML::Connection.new(endpoint_uri.to_s, @persistent, @connection_options)
         end
 
         def request(params, parse_json = true)
@@ -208,7 +207,7 @@ module Fog
             end
           else
             #if we are using auth1 and the endpoint is not set, default to DFW_ENDPOINT for historical reasons
-             @rackspace_endpoint ||= DFW_ENDPOINT
+            @rackspace_endpoint ||= DFW_ENDPOINT
           end
         end
 
@@ -218,6 +217,10 @@ module Fog
           if [DFW_ENDPOINT, ORD_ENDPOINT, LON_ENDPOINT].include?(@rackspace_endpoint) && v2_authentication?
             regions = @identity_service.service_catalog.display_service_regions(service_name)
             Fog::Logger.deprecation("Please specify region using :rackspace_region rather than :rackspace_endpoint. Valid regions for :rackspace_region are #{regions}.")
+          end
+
+          unless options[:rackspace_region]
+            Fog::Logger.deprecation("Default region support will be removed in an upcoming release. Please switch to manually setting your endpoint. This requires settng the :rackspace_region option")
           end
         end
 

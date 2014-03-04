@@ -38,7 +38,7 @@ module Fog
           }.merge!(params))
         end
       end
-      
+
       class Mock
         def describe_dhcp_options(filters = {})
           Excon::Response.new.tap do |response|

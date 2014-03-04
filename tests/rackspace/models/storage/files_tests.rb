@@ -12,8 +12,7 @@ Shindo.tests("Fog::Rackspace::Storage | files", ['rackspace', 'storage']) do
 
 
   tests('success') do
-    pending if Fog.mocking?
-    collection_tests(Fog::Storage[:rackspace].directories.create(directory_attributes).files, file_attributes, false)
+    collection_tests(Fog::Storage[:rackspace].directories.create(directory_attributes).files, file_attributes, Fog.mocking?)
 
     @service = Fog::Storage.new :provider => 'rackspace', :rackspace_temp_url_key => "my_secret"
 
@@ -25,13 +24,11 @@ Shindo.tests("Fog::Rackspace::Storage | files", ['rackspace', 'storage']) do
     end
 
     tests("#get_http_url('#{@directory.key}')").succeeds do
-      pending if Fog.mocking?
       expire_time = Time.now + 3600
       @directory.files.get_http_url(@file.key, expire_time)
     end
 
     tests("#get_https_url('#{@directory.key}', '#{@file.key}')").succeeds do
-      pending if Fog.mocking?
       expire_time = Time.now + 3600
       @directory.files.get_https_url(@file.key, expire_time)
     end

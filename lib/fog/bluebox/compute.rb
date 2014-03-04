@@ -1,5 +1,4 @@
-require 'fog/bluebox'
-require 'fog/compute'
+require 'fog/bluebox/core'
 
 module Fog
   module Compute
@@ -69,7 +68,7 @@ module Fog
           @persistent = options[:persistent]      || false
           @port       = options[:bluebox_port]    || 443
           @scheme     = options[:bluebox_scheme]  || 'https'
-          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
+          @connection = Fog::XML::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
         end
 
         def reload

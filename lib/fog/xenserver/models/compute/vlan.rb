@@ -6,12 +6,13 @@ module Fog
 
       class VLAN < Fog::Model
         # API Reference here:
-        # @see http://docs.vmd.citrix.com/XenServer/5.6.0/1.0/en_gb/api/?c=VLAN
+        # @see http://docs.vmd.citrix.com/XenServer/6.2.0/1.0/en_gb/api/?c=VLAN
 
         identity :reference
 
         attribute :uuid
         attribute :tag,                :type => :integer
+        attribute :other_config
         attribute :__untagged_pif,     :aliases => :untagged_PIF
         attribute :__tagged_pif,       :aliases => :tagged_PIF
 
@@ -22,7 +23,7 @@ module Fog
         def untagged_pif
           service.pifs.get __untagged_pif
         end
-        
+
         # @return [Fog::Compute::XenServer::PIF] interface on which traffic is untagged
         #
         # @see http://docs.vmd.citrix.com/XenServer/6.1.0/1.0/en_gb/api/?c=VLAN
@@ -30,7 +31,7 @@ module Fog
         def tagged_pif
           service.pifs.get __tagged_pif
         end
-        
+
         # Creates a new VLAN.
         #
         #     service = Fog::Compute[:xenserver]
@@ -52,7 +53,7 @@ module Fog
           unless pif and net
             raise Fog::Error.new 'save requires :pif and :network attributes'
           end
-          ref = service.create_vlan attributes[:pif].reference, 
+          ref = service.create_vlan attributes[:pif].reference,
                                     tag,
                                     attributes[:network].reference
           data = service.get_record ref, 'VLAN'

@@ -22,9 +22,9 @@ module Fog
         # *   'description'<~String>        - The description
         # *   'ownerId'<~String>            - The ID of the person who created the interface
         # *   'requesterId'<~String>        - The ID ot teh entity requesting this interface
-        # *   'requesterManaged'<~String>   - 
+        # *   'requesterManaged'<~String>   -
         # *   'status'<~String>             - "available" or "in-use"
-        # *   'macAddress'<~String>         - 
+        # *   'macAddress'<~String>         -
         # *   'privateIpAddress'<~String>   - IP address of the interface within the subnet
         # *   'privateDnsName'<~String>     - The private DNS name
         # *   'sourceDestCheck'<~Boolean>   - Flag indicating whether traffic to or from the instance is validated
@@ -47,6 +47,10 @@ module Fog
         # *   'tagSet'<~Array>:             - Tags assigned to the resource.
         # *     'key'<~String>              - Tag's key
         # *     'value'<~String>            - Tag's value
+        # *   'privateIpAddresses' <~Array>:
+        # *     'privateIpAddress'<~String> - One of the additional private ip address
+        # *     'privateDnsName'<~String>   - The private DNS associate to the ip address
+        # *     'primay'<~String>           - Whether main ip associate with NIC true of false
         #
         # {Amazon API Reference}[http://docs.amazonwebservices.com/AWSEC2/2012-03-01/APIReference/index.html?ApiReference-query-DescribeNetworkInterfaces.html]
         def describe_network_interfaces(filters = {})
@@ -58,7 +62,7 @@ module Fog
           }.merge!(params))
         end
       end
-      
+
 
       class Mock
 

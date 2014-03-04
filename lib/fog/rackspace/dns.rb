@@ -1,5 +1,4 @@
-require 'fog/rackspace'
-require 'fog/dns'
+require 'fog/rackspace/core'
 
 module Fog
   module DNS
@@ -102,7 +101,7 @@ module Fog
           deprecation_warnings(options)
 
           @persistent = options[:persistent] || false
-          @connection = Fog::Connection.new(endpoint_uri.to_s, @persistent, @connection_options)
+          @connection = Fog::XML::Connection.new(endpoint_uri.to_s, @persistent, @connection_options)
         end
 
         def endpoint_uri(service_endpoint_url=nil)

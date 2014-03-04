@@ -178,7 +178,7 @@ module Fog
         def sockets
           cpus / corespersocket
         end
-        
+
         def mac
           interfaces.first.mac unless interfaces.empty?
         end
@@ -186,7 +186,7 @@ module Fog
         def interfaces
           attributes[:interfaces] ||= id.nil? ? [] : service.interfaces( :server => self )
         end
-        
+
         def interface_ready? attrs
           (attrs.is_a? Hash and attrs[:blocking]) or attrs.is_a? Fog::Compute::Vsphere::Interface
         end
@@ -255,7 +255,7 @@ module Fog
             :cpus      => 1,
 #            :corespersocket => 1,
             :memory_mb => 512,
-#            :guest_id  => 'otherGuest',
+            :guest_id  => 'otherGuest',
             :path      => '/'
           }
         end
@@ -271,7 +271,7 @@ module Fog
             self.attributes[:volumes].map! { |vol| vol.is_a?(Hash) ? service.volumes.new(vol) : vol }
           end
         end
-        
+
         def initialize_customvalues
           if attributes[:customvalues] and attributes[:customvalues].is_a?(Array)
             self.attributes[:customvalues].map { |cfield| cfield.is_a?(Hash) ? service.customvalue.new(cfield) : cfield}

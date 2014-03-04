@@ -120,6 +120,9 @@ Shindo.tests('AWS::IAM | server certificate requests', ['aws']) do
   end
 
   tests('#delete_server_certificate').formats(AWS::IAM::Formats::BASIC) do
+    tests('raises NotFound').raises(Fog::AWS::IAM::NotFound) do
+      Fog::AWS::IAM.new.delete_server_certificate("#{@key_name}fake")
+    end
     Fog::AWS::IAM.new.delete_server_certificate(@key_name).body
   end
 

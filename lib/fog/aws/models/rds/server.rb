@@ -11,6 +11,7 @@ module Fog
         attribute :engine_version, :aliases => 'EngineVersion'
         attribute :state, :aliases => 'DBInstanceStatus'
         attribute :allocated_storage, :aliases => 'AllocatedStorage', :type => :integer
+        attribute :iops, :aliases => 'Iops'
         attribute :availability_zone , :aliases => 'AvailabilityZone'
         attribute :flavor_id, :aliases => 'DBInstanceClass'
         attribute :endpoint, :aliases => 'Endpoint'
@@ -116,6 +117,7 @@ module Fog
             'Port'                          => port || attributes['Port'],
             'Engine'                        => engine,
             'EngineVersion'                 => engine_version,
+            'Iops'                          => iops,
             'MasterUsername'                => master_username,
             'MasterUserPassword'            => password || attributes['MasterUserPassword'],
             'PreferredMaintenanceWindow'    => preferred_maintenance_window,

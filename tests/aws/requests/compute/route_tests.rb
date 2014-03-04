@@ -2,7 +2,7 @@ Shindo.tests('Fog::Compute[:aws] | route table requests', ['aws']) do
 
   @route_table_format = {
     'routeTable' => [{
-      'routeSet'        => [{ 
+      'routeSet'        => [{
         'destinationCidrBlock'  => String,
         'gatewayId'             => String,
         'state'                 => String,
@@ -43,9 +43,10 @@ Shindo.tests('Fog::Compute[:aws] | route table requests', ['aws']) do
   if !Fog.mocking?
     vpc.wait_for { state.eql? "available" }
   end
-  @subnet_id = Fog::Compute[:aws].create_subnet(vpc.id, '10.0.10.0/24').body['subnetSet'].first['subnetId']
+  @subnet_id = Fog::Compute[:aws].create_subnet(vpc.id, '10.0.10.0/24').body['subnet']['subnetId']
   @network_interface = Fog::Compute[:aws].create_network_interface(@subnet_id, {"PrivateIpAddress" => "10.0.10.23"}).body
   @internet_gateway_id = Fog::Compute[:aws].create_internet_gateway.body['internetGatewaySet'].first['internetGatewayId']
+  @alt_internet_gateway_id = Fog::Compute[:aws].create_internet_gateway.body['internetGatewaySet'].first['internetGatewayId']
   @network_interface_id = @network_interface['networkInterface']['networkInterfaceId']
   key_name = 'fog-test-key'
   key = Fog::Compute[:aws].key_pairs.create(:name => key_name)
@@ -89,6 +90,26 @@ Shindo.tests('Fog::Compute[:aws] | route table requests', ['aws']) do
 
     tests("#create_route('#{@route_table_id}', '10.0.10.0/21', 'nil', 'nil', '#{@network_interface_id}')").formats(AWS::Compute::Formats::BASIC) do
       Fog::Compute[:aws].create_route(@route_table_id, '10.0.10.0/21', nil, nil, @network_interface_id).body
+    end
+
+    # Tests replace_route
+    #   - using internet gateway
+    #   - using instance id
+    #   - using network interface
+    #
+    Fog::Compute[:aws].attach_internet_gateway(@alt_internet_gateway_id, vpc.id).body
+    tests("#replace_route('#{@route_table_id}', '#{@destination_cidr_block}', {'gatewayId' => '#{@alt_internet_gateway_id}'})").formats(AWS::Compute::Formats::BASIC) do
+      Fog::Compute[:aws].replace_route(@route_table_id, @destination_cidr_block, {'gatewayId' => @alt_internet_gateway_id}).body
+    end
+
+    instance = Fog::Compute[:aws].servers.create(:image_id => @ami, :flavor_id => 't1.micro', :key_name => 'fog-test-key', :subnet_id => @subnet_id)
+    instance.wait_for { state.eql? "running" }
+    tests("#replace_route('#{@route_table_id}', '10.0.10.0/22', {'instanceId' => '#{instance.id}'})").formats(AWS::Compute::Formats::BASIC) do
+      Fog::Compute[:aws].replace_route(@route_table_id, '10.0.10.0/22', {'instanceId' => instance.id}).body
+    end
+
+    tests("#replace_route('#{@route_table_id}', '10.0.10.0/21', {'networkInterfaceId' => '#{@network_interface_id}'})").formats(AWS::Compute::Formats::BASIC) do
+      Fog::Compute[:aws].replace_route(@route_table_id, '10.0.10.0/21', {'networkInterfaceId' => @network_interface_id}).body
     end
 
     # Tests describe_route_tables
@@ -212,6 +233,46 @@ Shindo.tests('Fog::Compute[:aws] | route table requests', ['aws']) do
       end
     end
 
+    # Tests replace_route
+    #   - no parameters
+    #   - passing a nonexisiting route table and an exisiting internet gateway
+    #   - passing a nonexisiting route table
+    #   - passing a nonexisting route table and an exisiting instance
+    #   - passing a nonexisiting instance
+    #   - passing a nonexsiting route table and an exisiting network interface
+    #   - passing a nonexisiting network interface
+    #   - attempting to add a route at a less specific destination cidr block
+    #
+    tests('#replace_route').raises(ArgumentError) do
+      Fog::Compute[:aws].replace_route
+    end
+    tests("#replace_route('rtb-00000000', '#{@destination_cidr_block}', {'internetGatewayId' => '#{@internet_gateway_id}'})").raises(Fog::Compute::AWS::NotFound) do
+      Fog::Compute[:aws].replace_route('rtb-00000000', @destination_cidr_block, {'internetGatewayId' => @internet_gateway_id})
+    end
+    tests("#replace_route('rtb-00000000', '#{@destination_cidr_block}')").raises(Fog::Compute::AWS::NotFound) do
+      Fog::Compute[:aws].replace_route('rtb-00000000', @destination_cidr_block)
+    end
+    tests("#replace_route('#{@route_table_id}', '#{@destination_cidr_block}', {'gatewayId' => 'igw-00000000'})").raises(Fog::Compute::AWS::NotFound) do
+      Fog::Compute[:aws].replace_route(@route_table_id, @destination_cidr_block, {'gatewayId' => 'igw-00000000'})
+    end
+    tests("#replace_route('rtb-00000000', '#{@destination_cidr_block}', {'instanceId' => '#{instance.id}'})").raises(Fog::Compute::AWS::NotFound) do
+      Fog::Compute[:aws].replace_route('rtb-00000000', @destination_cidr_block, {'instanceId' => instance.id})
+    end
+    tests("#replace_route('#{@route_table_id}', '#{@destination_cidr_block}', {'instanceId' => 'i-00000000'})").raises(Fog::Compute::AWS::NotFound) do
+      Fog::Compute[:aws].replace_route(@route_table_id, @destination_cidr_block, {'instanceId' => 'i-00000000'})
+    end
+    tests("#replace_route('#{@route_table_id}', '#{@destination_cidr_block}', {'networkInterfaceId' => 'eni-00000000'})").raises(Fog::Compute::AWS::NotFound) do
+      Fog::Compute[:aws].replace_route(@route_table_id, @destination_cidr_block, {'networkInterfaceId' => 'eni-00000000'})
+    end
+    tests("#replace_route('rtb-00000000', '#{@destination_cidr_block}', {'networkInterfaceId' => '#{@network_interface_id}'})").raises(Fog::Compute::AWS::NotFound) do
+      Fog::Compute[:aws].replace_route('rtb-00000000', @destination_cidr_block, {'networkInterfaceId' => @network_interface_id})
+    end
+    if !Fog.mocking?
+      tests("#replace_route less specific destination_cidr_block").raises(Fog::Compute::AWS::Error) do
+        Fog::Compute[:aws].replace_route(@route_table_id, '10.0.10.0/25', {'gatewayId' => @internet_gateway_id})
+      end
+    end
+
     # Test describe_route_tables
     #   - passing a nonexisiting vpc
     #
@@ -267,7 +328,7 @@ Shindo.tests('Fog::Compute[:aws] | route table requests', ['aws']) do
     Fog::Compute[:aws].disassociate_route_table(@association_id)
     Fog::Compute[:aws].delete_route_table(@route_table_id)
   end
-  
+
   Fog::Compute[:aws].delete_network_interface(@network_interface_id)
   Fog::Compute[:aws].detach_internet_gateway(@internet_gateway_id, vpc.id)
   Fog::Compute[:aws].delete_internet_gateway(@internet_gateway_id)

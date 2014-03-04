@@ -1,7 +1,7 @@
 module Fog
   module AWS
     class CloudWatch
-      class Real     
+      class Real
 
         require 'fog/aws/parsers/cloud_watch/describe_alarms_for_metric'
 
@@ -33,7 +33,7 @@ module Fog
               :parser     => Fog::Parsers::AWS::CloudWatch::DescribeAlarmsForMetric.new
             }.merge(options))
         end
-      end     
+      end
     end
   end
 end

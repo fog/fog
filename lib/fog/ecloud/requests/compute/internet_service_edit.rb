@@ -36,7 +36,7 @@ module Fog
             if options[:load_balancing_method]
               xml.LoadBalancingMethod options[:load_balancing_method]
             end
-          end    
+          end
         end
       end
 

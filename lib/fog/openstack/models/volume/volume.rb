@@ -40,6 +40,10 @@ module Fog
           true
         end
 
+        def ready?
+          status == 'available'
+        end
+
       end
 
     end

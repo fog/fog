@@ -19,13 +19,13 @@ def create_tenant_network( tenant_name,
 
   network = Fog::Network[:openstack]
   id = Fog::Identity[:openstack]
-  
+
   tenant = id.tenants.find { |t| t.name == tenant_name }
 
   # Create a router for the tenant
   router = network.routers.create :name => router_name,
                                   :tenant_id => tenant.id,
-                                  :external_gateway_info => { 
+                                  :external_gateway_info => {
                                     'network_id' => external_net.id
                                   }
 

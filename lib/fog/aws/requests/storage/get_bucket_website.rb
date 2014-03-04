@@ -7,7 +7,7 @@ module Fog
 
         # Get website configuration for an S3 bucket
         #
-        # 
+        #
         # @param bucket_name [String] name of bucket to get website configuration for
         #
         # @return [Excon::Response] response:

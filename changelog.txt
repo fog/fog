@@ -1,3 +1,577 @@
+1.20.0 02/07/2014 76846bb4bd2d94ec169757f6f4125dc173359140
+==========================================================
+
+Stats! { 'collaborators' => 54, 'downloads' => 4366478, 'forks' => 1074, 'open_issues' => 166, 'watchers' => 2904 }
+
+MVP! Ash Wilson
+
+[AWS|EC2]
+  request_spot_instances.rb requires that date parameters be iso8601. thanks Frederick Cheung
+  fix sporadically failing network_acl_tests.rb. thanks Frederick Cheung
+
+[Brightbox]
+  Sort schema collections. thanks Paul Thornthwaite
+  Add CloudIp#destination_id. thanks Paul Thornthwaite
+  Add support for Cloud SQL service. thanks Paul Thornthwaite
+  Remove old #destroy request. thanks Paul Thornthwaite
+
+[OpenStack|Network]
+  Add CRUD for SecurityGroup and SecurityGroupRules. thanks Brandon Dunne
+  Display subnets as a child of Network. thanks Brandon Dunne
+  Add security_groups and security_group_rules hashes to the base Mock data. thanks Brandon Dunne
+  Add tests for security_groups and security_group_rules methods. thanks Brandon Dunne
+
+[aws]
+  align hashrockets, remove whitespace. thanks Eric Stonfer
+  mock block device mapping on run_instances. thanks Josh Lane
+  mock setup block device deleteOnTermination. thanks Josh Lane
+
+[aws|elb]
+  Mimic create_load_balancer mock. thanks Jose Luis Salas
+  compact possible nil. thanks geemus
+
+[aws|fog]
+  Don't pass :host to Excon request. thanks Jason Smith
+
+[aws|iam]
+  Mock delete_server_certificate raises NotFound appropriately. thanks Dan Peterson
+  UploadServerCertificate parser respects CertificateBody and CertificateChain. thanks Dan Peterson
+
+[core]
+  Adds `ssh_ip_address=` so users can override the ssh address per issue #2584. thanks Kyle Rames
+  updating Server models to use ssh_ip_address rather than public_ip_address. thanks Kyle Rames
+  updating ssh_ip_address to take a block in order to defer address specification to execution time. thanks Kyle Rames
+
+[digital ocean|compute]
+  pass '1' instead of true for scrub. thanks geemus
+
+[digitalocean|compute]
+  add created_at timestamp as attribute of server. thanks Dave Donahue
+  additional test coverage and some maintenance. thanks Dave Donahue
+  allow bootstrapping with keys rather than paths. thanks Dave Donahue
+  sync with latest master for new fog_test_server_attributes. thanks Dave Donahue
+  fix merge conflict in fog_test_server_attributes. thanks Dave Donahue
+
+[google]
+  Handle 500 errors from GCE. thanks Carlos Sanchez
+  Excon::Errors::NotFound never reaches the models. thanks Carlos Sanchez
+  Disk.ready? should not reload the data. thanks Carlos Sanchez
+  Expose Google API client, compute and api_url for easier debugging. thanks Carlos Sanchez
+
+[google|compute]
+  Readme update. thanks Nat Welch
+  Remove RHEL from Global Project list. thanks Nat Welch
+
+[hp|compute_v2]
+  added security group support. thanks Kyle Rames
+
+[libvirt]
+  fix readme gem reference. thanks geemus
+
+[libvirt|compute]
+  Allow volumes to have backing volumes. thanks Dominic Cleal
+
+[misc]
+  Use endpoint, port, and path_style options in AWS storage Mock. thanks Adam Stegman and Zach Robinson
+  Added Openstack compute support for add_security_group and remove_security_group. thanks Adan Saenz
+  Fixed method names for Mock objects for add/remove_security_group. thanks Adan Saenz
+  Add support for AWS VPC Network ACLs. thanks Alex Coomans
+  Fix subnet mocking, related to #2510. thanks Alex Coomans
+  Fix DhcpOption#associate. thanks Alex Coomans
+  reject unnecessary methods creation and clean up remove_method. thanks Alexander Lomov
+  make test output more verbose if provider service is unavailable. thanks Alexander Lomov
+  mock tests doesn't have to rely on provider availability. thanks Alexander Lomov
+  fix get_bucket_acl request method in Google Cloud Storage. thanks Alexander Lomov
+  fix put_bucket_acl request for Google Cloud Storage service. thanks Alexander Lomov
+  remove unnecessary duplication in put_bucket_acl request in Google storage. thanks Alexander Lomov
+  add put_object_acl request to Google Cloud Storage service. thanks Alexander Lomov
+  Removed host from SQS connection request arguments. thanks Amy Sutedja
+  Revert "[aws|sqs] remove host/port from request". thanks Amy Sutedja
+  Create a realistic, but fake, service catalog. thanks Ash Wilson
+  The fake service catalog matches format. thanks Ash Wilson
+  DRY up some of that service catalog generation. thanks Ash Wilson
+  Handle failed logins. thanks Ash Wilson
+  Rackspace identity_tests now pass in mocking mode. thanks Ash Wilson
+  Mock the #get_containers Storage call. thanks Ash Wilson
+  Mock the #head_container Storage call. thanks Ash Wilson
+  Mock the #put_container Storage request. thanks Ash Wilson
+  Don't count the :meta entry as an object. thanks Ash Wilson
+  Another pair of tests that already work with mocks. thanks Ash Wilson
+  Some speculative mocking of #get_container. thanks Ash Wilson
+  Refactor to use some utility classes. thanks Ash Wilson
+  Already took care of these three. thanks Ash Wilson
+  Don't call methods on a non-enabled CDN. thanks Ash Wilson
+  Mock delete_object and put_object. thanks Ash Wilson
+  Mock get_object. thanks Ash Wilson
+  Mock HEAD request for objects. thanks Ash Wilson
+  Refactor into Fog::Storage::Rackspace::Common. thanks Ash Wilson
+  Support "chunking" in #put_object. thanks Ash Wilson
+  Implement bulk deletion. thanks Ash Wilson
+  Test failure cases for mocks, too. thanks Ash Wilson
+  Mock #post_set_meta_temp_url_key with a no-op. thanks Ash Wilson
+  Eliminate a ton of redundancy. thanks Ash Wilson
+  Large object tests now pass in mock mode. thanks Ash Wilson
+  Account tests now pass. thanks Ash Wilson
+  directories_tests now pass with mocks. thanks Ash Wilson
+  First half of directory_tests now pass. thanks Ash Wilson
+  The rest of the directory_tests now pass too. thanks Ash Wilson
+  file_tests now all pass under mocking. thanks Ash Wilson
+  files_tests already works with the mocks. Huzzah!. thanks Ash Wilson
+  storage_tests now all pass under mocking, too. thanks Ash Wilson
+  Refactoring: #each_part in MockObject. thanks Ash Wilson
+  Documentation for the storage mock utility classes. thanks Ash Wilson
+  Split a multiline statement with trailing .'s. thanks Ash Wilson
+  Parenthesize method parameters. thanks Ash Wilson
+  Create the mock Queues service. thanks Ash Wilson
+  Enable Queues service tests for mocking. thanks Ash Wilson
+  Enable Cloud Queues request tests. thanks Ash Wilson
+  Mock the create_queue call. thanks Ash Wilson
+  Mock the list_queues call. thanks Ash Wilson
+  Mock the delete_queue call. thanks Ash Wilson
+  Mock the get_queue call. thanks Ash Wilson
+  No need to map! here, we're modifying the hashes. thanks Ash Wilson
+  Mock the queue_stats request. thanks Ash Wilson
+  Handle a corner case in the create_queue mock. thanks Ash Wilson
+  On to the messages_tests. thanks Ash Wilson
+  Mock the create_message call. thanks Ash Wilson
+  get_message and list_messages mocks. thanks Ash Wilson
+  Initial support for mocking delete_message. thanks Ash Wilson
+  Enable claim_tests in mocking mode. thanks Ash Wilson
+  Mock the create_claim request. thanks Ash Wilson
+  create_claim returns a 204 for empty claims. thanks Ash Wilson
+  Mock the get_claim request. thanks Ash Wilson
+  Mock the update_claim request. thanks Ash Wilson
+  Mock the delete_claim request. thanks Ash Wilson
+  Refactor out some common error checking. thanks Ash Wilson
+  Actually compute #claimed and #free. thanks Ash Wilson
+  Similar refactoring for accessing MockClaims. thanks Ash Wilson
+  Some documentation. thanks Ash Wilson
+  Completely untested ageoff code. thanks Ash Wilson
+  Enable model tests for Claims. thanks Ash Wilson
+  Enable the claims_tests in mocking mode. thanks Ash Wilson
+  Enable the message_tests in mocking mode. thanks Ash Wilson
+  Enable the messages_tests in mocking mode. thanks Ash Wilson
+  Enable the queue_tests in mocking mode. thanks Ash Wilson
+  Er, *actually* enable the messages_tests for mocks. thanks Ash Wilson
+  Enable the queues_tests in mocking mode. thanks Ash Wilson
+  Refactor PATH_BASE into a constant. thanks Ash Wilson
+  Er, actually enable queues_tests, too. thanks Ash Wilson
+  Yep, just did that. thanks Ash Wilson
+  Make the delete_message mock consistent. thanks Ash Wilson
+  Only extend the TTL of a MockMessage. thanks Ash Wilson
+  Don't use `&:to_h` style enumerations. thanks Ash Wilson
+  I guess there isn't really a better place. thanks Ash Wilson
+  Include the oldest and newest message in stats. thanks Ash Wilson
+  Missed a chance to use queue.claim!. thanks Ash Wilson
+  Replace the JSON round-trip with #stringify. thanks Ash Wilson
+  A hack to fix the Claim#messages= hack on 1.8.7. thanks Ash Wilson
+  Use case-insensitive header access for Location. thanks Ash Wilson
+  Fix case sensitivity of the Content-type header. thanks Ash Wilson
+  extended IOPS support. thanks Ben Chadwick
+  add Iops to snapshot model. thanks Ben Chadwick
+  adding new HVM-based instance types to AWS in lib/fog/aws/models/compute/flavors.rb. thanks Ben Hundley
+  White space cleanup. thanks Brandon Dunne
+  use current region for subnet checks when creating DB and Cache subnet groups. thanks Brian Nelson
+  add aws storage multipart upload mocks. thanks Brian Palmer
+  enable the relevant tests for multipart mocks. thanks Brian Palmer
+  Write logger output to stderr to conform to convention. thanks Bruno Enten
+  [google][compute] Update to API v1. thanks Carlos Sanchez
+  Update rubygems to fix travis in ruby 1.8. thanks Carlos Sanchez
+  Fix typos that make ruby 1.8 break. thanks Carlos Sanchez
+  Changed openstack server model to build security group objects without generating deprication warning messages. thanks Chris Howe
+  [google][compute] Add support for blank disks (i.e. remove code that required only image or snapshot based disks to be created). thanks Doug Henderson
+  Fixes for AWS Mocking. thanks Doug Henderson
+  Implemented Replace Route. thanks Eric Herot
+  Add replace_route failure tests. thanks Eric Herot
+  Undo date change. thanks Eric Herot
+  Add a test for passing a nonexisiting route table and an exisiting internet gateway to replace_route failures section. thanks Eric Herot
+  Switch to hashed parameters method for handling replace_route arguments. thanks Eric Herot
+  Remove commented code. thanks Eric Herot
+  making destination_cidr_block a required parameter for replace_route. thanks Eric Herot
+  Switch to or-equals for DestinationCidrBlock and instanceOwnerId. thanks Eric Herot
+  Moved #compact to a sesparate line to make it a little more obvious. thanks Evan Light
+  Servers with a password locked root user have a nil @password. thanks Evan Light
+  Issues a deprecation warning if the Rackspace Fog user is relying on region to be provided by default. thanks Evan Light
+  Closes #2469. thanks Evan Light
+  Ported fog rackspace storage docs for OpenStack. thanks Evan Light
+  Oops. Missed a couple of deletions of CDN stuff. thanks Evan Light
+  No, we don't want people hitting up Rackspace specifically about OpenStack docs. It's a joint effort!. thanks Evan Light
+  Adds getting started guide for OpenStack fog. thanks Evan Light
+  Added Ruby-specific code blocks. thanks Evan Light
+  Formating fixes. thanks Evan Light
+  Fixed another formating error. thanks Evan Light
+  Fixes #2586. thanks Evan Light
+  Check if security group is nil, fixes #2507. thanks Gaurish Sharma
+  Update Flavours.rb with new M3 Instance Types. thanks Gaurish Sharma
+  Fixing defect with handling of multiple <item> elements in reponse to describe-reservations. thanks Joe Kinsella
+  Fix typo puplic -> public. thanks John F. Douthat
+  Tests and fixes for Elasticache VPC subnet groups. thanks Jon Topper
+  Rackspace/examples; cloudfiles directory is set to public, therefore file is accessible. thanks Jonathon Scanes
+  DNSimple get_domain also accepts domain name. thanks Jose Luis Salas
+  rm rspec dependency. thanks Joseph Anthony Pasquale Holsten
+  adding Rage4 module file. thanks Joshua Gross
+  all request types support by the rage4 api without mocks or tests. thanks Joshua Gross
+  setting up testing library to start writing tests. thanks Joshua Gross
+  Wrote shindo tests for all supported requests.  Resulted in a lot of debuggin of     request methods.  As well update zone/record models to work in simple cases. thanks Joshua Gross
+  using proper hash syntax for ruby 1.8.7. thanks Joshua Gross
+  when a zone doesn't exist return nil for rage4. thanks Joshua Gross
+  previous change was for records, duplicating nil return for zones now. thanks Joshua Gross
+  changing handling of zone returns after testing that data was different on errors and success. thanks Joshua Gross
+  adding domain alias to record to match zerigo api in rage4. thanks Joshua Gross
+  quick syntax fix for an attribute alias. thanks Joshua Gross
+  making a reader for domain to duplicate name attribute. thanks Joshua Gross
+  adding more attributes to rage4 records. thanks Joshua Gross
+  updating documentation for list records in rage4. thanks Joshua Gross
+  fixing a typo in rage4 record. thanks Joshua Gross
+  minor fixes for record and domain destroying. thanks Joshua Gross
+  fixing rage4 structure as to recent fog chagnes. thanks Joshua Gross
+  fixing service creation in rage4. thanks Joshua Gross
+  Pass params necessary to upload key pairs. thanks Joshua Schairbaum
+  Fix logic bug in data structure creation. thanks Joshua Schairbaum
+  Revert "[hp|compute_v2] added security group support". thanks Kyle Rames
+  normalize requires syntax. thanks Lance Ivy
+  ensure that each service requires its provider. thanks Lance Ivy
+  openstack orchestration no longer depends on cloud formation. thanks Lance Ivy
+  ensure that all services require their provider. thanks Lance Ivy
+  create core for each provider. keep load hook for provider. thanks Lance Ivy
+  extend load time benchmarks for new load targets. thanks Lance Ivy
+  don't require service when registering it. thanks Lance Ivy
+  add benchmark scripts to load each provider and service independently. thanks Lance Ivy
+  support rackspace storage delete_at and delete_after headers. thanks Marshall Yount
+  fixed misspelling. thanks Matheus Mina
+  refactor DataPipeline format conversion, allowing for arrays of refs. thanks Matt Gillooly
+  make disassociate_address mock idempotent, by not requiring instance data. thanks Michael Hale
+  ignore more Ruby version manager files. thanks Mike Fiedler
+  drop dependency on deprecated ruby-hmac gem, fixes #2034. thanks Mike Fiedler
+  Always scrub data when deleting a server from DO. thanks Nat Welch
+  Hardcode some responses to tests. thanks Nat Welch
+  Cleanup some whitespace in the Google dir. thanks Nat Welch
+  fix error - invalid excon request keys: :host. thanks Nathan Williams
+  Make Coveralls opt-in. thanks Paul Thornthwaite
+  Reduce size of Travis matrix. thanks Paul Thornthwaite
+  Revert to original .travis.yml and include one case. thanks Paul Thornthwaite
+  Record and Zone put requests are idempotent. thanks Peter Drake
+  Add Ruby 2.1.0 to the test matrix. thanks Peter M. Goldstein
+  Fixed error when accessing files via atmos where keys contain spaces. thanks Peter Vawser
+  There is a bug here or maybe i'm using the gem wrong...     Edit     you should merge the ACLs after merging the meta_has if not The new permission will be overwritten by the old one.     If Before you had a directory with :     X-Container-Read: .r:*,.rlistings. thanks Piotr Kedziora
+  Add support for Rackspace's Extract Archive API call     See http://docs.rackspace.com/files/api/v1/cf-devguide/content/Extract_Archive-d1e2338.html     for documentation on the API call. thanks Sammy Larbi
+  Set the Content-Type of extract_archive requests to ''     The documentation for extract archive (http://docs.rackspace.com/files/api/v1/cf-devguide/content/Extract_Archive-d1e2338.html) says if a Content-Type is sent, every object in the archive will have its Content-Type set to that value. However, if a blank Content-Type is sent, CloudFiles will determine it based on each individual file. Since we don't want every file to be interpreted as an archive (which would happen if we let Fog determine the Content-Type), we set it explicitly to a blank string. thanks Sammy Larbi
+  Use @ in comment for YARD docs. thanks Sammy Larbi
+  Update Nokogiri version. thanks Sascha Korth
+  Fix version. thanks Sascha Korth
+  Undo last nokogiri version setting. thanks Sascha Korth
+  Remove duplicates. thanks Sean Handley
+  Formatting flavor data and updating documentation to include i2 instances. thanks Shaun Davis
+  Renaming ebs_optimized -> ebs_optimized_available. thanks Shaun Davis
+  Removing unnecessary comments. thanks Shaun Davis
+  Display number of instance store volumes per instance flavor. thanks Shaun Davis
+  Switch to DNSimple versioned API. thanks Simone Carletti
+  Cleanup documentation and resource representations. thanks Simone Carletti
+  Remove :host key in SQS request method to eliminate excon error. thanks Steve Meyfroidt
+  get non capitalized content-type. thanks bugagazavr
+  fix MVP exclude list. thanks geemus
+  add CONTRIBUTORS, assign copyright. thanks geemus
+  fix link in license. thanks geemus
+  update contributors/license files. thanks geemus
+  Update network parser to add private ips to array     Previously the network parser would overwrite the private ip addresses     if there were more than one. These are now added to an array. thanks joe
+  Update documentation of return values. thanks joe
+  [google][compute] Add rhel-cloud to project search list. thanks kbockmanrs
+  Implement Rackspace Monitoring Agent Host information. thanks kfafel
+  minor fix for get_filesystems_info. thanks kfafel
+  fix mock output hash. thanks kfafel
+  tighten up agent info mocks. thanks kfafel
+  Implement agent_info tests; better mocks. thanks kfafel
+  Cleaned up agent_tests. thanks kfafel
+  add missing get_agent and list_agents. thanks kfafel
+  addresses and settags. thanks neillturner
+  delete snapshots and address requests for google. thanks unknown
+  fix a couple of bugs. thanks unknown
+  add attach and detach disk. thanks unknown
+
+[openstack]
+  image.update_image_members expects are incorrect #2627. thanks radekg
+  Fix for OpenStack flavor id calculation. thanks radekg
+
+[openstack|compute]
+  Allow to use Symbol when specifying the hash of NICs. thanks KATOH Yasufumi
+  Adding docs for OpenStack Compute. thanks Kyle Rames
+
+[rackspace|compute]
+  updating Rackspace compute docs. thanks Kyle Rames
+
+[rackspace|compute_v2]
+  updates key_pair model to pass additional attributes onto compute service. (You can now pass public and private keys via the model). thanks Kyle Rames
+  added key_name and modified key_pair= to take KeyPair objects as well as strings in order to be more compatible with other fog providers. thanks Kyle Rames
+
+[storm_on_demand]
+  don't pass host to request. thanks Josh Blancett
+
+[vcloud_director]
+  fix typo as per #2621. thanks Mike Pountney
+
+
+1.19.0 12/19/2013 15180fd7c0993f7fe6cfdc861a4db7ada14825ad
+==========================================================
+
+Stats! { 'collaborators' => 53, 'downloads' => 3970307, 'forks' => 1015, 'open_issues' => 149, 'watchers' => 2831 }
+
+MVP! Mike Pountney
+
+[AWS]
+  add modify_vpc_attribute. thanks Eric Stonfer
+  add modify_vpc_attribute. thanks Eric Stonfer
+
+[AWS|Autoscaling]
+  Fix option name in documentation. thanks Frederick Cheung
+
+[AWS|RDS]
+  Support for creating and removing subnet groups. thanks Akshay Joshi
+
+[AWS|Storage]
+  fixed signed urls when using session tokens. thanks Frederick Cheung
+
+[Brightbox]
+  Fix test issue with reusing servers. thanks Paul Thornthwaite
+  Add new SSL cert metadata attributes. thanks Paul Thornthwaite
+  Remove commented resource from schema. thanks Paul Thornthwaite
+  Fix typo in yard tag. thanks Paul Thornthwaite
+  Clean up Cloud IP mapping code. thanks Paul Thornthwaite
+  Code style clean up. thanks Paul Thornthwaite
+
+[OS|Volume]
+  Add listing/showing volume types. thanks Grzesiek Kolodziejczyk
+
+[aws]
+  Implement missing mocks for Route 53. thanks Carlos Sanchez
+  style fix for address model. thanks Eric Stonfer
+  narrow scope of unf warning. thanks geemus
+
+[aws:storage]
+  path_style option availability. thanks David Illsley
+
+[aws|cloudwatch]
+  remove :host key from request. thanks Brian D. Burns
+
+[aws|dns]
+  Don't set mock changes to INSYNC immediately, only after some timeout. thanks Carlos Sanchez
+
+[aws|elb]
+  support for cross zone load balancing. thanks Frederick Cheung
+
+[aws|rds]
+  Implement `ready?` for subnet group. thanks Akshay Joshi
+  Support Iops parameter. thanks Eric Hankins
+
+[aws|sqs]
+  remove host/port from request. thanks geemus
+
+[aws|storage]
+  warn/load unf as needed. thanks geemus
+
+[bluebox]
+  remove :host from excon request. thanks Sam Cooper
+
+[core]
+  use Excon :persistent option. thanks Brian D. Burns
+
+[digitalocean]
+  Add support for private networking. thanks Trae Robrock
+
+[dnsimple]
+  remove host from request. thanks Jose Luis Salas
+
+[general]
+  Allow default wait_for interval to be overiden globally. thanks radekg
+  Merge Forg.interval and Fog.timeout into a single file. thanks radekg
+
+[google]
+  natIP is set to true when it must be an ip. thanks Carlos Sanchez
+  Add support for instance tags. thanks Carlos Sanchez
+  Add support for instance tags. thanks Carlos Sanchez
+  Raise Fog::Errors::NotFound on 404. thanks Carlos Sanchez
+  Implement disk mocks and enable tests. thanks Carlos Sanchez
+  Alias flavor_id and machine_type for consistency with other providers. thanks Carlos Sanchez
+  Instances are created without description, and disk size is ignored. thanks Carlos Sanchez
+  Implement operation model. thanks Carlos Sanchez
+
+[hp]
+  Add documentation and examples for the provider for HP Cloud Services. thanks Rupak Ganguly
+  Fix links in some documentation pages. thanks Rupak Ganguly
+  Fix a few more documentation page links. thanks Rupak Ganguly
+  Fix connection section for newer services. thanks Rupak Ganguly
+
+[misc]
+  Get VcloudDirector working again in fog interactive. Fixes #2373. thanks Adam Heinz
+  Use OpenSSL::Digest instead of deprecated OpenSSL::Digest::Digest. thanks Akira Matsuda
+  Add new AWS EC2 flavors to the compute model. thanks Alfred Moreno
+  Add exponential backoff to backoff_if_unfound. thanks Andrew Leonard
+  add in 'AssociatePublicIpAddress' to launch configuration creation. thanks Andrew Stangl
+  merge upstream changes and resolve merge conflict. thanks Andrew Stangl
+  add in 'AssociatePublicIpAddress' to launch configuration creation. thanks Andrew Stangl
+  remove duplicate code introduced during rebase. thanks Andrew Stangl
+  tidy up and remove whitespace. thanks Andrew Stangl
+  use original error message if none given. thanks Brian D. Burns
+  use Fog::JSON. thanks Brian D. Burns
+  Add ready? method to aws VPC and Subnet models. thanks Brian Nelson
+  Add pending -> available transitions for AWS VPC and Subnets. thanks Brian Nelson
+  all? not working in JRuby 1.7.5+. Configure Travis. thanks Carlos Sanchez
+  Disable specific tests that don't pass on jruby 1.7.5+. thanks Carlos Sanchez
+  Disable coveralls on travis with jruby. thanks Carlos Sanchez
+  Ensure vpc created in a test doesn't affect another. thanks Carlos Sanchez
+  Allows custom username for aws spot instances. thanks Casey Abernathy
+  Added content_encoding attribute to Rackspace storage. thanks Cezar Sa Espinola
+  Remove :host key in RDS request method to eliminate excon warning. thanks David Faber
+  Remove stray private key. thanks Dominic Cleal
+  Update excon dependency to version ~>0.30.0. thanks Erik Michaels-Ober
+  Fix typo in documentation. thanks Erik Michaels-Ober
+  ecloud api version bump. thanks Eugene Howe
+  Lock user by default. thanks Evan Light
+  Updated docs to reflect RackConnect compatibility. thanks Evan Light
+  Typo. thanks Evan Light
+  service attribute conflicts with the service defined in the parent. thanks Evan Petrie
+  details sometimes fails with a not-found. thanks Evan Petrie
+  Add index for describe_images parameters that use them. thanks James Bence
+  Make changes to a copy of the options parameter. thanks Joe Yates
+  Give 'versionId' value the expected structure. thanks Joe Yates
+  Add IAMInstanceProfile support to launch configs. thanks Jon Topper
+  Improve support for VPC Security Groups in RDS. thanks Jon Topper
+  Add IAMInstanceProfile support to launch configs. thanks Jon Topper
+  Improve support for VPC Security Groups in RDS. thanks Jon Topper
+  Remove duplication. thanks Jon Topper
+  Update S3 ACL whitelist. thanks Keith Barrette
+  Revert "[rackspace] wrapping test blocks around test helpers to prevent unexpected shindo exceptions". thanks Kyle Rames
+  merging in changes. thanks Kyle Rames
+  Added syntax highlighting for ruby code fragments. thanks Mark IJbema
+  Add request to set VM annotations in vSphere. thanks Martin Matuska
+  Add the uncommitted property to the vsphere datastore object. thanks Martin Matuska
+  changed shutdown to reboot in reboot server method. thanks Matheus Mina
+  changed __consoles to consoles and renamed consoles method to get_consoles. thanks Matheus Mina
+  fixed tests. thanks Matheus Mina
+  fixed consoles to use :aliases. thanks Matheus Mina
+  fixed AWS::Glacier::Vault.delete_notification_configuration so that it passes the ID to the underlying core request. thanks Matt Pokress
+  Allow custom Mock.not_implemented message. thanks Mike Pountney
+  Allow custom Mock.not_implemented message. thanks Mike Pountney
+  ignore .ruby-version. thanks Mike Pountney
+  vApp rename via put_vapp_name_and_description. thanks Mike Pountney
+  use std options={} format for optional parameters. thanks Mike Pountney
+  Find all and by-name Mock for Query API orgVdcNetwork. thanks Mike Pountney
+  improve network mock test data, to include vdc & IsShared. thanks Mike Pountney
+  fix tests for running against live environment. thanks Mike Pountney
+  make Mock vcloud_director_host an FQDN. thanks Mike Pountney
+  rename Mock vcloud_director_host to pass URI.parse. thanks Mike Pountney
+  Add delete_network request. thanks Mike Pountney
+  add Mock for post_create_network, use this to create/delete network in tests. thanks Mike Pountney
+  Modified AWS S3 mock, so that it errors when creating an existing bucket. thanks Nassos Antoniou
+  return NS and SOA records as per https://github.com/fog/fog/issues/2419 - this allows us to work with NS subdelegations, as well as the NS and SOA records while the type can't be changed, the values and TTLs can be. thanks Nathan Sullivan
+  Added parameter to force request timeout on xen. thanks Paulo Henrique Lopes Ribeiro
+  Adding more XenServer models. thanks Paulo Henrique Lopes Ribeiro
+  Forget to reference models on main class. thanks Paulo Henrique Lopes Ribeiro
+  adding spot price to launch configurations. thanks Rodrigo Estebanez
+  Sometimes :Environments is not a key. thanks Sarah Vessels
+  Fog::Storage::Local#directories#all: Don't break when :local_root folder is missing. thanks Sjoerd Andringa
+  Also call #load in case of missing local root folder. thanks Sjoerd Andringa
+  using new way of task mocking for edgegateway tests. thanks Sneha Somwanshi
+  updated documentation for put_vm. thanks Sneha Somwanshi
+  openstack modifications. thanks Thom Mahoney & Eugene Howe
+  openstack modifications. thanks Thom Mahoney & Eugene Howe
+  Need to list block in the argument list to access the variable. thanks Trae Robrock
+  Update describe_addresses.rb. thanks Virender Khatri
+  Update address.rb. thanks Virender Khatri
+  add gittip shield. thanks geemus
+  fix for broken AWS records tests. thanks geemus
+  expanding/rewriting the getting-help/involved section of README. thanks geemus
+  fix spacing for getting help section of README. thanks geemus
+  streamline openstack security groups tests. thanks geemus
+  move license to LICENSE.md. thanks geemus
+  add CONTRIBUTING.md. thanks geemus
+  just refer to contrib/license in readme to DRY. thanks geemus
+  Create parser for AWS assign private ip addresses. thanks joe
+  Assign private ip parser. thanks joe
+  add assign private ip request path. thanks joe
+  fix typo and add mock. thanks joe
+  Update error message on tests. thanks joe
+  private ip tests. thanks joe
+  pass options as a hash add support for multiple ips. thanks joe
+  update tests to reflect argument hash. thanks joe
+  remove debugging. thanks joe
+  fix variable name typo. thanks joe
+  remove unneeded test and destroy objects. thanks joe
+
+[openstack|compute]
+  Basic examples for Compute. thanks Daniel Lobato
+
+[openstack|storage]
+  adding missing request methods to Storage service. thanks Kyle Rames
+  updating request to use the proper file structure. thanks Kyle Rames
+
+[rackspace]
+  updating compute and storage to pull service net urls from service catalog. thanks Kyle Rames
+  wrapping test blocks around test helpers to prevent unexpected shindo exceptions. thanks Kyle Rames
+  updating test helper to log errors and not throw exceptions to prevent shindo from halting if an error occurs. thanks Kyle Rames
+  fixing more live tests. thanks Kyle Rames
+  fixing broken tests caused by bad helper. thanks Kyle Rames
+  apply documentation edits. thanks Kyle Rames
+  apply documentation edits. thanks Kyle Rames
+
+[rackspace|compute]
+  compute_v2 should require fog/rackspace. thanks Brian D. Burns
+
+[rackspace|identity]
+  re-implementing service catalog in hopes of providing a faster more flexible solution. thanks Kyle Rames
+  updated service catalog support service net. thanks Kyle Rames
+  updated service catalog to return global endpoint if specified region endpoint does not exist. thanks Kyle Rames
+  tweaking service catalog to support ruby 1.8.7. thanks Kyle Rames
+
+[rackspace|queues]
+  adding examples create queue, delete queue, and post message. thanks Kyle Rames
+  adding id alias for identity; fixed bug in message#identity that returned the id along with the claim_id query string; removed redundant code. thanks Kyle Rames
+  adding more examples. thanks Kyle Rames
+  fixing examples. thanks Kyle Rames
+  adding request YARD docs. thanks Kyle Rames
+  adding YARD docs. thanks Kyle Rames
+  adding the queues getting started guide. thanks Kyle Rames
+  updating set_messages= to populate the claim_id attribute on messages in order for destroy to work properly. thanks Kyle Rames
+  adding the queues getting started guide. thanks Kyle Rames
+
+[vSphere]
+  Implementation of feature to specify scsi_controller type at create type and also support the attribute scsi_controller to return the right class. thanks Marc Grimme
+
+[vcloud_director]
+  fix models vms_test so is pending on empty environment. thanks Dan Abel
+  tests become pending not failing on absense of testable resources. thanks Dan Abel
+  post_create_org_vdc_network. thanks Mike Pountney
+  fix to input format for post_create_org_vdc_network. thanks Mike Pountney
+  fix query test to handle delete_network. thanks Mike Pountney
+  Fix medias#create - issue #2440. thanks Nick Osborn
+  s/@end_point/end_point/. thanks Nick Osborn
+  update name, description and storage_profile for vm. thanks Sneha Somwanshi
+  ensure that MetadataEntry is a list. thanks Sneha Somwanshi
+  Show guest customization "admin password auto". thanks Stefano Tortarolo
+  Handle Guest admin password. thanks Stefano Tortarolo
+  allow nullable for gateway in network tests. thanks geemus
+
+[vclouddirector]
+  Shore up tests re EdgeGateway. thanks Mike Pountney
+  correct put_vapp_name_and_description documentation. thanks Mike Pountney
+
+[vsphere|compute]
+  restore default guest_id so setting it is optional. thanks Dominic Cleal
+  Force shutdown a server if VMware Tools is installed, but isn't running. thanks Kevin Menard
+  Pass server shutdown options through to the stop operation so the caller can force shutdown if desired. thanks Kevin Menard
+  get_vm_interface returns a hash, not an object that responds to :key. thanks Kevin Menard
+  Renamed 'vm' to 'server' to be more in line with other fog providers. thanks Kevin Menard
+  Backed out the changed to use a hash and fixed the conversion to an Interface class. thanks Kevin Menard
+  Implemented idiomatic interface destruction. thanks Kevin Menard
+  Default to a VirtualE1000 NIC if not configured. thanks Kevin Menard
+  Implemented idiomatic interface creation. thanks Kevin Menard
+  interfaces#get now properly initializes the Interface object. thanks Kevin Menard
+  Deprecated the old interface creation and destruction methods now that the idiomatic ones exist. thanks Kevin Menard
+
+[xenserver]
+  Updated models to have all attributes from version 6.2.0. thanks Paulo Henrique Lopes Ribeiro
+  Adding more XenServer Models. thanks Paulo Henrique Lopes Ribeiro
+
+
 1.18.0 10/31/2013 5442bc7e893eb73dae8bb5ee8ef0845c78c43627
 ==========================================================
 

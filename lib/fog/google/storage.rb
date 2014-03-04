@@ -1,5 +1,4 @@
-require 'fog/google'
-require 'fog/storage'
+require 'fog/google/core'
 
 module Fog
   module Storage
@@ -31,6 +30,7 @@ module Fog
       request :put_bucket
       request :put_bucket_acl
       request :put_object
+      request :put_object_acl
       request :put_object_url
 
       module Utils
@@ -283,7 +283,7 @@ DATA
           else
             @connection = nil
           end
-          @connection ||= Fog::Connection.new(uri, @persistent, @connection_options)
+          @connection ||= Fog::XML::Connection.new(uri, @persistent, @connection_options)
         end
 
         private

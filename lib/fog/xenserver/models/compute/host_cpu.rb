@@ -3,18 +3,19 @@ require 'fog/core/model'
 module Fog
   module Compute
     class XenServer
-    
+
       #
       # A physical CPU
       #
-      # @see http://docs.vmd.citrix.com/XenServer/6.0.0/1.0/en_gb/api/?c=host_cpu
+      # @see http://docs.vmd.citrix.com/XenServer/6.2.0/1.0/en_gb/api/?c=host_cpu
       #
       class HostCpu < Fog::Model
-        
+
         identity :reference
-        
+
         attribute :uuid
         attribute :family
+        attribute :features
         attribute :flags
         attribute :__host,          :aliases => :host
         attribute :model
@@ -29,9 +30,9 @@ module Fog
         def host
           service.hosts.get __host
         end
-        
+
       end
-      
+
     end
   end
 end

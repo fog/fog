@@ -13,7 +13,7 @@ module Fog
           }
 
           vanilla_options = ['metadata', 'accessIPv4', 'accessIPv6',
-                             'availability_zone', 'user_data', 'key_name', 
+                             'availability_zone', 'user_data', 'key_name',
                              'adminPass', 'config_drive', 'min_count', 'max_count',
                              'return_reservation_id'
                             ]
@@ -47,9 +47,9 @@ module Fog
           if options['nics']
             data['server']['networks'] =
             Array(options['nics']).map do |nic|
-              neti = { 'uuid' => nic['net_id'] }
-              neti['fixed_ip'] = nic['v4_fixed_ip'] unless nic['v4_fixed_ip'].nil?
-              neti['port'] = nic['port_id'] unless nic['port_id'].nil?
+              neti = { 'uuid' => (nic['net_id'] || nic[:net_id]) }
+              neti['fixed_ip'] = (nic['v4_fixed_ip'] || nic[:v4_fixed_ip]) unless (nic['v4_fixed_ip'] || nic[:v4_fixed_ip]).nil?
+              neti['port'] = (nic['port_id'] || nic[:port_id]) unless (nic['port_id'] || nic[:port_id]).nil?
               neti
             end
           end
@@ -107,7 +107,6 @@ module Fog
                        response.body["user"]["id"]
                     end
 
-
           mock_data = {
             'addresses'    => {},
             'flavor'       => {"id" => flavor_ref, "links"=>[{"href"=>"http://nova1:8774/admin/flavors/1", "rel"=>"bookmark"}]},
@@ -127,10 +126,18 @@ module Fog
             'config_drive' => options['config_drive'] || '',
           }
 
+          if nics = options['nics']
+            nics.each do |nic|
+              mock_data["addresses"].merge!(
+                "Public" => [{ 'addr' => Fog::Mock.random_ip }]
+              )
+            end
+          end
+
           response_data = {}
           if options['return_reservation_id'] == 'True' then
             response_data = { 'reservation_id' => "r-#{Fog::Mock.random_numbers(6).to_s}" }
-          else   
+          else
             response_data = {
               'adminPass'       => 'password',
               'id'              => server_id,
@@ -156,12 +163,12 @@ module Fog
           self.data[:last_modified][:servers][server_id] = Time.now
           self.data[:servers][server_id] = mock_data
           if options['return_reservation_id'] == 'True' then
-            response.body = response_data 
+            response.body = response_data
           else
             response.body = { 'server' => response_data }
           end
           response
-        end      
+        end
       end
     end
   end

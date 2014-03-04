@@ -2,7 +2,7 @@ module Fog
   module Compute
     class RackspaceV2
       class Real
-        
+
         # Retrieves list of attached volumes
         # @param [String] server_id
         # @return [Excon::Response] response:

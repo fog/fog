@@ -1,8 +1,6 @@
 Shindo.tests('Fog::Storage[:rackspace] | object requests', ["rackspace"]) do
 
-  unless Fog.mocking?
-    @directory = Fog::Storage[:rackspace].directories.create(:key => 'fogobjecttests')
-  end
+  @directory = Fog::Storage[:rackspace].directories.create(:key => 'fogobjecttests')
 
   module RackspaceStorageHelpers
     def override_path(path)
@@ -13,17 +11,14 @@ Shindo.tests('Fog::Storage[:rackspace] | object requests', ["rackspace"]) do
   tests('success') do
 
     tests("#put_object('fogobjecttests', 'fog_object')").succeeds do
-      pending if Fog.mocking?
       Fog::Storage[:rackspace].put_object('fogobjecttests', 'fog_object', lorem_file)
     end
 
     tests("#get_object('fogobjectests', 'fog_object')").succeeds do
-      pending if Fog.mocking?
       Fog::Storage[:rackspace].get_object('fogobjecttests', 'fog_object').body == lorem_file.read
     end
 
     tests("#get_object('fogobjecttests', 'fog_object', &block)").succeeds do
-      pending if Fog.mocking?
       data = ''
       Fog::Storage[:rackspace].get_object('fogobjecttests', 'fog_object') do |chunk, remaining_bytes, total_bytes|
         data << chunk
@@ -32,18 +27,15 @@ Shindo.tests('Fog::Storage[:rackspace] | object requests', ["rackspace"]) do
     end
 
     tests("#head_object('fogobjectests', 'fog_object')").succeeds do
-      pending if Fog.mocking?
       Fog::Storage[:rackspace].head_object('fogobjecttests', 'fog_object')
     end
 
     tests("#delete_object('fogobjecttests', 'fog_object')").succeeds do
-      pending if Fog.mocking?
       Fog::Storage[:rackspace].delete_object('fogobjecttests', 'fog_object')
     end
 
     # an object key with no special characters
     tests("#get_object_http_url('fogobjecttests', 'fog_object','expiration timestamp')").succeeds do
-      pending if Fog.mocking?
       expires_at = 1344149532 # 2012-08-05 16:52:12 +1000
       storage    = Fog::Storage::Rackspace.new(:rackspace_temp_url_key => "super_secret")
       storage.extend RackspaceStorageHelpers
@@ -54,7 +46,6 @@ Shindo.tests('Fog::Storage[:rackspace] | object requests', ["rackspace"]) do
 
     # an object key with no special characters
     tests("#get_object_https_url('fogobjecttests', 'fog_object','expiration timestamp')").succeeds do
-      pending if Fog.mocking?
       expires_at = 1344149532 # 2012-08-05 16:52:12 +1000
       storage    = Fog::Storage::Rackspace.new(:rackspace_temp_url_key => "super_secret")
       storage.extend RackspaceStorageHelpers
@@ -65,7 +56,6 @@ Shindo.tests('Fog::Storage[:rackspace] | object requests', ["rackspace"]) do
 
     # an object key nested under a /
     tests("#get_object_https_url('fogobjecttests', 'fog/object','expiration timestamp')").succeeds do
-      pending if Fog.mocking?
       expires_at = 1344149532 # 2012-08-05 16:52:12 +1000
       storage    = Fog::Storage::Rackspace.new(:rackspace_temp_url_key => "super_secret")
       storage.extend RackspaceStorageHelpers
@@ -76,7 +66,6 @@ Shindo.tests('Fog::Storage[:rackspace] | object requests', ["rackspace"]) do
 
     # an object key containing a -
     tests("#get_object_https_url('fogobjecttests', 'fog-object','expiration timestamp')").succeeds do
-      pending if Fog.mocking?
       expires_at = 1344149532 # 2012-08-05 16:52:12 +1000
       storage    = Fog::Storage::Rackspace.new(:rackspace_temp_url_key => "super_secret")
       storage.extend RackspaceStorageHelpers
@@ -86,8 +75,6 @@ Shindo.tests('Fog::Storage[:rackspace] | object requests', ["rackspace"]) do
     end
 
     tests("put_object with block") do
-      pending if Fog.mocking?
-
       tests("#put_object('fogobjecttests', 'fog_object', &block)").succeeds do
         begin
           file = lorem_file
@@ -110,8 +97,6 @@ Shindo.tests('Fog::Storage[:rackspace] | object requests', ["rackspace"]) do
     end
 
     tests('#delete_multiple_objects') do
-      pending if Fog.mocking?
-
       Fog::Storage[:rackspace].put_object('fogobjecttests', 'fog_object', lorem_file)
       Fog::Storage[:rackspace].put_object('fogobjecttests', 'fog_object2', lorem_file)
       Fog::Storage[:rackspace].directories.create(:key => 'fogobjecttests2')
@@ -139,38 +124,30 @@ Shindo.tests('Fog::Storage[:rackspace] | object requests', ["rackspace"]) do
   tests('failure') do
 
     tests("#get_object('fogobjecttests', 'fog_non_object')").raises(Fog::Storage::Rackspace::NotFound) do
-      pending if Fog.mocking?
       Fog::Storage[:rackspace].get_object('fogobjecttests', 'fog_non_object')
     end
 
     tests("#get_object('fognoncontainer', 'fog_non_object')").raises(Fog::Storage::Rackspace::NotFound) do
-      pending if Fog.mocking?
       Fog::Storage[:rackspace].get_object('fognoncontainer', 'fog_non_object')
     end
 
     tests("#head_object('fogobjecttests', 'fog_non_object')").raises(Fog::Storage::Rackspace::NotFound) do
-      pending if Fog.mocking?
       Fog::Storage[:rackspace].head_object('fogobjecttests', 'fog_non_object')
     end
 
     tests("#head_object('fognoncontainer', 'fog_non_object')").raises(Fog::Storage::Rackspace::NotFound) do
-      pending if Fog.mocking?
       Fog::Storage[:rackspace].head_object('fognoncontainer', 'fog_non_object')
     end
 
     tests("#delete_object('fogobjecttests', 'fog_non_object')").raises(Fog::Storage::Rackspace::NotFound) do
-      pending if Fog.mocking?
       Fog::Storage[:rackspace].delete_object('fogobjecttests', 'fog_non_object')
     end
 
     tests("#delete_object('fognoncontainer', 'fog_non_object')").raises(Fog::Storage::Rackspace::NotFound) do
-      pending if Fog.mocking?
       Fog::Storage[:rackspace].delete_object('fognoncontainer', 'fog_non_object')
     end
 
     tests('#delete_multiple_objects') do
-      pending if Fog.mocking?
-
       expected = {
         "Number Not Found"  => 2,
         "Response Status"   => "200 OK",
@@ -206,8 +183,6 @@ Shindo.tests('Fog::Storage[:rackspace] | object requests', ["rackspace"]) do
 
   end
 
-  unless Fog.mocking?
-    @directory.destroy
-  end
+  @directory.destroy
 
 end

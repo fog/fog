@@ -1,5 +1,4 @@
-require 'fog/aws'
-require 'fog/compute'
+require 'fog/aws/core'
 
 module Fog
   module Compute
@@ -24,6 +23,8 @@ module Fog
       collection  :internet_gateways
       model       :key_pair
       collection  :key_pairs
+      model       :network_acl
+      collection  :network_acls
       model       :network_interface
       collection  :network_interfaces
       model       :route_table
@@ -47,6 +48,7 @@ module Fog
 
       request_path 'fog/aws/requests/compute'
       request :allocate_address
+      request :assign_private_ip_addresses
       request :associate_address
       request :associate_dhcp_options
       request :attach_network_interface
@@ -59,6 +61,8 @@ module Fog
       request :create_internet_gateway
       request :create_image
       request :create_key_pair
+      request :create_network_acl
+      request :create_network_acl_entry
       request :create_network_interface
       request :create_placement_group
       request :create_route
@@ -75,6 +79,8 @@ module Fog
       request :delete_dhcp_options
       request :delete_internet_gateway
       request :delete_key_pair
+      request :delete_network_acl
+      request :delete_network_acl_entry
       request :delete_network_interface
       request :delete_security_group
       request :delete_placement_group
@@ -97,6 +103,7 @@ module Fog
       request :describe_reserved_instances
       request :describe_instance_status
       request :describe_key_pairs
+      request :describe_network_acls
       request :describe_network_interface_attribute
       request :describe_network_interfaces
       request :describe_route_tables
@@ -130,6 +137,9 @@ module Fog
       request :purchase_reserved_instances_offering
       request :reboot_instances
       request :release_address
+      request :replace_network_acl_association
+      request :replace_network_acl_entry
+      request :replace_route
       request :register_image
       request :request_spot_instances
       request :reset_network_interface_attribute
@@ -153,6 +163,7 @@ module Fog
 
       class Mock
         include Fog::AWS::CredentialFetcher::ConnectionMethods
+        include Fog::AWS::RegionMethods
 
         def self.data
           @data ||= Hash.new do |hash, region|
@@ -213,6 +224,7 @@ module Fog
                     'ipPermissions'      => [],
                   },
                 },
+                :network_acls => {},
                 :network_interfaces => {},
                 :snapshots => {},
                 :volumes => {},
@@ -267,10 +279,7 @@ module Fog
           @aws_credentials_expire_at = Time::now + 20
           setup_credentials(options)
           @region = options[:region] || 'us-east-1'
-
-          unless ['ap-northeast-1', 'ap-southeast-1', 'ap-southeast-2', 'eu-west-1', 'us-east-1', 'us-west-1', 'us-west-2', 'sa-east-1'].include?(@region)
-            raise ArgumentError, "Unknown region: #{@region.inspect}"
-          end
+          validate_aws_region @region
         end
 
         def region_data
@@ -340,6 +349,7 @@ module Fog
 
       class Real
         include Fog::AWS::CredentialFetcher::ConnectionMethods
+        include Fog::AWS::RegionMethods
         # Initialize connection to EC2
         #
         # ==== Notes
@@ -374,6 +384,8 @@ module Fog
           @instrumentor_name      = options[:instrumentor_name] || 'fog.aws.compute'
           @version                = options[:version]     ||  '2013-10-01'
 
+          validate_aws_region @region
+
           if @endpoint = options[:endpoint]
             endpoint = URI.parse(@endpoint)
             @host = endpoint.host
@@ -387,7 +399,7 @@ module Fog
             @port       = options[:port]        || 443
             @scheme     = options[:scheme]      || 'https'
           end
-          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}#{@path}", @persistent, @connection_options)
+          @connection = Fog::XML::Connection.new("#{@scheme}://#{@host}:#{@port}#{@path}", @persistent, @connection_options)
         end
 
         def reload

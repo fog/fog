@@ -1,4 +1,4 @@
-# Examples for working with HP Cloud Compute Service v13.5 
+# Examples for working with HP Cloud Compute Service v13.5
 
 The latest HP Cloud deployment, version 13.5, takes advantage of more OpenStack functionality and the compute service uses slightly different commands (often noted by *v2* in the commands) than the previous 12.12 version. Verify which version of HP cloud you are working with.
 
@@ -62,14 +62,14 @@ You can find the values the access key, secret key, and other values by clicking
 
 ## Model Server Operations
 
-1. List all available servers for an account: 
+1. List all available servers for an account:
 
         servers = conn.servers
         servers.size   # returns no. of servers
         # display servers in a tabular format
         conn.servers.table([:id, :name, :state, :created_at])
 
-2.  List servers using a filter: 
+2.  List servers using a filter:
 
         servers = conn.servers.all(:name => 'My Shiny Server')
 
@@ -123,9 +123,9 @@ You can find the values the access key, secret key, and other values by clicking
         new_server = conn.servers.create(
                 :name=> "My Sticky Server",
                 :flavor_id => 104,
-                :block_device_mapping => [{ 'volume_size' => '', 
-                'volume_id' => "<volume_id>", 
-                'delete_on_termination' => '0', 
+                :block_device_mapping => [{ 'volume_size' => '',
+                'volume_id' => "<volume_id>",
+                'delete_on_termination' => '0',
                 'device_name' => 'vda'
                 }]
         )
@@ -158,20 +158,20 @@ You can find the values the access key, secret key, and other values by clicking
         )
         new_server.user_data = "This is some un-encoded user data"
         new_server.save
-    
+
     The personalization options are:
-    
+
     *config_drive*
     : Disk accessible to the server that contains a FAT filesystem. If `config_drive` parameter is set to `true` at the time of server creation, the configuration drive is created.
-    
+
     *user_data_encoded* or *user_data*
     : Allows additional metadata to be inserted during server creation by supplying a Base64-encoded string in the `user_data_encoded` parameter, or by providing an unencoded string with the `user_data` attribute. Note that encoding the data on the client is faster and more efficient.
-    
+
     *personality*
     : Allows files to be injected into the server instance after its creation. The file `contents` are Base64 encoded and injected into the location specified by `path`.
-    
+
     **Note**: The above personalization options are not supported on Windows server instances.
-        
+
 
 9. Create a new Windows server instance and retrieve the encrypted password:
 
@@ -192,7 +192,7 @@ You can find the values the access key, secret key, and other values by clicking
 
         server = conn.servers.get("<server_id>")
         server.console_output(10)           # returns 10 lines of console output
-        
+
 11. Get VNC console:
 
         server = conn.servers.get("<server_id>")
@@ -237,7 +237,7 @@ You can find the values the access key, secret key, and other values by clicking
 
         server = conn.servers.get("<server_id>")
         server.volume_attachements.get("<volume_id>")
-        
+
 3. List attached volumes for a server:
 
         server = conn.servers.get("<server_id>")
@@ -403,7 +403,7 @@ You can find the values the access key, secret key, and other values by clicking
         keypair.public_key    # returns the public key of the keypair
         keypair.private_key   # returns the private key of the keypair
     **Note**: Keypairs with a dot (.) are not allowed.
-    
+
 4. Export a keypair to a file:
 
         keypair = conn.key_pairs.create(:name => "mykey2")
@@ -475,7 +475,7 @@ You can find the values the access key, secret key, and other values by clicking
 2. List all available servers using a filter:
 
         response = conn.list_servers_detail(:name => 'My Shiny Server')
-        
+
 3. List all available servers with additional details:
 
         response = conn.list_servers_detail
@@ -538,14 +538,14 @@ You can find the values the access key, secret key, and other values by clicking
             }
         )
 
- 
+
 8. Create a new Windows server and retrieve the encrypted password:
 
         # Make sure to use a Windows image
         response = conn.create_server("My Windows Server", "<flavor_id>", "<image_id>")
         win_server = response.body['server']
         server_id = win_server['id']                # returns the id of the new server
-        # Retrieve the encrypted password 
+        # Retrieve the encrypted password
         conn.get_windows_password("<server_id>")
         # => "Im6ZJ8auyMRnkJ24KKWQvTgWDug1s ... y0uY1BcHLJ5OrkEPHhQoQntIKOoQ=\n"
     **Note**: You must retrieve the Windows password immediately after you create the Windows instance. Also, make sure you have a security rule defined to open RDP port 3389 so that you can connect to the Windows server.
@@ -586,18 +586,18 @@ You can find the values the access key, secret key, and other values by clicking
         )
         server = response.body['server']
         server['id']                    # returns the id of the new server
-    
+
     The personalization options are:
-    
+
     *config_drive*
     : Disk accessible to the server that contains a FAT filesystem. If `config_drive` parameter is set to `true` at the time of server creation, the configuration drive is created.
-    
+
     *user_data_encoded*
     : Allows additional metadata to be inserted during server creation by supplying a Base64-encoded string in the `user_data_encoded` parameter.
-    
+
     *personality*
     : Allows files to be injected into the server instance after its creation. The file `contents` are Base64 encoded and injected into the location specified by `path`.
-    
+
     **Note**: The above personalization options are not supported on Windows server instances.
 
 11. Update the name for a server:
@@ -646,37 +646,37 @@ You can find the values the access key, secret key, and other values by clicking
                           {'Meta1' => 'MetaValue1', 'Meta2' => 'MetaValue2'}
                         }
                    )
-        response.body['server']['metadata']        
+        response.body['server']['metadata']
         # => {"Meta1"=>"MetaValue1", "Meta2"=>"MetaValue2"}
 
 2. List the existing metadata:
 
         response = conn.list_metadata("servers", "<server_id>")
-        response.body['metadata']       
+        response.body['metadata']
         # => {"Meta1"=>"MetaValue1", "Meta2"=>"MetaValue2"}
 
 3. Set new values to the existing metadata:
 
         response = conn.set_metadata("servers", "<server_id>", {"MetaNew1" => "MetaNewValue1"})
-        response.body['metadata']      
+        response.body['metadata']
         # => {"MetaNew1"=>"MetaNewValue1"}
 
 4. Update the existing metadata:
 
         response = conn.update_metadata("servers", "<server_id>", {"Meta2" => "MetaValue2"})
-        response.body['metadata']      
+        response.body['metadata']
         # => {"Meta2"=>"MetaValue2"}
 
 5. Get a metadata item:
 
         response = conn.get_meta("servers", "<server_id>", "Meta1")
-        response.body['meta']       
+        response.body['meta']
         # => {"Meta1"=>"MetaValue1"}
 
 6. Set a new metadata item or update an existing metadata item:
 
         response = conn.update_meta("servers", "<server_id>", "Meta1", "MetaUpdated1")
-        response.body['meta']       
+        response.body['meta']
         # => {"Meta1"=>"MetaUpdated1"}
 
 7. Delete a metadata item:
@@ -746,31 +746,31 @@ You can find the values the access key, secret key, and other values by clicking
 2. List the existing metadata:
 
         response = conn.list_metadata("images", "<image_id>")
-        response.body['metadata']   
+        response.body['metadata']
         #  => {"Meta1"=>"MetaValue1", "Meta2"=>"MetaValue2"}
 
 3. Set new values to the existing metadata:
 
         response = conn.set_metadata("images", "<image_id>", {"MetaNew1" => "MetaNewValue1"})
-        response.body['metadata']   
+        response.body['metadata']
         # => {"MetaNew1"=>"MetaNewValue1"}
 
 4. Update the existing metadata:
 
         response = conn.update_metadata("images", "<image_id>", {"Meta2" => "MetaValue2"})
-        response.body['metadata']   
+        response.body['metadata']
         # => {"Meta2"=>"MetaValue2"}
 
 5. Get a metadata item:
 
         response = conn.get_meta("images", "<image_id>", "Meta1")
-        response.body['meta']       
+        response.body['meta']
         # => {"Meta1"=>"MetaValue1"}
 
 6. Update a metadata item:
 
         response = conn.update_meta("images", "<image_id>", "Meta1", "MetaUpdated1")
-        response.body['meta']       
+        response.body['meta']
         # => {"Meta1"=>"MetaUpdated1"}
 
 7. Delete a metadata item:

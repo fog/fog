@@ -54,7 +54,8 @@ module Fog
             "image_id" => image_id,
             "region_id" => region_id,
             "ip_address" => "127.0.0.1",
-            "status" => 'active'
+            "status" => 'active',
+            "created_at" => Time.now.strftime("%FT%TZ")
           }
 
           response.body = {

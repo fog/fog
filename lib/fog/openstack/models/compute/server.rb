@@ -17,6 +17,16 @@ module Fog
         attribute :metadata
         attribute :links
         attribute :name
+
+        # @!attribute [rw] personality
+        # @note This attribute is only used for server creation. This field will be nil on subsequent retrievals.
+        # @return [Hash] Hash containing data to inject into the file system of the cloud server instance during server creation.
+        # @example To inject fog.txt into file system
+        #   :personality => [{ :path => '/root/fog.txt',
+        #                      :contents => Base64.encode64('Fog was here!')
+        #                   }]
+        # @see #create
+        # @see http://docs.openstack.org/api/openstack-compute/2/content/Server_Personality-d1e2543.html
         attribute :personality
         attribute :progress
         attribute :accessIPv4
@@ -93,6 +103,7 @@ module Fog
         def all_addresses
           # currently openstack API does not tell us what is a floating ip vs a fixed ip for the vm listing,
           # we fall back to get all addresses and filter sadly.
+          # Only includes manually-assigned addresses, not auto-assigned
           @all_addresses ||= service.list_all_addresses.body["floating_ips"].select{|data| data['instance_id'] == id}
         end
 
@@ -108,7 +119,22 @@ module Fog
         end
 
         def floating_ip_addresses
-          all_addresses.map{|addr| addr["ip"]}
+          all_floating=addresses.values.flatten.select{ |data| data["OS-EXT-IPS:type"]=="floating" }.map{|addr| addr["addr"] }
+
+          # Return them all, leading with manually assigned addresses
+          manual = all_addresses.map{|addr| addr["ip"]}
+
+          all_floating.sort{ |a,b| 
+            a_manual = manual.include? a
+            b_manual = manual.include? b
+
+            if a_manual and !b_manual 
+              -1
+            elsif !a_manual and b_manual 
+              1
+            else 0 end
+          }
+
         end
 
         alias_method :public_ip_addresses, :floating_ip_addresses
@@ -147,6 +173,10 @@ module Fog
           self.state == 'ACTIVE'
         end
 
+        def failed?
+          self.state == 'ERROR'
+        end
+
         def change_password(admin_password)
           requires :id
           service.change_server_password(id, admin_password)
@@ -183,9 +213,7 @@ module Fog
           groups = service.list_security_groups(id).body['security_groups']
 
           groups.map do |group|
-            sg = Fog::Compute::OpenStack::SecurityGroup.new group
-            sg.connection = service
-            sg
+            Fog::Compute::OpenStack::SecurityGroup.new group.merge({:service => service})
           end
         end
 
@@ -297,8 +325,8 @@ module Fog
         end
 
         def setup(credentials = {})
-          requires :public_ip_address, :identity, :public_key, :username
-          Fog::SSH.new(public_ip_address, username, credentials).run([
+          requires :ssh_ip_address, :identity, :public_key, :username
+          Fog::SSH.new(ssh_ip_address, username, credentials).run([
             %{mkdir .ssh},
             %{echo "#{public_key}" >> ~/.ssh/authorized_keys},
             %{passwd -l #{username}},

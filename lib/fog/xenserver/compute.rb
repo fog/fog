@@ -1,5 +1,4 @@
-require 'fog/xenserver'
-require 'fog/compute'
+require 'fog/xenserver/core'
 
 module Fog
   module Compute
@@ -12,10 +11,45 @@ module Fog
       requires :xenserver_password
       requires :xenserver_url
       recognizes :xenserver_defaults
+      recognizes :xenserver_timeout
 
       model_path 'fog/xenserver/models/compute'
+      model :blob
+      collection :blobs
+      model :bond
+      collection :bonds
+      model :crash_dump
+      collection :crash_dumps
+      model :dr_task
+      collection :dr_tasks
+      model :gpu_group
+      collection :gpu_groups
+      model :host_crash_dump
+      collection :host_crash_dumps
+      model :host_patch
+      collection :host_patchs
+      model :pci
+      collection :pcis
+      model :pgpu
+      collection :pgpus
+      model :pif_metrics
+      collection :pifs_metrics
+      model :pool_patch
+      collection :pool_patchs
+      model :role
+      collection :roles
       model :server
       collection :servers
+      model :server_appliance
+      collection :server_appliances
+      model :storage_manager
+      collection :storage_managers
+      model :tunnel
+      collection :tunnels
+      model :vmpp
+      collection :vmpps
+      model :vtpm
+      collection :vtpms
       model :host
       collection :hosts
       collection :vifs
@@ -130,7 +164,7 @@ module Fog
           @host        = options[:xenserver_pool_master]
           @username    = options[:xenserver_username]
           @password    = options[:xenserver_password]
-          @connection  = Fog::Connection.new(@host)
+          @connection  = Fog::XML::Connection.new(@host)
           @connection.authenticate(@username, @password)
         end
 

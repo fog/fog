@@ -36,9 +36,9 @@ module Fog
           unless opts.key?('CIDRIP') || (opts.key?('EC2SecurityGroupName') && opts.key?('EC2SecurityGroupOwnerId'))
             raise ArgumentError, 'Must specify CIDRIP, or both EC2SecurityGroupName and EC2SecurityGroupOwnerId'
           end
-          
+
           response = Excon::Response.new
-          
+
           if sec_group = self.data[:security_groups][name]
             if opts.key?('CIDRIP')
               if sec_group['IPRanges'].detect{|h| h['CIDRIP'] == opts['CIDRIP']}
@@ -54,7 +54,7 @@ module Fog
             response.status = 200
             response.body = {
               "ResponseMetadata"=>{ "RequestId"=> Fog::AWS::Mock.request_id },
-              'AuthorizeDBSecurityGroupIngressResult' => {          
+              'AuthorizeDBSecurityGroupIngressResult' => {
                 'DBSecurityGroup' => sec_group
               }
             }
@@ -62,7 +62,7 @@ module Fog
           else
             raise Fog::AWS::RDS::NotFound.new("DBSecurityGroupNotFound => #{name} not found")
           end
-          
+
         end
 
       end

@@ -10,15 +10,15 @@ module Fog
           options.merge!(
             'command' => 'generateUsageRecords'
           )
-          
+
           if startdate = options.delete('startdate')
             options.merge!('startdate' => startdate.strftime('%Y-%m-%d'))
           end
-          
+
           if enddate = options.delete('enddate')
             options.merge!('enddate' => enddate.strftime('%Y-%m-%d'))
           end
-          
+
           request(options)
         end
 

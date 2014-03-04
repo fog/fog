@@ -17,7 +17,7 @@ module Fog
             if options[:description]
               xml.Description options[:description]
             end
-          end    
+          end
         end
       end
 

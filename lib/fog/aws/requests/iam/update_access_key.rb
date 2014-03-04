@@ -6,7 +6,7 @@ module Fog
         require 'fog/aws/parsers/iam/basic'
 
         # Update an access key for a user
-        # 
+        #
         # ==== Parameters
         # * access_key_id<~String> - Access key id to delete
         # * status<~String> - status of keys in ['Active', 'Inactive']

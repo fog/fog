@@ -49,6 +49,7 @@ Shindo.tests('Fog::Compute[:openstack] | server requests', ['openstack']) do
     @image_id = get_image_ref
     @snapshot_id = nil
     @flavor_id = get_flavor_ref
+    @security_group_name = get_security_group_ref
 
     tests('#create_server("test", #{@image_id} , 19)').formats(@create_format, false) do
       data = Fog::Compute[:openstack].create_server("test", @image_id, @flavor_id).body['server']
@@ -112,6 +113,16 @@ Shindo.tests('Fog::Compute[:openstack] | server requests', ['openstack']) do
       Fog::Compute[:openstack].update_server(@server_id, :name => 'fogupdatedserver')
     end
     Fog::Compute[:openstack].servers.get(@server_id).wait_for { ready? }
+    
+    #ADD SECURITY GROUP
+    tests("#add_security_group(#{@server_id}, #{@security_group_name})").succeeds do
+      Fog::Compute[:openstack].add_security_group(@server_id, @security_group_name)
+    end
+
+    #REMOVE SECURITY GROUP
+    tests("#remove_security_group(#{@server_id}, #{@security_group_name})").succeeds do
+      Fog::Compute[:openstack].remove_security_group(@server_id, @security_group_name)
+    end
 
     #CREATE IMAGE WITH METADATA
     tests("#create_image(#{@server_id}, 'fog')").formats('image' => @image_format) do

@@ -12,7 +12,7 @@ module Fog
         # * options<~Hash>:
         #   * 'Marker'<~String> - used to paginate subsequent requests
         #   * 'MaxItems'<~Integer> - limit results to this number per page
-        # 
+        #
         # ==== Returns
         # * response<~Excon::Response>:
         #   * body<~Hash>:

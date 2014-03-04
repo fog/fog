@@ -19,16 +19,16 @@ module Fog
         #       * 'Key'<~String> - The unique identifier of a key value pair
         #       * 'Value'<~String> - The value part of the identified key
         #   * 'Name'<~String> - The name of the job flow step
-        # 
+        #
         # ==== Returns
         # * response<~Excon::Response>:
         #   * body<~Hash>:
         def add_job_flow_steps(job_flow_id, options={})
-          
+
           if steps = options.delete('Steps')
             options.merge!(Fog::AWS.serialize_keys('Steps', steps))
           end
-    
+
           request({
             'Action'  => 'AddJobFlowSteps',
             'JobFlowId' => job_flow_id,

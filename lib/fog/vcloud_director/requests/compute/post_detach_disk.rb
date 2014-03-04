@@ -20,7 +20,7 @@ module Fog
               :xmlns => 'http://www.vmware.com/vcloud/v1.5'
             }
             DiskAttachOrDetachParams(attrs) {
-              Disk(:href => "#{@end_point}disk/#{media_id}")
+              Disk(:href => "#{end_point}disk/#{disk_id}")
             }
           end.to_xml
 

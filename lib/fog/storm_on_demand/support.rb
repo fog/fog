@@ -1,5 +1,4 @@
-require 'fog/storm_on_demand'
-require 'fog/support'
+require 'fog/storm_on_demand/core'
 require 'fog/storm_on_demand/shared'
 
 module Fog
@@ -27,7 +26,7 @@ module Fog
       request :list_tickets
       request :reply_ticket
       request :list_ticket_types
-      
+
       class Mock
 
         def self.data

@@ -8,10 +8,11 @@ module Fog
 
         identity :name
 
+        attribute :id
         attribute :kind
+        attribute :self_link, :aliases => 'selfLink'
         attribute :creation_timestamp, :aliases => 'creationTimestamp'
         attribute :description
-        attribute :preferred_kernel, :aliases => 'preferredKernel'
 
         # This attribute is not available in the representation of an
         # 'image' returned by the GCE servser (see GCE API). However,
@@ -30,6 +31,14 @@ module Fog
 
         attribute :status
 
+        def preferred_kernel=(args)
+          Fog::Logger.deprecation("preferred_kernel= is no longer used [light_black](#{caller.first})[/]")
+        end
+        def preferred_kernel
+          Fog::Logger.deprecation("preferred_kernel is no longer used [light_black](#{caller.first})[/]")
+          nil
+        end
+
         def reload
           requires :name
 
@@ -41,11 +50,9 @@ module Fog
 
         def save
           requires :name
-          requires :preferred_kernel
           requires :raw_disk
 
           options = {
-            'preferredKernel' => preferred_kernel,
             'rawDisk'         => raw_disk,
             'description'     => description,
           }

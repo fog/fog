@@ -11,14 +11,14 @@ module Fog
 
         identity :id
 
+        attribute :zone_id,     :aliases => "domain_id"
         attribute :name
         attribute :value,       :aliases => "content"
         attribute :ttl
+        attribute :priority,    :aliases => "prio"
+        attribute :type,        :aliases => "record_type"
         attribute :created_at
         attribute :updated_at
-        attribute :zone_id,     :aliases => "domain_id"
-        attribute :type,        :aliases => "record_type"
-        attribute :priority,    :aliases => "prio"
 
         def initialize(attributes={})
           super

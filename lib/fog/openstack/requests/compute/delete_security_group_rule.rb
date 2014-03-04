@@ -15,6 +15,8 @@ module Fog
 
       class Mock
         def delete_security_group_rule(security_group_rule_id)
+          security_group = self.data[:security_groups].values.detect{|sg| sg["rules"].detect{ |sgr| sgr["id"].to_s == security_group_rule_id.to_s }}
+          security_group["rules"].reject! { |sgr| sgr["id"] == security_group_rule_id }
           response = Excon::Response.new
           response.status = 202
           response.headers = {

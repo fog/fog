@@ -22,7 +22,7 @@ module Fog
         # @option options x-amz-meta... meta data tags
         #
         # @see http://docs.amazonwebservices.com/AmazonS3/latest/dev/HTTPPOSTForms.html
-        # 
+        #
         def post_object_hidden_fields(options = {})
           if options['policy']
             options['policy'] = Base64.encode64(Fog::JSON.encode(options['policy'])).gsub("\n", "")

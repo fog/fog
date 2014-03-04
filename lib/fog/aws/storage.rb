@@ -1,5 +1,4 @@
-require 'fog/aws'
-require 'fog/storage'
+require 'fog/aws/core'
 
 module Fog
   module Storage
@@ -349,7 +348,8 @@ module Fog
                 :cors => {
                   :bucket => {}
                 },
-                :bucket_tagging => {}
+                :bucket_tagging => {},
+                :multipart_uploads => {}
               }
             end
           end
@@ -362,9 +362,18 @@ module Fog
         def initialize(options={})
           @use_iam_profile = options[:use_iam_profile]
           setup_credentials(options)
-          @region = options[:region] || DEFAULT_REGION
-          @host   = options[:host]   || region_to_host(@region)
-          @scheme = options[:scheme] || DEFAULT_SCHEME
+          if @endpoint = options[:endpoint]
+            endpoint = URI.parse(@endpoint)
+            @host = endpoint.host
+            @scheme = endpoint.scheme
+            @port = endpoint.port
+          else
+            @region     = options[:region]      || DEFAULT_REGION
+            @host       = options[:host]        || region_to_host(@region)
+            @scheme     = options[:scheme]      || DEFAULT_SCHEME
+            @port       = options[:port]        || DEFAULT_SCHEME_PORT[@scheme]
+          end
+          @path_style = options[:path_style] || false
         end
 
         def data
@@ -514,7 +523,7 @@ DATA
           else
             @connection = nil
           end
-          @connection ||= Fog::Connection.new(uri, @persistent, @connection_options)
+          @connection ||= Fog::XML::Connection.new(uri, @persistent, @connection_options)
         end
 
         def request(params, &block)
@@ -541,7 +550,7 @@ DATA
             headers = (error.response.is_a?(Hash) ? error.response[:headers] : error.response.headers)
             uri = URI.parse(headers['Location'])
             Fog::Logger.warning("fog: followed redirect to #{uri.host}, connecting to the matching region will be more performant")
-            response = Fog::Connection.new("#{uri.scheme}://#{uri.host}:#{uri.port}", false, @connection_options).request(original_params, &block)
+            response = Fog::XML::Connection.new("#{uri.scheme}://#{uri.host}:#{uri.port}", false, @connection_options).request(original_params, &block)
           end
 
           response

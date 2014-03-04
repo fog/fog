@@ -7,7 +7,7 @@ module Fog
 
           def reset
             @subnet = { 'tagSet' => {} }
-            @response = { 'subnetSet' => [] }
+            @response = { 'subnet' => [] }
             @tag = {}
           end
 
@@ -35,8 +35,7 @@ module Fog
               when 'subnetId', 'state', 'vpcId', 'cidrBlock', 'availableIpAddressCount', 'availabilityZone'
                 @subnet[name] = value
               when 'subnet'
-                @response['subnetSet'] << @subnet
-                @subnet = { 'tagSet' => {} }
+                @response['subnet'] = @subnet
               when 'requestId'
                 @response[name] = value
               end

@@ -58,7 +58,7 @@ module Fog
 
 
         def initialize(attributes={})
-          self.groups     ||= ["default"] unless (attributes[:subnet_id] || attributes[:security_group_ids])
+          self.groups     ||= ["default"] unless (attributes[:subnet_id] || attributes[:security_group_ids] || attributes[:network_interfaces])
           self.flavor_id  ||= 't1.micro'
 
           # Old 'connection' is renamed as service and should be used instead
@@ -146,6 +146,7 @@ module Fog
 
           options = {
             'BlockDeviceMapping'          => block_device_mapping,
+            'NetworkInterfaces'           => network_interfaces,
             'ClientToken'                 => client_token,
             'EbsOptimized'                => ebs_optimized,
             'IamInstanceProfile.Arn'      => @iam_instance_profile_arn,
@@ -210,7 +211,7 @@ module Fog
         end
 
         def setup(credentials = {})
-          requires :public_ip_address, :username
+          requires :ssh_ip_address, :username
           require 'net/ssh'
 
           commands = [
@@ -225,7 +226,7 @@ module Fog
           # wait for aws to be ready
           wait_for { sshable?(credentials) }
 
-          Fog::SSH.new(public_ip_address, username, credentials).run(commands)
+          Fog::SSH.new(ssh_ip_address, username, credentials).run(commands)
         end
 
         def start

@@ -1,4 +1,4 @@
-require 'fog/bluebox'
+require 'fog/bluebox/core'
 
 module Fog
   module Bluebox
@@ -50,7 +50,7 @@ module Fog
           @persistent = options[:persistent]      || false
           @port       = options[:bluebox_port]    || 443
           @scheme     = options[:bluebox_scheme]  || 'https'
-          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
+          @connection = Fog::XML::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
         end
 
         def reload
@@ -64,7 +64,7 @@ module Fog
           })
 
           begin
-            response = @connection.request(params.merge!({:host => @host}))
+            response = @connection.request(params)
           rescue Excon::Errors::HTTPStatusError => error
             raise case error
             when Excon::Errors::NotFound

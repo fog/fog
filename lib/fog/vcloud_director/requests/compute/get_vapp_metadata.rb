@@ -11,13 +11,15 @@ module Fog
         # @see http://pubs.vmware.com/vcd-51/topic/com.vmware.vcloud.api.reference.doc_51/doc/operations/GET-VAppMetadata.html
         # @since vCloud API version 1.5
         def get_vapp_metadata(id)
-          request(
+          response = request(
             :expects    => 200,
             :idempotent => true,
             :method     => 'GET',
             :parser     => Fog::ToHashDocument.new,
             :path       => "vApp/#{id}/metadata/"
           )
+          ensure_list! response.body, :MetadataEntry
+          response
         end
       end
     end

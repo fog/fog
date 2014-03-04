@@ -1,5 +1,4 @@
-require 'fog/dnsimple'
-require 'fog/dns'
+require 'fog/dnsimple/core'
 
 module Fog
   module DNS
@@ -67,11 +66,11 @@ module Fog
             options[:port]    = uri.port
             options[:scheme]  = uri.scheme
           end
-          @host       = options[:host]        || "dnsimple.com"
+          @host       = options[:host]        || "api.dnsimple.com"
           @persistent = options[:persistent]  || false
           @port       = options[:port]        || 443
           @scheme     = options[:scheme]      || 'https'
-          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
+          @connection = Fog::XML::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
         end
 
         def reload
@@ -84,6 +83,9 @@ module Fog
           params[:headers].merge!({ "Authorization" => "Basic " + Base64.encode64(key).gsub("\n",''),
                                     "Accept" => "application/json",
                                     "Content-Type" => "application/json" })
+
+          version = params.delete(:version) || 'v1'
+          params[:path] = "/#{version}#{params[:path]}"
 
           response = @connection.request(params)
 

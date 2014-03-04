@@ -76,6 +76,10 @@ module Fog
           service.stop_server(identity)
         end
 
+        def ready?
+          status == "running"
+        end
+
         def open_vnc
           requires :identity
           service.open_vnc(identity)

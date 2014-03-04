@@ -15,7 +15,7 @@ module Fog
         def expire
           service.expire_token.body['expired'].to_i == 1 ? true : false
         end
-        
+
       end
 
     end

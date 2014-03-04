@@ -10,7 +10,6 @@ def test
   return if rawdisk[:source].nil?
 
   img = connection.image.create(:name             => 'test-image',
-                                :preferred_kernel => 'gce-v20130603',
                                 :description      => 'Test image (via fog)',
                                 :raw_disk         => rawdisk)
 

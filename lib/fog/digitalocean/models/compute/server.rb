@@ -19,6 +19,7 @@ module Fog
         attribute :public_ip_address, :aliases => 'ip_address'
         attribute :private_ip_address
         attribute :backups_active
+        attribute :created_at
 
         attr_writer :ssh_keys
 
@@ -82,7 +83,7 @@ module Fog
         end
 
         def setup(credentials = {})
-          requires :public_ip_address
+          requires :ssh_ip_address
           require 'net/ssh'
 
           commands = [
@@ -97,7 +98,7 @@ module Fog
           # wait for aws to be ready
           wait_for { sshable?(credentials) }
 
-          Fog::SSH.new(public_ip_address, username, credentials).run(commands)
+          Fog::SSH.new(ssh_ip_address, username, credentials).run(commands)
         end
 
         # Creates the server (not to be called directly).

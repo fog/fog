@@ -88,7 +88,7 @@ Note:
 ## Requests
 ### Passing parameters
 The server request are in essence a passthrough to __vzctl__.
-Just provide the options as a hash in key,value pairs. 
+Just provide the options as a hash in key,value pairs.
 If it's just a switch (like --save), use a key and a boolean(true).
 
 The following command in plain cli-vzctl:

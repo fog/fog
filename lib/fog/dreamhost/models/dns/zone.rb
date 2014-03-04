@@ -3,7 +3,7 @@ require 'fog/dreamhost/models/dns/records'
 
 module Fog
   module DNS
-    class Dreamhost 
+    class Dreamhost
 
       #
       # Dreamhost API has no concept of 'Zone', but we
@@ -16,7 +16,7 @@ module Fog
         identity :id
         attribute :domain,     :aliases => 'name'
 
-        # 
+        #
         # There's no destroy API call
         #
         def destroy
@@ -45,7 +45,7 @@ module Fog
           ]
         end
 
-        # 
+        #
         # There's no zone create API call
         #
         def save

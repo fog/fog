@@ -46,19 +46,29 @@ module Fog
           Excon::Response.new.tap do |response|
             if cidrBlock  && vpcId
               response.status = 200
-              self.data[:subnets].push({
-                'subnetId'                 => Fog::AWS::Mock.request_id,
+              data = {
+                'subnetId'                 => Fog::AWS::Mock.subnet_id,
                 'state'                    => 'pending',
                 'vpcId'                    => vpcId,
                 'cidrBlock'                => cidrBlock,
                 'availableIpAddressCount'  => "255",
                 'availabilityZone'         => av_zone,
                 'tagSet'                   => {}
-              })
+              }
 
+              # Add this subnet to the default network ACL
+              accid = Fog::AWS::Mock.network_acl_association_id
+              default_nacl = self.data[:network_acls].values.detect { |nacl| nacl['vpcId'] == vpcId && nacl['default'] }
+              default_nacl['associationSet'] << {
+                'networkAclAssociationId' => accid,
+                'networkAclId'            => default_nacl['networkAclId'],
+                'subnetId'                => data['subnetId'],
+              }
+
+              self.data[:subnets].push(data)
               response.body = {
                 'requestId'    => Fog::AWS::Mock.request_id,
-                'subnetSet'    => self.data[:subnets]
+                'subnet'       => data,
               }
             else
               response.status = 400

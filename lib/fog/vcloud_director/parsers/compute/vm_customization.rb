@@ -32,6 +32,8 @@ module Fog
               @response[:join_domain_enabled] = (value == "true")
             when 'UseOrgSettings'
               @response[:use_org_settings] = (value == "true")
+            when 'AdminPassword'
+              @response[:admin_password] = value
             when 'AdminPasswordEnabled'
               @response[:admin_password_enabled] = (value == "true")
             when 'AdminPasswordAuto'

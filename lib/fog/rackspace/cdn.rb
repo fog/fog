@@ -1,5 +1,4 @@
-require 'fog/rackspace'
-require 'fog/cdn'
+require 'fog/rackspace/core'
 
 module Fog
   module CDN
@@ -23,6 +22,17 @@ module Fog
           "X-Cdn-Ssl-Uri" => :ssl_uri
         }.freeze
 
+        def apply_options(options)
+          # api_key and username missing from instance variable sets
+          @rackspace_api_key = options[:rackspace_api_key]
+          @rackspace_username = options[:rackspace_username]
+
+          @connection_options = options[:connection_options] || {}
+          @rackspace_auth_url = options[:rackspace_auth_url]
+          @rackspace_cdn_url = options[:rackspace_cdn_url]
+          @rackspace_region = options[:rackspace_region] || :dfw
+        end
+
         def service_name
           :cloudFilesCDN
         end
@@ -33,6 +43,12 @@ module Fog
 
         def request_id_header
           "X-Trans-Id"
+        end
+
+        # Returns true if CDN service is enabled
+        # @return [Boolean]
+        def enabled?
+          @enabled
         end
 
         def endpoint_uri(service_endpoint_url=nil)
@@ -97,7 +113,9 @@ module Fog
         end
 
         def initialize(options={})
-          @rackspace_username = options[:rackspace_username]
+          apply_options(options)
+          authenticate(options)
+          @enabled = !! endpoint_uri
         end
 
         def data
@@ -119,28 +137,15 @@ module Fog
         include Base
 
         def initialize(options={})
-          # api_key and username missing from instance variable sets
-          @rackspace_api_key = options[:rackspace_api_key]
-          @rackspace_username = options[:rackspace_username]
-
-          @connection_options = options[:connection_options] || {}
-          @rackspace_auth_url = options[:rackspace_auth_url]
-          @rackspace_cdn_url = options[:rackspace_cdn_url]
-          @rackspace_region = options[:rackspace_region] || :dfw
+          apply_options(options)
           authenticate(options)
           @enabled = false
           @persistent = options[:persistent] || false
 
           if endpoint_uri
-            @connection = Fog::Connection.new(endpoint_uri.to_s, @persistent, @connection_options)
+            @connection = Fog::XML::Connection.new(endpoint_uri.to_s, @persistent, @connection_options)
             @enabled = true
           end
-        end
-
-        # Returns true if CDN service is enabled
-        # @return [Boolean]
-        def enabled?
-          @enabled
         end
 
         # Resets CDN connection

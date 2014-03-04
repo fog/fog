@@ -71,8 +71,18 @@ module Fog
               end
             end
 
+            active_instances = self.data[:instances].values.select do |instance|
+              if instance['groupSet'].include?(name) && instance['instanceState'] != "terminated"
+                instance
+              end
+            end
+
             unless used_by_groups.empty?
               raise Fog::Compute::AWS::Error.new("InvalidGroup.InUse => Group #{self.data[:owner_id]}:#{name} is used by groups: #{used_by_groups.uniq.join(" ")}")
+            end
+
+            if active_instances.any?
+              raise Fog::Compute::AWS::Error.new("InUse => There are active instances using security group '#{name}'")
             end
 
             self.data[:security_groups].delete(name)

@@ -41,7 +41,7 @@ module Fog
           service.request_new_ips(options)
           true
         end
-        
+
       end
     end
   end

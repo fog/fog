@@ -5,7 +5,7 @@ class Local < Fog::Bin
       case key
       when :storage
         Fog::Storage::Local
-      else 
+      else
         raise ArgumentError, "Unsupported #{self} service: #{key}"
       end
     end

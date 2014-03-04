@@ -62,6 +62,7 @@ module Fog
             :change_sid => :ChangeSid,
             :join_domain_enabled => :JoinDomainEnabled,
             :use_org_settings => :UseOrgSettings,
+            :admin_password => :AdminPassword,
             :admin_password_enabled => :AdminPasswordEnabled,
             :admin_password_auto => :AdminPasswordAuto,
             :reset_password_required => :ResetPasswordRequired,

@@ -26,16 +26,12 @@ module Fog
 
         def insert_server(server_name, zone_name, options={}, *deprecated_args)
 
-          # check that image and zone exist
-          image_project = nil
-          if options.has_key? 'image'
-            ([ @project ] + Fog::Compute::Google::Images::GLOBAL_PROJECTS).each do |project|
-              image_project = project
-              break if data(project)[:images][options['image']]
-            end
-            get_image(options['image'], image_project) # ok if image exists, will fail otherwise
-          end
+          # check that zone exists
           get_zone(zone_name)
+
+          if options['disks'].nil? or options['disks'].empty?
+            raise ArgumentError.new "Empty value for field 'disks'. Boot disk must be specified"
+          end
 
           id = Fog::Mock.random_numbers(19).to_s
           self.data[:servers][server_name] = {
@@ -47,8 +43,6 @@ module Fog
             "name" => server_name,
             "tags" => { "fingerprint" => "42WmSpB8rSM=" },
             "machineType" => "https://www.googleapis.com/compute/#{api_version}/projects/#{@project}/zones/#{zone_name}/machineTypes/#{options['machineType']}",
-            "image" => "https://www.googleapis.com/compute/#{api_version}/projects/#{image_project}/global/images/#{options['image']}",
-            "kernel" => "https://www.googleapis.com/compute/#{api_version}/projects/google/global/kernels/gce-v20130813",
             "canIpForward" => false,
             "networkInterfaces" => [
               {
@@ -65,14 +59,7 @@ module Fog
                 ]
               }
             ],
-            "disks" => options['disks'] ? handle_disks(options, zone_name) : [
-              {
-                "kind" => "compute#attachedDisk",
-                "index" => 0,
-                "type" => "SCRATCH",
-                "mode" => "READ_WRITE"
-              }
-            ],
+            "disks" => handle_disks(options, zone_name),
             "metadata" => {
               "kind" => "compute#metadata",
               "fingerprint" => "5_hasd_gC3E=",
@@ -113,6 +100,8 @@ module Fog
 
         def handle_disks(options)
           disks = []
+          # An array of persistent disks. You must supply a boot disk as the first disk in
+          # this array and mark it as a boot disk using the disks[].boot property.
           options.delete('disks').each do |disk|
             if disk.is_a? Disk
               disks << disk.get_object
@@ -120,6 +109,7 @@ module Fog
               disks << disk
             end
           end
+          disks.first['boot'] = true
           disks
         end
 
@@ -139,12 +129,6 @@ module Fog
           }
           body_object = {:name => server_name}
 
-          if options.has_key? 'image'
-            image_name = options.delete 'image'
-            image = images.get(image_name)
-            @image_url = @api_url + image.resource_url
-            body_object['image'] = @image_url
-          end
           body_object['machineType'] = @api_url + @project + "/zones/#{zone_name}/machineTypes/#{options.delete 'machineType'}"
           network = nil
           if options.has_key? 'network'
@@ -170,15 +154,15 @@ module Fog
           # TODO: add other networks
           body_object['networkInterfaces'] = networkInterfaces
 
-          body_object['disks'] = handle_disks(options) if options['disks']
+          if options['disks'].nil? or options['disks'].empty?
+            raise ArgumentError.new "Empty value for field 'disks'. Boot disk must be specified"
+          end
+          body_object['disks'] = handle_disks(options)
 
           options['metadata'] = format_metadata options['metadata'] if options['metadata']
 
           body_object['tags'] = { 'items' => options.delete('tags') } if options['tags']
 
-          if options['kernel']
-            body_object['kernel'] = @api_url + "google/global/kernels/#{options.delete 'kernel'}"
-          end
           body_object.merge!(options) # Adds in all remaining options that weren't explicitly handled.
 
           result = self.build_result(api_method, parameters,

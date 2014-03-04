@@ -5,7 +5,7 @@
 require 'rubygems' #required for Ruby 1.8.x
 require 'fog'
 
-# Use username defined in ~/.fog file, if absent prompt for username. 
+# Use username defined in ~/.fog file, if absent prompt for username.
 # For more details on ~/.fog refer to http://fog.io/about/getting_started.html
 def rackspace_username
   Fog.credentials[:rackspace_username] || get_user_input("Enter Rackspace Username")
@@ -31,14 +31,14 @@ service = Fog::Storage.new({
   :rackspace_api_key    => rackspace_api_key,
   :rackspace_region => :ord #Use Chicago Region
   })
-  
+
 
 # create directory
 puts "Creating directory 'metadata-tester'"
 directory = service.directories.create :key => "metadata-tester"
 
 # initial metadata
-puts "Initial Container Metadata\n"                                
+puts "Initial Container Metadata\n"
 print_metadata directory
 
 # adding metadata
@@ -59,7 +59,7 @@ upload_file = File.join(File.dirname(__FILE__), "lorem.txt")
 file = directory.files.create :key => 'sample.txt', :body => File.open(upload_file, "r")
 
 # initial metadata
-puts "Initial File Metadata\n"                                
+puts "Initial File Metadata\n"
 print_metadata file
 
 # adding metadata

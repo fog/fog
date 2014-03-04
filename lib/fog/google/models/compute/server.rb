@@ -8,7 +8,7 @@ module Fog
       class Server < Fog::Compute::Server
 
         identity :name
-        attribute :image_name, :aliases => 'image'
+
         attribute :network_interfaces, :aliases => 'networkInterfaces'
         attribute :network, :aliases => 'network'
         attribute :external_ip, :aliases => 'externalIP'
@@ -16,9 +16,31 @@ module Fog
         attribute :zone_name, :aliases => 'zone'
         attribute :machine_type, :aliases => 'machineType'
         attribute :disks, :aliases => 'disks'
-        attribute :kernel, :aliases => 'kernel'
         attribute :metadata
         attribute :tags, :squash => 'items'
+        attribute :self_link, :aliases => 'selfLink'
+
+        def image_name=(args)
+          Fog::Logger.deprecation("image_name= is no longer used [light_black](#{caller.first})[/]")
+        end
+
+        def image_name
+          boot_disk = disks.first
+          unless boot_disk.is_a?(Disk)
+            source = boot_disk['source']
+            match = source.match(%r{/zones/(.*)/disks/(.*)$})
+            boot_disk = service.disks.get match[2], match[1]
+          end
+          boot_disk.source_image.nil? ? nil : boot_disk.source_image
+        end
+
+        def kernel=(args)
+          Fog::Logger.deprecation("kernel= is no longer used [light_black](#{caller.first})[/]")
+        end
+        def kernel
+          Fog::Logger.deprecation("kernel is no longer used [light_black](#{caller.first})[/]")
+          nil
+        end
 
         def flavor_id
           machine_type
@@ -39,7 +61,9 @@ module Fog
           operation
         end
 
+        # not used since v1
         def image
+          Fog::Logger.deprecation("Server.image is deprecated, get source_image from boot disk")
           service.get_image(self.image_name.split('/')[-1])
         end
 
@@ -112,6 +136,7 @@ module Fog
           requires :name
           requires :machine_type
           requires :zone_name
+          requires :disks
 
           if not service.zones.find{ |zone| zone.name == self.zone_name }
             raise ArgumentError.new "#{self.zone_name.inspect} is either down or you don't have permission to use it."
@@ -120,13 +145,11 @@ module Fog
           self.add_ssh_key(self.username, self.public_key) if self.public_key
 
           options = {
-              'image' => image_name,
               'machineType' => machine_type,
               'networkInterfaces' => network_interfaces,
               'network' => network,
               'externalIp' => external_ip,
               'disks' => disks,
-              'kernel' => kernel,
               'metadata' => metadata,
               'tags' => tags
           }.delete_if {|key, value| value.nil?}

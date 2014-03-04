@@ -15,7 +15,7 @@ module Fog
 
       class Mock
         def delete_security_group(security_group_id)
-          self.data[:security_groups].delete security_group_id
+          self.data[:security_groups].delete security_group_id.to_s
 
           response = Excon::Response.new
           response.status = 202

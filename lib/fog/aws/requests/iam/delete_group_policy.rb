@@ -6,7 +6,7 @@ module Fog
         require 'fog/aws/parsers/iam/basic'
 
         # Remove a policy from a group
-        # 
+        #
         # ==== Parameters
         # * group_name<~String>: name of the group
         # * policy_name<~String>: name of policy document

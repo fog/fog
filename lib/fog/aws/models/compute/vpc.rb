@@ -20,6 +20,11 @@ module Fog
           super
         end
 
+        def ready?
+          requires :state
+          state == 'available'
+        end
+
         # Removes an existing vpc
         #
         # vpc.destroy

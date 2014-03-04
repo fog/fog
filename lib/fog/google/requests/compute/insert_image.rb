@@ -19,14 +19,10 @@ module Fog
             'project' => @project,
           }
 
-          kernel_url = @api_url + 'google/global/kernels/' + \
-                      options.delete('preferredKernel').to_s
-
           body_object = {
             'sourceType'      => 'RAW',
             'name'            => image_name,
-            'rawDisk'         => options.delete('rawDisk'),
-            'preferredKernel' => kernel_url,
+            'rawDisk'         => options.delete('rawDisk')
           }
 
           # Merge in the remaining params (only 'description' should remain)

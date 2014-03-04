@@ -25,7 +25,8 @@ module Fog
           request(
             :path => "/my/packages",
             :method => "GET",
-            :expects => 200
+            :expects => 200,
+            :idempotent => true
           )
         end
       end # Real

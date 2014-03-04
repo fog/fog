@@ -1,5 +1,4 @@
-require 'fog/vcloud_director'
-require 'fog/compute'
+require 'fog/vcloud_director/core'
 
 class VcloudDirectorParser < Fog::Parsers::Base
   def extract_attributes(attributes_xml)
@@ -84,6 +83,7 @@ module Fog
       request :delete_logout
       request :delete_media
       request :delete_media_metadata_item_metadata
+      request :delete_network
       request :delete_shadow_vm
       request :delete_vapp
       request :delete_vapp_metadata_item_metadata
@@ -126,6 +126,7 @@ module Fog
       request :get_metadata
       request :get_network
       request :get_network_cards_items_list
+      request :get_network_complete
       request :get_network_config_section_vapp
       request :get_network_config_section_vapp_template
       request :get_network_connection_system_section_vapp
@@ -202,6 +203,7 @@ module Fog
       request :post_configure_edge_gateway_services
       request :post_consolidate_vm_vapp
       request :post_consolidate_vm_vapp_template
+      request :post_create_org_vdc_network
       request :post_deploy_vapp
       request :post_detach_disk
       request :post_disable_nested_hv
@@ -244,6 +246,7 @@ module Fog
       request :put_metadata_value # deprecated
       request :put_network_connection_system_section_vapp
       request :put_vapp_metadata_item_metadata
+      request :put_vapp_name_and_description
       request :put_vapp_template_metadata_item_metadata
       request :put_vm
       request :put_vm_capabilities
@@ -332,7 +335,7 @@ module Fog
           @persistent = options[:persistent]  || false
           @port       = options[:port]        || Fog::Compute::VcloudDirector::Defaults::PORT
           @scheme     = options[:scheme]      || Fog::Compute::VcloudDirector::Defaults::SCHEME
-          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
+          @connection = Fog::XML::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
           @end_point = "#{@scheme}://#{@host}#{@path}/"
           @api_version = options[:vcloud_director_api_version] || Fog::Compute::VcloudDirector::Defaults::API_VERSION
           @show_progress = options[:vcloud_director_show_progress]
@@ -444,11 +447,15 @@ module Fog
         private
 
         def login
-          response = post_login_session
-          x_vcloud_authorization = response.headers.keys.detect do |key|
-            key.downcase == 'x-vcloud-authorization'
+          if @vcloud_token = ENV['FOG_VCLOUD_TOKEN']
+            response = get_current_session
+          else
+            response = post_login_session
+            x_vcloud_authorization = response.headers.keys.detect do |key|
+              key.downcase == 'x-vcloud-authorization'
+            end
+            @vcloud_token = response.headers[x_vcloud_authorization]
           end
-          @vcloud_token = response.headers[x_vcloud_authorization]
           @org_name = response.body[:org]
           @user_name = response.body[:user]
         end
@@ -468,9 +475,12 @@ module Fog
         def data
           @@data ||= Hash.new do |hash, key|
 
-            vdc_uuid = uuid
+            vdc1_uuid = uuid
+            vdc2_uuid = uuid
             default_network_uuid = uuid
-            uplink_network_uuid = uuid
+            uplink_network_uuid  = uuid
+            isolated_vdc1_network_uuid = uuid
+            isolated_vdc2_network_uuid = uuid
 
             hash[key] = {
               :catalogs => {
@@ -489,7 +499,7 @@ module Fog
                 uuid => {
                   :name => 'MockEdgeGateway',
                   :networks => [uplink_network_uuid, default_network_uuid],
-                  :vdc => vdc_uuid,
+                  :vdc => vdc1_uuid,
                   :Configuration => {
                     :GatewayBackingConfig => "compact",
                     :GatewayInterfaces => {
@@ -507,9 +517,15 @@ module Fog
                   }
                 }
               },
+
               :medias => {},
+
               :networks => {
+
                 default_network_uuid => {
+                  :IsShared => true,
+                  :vdc => vdc1_uuid,
+                  :FenceMode => 'natRouted',
                   :ApplyRateLimit => "false",
                   :Description => 'Org Network for mocking',
                   :Dns1 => '8.8.8.8',
@@ -531,8 +547,61 @@ module Fog
                   },
                   :UseForDefaultRoute => "false"
                 },
-                uplink_network_uuid => {
+
+                isolated_vdc1_network_uuid => {
+                  :IsShared => false,
+                  :vdc => vdc1_uuid,
                   :ApplyRateLimit => "false",
+                  :FenceMode => 'isolated',
+                  :Description => 'Org Network for mocking',
+                  :Dns1 => '8.8.8.8',
+                  :Dns2 => '8.8.4.4',
+                  :DnsSuffix => 'example.com',
+                  :InterfaceType => "internal",
+                  :IpRanges => [{
+                    :StartAddress=>'10.1.0.100',
+                    :EndAddress=>'10.1.0.200'
+                  }],
+                  :IsInherited => false,
+                  :Netmask => '255.255.255.0',
+                  :name => 'vDC1 backend network',
+                  :SubnetParticipation => {
+                      :Gateway => "192.168.1.0",
+                      :Netmask => "255.255.0.0",
+                      :IpAddress => "192.168.1.0"
+                  },
+                  :UseForDefaultRoute => "false"
+                },
+
+                isolated_vdc2_network_uuid => {
+                  :IsShared => false,
+                  :vdc => vdc2_uuid,
+                  :ApplyRateLimit => "false",
+                  :Description => 'Org Network for mocking',
+                  :Dns1 => '8.8.8.8',
+                  :Dns2 => '8.8.4.4',
+                  :DnsSuffix => 'example.com',
+                  :InterfaceType => "internal",
+                  :IpRanges => [{
+                    :StartAddress=>'10.2.0.100',
+                    :EndAddress=>'10.2.0.200'
+                  }],
+                  :IsInherited => false,
+                  :Netmask => '255.255.255.0',
+                  :name => 'vDC2 backend network',
+                  :SubnetParticipation => {
+                      :Gateway => "192.168.1.0",
+                      :Netmask => "255.255.0.0",
+                      :IpAddress => "192.168.1.0"
+                  },
+                  :UseForDefaultRoute => "false"
+                },
+
+                uplink_network_uuid => {
+                  :IsShared => false,
+                  :vdc => vdc1_uuid,
+                  :ApplyRateLimit => "false",
+                  :FenceMode => 'bridged',
                   :Description => 'Uplink Network for mocking',
                   :Dns1 => '8.8.8.8',
                   :Dns2 => '8.8.4.4',
@@ -559,6 +628,7 @@ module Fog
                   },
                   :UseForDefaultRoute => "true"
                 }
+
               },
               :org => {
                 :description => 'Organization for mocking',
@@ -574,14 +644,18 @@ module Fog
                   :limit => 2 * 1024 * 1024,
                   :name => 'DefaultMockStorageClass',
                   :units => 'MB',
-                  :vdc => vdc_uuid,
+                  :vdc => vdc1_uuid,
                 }
               },
               :vdcs => {
-                vdc_uuid => {
-                  :description => 'vDC for mocking',
-                  :name => 'MockVDC'
-                }
+                vdc1_uuid => {
+                  :description => 'vDC1 for mocking',
+                  :name => 'MockVDC 1'
+                },
+                vdc2_uuid => {
+                  :description => 'vDC2 for mocking',
+                  :name => 'MockVDC 2'
+                },
               }
             }
           end[@vcloud_director_username]
@@ -596,7 +670,7 @@ module Fog
           @persistent = options[:persistent] || false
           @port = options[:port] || Fog::Compute::VcloudDirector::Defaults::PORT
           @scheme = options[:scheme] || Fog::Compute::VcloudDirector::Defaults::SCHEME
-          #@connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
+          #@connection = Fog::XML::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
           @end_point = "#{@scheme}://#{@host}#{@path}/"
           @api_version = options[:vcloud_director_api_version] || Fog::Compute::VcloudDirector::Defaults::API_VERSION
         end

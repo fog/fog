@@ -6,20 +6,20 @@ require 'fog/rackspace/models/storage/files'
 module Fog
   module Storage
     class Rackspace
-      
+
       class Metadata
-        
+
         OBJECT_META_PREFIX = "X-Object-Meta-"
         OBJECT_REMOVE_META_PREFIX = "X-Remove-Object-Meta-"
         CONTAINER_META_PREFIX = "X-Container-Meta-"
         CONTAINER_REMOVE_META_PREFIX = "X-Remove-Container-Meta-"
-        
+
         # Cloud Files will ignore headers without a value
         DUMMY_VALUE = 1
-        
+
         CONTAINER_KEY_REGEX = /^#{CONTAINER_META_PREFIX}(.*)/
         OBJECT_KEY_REGEX = /^#{OBJECT_META_PREFIX}(.*)/
-        
+
 
         # @!attribute [rw] data
         # @return [Hash] underlying data store for metadata class
@@ -28,7 +28,7 @@ module Fog
         # @!attribute [rw] parent
         # @return [Fog::Storage::Rackspace::Directory,Fog::Storage::Rackspace::File] the parent object of the metadata
         attr_reader :parent
-        
+
         # Initialize
         # @param [Fog::Storage::Rackspace::Directory,Fog::Storage::Rackspace::File] parent object of the metadata
         # @param [Hash] hash containing initial metadata values
@@ -51,16 +51,16 @@ module Fog
         # Returns metadata in a format expected by Cloud Files
         # @return [Hash] Metadata in a format expected by Cloud Files
         def to_headers
-          headers = {}          
-          h = data.merge(@deleted_hash) 
+          headers = {}
+          h = data.merge(@deleted_hash)
           h.each_pair do |k,v|
             key = to_header_key(k,v)
-            headers[key] = v || DUMMY_VALUE 
+            headers[key] = v || DUMMY_VALUE
           end
-          
+
           headers
         end
-        
+
         # Creates metadata object from Cloud File Headers
         # @param [Fog::Storage::Rackspace::Directory,Fog::Storage::Rackspace::File] parent object of the metadata
         # @param [Hash] headers Cloud File headers
@@ -72,8 +72,8 @@ module Fog
             metadata.data[key] = v
           end
           metadata
-        end   
-        
+        end
+
         # Returns true if method is implemented by Metadata class
         # @param [Symbol] method_sym
         # @param [Boolean] include_private
@@ -84,22 +84,22 @@ module Fog
         # Invoked by Ruby when obj is sent a message it cannot handle.
         def method_missing(method, *args, &block)
           data.send(method, *args, &block)
-        end                             
-        
+        end
+
         private
-        
+
         def directory?
           [Fog::Storage::Rackspace::Directory, Fog::Storage::Rackspace::Directories].include? parent_class
         end
-        
+
         def file?
           [Fog::Storage::Rackspace::File, Fog::Storage::Rackspace::Files].include? parent_class
         end
-        
+
         def parent_class
           parent.is_a?(Class) ? parent : parent.class
         end
-        
+
         def meta_prefix
           if directory?
             CONTAINER_META_PREFIX
@@ -129,24 +129,24 @@ module Fog
             raise "Metadata prefix is unknown for #{parent_class}"
           end
         end
-        
+
         def to_key(key)
            m = key.match meta_prefix_regex
            return nil unless m && m[1]
-           
+
            a = m[1].split('-')
            a.collect!(&:downcase)
            str = a.join('_')
            str.to_sym
          end
-                 
+
         def to_header_key(key, value)
           prefix = value.nil? ?  remove_meta_prefix : meta_prefix
           prefix + key.to_s.split(/[-_]/).collect(&:capitalize).join('-')
         end
-        
+
       end
-      
+
     end
   end
 end

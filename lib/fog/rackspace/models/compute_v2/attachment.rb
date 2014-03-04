@@ -4,17 +4,17 @@ module Fog
   module Compute
     class RackspaceV2
       class Attachment < Fog::Model
-        
+
         # @!attribute [r] server_id
-        # @return [String] The server id        
+        # @return [String] The server id
         attribute :server_id, :aliases => 'serverId'
-        
+
         # @!attribute [r] volume_id
-        # @return [String] The volume id        
+        # @return [String] The volume id
         attribute :volume_id, :aliases => 'volumeId'
-        
+
         # @!attribute [r] device
-        # @return [String]device name of the device /dev/xvd[a-p]         
+        # @return [String]device name of the device /dev/xvd[a-p]
         attribute :device
 
         def initialize(new_attributes = {})
@@ -22,8 +22,8 @@ module Fog
           server_id = server.id if server #server id should come from collection
           self
         end
-        
-        # Attaches volume to volume to server. 
+
+        # Attaches volume to volume to server.
         # Requires :server_id, :volume_id, and device to be populated
         # @return [Boolean] true if volume is attaching
         # @raise [Fog::Compute::RackspaceV2::NotFound] - HTTP 404
@@ -51,7 +51,7 @@ module Fog
           true
         end
         alias :detach :destroy
-        
+
       private
         def server
           collection.server

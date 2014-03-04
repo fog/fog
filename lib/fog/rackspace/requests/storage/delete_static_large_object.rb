@@ -1,6 +1,7 @@
 module Fog
   module Storage
     class Rackspace
+
       class Real
 
         # Delete a static large object.
@@ -44,6 +45,38 @@ module Fog
         end
 
       end
+
+      class Mock
+        def delete_static_large_object(container, object, options = {})
+          c = mock_container container
+          return not_found(container) unless c
+
+          o = c.mock_object object
+          return not_found(object) unless o
+
+          # What happens if o isn't a static large object?
+          raise Fog::Storage::Rackspace::BadRequest.new unless o.static_manifest?
+
+          segments = Fog::JSON.decode(o.body)
+          paths = segments.map { |s| s['path'] }
+          paths << "#{container}/#{object}"
+          delete_multiple_objects(nil, paths)
+        end
+
+        def not_found(path)
+          response = Excon::Response.new
+          response.status = 200
+          response.body = {
+            "Number Not Found" => 1,
+            "Response Status" => "200 OK",
+            "Response Body" => "",
+            "Errors" => [[path, "404 Not Found"]],
+            "Number Deleted" => 0
+          }
+          response
+        end
+      end
+
     end
   end
 end

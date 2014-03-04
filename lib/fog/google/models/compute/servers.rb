@@ -40,26 +40,42 @@ module Fog
           else
             new(response.body)
           end
-        rescue Excon::Errors::NotFound
+        rescue Fog::Errors::NotFound
           nil
         end
 
         def bootstrap(new_attributes = {})
+          name = "fog-#{Time.now.to_i}"
+          zone = "us-central1-b"
+
+          disks = new_attributes[:disks]
+
+          if disks.nil? or disks.empty?
+            # create the persistent boot disk
+            disk_defaults = {
+              :name => name,
+              :size_gb => 10,
+              :zone_name => zone,
+              :source_image => "debian-7-wheezy-v20131120",
+            }
+
+            # backwards compatibility to pre-v1
+            new_attributes[:source_image] = new_attributes[:image_name] if new_attributes[:image_name]
+
+            disk = service.disks.create(disk_defaults.merge(new_attributes))
+            disk.wait_for { disk.ready? }
+            disks = [disk]
+          end
+
           defaults = {
-            :name => "fog-#{Time.now.to_i}",
-            :image_name => "debian-7-wheezy-v20131014",
+            :name => name,
+            :disks => disks,
             :machine_type => "n1-standard-1",
-            :zone_name => "us-central1-b",
+            :zone_name => zone,
             :private_key_path => File.expand_path("~/.ssh/id_rsa"),
             :public_key_path => File.expand_path("~/.ssh/id_rsa.pub"),
             :username => ENV['USER'],
           }
-
-          if new_attributes[:disks]
-            new_attributes[:disks].each do |disk|
-              defaults.delete :image_name if disk['boot']
-            end
-          end
 
           server = create(defaults.merge(new_attributes))
           server.wait_for { sshable? }

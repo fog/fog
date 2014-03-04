@@ -11,7 +11,7 @@ module Fog
         # ==== Returns
         # * response<~Excon::Response>:
         #   * body<~Hash>:
-        def remove_tags_from_resource(rds_id, keys)          
+        def remove_tags_from_resource(rds_id, keys)
           request(
             { 'Action'        => 'RemoveTagsFromResource',
               'ResourceName'  => "arn:aws:rds:#{@region}:#{owner_id}:db:#{rds_id}",

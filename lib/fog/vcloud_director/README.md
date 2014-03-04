@@ -386,6 +386,8 @@ vm.customization
     change_sid=false,
     join_domain_enabled=false,
     use_org_settings=false,
+    admin_password_auto=false,
+    admin_password='',
     admin_password_enabled=false,
     reset_password_required=false,
     virtual_machine_id="2ddeea36-ac71-470f-abc5-c6e3c2aca192",

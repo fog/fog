@@ -1,4 +1,4 @@
-Shindo.tests("Storage[:internet_archive] | file", ["internet_archive"]) do
+Shindo.tests("Storage[:internetarchive] | file", ["internetarchive"]) do
 
   # Fog.mock!
 

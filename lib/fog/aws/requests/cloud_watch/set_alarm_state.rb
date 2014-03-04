@@ -1,7 +1,7 @@
 module Fog
   module AWS
     class CloudWatch
-      class Real     
+      class Real
 
         require 'fog/aws/parsers/cloud_watch/set_alarm_state'
 

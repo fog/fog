@@ -24,7 +24,7 @@ module Fog
           if opts[:max_records]
             params['MaxRecords'] = opts[:max_records]
           end
-          
+
           request({
             'Action'  => 'DescribeDBParameters',
             'DBParameterGroupName' => name,

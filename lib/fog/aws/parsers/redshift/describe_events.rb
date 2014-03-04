@@ -10,7 +10,7 @@ module Fog
           #   :source_type - (String)
           #   :message - (String)
           #   :date - (Time)
-          
+
           def reset
             @response = { 'Events' => [] }
           end
@@ -23,7 +23,7 @@ module Fog
             end
           end
 
-          def end_element(name)            
+          def end_element(name)
             super
             case name
             when 'Marker'
