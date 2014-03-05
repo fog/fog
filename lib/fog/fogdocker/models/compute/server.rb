@@ -107,6 +107,10 @@ module Fog
           reload
         end
 
+        def commit(options = {})
+          service.container_commit({:id=>id}.merge(options))
+        end
+
         def destroy(options = {})
           service.container_action(:id =>id, :action => :kill)
           service.container_delete(:id => id)

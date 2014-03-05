@@ -4,7 +4,7 @@ module Fog
 
       class Real
         def image_create(attrs)
-          downcase_hash_keys Docker::Image.create(camelize_hash_keys(attrs)).info
+          downcase_hash_keys Docker::Image.create(attrs).info
         end
       end
 

@@ -21,6 +21,7 @@ module Fog
       request :container_delete
       request :container_get
       request :container_action
+      request :container_commit
       request :image_all
       request :image_create
       request :image_delete
@@ -50,7 +51,7 @@ module Fog
         end
 
         def camelize_hash_keys(hash)
-          Hash[ hash.map {|k, v| [k.to_s.camelize, v] }]
+          Hash[ hash.map {|k, v| [k.to_s.split('_').map {|w| w.capitalize}.join, v] }]
         end
 
       end

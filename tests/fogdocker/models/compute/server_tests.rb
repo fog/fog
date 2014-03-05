@@ -6,10 +6,10 @@ Shindo.tests('Fog::Compute[:fogdocker] | server model', ['fogdocker']) do
   tests('The server model should') do
     tests('have the action') do
       test('reload') { server.respond_to? 'reload' }
-      %w{ start restart stop destroy }.each do |action|
+      %w{ start restart stop commit destroy}.each do |action|
         test(action) { server.respond_to? action }
       end
-      %w{ start restart stop destroy}.each do |action|
+      %w{ start restart stop commit destroy}.each do |action|
         test("#{action} returns successfully") {
           server.send(action.to_sym) ? true : false
         }
