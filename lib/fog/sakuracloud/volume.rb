@@ -38,7 +38,7 @@ module Fog
 
           @sakuracloud_api_url = options[:sakuracloud_api_url] || 'https://secure.sakura.ad.jp'
 
-          @connection = Fog::Connection.new(@sakuracloud_api_url)
+          @connection = Fog::Core::Connection.new(@sakuracloud_api_url)
         end
 
         def request(params)
