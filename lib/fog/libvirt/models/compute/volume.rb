@@ -62,6 +62,17 @@ module Fog
           new_volume.reload
         end
 
+        def clone_volume(new_name)
+          requires :pool_name
+
+          new_volume      = self.dup
+          new_volume.key  = nil
+          new_volume.name = new_name
+          new_volume.path = service.clone_volume(pool_name, new_volume.to_xml, self.name).path
+
+          new_volume.reload
+        end
+
         private
 
         def image_suffix
