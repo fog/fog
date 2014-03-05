@@ -107,9 +107,15 @@ module Fog
         end
 
         def split_size_unit(text)
-          matcher=text.match(/(\d+)(.+)/)
-          size   = matcher[1]
-          unit   = matcher[2]
+          if text.kind_of? Integer
+            # if text is an integer, match will fail
+            size    = text
+            unit    = 'G'
+          else
+            matcher = text.match(/(\d+)(.+)/)
+            size    = matcher[1]
+            unit    = matcher[2]
+          end
           [size, unit]
         end
       end
