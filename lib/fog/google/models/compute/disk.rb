@@ -59,7 +59,7 @@ module Fog
 
         # auto_delete can only be applied to disks created before instance creation.
         # auto_delete = true will automatically delete disk upon instance termination.
-        def get_object(writable=true, boot=false, device_name=nil, auto_delete=nil)
+        def get_object(writable=true, boot=false, device_name=nil, auto_delete=false)
           mode = writable ? 'READ_WRITE' : 'READ_ONLY'
           value = {
             'autoDelete' => auto_delete,
