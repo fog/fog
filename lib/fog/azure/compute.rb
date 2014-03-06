@@ -12,6 +12,7 @@ module Fog
       request_path 'fog/azure/requests/compute'
       request :list_virtual_machines
       request :create_virtual_machine
+      request :delete_virtual_machine
 
       model_path 'fog/azure/models/compute'
       model :server
