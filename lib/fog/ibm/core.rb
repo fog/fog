@@ -16,7 +16,7 @@ module Fog
       1800
     end
 
-    class Connection < Fog::Connection
+    class Connection < Fog::XML::Connection
 
       def initialize(user, password)
         @user = user
