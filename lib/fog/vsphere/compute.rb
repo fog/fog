@@ -146,15 +146,12 @@ module Fog
             attrs['relative_path'] = (attrs['path'].split('/').reject {|e| e.empty?} - ["Datacenters", attrs['datacenter'], "vm"]).join("/") rescue nil
             #Save virtual disk info into attrs
             begin
-              disks = vm_mob_ref.config.hardware.device.select{|d| d.class.to_s =~ /VirtualDisk/}
-              attrs['disks'] = disks.map { |d| 
-                {
-                  label:d.deviceInfo.label,summary:d.deviceInfo.summary,
-                  filename:d.backing.fileName,uuid:d.backing.uuid
-                }.to_json 
-              }
-            rescue
-              attrs['disks'] = []
+              disks = vm_mob_ref.config.hardware.device.grep(RbVmomi::VIM::VirtualDisk)
+              attrs['disks'] = disks.map{|d| d.capacityInKB}.to_json
+              attrs['operatingsystem'] = vm_mob_ref.summary.config.guestFullName
+            rescue => e
+              attrs['disks'] = '[0]'
+              attrs['operatingsystem'] = nil
             end
           end
         end
