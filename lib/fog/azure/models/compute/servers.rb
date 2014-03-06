@@ -13,43 +13,32 @@ module Fog
           servers = []
           service.list_virtual_machines.each do |vm|
             hash = {}
-            vm.instance_variables.each {|var| hash[var.to_s.delete("@")] = vm.instance_variable_get(var) }
-            #hash[:storage_account_name] = vm.storage_account_name
-            #hash[:password] = vm.password
-            hash[:vm_user] = vm.vm_user
-            hash[:image] = vm.image
-            #hash[:virtual_network] = vm.virtual_network
+            vm.instance_variables.each do |var|
+              hash[var.to_s.delete("@")] = vm.instance_variable_get(var)
+            end
+            hash[:vm_user] = 'azureuser' if hash[:vm_user].nil?
             servers << hash
           end
           load(servers)
         end
 
-        # def get(identity, zone=nil)
-        #   response = nil
-        #   if zone.nil?
-        #     service.list_zones.body['items'].each do |zone|
-        #       begin
-        #         response = service.get_server(identity, zone['name'])
-        #         break if response.status == 200
-        #       rescue Fog::Errors::Error
-        #       end
-        #     end
-        #   else
-        #     response = service.get_server(identity, zone)
-        #   end
-
-        #   if response.nil? or response.status != 200
-        #     nil
-        #   else
-        #     new(response.body)
-        #   end
-        # rescue Excon::Errors::NotFound
-        #   nil
-        # end
+        def get(identity)
+          hash = {}
+          service.list_virtual_machines.each do |vm|
+            if vm.vm_name == identity
+              vm.instance_variables.each do |var|
+                hash[var.to_s.delete("@")] = vm.instance_variable_get(var)
+              end
+              hash[:vm_user] = 'azureuser' if hash[:vm_user].nil?
+            end
+          end
+          new(hash)
+        end
 
         def bootstrap(new_attributes = {})
+          name = "fog-#{Time.now.to_i}"
           defaults = {
-            :vm_name => "fog-#{Time.now.to_i}",
+            :vm_name => name,
             :vm_user => 'azureuser',
             :image => "b39f27a8b8c64d52b05eac6a62ebad85__Ubuntu-12_04_3-LTS-amd64-server-20131205-en-us-30GB",
             :location => "Central US",

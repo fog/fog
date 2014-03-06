@@ -7,83 +7,63 @@ module Fog
     class Azure
 
       class Server < Fog::Compute::Server
-
-        identity :name, :aliases => 'vm_name'
-        attribute :external_ip, :aliases => 'ipaddress'
-        attribute :machine_type, :aliases => 'role_size'
-        attribute :state, :aliases => 'deployment_status'
+        # attr names are from azure
+        identity :vm_name
+        attribute :ipaddress
+        attribute :deployment_status
         attribute :status
-        attribute :vm_name
-        attribute :vm_user
+        attribute :hostname
+        attribute :cloud_service_name
+        attribute :deployment_name
+        attribute :tcp_endpoints
+        attribute :udp_endpoints
+        attribute :virtual_network_name
+        attribute :availability_set_name
+        attribute :os_type
+        attribute :disk_name
         attribute :image
+        attribute :vm_user
         attribute :location
         attribute :private_key_file
         attribute :public_key_file
-        attribute :vm_size
+        attribute :vm_size, :aliases => 'role_size'
 
-        # attribute :image_name, :aliases => 'image'
-        # attribute :network_interfaces, :aliases => 'networkInterfaces'
-        # attribute :network, :aliases => 'network'
-        # attribute :zone_name, :aliases => 'zone'
-        # attribute :disks, :aliases => 'disks'
-        # attribute :kernel, :aliases => 'kernel'
-        # attribute :tags, :squash => 'items'
-
-        # def flavor_id
-        #   machine_type
-        # end
-
-        # def flavor_id=(flavor_id)
-        #   machine_type=flavor_id
-        # end
-
-        # def destroy
-        #   requires :name, :zone
-        #   operation = service.delete_server(name, zone)
-        #   # wait until "RUNNING" or "DONE" to ensure the operation doesn't fail, raises exception on error
-        #   Fog.wait_for do
-        #     operation = service.get_zone_operation(zone_name, operation.body["name"])
-        #     operation.body["status"] != "PENDING"
-        #   end
-        #   operation
-        # end
-
-        # def image
-        #   service.get_image(self.image_name.split('/')[-1])
-        # end
-
-        def public_ip_address
-          external_ip
+        #helper functions for more common fog names
+        def external_ip
+          ipaddress
         end
 
-        # def private_ip_address
-        #   ip = nil
-        #   if self.network_interfaces.respond_to? :first
-        #     ip = self.network_interfaces.first['networkIP']
-        #   end
-        #   ip
-        # end
+        def public_ip_address
+          ipaddress
+        end
+
+        def name
+          vm_name
+        end
+
+        def state
+          deployment_status
+        end
+
+        def username
+          vm_user
+        end
+
+        def machine_type
+          vm_size
+        end
 
         def ready?
           self.state == 'Running'
         end
 
-        # def zone
-        #   if self.zone_name.is_a? String
-        #     service.get_zone(self.zone_name.split('/')[-1]).body["name"]
-        #   elsif zone_name.is_a? Excon::Response
-        #     service.get_zone(zone_name.body["name"]).body["name"]
-        #   else
-        #     self.zone_name
-        #   end
-        # end
 
+        def destroy
+          requires :vm_name
+          requires :cloud_service_name
 
-
-        # def reload
-        #   data = service.get_server(self.name, self.zone).body
-        #   self.merge_attributes(data)
-        # end
+          service.delete_virtual_machine(vm_name, cloud_service_name)
+        end
 
         def save
           requires :vm_name
