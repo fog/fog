@@ -17,6 +17,7 @@ module Fog
         attribute :machine_type, :aliases => 'machineType'
         attribute :disks, :aliases => 'disks'
         attribute :metadata
+        attribute :service_accounts, :aliases => 'serviceAccounts'
         attribute :tags, :squash => 'items'
         attribute :self_link, :aliases => 'selfLink'
 
@@ -151,6 +152,7 @@ module Fog
               'externalIp' => external_ip,
               'disks' => disks,
               'metadata' => metadata,
+              'serviceAccounts' => service_accounts,
               'tags' => tags
           }.delete_if {|key, value| value.nil?}
 
