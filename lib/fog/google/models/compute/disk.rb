@@ -57,9 +57,12 @@ module Fog
           end
         end
 
-        def get_object(writable=true, boot=false, device_name=nil)
+        # auto_delete can only be applied to disks created before instance creation.
+        # auto_delete = true will automatically delete disk upon instance termination.
+        def get_object(writable=true, boot=false, device_name=nil, auto_delete=nil)
           mode = writable ? 'READ_WRITE' : 'READ_ONLY'
           value = {
+            'autoDelete' => auto_delete,
             'boot' => boot,
             'source' => self_link,
             'mode' => mode,
@@ -69,8 +72,8 @@ module Fog
           return Hash[value]
         end
 
-        def get_as_boot_disk(writable=true)
-          get_object(writable, true)
+        def get_as_boot_disk(writable=true, auto_delete=false)
+          get_object(writable, true, nil, auto_delete)
         end
 
         def ready?
