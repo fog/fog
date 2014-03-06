@@ -59,13 +59,14 @@ module Fog
 
         def get_object(writable=true, boot=false, device_name=nil)
           mode = writable ? 'READ_WRITE' : 'READ_ONLY'
-          return {
+          value = {
             'boot' => boot,
             'source' => self_link,
             'mode' => mode,
             'deviceName' => device_name,
             'type' => 'PERSISTENT'
           }.select { |k, v| !v.nil? }
+          return Hash[value]
         end
 
         def get_as_boot_disk(writable=true)
