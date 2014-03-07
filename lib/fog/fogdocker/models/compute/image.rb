@@ -8,10 +8,14 @@ module Fog
 
         attr_accessor :info
 
-        attribute :repotags
+        attribute :repo_tags
         attribute :created
         attribute :size
         attribute :virtual_size
+
+        def name
+          repo_tags.empty? ? id : repo_tags.first
+        end
 
         def ready?
           !(status =~ /down/i)
