@@ -10,7 +10,7 @@ Shindo.tests('Fog::Compute[:fogdocker] | image model', ['fogdocker']) do
     tests('have attributes') do
       model_attribute_hash = image.attributes
       attributes = [ :id,
-                     :repotags,
+                     :repo_tags,
                      :created,
                      :size
                    ]
@@ -20,7 +20,7 @@ Shindo.tests('Fog::Compute[:fogdocker] | image model', ['fogdocker']) do
         end
       end
       tests("The attributes hash should have key") do
-        (attributes-[:repotags]).each do |attribute|
+        (attributes-[:repo_tags]).each do |attribute|
           test("#{attribute}") { model_attribute_hash.has_key? attribute }
         end
       end

@@ -12,16 +12,21 @@ module Fog
 
         attribute :name
         attribute :created
-        attribute :network_settings_ipaddress,  :aliases => 'ipaddress'
-        attribute :network_settings_bridge,     :aliases => 'bridge'
+        attribute :path
+        attribute :args
+        attribute :hostname
+        attribute :ipaddress,                   :aliases => 'network_settings_ipaddress'
+        attribute :bridge,                      :aliases => 'network_settings_bridge'
         attribute :state_running
         attribute :state_pid
-        attribute :config_cpu_shares,           :aliases => 'cpus'
-        attribute :config_memory,               :aliases => 'memory'
-        attribute :config_hostname,             :aliases => 'hostname'
+        attribute :cores,                       :aliases => 'config_cpu_shares'
+        attribute :memory,                      :aliases => 'config_memory'
+        attribute :hostname,                    :aliases => 'config_hostname'
+        attribute :cmd,                         :aliases => 'config_cmd'
+        attribute :entrypoint,                  :aliases => 'config_entrypoint'
         attribute :host
         attribute :image
-        attribute :config_exposed_ports,        :aliases => 'exposed_ports'
+        attribute :exposed_ports,               :aliases => 'config_exposed_ports'
         attribute :volumes
 
         #raw = {"ID"=>"2ce79789656e4f7474624be6496dc6d988899af30d556574389a19aade2f9650",
@@ -74,11 +79,12 @@ module Fog
         # }
 
         def ready?
-          state_running == true
+          reload if state_running.nil?
+          state_running
         end
 
         def stopped?
-          state_running == false
+          !ready?
         end
 
         def mac
@@ -86,7 +92,7 @@ module Fog
         end
 
         def start(options = {})
-          service.container_action(:id =>id, :action => :start)
+          service.container_action(:id =>id, :action => :start!)
           reload
         end
 
@@ -97,8 +103,12 @@ module Fog
         end
 
         def restart(options = {})
-          service.container_action(:id =>id, :action => :restart)
+          service.container_action(:id =>id, :action => :restart!)
           reload
+        end
+
+        def commit(options = {})
+          service.container_commit({:id=>id}.merge(options))
         end
 
         def destroy(options = {})
