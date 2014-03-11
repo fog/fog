@@ -38,6 +38,7 @@ module Fog
       class Unauthorized < Fog::VcloudDirector::Errors::Unauthorized; end
       class Forbidden < Fog::VcloudDirector::Errors::Forbidden; end
       class Conflict < Fog::VcloudDirector::Errors::Conflict; end
+      class MalformedResponse < Fog::VcloudDirector::Errors::MalformedResponse; end
 
       class DuplicateName < Fog::VcloudDirector::Errors::DuplicateName; end
       class TaskError < Fog::VcloudDirector::Errors::TaskError; end
@@ -364,6 +365,13 @@ module Fog
         def request(params)
           begin
             do_request(params)
+          rescue Excon::Errors::EOFError
+            # This error can occur if Vcloud receives a request from a network
+            # it deems to be unauthorized; no HTTP response is sent, but the
+            # connection is sent a signal to terminate early.
+            raise(
+              MalformedResponse, "Connection unexpectedly terminated by vcloud"
+            )
           # this is to know if Excon::Errors::Unauthorized really happens
           #rescue Excon::Errors::Unauthorized
           #  login
