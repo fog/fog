@@ -7,7 +7,7 @@ module Fog
 
         identity :id, :aliases => 'ID'
         attribute :name, :aliases => 'Name'
-        attribute :sizemb, :aliases => 'SizeMB'
+        attribute :size_mb, :aliases => 'SizeMB'
         attribute :plan, :aliases => 'Plan'
 
       end
