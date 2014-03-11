@@ -4,7 +4,9 @@ Shindo.tests('Fog::Volume[:sakuracloud] | list_archives request', ['sakuracloud'
   @archive_format = {
     'Index'        => Integer,
     'ID'           => Integer,
-    'Name'         => String
+    'Name'         => String,
+    'SizeMB'       => Integer,
+    'Plan'         => Hash
   }
 
   tests('success') do
