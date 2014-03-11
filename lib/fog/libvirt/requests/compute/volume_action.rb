@@ -3,7 +3,7 @@ module Fog
     class Libvirt
       class Real
         def volume_action(key, action, options={})
-          get_volume({:key => key}, true).send(action)
+          get_volume({:key => key}, true).send(action) if not key.nil?
           true
         end
       end
