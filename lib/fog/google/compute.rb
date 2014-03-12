@@ -82,6 +82,8 @@ module Fog
         def shared_initialize(options = {})
           @project = options[:google_project]
           @api_version = 'v1'
+          @application_name = options[:app_name] || "fog"
+          @application_version = options[:app_version] || Fog::VERSION
         end
 
         def build_excon_response(body, status=200)
@@ -862,8 +864,8 @@ module Fog
           key = ::Google::APIClient::KeyUtils.load_from_pkcs12(File.expand_path(options[:google_key_location]), 'notasecret')
 
           @client = ::Google::APIClient.new({
-            :application_name => "fog",
-            :application_version => Fog::VERSION,
+            :application_name => @application_name,
+            :application_version => @application_version
           })
 
           @client.authorization = Signet::OAuth2::Client.new({
