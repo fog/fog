@@ -844,7 +844,9 @@ module Fog
 
         def initialize(options)
           base_url = 'https://www.googleapis.com/compute/'
-          api_scope_url = 'https://www.googleapis.com/auth/compute'
+          # The devstorage scope is needed to be able to insert images
+          # devstorage.read_only scope is not sufficient like you'd hope
+          api_scope_url = 'https://www.googleapis.com/auth/compute https://www.googleapis.com/auth/devstorage.read_write'
           shared_initialize(options)
 
           google_client_email = options[:google_client_email]

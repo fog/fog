@@ -21,6 +21,7 @@ module Fog
       request :container_delete
       request :container_get
       request :container_action
+      request :container_commit
       request :image_all
       request :image_create
       request :image_delete
@@ -47,6 +48,10 @@ module Fog
         def downcase_hash_keys(hash, k = [])
           return {k.join('_').gsub(/([a-z])([A-Z])/,'\1_\2').downcase => hash} unless hash.is_a?(Hash)
           hash.inject({}){ |h, v| h.merge! downcase_hash_keys(v[-1], k + [v[0]]) }
+        end
+
+        def camelize_hash_keys(hash)
+          Hash[ hash.map {|k, v| [k.to_s.split('_').map {|w| w.capitalize}.join, v] }]
         end
 
       end

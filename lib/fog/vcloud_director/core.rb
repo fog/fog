@@ -58,6 +58,7 @@ module Fog
       class Unauthorized < ServiceError; end
       class Forbidden < ServiceError; end
       class Conflict < ServiceError; end
+      class MalformedResponse < ServiceError; end
 
       class DuplicateName < ServiceError; end
       class TaskError < ServiceError; end
