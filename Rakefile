@@ -51,7 +51,7 @@ task :default => :test
 task :travis  => ['test', 'test:travis', 'coveralls_push_workaround']
 
 Rake::TestTask.new do |t|
-  t.pattern = "test/**/*_test.rb"
+  t.pattern = File.join("**", "test", "**", "*_test.rb")
 end
 
 namespace :test do
