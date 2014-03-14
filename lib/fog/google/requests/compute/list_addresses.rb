@@ -4,7 +4,7 @@ module Fog
 
       class Mock
 
-        def list_addresses(region_name)
+        def list_addresses
           Fog::Mock.not_implemented
         end
 
@@ -22,7 +22,9 @@ module Fog
           result = self.build_result(api_method, parameters)
           response = self.build_response(result)
         end
+
       end
+
     end
   end
 end
