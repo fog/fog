@@ -73,7 +73,9 @@ module Fog
           response = Excon::Response.new
           response.status = 200
           instance = self.data[:instances][params[:instance_id]]
+         # address =  self.data[:addresses][params[:public_ip]]
           address = params[:public_ip].nil? ? nil : self.data[:addresses][params[:public_ip]]
+          # This is a classic server, a VPC with a single network interface id or a VPC with multiple network interfaces one of which is specified
           if ((instance && address) || (instance &&  !params[:allocation_id].nil?) || (!params[:allocation_id].nil? && !network_interface_id.nil?))
             if !params[:allocation_id].nil?
               allocation_ip = describe_addresses( 'allocation-id'  => "#{params[:allocation_id]}").body['addressesSet'].first
@@ -110,16 +112,14 @@ module Fog
               }
             end
             response
-          #elsif ! network_interface_id.nil? && allocation_id.nil?
-          #  raise Fog::Compute::AWS::NotFound.new("You must specify an AllocationId when specifying a NetworkInterfaceID")
-          #elsif instance.nil? && network_interface_id.nil?
-          #  raise Fog::Compute::AWS::Error.new("You must specify either an InstanceId or a NetworkInterfaceID")
-          #elsif !instance && !network_interface_id
-          #  raise Fog::Compute::AWS::Error.new(" 2 You must specify either an InstanceId or a NetworkInterfaceID")
           elsif !instance
             raise Fog::Compute::AWS::NotFound.new("You must specify either an InstanceId or a NetworkInterfaceID")
           elsif !address
             raise Fog::Compute::AWS::Error.new("AuthFailure => The address '#{public_ip}' does not belong to you.")
+          elsif params[:network_interface_id].nil? && params[:allocation_id].nil?
+            raise Fog::Compute::AWS::NotFound.new("You must specify an AllocationId when specifying a NetworkInterfaceID")
+          else (!instance.nil? && params[:network_interface_id].nil?) || (params[:instance_id].nil? && !params[:network_interface_id].nil?)
+            raise Fog::Compute::AWS::Error.new("You must specify either an InstanceId or a NetworkInterfaceID")
           end
         end
 
