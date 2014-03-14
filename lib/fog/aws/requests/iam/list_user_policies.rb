@@ -6,7 +6,7 @@ module Fog
         require 'fog/aws/parsers/iam/list_policies'
 
         # List policies for a user
-        # 
+        #
         # ==== Parameters
         # * user_name<~String> - Name of user to list policies for
         # * options<~Hash>: Optional

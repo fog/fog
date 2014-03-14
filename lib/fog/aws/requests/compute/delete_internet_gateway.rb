@@ -24,14 +24,14 @@ module Fog
           )
         end
       end
-      
+
       class Mock
         def delete_internet_gateway(internet_gateway_id)
           Excon::Response.new.tap do |response|
             if internet_gateway_id
               response.status = 200
               self.data[:internet_gateways].delete(internet_gateway_id)
-            
+
               response.body = {
                 'requestId' => Fog::AWS::Mock.request_id,
                 'return' => true

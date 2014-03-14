@@ -43,9 +43,9 @@ module Fog
         #     * 'updated-at'<~String>
         #     * 'hosts'<~String>
         #     * 'axfr-ips'<~String>
-        #     * 'restrict-axfr'<~String>    
-        #   * 'status'<~Integer> - 201 if successful        
-        
+        #     * 'restrict-axfr'<~String>
+        #   * 'status'<~Integer> - 201 if successful
+
         def create_zone(domain, default_ttl, ns_type, options = {})
 
           optional_tags= ''
@@ -73,7 +73,7 @@ module Fog
               optional_tags+= "<tag-list>#{value}</tag-list>"
             end
           }
-          
+
           request(
             :body     => %Q{<?xml version="1.0" encoding="UTF-8"?><zone><domain>#{domain}</domain><default-ttl type="integer">#{default_ttl}</default-ttl><ns-type>#{ns_type}</ns-type>#{optional_tags}</zone>},
             :expects  => 201,

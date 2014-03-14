@@ -5,14 +5,14 @@ module Fog
         require 'fog/aws/parsers/redshift/update_cluster_parameter_group_parser'
 
         # ==== Parameters
-        # 
+        #
         # @param [Hash] options
-        # * :parameter_group_name - required - (String) 
+        # * :parameter_group_name - required - (String)
         #    The name of the parameter group to be deleted. Constraints: Must be the name of an
         #    existing cluster parameter group. Cannot delete a default cluster parameter group.
         #
         # ==== See Also
-        # http://docs.aws.amazon.com/redshift/latest/APIReference/API_ModifyClusterParameterGroup.html  
+        # http://docs.aws.amazon.com/redshift/latest/APIReference/API_ModifyClusterParameterGroup.html
         def modify_cluster_parameter_group(options = {})
           parameter_group_name = options[:parameter_group_name]
 

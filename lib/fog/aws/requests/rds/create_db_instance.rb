@@ -6,7 +6,7 @@ module Fog
         require 'fog/aws/parsers/rds/create_db_instance'
 
         # Create a db instance
-        # 
+        #
         # @param DBInstanceIdentifier [String] name of the db instance to modify
         # @param AllocatedStorage [Integer] Storage space, in GB
         # @param AutoMinorVersionUpgrade [Boolean] Indicates that minor version upgrades will be applied automatically to the DB Instance during the maintenance window
@@ -28,10 +28,10 @@ module Fog
         # @param DBSubnetGroupName [String] The name, if any, of the VPC subnet for this RDS instance
         # @param PubliclyAcccesible [Boolean] Whether an RDS instance inside of the VPC subnet should have a public-facing endpoint
         # @param VpcSecurityGroups [Array] A list of VPC Security Groups to authorize on this DB instance
-        # 
+        #
         # @return [Excon::Response]:
         #   * body [Hash]:
-        # 
+        #
         # @see http://docs.amazonwebservices.com/AmazonRDS/latest/APIReference/API_CreateDBInstance.html
         def create_db_instance(db_name, options={})
 
@@ -104,7 +104,7 @@ module Fog
                           [{"DBParameterGroupName"=>"default.mysql5.5",
                             "ParameterApplyStatus"=>"in-sync"}],
                  "DBSecurityGroups"=>
-                          [{"Status"=>"active", 
+                          [{"Status"=>"active",
                             "DBSecurityGroupName"=>"default"}],
                  "LicenseModel"=>"general-public-license",
                  "PreferredBackupWindow"=>"08:00-08:30",

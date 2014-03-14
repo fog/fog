@@ -33,7 +33,7 @@ module Fog
           service.restore_image({:id => identity}.merge!(options))
           true
         end
-        
+
       end
 
     end

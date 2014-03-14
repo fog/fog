@@ -12,9 +12,10 @@ module Fog
         # @option options [Hash] metadata key value pairs of server metadata
         # @option options [String] OS-DCF:diskConfig The disk configuration value. (AUTO or MANUAL)
         # @option options [Hash] personality Hash containing data to inject into the file system of the cloud server instance during server creation.
+        # @option options [Boolean] config_drive whether to attach a read-only configuration drive
         # @option options [String] keypair  Name of the kay-pair to associate with this server.
         # @return [Excon::Response] response:
-        #   * body [Hash]:        
+        #   * body [Hash]:
         #     * server [Hash]:
         #       * name [String] - name of server
         #       * imageRef [String] - id of image used to create server
@@ -22,12 +23,12 @@ module Fog
         #       * OS-DCF:diskConfig [String] - The disk configuration value.
         #       * name [String] - name of server
         #       * metadata [Hash] - Metadata key and value pairs.
-        #       * personality [Array]: 
+        #       * personality [Array]:
         #         * [Hash]:
         #           * path - path of the file created
         #           * contents - Base 64 encoded file contents
-        #       * networks [Array]: 
-        #         * [Hash]: 
+        #       * networks [Array]:
+        #         * [Hash]:
         #           * uuid [String] - uuid of attached network
         # @raise [Fog::Compute::RackspaceV2::NotFound] - HTTP 404
         # @raise [Fog::Compute::RackspaceV2::BadRequest] - HTTP 400
@@ -55,6 +56,8 @@ module Fog
           data['server']['OS-DCF:diskConfig'] = options[:disk_config] unless options[:disk_config].nil?
           data['server']['metadata'] = options[:metadata] unless options[:metadata].nil?
           data['server']['personality'] = options[:personality] unless options[:personality].nil?
+          data['server']['config_drive'] = options[:config_drive] unless
+options[:config_drive].nil?
           data['server']['networks'] = options[:networks] || [
             { :uuid => '00000000-0000-0000-0000-000000000000' },
             { :uuid => '11111111-1111-1111-1111-111111111111' }

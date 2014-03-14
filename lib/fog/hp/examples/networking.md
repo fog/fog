@@ -1,5 +1,5 @@
 #Examples for working with HP Cloud Networking Service
-The HP Cloud provides networking support using two abstractions: a model layer and a request layer. Both layers are detailed below. 
+The HP Cloud provides networking support using two abstractions: a model layer and a request layer. Both layers are detailed below.
 
 **Note:** The networking functionality works with HP Cloud version 13.5 but is not available in version 12.12.
 
@@ -171,10 +171,10 @@ You can find the values the access key, secret key, and other values by clicking
         # Removing the interface also deletes the auto-created port
 
 7. Add a router interface using a port:
-        
+
         # Add a router interface using the port you created
         network = router.add_interface(nil, "<port_id>")
-        
+
         # Port is updated with device_id and device_owner
         conn.ports.get("<port_id>")
 
@@ -206,7 +206,7 @@ You can find the values the access key, secret key, and other values by clicking
         conn.security_groups.create(
                 :name => 'MySecurityGroup',
                 :description => 'my security group description'
-        )        
+        )
 **Note:** Two security group rules are created by default for every new security group that is created: one 'ingress' and one 'egress' rule.
 
 5. Delete a security group:
@@ -377,7 +377,7 @@ You can find the values the access key, secret key, and other values by clicking
 
 7. Remove a router interface using a subnet:
 
-        conn.remove_router_interface("<router_id>", "<subnet_id>") 
+        conn.remove_router_interface("<router_id>", "<subnet_id>")
         # Removes a port with no name using the subnet_id
 
 8. Add a router interface using a port:
@@ -388,12 +388,12 @@ You can find the values the access key, secret key, and other values by clicking
 
 9. Remove a router interface using a port:
 
-        conn.remove_router_interface("router_id", nil, "port_id") 
+        conn.remove_router_interface("router_id", nil, "port_id")
 
 10. Delete a router:
 
         conn.delete_router("<router_id>")
-        
+
 ## Request Security Group Operations
 
 1. List security groups:

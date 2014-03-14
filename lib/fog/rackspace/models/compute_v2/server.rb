@@ -30,31 +30,31 @@ module Fog
         # @!attribute [rw] name
         # @return [String] The server name.
         attribute :name
-        
-        # @!attribute [r] created        
+
+        # @!attribute [r] created
         # @return [String] The time stamp for the creation date.
         attribute :created
-        
+
         # @!attribute [r] updated
         # @return [String] The time stamp for the last update.
         attribute :updated
-        
+
         # @!attribute [r] host Id
         #   The host Id.
-        #   The compute provisioning algorithm has an anti-affinity property that attempts to spread customer VMs across hosts. 
-        #   Under certain situations, VMs from the same customer might be placed on the same host. 
+        #   The compute provisioning algorithm has an anti-affinity property that attempts to spread customer VMs across hosts.
+        #   Under certain situations, VMs from the same customer might be placed on the same host.
         #   hostId represents the host your server runs on and can be used to determine this scenario if it is relevant to your application.
-        #   HostId is unique per account and is not globally unique.        
-        # @return [String] host id. 
+        #   HostId is unique per account and is not globally unique.
+        # @return [String] host id.
         attribute :host_id, :aliases => 'hostId'
 
         # @!attribute [r] state
-        # @return [String] server status. 
+        # @return [String] server status.
         # @see http://docs.rackspace.com/servers/api/v2/cs-devguide/content/List_Servers-d1e2078.html#server_status
         attribute :state, :aliases => 'status'
 
         # @!attribute [r] state_ext
-        # @return [String] server (extended) status. 
+        # @return [String] server (extended) status.
         # @see http://docs.rackspace.com/servers/api/v2/cs-devguide/content/List_Servers-d1e2078.html#server_status
         attribute :state_ext, :aliases => 'OS-EXT-STS:task_state'
 
@@ -65,15 +65,15 @@ module Fog
         # @!attribute [r] user_id
         # @return [String] The user Id.
         attribute :user_id
-        
+
         # @!attribute [r] tenant_id
         # @return [String] The tenant Id.
         attribute :tenant_id
-        
+
         # @!attribute [r] links
         # @return [Array] Server links.
         attribute :links
-        
+
         # @!attribute [rw] personality
         # @note This attribute is only used for server creation. This field will be nil on subsequent retrievals.
         # @return [Hash] Hash containing data to inject into the file system of the cloud server instance during server creation.
@@ -84,62 +84,68 @@ module Fog
         # @see #create
         # @see http://docs.rackspace.com/servers/api/v2/cs-devguide/content/Server_Personality-d1e2543.html
         attribute :personality
-        
+
         # @!attribute [rw] ipv4_address
         # @return [String] The public IP version 4 access address.
-        # @note This field will populate once the server is ready to use. 
+        # @note This field will populate once the server is ready to use.
         # @see http://docs.rackspace.com/servers/api/v2/cs-devguide/content/Server_Primary_Addresses-d1e2558.html
         attribute :ipv4_address, :aliases => 'accessIPv4'
-        
+
         # @!attribute [rw] ipv6_address
         # @return [String] The public IP version 6 access address.
         # @note This field will populate once the server is ready to use.
-        # @see http://docs.rackspace.com/servers/api/v2/cs-devguide/content/Server_Primary_Addresses-d1e2558.html       
+        # @see http://docs.rackspace.com/servers/api/v2/cs-devguide/content/Server_Primary_Addresses-d1e2558.html
         attribute :ipv6_address, :aliases => 'accessIPv6'
-        
+
         # @!attribute [rw] disk_config
         # @return [String<AUTO, MANUAL>] The disk configuration value.
         # @see http://docs.rackspace.com/servers/api/v2/cs-devguide/content/ch_extensions.html#diskconfig_attribute
-        #        
+        #
         # The disk configuration value.
-        #   * AUTO -   The server is built with a single partition the size of the target flavor disk. The file system is automatically adjusted to fit the entire partition. 
-        #              This keeps things simple and automated. AUTO is valid only for images and servers with a single partition that use the EXT3 file system. 
+        #   * AUTO -   The server is built with a single partition the size of the target flavor disk. The file system is automatically adjusted to fit the entire partition.
+        #              This keeps things simple and automated. AUTO is valid only for images and servers with a single partition that use the EXT3 file system.
         #              This is the default setting for applicable Rackspace base images.
         #
-        #   * MANUAL - The server is built using whatever partition scheme and file system is in the source image. If the target flavor disk is larger, 
-        #              the remaining disk space is left unpartitioned. This enables images to have non-EXT3 file systems, multiple partitions, 
+        #   * MANUAL - The server is built using whatever partition scheme and file system is in the source image. If the target flavor disk is larger,
+        #              the remaining disk space is left unpartitioned. This enables images to have non-EXT3 file systems, multiple partitions,
         #              and so on, and enables you to manage the disk configuration.
         attribute :disk_config, :aliases => 'OS-DCF:diskConfig'
-        
+
+
+        # @!attribute [rw] config_drive_ext
+        # @return [Boolean] whether a read-only configuration drive is attached
+        # @see http://docs.rackspace.com/servers/api/v2/cs-devguide/content/config_drive_ext.html
+        attribute :config_drive
+
         # @!attribute [r] bandwidth
         # @return [Array] The amount of bandwidth used for the specified audit period.
         # @see http://docs.rackspace.com/servers/api/v2/cs-devguide/content/ch_extensions.html#bandwidth_extension
         attribute :bandwidth, :aliases => 'rax-bandwidth:bandwidth'
-        
+
         # @!attribute [r] address
         # @return [Hash<String, Array[Hash]>] IP addresses allocated for server by network
-        # @example  
-        #  { 
+        # @example
+        #  {
         #     "public" => [
-        #          {"version"=>4, "addr"=>"166.78.105.63"}, 
+        #          {"version"=>4, "addr"=>"166.78.105.63"},
         #          {"version"=>6, "addr"=>"2001:4801:7817:0072:0fe1:75e8:ff10:61a9"}
-        #                 ], 
+        #                 ],
         #    "private"=> [{"version"=>4, "addr"=>"10.177.18.209"}]
         #  }
         attribute :addresses
-        
+
         # @!attribute [r] flavor_id
-        # @return [String] The flavor Id. 
+        # @return [String] The flavor Id.
         # @see http://docs.rackspace.com/servers/api/v2/cs-devguide/content/List_Flavors-d1e4188.html
         attribute :flavor_id, :aliases => 'flavor', :squash => 'id'
-        
+
         # @!attribute [r] image_id
         # @return [String] The image Id.
         # @see http://docs.rackspace.com/servers/api/v2/cs-devguide/content/List_Images-d1e4435.html
         attribute :image_id, :aliases => 'image', :squash => 'id'
 
         # @!attribute [r] password
-        # @return [String] Password for system adminstrator account. 
+        # @return [String] Password for system adminstrator account.
         # @note This value is ONLY populated on server creation.
         attr_reader :password
 
@@ -211,7 +217,7 @@ module Fog
 
         # Creates server
         # * requires attributes: service:, :name, :image_id, and :flavor_id
-        # * optional attributes :disk_config, :metadata, :personality
+        # * optional attributes :disk_config, :metadata, :personality, :config_drive
         # @return [Boolean] returns true if server is being created
         # @raise [Fog::Compute::RackspaceV2::NotFound] - HTTP 404
         # @raise [Fog::Compute::RackspaceV2::BadRequest] - HTTP 400
@@ -219,7 +225,7 @@ module Fog
         # @raise [Fog::Compute::RackspaceV2::ServiceError]
         # @note You should use servers.create to create servers instead calling this method directly
         # @see Servers#create
-        # @see http://docs.rackspace.com/servers/api/v2/cs-devguide/content/CreateServers.html        
+        # @see http://docs.rackspace.com/servers/api/v2/cs-devguide/content/CreateServers.html
         #
         # * State Transitions
         #   * BUILD -> ACTIVE
@@ -237,6 +243,7 @@ module Fog
           modified_options[:disk_config] = disk_config unless disk_config.nil?
           modified_options[:metadata] = metadata.to_hash unless @metadata.nil?
           modified_options[:personality] = personality unless personality.nil?
+          modified_options[:config_drive] = config_drive unless config_drive.nil?
           modified_options[:key_name] ||= attributes[:key_name]
 
           if modified_options[:networks]
@@ -311,7 +318,7 @@ module Fog
           @image ||= service.images.get(image_id)
         end
 
-        # Creates Image from server. Once complete, a new image is available that you can use to rebuild or create servers. 
+        # Creates Image from server. Once complete, a new image is available that you can use to rebuild or create servers.
         # @param name [String] name of image to create
         # @param options [Hash]:
         # @option options [Hash<String, String>] metadata hash of containing metadata key value pairs.
@@ -337,7 +344,7 @@ module Fog
         end
 
         # Attached Cloud Block Volumes
-        # @return [Fog::Compute::RackspaceV2::Attachments] attached Cloud Block Volumes 
+        # @return [Fog::Compute::RackspaceV2::Attachments] attached Cloud Block Volumes
         # @raise [Fog::Compute::RackspaceV2::NotFound] - HTTP 404
         # @raise [Fog::Compute::RackspaceV2::BadRequest] - HTTP 400
         # @raise [Fog::Compute::RackspaceV2::InternalServerError] - HTTP 500
@@ -431,7 +438,7 @@ module Fog
           true
         end
 
-        # Resize existing server to a different flavor, in essence, scaling the server up or down. The original server is saved for a period of time to allow rollback if there is a problem. All resizes should be tested and explicitly confirmed, at which time the original server is removed. All resizes are automatically confirmed after 24 hours if they are not confirmed or reverted.     
+        # Resize existing server to a different flavor, in essence, scaling the server up or down. The original server is saved for a period of time to allow rollback if there is a problem. All resizes should be tested and explicitly confirmed, at which time the original server is removed. All resizes are automatically confirmed after 24 hours if they are not confirmed or reverted.
         # @param [String] flavor_id to resize
         # @return [Boolean] returns true if resize is in process
         # @raise [Fog::Compute::RackspaceV2::NotFound] - HTTP 404
@@ -541,7 +548,7 @@ module Fog
         #
         # * Status Transition:	
         #   * ACTIVE -> PASSWORD -> ACTIVE
-        #   * ACTIVE -> PASSWORD -> ERROR (on error)        
+        #   * ACTIVE -> PASSWORD -> ERROR (on error)
         def change_admin_password(password)
           requires :identity
           service.change_server_password(identity, password)
@@ -572,6 +579,10 @@ module Fog
           retry
         end
 
+        def virtual_interfaces
+          @virtual_interfaces ||= Fog::Compute::RackspaceV2::VirtualInterfaces.new :server => self, :service => service
+        end
+
         private
 
         def adminPass=(new_admin_pass)
@@ -579,7 +590,7 @@ module Fog
         end
 
         def password_lock
-          "passwd -l #{username}" unless attributes[:no_passwd_lock] 
+          "passwd -l #{username}" unless attributes[:no_passwd_lock]
         end
       end
     end

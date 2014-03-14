@@ -34,7 +34,7 @@ def select_attachment(attachments)
   attachments[delete_str.to_i]
 end
 
-# Use username defined in ~/.fog file, if absent prompt for username. 
+# Use username defined in ~/.fog file, if absent prompt for username.
 # For more details on ~/.fog refer to http://fog.io/about/getting_started.html
 def rackspace_username
   Fog.credentials[:rackspace_username] || get_user_input("Enter Rackspace Username")
@@ -81,13 +81,13 @@ puts "\n"
 delete_confirm = get_user_input "Would You Like To Destroy Volume #{volume.display_name} (y/n)"
 if delete_confirm.downcase ==  'y'
   # wait for server to finish detaching before attempting to delete
-  volume.wait_for(600)  do 
+  volume.wait_for(600)  do
     print "."
     STDOUT.flush
     ready? && attachments.empty?
   end
-  
+
   volume.destroy
-  
+
   puts "\n\nThe Volume Has been Destroyed"
 end

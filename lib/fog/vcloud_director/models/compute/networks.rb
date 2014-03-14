@@ -13,9 +13,30 @@ module Fog
         private
 
         def get_by_id(item_id)
-          item = service.get_network(item_id).body
-          service.add_id_from_href!(item)
-          item
+          raw_network = service.get_network_complete(item_id).body
+          data = {}
+          data[:type] = raw_network[:type]
+          data[:href] = raw_network[:href]
+          service.add_id_from_href!(data)
+          data[:name] = raw_network[:name]
+          data[:description] = raw_network[:Description]
+          data[:is_shared] = raw_network[:IsShared]
+          net_config = raw_network[:Configuration]
+          data[:fence_mode] = net_config[:FenceMode]
+          ip_scope = net_config[:IpScopes][:IpScope]
+          data[:is_inherited] = ip_scope[:IsInherited]
+          data[:gateway] = ip_scope[:Gateway]
+          data[:netmask] = ip_scope[:Netmask]
+          data[:dns1] = ip_scope[:Dns1]
+          data[:dns2] = ip_scope[:Dns2]
+          data[:dns_suffix] = ip_scope[:DnsSuffix]
+          data[:ip_ranges] = []
+          raw_ip_ranges = ip_scope[:IpRanges][:IpRange]
+          data[:ip_ranges] = raw_ip_ranges.map do |ip_range|
+            { :start_address => ip_range[:StartAddress],
+              :end_address   => ip_range[:EndAddress] }
+          end
+          data
         end
 
         def item_list

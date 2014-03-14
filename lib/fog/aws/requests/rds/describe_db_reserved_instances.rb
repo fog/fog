@@ -21,7 +21,7 @@ module Fog
           if opts[:max_records]
             params['MaxRecords'] = opts[:max_records]
           end
-          
+
           request({
             'Action'  => 'DescribeReservedDBInstances',
             :parser   => Fog::Parsers::AWS::RDS::DescribeDBReservedInstances.new

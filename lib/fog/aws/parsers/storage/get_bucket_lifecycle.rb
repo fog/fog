@@ -36,7 +36,7 @@ module Fog
               end
             elsif @in_transition
               case name
-              when 'StorageClass', 
+              when 'StorageClass',
                 @transition['StorageClass'] = value
               when 'Date'
                 @transition[name] = value
@@ -56,7 +56,7 @@ module Fog
               when 'Rule'
                 @response['Rules'] << @rule
                 @rule = {}
-              end 
+              end
             end
           end
         end

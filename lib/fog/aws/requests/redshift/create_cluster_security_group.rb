@@ -5,17 +5,17 @@ module Fog
         require 'fog/aws/parsers/redshift/create_cluster_security_group'
 
         # ==== Parameters
-        # 
+        #
         # @param [Hash] options
-        # * :cluster_security_group_name - (String) 
+        # * :cluster_security_group_name - (String)
         #    The name of a cluster security group for which you are requesting details. You
         #    can specify either the Marker parameter or a ClusterSecurityGroupName parameter,
         #    but not both. Example: securitygroup1
         # * :description - required - (String)
-        #    A description for the security group.        
+        #    A description for the security group.
         #
         # ==== See Also
-        # http://docs.aws.amazon.com/redshift/latest/APIReference/API_CreateClusterSecurityGroup.html  
+        # http://docs.aws.amazon.com/redshift/latest/APIReference/API_CreateClusterSecurityGroup.html
         def create_cluster_security_group(options = {})
           cluster_security_group_name  = options[:cluster_security_group_name]
           description                  = options[:description]

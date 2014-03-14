@@ -6,7 +6,7 @@ module Fog
         require 'fog/aws/parsers/cloud_formation/create_stack'
 
         # Create a stack.
-        # 
+        #
         # * stack_name [String] Name of the stack to create.
         # * options [Hash]:
         #   * TemplateBody [String] Structure containing the template body.
@@ -23,7 +23,7 @@ module Fog
         #     * StackId [String] - Id of the new stack
         #
         # @see http://docs.amazonwebservices.com/AWSCloudFormation/latest/APIReference/API_CreateStack.html
-        
+
         def create_stack(stack_name, options = {})
           params = {
             'StackName' => stack_name,
@@ -73,7 +73,7 @@ module Fog
           if options['TimeoutInMinutes']
             params['TimeoutInMinutes'] = options['TimeoutInMinutes']
           end
-          
+
           if options['Capabilities']
             params.merge!(Fog::AWS.indexed_param("Capabilities.member", [*options['Capabilities']]))
           end

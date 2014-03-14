@@ -12,7 +12,7 @@ module Fog
         # * DBSnapshotIdentifier <~String> - ID of snapshot to retrieve information for. if absent information for all snapshots is returned
         # * SnapshotType       <~String> - type of snapshot to retrive (automated|manual)
         # * Marker               <~String> - An optional marker provided in the previous DescribeDBInstances request
-        # * MaxRecords           <~Integer> - Max number of records to return (between 20 and 100) 
+        # * MaxRecords           <~Integer> - Max number of records to return (between 20 and 100)
         # Only one of DBInstanceIdentifier or DBSnapshotIdentifier can be specified
         # ==== Returns
         # * response<~Excon::Response>:

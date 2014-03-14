@@ -21,7 +21,7 @@ module Fog
         #       * CallerReference [String] - Used to prevent replay, defaults to Time.now.to_i.to_s.
         #
         # @see http://docs.amazonwebservices.com/AmazonCloudFront/latest/APIReference/CreateInvalidation.html
-        
+
         def post_invalidation(distribution_id, paths, caller_reference = Time.now.to_i.to_s)
           body = '<?xml version="1.0" encoding="UTF-8"?>'
           body << "<InvalidationBatch>"

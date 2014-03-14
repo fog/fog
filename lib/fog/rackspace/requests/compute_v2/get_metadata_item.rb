@@ -2,7 +2,7 @@ module Fog
   module Compute
     class RackspaceV2
       class Real
-        
+
         # Retrieves single metadatum item by key.
         # @param [String<images, servers>] collection type of metadata
         # @param [String] obj_id id of the object where the metadata is attached
@@ -23,15 +23,15 @@ module Fog
           )
         end
       end
-      
+
       class Mock
         def get_metadata_item(collection, obj_id, key)
           raise Fog::Compute::RackspaceV2::NotFound if obj_id == 0
-          
+
           response = Excon::Response.new
           response.status = 202
           response.body = {"meta" => {"environment" => "dev"}}
-          response            
+          response
         end
       end
     end

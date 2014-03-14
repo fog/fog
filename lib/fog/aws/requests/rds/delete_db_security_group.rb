@@ -26,7 +26,7 @@ module Fog
 
         def delete_db_security_group(name, description = name)
           response = Excon::Response.new
-          
+
           if self.data[:security_groups].delete(name)
             response.status = 200
             response.body = {

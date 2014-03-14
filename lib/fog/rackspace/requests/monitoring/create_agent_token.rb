@@ -19,7 +19,7 @@ module Fog
 
           account_id = Fog::Mock.random_numbers(6).to_s
           token = Fog::Mock.random_letters(50).to_s
-          
+
           if options == -1
             raise TypeError
           end

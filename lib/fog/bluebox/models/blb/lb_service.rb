@@ -6,7 +6,7 @@ module Fog
 
       class LbService < Fog::Model
         identity :id
-        
+
         attribute :name
         attribute :port
         attribute :service_type

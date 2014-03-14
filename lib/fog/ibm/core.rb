@@ -1,4 +1,5 @@
 require 'fog/core'
+require 'fog/json'
 
 module Fog
   module IBM
@@ -15,7 +16,7 @@ module Fog
       1800
     end
 
-    class Connection < Fog::Connection
+    class Connection < Fog::XML::Connection
 
       def initialize(user, password)
         @user = user

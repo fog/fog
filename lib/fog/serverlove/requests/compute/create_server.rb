@@ -9,7 +9,7 @@ module Fog
         end
 
       end
-      
+
       class Mock
 
         def create_server(options = {})

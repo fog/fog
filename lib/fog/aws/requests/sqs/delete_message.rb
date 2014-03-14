@@ -25,7 +25,7 @@ module Fog
         end
 
       end
-      
+
       class Mock
 
         def delete_message(queue_url, receipt_handle)

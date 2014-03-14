@@ -11,7 +11,7 @@ module Fog
           }
 
           vanilla_options = [
-            :admin_state_up, 
+            :admin_state_up,
             :tenant_id,
             :network_id,
             :external_gateway_info,

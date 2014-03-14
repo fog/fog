@@ -18,13 +18,13 @@ module Fog
 
         private
 
-        
+
         def build_login_banner_edit(data)
           xml = Builder::XmlMarkup.new
           xml.LoginBanner do
             xml.Display data[:display]
             xml.Text data[:text] if data[:text]
-          end    
+          end
         end
       end
     end

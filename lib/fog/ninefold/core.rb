@@ -1,4 +1,5 @@
 require 'fog/core'
+require 'fog/json'
 
 module Fog
   module Ninefold

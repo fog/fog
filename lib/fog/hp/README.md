@@ -35,11 +35,11 @@ For working with the HP Cloud Extension to Fog, the following pre-requisites are
 
 ## Examples
 
-Apart from the overall [Fog documentation](http://fog.io), we have HP Cloud specific examples that will help you in using the Ruby Fog bindings with HP Cloud services. 
+Apart from the overall [Fog documentation](http://fog.io), we have HP Cloud specific examples that will help you in using the Ruby Fog bindings with HP Cloud services.
 
 [Examples for using Fog with HP Cloud Services](https://github.com/fog/fog/blob/master/lib/fog/hp/examples/getting_started_examples.md)
 
-## Articles 
+## Articles
 
 In addition to the examples we have provided, for Compute, Object Storage, and other HP Cloud services, we wanted to give you a few additional tips and "how-tos' to make using your Ruby Fog bindings even easier. Take a look at the articles listed below to find out more!
 

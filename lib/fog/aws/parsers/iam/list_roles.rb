@@ -14,7 +14,7 @@ module Fog
           def finished_role(role)
             @response['Roles'] << role
           end
-          
+
           def end_element(name)
             case name
             when 'RequestId', 'Marker'

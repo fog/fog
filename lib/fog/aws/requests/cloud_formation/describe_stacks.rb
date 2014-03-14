@@ -25,7 +25,7 @@ module Fog
         #             * OutputValue [String] -
         #
         # @see http://docs.amazonwebservices.com/AWSCloudFormation/latest/APIReference/API_DescribeStacks.html
-        
+
         def describe_stacks(options = {})
           request({
             'Action'    => 'DescribeStacks',

@@ -7,6 +7,7 @@ module Fog
       requires :google_project
       requires :google_client_email
       requires :google_key_location
+      recognizes :app_name, :app_version
 
       request_path 'fog/google/requests/compute'
       request :list_servers
@@ -844,7 +845,9 @@ module Fog
 
         def initialize(options)
           base_url = 'https://www.googleapis.com/compute/'
-          api_scope_url = 'https://www.googleapis.com/auth/compute'
+          # The devstorage scope is needed to be able to insert images
+          # devstorage.read_only scope is not sufficient like you'd hope
+          api_scope_url = 'https://www.googleapis.com/auth/compute https://www.googleapis.com/auth/devstorage.read_write'
           shared_initialize(options)
 
           google_client_email = options[:google_client_email]
@@ -859,10 +862,18 @@ module Fog
           end
           key = ::Google::APIClient::KeyUtils.load_from_pkcs12(File.expand_path(options[:google_key_location]), 'notasecret')
 
-          @client = ::Google::APIClient.new({
-            :application_name => "fog",
-            :application_version => Fog::VERSION,
-          })
+          user_agent = ""
+          if options[:app_name]
+            user_agent = "#{options[:app_name]}/#{options[:app_version] || '0.0.0'} "
+          end
+          user_agent += "fog/#{Fog::VERSION}"
+          api_client_options = {
+            # https://github.com/google/google-api-ruby-client/blob/master/lib/google/api_client.rb#L98
+            :application_name => "suppress warning",
+            # https://github.com/google/google-api-ruby-client/blob/master/lib/google/api_client.rb#L100
+            :user_agent => user_agent
+          }
+          @client = ::Google::APIClient.new(api_client_options)
 
           @client.authorization = Signet::OAuth2::Client.new({
             :audience => 'https://accounts.google.com/o/oauth2/token',

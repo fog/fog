@@ -18,6 +18,9 @@ module Fog
         attribute :database_engine
         attribute :database_version
 
+        attribute :maintenance_weekday
+        attribute :maintenance_hour
+
         attribute :created_at, :type => :time
         attribute :updated_at, :type => :time
         attribute :deleted_at, :type => :time
@@ -25,7 +28,6 @@ module Fog
         attribute :allow_access
 
         attribute :flavor_id, "alias" => "database_server_type", :squash => "id"
-        attribute :snapshot_id
         attribute :zone_id, "alias" => "zone", :squash => "id"
 
         attribute :cloud_ips
@@ -38,10 +40,14 @@ module Fog
 
           options[:allow_access] = allow_access if allow_access
 
+          # These may be nil which sets them to default values upstream
+          # TODO: Dirty track the values so we don't send them when already nil
+          options[:maintenance_weekday] = maintenance_weekday
+          options[:maintenance_hour] = maintenance_hour
+
           if persisted?
             data = update_database_server(options)
           else
-            options[:snapshot] = snapshot_id if snapshot_id
             options[:engine] = database_engine if database_engine
             options[:version] = database_version if database_version
             options[:database_type] = flavor_id if flavor_id

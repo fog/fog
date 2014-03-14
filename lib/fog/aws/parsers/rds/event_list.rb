@@ -1,7 +1,7 @@
 module Fog
   module Parsers
     module AWS
-      module RDS 
+      module RDS
         require 'fog/aws/parsers/rds/base'
 
         class EventListParser < Base

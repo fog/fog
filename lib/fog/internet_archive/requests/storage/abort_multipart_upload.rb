@@ -2,7 +2,7 @@ module Fog
   module Storage
     class InternetArchive
       class Real
-        # 
+        #
         # Abort a multipart upload
         #
         # @param [String] bucket_name Name of bucket to abort multipart upload on

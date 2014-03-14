@@ -18,7 +18,7 @@ module Fog
         #   * body<~Hash>:
         #     * 'BoxUsage'<~Float>
         #     * 'RequestId'<~String>
-        #     * 'Items'<~Hash> - list of attribute name/values for the items formatted as 
+        #     * 'Items'<~Hash> - list of attribute name/values for the items formatted as
         #       { 'item_name' => { 'attribute_name' => ['attribute_value'] }}
         #     * 'NextToken'<~String> - offset to start with if there are are more domains to list
         def select(select_expression, options = {})

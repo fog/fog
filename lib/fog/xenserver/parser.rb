@@ -2,17 +2,17 @@ module Fog
   module Parsers
     module XenServer
       class Base
-        
+
         attr_reader :response
-        
+
         def initialize
           reset
         end
-        
+
         def reset
           @response = {}
         end
-        
+
         def parse( data )
           if data.kind_of? Hash
             @response = data.symbolize_keys!
@@ -26,10 +26,10 @@ module Fog
           elsif data.kind_of?(String) and data =~ /OpaqueRef:/
             @response = data
           end
-          
+
           @response
         end
-        
+
       end
     end
   end

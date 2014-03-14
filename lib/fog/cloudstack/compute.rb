@@ -130,7 +130,7 @@ module Fog
       request :reset_password_for_virtual_machine
       request :revoke_security_group_ingress
       request :revoke_security_group_egress
-      request :start_virtual_machine      
+      request :start_virtual_machine
       request :stop_virtual_machine
       request :update_account
       request :update_domain
@@ -149,7 +149,7 @@ module Fog
           @path                         = options[:cloudstack_path]    || '/client/api'
           @port                         = options[:cloudstack_port]    || 443
           @scheme                       = options[:cloudstack_scheme]  || 'https'
-          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}#{@path}", options[:cloudstack_persistent], {:ssl_verify_peer => false})
+          @connection = Fog::XML::Connection.new("#{@scheme}://#{@host}:#{@port}#{@path}", options[:cloudstack_persistent], {:ssl_verify_peer => false})
         end
 
         def reload
@@ -233,7 +233,7 @@ module Fog
               :query => params,
               :headers => headers,
               :method => method,
-              :expects => expects  
+              :expects => expects
             })
 
           rescue Excon::Errors::HTTPStatusError => error

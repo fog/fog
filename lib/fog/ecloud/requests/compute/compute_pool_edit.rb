@@ -13,7 +13,7 @@ module Fog
         def build_compute_pool_body_edit(options)
           xml = Builder::XmlMarkup.new
           xml.ComputePool(:name => options[:name]) do
-          end    
+          end
         end
       end
 

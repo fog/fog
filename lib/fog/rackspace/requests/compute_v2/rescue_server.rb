@@ -14,7 +14,7 @@ module Fog
         #
         # * Status Transition:
         #   * PREP_RESCUE -> RESCUE
-        #   * PREP_RESCUE -> ACTIVE (on error)        
+        #   * PREP_RESCUE -> ACTIVE (on error)
         def rescue_server(server_id)
           data = {
             'rescue' => nil

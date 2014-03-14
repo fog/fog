@@ -1,4 +1,5 @@
 require 'bundler/setup'
+require 'rake/testtask'
 require 'date'
 require 'rubygems'
 require 'rubygems/package_task'
@@ -47,10 +48,11 @@ end
 
 GEM_NAME = "#{name}"
 task :default => :test
-task :travis  => ['test:travis', 'coveralls_push_workaround']
+task :travis  => ['test', 'test:travis', 'coveralls_push_workaround']
 
-require "tasks/test_task"
-Fog::Rake::TestTask.new
+Rake::TestTask.new do |t|
+  t.pattern = File.join("**", "test", "**", "*_test.rb")
+end
 
 namespace :test do
   mock = 'true' || ENV['FOG_MOCK']

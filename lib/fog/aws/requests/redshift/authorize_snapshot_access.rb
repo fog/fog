@@ -7,14 +7,14 @@ module Fog
         # ==== Parameters
         #
         # @param [Hash] options
-        # * :snapshot_identifier - required - (String) 
+        # * :snapshot_identifier - required - (String)
         #    The identifier of the snapshot the account is authorized to restore.
         # * :snapshot_cluster_identifier - (String)
-        # * :account_with_restore_access - required - (String) 
-        #    The identifier of the AWS customer account authorized to restore the specified snapshot.       # 
+        # * :account_with_restore_access - required - (String)
+        #    The identifier of the AWS customer account authorized to restore the specified snapshot.       #
         #
         # ==== See Also
-        # http://docs.aws.amazon.com/redshift/latest/APIReference/API_CopyClusterSnapshot.html  
+        # http://docs.aws.amazon.com/redshift/latest/APIReference/API_CopyClusterSnapshot.html
         def authorize_snapshot_access(options = {})
           snapshot_identifier         = options[:snapshot_identifier]
           snapshot_cluster_identifier = options[:snapshot_cluster_identifier]

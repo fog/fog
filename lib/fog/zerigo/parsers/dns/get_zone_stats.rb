@@ -15,7 +15,7 @@ module Fog
               @response[name] = value.to_i
             when 'domain', 'period-begin', 'period-end'
               @response[name] = value
-            end            
+            end
           end
 
         end

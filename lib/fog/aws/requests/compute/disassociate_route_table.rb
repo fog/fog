@@ -9,7 +9,7 @@ module Fog
         #
         # ==== Parameters
         # * AssociationId<~String> - The association ID representing the current association between the route table and subnet.
-        # 
+        #
         # ==== Returns
         # * response<~Excon::Response>:
         #   * body<~Hash>:
@@ -31,7 +31,7 @@ module Fog
 
         def disassociate_route_table(association_id)
           assoc_array = nil
-          routetable = self.data[:route_tables].find { |routetable| 
+          routetable = self.data[:route_tables].find { |routetable|
             assoc_array = routetable["associationSet"].find { |association|
               association['routeTableAssociationId'].eql? association_id
             }
