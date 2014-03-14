@@ -99,7 +99,7 @@ module Fog
           requires :name
           requires :zone_name
 
-          if snap_name.nil? or snap_name.empty?
+          if snapshot_name.nil? or snapshot_name.empty?
             raise ArgumentError, 'Invalid snapshot name'
           end
 
