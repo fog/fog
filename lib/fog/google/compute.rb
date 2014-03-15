@@ -5,7 +5,7 @@ module Fog
     class Google < Fog::Service
 
       requires :google_project
-      recognizes :app_name, :app_version
+      recognizes :app_name, :app_version, :google_client_email, :google_key_location, :google_client
 
       request_path 'fog/google/requests/compute'
       request :list_servers
@@ -856,14 +856,18 @@ module Fog
           end
           shared_initialize(options)
 
-          if !options[:client].nil?
+          if !options[:google_client].nil?
             @client = options[:client]
           end
 
           if @client.nil? and !options[:google_client_email].nil? and !options[:google_key_location].nil?
-            @client = self.new_pk12_google_client(options[:google_client_email], File.expand_path(options[:google_key_location]))
+            @client = self.new_pk12_google_client(
+              options[:google_client_email],
+              File.expand_path(options[:google_key_location]),
+              options[:app_name],
+              options[:app_verion])
           else
-            Fog::Logger.error("Fog::Compute::Google.client has not been initialized nor are the :google_client_email and :google_key_location options set, so we can not create one for you.")
+            Fog::Logger.debug("Fog::Compute::Google.client has not been initialized nor are the :google_client_email and :google_key_location options set, so we can not create one for you.")
             raise ArgumentError.new("No Google API Client Exists.")
           end
 
@@ -881,16 +885,18 @@ module Fog
         #
         # google_client_email - an @developer.gserviceaccount.com email address to use.
         # google_key_location - an absolute location to a pkcs12 key file.
+        # app_name - an optional string to set as the app name in the user agent.
+        # app_version - an optional string to set as the app version in the user agent.
         #
         # Returns a new Google::APIClient
-        def new_pk12_google_client(google_client_email, google_key_location)
+        def new_pk12_google_client(google_client_email, google_key_location, app_name=nil, app_version=nil)
           # The devstorage scope is needed to be able to insert images
           # devstorage.read_only scope is not sufficient like you'd hope
           api_scope_url = 'https://www.googleapis.com/auth/compute https://www.googleapis.com/auth/devstorage.read_write'
 
           user_agent = ""
-          if options[:app_name]
-            user_agent = "#{options[:app_name]}/#{options[:app_version] || '0.0.0'} "
+          if app_name
+            user_agent = "#{app_name}/#{app_version || '0.0.0'} "
           end
           user_agent += "fog/#{Fog::VERSION}"
 
@@ -939,7 +945,6 @@ module Fog
         def build_response(result)
           build_excon_response(result.body.nil? ? nil : Fog::JSON.decode(result.body), result.status)
         end
-
       end
 
       RUNNING = 'RUNNING'
