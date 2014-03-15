@@ -857,18 +857,20 @@ module Fog
           shared_initialize(options)
 
           if !options[:google_client].nil?
-            @client = options[:client]
+            @client = options[:google_client]
           end
 
-          if @client.nil? and !options[:google_client_email].nil? and !options[:google_key_location].nil?
-            @client = self.new_pk12_google_client(
-              options[:google_client_email],
-              File.expand_path(options[:google_key_location]),
-              options[:app_name],
-              options[:app_verion])
-          else
-            Fog::Logger.debug("Fog::Compute::Google.client has not been initialized nor are the :google_client_email and :google_key_location options set, so we can not create one for you.")
-            raise ArgumentError.new("No Google API Client Exists.")
+          if @client.nil?
+            if !options[:google_client_email].nil? and !options[:google_key_location].nil?
+              @client = self.new_pk12_google_client(
+                options[:google_client_email],
+                File.expand_path(options[:google_key_location]),
+                options[:app_name],
+                options[:app_verion])
+            else
+              Fog::Logger.debug("Fog::Compute::Google.client has not been initialized nor are the :google_client_email and :google_key_location options set, so we can not create one for you.")
+              raise ArgumentError.new("No Google API Client has been initialized.")
+            end
           end
 
           # We want to always mention we're using Fog.
@@ -906,11 +908,11 @@ module Fog
             # https://github.com/google/google-api-ruby-client/blob/master/lib/google/api_client.rb#L100
             :user_agent => user_agent
           }
-          @client = ::Google::APIClient.new(api_client_options)
+          local_client = ::Google::APIClient.new(api_client_options)
 
           key = ::Google::APIClient::KeyUtils.load_from_pkcs12(google_key_location, 'notasecret')
 
-          client.authorization = Signet::OAuth2::Client.new({
+          local_client.authorization = Signet::OAuth2::Client.new({
             :audience => 'https://accounts.google.com/o/oauth2/token',
             :auth_provider_x509_cert_url => "https://www.googleapis.com/oauth2/v1/certs",
             :client_x509_cert_url => "https://www.googleapis.com/robot/v1/metadata/x509/#{google_client_email}",
@@ -920,9 +922,9 @@ module Fog
             :token_credential_uri => 'https://accounts.google.com/o/oauth2/token',
           })
 
-          client.authorization.fetch_access_token!
+          local_client.authorization.fetch_access_token!
 
-          return client
+          return local_client
         end
 
         def build_result(api_method, parameters, body_object=nil)

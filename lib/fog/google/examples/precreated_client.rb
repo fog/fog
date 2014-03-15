@@ -1,12 +1,14 @@
 def test
+  client = Google::APIClient.new({ :application_name => "supress", })
   connection = Fog::Compute.new({
     :provider => "Google",
-    :client => Google::APIClient.new()
+    :google_client => client,
   })
 
-  server = connection.servers.bootstrap
-  server.wait_for { sshable? }
-
-  raise "Could not bootstrap sshable server." unless server.ssh("whoami")
-  raise "Could not delete server." unless server.destroy
+  begin
+    p connection.client.discovered_apis
+    p connection.servers
+  rescue Exception => e
+    p e.message
+  end
 end
