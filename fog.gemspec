@@ -41,16 +41,10 @@ Gem::Specification.new do |s|
 
   ## List your runtime dependencies here. Runtime dependencies are those
   ## that are needed for an end user to actually USE your code.
-  s.add_dependency("fog-core", "~> 1.21")
+  s.add_dependency("fog-core", "~> 1.21", ">= 1.21.1")
   s.add_dependency("fog-json")
 
-  s.add_dependency('builder')
-  s.add_dependency('excon', '~> 0.31')
-  s.add_dependency('formatador', '~>0.2')
-  s.add_dependency('mime-types')
-  s.add_dependency('net-scp', '~> 1.1')
-  s.add_dependency('net-ssh', '>= 2.1.3')
-  s.add_dependency('nokogiri', '>= 1.5.11')
+  s.add_dependency('nokogiri', '~> 1.5', '>= 1.5.11')
 
   # Modular providers
   s.add_dependency("fog-brightbox")
