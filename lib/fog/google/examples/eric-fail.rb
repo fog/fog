@@ -12,7 +12,7 @@ def test
 
   disk.wait_for { disk.ready? }
 
-  server = connection.servers.create(defaults = {
+  server = connection.servers.create({
     :name => name,
     :disks => [disk],
     :machine_type => "n1-standard-1",
@@ -26,5 +26,5 @@ def test
 
   raise "Could not reload created server." unless server.reload
   raise "Could not create sshable server." unless server.ssh("whoami")
-  raise "Cloud note delete server." unless server.destroy
+  raise "Could not delete server." unless server.destroy
 end
