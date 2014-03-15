@@ -40,7 +40,7 @@ module Fog
             begin
               data = service.get_image(identity, project).body
               data[:project] = project
-            rescue Fog::Errors::Error
+            rescue Fog::Errors::NotFound
               next
             else
               break
@@ -49,9 +49,8 @@ module Fog
 
           # If it wasn't found in any project, raise
           if data.nil?
-            raise Fog::Errors::Error.new('Unable to find the specified image '\
-                                         'in the following projects: '\
-                                         "#{all_projects.join(', ')}")
+            raise Fog::Errors::NotFound.new(
+              "Unable to find the image #{identity} in the following projects: #{all_projects.join(', ')}")
           end
 
           new(data)

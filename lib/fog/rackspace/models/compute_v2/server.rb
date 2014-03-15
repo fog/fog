@@ -579,6 +579,10 @@ module Fog
           retry
         end
 
+        def virtual_interfaces
+          @virtual_interfaces ||= Fog::Compute::RackspaceV2::VirtualInterfaces.new :server => self, :service => service
+        end
+
         private
 
         def adminPass=(new_admin_pass)
