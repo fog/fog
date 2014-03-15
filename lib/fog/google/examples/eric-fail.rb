@@ -22,7 +22,7 @@ def test
     :username => 'root',
     :metadata => {'foo' => 'bar'}
   })
-  sleep(30)
+  sleep(90)
 
   raise "Could not reload created server." unless server.reload
   raise "Could not create sshable server." unless server.ssh("whoami")
