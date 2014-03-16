@@ -26,5 +26,5 @@ def test
 
   raise "Could not reload created server." unless server.reload
   raise "Could not create sshable server." unless server.ssh("whoami")
-  raise "Cloud note delete server." unless server.destroy
+  raise "Could not not delete server." unless server.destroy
 end
