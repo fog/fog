@@ -21,6 +21,7 @@ module Fog
       request :list_global_operations
       request :list_zone_operations
       request :list_snapshots
+      request :list_http_health_checks
 
       request :get_server
       request :get_address
@@ -33,6 +34,7 @@ module Fog
       request :get_snapshot
       request :get_global_operation
       request :get_zone_operation
+      request :get_http_health_check
 
       request :delete_address
       request :delete_disk
@@ -43,6 +45,7 @@ module Fog
       request :delete_server
       request :delete_global_operation
       request :delete_zone_operation
+      request :delete_http_health_check
 
       request :insert_address
       request :insert_disk
@@ -51,6 +54,7 @@ module Fog
       request :insert_network
       request :insert_server
       request :insert_snapshot
+      request :insert_http_health_check
 
       request :set_metadata
       request :set_tags
@@ -76,6 +80,9 @@ module Fog
 
       model :zone
       collection :zones
+
+      model :http_health_check
+      collection :http_health_checks
 
       module Shared
         attr_reader :project, :api_version
