@@ -489,6 +489,11 @@ module Fog
             uplink_network_uuid  = uuid
             isolated_vdc1_network_uuid = uuid
             isolated_vdc2_network_uuid = uuid
+            vapp1_id = "vapp-#{uuid}"
+            vapp2_id = "vapp-#{uuid}"
+            vapp1vm1_id = "vm-#{uuid}"
+            vapp2vm1_id = "vm-#{uuid}"
+            vapp2vm2_id = "vm-#{uuid}"
 
             hash[key] = {
               :catalogs => {
@@ -645,6 +650,24 @@ module Fog
                 :uuid => uuid
               },
               :tasks => {},
+
+              :vapps => {
+                vapp1_id => {
+                  :name => 'mock-vapp-1',
+                  :description => "Mock vApp 1",
+                  :networks => [
+                    { :parent_id => default_network_uuid, },
+                  ],
+                },
+                vapp2_id => {
+                  :name => 'mock-vapp-2',
+                  :description => "Mock vApp 2",
+                  :networks => [
+                    { :parent_id => default_network_uuid },
+                  ]
+                },
+              },
+
               :vdc_storage_classes => {
                 uuid => {
                   :default => true,
@@ -655,6 +678,7 @@ module Fog
                   :vdc => vdc1_uuid,
                 }
               },
+
               :vdcs => {
                 vdc1_uuid => {
                   :description => 'vDC1 for mocking',
@@ -664,7 +688,44 @@ module Fog
                   :description => 'vDC2 for mocking',
                   :name => 'MockVDC 2'
                 },
-              }
+              },
+
+              :vms => {
+                vapp1vm1_id => {
+                  :name => 'mock-vm-1-1',
+                  :parent_vapp => vapp1_id,
+                  :nics => [
+                    {
+                      :network_name => 'Default Network',
+                      :mac_address => "00:50:56:aa:bb:01",
+                      :ip_address => "192.168.1.33",
+                    },
+                  ],
+                },
+                vapp2vm1_id => {
+                  :name => 'mock-vm-2-1',
+                  :parent_vapp => vapp2_id,
+                  :nics => [
+                    {
+                      :network_name => 'Default Network',
+                      :mac_address => "00:50:56:aa:bb:02",
+                      :ip_address => "192.168.1.34",
+                    },
+                  ],
+                },
+                vapp2vm2_id => {
+                  :name => 'mock-vm-2-2',
+                  :parent_vapp => vapp2_id,
+                  :nics => [
+                    {
+                      :network_name => 'Default Network',
+                      :mac_address => "00:50:56:aa:bb:03",
+                      :ip_address => "192.168.1.35",
+                    },
+                  ],
+                },
+              },
+
             }
           end[@vcloud_director_username]
         end
