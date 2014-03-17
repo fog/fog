@@ -12,6 +12,7 @@ module Fog
         attribute :id, :aliases => 'id'
         attribute :creation_timestamp, :aliases => 'creationTimestamp'
         attribute :zone_name, :aliases => 'zone'
+        attribute :region_name, :aliases => 'region'
         attribute :status, :aliases => 'status'
         attribute :self_link, :aliases => 'selfLink'
 
@@ -26,7 +27,7 @@ module Fog
         def reload
           requires :identity
 
-          data = collection.get(identity, zone)
+          data = collection.get(identity, zone, region)
           new_attributes = data.attributes
           merge_attributes(new_attributes)
           self
