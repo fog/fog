@@ -8,6 +8,9 @@ Shindo.tests('Fog::Compute[:digitalocean] | servers collection', ['digitalocean'
   public_key_path = File.join(File.dirname(__FILE__), '../../fixtures/id_rsa.pub')
   private_key_path = File.join(File.dirname(__FILE__), '../../fixtures/id_rsa')
 
+  # Collection tests are consistently timing out on Travis wasting people's time and resources
+  pending if Fog.mocking?
+
   collection_tests(service.servers, options, true) do
     @instance.wait_for { ready? }
   end

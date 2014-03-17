@@ -10,12 +10,12 @@ module Fog
               "errors" => [
                 {
                   "domain" => "global",
-                  "reason" => "invalid",
-                  "message" => "Invalid value for field 'resource.images': 'https://www.googleapis.com/compute/#{api_version}/projects/#{project}/global/images/#{image_name}'.  Resource was not found."
+                  "reason" => "notFound",
+                  "message" => "The resource 'projects/#{project}/global/images/#{image_name}' was not found"
                 }
               ],
-              "code" => 400,
-              "message" => "Invalid value for field 'resource.images': 'https://www.googleapis.com/compute/#{api_version}/projects/#{project}/global/images/#{image_name}'.  Resource was not found."
+              "code" => 404,
+              "message" => "The resource 'projects/#{project}/global/images/#{image_name}' was not found"
             }
           }
           build_response(:body => image)

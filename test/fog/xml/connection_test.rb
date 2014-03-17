@@ -2,7 +2,7 @@ require "minitest/autorun"
 require "fog"
 
 # Note this is going to be part of fog-xml eventually
-class TestFogXMLConnection < Minitest::Test
+class Fog::XML::ConnectionTest < Minitest::Test
   def setup
     @connection = Fog::XML::Connection.new("http://localhost")
   end
