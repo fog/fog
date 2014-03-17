@@ -110,7 +110,9 @@ module Fog
                 :Reserved=>"0",
                 :Used=>"0",
                 :Overhead=>"0"}},
-             :ResourceEntities => {},
+             :ResourceEntities => {
+               :ResourceEntity => []
+             },
              :AvailableNetworks => {},
              :Capabilities=>
               {:SupportedHardwareVersions=>
@@ -126,6 +128,13 @@ module Fog
               {:type=>"application/vnd.vmware.vcloud.#{item[:type]}+xml",
                :name=>item[:name],
                :href=>make_href("#{item[:type]}/#{item[:type]}-#{id}")}
+            end
+
+          body[:ResourceEntities][:ResourceEntity] +=
+            data[:vapps].map do |id, vapp|
+              {:type => "application/vnd.vmware.vcloud.vApp+xml",
+               :name => vapp[:name],
+               :href => make_href("vApp/#{id}")}
             end
 
           body[:AvailableNetworks][:Network] =
