@@ -46,7 +46,7 @@ module Fog
         end
 
         def interfaces
-          attributes[:interfaces] ||= id.nil? ? [] : Fog::Compute::Ovirt::Interfaces.new(
+          @interfaces ||= id.nil? ? [] : Fog::Compute::Ovirt::Interfaces.new(
               :service => service,
               :vm => self
           )
@@ -68,7 +68,7 @@ module Fog
         end
 
         def volumes
-          attributes[:volumes] ||= id.nil? ? [] : Fog::Compute::Ovirt::Volumes.new(
+          @volumes ||= id.nil? ? [] : Fog::Compute::Ovirt::Volumes.new(
               :service => service,
               :vm => self
           )
