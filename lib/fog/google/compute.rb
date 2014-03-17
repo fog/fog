@@ -25,6 +25,7 @@ module Fog
       request :list_snapshots
       request :list_http_health_checks
       request :list_target_pools
+      request :list_forwarding_rules
 
       request :get_server
       request :get_address
@@ -40,6 +41,7 @@ module Fog
       request :get_zone_operation
       request :get_http_health_check
       request :get_target_pool
+      request :get_forwarding_rule
 
       request :delete_address
       request :delete_disk
@@ -53,6 +55,7 @@ module Fog
       request :delete_zone_operation
       request :delete_http_health_check
       request :delete_target_pool
+      request :delete_forwarding_rule
 
       request :insert_address
       request :insert_disk
@@ -63,6 +66,7 @@ module Fog
       request :insert_snapshot
       request :insert_http_health_check
       request :insert_target_pool
+      request :insert_forwarding_rule
 
       request :set_metadata
       request :set_tags
@@ -94,6 +98,9 @@ module Fog
 
       model :target_pool
       collection :target_pools
+
+      model :forwarding_rule
+      collection :forwarding_rules
 
       module Shared
         attr_reader :project, :api_version

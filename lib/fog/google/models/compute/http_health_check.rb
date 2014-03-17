@@ -56,7 +56,7 @@ module Fog
           requires :zone_name
 
           return unless data = begin
-            collection.get(identity, zone_name)
+            collection.get(identity)
           rescue Excon::Errors::SocketError
             nil
           end
