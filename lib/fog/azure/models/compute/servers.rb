@@ -36,14 +36,12 @@ module Fog
         end
 
         def bootstrap(new_attributes = {})
-          name = "fog-#{Time.now.to_i}"
           defaults = {
-            :vm_name => name,
+            :vm_name => "fog-#{Time.now.to_i}",
             :vm_user => 'azureuser',
             :image => "b39f27a8b8c64d52b05eac6a62ebad85__Ubuntu-12_04_3-LTS-amd64-server-20131205-en-us-30GB",
             :location => "Central US",
             :private_key_file => File.expand_path("~/.ssh/id_rsa"),
-            :public_key_file => File.expand_path("~/.ssh/id_rsa.pub"),
             :vm_size => "Small",
           }
 
