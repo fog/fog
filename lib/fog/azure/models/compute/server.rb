@@ -54,7 +54,7 @@ module Fog
         end
 
         def ready?
-          self.state == 'Running'
+          state == 'Running'
         end
 
 
@@ -71,11 +71,9 @@ module Fog
           requires :image
           requires :location
           requires :private_key_file
-          requires :public_key_file
           requires :vm_size
 
           key = OpenSSL::PKey.read File.read(private_key_file)
-          #public_key = OpenSSL::PKey.read File.read(public_key_file)
           cert = OpenSSL::X509::Certificate.new
           cert.version = 2 # cf. RFC 5280 - to make it a "v3" certificate
           cert.serial = 1
@@ -136,9 +134,6 @@ module Fog
 
           service.create_virtual_machine(params, options)
           cert_file.unlink
-
-          # data = service.backoff_if_unfound {service.get_server(self.name, self.zone_name).body}
-          # service.servers.merge_attributes(data)
         end
 
       end
