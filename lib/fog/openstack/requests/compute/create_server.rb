@@ -108,7 +108,7 @@ module Fog
                     end
 
           mock_data = {
-            'addresses'    => {},
+            'addresses'    => {"Private" => [{"addr" => Fog::Mock.random_ip }]},
             'flavor'       => {"id" => flavor_ref, "links"=>[{"href"=>"http://nova1:8774/admin/flavors/1", "rel"=>"bookmark"}]},
             'id'           => server_id,
             'image'        => {"id" => image_ref, "links"=>[{"href"=>"http://nova1:8774/admin/images/#{image_ref}", "rel"=>"bookmark"}]},
