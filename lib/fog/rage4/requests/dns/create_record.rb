@@ -17,6 +17,7 @@ module Fog
         # * geolock <~Boolean> Lock geo coordinates, default false
         # * geolat <~Double> Geo latitude, (nullable)
         # * geolong <~Double> Geo longitude, (nullable)
+        # * udplimit <~Boolean> Limit number of records returned, (nullable, default false)
         #
         # ==== Returns
         # * response<~Excon::Response>:
@@ -49,6 +50,7 @@ module Fog
           path << "&geolock=#{options[:geolock]}" if options[:geolock]
           path << "&geolat=#{options[:geolat]}"   if options[:geolat]
           path << "&geolong=#{options[:geolong]}" if options[:geolong]
+          path << "&udplimit=#{options[:udplimit]}" if options[:udplimit]
 
           request(
                   :expects  => 200,

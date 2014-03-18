@@ -23,6 +23,7 @@ module Fog
         attribute :geo_long
         attribute :geo_lock
         attribute :is_active
+        attribute :udp_limit
 
 
         def initialize(attributes={})
@@ -51,6 +52,7 @@ module Fog
           options[:geolock] = geo_lock if geo_lock
           options[:geolat] = geo_lat if geo_lat
           options[:geolong] = geo_long if geo_long
+          options[:udplimit] = udp_limit if udp_limit
 
           # decide whether its a new record or update of an existing
           if id.nil?
