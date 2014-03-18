@@ -52,11 +52,10 @@ module Fog
         end
 
         def reload
-          requires :identity
-          requires :zone_name
+          requires :name
 
           return unless data = begin
-            collection.get(identity)
+            collection.get(name)
           rescue Excon::Errors::SocketError
             nil
           end
