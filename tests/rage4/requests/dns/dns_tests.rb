@@ -173,7 +173,7 @@ Shindo.tests('Fog::DNS[:rage4] | DNS requests', ['rage4', 'dns']) do
       name = "www." + @domain
       type = 2 #"A"
       data = "1.2.3.5"
-      options = { udplimit: true }
+      options = { :udplimit => true }
       response = Fog::DNS[:rage4].create_record(@domain_id, name , data, type, options)
 
       if response.status == 200
@@ -204,7 +204,7 @@ Shindo.tests('Fog::DNS[:rage4] | DNS requests', ['rage4', 'dns']) do
       name = "www." + @domain
       type = 2 #"A"
       data = "4.3.2.1"
-      options = { udplimit: true }
+      options = { :udplimit => true }
       response = Fog::DNS[:rage4].update_record(@record_id, name, data, type, options)
 
       returns(@record_id) { response.body['id'] }
