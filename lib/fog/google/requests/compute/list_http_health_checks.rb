@@ -5,14 +5,7 @@ module Fog
       class Mock
 
         def list_http_health_checks
-          raise "not implemented"
-          # TODO(bensonk): make this work
-          build_response(:body => {
-            "kind" => "compute#httpHealthCheckList",
-            "selfLink" => "https://www.googleapis.com/compute/#{api_version}/projects/#{@project}/http_health_checks/disks",
-            "id" => "projects/#{@project}/zones/#{zone_name}/http_health_checks",
-            "items" => self.data[:http_health_checks]
-          })
+          Fog::Mock.not_implemented
         end
 
       end

@@ -5,7 +5,7 @@ module Fog
       class Mock
 
         def get_http_health_check(name)
-          raise "not implemented"
+          Fog::Mock.not_implemented
         end
 
       end

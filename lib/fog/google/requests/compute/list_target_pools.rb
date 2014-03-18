@@ -5,13 +5,7 @@ module Fog
       class Mock
 
         def list_target_pools(region_name)
-          target_pools = self.data[:target_pools].values.select{|d| d["region"].split("/")[-1] == region_name}
-          build_response(:body => {
-            "kind" => "compute#targetPoolList",
-            "selfLink" => "https://www.googleapis.com/compute/#{api_version}/projects/#{@project}/regions/#{region_name}/targetPools",
-            "id" => "projects/#{@project}/regions/#{region_name}/regions",
-            "items" => target_pools
-          })
+          Fog::Mock.not_implemented
         end
 
       end

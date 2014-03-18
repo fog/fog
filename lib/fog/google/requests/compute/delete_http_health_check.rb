@@ -5,7 +5,7 @@ module Fog
       class Mock
 
         def delete_http_health_check(name)
-          #TODO(bensonk): make this work
+          Fog::Mock.not_implemented
         end
 
       end
