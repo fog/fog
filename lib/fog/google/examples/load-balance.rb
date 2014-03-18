@@ -75,7 +75,7 @@ def test
   puts 'Destroying servers and disks'
   servers.each &:destroy
 
-  # TODO(bensonk): make auto_delete work correctly
-  sleep 40
+  # TODO(bensonk): make auto_delete work correctly. This is super pathetic.
+  sleep 120
   disks.each &:destroy
 end
