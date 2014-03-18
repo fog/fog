@@ -40,10 +40,22 @@ Shindo.tests('Fog::Compute[:aws] | network interface requests', ['aws']) do
     @vpc            = Fog::Compute[:aws].vpcs.create('cidr_block' => '10.0.10.0/24')
     @subnet         = Fog::Compute[:aws].subnets.create('vpc_id' => @vpc.id, 'cidr_block' => '10.0.10.16/28')
     @security_group = Fog::Compute[:aws].security_groups.create('name' => 'sg_name', 'description' => 'sg_desc', 'vpc_id' => @vpc.id)
+    @owner_id       = Fog::Compute[:aws].describe_security_groups('group-name' => 'default').body['securityGroupInfo'].first['ownerId']
 
-    
     @subnet_id         = @subnet.subnet_id
     @security_group_id = @security_group.group_id
+
+    @security_groups = [
+      @security_group.name, {
+        'groupDescription'  => @security_group.description,
+        'groupName'         => @security_group.name,
+        'groupId'           => @security_group_id,
+        'ipPermissionsEgress' => [],
+        'ipPermissions'     => [],
+        'ownerId'           => @owner_id,
+        'vpcId'             => @vpc.id
+      }
+    ]
 
     DESCRIPTION = "Small and green"
     tests("#create_network_interface(#{@subnet_id})").formats(@network_interface_create_format) do
@@ -149,7 +161,7 @@ Shindo.tests('Fog::Compute[:aws] | network interface requests', ['aws']) do
     tests("#describe_network_interface_attribute(#{@nic2_id}, 'description')").returns(DESCRIPTION) do
       Fog::Compute[:aws].describe_network_interface_attribute(@nic2_id, 'description').body["description"]
     end
-    tests("#describe_network_interface_attribute(#{@nic2_id}, 'groupSet'')").returns({ @security_group_id => "sg_name"}) do
+    tests("#describe_network_interface_attribute(#{@nic2_id}, 'groupSet')").returns({ @security_group_id => @security_groups }) do
       Fog::Compute[:aws].describe_network_interface_attribute(@nic2_id, 'groupSet').body["groupSet"]
     end
 
