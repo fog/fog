@@ -90,7 +90,7 @@ module Fog
           # even a nil object will turn into an empty array
           lc = [*launch_configuration_names]
 
-          launch_configurations = 
+          launch_configurations =
              if lc.any?
                lc.map do |lc_name|
                  l_conf = self.data[:launch_configurations].find { |name, data| name == lc_name }

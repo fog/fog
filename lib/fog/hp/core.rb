@@ -1,4 +1,5 @@
 require 'fog/core'
+require 'fog/json'
 require 'fog/hp/simple_http_instrumentor'
 
 module Fog
@@ -81,7 +82,7 @@ module Fog
       # Set the User-Agent
       @user_agent = options[:user_agent]
       set_user_agent_header(connection_options, "fog/#{Fog::VERSION}", @user_agent)
-      connection = Fog::Connection.new(service_url, false, connection_options)
+      connection = Fog::XML::Connection.new(service_url, false, connection_options)
       @hp_access_key = options[:hp_access_key]
       @hp_secret_key  = options[:hp_secret_key]
       response = connection.request({
@@ -157,7 +158,7 @@ module Fog
       # Set the User-Agent. If the caller sets a user_agent, use it.
       @user_agent = options[:user_agent]
       set_user_agent_header(connection_options, "fog/#{Fog::VERSION}", @user_agent)
-      connection = Fog::Connection.new(service_url, false, connection_options)
+      connection = Fog::XML::Connection.new(service_url, false, connection_options)
 
       ### Implement HP Control Services Authentication services ###
       # Get the style of auth credentials passed, defaults to access/secret key style

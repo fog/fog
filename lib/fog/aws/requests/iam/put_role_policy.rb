@@ -6,7 +6,7 @@ module Fog
         require 'fog/aws/parsers/iam/basic'
 
         # Add or update a policy for a role
-        # 
+        #
         # ==== Parameters
         # * role_name<~String>: name of the role
         # * policy_name<~String>: name of policy document

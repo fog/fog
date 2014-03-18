@@ -1,6 +1,6 @@
 #Examples for working with HP Cloud Block Storage Service v12.12
 
-HP Cloud block storage provides support for volumes and snapshots. A volume can store boot images, user data or both. They provide customers with persistent and flexible permanent storage. You can think of it as list of USB devices, that can be plugged in anywhere at will. Volumes can be attached to server instances and mounted. 
+HP Cloud block storage provides support for volumes and snapshots. A volume can store boot images, user data or both. They provide customers with persistent and flexible permanent storage. You can think of it as list of USB devices, that can be plugged in anywhere at will. Volumes can be attached to server instances and mounted.
 
 Snapshots are saved volume images at specific moments in time. You can take a snapshot of a volume and then use that snapshot to create a new volume.
 
@@ -90,7 +90,7 @@ This section discusses the volume operations you can perform using the model abs
         new_volume.id       # returns the id of the volume
         new_volume.name     # => "TestVolume"
         new_volume.status    # returns the status of the volume e.g. creating, available
- 
+
 6. Create a new volume from an existing snapshot
 
         new_volume = conn.volumes.create(
@@ -224,9 +224,9 @@ This section discusses the volume operations you can perform using the request a
 
 7. Create a new bootable volume from an suitable single-part image
 
-        new_volume = conn.create_volume("TestBootVol", 
-                                                        "My Test Boot Volume", 
-                                                        10, 
+        new_volume = conn.create_volume("TestBootVol",
+                                                        "My Test Boot Volume",
+                                                        10,
                                                         {"imageRef" => "1111111"}
                                                      )
         new_volume.id       # returns the id of the volume

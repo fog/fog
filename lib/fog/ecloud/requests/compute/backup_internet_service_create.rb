@@ -8,7 +8,7 @@ module Fog
           validate_data([:name, :protocol, :enabled, :persistence], data)
           unless data[:persistence][:type]
             raise ArgumentError.new("Required data missing: :persistence[:type]")
-          end          
+          end
 
           request(
             :body => generate_backup_internet_service_request(data),
@@ -44,4 +44,4 @@ module Fog
       end
     end
   end
-end          
+end

@@ -1,4 +1,5 @@
 require 'fog/core'
+require 'fog/json'
 
 module Fog
   module Clodo
@@ -12,7 +13,7 @@ module Fog
       url = clodo_auth_url.match(/^https?:/) ? \
                 clodo_auth_url : 'https://' + clodo_auth_url
       uri = URI.parse(url)
-      connection = Fog::Connection.new(url)
+      connection = Fog::XML::Connection.new(url)
       @clodo_api_key  = options[:clodo_api_key]
       @clodo_username = options[:clodo_username]
       response = connection.request({

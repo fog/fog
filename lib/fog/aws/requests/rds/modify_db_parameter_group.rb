@@ -13,16 +13,16 @@ module Fog
         #   * 'ParameterName'<~String> - parameter name.
         #   * 'ParameterValue'<~String> - new paremeter value
         #   * 'ApplyMethod'<~String> - immediate | pending-reboot whether to set the parameter immediately or not (may require an instance restart)
-        #                                     
+        #
         # ==== Returns
         # * response<~Excon::Response>:
         #   * body<~Hash>:
         def modify_db_parameter_group(group_name, parameters)
-          
+
           parameter_names = []
           parameter_values = []
           parameter_apply_methods = []
-          
+
           parameters.each do |parameter|
             parameter_names.push(parameter['ParameterName'])
             parameter_values.push(parameter['ParameterValue'])
@@ -32,11 +32,11 @@ module Fog
           params.merge!(Fog::AWS.indexed_param('Parameters.member.%d.ParameterName', parameter_names))
           params.merge!(Fog::AWS.indexed_param('Parameters.member.%d.ParameterValue', parameter_values))
           params.merge!(Fog::AWS.indexed_param('Parameters.member.%d.ApplyMethod', parameter_apply_methods))
-          
+
           request({
             'Action'  => 'ModifyDBParameterGroup',
             'DBParameterGroupName' => group_name,
-            
+
             :parser   => Fog::Parsers::AWS::RDS::ModifyDbParameterGroup.new
           }.merge(params))
         end

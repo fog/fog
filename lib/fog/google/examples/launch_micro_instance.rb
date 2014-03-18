@@ -2,10 +2,10 @@ def test
   connection = Fog::Compute.new({ :provider => "Google" })
   time = Time.now.utc.to_i
   disk = connection.disks.create({
-    :name => 'foggydisk',
+    :name => "foggydisk-#{time}",
     :size_gb => 10,
     :zone_name => 'us-central1-a',
-    :source_image => 'centos-6-v20130522',
+    :source_image => 'centos-6-v20131120',
   })
 
   disk.wait_for { disk.ready? }
@@ -19,7 +19,11 @@ def test
 
   server = connection.servers.bootstrap params
 
-  raise "Could not bootstrap sshable server." unless server.ssh("whoami")
-  raise "Could not delete server." unless server.destroy
-  raise "Could not delete disk." unless disk.destroy
+  begin
+    raise "Could not bootstrap sshable server." unless server.ssh("whoami")
+    raise "Could not delete server." unless server.destroy
+    raise "Could not delete disk." unless disk.destroy
+  rescue Exception => e
+    p e.message
+  end
 end

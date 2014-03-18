@@ -1,11 +1,11 @@
 require 'fog/joyent/core'
 require 'fog/joyent/errors'
-require 'fog/compute'
 require 'net/ssh'
 
 module Fog
   module Compute
     class Joyent < Fog::Service
+
       requires :joyent_username
 
       recognizes :joyent_password
@@ -13,14 +13,21 @@ module Fog
 
       recognizes :joyent_keyname
       recognizes :joyent_keyfile
+      recognizes :joyent_keydata
       recognizes :joyent_keyphrase
       recognizes :joyent_version
+
+      secrets :joyent_password, :joyent_keydata, :joyent_keyphrase
 
       model_path 'fog/joyent/models/compute'
       request_path 'fog/joyent/requests/compute'
 
       request :list_datacenters
       # request :get_datacenter
+
+      # Datacenters
+      collection :datacenters
+      model :datacenter
 
       # Keys
       collection :keys
@@ -36,6 +43,8 @@ module Fog
       model :image
       request :list_datasets
       request :get_dataset
+      request :list_images
+      request :get_image
 
       # Flavors
       collection :flavors
@@ -102,6 +111,9 @@ module Fog
       end # Mock
 
       class Real
+        attr_accessor :joyent_version
+        attr_accessor :joyent_url
+
         def initialize(options = {})
 
           @connection_options = options[:connection_options] || {}
@@ -115,24 +127,30 @@ module Fog
             raise ArgumentError, "options[:joyent_username] required"
           end
 
-          if options[:joyent_keyname] && options[:joyent_keyfile]
-            if File.exists?(options[:joyent_keyfile])
-              @joyent_keyname = options[:joyent_keyname]
-              @joyent_keyfile = options[:joyent_keyfile]
-              @joyent_keyphrase = options[:joyent_keyphrase]
-
-              @key_manager = Net::SSH::Authentication::KeyManager.new(nil, {
+          if options[:joyent_keyname]
+            @joyent_keyname = options[:joyent_keyname]
+            @joyent_keyphrase = options[:joyent_keyphrase]
+            @key_manager = Net::SSH::Authentication::KeyManager.new(nil, {
                 :keys_only => true,
                 :passphrase => @joyent_keyphrase
-              })
+            })
+            @header_method = method(:header_for_signature_auth)
 
-              @key_manager.add(@joyent_keyfile)
-
-              @header_method = method(:header_for_signature_auth)
-            else
-              raise ArgumentError, "options[:joyent_keyfile] provided does not exist."
+            if options[:joyent_keyfile]
+              if File.exists?(options[:joyent_keyfile])
+                @joyent_keyfile = options[:joyent_keyfile]
+                @key_manager.add(@joyent_keyfile)
+              else
+                raise ArgumentError, "options[:joyent_keyfile] provided does not exist."
+              end
+            elsif options[:joyent_keydata]
+              if options[:joyent_keydata].to_s.empty?
+                raise ArgumentError, 'options[:joyent_keydata] must not be blank'
+              else
+                @joyent_keydata = options[:joyent_keydata]
+                @key_manager.add_key_data(@joyent_keydata)
+              end
             end
-
           elsif options[:joyent_password]
             @joyent_password = options[:joyent_password]
             @header_method = method(:header_for_basic_auth)
@@ -140,7 +158,7 @@ module Fog
             raise ArgumentError, "Must provide either a joyent_password or joyent_keyname and joyent_keyfile pair"
           end
 
-          @connection = Fog::Connection.new(
+          @connection = Fog::XML::Connection.new(
             @joyent_url,
             @persistent,
             @connection_options
@@ -166,6 +184,9 @@ module Fog
 
           response
         rescue Excon::Errors::HTTPStatusError => e
+          if e.response.headers["Content-Type"] == "application/json"
+            e.response.body = json_decode(e.response.body)
+          end
           raise_if_error!(e.request, e.response)
         end
 

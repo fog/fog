@@ -4,7 +4,7 @@ module Fog
 
       class Real
 
-        # 
+        #
         # Destroy a Network
         #
         # @see http://docs.vmd.citrix.com/XenServer/6.0.0/1.0/en_gb/api/?c=network
@@ -12,9 +12,9 @@ module Fog
         def destroy_network( ref )
           @connection.request(
             {
-              :parser => Fog::Parsers::XenServer::Base.new, 
+              :parser => Fog::Parsers::XenServer::Base.new,
               :method => 'network.destroy'
-            }, 
+            },
             ref
           )
         end

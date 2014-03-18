@@ -63,7 +63,7 @@ tenant = keystone.tenants.find { |t| t.name == 'rubiojr@example.net' }
 # Destroy the tenant
 tenant.destroy
 
-# Find the recently created user 
+# Find the recently created user
 user = keystone.users.find { |u| u.name == 'rubiojr@example.net' }
 # Destroy the user
 user.destroy

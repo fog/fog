@@ -7,7 +7,7 @@ module Fog
         # List all pipelines
         # http://docs.aws.amazon.com/datapipeline/latest/APIReference/API_ListPipelines.html
         # ==== Parameters
-        # * Marker <~String> - The starting point for the results to be returned. 
+        # * Marker <~String> - The starting point for the results to be returned.
         # ==== Returns
         # * response<~Excon::Response>:
         #   * body<~Hash>:

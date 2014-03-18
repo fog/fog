@@ -1,4 +1,5 @@
 require 'fog/core'
+require 'fog/xml'
 require 'digest/md5'
 
 module Fog

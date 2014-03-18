@@ -27,4 +27,12 @@ Shindo.tests('Fog::Compute[:libvirt] | volume model', ['libvirt']) do
     test('be a kind of Fog::Compute::Libvirt::Volume') { volume.kind_of? Fog::Compute::Libvirt::Volume }
   end
 
+  tests('Cloning volumes should') do
+    test('respond to clone_volume') { volume.respond_to? :clone_volume }
+    new_vol = volume.clone_volume('new_vol')
+    # We'd like to test that the :name attr has changed, but it seems that's
+    # not possible, so we can at least check the new_vol xml exists properly
+    test('succeed') { volume.xml == new_vol.xml }
+  end
+
 end

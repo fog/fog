@@ -41,7 +41,7 @@ module Fog
 
           snapshot_data = {
             'Status'               => 'creating',
-            'SnapshotType'         => 'manual', 
+            'SnapshotType'         => 'manual',
             'DBInstanceIdentifier' => identifier,
             'DBSnapshotIdentifier' => name,
             'InstanceCreateTime'   => Time.now

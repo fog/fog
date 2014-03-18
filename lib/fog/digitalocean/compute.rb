@@ -1,5 +1,4 @@
 require 'fog/digitalocean/core'
-require 'fog/compute'
 
 module Fog
   module Compute
@@ -21,7 +20,7 @@ module Fog
       collection   :regions
       model        :ssh_key
       collection   :ssh_keys
-      
+
       request_path 'fog/digitalocean/requests/compute'
       request      :list_servers
       request      :list_images
@@ -40,7 +39,7 @@ module Fog
       request      :get_ssh_key
       request      :destroy_ssh_key
 
-      # request :digitalocean_resize      
+      # request :digitalocean_resize
 
       class Mock
 
@@ -78,7 +77,7 @@ module Fog
           @digitalocean_client_id = options[:digitalocean_client_id]
           @digitalocean_api_url   = options[:digitalocean_api_url] || \
                                             "https://api.digitalocean.com"
-          @connection             = Fog::Connection.new(@digitalocean_api_url)
+          @connection             = Fog::XML::Connection.new(@digitalocean_api_url)
         end
 
         def reload

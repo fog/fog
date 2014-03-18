@@ -12,7 +12,7 @@ module Fog
           )
         end
       end
-      
+
       class Mock
         def list_entities(options={})
           account_id = Fog::Mock.random_numbers(6).to_s

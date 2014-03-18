@@ -1,36 +1,37 @@
 require 'fog/core'
+require 'fog/xml'
 
 module Fog
-  module XenServer 
+  module XenServer
 
     class InvalidLogin < Fog::Errors::Error; end
     class NotFound < Fog::Errors::Error; end
     class RequestFailed < Fog::Errors::Error; end
 
     extend Fog::Provider
-    
-    service(:compute, 'Compute')  
-    
+
+    service(:compute, 'Compute')
+
     class Connection
       require 'xmlrpc/client'
-    
+
       def initialize(host, timeout)
         @factory = XMLRPC::Client.new(host, '/')
         @factory.set_parser(NokogiriStreamParser.new)
         @factory.timeout = timeout
       end
-    
+
       def authenticate( username, password )
         response = @factory.call('session.login_with_password', username.to_s, password.to_s)
         raise Fog::XenServer::InvalidLogin.new unless response["Status"] =~ /Success/
         @credentials = response["Value"]
       end
-    
+
       def request(options, *params)
         begin
           parser   = options.delete(:parser)
           method   = options.delete(:method)
-          
+
           if params.empty?
             response = @factory.call(method, @credentials)
           else
@@ -47,20 +48,20 @@ module Fog
             parser.parse( response["Value"] )
             response = parser.response
           end
-          
+
           response
         end
       end
     end
 
     class NokogiriStreamParser < XMLRPC::XMLParser::AbstractStreamParser
-      
+
       def initialize
         require 'nokogiri/xml/sax/document'
         require 'nokogiri/xml/sax/parser'
 
         @parser_class = Class.new(Nokogiri::XML::SAX::Document) do
-          
+
           include XMLRPC::XMLParser::StreamParserMixin
 
           alias_method :start_element, :startElement
@@ -71,10 +72,10 @@ module Fog
           def parse(str)
             Nokogiri::XML::SAX::Parser.new(self).parse(str)
           end
-          
+
         end
       end
-      
+
     end
 
   end

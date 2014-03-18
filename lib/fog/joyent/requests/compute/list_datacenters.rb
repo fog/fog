@@ -7,7 +7,8 @@ module Fog
           request(
             :expects => 200,
             :method => :'GET',
-            :path => '/my/datacenters'
+            :path => '/my/datacenters',
+            :idempotent => true
           )
         end
       end # Real

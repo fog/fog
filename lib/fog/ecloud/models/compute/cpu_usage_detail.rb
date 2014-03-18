@@ -7,7 +7,7 @@ module Fog
         attribute :time, :aliases => :Time
         attribute :value, :aliases => :Value
 
-        
+
         def id
           href.scan(/\d+/)[0]
         end

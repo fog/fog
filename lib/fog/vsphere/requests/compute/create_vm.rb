@@ -83,13 +83,13 @@ module Fog
         def create_controller options=nil
           options=if options
                     controller_default_options.merge(Hash[options.map{|k,v| [k.to_sym,v] }])
-                  else 
-                    controller_default_options 
+                  else
+                    controller_default_options
                   end
-          controller_class=if options[:type].is_a? String then 
+          controller_class=if options[:type].is_a? String then
                              Fog::class_from_string options[:type], "RbVmomi::VIM"
-                           else 
-                             options[:type] 
+                           else
+                             options[:type]
                            end
           {
             :operation => options[:operation],

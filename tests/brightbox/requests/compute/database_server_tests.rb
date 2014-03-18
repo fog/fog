@@ -28,13 +28,13 @@ Shindo.tests('Fog::Compute[:brightbox] | database server requests', ['brightbox'
       data_matches_schema(Brightbox::Compute::Formats::Full::DATABASE_SERVER, {:allow_extra_keys => true}) { result }
     end
 
+    Fog::Compute[:brightbox].database_servers.get(@database_server_id).wait_for { ready? }
+
     tests("#reset_password_database_server('#{@database_server_id}')") do
       result = Fog::Compute[:brightbox].reset_password_database_server(@database_server_id)
       data_matches_schema(Brightbox::Compute::Formats::Full::DATABASE_SERVER, {:allow_extra_keys => true}) { result }
       test("new password is visible") { ! result["admin_password"].nil? }
     end
-
-    Fog::Compute[:brightbox].database_servers.get(@database_server_id).wait_for { ready? }
 
     tests("#destroy_database_server('#{@database_server_id}')") do
       result = Fog::Compute[:brightbox].destroy_database_server(@database_server_id)

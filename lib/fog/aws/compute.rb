@@ -1,5 +1,4 @@
 require 'fog/aws/core'
-require 'fog/compute'
 
 module Fog
   module Compute
@@ -140,6 +139,7 @@ module Fog
       request :release_address
       request :replace_network_acl_association
       request :replace_network_acl_entry
+      request :replace_route
       request :register_image
       request :request_spot_instances
       request :reset_network_interface_attribute
@@ -163,6 +163,7 @@ module Fog
 
       class Mock
         include Fog::AWS::CredentialFetcher::ConnectionMethods
+        include Fog::AWS::RegionMethods
 
         def self.data
           @data ||= Hash.new do |hash, region|
@@ -278,10 +279,7 @@ module Fog
           @aws_credentials_expire_at = Time::now + 20
           setup_credentials(options)
           @region = options[:region] || 'us-east-1'
-
-          unless ['ap-northeast-1', 'ap-southeast-1', 'ap-southeast-2', 'eu-west-1', 'us-east-1', 'us-west-1', 'us-west-2', 'sa-east-1'].include?(@region)
-            raise ArgumentError, "Unknown region: #{@region.inspect}"
-          end
+          validate_aws_region @region
         end
 
         def region_data
@@ -351,6 +349,7 @@ module Fog
 
       class Real
         include Fog::AWS::CredentialFetcher::ConnectionMethods
+        include Fog::AWS::RegionMethods
         # Initialize connection to EC2
         #
         # ==== Notes
@@ -385,6 +384,8 @@ module Fog
           @instrumentor_name      = options[:instrumentor_name] || 'fog.aws.compute'
           @version                = options[:version]     ||  '2013-10-01'
 
+          validate_aws_region @region
+
           if @endpoint = options[:endpoint]
             endpoint = URI.parse(@endpoint)
             @host = endpoint.host
@@ -398,7 +399,7 @@ module Fog
             @port       = options[:port]        || 443
             @scheme     = options[:scheme]      || 'https'
           end
-          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}#{@path}", @persistent, @connection_options)
+          @connection = Fog::XML::Connection.new("#{@scheme}://#{@host}:#{@port}#{@path}", @persistent, @connection_options)
         end
 
         def reload

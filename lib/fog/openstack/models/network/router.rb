@@ -5,8 +5,8 @@ module Fog
     class OpenStack
       # The Layer-3 Networking Extensions (router)
       #
-      # A logical entity for forwarding packets across internal 
-      # subnets and NATting them on external networks through 
+      # A logical entity for forwarding packets across internal
+      # subnets and NATting them on external networks through
       # an appropriate external gateway.
       #
       # @see http://docs.openstack.org/api/openstack-network/2.0/content/router_ext.html

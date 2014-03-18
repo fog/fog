@@ -27,16 +27,16 @@ module Fog
         end
 
       end
-      
+
       class Mock
-        
+
         def change_message_visibility(queue_url, receipt_handle, visibility_timeout)
           Excon::Response.new.tap do |response|
             if (queue = data[:queues][queue_url])
               message_id, _ = queue[:receipt_handles].find { |message_id, receipts|
                 receipts.has_key?(receipt_handle)
               }
-              
+
               if message_id
                 queue[:messages][message_id]['Attributes']['VisibilityTimeout'] = visibility_timeout
                 response.body = {
@@ -55,7 +55,7 @@ module Fog
             end
           end
         end
-        
+
       end
 
     end

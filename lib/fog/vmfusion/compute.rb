@@ -1,5 +1,4 @@
 require 'fog/vmfusion/core'
-require 'fog/compute'
 
 module Fog
   module Compute

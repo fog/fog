@@ -1,5 +1,4 @@
 require 'fog/aws/core'
-require 'fog/storage'
 
 module Fog
   module Storage
@@ -524,7 +523,7 @@ DATA
           else
             @connection = nil
           end
-          @connection ||= Fog::Connection.new(uri, @persistent, @connection_options)
+          @connection ||= Fog::XML::Connection.new(uri, @persistent, @connection_options)
         end
 
         def request(params, &block)
@@ -551,7 +550,7 @@ DATA
             headers = (error.response.is_a?(Hash) ? error.response[:headers] : error.response.headers)
             uri = URI.parse(headers['Location'])
             Fog::Logger.warning("fog: followed redirect to #{uri.host}, connecting to the matching region will be more performant")
-            response = Fog::Connection.new("#{uri.scheme}://#{uri.host}:#{uri.port}", false, @connection_options).request(original_params, &block)
+            response = Fog::XML::Connection.new("#{uri.scheme}://#{uri.host}:#{uri.port}", false, @connection_options).request(original_params, &block)
           end
 
           response

@@ -4,7 +4,7 @@ module Fog
       class Real
 
         require 'fog/aws/parsers/rds/describe_db_engine_versions'
-       
+
         def describe_db_engine_versions(opts={})
           params = {}
           params['DBParameterGroupFamily'] = opts[:db_parameter_group_family] if opts[:db_parameter_group_family]
@@ -13,7 +13,7 @@ module Fog
           params['EngineVersion'] = opts[:engine_version] if opts[:engine_version]
           params['Marker'] = opts[:marker] if opts[:marker]
           params['MaxRecords'] = opts[:max_records] if opts[:max_records]
-          
+
           request({
             'Action'  => 'DescribeDBEngineVersions',
             :parser   => Fog::Parsers::AWS::RDS::DescribeDBEngineVersions.new

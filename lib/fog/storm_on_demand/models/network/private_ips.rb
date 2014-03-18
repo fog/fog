@@ -32,7 +32,7 @@ module Fog
           r = service.check_server_attached(:uniq_id => server_id).body
           r['is_attached'].to_i == 1 ? true : false
         end
-        
+
       end
 
     end

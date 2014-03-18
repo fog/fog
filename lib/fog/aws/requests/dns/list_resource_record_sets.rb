@@ -75,11 +75,14 @@ module Fog
             raise(Excon::Errors.status_error({:expects => 200}, response))
           end
 
-          if options[:type]
-            records = zone[:records][options[:type]].values
+          records = if options[:type]
+            records_type = zone[:records][options[:type]]
+            records_type.values if records_type
           else
-            records = zone[:records].values.map{|r| r.values}.flatten
+            zone[:records].values.map{|r| r.values}.flatten
           end
+
+          records ||= []
 
           # sort for pagination
           records.sort! { |a,b| a[:name].gsub(zone[:name],"") <=> b[:name].gsub(zone[:name],"") }

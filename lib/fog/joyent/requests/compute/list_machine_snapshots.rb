@@ -5,7 +5,8 @@ module Fog
         def list_machine_snapshots(machine_id)
           request(
             :method => "GET",
-            :path => "/my/machines/#{machine_id}/snapshots"
+            :path => "/my/machines/#{machine_id}/snapshots",
+            :idempotent => true
           )
         end
       end

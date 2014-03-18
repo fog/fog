@@ -4,7 +4,7 @@ module Fog
   module AWS
     class Redshift < Fog::Service
       extend Fog::AWS::CredentialFetcher::ServiceMethods
-      
+
       requires :aws_access_key_id, :aws_secret_access_key
       recognizes :region, :host, :path, :port, :scheme, :persistent, :use_iam_profile, :aws_session_token, :aws_credentials_expire_at
 
@@ -30,21 +30,21 @@ module Fog
       request :create_cluster_subnet_group
       request :modify_cluster
       request :modify_cluster_parameter_group
-      request :modify_cluster_subnet_group  
-      request :delete_cluster             
+      request :modify_cluster_subnet_group
+      request :delete_cluster
       request :delete_cluster_parameter_group
       request :delete_cluster_security_group
       request :delete_cluster_snapshot
       request :delete_cluster_subnet_group
-      request :authorize_cluster_security_group_ingress 
-      request :authorize_snapshot_access                 
-      request :copy_cluster_snapshot                     
-      request :purchase_reserved_node_offering           
+      request :authorize_cluster_security_group_ingress
+      request :authorize_snapshot_access
+      request :copy_cluster_snapshot
+      request :purchase_reserved_node_offering
       request :reboot_cluster
-      request :reset_cluster_parameter_group            
-      request :restore_from_cluster_snapshot           
-      request :revoke_cluster_security_group_ingress       
-      request :revoke_snapshot_access                    
+      request :reset_cluster_parameter_group
+      request :restore_from_cluster_snapshot
+      request :revoke_cluster_security_group_ingress
+      request :revoke_snapshot_access
 
       class Mock
 
@@ -90,7 +90,7 @@ module Fog
           @port       = options[:port]        || 443
           @scheme     = options[:scheme]      || 'https'
 
-          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}#{@path}", @persistent, @connection_options)
+          @connection = Fog::XML::Connection.new("#{@scheme}://#{@host}:#{@port}#{@path}", @persistent, @connection_options)
        end
 
 

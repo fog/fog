@@ -1,5 +1,4 @@
 require 'fog/ninefold/core'
-require 'fog/compute'
 
 module Fog
   module Compute
@@ -90,7 +89,7 @@ module Fog
           @ninefold_compute_secret  = options[:ninefold_compute_secret] || Fog.credentials[:ninefold_compute_secret]
           @connection_options       = options[:connection_options] || {}
           @persistent               = options[:persistent] || false
-          @connection = Fog::Connection.new(@api_url, @persistent, @connection_options)
+          @connection = Fog::XML::Connection.new(@api_url, @persistent, @connection_options)
         end
 
         def request(command, params, options)

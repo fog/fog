@@ -4,7 +4,7 @@ module Fog
       class Real
 
         def update_group_config(group_id, options)
-          
+
           body = options
 
           request(
@@ -24,7 +24,7 @@ module Fog
           end
 
           config = group['groupConfiguration']
-          
+
           config['name'] = options['name'] if options['name']
           config['cooldown'] = options['cooldown'] if options['cooldown']
           config['minEntities'] = options['minEntities'] if options['minEntities']

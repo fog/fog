@@ -1,4 +1,5 @@
 require 'fog/core'
+require 'fog/xml'
 require 'fog/internet_archive/signaturev4'
 
 module Fog

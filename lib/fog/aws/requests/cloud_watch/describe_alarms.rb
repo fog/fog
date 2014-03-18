@@ -8,9 +8,9 @@ module Fog
         # Retrieves alarms with the specified names
         # ==== Options
         # * ActionPrefix<~String>: The action name prefix
-        # * AlarmNamePrefix<~String>: The alarm name prefix. 
+        # * AlarmNamePrefix<~String>: The alarm name prefix.
         #         AlarmNames cannot be specified if this parameter is specified
-        # * AlarmNames<~Array>: A list of alarm names to retrieve information for. 
+        # * AlarmNames<~Array>: A list of alarm names to retrieve information for.
         # * MaxRecords<~Integer>: The maximum number of alarm descriptions to retrieve
         # * NextToken<~String>: The token returned by a previous call to indicate that there is more data available
         # * NextToken<~String> The token returned by a previous call to indicate that there is more data available

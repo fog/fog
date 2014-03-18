@@ -1,4 +1,4 @@
-require 'fog'                                                               
+require 'fog'
 
 #
 # Create the connection to the XenServer host
@@ -16,7 +16,7 @@ xenserver = Fog::Compute.new({
 # will problably have many PIFs with device == bond0
 # but we need the one without a proper VLAN ID
 #
-bondmaster_pif = xenserver.pifs.find do |pif| 
+bondmaster_pif = xenserver.pifs.find do |pif|
   pif.vlan == "-1" and pif.device == "bond0"
 end
 

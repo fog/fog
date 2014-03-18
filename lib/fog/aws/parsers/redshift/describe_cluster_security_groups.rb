@@ -8,7 +8,7 @@ module Fog
         class DescribeClusterSecurityGroups < ClusterSecurityGroupParser
           # :marker - (String)
           # :cluster_security_groups - (Array)
-          
+
           def reset
             @response = { 'ClusterSecurityGroups' => [] }
           end
@@ -21,7 +21,7 @@ module Fog
             end
           end
 
-          def end_element(name)            
+          def end_element(name)
             super
             case name
             when 'Marker'

@@ -6,7 +6,7 @@ module Fog
         require 'fog/aws/parsers/iam/basic'
 
         # Delete a group
-        # 
+        #
         # ==== Parameters
         # * group_name<~String>: name of the group to delete
         #

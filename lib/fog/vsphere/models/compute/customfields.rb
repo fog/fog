@@ -16,7 +16,7 @@ module Fog
         end
 
         def get(key)
-          load(service.list_customfields()).find do | cv | 
+          load(service.list_customfields()).find do | cv |
             cv.key == ((key.is_a? String) ? key.to_i : key)
           end
         end

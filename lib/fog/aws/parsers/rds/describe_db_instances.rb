@@ -4,7 +4,7 @@ module Fog
       module RDS
 
         require 'fog/aws/parsers/rds/db_parser'
-        
+
         class DescribeDBInstances < Fog::Parsers::AWS::RDS::DbParser
 
           def reset

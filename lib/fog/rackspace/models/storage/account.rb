@@ -21,8 +21,8 @@ module Fog
 
         # @!attribute [r] object_count
         # @return [Integer] The total number of objects in the account
-        attribute :object_count, :aliases => 'X-Account-Object-Count', :type => :integer        
-        
+        attribute :object_count, :aliases => 'X-Account-Object-Count', :type => :integer
+
         # Saves account settings (meta_temp_url_key)
         # @return [Boolean] returns true if successfully updated
         # @raise [Fog::Storage::Rackspace::NotFound] - HTTP 404
@@ -33,7 +33,7 @@ module Fog
           service.post_set_meta_temp_url_key meta_temp_url_key
           true
         end
-        
+
         # Reload account with latest data from Cloud Files
         # @return [Fog::Storage::Rackspace::Account] returns itself
         # @raise [Fog::Storage::Rackspace::NotFound] - HTTP 404

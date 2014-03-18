@@ -55,10 +55,22 @@ Shindo.tests("Fog::Compute[:brightbox] | DatabaseServer model", ["brightbox"]) d
 
     @database_server.wait_for { ready? }
 
-    test("#snapshot") do
-      @database_server.snapshot
+    tests("#snapshot") do
+      # Very messy but there is no feedback about if snapshotting or what the ID will be
+      existing_snapshots = @service.database_snapshots.all.map { |snapshot| snapshot.identity }
+      test do
+        @database_server.snapshot
+      end
+
+      current_snapshots = @service.database_snapshots.all.map { |snapshot| snapshot.identity }
+      snapshot_id = (current_snapshots - existing_snapshots).last
+
+      @snapshot = @service.database_snapshots.get(snapshot_id)
+      @snapshot.wait_for { ready? }
+      @snapshot.destroy
     end
 
+    # Can no longer destroy when snapshotting
     tests("#destroy") do
       @database_server.destroy
     end

@@ -6,7 +6,7 @@ module Fog
         require 'fog/aws/parsers/iam/create_group'
 
         # Create a new group
-        # 
+        #
         # ==== Parameters
         # * group_name<~String>: name of the group to create (do not include path)
         # * path<~String>: optional path to group, defaults to '/'

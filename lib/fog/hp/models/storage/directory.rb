@@ -251,7 +251,7 @@ module Fog
         def save(new_options = {})
           requires :key
           options = {}
-          #these are default/previous options 
+          #these are default/previous options
           meta_hash = {}
           metadata.each { |meta| meta_hash.store(meta.key, meta.value) }
           if meta_hash
@@ -267,7 +267,7 @@ module Fog
           options.merge!({'X-Container-Meta-Web-Error' => self.web_error}) unless self.web_error.nil?
           # get the metadata and merge them in
 
-          # merge user options at the end 
+          # merge user options at the end
           options.merge!(new_options)
 
           service.put_container(key, options)

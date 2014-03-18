@@ -47,9 +47,9 @@ module Fog
           if options['nics']
             data['server']['networks'] =
             Array(options['nics']).map do |nic|
-              neti = { 'uuid' => nic['net_id'] }
-              neti['fixed_ip'] = nic['v4_fixed_ip'] unless nic['v4_fixed_ip'].nil?
-              neti['port'] = nic['port_id'] unless nic['port_id'].nil?
+              neti = { 'uuid' => (nic['net_id'] || nic[:net_id]) }
+              neti['fixed_ip'] = (nic['v4_fixed_ip'] || nic[:v4_fixed_ip]) unless (nic['v4_fixed_ip'] || nic[:v4_fixed_ip]).nil?
+              neti['port'] = (nic['port_id'] || nic[:port_id]) unless (nic['port_id'] || nic[:port_id]).nil?
               neti
             end
           end
@@ -108,7 +108,7 @@ module Fog
                     end
 
           mock_data = {
-            'addresses'    => {},
+            'addresses'    => {"Private" => [{"addr" => Fog::Mock.random_ip }]},
             'flavor'       => {"id" => flavor_ref, "links"=>[{"href"=>"http://nova1:8774/admin/flavors/1", "rel"=>"bookmark"}]},
             'id'           => server_id,
             'image'        => {"id" => image_ref, "links"=>[{"href"=>"http://nova1:8774/admin/images/#{image_ref}", "rel"=>"bookmark"}]},

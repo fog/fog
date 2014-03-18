@@ -1,13 +1,11 @@
 require 'fog/google/core'
-require 'fog/compute'
 
 module Fog
   module Compute
     class Google < Fog::Service
 
       requires :google_project
-      requires :google_client_email
-      requires :google_key_location
+      recognizes :app_name, :app_version, :google_client_email, :google_key_location, :google_client
 
       request_path 'fog/google/requests/compute'
       request :list_servers
@@ -83,6 +81,9 @@ module Fog
         def shared_initialize(options = {})
           @project = options[:google_project]
           @api_version = 'v1'
+          base_url = 'https://www.googleapis.com/compute/'
+          @api_url = base_url + api_version + '/projects/'
+          @default_network = 'default'
         end
 
         def build_excon_response(body, status=200)
@@ -841,30 +842,77 @@ module Fog
         include Collections
         include Shared
 
-        attr_reader :client, :compute, :api_url
+        attr_accessor :client
+        attr_reader :compute, :api_url
 
         def initialize(options)
-          base_url = 'https://www.googleapis.com/compute/'
-          api_scope_url = 'https://www.googleapis.com/auth/compute'
-          shared_initialize(options)
-
-          google_client_email = options[:google_client_email]
-          @api_url = base_url + api_version + '/projects/'
 
           # NOTE: loaded here to avoid requiring this as a core Fog dependency
           begin
             require 'google/api_client'
-          rescue LoadError
+          rescue LoadError => error
             Fog::Logger.warning("Please install the google-api-client gem before using this provider.")
+            raise error
           end
-          key = ::Google::APIClient::KeyUtils.load_from_pkcs12(File.expand_path(options[:google_key_location]), 'notasecret')
+          shared_initialize(options)
 
-          @client = ::Google::APIClient.new({
-            :application_name => "fog",
-            :application_version => Fog::VERSION,
-          })
+          if !options[:google_client].nil?
+            @client = options[:google_client]
+          end
 
-          @client.authorization = Signet::OAuth2::Client.new({
+          if @client.nil?
+            if !options[:google_client_email].nil? and !options[:google_key_location].nil?
+              @client = self.new_pk12_google_client(
+                options[:google_client_email],
+                File.expand_path(options[:google_key_location]),
+                options[:app_name],
+                options[:app_verion])
+            else
+              Fog::Logger.debug("Fog::Compute::Google.client has not been initialized nor are the :google_client_email and :google_key_location options set, so we can not create one for you.")
+              raise ArgumentError.new("No Google API Client has been initialized.")
+            end
+          end
+
+          # We want to always mention we're using Fog.
+          if @client.user_agent.nil? or @client.user_agent.empty?
+            @client.user_agent = ""
+          elsif !@client.user_agent.include? "fog"
+            @client.user_agent += "fog/#{Fog::VERSION}"
+          end
+
+          @compute = @client.discovered_api('compute', api_version)
+        end
+
+        # Public: Create a Google::APIClient with a pkcs12 key and a user email.
+        #
+        # google_client_email - an @developer.gserviceaccount.com email address to use.
+        # google_key_location - an absolute location to a pkcs12 key file.
+        # app_name - an optional string to set as the app name in the user agent.
+        # app_version - an optional string to set as the app version in the user agent.
+        #
+        # Returns a new Google::APIClient
+        def new_pk12_google_client(google_client_email, google_key_location, app_name=nil, app_version=nil)
+          # The devstorage scope is needed to be able to insert images
+          # devstorage.read_only scope is not sufficient like you'd hope
+          api_scope_url = 'https://www.googleapis.com/auth/compute https://www.googleapis.com/auth/devstorage.read_write'
+
+          user_agent = ""
+          if app_name
+            user_agent = "#{app_name}/#{app_version || '0.0.0'} "
+          end
+          user_agent += "fog/#{Fog::VERSION}"
+
+          api_client_options = {
+            # https://github.com/google/google-api-ruby-client/blob/master/lib/google/api_client.rb#L98
+            :application_name => "suppress warning",
+            # https://github.com/google/google-api-ruby-client/blob/master/lib/google/api_client.rb#L100
+            :user_agent => user_agent
+          }
+          local_client = ::Google::APIClient.new(api_client_options)
+
+          key = ::Google::APIClient::KeyUtils.load_from_pkcs12(google_key_location, 'notasecret')
+
+          local_client.authorization = Signet::OAuth2::Client.new({
             :audience => 'https://accounts.google.com/o/oauth2/token',
             :auth_provider_x509_cert_url => "https://www.googleapis.com/oauth2/v1/certs",
             :client_x509_cert_url => "https://www.googleapis.com/robot/v1/metadata/x509/#{google_client_email}",
@@ -874,9 +922,9 @@ module Fog
             :token_credential_uri => 'https://accounts.google.com/o/oauth2/token',
           })
 
-          @client.authorization.fetch_access_token!
-          @compute = @client.discovered_api('compute', api_version)
-          @default_network = 'default'
+          local_client.authorization.fetch_access_token!
+
+          return local_client
         end
 
         def build_result(api_method, parameters, body_object=nil)
@@ -899,7 +947,6 @@ module Fog
         def build_response(result)
           build_excon_response(result.body.nil? ? nil : Fog::JSON.decode(result.body), result.status)
         end
-
       end
 
       RUNNING = 'RUNNING'

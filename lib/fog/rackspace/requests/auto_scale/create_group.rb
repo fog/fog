@@ -22,7 +22,7 @@ module Fog
 
       class Mock
         def create_group(launch_config, group_config, policies)
-          
+
           group_id = Fog::Rackspace::MockData.uuid
 
           # Construct group structure
@@ -31,7 +31,7 @@ module Fog
             'groupConfiguration' => group_config,
             'scalingPolicies' => policies,
             'id' => group_id
-          } 
+          }
 
           # Add links for HTTP response
           group['scalingPolicies'][0]['links'] = [

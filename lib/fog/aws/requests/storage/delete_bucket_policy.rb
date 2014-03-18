@@ -9,7 +9,7 @@ module Fog
         #
         # @return [Excon::Response] response:
         #   * status [Integer] - 204
-        # 
+        #
         # @see http://docs.amazonwebservices.com/AmazonS3/latest/API/RESTBucketDELETEpolicy.html
 
         def delete_bucket_policy(bucket_name)

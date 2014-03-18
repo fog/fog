@@ -2,7 +2,7 @@ require 'fog/digitalocean/models/compute/ssh_key'
 
 module Fog
   module Compute
-    class DigitalOcean 
+    class DigitalOcean
       class SshKeys < Fog::Collection
 
         identity :href

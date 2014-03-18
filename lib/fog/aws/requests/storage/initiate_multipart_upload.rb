@@ -9,7 +9,7 @@ module Fog
         #
         # @param bucket_name [String] Name of bucket to create object in
         # @param object_name [String] Name of object to create
-        # @param options [Hash]: 
+        # @param options [Hash]:
         # @option options [String] Cache-Control Caching behaviour
         # @option options [String] Content-Disposition Presentational information for the object
         # @option options [String] Content-Encoding Encoding of object data
@@ -18,8 +18,8 @@ module Fog
         # @option options [String] x-amz-acl Permissions, must be in ['private', 'public-read', 'public-read-write', 'authenticated-read']
         # @option options [String] x-amz-meta-#{name} Headers to be returned with object, note total size of request without body must be less than 8 KB.
         #
-        # @return [Excon::Response] response: 
-        #   * body [Hash]: 
+        # @return [Excon::Response] response:
+        #   * body [Hash]:
         #     * Bucket [String] - Bucket where upload was initiated
         #     * Key [String] - Object key where the upload was initiated
         #     * UploadId [String] - Id for initiated multipart upload

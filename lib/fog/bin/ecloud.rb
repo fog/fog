@@ -9,7 +9,7 @@ class Ecloud < Fog::Bin
       case key
       when :compute
         Fog::Compute::Ecloud
-      else 
+      else
         raise ArgumentError, "Unrecognized service: #{key}"
       end
     end

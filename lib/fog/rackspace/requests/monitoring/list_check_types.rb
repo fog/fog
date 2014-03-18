@@ -29,7 +29,7 @@ module Fog
                     "description"=> "Port number (default: 53)",
                     "optional"   => true
                   },
-                  { 
+                  {
                     "name"       => "query",
                     "description"=> "DNS Query",
                     "optional"   => false
@@ -39,7 +39,7 @@ module Fog
                     "description" => "DNS Record Type",
                     "optional"    => false
                   }
-                ],              
+                ],
                 "category" => "remote"
               },
 
@@ -57,7 +57,7 @@ module Fog
             ],
 
 
-          
+
             "metadata" => {
               "count"       => 2,
               "limit"       => 100,

@@ -7,7 +7,7 @@ This storm_on_demand directory provides code for all storm on demand cloud APIs.
 Before using APIs of a service, you need to create a service object first. Take Compute for instance:
 
 		c = Fog::Compute.new :provider => :stormondemand,
-							 :storm_on_demand_username => 'username', 
+							 :storm_on_demand_username => 'username',
 							 :storm_on_demand_password => 'password'
 Now, you can call API methods for Compute service. For instance:
 
@@ -36,7 +36,7 @@ All APIs' parameters are the same with the [Storm On Demand API Doc](https://www
 If you want to use a token instead of password for API calls, instead of creating a new service like Compute, you should create a new Account first and get the token. Then create a new Compute/Network/Storage with the token.
 
 		account = Fog::Account.new :provider => :stormondemand,
-								   :storm_on_demand_username => 'username', 
+								   :storm_on_demand_username => 'username',
 							       :storm_on_demand_password => 'password'
 		# create a new token
 		token = account.tokens.create

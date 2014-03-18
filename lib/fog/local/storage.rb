@@ -1,5 +1,4 @@
 require 'fog/local/core'
-require 'fog/storage'
 
 module Fog
   module Storage

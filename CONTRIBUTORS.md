@@ -3,8 +3,10 @@
 * Adam Bozanich <adam.boz@gmail.com>
 * Adam Greene <adam@sweetspotdiabetes.com>
 * Adam Heinz <amh@metricwise.net>
+* Adam Stegman and Zach Robinson <pair+astegman+zrobinson@pivotallabs.com>
 * Adam Tanner <adam@adamtanner.org>
 * Adam Tucker <adam.j.tucker@gmail.com>
+* Adan Saenz <asaenz@momentumsi.com>
 * Ahmed Al Hafoudh <alhafoudh@freevision.sk>
 * Akira Matsuda <ronnie@dio.jp>
 * Akshay Joshi <me@akshayjoshi.com>
@@ -32,6 +34,7 @@
 * Alvin Garcia <agarcia@exist.com>
 * Amitava <amitava.bs@gmail.com>
 * Amos Benari <abenari@redhat.com>
+* Amy Sutedja <asutedja@biaprotect.com>
 * Amy Woodward <aswoodward@gmail.com>
 * Andre Meij <andre@socialreferral.com>
 * Andreas Gerauer <helle@fraggaz.de>
@@ -59,6 +62,7 @@
 * Artem Veremey <artem@veremey.net>
 * Arthur Gunawan <acgun3@gmail.com>
 * Arvid Andersson <arvid@winstondesign.se>
+* Ash Wilson <ash.wilson@rackspace.com>
 * Athir Nuaimi <anuaimi@devfoundry.com>
 * Avrohom Katz <iambpentameter@gmail.com>
 * BK Box <bk@theboxes.org>
@@ -66,6 +70,8 @@
 * Ben Bleything <ben@bleything.net>
 * Ben Burkert <ben@benburkert.com>
 * Ben Butler-Cole <ben@bridesmere.com>
+* Ben Chadwick <bchadwick@mdsol.com>
+* Ben Hundley <ben.hundley@gmail.com>
 * Ben Turley <ben@scan.me>
 * Benjamin Manns <benmanns@gmail.com>
 * Benton Roberts <benton@bentonroberts.com>
@@ -80,13 +86,16 @@
 * Brad Gignac <brad.gignac@rackspace.com>
 * Brad Heller <brad@cloudability.com>
 * Bradley Schaefer <bradley.schaefer@gmail.com>
+* Brandon Dunne <bdunne@redhat.com>
 * Brendan Fosberry <brendan.fosberry@rackspace.com>
 * Brian D. Burns <iosctr@gmail.com>
 * Brian Dorry <bdorry@Brian-Dorrys-MacBook-Pro.local>
 * Brian Hartsock <brian.hartsock@gmail.com>
 * Brian Hartsock <brian.hartsock@rackspace.com>
 * Brian Nelson <bnelson@sugarcrm.com>
+* Brian Palmer <brianp@instructure.com>
 * Brice Figureau <brice-puppet@daysofwonder.com>
+* Bruno Enten <bruno@enten-itc.ch>
 * Bulat Shakirzyanov <mallluhuct@gmail.com>
 * Caius Durling <dev@caius.name>
 * Caleb Tennis <caleb.tennis@gmail.com>
@@ -107,6 +116,7 @@
 * Chris Chiodo <chris@viximo.com>
 * Chris Frederick <chris@maginatics.com>
 * Chris Hasenpflug <github@chris.hasenpflug.us>
+* Chris Howe <howech@infochimps.com>
 * Chris Mague <github@mague.com>
 * Chris Roberts <chrisroberts.code@gmail.com>
 * Chris Wuest <chris.wuest@rackspace.com>
@@ -137,6 +147,7 @@
 * Daniel Schweighoefer <daniel@netsteward.net>
 * Danny Garcia <dannygarcia.me@gmail.com>
 * Darrin Eden <darrin.eden@gmail.com>
+* Dave Donahue <dave@12spokes.com>
 * Dave Myron <therealdave.myron@gmail.com>
 * Dave Ungerer <daveungerer@gmail.com>
 * David <davidxz@x0-air.gateway.2wire.net>
@@ -155,6 +166,7 @@
 * Dominic Cleal <dcleal@redhat.com>
 * DoubleMalt <christoph@web.crofting.com>
 * Doug Henderson <dhenderson@maestrodev.com>
+* Doug Henderson <dougforpres@gmail.com>
 * Doug McInnes <doug@dougmcinnes.com>
 * Dr Nic Williams <drnicwilliams@gmail.com>
 * Dusty Jones <dusty@teamsnap.com>
@@ -172,6 +184,7 @@
 * Eric Boehs <ericboehs@gmail.com>
 * Eric Chernuka <ericchernuka@gmail.com>
 * Eric Hankins <ehankins@rednovalabs.com>
+* Eric Herot <eric.github@herot.com>
 * Eric Hodel <drbrain@segment7.net>
 * Eric Lindvall <eric@5stops.com>
 * Eric Stonfer <ericstonfer@yahoo.com>
@@ -198,6 +211,7 @@
 * Gabriel Rosendorf <gabriel.rosendorf@weather.com>
 * Garima Singh <igarimasingh@gmail.com>
 * Garret Alfert <alfert@wevelop.de>
+* Gaurish Sharma <contact@gaurishsharma.com>
 * Gavin Sandie <beach@vicecity.co.uk>
 * Gavin Sandie <g.sandie@digital-science.com>
 * Geoff Pado <geoffpado@gmail.com>
@@ -244,6 +258,7 @@
 * Jason Hansen & Josh Lane <jhansen@engineyard.com>
 * Jason Montleon <jmontleo@redhat.com>
 * Jason Roelofs <jameskilton@gmail.com>
+* Jason Smith <jsmith@gold-sonata.com>
 * Jay Faulkner <jay.faulkner@rackspace.com>
 * Jay Perry <jperry@brightcove.com>
 * Jeff McCune <jeff@puppetlabs.com>
@@ -261,6 +276,7 @@
 * Joe Yates <joe.g.yates@gmail.com>
 * John Dyer <john@krumpt.com>
 * John E. Vincent <lusis.org+github.com@gmail.com>
+* John F. Douthat <johndouthat@gmail.com>
 * John Feminella <johnf@fluxcrux.com>
 * John Ferlito <johnf@inodes.org>
 * John Hawthorn <john.hawthorn@gmail.com>
@@ -277,6 +293,7 @@
 * Jon-Erik Schneiderhan <jschneiderhan@gmail.com>
 * Jonas Pfenniger <jonas@pfenniger.name>
 * Jonas Pfenniger <zimbatm@zimbatm.com>
+* Jonathon Scanes <me@jscanes.com>
 * Joonas Reynders <joonas.reynders@iki.fi>
 * Jose Diaz-Gonzalez <josegonzalez@users.noreply.github.com>
 * Jose Luis Salas <josacar@gmail.com>
@@ -287,14 +304,17 @@
 * Josh Kearney <josh@jk0.org>
 * Josh Lane & Ines Sombra <jlane@engineyard.com>
 * Josh Lane & Jason Hansen <jlane@engineyard.com>
+* Josh Lane <jlane@engineyard.com>
 * Josh Lane <lane.joshlane@gmail.com>
 * Josh Lane <me@joshualane.com>
 * Josh Pasqualetto <josh.pasqualetto@sonian.net>
 * Josh Yotty <jyotty@bluebox.net>
+* Joshua Gross <joshua@surfeasy.com>
 * Joshua Krall <joshuakrall@pobox.com>
 * Joshua Napoli <jnapoli@swipely-napoli.home>
 * Joshua Napoli <jnapoli@swipely-napoli.local>
 * Joshua Nichols <josh@technicalpickles.com>
+* Joshua Schairbaum <joshua.schairbaum@gmail.com>
 * Julian Fischer <fischer@enterprise-rails.de>
 * Julian Weber <jweber@anynines.com>
 * Julian Weber <jweber@avarteq.de>
@@ -302,6 +322,7 @@
 * Juris Galang <jurisgalang@gmail.com>
 * Justin Barry <justin.d.barry@gmail.com>
 * Justin Clayton <justin.clayton@gettyimages.com>
+* KATOH Yasufumi <karma@jazz.email.ne.jp>
 * Kaloyan Kanev <kaloyan.kanev@cloudsigma.com>
 * Karan Misra <karan@erodov.com>
 * Karl Freeman <karlfreeman@gmail.com>
@@ -353,6 +374,7 @@
 * Mark Phillips <mark.phillips2@bskyb.com>
 * Mark Rushakoff <mark.rushakoff@gmail.com>
 * Mark Turner <mark@amerine.net>
+* Marshall Yount <marshall@yountlabs.com>
 * Martin Emde <martin.emde@gmail.com>
 * Martin Englund <martin@englund.nu>
 * Martin Matuska <martin@matuska.org>
@@ -402,6 +424,7 @@
 * Nat Welch <nat@natwelch.com>
 * Nathan Sullivan <nsullivan@kixeye.com>
 * Nathan Sutton <nate@zencoder.com>
+* Nathan Williams <nwilliams@bluebox.net>
 * Neill Turner <neillwturner@gmail.com>
 * Nelvin Driz <NelvinDriz@live.com>
 * Nelvin Driz <iam@nelv.in>
@@ -444,7 +467,10 @@
 * Pedro Perez <pedro@bvox.net>
 * Peter Bonnell <peter@circuitllc.com>
 * Peter C. Norton <pn@knewton.com>
+* Peter Drake <peter.drake@acquia.com>
+* Peter M. Goldstein <peter.m.goldstein@gmail.com>
 * Peter Meier <peter.meier@immerda.ch>
+* Peter Vawser <peter@catapult-elearning.com>
 * Peter Weldon <peter.weldon@null.net>
 * Peter Weldon <peter@lautus.net>
 * Phil Cohen <github@phlippers.net>
@@ -456,6 +482,7 @@
 * Pierre Carrier <pierre@gcarrier.fr>
 * Pieter van de Bruggen <pieter@puppetlabs.com>
 * Pieter van de Bruggen <pvande@gmail.com>
+* Piotr Kedziora <piotr.kedziora27@gmail.com>
 * Postmodern <postmodern.mod3@gmail.com>
 * Prashant Nadarajan <prashant.nadarajan@gmail.com>
 * Pratik Naik <pratiknaik@gmail.com>
@@ -483,11 +510,16 @@
 * Sam Kottler <shk@redhat.com>
 * Sam Merritt <spam@andcheese.org>
 * Sami Samhuri <sami@samhuri.net>
+* Sammy Larbi <sam@codeodor.com>
 * Samuel Merritt <spam@andcheese.org>
 * Sarah Vessels <sarah.vessels@cirrusmio.com>
+* Sascha Korth <sascha.korth@zweitag.de>
 * Scott Gonyea <me@aitrus.org>
 * Sean Caffery <sean.caffery@c3businesssolutions.com>
 * Sean Handley <sean.handley@gmail.com>
+* Sean Handley <sean.handley@melbourne.co.uk>
+* Sean Handley <sean@Seans-MacBook-Air.local>
+* Sean Handley <seanhandley@users.noreply.github.com>
 * Sean Hart <boardnutz@blacklight.net>
 * Sean Hart <sean.hart@gree.co.jp>
 * Sean Porter <portertech@gmail.com>
@@ -497,11 +529,13 @@
 * Shai Rosenfeld & Jacob Burkhart <srosenfeld@engineyard.com>
 * Shai Rosenfeld <shaiguitar@gmail.com>
 * Shai Rosenfeld <srosenfeld@engineyard.com>
+* Shaun Davis <davissp14@gmail.com>
 * Shawn Catanzarite <me@shawncatz.com>
 * Shay Bergmann <shayb@panaya.com>
 * Simon Gate <simon@smgt.me>
 * Simon Josi <me@yokto.net>
 * Simon Rozet <simon@rozet.name>
+* Simone Carletti <weppos@weppos.net>
 * Sjoerd Andringa <sjoerd.andringa@me.com>
 * Sneha Somwanshi <sneha.vishwas-somwanshi@digital.cabinet-office.gov.uk>
 * Spencer Dillard <dillards@amazon.com>
@@ -513,6 +547,7 @@
 * Stephen von Takach <steve@advancedcontrol.com.au>
 * Steve Agalloco <steve.agalloco@gmail.com>
 * Steve Frank <lardcanoe@gmail.com>
+* Steve Meyfroidt <steve.meyfroidt@gmail.com>
 * Steve Smith <github@scsworld.co.uk>
 * Steven Danna <steve@opscode.com>
 * Stuart Eccles <stuart@madebymany.co.uk>
@@ -591,6 +626,7 @@
 * bmiller <bmiller@handson.com>
 * bonkydog <bonkydog@bonkydog.com>
 * brookemckim <brooke.mckim@gmail.com>
+* bugagazavr <kirik910@gmail.com>
 * ccloes <chad_cloes@intuit.com>
 * coliver <coliver@datapipe.com>
 * crazed <cr4z3d@gmail.com>
@@ -625,6 +661,7 @@
 * jschneiderhan <jon-erik.schneiderhan@meyouhealth.com>
 * kanetann <kanetann@gmail.com>
 * kbockmanrs <kevin@rightscale.com>
+* kfafel <keith.fafel@gmail.com>
 * leehuffman <lhuffman@bluebox.net>
 * lostboy <paul.crabtree@gmail.com>
 * marios <marios@marios.(none)>
@@ -634,6 +671,7 @@
 * mlincoln <mlincoln@thoughtworks.com>
 * mriley <wdperson@hotmail.com>
 * msa <marios@marios.(none)>
+* neillturner <neillwturner@gmail.com>
 * nightshade427 <nightshade427@gmail.com>
 * phiggins <pete@peterhiggins.org>
 * phillc <spyyderz@gmail.com>
@@ -648,6 +686,7 @@
 * thattommyhall <thattommyhall@gmail.com>
 * tipt0e <topo-2@charter.net>
 * torake.fransson <torake.fransson@klarna.com>
+* unknown <bturner_2@pibuk-lp71.pibenchmark.com>
 * vkhatri <vir.khatri@gmail.com>
 * watsonian <watsonian@gmail.com>
 * wenlock <edward.raigosa@gmail.com>

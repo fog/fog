@@ -6,8 +6,8 @@ module Fog
 
         # Update Router
         #
-        # Beyond the name and the administrative state, the only 
-        # parameter which can be updated with this operation is 
+        # Beyond the name and the administrative state, the only
+        # parameter which can be updated with this operation is
         # the external gateway.
         #
         #     router = Fog::Network[:openstack].routers.first
@@ -24,7 +24,7 @@ module Fog
         # @see http://docs.openstack.org/api/openstack-network/2.0/content/router_update.html
         def update_router(router_id, options = {})
           data = { 'router' => {} }
-          
+
           vanilla_options = [:name, :admin_state_up]
 
           egi = options[:external_gateway_info]
@@ -54,7 +54,7 @@ module Fog
       class Mock
         def update_router(router_id, options = {})
           response = Excon::Response.new
-          router = list_routers.body['routers'].detect do |_| 
+          router = list_routers.body['routers'].detect do |_|
             _['id'] == router_id
           end
           if router

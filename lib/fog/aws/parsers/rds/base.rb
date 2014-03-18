@@ -1,7 +1,7 @@
 module Fog
   module Parsers
     module AWS
-      module RDS 
+      module RDS
 
         # Base parser for ResponseMetadata, RequestId
         class Base < Fog::Parsers::Base

@@ -1,5 +1,4 @@
 require 'fog/vcloud_director/core'
-require 'fog/compute'
 
 class VcloudDirectorParser < Fog::Parsers::Base
   def extract_attributes(attributes_xml)
@@ -39,6 +38,7 @@ module Fog
       class Unauthorized < Fog::VcloudDirector::Errors::Unauthorized; end
       class Forbidden < Fog::VcloudDirector::Errors::Forbidden; end
       class Conflict < Fog::VcloudDirector::Errors::Conflict; end
+      class MalformedResponse < Fog::VcloudDirector::Errors::MalformedResponse; end
 
       class DuplicateName < Fog::VcloudDirector::Errors::DuplicateName; end
       class TaskError < Fog::VcloudDirector::Errors::TaskError; end
@@ -127,6 +127,7 @@ module Fog
       request :get_metadata
       request :get_network
       request :get_network_cards_items_list
+      request :get_network_complete
       request :get_network_config_section_vapp
       request :get_network_config_section_vapp_template
       request :get_network_connection_system_section_vapp
@@ -335,7 +336,7 @@ module Fog
           @persistent = options[:persistent]  || false
           @port       = options[:port]        || Fog::Compute::VcloudDirector::Defaults::PORT
           @scheme     = options[:scheme]      || Fog::Compute::VcloudDirector::Defaults::SCHEME
-          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
+          @connection = Fog::XML::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
           @end_point = "#{@scheme}://#{@host}#{@path}/"
           @api_version = options[:vcloud_director_api_version] || Fog::Compute::VcloudDirector::Defaults::API_VERSION
           @show_progress = options[:vcloud_director_show_progress]
@@ -364,6 +365,13 @@ module Fog
         def request(params)
           begin
             do_request(params)
+          rescue Excon::Errors::SocketError::EOFError
+            # This error can occur if Vcloud receives a request from a network
+            # it deems to be unauthorized; no HTTP response is sent, but the
+            # connection is sent a signal to terminate early.
+            raise(
+              MalformedResponse, "Connection unexpectedly terminated by vcloud"
+            )
           # this is to know if Excon::Errors::Unauthorized really happens
           #rescue Excon::Errors::Unauthorized
           #  login
@@ -447,11 +455,15 @@ module Fog
         private
 
         def login
-          response = post_login_session
-          x_vcloud_authorization = response.headers.keys.detect do |key|
-            key.downcase == 'x-vcloud-authorization'
+          if @vcloud_token = ENV['FOG_VCLOUD_TOKEN']
+            response = get_current_session
+          else
+            response = post_login_session
+            x_vcloud_authorization = response.headers.keys.detect do |key|
+              key.downcase == 'x-vcloud-authorization'
+            end
+            @vcloud_token = response.headers[x_vcloud_authorization]
           end
-          @vcloud_token = response.headers[x_vcloud_authorization]
           @org_name = response.body[:org]
           @user_name = response.body[:user]
         end
@@ -666,7 +678,7 @@ module Fog
           @persistent = options[:persistent] || false
           @port = options[:port] || Fog::Compute::VcloudDirector::Defaults::PORT
           @scheme = options[:scheme] || Fog::Compute::VcloudDirector::Defaults::SCHEME
-          #@connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
+          #@connection = Fog::XML::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
           @end_point = "#{@scheme}://#{@host}#{@path}/"
           @api_version = options[:vcloud_director_api_version] || Fog::Compute::VcloudDirector::Defaults::API_VERSION
         end
