@@ -5,13 +5,7 @@ module Fog
       class Mock
 
         def list_regions
-          regions = self.data[:regions].values
-          build_response(:body => {
-            "kind" => "compute#regionList",
-            "selfLink" => "https://www.googleapis.com/compute/#{api_version}/projects/#{@project}/regions",
-            "id" => "projects/#{@project}/regions",
-            "items" => regions
-          })
+          Fog::Mock.not_implemented
         end
 
       end
