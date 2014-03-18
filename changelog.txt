@@ -1,3 +1,362 @@
+1.21.0 03/18/2014 c9dfbd5b4d3687b5c809f6617ba9a5454a2a9c49
+==========================================================
+
+Stats! { 'collaborators' => 55, 'downloads' => 4751224, 'forks' => 1116, 'open_issues' => 148, 'watchers' => 2959 }
+
+MVP! Kevin Olbrich
+
+[AWS | Compute]
+  Validate region. thanks radekg
+
+[AWS | Compute | incorrect_region]
+  Corrected test name. thanks radekg
+
+[AWS/elasticache]
+  Added mocking for parameter groups. thanks Brian Nelson
+  Minor fix from RDS copy/pasta. thanks Brian Nelson
+
+[AWS/vpc]
+  Fix VPC creation mock. thanks Brian Nelson
+
+[Brightbox]
+  Replace use of Fog::Connection. thanks Paul Thornthwaite
+  Destroy snapshot after completion. thanks Paul Thornthwaite
+  Remove SQL instance snapshot attr. thanks Paul Thornthwaite
+  Support Cloud SQL maintenance windows. thanks Paul Thornthwaite
+  Require `fog/json` in compute. thanks Paul Thornthwaite
+  Extract to provider module. thanks Paul Thornthwaite
+  Add support for Cloud SQL service. thanks Paul Thornthwaite
+  Remove old #destroy request. thanks Paul Thornthwaite
+  Don't set generic names in tests. thanks Paul Thornthwaite
+  Fix SQL instance waiting in tests. thanks Paul Thornthwaite
+  Round out fog-brightbox gem. thanks Paul Thornthwaite
+  Use minitest in Brightbox module. thanks Paul Thornthwaite
+  Remove dependency on .fog in test. thanks Paul Thornthwaite
+
+[DigitalOcean]
+  Skip consistently timing out tests. thanks Paul Thornthwaite
+
+[Docker]
+  fixed attributes aliases. thanks Amos Benari
+  fixes running state is not loaded,     becase list-containers get only part of the container attributes. thanks Amos Benari
+  camelize hash keys on image and container create. thanks Amos Benari
+  container actions fixed. thanks Amos Benari
+
+[GH-2630]
+  Bring in Minitest. thanks Paul Thornthwaite
+
+[GH-2706]
+  Update ruby-libvirt dependency to 0.5. thanks Paul Thornthwaite
+
+[GH-2711]
+  Add Fog::XML::Connection. thanks Paul Thornthwaite
+  Replace Fog::Connection with XML shim. thanks Paul Thornthwaite
+
+[Openstack|Volumes]
+  available? check method. thanks Daniel Lobato
+
+[README]
+  Add RightScale maintainer info (acu85381). thanks kbockmanrs
+
+[aws]
+  fix race condition in v4 signature tests. thanks geemus
+
+[aws/compute]
+  delete_security_group mock fixes. thanks Josh Lane & Thom Mahoney
+
+[aws/security_group]
+  update mock search and revoke. thanks Josh Lane & Thom Mahoney
+
+[aws|dns]
+  omit ttl for alias records. thanks geemus
+
+[aws|iam]
+  Add get_account_summary. thanks Dan Peterson
+
+[aws|region validation]
+  Region validation extracted into a separate class and used by both, mocks and real. thanks radekg
+  Error message of the test to match error of the validator. thanks radekg
+
+[core]
+  Use fog-core v1.21.0. thanks Paul Thornthwaite
+  Make the wait timeout truly global. thanks Paul Thornthwaite
+  Replace Fog::Connection with stable version. thanks Paul Thornthwaite
+  Deprecate Fog::Connection. thanks Paul Thornthwaite
+  Fix deprecated Mintest base. thanks Paul Thornthwaite
+
+[docker]
+  added command attribute. thanks Amos Benari
+
+[google]
+  Don't swallow google errors in images.get. thanks Carlos Sanchez
+
+[google|compute]
+  Changes to how auth works. thanks Nat Welch
+  Fix spelling errors in example. thanks Nat Welch
+  Use a valid image for v1 in example. thanks Nat Welch
+  Change projects we search for images in. thanks Nat Welch
+  reraise LoadError when google-api-client missing. thanks geemus
+  disk model: get_object fix for Ruby 1.8. thanks kbockmanrs
+  disk model: Add auto_delete option to get_as_boot_disk. thanks kbockmanrs
+  disk model: Default get_object auto_delete to false. thanks kbockmanrs
+
+[internetarchive]
+  Correct test tagging. thanks Paul Thornthwaite
+
+[libvirt|compute]
+  Allow volumes to be cloned at the disk level. thanks Greg Sutcliffe
+  Handle integer capacities. thanks Greg Sutcliffe
+
+[misc]
+  added docker support. thanks Amos Benari
+  extended the server (container) attributes. thanks Amos Benari
+  added container commit request and fixed several tests in real mode. thanks Amos Benari
+  initial commit of changes to add network interface during instance creation. thanks Andrew Stangl
+  merge upstream changes. thanks Andrew Stangl
+  make sure mock creates interface that doesn't already exist. thanks Andrew Stangl
+  initial commit of changes to add network interface during instance creation. thanks Andrew Stangl
+  make sure mock creates interface that doesn't already exist. thanks Andrew Stangl
+  initial commit of changes to add network interface during instance creation. thanks Andrew Stangl
+  make sure mock creates interface that doesn't already exist. thanks Andrew Stangl
+  merge upstream changes from fog/master. thanks Andrew Stangl
+  merge changes from master. thanks Andrew Stangl
+  ensure correct type for networkInterface present for run_instances shindo tests. thanks Andrew Stangl
+  change naming to specify what the request is expecting - plural of networkInterfaces vs networkInterface. thanks Andrew Stangl
+  revert alias for networkInterfaces to original. thanks Andrew Stangl
+  revert alias for networkInterfaces to original. thanks Andrew Stangl
+  more changes to ensure networkInterfaces is referenced as a plural, which is what the API is expecting. thanks Andrew Stangl
+  merge upstream fog/master. thanks Andrew Stangl
+  merge upstream changes from fog/master. thanks Andrew Stangl
+  ensure options hash is actually passed to request. thanks Andrew Stangl
+  change security group return object to match actual returned object. thanks Andrew Stangl
+  Use case-insensitive header access for Location. thanks Ash Wilson
+  Fix case sensitivity of the Content-type header. thanks Ash Wilson
+  ability to supply serviceAccounts on image create. thanks Brett Porter
+  Update Amazon instance flavors. thanks Chris Kershaw
+  Fix syntax issue. thanks Chris Kershaw
+  Fix syntax issue. thanks Chris Kershaw
+  Correct another syntax issue. thanks Chris Kershaw
+  Add cpu_speed to flavors. thanks Chris Kershaw
+  Revert excon version back. thanks Chris Kershaw
+  Add cpu_speed to flavors. thanks Chris Kershaw
+  Add cpu_speed to flavors. thanks Chris Kershaw
+  Allow dnsimple authentication via API tokens. thanks Chris Roberts
+  Fix a typo in error message that could cause problems for cut-n-pasters. thanks Christopher Snell
+  Mock out the attachment of network interfaces. thanks Eric Herot
+  Remove debug code. thanks Eric Herot
+  set custom application/version for google compute. thanks Eric Johnson
+  use custom and fog user agent. thanks Eric Johnson
+  fix mismatched variable names in disk.create_snapshot. thanks Eric Johnson
+  Include auto-assigned IPs in public IP's. thanks Erik Mackdanz
+  sort array to avoid extraneous arrays. thanks Erik Mackdanz
+  Fix test. thanks Erik Mackdanz
+  Incorrectly requiring all of fog here. thanks Evan Light
+  Update getting_started.md. thanks Evan Light
+  Update to attempt to alleviate confusion between Directory.new and get. thanks Evan Light
+  Removing superfluous markup. thanks Evan Light
+  Incorporated feedback from @mikhailov. thanks Evan Light
+  Update Flavours.rb with new M3 Instance Types. thanks Gaurish Sharma
+  Don't read entire file into memory when saving to local blob storage. (local files). thanks Jamie Paton
+  Namespace File. thanks Jamie Paton
+  Creates error for early termination from vcloud. thanks Jim Berlage
+  Fixes class of error. thanks Jim Berlage
+  Return empty set on route53 if no records match. thanks Jose Luis Salas
+  add config_disk attribute to rackspace compute_v2 server. thanks Joseph Anthony Pasquale Holsten
+  fix typo. thanks Joseph Anthony Pasquale Holsten
+  add ipv6_only support to blue box. thanks Josh Kalderimis
+  some ipv6_only corrections. thanks Josh Kalderimis
+  Fixing [excon][WARNING] Invalid Excon request keys log noise when trying to use STS. thanks Joshua Garnett
+  This reverts our local modifications to fog gem. thanks Kevin Olbrich
+  add option :joyent_keydata.  This allows the key to be read from a file outside of Fog and be passed into the initializer.  This way the key data can be stored in something other than a file and still be used. thanks Kevin Olbrich
+  Basic analytics support including a class for joyent 'modules'.  Note that these are named 'JoyentModule' instead of 'Module' to avoid obvious namespace problems. thanks Kevin Olbrich
+  describe analytics support. thanks Kevin Olbrich
+  add support for 'metrics'. thanks Kevin Olbrich
+  metrics and fields. thanks Kevin Olbrich
+  fields. thanks Kevin Olbrich
+  add 'types'. thanks Kevin Olbrich
+  more types. thanks Kevin Olbrich
+  add transformations. thanks Kevin Olbrich
+  transformations. thanks Kevin Olbrich
+  memoize describe analytics call.  It doesn't change much and this prevents another api call for each of the objects returned by it. thanks Kevin Olbrich
+  add support for getting 'instrumentations'. thanks Kevin Olbrich
+  create instrumentations, handle errors better, get an individual instrumentation. thanks Kevin Olbrich
+  more instrumentation stuff. thanks Kevin Olbrich
+  allow creation and deletion of instrumentations. thanks Kevin Olbrich
+  delete an instrumentation. thanks Kevin Olbrich
+  Allow setting an attribute type of :timestamp.  Models using this type of attribute should receive times encoded as unix timestamps. thanks Kevin Olbrich
+  map internal attribute names to those used on the remote service before making api call to persist the data. thanks Kevin Olbrich
+  implement get_images api call. thanks Kevin Olbrich
+  implement get_image api call. thanks Kevin Olbrich
+  create an instrumentation via api call with start and end times. thanks Kevin Olbrich
+  add support for getting values from an instrumentation. thanks Kevin Olbrich
+  actually get the values. thanks Kevin Olbrich
+  documentation. thanks Kevin Olbrich
+  update compute with some attributes from api 7.0. thanks Kevin Olbrich
+  pull duration for value calls from instrumentation granularity so that things come back correctly from joyent. thanks Kevin Olbrich
+  add datacenter model. thanks Kevin Olbrich
+  perhaps make more threadsafe. thanks Kevin Olbrich
+  add mutex to real class instead of mock. thanks Kevin Olbrich
+  add tests for instrumentations. thanks Kevin Olbrich
+  more tests for instrumentations. thanks Kevin Olbrich
+  instrumentation collection tests. thanks Kevin Olbrich
+  mock instrumentation values. thanks Kevin Olbrich
+  tests for fields and describe analytics requests. thanks Kevin Olbrich
+  tests for joyent_modules. thanks Kevin Olbrich
+  tests for fields and joyent_module. thanks Kevin Olbrich
+  add tests for metrics, types and a few other things. thanks Kevin Olbrich
+  Revert "Add cpu_speed to flavors". thanks Kevin Olbrich
+  remove some comments. thanks Kevin Olbrich
+  properly use remap_attributes.  just do it for the outgoing request, don't permanently change them. thanks Kevin Olbrich
+  use Excon's idempotent option for gets and lists. thanks Kevin Olbrich
+  add option :joyent_keydata.  This allows the key to be read from a file outside of Fog and be passed into the initializer.  This way the key data can be stored in something other than a file and still be used. thanks Kevin Olbrich
+  Basic analytics support including a class for joyent 'modules'.  Note that these are named 'JoyentModule' instead of 'Module' to avoid obvious namespace problems. thanks Kevin Olbrich
+  describe analytics support. thanks Kevin Olbrich
+  add support for 'metrics'. thanks Kevin Olbrich
+  metrics and fields. thanks Kevin Olbrich
+  fields. thanks Kevin Olbrich
+  add 'types'. thanks Kevin Olbrich
+  more types. thanks Kevin Olbrich
+  add transformations. thanks Kevin Olbrich
+  transformations. thanks Kevin Olbrich
+  memoize describe analytics call.  It doesn't change much and this prevents another api call for each of the objects returned by it. thanks Kevin Olbrich
+  add support for getting 'instrumentations'. thanks Kevin Olbrich
+  create instrumentations, handle errors better, get an individual instrumentation. thanks Kevin Olbrich
+  more instrumentation stuff. thanks Kevin Olbrich
+  allow creation and deletion of instrumentations. thanks Kevin Olbrich
+  delete an instrumentation. thanks Kevin Olbrich
+  Allow setting an attribute type of :timestamp.  Models using this type of attribute should receive times encoded as unix timestamps. thanks Kevin Olbrich
+  map internal attribute names to those used on the remote service before making api call to persist the data. thanks Kevin Olbrich
+  implement get_images api call. thanks Kevin Olbrich
+  implement get_image api call. thanks Kevin Olbrich
+  create an instrumentation via api call with start and end times. thanks Kevin Olbrich
+  add support for getting values from an instrumentation. thanks Kevin Olbrich
+  actually get the values. thanks Kevin Olbrich
+  documentation. thanks Kevin Olbrich
+  update compute with some attributes from api 7.0. thanks Kevin Olbrich
+  pull duration for value calls from instrumentation granularity so that things come back correctly from joyent. thanks Kevin Olbrich
+  add datacenter model. thanks Kevin Olbrich
+  perhaps make more threadsafe. thanks Kevin Olbrich
+  add mutex to real class instead of mock. thanks Kevin Olbrich
+  add tests for instrumentations. thanks Kevin Olbrich
+  more tests for instrumentations. thanks Kevin Olbrich
+  instrumentation collection tests. thanks Kevin Olbrich
+  mock instrumentation values. thanks Kevin Olbrich
+  tests for fields and describe analytics requests. thanks Kevin Olbrich
+  tests for joyent_modules. thanks Kevin Olbrich
+  tests for fields and joyent_module. thanks Kevin Olbrich
+  add tests for metrics, types and a few other things. thanks Kevin Olbrich
+  Revert "Add cpu_speed to flavors". thanks Kevin Olbrich
+  remove some comments. thanks Kevin Olbrich
+  properly use remap_attributes.  just do it for the outgoing request, don't permanently change them. thanks Kevin Olbrich
+  use Excon's idempotent option for gets and lists. thanks Kevin Olbrich
+  change ruby 1.9.3 style hashes to ruby 1.8.7 style for backwards compatability. thanks Kevin Olbrich
+  Added find_by_name to openstack identity-users model and tests. thanks Markus Schwed
+  Fix exception if listing raw vSphere volumes (thinProvisioned method missing). thanks Martin Matuska
+  support pagination of results in AWS Data Pipeline query_objects. thanks Matt Gillooly
+  Support VPC security group modifictions for RDS. thanks Mike Marion
+  Add network model tests. thanks Mike Pountney
+  Use admin endpoint for get_network. thanks Mike Pountney
+  Switch network model over to get_network_complete. thanks Mike Pountney
+  Add Mock support to get_network_complete. thanks Mike Pountney
+  Add deprecation warning for get_network. thanks Mike Pountney
+  Fix Ruby 1.8.7 hash key issue. thanks Mike Pountney
+  Allow for specification of vcloud_token via ENV. thanks Mike Pountney
+  Add fence_mode to network model. thanks Mike Pountney
+  Ensure get_network_complete mock returns like API. thanks Mike Pountney
+  Add is_shared attribute to network Model. thanks Mike Pountney
+  An attempt at an example. thanks Nat Welch
+  Fix some bugs with GCE auth refactoring. thanks Nat Welch
+  Fixes some bugs found in GCE examples. thanks Nat Welch
+  Fix some last bugs in gettng new google_client abstraction working. thanks Nat Welch
+  Tweak gemspec to be less specific for certain gems. thanks Nat Welch
+  Fix Joyent service declarations. thanks Paul Thornthwaite
+  Changes to rely on fog-core. thanks Paul Thornthwaite
+  Use fog-json. thanks Paul Thornthwaite
+  Move services to fog-core. thanks Paul Thornthwaite
+  Remove duplicate requires from services. thanks Paul Thornthwaite
+  Exclude the duplicated Ruby v2.1.0 run. thanks Paul Thornthwaite
+  Remove testing for 1.9.2. thanks Paul Thornthwaite
+  Exclude the duplicated Ruby v2.1.0 run (v2). thanks Paul Thornthwaite
+  Set fast_finish on Travis CI. thanks Paul Thornthwaite
+  Remove trailing whitespace. thanks Paul Thornthwaite
+  Require `json` or `xml` in provider cores. thanks Paul Thornthwaite
+  Add Ruby 2.1.1 to testing matrix. thanks Paul Thornthwaite
+  Revert "[core] Replace Fog::Connection with stable version". thanks Paul Thornthwaite
+  Make Coveralls opt-in. thanks Paul Thornthwaite
+  Reduce size of Travis matrix. thanks Paul Thornthwaite
+  Revert to original .travis.yml and include one case. thanks Paul Thornthwaite
+  Rename testing class to fit filename. thanks Paul Thornthwaite
+  Minitest picks up tests in provider modules. thanks Paul Thornthwaite
+  Added tablet device to default template to fix VNC and Mouse pointer position. thanks Ryan Davies
+  Adding S3 snapshot location for elasticache. thanks Scott Carleton
+  Add a private IP by default to the openstack server mock. thanks Trae Robrock
+  Add attribute firewall_policy to nic. thanks dJason
+  Add ready? to server class. thanks dJason
+  Mark servers collection tests as pending. thanks dJason
+  add fog-core to 1.8.7 Gemfile also. thanks geemus
+  simplify travis.yml to just use explicit includes. thanks geemus
+  bump rbovirt dependency. thanks geemus
+  bump excon dependency. thanks geemus
+  defer fog-core deps to fog-core. thanks geemus
+  bump fog-core dep. thanks geemus
+  add ability to assocation address to private ip address. thanks joe
+  updated documentation for associate_address. thanks joe
+  Take hash as argument for associate address     Left check for backwards compatability. thanks joe
+  Add tests to check argument structure for associate address     Updated other test to take hash. thanks joe
+  add ability to assocation address to private ip address. thanks joe
+  updated documentation for associate_address. thanks joe
+  Take hash as argument for associate address     Left check for backwards compatability. thanks joe
+  Add tests to check argument structure for associate address     Updated other test to take hash. thanks joe
+  change documentation typo. thanks joe
+  remove add nils and remove array merge. thanks joe
+  update mock to match real. thanks joe
+  Update mock for instance_id and allocation_id     Adds error checking for instance_id/network_interfrace     Adds error checkoing for public_ip or allocation_id. thanks joe morgan
+  [google][compute] auth needs additional scope to insert images. thanks kbockmanrs
+  Added a fingerprint parameter to set_metadata request, since without this property the request with 'CONDITION_NOT_MET' status. thanks leonidlm
+  Switched places between the optional arguments for the set_metadata request on google provider to support older ruby versions. thanks leonidlm
+  1. Added the fingerprint parameter to the set_metadata mock definition     2. Added comments to set_metadata to clarify how the fingerprint parameter can be generated. thanks leonidlm
+  don't require service when registering it - matches commit https://github.com/fog/fog/commit/f9a5b9e94229d6023e9e266e9ecfa0cb1ab5aa80#diff-35759cbb09e13d5ecf49512930911bb6. thanks radekg
+  writenig provider for sakuracloud ,wip. thanks sawanoboly
+  follow new require style. thanks sawanoboly
+  Follow message -> DEPRECATION Fog::XML::Connection is deprecated use Fog::Core::Connection instead. thanks sawanoboly
+  Fix wrong aliases at Fog::Volume::SakuraCloud::Archive. thanks sawanoboly
+  enhanced attributes for sakuracloud volume archive. thanks sawanoboly
+  use snake case for size_mb. thanks sawanoboly
+
+[openstack]
+  add unit test covering server.floating_ip_addresses. thanks Erik Mackdanz
+  Add more observable states for openstack models. thanks radekg
+  Add more observable states for openstack models - tests added. thanks radekg
+  Add more observable states for openstack models - tests corrected. thanks radekg
+  image.update_image_members expects are incorrect #2627. thanks radekg
+  Fix for OpenStack flavor id calculation. thanks radekg
+
+[openstack|storage]
+  Fix extracted request. thanks Paul Thornthwaite
+
+[ovirt]
+  add support for ca cert. thanks Amos Benari
+  fixed interfaces and volume list.     The return list is now always fog object and not rbovirt objects. thanks Amos Benari
+
+[rackspace|compute_v2]
+  adds virtual interfaces support. thanks Kyle Rames
+  removing hard coded timeout in servers. thanks Kyle Rames
+
+[vcloud]
+  Remove helpless helper. thanks Paul Thornthwaite
+
+[vcloud_director]
+  get_network_complete. thanks Mike Pountney
+  Add tests and connect up get_network_complete. thanks Mike Pountney
+  fix typo as per #2621. thanks Mike Pountney
+
+[vsphere]
+  fix broken detection of existing network interface type. thanks Martin Matuska
+
+[vsphere|compute]
+  Expose template names and UUIDs. thanks Dominic Cleal
+
+
 1.20.0 02/07/2014 76846bb4bd2d94ec169757f6f4125dc173359140
 ==========================================================
 

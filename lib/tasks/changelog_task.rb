@@ -65,6 +65,7 @@ module Fog
               'Henry Addison',
               'James Bence',
               'Kevin Menard',
+              'Kevin Olbrich',
               'Kyle Rames',
               'Lincoln Stoll',
               'Luqman Amjad',
