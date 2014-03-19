@@ -68,6 +68,6 @@ Gem::Specification.new do |s|
     s.add_development_dependency('ruby-libvirt','~> 0.5.0')
   end
 
-  s.files = `git ls-files`.split("\n")
+  s.files = `git ls-files`.split("\n") - `git ls-files -- providers/`.split("\n")
   s.test_files = `git ls-files -- {spec,tests}/*`.split("\n")
 end
