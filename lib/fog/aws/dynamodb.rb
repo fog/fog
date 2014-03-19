@@ -112,7 +112,6 @@ module Fog
           # defaults for all dynamodb requests
           params.merge!({
             :expects  => 200,
-            :host     => @host,
             :method   => :post,
             :path     => '/'
           })
