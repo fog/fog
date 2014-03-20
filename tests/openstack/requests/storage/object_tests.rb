@@ -41,14 +41,12 @@ Shindo.tests('Fog::Storage[:openstack] | object requests', ["openstack"]) do
       Fog::Storage[:openstack].delete_object('fogobjecttests', 'fog_object')
     end
 
-    tests("#get_object_http_url('directory.identity', 'fog_object', expiration timestamp)").succeeds do
+    def test_temp_url(url_s, time, desired_scheme)
       pending if Fog.mocking?
-      ts = Time.at(1395343213)
-      object_url_s = Fog::Storage[:openstack].get_object_http_url(@directory.identity, 'fog_object', ts)
-      object_url = URI.parse(object_url_s)
+      object_url = URI.parse(url_s)
       query_params = URI.decode_www_form(object_url.query)
 
-      tests('the link is http').returns('http') { object_url.scheme }
+      tests("the link is #{desired_scheme}").returns(desired_scheme) { object_url.scheme }
       tests('the container and object are present in the path').returns(true) do
         (object_url.path =~ /\/#{@directory.identity}\/fog_object/) != nil
       end
@@ -56,27 +54,20 @@ Shindo.tests('Fog::Storage[:openstack] | object requests', ["openstack"]) do
         query_params.any? { |p| p[0] == 'temp_url_sig' }
       end
       tests('temp_url_expires matches the expiration').returns(true) do
-        query_params.any? { |p| p == ['temp_url_expires', ts.to_i.to_s] }
+        query_params.any? { |p| p == ['temp_url_expires', time.to_i.to_s] }
       end
     end
 
-    tests("#get_object_https_url('directory.identity', 'fog_object', expiration timestamp)").succeeds do
-      pending if Fog.mocking?
+    tests("#get_object_http_url('directory.identity', 'fog_object', expiration timestamp)").succeeds do
       ts = Time.at(1395343213)
-      object_url_s = Fog::Storage[:openstack].get_object_https_url(@directory.identity, 'fog_object', ts)
-      object_url = URI.parse(object_url_s)
-      query_params = URI.decode_www_form(object_url.query)
+      url_s = Fog::Storage[:openstack].get_object_http_url(@directory.identity, 'fog_object', ts)
+      test_temp_url(url_s, ts, 'http')
+    end
 
-      tests('the link is https').returns('https') { object_url.scheme }
-      tests('the container and object are present in the path').returns(true) do
-        (object_url.path =~ /\/#{@directory.identity}\/fog_object/) != nil
-      end
-      tests('a temp_url_sig is present').returns(true) do
-        query_params.any? { |p| p[0] == 'temp_url_sig' }
-      end
-      tests('temp_url_expires matches the expiration').returns(true) do
-        query_params.any? { |p| p == ['temp_url_expires', ts.to_i.to_s] }
-      end
+    tests("#get_object_https_url('directory.identity', 'fog_object', expiration timestamp)").succeeds do
+      ts = Time.at(1395343215)
+      url_s = Fog::Storage[:openstack].get_object_https_url(@directory.identity, 'fog_object', ts)
+      test_temp_url(url_s, ts, 'https')
     end
 
     tests("put_object with block") do
