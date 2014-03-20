@@ -55,14 +55,17 @@ module Fog
           hmac = Fog::HMAC.new('sha1', @openstack_temp_url_key)
           sig  = sig_to_hex(hmac.sign(string_to_sign))
 
-          port = ''
-          case scheme
-          when 'http' then port = ":#{@port}" unless @port == 80
-          when 'https' then port = ":#{@port}" unless @port == 443
-          else port = ":#{@port}"
-          end
-
-          "#{scheme}://#{@host}#{port}#{object_path_escaped}?temp_url_sig=#{sig}&temp_url_expires=#{expires}"
+          temp_url_options = {
+            :scheme => scheme,
+            :host => @host,
+            :port => @port,
+            :path => object_path_escaped,
+            :query => URI.encode_www_form(
+              :temp_url_sig => sig,
+              :temp_url_expires => expires
+            )
+          }
+          URI::Generic.build(temp_url_options).to_s
         end
 
         private
