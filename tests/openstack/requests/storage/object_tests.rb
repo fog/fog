@@ -42,7 +42,6 @@ Shindo.tests('Fog::Storage[:openstack] | object requests', ["openstack"]) do
     end
 
     def test_temp_url(url_s, time, desired_scheme)
-      pending if Fog.mocking?
       object_url = URI.parse(url_s)
       query_params = URI.decode_www_form(object_url.query)
 
@@ -59,12 +58,14 @@ Shindo.tests('Fog::Storage[:openstack] | object requests', ["openstack"]) do
     end
 
     tests("#get_object_http_url('directory.identity', 'fog_object', expiration timestamp)").succeeds do
+      pending if Fog.mocking?
       ts = Time.at(1395343213)
       url_s = Fog::Storage[:openstack].get_object_http_url(@directory.identity, 'fog_object', ts)
       test_temp_url(url_s, ts, 'http')
     end
 
     tests("#get_object_https_url('directory.identity', 'fog_object', expiration timestamp)").succeeds do
+      pending if Fog.mocking?
       ts = Time.at(1395343215)
       url_s = Fog::Storage[:openstack].get_object_https_url(@directory.identity, 'fog_object', ts)
       test_temp_url(url_s, ts, 'https')
