@@ -16,7 +16,6 @@ module Fog
           create_temp_url(container, object, expires, "GET", options.merge(:scheme => "http"))
         end
       end
-
     end
   end
 end
