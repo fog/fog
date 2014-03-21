@@ -36,7 +36,7 @@ module Fog
         # http://docs.rackspace.com/files/api/v1/cf-devguide/content/Create_TempURL-d1a444.html
         def create_temp_url(container, object, expires, method, options = {})
           raise ArgumentError, "Insufficient parameters specified." unless (container && object && expires && method)
-          raise ArgumentError, "Storage must my instantiated with the :openstack_temp_url_key option" if @openstack_temp_url_key.nil?
+          raise ArgumentError, "Storage must be instantiated with the :openstack_temp_url_key option" if @openstack_temp_url_key.nil?
 
           scheme = options[:scheme] || @scheme
 
@@ -55,7 +55,17 @@ module Fog
           hmac = Fog::HMAC.new('sha1', @openstack_temp_url_key)
           sig  = sig_to_hex(hmac.sign(string_to_sign))
 
-          "#{scheme}://#{@host}#{object_path_escaped}?temp_url_sig=#{sig}&temp_url_expires=#{expires}"
+          temp_url_options = {
+            :scheme => scheme,
+            :host => @host,
+            :port => @port,
+            :path => object_path_escaped,
+            :query => URI.encode_www_form(
+              :temp_url_sig => sig,
+              :temp_url_expires => expires
+            )
+          }
+          URI::Generic.build(temp_url_options).to_s
         end
 
         private
