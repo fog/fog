@@ -813,14 +813,17 @@ You can find the values the access key, secret key, and other values by clicking
 
 1. List all available floating IP addresses:
 
-        response = conn.list_server_addresses
+        server = conn.servers.first
+        response = conn.list_server_addresses(server.id)
         response.body['addresses']                  # returns an array of address hashes
         response.headers                            # returns the headers
-        response.body['addresses'][0]['id']         # returns the id of the address
+      
 
 2. List addresses by network for a server:
 
-        response = conn.list_server_addresses_by_network("<address_id>")     # get the address
+        server = conn.servers.first
+        network = network_conn.networks.first.name
+        response = conn.list_server_addresses_by_network(server.id, name)     # get the addresses (assumes server is in network)
 
 3. Obtain the details of a particular address:
 

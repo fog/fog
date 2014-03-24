@@ -45,7 +45,7 @@ To connect to the HP Cloud Networking Service, follow these steps:
 
 3. Establish a connection to the HP Cloud Networking service
 
-        conn = Fog::HP::Networking.new(
+        conn = Fog::HP::Network.new(
                :hp_access_key  => "<your_ACCESS_KEY>",
                :hp_secret_key => "<your_SECRET_KEY>",
                :hp_auth_uri   => "<IDENTITY_ENDPOINT_URL>",
