@@ -208,6 +208,7 @@ YARD::Rake::YardocTask.new do |t|
 end
 
 require "tasks/changelog_task"
+require "tasks/github_release_task"
 Fog::Rake::ChangelogTask.new
 
 task :coveralls_push_workaround do

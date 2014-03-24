@@ -8,103 +8,200 @@ module Fog
       def initialize
         desc "Update the changelog since the last release"
         task(:changelog) do
-          timestamp = Time.now.utc.strftime('%m/%d/%Y')
-          sha = `git log | head -1`.split(' ').last
-          changelog = ["#{Fog::VERSION} #{timestamp} #{sha}"]
-          changelog << ('=' * changelog[0].length)
-          changelog << ''
 
-          github_repo_data = Fog::JSON.decode(Excon.get('https://api.github.com/repos/fog/fog', :headers => {'User-Agent' => 'geemus'}).body)
-          data = github_repo_data.reject {|key, value| !['forks', 'open_issues', 'watchers'].include?(key)}
-          github_collaborator_data = Fog::JSON.decode(Excon.get('https://api.github.com/repos/fog/fog/collaborators', :headers => {'User-Agent' => 'geemus'}).body)
-          data['collaborators'] = github_collaborator_data.length
-          rubygems_data = Fog::JSON.decode(Excon.get('https://rubygems.org/api/v1/gems/fog.json').body)
-          data['downloads'] = rubygems_data['downloads']
-          stats = []
-          for key in data.keys.sort
-            stats << "'#{key}' => #{data[key]}"
+          @changelog = []
+          @changelog << "## #{Fog::VERSION} #{timestamp}"
+          @changelog << "*Hash* #{sha}"
+          @changelog << blank_line
+
+          @changelog << "Statistic     | Value"
+          @changelog << "------------- | --------:"
+          @changelog << "Collaborators | #{collaborators}"
+          @changelog << "Downloads     | #{downloads}"
+          @changelog << "Forks         | #{forks}"
+          @changelog << "Open Issues   | #{open_issues}"
+          @changelog << "Watchers      | #{watchers}"
+          @changelog << blank_line
+
+          process_commits
+
+          @changelog << "**MVP!** #{mvp}" if mvp
+          @changelog << blank_line
+
+          add_commits_to_changelog
+          save_changelog
+        end
+      end
+
+      private
+
+      def save_changelog
+        old_changelog = File.read('CHANGELOG.md')
+        File.open('CHANGELOG.md', 'w') do |file|
+          file.write(@changelog.join("\n"))
+          file.write("\n\n")
+          file.write(old_changelog)
+        end
+      end
+
+      def blank_line
+        ''
+      end
+
+      def add_commits_to_changelog
+        @changes.keys.sort.each do |tag|
+          @changelog << "#### [#{tag}]"
+          @changes[tag].each do |commit|
+            @changelog << "*   #{commit}"
           end
-          changelog << "Stats! { #{stats.join(', ')} }"
-          changelog << ''
+          @changelog << blank_line
+        end
+      end
 
-          last_sha = `cat changelog.txt | head -1`.split(' ').last
-          shortlog = `git shortlog #{last_sha}..HEAD`
-          changes = {}
-          committers = {}
-          for line in shortlog.split("\n")
-            if line =~ /^\S/
-              committer = line.split(' (', 2).first
-              committers[committer] = 0
-            elsif line =~ /^\s*((Merge.*)|(Release.*))?$/
-              # skip empty lines, Merge and Release commits
-            else
-              unless line[-1..-1] == '.'
-                line << '.'
-              end
-              line.lstrip!
-              line.gsub!(/^\[([^\]]*)\] /, '')
-              tag = $1 || 'misc'
-              changes[tag] ||= []
-              changes[tag] << (line << ' thanks ' << committer)
-              committers[committer] += 1
-            end
-          end
-
-          for committer, commits in committers.to_a.sort {|x,y| y[1] <=> x[1]}
-            if [
-              'Aaron Suggs',
-              'Ash Wilson',
-              'Brian Hartsock',
-              'Chris Roberts',
-              'Christopher Oliver',
-              'Daniel Reichert',
-              'Decklin Foster',
-              'Dylan Egan',
-              'Erik Michaels-Ober',
-              'geemus',
-              'Henry Addison',
-              'James Bence',
-              'Kevin Menard',
-              'Kevin Olbrich',
-              'Kyle Rames',
-              'Lincoln Stoll',
-              'Luqman Amjad',
-              'Michael Zeng',
-              'Mike Hagedorn',
-              'Mike Pountney',
-              'Nat Welch',
-              'Nick Osborn',
-              'nightshade427',
-              'Patrick Debois',
-              'Paul Thornthwaite',
-              'Rodrigo Estebanez',
-              'Rupak Ganguly',
-              'Stepan G. Fedorov',
-              'Wesley Beary'
-            ].include?(committer)
-            next
-            end
-            changelog << "MVP! #{committer}"
-            changelog << ''
-            break
-          end
-
-          for tag in changes.keys.sort
-            changelog << ('[' << tag << ']')
-            for commit in changes[tag]
-              changelog << ('  ' << commit)
-            end
-            changelog << ''
-          end
-
-          old_changelog = File.read('changelog.txt')
-          File.open('changelog.txt', 'w') do |file|
-            file.write(changelog.join("\n"))
-            file.write("\n\n")
-            file.write(old_changelog)
+      def process_commits
+        shortlog = `git shortlog #{last_release_sha}..HEAD`
+        @changes = {}
+        @committers = {}
+        @committer = nil
+        shortlog.split("\n").each do |line|
+          @current_line = line
+          if committer_line?
+            @committer = committer_match[1]
+            add_committer
+          elsif !release_merge_line?
+            add_period_if_necessary
+            @current_line.lstrip!
+            add_commit_line
+            increment_commits
           end
         end
       end
+
+      def add_commit_line
+        @current_line.gsub!(/^\[([^\]]*)\] /, '')
+        tag = $1 || 'misc'
+        @changes[tag] ||= []
+        @changes[tag] << "#{@current_line} thanks #{@committer}"
+      end
+
+      def increment_commits
+        @committers[@committer] += 1
+      end
+
+      def add_committer
+        @committers[@committer] = 0
+      end
+
+      def committers_sorted_by_commits
+        committer_pairs = @committers.to_a.sort {|x,y| y[1] <=> x[1]}
+        committer_pairs.reject! {|pair| pair.last < 1 }
+        committer_pairs.collect {|pair| pair.first }
+      end
+
+      def mvp_eligible?(committer)
+         [
+           'Aaron Suggs',
+           'Ash Wilson',
+           'Brian Hartsock',
+           'Chris Roberts',
+           'Christopher Oliver',
+           'Daniel Reichert',
+           'Decklin Foster',
+           'Dylan Egan',
+           'Erik Michaels-Ober',
+           'geemus',
+           'Henry Addison',
+           'James Bence',
+           'Kevin Menard',
+           'Kevin Olbrich',
+           'Kyle Rames',
+           'Lincoln Stoll',
+           'Luqman Amjad',
+           'Michael Zeng',
+           'Mike Hagedorn',
+           'Mike Pountney',
+           'Nat Welch',
+           'Nick Osborn',
+           'nightshade427',
+           'Patrick Debois',
+           'Paul Thornthwaite',
+           'Rodrigo Estebanez',
+           'Rupak Ganguly',
+           'Stepan G. Fedorov',
+           'Wesley Beary'
+         ].include?(committer)
+      end
+
+      def mvp
+        return @mvp if @mvp
+        committers_sorted_by_commits.each do |committer|
+          if mvp_eligible?(committer)
+            @mvp = committer
+            return @mvp
+          end
+        end
+        nil
+      end
+
+      def add_period_if_necessary
+        @current_line << "." unless @current_line[-1] == '.'
+      end
+
+      def release_merge_line?
+        @current_line =~ /^\s*((Merge.*)|(Release.*))?$/
+      end
+
+      def committer_line?
+        committer_match != nil
+      end
+
+      def committer_match
+        @current_line.match /([\w\s]+)\s+\(\d+\)/
+      end
+
+      def last_release_sha
+        `cat changelog.md | head -2`.split(' ').last
+      end
+
+      def downloads
+        repsonse = Excon.get('https://rubygems.org/api/v1/gems/fog.json')
+        data = Fog::JSON.decode(repsonse.body)
+        data['downloads']
+      end
+
+      def collaborators
+        response = Excon.get('https://api.github.com/repos/fog/fog/collaborators', :headers => {'User-Agent' => 'geemus'})
+        data = Fog::JSON.decode(response.body)
+        data.length
+      end
+
+      def forks
+        repo_metadata['forks']
+      end
+
+      def open_issues
+        repo_metadata['open_issues']
+      end
+
+      def watchers
+        repo_metadata['watchers']
+      end
+
+      def repo_metadata
+        return @repo_metadata if @repo_metadata
+        response = Excon.get('https://api.github.com/repos/fog/fog', :headers => {'User-Agent' => 'geemus'})
+        data = Fog::JSON.decode(response.body)
+        @repo_metadata = data.select {|key, value| ['forks', 'open_issues', 'watchers'].include?(key)}
+      end
+
+      def sha
+        `git log | head -1`.split(' ').last
+      end
+
+      def timestamp
+        @time ||= Time.now.utc.strftime('%m/%d/%Y')
+      end
+
     end
   end
 end
