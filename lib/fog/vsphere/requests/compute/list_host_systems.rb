@@ -25,10 +25,10 @@ module Fog
           {
             :id                 =>   managed_obj_id(host),
             :name               =>   host.name,
-            :totalCpu           =>   host.hardware.cpuInfo.numCpuCores*host.hardware.cpuInfo.hz/(1024*1024), #in MHz
-            :totalMemory        =>   host.hardware.memorySize/(1024*1024*1024), #in GB
-            :overallCpuUsage    =>   host.summary.quickStats.overallCpuUsage,
-            :overallMemoryUsage =>   host.summary.quickStats.overallMemoryUsage,
+            :totalCpu           =>   host.hardware.cpuInfo.numCpuCores*host.hardware.cpuInfo.hz/(1024*1024), #from Hz to MHz
+            :totalMemory        =>   host.hardware.memorySize/(1024*1024), #from Byte to MB
+            :overallCpuUsage    =>   host.summary.quickStats.overallCpuUsage, #in MHz
+            :overallMemoryUsage =>   host.summary.quickStats.overallMemoryUsage,#in MB
             :effective          =>   is_host_system_active?(host)
           }
         end
