@@ -21,7 +21,7 @@ module Fog
           runtime.connectionState == 'connected' && !runtime.inMaintenanceMode && runtime.standbyMode == 'none' && runtime.powerState == 'poweredOn'
         end
 
-        def host_attributes host, datacenter
+        def host_system_attributes host, datacenter
           {
             :id                 =>   managed_obj_id(host),
             :name               =>   host.name,
@@ -29,7 +29,7 @@ module Fog
             :totalMemory        =>   host.hardware.memorySize/(1024*1024*1024), #in GB
             :overallCpuUsage    =>   host.summary.quickStats.overallCpuUsage,
             :overallMemoryUsage =>   host.summary.quickStats.overallMemoryUsage,
-            :effective           =>   is_host_system_active?(host)
+            :effective          =>   is_host_system_active?(host)
           }
         end
 
