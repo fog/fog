@@ -51,7 +51,7 @@ module Fog
 
             response.status = 200
             response.body = body
-            response.headers = Fog::Terremark::Shared::Mock.headers(response.body, 
+            response.headers = Fog::Terremark::Shared::Mock.headers(response.body,
               case self
               when Fog::Terremark::Ecloud::Mock
                 "application/vnd.vmware.vcloud.network+xml"

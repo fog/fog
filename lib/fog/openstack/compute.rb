@@ -1,5 +1,4 @@
-require 'fog/compute'
-require 'fog/openstack'
+require 'fog/openstack/core'
 
 module Fog
   module Compute
@@ -28,6 +27,8 @@ module Fog
       collection  :addresses
       model       :security_group
       collection  :security_groups
+      model       :security_group_rule
+      collection  :security_group_rules
       model       :key_pair
       collection  :key_pairs
       model       :tenant
@@ -72,6 +73,8 @@ module Fog
       request :server_diagnostics
       request :boot_from_snapshot
       request :reset_server_state
+      request :add_security_group
+      request :remove_security_group
 
       # Server Extenstions
       request :get_console_output
@@ -128,6 +131,7 @@ module Fog
       request :create_security_group_rule
       request :delete_security_group
       request :delete_security_group_rule
+      request :get_security_group_rule
 
       # Key Pair
       request :list_key_pairs
@@ -316,7 +320,7 @@ module Fog
           authenticate
 
           @persistent = options[:persistent] || false
-          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
+          @connection = Fog::XML::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
         end
 
         def credentials
@@ -342,7 +346,6 @@ module Fog
                 'Accept' => 'application/json',
                 'X-Auth-Token' => @auth_token
               }.merge!(params[:headers] || {}),
-              :host     => @host,
               :path     => "#{@path}/#{@tenant_id}/#{params[:path]}",
               :query    => params[:query]
             }))
@@ -416,10 +419,10 @@ module Fog
 
           @port   = uri.port
           @scheme = uri.scheme
-           
+
           # Not all implementations have identity service in the catalog
           if @openstack_identity_public_endpoint || @openstack_management_url
-            @identity_connection = Fog::Connection.new(
+            @identity_connection = Fog::XML::Connection.new(
               @openstack_identity_public_endpoint || @openstack_management_url,
               false, @connection_options)
           end

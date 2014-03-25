@@ -9,7 +9,7 @@ Shindo.tests('Fog::Compute::RackspaceV2 | server', ['rackspace']) do
   options = {
     :name => "fog_server_#{Time.now.to_i.to_s}",
     :flavor_id => rackspace_test_flavor_id(service),
-    :image_id => rackspace_test_image_id(service), 
+    :image_id => rackspace_test_image_id(service),
     :metadata => { 'fog_test' => 'true' },
     :networks => [@network.id]
   }
@@ -76,8 +76,16 @@ Shindo.tests('Fog::Compute::RackspaceV2 | server', ['rackspace']) do
        @instance.addresses.keys.include?(@network.label)
      end
 
+    tests('#create').succeeds do
+      pending unless Fog.mocking?
+      original_options = Marshal.load(Marshal.dump(options))
+      @instance.create(options)
+      returns(true) { original_options == options }
+    end
+
     tests('#update').succeeds do
-      @instance.name = "fog_server_update"
+      new_name = "fog_server_update#{Time.now.to_i.to_s}"
+      @instance.name = new_name
       @instance.access_ipv4_address= "10.10.0.1"
       @instance.access_ipv6_address= "::1"
       @instance.save
@@ -85,7 +93,7 @@ Shindo.tests('Fog::Compute::RackspaceV2 | server', ['rackspace']) do
       @instance.reload
       returns("10.10.0.1") { @instance.access_ipv4_address }
       returns("::1") { @instance.access_ipv6_address }
-      returns("fog_server_update") { @instance.name }
+      returns(new_name) { @instance.name }
     end
     
     tests('#reboot("SOFT")').succeeds do
@@ -97,18 +105,6 @@ Shindo.tests('Fog::Compute::RackspaceV2 | server', ['rackspace']) do
     tests('#reboot("HARD")').succeeds do
       @instance.reboot('HARD')
       returns('HARD_REBOOT') { @instance.state }
-    end
-    
-    @instance.wait_for { ready? }
-    @test_image = nil
-    begin
-      tests('#create_image').succeeds do
-        @test_image = @instance.create_image('fog-test-image')
-        @test_image.reload
-        returns('SAVING') { @test_image.state }
-      end
-    ensure
-      @test_image.destroy unless @test_image.nil? || Fog.mocking?
     end
 
     sleep 30 unless Fog.mocking?
@@ -165,6 +161,18 @@ Shindo.tests('Fog::Compute::RackspaceV2 | server', ['rackspace']) do
       returns('somerandompassword') { @instance.password }
     end
 
+    @instance.wait_for { ready? }
+    @test_image = nil
+    begin
+      tests('#create_image').succeeds do
+        @test_image = @instance.create_image('fog-test-image')
+        @test_image.reload
+        returns('SAVING') { @test_image.state }
+      end
+    ensure
+      @test_image.destroy unless @test_image.nil? || Fog.mocking?
+    end
+
     tests('attachments') do
       begin
         @volume = cbs_service.volumes.create(:size => 100, :display_name => "fog-#{Time.now.to_i.to_s}")
@@ -187,14 +195,63 @@ Shindo.tests('Fog::Compute::RackspaceV2 | server', ['rackspace']) do
     end
 
     @instance.wait_for { ready? }
-   end
+  end
 
-   wait_for_server_deletion(@instance)
-   sleep 60 unless Fog.mocking?
+  tests('#setup') do
+    ATTRIBUTES = {
+      :name => "foo",
+      :image_id => 42,
+      :flavor_id => 42
+    }
 
-   tests("delete network #{@network.label}").succeeds do
-     @network.destroy if @network
-   end
+    create_server = lambda { |attributes|
+      service = Fog::Compute::RackspaceV2.new
+      attributes.merge!(:service => service)
+
+      Fog::SSH::Mock.data.clear
+
+      server = Fog::Compute::RackspaceV2::Server.new(attributes)
+      server.save(attributes)
+
+      @address = 123
+
+      server.ipv4_address = @address
+      server.identity = "bar"
+      server.public_key = "baz"
+
+      server.setup
+
+      server
+    }
+
+    commands = lambda { 
+      Fog::SSH::Mock.data[@address].first[:commands] 
+    }
+
+    test("leaves user unlocked only when requested") do
+      create_server.call(ATTRIBUTES.merge(:no_passwd_lock => true))
+      commands.call.none? { |c| c =~ /passwd\s+-l\s+root/ } 
+    end
+
+    test("provide a password when the passed isn't locked") do
+      pwd = create_server.call(
+        ATTRIBUTES.merge(:no_passwd_lock => true)
+      ).password
+
+      # shindo expects a boolean not truthyness :-(
+      !!pwd
+    end
+
+    test("locks user by default") do
+      create_server.call(ATTRIBUTES)
+      commands.call.one? { |c| c =~ /passwd\s+-l\s+root/ }
+    end
+
+    test("nils password when password is locked") do
+      pwd = create_server.call(ATTRIBUTES).password
+      pwd.nil?
+    end
+  end
 
   #When after testing resize/resize_confirm we get a 409 when we try to resize_revert so I am going to split it into two blocks
   model_tests(service.servers, options, true) do
@@ -211,4 +268,7 @@ Shindo.tests('Fog::Compute::RackspaceV2 | server', ['rackspace']) do
     end
     @instance.wait_for { ready? }
   end
+
+  wait_for_server_deletion(@instance)
+  delete_test_network(@network)
 end

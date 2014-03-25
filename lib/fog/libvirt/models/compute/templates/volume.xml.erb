@@ -11,4 +11,16 @@
             <label>virt_image_t</label>
           </permissions>
         </target>
+        <% if backing_volume -%>
+        <backingStore>
+          <path><%= backing_volume.path %></path>
+          <format type="<%= backing_volume.format_type %>"/>
+          <permissions>
+            <owner>0</owner>
+            <group>0</group>
+            <mode>0744</mode>
+            <label>virt_image_t</label>
+          </permissions>
+        </backingStore>
+        <% end -%>
 </volume>

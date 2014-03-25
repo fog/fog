@@ -16,6 +16,7 @@ module Fog
           :aliases => 'maximumPersistentDisks'
         attribute :maximum_persistent_disks_size,
           :aliases => 'maximumPersistentDisksSizeGb'
+        attribute :self_link, :aliases => 'selfLink'
 
       end
 

@@ -16,8 +16,8 @@ module Fog
         # * 'requestId'<~String> - Id of request
         # * 'internetGateway'<~Array>:
         # *   'attachmentSet'<~Array>: 	A list of VPCs attached to the Internet gateway
-        # *     'vpcId'<~String> - The ID of the VPC the Internet gateway is attached to. 
-        # *     'state'<~String> - The current state of the attachment. 
+        # *     'vpcId'<~String> - The ID of the VPC the Internet gateway is attached to.
+        # *     'state'<~String> - The current state of the attachment.
         # *   'tagSet'<~Array>: Tags assigned to the resource.
         # *     'key'<~String> - Tag's key
         # *     'value'<~String> - Tag's value
@@ -33,16 +33,17 @@ module Fog
 
       class Mock
         def create_internet_gateway()
-        self.data[:internet_gateways].push({
-          'internetGatewayId' => Fog::AWS::Mock.request_id,
+          gateway_id = Fog::AWS::Mock.internet_gateway_id
+        self.data[:internet_gateways][gateway_id] = {
+          'internetGatewayId' => gateway_id,
           'attachmentSet'     => {},
           'tagSet'            => {}
-        })
+        }
          Excon::Response.new(
             :status => 200,
             :body   => {
               'requestId' => Fog::AWS::Mock.request_id,
-              'internetGatewaySet' => self.data[:internet_gateways]
+              'internetGatewaySet' => [self.data[:internet_gateways][gateway_id]]
             }
           )
         end

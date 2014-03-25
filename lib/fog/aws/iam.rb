@@ -1,4 +1,4 @@
-require 'fog/aws'
+require 'fog/aws/core'
 
 module Fog
   module AWS
@@ -35,6 +35,7 @@ module Fog
       request :delete_signing_certificate
       request :delete_user
       request :delete_user_policy
+      request :get_account_summary
       request :get_group
       request :get_group_policy
       request :get_instance_profile
@@ -88,6 +89,10 @@ module Fog
             hash[key] = {
               :owner_id => Fog::AWS::Mock.owner_id,
               :server_certificates => {},
+              :access_keys => [{
+                "Status" => "Active",
+                "AccessKeyId" => key
+              }],
               :users => Hash.new do |uhash, ukey|
                 uhash[ukey] = {
                   :user_id     => Fog::AWS::Mock.key_id,
@@ -102,7 +107,9 @@ module Fog
                 ghash[gkey] = {
                   :group_id   => Fog::AWS::Mock.key_id,
                   :arn        => "arn:aws:iam::#{Fog::AWS::Mock.owner_id}:group/#{gkey}",
-                  :members    => []
+                  :members    => [],
+                  :created_at  => Time.now,
+                  :policies    => {}
                 }
               end
             }
@@ -163,7 +170,7 @@ module Fog
           @persistent = options[:persistent]  || false
           @port       = options[:port]        || 443
           @scheme     = options[:scheme]      || 'https'
-          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}#{@path}", @persistent, @connection_options)
+          @connection = Fog::XML::Connection.new("#{@scheme}://#{@host}:#{@port}#{@path}", @persistent, @connection_options)
         end
 
         def reload
@@ -203,7 +210,6 @@ module Fog
             :expects    => 200,
             :idempotent => idempotent,
             :headers    => { 'Content-Type' => 'application/x-www-form-urlencoded' },
-            :host       => @host,
             :method     => 'POST',
             :parser     => parser
           })

@@ -5,7 +5,7 @@ class GoGrid < Fog::Bin
       case key
       when :compute
         Fog::Compute::GoGrid
-      else 
+      else
         raise ArgumentError, "Unsupported #{self} service: #{key}"
       end
     end

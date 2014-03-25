@@ -12,7 +12,7 @@ module Fog
         # * options<~Hash>:
         #   * PrivateIpAddress<~String> - The private IP address of the network interface
         #   * Description<~String>      - The description of the network interface
-        #   * groupSet<~Array>          - The security group IDs for use by the network interface
+        #   * GroupSet<~Array>          - The security group IDs for use by the network interface
         #
         # === Returns
         # * response<~Excon::Response>:
@@ -26,9 +26,9 @@ module Fog
         # *   'description'<~String>        - The description
         # *   'ownerId'<~String>            - The ID of the person who created the interface
         # *   'requesterId'<~String>        - The ID ot teh entity requesting this interface
-        # *   'requesterManaged'<~String>   - 
+        # *   'requesterManaged'<~String>   -
         # *   'status'<~String>             - "available" or "in-use"
-        # *   'macAddress'<~String>         - 
+        # *   'macAddress'<~String>         -
         # *   'privateIpAddress'<~String>   - IP address of the interface within the subnet
         # *   'privateDnsName'<~String>     - The private DNS name
         # *   'sourceDestCheck'<~Boolean>   - Flag indicating whether traffic to or from the instance is validated
@@ -60,7 +60,7 @@ module Fog
 
         end
       end
-      
+
       class Mock
         def create_network_interface(subnetId, options = {})
           response = Excon::Response.new
@@ -70,7 +70,7 @@ module Fog
             groups = {}
             if options['GroupSet']
               options['GroupSet'].each do |group_id|
-                name = self.data[:security_groups].select { |k,v| v['groupId'] == group_id } .first.first
+                name = self.data[:security_groups].select { |k,v| v['groupId'] == group_id }.first
                 if name.nil?
                   raise Fog::Compute::AWS::Error.new("Unknown security group '#{group_id}' specified")
                 end

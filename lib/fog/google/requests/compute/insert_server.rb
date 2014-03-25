@@ -3,14 +3,115 @@ module Fog
     class Google
 
       class Mock
+        include Shared
 
-        def insert_server(server_name)
-          Fog::Mock.not_implemented
+        def handle_disks(options, zone_name)
+          disks = []
+          i = 0
+          options.delete('disks').each do |disk|
+            disk = Disk.new(disk) unless disk.is_a? Disk
+            disks << {
+              "kind"=>"compute#attachedDisk",
+              "index"=>i,
+              "type"=>"PERSISTENT",
+              "mode"=>"READ_WRITE",
+              "source"=>"https://www.googleapis.com/compute/#{api_version}/projects/#{@project}/zones/#{zone_name}/disks/#{disk.name}",
+              "deviceName"=>"persistent-disk-#{i}",
+              "boot"=>true
+            }
+            i+=1
+          end
+          disks
+        end
+
+        def insert_server(server_name, zone_name, options={}, *deprecated_args)
+
+          # check that zone exists
+          get_zone(zone_name)
+
+          if options['disks'].nil? or options['disks'].empty?
+            raise ArgumentError.new "Empty value for field 'disks'. Boot disk must be specified"
+          end
+
+          id = Fog::Mock.random_numbers(19).to_s
+          self.data[:servers][server_name] = {
+            "kind" => "compute#instance",
+            "id" => id,
+            "creationTimestamp" => Time.now.iso8601,
+            "zone" => "https://www.googleapis.com/compute/#{api_version}/projects/#{@project}/zones/#{zone_name}",
+            "status" => "PROVISIONING",
+            "name" => server_name,
+            "tags" => { "fingerprint" => "42WmSpB8rSM=" },
+            "machineType" => "https://www.googleapis.com/compute/#{api_version}/projects/#{@project}/zones/#{zone_name}/machineTypes/#{options['machineType']}",
+            "canIpForward" => false,
+            "networkInterfaces" => [
+              {
+                "network" => "https://www.googleapis.com/compute/#{api_version}/projects/#{@project}/global/networks/default",
+                "networkIP" => Fog::Mock.random_ip,
+                "name" => "nic0",
+                "accessConfigs" => [
+                  {
+                    "kind" => "compute#accessConfig",
+                    "type" => "ONE_TO_ONE_NAT",
+                    "name" => "External NAT",
+                    "natIP" => Fog::Mock.random_ip
+                  }
+                ]
+              }
+            ],
+            "disks" => handle_disks(options, zone_name),
+            "metadata" => {
+              "kind" => "compute#metadata",
+              "fingerprint" => "5_hasd_gC3E=",
+              "items" => [
+                {
+                  "key" => "sshKeys",
+                  "value" => "sysadmin:ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAgEA1zc7mx+0H8Roywet/L0aVX6MUdkDfzd/17kZhprAbpUXYOILv9AG4lIzQk6xGxDIltghytjfVGme/4A42Sb0Z9LN0pxB4KnWTNoOSHPJtp6jbXpq6PdN9r3Z5NKQg0A/Tfw7gt2N0GDsj6vpK8VbHHdW78JAVUxql18ootJxjaksdocsiHNK8iA6/v9qiLRhX3fOgtK7KpxxdZxLRzFg9vkp8jcGISgpZt27kOgXWhR5YLhi8pRJookzphO5O4yhflgoHoAE65XkfrsRCe0HU5QTbY2jH88rBVkq0KVlZh/lEsuwfmG4d77kEqaCGGro+j1Wrvo2K3DSQ+rEcvPp2CYRUySjhaeLF18UzQLtxNeoN14QOYqlm9ITdkCnmq5w4Wn007MjSOFp8LEq2RekrnddGXjg1/vgmXtaVSGzJAlXwtVfZor3dTRmF0JCpr7DsiupBaDFtLUlGFFlSKmPDVMPOOB5wajexmcvSp2Vu4U3yP8Lai/9/ZxMdsGPhpdCsWVL83B5tF4oYj1HVIycbYIxIIfFqOxZcCru3CMfe9jmzKgKLv2UtkfOS8jpS/Os2gAiB3wPweH3agvtwYAYBVMDwt5cnrhgHYWoOz7ABD8KgmCrD7Y9HikiCqIUNkgUFd9YmjcYi5FkU5rFXIawN7efs341lsdf923lsdf923fs= johndoe@acme"
+                }
+              ]
+            },
+            "selfLink" => "https://www.googleapis.com/compute/#{api_version}/projects/#{@project}/zones/#{zone_name}/instances/#{server_name}"
+          }
+
+          operation = self.random_operation
+          self.data[:operations][operation] = {
+            "kind" => "compute#operation",
+            "id" => Fog::Mock.random_numbers(19).to_s,
+            "name" => operation,
+            "zone" => "https://www.googleapis.com/compute/#{api_version}/projects/#{@project}/zones/#{zone_name}",
+            "operationType" => "insert",
+            "targetLink" => "https://www.googleapis.com/compute/#{api_version}/projects/#{@project}/zones/#{zone_name}/instances/#{server_name}",
+            "targetId" => id,
+            "status" => Fog::Compute::Google::Operation::PENDING_STATE,
+            "user" => "123456789012-qwertyuiopasdfghjkl1234567890qwe@developer.gserviceaccount.com",
+            "progress" => 0,
+            "insertTime" => Time.now.iso8601,
+            "startTime" => Time.now.iso8601,
+            "selfLink" => "https://www.googleapis.com/compute/#{api_version}/projects/#{@project}/zones/#{zone_name}/operations/#{operation}"
+          }
+
+          build_response(:body => self.data[:operations][operation])
         end
 
       end
 
       class Real
+        include Shared
+
+        def handle_disks(options)
+          disks = []
+          # An array of persistent disks. You must supply a boot disk as the first disk in
+          # this array and mark it as a boot disk using the disks[].boot property.
+          options.delete('disks').each do |disk|
+            if disk.is_a? Disk
+              disks << disk.get_object
+            else
+              disks << disk
+            end
+          end
+          disks.first['boot'] = true
+          disks
+        end
 
         def format_metadata(metadata)
           { "items" => metadata.map {|k,v| {"key" => k, "value" => v}} }
@@ -28,45 +129,41 @@ module Fog
           }
           body_object = {:name => server_name}
 
-          if options.has_key? 'image'
-            image_name = options.delete 'image'
-            # We don't know the owner of the image.
-            image = images.create({:name => image_name})
-            @image_url = @api_url + image.resource_url
-            body_object['image'] = @image_url
-          end
           body_object['machineType'] = @api_url + @project + "/zones/#{zone_name}/machineTypes/#{options.delete 'machineType'}"
-          networkInterfaces = []
-          if @default_network
-            networkInterfaces << {
-                'network' => @api_url + @project + "/global/networks/#{@default_network}",
-                'accessConfigs' => [
-                    {'type' => 'ONE_TO_ONE_NAT',
-                     'name' => 'External NAT'}
-                ]
-            }
+          network = nil
+          if options.has_key? 'network'
+            network = options.delete 'network'
+          elsif @default_network
+            network = @default_network
           end
+
+          # ExternalIP is default value for server creation
+          access_config = {'type' => 'ONE_TO_ONE_NAT', 'name' => 'External NAT'}
+          # leave natIP undefined to use an IP from a shared ephemeral IP address pool
+          if options.has_key? 'externalIp'
+            access_config['natIP'] = options.delete 'externalIp'
+          end
+
+          networkInterfaces = []
+          if ! network.nil?
+            networkInterface = { 'network' => @api_url + @project + "/global/networks/#{network}" }
+            networkInterface['accessConfigs'] = [access_config]
+            networkInterfaces <<  networkInterface
+          end
+
           # TODO: add other networks
           body_object['networkInterfaces'] = networkInterfaces
 
-          if options['disks']
-            disks = []
-            options.delete('disks').each do |disk|
-              if disk.is_a? Disk
-                disks << disk.get_object
-              else
-                disks << disk
-              end
-            end
-            body_object['disks'] = disks
+          if options['disks'].nil? or options['disks'].empty?
+            raise ArgumentError.new "Empty value for field 'disks'. Boot disk must be specified"
           end
+          body_object['disks'] = handle_disks(options)
 
           options['metadata'] = format_metadata options['metadata'] if options['metadata']
 
-          if options['kernel']
-            body_object['kernel'] = @api_url + "google/global/kernels/#{options.delete 'kernel'}"
-          end
-          body_object.merge! options # Adds in all remaining options that weren't explicitly handled.
+          body_object['tags'] = { 'items' => options.delete('tags') } if options['tags']
+
+          body_object.merge!(options) # Adds in all remaining options that weren't explicitly handled.
 
           result = self.build_result(api_method, parameters,
                                      body_object=body_object)

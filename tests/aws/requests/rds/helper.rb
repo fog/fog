@@ -8,6 +8,11 @@ class AWS
         'ResponseMetadata' => {'RequestId' => String}
       }
 
+      DB_AVAILABILITY_ZONE_OPTION = {
+          'Name' => String,
+          'ProvisionedIopsCapable' => Fog::Boolean
+      }
+
       DB_PARAMETER_GROUP = {
           'DBParameterGroupFamily' => String,
           'DBParameterGroupName'=> String,
@@ -78,6 +83,23 @@ class AWS
           'DBParameterGroups' => [DB_PARAMETER_GROUP]
         }
       }
+
+      ORDERABLE_DB_INSTANCE_OPTION = {
+          'MultiAZCapable' => Fog::Boolean,
+          'Engine' => String,
+          'LicenseModel' => String,
+          'ReadReplicaCapable' => Fog::Boolean,
+          'EngineVersion' => String,
+          'AvailabilityZones' => [DB_AVAILABILITY_ZONE_OPTION],
+          'DBInstanceClass' => String,
+          'Vpc' => Fog::Boolean
+      }
+
+      DESCRIBE_ORDERABLE_DB_INSTANCE_OPTION = BASIC.merge({
+          'DescribeOrderableDBInstanceOptionsResult' =>{
+              'OrderableDBInstanceOptions' => [ORDERABLE_DB_INSTANCE_OPTION]
+          }
+      })
 
       MODIFY_PARAMETER_GROUP = BASIC.merge({
         'ModifyDBParameterGroupResult' => {

@@ -15,7 +15,8 @@ module Fog
           request(
             :expects => 200,
             :method => :'GET',
-            :path => '/my/keys'
+            :path => '/my/keys',
+            :idempotent => true
           )
         end
       end # Real

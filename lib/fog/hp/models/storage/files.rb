@@ -72,6 +72,28 @@ module Fog
           end
         end
 
+        # Get a temporary http url for a file.
+        #
+        # required attributes: key
+        # @param key [String] the key of the file within the directory
+        # @param expires [String] number of seconds (since 1970-01-01 00:00) before url expires
+        # @param options [Hash]
+        # @return [String] url
+        def get_http_url(key, expires, options = {})
+          service.get_object_http_url(directory.key, key, expires, options)
+        end
+
+        # Get a temporary https url for a file.
+        #
+        # required attributes: key
+        # @param key [String] the key of the file within the directory
+        # @param expires [String] number of seconds (since 1970-01-01 00:00) before url expires
+        # @param options [Hash]
+        # @return [String] url
+        def get_https_url(key, expires, options = {})
+          service.get_object_https_url(directory.key, key, expires, options)
+        end
+
         def get_cdn_url(key)
           requires :directory
           if self.directory.cdn_public_url

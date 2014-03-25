@@ -1,10 +1,13 @@
-require 'fog/rackspace'
-require 'fog/compute'
+require 'fog/rackspace/core'
 
 module Fog
   module Compute
     class Rackspace < Fog::Service
       include Fog::Rackspace::Errors
+
+      class ServiceError < Fog::Rackspace::Errors::ServiceError; end
+      class InternalServerError < Fog::Rackspace::Errors::InternalServerError; end
+      class BadRequest < Fog::Rackspace::Errors::BadRequest; end
 
       requires :rackspace_api_key, :rackspace_username
       recognizes :rackspace_auth_url, :rackspace_servicenet, :persistent
@@ -194,23 +197,23 @@ module Fog
           authenticate
           Excon.defaults[:ssl_verify_peer] = false if service_net?
           @persistent = options[:persistent] || false
-          @connection = Fog::Connection.new(endpoint_uri.to_s, @persistent, @connection_options)
+          @connection = Fog::XML::Connection.new(endpoint_uri.to_s, @persistent, @connection_options)
         end
 
         def reload
           @connection.reset
         end
 
-        def request(params, parse_json = true, &block)
-          super(params, parse_json, &block)
+        def request(params, parse_json = true)
+          super
         rescue Excon::Errors::NotFound => error
-          raise NotFound.slurp(error, region)
+          raise NotFound.slurp(error, self)
         rescue Excon::Errors::BadRequest => error
-          raise BadRequest.slurp error
+          raise BadRequest.slurp(error, self)
         rescue Excon::Errors::InternalServerError => error
-          raise InternalServerError.slurp error
+          raise InternalServerError.slurp(error, self)
         rescue Excon::Errors::HTTPStatusError => error
-          raise ServiceError.slurp error
+          raise ServiceError.slurp(error, self)
         end
 
         def service_net?
@@ -236,10 +239,7 @@ module Fog
 
          def endpoint_uri(service_endpoint_url=nil)
            return @uri if @uri
-
-           @uri = super(@rackspace_endpoint || service_endpoint_url, :rackspace_compute_v1_url)
-           @uri.host = "snet-#{@uri.host}" if service_net?
-           @uri
+           super(@rackspace_endpoint || service_endpoint_url, :rackspace_compute_v1_url)
          end
 
          private

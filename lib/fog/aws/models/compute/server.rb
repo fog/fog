@@ -12,6 +12,7 @@ module Fog
 
         attr_accessor :architecture
         attribute :ami_launch_index,         :aliases => 'amiLaunchIndex'
+        attribute :associate_public_ip,      :aliases => 'associatePublicIP'
         attribute :availability_zone,        :aliases => 'availabilityZone'
         attribute :block_device_mapping,     :aliases => 'blockDeviceMapping'
         attribute :network_interfaces,       :aliases => 'networkInterfaces'
@@ -57,14 +58,14 @@ module Fog
 
 
         def initialize(attributes={})
-          self.groups     ||= ["default"] unless (attributes[:subnet_id] || attributes[:security_group_ids])
+          self.groups     ||= ["default"] unless (attributes[:subnet_id] || attributes[:security_group_ids] || attributes[:network_interfaces])
           self.flavor_id  ||= 't1.micro'
 
           # Old 'connection' is renamed as service and should be used instead
           prepare_service_value(attributes)
 
           self.image_id   ||= begin
-            self.username = 'ubuntu'
+            self.username ||= 'ubuntu'
             case @service.instance_variable_get(:@region) # Ubuntu 10.04 LTS 64bit (EBS)
             when 'ap-northeast-1'
               'ami-5e0fa45f'
@@ -145,6 +146,7 @@ module Fog
 
           options = {
             'BlockDeviceMapping'          => block_device_mapping,
+            'NetworkInterfaces'           => network_interfaces,
             'ClientToken'                 => client_token,
             'EbsOptimized'                => ebs_optimized,
             'IamInstanceProfile.Arn'      => @iam_instance_profile_arn,
@@ -172,6 +174,20 @@ module Fog
           # use of Security Group Ids when working in a VPC.
           if subnet_id
             options.delete('SecurityGroup')
+            if associate_public_ip
+              options['NetworkInterface.0.DeviceIndex'] = 0
+              options['NetworkInterface.0.AssociatePublicIpAddress'] = associate_public_ip
+              options['NetworkInterface.0.SubnetId'] = options['SubnetId']
+              options.delete('SubnetId')
+              if options['SecurityGroupId'].kind_of?(Array)
+                options['SecurityGroupId'].each {|id|
+                  options["NetworkInterface.0.SecurityGroupId.#{options['SecurityGroupId'].index(id)}"] = id
+                }
+              else
+                options["NetworkInterface.0.SecurityGroupId.0"] = options['SecurityGroupId']
+              end
+              options.delete('SecurityGroupId')              
+            end
           else
             options.delete('SubnetId')
           end
@@ -195,7 +211,7 @@ module Fog
         end
 
         def setup(credentials = {})
-          requires :public_ip_address, :username
+          requires :ssh_ip_address, :username
           require 'net/ssh'
 
           commands = [
@@ -210,7 +226,7 @@ module Fog
           # wait for aws to be ready
           wait_for { sshable?(credentials) }
 
-          Fog::SSH.new(public_ip_address, username, credentials).run(commands)
+          Fog::SSH.new(ssh_ip_address, username, credentials).run(commands)
         end
 
         def start

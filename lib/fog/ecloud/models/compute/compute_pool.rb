@@ -15,37 +15,37 @@ module Fog
         attribute :memory_burst, :aliases => :MemoryBurst
 
         def servers
-          @servers ||= Fog::Compute::Ecloud::Servers.new( :service => service, :href => "/cloudapi/ecloud/virtualMachines/computePools/#{id}" )
+          @servers ||= Fog::Compute::Ecloud::Servers.new( :service => service, :href => "#{service.base_path}/virtualMachines/computePools/#{id}" )
         end
 
         def layout
-          @layout ||= Fog::Compute::Ecloud::Layouts.new(:service => service, :href => "/cloudapi/ecloud/layout/computePools/#{id}").first
+          @layout ||= Fog::Compute::Ecloud::Layouts.new(:service => service, :href => "#{service.base_path}/layout/computePools/#{id}").first
         end
 
         def cpu_usage
 #          time ? query = "/details?time=#{Time.parse(time).utc.strftime('%Y-%m-%dT%H:%M:%SZ')}" : query = ""
-          @cpu_usage ||= Fog::Compute::Ecloud::CpuUsageDetailSummary.new(:service => service, :href => "/cloudapi/ecloud/computePools/#{id}/usage/cpu")
+          @cpu_usage ||= Fog::Compute::Ecloud::CpuUsageDetailSummary.new(:service => service, :href => "#{service.base_path}/computePools/#{id}/usage/cpu")
         end
 
         def memory_usage
 #          time ? query = "/details?time=#{Time.parse(time).utc.strftime('%Y-%m-%dT%H:%M:%SZ')}" : query = ""
-          @memory_usage ||= Fog::Compute::Ecloud::MemoryUsageDetailSummary.new(:service => service, :href => "/cloudapi/ecloud/computePools/#{id}/usage/memory")
+          @memory_usage ||= Fog::Compute::Ecloud::MemoryUsageDetailSummary.new(:service => service, :href => "#{service.base_path}/computePools/#{id}/usage/memory")
         end
 
         def storage_usage
-          @storage_usage ||= Fog::Compute::Ecloud::StorageUsageDetailSummary.new(:service => service, :href => "/cloudapi/ecloud/computePools/#{id}/usage/storage")
+          @storage_usage ||= Fog::Compute::Ecloud::StorageUsageDetailSummary.new(:service => service, :href => "#{service.base_path}/computePools/#{id}/usage/storage")
         end
 
         def operating_system_families
-          @operating_system_families ||= Fog::Compute::Ecloud::OperatingSystemFamilies.new(:service => service, :href => "/cloudapi/ecloud/operatingSystemFamilies/computePools/#{id}")
+          @operating_system_families ||= Fog::Compute::Ecloud::OperatingSystemFamilies.new(:service => service, :href => "#{service.base_path}/operatingSystemFamilies/computePools/#{id}")
         end
 
         def templates
-          @templates ||= self.service.templates(:href => "/cloudapi/ecloud/templates/computePools/#{id}")
+          @templates ||= self.service.templates(:href => "#{service.base_path}/templates/computePools/#{id}")
         end
 
         def detached_disks
-          @detached_disks ||= self.service.detached_disks(:href => "/cloudapi/ecloud/detacheddisks/computepools/#{id}")
+          @detached_disks ||= self.service.detached_disks(:href => "#{service.base_path}/detacheddisks/computepools/#{id}")
         end
 
         def environment

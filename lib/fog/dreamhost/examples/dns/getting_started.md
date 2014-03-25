@@ -1,6 +1,6 @@
 # Getting started with Fog::DNS and Dreamhost (2013/01/21)
 
-You'll need a [Dreamhost](http://www.dreamhost.com) account and API key 
+You'll need a [Dreamhost](http://www.dreamhost.com) account and API key
 to use this.
 
 See http://wiki.dreamhost.com/API.
@@ -13,7 +13,7 @@ records.
 We need to create the service first, using the API key from our account:
 
 ```ruby
-require 'fog' 
+require 'fog'
 require 'pp'
 
 dh = Fog::DNS.new( :provider => "Dreamhost",
@@ -80,7 +80,7 @@ you can also use this code to accomplish the same thing:
 
 ```ruby
 dh.records.create(
-  :name => 'stuff.rbel.co', 
+  :name => 'stuff.rbel.co',
   :type => 'A',
   :value => '8.8.8.8'
 )

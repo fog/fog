@@ -6,7 +6,7 @@ module Fog
         require 'fog/aws/parsers/iam/basic'
 
         # Delete a role
-        # 
+        #
         # ==== Parameters
         # * role_name<~String>: name of the role to delete
         #

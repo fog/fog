@@ -19,13 +19,14 @@ module Fog
 
         def datastore_attributes datastore, datacenter
           {
-            :id         => managed_obj_id(datastore),
-            :name       => datastore.name,
-            :accessible => datastore.summary.accessible,
-            :type       => datastore.summary.type,
-            :freespace  => datastore.summary.freeSpace,
-            :capacity   => datastore.summary.capacity,
-            :datacenter => datacenter,
+            :id          => managed_obj_id(datastore),
+            :name        => datastore.name,
+            :accessible  => datastore.summary.accessible,
+            :type        => datastore.summary.type,
+            :freespace   => datastore.summary.freeSpace,
+            :capacity    => datastore.summary.capacity,
+            :uncommitted => datastore.summary.uncommitted,
+            :datacenter  => datacenter,
           }
         end
 

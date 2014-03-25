@@ -2,11 +2,15 @@ module Fog
   module Compute
     class XenServer
       class Real
-        
+
         def get_vm_by_name(label)
           @connection.request({:parser => Fog::Parsers::XenServer::Base.new, :method => 'VM.get_by_name_label' }, label)
         end
-        
+
+        def get_vm_by_uuid(uuid)
+          @connection.request({:parser => Fog::Parsers::XenServer::Base.new, :method => 'VM.get_by_uuid' }, uuid)
+        end
+
         def create_server_raw(config = {})
           config[:name_label] = config[:name] if config[:name]
           config.delete :name
@@ -19,15 +23,15 @@ module Fog
           config[:affinity] = config[:affinity].reference \
             if config[:affinity].kind_of? Fog::Compute::XenServer::Host
           config.inject({}){|memo,(k,v)| memo[k.to_sym] = v; memo}
-          %w{ VCPUs_at_startup 
-              VCPUs_max 
+          %w{ VCPUs_at_startup
+              VCPUs_max
               VCPUs_params
-              PV_bootloader_args 
+              PV_bootloader_args
               PV_bootloader
               PV_kernel
               PV_ramdisk
               PV_legacy_args
-              HVM_boot_params
+              HVM_boot_policy
               HVM_boot_params
           }.each do |k|
             if config[k.downcase.to_sym]
@@ -62,7 +66,7 @@ module Fog
             :PV_args =>                 '-- quiet console=hvc0',
             :PV_bootloader_args =>      '',
             :PV_legacy_args =>          '',
-            :HVM_boot_policy =>         '', 
+            :HVM_boot_policy =>         '',
             :HVM_boot_params =>         {},
             :PCI_bus =>                 '',
             :recommendations =>         '',
@@ -78,7 +82,7 @@ module Fog
 
           if template.kind_of? String
             template_string = template
-            # try template by UUID 
+            # try template by UUID
             template = servers.templates.find { |s| s.uuid == template_string }
             if template.nil?
               # Try with the template name just in case
@@ -101,24 +105,24 @@ module Fog
           end
           if !extra_args[:auto_start] == false
             @connection.request({:parser => Fog::Parsers::XenServer::Base.new, :method => 'VM.provision'}, ref)
-            start_vm( ref ) 
+            start_vm( ref )
           end
-          
+
           ref
         end
-        
+
       end
-      
+
       class Mock
-        
+
         def create_server( name_label, template = nil, network = nil, extra_args = {})
           Fog::Mock.not_implemented
         end
-        
+
         def create_server_raw(config = {})
           Fog::Mock.not_implemented
         end
-        
+
       end
 
     end

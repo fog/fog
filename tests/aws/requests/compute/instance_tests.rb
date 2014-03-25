@@ -3,8 +3,10 @@ Shindo.tests('Fog::Compute[:aws] | instance requests', ['aws']) do
   @instance_format = {
     'architecture'        => String,
     'amiLaunchIndex'      => Integer,
+    'associatePublicIP'   => Fog::Nullable::Boolean,
     'attachmentId'        => Fog::Nullable::String,
     'blockDeviceMapping'  => [Fog::Nullable::Hash],
+    'networkInterfaces'   => [Fog::Nullable::Hash],
     'clientToken'         => Fog::Nullable::String,
     'dnsName'             => NilClass,
     'ebsOptimized'        => Fog::Boolean,
@@ -115,6 +117,7 @@ Shindo.tests('Fog::Compute[:aws] | instance requests', ['aws']) do
       'instanceType'        => String,
       'availabilityZone'    => String,
       'start'               => Time,
+      'end'                 => Time,
       'duration'            => Integer,
       'fixedPrice'          => Float,
       'usagePrice'          => Float,
@@ -189,7 +192,7 @@ Shindo.tests('Fog::Compute[:aws] | instance requests', ['aws']) do
     tests("#describe_instances").formats(@describe_instances_format) do
       Fog::Compute[:aws].describe_instances('instance-state-name' => 'running').body
     end
- 
+
     # Launch another instance to test filters
     another_server = Fog::Compute[:aws].servers.create
 
@@ -197,6 +200,15 @@ Shindo.tests('Fog::Compute[:aws] | instance requests', ['aws']) do
       body = Fog::Compute[:aws].describe_instances('instance-id' => "#{@instance_id}").body
       tests("returns 1 instance").returns(1) { body['reservationSet'].size }
       body
+    end
+
+    # Test network interface attachment
+    tests('#describe_instances networkInterfaces') do
+      data = Fog::Compute[:aws].create_network_interface('subnet-12345678').body
+      @network_interface_id = data['networkInterface']['networkInterfaceId']
+      Fog::Compute[:aws].attach_network_interface(@network_interface_id, @instance_id, 1)
+      body = Fog::Compute[:aws].describe_instances('instance-id' => "#{@instance_id}").body
+      tests("returns 1 attachment").returns(1) { body['reservationSet'].first['instancesSet'].first['networkInterfaces'].size }
     end
 
     another_server.destroy

@@ -43,31 +43,31 @@ module Fog
         #       * 'Key'<~String> - The unique identifier of a key value pair
         #       * 'Value'<~String> - The value part of the identified key
         #   * 'Name'<~String> - The name of the job flow step
-        # 
+        #
         # ==== Returns
         # * response<~Excon::Response>:
         #   * body<~Hash>:
         def run_job_flow(name, options={})
-          
+
           if bootstrap_actions = options.delete('BootstrapActions')
             options.merge!(Fog::AWS.serialize_keys('BootstrapActions', bootstrap_actions))
           end
-          
+
           if instances = options.delete('Instances')
             options.merge!(Fog::AWS.serialize_keys('Instances', instances))
           end
-          
+
           if steps = options.delete('Steps')
             options.merge!(Fog::AWS.serialize_keys('Steps', steps))
           end
-    
+
           request({
             'Action'  => 'RunJobFlow',
             'Name' => name,
             :parser   => Fog::Parsers::AWS::EMR::RunJobFlow.new,
           }.merge(options))
         end
-        
+
         def run_hive(name, options={})
           steps = []
           steps << {
@@ -77,7 +77,7 @@ module Fog
               'Args' => ['s3://us-east-1.elasticmapreduce/libs/hive/hive-script', '--base-path', 's3://us-east-1.elasticmapreduce/libs/hive/', '--install-hive']},
             'ActionOnFailure' => 'TERMINATE_JOB_FLOW'
           }
-          
+
           # To add a configuration step to the Hive flow, see the step below
           # steps << {
           #   'Name' => 'Install Hive Site Configuration',
@@ -87,11 +87,11 @@ module Fog
           #   'ActionOnFailure' => 'TERMINATE_JOB_FLOW'
           # }
           options['Steps'] = steps
-          
+
           if not options['Instances'].nil?
             options['Instances']['KeepJobFlowAliveWhenNoSteps'] = true
           end
-          
+
           run_job_flow name, options
         end
       end

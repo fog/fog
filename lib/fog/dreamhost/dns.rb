@@ -1,5 +1,4 @@
-require File.expand_path(File.join(File.dirname(__FILE__), '..', 'dreamhost'))
-require 'fog/dns'
+require 'fog/dreamhost/core'
 
 module Fog
   module DNS
@@ -47,8 +46,6 @@ module Fog
       class Real
 
         def initialize(options={})
-          require 'multi_json'
-
           @dreamhost_api_key  = options[:dreamhost_api_key]
           if options[:dreamhost_url]
             uri = URI.parse(options[:dreamhost_url])
@@ -60,7 +57,7 @@ module Fog
           @persistent = options[:persistent]  || false
           @port       = options[:port]        || 443
           @scheme     = options[:scheme]      || 'https'
-          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent)
+          @connection = Fog::XML::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent)
         end
 
         def reload
@@ -68,12 +65,12 @@ module Fog
         end
 
         def request(params)
-          params[:query].merge!( { :key => @dreamhost_api_key, 
+          params[:query].merge!( { :key => @dreamhost_api_key,
                                    :format => 'json' } )
           response = @connection.request(params)
 
           unless response.body.empty?
-            response.body = MultiJson.decode(response.body)
+            response.body = Fog::JSON.decode(response.body)
           end
           if response.body['result'] != 'success'
             raise response.body['data']

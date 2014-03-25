@@ -7,9 +7,9 @@ module Fog
 
           def reset
             @db_instance = fresh_instance
-            
+
           end
-          
+
           def fresh_instance
             {'PendingModifiedValues' => [], 'DBSecurityGroups' => [], 'ReadReplicaDBInstanceIdentifiers' => [], 'Endpoint' => {}}
           end
@@ -33,23 +33,28 @@ module Fog
             when 'DBParameterGroups'
               @in_db_parameter_groups = true
               @db_parameter_groups = []
+            when 'VpcSecurityGroupMembership'
+              @vpc_security_group = {}
+            when 'VpcSecurityGroups'
+              @in_vpc_security_groups = true
+              @vpc_security_groups = []
             end
-            
+
           end
 
           def end_element(name)
 
             case name
-              
+
             when 'LatestRestorableTime', 'InstanceCreateTime'
               @db_instance[name] = Time.parse value
-            when 'Engine', 
-              'DBInstanceStatus', 'DBInstanceIdentifier', 'EngineVersion', 
-              'PreferredBackupWindow', 'PreferredMaintenanceWindow', 
+            when 'Engine',
+              'DBInstanceStatus', 'DBInstanceIdentifier', 'EngineVersion',
+              'PreferredBackupWindow', 'PreferredMaintenanceWindow',
               'AvailabilityZone', 'MasterUsername', 'DBName', 'LicenseModel',
-              'DBSubnetGroupName', 'PubliclyAccessible'
+              'DBSubnetGroupName'
               @db_instance[name] = value
-            when 'MultiAZ', 'AutoMinorVersionUpgrade'
+            when 'MultiAZ', 'AutoMinorVersionUpgrade', 'PubliclyAccessible'
               if value == 'false'
                 @db_instance[name] = false
               else
@@ -65,7 +70,7 @@ module Fog
               if @in_db_parameter_groups
                 @db_parameter_group[name] = value
               end
-            
+
             when 'BackupRetentionPeriod'
               if @in_pending_modified_values
                 @pending_modified_values[name] = value.to_i
@@ -81,20 +86,43 @@ module Fog
             when 'DBSecurityGroups'
               @in_db_security_groups = false
               @db_instance['DBSecurityGroups'] = @db_security_groups
-            when 'Status', 'DBSecurityGroupName'
-              if @in_db_security_groups
-                @db_security_group[name]=value
-              end
+            when 'DBSecurityGroupName'
+              @db_security_group[name]=value
             when 'DBSecurityGroup'
               @db_security_groups << @db_security_group
               @db_security_group = {}
-            
+
+            when 'VpcSecurityGroups'
+              @in_vpc_security_groups = false
+              @db_instance['VpcSecurityGroups'] = @vpc_security_groups
+            when 'VpcSecurityGroupMembership'
+              @vpc_security_groups << @vpc_security_group
+              @vpc_security_group = {}
+            when 'VpcSecurityGroupId'
+              @vpc_security_group[name] = value
+            when 'Iops'
+              if @in_pending_modified_values
+                @pending_modified_values[name] = value.to_i
+              else
+                @db_instance[name] = value.to_i
+              end
             when 'AllocatedStorage'
               if @in_pending_modified_values
                 @pending_modified_values[name] = value.to_i
               else
                 @db_instance[name] = value.to_i
               end
+
+            when 'Status'
+              # Unfortunately, status is used in VpcSecurityGroupMemebership and
+              # DBSecurityGroups
+              if @in_db_security_groups
+                @db_security_group[name]=value
+              end
+              if @in_vpc_security_groups
+                @vpc_security_group[name] = value
+              end
+
             when 'Address'
               @endpoint[name] = value
             when 'Port'
@@ -103,7 +131,7 @@ module Fog
               elsif @in_endpoint
                 @endpoint[name] = value.to_i
               end
-      
+
             when 'PendingModifiedValues'
               @in_pending_modified_values = false
               @db_instance['PendingModifiedValues'] = @pending_modified_values

@@ -110,13 +110,13 @@ module Fog
         def get(key, &block)
           requires :directory
           data = service.get_object(directory.key, key, &block)
-          metadata = Metadata.from_headers(self, data.headers)  
+          metadata = Metadata.from_headers(self, data.headers)
           file_data = data.headers.merge({
             :body => data.body,
             :key  => key,
             :metadata => metadata
           })
-          
+
           new(file_data)
         rescue Fog::Storage::Rackspace::NotFound
           nil
@@ -136,7 +136,32 @@ module Fog
             Files::file_url directory.public_url, key
           end
         end
-        
+
+        # Get a temporary http url for a file.
+        #
+        # required attributes: key
+        # @param key [String] the key of the file within the directory
+        # @param expires [String] number of seconds (since 1970-01-01 00:00) before url expires
+        # @param options [Hash]
+        # @return [String] url
+        # @note This URL does not use the Rackspace CDN
+        def get_http_url(key, expires, options = {})
+          requires :directory
+          service.get_object_http_url(directory.key, key, expires, options)
+        end
+
+        # Get a temporary https url for a file.
+        #
+        # required attributes: key
+        # @param key [String] the key of the file within the directory
+        # @param expires [String] number of seconds (since 1970-01-01 00:00) before url expires
+        # @param options [Hash]
+        # @return [String] url
+        # @note This URL does not use the Rackspace CDN
+        def get_https_url(key, expires, options = {})
+          service.get_object_https_url(directory.key, key, expires, options)
+        end
+
         # View directory detail without loading file contents
         # @param key of the object
         # @param options Required for compatibility with other Fog providers. Not Used.

@@ -7,9 +7,10 @@ module Fog
 
           def reset
             @block_device_mapping = {}
+            @network_interfaces = {}
             @context = []
-            @contexts = ['blockDeviceMapping', 'groupSet', 'placement', 'productCodes']
-            @instance = { 'blockDeviceMapping' => [], 'instanceState' => {}, 'monitoring' => {}, 'placement' => {}, 'productCodes' => [] }
+            @contexts = ['networkInterfaces', 'blockDeviceMapping', 'groupSet', 'placement', 'productCodes']
+            @instance = { 'networkInterfaces' => [], 'blockDeviceMapping' => [], 'instanceState' => {}, 'monitoring' => {}, 'placement' => {}, 'productCodes' => [] }
             @response = { 'groupSet' => [], 'instancesSet' => [] }
           end
 
@@ -40,8 +41,11 @@ module Fog
               @instance['instanceState'][name] = value.to_i
             when 'deleteOnTermination'
               @block_device_mapping[name] = (value == 'true')
+              @network_interfaces[name] = (value == 'true')
             when 'deviceName', 'status', 'volumeId'
               @block_device_mapping[name] = value
+            when 'networkInterfaceId'
+              @network_interfaces[name] = value
             when 'groupId'
               @response['groupSet'] << value
             when 'groupName'
@@ -56,9 +60,12 @@ module Fog
               when 'blockDeviceMapping'
                 @instance['blockDeviceMapping'] << @block_device_mapping
                 @block_device_mapping = {}
+              when 'networkInterfaces'
+                @instance['networkInterfaces'] << @network_interfaces
+                @network_interfaces = {}
               when nil
                 @response['instancesSet'] << @instance
-                @instance = { 'blockDeviceMapping' => [], 'instanceState' => {}, 'monitoring' => {}, 'placement' => {}, 'productCodes' => [] }
+                @instance = { 'networkInterfaces' => [], 'blockDeviceMapping' => [], 'instanceState' => {}, 'monitoring' => {}, 'placement' => {}, 'productCodes' => [] }
               end
             when 'launchTime'
               @instance[name] = Time.parse(value)
@@ -74,6 +81,8 @@ module Fog
               @response[name] = value
             when 'ebsOptimized'
               @instance['ebsOptimized'] = (value == 'true')
+            when 'associatePublicIP'
+              @instance['associatePublicIP'] = (value == 'true')
             end
           end
 

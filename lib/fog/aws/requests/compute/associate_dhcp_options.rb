@@ -3,11 +3,11 @@ module Fog
     class AWS
       class Real
 
-        require 'fog/aws/parsers/compute/associate_dhcp_options'
-        # 
+        require 'fog/aws/parsers/compute/basic'
+        #
         #
         # ==== Parameters
-        # * dhcp_options_id<~String> - The ID of the DHCP options you want to associate with the VPC, or "default" if you want the VPC 
+        # * dhcp_options_id<~String> - The ID of the DHCP options you want to associate with the VPC, or "default" if you want the VPC
         #   to use no DHCP options.
         # * vpc_id<~String> - The ID of the VPC
         #
@@ -24,7 +24,7 @@ module Fog
             'DhcpOptionsId'        => dhcp_options_id,
             'VpcId'                => vpc_id,
             :idempotent   => true,
-            :parser       => Fog::Parsers::Compute::AWS::AttachInternetGateway.new
+            :parser       => Fog::Parsers::Compute::AWS::Basic.new
           )
         end
 

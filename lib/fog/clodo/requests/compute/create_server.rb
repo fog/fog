@@ -13,7 +13,7 @@ module Fog
         # Output:
         # id - VDS ID
         # name - VDS title
-        # imageId - OS ID 
+        # imageId - OS ID
         # adminPass - root password
 
         def create_server(image_id, options = {})

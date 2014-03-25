@@ -1,7 +1,7 @@
 require 'simplecov'
-require 'coveralls'
 
-unless ENV['COVERAGE'] == 'false'
+if ENV['COVERAGE'] == 'true' && RUBY_VERSION != "1.9.2"
+  require 'coveralls'
   SimpleCov.command_name "shindo:#{Process.pid.to_s}"
   SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter[
     SimpleCov::Formatter::HTMLFormatter,
@@ -21,6 +21,15 @@ Excon.defaults.merge!(:debug_request => true, :debug_response => true)
 
 require File.expand_path(File.join(File.dirname(__FILE__), 'helpers', 'mock_helper'))
 
+# This overrides the default 600 seconds timeout during live test runs
+if Fog.mocking?
+  FOG_TESTING_TIMEOUT = ENV['FOG_TEST_TIMEOUT'] || 2000
+  Fog.timeout = 2000
+  Fog::Logger.warning "Setting default fog timeout to #{Fog.timeout} seconds"
+else
+  FOG_TESTING_TIMEOUT = Fog.timeout
+end
+
 def lorem_file
   File.open(File.dirname(__FILE__) + '/lorem.txt', 'r')
 end
@@ -38,6 +47,12 @@ all_providers = all_providers - ["libvirt", "vmfusion", "openvz"]
 available_providers = Fog.available_providers.map {|provider| provider.downcase}
 
 unavailable_providers = all_providers - available_providers
+
+if !ENV['PROVIDER'].nil? && unavailable_providers.include?(ENV['PROVIDER'])
+  Formatador.display_line("[red]Requested provider #{ENV['PROVIDER']} is not available.[/]" + 
+                          "[red]Check if .fog file has correct configuration (see '#{Fog.credentials_path}')[/]")
+  exit(0)
+end
 
 for provider in unavailable_providers
   Formatador.display_line("[yellow]Skipping tests for [bold]#{provider}[/] [yellow]due to lacking credentials (add some to '#{Fog.credentials_path}' to run them)[/]")

@@ -16,6 +16,7 @@ Shindo.tests('Fog::Compute[:openstack] | server requests', ['openstack']) do
     'created'    => String,
     'updated'    => String,
     'user_id'    => String,
+    'config_drive' => String,
   }
 
   @create_format = {
@@ -23,6 +24,10 @@ Shindo.tests('Fog::Compute[:openstack] | server requests', ['openstack']) do
     'id'              => String,
     'links'           => Array,
     'security_groups' => Fog::Nullable::Array,
+  }
+  
+  @reservation_format = {
+    'reservation_id' => String,
   }
 
   @image_format = {
@@ -44,6 +49,7 @@ Shindo.tests('Fog::Compute[:openstack] | server requests', ['openstack']) do
     @image_id = get_image_ref
     @snapshot_id = nil
     @flavor_id = get_flavor_ref
+    @security_group_name = get_security_group_ref
 
     tests('#create_server("test", #{@image_id} , 19)').formats(@create_format, false) do
       data = Fog::Compute[:openstack].create_server("test", @image_id, @flavor_id).body['server']
@@ -58,6 +64,31 @@ Shindo.tests('Fog::Compute[:openstack] | server requests', ['openstack']) do
       Fog::Compute[:openstack].get_server_details(@server_id).body['server']
     end
 
+    #MULTI_CREATE
+    tests('#create_server("test", #{@image_id} , 19, {"min_count" => 2, "return_reservation_id" => "True"})').formats(@reservation_format, false) do
+      data = Fog::Compute[:openstack].create_server("test", @image_id, @flavor_id, {"min_count" => 2, "return_reservation_id" => "True"}).body
+      @reservation_id = data['reservation_id']
+      data
+    end
+    
+    tests('#validate_multi_create') do
+      passed = false
+      @multi_create_servers = []
+      if Fog.mocking?
+        @multi_create_servers = [Fog::Mock.random_numbers(6).to_s, Fog::Mock.random_numbers(6).to_s]
+      else
+        @multi_create_servers = Fog::Compute[:openstack].list_servers_detail({'reservation_id' => @reservation_id}).body['servers'].map{|server| server['id']}
+      end
+      if (@multi_create_servers.size == 2)
+        passed = true
+      end
+    end
+    unless Fog.mocking?
+      @multi_create_servers.each {|server|
+        Fog::Compute[:openstack].servers.get(server).destroy
+      }
+    end
+   
     #LIST
     #NOTE: we can remove strict=false if we remove uuid from GET /servers
     tests('#list_servers').formats({'servers' => [OpenStack::Compute::Formats::SUMMARY]}, false) do
@@ -82,6 +113,16 @@ Shindo.tests('Fog::Compute[:openstack] | server requests', ['openstack']) do
       Fog::Compute[:openstack].update_server(@server_id, :name => 'fogupdatedserver')
     end
     Fog::Compute[:openstack].servers.get(@server_id).wait_for { ready? }
+    
+    #ADD SECURITY GROUP
+    tests("#add_security_group(#{@server_id}, #{@security_group_name})").succeeds do
+      Fog::Compute[:openstack].add_security_group(@server_id, @security_group_name)
+    end
+
+    #REMOVE SECURITY GROUP
+    tests("#remove_security_group(#{@server_id}, #{@security_group_name})").succeeds do
+      Fog::Compute[:openstack].remove_security_group(@server_id, @security_group_name)
+    end
 
     #CREATE IMAGE WITH METADATA
     tests("#create_image(#{@server_id}, 'fog')").formats('image' => @image_format) do

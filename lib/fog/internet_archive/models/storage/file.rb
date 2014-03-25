@@ -10,7 +10,7 @@ module Fog
         extend Fog::Storage::IAAttributes::ClassMethods
         include Fog::Storage::IAAttributes::InstanceMethods
 
-        # @see AWS Object docs http://docs.aws.amazon.com/AmazonS3/latest/API/RESTObjectOps.html 
+        # @see AWS Object docs http://docs.aws.amazon.com/AmazonS3/latest/API/RESTObjectOps.html
 
         # @note Chunk size to use for multipart uploads.
         #     Use small chunk sizes to minimize memory. E.g. 5242880 = 5mb
@@ -55,9 +55,9 @@ module Fog
         end
 
         # Get file's body if exists, else ' '.
-        # 
+        #
         # @return [File]
-        # 
+        #
         def body
           attributes[:body] ||= if last_modified && (file = collection.get(identity))
             file.body
@@ -68,33 +68,33 @@ module Fog
 
 
         # Set body attribute.
-        # 
+        #
         # @param [File] new_body
         # @return [File] attributes[:body]
-        # 
+        #
         def body=(new_body)
           attributes[:body] = new_body
         end
 
 
         # Get the file instance's directory.
-        # 
+        #
         # @return [Fog::InternetArchive::Storage::Directory]
-        # 
+        #
         def directory
           @directory
         end
 
 
         # Copy object from one bucket to other bucket.
-        # 
+        #
         #     required attributes: directory, key
-        # 
+        #
         # @param target_directory_key [String]
         # @param target_file_key [String]
         # @param options [Hash] options for copy_object method
         # @return [String] Fog::InternetArchive::Files#head status of directory contents
-        # 
+        #
         def copy(target_directory_key, target_file_key, options = {})
           requires :directory, :key
           service.copy_object(directory.key, key, target_directory_key, target_file_key, options)
@@ -104,12 +104,12 @@ module Fog
 
 
         # Destroy file via http DELETE.
-        # 
+        #
         #     required attributes: directory, key
-        # 
+        #
         # @param options [Hash]
         # @return [Boolean] true if successful
-        # 
+        #
         def destroy(options = {})
           requires :directory, :key
           options['x-archive-cascade-delete'] = cascade_delete if cascade_delete
@@ -140,33 +140,33 @@ module Fog
 
 
         # Set Access-Control-List permissions.
-        #   
+        #
         #     valid new_publics: public_read, private
-        # 
+        #
         # @param [String] new_public
-        # @return [String] new_puplic 
-        # 
+        # @return [String] new_public
+        #
         def public=(new_public)
           'public-read'
         end
 
 
         # Get publicly acessible url via http GET.
-        # 
+        #
         #     required attributes: directory, key
-        # 
+        #
         # @return [String] public url
-        # 
+        #
         def public_url
           requires :directory, :key
           "http://#{Fog::InternetArchive::DOMAIN_NAME}/download/#{directory.key}/#{Fog::InternetArchive.escape(key)}".gsub('%2F','/')
         end
 
         # Save file with body as contents to directory.key with name key via http PUT
-        # 
+        #
         #   required attributes: body, directory, key
-        # 
-        # @param [Hash] options  
+        #
+        # @param [Hash] options
         # @option options [String] cache_control sets Cache-Control header. For example, 'No-cache'
         # @option options [String] content_disposition sets Content-Disposition HTTP header. For exampple, 'attachment; filename=testing.txt'
         # @option options [String] content_encoding sets Content-Encoding HTTP header. For example, 'x-gzip'
@@ -176,7 +176,7 @@ module Fog
         # @option options [String] storage_class sets x-amz-storage-class HTTP header. Defaults to 'STANDARD'. Or, 'REDUCED_REDUNDANCY'
         # @option options [String] encryption sets HTTP encryption header. Set to 'AES256' to encrypt files at rest on S3
         # @return [Boolean] true if no errors
-        # 
+        #
         def save(options = {})
           requires :body, :directory, :key
           if options != {}
@@ -214,13 +214,13 @@ module Fog
 
 
         # Get a url for file.
-        # 
+        #
         #     required attributes: key
-        # 
+        #
         # @param expires [String] number of seconds before url expires
         # @param options [Hash]
         # @return [String] url
-        # 
+        #
         def url(expires, options = {})
           requires :key
           collection.get_url(key, expires, options)

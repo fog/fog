@@ -14,7 +14,7 @@ Shindo.tests("Fog::Compute[:aws] | volume", ['aws']) do
     @instance.wait_for { state == 'in-use' }
 
     tests('#server').succeeds do
-      @instance.server
+      @instance.server.id == @server.id
     end
 
     tests('#server = nil').succeeds do

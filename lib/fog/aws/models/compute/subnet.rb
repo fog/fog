@@ -14,6 +14,10 @@ module Fog
         attribute :availability_zone,           :aliases => 'availabilityZone'
         attribute :tag_set,                     :aliases => 'tagSet'
 
+        def ready?
+          requires :state
+          state == 'available'
+        end
 
         # Removes an existing subnet
         #
@@ -38,12 +42,14 @@ module Fog
         #
         # == Returns:
         #
-        # requestId and a subnetSet object
+        # requestId and a subnet object
         #
 
         def save
           requires :vpc_id, :cidr_block
-          data = service.create_subnet(vpc_id, cidr_block).body['subnetSet'].first
+          options = {}
+          options['AvailabilityZone'] = availability_zone if availability_zone
+          data = service.create_subnet(vpc_id, cidr_block, options).body['subnet']
           new_attributes = data.reject {|key,value| key == 'requestId'}
           merge_attributes(new_attributes)
           true

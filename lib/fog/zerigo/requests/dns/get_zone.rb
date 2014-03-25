@@ -5,7 +5,7 @@ module Fog
 
         require 'fog/zerigo/parsers/dns/get_zone'
 
-        # Get details of a DNS zone. The response is similar to list_zones, with the 
+        # Get details of a DNS zone. The response is similar to list_zones, with the
         # addition of hosts-count and possibly hosts.
         #
         # ==== Parameters
@@ -29,11 +29,11 @@ module Fog
         #     * 'slave-nameservers'<~String>
         #     * 'tag-list'<~String>
         #     * 'updated-at'<~String>
-        #     * 'hosts'<~Array> - a list of all host records. For the format of host info, see get_host() 
+        #     * 'hosts'<~Array> - a list of all host records. For the format of host info, see get_host()
         #     * 'axfr-ips'<~String>
-        #     * 'restrict-axfr'<~String>    
+        #     * 'restrict-axfr'<~String>
         #   * 'status'<~Integer> - 200 indicates success
-        
+
         def get_zone(zone_id_or_domain)
           request(
             :expects  => 200,

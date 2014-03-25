@@ -3,9 +3,9 @@ module Fog
     class AWS
       class Real
 
-        require 'fog/aws/parsers/compute/delete_dhcp_options'
-        #Deletes a set of DHCP options that you specify. Amazon VPC returns an error if the set of options you specify is currently 
-        #associated with a VPC. You can disassociate the set of options by associating either a new set of options or the default 
+        require 'fog/aws/parsers/compute/basic'
+        #Deletes a set of DHCP options that you specify. Amazon VPC returns an error if the set of options you specify is currently
+        #associated with a VPC. You can disassociate the set of options by associating either a new set of options or the default
         #options with the VPC.
         #
         # ==== Parameters
@@ -22,18 +22,18 @@ module Fog
           request(
             'Action' => 'DeleteDhcpOptions',
             'DhcpOptionsId' => dhcp_options_id,
-            :parser => Fog::Parsers::Compute::AWS::DeleteDhcpOptions.new
+            :parser => Fog::Parsers::Compute::AWS::Basic.new
           )
         end
       end
-      
+
       class Mock
         def delete_dhcp_options(dhcp_options_id)
           Excon::Response.new.tap do |response|
             if dhcp_options_id
               response.status = 200
               self.data[:dhcp_options].reject! { |v| v['dhcpOptionsId'] == dhcp_options_id }
-            
+
               response.body = {
                 'requestId' => Fog::AWS::Mock.request_id,
                 'return' => true

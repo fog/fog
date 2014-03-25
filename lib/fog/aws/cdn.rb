@@ -1,5 +1,4 @@
-require 'fog/aws'
-require 'fog/cdn'
+require 'fog/aws/core'
 
 module Fog
   module CDN
@@ -47,7 +46,6 @@ module Fog
         end
 
         def initialize(options={})
-          require 'mime/types'
           @use_iam_profile = options[:use_iam_profile]
           setup_credentials(options)
         end
@@ -156,7 +154,7 @@ EOF
           @port       = options[:port]      || 443
           @scheme     = options[:scheme]    || 'https'
           @version    = options[:version]  || '2010-11-01'
-          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}#{@path}", @persistent, @connection_options)
+          @connection = Fog::XML::Connection.new("#{@scheme}://#{@host}:#{@port}#{@path}", @persistent, @connection_options)
         end
 
         def reload
@@ -181,7 +179,7 @@ EOF
           params[:headers]['Date'] = Fog::Time.now.to_date_header
           params[:headers]['x-amz-security-token'] = @aws_session_token if @aws_session_token
           params[:headers]['Authorization'] = "AWS #{@aws_access_key_id}:#{signature(params)}"
-          params[:path] = "/#{@version}/#{params[:path]}" 
+          params[:path] = "/#{@version}/#{params[:path]}"
           @connection.request(params, &block)
         end
 

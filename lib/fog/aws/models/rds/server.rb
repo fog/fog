@@ -11,6 +11,7 @@ module Fog
         attribute :engine_version, :aliases => 'EngineVersion'
         attribute :state, :aliases => 'DBInstanceStatus'
         attribute :allocated_storage, :aliases => 'AllocatedStorage', :type => :integer
+        attribute :iops, :aliases => 'Iops'
         attribute :availability_zone , :aliases => 'AvailabilityZone'
         attribute :flavor_id, :aliases => 'DBInstanceClass'
         attribute :endpoint, :aliases => 'Endpoint'
@@ -31,6 +32,7 @@ module Fog
         attribute :license_model, :aliases => 'LicenseModel'
         attribute :db_subnet_group_name, :aliases => 'DBSubnetGroupName'
         attribute :publicly_accessible, :aliases => 'PubliclyAccessible'
+        attribute :vpc_security_groups, :aliases => 'VpcSecurityGroups', :type => :array
 
         attr_accessor :password, :parameter_group_name, :security_group_names, :port
 
@@ -115,6 +117,7 @@ module Fog
             'Port'                          => port || attributes['Port'],
             'Engine'                        => engine,
             'EngineVersion'                 => engine_version,
+            'Iops'                          => iops,
             'MasterUsername'                => master_username,
             'MasterUserPassword'            => password || attributes['MasterUserPassword'],
             'PreferredMaintenanceWindow'    => preferred_maintenance_window,
@@ -122,7 +125,8 @@ module Fog
             'MultiAZ'                       => multi_az,
             'LicenseModel'                  => license_model,
             'DBSubnetGroupName'             => db_subnet_group_name,
-            'PubliclyAccessible'            => publicly_accessible
+            'PubliclyAccessible'            => publicly_accessible,
+            'VpcSecurityGroups'             => vpc_security_groups,
           }
 
           options.delete_if {|key, value| value.nil?}

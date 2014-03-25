@@ -14,7 +14,7 @@ module Fog
         #   * status [Integer] 200
         #
         # @see http://docs.amazonwebservices.com/AmazonS3/latest/API/RESTBucketPUT.html
-        # 
+        #
         def put_bucket(bucket_name, options = {})
           if location_constraint = options.delete('LocationConstraint')
             data =
@@ -62,8 +62,11 @@ DATA
           else
             bucket['LocationConstraint'] = nil
           end
-          unless self.data[:buckets][bucket_name]
+          if !self.data[:buckets][bucket_name] || self.region == 'us-east-1'
             self.data[:buckets][bucket_name] = bucket
+          else
+            response.status = 409
+            raise(Excon::Errors.status_error({:expects => 200}, response))
           end
           response
         end

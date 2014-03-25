@@ -9,7 +9,7 @@ Start by executing the following command:
 
 	irb
 	
-Once `irb` has launched you need to require the Fog library. 
+Once `irb` has launched you need to require the Fog library.
 
 If using Ruby 1.8.x execute:
 
@@ -141,7 +141,7 @@ Fog supports passing additional connection parameters to its underlying HTTP lib
 
 ## Fog Abstractions
 
-Fog provides both a **model** and **request** abstraction. The request abstraction provides the most efficient interface and the model abstraction wraps the request abstraction to provide a convenient `ActiveModel` like interface. 
+Fog provides both a **model** and **request** abstraction. The request abstraction provides the most efficient interface and the model abstraction wraps the request abstraction to provide a convenient `ActiveModel` like interface.
 	
 ### Request Layer
 
@@ -172,7 +172,7 @@ To request a view account details:
 
 This returns in the following `Excon::Response`:
 
-	#<Excon::Response:0x10283fc68 @headers={"X-Account-Bytes-Used"=>"2563554", "Date"=>"Thu, 21 Feb 2013 21:57:02 GMT", "X-Account-Meta-Temp-Url-Key"=>"super_secret_key", "X-Timestamp"=>"1354552916.82056", "Content-Length"=>"0", "Content-Type"=>"application/json; charset=utf-8", "X-Trans-Id"=>"txe934924374a744c8a6c40dd8f29ab94a", "Accept-Ranges"=>"bytes", "X-Account-Container-Count"=>"7", "X-Account-Object-Count"=>"5"}, @status=204, @body=""> 
+	#<Excon::Response:0x10283fc68 @headers={"X-Account-Bytes-Used"=>"2563554", "Date"=>"Thu, 21 Feb 2013 21:57:02 GMT", "X-Account-Meta-Temp-Url-Key"=>"super_secret_key", "X-Timestamp"=>"1354552916.82056", "Content-Length"=>"0", "Content-Type"=>"application/json; charset=utf-8", "X-Trans-Id"=>"txe934924374a744c8a6c40dd8f29ab94a", "Accept-Ranges"=>"bytes", "X-Account-Container-Count"=>"7", "X-Account-Object-Count"=>"5"}, @status=204, @body="">
 
 To view the status of the response:
 	
@@ -186,14 +186,14 @@ To view response headers:
 	
 This will return:
 
-	{"X-Account-Bytes-Used"=>"2563554", "Date"=>"Thu, 21 Feb 2013 21:57:02 GMT", "X-Account-Meta-Temp-Url-Key"=>"super_secret_key", "X-Timestamp"=>"1354552916.82056", "Content-Length"=>"0", "Content-Type"=>"application/json; charset=utf-8", "X-Trans-Id"=>"txe934924374a744c8a6c40dd8f29ab94a", "Accept-Ranges"=>"bytes", "X-Account-Container-Count"=>"7", "X-Account-Object-Count"=>"5"} 
+	{"X-Account-Bytes-Used"=>"2563554", "Date"=>"Thu, 21 Feb 2013 21:57:02 GMT", "X-Account-Meta-Temp-Url-Key"=>"super_secret_key", "X-Timestamp"=>"1354552916.82056", "Content-Length"=>"0", "Content-Type"=>"application/json; charset=utf-8", "X-Trans-Id"=>"txe934924374a744c8a6c40dd8f29ab94a", "Accept-Ranges"=>"bytes", "X-Account-Container-Count"=>"7", "X-Account-Object-Count"=>"5"}
 	
 	
 To learn more about `Fog::Storage` request methods refer to [rdoc](http://rubydoc.info/gems/fog/Fog/Storage/Rackspace/Real). To learn more about Excon refer to [Excon GitHub repo](https://github.com/geemus/excon).
 
 ### Model Layer
 
-Fog models behave in a manner similar to `ActiveModel`. Models will generally respond to `create`, `save`,  `destroy`, `reload` and `attributes` methods. Additionally, fog will automatically create attribute accessors.  
+Fog models behave in a manner similar to `ActiveModel`. Models will generally respond to `create`, `save`,  `destroy`, `reload` and `attributes` methods. Additionally, fog will automatically create attribute accessors.
 
 Here is a summary of common model methods:
 
@@ -217,7 +217,7 @@ Here is a summary of common model methods:
 	<tr>
 		<td>destroy</td>
 		<td>
-			Destroys object.<br> 
+			Destroys object.<br>
 			Note: this is a non-blocking call and object deletion might not be instantaneous.
 		</td>
 	<tr>
@@ -269,6 +269,14 @@ To retrieve a specific directory:
 
 	service.directories.get "blue"
 
+**Note** As a general rule, only use `get` when you want to iterate over the contents of a `Directory`
+
+This call is similar to...
+
+    service.directories.new :key => "blue"
+
+... except the `get` method makes an HTTP call that returns metadata for up to the first 10,000 files. **This can be slow!**
+
 This returns a `Fog::Storage::Rackspace::Directory` instance:
 
 	<Fog::Storage::Rackspace::Directory
@@ -276,7 +284,7 @@ This returns a `Fog::Storage::Rackspace::Directory` instance:
     bytes=434266,
     count=1,
     cdn_cname=nil
-    > 
+    >
 
 ## Create Directory
 
@@ -336,6 +344,25 @@ To upload a file into a directory:
 	file = directory.files.create :key => 'space.jpg', :body => File.open "space.jpg"
 	
 **Note**: For files larger than 5 GB please refer to the [Upload Large Files](#upload_large_files) section.
+
+If you only need a `Directory` so that you can create a file (as above), you can accomplish this without
+an HTTP call as below:
+
+    dir = service.directories.new :key => "blue"
+	file = dir.files.new(...)
+	file.save
+
+This will **not** retrieve the metadata for files in the `Directory`.
+
+However, if the `Directory` does not already exist in Cloud Files, the `save` call will return with a 404.
+
+In this case, you will need to `save` the `Directory` first...
+
+    dir.save
+
+... before you can...
+
+    file.save
 
 ### Additional Parameters
 
@@ -508,8 +535,8 @@ This returns a `Fog::Storage::Rackspace::Account` instance:
     container_count=13,
     bytes_used=2563554,
     object_count=5
-  	> 
-  
+  	>
+
 ## Examples
 
 Example code using Cloud Files can be found [here](https://github.com/fog/fog/tree/master/lib/fog/rackspace/examples).

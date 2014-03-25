@@ -1,5 +1,4 @@
-require 'fog/atmos'
-require 'fog/storage'
+require 'fog/atmos/core'
 
 module Fog
   module Storage
@@ -66,7 +65,6 @@ module Fog
         include Utils
 
         def initialize(options={})
-          require 'mime/types'
           setup_credentials(options)
         end
 
@@ -80,14 +78,12 @@ module Fog
         include Utils
 
         def initialize(options={})
-          require 'mime/types'
-
           setup_credentials(options)
           @connection_options = options[:connection_options] || {}
           @hmac               = Fog::HMAC.new('sha1', @storage_secret_decoded)
           @persistent = options.fetch(:persistent, false)
 
-          @connection = Fog::Connection.new("#{@prefix}://#{@storage_host}:#{@storage_port}",
+          @connection = Fog::XML::Connection.new("#{@prefix}://#{@storage_host}:#{@storage_port}",
               @persistent, @connection_options)
         end
 
@@ -158,6 +154,10 @@ module Fog
           signature = Base64.encode64( digest ).chomp()
           params[:headers]["x-emc-signature"] = signature
 
+          params.delete(:host) #invalid excon request parameter
+
+          parse = params.delete(:parse)        
+        
           begin
             response = @connection.request(params, &block)
           rescue Excon::Errors::HTTPStatusError => error
@@ -169,7 +169,7 @@ module Fog
             end
           end
           unless response.body.empty?
-            if params[:parse]
+            if parse
               document = Fog::ToHashDocument.new
               parser = Nokogiri::XML::SAX::PushParser.new(document)
               parser << response.body

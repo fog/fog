@@ -78,14 +78,14 @@ Shindo.tests('Fog::Rackspace::LoadBalancers', ['rackspace']) do
     pending if Fog.mocking?
 
     tests('no params').succeeds do
-      @service = Fog::Rackspace::LoadBalancers.new
+      @service = Fog::Rackspace::LoadBalancers.new :rackspace_region => nil
       returns(true, "auth token populated") { !@service.send(:auth_token).nil? }
       returns(true) { (@service.instance_variable_get("@uri").host =~ /dfw/) != nil }
       @service.list_load_balancers
     end
     tests('specify old contstant style service endoint').succeeds do
       @service = Fog::Rackspace::LoadBalancers.new :rackspace_lb_endpoint => Fog::Rackspace::LoadBalancers::ORD_ENDPOINT
-      returns(true) { (@service.instance_variable_get("@uri").host =~ /ord/ ) != nil }
+      returns(true) { (@service.instance_variable_get("@uri").to_s =~ /#{Fog::Rackspace::LoadBalancers::ORD_ENDPOINT}/ ) != nil }
       @service.list_load_balancers
     end
     tests('specify region').succeeds do
@@ -105,10 +105,14 @@ Shindo.tests('Fog::Rackspace::LoadBalancers', ['rackspace']) do
   tests('reauthentication') do
     pending if Fog.mocking?
 
-    @service = Fog::Rackspace::LoadBalancers.new
-    returns(true, "auth token populated") { !@service.send(:auth_token).nil? }
-    @service.instance_variable_set("@auth_token", "bad-token")
-    returns(200) { @service.list_load_balancers.status }
+    tests('should reauth with valid credentials') do
+      @service = Fog::Rackspace::LoadBalancers.new
+      returns(true, "auth token populated") { !@service.send(:auth_token).nil? }
+      @service.instance_variable_set("@auth_token", "bad-token")
+      returns(200) { @service.list_load_balancers.status }    end
+    tests('should terminate with incorrect credentials') do
+      raises(Excon::Errors::Unauthorized) { Fog::Rackspace::LoadBalancers.new:rackspace_api_key => 'bad_key' }
+    end
   end
 
   pending if Fog.mocking?

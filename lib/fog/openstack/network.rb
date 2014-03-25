@@ -1,4 +1,4 @@
-require 'fog/openstack'
+require 'fog/openstack/core'
 
 module Fog
   module Network
@@ -32,6 +32,10 @@ module Fog
       collection  :lb_health_monitors
       model       :lb_vip
       collection  :lb_vips
+      model       :security_group
+      collection  :security_groups
+      model       :security_group_rule
+      collection  :security_group_rules
 
       ## REQUESTS
       #
@@ -106,22 +110,89 @@ module Fog
       request :get_lb_vip
       request :update_lb_vip
 
+      # Security Group
+      request :create_security_group
+      request :delete_security_group
+      request :get_security_group
+      request :list_security_groups
+
+      # Security Group Rules
+      request :create_security_group_rule
+      request :delete_security_group_rule
+      request :get_security_group_rule
+      request :list_security_group_rules
+
       # Tenant
       request :set_tenant
+
+      # Quota
+      request :get_quotas
+      request :get_quota
+      request :update_quota
+      request :delete_quota
 
       class Mock
         def self.data
           @data ||= Hash.new do |hash, key|
+            network_id = Fog::UUID.uuid
+            subnet_id  = Fog::UUID.uuid
+            tenant_id  = Fog::Mock.random_hex(8)
+
             hash[key] = {
-              :networks => {},
+              :networks => {
+                network_id => {
+                  'id'                    => network_id,
+                  'name'                  => 'Public',
+                  'subnets'               => [subnet_id],
+                  'shared'                => true,
+                  'status'                => 'ACTIVE',
+                  'tenant_id'             => tenant_id,
+                  'provider_network_type' => 'vlan',
+                  'router:external'       => false,
+                  'admin_state_up'        => true,
+                }
+              },
               :ports => {},
-              :subnets => {},
+              :subnets => {
+                subnet_id => {
+                  'id'               => subnet_id,
+                  'name'             => "Public",
+                  'network_id'       => network_id,
+                  'cidr'             => "192.168.0.0/22",
+                  'ip_version'       => 4,
+                  'gateway_ip'       => Fog::Mock.random_ip,
+                  'allocation_pools' => [],
+                  'dns_nameservers'  => [Fog::Mock.random_ip, Fog::Mock.random_ip],
+                  'host_routes'      => [Fog::Mock.random_ip],
+                  'enable_dhcp'      => true,
+                  'tenant_id'        => tenant_id,
+                }
+              },
               :floating_ips => {},
               :routers => {},
               :lb_pools => {},
               :lb_members => {},
               :lb_health_monitors => {},
               :lb_vips => {},
+              :quota => {
+                "subnet" => 10,
+                "router" => 10,
+                "port" => 50,
+                "network" => 10,
+                "floatingip" => 50
+              },
+              :quotas => [
+                {
+                  "subnet" => 10,
+                  "network" => 10,
+                  "floatingip" => 50,
+                  "tenant_id" => tenant_id,
+                  "router" => 10,
+                  "port" => 30
+                }
+              ],
+              :security_groups      => {},
+              :security_group_rules => {},
             }
           end
         end
@@ -156,8 +227,6 @@ module Fog
         attr_reader :current_tenant
 
         def initialize(options={})
-          require 'multi_json'
-
           @openstack_auth_token = options[:openstack_auth_token]
 
           unless @openstack_auth_token
@@ -187,7 +256,7 @@ module Fog
           authenticate
 
           @persistent = options[:persistent] || false
-          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
+          @connection = Fog::XML::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
         end
 
         def credentials
@@ -212,7 +281,6 @@ module Fog
                 'Accept' => 'application/json',
                 'X-Auth-Token' => @auth_token
               }.merge!(params[:headers] || {}),
-              :host     => @host,
               :path     => "#{@path}/#{params[:path]}"#,
             }))
           rescue Excon::Errors::Unauthorized => error
@@ -232,7 +300,7 @@ module Fog
             end
           end
           unless response.body.empty?
-            response.body = MultiJson.decode(response.body)
+            response.body = Fog::JSON.decode(response.body)
           end
           response
         end

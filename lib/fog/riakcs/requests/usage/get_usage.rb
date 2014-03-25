@@ -37,27 +37,27 @@ module Fog
           response = @connection.get_object('riak-cs', ["usage", request_uri(access_key_id, options)].join("/"))
 
           if !response.body.empty?
-            response.body = MultiJson.decode(response.body)
+            response.body = Fog::JSON.decode(response.body)
           end
           response
         end
       end
-      
+
       class Mock
         include Utils
 
-        def get_usage(access_key, options = {})  
+        def get_usage(access_key, options = {})
           Excon::Response.new.tap do |response|
             response.status = 200
             response.headers['Content-Type'] = 'application/json'
             response.body = {
-              'Access' => { 
+              'Access' => {
                 'Nodes'   => [],
-                'Errors'  => [] 
+                'Errors'  => []
               },
-              'Storage' => { 
+              'Storage' => {
                 'Samples' => [],
-                'Errors'  => [] 
+                'Errors'  => []
               }
             }
           end

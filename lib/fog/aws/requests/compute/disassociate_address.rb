@@ -37,9 +37,10 @@ module Fog
           response.status = 200
           if address = self.data[:addresses][public_ip]
             instance_id = address['instanceId']
-            instance = self.data[:instances][instance_id]
-            instance['ipAddress']         = instance['originalIpAddress']
-            instance['dnsName']           = Fog::AWS::Mock.dns_name_for(instance['ipAddress'])
+            if instance = self.data[:instances][instance_id]
+              instance['ipAddress']         = instance['originalIpAddress']
+              instance['dnsName']           = Fog::AWS::Mock.dns_name_for(instance['ipAddress'])
+            end
             address['instanceId'] = nil
             response.status = 200
             response.body = {

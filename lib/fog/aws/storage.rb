@@ -1,5 +1,4 @@
-require 'fog/aws'
-require 'fog/storage'
+require 'fog/aws/core'
 
 module Fog
   module Storage
@@ -34,6 +33,7 @@ module Fog
         response-content-type
         response-expires
         restore
+        tagging
         torrent
         uploadId
         uploads
@@ -44,7 +44,7 @@ module Fog
       ]
 
       requires :aws_access_key_id, :aws_secret_access_key
-      recognizes :endpoint, :region, :host, :path, :port, :scheme, :persistent, :use_iam_profile, :aws_session_token, :aws_credentials_expire_at, :path_style
+      recognizes :endpoint, :region, :host, :port, :scheme, :persistent, :use_iam_profile, :aws_session_token, :aws_credentials_expire_at, :path_style
 
       secrets    :aws_secret_access_key, :hmac
 
@@ -65,6 +65,7 @@ module Fog
       request :delete_bucket_website
       request :delete_object
       request :delete_multiple_objects
+      request :delete_bucket_tagging
       request :get_bucket
       request :get_bucket_acl
       request :get_bucket_cors
@@ -73,6 +74,7 @@ module Fog
       request :get_bucket_logging
       request :get_bucket_object_versions
       request :get_bucket_policy
+      request :get_bucket_tagging
       request :get_bucket_versioning
       request :get_bucket_website
       request :get_object
@@ -95,6 +97,7 @@ module Fog
       request :put_bucket_lifecycle
       request :put_bucket_logging
       request :put_bucket_policy
+      request :put_bucket_tagging
       request :put_bucket_versioning
       request :put_bucket_website
       request :put_object
@@ -136,6 +139,10 @@ module Fog
 
         def signed_url(params, expires)
           expires = expires.to_i
+          if @aws_session_token
+            params[:headers]||= {}
+            params[:headers]['x-amz-security-token'] = @aws_session_token
+          end
           signature = signature(params, expires)
           params = request_params(params)
 
@@ -161,11 +168,27 @@ module Fog
         end
 
         def object_to_path(object_name=nil)
-          '/' + Fog::AWS.escape(object_name.to_s).gsub('%2F','/')
+          '/' + escape(object_name.to_s).gsub('%2F','/')
         end
 
         def bucket_to_path(bucket_name, path=nil)
-          "/#{Fog::AWS.escape(bucket_name.to_s)}#{path}"
+          "/#{escape(bucket_name.to_s)}#{path}"
+        end
+
+        # NOTE: differs from Fog::AWS.escape by NOT escaping `/`
+        def escape(string)
+          unless @unf_loaded_or_warned
+            begin
+              require('unf/normalizer')
+            rescue LoadError
+              Fog::Logger.warning("Unable to load the 'unf' gem. Your AWS strings may not be properly encoded.")
+            end
+            @unf_loaded_or_warned = true
+          end
+          string = defined?(::UNF::Normalizer) ? ::UNF::Normalizer.normalize(string, :nfc) : string
+          string.gsub(/([^a-zA-Z0-9_.\-~\/]+)/) {
+            "%" + $1.unpack("H2" * $1.bytesize).join("%").upcase
+          }
         end
 
         # Transforms things like bucket_name, object_name, region
@@ -176,9 +199,9 @@ module Fog
 
           if params[:scheme]
             scheme = params[:scheme]
-            port   = params[:port]
+            port   = params[:port] || DEFAULT_SCHEME_PORT[scheme]
           else
-            scheme = @scheme || DEFAULT_SCHEME
+            scheme = @scheme
             port   = @port
           end
           if DEFAULT_SCHEME_PORT[scheme] == port
@@ -217,7 +240,7 @@ module Fog
             :host         => host,
             :port         => port,
             :path         => path,
-            :headers      => headers,
+            :headers      => headers
           })
 
           #
@@ -232,7 +255,7 @@ module Fog
         def params_to_url(params)
           query = params[:query] && params[:query].map do |key, value|
             if value
-              [key, Fog::AWS.escape(value.to_s)].join('=')
+              [key, escape(value.to_s)].join('=')
             else
               key
             end
@@ -324,7 +347,9 @@ module Fog
                 :buckets => {},
                 :cors => {
                   :bucket => {}
-                }
+                },
+                :bucket_tagging => {},
+                :multipart_uploads => {}
               }
             end
           end
@@ -335,12 +360,20 @@ module Fog
         end
 
         def initialize(options={})
-          require 'mime/types'
           @use_iam_profile = options[:use_iam_profile]
           setup_credentials(options)
-          @region = options[:region] || DEFAULT_REGION
-          @host   = options[:host]   || region_to_host(@region)
-          @scheme = options[:scheme] || DEFAULT_SCHEME
+          if @endpoint = options[:endpoint]
+            endpoint = URI.parse(@endpoint)
+            @host = endpoint.host
+            @scheme = endpoint.scheme
+            @port = endpoint.port
+          else
+            @region     = options[:region]      || DEFAULT_REGION
+            @host       = options[:host]        || region_to_host(@region)
+            @scheme     = options[:scheme]      || DEFAULT_SCHEME
+            @port       = options[:port]        || DEFAULT_SCHEME_PORT[@scheme]
+          end
+          @path_style = options[:path_style] || false
         end
 
         def data
@@ -387,37 +420,29 @@ module Fog
         # * S3 object with connection to aws.
         def initialize(options={})
           require 'fog/core/parser'
-          require 'mime/types'
 
           @use_iam_profile = options[:use_iam_profile]
           setup_credentials(options)
           @connection_options     = options[:connection_options] || {}
           @persistent = options.fetch(:persistent, false)
 
+          @path_style = options[:path_style]  || false
+
           if @endpoint = options[:endpoint]
             endpoint = URI.parse(@endpoint)
             @host = endpoint.host
-            @path = if endpoint.path.empty?
-              '/'
-            else
-              endpoint.path
-            end
             @scheme = endpoint.scheme
             @port = endpoint.port
           else
             @region     = options[:region]      || DEFAULT_REGION
             @host       = options[:host]        || region_to_host(@region)
-            @path       = options[:path]        || '/'
             @scheme     = options[:scheme]      || DEFAULT_SCHEME
             @port       = options[:port]        || DEFAULT_SCHEME_PORT[@scheme]
-            @path_style = options[:path_style]  || false
           end
-
-          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}#{@path}", @persistent, @connection_options)
         end
 
         def reload
-          @connection.reset
+          @connection.reset if @connection
         end
 
         def signature(params, expires)
@@ -487,6 +512,20 @@ DATA
           @hmac = Fog::HMAC.new('sha1', @aws_secret_access_key)
         end
 
+        def connection(scheme, host, port)
+          uri = "#{scheme}://#{host}:#{port}"
+          if @persistent
+            unless uri == @connection_uri
+              @connection_uri = uri
+              reload
+              @connection = nil
+            end
+          else
+            @connection = nil
+          end
+          @connection ||= Fog::XML::Connection.new(uri, @persistent, @connection_options)
+        end
+
         def request(params, &block)
           refresh_credentials_if_expired
 
@@ -496,7 +535,9 @@ DATA
           signature = signature(params, expires)
 
           params = request_params(params)
-          params.delete(:port) unless params[:port]
+          scheme = params.delete(:scheme)
+          host   = params.delete(:host)
+          port   = params.delete(:port) || DEFAULT_SCHEME_PORT[scheme]
 
           params[:headers]['Date'] = expires
           params[:headers]['Authorization'] = "AWS #{@aws_access_key_id}:#{signature}"
@@ -504,12 +545,12 @@ DATA
           original_params = params.dup
 
           begin
-            response = @connection.request(params, &block)
+            response = connection(scheme, host, port).request(params, &block)
           rescue Excon::Errors::TemporaryRedirect => error
             headers = (error.response.is_a?(Hash) ? error.response[:headers] : error.response.headers)
             uri = URI.parse(headers['Location'])
             Fog::Logger.warning("fog: followed redirect to #{uri.host}, connecting to the matching region will be more performant")
-            response = Fog::Connection.new("#{@scheme}://#{uri.host}:#{@port}", false, @connection_options).request(original_params, &block)
+            response = Fog::XML::Connection.new("#{uri.scheme}://#{uri.host}:#{uri.port}", false, @connection_options).request(original_params, &block)
           end
 
           response

@@ -1,4 +1,4 @@
-require 'fog/rackspace'
+require 'fog/rackspace/core'
 
 module Fog
   module Rackspace
@@ -73,6 +73,7 @@ module Fog
       request :get_error_page
       request :set_error_page
       request :remove_error_page
+      request :get_stats
 
       module Shared
 
@@ -115,20 +116,22 @@ module Fog
 
           authenticate
 
+          deprecation_warnings(options)
+
           @persistent = options[:persistent] || false
-          @connection = Fog::Connection.new(endpoint_uri.to_s, @persistent, @connection_options)
+          @connection = Fog::XML::Connection.new(endpoint_uri.to_s, @persistent, @connection_options)
         end
 
-        def request(params, parse_json = true, &block)
-          super(params, parse_json, &block)
+        def request(params, parse_json = true)
+          super
         rescue Excon::Errors::NotFound => error
-          raise NotFound.slurp(error, region)
+          raise NotFound.slurp(error, self)
         rescue Excon::Errors::BadRequest => error
-          raise BadRequest.slurp error
+          raise BadRequest.slurp(error, self)
         rescue Excon::Errors::InternalServerError => error
-          raise InternalServerError.slurp error
+          raise InternalServerError.slurp(error, self)
         rescue Excon::Errors::HTTPStatusError => error
-          raise ServiceError.slurp error
+          raise ServiceError.slurp(error, self)
         end
 
         def authenticate(options={})
@@ -184,6 +187,10 @@ module Fog
           if [DFW_ENDPOINT, ORD_ENDPOINT, LON_ENDPOINT].include?(@rackspace_endpoint) && v2_authentication?
             regions = @identity_service.service_catalog.display_service_regions(service_name)
             Fog::Logger.deprecation("Please specify region using :rackspace_region rather than :rackspace_endpoint. Valid regions for :rackspace_region are #{regions}.")
+          end
+
+          unless options[:rackspace_region]
+            Fog::Logger.deprecation("Default region support will be removed in an upcoming release. Please switch to manually setting your endpoint. This requires settng the :rackspace_region option")
           end
         end
 

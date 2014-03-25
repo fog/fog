@@ -11,8 +11,8 @@ module Fog
           data = { 'memberships' => members }
 
           request(
-            :body    => MultiJson.encode(data),
-            :expects => [200, 202],
+            :body    => Fog::JSON.encode(data),
+            :expects => [204],
             :method  => 'PUT',
             :path    => "images/#{image_id}/members"
           )
@@ -22,7 +22,7 @@ module Fog
       class Mock
         def update_image_members(image_id, members)
           response = Excon::Response.new
-          response.status = [200, 202][rand(1)]
+          response.status = 204
           response.body = {
             'members' => [
               { 'member_id'=>'ff528b20431645ebb5fa4b0a71ca002f', 'can_share' => false },

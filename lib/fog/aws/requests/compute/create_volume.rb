@@ -22,7 +22,7 @@ module Fog
         #     * 'createTime'<~Time> - Timestamp for creation
         #     * 'size'<~Integer> - Size in GiBs for volume
         #     * 'snapshotId'<~String> - Snapshot volume was created from, if any
-        #     * 'status's<~String> - State of volume
+        #     * 'status'<~String> - State of volume
         #     * 'volumeId'<~String> - Reference to volume
         #     * 'volumeType'<~String> - Type of volume
         #     * 'iops'<~Integer> - Number of IOPS the volume supports

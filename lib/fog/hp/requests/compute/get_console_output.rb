@@ -3,8 +3,6 @@ module Fog
     class HP
       class Real
 
-        require 'fog/aws/parsers/compute/get_console_output'
-
         # Retrieve console output for specified instance
         #
         # ==== Parameters

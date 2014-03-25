@@ -5,7 +5,13 @@ module Fog
       class Mock
 
         def list_zones
-          Fog::Mock.not_implemented
+          zones = self.data[:zones].values
+          build_response(:body => {
+            "kind" => "compute#zoneList",
+            "selfLink" => "https://www.googleapis.com/compute/#{api_version}/projects/#{@project}/zones",
+            "id" => "projects/#{@project}/zones",
+            "items" => zones
+          })
         end
 
       end

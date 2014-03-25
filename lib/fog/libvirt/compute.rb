@@ -1,5 +1,4 @@
-require 'fog/libvirt'
-require 'fog/compute'
+require 'fog/libvirt/core'
 require 'fog/libvirt/models/compute/util/util'
 require 'fog/libvirt/models/compute/util/uri'
 
@@ -39,6 +38,7 @@ module Fog
       request :list_volumes
       request :volume_action
       request :create_volume
+      request :clone_volume
       request :list_networks
       request :destroy_network
       request :list_interfaces

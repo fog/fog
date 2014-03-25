@@ -1,5 +1,4 @@
-require 'fog/local/storage'
-require 'fog/storage'
+require 'fog/local/core'
 
 module Fog
   module Storage
@@ -33,7 +32,6 @@ module Fog
         def initialize(options={})
           Fog::Mock.not_implemented
 
-          require 'mime/types'
           @local_root = ::File.expand_path(options[:local_root])
 
           @endpoint = options[:endpoint] || build_endpoint_from_options(options)
@@ -68,7 +66,6 @@ module Fog
         attr_reader :endpoint
 
         def initialize(options={})
-          require 'mime/types'
           @local_root = ::File.expand_path(options[:local_root])
 
           @endpoint = options[:endpoint] || build_endpoint_from_options(options)

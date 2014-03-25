@@ -6,8 +6,8 @@ Shindo.tests("Fog::Compute[:digitalocean] | server model", ['digitalocean', 'com
 
     tests('have the action') do
       test('reload') { server.respond_to? 'reload' }
-      %w{ 
-        shutdown 
+      %w{
+        shutdown
         reboot
         power_cycle
         stop
@@ -16,17 +16,21 @@ Shindo.tests("Fog::Compute[:digitalocean] | server model", ['digitalocean', 'com
         test(action) { server.respond_to? action }
       end
     end
+
     tests('have attributes') do
       model_attribute_hash = server.attributes
-      attributes = [ 
+      attributes = [
         :id,
         :name,
         :state,
         :backups_active,
-        :ip_address,
+        :public_ip_address,
+        :private_ip_address,
         :flavor_id,
         :region_id,
-        :image_id
+        :image_id,
+        :created_at,
+        :ssh_keys=
       ]
       tests("The server model should respond to") do
         attributes.each do |attribute|
@@ -34,12 +38,14 @@ Shindo.tests("Fog::Compute[:digitalocean] | server model", ['digitalocean', 'com
         end
       end
     end
+
     test('#reboot') do
       pending if Fog.mocking?
       server.reboot
       server.wait_for { server.state == 'off' }
       server.state == 'off'
     end
+
     test('#power_cycle') do
       pending if Fog.mocking?
       server.wait_for { server.ready? }
@@ -47,16 +53,19 @@ Shindo.tests("Fog::Compute[:digitalocean] | server model", ['digitalocean', 'com
       server.wait_for { server.state == 'off' }
       server.state == 'off'
     end
+
     test('#stop') do
       server.stop
       server.wait_for { server.state == 'off' }
       server.state == 'off'
     end
+
     test('#start') do
       server.start
       server.wait_for { ready? }
       server.ready?
     end
+
     # DigitalOcean shutdown is unreliable
     # so disable it in real mode for now
     test('#shutdown') do
@@ -67,6 +76,7 @@ Shindo.tests("Fog::Compute[:digitalocean] | server model", ['digitalocean', 'com
       server.wait_for { server.state == 'off' }
       server.state == 'off'
     end
+
     test('#update') do
       begin
         server.update
@@ -74,11 +84,11 @@ Shindo.tests("Fog::Compute[:digitalocean] | server model", ['digitalocean', 'com
         true
       end
     end
-
   end
 
   # restore server state
   server.start
+  server.wait_for { ready? }
 
 end
 

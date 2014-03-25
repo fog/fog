@@ -1,5 +1,4 @@
-require 'fog/aws'
-require 'fog/dns'
+require 'fog/aws/core'
 
 module Fog
   module DNS
@@ -34,7 +33,8 @@ module Fog
                 :limits => {
                   :duplicate_domains => 5
                 },
-                :zones => {}
+                :zones => {},
+                :changes => {}
               }
             end
           end
@@ -45,7 +45,6 @@ module Fog
         end
 
         def initialize(options={})
-          require 'mime/types'
           @use_iam_profile = options[:use_iam_profile]
           setup_credentials(options)
           @region             = options[:region]
@@ -100,7 +99,7 @@ module Fog
           @scheme     = options[:scheme]      || 'https'
           @version    = options[:version]     || '2012-02-29'
 
-          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}#{@path}", @persistent, @connection_options)
+          @connection = Fog::XML::Connection.new("#{@scheme}://#{@host}:#{@port}#{@path}", @persistent, @connection_options)
         end
 
         def reload

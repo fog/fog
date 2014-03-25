@@ -34,11 +34,16 @@ module Fog
         attribute :root_device_id,                          :aliases => 'rootdeviceid'
         attribute :root_device_type,                        :aliases => 'rootdevicetype'
         attribute :group
+        attribute :key_name,                                :aliases => 'keypair'
+        attribute :user_data,                                :aliases => 'userdata'
         attribute :security_group_list,    :type => :array, :aliases => 'securitygroup'
         attribute :nics,                   :type => :array, :aliases => 'nic'
 
         attr_accessor :network_ids, :disk_offering_id, :ip_address, :ip_to_network_list
         attr_writer :security_group_ids
+
+        alias_method :public_ip_address, :ip_address
+        alias_method :public_ip_address=, :ip_address=
 
         def addresses
           nics.map{|nic| Address.new(nic)}
@@ -85,6 +90,7 @@ module Fog
             'zoneid'            => zone_id,
             'networkids'        => network_ids,
             'diskofferingid'    => disk_offering_id,
+            'name'              => name,
             'displayname'       => display_name,
             'group'             => group,
             'domainid'          => domain_id,
@@ -92,6 +98,8 @@ module Fog
             'ipaddress'         => ip_address,
             'iptonetworklist'   => ip_to_network_list,
             'projectid'         => project_id,
+            'keypair'           => key_name,
+            'userdata'           => user_data,
           }
 
           options.merge!('networkids' => network_ids) if network_ids

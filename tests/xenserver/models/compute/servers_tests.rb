@@ -76,6 +76,7 @@ Shindo.tests('Fog::Compute[:xenserver] | servers collection', ['xenserver']) do
       server = conn.servers.create(:name => test_ephemeral_vm_name, 
                                    :template_name => test_template_name)
       test('by name') { servers.get_by_name(test_ephemeral_vm_name).kind_of? Fog::Compute::XenServer::Server }
+      test('by instance uuid') { servers.get_by_uuid(server.uuid).kind_of? Fog::Compute::XenServer::Server }
       test('by instance reference') { servers.get(server.reference).kind_of? Fog::Compute::XenServer::Server }
       server.destroy
     end

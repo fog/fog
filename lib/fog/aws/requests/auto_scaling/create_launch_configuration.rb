@@ -83,8 +83,10 @@ module Fog
             raise Fog::AWS::AutoScaling::IdentifierTaken.new("Launch Configuration by this name already exists - A launch configuration already exists with the name #{launch_configuration_name}")
           end
           self.data[:launch_configurations][launch_configuration_name] = {
+            'AssociatePublicIpAddress' => nil,
             'BlockDeviceMappings'     => [],
             'CreatedTime'             => Time.now.utc,
+            'IamInstanceProfile'      => nil,
             'ImageId'                 => image_id,
             'InstanceMonitoring'      => {'Enabled' => true},
             'InstanceType'            => instance_type,

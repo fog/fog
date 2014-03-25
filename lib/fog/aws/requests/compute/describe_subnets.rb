@@ -19,7 +19,7 @@ module Fog
         # * 'state'<~String> - The current state of the Subnet. ['pending', 'available']
         # * 'vpcId'<~String> - The ID of the VPC the subnet is in
         # * 'cidrBlock'<~String> - The CIDR block the Subnet covers.
-        # * 'availableIpAddressCount'<~Integer> - The number of unused IP addresses in the subnet (the IP addresses for any 
+        # * 'availableIpAddressCount'<~Integer> - The number of unused IP addresses in the subnet (the IP addresses for any
         #   stopped instances are considered unavailable)
         # * 'availabilityZone'<~String> - The Availability Zone the subnet is in.
         # * 'tagSet'<~Array>: Tags assigned to the resource.
@@ -45,6 +45,14 @@ module Fog
       class Mock
         def describe_subnets(filters = {})
           subnets = self.data[:subnets]
+
+          # Transition from pending to available
+          subnets.each do |subnet|
+            case subnet['state']
+              when 'pending'
+                subnet['state'] = 'available'
+            end
+          end
 
           if filters['subnet-id']
             subnets = subnets.reject {|subnet| subnet['subnetId'] != filters['subnet-id']}

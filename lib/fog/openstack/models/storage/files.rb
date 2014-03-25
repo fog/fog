@@ -71,6 +71,16 @@ module Fog
           end
         end
 
+        def get_http_url(key, expires, options = {})
+          requires :directory
+          service.get_object_http_url(directory.key, key, expires, options)
+        end
+
+        def get_https_url(key, expires, options = {})
+          requires :directory
+          service.get_object_https_url(directory.key, key, expires, options)
+        end
+
         def head(key, options = {})
           requires :directory
           data = service.head_object(directory.key, key)

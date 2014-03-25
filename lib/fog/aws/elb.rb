@@ -1,4 +1,4 @@
-require 'fog/aws'
+require 'fog/aws/core'
 
 module Fog
   module AWS
@@ -31,16 +31,19 @@ module Fog
       request :deregister_instances_from_load_balancer
       request :describe_instance_health
       request :describe_load_balancers
+      request :describe_load_balancer_attributes
       request :describe_load_balancer_policies
       request :describe_load_balancer_policy_types
       request :disable_availability_zones_for_load_balancer
       request :enable_availability_zones_for_load_balancer
+      request :modify_load_balancer_attributes
       request :register_instances_with_load_balancer
       request :set_load_balancer_listener_ssl_certificate
       request :set_load_balancer_policies_of_listener
       request :attach_load_balancer_to_subnets
       request :detach_load_balancer_from_subnets
       request :apply_security_groups_to_load_balancer
+      request :set_load_balancer_policies_for_backend_server
 
       model_path 'fog/aws/models/elb'
       model      :load_balancer
@@ -49,6 +52,8 @@ module Fog
       collection :policies
       model      :listener
       collection :listeners
+      model      :backend_server_description
+      collection :backend_server_descriptions
 
       class Mock
 
@@ -134,7 +139,7 @@ module Fog
           @persistent = options[:persistent]  || false
           @port       = options[:port]        || 443
           @scheme     = options[:scheme]      || 'https'
-          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}#{@path}", @persistent, @connection_options)
+          @connection = Fog::XML::Connection.new("#{@scheme}://#{@host}:#{@port}#{@path}", @persistent, @connection_options)
         end
 
         def reload
@@ -186,7 +191,6 @@ module Fog
             :expects    => 200,
             :headers    => { 'Content-Type' => 'application/x-www-form-urlencoded' },
             :idempotent => idempotent,
-            :host       => @host,
             :method     => 'POST',
             :parser     => parser
           })

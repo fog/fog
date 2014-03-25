@@ -6,7 +6,7 @@ module Fog
         require 'fog/aws/parsers/iam/basic'
 
         # Update an access key for a user
-        # 
+        #
         # ==== Parameters
         # * access_key_id<~String> - Access key id to delete
         # * status<~String> - status of keys in ['Active', 'Inactive']
@@ -31,6 +31,28 @@ module Fog
         end
 
       end
+
+      class Mock
+        def update_access_key(access_key_id, status, options = {})
+          if user = options['UserName']
+            if data[:users].has_key? user
+              access_keys_data = data[:users][user][:access_keys]
+            else
+              raise Fog::AWS::IAM::NotFound.new('The user with name #{user_name} cannot be found.')
+            end
+          else
+            access_keys_data = data[:access_keys]
+          end
+          key = access_keys_data.detect{|k| k["AccessKeyId"] == access_key_id}
+          key["Status"] = status
+          Excon::Response.new.tap do |response|
+            response.status = 200
+            response.body = { 'AccessKey' => key,
+                              'RequestId' => Fog::AWS::Mock.request_id }
+          end
+        end
+      end
+
     end
   end
 end

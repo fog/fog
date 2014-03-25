@@ -67,13 +67,19 @@ module Fog
             :rootpassword   => rootpassword,
             :transfer       => transfer     || "500",
           }
+
+          # optional options when creating a server:
+          [:ip, :ipv6, :description].each do |k|
+            options[k] = attributes[k] if attributes[k]
+          end
+
           data = service.create(options)
           merge_attributes(data.body['response']['server'])
           data.status == 200 ? true : false
         end
 
         def setup(credentials = {})
-          requires :public_ip_address, :username
+          requires :ssh_ip_address, :username
           require 'net/ssh'
 
           attrs = attributes.dup
@@ -94,7 +100,7 @@ module Fog
           # wait for glesys to be ready
           wait_for { sshable?(credentials) }
 
-          Fog::SSH.new(public_ip_address, username, credentials).run(commands)
+          Fog::SSH.new(ssh_ip_address, username, credentials).run(commands)
         end
 
         def ssh(command, options={}, &block)

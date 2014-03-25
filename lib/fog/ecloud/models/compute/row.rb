@@ -33,7 +33,7 @@ module Fog
         end
 
         def create_group(options = {})
-          options[:uri] = "/cloudapi/ecloud/layoutGroups/environments/#{environment_id}/action/createLayoutGroup"
+          options[:uri] = "#{service.base_path}/layoutGroups/environments/#{environment_id}/action/createLayoutGroup"
           options[:row_name] = name
           options[:href] = href
           data = service.groups_create(options).body

@@ -72,16 +72,17 @@ module Fog
           if load_balancer_names = options.delete('LoadBalancerNames')
             options.merge!(AWS.indexed_param('LoadBalancerNames.member.%d', [*load_balancer_names]))
           end
+
           if tags = options.delete('Tags')
-            tags.each_with_index do |tag, i|
-              tag.each do |key, value|
-                options["Tags.member.#{i+1}.#{key}"] = value unless value.nil?
-              end
+            tags.each_with_index do |(key, value), i|
+              options["Tags.member.#{i+1}.Key"] = key.to_s # turns symbol into string
+              options["Tags.member.#{i+1}.Value"] = value
             end
           end
           if termination_policies = options.delete('TerminationPolicies')
             options.merge!(AWS.indexed_param('TerminationPolicies.member.%d', [*termination_policies]))
           end
+
           request({
             'Action'                  => 'CreateAutoScalingGroup',
             'AutoScalingGroupName'    => auto_scaling_group_name,

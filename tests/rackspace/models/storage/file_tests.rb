@@ -30,8 +30,6 @@ Shindo.tests('Fog::Rackspace::Storage | file', ['rackspace']) do
     end
   end
 
-  pending if Fog.mocking?
-
   def object_attributes(file=@instance)
     @instance.service.head_object(@directory.key, file.key).headers
   end
@@ -56,10 +54,8 @@ Shindo.tests('Fog::Rackspace::Storage | file', ['rackspace']) do
     :key => "fogfilestests-#{rand(65536)}"
   }
 
-  @directory = Fog::Storage[:rackspace].
-    directories.
-    create(directory_attributes)
-
+  @service = Fog::Storage.new :provider => 'rackspace', :rackspace_temp_url_key => "my_secret"
+  @directory = @service.directories.create(directory_attributes)
 
   model_tests(@directory.files, file_attributes, Fog.mocking?) do
 
@@ -126,13 +122,28 @@ Shindo.tests('Fog::Rackspace::Storage | file', ['rackspace']) do
       tests('urls') do
         tests('no CDN') do
           
+          tests('url') do
+            tests('http').succeeds do
+              expire_time = Time.now + 3600
+              url = @instance.url(expire_time)
+              url =~ /^http:/
+            end
+            tests('https').succeeds do
+              @directory.service.instance_variable_set "@rackspace_cdn_ssl", true
+              expire_time = Time.now + 3600
+              url = @instance.url(expire_time)
+              url =~ /^https:/
+            end
+            @directory.service.instance_variable_set "@rackspace_cdn_ssl", false
+          end
+
           tests('#public_url') do
 
              tests('http').returns(nil) do
                @instance.public_url
               end
 
-              @directory.cdn_cname = "my_cname.com"        
+              @directory.cdn_cname = "my_cname.com"
               tests('cdn_cname').returns(nil) do
                 @instance.public_url
               end
@@ -142,7 +153,7 @@ Shindo.tests('Fog::Rackspace::Storage | file', ['rackspace']) do
               tests('ssl').returns(nil) do
                 @instance.public_url
               end   
-              @directory.service.instance_variable_set "@rackspace_cdn_ssl", nil             
+              @directory.service.instance_variable_set "@rackspace_cdn_ssl", nil
            end
 
            tests('#ios_url').returns(nil) do
@@ -267,6 +278,55 @@ Shindo.tests('Fog::Rackspace::Storage | file', ['rackspace']) do
 
     end
 
+    tests("#delete_at") do
+      tests("#delete_at should default to nil").returns(nil) do
+        @instance.delete_at
+      end
+
+      @instance.delete_at = 1
+      @instance.save
+      tests("#delete_at should return delete_at attribute").returns(1) do
+        @instance.delete_at
+      end
+
+      @instance.delete_at = 1
+      @instance.save
+      tests("#delete_at= should update delete_at").returns(2) do
+        @instance.delete_at = 2
+        @instance.save
+        @instance.delete_at
+      end
+
+      tests("#delete_at= should not blow up on nil") do
+        @instance.delete_at = nil
+        @instance.save
+      end
+    end
+
+    tests("#delete_after") do
+      tests("#delete_after should default to nil").returns(nil) do
+        @instance.delete_after
+      end
+
+      @instance.delete_after = 1
+      @instance.save
+      tests("#delete_after should return delete_after attribute").returns(1) do
+        @instance.delete_after
+      end
+
+      @instance.delete_after = 1
+      @instance.save
+      tests("#delete_after= should update delete_after").returns(2) do
+        @instance.delete_after = 2
+        @instance.save
+        @instance.delete_after
+      end
+
+      tests("#delete_after= should not blow up on nil") do
+        @instance.delete_after = nil
+        @instance.save
+      end
+    end
   end
 
 
@@ -297,6 +357,35 @@ Shindo.tests('Fog::Rackspace::Storage | file', ['rackspace']) do
       tests("#origin= should not blow up on nil") do
         @instance.origin = nil
         @instance.save        
+      end
+
+    end
+
+    tests("#content_encoding") do
+
+      tests("#content_encoding should default to nil").returns(nil) do
+        @instance.save
+        @instance.content_encoding
+      end
+
+      @instance.content_encoding = 'gzip'
+      @instance.save
+      tests("#content_encoding should return the content encoding").returns('gzip') do
+        @instance.content_encoding
+      end
+      @instance.attributes.delete('content_encoding')
+
+      @instance.content_encoding = 'foo'
+      @instance.save
+      tests("#content_encoding= should update content_encoding").returns('bar') do
+        @instance.content_encoding = 'bar'
+        @instance.save
+        @instance.content_encoding
+      end
+
+      tests("#content_encoding= should not blow up on nil") do
+        @instance.content_encoding = nil
+        @instance.save
       end
 
     end

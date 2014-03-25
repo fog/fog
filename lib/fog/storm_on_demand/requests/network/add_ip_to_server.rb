@@ -9,7 +9,7 @@ module Fog
             :body => Fog::JSON.encode(:params => options)
           )
         end
-      
+
       end
     end
   end

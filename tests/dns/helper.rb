@@ -35,6 +35,9 @@ def dns_providers
       :zone_attributes => {
         :email => 'fog@example.com'
       }
+    },
+    :rage4 => {
+      :mocked => false
     }
   }
 end

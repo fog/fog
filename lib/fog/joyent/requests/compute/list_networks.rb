@@ -17,7 +17,8 @@ module Fog
             :path => "/my/networks",
             :method => "GET",
             :query => options,
-            :expects => 200
+            :expects => 200,
+            :idempotent => true
           )
         end
       end

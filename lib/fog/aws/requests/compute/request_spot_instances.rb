@@ -75,6 +75,14 @@ module Fog
             options['LaunchSpecification.UserData'] = Base64.encode64(options['LaunchSpecification.UserData'])
           end
 
+          if options['ValidFrom'] && options['ValidFrom'].is_a?(Time)
+            options['ValidFrom'] =  options['ValidFrom'].iso8601
+          end
+
+          if options['ValidUntil'] && options['ValidUntil'].is_a?(Time)
+            options['ValidUntil'] =  options['ValidUntil'].iso8601
+          end
+
           request({
             'Action'                            => 'RequestSpotInstances',
             'LaunchSpecification.ImageId'       => image_id,

@@ -1,4 +1,4 @@
-require 'fog/compute'
+require 'fog/rackspace/core'
 
 module Fog
   module Compute
@@ -44,16 +44,27 @@ module Fog
       recognizes :rackspace_compute_url
 
       model_path 'fog/rackspace/models/compute_v2'
+
       model :server
       collection :servers
+
       model :flavor
       collection :flavors
+
       model :image
       collection :images
+
       model :attachment
       collection :attachments
+
       model :network
       collection :networks
+
+      model :key_pair
+      collection :key_pairs
+
+      model :virtual_interface
+      collection :virtual_interfaces
 
       request_path 'fog/rackspace/requests/compute_v2'
       request :list_servers
@@ -74,10 +85,12 @@ module Fog
 
       request :create_image
       request :list_images
+      request :list_images_detail
       request :get_image
       request :delete_image
 
       request :list_flavors
+      request :list_flavors_detail
       request :get_flavor
 
       request :attach_volume
@@ -96,6 +109,15 @@ module Fog
       request :get_network
       request :create_network
       request :delete_network
+
+      request :list_keypairs
+      request :create_keypair
+      request :delete_keypair
+      request :get_keypair
+
+      request :list_virtual_interfaces
+      request :create_virtual_interface
+      request :delete_virtual_interface
 
       class Mock < Fog::Rackspace::Service
         include Fog::Rackspace::MockData
@@ -136,19 +158,19 @@ module Fog
           deprecation_warnings(options)
 
           @persistent = options[:persistent] || false
-          @connection = Fog::Connection.new(endpoint_uri.to_s, @persistent, @connection_options)
+          @connection = Fog::XML::Connection.new(endpoint_uri.to_s, @persistent, @connection_options)
         end
 
-        def request(params, parse_json = true, &block)
-          super(params, parse_json, &block)
+        def request(params, parse_json = true)
+          super
         rescue Excon::Errors::NotFound => error
-          raise NotFound.slurp(error, region)
+          raise NotFound.slurp(error, self)
         rescue Excon::Errors::BadRequest => error
-          raise BadRequest.slurp error
+          raise BadRequest.slurp(error, self)
         rescue Excon::Errors::InternalServerError => error
-          raise InternalServerError.slurp error
+          raise InternalServerError.slurp(error, self)
         rescue Excon::Errors::HTTPStatusError => error
-          raise ServiceError.slurp error
+          raise ServiceError.slurp(error, self)
         end
 
         def authenticate(options={})
@@ -162,6 +184,10 @@ module Fog
 
         def service_name
           :cloudServersOpenStack
+        end
+
+        def request_id_header
+          "x-compute-request-id"
         end
 
         def region
@@ -194,7 +220,7 @@ module Fog
             end
           else
             #if we are using auth1 and the endpoint is not set, default to DFW_ENDPOINT for historical reasons
-             @rackspace_endpoint ||= DFW_ENDPOINT
+            @rackspace_endpoint ||= DFW_ENDPOINT
           end
         end
 
@@ -204,6 +230,10 @@ module Fog
           if [DFW_ENDPOINT, ORD_ENDPOINT, LON_ENDPOINT].include?(@rackspace_endpoint) && v2_authentication?
             regions = @identity_service.service_catalog.display_service_regions(service_name)
             Fog::Logger.deprecation("Please specify region using :rackspace_region rather than :rackspace_endpoint. Valid regions for :rackspace_region are #{regions}.")
+          end
+
+          unless options[:rackspace_region]
+            Fog::Logger.deprecation("Default region support will be removed in an upcoming release. Please switch to manually setting your endpoint. This requires settng the :rackspace_region option")
           end
         end
 

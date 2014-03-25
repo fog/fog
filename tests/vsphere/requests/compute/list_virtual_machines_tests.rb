@@ -14,13 +14,13 @@ Shindo.tests('Fog::Compute[:vsphere] | list_virtual_machines request', ['vsphere
     # pending unless Fog.mock?
 
     tests("that does exist") do
-      uuid = "5032c8a5-9c5e-ba7a-3804-832a03e16381"
+      uuid = "5029c440-85ee-c2a1-e9dd-b63e39364603"
       response = Fog::Compute[:vsphere].list_virtual_machines({'instance_uuid' => uuid})
 
       tests("The response should") do
         test("contain one vm") { response.length == 1 }
         test("contain that is an attribute hash") { response[0].kind_of? Hash }
-        test("find jefftest") { response.first[:name] == 'jefftest' }
+        test("find jefftest") { response.first['name'] == 'jefftest' }
       end
     end
 

@@ -2,20 +2,20 @@ module Fog
   module Compute
     class RackspaceV2
       class Real
-        
+
         # Retrieves list of servers
         # @return [Excon::Response] response:
         #   * body [Hash]:
         #     * server [Hash]:
         #       * OS-DCF:diskConfig [String] - The disk configuration value.
         #       * OS-EXT-STS:power_state [Fixnum] - The power state.
-        #       * OS-EXT-STS:task_state [String] - The task state.        
+        #       * OS-EXT-STS:task_state [String] - The task state.
         #       * OS-EXT-STS:vm_state [String] - The VM state.
         #       * accessIPv4 [String] - The public IP version 4 access address.
         #       * accessIPv6 [String] - The public IP version 6 access address.
-        #       * addresses [Hash] - Public and private IP addresses, The version field indicates whether the IP address is version 4 or 6.        
+        #       * addresses [Hash] - Public and private IP addresses, The version field indicates whether the IP address is version 4 or 6.
         #       * created [String] - created timestamp
-        #       * hostId [String] - The host id. 
+        #       * hostId [String] - The host id.
         #       * id [String] - id of image
         #       * image [Hash]:
         #         * id [String] - id of the image
@@ -36,7 +36,7 @@ module Fog
         # @raise [Fog::Compute::RackspaceV2::BadRequest] - HTTP 400
         # @raise [Fog::Compute::RackspaceV2::InternalServerError] - HTTP 500
         # @raise [Fog::Compute::RackspaceV2::ServiceError]
-        # @see http://docs.rackspace.com/servers/api/v2/cs-devguide/content/List_Servers-d1e2078.html       
+        # @see http://docs.rackspace.com/servers/api/v2/cs-devguide/content/List_Servers-d1e2078.html
         def list_servers
           request(
             :expects => [200, 203, 300],

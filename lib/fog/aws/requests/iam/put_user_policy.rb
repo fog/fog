@@ -6,7 +6,7 @@ module Fog
         require 'fog/aws/parsers/iam/basic'
 
         # Add or update a policy for a user
-        # 
+        #
         # ==== Parameters
         # * user_name<~String>: name of the user
         # * policy_name<~String>: name of policy document

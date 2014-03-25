@@ -26,7 +26,7 @@ module Fog
             if @in_tag_set
               case name
                 when 'item'
-                  @vpc['tagSet'][@tag['key']] = @tag['value']
+                  @internet_gateway['tagSet'][@tag['key']] = @tag['value']
                   @tag = {}
                 when 'key', 'value'
                   @tag[name] = value

@@ -52,6 +52,21 @@ Shindo.tests('Fog mocking', 'core') do
     end
   end
 
+  tests('Fog::Mock.random_ip') do
+    tests('Fog::Mock.random_ip').returns(true, "default to ipv4") do
+      IPAddr.new(Fog::Mock.random_ip).ipv4?
+    end
+    tests('Fog::Mock.random_ip').returns(true, "explicit ipv4") do
+      IPAddr.new(Fog::Mock.random_ip({:version => :v4})).ipv4?
+    end
+    tests('Fog::Mock.random_ip({:version => :v6})').returns(true, "changes to ipv6") do
+      IPAddr.new(Fog::Mock.random_ip({:version => :v6})).ipv6?
+    end
+    tests('Fog::Mock.random_ip({:version => :v5})').raises(ArgumentError) do
+      IPAddr.new(Fog::Mock.random_ip({:version => :v5})).ipv4?
+    end
+  end
+
   tests('Fog::Mock.not_implemented').raises(Fog::Errors::MockNotImplemented) do
     Fog::Mock.not_implemented
   end

@@ -1,6 +1,6 @@
 module Fog
   module DNS
-    class Dreamhost 
+    class Dreamhost
 
       class Mock
 

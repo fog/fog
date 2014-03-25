@@ -1,5 +1,4 @@
-require 'fog/linode'
-require 'fog/dns'
+require 'fog/linode/core'
 
 module Fog
   module DNS
@@ -59,7 +58,7 @@ module Fog
           @persistent     = options[:persistent]  || false
           @port           = options[:port]        || 443
           @scheme         = options[:scheme]      || 'https'
-          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
+          @connection = Fog::XML::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
         end
 
         def reload
@@ -70,7 +69,7 @@ module Fog
           params[:query] ||= {}
           params[:query].merge!(:api_key => @linode_api_key)
 
-          response = @connection.request(params.merge!({:host => @host}))
+          response = @connection.request(params)
 
           unless response.body.empty?
             response.body = Fog::JSON.decode(response.body)

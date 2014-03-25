@@ -34,6 +34,12 @@ Shindo.tests('Fog::Compute::RackspaceV2 | flavor_tests', ['rackspace']) do
       body
     end
 
+    tests('#list_flavors_detail').formats(list_flavor_format) do
+      body = service.list_flavors_detail.body
+      flavor_id = body['flavors'][0]['id']
+      body
+    end
+
     tests('#get_flavor').formats(get_flavor_format) do
       service.get_flavor(flavor_id).body
     end

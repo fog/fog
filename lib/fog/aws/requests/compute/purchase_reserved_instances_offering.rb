@@ -45,6 +45,7 @@ module Fog
           self.data[:reserved_instances][reserved_instances_id] = reserved_instance_offering.merge({
             'reservedInstancesId' => reserved_instances_id,
             'start'               => Time.now,
+            'end'                 => Time.now,
             'instanceCount'       => instance_count,
             'state'               => 'payment-pending',
             'tagSet'              => []

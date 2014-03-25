@@ -14,7 +14,6 @@ module Fog
           changelog << ('=' * changelog[0].length)
           changelog << ''
 
-          require 'multi_json'
           github_repo_data = Fog::JSON.decode(Excon.get('https://api.github.com/repos/fog/fog', :headers => {'User-Agent' => 'geemus'}).body)
           data = github_repo_data.reject {|key, value| !['forks', 'open_issues', 'watchers'].include?(key)}
           github_collaborator_data = Fog::JSON.decode(Excon.get('https://api.github.com/repos/fog/fog/collaborators', :headers => {'User-Agent' => 'geemus'}).body)
@@ -54,8 +53,11 @@ module Fog
           for committer, commits in committers.to_a.sort {|x,y| y[1] <=> x[1]}
             if [
               'Aaron Suggs',
+              'Ash Wilson',
               'Brian Hartsock',
+              'Chris Roberts',
               'Christopher Oliver',
+              'Daniel Reichert',
               'Decklin Foster',
               'Dylan Egan',
               'Erik Michaels-Ober',
@@ -63,15 +65,19 @@ module Fog
               'Henry Addison',
               'James Bence',
               'Kevin Menard',
+              'Kevin Olbrich',
               'Kyle Rames',
               'Lincoln Stoll',
               'Luqman Amjad',
               'Michael Zeng',
+              'Mike Hagedorn',
+              'Mike Pountney',
               'Nat Welch',
               'Nick Osborn',
               'nightshade427',
               'Patrick Debois',
               'Paul Thornthwaite',
+              'Rodrigo Estebanez',
               'Rupak Ganguly',
               'Stepan G. Fedorov',
               'Wesley Beary'

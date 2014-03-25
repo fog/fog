@@ -35,3 +35,8 @@ def set_password_enabled
   pw_enabled = ENV['OPENSTACK_SET_PASSWORD_ENABLED'] || "true"
   return pw_enabled == "true"
 end
+
+def get_security_group_ref
+  compute = Fog::Compute[:openstack]
+  ENV['OPENSTACK_SECURITY_GROUP_REF'] || compute.list_security_groups.body['security_groups'].first['name']
+end

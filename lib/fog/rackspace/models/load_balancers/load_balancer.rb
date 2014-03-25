@@ -91,19 +91,19 @@ module Fog
 
         def enable_content_caching
           requires :identity
-          connection.set_content_caching identity, true
+          service.set_content_caching identity, true
           true
         end
 
         def disable_content_caching
           requires :identity
-          connection.set_content_caching identity, false
+          service.set_content_caching identity, false
           true
         end
 
         def content_caching
           requires :identity
-          connection.get_content_caching(identity).body['contentCaching']['enabled']
+          service.get_content_caching(identity).body['contentCaching']['enabled']
         end
 
         def enable_connection_logging
@@ -194,6 +194,11 @@ module Fog
         def usage(options = {})
           requires :identity
           service.get_load_balancer_usage(identity, options).body
+        end
+
+        def stats
+          requires :identity
+          service.get_stats(identity).body
         end
 
         def error_page

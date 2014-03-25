@@ -18,7 +18,7 @@ module Fog
           request(
             :expects  => 200,
             :method   => 'POST',
-            :body     => MultiJson.encode(data),
+            :body     => Fog::JSON.encode(data),
             :path     => 'os-security-group-rules.json'
           )
         end
@@ -47,7 +47,7 @@ module Fog
               'cidr'   => cidr
             }
           }
-          self.data[:security_groups][parent_group_id]['rules'].push(rule)
+          self.data[:security_groups][parent_group_id.to_s]['rules'].push(rule)
           response.body = {
             'security_group_rule' => rule
           }

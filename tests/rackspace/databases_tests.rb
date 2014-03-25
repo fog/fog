@@ -79,14 +79,14 @@ Shindo.tests('Fog::Rackspace::Databases', ['rackspace']) do |variable|
     pending if Fog.mocking?
 
     tests('no params').succeeds do
-      @service = Fog::Rackspace::Databases.new
+      @service = Fog::Rackspace::Databases.new :rackspace_region => nil
       returns(true, "auth token populated") { !@service.send(:auth_token).nil? }
       returns(true) { (@service.instance_variable_get("@uri").host =~ /dfw/) != nil }
       @service.flavors
     end
     tests('specify old contstant style service endoint').succeeds do
       @service = Fog::Rackspace::Databases.new :rackspace_endpoint => Fog::Rackspace::Databases::ORD_ENDPOINT
-      returns(true) { (@service.instance_variable_get("@uri").host =~ /ord/ ) != nil }
+      returns(true) { (@service.instance_variable_get("@uri").to_s =~ /#{Fog::Rackspace::Databases::ORD_ENDPOINT}/ ) != nil }
       @service.flavors
     end
     tests('specify region').succeeds do
@@ -105,10 +105,15 @@ Shindo.tests('Fog::Rackspace::Databases', ['rackspace']) do |variable|
   tests('reauthentication') do
     pending if Fog.mocking?
 
-    @service = Fog::Rackspace::Databases.new
-    returns(true, "auth token populated") { !@service.send(:auth_token).nil? }
-    @service.instance_variable_set("@auth_token", "bad_token")
-    returns(200) { @service.list_flavors.status }
+    tests('should reauth with valid credentials') do
+      @service = Fog::Rackspace::Databases.new
+      returns(true, "auth token populated") { !@service.send(:auth_token).nil? }
+      @service.instance_variable_set("@auth_token", "bad_token")
+      returns(200) { @service.list_flavors.status }
+    end
+    tests('should terminate with incorrect credentials') do
+      raises(Excon::Errors::Unauthorized) { Fog::Rackspace::Databases.new :rackspace_api_key => 'bad_key' }
+    end
   end
 
   @service = Fog::Rackspace::Databases.new

@@ -1,3 +1,4 @@
+require 'fog/vsphere/core'
 require 'digest/sha2'
 
 module Fog
@@ -11,10 +12,14 @@ module Fog
       model_path 'fog/vsphere/models/compute'
       model :server
       collection :servers
+      model :servertype
+      collection :servertypes
       model :datacenter
       collection :datacenters
       model :interface
       collection :interfaces
+      model :interfacetype
+      collection :interfacetypes
       model :volume
       collection :volumes
       model :template
@@ -33,6 +38,7 @@ module Fog
       collection :customvalues
       model :customfield
       collection :customfields
+      model :scsicontroller
 
       request_path 'fog/vsphere/requests/compute'
       request :current_time
@@ -62,6 +68,7 @@ module Fog
       request :create_vm
       request :list_vm_interfaces
       request :modify_vm_interface
+      request :modify_vm_volume
       request :list_vm_volumes
       request :get_virtual_machine
       request :vm_reconfig_hardware
@@ -69,8 +76,14 @@ module Fog
       request :vm_reconfig_cpus
       request :vm_config_vnc
       request :create_folder
+      request :list_server_types
+      request :get_server_type
+      request :list_interface_types
+      request :get_interface_type
       request :list_vm_customvalues
       request :list_customfields
+      request :get_vm_first_scsi_controller
+      request :set_vm_customvalue
 
       module Shared
 
@@ -97,8 +110,9 @@ module Fog
           :tools_version => 'guest.toolsVersionStatus',
           :memory_mb => 'config.hardware.memoryMB',
           :cpus   => 'config.hardware.numCPU',
+          :corespersocket   => 'config.hardware.numCoresPerSocket',
           :overall_status => 'overallStatus',
-          :guest_id => 'summary.guest.guestId',
+          :guest_id => 'config.guestId',
         }
 
         def convert_vm_view_to_attr_hash(vms)
@@ -180,11 +194,135 @@ module Fog
           obj.to_s.match(/\("([^"]+)"\)/)[1]
         end
 
+        def is_uuid?(id)
+          !(id =~ /[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}/).nil?
+        end
+
       end
 
       class Mock
 
         include Shared
+
+        def self.data
+          @data ||= Hash.new do |hash, key|
+            hash[key] = {
+              :servers => {
+                "5032c8a5-9c5e-ba7a-3804-832a03e16381" => {
+                 "resource_pool"    => "Resources",
+                 "memory_mb"        => 2196,
+                 "mac_addresses"    => { "Network adapter 1" => "00:50:56:a9:00:28" },
+                 "power_state"      => "poweredOn",
+                 "cpus"             => 1,
+                 "hostname"         => "dhcp75-197.virt.bos.redhat.com",
+                 "mo_ref"           => "vm-562",
+                 "connection_state" => "connected",
+                 "overall_status"   => "green",
+                 "datacenter"       => "Solutions",
+                 "volumes"          =>
+                    [{
+                      "id"        => "6000C29c-a47d-4cd9-5249-c371de775f06",
+                      "datastore" => "Storage1",
+                      "mode"      => "persistent",
+                      "size"      => 8388608,
+                      "thin"      => true,
+                      "name"      => "Hard disk 1",
+                      "filename"  => "[Storage1] rhel6-mfojtik/rhel6-mfojtik.vmdk",
+                      "size_gb"   => 8
+                     }],
+                 "interfaces"       =>
+                    [{"mac"     => "00:50:56:a9:00:28",
+                      "network" => "VM Network",
+                      "name"    => "Network adapter 1",
+                      "status"  => "ok",
+                      "summary" => "VM Network",
+                     }],
+                 "hypervisor"       => "gunab.puppetlabs.lan",
+                 "guest_id"         => "rhel6_64Guest",
+                 "tools_state"      => "toolsOk",
+                 "cluster"          => "Solutionscluster",
+                 "name"             => "rhel64",
+                 "operatingsystem"  => "Red Hat Enterprise Linux 6 (64-bit)",
+                 "path"             => "/Datacenters/Solutions/vm",
+                 "uuid"             => "4229f0e9-bfdc-d9a7-7bac-12070772e6dc",
+                 "instance_uuid"    => "5032c8a5-9c5e-ba7a-3804-832a03e16381",
+                 "id"               => "5032c8a5-9c5e-ba7a-3804-832a03e16381",
+                 "tools_version"    => "guestToolsUnmanaged",
+                 "ipaddress"        => "192.168.100.184",
+                 "template"         => false
+                },
+                "502916a3-b42e-17c7-43ce-b3206e9524dc" => {
+                 "resource_pool"    => "Resources",
+                 "memory_mb"        => 512,
+                 "power_state"      => "poweredOn",
+                 "mac_addresses"    => { "Network adapter 1" => "00:50:56:a9:00:00" },
+                 "hostname"         => nil,
+                 "cpus"             => 1,
+                 "connection_state" => "connected",
+                 "mo_ref"           => "vm-621",
+                 "overall_status"   => "green",
+                 "datacenter"       => "Solutions",
+                 "volumes"          =>
+                    [{"thin"      => false,
+                      "size_gb"   => 10,
+                      "datastore" => "datastore1",
+                      "filename"  => "[datastore1] i-1342439683/i-1342439683.vmdk",
+                      "size"      => 10485762,
+                      "name"      => "Hard disk 1",
+                      "mode"      => "persistent",
+                      "id"        => "6000C29b-f364-d073-8316-8e98ac0a0eae" }],
+                 "interfaces"       =>
+                    [{ "summary" => "VM Network",
+                      "mac"     => "00:50:56:a9:00:00",
+                      "status"  => "ok",
+                      "network" => "VM Network",
+                      "name"    => "Network adapter 1" }],
+                 "hypervisor"       => "gunab.puppetlabs.lan",
+                 "guest_id"         => nil,
+                 "cluster"          => "Solutionscluster",
+                 "tools_state"      => "toolsNotInstalled",
+                 "name"             => "i-1342439683",
+                 "operatingsystem"  => nil,
+                 "path"             => "/",
+                 "tools_version"    => "guestToolsNotInstalled",
+                 "uuid"             => "4229e0de-30cb-ceb2-21f9-4d8d8beabb52",
+                 "instance_uuid"    => "502916a3-b42e-17c7-43ce-b3206e9524dc",
+                 "id"               => "502916a3-b42e-17c7-43ce-b3206e9524dc",
+                 "ipaddress"        => nil,
+                 "template"         => false
+                },
+                "5029c440-85ee-c2a1-e9dd-b63e39364603" => {
+                 "resource_pool"    => "Resources",
+                 "memory_mb"        => 2196,
+                 "power_state"      => "poweredOn",
+                 "mac_addresses"    => { "Network adapter 1" => "00:50:56:b2:00:af" },
+                 "hostname"         => "centos56gm.localdomain",
+                 "cpus"             => 1,
+                 "connection_state" => "connected",
+                 "mo_ref"           => "vm-715",
+                 "overall_status"   => "green",
+                 "datacenter"       => "Solutions",
+                 "hypervisor"       => "gunab.puppetlabs.lan",
+                 "guest_id"         => "rhel6_64Guest",
+                 "cluster"          => "Solutionscluster",
+                 "tools_state"      => "toolsOk",
+                 "name"             => "jefftest",
+                 "operatingsystem"  => "Red Hat Enterprise Linux 6 (64-bit)",
+                 "path"             => "/",
+                 "tools_version"    => "guestToolsUnmanaged",
+                 "ipaddress"        => "192.168.100.187",
+                 "uuid"             => "42329da7-e8ab-29ec-1892-d6a4a964912a",
+                 "instance_uuid"    => "5029c440-85ee-c2a1-e9dd-b63e39364603",
+                 "id"               => "5029c440-85ee-c2a1-e9dd-b63e39364603",
+                 "template"         => false
+                }
+              },
+              :datacenters => {
+                "Solutions" => {:name => "Solutions", :status => "grey"}
+              }
+            }
+          end
+        end
 
         def initialize(options={})
           require 'rbvmomi'
@@ -196,6 +334,13 @@ module Fog
           @vsphere_rev = '4.0'
         end
 
+        def data
+          self.class.data[@vsphere_username]
+        end
+
+        def reset_data
+          self.class.data.delete(@vsphere_username)
+        end
       end
 
       class Real
@@ -214,8 +359,35 @@ module Fog
           @vsphere_ssl      = options[:vsphere_ssl] || true
           @vsphere_expected_pubkey_hash = options[:vsphere_expected_pubkey_hash]
           @vsphere_must_reauthenticate = false
-
+          @vsphere_is_vcenter = nil
           @connection = nil
+          connect
+          negotiate_revision(options[:vsphere_rev])
+          authenticate
+        end
+
+        def reload
+          connect
+          # Check if the negotiation was ever run
+          if @vsphere_is_vcenter.nil?
+            negotiate
+          end
+          authenticate
+        end
+
+        private
+        def negotiate_revision(revision = nil)
+          # Negotiate the API revision
+          if not revision
+            rev = @connection.serviceContent.about.apiVersion
+            @connection.rev = [ rev, ENV['FOG_VSPHERE_REV'] || '4.1' ].min
+          end
+
+          @vsphere_is_vcenter = @connection.serviceContent.about.apiType == "VirtualCenter"
+          @vsphere_rev = @connection.rev
+        end
+
+        def connect
           # This is a state variable to allow digest validation of the SSL cert
           bad_cert = false
           loop do
@@ -237,20 +409,7 @@ module Fog
           if bad_cert then
             validate_ssl_connection
           end
-
-          # Negotiate the API revision
-          if not options[:vsphere_rev]
-            rev = @connection.serviceContent.about.apiVersion
-            @connection.rev = [ rev, ENV['FOG_VSPHERE_REV'] || '4.1' ].min
-          end
-
-          @vsphere_is_vcenter = @connection.serviceContent.about.apiType == "VirtualCenter"
-          @vsphere_rev = @connection.rev
-
-          authenticate
         end
-
-        private
 
         def authenticate
           begin

@@ -1,4 +1,4 @@
-require 'fog/openstack'
+require 'fog/openstack/core'
 
 module Fog
   module Identity
@@ -95,7 +95,6 @@ module Fog
         end
 
         def initialize(options={})
-          require 'multi_json'
           @openstack_username = options[:openstack_username] || 'admin'
           @openstack_tenant   = options[:openstack_tenant]   || 'admin'
           @openstack_auth_uri = URI.parse(options[:openstack_auth_url])
@@ -192,7 +191,7 @@ module Fog
           @connection_options = options[:connection_options] || {}
 
           @openstack_current_user_id = options[:openstack_current_user_id]
-          
+
           @openstack_endpoint_type = options[:openstack_endpoint_type] || 'adminURL'
 
           @current_user = options[:current_user]
@@ -201,7 +200,7 @@ module Fog
           authenticate
 
           @persistent = options[:persistent] || false
-          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
+          @connection = Fog::XML::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
         end
 
         def credentials
@@ -227,7 +226,6 @@ module Fog
                 'Accept' => 'application/json',
                 'X-Auth-Token' => @auth_token
               }.merge!(params[:headers] || {}),
-              :host     => @host,
               :path     => "#{@path}/#{params[:path]}"#,
             }))
           rescue Excon::Errors::Unauthorized => error
@@ -246,7 +244,7 @@ module Fog
             end
           end
           unless response.body.empty?
-            response.body = MultiJson.decode(response.body)
+            response.body = Fog::JSON.decode(response.body)
           end
           response
         end

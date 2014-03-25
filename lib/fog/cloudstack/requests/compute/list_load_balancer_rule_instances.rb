@@ -11,7 +11,7 @@ module Fog
             'command' => 'listLoadBalancerRuleInstances',
             'id' => load_balancer_rule_id
           )
-          
+
           request(options)
         end
 

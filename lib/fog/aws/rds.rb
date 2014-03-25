@@ -1,4 +1,4 @@
-require 'fog/aws'
+require 'fog/aws/core'
 
 module Fog
   module AWS
@@ -49,7 +49,10 @@ module Fog
 
       request :create_db_subnet_group
       request :describe_db_subnet_groups
-      # TODO: :delete_db_subnet_group, :modify_db_subnet_group
+      request :delete_db_subnet_group
+      # TODO: :modify_db_subnet_group
+
+      request :describe_orderable_db_instance_options
 
       request :describe_db_log_files
       request :download_db_logfile_portion
@@ -72,6 +75,9 @@ module Fog
 
       model       :subnet_group
       collection  :subnet_groups
+
+      model       :instance_option
+      collection  :instance_options
 
       model       :log_file
       collection  :log_files
@@ -162,8 +168,8 @@ module Fog
           @persistent = options[:persistent]  || false
           @port       = options[:port]        || 443
           @scheme     = options[:scheme]      || 'https'
-          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}#{@path}", @persistent, @connection_options)
-          @version    = options[:version] || '2012-09-17' #'2011-04-01'
+          @connection = Fog::XML::Connection.new("#{@scheme}://#{@host}:#{@port}#{@path}", @persistent, @connection_options)
+          @version    = options[:version] || '2013-05-15'
         end
 
         def owner_id
@@ -210,7 +216,6 @@ module Fog
               :expects    => 200,
               :headers    => { 'Content-Type' => 'application/x-www-form-urlencoded' },
               :idempotent => idempotent,
-              :host       => @host,
               :method     => 'POST',
               :parser     => parser
             })

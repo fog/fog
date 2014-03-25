@@ -26,7 +26,7 @@ module Fog
             'Action'          => 'CopyImage',
             'SourceImageId'   => source_image_id,
             'SourceRegion'    => source_region,
-            'Name'            => source_region,
+            'Name'            => name,
             'Description'     => description,
             'ClientToken'     => client_token,
             :parser           => Fog::Parsers::Compute::AWS::CopyImage.new

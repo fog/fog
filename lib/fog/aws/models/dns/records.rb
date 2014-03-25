@@ -33,9 +33,7 @@ module Fog
           data['NextRecordIdentifier'] = nil unless data.has_key?('NextRecordIdentifier')
 
           merge_attributes(data.reject {|key, value| !['IsTruncated', 'MaxItems', 'NextRecordName', 'NextRecordType', 'NextRecordIdentifier'].include?(key)})
-          # leave out the default, read only records
-          data = data['ResourceRecordSets'].reject {|record| ['NS', 'SOA'].include?(record['Type'])}
-          load(data)
+          load(data['ResourceRecordSets'])
         end
 
         #

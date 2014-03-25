@@ -71,7 +71,7 @@ module Fog
           end
 
           if self.data[:server_certificates][name]
-            raise Fog::AWS::IAM::EntityAlreadyExists.new
+            raise Fog::AWS::IAM::EntityAlreadyExists.new("The Server Certificate with name #{name} already exists.")
           else
             response.status = 200
             path = options['Path'] || "/"

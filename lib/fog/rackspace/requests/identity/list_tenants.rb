@@ -17,6 +17,29 @@ module Fog
           response
         end
       end
+
+      class Mock
+        def list_tenants
+          response = Excon::Response.new
+          response.status = [200, 203][rand(1)]
+          response.body = {
+            "tenants" => [
+              {
+                "id" => Fog::Mock.random_numbers(6),
+                "name" => "Enabled tenant",
+                "enabled" => true
+              },
+              {
+                "id" => Fog::Mock.random_numbers(6),
+                "name" => "Disabled tenant",
+                "enabled" => false
+              },
+            ],
+            "tenants_links" => []
+          }
+          response
+        end
+      end
     end
   end
 end

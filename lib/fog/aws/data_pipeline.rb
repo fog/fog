@@ -1,4 +1,4 @@
-require 'fog/aws'
+require 'fog/aws/core'
 
 module Fog
   module AWS
@@ -15,6 +15,9 @@ module Fog
       request :describe_pipelines
       request :list_pipelines
       request :put_pipeline_definition
+      request :get_pipeline_definition
+      request :query_objects
+      request :describe_objects
 
       model_path 'fog/aws/models/data_pipeline'
       model       :pipeline
@@ -59,7 +62,7 @@ module Fog
           @persistent = options[:persistent]  || false
           @port       = options[:port]        || 443
           @scheme     = options[:scheme]      || 'https'
-          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}#{@path}", @persistent, @connection_options)
+          @connection = Fog::XML::Connection.new("#{@scheme}://#{@host}:#{@port}#{@path}", @persistent, @connection_options)
 
           setup_credentials(options)
         end
@@ -89,7 +92,6 @@ module Fog
           # Params for all DataPipeline requests
           params.merge!({
             :expects => 200,
-            :host => @host,
             :method => :post,
             :path => '/',
           })

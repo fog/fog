@@ -4,14 +4,22 @@ module Fog
   module AWS
     class AutoScaling
       class Activities < Fog::Collection
-
         model Fog::AWS::AutoScaling::Activity
 
-        def all
+        attribute :filters
+
+        # Creates a new scaling policy.
+        def initialize(attributes={})
+          self.filters = attributes
+          super(attributes)
+        end
+
+        def all(filters = filters)
           data = []
           next_token = nil
+          self.filters = filters
           loop do
-            result = service.describe_scaling_activities('NextToken' => next_token).body['DescribeScalingActivitiesResult']
+            result = service.describe_scaling_activities(filters.merge('NextToken' => next_token)).body['DescribeScalingActivitiesResult']
             data += result['Activities']
             next_token = result['NextToken']
             break if next_token.nil?

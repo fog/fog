@@ -3,7 +3,8 @@ module Fog
     class AWS
       class Real
 
-        require 'fog/aws/parsers/compute/describe_network_interface_attribute'
+        require 'fog/aws/parsers/compute/basic'
+
         # Resets a network interface attribute value
         #
         # ==== Parameters
@@ -29,7 +30,7 @@ module Fog
           )
         end
       end
-      
+
       class Mock
         def reset_network_interface_attribute(network_interface_id, attribute)
           response = Excon::Response.new

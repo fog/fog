@@ -6,7 +6,7 @@ module Fog
         require 'fog/internet_archive/requests/storage/acl_utils'
 
         # Change access control list for an S3 bucket
-        # 
+        #
         # @param bucket_name [String] name of bucket to modify
         # @param acl [Hash]
         #   * Owner [Hash]:
@@ -28,7 +28,7 @@ module Fog
         def put_bucket_acl(bucket_name, acl)
           data = ""
           headers = {}
-          
+
           if acl.is_a?(Hash)
             data = Fog::Storage::InternetArchive.hash_to_acl(acl)
           else
@@ -52,7 +52,7 @@ module Fog
           })
         end
       end
-        
+
       class Mock
         def put_bucket_acl(bucket_name, acl)
           if acl.is_a?(Hash)
@@ -62,7 +62,7 @@ module Fog
               raise Excon::Errors::BadRequest.new('invalid x-amz-acl')
             end
             self.data[:acls][:bucket][bucket_name] = acl
-          end        
+          end
         end
       end
 

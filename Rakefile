@@ -1,4 +1,5 @@
 require 'bundler/setup'
+require 'rake/testtask'
 require 'date'
 require 'rubygems'
 require 'rubygems/package_task'
@@ -47,14 +48,17 @@ end
 
 GEM_NAME = "#{name}"
 task :default => :test
-task :travis  => ['test:travis', 'coveralls_push_workaround']
+task :travis  => ['test', 'test:travis', 'coveralls_push_workaround']
 
-require "tasks/test_task"
-Fog::Rake::TestTask.new
+Rake::TestTask.new do |t|
+  t.pattern = File.join("**", "test", "**", "*_test.rb")
+end
 
 namespace :test do
   mock = 'true' || ENV['FOG_MOCK']
   task :travis do
+      # jruby coveralls causes an OOM in travis
+      ENV['COVERAGE'] = 'false' if RUBY_PLATFORM == 'java'
       sh("export FOG_MOCK=#{mock} && bundle exec shindont")
   end
   task :vsphere do
@@ -63,6 +67,24 @@ namespace :test do
   task :openvz do
       sh("export FOG_MOCK=#{mock} && bundle exec shindont tests/openvz")
   end
+end
+
+desc 'Run mocked tests for a specific provider'
+task :mock, :provider do |t, args|
+  if args.to_a.size != 1
+    fail 'USAGE: rake mock[<provider>]'
+  end
+  provider = args[:provider]
+  sh("export FOG_MOCK=true && bundle exec shindont tests/#{provider}")
+end
+
+desc 'Run live tests against a specific provider'
+task :live, :provider do |t, args|
+  if args.to_a.size != 1
+    fail 'USAGE: rake live[<provider>]'
+  end
+  provider = args[:provider]
+  sh("export FOG_MOCK=false PROVIDER=#{provider} && bundle exec shindont tests/#{provider}")
 end
 
 task :nuke do
@@ -189,8 +211,8 @@ require "tasks/changelog_task"
 Fog::Rake::ChangelogTask.new
 
 task :coveralls_push_workaround do
-  ENV['COVERAGE'] = 'false' if Gem::Version.new(RUBY_VERSION) < Gem::Version.new('1.9')
-  unless ENV['COVERAGE'] == 'false'
+  use_coveralls = (Gem::Version.new(RUBY_VERSION) > Gem::Version.new('1.9.2'))
+  if (ENV['COVERAGE'] != 'false') && use_coveralls
     require 'coveralls/rake/task'
     Coveralls::RakeTask.new
     Rake::Task["coveralls:push"].invoke

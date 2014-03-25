@@ -1,15 +1,22 @@
 Shindo.tests('Fog::Compute[:aws] | subnet requests', ['aws']) do
 
+  @subnet_format = {
+    'subnetId'                 => String,
+    'state'                    => String,
+    'vpcId'                    => String,
+    'cidrBlock'                => String,
+    'availableIpAddressCount'  => String,
+    'availabilityZone'         => String,
+    'tagSet'                   => Hash,
+  }
+
+  @single_subnet_format = {
+    'subnet'    => @subnet_format,
+    'requestId' => String,
+  }
+
   @subnets_format = {
-    'subnetSet' => [{
-      'subnetId'                 => String,
-      'state'                    => String,
-      'vpcId'                    => String,
-      'cidrBlock'                => String,
-      'availableIpAddressCount'  => String,
-      'availabilityZone'         => String,
-      'tagSet'                   => Hash,
-    }],
+    'subnetSet' => [@subnet_format],
     'requestId' => String
   }
 
@@ -18,9 +25,9 @@ Shindo.tests('Fog::Compute[:aws] | subnet requests', ['aws']) do
     @vpc_id = @vpc.id
     @subnet_id = nil
 
-    tests('#create_subnet').formats(@subnets_format) do
+    tests('#create_subnet').formats(@single_subnet_format) do
       data = Fog::Compute[:aws].create_subnet(@vpc_id, '10.0.10.16/28').body
-      @subnet_id = data['subnetSet'].first['subnetId']
+      @subnet_id = data['subnet']['subnetId']
       data
     end
 

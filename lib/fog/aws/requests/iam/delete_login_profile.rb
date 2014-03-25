@@ -6,7 +6,7 @@ module Fog
         require 'fog/aws/parsers/iam/basic'
 
         # Deletes a user's login profile
-        # 
+        #
         # http://docs.amazonwebservices.com/IAM/latest/APIReference/API_DeleteLoginProfile.html
         # ==== Parameters
         # * user_name<~String> - Name of user whose login profile you want to delete

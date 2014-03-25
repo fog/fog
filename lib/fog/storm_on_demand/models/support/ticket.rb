@@ -65,7 +65,7 @@ module Fog
                                       :secid => secid}.merge!(options)).body
           res['reply'].to_i == 1 ? true : false
         end
-        
+
 
       end
 

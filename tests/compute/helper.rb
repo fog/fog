@@ -21,17 +21,19 @@ def compute_providers
     },
     :ecloud => {
       :server_attributes => {
-        :name                 => "eugene",
-        :row                  => "eugene1",
-        :group                => "eugene-104",
+        :name                 => "VM4",
+        :row                  => "Layout Row 1",
+        :group                => "Layout Group 1",
         :catalog_network_name => "bridged",
         :description          => "blarg",
         :operating_system => {
           :name =>  "Red Hat Enterprise Linux 5 (64-bit)",
           :href => "/cloudapi/ecloud/operatingsystems/rhel5_64guest/computepools/963",
         },
+        :organization_uri => 'organizations/2'
       }.tap do |hash|
-        [:template_href, :network_uri, :environment_name].each do |k|
+        [:template_href, :network_uri,
+         :environment_name, :organization_uri].each do |k|
           key = "ecloud_#{k}".to_sym
           if Fog.credentials[key]
             hash[k]= Fog.credentials[key]
@@ -120,9 +122,10 @@ def compute_providers
       }
     },
     :rackspace  => {
-      :provider_attributes => { :version => :v1 }, 
+      :provider_attributes => { :version => :v2 },
       :server_attributes => {
-        :image_id => 49, # image 49 = Ubuntu 10.04 LTS (lucid)
+        :image_id => "23b564c9-c3e6-49f9-bc68-86c7a9ab5018", # Ubuntu 12.04 LTS (Precise Pangolin)
+        :flavor_id => 2,
         :name     => "fog_#{Time.now.to_i}"
       },
       :mocked => true

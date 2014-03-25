@@ -1,5 +1,4 @@
-require 'fog/internet_archive'
-require 'fog/storage'
+require 'fog/internet_archive/core'
 
 module Fog
   module Storage
@@ -196,7 +195,6 @@ module Fog
         end
 
         def initialize(options={})
-          require 'mime/types'
           setup_credentials(options)
           options[:region] ||= 'us-east-1'
           @host = options[:host] || Fog::InternetArchive::API_DOMAIN_NAME
@@ -248,7 +246,6 @@ module Fog
         # * S3 object with connection to aws.
         def initialize(options={})
           require 'fog/core/parser'
-          require 'mime/types'
 
           setup_credentials(options)
           @connection_options     = options[:connection_options] || {}
@@ -272,7 +269,7 @@ module Fog
             @port       = options[:port]        || 80
             @scheme     = options[:scheme]      || 'http'
           end
-          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}#{@path}", @persistent, @connection_options)
+          @connection = Fog::XML::Connection.new("#{@scheme}://#{@host}:#{@port}#{@path}", @persistent, @connection_options)
         end
 
         def reload
@@ -379,7 +376,7 @@ DATA
           rescue Excon::Errors::TemporaryRedirect => error
             uri = URI.parse(error.response.headers['location'])
             Fog::Logger.warning("fog: followed redirect to #{uri.host}, connecting to the matching region will be more performant")
-            response = Fog::Connection.new("#{@scheme}://#{uri.host}:#{@port}", false, @connection_options).request(original_params, &block)
+            response = Fog::XML::Connection.new("#{@scheme}://#{uri.host}:#{@port}", false, @connection_options).request(original_params, &block)
           end
 
           response

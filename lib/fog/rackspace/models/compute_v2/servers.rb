@@ -9,15 +9,16 @@ module Fog
 
         model Fog::Compute::RackspaceV2::Server
 
-        # Returns list of servers 
+        # Returns list of servers
         # @return [Fog::Compute::RackspaceV2::Servers] Retrieves a list servers.
         # @raise [Fog::Compute::RackspaceV2::NotFound] - HTTP 404
         # @raise [Fog::Compute::RackspaceV2::BadRequest] - HTTP 400
         # @raise [Fog::Compute::RackspaceV2::InternalServerError] - HTTP 500
         # @raise [Fog::Compute::RackspaceV2::ServiceError]
         # @note Fog's current implementation only returns 1000 servers
+        # @note The filter parameter on the method is just to maintain compatability with other providers that support filtering.
         # @see http://docs.rackspace.com/servers/api/v2/cs-devguide/content/List_Servers-d1e2078.html
-        def all
+        def all(filters = {})
           data = service.list_servers.body['servers']
           load(data)
         end
@@ -28,8 +29,8 @@ module Fog
         # @raise [Fog::Compute::RackspaceV2::BadRequest] - HTTP 400
         # @raise [Fog::Compute::RackspaceV2::InternalServerError] - HTTP 500
         # @raise [Fog::Compute::RackspaceV2::ServiceError]
-        # @note This method is incompatible with Cloud Servers utlizing RackConnect. RackConnect users 
-        #     should use server personalization to install keys.  Please see Server#personality for more information.
+        # @note This method is compatible with Cloud Servers utlizing RackConnect ***if and only if***
+        #       provided the attribute "no_passwd_lock" set to *true*.
         # @example
         #   service.servers.bootstrap :name => 'bootstrap-server',
         #                             :flavor_id => service.flavors.first.id,
@@ -40,7 +41,7 @@ module Fog
         # @raise [Fog::Compute::RackspaceV2::InvalidServerStateException] if server state is an error state
         def bootstrap(new_attributes = {})
           server = create(new_attributes)
-          server.wait_for(1500) { ready? && !public_ip_address.empty? }
+          server.wait_for { ready? && !public_ip_address.empty? }
           server.setup(:password => server.password)
           server
         end

@@ -43,6 +43,14 @@ module Fog
         def describe_vpcs(filters = {})
           vpcs = self.data[:vpcs]
 
+          # Transition from pending to available
+          vpcs.each do |vpc|
+            case vpc['state']
+              when 'pending'
+                vpc['state'] = 'available'
+            end
+          end
+
           if filters['vpc-id']
             vpcs = vpcs.reject {|vpc| vpc['vpcId'] != filters['vpc-id']}
           end

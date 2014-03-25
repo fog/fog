@@ -10,19 +10,19 @@ Shindo.tests('Fog::Compute[:brightbox] | cloud ip requests', ['brightbox']) do
       pending if Fog.mocking?
       result = Fog::Compute[:brightbox].create_cloud_ip
       @cloud_ip_id = result["id"]
-      formats(Brightbox::Compute::Formats::Full::CLOUD_IP, false) { result }
+      data_matches_schema(Brightbox::Compute::Formats::Full::CLOUD_IP, {:allow_extra_keys => true}) { result }
     end
 
     tests("#list_cloud_ips") do
       pending if Fog.mocking?
       result = Fog::Compute[:brightbox].list_cloud_ips
-      formats(Brightbox::Compute::Formats::Collection::CLOUD_IPS, false) { result }
+      data_matches_schema(Brightbox::Compute::Formats::Collection::CLOUD_IPS, {:allow_extra_keys => true}) { result }
     end
 
     tests("#get_cloud_ip('#{@cloud_ip_id}')") do
       pending if Fog.mocking?
       result = Fog::Compute[:brightbox].get_cloud_ip(@cloud_ip_id)
-      formats(Brightbox::Compute::Formats::Full::CLOUD_IP, false) { result }
+      data_matches_schema(Brightbox::Compute::Formats::Full::CLOUD_IP, {:allow_extra_keys => true}) { result }
     end
 
     unless Fog.mocking?
@@ -32,7 +32,7 @@ Shindo.tests('Fog::Compute[:brightbox] | cloud ip requests', ['brightbox']) do
     tests("#map_cloud_ip('#{@cloud_ip_id}', #{map_options.inspect})") do
       pending if Fog.mocking?
       result = Fog::Compute[:brightbox].map_cloud_ip(@cloud_ip_id, map_options)
-      formats(Brightbox::Compute::Formats::Full::CLOUD_IP, false) { result }
+      data_matches_schema(Brightbox::Compute::Formats::Full::CLOUD_IP, {:allow_extra_keys => true}) { result }
     end
 
     unless Fog.mocking?
@@ -42,7 +42,7 @@ Shindo.tests('Fog::Compute[:brightbox] | cloud ip requests', ['brightbox']) do
     tests("#unmap_cloud_ip('#{@cloud_ip_id}')") do
       pending if Fog.mocking?
       result = Fog::Compute[:brightbox].unmap_cloud_ip(@cloud_ip_id)
-      formats(Brightbox::Compute::Formats::Full::CLOUD_IP, false) { result }
+      data_matches_schema(Brightbox::Compute::Formats::Full::CLOUD_IP, {:allow_extra_keys => true}) { result }
     end
 
     unless Fog.mocking?
@@ -52,14 +52,14 @@ Shindo.tests('Fog::Compute[:brightbox] | cloud ip requests', ['brightbox']) do
     tests("#update_cloud_ip('#{@cloud_ip_id}', #{update_options.inspect})") do
       pending if Fog.mocking?
       result = Fog::Compute[:brightbox].update_cloud_ip(@cloud_ip_id, update_options)
-      formats(Brightbox::Compute::Formats::Full::CLOUD_IP, false) { result }
+      data_matches_schema(Brightbox::Compute::Formats::Full::CLOUD_IP, {:allow_extra_keys => true}) { result }
       result = Fog::Compute[:brightbox].update_cloud_ip(@cloud_ip_id, {:reverse_dns => ""})
     end
 
     tests("#destroy_cloud_ip('#{@cloud_ip_id}')") do
       pending if Fog.mocking?
       result = Fog::Compute[:brightbox].destroy_cloud_ip(@cloud_ip_id)
-      formats(Brightbox::Compute::Formats::Full::CLOUD_IP, false) { result }
+      data_matches_schema(Brightbox::Compute::Formats::Full::CLOUD_IP, {:allow_extra_keys => true}) { result }
     end
 
     unless Fog.mocking?

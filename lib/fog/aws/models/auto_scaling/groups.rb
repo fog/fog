@@ -4,19 +4,22 @@ module Fog
   module AWS
     class AutoScaling
       class Groups < Fog::Collection
-
         model Fog::AWS::AutoScaling::Group
+
+        attribute :filters
 
         # Creates a new auto scaling group.
         def initialize(attributes={})
+          self.filters = attributes
           super
         end
 
-        def all
+        def all(filters = filters)
           data = []
           next_token = nil
+          self.filters = filters
           loop do
-            result = service.describe_auto_scaling_groups('NextToken' => next_token).body['DescribeAutoScalingGroupsResult']
+            result = service.describe_auto_scaling_groups(filters.merge('NextToken' => next_token)).body['DescribeAutoScalingGroupsResult']
             data += result['AutoScalingGroups']
             next_token = result['NextToken']
             break if next_token.nil?

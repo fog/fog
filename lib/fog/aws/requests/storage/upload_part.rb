@@ -36,6 +36,24 @@ module Fog
         end
 
       end # Real
+
+      class Mock # :nodoc:all
+        require 'fog/aws/requests/storage/shared_mock_methods'
+        include Fog::Storage::AWS::SharedMockMethods
+
+        def upload_part(bucket_name, object_name, upload_id, part_number, data, options = {})
+          data = parse_mock_data(data)
+          verify_mock_bucket_exists(bucket_name)
+          upload_info = get_upload_info(bucket_name, upload_id)
+          upload_info[:parts][part_number] = data[:body]
+
+          response = Excon::Response.new
+          response.status = 200
+          # just use the part number as the ETag, for simplicity
+          response.headers["ETag"] = part_number.to_s
+          response
+        end
+      end # Mock
     end # Storage
   end # AWS
 end # Fog

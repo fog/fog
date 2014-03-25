@@ -7,8 +7,10 @@ module Fog
 
         identity  :id,                    :aliases => 'LaunchConfigurationName'
         attribute :arn,                   :aliases => 'LaunchConfigurationARN'
+        attribute :associate_public_ip,   :aliases => 'AssociatePublicIpAddress'
         attribute :block_device_mappings, :aliases => 'BlockDeviceMappings'
         attribute :created_at,            :aliases => 'CreatedTime'
+        attribute :iam_instance_profile,  :aliases => 'IamInstanceProfile'
         attribute :image_id,              :aliases => 'ImageId'
         #attribute :instance_monitoring,   :aliases => 'InstanceMonitoring'
         attribute :instance_monitoring,   :aliases => 'InstanceMonitoring', :squash => 'Enabled'
@@ -18,6 +20,8 @@ module Fog
         attribute :ramdisk_id,            :aliases => 'RamdiskId'
         attribute :security_groups,       :aliases => 'SecurityGroups'
         attribute :user_data,             :aliases => 'UserData'
+        attribute :spot_price,            :aliases => 'SpotPrice'
+        
 
         def initialize(attributes={})
           #attributes[:availability_zones] ||= %w(us-east-1a us-east-1b us-east-1c us-east-1d)

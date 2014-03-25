@@ -1,5 +1,4 @@
-require 'fog/vcloud'
-require 'fog/compute'
+require 'fog/vcloud/core'
 
 module Fog
   module Vcloud
@@ -231,7 +230,7 @@ module Fog
         # header from that call.
         def do_login
           @login_results = login
-          @cookie = @login_results.headers['Set-Cookie']
+          @cookie = @login_results.headers['Set-Cookie'] || @login_results.headers['set-cookie']
         end
 
         def ensure_unparsed(uri)
@@ -320,7 +319,7 @@ module Fog
 
           # Hash connections on the host_url ... There's nothing to say we won't get URI's that go to
           # different hosts.
-          @connections[host_url] ||= Fog::Connection.new(host_url, @persistent, @connection_options)
+          @connections[host_url] ||= Fog::XML::Connection.new(host_url, @persistent, @connection_options)
 
           # Set headers to an empty hash if none are set.
           headers = params[:headers] || {}

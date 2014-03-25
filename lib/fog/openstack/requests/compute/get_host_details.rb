@@ -27,7 +27,7 @@ module Fog
                   "cpu" => 12,
                   "disk_gb" => 1608
                   }
-              }, 
+              },
               { "resource" => {
                   "project" => "(used_now)",
                   "memory_mb" => 1753,
@@ -35,7 +35,7 @@ module Fog
                   "cpu" => 3,
                   "disk_gb" => 33
                 }
-              }, 
+              },
               { "resource" => {
                   "project" => "(used_max)",
                   "memory_mb" => 7168,
@@ -64,7 +64,7 @@ module Fog
           }
           response
 
-          
+
         end
 
 

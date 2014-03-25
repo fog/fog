@@ -10,7 +10,7 @@ def get_user_input(prompt)
   gets.chomp
 end
 
-def select_flavor(flavors, server)  
+def select_flavor(flavors, server)
   puts "\nSelect New Flavor Size:\n\n"
   flavors.each_with_index do |flavor, i|
     next if server.flavor_id == flavor.id
@@ -23,7 +23,7 @@ end
 
 def select_server(servers)
   abort "\nThere are not any servers to resize in the Chicago region. Try running create_server.rb\n\n" if servers.empty?
-  
+
   puts "\nSelect Server Resize:\n\n"
   servers.each_with_index do |server, i|
     puts "\t #{i}. #{server.name} [#{server.public_ip_address}]"
@@ -33,7 +33,7 @@ def select_server(servers)
   servers[selected_str.to_i]
 end
 
-# Use username defined in ~/.fog file, if absent prompt for username. 
+# Use username defined in ~/.fog file, if absent prompt for username.
 # For more details on ~/.fog refer to http://fog.io/about/getting_started.html
 def rackspace_username
   Fog.credentials[:rackspace_username] || get_user_input("Enter Rackspace Username")
@@ -72,10 +72,10 @@ server.resize selected_flavor.id
 puts "\n"
 
 # wait for the resize process to start
-server.wait_for { ready?('RESIZE') } 
+server.wait_for { ready?('RESIZE') }
 
 begin
-  # Check every 5 seconds to see if server is in the VERIFY_RESIZE state. 
+  # Check every 5 seconds to see if server is in the VERIFY_RESIZE state.
   # If the server has not been built in 5 minutes (600 seconds) an exception will be raised.
   server.wait_for(1200, 5) do
     print "."
@@ -83,7 +83,7 @@ begin
     ready?('VERIFY_RESIZE', ['ACTIVE', 'ERROR'])
   end
   puts "[DONE]\n\n"
-  
+
   puts "Server Has Been Successfully Resized!"
   action = get_user_input "Press 'C' To Confirm Or 'R' to Revert Resize (R/C)"
 
@@ -97,10 +97,10 @@ begin
   else
     puts "\nUnrecognized Input. Exiting."
   end
-  
+
 rescue Fog::Errors::TimeoutError
   puts "[TIMEOUT]\n\n"
-  
+
   puts "This server is currently #{server.progress}% into the resize process and is taking longer to complete than expected."
-  puts "You can continute to monitor the build process through the web console at https://mycloud.rackspace.com/\n\n" 
+  puts "You can continute to monitor the build process through the web console at https://mycloud.rackspace.com/\n\n"
 end

@@ -1,3 +1,4 @@
+require 'fog/ecloud/core'
 require 'fog/ecloud/collection'
 require 'fog/ecloud/model'
 require 'builder'
@@ -10,8 +11,10 @@ module Fog
       attr_reader :authentication_method, :version
 
       #### Credentials
-      #requires 
-      recognizes :ecloud_username, :ecloud_password, :ecloud_version, :ecloud_access_key, :ecloud_private_key, :ecloud_authentication_method
+      #requires
+      recognizes :ecloud_username, :ecloud_password, :ecloud_version,
+                 :ecloud_access_key, :ecloud_private_key,
+                 :ecloud_authentication_method
 
       #### Models
       model_path 'fog/ecloud/models/compute'
@@ -245,6 +248,7 @@ module Fog
 
       module Shared
 
+        attr_accessor :base_path
         attr_reader :versions_uri
 
         def validate_data(required_opts = [], options = {})
@@ -258,7 +262,7 @@ module Fog
         end
 
         def default_organization_uri
-          "/cloudapi/ecloud/organizations/"
+          "#{@base_path}/organizations"
         end
       end
 
@@ -283,11 +287,12 @@ module Fog
 
         def initialize(options = {})
           require 'fog/core/parser'
+          @base_path               = options[:base_path] || '/cloudapi/ecloud'
           @connections             = {}
           @connection_options      = options[:connection_options] || {}
           @host                    = options[:ecloud_host] || API_URL
           @persistent              = options[:persistent] || false
-          @version                 = options[:ecloud_version] || "2012-03-01"
+          @version                 = options[:ecloud_version] || "2013-06-01"
           @authentication_method   = options[:ecloud_authentication_method] || :cloud_api_auth
           @access_key              = options[:ecloud_access_key]
           @private_key             = options[:ecloud_private_key]
@@ -312,7 +317,7 @@ module Fog
 
           # Hash connections on the host_url ... There's nothing to say we won't get URI's that go to
           # different hosts.
-          @connections[host_url] ||= Fog::Connection.new(host_url, @persistent, @connection_options)
+          @connections[host_url] ||= Fog::XML::Connection.new(host_url, @persistent, @connection_options)
 
           # Set headers to an empty hash if none are set.
           headers = set_extra_headers_for(params) || set_extra_headers_for({})
@@ -793,6 +798,7 @@ module Fog
         end
 
         def initialize(options={})
+          @base_path = '/cloudapi/ecloud'
           @ecloud_api_key = options[:ecloud]
         end
 

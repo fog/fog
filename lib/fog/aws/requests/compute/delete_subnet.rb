@@ -3,8 +3,8 @@ module Fog
     class AWS
       class Real
 
-        require 'fog/aws/parsers/compute/delete_subnet'
-        # Deletes a subnet from a VPC. You must terminate all running instances in the subnet before deleting it, otherwise Amazon 
+        require 'fog/aws/parsers/compute/basic'
+        # Deletes a subnet from a VPC. You must terminate all running instances in the subnet before deleting it, otherwise Amazon
         # VPC returns an error
         #
         # ==== Parameters
@@ -21,18 +21,18 @@ module Fog
           request(
             'Action' => 'DeleteSubnet',
             'SubnetId' => subnet_id,
-            :parser => Fog::Parsers::Compute::AWS::DeleteSubnet.new
+            :parser => Fog::Parsers::Compute::AWS::Basic.new
           )
         end
       end
-      
+
       class Mock
         def delete_subnet(subnet_id)
           Excon::Response.new.tap do |response|
             if subnet_id
               self.data[:subnets].reject! { |v| v['subnetId'] == subnet_id }
               response.status = 200
-            
+
               response.body = {
                 'requestId' => Fog::AWS::Mock.request_id,
                 'return' => true

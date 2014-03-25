@@ -27,7 +27,7 @@ module Fog
           params = Fog::AWS.indexed_param('AvailabilityZones.member', [*availability_zones])
           params.merge!(Fog::AWS.indexed_param('Subnets.member.%d', options[:subnet_ids]))
           params.merge!(Fog::AWS.serialize_keys('Scheme', options[:scheme]))
-          params.merge!(Fog::AWS.indexed_param('SecurityGroups.member.%d', options[:security_groups])) 
+          params.merge!(Fog::AWS.indexed_param('SecurityGroups.member.%d', options[:security_groups]))
 
           listener_protocol = []
           listener_lb_port = []
@@ -74,17 +74,38 @@ module Fog
 
           dns_name = Fog::AWS::ELB::Mock.dns_name(lb_name, @region)
 
-          Fog::Compute::AWS::Mock.data[@region][@aws_access_key_id][:security_groups]['amazon-elb-sg'] ||= {
-            'groupDescription'   => 'amazon-elb-sg',
-            'groupName'          => 'amazon-elb-sg',
-            'groupId'            => 'amazon-elb',
-            'ownerId'            => 'amazon-elb',
-            'ipPermissionsEgree' => [],
-            'ipPermissions'      => [],
-          }
+          availability_zones = [*availability_zones].compact
+          region = availability_zones.empty? ? "us-east-1" : availability_zones.first.gsub(/[a-z]$/, '')
+          supported_platforms = Fog::Compute::AWS::Mock.data[region][@aws_access_key_id][:account_attributes].detect { |h| h["attributeName"] == "supported-platforms" }["values"]
+          security_group = if supported_platforms.include?("EC2")
+                             Fog::Compute::AWS::Mock.data[region][@aws_access_key_id][:security_groups]['amazon-elb-sg']
+                           else
+                             if default_sg = Fog::Compute::AWS::Mock.data[region][@aws_access_key_id][:security_groups].values.detect { |sg| sg['groupName'] =~ /default_elb/ }
+                               default_sg
+                             else
+                               default_sg_name   = "default_elb_#{Fog::Mock.random_hex(6)}"
+                               default_sg = {
+                                 'groupDescription'    => 'default elb security group',
+                                 'groupName'           => default_sg_name,
+                                 'groupId'             => Fog::AWS::Mock.security_group_id,
+                                 'ipPermissionsEgress' => [],
+                                 'ipPermissions'       => [],
+                                 'ownerId'             => self.data[:owner_id]
+                               }
+                               Fog::Compute::AWS::Mock.data[region][@aws_access_key_id][:security_groups][default_sg_name] = default_sg
+                             end
+                             default_sg
+                           end
+
+
 
           self.data[:load_balancers][lb_name] = {
             'AvailabilityZones' => availability_zones,
+            'BackendServerDescriptions' => [],
+            # Hack to facilitate not updating the local data structure
+            # (BackendServerDescriptions) until we do a subsequent
+            # describe as that is how AWS behaves.
+            'BackendServerDescriptionsRemote' => [],
             'Subnets' => options[:subnet_ids] || [],
             'Scheme' => options[:scheme].nil? ? 'internet-facing' : options[:scheme],
             'SecurityGroups' => options[:security_groups].nil? ? [] : options[:security_groups],
@@ -101,14 +122,16 @@ module Fog
             },
             'Instances' => [],
             'ListenerDescriptions' => listeners,
+            'LoadBalancerAttributes' => {'CrossZoneLoadBalancing' => {'Enabled' => false}},
             'LoadBalancerName' => lb_name,
             'Policies' => {
               'AppCookieStickinessPolicies' => [],
               'LBCookieStickinessPolicies' => [],
+              'OtherPolicies' => [],
               'Proper' => []
             },
             'SourceSecurityGroup' => {
-              'GroupName' => '',
+              'GroupName' => security_group['groupName'],
               'OwnerAlias' => ''
             }
           }

@@ -20,7 +20,8 @@ module Fog
           request(
             :method => "GET",
             :path => "/my/keys/#{keyid}",
-            :expects => 200
+            :expects => 200,
+            :idempotent => true
           )
         end
       end

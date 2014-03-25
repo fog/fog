@@ -20,6 +20,9 @@ module Fog
         #     * 'DescribeLoadBalancersResult'<~Hash>:
         #       * 'LoadBalancerDescriptions'<~Array>
         #         * 'AvailabilityZones'<~Array> - list of availability zones covered by this load balancer
+        #         * 'BackendServerDescriptions'<~Array>:
+        #           * 'InstancePort'<~Integer> - the port on which the back-end server is listening
+        #           * 'PolicyNames'<~Array> - list of policy names enabled for the back-end server
         #         * 'CanonicalHostedZoneName'<~String> - name of the Route 53 hosted zone associated with the load balancer
         #         * 'CanonicalHostedZoneNameID'<~String> - ID of the Route 53 hosted zone associated with the load balancer
         #         * 'CreatedTime'<~Time> - time load balancer was created
@@ -41,6 +44,7 @@ module Fog
         #         * 'Policies'<~Hash>:
         #           * 'LBCookieStickinessPolicies'<~Array> - list of Load Balancer Generated Cookie Stickiness policies for the LoadBalancer
         #           * 'AppCookieStickinessPolicies'<~Array> - list of Application Generated Cookie Stickiness policies for the LoadBalancer
+        #           * 'OtherPolicies'<~Array> - list of policy names other than the stickiness policies
         #         * 'SourceSecurityGroup'<~Hash>:
         #           * 'GroupName'<~String> - Name of the source security group to use with inbound security group rules
         #           * 'OwnerAlias'<~String> - Owner of the source security group
@@ -101,7 +105,23 @@ module Fog
             'DescribeLoadBalancersResult' => {
               'LoadBalancerDescriptions' => load_balancers.map do |lb|
                 lb['Instances'] = lb['Instances'].map { |i| i['InstanceId'] }
-                lb['Policies'] = lb['Policies'].reject { |name, policies| name == 'Proper' }
+                lb['Policies'] = lb['Policies']['Proper'].inject({'AppCookieStickinessPolicies' => [], 'LBCookieStickinessPolicies' => [], 'OtherPolicies' => []}) { |m, policy|
+                  case policy['PolicyTypeName']
+                  when 'AppCookieStickinessPolicyType'
+                    cookie_name = policy['PolicyAttributeDescriptions'].detect{|h| h['AttributeName'] == 'CookieName'}['AttributeValue']
+                    m['AppCookieStickinessPolicies'] << { 'PolicyName' => policy['PolicyName'], 'CookieName' => cookie_name }
+                  when 'LBCookieStickinessPolicyType'
+                    cookie_expiration_period = policy['PolicyAttributeDescriptions'].detect{|h| h['AttributeName'] == 'CookieExpirationPeriod'}['AttributeValue'].to_i
+                    lb_policy = { 'PolicyName' => policy['PolicyName'] }
+                    lb_policy['CookieExpirationPeriod'] = cookie_expiration_period if cookie_expiration_period > 0
+                    m['LBCookieStickinessPolicies'] << lb_policy
+                  else
+                    m['OtherPolicies'] << policy['PolicyName']
+                  end
+                  m
+                }
+
+                lb['BackendServerDescriptions'] = lb.delete('BackendServerDescriptionsRemote')
                 lb
               end
             }

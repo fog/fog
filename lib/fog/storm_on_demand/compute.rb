@@ -1,5 +1,4 @@
-require 'fog/storm_on_demand'
-require 'fog/compute'
+require 'fog/storm_on_demand/core'
 require 'fog/storm_on_demand/shared'
 
 module Fog
@@ -61,7 +60,7 @@ module Fog
       request :current_notifications
       request :get_notification
       request :resolve_notification
-      
+
       class Mock
 
         def self.data

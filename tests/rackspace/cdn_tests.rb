@@ -7,7 +7,7 @@ Shindo.tests('Fog::CDN::Rackspace', ['rackspace']) do
 
   tests('#authentication_method') do
     @service = Fog::CDN::Rackspace.new
-  
+
     assert_method nil, :authenticate_v2
 
     assert_method 'https://identity.api.rackspacecloud.com', :authenticate_v1
@@ -76,7 +76,7 @@ Shindo.tests('Fog::CDN::Rackspace', ['rackspace']) do
     pending if Fog.mocking?
     
     tests('no params').succeeds do
-      @service = Fog::CDN::Rackspace.new
+      @service = Fog::CDN::Rackspace.new :rackspace_region => nil
       returns(true, "auth token populated") { !@service.send(:auth_token).nil? }
       returns(true, "uses DFW") { (@service.instance_variable_get("@uri").host =~ /cdn1/) != nil }
       @service.get_containers
@@ -93,6 +93,20 @@ Shindo.tests('Fog::CDN::Rackspace', ['rackspace']) do
       @service = Fog::CDN::Rackspace.new :rackspace_cdn_url => 'https://my-custom-cdn-endpoint.com'
         returns(true, "auth token populated") { !@service.send(:auth_token).nil? }
         returns(true, "uses custom endpoint") { (@service.instance_variable_get("@uri").host =~ /my-custom-cdn-endpoint\.com/) != nil }
+    end
+  end
+
+  tests('reauthentication') do
+    pending if Fog.mocking?
+
+    tests('should reauth with valid credentials') do
+      @service = Fog::CDN::Rackspace.new  :rackspace_region => :ord
+      returns(true, "auth token populated") { !@service.send(:auth_token).nil? }
+      @service.instance_variable_set("@auth_token", "bad-token")
+      returns(true) { [200, 204].include? @service.get_containers.status }
+    end
+    tests('should terminate with incorrect credentials') do
+      raises(Excon::Errors::Unauthorized) { Fog::CDN::Rackspace.new :rackspace_api_key => 'bad_key' }
     end
   end
 

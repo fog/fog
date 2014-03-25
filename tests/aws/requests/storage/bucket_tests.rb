@@ -24,14 +24,14 @@ Shindo.tests('Fog::Storage[:aws] | bucket requests', ["aws"]) do
     }
     @bucket_lifecycle_format = {
       'Rules' => [{
-         'ID'         => String, 
+         'ID'         => String,
          'Prefix'     => Fog::Nullable::String,
-         'Enabled'    => Fog::Boolean, 
+         'Enabled'    => Fog::Boolean,
          'Expiration' => Fog::Nullable::Hash,
          'Transition' => Fog::Nullable::Hash
        }]
     }
-      
+
     @service_format = {
       'Buckets' => [{
         'CreationDate'  => Time,
@@ -47,6 +47,14 @@ Shindo.tests('Fog::Storage[:aws] | bucket requests', ["aws"]) do
       Fog::Storage[:aws].put_bucket(@aws_bucket_name)
       @aws_owner = Fog::Storage[:aws].get_bucket_acl(Fog::Storage[:aws].directories.first.key).body['Owner']
     end
+
+    tests('put existing bucket - default region') do
+      Fog::Storage[:aws].put_bucket(@aws_bucket_name)
+
+      tests("#put_bucket('#{@aws_bucket_name}') existing").succeeds do
+        Fog::Storage[:aws].put_bucket(@aws_bucket_name)
+      end
+    end    
 
     tests("#get_service").formats(@service_format) do
       Fog::Storage[:aws].get_service.body
@@ -275,6 +283,22 @@ Shindo.tests('Fog::Storage[:aws] | bucket requests', ["aws"]) do
       Fog::Storage[:aws].put_bucket_cors(@aws_bucket_name, cors)
     end
 
+    tests("bucket tagging") do
+
+      tests("#put_bucket_tagging('#{@aws_bucket_name}')").succeeds do
+        Fog::Storage[:aws].put_bucket_tagging(@aws_bucket_name, {'Key1' => 'Value1', 'Key2' => 'Value2'})
+      end
+
+      tests("#get_bucket_tagging('#{@aws_bucket_name}')").
+        returns('BucketTagging' => {'Key1' => 'Value1', 'Key2' => 'Value2'}) do
+        Fog::Storage[:aws].get_bucket_tagging(@aws_bucket_name).body
+      end
+
+      tests("#delete_bucket_tagging('#{@aws_bucket_name}')").succeeds do
+        Fog::Storage[:aws].delete_bucket_tagging(@aws_bucket_name)
+      end
+    end
+
     tests("#delete_bucket('#{@aws_bucket_name}')").succeeds do
       Fog::Storage[:aws].delete_bucket(@aws_bucket_name)
     end
@@ -321,6 +345,15 @@ Shindo.tests('Fog::Storage[:aws] | bucket requests', ["aws"]) do
       Fog::Storage[:aws].put_bucket_website('fognonbucket', 'index.html')
     end
 
+    tests('put existing bucket - non-default region') do
+      storage_eu_endpoint = Fog::Storage[:aws]
+      storage_eu_endpoint.region = "eu-west-1"
+      storage_eu_endpoint.put_bucket(@aws_bucket_name)
+
+      tests("#put_bucket('#{@aws_bucket_name}') existing").raises(Excon::Errors::Conflict) do
+        storage_eu_endpoint.put_bucket(@aws_bucket_name)
+      end
+    end
   end
 
   # don't keep the bucket around

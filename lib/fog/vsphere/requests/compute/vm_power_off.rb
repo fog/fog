@@ -29,6 +29,8 @@ module Fog
 
         def vm_power_off(options = {})
           raise ArgumentError, "instance_uuid is a required parameter" unless options.has_key? 'instance_uuid'
+          vm = get_virtual_machine(options['instance_uuid'])
+          vm["power_state"] = "poweredOff"
           {
             'task_state'     => "running",
             'power_off_type' => options['force'] ? 'cut_power' : 'shutdown_guest',

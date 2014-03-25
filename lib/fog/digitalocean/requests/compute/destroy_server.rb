@@ -10,7 +10,9 @@ module Fog
           request(
             :expects  => [200],
             :method   => 'GET',
-            :path     => "droplets/#{id}/destroy"
+            :path     => "droplets/#{id}/destroy",
+            # We scrub data so future users can't read our disks.
+            :query    => {:scrub_data => '1' }
           )
         end
 
@@ -25,6 +27,9 @@ module Fog
             "event_id" => Fog::Mock.random_numbers(1).to_i,
             "status" => "OK"
           }
+
+          server = self.data[:servers].reject! { |s| s['id'] == id }
+
           response
         end
 

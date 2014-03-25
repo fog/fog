@@ -36,18 +36,18 @@ module Fog
         # @raise [Fog::Compute::RackspaceV2::ServiceError]
         def get(key)
           requires :parent
-          data = service.get_metadata_item(collection_name, parent.id, key).body["meta"]          
+          data = service.get_metadata_item(collection_name, parent.id, key).body["meta"]
           datum = data.first
           new(:key => datum[0], :value => datum[1])
         rescue Fog::Compute::RackspaceV2::NotFound
-          nil 
+          nil
         end
-        
+
         # Retrieve specific value for key from Metadata.
         # * If key is of type String, this method will return the value of the metadatum
         # * If key is of type Fixnum, this method will return a Fog::Compute::RackspaceV2::Metadatum object (legacy)
-        # @param [#key] key 
-        # @return [#value] 
+        # @param [#key] key
+        # @return [#value]
         def [](key)
           return super(key) if key.is_a?(Integer)
           return nil unless key
@@ -58,10 +58,10 @@ module Fog
         # Set value for key.
         # * If key is of type String, this method will set/add the value to Metadata
         # * If key is of type Fixnum, this method will set a Fog::Compute::RackspaceV2::Metadatum object (legacy)
-        # @param [#key] key 
-        # @return [String] 
+        # @param [#key] key
+        # @return [String]
         def []=(key, value)
-          return super(key,value) if key.is_a?(Integer)          
+          return super(key,value) if key.is_a?(Integer)
           return nil unless key
           datum = self.find {|datum| datum.key == key || datum.key == key.to_sym }
           if datum
@@ -71,7 +71,7 @@ module Fog
           end
           value
         end
-        
+
         # Saves the current metadata on server
         # @raise [Fog::Compute::RackspaceV2::NotFound] - HTTP 404
         # @raise [Fog::Compute::RackspaceV2::BadRequest] - HTTP 400
@@ -79,12 +79,11 @@ module Fog
         # @raise [Fog::Compute::RackspaceV2::ServiceError]
         def save
           requires :parent
-          service.set_metadata(collection_name, parent.id, to_hash)          
+          service.set_metadata(collection_name, parent.id, to_hash)
         end
 
         # Creates new metadata
         def new(attributes = {})
-          requires :parent
           super({ :parent => parent }.merge!(attributes))
         end
 
@@ -97,7 +96,7 @@ module Fog
           hash.each_pair {|k,v| metas << {:key => k, :value => v} }
           load(metas)
         end
-        
+
         # Converts metadata object to hash
         # @return [Hash] hash of metadata key value pairs
         def to_hash

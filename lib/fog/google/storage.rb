@@ -1,5 +1,4 @@
-require 'fog/google'
-require 'fog/storage'
+require 'fog/google/core'
 
 module Fog
   module Storage
@@ -31,6 +30,7 @@ module Fog
       request :put_bucket
       request :put_bucket_acl
       request :put_object
+      request :put_object_acl
       request :put_object_url
 
       module Utils
@@ -59,6 +59,39 @@ module Fog
           query << "Signature=#{CGI.escape(signature(params))}"
           query << "Expires=#{params[:headers]['Date']}"
           "#{params[:host]}/#{params[:path]}?#{query.join('&')}"
+        end
+
+        def request_params(params)
+          subdomain = params[:host].split(".#{@host}").first
+          unless subdomain =~ /^(?!goog)(?:[a-z]|\d(?!\d{0,2}(?:\.\d{1,3}){3}$))(?:[a-z0-9]|\.(?![\.\-])|\-(?![\.])){1,61}[a-z0-9]$/
+            if subdomain =~ /_/
+              # https://github.com/fog/fog/pull/1258#issuecomment-10248620.
+              Fog::Logger.warning("fog: the specified google storage bucket name (#{subdomain}) is not DNS compliant (only characters a through z, digits 0 through 9, and the hyphen).")
+            else
+              # - Bucket names must contain only lowercase letters, numbers, dashes (-), underscores (_), and dots (.). Names containing dots require verification.
+              # - Bucket names must start and end with a number or letter.
+              # - Bucket names must contain 3 to 63 characters. Names containing dots can contain up to 222 characters, but each dot-separated component can be no longer than 63 characters.
+              # - Bucket names cannot be represented as an IP address in dotted-decimal notation (for example, 192.168.5.4).
+              # - Bucket names cannot begin with the "goog" prefix.
+              # - Also, for DNS compliance, you should not have a period adjacent to another period or dash. For example, ".." or "-." or ".-" are not acceptable.
+              Fog::Logger.warning("fog: the specified google storage bucket name (#{subdomain}) is not a valid dns name.  See: https://developers.google.com/storage/docs/bucketnaming")
+            end
+            params[:host] = params[:host].split("#{subdomain}.")[-1]
+            if params[:path]
+              params[:path] = "#{subdomain}/#{params[:path]}"
+            else
+              params[:path] = "#{subdomain}"
+            end
+            subdomain = nil
+          end
+
+          if subdomain && subdomain != @host
+            params[:subdomain] = subdomain
+          end
+
+          params[:scheme] ||= @scheme
+          params[:port]   ||= @port
+          params
         end
 
       end
@@ -144,7 +177,6 @@ module Fog
         end
 
         def initialize(options={})
-          require 'mime/types'
           @google_storage_access_key_id = options[:google_storage_access_key_id]
         end
 
@@ -162,7 +194,7 @@ module Fog
 
       end
 
-    
+
       class Real
         include Utils
 
@@ -185,7 +217,6 @@ module Fog
         # * Storage object with connection to google.
         def initialize(options={})
           require 'fog/core/parser'
-          require 'mime/types'
 
           @google_storage_access_key_id = options[:google_storage_access_key_id]
           @google_storage_secret_access_key = options[:google_storage_secret_access_key]
@@ -195,11 +226,10 @@ module Fog
           @persistent = options.fetch(:persistent, true)
           @port       = options[:port]        || 443
           @scheme     = options[:scheme]      || 'https'
-          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
         end
 
         def reload
-          @connection.reset
+          @connection.reset if @connection
         end
 
         def signature(params)
@@ -224,31 +254,8 @@ DATA
           end
           string_to_sign << "#{canonical_google_headers}"
 
-          subdomain = params[:host].split(".#{@host}").first
-          unless subdomain =~ /^(?!goog)(?:[a-z]|\d(?!\d{0,2}(?:\.\d{1,3}){3}$))(?:[a-z0-9]|\.(?![\.\-])|\-(?![\.])){1,61}[a-z0-9]$/
-            if subdomain =~ /_/
-              # https://github.com/fog/fog/pull/1258#issuecomment-10248620.
-              Fog::Logger.warning("fog: the specified google storage bucket name (#{subdomain}) is not DNS compliant (only characters a through z, digits 0 through 9, and the hyphen).")
-            else
-              # - Bucket names must contain only lowercase letters, numbers, dashes (-), underscores (_), and dots (.). Names containing dots require verification.
-              # - Bucket names must start and end with a number or letter.
-              # - Bucket names must contain 3 to 63 characters. Names containing dots can contain up to 222 characters, but each dot-separated component can be no longer than 63 characters.
-              # - Bucket names cannot be represented as an IP address in dotted-decimal notation (for example, 192.168.5.4).
-              # - Bucket names cannot begin with the "goog" prefix.
-              # - Also, for DNS compliance, you should not have a period adjacent to another period or dash. For example, ".." or "-." or ".-" are not acceptable.
-              Fog::Logger.warning("fog: the specified google storage bucket name (#{subdomain}) is not a valid dns name.  See: https://developers.google.com/storage/docs/bucketnaming")
-            end
-            params[:host] = params[:host].split("#{subdomain}.")[-1]
-            if params[:path]
-              params[:path] = "#{subdomain}/#{params[:path]}"
-            else
-              params[:path] = "#{subdomain}"
-            end
-            subdomain = nil
-          end
-
           canonical_resource  = "/"
-          unless subdomain.nil? || subdomain == @host
+          if subdomain = params.delete(:subdomain)
             canonical_resource << "#{CGI.escape(subdomain).downcase}/"
           end
           canonical_resource << "#{params[:path]}"
@@ -265,16 +272,32 @@ DATA
           Base64.encode64(signed_string).chomp!
         end
 
+        def connection(scheme, host, port)
+          uri = "#{scheme}://#{host}:#{port}"
+          if @persistent
+            unless uri == @connection_uri
+              @connection_uri = uri
+              reload
+              @connection = nil
+            end
+          else
+            @connection = nil
+          end
+          @connection ||= Fog::XML::Connection.new(uri, @persistent, @connection_options)
+        end
 
         private
 
         def request(params, &block)
+          params = request_params(params)
+          scheme = params.delete(:scheme)
+          host   = params.delete(:host)
+          port   = params.delete(:port)
+
           params[:headers]['Date'] = Fog::Time.now.to_date_header
           params[:headers]['Authorization'] = "GOOG1 #{@google_storage_access_key_id}:#{signature(params)}"
 
-          response = @connection.request(params, &block)
-
-          response
+          connection(scheme, host, port).request(params, &block)
         end
       end
     end

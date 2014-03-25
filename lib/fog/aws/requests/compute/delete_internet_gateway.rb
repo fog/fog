@@ -3,7 +3,7 @@ module Fog
     class AWS
       class Real
 
-        require 'fog/aws/parsers/compute/delete_internet_gateway'
+        require 'fog/aws/parsers/compute/basic'
         #Deletes an Internet gateway from your AWS account. The gateway must not be attached to a VPC
         #
         # ==== Parameters
@@ -20,18 +20,18 @@ module Fog
           request(
             'Action' => 'DeleteInternetGateway',
             'InternetGatewayId' => internet_gateway_id,
-            :parser => Fog::Parsers::Compute::AWS::DeleteInternetGateway.new
+            :parser => Fog::Parsers::Compute::AWS::Basic.new
           )
         end
       end
-      
+
       class Mock
         def delete_internet_gateway(internet_gateway_id)
           Excon::Response.new.tap do |response|
             if internet_gateway_id
               response.status = 200
-              self.data[:internet_gateways].reject! { |v| v['internetGatewayId'] == internet_gateway_id }
-            
+              self.data[:internet_gateways].delete(internet_gateway_id)
+
               response.body = {
                 'requestId' => Fog::AWS::Mock.request_id,
                 'return' => true

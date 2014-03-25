@@ -3,8 +3,10 @@ class Rackspace < Fog::Bin
 
     def class_for(key)
       case key
+      when :auto_scale
+        Fog::Rackspace::AutoScale
       when :block_storage
-        Fog::Rackspace::BlockStorage 
+        Fog::Rackspace::BlockStorage
       when :cdn
         Fog::CDN::Rackspace
       when :compute
@@ -21,6 +23,10 @@ class Rackspace < Fog::Bin
         Fog::Rackspace::Identity
       when :databases
         Fog::Rackspace::Databases
+      when :monitoring
+        Fog::Rackspace::Monitoring
+      when :queues
+        Fog::Rackspace::Queues
       else
         raise ArgumentError, "Unrecognized service: #{key}"
       end
@@ -29,6 +35,8 @@ class Rackspace < Fog::Bin
     def [](service)
       @@connections ||= Hash.new do |hash, key|
         hash[key] = case key
+        when :auto_scale
+          Fog::Rackspace::AutoScale.new
         when :cdn
           Fog::Logger.warning("Rackspace[:cdn] is not recommended, use CDN[:rackspace] for portability")
           Fog::CDN.new(:provider => 'Rackspace')
@@ -52,6 +60,10 @@ class Rackspace < Fog::Bin
           Fog::Rackspace::Databases.new
         when :block_storage
           Fog::Rackspace::BlockStorage.new
+        when :monitoring
+          Fog::Rackspace::Monitoring.new
+        when :queues
+          Fog::Rackspace::Queues.new
         else
           raise ArgumentError, "Unrecognized service: #{key.inspect}"
         end

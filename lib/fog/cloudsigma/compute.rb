@@ -1,6 +1,5 @@
-require 'fog/compute'
+require 'fog/cloudsigma/core'
 require 'fog/cloudsigma/connection'
-
 
 module Fog
   module Compute
@@ -51,6 +50,11 @@ module Fog
       request :list_vlans
       request :get_vlan
       request :update_vlan
+
+      model :rule
+      model :fwpolicy
+      collection :fwpolicies
+      request :list_fwpolicies
 
       model :subscription
       collection :subscriptions

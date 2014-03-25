@@ -2,7 +2,10 @@
 *.gem
 *.rbc
 *.sw?
+.rbenv
 .rvmrc
+.ruby-gemset
+.ruby-version
 .bundle
 .DS_Store
 .idea
@@ -21,3 +24,4 @@ pkg
 spec/credentials.yml
 vendor/*
 tags
+tests/digitalocean/fixtures/

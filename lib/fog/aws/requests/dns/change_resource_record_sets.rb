@@ -141,6 +141,7 @@ module Fog
           if (zone = self.data[:zones][zone_id])
             response.status = 200
 
+            change_id = Fog::AWS::Mock.change_id
             change_batch.each do |change|
               case change[:action]
               when "CREATE"
@@ -149,12 +150,23 @@ module Fog
                 end
 
                 if zone[:records][change[:type]][change[:name]].nil?
+                  # raise change.to_s if change[:resource_records].nil?
+                  zone[:records][change[:type]][change[:name]] =
+                  if change[:alias_target]
+                    record = {
+                      :alias_target => change[:alias_target]
+                    }
+                  else
+                    record = {
+                      :ttl => change[:ttl].to_s,
+                    }
+                  end
                   zone[:records][change[:type]][change[:name]] = {
+                    :change_id => change_id,
+                    :resource_records => change[:resource_records] || [],
                     :name => change[:name],
-                    :type => change[:type],
-                    :ttl => change[:ttl],
-                    :resource_records => change[:resource_records]
-                  }
+                    :type => change[:type]
+                  }.merge(record)
                 else
                   errors << "Tried to create resource record set #{change[:name]}. type #{change[:type]}, but it already exists"
                 end
@@ -166,12 +178,16 @@ module Fog
             end
 
             if errors.empty?
+              change = {
+                :id => change_id,
+                :status => 'PENDING',
+                :submitted_at => Time.now.utc.iso8601
+              }
+              self.data[:changes][change[:id]] = change
               response.body = {
-                'ChangeInfo' => {
-                  'Id' => "/change/#{Fog::AWS::Mock.change_id}",
-                  'Status' => 'INSYNC',
-                  'SubmittedAt' => Time.now.utc.iso8601
-                }
+                'Id' => change[:id],
+                'Status' => change[:status],
+                'SubmittedAt' => change[:submitted_at]
               }
               response
             else
@@ -184,6 +200,7 @@ module Fog
             response.body = "<?xml version=\"1.0\"?><Response><Errors><Error><Code>NoSuchHostedZone</Code><Message>A hosted zone with the specified hosted zone ID does not exist.</Message></Error></Errors><RequestID>#{Fog::AWS::Mock.request_id}</RequestID></Response>"
             raise(Excon::Errors.status_error({:expects => 200}, response))
           end
+
         end
       end
 

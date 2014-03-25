@@ -1,5 +1,4 @@
-require 'fog/aws'
-require 'fog/compute'
+require 'fog/aws/core'
 
 module Fog
   module Compute
@@ -24,8 +23,12 @@ module Fog
       collection  :internet_gateways
       model       :key_pair
       collection  :key_pairs
+      model       :network_acl
+      collection  :network_acls
       model       :network_interface
       collection  :network_interfaces
+      model       :route_table
+      collection  :route_tables
       model       :security_group
       collection  :security_groups
       model       :server
@@ -45,9 +48,11 @@ module Fog
 
       request_path 'fog/aws/requests/compute'
       request :allocate_address
+      request :assign_private_ip_addresses
       request :associate_address
       request :associate_dhcp_options
       request :attach_network_interface
+      request :associate_route_table
       request :attach_internet_gateway
       request :attach_volume
       request :authorize_security_group_ingress
@@ -56,8 +61,12 @@ module Fog
       request :create_internet_gateway
       request :create_image
       request :create_key_pair
+      request :create_network_acl
+      request :create_network_acl_entry
       request :create_network_interface
       request :create_placement_group
+      request :create_route
+      request :create_route_table
       request :create_security_group
       request :create_snapshot
       request :create_spot_datafeed_subscription
@@ -70,9 +79,13 @@ module Fog
       request :delete_dhcp_options
       request :delete_internet_gateway
       request :delete_key_pair
+      request :delete_network_acl
+      request :delete_network_acl_entry
       request :delete_network_interface
       request :delete_security_group
       request :delete_placement_group
+      request :delete_route
+      request :delete_route_table
       request :delete_snapshot
       request :delete_spot_datafeed_subscription
       request :delete_subnet
@@ -80,6 +93,7 @@ module Fog
       request :delete_volume
       request :delete_vpc
       request :deregister_image
+      request :describe_account_attributes
       request :describe_addresses
       request :describe_availability_zones
       request :describe_dhcp_options
@@ -89,8 +103,10 @@ module Fog
       request :describe_reserved_instances
       request :describe_instance_status
       request :describe_key_pairs
+      request :describe_network_acls
       request :describe_network_interface_attribute
       request :describe_network_interfaces
+      request :describe_route_tables
       request :describe_placement_groups
       request :describe_regions
       request :describe_reserved_instances_offerings
@@ -108,6 +124,7 @@ module Fog
       request :detach_internet_gateway
       request :detach_volume
       request :disassociate_address
+      request :disassociate_route_table
       request :get_console_output
       request :get_password_data
       request :import_key_pair
@@ -116,9 +133,13 @@ module Fog
       request :modify_network_interface_attribute
       request :modify_snapshot_attribute
       request :modify_volume_attribute
+      request :modify_vpc_attribute
       request :purchase_reserved_instances_offering
       request :reboot_instances
       request :release_address
+      request :replace_network_acl_association
+      request :replace_network_acl_entry
+      request :replace_route
       request :register_image
       request :request_spot_instances
       request :reset_network_interface_attribute
@@ -142,6 +163,7 @@ module Fog
 
       class Mock
         include Fog::AWS::CredentialFetcher::ConnectionMethods
+        include Fog::AWS::RegionMethods
 
         def self.data
           @data ||= Hash.new do |hash, region|
@@ -192,8 +214,17 @@ module Fog
                       }
                     ],
                     'ownerId'             => owner_id
-                  }
+                  },
+                  'amazon-elb-sg' => {
+                    'groupDescription'   => 'amazon-elb-sg',
+                    'groupName'          => 'amazon-elb-sg',
+                    'groupId'            => 'amazon-elb',
+                    'ownerId'            => 'amazon-elb',
+                    'ipPermissionsEgree' => [],
+                    'ipPermissions'      => [],
+                  },
                 },
+                :network_acls => {},
                 :network_interfaces => {},
                 :snapshots => {},
                 :volumes => {},
@@ -205,7 +236,33 @@ module Fog
                 :subnets => [],
                 :vpcs => [],
                 :dhcp_options => [],
-                :internet_gateways => []
+                :route_tables => [],
+                :account_attributes => [
+                  {
+                    "values"        => ["5"],
+                    "attributeName" => "vpc-max-security-groups-per-interface"
+                  },
+                  {
+                    "values"        => ["20"],
+                    "attributeName" => "max-instances"
+                  },
+                  {
+                    "values"        => ["EC2", "VPC"],
+                    "attributeName" => "supported-platforms"
+                  },
+                  {
+                    "values"        => ["none"],
+                    "attributeName" => "default-vpc"
+                  },
+                  {
+                    "values"        => ["5"],
+                    "attributeName" => "max-elastic-ips"
+                  },
+                  {
+                    "values"        => ["5"],
+                    "attributeName" => "vpc-max-elastic-ips"
+                  }
+                ]
               }
             end
           end
@@ -222,10 +279,7 @@ module Fog
           @aws_credentials_expire_at = Time::now + 20
           setup_credentials(options)
           @region = options[:region] || 'us-east-1'
-
-          unless ['ap-northeast-1', 'ap-southeast-1', 'ap-southeast-2', 'eu-west-1', 'us-east-1', 'us-west-1', 'us-west-2', 'sa-east-1'].include?(@region)
-            raise ArgumentError, "Unknown region: #{@region.inspect}"
-          end
+          validate_aws_region @region
         end
 
         def region_data
@@ -254,6 +308,11 @@ module Fog
           end
 
           images
+        end
+
+        def ec2_compatibility_mode(enabled=true)
+          values = enabled ? ["EC2", "VPC"] : ["VPC"]
+          self.data[:account_attributes].detect { |h| h["attributeName"] == "supported-platforms" }["values"] = values
         end
 
         def apply_tag_filters(resources, filters, resource_id_key)
@@ -290,6 +349,7 @@ module Fog
 
       class Real
         include Fog::AWS::CredentialFetcher::ConnectionMethods
+        include Fog::AWS::RegionMethods
         # Initialize connection to EC2
         #
         # ==== Notes
@@ -322,7 +382,9 @@ module Fog
           @region                 = options[:region] ||= 'us-east-1'
           @instrumentor           = options[:instrumentor]
           @instrumentor_name      = options[:instrumentor_name] || 'fog.aws.compute'
-          @version                = options[:version]     ||  '2012-12-01'
+          @version                = options[:version]     ||  '2013-10-01'
+
+          validate_aws_region @region
 
           if @endpoint = options[:endpoint]
             endpoint = URI.parse(@endpoint)
@@ -337,7 +399,7 @@ module Fog
             @port       = options[:port]        || 443
             @scheme     = options[:scheme]      || 'https'
           end
-          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}#{@path}", @persistent, @connection_options)
+          @connection = Fog::XML::Connection.new("#{@scheme}://#{@host}:#{@port}#{@path}", @persistent, @connection_options)
         end
 
         def reload
@@ -387,7 +449,6 @@ module Fog
               :expects    => 200,
               :headers    => { 'Content-Type' => 'application/x-www-form-urlencoded' },
               :idempotent => idempotent,
-              :host       => @host,
               :method     => 'POST',
               :parser     => parser
             })
