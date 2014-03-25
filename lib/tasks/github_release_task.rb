@@ -57,7 +57,7 @@ module Fog
           @github  = Octokit::Client.new :netrc => true
           unless @github.login
             @github = nil
-            raise "Please create a ~.netrc file to authenticate with github. For more information please see https://github.com/octokit/octokit.rb/blob/master/README.md#using-a-netrc-file"
+            raise "Please create a ~/.netrc file to authenticate with github. For more information please see https://github.com/octokit/octokit.rb/blob/master/README.md#using-a-netrc-file"
           end
         end
         @github

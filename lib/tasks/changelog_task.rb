@@ -10,18 +10,7 @@ module Fog
         task(:changelog) do
 
           @changelog = []
-          @changelog << "## #{Fog::VERSION} #{timestamp}"
-          @changelog << "*Hash* #{sha}"
-          @changelog << blank_line
-
-          @changelog << "Statistic     | Value"
-          @changelog << "------------- | --------:"
-          @changelog << "Collaborators | #{collaborators}"
-          @changelog << "Downloads     | #{downloads}"
-          @changelog << "Forks         | #{forks}"
-          @changelog << "Open Issues   | #{open_issues}"
-          @changelog << "Watchers      | #{watchers}"
-          @changelog << blank_line
+          @changelog << release_header
 
           process_commits
 
@@ -34,6 +23,21 @@ module Fog
       end
 
       private
+
+      def release_header
+        <<-HEREDOC
+## #{Fog::VERSION} #{timestamp}
+*Hash* #{sha}
+
+Statistic     | Value
+------------- | --------:
+Collaborators | #{collaborators}
+Downloads     | #{downloads}
+Forks         | #{forks}
+Open Issues   | #{open_issues}
+Watchers      | #{watchers}
+        HEREDOC
+      end
 
       def save_changelog
         old_changelog = File.read('CHANGELOG.md')

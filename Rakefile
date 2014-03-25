@@ -208,8 +208,9 @@ YARD::Rake::YardocTask.new do |t|
 end
 
 require "tasks/changelog_task"
-require "tasks/github_release_task"
 Fog::Rake::ChangelogTask.new
+
+require "tasks/github_release_task"
 
 task :coveralls_push_workaround do
   use_coveralls = (Gem::Version.new(RUBY_VERSION) > Gem::Version.new('1.9.2'))
