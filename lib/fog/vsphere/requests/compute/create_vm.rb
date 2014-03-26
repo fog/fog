@@ -87,7 +87,7 @@ module Fog
                     controller_default_options
                   end
           controller_class=if options[:type].is_a? String then
-                             Fog::class_from_string options[:type], "RbVmomi::VIM"
+                             Fog::Vsphere.class_from_string options[:type], "RbVmomi::VIM"
                            else
                              options[:type]
                            end
