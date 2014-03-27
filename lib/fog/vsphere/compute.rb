@@ -74,6 +74,7 @@ module Fog
       request :vm_reconfig_hardware
       request :vm_reconfig_memory
       request :vm_reconfig_cpus
+      request :vm_reconfig_disk
       request :vm_config_vnc
       request :create_folder
       request :list_server_types
