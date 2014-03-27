@@ -3,6 +3,7 @@ require 'fog/aws/core'
 module Fog
   module AWS
     class IAM < Fog::Service
+      extend Fog::AWS::CredentialFetcher::ServiceMethods
 
       class EntityAlreadyExists < Fog::AWS::IAM::Error; end
       class KeyPairMismatch < Fog::AWS::IAM::Error; end
@@ -11,7 +12,7 @@ module Fog
       class ValidationError < Fog::AWS::IAM::Error; end
 
       requires :aws_access_key_id, :aws_secret_access_key
-      recognizes :host, :path, :port, :scheme, :persistent, :instrumentor, :instrumentor_name
+      recognizes :host, :path, :port, :scheme, :persistent, :instrumentor, :instrumentor_name, :aws_session_token, :use_iam_profile, :aws_credentials_expire_at
 
       request_path 'fog/aws/requests/iam'
       request :add_user_to_group
@@ -125,7 +126,9 @@ module Fog
         end
 
         def initialize(options={})
-          @aws_access_key_id = options[:aws_access_key_id]
+          @use_iam_profile = options[:use_iam_profile]
+          @aws_credentials_expire_at = Time::now + 20
+          setup_credentials(options)
         end
 
         def data
@@ -134,6 +137,10 @@ module Fog
 
         def reset_data
           self.class.data.delete(@aws_access_key_id)
+        end
+
+        def setup_credentials(options)
+          @aws_access_key_id = options[:aws_access_key_id]
         end
       end
 
@@ -159,12 +166,11 @@ module Fog
         def initialize(options={})
           require 'fog/core/parser'
 
-          @aws_access_key_id      = options[:aws_access_key_id]
-          @aws_secret_access_key  = options[:aws_secret_access_key]
+          @use_iam_profile = options[:use_iam_profile]
+          setup_credentials(options)
           @connection_options     = options[:connection_options] || {}
           @instrumentor           = options[:instrumentor]
           @instrumentor_name      = options[:instrumentor_name] || 'fog.aws.iam'
-          @hmac       = Fog::HMAC.new('sha256', @aws_secret_access_key)
           @host       = options[:host]        || 'iam.amazonaws.com'
           @path       = options[:path]        || '/'
           @persistent = options[:persistent]  || false
@@ -179,6 +185,15 @@ module Fog
 
         private
 
+        def setup_credentials(options)
+          @aws_access_key_id      = options[:aws_access_key_id]
+          @aws_secret_access_key  = options[:aws_secret_access_key]
+          @aws_session_token      = options[:aws_session_token]
+          @aws_credentials_expire_at = options[:aws_credentials_expire_at]
+
+          @hmac                   = Fog::HMAC.new('sha256', @aws_secret_access_key)
+        end
+
         def request(params)
           idempotent  = params.delete(:idempotent)
           parser      = params.delete(:parser)
@@ -187,6 +202,7 @@ module Fog
             params,
             {
               :aws_access_key_id  => @aws_access_key_id,
+              :aws_session_token  => @aws_session_token,
               :hmac               => @hmac,
               :host               => @host,
               :path               => @path,
