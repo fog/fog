@@ -101,8 +101,8 @@ module Fog
         end
 
         def initialize(options = {})
-          @joyent_username = options[:joyent_username] || Fog.credentials[:joyent_username]
-          @joyent_password = options[:joyent_password] || Fog.credentials[:joyent_password]
+          @joyent_username = options[:joyent_username]
+          @joyent_password = options[:joyent_password]
         end
 
         def request(opts)
