@@ -61,8 +61,7 @@ module Fog
                 @dhcp_options[name] = value
               when 'item'
                 @response['dhcpOptionsSet'] << @dhcp_options
-                @dhcp_options = { 'tagSet' => {} }
-                @dhcp_options = { 'dhcpConfigurationSet' => {} }
+                @dhcp_options = { 'dhcpConfigurationSet' => {}, 'tagSet' => {} }
               when 'requestId'
                 @response[name] = value
               end
