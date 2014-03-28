@@ -13,10 +13,15 @@ module Fog
       request :list_virtual_machines
       request :create_virtual_machine
       request :delete_virtual_machine
+      request :get_storage_account
+      request :create_storage_account
+      request :list_storage_accounts
 
       model_path 'fog/azure/models/compute'
       model :server
       collection :servers
+      model :storage_account
+      collection :storage_accounts
 
       class Mock
         include Collections
@@ -34,6 +39,7 @@ module Fog
             cfg.management_endpoint = "https://management.core.windows.net" #fix to use option if available
           end
           @vm_svc = ::Azure::VirtualMachineManagementService.new
+          @stg_svc = ::Azure::StorageManagementService.new
         end
       end
 
