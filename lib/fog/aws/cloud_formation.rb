@@ -8,6 +8,10 @@ module Fog
       requires :aws_access_key_id, :aws_secret_access_key
       recognizes :host, :path, :port, :scheme, :persistent, :region, :use_iam_profile, :aws_session_token, :aws_credentials_expire_at
 
+      model_path 'fog/aws/models/orchestration'
+      model :stack
+      collection :stacks
+
       request_path 'fog/aws/requests/cloud_formation'
       request :create_stack
       request :update_stack
@@ -119,3 +123,4 @@ module Fog
     end
   end
 end
+Fog::Orchestration::AWS = Fog::AWS::CloudFormation

@@ -23,6 +23,7 @@ module Fog
     service(:emr,             'EMR')
     service(:glacier,         'Glacier')
     service(:iam,             'IAM')
+    service(:orchestration,   'Orchestration')
     service(:rds,             'RDS')
     service(:redshift,        'Redshift')
     service(:ses,             'SES')
