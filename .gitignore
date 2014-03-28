@@ -26,3 +26,5 @@ spec/credentials.yml
 vendor/*
 tags
 tests/digitalocean/fixtures/
+
+providers/*/doc
