@@ -10,6 +10,8 @@ module Fog
         attribute :state
         attribute :type
         attribute :dataset
+        attribute :compute_node
+        attribute :networks
         attribute :ips
         attribute :memory
         attribute :disk
