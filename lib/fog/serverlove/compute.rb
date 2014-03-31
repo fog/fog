@@ -42,8 +42,8 @@ module Fog
       class Mock
 
         def initialize(options)
-          @serverlove_uuid = options[:serverlove_uuid] || Fog.credentials[:serverlove_uuid]
-          @serverlove_api_key = options[:serverlove_api_key] || Fog.credentials[:serverlove_api_key]
+          @serverlove_uuid = options[:serverlove_uuid]
+          @serverlove_api_key = options[:serverlove_api_key]
         end
 
         def request(options)

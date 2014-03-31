@@ -36,7 +36,7 @@ module Fog
         #     * 'SubnetId'<~String> - The subnet ID. Applies only when creating a network interface
         #     * 'Description'<~String> - A description. Applies only when creating a network interface
         #     * 'PrivateIpAddress'<~String> - The primary private IP address. Applies only when creating a network interface
-        #     * 'SecurityGroupId'<~String> - The ID of the security group. Applies only when creating a network interface.
+        #     * 'SecurityGroupId'<~Array> or <~String> - ids of security group(s) for network interface. Applies only when creating a network interface.
         #     * 'DeleteOnTermination'<~String> - Indicates whether to delete the network interface on instance termination.
         #     * 'PrivateIpAddresses.PrivateIpAddress'<~String> - The private IP address. This parameter can be used multiple times to specify explicit private IP addresses for a network interface, but only one private IP address can be designated as primary.
         #     * 'PrivateIpAddresses.Primary'<~Bool> - Indicates whether the private IP address is the primary private IP address.
@@ -122,8 +122,14 @@ module Fog
           end
           if network_interfaces = options.delete('NetworkInterfaces')
             network_interfaces.each_with_index do |mapping, index|
+              iface = format("NetworkInterface.%d", index)
               for key, value in mapping
-                options.merge!({ format("NetworkInterface.%d.#{key}", index) => value })
+                case key
+                when "SecurityGroupId"
+                  options.merge!(Fog::AWS.indexed_param("#{iface}.SecurityGroupId", [*value]))
+                else
+                  options.merge!({ "#{iface}.#{key}" => value })
+                end
               end
             end
           end

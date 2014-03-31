@@ -1,0 +1,1 @@
+--exclude 'lib/fog/.*/examples'
