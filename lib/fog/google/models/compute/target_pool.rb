@@ -36,7 +36,8 @@ module Fog
 
           service.insert_target_pool(name, region, options).body
           data = service.backoff_if_unfound {service.get_target_pool(name, region).body}
-          service.target_pools.merge_attributes(data)
+          merge_attributes(data)
+          self
         end
 
         def destroy
@@ -48,6 +49,26 @@ module Fog
             operation.body["status"] != "PENDING"
           end
           operation
+        end
+
+        def add_instance instance
+          # TODO(bensonk) write me
+        end
+
+        def add_http_health_check http_health_check
+          # TODO(bensonk) write me
+        end
+
+        def get_health
+          # TODO(bensonk) write me
+        end
+
+        def remove_http_health_check http_health_check
+          # TODO(bensonk) write me
+        end
+
+        def remove_instance instance
+          # TODO(bensonk) write me
         end
 
         def reload

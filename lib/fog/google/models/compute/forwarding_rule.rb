@@ -33,7 +33,15 @@ module Fog
 
           service.insert_forwarding_rule(name, region, options).body
           data = service.backoff_if_unfound {service.get_forwarding_rule(name, region).body}
-          service.forwarding_rules.merge_attributes(data)
+          merge_attributes(data)
+          self
+        end
+
+        def set_target new_target
+          new_target = new_target.self_link unless new_target.class == String
+          self.target = new_target
+          service.set_forwarding_rule_target(self, new_target)
+          reload
         end
 
         def destroy

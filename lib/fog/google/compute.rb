@@ -68,6 +68,7 @@ module Fog
 
       request :set_metadata
       request :set_tags
+      request :set_forwarding_rule_target
 
       model_path 'fog/google/models/compute'
       model :server

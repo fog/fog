@@ -37,7 +37,7 @@ module Fog
 
           service.insert_http_health_check(name, options).body
           data = service.backoff_if_unfound {service.get_http_health_check(name).body}
-          service.http_health_checks.merge_attributes(data)
+          merge_attributes(data)
         end
 
         def destroy

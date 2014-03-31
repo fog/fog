@@ -19,7 +19,6 @@ def test
           source_image: 'debian-7-wheezy-v20131120'
       )
       disk.wait_for { disk.ready? }
-      disk.reload
     rescue
       puts "Failed to create disk #{name}-#{i}"
     end
@@ -40,7 +39,6 @@ def test
   begin
     health = gce.http_health_checks.new(name: name)
     health.save
-    health.reload
   rescue
     puts "Failed to create health check #{name}"
   end
@@ -53,7 +51,6 @@ def test
       instances: servers.map(&:self_link)
     )
     pool.save
-    pool.reload
   rescue
     puts "Failed to create target pool #{name}"
   end
@@ -67,7 +64,6 @@ def test
       target: pool.self_link
     )
     rule.save
-    rule.reload
   rescue
     puts "Failed to create forwarding rule #{name}"
   end
