@@ -39,6 +39,7 @@ module Fog
       request :get_zone_operation
       request :get_http_health_check
       request :get_target_pool
+      request :get_target_pool_health
       request :get_forwarding_rule
 
       request :delete_address
@@ -69,6 +70,12 @@ module Fog
       request :set_metadata
       request :set_tags
       request :set_forwarding_rule_target
+
+      request :add_target_pool_instances
+      request :add_target_pool_health_checks
+
+      request :remove_target_pool_instances
+      request :remove_target_pool_health_checks
 
       model_path 'fog/google/models/compute'
       model :server

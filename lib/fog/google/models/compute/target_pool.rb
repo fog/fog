@@ -52,23 +52,35 @@ module Fog
         end
 
         def add_instance instance
-          # TODO(bensonk) write me
-        end
-
-        def add_http_health_check http_health_check
-          # TODO(bensonk) write me
-        end
-
-        def get_health
-          # TODO(bensonk) write me
-        end
-
-        def remove_http_health_check http_health_check
-          # TODO(bensonk) write me
+          instance = instance.self_link unless instance.class == String
+          instances.push(instance)
+          service.add_target_pool_instances(self, [instance])
+          reload
         end
 
         def remove_instance instance
-          # TODO(bensonk) write me
+          instance = instance.self_link unless instance.class == String
+          instances.delete(instance)
+          service.add_target_pool_instances(self, [instance])
+          reload
+        end
+
+        def add_health_check health_check
+          health_check = health_check.self_link unless health_check.class == String
+          health_checks.delete(health_check)
+          service.add_target_pool_health_checks(self, [health_check])
+          reload
+        end
+
+        def remove_health_check health_check
+          health_check = health_check.self_link unless health_check.class == String
+          health_checks.delete(health_check)
+          service.remove_target_pool_health_checks(self, [health_check])
+          reload
+        end
+
+        def get_health
+          service.get_target_pool_health self
         end
 
         def reload
