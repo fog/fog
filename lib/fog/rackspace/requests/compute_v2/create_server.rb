@@ -53,6 +53,7 @@ module Fog
             }
           }
 
+          data['server']['adminPass'] = options[:password] unless options[:password].nil?
           data['server']['OS-DCF:diskConfig'] = options[:disk_config] unless options[:disk_config].nil?
           data['server']['metadata'] = options[:metadata] unless options[:metadata].nil?
           data['server']['personality'] = options[:personality] unless options[:personality].nil?
