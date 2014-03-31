@@ -555,7 +555,7 @@ module Fog
           requires :identity
           service.change_server_password(identity, password)
           self.state = PASSWORD
-          @password = password
+          self.password = password
           true
         end
 
@@ -573,7 +573,7 @@ module Fog
           ]
           commands.compact
 
-          @password = nil if password_lock
+          self.password = nil if password_lock
 
           Fog::SSH.new(ssh_ip_address, username, credentials).run(commands)
         rescue Errno::ECONNREFUSED
@@ -588,7 +588,7 @@ module Fog
         private
 
         def adminPass=(new_admin_pass)
-          @password = new_admin_pass
+          self.password = new_admin_pass
         end
 
         def password_lock
