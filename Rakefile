@@ -211,6 +211,7 @@ require "tasks/changelog_task"
 Fog::Rake::ChangelogTask.new
 
 require "tasks/github_release_task"
+Fog::Rake::GithubReleaseTask.new
 
 task :coveralls_push_workaround do
   use_coveralls = (Gem::Version.new(RUBY_VERSION) > Gem::Version.new('1.9.2'))

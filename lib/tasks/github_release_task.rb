@@ -5,7 +5,7 @@ require 'netrc'
 
 module Fog
   module Rake
-    class ChangelogTask < ::Rake::TaskLib
+    class GithubReleaseTask < ::Rake::TaskLib
 
       def initialize
         desc "Update the changelog since the last release"
