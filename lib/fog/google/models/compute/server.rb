@@ -156,6 +156,16 @@ module Fog
               'tags' => tags
           }.delete_if {|key, value| value.nil?}
 
+          if service_accounts
+            options['serviceAccounts'] = [{
+              "kind" => "compute#serviceAccount",
+              "email" => "default",
+              "scopes" => service_accounts.map {
+                |w| w.start_with?("https://") ? w : "https://www.googleapis.com/auth/#{w}"
+              }
+            }]
+          end
+
           service.insert_server(name, zone_name, options)
           data = service.backoff_if_unfound {service.get_server(self.name, self.zone_name).body}
 
