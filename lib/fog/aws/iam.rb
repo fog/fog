@@ -53,6 +53,7 @@ module Fog
       request :list_groups_for_user
       request :list_instance_profiles
       request :list_instance_profiles_for_role
+      request :list_mfa_devices
       request :list_roles
       request :list_role_policies
       request :list_server_certificates
