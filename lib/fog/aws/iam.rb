@@ -145,6 +145,7 @@ module Fog
       end
 
       class Real
+        include Fog::AWS::CredentialFetcher::ConnectionMethods
 
         # Initialize connection to IAM
         #
@@ -195,6 +196,7 @@ module Fog
         end
 
         def request(params)
+          refresh_credentials_if_expired
           idempotent  = params.delete(:idempotent)
           parser      = params.delete(:parser)
 
