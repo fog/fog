@@ -68,8 +68,9 @@ module Fog
               end
             end
             options.keys.each do |k|
-              router[k.to_s] = options[k]
+              router[k] = options[k]
             end
+
             response.body = { 'router' => router }
             response.status = 200
             response

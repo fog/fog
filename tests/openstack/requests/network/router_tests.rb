@@ -33,7 +33,7 @@ Shindo.tests('Fog::Network[:openstack] | router requests', ['openstack']) do
         :name => 'net_name', 
         :external_gateway_info => { :network_id => 'net_id' },
         :status => 'ACTIVE',
-        :admin_state_up => 'true'
+        :admin_state_up => true
       }
       Fog::Network[:openstack].update_router(router_id, attributes).body
     end
@@ -45,7 +45,7 @@ Shindo.tests('Fog::Network[:openstack] | router requests', ['openstack']) do
         :name => 'net_name', 
         :external_gateway_info => net,
         :status => 'ACTIVE',
-        :admin_state_up => 'true'
+        :admin_state_up => true
       }
       Fog::Network[:openstack].update_router(router_id, attributes).body
     end

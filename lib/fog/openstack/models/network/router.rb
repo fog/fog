@@ -32,15 +32,16 @@ module Fog
 
         def create
           requires :name
-          merge_attributes(service.create_router(self.name,
-                                                  self.attributes).body['router'])
+          response = service.create_router(self.name, self.attributes)
+          merge_attributes(response.body['router'])
+
           self
         end
 
         def update
           requires :id
-          merge_attributes(service.update_router(self.id,
-                                                  self.attributes).body['router'])
+          response = service.update_router(self.id, self.attributes)
+          merge_attributes(response.body['router'])
           self
         end
 
