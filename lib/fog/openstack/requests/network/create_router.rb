@@ -38,15 +38,15 @@ module Fog
           response.status = 201
           data = {
             'router' => {
-              'id'     => Fog::Mock.random_numbers(6).to_s,
-              'status' => options[:status] || 'ACTIVE',
-              'external_gateway_info' => options[:external_gateway_info],
-              'name' => name,
-              'admin_state_up' => options[:admin_state_up],
-              'tenant_id' => '6b96ff0cb17a4b859e1e575d221683d3'
+              :id     => Fog::Mock.random_numbers(6).to_s,
+              :status => options[:status] || 'ACTIVE',
+              :external_gateway_info => options[:external_gateway_info],
+              :name => name,
+              :admin_state_up => options[:admin_state_up],
+              :tenant_id => '6b96ff0cb17a4b859e1e575d221683d3'
             }
           }
-          self.data[:routers][data['router']['id']] = data['router']
+          self.data[:routers][data['router'][:id]] = data['router']
           response.body = data
           response
         end

@@ -1,12 +1,12 @@
 Shindo.tests('Fog::Network[:openstack] | router requests', ['openstack']) do
 
   @router_format = {
-    'id'                    => String,
-    'name'                  => String,
-    'status'                => String,
-    'admin_state_up'        => Fog::Boolean,
-    'tenant_id'             => String,
-    'external_gateway_info' => Fog::Nullable::Hash,
+    :id                    => String,
+    :name                  => String,
+    :status                => String,
+    :admin_state_up        => Fog::Boolean,
+    :tenant_id             => String,
+    :external_gateway_info => Fog::Nullable::Hash,
   }
   
   tests('success') do
@@ -29,8 +29,7 @@ Shindo.tests('Fog::Network[:openstack] | router requests', ['openstack']) do
 
     tests('#update_router').formats({'router' => @router_format}) do
       router_id = Fog::Network[:openstack].routers.all.first.id
-      attributes = {}
-      {
+      attributes = {
         :name => 'net_name', 
         :external_gateway_info => { :network_id => 'net_id' },
         :status => 'ACTIVE',
@@ -42,8 +41,7 @@ Shindo.tests('Fog::Network[:openstack] | router requests', ['openstack']) do
     tests('#update_router_with_network').formats({'router' => @router_format}) do
       router_id = Fog::Network[:openstack].routers.all.first.id
       net = Fog::Network[:openstack].networks.first
-      attributes = {}
-      {
+      attributes = {
         :name => 'net_name', 
         :external_gateway_info => net,
         :status => 'ACTIVE',

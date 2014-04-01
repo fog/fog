@@ -30,9 +30,9 @@ module Fog
           egi = options[:external_gateway_info]
           if egi
             if egi.is_a?(Fog::Network::OpenStack::Network)
-              data['router']['external_gateway_info'] = { 'network_id' => egi.id }
-            elsif egi.is_a?(Hash) and egi['network_id']
-              data['router']['external_gateway_info'] = egi
+              data['router'][:external_gateway_info] = { :network_id => egi.id }
+            elsif egi.is_a?(Hash) and egi[:network_id]
+              data['router'][:external_gateway_info] = egi
             else
               raise ArgumentError.new('Invalid external_gateway_info attribute')
             end
@@ -54,16 +54,15 @@ module Fog
       class Mock
         def update_router(router_id, options = {})
           response = Excon::Response.new
-          router = list_routers.body['routers'].detect do |_|
-            _['id'] == router_id
-          end
+          router = list_routers.body['routers'].find {|r| r[:id] == router_id}
+
           if router
             egi = options[:external_gateway_info]
             if egi
               if egi.is_a?(Fog::Network::OpenStack::Network)
-                router['external_gateway_info'] = { 'network_id' => egi.id }
-              elsif egi.is_a?(Hash) and egi['network_id']
-                router['external_gateway_info'] = egi
+                router[:external_gateway_info] = { :network_id => egi.id }
+              elsif egi.is_a?(Hash) and egi[:network_id]
+                router[:external_gateway_info] = egi
               else
                 raise ArgumentError.new('Invalid external_gateway_info attribute')
               end
