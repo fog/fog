@@ -91,14 +91,12 @@ module Fog
 
           # Options['resource_pool']<~Array>
           # Now find _a_ resource pool to use for the clone if one is not specified
-          if (options.has_key?('resource_pool')) then
-            if options['resource_pool'].is_a?(Array) && options['resource_pool'].length == 2 then
+          if (options.has_key?('resource_pool')) && options['resource_pool'].is_a?(Array) && options['resource_pool'].length == 2 then
               cluster_name = options['resource_pool'][0]
               pool_name = options['resource_pool'][1]
               resource_pool = get_raw_resource_pool(pool_name, cluster_name, options['datacenter'])
-            else #no cluster defined
-              resource_pool = get_raw_resource_pool(options['resource_pool'], '', options['datacenter'])
-            end
+          elsif  options.has_key?('host_system')
+              resource_pool = get_raw_resource_pool(options['host_system'], options['datacenter'])
           elsif ( vm_mob_ref.resourcePool == nil )
             # If the template is really a template then there is no associated resource pool,
             # so we need to find one using the template's parent host or cluster
