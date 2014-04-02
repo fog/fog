@@ -15,7 +15,7 @@ module Fog
           cluster = dc.find_compute_resource(cluster_name)
           if cluster_name == ''
             compute_resource = cluster.children.find {|c| c.name == name}
-            compute_resource? ? compute_resource.resourcePool : nil
+            compute_resource ? compute_resource.resourcePool : nil
           else
             cluster.resourcePool.find name
           end
