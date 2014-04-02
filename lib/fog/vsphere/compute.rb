@@ -169,6 +169,7 @@ module Fog
                 :name => d.deviceInfo.label
                 }}.to_json
               attrs['operatingsystem'] = vm_mob_ref.summary.config.guestFullName
+              attrs['networks'] = vm.network.map{|n| n.name}.to_json
             rescue => e
               attrs['disks'] = '[]'
               attrs['operatingsystem'] = nil
