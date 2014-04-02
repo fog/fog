@@ -13,7 +13,12 @@ module Fog
         def get_raw_resource_pool(name, cluster_name, datacenter_name)
           dc      = find_raw_datacenter(datacenter_name)
           cluster = dc.find_compute_resource(cluster_name)
-          cluster.resourcePool.find name
+          if cluster_name == ''
+            compute_resource = cluster.children.find {|c| c.name == name}
+            compute_resource? ? compute_resource.resourcePool : nil
+          else
+            cluster.resourcePool.find name
+          end
         end
       end
 
