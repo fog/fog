@@ -169,7 +169,6 @@ module Fog
                 :name => d.deviceInfo.label
                 }}.to_json
               attrs['operatingsystem'] = vm_mob_ref.summary.config.guestFullName
-              vm.config.hardware.device
               nics = vm_mob_ref.config.hardware.device.grep(RbVmomi::VIM::VirtualVmxnet3)
               attrs['networks'] = nics.map{|n| {network:n.backing.network.name,key:n.key,mac:n.macAddress}}.to_json
             rescue => e
