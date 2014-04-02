@@ -10,7 +10,7 @@ module Fog
         # size – true or false, Show the containers sizes
         def container_all(filters = {})
           Docker::Container.all(filters.merge(:all => true)).map do |container|
-            downcase_hash_keys(container.info)
+            downcase_hash_keys(container.json)
           end
         end
 
