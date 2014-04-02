@@ -14,13 +14,24 @@ module Fog
             :admin_state_up,
             :tenant_id,
             :network_id,
-            :external_gateway_info,
             :status,
             :subnet_id
           ]
-
           vanilla_options.reject{ |o| options[o].nil? }.each do |key|
             data['router'][key] = options[key]
+          end
+
+          egi = options[:external_gateway_info]
+          if egi
+            if egi.is_a?(Fog::Network::OpenStack::Network)
+              Fog::Logger.deprecation "Passing a model objects into options[:external_gateway_info] is deprecated. \
+              Please pass  external external gateway as follows options[:external_gateway_info] = { :network_id => NETWORK_ID }]"
+              data['router'][:external_gateway_info] = { :network_id => egi.id }
+            elsif egi.is_a?(Hash) and egi[:network_id]
+              data['router'][:external_gateway_info] = egi
+            else
+              raise ArgumentError.new('Invalid external_gateway_info attribute')
+            end
           end
 
           request(
@@ -36,6 +47,18 @@ module Fog
         def create_router(name, options = {})
           response = Excon::Response.new
           response.status = 201
+
+          egi = options[:external_gateway_info]
+          if egi
+            if egi.is_a?(Fog::Network::OpenStack::Network)
+              Fog::Logger.deprecation "Passing a model objects into options[:external_gateway_info] is deprecated. \
+              Please pass  external external gateway as follows options[:external_gateway_info] = { :network_id => NETWORK_ID }]"
+              data['router'][:external_gateway_info] = { :network_id => egi.id }
+            else egi.is_a?(Hash) and egi[:network_id]
+              data['router'][:external_gateway_info] = egi
+            end
+          end
+
           data = {
             'router' => {
               :id     => Fog::Mock.random_numbers(6).to_s,

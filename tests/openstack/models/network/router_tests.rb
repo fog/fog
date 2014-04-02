@@ -11,9 +11,10 @@ Shindo.tests("Fog::Network[:openstack] | router", ['openstack']) do
     end
 
     tests('#update') do
-      test 'router name' do
+      test('router name') do
         @instance.name = 'new_name'
-        @instance.update.name == 'new_name'
+        @instance.update
+        @instance.name == 'new_name'
       end
       # Needs code from issue #1598
       #test 'external_gateway_info' do

@@ -32,7 +32,8 @@ module Fog
 
         def create
           requires :name
-          response = service.create_router(self.name, self.attributes)
+
+          response = service.create_router(self.name, options)
           merge_attributes(response.body['router'])
 
           self
@@ -40,7 +41,7 @@ module Fog
 
         def update
           requires :id
-          response = service.update_router(self.id, self.attributes)
+          response = service.update_router(self.id, options)
           merge_attributes(response.body['router'])
           self
         end
@@ -49,6 +50,21 @@ module Fog
           requires :id
           service.delete_router(self.id)
           true
+        end
+
+        private
+
+        def options
+          options = self.attributes.dup
+
+          if options[:external_gateway_info]
+            if options[:external_gateway_info].is_a?(Fog::Network::OpenStack::Network)
+               options[:external_gateway_info] = { :network_id => options[:external_gateway_info].id }
+            else
+              options[:external_gateway_info] = { :network_id => options[:external_gateway_info]}
+            end
+          end
+          options
         end
 
       end

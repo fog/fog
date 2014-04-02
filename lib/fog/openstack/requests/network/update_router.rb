@@ -30,6 +30,8 @@ module Fog
           egi = options[:external_gateway_info]
           if egi
             if egi.is_a?(Fog::Network::OpenStack::Network)
+              Fog::Logger.deprecation "Passing a model objects into options[:external_gateway_info] is deprecated. \
+              Please pass  external external gateway as follows options[:external_gateway_info] = { :network_id => NETWORK_ID }]"
               data['router'][:external_gateway_info] = { :network_id => egi.id }
             elsif egi.is_a?(Hash) and egi[:network_id]
               data['router'][:external_gateway_info] = egi
@@ -60,11 +62,11 @@ module Fog
             egi = options[:external_gateway_info]
             if egi
               if egi.is_a?(Fog::Network::OpenStack::Network)
+                Fog::Logger.deprecation "Passing a model objects into options[:external_gateway_info] is deprecated. \
+                Please pass  external external gateway as follows options[:external_gateway_info] = { :network_id => NETWORK_ID }]"
                 router[:external_gateway_info] = { :network_id => egi.id }
-              elsif egi.is_a?(Hash) and egi[:network_id]
+              else egi.is_a?(Hash) and egi[:network_id]
                 router[:external_gateway_info] = egi
-              else
-                raise ArgumentError.new('Invalid external_gateway_info attribute')
               end
             end
             options.keys.each do |k|
