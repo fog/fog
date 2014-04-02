@@ -21,6 +21,7 @@ module Fog
             data['router'][key] = options[key]
           end
 
+          # remove this in a future
           egi = options[:external_gateway_info]
           if egi
             if egi.is_a?(Fog::Network::OpenStack::Network)
@@ -48,6 +49,7 @@ module Fog
           response = Excon::Response.new
           response.status = 201
 
+          # remove this in a future
           egi = options[:external_gateway_info]
           if egi && egi.is_a?(Fog::Network::OpenStack::Network)
             Fog::Logger.deprecation "Passing a model objects into options[:external_gateway_info] is deprecated. \
