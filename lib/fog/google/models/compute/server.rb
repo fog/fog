@@ -20,6 +20,8 @@ module Fog
         attribute :service_accounts, :aliases => 'serviceAccounts'
         attribute :tags, :squash => 'items'
         attribute :self_link, :aliases => 'selfLink'
+        attribute :auto_restart
+        attribute :on_host_maintenance
 
         def image_name=(args)
           Fog::Logger.deprecation("image_name= is no longer used [light_black](#{caller.first})[/]")
@@ -153,7 +155,9 @@ module Fog
               'disks' => disks,
               'metadata' => metadata,
               'serviceAccounts' => service_accounts,
-              'tags' => tags
+              'tags' => tags,
+              'auto_restart' => auto_restart,
+              'on_host_maintenance' => on_host_maintenance
           }.delete_if {|key, value| value.nil?}
 
           if service_accounts

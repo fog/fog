@@ -151,6 +151,21 @@ module Fog
             networkInterfaces <<  networkInterface
           end
 
+          scheduling = {
+            'automaticRestart' => false,
+            'onHostMaintenance' => "MIGRATE"
+          }
+          if options.has_key? 'auto_restart'
+            scheduling['automaticRestart'] = options.delete 'auto_restart'
+            scheduling['automaticRestart'] = scheduling['automaticRestart'].class == TrueClass
+          end
+          if options.has_key? 'on_host_maintenance'
+            ohm = options.delete 'on_host_maintenance'
+            scheduling['onHostMaintenance'] = (ohm.respond_to?("upcase") &&
+                    ohm.upcase == "MIGRATE" && "MIGRATE") || "TERMINATE"
+          end
+          body_object['scheduling'] = scheduling
+
           # TODO: add other networks
           body_object['networkInterfaces'] = networkInterfaces
 

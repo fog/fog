@@ -25,11 +25,17 @@ module Fog
           requires :zone_name
 
           options = {}
+          my_description = "Created with fog"
+          if !source_image.nil?
+            my_description = "Created from image: #{source_image}"
+          end
           if source_image.nil? && !source_snapshot.nil?
             options['sourceSnapshot'] = source_snapshot
+            my_description = "Created from snapshot: #{source_snapshot}"
           end
 
           options['sizeGb'] = size_gb
+          options['description'] = description || my_description
 
           data = service.insert_disk(name, zone_name, source_image, options).body
           data = service.backoff_if_unfound {service.get_disk(name, zone_name).body}
