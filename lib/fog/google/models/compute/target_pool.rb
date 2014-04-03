@@ -59,7 +59,7 @@ module Fog
 
         def remove_instance instance
           instance = instance.self_link unless instance.class == String
-          service.add_target_pool_instances(self, [instance])
+          service.remove_target_pool_instances(self, [instance])
           reload
         end
 
