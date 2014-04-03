@@ -18,7 +18,7 @@ module Fog
         attribute :disks, :aliases => 'disks'
         attribute :metadata
         attribute :service_accounts, :aliases => 'serviceAccounts'
-        attribute :tags, :squash => 'items'
+        attribute :tags
         attribute :self_link, :aliases => 'selfLink'
         attribute :auto_restart
         attribute :on_host_maintenance
