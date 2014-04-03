@@ -390,7 +390,7 @@ module Fog
               :openstack_endpoint_type => @openstack_endpoint_type
             }
 
-            if @openstack_auth_uri.path =~ /\/v2.0\//
+            if @openstack_auth_uri.path =~ /\/v2.0/
 
               credentials = Fog::OpenStack.authenticate_v2(options, @connection_options)
             else
