@@ -1,8 +1,8 @@
 require "minitest/autorun"
 require "fog/brightbox"
 
-class Fog::Compute::BrightboxTest < Minitest::Test
-  def setup
+describe Fog::Compute::Brightbox do
+  before do
     @arguments = {
       :brightbox_auth_url => "http://localhost",
       :brightbox_api_url => "http://localhost",
@@ -23,15 +23,15 @@ class Fog::Compute::BrightboxTest < Minitest::Test
     end
   end
 
-  def test_respond_to_request
+  it "responds to #request" do
     assert_respond_to @service, :request
   end
 
-  def test_respond_to_request_access_token
+  it "responds to #request_access_token" do
     assert_respond_to @service, :request_access_token
   end
 
-  def test_respond_to_wrapped_request
+  it "responds to #wrapped_request" do
     assert_respond_to @service, :wrapped_request
   end
 end
