@@ -7,7 +7,7 @@ module Fog
           raise ArgumentError, "instance id is a required parameter" unless options.has_key? :id
           raise ArgumentError, "action is a required parameter" unless options.has_key? :action
           container = Docker::Container.get(options[:id])
-          downcase_hash_keys container.send(options[:action]).info
+          downcase_hash_keys container.send(options[:action]).json
         end
 
       end
