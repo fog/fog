@@ -13,7 +13,7 @@ module Fog
       class Real
 
         def set_tags(instance, zone, tags=[])
-          me = self.servers.get(instance)
+          me = self.servers.get(instance, zone)
           fp = me.tags["fingerprint"]
 
           api_method = @compute.instances.set_tags
