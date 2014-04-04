@@ -27,11 +27,11 @@ module Fog
           options = {
             'description' => description,
             'region' => region,
-            'health_checks' => health_checks,
+            'healthChecks' => health_checks,
             'instances' => instances,
-            'session_affinity' => session_affinity,
-            'failover_ratio' => failover_ratio,
-            'backup_pool' => backup_pool
+            'sessionAffinity' => session_affinity,
+            'failoverRatio' => failover_ratio,
+            'backupPool' => backup_pool
           }
 
           service.insert_target_pool(name, region, options).body
