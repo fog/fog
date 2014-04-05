@@ -39,10 +39,10 @@ module Fog
         def destroy
           requires :name, :zone_name
           operation = service.delete_disk(name, zone_name)
-          # wait until "RUNNING" or "DONE" to ensure the operation doesn't fail, raises exception on error
+          # wait until "DONE" to ensure the operation doesn't fail, raises exception on error
           Fog.wait_for do
             operation = service.get_zone_operation(zone_name, operation.body["name"])
-            operation.body["status"] != "PENDING"
+            operation.body["status"] == "DONE"
           end
           operation
         end

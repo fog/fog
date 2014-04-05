@@ -27,12 +27,12 @@ module Fog
           options = {
             'description' => description,
             'host' => host,
-            'requestPath' => request_path,
-            'port' => port,
-            'checkIntervalSec' => check_interval_sec,
-            'timeoutSec' => timeout_sec,
-            'unhealthyThreshold' => unhealthy_threshold,
-            'healthyThreshold' => healthy_threshold,
+            'requestPath' => request_path || "/",
+            'port' => port || 80,
+            'checkIntervalSec' => check_interval_sec || 5,
+            'timeoutSec' => timeout_sec || 5,
+            'unhealthyThreshold' => unhealthy_threshold || 2,
+            'healthyThreshold' => healthy_threshold || 2,
           }
 
           service.insert_http_health_check(name, options).body
@@ -43,12 +43,21 @@ module Fog
         def destroy
           requires :name
           operation = service.delete_http_health_check(name)
-          # wait until "RUNNING" or "DONE" to ensure the operation doesn't fail, raises exception on error
+          # wait until "DONE" to ensure the operation doesn't fail, raises exception on error
           Fog.wait_for do
             operation = service.get_global_operation(operation.body["name"])
-            operation.body["status"] != "PENDING"
+            operation.body["status"] == "DONE"
           end
           operation
+        end
+
+        def ready?
+          begin
+            service.get_http_health_check(self.name)
+            true
+          rescue Fog::Errors::NotFound
+            false
+          end
         end
 
         def reload
