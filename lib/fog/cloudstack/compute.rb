@@ -76,6 +76,7 @@ module Fog
       request :destroy_virtual_machine
       request :disable_user
       request :enable_user
+      request :extract_template
       request :generate_usage_records
       request :get_vm_password
       request :list_accounts
