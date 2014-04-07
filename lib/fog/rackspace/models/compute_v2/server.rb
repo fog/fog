@@ -144,10 +144,11 @@ module Fog
         # @see http://docs.rackspace.com/servers/api/v2/cs-devguide/content/List_Images-d1e4435.html
         attribute :image_id, :aliases => 'image', :squash => 'id'
 
-        # @!attribute [r] password
+        # @!attribute [rw] password
         # @return [String] Password for system adminstrator account.
-        # @note This value is ONLY populated on server creation.
-        attr_reader :password
+        # @see http://docs.rackspace.com/servers/api/v2/cs-devguide/content/Server_Passwords-d1e2510.html
+        # @note Can be set while creating a server, but use change_admin_password instead of save/update for changes.
+        attribute :password
 
         # @!attribute [rw] key_name
         # @return [String] The name of the key_pair used for server.
@@ -239,6 +240,7 @@ module Fog
             modified_options[:key_name] = attributes[:keypair]
           end
 
+          modified_options[:password] ||= attributes[:password] unless password.nil?
           modified_options[:networks] ||= attributes[:networks]
           modified_options[:disk_config] = disk_config unless disk_config.nil?
           modified_options[:metadata] = metadata.to_hash unless @metadata.nil?
@@ -553,7 +555,7 @@ module Fog
           requires :identity
           service.change_server_password(identity, password)
           self.state = PASSWORD
-          @password = password
+          self.password = password
           true
         end
 
@@ -571,7 +573,7 @@ module Fog
           ]
           commands.compact
 
-          @password = nil if password_lock
+          self.password = nil if password_lock
 
           Fog::SSH.new(ssh_ip_address, username, credentials).run(commands)
         rescue Errno::ECONNREFUSED
@@ -586,7 +588,7 @@ module Fog
         private
 
         def adminPass=(new_admin_pass)
-          @password = new_admin_pass
+          self.password = new_admin_pass
         end
 
         def password_lock

@@ -4,5 +4,5 @@ require "rake/testtask"
 task :default => :test
 
 Rake::TestTask.new do |t|
-  t.pattern = File.join("test", "**", "*_test.rb")
+  t.pattern = File.join("spec", "**", "*_spec.rb")
 end

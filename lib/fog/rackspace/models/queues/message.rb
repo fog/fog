@@ -32,8 +32,8 @@ module Fog
         def identity
           return nil unless href
 
-          match = href.match(/(\/(\w+))*\??/)
-          match ? match[-1] : nil
+          match = href.match(/\A.*\/queues\/[a-zA-Z0-9_-]{0,64}\/messages\/(?<id>.+?)(?:\?|\z)/i)
+          match ? match['id'] : nil
         end
         alias :id :identity
 

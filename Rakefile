@@ -51,7 +51,7 @@ task :default => :test
 task :travis  => ['test', 'test:travis', 'coveralls_push_workaround']
 
 Rake::TestTask.new do |t|
-  t.pattern = File.join("**", "test", "**", "*_test.rb")
+  t.pattern = File.join("**", "spec", "**", "*_spec.rb")
 end
 
 namespace :test do
@@ -209,6 +209,9 @@ end
 
 require "tasks/changelog_task"
 Fog::Rake::ChangelogTask.new
+
+require "tasks/github_release_task"
+Fog::Rake::GithubReleaseTask.new
 
 task :coveralls_push_workaround do
   use_coveralls = (Gem::Version.new(RUBY_VERSION) > Gem::Version.new('1.9.2'))

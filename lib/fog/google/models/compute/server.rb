@@ -18,8 +18,10 @@ module Fog
         attribute :disks, :aliases => 'disks'
         attribute :metadata
         attribute :service_accounts, :aliases => 'serviceAccounts'
-        attribute :tags, :squash => 'items'
+        attribute :tags
         attribute :self_link, :aliases => 'selfLink'
+        attribute :auto_restart
+        attribute :on_host_maintenance
 
         def image_name=(args)
           Fog::Logger.deprecation("image_name= is no longer used [light_black](#{caller.first})[/]")
@@ -153,8 +155,20 @@ module Fog
               'disks' => disks,
               'metadata' => metadata,
               'serviceAccounts' => service_accounts,
-              'tags' => tags
+              'tags' => tags,
+              'auto_restart' => auto_restart,
+              'on_host_maintenance' => on_host_maintenance
           }.delete_if {|key, value| value.nil?}
+
+          if service_accounts
+            options['serviceAccounts'] = [{
+              "kind" => "compute#serviceAccount",
+              "email" => "default",
+              "scopes" => service_accounts.map {
+                |w| w.start_with?("https://") ? w : "https://www.googleapis.com/auth/#{w}"
+              }
+            }]
+          end
 
           service.insert_server(name, zone_name, options)
           data = service.backoff_if_unfound {service.get_server(self.name, self.zone_name).body}

@@ -14,7 +14,7 @@ module Fog
       #requires
       recognizes :ecloud_username, :ecloud_password, :ecloud_version,
                  :ecloud_access_key, :ecloud_private_key,
-                 :ecloud_authentication_method
+                 :ecloud_authentication_method, :base_path
 
       #### Models
       model_path 'fog/ecloud/models/compute'
