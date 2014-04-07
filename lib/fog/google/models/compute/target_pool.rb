@@ -22,16 +22,16 @@ module Fog
 
 
         def save
-          requires :name, :region, :instances
+          requires :name, :region
 
           options = {
             'description' => description,
             'region' => region,
-            'health_checks' => health_checks,
+            'healthChecks' => health_checks,
             'instances' => instances,
-            'session_affinity' => session_affinity,
-            'failover_ratio' => failover_ratio,
-            'backup_pool' => backup_pool
+            'sessionAffinity' => session_affinity,
+            'failoverRatio' => failover_ratio,
+            'backupPool' => backup_pool
           }
 
           service.insert_target_pool(name, region, options).body
@@ -43,10 +43,10 @@ module Fog
         def destroy
           requires :name, :region
           operation = service.delete_target_pool(name, region)
-          # wait until "RUNNING" or "DONE" to ensure the operation doesn't fail, raises exception on error
+          # wait until "DONE" to ensure the operation doesn't fail, raises exception on error
           Fog.wait_for do
             operation = service.get_region_operation(region, operation.body["name"])
-            operation.body["status"] != "PENDING"
+            operation.body["status"] == "DONE"
           end
           operation
         end
@@ -77,6 +77,15 @@ module Fog
 
         def get_health
           service.get_target_pool_health self
+        end
+
+        def ready?
+          begin
+            service.get_target_pool(self.name, self.region)
+            true
+          rescue Fog::Errors::NotFound
+            false
+          end
         end
 
         def reload

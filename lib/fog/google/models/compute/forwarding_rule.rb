@@ -20,13 +20,13 @@ module Fog
         attribute :target, :aliases => 'target'
 
         def save
-          requires :name, :region, :port_range, :target
+          requires :name, :region, :target
 
           options = {
             'description' => description,
             'region' => region,
             'IPAddress' => ip_address,
-            'IPProtocol' => ip_protocol,
+            'IPProtocol' => ip_protocol || "TCP",
             'portRange' => port_range,
             'target' => target
           }
@@ -50,9 +50,18 @@ module Fog
           # wait until "RUNNING" or "DONE" to ensure the operation doesn't fail, raises exception on error
           Fog.wait_for do
             operation = service.get_region_operation(region, operation.body["name"])
-            operation.body["status"] != "PENDING"
+            operation.body["status"] == "DONE"
           end
           operation
+        end
+
+        def ready?
+          begin
+            service.get_forwarding_rule(self.name, self.region)
+            true
+          rescue Fog::Errors::NotFound
+            false
+          end
         end
 
         def reload
