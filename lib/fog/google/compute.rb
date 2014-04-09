@@ -110,8 +110,12 @@ module Fog
 
       model :forwarding_rule
       collection :forwarding_rules
+
       model :project
       collection :projects
+
+      model :firewall
+      collection :firewalls
 
       module Shared
         attr_reader :project, :api_version

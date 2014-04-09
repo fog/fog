@@ -3,7 +3,7 @@ module Fog
     class Google
 
       class Mock
-        def insert_firewall(firewall_name, source_range=[],  allowed=[], network=@default_network, source_tags=[])
+        def insert_firewall(firewall_name, allowed, network = @default_network, options = {})
           Fog::Mock.not_implemented
         end
 
@@ -11,20 +11,34 @@ module Fog
 
       class Real
 
-        def insert_firewall(firewall_name, source_range=[],  allowed=[], network=@default_network, source_tags=[])
+        def insert_firewall(firewall_name, allowed, network = @default_network, options = {})
+          unless network.start_with? 'http'
+            network = "#{@api_url}#{@project}/global/networks/#{network}"
+          end
+
           api_method = @compute.firewalls.insert
           parameters = {
             'project' => @project,
           }
           body_object = {
             "name" => firewall_name,
-            "network" => "#{@api_url}#{@project}/global/networks/#{network}",
+            "network" => network,
             "allowed" => allowed,
           }
-          body_object["sourceRanges"] = source_range if !source_range.empty?
-          body_object["sourceTags"]  = source_tags  if !source_tags.empty?
+          unless options[:description].nil?
+            body_object["description"] = options[:description]
+          end
+          unless options[:source_ranges].nil? || options[:source_ranges].empty?
+            body_object["sourceRanges"] = options[:source_ranges]
+          end
+          unless options[:source_tags].nil? || options[:source_tags].empty?
+            body_object["sourceTags"] = options[:source_tags]
+          end
+          unless options[:target_tags].nil? || options[:target_tags].empty?
+            body_object["targetTags"] = options[:target_tags]
+          end
 
-          result = self.build_result(api_method, parameters, body_object=body_object)
+          result = self.build_result(api_method, parameters, body_object)
           response = self.build_response(result)
         end
 
