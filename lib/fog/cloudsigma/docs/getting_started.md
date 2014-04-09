@@ -34,7 +34,7 @@ To make this a bit more useful, let's try to attach an ISO image (in this case U
 
     > server.stop
     > ubuntu_image_uuid = '41d848c2-44e4-4428-9406-84e95bb1288d'
-    > server.unmount(drive.uuid)
+    > server.unmount_volume(drive.uuid)
     > server.mount_volume(ubuntu_image_uuid, 'ide', '0:0', 1)
     > server.mount_volume(drive.uuid, 'virtio', '0:0', 2)
     > server.update
@@ -50,7 +50,7 @@ That will print out the VNC URL, among with other data. You can simply pass the 
 
 After you're done with the installation, you can unmount the Ubuntu installation disk by running the following command:
 
-    > server.unmount(ubuntu_image_uuid)
+    > server.unmount_volume(ubuntu_image_uuid)
 
 You might also want to close the VNC session to increase security. This can be done by running:
 
