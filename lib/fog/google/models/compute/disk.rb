@@ -42,13 +42,15 @@ module Fog
           service.disks.merge_attributes(data)
         end
 
-        def destroy
+        def destroy(async=true)
           requires :name, :zone_name
           operation = service.delete_disk(name, zone_name)
           # wait until "DONE" to ensure the operation doesn't fail, raises exception on error
-          Fog.wait_for do
-            operation = service.get_zone_operation(zone_name, operation.body["name"])
-            operation.body["status"] == "DONE"
+          if not async
+            Fog.wait_for do
+              operation = service.get_zone_operation(zone_name, operation.body["name"])
+              operation.body["status"] == "DONE"
+            end
           end
           operation
         end
