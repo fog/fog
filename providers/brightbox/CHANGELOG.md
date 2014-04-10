@@ -1,13 +1,10 @@
 ### 0.0.2 / 2014-04-10
 
-Enhancements:
+Bug fixes:
 
 * Add CHANGELOG.md to `fog-brightbox` module.
 * Add MiniTest::Specs to project. Use `rake test` to check the code.
 * Add Gemfile, Rakefile, README and LICENCE to start documenting project.
-
-Bug fixes:
-
 * Remove redundant calls to `Fog.credentials`. The code flow was such that the
   credentials were being passed in to `Fog::Compute::Brightbox` anyway.
 * Isolate testing from contents of `~.fog` file which is leaking in throug the
