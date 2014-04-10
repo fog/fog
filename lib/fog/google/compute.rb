@@ -121,6 +121,9 @@ module Fog
       model :firewall
       collection :firewalls
 
+      model :network
+      collection :networks
+
       module Shared
         attr_reader :project, :api_version
 
