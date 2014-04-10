@@ -983,7 +983,7 @@ module Fog
         # result = Google::APIClient::Result
         # returns Excon::Response
         def build_response(result)
-          build_excon_response(result.body.nil? ? nil : Fog::JSON.decode(result.body), result.status)
+          build_excon_response(result.body.nil? || result.body.empty? ? nil : Fog::JSON.decode(result.body), result.status)
         end
       end
 
