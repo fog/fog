@@ -9,11 +9,14 @@ module Fog
 
         model Fog::Compute::Google::Operation
 
-        def get(identity, zone=nil)
-          if zone.nil?
-            response = service.get_global_operation(identity)
-          else
+        def get(identity, zone=nil, region=nil)
+          puts "Getting operation #{identity} zone=#{zone} region=#{region}"
+          if not zone.nil?
             response = service.get_zone_operation(zone, identity)
+          elsif not region.nil?
+            response = service.get_region_operation(region, identity)
+          else
+            response = service.get_global_operation(identity)
           end
           return nil if response.nil?
           new(response.body)

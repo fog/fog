@@ -17,9 +17,14 @@ module Fog
       request :list_aggregated_machine_types
       request :list_networks
       request :list_zones
+      request :list_regions
       request :list_global_operations
+      request :list_region_operations
       request :list_zone_operations
       request :list_snapshots
+      request :list_http_health_checks
+      request :list_target_pools
+      request :list_forwarding_rules
 
       request :get_server
       request :get_address
@@ -31,7 +36,12 @@ module Fog
       request :get_zone
       request :get_snapshot
       request :get_global_operation
+      request :get_region_operation
       request :get_zone_operation
+      request :get_http_health_check
+      request :get_target_pool
+      request :get_target_pool_health
+      request :get_forwarding_rule
       request :get_project
 
       request :delete_address
@@ -42,7 +52,11 @@ module Fog
       request :delete_network
       request :delete_server
       request :delete_global_operation
+      request :delete_region_operation
       request :delete_zone_operation
+      request :delete_http_health_check
+      request :delete_target_pool
+      request :delete_forwarding_rule
 
       request :insert_address
       request :insert_disk
@@ -51,9 +65,19 @@ module Fog
       request :insert_network
       request :insert_server
       request :insert_snapshot
+      request :insert_http_health_check
+      request :insert_target_pool
+      request :insert_forwarding_rule
 
       request :set_metadata
       request :set_tags
+      request :set_forwarding_rule_target
+
+      request :add_target_pool_instances
+      request :add_target_pool_health_checks
+
+      request :remove_target_pool_instances
+      request :remove_target_pool_health_checks
       request :set_common_instance_metadata
 
       model_path 'fog/google/models/compute'
@@ -78,6 +102,14 @@ module Fog
       model :zone
       collection :zones
 
+      model :http_health_check
+      collection :http_health_checks
+
+      model :target_pool
+      collection :target_pools
+
+      model :forwarding_rule
+      collection :forwarding_rules
       model :project
       collection :projects
 
