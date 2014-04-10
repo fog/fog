@@ -35,6 +35,7 @@ module Fog
       request :get_machine_type
       request :get_network
       request :get_zone
+      request :get_region
       request :get_snapshot
       request :get_global_operation
       request :get_region_operation
@@ -105,6 +106,9 @@ module Fog
 
       model :zone
       collection :zones
+
+      model :region
+      collection :regions
 
       model :http_health_check
       collection :http_health_checks
