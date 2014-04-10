@@ -41,6 +41,7 @@ module Fog
       request :get_target_pool
       request :get_target_pool_health
       request :get_forwarding_rule
+      request :get_project
 
       request :delete_address
       request :delete_disk
@@ -76,6 +77,7 @@ module Fog
 
       request :remove_target_pool_instances
       request :remove_target_pool_health_checks
+      request :set_common_instance_metadata
 
       model_path 'fog/google/models/compute'
       model :server
@@ -107,6 +109,8 @@ module Fog
 
       model :forwarding_rule
       collection :forwarding_rules
+      model :project
+      collection :projects
 
       module Shared
         attr_reader :project, :api_version

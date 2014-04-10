@@ -19,10 +19,10 @@ Our implementation of the API currently supports
  * Operations
  * Snapshots
  * Instance Metadata
+ * Project Metadata
 
 Features we are looking forward to implementing in the future:
 
- * Global Metadata support
  * Image creation
  * Load balancer configuration
 
