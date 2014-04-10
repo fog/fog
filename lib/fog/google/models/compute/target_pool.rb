@@ -40,13 +40,16 @@ module Fog
           self
         end
 
-        def destroy
+        def destroy(async=true)
           requires :name, :region
           operation = service.delete_target_pool(name, region)
-          # wait until "DONE" to ensure the operation doesn't fail, raises exception on error
-          Fog.wait_for do
-            operation = service.get_region_operation(region, operation.body["name"])
-            operation.body["status"] == "DONE"
+          if not async
+            # wait until "DONE" to ensure the operation doesn't fail, raises
+            # exception on error
+            Fog.wait_for do
+              operation = service.get_region_operation(region, operation.body["name"])
+              operation.body["status"] == "DONE"
+            end
           end
           operation
         end

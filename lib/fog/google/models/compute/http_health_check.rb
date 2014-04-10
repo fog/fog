@@ -40,13 +40,17 @@ module Fog
           merge_attributes(data)
         end
 
-        def destroy
+        def destroy(async=true)
           requires :name
           operation = service.delete_http_health_check(name)
-          # wait until "DONE" to ensure the operation doesn't fail, raises exception on error
-          Fog.wait_for do
-            operation = service.get_global_operation(operation.body["name"])
-            operation.body["status"] == "DONE"
+
+          if not async
+            # wait until "DONE" to ensure the operation doesn't fail, raises
+            # exception on error
+            Fog.wait_for do
+              operation = service.get_global_operation(operation.body["name"])
+              operation.body["status"] == "DONE"
+            end
           end
           operation
         end
