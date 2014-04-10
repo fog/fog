@@ -16,14 +16,29 @@ module Fog
         attribute :source_disk_id    , :aliases => 'sourceDiskId'
         attribute :description
         attribute :status
+        attribute :id
+        attribute :storage_bytes        , :aliases => 'storageBytes'
+        attribute :storage_bytes_status , :aliases => 'storageBytesStatus'
 
-        def reload
-          requires :name
+        CREATING_STATE  = 'CREATING'
+        DELETING_STATE  = 'DELETING'
+        FAILED_STATE    = 'FAILED'
+        READY_STATE     = 'READY'
+        UPLOADING_STATE = 'UPLOADING'
 
-          data = service.get_snapshot(name, self.service.project).body
+        def destroy(async=true)
+          requires :identity
 
-          self.merge_attributes(data)
-          self
+          data = service.delete_snapshot(identity)
+          operation = Fog::Compute::Google::Operations.new(:service => service).get(data.body['name'])
+          unless async
+            operation.wait_for { ready? }
+          end
+          operation
+        end
+
+        def ready?
+          self.status == READY_STATE
         end
 
         def resource_url
