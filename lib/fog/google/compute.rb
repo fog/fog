@@ -31,6 +31,7 @@ module Fog
       request :get_snapshot
       request :get_global_operation
       request :get_zone_operation
+      request :get_project
 
       request :delete_address
       request :delete_disk
@@ -52,6 +53,7 @@ module Fog
 
       request :set_metadata
       request :set_tags
+      request :set_common_instance_metadata
 
       model_path 'fog/google/models/compute'
       model :server
@@ -74,6 +76,9 @@ module Fog
 
       model :zone
       collection :zones
+
+      model :project
+      collection :projects
 
       module Shared
         attr_reader :project, :api_version
