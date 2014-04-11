@@ -281,9 +281,9 @@ module Fog
                     },
                     "status" => "READY"
                   },
-                  "debian-7-wheezy-v20131120" => {
+                  "debian-7-wheezy-v20140408" => {
                     "kind" => "compute#image",
-                    "selfLink" => "https://www.googleapis.com/compute/#{api_version}/projects/debian-cloud/global/images/debian-7-wheezy-v20131120",
+                    "selfLink" => "https://www.googleapis.com/compute/#{api_version}/projects/debian-cloud/global/images/debian-7-wheezy-v20140408",
                     "id" => "17312518942796567788",
                     "creationTimestamp" => "2013-11-25T15:17:00.436-08:00",
                     "name" => "debian-7-wheezy-v20131120",
