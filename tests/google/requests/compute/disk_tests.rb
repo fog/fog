@@ -46,24 +46,6 @@ Shindo.tests('Fog::Compute[:google] | disk requests', ['google']) do
       'operationType' => String
   }
 
-  @list_disks_format = {
-      'kind' => String,
-      'id' => String,
-      'selfLink' => String,
-      'items' => [{
-        'kind'=> String,
-        'id'=> String,
-        'creationTimestamp'=>String,
-        'selfLink'=>String,
-        'name'=> String,
-        'sizeGb'=> String,
-        'zone'=> String,
-        'sourceImageId' => String,
-        'sourceImage' => String,
-        'status'=>String,
-      }]
-  }
-
   tests('success') do
 
     disk_name = 'new-disk-test'
@@ -78,10 +60,6 @@ Shindo.tests('Fog::Compute[:google] | disk requests', ['google']) do
 
     tests("#get_disk").formats(@get_disk_format) do
       @google.get_disk(disk_name, zone_name).body
-    end
-
-    tests("#list_disks").formats(@list_disks_format) do
-      @google.list_disks(zone_name).body
     end
 
     tests("#delete_disk").formats(@delete_disk_format) do
