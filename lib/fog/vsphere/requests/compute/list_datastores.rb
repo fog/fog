@@ -27,6 +27,7 @@ module Fog
             :capacity    => datastore.summary.capacity,
             :uncommitted => datastore.summary.uncommitted,
             :datacenter  => datacenter,
+            :host_system => datastore.host.first.key.name,
           }
         end
 
