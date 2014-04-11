@@ -10,6 +10,7 @@ module Fog
       request_path 'fog/google/requests/compute'
       request :list_servers
       request :list_addresses
+      request :list_aggregated_addresses
       request :list_disks
       request :list_firewalls
       request :list_images
@@ -93,6 +94,9 @@ module Fog
       model :disk
       collection :disks
 
+      model :address
+      collection :addresses
+
       model :operation
       collection :operations
 
@@ -110,8 +114,12 @@ module Fog
 
       model :forwarding_rule
       collection :forwarding_rules
+
       model :project
       collection :projects
+
+      model :firewall
+      collection :firewalls
 
       module Shared
         attr_reader :project, :api_version
