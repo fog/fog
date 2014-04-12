@@ -17,6 +17,20 @@ module Fog
           load(data.body['records'])
         end
 
+        def all!
+          requires :zone
+          data = []
+          total_entries = nil
+
+          begin
+            resp = service.list_records(zone.id, :offset => data.size).body
+            total_entries ||= resp['totalEntries']
+            data += resp['records']
+          end while data.size < total_entries
+
+          load(data)
+        end
+
         def get(record_id)
           requires :zone
           data = service.list_record_details(zone.identity, record_id).body
