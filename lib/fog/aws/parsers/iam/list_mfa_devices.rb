@@ -12,8 +12,10 @@ module Fog
 
           def end_element(name)
             case name
-            when 'EnableDate', 'SerialNumber', 'UserName'
+            when 'SerialNumber', 'UserName'
               @mfa_device[name] = value
+            when 'EnableDate'
+              @mfa_device[name] = Time.parse(value)
             when 'member'
               @response['MFADevices'] << @mfa_device
               @mfa_device = {}
