@@ -8,6 +8,7 @@ module Fog
       class Records < Fog::Collection
 
         attribute :zone
+        attribute :total_entries, :aliases => 'totalEntries'
 
         model Fog::DNS::Rackspace::Record
 
@@ -17,18 +18,25 @@ module Fog
           load(data.body['records'])
         end
 
-        def all!
+        alias :each_record_this_page :each
+        def each
           requires :zone
-          data = []
-          total_entries = nil
 
+          return self unless block_given?
+
+          entries = 0
           begin
-            resp = service.list_records(zone.id, :offset => data.size).body
-            total_entries ||= resp['totalEntries']
-            data += resp['records']
-          end while data.size < total_entries
+            body = service.list_records(zone.id, :offset => entries).body
+            entries += body['records'].size
 
-          load(data)
+            self.merge_attributes(body)
+
+            subset = dup.load(body['records'])
+            subset.each_record_this_page {|record| yield record }
+
+          end while entries < total_entries
+
+          self
         end
 
         def get(record_id)
