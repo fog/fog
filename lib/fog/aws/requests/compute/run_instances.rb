@@ -254,7 +254,7 @@ module Fog
             })
 
             if options['SubnetId']
-              attachment_id = attach_network_interface(network_interface_id, instance_id, 0).data[:body]['attachmentId']
+              attachment_id = attach_network_interface(network_interface_id, instance_id, '0').data[:body]['attachmentId']
               modify_network_interface_attribute(network_interface_id, 'attachment', {'attachmentId' => attachment_id, 'deleteOnTermination' => 'true'})
             end
           end
