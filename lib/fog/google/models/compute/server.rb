@@ -53,13 +53,16 @@ module Fog
           machine_type=flavor_id
         end
 
-        def destroy
+        def destroy(async=true)
           requires :name, :zone
           operation = service.delete_server(name, zone)
-          # wait until "RUNNING" or "DONE" to ensure the operation doesn't fail, raises exception on error
-          Fog.wait_for do
-            operation = service.get_zone_operation(zone_name, operation.body["name"])
-            operation.body["status"] != "PENDING"
+          if not async
+            # wait until "RUNNING" or "DONE" to ensure the operation doesn't
+            # fail, raises exception on error
+            Fog.wait_for do
+              operation = service.get_zone_operation(zone, operation.body["name"])
+              operation.body["status"] == "DONE"
+            end
           end
           operation
         end

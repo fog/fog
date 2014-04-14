@@ -10,15 +10,23 @@ module Fog
       request_path 'fog/google/requests/compute'
       request :list_servers
       request :list_addresses
+      request :list_aggregated_addresses
       request :list_disks
       request :list_firewalls
       request :list_images
       request :list_machine_types
+      request :list_aggregated_machine_types
       request :list_networks
       request :list_zones
+      request :list_regions
       request :list_global_operations
+      request :list_region_operations
       request :list_zone_operations
       request :list_snapshots
+      request :list_http_health_checks
+      request :list_target_pools
+      request :list_forwarding_rules
+      request :list_routes
 
       request :get_server
       request :get_address
@@ -28,9 +36,17 @@ module Fog
       request :get_machine_type
       request :get_network
       request :get_zone
+      request :get_region
       request :get_snapshot
       request :get_global_operation
+      request :get_region_operation
       request :get_zone_operation
+      request :get_http_health_check
+      request :get_target_pool
+      request :get_target_pool_health
+      request :get_forwarding_rule
+      request :get_project
+      request :get_route
 
       request :delete_address
       request :delete_disk
@@ -40,7 +56,12 @@ module Fog
       request :delete_network
       request :delete_server
       request :delete_global_operation
+      request :delete_region_operation
       request :delete_zone_operation
+      request :delete_http_health_check
+      request :delete_target_pool
+      request :delete_forwarding_rule
+      request :delete_route
 
       request :insert_address
       request :insert_disk
@@ -49,9 +70,21 @@ module Fog
       request :insert_network
       request :insert_server
       request :insert_snapshot
+      request :insert_http_health_check
+      request :insert_target_pool
+      request :insert_forwarding_rule
+      request :insert_route
 
       request :set_metadata
       request :set_tags
+      request :set_forwarding_rule_target
+
+      request :add_target_pool_instances
+      request :add_target_pool_health_checks
+
+      request :remove_target_pool_instances
+      request :remove_target_pool_health_checks
+      request :set_common_instance_metadata
 
       model_path 'fog/google/models/compute'
       model :server
@@ -66,6 +99,9 @@ module Fog
       model :disk
       collection :disks
 
+      model :address
+      collection :addresses
+
       model :operation
       collection :operations
 
@@ -74,6 +110,30 @@ module Fog
 
       model :zone
       collection :zones
+
+      model :region
+      collection :regions
+
+      model :http_health_check
+      collection :http_health_checks
+
+      model :target_pool
+      collection :target_pools
+
+      model :forwarding_rule
+      collection :forwarding_rules
+
+      model :project
+      collection :projects
+
+      model :firewall
+      collection :firewalls
+
+      model :network
+      collection :networks
+
+      model :route
+      collection :routes
 
       module Shared
         attr_reader :project, :api_version
@@ -243,9 +303,9 @@ module Fog
                     },
                     "status" => "READY"
                   },
-                  "debian-7-wheezy-v20131120" => {
+                  "debian-7-wheezy-v20140408" => {
                     "kind" => "compute#image",
-                    "selfLink" => "https://www.googleapis.com/compute/#{api_version}/projects/debian-cloud/global/images/debian-7-wheezy-v20131120",
+                    "selfLink" => "https://www.googleapis.com/compute/#{api_version}/projects/debian-cloud/global/images/debian-7-wheezy-v20140408",
                     "id" => "17312518942796567788",
                     "creationTimestamp" => "2013-11-25T15:17:00.436-08:00",
                     "name" => "debian-7-wheezy-v20131120",
@@ -945,7 +1005,7 @@ module Fog
         # result = Google::APIClient::Result
         # returns Excon::Response
         def build_response(result)
-          build_excon_response(result.body.nil? ? nil : Fog::JSON.decode(result.body), result.status)
+          build_excon_response(result.body.nil? || result.body.empty? ? nil : Fog::JSON.decode(result.body), result.status)
         end
       end
 
