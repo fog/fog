@@ -53,6 +53,7 @@ module Fog
       request :list_groups_for_user
       request :list_instance_profiles
       request :list_instance_profiles_for_role
+      request :list_mfa_devices
       request :list_roles
       request :list_role_policies
       request :list_server_certificates
@@ -93,6 +94,11 @@ module Fog
               :access_keys => [{
                 "Status" => "Active",
                 "AccessKeyId" => key
+              }],
+              :devices => [{
+                :enable_date   => Time.now,
+                :serial_number => 'R1234',
+                :user_name     => 'Bob'
               }],
               :users => Hash.new do |uhash, ukey|
                 uhash[ukey] = {
