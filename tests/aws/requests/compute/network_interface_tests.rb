@@ -36,6 +36,8 @@ Shindo.tests('Fog::Compute[:aws] | network interface requests', ['aws']) do
   }
 
   tests('success') do
+    Fog::Compute::AWS::Mock.reset if Fog.mocking?
+
     # Create environment
     @vpc            = Fog::Compute[:aws].vpcs.create('cidr_block' => '10.0.10.0/24')
     @subnet         = Fog::Compute[:aws].subnets.create('vpc_id' => @vpc.id, 'cidr_block' => '10.0.10.16/28')
@@ -241,9 +243,6 @@ Shindo.tests('Fog::Compute[:aws] | network interface requests', ['aws']) do
       Fog::Compute[:aws].attach_network_interface(@nic_id, @instance_id, @device_index)
     end
 
-    @server.destroy
-    @subnet.destroy
-    @vpc.destroy
-
+    Fog::Compute::AWS::Mock.reset if Fog.mocking?
   end
 end
