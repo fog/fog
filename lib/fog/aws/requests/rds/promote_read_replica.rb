@@ -28,7 +28,7 @@ module Fog
           request({
             'Action'  => 'PromoteReadReplica',
             'DBInstanceIdentifier' => identifier,
-            :parser   => Fog::Parsers::AWS::RDS::DeleteDBInstance.new
+            :parser   => Fog::Parsers::AWS::RDS::PromoteReadReplica.new
           }.merge(params))
         end
 
