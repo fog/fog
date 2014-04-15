@@ -12,6 +12,7 @@ module Fog
       request :list_addresses
       request :list_aggregated_addresses
       request :list_disks
+      request :list_aggregated_disks
       request :list_firewalls
       request :list_images
       request :list_machine_types
