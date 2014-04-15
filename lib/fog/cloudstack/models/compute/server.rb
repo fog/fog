@@ -49,9 +49,9 @@ module Fog
           nics.map{|nic| Address.new(nic)}
         end
 
-        def destroy
+        def destroy(options={})
           requires :id
-          data = service.destroy_virtual_machine("id" => id)
+          data = service.destroy_virtual_machine(options.merge({'id'=> self.id}))
           service.jobs.new(data["destroyvirtualmachineresponse"])
         end
 
