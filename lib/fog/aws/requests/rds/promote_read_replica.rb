@@ -37,18 +37,21 @@ module Fog
       class Mock
 
         def promote_read_replica(identifier, backup_retention_period = nil, preferred_backup_window = nil)
-          response = Excon::Response.new
 
-          unless skip_snapshot
-            create_db_snapshot(identifier, snapshot_identifier)
-          end
-
-          if server_set = self.data[:servers].delete(identifier)
-            response.status = 200
-            response.body = {
-              "ResponseMetadata"=>{ "RequestId"=> Fog::AWS::Mock.request_id },
-              "PromoteReadReplicaResult" => { "DBInstance" => server_set }
+          if self.data[:servers][identifier]
+            data = {
+                'BackupRetentionPeriod' => backup_retention_period || 1,
+                'PreferredBackupWindow' => preferred_backup_window || '08:00-08:30',
+                'DBInstanceIdentifier' => identifier
             }
+            self.data[:servers][identifier].merge(data)
+
+            response = Excon::Response.new
+            response.body = {
+                "ResponseMetadata" => { "RequestId" => Fog::AWS::Mock.request_id },
+                "PromoteReadReplicaResult" => { "DBInstance" => data}
+            }
+            response.status = 200
             response
           else
             raise Fog::AWS::RDS::NotFound.new("DBInstance #{identifier} not found")
