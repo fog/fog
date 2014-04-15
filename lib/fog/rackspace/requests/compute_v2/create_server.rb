@@ -30,6 +30,8 @@ module Fog
         #       * networks [Array]:
         #         * [Hash]:
         #           * uuid [String] - uuid of attached network
+        #       * config_drive [Boolean]: Wether to use a config drive or not
+        #       * user_data [String]: User data for cloud init
         # @raise [Fog::Compute::RackspaceV2::NotFound] - HTTP 404
         # @raise [Fog::Compute::RackspaceV2::BadRequest] - HTTP 400
         # @raise [Fog::Compute::RackspaceV2::InternalServerError] - HTTP 500
@@ -57,8 +59,8 @@ module Fog
           data['server']['OS-DCF:diskConfig'] = options[:disk_config] unless options[:disk_config].nil?
           data['server']['metadata'] = options[:metadata] unless options[:metadata].nil?
           data['server']['personality'] = options[:personality] unless options[:personality].nil?
-          data['server']['config_drive'] = options[:config_drive] unless
-options[:config_drive].nil?
+          data['server']['config_drive'] = options[:config_drive] unless options[:config_drive].nil?
+          data['server']['user_data'] = options[:user_data] unless options[:user_data].nil?
           data['server']['networks'] = options[:networks] || [
             { :uuid => '00000000-0000-0000-0000-000000000000' },
             { :uuid => '11111111-1111-1111-1111-111111111111' }
