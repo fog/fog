@@ -81,6 +81,11 @@ module Fog
           tags
         end
 
+	def promote_read_replica
+	  requires :id
+	  service.promote_read_replica(id)
+	end
+
         def modify(immediately, options)
           options[:security_group_names] ||= options['DBSecurityGroups']
           params = self.class.new(options).attributes_to_params
