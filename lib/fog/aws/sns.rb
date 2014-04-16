@@ -20,6 +20,7 @@ module Fog
       request :publish
       request :remove_permission
       request :set_topic_attributes
+      request :set_subscription_attributes
       request :subscribe
       request :unsubscribe
 

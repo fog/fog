@@ -107,7 +107,8 @@ module Fog
         end
 
         def path_from_queue_url(queue_url)
-          queue_url.split('.com', 2).last.sub(/^:[0-9]+/, '')
+          URI.parse(queue_url).path
+          # queue_url.split('.com', 2).last.sub(/^:[0-9]+/, '')
         end
 
         def request(params)
