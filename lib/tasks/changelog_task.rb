@@ -102,10 +102,11 @@ Watchers      | #{watchers}
         committer_pairs.collect {|pair| pair.first }
       end
 
-      def mvp_eligible?(committer)
+      def former_mvp?(committer)
          [
            'Aaron Suggs',
            'Ash Wilson',
+           'Benson Kalahar',
            'Brian Hartsock',
            'Chris Roberts',
            'Christopher Oliver',
@@ -139,7 +140,7 @@ Watchers      | #{watchers}
       def mvp
         return @mvp if @mvp
         committers_sorted_by_commits.each do |committer|
-          if mvp_eligible?(committer)
+          unless former_mvp?(committer)
             @mvp = committer
             return @mvp
           end
