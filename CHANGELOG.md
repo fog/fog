@@ -1,3 +1,157 @@
+## 1.22.0 04/17/2014
+*Hash* 6d2c2d0575f9f7337bd01d17428dc12b7105329a
+
+Statistic     | Value
+------------- | --------:
+Collaborators | 30
+Downloads     | 5038529
+Forks         | 1145
+Open Issues   | 157
+Watchers      | 2992
+
+**MVP!** Benson Kalahar
+
+#### [Brightbox]
+*   Update testing to MiniTest::Spec. thanks Paul Thornthwaite
+*   Test error when required args missing. thanks Paul Thornthwaite
+
+#### [GH-1390]
+*   Remove redundant calls to Fog.credentials. thanks Paul Thornthwaite
+
+#### [GH-2793]
+*   Exclude examples from documented methods. thanks Paul Thornthwaite
+
+#### [OpenStack]
+*   Use JSON instead of XML. thanks Evan Light
+
+#### [Rackspace]
+*   Remove circular requires from Storage. thanks Paul Thornthwaite
+
+#### [Rackspace|Monitoring]
+*   Add disabled flag to alarm.  Fixes issue #2731. thanks rebelagentm
+
+#### [Vsphere]
+*   Isolate helper from core. thanks Paul Thornthwaite
+
+#### [core]
+*   Remove providers/ directory from core fog gem. thanks Dominic Cleal
+*   converted changelog to markdown format. thanks Kyle Rames
+*   updated rake releases to generate markdown; added github_release task to publish to release feed. thanks Kyle Rames
+*   tweaking per @icco; fixing broken build. thanks Kyle Rames
+*   fixing gemspec for 1.8.7. thanks Kyle Rames
+*   locking rbovirt down to version 0.0.24 as the newly released 0.0.25 had broken some of our tests. thanks Kyle Rames
+
+#### [ecloud]
+*   adding :base_path as recognized parameter. thanks Kyle Rames
+
+#### [fog-brightbox]
+*   Prepare for v0.0.2 release. thanks Paul Thornthwaite
+*   Correct CHANGELOG categories. thanks Paul Thornthwaite
+
+#### [google]
+*   fixes set_tags. thanks Eric Johnson
+*   fix service_account scopes. thanks Eric Johnson
+
+#### [google|compute]
+*   allow user to set disk description. thanks Eric Johnson
+*   adding automaticRestart and onHostMaintenance. thanks Eric Johnson
+*   fix instance tags and remove zone lookup call. thanks Eric Johnson
+*   Add Projects support. thanks Ferran Rodenas
+*   Modify Flavors. thanks Ferran Rodenas
+*   Complete Operations support. thanks Ferran Rodenas
+*   Modify Snapshots. thanks Ferran Rodenas
+*   Add Firewalls support. thanks Ferran Rodenas
+*   Add Addresses support. thanks Ferran Rodenas
+*   Add Networks support. thanks Ferran Rodenas
+*   Add Routes support. thanks Ferran Rodenas
+*   Add Regions support. thanks Ferran Rodenas
+*   Make destroy methods consistent. thanks Nat Welch
+*   Update default zone and image. thanks Nat Welch
+*   Also tweak default disk in tests. thanks Nat Welch
+
+#### [joyent|compute]
+*   Added attributes to cloudapi responses recently to servers, Closes #2800. thanks Kevin Chan
+
+#### [misc]
+*   Allow auth URLs without a trailing slash. thanks Abhishek Chanda
+*   Spelling, trailing whitespace. thanks Ash Wilson
+*   Include the port in temp_url if necessary. thanks Ash Wilson
+*   Use URI::Generic.build to build the URI, instead. thanks Ash Wilson
+*   Test the relevant bits of the temp_urls explicitly. thanks Ash Wilson
+*   Refactor out common bits from temp_url tests. thanks Ash Wilson
+*   Fix get_object_http_url, too. thanks Ash Wilson
+*   One less extraneous whitespace change. thanks Ash Wilson
+*   Apply the pending modifier before Storage.new. thanks Ash Wilson
+*   adding #all! to Fog::DNS::Rackspace::Records to load in all records for a zone (max 500 with Rackspace). thanks Ben Hundley
+*   replacing #all! in Fog::DNS::Rackspace::Records with pagination in #each. thanks Ben Hundley
+*   Adds first cut of GCE http health checks. thanks Benson Kalahar
+*   @icco still can't spell. thanks Benson Kalahar
+*   Adds target pools. thanks Benson Kalahar
+*   Adds forwarding rules. It is possible to set up a load balancer. thanks Benson Kalahar
+*   Removed questionably trustworthy mocking code. thanks Benson Kalahar
+*   Also removed untrustworthy region operation mock. thanks Benson Kalahar
+*   Adds load balancer example, and fixes http_health_check bug. thanks Benson Kalahar
+*   Makes sleep before deleting disks longer to be safe. thanks Benson Kalahar
+*   Cleans up load balancer example. thanks Benson Kalahar
+*   Adds support for changing forwarding rule targets. thanks Benson Kalahar
+*   It might work. thanks Benson Kalahar
+*   Removes modification, instead relying on reload. thanks Benson Kalahar
+*   Makes disk delete optionally async. thanks Benson Kalahar
+*   Cloudstack servers get function will now find VM in projects for normal     users. thanks Carl Loa Odin
+*   fixed misspelling. thanks Christian Berendt
+*   few minor fixes. thanks Eric Johnson
+*   another quick fix. thanks Eric Johnson
+*   fix destroy and add ready?, other little cleanups. thanks Eric Johnson
+*   Replaces Fog::XML::Connection with Fog::Core::Connection so as to use     JSON again instead of wrongly using XML. thanks Evan Light
+*   Improve checking for Cloud Queue message IDs. thanks  Ollie
+*   don't use named capture groups for ruby 1.8.7 compatibility. thanks  Ollie
+*   Adding support for IAM roles and STS in the AWS::IAM service. thanks Joshua Garnett
+*   Adding refresh_credentials_if_expired to IAM#request. thanks Joshua Garnett
+*   Adding support for AWS IAM ListMFADevices API. thanks Joshua Garnett
+*   Adding a unit test for list_mfa_devices.  Also, fixed parsing of EnableData to use Time.parse. thanks Joshua Garnett
+*   Adding support for udplimit paramater in rage4 api. thanks Joshua Gross
+*   making tests ruby 1.8.7 friendly. thanks Joshua Gross
+*   Fix issue #2796 (AWS describe_dhcp_options request parsing). thanks Konstantinos Natsakis
+*   Correctly index SecurityGroupId parameter when it is inside a NetworkInterfaces hash. thanks Kunal Thakar
+*   rebasing with master. thanks Kyle Rames
+*   adding github_release dependency to edge gemfile. thanks Kyle Rames
+*   Fix syntax errors in an OpenStack example script. thanks Larry Gilbert
+*   The server password (adminPass) should can be set during server creation. thanks Max Lincoln
+*   The password attribute doesn't like the use of @password. thanks Max Lincoln
+*   info is now called json. thanks Michael Sprauer
+*   fixed examples for HPC access. thanks Mike Hagedorn
+*   Fix build broken by 96a56b954eec6c2e93e0b9f696bed08c8414d1d7. thanks Nat Welch
+*   Fix Disk tests. thanks Nat Welch
+*   Lists disks isn't a valid test since response varies greatly by disk. thanks Nat Welch
+*   Removed unicode NFC normalization of S3 object keys. thanks Nathan Sutton
+*   Lock rake to 10.1 for Ruby 1.8.7. thanks Paul Thornthwaite
+*   Move 1.8.7's Gemfile for subdirectory. thanks Paul Thornthwaite
+*   Fix reference to fog's gemspec. thanks Paul Thornthwaite
+*   Test the latest edge version of fog and parts. thanks Paul Thornthwaite
+*   Switch testing to MiniTest::Spec. thanks Paul Thornthwaite
+*   Remove deprecated `host` Excon option from dynamodb. thanks Pedro Belo
+*   . fix ruby-libvirt library require name (libvirt). thanks Reda NOUSHI
+*   Add the ability to pass an options Hash to DataPipeline#describe_objects. thanks Tom Hulihan
+*   fix documentation of unmounting volumes. thanks Toni Stjepanovic
+*   Allow v2 authentication url with trailing slash. thanks nis Simo
+*   ISSUE-2824 Adding user_data to rackspace provider. thanks Yann Hamon
+
+#### [openstack|network]
+*   updated create_router and update_router use symbol based keys instead of string; removed dead code; this should address #2799. thanks Kyle Rames
+*   fixing broken tests. thanks Kyle Rames
+*   fixing broken tests; added deprecation warning about removing support for passing model objects into the request layer. thanks Kyle Rames
+*   taking another shot at repairing a broken test. thanks Kyle Rames
+
+#### [openstack|networking]
+*   fixing tests. thanks Kyle Rames
+
+#### [vcloud_director]
+*   fix progress reporting of tasks without progress. thanks Dan Abel
+
+#### [vsphere]
+*   check for string true/false instead of boolean. thanks geemus
+
+
 ## 1.21.0 03/18/2014
 *Hash* c9dfbd5b4d3687b5c809f6617ba9a5454a2a9c49
 

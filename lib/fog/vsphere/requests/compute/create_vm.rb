@@ -134,7 +134,7 @@ module Fog
             )
           }
 
-          if operation == :add && disk.thin == false && disk.eager_zero
+          if operation == :add && disk.thin == 'false' && disk.eager_zero == 'true'
             payload[:device][:backing][:eagerlyScrub] = disk.eager_zero
           end
 
