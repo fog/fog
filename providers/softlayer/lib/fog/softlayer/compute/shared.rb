@@ -29,10 +29,6 @@ module Fog
           @credentials   = { :username => options[:softlayer_username], :api_key => options[:softlayer_api_key] }
         end
 
-        def self.vm_id
-          Fog::Mock.random_numbers(7)
-        end
-
         def self.valid_request?(required, passed)
           required.all? {|k| passed.key?(k)}
         end

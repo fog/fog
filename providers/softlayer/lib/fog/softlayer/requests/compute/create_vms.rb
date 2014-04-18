@@ -16,7 +16,7 @@ module Fog
         # @option opts [Integer] "startCpus"
         #   Number of CPU cores provisioned for the VM.
         # @option opts [Integer] "maxMemory"
-        #   Available RAM for the VM in KB.  Valid arguments are 1024, 2048, 4096, 6144, 8192, 12288, 16384, 32768, 49152, 65536
+        #   Available RAM for the VM in MB.  Valid arguments are 1024, 2048, 4096, 6144, 8192, 12288, 16384, 32768, 49152, 65536
         # @option opts [Boolean] "hourlyBillingFlag"
         #   Should the VM be billed hourly or monthly (monthly is less expensive, minimum charge of 1 month).
         # @option opts [Boolean] "localDiskFlag"

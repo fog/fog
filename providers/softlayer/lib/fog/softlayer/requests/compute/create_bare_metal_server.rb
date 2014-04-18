@@ -4,7 +4,7 @@ module Fog
 
       class Mock
 
-        # Launch one or more SoftLayer VMs.
+        # Launch a SoftLayer BMC server.
         #
         # @param [Array<Hash>] opts
         # @option opts [Array<Hash>] :body
@@ -34,7 +34,7 @@ module Fog
           begin
             Fog::Softlayer.valid_request?(required, opts) or raise MissingRequiredParameter
             response.status = 200
-            # a real response comes back with lots of nil values like this too, it takes 1 - 2 hours for a real VM to provision
+            # a real response comes back with lots of nil values like this too, it takes 1 - 2 hours for a real BMC server to provision
             response.body = {
                 "accountId" =>  Fog::Softlayer.mock_account_id,
                 "createDate" => Time.now.iso8601,

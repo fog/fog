@@ -6,7 +6,7 @@ module Fog
   module Softlayer
     extend Fog::Provider
 
-    API_URL = 'api.softlayer.com/rest/v3' unless defined? AUTH_ENDPOINT
+    API_URL = 'api.softlayer.com/rest/v3' unless defined? API_URL
 
     service(:compute, 'Compute')
 

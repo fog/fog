@@ -403,6 +403,7 @@
 * Mateusz Juraszek <meceo00@gmail.com>
 * Matheus Mina <mfbmina@gmail.com>
 * Mathias Meyer <meyer@paperplanes.de>
+* Matt Eldridge <matt.eldridge@us.ibm.com>
 * Matt Gillooly <matt@swipely.com>
 * Matt Griffin <matt@griffinonline.org>
 * Matt Pokress <matt.pokress@imagefortress.com>

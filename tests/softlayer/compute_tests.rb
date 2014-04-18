@@ -2,10 +2,6 @@ Shindo.tests('Fog::Compute[:softlayer]', ['softlayer']) do
 
   @test_service = Fog::Compute[:softlayer]
 
-  #tests("#respond_to? :default_image").returns(true) do
-  #  @test_service.respond_to?(:default_image)
-  #end
-
 end
 
 Shindo.tests('Fog::Compute.new', ['softlayer']) do
