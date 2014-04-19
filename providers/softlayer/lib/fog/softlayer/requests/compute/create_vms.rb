@@ -1,3 +1,9 @@
+#
+# Author:: Matt Eldridge (<matt.eldridge@us.ibm.com>)
+# © Copyright IBM Corporation 2014.
+#
+# LICENSE: MIT (http://opensource.org/licenses/MIT)
+#
 module Fog
   module Compute
     class Softlayer
@@ -71,6 +77,7 @@ module Fog
                 "error" => "Properties #{required.join(', ')} ALL must be set to create an instance of 'SoftLayer_Hardware'."
             }
           end
+          @virtual_guests.push(response.body).flatten!
           response
         end
 

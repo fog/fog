@@ -32,8 +32,21 @@ Shindo.tests("Fog::Compute[:softlayer] | server requests", ["softlayer"]) do
 
     tests("#create_vm('#{@vm}')") do
       response = @sl_connection.create_vm(@vm)
+      @vm_id = response.body.first['id']
       data_matches_schema([Softlayer::Compute::Formats::VirtualGuest::SERVER], {:allow_extra_keys => true}) { response.body }
       data_matches_schema(200) { response.status }
+    end
+
+    tests"#get_vms()" do
+      @sl_connection.get_vms.body.each do |vm|
+        data_matches_schema(Softlayer::Compute::Formats::VirtualGuest::SERVER) { vm }
+      end
+    end
+
+    tests("#delete_vm('#{@vm_id})'") do
+      response = @sl_connection.delete_vm(@vm_id)
+      data_matches_schema(true) {response.body}
+      data_matches_schema(200) {response.status}
     end
   end
 
@@ -58,6 +71,12 @@ Shindo.tests("Fog::Compute[:softlayer] | server requests", ["softlayer"]) do
 
     tests("#create_vm(#{@vms}").raises(ArgumentError) do
       @sl_connection.create_vm(@vms)
+    end
+
+    tests("#delete_vm('99999999999999')'") do
+      response = @sl_connection.delete_vm(99999999999999)
+      data_matches_schema(String) {response.body}
+      data_matches_schema(500) {response.status}
     end
 
   end

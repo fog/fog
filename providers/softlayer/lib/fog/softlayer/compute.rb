@@ -46,6 +46,13 @@ module Fog
       #
       class Mock
         include Fog::Softlayer::Compute::Shared
+        attr_accessor :virtual_guests, :bare_metal_servers
+
+        def initialize(args)
+          @virtual_guests = []
+          @bare_metal_servers = []
+          super(args)
+        end
 
         def request(method, path, expected_responses, parameters = {})
           _request
