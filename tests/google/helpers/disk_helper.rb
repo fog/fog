@@ -4,7 +4,7 @@ def create_test_disk(connection, zone)
   disk = connection.disks.create({
     :name => "fogservername",
     :size_gb => "2",
-    :zone_name => zone,
+    :zone => zone,
     :source_image => "debian-7-wheezy-v20140408",
   })
   disk.wait_for { ready? }
