@@ -1,5 +1,6 @@
 * Aaron Bell <aarontbell@gmail.com>
 * Aaron Suggs <aaron@ktheory.com>
+* Abhishek Chanda <abhishek.becs@gmail.com>
 * Adam Bozanich <adam.boz@gmail.com>
 * Adam Greene <adam@sweetspotdiabetes.com>
 * Adam Heinz <amh@metricwise.net>
@@ -63,6 +64,7 @@
 * Arthur Gunawan <acgun3@gmail.com>
 * Arvid Andersson <arvid@winstondesign.se>
 * Ash Wilson <ash.wilson@rackspace.com>
+* Ash Wilson <smashwilson@gmail.com>
 * Athir Nuaimi <anuaimi@devfoundry.com>
 * Avrohom Katz <iambpentameter@gmail.com>
 * BK Box <bk@theboxes.org>
@@ -74,6 +76,7 @@
 * Ben Hundley <ben.hundley@gmail.com>
 * Ben Turley <ben@scan.me>
 * Benjamin Manns <benmanns@gmail.com>
+* Benson Kalahar <bensonk42@gmail.com>
 * Benton Roberts <benton@bentonroberts.com>
 * Benton Roberts <broberts@mdsol.com>
 * Blake Gentry <blakesgentry@gmail.com>
@@ -88,6 +91,7 @@
 * Bradley Schaefer <bradley.schaefer@gmail.com>
 * Brandon Dunne <bdunne@redhat.com>
 * Brendan Fosberry <brendan.fosberry@rackspace.com>
+* Brett Porter <brett@apache.org>
 * Brian D. Burns <iosctr@gmail.com>
 * Brian Dorry <bdorry@Brian-Dorrys-MacBook-Pro.local>
 * Brian Hartsock <brian.hartsock@gmail.com>
@@ -102,6 +106,7 @@
 * Carl Allen <callen@book.com>
 * Carl Caum <carl@carlcaum.com>
 * Carl Hicks <carl.hicks@gmail.com>
+* Carl Loa Odin <carl.loa.odin@klarna.com>
 * Carl Woodward <carl@88cartell.com>
 * Carl Woodward <carl@Carls-MacBook-Pro.local>
 * Carlos Sanchez <csanchez@maestrodev.com>
@@ -117,10 +122,12 @@
 * Chris Frederick <chris@maginatics.com>
 * Chris Hasenpflug <github@chris.hasenpflug.us>
 * Chris Howe <howech@infochimps.com>
+* Chris Kershaw <ckershaw@6fusion.com>
 * Chris Mague <github@mague.com>
 * Chris Roberts <chrisroberts.code@gmail.com>
 * Chris Wuest <chris.wuest@rackspace.com>
 * Chris Wuest <chris@chriswuest.com>
+* Christian Berendt <berendt@b1-systems.de>
 * Christian Paredes <cp@redbluemagenta.com>
 * Christoph Schiessl <chs@proactive.cc>
 * Christoph Witzany <christoph@web.crofting.com>
@@ -128,6 +135,7 @@
 * Christopher Meiklejohn <christopher.meiklejohn@gmail.com>
 * Christopher Oliver <coliver@coliverlaptop.(none)>
 * Christopher Oliver <coliver@datapipe.com>
+* Christopher Snell <chris.snell@gmail.com>
 * Claudio Poli <masterkain@gmail.com>
 * Coby Randquist <randquistcp@gmail.com>
 * Cody Herriges <c.a.herriges@gmail.com>
@@ -186,11 +194,13 @@
 * Eric Hankins <ehankins@rednovalabs.com>
 * Eric Herot <eric.github@herot.com>
 * Eric Hodel <drbrain@segment7.net>
+* Eric Johnson <erjohnso@google.com>
 * Eric Lindvall <eric@5stops.com>
 * Eric Stonfer <ericstonfer@yahoo.com>
 * Eric Stonfer <estonfer@gmail.com>
 * Eric Stonfer <estonfer_ldap@ccppup-ae-a001-p.ae.ccp.cable.comcast.com>
 * Eric Wong <ericsyw@gmail.com>
+* Erik Mackdanz <erik@infochimps.com>
 * Erik Michaels-Ober <sferik@gmail.com>
 * Erik Terpstra <erterpstra@gmail.com>
 * Eugene Howe & Josh Lane <ehowe@engineyard.com>
@@ -221,6 +231,7 @@
 * Glenn Tweedie <glenn.tweedie@agworld.com.au>
 * Greg Blomquist <gblomqui@redhat.com>
 * Greg Sutcliffe <greg.Sutcliffe@gmail.com>
+* Greg Sutcliffe <gsutclif@redhat.com>
 * Grégory Karékinian <greg@karekinian.com>
 * Grzesiek Kolodziejczyk <gkolodziejczyk@gmail.com>
 * Gustavo Villalta <gvillalta99@gmail.com>
@@ -254,6 +265,7 @@
 * James Stremick <james.stremick@gmail.com>
 * James W. Brinkerhoff <jwb@paravolve.net>
 * Jamie H <jamie@limetree.org>
+* Jamie Paton <jamiep@activestate.com>
 * Jason Faulkner <jay@jvf.cc>
 * Jason Hansen & Josh Lane <jhansen@engineyard.com>
 * Jason Montleon <jmontleo@redhat.com>
@@ -262,6 +274,7 @@
 * Jay Faulkner <jay.faulkner@rackspace.com>
 * Jay Perry <jperry@brightcove.com>
 * Jeff McCune <jeff@puppetlabs.com>
+* Jeffrey C. Ollie <jeff@ocjtech.us>
 * Jens Braeuer <jens@numberfour.eu>
 * Jeremy Deininger <jeremy@rightscale.com>
 * Jesse Davis <jdavis@vcharge-energy.com>
@@ -269,6 +282,7 @@
 * Jesse Proudman <jesse.proudman@blueboxgrp.com>
 * Jesse Proudman <jproudman@nova.(none)>
 * Jesse Scott <jesse.c.scott@gmail.com>
+* Jim Berlage <jberlage@mdsol.com>
 * Jim Salinas <jim.salinas@rackspace.com>
 * Joachim Nolten <joachim@viewbook.com>
 * Joe Kinsella <joe.kinsella@gmail.com>
@@ -304,11 +318,13 @@
 * Josh Kearney <josh@jk0.org>
 * Josh Lane & Ines Sombra <jlane@engineyard.com>
 * Josh Lane & Jason Hansen <jlane@engineyard.com>
+* Josh Lane & Thom Mahoney <jlane@engineyard.com>
 * Josh Lane <jlane@engineyard.com>
 * Josh Lane <lane.joshlane@gmail.com>
 * Josh Lane <me@joshualane.com>
 * Josh Pasqualetto <josh.pasqualetto@sonian.net>
 * Josh Yotty <jyotty@bluebox.net>
+* Joshua Garnett <josh@kixeye.com>
 * Joshua Gross <joshua@surfeasy.com>
 * Joshua Krall <joshuakrall@pobox.com>
 * Joshua Napoli <jnapoli@swipely-napoli.home>
@@ -336,14 +352,18 @@
 * Kevin McFadden <kmcfadden@gmail.com>
 * Kevin Menard <nirvdrum@gmail.com>
 * Kevin Moore <kevin@thinkpixellab.com>
+* Kevin Olbrich <kolbrich@6fusion.com>
 * Konstantin Haase <konstantin.mailinglists@googlemail.com>
+* Konstantinos Natsakis <k.natsakis@xe.gr>
 * Kunal Parikh <kunal@techthumb.in>
+* Kunal Thakar <kthakar@twilio.com>
 * Kyla Kolb <kkolb@mitre.org>
 * Kyle Drake <kyledrake@gmail.com>
 * Kyle Rames <kyle.rames@rackspace.com>
 * Kyle Rames <kyle@rames.org>
 * Lance Carlson <lancecarlson@gmail.com>
 * Lance Ivy <lance@cainlevy.net>
+* Larry Gilbert <larry@l2g.to>
 * Larry Wright <larrywright@gmail.com>
 * Lars Pind <lars@pinds.com>
 * Laurent Bigonville <bigon@bigon.be>
@@ -374,6 +394,7 @@
 * Mark Phillips <mark.phillips2@bskyb.com>
 * Mark Rushakoff <mark.rushakoff@gmail.com>
 * Mark Turner <mark@amerine.net>
+* Markus Schwed <maschwed@anynines.com>
 * Marshall Yount <marshall@yountlabs.com>
 * Martin Emde <martin.emde@gmail.com>
 * Martin Englund <martin@englund.nu>
@@ -408,6 +429,7 @@
 * Michael Keirnan <mgk@noteflight.com>
 * Michael Linderman <mlinderm@stanford.edu>
 * Michael Rykov <mrykov@gmail.com>
+* Michael Sprauer <Sprauer@Inline.de>
 * Michael Zeng <michaelzeng@swipely.com>
 * Michał Krzyżanowski <michal.krzyzanowski+github@gmail.com>
 * Michiel Sikkes <michiel.sikkes@gmail.com>
@@ -416,6 +438,7 @@
 * Mike Gehard <mgehard@pivotallabs.com>
 * Mike Hagedorn <mike@silverchairsolutions.com>
 * Mike Manewitz <mike.manewitz@gmail.com>
+* Mike Marion <mike.marion@gmail.com>
 * Mike Moore <mike@blowmage.com>
 * Mike Pountney <Mike.Pountney@gmail.com>
 * Ming Jin <skyairmj@gmail.com>
@@ -463,6 +486,7 @@
 * Paul Vudmaska <Paul.Vudmaska@Rackspace.com>
 * Paulo Henrique Lopes Ribeiro <plribeiro3000@gmail.com>
 * Pavel Repin <prepin@gmail.com>
+* Pedro Belo <pedro@heroku.com>
 * Pedro Nascimento <pnascimento@gmail.com>
 * Pedro Perez <pedro@bvox.net>
 * Peter Bonnell <peter@circuitllc.com>
@@ -488,6 +512,7 @@
 * Pratik Naik <pratiknaik@gmail.com>
 * Rad Gruchalski <radek@gruchalski.com>
 * Raphael Costa <raphael@raphaelcosta.net>
+* Reda NOUSHI <reda_noushi@yahoo.com>
 * Reinaldo Junior <juniorz@gmail.com>
 * Rich Lane <rlane@club.cc.cmu.edu>
 * Rick Bradley <rick@rickbradley.com>
@@ -502,6 +527,7 @@
 * Ruben Koster <ruben.koster@innovationfactory.eu>
 * Rupak Ganguly <rupakg@gmail.com>
 * Rusty Geldmacher <rgeldmacher@sermo.com>
+* Ryan Davies <ryan@ryandavies.co.nz>
 * Ryan Richard <ryanrichard07@gmail.com>
 * Ryan Stout <ryanstout@gmail.com>
 * Sairam <sairam@kunala.com>
@@ -514,6 +540,7 @@
 * Samuel Merritt <spam@andcheese.org>
 * Sarah Vessels <sarah.vessels@cirrusmio.com>
 * Sascha Korth <sascha.korth@zweitag.de>
+* Scott Carleton <scott@artsicle.com>
 * Scott Gonyea <me@aitrus.org>
 * Sean Caffery <sean.caffery@c3businesssolutions.com>
 * Sean Handley <sean.handley@gmail.com>
@@ -573,16 +600,19 @@
 * Toby Hede <tobyhede@info-architects.net>
 * Todd Willey <todd@rubidine.com>
 * Todd Willey <xtoddx@gmail.com>
+* Tom Hulihan <hulihan.tom159@gmail.com>
 * Tom Mornini <tmornini@engineyard.com>
 * Tom Stuart <tom@experthuman.com>
 * Tomasz Bak <tomasz.bak@nsn.com>
 * Tomokazu Hirai <tomokazu.hirai@kddi-web.com>
+* Toni Stjepanovic <toni.stjepanovic@gmail.com>
 * Topper Bowers <topper@toppingdesign.com>
 * Tor-Ake Fransson <torakef@gmail.com>
 * Trae Robrock <trobrock@gmail.com>
 * Trevor Bramble <inbox@trevorbramble.com>
 * Trevor Bramble <tbramble@bluebox.net>
 * Trotter Cashion <cashion@gmail.com>
+* Tõnis Simo <anton.estum@gmail.com>
 * Ulf Mansson <ulf.mansson@recordedfuture.com>
 * Vadim Spivak <vspivak@vmware.com>
 * Viktor Petersson <vpetersson@wireload.net>
@@ -603,6 +633,7 @@
 * William Lawson <lawson.bj@gmail.com>
 * Wyatt Walter <wyattwalter@gmail.com>
 * Xavier Fontrodona <xavier.fontrodona@safelayer.com>
+* Yann Hamon <Yann@trailburning.com>
 * Yauheni Kryudziuk <yauheni.kryudziuk@xing.com>
 * Your Name <seanhart@funzio.com>
 * Zachary Danger Campbell <zacharydangercampbell@gmail.com>
@@ -612,6 +643,7 @@
 * Zuhaib M Siddique <zuhaib@hipchat.com>
 * Zuhaib Siddique <zuhaib.siddique@leapfile.com>
 * aabes <a_abes@yahoo.com>
+* abenari <abenari@redhat.com>
 * alex <alex@alex-HP-ProBook-4510s.(none)>
 * althras <althras@gmail.com>
 * angus <ags@sdx.com.au>
@@ -627,6 +659,7 @@
 * bonkydog <bonkydog@bonkydog.com>
 * brookemckim <brooke.mckim@gmail.com>
 * bugagazavr <kirik910@gmail.com>
+* caryp <cary@rightscale.com>
 * ccloes <chad_cloes@intuit.com>
 * coliver <coliver@datapipe.com>
 * crazed <cr4z3d@gmail.com>
@@ -656,6 +689,7 @@
 * jc00ke <jesse@jc00ke.com>
 * jimworm <jimworm@gmail.com>
 * joe <jmorgan@rednovalabs.com>
+* joe morgan <jmorgan@rednovalabs.com>
 * joewilliams <joe@der-dieb.local>
 * jordangbull <jordangbull@gmail.com>
 * jschneiderhan <jon-erik.schneiderhan@meyouhealth.com>
@@ -663,6 +697,7 @@
 * kbockmanrs <kevin@rightscale.com>
 * kfafel <keith.fafel@gmail.com>
 * leehuffman <lhuffman@bluebox.net>
+* leonidlm <leonidlm@gmail.com>
 * lostboy <paul.crabtree@gmail.com>
 * marios <marios@marios.(none)>
 * marios <marios@redhat.com>
@@ -677,10 +712,12 @@
 * phillc <spyyderz@gmail.com>
 * questionnet <zacccp@mail.ru>
 * radekg <radek@gruchalski.com>
+* rebelagentm <rebelagentm@yahoo.com>
 * ronen barzel <ronen@barzel.org>
 * rsalm <rs@iki.fi>
 * ryanlower <rpjlower@gmail.com>
 * sashap <sasha@mythictechnologies.com>
+* sawanoboly <sawanoboriyu@higanworks.com>
 * seanhandley <seanhandley@hackmanchester.com>
 * seeingidog <ian@ruby-code.com>
 * thattommyhall <thattommyhall@gmail.com>

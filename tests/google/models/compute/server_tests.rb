@@ -25,7 +25,7 @@ Shindo.tests("Fog::Compute[:google] | server model", ['google']) do
 
     test('#destroy') do
       response = @instance.destroy
-      response.body['operationType'] == 'delete'
+      response.operation_type == 'delete'
     end
   end
 end
