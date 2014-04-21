@@ -9,6 +9,7 @@ module Fog
 
       request_path 'fog/google/requests/compute'
       request :list_servers
+      request :list_aggregated_servers
       request :list_addresses
       request :list_aggregated_addresses
       request :list_disks
@@ -85,6 +86,15 @@ module Fog
       request :remove_target_pool_instances
       request :remove_target_pool_health_checks
       request :set_common_instance_metadata
+
+      request :attach_disk
+      request :detach_disk
+      request :get_server_serial_port_output
+      request :reset_server
+      request :set_server_disk_auto_delete
+      request :set_server_scheduling
+      request :add_server_access_config
+      request :delete_server_access_config
 
       model_path 'fog/google/models/compute'
       model :server
