@@ -1,8 +1,3 @@
-require 'fog/rackspace/models/storage/directory'
-require 'fog/rackspace/models/storage/file'
-require 'fog/rackspace/models/storage/directories'
-require 'fog/rackspace/models/storage/files'
-
 module Fog
   module Storage
     class Rackspace

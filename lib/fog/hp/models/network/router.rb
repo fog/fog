@@ -10,7 +10,7 @@ module Fog
         attribute :name
         attribute :tenant_id
         attribute :external_gateway_info
-        attribute :admin_state_up
+        attribute :admin_state_up, :type => :boolean
         attribute :status
 
         def destroy

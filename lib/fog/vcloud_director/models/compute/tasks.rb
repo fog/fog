@@ -14,6 +14,7 @@ module Fog
           data = service.get_task(id).body
           return nil unless data
           data[:id] = data[:href].split('/').last
+          data[:progress] ||= 0
           new(data)
         end
 

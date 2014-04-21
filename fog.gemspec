@@ -6,8 +6,8 @@ Gem::Specification.new do |s|
   ## If your rubyforge_project name is different, then edit it and comment out
   ## the sub! line in the Rakefile
   s.name              = 'fog'
-  s.version           = '1.21.0'
-  s.date              = '2014-03-18'
+  s.version           = '1.22.0'
+  s.date              = '2014-04-17'
   s.rubyforge_project = 'fog'
 
   ## Make sure your summary is short. The description may be as long
@@ -58,7 +58,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency('rbvmomi')
   s.add_development_dependency('yard')
   s.add_development_dependency('thor')
-  s.add_development_dependency('rbovirt', '>= 0.0.24')
+  s.add_development_dependency('rbovirt', '0.0.24')
   s.add_development_dependency('shindo', '~> 0.3.4')
   s.add_development_dependency('fission')
   s.add_development_dependency('pry')

@@ -12,14 +12,14 @@ module Fog
 
       class Real
 
-        def set_tags(instance, zone, tags=[])
+        def set_tags(instance, zone, fingerprint, tags=[])
           api_method = @compute.instances.set_tags
           parameters = {
             'project' => @project,
             'instance' => instance,
             'zone' => zone
           }
-          body_object = { "items" => tags }
+          body_object = { "fingerprint" => fingerprint, "items" => tags }
           result = self.build_result(
             api_method,
             parameters,

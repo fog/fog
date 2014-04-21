@@ -82,7 +82,7 @@ module Fog
           deprecation_warnings(options)
 
           @persistent = options[:persistent] || false
-          @connection = Fog::XML::Connection.new(endpoint_uri.to_s, @persistent, @connection_options)
+          @connection = Fog::Core::Connection.new(endpoint_uri.to_s, @persistent, @connection_options)
         end
 
         def request(params, parse_json = true)
@@ -156,7 +156,7 @@ module Fog
           end
 
           unless options[:rackspace_region]
-            Fog::Logger.deprecation("Default region support will be removed in an upcoming release. Please switch to manually setting your endpoint. This requires settng the :rackspace_region option")
+            Fog::Logger.deprecation("Default region support will be removed in an upcoming release. Please switch to manually setting your endpoint. This requires setting the :rackspace_region option")
           end
         end
 
