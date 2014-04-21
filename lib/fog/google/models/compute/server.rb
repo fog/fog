@@ -105,6 +105,10 @@ module Fog
           ip
         end
 
+        def addresses
+          [private_ip_address, public_ip_address]
+        end
+
         def attach_disk(disk, options = {})
           requires :identity, :zone
 
