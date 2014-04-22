@@ -4,8 +4,10 @@ class Brightbox < Fog::Bin
       case key
       when :compute
         Fog::Compute::Brightbox
+      when :storage
+        Fog::Storage::Brightbox
       else
-        raise ArgumentError, "Unrecognized service: #{key}"
+        raise ArgumentError, "Unsupported #{self} service: #{key}"
       end
     end
 
