@@ -4,7 +4,7 @@ module Fog
   module Compute
     class OpenNebula
 
-      class Nic < Fog::Model
+      class Interface < Fog::Model
 
         identity :id
         attribute :vnet
@@ -19,7 +19,7 @@ module Fog
         end
 
         def save
-          raise Fog::Errors::Error.new('Creating a new nic is not yet implemented. Contributions welcome!')
+          raise Fog::Errors::Error.new('Creating a new interface is not yet implemented. Contributions welcome!')
         end
 
         def destroy

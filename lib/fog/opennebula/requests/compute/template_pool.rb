@@ -46,24 +46,24 @@ module Fog
             h.merge! t.to_hash["VMTEMPLATE"]["TEMPLATE"]
 
             # h["NIC"] has to be an array of nic objects
-            interfaces = h["NIC"] unless h["NIC"].nil?
+            nics = h["NIC"] unless h["NIC"].nil?
             h["NIC"] = [] # reset nics to a array
-            if interfaces.is_a? Array
-              interfaces.each do |n|
+            if nics.is_a? Array
+              nics.each do |n|
                 n["model"] = "virtio" if n["model"].nil?
                 n["uuid"] = "0" if n["uuid"].nil? # is it better is to remove this NIC?
-                h["NIC"] << nics.new({ :vnet => networks.get(n["uuid"]), :model => n["model"]})
+                h["NIC"] << interfaces.new({ :vnet => networks.get(n["uuid"]), :model => n["model"]})
               end
-            elsif interfaces.is_a? Hash
-              interfaces["model"] = "virtio" if interfaces["model"].nil?
-              interfaces["uuid"] = "0" if interfaces["uuid"].nil? # is it better is to remove this NIC?
-              h["NIC"] << nics.new({ :vnet => networks.get(interfaces["uuid"]), :model => interfaces["model"]})
+            elsif nics.is_a? Hash
+              nics["model"] = "virtio" if nics["model"].nil?
+              nics["uuid"] = "0" if nics["uuid"].nil? # is it better is to remove this NIC?
+              h["NIC"] << interfaces.new({ :vnet => networks.get(nics["uuid"]), :model => nics["model"]})
             else
               # should i break?
             end
 
             h
-					end
+	  end
 
           templates 
         end #def template_pool
