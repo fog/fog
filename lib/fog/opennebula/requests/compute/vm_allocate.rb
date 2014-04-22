@@ -48,9 +48,14 @@ module Fog
             temp = one["VM"]["TEMPLATE"]
             data["cpu"]    =  temp["VCPU"] 	unless temp["VCPU"].nil?
             data["memory"] =  temp["MEMORY"] 	unless temp["MEMORY"].nil?
-            unless (temp["NIC"].nil?) then
-              data["mac"]	=	temp["NIC"]["MAC"] 	unless temp["NIC"]["MAC"].nil?
-              data["ip"]	=	temp["NIC"]["IP"] 	unless temp["NIC"]["IP"].nil?
+	    unless (temp["NIC"].nil?) then
+		    if one["VM"]["TEMPLATE"]["NIC"].is_a?(Array)
+			    data["mac"]	=	temp["NIC"][0]["MAC"] 	unless temp["NIC"][0]["MAC"].nil?
+			    data["ip"]	=	temp["NIC"][0]["IP"] 	unless temp["NIC"][0]["IP"].nil?
+		    else
+			    data["mac"]	=	temp["NIC"]["MAC"] 	unless temp["NIC"]["MAC"].nil?
+			    data["ip"]	=	temp["NIC"]["IP"] 	unless temp["NIC"]["IP"].nil?
+		    end
             end
           end
 

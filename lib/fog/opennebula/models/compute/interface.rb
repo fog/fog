@@ -9,10 +9,8 @@ module Fog
         identity :id
         attribute :vnet
         attribute :model
-
-	def uuid
-	  :id
-	end
+        attribute :name
+        attribute :mac
 
         def initialize attributes = {}
           super defaults.merge(attributes)
@@ -21,6 +19,10 @@ module Fog
         def save
           raise Fog::Errors::Error.new('Creating a new interface is not yet implemented. Contributions welcome!')
         end
+
+	def new?
+	  mac.nil?
+	end
 
         def destroy
           raise Fog::Errors::Error.new('Destroying an interface is not yet implemented. Contributions welcome!')

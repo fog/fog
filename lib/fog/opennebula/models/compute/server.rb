@@ -29,6 +29,15 @@ module Fog
           #reload
         end
 
+	def interfaces
+		#[] << Fog::Compute::OpenNebula::Interfaces.new
+		[]
+	end
+
+	def interfaces_attributes=(attributes)
+		true
+	end
+
 	def vm_ip_address
 	  ip
 	end
