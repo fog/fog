@@ -30,13 +30,13 @@ module Fog
           new(hash)
         end
 
-        # def create(new_attributes = {})
-        #   defaults = {
-        #     :name => "fog-#{Time.now.to_i}",
-        #     :location => "Central US",
-        #   }
-        #   create(defaults.merge(new_attributes))
-        # end
+        def create(new_attributes = {})
+          defaults = {
+            :name => "fog#{Time.now.to_i}",
+            :location => "Central US",
+          }
+          super(defaults.merge(new_attributes))
+        end
         
       end
     end

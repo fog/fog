@@ -16,6 +16,7 @@ module Fog
       request :get_storage_account
       request :create_storage_account
       request :list_storage_accounts
+      request :delete_storage_account
 
       model_path 'fog/azure/models/compute'
       model :server

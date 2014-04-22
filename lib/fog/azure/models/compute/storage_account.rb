@@ -41,6 +41,11 @@ module Fog
           service.create_storage_account(name, options)
         end
 
+        def destroy
+          requires :name
+          service.delete_storage_account(name)
+        end
+
       end
     end
   end
