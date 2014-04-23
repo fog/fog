@@ -15,10 +15,11 @@ module Fog
           parameters = {
             'project' => @project,
             'instance' => instance,
-            'zone' => zone,
+            'zone' => zone.split('/')[-1],
+            'deviceName' => deviceName
           }
-          body_object = { "deviceName" => deviceName }
-          result = self.build_result(api_method, parameters, body_object=body_object)
+
+          result = self.build_result(api_method, parameters)
           response = self.build_response(result)
         end
 

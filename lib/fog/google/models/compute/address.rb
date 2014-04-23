@@ -24,6 +24,17 @@ module Fog
         IN_USE_STATE   = 'IN_USE'
         RESERVED_STATE = 'RESERVED'
 
+        def server
+          return nil if !in_use? || self.users.nil? || self.users.empty?
+
+          service.servers.get(self.users.first.split('/')[-1])
+        end
+
+        def server=(server)
+          requires :identity, :region
+          server ? associate(server) : disassociate
+        end
+
         def save
           requires :identity, :region
 
@@ -54,6 +65,29 @@ module Fog
 
         def in_use?
           self.status == IN_USE_STATE
+        end
+
+        private
+
+        def associate(server)
+          nic = server.network_interfaces.first['name']
+          data = service.add_server_access_config(server.name, server.zone_name, nic, :address => self.address)
+          Fog::Compute::Google::Operations.new(:service => service).get(data.body['name'], data.body['zone'])
+        end
+
+        def disassociate
+          return nil if !in_use? || self.users.nil? || self.users.empty?
+
+          # An address can only be associated with one server at a time
+          server = service.servers.get(self.users.first.split('/')[-1])
+          nic = server.network_interfaces.first['name']
+          unless server.network_interfaces.first['accessConfigs'].nil? ||
+                 server.network_interfaces.first['accessConfigs'].empty?
+            access_config = server.network_interfaces.first['accessConfigs'].first['name']
+            data = service.delete_server_access_config(server.name, server.zone_name, nic,
+                                                       :access_config => access_config)
+            Fog::Compute::Google::Operations.new(:service => service).get(data.body['name'], data.body['zone'])
+          end
         end
       end
 

@@ -123,7 +123,12 @@ module Fog
           job_location = response.headers['Location']
 
           Fog.wait_for(time_to_wait) do
-            response = request(:expects => original_expects, :method => :get, :path => job_location)
+            response = request(
+              :expects => original_expects,
+              :idempotent => true,
+              :method => :get,
+              :path => job_location
+            )
             response.body['status'] != 'incomplete'
           end
 
