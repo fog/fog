@@ -221,7 +221,8 @@ module Fog
               'serviceAccounts' => service_accounts,
               'tags' => tags,
               'auto_restart' => auto_restart,
-              'on_host_maintenance' => on_host_maintenance
+              'on_host_maintenance' => on_host_maintenance,
+              'can_ip_forward' => can_ip_forward
           }.delete_if {|key, value| value.nil?}
 
           if service_accounts
@@ -234,10 +235,10 @@ module Fog
             }]
           end
 
-          service.insert_server(name, zone_name, options)
-          data = service.backoff_if_unfound {service.get_server(self.name, self.zone_name).body}
-
-          service.servers.merge_attributes(data)
+          data = service.insert_server(name, zone_name, options)
+          operation = Fog::Compute::Google::Operations.new(:service => service).get(data.body['name'], data.body['zone'])
+          operation.wait_for { !pending? }
+          reload
         end
 
       end
