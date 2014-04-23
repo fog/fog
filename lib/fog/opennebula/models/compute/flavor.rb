@@ -24,6 +24,11 @@ module Fog
         attribute :GRAPHICS
         attribute :RAW
 
+
+	def to_label
+	  "#{name} -- #{self.VCPU} VCPU - #{self.MEMORY}MB Mem"
+	end
+
         def to_s
           "" + get_cpu \
              + get_vcpu \
