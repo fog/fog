@@ -24,12 +24,18 @@ module Fog
 
         def network_to_attributes(net)
           return if net.nil?
-          {
-            :id    => net["VNET"]["ID"],
-            :name  => net["VNET"]["NAME"],
-	    :uid   => net["VNET"]["UID"],
-	    :gid   => net["VNET"]["GID"]
+	  #{"VNET"=>{"ID"=>"155", "UID"=>"0", "GID"=>"1", "UNAME"=>"oneadmin", "GNAME"=>"users", "NAME"=>"vlan99-2", "PERMISSIONS"=>{"OWNER_U"=>"1", "OWNER_M"=>"1", "OWNER_A"=>"0", "GROUP_U"=>"1", "GROUP_M"=>"0", "GROUP_A"=>"0", "OTHER_U"=>"0", "OTHER_M"=>"0", "OTHER_A"=>"0"}, "CLUSTER_ID"=>"-1", "CLUSTER"=>{}, "TYPE"=>"0", "BRIDGE"=>"ovsbr", "VLAN"=>"1", "PHYDEV"=>{}, "VLAN_ID"=>"99", "GLOBAL_PREFIX"=>{}, "SITE_PREFIX"=>{}, "RANGE"=>{"IP_START"=>"10.10.99.127", "IP_END"=>"10.10.99.249"}, "TOTAL_LEASES"=>"0", "TEMPLATE"=>{"DESCRIPTION"=>"test", "NETWORK_ADDRESS"=>"10.10.99.0", "NETWORK_MASK"=>"255.255.255.0"}}}
+          h = {
+            :id    	 => net["VNET"]["ID"],
+            :name  	 => net["VNET"]["NAME"],
+	    :uid   	 => net["VNET"]["UID"],
+	    :gid   	 => net["VNET"]["GID"],
           }
+
+	  h[:description] = net["VNET"]["TEMPLATE"]["DESCRIPTION"] unless net["VNET"]["TEMPLATE"]["DESCRIPTION"].nil?
+	  h[:vlan] 	  = net["VNET"]["VLAN_ID"] unless (net["VNET"]["VLAN_ID"].nil? || net["VNET"]["VLAN_ID"].empty?)
+
+	  return h
         end
 
       end
