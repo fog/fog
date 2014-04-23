@@ -31,7 +31,9 @@ module Fog
         private
         def defaults
           {
-            :model => "virtio"
+            :model => nil,
+	    :name => nil,
+	    :id => nil
           }
         end
 
