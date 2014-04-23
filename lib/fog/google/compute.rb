@@ -5,7 +5,7 @@ module Fog
     class Google < Fog::Service
 
       requires :google_project
-      recognizes :app_name, :app_version, :google_client_email, :google_key_location, :google_client
+      recognizes :app_name, :app_version, :google_client_email, :google_key_location, :google_key_string, :google_client
 
       request_path 'fog/google/requests/compute'
       request :list_servers
@@ -932,14 +932,20 @@ module Fog
           end
 
           if @client.nil?
-            if !options[:google_client_email].nil? and !options[:google_key_location].nil?
+            if !options[:google_key_location].nil?
+              google_key = File.expand_path(options[:google_key_location])
+            elsif !options[:google_key_string].nil?
+              google_key = options[:google_key_string]
+            end
+
+            if !options[:google_client_email].nil? and !google_key.nil?
               @client = self.new_pk12_google_client(
                 options[:google_client_email],
-                File.expand_path(options[:google_key_location]),
+                google_key,
                 options[:app_name],
                 options[:app_verion])
             else
-              Fog::Logger.debug("Fog::Compute::Google.client has not been initialized nor are the :google_client_email and :google_key_location options set, so we can not create one for you.")
+              Fog::Logger.debug("Fog::Compute::Google.client has not been initialized nor are the :google_client_email and :google_key_location or :google_key_string options set, so we can not create one for you.")
               raise ArgumentError.new("No Google API Client has been initialized.")
             end
           end
@@ -957,12 +963,12 @@ module Fog
         # Public: Create a Google::APIClient with a pkcs12 key and a user email.
         #
         # google_client_email - an @developer.gserviceaccount.com email address to use.
-        # google_key_location - an absolute location to a pkcs12 key file.
+        # google_key - an absolute location to a pkcs12 key file or the content of the file itself.
         # app_name - an optional string to set as the app name in the user agent.
         # app_version - an optional string to set as the app version in the user agent.
         #
         # Returns a new Google::APIClient
-        def new_pk12_google_client(google_client_email, google_key_location, app_name=nil, app_version=nil)
+        def new_pk12_google_client(google_client_email, google_key, app_name=nil, app_version=nil)
           # The devstorage scope is needed to be able to insert images
           # devstorage.read_only scope is not sufficient like you'd hope
           api_scope_url = 'https://www.googleapis.com/auth/compute https://www.googleapis.com/auth/devstorage.read_write'
@@ -981,7 +987,7 @@ module Fog
           }
           local_client = ::Google::APIClient.new(api_client_options)
 
-          key = ::Google::APIClient::KeyUtils.load_from_pkcs12(google_key_location, 'notasecret')
+          key = ::Google::APIClient::KeyUtils.load_from_pkcs12(google_key, 'notasecret')
 
           local_client.authorization = Signet::OAuth2::Client.new({
             :audience => 'https://accounts.google.com/o/oauth2/token',
