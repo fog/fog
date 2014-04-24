@@ -2,16 +2,26 @@ module Fog
   module Compute
     class OpenNebula
       class Real
-
         def vm_allocate(attr={ })
-
+  
           if(attr[:flavor].nil?)
             raise(ArgumentError.new("Attribute flavor is nil or empty! #{attr.inspect}"))
           end
 
           xml = ::OpenNebula::VirtualMachine.build_xml
           vm  = ::OpenNebula::VirtualMachine.new(xml, client)
-          vm.allocate(attr[:flavor].to_s + "\nNAME=" + attr[:name])
+          rc = vm.allocate(attr[:flavor].to_s + "\nNAME=" + attr[:name])
+
+	  # irb(main):050:0> vm.allocate(s.flavor.to_s + "\nNAME=altest5")
+	  # => #<OpenNebula::Error:0x00000002a50760 @message="[VirtualMachineAllocate] User [42] : Not authorized to perform CREATE VM.", @errno=512>
+	  # irb(main):051:0> a = vm.allocate(s.flavor.to_s + "\nNAME=altest5")
+	  # => #<OpenNebula::Error:0x00000002ac0998 @message="[VirtualMachineAllocate] User [42] : Not authorized to perform CREATE VM.", @errno=512>
+	  # irb(main):052:0> a.class
+
+	  if(rc.is_a? ::OpenNebula::Error) 
+            raise(rc)
+	  end
+
 	  
           # -1 - do not change the owner
           vm.chown(-1,attr[:gid].to_i) unless attr[:gid].nil?
@@ -48,6 +58,8 @@ module Fog
           end
 
           data
+	rescue => err
+	  raise(err)
         end
       end
 
