@@ -39,6 +39,7 @@ Shindo.tests('Fog::Compute[:aws] | route table requests', ['aws']) do
     'requestId'    => String
   }
 
+  Fog::Compute::AWS::Mock.reset if Fog.mocking?
   vpc = Fog::Compute[:aws].vpcs.create('cidr_block' => '10.0.10.0/24')
   if !Fog.mocking?
     vpc.wait_for { state.eql? "available" }
