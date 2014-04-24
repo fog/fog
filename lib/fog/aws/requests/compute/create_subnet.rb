@@ -53,7 +53,7 @@ module Fog
               if ! ::IPAddress.parse(vpc['cidrBlock']).include?(::IPAddress.parse(cidrBlock))
                 raise Fog::Compute::AWS::Error.new("Range => The CIDR '#{cidrBlock}' is invalid.")
               end
-              self.data[:subnets].each do |subnet|
+              self.data[:subnets].select{ |s| s['vpcId'] == vpcId }.each do |subnet|
                 if ::IPAddress.parse(subnet['cidrBlock']).include?(::IPAddress.parse(cidrBlock))
                   raise Fog::Compute::AWS::Error.new("Conflict => The CIDR '#{cidrBlock}' conflicts with another subnet")
                 end
