@@ -59,9 +59,9 @@ module Fog
         def reload
           requires :name
 
+          self.project = self.service.project
           data = service.get_image(name, self.project).body
 
-          self.project = self.service.project
           self.merge_attributes(data)
           self
         end
