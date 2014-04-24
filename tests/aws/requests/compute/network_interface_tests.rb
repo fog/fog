@@ -222,7 +222,9 @@ Shindo.tests('Fog::Compute[:aws] | network interface requests', ['aws']) do
     @nic_id = data['networkInterface']['networkInterfaceId']
 
     # Attempt to re-use an existing IP for another ENI
-    tests("#create_network_interface('#{@subnet_id}', {'PrivateIpAddress' => '#{data['networkInterface']['privateIpAddress']}'}").raises(::Fog::Compute::AWS::Error) do
+    tests("#create_network_interface('#{@subnet_id}', " \
+      "{'PrivateIpAddress' => " \
+      "'#{data['networkInterface']['privateIpAddress']}'}").raises(::Fog::Compute::AWS::Error) do
       Fog::Compute[:aws].create_network_interface(@subnet_id, {'PrivateIpAddress' => data['networkInterface']['privateIpAddress']})
     end
 
