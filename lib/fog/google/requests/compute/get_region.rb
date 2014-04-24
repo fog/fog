@@ -4,7 +4,11 @@ module Fog
 
       class Mock
         def get_region(identity)
-          Fog::Mock.not_implemented
+          regions = Fog::Compute[:google].list_regions
+          region = regions.body['items'].select { |region| region['name'] == identity }
+
+          raise Fog::Errors::NotFound if region.nil? || region.empty?
+          build_response(:body => region.first)
         end
       end
 

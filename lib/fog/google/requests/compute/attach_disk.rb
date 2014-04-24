@@ -3,24 +3,32 @@ module Fog
     class Google
 
       class Mock
-        def attach_disk(instance, zone, deviceName)
+        def attach_disk(instance, zone, source, options = {})
           Fog::Mock.not_implemented
         end
       end
 
       class Real
 
-        def attach_disk(instance, zone, deviceName)
+        def attach_disk(instance, zone, source, options = {})
           api_method = @compute.instances.attach_disk
           parameters = {
             'project' => @project,
             'instance' => instance,
-            'zone' => zone
+            'zone' => zone.split('/')[-1],
           }
+
+          writable = options.delete(:writable)
           body_object = {
-            "deviceName" => deviceName
+            'type' =>       'PERSISTENT',
+            'source' =>     source,
+            'mode' =>       writable ? 'READ_WRITE' : 'READ_ONLY',
+            'deviceName' => options.delete(:deviceName),
+            'boot' =>       options.delete(:boot),
+            'autoDelete' => options.delete(:autoDelete),
           }
-          result = self.build_result(api_method, parameters, body_object=body_object)
+
+          result = self.build_result(api_method, parameters, body_object)
           response = self.build_response(result)
         end
       end

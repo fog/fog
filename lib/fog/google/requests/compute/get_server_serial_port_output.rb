@@ -3,18 +3,19 @@ module Fog
     class Google
 
       class Mock
-        def list_aggregated_addresses(options = {})
+        def get_server_serial_port_output(identity, zone)
           Fog::Mock.not_implemented
         end
       end
 
       class Real
-        def list_aggregated_addresses(options = {})
-          api_method = @compute.addresses.aggregated_list
+        def get_server_serial_port_output(identity, zone)
+          api_method = @compute.instances.get_serial_port_output
           parameters = {
-            'project' => @project,
+            'project'  => @project,
+            'instance' => identity,
+            'zone'     => zone.split('/')[-1],
           }
-          parameters['filter'] = options[:filter] if options[:filter]
 
           result = self.build_result(api_method, parameters)
           response = self.build_response(result)
