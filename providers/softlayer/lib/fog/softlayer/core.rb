@@ -10,8 +10,8 @@ module Fog
 
     service(:compute, 'Compute')
 
-    def self.load_requests(service)
-      path = "providers/softlayer/lib/fog/softlayer/requests/#{service}"
+    def self.loader(service)
+      path = "providers/softlayer/lib/fog/softlayer/#{service}"
       Dir.entries(path).reject{|e| e =~ /^\./}.each do |file|
         _request = File.basename(file, '.rb')
         yield _request.to_sym
