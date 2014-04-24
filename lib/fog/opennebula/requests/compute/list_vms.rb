@@ -19,8 +19,9 @@ module Fog
               data = {}
 	      data["onevm_object"] = vm
               data["status"] =  vm.state
-              data["state"] =  vm.lcm_state_str
+              data["state"]  =  vm.lcm_state_str
               data["id"]     =  vm.id
+              data["gid"]    =  vm.gid
 	      data["uuid"]   =  vm.id
               data["name"]   =  one["VM"]["NAME"] unless one["VM"]["NAME"].nil?
               data["user"]   =  one["VM"]["UNAME"] unless one["VM"]["UNAME"].nil?

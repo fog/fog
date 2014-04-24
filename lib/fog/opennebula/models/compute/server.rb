@@ -16,6 +16,7 @@ module Fog
 	attribute :cpu
 	attribute :memory
 	attribute :user
+	attribute :gid
 	attribute :group
 	attribute :onevm_object
 	attribute :flavor

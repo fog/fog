@@ -9,37 +9,25 @@ module Fog
             raise(ArgumentError.new("Attribute flavor is nil or empty! #{attr.inspect}"))
           end
 
-          puts "flavor: #{attr[:flavor].inspect}"
-          puts attr[:flavor].to_s
-
-          #	  xml = ::OpenNebula::Template.build_xml(12)
-          #	  template = ::OpenNebula::Template.new(xml, client)
-          #	  puts "TEmplate #{template.inspect}"
-          ##	  template.update(attr[:flavor].to_s)
-          ##	  puts "TEmplate update #{template.inspect}"
-          #	  vmid = template.instantiate(name = attr[:name], hold = false, template = attr[:flavor].to_s)
-          #	  puts "VMID #{vmid.inspect}"
-
           xml = ::OpenNebula::VirtualMachine.build_xml
           vm  = ::OpenNebula::VirtualMachine.new(xml, client)
           vm.allocate(attr[:flavor].to_s + "\nNAME=" + attr[:name])
-          vmid = vm.id
+	  
+          # -1 - do not change the owner
+          vm.chown(-1,attr[:gid].to_i) unless attr[:gid].nil?
 
           # TODO
           # check if vm is created vmid.class == One error class
-
-          vmpool = ::OpenNebula::VirtualMachinePool.new(client)
-          vmpool.info!(-2, vmid, vmid, -1)
-          vm = vmpool.entries.first
-
           vm.info!
-          one = vm.to_hash
 
+          one = vm.to_hash
           data = {}
+	  data["onevm_object"] = vm
           data["status"] =  vm.state
           data["state"]  =  vm.lcm_state_str
           data["id"]     =  vm.id
           data["uuid"]   =  vm.id
+          data["gid"]    =  vm.gid
           data["name"]   =  one["VM"]["NAME"] unless one["VM"]["NAME"].nil?
           data["user"]   =  one["VM"]["UNAME"] unless one["VM"]["UNAME"].nil?
           data["group"]  =  one["VM"]["GNAME"] unless one["VM"]["GNAME"].nil?
@@ -48,14 +36,14 @@ module Fog
             temp = one["VM"]["TEMPLATE"]
             data["cpu"]    =  temp["VCPU"] 	unless temp["VCPU"].nil?
             data["memory"] =  temp["MEMORY"] 	unless temp["MEMORY"].nil?
-	    unless (temp["NIC"].nil?) then
-		    if one["VM"]["TEMPLATE"]["NIC"].is_a?(Array)
-			    data["mac"]	=	temp["NIC"][0]["MAC"] 	unless temp["NIC"][0]["MAC"].nil?
-			    data["ip"]	=	temp["NIC"][0]["IP"] 	unless temp["NIC"][0]["IP"].nil?
-		    else
-			    data["mac"]	=	temp["NIC"]["MAC"] 	unless temp["NIC"]["MAC"].nil?
-			    data["ip"]	=	temp["NIC"]["IP"] 	unless temp["NIC"]["IP"].nil?
-		    end
+            unless (temp["NIC"].nil?) then
+              if one["VM"]["TEMPLATE"]["NIC"].is_a?(Array)
+                      data["mac"]	=	temp["NIC"][0]["MAC"] 	unless temp["NIC"][0]["MAC"].nil?
+                      data["ip"]	=	temp["NIC"][0]["IP"] 	unless temp["NIC"][0]["IP"].nil?
+              else
+                      data["mac"]	=	temp["NIC"]["MAC"] 	unless temp["NIC"]["MAC"].nil?
+                      data["ip"]	=	temp["NIC"]["IP"] 	unless temp["NIC"]["IP"].nil?
+              end
             end
           end
 

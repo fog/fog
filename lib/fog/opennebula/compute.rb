@@ -17,8 +17,8 @@ module Fog
       collection  :flavors
       model       :interface
       collection  :interfaces
-#      model       :volume
-#      collection  :volumes
+      model       :group
+      collection  :groups
 #      model       :pool
 #      collection  :pools
 #      model       :node
@@ -26,6 +26,8 @@ module Fog
 #
       request_path 'fog/opennebula/requests/compute'
       request :list_vms
+      request :list_groups
+      request :list_networks
       request :vm_allocate
       request :vm_destroy
       request :get_vnc_console
@@ -41,7 +43,6 @@ module Fog
 #      request :list_volumes
 #      request :volume_action
 #      request :create_volume
-      request :list_networks
 #      request :destroy_network
 #      request :list_interfaces
 #      request :destroy_interface
