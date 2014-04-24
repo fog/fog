@@ -22,7 +22,7 @@ module Fog
           body_object = {
             'sourceType'      => 'RAW',
             'name'            => image_name,
-            'rawDisk'         => options.delete('rawDisk')
+            'rawDisk'         => { 'source' => options.delete('rawDisk') }
           }
 
           # Merge in the remaining params (only 'description' should remain)
