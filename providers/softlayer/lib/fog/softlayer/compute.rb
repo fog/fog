@@ -19,7 +19,19 @@ module Fog
       # Excon connection settings
       recognizes :softlayer_api_url
 
-      #model_path 'fog/softlayer/models/compute'
+
+      service = File.basename(__FILE__, '.rb')
+
+      model_path 'fog/softlayer/models/compute'
+      Fog::Softlayer.loader("models/#{service}") do |basename|
+        if basename =~ /s$/
+        collection basename
+        else
+          model basename
+        end
+
+      end
+
       #collection  :servers
       #model       :server
       #collection  :bare_metal_servers
@@ -30,13 +42,13 @@ module Fog
       #model       :image
       #
 
-      service = File.basename(__FILE__, '.rb')
 
-      path = "fog/softlayer/requests/#{service}"
-      request_path path
 
-      Fog::Softlayer.load_requests(service) do |r|
-        request r
+
+      request_path "fog/softlayer/requests/#{service}"
+
+      Fog::Softlayer.loader("requests/#{service}") do |basename|
+        request basename
       end
 
 
@@ -102,12 +114,15 @@ module Fog
           set_sl_service(service)
           # set the request path (known as the "method" in SL docs)
           set_sl_path(path)
+          # set the query params if any
+
 
           # build request params
           params = { :headers => user_agent_header }
           params[:headers]['Content-Type'] = 'application/json'
-          params[:expects] = [200,201]
+          params[:expects] = options[:expected] || [200,201]
           params[:body] = Fog::JSON.encode({:parameters => [ options[:body] ]}) unless options[:body].nil?
+          params[:query] = options[:query] unless options[:query].nil?
 
           # initialize connection object
           @connection = Fog::Core::Connection.new(@request_url, false, params)
@@ -118,6 +133,10 @@ module Fog
           # decode it
           response.body = Fog::JSON.decode(response.body)
           response
+        end
+
+        def list_servers
+          (self.get_vms.body << self.get_bare_metal_servers.body).flatten
         end
 
         private
