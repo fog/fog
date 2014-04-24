@@ -1,5 +1,6 @@
 Shindo.tests('AWS::ELB | models', ['aws', 'elb']) do
   require 'fog'
+  Fog::Compute::AWS::Mock.reset if Fog.mocking?
   @availability_zones = Fog::Compute[:aws].describe_availability_zones('state' => 'available').body['availabilityZoneInfo'].collect{ |az| az['zoneName'] }
   @key_name = 'fog-test-model'
   @vpc=Fog::Compute[:aws].vpcs.create('cidr_block' => '10.0.10.0/24')

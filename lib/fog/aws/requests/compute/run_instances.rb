@@ -184,6 +184,16 @@ module Fog
               }
             end
 
+            if options['SubnetId']
+              if options['PrivateIpAddress']
+                ni_options = {'PrivateIpAddress' => options['PrivateIpAddress']}
+              else
+                ni_options = {}
+              end
+
+              network_interface_id = create_network_interface(options['SubnetId'], ni_options).body['networkInterface']['networkInterfaceId']
+            end
+
             network_interfaces = (options['NetworkInterfaces'] || []).inject([]) do |mapping, device|
               device_index          = device.fetch("DeviceIndex", 0)
               subnet_id             = device.fetch("SubnetId", options[:subnet_id] ||  Fog::AWS::Mock.subnet_id)
@@ -238,12 +248,17 @@ module Fog
               'groupIds'            => [],
               'groupSet'            => group_set,
               'iamInstanceProfile'  => {},
-              'networkInterfaces'   => [],
               'ownerId'             => self.data[:owner_id],
-              'privateIpAddress'    => nil,
               'reservationId'       => reservation_id,
               'stateReason'         => {}
             })
+
+            if options['SubnetId']
+              self.data[:instances][instance_id]['vpcId'] = self.data[:subnets].find{|subnet| subnet['subnetId'] == options['SubnetId'] }['vpcId']
+
+              attachment_id = attach_network_interface(network_interface_id, instance_id, '0').data[:body]['attachmentId']
+              modify_network_interface_attribute(network_interface_id, 'attachment', {'attachmentId' => attachment_id, 'deleteOnTermination' => 'true'})
+            end
           end
           response.body = {
             'groupSet'      => group_set,

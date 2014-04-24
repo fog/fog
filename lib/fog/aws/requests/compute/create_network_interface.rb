@@ -65,45 +65,63 @@ module Fog
         def create_network_interface(subnetId, options = {})
           response = Excon::Response.new
           if subnetId
-            id = Fog::AWS::Mock.network_interface_id
+            subnet = self.data[:subnets].find{ |s| s['subnetId'] == subnetId }
+            if subnet.nil?
+              raise Fog::Compute::AWS::Error.new("Unknown subnet '#{subnetId}' specified")
+            else
+              id = Fog::AWS::Mock.network_interface_id
+              cidr_block = IPAddress.parse(subnet['cidrBlock'])
 
-            groups = {}
-            if options['GroupSet']
-              options['GroupSet'].each do |group_id|
-                name = self.data[:security_groups].select { |k,v| v['groupId'] == group_id }.first
-                if name.nil?
-                  raise Fog::Compute::AWS::Error.new("Unknown security group '#{group_id}' specified")
+              groups = {}
+              if options['GroupSet']
+                options['GroupSet'].each do |group_id|
+                  group_obj = self.data[:security_groups].select { |k,v| v['groupId'] == group_id }.first
+                  if group_obj.nil?
+                    raise Fog::Compute::AWS::Error.new("Unknown security group '#{group_id}' specified")
+                  end
+                  groups[group_id] = group_obj
                 end
-                groups[group_id] = name
               end
-            end
-            if options['PrivateIpAddress'].nil?
-              options['PrivateIpAddress'] = "10.0.0.2"
-            end
 
-            data = {
-              'networkInterfaceId' => id,
-              'subnetId'           => subnetId,
-              'vpcId'              => 'mock-vpc-id',
-              'availabilityZone'   => 'mock-zone',
-              'description'        => options['Description'],
-              'ownerId'            => '',
-              'requesterManaged'   => 'false',
-              'status'             => 'available',
-              'macAddress'         => '00:11:22:33:44:55',
-              'privateIpAddress'   => options['PrivateIpAddress'],
-              'sourceDestCheck'    => true,
-              'groupSet'           => groups,
-              'attachment'         => {},
-              'association'        => {},
-              'tagSet'             => {}
-            }
-            self.data[:network_interfaces][id] = data
-            response.body = {
-              'requestId'        => Fog::AWS::Mock.request_id,
-              'networkInterface' => data
-            }
-            response
+              if options['PrivateIpAddress'].nil?
+                # Here we try to act like a DHCP server and pick the first
+                # available IP (not including the first in the cidr block,
+                # which is typically reserved for the gateway).
+                cidr_block.each_host do |p_ip|
+                  unless self.data[:network_interfaces].map{ |ni, ni_conf| ni_conf['privateIpAddress'] }.include?p_ip.to_s ||
+                    cidr_block.first == p_ip
+                    options['PrivateIpAddress'] = p_ip.to_s
+                    break
+                  end
+                end
+              elsif self.data[:network_interfaces].map{ |ni,ni_conf| ni_conf['privateIpAddress'] }.include?options['PrivateIpAddress']
+                raise Fog::Compute::AWS::Error.new('InUse => The specified address is already in use.')
+              end
+
+              data = {
+                'networkInterfaceId' => id,
+                'subnetId'           => subnetId,
+                'vpcId'              => 'mock-vpc-id',
+                'availabilityZone'   => 'mock-zone',
+                'description'        => options['Description'],
+                'ownerId'            => '',
+                'requesterManaged'   => 'false',
+                'status'             => 'available',
+                'macAddress'         => '00:11:22:33:44:55',
+                'privateIpAddress'   => options['PrivateIpAddress'],
+                'sourceDestCheck'    => true,
+                'groupSet'           => groups,
+                'attachment'         => {},
+                'association'        => {},
+                'tagSet'             => {}
+              }
+              self.data[:network_interfaces][id] = data
+              response.body = {
+                'requestId'        => Fog::AWS::Mock.request_id,
+                'networkInterface' => data
+              }
+              response
+            end
           else
             response.status = 400
             response.body = {
