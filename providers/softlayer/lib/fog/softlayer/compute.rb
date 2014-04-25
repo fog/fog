@@ -18,6 +18,7 @@ module Fog
 
       # Excon connection settings
       recognizes :softlayer_api_url
+      recognizes :softlayer_default_domain
 
 
       service = File.basename(__FILE__, '.rb')
@@ -32,14 +33,11 @@ module Fog
 
       end
 
-
-
-
       request_path "fog/softlayer/requests/#{service}"
-
       Fog::Softlayer.loader("requests/#{service}") do |basename|
         request basename
       end
+
 
 
       # The Mock Service allows you to run a fake instance of the Service
@@ -47,6 +45,7 @@ module Fog
       #
       #
       class Mock
+        attr_accessor :default_domain
         include Fog::Softlayer::Compute::Shared
         attr_accessor :virtual_guests, :bare_metal_servers
 
@@ -78,6 +77,7 @@ module Fog
       # Makes real connections to Softlayer.
       #
       class Real
+        attr_accessor :default_domain
         include Fog::Softlayer::Compute::Shared
 
         # Sends the real request to the real SoftLayer service.

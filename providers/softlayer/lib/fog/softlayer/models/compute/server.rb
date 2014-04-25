@@ -13,7 +13,7 @@ module Fog
       class Server < Fog::Compute::Server
 
         identity  :id
-        attribute :hostname
+        attribute :name,                     :aliases => 'hostname'
         attribute :domain
         attribute :fqdn,                     :aliases => 'fullyQualifiedDomainName'
         attribute :cpu,                      :aliases => ['startCpus', 'processorCoreAmount']
@@ -42,8 +42,8 @@ module Fog
 
 
         def initialize(attributes = {})
-          set_defaults
           super(attributes)
+          set_defaults
         end
 
         def bare_metal?
@@ -78,6 +78,14 @@ module Fog
             set = 1024 * set.first['hardwareComponentModel']['capacity'].to_i
           end
           attributes[:ram] = set
+        end
+
+        def name=(set)
+          attributes[:hostname] = set
+        end
+
+        def name
+          attributes[:hostname]
         end
 
         #def ram
@@ -141,7 +149,7 @@ module Fog
         end
 
         # Creates server
-        # * requires attributes: service:, :hostname, :domain, and :flavor_id OR (:cpu_count && :ram && :disks)
+        # * requires attributes: :name, :domain, and :flavor_id OR (:cpu_count && :ram && :disks)
         #
         # @note You should use servers.create to create servers instead calling this method directly
         #
@@ -226,7 +234,7 @@ module Fog
         end
 
         def validate_attributes
-          requires :hostname, :domain, :cpu, :ram
+          requires :name, :domain, :cpu, :ram
           requires_one :os_code, :image_id
           requires_one :image_id, :disk
           bare_metal? and image_id and raise ArgumentError, "Bare Metal Cloud does not support booting from Image"
@@ -235,6 +243,7 @@ module Fog
         def set_defaults
           attributes[:hourly_billing_flag] = true if attributes[:hourly_billing_flag].nil?
           attributes[:ephemeral_storage] = false if attributes[:ephemeral_storage].nil?
+          attributes[:domain] = service.default_domain if attributes[:domain].nil?
         end
 
       end
