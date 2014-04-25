@@ -17,6 +17,9 @@ module Fog
         #       * 'RequestId'<~String> - Id of request
         #     * 'DescribeLoadBalancerAttributesResult'<~Hash>:
         #       * 'LoadBalancerAttributes'<~Hash>
+        #         * 'ConnectionDraining'<~Hash>
+        #           * 'Enabled'<~Boolean> - whether connection draining is enabled
+        #           * 'Timeout'<~Integer> - max time (in seconds) to keep existing conns open before deregistering instances.
         #         * 'CrossZoneLoadBalancing'<~Hash>
         #           * 'Enabled'<~Boolean> - whether crosszone load balancing is enabled
         def describe_load_balancer_attributes(lb_name)

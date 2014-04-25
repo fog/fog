@@ -35,6 +35,23 @@ module Fog
           super
         end
 
+        def connection_draining?
+          requires :id
+          service.describe_load_balancer_attributes(id).body['DescribeLoadBalancerAttributesResult']['LoadBalancerAttributes']['ConnectionDraining']['Enabled']
+        end
+
+        def connection_draining_timeout
+          requires :id
+          service.describe_load_balancer_attributes(id).body['DescribeLoadBalancerAttributesResult']['LoadBalancerAttributes']['ConnectionDraining']['Timeout']
+        end
+
+        def set_connection_draining(enabled, timeout=nil)
+          requires :id
+          attrs = {'Enabled' => enabled}
+          attrs['Timeout'] = timeout if timeout
+          service.modify_load_balancer_attributes(id, 'ConnectionDraining' => attrs)
+        end
+
         def cross_zone_load_balancing?
           requires :id
           service.describe_load_balancer_attributes(id).body['DescribeLoadBalancerAttributesResult']['LoadBalancerAttributes']['CrossZoneLoadBalancing']['Enabled']

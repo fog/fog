@@ -8,13 +8,16 @@ module Fog
 
         # Sets attributes of the load balancer
         #
-        # Currently the only attribute that can be set is whether CrossZoneLoadBalancing
-        # is enabled
+        # Currently the only attributes that can be set are whether CrossZoneLoadBalancing
+        # or ConnectionDraining are enabled. You can also set the Timeout for ConnectionDraining.
         #
         # http://docs.aws.amazon.com/ElasticLoadBalancing/latest/APIReference/API_ModifyLoadBalancerAttributes.html
         # ==== Parameters
         # * lb_name<~String> - Name of the ELB
         # * options<~Hash>
+        #   * 'ConnectionDraining'<~Hash>:
+        #     * 'Enabled'<~Boolean> whether to enable connection draining
+        #     * 'Timeout'<~Integer> max time to keep existing conns open before deregistering instances
         #   * 'CrossZoneLoadBalancing'<~Hash>:
         #     * 'Enabled'<~Boolean> whether to enable cross zone load balancing
         #
@@ -38,7 +41,7 @@ module Fog
         def modify_load_balancer_attributes(lb_name, attributes)
           raise Fog::AWS::ELB::NotFound unless load_balancer = self.data[:load_balancers][lb_name]
 
-          if attributes['CrossZoneLoadBalancing']
+          if attributes['CrossZoneLoadBalancing'] || attributes['ConnectionDraining']
             load_balancer['LoadBalancerAttributes'].merge! attributes
           end
 
