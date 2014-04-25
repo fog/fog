@@ -3,6 +3,8 @@ module Fog
     module Nullable
       module Account; end
       module BareMetal; end
+      module Collected; end
+      module Collection; end
       module VirtualGuest; end
       module Image; end
       module IPV4; end
@@ -16,6 +18,12 @@ NilClass.send :include, Fog::Softlayer::Nullable::Account
 
 Hash.send :include, Fog::Softlayer::Nullable::BareMetal
 NilClass.send :include, Fog::Softlayer::Nullable::BareMetal
+
+Hash.send :include, Fog::Softlayer::Nullable::Collected
+NilClass.send :include, Fog::Softlayer::Nullable::Collected
+
+Hash.send :include, Fog::Softlayer::Nullable::Collection
+NilClass.send :include, Fog::Softlayer::Nullable::Collection
 
 Hash.send :include, Fog::Softlayer::Nullable::VirtualGuest
 NilClass.send :include, Fog::Softlayer::Nullable::VirtualGuest
@@ -83,8 +91,36 @@ class Softlayer
 
       end
 
+      module Collected
+        SERVER = {
+            :id => Fog::Nullable::Integer,
+            :hostname => Fog::Nullable::String,
+            :domain => Fog::Nullable::String,
+            :fqdn => Fog::Nullable::String,
+            :cpu => Fog::Nullable::String,
+            :ram => Fog::Nullable,
+            :disk => Fog::Nullable::Array,
+            :private_ip => Fog::Nullable::String,
+            :public_ip => Fog::Nullable::String,
+            :flavor_id => Fog::Nullable::String,
+            :bare_metal => Fog::Nullable::Boolean,
+            :os_code => Fog::Nullable::String,
+            :image_id => Hash,
+            :ephemeral_storage => Fog::Nullable::Boolean,
+            :created_at => Fog::Nullable::Time,
+            :last_verified_date => Fog::Nullable::Time,
+            :metric_poll_date => Fog::Nullable::Time,
+            :modify_date => Fog::Nullable::Time,
+            :account_id => Fog::Nullable::Integer,
+            :datacenter => Fog::Nullable::String,
+            :single_tenant => Fog::Nullable::Boolean,
+            :global_identifier => Fog::Nullable::String,
+            :hourly_billing_flag => Fog::Nullable::Boolean,
+        }
+      end
+
       module Collection
-        ## nothing here yet
+        SERVERS = [Softlayer::Compute::Formats::Collected::SERVER]
       end
     end
   end
