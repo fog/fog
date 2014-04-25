@@ -35,7 +35,7 @@ module Fog
         def create_vms(opts)
           raise ArgumentError, "Fog::Compute::Softlayer#create_vms expects argument of type Array" unless opts.kind_of?(Array)
           response = Excon::Response.new
-          required = %w{hostname domain startCpus maxMemory hourlyBillingFlag localDiskFlag operatingSystemReferenceCode}
+          required = %w{hostname domain startCpus maxMemory hourlyBillingFlag localDiskFlag}
 
           begin
             opts.each {|vm| Fog::Softlayer.valid_request?(required, vm) or raise MissingRequiredParameter}
@@ -74,7 +74,7 @@ module Fog
             response.status = 500
             response.body = {
                 "code" => "SoftLayer_Exception_MissingCreationProperty",
-                "error" => "Properties #{required.join(', ')} ALL must be set to create an instance of 'SoftLayer_Hardware'."
+                "error" => "Properties #{required.join(', ')} ALL must be set to create an instance of 'SoftLayer_Virtual_Guest'."
             }
           end
           @virtual_guests.push(response.body).flatten!
