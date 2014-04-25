@@ -12,7 +12,7 @@ module Fog
 
       class Server < Fog::Compute::Server
 
-        identity  :id
+        identity  :id,                       :type => :integer
         attribute :name,                     :aliases => 'hostname'
         attribute :domain
         attribute :fqdn,                     :aliases => 'fullyQualifiedDomainName'
@@ -159,14 +159,16 @@ module Fog
         def save
           raise Fog::Errors::Error.new('Resaving an existing object may create a duplicate') if persisted?
 
+          copy = self.dup
+          copy.pre_save
+
           data = if bare_metal?
-            pre_save
-            service.create_bare_metal_server(attributes).body
+            service.create_bare_metal_server(copy.attributes).body
           else
-            pre_save
-            service.create_vm(attributes).body
+            service.create_vm(copy.attributes).body.first
           end
-          merge_attributes(data.first)
+
+          merge_attributes(data)
           true
         end
 
@@ -243,7 +245,7 @@ module Fog
         def set_defaults
           attributes[:hourly_billing_flag] = true if attributes[:hourly_billing_flag].nil?
           attributes[:ephemeral_storage] = false if attributes[:ephemeral_storage].nil?
-          attributes[:domain] = service.default_domain if attributes[:domain].nil?
+          attributes[:domain] = service.default_domain if service.default_domain and attributes[:domain].nil?
         end
 
       end

@@ -31,7 +31,7 @@ module Fog
     end
 
     def self.valid_request?(required, passed)
-      required.all? {|k| passed.key?(k) and !passed[k].nil?}
+      required.all? {|k| k = k.to_sym; passed.key?(k) and !passed[k].nil?}
     end
 
   end

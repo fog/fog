@@ -55,7 +55,7 @@ module Fog
           super(args)
         end
 
-        def request(method, path, expected_responses, parameters = {})
+        def request(method, path, parameters = {})
           _request
         end
 
