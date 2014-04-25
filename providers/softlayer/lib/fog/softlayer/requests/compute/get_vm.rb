@@ -20,7 +20,7 @@ module Fog
 
       class Real
         def get_vm(identifier)
-          request(:virtual_guest, identifier, :expected => [200, 404], :query => 'objectMask=mask.blockDevices')
+          request(:virtual_guest, identifier, :expected => [200, 404], :query => 'objectMask=mask[blockDevices,blockDeviceTemplateGroup.globalIdentifier]')
         end
       end
     end
