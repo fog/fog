@@ -184,8 +184,6 @@ module Fog
                 instance['ipAddress']         = Fog::AWS::Mock.ip_address
                 instance['originalIpAddress'] = instance['ipAddress']
                 instance['dnsName']           = Fog::AWS::Mock.dns_name_for(instance['ipAddress'])
-                instance['privateIpAddress']  = Fog::AWS::Mock.private_ip_address
-                instance['privateDnsName']    = Fog::AWS::Mock.private_dns_name_for(instance['privateIpAddress'])
                 instance['instanceState']     = { 'code' => 16, 'name' => 'running' }
               end
             when 'rebooting'
@@ -209,18 +207,30 @@ module Fog
 
             if self.data[:instances][instance['instanceId']]
 
-              instance['networkInterfaces'] = self.data[:network_interfaces].select{|ni,ni_conf|
-                  ni_conf['attachment']['instanceId'] == instance['instanceId']
-                }.map{|ni,ni_conf|
-                  {
-                    'ownerId' => ni_conf['ownerId'],
-                    'subnetId' => ni_conf['subnetId'],
-                    'vpcId' => ni_conf['vpcId'],
-                    'networkInterfaceId' => ni_conf['networkInterfaceId'],
-                    'groupSet' => ni_conf['groupSet'],
-                    'attachmentId' => ni_conf['attachment']['attachmentId']
-                  }
+              nics = self.data[:network_interfaces].select{|ni,ni_conf|
+                ni_conf['attachment']['instanceId'] == instance['instanceId']
+              }
+              instance['networkInterfaces'] = nics.map{|ni,ni_conf|
+                {
+                  'ownerId' => ni_conf['ownerId'],
+                  'subnetId' => ni_conf['subnetId'],
+                  'vpcId' => ni_conf['vpcId'],
+                  'networkInterfaceId' => ni_conf['networkInterfaceId'],
+                  'groupSet' => ni_conf['groupSet'],
+                  'attachmentId' => ni_conf['attachment']['attachmentId']
                 }
+              }
+              if nics.count > 0
+
+                instance['privateIpAddress'] = nics.sort_by {|ni, ni_conf|
+                  ni_conf['attachment']['deviceIndex']
+                }.map{ |ni, ni_conf| ni_conf['privateIpAddress'] }.first
+
+                instance['privateDnsName'] = Fog::AWS::Mock.private_dns_name_for(instance['privateIpAddress'])
+              else
+                instance['privateIpAddress'] = ''
+                instance['privateDnsName'] = ''
+              end
 
               reservation_set[instance['reservationId']] ||= {
                 'groupSet'      => instance['groupSet'],
