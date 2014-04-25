@@ -15,32 +15,30 @@ module Fog
         identity  :id
         attribute :hostname
         attribute :domain
-        attribute :fqdn,                     :aliases => "fullyQualifiedDomainName"
-        # We're doing "flavors" but faking them, the SL API will let you mix and match as you like, so these
-        # might be handy, they won't be fully supported on BMC servers.
-        attribute :cpu,                      :aliases => ["startCpus", "processorCoreAmount"]
-        attribute :ram,                      :aliases => ["maxMemory", "memory"]
-        attribute :disk,                     :aliases => ["blockDevices","hardDrives"], :type => :squash
-        attribute :private_ip,               :aliases => "primaryBackendIpAddress"
-        attribute :public_ip,                :aliases => "primaryIpAddress"
+        attribute :fqdn,                     :aliases => 'fullyQualifiedDomainName'
+        attribute :cpu,                      :aliases => ['startCpus', 'processorCoreAmount']
+        attribute :ram,                      :aliases => ['maxMemory', 'memory']
+        attribute :disk,                     :aliases => ['blockDevices','hardDrives'], :type => :squash
+        attribute :private_ip,               :aliases => 'primaryBackendIpAddress'
+        attribute :public_ip,                :aliases => 'primaryIpAddress'
         attribute :flavor_id
-        attribute :bare_metal,               :aliases => "bareMetalInstanceFlag"
-        attribute :os_code,                  :aliases => "operatingSystemReferenceCode"
-        attribute :image,                    :type => :squash
-        attribute :ephemeral_storage,        :aliases => "localDiskFlag"
+        attribute :bare_metal,               :aliases => 'bareMetalInstanceFlag'
+        attribute :os_code,                  :aliases => 'operatingSystemReferenceCode'
+        attribute :image_id,                 :type => :squash
+        attribute :ephemeral_storage,        :aliases => 'localDiskFlag'
 
         # Times
-        attribute :created_at,              :aliases => ["createDate", "provisionDate"], :type => :time
-        attribute :last_verified_date,      :aliases => "lastVerifiedDate", :type => :time
-        attribute :metric_poll_date,        :aliases => "metricPollDate", :type => :time
-        attribute :modify_date,             :aliases => "modifyDate", :type => :time
+        attribute :created_at,              :aliases => ['createDate', 'provisionDate'], :type => :time
+        attribute :last_verified_date,      :aliases => 'lastVerifiedDate', :type => :time
+        attribute :metric_poll_date,        :aliases => 'metricPollDate', :type => :time
+        attribute :modify_date,             :aliases => 'modifyDate', :type => :time
 
         # Metadata
-        attribute :account_id,              :aliases => "accountId", :type => :integer
+        attribute :account_id,              :aliases => 'accountId', :type => :integer
         attribute :datacenter
-        attribute :single_tenant,           :aliases => "dedicatedAccountHostOnlyFlag"
-        attribute :global_identifier,       :aliases => "globalIdentifier"
-        attribute :hourly_billing_flag,     :aliases => "hourlyBillingFlag"
+        attribute :single_tenant,           :aliases => 'dedicatedAccountHostOnlyFlag'
+        attribute :global_identifier,       :aliases => 'globalIdentifier'
+        attribute :hourly_billing_flag,     :aliases => 'hourlyBillingFlag'
 
 
         def initialize(attributes = {})
@@ -67,12 +65,12 @@ module Fog
           attributes[:bare_metal] === 1 ? true : false
         end
 
-        def image=(uuid)
-          attributes[:image] = {:globalIdentifier => uuid}
+        def image_id=(uuid)
+          attributes[:image_id] = {:globalIdentifier => uuid}
         end
 
-        def image
-          attributes[:image][:globalIdentifier] unless attributes[:image].nil?
+        def image_id
+          attributes[:image_id][:globalIdentifier] unless attributes[:image_id].nil?
         end
 
         def ram=(set)
@@ -111,7 +109,7 @@ module Fog
         end
 
         def destroy
-          raise Fog::Errors::Error.new("#{self.class}#id is nil, cannot destroy instance in #{__method__}") if id.nil?
+          requires :id
           request = bare_metal? ? :delete_bare_metal_server : :delete_vm
           response = service.send(request, self.id)
           response.body
@@ -194,7 +192,7 @@ module Fog
               :cpu  =>   :startCpus,
               :ram  =>   :maxMemory,
               :disk =>   :blockDevices,
-              :image =>  :blockDeviceTemplateGroup,
+              :image_id =>  :blockDeviceTemplateGroup,
               :ephemeral_storage => :localDiskFlag,
             }
           end
@@ -218,7 +216,7 @@ module Fog
             flavor.nil? and Fog::Errors::Error.new("Unrecognized flavor in #{self.class}##{__method__}")
             attributes[:cpu] = flavor.cpu
             attributes[:ram] = flavor.ram
-            attributes[:disk] = flavor.disk
+            attributes[:disk] = flavor.disk unless attributes[:image_id]
             if bare_metal?
               value = flavor.disk.first['diskImage']['capacity'] < 500 ? 250 : 500
               attributes[:disk] = [{'capacity'=>value}]
@@ -229,9 +227,9 @@ module Fog
 
         def validate_attributes
           requires :hostname, :domain, :cpu, :ram
-          requires_one :os_code, :image
-          requires_one :image, :disk
-          bare_metal? and image and raise ArgumentError, "Bare Metal Cloud does not support booting from Image"
+          requires_one :os_code, :image_id
+          requires_one :image_id, :disk
+          bare_metal? and image_id and raise ArgumentError, "Bare Metal Cloud does not support booting from Image"
         end
 
         def set_defaults
