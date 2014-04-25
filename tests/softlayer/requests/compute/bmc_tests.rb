@@ -4,12 +4,12 @@ Shindo.tests("Fog::Compute[:softlayer] | server requests", ["softlayer"]) do
     @sl_connection = Fog::Compute[:softlayer]
 
     @bmc = {
-        "operatingSystemReferenceCode"      => 'UBUNTU_LATEST',
-        "processorCoreAmount"               => 1,
-        "memoryCapacity"                    => 1,
-        "hourlyBillingFlag"                 => true,
-        "domain"                            => 'example.com',
-        "hostname"                          => 'test',
+        :operatingSystemReferenceCode      => 'UBUNTU_LATEST',
+        :processorCoreAmount               => 1,
+        :memoryCapacity                    => 1,
+        :hourlyBillingFlag                 => true,
+        :domain                            => 'example.com',
+        :hostname                          => 'test',
     }
 
     tests("#create_bare_metal_server('#{@bmc}')") do
@@ -33,7 +33,7 @@ Shindo.tests("Fog::Compute[:softlayer] | server requests", ["softlayer"]) do
   end
 
   tests('failure') do
-    bmc = @bmc.dup; bmc.delete('hostname')
+    bmc = @bmc.dup; bmc.delete(:hostname)
 
     tests("#create_bare_metal_server('#{bmc}')") do
       response = @sl_connection.create_bare_metal_server(bmc)
