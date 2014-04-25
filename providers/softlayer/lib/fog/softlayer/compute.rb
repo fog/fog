@@ -32,16 +32,6 @@ module Fog
 
       end
 
-      #collection  :servers
-      #model       :server
-      #collection  :bare_metal_servers
-      #model       :bare_metal_server
-      #collection  :global_ipv4s
-      #model       :global_ipv4
-      #collection  :images
-      #model       :image
-      #
-
 
 
 
@@ -76,6 +66,10 @@ module Fog
 
         def _request
           raise Fog::Errors::MockNotImplemented
+        end
+
+        def list_servers
+          (self.get_vms.body << self.get_bare_metal_servers.body).flatten
         end
 
       end
