@@ -10,14 +10,6 @@ module Fog
 
     service(:compute, 'Compute')
 
-    def self.loader(service)
-      path = "providers/softlayer/lib/fog/softlayer/#{service}"
-      Dir.entries(path).reject{|e| e =~ /^\./}.each do |file|
-        _request = File.basename(file, '.rb')
-        yield _request.to_sym
-      end
-    end
-
     def self.mock_account_id
       Fog.mocking? and @sl_account_id ||= Fog::Mock.random_numbers(7)
     end

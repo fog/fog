@@ -21,24 +21,24 @@ module Fog
       recognizes :softlayer_default_domain
 
 
-      service = File.basename(__FILE__, '.rb')
-
       model_path 'fog/softlayer/models/compute'
-      Fog::Softlayer.loader("models/#{service}") do |basename|
-        if basename =~ /s$/
-        collection basename
-        else
-          model basename
-        end
+      collection    :flavors
+      model         :flavor
+      collection    :images
+      model         :image
+      collection    :servers
+      model         :server
 
-      end
-
-      request_path "fog/softlayer/requests/#{service}"
-      Fog::Softlayer.loader("requests/#{service}") do |basename|
-        request basename
-      end
-
-
+      request_path 'fog/softlayer/requests/compute'
+      request :create_bare_metal_server
+      request :create_vm
+      request :create_vms
+      request :delete_bare_metal_server
+      request :delete_vm
+      request :get_bare_metal_server
+      request :get_bare_metal_servers
+      request :get_vm
+      request :get_vms
 
       # The Mock Service allows you to run a fake instance of the Service
       # which makes no real connections.
