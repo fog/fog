@@ -34,6 +34,7 @@ module Fog
         end
 
         def locked?
+          @volumes = nil # force reload volumes
           !!(status =~ /locked/i) || (attributes[:volumes]=nil) || volumes.any?{|v| !!(v.status =~ /locked/i)}
         end
 
