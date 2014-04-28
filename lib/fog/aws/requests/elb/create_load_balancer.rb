@@ -122,7 +122,10 @@ module Fog
             },
             'Instances' => [],
             'ListenerDescriptions' => listeners,
-            'LoadBalancerAttributes' => {'CrossZoneLoadBalancing' => {'Enabled' => false}},
+            'LoadBalancerAttributes' => {
+              'ConnectionDraining' => {'Enabled' => false, 'Timeout' => 300},
+              'CrossZoneLoadBalancing' => {'Enabled' => false}
+            },
             'LoadBalancerName' => lb_name,
             'Policies' => {
               'AppCookieStickinessPolicies' => [],

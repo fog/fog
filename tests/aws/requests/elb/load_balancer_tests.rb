@@ -37,9 +37,23 @@ Shindo.tests('AWS::ELB | load_balancer_tests', ['aws', 'elb']) do
     end
 
     tests("modify_load_balancer_attributes") do
-      Fog::AWS[:elb].modify_load_balancer_attributes(@load_balancer_id, 'CrossZoneLoadBalancing' => {'Enabled' => true}).body
-      response = Fog::AWS[:elb].describe_load_balancer_attributes(@load_balancer_id).body
-      response['DescribeLoadBalancerAttributesResult']['LoadBalancerAttributes']['CrossZoneLoadBalancing']['Enabled'] == true
+      attributes = {
+        'ConnectionDraining' => {'Enabled' => true, 'Timeout' => 600},
+        'CrossZoneLoadBalancing' => {'Enabled' => true}
+      }
+      Fog::AWS[:elb].modify_load_balancer_attributes(@load_balancer_id, attributes).body
+      response = Fog::AWS[:elb].describe_load_balancer_attributes(@load_balancer_id).
+        body['DescribeLoadBalancerAttributesResult']['LoadBalancerAttributes']
+
+      tests("ConnectionDraining is enabled") do
+        response['ConnectionDraining']['Enabled'] == true
+      end
+      tests("ConnectionDraining has a 600 second Timeout").returns(600) do
+        response['ConnectionDraining']['Timeout']
+      end
+      tests("CrossZoneLoadBalancing is enabled") do
+        response['CrossZoneLoadBalancing']['Enabled'] == true
+      end
     end
 
     tests("#configure_health_check").formats(AWS::ELB::Formats::CONFIGURE_HEALTH_CHECK) do

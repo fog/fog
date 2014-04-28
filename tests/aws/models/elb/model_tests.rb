@@ -194,6 +194,14 @@ Shindo.tests('AWS::ELB | models', ['aws', 'elb']) do
       returns(@availability_zones) { elb.availability_zones.sort }
     end
 
+    tests('connection_draining') do
+      returns(false) { elb.connection_draining? }
+      returns(300) { elb.connection_draining_timeout }
+      elb.set_connection_draining(true, 60)
+      returns(true) { elb.connection_draining? }
+      returns(60) { elb.connection_draining_timeout }
+    end
+
     tests('cross_zone_load_balancing') do
       returns(false) {elb.cross_zone_load_balancing?}
       elb.cross_zone_load_balancing = true
