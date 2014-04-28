@@ -160,6 +160,10 @@ module Fog
           modify_image_attribute(*params)
         end
 
+        # http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-supported-platforms.html
+        def supported_platforms
+          describe_account_attributes.body["accountAttributeSet"].detect{ |h| h["attributeName"] == "supported-platforms" }["values"]
+        end
       end
 
       class Mock
@@ -311,8 +315,19 @@ module Fog
           images
         end
 
-        def ec2_compatibility_mode(enabled=true)
-          values = enabled ? ["EC2", "VPC"] : ["VPC"]
+        def supported_platforms
+          describe_account_attributes.body["accountAttributeSet"].detect{ |h| h["attributeName"] == "supported-platforms" }["values"]
+        end
+
+        def enable_ec2_classic
+          set_supported_platforms(%w[EC2 VPC])
+        end
+
+        def disable_ec2_classic
+          set_supported_platforms(%w[VPC])
+        end
+
+        def set_supported_platforms(values)
           self.data[:account_attributes].detect { |h| h["attributeName"] == "supported-platforms" }["values"] = values
         end
 
