@@ -50,6 +50,8 @@ module Fog
           # endpoint doesnt have region
           if endpoints.size == 1 && matching_region?(endpoints[0], "GLOBAL")
             return endpoints[0][network_type]
+          elsif endpoints.size == 1 && region.nil?
+            return endpoints[0][network_type]
           end
 
           raise "Unknown region :#{region} for service #{service_name}. Please use one of the following regions: #{display_service_regions(service_name)}"
