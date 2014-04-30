@@ -11,7 +11,26 @@ module Fog
         attribute :price
 
         def cores
-          4 # linode always has 4 cores
+          case id
+          when 1
+          	2
+          when 3
+          	4
+          when 5
+          	6
+          when 6
+          	8
+          when 7
+          	12
+          when 8
+          	16
+          when 9
+          	20
+          when 11
+          	20
+          else
+          	0
+          end
         end
 
         def bits
