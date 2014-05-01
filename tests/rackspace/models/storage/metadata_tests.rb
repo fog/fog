@@ -1,5 +1,6 @@
 require 'fog/rackspace/models/storage/metadata'
 require 'fog/rackspace/models/storage/directory'
+require 'fog/rackspace/models/storage/directories'
 require 'fog/rackspace/models/storage/file'
 
 
@@ -27,6 +28,29 @@ Shindo.tests('Fog::Rackspace::Storage | metadata', ['rackspace']) do
         metadata.send(:to_key, "bad-key")
       end
     end
+
+    tests('#[]') do
+      metadata = Fog::Storage::Rackspace::Metadata.new @directory
+
+      tests('[:symbol_test]=42') do
+        metadata[:symbol_test] = 42
+        returns(42) { metadata[:symbol_test] }
+        returns(42) { metadata['symbol_test']}
+        returns(nil) {metadata[:nil_test]}
+      end
+
+      tests('[:string_test]=55') do
+        metadata['string_test'] = 55
+        returns(55) { metadata[:string_test] }
+        returns(55) { metadata['string_test']}
+        returns(nil) {metadata['nil_test']}
+      end
+
+      tests('key to remove').returns("X-Remove-Container-Meta-Thumbnail-Image") do
+        metadata.send(:to_header_key, :thumbnail_image, nil)
+      end
+    end
+
   
     tests('#to_header_key') do
       metadata = Fog::Storage::Rackspace::Metadata.new @directory
