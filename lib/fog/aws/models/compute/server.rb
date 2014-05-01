@@ -17,6 +17,7 @@ module Fog
         attribute :block_device_mapping,     :aliases => 'blockDeviceMapping'
         attribute :network_interfaces,       :aliases => 'networkInterfaces'
         attribute :client_token,             :aliases => 'clientToken'
+        attribute :disable_api_termination,  :aliases => 'disableApiTermination'
         attribute :dns_name,                 :aliases => 'dnsName'
         attribute :ebs_optimized,            :aliases => 'ebsOptimized'
         attribute :groups
@@ -148,6 +149,7 @@ module Fog
             'BlockDeviceMapping'          => block_device_mapping,
             'NetworkInterfaces'           => network_interfaces,
             'ClientToken'                 => client_token,
+            'DisableApiTermination'       => disable_api_termination,
             'EbsOptimized'                => ebs_optimized,
             'IamInstanceProfile.Arn'      => @iam_instance_profile_arn,
             'IamInstanceProfile.Name'     => @iam_instance_profile_name,
