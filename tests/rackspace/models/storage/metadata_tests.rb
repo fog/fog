@@ -30,23 +30,35 @@ Shindo.tests('Fog::Rackspace::Storage | metadata', ['rackspace']) do
     end
 
     tests('#[]') do
-      metadata = Fog::Storage::Rackspace::Metadata.new @directory
-
       tests('[:symbol_test]=42') do
+        metadata = Fog::Storage::Rackspace::Metadata.new @directory
+
         metadata[:symbol_test] = 42
         returns(42) { metadata[:symbol_test] }
-        returns(42) { metadata['symbol_test']}
-        returns(nil) {metadata[:nil_test]}
+        returns(42) { metadata['symbol_test'] }
+        returns(nil) { metadata[:nil_test] }
       end
 
-      tests('[:string_test]=55') do
+      tests('[\'string_test\']=55') do
+        metadata = Fog::Storage::Rackspace::Metadata.new @directory
+
         metadata['string_test'] = 55
         returns(55) { metadata[:string_test] }
-        returns(55) { metadata['string_test']}
-        returns(nil) {metadata['nil_test']}
+        returns(55) { metadata['string_test'] }
+        returns(nil) { metadata['nil_test'] }
+      end
+
+      tests('set string and symbol') do
+        metadata = Fog::Storage::Rackspace::Metadata.new @directory
+
+        metadata[:key_test] = 55
+        metadata['key_test'] = 55
+        returns(1) { metadata.size }
       end
 
       tests('key to remove').returns("X-Remove-Container-Meta-Thumbnail-Image") do
+        metadata = Fog::Storage::Rackspace::Metadata.new @directory
+
         metadata.send(:to_header_key, :thumbnail_image, nil)
       end
     end

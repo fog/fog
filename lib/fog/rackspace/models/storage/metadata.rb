@@ -71,10 +71,12 @@ module Fog
         # @return [String]
         def []=(key, value)
           return nil unless key
-          if @data[key.to_sym]
+          if @data[key.to_s]
+            @data[key.to_s] = value
+          elsif @data[key.to_sym]
             @data[key.to_sym] = value
           else
-            @data[key.to_s] = value
+            @data[key] = value
           end
         end
 
