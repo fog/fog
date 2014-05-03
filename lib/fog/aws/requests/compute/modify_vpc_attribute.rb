@@ -41,30 +41,26 @@ module Fog
             raise Fog::Compute::AWS::Error.new("InvalidParameterCombination => No attributes specified.")
           elsif options.size > 1
             raise Fog::Compute::AWS::Error.new("InvalidParameterCombination =>  InvalidParameterCombination => Fields for multiple attribute types specified: #{options.keys.join(', ')}")
-          end
+          elsif vpc = self.data[:vpcs].find{ |v| v['vpcId'] == vpc_id }
+            response.status = 200
+            response.body = {
+              'requestId' => Fog::AWS::Mock.request_id,
+              'return'    => true
+            }
 
-          vpc = self.data[:vpcs].find{ |v| v['vpcId'] == vpc_id }
-          if vpc.nil?
+            attribute = options.keys.first
+            case attribute
+            when 'EnableDnsSupport.Value'
+              vpc['enableDnsSupport'] = options[attribute]
+            when 'EnableDnsHostnames.Value'
+              vpc['enableDnsHostnames'] = options[attribute]
+            else
+              raise Fog::Compute::AWS::Error.new("Illegal attribute '#{attribute}' specified")
+            end
+            response
+          else
             raise Fog::Compute::AWS::NotFound.new("The VPC '#{vpc_id}' does not exist.")
           end
-
-          response.status = 200
-          response.body = {
-            'requestId' => Fog::AWS::Mock.request_id,
-            'return'    => true
-          }
-
-          attribute = options.keys.first
-          case attribute
-          when 'EnableDnsSupport.Value'
-            vpc['enableDnsSupport'] = options[attribute]
-          when 'EnableDnsHostnames.Value'
-            vpc['enableDnsHostnames'] = options[attribute]
-          else
-            raise Fog::Compute::AWS::Error.new("Illegal attribute '#{attribute}' specified")
-          end
-
-          response
         end
       end
     end
