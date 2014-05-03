@@ -35,23 +35,36 @@ module Fog
       end
 
       class Mock
-
         def modify_vpc_attribute(vpc_id, options = {})
           response = Excon::Response.new
           if options.size == 0
             raise Fog::Compute::AWS::Error.new("InvalidParameterCombination => No attributes specified.")
           elsif options.size > 1
             raise Fog::Compute::AWS::Error.new("InvalidParameterCombination =>  InvalidParameterCombination => Fields for multiple attribute types specified: #{options.keys.join(', ')}")
-          elsif self.data[:vpcs].select{|x| x['vpcId'] == vpc_id}.size
-            response.status = 200
-            response.body = {
-              'requestId' => Fog::AWS::Mock.request_id,
-              'return'    => true
-            }
-            response
-          else
-            raise Fog::Compute::AWS::NotFound.new("The vpc '#{vpc_id}' does not exist.")
           end
+
+          vpc = self.data[:vpcs].find{ |v| v['vpcId'] == vpc_id }
+          if vpc.nil?
+            raise Fog::Compute::AWS::NotFound.new("The VPC '#{vpc_id}' does not exist.")
+          end
+
+          response.status = 200
+          response.body = {
+            'requestId' => Fog::AWS::Mock.request_id,
+            'return'    => true
+          }
+
+          attribute = options.keys.first
+          case attribute
+          when 'EnableDnsSupport.Value'
+            vpc['enableDnsSupport'] = options[attribute]
+          when 'EnableDnsHostnames.Value'
+            vpc['enableDnsHostnames'] = options[attribute]
+          else
+            raise Fog::Compute::AWS::Error.new("Illegal attribute '#{attribute}' specified")
+          end
+
+          response
         end
       end
     end
