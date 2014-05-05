@@ -45,11 +45,13 @@ module Fog
               response.status = 200
               vpc_id = Fog::AWS::Mock.vpc_id
               vpc = {
-                'vpcId'         => vpc_id,
-                'state'         => 'pending',
-                'cidrBlock'     => cidrBlock,
-                'dhcpOptionsId' => Fog::AWS::Mock.request_id,
-                'tagSet'        => {}
+                'vpcId'              => vpc_id,
+                'state'              => 'pending',
+                'cidrBlock'          => cidrBlock,
+                'dhcpOptionsId'      => Fog::AWS::Mock.request_id,
+                'tagSet'             => {},
+                'enableDnsSupport'   => true,
+                'enableDnsHostnames' => false
               }
               self.data[:vpcs].push(vpc)
 

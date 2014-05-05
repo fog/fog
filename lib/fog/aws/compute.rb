@@ -120,6 +120,7 @@ module Fog
       request :describe_volumes
       request :describe_volume_status
       request :describe_vpcs
+      request :describe_vpc_attribute
       request :detach_network_interface
       request :detach_internet_gateway
       request :detach_volume
