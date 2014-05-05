@@ -1,9 +1,8 @@
+require 'fog/rackspace/core'
 # This class originally came from the rackspace-monitoring gem located here:
 # https://github.com/racker/rackspace-monitoring-rb
 # It has been heavily modified for import into Fog master.
 
-require 'fog'
-require 'fog/core'
 
 module Fog
   module Rackspace
@@ -141,7 +140,7 @@ module Fog
           authenticate
 
           @persistent = options[:persistent] || false
-          @connection = Fog::Connection.new(endpoint_uri.to_s, @persistent, @connection_options)
+          @connection = Fog::Core::Connection.new(endpoint_uri.to_s, @persistent, @connection_options)
         end
 
         def reload

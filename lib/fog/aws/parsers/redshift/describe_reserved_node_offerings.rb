@@ -34,7 +34,7 @@ module Fog
             end
           end
 
-          def end_element(name)            
+          def end_element(name)
             super
             case name
             when 'Marker'

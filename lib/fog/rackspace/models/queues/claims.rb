@@ -54,7 +54,7 @@ module Fog
           new(data)
         rescue Fog::Rackspace::Queues::NotFound
           nil
-        # HACK - This has been escalated to the Rackspace Queues team, as this 
+        # HACK - This has been escalated to the Rackspace Queues team, as this
         # behavior is not normal HTTP behavior.
         rescue Fog::Rackspace::Queues::ServiceError
           nil

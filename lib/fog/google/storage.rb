@@ -1,12 +1,11 @@
-require 'fog/google'
-require 'fog/storage'
+require 'fog/google/core'
 
 module Fog
   module Storage
     class Google < Fog::Service
 
       requires :google_storage_access_key_id, :google_storage_secret_access_key
-      recognizes :host, :port, :scheme, :persistent
+      recognizes :host, :port, :scheme, :persistent, :path_style
 
       model_path 'fog/google/models/storage'
       collection  :directories
@@ -64,7 +63,7 @@ module Fog
 
         def request_params(params)
           subdomain = params[:host].split(".#{@host}").first
-          unless subdomain =~ /^(?!goog)(?:[a-z]|\d(?!\d{0,2}(?:\.\d{1,3}){3}$))(?:[a-z0-9]|\.(?![\.\-])|\-(?![\.])){1,61}[a-z0-9]$/
+          if @path_style or subdomain !~ /^(?!goog)(?:[a-z]|\d(?!\d{0,2}(?:\.\d{1,3}){3}$))(?:[a-z0-9]|\.(?![\.\-])|\-(?![\.])){1,61}[a-z0-9]$/
             if subdomain =~ /_/
               # https://github.com/fog/fog/pull/1258#issuecomment-10248620.
               Fog::Logger.warning("fog: the specified google storage bucket name (#{subdomain}) is not DNS compliant (only characters a through z, digits 0 through 9, and the hyphen).")
@@ -75,8 +74,9 @@ module Fog
               # - Bucket names cannot be represented as an IP address in dotted-decimal notation (for example, 192.168.5.4).
               # - Bucket names cannot begin with the "goog" prefix.
               # - Also, for DNS compliance, you should not have a period adjacent to another period or dash. For example, ".." or "-." or ".-" are not acceptable.
-              Fog::Logger.warning("fog: the specified google storage bucket name (#{subdomain}) is not a valid dns name.  See: https://developers.google.com/storage/docs/bucketnaming")
+              Fog::Logger.warning("fog: the specified google storage bucket name (#{subdomain}) is not a valid dns name.  See: https://developers.google.com/storage/docs/bucketnaming") unless @path_style
             end
+        
             params[:host] = params[:host].split("#{subdomain}.")[-1]
             if params[:path]
               params[:path] = "#{subdomain}/#{params[:path]}"
@@ -227,6 +227,7 @@ module Fog
           @persistent = options.fetch(:persistent, true)
           @port       = options[:port]        || 443
           @scheme     = options[:scheme]      || 'https'
+          @path_style = options[:path_style]  || false
         end
 
         def reload
@@ -284,7 +285,7 @@ DATA
           else
             @connection = nil
           end
-          @connection ||= Fog::Connection.new(uri, @persistent, @connection_options)
+          @connection ||= Fog::XML::Connection.new(uri, @persistent, @connection_options)
         end
 
         private

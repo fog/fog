@@ -1,3 +1,4 @@
+require 'fog/ecloud/core'
 require 'fog/ecloud/collection'
 require 'fog/ecloud/model'
 require 'builder'
@@ -13,7 +14,7 @@ module Fog
       #requires
       recognizes :ecloud_username, :ecloud_password, :ecloud_version,
                  :ecloud_access_key, :ecloud_private_key,
-                 :ecloud_authentication_method
+                 :ecloud_authentication_method, :base_path
 
       #### Models
       model_path 'fog/ecloud/models/compute'
@@ -316,7 +317,7 @@ module Fog
 
           # Hash connections on the host_url ... There's nothing to say we won't get URI's that go to
           # different hosts.
-          @connections[host_url] ||= Fog::Connection.new(host_url, @persistent, @connection_options)
+          @connections[host_url] ||= Fog::XML::Connection.new(host_url, @persistent, @connection_options)
 
           # Set headers to an empty hash if none are set.
           headers = set_extra_headers_for(params) || set_extra_headers_for({})

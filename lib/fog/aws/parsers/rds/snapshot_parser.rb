@@ -8,14 +8,14 @@ module Fog
           def reset
             @db_snapshot = fresh_snapshot
           end
-          
+
           def fresh_snapshot
             {}
           end
 
           def start_element(name, attrs = [])
             super
-            
+
           end
 
           def end_element(name)
@@ -27,6 +27,7 @@ module Fog
             when 'Engine' then @db_snapshot['Engine'] = value
             when 'EngineVersion' then @db_snapshot['EngineVersion'] = value
             when 'InstanceCreateTime' then @db_snapshot['InstanceCreateTime'] = Time.parse value
+            when 'Iops' then @db_snapshot['Iops'] = value
             when 'MasterUsername' then @db_snapshot['MasterUsername'] = value
             when 'Port' then @db_snapshot['Port'] = value.to_i
             when 'SnapshotCreateTime' then @db_snapshot['SnapshotCreateTime'] = Time.parse value

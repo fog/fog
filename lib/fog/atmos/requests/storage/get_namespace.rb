@@ -8,7 +8,7 @@ module Fog
           request({
                     :expects  => 200,
                     :method   => 'GET',
-                    :path     => "namespace/" + namespace,
+                    :path     => "namespace/" + URI.escape(namespace),
                     :query    => {},
                     :parse => true
                   }.merge(options))

@@ -1,6 +1,5 @@
-require 'fog/compute'
+require 'fog/cloudsigma/core'
 require 'fog/cloudsigma/connection'
-
 
 module Fog
   module Compute

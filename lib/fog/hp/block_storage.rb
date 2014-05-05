@@ -1,4 +1,4 @@
-require 'fog/hp'
+require 'fog/hp/core'
 
 module Fog
   module HP
@@ -138,7 +138,7 @@ module Fog
           @port   = uri.port
           @scheme = uri.scheme
 
-          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
+          @connection = Fog::XML::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
         end
 
         def reload

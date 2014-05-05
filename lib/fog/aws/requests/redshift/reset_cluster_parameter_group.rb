@@ -5,7 +5,7 @@ module Fog
         require 'fog/aws/parsers/redshift/update_cluster_parameter_group_parser'
 
         # ==== Parameters
-        # 
+        #
         # @param [Hash] options
         # * :parameter_group_name - required - (String) The name of the cluster parameter group to be reset.
         # * :reset_all_parameters - (Boolean) If true , all parameters in the specified parameter group will be reset to their default values. Default: true

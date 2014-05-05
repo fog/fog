@@ -15,16 +15,17 @@ Shindo.tests('AWS::RDS | instance requests', ['aws', 'rds']) do
   tests('success') do
 
     tests("#create_db_instance").formats(AWS::RDS::Formats::CREATE_DB_INSTANCE) do
-      result = Fog::AWS[:rds].create_db_instance(@db_instance_id, 'AllocatedStorage' => 5,
-                                            'DBInstanceClass' => 'db.m1.small',
-                                            'Engine' => 'mysql',
-                                            'EngineVersion' => '5.1.50',
-                                            'MasterUsername' => 'foguser',
-                                            'BackupRetentionPeriod' => 1,
-                                            'MasterUserPassword' => 'fogpassword').body
+      result = Fog::AWS[:rds].create_db_instance(@db_instance_id,
+                                                 'AllocatedStorage' => 5,
+                                                 'DBInstanceClass' => 'db.m1.small',
+                                                 'Engine' => 'mysql',
+                                                 'EngineVersion' => '5.1.50',
+                                                 'MasterUsername' => 'foguser',
+                                                 'BackupRetentionPeriod' => 1,
+                                                 'MasterUserPassword' => 'fogpassword').body
 
       instance = result['CreateDBInstanceResult']['DBInstance']
-      returns('creating'){ instance['DBInstanceStatus']}
+      returns('creating') { instance['DBInstanceStatus'] }
       result
     end
 
@@ -33,14 +34,14 @@ Shindo.tests('AWS::RDS | instance requests', ['aws', 'rds']) do
     end
 
     server = Fog::AWS[:rds].servers.get(@db_instance_id)
-    server.wait_for {ready?}
+    server.wait_for { ready? }
 
     new_storage = 6
     tests("#modify_db_instance with immediate apply").formats(AWS::RDS::Formats::MODIFY_DB_INSTANCE) do
-      body = Fog::AWS[:rds].modify_db_instance(@db_instance_id, true, 'AllocatedStorage'=> new_storage).body
+      body = Fog::AWS[:rds].modify_db_instance(@db_instance_id, true, 'AllocatedStorage' => new_storage).body
       tests 'pending storage' do
         instance = body['ModifyDBInstanceResult']['DBInstance']
-        returns(new_storage){instance['PendingModifiedValues']['AllocatedStorage']}
+        returns(new_storage) { instance['PendingModifiedValues']['AllocatedStorage'] }
       end
       body
     end
@@ -49,7 +50,7 @@ Shindo.tests('AWS::RDS | instance requests', ['aws', 'rds']) do
     server.wait_for { state == 'available' }
 
     tests 'new storage' do
-      returns(new_storage){ server.allocated_storage}
+      returns(new_storage) { server.allocated_storage }
     end
 
     tests("reboot db instance") do
@@ -59,11 +60,11 @@ Shindo.tests('AWS::RDS | instance requests', ['aws', 'rds']) do
     end
 
     server.wait_for { state == 'rebooting' }
-    server.wait_for { state == 'available'}
+    server.wait_for { state == 'available' }
 
     tests("#create_db_snapshot").formats(AWS::RDS::Formats::CREATE_DB_SNAPSHOT) do
       body = Fog::AWS[:rds].create_db_snapshot(@db_instance_id, @db_snapshot_id).body
-      returns('creating'){ body['CreateDBSnapshotResult']['DBSnapshot']['Status']}
+      returns('creating') { body['CreateDBSnapshotResult']['DBSnapshot']['Status'] }
       body
     end
 
@@ -73,29 +74,33 @@ Shindo.tests('AWS::RDS | instance requests', ['aws', 'rds']) do
 
     server.wait_for { state == 'available' }
 
-    tests( "#create read replica").formats(AWS::RDS::Formats::CREATE_READ_REPLICA) do
+    tests("#create read replica").formats(AWS::RDS::Formats::CREATE_READ_REPLICA) do
       Fog::AWS[:rds].create_db_instance_read_replica(@db_replica_id, @db_instance_id).body
     end
 
     replica = Fog::AWS[:rds].servers.get(@db_replica_id)
-    replica.wait_for {ready?}
+    replica.wait_for { ready? }
 
     tests("replica source") do
-      returns(@db_instance_id){replica.read_replica_source}
+      returns(@db_instance_id) { replica.read_replica_source }
     end
     server.reload
 
     tests("replica identifiers") do
-      returns([@db_replica_id]){server.read_replica_identifiers}
+      returns([@db_replica_id]) { server.read_replica_identifiers }
+    end
+
+    tests("#promote read replica").formats(AWS::RDS::Formats::PROMOTE_READ_REPLICA) do
+      Fog::AWS[:rds].promote_read_replica(@db_replica_id).body
     end
 
     tests("#delete_db_instance").formats(AWS::RDS::Formats::DELETE_DB_INSTANCE) do
-      #server.wait_for { state == 'available'}
+      #server.wait_for { state == 'available' }
       Fog::AWS[:rds].delete_db_instance(@db_replica_id, nil, true)
       body = Fog::AWS[:rds].delete_db_instance(@db_instance_id, @db_final_snapshot_id).body
 
       tests "final snapshot" do
-        returns('creating'){Fog::AWS[:rds].describe_db_snapshots(:snapshot_id => @db_final_snapshot_id).body['DescribeDBSnapshotsResult']['DBSnapshots'].first['Status']}
+        returns('creating') { Fog::AWS[:rds].describe_db_snapshots(:snapshot_id => @db_final_snapshot_id).body['DescribeDBSnapshotsResult']['DBSnapshots'].first['Status'] }
       end
       body
     end
@@ -116,13 +121,13 @@ Shindo.tests('AWS::RDS | instance requests', ['aws', 'rds']) do
 
   tests('failure') do
     tests "deleting nonexisting instance" do
-      raises(Fog::AWS::RDS::NotFound) {Fog::AWS[:rds].delete_db_instance('doesnexist', 'irrelevant')}
+      raises(Fog::AWS::RDS::NotFound) { Fog::AWS[:rds].delete_db_instance('doesnexist', 'irrelevant') }
     end
     tests "deleting non existing snapshot" do
-      raises(Fog::AWS::RDS::NotFound) {Fog::AWS[:rds].delete_db_snapshot('doesntexist')}
+      raises(Fog::AWS::RDS::NotFound) { Fog::AWS[:rds].delete_db_snapshot('doesntexist') }
     end
     tests "modifying non existing instance" do
-      raises(Fog::AWS::RDS::NotFound) { Fog::AWS[:rds].modify_db_instance 'doesntexit', true, 'AllocatedStorage'=> 10}
+      raises(Fog::AWS::RDS::NotFound) { Fog::AWS[:rds].modify_db_instance 'doesntexit', true, 'AllocatedStorage' => 10 }
     end
   end
 end

@@ -83,13 +83,13 @@ module Fog
         def create_controller options=nil
           options=if options
                     controller_default_options.merge(Hash[options.map{|k,v| [k.to_sym,v] }])
-                  else 
-                    controller_default_options 
+                  else
+                    controller_default_options
                   end
-          controller_class=if options[:type].is_a? String then 
-                             Fog::class_from_string options[:type], "RbVmomi::VIM"
-                           else 
-                             options[:type] 
+          controller_class=if options[:type].is_a? String then
+                             Fog::Vsphere.class_from_string options[:type], "RbVmomi::VIM"
+                           else
+                             options[:type]
                            end
           {
             :operation => options[:operation],
@@ -134,7 +134,7 @@ module Fog
             )
           }
 
-          if operation == :add && disk.thin == false && disk.eager_zero
+          if operation == :add && disk.thin == 'false' && disk.eager_zero == 'true'
             payload[:device][:backing][:eagerlyScrub] = disk.eager_zero
           end
 

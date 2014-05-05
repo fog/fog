@@ -8,12 +8,12 @@ module Fog
           def reset
             @context = []
             @contexts = ['BootstrapActions', 'ExecutionStatusDetail', 'Instances', 'Steps', 'InstanceGroups', 'Args']
-            
+
             @response = { 'JobFlows' => [] }
             @bootstrap_actions = {'ScriptBootstrapActionConfig' => {'Args' => []}}
             @instance = { 'InstanceGroups' => [], 'Placement' => {}}
             @step = {
-              'ExecutionStatusDetail' => {}, 
+              'ExecutionStatusDetail' => {},
               'StepConfig' => {
                 'HadoopJarStepConfig' =>  {
                   'Args' => [],
@@ -45,12 +45,12 @@ module Fog
                 @bootstrap_actions = {'ScriptBootstrapActionConfig' => {'Args' => []}}
               end
             end
-            
+
             if @context.last == 'ExecutionStatusDetail'
               case name
-              when 'CreationDateTime', 'EndDateTime', 'LastStateChangeReason', 
+              when 'CreationDateTime', 'EndDateTime', 'LastStateChangeReason',
                   'ReadyDateTime', 'StartDateTime', 'State'
-                @execution_status_detail[name] = value             
+                @execution_status_detail[name] = value
               when 'ExecutionStatusDetail'
                 if @context.include?('Steps')
                   @step['ExecutionStatusDetail'] = @execution_status_detail
@@ -60,7 +60,7 @@ module Fog
                 @execution_status_detail = {}
               end
             end
-            
+
             if @context.last == 'Instances'
               case name
               when 'AvailabilityZone'
@@ -71,13 +71,13 @@ module Fog
                 @instance[name] = value
               when 'member'
                 @instance['InstanceGroups'] << @instance_group_detail
-                @instance_group_detail = {}      
+                @instance_group_detail = {}
               when 'Instances'
                 @flow['Instances'] = @instance
                 @instance = { 'InstanceGroups' => [], 'Placement' => {}}
               end
             end
-            
+
             if @context.last == 'InstanceGroups'
               case name
               when 'member'
@@ -87,7 +87,7 @@ module Fog
                 @instance_group_detail[name] = value
               end
             end
-            
+
             if @context.last == 'Args'
               if name == 'member'
                 if @context.include?('Steps')
@@ -97,7 +97,7 @@ module Fog
                 end
               end
             end
-            
+
             if @context.last == 'Steps'
               case name
               when 'ActionOnFailure', 'Name'
@@ -107,7 +107,7 @@ module Fog
               when 'member'
                 @flow['Steps'] << @step
                 @step = {
-                  'ExecutionStatusDetail' => {}, 
+                  'ExecutionStatusDetail' => {},
                   'StepConfig' => {
                     'HadoopJarStepConfig' =>  {
                       'Args' => [],
@@ -117,7 +117,7 @@ module Fog
                 }
               end
             end
-            
+
             if @context.empty?
               case name
               when 'AmiVersion', 'JobFlowId', 'LogUri', 'Name'
@@ -127,7 +127,7 @@ module Fog
                 @flow = {'Instances' => [], 'ExecutionStatusDetail' => {}, 'BootstrapActions' => [], 'Steps' => []}
               end
             end
-            
+
             if @context.last == name
               @context.pop
             end

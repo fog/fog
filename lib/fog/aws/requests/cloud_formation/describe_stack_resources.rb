@@ -26,7 +26,7 @@ module Fog
         #         * ResourceStatus [String] -
         #
         # @see http://docs.amazonwebservices.com/AWSCloudFormation/latest/APIReference/API_DescribeStackResources.html
-        
+
         def describe_stack_resources(options = {})
           request({
             'Action'    => 'DescribeStackResources',

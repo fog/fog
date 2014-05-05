@@ -21,7 +21,7 @@ module Fog
           account_id = Fog::Mock.random_numbers(6).to_s
           entity_id = Fog::Mock.random_letters(10)
 
-          if options[:label] == ""  
+          if options[:label] == ""
             raise Fog::Rackspace::Monitoring::BadRequest
           end
 

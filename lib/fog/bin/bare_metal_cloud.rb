@@ -5,7 +5,7 @@ class BareMetalCloud < Fog::Bin
       case key
       when :compute
         Fog::Compute::BareMetalCloud
-      else 
+      else
         raise ArgumentError, "Unsupported #{self} service: #{key}"
       end
     end

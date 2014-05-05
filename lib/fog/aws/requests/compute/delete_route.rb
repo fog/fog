@@ -5,12 +5,12 @@ module Fog
 
         require 'fog/aws/parsers/compute/basic'
 
-        # Deletes the specified route from the specified route table. 
+        # Deletes the specified route from the specified route table.
         #
         # ==== Parameters
         # * RouteTableId<~String> - The ID of the route table.
         # * DestinationCidrBlock<~String> - The CIDR range for the route. The value you specify must match the CIDR for the route exactly.
-        # 
+        #
         # ==== Returns
         # * response<~Excon::Response>:
         #   * body<~Hash>:
@@ -22,7 +22,7 @@ module Fog
           request(
             'Action'                => 'DeleteRoute',
             'RouteTableId'          => route_table_id,
-            'DestinationCidrBlock'  => destination_cidr_block,              
+            'DestinationCidrBlock'  => destination_cidr_block,
             :parser                 => Fog::Parsers::Compute::AWS::Basic.new
           )
         end
@@ -30,7 +30,7 @@ module Fog
       end
 
       class Mock
-        
+
         def delete_route(route_table_id, destination_cidr_block)
           route_table = self.data[:route_tables].find { |routetable| routetable["routeTableId"].eql? route_table_id }
           unless route_table.nil?
@@ -48,7 +48,7 @@ module Fog
               # Cannot delete the default route
               raise Fog::Compute::AWS::Error, "InvalidParameterValue => cannot remove local route #{destination_cidr_block} in route table #{route_table_id}"
             else
-              raise Fog::Compute::AWS::NotFound.new("no route with destination-cidr-block #{destination_cidr_block} in route table #{route_table_id}") 
+              raise Fog::Compute::AWS::NotFound.new("no route with destination-cidr-block #{destination_cidr_block} in route table #{route_table_id}")
             end
           else
             raise Fog::Compute::AWS::NotFound.new("no route with destination-cidr-block #{destination_cidr_block} in route table #{route_table_id}")

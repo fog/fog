@@ -2,7 +2,7 @@ module Fog
   module Compute
     class RackspaceV2
       class Real
-        
+
         # Retrieves flavor detail
         # @param [Sring] flavor_id
         # @return [Excon::Response] response:
@@ -10,7 +10,7 @@ module Fog
         #     * flavor [Hash]:
         #       * disk [Fixnum] - disk size in GB
         #       * id [String] - id of flavor
-        #       * name [String] - name of flavor 
+        #       * name [String] - name of flavor
         #       * ram [Fixnum] - amount of ram in MB
         #       * swap [Fixnum] - amount of swap in GB
         #       * vcpus [Fixnum] - number of virtual CPUs

@@ -15,9 +15,9 @@ module Fog
 
       class Mock
         def get_group_state(group_id)
-          
+
           instance_id_1 = Fog::Rackspace::AutoScale::MockData.uuid
-          instance_id_2 = Fog::Rackspace::AutoScale::MockData.uuid 
+          instance_id_2 = Fog::Rackspace::AutoScale::MockData.uuid
 
           state = {
             "id" => group_id,

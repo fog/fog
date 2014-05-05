@@ -8,7 +8,7 @@ module Fog
         # ==== Returns
         # * response<~Excon::Response>:
         #   * body<~Hash>:
-        #     * 'image'<~Array>        
+        #     * 'image'<~Array>
         #       * 'Size'<~String>  - Size of the image
         #       * 'Name'<~String>  - Name of the image
         #

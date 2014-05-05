@@ -185,19 +185,19 @@ module Fog
 
         # SCP something to our VM.
         def scp(local_path, remote_path, upload_options = {})
-          requires :ipaddress, :username
+          requires :ssh_ip_address, :username
 
           scp_options = {}
           scp_options[:password] = password unless self.password.nil?
           scp_options[:key_data] = [private_key] if self.private_key
 
-          Fog::SCP.new(ipaddress, username, scp_options).upload(local_path, remote_path, upload_options)
+          Fog::SCP.new(ssh_ip_address, username, scp_options).upload(local_path, remote_path, upload_options)
         end
 
         # Sets up a new SSH key on the VM so one doesn't need to use a password
         # ever again.
         def setup(credentials = {})
-          requires :public_key, :ipaddress, :username
+          requires :public_key, :ssh_ip_address, :username
 
           credentials[:password] = password unless self.password.nil?
           credentails[:key_data] = [private_key] if self.private_key
@@ -213,7 +213,7 @@ module Fog
           Timeout::timeout(360) do
             begin
               Timeout::timeout(8) do
-                Fog::SSH.new(ipaddress, username, credentials.merge(:timeout => 4)).run('pwd')
+                Fog::SSH.new(ssh_ip_address, username, credentials.merge(:timeout => 4)).run('pwd')
               end
             rescue Errno::ECONNREFUSED
               sleep(2)
@@ -222,7 +222,7 @@ module Fog
               retry
             end
           end
-          Fog::SSH.new(ipaddress, username, credentials).run(commands)
+          Fog::SSH.new(ssh_ip_address, username, credentials).run(commands)
         end
 
         private

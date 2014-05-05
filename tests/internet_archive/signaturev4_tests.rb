@@ -1,6 +1,6 @@
 # encoding: utf-8
 
-Shindo.tests('InternetArchive | signaturev4', ['internet_archive']) do
+Shindo.tests('InternetArchive | signaturev4', ['internetarchive']) do
 
   # These testcases are from http://docs.amazonwebservices.com/general/latest/gr/signature-v4-test-suite.html
   @signer = Fog::InternetArchive::SignatureV4.new('AKIDEXAMPLE', 'wJalrXUtnFEMI/K7MDENG+bPxRfiCYEXAMPLEKEY', 'us-east-1','host')

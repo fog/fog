@@ -1,4 +1,4 @@
-require 'fog/aws'
+require 'fog/aws/core'
 
 module Fog
   module AWS
@@ -56,6 +56,8 @@ module Fog
 
       request :describe_db_log_files
       request :download_db_logfile_portion
+      
+      request :promote_read_replica
 
       model_path 'fog/aws/models/rds'
       model       :server
@@ -168,7 +170,7 @@ module Fog
           @persistent = options[:persistent]  || false
           @port       = options[:port]        || 443
           @scheme     = options[:scheme]      || 'https'
-          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}#{@path}", @persistent, @connection_options)
+          @connection = Fog::XML::Connection.new("#{@scheme}://#{@host}:#{@port}#{@path}", @persistent, @connection_options)
           @version    = options[:version] || '2013-05-15'
         end
 

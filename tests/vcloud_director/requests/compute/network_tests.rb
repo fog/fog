@@ -33,8 +33,12 @@ Shindo.tests('Compute::VcloudDirector | network requests', ['vclouddirector']) d
     @service.delete_network('00000000-0000-0000-0000-000000000000')
   end
 
-  tests('Retrieve non-existent OrgNetwork').raises(Fog::Compute::VcloudDirector::Forbidden) do
+  tests('Retrieve non-existent OrgNetwork (get_network)').raises(Fog::Compute::VcloudDirector::Forbidden) do
     @service.get_network('00000000-0000-0000-0000-000000000000')
+  end
+
+  tests('Retrieve non-existent OrgNetwork (get_network_complete)').raises(Fog::Compute::VcloudDirector::Forbidden) do
+    @service.get_network_complete('00000000-0000-0000-0000-000000000000')
   end
 
   tests('#get_network').data_matches_schema(GET_NETWORK_FORMAT) do
@@ -44,6 +48,16 @@ Shindo.tests('Compute::VcloudDirector | network requests', ['vclouddirector']) d
     pending unless link # nothing to test here cannot continue
     @network_id = link[:href].split('/').last
     @service.get_network(@network_id).body
+  end
+
+  tests('#get_network_complete').data_matches_schema(VcloudDirector::Compute::Schema::NETWORK_TYPE) do
+    pending if Fog.mocking?
+    link = @org[:Link].detect do |l|
+      l[:rel] == 'down' && l[:type] == 'application/vnd.vmware.vcloud.orgNetwork+xml'
+    end
+    pending unless link # nothing to test here cannot continue
+    @network_id = link[:href].split('/').last
+    @service.get_network_complete(@network_id).body
   end
 
   tests('#get_network_metadata').data_matches_schema(VcloudDirector::Compute::Schema::METADATA_TYPE) do

@@ -6,7 +6,7 @@ module Fog
         require 'fog/aws/parsers/iam/basic'
 
         # Delete a instance_profile
-        # 
+        #
         # ==== Parameters
         # * instance_profile_name<~String>: name of the instance_profile to delete
         #

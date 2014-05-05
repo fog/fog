@@ -17,6 +17,7 @@ module Fog
         attribute :block_device_mapping,     :aliases => 'blockDeviceMapping'
         attribute :network_interfaces,       :aliases => 'networkInterfaces'
         attribute :client_token,             :aliases => 'clientToken'
+        attribute :disable_api_termination,  :aliases => 'disableApiTermination'
         attribute :dns_name,                 :aliases => 'dnsName'
         attribute :ebs_optimized,            :aliases => 'ebsOptimized'
         attribute :groups
@@ -58,7 +59,7 @@ module Fog
 
 
         def initialize(attributes={})
-          self.groups     ||= ["default"] unless (attributes[:subnet_id] || attributes[:security_group_ids])
+          self.groups     ||= ["default"] unless (attributes[:subnet_id] || attributes[:security_group_ids] || attributes[:network_interfaces])
           self.flavor_id  ||= 't1.micro'
 
           # Old 'connection' is renamed as service and should be used instead
@@ -146,7 +147,9 @@ module Fog
 
           options = {
             'BlockDeviceMapping'          => block_device_mapping,
+            'NetworkInterfaces'           => network_interfaces,
             'ClientToken'                 => client_token,
+            'DisableApiTermination'       => disable_api_termination,
             'EbsOptimized'                => ebs_optimized,
             'IamInstanceProfile.Arn'      => @iam_instance_profile_arn,
             'IamInstanceProfile.Name'     => @iam_instance_profile_name,
@@ -210,7 +213,7 @@ module Fog
         end
 
         def setup(credentials = {})
-          requires :public_ip_address, :username
+          requires :ssh_ip_address, :username
           require 'net/ssh'
 
           commands = [
@@ -225,7 +228,7 @@ module Fog
           # wait for aws to be ready
           wait_for { sshable?(credentials) }
 
-          Fog::SSH.new(public_ip_address, username, credentials).run(commands)
+          Fog::SSH.new(ssh_ip_address, username, credentials).run(commands)
         end
 
         def start

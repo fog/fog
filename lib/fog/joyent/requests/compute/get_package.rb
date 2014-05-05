@@ -23,7 +23,8 @@ module Fog
           request(
             :method => "GET",
             :path => "/my/packages/#{name}",
-            :expects => 200
+            :expects => 200,
+            :idempotent => true
           )
         end
 

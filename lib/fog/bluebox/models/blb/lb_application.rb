@@ -6,7 +6,7 @@ module Fog
 
       class LbApplication < Fog::Model
         identity :id
-        
+
         attribute :name
         attribute :ip_v4
         attribute :ip_v6

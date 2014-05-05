@@ -91,7 +91,7 @@ module Fog
         if v2_authentication?
           :authenticate_v2
         else
-          Fog::Logger.deprecation "Authentication using a v1.0/v1.1 endpoint is deprecated. Please specify a v2.0 endpoint using :rackpace_auth_url.\
+          Fog::Logger.deprecation "Authentication using a v1.0/v1.1 endpoint is deprecated. Please specify a v2.0 endpoint using :rackspace_auth_url.\
           For a list of v2.0 endpoints refer to http://docs.rackspace.com/auth/api/v2.0/auth-client-devguide/content/Endpoints-d1e180.html"
          :authenticate_v1
         end
@@ -102,7 +102,7 @@ module Fog
       end
 
       def v2_authentication?
-        @rackspace_auth_url.nil? || @rackspace_auth_url =~ /v2(\.\d)?\w*$/
+        @rackspace_auth_url.nil? || @rackspace_auth_url =~ /v2(\.\d)?[\w\/]*$/
       end
 
       def authenticate_v2(identity_options)

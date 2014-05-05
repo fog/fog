@@ -53,7 +53,7 @@ module Fog
         end
 
         def organization_collection_from_href(href)
-          find_href_in(href, all_organizations) 
+          find_href_in(href, all_organizations)
         end
 
         def all_organizations

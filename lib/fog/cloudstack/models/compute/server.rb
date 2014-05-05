@@ -42,13 +42,16 @@ module Fog
         attr_accessor :network_ids, :disk_offering_id, :ip_address, :ip_to_network_list
         attr_writer :security_group_ids
 
+        alias_method :public_ip_address, :ip_address
+        alias_method :public_ip_address=, :ip_address=
+
         def addresses
           nics.map{|nic| Address.new(nic)}
         end
 
-        def destroy
+        def destroy(options={})
           requires :id
-          data = service.destroy_virtual_machine("id" => id)
+          data = service.destroy_virtual_machine(options.merge({'id'=> self.id}))
           service.jobs.new(data["destroyvirtualmachineresponse"])
         end
 
@@ -112,9 +115,13 @@ module Fog
           service.jobs.new(data["startvirtualmachineresponse"])
         end
 
-        def stop(force=false)
+        def stop(options={})
           requires :id
-          data = service.stop_virtual_machine("id" => self.id, "force" => force)
+          unless options.is_a?(Hash)
+            Fog::Logger.deprecation("Passing force as a boolean option has been deprecated. Please pass a hash with 'force' => (true|false)")
+            options = {'force' => options}
+          end
+          data = service.stop_virtual_machine(options.merge({'id' => self.id}))
           service.jobs.new(data["stopvirtualmachineresponse"])
         end
       end # Server

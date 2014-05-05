@@ -12,6 +12,13 @@ module Fog
         # @param [String] source_id Object identifier of the vApp to capture.
         # @param [Hash] options
         # @option options [String] :Description Optional description.
+        # @option options [Hash] :LeaseSettingsSection
+        #   * :StorageLeaseInSeconds<~Integer> - Storage lease in seconds.
+        # @option options [Hash] :CustomizationSection
+        #   * :goldMaster<~Boolean> - True if this template is a gold master.
+        #   * :CustomizeOnInstantiate<~Boolean> - True if instantiating this
+        #     template applies customization settings. Otherwise, instantiation
+        #     creates an identical copy.
         # @return [Excon::Response]
         #   * body<~Hash>:
         #
@@ -21,6 +28,7 @@ module Fog
           body = Nokogiri::XML::Builder.new do
             attrs = {
               :xmlns => 'http://www.vmware.com/vcloud/v1.5',
+              'xmlns:ovf' => 'http://schemas.dmtf.org/ovf/envelope/1',
               :name => name
             }
             CaptureVAppParams(attrs) {
@@ -28,6 +36,22 @@ module Fog
                 Description options[:Description]
               end
               Source(:href => "#{end_point}vApp/#{source_id}")
+              if section = options[:LeaseSettingsSection]
+                LeaseSettingsSection {
+                  self['ovf'].Info 'Lease settings section'
+                  if section.key?(:StorageLeaseInSeconds)
+                    StorageLeaseInSeconds section[:StorageLeaseInSeconds]
+                  end
+                }
+              end
+              if section = options[:CustomizationSection]
+                attrs = {}
+                attrs[:goldMaster] = section[:goldMaster] if section.key?(:goldMaster)
+                CustomizationSection(attrs) {
+                  self['ovf'].Info 'VApp template customization section'
+                  CustomizeOnInstantiate section[:CustomizeOnInstantiate]
+                }
+              end
             }
           end.to_xml
 

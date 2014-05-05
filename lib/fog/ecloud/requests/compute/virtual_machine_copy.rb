@@ -21,7 +21,7 @@ module Fog
               ip = options[:ips][options[:network_uri].index(uri)]
             end
             {:href => uri, :name => network[:name], :ip => ip}
-          end 
+          end
           options
         end
 
@@ -70,7 +70,7 @@ module Fog
                     options[:network_uri] = options[:network_uri].is_a?(String) ? [options[:network_uri]] : options[:network_uri]
                     options[:network_uri].each do |uri|
                       xml.NetworkAdapter do
-                        xml.Network(:href => uri[:href], :name => uri[:name], :type => "application/vnd.tmrk.cloud.network") 
+                        xml.Network(:href => uri[:href], :name => uri[:name], :type => "application/vnd.tmrk.cloud.network")
                         xml.IpAddress uri[:ip]
                       end
                     end
@@ -83,7 +83,7 @@ module Fog
                       end
                     end
                   end
-                end                
+                end
               end
               xml.SshKey(:href => options[:ssh_key_uri])
             end

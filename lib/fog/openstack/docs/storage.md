@@ -1,6 +1,6 @@
 # Storage
 
-This document explains how to get started using OpenStack Swift with Fog. 
+This document explains how to get started using OpenStack Swift with Fog.
 
 
 ## Starting irb console

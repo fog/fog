@@ -1,5 +1,4 @@
-require 'fog/rackspace'
-require 'fog/cdn'
+require 'fog/rackspace/core'
 
 module Fog
   module CDN
@@ -144,7 +143,7 @@ module Fog
           @persistent = options[:persistent] || false
 
           if endpoint_uri
-            @connection = Fog::Connection.new(endpoint_uri.to_s, @persistent, @connection_options)
+            @connection = Fog::Core::Connection.new(endpoint_uri.to_s, @persistent, @connection_options)
             @enabled = true
           end
         end

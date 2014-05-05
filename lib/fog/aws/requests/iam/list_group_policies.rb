@@ -6,7 +6,7 @@ module Fog
         require 'fog/aws/parsers/iam/list_policies'
 
         # List policies for a group
-        # 
+        #
         # ==== Parameters
         # * group_name<~String> - Name of group to list policies for
         # * options<~Hash>: Optional

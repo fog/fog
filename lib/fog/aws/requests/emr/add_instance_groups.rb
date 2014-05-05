@@ -16,16 +16,16 @@ module Fog
         #   * 'InstanceType'<~String> - The Amazon EC2 instance type for all instances in the instance group
         #   * 'MarketType'<~String> - ON_DEMAND | SPOT Market type of the Amazon EC2 instances used to create a cluster node
         #   * 'Name'<~String> - Friendly name given to the instance group.
-        # 
+        #
         # ==== Returns
         # * response<~Excon::Response>:
         #   * body<~Hash>:
         def add_instance_groups(job_flow_id, options={})
-          
+
           if instance_groups = options.delete('InstanceGroups')
             options.merge!(Fog::AWS.indexed_param('InstanceGroups.member.%d', [*instance_groups]))
           end
-    
+
           request({
             'Action'  => 'AddInstanceGroups',
             'JobFlowId' => job_flow_id,

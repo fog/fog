@@ -3,7 +3,7 @@ Shindo.tests('Fog::Compute::RackspaceV2 | server', ['rackspace']) do
   cbs_service = Fog::Rackspace::BlockStorage.new
 
   tests('setup test network').succeeds do
-    @network = service.networks.create :label => "fog_test_net_#{Time.now.to_i.to_s}", :cidr => '192.168.1.1/24'
+    @network = service.networks.create :label => "fog_test_net_#{Time.now.to_i.to_s}", :cidr => '192.168.1.0/24'
   end
 
   options = {

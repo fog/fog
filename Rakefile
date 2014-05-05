@@ -1,4 +1,5 @@
 require 'bundler/setup'
+require 'rake/testtask'
 require 'date'
 require 'rubygems'
 require 'rubygems/package_task'
@@ -47,10 +48,11 @@ end
 
 GEM_NAME = "#{name}"
 task :default => :test
-task :travis  => ['test:travis', 'coveralls_push_workaround']
+task :travis  => ['test', 'test:travis', 'coveralls_push_workaround']
 
-require "tasks/test_task"
-Fog::Rake::TestTask.new
+Rake::TestTask.new do |t|
+  t.pattern = File.join("**", "spec", "**", "*_spec.rb")
+end
 
 namespace :test do
   mock = 'true' || ENV['FOG_MOCK']
@@ -207,6 +209,9 @@ end
 
 require "tasks/changelog_task"
 Fog::Rake::ChangelogTask.new
+
+require "tasks/github_release_task"
+Fog::Rake::GithubReleaseTask.new
 
 task :coveralls_push_workaround do
   use_coveralls = (Gem::Version.new(RUBY_VERSION) > Gem::Version.new('1.9.2'))

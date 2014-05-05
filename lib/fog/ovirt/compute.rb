@@ -1,9 +1,12 @@
+require 'fog/ovirt/core'
+
 module Fog
   module Compute
     class Ovirt < Fog::Service
 
       requires   :ovirt_username, :ovirt_password
-      recognizes :ovirt_url,      :ovirt_server,  :ovirt_port, :ovirt_api_path, :ovirt_datacenter
+      recognizes :ovirt_url,      :ovirt_server,  :ovirt_port, :ovirt_api_path, :ovirt_datacenter,
+                 :ovirt_ca_cert_store, :ovirt_ca_cert_file
 
       model_path 'fog/ovirt/models/compute'
       model      :server
@@ -105,9 +108,17 @@ module Fog
           port       = options[:ovirt_port]       || 8080
           api_path   = options[:ovirt_api_path]   || '/api'
           url        = options[:ovirt_url]        || "#{@scheme}://#{server}:#{port}#{api_path}"
-          datacenter = options[:ovirt_datacenter]
 
-          @client = OVIRT::Client.new(username, password, url, datacenter)
+          connection_opts = {}
+          connection_opts[:datacenter_id] = options[:ovirt_datacenter]
+          connection_opts[:ca_cert_store] = options[:ovirt_ca_cert_store]
+          connection_opts[:ca_cert_file]  = options[:ovirt_ca_cert_file]
+
+          @client = OVIRT::Client.new(username, password, url, connection_opts)
+        end
+
+        def api_version
+          client.api_version
         end
 
         private

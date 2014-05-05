@@ -1,3 +1,5 @@
+require 'fog/glesys/core'
+
 module Fog
   module Compute
     class Glesys < Fog::Service
@@ -42,9 +44,9 @@ module Fog
       class Mock
 
         def initialize(options={})
-          @api_url            = options[:glesys_api_url] || Fog.credentials[:glesys_api_url] || API_URL
-          @glesys_username    = options[:glesys_username] || Fog.credentials[:glesys_api_key]
-          @glesys_api_key     = options[:glesys_api_key] || Fog.credentials[:glesys_api_key]
+          @api_url            = options[:glesys_api_url] || API_URL
+          @glesys_username    = options[:glesys_username]
+          @glesys_api_key     = options[:glesys_api_key]
           @connection_options = options[:connection_options] || {}
         end
 
@@ -72,15 +74,15 @@ module Fog
         def initialize(options)
           require 'base64'
 
-          @api_url            = options[:glesys_api_url] || Fog.credentials[:glesys_api_url] || API_URL
-          @glesys_username    = options[:glesys_username] || Fog.credentials[:glesys_api_key]
-          @glesys_api_key     = options[:glesys_api_key] || Fog.credentials[:glesys_api_key]
+          @api_url            = options[:glesys_api_url] || API_URL
+          @glesys_username    = options[:glesys_username]
+          @glesys_api_key     = options[:glesys_api_key]
           @connection_options = options[:connection_options] || {}
           @persistent         = options[:persistent] || false
-          @connection = Fog::Connection.new(@api_url, @persistent, @connection_options)
+          @connection = Fog::XML::Connection.new(@api_url, @persistent, @connection_options)
         end
 
-        def request(method_name, options = {}) 
+        def request(method_name, options = {})
 
           options.merge!( {:format => 'json'})
 
@@ -112,9 +114,9 @@ module Fog
               Fog::Compute::Glesys::NotFound.slurp(error)
             else
               error
-            end 
-          end 
-        end 
+            end
+          end
+        end
 
         private
 

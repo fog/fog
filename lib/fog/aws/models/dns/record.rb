@@ -37,7 +37,9 @@ module Fog
         end
 
         def save
-          self.ttl ||= 3600
+          unless self.alias_target
+            self.ttl ||= 3600
+          end
           options = attributes_to_options('CREATE')
           data = service.change_resource_record_sets(zone.id, [options]).body
           merge_attributes(data)
@@ -84,9 +86,9 @@ module Fog
         end
 
         def attributes_to_options(action)
-          requires :name, :ttl, :type, :zone
+          requires :name, :type, :zone
           requires_one :value, :alias_target
-          {
+          options = {
               :action           => action,
               :name             => name,
               :resource_records => [*value],
@@ -97,6 +99,11 @@ module Fog
               :set_identifier   => set_identifier,
               :region           => region
           }
+          unless self.alias_target
+            requires :ttl
+            options[:ttl] = ttl
+          end
+          options
         end
 
       end

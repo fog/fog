@@ -9,16 +9,29 @@ module Fog
 
         identity :name
 
+        attribute :kind
+        attribute :id
+        attribute :can_ip_forward, :aliases => 'canIpForward'
+        attribute :creation_timestamp, :aliases => 'creationTimestamp'
+        attribute :description
+        attribute :disks
+        attribute :machine_type, :aliases => 'machineType'
+        attribute :metadata
         attribute :network_interfaces, :aliases => 'networkInterfaces'
+        attribute :scheduling
+        attribute :self_link, :aliases => 'selfLink'
+        attribute :service_accounts, :aliases => 'serviceAccounts'
+        attribute :state, :aliases => 'status'
+        attribute :status_message, :aliases => 'statusMessage'
+        attribute :tags
+        attribute :zone, :aliases => :zone_name
+
+        # These attributes are not available in the representation of an 'instance' returned by the GCE API.
+        # They are useful only for the create process
         attribute :network, :aliases => 'network'
         attribute :external_ip, :aliases => 'externalIP'
-        attribute :state, :aliases => 'status'
-        attribute :zone_name, :aliases => 'zone'
-        attribute :machine_type, :aliases => 'machineType'
-        attribute :disks, :aliases => 'disks'
-        attribute :metadata
-        attribute :tags, :squash => 'items'
-        attribute :self_link, :aliases => 'selfLink'
+        attribute :auto_restart
+        attribute :on_host_maintenance
 
         def image_name=(args)
           Fog::Logger.deprecation("image_name= is no longer used [light_black](#{caller.first})[/]")
@@ -50,13 +63,13 @@ module Fog
           machine_type=flavor_id
         end
 
-        def destroy
+        def destroy(async=true)
           requires :name, :zone
-          operation = service.delete_server(name, zone)
-          # wait until "RUNNING" or "DONE" to ensure the operation doesn't fail, raises exception on error
-          Fog.wait_for do
-            operation = service.get_zone_operation(zone_name, operation.body["name"])
-            operation.body["status"] != "PENDING"
+
+          data = service.delete_server(name, zone_name)
+          operation = Fog::Compute::Google::Operations.new(:service => service).get(data.body['name'], data.body['zone'])
+          unless async
+            operation.wait_for { ready? }
           end
           operation
         end
@@ -92,18 +105,72 @@ module Fog
           ip
         end
 
+        def addresses
+          [private_ip_address, public_ip_address]
+        end
+
+        def attach_disk(disk, options = {})
+          requires :identity, :zone
+
+          data = service.attach_disk(identity, zone_name, disk, options)
+          Fog::Compute::Google::Operations.new(:service => service).get(data.body['name'], data.body['zone'])
+        end
+
+        def detach_disk(device_name)
+          requires :identity, :zone
+
+          data = service.detach_disk(identity, zone, device_name)
+          Fog::Compute::Google::Operations.new(:service => service).get(data.body['name'], data.body['zone'])
+        end
+
+        def reboot
+          requires :identity, :zone
+
+          data = service.reset_server(identity, zone_name)
+          Fog::Compute::Google::Operations.new(:service => service).get(data.body['name'], data.body['zone'])
+        end
+
+        def serial_port_output
+          requires :identity, :zone
+
+          data = service.get_server_serial_port_output(identity, zone_name)
+          data.body['contents']
+        end
+
+        def set_disk_auto_delete(auto_delete, device_name)
+          requires :identity, :zone
+
+          data = service.set_server_disk_auto_delete(identity, zone_name, auto_delete, device_name)
+          Fog::Compute::Google::Operations.new(:service => service).get(data.body['name'], data.body['zone'])
+        end
+
+        def set_scheduling(on_host_maintenance, automatic_restart)
+          requires :identity, :zone
+
+          data = service.set_server_scheduling(identity, zone_name, on_host_maintenance, automatic_restart)
+          Fog::Compute::Google::Operations.new(:service => service).get(data.body['name'], data.body['zone'])
+        end
+
+        def set_metadata(metadata = {})
+          requires :identity, :zone
+
+          data = service.set_metadata(identity, zone_name, self.metadata['fingerprint'], metadata)
+          Fog::Compute::Google::Operations.new(:service => service).get(data.body['name'], data.body['zone'])
+        end
+
+        def set_tags(tags = [])
+          requires :identity, :zone
+
+          data = service.set_tags(identity, zone_name, self.tags['fingerprint'], tags)
+          Fog::Compute::Google::Operations.new(:service => service).get(data.body['name'], data.body['zone'])
+        end
+
         def ready?
           self.state == RUNNING
         end
 
-        def zone
-          if self.zone_name.is_a? String
-            service.get_zone(self.zone_name.split('/')[-1]).body["name"]
-          elsif zone_name.is_a? Excon::Response
-            service.get_zone(zone_name.body["name"]).body["name"]
-          else
-            self.zone_name
-          end
+        def zone_name
+          zone.nil? ? nil : zone.split('/')[-1]
         end
 
         def add_ssh_key username, key
@@ -128,7 +195,7 @@ module Fog
 
 
         def reload
-          data = service.get_server(self.name, self.zone).body
+          data = service.get_server(self.name, zone_name).body
           self.merge_attributes(data)
         end
 
@@ -151,13 +218,27 @@ module Fog
               'externalIp' => external_ip,
               'disks' => disks,
               'metadata' => metadata,
-              'tags' => tags
+              'serviceAccounts' => service_accounts,
+              'tags' => tags,
+              'auto_restart' => auto_restart,
+              'on_host_maintenance' => on_host_maintenance,
+              'can_ip_forward' => can_ip_forward
           }.delete_if {|key, value| value.nil?}
 
-          service.insert_server(name, zone_name, options)
-          data = service.backoff_if_unfound {service.get_server(self.name, self.zone_name).body}
+          if service_accounts
+            options['serviceAccounts'] = [{
+              "kind" => "compute#serviceAccount",
+              "email" => "default",
+              "scopes" => service_accounts.map {
+                |w| w.start_with?("https://") ? w : "https://www.googleapis.com/auth/#{w}"
+              }
+            }]
+          end
 
-          service.servers.merge_attributes(data)
+          data = service.insert_server(name, zone_name, options)
+          operation = Fog::Compute::Google::Operations.new(:service => service).get(data.body['name'], data.body['zone'])
+          operation.wait_for { !pending? }
+          reload
         end
 
       end

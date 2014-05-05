@@ -1,4 +1,4 @@
-require 'fog/aws/cloud_formation'
+require 'fog/openstack/core'
 
 module Fog
   module Orchestration
@@ -114,7 +114,7 @@ module Fog
           authenticate
 
           @persistent = options[:persistent] || false
-          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
+          @connection = Fog::Core::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
         end
 
         def credentials
@@ -214,7 +214,7 @@ module Fog
 
           # Not all implementations have identity service in the catalog
           if @openstack_identity_public_endpoint || @openstack_management_url
-            @identity_connection = Fog::Connection.new(
+            @identity_connection = Fog::Core::Connection.new(
               @openstack_identity_public_endpoint || @openstack_management_url,
               false, @connection_options)
           end

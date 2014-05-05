@@ -1,26 +1,34 @@
-require 'fog/google'
-require 'fog/compute'
+require 'fog/google/core'
 
 module Fog
   module Compute
     class Google < Fog::Service
 
       requires :google_project
-      requires :google_client_email
-      requires :google_key_location
+      recognizes :app_name, :app_version, :google_client_email, :google_key_location, :google_key_string, :google_client
 
       request_path 'fog/google/requests/compute'
       request :list_servers
+      request :list_aggregated_servers
       request :list_addresses
+      request :list_aggregated_addresses
       request :list_disks
+      request :list_aggregated_disks
       request :list_firewalls
       request :list_images
       request :list_machine_types
+      request :list_aggregated_machine_types
       request :list_networks
       request :list_zones
+      request :list_regions
       request :list_global_operations
+      request :list_region_operations
       request :list_zone_operations
       request :list_snapshots
+      request :list_http_health_checks
+      request :list_target_pools
+      request :list_forwarding_rules
+      request :list_routes
 
       request :get_server
       request :get_address
@@ -30,9 +38,17 @@ module Fog
       request :get_machine_type
       request :get_network
       request :get_zone
+      request :get_region
       request :get_snapshot
       request :get_global_operation
+      request :get_region_operation
       request :get_zone_operation
+      request :get_http_health_check
+      request :get_target_pool
+      request :get_target_pool_health
+      request :get_forwarding_rule
+      request :get_project
+      request :get_route
 
       request :delete_address
       request :delete_disk
@@ -42,7 +58,12 @@ module Fog
       request :delete_network
       request :delete_server
       request :delete_global_operation
+      request :delete_region_operation
       request :delete_zone_operation
+      request :delete_http_health_check
+      request :delete_target_pool
+      request :delete_forwarding_rule
+      request :delete_route
 
       request :insert_address
       request :insert_disk
@@ -51,9 +72,30 @@ module Fog
       request :insert_network
       request :insert_server
       request :insert_snapshot
+      request :insert_http_health_check
+      request :insert_target_pool
+      request :insert_forwarding_rule
+      request :insert_route
 
       request :set_metadata
       request :set_tags
+      request :set_forwarding_rule_target
+
+      request :add_target_pool_instances
+      request :add_target_pool_health_checks
+
+      request :remove_target_pool_instances
+      request :remove_target_pool_health_checks
+      request :set_common_instance_metadata
+
+      request :attach_disk
+      request :detach_disk
+      request :get_server_serial_port_output
+      request :reset_server
+      request :set_server_disk_auto_delete
+      request :set_server_scheduling
+      request :add_server_access_config
+      request :delete_server_access_config
 
       model_path 'fog/google/models/compute'
       model :server
@@ -68,6 +110,9 @@ module Fog
       model :disk
       collection :disks
 
+      model :address
+      collection :addresses
+
       model :operation
       collection :operations
 
@@ -77,12 +122,39 @@ module Fog
       model :zone
       collection :zones
 
+      model :region
+      collection :regions
+
+      model :http_health_check
+      collection :http_health_checks
+
+      model :target_pool
+      collection :target_pools
+
+      model :forwarding_rule
+      collection :forwarding_rules
+
+      model :project
+      collection :projects
+
+      model :firewall
+      collection :firewalls
+
+      model :network
+      collection :networks
+
+      model :route
+      collection :routes
+
       module Shared
         attr_reader :project, :api_version
 
         def shared_initialize(options = {})
           @project = options[:google_project]
           @api_version = 'v1'
+          base_url = 'https://www.googleapis.com/compute/'
+          @api_url = base_url + api_version + '/projects/'
+          @default_network = 'default'
         end
 
         def build_excon_response(body, status=200)
@@ -242,9 +314,9 @@ module Fog
                     },
                     "status" => "READY"
                   },
-                  "debian-7-wheezy-v20131120" => {
+                  "debian-7-wheezy-v20140408" => {
                     "kind" => "compute#image",
-                    "selfLink" => "https://www.googleapis.com/compute/#{api_version}/projects/debian-cloud/global/images/debian-7-wheezy-v20131120",
+                    "selfLink" => "https://www.googleapis.com/compute/#{api_version}/projects/debian-cloud/global/images/debian-7-wheezy-v20140408",
                     "id" => "17312518942796567788",
                     "creationTimestamp" => "2013-11-25T15:17:00.436-08:00",
                     "name" => "debian-7-wheezy-v20131120",
@@ -841,28 +913,83 @@ module Fog
         include Collections
         include Shared
 
-        def initialize(options)
-          base_url = 'https://www.googleapis.com/compute/'
-          api_scope_url = 'https://www.googleapis.com/auth/compute'
-          shared_initialize(options)
+        attr_accessor :client
+        attr_reader :compute, :api_url
 
-          google_client_email = options[:google_client_email]
-          @api_url = base_url + api_version + '/projects/'
+        def initialize(options)
 
           # NOTE: loaded here to avoid requiring this as a core Fog dependency
           begin
             require 'google/api_client'
-          rescue LoadError
+          rescue LoadError => error
             Fog::Logger.warning("Please install the google-api-client gem before using this provider.")
+            raise error
           end
-          key = ::Google::APIClient::KeyUtils.load_from_pkcs12(File.expand_path(options[:google_key_location]), 'notasecret')
+          shared_initialize(options)
 
-          @client = ::Google::APIClient.new({
-            :application_name => "fog",
-            :application_version => Fog::VERSION,
-          })
+          if !options[:google_client].nil?
+            @client = options[:google_client]
+          end
 
-          @client.authorization = Signet::OAuth2::Client.new({
+          if @client.nil?
+            if !options[:google_key_location].nil?
+              google_key = File.expand_path(options[:google_key_location])
+            elsif !options[:google_key_string].nil?
+              google_key = options[:google_key_string]
+            end
+
+            if !options[:google_client_email].nil? and !google_key.nil?
+              @client = self.new_pk12_google_client(
+                options[:google_client_email],
+                google_key,
+                options[:app_name],
+                options[:app_verion])
+            else
+              Fog::Logger.debug("Fog::Compute::Google.client has not been initialized nor are the :google_client_email and :google_key_location or :google_key_string options set, so we can not create one for you.")
+              raise ArgumentError.new("No Google API Client has been initialized.")
+            end
+          end
+
+          # We want to always mention we're using Fog.
+          if @client.user_agent.nil? or @client.user_agent.empty?
+            @client.user_agent = ""
+          elsif !@client.user_agent.include? "fog"
+            @client.user_agent += "fog/#{Fog::VERSION}"
+          end
+
+          @compute = @client.discovered_api('compute', api_version)
+        end
+
+        # Public: Create a Google::APIClient with a pkcs12 key and a user email.
+        #
+        # google_client_email - an @developer.gserviceaccount.com email address to use.
+        # google_key - an absolute location to a pkcs12 key file or the content of the file itself.
+        # app_name - an optional string to set as the app name in the user agent.
+        # app_version - an optional string to set as the app version in the user agent.
+        #
+        # Returns a new Google::APIClient
+        def new_pk12_google_client(google_client_email, google_key, app_name=nil, app_version=nil)
+          # The devstorage scope is needed to be able to insert images
+          # devstorage.read_only scope is not sufficient like you'd hope
+          api_scope_url = 'https://www.googleapis.com/auth/compute https://www.googleapis.com/auth/devstorage.read_write'
+
+          user_agent = ""
+          if app_name
+            user_agent = "#{app_name}/#{app_version || '0.0.0'} "
+          end
+          user_agent += "fog/#{Fog::VERSION}"
+
+          api_client_options = {
+            # https://github.com/google/google-api-ruby-client/blob/master/lib/google/api_client.rb#L98
+            :application_name => "suppress warning",
+            # https://github.com/google/google-api-ruby-client/blob/master/lib/google/api_client.rb#L100
+            :user_agent => user_agent
+          }
+          local_client = ::Google::APIClient.new(api_client_options)
+
+          key = ::Google::APIClient::KeyUtils.load_from_pkcs12(google_key, 'notasecret')
+
+          local_client.authorization = Signet::OAuth2::Client.new({
             :audience => 'https://accounts.google.com/o/oauth2/token',
             :auth_provider_x509_cert_url => "https://www.googleapis.com/oauth2/v1/certs",
             :client_x509_cert_url => "https://www.googleapis.com/robot/v1/metadata/x509/#{google_client_email}",
@@ -872,9 +999,9 @@ module Fog
             :token_credential_uri => 'https://accounts.google.com/o/oauth2/token',
           })
 
-          @client.authorization.fetch_access_token!
-          @compute = @client.discovered_api('compute', api_version)
-          @default_network = 'default'
+          local_client.authorization.fetch_access_token!
+
+          return local_client
         end
 
         def build_result(api_method, parameters, body_object=nil)
@@ -895,9 +1022,8 @@ module Fog
         # result = Google::APIClient::Result
         # returns Excon::Response
         def build_response(result)
-          build_excon_response(result.body.nil? ? nil : Fog::JSON.decode(result.body), result.status)
+          build_excon_response(result.body.nil? || result.body.empty? ? nil : Fog::JSON.decode(result.body), result.status)
         end
-
       end
 
       RUNNING = 'RUNNING'

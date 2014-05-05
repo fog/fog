@@ -278,6 +278,60 @@ Shindo.tests('Fog::Rackspace::Storage | file', ['rackspace']) do
 
     end
 
+    tests("#delete_at") do
+      @delete_at_time = (Time.now + 300).to_i
+
+
+      tests("#delete_at should default to nil").returns(nil) do
+        @instance.delete_at
+      end
+
+      @instance.delete_at = @delete_at_time
+      @instance.save
+      tests("#delete_at should return delete_at attribute").returns(@delete_at_time) do
+        @instance.delete_at
+      end
+
+      @instance.delete_at = @delete_at_time
+      @instance.save
+      tests("#delete_at= should update delete_at").returns(@delete_at_time + 100) do
+        @instance.delete_at = @delete_at_time + 100
+        @instance.save
+        @instance.delete_at
+      end
+
+      tests("#delete_at= should not blow up on nil") do
+        @instance.delete_at = nil
+        @instance.save
+      end
+    end
+
+    tests("#delete_after") do
+      @delete_after_time = (Time.now + 300).to_i
+
+      tests("#delete_after should default to nil").returns(nil) do
+        @instance.delete_after
+      end
+
+      @instance.delete_after = @delete_after_time
+      @instance.save
+      tests("#delete_after should return delete_after attribute").returns(@delete_after_time) do
+        @instance.delete_after
+      end
+
+      @instance.delete_after = @delete_after_time
+      @instance.save
+      tests("#delete_after= should update delete_after").returns(@delete_after_time + 100) do
+        @instance.delete_after = @delete_after_time + 100
+        @instance.save
+        @instance.delete_after
+      end
+
+      tests("#delete_after= should not blow up on nil") do
+        @instance.delete_after = nil
+        @instance.save
+      end
+    end
   end
 
 

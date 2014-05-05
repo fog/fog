@@ -5,20 +5,20 @@ module Fog
         require 'fog/aws/parsers/redshift/cluster_subnet_group_parser'
 
         # ==== Parameters
-        # 
+        #
         # @param [Hash] options
         # * :cluster_subnet_group_name - required - (String)
-        #    The name for the subnet group. Amazon Redshift stores the value as a lowercase string. 
+        #    The name for the subnet group. Amazon Redshift stores the value as a lowercase string.
         #    Constraints: Must contain no more than 255 alphanumeric characters or hyphens. Must not
         #    be "Default". Must be unique for all subnet groups that are created by your AWS account.
         #    Example: examplesubnetgroup
-        # * :description - required - (String) 
+        # * :description - required - (String)
         #    A description of the parameter group.
-        # * :subnet_ids - required - (Array<) 
+        # * :subnet_ids - required - (Array<)
         #    An array of VPC subnet IDs. A maximum of 20 subnets can be modified in a single request.
         #
         # ==== See Also
-        # http://docs.aws.amazon.com/redshift/latest/APIReference/API_CreateClusterSubnetGroup.html               
+        # http://docs.aws.amazon.com/redshift/latest/APIReference/API_CreateClusterSubnetGroup.html
         def create_cluster_subnet_group(options = {})
           cluster_subnet_group_name = options[:cluster_subnet_group_name]
           description               = options[:description]

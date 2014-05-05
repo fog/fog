@@ -3,9 +3,9 @@ module Fog
     class XenServer
 
       class Real
-        
+
         require 'fog/xenserver/parser'
-        
+
         def get_record( ref, klass, options = {} )
           get_record_by_ref ref, klass, options
         end
@@ -15,13 +15,13 @@ module Fog
         end
 
       end
-      
+
       class Mock
-        
+
         def get_record_by_ref
           Fog::Mock.not_implemented
         end
-        
+
       end
 
     end

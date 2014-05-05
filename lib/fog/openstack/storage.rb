@@ -1,5 +1,4 @@
-require 'fog/openstack'
-require 'fog/storage'
+require 'fog/openstack/core'
 
 module Fog
   module Storage
@@ -93,7 +92,7 @@ module Fog
           @openstack_temp_url_key = options[:openstack_temp_url_key]
           authenticate
           @persistent = options[:persistent] || false
-          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
+          @connection = Fog::Core::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
         end
 
         def reload
@@ -172,7 +171,7 @@ module Fog
               error
             end
           end
-          if !response.body.empty? && parse_json && response.headers['Content-Type'] =~ %r{application/json}
+          if !response.body.empty? && parse_json && response.get_header('Content-Type') =~ %r{application/json}
             response.body = Fog::JSON.decode(response.body)
           end
           response

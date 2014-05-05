@@ -4,7 +4,7 @@ module Fog
       class Real
         require 'fog/aws/parsers/compute/replace_network_acl_association'
 
-        # Replace the network ACL for a subnet with a 
+        # Replace the network ACL for a subnet with a
         #
         # ==== Parameters
         # * association_id<~String> - The ID of the current association between the original network ACL and the subnet

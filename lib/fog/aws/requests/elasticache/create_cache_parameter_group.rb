@@ -27,9 +27,25 @@ module Fog
       end
 
       class Mock
-        def create_cache_parameter_group(name, description = name,
-          family = 'memcached1.4')
-          Fog::Mock.not_implemented
+        def create_cache_parameter_group(name, description = name, family = 'memcached1.4')
+          response = Excon::Response.new
+          if self.data[:parameter_groups] and self.data[:parameter_groups][name]
+            raise Fog::AWS::Elasticache::IdentifierTaken.new("Parameter group #{name} already exists")
+          end
+
+          data = {
+            'CacheParameterGroupName' => name,
+            'CacheParameterGroupFamily' => family.downcase,
+            'Description' => description
+          }
+          self.data[:parameter_groups][name] = data
+
+          response.body = {
+            "ResponseMetadata"=>{ "RequestId"=> Fog::AWS::Mock.request_id },
+            "CreateCacheParameterGroupResult"=> {"CacheParameterGroup"=> data}
+          }
+          response.status = 200
+          response
         end
       end
     end

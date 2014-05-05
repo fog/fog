@@ -151,7 +151,7 @@ module Fog
 
                 if zone[:records][change[:type]][change[:name]].nil?
                   # raise change.to_s if change[:resource_records].nil?
-                  zone[:records][change[:type]][change[:name]] = 
+                  zone[:records][change[:type]][change[:name]] =
                   if change[:alias_target]
                     record = {
                       :alias_target => change[:alias_target]

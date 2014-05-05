@@ -8,7 +8,7 @@ module Fog
         # Describe the load balancer attributes
         # http://docs.aws.amazon.com/ElasticLoadBalancing/latest/APIReference/API_DescribeLoadBalancerAttributes.html
         # ==== Parameters
-        # * lb_name<~String> - The mnemonic name associated with the LoadBalancer. 
+        # * lb_name<~String> - The mnemonic name associated with the LoadBalancer.
         #
         # ==== Returns
         # * response<~Excon::Response>:
@@ -17,6 +17,9 @@ module Fog
         #       * 'RequestId'<~String> - Id of request
         #     * 'DescribeLoadBalancerAttributesResult'<~Hash>:
         #       * 'LoadBalancerAttributes'<~Hash>
+        #         * 'ConnectionDraining'<~Hash>
+        #           * 'Enabled'<~Boolean> - whether connection draining is enabled
+        #           * 'Timeout'<~Integer> - max time (in seconds) to keep existing conns open before deregistering instances.
         #         * 'CrossZoneLoadBalancing'<~Hash>
         #           * 'Enabled'<~Boolean> - whether crosszone load balancing is enabled
         def describe_load_balancer_attributes(lb_name)

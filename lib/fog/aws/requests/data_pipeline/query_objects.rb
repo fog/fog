@@ -10,14 +10,16 @@ module Fog
         # * PipelineId <~String> - The ID of the pipeline
         # * Sphere <~String> - Specifies whether the query applies to components or instances.
         #                      Allowable values: COMPONENT, INSTANCE, ATTEMPT.
+        # * Marker <~String> - The starting point for the results to be returned.
         # ==== Returns
         # * response<~Excon::Response>:
         #   * body<~Hash>:
-        def query_objects(id, sphere)
+        def query_objects(id, sphere, options={})
           params = {
             'pipelineId' => id,
             'sphere' => sphere,
           }
+          params['marker'] = options[:marker] if options[:marker]
 
           response = request({
             :body => Fog::JSON.encode(params),
@@ -30,7 +32,7 @@ module Fog
       end
 
       class Mock
-        def query_objects(id, objects)
+        def query_objects(id, sphere, options={})
           Fog::Mock.not_implemented
         end
       end

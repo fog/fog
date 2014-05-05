@@ -5,14 +5,14 @@ Before you can begin working with the Ruby Fog bindings, you have to install the
 * [Ubuntu Installation](#ubuntu-installation)
 * [Mac OSX Installation](#mac-osx-installation)
 * [CentOS Installation](#centos-installation)
-* [Uninstalling](#uninstalling) 
+* [Uninstalling](#uninstalling)
 
 To install and use HP Cloud Ruby bindings for Fog, please install the [latest release](http://fog.io) of Fog.
 
 
 ## Ubuntu Installation
 
-If you plan on using the Ruby Fog binding on Ubuntu, we recommend you use Ubuntu versions 12.04 or 12.10.  The Ruby Fog bindings may work on other versions, but are not supported. 
+If you plan on using the Ruby Fog binding on Ubuntu, we recommend you use Ubuntu versions 12.04 or 12.10.  The Ruby Fog bindings may work on other versions, but are not supported.
 
 To install the Ruby Fog bindings on the Ubuntu operating system, follow these steps while logged in as the root user:
 
@@ -41,7 +41,7 @@ See the [Connecting to the Service](https://github.com/fog/fog/blob/master/lib/f
 
 ## MacOS X Installation
 
-Some Ruby packages require C/C++ compiler support.  On the MacOS, if you haven't already installed XCode, we recommend that you install it to provide the needed C/C++ compiler for your system.  
+Some Ruby packages require C/C++ compiler support.  On the MacOS, if you haven't already installed XCode, we recommend that you install it to provide the needed C/C++ compiler for your system.
 
 To install the Ruby Fog bindings on MacOS X, follow these steps while logged in as the root user:
 
@@ -54,9 +54,9 @@ To install the Ruby Fog bindings on MacOS X, follow these steps while logged in 
 3. Add the Homebrew path to your $PATH environment variable.  You can either do this via the CLI command line:
 
         export PATH=:/usr/local/sbin:$PATH
-        
+
     (The default Homebrew installation location is the `/usr/local/sbin` directory.)  Or you can add the Homebrew path (`/usr/local/sbin`) to your $PATH environment variable in your local `.profile` file.
-    
+
 4. Install RVM on your system:
 
         curl -L get.rvm.io | bash -s stable
@@ -64,16 +64,16 @@ To install the Ruby Fog bindings on MacOS X, follow these steps while logged in 
     **Note**: You can also install RVM using [Jewelry Box](https://unfiniti.com/software/mac/jewelrybox), a RVM graphical user interface (GUI) for Mac OSX.
 
 5. Install the packages required by RVM; the following command lists the required packages:
-    
+
         source ~/.rvm/scripts/rvm
         rvm requirements # install required packages
-        
+
 6. Install the required packages listed in Step 5:
 
         brew install <packages>
-        
+
     Where `<packages>` are the packages that you need to install.
-    
+
 7. Install the `libksba` library:
 
         brew install libksba
@@ -82,7 +82,7 @@ To install the Ruby Fog bindings on MacOS X, follow these steps while logged in 
 
         rvm user all
         rvm install ruby-1.9.2 --with-gcc=clang
-        
+
 9. Use the Ruby version and make it the default:
 
         rvm use 1.9.2 --default
@@ -96,14 +96,14 @@ See the [Connecting to the Service](https://github.com/fog/fog/blob/master/lib/f
 
 ## CentOS Installation
 
-If you plan on using the Ruby Fog binding on CentOS, we recommend you use CentOS versions 6.2 or 6.3.  The Ruby Fog bindings may work on other versions, but are not supported. 
+If you plan on using the Ruby Fog binding on CentOS, we recommend you use CentOS versions 6.2 or 6.3.  The Ruby Fog bindings may work on other versions, but are not supported.
 
 To install the Ruby Fog bindings on CentOS, follow these steps while logged in as the root user:
 
 1. Install Ruby and Ruby Dev:
 
         yum install -y ruby ruby-devel
-    
+
 2. Install Rubygems:
 
         yum install -y rubygems

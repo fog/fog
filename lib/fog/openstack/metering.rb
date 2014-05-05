@@ -1,5 +1,4 @@
-require 'fog/metering'
-require 'fog/openstack'
+require 'fog/openstack/core'
 
 module Fog
   module Metering
@@ -117,7 +116,7 @@ module Fog
           authenticate
 
           @persistent = options[:persistent] || false
-          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
+          @connection = Fog::Core::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
         end
 
         def credentials

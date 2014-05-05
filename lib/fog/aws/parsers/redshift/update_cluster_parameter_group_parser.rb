@@ -6,7 +6,7 @@ module Fog
         class UpdateClusterParameterGroupParser < Fog::Parsers::Base
           # :parameter_group_name - (String)
           # :parameter_group_status - (String)
-          
+
           def reset
             @response = {}
           end
@@ -15,7 +15,7 @@ module Fog
             super
           end
 
-          def end_element(name)            
+          def end_element(name)
             super
             case name
             when 'ParameterGroupName', 'ParameterGroupStatus'

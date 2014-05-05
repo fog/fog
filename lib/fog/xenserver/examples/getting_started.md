@@ -6,7 +6,7 @@ First, create a connection to the XenServer host:
 
     require 'fog'
     require 'pp'
-    
+
     #
     # http://rubydoc.info/github/fog/fog/Fog/Compute/XenServer/Real
     #
@@ -15,8 +15,8 @@ First, create a connection to the XenServer host:
       :xenserver_url => 'xenserver-test',
       :xenserver_username => 'root',
       :xenserver_password => 'changeme',
-      :xenserver_defaults => { 
-        :template => "squeeze-test" 
+      :xenserver_defaults => {
+        :template => "squeeze-test"
       }
     })
 
@@ -34,7 +34,7 @@ Having that in mind, we can start doing things with out XenServer host.
 
 Listing all the servers (VMs):
 
-    conn.servers.all 
+    conn.servers.all
 
 This will return a list of Fog::Compute::XenServer::Server.
 
@@ -42,7 +42,7 @@ List all the servers whose name matches Ubuntu:
 
     conn.servers.all :name_matches => "Ubuntu"
 
-Listing the first server running (templates aren't included by default 
+Listing the first server running (templates aren't included by default
 in the list):
 
     server = conn.servers.first
@@ -65,7 +65,7 @@ ones found in the official Citrix documentation, and they are available at:
 
 http://rubydoc.info/github/fog/fog/Fog/Compute/XenServer/Server
 
-and 
+and
 
 https://github.com/fog/fog/blob/master/lib/fog/xenserver/models/compute/server.rb
 
@@ -145,7 +145,7 @@ Same thing applies to the virtual disk images:
     conn.vdis.all
 
 Listing Storage Repositories (Xen SRs), where the disk images are stored:
-    
+
     # http://docs.vmd.citrix.com/XenServer/6.0.0/1.0/en_gb/api/?c=SR
     conn.storage_repositories
 

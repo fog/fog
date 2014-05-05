@@ -1,11 +1,10 @@
-require 'fog/storm_on_demand'
-require 'fog/monitoring'
+require 'fog/storm_on_demand/core'
 require 'fog/storm_on_demand/shared'
 
 module Fog
   module Monitoring
     class StormOnDemand < Fog::Service
-      
+
       requires :storm_on_demand_username, :storm_on_demand_password
       recognizes :storm_on_demand_auth_url
 

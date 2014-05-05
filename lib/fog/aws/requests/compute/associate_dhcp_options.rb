@@ -4,10 +4,10 @@ module Fog
       class Real
 
         require 'fog/aws/parsers/compute/basic'
-        # 
+        #
         #
         # ==== Parameters
-        # * dhcp_options_id<~String> - The ID of the DHCP options you want to associate with the VPC, or "default" if you want the VPC 
+        # * dhcp_options_id<~String> - The ID of the DHCP options you want to associate with the VPC, or "default" if you want the VPC
         #   to use no DHCP options.
         # * vpc_id<~String> - The ID of the VPC
         #

@@ -10,11 +10,16 @@ module Fog
         attribute :state
         attribute :type
         attribute :dataset
+        attribute :compute_node
+        attribute :networks
         attribute :ips
         attribute :memory
         attribute :disk
         attribute :metadata
         attribute :tags
+        attribute :package
+        attribute :image
+        attribute :primary_ip, :aliases => 'primaryIp'
 
         attribute :created, :type => :time
         attribute :updated, :type => :time

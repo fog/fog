@@ -34,7 +34,7 @@ module Fog
           <CreateInternetServiceRequest xml:lang="en" xmlns="urn:tmrk:vCloudExpressExtensions-1.6" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
             <Name>#{name}</Name>
             <Protocol>#{protocol.upcase}</Protocol>
-            <Port>#{port}</Port> 
+            <Port>#{port}</Port>
             <Enabled>#{options['Enabled']}</Enabled>
             <Description>#{options['Description']}</Description>
             </CreateInternetServiceRequest>

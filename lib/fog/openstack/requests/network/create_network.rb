@@ -7,9 +7,9 @@ module Fog
           data = { 'network' => {} }
 
           vanilla_options = [
-            :name, 
-            :shared, 
-            :admin_state_up, 
+            :name,
+            :shared,
+            :admin_state_up,
             :tenant_id
           ]
 
@@ -30,8 +30,8 @@ module Fog
             :provider_physical_network
           ]
 
-          # Map Fog::Network::OpenStack::Network 
-          # model attributes to OpenStack provider attributes 
+          # Map Fog::Network::OpenStack::Network
+          # model attributes to OpenStack provider attributes
           aliases = {
             :provider_network_type     => 'provider:network_type',
             # Not applicable to the "local" or "gre" network types

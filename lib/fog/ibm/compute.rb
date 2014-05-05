@@ -1,5 +1,4 @@
-require 'fog/ibm'
-require 'fog/compute'
+require 'fog/ibm/core'
 
 module Fog
   module Compute

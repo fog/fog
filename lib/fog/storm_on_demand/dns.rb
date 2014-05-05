@@ -1,5 +1,4 @@
-require 'fog/storm_on_demand'
-require 'fog/dns'
+require 'fog/storm_on_demand/core'
 require 'fog/storm_on_demand/shared'
 
 module Fog
@@ -44,7 +43,7 @@ module Fog
       request :get_zone
       request :list_zones
       request :update_zone
-      
+
       class Mock
 
         def self.data

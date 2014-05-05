@@ -10,15 +10,17 @@ module Fog
         model Fog::Compute::Google::Snapshot
 
         def all
-          data = service.list_snapshots(self.service.project)
+          data = service.list_snapshots
           snapshots = data.body['items'] || []
           load(snapshots)
         end
 
         def get(snap_id)
-          response = service.get_snapshot(snap_id, self.service.project)
+          response = service.get_snapshot(snap_id)
           return nil if response.nil?
           new(response.body)
+        rescue Fog::Errors::NotFound
+          nil
         end
 
       end

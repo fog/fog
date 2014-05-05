@@ -9,7 +9,7 @@ module Fog
 
         model Fog::Compute::RackspaceV2::Server
 
-        # Returns list of servers 
+        # Returns list of servers
         # @return [Fog::Compute::RackspaceV2::Servers] Retrieves a list servers.
         # @raise [Fog::Compute::RackspaceV2::NotFound] - HTTP 404
         # @raise [Fog::Compute::RackspaceV2::BadRequest] - HTTP 400
@@ -41,7 +41,7 @@ module Fog
         # @raise [Fog::Compute::RackspaceV2::InvalidServerStateException] if server state is an error state
         def bootstrap(new_attributes = {})
           server = create(new_attributes)
-          server.wait_for(1500) { ready? && !public_ip_address.empty? }
+          server.wait_for { ready? && !public_ip_address.empty? }
           server.setup(:password => server.password)
           server
         end

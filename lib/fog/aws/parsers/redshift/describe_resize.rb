@@ -28,8 +28,8 @@ module Fog
             end
           end
 
-          def end_element(name) 
-            super           
+          def end_element(name)
+            super
             case name
             when 'TargetNodeType', 'TargetClusterType', 'Status'
               @response[name] = value

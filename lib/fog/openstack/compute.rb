@@ -1,5 +1,4 @@
-require 'fog/compute'
-require 'fog/openstack'
+require 'fog/openstack/core'
 
 module Fog
   module Compute
@@ -321,7 +320,7 @@ module Fog
           authenticate
 
           @persistent = options[:persistent] || false
-          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
+          @connection = Fog::Core::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
         end
 
         def credentials
@@ -391,7 +390,7 @@ module Fog
               :openstack_endpoint_type => @openstack_endpoint_type
             }
 
-            if @openstack_auth_uri.path =~ /\/v2.0\//
+            if @openstack_auth_uri.path =~ /\/v2.0/
 
               credentials = Fog::OpenStack.authenticate_v2(options, @connection_options)
             else
@@ -423,7 +422,7 @@ module Fog
 
           # Not all implementations have identity service in the catalog
           if @openstack_identity_public_endpoint || @openstack_management_url
-            @identity_connection = Fog::Connection.new(
+            @identity_connection = Fog::Core::Connection.new(
               @openstack_identity_public_endpoint || @openstack_management_url,
               false, @connection_options)
           end

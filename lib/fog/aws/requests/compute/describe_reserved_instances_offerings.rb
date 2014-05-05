@@ -2,7 +2,7 @@ module Fog
   module Compute
     class AWS
       class Real
-        
+
         require 'fog/aws/parsers/compute/describe_reserved_instances_offerings'
 
         # Describe all or specified reserved instances offerings
@@ -16,7 +16,7 @@ module Fog
         #     * 'OfferingType'<~String> - type of offering, in ['Heavy Utilization', 'Medium Utilization', 'Light Utilization']
         #     * 'ProductDescription'<~String> - description of offering, in ['Linux/UNIX', 'Linux/UNIX (Amazon VPC)', 'Windows', 'Windows (Amazon VPC)']
         #     * 'MaxDuration'<~Integer> - maximum duration (in seconds) of offering
-        #     * 'MinDuration'<~Integer> - minimum duration (in seconds) of offering 
+        #     * 'MinDuration'<~Integer> - minimum duration (in seconds) of offering
         #
         # ==== Returns
         # * response<~Excon::Response>:

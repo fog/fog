@@ -29,16 +29,23 @@ module Fog
           )
         end
       end
-      
+
 
       class Mock
 
         def attach_network_interface(nic_id, instance_id, device_index)
           response = Excon::Response.new
-          if self.data[:network_interfaces][nic_id]
+          if ! self.data[:instances].find{ |i,i_conf|
+            i_conf['instanceId'] == instance_id
+          }
+            raise Fog::Compute::AWS::NotFound.new("The instance ID '#{instance_id}' does not exist")
+          elsif self.data[:network_interfaces].find{ |ni,ni_conf| ni_conf['attachment']['instanceId'] == instance_id && ni_conf['attachment']['deviceIndex'] == device_index }
+            raise Fog::Compute::AWS::Error.new("InvalidParameterValue => Instance '#{instance_id}' already has an interface attached at device index '#{device_index}'.")
+          elsif self.data[:network_interfaces][nic_id]
             attachment = self.data[:network_interfaces][nic_id]['attachment']
             attachment['attachmentId'] = Fog::AWS::Mock.request_id
             attachment['instanceId']   = instance_id
+            attachment['deviceIndex']  = device_index
 
             response.status = 200
             response.body = {

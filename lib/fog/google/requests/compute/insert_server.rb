@@ -142,13 +142,35 @@ module Fog
           # leave natIP undefined to use an IP from a shared ephemeral IP address pool
           if options.has_key? 'externalIp'
             access_config['natIP'] = options.delete 'externalIp'
+            # If set to 'false', that would mean user does no want to allocate an external IP
+            access_config = nil if access_config['natIP'] == false
           end
 
           networkInterfaces = []
           if ! network.nil?
             networkInterface = { 'network' => @api_url + @project + "/global/networks/#{network}" }
-            networkInterface['accessConfigs'] = [access_config]
+            networkInterface['accessConfigs'] = [access_config] if access_config
             networkInterfaces <<  networkInterface
+          end
+
+          scheduling = {
+            'automaticRestart' => false,
+            'onHostMaintenance' => "MIGRATE"
+          }
+          if options.has_key? 'auto_restart'
+            scheduling['automaticRestart'] = options.delete 'auto_restart'
+            scheduling['automaticRestart'] = scheduling['automaticRestart'].class == TrueClass
+          end
+          if options.has_key? 'on_host_maintenance'
+            ohm = options.delete 'on_host_maintenance'
+            scheduling['onHostMaintenance'] = (ohm.respond_to?("upcase") &&
+                    ohm.upcase == "MIGRATE" && "MIGRATE") || "TERMINATE"
+          end
+          body_object['scheduling'] = scheduling
+
+          # @see https://developers.google.com/compute/docs/networking#canipforward
+          if options.has_key? 'can_ip_forward'
+            body_object['canIpForward'] = options.delete 'can_ip_forward'
           end
 
           # TODO: add other networks

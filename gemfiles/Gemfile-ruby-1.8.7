@@ -1,0 +1,14 @@
+source "https://rubygems.org"
+
+gem 'nokogiri', '~>1.5.11'
+gem 'mime-types', '~>1.16'
+
+group :development, :test do
+  # This is here because gemspec doesn't support require: false
+  gem 'coveralls', :require => false
+  gem "netrc", :require => false
+  gem "octokit", '~> 2.7.2', :require => false
+  gem 'rake', '~> 10.1.0'
+end
+
+gemspec :path => "../"

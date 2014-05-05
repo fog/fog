@@ -19,11 +19,12 @@ Shindo.tests('Fog::Compute[:brightbox] | account requests', ['brightbox']) do
     tests("#get_account(#{@scoped_account_identifier}") do
       pending if Fog.mocking?
       result = Fog::Compute[:brightbox].get_account(@scoped_account_identifier)
+      @current_name = result["name"]
       data_matches_schema(Brightbox::Compute::Formats::Full::ACCOUNT, {:allow_extra_keys => true}) { result }
       test("ftp password is blanked") { result["library_ftp_password"].nil?  }
     end
 
-    update_options = {:name => "Fog@#{Time.now.iso8601}"}
+    update_options = { :name => @current_name }
     tests("#update_scoped_account(#{update_options.inspect})") do
       pending if Fog.mocking?
       result = Fog::Compute[:brightbox].update_scoped_account(update_options)

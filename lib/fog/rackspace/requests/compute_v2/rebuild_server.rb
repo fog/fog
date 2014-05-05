@@ -2,9 +2,9 @@ module Fog
   module Compute
     class RackspaceV2
       class Real
-        
-        # The rebuild operation removes all data on the server and replaces it with the specified image. 
-        # The serverRef and all IP addresses remain the same. If you specify name, metadata, accessIPv4, 
+
+        # The rebuild operation removes all data on the server and replaces it with the specified image.
+        # The serverRef and all IP addresses remain the same. If you specify name, metadata, accessIPv4,
         # or accessIPv6 in the rebuild request, new values replace existing values. Otherwise, these values do not change.
         # @param [String] server_id id of the server to rebuild
         # @param [String] image_id id of image used to rebuild the server
@@ -16,11 +16,11 @@ module Fog
         # @option options [String] OS-DCF:diskConfig The disk configuration value. (AUTO or MANUAL)
         # @option options [Hash] personality Hash containing data to inject into the file system of the cloud server instance during server creation.
         # @return [Excon::Response] response:
-        #   * body [Hash]:        
+        #   * body [Hash]:
         #     * server [Hash]:
         #       * name [String] - name of server
         #       * imageRef [String] - id of image used to create server
-        #       * flavorRef [String] - id of flavor used to create server        
+        #       * flavorRef [String] - id of flavor used to create server
         #       * OS-DCF:diskConfig [String] - The disk configuration value.
         #       * name [String] - name of server
         #       * metadata [Hash] - Metadata key and value pairs.

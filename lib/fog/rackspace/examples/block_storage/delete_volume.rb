@@ -12,7 +12,7 @@ end
 
 def select_volume(volumes)
   abort "\nThere are not any volumes to delete in the Chicago region. Try running create_volume.rb\n\n" if volumes.empty?
-  
+
   puts "\nSelect Volume:\n\n"
   volumes.each_with_index do |volume, i|
     puts "\t #{i}. #{volume.display_name}"

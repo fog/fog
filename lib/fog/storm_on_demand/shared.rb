@@ -4,7 +4,7 @@ module Fog
 
       API_URL = 'https://api.stormondemand.com'
       API_VERSION = 'v1'
-      
+
       def initialize(options={})
         uri = URI.parse(options[:storm_on_demand_auth_url] ||= API_URL)
         @connection_options = options[:connection_options] || {}
@@ -15,7 +15,7 @@ module Fog
         @scheme     = uri.scheme
         @storm_on_demand_username = options[:storm_on_demand_username]
         @storm_on_demand_password = options[:storm_on_demand_password]
-        @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
+        @connection = Fog::XML::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
       end
 
       def reload

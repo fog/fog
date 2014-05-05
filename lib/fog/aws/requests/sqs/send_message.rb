@@ -25,18 +25,18 @@ module Fog
         end
 
       end
-      
+
       class Mock
-        
+
         def send_message(queue_url, message)
           Excon::Response.new.tap do |response|
             if (queue = data[:queues][queue_url])
               response.status = 200
-              
+
               now        = Time.now
               message_id = Fog::AWS::Mock.sqs_message_id
               md5        = Digest::MD5.hexdigest(message)
-              
+
               queue[:messages][message_id] = {
                 'MessageId'  => message_id,
                 'Body'       => message,
@@ -46,9 +46,9 @@ module Fog
                   'SentTimestamp' => now
                 }
               }
-              
+
               queue['Attributes']['LastModifiedTimestamp'] = now
-              
+
               response.body = {
                 'ResponseMetadata' => {
                   'RequestId' => Fog::AWS::Mock.request_id
@@ -62,7 +62,7 @@ module Fog
             end
           end
         end
-        
+
       end
     end
   end

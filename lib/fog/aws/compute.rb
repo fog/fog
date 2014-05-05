@@ -1,5 +1,4 @@
-require 'fog/aws'
-require 'fog/compute'
+require 'fog/aws/core'
 
 module Fog
   module Compute
@@ -121,6 +120,7 @@ module Fog
       request :describe_volumes
       request :describe_volume_status
       request :describe_vpcs
+      request :describe_vpc_attribute
       request :detach_network_interface
       request :detach_internet_gateway
       request :detach_volume
@@ -140,6 +140,7 @@ module Fog
       request :release_address
       request :replace_network_acl_association
       request :replace_network_acl_entry
+      request :replace_route
       request :register_image
       request :request_spot_instances
       request :reset_network_interface_attribute
@@ -159,10 +160,15 @@ module Fog
           modify_image_attribute(*params)
         end
 
+        # http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-supported-platforms.html
+        def supported_platforms
+          describe_account_attributes.body["accountAttributeSet"].detect{ |h| h["attributeName"] == "supported-platforms" }["values"]
+        end
       end
 
       class Mock
         include Fog::AWS::CredentialFetcher::ConnectionMethods
+        include Fog::AWS::RegionMethods
 
         def self.data
           @data ||= Hash.new do |hash, region|
@@ -278,10 +284,7 @@ module Fog
           @aws_credentials_expire_at = Time::now + 20
           setup_credentials(options)
           @region = options[:region] || 'us-east-1'
-
-          unless ['ap-northeast-1', 'ap-southeast-1', 'ap-southeast-2', 'eu-west-1', 'us-east-1', 'us-west-1', 'us-west-2', 'sa-east-1'].include?(@region)
-            raise ArgumentError, "Unknown region: #{@region.inspect}"
-          end
+          validate_aws_region @region
         end
 
         def region_data
@@ -312,8 +315,19 @@ module Fog
           images
         end
 
-        def ec2_compatibility_mode(enabled=true)
-          values = enabled ? ["EC2", "VPC"] : ["VPC"]
+        def supported_platforms
+          describe_account_attributes.body["accountAttributeSet"].detect{ |h| h["attributeName"] == "supported-platforms" }["values"]
+        end
+
+        def enable_ec2_classic
+          set_supported_platforms(%w[EC2 VPC])
+        end
+
+        def disable_ec2_classic
+          set_supported_platforms(%w[VPC])
+        end
+
+        def set_supported_platforms(values)
           self.data[:account_attributes].detect { |h| h["attributeName"] == "supported-platforms" }["values"] = values
         end
 
@@ -351,6 +365,7 @@ module Fog
 
       class Real
         include Fog::AWS::CredentialFetcher::ConnectionMethods
+        include Fog::AWS::RegionMethods
         # Initialize connection to EC2
         #
         # ==== Notes
@@ -385,6 +400,8 @@ module Fog
           @instrumentor_name      = options[:instrumentor_name] || 'fog.aws.compute'
           @version                = options[:version]     ||  '2013-10-01'
 
+          validate_aws_region @region
+
           if @endpoint = options[:endpoint]
             endpoint = URI.parse(@endpoint)
             @host = endpoint.host
@@ -398,7 +415,7 @@ module Fog
             @port       = options[:port]        || 443
             @scheme     = options[:scheme]      || 'https'
           end
-          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}#{@path}", @persistent, @connection_options)
+          @connection = Fog::XML::Connection.new("#{@scheme}://#{@host}:#{@port}#{@path}", @persistent, @connection_options)
         end
 
         def reload

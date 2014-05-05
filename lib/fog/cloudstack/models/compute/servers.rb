@@ -23,6 +23,9 @@ module Fog
 
         def get(server_id)
           servers = service.list_virtual_machines('id' => server_id)["listvirtualmachinesresponse"]["virtualmachine"]
+          if servers.nil? || servers.empty?
+            servers = service.list_virtual_machines('id' => server_id, 'projectid' => '-1')["listvirtualmachinesresponse"]["virtualmachine"]
+          end
           unless servers.nil? || servers.empty?
             new(servers.first)
           end

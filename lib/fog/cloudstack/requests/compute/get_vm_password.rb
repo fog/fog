@@ -11,7 +11,7 @@ module Fog
             'command' => 'getVMPassword',
             'id' => id
           }
-          
+
           request(options)
         end
 

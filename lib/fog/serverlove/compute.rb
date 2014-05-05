@@ -1,3 +1,5 @@
+require 'fog/serverlove/core'
+
 module Fog
   module Compute
     class Serverlove < Fog::Service
@@ -40,8 +42,8 @@ module Fog
       class Mock
 
         def initialize(options)
-          @serverlove_uuid = options[:serverlove_uuid] || Fog.credentials[:serverlove_uuid]
-          @serverlove_api_key = options[:serverlove_api_key] || Fog.credentials[:serverlove_api_key]
+          @serverlove_uuid = options[:serverlove_uuid]
+          @serverlove_api_key = options[:serverlove_api_key]
         end
 
         def request(options)
@@ -57,7 +59,7 @@ module Fog
           @api_key = options[:serverlove_api_key] || Fog.credentials[:serverlove_api_key]
           @api_host = options[:serverlove_api_url] || Fog.credentials[:serverlove_api_url] || API_HOST
 
-          @connection = Fog::Connection.new("https://#{@api_uuid}:#{@api_key}@#{@api_host}")
+          @connection = Fog::XML::Connection.new("https://#{@api_uuid}:#{@api_key}@#{@api_host}")
         end
 
         def request(params)

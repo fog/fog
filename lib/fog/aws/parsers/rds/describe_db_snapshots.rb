@@ -4,7 +4,7 @@ module Fog
       module RDS
 
         require 'fog/aws/parsers/rds/snapshot_parser'
-        
+
         class DescribeDBSnapshots < Fog::Parsers::AWS::RDS::SnapshotParser
 
           def reset
@@ -18,7 +18,7 @@ module Fog
 
           def end_element(name)
             case name
-            when 'DBSnapshot' then 
+            when 'DBSnapshot' then
               @response['DescribeDBSnapshotsResult']['DBSnapshots'] << @db_snapshot
               @db_snapshot = fresh_snapshot
             when 'Marker'

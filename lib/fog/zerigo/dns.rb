@@ -1,5 +1,4 @@
-require 'fog/zerigo'
-require 'fog/dns'
+require 'fog/zerigo/core'
 
 module Fog
   module DNS
@@ -80,7 +79,7 @@ module Fog
           @persistent = options[:persistent]  || false
           @port       = options[:port]        || 80
           @scheme     = options[:scheme]      || 'http'
-          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
+          @connection = Fog::XML::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
         end
 
         def reload
@@ -101,7 +100,7 @@ module Fog
           end
 
           begin
-            response = @connection.request(params.merge!({:host => @host}))
+            response = @connection.request(params)
           rescue Excon::Errors::HTTPStatusError => error
             raise case error
             when Excon::Errors::NotFound

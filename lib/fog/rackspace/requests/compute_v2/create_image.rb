@@ -25,7 +25,7 @@ module Fog
               'name' => name
             }
           }
-          data['createImage'].merge!(options)          
+          data['createImage'].merge!(options)
           request(
             :body     => Fog::JSON.encode(data),
             :expects  => 202,

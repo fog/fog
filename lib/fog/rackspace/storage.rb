@@ -1,5 +1,4 @@
-require 'fog/rackspace'
-require 'fog/storage'
+require 'fog/rackspace/core'
 
 module Fog
   module Storage
@@ -41,6 +40,7 @@ module Fog
       request :put_dynamic_obj_manifest
       request :put_static_obj_manifest
       request :post_set_meta_temp_url_key
+      request :extract_archive
 
       module Common
         def apply_options(options)
@@ -419,7 +419,7 @@ module Fog
           authenticate
           @persistent = options[:persistent] || false
           Excon.defaults[:ssl_verify_peer] = false if service_net?
-          @connection = Fog::Connection.new(endpoint_uri.to_s, @persistent, @connection_options)
+          @connection = Fog::Core::Connection.new(endpoint_uri.to_s, @persistent, @connection_options)
         end
 
         # Using SSL?

@@ -1,9 +1,9 @@
 module Fog
   module Rackspace
     module MockData
-      
+
       NOT_FOUND_ID = "NOT-FOUND"
-      
+
       def data
         @@data ||= Hash.new do |hash, key|
           hash[key] = begin
@@ -194,7 +194,7 @@ module Fog
               #Autoscale
               :autoscale_groups => {}
             }
-            
+
             # seed with initial data
             mock_data[:flavors][flavor_id] = flavor
             mock_data[:images][image_id] = image
@@ -231,6 +231,23 @@ module Fog
 
       def self.zulu_time
         Time.now.strftime("%Y-%m-%dT%H:%M:%SZ")
+      end
+
+      def self.stringify(message)
+        case message
+        when Symbol
+          message.to_s
+        when Hash
+          result = Hash.new
+          message.each do |key, value|
+            nk = stringify(key)
+            nv = stringify(value)
+            result[nk] = nv
+          end
+          result
+        else
+          message
+        end
       end
     end
   end

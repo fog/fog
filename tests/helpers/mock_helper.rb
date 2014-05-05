@@ -77,6 +77,8 @@ if Fog.mock?
     :rackspace_username               => 'rackspace_username',
     :riakcs_access_key_id             => 'riakcs_access_key_id',
     :riakcs_secret_access_key         => 'riakcs_secret_access_key',
+    :sakuracloud_api_token            => 'sakuracloud_api_token',
+    :sakuracloud_api_token_secret     => 'sakuracloud_api_token_secret',
     :storm_on_demand_username         => 'storm_on_demand_username',
     :storm_on_demand_password         => 'storm_on_demand_password',
     :vcloud_host                      => 'vcloud_host',
@@ -100,6 +102,10 @@ if Fog.mock?
     :libvirt_username                 => 'root',
     :libvirt_password                 => 'password',
     :cloudsigma_username              => 'csuname',
-    :cloudsigma_password              => 'cspass'
+    :cloudsigma_password              => 'cspass',
+    :docker_username                  => 'docker-fan',
+    :docker_password                  => 'i<3docker',
+    :docker_email                     => 'dockerfan@gmail.com',
+    :docker_url                       => 'unix://var/run/docker.sock'
   }.merge(Fog.credentials)
 end
