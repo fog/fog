@@ -25,5 +25,4 @@ Shindo.tests('Fog::Compute[:cloudstack] | disk offering requests', ['cloudstack'
     end
 
   end
-
 end
