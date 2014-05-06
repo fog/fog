@@ -59,6 +59,8 @@ module Fog
       request :get_network
       request :list_datastores
       request :get_datastore
+      request :list_compute_resources
+      request :get_compute_resource
       request :list_templates
       request :get_template
       request :get_folder
@@ -72,6 +74,7 @@ module Fog
       request :vm_reconfig_hardware
       request :vm_reconfig_memory
       request :vm_reconfig_cpus
+      request :vm_reconfig_disk
       request :vm_config_vnc
       request :create_folder
       request :list_server_types
@@ -82,6 +85,7 @@ module Fog
       request :list_customfields
       request :get_vm_first_scsi_controller
       request :set_vm_customvalue
+      request :list_host_systems
 
       module Shared
 
@@ -156,6 +160,21 @@ module Fog
             # Rescue nil to catch testing while vm_mob_ref isn't reaL??
             attrs['path'] = "/"+attrs['parent'].path.map(&:last).join('/') rescue nil
             attrs['relative_path'] = (attrs['path'].split('/').reject {|e| e.empty?} - ["Datacenters", attrs['datacenter'], "vm"]).join("/") rescue nil
+            #Save virtual disk info into attrs
+            begin
+              attrs['disks'] = vm_mob_ref.disks.map{|d| {
+                :uuid=> d.backing.uuid,
+                :fileName=>d.backing.fileName,
+                :size=>d.capacityInKB,
+                :name => d.deviceInfo.label
+                }}.to_json
+              attrs['operatingsystem'] = vm_mob_ref.summary.config.guestFullName
+              nics = vm_mob_ref.config.hardware.device.grep(RbVmomi::VIM::VirtualVmxnet3)
+              attrs['networks'] = nics.map{|n| {network:n.backing.network.name,key:n.key,mac:n.macAddress}}.to_json
+            rescue => e
+              attrs['disks'] = '[]'
+              attrs['operatingsystem'] = nil
+            end
           end
         end
         # returns the parent object based on a type
