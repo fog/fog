@@ -13,6 +13,7 @@ module Fog
                 build_firewall_service(xml)
                 build_nat_service(xml)
                 build_load_balancer_service(xml)
+                build_dhcp_service(xml)
               }
             end.to_xml
           end
@@ -149,6 +150,24 @@ module Fog
                 }
 
               end
+            }
+          end
+
+          def build_dhcp_service(xml)
+            dhcp_config = @configuration[:GatewayDhcpService]
+            return unless dhcp_config
+            xml.GatewayDhcpService {
+              xml.IsEnabled dhcp_config[:IsEnabled] if dhcp_config.key?(:IsEnabled)
+              pool = dhcp_config[:Pool]
+              xml.Pool {
+                xml.IsEnabled pool[:IsEnabled]
+                network = pool[:Network]
+                xml.Network(:href => network[:href], :name => network[:name], :type=>"application/vnd.vmware.vcloud.orgVdcNetwork+xml")
+                xml.DefaultLeaseTime pool[:DefaultLeaseTime]
+                xml.MaxLeaseTime pool[:MaxLeaseTime]
+                xml.LowIpAddress pool[:LowIpAddress]
+                xml.HighIpAddress pool[:HighIpAddress]
+              }
             }
           end
 
