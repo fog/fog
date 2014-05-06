@@ -70,12 +70,17 @@ Shindo.tests("Compute::VcloudDirector | vms", ['vclouddirector', 'all']) do
     tests("#type").returns("application/vnd.vmware.vcloud.networkConnectionSection+xml"){ network.type }
     tests("#info").returns(String){ network.info.class }
     tests("#primary_network_connection_index").returns(Fixnum){ network.primary_network_connection_index.class }
-    tests("#network").returns(String){ network.network.class }
-    tests("#network_connection_index").returns(Fixnum){ network.network_connection_index.class }
-    tests("#mac_address").returns(String){ network.mac_address.class }
-    tests("#ip_address_allocation_mode").returns(String){ network.ip_address_allocation_mode.class }
-    tests("#needs_customization").returns(true){ boolean? network.needs_customization }
-    tests("#is_connected").returns(true){ boolean? network.is_connected }
+    tests("#connections").returns(Array){ network.connections.class }
+    unless network.connections.empty?
+      connection = network.connections.first
+      tests("#connections.first").returns(Hash){ connection.class }
+      tests("#connections.first contains network").returns(true) { boolean? connection.has_key?('network')}
+      tests("#connections.first contains network_connection_index").returns(true) { boolean? connection.has_key?('network_connection_index')}
+      tests("#connections.first contains mac_address").returns(true) { boolean? connection.has_key?('mac_address')}
+      tests("#connections.first contains ip_address_allocation_mode").returns(true) { boolean? connection.has_key?('ip_address_allocation_mode')}
+      tests("#connections.first contains needs_customization").returns(true) { boolean? connection.has_key?('needs_customization')}
+      tests("#connections.first contains is_connected").returns(true) { boolean? connection.has_key?('is_connected')}
+    end
   end
 
   tests("Compute::VcloudDirector | vm | tags") do

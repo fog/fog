@@ -428,37 +428,83 @@ vm = vapp.vms.get_by_name("DEVWEB")
 vm.network
 ```
 ```ruby
-    <Fog::Compute::VcloudDirector::VmNetwork
+  <Fog::Compute::VcloudDirector::VmNetwork
     id="vm-2ddeea36-ac71-470f-abc5-c6e3c2aca192",
     type="application/vnd.vmware.vcloud.networkConnectionSection+xml",
     href="https://example.com/api/vApp/vm-2ddeea36-ac71-470f-abc5-c6e3c2aca192/networkConnectionSection/",
     info="Specifies the available VM network connections",
     primary_network_connection_index=0,
-    network="DevOps - Dev Network Connection",
-    needs_customization=true,
-    network_connection_index=0,
-    is_connected=true,
-    mac_address="00:50:56:01:00:ea",
-    ip_address_allocation_mode="POOL"
+    connections=[
+      {:network=>"NET1", :needsCustomization=>false, :network_connection_index=>1, :ip_address=>"10.192.0.102", :is_connected=>true, :mac_address=>"00:50:56:02:02:40", :ip_address_allocation_mode=>"POOL"},
+      {:network=>"NET0", :needsCustomization=>false, :network_connection_index=>0, :ip_address=>"10.192.0.101", :is_connected=>true, :mac_address=>"00:50:56:02:02:3f", :ip_address_allocation_mode=>"POOL"}
+    ]
   >
 ```
 
-### Modify one or more attributes
-
-Network attributes model requires to `save` it after setting the attributes.
+### Add a network to a VM
 
 ```ruby
 org = vcloud.organizations.first
 vdc = org.vdcs.first
 vapp = vdc.vapps.get_by_name("segundo")
 vm = vapp.vms.get_by_name("DEVWEB")
-network = vm.network
-network.is_connected = false
-network.ip_address_allocation_mode = "DHCP"
-network.save
+
+network = org.network.get_by_name('NET2')
+vm.network << network
 ```
-```no-highlight
-true
+```ruby
+  <Fog::Compute::VcloudDirector::VmNetwork
+    id="vm-2ddeea36-ac71-470f-abc5-c6e3c2aca192",
+    type="application/vnd.vmware.vcloud.networkConnectionSection+xml",
+    href="https://example.com/api/vApp/vm-2ddeea36-ac71-470f-abc5-c6e3c2aca192/networkConnectionSection/",
+    info="Specifies the available VM network connections",
+    primary_network_connection_index=0,
+    connections=[
+      {:network=>"NET2", :needsCustomization=>false, :network_connection_index=>2, :ip_address=>"10.192.0.103", :is_connected=>true, :mac_address=>"00:50:56:02:03:f0", :ip_address_allocation_mode=>"POOL"},
+      {:network=>"NET1", :needsCustomization=>false, :network_connection_index=>1, :ip_address=>"10.192.0.102", :is_connected=>true, :mac_address=>"00:50:56:02:02:40", :ip_address_allocation_mode=>"POOL"},
+      {:network=>"NET0", :needsCustomization=>false, :network_connection_index=>0, :ip_address=>"10.192.0.101", :is_connected=>true, :mac_address=>"00:50:56:02:02:3f", :ip_address_allocation_mode=>"POOL"}
+    ]
+  >
+```
+
+### Delete a network to a VM
+
+```ruby
+org = vcloud.organizations.first
+vdc = org.vdcs.first
+vapp = vdc.vapps.get_by_name("segundo")
+vm = vapp.vms.get_by_name("DEVWEB")
+
+vm.network.remove('NET2')
+```
+```ruby
+  <Fog::Compute::VcloudDirector::VmNetwork
+    id="vm-2ddeea36-ac71-470f-abc5-c6e3c2aca192",
+    type="application/vnd.vmware.vcloud.networkConnectionSection+xml",
+    href="https://example.com/api/vApp/vm-2ddeea36-ac71-470f-abc5-c6e3c2aca192/networkConnectionSection/",
+    info="Specifies the available VM network connections",
+    primary_network_connection_index=0,
+    connections=[
+      {:network=>"NET1", :needsCustomization=>false, :network_connection_index=>1, :ip_address=>"10.192.0.102", :is_connected=>true, :mac_address=>"00:50:56:02:02:40", :ip_address_allocation_mode=>"POOL"},
+      {:network=>"NET0", :needsCustomization=>false, :network_connection_index=>0, :ip_address=>"10.192.0.101", :is_connected=>true, :mac_address=>"00:50:56:02:02:3f", :ip_address_allocation_mode=>"POOL"}
+    ]
+  >
+```
+
+### Modify one or more attributes
+
+VM networks can be configured retrieving their attributes and then reassigning them.
+
+```ruby
+org = vcloud.organizations.first
+vdc = org.vdcs.first
+vapp = vdc.vapps.get_by_name("segundo")
+vm = vapp.vms.get_by_name("DEVWEB")
+network = vm.network['NET1']
+
+network[:IsConnected] = false
+network[:IpAllocationMode] = "DHCP"
+vm.network['NET1'] = network
 ```
 
 ## VM Disk

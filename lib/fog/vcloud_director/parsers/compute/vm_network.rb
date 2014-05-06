@@ -3,69 +3,55 @@ module Fog
     module Compute
       module VcloudDirector
         #
-        #{:xmlns=>"http://www.vmware.com/vcloud/v1.5",
-        # :xmlns_xsi=>"http://www.w3.org/2001/XMLSchema-instance",
-        # :name=>"DevOps - Dev Network Connection",
-        # :id=>"urn:vcloud:network:d5f47bbf-de27-4cf5-aaaa-56772f2ccd17",
-        # :type=>"application/vnd.vmware.vcloud.orgNetwork+xml",
-        # :href=>
-        #  "https://example.com/api/network/d5f47bbf-de27-4cf5-aaaa-56772f2ccd17",
-        # :xsi_schemaLocation=>
-        #  "http://www.vmware.com/vcloud/v1.5 http://10.194.1.65/api/v1.5/schema/master.xsd",
-        # :Link=>
-        #  [{:rel=>"up",
-        #    :type=>"application/vnd.vmware.vcloud.org+xml",
-        #    :name=>"DevOps",
-        #    :href=>
-        #     "https://example.com/api/org/c6a4c623-c158-41cf-a87a-dbc1637ad55a"},
-        #   {:rel=>"down",
-        #    :type=>"application/vnd.vmware.vcloud.metadata+xml",
-        #    :href=>
-        #     "https://example.com/api/network/d5f47bbf-de27-4cf5-aaaa-56772f2ccd17/metadata"}],
-        # :Description=>"",
-        # :Configuration=>
-        #  {:IpScope=>
-        #    {:IsInherited=>"true",
-        #     :Gateway=>"10.192.0.1",
-        #     :Netmask=>"255.255.252.0",
-        #     :Dns1=>"10.192.0.11",
-        #     :Dns2=>"10.192.0.12",
-        #     :DnsSuffix=>"dev.ad.mdsol.com",
-        #     :IpRanges=>
-        #      {:IpRange=>
-        #        {:StartAddress=>"10.192.0.100", :EndAddress=>"10.192.3.254"}}},
-        #   :FenceMode=>"bridged",
-        #   :RetainNetInfoAcrossDeployments=>"false"}}
-        #
         #<?xml version="1.0" encoding="UTF-8"?>
-        #<OrgNetwork xmlns="http://www.vmware.com/vcloud/v1.5" name="DevOps - Dev Network Connection" id="urn:vcloud:network:d5f47bbf-de27-4cf5-aaaa-56772f2ccd17" type="application/vnd.vmware.vcloud.orgNetwork+xml" href="https://example.com/api/network/d5f47bbf-de27-4cf5-aaaa-56772f2ccd17" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.vmware.com/vcloud/v1.5 http://10.194.1.65/api/v1.5/schema/master.xsd">
-        #    <Link rel="up" type="application/vnd.vmware.vcloud.org+xml" name="DevOps" href="https://example.com/api/org/c6a4c623-c158-41cf-a87a-dbc1637ad55a"/>
-        #    <Link rel="down" type="application/vnd.vmware.vcloud.metadata+xml" href="https://example.com/api/network/d5f47bbf-de27-4cf5-aaaa-56772f2ccd17/metadata"/>
-        #    <Description/>
-        #    <Configuration>
-        #        <IpScope>
-        #            <IsInherited>true</IsInherited>
-        #            <Gateway>10.192.0.1</Gateway>
-        #            <Netmask>255.255.252.0</Netmask>
-        #            <Dns1>10.192.0.11</Dns1>
-        #            <Dns2>10.192.0.12</Dns2>
-        #            <DnsSuffix>dev.ad.mdsol.com</DnsSuffix>
-        #            <IpRanges>
-        #                <IpRange>
-        #                    <StartAddress>10.192.0.100</StartAddress>
-        #                    <EndAddress>10.192.3.254</EndAddress>
-        #                </IpRange>
-        #            </IpRanges>
-        #        </IpScope>
-        #        <FenceMode>bridged</FenceMode>
-        #        <RetainNetInfoAcrossDeployments>false</RetainNetInfoAcrossDeployments>
-        #    </Configuration>
-        #</OrgNetwork>
+        #<NetworkConnectionSection xmlns="http://www.vmware.com/vcloud/v1.5" xmlns:ovf="http://schemas.dmtf.org/ovf/envelope/1" type="application/vnd.vmware.vcloud.networkConnectionSection+xml" href="https://example.com/api/vApp/vm-7b2c35c2-18a6-44b6-ba59-35f2c7e1644e/networkConnectionSection/" ovf:required="false" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://schemas.dmtf.org/ovf/envelope/1 http://schemas.dmtf.org/ovf/envelope/1/dsp8023_1.1.0.xsd http://www.vmware.com/vcloud/v1.5 http://csicloud.csi.it/api/v1.5/schema/master.xsd">
+        #    <ovf:Info>Specifies the available VM network connections</ovf:Info>
+        #    <PrimaryNetworkConnectionIndex>0</PrimaryNetworkConnectionIndex>
+        #    <NetworkConnection network="NET1" needsCustomization="false">
+        #        <NetworkConnectionIndex>1</NetworkConnectionIndex>
+        #        <IpAddress>10.192.0.102</IpAddress>
+        #        <IsConnected>true</IsConnected>
+        #        <MACAddress>00:50:56:02:02:40</MACAddress>
+        #        <IpAddressAllocationMode>POOL</IpAddressAllocationMode>
+        #    </NetworkConnection>
+        #    <NetworkConnection network="NET0" needsCustomization="false">
+        #        <NetworkConnectionIndex>0</NetworkConnectionIndex>
+        #        <IpAddress>10.192.0.101</IpAddress>
+        #        <IsConnected>true</IsConnected>
+        #        <MACAddress>00:50:56:02:02:3f</MACAddress>
+        #        <IpAddressAllocationMode>POOL</IpAddressAllocationMode>
+        #    </NetworkConnection>
+        #    <Link rel="edit" type="application/vnd.vmware.vcloud.networkConnectionSection+xml" href="https://example.com/api/vApp/vm-7b2c35c2-18a6-44b6-ba59-35f2c7e1644e/networkConnectionSection/"/>
+        #</NetworkConnectionSection>
+        #
+        #{:type=>"application/vnd.vmware.vcloud.networkConnectionSection+xml",
+        # :href=>
+        #  "https://example.com/api/vApp/vm-7b2c35c2-18a6-44b6-ba59-35f2c7e1644e/networkConnectionSection/",
+        # :id=>"vm-7b2c35c2-18a6-44b6-ba59-35f2c7e1644e",
+        # :info=>"Specifies the available VM network connections",
+        # :primary_network_connection_index=>0,
+        # :connections=>
+        #  [{:network=>"NET1",
+        #    :needsCustomization=>false,
+        #    :network_connection_index=>1,
+        #    :ip_address=>"10.192.0.102",
+        #    :is_connected=>true,
+        #    :mac_address=>"00:50:56:02:02:40",
+        #    :ip_address_allocation_mode=>"POOL"},
+        #   {:network=>"NET0",
+        #    :needsCustomization=>false,
+        #    :network_connection_index=>0,
+        #    :ip_address=>"10.192.0.101",
+        #    :is_connected=>true,
+        #    :mac_address=>"00:50:56:02:02:3f",
+        #    :ip_address_allocation_mode=>"POOL"}]
+        # }
         #
         class VmNetwork < VcloudDirectorParser
 
           def reset
-            @response = { }
+            @response = { :connections => [] }
+            @network_connection = {}
           end
 
           def start_element(name, attributes)
@@ -77,9 +63,8 @@ module Fog
               @response[:href] = network_connection_section[:href]
               @response[:id] = @response[:href].split('/')[-2]
             when 'NetworkConnection'
-              network_connection = extract_attributes(attributes)
-              @response[:network] = network_connection[:network]
-              @response[:needs_customization] = ( network_connection[:needsCustomization] == "true" )
+              @network_connection = extract_attributes(attributes)
+              @network_connection[:needsCustomization] = ( @network_connection[:needsCustomization] == "true" )
             end
           end
 
@@ -90,18 +75,20 @@ module Fog
             when 'PrimaryNetworkConnectionIndex'
               @response[:primary_network_connection_index] = value.to_i
             when 'NetworkConnectionIndex'
-              @response[:network_connection_index] = value.to_i
+              @network_connection[:network_connection_index] = value.to_i
             when 'IpAddress'
-              @response[:ip_address] = value
+              @network_connection[:ip_address] = value
             when 'IsConnected'
-              @response[:is_connected] = (value == "true")
+              @network_connection[:is_connected] = (value == "true")
             when 'MACAddress'
-              @response[:mac_address] = value
+              @network_connection[:mac_address] = value
             when 'IpAddressAllocationMode'
-              @response[:ip_address_allocation_mode] = value
+              @network_connection[:ip_address_allocation_mode] = value
+            when 'NetworkConnection'
+              @response[:connections] << @network_connection
+              @network_connection = {}
             end
           end
-
         end
       end
     end
