@@ -5,6 +5,8 @@ module Fog
         extend Fog::Deprecation
         deprecate :put_vm_memory, :put_memory
 
+        require 'fog/vcloud_director/generators/compute/memory_item'
+
         # Update the RASD item that specifies memory properties of a VM.
         #
         # This operation is asynchronous and returns a task that you can
@@ -18,19 +20,7 @@ module Fog
         # @see http://pubs.vmware.com/vcd-51/topic/com.vmware.vcloud.api.reference.doc_51/doc/operations/PUT-Memory.html
         # @since vCloud API version 0.9
         def put_memory(id, memory)
-          data = <<EOF
-          <Item xmlns="http://www.vmware.com/vcloud/v1.5" xmlns:rasd="http://schemas.dmtf.org/wbem/wscim/1/cim-schema/2/CIM_ResourceAllocationSettingData" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ns12="http://www.vmware.com/vcloud/v1.5" ns12:href="#{end_point}vApp/#{id}/virtualHardwareSection/memory" ns12:type="application/vnd.vmware.vcloud.rasdItem+xml" xsi:schemaLocation="http://www.vmware.com/vcloud/v1.5 http://10.194.1.65/api/v1.5/schema/master.xsd http://schemas.dmtf.org/wbem/wscim/1/cim-schema/2/CIM_ResourceAllocationSettingData http://schemas.dmtf.org/wbem/wscim/1/cim-schema/2.22.0/CIM_ResourceAllocationSettingData.xsd">
-            <rasd:AllocationUnits>byte * 2^20</rasd:AllocationUnits>
-            <rasd:Description>Memory Size</rasd:Description>
-            <rasd:ElementName>#{memory} MB of memory</rasd:ElementName>
-            <rasd:InstanceID>5</rasd:InstanceID>
-            <rasd:Reservation>0</rasd:Reservation>
-            <rasd:ResourceType>4</rasd:ResourceType>
-            <rasd:VirtualQuantity>#{memory}</rasd:VirtualQuantity>
-            <rasd:Weight>0</rasd:Weight>
-            <Link rel="edit" type="application/vnd.vmware.vcloud.rasdItem+xml" href="#{end_point}vApp/#{id}/virtualHardwareSection/memory"/>
-          </Item>
-EOF
+          data = Fog::Generators::Compute::VcloudDirector::MemoryItem.new.generate_xml(id, memory, end_point)
 
           request(
             :body    => data,
