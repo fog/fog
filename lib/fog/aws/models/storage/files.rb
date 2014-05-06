@@ -42,15 +42,16 @@ module Fog
         end
 
         alias :each_file_this_page :each
-        def each
+        def each(options = nil)
           if !block_given?
             self
           else
-            subset = dup.all
+            subset = dup.all(options)
 
             subset.each_file_this_page {|f| yield f}
             while subset.is_truncated
-              subset = subset.all(:marker => subset.last.key)
+              options.merge!(:marker => subset.last.key) if options
+              subset = subset.all(options)
               subset.each_file_this_page {|f| yield f}
             end
 
