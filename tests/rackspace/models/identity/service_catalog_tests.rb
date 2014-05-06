@@ -72,6 +72,17 @@ Shindo.tests('Fog::Rackspace::ServiceCatalog | users', ['rackspace']) do
           @service_catalog.get_endpoint(:cloudBlockStorage, :ord)
         end
       end
+      tests('catalog contains global endpoint and region') do
+        catalog_hash =  [{"type"=>"volume", "endpoints"=>[{"region" => "LON", "tenantId"=>"777", "publicURL"=>"https://monitoring.api.rackspacecloud.com/v1.0/777"}], "name"=>"cloudMonitoring"}]
+        @service_catalog = Fog::Rackspace::Identity::ServiceCatalog.new(:service => nil, :catalog => catalog_hash)
+
+        tests('no region specifed').returns("https://monitoring.api.rackspacecloud.com/v1.0/777") do
+          @service_catalog.get_endpoint(:cloudMonitoring)
+        end
+        tests('region specifed').returns("https://monitoring.api.rackspacecloud.com/v1.0/777") do
+          @service_catalog.get_endpoint(:cloudMonitoring, :lon)
+        end
+      end
       tests('catalog does not contain global endpoint') do
         catalog_hash =   [{"type"=>"volume", "endpoints"=>[{"region" => "ORD", "tenantId"=>"777", "publicURL"=>"https://ord.blockstorage.api.rackspacecloud.com/v1/777"}], "name"=>"cloudBlockStorage"}]
         @service_catalog = Fog::Rackspace::Identity::ServiceCatalog.new(:service => nil, :catalog => catalog_hash)
