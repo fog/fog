@@ -1,5 +1,5 @@
 require 'opennebula'
-require 'fog/compute'
+require 'fog/opennebula/core'
 
 
 module Fog

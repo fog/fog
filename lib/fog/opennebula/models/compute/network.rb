@@ -6,7 +6,7 @@ module Fog
 
       class Network < Fog::Model
 
-        identity :id
+        identity :id, :aliases => 'uuid'
         attribute :name
         attribute :uid
         attribute :gid
@@ -24,6 +24,14 @@ module Fog
 	def description
 	  return "" if @description.nil?
 	  return @description
+	end
+
+	def uuid=(str)
+	  self.id=str
+	end
+
+	def uuid
+	  return self.id
 	end
 
 	def vlan=(str)
