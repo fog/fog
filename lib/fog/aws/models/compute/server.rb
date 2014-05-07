@@ -189,6 +189,10 @@ module Fog
                 options["NetworkInterface.0.SecurityGroupId.0"] = options['SecurityGroupId']
               end
               options.delete('SecurityGroupId')              
+              if private_ip_address
+                options.delete('PrivateIpAddress')
+                options['NetworkInterface.0.PrivateIpAddress'] = private_ip_address
+              end
             end
           else
             options.delete('SubnetId')
