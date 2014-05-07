@@ -26,7 +26,8 @@ module Fog
               { "id" => 3, "name" => "San Francisco 1" },
               { "id" => 4, "name" => "New York 2" },
               { "id" => 5, "name" => "Amsterdam 2" },
-              { "id" => 6, "name" => "Singapore 1" }                          ]
+              { "id" => 6, "name" => "Singapore 1" }
+            ]
           }
           response
         end
