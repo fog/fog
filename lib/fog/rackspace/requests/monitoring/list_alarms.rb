@@ -3,11 +3,12 @@ module Fog
     class Monitoring
       class Real
 
-        def list_alarms(entity_id)
+        def list_alarms(entity_id, options={})
           request(
             :expects  => [200, 203],
             :method   => 'GET',
-            :path     => "entities/#{entity_id}/alarms"
+            :path     => "entities/#{entity_id}/alarms",
+            :query    => options
           )
         end
 
