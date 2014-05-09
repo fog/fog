@@ -10,9 +10,9 @@ module Fog
 
         model Fog::Rackspace::Monitoring::Alarm
 
-        def all
+        def all(options={})
           requires :entity
-          data = service.list_alarms(entity.identity).body['values']
+          data = service.list_alarms(entity.identity, options).body['values']
           load(data)
         end
 

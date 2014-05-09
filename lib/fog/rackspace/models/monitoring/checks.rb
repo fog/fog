@@ -10,9 +10,9 @@ module Fog
 
         model Fog::Rackspace::Monitoring::Check
 
-        def all
+        def all(options={})
           requires :entity
-          data = service.list_checks(entity.identity).body['values']
+          data = service.list_checks(entity.identity, options).body['values']
           load(data)
         end
 
