@@ -13,10 +13,10 @@ module Fog
 
         def all(options={})
           requires :entity
-          data = service.list_alarms(entity.identity, options).body['values']
+          data = service.list_alarms(entity.identity, options).body
           self.marker = data['metadata']['next_marker']
 
-          load(data)
+          load(data['values'])
         end
 
         def get(alarm_id)
