@@ -13,7 +13,7 @@ module Fog
         def all(options={})
           clear
           body = service.list_agent_tokens(options).body
-          self.marker = data['metadata']['next_marker']
+          self.marker = body['metadata']['next_marker']
 
           load(body['values'])
         end
