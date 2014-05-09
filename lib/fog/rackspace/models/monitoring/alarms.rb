@@ -7,12 +7,15 @@ module Fog
       class Alarms < Fog::Collection
 
         attribute :entity
+        attribute :marker
 
         model Fog::Rackspace::Monitoring::Alarm
 
         def all(options={})
           requires :entity
           data = service.list_alarms(entity.identity, options).body['values']
+          self.marker = data['metadata']['next_marker']
+
           load(data)
         end
 
