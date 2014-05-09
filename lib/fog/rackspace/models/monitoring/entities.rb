@@ -27,7 +27,7 @@ module Fog
 
         def overview(options={})
           body = service.list_overview(options).body
-          marker = body['metadata']['next_marker']
+          self.marker = body['metadata']['next_marker']
 
           load_all(body['values'])
         end
