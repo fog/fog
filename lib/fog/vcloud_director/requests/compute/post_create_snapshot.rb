@@ -10,6 +10,13 @@ module Fog
         # monitor to track the progress of the request.
         #
         # @param [String] id Object identifier of the vApp or virtual machine.
+        # @param [Hash] options
+        # @option options [String] :name Typically used to name or identify the subject of the request.
+        #   For example, the name of the object being created or modified.
+        # @option options [Boolean] :memory True if the snapshot should include the virtual machine's memory.
+        # @option options [Boolean] :quiesce True if the file system of the virtual machine should be quiesced
+        #   before the snapshot is created.
+        # @option options [String] :description Optional description.
         # @return [Excon::Response]
         #   * body<~Hash>:
         #
@@ -23,15 +30,13 @@ module Fog
             attrs[:name] = options[:name] if options.key?(:name)
             attrs[:memory] = options[:memory] if options.key?(:memory)
             attrs[:quiesce] = options[:quiesce] if options.key?(:quiesce)
-            CreateSnapshotParams(attrs) {
-              Description options[:description] if options.key?(:description)
-            }
+            CreateSnapshotParams(attrs) { Description options[:description] if options.key?(:description) }
           end.to_xml
 
           request(
             :body    => body,
             :expects => 202,
-            :headers => {'Content-Type' => 'application/vnd.vmware.vcloud.createSnapshotParams+xml'},
+            :headers => { 'Content-Type' => 'application/vnd.vmware.vcloud.createSnapshotParams+xml' },
             :method  => 'POST',
             :parser  => Fog::ToHashDocument.new,
             :path    => "vApp/#{id}/action/createSnapshot"
