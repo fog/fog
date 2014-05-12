@@ -132,7 +132,7 @@ Shindo.tests('Fog::CDN::Rackspace', ['rackspace']) do
     
   begin      
     tests('publish_container').succeeds do
-      returns(nil, "CDN is not enabled") { container_meta_attributes['X-CDN-Enabled'] }
+      returns("False", "CDN is not enabled") { container_meta_attributes['X-CDN-Enabled'] }
       urls = @cdn.publish_container @directory
       returns(true, "hash contains expected urls") { Fog::CDN::Rackspace::Base::URI_HEADERS.values.all? { |url_type| urls[url_type] } }
       returns("True", "CDN is enabled") { container_meta_attributes['X-Cdn-Enabled'] }        
