@@ -570,6 +570,8 @@ module Fog
         def setup(credentials = {})
           requires :ssh_ip_address, :identity, :public_key, :username
 
+          retried_disconnect = false
+
           commands = [
             %{mkdir .ssh},
             %{echo "#{public_key}" >> ~/.ssh/authorized_keys},
@@ -585,6 +587,14 @@ module Fog
         rescue Errno::ECONNREFUSED
           sleep(1)
           retry
+        # Ubuntu 12.04 images seem to be disconnecting during the ssh setup process.
+        # This rescue block is an effort to address that issue.
+        rescue Net::SSH::Disconnect
+          unless retried_disconnect
+            retried_disconnect = true
+            sleep(1)
+            retry
+          end
         end
 
         def virtual_interfaces
