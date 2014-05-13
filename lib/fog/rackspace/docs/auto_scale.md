@@ -319,7 +319,7 @@ And then use the builder as follows:
       ],
       :max_entities => 3,
       :min_entities => 2,
-      :cooldown => cooldown,
+      :cooldown => 600,
       :name => "MyScalingGroup",
       :metadata => { "created_by" => "autoscale sample script" },
       :load_balancers => {
