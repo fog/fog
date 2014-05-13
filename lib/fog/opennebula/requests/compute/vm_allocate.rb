@@ -5,7 +5,10 @@ module Fog
         def vm_allocate(attr={ })
   
           if(attr[:flavor].nil?)
-            raise(ArgumentError.new("Attribute flavor is nil or empty! #{attr.inspect}"))
+            raise(ArgumentError.new("Attribute flavor is nil! #{attr.inspect}"))
+          end
+	  if(attr[:name].nil? || attr[:name].empty?)
+            raise(ArgumentError.new("Attribute name is nil or empty! #{attr.inspect}"))
           end
 
           xml = ::OpenNebula::VirtualMachine.build_xml
