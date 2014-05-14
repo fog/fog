@@ -19,11 +19,7 @@ module Fog
       collection  :interfaces
       model       :group
       collection  :groups
-#      model       :pool
-#      collection  :pools
-#      model       :node
-#      collection  :nodes
-#
+      
       request_path 'fog/opennebula/requests/compute'
       request :list_vms
       request :list_groups
@@ -34,30 +30,22 @@ module Fog
       request :vm_resume
       request :vm_stop
       request :template_pool
-      #request :define_domain
-#      request :vm_action
-#      request :list_pools
-#      request :list_pool_volumes
-#      request :define_pool
-#      request :pool_action
-#      request :list_volumes
-#      request :volume_action
-#      request :create_volume
-#      request :destroy_network
-#      request :list_interfaces
-#      request :destroy_interface
-#      request :get_node_info
-#      request :update_display
 
     class Mock
       include Collections
+      def initialize(options={})
+      end
+
+      def client
+        return @client
+      end
     end
 
     class Real
       include Collections
 
       def client
-        return @client if defined?(@client)
+        return @client
       end
 
       def initialize(options={})

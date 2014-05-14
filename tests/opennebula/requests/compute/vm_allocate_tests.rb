@@ -12,7 +12,7 @@ Shindo.tests("Fog::Compute[:opennebula] | vm_create and destroy request", 'openn
   end
   tests("Destroy VM") do
     compute.vm_destroy(response['id'])
-    vms = compute.list_vms({:id => response['id']})
+    vms = compute.list_vms({:id => response['id'], :mock_return => false})
     test("get vm should be empty") { compute.list_vms({:id => response['id']}).empty?}
   end
 

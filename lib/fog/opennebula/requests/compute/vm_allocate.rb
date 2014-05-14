@@ -67,6 +67,23 @@ module Fog
       end
 
       class Mock
+        def vm_allocate(attr={ })
+          data = {}
+	  data["onevm_object"] = ""
+          data["status"] = "Running"
+          data["state"]  = "3"
+          data["id"]     = 4
+          data["uuid"]   = "5"
+          data["gid"]    = "5"
+          data["name"]   = "MockVM"
+          data["user"]   = "MockUser" 
+          data["group"]  = "MockGroup"
+          data["cpu"]    = "2"
+          data["memory"] = "1024"
+          data["mac"]	 = "00:01:02:03:04:05"
+	  data["ip"]	 = "1.1.1.1"
+	  data
+	end
       end
     end
   end

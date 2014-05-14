@@ -70,6 +70,9 @@ module Fog
       end #class Real
 
       class Mock
+        def template_pool(filter = { })
+	  [ {}, {} ]
+	end
       end #class Mock
     end #class OpenNebula
   end #module Compute

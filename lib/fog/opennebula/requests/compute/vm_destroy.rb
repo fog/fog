@@ -2,7 +2,6 @@ module Fog
   module Compute
     class OpenNebula
       class Real
-
         def vm_destroy(id)
           vmpool = ::OpenNebula::VirtualMachinePool.new(client)
 	  vmpool.info!(-2,id,id,-1)
@@ -12,8 +11,10 @@ module Fog
 	    vm.delete(false)
           end
         end
-
-        class Mock
+      end
+      class Mock
+        def vm_destroy(id)
+          true
         end
       end
     end
