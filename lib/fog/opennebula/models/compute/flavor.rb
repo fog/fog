@@ -3,12 +3,8 @@ require 'fog/core/model'
 module Fog
   module Compute
     class OpenNebula
-
       class Flavor < Fog::Model
-
         identity :id
-
-        #attribute :disk
         attribute :name
         attribute :content
         attribute :CPU
@@ -25,43 +21,42 @@ module Fog
         attribute :RAW
 
 
-	def to_label
-	  "#{name} -- #{self.VCPU} VCPU - #{self.MEMORY}MB Mem"
-	end
+        def to_label
+          "#{name} -- #{self.VCPU} VCPU - #{self.MEMORY}MB Mem"
+        end
 
         def to_s
           "" + get_cpu \
-             + get_vcpu \
-             + get_memory \
-             + get_disk \
-             + get_nic \
-             + get_os \
-             + get_graphics \
-             + get_raw \
-             + get_sched_requirements \
-             + get_sched_ds_requirements \
-             + get_sched_rank \
-             + get_sched_ds_rank
-
+            + get_vcpu \
+            + get_memory \
+            + get_disk \
+            + get_nic \
+            + get_os \
+            + get_graphics \
+            + get_raw \
+            + get_sched_requirements \
+            + get_sched_ds_requirements \
+            + get_sched_rank \
+            + get_sched_ds_rank
         end
 
         def get_cpu
-	  "CPU=" + (self.VCPU.to_f/10).to_s + "\n"
+          "CPU=#{self.VCPU.to_f/10}\n"
         end  
 
         def get_vcpu
-	  self.VCPU = 1 if self.VCPU.nil? 
-	  "VCPU=" + self.VCPU.to_s + "\n"
+          self.VCPU = 1 if self.VCPU.nil? 
+          "VCPU=#{self.VCPU}\n"
         end  
 
         def get_memory
-	  self.MEMORY = 128 if self.MEMORY.nil? 
-	  "MEMORY=" + self.MEMORY.to_s + "\n"
+          self.MEMORY = 128 if self.MEMORY.nil? 
+          "MEMORY=#{self.MEMORY}\n"
         end  
 
         def get_raw
           return "" if self.RAW.nil? 
-          "RAW=" + self.RAW + "\n"
+          "RAW=#{self.RAW}\n"
         end
 
         def get_disk
@@ -69,71 +64,70 @@ module Fog
           ret = ""
           if self.DISK.is_a? Array
             self.DISK.each do |d|
-              ret += "DISK=" + d.to_s + "\n"
+              ret += "DISK=#{d}\n"
             end
           else
-            ret = "DISK=" + self.DISK.to_s + "\n"
+            ret = "DISK=#{self.DISK}\n"
           end
-	  ret.gsub!(/\{/, '[')
-	  ret.gsub!(/\}/, ']')
-	  ret.gsub!(/>/,'')
+          ret.gsub!(/\{/, '[')
+          ret.gsub!(/\}/, ']')
+          ret.gsub!(/>/,'')
           ret 
         end
 
         def get_os
           return "" if self.OS.nil? 
-          ret = "OS=" + self.OS.to_s + "\n"
-	  ret.gsub!(/\{/, '[')
-	  ret.gsub!(/\}/, ']')
+          ret = "OS=#{self.OS}\n"
+          ret.gsub!(/\{/, '[')
+          ret.gsub!(/\}/, ']')
           ret.gsub!(/>/,'')
           ret 
         end
 
         def get_graphics
           return "" if self.GRAPHICS.nil? 
-          ret = "GRAPHICS=" + self.GRAPHICS.to_s + "\n"
-	  ret.gsub!(/\{/, '[')
-	  ret.gsub!(/\}/, ']')
+          ret = "GRAPHICS=#{self.GRAPHICS}\n"
+          ret.gsub!(/\{/, '[')
+          ret.gsub!(/\}/, ']')
           ret.gsub!(/>/,'')
           ret 
         end
 
         def get_nic
-	  # NIC=[MODEL="virtio",NETWORK="vlan17",NETWORK_UNAME="oneadmin"]
-	  return "" if( self.NIC.nil? || !(self.NIC.is_a? Array))
+          # NIC=[MODEL="virtio",NETWORK="vlan17",NETWORK_UNAME="oneadmin"]
+          return "" if( self.NIC.nil? || !(self.NIC.is_a? Array))
           ret = ""
-          
-	  self.NIC.each do |n|
-		  ret += %Q|NIC=[MODEL="#{n.model}",NETWORK_ID="#{n.vnet.id}"]\n|
-	  end
-	  #ret.gsub!(/\{/, '[')
-	  #ret.gsub!(/\}/, ']')
-	  #ret.gsub!(/>/,'')
+
+          self.NIC.each do |n|
+            ret += %Q|NIC=[MODEL="#{n.model}",NETWORK_ID="#{n.vnet.id}"]\n|
+          end
+          #ret.gsub!(/\{/, '[')
+          #ret.gsub!(/\}/, ']')
+          #ret.gsub!(/>/,'')
           ret 
         end
 
         def get_sched_ds_requirements
           return "" if self.SCHED_DS_REQUIREMENTS.nil? 
-	  %Q|SCHED_DS_REQUIREMENTS="#{self.SCHED_DS_REQUIREMENTS}"\n|
+          %Q|SCHED_DS_REQUIREMENTS="#{self.SCHED_DS_REQUIREMENTS}"\n|
         end
 
         def get_sched_ds_rank
           return "" if self.SCHED_DS_RANK.nil? 
-	  %Q|SCHED_DS_RANK="#{self.SCHED_DS_RANK}"\n|
+          %Q|SCHED_DS_RANK="#{self.SCHED_DS_RANK}"\n|
         end
 
         def get_sched_requirements
           return "" if self.SCHED_REQUIREMENTS.nil? 
-	  %Q|SCHED_REQUIREMENTS="#{self.SCHED_REQUIREMENTS}"\n|
+          %Q|SCHED_REQUIREMENTS="#{self.SCHED_REQUIREMENTS}"\n|
         end
 
         def get_sched_rank
           return "" if self.SCHED_RANK.nil? 
-	  %Q|SCHED_RANK="#{self.SCHED_RANK}"\n|
+          %Q|SCHED_RANK="#{self.SCHED_RANK}"\n|
         end
 
       end
-
     end
   end
 end
