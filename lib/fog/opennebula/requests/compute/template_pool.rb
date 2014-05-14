@@ -63,7 +63,7 @@ module Fog
             end
 
             h
-	  end
+          end
 
           templates 
         end #def template_pool
@@ -71,8 +71,8 @@ module Fog
 
       class Mock
         def template_pool(filter = { })
-	  [ {}, {} ]
-	end
+          [ {}, {} ]
+        end
       end #class Mock
     end #class OpenNebula
   end #module Compute
