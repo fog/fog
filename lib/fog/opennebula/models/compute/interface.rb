@@ -12,7 +12,7 @@ module Fog
         attribute :name
         attribute :mac
 
-        def initialize attributes = {}
+        def initialize(attributes = {})
           super defaults.merge(attributes)
         end
 
@@ -21,20 +21,15 @@ module Fog
         end
 
 	def new?
+	  self.presisted?
+	end
+
+	def persisted?
 	  mac.nil?
 	end
 
         def destroy
           raise Fog::Errors::Error.new('Destroying an interface is not yet implemented. Contributions welcome!')
-        end
-
-        private
-        def defaults
-          {
-            :model => nil,
-	    :name => nil,
-	    :id => nil
-          }
         end
 
       end
