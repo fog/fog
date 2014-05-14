@@ -17,10 +17,6 @@ module Fog
           super
         end
 
-	def description=(str)
-	  @description=str
-	end
-
 	def description
 	  return "" if @description.nil?
 	  return @description
