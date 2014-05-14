@@ -40,7 +40,7 @@ module Fog
           @access_rules ||= begin
             Fog::Rackspace::LoadBalancers::AccessRules.new({
               :service => service,
-              :load_balancer => self})
+              :load_balancer => self}).clear
           end
         end
 
@@ -52,7 +52,7 @@ module Fog
           @nodes ||= begin
             Fog::Rackspace::LoadBalancers::Nodes.new({
               :service => service,
-              :load_balancer => self})
+              :load_balancer => self}).clear
           end
         end
 
