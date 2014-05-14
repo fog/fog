@@ -37,11 +37,15 @@ module Fog
         end
 
         def access_rules
-          @access_rules ||= begin
-            Fog::Rackspace::LoadBalancers::AccessRules.new({
+          unless @access_rules
+            @access_rules = Fog::Rackspace::LoadBalancers::AccessRules.new({
               :service => service,
-              :load_balancer => self}).clear
+              :load_balancer => self})
+
+             # prevents loading access rules from non-existent load balancers
+            @access_rules.clear unless persisted?
           end
+          @access_rules
         end
 
         def access_rules=(new_access_rules=[])
@@ -49,11 +53,15 @@ module Fog
         end
 
         def nodes
-          @nodes ||= begin
-            Fog::Rackspace::LoadBalancers::Nodes.new({
-              :service => service,
-              :load_balancer => self}).clear
+          unless @nodes
+            @nodes = Fog::Rackspace::LoadBalancers::Nodes.new({
+                :service => service,
+                :load_balancer => self})
+
+            # prevents loading nodes from non-existent load balancers
+            @nodes.clear unless persisted?
           end
+          @nodes
         end
 
         def nodes=(new_nodes=[])
