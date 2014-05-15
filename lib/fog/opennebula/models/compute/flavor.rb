@@ -7,22 +7,22 @@ module Fog
         identity :id
         attribute :name
         attribute :content
-        attribute :CPU
-        attribute :VCPU
-        attribute :MEMORY
-        attribute :SCHED_REQUIREMENTS
-        attribute :SCHED_RANK
-        attribute :SCHED_DS_REQUIREMENTS
-        attribute :SCHED_DS_RANK
-        attribute :DISK
-        attribute :NIC
-        attribute :OS
-        attribute :GRAPHICS
-        attribute :RAW
+        attribute :cpu
+        attribute :vcpu
+        attribute :memory
+        attribute :sched_requirements
+        attribute :sched_rank
+        attribute :sched_ds_requirements
+        attribute :sched_ds_rank
+        attribute :disk
+        attribute :nic
+        attribute :os
+        attribute :graphics
+        attribute :raw
 
 
         def to_label
-          "#{name} -- #{self.VCPU} VCPU - #{self.MEMORY}MB Mem"
+          "#{name} -- #{vcpu} VCPU - #{memory}MB Mem"
         end
 
         def to_s
@@ -41,33 +41,33 @@ module Fog
         end
 
         def get_cpu
-          "CPU=#{self.VCPU.to_f/10}\n"
+          "CPU=#{vcpu.to_f/10}\n"
         end  
 
         def get_vcpu
-          self.VCPU = 1 unless self.VCPU
-          "VCPU=#{self.VCPU}\n"
+          vcpu = 1 unless vcpu
+          "VCPU=#{vcpu}\n"
         end  
 
         def get_memory
-          self.MEMORY = 128 unless self.MEMORY
-          "MEMORY=#{self.MEMORY}\n"
+          memory = 128 unless memory
+          "MEMORY=#{memory}\n"
         end  
 
         def get_raw
-          return "" unless self.RAW
-          "RAW=#{self.RAW}\n"
+          return "" unless raw
+          "RAW=#{raw}\n"
         end
 
         def get_disk
-          return "" unless self.DISK
+          return "" unless disk
           ret = ""
-          if self.DISK.is_a? Array
-            self.DISK.each do |d|
+          if disk.is_a? Array
+            disk.each do |d|
               ret += "DISK=#{d}\n"
             end
           else
-            ret = "DISK=#{self.DISK}\n"
+            ret = "DISK=#{disk}\n"
           end
           ret.gsub!(/\{/, '[')
           ret.gsub!(/\}/, ']')
@@ -76,8 +76,8 @@ module Fog
         end
 
         def get_os
-          return "" unless self.OS
-          ret = "OS=#{self.OS}\n"
+          return "" unless os
+          ret = "OS=#{os}\n"
           ret.gsub!(/\{/, '[')
           ret.gsub!(/\}/, ']')
           ret.gsub!(/>/,'')
@@ -85,8 +85,8 @@ module Fog
         end
 
         def get_graphics
-          return "" unless self.GRAPHICS 
-          ret = "GRAPHICS=#{self.GRAPHICS}\n"
+          return "" unless graphics 
+          ret = "GRAPHICS=#{graphics}\n"
           ret.gsub!(/\{/, '[')
           ret.gsub!(/\}/, ']')
           ret.gsub!(/>/,'')
@@ -95,10 +95,10 @@ module Fog
 
         def get_nic
           # NIC=[MODEL="virtio",NETWORK="vlan17",NETWORK_UNAME="oneadmin"]
-          return "" if( self.NIC.nil? || !(self.NIC.is_a? Array))
+          return "" if( nic.nil? || !(nic.is_a? Array))
           ret = ""
 
-          self.NIC.each do |n|
+          nic.each do |n|
             ret += %Q|NIC=[MODEL="#{n.model}",NETWORK_ID="#{n.vnet.id}"]\n|
           end
           #ret.gsub!(/\{/, '[')
@@ -108,23 +108,23 @@ module Fog
         end
 
         def get_sched_ds_requirements
-          return "" unless self.SCHED_DS_REQUIREMENTS 
-          %Q|SCHED_DS_REQUIREMENTS="#{self.SCHED_DS_REQUIREMENTS}"\n|
+          return "" unless sched_ds_requirements 
+          %Q|SCHED_DS_REQUIREMENTS="#{sched_ds_requirements}"\n|
         end
 
         def get_sched_ds_rank
-          return "" unless self.SCHED_DS_RANK 
-          %Q|SCHED_DS_RANK="#{self.SCHED_DS_RANK}"\n|
+          return "" unless sched_ds_rank 
+          %Q|SCHED_DS_RANK="#{sched_ds_rank}"\n|
         end
 
         def get_sched_requirements
-          return "" unless self.SCHED_REQUIREMENTS 
-          %Q|SCHED_REQUIREMENTS="#{self.SCHED_REQUIREMENTS}"\n|
+          return "" unless sched_requirements 
+          %Q|SCHED_REQUIREMENTS="#{sched_requirements}"\n|
         end
 
         def get_sched_rank
-          return "" unless self.SCHED_RANK 
-          %Q|SCHED_RANK="#{self.SCHED_RANK}"\n|
+          return "" unless sched_rank 
+          %Q|SCHED_RANK="#{sched_rank}"\n|
         end
 
       end

@@ -62,7 +62,13 @@ module Fog
               # should i break?
             end
 
-            h
+          
+            # every key should be lowercase
+            ret_hash = {}
+            h.each_pair do |k,v| 
+              ret_hash.merge!({k.downcase => v}) 
+            end
+            ret_hash
           end
 
           templates 
