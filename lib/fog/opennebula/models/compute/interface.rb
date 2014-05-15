@@ -12,21 +12,25 @@ module Fog
         attribute :name
         attribute :mac
 
-        def initialize(attributes = {})
-          super defaults.merge(attributes)
+        def initialize(attr={})
+          attributes.merge! attr
         end
 
         def save
           raise Fog::Errors::Error.new('Creating a new interface is not yet implemented. Contributions welcome!')
         end
 
-	def new?
-	  self.presisted?
-	end
+        def new?
+          mac.nil?
+        end
+ 
+        def vnetid
+          return ""
+        end
 
-	def persisted?
-	  mac.nil?
-	end
+        def persisted?
+          self.new?
+        end
 
         def destroy
           raise Fog::Errors::Error.new('Destroying an interface is not yet implemented. Contributions welcome!')
