@@ -49,7 +49,6 @@ Gem::Specification.new do |s|
 
   # Modular providers
   s.add_dependency("fog-brightbox")
-  s.add_dependency('opennebula', '>=4.4.0')
 
   ## List your development dependencies here. Development dependencies are
   ## those that are only needed during development
