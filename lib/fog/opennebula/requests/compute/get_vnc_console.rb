@@ -1,4 +1,4 @@
-require_relative 'OpenNebulaVNC'
+require File.expand_path('../OpenNebulaVNC', __FILE__)
 module Fog
   module Compute
     class OpenNebula
