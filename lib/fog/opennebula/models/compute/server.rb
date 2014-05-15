@@ -30,12 +30,18 @@ module Fog
           #reload
         end
 
-        def interfaces
+        # only for integration in foreman
+        # needed by formbuilder
+        # should be handled by foreman and not from by fog
+        def vminterfaces
           #[] << Fog::Compute::OpenNebula::Interfaces.new
           []
         end
 
-        def interfaces_attributes=(attributes)
+        # only for integration in foreman
+        # needed by formbuilder
+        # should be handled by foreman and not from by fog
+        def vminterfaces_attributes=(attributes)
           true
         end
 
@@ -75,10 +81,11 @@ module Fog
           (status == 3) 
         end
 
-        # dummy method - used by a rails-view to get the id of the default template, but i have no clou what a global default should be
-        # method should be remove here
+        # only for integration in foreman
+        # needed by formbuilder
+        # should be handled by foreman and not by fog
         def template_id
-          1
+          ""
         end
 
         def console_output
