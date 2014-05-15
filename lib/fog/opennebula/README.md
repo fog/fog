@@ -105,7 +105,7 @@ _AND_ everything not mentioned in features or examples ;)
 * [Fog documentation](http://rubydoc.info/gems/fog)
 * [Fog Github repo](https://github.com/fog/fog)
 * [Fog Release Notes](https://github.com/fog/fog/blob/master/changelog.txt)
-* [OpenNebula ruby bindings](http://docs.opennebula.org/stable/integration/system_interfaces/ruby.html)
+* [Ruby OpenNebula Cloud API](http://docs.opennebula.org/stable/integration/system_interfaces/ruby.html)
 * [OpenNebula ruby bindings](http://docs.opennebula.org/doc/stable/oca/ruby/)
 
 ## Support and Feedback
