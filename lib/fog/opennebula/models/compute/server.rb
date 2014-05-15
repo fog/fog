@@ -25,7 +25,7 @@ module Fog
           #if persisted?
           #  service.update_vm(attributes)
           #else
-            merge_attributes(service.vm_allocate(attributes))
+          merge_attributes(service.vm_allocate(attributes))
           #end
           #reload
         end

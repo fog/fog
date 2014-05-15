@@ -18,7 +18,7 @@ module Fog
           #data = service.get_flavor_details(flavor_id)
           #new(data)
           data = service.template_pool({:id => flavor_id})
-	  load(data).first
+          load(data).first
         rescue Fog::Compute::OpenNebula::NotFound
           nil
         end

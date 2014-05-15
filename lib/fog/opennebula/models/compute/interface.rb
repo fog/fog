@@ -3,7 +3,6 @@ require 'fog/core/model'
 module Fog
   module Compute
     class OpenNebula
-
       class Interface < Fog::Model
 
         identity :id
@@ -37,8 +36,6 @@ module Fog
         end
 
       end
-
     end
   end
-
 end

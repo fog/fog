@@ -4,9 +4,7 @@ require 'fog/opennebula/models/compute/network'
 module Fog
   module Compute
     class OpenNebula
-
       class Networks < Fog::Collection
-
         model Fog::Compute::OpenNebula::Network
 
         def all(filter={})
@@ -18,7 +16,6 @@ module Fog
         end
 
       end
-
     end
   end
 end

@@ -15,9 +15,7 @@ module Fog
         end
 
         def get(id)
-	  Fog::Logger.warning("FIRST id #{id.inspect}")
           data = service.list_vms({:id => id})
-	  Fog::Logger.warning("FIRST #{data.inspect}")
           new data.first unless data.empty?
         end
 
