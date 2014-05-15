@@ -45,22 +45,22 @@ module Fog
         end  
 
         def get_vcpu
-          self.VCPU = 1 if self.VCPU.nil? 
+          self.VCPU = 1 unless self.VCPU
           "VCPU=#{self.VCPU}\n"
         end  
 
         def get_memory
-          self.MEMORY = 128 if self.MEMORY.nil? 
+          self.MEMORY = 128 unless self.MEMORY
           "MEMORY=#{self.MEMORY}\n"
         end  
 
         def get_raw
-          return "" if self.RAW.nil? 
+          return "" unless self.RAW
           "RAW=#{self.RAW}\n"
         end
 
         def get_disk
-          return "" if self.DISK.nil? 
+          return "" unless self.DISK
           ret = ""
           if self.DISK.is_a? Array
             self.DISK.each do |d|
@@ -76,7 +76,7 @@ module Fog
         end
 
         def get_os
-          return "" if self.OS.nil? 
+          return "" unless self.OS
           ret = "OS=#{self.OS}\n"
           ret.gsub!(/\{/, '[')
           ret.gsub!(/\}/, ']')
@@ -85,7 +85,7 @@ module Fog
         end
 
         def get_graphics
-          return "" if self.GRAPHICS.nil? 
+          return "" unless self.GRAPHICS 
           ret = "GRAPHICS=#{self.GRAPHICS}\n"
           ret.gsub!(/\{/, '[')
           ret.gsub!(/\}/, ']')
@@ -108,22 +108,22 @@ module Fog
         end
 
         def get_sched_ds_requirements
-          return "" if self.SCHED_DS_REQUIREMENTS.nil? 
+          return "" unless self.SCHED_DS_REQUIREMENTS 
           %Q|SCHED_DS_REQUIREMENTS="#{self.SCHED_DS_REQUIREMENTS}"\n|
         end
 
         def get_sched_ds_rank
-          return "" if self.SCHED_DS_RANK.nil? 
+          return "" unless self.SCHED_DS_RANK 
           %Q|SCHED_DS_RANK="#{self.SCHED_DS_RANK}"\n|
         end
 
         def get_sched_requirements
-          return "" if self.SCHED_REQUIREMENTS.nil? 
+          return "" unless self.SCHED_REQUIREMENTS 
           %Q|SCHED_REQUIREMENTS="#{self.SCHED_REQUIREMENTS}"\n|
         end
 
         def get_sched_rank
-          return "" if self.SCHED_RANK.nil? 
+          return "" unless self.SCHED_RANK 
           %Q|SCHED_RANK="#{self.SCHED_RANK}"\n|
         end
 
