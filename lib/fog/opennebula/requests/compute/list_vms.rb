@@ -5,45 +5,45 @@ module Fog
     class OpenNebula
       class Real
         def list_vms(filter={})
-            vms=[]
-            vmpool = ::OpenNebula::VirtualMachinePool.new(client)
-	    if filter[:id].nil?
-	      vmpool.info!(-2,-1,-1,-1)
-	    elsif filter[:id]
-	      filter[:id] = filter[:id].to_i if filter[:id].is_a?(String)
-              vmpool.info!(-2, filter[:id], filter[:id], -1)
-	    end # filter[:id].nil?
+          vms=[]
+          vmpool = ::OpenNebula::VirtualMachinePool.new(client)
+          if filter[:id].nil?
+            vmpool.info!(-2,-1,-1,-1)
+          elsif filter[:id]
+            filter[:id] = filter[:id].to_i if filter[:id].is_a?(String)
+            vmpool.info!(-2, filter[:id], filter[:id], -1)
+          end # filter[:id].nil?
 
-	    vmpool.each do |vm|
-              one = vm.to_hash
-              data = {}
-	      data["onevm_object"] = vm
-              data["status"] =  vm.state
-              data["state"]  =  vm.lcm_state_str
-              data["id"]     =  vm.id
-              data["gid"]    =  vm.gid
-	      data["uuid"]   =  vm.id
-              data["name"]   =  one["VM"]["NAME"] unless one["VM"]["NAME"].nil?
-              data["user"]   =  one["VM"]["UNAME"] unless one["VM"]["UNAME"].nil?
-              data["group"]  =  one["VM"]["GNAME"] unless one["VM"]["GNAME"].nil?
+          vmpool.each do |vm|
+            one = vm.to_hash
+            data = {}
+            data["onevm_object"] = vm
+            data["status"] =  vm.state
+            data["state"]  =  vm.lcm_state_str
+            data["id"]     =  vm.id
+            data["gid"]    =  vm.gid
+            data["uuid"]   =  vm.id
+            data["name"]   =  one["VM"]["NAME"] unless one["VM"]["NAME"].nil?
+            data["user"]   =  one["VM"]["UNAME"] unless one["VM"]["UNAME"].nil?
+            data["group"]  =  one["VM"]["GNAME"] unless one["VM"]["GNAME"].nil?
 
-              unless ( one["VM"]["TEMPLATE"].nil? ) then
-                data["cpu"]    =  one["VM"]["TEMPLATE"]["VCPU"] unless one["VM"]["TEMPLATE"]["VCPU"].nil?
-                data["memory"] =  one["VM"]["TEMPLATE"]["MEMORY"] unless one["VM"]["TEMPLATE"]["MEMORY"].nil?
-                unless (one["VM"]["TEMPLATE"]["NIC"].nil?) then
-	          if one["VM"]["TEMPLATE"]["NIC"].is_a?(Array)
-		    data["ip"]=one["VM"]["TEMPLATE"]["NIC"][0]["IP"]
-		    data["mac"]=one["VM"]["TEMPLATE"]["NIC"][0]["MAC"]
-		  else
-                    data["ip"]=one["VM"]["TEMPLATE"]["NIC"]["IP"] unless one["VM"]["TEMPLATE"]["NIC"]["IP"].nil?
-                    data["mac"]=one["VM"]["TEMPLATE"]["NIC"]["MAC"] unless one["VM"]["TEMPLATE"]["NIC"]["MAC"].nil?
-		  end
-                end # unless (one["VM"]["TEMPLATE"]["NIC"].nil?) then
-	      end # unless ( one["VM"]["TEMPLATE"].nil? ) then 
+            unless ( one["VM"]["TEMPLATE"].nil? ) then
+              data["cpu"]    =  one["VM"]["TEMPLATE"]["VCPU"] unless one["VM"]["TEMPLATE"]["VCPU"].nil?
+              data["memory"] =  one["VM"]["TEMPLATE"]["MEMORY"] unless one["VM"]["TEMPLATE"]["MEMORY"].nil?
+              unless (one["VM"]["TEMPLATE"]["NIC"].nil?) then
+                if one["VM"]["TEMPLATE"]["NIC"].is_a?(Array)
+                  data["ip"]=one["VM"]["TEMPLATE"]["NIC"][0]["IP"]
+                  data["mac"]=one["VM"]["TEMPLATE"]["NIC"][0]["MAC"]
+                else
+                  data["ip"]=one["VM"]["TEMPLATE"]["NIC"]["IP"] unless one["VM"]["TEMPLATE"]["NIC"]["IP"].nil?
+                  data["mac"]=one["VM"]["TEMPLATE"]["NIC"]["MAC"] unless one["VM"]["TEMPLATE"]["NIC"]["MAC"].nil?
+                end
+              end # unless (one["VM"]["TEMPLATE"]["NIC"].nil?) then
+            end # unless ( one["VM"]["TEMPLATE"].nil? ) then 
 
             vms << data
-            end # vmpool.each
-	  vms
+          end # vmpool.each
+          vms
         end # def list_vms
       end # class Real
 
@@ -53,20 +53,20 @@ module Fog
 
       class Mock
         def list_vms(filter = {})
-	  if filter[:id].nil?
+          if filter[:id].nil?
             vm1 = mock_vm 'fog-vm1'
             vm2 = mock_vm 'fog-vm2'
             vm3 = mock_vm 'fog-vm3'
-	    return [vm1, vm2, vm3]
-	  elsif filter[:mock_return]
-             mock_vm 'fog-vm1', filter[:id]
-	  else 
+            return [vm1, vm2, vm3]
+          elsif filter[:mock_return]
+            mock_vm 'fog-vm1', filter[:id]
+          else 
             []
-	  end
+          end
         end
-	def mock_vm(name, id=4)
+        def mock_vm(name, id=4)
           data = {}
-	  data["onevm_object"] = ""
+          data["onevm_object"] = ""
           data["status"] = "Running"
           data["state"]  = "3"
           data["id"]     = id
@@ -78,8 +78,8 @@ module Fog
           data["cpu"]    = "2"
           data["memory"] = "1024"
           data["mac"]	 = "00:01:02:03:04:05"
-	  data["ip"]	 = "1.1.1.1"
-	  data
+          data["ip"]	 = "1.1.1.1"
+          data
         end
       end
     end
