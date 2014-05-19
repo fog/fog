@@ -22,6 +22,12 @@ module Fog
                 Description options[:Description] if options.key?(:Description)
                 if configuration = options[:Configuration]
                   Configuration {
+                    if syslog = configuration[:SyslogServerSettings]
+                      SyslogServerSettings {
+                        SyslogServerIp1 syslog[:SyslogServerIp1]
+                        SyslogServerIp2 syslog[:SyslogServerIp2] if syslog.key?(:SyslogServerIp2)
+                      }
+                    end
                     if ip_scopes = configuration[:IpScopes]
                       IpScopes {
                         if ip_scope = ip_scopes[:IpScope]
