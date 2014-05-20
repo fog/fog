@@ -54,7 +54,7 @@ module Fog
       collection :organizations
       model      :catalog_item
       collection :catalog_items
-      model      :custom_fields
+      model      :custom_field
       collection :custom_fields
       model      :vdc
       collection :vdcs
