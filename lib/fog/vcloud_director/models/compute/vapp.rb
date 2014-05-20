@@ -30,6 +30,11 @@ module Fog
           service.tags(:vm => self)
         end
 
+        def custom_fields
+          requires :id
+          service.custom_fields( :vapp => self)
+        end
+
         # @param [String] action The specified action is applied to all virtual
         #   machines in the vApp. All values other than **default** ignore
         #   actions, order, and delay specified in the StartupSection. One of:
