@@ -6,4 +6,6 @@ group :development, :test do
   gem "octokit", :require => false
 end
 
+  gem 'fog-softlayer', :path => './providers/softlayer'
+
 gemspec

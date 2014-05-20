@@ -212,7 +212,6 @@ module Fog
               )
             end
           end
-
           true
         end
 
