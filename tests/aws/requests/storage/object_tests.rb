@@ -28,7 +28,7 @@ Shindo.tests('AWS::Storage | object requests', ['aws']) do
 
     tests("#get_object('#{@directory.identity}', 'fog_object', &block)").returns(lorem_file.read) do
       data = ''
-      Fog::Storage[:aws].get_object(@directory.identity, 'fog_object') do |chunk, remaining_bytes, total_bytes|
+      Fog::Storage[:aws].get_object(@directory.identity, 'fog_object') do |chunk, _remaining_bytes, _total_bytes|
         data << chunk
       end
       data

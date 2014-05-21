@@ -28,7 +28,7 @@ FileUtils.mkdir_p extract_path
 
 # Efficient image write
 puts "Downloading Cirros image..."
-streamer = lambda do |chunk, remaining_bytes, total_bytes|
+streamer = lambda do |chunk, _remaining_bytes, _total_bytes|
   image_out.write chunk
 end
 Excon.get image_url, :response_block => streamer

@@ -59,7 +59,7 @@ module Fog
 
           etag = Fog::CDN::AWS::Mock.generic_id
           response.status = 200
-          response.body = distribution.reject { |k,v| k == 'ETag' }
+          response.body = distribution.reject { |k,_v| k == 'ETag' }
 
           response.headers['ETag'] = etag
           distribution['ETag'] = etag

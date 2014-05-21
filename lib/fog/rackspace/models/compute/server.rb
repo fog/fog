@@ -73,7 +73,7 @@ module Fog
             'name'        => name,
             'personality' => personality
           }
-          options = options.reject { |key, value| value.nil? }
+          options = options.reject { |_key, value| value.nil? }
           data = service.create_server(flavor_id, image_id, options)
           merge_attributes(data.body['server'])
           true

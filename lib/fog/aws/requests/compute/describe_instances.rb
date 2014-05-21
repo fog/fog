@@ -207,10 +207,10 @@ module Fog
 
             if self.data[:instances][instance['instanceId']]
 
-              nics = self.data[:network_interfaces].select {|ni,ni_conf|
+              nics = self.data[:network_interfaces].select {|_ni,ni_conf|
                 ni_conf['attachment']['instanceId'] == instance['instanceId']
               }
-              instance['networkInterfaces'] = nics.map {|ni,ni_conf|
+              instance['networkInterfaces'] = nics.map {|_ni,ni_conf|
                 {
                   'ownerId' => ni_conf['ownerId'],
                   'subnetId' => ni_conf['subnetId'],
@@ -222,9 +222,9 @@ module Fog
               }
               if nics.count > 0
 
-                instance['privateIpAddress'] = nics.sort_by {|ni, ni_conf|
+                instance['privateIpAddress'] = nics.sort_by {|_ni, ni_conf|
                   ni_conf['attachment']['deviceIndex']
-                }.map { |ni, ni_conf| ni_conf['privateIpAddress'] }.first
+                }.map { |_ni, ni_conf| ni_conf['privateIpAddress'] }.first
 
                 instance['privateDnsName'] = Fog::AWS::Mock.private_dns_name_for(instance['privateIpAddress'])
               else
@@ -239,7 +239,7 @@ module Fog
                 'ownerId'       => instance['ownerId'],
                 'reservationId' => instance['reservationId']
               }
-              reservation_set[instance['reservationId']]['instancesSet'] << instance.reject { |key,value| !['amiLaunchIndex', 'architecture', 'blockDeviceMapping', 'clientToken', 'dnsName', 'ebsOptimized', 'hypervisor', 'iamInstanceProfile', 'imageId', 'instanceId', 'instanceState', 'instanceType', 'ipAddress', 'kernelId', 'keyName', 'launchTime', 'monitoring', 'networkInterfaces', 'ownerId', 'placement', 'platform', 'privateDnsName', 'privateIpAddress', 'productCodes', 'ramdiskId', 'reason', 'rootDeviceType', 'stateReason', 'virtualizationType'].include?(key) }.merge('tagSet' => self.data[:tag_sets][instance['instanceId']])
+              reservation_set[instance['reservationId']]['instancesSet'] << instance.reject { |key,_value| !['amiLaunchIndex', 'architecture', 'blockDeviceMapping', 'clientToken', 'dnsName', 'ebsOptimized', 'hypervisor', 'iamInstanceProfile', 'imageId', 'instanceId', 'instanceState', 'instanceType', 'ipAddress', 'kernelId', 'keyName', 'launchTime', 'monitoring', 'networkInterfaces', 'ownerId', 'placement', 'platform', 'privateDnsName', 'privateIpAddress', 'productCodes', 'ramdiskId', 'reason', 'rootDeviceType', 'stateReason', 'virtualizationType'].include?(key) }.merge('tagSet' => self.data[:tag_sets][instance['instanceId']])
             end
           end
 

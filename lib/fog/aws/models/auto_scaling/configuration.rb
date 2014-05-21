@@ -44,7 +44,7 @@ module Fog
           requires :instance_type
 
           options = Hash[self.class.aliases.map { |key, value| [key, send(value)] }]
-          options.delete_if { |key, value| value.nil? }
+          options.delete_if { |_key, value| value.nil? }
           service.create_launch_configuration(image_id, instance_type, id, options) #, listeners.map{|l| l.to_params})
 
           # reload instead of merge attributes b/c some attrs (like HealthCheck)

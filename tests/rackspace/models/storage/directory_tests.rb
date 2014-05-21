@@ -3,7 +3,7 @@ Shindo.tests('Fog::Rackspace::Storage | directory', ['rackspace']) do
   @service = Fog::Storage[:rackspace]
   
   def container_meta_attributes
-    @service.head_container(@instance.key).headers.reject { |k, v| !(k =~ /X-Container-Meta-/) }
+    @service.head_container(@instance.key).headers.reject { |k, _v| !(k =~ /X-Container-Meta-/) }
   end
   
   directory_attributes = {

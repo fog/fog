@@ -51,7 +51,7 @@ module Fog
             when 'key'
               tag_set.reject! { |k,_| k != filter_value }
             when 'value'
-              tag_set.each { |k,values| values.reject! { |v, _| v != filter_value } }
+              tag_set.each { |_k,values| values.reject! { |v, _| v != filter_value } }
             when 'resourceId'
               filter_resources(tag_set, 'resourceId', filter_value)
             when 'resourceType'

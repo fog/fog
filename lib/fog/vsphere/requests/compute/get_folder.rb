@@ -30,7 +30,7 @@ module Fog
           dc             = find_raw_datacenter(datacenter_name)
           dc_root_folder = dc.vmFolder
           # Filter the root path for this datacenter not to be used."
-          dc_root_folder_path=dc_root_folder.path.map { | id, name | name }.join("/")
+          dc_root_folder_path=dc_root_folder.path.map { | _id, name | name }.join("/")
           paths          = path.sub(/^\/?#{Regexp.quote(dc_root_folder_path)}\/?/, '').split('/')
 
           return dc_root_folder if paths.empty?

@@ -31,7 +31,7 @@ module Fog
         def delete_message(queue_url, receipt_handle)
           Excon::Response.new.tap do |response|
             if (queue = data[:queues][queue_url])
-              message_id, _ = queue[:receipt_handles].find { |msg_id, receipts|
+              message_id, _ = queue[:receipt_handles].find { |_msg_id, receipts|
                 receipts.key?(receipt_handle)
               }
 

@@ -67,7 +67,7 @@ file = select_file(files)
 # download file
 filename = File.join(File.dirname(__FILE__), "downloaded-#{file.key}")
 File.open(filename, 'w') do | f |
-  directory.files.get(file.key) do | data, remaining, content_length |
+  directory.files.get(file.key) do | data, _remaining, _content_length |
     f.syswrite data
   end
 end

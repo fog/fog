@@ -16,7 +16,7 @@ class Terremark < Fog::Bin
 
     def [](service)
       @@connections ||= Hash.new do |hash, key|
-        credentials = Fog.credentials.reject do |k,v|
+        credentials = Fog.credentials.reject do |k,_v|
           case key
           when :vcloud
             !Fog::Terremark::VCLOUD_OPTIONS.include?(k)

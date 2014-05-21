@@ -48,7 +48,7 @@ module Fog
 
         def allowed_attributes
           allowed = [:name, :size]
-          attributes.select { |k,v| allowed.include? k }
+          attributes.select { |k,_v| allowed.include? k }
         end
 
       end

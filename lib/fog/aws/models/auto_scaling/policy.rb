@@ -29,7 +29,7 @@ module Fog
           requires :scaling_adjustment
 
           options = Hash[self.class.aliases.map { |key, value| [key, send(value)] }]
-          options.delete_if { |key, value| value.nil? }
+          options.delete_if { |_key, value| value.nil? }
 
           service.put_scaling_policy(adjustment_type, auto_scaling_group_name, id, scaling_adjustment, options)
           reload

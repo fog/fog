@@ -14,7 +14,7 @@ Shindo.tests('Fog::Compute[:ibm] | address requests', ['ibm']) do
   }
 
   # create_address doesn't return mode, hostname or type attributes
-  @create_address_format = @address_format.reject { |k,v| ["mode", "hostname", "type"].include? k }
+  @create_address_format = @address_format.reject { |k,_v| ["mode", "hostname", "type"].include? k }
   # list_address returns everything
   @list_address_format   = { 'addresses' => [ @address_format ] }
 

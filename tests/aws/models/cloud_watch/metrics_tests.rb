@@ -18,7 +18,7 @@ Shindo.tests("AWS::CloudWatch | metrics", ['aws', 'cloudwatch']) do
     Fog.mock!
     tests("handle NextToken").returns(1001) do
       count = 0      
-      Fog::AWS[:cloud_watch].metrics.each { |e| count += 1 }
+      Fog::AWS[:cloud_watch].metrics.each { |_e| count += 1 }
       count
     end
 

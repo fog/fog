@@ -58,7 +58,7 @@ module Fog
               server['name'] = options['name']
             end
             # remove these keys from the response
-            server = server.reject { |key, value| ['key_name', 'security_groups', 'created', 'config_drive', 'OS-EXT-AZ:availability_zone', 'OS-EXT-STS:power_state', 'OS-EXT-STS:task_state', 'OS-EXT-STS:vm_state'].include?(key) }
+            server = server.reject { |key, _value| ['key_name', 'security_groups', 'created', 'config_drive', 'OS-EXT-AZ:availability_zone', 'OS-EXT-STS:power_state', 'OS-EXT-STS:task_state', 'OS-EXT-STS:vm_state'].include?(key) }
             response.status = 200
             response.body = { 'server' => server }
             response

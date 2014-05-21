@@ -51,7 +51,7 @@ module Fog
               'SourceBundle' => source_bundle,
               'VersionLabel' => label
           }
-          options.delete_if { |key, value| value.nil? }
+          options.delete_if { |_key, value| value.nil? }
 
           data = service.create_application_version(options).body['CreateApplicationVersionResult']['ApplicationVersion']
           merge_attributes(data)
@@ -67,7 +67,7 @@ module Fog
               'Description' => description,
               'VersionLabel' => label
           }
-          options.delete_if { |key, value| value.nil? }
+          options.delete_if { |_key, value| value.nil? }
 
           data = service.update_application_version(options).body['UpdateApplicationVersionResult']['ApplicationVersion']
           merge_attributes(data)

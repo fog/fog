@@ -1,4 +1,4 @@
-Shindo.tests('Fog::Rackspace::Databases', ['rackspace']) do |variable|
+Shindo.tests('Fog::Rackspace::Databases', ['rackspace']) do |_variable|
 
   pending if Fog.mocking?
 

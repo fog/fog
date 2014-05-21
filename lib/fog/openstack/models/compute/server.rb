@@ -318,7 +318,7 @@ module Fog
             'block_device_mapping' => @block_device_mapping
           }
           options['metadata'] = metadata.to_hash unless @metadata.nil?
-          options = options.reject { |key, value| value.nil? }
+          options = options.reject { |_key, value| value.nil? }
           data = service.create_server(name, image_ref, flavor_ref, options)
           merge_attributes(data.body['server'])
           true

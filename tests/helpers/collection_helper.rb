@@ -52,7 +52,7 @@ def collection_tests(collection, params = {}, mocks_implemented = true)
         if collection.respond_to?(enum_method)
           tests("##{enum_method}").succeeds do
             block_called = false
-            collection.send(enum_method) { |x| block_called = true }
+            collection.send(enum_method) { |_x| block_called = true }
             block_called
           end
         end
@@ -64,7 +64,7 @@ def collection_tests(collection, params = {}, mocks_implemented = true)
         if collection.respond_to?(enum_method)
           tests("##{enum_method}").succeeds do
             block_called = false
-            collection.send(enum_method) { |x| block_called = true; 0 }
+            collection.send(enum_method) { |_x| block_called = true; 0 }
             block_called
           end
         end

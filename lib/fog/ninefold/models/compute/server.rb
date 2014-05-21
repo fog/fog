@@ -163,7 +163,7 @@ module Fog
             :securitygroupids => securitygroupids,
             :size => size,
             :userdata => userdata
-          }.delete_if { |k,v| v.nil? || v == "" }
+          }.delete_if { |_k,v| v.nil? || v == "" }
           data = service.deploy_virtual_machine(options)
           merge_attributes(data)
           true

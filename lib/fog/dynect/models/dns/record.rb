@@ -26,11 +26,11 @@ module Fog
           options = {
             :ttl => ttl
           }
-          options.delete_if { |key, value| value.nil? }
+          options.delete_if { |_key, value| value.nil? }
 
           data = service.post_record(type, zone.identity, name, rdata, options).body['data']
           # avoid overwriting zone object with zone string
-          data = data.reject { |key, value| key == 'zone' }
+          data = data.reject { |key, _value| key == 'zone' }
           merge_attributes(data)
 
           zone.publish

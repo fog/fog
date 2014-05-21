@@ -182,7 +182,7 @@ module Fog
         end
 
         def request(params)
-          params.reject! { |k,v| v.nil? }
+          params.reject! { |_k,v| v.nil? }
 
           params.merge!('response' => 'json')
 

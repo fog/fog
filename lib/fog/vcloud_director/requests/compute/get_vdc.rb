@@ -138,7 +138,7 @@ module Fog
           if api_version.to_f >= 5.1
             body[:VdcStorageProfiles] = {}
             body[:VdcStorageProfiles][:VdcStorageProfile] =
-              data[:vdc_storage_classes].select do |id, storage_class|
+              data[:vdc_storage_classes].select do |_id, storage_class|
                 storage_class[:vdc] == vdc_id
               end.map do |id, storage_class|
                 {:type => 'application/vnd.vmware.vcloud.vdcStorageProfile+xml',

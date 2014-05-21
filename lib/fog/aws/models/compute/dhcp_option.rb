@@ -56,7 +56,7 @@ module Fog
         def save
           requires :dhcp_configuration_set
           data = service.create_dhcp_options(dhcp_configuration_set).body['dhcpOptionsSet'].first
-          new_attributes = data.reject { |key,value| key == 'requestId' }
+          new_attributes = data.reject { |key,_value| key == 'requestId' }
           merge_attributes(new_attributes)
           true
 

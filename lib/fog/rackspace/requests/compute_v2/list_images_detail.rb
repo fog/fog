@@ -32,7 +32,7 @@ module Fog
         # @raise [Fog::Compute::RackspaceV2::ServiceError]
         # @see http://docs.rackspace.com/servers/api/v2/cs-devguide/content/List_Images-d1e4435.html
         def list_images_detail(options = {})
-          options = options.reject { |key, value| value.nil? }
+          options = options.reject { |_key, value| value.nil? }
           request(
             :expects => [200, 203],
             :method => 'GET',

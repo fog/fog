@@ -30,7 +30,7 @@ module Fog
       class Mock
         def detach_network_interface(attachment_id, force = false)
           response = Excon::Response.new
-          nic_id = self.data[:network_interfaces].select { |k,v| v['attachment']['attachmentId'] == attachment_id } .first.first
+          nic_id = self.data[:network_interfaces].select { |_k,v| v['attachment']['attachmentId'] == attachment_id } .first.first
           if nic_id
             self.data[:network_interfaces][nic_id]["attachment"] = {}
             response.status = 200

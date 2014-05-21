@@ -167,7 +167,7 @@ module Fog
         end
 
         def mock_create(collection, status, data, key, defaults={}, &clean_before_store)
-          data_with_defaults = data.merge(defaults) { |k, oldval, newval| oldval == nil ? newval: oldval }
+          data_with_defaults = data.merge(defaults) { |_k, oldval, newval| oldval == nil ? newval: oldval }
 
           if clean_before_store
             cleaned_data = clean_before_store.call(data_with_defaults)

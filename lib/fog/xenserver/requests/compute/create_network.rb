@@ -9,7 +9,7 @@ module Fog
         # @see http://docs.vmd.citrix.com/XenServer/6.0.0/1.0/en_gb/api/?c=network
         #
         def create_network( name, config = {} )
-          config.reject! { |k,v| v.nil? }
+          config.reject! { |_k,v| v.nil? }
 
           default_config = {
             :name_label => name,

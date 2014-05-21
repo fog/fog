@@ -20,7 +20,7 @@ module Fog
 
       class Mock
         def list_users(options = {})
-          filtered_data = options[:status] ? data.select { |key, value| value[:status] == options[:status] } : data
+          filtered_data = options[:status] ? data.select { |_key, value| value[:status] == options[:status] } : data
 
           Excon::Response.new.tap do |response|
             response.status = 200

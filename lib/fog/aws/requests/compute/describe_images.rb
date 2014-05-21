@@ -113,7 +113,7 @@ module Fog
                 image['imageState'] = 'available'
               end
             end
-            image.reject { |key, value| ['registered'].include?(key) }.merge('tagSet' => self.data[:tag_sets][image['imageId']])
+            image.reject { |key, _value| ['registered'].include?(key) }.merge('tagSet' => self.data[:tag_sets][image['imageId']])
           end
 
           response.status = 200

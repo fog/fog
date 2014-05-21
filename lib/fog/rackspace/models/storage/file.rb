@@ -281,7 +281,7 @@ module Fog
         private
 
         def update_attributes_from(data)
-          merge_attributes(data.headers.reject { |key, value| ['Content-Length', 'Content-Type'].include?(key) })
+          merge_attributes(data.headers.reject { |key, _value| ['Content-Length', 'Content-Type'].include?(key) })
         end
       end
 

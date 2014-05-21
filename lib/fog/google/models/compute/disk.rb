@@ -69,7 +69,7 @@ module Fog
             'mode' => mode,
             'deviceName' => device_name,
             'type' => 'PERSISTENT'
-          }.select { |k, v| !v.nil? }
+          }.select { |_k, v| !v.nil? }
           return Hash[value]
         end
 

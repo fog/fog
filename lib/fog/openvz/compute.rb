@@ -152,7 +152,7 @@ module Fog
           result = ""
           error = ""
           puts prefixed_command
-          Open3.popen3("#{prefixed_command}") { |i,o,e,t|
+          Open3.popen3("#{prefixed_command}") { |_i,o,e,_t|
             result = result + o.read
             error = error + e.read
           }

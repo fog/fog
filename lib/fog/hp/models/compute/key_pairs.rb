@@ -12,7 +12,7 @@ module Fog
         def all
           items = []
           service.list_key_pairs.body['keypairs'].each do |kp|
-            items = items + kp.map { |key, value| value }
+            items = items + kp.map { |_key, value| value }
           end
           load(items)
         end

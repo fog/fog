@@ -18,7 +18,7 @@ module Fog
             'details'   => details,
             'type'      => type,
           }
-          options.reject { |key, value| value.nil? }
+          options.reject { |_key, value| value.nil? }
         end
 
         def save

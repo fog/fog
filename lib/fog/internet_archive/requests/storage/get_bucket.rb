@@ -73,7 +73,7 @@ module Fog
                            && common_prefixes << object['Key'].sub(/^(#{prefix}[^#{delimiter}]+.).*/, '\1')) ||
                 object.key?(:delete_marker)
               end.map do |object|
-                data = object.reject { |key, value| !['ETag', 'Key', 'StorageClass'].include?(key) }
+                data = object.reject { |key, _value| !['ETag', 'Key', 'StorageClass'].include?(key) }
                 data.merge!({
                               'LastModified' => Time.parse(object['Last-Modified']),
                   'Owner'        => bucket['Owner'],

@@ -55,7 +55,7 @@ module Fog
                 :href => make_href("admin/vdc/#{vdc_id}edgeGateways?page=1&pageSize=25&format=records")}],
              :EdgeGatewayRecord => []}
 
-          vdc_edge_gateways = data[:edge_gateways].select do |id, edge_gateway|
+          vdc_edge_gateways = data[:edge_gateways].select do |_id, edge_gateway|
             edge_gateway[:vdc] == vdc_id
           end
 

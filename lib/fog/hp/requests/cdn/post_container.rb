@@ -29,7 +29,7 @@ module Fog
           response = Excon::Response.new
           container_id = Fog::Mock.random_hex(33)
           if data = self.data[:cdn_containers][name]
-            options.each do |k,v|
+            options.each do |k,_v|
               data[k] = options[k] if options[k]
             end
             response.headers = {

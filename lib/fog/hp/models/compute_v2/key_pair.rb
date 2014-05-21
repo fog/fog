@@ -26,7 +26,7 @@ module Fog
           else
             service.create_key_pair(name).body['keypair']
           end
-          new_attributes = data.reject { |key,value| !['fingerprint', 'public_key', 'name', 'private_key', 'user_id'].include?(key) }
+          new_attributes = data.reject { |key,_value| !['fingerprint', 'public_key', 'name', 'private_key', 'user_id'].include?(key) }
           merge_attributes(new_attributes)
           true
         end

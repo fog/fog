@@ -39,7 +39,7 @@ module Fog
             'disabled'=> disabled
           }.merge(options)
 
-          h.reject { |key, value| value.nil? }
+          h.reject { |_key, value| value.nil? }
         end
 
         def save

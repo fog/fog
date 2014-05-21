@@ -236,7 +236,7 @@ module Fog
         def save
           requires :description, :name
           data = service.create_security_group(name, description, vpc_id).body
-          new_attributes = data.reject { |key,value| key == 'requestId' }
+          new_attributes = data.reject { |key,_value| key == 'requestId' }
           merge_attributes(new_attributes)
           true
         end

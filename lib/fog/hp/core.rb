@@ -94,7 +94,7 @@ module Fog
         :method   => 'GET',
         :path     => @auth_path
       })
-      response.headers.reject do |key, value|
+      response.headers.reject do |key, _value|
         !['X-Server-Management-Url', 'X-Storage-Url', 'X-CDN-Management-Url', 'X-Auth-Token'].include?(key)
       end
 

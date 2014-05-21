@@ -196,7 +196,7 @@ Watchers      | #{watchers}
         return @repo_metadata if @repo_metadata
         response = Excon.get('https://api.github.com/repos/fog/fog', :headers => {'User-Agent' => 'geemus'})
         data = Fog::JSON.decode(response.body)
-        @repo_metadata = data.select { |key, value| ['forks', 'open_issues', 'watchers'].include?(key) }
+        @repo_metadata = data.select { |key, _value| ['forks', 'open_issues', 'watchers'].include?(key) }
       end
 
       def sha

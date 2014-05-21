@@ -304,7 +304,7 @@ module Fog
             h.update(image['imageId'] => image)
           end
 
-          self.region_data.each do |aws_access_key_id, data|
+          self.region_data.each do |_aws_access_key_id, data|
             data[:image_launch_permissions].each do |image_id, list|
               if list[:users].include?(self.data[:owner_id])
                 images.update(image_id => data[:images][image_id])

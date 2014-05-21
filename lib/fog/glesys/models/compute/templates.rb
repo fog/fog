@@ -29,9 +29,9 @@ module Fog
 
         def platform(*platforms)
           images = service.template_list.body['response']['templates']
-          images.select do |platform, images|
+          images.select do |platform, _images|
             platforms.include?(platform.downcase.to_sym)
-          end.collect { |platform, images| images }.flatten
+          end.collect { |_platform, images| images }.flatten
         end
 
       end

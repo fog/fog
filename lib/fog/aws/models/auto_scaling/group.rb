@@ -141,7 +141,7 @@ module Fog
 
         def options
           ret = Hash[self.class.aliases.map { |key, value| [key, send(value)] }]
-          ret.delete_if { |key, value| value.nil? }
+          ret.delete_if { |_key, value| value.nil? }
           ret
         end
       end

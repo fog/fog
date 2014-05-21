@@ -93,12 +93,12 @@ module Fog
           launch_configurations =
              if lc.any?
                lc.map do |lc_name|
-                 l_conf = self.data[:launch_configurations].find { |name, data| name == lc_name }
+                 l_conf = self.data[:launch_configurations].find { |name, _data| name == lc_name }
                  #raise Fog::AWS::AutoScaling::NotFound unless l_conf
                  l_conf[1].dup if l_conf
                end.compact
              else
-               self.data[:launch_configurations].map { |lc, values| values.dup }
+               self.data[:launch_configurations].map { |_lc, values| values.dup }
              end
 
           response = Excon::Response.new

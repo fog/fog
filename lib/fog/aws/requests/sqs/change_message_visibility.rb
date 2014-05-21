@@ -33,7 +33,7 @@ module Fog
         def change_message_visibility(queue_url, receipt_handle, visibility_timeout)
           Excon::Response.new.tap do |response|
             if (queue = data[:queues][queue_url])
-              message_id, _ = queue[:receipt_handles].find { |message_id, receipts|
+              message_id, _ = queue[:receipt_handles].find { |_message_id, receipts|
                 receipts.key?(receipt_handle)
               }
 

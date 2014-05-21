@@ -96,7 +96,7 @@ module Fog
           params['response'] = "json"
           # convert params to strings for sort
           req_params = params.merge('apiKey' => @ninefold_compute_key, 'command' => command)
-          req = URI.escape(req_params.sort_by { |k,v| k.to_s }.collect { |e| "#{e[0]}=#{e[1]}" }.join('&'))
+          req = URI.escape(req_params.sort_by { |k,_v| k.to_s }.collect { |e| "#{e[0]}=#{e[1]}" }.join('&'))
           encoded_signature = url_escape(encode_signature(req))
 
           options = {

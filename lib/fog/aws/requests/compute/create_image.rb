@@ -32,7 +32,7 @@ module Fog
           params.merge!Fog::AWS.indexed_param('BlockDeviceMapping.%d.Ebs.VolumeType', block_device_mappings.map { |mapping| mapping['Ebs.VolumeType'] })
           params.merge!Fog::AWS.indexed_param('BlockDeviceMapping.%d.Ebs.Encrypted', block_device_mappings.map { |mapping| mapping['Ebs.Encrypted'] })
           params.merge!Fog::AWS.indexed_param('BlockDeviceMapping.%d.Ebs.Iops', block_device_mappings.map { |mapping| mapping['Ebs.Iops'] })
-          params.reject! { |k,v| v.nil? }
+          params.reject! { |_k,v| v.nil? }
 
           request({
             'Action'            => 'CreateImage',
@@ -63,7 +63,7 @@ module Fog
           params.merge!Fog::AWS.indexed_param('BlockDeviceMapping.%d.Ebs.VolumeType', block_device_mappings.map { |mapping| mapping['Ebs.VolumeType'] })
           params.merge!Fog::AWS.indexed_param('BlockDeviceMapping.%d.Ebs.Encrypted', block_device_mappings.map { |mapping| mapping['Ebs.Encrypted'] })
           params.merge!Fog::AWS.indexed_param('BlockDeviceMapping.%d.Ebs.Iops', block_device_mappings.map { |mapping| mapping['Ebs.Iops'] })
-          params.reject! { |k,v| v.nil? }
+          params.reject! { |_k,v| v.nil? }
 
           reserved_ebs_root_device  = '/dev/sda1'
           block_devices = options.delete(:block_device_mappings) || []

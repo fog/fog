@@ -56,7 +56,7 @@ module Fog
           if load_balancer = self.data[:load_balancers][lb_name]
             response = Excon::Response.new
 
-            certificate_ids = Fog::AWS::IAM::Mock.data[@aws_access_key_id][:server_certificates].map { |n, c| c['Arn'] }
+            certificate_ids = Fog::AWS::IAM::Mock.data[@aws_access_key_id][:server_certificates].map { |_n, c| c['Arn'] }
 
             listeners.each do |listener|
               if listener['SSLCertificateId'] and !certificate_ids.include? listener['SSLCertificateId']

@@ -16,7 +16,7 @@ module Fog
             'label'                => label,
             'token'                => token
           }
-          options.reject { |key, value| value.nil? }
+          options.reject { |_key, value| value.nil? }
         end
 
         def save

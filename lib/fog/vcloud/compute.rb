@@ -206,7 +206,7 @@ module Fog
         end
 
         def reload
-          @connections.each_value { |k,v| v.reset if v }
+          @connections.each_value { |_k,v| v.reset if v }
         end
 
         def default_organization_uri

@@ -39,12 +39,12 @@ module Fog
         def format_get_volume_response_for(volume_id)
           # If we aren't attached/ready, make us ready
           ready_volume(volume_id) unless volume_attached? volume_id
-          self.data[:volumes][volume_id].reject { |k,v| k == 'instanceId' }
+          self.data[:volumes][volume_id].reject { |k,_v| k == 'instanceId' }
         end
 
         # The list_volumes response doesn't contain ioPrice
         def format_list_volumes_response
-          self.data[:volumes].values.dup.map { |volume| volume.reject { |k,v| k == 'ioPrice' } }
+          self.data[:volumes].values.dup.map { |volume| volume.reject { |k,_v| k == 'ioPrice' } }
         end
 
         def volume_exists?(volume_id)

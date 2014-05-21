@@ -63,7 +63,7 @@ module Fog
           data = service.describe_addresses(filters).body
           load(
             data['addressesSet'].map do |address|
-              address.reject { |key, value| value.nil? || value.empty? }
+              address.reject { |_key, value| value.nil? || value.empty? }
             end
           )
           if server

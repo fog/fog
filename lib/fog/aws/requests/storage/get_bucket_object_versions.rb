@@ -109,7 +109,7 @@ module Fog
                 end
 
                 data = {}
-                data[tag_name] = object.reject { |key, value| !extracted_attrs.include?(key) }
+                data[tag_name] = object.reject { |key, _value| !extracted_attrs.include?(key) }
                 data[tag_name].merge!({
                                         'LastModified' => Time.parse(object['Last-Modified']),
                   'Owner'        => bucket['Owner'],

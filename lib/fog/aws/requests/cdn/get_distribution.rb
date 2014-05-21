@@ -68,7 +68,7 @@ module Fog
           response.status = 200
           response.body = {
             'InProgressInvalidationBatches' => 0,
-          }.merge(distribution.reject { |k,v| k == 'ETag' })
+          }.merge(distribution.reject { |k,_v| k == 'ETag' })
 
           response.headers['ETag'] = etag
           distribution['ETag'] = etag

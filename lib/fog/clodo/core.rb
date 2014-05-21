@@ -26,7 +26,7 @@ module Fog
         :method   => 'GET',
         :path     =>  (uri.path and not uri.path.empty?) ? uri.path : 'v1.0'
       })
-      response.headers.reject do |key, value|
+      response.headers.reject do |key, _value|
         !['X-Server-Management-Url', 'X-Storage-Url', 'X-CDN-Management-Url', 'X-Auth-Token'].include?(key)
       end
 

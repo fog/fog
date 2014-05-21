@@ -86,7 +86,7 @@ module Fog
         def build_service_catalog(compute_tenant, object_tenant)
           [
             service_catalog_entry("cloudFilesCDN", "rax:object-cdn", object_tenant,
-              :public_url => lambda do |r|
+              :public_url => lambda do |_r|
                 "https://cdn#{Fog::Mock.random_numbers(1)}.clouddrive.com/v1/#{object_tenant}"
               end),
 
@@ -133,7 +133,7 @@ module Fog
 
             service_catalog_entry("cloudServers", "compute", compute_tenant,
               :single_endpoint => true,
-              :version_base_url => lambda { |r| "https://servers.api.rackspacecloud.com" },
+              :version_base_url => lambda { |_r| "https://servers.api.rackspacecloud.com" },
               :version_id => '1.0')
           ]
         end

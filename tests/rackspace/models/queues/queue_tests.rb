@@ -21,7 +21,7 @@ Shindo.tests('Fog::Rackspace::Queues | queue', ['rackspace']) do
     end
 
     tests('#dequeue(60, 60) => with not messages').returns(false) do
-      @instance.dequeue(60, 60) do |message|
+      @instance.dequeue(60, 60) do |_message|
       end
     end
   end

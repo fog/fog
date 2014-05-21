@@ -52,7 +52,7 @@ module Fog
             :name => name,
             :certificate_pem => certificate_pem,
             :certificate_private_key => certificate_private_key
-          }.delete_if { |k, v| v.nil? || v == "" }
+          }.delete_if { |_k, v| v.nil? || v == "" }
           data = service.create_load_balancer(options)
           merge_attributes(data)
           true

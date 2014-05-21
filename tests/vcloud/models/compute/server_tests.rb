@@ -92,7 +92,7 @@ Shindo.tests("Vcloud::Compute | server", ['vcloud']) do
     @svr.save
     @svr.wait_for { ready? }
     # Can take a little while for the VM to know it has different ram, and not tied to a task..
-    (1..20).each do |i|
+    (1..20).each do |_i|
       break if @svr.reload.memory[:amount] == '384'
       sleep 1
     end
@@ -107,7 +107,7 @@ Shindo.tests("Vcloud::Compute | server", ['vcloud']) do
     @svr.save
     @svr.wait_for { ready? }
     # Can take a little while for the VM to know it has different ram, and not tied to a task..
-    (1..20).each do |i|
+    (1..20).each do |_i|
       break if @svr.reload.disks.size == 2
       sleep 1
     end
@@ -126,7 +126,7 @@ Shindo.tests("Vcloud::Compute | server", ['vcloud']) do
     @svr.save
     @svr.wait_for { ready? }
     # Can take a little while for the VM to know it has different ram, and not tied to a task..
-    (1..20).each do |i|
+    (1..20).each do |_i|
       break if @svr.reload.disks.size == 1
       sleep 1
     end

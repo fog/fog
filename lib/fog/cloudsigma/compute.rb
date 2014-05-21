@@ -134,7 +134,7 @@ module Fog
           current_levels = resp.body['current']
           current_prices = resp.body['objects']
 
-          current_pricing_pairs = current_levels.map do |resource, level|
+          current_pricing_pairs = current_levels.map do |resource, _level|
             price_for_resource_and_level = current_prices.detect do |price|
               price['resource'] == resource
             end

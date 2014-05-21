@@ -56,7 +56,7 @@ module Fog
           response.body = {
             'requestId' => Fog::AWS::Mock.request_id,
             'keySet'    => key_set.map do |key_pair|
-              key_pair.reject { |key,value| !['keyFingerprint', 'keyName'].include?(key) }
+              key_pair.reject { |key,_value| !['keyFingerprint', 'keyName'].include?(key) }
             end
           }
           response

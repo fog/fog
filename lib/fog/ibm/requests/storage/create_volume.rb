@@ -57,7 +57,7 @@ module Fog
         def format_create_volume_response_for(volume_id)
           # If we aren't attached/ready, make us ready
           ready_volume(volume_id) unless volume_attached? volume_id
-          self.data[:volumes][volume_id].reject { |k,v| k == 'ioPrice' }
+          self.data[:volumes][volume_id].reject { |k,_v| k == 'ioPrice' }
         end
 
       end

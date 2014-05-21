@@ -19,11 +19,11 @@ module Fog
         def all(options = {})
           requires :distribution
           options[:max_items]  ||= max_items
-          options.delete_if { |key, value| value.nil? }
+          options.delete_if { |_key, value| value.nil? }
 
           data = service.get_invalidation_list(distribution.identity, options).body
 
-          merge_attributes(data.reject { |key, value| !['IsTruncated', 'MaxItems', 'NextMarker', 'Marker'].include?(key) })
+          merge_attributes(data.reject { |key, _value| !['IsTruncated', 'MaxItems', 'NextMarker', 'Marker'].include?(key) })
 
           load(data['InvalidationSummary'])
         end

@@ -127,7 +127,7 @@ module Fog
           }
 
           if nics = options['nics']
-            nics.each do |nic|
+            nics.each do |_nic|
               mock_data["addresses"].merge!(
                 "Public" => [{ 'addr' => Fog::Mock.random_ip }]
               )

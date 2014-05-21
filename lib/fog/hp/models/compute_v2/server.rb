@@ -112,7 +112,7 @@ module Fog
         def private_ip_addresses
           return nil if addresses.nil?
           addr = []
-          addresses.each { |key, value|
+          addresses.each { |_key, value|
             ipaddr = value.first
             addr << ipaddr["addr"] unless ipaddr.nil?
           }
@@ -135,7 +135,7 @@ module Fog
         def public_ip_addresses
           return nil if addresses.nil?
           addr = []
-          addresses.each { |key, value|
+          addresses.each { |_key, value|
             if value.count > 1
               value = value.dup
               value.delete_at(0)
@@ -282,7 +282,7 @@ module Fog
             'availability_zone'  => availability_zone,
             'networks'        => @networks
           }
-          options = options.reject { |key, value| value.nil? }
+          options = options.reject { |_key, value| value.nil? }
           # either create a regular server or a persistent server based on input
           if image_id
             # create a regular server using the image

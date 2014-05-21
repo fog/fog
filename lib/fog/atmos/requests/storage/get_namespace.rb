@@ -4,7 +4,7 @@ module Fog
       class Real
 
         def get_namespace(namespace = '', options = {})
-          options = options.reject { |key, value| value.nil? }
+          options = options.reject { |_key, value| value.nil? }
           request({
             :expects  => 200,
                     :method   => 'GET',

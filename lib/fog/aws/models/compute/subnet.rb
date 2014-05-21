@@ -50,7 +50,7 @@ module Fog
           options = {}
           options['AvailabilityZone'] = availability_zone if availability_zone
           data = service.create_subnet(vpc_id, cidr_block, options).body['subnet']
-          new_attributes = data.reject { |key,value| key == 'requestId' }
+          new_attributes = data.reject { |key,_value| key == 'requestId' }
           merge_attributes(new_attributes)
           true
 

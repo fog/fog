@@ -36,7 +36,7 @@ module Fog
           response = Excon::Response.new
           response.headers['Status'] = 200
           buckets = self.data[:buckets].values.map do |bucket|
-            bucket.reject do |key, value|
+            bucket.reject do |key, _value|
               !['CreationDate', 'Name'].include?(key)
             end
           end

@@ -19,7 +19,7 @@ Shindo.tests("Fog::Storage[:hp] | object requests", ['hp', 'storage']) do
 
     tests("#get_object('#{@dir_name}', 'fog_object', &block)").returns(lorem_file.read) do
       data = ''
-      Fog::Storage[:hp].get_object(@dir_name, 'fog_object') do |chunk, remaining_bytes, total_bytes|
+      Fog::Storage[:hp].get_object(@dir_name, 'fog_object') do |chunk, _remaining_bytes, _total_bytes|
         data << chunk
       end
       data

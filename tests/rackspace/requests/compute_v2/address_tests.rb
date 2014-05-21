@@ -23,7 +23,7 @@ Shindo.tests('Fog::Compute::RackspaceV2 | address requests', ['rackspace']) do
          @service.list_addresses(@server_id).body
       end
       
-      tests("#list_addresses_by_network(#{@server_id}, 'private')").formats(address_format["addresses"].reject { |k,v| k != "private" }) do
+      tests("#list_addresses_by_network(#{@server_id}, 'private')").formats(address_format["addresses"].reject { |k,_v| k != "private" }) do
         @service.list_addresses_by_network(@server_id, "private").body
       end
     ensure

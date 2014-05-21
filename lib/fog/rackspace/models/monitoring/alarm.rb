@@ -31,7 +31,7 @@ module Fog
             'criteria'             => criteria,
             'notification_plan_id' => notification_plan_id,
           }.merge(options)
-          h.reject { |key, value| value.nil? }
+          h.reject { |_key, value| value.nil? }
         end
 
         def save

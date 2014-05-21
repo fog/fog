@@ -26,13 +26,13 @@ module Fog
           options[:name]       ||= zone.domain
           options[:type]       ||= type
           options[:identifier] ||= identifier
-          options.delete_if { |key, value| value.nil? }
+          options.delete_if { |_key, value| value.nil? }
 
           data = service.list_resource_record_sets(zone.id, options).body
           # NextRecordIdentifier is completely absent instead of nil, so set to nil, or iteration breaks.
           data['NextRecordIdentifier'] = nil unless data.key?('NextRecordIdentifier')
 
-          merge_attributes(data.reject { |key, value| !['IsTruncated', 'MaxItems', 'NextRecordName', 'NextRecordType', 'NextRecordIdentifier'].include?(key) })
+          merge_attributes(data.reject { |key, _value| !['IsTruncated', 'MaxItems', 'NextRecordName', 'NextRecordType', 'NextRecordIdentifier'].include?(key) })
           load(data['ResourceRecordSets'])
         end
 
@@ -53,13 +53,13 @@ module Fog
                 :type => next_record_type,
                 :identifier => next_record_identifier
             }
-            options.delete_if { |key, value| value.nil? }
+            options.delete_if { |_key, value| value.nil? }
 
             batch = service.list_resource_record_sets(zone.id, options).body
             # NextRecordIdentifier is completely absent instead of nil, so set to nil, or iteration breaks.
             batch['NextRecordIdentifier'] = nil unless batch.key?('NextRecordIdentifier')
 
-            merge_attributes(batch.reject { |key, value| !['IsTruncated', 'MaxItems', 'NextRecordName', 'NextRecordType', 'NextRecordIdentifier'].include?(key) })
+            merge_attributes(batch.reject { |key, _value| !['IsTruncated', 'MaxItems', 'NextRecordName', 'NextRecordType', 'NextRecordIdentifier'].include?(key) })
 
             data.concat(batch['ResourceRecordSets'])
           end while is_truncated
@@ -88,7 +88,7 @@ module Fog
               :type => record_type,
               :identifier => record_identifier
           }
-          options.delete_if { |key, value| value.nil? }
+          options.delete_if { |_key, value| value.nil? }
 
           data = service.list_resource_record_sets(zone.id, options).body
           # Get first record

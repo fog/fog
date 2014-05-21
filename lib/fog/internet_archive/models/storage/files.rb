@@ -27,7 +27,7 @@ module Fog
             'max-keys'    => max_keys,
             'prefix'      => prefix
           }.merge!(options)
-          options = options.reject { |key,value| value.nil? || value.to_s.empty? }
+          options = options.reject { |_key,value| value.nil? || value.to_s.empty? }
           merge_attributes(options)
           parent = directory.collection.get(
             directory.key,

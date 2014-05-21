@@ -56,7 +56,7 @@ module Fog
           requires :cidr_block
 
           data = service.create_vpc(cidr_block).body['vpcSet'].first
-          new_attributes = data.reject { |key,value| key == 'requestId' }
+          new_attributes = data.reject { |key,_value| key == 'requestId' }
           merge_attributes(new_attributes)
           true
         end

@@ -15,7 +15,7 @@ module Fog
           config[:SR] = config[:storage_repository].reference
           config[:name_label] = config[:name]
           config[:name_description] = config[:description] if config[:description]
-          config.reject! { |k,v| (k == :__sr) or (k == :storage_repository) }
+          config.reject! { |k,_v| (k == :__sr) or (k == :storage_repository) }
           @connection.request({:parser => Fog::Parsers::XenServer::Base.new, :method => 'VDI.create'}, config )
         end
       end
