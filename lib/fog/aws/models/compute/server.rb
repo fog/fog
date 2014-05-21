@@ -204,12 +204,10 @@ module Fog
           if tags = self.tags
             # expect eventual consistency
             Fog.wait_for { self.reload rescue nil }
-            for key, value in (self.tags = tags)
-              service.tags.create(
-                :key          => key,
-                :resource_id  => self.identity,
-                :value        => value
-              )
+            service.create_tags(
+              self.identity,
+              tags
+            )
             end
           end
 
