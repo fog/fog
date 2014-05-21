@@ -103,7 +103,7 @@ module Fog
 
           for filter_key, filter_value in filters
             aliased_key = aliases[filter_key]
-            image_set = image_set.reject{|image| ![*filter_value].include?(image[aliased_key])}
+            image_set = image_set.reject {|image| ![*filter_value].include?(image[aliased_key])}
           end
 
           image_set = image_set.map do |image|

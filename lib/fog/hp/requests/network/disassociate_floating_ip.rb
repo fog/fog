@@ -29,7 +29,7 @@ module Fog
           }
 
           l_options = [:fixed_ip_address]
-          l_options.select{|o| options[o]}.each do |key|
+          l_options.select {|o| options[o]}.each do |key|
             data['floatingip'][key] = nil   # nil, to disassociate
           end
 

@@ -71,11 +71,11 @@ Shindo.tests('Fog::Storage[:internetarchive] | bucket requests', ["internetarchi
       end
 
       tests(".body['Contents'].map{|n| n['Key']}").returns(["a/a1/file1", "a/file2", "b/file3", "file4"]) do
-        @bucket.body['Contents'].map{|n| n['Key']}
+        @bucket.body['Contents'].map {|n| n['Key']}
       end
 
       tests(".body['Contents'].map{|n| n['Size']}").returns([1, 2, 3, 4]) do
-        @bucket.body['Contents'].map{|n| n['Size']}
+        @bucket.body['Contents'].map {|n| n['Size']}
       end
 
       tests(".body['CommonPrefixes']").returns([]) do
@@ -89,7 +89,7 @@ Shindo.tests('Fog::Storage[:internetarchive] | bucket requests', ["internetarchi
       end
 
       tests(".body['Contents'].map{|n| n['Key']}").returns(['file4']) do
-        @bucket.body['Contents'].map{|n| n['Key']}
+        @bucket.body['Contents'].map {|n| n['Key']}
       end
 
       tests(".body['CommonPrefixes']").returns(['a/', 'b/']) do
@@ -103,7 +103,7 @@ Shindo.tests('Fog::Storage[:internetarchive] | bucket requests', ["internetarchi
       end
 
       tests(".body['Contents'].map{|n| n['Key']}").returns(['a/file2']) do
-        @bucket.body['Contents'].map{|n| n['Key']}
+        @bucket.body['Contents'].map {|n| n['Key']}
       end
 
       tests(".body['CommonPrefixes']").returns(['a/a1/']) do

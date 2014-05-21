@@ -89,7 +89,7 @@ module Fog
 
           for filter_key, filter_value in filters
             aliased_key = aliases[filter_key]
-            snapshot_set = snapshot_set.reject{|snapshot| ![*filter_value].include?(snapshot[aliased_key])}
+            snapshot_set = snapshot_set.reject {|snapshot| ![*filter_value].include?(snapshot[aliased_key])}
           end
 
           snapshot_set.each do |snapshot|

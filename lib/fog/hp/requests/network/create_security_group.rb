@@ -34,7 +34,7 @@ module Fog
           data = { 'security_group' => {} }
 
           l_options = [:name, :description, :tenant_id]
-          l_options.select{|o| options[o]}.each do |key|
+          l_options.select {|o| options[o]}.each do |key|
             data['security_group'][key] = options[key]
           end
 

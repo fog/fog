@@ -21,7 +21,7 @@ module Fog
           }
 
           l_options = ['volume_id']
-          l_options.select{|o| options[o]}.each do |key|
+          l_options.select {|o| options[o]}.each do |key|
             data['restore'][key] = options[key]
           end
 

@@ -20,7 +20,7 @@ module Fog
           end
 
           security_group = self.data[:security_groups].values.find do |group|
-            (rule = (group['ingressrule'] || []).find{|r| r['ruleid'] == security_group_rule_id}) && group['ingressrule'].delete(rule)
+            (rule = (group['ingressrule'] || []).find {|r| r['ruleid'] == security_group_rule_id}) && group['ingressrule'].delete(rule)
           end
 
           job_id = Fog::Cloudstack.uuid

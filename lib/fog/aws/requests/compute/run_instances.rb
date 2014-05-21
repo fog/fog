@@ -255,7 +255,7 @@ module Fog
             })
 
             if options['SubnetId']
-              self.data[:instances][instance_id]['vpcId'] = self.data[:subnets].find{|subnet| subnet['subnetId'] == options['SubnetId'] }['vpcId']
+              self.data[:instances][instance_id]['vpcId'] = self.data[:subnets].find {|subnet| subnet['subnetId'] == options['SubnetId'] }['vpcId']
 
               attachment_id = attach_network_interface(network_interface_id, instance_id, '0').data[:body]['attachmentId']
               modify_network_interface_attribute(network_interface_id, 'attachment', {'attachmentId' => attachment_id, 'deleteOnTermination' => 'true'})

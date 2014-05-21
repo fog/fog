@@ -12,7 +12,7 @@ Shindo.tests('Fog CurrentMachine', 'core') do
 
       (1..10).map {
         Thread.new { Fog::CurrentMachine.ip_address }
-      }.each{ |t| t.join }
+      }.each { |t| t.join }
     end
 
     Fog::CurrentMachine.ip_address = nil

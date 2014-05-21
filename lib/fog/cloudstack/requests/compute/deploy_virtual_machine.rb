@@ -74,7 +74,7 @@ module Fog
           security_group_ids = options['securitygroupids'] || [] # TODO: for now
 
           network_ids = Array(options['networkids']) || [self.data[:networks].first[1]["id"]]
-          networks = network_ids.map{|nid| self.data[:networks][nid]}
+          networks = network_ids.map {|nid| self.data[:networks][nid]}
           nic = networks.map do |network|
             {
               "id" => Fog::Cloudstack.uuid,

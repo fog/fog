@@ -14,7 +14,7 @@ module Fog
           }
 
           vanilla_options = [:http_method, :url_path, :expected_codes, :admin_state_up, :tenant_id]
-          vanilla_options.reject{ |o| options[o].nil? }.each do |key|
+          vanilla_options.reject { |o| options[o].nil? }.each do |key|
             data['health_monitor'][key] = options[key]
           end
 

@@ -4,7 +4,7 @@ $LOAD_PATH << File.dirname(__FILE__) + '/../lib'
 def time_in_fork(&block)
   read, write = IO.pipe
   Process.fork do
-    write.puts Benchmark.realtime{ block.call }
+    write.puts Benchmark.realtime { block.call }
   end
   Process.wait
   write.close
@@ -21,7 +21,7 @@ end
 
 def report(label, n = 10, &block)
   puts label
-  puts "%.4f" % n.times.map{ time_in_fork &block }.avg
+  puts "%.4f" % n.times.map { time_in_fork &block }.avg
   puts
 end
 

@@ -28,7 +28,7 @@ Shindo.tests('AWS | credentials', ['aws']) do
     compute = Fog::Compute::AWS.new(:use_iam_profile => true)
 
     tests("#refresh_credentials_if_expired") do
-      returns(nil){compute.refresh_credentials_if_expired}
+      returns(nil) {compute.refresh_credentials_if_expired}
     end
 
     credentials['AccessKeyId'] = 'newkey'
@@ -39,8 +39,8 @@ Shindo.tests('AWS | credentials', ['aws']) do
 
     Fog::Time.now = expires_at + 1
     tests("#refresh_credentials_if_expired") do
-      returns(true){compute.refresh_credentials_if_expired}
-      returns("newkey"){ compute.instance_variable_get(:@aws_access_key_id)}
+      returns(true) {compute.refresh_credentials_if_expired}
+      returns("newkey") { compute.instance_variable_get(:@aws_access_key_id)}
     end
     Fog::Time.now = Time.now
 

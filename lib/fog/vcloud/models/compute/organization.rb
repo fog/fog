@@ -22,7 +22,7 @@ module Fog
           load_unless_loaded!
           @tasks ||= Fog::Vcloud::Compute::Tasks.
             new( :service => service,
-                 :href => other_links.find{|l| l[:type] == 'application/vnd.vmware.vcloud.tasksList+xml'}[:href] )
+                 :href => other_links.find {|l| l[:type] == 'application/vnd.vmware.vcloud.tasksList+xml'}[:href] )
         end
 
         def vdcs

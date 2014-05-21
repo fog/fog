@@ -39,17 +39,17 @@ module Fog
           body = case options["NextToken"]
                  when nil
                    { "ListMetricsResult" => {
-                     "Metrics" => (0...500).map{ {} },
+                     "Metrics" => (0...500).map { {} },
                       "NextToken" => '1'
                    }}
                  when "1"
                    { "ListMetricsResult" => {
-                     "Metrics" => (0...500).map{ {} },
+                     "Metrics" => (0...500).map { {} },
                       "NextToken" => '2'
                    }}
                  when "2"
                    { "ListMetricsResult" => {
-                     "Metrics" => (0...1).map{ {} }
+                     "Metrics" => (0...1).map { {} }
                    }}
                  end
 

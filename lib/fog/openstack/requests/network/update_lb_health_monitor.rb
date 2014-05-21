@@ -7,7 +7,7 @@ module Fog
           data = { 'health_monitor' => {} }
 
           vanilla_options = [:delay, :timeout, :max_retries, :http_method, :url_path, :expected_codes, :admin_state_up]
-          vanilla_options.select{ |o| options.key?(o) }.each do |key|
+          vanilla_options.select { |o| options.key?(o) }.each do |key|
             data['health_monitor'][key] = options[key]
           end
 

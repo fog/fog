@@ -82,7 +82,7 @@ module Fog
 
         def create_controller options=nil
           options=if options
-                    controller_default_options.merge(Hash[options.map{|k,v| [k.to_sym,v] }])
+                    controller_default_options.merge(Hash[options.map {|k,v| [k.to_sym,v] }])
                   else
                     controller_default_options
                   end

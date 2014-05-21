@@ -12,7 +12,7 @@ module Fog
         attribute :owner_id, :aliases => 'OwnerId'
 
         def ready?
-          ec2_groups.all?{|ingress| ingress['Status'] == 'authorized'}
+          ec2_groups.all? {|ingress| ingress['Status'] == 'authorized'}
         end
 
         def destroy

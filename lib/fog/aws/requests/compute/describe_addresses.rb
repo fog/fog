@@ -49,7 +49,7 @@ module Fog
           aliases = {'public-ip' => 'publicIp', 'instance-id' => 'instanceId', 'allocation-id' => 'allocationId'}
           for filter_key, filter_value in filters
             aliased_key = aliases[filter_key]
-            addresses_set = addresses_set.reject{|address| ![*filter_value].include?(address[aliased_key])}
+            addresses_set = addresses_set.reject {|address| ![*filter_value].include?(address[aliased_key])}
           end
 
           response.status = 200

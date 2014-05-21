@@ -29,7 +29,7 @@ Shindo.tests('AWS::RDS | security group requests', ['aws', 'rds']) do
       @cidr = '0.0.0.0/0'
       body = Fog::AWS[:rds].authorize_db_security_group_ingress(@sec_group_name,{'CIDRIP'=>@cidr}).body
       
-      returns("authorizing") { body['AuthorizeDBSecurityGroupIngressResult']['DBSecurityGroup']['IPRanges'].detect{|h| h['CIDRIP'] == @cidr}['Status']}
+      returns("authorizing") { body['AuthorizeDBSecurityGroupIngressResult']['DBSecurityGroup']['IPRanges'].detect {|h| h['CIDRIP'] == @cidr}['Status']}
       body
     end
     
@@ -40,7 +40,7 @@ Shindo.tests('AWS::RDS | security group requests', ['aws', 'rds']) do
       @cidr = "10.0.0.0/24"
       body = Fog::AWS[:rds].authorize_db_security_group_ingress(@sec_group_name,{'CIDRIP'=>@cidr}).body
       
-      returns("authorizing") { body['AuthorizeDBSecurityGroupIngressResult']['DBSecurityGroup']['IPRanges'].detect{|h| h['CIDRIP'] == @cidr}['Status']}
+      returns("authorizing") { body['AuthorizeDBSecurityGroupIngressResult']['DBSecurityGroup']['IPRanges'].detect {|h| h['CIDRIP'] == @cidr}['Status']}
       body
     end
     
@@ -56,7 +56,7 @@ Shindo.tests('AWS::RDS | security group requests', ['aws', 'rds']) do
     tests("#revoke_db_security_group_ingress CIDR").formats(AWS::RDS::Formats::REVOKE_DB_SECURITY_GROUP) do
       @cidr = '0.0.0.0/0'
       body = Fog::AWS[:rds].revoke_db_security_group_ingress(@sec_group_name,{'CIDRIP'=> @cidr}).body
-      returns("revoking") { body['RevokeDBSecurityGroupIngressResult']['DBSecurityGroup']['IPRanges'].detect{|h| h['CIDRIP'] == @cidr}['Status']}
+      returns("revoking") { body['RevokeDBSecurityGroupIngressResult']['DBSecurityGroup']['IPRanges'].detect {|h| h['CIDRIP'] == @cidr}['Status']}
       body
     end
     
@@ -64,8 +64,8 @@ Shindo.tests('AWS::RDS | security group requests', ['aws', 'rds']) do
       @ec2_sec_group = 'default'
       body = Fog::AWS[:rds].authorize_db_security_group_ingress(@sec_group_name,{'EC2SecurityGroupName' => @ec2_sec_group, 'EC2SecurityGroupOwnerId' => @owner_id}).body
       
-      returns("authorizing") { body['AuthorizeDBSecurityGroupIngressResult']['DBSecurityGroup']['EC2SecurityGroups'].detect{|h| h['EC2SecurityGroupName'] == @ec2_sec_group}['Status']}
-      returns(@owner_id) { body['AuthorizeDBSecurityGroupIngressResult']['DBSecurityGroup']['EC2SecurityGroups'].detect{|h| h['EC2SecurityGroupName'] == @ec2_sec_group}['EC2SecurityGroupOwnerId']}
+      returns("authorizing") { body['AuthorizeDBSecurityGroupIngressResult']['DBSecurityGroup']['EC2SecurityGroups'].detect {|h| h['EC2SecurityGroupName'] == @ec2_sec_group}['Status']}
+      returns(@owner_id) { body['AuthorizeDBSecurityGroupIngressResult']['DBSecurityGroup']['EC2SecurityGroups'].detect {|h| h['EC2SecurityGroupName'] == @ec2_sec_group}['EC2SecurityGroupOwnerId']}
       body
     end
     
@@ -83,7 +83,7 @@ Shindo.tests('AWS::RDS | security group requests', ['aws', 'rds']) do
       
       body = Fog::AWS[:rds].revoke_db_security_group_ingress(@sec_group_name,{'EC2SecurityGroupName' => @ec2_sec_group, 'EC2SecurityGroupOwnerId' => @owner_id}).body
       
-      returns("revoking") { body['RevokeDBSecurityGroupIngressResult']['DBSecurityGroup']['EC2SecurityGroups'].detect{|h| h['EC2SecurityGroupName'] == @ec2_sec_group}['Status']}
+      returns("revoking") { body['RevokeDBSecurityGroupIngressResult']['DBSecurityGroup']['EC2SecurityGroups'].detect {|h| h['EC2SecurityGroupName'] == @ec2_sec_group}['Status']}
       body
     end
     

@@ -32,7 +32,7 @@ module Fog
           }
 
           l_options = [:port_id, :fixed_ip_address, :floating_ip_address, :tenant_id]
-          l_options.select{|o| options[o]}.each do |key|
+          l_options.select {|o| options[o]}.each do |key|
             data['floatingip'][key] = options[key]
           end
 

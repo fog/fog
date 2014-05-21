@@ -28,7 +28,7 @@ Shindo.tests("Compute::VcloudDirector | networks", ['vclouddirector', 'all']) do
     tests("#id").returns(0) { network.id =~ UUID_REGEX }
     tests("#name").returns(String) { network.name.class }
     tests("#href").returns(String) { network.href.class }
-    tests("#type").returns("application/vnd.vmware.vcloud.orgNetwork+xml"){ network.type }
+    tests("#type").returns("application/vnd.vmware.vcloud.orgNetwork+xml") { network.type }
   end
 
   tests("Compute::VcloudDirector | network", ['lazy load attrs']) do

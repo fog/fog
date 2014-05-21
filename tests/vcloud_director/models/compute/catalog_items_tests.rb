@@ -10,10 +10,10 @@ Shindo.tests("Compute::VcloudDirector | catalog_items", ['vclouddirector', 'all'
   catalog_item = catalog_items.first
 
   tests("Compute::VcloudDirector | catalog_item") do
-    tests("#id").returns(String){ catalog_item.id.class }
-    tests("#name").returns(String){ catalog_item.name.class }
-    tests("#href").returns(String){ catalog_item.href.class }
-    tests("#type").returns("application/vnd.vmware.vcloud.catalogItem+xml"){ catalog_item.type }
+    tests("#id").returns(String) { catalog_item.id.class }
+    tests("#name").returns(String) { catalog_item.name.class }
+    tests("#href").returns(String) { catalog_item.href.class }
+    tests("#type").returns("application/vnd.vmware.vcloud.catalogItem+xml") { catalog_item.type }
   end
 
   tests("Compute::VcloudDirector | catalog_item", ['lazy load attrs']) do

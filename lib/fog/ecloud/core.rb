@@ -10,22 +10,22 @@ module Fog
 
     def self.keep(hash, *keys)
       {}.tap do |kept|
-        keys.each{|k| kept[k]= hash[k] if hash.key?(k)}
+        keys.each {|k| kept[k]= hash[k] if hash.key?(k)}
       end
     end
 
     def self.slice(hash, *keys)
       hash.dup.tap do |sliced|
-        keys.each{|k| sliced.delete(k)}
+        keys.each {|k| sliced.delete(k)}
       end
     end
 
     def self.ip_address
-      4.times.map{ Fog::Mock.random_numbers(3) }.join(".")
+      4.times.map { Fog::Mock.random_numbers(3) }.join(".")
     end
 
     def self.mac_address
-      6.times.map{ Fog::Mock.random_numbers(2) }.join(":")
+      6.times.map { Fog::Mock.random_numbers(2) }.join(":")
     end
   end
 end

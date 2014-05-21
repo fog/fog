@@ -11,8 +11,8 @@ module Fog
           compute_pool_id = id_from_uri(uri)
           compute_pool    = self.data[:compute_pools][compute_pool_id]
 
-          templates = self.data[:templates].values.select{|template| template[:compute_pool_id] == compute_pool_id}
-          templates = templates.map{|template| Fog::Ecloud.slice(template, :id, :compute_pool)}
+          templates = self.data[:templates].values.select {|template| template[:compute_pool_id] == compute_pool_id}
+          templates = templates.map {|template| Fog::Ecloud.slice(template, :id, :compute_pool)}
 
           template_response = {:Template => (templates.size > 1 ? templates : templates.first)} # GAH
           body = {

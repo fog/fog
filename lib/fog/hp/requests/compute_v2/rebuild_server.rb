@@ -25,7 +25,7 @@ module Fog
             'name' => name
           }}
           l_options = ['metadata', 'accessIPv4', 'accessIPv6']
-          l_options.select{|o| options[o]}.each do |key|
+          l_options.select {|o| options[o]}.each do |key|
             body['rebuild'][key] = options[key]
           end
           if options['personality']
@@ -53,7 +53,7 @@ module Fog
               response.body['server']['image']['links'] = image['links']
               response.body['server']['status'] = 'REBUILD'
               l_options = ['metadata', 'accessIPv4', 'accessIPv6']
-              l_options.select{|o| options[o]}.each do |key|
+              l_options.select {|o| options[o]}.each do |key|
                 response.body['server'][key] = options[key] || ''
               end
               # personality files are wiped off while rebuilding

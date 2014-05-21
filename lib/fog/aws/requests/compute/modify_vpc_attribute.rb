@@ -41,7 +41,7 @@ module Fog
             raise Fog::Compute::AWS::Error.new("InvalidParameterCombination => No attributes specified.")
           elsif options.size > 1
             raise Fog::Compute::AWS::Error.new("InvalidParameterCombination =>  InvalidParameterCombination => Fields for multiple attribute types specified: #{options.keys.join(', ')}")
-          elsif vpc = self.data[:vpcs].find{ |v| v['vpcId'] == vpc_id }
+          elsif vpc = self.data[:vpcs].find { |v| v['vpcId'] == vpc_id }
             response.status = 200
             response.body = {
               'requestId' => Fog::AWS::Mock.request_id,

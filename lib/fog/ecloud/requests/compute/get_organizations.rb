@@ -8,7 +8,7 @@ module Fog
       class Mock
         def get_organizations(uri)
           organizations = self.data[:organizations].values.dup
-          organizations.each{|org| org.delete(:id)}
+          organizations.each {|org| org.delete(:id)}
           body = {
             :xmlns_i => "http://www.w3.org/2001/XMLSchema-instance",
             :href    => "/cloudapi/ecloud/organizations/",

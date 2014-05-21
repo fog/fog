@@ -22,12 +22,12 @@ module Fog
 
         def public
           images = load(service.list_public_images_detailed.body['images'])
-          images.delete_if{|image| image.is_public == false}
+          images.delete_if {|image| image.is_public == false}
         end
 
         def private
           images = load(service.list_public_images_detailed.body['images'])
-          images.delete_if{|image| image.is_public}
+          images.delete_if {|image| image.is_public}
         end
 
         def destroy(id)

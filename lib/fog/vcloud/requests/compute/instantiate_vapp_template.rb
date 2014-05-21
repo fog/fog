@@ -49,7 +49,7 @@ module Fog
               if options[:network_uri]
                 # TODO - implement properly
                 xml.NetworkConfigSection {
-                  xml.tag!("ovf:Info"){ "Configuration parameters for logical networks" }
+                  xml.tag!("ovf:Info") { "Configuration parameters for logical networks" }
                   xml.NetworkConfig("networkName" => options[:network_name]) {
                     # xml.NetworkAssociation( :href => options[:network_uri] )
                       xml.Configuration {

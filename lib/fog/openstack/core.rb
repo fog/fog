@@ -145,7 +145,7 @@ module Fog
       end
 
       if service['endpoints'].count > 1
-        regions = service["endpoints"].map{ |e| e['region'] }.uniq.join(',')
+        regions = service["endpoints"].map { |e| e['region'] }.uniq.join(',')
         raise Fog::Errors::NotFound.new("Multiple regions available choose one of these '#{regions}'")
       end
 
@@ -153,8 +153,8 @@ module Fog
       tenant = body['access']['token']['tenant']
       user = body['access']['user']
 
-      management_url = service['endpoints'].detect{|s| s[endpoint_type]}[endpoint_type]
-      identity_url   = identity_service['endpoints'].detect{|s| s['publicURL']}['publicURL'] if identity_service
+      management_url = service['endpoints'].detect {|s| s[endpoint_type]}[endpoint_type]
+      identity_url   = identity_service['endpoints'].detect {|s| s['publicURL']}['publicURL'] if identity_service
 
       {
         :user                     => user,

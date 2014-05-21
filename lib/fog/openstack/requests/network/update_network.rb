@@ -7,7 +7,7 @@ module Fog
           data = { 'network' => {} }
 
           vanilla_options = [:name, :shared, :admin_state_up]
-          vanilla_options.select{ |o| options.key?(o) }.each do |key|
+          vanilla_options.select { |o| options.key?(o) }.each do |key|
             data['network'][key] = options[key]
           end
 

@@ -32,7 +32,7 @@ module Fog
         def update_record(domain_id, record_id, options={})
           data = {}
           l_options = [:name, :description, :type, :data, :priority, :ttl]
-          l_options.select{|o| options[o]}.each do |key|
+          l_options.select {|o| options[o]}.each do |key|
             data[key] = options[key]
           end
 

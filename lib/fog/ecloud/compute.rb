@@ -397,7 +397,7 @@ module Fog
         def canonicalize_headers(headers)
           tmp = headers.inject({}) {|ret, h| ret[h.first.downcase] = h.last if h.first.match(/^x-tmrk/i) ; ret }
           tmp.reject! {|k,v| k == "x-tmrk-authorization" }
-          tmp = tmp.sort.map{|e| "#{e.first}:#{e.last}" }.join("\n")
+          tmp = tmp.sort.map {|e| "#{e.first}:#{e.last}" }.join("\n")
           tmp
         end
 
@@ -405,8 +405,8 @@ module Fog
         def canonicalize_resource(path)
           uri, query_string = path.split("?")
           return uri if query_string.nil?
-          query_string_pairs = query_string.split("&").sort.map{|e| e.split("=") }
-          tm_query_string = query_string_pairs.map{|x| "#{x.first.downcase}:#{x.last}" }.join("\n")
+          query_string_pairs = query_string.split("&").sort.map {|e| e.split("=") }
+          tm_query_string = query_string_pairs.map {|x| "#{x.first.downcase}:#{x.last}" }.join("\n")
           "#{uri.downcase}\n#{tm_query_string}\n"
         end
       end

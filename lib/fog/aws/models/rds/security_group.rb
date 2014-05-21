@@ -14,7 +14,7 @@ module Fog
         attribute :owner_id, :aliases => 'OwnerId'
 
         def ready?
-          (ec2_security_groups + ip_ranges).all?{|ingress| ingress['Status'] == 'authorized'}
+          (ec2_security_groups + ip_ranges).all? {|ingress| ingress['Status'] == 'authorized'}
         end
 
         def destroy

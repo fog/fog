@@ -41,7 +41,7 @@ module Fog
 
         def delete_hosted_zone(zone_id)
           response = Excon::Response.new
-          key = [zone_id, "/hostedzone/#{zone_id}"].find{|k| !self.data[:zones][k].nil?}
+          key = [zone_id, "/hostedzone/#{zone_id}"].find {|k| !self.data[:zones][k].nil?}
           if key
             change = {
               :id => Fog::AWS::Mock.change_id,

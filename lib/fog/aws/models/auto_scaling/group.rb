@@ -136,7 +136,7 @@ module Fog
         end
 
         def filtered_options(method)
-          Hash[options.select{|k,_| ExpectedOptions[method].include?(k)}]
+          Hash[options.select {|k,_| ExpectedOptions[method].include?(k)}]
         end
 
         def options

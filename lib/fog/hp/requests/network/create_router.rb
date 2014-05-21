@@ -28,7 +28,7 @@ module Fog
           data = { 'router' => {} }
 
           l_options = [:name, :admin_state_up, :tenant_id, :external_gateway_info]
-          l_options.select{|o| options[o]}.each do |key|
+          l_options.select {|o| options[o]}.each do |key|
             data['router'][key] = options[key]
           end
 

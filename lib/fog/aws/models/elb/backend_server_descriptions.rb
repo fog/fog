@@ -13,7 +13,7 @@ module Fog
         end
 
         def get(instance_port)
-          all.detect{|e| e.instance_port == instance_port}
+          all.detect {|e| e.instance_port == instance_port}
         end
 
       end

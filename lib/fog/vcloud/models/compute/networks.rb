@@ -17,13 +17,13 @@ module Fog
           data = nil
           if self.href =~ /\/vdc\//
             check_href!("Vdc")
-            data = [service.get_vdc(self.href).available_networks].flatten.compact.reject{|n| n == '' }
+            data = [service.get_vdc(self.href).available_networks].flatten.compact.reject {|n| n == '' }
           elsif self.href =~ /\/org\//
             check_href!("Org")
-            data = service.get_organization(self.href).links.select{|l| l[:type] == network_type_id }
+            data = service.get_organization(self.href).links.select {|l| l[:type] == network_type_id }
           elsif self.href =~ /\/vApp\//
             check_href!("Vapp")
-            data = [(service.get_vapp(self.href).network_configs||{})[:NetworkConfig]].flatten.compact.collect{|n| n[:Configuration][:ParentNetwork] unless n[:Configuration].nil? }.compact
+            data = [(service.get_vapp(self.href).network_configs||{})[:NetworkConfig]].flatten.compact.collect {|n| n[:Configuration][:ParentNetwork] unless n[:Configuration].nil? }.compact
           end
           load([*data]) unless data.nil?
         end

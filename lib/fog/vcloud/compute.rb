@@ -53,7 +53,7 @@ module Fog
 
       def link_up
         load_unless_loaded!
-        self.links.find{|l| l[:rel] == 'up' }
+        self.links.find {|l| l[:rel] == 'up' }
       end
 
       def self.has_up(item)
@@ -355,7 +355,7 @@ module Fog
 
       end
       def self.item_requests(*types)
-        types.each{|t| item_request(t) }
+        types.each {|t| item_request(t) }
       end
       def self.item_request(type)
         Fog::Vcloud::Compute::Real.class_eval <<-EOS, __FILE__,__LINE__

@@ -13,7 +13,7 @@ module Fog
         def get_raw_server_type(id, datacenter, filter={})
            types=raw_server_types(datacenter)
            raise(Fog::Compute::Vsphere::NotFound) unless types
-           types=types.select{ | servertype | servertype.id == id }.first
+           types=types.select { | servertype | servertype.id == id }.first
            raise(Fog::Compute::Vsphere::NotFound) unless types
            types
         end

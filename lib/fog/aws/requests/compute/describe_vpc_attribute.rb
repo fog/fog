@@ -32,7 +32,7 @@ module Fog
       class Mock
         def describe_vpc_attribute(vpc_id, attribute)
           response = Excon::Response.new
-          if vpc = self.data[:vpcs].find{ |v| v['vpcId'] == vpc_id }
+          if vpc = self.data[:vpcs].find { |v| v['vpcId'] == vpc_id }
             response.status = 200
             response.body = {
               'requestId' => Fog::AWS::Mock.request_id,

@@ -56,7 +56,7 @@ Shindo.tests('Fog::Compute[:aws] | image requests', ['aws']) do
       @other_account = Fog::Compute::AWS.new(:aws_access_key_id => 'other', :aws_secret_access_key => 'account')
 
       @server = Fog::Compute[:aws].servers.create
-      @server.wait_for{state == 'running'}
+      @server.wait_for {state == 'running'}
       @created_image
       tests("#create_image").formats(@create_image_format) do
         result = Fog::Compute[:aws].create_image(@server.id, 'Fog-Test-Image', 'Fog Test Image', false).body

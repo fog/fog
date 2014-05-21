@@ -72,7 +72,7 @@ module Fog
           network_interface_info = self.data[:network_interfaces].values
 
           for filter_key, filter_value in filters
-            network_interface_info = network_interface_info.reject{|nic| ![*filter_value].include?(nic[filter_key])}
+            network_interface_info = network_interface_info.reject {|nic| ![*filter_value].include?(nic[filter_key])}
           end
 
           response.status = 200

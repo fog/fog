@@ -49,7 +49,7 @@ module Fog
           l_options = [:name, :gateway_ip, :allocation_pools,
                        :dns_nameservers, :host_routes, :enable_dhcp,
                        :tenant_id]
-          l_options.select{|o| options[o]}.each do |key|
+          l_options.select {|o| options[o]}.each do |key|
             data['subnet'][key] = options[key]
           end
 

@@ -163,7 +163,7 @@ module Fog
           if response.body and response.body["error"]
             response.status = response.body["error"]["code"]
             if response.body["error"]["errors"]
-              msg = response.body["error"]["errors"].map{|error| error["message"]}.join(", ")
+              msg = response.body["error"]["errors"].map {|error| error["message"]}.join(", ")
             else
               msg = "Error [#{response.body["error"]["code"]}]: #{response.body["error"]["message"] || "GCE didn't return an error message"}"
             end

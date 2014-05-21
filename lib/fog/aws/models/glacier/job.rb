@@ -33,7 +33,7 @@ module Fog
 
         def save
           requires :vault, :type
-          specification = {'Type' => type, 'ArchiveId' => archive_id, 'Format' => format, 'Description' => description, 'SNSTopic' => sns_topic}.reject{|k,v| v.nil?}
+          specification = {'Type' => type, 'ArchiveId' => archive_id, 'Format' => format, 'Description' => description, 'SNSTopic' => sns_topic}.reject {|k,v| v.nil?}
 
           data = service.initiate_job(vault.id, specification)
           self.id = data.headers['x-amz-job-id']

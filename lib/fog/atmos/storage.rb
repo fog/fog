@@ -130,7 +130,7 @@ module Fog
           signstring += "\n"
 
           signstring += "/rest/" + URI.unescape( req_path ).downcase
-          query_str = params[:query].map{|k,v| "#{k}=#{v}"}.join('&')
+          query_str = params[:query].map {|k,v| "#{k}=#{v}"}.join('&')
           signstring += '?' + query_str unless query_str.empty?
           signstring += "\n"
 

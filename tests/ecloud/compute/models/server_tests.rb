@@ -4,7 +4,7 @@ Shindo.tests("Fog::Compute[:#{provider}] | servers", [provider.to_s, "operations
   connection   = Fog::Compute[provider]
   connection.base_path = '/cloudapi/spec'
   config[:server_attributes][:organization_uri] ? organization = connection.organizations.get("#{connection.base_path}#{config[:server_attributes][:organization_uri]}") : organization = connection.organizations.first
-  environment  = organization.environments.find{|e| e.name == config[:server_attributes][:environment_name]} || organization.environments.first
+  environment  = organization.environments.find {|e| e.name == config[:server_attributes][:environment_name]} || organization.environments.first
   public_ip    = environment.public_ips.first
   compute_pool = environment.compute_pools.first
   image_href   = Fog.credentials[:ecloud_image_href] || compute_pool.templates.first.href
@@ -123,7 +123,7 @@ Shindo.tests("Fog::Compute[:#{provider}] | server", [provider.to_s, "attributes"
   connection   = Fog::Compute[provider]
   connection.base_path = '/cloudapi/spec'
   organization = connection.organizations.first
-  environment  = organization.environments.find{|e| e.name == config[:server_attributes][:environment_name]} || organization.environments.first
+  environment  = organization.environments.find {|e| e.name == config[:server_attributes][:environment_name]} || organization.environments.first
   public_ip    = environment.public_ips.first
   compute_pool = environment.compute_pools.first
   image_href   = Fog.credentials[:ecloud_image_href] || compute_pool.templates.first.href
@@ -135,10 +135,10 @@ Shindo.tests("Fog::Compute[:#{provider}] | server", [provider.to_s, "attributes"
   #  options = options.merge(:ssh_key_uri => "/cloudapi/ecloud/admin/sshkeys/#{Fog.credentials[:ecloud_ssh_key_id]}")
   #end
 
-  @server = compute_pool.servers.first || compute_pool.servers.create(image_href, options).tap{|s| s.wait_for { ready? }}
+  @server = compute_pool.servers.first || compute_pool.servers.create(image_href, options).tap {|s| s.wait_for { ready? }}
 
   tests('#ip_addresses').succeeds do
     returns(true, "is an array") { @server.ips.is_a?(Array) }
-    returns(true, "contains an VirtualMachineAssignedIp") { @server.ips.all?{|ip| ip.is_a?(Fog::Compute::Ecloud::VirtualMachineAssignedIp) } }
+    returns(true, "contains an VirtualMachineAssignedIp") { @server.ips.all? {|ip| ip.is_a?(Fog::Compute::Ecloud::VirtualMachineAssignedIp) } }
   end
 end

@@ -18,12 +18,12 @@ module Fog
           environment_id = compute_pool[:environment_id]
           environment    = self.data[:environments][environment_id]
 
-          networks = self.data[:networks].values.select{|n| n[:environment_id] == environment_id}
-          networks = networks.map{|n| deep_copy(Fog::Ecloud.slice(n, :environment, :id))}
+          networks = self.data[:networks].values.select {|n| n[:environment_id] == environment_id}
+          networks = networks.map {|n| deep_copy(Fog::Ecloud.slice(n, :environment, :id))}
 
 
           networks.each do |network|
-            address = network[:IpAddresses][:IpAddress].map{|ia| ia[:name]}
+            address = network[:IpAddresses][:IpAddress].map {|ia| ia[:name]}
             network[:IpAddresses][:IpAddress] = address.first
           end
 

@@ -34,7 +34,7 @@ module Fog
           }
 
           l_options = ['display_name', 'display_description', 'metadata']
-          l_options.select{|o| options[o]}.each do |key|
+          l_options.select {|o| options[o]}.each do |key|
             data['volume'][key] = options[key]
           end
 

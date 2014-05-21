@@ -10,7 +10,7 @@ module Fog
 
 			 module ClassMethods
  			  def ia_metadata_attribute(name)
- 			    attribute(name, :aliases=>['amz','archive'].collect{|p|"x-#{p}-#{name.to_s.tr('_','-')}"})
+ 			    attribute(name, :aliases=>['amz','archive'].collect {|p|"x-#{p}-#{name.to_s.tr('_','-')}"})
  			  end
  			end
 

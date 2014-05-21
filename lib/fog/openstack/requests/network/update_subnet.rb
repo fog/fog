@@ -8,7 +8,7 @@ module Fog
 
           vanilla_options = [:name, :gateway_ip, :dns_nameservers,
                              :host_routes, :enable_dhcp]
-          vanilla_options.select{ |o| options.key?(o) }.each do |key|
+          vanilla_options.select { |o| options.key?(o) }.each do |key|
             data['subnet'][key] = options[key]
           end
 

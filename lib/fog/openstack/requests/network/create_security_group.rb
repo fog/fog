@@ -32,7 +32,7 @@ module Fog
         def create_security_group(options = {})
           data              = {"security_group" => {}}
           desired_options   = [:name, :description, :tenant_id]
-          selected_options  = desired_options.select{|o| options[o]}
+          selected_options  = desired_options.select {|o| options[o]}
           selected_options.each { |key| data["security_group"][key] = options[key] }
 
           request(

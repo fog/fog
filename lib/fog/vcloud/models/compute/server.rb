@@ -59,7 +59,7 @@ module Fog
 
         def ip_addresses
           load_unless_loaded!
-          [self.network_connections].flatten.collect{|n| n[:IpAddress] }
+          [self.network_connections].flatten.collect {|n| n[:IpAddress] }
         end
 
         def ready?

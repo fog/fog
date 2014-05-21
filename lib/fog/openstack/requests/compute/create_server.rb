@@ -17,7 +17,7 @@ module Fog
                              'adminPass', 'config_drive', 'min_count', 'max_count',
                              'return_reservation_id'
                             ]
-          vanilla_options.select{|o| options[o]}.each do |key|
+          vanilla_options.select {|o| options[o]}.each do |key|
             data['server'][key] = options[key]
           end
 

@@ -65,7 +65,7 @@ module Fog
         def create_network_interface(subnetId, options = {})
           response = Excon::Response.new
           if subnetId
-            subnet = self.data[:subnets].find{ |s| s['subnetId'] == subnetId }
+            subnet = self.data[:subnets].find { |s| s['subnetId'] == subnetId }
             if subnet.nil?
               raise Fog::Compute::AWS::Error.new("Unknown subnet '#{subnetId}' specified")
             else
@@ -88,13 +88,13 @@ module Fog
                 # available IP (not including the first in the cidr block,
                 # which is typically reserved for the gateway).
                 cidr_block.each_host do |p_ip|
-                  unless self.data[:network_interfaces].map{ |ni, ni_conf| ni_conf['privateIpAddress'] }.include?p_ip.to_s ||
+                  unless self.data[:network_interfaces].map { |ni, ni_conf| ni_conf['privateIpAddress'] }.include?p_ip.to_s ||
                     cidr_block.first == p_ip
                     options['PrivateIpAddress'] = p_ip.to_s
                     break
                   end
                 end
-              elsif self.data[:network_interfaces].map{ |ni,ni_conf| ni_conf['privateIpAddress'] }.include?options['PrivateIpAddress']
+              elsif self.data[:network_interfaces].map { |ni,ni_conf| ni_conf['privateIpAddress'] }.include?options['PrivateIpAddress']
                 raise Fog::Compute::AWS::Error.new('InUse => The specified address is already in use.')
               end
 

@@ -39,7 +39,7 @@ module Fog
           }
 
           l_options = ['snapshot_id', 'imageRef', 'metadata']
-          l_options.select{|o| options[o]}.each do |key|
+          l_options.select {|o| options[o]}.each do |key|
             data['volume'][key] = options[key]
           end
 

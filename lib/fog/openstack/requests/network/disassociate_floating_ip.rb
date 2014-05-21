@@ -11,7 +11,7 @@ module Fog
           }
 
           vanilla_options = [:fixed_ip_address]
-          vanilla_options.reject{ |o| options[o].nil? }.each do |key|
+          vanilla_options.reject { |o| options[o].nil? }.each do |key|
             data['floatingip'][key] = options[key]
           end
 

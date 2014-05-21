@@ -9,7 +9,7 @@ module Fog
 
           def generate_xml
             Nokogiri::XML::Builder.new do |xml|
-              xml.EdgeGatewayServiceConfiguration('xmlns' => "http://www.vmware.com/vcloud/v1.5"){
+              xml.EdgeGatewayServiceConfiguration('xmlns' => "http://www.vmware.com/vcloud/v1.5") {
                 build_firewall_service(xml)
                 build_nat_service(xml)
                 build_load_balancer_service(xml)

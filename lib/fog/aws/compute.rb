@@ -162,7 +162,7 @@ module Fog
 
         # http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-supported-platforms.html
         def supported_platforms
-          describe_account_attributes.body["accountAttributeSet"].detect{ |h| h["attributeName"] == "supported-platforms" }["values"]
+          describe_account_attributes.body["accountAttributeSet"].detect { |h| h["attributeName"] == "supported-platforms" }["values"]
         end
       end
 
@@ -316,7 +316,7 @@ module Fog
         end
 
         def supported_platforms
-          describe_account_attributes.body["accountAttributeSet"].detect{ |h| h["attributeName"] == "supported-platforms" }["values"]
+          describe_account_attributes.body["accountAttributeSet"].detect { |h| h["attributeName"] == "supported-platforms" }["values"]
         end
 
         def enable_ec2_classic
@@ -337,13 +337,13 @@ module Fog
           # tag-key: match resources tagged with this key (any value)
           if filters.key?('tag-key')
             value = filters.delete('tag-key')
-            resources = resources.select{|r| tag_set_fetcher[r].key?(value)}
+            resources = resources.select {|r| tag_set_fetcher[r].key?(value)}
           end
 
           # tag-value: match resources tagged with this value (any key)
           if filters.key?('tag-value')
             value = filters.delete('tag-value')
-            resources = resources.select{|r| tag_set_fetcher[r].values.include?(value)}
+            resources = resources.select {|r| tag_set_fetcher[r].values.include?(value)}
           end
 
           # tag:key: match resources tagged with a key-value pair.  Value may be an array, which is OR'd.
@@ -352,7 +352,7 @@ module Fog
             tag_filters[key.gsub('tag:', '')] = filters.delete(key) if /^tag:/ =~ key
           end
           for tag_key, tag_value in tag_filters
-            resources = resources.select{|r| tag_value.include?(tag_set_fetcher[r][tag_key])}
+            resources = resources.select {|r| tag_value.include?(tag_set_fetcher[r][tag_key])}
           end
 
           resources

@@ -51,7 +51,7 @@ module Fog
         def environment
           @environment ||= begin
                              reload unless other_links
-                             environment_link = other_links.find{|l| l[:type] == "application/vnd.tmrk.cloud.environment"}
+                             environment_link = other_links.find {|l| l[:type] == "application/vnd.tmrk.cloud.environment"}
                              self.service.environments.get(environment_link[:href])
                            end
         end

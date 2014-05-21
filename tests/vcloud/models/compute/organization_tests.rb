@@ -11,10 +11,10 @@ Shindo.tests("Vcloud::Compute | organization", ['vcloud']) do
       ).get_organization("https://vcloud.example.com/api#{(version == '1.0') ? '/v1.0' : ''}/org/1")
       instance.reload
     
-      tests("#href").returns("https://vcloud.example.com/api#{(version == '1.0') ? '/v1.0' : ''}/org/1"){ instance.href }
-      tests("#name").returns('Org1'){ instance.name }
-      tests("#full_name").returns('My Full Name'){ instance.full_name }
-      tests("#description").returns("Some fancy\n\nDescription"){ instance.description }
+      tests("#href").returns("https://vcloud.example.com/api#{(version == '1.0') ? '/v1.0' : ''}/org/1") { instance.href }
+      tests("#name").returns('Org1') { instance.name }
+      tests("#full_name").returns('My Full Name') { instance.full_name }
+      tests("#description").returns("Some fancy\n\nDescription") { instance.description }
     end
   end
 end

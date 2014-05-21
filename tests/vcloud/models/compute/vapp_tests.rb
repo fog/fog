@@ -16,7 +16,7 @@ Shindo.tests("Vcloud::Compute | vapp", ['vcloud']) do
     
       tests("#href").returns("https://vcloud.example.com/api#{(version == '1.0') ? '/v1.0' : ''}/vApp/vapp-1") { instance.href }
       tests("#name").returns("vApp1") { instance.name }
-      tests("#vdc").returns("vDC1"){ instance.vdc.name }
+      tests("#vdc").returns("vDC1") { instance.vdc.name }
       tests("#description").returns("Some Description of a vApp") { instance.description }
       tests("#status").returns('8') { instance.status }
       tests("#deployed").returns(true) { instance.deployed }

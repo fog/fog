@@ -205,7 +205,7 @@ module Fog
           requires :zone_name
           requires :disks
 
-          if not service.zones.find{ |zone| zone.name == self.zone_name }
+          if not service.zones.find { |zone| zone.name == self.zone_name }
             raise ArgumentError.new "#{self.zone_name.inspect} is either down or you don't have permission to use it."
           end
 

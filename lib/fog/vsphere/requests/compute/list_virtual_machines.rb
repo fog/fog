@@ -67,7 +67,7 @@ module Fog
             server = self.data[:servers][options['instance_uuid']]
             server.nil? ? [] : [server]
           else
-            self.data[:servers].values.select{|vm| vm['mo_ref'] == options['mo_ref']}
+            self.data[:servers].values.select {|vm| vm['mo_ref'] == options['mo_ref']}
           end
         end
       end

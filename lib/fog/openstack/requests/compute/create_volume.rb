@@ -13,7 +13,7 @@ module Fog
           }
 
           vanilla_options = ['snapshot_id']
-          vanilla_options.select{|o| options[o]}.each do |key|
+          vanilla_options.select {|o| options[o]}.each do |key|
             data['volume'][key] = options[key]
           end
           request(
