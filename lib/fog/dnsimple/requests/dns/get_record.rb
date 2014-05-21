@@ -25,7 +25,7 @@ module Fog
         def get_record(domain, record_id)
           response = Excon::Response.new
 
-          if self.data[:records].has_key?(domain)
+          if self.data[:records].key?(domain)
             response.status = 200
             response.body = self.data[:records][domain].find { |record| record["record"]["id"] == record_id }
 

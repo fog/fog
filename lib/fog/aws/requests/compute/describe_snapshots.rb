@@ -35,7 +35,7 @@ module Fog
           end
 
           for key in ['ExecutableBy', 'ImageId', 'Owner', 'RestorableBy']
-            if filters.has_key?(key)
+            if filters.key?(key)
               options[key] = filters.delete(key)
             end
           end

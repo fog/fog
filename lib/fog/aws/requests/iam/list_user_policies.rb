@@ -36,7 +36,7 @@ module Fog
       class Mock
         def list_user_policies(user_name, options = {})
           #FIXME: doesn't use options atm
-          if data[:users].has_key? user_name
+          if data[:users].key? user_name
             Excon::Response.new.tap do |response|
               response.body = { 'PolicyNames' => data[:users][user_name][:policies].keys,
                                 'IsTruncated' => false,

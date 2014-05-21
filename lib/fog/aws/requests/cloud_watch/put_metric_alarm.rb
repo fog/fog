@@ -66,7 +66,7 @@ module Fog
 
           requirements = [ "AlarmName", "ComparisonOperator", "EvaluationPeriods", "Namespace", "Period", "Statistic", "Threshold" ]
           requirements.each do |req|
-            unless options.has_key?(req)
+            unless options.key?(req)
               raise Fog::Compute::AWS::Error.new("The request must contain a the parameter '%s'" % req)
             end
           end
