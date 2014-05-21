@@ -37,7 +37,7 @@ module Fog
 
         def get(key, &block)
           requires :directory
-          data = service.get_namespace(directory.key + key, :parse => false)#, &block)
+          data = service.get_namespace(directory.key + key, :parse => false) #, &block)
           file_data = data.headers.merge({
                                            :body => data.body,
             :key  => key

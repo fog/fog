@@ -241,7 +241,7 @@ module Fog
                                  :name => ip.network.name.split(' ')[0],
                                  :type => ip.network.type,
                                }
-                             end#.delete_if { |ip| ip[:href] == options[:href] && ip[:name] == options[:network_name] }
+                             end #.delete_if { |ip| ip[:href] == options[:href] && ip[:name] == options[:network_name] }
                            end
           slice_ips.map! { |i| {:name => i.address.name, :network_name => i.network.name, :network_name => i.network.name } }.delete_if { |ip| ip[:name] == options[:ip] }
           slice_ips.each do |ip|

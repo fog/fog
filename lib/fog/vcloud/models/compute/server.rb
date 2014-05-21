@@ -18,7 +18,7 @@ module Fog
 
         attribute :vapp_scoped_local_id, :aliases => :VAppScopedLocalId
 
-        attribute :network_connections, :aliases => :NetworkConnectionSection#, :squash => :NetworkConnection
+        attribute :network_connections, :aliases => :NetworkConnectionSection #, :squash => :NetworkConnection
         attribute :virtual_hardware, :aliases => :'ovf:VirtualHardwareSection', :squash => :'ovf:Item'
 
         attribute :guest_customization, :aliases => :GuestCustomizationSection

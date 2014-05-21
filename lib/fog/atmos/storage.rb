@@ -88,7 +88,7 @@ module Fog
         end
 
         def uid
-          @storage_token#.split('/')[-1]
+          @storage_token #.split('/')[-1]
         end
 
         def sign(string)
