@@ -36,7 +36,7 @@ module Fog
         def get(key, &block)
           requires :directory
           path = file_path(key)
-          if ::File.exists?(path)
+          if ::File.exist?(path)
             data = {
               :content_length => ::File.size(path),
               :key            => key,
@@ -59,7 +59,7 @@ module Fog
         def head(key)
           requires :directory
           path = file_path(key)
-          if ::File.exists?(path)
+          if ::File.exist?(path)
             new({
               :content_length => ::File.size(path),
               :key            => key,

@@ -137,7 +137,7 @@ module Fog
             @header_method = method(:header_for_signature_auth)
 
             if options[:joyent_keyfile]
-              if File.exists?(options[:joyent_keyfile])
+              if File.exist?(options[:joyent_keyfile])
                 @joyent_keyfile = options[:joyent_keyfile]
                 @key_manager.add(@joyent_keyfile)
               else
