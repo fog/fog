@@ -5,7 +5,7 @@ module Fog
       class Real
 
         def configure_vm_network(network_info)
-          edit_uri = network_info.select {|k,v| k == :Link && v[:rel] == 'edit'}
+          edit_uri = network_info.select { |k,v| k == :Link && v[:rel] == 'edit' }
           edit_uri = edit_uri.kind_of?(Array) ? edit_uri.flatten[1][:href] : edit_uri[:Link][:href]
 
           body = <<EOF

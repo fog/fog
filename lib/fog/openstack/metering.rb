@@ -55,7 +55,7 @@ module Fog
           @openstack_management_url = management_url.to_s
 
           @data ||= { :users => {} }
-          unless @data[:users].find {|u| u['name'] == options[:openstack_username]}
+          unless @data[:users].find { |u| u['name'] == options[:openstack_username] }
             id = Fog::Mock.random_numbers(6).to_s
             @data[:users][id] = {
               'id'       => id,

@@ -36,7 +36,7 @@ module Fog
 
         def list_server_public_addresses(server_id, network_name)
           response = Excon::Response.new
-          if server = list_servers_detail.body['servers'].detect {|_| _['id'] == server_id}
+          if server = list_servers_detail.body['servers'].detect { |_| _['id'] == server_id }
             # return everything except the first address
             data = server['addresses']["#{network_name}"]
             if data

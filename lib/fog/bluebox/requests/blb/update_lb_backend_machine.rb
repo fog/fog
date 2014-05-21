@@ -17,7 +17,7 @@ module Fog
             :expects => 202,
             :method  => 'PUT',
             :path    => "/api/lb_backends/#{lb_backend_id}/lb_machines/#{lb_machine_id}",
-            :body    => options.map {|k,v| "#{CGI.escape(k)}=#{CGI.escape(v.to_s)}"}.join('&')
+            :body    => options.map { |k,v| "#{CGI.escape(k)}=#{CGI.escape(v.to_s)}" }.join('&')
           )
         end
       end

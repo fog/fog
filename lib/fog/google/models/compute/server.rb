@@ -223,7 +223,7 @@ module Fog
               'auto_restart' => auto_restart,
               'on_host_maintenance' => on_host_maintenance,
               'can_ip_forward' => can_ip_forward
-          }.delete_if {|key, value| value.nil?}
+          }.delete_if { |key, value| value.nil? }
 
           if service_accounts
             options['serviceAccounts'] = [{

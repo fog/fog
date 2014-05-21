@@ -64,7 +64,7 @@ module Fog
             filters = {'image-id' => [*filters]}
           end
 
-          if filters.keys.any? {|key| key =~ /^block-device/}
+          if filters.keys.any? { |key| key =~ /^block-device/ }
             Fog::Logger.warning("describe_images block-device-mapping filters are not yet mocked [light_black](#{caller.first})[/]")
             Fog::Mock.not_implemented
           end
@@ -103,7 +103,7 @@ module Fog
 
           for filter_key, filter_value in filters
             aliased_key = aliases[filter_key]
-            image_set = image_set.reject {|image| ![*filter_value].include?(image[aliased_key])}
+            image_set = image_set.reject { |image| ![*filter_value].include?(image[aliased_key]) }
           end
 
           image_set = image_set.map do |image|

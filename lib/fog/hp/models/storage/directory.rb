@@ -49,13 +49,13 @@ module Fog
 
         def list_users_with_read
           users = []
-          users = @read_acl.map  {|acl| acl.split(':')[1]} unless @read_acl.nil?
+          users = @read_acl.map  { |acl| acl.split(':')[1] } unless @read_acl.nil?
           return users
         end
 
         def list_users_with_write
           users = []
-          users = @write_acl.map  {|acl| acl.split(':')[1]} unless @write_acl.nil?
+          users = @write_acl.map  { |acl| acl.split(':')[1] } unless @write_acl.nil?
           return users
         end
 
@@ -112,7 +112,7 @@ module Fog
 
         def metadata=(new_metadata={})
           metas = []
-          new_metadata.each_pair {|k,v| metas << {'key' => k, 'value' => v} }
+          new_metadata.each_pair { |k,v| metas << {'key' => k, 'value' => v} }
           metadata.load(metas)
         end
 

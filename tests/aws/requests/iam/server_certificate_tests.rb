@@ -106,7 +106,7 @@ Shindo.tests('AWS::IAM | server certificate requests', ['aws']) do
   tests('#list_server_certificates').formats(@list_format) do
     result = Fog::AWS::IAM.new.list_server_certificates.body
     tests('includes key name') do
-      returns(true) { result['Certificates'].any? {|c| c['ServerCertificateName'] == @key_name} }
+      returns(true) { result['Certificates'].any? { |c| c['ServerCertificateName'] == @key_name } }
     end
     result
   end
@@ -114,7 +114,7 @@ Shindo.tests('AWS::IAM | server certificate requests', ['aws']) do
   tests("#list_server_certificates('path-prefix' => '/'").formats(@list_format) do
     result = Fog::AWS::IAM.new.list_server_certificates('PathPrefix' => '/').body
     tests('includes key name') do
-      returns(true) { result['Certificates'].any? {|c| c['ServerCertificateName'] == @key_name} }
+      returns(true) { result['Certificates'].any? { |c| c['ServerCertificateName'] == @key_name } }
     end
     result
   end

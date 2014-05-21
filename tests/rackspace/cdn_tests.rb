@@ -118,7 +118,7 @@ Shindo.tests('Fog::CDN::Rackspace', ['rackspace']) do
 
   def clear_metadata
     @instance.metadata.tap do |metadata|
-      metadata.each_pair {|k, v| metadata[k] = nil }
+      metadata.each_pair { |k, v| metadata[k] = nil }
     end
   end
 

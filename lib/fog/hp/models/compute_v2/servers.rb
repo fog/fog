@@ -36,7 +36,7 @@ module Fog
         #                           :private_key_path => '~/.ssh/my_private_key'
         def bootstrap(new_attributes = {})
           server = create(new_attributes)
-          server.wait_for { ready?  && !public_ip_address.empty?}
+          server.wait_for { ready?  && !public_ip_address.empty? }
           server.setup(:password => server.password)
           server
         end

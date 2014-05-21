@@ -20,7 +20,7 @@ module Fog
               @in_operating_system = true
             when 'Vm'
               vm_attrs = extract_attributes(attributes)
-              @response[:vm].merge!(vm_attrs.reject {|key,value| ![:href, :name, :status, :type].include?(key)})
+              @response[:vm].merge!(vm_attrs.reject { |key,value| ![:href, :name, :status, :type].include?(key) })
               @response[:vm][:id] = @response[:vm][:href].split('/').last
               @response[:vm][:status] = human_status(@response[:vm][:status])
             when 'HostResource'

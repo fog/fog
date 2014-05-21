@@ -43,10 +43,10 @@ module Fog
             end
 
             # Update backend policies:
-            description = load_balancer['BackendServerDescriptionsRemote'].find {|d| d["InstancePort"] == instance_port } || {}
+            description = load_balancer['BackendServerDescriptionsRemote'].find { |d| d["InstancePort"] == instance_port } || {}
             description["InstancePort"] = instance_port
             description["PolicyNames"] = policy_names
-            load_balancer['BackendServerDescriptionsRemote'].delete_if {|d| d["InstancePort"] == instance_port }
+            load_balancer['BackendServerDescriptionsRemote'].delete_if { |d| d["InstancePort"] == instance_port }
             load_balancer['BackendServerDescriptionsRemote'] << description
 
             Excon::Response.new.tap do |response|

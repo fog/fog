@@ -33,7 +33,7 @@ module Fog
 
         def save
           requires :vault, :type
-          specification = {'Type' => type, 'ArchiveId' => archive_id, 'Format' => format, 'Description' => description, 'SNSTopic' => sns_topic}.reject {|k,v| v.nil?}
+          specification = {'Type' => type, 'ArchiveId' => archive_id, 'Format' => format, 'Description' => description, 'SNSTopic' => sns_topic}.reject { |k,v| v.nil? }
 
           data = service.initiate_job(vault.id, specification)
           self.id = data.headers['x-amz-job-id']
@@ -48,7 +48,7 @@ module Fog
         #pass :io => f to stream the response to that tio
         def get_output(options={})
           if io = options.delete(:io)
-            options = options.merge :response_block => lambda {|chunk, remaining_bytes, total_bytes| io.write chunk}
+            options = options.merge :response_block => lambda { |chunk, remaining_bytes, total_bytes| io.write chunk }
           end
           options['Range'] = options.delete :range
           service.get_job_output(vault.id, id, options)

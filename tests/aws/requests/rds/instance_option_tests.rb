@@ -5,7 +5,7 @@ Shindo.tests('AWS::RDS | db instance option requests', ['aws', 'rds']) do
 
       body = Fog::AWS[:rds].describe_orderable_db_instance_options('mysql').body
 
-      returns(2) {body['DescribeOrderableDBInstanceOptionsResult']['OrderableDBInstanceOptions'].length}
+      returns(2) { body['DescribeOrderableDBInstanceOptionsResult']['OrderableDBInstanceOptions'].length }
 
       group = body['DescribeOrderableDBInstanceOptionsResult']['OrderableDBInstanceOptions'].first
       returns( true ) { group['MultiAZCapable'] }

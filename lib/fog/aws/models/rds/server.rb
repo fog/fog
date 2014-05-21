@@ -134,7 +134,7 @@ module Fog
             'VpcSecurityGroups'             => vpc_security_groups,
           }
 
-          options.delete_if {|key, value| value.nil?}
+          options.delete_if { |key, value| value.nil? }
         end
       end
     end

@@ -1,7 +1,7 @@
 Shindo.tests('Fog::Compute[:libvirt] | server model', ['libvirt']) do
 
   servers = Fog::Compute[:libvirt].servers
-  server = servers.all.select {|v| v.name =~ /^fog/}.last
+  server = servers.all.select { |v| v.name =~ /^fog/ }.last
 
   tests('The server model should') do
     tests('have the action') do

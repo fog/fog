@@ -14,7 +14,7 @@ module Fog
         end
 
         def find_by_id(id)
-          self.find {|user| user.id == id} ||
+          self.find { |user| user.id == id } ||
             Fog::Identity::OpenStack::User.new(
               service.get_user_by_id(id).body['user'].merge(
                 'service' => service
@@ -23,7 +23,7 @@ module Fog
         end
 
         def find_by_name(name)
-          self.find {|user| user.name == name} ||
+          self.find { |user| user.name == name } ||
             Fog::Identity::OpenStack::User.new(
               service.get_user_by_name(name).body['user'].merge(
                 'service' => service

@@ -1,7 +1,7 @@
 Shindo.tests('AWS::Glacier | glacier tree hash calcuation', ['aws']) do
 
   tests('tree_hash(single part < 1MB)') do
-    returns(Digest::SHA256.hexdigest('')) { Fog::AWS::Glacier::TreeHash.digest('')}
+    returns(Digest::SHA256.hexdigest('')) { Fog::AWS::Glacier::TreeHash.digest('') }
   end
 
   tests('tree_hash(multibyte characters)') do
@@ -11,7 +11,7 @@ Shindo.tests('AWS::Glacier | glacier tree hash calcuation', ['aws']) do
     expected = Digest::SHA256.hexdigest(
                 Digest::SHA256.digest("\xC2\xA1" * 1024*512) + Digest::SHA256.digest("\xC2\xA1" * 1024*512)
               )
-    returns(expected) { Fog::AWS::Glacier::TreeHash.digest(body)}
+    returns(expected) { Fog::AWS::Glacier::TreeHash.digest(body) }
   end
 
   tests('tree_hash(power of 2 number of parts)') do
@@ -25,7 +25,7 @@ Shindo.tests('AWS::Glacier | glacier tree hash calcuation', ['aws']) do
                  )
                )
 
-    returns(expected) { Fog::AWS::Glacier::TreeHash.digest(body)}
+    returns(expected) { Fog::AWS::Glacier::TreeHash.digest(body) }
   end
 
   tests('tree_hash(non power of 2 number of parts)') do
@@ -37,7 +37,7 @@ Shindo.tests('AWS::Glacier | glacier tree hash calcuation', ['aws']) do
                  Digest::SHA256.digest('z' * 1024*1024)
                )
 
-    returns(expected) { Fog::AWS::Glacier::TreeHash.digest(body)}
+    returns(expected) { Fog::AWS::Glacier::TreeHash.digest(body) }
   end
 
   tests('multipart') do
@@ -55,7 +55,7 @@ Shindo.tests('AWS::Glacier | glacier tree hash calcuation', ['aws']) do
                    Digest::SHA256.digest('z' * 1024*1024) + Digest::SHA256.digest('t' * 1024*1024)
                  )
                )
-    returns(expected) { tree_hash.hexdigest}
+    returns(expected) { tree_hash.hexdigest }
 
   end
 

@@ -29,7 +29,7 @@ module Fog
           }
 
           l_options = [:fixed_ip_address]
-          l_options.select {|o| options[o]}.each do |key|
+          l_options.select { |o| options[o] }.each do |key|
             data['floatingip'][key] = nil   # nil, to disassociate
           end
 
@@ -45,7 +45,7 @@ module Fog
       class Mock
         def disassociate_floating_ip(floating_ip_id, options = {})
           response = Excon::Response.new
-          if list_floating_ips.body['floatingips'].detect {|_| _['id'] == floating_ip_id}
+          if list_floating_ips.body['floatingips'].detect { |_| _['id'] == floating_ip_id }
             response.status = 200
             data = {
               'id'                  => floating_ip_id,

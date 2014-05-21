@@ -25,7 +25,7 @@ module Fog
           [:type, :port, :password, :listen].each do |element|
             attrs[element] = xml_element(xml, "domain/devices/graphics",element.to_s) rescue nil
           end
-          attrs.reject {|k,v| v.nil? or v == ""}
+          attrs.reject { |k,v| v.nil? or v == "" }
         end
 
         def domain_volumes xml
@@ -45,7 +45,7 @@ module Fog
               :network => ((i/'source').first[:network] rescue nil),
               :bridge  => ((i/'source').first[:bridge] rescue nil),
               :model   => ((i/'model').first[:type] rescue nil),
-            }.reject {|k,v| v.nil?})
+            }.reject { |k,v| v.nil? })
           }
         end
 

@@ -49,14 +49,14 @@ module Fog
           aliases = {'fingerprint' => 'keyFingerprint', 'key-name' => 'keyName'}
           for filter_key, filter_value in filters
             aliased_key = aliases[filter_key]
-            key_set = key_set.reject {|key_pair| ![*filter_value].include?(key_pair[aliased_key])}
+            key_set = key_set.reject { |key_pair| ![*filter_value].include?(key_pair[aliased_key]) }
           end
 
           response.status = 200
           response.body = {
             'requestId' => Fog::AWS::Mock.request_id,
             'keySet'    => key_set.map do |key_pair|
-              key_pair.reject {|key,value| !['keyFingerprint', 'keyName'].include?(key)}
+              key_pair.reject { |key,value| !['keyFingerprint', 'keyName'].include?(key) }
             end
           }
           response

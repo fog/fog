@@ -46,7 +46,7 @@ module Fog
               bucket[:objects][object_name] ||= []
 
               if version_id
-                version = bucket[:objects][object_name].find { |object| object['VersionId'] == version_id}
+                version = bucket[:objects][object_name].find { |object| object['VersionId'] == version_id }
 
                 # S3 special cases the 'null' value to not error out if no such version exists.
                 if version || (version_id == 'null')

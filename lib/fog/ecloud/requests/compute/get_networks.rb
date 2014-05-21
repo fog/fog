@@ -11,8 +11,8 @@ module Fog
           environment_id = id_from_uri(uri)
           environment = self.data[:environments][environment_id]
 
-          networks = self.data[:networks].values.select {|n| n[:environment_id] == environment_id}.dup
-          networks = networks.map {|n| Fog::Ecloud.slice(n, :environment, :id)}
+          networks = self.data[:networks].values.select { |n| n[:environment_id] == environment_id }.dup
+          networks = networks.map { |n| Fog::Ecloud.slice(n, :environment, :id) }
 
           body = {
             :href  => uri,

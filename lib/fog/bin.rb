@@ -4,7 +4,7 @@ module Fog
   class << self
 
     def available_providers
-      @available_providers ||= Fog.providers.values.select {|provider| Kernel.const_get(provider).available?}.sort
+      @available_providers ||= Fog.providers.values.select { |provider| Kernel.const_get(provider).available? }.sort
     end
 
     def registered_providers
@@ -48,7 +48,7 @@ module Fog
       end
 
       def collections
-        services.map {|service| self[service].collections}.flatten.sort_by {|service| service.to_s}
+        services.map { |service| self[service].collections }.flatten.sort_by { |service| service.to_s }
       end
 
     end

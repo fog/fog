@@ -204,7 +204,7 @@ module Fog
         end
 
         def self.random_mac
-          (0..5).map {Fog::Mock.random_hex(2)}.join(':')
+          (0..5).map { Fog::Mock.random_hex(2) }.join(':')
         end
 
         def data

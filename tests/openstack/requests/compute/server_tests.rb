@@ -77,7 +77,7 @@ Shindo.tests('Fog::Compute[:openstack] | server requests', ['openstack']) do
       if Fog.mocking?
         @multi_create_servers = [Fog::Mock.random_numbers(6).to_s, Fog::Mock.random_numbers(6).to_s]
       else
-        @multi_create_servers = Fog::Compute[:openstack].list_servers_detail({'reservation_id' => @reservation_id}).body['servers'].map {|server| server['id']}
+        @multi_create_servers = Fog::Compute[:openstack].list_servers_detail({'reservation_id' => @reservation_id}).body['servers'].map { |server| server['id'] }
       end
       if (@multi_create_servers.size == 2)
         passed = true

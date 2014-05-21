@@ -11,9 +11,9 @@ module Fog
           environment_id = id_from_uri(uri)
           environment    = self.data[:environments][environment_id]
 
-          compute_pools  = self.data[:compute_pools].values.select {|cp| cp[:environment_id] == environment_id}
+          compute_pools  = self.data[:compute_pools].values.select { |cp| cp[:environment_id] == environment_id }
 
-          compute_pools = compute_pools.map {|cp| Fog::Ecloud.slice(cp, :id, :environment_id)}
+          compute_pools = compute_pools.map { |cp| Fog::Ecloud.slice(cp, :id, :environment_id) }
 
           compute_pool_response = {:ComputePool => (compute_pools.size > 1 ? compute_pools : compute_pools.first)} # GAH
           body = {

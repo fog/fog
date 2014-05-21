@@ -39,7 +39,7 @@ Shindo.tests('AWS::IAM | role requests', ['aws']) do
     tests("#list_roles").formats(@list_roles_format) do
       pending if Fog.mocking?
       body = Fog::AWS[:iam].list_roles.body
-      returns(true) {!! body['Roles'].detect {|role| role['RoleName'] == 'fogrole'}}
+      returns(true) { !! body['Roles'].detect { |role| role['RoleName'] == 'fogrole' } }
       body
     end
 
@@ -86,7 +86,7 @@ Shindo.tests('AWS::IAM | role requests', ['aws']) do
     tests("list_instance_profiles_for_role('fogrole')").formats(@profiles_format) do
       pending if Fog.mocking?
       body = Fog::AWS[:iam].list_instance_profiles_for_role('fogrole').body
-      returns(['fogprofile']) { body['InstanceProfiles'].collect {|hash| hash['InstanceProfileName']}}      
+      returns(['fogprofile']) { body['InstanceProfiles'].collect { |hash| hash['InstanceProfileName'] } }      
       body
     end
 
@@ -114,8 +114,8 @@ Shindo.tests('AWS::IAM | role requests', ['aws']) do
     tests("get_role_policy").formats(@get_role_policy_format) do
       pending if Fog.mocking?
       body = Fog::AWS[:iam].get_role_policy('fogrole','fogpolicy').body
-      returns('fogpolicy') {body['Policy']['PolicyName']}
-      returns(sample_policy) {body['Policy']['PolicyDocument']}
+      returns('fogpolicy') { body['Policy']['PolicyName'] }
+      returns(sample_policy) { body['Policy']['PolicyDocument'] }
       body
     end
 
@@ -129,7 +129,7 @@ Shindo.tests('AWS::IAM | role requests', ['aws']) do
       pending if Fog.mocking?
       body = Fog::AWS[:iam].list_role_policies('fogrole').body
 
-      returns(['fogpolicy']) {body['PolicyNames']}
+      returns(['fogpolicy']) { body['PolicyNames'] }
       body
     end
 

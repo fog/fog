@@ -48,7 +48,7 @@ Shindo.tests('Fog::Compute[:xenserver] | VBD model', ['xenserver']) do
       end
     end
 
-    test('be a kind of Fog::Compute::XenServer::VBD') { vbd.kind_of? Fog::Compute::XenServer::VBD}
+    test('be a kind of Fog::Compute::XenServer::VBD') { vbd.kind_of? Fog::Compute::XenServer::VBD }
 
   end
 

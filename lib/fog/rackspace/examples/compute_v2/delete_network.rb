@@ -60,7 +60,7 @@ service = Fog::Compute.new({
 # NOTE: The network must not be connected to any servers before deletion
 
 # Find alpha bits server
-server = service.servers.find {|s| s.name == 'alphabits'}
+server = service.servers.find { |s| s.name == 'alphabits' }
 
 puts "\n"
 if server
@@ -72,7 +72,7 @@ end
 
 wait_for_server_deletion(server)
 
-network = service.networks.find {|n| n.label == 'my_private_net'}
+network = service.networks.find { |n| n.label == 'my_private_net' }
 delete_network(network)
 
 puts "The network '#{network.label}' has been successfully deleted"

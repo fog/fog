@@ -9,7 +9,7 @@ Shindo.tests("Fog::Compute[:fogdocker] | image_delete request", 'fogdocker') do
       test("should be success") { response ? true : false } #mock doesn't throw errors
     rescue => e
       #should raise image not found
-      test("error should be a kind of Docker::Error::NotFoundError") { e.kind_of? Docker::Error::NotFoundError}
+      test("error should be a kind of Docker::Error::NotFoundError") { e.kind_of? Docker::Error::NotFoundError }
     end
   end
 

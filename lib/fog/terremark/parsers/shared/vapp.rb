@@ -21,7 +21,7 @@ module Fog
                 @in_operating_system = true
              when 'VApp'
                 vapp = extract_attributes(attributes)
-                @response.merge!(vapp.reject {|key,value| !['href', 'name', 'size', 'status', 'type'].include?(key)})
+                @response.merge!(vapp.reject { |key,value| !['href', 'name', 'size', 'status', 'type'].include?(key) })
              end
           end
 

@@ -200,7 +200,7 @@ module Fog
             disks = vm_mob_ref.config.hardware.device.select do |vm_device|
               vm_device.class == RbVmomi::VIM::VirtualDisk
             end
-            disks.select {|vm_device| vm_device.backing.parent == nil}.each do |disk|
+            disks.select { |vm_device| vm_device.backing.parent == nil }.each do |disk|
               disk_spec = {
                 :deviceChange => [
                   {
@@ -286,7 +286,7 @@ module Fog
           end
 
           # generate a random id
-          id = [8,4,4,4,12].map {|i| Fog::Mock.random_hex(i)}.join("-")
+          id = [8,4,4,4,12].map { |i| Fog::Mock.random_hex(i) }.join("-")
           new_vm = template.clone.merge({
                                           "name" => options['name'],
             "id" => id,

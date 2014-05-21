@@ -3,7 +3,7 @@ Shindo.tests('Fog::Rackspace::Storage | directory', ['rackspace']) do
   @service = Fog::Storage[:rackspace]
   
   def container_meta_attributes
-    @service.head_container(@instance.key).headers.reject {|k, v| !(k =~ /X-Container-Meta-/)}
+    @service.head_container(@instance.key).headers.reject { |k, v| !(k =~ /X-Container-Meta-/) }
   end
   
   directory_attributes = {
@@ -115,7 +115,7 @@ Shindo.tests('Fog::Rackspace::Storage | directory', ['rackspace']) do
       
       tests('should retrieve metadata when necessary') do
         @service.put_container(@instance.key, {"X-Container-Meta-List-Test"=>"true"} )
-        dir = @service.directories.find {|d| d.key == @instance.key }
+        dir = @service.directories.find { |d| d.key == @instance.key }
         returns(nil) { dir.instance_variable_get("@metadata") }
         returns('true') { dir.metadata[:list_test] }
       end

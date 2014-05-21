@@ -25,7 +25,7 @@ module Fog
             'name' => name
           }}
           l_options = ['metadata', 'accessIPv4', 'accessIPv6']
-          l_options.select {|o| options[o]}.each do |key|
+          l_options.select { |o| options[o] }.each do |key|
             body['rebuild'][key] = options[key]
           end
           if options['personality']
@@ -45,7 +45,7 @@ module Fog
       class Mock
 
         def rebuild_server(server_id, image_id, name, options={})
-          if image = list_images_detail.body['images'].detect {|_| _['id'] == image_id}
+          if image = list_images_detail.body['images'].detect { |_| _['id'] == image_id }
             if response = get_server_details(server_id)
               response.body['server']['name'] = name
               response.body['server']['image']['id'] = image_id
@@ -53,7 +53,7 @@ module Fog
               response.body['server']['image']['links'] = image['links']
               response.body['server']['status'] = 'REBUILD'
               l_options = ['metadata', 'accessIPv4', 'accessIPv6']
-              l_options.select {|o| options[o]}.each do |key|
+              l_options.select { |o| options[o] }.each do |key|
                 response.body['server'][key] = options[key] || ''
               end
               # personality files are wiped off while rebuilding

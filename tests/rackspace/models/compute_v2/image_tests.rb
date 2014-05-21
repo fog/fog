@@ -38,8 +38,8 @@ Shindo.tests('Fog::Compute::RackspaceV2 | image', ['rackspace']) do
         @server.ready?
       rescue Fog::Compute::RackspaceV2::InvalidImageStateException => e
         exception_occurred = true
-        returns(true) {e.desired_state == Fog::Compute::RackspaceV2::Image::ACTIVE }
-        returns(true) {e.current_state == Fog::Compute::RackspaceV2::Image::ERROR }
+        returns(true) { e.desired_state == Fog::Compute::RackspaceV2::Image::ACTIVE }
+        returns(true) { e.current_state == Fog::Compute::RackspaceV2::Image::ERROR }
       end
       exception_occurred
     end
@@ -51,8 +51,8 @@ Shindo.tests('Fog::Compute::RackspaceV2 | image', ['rackspace']) do
         @server.ready?(Fog::Compute::RackspaceV2::Image::SAVING, Fog::Compute::RackspaceV2::Image::UNKNOWN)
       rescue Fog::Compute::RackspaceV2::InvalidImageStateException => e
         exception_occurred = true
-        returns(true) {e.desired_state == Fog::Compute::RackspaceV2::Image::SAVING }
-        returns(true) {e.current_state == Fog::Compute::RackspaceV2::Image::UNKNOWN }
+        returns(true) { e.desired_state == Fog::Compute::RackspaceV2::Image::SAVING }
+        returns(true) { e.current_state == Fog::Compute::RackspaceV2::Image::UNKNOWN }
       end
       exception_occurred
     end

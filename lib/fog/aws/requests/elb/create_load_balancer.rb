@@ -63,7 +63,7 @@ module Fog
 
           raise Fog::AWS::ELB::IdentifierTaken if self.data[:load_balancers].key? lb_name
 
-          certificate_ids = Fog::AWS::IAM::Mock.data[@aws_access_key_id][:server_certificates].map {|n, c| c['Arn'] }
+          certificate_ids = Fog::AWS::IAM::Mock.data[@aws_access_key_id][:server_certificates].map { |n, c| c['Arn'] }
 
           listeners = [*listeners].map do |listener|
             if listener['SSLCertificateId'] and !certificate_ids.include? listener['SSLCertificateId']
@@ -78,7 +78,7 @@ module Fog
           region = availability_zones.empty? ? "us-east-1" : availability_zones.first.gsub(/[a-z]$/, '')
           supported_platforms = Fog::Compute::AWS::Mock.data[region][@aws_access_key_id][:account_attributes].detect { |h| h["attributeName"] == "supported-platforms" }["values"]
           subnet_ids = options[:subnet_ids] || []
-          subnets = Fog::Compute::AWS::Mock.data[region][@aws_access_key_id][:subnets].select {|e| subnet_ids.include?(e["subnetId"]) }
+          subnets = Fog::Compute::AWS::Mock.data[region][@aws_access_key_id][:subnets].select { |e| subnet_ids.include?(e["subnetId"]) }
 
           # http://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/default-vpc.html
           elb_location = if supported_platforms.include?("EC2")

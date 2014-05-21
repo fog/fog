@@ -39,7 +39,7 @@ Shindo.tests('Fog::Compute[:bluebox] | block requests', ['bluebox']) do
       Fog::Compute[:bluebox].get_block(@block_id).body
     end
 
-    tests("get_blocks").formats([@block_format.reject {|key,value| ['product', 'template'].include?(key)}]) do
+    tests("get_blocks").formats([@block_format.reject { |key,value| ['product', 'template'].include?(key) }]) do
       pending if Fog.mocking?
       Fog::Compute[:bluebox].get_blocks.body
     end

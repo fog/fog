@@ -52,7 +52,7 @@ module Fog
           end
 
           if filters['vpc-id']
-            vpcs = vpcs.reject {|vpc| vpc['vpcId'] != filters['vpc-id']}
+            vpcs = vpcs.reject { |vpc| vpc['vpcId'] != filters['vpc-id'] }
           end
 
           Excon::Response.new(

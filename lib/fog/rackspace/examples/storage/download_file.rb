@@ -53,7 +53,7 @@ service = Fog::Storage.new({
   })
 
 # retrieve directories with files
-directories = service.directories.select {|s| s.count > 0}
+directories = service.directories.select { |s| s.count > 0 }
 
 # prompt for directory
 directory = select_directory(directories)

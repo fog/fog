@@ -274,7 +274,7 @@ module Fog
 
         def initialize_customvalues
           if attributes[:customvalues] and attributes[:customvalues].is_a?(Array)
-            self.attributes[:customvalues].map { |cfield| cfield.is_a?(Hash) ? service.customvalue.new(cfield) : cfield}
+            self.attributes[:customvalues].map { |cfield| cfield.is_a?(Hash) ? service.customvalue.new(cfield) : cfield }
           end
         end
 

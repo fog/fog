@@ -139,7 +139,7 @@ Shindo.tests('Fog::Rackspace::AutoScale | group builder', ['rackspace', 'rackspa
 
     group = builder.build(service, :launch_config_type => :launch_server, :server_name => 'test', :cooldown => 500)
     returns(500) { group.group_config.cooldown }
-    returns('test') { group.launch_config.args["server"]["name"]}
+    returns('test') { group.launch_config.args["server"]["name"] }
   end
 
 end

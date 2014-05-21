@@ -3,7 +3,7 @@ module Fog
     class Ovirt
       class Real
         def list_clusters(filters = {})
-          client.clusters(filters).map {|ovirt_obj| ovirt_attrs ovirt_obj}
+          client.clusters(filters).map { |ovirt_obj| ovirt_attrs ovirt_obj }
         end
 
       end

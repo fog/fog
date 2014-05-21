@@ -18,7 +18,7 @@ module Fog
     end
 
     def self.signed_params(key,params)
-      query = params.map {|k,v| [k.to_s, v]}.sort.collect {|c| "#{c[0]}=#{escape(c[1].to_s)}"}.join('&').downcase
+      query = params.map { |k,v| [k.to_s, v] }.sort.collect { |c| "#{c[0]}=#{escape(c[1].to_s)}" }.join('&').downcase
 
       signed_string = Base64.encode64(OpenSSL::HMAC.digest(@@digest,key,query)).strip
 
@@ -26,7 +26,7 @@ module Fog
     end
 
     def self.uuid
-      [8,4,4,4,12].map {|i| Fog::Mock.random_hex(i)}.join("-")
+      [8,4,4,4,12].map { |i| Fog::Mock.random_hex(i) }.join("-")
     end
 
     def self.ip_address

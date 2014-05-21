@@ -20,7 +20,7 @@ module Fog
 
         def get(record_id)
           requires :zone
-          data = service.list_records(zone.id).select {|record| record['id'] == record_id }
+          data = service.list_records(zone.id).select { |record| record['id'] == record_id }
           if !data.empty?
             new(data.first)
           else

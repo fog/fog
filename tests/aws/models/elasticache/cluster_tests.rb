@@ -14,7 +14,7 @@ Shindo.tests('AWS::Elasticache | cache clusters', ['aws', 'elasticache']) do
     @instance.reload  # Reload to get the cluster info from AWS
     Formatador.display_line "Waiting for #{@instance.id} "+
       "to become available (#{@instance.status})..."
-    @instance.wait_for {ready?}
+    @instance.wait_for { ready? }
   end
 
   # Single model is still deleting, so re-randomize the cluster ID
@@ -24,7 +24,7 @@ Shindo.tests('AWS::Elasticache | cache clusters', ['aws', 'elasticache']) do
     @instance.reload  # Reload to get the cluster info from AWS
     Formatador.display_line "Waiting for #{@instance.id} "+
       "to become available (#{@instance.status})..."
-    @instance.wait_for {ready?}
+    @instance.wait_for { ready? }
   end
 
 end

@@ -44,7 +44,7 @@ module Fog
 
         # The list_volumes response doesn't contain ioPrice
         def format_list_volumes_response
-          self.data[:volumes].values.dup.map { |volume| volume.reject { |k,v| k == 'ioPrice'} }
+          self.data[:volumes].values.dup.map { |volume| volume.reject { |k,v| k == 'ioPrice' } }
         end
 
         def volume_exists?(volume_id)

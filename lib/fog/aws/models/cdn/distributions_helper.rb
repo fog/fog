@@ -13,7 +13,7 @@ module Fog
           if summary = data['DistributionSummary']
             load(summary.map { |a| { 'DistributionConfig' => a } })
           else
-            load((data['StreamingDistributionSummary'] || {}).map { |a| { 'StreamingDistributionConfig' => a }})
+            load((data['StreamingDistributionSummary'] || {}).map { |a| { 'StreamingDistributionConfig' => a } })
           end
         end
 
@@ -31,10 +31,10 @@ module Fog
           else
             subset = dup.all
 
-            subset.each_distribution_this_page {|f| yield f}
+            subset.each_distribution_this_page { |f| yield f }
             while subset.is_truncated
               subset = subset.all('Marker' => subset.marker, 'MaxItems' => 1000)
-              subset.each_distribution_this_page {|f| yield f}
+              subset.each_distribution_this_page { |f| yield f }
             end
 
             self

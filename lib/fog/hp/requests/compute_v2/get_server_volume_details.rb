@@ -28,8 +28,8 @@ module Fog
         def get_server_volume_details(server_id, volume_id)
           response = Excon::Response.new
           if server = self.data[:servers][server_id]
-            if server['volumeAttachments'] && server['volumeAttachments'].select {|v| v['volumeId'] == volume_id}
-              data = server['volumeAttachments'].select {|v| v['volumeId'] == volume_id}
+            if server['volumeAttachments'] && server['volumeAttachments'].select { |v| v['volumeId'] == volume_id }
+              data = server['volumeAttachments'].select { |v| v['volumeId'] == volume_id }
               response.body = { 'volumeAttachment' => data[0] }
               response.status = 200
             else

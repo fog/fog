@@ -30,8 +30,8 @@ module Fog
 
         # so dirty
         def result
-          if successful? && model = Fog::Compute::Cloudstack.constants.find {|c| c.to_s.downcase == self.job_result.keys.first.to_s}.to_s
-            collection = model.gsub(/.[A-Z]/) {|w| "#{w[0,1]}_#{w[1,1].downcase}"}.downcase + "s" # cheap underscorize, assume simple pluralization
+          if successful? && model = Fog::Compute::Cloudstack.constants.find { |c| c.to_s.downcase == self.job_result.keys.first.to_s }.to_s
+            collection = model.gsub(/.[A-Z]/) { |w| "#{w[0,1]}_#{w[1,1].downcase}" }.downcase + "s" # cheap underscorize, assume simple pluralization
             service.send(collection).new(self.job_result.values.first)
           else self.job_result
           end

@@ -22,7 +22,7 @@ module Fog
         # @raise [Fog::Storage::Rackspace::InternalServerError] - HTTP 500
         # @raise [Fog::Storage::Rackspace::ServiceError]
         def get_containers(options = {})
-          options = options.reject {|key, value| value.nil?}
+          options = options.reject { |key, value| value.nil? }
           request(
             :expects  => [200, 204],
             :method   => 'GET',

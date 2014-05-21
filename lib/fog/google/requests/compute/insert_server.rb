@@ -114,7 +114,7 @@ module Fog
         end
 
         def format_metadata(metadata)
-          { "items" => metadata.map {|k,v| {"key" => k, "value" => v}} }
+          { "items" => metadata.map { |k,v| {"key" => k, "value" => v} } }
         end
 
         def insert_server(server_name, zone_name, options={}, *deprecated_args)

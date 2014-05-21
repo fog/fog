@@ -30,7 +30,7 @@ module Fog
           data = { 'network' => {} }
 
           l_options = [:name, :admin_state_up, :shared, :tenant_id]
-          l_options.select {|o| options[o]}.each do |key|
+          l_options.select { |o| options[o] }.each do |key|
             data['network'][key] = options[key]
           end
 

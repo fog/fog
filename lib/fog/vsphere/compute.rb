@@ -148,14 +148,14 @@ module Fog
               attrs['datacenter'] = Proc.new { parent_attribute(host.path, :datacenter)[1] rescue nil }
               attrs['cluster']    = Proc.new { parent_attribute(host.path, :cluster)[1] rescue nil }
               attrs['hypervisor'] = Proc.new { host.name rescue nil }
-              attrs['resource_pool'] = Proc.new {(vm_mob_ref.resourcePool || host.resourcePool).name rescue nil}
+              attrs['resource_pool'] = Proc.new { (vm_mob_ref.resourcePool || host.resourcePool).name rescue nil }
             end
             # This inline rescue catches any standard error.  While a VM is
             # cloning, a call to the macs method will throw and NoMethodError
-            attrs['mac_addresses'] = Proc.new {vm_mob_ref.macs rescue nil}
+            attrs['mac_addresses'] = Proc.new { vm_mob_ref.macs rescue nil }
             # Rescue nil to catch testing while vm_mob_ref isn't reaL??
             attrs['path'] = "/"+attrs['parent'].path.map(&:last).join('/') rescue nil
-            attrs['relative_path'] = (attrs['path'].split('/').reject {|e| e.empty?} - ["Datacenters", attrs['datacenter'], "vm"]).join("/") rescue nil
+            attrs['relative_path'] = (attrs['path'].split('/').reject { |e| e.empty? } - ["Datacenters", attrs['datacenter'], "vm"]).join("/") rescue nil
           end
         end
         # returns the parent object based on a type
@@ -173,7 +173,7 @@ module Fog
                       else
                         raise "Unknown type"
                     end
-          path.select {|x| x[0].is_a? element}.flatten
+          path.select { |x| x[0].is_a? element }.flatten
         rescue
           nil
         end

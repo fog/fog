@@ -36,11 +36,11 @@ module Fog
         end
 
         def private_ip_address
-          ip_assignments.select {|ip_assignment| ip_assignment['type'] == 'internal'}.first
+          ip_assignments.select { |ip_assignment| ip_assignment['type'] == 'internal' }.first
         end
 
         def public_ip_address
-          ip_assignments.select {|ip_assignment| ip_assignment['type'] == 'external'}.first
+          ip_assignments.select { |ip_assignment| ip_assignment['type'] == 'external' }.first
         end
 
         def reboot

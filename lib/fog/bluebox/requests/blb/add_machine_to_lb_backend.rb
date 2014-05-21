@@ -13,13 +13,13 @@ module Fog
         #   * backup<~Boolean> - only send traffic to machine if all others are down
         def add_machine_to_lb_backend(lb_backend_id, lb_machine_id, options = {})
           # convert to CGI array args
-          body = Hash[options.map {|k,v| ["lb_options[#{k}]", v] }]
+          body = Hash[options.map { |k,v| ["lb_options[#{k}]", v] }]
           body['lb_machine'] = lb_machine_id
           request(
             :expects => 200,
             :method  => 'POST',
             :path    => "/api/lb_backends/#{lb_backend_id}/lb_machines.json",
-            :body    => body.map {|k,v| "#{CGI.escape(k)}=#{CGI.escape(v.to_s)}"}.join('&')
+            :body    => body.map { |k,v| "#{CGI.escape(k)}=#{CGI.escape(v.to_s)}" }.join('&')
           )
         end
       end

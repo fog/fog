@@ -48,7 +48,7 @@ Shindo.tests('Fog::Rackspace::Monitoring | alarm', ['rackspace','rackspace_monit
         @instance.save
         @instance.label = nil # blank out label just to make sure
         @instance.reload
-        returns(new_label) { @instance.label}
+        returns(new_label) { @instance.label }
         returns(true) { @instance.disabled }
       end
 

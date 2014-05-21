@@ -18,7 +18,7 @@ module Fog
         end
 
         def modify(changes)
-          service.modify_db_parameter_group id, changes.collect {|c| {'ParameterName' => c[:name], 'ParameterValue' => c[:value], 'ApplyMethod' => c[:apply_method]}}
+          service.modify_db_parameter_group id, changes.collect { |c| {'ParameterName' => c[:name], 'ParameterValue' => c[:value], 'ApplyMethod' => c[:apply_method]} }
         end
 
         def destroy

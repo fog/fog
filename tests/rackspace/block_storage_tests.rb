@@ -112,7 +112,7 @@ Shindo.tests('Fog::Rackspace::BlockStorage', ['rackspace']) do
       returns(200) { @service.list_volumes.status }
     end
     tests('should terminate with incorrect credentials') do
-      raises(Excon::Errors::Unauthorized) {Fog::Rackspace::BlockStorage.new :rackspace_api_key => 'bad_key' }
+      raises(Excon::Errors::Unauthorized) { Fog::Rackspace::BlockStorage.new :rackspace_api_key => 'bad_key' }
     end
   end
 

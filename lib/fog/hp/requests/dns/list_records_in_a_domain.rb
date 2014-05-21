@@ -43,7 +43,7 @@ module Fog
         end
 
         def records_for_domain(domain_id)
-          rdata = data[:records].select { |_,v| v['domain_id'] == domain_id}
+          rdata = data[:records].select { |_,v| v['domain_id'] == domain_id }
           records = []
           rdata.each { |_,v| records << v }
           records

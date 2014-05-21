@@ -21,7 +21,7 @@ module Fog
         def remove_security_group(server_id, sg_name)
           response = Excon::Response.new
           if server = self.data[:servers][server_id]
-            data = server['security_groups'].reject {|sg| sg['name'] == sg_name}
+            data = server['security_groups'].reject { |sg| sg['name'] == sg_name }
             self.data[:servers][server_id]['security_groups'] = data
 
             response.status = 202

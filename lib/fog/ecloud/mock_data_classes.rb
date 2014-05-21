@@ -130,7 +130,7 @@ module Fog
         end
 
         def all_public_ip_collections
-          all_vdcs.map {|v| v.public_ip_collection }.flatten
+          all_vdcs.map { |v| v.public_ip_collection }.flatten
         end
 
         def public_ip_collection_from_href(href)
@@ -186,7 +186,7 @@ module Fog
         end
 
         def all_network_ips
-          all_network_ip_collections.map {|c| c.items.values }.flatten
+          all_network_ip_collections.map { |c| c.items.values }.flatten
         end
 
         def network_ip_from_href(href)
@@ -196,11 +196,11 @@ module Fog
         private
 
         def find_href_in(href, objects)
-          objects.detect {|o| o.href == href }
+          objects.detect { |o| o.href == href }
         end
 
         def find_href_prefixed_in(href, objects)
-          objects.detect {|o| href =~ %r{^#{o.href}($|/)} }
+          objects.detect { |o| href =~ %r{^#{o.href}($|/)} }
         end
       end
 
@@ -401,7 +401,7 @@ module Fog
         end
 
         def ordered_ips
-          items.values.sort_by {|i| i.ip.split(".").map(&:to_i) }
+          items.values.sort_by { |i| i.ip.split(".").map(&:to_i) }
         end
 
         def name
@@ -419,7 +419,7 @@ module Fog
         end
 
         def used_by
-          self[:used_by] || _parent._parent._parent.virtual_machines.detect {|v| v.ip == ip }
+          self[:used_by] || _parent._parent._parent.virtual_machines.detect { |v| v.ip == ip }
         end
 
         def status
@@ -507,11 +507,11 @@ module Fog
         end
 
         def size
-          disks.inject(0) {|s, d| s + d.vcloud_size }
+          disks.inject(0) { |s, d| s + d.vcloud_size }
         end
 
         def network_ip
-          if network = _parent.networks.detect {|n| n.ip_collection.items[ip] }
+          if network = _parent.networks.detect { |n| n.ip_collection.items[ip] }
             network.ip_collection.items[ip]
           end
         end
@@ -522,7 +522,7 @@ module Fog
             :name => name,
             :cpus => cpus,
             :memory => memory,
-            :disks => disks.map {|d| { :number => d.address.to_s, :size => d.vcloud_size, :resource => d.vcloud_size.to_s } }
+            :disks => disks.map { |d| { :number => d.address.to_s, :size => d.vcloud_size, :resource => d.vcloud_size.to_s } }
           }
         end
 
@@ -549,22 +549,22 @@ module Fog
 
         def <<(disk)
           next_address = 0
-          disk_with_max_address = max {|a, b| a[:address] <=> b[:address] }
+          disk_with_max_address = max { |a, b| a[:address] <=> b[:address] }
           disk_with_max_address && next_address = disk_with_max_address.address + 1
           disk[:address] ||= next_address
 
           super(disk)
 
-          if (addresses = map {|d| d.address }).uniq.size != size
+          if (addresses = map { |d| d.address }).uniq.size != size
             raise "Duplicate disk address in: #{addresses.inspect} (#{size})"
           end
 
-          sort! {|a, b| a.address <=> b.address }
+          sort! { |a, b| a.address <=> b.address }
           self
         end
 
         def at_address(address)
-          detect {|d| d.address == address }
+          detect { |d| d.address == address }
         end
       end
 

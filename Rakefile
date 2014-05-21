@@ -37,7 +37,7 @@ def gem_file
 end
 
 def replace_header(head, header_name)
-  head.sub!(/(\.#{header_name}\s*= ').*'/) { "#{$1}#{send(header_name)}'"}
+  head.sub!(/(\.#{header_name}\s*= ').*'/) { "#{$1}#{send(header_name)}'" }
 end
 
 #############################################################################

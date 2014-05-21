@@ -250,7 +250,7 @@ DATA
             end
           end
 
-          google_headers = google_headers.sort {|x, y| x[0] <=> y[0]}
+          google_headers = google_headers.sort { |x, y| x[0] <=> y[0] }
           for key, value in google_headers
             canonical_google_headers << "#{key}:#{value}\n"
           end

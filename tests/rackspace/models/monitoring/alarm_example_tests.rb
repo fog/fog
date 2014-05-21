@@ -7,12 +7,12 @@ Shindo.tests('Fog::Rackspace::Monitoring | alarm_example', ['rackspace','rackspa
 
   tests('#bound?') do
     tests('should return false if not bound') do
-      returns(false) {alarm.bound?}
+      returns(false) { alarm.bound? }
     end
     tests('should return true if bound') do
       values = {'string' => '12345'}
       alarm = service.alarm_examples.evaluate(alarm_example_id,values)
-      returns(true) {alarm.bound?}
+      returns(true) { alarm.bound? }
     end
   end
 end

@@ -52,19 +52,19 @@ Shindo.tests('Fog::Compute[:xenserver] | host model', ['xenserver']) do
     tests("return valid PIFs") do
       test("as an array") { host.pifs.kind_of? Array }
       host.pifs.each { |i| 
-          test("and each PIF should be a Fog::Compute::XenServer::PIF") { i.kind_of? Fog::Compute::XenServer::PIF}
+          test("and each PIF should be a Fog::Compute::XenServer::PIF") { i.kind_of? Fog::Compute::XenServer::PIF }
       } 
     end
     tests("return valid PBDs") do
       test("as an array") { host.pbds.kind_of? Array }
       host.pbds.each { |i| 
-          test("and each PBD should be a Fog::Compute::XenServer::PBD") { i.kind_of? Fog::Compute::XenServer::PBD}
+          test("and each PBD should be a Fog::Compute::XenServer::PBD") { i.kind_of? Fog::Compute::XenServer::PBD }
       } 
     end
     tests("return valid resident servers") do
       test("as an array") { host.resident_servers.kind_of? Array }
       host.resident_servers.each { |i| 
-          test("and each Server should be a Fog::Compute::XenServer::Server") { i.kind_of? Fog::Compute::XenServer::Server}
+          test("and each Server should be a Fog::Compute::XenServer::Server") { i.kind_of? Fog::Compute::XenServer::Server }
       } 
     end
     tests("return valid HostMetrics") do

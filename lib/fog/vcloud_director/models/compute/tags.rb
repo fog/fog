@@ -16,7 +16,7 @@ module Fog
 
         def get_by_id(item_id)
           item_list unless @items
-          @items.detect { |i| i[:id] == item_id}
+          @items.detect { |i| i[:id] == item_id }
         end
 
         def create(key,value)

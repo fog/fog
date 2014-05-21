@@ -10,7 +10,7 @@ module Fog
 
         def parse( data )
           parser = Fog::Parsers::XenServer::Base.new
-          data.each_pair {|reference, vm_hash| @response << parser.parse( vm_hash ).merge(:reference => reference) }
+          data.each_pair { |reference, vm_hash| @response << parser.parse( vm_hash ).merge(:reference => reference) }
         end
 
       end

@@ -67,7 +67,7 @@ Shindo.tests('AWS::Elasticache | security group requests', ['aws', 'elasticache'
       Fog.wait_for do
         response = AWS[:elasticache].describe_cache_security_groups(name)
         group = response.body['CacheSecurityGroups'].first
-        group['EC2SecurityGroups'].all? {|ec2| ec2['Status'] == 'authorized'}
+        group['EC2SecurityGroups'].all? { |ec2| ec2['Status'] == 'authorized' }
       end
 
       tests(

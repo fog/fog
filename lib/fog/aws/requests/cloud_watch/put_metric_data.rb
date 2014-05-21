@@ -34,8 +34,8 @@ module Fog
           #first index the dimensions for any of the datums that have dimensions
           metric_data.collect! do |metric_datum|
             if dimensions = metric_datum.delete('Dimensions')
-              metric_datum.merge!(AWS.indexed_param('Dimensions.member.%d.Name', dimensions.collect {|dimension| dimension['Name']}))
-              metric_datum.merge!(AWS.indexed_param('Dimensions.member.%d.Value', dimensions.collect {|dimension| dimension['Value']}))
+              metric_datum.merge!(AWS.indexed_param('Dimensions.member.%d.Name', dimensions.collect { |dimension| dimension['Name'] }))
+              metric_datum.merge!(AWS.indexed_param('Dimensions.member.%d.Value', dimensions.collect { |dimension| dimension['Value'] }))
             end
             metric_datum
           end

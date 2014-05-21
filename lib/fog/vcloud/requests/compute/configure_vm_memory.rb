@@ -5,7 +5,7 @@ module Fog
       class Real
 
         def configure_vm_memory(vm_data)
-          edit_uri = vm_data.select {|k,v| k == :Link && v[:rel] == 'edit'}
+          edit_uri = vm_data.select { |k,v| k == :Link && v[:rel] == 'edit' }
           edit_uri = edit_uri.kind_of?(Array) ? edit_uri.flatten[1][:href] : edit_uri[:Link][:href]
 
           body = <<EOF

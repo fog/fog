@@ -38,7 +38,7 @@ module Fog
       class Mock
         def remove_router_interface(router_id, subnet_id=nil, port_id=nil, options = {})
           response = Excon::Response.new
-          if list_routers.body['routers'].detect {|_| _['id'] == router_id}
+          if list_routers.body['routers'].detect { |_| _['id'] == router_id }
             # Either a subnet or a port can be passed, not both
             if (subnet_id && port_id) || (subnet_id.nil? && port_id.nil?)
               raise ArgumentError.new('Either a subnet or a port can be passed, not both')
@@ -48,7 +48,7 @@ module Fog
             if port_id
               delete_port(port_id)
             elsif subnet_id
-              ports = self.data[:ports].select {|p| self.data[:ports]["#{p}"]['device_id'] == router_id }
+              ports = self.data[:ports].select { |p| self.data[:ports]["#{p}"]['device_id'] == router_id }
                                                  #&& self.data[:ports]["#{p}"]['network_id'] == self.data[:subnets][subnet_id]['network_id']}
               ports.each do |key, _|
                 delete_port(key)

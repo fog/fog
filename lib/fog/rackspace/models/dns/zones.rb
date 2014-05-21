@@ -35,7 +35,7 @@ module Fog
 
             params = next_params(body)
 
-            subset.each_zone_this_page {|zone| yield zone}
+            subset.each_zone_this_page { |zone| yield zone }
           end
           self
         end
@@ -60,7 +60,7 @@ module Fog
           return nil unless body && body['links']
 
           #return if links don't contain a href for the next page
-          next_link = body['links'].find {|h| h['rel'] == 'next'}
+          next_link = body['links'].find { |h| h['rel'] == 'next' }
           return nil unless next_link && next_link['href']
 
           url = next_link['href']

@@ -26,7 +26,7 @@ module Fog
           data = service.describe_snapshots(filters.merge!(options)).body
           load(data['snapshotSet'])
           if volume
-            self.replace(self.select {|snapshot| snapshot.volume_id == volume.id})
+            self.replace(self.select { |snapshot| snapshot.volume_id == volume.id })
           end
           self
         end

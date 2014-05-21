@@ -5,7 +5,7 @@ module Fog
       class Mock
 
         def list_forwarding_rules(region_name)
-          forwarding_rules = self.data[:forwarding_rules].values.select {|d| d["region"].split("/")[-1] == region_name}
+          forwarding_rules = self.data[:forwarding_rules].values.select { |d| d["region"].split("/")[-1] == region_name }
           build_response(:body => {
                            "kind" => "compute#forwardingRuleList",
             "selfLink" => "https://www.googleapis.com/compute/#{api_version}/projects/#{@project}/regions/#{region_name}/forwardingRules",

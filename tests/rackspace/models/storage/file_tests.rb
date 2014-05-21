@@ -35,12 +35,12 @@ Shindo.tests('Fog::Rackspace::Storage | file', ['rackspace']) do
   end
 
   def object_meta_attributes(file=@instance)
-    object_attributes(file).reject {|k, v| !(k =~ /X-Object-Meta-/)}
+    object_attributes(file).reject { |k, v| !(k =~ /X-Object-Meta-/) }
   end
 
   def clear_metadata
     @instance.metadata.tap do |metadata|
-      metadata.each_pair {|k, v| metadata[k] = nil }
+      metadata.each_pair { |k, v| metadata[k] = nil }
     end
   end
 

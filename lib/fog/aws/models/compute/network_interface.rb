@@ -63,9 +63,9 @@ module Fog
             'Description'           => description,
             'GroupSet'              => group_set,
           }
-          options.delete_if {|key, value| value.nil?}
+          options.delete_if { |key, value| value.nil? }
           data = service.create_network_interface(subnet_id, options).body['networkInterface']
-          new_attributes = data.reject {|key,value| key == 'requestId'}
+          new_attributes = data.reject { |key,value| key == 'requestId' }
           merge_attributes(new_attributes)
           true
         end

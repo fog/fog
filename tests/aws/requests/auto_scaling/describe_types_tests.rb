@@ -10,7 +10,7 @@ Shindo.tests('AWS::AutoScaling | describe types requests', ['aws', 'auto_scaling
         'PercentChangeInCapacity'
       ].each do |v|
         returns(true, "AdjustmentTypes contains #{v}") do
-          body['DescribeAdjustmentTypesResult']['AdjustmentTypes'].any? {|t| t['AdjustmentType'] == v}
+          body['DescribeAdjustmentTypesResult']['AdjustmentTypes'].any? { |t| t['AdjustmentType'] == v }
         end
       end
 
@@ -46,14 +46,14 @@ Shindo.tests('AWS::AutoScaling | describe types requests', ['aws', 'auto_scaling
         'GroupTotalInstances'
       ].each do |v|
         returns(true, "Metrics contains #{v}") do
-          body['DescribeMetricCollectionTypesResult']['Metrics'].any? {|t| t['Metric'] == v}
+          body['DescribeMetricCollectionTypesResult']['Metrics'].any? { |t| t['Metric'] == v }
         end
       end
 
       [ '1Minute'
       ].each do |v|
         returns(true, "Granularities contains #{v}") do
-          body['DescribeMetricCollectionTypesResult']['Granularities'].any? {|t| t['Granularity'] == v}
+          body['DescribeMetricCollectionTypesResult']['Granularities'].any? { |t| t['Granularity'] == v }
         end
       end
 
@@ -73,7 +73,7 @@ Shindo.tests('AWS::AutoScaling | describe types requests', ['aws', 'auto_scaling
         'Terminate'
       ].each do |v|
         returns(true, "Processes contains #{v}") do
-          body['DescribeScalingProcessTypesResult']['Processes'].any? {|t| t['ProcessName'] == v}
+          body['DescribeScalingProcessTypesResult']['Processes'].any? { |t| t['ProcessName'] == v }
         end
       end
 

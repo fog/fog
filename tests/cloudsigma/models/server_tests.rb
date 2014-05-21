@@ -21,7 +21,7 @@ Shindo.tests('Fog::Compute[:cloudsigma] | server model', ['cloudsigma']) do
       @instance.reload
 
       returns('dhcp') { @instance.nics.first.ip_v4_conf.conf }
-      succeeds {/^([0-9a-f]{2}[:]){5}([0-9a-f]{2})$/ === @instance.nics.first.mac}
+      succeeds { /^([0-9a-f]{2}[:]){5}([0-9a-f]{2})$/ === @instance.nics.first.mac }
     end
 
     tests('attach_vlan') do
@@ -33,7 +33,7 @@ Shindo.tests('Fog::Compute[:cloudsigma] | server model', ['cloudsigma']) do
         vlan.save
       end
 
-      vlan = service.vlans.find {|vlan| vlan.meta['name'] == 'fog-test'}
+      vlan = service.vlans.find { |vlan| vlan.meta['name'] == 'fog-test' }
 
       # Skip if there is no vlan marked for fog tests
       pending unless vlan
@@ -43,8 +43,8 @@ Shindo.tests('Fog::Compute[:cloudsigma] | server model', ['cloudsigma']) do
 
       @instance.reload
 
-      returns(vlan.uuid) { @instance.nics.last.vlan['uuid'] || @instance.nics.last.vlan}
-      succeeds {/^([0-9a-f]{2}[:]){5}([0-9a-f]{2})$/ === @instance.nics.last.mac}
+      returns(vlan.uuid) { @instance.nics.last.vlan['uuid'] || @instance.nics.last.vlan }
+      succeeds { /^([0-9a-f]{2}[:]){5}([0-9a-f]{2})$/ === @instance.nics.last.mac }
     end
 
     tests('attach_volume') do

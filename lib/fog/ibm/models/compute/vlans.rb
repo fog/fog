@@ -16,7 +16,7 @@ module Fog
         def get(vlan_id)
           begin
             vlan = service.list_vlans.body
-            new(vlan['vlan'].find {|vlan| vlan['id'] == vlan_id.to_s })
+            new(vlan['vlan'].find { |vlan| vlan['id'] == vlan_id.to_s })
           rescue Fog::Compute::IBM::NotFound
             nil
           end

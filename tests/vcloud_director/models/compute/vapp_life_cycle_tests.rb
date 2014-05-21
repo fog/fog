@@ -13,7 +13,7 @@ Shindo.tests("Compute::VcloudDirector | vapp", ['vclouddirector', 'creation']) d
   tests("#it creates a vApp from a catalog item").returns(true) { the_catalog_item.instantiate(VAPP_NAME, { :network_id => the_network.id, :network_name => NETWORK_NAME}) }
   vapp = vapps.get_by_name(VAPP_NAME)
   tests("#Finds the just created vApp").returns(VAPP_NAME) { vapp.name }
-  tests("#it has one vm").returns(1) { vapp.vms.size}
+  tests("#it has one vm").returns(1) { vapp.vms.size }
   tests("Compute::VcloudDirector | vm", ['configuration']) do
     vm = vapp.vms.first
     tests("Compute::VcloudDirector | vm", ['network']) do
@@ -39,7 +39,7 @@ Shindo.tests("Compute::VcloudDirector | vapp", ['vclouddirector', 'creation']) d
 
     tests("Compute::VcloudDirector | vm", ['doble the disk size']) do
       disk = vm.disks.get_by_name('Hard disk 1')
-      tests("#disk_size").returns(Fixnum) { disk.capacity.class}
+      tests("#disk_size").returns(Fixnum) { disk.capacity.class }
       new_size = disk.capacity * 2
       disk.capacity = new_size
       disk.reload
@@ -55,7 +55,7 @@ Shindo.tests("Compute::VcloudDirector | vapp", ['vclouddirector', 'creation']) d
     end
 
     tests("Compute::VcloudDirector | vm", ['doble the memory size']) do
-      tests("#memory").returns(Fixnum) { vm.memory.class}
+      tests("#memory").returns(Fixnum) { vm.memory.class }
       new_size = vm.memory * 2
       vm.memory = new_size
       vm.reload
@@ -63,7 +63,7 @@ Shindo.tests("Compute::VcloudDirector | vapp", ['vclouddirector', 'creation']) d
     end
 
     tests("Compute::VcloudDirector | vm", ['doble the cpu size']) do
-      tests("#cpu").returns(Fixnum) { vm.cpu.class}
+      tests("#cpu").returns(Fixnum) { vm.cpu.class }
       new_size = vm.cpu * 2
       vm.cpu = new_size
       vm.reload
@@ -72,7 +72,7 @@ Shindo.tests("Compute::VcloudDirector | vapp", ['vclouddirector', 'creation']) d
 
     tests("Compute::VcloudDirector | vm", ['tags']) do
       TAGS.each_pair do |k,v|
-        tests('create tag').returns(true) {vm.tags.create(k, v)}
+        tests('create tag').returns(true) { vm.tags.create(k, v) }
       end
       tests('there are two tags').returns(2) { vm.tags.size }
       tests('#get_by_name').returns("acme") { vm.tags.get_by_name('company').value }

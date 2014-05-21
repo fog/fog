@@ -119,7 +119,7 @@ module Fog
 
         remove_method :metadata
         def metadata
-          attributes.reject {|key, value| !(key.to_s =~ /^x-(amz||archive)-meta/)}
+          attributes.reject { |key, value| !(key.to_s =~ /^x-(amz||archive)-meta/) }
         end
 
         remove_method :metadata=
@@ -204,7 +204,7 @@ module Fog
             merge_attributes(data.body)
           else
             data = service.put_object(directory.key, key, body, options)
-            merge_attributes(data.headers.reject {|key, value| ['Content-Length', 'Content-Type'].include?(key)})
+            merge_attributes(data.headers.reject { |key, value| ['Content-Length', 'Content-Type'].include?(key) })
           end
           self.etag.gsub!('"','') if self.etag
           self.content_length = Fog::Storage.get_body_size(body)

@@ -12,14 +12,14 @@ module Fog
         end
 
         def services
-          catalog.collect {|s| s["name"]}
+          catalog.collect { |s| s["name"] }
         end
 
         def get_endpoints(service_name, service_net=false)
-          h = catalog.find {|service| service["name"] == service_name.to_s}
+          h = catalog.find { |service| service["name"] == service_name.to_s }
           return {} unless h
           key = network_type_key(service_net)
-          h["endpoints"].select {|e| e[key]}
+          h["endpoints"].select { |e| e[key] }
         end
 
 
@@ -44,7 +44,7 @@ module Fog
           end
 
           # select multiple endpoints
-          endpoint = endpoints.find {|e| matching_region?(e, service_region) }
+          endpoint = endpoints.find { |e| matching_region?(e, service_region) }
           return endpoint[network_type] if endpoint && endpoint[network_type]
 
           # endpoint doesnt have region

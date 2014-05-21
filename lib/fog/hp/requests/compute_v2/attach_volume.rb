@@ -40,7 +40,7 @@ module Fog
           response = Excon::Response.new
           if server = self.data[:servers][server_id]
             # mock the case when the volume is already attached to the server
-            if server['volumeAttachments'] && server['volumeAttachments'].select {|v| v['id'] == volume_id}
+            if server['volumeAttachments'] && server['volumeAttachments'].select { |v| v['id'] == volume_id }
               response.status = 400
               response.body = '{"badRequest": {"message": "Volume status must be available", "code": 400}}'
               raise(Excon::Errors.status_error({:expects => 200}, response))

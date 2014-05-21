@@ -146,7 +146,7 @@ Shindo.tests('Fog::Compute[:aws] | network interface requests', ['aws']) do
       Fog::Compute[:aws].detach_network_interface(@attachment_id,true).body["return"]
     end
     if !Fog.mocking?
-      Fog::Compute[:aws].network_interfaces.get(@nic_id).wait_for { status == 'available'}
+      Fog::Compute[:aws].network_interfaces.get(@nic_id).wait_for { status == 'available' }
     end
     # Create network interface with arguments
     options = {

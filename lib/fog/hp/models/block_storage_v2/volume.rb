@@ -113,7 +113,7 @@ module Fog
             'source_volid'        => source_volid,
             'volume_type'         => type                 # this parameter is currently ignored
           }
-          options = options.reject {|_, value| value.nil?}
+          options = options.reject { |_, value| value.nil? }
           data = service.create_volume(options)
           merge_attributes(data.body['volume'])
           true
@@ -126,7 +126,7 @@ module Fog
             'display_description' => description,
             'metadata'            => metadata
           }
-          options = options.reject {|_, value| value.nil?}
+          options = options.reject { |_, value| value.nil? }
           data = service.update_volume(id, options)
           merge_attributes(data.body['volume'])
           true

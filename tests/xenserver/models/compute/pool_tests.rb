@@ -34,7 +34,7 @@ Shindo.tests('Fog::Compute[:xenserver] | Pool model', ['xenserver']) do
       end
     end
 
-    test('be a kind of Fog::Compute::XenServer::Pool') { pool.kind_of? Fog::Compute::XenServer::Pool}
+    test('be a kind of Fog::Compute::XenServer::Pool') { pool.kind_of? Fog::Compute::XenServer::Pool }
 
   end
 

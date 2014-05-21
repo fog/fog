@@ -159,11 +159,11 @@ Shindo.tests('Fog::Rackspace::Storage | metadata', ['rackspace']) do
   tests("#respond_to?") do
     tests('Should respond to all of the methods in Hash class').returns(true) do
       metadata = Fog::Storage::Rackspace::Metadata.new @file
-      Hash.instance_methods.all? {|method| metadata.respond_to?(method)}
+      Hash.instance_methods.all? { |method| metadata.respond_to?(method) }
     end
     tests('Should respond to all of the methods in the Metadata class').returns(true) do
       metadata = Fog::Storage::Rackspace::Metadata.new @file
-      metadata.methods.all? {|method| metadata.respond_to?(method)}
+      metadata.methods.all? { |method| metadata.respond_to?(method) }
     end
   end
    

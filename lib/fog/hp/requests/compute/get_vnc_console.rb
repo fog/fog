@@ -30,7 +30,7 @@ module Fog
               'url'  => 'https://region.compute.hpcloud.com/vnc_auto.html?token=123ABX234'
           }
           response = Excon::Response.new
-          if list_servers_detail.body['servers'].detect {|_| _['id'] == server_id}
+          if list_servers_detail.body['servers'].detect { |_| _['id'] == server_id }
             response.body = { 'console' => output }
             response.status = 200
           else

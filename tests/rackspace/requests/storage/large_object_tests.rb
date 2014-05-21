@@ -301,8 +301,8 @@ Shindo.tests('Fog::Storage[:rackspace] | large object requests', ['rackspace']) 
 
         returns(200) { response.status }
         returns(1) { response.body["Number Not Found"] }
-        returns("200 OK") { response.body["Response Status"]}
-        returns("") { response.body["Response Body"]}
+        returns("200 OK") { response.body["Response Status"] }
+        returns("") { response.body["Response Body"] }
       end
 
       tests('#delete_static_large_object with missing manifest') do
@@ -310,8 +310,8 @@ Shindo.tests('Fog::Storage[:rackspace] | large object requests', ['rackspace']) 
 
         returns(200) { response.status }
         returns(1) { response.body["Number Not Found"] }
-        returns("200 OK") { response.body["Response Status"]}
-        returns("") { response.body["Response Body"]}
+        returns("200 OK") { response.body["Response Status"] }
+        returns("") { response.body["Response Body"] }
       end
 
       tests('#delete_static_large_object with missing segment') do

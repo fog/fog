@@ -135,7 +135,7 @@ module Fog
               'TemplateName' => template_name,
               'VersionLabel' => version_label
           }
-          options.delete_if {|key, value| value.nil?}
+          options.delete_if { |key, value| value.nil? }
 
           data = service.create_environment(options).body['CreateEnvironmentResult']
           merge_attributes(data)

@@ -39,7 +39,7 @@ module Fog
         def task_list_id
           @task_list_id ||=
             if service.default_organization_id && organization = service.get_organization(service.default_organization_id).body
-              organization['Links'].detect {|link| link['type'] == 'application/vnd.vmware.vcloud.tasksList+xml'}['href'].split('/').last.to_i
+              organization['Links'].detect { |link| link['type'] == 'application/vnd.vmware.vcloud.tasksList+xml' }['href'].split('/').last.to_i
             else
               nil
             end

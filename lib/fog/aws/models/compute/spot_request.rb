@@ -104,7 +104,7 @@ module Fog
             'Type'                                           => request_type,
             'ValidFrom'                                      => valid_from,
             'ValidUntil'                                     => valid_until }
-          options.delete_if {|key, value| value.nil?}
+          options.delete_if { |key, value| value.nil? }
 
           data = service.request_spot_instances(image_id, flavor_id, price, options).body
           spot_instance_request = data['spotInstanceRequestSet'].first

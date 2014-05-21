@@ -37,7 +37,7 @@ service = Fog::Compute.new({
 flavor = service.flavors.first
 
 # Pick the first Ubuntu image we can find
-image = service.images.find {|image| image.name =~ /Ubuntu/}
+image = service.images.find { |image| image.name =~ /Ubuntu/ }
 
 #create server
 server = service.servers.create :name => 'meta-cumulus',
@@ -73,7 +73,7 @@ server.metadata.reload
 print_metadata(server)
 
 puts "Delete Metadata"
-metadatum = server.metadata.find {|metadataum| metadataum.key == 'environment'}
+metadatum = server.metadata.find { |metadataum| metadataum.key == 'environment' }
 metadatum.destroy
 
 puts "Reload Metadata"

@@ -1,6 +1,6 @@
 Shindo.tests('Fog::Compute[:libvirt] | volume model', ['libvirt']) do
 
-  volume = Fog::Compute[:libvirt].servers.all.select {|v| v.name !~ /^fog/}.first.volumes.first
+  volume = Fog::Compute[:libvirt].servers.all.select { |v| v.name !~ /^fog/ }.first.volumes.first
 
   tests('The volume model should') do
     tests('have attributes') do

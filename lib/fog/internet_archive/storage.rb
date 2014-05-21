@@ -291,7 +291,7 @@ DATA
               amz_headers[key] = value
             end
           end
-          amz_headers = amz_headers.sort {|x, y| x[0] <=> y[0]}
+          amz_headers = amz_headers.sort { |x, y| x[0] <=> y[0] }
           for key, value in amz_headers
             canonical_amz_headers << "#{key}:#{value}\n"
           end

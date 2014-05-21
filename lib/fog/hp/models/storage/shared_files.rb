@@ -15,7 +15,7 @@ module Fog
           requires :shared_directory
           parent = shared_directory.collection.get(shared_directory.url)
           if parent
-            load(parent.files.map {|file| file.attributes})
+            load(parent.files.map { |file| file.attributes })
           else
             nil
           end

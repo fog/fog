@@ -50,7 +50,7 @@ Shindo.tests('AWS::AutoScaling | tag requests', ['aws', 'auto_scaling']) do
       pending if Fog.mocking?
       body = Fog::AWS[:auto_scaling].describe_tags.body
       tags = body['DescribeTagsResult']['Tags']
-      returns(true) { tags.any? {|tag| tag == asg_tag} }
+      returns(true) { tags.any? { |tag| tag == asg_tag } }
       body
     end
 

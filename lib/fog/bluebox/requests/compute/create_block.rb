@@ -37,7 +37,7 @@ module Fog
             :method   => 'POST',
             :path     => '/api/blocks.json',
             :query    => query,
-            :body     => options.map {|k,v| "#{CGI.escape(k)}=#{CGI.escape(v)}"}.join('&')
+            :body     => options.map { |k,v| "#{CGI.escape(k)}=#{CGI.escape(v)}" }.join('&')
           )
         end
 

@@ -39,7 +39,7 @@ module Fog
 
         def delete_node(load_balancer_id, node_id)
           nodes = list_load_balancer_nodes(load_balancer_id).body['nodes']
-          nodes.reject {|n| n['id'] == node_id}
+          nodes.reject { |n| n['id'] == node_id }
         end
       end
     end

@@ -36,7 +36,7 @@ Shindo.tests('Fog::Compute[:xenserver] | VIF model', ['xenserver']) do
       end
     end
 
-    test('be a kind of Fog::Compute::XenServer::VIF') { vif.kind_of? Fog::Compute::XenServer::VIF}
+    test('be a kind of Fog::Compute::XenServer::VIF') { vif.kind_of? Fog::Compute::XenServer::VIF }
 
   end
 

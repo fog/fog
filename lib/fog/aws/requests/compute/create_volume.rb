@@ -107,7 +107,7 @@ module Fog
             self.data[:volumes][volume_id] = data
             response.body = {
               'requestId' => Fog::AWS::Mock.request_id
-            }.merge!(data.reject {|key,value| !['availabilityZone','createTime','encrypted','size','snapshotId','status','volumeId','volumeType'].include?(key) })
+            }.merge!(data.reject { |key,value| !['availabilityZone','createTime','encrypted','size','snapshotId','status','volumeId','volumeType'].include?(key) })
           else
             response.status = 400
             response.body = {

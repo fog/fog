@@ -86,7 +86,7 @@ module Fog
           #For some reason inject didn't work
           service_data = {}
           self.class.attributes.select { |attribute| attribute != :backup_service_data }.each { |attribute| service_data[attribute] = send(attribute) }
-          service_data.reject! {|k, v| v.nil? }
+          service_data.reject! { |k, v| v.nil? }
           service_data
         end
 

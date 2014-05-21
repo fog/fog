@@ -36,7 +36,7 @@ module Fog
         def save
           raise Fog::Errors::Error.new('Resaving an existing object may create a duplicate') if persisted?
           data = service.allocate_address(pool).body['floating_ip']
-          new_attributes = data.reject {|key,value| !['id', 'instance_id', 'ip', 'fixed_ip'].include?(key)}
+          new_attributes = data.reject { |key,value| !['id', 'instance_id', 'ip', 'fixed_ip'].include?(key) }
           merge_attributes(new_attributes)
           if @server
             self.server = @server

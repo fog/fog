@@ -38,7 +38,7 @@ module Fog
         def release_address(public_ip_or_allocation_id)
           response = Excon::Response.new
 
-          address = self.data[:addresses][public_ip_or_allocation_id] || self.data[:addresses].values.detect {|a| a['allocationId'] == public_ip_or_allocation_id }
+          address = self.data[:addresses][public_ip_or_allocation_id] || self.data[:addresses].values.detect { |a| a['allocationId'] == public_ip_or_allocation_id }
 
           if address
             if address['allocationId'] && public_ip_or_allocation_id == address['publicIp']

@@ -17,7 +17,7 @@ module Fog
                                                                        :container  => dc.networkFolder,
             :type       =>  ["Network"],
             :recursive  => true
-          }).view.select { |n| n.name == name and (not distributedswitch_name or n.config.distributedVirtualSwitch.name == distributedswitch_name)}.first
+          }).view.select { |n| n.name == name and (not distributedswitch_name or n.config.distributedVirtualSwitch.name == distributedswitch_name) }.first
         end
       end
 

@@ -51,7 +51,7 @@ module Fog
           aliases = {'region-name' => 'regionName', 'endpoint' => 'regionEndpoint'}
           for filter_key, filter_value in filters
             aliased_key = aliases[filter_key]
-            region_info = region_info.reject {|region| ![*filter_value].include?(region[aliased_key])}
+            region_info = region_info.reject { |region| ![*filter_value].include?(region[aliased_key]) }
           end
 
           response.status = 200

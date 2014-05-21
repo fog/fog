@@ -28,8 +28,8 @@ module Fog
         def detach_volume(server_id, volume_id)
           response = Excon::Response.new
           if server = self.data[:servers][server_id]
-            if server['volumeAttachments'] && server['volumeAttachments'].select {|v| v['volumeId'] == volume_id}
-              data = server['volumeAttachments'].reject {|v| v['volumeId'] == volume_id}
+            if server['volumeAttachments'] && server['volumeAttachments'].select { |v| v['volumeId'] == volume_id }
+              data = server['volumeAttachments'].reject { |v| v['volumeId'] == volume_id }
               self.data[:servers][server_id]['volumeAttachments'] = data
               response.status = 202
             else

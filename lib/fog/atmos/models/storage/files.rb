@@ -22,10 +22,10 @@ module Fog
           data = service.get_namespace(ns).body[:DirectoryList]
           data = {:DirectoryEntry => []} if data.kind_of? String
           data[:DirectoryEntry] = [data[:DirectoryEntry]] if data[:DirectoryEntry].kind_of? Hash
-          files = data[:DirectoryEntry].select {|de| de[:FileType] == 'regular'}
+          files = data[:DirectoryEntry].select { |de| de[:FileType] == 'regular' }
           files.each do |s|
             data = service.head_namespace(directory.key + s[:Filename], :parse => false)
-            headers = Hash[data.headers["x-emc-meta"].split(", ").collect {|s|s.split("=")}]
+            headers = Hash[data.headers["x-emc-meta"].split(", ").collect { |s|s.split("=") }]
             s[:content_length] = data.headers["Content-Length"]
             s[:content_type] = data.headers["Content-Type"]
             s[:created_at] = headers["ctime"]

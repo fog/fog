@@ -23,7 +23,7 @@ module Fog
         def server
           @server ||= begin
                         reload unless other_links
-                        server_link = other_links.find {|l| l[:type] == "application/vnd.tmrk.cloud.virtualMachine"}
+                        server_link = other_links.find { |l| l[:type] == "application/vnd.tmrk.cloud.virtualMachine" }
                         self.service.servers.get(server_link[:href])
                       end
         end

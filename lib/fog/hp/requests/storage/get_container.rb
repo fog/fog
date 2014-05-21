@@ -29,7 +29,7 @@ module Fog
         #       * 'last_modified'<~String> - Last modified timestamp
         #       * 'name'<~String> - Name of object
         def get_container(container, options = {})
-          options = options.reject {|key, value| value.nil?}
+          options = options.reject { |key, value| value.nil? }
           response = request(
             :expects  => 200,
             :method   => 'GET',
@@ -54,7 +54,7 @@ module Fog
           obj_count = 0
           obj_total_bytes = 0
           if container = self.data[:containers][container_name]
-            contents = container[:objects].values.sort {|x,y| x['Key'] <=> y['Key']}.reject do |object|
+            contents = container[:objects].values.sort { |x,y| x['Key'] <=> y['Key'] }.reject do |object|
                 (options['prefix'] && object['Key'][0...options['prefix'].length] != options['prefix']) ||
                 (options['marker'] && object['Key'] <= options['marker'])
               end.map do |object|

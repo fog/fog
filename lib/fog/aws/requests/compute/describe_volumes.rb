@@ -80,10 +80,10 @@ module Fog
           for filter_key, filter_value in filters
             if attachment_key = filter_key.split('attachment.')[1]
               aliased_key = attachment_aliases[filter_key]
-              volume_set = volume_set.reject {|volume| !volume['attachmentSet'].detect {|attachment| [*filter_value].include?(attachment[aliased_key])}}
+              volume_set = volume_set.reject { |volume| !volume['attachmentSet'].detect { |attachment| [*filter_value].include?(attachment[aliased_key]) } }
             else
               aliased_key = aliases[filter_key]
-              volume_set = volume_set.reject {|volume| ![*filter_value].include?(volume[aliased_key])}
+              volume_set = volume_set.reject { |volume| ![*filter_value].include?(volume[aliased_key]) }
             end
           end
 
@@ -105,8 +105,8 @@ module Fog
               end
             end
           end
-          volume_set = volume_set.reject {|volume| !self.data[:volumes][volume['volumeId']]}
-          volume_set = volume_set.map {|volume| volume.merge('tagSet' => self.data[:tag_sets][volume['volumeId']]) }
+          volume_set = volume_set.reject { |volume| !self.data[:volumes][volume['volumeId']] }
+          volume_set = volume_set.map { |volume| volume.merge('tagSet' => self.data[:tag_sets][volume['volumeId']]) }
 
           response.status = 200
           response.body = {

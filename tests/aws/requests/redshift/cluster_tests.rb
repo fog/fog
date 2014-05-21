@@ -63,7 +63,7 @@ Shindo.tests('Fog::Redshift[:aws] | cluster requests', ['aws']) do
     tests('reboot_cluster') do
       sleep 30 unless Fog.mocking?
       body = Fog::AWS[:redshift].reboot_cluster(:cluster_identifier=>identifier).body
-      tests("verify reboot").returns("rebooting") { body['Cluster']['ClusterStatus']}
+      tests("verify reboot").returns("rebooting") { body['Cluster']['ClusterStatus'] }
       body
     end
 
@@ -74,7 +74,7 @@ Shindo.tests('Fog::Redshift[:aws] | cluster requests', ['aws']) do
       end
       sleep 30 unless Fog.mocking?
       body = Fog::AWS[:redshift].delete_cluster(:cluster_identifier=>identifier, :skip_final_cluster_snapshot=>true).body
-      tests("verify delete").returns("deleting") { body['Cluster']['ClusterStatus']}
+      tests("verify delete").returns("deleting") { body['Cluster']['ClusterStatus'] }
       body
     end
   end

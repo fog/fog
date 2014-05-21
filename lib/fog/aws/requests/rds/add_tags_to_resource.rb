@@ -13,7 +13,7 @@ module Fog
         #   * body<~Hash>:
         def add_tags_to_resource(rds_id, tags)
           keys    = tags.keys.sort
-          values  = keys.map {|key| tags[key]}
+          values  = keys.map { |key| tags[key] }
           request({
             'Action'        => 'AddTagsToResource',
               'ResourceName'  => "arn:aws:rds:#{@region}:#{owner_id}:db:#{rds_id}",

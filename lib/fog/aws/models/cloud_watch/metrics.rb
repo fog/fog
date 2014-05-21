@@ -22,11 +22,11 @@ module Fog
             self
           else
             subset = dup.all
-            subset.each_metric_this_page {|m| yield m }
+            subset.each_metric_this_page { |m| yield m }
 
             while next_token = subset.next_token
               subset = subset.all("NextToken" => next_token)
-              subset.each_metric_this_page {|m| yield m }
+              subset.each_metric_this_page { |m| yield m }
             end
 
             self

@@ -14,7 +14,7 @@ Shindo.tests('Fog::Rackspace::Storage | directories', ['rackspace']) do
       returns('true') { instance.metadata[:fog_test] }
       returns(@name) { instance.key }
       returns(1) { instance.count }
-      returns( Fog::Storage.get_body_size(lorem_file)) {instance.bytes }
+      returns( Fog::Storage.get_body_size(lorem_file)) { instance.bytes }
       returns(@filename) { instance.files.first.key }
     end
     

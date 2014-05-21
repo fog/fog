@@ -71,7 +71,7 @@ module Fog
           data = service.describe_volumes(filters).body
           load(data['volumeSet'])
           if server
-            self.replace(self.select {|volume| volume.server_id == server.id})
+            self.replace(self.select { |volume| volume.server_id == server.id })
           end
           self
         end

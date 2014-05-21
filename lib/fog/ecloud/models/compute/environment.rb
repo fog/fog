@@ -101,7 +101,7 @@ module Fog
         def organization
           @organization ||= begin
                              reload unless other_links
-                             organization_link = other_links.find {|l| l[:type] == "application/vnd.tmrk.cloud.organization"}
+                             organization_link = other_links.find { |l| l[:type] == "application/vnd.tmrk.cloud.organization" }
                              self.service.organizations.new(organization_link)
                            end
         end

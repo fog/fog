@@ -108,10 +108,10 @@ module Fog
                 lb['Policies'] = lb['Policies']['Proper'].inject({'AppCookieStickinessPolicies' => [], 'LBCookieStickinessPolicies' => [], 'OtherPolicies' => []}) { |m, policy|
                   case policy['PolicyTypeName']
                   when 'AppCookieStickinessPolicyType'
-                    cookie_name = policy['PolicyAttributeDescriptions'].detect {|h| h['AttributeName'] == 'CookieName'}['AttributeValue']
+                    cookie_name = policy['PolicyAttributeDescriptions'].detect { |h| h['AttributeName'] == 'CookieName' }['AttributeValue']
                     m['AppCookieStickinessPolicies'] << { 'PolicyName' => policy['PolicyName'], 'CookieName' => cookie_name }
                   when 'LBCookieStickinessPolicyType'
-                    cookie_expiration_period = policy['PolicyAttributeDescriptions'].detect {|h| h['AttributeName'] == 'CookieExpirationPeriod'}['AttributeValue'].to_i
+                    cookie_expiration_period = policy['PolicyAttributeDescriptions'].detect { |h| h['AttributeName'] == 'CookieExpirationPeriod' }['AttributeValue'].to_i
                     lb_policy = { 'PolicyName' => policy['PolicyName'] }
                     lb_policy['CookieExpirationPeriod'] = cookie_expiration_period if cookie_expiration_period > 0
                     m['LBCookieStickinessPolicies'] << lb_policy

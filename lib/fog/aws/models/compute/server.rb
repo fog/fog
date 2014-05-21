@@ -118,7 +118,7 @@ module Fog
         end
 
         def flavor
-          @flavor ||= service.flavors.all.detect {|flavor| flavor.id == flavor_id}
+          @flavor ||= service.flavors.all.detect { |flavor| flavor.id == flavor_id }
         end
 
         def key_pair
@@ -168,7 +168,7 @@ module Fog
             'SubnetId'                    => subnet_id,
             'UserData'                    => user_data,
           }
-          options.delete_if {|key, value| value.nil?}
+          options.delete_if { |key, value| value.nil? }
 
           # If subnet is defined then this is a Virtual Private Cloud.
           # subnet & security group cannot co-exist. Attempting to specify

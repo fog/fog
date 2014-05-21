@@ -25,7 +25,7 @@ module Fog
 
           file = response.body[:Files][:File].first
           file[:Link] = [file[:Link]] if file[:Link].is_a?(Hash)
-          link = file[:Link].detect {|l| l[:rel] == 'upload:default'}
+          link = file[:Link].detect { |l| l[:rel] == 'upload:default' }
 
           headers = {
             'Content-Length' => io.size,
@@ -55,7 +55,7 @@ module Fog
         # @return [Media]
         def get_by_id(item_id)
           item = service.get_media(item_id).body
-          %w(:Link).each {|key_to_delete| item.delete(key_to_delete)}
+          %w(:Link).each { |key_to_delete| item.delete(key_to_delete) }
           service.add_id_from_href!(item)
           item
         end
@@ -67,7 +67,7 @@ module Fog
           items = data[:ResourceEntities][:ResourceEntity].select do |resource|
             resource[:type] == 'application/vnd.vmware.vcloud.media+xml'
           end
-          items.each {|item| service.add_id_from_href!(item)}
+          items.each { |item| service.add_id_from_href!(item) }
           items
         end
 

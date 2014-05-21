@@ -14,7 +14,7 @@ module Fog
             'x-image-meta-min-disk'         => attributes[:min_disk],
             'x-image-meta-checksum'         => attributes[:checksum],
             'x-image-meta-owner'            => attributes[:owner]
-          }.reject {|k,v| v.nil? }
+          }.reject { |k,v| v.nil? }
 
           unless attributes[:properties].nil?
             attributes[:properties].each do |key,value|

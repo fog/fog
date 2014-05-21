@@ -53,7 +53,7 @@ Shindo.tests('Fog::Compute[:network] | network model', ['xenserver']) do
       networks.each do |network|
           test("as an array") { network.pifs.kind_of? Array }
           network.pifs.each { |i| 
-              test("and each PIF should be a Fog::Compute::XenServer::PIF") { i.kind_of? Fog::Compute::XenServer::PIF}
+              test("and each PIF should be a Fog::Compute::XenServer::PIF") { i.kind_of? Fog::Compute::XenServer::PIF }
           } 
       end
     end

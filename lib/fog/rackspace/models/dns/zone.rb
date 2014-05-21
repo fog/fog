@@ -52,7 +52,7 @@ module Fog
           response = service.create_domains([data])
 
           response = wait_for_job response.body['jobId']
-          merge_attributes(response.body['response']['domains'].select {|domain| domain['name'] == self.domain}.first)
+          merge_attributes(response.body['response']['domains'].select { |domain| domain['name'] == self.domain }.first)
         end
 
         def update

@@ -79,11 +79,11 @@ module Fog
         end
 
         def instances_in_service
-          attributes[:instances].select {|hash| hash['LifecycleState'] == 'InService'}.map {|hash| hash['InstanceId']}
+          attributes[:instances].select { |hash| hash['LifecycleState'] == 'InService' }.map { |hash| hash['InstanceId'] }
         end
 
         def instances_out_service
-          attributes[:instances].select {|hash| hash['LifecycleState'] == 'OutOfService'}.map {|hash| hash['InstanceId']}
+          attributes[:instances].select { |hash| hash['LifecycleState'] == 'OutOfService' }.map { |hash| hash['InstanceId'] }
         end
 
         def resume_processes(processes = [])
@@ -136,7 +136,7 @@ module Fog
         end
 
         def filtered_options(method)
-          Hash[options.select {|k,_| ExpectedOptions[method].include?(k)}]
+          Hash[options.select { |k,_| ExpectedOptions[method].include?(k) }]
         end
 
         def options

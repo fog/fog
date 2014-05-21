@@ -16,18 +16,18 @@ module Fog
         end
 
         def find_by_id(id)
-          all.find {|image| image.id == id}
+          all.find { |image| image.id == id }
         end
         alias_method :get, :find_by_id
 
         def public
           images = load(service.list_public_images_detailed.body['images'])
-          images.delete_if {|image| image.is_public == false}
+          images.delete_if { |image| image.is_public == false }
         end
 
         def private
           images = load(service.list_public_images_detailed.body['images'])
-          images.delete_if {|image| image.is_public}
+          images.delete_if { |image| image.is_public }
         end
 
         def destroy(id)

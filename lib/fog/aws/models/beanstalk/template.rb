@@ -49,7 +49,7 @@ module Fog
               'SourceConfiguration' => source_configuration,
               'TemplateName' => name
           }
-          options.delete_if {|key, value| value.nil?}
+          options.delete_if { |key, value| value.nil? }
 
           data = service.create_configuration_template(options).body['CreateConfigurationTemplateResult']
           merge_attributes(data)
@@ -65,7 +65,7 @@ module Fog
               'OptionSettings' => new_attributes[:option_settings],
               'TemplateName' => name
           }
-          options.delete_if {|key, value| value.nil?}
+          options.delete_if { |key, value| value.nil? }
 
           data = service.update_configuration_template(options).body['UpdateConfigurationTemplateResult']
           merge_attributes(data)

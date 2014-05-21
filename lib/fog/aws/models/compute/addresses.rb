@@ -63,11 +63,11 @@ module Fog
           data = service.describe_addresses(filters).body
           load(
             data['addressesSet'].map do |address|
-              address.reject {|key, value| value.nil? || value.empty? }
+              address.reject { |key, value| value.nil? || value.empty? }
             end
           )
           if server
-            self.replace(self.select {|address| address.server_id == server.id})
+            self.replace(self.select { |address| address.server_id == server.id })
           end
           self
         end

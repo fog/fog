@@ -69,7 +69,7 @@ module Fog
         #
         def save
           data = service.create_internet_gateway.body['internetGatewaySet'].first
-          new_attributes = data.reject {|key,value| key == 'requestId'}
+          new_attributes = data.reject { |key,value| key == 'requestId' }
           merge_attributes(new_attributes)
           true
 

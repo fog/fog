@@ -36,7 +36,7 @@ module Fog
 
           l_options = [:name, :gateway_ip, :dns_nameservers,
                        :host_routes, :enable_dhcp]
-          l_options.select {|o| options[o]}.each do |key|
+          l_options.select { |o| options[o] }.each do |key|
             data['subnet'][key] = options[key]
           end
 
@@ -52,7 +52,7 @@ module Fog
       class Mock
         def update_subnet(subnet_id, options = {})
           response = Excon::Response.new
-          if subnet = list_subnets.body['subnets'].detect {|_| _['id'] == subnet_id}
+          if subnet = list_subnets.body['subnets'].detect { |_| _['id'] == subnet_id }
             subnet['name']            = options[:name]
             subnet['gateway_ip']      = options[:gateway_ip]
             subnet['dns_nameservers'] = options[:dns_nameservers]

@@ -206,7 +206,7 @@ module Fog
       end
 
       def self.uuid
-        [8,4,4,4,12].map {|i| Fog::Mock.random_hex(i)}.join("-")
+        [8,4,4,4,12].map { |i| Fog::Mock.random_hex(i) }.join("-")
       end
 
       def self.ipv4_address
@@ -219,13 +219,13 @@ module Fog
 
       def self.keep(hash, *keys)
         {}.tap do |kept|
-          keys.each {|k| kept[k]= hash[k] if hash.key?(k)}
+          keys.each { |k| kept[k]= hash[k] if hash.key?(k) }
         end
       end
 
       def self.slice(hash, *keys)
         hash.dup.tap do |sliced|
-          keys.each {|k| sliced.delete(k)}
+          keys.each { |k| sliced.delete(k) }
         end
       end
 

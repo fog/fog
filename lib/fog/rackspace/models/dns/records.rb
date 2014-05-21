@@ -32,7 +32,7 @@ module Fog
             self.merge_attributes(body)
 
             subset = dup.load(body['records'])
-            subset.each_record_this_page {|record| yield record }
+            subset.each_record_this_page { |record| yield record }
 
           end while entries < total_entries
 

@@ -41,7 +41,7 @@ Shindo.tests('Fog::Rackspace::ServiceCatalog | users', ['rackspace']) do
     tests('services') do
       services = ["cloudBlockStorage", "cloudDNS", "cloudDatabases", "cloudFiles", "cloudFilesCDN", "cloudLoadBalancers", "cloudMonitoring", "cloudServers", "cloudServersOpenStack", "not_here"]
 
-      returns(services) { @service_catalog.services.collect {|s| s.to_s }.sort }
+      returns(services) { @service_catalog.services.collect { |s| s.to_s }.sort }
     end
   
     tests('get_endpoints') do

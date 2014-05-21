@@ -43,7 +43,7 @@ module Fog
             #'metadata'        => metadata,      # TODO: Add metadata when snapshots support it
             'force'           => @force
           }
-          options = options.reject {|key, value| value.nil?}
+          options = options.reject { |key, value| value.nil? }
           data = service.create_snapshot(name, description, volume_id, options)
           merge_attributes(data.body['snapshot'])
           true

@@ -43,7 +43,7 @@ service = Fog::Compute.new({
 flavor = service.flavors.first
 
 # pick the first Ubuntu image we can find
-image = service.images.find {|image| image.name =~ /Ubuntu/}
+image = service.images.find { |image| image.name =~ /Ubuntu/ }
 
 # prompt for server name
 server_name = get_user_input "\nEnter Server Name"

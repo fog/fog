@@ -65,14 +65,14 @@ module Fog
         def register_instances(instances)
           requires :id
           data = service.register_instances_with_load_balancer(instances, id).body['RegisterInstancesWithLoadBalancerResult']
-          data['Instances'].map! {|h| h['InstanceId']}
+          data['Instances'].map! { |h| h['InstanceId'] }
           merge_attributes(data)
         end
 
         def deregister_instances(instances)
           requires :id
           data = service.deregister_instances_from_load_balancer(instances, id).body['DeregisterInstancesFromLoadBalancerResult']
-          data['Instances'].map! {|h| h['InstanceId']}
+          data['Instances'].map! { |h| h['InstanceId'] }
           merge_attributes(data)
         end
 
@@ -112,11 +112,11 @@ module Fog
         end
 
         def instances_in_service
-          instance_health.select {|hash| hash['State'] == 'InService'}.map {|hash| hash['InstanceId']}
+          instance_health.select { |hash| hash['State'] == 'InService' }.map { |hash| hash['InstanceId'] }
         end
 
         def instances_out_of_service
-          instance_health.select {|hash| hash['State'] == 'OutOfService'}.map {|hash| hash['InstanceId']}
+          instance_health.select { |hash| hash['State'] == 'OutOfService' }.map { |hash| hash['InstanceId'] }
         end
 
         def configure_health_check(health_check)
@@ -183,8 +183,8 @@ module Fog
           # if both are specified, the availability zones have preference
           #requires :availability_zones
           if (availability_zones || subnet_ids)
-            service.create_load_balancer(availability_zones, id, listeners.map {|l| l.to_params}) if availability_zones
-            service.create_load_balancer(nil, id, listeners.map {|l| l.to_params}, {:subnet_ids => subnet_ids, :security_groups => security_groups, :scheme => scheme}) if subnet_ids && !availability_zones
+            service.create_load_balancer(availability_zones, id, listeners.map { |l| l.to_params }) if availability_zones
+            service.create_load_balancer(nil, id, listeners.map { |l| l.to_params }, {:subnet_ids => subnet_ids, :security_groups => security_groups, :scheme => scheme}) if subnet_ids && !availability_zones
           else
             throw Fog::Errors::Error.new("No availability zones or subnet ids specified")
           end

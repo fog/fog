@@ -2,7 +2,7 @@ require File.expand_path(File.join(File.dirname(__FILE__), 'helper'))
 
 Shindo.tests("Compute::VcloudDirector | vms", ['vclouddirector', 'all']) do
   pending if Fog.mocking?
-  vapp = vapps.detect {|v| v.vms.size >= 1}
+  vapp = vapps.detect { |v| v.vms.size >= 1 }
 
   # we can't run these tests if there is no vapps with a vm in them
   pending unless vapp
@@ -11,7 +11,7 @@ Shindo.tests("Compute::VcloudDirector | vms", ['vclouddirector', 'all']) do
   vm = vms.first
 
   tests("Compute::VcloudDirector | vm") do
-    tests("#model").returns(Fog::Compute::VcloudDirector::Vm) {vm.class}
+    tests("#model").returns(Fog::Compute::VcloudDirector::Vm) { vm.class }
     tests("#id").returns(String) { vm.id.class }
     tests("#name").returns(String) { vm.name.class }
     tests("#href").returns(String) { vm.href.class }
@@ -48,7 +48,7 @@ Shindo.tests("Compute::VcloudDirector | vms", ['vclouddirector', 'all']) do
 
   tests("Compute::VcloudDirector | vm | customization") do
     customization = vm.customization
-    tests("#model").returns(Fog::Compute::VcloudDirector::VmCustomization) {customization.class}
+    tests("#model").returns(Fog::Compute::VcloudDirector::VmCustomization) { customization.class }
     tests("#id").returns(String) { customization.id.class }
     tests("#href").returns(String) { customization.href.class }
     tests("#type").returns("application/vnd.vmware.vcloud.guestCustomizationSection+xml") { customization.type }
@@ -64,7 +64,7 @@ Shindo.tests("Compute::VcloudDirector | vms", ['vclouddirector', 'all']) do
 
   tests("Compute::VcloudDirector | vm | network") do
     network = vm.network
-    tests("#model").returns(Fog::Compute::VcloudDirector::VmNetwork) {network.class}
+    tests("#model").returns(Fog::Compute::VcloudDirector::VmNetwork) { network.class }
     tests("#id").returns(String) { network.id.class }
     tests("#href").returns(String) { network.href.class }
     tests("#type").returns("application/vnd.vmware.vcloud.networkConnectionSection+xml") { network.type }

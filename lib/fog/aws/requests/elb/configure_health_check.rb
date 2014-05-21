@@ -27,7 +27,7 @@ module Fog
         #   * body<~Hash>:
         def configure_health_check(lb_name, health_check)
           params = {'LoadBalancerName' => lb_name}
-          health_check.each {|key, value| params["HealthCheck.#{key}"] = value }
+          health_check.each { |key, value| params["HealthCheck.#{key}"] = value }
 
           request({
             'Action'           => 'ConfigureHealthCheck',

@@ -48,7 +48,7 @@ module Fog
           requires :vpc_id
 
           data = service.create_route_table(vpc_id).body['routeTable'].first
-          new_attributes = data.reject {|key,value| key == 'requestId'}
+          new_attributes = data.reject { |key,value| key == 'requestId' }
           merge_attributes(new_attributes)
           true
         end

@@ -260,7 +260,7 @@ module Fog
             attributes[attr]= NonLoaded if attributes[attr].nil?
             make_lazy_load_method(attr)
           end
-          self.class.attributes.each {|attr| make_attr_loaded_method(attr)}
+          self.class.attributes.each { |attr| make_attr_loaded_method(attr) }
         end
 
         def lazy_load_attrs
@@ -306,7 +306,7 @@ module Fog
         end
 
         def get_by_name(item_name)
-          item_found = item_list.detect {|item| item[:name] == item_name}
+          item_found = item_list.detect { |item| item[:name] == item_name }
           return nil unless item_found
           get(item_found[:id])
         end
@@ -316,7 +316,7 @@ module Fog
         end
 
         def get_everyone
-          items = item_list.map {|item| get_by_id(item[:id])}
+          items = item_list.map { |item| get_by_id(item[:id]) }
           load(items)
         end
       end
@@ -710,7 +710,7 @@ module Fog
         end
 
         def uuid
-          [8,4,4,4,12].map {|i| Fog::Mock.random_hex(i)}.join('-')
+          [8,4,4,4,12].map { |i| Fog::Mock.random_hex(i) }.join('-')
         end
 
         # Create a task.

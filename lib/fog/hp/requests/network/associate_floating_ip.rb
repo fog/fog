@@ -29,7 +29,7 @@ module Fog
             }
           }
           l_options = [:fixed_ip_address]
-          l_options.select {|o| options[o]}.each do |key|
+          l_options.select { |o| options[o] }.each do |key|
             data['floatingip'][key] = options[key]
           end
 
@@ -45,7 +45,7 @@ module Fog
       class Mock
         def associate_floating_ip(floating_ip_id, port_id, options = {})
           response = Excon::Response.new
-          if list_floating_ips.body['floatingips'].detect {|_| _['id'] == floating_ip_id}
+          if list_floating_ips.body['floatingips'].detect { |_| _['id'] == floating_ip_id }
             response.status = 201
             data = {
               'id'                  => floating_ip_id,

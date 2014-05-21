@@ -13,7 +13,7 @@ module Fog
             "<Scope type='#{scope['type']}'/>"
           else
             "<Scope type='#{scope['type']}'>" +
-              scope.to_a.select {|pair| pair[0] != 'type'}.map { |pair| tag(pair[0], pair[1]) }.join("\n") +
+              scope.to_a.select { |pair| pair[0] != 'type' }.map { |pair| tag(pair[0], pair[1]) }.join("\n") +
             "</Scope>"
           end
         end

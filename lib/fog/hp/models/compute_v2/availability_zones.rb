@@ -16,7 +16,7 @@ module Fog
 
         def get(zone_name)
           if zone_name
-            self.all.select {|z| z.name == zone_name}.first
+            self.all.select { |z| z.name == zone_name }.first
           end
         rescue Fog::Compute::HPV2::NotFound
           nil

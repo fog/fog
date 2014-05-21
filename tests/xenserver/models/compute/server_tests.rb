@@ -7,7 +7,7 @@ Shindo.tests('Fog::Compute[:xenserver] | server model', ['xenserver']) do
   (servers.all :name_matches => test_ephemeral_vm_name).each do |s|
     s.destroy
   end
-  (servers.templates.find_all { |t| t.name == test_ephemeral_vm_name}).each do |s|
+  (servers.templates.find_all { |t| t.name == test_ephemeral_vm_name }).each do |s|
     s.destroy
   end
 

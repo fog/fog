@@ -71,7 +71,7 @@ module Fog
         # @param [Integer] ndatapoints
         def values(start_time, ndatapoints)
           requires :id, :granularity
-          data = service.get_instrumentation_value(self.uris.find {|uri| uri['name'] == 'value_raw'}['uri'], start_time, ndatapoints, self.granularity).body
+          data = service.get_instrumentation_value(self.uris.find { |uri| uri['name'] == 'value_raw' }['uri'], start_time, ndatapoints, self.granularity).body
           data.map do |datum|
             Fog::Joyent::Analytics::Value.new(datum)
           end

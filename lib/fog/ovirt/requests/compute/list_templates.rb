@@ -3,7 +3,7 @@ module Fog
     class Ovirt
       class Real
         def list_templates(filters = {})
-          client.templates(filters).map {|ovirt_obj| ovirt_attrs ovirt_obj}
+          client.templates(filters).map { |ovirt_obj| ovirt_attrs ovirt_obj }
         end
 
       end

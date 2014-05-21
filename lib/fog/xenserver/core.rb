@@ -40,7 +40,7 @@ module Fog
             elsif params.length.eql?(2) and params.last.is_a?(Array)
               response = @factory.call(method, @credentials, params.first, params.last)
             else
-              response = eval("@factory.call('#{method}', '#{@credentials}', #{params.map {|p|  p.is_a?(String) ? "'#{p}'" : p}.join(',')})")
+              response = eval("@factory.call('#{method}', '#{@credentials}', #{params.map { |p|  p.is_a?(String) ? "'#{p}'" : p }.join(',')})")
             end
           end
           raise RequestFailed.new("#{method}: " + response["ErrorDescription"].to_s) unless response["Status"].eql? "Success"

@@ -46,7 +46,7 @@ module Fog
             'nodes' => nodes
           }
           l_options = ['port', 'protocol', 'algorithm']
-          l_options.select {|o| options[o]}.each do |key|
+          l_options.select { |o| options[o] }.each do |key|
             data[key] = options[key]
           end
 

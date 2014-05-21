@@ -11,13 +11,13 @@ Shindo.tests('Fog::Rackspace::DNS | zones', ['rackspace']) do
 
     tests("zones.find(#{domain_sld}) => finds domain_name") do
       pending if Fog.mocking?
-      returns(true) { provider.zones.all.any? {|z| z.domain == domain_name} }
+      returns(true) { provider.zones.all.any? { |z| z.domain == domain_name } }
     end
 
     random_name = uniq_id
     tests("zones.find(#{random_name}) => finds nothing") do
       pending if Fog.mocking?
-      returns(false) { provider.zones.all.any? {|z| z.domain == random_name} }
+      returns(false) { provider.zones.all.any? { |z| z.domain == random_name } }
     end
   ensure
     zone.destroy unless Fog.mocking?
@@ -25,7 +25,7 @@ Shindo.tests('Fog::Rackspace::DNS | zones', ['rackspace']) do
 
   tests('next_params') do
     zones = Fog::DNS::Rackspace::Zones.new
-    returns(nil, "no body") { zones.send(:next_params, nil)}
+    returns(nil, "no body") { zones.send(:next_params, nil) }
     returns(nil, "no links") { zones.send(:next_params, {}) }
     returns(nil, "links are empty") { zones.send(:next_params, {'links' => []}) }
     returns(nil, "links does not contain next hash") { zones.send(:next_params, {'links' => [ {'rel' => 'previous'} ] }) }

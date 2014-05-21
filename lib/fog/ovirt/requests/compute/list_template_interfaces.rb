@@ -3,7 +3,7 @@ module Fog
     class Ovirt
       class Real
         def list_template_interfaces(vm_id)
-          client.template_interfaces(vm_id).map {|ovirt_obj| ovirt_attrs ovirt_obj}
+          client.template_interfaces(vm_id).map { |ovirt_obj| ovirt_attrs ovirt_obj }
         end
 
       end

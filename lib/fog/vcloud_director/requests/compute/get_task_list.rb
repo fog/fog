@@ -115,7 +115,7 @@ module Fog
             :href => make_href("tasksList/#{id}"),
             :type => "application/vnd.vmware.vcloud.tasksList+xml",
             :name => "Tasks Lists",
-            :Task => data[:tasks].keys.map {|task_id| task_body(task_id)}
+            :Task => data[:tasks].keys.map { |task_id| task_body(task_id) }
           }
 
           Excon::Response.new(

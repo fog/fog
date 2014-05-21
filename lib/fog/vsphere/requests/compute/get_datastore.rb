@@ -17,7 +17,7 @@ module Fog
                                                                        :container  => dc.datastoreFolder,
             :type       =>  ["Datastore"],
             :recursive  => true
-          }).view.select {|ds| ds.name == name}.first
+          }).view.select { |ds| ds.name == name }.first
         end
       end
 

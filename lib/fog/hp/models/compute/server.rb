@@ -58,7 +58,7 @@ module Fog
 
         def metadata=(new_metadata={})
           metas = []
-          new_metadata.each_pair {|k,v| metas << {"key" => k, "value" => v} }
+          new_metadata.each_pair { |k,v| metas << {"key" => k, "value" => v} }
           metadata.load(metas)
         end
 
@@ -253,7 +253,7 @@ module Fog
             'config_drive'    => config_drive,
             'user_data'       => user_data_encoded
           }
-          options = options.reject {|key, value| value.nil?}
+          options = options.reject { |key, value| value.nil? }
           # either create a regular server or a persistent server based on input
           if image_id
             # create a regular server using the image

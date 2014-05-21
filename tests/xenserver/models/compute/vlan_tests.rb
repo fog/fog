@@ -31,7 +31,7 @@ Shindo.tests('Fog::Compute[:xenserver] | VLAN model', ['xenserver']) do
       end
     end
 
-    test('be a kind of Fog::Compute::XenServer::VLAN') { vlan.kind_of? Fog::Compute::XenServer::VLAN}
+    test('be a kind of Fog::Compute::XenServer::VLAN') { vlan.kind_of? Fog::Compute::XenServer::VLAN }
 
   end
 

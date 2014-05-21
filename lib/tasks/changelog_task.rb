@@ -97,9 +97,9 @@ Watchers      | #{watchers}
       end
 
       def committers_sorted_by_commits
-        committer_pairs = @committers.to_a.sort {|x,y| y[1] <=> x[1]}
-        committer_pairs.reject! {|pair| pair.last < 1 }
-        committer_pairs.collect {|pair| pair.first }
+        committer_pairs = @committers.to_a.sort { |x,y| y[1] <=> x[1] }
+        committer_pairs.reject! { |pair| pair.last < 1 }
+        committer_pairs.collect { |pair| pair.first }
       end
 
       def former_mvp?(committer)
@@ -196,7 +196,7 @@ Watchers      | #{watchers}
         return @repo_metadata if @repo_metadata
         response = Excon.get('https://api.github.com/repos/fog/fog', :headers => {'User-Agent' => 'geemus'})
         data = Fog::JSON.decode(response.body)
-        @repo_metadata = data.select {|key, value| ['forks', 'open_issues', 'watchers'].include?(key)}
+        @repo_metadata = data.select { |key, value| ['forks', 'open_issues', 'watchers'].include?(key) }
       end
 
       def sha

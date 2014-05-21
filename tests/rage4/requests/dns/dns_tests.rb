@@ -75,12 +75,12 @@ Shindo.tests('Fog::DNS[:rage4] | DNS requests', ['rage4', 'dns']) do
 
       response = Fog::DNS[:rage4].get_domain(@domain_id)
 
-      returns(200) {response.status}
-      returns(@domain_id) {response.body['id']}
-      returns(@domain) {response.body['name']}
-      returns(Fog.credentials[:rage4_email]) {response.body['owner_email']}
-      returns(0) {response.body['type']}
-      returns(0) {response.body['subnet_mask']}
+      returns(200) { response.status }
+      returns(@domain_id) { response.body['id'] }
+      returns(@domain) { response.body['name'] }
+      returns(Fog.credentials[:rage4_email]) { response.body['owner_email'] }
+      returns(0) { response.body['type'] }
+      returns(0) { response.body['subnet_mask'] }
     end
 
     test("get_domain_by_name") do
@@ -88,12 +88,12 @@ Shindo.tests('Fog::DNS[:rage4] | DNS requests', ['rage4', 'dns']) do
 
       response = Fog::DNS[:rage4].get_domain_by_name(@domain)
 
-      returns(200) {response.status}
-      returns(@domain_id) {response.body['id']}
-      returns(@domain) {response.body['name']}
-      returns(Fog.credentials[:rage4_email]) {response.body['owner_email']}
-      returns(0) {response.body['type']}
-      returns(0) {response.body['subnet_mask']}
+      returns(200) { response.status }
+      returns(@domain_id) { response.body['id'] }
+      returns(@domain) { response.body['name'] }
+      returns(Fog.credentials[:rage4_email]) { response.body['owner_email'] }
+      returns(0) { response.body['type'] }
+      returns(0) { response.body['subnet_mask'] }
     end
 
     test("update_domain") do
@@ -102,9 +102,9 @@ Shindo.tests('Fog::DNS[:rage4] | DNS requests', ['rage4', 'dns']) do
       response = Fog::DNS[:rage4].update_domain(@domain_id, {:email => 'test@test.com'})
 
       returns(200) { response.status }
-      returns(true) {response.body['status']}
-      returns(@domain_id) {response.body['id']}
-      returns("") {response.body['error'] }
+      returns(true) { response.body['status'] }
+      returns(@domain_id) { response.body['id'] }
+      returns("") { response.body['error'] }
 
     end
 
@@ -257,9 +257,9 @@ Shindo.tests('Fog::DNS[:rage4] | DNS requests', ['rage4', 'dns']) do
         response = Fog::DNS[:rage4].delete_domain(domain_id)
 
 
-        returns(true) {response.body['status']}
-        returns(domain_id) {response.body['id']}
-        returns("") {response.body['error'] }
+        returns(true) { response.body['status'] }
+        returns(domain_id) { response.body['id'] }
+        returns("") { response.body['error'] }
       end
 
       response.status == 200

@@ -64,7 +64,7 @@ module Fog
           name = name + "." unless name.end_with?(".")
 
           response = Excon::Response.new
-          if list_hosted_zones.body['HostedZones'].find_all {|z| z['Name'] == name}.size < self.data[:limits][:duplicate_domains]
+          if list_hosted_zones.body['HostedZones'].find_all { |z| z['Name'] == name }.size < self.data[:limits][:duplicate_domains]
             response.status = 201
             if options[:caller_ref]
               caller_ref = options[:caller_ref]

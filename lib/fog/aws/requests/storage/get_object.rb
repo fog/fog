@@ -81,7 +81,7 @@ module Fog
           if (bucket = self.data[:buckets][bucket_name])
             object = nil
             if bucket[:objects].key?(object_name)
-              object = version_id ? bucket[:objects][object_name].find { |object| object['VersionId'] == version_id} : bucket[:objects][object_name].first
+              object = version_id ? bucket[:objects][object_name].find { |object| object['VersionId'] == version_id } : bucket[:objects][object_name].first
             end
 
             if (object && !object[:delete_marker])

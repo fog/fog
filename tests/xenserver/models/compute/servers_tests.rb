@@ -59,7 +59,7 @@ Shindo.tests('Fog::Compute[:xenserver] | servers collection', ['xenserver']) do
       test("include only one custom template") { servers.custom_templates.size == 1 }
       tests("not include built-in templates in custom_templates") do
         servers.custom_templates.each do |s|
-          test("#{s.name} is NOT a built-in template") {s.allowed_operations.include?('destroy') }
+          test("#{s.name} is NOT a built-in template") { s.allowed_operations.include?('destroy') }
         end
       end
       test("include more than one built-in templates") { servers.builtin_templates.size >= 1 }

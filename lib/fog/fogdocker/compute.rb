@@ -51,7 +51,7 @@ module Fog
         end
 
         def camelize_hash_keys(hash)
-          Hash[ hash.map {|k, v| [k.to_s.split('_').map {|w| w.capitalize}.join, v] }]
+          Hash[ hash.map { |k, v| [k.to_s.split('_').map { |w| w.capitalize }.join, v] }]
         end
 
       end

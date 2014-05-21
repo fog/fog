@@ -21,14 +21,14 @@ Shindo.tests("Fog::Compute[:hp] | security_group", ['hp']) do
       sgrule = @group.create_rule(80..80, "tcp", nil, @other_group.id)
       @sg_rule_id = sgrule.body['security_group_rule']['id']
       @group.reload
-      s = @group.rules.select {|r| r['id'] == @sg_rule_id unless r.nil?}
+      s = @group.rules.select { |r| r['id'] == @sg_rule_id unless r.nil? }
       s[0]['id'] == @sg_rule_id
     end
 
     test("revoke access from another security group") do
       @group.delete_rule(@sg_rule_id)
       @group.reload
-      s = @group.rules.select {|r| r['id'] == @sg_rule_id unless r.nil?}
+      s = @group.rules.select { |r| r['id'] == @sg_rule_id unless r.nil? }
       s.empty?
     end
 

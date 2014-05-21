@@ -42,7 +42,7 @@ module Fog
         def item_list
           data = service.get_organization(organization.id).body
           items = data[:Link].select { |link| link[:type] == "application/vnd.vmware.vcloud.orgNetwork+xml" }
-          items.each {|item| service.add_id_from_href!(item) }
+          items.each { |item| service.add_id_from_href!(item) }
           items
         end
 

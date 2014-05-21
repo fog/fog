@@ -57,7 +57,7 @@ module Fog
             :protocol => protocol,
             :startport => startport,
             :endport => endport
-          }.delete_if {|k,v| v.nil? || v == "" }
+          }.delete_if { |k,v| v.nil? || v == "" }
           data = service.create_ip_forwarding_rule(options)
           merge_attributes(data)
           true

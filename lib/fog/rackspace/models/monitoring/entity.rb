@@ -22,7 +22,7 @@ module Fog
             'ip_addresses'=> ip_addresses,
             'agent_id'    => agent_id
           }
-          options.reject {|key, value| value.nil?}
+          options.reject { |key, value| value.nil? }
         end
 
         def save

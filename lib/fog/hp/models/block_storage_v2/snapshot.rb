@@ -50,7 +50,7 @@ module Fog
             'force'               => @force,
             'metadata'            => metadata
           }
-          options = options.reject {|_, value| value.nil?}
+          options = options.reject { |_, value| value.nil? }
           data = service.create_snapshot(volume_id, options)
           merge_attributes(data.body['snapshot'])
           true
@@ -63,7 +63,7 @@ module Fog
             'display_description' => description,
             'metadata'            => metadata
           }
-          options = options.reject {|_, value| value.nil?}
+          options = options.reject { |_, value| value.nil? }
           data = service.update_snapshot(id, options)
           merge_attributes(data.body['snapshot'])
           true

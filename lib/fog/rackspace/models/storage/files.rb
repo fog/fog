@@ -54,7 +54,7 @@ module Fog
             options
           )
           if parent
-            load(parent.files.map {|file| file.attributes})
+            load(parent.files.map { |file| file.attributes })
           else
             nil
           end
@@ -75,10 +75,10 @@ module Fog
           else
             subset = dup.all
 
-            subset.each_file_this_page {|f| yield f}
+            subset.each_file_this_page { |f| yield f }
             while subset.length == (subset.limit || 10000)
               subset = subset.all(:marker => subset.last.key)
-              subset.each_file_this_page {|f| yield f}
+              subset.each_file_this_page { |f| yield f }
             end
 
             self

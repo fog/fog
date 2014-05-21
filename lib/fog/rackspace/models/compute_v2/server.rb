@@ -385,7 +385,7 @@ module Fog
         # Server's private IPv4 address
         # @return [String] private IPv4 address
         def private_ip_address
-          addresses['private'].select {|a| a["version"] == 4}[0]["addr"] rescue ''
+          addresses['private'].select { |a| a["version"] == 4 }[0]["addr"] rescue ''
         end
 
         # Server's public IPv4 address

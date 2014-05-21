@@ -3,7 +3,7 @@ module Fog
     class Ovirt
       class Real
         def list_virtual_machines(filters = {})
-          client.vms(filters).map {|ovirt_obj| ovirt_attrs ovirt_obj}
+          client.vms(filters).map { |ovirt_obj| ovirt_attrs ovirt_obj }
         end
 
       end

@@ -14,7 +14,7 @@ module Fog
         def all
           requires :zone
           clear
-          data = service.list_records(zone.id).body.map {|record| record['record']}
+          data = service.list_records(zone.id).body.map { |record| record['record'] }
           load(data)
         end
 

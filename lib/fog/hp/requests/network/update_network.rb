@@ -28,7 +28,7 @@ module Fog
           data = { 'network' => {} }
 
           l_options = [:name, :admin_state_up, :shared]
-          l_options.select {|o| options[o]}.each do |key|
+          l_options.select { |o| options[o] }.each do |key|
             data['network'][key] = options[key]
           end
 
@@ -44,7 +44,7 @@ module Fog
       class Mock
         def update_network(network_id, options = {})
           response = Excon::Response.new
-          if network = list_networks.body['networks'].detect {|_| _['id'] == network_id}
+          if network = list_networks.body['networks'].detect { |_| _['id'] == network_id }
             network['name']           = options[:name]
             network['shared']         = options[:shared]
             network['admin_state_up'] = options[:admin_state_up]

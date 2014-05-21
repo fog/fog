@@ -67,11 +67,11 @@ Shindo.tests('Fog::Compute[:clodo] | server requests', ['clodo']) do
     end
 
     tests('- list_servers(ready)').formats([@server_format]) do
-      clodo.list_servers.body['servers'].reject {|s| !['is_running', 'is_disabled'].include?(s['status']) }
+      clodo.list_servers.body['servers'].reject { |s| !['is_running', 'is_disabled'].include?(s['status']) }
     end
 
     tests('- list_servers(not ready)').formats([@server_format.merge({'addresses'=>{'public'=>NilClass}})]) do
-      clodo.list_servers.body['servers'].reject {|s| !['is_request'].include?(s['status']) }
+      clodo.list_servers.body['servers'].reject { |s| !['is_request'].include?(s['status']) }
     end
 
     clodo.servers.get(@server_id).wait_for { ready? || state == 'is_error' } unless Fog.mocking?

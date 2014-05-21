@@ -56,7 +56,7 @@ module Fog
         end
 
         def internet_services
-            @internet_services ||= service.internetservices.all.select {|item| item.Name == self.name}
+            @internet_services ||= service.internetservices.all.select { |item| item.Name == self.name }
         end
 
         def delete_internet_services

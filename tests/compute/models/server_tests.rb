@@ -22,11 +22,11 @@ for provider, config in compute_providers
         end
         tests('ssh_ip_address overrides default with Proc').returns(true) do
           ip_address = '5.5.5.5'
-          @instance.ssh_ip_address = Proc.new {|server| ip_address }
+          @instance.ssh_ip_address = Proc.new { |server| ip_address }
           @instance.ssh_ip_address == ip_address
         end
         tests('Proc yields server').returns(true) do
-          @instance.ssh_ip_address = Proc.new {|server| server }
+          @instance.ssh_ip_address = Proc.new { |server| server }
           @instance.ssh_ip_address == @instance
         end
         tests('ssh_ip_address overrides default with String').returns(true) do

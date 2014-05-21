@@ -14,7 +14,7 @@ module Fog
           catch(:found) do
             organizations.each do |organization|
               organization[:Locations][:Location].each do |location|
-                environment = location[:Environments][:Environment].find {|e| e[:id] == environment_id}
+                environment = location[:Environments][:Environment].find { |e| e[:id] == environment_id }
                 throw :found if environment
               end
             end

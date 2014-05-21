@@ -21,7 +21,7 @@ module Fog
           requires :load_balancer
 
           data = service.list_load_balancer_virtual_ips(load_balancer.id).body['virtualIps']
-          vip = data.detect {|vip| vip['id'].to_s == vip_id}
+          vip = data.detect { |vip| vip['id'].to_s == vip_id }
           new(vip)
         rescue Fog::HP::LB::NotFound
           nil

@@ -27,7 +27,7 @@ module Fog
         #       * 'last_modified'<~String> - Last modified timestamp
         #       * 'name'<~String> - Name of object
         def get_shared_container(shared_container_url, options = {})
-          options = options.reject {|key, value| value.nil?}
+          options = options.reject { |key, value| value.nil? }
           # split up the shared container url
           uri = URI.parse(shared_container_url)
           path   = uri.path

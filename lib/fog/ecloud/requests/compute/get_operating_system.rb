@@ -11,8 +11,8 @@ module Fog
           os_name, compute_pool_id = uri.match(/operatingsystems\/(.*)\/computepools\/(\d+)$/).captures
           compute_pool_id          = compute_pool_id.to_i
 
-          operating_systems = self.data[:operating_systems].values.select {|os| os[:compute_pool_id] == compute_pool_id}
-          operating_system = operating_systems.find {|os| os[:short_name] == os_name}
+          operating_systems = self.data[:operating_systems].values.select { |os| os[:compute_pool_id] == compute_pool_id }
+          operating_system = operating_systems.find { |os| os[:short_name] == os_name }
 
           if operating_system
             response(:body => Fog::Ecloud.slice(operating_system, :id, :compute_pool_id, :short_name))

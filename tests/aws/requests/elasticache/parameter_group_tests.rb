@@ -52,7 +52,7 @@ Shindo.tests('AWS::Elasticache | parameter group requests', ['aws', 'elasticache
       result = AWS[:elasticache].reset_cache_parameter_group(
         name
       ).body['ResetCacheParameterGroupResult']
-      returns(name) {result['CacheParameterGroupName']}
+      returns(name) { result['CacheParameterGroupName'] }
       result
     end
 
@@ -62,7 +62,7 @@ Shindo.tests('AWS::Elasticache | parameter group requests', ['aws', 'elasticache
       result = AWS[:elasticache].modify_cache_parameter_group(
         name, {"chunk_size" => 32}
       ).body['ModifyCacheParameterGroupResult']
-      returns(name) {result['CacheParameterGroupName']}
+      returns(name) { result['CacheParameterGroupName'] }
       result
     end
 
@@ -74,7 +74,7 @@ Shindo.tests('AWS::Elasticache | parameter group requests', ['aws', 'elasticache
       result = AWS[:elasticache].reset_cache_parameter_group(
         name, ["chunk_size"]
       ).body['ResetCacheParameterGroupResult']
-      returns(name) {result['CacheParameterGroupName']}
+      returns(name) { result['CacheParameterGroupName'] }
       result
     end
 

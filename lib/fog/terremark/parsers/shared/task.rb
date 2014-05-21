@@ -17,7 +17,7 @@ module Fog
               @response[name] = data
             when 'Task'
               task = extract_attributes(attributes)
-              @response.merge!(task.reject {|key,value| !['endTime', 'href', 'startTime', 'status', 'type'].include?(key)})
+              @response.merge!(task.reject { |key,value| !['endTime', 'href', 'startTime', 'status', 'type'].include?(key) })
             end
           end
 

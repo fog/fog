@@ -62,7 +62,7 @@ module Fog
 
         def metadata=(new_metadata={})
           metas = []
-          new_metadata.each_pair {|k,v| metas << {'key' => k, 'value' => v} }
+          new_metadata.each_pair { |k,v| metas << {'key' => k, 'value' => v} }
           metadata.load(metas)
         end
 
@@ -282,7 +282,7 @@ module Fog
             'availability_zone'  => availability_zone,
             'networks'        => @networks
           }
-          options = options.reject {|key, value| value.nil?}
+          options = options.reject { |key, value| value.nil? }
           # either create a regular server or a persistent server based on input
           if image_id
             # create a regular server using the image
@@ -321,7 +321,7 @@ module Fog
 
         def get_first_network_with_public_ip
           return '' if self.addresses.nil?
-          net = self.addresses.select {|_,v| v.count > 1}
+          net = self.addresses.select { |_,v| v.count > 1 }
           # select returns a hash in 1.9+ and Array for 1.8.7
           # so this below does not work in 1.8.7
           #net.keys.first

@@ -34,7 +34,7 @@ module Fog
           requires :volume_id
 
           data = service.create_snapshot(volume_id, description).body
-          new_attributes = data.reject {|key,value| key == 'requestId'}
+          new_attributes = data.reject { |key,value| key == 'requestId' }
           merge_attributes(new_attributes)
           true
         end

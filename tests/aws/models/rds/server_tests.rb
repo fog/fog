@@ -19,11 +19,11 @@ Shindo.tests("AWS::RDS | server", ['aws', 'rds']) do
         snapshot = @instance.snapshots.create(:id => 'fog-test-snapshot')
       end
 
-      snapshot.wait_for { ready?}
+      snapshot.wait_for { ready? }
 
       @instance.wait_for { ready? }
 
-      returns(true) { @instance.snapshots.map {|s| s.id}.include?(snapshot.id) }
+      returns(true) { @instance.snapshots.map { |s| s.id }.include?(snapshot.id) }
       snapshot.destroy
     end
 
@@ -33,7 +33,7 @@ Shindo.tests("AWS::RDS | server", ['aws', 'rds']) do
       orig_parameter_group = @instance.db_parameter_groups.first['DBParameterGroupName']
       parameter_group = Fog::AWS[:rds].parameter_groups.create(:id => uniq_id, :family => 'mysql5.5', :description => 'fog-test')
 
-      orig_security_groups = @instance.db_security_groups.map {|h| h['DBSecurityGroupName']}
+      orig_security_groups = @instance.db_security_groups.map { |h| h['DBSecurityGroupName'] }
       security_group = Fog::AWS[:rds].security_groups.create(:id => uniq_id, :description => 'fog-test')
 
       modify_options = {
@@ -49,7 +49,7 @@ Shindo.tests("AWS::RDS | server", ['aws', 'rds']) do
       end
 
       returns(true, "new security group") do
-        @instance.db_security_groups.any? {|hash| hash['DBSecurityGroupName'] == security_group.id}
+        @instance.db_security_groups.any? { |hash| hash['DBSecurityGroupName'] == security_group.id }
       end
 
       @instance.reboot
@@ -67,8 +67,8 @@ Shindo.tests("AWS::RDS | server", ['aws', 'rds']) do
       @instance.wait_for { state == 'rebooting' }
       @instance.wait_for do
         ready? &&
-          db_security_groups.all? {|hash| hash['Status'] == 'active'} &&
-          db_parameter_groups.all? {|hash| hash['ParameterApplyStatus'] == 'in-sync' }
+          db_security_groups.all? { |hash| hash['Status'] == 'active' } &&
+          db_parameter_groups.all? { |hash| hash['ParameterApplyStatus'] == 'in-sync' }
       end
 
       parameter_group.destroy

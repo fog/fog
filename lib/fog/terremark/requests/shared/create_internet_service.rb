@@ -32,7 +32,7 @@ module Fog
             options['Enabled'] = true
           end
           #Sample: "https://services.vcloudexpress.terremark.com/api/extensions/v1.6/vdc/3142/internetServices"
-          path = vdcs.get(vdc_id).links.find { |item| item['name'] == 'Internet Services'}['href'].split(@host)[1]
+          path = vdcs.get(vdc_id).links.find { |item| item['name'] == 'Internet Services' }['href'].split(@host)[1]
           data = <<-DATA
           <CreateInternetServiceRequest xml:lang="en" xmlns="urn:tmrk:vCloudExpressExtensions-1.6" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
             <Name>#{name}</Name>

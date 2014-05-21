@@ -110,7 +110,7 @@ module Fog
         end
 
         def addresses
-          addys = secondary_ip.map {|ip| Fog::Compute[:ibm].addresses.new(ip) }
+          addys = secondary_ip.map { |ip| Fog::Compute[:ibm].addresses.new(ip) }
           # Set an ID, in case someone tries to save
           addys << service.addresses.new(attributes[:primary_ip].merge(
             :id => "0",

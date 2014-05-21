@@ -37,7 +37,7 @@ Shindo.tests('Fog::Rackspace::Monitoring | check', ['rackspace','rackspace_monit
         @instance.label = nil # blank out label just to make sure
         @instance.reload
         returns(timeout) { @instance.timeout }
-        returns(new_label) { @instance.label}
+        returns(new_label) { @instance.label }
       end
 
       tests('#metrics').succeeds do

@@ -143,7 +143,7 @@ module Fog
               raise "No networks. Please create one, or specify a network ID"
             else
               # use the network with the lowest ID - the safe default
-              self.networkids = networks.sort {|x,y| x['id'] <=> y['id']}[0]['id']
+              self.networkids = networks.sort { |x,y| x['id'] <=> y['id'] }[0]['id']
             end
           end
 
@@ -163,7 +163,7 @@ module Fog
             :securitygroupids => securitygroupids,
             :size => size,
             :userdata => userdata
-          }.delete_if {|k,v| v.nil? || v == "" }
+          }.delete_if { |k,v| v.nil? || v == "" }
           data = service.deploy_virtual_machine(options)
           merge_attributes(data)
           true

@@ -40,7 +40,7 @@ DATA
 
       def canonical_query_string(query)
         canonical_query_string = []
-        for key in (query || {}).keys.sort_by {|k| k.to_s}
+        for key in (query || {}).keys.sort_by { |k| k.to_s }
           component = "#{Fog::AWS.escape(key.to_s)}=#{Fog::AWS.escape(query[key].to_s)}"
           canonical_query_string << component
         end
@@ -50,14 +50,14 @@ DATA
       def canonical_headers(headers)
         canonical_headers = ''
 
-        for key in headers.keys.sort_by {|k| k.to_s}
+        for key in headers.keys.sort_by { |k| k.to_s }
           canonical_headers << "#{key.to_s.downcase}:#{headers[key].to_s.strip}\n"
         end
         canonical_headers
       end
 
       def signed_headers(headers)
-        headers.keys.collect {|key| key.to_s}.sort.collect {|key| key.downcase}.join(';')
+        headers.keys.collect { |key| key.to_s }.sort.collect { |key| key.downcase }.join(';')
       end
 
       def derived_hmac(date)

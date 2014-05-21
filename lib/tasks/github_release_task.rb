@@ -36,11 +36,11 @@ module Fog
       def releases
         return @releases if @releases
         response = github.releases("fog/fog")
-        @releases = response.collect {|r| r.tag_name }
+        @releases = response.collect { |r| r.tag_name }
       end
 
       def release_exists?
-        releases.find {|r| r == "v#{@release_tag}" } != nil
+        releases.find { |r| r == "v#{@release_tag}" } != nil
       end
 
       def release_header?

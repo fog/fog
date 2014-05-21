@@ -106,7 +106,7 @@ module Fog
 
           response = Excon::Response.new
 
-          if self.data[:zones].any? {|z| z['domain'] == zone['domain'] }
+          if self.data[:zones].any? { |z| z['domain'] == zone['domain'] }
             response.status = 422
             response.body = {
               'errors' => [

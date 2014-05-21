@@ -21,7 +21,7 @@ module Fog
         def disassociate_address(server_id, ip_address)
           response = Excon::Response.new
           if server = self.data[:servers][server_id]
-            data = server['addresses']['custom'].reject {|a| a['addr'] == ip_address}
+            data = server['addresses']['custom'].reject { |a| a['addr'] == ip_address }
             self.data[:servers][server_id]['addresses']['custom'] = data
 
             response.status = 202

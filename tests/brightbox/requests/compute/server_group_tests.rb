@@ -25,7 +25,7 @@ Shindo.tests('Fog::Compute[:brightbox] | server group requests', ['brightbox']) 
       pending if Fog.mocking?
       result = Fog::Compute[:brightbox].list_server_groups
       data_matches_schema(Brightbox::Compute::Formats::Collection::SERVER_GROUPS, {:allow_extra_keys => true}) { result }
-      @default_group_id = result.select {|grp| grp["default"] == true }.first["id"]
+      @default_group_id = result.select { |grp| grp["default"] == true }.first["id"]
     end
 
     tests("#get_server_group('#{@server_group_id}')") do

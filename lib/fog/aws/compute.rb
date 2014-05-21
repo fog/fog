@@ -332,18 +332,18 @@ module Fog
         end
 
         def apply_tag_filters(resources, filters, resource_id_key)
-          tag_set_fetcher = lambda {|resource| self.data[:tag_sets][resource[resource_id_key]] }
+          tag_set_fetcher = lambda { |resource| self.data[:tag_sets][resource[resource_id_key]] }
 
           # tag-key: match resources tagged with this key (any value)
           if filters.key?('tag-key')
             value = filters.delete('tag-key')
-            resources = resources.select {|r| tag_set_fetcher[r].key?(value)}
+            resources = resources.select { |r| tag_set_fetcher[r].key?(value) }
           end
 
           # tag-value: match resources tagged with this value (any key)
           if filters.key?('tag-value')
             value = filters.delete('tag-value')
-            resources = resources.select {|r| tag_set_fetcher[r].values.include?(value)}
+            resources = resources.select { |r| tag_set_fetcher[r].values.include?(value) }
           end
 
           # tag:key: match resources tagged with a key-value pair.  Value may be an array, which is OR'd.
@@ -352,7 +352,7 @@ module Fog
             tag_filters[key.gsub('tag:', '')] = filters.delete(key) if /^tag:/ =~ key
           end
           for tag_key, tag_value in tag_filters
-            resources = resources.select {|r| tag_value.include?(tag_set_fetcher[r][tag_key])}
+            resources = resources.select { |r| tag_value.include?(tag_set_fetcher[r][tag_key]) }
           end
 
           resources

@@ -31,7 +31,7 @@ module Fog
       class Mock
         def get_floating_ip(floating_ip_id)
           response = Excon::Response.new
-          if floating_ip = list_floating_ips.body['floatingips'].detect {|_| _['id'] == floating_ip_id}
+          if floating_ip = list_floating_ips.body['floatingips'].detect { |_| _['id'] == floating_ip_id }
             response.status = 200
             response.body = { 'floatingip' => floating_ip }
             response

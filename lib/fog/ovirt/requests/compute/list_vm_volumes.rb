@@ -3,7 +3,7 @@ module Fog
     class Ovirt
       class Real
         def list_vm_volumes(vm_id)
-          client.vm_volumes(vm_id).map {|ovirt_obj| ovirt_attrs ovirt_obj}
+          client.vm_volumes(vm_id).map { |ovirt_obj| ovirt_attrs ovirt_obj }
         end
 
       end

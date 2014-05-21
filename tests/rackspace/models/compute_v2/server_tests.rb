@@ -44,8 +44,8 @@ Shindo.tests('Fog::Compute::RackspaceV2 | server', ['rackspace']) do
         @server.ready?
       rescue Fog::Compute::RackspaceV2::InvalidServerStateException => e
         exception_occurred = true
-        returns(true) {e.desired_state == Fog::Compute::RackspaceV2::Server::ACTIVE }
-        returns(true) {e.current_state == Fog::Compute::RackspaceV2::Server::ERROR }
+        returns(true) { e.desired_state == Fog::Compute::RackspaceV2::Server::ACTIVE }
+        returns(true) { e.current_state == Fog::Compute::RackspaceV2::Server::ERROR }
       end
       exception_occurred
     end
@@ -57,8 +57,8 @@ Shindo.tests('Fog::Compute::RackspaceV2 | server', ['rackspace']) do
         @server.ready?(Fog::Compute::RackspaceV2::Server::VERIFY_RESIZE, Fog::Compute::RackspaceV2::Server::ACTIVE)
       rescue Fog::Compute::RackspaceV2::InvalidServerStateException => e
         exception_occurred = true
-        returns(true) {e.desired_state == Fog::Compute::RackspaceV2::Server::VERIFY_RESIZE }
-        returns(true) {e.current_state == Fog::Compute::RackspaceV2::Server::ACTIVE }
+        returns(true) { e.desired_state == Fog::Compute::RackspaceV2::Server::VERIFY_RESIZE }
+        returns(true) { e.current_state == Fog::Compute::RackspaceV2::Server::ACTIVE }
       end
       exception_occurred
     end
@@ -184,11 +184,11 @@ Shindo.tests('Fog::Compute::RackspaceV2 | server', ['rackspace']) do
           @instance.wait_for do
             !attachments.empty?
           end
-          @instance.attachments.any? {|a| a.volume_id == @volume.id }
+          @instance.attachments.any? { |a| a.volume_id == @volume.id }
         end
       ensure
         @volume.wait_for { !attachments.empty? }
-        @instance.attachments.each {|a| a.detach }
+        @instance.attachments.each { |a| a.detach }
         @volume.wait_for { ready? && attachments.empty? }
         @volume.destroy if @volume
       end

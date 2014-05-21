@@ -142,22 +142,22 @@ module Fog
           for filter_key, filter_value in filters
             if block_device_mapping_key = filter_key.split('block-device-mapping.')[1]
               aliased_key = block_device_mapping_aliases[block_device_mapping_key]
-              instance_set = instance_set.reject {|instance| !instance['blockDeviceMapping'].detect {|block_device_mapping| [*filter_value].include?(block_device_mapping[aliased_key])}}
+              instance_set = instance_set.reject { |instance| !instance['blockDeviceMapping'].detect { |block_device_mapping| [*filter_value].include?(block_device_mapping[aliased_key]) } }
             elsif instance_state_key = filter_key.split('instance-state-')[1]
               aliased_key = instance_state_aliases[instance_state_key]
-              instance_set = instance_set.reject {|instance| ![*filter_value].include?(instance['instanceState'][aliased_key])}
+              instance_set = instance_set.reject { |instance| ![*filter_value].include?(instance['instanceState'][aliased_key]) }
             elsif state_reason_key = filter_key.split('state-reason-')[1]
               aliased_key = state_reason_aliases[state_reason_key]
-              instance_set = instance_set.reject {|instance| ![*filter_value].include?(instance['stateReason'][aliased_key])}
+              instance_set = instance_set.reject { |instance| ![*filter_value].include?(instance['stateReason'][aliased_key]) }
             elsif filter_key == "group-name"
-              instance_set = instance_set.reject {|instance| !instance['groupSet'].include?(filter_value)}
+              instance_set = instance_set.reject { |instance| !instance['groupSet'].include?(filter_value) }
             elsif filter_key == "group-id"
               group_ids = [*filter_value]
               security_group_names = self.data[:security_groups].values.select { |sg| group_ids.include?(sg['groupId']) }.map { |sg| sg['groupName'] }
-              instance_set = instance_set.reject {|instance| (security_group_names & instance['groupSet']).empty?}
+              instance_set = instance_set.reject { |instance| (security_group_names & instance['groupSet']).empty? }
             else
               aliased_key = aliases[filter_key]
-              instance_set = instance_set.reject {|instance| ![*filter_value].include?(instance[aliased_key])}
+              instance_set = instance_set.reject { |instance| ![*filter_value].include?(instance[aliased_key]) }
             end
           end
 
@@ -172,7 +172,7 @@ module Fog
           end
 
           # Otherwise don't include it in the list
-          instance_set = instance_set.reject {|instance| brand_new_instances.include?(instance) }
+          instance_set = instance_set.reject { |instance| brand_new_instances.include?(instance) }
 
           response.status = 200
           reservation_set = {}
@@ -239,7 +239,7 @@ module Fog
                 'ownerId'       => instance['ownerId'],
                 'reservationId' => instance['reservationId']
               }
-              reservation_set[instance['reservationId']]['instancesSet'] << instance.reject {|key,value| !['amiLaunchIndex', 'architecture', 'blockDeviceMapping', 'clientToken', 'dnsName', 'ebsOptimized', 'hypervisor', 'iamInstanceProfile', 'imageId', 'instanceId', 'instanceState', 'instanceType', 'ipAddress', 'kernelId', 'keyName', 'launchTime', 'monitoring', 'networkInterfaces', 'ownerId', 'placement', 'platform', 'privateDnsName', 'privateIpAddress', 'productCodes', 'ramdiskId', 'reason', 'rootDeviceType', 'stateReason', 'virtualizationType'].include?(key)}.merge('tagSet' => self.data[:tag_sets][instance['instanceId']])
+              reservation_set[instance['reservationId']]['instancesSet'] << instance.reject { |key,value| !['amiLaunchIndex', 'architecture', 'blockDeviceMapping', 'clientToken', 'dnsName', 'ebsOptimized', 'hypervisor', 'iamInstanceProfile', 'imageId', 'instanceId', 'instanceState', 'instanceType', 'ipAddress', 'kernelId', 'keyName', 'launchTime', 'monitoring', 'networkInterfaces', 'ownerId', 'placement', 'platform', 'privateDnsName', 'privateIpAddress', 'productCodes', 'ramdiskId', 'reason', 'rootDeviceType', 'stateReason', 'virtualizationType'].include?(key) }.merge('tagSet' => self.data[:tag_sets][instance['instanceId']])
             end
           end
 

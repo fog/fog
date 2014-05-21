@@ -25,8 +25,8 @@ module Fog
 
         def describe_alarms_for_metric(options)
           if dimensions = options.delete('Dimensions')
-            options.merge!(AWS.indexed_param('Dimensions.member.%d.Name', dimensions.collect {|dimension| dimension['Name']}))
-            options.merge!(AWS.indexed_param('Dimensions.member.%d.Value', dimensions.collect {|dimension| dimension['Value']}))
+            options.merge!(AWS.indexed_param('Dimensions.member.%d.Name', dimensions.collect { |dimension| dimension['Name'] }))
+            options.merge!(AWS.indexed_param('Dimensions.member.%d.Value', dimensions.collect { |dimension| dimension['Value'] }))
           end
           request({
             'Action'    => 'DescribeAlarmsForMetric',

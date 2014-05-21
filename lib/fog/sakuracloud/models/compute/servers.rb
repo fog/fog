@@ -52,7 +52,7 @@ module Fog
         end
 
         def disk_attached?(server, disk_id)
-          until server.disks.find {|s| disk_id.to_s}
+          until server.disks.find { |s| disk_id.to_s }
             print '.'
             sleep 2
             server.reload

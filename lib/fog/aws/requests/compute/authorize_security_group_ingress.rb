@@ -74,7 +74,7 @@ module Fog
               params[format('IpPermissions.%d.IpRanges.%d.CidrIp', key_index, range_index)] = ip_range['CidrIp']
             end
           end
-          params.reject {|k, v| v.nil? }
+          params.reject { |k, v| v.nil? }
         end
 
       end
@@ -99,11 +99,11 @@ module Fog
 
             normalized_permissions.each do |permission|
               if matching_group_permission = find_matching_permission(group, permission)
-                if permission['groups'].any? {|pg| matching_group_permission['groups'].include?(pg) }
+                if permission['groups'].any? { |pg| matching_group_permission['groups'].include?(pg) }
                   raise Fog::Compute::AWS::Error, "InvalidPermission.Duplicate => The permission '123' has already been authorized in the specified group"
                 end
 
-                if permission['ipRanges'].any? {|pr| matching_group_permission['ipRanges'].include?(pr) }
+                if permission['ipRanges'].any? { |pr| matching_group_permission['ipRanges'].include?(pr) }
                   raise Fog::Compute::AWS::Error, "InvalidPermission.Duplicate => The permission '123' has already been authorized in the specified group"
                 end
               end
@@ -145,7 +145,7 @@ module Fog
             if !options['IpPermissions'].is_a?(Array) || options['IpPermissions'].empty?
               raise Fog::Compute::AWS::Error.new("InvalidRequest => The request received was invalid.")
             end
-            options['IpPermissions'].each {|p| verify_permission_options(p, is_vpc) }
+            options['IpPermissions'].each { |p| verify_permission_options(p, is_vpc) }
           end
         end
 
@@ -193,7 +193,7 @@ module Fog
 
                     {'groupName' => authorized_group['GroupName'] || security_group["groupName"], 'userId' => authorized_group['UserId'] || self.data[:owner_id], 'groupId' => authorized_group["GroupId"] || security_group['groupId']}
                   end,
-                  'ipRanges' => (permission['IpRanges'] || []).map {|r| { 'cidrIp' => r['CidrIp'] } }
+                  'ipRanges' => (permission['IpRanges'] || []).map { |r| { 'cidrIp' => r['CidrIp'] } }
                 }
               else
                 normalized_permissions << {
@@ -207,7 +207,7 @@ module Fog
 
                     {'groupName' => authorized_group['GroupName'] || security_group["groupName"], 'userId' => authorized_group['UserId'] || self.data[:owner_id], 'groupId' => authorized_group["GroupId"] || security_group['groupId']}
                   end,
-                  'ipRanges' => (permission['IpRanges'] || []).map {|r| { 'cidrIp' => r['CidrIp'] } }
+                  'ipRanges' => (permission['IpRanges'] || []).map { |r| { 'cidrIp' => r['CidrIp'] } }
                 }
               end
             end

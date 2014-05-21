@@ -76,7 +76,7 @@ module Fog
           end
 
           def networks_to_hash(networks)
-            networks.collect {|n| {"uuid" => n}}
+            networks.collect { |n| {"uuid" => n} }
           end
         end
       end

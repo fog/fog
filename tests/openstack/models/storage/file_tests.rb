@@ -7,12 +7,12 @@ Shindo.tests('Fog::OpenStack::Storage | file', ['openstack']) do
   end
 
   def object_meta_attributes
-    @instance.service.head_object(@directory.key, @instance.key).headers.reject {|k, v| !(k =~ /X-Object-Meta-/)}
+    @instance.service.head_object(@directory.key, @instance.key).headers.reject { |k, v| !(k =~ /X-Object-Meta-/) }
   end
 
   def clear_metadata
     @instance.metadata.tap do |metadata|
-      metadata.each_pair {|k, v| metadata[k] = nil }
+      metadata.each_pair { |k, v| metadata[k] = nil }
     end
   end
 

@@ -70,7 +70,7 @@ module Fog
             :method     => 'GET',
             :parser     => Fog::ToHashDocument.new,
             :path       => 'mediaList/query',
-            :query      => query.map {|q| URI.escape(q)}.join('&')
+            :query      => query.map { |q| URI.escape(q) }.join('&')
           )
           ensure_list! response.body, :Link
           ensure_list! response.body,
@@ -78,7 +78,7 @@ module Fog
               :MediaReference : :MediaRecord
 
           %w[firstPage previousPage nextPage lastPage].each do |rel|
-            if link = response.body[:Link].detect {|l| l[:rel] == rel}
+            if link = response.body[:Link].detect { |l| l[:rel] == rel }
               href = Nokogiri::XML.fragment(link[:href])
               query = CGI.parse(URI.parse(href.text).query)
               response.body[rel.to_sym] = query['page'].first.to_i

@@ -27,7 +27,7 @@ module Fog
             'max-keys'    => max_keys,
             'prefix'      => prefix
           }.merge!(options)
-          options = options.reject {|key,value| value.nil? || value.to_s.empty?}
+          options = options.reject { |key,value| value.nil? || value.to_s.empty? }
           merge_attributes(options)
           parent = directory.collection.get(
             directory.key,
@@ -35,7 +35,7 @@ module Fog
           )
           if parent
             merge_attributes(parent.files.attributes)
-            load(parent.files.map {|file| file.attributes})
+            load(parent.files.map { |file| file.attributes })
           else
             nil
           end
@@ -48,10 +48,10 @@ module Fog
           else
             subset = dup.all
 
-            subset.each_file_this_page {|f| yield f}
+            subset.each_file_this_page { |f| yield f }
             while subset.is_truncated
               subset = subset.all(:marker => subset.last.key)
-              subset.each_file_this_page {|f| yield f}
+              subset.each_file_this_page { |f| yield f }
             end
 
             self

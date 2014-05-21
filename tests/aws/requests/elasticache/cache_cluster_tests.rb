@@ -47,7 +47,7 @@ Shindo.tests('AWS::Elasticache | cache cluster requests', ['aws', 'elasticache']
     end
 
     Formatador.display_line "Waiting for cluster #{CLUSTER_ID}..."
-    AWS[:elasticache].clusters.get(CLUSTER_ID).wait_for {ready?}
+    AWS[:elasticache].clusters.get(CLUSTER_ID).wait_for { ready? }
 
     tests(
     '#describe_cache_clusters with node info'
@@ -86,7 +86,7 @@ Shindo.tests('AWS::Elasticache | cache cluster requests', ['aws', 'elasticache']
     end
 
     Formatador.display_line "Waiting for cluster #{CLUSTER_ID}..."
-    AWS[:elasticache].clusters.get(CLUSTER_ID).wait_for {ready?}
+    AWS[:elasticache].clusters.get(CLUSTER_ID).wait_for { ready? }
 
     tests(
     '#modify_cache_cluster - remove a node'
@@ -107,7 +107,7 @@ Shindo.tests('AWS::Elasticache | cache cluster requests', ['aws', 'elasticache']
     end
 
     Formatador.display_line "Waiting for cluster #{CLUSTER_ID}..."
-    AWS[:elasticache].clusters.get(CLUSTER_ID).wait_for {ready?}
+    AWS[:elasticache].clusters.get(CLUSTER_ID).wait_for { ready? }
 
     tests(
     '#delete_cache_clusters'

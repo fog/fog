@@ -35,7 +35,7 @@ Shindo.tests('Compute::VcloudDirector | query requests', ['vclouddirector']) do
       tests("resource type").returns(link[:type]) { @body[:type] }
 
       unless ( type == 'event' || type == 'edgeGateway' )
-        records_key = @body.keys.detect {|key| key.to_s =~ /Record|Reference$/}
+        records_key = @body.keys.detect { |key| key.to_s =~ /Record|Reference$/ }
         if records = @body[records_key]
           records.first do |record|
             case format

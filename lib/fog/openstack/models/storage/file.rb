@@ -108,31 +108,31 @@ module Fog
         end
 
         def refresh_metadata
-          metadata.reject! {|k, v| v.nil? }
+          metadata.reject! { |k, v| v.nil? }
         end
 
         def headers_to_metadata
           key_map = key_mapping
-          Hash[metadata_attributes.map {|k, v| [key_map[k], v] }]
+          Hash[metadata_attributes.map { |k, v| [key_map[k], v] }]
         end
 
         def key_mapping
           key_map = metadata_attributes
-          key_map.each_pair {|k, v| key_map[k] = header_to_key(k)}
+          key_map.each_pair { |k, v| key_map[k] = header_to_key(k) }
         end
 
         def header_to_key(opt)
-          opt.gsub(metadata_prefix, '').split('-').map {|k| k[0, 1].downcase + k[1..-1]}.join('_').to_sym
+          opt.gsub(metadata_prefix, '').split('-').map { |k| k[0, 1].downcase + k[1..-1] }.join('_').to_sym
         end
 
         def metadata_to_headers
           header_map = header_mapping
-          Hash[metadata.map {|k, v| [header_map[k], v] }]
+          Hash[metadata.map { |k, v| [header_map[k], v] }]
         end
 
         def header_mapping
           header_map = metadata.dup
-          header_map.each_pair {|k, v| header_map[k] = key_to_header(k)}
+          header_map.each_pair { |k, v| header_map[k] = key_to_header(k) }
         end
 
         def key_to_header(key)
@@ -142,7 +142,7 @@ module Fog
         def metadata_attributes
           if last_modified
             headers = service.head_object(directory.key, self.key).headers
-            headers.reject! {|k, v| !metadata_attribute?(k)}
+            headers.reject! { |k, v| !metadata_attribute?(k) }
           else
             {}
           end
@@ -157,7 +157,7 @@ module Fog
         end
 
         def update_attributes_from(data)
-          merge_attributes(data.headers.reject {|key, value| ['Content-Length', 'Content-Type'].include?(key)})
+          merge_attributes(data.headers.reject { |key, value| ['Content-Length', 'Content-Type'].include?(key) })
         end
       end
 

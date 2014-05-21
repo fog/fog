@@ -50,7 +50,7 @@ module Fog
 
           self.data[:last_modified][:images][data['id']] = now
           self.data[:images][data['id']] = data
-          response.body = { 'image' => data.reject {|key, value| !['id', 'name', 'serverId', 'status', 'updated'].include?(key)} }
+          response.body = { 'image' => data.reject { |key, value| !['id', 'name', 'serverId', 'status', 'updated'].include?(key) } }
           response
         end
 

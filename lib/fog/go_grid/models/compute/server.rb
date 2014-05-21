@@ -64,7 +64,7 @@ module Fog
             'isSandbox'   => sandbox,
             'image'       => image_id
           }
-          options = options.reject {|key, value| value.nil?}
+          options = options.reject { |key, value| value.nil? }
           data = service.grid_server_add(image, public_ip_address, name, memory, options)
           merge_attributes(data.body)
           true

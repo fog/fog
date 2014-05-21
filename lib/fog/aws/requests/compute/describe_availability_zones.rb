@@ -81,7 +81,7 @@ module Fog
           aliases = {'region-name' => 'regionName', 'zone-name' => 'zoneName', 'state' => 'zoneState'}
           for filter_key, filter_value in filters
             aliased_key = aliases[filter_key]
-            availability_zone_info = availability_zone_info.reject {|availability_zone| ![*filter_value].include?(availability_zone[aliased_key])}
+            availability_zone_info = availability_zone_info.reject { |availability_zone| ![*filter_value].include?(availability_zone[aliased_key]) }
           end
 
           response.status = 200

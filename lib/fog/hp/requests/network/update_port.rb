@@ -39,7 +39,7 @@ module Fog
 
           l_options = [:name, :fixed_ips, :device_id,
                        :device_owner, :admin_state_up]
-          l_options.select {|o| options[o]}.each do |key|
+          l_options.select { |o| options[o] }.each do |key|
             data['port'][key] = options[key]
           end
 

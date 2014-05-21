@@ -90,7 +90,7 @@ module Fog
         attribute :snapshots
 
         def vbds
-          __vbds.collect {|vbd| service.vbds.get vbd }
+          __vbds.collect { |vbd| service.vbds.get vbd }
         end
 
         def affinity
@@ -98,7 +98,7 @@ module Fog
         end
 
         def consoles
-          __consoles.collect {|console| service.consoles.get console }
+          __consoles.collect { |console| service.consoles.get console }
         end
 
         def destroy

@@ -16,7 +16,7 @@ module Fog
             'x-image-meta-checksum'         => attributes[:checksum],
             'x-image-meta-owner'            => attributes[:owner],
             'x-glance-api-copy-from'        => attributes[:copy_from]
-          }.reject {|k,v| v.nil? }
+          }.reject { |k,v| v.nil? }
 
           body = String.new
           if attributes[:location]

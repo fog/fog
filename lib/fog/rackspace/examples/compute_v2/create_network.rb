@@ -46,7 +46,7 @@ puts "\nCreating #{net.label} Network with CIDR #{net.cidr}"
 flavor = service.flavors.first
 
 # pick the first Ubuntu image we can find
-image = service.images.find {|image| image.name =~ /Ubuntu/}
+image = service.images.find { |image| image.name =~ /Ubuntu/ }
 
 # Create a server called alphabits connected our private network as well as the internet
 server = service.servers.create :name => 'alphabits',

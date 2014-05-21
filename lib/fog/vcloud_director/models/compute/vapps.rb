@@ -14,7 +14,7 @@ module Fog
 
         def get_by_id(item_id)
           item = service.get_vapp(item_id).body
-          %w(:Link).each {|key_to_delete| item.delete(key_to_delete) }
+          %w(:Link).each { |key_to_delete| item.delete(key_to_delete) }
           service.add_id_from_href!(item)
           item
         end
@@ -24,7 +24,7 @@ module Fog
           return [] if data[:ResourceEntities].empty?
           resource_entities = data[:ResourceEntities][:ResourceEntity]
           items = resource_entities.select { |link| link[:type] == "application/vnd.vmware.vcloud.vApp+xml" }
-          items.each {|item| service.add_id_from_href!(item) }
+          items.each { |item| service.add_id_from_href!(item) }
           items
         end
 

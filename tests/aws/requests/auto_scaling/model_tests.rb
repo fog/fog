@@ -17,7 +17,7 @@ Shindo.tests('AWS::AutoScaling | model_tests', ['aws', 'auto_scaling']) do
       end
 
       tests('all configurations') do
-        lc_ids = Fog::AWS[:auto_scaling].configurations.all.map {|e| e.id}
+        lc_ids = Fog::AWS[:auto_scaling].configurations.all.map { |e| e.id }
         tests("contains lc").returns(true) { lc_ids.include? lc_id }
       end
 
@@ -49,7 +49,7 @@ Shindo.tests('AWS::AutoScaling | model_tests', ['aws', 'auto_scaling']) do
       end
 
       tests('all') do
-        asg_ids = Fog::AWS[:auto_scaling].groups.all.map {|e| e.id}
+        asg_ids = Fog::AWS[:auto_scaling].groups.all.map { |e| e.id }
         tests("contains asg").returns(true) { asg_ids.include? asg_id }
       end
 

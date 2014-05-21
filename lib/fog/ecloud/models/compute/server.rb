@@ -262,7 +262,7 @@ module Fog
 
         def storage_size
           vm_disks = disks
-          disks.map! { |d| d[:Size][:Value].to_i }.inject(0) {|sum,item| sum + item} * 1024 * 1024
+          disks.map! { |d| d[:Size][:Value].to_i }.inject(0) { |sum,item| sum + item } * 1024 * 1024
         end
 
         def ready?

@@ -68,13 +68,13 @@ module Fog
         def digest_for_part(body)
           chunk_count = [body.bytesize / MEGABYTE + (body.bytesize % MEGABYTE > 0 ? 1 : 0), 1].max
           if body.respond_to? :byteslice
-            digests_for_part = chunk_count.times.collect {|chunk_index| Digest::SHA256.digest(body.byteslice(chunk_index * MEGABYTE, MEGABYTE))}
+            digests_for_part = chunk_count.times.collect { |chunk_index| Digest::SHA256.digest(body.byteslice(chunk_index * MEGABYTE, MEGABYTE)) }
           else
             if body.respond_to? :encoding
               old_encoding = body.encoding
               body.force_encoding('BINARY')
             end
-            digests_for_part = chunk_count.times.collect {|chunk_index| Digest::SHA256.digest(body.slice(chunk_index * MEGABYTE, MEGABYTE))}
+            digests_for_part = chunk_count.times.collect { |chunk_index| Digest::SHA256.digest(body.slice(chunk_index * MEGABYTE, MEGABYTE)) }
             if body.respond_to? :encoding
               body.force_encoding(old_encoding)
             end

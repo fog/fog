@@ -23,7 +23,7 @@ Shindo.tests('AWS::IAM | user requests', ['aws']) do
     tests("#get_login_profile('fog_user')").formats(@login_profile_format) do
       pending if Fog.mocking?
       result = Fog::AWS[:iam].get_login_profile('fog_user').body
-      returns('fog_user') {result['LoginProfile']['UserName']}
+      returns('fog_user') { result['LoginProfile']['UserName'] }
       result
     end
 
@@ -44,7 +44,7 @@ Shindo.tests('AWS::IAM | user requests', ['aws']) do
 
     tests("#get_login_profile('fog_user')") do
       pending if Fog.mocking?
-      raises(Excon::Errors::NotFound) {Fog::AWS[:iam].get_login_profile('fog_user')}
+      raises(Excon::Errors::NotFound) { Fog::AWS[:iam].get_login_profile('fog_user') }
     end
 
   end
@@ -52,8 +52,8 @@ Shindo.tests('AWS::IAM | user requests', ['aws']) do
   tests('failure') do
     tests('get login profile for non existing user') do
       pending if Fog.mocking?
-      raises(Fog::AWS::IAM::NotFound) { Fog::AWS[:iam].get_login_profile('idontexist')}
-      raises(Fog::AWS::IAM::NotFound) { Fog::AWS[:iam].delete_login_profile('fog_user')}
+      raises(Fog::AWS::IAM::NotFound) { Fog::AWS[:iam].get_login_profile('idontexist') }
+      raises(Fog::AWS::IAM::NotFound) { Fog::AWS[:iam].delete_login_profile('fog_user') }
     end
   end
 

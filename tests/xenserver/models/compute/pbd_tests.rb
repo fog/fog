@@ -29,7 +29,7 @@ Shindo.tests('Fog::Compute[:xenserver] | PBD model', ['xenserver']) do
       end
     end
 
-    test('be a kind of Fog::Compute::XenServer::PBD') { pbd.kind_of? Fog::Compute::XenServer::PBD}
+    test('be a kind of Fog::Compute::XenServer::PBD') { pbd.kind_of? Fog::Compute::XenServer::PBD }
 
   end
 

@@ -72,15 +72,15 @@ Shindo.tests('Fog::Storage[:aws] | versioning', ["aws"]) do
       v4 = Fog::Storage[:aws].directories.get(@aws_bucket_name).files.create(:body => 'abcd', :key => v1.key)
 
       tests("versions").returns([v4.version, v3.version, v2.version, v1.version]) do
-        @versions.body['Versions'].collect {|v| v['Version']['VersionId']}
+        @versions.body['Versions'].collect { |v| v['Version']['VersionId'] }
       end
 
       tests("version sizes").returns([4, 3, 2, 1]) do
-        @versions.body['Versions'].collect {|v| v['Version']['Size']}
+        @versions.body['Versions'].collect { |v| v['Version']['Size'] }
       end
 
       tests("latest version").returns(v4.version) do
-        latest = @versions.body['Versions'].find {|v| v['Version']['IsLatest']}
+        latest = @versions.body['Versions'].find { |v| v['Version']['IsLatest'] }
         latest['Version']['VersionId']
       end
     end

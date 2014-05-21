@@ -114,7 +114,7 @@ module Fog
 
         remove_method :metadata
         def metadata
-          attributes.reject {|key, value| !(key.to_s =~ /^x-amz-/)}
+          attributes.reject { |key, value| !(key.to_s =~ /^x-amz-/) }
         end
 
 
@@ -162,7 +162,7 @@ module Fog
         # 
         def public_url
           requires :directory, :key
-          if service.get_object_acl(directory.key, key).body['AccessControlList'].detect {|grant| grant['Grantee']['URI'] == 'http://acs.amazonaws.com/groups/global/AllUsers' && grant['Permission'] == 'READ'}
+          if service.get_object_acl(directory.key, key).body['AccessControlList'].detect { |grant| grant['Grantee']['URI'] == 'http://acs.amazonaws.com/groups/global/AllUsers' && grant['Permission'] == 'READ' }
             service.request_url(
               :bucket_name => directory.key,
               :object_name => key
@@ -209,7 +209,7 @@ module Fog
             merge_attributes(data.body)
           else
             data = service.put_object(directory.key, key, body, options)
-            merge_attributes(data.headers.reject {|key, value| ['Content-Length', 'Content-Type'].include?(key)})
+            merge_attributes(data.headers.reject { |key, value| ['Content-Length', 'Content-Type'].include?(key) })
           end
           self.etag.gsub!('"','')
           self.content_length = Fog::Storage.get_body_size(body)

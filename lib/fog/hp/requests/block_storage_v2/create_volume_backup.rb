@@ -27,7 +27,7 @@ module Fog
           }
 
           l_options = ['name', 'description', 'container']
-          l_options.select {|o| options[o]}.each do |key|
+          l_options.select { |o| options[o] }.each do |key|
             data['backup'][key] = options[key]
           end
 

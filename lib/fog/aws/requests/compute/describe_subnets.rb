@@ -55,7 +55,7 @@ module Fog
           end
 
           if filters['subnet-id']
-            subnets = subnets.reject {|subnet| subnet['subnetId'] != filters['subnet-id']}
+            subnets = subnets.reject { |subnet| subnet['subnetId'] != filters['subnet-id'] }
           end
 
           Excon::Response.new(
