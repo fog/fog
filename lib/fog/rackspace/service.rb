@@ -93,7 +93,7 @@ module Fog
         else
           Fog::Logger.deprecation "Authentication using a v1.0/v1.1 endpoint is deprecated. Please specify a v2.0 endpoint using :rackspace_auth_url.\
           For a list of v2.0 endpoints refer to http://docs.rackspace.com/auth/api/v2.0/auth-client-devguide/content/Endpoints-d1e180.html"
-         :authenticate_v1
+          :authenticate_v1
         end
       end
 

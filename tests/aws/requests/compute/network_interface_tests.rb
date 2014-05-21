@@ -180,7 +180,7 @@ Shindo.tests('Fog::Compute[:aws] | network interface requests', ['aws']) do
     if !Fog.mocking?
       @server.wait_for { state == 'terminated' }
       # despite the fact that the state goes to 'terminated' we need a little delay for aws to do its thing
-    sleep 5
+      sleep 5
     end
 
     # Bring up another server to test vpc public IP association
@@ -198,7 +198,7 @@ Shindo.tests('Fog::Compute[:aws] | network interface requests', ['aws']) do
     if !Fog.mocking?
       @server.wait_for { state == 'terminated' }
       # despite the fact that the state goes to 'terminated' we need a little delay for aws to do its thing
-	  sleep 5
+	     sleep 5
     end
     @security_group.destroy
     @subnet.destroy

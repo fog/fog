@@ -34,13 +34,13 @@ Shindo.tests('Fog::Compute::RackspaceV2 | virtual_interface_tests', ['rackspace'
         @virtual_network_interface_id = body["virtual_interfaces"].first["id"]
         body
       end
-        tests('#list_virtual_interfaces').formats(virtual_interface_format) do
-          @service.list_virtual_interfaces(@server.id).body
-        end
+      tests('#list_virtual_interfaces').formats(virtual_interface_format) do
+        @service.list_virtual_interfaces(@server.id).body
+      end
 
-        tests('#delete_virtual_interfaces').succeeds do
-          @service.delete_virtual_interface(@server.id, @virtual_network_interface_id)
-        end
+      tests('#delete_virtual_interfaces').succeeds do
+        @service.delete_virtual_interface(@server.id, @virtual_network_interface_id)
+      end
       end
   ensure
     @server.destroy if @server

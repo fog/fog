@@ -220,39 +220,39 @@ module Fog
            @rackspace_servicenet == true
         end
 
-         def authenticate(options={})
-            super({
-              :rackspace_api_key  => @rackspace_api_key,
-             :rackspace_username => @rackspace_username,
-             :rackspace_auth_url => @rackspace_auth_url,
-             :connection_options => @connection_options
-           })
-         end
+        def authenticate(options={})
+           super({
+             :rackspace_api_key  => @rackspace_api_key,
+            :rackspace_username => @rackspace_username,
+            :rackspace_auth_url => @rackspace_auth_url,
+            :connection_options => @connection_options
+          })
+        end
 
-         def service_name
-           :cloudServers
-         end
+        def service_name
+          :cloudServers
+        end
 
-         def region
-           @rackspace_region
-         end
+        def region
+          @rackspace_region
+        end
 
-         def endpoint_uri(service_endpoint_url=nil)
-           return @uri if @uri
-           super(@rackspace_endpoint || service_endpoint_url, :rackspace_compute_v1_url)
-         end
+        def endpoint_uri(service_endpoint_url=nil)
+          return @uri if @uri
+          super(@rackspace_endpoint || service_endpoint_url, :rackspace_compute_v1_url)
+        end
 
          private
 
-         def deprecation_warnings(options)
-           Fog::Logger.deprecation("The :rackspace_management_url option is deprecated. Please use :rackspace_compute_v1_url for custom endpoints") if options[:rackspace_management_url]
-         end
+        def deprecation_warnings(options)
+          Fog::Logger.deprecation("The :rackspace_management_url option is deprecated. Please use :rackspace_compute_v1_url for custom endpoints") if options[:rackspace_management_url]
+        end
 
-         def authenticate_v1(options)
-           credentials = Fog::Rackspace.authenticate(options, @connection_options)
-           endpoint_uri credentials['X-Server-Management-Url']
-           @auth_token = credentials['X-Auth-Token']
-         end
+        def authenticate_v1(options)
+          credentials = Fog::Rackspace.authenticate(options, @connection_options)
+          endpoint_uri credentials['X-Server-Management-Url']
+          @auth_token = credentials['X-Auth-Token']
+        end
 
       end
     end

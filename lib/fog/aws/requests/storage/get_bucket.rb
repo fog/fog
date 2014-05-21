@@ -79,7 +79,7 @@ module Fog
                   'Owner'        => bucket['Owner'],
                   'Size'         => object['Content-Length'].to_i
                 })
-              data
+                data
             end
             max_keys = max_keys || 1000
             size = [max_keys, 1000].min

@@ -36,7 +36,7 @@ module Fog
                 "halfClosed"=>false,
                 "connectionLogging"=>{"enabled"=>false},
                 "contentCaching"=>{"enabled"=>false}}}
-            response
+          response
          end
       end
 

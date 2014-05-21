@@ -61,7 +61,7 @@ module Fog
           rescue Fog::AWS::ElasticBeanstalk::InvalidParameterError
 
           end
-            result
+          result
         end
 
       end

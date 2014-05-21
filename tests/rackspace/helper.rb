@@ -19,29 +19,29 @@ module Shindo
             :nodes => [{ :address => '1.1.1.1', :port => 80, :condition => 'ENABLED'}]
           })
         @lb.wait_for { ready? }
-      begin
-        instance_eval(&block)
-      ensure
-        @lb.wait_for { ready? }
-        @lb.destroy
+        begin
+          instance_eval(&block)
+        ensure
+          @lb.wait_for { ready? }
+          @lb.destroy
+        end
+    end
+
+    def wait_for_request(description = "waiting", &block)
+      return if Fog.mocking?
+      tests(description) do
+        Fog.wait_for &block
       end
     end
 
-   def wait_for_request(description = "waiting", &block)
-     return if Fog.mocking?
-     tests(description) do
-       Fog.wait_for &block
-     end
-   end
-
-   def wait_for_server_deletion(server)
-     return if Fog.mocking?
-     begin
-       @instance.wait_for { state = 'DELETED' }
-     rescue Fog::Compute::RackspaceV2::NotFound => e
-       # do nothing
-     end
-   end
+    def wait_for_server_deletion(server)
+      return if Fog.mocking?
+      begin
+        @instance.wait_for { state = 'DELETED' }
+      rescue Fog::Compute::RackspaceV2::NotFound => e
+        # do nothing
+      end
+    end
 
     def wait_for_server_state(service, server_id, state, error_states=nil)
       current_state = nil
@@ -80,9 +80,9 @@ module Shindo
       rescue Fog::Compute::RackspaceV2::ServiceError => e
         if attempt == 3
            Fog::Logger.warning "Unable to delete #{network.label}"
-          return false
+           return false
         end
-         Fog::Logger.warning "Network #{network.label} Delete Fail Attempt #{attempt}- #{e.inspect}"
+        Fog::Logger.warning "Network #{network.label} Delete Fail Attempt #{attempt}- #{e.inspect}"
         attempt += 1
         sleep 60
         retry

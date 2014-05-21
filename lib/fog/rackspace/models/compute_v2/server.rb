@@ -203,7 +203,7 @@ module Fog
         def key_pair=(new_keypair)
           if new_keypair.is_a?(String)
              Fog::Logger.deprecation("#key_pair= should be used to set KeyPair objects. Please use #key_name method instead")
-            self.key_name = new_keypair
+             self.key_name = new_keypair
           else
             self.key_name = new_keypair && new_keypair.name
           end

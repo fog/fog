@@ -8,7 +8,7 @@ module Fog
           vm_mob_ref = get_vm_ref(options['instance_uuid'])
           task = vm_mob_ref.ReconfigVM_Task(:spec => RbVmomi::VIM.VirtualMachineConfigSpec(options['hardware_spec']))
           task.wait_for_completion
-           { 'task_state' => task.info.state }
+          { 'task_state' => task.info.state }
         end
       end
 

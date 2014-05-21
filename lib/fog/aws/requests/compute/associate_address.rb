@@ -119,7 +119,7 @@ module Fog
           elsif params[:network_interface_id].nil? && params[:allocation_id].nil?
             raise Fog::Compute::AWS::NotFound.new("You must specify an AllocationId when specifying a NetworkInterfaceID")
           else (!instance.nil? && params[:network_interface_id].nil?) || (params[:instance_id].nil? && !params[:network_interface_id].nil?)
-            raise Fog::Compute::AWS::Error.new("You must specify either an InstanceId or a NetworkInterfaceID")
+               raise Fog::Compute::AWS::Error.new("You must specify either an InstanceId or a NetworkInterfaceID")
           end
         end
 

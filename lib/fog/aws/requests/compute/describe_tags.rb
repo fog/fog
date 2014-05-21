@@ -81,25 +81,25 @@ module Fog
 
         private
 
-          def filter_resources(tag_set, filter, value)
-            value_hash_list = tag_set.values
-            value_hash_list.each do |value_hash|
-              value_hash.each do |_, resource_list|
-                resource_list.reject! { |resource| resource[filter] != value }
-              end
+        def filter_resources(tag_set, filter, value)
+          value_hash_list = tag_set.values
+          value_hash_list.each do |value_hash|
+            value_hash.each do |_, resource_list|
+              resource_list.reject! { |resource| resource[filter] != value }
             end
           end
+        end
 
-          def deep_clone(obj)
-            case obj
-            when Hash
-              obj.inject({}) { |h, pair| h[pair.first] = deep_clone(pair.last); h }
-            when Array
-              obj.map { |o| deep_clone(o) }
-            else
-              obj
-            end
+        def deep_clone(obj)
+          case obj
+          when Hash
+            obj.inject({}) { |h, pair| h[pair.first] = deep_clone(pair.last); h }
+          when Array
+            obj.map { |o| deep_clone(o) }
+          else
+            obj
           end
+        end
       end
 
     end

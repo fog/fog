@@ -41,7 +41,7 @@ Shindo.tests('Fog::Rackspace::LoadBalancers | load_balancer', ['rackspace']) do
         returns(false) { @instance.connection_logging }
       end
 
-   @instance.wait_for { ready? }
+      @instance.wait_for { ready? }
       tests('#enable_content_caching').succeeds do
         @instance.enable_content_caching
         returns(true) { @instance.content_caching }

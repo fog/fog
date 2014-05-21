@@ -14,13 +14,13 @@ module Fog
           File.open('CHANGELOG.md', 'r') do |file|
             file.each_line do |line|
               @current_line = line
-               if release_header?
-                 create_release if !release_exists? && @release
-                 @release_tag = release_match[1]
-                 @release = line
-               else
-                 @release << line
-               end
+              if release_header?
+                create_release if !release_exists? && @release
+                @release_tag = release_match[1]
+                @release = line
+              else
+                @release << line
+              end
             end
           end
         end

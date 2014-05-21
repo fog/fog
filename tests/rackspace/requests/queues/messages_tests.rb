@@ -37,16 +37,16 @@ Shindo.tests('Fog::Rackspace::Queues | messages_tests', ['rackspace']) do
       end
     end
 
-     tests('failure') do
-       tests("#create_message('') => Invalid Create Critera").raises(Fog::Rackspace::Queues::BadRequest) do
-         service.create_message(client_id, queue_name, '', 0)
-       end
+    tests('failure') do
+      tests("#create_message('') => Invalid Create Critera").raises(Fog::Rackspace::Queues::BadRequest) do
+        service.create_message(client_id, queue_name, '', 0)
+      end
 
-       tests("#get_message('queue_name', 'nonexistentmessage') => Does not exist").raises(Fog::Rackspace::Queues::NotFound) do
-         service.get_message(client_id, queue_name, 'nonexistentmessage')
-       end
+      tests("#get_message('queue_name', 'nonexistentmessage') => Does not exist").raises(Fog::Rackspace::Queues::NotFound) do
+        service.get_message(client_id, queue_name, 'nonexistentmessage')
+      end
 
-     end
+    end
   ensure
     service.delete_queue(queue_name)
   end

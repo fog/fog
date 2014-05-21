@@ -21,9 +21,9 @@ def delete_network(network)
   rescue Fog::Compute::RackspaceV2::ServiceError => e
     if attempt == 3
        puts  "Unable to delete #{network.label}"
-      return false
+       return false
     end
-     puts "Network #{network.label} Delete Fail Attempt #{attempt}- #{e.inspect}"
+    puts "Network #{network.label} Delete Fail Attempt #{attempt}- #{e.inspect}"
     attempt += 1
     sleep 60
     retry

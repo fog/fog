@@ -12,17 +12,17 @@ Shindo.tests('Fog::Rackspace::AutoScale | group', ['rackspace', 'rackspace_autos
 
 	model_tests(service.groups, options, false) do
     pending if Fog.mocking?
-		tests('#policies').succeeds do
-			@instance.policies
-		end
+		  tests('#policies').succeeds do
+  			@instance.policies
+  		end
 
-		tests('#launch_config').succeeds do
-      @instance.launch_config
-	  end
+		  tests('#launch_config').succeeds do
+        @instance.launch_config
+  	  end
 
-	  tests('#group_config').succeeds do
-      @instance.group_config
-    end
+	   tests('#group_config').succeeds do
+       @instance.group_config
+     end
 
     tests('#state').succeeds do
       @instance.state

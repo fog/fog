@@ -28,7 +28,7 @@ Shindo.tests('Fog::Compute[:rackspace] | server requests', ['rackspace']) do
       data
     end
 
-     @service.servers.get(@server_id).wait_for { ready? }
+    @service.servers.get(@server_id).wait_for { ready? }
 
     tests("#get_server_details(#{@server_id})").formats(@server_format) do
        @service.get_server_details(@server_id).body['server']
@@ -42,27 +42,27 @@ Shindo.tests('Fog::Compute[:rackspace] | server requests', ['rackspace']) do
        @service.list_servers_detail.body
     end
 
-     @service.servers.get(@server_id).wait_for { ready? }
+    @service.servers.get(@server_id).wait_for { ready? }
 
     tests("#update_server(#{@server_id}, :name => 'fogupdatedserver', :adminPass => 'fogupdatedserver')").succeeds do
        @service.update_server(@server_id, :name => 'fogupdatedserver', :adminPass => 'fogupdatedserver')
     end
 
-     @service.servers.get(@server_id).wait_for { ready? }
+    @service.servers.get(@server_id).wait_for { ready? }
 
     tests("#reboot_server(#{@server_id}, 'HARD')").succeeds do
       pending if Fog.mocking?
-       @service.reboot_server(@server_id, 'HARD')
+      @service.reboot_server(@server_id, 'HARD')
     end
 
-     @service.servers.get(@server_id).wait_for { ready? }
+    @service.servers.get(@server_id).wait_for { ready? }
 
     tests("#reboot_server(#{@server_id}, 'SOFT')").succeeds do
       pending if Fog.mocking?
-       @service.reboot_server(@server_id, 'SOFT')
+      @service.reboot_server(@server_id, 'SOFT')
     end
 
-     @service.servers.get(@server_id).wait_for { ready? }
+    @service.servers.get(@server_id).wait_for { ready? }
 
     tests("#delete_server(#{@server_id})").succeeds do
        @service.delete_server(@server_id)
@@ -86,7 +86,7 @@ Shindo.tests('Fog::Compute[:rackspace] | server requests', ['rackspace']) do
 
     tests('#reboot_server(0)').raises(Fog::Compute::Rackspace::NotFound) do
       pending if Fog.mocking?
-       @service.reboot_server(0)
+      @service.reboot_server(0)
     end
 
   end

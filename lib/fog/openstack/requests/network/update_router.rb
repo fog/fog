@@ -57,7 +57,7 @@ module Fog
               Please pass  external external gateway as follows options[:external_gateway_info] = { :network_id => NETWORK_ID }]"
               router[:external_gateway_info] = { :network_id => egi.id }
             else egi.is_a?(Hash) && egi[:network_id]
-              router[:external_gateway_info] = egi
+                 router[:external_gateway_info] = egi
             end
           end
 

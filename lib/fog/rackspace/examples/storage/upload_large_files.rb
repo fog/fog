@@ -66,24 +66,24 @@ File.open(file_name) do |f|
 
 
   segment = 0
-   until f.eof?
-     segment += 1
-     offset = 0
+  until f.eof?
+    segment += 1
+    offset = 0
 
-     # upload segment to cloud files
-     segment_suffix = segment.to_s.rjust(10, '0')
-     print "\n\tUploading segment #{segment_suffix} "
-     service.put_object(directory.key, "#{segment_name}/#{segment_suffix}", nil) do
-       if offset <= SEGMENT_LIMIT - BUFFER_SIZE
-         print "."
-         buf = f.read(BUFFER_SIZE).to_s
-         offset += buf.size
-         buf
-       else
-         ''
-       end
-     end
-   end
+    # upload segment to cloud files
+    segment_suffix = segment.to_s.rjust(10, '0')
+    print "\n\tUploading segment #{segment_suffix} "
+    service.put_object(directory.key, "#{segment_name}/#{segment_suffix}", nil) do
+      if offset <= SEGMENT_LIMIT - BUFFER_SIZE
+        print "."
+        buf = f.read(BUFFER_SIZE).to_s
+        offset += buf.size
+        buf
+      else
+        ''
+      end
+    end
+  end
  end
 
 puts "\n\n\tWriting manifest #{segment_name}\n\n"

@@ -230,7 +230,7 @@ Shindo.tests('Fog::Compute[:aws] | route table requests', ['aws']) do
     if !Fog.mocking?
       tests("#create_route less specific destination_cidr_block").raises(Fog::Compute::AWS::Error) do
         Fog::Compute[:aws].create_route(@route_table_id, '10.0.10.0/25', @internet_gateway_id)
-       Fog::Compute[:aws].delete_route(@route_table_id, @destination_cidr_block).body
+        Fog::Compute[:aws].delete_route(@route_table_id, @destination_cidr_block).body
       end
     end
 

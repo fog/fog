@@ -89,9 +89,9 @@ Shindo.tests('Fog::DNS[:bluebox] | DNS requests', ['bluebox', 'dns']) do
         zones.each { |zone|
           if zone['id'] == @new_zones[1]
             options = { :ttl => 60, :retry => 3600, :refresh => 1800, :minimum => 30 }
-             if (zone['name'] == @domain) and (zone['ttl'] == 60) and (zone['retry'] == 3600) and (zone['refresh'] == 1800) and (zone['minimum'] == 30)
-               result = true;
-             end
+            if (zone['name'] == @domain) and (zone['ttl'] == 60) and (zone['retry'] == 3600) and (zone['refresh'] == 1800) and (zone['minimum'] == 30)
+              result = true;
+            end
           end
         }
         if (@org_zone_count+2) == zones.count

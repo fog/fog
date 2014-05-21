@@ -108,9 +108,9 @@ Shindo.tests('Fog::Compute::RackspaceV2 | server_tests', ['rackspace']) do
     end
     wait_for_server_state(service, server_id, 'VERIFY_RESIZE', 'ACTIVE')
     
-   tests('#confirm_resize_server').succeeds do
-      service.confirm_resize_server(server_id)
-    end
+    tests('#confirm_resize_server').succeeds do
+       service.confirm_resize_server(server_id)
+     end
     wait_for_server_state(service, server_id, 'ACTIVE', 'ERROR')
 
     tests('#resize_server').succeeds do

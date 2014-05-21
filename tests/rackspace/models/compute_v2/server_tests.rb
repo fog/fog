@@ -72,9 +72,9 @@ Shindo.tests('Fog::Compute::RackspaceV2 | server', ['rackspace']) do
       @instance.metadata['fog_test']
     end
     
-     tests("includes #{@network.label}").returns(true) do
-       @instance.addresses.keys.include?(@network.label)
-     end
+    tests("includes #{@network.label}").returns(true) do
+      @instance.addresses.keys.include?(@network.label)
+    end
 
     tests('#create').succeeds do
       pending unless Fog.mocking?

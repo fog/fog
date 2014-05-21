@@ -164,7 +164,7 @@ module Fog
           @public_url ||= begin
             begin response = service.head_container(key)
               # escape the key to cover for special char. in container names
-              url = service.public_url(key)
+                  url = service.public_url(key)
             rescue Fog::Storage::HP::NotFound => err
               nil
             end
@@ -184,12 +184,12 @@ module Fog
         def cdn_enabled?
           if (!service.cdn.nil? && service.cdn.enabled?)
             begin response = service.cdn.head_container(key)
-              cdn_header = response.headers.fetch('X-Cdn-Enabled', nil)
-              if (!cdn_header.nil? && cdn_header == 'True')
-                @cdn_enable = true
-              else
-                @cdn_enable = false
-              end
+                  cdn_header = response.headers.fetch('X-Cdn-Enabled', nil)
+                  if (!cdn_header.nil? && cdn_header == 'True')
+                    @cdn_enable = true
+                  else
+                    @cdn_enable = false
+                  end
             # If CDN endpoint is unreachable, a SocketError is raised
             rescue Fog::CDN::HP::NotFound, Excon::Errors::SocketError
               @cdn_enable = false
@@ -204,9 +204,9 @@ module Fog
           @cdn_public_url ||= begin
             # return the CDN public url from the appropriate uri from the header
             begin response = service.cdn.head_container(key)
-              if response.headers['X-Cdn-Enabled'] == 'True'
-                response.headers.fetch('X-Cdn-Uri', nil)
-              end
+                  if response.headers['X-Cdn-Enabled'] == 'True'
+                    response.headers.fetch('X-Cdn-Uri', nil)
+                  end
             rescue Fog::CDN::HP::NotFound
               nil
             end
@@ -218,9 +218,9 @@ module Fog
           @cdn_public_ssl_url ||= begin
             # return the CDN public ssl url from the appropriate uri from the header
             begin response = service.cdn.head_container(key)
-              if response.headers['X-Cdn-Enabled'] == 'True'
-                response.headers.fetch('X-Cdn-Ssl-Uri', nil)
-              end
+                  if response.headers['X-Cdn-Enabled'] == 'True'
+                    response.headers.fetch('X-Cdn-Ssl-Uri', nil)
+                  end
             rescue Fog::CDN::HP::NotFound
               nil
             end
@@ -232,17 +232,17 @@ module Fog
           # do not sync if dir is same as target dir
           return false if target_dir.key == key
           begin service.head_container(key)
-            if !target_dir.nil? && target_dir.is_a?(Fog::Storage::HP::Directory) && target_dir.respond_to?(:public_url) && !target_dir.public_url.nil?
-              # set sync metadata on source dir
-              self.sync_to = target_dir.public_url
-              self.sync_key = secret
-              # set sync metadata on target dir
-              target_dir.sync_key = secret
-              target_dir.save
-              true
-            else
-              false
-            end
+                if !target_dir.nil? && target_dir.is_a?(Fog::Storage::HP::Directory) && target_dir.respond_to?(:public_url) && !target_dir.public_url.nil?
+                  # set sync metadata on source dir
+                  self.sync_to = target_dir.public_url
+                  self.sync_key = secret
+                  # set sync metadata on target dir
+                  target_dir.sync_key = secret
+                  target_dir.save
+                  true
+                else
+                  false
+                end
           rescue Fog::Storage::HP::NotFound
             false
           end
@@ -277,9 +277,9 @@ module Fog
             if @cdn_enable
               # check to make sure that the container exists. If yes, cdn enable it.
               begin response = service.cdn.head_container(key)
-                if response.headers['X-Cdn-Enabled'] == 'False'
-                  service.cdn.post_container(key, {'X-Cdn-Enabled' => 'True'})
-                end
+                    if response.headers['X-Cdn-Enabled'] == 'False'
+                      service.cdn.post_container(key, {'X-Cdn-Enabled' => 'True'})
+                    end
               rescue Fog::CDN::HP::NotFound
                 service.cdn.put_container(key)
               rescue Excon::Errors::SocketError
@@ -289,9 +289,9 @@ module Fog
               # check to make sure that the container exists. If yes, cdn disable it.
               begin response = service.cdn.head_container(key)
                 ### Deleting a container from CDN is much more expensive than flipping the bit to disable it
-                if response.headers['X-Cdn-Enabled'] == 'True'
-                  service.cdn.post_container(key, {'X-Cdn-Enabled' => 'False'})
-                end
+                    if response.headers['X-Cdn-Enabled'] == 'True'
+                      service.cdn.post_container(key, {'X-Cdn-Enabled' => 'False'})
+                    end
               rescue Fog::CDN::HP::NotFound
                 # just continue, as container is not cdn-enabled.
               rescue Excon::Errors::SocketError

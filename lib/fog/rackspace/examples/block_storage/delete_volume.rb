@@ -18,8 +18,8 @@ def select_volume(volumes)
     puts "\t #{i}. #{volume.display_name}"
   end
 
- selected_str = get_user_input "Enter Volume Type Number"
- volumes[selected_str.to_i]
+  selected_str = get_user_input "Enter Volume Type Number"
+  volumes[selected_str.to_i]
 end
 
 # Use username defined in ~/.fog file, if absent prompt for username.

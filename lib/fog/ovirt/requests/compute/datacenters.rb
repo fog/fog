@@ -9,14 +9,14 @@ module Fog
 
       end
 
-        class Mock
-        def datacenters(filters = {})
-          xml = read_xml 'data_centers.xml'
-          Nokogiri::XML(xml).xpath('/data_centers/data_center').collect do |dc|
-            ovirt_attrs OVIRT::DataCenter::new(self, dc)
-          end
+      class Mock
+      def datacenters(filters = {})
+        xml = read_xml 'data_centers.xml'
+        Nokogiri::XML(xml).xpath('/data_centers/data_center').collect do |dc|
+          ovirt_attrs OVIRT::DataCenter::new(self, dc)
         end
       end
+    end
     end
   end
 end

@@ -67,7 +67,7 @@ module Fog
                   'content_type'  => object['Content-Type'],
                   'last_modified' => Time.parse(object['Date'])
                 }
-              data
+                data
             end
 
             response.status = 200

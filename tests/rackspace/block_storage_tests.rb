@@ -37,8 +37,8 @@ Shindo.tests('Fog::Rackspace::BlockStorage', ['rackspace']) do
     tests('custom endpoint')  do
       @service = Fog::Rackspace::BlockStorage.new :rackspace_auth_url => 'https://identity.api.rackspacecloud.com/v1.0',
         :rackspace_block_storage_url => 'https://my-custom-endpoint.com'
-        returns(true, "auth token populated") { !@service.send(:auth_token).nil? }
-        returns(true, "uses custom endpoint") { (@service.instance_variable_get("@uri").host =~ /my-custom-endpoint\.com/) != nil }
+      returns(true, "auth token populated") { !@service.send(:auth_token).nil? }
+      returns(true, "uses custom endpoint") { (@service.instance_variable_get("@uri").host =~ /my-custom-endpoint\.com/) != nil }
     end
   end
 
@@ -70,8 +70,8 @@ Shindo.tests('Fog::Rackspace::BlockStorage', ['rackspace']) do
     tests('custom endpoint') do
       @service = Fog::Rackspace::BlockStorage.new :rackspace_auth_url => 'https://identity.api.rackspacecloud.com/v2.0',
         :rackspace_block_storage_url => 'https://my-custom-endpoint.com'
-        returns(true, "auth token populated") { !@service.send(:auth_token).nil? }
-        returns(true, "uses custom endpoint") { (@service.instance_variable_get("@uri").host =~ /my-custom-endpoint\.com/) != nil }
+      returns(true, "auth token populated") { !@service.send(:auth_token).nil? }
+      returns(true, "uses custom endpoint") { (@service.instance_variable_get("@uri").host =~ /my-custom-endpoint\.com/) != nil }
     end
   end
 

@@ -45,7 +45,7 @@ module Fog
 
         def meta_data
          requires :directory, :key
-          service.get_namespace([directory.key, key].join('/') + "?metadata/system")
+         service.get_namespace([directory.key, key].join('/') + "?metadata/system")
         end
 
         def file_size

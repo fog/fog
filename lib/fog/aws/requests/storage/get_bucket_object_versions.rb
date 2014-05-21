@@ -117,7 +117,7 @@ module Fog
                 })
 
                 data[tag_name]['Size'] = object['Content-Length'].to_i if tag_name == 'Version'
-              data
+                data
             end
 
             max_keys = max_keys || 1000

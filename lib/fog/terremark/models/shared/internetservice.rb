@@ -18,7 +18,7 @@ module Fog
         def destroy(delete_public_ip=true)
           service.delete_internet_service(self.Id)
           service.delete_public_ip(self.PublicIpAddress["Id"]) if delete_public_ip
-        true
+          true
         end
 
         def save
@@ -48,8 +48,8 @@ module Fog
                         }
                     )
             end
-            merge_attributes(data.body)
-            true
+          merge_attributes(data.body)
+          true
         end
         private
 

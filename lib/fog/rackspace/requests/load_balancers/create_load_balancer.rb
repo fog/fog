@@ -31,7 +31,7 @@ module Fog
                                    "cluster"=>{"name"=>"my-cluster.rackspace.net"}, "timeout"=>30, "created"=>{"time"=> MockData.zulu_time},
                                    "updated"=>{"time"=>MockData.zulu_time }, "halfClosed"=>false, "connectionLogging"=>{"enabled"=>false}, "contentCaching"=>{"enabled"=>false}}}
           data["virtual_ips"] = virtual_ips.collect {|n| {"virtualIps"=>[{"address"=> MockData.ipv4_address, "id"=>uniq_id, "type"=>n[:type], "ipVersion"=>"IPV4"}, {"address"=> MockData.ipv6_address, "id"=> Fog::Mock.random_numbers(4), "type"=>"PUBLIC", "ipVersion"=>"IPV6"}], "sourceAddresses"=>{"ipv6Public"=> MockData.ipv6_address, "ipv4Servicenet"=>MockData.ipv4_address, "ipv4Public"=>MockData.ipv4_address}}
-          data["nodes"] = nodes.collect {|n| {"address"=>n[:address], "id"=>uniq_id, "type"=>"PRIMARY", "port"=>n[:port], "status"=>"ONLINE", "condition"=>"ENABLED", "weight"=>1}}}
+                                                         data["nodes"] = nodes.collect {|n| {"address"=>n[:address], "id"=>uniq_id, "type"=>"PRIMARY", "port"=>n[:port], "status"=>"ONLINE", "condition"=>"ENABLED", "weight"=>1}}}
           Excon::Response.new(:body => data, :status => 202)
         end
       end

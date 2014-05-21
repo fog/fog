@@ -46,13 +46,13 @@ DATA
 </VApp>
 DATA
 
-          request(
-            :body => data,
-            :expects => 202,
-            :headers => { 'Content-Type' => 'application/vnd.vmware.vCloud.vApp+xml' },
-            :method => 'PUT',
-            :path => "vapp/#{vapp_id}"
-          )
+        request(
+          :body => data,
+          :expects => 202,
+          :headers => { 'Content-Type' => 'application/vnd.vmware.vCloud.vApp+xml' },
+          :method => 'PUT',
+          :path => "vapp/#{vapp_id}"
+        )
         end
 
       end

@@ -26,7 +26,7 @@ module Fog
 
         def get(identity)
           data = service.describe_launch_configurations('LaunchConfigurationNames' => identity).body['DescribeLaunchConfigurationsResult']['LaunchConfigurations'].first
-	  new(data) unless data.nil?
+	         new(data) unless data.nil?
         end
 
       end

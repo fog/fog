@@ -54,7 +54,7 @@ module Fog
           response
         end
 
-      alias :apply_security_groups :apply_security_groups_to_load_balancer
+        alias :apply_security_groups :apply_security_groups_to_load_balancer
       end
     end
   end
