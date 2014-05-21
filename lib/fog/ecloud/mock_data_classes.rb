@@ -349,7 +349,7 @@ module Fog
 
         def features
           [
-           { :type => :FenceMode, :value => "isolated" }
+            { :type => :FenceMode, :value => "isolated" }
           ]
         end
 

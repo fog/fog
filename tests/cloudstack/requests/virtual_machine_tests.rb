@@ -38,9 +38,9 @@ Shindo.tests('Fog::Compute[:cloudstack] | virtual machine requests', ['cloudstac
         'isoname' => Fog::Nullable::String,
         'isoid' => Fog::Nullable::Integer,
         'securitygroup' => [
-           'id' => Integer,
-           'name' => Fog::Nullable::String,
-           'description' => Fog::Nullable::String
+          'id' => Integer,
+          'name' => Fog::Nullable::String,
+          'description' => Fog::Nullable::String
         ],
         'nic' => [
           'id' => String,

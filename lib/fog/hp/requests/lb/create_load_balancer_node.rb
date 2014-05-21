@@ -24,10 +24,10 @@ module Fog
         def create_load_balancer_node(load_balancer_id, address, port, options={})
           data = {
             'nodes' => [
-                {
-                    'address' => address,
-                    'port'    => port
-                }
+              {
+                  'address' => address,
+                  'port'    => port
+              }
             ]
           }
           if options['condition']

@@ -50,7 +50,7 @@ module Fog
                                    'ReadReplicaCapable' => true,
                                    'EngineVersion' => opts[:engine_version] || '5.6.12',
                                    'AvailabilityZones' => [
-                                      {'Name' => 'us-east-1b', 'ProvisionedIopsCapable' => true},
+                                     {'Name' => 'us-east-1b', 'ProvisionedIopsCapable' => true},
                                       {'Name' => 'us-east-1c', 'ProvisionedIopsCapable' => true},
                                       {'Name' => 'us-east-1d', 'ProvisionedIopsCapable' => false},
                                       {'Name' => 'us-east-1e', 'ProvisionedIopsCapable' => true}],

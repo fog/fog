@@ -543,9 +543,9 @@ module Fog
                       "memoryMb" => 1843,
                       "imageSpaceGb" => 10,
                       "scratchDisks" => [
-                       {
-                        "diskGb" => 870
-                       }
+                        {
+                         "diskGb" => 870
+                        }
                       ],
                       "maximumPersistentDisks" => 16,
                       "maximumPersistentDisksSizeGb" => "10240",
@@ -576,9 +576,9 @@ module Fog
                       "memoryMb" => 3686,
                       "imageSpaceGb" => 10,
                       "scratchDisks" => [
-                       {
-                        "diskGb" => 1770
-                       }
+                        {
+                         "diskGb" => 1770
+                        }
                       ],
                       "maximumPersistentDisks" => 16,
                       "maximumPersistentDisksSizeGb" => "10240",
@@ -609,9 +609,9 @@ module Fog
                       "memoryMb" => 7373,
                       "imageSpaceGb" => 10,
                       "scratchDisks" => [
-                       {
-                        "diskGb" => 1770
-                       },
+                        {
+                         "diskGb" => 1770
+                        },
                        {
                         "diskGb" => 1770
                        }
@@ -645,9 +645,9 @@ module Fog
                       "memoryMb" => 13312,
                       "imageSpaceGb" => 10,
                       "scratchDisks" => [
-                       {
-                        "diskGb" => 870
-                       }
+                        {
+                         "diskGb" => 870
+                        }
                       ],
                       "maximumPersistentDisks" => 16,
                       "maximumPersistentDisksSizeGb" => "10240",
@@ -678,9 +678,9 @@ module Fog
                       "memoryMb" => 26624,
                       "imageSpaceGb" => 10,
                       "scratchDisks" => [
-                       {
-                        "diskGb" => 1770
-                       }
+                        {
+                         "diskGb" => 1770
+                        }
                       ],
                       "maximumPersistentDisks" => 16,
                       "maximumPersistentDisksSizeGb" => "10240",
@@ -711,9 +711,9 @@ module Fog
                       "memoryMb" => 53248,
                       "imageSpaceGb" => 10,
                       "scratchDisks" => [
-                       {
-                        "diskGb" => 1770
-                       },
+                        {
+                         "diskGb" => 1770
+                        },
                        {
                         "diskGb" => 1770
                        }
@@ -747,9 +747,9 @@ module Fog
                       "memoryMb" => 3840,
                       "imageSpaceGb" => 10,
                       "scratchDisks" => [
-                       {
-                        "diskGb" => 420
-                       }
+                        {
+                         "diskGb" => 420
+                        }
                       ],
                       "maximumPersistentDisks" => 16,
                       "maximumPersistentDisksSizeGb" => "10240",
@@ -780,9 +780,9 @@ module Fog
                       "memoryMb" => 7680,
                       "imageSpaceGb" => 10,
                       "scratchDisks" => [
-                       {
-                        "diskGb" => 870
-                       }
+                        {
+                         "diskGb" => 870
+                        }
                       ],
                       "maximumPersistentDisks" => 16,
                       "maximumPersistentDisksSizeGb" => "10240",
@@ -813,9 +813,9 @@ module Fog
                       "memoryMb" => 15360,
                       "imageSpaceGb" => 10,
                       "scratchDisks" => [
-                       {
-                        "diskGb" => 1770
-                       }
+                        {
+                         "diskGb" => 1770
+                        }
                       ],
                       "maximumPersistentDisks" => 16,
                       "maximumPersistentDisksSizeGb" => "10240",
@@ -846,9 +846,9 @@ module Fog
                       "memoryMb" => 30720,
                       "imageSpaceGb" => 10,
                       "scratchDisks" => [
-                       {
-                        "diskGb" => 1770
-                       },
+                        {
+                         "diskGb" => 1770
+                        },
                        {
                         "diskGb" => 1770
                        }

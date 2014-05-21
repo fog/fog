@@ -18,10 +18,10 @@ Shindo.tests("Fog::Joyent[:analytics] | instrumentation requests", %w{joyent}) d
       'crtime' => Integer,
       'value-scope' => String,
       'uris' => [
-          {
-              'uri' => String,
-              'name' => String
-          }
+        {
+            'uri' => String,
+            'name' => String
+        }
       ]
   }
 

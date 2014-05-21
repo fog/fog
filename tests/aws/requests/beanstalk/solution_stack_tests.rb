@@ -6,8 +6,8 @@ Shindo.tests('AWS::ElasticBeanstalk | solution_stack_tests', ['aws', 'beanstalk'
     @solution_stack_result_format = {
         'ListAvailableSolutionStacksResult' => {
             'SolutionStackDetails' => [
-               'SolutionStackName' => String,
-              'PermittedFileTypes' => [String]
+              'SolutionStackName' => String,
+             'PermittedFileTypes' => [String]
             ],
             'SolutionStacks' => [String]
         },

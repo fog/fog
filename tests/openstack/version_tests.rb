@@ -6,11 +6,11 @@ Shindo.tests('OpenStack | versions', ['openstack']) do
 
     body = {
         "versions" => [
-            { "status" => "CURRENT", "id" => "v2.0", "links" => [ {
-                                                                      "href" => "http://example:9292/v2/",
-                                                                      "rel" => "self" }
-                                                                ]
-            },
+          { "status" => "CURRENT", "id" => "v2.0", "links" => [ {
+                                                                    "href" => "http://example:9292/v2/",
+                                                                    "rel" => "self" }
+                                                              ]
+          },
             { "status" => "CURRENT", "id" => "v1.1", "links" => [ {
                                                                       "href" => "http://exampple:9292/v1/",
                                                                       "rel" => "self"

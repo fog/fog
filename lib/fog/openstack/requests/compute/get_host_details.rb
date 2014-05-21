@@ -20,14 +20,14 @@ module Fog
           response = Excon::Response.new
           response.status = 200
           response.body = { "host" => [
-              { "resource" => {
-                  "project" => "(total)",
-                  "memory_mb" => 64427,
-                  "host" => "cn28.la-1-3.morphcloud.net",
-                  "cpu" => 12,
-                  "disk_gb" => 1608
-                  }
-              },
+            { "resource" => {
+                "project" => "(total)",
+                "memory_mb" => 64427,
+                "host" => "cn28.la-1-3.morphcloud.net",
+                "cpu" => 12,
+                "disk_gb" => 1608
+                }
+            },
               { "resource" => {
                   "project" => "(used_now)",
                   "memory_mb" => 1753,

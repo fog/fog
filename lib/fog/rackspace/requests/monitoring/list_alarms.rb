@@ -26,17 +26,17 @@ module Fog
           response.status = 200
           response.body = {
             "values" => [
-             {
-              "id"                    => Fog::Mock.random_letters(10),
-              "label"                 => nil,
-              "check_id"              => Fog::Mock.random_letters(10),
-              "criteria"              => nil,
-              "disabled"              => false,
-              "notification_plan_id"  => "npTechnicalContactsEmail",
-              "metadata"              => nil,
-              "created_at"            => Time.now.to_i - 1,
-              "updated_at"            => Time.now.to_i
-             }
+              {
+               "id"                    => Fog::Mock.random_letters(10),
+               "label"                 => nil,
+               "check_id"              => Fog::Mock.random_letters(10),
+               "criteria"              => nil,
+               "disabled"              => false,
+               "notification_plan_id"  => "npTechnicalContactsEmail",
+               "metadata"              => nil,
+               "created_at"            => Time.now.to_i - 1,
+               "updated_at"            => Time.now.to_i
+              }
             ],
               "metadata" =>
               {

@@ -413,7 +413,7 @@ Shindo.tests('Fog::Compute[:aws] | security group requests', ['aws']) do
     end
 
     broken_params = [
-                     ['fog_security_group', { 'GroupName' => 'fog_security_group' }],
+      ['fog_security_group', { 'GroupName' => 'fog_security_group' }],
                      [nil, nil],
                      [nil, { 'GroupId' => nil }],
                      [nil, { 'GroupName' => nil, 'GroupId' => nil }]

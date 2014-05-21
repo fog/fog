@@ -189,12 +189,12 @@ GROUP_CONFIG_OPTIONS = {
 }
 
 POLICIES_OPTIONS = [
-    {
-      "cooldown" => 0,
-      "type" => "webhook",
-      "name" => "scale up by 1",
-      "change" => 1
-    }
+  {
+    "cooldown" => 0,
+    "type" => "webhook",
+    "name" => "scale up by 1",
+    "change" => 1
+  }
   ]
 
 POLICY_OPTIONS = {

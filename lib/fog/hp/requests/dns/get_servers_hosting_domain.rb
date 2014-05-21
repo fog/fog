@@ -42,12 +42,12 @@ module Fog
 
         def dummy_servers
           [
-              {
-                  'id'         => Fog::HP::Mock.uuid.to_s,
-                  'name'       => 'ns1.provider.com.',
-                  'created_at' => '2012-01-01T13:32:20Z',
-                  'updated_at' => '2012-01-01T13:32:20Z'
-              },
+            {
+                'id'         => Fog::HP::Mock.uuid.to_s,
+                'name'       => 'ns1.provider.com.',
+                'created_at' => '2012-01-01T13:32:20Z',
+                'updated_at' => '2012-01-01T13:32:20Z'
+            },
               {
                   'id'         => Fog::HP::Mock.uuid.to_s,
                   'name'       => 'ns2.provider.com.',

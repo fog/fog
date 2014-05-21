@@ -22,12 +22,12 @@ module Fog
           response.body = {
           "Servers" =>
             [
-            {"Index" => 0,
-              "ID"=>112600055376,
-              "Name"=>"foober1",
-              "ServerPlan"=> {},
-              "Instance"=> {},
-              "Disks"=> []},
+              {"Index" => 0,
+                "ID"=>112600055376,
+                "Name"=>"foober1",
+                "ServerPlan"=> {},
+                "Instance"=> {},
+                "Disks"=> []},
             {"Index" => 1,
               "ID"=>112600055377,
               "Name"=>"foober2",

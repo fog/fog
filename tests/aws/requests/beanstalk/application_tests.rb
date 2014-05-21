@@ -21,12 +21,12 @@ Shindo.tests('AWS::ElasticBeanstalk | application_tests', ['aws', 'beanstalk']) 
     @describe_applications_format = {
         'DescribeApplicationsResult' => {
             'Applications' => [
-                'ApplicationName' => String,
-                'ConfigurationTemplates' => [String],
-                'Description' => Fog::Nullable::String,
-                'DateCreated' => Time,
-                'DateUpdated' => Time,
-                'Versions' => [String]
+              'ApplicationName' => String,
+              'ConfigurationTemplates' => [String],
+              'Description' => Fog::Nullable::String,
+              'DateCreated' => Time,
+              'DateUpdated' => Time,
+              'Versions' => [String]
             ]},
         'ResponseMetadata' => {'RequestId'=> String},
     }

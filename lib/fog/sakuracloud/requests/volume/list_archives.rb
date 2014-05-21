@@ -22,13 +22,13 @@ module Fog
           response.body = {
           "Archives" =>
             [
-            {"Index"=>0,
-              "ID"=>112500514887,
-              "Name"=>"CentOS 5.10 64bit (基本セット)",
-              "Availability"=>"available",
-              "SizeMB"=>20480,
-              "Plan"=>{"ID"=>2, "StorageClass"=>"iscsi1204", "Name"=>"標準プラン"}
-            },
+              {"Index"=>0,
+                "ID"=>112500514887,
+                "Name"=>"CentOS 5.10 64bit (基本セット)",
+                "Availability"=>"available",
+                "SizeMB"=>20480,
+                "Plan"=>{"ID"=>2, "StorageClass"=>"iscsi1204", "Name"=>"標準プラン"}
+              },
             {"Index"=>1,
               "ID"=>112500571575,
               "Name"=>"CentOS 6.5 64bit (基本セット)",

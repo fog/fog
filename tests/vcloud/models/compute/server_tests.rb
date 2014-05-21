@@ -112,7 +112,7 @@ Shindo.tests("Vcloud::Compute | server", ['vcloud']) do
       sleep 1
     end
     [
-     @svr.disks.size,
+      @svr.disks.size,
      @svr.disks[1][:resource][:vcloud_capacity]
     ]
   end

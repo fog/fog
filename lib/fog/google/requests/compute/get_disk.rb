@@ -15,11 +15,11 @@ module Fog
             return build_response(:body => {
               "error" => {
                 "errors" => [
-                 {
-                  "domain" => "global",
-                  "reason" => "notFound",
-                  "message" => "The resource 'projects/#{@project}/zones/#{zone_name}/disks/#{disk_name}' was not found"
-                 }
+                  {
+                   "domain" => "global",
+                   "reason" => "notFound",
+                   "message" => "The resource 'projects/#{@project}/zones/#{zone_name}/disks/#{disk_name}' was not found"
+                  }
                 ],
                 "code" => 404,
                 "message" => "The resource 'projects/#{@project}/zones/#{zone_name}/disks/#{disk_name}' was not found"

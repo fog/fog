@@ -27,7 +27,7 @@ module Fog
 
         def nameservers
           [
-           "ns1.r4ns.com",
+            "ns1.r4ns.com",
            "ns2.r4ns.com",
           ]
         end

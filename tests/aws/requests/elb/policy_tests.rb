@@ -83,19 +83,19 @@ Shindo.tests('AWS::ELB | policy_tests', ['aws', 'elb']) do
     tests("#describe_load_balancer includes all policies") do
       lb = Fog::AWS[:elb].describe_load_balancers("LoadBalancerNames" => [@load_balancer_id]).body["DescribeLoadBalancersResult"]["LoadBalancerDescriptions"].first
       returns([
-               {"PolicyName"=>"fog-app-policy", "CookieName"=>"fog-app-cookie"}
+        {"PolicyName"=>"fog-app-policy", "CookieName"=>"fog-app-cookie"}
               ]) { lb["Policies"]["AppCookieStickinessPolicies"] }
 
       returns([
-               {"PolicyName"=>"fog-lb-expiry", "CookieExpirationPeriod"=> 300}
+        {"PolicyName"=>"fog-lb-expiry", "CookieExpirationPeriod"=> 300}
               ]) { lb["Policies"]["LBCookieStickinessPolicies"].select{|e| e["PolicyName"] == "fog-lb-expiry"} }
 
       returns([
-               {"PolicyName" => "fog-lb-no-expiry"}
+        {"PolicyName" => "fog-lb-no-expiry"}
               ]) { lb["Policies"]["LBCookieStickinessPolicies"].select{|e| e["PolicyName"] == "fog-lb-no-expiry"} }
 
       returns([
-               "fog-policy"
+        "fog-policy"
               ]) { lb["Policies"]["OtherPolicies"] }
     end
 

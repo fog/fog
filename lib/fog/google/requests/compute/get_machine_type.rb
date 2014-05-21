@@ -10,11 +10,11 @@ module Fog
           machine_type = self.data[:machine_types][zone_name][machine_type_name] || {
             "error" => {
              "errors" => [
-              {
-               "domain" => "global",
-               "reason" => "notFound",
-               "message" => "The resource 'projects/google/zones/#{zone_name}/machineTypes/#{machine_type_name}' was not found"
-              }
+               {
+                "domain" => "global",
+                "reason" => "notFound",
+                "message" => "The resource 'projects/google/zones/#{zone_name}/machineTypes/#{machine_type_name}' was not found"
+               }
              ],
              "code" => 404,
              "message" => "The resource 'projects/google/zones/#{zone_name}/machineTypes/#{machine_type_name}' was not found"

@@ -19,11 +19,11 @@ module Fog
             operation = {
               "error" => {
                 "errors" => [
-                 {
-                  "domain" => "global",
-                  "reason" => "notFound",
-                  "message" => "The resource 'projects/#{project}/zones/#{zone_name}/operations/#{operation}' was not found"
-                 }
+                  {
+                   "domain" => "global",
+                   "reason" => "notFound",
+                   "message" => "The resource 'projects/#{project}/zones/#{zone_name}/operations/#{operation}' was not found"
+                  }
                 ],
                 "code" => 404,
                 "message" => "The resource 'projects/#{project}/zones/#{zone_name}/operations/#{operation}' was not found"

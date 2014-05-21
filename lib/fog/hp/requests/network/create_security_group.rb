@@ -60,17 +60,17 @@ module Fog
           # by default every security group will come setup with an egress rule to "allow all out"
           data = {
             'security_group_rules'  => [
-                { "remote_group_id" => nil,
-                  "direction" => "egress",
-                  "remote_ip_prefix" => nil,
-                  "protocol" => nil,
-                  "ethertype" => "IPv4",
-                  "tenant_id" => tenant_id,
-                  "port_range_max" => nil,
-                  "port_range_min" => nil,
-                  "id" => Fog::HP::Mock.uuid.to_s,
-                  "security_group_id" => sec_group_id
-                },
+              { "remote_group_id" => nil,
+                "direction" => "egress",
+                "remote_ip_prefix" => nil,
+                "protocol" => nil,
+                "ethertype" => "IPv4",
+                "tenant_id" => tenant_id,
+                "port_range_max" => nil,
+                "port_range_min" => nil,
+                "id" => Fog::HP::Mock.uuid.to_s,
+                "security_group_id" => sec_group_id
+              },
                 { "remote_group_id" => nil,
                   "direction" => "egress",
                   "remote_ip_prefix" => nil,

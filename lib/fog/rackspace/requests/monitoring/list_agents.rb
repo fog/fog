@@ -18,10 +18,10 @@ module Fog
           response.status = 200
           response.body = {
           "values"=>[
-          {
-          	"id"		=> Fog::Rackspace::MockData.uuid,
-          	"last_connected"  => Time.now.to_i - 100
-          },
+            {
+            	"id"		=> Fog::Rackspace::MockData.uuid,
+            	"last_connected"  => Time.now.to_i - 100
+            },
           {
           	"id"		=> Fog::Rackspace::MockData.uuid,
           	"last_connected"  => Time.now.to_i - 110
