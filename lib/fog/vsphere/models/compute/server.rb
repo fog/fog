@@ -10,7 +10,7 @@ module Fog
 
         # This will be the instance uuid which is globally unique across
         # a vSphere deployment.
-        identity  :id
+        identity :id
 
         # JJM REVISIT (Extend the model of a vmware server)
         # SEE: http://www.vmware.com/support/developer/vc-sdk/visdk41pubs/ApiReference/vim.VirtualMachine.html

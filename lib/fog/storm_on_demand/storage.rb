@@ -12,10 +12,10 @@ module Fog
       recognizes :storm_on_demand_auth_url
 
       model_path 'fog/storm_on_demand/models/storage'
-      model       :cluster
-      collection  :clusters
-      model       :volume
-      collection  :volumes
+      model :cluster
+      collection :clusters
+      model :volume
+      collection :volumes
 
       request_path 'fog/storm_on_demand/requests/storage'
       request :list_clusters

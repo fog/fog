@@ -4,7 +4,7 @@ module Fog
   module AWS
     class AutoScaling
       class Group < Fog::Model
-        identity  :id,                        :aliases => 'AutoScalingGroupName'
+        identity :id,                        :aliases => 'AutoScalingGroupName'
         attribute :arn,                       :aliases => 'AutoScalingGroupARN'
         attribute :availability_zones,        :aliases => 'AvailabilityZones'
         attribute :created_at,                :aliases => 'CreatedTime'

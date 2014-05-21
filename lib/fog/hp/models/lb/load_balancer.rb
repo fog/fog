@@ -5,7 +5,7 @@ module Fog
     class LB
 
       class LoadBalancer < Fog::Model
-        identity  :id
+        identity :id
 
         attribute :name
         attribute :protocol

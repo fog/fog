@@ -49,31 +49,31 @@ module Fog
       secrets :vcloud_director_password
 
       model_path 'fog/vcloud_director/models/compute'
-      model      :catalog
+      model :catalog
       collection :catalogs
-      model      :organization
+      model :organization
       collection :organizations
-      model      :catalog_item
+      model :catalog_item
       collection :catalog_items
-      model      :vdc
+      model :vdc
       collection :vdcs
-      model      :vapp
+      model :vapp
       collection :vapps
-      model      :task
+      model :task
       collection :tasks
-      model      :vm
+      model :vm
       collection :vms
-      model      :vm_customization
+      model :vm_customization
       collection :vm_customizations
-      model      :network
+      model :network
       collection :networks
-      model      :disk
+      model :disk
       collection :disks
-      model      :vm_network
+      model :vm_network
       collection :vm_networks
-      model      :tag # this is called metadata in vcloud
+      model :tag # this is called metadata in vcloud
       collection :tags
-      model      :media
+      model :media
       collection :medias # sic
 
       request_path 'fog/vcloud_director/requests/compute'

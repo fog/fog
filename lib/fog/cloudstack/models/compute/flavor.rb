@@ -2,7 +2,7 @@ module Fog
   module Compute
     class Cloudstack
       class Flavor < Fog::Model
-        identity  :id,              :aliases => 'id'
+        identity :id,              :aliases => 'id'
         attribute :cpu_number,      :aliases => 'cpunumber'
         attribute :cpu_speed,       :aliases => 'cpuspeed'
         attribute :created

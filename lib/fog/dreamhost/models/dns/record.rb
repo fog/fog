@@ -6,7 +6,7 @@ module Fog
 
       class Record < Fog::Model
 
-        identity  :name, :aliases => 'record'
+        identity :name, :aliases => 'record'
 
         attribute :value
         attribute :zone

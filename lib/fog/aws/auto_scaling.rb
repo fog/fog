@@ -49,15 +49,15 @@ module Fog
       request :update_auto_scaling_group
 
       model_path 'fog/aws/models/auto_scaling'
-      model      :activity
+      model :activity
       collection :activities
-      model      :configuration
+      model :configuration
       collection :configurations
-      model      :group
+      model :group
       collection :groups
-      model      :instance
+      model :instance
       collection :instances
-      model      :policy
+      model :policy
       collection :policies
 
       ExpectedOptions = {}

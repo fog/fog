@@ -4,7 +4,7 @@ module Fog
   module Compute
     class Brightbox
       class Collaboration < Fog::Model
-        identity  :id
+        identity :id
         attribute :status
         attribute :email
         attribute :role

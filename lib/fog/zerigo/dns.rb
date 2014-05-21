@@ -8,10 +8,10 @@ module Fog
       recognizes :host, :persistent, :port, :scheme, :timeout
 
       model_path 'fog/zerigo/models/dns'
-      model       :record
-      collection  :records
-      model       :zone
-      collection  :zones
+      model :record
+      collection :records
+      model :zone
+      collection :zones
 
       request_path 'fog/zerigo/requests/dns'
       request :count_hosts

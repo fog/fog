@@ -5,7 +5,7 @@ module Fog
     class AutoScaling
       class Configuration < Fog::Model
 
-        identity  :id,                    :aliases => 'LaunchConfigurationName'
+        identity :id,                    :aliases => 'LaunchConfigurationName'
         attribute :arn,                   :aliases => 'LaunchConfigurationARN'
         attribute :associate_public_ip,   :aliases => 'AssociatePublicIpAddress'
         attribute :block_device_mappings, :aliases => 'BlockDeviceMappings'

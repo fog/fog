@@ -75,14 +75,14 @@ module Fog
       request :upload_signing_certificate
 
       model_path 'fog/aws/models/iam'
-      model       :user
-      collection  :users
-      model       :policy
-      collection  :policies
-      model       :access_key
-      collection  :access_keys
-      model       :role
-      collection  :roles
+      model :user
+      collection :users
+      model :policy
+      collection :policies
+      model :access_key
+      collection :access_keys
+      model :role
+      collection :roles
 
 
       class Mock

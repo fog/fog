@@ -2,7 +2,7 @@ module Fog
   module Compute
     class Cloudstack
       class Snapshot < Fog::Model
-        identity  :id,                         :aliases => 'id'
+        identity :id,                         :aliases => 'id'
 
         attribute :name,                       :aliases => 'name'
         attribute :volume_type,                :aliases => 'volumetype'

@@ -14,11 +14,11 @@ module Fog
       recognizes :rackspace_temp_url_key, :rackspace_storage_url, :rackspace_cdn_url
 
       model_path 'fog/rackspace/models/storage'
-      model       :directory
-      collection  :directories
-      model       :file
-      collection  :files
-      model       :account
+      model :directory
+      collection :directories
+      model :file
+      collection :files
+      model :account
 
       request_path 'fog/rackspace/requests/storage'
       request :copy_object

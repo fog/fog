@@ -13,11 +13,11 @@ module Fog
 
       model_path 'fog/openstack/models/volume'
 
-      model       :volume
-      collection  :volumes
+      model :volume
+      collection :volumes
 
-      model       :volume_type
-      collection  :volume_types
+      model :volume_type
+      collection :volume_types
 
       request_path 'fog/openstack/requests/volume'
 

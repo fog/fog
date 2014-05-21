@@ -7,7 +7,7 @@ Shindo.tests("Fog::Compute[:fogdocker] | container_create request", 'fogdocker')
 
   tests("Commit Container") do
     response = compute.container_commit(:id=>hash['id'])
-    test("should have Image id") { response.include?  'id'}
+    test("should have Image id") { response.include? 'id'}
   end
 
   test("Delete Commited Image") do

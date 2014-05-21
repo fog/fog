@@ -4,13 +4,13 @@ module Fog
   module Compute
     class Fogdocker < Fog::Service
 
-      requires   :docker_url
+      requires :docker_url
       recognizes :docker_username, :docker_password, :docker_email
 
       model_path 'fog/fogdocker/models/compute'
-      model      :server
+      model :server
       collection :servers
-      model      :image
+      model :image
       collection :images
 
       request_path 'fog/fogdocker/requests/compute'

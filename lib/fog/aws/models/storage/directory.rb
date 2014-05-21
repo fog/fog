@@ -11,7 +11,7 @@ module Fog
 
         attr_reader :acl
 
-        identity  :key,           :aliases => ['Name', 'name']
+        identity :key,           :aliases => ['Name', 'name']
 
         attribute :creation_date, :aliases => 'CreationDate', :type => 'time'
         attribute :location,      :aliases => 'LocationConstraint', :type => 'string'

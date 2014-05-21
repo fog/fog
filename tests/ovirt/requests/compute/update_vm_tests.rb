@@ -8,7 +8,7 @@ Shindo.tests('Fog::Compute[:ovirt] | vm_update request', ['ovirt']) do
 
   tests('The response should') do
     response = compute.update_vm(:id => vm.id, :name => vm.name + 'updated')
-    test("be a kind of OVIRT::VM") { response.kind_of?  OVIRT::VM}
+    test("be a kind of OVIRT::VM") { response.kind_of? OVIRT::VM}
   end
 
   tests('The expected options') do

@@ -9,12 +9,12 @@ module Fog
       API_URL = "https://api.glesys.com"
 
       model_path 'fog/glesys/models/compute'
-      collection  :servers
-      model       :server
-      collection  :templates
-      model       :template
-      collection  :ips
-      model       :ip
+      collection :servers
+      model :server
+      collection :templates
+      model :template
+      collection :ips
+      model :ip
 
       request_path 'fog/glesys/requests/compute'
 

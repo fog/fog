@@ -6,25 +6,25 @@ module Fog
   module Compute
     class Libvirt < Fog::Service
 
-      requires   :libvirt_uri
+      requires :libvirt_uri
       recognizes :libvirt_username, :libvirt_password
       recognizes :libvirt_ip_command
 
       model_path 'fog/libvirt/models/compute'
-      model       :server
-      collection  :servers
-      model       :network
-      collection  :networks
-      model       :interface
-      collection  :interfaces
-      model       :volume
-      collection  :volumes
-      model       :pool
-      collection  :pools
-      model       :node
-      collection  :nodes
-      model       :nic
-      collection  :nics
+      model :server
+      collection :servers
+      model :network
+      collection :networks
+      model :interface
+      collection :interfaces
+      model :volume
+      collection :volumes
+      model :pool
+      collection :pools
+      model :node
+      collection :nodes
+      model :nic
+      collection :nics
 
       request_path 'fog/libvirt/requests/compute'
       request :list_domains

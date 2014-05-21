@@ -81,7 +81,7 @@ module Fog
 
       attr_writer :default_organization_uri
 
-      requires   :vcloud_username, :vcloud_password, :vcloud_host
+      requires :vcloud_username, :vcloud_password, :vcloud_host
       recognizes :vcloud_port, :vcloud_scheme, :vcloud_path, :vcloud_default_vdc, :vcloud_version, :vcloud_base_path
       recognizes :provider # remove post deprecation
 

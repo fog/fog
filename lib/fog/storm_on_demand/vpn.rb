@@ -8,8 +8,8 @@ module Fog
       recognizes :storm_on_demand_auth_url
 
       model_path 'fog/storm_on_demand/models/vpn'
-      model       :vpn
-      collection  :vpns
+      model :vpn
+      collection :vpns
 
       request_path 'fog/storm_on_demand/requests/vpn'
       request :create_vpn

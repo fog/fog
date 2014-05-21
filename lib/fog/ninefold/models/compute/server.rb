@@ -9,7 +9,7 @@ module Fog
         deprecate :serviceofferingid, :flavor_id
         deprecate :templateid,        :image_id
 
-        identity  :id
+        identity :id
 
         attribute :account
         attribute :cpunumber

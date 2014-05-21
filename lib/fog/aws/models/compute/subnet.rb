@@ -6,7 +6,7 @@ module Fog
 
       class Subnet < Fog::Model
 
-        identity  :subnet_id,                   :aliases => 'subnetId'
+        identity :subnet_id,                   :aliases => 'subnetId'
         attribute :state
         attribute :vpc_id,                      :aliases => 'vpcId'
         attribute :cidr_block,                  :aliases => 'cidrBlock'

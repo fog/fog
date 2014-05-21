@@ -5,7 +5,7 @@ module Fog
     class LB
       class Node < Fog::Model
 
-        identity  :id
+        identity :id
 
         attribute :address
         attribute :port

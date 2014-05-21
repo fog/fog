@@ -6,7 +6,7 @@ module Fog
 
       class Media < Model
 
-        identity  :id
+        identity :id
 
         attribute :href
         attribute :type

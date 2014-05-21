@@ -8,12 +8,12 @@ module Fog
 
         identity :id
 
-        attribute   :name
-        attribute   :disk
-        attribute   :ram
-        attribute   :cores, :aliases => 'vcpus'
-        attribute   :ephemeral_disk, :aliases => 'OS-FLV-EXT-DATA:ephemeral'
-        attribute   :links
+        attribute :name
+        attribute :disk
+        attribute :ram
+        attribute :cores, :aliases => 'vcpus'
+        attribute :ephemeral_disk, :aliases => 'OS-FLV-EXT-DATA:ephemeral'
+        attribute :links
 
       end
 

@@ -10,16 +10,16 @@ module Fog
       recognizes :ninefold_api_url  # allow us to specify non-prod environments
 
       model_path 'fog/ninefold/models/compute'
-      model       :server
-      collection  :servers
-      model       :flavor
-      collection  :flavors
-      model       :image
-      collection  :images
-      model       :address
-      collection  :addresses
-      model       :ip_forwarding_rule
-      collection  :ip_forwarding_rules
+      model :server
+      collection :servers
+      model :flavor
+      collection :flavors
+      model :image
+      collection :images
+      model :address
+      collection :addresses
+      model :ip_forwarding_rule
+      collection :ip_forwarding_rules
 
       request_path 'fog/ninefold/requests/compute'
       # General list-only stuff

@@ -6,7 +6,7 @@ module Fog
 
       class Snapshot < Fog::Model
 
-        identity  :id,          :aliases => 'snapshotId'
+        identity :id,          :aliases => 'snapshotId'
 
         attribute :description
         attribute :encrypted

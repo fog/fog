@@ -8,7 +8,7 @@ module Fog
 
         # @!attribute [r] key
         # @return [String] The name of the file
-        identity  :key,             :aliases => 'name'
+        identity :key,             :aliases => 'name'
 
         # @!attribute [r] content_length
         # @return [Integer] The content length of the file

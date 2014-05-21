@@ -7,7 +7,7 @@ module Fog
 
         # @!attribute [rw] name
         # @return [String] the keypair name
-        identity  :name
+        identity :name
 
         # @!attribute [r]  public_key
         # @return [String] the public key

@@ -7,7 +7,7 @@ module Fog
 
       class Directory < Fog::Model
 
-        identity  :key,           :aliases => ['Name', 'name']
+        identity :key,           :aliases => ['Name', 'name']
 
         attribute :creation_date, :aliases => 'CreationDate'
 

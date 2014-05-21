@@ -9,7 +9,7 @@ module Fog
         ARCHIVE = 'archive-retrieval'
         INVENTORY = 'inventory-retrieval'
 
-        identity  :id,              :aliases => "JobId"
+        identity :id,              :aliases => "JobId"
         attribute :action,          :aliases => "Action"
         attribute :archive_id,      :aliases => "ArchiveId"
         attribute :archive_size,    :aliases => "ArchiveSizeInBytes", :type => :integer

@@ -2,7 +2,7 @@ module Fog
   module Compute
     class Cloudstack
       class Zone < Fog::Model
-        identity  :id,                          :aliases => 'id'
+        identity :id,                          :aliases => 'id'
         attribute :name
         attribute :domain_id,                   :aliases => 'domainid'
         attribute :domain_name,                 :aliases => ['domainname', 'domain']

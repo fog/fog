@@ -12,14 +12,14 @@ module Fog
       recognizes :storm_on_demand_auth_url
 
       model_path 'fog/storm_on_demand/models/dns'
-      model       :domain
-      collection  :domains
-      model       :record
-      collection  :records
-      model       :reverse
-      collection  :reverses
-      model       :zone
-      collection  :zones
+      model :domain
+      collection :domains
+      model :record
+      collection :records
+      model :reverse
+      collection :reverses
+      model :zone
+      collection :zones
 
       request_path 'fog/storm_on_demand/requests/dns'
       request :list_domains

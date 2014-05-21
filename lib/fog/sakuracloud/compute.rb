@@ -5,30 +5,30 @@ module Fog
   module Compute
     class SakuraCloud < Fog::Service
 
-      requires     :sakuracloud_api_token
-      requires     :sakuracloud_api_token_secret
+      requires :sakuracloud_api_token
+      requires :sakuracloud_api_token_secret
 
-      recognizes   :sakuracloud_api_url
+      recognizes :sakuracloud_api_url
 
       model_path 'fog/sakuracloud/models/compute'
-      model      :server
+      model :server
       collection :servers
-      model      :plan
+      model :plan
       collection :plans
-      model      :ssh_key
+      model :ssh_key
       collection :ssh_keys
-      model      :zone
+      model :zone
       collection :zones
 
       request_path 'fog/sakuracloud/requests/compute'
-      request      :list_servers
-      request      :create_server
-      request      :delete_server
-      request      :boot_server
-      request      :stop_server
-      request      :list_plans
-      request      :list_ssh_keys
-      request      :list_zones
+      request :list_servers
+      request :create_server
+      request :delete_server
+      request :boot_server
+      request :stop_server
+      request :list_plans
+      request :list_ssh_keys
+      request :list_zones
 
       class Real
         def initialize(options = {})

@@ -7,7 +7,7 @@ module Fog
 
       class Server < Fog::Compute::Server
 
-        identity  :id
+        identity :id
 
         attribute :addresses
         attribute :host_id,     :aliases => 'hostId'

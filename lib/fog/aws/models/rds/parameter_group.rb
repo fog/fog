@@ -6,9 +6,9 @@ module Fog
 
       class ParameterGroup < Fog::Model
 
-        identity  :id, :aliases => ['DBParameterGroupName', :name]
-        attribute  :family, :aliases => 'DBParameterGroupFamily'
-        attribute  :description, :aliases => 'Description'
+        identity :id, :aliases => ['DBParameterGroupName', :name]
+        attribute :family, :aliases => 'DBParameterGroupFamily'
+        attribute :description, :aliases => 'Description'
 
         def save
           requires :family

@@ -6,7 +6,7 @@ module Fog
 
       class SecurityGroup < Fog::Model
 
-        identity  :name,            :aliases => 'groupName'
+        identity :name,            :aliases => 'groupName'
         attribute :description,     :aliases => 'groupDescription'
         attribute :group_id,        :aliases => 'groupId'
         attribute :ip_permissions,  :aliases => 'ipPermissions'

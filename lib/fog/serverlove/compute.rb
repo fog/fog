@@ -33,11 +33,11 @@ module Fog
 
       model_path 'fog/serverlove/models/compute'
 
-      model       :image
-      collection  :images
+      model :image
+      collection :images
 
-      model       :server
-      collection  :servers
+      model :server
+      collection :servers
 
       class Mock
 

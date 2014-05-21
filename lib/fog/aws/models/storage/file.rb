@@ -8,7 +8,7 @@ module Fog
       class File < Fog::Model
         # @see AWS Object docs http://docs.aws.amazon.com/AmazonS3/latest/API/RESTObjectOps.html 
 
-        identity  :key,             :aliases => 'Key'
+        identity :key,             :aliases => 'Key'
 
         attr_writer :body
         attribute :cache_control,       :aliases => 'Cache-Control'

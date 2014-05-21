@@ -13,10 +13,10 @@ module Fog
       recognizes :persistent
 
       model_path 'fog/atmos/models/storage'
-      model       :directory
-      collection  :directories
-      model       :file
-      collection  :files
+      model :directory
+      collection :directories
+      model :file
+      collection :files
 
       module Utils
       end

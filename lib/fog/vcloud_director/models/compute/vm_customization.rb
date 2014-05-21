@@ -6,7 +6,7 @@ module Fog
 
       class VmCustomization < Model
 
-        identity  :id
+        identity :id
 
         attribute :type
         attribute :href

@@ -13,8 +13,8 @@ module Fog
 
       model_path 'fog/openstack/models/metering'
 
-      model       :resource
-      collection  :resources
+      model :resource
+      collection :resources
 
 
       request_path 'fog/openstack/requests/metering'

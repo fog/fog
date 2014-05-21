@@ -5,7 +5,7 @@ module Fog
     class HPV2
       class VolumeAttachment < Fog::Model
 
-        identity  :id
+        identity :id
 
         attribute :server_id, :aliases => 'serverId'
         attribute :volume_id, :aliases => 'volumeId'

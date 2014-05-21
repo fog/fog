@@ -4,41 +4,41 @@ module Fog
   module Compute
     class Openvz < Fog::Service
 
-      recognizes   :openvz_connect_command
+      recognizes :openvz_connect_command
 
-      model_path   'fog/openvz/models/compute'
-      model        :server
-      collection   :servers
+      model_path 'fog/openvz/models/compute'
+      model :server
+      collection :servers
 
       request_path 'fog/openvz/requests/compute'
-      request      :list_servers
-      request      :get_server_details
+      request :list_servers
+      request :get_server_details
 
-      request      :create_server
-      request      :start_server
-      request      :destroy_server
-      request      :mount_server
-      request      :umount_server
-      request      :stop_server
-      request      :restart_server
-      request      :status_server
-      request      :convert_server
-      request      :compact_server
-      request      :snapshot_server
-      request      :snapshot_switch_server
-      request      :snapshot_delete_server
-      request      :snapshot_mount_server
-      request      :snapshot_umount_server
-      request      :snapshot_list_server
-      request      :quotaon_server
-      request      :quotaoff_server
-      request      :quotainit_server
-      request      :exec_server
-      request      :exec2_server
-      request      :runscript_server
-      request      :suspend_server
-      request      :resume_server
-      request      :set_server
+      request :create_server
+      request :start_server
+      request :destroy_server
+      request :mount_server
+      request :umount_server
+      request :stop_server
+      request :restart_server
+      request :status_server
+      request :convert_server
+      request :compact_server
+      request :snapshot_server
+      request :snapshot_switch_server
+      request :snapshot_delete_server
+      request :snapshot_mount_server
+      request :snapshot_umount_server
+      request :snapshot_list_server
+      request :quotaon_server
+      request :quotaoff_server
+      request :quotainit_server
+      request :exec_server
+      request :exec2_server
+      request :runscript_server
+      request :suspend_server
+      request :resume_server
+      request :set_server
 
       class Mock
 

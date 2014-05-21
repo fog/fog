@@ -7,7 +7,7 @@ module Fog
 
       class Zone < Fog::Model
 
-        identity  :id
+        identity :id
         attribute :domain,      :aliases => 'name'
         attribute :gtd_enabled, :aliases => 'gtdEnabled'
         attribute :nameservers, :aliases => 'nameServer'

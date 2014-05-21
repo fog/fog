@@ -6,7 +6,7 @@ module Fog
 
       class Policy < Fog::Model
 
-        identity  :id, :aliases => 'PolicyName'
+        identity :id, :aliases => 'PolicyName'
         attribute :username, :aliases => 'UserName'
         attribute :document, :aliases => 'PolicyDocument'
 

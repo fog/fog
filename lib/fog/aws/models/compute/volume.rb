@@ -6,7 +6,7 @@ module Fog
 
       class Volume < Fog::Model
 
-        identity  :id,                    :aliases => 'volumeId'
+        identity :id,                    :aliases => 'volumeId'
 
         attribute :attached_at,           :aliases => 'attachTime'
         attribute :availability_zone,     :aliases => 'availabilityZone'

@@ -9,7 +9,7 @@ module Fog
         TCP  = 6
         UDP  = 17
 
-        identity  :network_acl_id, :aliases => 'networkAclId'
+        identity :network_acl_id, :aliases => 'networkAclId'
         attribute :vpc_id,         :aliases => 'vpcId'
         attribute :default
         attribute :entries,        :aliases => 'entrySet'

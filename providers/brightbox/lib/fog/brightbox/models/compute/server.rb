@@ -6,7 +6,7 @@ module Fog
 
       class Server < Fog::Compute::Server
 
-        identity  :id
+        identity :id
         attribute :resource_type
         attribute :url
 

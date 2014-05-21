@@ -44,16 +44,16 @@ module Fog
 
       model_path 'fog/aws/models/beanstalk'
 
-      model       :application
-      collection  :applications
-      model       :environment
-      collection  :environments
-      model       :event
-      collection  :events
-      model       :template
-      collection  :templates
-      model       :version
-      collection  :versions
+      model :application
+      collection :applications
+      model :environment
+      collection :environments
+      model :event
+      collection :events
+      model :template
+      collection :templates
+      model :version
+      collection :versions
 
       class Mock
 

@@ -7,7 +7,7 @@ module Fog
 
       class Directory < Fog::Model
 
-        identity  :key
+        identity :key
 
         def destroy
           requires :key

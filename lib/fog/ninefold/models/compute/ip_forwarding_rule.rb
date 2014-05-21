@@ -6,7 +6,7 @@ module Fog
 
       class IpForwardingRule < Fog::Model
 
-        identity  :id
+        identity :id
 
         attribute :protocol
         attribute :virtualmachineid

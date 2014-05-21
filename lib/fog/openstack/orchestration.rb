@@ -12,8 +12,8 @@ module Fog
                  :openstack_endpoint_type
 
       model_path 'fog/openstack/models/orchestration'
-      model       :stack
-      collection  :stacks
+      model :stack
+      collection :stacks
 
       request_path 'fog/openstack/requests/orchestration'
       request :create_stack

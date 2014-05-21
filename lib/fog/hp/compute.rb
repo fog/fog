@@ -4,29 +4,29 @@ module Fog
   module Compute
     class HP < Fog::Service
 
-      requires    :hp_secret_key, :hp_tenant_id, :hp_avl_zone
-      recognizes  :hp_auth_uri, :credentials, :hp_service_type
-      recognizes  :hp_use_upass_auth_style, :hp_auth_version, :user_agent
-      recognizes  :persistent, :connection_options
-      recognizes  :hp_access_key, :hp_account_id  # :hp_account_id is deprecated use hp_access_key instead
+      requires :hp_secret_key, :hp_tenant_id, :hp_avl_zone
+      recognizes :hp_auth_uri, :credentials, :hp_service_type
+      recognizes :hp_use_upass_auth_style, :hp_auth_version, :user_agent
+      recognizes :persistent, :connection_options
+      recognizes :hp_access_key, :hp_account_id  # :hp_account_id is deprecated use hp_access_key instead
 
-      secrets     :hp_secret_key
+      secrets :hp_secret_key
 
       model_path 'fog/hp/models/compute'
-      model       :address
-      collection  :addresses
-      model       :flavor
-      collection  :flavors
-      model       :image
-      collection  :images
-      model       :key_pair
-      collection  :key_pairs
-      model       :meta
-      collection  :metadata
-      model       :security_group
-      collection  :security_groups
-      model       :server
-      collection  :servers
+      model :address
+      collection :addresses
+      model :flavor
+      collection :flavors
+      model :image
+      collection :images
+      model :key_pair
+      collection :key_pairs
+      model :meta
+      collection :metadata
+      model :security_group
+      collection :security_groups
+      model :server
+      collection :servers
 
       request_path 'fog/hp/requests/compute'
       request :allocate_address

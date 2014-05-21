@@ -31,7 +31,7 @@ module Fog
       request :upload_part
 
       model_path 'fog/aws/models/glacier'
-      model      :vault
+      model :vault
       collection :vaults
 
       MEGABYTE = 1024*1024

@@ -60,29 +60,29 @@ module Fog
       request :promote_read_replica
 
       model_path 'fog/aws/models/rds'
-      model       :server
-      collection  :servers
+      model :server
+      collection :servers
 
-      model       :snapshot
-      collection  :snapshots
+      model :snapshot
+      collection :snapshots
 
-      model       :parameter_group
-      collection  :parameter_groups
+      model :parameter_group
+      collection :parameter_groups
 
-      model       :parameter
-      collection  :parameters
+      model :parameter
+      collection :parameters
 
-      model       :security_group
-      collection  :security_groups
+      model :security_group
+      collection :security_groups
 
-      model       :subnet_group
-      collection  :subnet_groups
+      model :subnet_group
+      collection :subnet_groups
 
-      model       :instance_option
-      collection  :instance_options
+      model :instance_option
+      collection :instance_options
 
-      model       :log_file
-      collection  :log_files
+      model :log_file
+      collection :log_files
 
       class Mock
 

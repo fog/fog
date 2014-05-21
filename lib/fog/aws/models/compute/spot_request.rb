@@ -36,7 +36,7 @@ module Fog
         attribute :fault,                      :squash  => 'message'
         attribute :user_data
 
-        attr_writer   :iam_instance_profile_name, :iam_instance_profile_arn
+        attr_writer :iam_instance_profile_name, :iam_instance_profile_arn
 
         def initialize(attributes={})
           self.groups ||= ["default"]

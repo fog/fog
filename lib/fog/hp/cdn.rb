@@ -5,15 +5,15 @@ module Fog
   module CDN
     class HP < Fog::Service
 
-      requires    :hp_secret_key, :hp_tenant_id, :hp_avl_zone
-      recognizes  :hp_auth_uri, :hp_cdn_uri, :credentials, :hp_service_type
-      recognizes  :hp_use_upass_auth_style, :hp_auth_version, :user_agent
-      recognizes  :persistent, :connection_options
-      recognizes  :hp_access_key, :hp_account_id  # :hp_account_id is deprecated use hp_access_key instead
+      requires :hp_secret_key, :hp_tenant_id, :hp_avl_zone
+      recognizes :hp_auth_uri, :hp_cdn_uri, :credentials, :hp_service_type
+      recognizes :hp_use_upass_auth_style, :hp_auth_version, :user_agent
+      recognizes :persistent, :connection_options
+      recognizes :hp_access_key, :hp_account_id  # :hp_account_id is deprecated use hp_access_key instead
 
-      secrets     :hp_secret_key
+      secrets :hp_secret_key
 
-      model_path   'fog/hp/models/cdn'
+      model_path 'fog/hp/models/cdn'
 
       request_path 'fog/hp/requests/cdn'
       request :get_containers

@@ -3,7 +3,7 @@ module Fog
     class Cloudstack
       class Job < Fog::Model
 
-        identity  :id,              :aliases => 'jobid'
+        identity :id,              :aliases => 'jobid'
         attribute :user_id,         :aliases => 'userid'
         attribute :account_id,      :aliases => 'accountid'
         attribute :cmd

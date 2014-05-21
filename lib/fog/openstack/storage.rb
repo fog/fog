@@ -4,17 +4,17 @@ module Fog
   module Storage
     class OpenStack < Fog::Service
 
-      requires   :openstack_auth_url, :openstack_username,
+      requires :openstack_auth_url, :openstack_username,
                  :openstack_api_key
       recognizes :persistent, :openstack_service_name,
                  :openstack_service_type, :openstack_tenant,
                  :openstack_region, :openstack_temp_url_key
 
       model_path 'fog/openstack/models/storage'
-      model       :directory
-      collection  :directories
-      model       :file
-      collection  :files
+      model :directory
+      collection :directories
+      model :file
+      collection :files
 
       request_path 'fog/openstack/requests/storage'
       request :copy_object

@@ -8,7 +8,7 @@ module Fog
         extend Fog::Deprecation
         deprecate :ip_address, :public_ip_address
 
-        identity  :id,                       :aliases => 'instanceId'
+        identity :id,                       :aliases => 'instanceId'
 
         attr_accessor :architecture
         attribute :ami_launch_index,         :aliases => 'amiLaunchIndex'
@@ -54,8 +54,8 @@ module Fog
         attribute :virtualization_type,      :aliases => 'virtualizationType'
         attribute :vpc_id,                   :aliases => 'vpcId'
 
-        attr_accessor                        :password
-        attr_writer                          :iam_instance_profile_name, :iam_instance_profile_arn
+        attr_accessor :password
+        attr_writer :iam_instance_profile_name, :iam_instance_profile_arn
 
 
         def initialize(attributes={})

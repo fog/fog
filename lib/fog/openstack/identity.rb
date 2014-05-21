@@ -12,14 +12,14 @@ module Fog
                  :openstack_endpoint_type
 
       model_path 'fog/openstack/models/identity'
-      model       :tenant
-      collection  :tenants
-      model       :user
-      collection  :users
-      model       :role
-      collection  :roles
-      model       :ec2_credential
-      collection  :ec2_credentials
+      model :tenant
+      collection :tenants
+      model :user
+      collection :users
+      model :role
+      collection :roles
+      model :ec2_credential
+      collection :ec2_credentials
 
       request_path 'fog/openstack/requests/identity'
 

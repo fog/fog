@@ -13,8 +13,8 @@ module Fog
 
       model_path 'fog/openstack/models/image'
 
-      model       :image
-      collection  :images
+      model :image
+      collection :images
 
       request_path 'fog/openstack/requests/image'
 

@@ -5,7 +5,7 @@ module Fog
 
       class LoadBalancer < Fog::Model
 
-        identity  :id,                    :aliases => 'LoadBalancerName'
+        identity :id,                    :aliases => 'LoadBalancerName'
         attribute :availability_zones,    :aliases => 'AvailabilityZones'
         attribute :created_at,            :aliases => 'CreatedTime'
         attribute :dns_name,              :aliases => 'DNSName'

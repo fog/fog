@@ -6,7 +6,7 @@ module Fog
 
       class Address < Fog::Model
 
-        identity  :id
+        identity :id
 
         attribute :ip
         attribute :fixed_ip

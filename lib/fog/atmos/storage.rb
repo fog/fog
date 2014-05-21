@@ -9,10 +9,10 @@ module Fog
       recognizes :persistent
 
       model_path 'fog/atmos/models/storage'
-      model       :directory
-      collection  :directories
-      model       :file
-      collection  :files
+      model :directory
+      collection :directories
+      model :file
+      collection :files
 
       request_path 'fog/atmos/requests/storage'
       # request :delete_container

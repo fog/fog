@@ -6,7 +6,7 @@ module Fog
 
       class File < Fog::Model
 
-        identity  :key,             :aliases => 'name'
+        identity :key,             :aliases => 'name'
 
         attribute :content_length,  :aliases => ['bytes', 'Content-Length'], :type => :integer
         attribute :content_type,    :aliases => ['content_type', 'Content-Type']

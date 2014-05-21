@@ -23,16 +23,16 @@ module Fog
       request :set_alarm_state
 
       model_path 'fog/aws/models/cloud_watch'
-      model       :metric
-      collection  :metrics
-      model       :metric_statistic
-      collection  :metric_statistics
-      model       :alarm_datum
-      collection  :alarm_data
-      model       :alarm_history
-      collection  :alarm_histories
-      model       :alarm
-      collection  :alarms
+      model :metric
+      collection :metrics
+      model :metric_statistic
+      collection :metric_statistics
+      model :alarm_datum
+      collection :alarm_data
+      model :alarm_history
+      collection :alarm_histories
+      model :alarm
+      collection :alarms
 
       class Mock
 

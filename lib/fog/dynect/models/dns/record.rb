@@ -7,7 +7,7 @@ module Fog
       class Record < Fog::Model
         extend Fog::Deprecation
 
-        identity  :id
+        identity :id
         attribute :name,        :aliases => [:fqdn, 'fqdn']
         attribute :rdata
         attribute :serial_style

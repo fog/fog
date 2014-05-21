@@ -9,13 +9,13 @@ module Fog
 
       model_path 'fog/bluebox/models/blb'
 
-      model      :lb_application
+      model :lb_application
       collection :lb_applications
 
-      model      :lb_service
+      model :lb_service
       collection :lb_services
 
-      model      :lb_backend
+      model :lb_backend
       collection :lb_backends
 
 

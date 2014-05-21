@@ -4,20 +4,20 @@ module Fog
   module HP
     class BlockStorageV2 < Fog::Service
 
-      requires    :hp_access_key, :hp_secret_key, :hp_tenant_id, :hp_avl_zone
-      recognizes  :hp_auth_uri, :credentials, :hp_service_type
-      recognizes  :persistent, :connection_options
-      recognizes  :hp_use_upass_auth_style, :hp_auth_version, :user_agent
+      requires :hp_access_key, :hp_secret_key, :hp_tenant_id, :hp_avl_zone
+      recognizes :hp_auth_uri, :credentials, :hp_service_type
+      recognizes :persistent, :connection_options
+      recognizes :hp_use_upass_auth_style, :hp_auth_version, :user_agent
 
-      secrets     :hp_secret_key
+      secrets :hp_secret_key
 
-      model_path  'fog/hp/models/block_storage_v2'
-      model       :volume
-      collection  :volumes
-      model       :volume_backup
-      collection  :volume_backups
-      model       :snapshot
-      collection  :snapshots
+      model_path 'fog/hp/models/block_storage_v2'
+      model :volume
+      collection :volumes
+      model :volume_backup
+      collection :volume_backups
+      model :snapshot
+      collection :snapshots
 
       request_path 'fog/hp/requests/block_storage_v2'
       request :create_volume

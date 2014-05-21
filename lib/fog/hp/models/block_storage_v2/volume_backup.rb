@@ -6,7 +6,7 @@ module Fog
 
       class VolumeBackup < Fog::Model
 
-        identity  :id
+        identity :id
 
         attribute :name
         attribute :description

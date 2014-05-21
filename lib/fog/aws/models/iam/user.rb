@@ -6,7 +6,7 @@ module Fog
 
       class User < Fog::Model
 
-        identity  :id, :aliases => 'UserName'
+        identity :id, :aliases => 'UserName'
         attribute :path, :aliases => 'Path'
         attribute :arn, :aliases => 'Arn'
         attribute :user_id, :aliases => 'UserId'

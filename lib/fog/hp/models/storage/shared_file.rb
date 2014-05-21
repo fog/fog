@@ -6,7 +6,7 @@ module Fog
 
       class SharedFile < Fog::Model
 
-        identity  :key,             :aliases => 'name'
+        identity :key,             :aliases => 'name'
         attribute :url
 
         attribute :content_length,  :aliases => ['bytes', 'Content-Length'], :type => :integer

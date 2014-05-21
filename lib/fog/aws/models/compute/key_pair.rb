@@ -6,7 +6,7 @@ module Fog
 
       class KeyPair < Fog::Model
 
-        identity  :name,        :aliases => 'keyName'
+        identity :name,        :aliases => 'keyName'
 
         attribute :fingerprint, :aliases => 'keyFingerprint'
         attribute :private_key, :aliases => 'keyMaterial'

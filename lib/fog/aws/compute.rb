@@ -8,43 +8,43 @@ module Fog
       requires :aws_access_key_id, :aws_secret_access_key
       recognizes :endpoint, :region, :host, :path, :port, :scheme, :persistent, :aws_session_token, :use_iam_profile, :aws_credentials_expire_at, :instrumentor, :instrumentor_name, :version
 
-      secrets    :aws_secret_access_key, :hmac, :aws_session_token
+      secrets :aws_secret_access_key, :hmac, :aws_session_token
 
       model_path 'fog/aws/models/compute'
-      model       :address
-      collection  :addresses
-      model       :dhcp_options
-      collection  :dhcp_options
-      model       :flavor
-      collection  :flavors
-      model       :image
-      collection  :images
-      model       :internet_gateway
-      collection  :internet_gateways
-      model       :key_pair
-      collection  :key_pairs
-      model       :network_acl
-      collection  :network_acls
-      model       :network_interface
-      collection  :network_interfaces
-      model       :route_table
-      collection  :route_tables
-      model       :security_group
-      collection  :security_groups
-      model       :server
-      collection  :servers
-      model       :snapshot
-      collection  :snapshots
-      model       :tag
-      collection  :tags
-      model       :volume
-      collection  :volumes
-      model       :spot_request
-      collection  :spot_requests
-      model       :subnet
-      collection  :subnets
-      model       :vpc
-      collection  :vpcs
+      model :address
+      collection :addresses
+      model :dhcp_options
+      collection :dhcp_options
+      model :flavor
+      collection :flavors
+      model :image
+      collection :images
+      model :internet_gateway
+      collection :internet_gateways
+      model :key_pair
+      collection :key_pairs
+      model :network_acl
+      collection :network_acls
+      model :network_interface
+      collection :network_interfaces
+      model :route_table
+      collection :route_tables
+      model :security_group
+      collection :security_groups
+      model :server
+      collection :servers
+      model :snapshot
+      collection :snapshots
+      model :tag
+      collection :tags
+      model :volume
+      collection :volumes
+      model :spot_request
+      collection :spot_requests
+      model :subnet
+      collection :subnets
+      model :vpc
+      collection :vpcs
 
       request_path 'fog/aws/requests/compute'
       request :allocate_address

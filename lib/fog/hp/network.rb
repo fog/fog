@@ -4,28 +4,28 @@ module Fog
   module HP
     class Network < Fog::Service
 
-      requires    :hp_access_key, :hp_secret_key, :hp_tenant_id, :hp_avl_zone
-      recognizes  :hp_auth_uri, :credentials, :hp_service_type
-      recognizes  :persistent, :connection_options
-      recognizes  :hp_use_upass_auth_style, :hp_auth_version, :user_agent
+      requires :hp_access_key, :hp_secret_key, :hp_tenant_id, :hp_avl_zone
+      recognizes :hp_auth_uri, :credentials, :hp_service_type
+      recognizes :persistent, :connection_options
+      recognizes :hp_use_upass_auth_style, :hp_auth_version, :user_agent
 
-      secrets     :hp_secret_key
+      secrets :hp_secret_key
 
       model_path 'fog/hp/models/network'
-      model       :floating_ip
-      collection  :floating_ips
-      model       :network
-      collection  :networks
-      model       :port
-      collection  :ports
-      model       :router
-      collection  :routers
-      model       :security_group
-      collection  :security_groups
-      model       :security_group_rule
-      collection  :security_group_rules
-      model       :subnet
-      collection  :subnets
+      model :floating_ip
+      collection :floating_ips
+      model :network
+      collection :networks
+      model :port
+      collection :ports
+      model :router
+      collection :routers
+      model :security_group
+      collection :security_groups
+      model :security_group_rule
+      collection :security_group_rules
+      model :subnet
+      collection :subnets
 
       request_path 'fog/hp/requests/network'
       request :add_router_interface

@@ -9,10 +9,10 @@ module Fog
       recognizes :provider # remove post deprecation
 
       model_path 'fog/dynect/models/dns'
-      model       :record
-      collection  :records
-      model       :zone
-      collection  :zones
+      model :record
+      collection :records
+      model :zone
+      collection :zones
 
       request_path 'fog/dynect/requests/dns'
       request :delete_record

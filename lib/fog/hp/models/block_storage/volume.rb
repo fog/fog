@@ -6,7 +6,7 @@ module Fog
 
       class Volume < Fog::Model
 
-        identity  :id
+        identity :id
 
         attribute :name,                 :aliases => 'displayName'
         attribute :description,          :aliases => 'displayDescription'

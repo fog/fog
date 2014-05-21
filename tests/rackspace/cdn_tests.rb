@@ -100,7 +100,7 @@ Shindo.tests('Fog::CDN::Rackspace', ['rackspace']) do
     pending if Fog.mocking?
 
     tests('should reauth with valid credentials') do
-      @service = Fog::CDN::Rackspace.new  :rackspace_region => :ord
+      @service = Fog::CDN::Rackspace.new :rackspace_region => :ord
       returns(true, "auth token populated") { !@service.send(:auth_token).nil? }
       @service.instance_variable_set("@auth_token", "bad-token")
       returns(true) { [200, 204].include? @service.get_containers.status }

@@ -4,41 +4,41 @@ module Fog
   module HP
     class LB < Fog::Service
 
-      requires    :hp_access_key, :hp_secret_key, :hp_tenant_id, :hp_avl_zone
-      recognizes  :hp_auth_uri, :credentials, :hp_service_type
-      recognizes  :persistent, :connection_options
-      recognizes  :hp_use_upass_auth_style, :hp_auth_version, :user_agent
+      requires :hp_access_key, :hp_secret_key, :hp_tenant_id, :hp_avl_zone
+      recognizes :hp_auth_uri, :credentials, :hp_service_type
+      recognizes :persistent, :connection_options
+      recognizes :hp_use_upass_auth_style, :hp_auth_version, :user_agent
 
       secrets :hp_secret_key
 
       model_path 'fog/hp/models/lb'
-      model       :algorithm
-      collection  :algorithms
-      model       :load_balancer
-      collection  :load_balancers
-      model       :node
-      collection  :nodes
-      model       :protocol
-      collection  :protocols
-      model       :virtual_ip
-      collection  :virtual_ips
+      model :algorithm
+      collection :algorithms
+      model :load_balancer
+      collection :load_balancers
+      model :node
+      collection :nodes
+      model :protocol
+      collection :protocols
+      model :virtual_ip
+      collection :virtual_ips
 
       request_path 'fog/hp/requests/lb'
-      request       :create_load_balancer
-      request       :create_load_balancer_node
-      request       :delete_load_balancer
-      request       :delete_load_balancer_node
-      request       :get_load_balancer
-      request       :get_load_balancer_node
-      request       :list_algorithms
-      request       :list_limits
-      request       :list_load_balancer_nodes
-      request       :list_load_balancer_virtual_ips
-      request       :list_load_balancers
-      request       :list_protocols
-      request       :list_versions
-      request       :update_load_balancer
-      request       :update_load_balancer_node
+      request :create_load_balancer
+      request :create_load_balancer_node
+      request :delete_load_balancer
+      request :delete_load_balancer_node
+      request :get_load_balancer
+      request :get_load_balancer_node
+      request :list_algorithms
+      request :list_limits
+      request :list_load_balancer_nodes
+      request :list_load_balancer_virtual_ips
+      request :list_load_balancers
+      request :list_protocols
+      request :list_versions
+      request :update_load_balancer
+      request :update_load_balancer_node
 
       class Mock
 

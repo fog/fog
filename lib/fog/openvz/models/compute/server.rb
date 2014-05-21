@@ -6,7 +6,7 @@ module Fog
 
       class Server < Fog::Compute::Server
 
-        identity  :ctid
+        identity :ctid
         attribute :ostemplate
         attribute :config
         attribute :layout

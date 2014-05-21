@@ -2,7 +2,7 @@ module Fog
   module Compute
     class Cloudstack
       class Image < Fog::Model
-        identity  :id,                 :aliases => 'id'
+        identity :id,                 :aliases => 'id'
         attribute :account
         attribute :account_id,         :aliases => 'accountid'
         attribute :bootable

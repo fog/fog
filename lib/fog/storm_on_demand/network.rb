@@ -9,20 +9,20 @@ module Fog
       recognizes :storm_on_demand_auth_url
 
       model_path 'fog/storm_on_demand/models/network'
-      model       :balancer
-      collection  :balancers
-      model       :network_ip
-      collection  :network_ips
-      model       :private_ip
-      collection  :private_ips
-      model       :firewall
-      collection  :firewalls
-      model       :ruleset
-      collection  :rulesets
-      model       :pool
-      collection  :pools
-      model       :zone
-      collection  :zones
+      model :balancer
+      collection :balancers
+      model :network_ip
+      collection :network_ips
+      model :private_ip
+      collection :private_ips
+      model :firewall
+      collection :firewalls
+      model :ruleset
+      collection :rulesets
+      model :pool
+      collection :pools
+      model :zone
+      collection :zones
 
       request_path 'fog/storm_on_demand/requests/network'
       request :remove_balancer_node

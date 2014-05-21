@@ -6,7 +6,7 @@ module Fog
 
       class Archive < Fog::Model
 
-        identity  :id
+        identity :id
         attribute :description
         attribute :body
 

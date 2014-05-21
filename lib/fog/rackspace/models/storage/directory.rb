@@ -10,7 +10,7 @@ module Fog
 
         # @!attribute [r] key
         # @return [String] The name of the directory
-        identity  :key, :aliases => 'name'
+        identity :key, :aliases => 'name'
 
         # @!attribute [r] bytes
         # @return [Integer] The number of bytes used by the directory

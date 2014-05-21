@@ -5,7 +5,7 @@ module Fog
     class AutoScaling
       class Instance < Fog::Model
 
-        identity  :id,                        :aliases => 'InstanceId'
+        identity :id,                        :aliases => 'InstanceId'
         attribute :auto_scaling_group_name,   :aliases => 'AutoScalingGroupName'
         attribute :availability_zone,         :aliases => 'AvailabilityZone'
         attribute :health_status,             :aliases => 'HealthStatus'

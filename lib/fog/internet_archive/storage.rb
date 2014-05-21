@@ -7,13 +7,13 @@ module Fog
       requires :ia_access_key_id, :ia_secret_access_key
       recognizes :endpoint, :region, :host, :path, :port, :scheme, :persistent, :ia_session_token, :ia_credentials_expire_at
 
-      secrets    :ia_secret_access_key, :hmac
+      secrets :ia_secret_access_key, :hmac
 
       model_path 'fog/internet_archive/models/storage'
-      collection  :directories
-      model       :directory
-      collection  :files
-      model       :file
+      collection :directories
+      model :directory
+      collection :files
+      model :file
 
       request_path 'fog/internet_archive/requests/storage'
       request :abort_multipart_upload

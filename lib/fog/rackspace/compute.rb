@@ -14,12 +14,12 @@ module Fog
       recognizes :rackspace_auth_token, :rackspace_management_url, :rackspace_compute_v1_url, :rackspace_region
 
       model_path 'fog/rackspace/models/compute'
-      model       :flavor
-      collection  :flavors
-      model       :image
-      collection  :images
-      model       :server
-      collection  :servers
+      model :flavor
+      collection :flavors
+      model :image
+      collection :images
+      model :server
+      collection :servers
 
       request_path 'fog/rackspace/requests/compute'
       request :confirm_resized_server

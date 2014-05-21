@@ -8,12 +8,12 @@ module Fog
       recognizes :host, :path, :port, :scheme, :persistent
 
       model_path 'fog/go_grid/models/compute'
-      model         :image
-      collection    :images
-      model         :server
-      collection    :servers
-      model         :password
-      collection    :passwords
+      model :image
+      collection :images
+      model :server
+      collection :servers
+      model :password
+      collection :passwords
 
       request_path 'fog/go_grid/requests/compute'
       request :common_lookup_list

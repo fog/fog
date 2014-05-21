@@ -8,10 +8,10 @@ module Fog
       recognizes :host, :port, :scheme, :persistent, :path_style
 
       model_path 'fog/google/models/storage'
-      collection  :directories
-      model       :directory
-      collection  :files
-      model       :file
+      collection :directories
+      model :directory
+      collection :files
+      model :file
 
       request_path 'fog/google/requests/storage'
       request :copy_object

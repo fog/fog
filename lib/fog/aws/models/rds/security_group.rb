@@ -7,11 +7,11 @@ module Fog
 
       class SecurityGroup < Fog::Model
 
-        identity   :id, :aliases => ['DBSecurityGroupName']
-        attribute  :description, :aliases => 'DBSecurityGroupDescription'
-        attribute  :ec2_security_groups, :aliases => 'EC2SecurityGroups', :type => :array
-        attribute  :ip_ranges, :aliases => 'IPRanges', :type => :array
-        attribute  :owner_id, :aliases => 'OwnerId'
+        identity :id, :aliases => ['DBSecurityGroupName']
+        attribute :description, :aliases => 'DBSecurityGroupDescription'
+        attribute :ec2_security_groups, :aliases => 'EC2SecurityGroups', :type => :array
+        attribute :ip_ranges, :aliases => 'IPRanges', :type => :array
+        attribute :owner_id, :aliases => 'OwnerId'
 
         def ready?
           (ec2_security_groups + ip_ranges).all?{|ingress| ingress['Status'] == 'authorized'}

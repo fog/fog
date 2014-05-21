@@ -6,7 +6,7 @@ module Fog
 
       class Server < Fog::Model
 
-        identity  :id, :aliases => 'DBInstanceIdentifier'
+        identity :id, :aliases => 'DBInstanceIdentifier'
         attribute :engine, :aliases => 'Engine'
         attribute :engine_version, :aliases => 'EngineVersion'
         attribute :state, :aliases => 'DBInstanceStatus'

@@ -6,7 +6,7 @@ module Fog
 
       class Tag < Fog::Model
 
-        identity  :key
+        identity :key
 
         attribute :value
         attribute :resource_id,           :aliases => 'resourceId'

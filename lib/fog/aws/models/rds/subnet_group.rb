@@ -6,11 +6,11 @@ module Fog
 
       class SubnetGroup < Fog::Model
 
-        identity   :id, :aliases => ['DBSubnetGroupName', :name]
-        attribute  :description, :aliases => 'DBSubnetGroupDescription'
-        attribute  :status, :aliases => 'SubnetGroupStatus'
-        attribute  :vpc_id, :aliases => 'VpcId'
-        attribute  :subnet_ids, :aliases => 'Subnets'
+        identity :id, :aliases => ['DBSubnetGroupName', :name]
+        attribute :description, :aliases => 'DBSubnetGroupDescription'
+        attribute :status, :aliases => 'SubnetGroupStatus'
+        attribute :vpc_id, :aliases => 'VpcId'
+        attribute :subnet_ids, :aliases => 'Subnets'
 
         def ready?
           requires :status

@@ -46,13 +46,13 @@ module Fog
       request :set_load_balancer_policies_for_backend_server
 
       model_path 'fog/aws/models/elb'
-      model      :load_balancer
+      model :load_balancer
       collection :load_balancers
-      model      :policy
+      model :policy
       collection :policies
-      model      :listener
+      model :listener
       collection :listeners
-      model      :backend_server_description
+      model :backend_server_description
       collection :backend_server_descriptions
 
       class Mock

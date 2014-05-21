@@ -9,10 +9,10 @@ module Fog
       recognizes :clodo_auth_token, :clodo_management_url
 
       model_path 'fog/clodo/models/compute'
-      model       :image
-      collection  :images
-      model       :server
-      collection  :servers
+      model :image
+      collection :images
+      model :server
+      collection :servers
 
       request_path 'fog/clodo/requests/compute'
       request :create_server

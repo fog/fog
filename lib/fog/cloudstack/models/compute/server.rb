@@ -4,7 +4,7 @@ module Fog
   module Compute
     class Cloudstack
       class Server < Fog::Compute::Server
-        identity  :id,                                      :aliases => 'id'
+        identity :id,                                      :aliases => 'id'
         attribute :name
         attribute :account_name,                            :aliases => 'account'
         attribute :domain_name,                             :aliases => 'domain'

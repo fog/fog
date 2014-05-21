@@ -20,8 +20,8 @@ module Fog
       request :describe_objects
 
       model_path 'fog/aws/models/data_pipeline'
-      model       :pipeline
-      collection  :pipelines
+      model :pipeline
+      collection :pipelines
 
       class Mock
         def initialize(options={})

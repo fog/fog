@@ -6,7 +6,7 @@ module Fog
 
       class NetworkInterface < Fog::Model
 
-        identity  :network_interface_id,        :aliases => 'networkInterfaceId'
+        identity :network_interface_id,        :aliases => 'networkInterfaceId'
         attribute :state
         attribute :request_id,                  :aliases => 'requestId'
         attribute :network_interface_id,        :aliases => 'networkInterfaceId'

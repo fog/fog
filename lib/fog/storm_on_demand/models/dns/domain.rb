@@ -5,7 +5,7 @@ module Fog
     class StormOnDemand
 
       class Domain < Fog::Model
-        identity  :domain
+        identity :domain
         attribute :admin_handle
         attribute :bill_handle
         attribute :created
