@@ -49,7 +49,7 @@ module Fog
         end
 
         def writable?
-          !!(private_key && ENV.has_key?('HOME'))
+          !!(private_key && ENV.key?('HOME'))
         end
 
       end

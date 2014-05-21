@@ -37,7 +37,7 @@ module Fog
 
       class Mock
         def create_user(user_name, path='/')
-          if data[:users].has_key? user_name
+          if data[:users].key? user_name
             raise Fog::AWS::IAM::EntityAlreadyExists.new "User with name #{user_name} already exists."
           else
             data[:users][user_name][:path] = path

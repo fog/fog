@@ -61,7 +61,7 @@ module Fog
           response = Excon::Response.new
           response.status = 200
 
-          raise Fog::AWS::ELB::IdentifierTaken if self.data[:load_balancers].has_key? lb_name
+          raise Fog::AWS::ELB::IdentifierTaken if self.data[:load_balancers].key? lb_name
 
           certificate_ids = Fog::AWS::IAM::Mock.data[@aws_access_key_id][:server_certificates].map {|n, c| c['Arn'] }
 

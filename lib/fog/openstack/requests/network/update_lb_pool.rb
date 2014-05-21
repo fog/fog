@@ -7,7 +7,7 @@ module Fog
           data = { 'pool' => {} }
 
           vanilla_options = [:name, :description, :lb_method, :admin_state_up]
-          vanilla_options.select{ |o| options.has_key?(o) }.each do |key|
+          vanilla_options.select{ |o| options.key?(o) }.each do |key|
             data['pool'][key] = options[key]
           end
 

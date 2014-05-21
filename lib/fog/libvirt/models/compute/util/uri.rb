@@ -127,7 +127,7 @@ module Fog
         def value(name)
           unless @parsed_uri.query.nil?
             params=CGI.parse(@parsed_uri.query)
-            if params.has_key?(name)
+            if params.key?(name)
               return params[name].first
             else
               return nil

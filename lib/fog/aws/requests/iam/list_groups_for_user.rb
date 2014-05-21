@@ -42,7 +42,7 @@ module Fog
       class Mock
         def list_groups_for_user(user_name, options = {})
           #FIXME: Does not consider options
-          if data[:users].has_key? user_name
+          if data[:users].key? user_name
             Excon::Response.new.tap do |response|
               response.status = 200
               response.body = { 'GroupsForUser' => data[:groups].select do |name, group|

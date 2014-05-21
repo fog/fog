@@ -127,7 +127,7 @@ module Fog
             if querystring.nil?
               append="?socket=/var/run/libvirt/libvirt-sock"
             else
-              if !::CGI.parse(querystring).has_key?("socket")
+              if !::CGI.parse(querystring).key?("socket")
                 append="&socket=/var/run/libvirt/libvirt-sock"
               end
             end

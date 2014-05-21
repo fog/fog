@@ -28,7 +28,7 @@ module Fog
               :path     => "#{path}/#{Fog::HP.escape(object_name)}"
             )
           end
-          if headers.has_key?('Transfer-Encoding')
+          if headers.key?('Transfer-Encoding')
             headers.delete('Content-Length')
           end
           response = shared_request(

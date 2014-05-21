@@ -100,7 +100,7 @@ module Fog
                 (delimiter   && object['Key'][(prefix ? prefix.length : 0)..-1].include?(delimiter) \
                              && common_prefixes << object['Key'].sub(/^(#{prefix}[^#{delimiter}]+.).*/, '\1'))
               end.map do |object|
-                if object.has_key?(:delete_marker)
+                if object.key?(:delete_marker)
                   tag_name = 'DeleteMarker'
                   extracted_attrs = ['Key', 'VersionId']
                 else

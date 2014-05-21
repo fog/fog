@@ -16,10 +16,10 @@ module Fog
             case name
             when "Network"
               @response = extract_attributes(attributes)
-              if @response.has_key?("name")
+              if @response.key?("name")
                 @response["subnet"] = @response["name"]
               end
-              if @response.has_key?("href")
+              if @response.key?("href")
                 @response["id"] = @response["href"].split("/").last
               end
             when "Link"

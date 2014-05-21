@@ -9,13 +9,13 @@ module Fog
           path = "domains/#{domain_id}"
           data = {}
 
-          if options.has_key? :ttl
+          if options.key? :ttl
             data['ttl'] = options[:ttl]
           end
-          if options.has_key? :comment
+          if options.key? :comment
             data['comment'] = options[:comment]
           end
-          if options.has_key? :email
+          if options.key? :email
             data['emailAddress'] = options[:email]
           end
 

@@ -37,10 +37,10 @@ module Fog
       class Mock
 
         def delete_notification_configuration(auto_scaling_group_name, topic_arn)
-          unless self.data[:notification_configurations].has_key?(auto_scaling_group_name)
+          unless self.data[:notification_configurations].key?(auto_scaling_group_name)
             raise Fog::AWS::AutoScaling::ValidationError.new('AutoScalingGroup name not found - %s' % auto_scaling_group_name)
           end
-          unless self.data[:notification_configurations][auto_scaling_group_name].has_key?(topic_arn)
+          unless self.data[:notification_configurations][auto_scaling_group_name].key?(topic_arn)
             raise Fog::AWS::AutoScaling::ValidationError.new("Notification Topic '#{topic_arn}' doesn't exist for '#{self.data[:owner_id]}'")
           end
 

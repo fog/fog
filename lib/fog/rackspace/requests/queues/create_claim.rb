@@ -25,7 +25,7 @@ module Fog
           }
 
           query = {}
-          query[:limit] = options[:limit] if options.has_key? :limit
+          query[:limit] = options[:limit] if options.key? :limit
           request(
             :body => Fog::JSON.encode(body),
             :expects => [200, 201, 204],

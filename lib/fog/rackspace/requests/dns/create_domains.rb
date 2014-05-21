@@ -14,7 +14,7 @@ module Fog
                 'emailAddress' => domain[:email]
               }
 
-            if domain.has_key? :records
+            if domain.key? :records
               domain_data['recordsList'] = {
                 'records' => domain[:records].collect do |record|
                   record_data = {
@@ -24,7 +24,7 @@ module Fog
                     'type' => record[:type],
                   }
 
-                  if record.has_key? :priority
+                  if record.key? :priority
                     record_data.merge!({'priority' => record[:priority]})
                   else
                     record_data

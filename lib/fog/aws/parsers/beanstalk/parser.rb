@@ -38,7 +38,7 @@ module Fog
               if @parse_stack.last[:type] == :object
                 @parse_stack.last[:value] << {} # Push any empty object
               end
-            elsif @list_tags.has_key?(name)
+            elsif @list_tags.key?(name)
               set_value(name, [], :array) # Set an empty array
               @parse_stack.push({ :type => @tags[name], :value => get_parent[name] })
             elsif @tags[name] == :object
@@ -56,9 +56,9 @@ module Fog
               when 'RequestId'
                 @response['ResponseMetadata'][name] = value
               else
-                if @list_tags.has_key?(name) || @tags[name] == :object
+                if @list_tags.key?(name) || @tags[name] == :object
                   @parse_stack.pop()
-                elsif @tags.has_key?(name)
+                elsif @tags.key?(name)
                   set_value(name, value, @tags[name])
                 end
             end

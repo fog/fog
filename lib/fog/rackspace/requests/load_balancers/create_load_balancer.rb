@@ -13,8 +13,8 @@ module Fog
           }
 
           data['loadBalancer']['nodes'] = nodes if nodes && !nodes.empty?
-          data['loadBalancer']['algorithm'] = options[:algorithm] if options.has_key? :algorithm
-          data['loadBalancer']['timeout'] = options[:timeout] if options.has_key? :timeout
+          data['loadBalancer']['algorithm'] = options[:algorithm] if options.key? :algorithm
+          data['loadBalancer']['timeout'] = options[:timeout] if options.key? :timeout
 
           request(
             :body     => Fog::JSON.encode(data),

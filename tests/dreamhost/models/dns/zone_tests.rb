@@ -14,7 +14,7 @@ Shindo.tests("Fog::DNS[:dreamhost] | zone", ['dreamhost', 'dns']) do
         test("#{attribute} method") { zone.respond_to? attribute }
       end
       attributes.each do |attribute|
-        test("#{attribute} key") { model_attribute_hash.has_key? attribute }
+        test("#{attribute} key") { model_attribute_hash.key? attribute }
       end
     end
 

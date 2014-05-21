@@ -67,7 +67,7 @@ module Fog
       class Mock
 
         def set_desired_capacity(auto_scaling_group_name, desired_capacity, options = {})
-          unless self.data[:auto_scaling_groups].has_key?(auto_scaling_group_name)
+          unless self.data[:auto_scaling_groups].key?(auto_scaling_group_name)
             Fog::AWS::AutoScaling::ValidationError.new('AutoScalingGroup name not found - null')
           end
           self.data[:auto_scaling_groups][auto_scaling_group_name]['DesiredCapacity'] = desired_capacity

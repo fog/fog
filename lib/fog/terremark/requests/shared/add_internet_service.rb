@@ -27,7 +27,7 @@ module Fog
         #       * 'name'<~String> - name of owner
         #       * 'type'<~String> - type of owner
         def add_internet_service(ip_id, name, protocol, port, options = {})
-          unless options.has_key?('Enabled')
+          unless options.key?('Enabled')
             options['Enabled'] = true
           end
           data = <<-DATA

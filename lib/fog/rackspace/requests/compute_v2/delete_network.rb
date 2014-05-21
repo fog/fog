@@ -9,7 +9,7 @@ module Fog
 
       class Mock
         def delete_network(id)
-          unless self.data[:networks].has_key?(id)
+          unless self.data[:networks].key?(id)
             raise Fog::Compute::RackspaceV2::NotFound
           end
 

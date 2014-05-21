@@ -3,7 +3,7 @@ module Fog
     class Vsphere
       class Real
         def vm_config_vnc(options = { })
-          raise ArgumentError, "instance_uuid is a required parameter" unless options.has_key? 'instance_uuid'
+          raise ArgumentError, "instance_uuid is a required parameter" unless options.key? 'instance_uuid'
 
           search_filter = { :uuid => options['instance_uuid'], 'vmSearch' => true, 'instanceUuid' => true }
           vm_mob_ref    = @connection.searchIndex.FindAllByUuid(search_filter).first
@@ -34,7 +34,7 @@ module Fog
 
       class Mock
         def vm_config_vnc(options = { })
-          raise ArgumentError, "instance_uuid is a required parameter" unless options.has_key? 'instance_uuid'
+          raise ArgumentError, "instance_uuid is a required parameter" unless options.key? 'instance_uuid'
           { 'task_state' => 'success' }
         end
 

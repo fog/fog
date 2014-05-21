@@ -252,7 +252,7 @@ module Fog
         attr_reader :versions_uri
 
         def validate_data(required_opts = [], options = {})
-          unless required_opts.all? { |opt| options.has_key?(opt) }
+          unless required_opts.all? { |opt| options.key?(opt) }
             raise ArgumentError.new("Required data missing: #{(required_opts - options.keys).map(&:inspect).join(", ")}")
           end
         end
@@ -818,7 +818,7 @@ module Fog
           status  = params[:status] || 200
 
           response = Excon::Response.new(:body => body, :headers => headers, :status => status)
-          if params.has_key?(:expects) && ![*params[:expects]].include?(response.status)
+          if params.key?(:expects) && ![*params[:expects]].include?(response.status)
             raise(Excon::Errors.status_error(params, response))
           else response
           end

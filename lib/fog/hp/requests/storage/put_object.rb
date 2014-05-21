@@ -22,7 +22,7 @@ module Fog
               :path     => "#{Fog::HP.escape(container)}/#{Fog::HP.escape(object)}"
             )
           end
-          if headers.has_key?('Transfer-Encoding')
+          if headers.key?('Transfer-Encoding')
             headers.delete('Content-Length')
           end
           response = request(

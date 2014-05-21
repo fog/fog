@@ -30,7 +30,7 @@ module Fog
 
         def get_by_ip_address(ip_address)
           addresses = service.list_aggregated_addresses(:filter => "address eq .*#{ip_address}").body['items']
-          address = addresses.each_value.select { |region| region.has_key?('addresses') }
+          address = addresses.each_value.select { |region| region.key?('addresses') }
 
           return nil if address.empty?
           new(address.first['addresses'].first)

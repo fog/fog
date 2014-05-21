@@ -16,7 +16,7 @@ module Fog
           states = ::Fission::VM.all_with_status.data
 
           filter = {} if filter.nil?
-          unless filter.has_key?(:name)
+          unless filter.key?(:name)
             vms=::Fission::VM.all.data
             vms.each do |vm|
               data << { :raw =>  { :fission => vm,

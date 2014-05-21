@@ -4,7 +4,7 @@ module Fog
       module Shared
         def validate_node_service_data(service_data)
           required_opts = [:name, :port, :enabled, :ip_address]
-          unless required_opts.all? { |opt| service_data.has_key?(opt) }
+          unless required_opts.all? { |opt| service_data.key?(opt) }
             raise ArgumentError.new("Required Internet Service data missing: #{(required_opts - service_data.keys).map(&:inspect).join(", ")}")
           end
         end

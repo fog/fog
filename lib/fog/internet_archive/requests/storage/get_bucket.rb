@@ -71,7 +71,7 @@ module Fog
                 (marker    && object['Key'] <= marker) ||
                 (delimiter && object['Key'][(prefix ? prefix.length : 0)..-1].include?(delimiter) \
                            && common_prefixes << object['Key'].sub(/^(#{prefix}[^#{delimiter}]+.).*/, '\1')) ||
-                object.has_key?(:delete_marker)
+                object.key?(:delete_marker)
               end.map do |object|
                 data = object.reject {|key, value| !['ETag', 'Key', 'StorageClass'].include?(key)}
                 data.merge!({

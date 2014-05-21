@@ -7,8 +7,8 @@ Shindo.tests('Fog::Compute[:vsphere] | vm_reboot request', ['vsphere']) do
   tests('The response should') do
     response = compute.vm_reboot('instance_uuid' => powered_on_vm)
     test('be a kind of Hash') { response.kind_of? Hash }
-    test('should have a task_state key') { response.has_key? 'task_state' }
-    test('should have a reboot_type key') { response.has_key? 'reboot_type' }
+    test('should have a task_state key') { response.key? 'task_state' }
+    test('should have a reboot_type key') { response.key? 'reboot_type' }
   end
 
   # When forcing the shutdown, we expect the result to be

@@ -35,7 +35,7 @@ module Fog
       class Mock
         def update_access_key(access_key_id, status, options = {})
           if user = options['UserName']
-            if data[:users].has_key? user
+            if data[:users].key? user
               access_keys_data = data[:users][user][:access_keys]
             else
               raise Fog::AWS::IAM::NotFound.new('The user with name #{user_name} cannot be found.')

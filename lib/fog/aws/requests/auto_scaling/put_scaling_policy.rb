@@ -56,7 +56,7 @@ module Fog
       class Mock
 
         def put_scaling_policy(adjustment_type, auto_scaling_group_name, policy_name, scaling_adjustment, options = {})
-          unless self.data[:auto_scaling_groups].has_key?(auto_scaling_group_name)
+          unless self.data[:auto_scaling_groups].key?(auto_scaling_group_name)
             raise Fog::AWS::AutoScaling::ValidationError.new('Auto Scaling Group name not found - null')
           end
           self.data[:scaling_policies][policy_name] = {

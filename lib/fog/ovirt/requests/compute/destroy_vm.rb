@@ -4,7 +4,7 @@ module Fog
       class Real
 
         def destroy_vm(options = {})
-          raise ArgumentError, "instance id is a required parameter" unless options.has_key? :id
+          raise ArgumentError, "instance id is a required parameter" unless options.key? :id
           client.destroy_vm(options[:id])
         end
 
@@ -12,7 +12,7 @@ module Fog
 
       class Mock
         def destroy_vm(options = {})
-          raise ArgumentError, "instance id is a required parameter" unless options.has_key? :id
+          raise ArgumentError, "instance id is a required parameter" unless options.key? :id
           true
         end
 

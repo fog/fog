@@ -31,7 +31,7 @@ module Fog
       class Mock
 
         def delete_user(user_name)
-          if data[:users].has_key? user_name
+          if data[:users].key? user_name
             data[:users].delete user_name
             Excon::Response.new.tap do |response|
               response.body = { 'RequestId' => Fog::AWS::Mock.request_id }

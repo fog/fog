@@ -38,7 +38,7 @@ module Fog
       class Mock
 
         def create_group(group_name, path = '/')
-          if data[:groups].has_key? group_name
+          if data[:groups].key? group_name
             raise Fog::AWS::IAM::EntityAlreadyExists.new("Group with name #{group_name} already exists.")
           else
             data[:groups][group_name][:path] = path

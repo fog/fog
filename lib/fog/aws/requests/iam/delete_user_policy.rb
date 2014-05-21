@@ -33,7 +33,7 @@ module Fog
       class Mock
 
         def delete_user_policy(user_name, policy_name)
-          if data[:users].has_key?(user_name) && data[:users][user_name][:policies].has_key?(policy_name)
+          if data[:users].key?(user_name) && data[:users][user_name][:policies].key?(policy_name)
             data[:users][user_name][:policies].delete policy_name
             Excon::Response.new.tap do |response|
               response.body = { 'RequestId' => Fog::AWS::Mock.request_id }

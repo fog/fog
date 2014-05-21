@@ -22,11 +22,11 @@ module Fog
             data << "    <Grant>\n"
             grantee = grant['Grantee']
             type = case
-            when grantee.has_key?('ID')
+            when grantee.key?('ID')
               'CanonicalUser'
-            when grantee.has_key?('EmailAddress')
+            when grantee.key?('EmailAddress')
               'AmazonCustomerByEmail'
-            when grantee.has_key?('URI')
+            when grantee.key?('URI')
               'Group'
             end
 

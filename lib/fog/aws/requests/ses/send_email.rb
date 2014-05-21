@@ -53,11 +53,11 @@ module Fog
             end
           end
 
-          if options.has_key?('ReplyToAddresses')
+          if options.key?('ReplyToAddresses')
             params.merge!(Fog::AWS.indexed_param("ReplyToAddresses.member", [*options['ReplyToAddresses']]))
           end
 
-          if options.has_key?('ReturnPath')
+          if options.key?('ReturnPath')
             params['ReturnPath'] = options['ReturnPath']
           end
 

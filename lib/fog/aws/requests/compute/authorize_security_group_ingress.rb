@@ -141,7 +141,7 @@ module Fog
           if !is_vpc && (options['IpProtocol'] && (!options['FromPort'] || !options['ToPort']))
             raise Fog::Compute::AWS::Error.new("InvalidPermission.Malformed => TCP/UDP port (-1) out of range")
           end
-          if options.has_key?('IpPermissions')
+          if options.key?('IpPermissions')
             if !options['IpPermissions'].is_a?(Array) || options['IpPermissions'].empty?
               raise Fog::Compute::AWS::Error.new("InvalidRequest => The request received was invalid.")
             end

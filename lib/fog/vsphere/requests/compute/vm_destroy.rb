@@ -4,7 +4,7 @@ module Fog
       class Real
 
         def vm_destroy(options = {})
-          raise ArgumentError, "instance_uuid is a required parameter" unless options.has_key? 'instance_uuid'
+          raise ArgumentError, "instance_uuid is a required parameter" unless options.key? 'instance_uuid'
 
           vm_mob_ref = get_vm_ref(options['instance_uuid'])
           task = vm_mob_ref.Destroy_Task
@@ -17,7 +17,7 @@ module Fog
       class Mock
 
         def vm_destroy(options = {})
-          raise ArgumentError, "instance_uuid is a required parameter" unless options.has_key? 'instance_uuid'
+          raise ArgumentError, "instance_uuid is a required parameter" unless options.key? 'instance_uuid'
           { 'task_state' => 'success' }
         end
 

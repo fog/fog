@@ -45,7 +45,7 @@ module Fog
           options = default_options.merge!(options)
 
           %w{platform datacenter version}.each do |attr|
-            raise Fog::Errors::Error.new("You need to specify ':#{attr}'") if !options.has_key?(attr.to_sym)
+            raise Fog::Errors::Error.new("You need to specify ':#{attr}'") if !options.key?(attr.to_sym)
           end
 
           options[:ipversion] = options[:version]

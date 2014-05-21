@@ -335,13 +335,13 @@ module Fog
           tag_set_fetcher = lambda {|resource| self.data[:tag_sets][resource[resource_id_key]] }
 
           # tag-key: match resources tagged with this key (any value)
-          if filters.has_key?('tag-key')
+          if filters.key?('tag-key')
             value = filters.delete('tag-key')
-            resources = resources.select{|r| tag_set_fetcher[r].has_key?(value)}
+            resources = resources.select{|r| tag_set_fetcher[r].key?(value)}
           end
 
           # tag-value: match resources tagged with this value (any key)
-          if filters.has_key?('tag-value')
+          if filters.key?('tag-value')
             value = filters.delete('tag-value')
             resources = resources.select{|r| tag_set_fetcher[r].values.include?(value)}
           end

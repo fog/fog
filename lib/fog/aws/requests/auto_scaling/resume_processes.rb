@@ -40,7 +40,7 @@ module Fog
       class Mock
 
         def resume_processes(auto_scaling_group_name, options = {})
-          unless self.data[:auto_scaling_groups].has_key?(auto_scaling_group_name)
+          unless self.data[:auto_scaling_groups].key?(auto_scaling_group_name)
             raise Fog::AWS::AutoScaling::ValidationError.new("AutoScalingGroup name not found - no such group: #{auto_scaling_group_name}")
           end
 

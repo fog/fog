@@ -5,7 +5,7 @@ module Fog
 
         def configure_metadata(opts= {})
           valid_opts = [:key, :value, :href]
-          unless valid_opts.all? { |opt| opts.has_key?(opt) }
+          unless valid_opts.all? { |opt| opts.key?(opt) }
             raise ArgumentError.new("Required data missing: #{(valid_opts - opts.keys).map(&:inspect).join(", ")}")
           end
 

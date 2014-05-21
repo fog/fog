@@ -8,7 +8,7 @@ module Fog
         def voxcloud_create(options)
           options[:parser] = Fog::Parsers::Compute::Voxel::VoxcloudCreate.new
 
-          if options.has_key?(:password)
+          if options.key?(:password)
             options[:admin_password] = options[:password]
             options.delete(:password)
           end

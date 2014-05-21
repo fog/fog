@@ -4,7 +4,7 @@ module Fog
       class Real
 
         def container_delete(options = {})
-          raise ArgumentError, "instance id is a required parameter" unless options.has_key? :id
+          raise ArgumentError, "instance id is a required parameter" unless options.key? :id
           container = Docker::Container.get(options[:id])
           container.delete()
           true
@@ -14,7 +14,7 @@ module Fog
 
       class Mock
         def container_delete(options = {})
-          raise ArgumentError, "instance id is a required parameter" unless options.has_key? :id
+          raise ArgumentError, "instance id is a required parameter" unless options.key? :id
           true
         end
 

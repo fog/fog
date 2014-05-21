@@ -34,7 +34,7 @@ module Fog
         def new(attributes = {})
           if server
             # Default to the root volume datastore if one is not configured.
-            datastore = ! attributes.has_key?(:datastore) && self.any? ? self.first.datastore : nil
+            datastore = ! attributes.key?(:datastore) && self.any? ? self.first.datastore : nil
 
             super({ :server_id => server.id, :datastore => datastore }.merge!(attributes))
           else

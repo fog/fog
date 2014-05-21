@@ -14,11 +14,11 @@ module Fog
                 'data' => record[:data]
               }
 
-              if record.has_key? :ttl
+              if record.key? :ttl
                 record_data['ttl'] = record[:ttl]
               end
 
-              if record.has_key? :priority
+              if record.key? :priority
                 record_data['priority'] = record[:priority]
               end
               record_data

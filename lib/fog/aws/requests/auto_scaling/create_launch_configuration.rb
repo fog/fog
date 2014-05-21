@@ -79,7 +79,7 @@ module Fog
       class Mock
 
         def create_launch_configuration(image_id, instance_type, launch_configuration_name, options = {})
-          if self.data[:launch_configurations].has_key?(launch_configuration_name)
+          if self.data[:launch_configurations].key?(launch_configuration_name)
             raise Fog::AWS::AutoScaling::IdentifierTaken.new("Launch Configuration by this name already exists - A launch configuration already exists with the name #{launch_configuration_name}")
           end
           self.data[:launch_configurations][launch_configuration_name] = {

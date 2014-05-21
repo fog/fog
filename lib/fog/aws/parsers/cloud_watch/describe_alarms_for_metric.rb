@@ -53,7 +53,7 @@ module Fog
               @response['ResponseMetadata'][name] = value
             when 'member'
               if !@in_dimensions
-                if @metric_alarms.has_key?('AlarmName')
+                if @metric_alarms.key?('AlarmName')
                   @response['DescribeAlarmsForMetricResult']['MetricAlarms']  << @metric_alarms
                   reset_metric_alarms
                 elsif @response['DescribeAlarmsForMetricResult']['MetricAlarms'].last != nil

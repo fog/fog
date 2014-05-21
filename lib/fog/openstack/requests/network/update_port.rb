@@ -8,7 +8,7 @@ module Fog
 
           vanilla_options = [:name, :fixed_ips, :admin_state_up, :device_owner,
                              :device_id]
-          vanilla_options.select{ |o| options.has_key?(o) }.each do |key|
+          vanilla_options.select{ |o| options.key?(o) }.each do |key|
             data['port'][key] = options[key]
           end
 

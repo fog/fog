@@ -131,7 +131,7 @@ module Fog
 
           body_object['machineType'] = @api_url + @project + "/zones/#{zone_name}/machineTypes/#{options.delete 'machineType'}"
           network = nil
-          if options.has_key? 'network'
+          if options.key? 'network'
             network = options.delete 'network'
           elsif @default_network
             network = @default_network
@@ -140,7 +140,7 @@ module Fog
           # ExternalIP is default value for server creation
           access_config = {'type' => 'ONE_TO_ONE_NAT', 'name' => 'External NAT'}
           # leave natIP undefined to use an IP from a shared ephemeral IP address pool
-          if options.has_key? 'externalIp'
+          if options.key? 'externalIp'
             access_config['natIP'] = options.delete 'externalIp'
             # If set to 'false', that would mean user does no want to allocate an external IP
             access_config = nil if access_config['natIP'] == false
@@ -157,11 +157,11 @@ module Fog
             'automaticRestart' => false,
             'onHostMaintenance' => "MIGRATE"
           }
-          if options.has_key? 'auto_restart'
+          if options.key? 'auto_restart'
             scheduling['automaticRestart'] = options.delete 'auto_restart'
             scheduling['automaticRestart'] = scheduling['automaticRestart'].class == TrueClass
           end
-          if options.has_key? 'on_host_maintenance'
+          if options.key? 'on_host_maintenance'
             ohm = options.delete 'on_host_maintenance'
             scheduling['onHostMaintenance'] = (ohm.respond_to?("upcase") &&
                     ohm.upcase == "MIGRATE" && "MIGRATE") || "TERMINATE"
@@ -169,7 +169,7 @@ module Fog
           body_object['scheduling'] = scheduling
 
           # @see https://developers.google.com/compute/docs/networking#canipforward
-          if options.has_key? 'can_ip_forward'
+          if options.key? 'can_ip_forward'
             body_object['canIpForward'] = options.delete 'can_ip_forward'
           end
 

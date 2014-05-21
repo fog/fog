@@ -5,7 +5,7 @@ module Fog
 
         def validate_edit_internet_service_options(options)
           required_opts = [:name, :enabled, :persistence]
-          unless required_opts.all? { |opt| options.has_key?(opt) }
+          unless required_opts.all? { |opt| options.key?(opt) }
             raise ArgumentError.new("Required data missing: #{(required_opts - options.keys).map(&:inspect).join(", ")}")
           end
           raise ArgumentError.new("Required data missing: #{:persistence[:type]}") unless options[:persistence][:type]
