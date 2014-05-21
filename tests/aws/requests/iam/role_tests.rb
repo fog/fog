@@ -2,7 +2,7 @@ Shindo.tests('AWS::IAM | role requests', ['aws']) do
   tests('success') do
 
     @role = {
-        'Arn'       => String,
+      'Arn'       => String,
         'AssumeRolePolicyDocument' => String,
         'CreateDate' => Time,
         'Path'      => String,

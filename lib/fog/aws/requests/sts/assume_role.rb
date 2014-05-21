@@ -29,7 +29,7 @@ module Fog
 
         def assume_role(role_session_name, role_arn, external_id=nil, policy=nil, duration=3600)
           request({
-            'Action'          => 'AssumeRole',
+                    'Action'          => 'AssumeRole',
             'RoleSessionName' => role_session_name,
             'RoleArn'         => role_arn,
             'Policy'          => policy && Fog::JSON.encode(policy),

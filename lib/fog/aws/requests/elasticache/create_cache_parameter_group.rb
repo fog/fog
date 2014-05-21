@@ -17,7 +17,7 @@ module Fog
         #   * body <~Hash>
         def create_cache_parameter_group(name, description = name, family = 'memcached1.4')
           request({
-            'Action' => 'CreateCacheParameterGroup',
+                    'Action' => 'CreateCacheParameterGroup',
             'CacheParameterGroupName' => name,
             'Description' => description,
             'CacheParameterGroupFamily' => family,

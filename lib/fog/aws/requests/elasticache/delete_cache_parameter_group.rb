@@ -14,7 +14,7 @@ module Fog
         #   * body <~Hash>
         def delete_cache_parameter_group(name)
           request({
-            'Action' => 'DeleteCacheParameterGroup',
+                    'Action' => 'DeleteCacheParameterGroup',
             'CacheParameterGroupName' => name,
             :parser => Fog::Parsers::AWS::Elasticache::Base.new
           })

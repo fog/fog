@@ -14,7 +14,7 @@ module Fog
         #   * body <~Hash>
         def delete_cache_security_group(name)
           request({
-            'Action' => 'DeleteCacheSecurityGroup',
+                    'Action' => 'DeleteCacheSecurityGroup',
             'CacheSecurityGroupName' => name,
             :parser => Fog::Parsers::AWS::Elasticache::Base.new
           })
@@ -26,7 +26,7 @@ module Fog
           if self.data[:security_groups].delete(name)
             Excon::Response.new(
                 {
-                    :status => 200,
+                  :status => 200,
                     :body =>   { 'ResponseMetadata'=>{ 'RequestId'=> Fog::AWS::Mock.request_id } }
                 }
             )

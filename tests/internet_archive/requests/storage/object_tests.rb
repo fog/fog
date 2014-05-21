@@ -64,7 +64,7 @@ Shindo.tests('InternetArchive::Storage | object requests', ['internetarchive']) 
     end
 
     tests("#put_object_acl('#{@directory.identity}', 'fog_object', hash with email)").returns({
-        'Owner' => @ia_owner,
+                                                                                                'Owner' => @ia_owner,
         'AccessControlList' => [
           {
             'Grantee' => { 'ID' => 'f62f0218873cfa5d56ae9429ae75a592fec4fd22a5f24a20b1038a7db9a8f150', 'DisplayName' => 'mtd' },
@@ -73,7 +73,7 @@ Shindo.tests('InternetArchive::Storage | object requests', ['internetarchive']) 
         ]}) do
       pending if Fog.mocking?
       Fog::Storage[:internetarchive].put_object_acl(@directory.identity, 'fog_object', {
-        'Owner' => @ia_owner,
+                                                      'Owner' => @ia_owner,
         'AccessControlList' => [
           {
             'Grantee' => { 'EmailAddress' => 'mtd@amazon.com' },

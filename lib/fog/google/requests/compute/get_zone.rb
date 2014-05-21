@@ -9,7 +9,7 @@ module Fog
             "error" => {
               "errors" => [
                 {
-                 "domain" => "global",
+                  "domain" => "global",
                  "reason" => "notFound",
                  "message" => "The resource 'projects/#{project}/zones/#{zone_name}' was not found"
                 }

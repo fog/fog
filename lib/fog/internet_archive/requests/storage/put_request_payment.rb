@@ -18,7 +18,7 @@ module Fog
 </RequestPaymentConfiguration>
 DATA
           request({
-            :body     => data,
+                    :body     => data,
             :expects  => 200,
             :headers  => {},
             :host     => "#{bucket_name}.#{@host}",

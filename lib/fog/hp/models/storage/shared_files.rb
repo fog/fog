@@ -29,7 +29,7 @@ module Fog
           shared_object_url = "#{shared_directory.url}/#{key}"
           data = service.get_shared_object(shared_object_url, &block)
           file_data = data.headers.merge({
-            :body => data.body,
+                                           :body => data.body,
             :key  => key
           })
           new(file_data)
@@ -43,7 +43,7 @@ module Fog
           shared_object_url = "#{shared_directory.url}/#{key}"
           data = service.head_shared_object(shared_object_url)
           file_data = data.headers.merge({
-            :body => '',
+                                           :body => '',
             :key => key
           })
           new(file_data)

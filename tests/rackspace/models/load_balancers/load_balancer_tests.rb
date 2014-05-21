@@ -3,7 +3,7 @@ Shindo.tests('Fog::Rackspace::LoadBalancers | load_balancer', ['rackspace']) do
   pending if Fog.mocking?
 
   LOAD_BALANCER_ATTRIBUTES = {
-      :name => 'fog' + Time.now.to_i.to_s,
+    :name => 'fog' + Time.now.to_i.to_s,
       :protocol => 'HTTP',
       :port => 80,
       :virtual_ips => [{ :type => 'PUBLIC'}],

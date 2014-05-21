@@ -54,7 +54,7 @@ module Fog
           end
 
           request(params.merge!({
-            :expects  => [ 200, 206 ],
+                                  :expects  => [ 200, 206 ],
             :bucket_name => bucket_name,
             :object_name => object_name,
             :idempotent => true,

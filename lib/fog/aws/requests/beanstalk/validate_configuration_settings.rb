@@ -23,7 +23,7 @@ module Fog
             options.merge!(AWS.indexed_param('OptionSettings.member.%d', [*option_settings]))
           end
           request({
-                      'Operation'    => 'ValidateConfigurationSettings',
+            'Operation'    => 'ValidateConfigurationSettings',
                       :parser     => Fog::Parsers::AWS::ElasticBeanstalk::ValidateConfigurationSettings.new
                   }.merge(options))
         end

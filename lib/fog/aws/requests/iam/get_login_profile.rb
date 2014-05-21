@@ -23,7 +23,7 @@ module Fog
         #
         def get_login_profile(user_name)
           request({
-            'Action'    => 'GetLoginProfile',
+                    'Action'    => 'GetLoginProfile',
             'UserName'  => user_name,
             :parser     => Fog::Parsers::AWS::IAM::LoginProfile.new
           })

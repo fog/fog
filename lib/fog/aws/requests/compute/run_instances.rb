@@ -203,7 +203,7 @@ module Fog
               description           = device.fetch("Description", "mock_network_interface")
               security_group_id     = device.fetch("SecurityGroupId", self.data[:security_groups]['default']['groupId'])
               interface_options     = {
-                  "PrivateIpAddress"   => private_ip_address,
+                "PrivateIpAddress"   => private_ip_address,
                   "GroupSet"           => device.fetch("GroupSet", [security_group_id]),
                   "Description"        => description
               }
@@ -246,7 +246,7 @@ module Fog
             }
             instances_set << instance
             self.data[:instances][instance_id] = instance.merge({
-              'groupIds'            => [],
+                                                                  'groupIds'            => [],
               'groupSet'            => group_set,
               'iamInstanceProfile'  => {},
               'ownerId'             => self.data[:owner_id],

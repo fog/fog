@@ -25,7 +25,7 @@ module Fog
           end
 
           snapshot = {
-             "id"                      => snapshot_id,
+            "id"                      => snapshot_id,
              "name"                    => "ROOT-6",
              "created"                 => "2013-05-22T14:52:55-0500",
              "state"                   => "BackedUp",

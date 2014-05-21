@@ -4,7 +4,7 @@ module Fog
       class Real
         def list_tenants
           response = @identity_connection.request({
-            :expects => [200, 204],
+                                                    :expects => [200, 204],
             :headers => {'Content-Type' => 'application/json',
                          'Accept' => 'application/json',
                          'X-Auth-Token' => @auth_token},

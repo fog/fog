@@ -8,7 +8,7 @@ Shindo.tests('Fog::Compute::RackspaceV2 | keypair_tests', ['rackspace']) do
 
   create_keypair_format = {
     'keypair' => keypair_format.merge({
-        'user_id'     => String,
+                                        'user_id'     => String,
         'private_key' => String
     })
   }

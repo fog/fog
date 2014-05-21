@@ -51,7 +51,7 @@ module Fog
             break if next_token.nil?
           end
           Fog::AWS::AutoScaling::Activities.new({
-            :data => data,
+                                                  :data => data,
             :service => service,
             #:load_balancer => self
           })

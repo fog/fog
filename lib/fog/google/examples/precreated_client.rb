@@ -1,7 +1,7 @@
 def test
   client = Google::APIClient.new({ :application_name => "supress", })
   connection = Fog::Compute.new({
-    :provider => "Google",
+                                  :provider => "Google",
     :google_client => client,
   })
 

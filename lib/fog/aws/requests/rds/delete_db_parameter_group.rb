@@ -15,7 +15,7 @@ module Fog
         def delete_db_parameter_group(group_name)
 
           request({
-            'Action'  => 'DeleteDBParameterGroup',
+                    'Action'  => 'DeleteDBParameterGroup',
             'DBParameterGroupName' => group_name,
 
             :parser   => Fog::Parsers::AWS::RDS::DeleteDbParameterGroup.new

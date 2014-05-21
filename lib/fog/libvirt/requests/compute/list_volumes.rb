@@ -73,7 +73,7 @@ module Fog
 
         def mock_volume name
           {
-              :pool_name   => 'vol.pool.name',
+            :pool_name   => 'vol.pool.name',
               :key         => 'vol.key',
               :id          => 'vol.key',
               :path        => 'vol.path',

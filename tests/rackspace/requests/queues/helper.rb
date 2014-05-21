@@ -11,7 +11,7 @@ QUEUE_FORMAT = {
 LIST_QUEUES_FORMAT = {
   'queues' => [
     QUEUE_FORMAT.merge({
-      'name' => String,
+                         'name' => String,
       'href' => String,
     })
   ],
@@ -26,7 +26,7 @@ MESSAGE_FORMAT = {
 }
 
 LIST_MESSAGES_FORMAT = {
- 'messages' => [MESSAGE_FORMAT],
+  'messages' => [MESSAGE_FORMAT],
  'links' => LINKS_FORMAT 
 }
 

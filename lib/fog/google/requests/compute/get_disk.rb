@@ -13,17 +13,17 @@ module Fog
           zone = self.data[:zones][zone_name]
           if disk.nil? or disk["zone"] != zone["selfLink"]
             return build_response(:body => {
-              "error" => {
-                "errors" => [
-                  {
-                   "domain" => "global",
-                   "reason" => "notFound",
-                   "message" => "The resource 'projects/#{@project}/zones/#{zone_name}/disks/#{disk_name}' was not found"
-                  }
-                ],
-                "code" => 404,
-                "message" => "The resource 'projects/#{@project}/zones/#{zone_name}/disks/#{disk_name}' was not found"
-              }
+                                    "error" => {
+                                      "errors" => [
+                                        {
+                                          "domain" => "global",
+                                         "reason" => "notFound",
+                                         "message" => "The resource 'projects/#{@project}/zones/#{zone_name}/disks/#{disk_name}' was not found"
+                                        }
+                                      ],
+                                      "code" => 404,
+                                      "message" => "The resource 'projects/#{@project}/zones/#{zone_name}/disks/#{disk_name}' was not found"
+                                    }
             })
           end
 

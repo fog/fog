@@ -158,7 +158,7 @@ module Fog
 
         def login(username,password,domain)
           response = issue_request({
-            'response' => 'json',
+                                     'response' => 'json',
             'command'  => 'login',
             'username' => username,
             'password' => Digest::MD5.hexdigest(password),
@@ -230,7 +230,7 @@ module Fog
         def issue_request(params={},headers={},method='GET',expects=200)
           begin
             @connection.request({
-              :query => params,
+                                  :query => params,
               :headers => headers,
               :method => method,
               :expects => expects

@@ -3,7 +3,7 @@ Shindo.tests('Fog::Compute[:google] | server requests', ['google']) do
   @google = Fog::Compute[:google]
 
   @insert_server_format = {
-      'kind' => String,
+    'kind' => String,
       'id' => String,
       'selfLink' => String,
       'name' => String,
@@ -17,7 +17,7 @@ Shindo.tests('Fog::Compute[:google] | server requests', ['google']) do
   }
 
   @get_server_format = {
-      'kind' => String,
+    'kind' => String,
       'id' => String,
       'selfLink' => String,
       'creationTimestamp' => String,
@@ -31,7 +31,7 @@ Shindo.tests('Fog::Compute[:google] | server requests', ['google']) do
   }
 
   @delete_server_format = {
-      'kind' => String,
+    'kind' => String,
       'id' => String,
       'selfLink' => String,
       'name' => String,
@@ -46,7 +46,7 @@ Shindo.tests('Fog::Compute[:google] | server requests', ['google']) do
   }
 
   @list_servers_format = {
-      'kind' => String,
+    'kind' => String,
       'id' => String,
       'selfLink' => String,
   }

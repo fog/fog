@@ -15,7 +15,7 @@ module Fog
           params = { 'pipelineId' => id }
 
           response = request({
-            :body => Fog::JSON.encode(params),
+                               :body => Fog::JSON.encode(params),
             :headers => { 'X-Amz-Target' => 'DataPipeline.ActivatePipeline' },
           })
 

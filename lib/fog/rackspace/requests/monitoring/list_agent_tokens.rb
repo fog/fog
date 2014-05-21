@@ -29,7 +29,7 @@ module Fog
               }
             ],
             "metadata" => {
-               "count"       => 1,
+              "count"       => 1,
                "limit"       => 100,
                "marker"      => nil,
                "next_marker" => nil,

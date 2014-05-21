@@ -23,7 +23,7 @@ module Fog
         #       * 'RequestId'<~String> - Id of request
         def set_load_balancer_listener_ssl_certificate(lb_name, load_balancer_port, ssl_certificate_id)
           request({
-            'Action'           => 'SetLoadBalancerListenerSSLCertificate',
+                    'Action'           => 'SetLoadBalancerListenerSSLCertificate',
             'LoadBalancerName' => lb_name,
             'LoadBalancerPort' => load_balancer_port,
             'SSLCertificateId' => ssl_certificate_id,

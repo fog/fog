@@ -8,7 +8,7 @@ Shindo.tests("Fog::Joyent[:analytics] | metrics", %w{joyent}) do
 
   tests('#new').succeeds do
     @metrics.new({
-                     "module" => "cpu",
+                   "module" => "cpu",
                      "stat" => "thread_executions",
                      "label" => "thread executions",
                      "interval" => "interval",

@@ -24,7 +24,7 @@ module Fog
           headers = options
           headers['Content-Length'] = data[:headers]['Content-Length']
           request({
-            :body       => data[:body],
+                    :body       => data[:body],
             :expects    => 200,
             :idempotent => true,
             :headers    => headers,

@@ -7,7 +7,7 @@ module Fog
         def list_forwarding_rules(region_name)
           forwarding_rules = self.data[:forwarding_rules].values.select{|d| d["region"].split("/")[-1] == region_name}
           build_response(:body => {
-            "kind" => "compute#forwardingRuleList",
+                           "kind" => "compute#forwardingRuleList",
             "selfLink" => "https://www.googleapis.com/compute/#{api_version}/projects/#{@project}/regions/#{region_name}/forwardingRules",
             "id" => "projects/#{@project}/regions/#{region_name}/regions",
             "items" => forwarding_rules

@@ -18,7 +18,7 @@ module Fog
 
           headers = options
           request({
-            :expects    => 204,
+                    :expects    => 204,
             :headers    => headers,
             :host       => "#{bucket_name}.#{@host}",
             :idempotent => true,

@@ -25,7 +25,7 @@ module Fog
         #
         def delete_policy(auto_scaling_group_name, policy_name)
           request({
-            'Action'               => 'DeletePolicy',
+                    'Action'               => 'DeletePolicy',
             'AutoScalingGroupName' => auto_scaling_group_name,
             'PolicyName'           => policy_name,
             :parser                => Fog::Parsers::AWS::AutoScaling::Basic.new

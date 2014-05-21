@@ -61,7 +61,7 @@ module Fog
           path = file_path(key)
           if ::File.exist?(path)
             new({
-              :content_length => ::File.size(path),
+                  :content_length => ::File.size(path),
               :key            => key,
               :last_modified  => ::File.mtime(path)
             })

@@ -12,7 +12,7 @@ module Shindo
 
     def given_a_load_balancer(&block)
         @lb = @service.load_balancers.create({
-            :name => ('fog' + Time.now.to_i.to_s),
+                                               :name => ('fog' + Time.now.to_i.to_s),
             :protocol => 'HTTP',
             :port => 80,
             :virtual_ips => [{ :type => 'PUBLIC'}],

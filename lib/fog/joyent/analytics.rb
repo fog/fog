@@ -73,7 +73,7 @@ module Fog
                                   "name" => "value_raw" }] }
                        when :values
                          {
-                             'value' => { 'zoneid' => 0 },
+                           'value' => { 'zoneid' => 0 },
                              'transformations' => {},
                              'start_time' => Time.now.utc - 600,
                              'duration' => 30,
@@ -86,28 +86,28 @@ module Fog
                          }
                        when :describe_analytics
                          {
-                             'fields' => {
-                                 'zonename' => {
-                                     'label' => 'zone name',
-                                     'type' => 'string'
-                                 },
-                                 'pid' => {
-                                     'label' => 'process identifier',
-                                     'type' => 'string'
-                                 }
+                           'fields' => {
+                             'zonename' => {
+                               'label' => 'zone name',
+                                 'type' => 'string'
                              },
+                               'pid' => {
+                                 'label' => 'process identifier',
+                                   'type' => 'string'
+                               }
+                           },
                              'modules' => {
-                                 'cpu' => {
-                                     'label' => 'CPU'
-                                 }
+                               'cpu' => {
+                                 'label' => 'CPU'
+                               }
                              },
                              'transformations' => {
-                                 'geolocate' => {
-                                     'label' => 'geolocate IP addresses',
-                                     'fields' => ['raddr'] }
+                               'geolocate' => {
+                                 'label' => 'geolocate IP addresses',
+                                   'fields' => ['raddr'] }
                              },
                              'metrics' => [{
-                                               "module" => "cpu",
+                               "module" => "cpu",
                                                "stat" => "thread_executions",
                                                "label" => "thread executions",
                                                "interval" => "interval",
@@ -115,10 +115,10 @@ module Fog
                                                "unit" => "operations"
                                            }],
                              'types' => {
-                                 'string' => {
-                                     'arity' => "discrete",
-                                     'unit' => ""
-                                 }
+                               'string' => {
+                                 'arity' => "discrete",
+                                   'unit' => ""
+                               }
                              }
                          }
                        else
@@ -161,7 +161,7 @@ module Fog
             @joyent_keyname = options[:joyent_keyname]
             @joyent_keyphrase = options[:joyent_keyphrase]
             @key_manager = Net::SSH::Authentication::KeyManager.new(nil, {
-                :keys_only => true,
+                                                                      :keys_only => true,
                 :passphrase => @joyent_keyphrase
             })
             @header_method = method(:header_for_signature_auth)
@@ -197,7 +197,7 @@ module Fog
 
         def request(opts = {})
           opts[:headers] = {
-              "X-Api-Version" => @joyent_version,
+            "X-Api-Version" => @joyent_version,
               "Content-Type" => "application/json",
               "Accept" => "application/json"
           }.merge(opts[:headers] || {}).merge(@header_method.call)
@@ -229,7 +229,7 @@ module Fog
 
         def header_for_basic_auth
           {
-              "Authorization" => "Basic #{Base64.encode64("#{@joyent_username}:#{@joyent_password}").delete("\r\n")}"
+            "Authorization" => "Basic #{Base64.encode64("#{@joyent_username}:#{@joyent_password}").delete("\r\n")}"
           }
         end
 
@@ -260,7 +260,7 @@ module Fog
           signature = Base64.encode64(sig).delete("\r\n")
 
           {
-              "Date" => date,
+            "Date" => date,
               "Authorization" => "Signature keyId=\"#{key_id}\",algorithm=\"#{key_type}-sha1\" #{signature}"
           }
         rescue Net::SSH::Authentication::KeyManagerError => e

@@ -230,7 +230,7 @@ module Fog
 
         def _request(body, idempotent, parser)
           @connection.request({
-            :body       => body,
+                                :body       => body,
             :expects    => 200,
             :idempotent => idempotent,
             :headers    => { 'Content-Type' => 'application/x-www-form-urlencoded' },

@@ -127,7 +127,7 @@ module Fog
 
         def backend_server_descriptions
           Fog::AWS::ELB::BackendServerDescriptions.new({
-            :data => attributes['BackendServerDescriptions'],
+                                                         :data => attributes['BackendServerDescriptions'],
             :service => service,
             :load_balancer => self
           })
@@ -135,7 +135,7 @@ module Fog
 
         def listeners
           Fog::AWS::ELB::Listeners.new({
-            :data => attributes['ListenerDescriptions'],
+                                         :data => attributes['ListenerDescriptions'],
             :service => service,
             :load_balancer => self
           })
@@ -143,7 +143,7 @@ module Fog
 
         def policies
           Fog::AWS::ELB::Policies.new({
-            :data => policy_descriptions,
+                                        :data => policy_descriptions,
             :service => service,
             :load_balancer => self
           })

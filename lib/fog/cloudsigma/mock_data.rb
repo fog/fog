@@ -4,7 +4,7 @@ module Fog
       class Mock
         def self.mock_data
           {
-              :volumes => {},
+            :volumes => {},
               :servers => {},
               :vlans => {},
               :ips => {},

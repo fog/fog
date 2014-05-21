@@ -25,7 +25,7 @@ module Fog
         #
         def delete_notification_configuration(auto_scaling_group_name, topic_arn)
           request({
-            'Action'               => 'DeleteNotificationConfiguration',
+                    'Action'               => 'DeleteNotificationConfiguration',
             'AutoScalingGroupName' => auto_scaling_group_name,
             'TopicARN'             => topic_arn,
             :parser                => Fog::Parsers::AWS::AutoScaling::Basic.new

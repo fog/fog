@@ -27,7 +27,7 @@ module Fog
           path = "/#{account_id}/vaults/#{Fog::AWS.escape(name)}/jobs"
 
           request({
-            :expects  => 202,
+                    :expects  => 202,
             :headers => {},
             :method   => 'POST',
             :path     => path,

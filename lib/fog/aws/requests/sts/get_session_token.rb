@@ -7,7 +7,7 @@ module Fog
 
         def get_session_token(duration=43200)
           request({
-            'Action'          => 'GetSessionToken',
+                    'Action'          => 'GetSessionToken',
             'DurationSeconds' => duration,
             :idempotent       => true,
             :parser           => Fog::Parsers::AWS::STS::GetSessionToken.new

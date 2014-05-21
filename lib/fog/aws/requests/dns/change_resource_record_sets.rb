@@ -121,7 +121,7 @@ module Fog
 
           body = %Q{<?xml version="1.0" encoding="UTF-8"?><ChangeResourceRecordSetsRequest xmlns="https://route53.amazonaws.com/doc/#{@version}/">#{changes}</ChangeResourceRecordSetsRequest>}
           request({
-            :body       => body,
+                    :body       => body,
             :parser     => Fog::Parsers::DNS::AWS::ChangeResourceRecordSets.new,
             :expects    => 200,
             :method     => 'POST',

@@ -273,7 +273,7 @@ module Fog
           def basic_request(name, expects=[200], method=:get, headers={}, body='')
             define_method(name) do |uri|
               request({
-                :expects => expects,
+                        :expects => expects,
                 :method  => method,
                 :headers => headers,
                 :body    => body,
@@ -368,7 +368,7 @@ module Fog
           elsif @authentication_method == :cloud_api_auth
             signature = cloud_api_signature(params)
             params[:headers].merge!({
-              "x-tmrk-authorization" => %{CloudApi AccessKey="#{@access_key}" SignatureType="HmacSha256" Signature="#{signature}"},
+                                      "x-tmrk-authorization" => %{CloudApi AccessKey="#{@access_key}" SignatureType="HmacSha256" Signature="#{signature}"},
               "Authorization" => %{CloudApi AccessKey="#{@access_key}" SignatureType="HmacSha256" Signature="#{signature}"}
             })
           end
@@ -590,7 +590,7 @@ module Fog
                           }
 
                           ip_address = {
-                              :id         => ip_address_id,
+                            :id         => ip_address_id,
                               :href       => "/cloudapi/ecloud/ipaddresses/networks/#{network_id}/#{ip_address_id}",
                               :name       => ip_address_id,
                               :type       => "application/vnd.tmrk.cloud.ipAddress",

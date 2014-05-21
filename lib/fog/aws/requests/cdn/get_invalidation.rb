@@ -22,7 +22,7 @@ module Fog
 
         def get_invalidation(distribution_id, invalidation_id)
           request({
-            :expects    => 200,
+                    :expects    => 200,
             :idempotent => true,
             :method   => 'GET',
             :parser   => Fog::Parsers::CDN::AWS::GetInvalidation.new,

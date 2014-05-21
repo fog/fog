@@ -19,7 +19,7 @@ module Fog
           vnc_url = "vnc://#{host}:#{port}"
 
           response.body = {
-              'action' => 'open_vnc',
+            'action' => 'open_vnc',
               'result' => 'success',
               'uuid' => server_id,
               'vnc_url' => vnc_url

@@ -13,7 +13,7 @@ module Fog
             "#{base_path_url}/sessions"
           end
           unauthenticated_request({
-            :expects  => 200,
+                                    :expects  => 200,
             :headers  => headers,
             :method   => 'POST',
             :parse    => true,

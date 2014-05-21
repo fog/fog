@@ -19,7 +19,7 @@ module Fog
             )
           else
             response = request({
-              :expects  => 200,
+                                 :expects  => 200,
               :method   => 'GET',
               :path     => "#{Fog::HP.escape(container)}/#{Fog::HP.escape(object)}"
             }, false, &block)

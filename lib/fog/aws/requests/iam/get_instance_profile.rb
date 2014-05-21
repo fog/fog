@@ -30,7 +30,7 @@ module Fog
         #     * 'RequestId'<~String> - Id of the request
         def get_instance_profile(instance_profile_name)
           request({
-            'Action'    => 'GetInstanceProfile',
+                    'Action'    => 'GetInstanceProfile',
             'InstanceProfileName'  => instance_profile_name,
             :parser     => Fog::Parsers::AWS::IAM::InstanceProfile.new
           })

@@ -37,7 +37,7 @@ module Fog
             options.merge!(AWS.serialize_keys('SourceConfiguration', option_settings))
           end
           request({
-                      'Operation'    => 'CreateConfigurationTemplate',
+            'Operation'    => 'CreateConfigurationTemplate',
                       :parser     => Fog::Parsers::AWS::ElasticBeanstalk::CreateConfigurationTemplate.new
                   }.merge(options))
         end

@@ -48,7 +48,7 @@ module Fog
           if list_floating_ips.body['floatingips'].detect {|_| _['id'] == floating_ip_id}
             response.status = 200
             data = {
-                'id'                  => floating_ip_id,
+              'id'                  => floating_ip_id,
                 'port_id'             => nil,
                 'router_id'           => Fog::HP::Mock.uuid.to_s,
                 'tenant_id'           => Fog::Mock.random_numbers(14).to_s,

@@ -46,13 +46,13 @@ module Fog
         def self.data
           @data ||= Hash.new do |hash, key|
             hash[key] = {
-                :versions => {
-                  "v1.1" => { "id" => "v1.1",
-                              "links" => [{"href" => "http://api-docs.hpcloud.com", "rel" => "self"}],
-                              "status" => "CURRENT",
-                              "updated" => "2012-12-18T18:30:02.25Z"
-                  }
-                },
+              :versions => {
+                "v1.1" => { "id" => "v1.1",
+                            "links" => [{"href" => "http://api-docs.hpcloud.com", "rel" => "self"}],
+                            "status" => "CURRENT",
+                            "updated" => "2012-12-18T18:30:02.25Z"
+                }
+              },
                 :limits => {
                   "absolute" => {
                     "values" => {
@@ -142,11 +142,11 @@ module Fog
         def request(params, parse_json = true, &block)
           begin
             response = @connection.request(params.merge!({
-               :headers => {
-                 'Content-Type' => 'application/json',
-                 'Accept'       => 'application/json',
-                 'X-Auth-Token' => @auth_token
-               }.merge!(params[:headers] || {}),
+                                                           :headers => {
+                                                             'Content-Type' => 'application/json',
+                                                             'Accept'       => 'application/json',
+                                                             'X-Auth-Token' => @auth_token
+                                                           }.merge!(params[:headers] || {}),
                :path    => "#{@path}/#{params[:path]}",
            }), &block)
           rescue Excon::Errors::HTTPStatusError => error

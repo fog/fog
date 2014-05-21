@@ -17,12 +17,12 @@ module Fog
         #   * body<~Hash>:
         def describe_objects(id, objectIds, options={})
           params = options.merge({
-            'pipelineId' => id,
+                                   'pipelineId' => id,
             'objectIds' => objectIds,
           })
 
           response = request({
-            :body => Fog::JSON.encode(params),
+                               :body => Fog::JSON.encode(params),
             :headers => { 'X-Amz-Target' => 'DataPipeline.DescribeObjects' },
           })
 

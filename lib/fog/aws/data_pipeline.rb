@@ -91,7 +91,7 @@ module Fog
 
           # Params for all DataPipeline requests
           params.merge!({
-            :expects => 200,
+                          :expects => 200,
             :method => :post,
             :path => '/',
           })

@@ -12,7 +12,7 @@ module Fog
             raise ArgumentError.new('object_name is required')
           end
           signed_url(options.merge({
-            :bucket_name => bucket_name,
+                                     :bucket_name => bucket_name,
             :object_name => object_name,
             :method => 'GET'
           }), expires)

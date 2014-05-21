@@ -1,14 +1,14 @@
 Shindo.tests('Fog::Compute[:linode] | distribution requests', ['linode']) do
 
   @distributions_format = Linode::Compute::Formats::BASIC.merge({
-    'DATA' => [{ 
-      'CREATE_DT'           => String,
-      'DISTRIBUTIONID'      => Integer,
-      'IS64BIT'             => Integer,
-      'LABEL'               => String,
-      'MINIMAGESIZE'        => Integer,
-      'REQUIRESPVOPSKERNEL' => Integer
-    }]
+                                                                  'DATA' => [{ 
+                                                                    'CREATE_DT'           => String,
+                                                                    'DISTRIBUTIONID'      => Integer,
+                                                                    'IS64BIT'             => Integer,
+                                                                    'LABEL'               => String,
+                                                                    'MINIMAGESIZE'        => Integer,
+                                                                    'REQUIRESPVOPSKERNEL' => Integer
+                                                                  }]
   })
 
   tests('success') do

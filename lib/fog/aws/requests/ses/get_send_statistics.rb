@@ -23,7 +23,7 @@ module Fog
         #       * 'RequestId'<~String> - Id of request
         def get_send_statistics
           request({
-            'Action' => 'GetSendStatistics',
+                    'Action' => 'GetSendStatistics',
             :parser  => Fog::Parsers::AWS::SES::GetSendStatistics.new
           })
         end

@@ -4,7 +4,7 @@ require 'fog'
 # Create the connection to the XenServer host
 #
 xenserver = Fog::Compute.new({
-  :provider           => 'XenServer',
+                               :provider           => 'XenServer',
   :xenserver_url      => '1.2.3.4',
   :xenserver_username => 'root',
   :xenserver_password => 'secret',

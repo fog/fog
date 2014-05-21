@@ -23,7 +23,7 @@ module Fog
         # {Amazon API Reference}[http://docs.amazonwebservices.com/AWSEC2/latest/APIReference/ApiReference-query-DescribeSpotDatafeedSubscription.html]
         def describe_spot_datafeed_subscription
           request({
-            'Action'    => 'DescribeSpotDatafeedSubscription',
+                    'Action'    => 'DescribeSpotDatafeedSubscription',
             :idempotent => true,
             :parser     => Fog::Parsers::Compute::AWS::SpotDatafeedSubscription.new
           })

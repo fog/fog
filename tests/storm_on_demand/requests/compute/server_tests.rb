@@ -1,7 +1,7 @@
 Shindo.tests('Fog::Compute[:stormondemand] | server requests', ['stormondemand']) do
 
   @server_format = {
-      'uniq_id'     => String,
+    'uniq_id'     => String,
       'accnt'       => String,
       'backup_enabled'     => String,
       'backup_plan'     => String,

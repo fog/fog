@@ -6,7 +6,7 @@ module Fog
         def get_namespace(namespace = '', options = {})
           options = options.reject {|key, value| value.nil?}
           request({
-                    :expects  => 200,
+            :expects  => 200,
                     :method   => 'GET',
                     :path     => "namespace/" + URI.escape(namespace),
                     :query    => {},

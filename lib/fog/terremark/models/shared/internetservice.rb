@@ -31,7 +31,7 @@ module Fog
                 protocol = self.Protocol,
                 port = self.Port,
                 options = {
-                        'Enabled' => 'true',
+                  'Enabled' => 'true',
                         "Description" => self.Name
                 }
             )

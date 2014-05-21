@@ -41,7 +41,7 @@ module Fog
             options['Parameters'].keys.each_with_index do |key, index|
               index += 1 # params are 1-indexed
               params.merge!({
-                "Parameters.member.#{index}.ParameterKey"   => key,
+                              "Parameters.member.#{index}.ParameterKey"   => key,
                 "Parameters.member.#{index}.ParameterValue" => options['Parameters'][key]
               })
             end
@@ -54,7 +54,7 @@ module Fog
               num_tags += 1 # 10 tag max
 
               params.merge!({
-                "Tags.member.#{index}.Key"   => key,
+                              "Tags.member.#{index}.Key"   => key,
                 "Tags.member.#{index}.Value" => options['Tags'][key]
               })
             end

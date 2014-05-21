@@ -50,7 +50,7 @@ module Fog
           end
 
           request({
-            :query   => parameters,
+                    :query   => parameters,
             :parser  => Fog::Parsers::DNS::AWS::ListResourceRecordSets.new,
             :expects => 200,
             :method  => 'GET',

@@ -45,7 +45,7 @@ class Ninefold
         }
         SERVICE_OFFERINGS = [Ninefold::Compute::Formats::Lists::SERVICE_OFFERING]
         ACCOUNTS = [{
-                      "id"=>Integer,
+          "id"=>Integer,
                       "name"=>String,
                       "accounttype"=>Integer,
                       "domainid"=>Integer,
@@ -71,7 +71,7 @@ class Ninefold
                       "vmrunning"=>Integer,
                       "state"=>String,
                       "user"=> [{
-                                  "id"=>Integer,
+                        "id"=>Integer,
                                   "username"=>String,
                                   "firstname"=>String,
                                   "lastname"=>String,
@@ -87,7 +87,7 @@ class Ninefold
                                 }]
                     }]
         EVENTS = [{
-                    "id"=>Integer,
+          "id"=>Integer,
                     "username"=>String,
                     "type"=>String,
                     "level"=>String,
@@ -100,7 +100,7 @@ class Ninefold
                     "parentid"=>Integer
                   }]
         DISK_OFFERINGS = [{
-                            "id"=>Integer,
+          "id"=>Integer,
                             "domainid"=>Integer,
                             "domain"=>String,
                             "name"=>String,
@@ -116,10 +116,10 @@ class Ninefold
           "userpublictemplateenabled" => Fog::Boolean
         }
         HYPERVISORS = [{
-                         "name"=>String
+          "name"=>String
                        }]
         ZONES = [{
-                   "allocationstate"=>String,
+          "allocationstate"=>String,
                    "dhcpprovider"=>String,
                    "id"=>Integer,
                    "name"=>String,
@@ -127,7 +127,7 @@ class Ninefold
                    "securitygroupsenabled"=>Fog::Boolean
                  }]
         NETWORK_OFFERINGS = [{
-                               "id"=>Integer,
+          "id"=>Integer,
                                "name"=>String,
                                "displaytext"=>String,
                                "traffictype"=>String,
@@ -138,7 +138,7 @@ class Ninefold
                                "networkrate"=>Integer
                              }]
         RESOURCE_LIMITS = [{
-                             "account"=>String,
+          "account"=>String,
                              "domainid"=>Integer,
                              "domain"=>String,
                              "resourcetype"=>String,
@@ -171,7 +171,7 @@ class Ninefold
           "rootdeviceid"=>Integer,
           "rootdevicetype"=>String,
           "nic"=>[{
-                    "id"=>Integer,
+            "id"=>Integer,
                     "networkid"=>Integer,
                     "netmask"=>Fog::Nullable::String,
                     "gateway"=>Fog::Nullable::String,
@@ -189,7 +189,7 @@ class Ninefold
       end
       module Templates
         TEMPLATES = [{
-                      "id"=>Integer,
+          "id"=>Integer,
                        "name"=>String,
                        "displaytext"=>String,
                        "ispublic"=>Fog::Boolean,

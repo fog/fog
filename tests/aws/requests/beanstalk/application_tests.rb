@@ -19,15 +19,15 @@ Shindo.tests('AWS::ElasticBeanstalk | application_tests', ['aws', 'beanstalk']) 
     pending if Fog.mocking?
 
     @describe_applications_format = {
-        'DescribeApplicationsResult' => {
-            'Applications' => [
-              'ApplicationName' => String,
-              'ConfigurationTemplates' => [String],
-              'Description' => Fog::Nullable::String,
-              'DateCreated' => Time,
-              'DateUpdated' => Time,
-              'Versions' => [String]
-            ]},
+      'DescribeApplicationsResult' => {
+        'Applications' => [
+          'ApplicationName' => String,
+          'ConfigurationTemplates' => [String],
+          'Description' => Fog::Nullable::String,
+          'DateCreated' => Time,
+          'DateUpdated' => Time,
+          'Versions' => [String]
+        ]},
         'ResponseMetadata' => {'RequestId'=> String},
     }
 
@@ -37,7 +37,7 @@ Shindo.tests('AWS::ElasticBeanstalk | application_tests', ['aws', 'beanstalk']) 
 
     test("#create_application") {
       response = @beanstalk.create_application({
-                                                   'ApplicationName' => @test_app_name,
+                                                 'ApplicationName' => @test_app_name,
                                                    'Description' => @test_description
                                                })
 
@@ -105,7 +105,7 @@ Shindo.tests('AWS::ElasticBeanstalk | application_tests', ['aws', 'beanstalk']) 
       @test_description = "A completely new description."
 
       response = @beanstalk.update_application({
-                                                   'ApplicationName' => @test_app_name,
+                                                 'ApplicationName' => @test_app_name,
                                                    'Description' => @test_description
                                                })
 

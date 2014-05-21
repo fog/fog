@@ -3,7 +3,7 @@ Shindo.tests('AWS::SQS | queue requests', ['aws']) do
   tests('success') do
 
     create_queue_format = AWS::SQS::Formats::BASIC.merge({
-      'QueueUrl' => String
+                                                           'QueueUrl' => String
     })
 
     tests("#create_queue('fog_queue_tests')").formats(create_queue_format) do
@@ -13,7 +13,7 @@ Shindo.tests('AWS::SQS | queue requests', ['aws']) do
     end
 
     list_queues_format = AWS::SQS::Formats::BASIC.merge({
-      'QueueUrls' => [String]
+                                                          'QueueUrls' => [String]
     })
 
     tests("#list_queues").formats(list_queues_format) do
@@ -25,16 +25,16 @@ Shindo.tests('AWS::SQS | queue requests', ['aws']) do
     end
 
     get_queue_attributes_format = AWS::SQS::Formats::BASIC.merge({
-      'Attributes' => {
-        'ApproximateNumberOfMessages'           => Integer,
-        'ApproximateNumberOfMessagesNotVisible' => Integer,
-        'CreatedTimestamp'                      => Time,
-        'MaximumMessageSize'                    => Integer,
-        'LastModifiedTimestamp'                 => Time,
-        'MessageRetentionPeriod'                => Integer,
-        'QueueArn'                              => String,
-        'VisibilityTimeout'                     => Integer
-      }
+                                                                   'Attributes' => {
+                                                                     'ApproximateNumberOfMessages'           => Integer,
+                                                                     'ApproximateNumberOfMessagesNotVisible' => Integer,
+                                                                     'CreatedTimestamp'                      => Time,
+                                                                     'MaximumMessageSize'                    => Integer,
+                                                                     'LastModifiedTimestamp'                 => Time,
+                                                                     'MessageRetentionPeriod'                => Integer,
+                                                                     'QueueArn'                              => String,
+                                                                     'VisibilityTimeout'                     => Integer
+                                                                   }
     })
 
     tests("#get_queue_attributes('#{@queue_url}', 'All')").formats(get_queue_attributes_format) do

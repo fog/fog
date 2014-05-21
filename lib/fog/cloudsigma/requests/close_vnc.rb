@@ -16,7 +16,7 @@ module Fog
           response.status = 200
 
           response.body = {
-              'action' => 'close_vnc',
+            'action' => 'close_vnc',
               'result' => 'success',
               'uuid' => server_id,
           }

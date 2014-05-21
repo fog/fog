@@ -20,23 +20,23 @@ module Fog
           response = Excon::Response.new
           response.status = 200
           response.body = {
-          "ServerPlans" =>
-            [
-              {"Index"=>0,
-                "ID"=>1001,
-                "Name"=>"プラン/1Core-1GB",
+            "ServerPlans" =>
+              [
+                {"Index"=>0,
+                  "ID"=>1001,
+                  "Name"=>"プラン/1Core-1GB",
+                  "CPU"=>1,
+                  "MemoryMB"=>1024,
+                  "ServiceClass"=>"cloud/plan/1core-1gb",
+                  "Availability"=>"available"},
+              {"Index"=>1,
+                "ID"=>2001,
+                "Name"=>"プラン/1Core-2GB",
                 "CPU"=>1,
-                "MemoryMB"=>1024,
-                "ServiceClass"=>"cloud/plan/1core-1gb",
-                "Availability"=>"available"},
-            {"Index"=>1,
-              "ID"=>2001,
-              "Name"=>"プラン/1Core-2GB",
-              "CPU"=>1,
-              "MemoryMB"=>2048,
-              "ServiceClass"=>"cloud/plan/1core-2gb",
-              "Availability"=>"available"}
-            ]
+                "MemoryMB"=>2048,
+                "ServiceClass"=>"cloud/plan/1core-2gb",
+                "Availability"=>"available"}
+              ]
           }
           response
         end

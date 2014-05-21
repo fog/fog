@@ -15,7 +15,7 @@ module Fog
         def delete_db_snapshot(name)
 
           request({
-            'Action'  => 'DeleteDBSnapshot',
+                    'Action'  => 'DeleteDBSnapshot',
             'DBSnapshotIdentifier' => name,
 
             :parser   => Fog::Parsers::AWS::RDS::DeleteDBSnapshot.new

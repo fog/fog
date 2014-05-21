@@ -26,7 +26,7 @@ Shindo.tests('Fog::Compute::RackspaceV2 | server_tests', ['rackspace']) do
 
   get_server_format = {
     'server' => server_format.merge({
-      'accessIPv4' => String,
+                                      'accessIPv4' => String,
       'accessIPv6' => String,
       'OS-DCF:diskConfig' => String,
       'rax-bandwidth:bandwidth' => Fog::Nullable::Array,

@@ -104,7 +104,7 @@ module Fog
         def metadata
           @metadata ||= begin
             Fog::Storage::HP::Metadata.new({
-              :service => service,
+                                             :service => service,
               :parent => self
             })
           end

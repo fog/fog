@@ -18,7 +18,7 @@ module Fog
           response = Excon::Response.new
           response.status = 200
           response.body = {
-              'action' => 'stop',
+            'action' => 'stop',
               'result' => 'success',
               'uuid' => server_id
           }

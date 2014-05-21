@@ -83,7 +83,7 @@ module Fog
 
           data =
               {
-                 "DBInstanceIdentifier"=> db_name,
+                "DBInstanceIdentifier"=> db_name,
                  "DBName" => options["DBName"],
                  "InstanceCreateTime" => nil,
                  "AutoMinorVersionUpgrade"=>true,

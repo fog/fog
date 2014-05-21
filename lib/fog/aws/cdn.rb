@@ -34,7 +34,7 @@ module Fog
         def self.data
           @data ||= Hash.new do |hash, key|
             hash[key] =  {
-                :distributions => {},
+              :distributions => {},
                 :streaming_distributions => {},
                 :invalidations => {}
               }

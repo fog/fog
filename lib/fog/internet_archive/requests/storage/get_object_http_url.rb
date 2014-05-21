@@ -17,7 +17,7 @@ module Fog
             [@host, "#{bucket_name}/#{object_name}"]
           end
           http_url({
-            :headers  => {},
+                     :headers  => {},
             :host     => host,
             :port     => @port,
             :method   => 'GET',

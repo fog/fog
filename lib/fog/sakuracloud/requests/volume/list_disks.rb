@@ -20,27 +20,27 @@ module Fog
           response = Excon::Response.new
           response.status = 200
           response.body = {
-          "Disks" =>
-            [
-              {"Index" => 0,
-                "ID" =>112600053890,
-                "Name" =>"foober1",
-                "Connection" => "virtio",
+            "Disks" =>
+              [
+                {"Index" => 0,
+                  "ID" =>112600053890,
+                  "Name" =>"foober1",
+                  "Connection" => "virtio",
+                  "Availability"=>"available",
+                  "SizeMB"=>20480,
+                  "Plan"=> {},
+                  "SourceDisk" => nil,
+                  "SourceArchive" => {}},
+              {"Index" => 1,
+                "ID" =>112600053891,
+                "Name" =>"foober2",
+                "Connection"  => "virtio",
                 "Availability"=>"available",
                 "SizeMB"=>20480,
                 "Plan"=> {},
                 "SourceDisk" => nil,
-                "SourceArchive" => {}},
-            {"Index" => 1,
-              "ID" =>112600053891,
-              "Name" =>"foober2",
-              "Connection"  => "virtio",
-              "Availability"=>"available",
-              "SizeMB"=>20480,
-              "Plan"=> {},
-              "SourceDisk" => nil,
-              "SourceArchive" => {}}
-            ]
+                "SourceArchive" => {}}
+              ]
           }
           response
         end

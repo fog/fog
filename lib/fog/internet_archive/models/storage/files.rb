@@ -63,7 +63,7 @@ module Fog
           data = service.get_object(directory.key, key, options, &block)
           normalize_headers(data)
           file_data = data.headers.merge({
-            :body => data.body,
+                                           :body => data.body,
             :key  => key
           })
           new(file_data)
@@ -98,7 +98,7 @@ module Fog
           data = service.head_object(directory.key, key, options)
           normalize_headers(data)
           file_data = data.headers.merge({
-            :key => key
+                                           :key => key
           })
           new(file_data)
         rescue Excon::Errors::NotFound

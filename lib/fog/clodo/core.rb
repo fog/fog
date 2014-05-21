@@ -17,7 +17,7 @@ module Fog
       @clodo_api_key  = options[:clodo_api_key]
       @clodo_username = options[:clodo_username]
       response = connection.request({
-        :expects  => [200, 204],
+                                      :expects  => [200, 204],
         :headers  => {
           'X-Auth-Key'  => @clodo_api_key,
           'X-Auth-User' => @clodo_username

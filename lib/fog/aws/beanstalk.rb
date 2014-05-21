@@ -110,7 +110,7 @@ module Fog
           body = AWS.signed_params(
               params,
               {
-                  :aws_access_key_id  => @aws_access_key_id,
+                :aws_access_key_id  => @aws_access_key_id,
                   :aws_session_token  => @aws_session_token,
                   :hmac               => @hmac,
                   :host               => @host,
@@ -122,7 +122,7 @@ module Fog
 
           begin
             @connection.request({
-                :body       => body,
+                                  :body       => body,
                 :expects    => 200,
                 :headers    => { 'Content-Type' => 'application/x-www-form-urlencoded' },
                 :idempotent => idempotent,

@@ -61,7 +61,7 @@ module Fog
                   end
 
                   messages << m.merge({
-                    'ReceiptHandle' => receipt_handle
+                                        'ReceiptHandle' => receipt_handle
                   })
                   break if messages.size >= max_number_of_messages
                 end

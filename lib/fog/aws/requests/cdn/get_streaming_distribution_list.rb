@@ -40,7 +40,7 @@ module Fog
 
         def get_streaming_distribution_list(options = {})
           request({
-            :expects    => 200,
+                    :expects    => 200,
             :idempotent => true,
             :method   => 'GET',
             :parser   => Fog::Parsers::CDN::AWS::GetStreamingDistributionList.new,

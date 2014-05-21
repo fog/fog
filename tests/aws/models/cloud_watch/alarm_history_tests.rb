@@ -8,7 +8,7 @@ Shindo.tests("AWS::CloudWatch | alarm_histories", ['aws', 'cloudwatch']) do
     end
 
   new_attributes = {
-      :alarm_name => 'tmp-alarm',
+    :alarm_name => 'tmp-alarm',
       :end_date => '',
       :history_item_type => 'StateUpdate',
       :max_records => 1,

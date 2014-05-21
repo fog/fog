@@ -15,7 +15,7 @@ module Fog
         #   * body<~Hash>:
         def create_db_snapshot(identifier, name)
           request({
-            'Action'  => 'CreateDBSnapshot',
+                    'Action'  => 'CreateDBSnapshot',
             'DBInstanceIdentifier' => identifier,
             'DBSnapshotIdentifier' => name,
             :parser   => Fog::Parsers::AWS::RDS::CreateDBSnapshot.new

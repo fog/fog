@@ -14,7 +14,7 @@ module Fog
           dc = find_raw_datacenter(datacenter_name)
 
           @connection.serviceContent.viewManager.CreateContainerView({
-            :container  => dc.networkFolder,
+                                                                       :container  => dc.networkFolder,
             :type       =>  ["Network"],
             :recursive  => true
           }).view.select { |n| n.name == name and (not distributedswitch_name or n.config.distributedVirtualSwitch.name == distributedswitch_name)}.first

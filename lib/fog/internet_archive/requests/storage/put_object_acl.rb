@@ -46,7 +46,7 @@ module Fog
           headers['Date'] = Fog::Time.now.to_date_header
 
           request({
-            :body     => data,
+                    :body     => data,
             :expects  => 200,
             :headers  => headers,
             :host     => "#{bucket_name}.#{@host}",

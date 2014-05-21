@@ -5,9 +5,9 @@ module Fog
         def add_flavor_access(flavor_ref, tenant_id)
           request(
             :body => Fog::JSON.encode({
-              "addTenantAccess" => {
-                "tenant" => tenant_id
-              }
+                                        "addTenantAccess" => {
+                                          "tenant" => tenant_id
+                                        }
             }),
             :expects  => [200, 203],
             :method   => 'POST',

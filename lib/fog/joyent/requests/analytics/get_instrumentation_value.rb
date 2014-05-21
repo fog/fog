@@ -9,7 +9,7 @@ module Fog
               :expects => 200,
               :idempotent => true,
               :query => {
-                  :ndatapoints => ndatapoints,
+                :ndatapoints => ndatapoints,
                   :start_time => requested_start_time.to_i,
                   :duration => duration
               }

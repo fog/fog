@@ -20,7 +20,7 @@ module Fog
           options = {}
           options.merge!(AWS.indexed_param('ApplicationNames.member.%d', [*application_names]))
           request({
-                      'Operation'    => 'DescribeApplications',
+            'Operation'    => 'DescribeApplications',
                       :parser     => Fog::Parsers::AWS::ElasticBeanstalk::DescribeApplications.new
                   }.merge(options))
         end

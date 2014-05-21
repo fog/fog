@@ -4,7 +4,7 @@ Shindo.tests('Fog::Compute::HP', ['hp', 'compute']) do
     :endpoint_url => 'http://127.0.0.1/computepath/',
     :service_catalog => {
       :"Compute" => {
-      :zone => 'http://127.0.0.1/computepath/'}},
+        :zone => 'http://127.0.0.1/computepath/'}},
     :expires => (DateTime.now + 1).to_s
   }
   options = {

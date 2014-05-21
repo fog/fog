@@ -20,17 +20,17 @@ module Fog
           response = Excon::Response.new
           response.status = 200
           response.body = {
-          "SSHKeys"=>
-            [
-              {"Index"=>0,
-                "ID"=>"888888888888",
-                "Name"=>"foobar1",
-                "PublicKey"=>"ssh-rsa dummy"},
-            {"Index"=>1,
-              "ID"=>"999999999999",
-              "Name"=>"foobar2",
-              "PublicKey"=>"ssh-rsa dummy"}
-            ]
+            "SSHKeys"=>
+              [
+                {"Index"=>0,
+                  "ID"=>"888888888888",
+                  "Name"=>"foobar1",
+                  "PublicKey"=>"ssh-rsa dummy"},
+              {"Index"=>1,
+                "ID"=>"999999999999",
+                "Name"=>"foobar2",
+                "PublicKey"=>"ssh-rsa dummy"}
+              ]
           }
           response
         end

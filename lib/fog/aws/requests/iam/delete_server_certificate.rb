@@ -20,7 +20,7 @@ module Fog
         #
         def delete_server_certificate(server_certificate_name)
           request({
-            'Action'                => 'DeleteServerCertificate',
+                    'Action'                => 'DeleteServerCertificate',
             'ServerCertificateName' => server_certificate_name,
             :parser                 => Fog::Parsers::AWS::IAM::Basic.new
           })

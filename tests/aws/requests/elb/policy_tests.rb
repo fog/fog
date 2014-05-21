@@ -37,7 +37,7 @@ Shindo.tests('AWS::ELB | policy_tests', ['aws', 'elb']) do
       # Check the result of each policy by name
       returns({
                 "PolicyAttributeDescriptions"=>[{
-                                                  "AttributeName"=>"CookieName",
+                  "AttributeName"=>"CookieName",
                                                   "AttributeValue"=>"fog-app-cookie"
                                                 }],
                 "PolicyName"=>"fog-app-policy",
@@ -48,7 +48,7 @@ Shindo.tests('AWS::ELB | policy_tests', ['aws', 'elb']) do
 
       returns({
                 "PolicyAttributeDescriptions"=>[{
-                                                  "AttributeName"=>"CookieExpirationPeriod",
+                  "AttributeName"=>"CookieExpirationPeriod",
                                                   "AttributeValue"=>"300"
                                                 }],
                 "PolicyName"=>"fog-lb-expiry",
@@ -59,7 +59,7 @@ Shindo.tests('AWS::ELB | policy_tests', ['aws', 'elb']) do
 
       returns({
                 "PolicyAttributeDescriptions"=>[{
-                                                  "AttributeName"=>"CookieExpirationPeriod",
+                  "AttributeName"=>"CookieExpirationPeriod",
                                                   "AttributeValue"=>"0"
                                                 }],
                 "PolicyName"=>"fog-lb-no-expiry",
@@ -70,7 +70,7 @@ Shindo.tests('AWS::ELB | policy_tests', ['aws', 'elb']) do
 
       returns({
                 "PolicyAttributeDescriptions"=>[{
-                                                  "AttributeName"=>"PublicKey",
+                  "AttributeName"=>"PublicKey",
                                                   "AttributeValue"=> AWS::IAM::SERVER_CERT_PUBLIC_KEY
                                                 }],
                 "PolicyName"=>"fog-policy",

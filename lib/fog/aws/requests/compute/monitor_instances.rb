@@ -22,7 +22,7 @@ module Fog
         def monitor_instances(instance_ids)
           params = Fog::AWS.indexed_param('InstanceId', instance_ids)
           request({
-                          'Action' => 'MonitorInstances',
+            'Action' => 'MonitorInstances',
                           :idempotent => true,
                           :parser => Fog::Parsers::Compute::AWS::MonitorUnmonitorInstances.new
                   }.merge!(params))

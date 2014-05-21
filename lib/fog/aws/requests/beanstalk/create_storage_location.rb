@@ -17,7 +17,7 @@ module Fog
         #
         def create_storage_location()
           request({
-                      'Operation'    => 'CreateStorageLocation',
+                    'Operation'    => 'CreateStorageLocation',
                       :parser     => Fog::Parsers::AWS::ElasticBeanstalk::CreateStorageLocation.new
                   })
         end

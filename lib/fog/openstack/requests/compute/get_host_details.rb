@@ -21,7 +21,7 @@ module Fog
           response.status = 200
           response.body = { "host" => [
             { "resource" => {
-                "project" => "(total)",
+              "project" => "(total)",
                 "memory_mb" => 64427,
                 "host" => "cn28.la-1-3.morphcloud.net",
                 "cpu" => 12,
@@ -29,7 +29,7 @@ module Fog
                 }
             },
               { "resource" => {
-                  "project" => "(used_now)",
+                "project" => "(used_now)",
                   "memory_mb" => 1753,
                   "host" => "cn28.la-1-3.morphcloud.net",
                   "cpu" => 3,
@@ -37,7 +37,7 @@ module Fog
                 }
               },
               { "resource" => {
-                  "project" => "(used_max)",
+                "project" => "(used_max)",
                   "memory_mb" => 7168,
                   "host" => "cn28.la-1-3.morphcloud.net",
                   "cpu" => 3,
@@ -45,7 +45,7 @@ module Fog
                 }
               },
               { "resource" => {
-                  "project" => "bf8301f5164f4790889a1bc2bfb16d99",
+                "project" => "bf8301f5164f4790889a1bc2bfb16d99",
                   "memory_mb" => 5120,
                   "host" => "cn28.la-1-3.morphcloud.net",
                   "cpu" => 2,
@@ -53,7 +53,7 @@ module Fog
                 }
               },
               { "resource" => {
-                  "project" => "3bb4d0301c5f47d5b4d96a361fcf96f4",
+                "project" => "3bb4d0301c5f47d5b4d96a361fcf96f4",
                   "memory_mb" => 2048,
                   "host" => "cn28.la-1-3.morphcloud.net",
                   "cpu" => 1,

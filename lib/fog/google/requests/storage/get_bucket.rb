@@ -42,7 +42,7 @@ module Fog
             raise ArgumentError.new('bucket_name is required')
           end
           request({
-            :expects  => 200,
+                    :expects  => 200,
             :headers  => {},
             :host     => "#{bucket_name}.#{@host}",
             :idempotent => true,
@@ -70,7 +70,7 @@ module Fog
                 end.map do |object|
                   data = object.reject {|key, value| !['ETag', 'Key'].include?(key)}
                   data.merge!({
-                    'LastModified' => Time.parse(object['Last-Modified']),
+                                'LastModified' => Time.parse(object['Last-Modified']),
                     'Owner'        => bucket['Owner'],
                     'Size'         => object['Content-Length'].to_i
                   })

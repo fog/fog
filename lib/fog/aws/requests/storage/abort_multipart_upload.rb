@@ -13,7 +13,7 @@ module Fog
         #
         def abort_multipart_upload(bucket_name, object_name, upload_id)
           request({
-            :expects    => 204,
+                    :expects    => 204,
             :headers    => {},
             :bucket_name => bucket_name,
             :object_name => object_name,

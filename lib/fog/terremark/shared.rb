@@ -38,7 +38,7 @@ module Fog
 
         def auth_token
           response = @connection.request({
-            :expects   => 200,
+                                           :expects   => 200,
             :headers   => {
               'Authorization' => "Basic #{Base64.encode64("#{@terremark_username}:#{@terremark_password}").chomp!}",
               'Content-Type'  => "application/vnd.vmware.vcloud.orgList+xml"
@@ -82,7 +82,7 @@ module Fog
               path = "#{@path}"
           end
           @connection.request({
-            :body     => params[:body],
+                                :body     => params[:body],
             :expects  => params[:expects],
             :headers  => headers.merge!(params[:headers] || {}),
             :host     => @host,

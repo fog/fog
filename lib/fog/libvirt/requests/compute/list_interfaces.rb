@@ -48,7 +48,7 @@ module Fog
 
         def mock_interface name
           {
-              :mac    => 'aa:bb:cc:dd:ee:ff',
+            :mac    => 'aa:bb:cc:dd:ee:ff',
               :name   => name,
               :active => true
           }

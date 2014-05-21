@@ -5,7 +5,7 @@ module Fog
       class Real
         def remove_router_interface(router_id, subnet_id, options = {})
           data = {
-              'subnet_id' => subnet_id,
+            'subnet_id' => subnet_id,
           }
 
           request(

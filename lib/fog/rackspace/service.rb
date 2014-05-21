@@ -82,7 +82,7 @@ module Fog
 
       def request_params(params)
         params.merge({
-          :headers  => headers(params),
+                       :headers  => headers(params),
           :path     => "#{endpoint_uri.path}/#{params[:path]}"
         })
       end
@@ -107,7 +107,7 @@ module Fog
 
       def authenticate_v2(identity_options)
         hash = {
-              :rackspace_api_key => identity_options[:rackspace_api_key],
+          :rackspace_api_key => identity_options[:rackspace_api_key],
               :rackspace_username => identity_options[:rackspace_username],
               :rackspace_auth_url => identity_options[:rackspace_auth_url],
               :connection_options => identity_options[:connection_options] || {}

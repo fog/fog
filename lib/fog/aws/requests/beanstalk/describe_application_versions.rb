@@ -24,7 +24,7 @@ module Fog
             options.merge!(AWS.indexed_param('VersionLabels.member.%d', [*version_labels]))
           end
           request({
-                      'Operation'    => 'DescribeApplicationVersions',
+            'Operation'    => 'DescribeApplicationVersions',
                       :parser     => Fog::Parsers::AWS::ElasticBeanstalk::DescribeApplicationVersions.new
                   }.merge(options))
         end

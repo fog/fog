@@ -66,7 +66,7 @@ DATA
           end
 
           request({
-            :body     => data,
+                    :body     => data,
             :expects  => 200,
             :headers  => {},
             :bucket_name => bucket_name,

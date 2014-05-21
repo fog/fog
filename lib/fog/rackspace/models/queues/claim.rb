@@ -73,7 +73,7 @@ module Fog
           #HACK - Models require a collection, but I don't really want to expose
           # the messages collection to users here.
           message_collection = Fog::Rackspace::Queues::Messages.new({
-              :service => service,
+                                                                      :service => service,
               :queue => queue,
               :client_id => service.client_id,
               :echo => true

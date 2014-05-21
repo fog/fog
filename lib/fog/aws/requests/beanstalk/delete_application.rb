@@ -19,7 +19,7 @@ module Fog
         def delete_application(application_name)
           options = { 'ApplicationName' => application_name }
           request({
-                      'Operation'    => 'DeleteApplication',
+            'Operation'    => 'DeleteApplication',
                       :parser     => Fog::Parsers::AWS::ElasticBeanstalk::Empty.new
                   }.merge(options))
         end

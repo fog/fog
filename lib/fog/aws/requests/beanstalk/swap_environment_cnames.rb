@@ -19,7 +19,7 @@ module Fog
         #
         def swap_environment_cnames(options={})
           request({
-                      'Operation'    => 'SwapEnvironmentCNAMEs',
+            'Operation'    => 'SwapEnvironmentCNAMEs',
                       :parser     => Fog::Parsers::AWS::ElasticBeanstalk::Empty.new
                   }.merge(options))
         end

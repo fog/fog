@@ -83,7 +83,7 @@ module Fog
         def mock_domain name
           xml = read_xml 'domain.xml'
           {
-              :id              => "dom.uuid",
+            :id              => "dom.uuid",
               :uuid            => "dom.uuid",
               :name            => name,
               :max_memory_size => 8,

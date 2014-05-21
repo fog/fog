@@ -46,7 +46,7 @@ module Fog
         def databases
           @databases ||= begin
             Fog::Rackspace::Databases::Databases.new({
-              :service => service,
+                                                       :service => service,
               :instance => self
             })
           end
@@ -55,7 +55,7 @@ module Fog
         def users
           @users ||= begin
             Fog::Rackspace::Databases::Users.new({
-              :service => service,
+                                                   :service => service,
               :instance => self
             })
           end

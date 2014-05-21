@@ -5,9 +5,9 @@ Shindo.tests('Fog::Storage::HP', ['hp', 'storage']) do
     :cdn_endpoint_url => 'http://127.0.0.1/cdnpath/',
     :service_catalog => {
       :"Object Storage" => {
-      :zone => 'http://127.0.0.1/path/'},
+        :zone => 'http://127.0.0.1/path/'},
       :"CDN" => {
-      :zone => 'http://127.0.0.1/cdnpath/'}},
+        :zone => 'http://127.0.0.1/cdnpath/'}},
     :expires => (DateTime.now + 1).to_s
   }
   options = {

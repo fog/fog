@@ -396,7 +396,7 @@ module Fog
             path = "#{@path}"
           end
           @connection.request({
-            :body       => params[:body],
+                                :body       => params[:body],
             :expects    => params[:expects],
             :headers    => headers.merge!(params[:headers] || {}),
             :idempotent => params[:idempotent],
@@ -550,7 +550,7 @@ module Fog
                   :Netmask => '255.255.255.0',
                   :name => 'Default Network',
                   :SubnetParticipation => {
-                      :Gateway => "192.168.1.0",
+                    :Gateway => "192.168.1.0",
                       :Netmask => "255.255.0.0",
                       :IpAddress => "192.168.1.0"
                   },
@@ -575,7 +575,7 @@ module Fog
                   :Netmask => '255.255.255.0',
                   :name => 'vDC1 backend network',
                   :SubnetParticipation => {
-                      :Gateway => "192.168.1.0",
+                    :Gateway => "192.168.1.0",
                       :Netmask => "255.255.0.0",
                       :IpAddress => "192.168.1.0"
                   },
@@ -599,7 +599,7 @@ module Fog
                   :Netmask => '255.255.255.0',
                   :name => 'vDC2 backend network',
                   :SubnetParticipation => {
-                      :Gateway => "192.168.1.0",
+                    :Gateway => "192.168.1.0",
                       :Netmask => "255.255.0.0",
                       :IpAddress => "192.168.1.0"
                   },

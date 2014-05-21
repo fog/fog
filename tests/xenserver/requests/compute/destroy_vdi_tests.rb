@@ -5,7 +5,7 @@ Shindo.tests('Fog::Compute[:xenserver] | destroy_vdi request', ['xenserver']) do
 
   tests('destroy_vdi should') do
     ref = compute.create_vdi( { 
-      :storage_repository => sr, 
+                               :storage_repository => sr, 
       :name => 'foovdi',
       :virtual_size => '8589934592',
       :type => 'system',

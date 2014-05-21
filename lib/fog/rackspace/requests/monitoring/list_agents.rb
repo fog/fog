@@ -17,20 +17,20 @@ module Fog
           response = Excon::Response.new
           response.status = 200
           response.body = {
-          "values"=>[
+            "values"=>[
+              {
+              	 "id"		=> Fog::Rackspace::MockData.uuid,
+              	"last_connected"  => Time.now.to_i - 100
+              },
             {
-            	"id"		=> Fog::Rackspace::MockData.uuid,
-            	"last_connected"  => Time.now.to_i - 100
+            	 "id"		=> Fog::Rackspace::MockData.uuid,
+            	"last_connected"  => Time.now.to_i - 110
             },
-          {
-          	"id"		=> Fog::Rackspace::MockData.uuid,
-          	"last_connected"  => Time.now.to_i - 110
-          },
-          {
-          	"id"		=> Fog::Rackspace::MockData.uuid,
-          	"last_connected"  => Time.now.to_i - 120
-          }
-        ],
+            {
+            	 "id"		=> Fog::Rackspace::MockData.uuid,
+            	"last_connected"  => Time.now.to_i - 120
+            }
+          ],
 
            "metadata" => {
              "count"       => 1,

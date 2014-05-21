@@ -43,7 +43,7 @@ module Fog
         #
         def terminate_instance_in_auto_scaling_group(instance_id, should_decrement_desired_capacity)
           request({
-            'Action'                         => 'TerminateInstanceInAutoScalingGroup',
+                    'Action'                         => 'TerminateInstanceInAutoScalingGroup',
             'InstanceId'                     => instance_id,
             'ShouldDecrementDesiredCapacity' => should_decrement_desired_capacity.to_s,
             :parser                          => Fog::Parsers::AWS::AutoScaling::TerminateInstanceInAutoScalingGroup.new

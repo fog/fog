@@ -52,7 +52,7 @@ module Fog
                                    gsub("\n", '')
 
           request({
-            :body       => data,
+                    :body       => data,
             :expects    => 200,
             :headers    => headers,
             :bucket_name => bucket_name,

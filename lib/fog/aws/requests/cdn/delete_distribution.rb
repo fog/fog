@@ -12,7 +12,7 @@ module Fog
 
         def delete_distribution(distribution_id, etag)
           request({
-            :expects    => 204,
+                    :expects    => 204,
             :headers    => { 'If-Match' => etag },
             :idempotent => true,
             :method     => 'DELETE',

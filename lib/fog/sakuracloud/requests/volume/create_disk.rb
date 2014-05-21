@@ -7,15 +7,15 @@ module Fog
 
         def create_disk( name, plan, sourcearchive )
           body = {
-           "Disk" => {
-             "Name" => name,
-             "SourceArchive" => {
-               "ID" => sourcearchive.to_s
-              },
-              "Plan" => {
-                "ID" => plan.to_i
-              }
-            }
+            "Disk" => {
+              "Name" => name,
+              "SourceArchive" => {
+                "ID" => sourcearchive.to_s
+               },
+               "Plan" => {
+                 "ID" => plan.to_i
+               }
+             }
           }
 
           request(

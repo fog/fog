@@ -4,7 +4,7 @@ Shindo.tests('Fog::Compute[:google] | network requests', ['google']) do
   @google = Fog::Compute[:google]
 
   @insert_network_format = {
-      'kind' => String,
+    'kind' => String,
       'id' => String,
       'selfLink' => String,
       'name' => String,
@@ -18,7 +18,7 @@ Shindo.tests('Fog::Compute[:google] | network requests', ['google']) do
   }
 
   @get_network_format = {
-      'kind' => String,
+    'kind' => String,
       'id' => String,
       'selfLink' => String,
       'creationTimestamp' => String,
@@ -28,7 +28,7 @@ Shindo.tests('Fog::Compute[:google] | network requests', ['google']) do
   }
 
   @delete_network_format = {
-      'kind' => String,
+    'kind' => String,
       'id' => String,
       'selfLink' => String,
       'name' => String,
@@ -43,7 +43,7 @@ Shindo.tests('Fog::Compute[:google] | network requests', ['google']) do
   }
 
   @list_networks_format = {
-      'kind' => String,
+    'kind' => String,
       'id' => String,
       'selfLink' => String,
       'items' => [@get_network_format]

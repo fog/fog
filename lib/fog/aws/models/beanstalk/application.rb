@@ -46,7 +46,7 @@ module Fog
           requires :name
 
           options = {
-              'ApplicationName' => name
+            'ApplicationName' => name
           }
           options['Description'] = description unless description.nil?
 

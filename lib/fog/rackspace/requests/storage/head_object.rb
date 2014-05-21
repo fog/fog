@@ -15,7 +15,7 @@ module Fog
         # @raise [Fog::Storage::Rackspace::ServiceError]
         def head_object(container, object)
           request({
-            :expects  => 200,
+                    :expects  => 200,
             :method   => 'HEAD',
             :path     => "#{Fog::Rackspace.escape(container)}/#{Fog::Rackspace.escape(object)}"
           }, false)

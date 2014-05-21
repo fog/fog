@@ -156,7 +156,7 @@ module Fog
           #   size.
           def to_headers
             @meta.merge({
-              'X-Container-Object-Count' => @objects.size,
+                          'X-Container-Object-Count' => @objects.size,
               'X-Container-Bytes-Used' => bytes_used
             })
           end

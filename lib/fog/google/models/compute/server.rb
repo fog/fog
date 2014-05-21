@@ -212,7 +212,7 @@ module Fog
           self.add_ssh_key(self.username, self.public_key) if self.public_key
 
           options = {
-              'machineType' => machine_type,
+            'machineType' => machine_type,
               'networkInterfaces' => network_interfaces,
               'network' => network,
               'externalIp' => external_ip,

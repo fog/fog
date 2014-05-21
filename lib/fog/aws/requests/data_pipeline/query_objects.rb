@@ -22,7 +22,7 @@ module Fog
           params['marker'] = options[:marker] if options[:marker]
 
           response = request({
-            :body => Fog::JSON.encode(params),
+                               :body => Fog::JSON.encode(params),
             :headers => { 'X-Amz-Target' => 'DataPipeline.QueryObjects' },
           })
 

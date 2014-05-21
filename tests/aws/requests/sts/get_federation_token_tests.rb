@@ -3,7 +3,7 @@ Shindo.tests('AWS::STS | session tokens', ['aws']) do
 	@policy = {"Statement" => [{"Effect" => "Allow", "Action" => "*", "Resource" => "*"}]}
 
 	@federation_format = {
-		'SessionToken' => String,
+		 'SessionToken' => String,
 		'SecretAccessKey' => String,
 		'Expiration' => String,
 		'AccessKeyId' => String,

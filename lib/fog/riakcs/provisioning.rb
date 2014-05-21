@@ -69,7 +69,7 @@ module Fog
         def request(params, parse_response = true, &block)
           begin
             response = @raw_connection.request(params.merge({
-              :host     => @host,
+                                                              :host     => @host,
               :path     => "#{@path}/#{params[:path]}",
             }), &block)
           rescue Excon::Errors::HTTPStatusError => error

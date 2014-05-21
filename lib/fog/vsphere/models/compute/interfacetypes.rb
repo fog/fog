@@ -16,7 +16,7 @@ module Fog
           case servertype
             when Fog::Compute::Vsphere::Servertype
                load service.list_interface_types(filters.merge({
-                                                      :datacenter => datacenter,
+                                                                 :datacenter => datacenter,
                                                       :servertype => servertype.id
                                                  }))
             else

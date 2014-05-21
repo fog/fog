@@ -50,7 +50,7 @@ module Fog
         def metadata
           @metadata ||= begin
             Fog::Compute::HP::Metadata.new({
-              :service => service,
+                                             :service => service,
               :parent => self
             })
           end

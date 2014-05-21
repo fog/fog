@@ -40,7 +40,7 @@ module Fog
           headers['If-Unmodified-Since'] = Fog::Time.at(options['If-Unmodified-Since'].to_i).to_date_header if options['If-Modified-Since']
           headers.merge!(options)
           request({
-            :expects    => 200,
+                    :expects    => 200,
             :headers    => headers,
             :bucket_name => bucket_name,
             :object_name => object_name,

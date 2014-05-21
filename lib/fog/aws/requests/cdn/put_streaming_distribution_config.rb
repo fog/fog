@@ -62,7 +62,7 @@ module Fog
           end
           data << "</StreamingDistributionConfig>"
           request({
-            :body       => data,
+                    :body       => data,
             :expects    => 200,
             :headers    => {
               'Content-Type'  => 'text/xml',

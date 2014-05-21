@@ -20,17 +20,17 @@ module Fog
           response = Excon::Response.new
           response.status = 200
           response.body = {
-          "Zones" =>
-            [
-              {"Index"=>0,
-                 "ID"=>31001,
-                 "Name"=>"is1a",
-                 "Description"=>"石狩第1ゾーン"},
-            {"Index"=>1,
-               "ID"=>31002,
-               "Name"=>"is1b",
-               "Description"=>"石狩第2ゾーン"}
-            ]
+            "Zones" =>
+              [
+                {"Index"=>0,
+                   "ID"=>31001,
+                   "Name"=>"is1a",
+                   "Description"=>"石狩第1ゾーン"},
+              {"Index"=>1,
+                 "ID"=>31002,
+                 "Name"=>"is1b",
+                 "Description"=>"石狩第2ゾーン"}
+              ]
           }
           response
         end

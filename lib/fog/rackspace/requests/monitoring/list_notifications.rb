@@ -26,9 +26,9 @@ module Fog
           response.body = {
             "values"=> [
               {
-                  "created_at"=>1378783452067,
+                "created_at"=>1378783452067,
                   "details"=>{
-                      "address"=>"test@test.com"
+                    "address"=>"test@test.com"
                   },
                   "id"=>"ntnJN3MQrA",
                   "label"=>"my email update test",
@@ -37,7 +37,7 @@ module Fog
               }
           ],
             "metadata" => {
-               "count"       => 1,
+              "count"       => 1,
                "limit"       => 100,
                "marker"      => nil,
                "next_marker" => nil,

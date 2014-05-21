@@ -12,7 +12,7 @@ Shindo.tests("Fog::AWS[:beanstalk] | versions", ['aws', 'beanstalk']) do
   @application = @beanstalk.applications.create({:name => @application_name})
 
   params = {
-      :application_name => @application_name,
+    :application_name => @application_name,
       :label => @version_name,
       :description => @version_description
   }

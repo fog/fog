@@ -17,7 +17,7 @@ module Fog
 
         def get_queue_attributes(queue_url, attribute_name)
           request({
-            'Action'        => 'GetQueueAttributes',
+                    'Action'        => 'GetQueueAttributes',
             'AttributeName' => attribute_name,
             :path           => path_from_queue_url(queue_url),
             :parser         => Fog::Parsers::AWS::SQS::GetQueueAttributes.new

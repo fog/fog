@@ -78,7 +78,7 @@ module Fog
         def swap_cnames(source)
           requires :name
           service.swap_environment_cnames({
-              'SourceEnvironmentName' => source.name,
+                                            'SourceEnvironmentName' => source.name,
               'DestinationEnvironmentName' => name
                                              })
           source.reload
@@ -107,7 +107,7 @@ module Fog
           end
 
           data = service.update_environment({
-              'EnvironmentId' => id,
+                                              'EnvironmentId' => id,
               'VersionLabel' => new_version_label
                                         }).body['UpdateEnvironmentResult']
 
@@ -125,7 +125,7 @@ module Fog
           requires_one :template_name, :solution_stack_name
 
           options = {
-              'ApplicationName' => application_name,
+            'ApplicationName' => application_name,
               'CNAMEPrefix' => cname_prefix,
               'Description' => description,
               'EnvironmentName' => name,

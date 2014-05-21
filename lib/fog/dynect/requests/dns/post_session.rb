@@ -10,7 +10,7 @@ module Fog
             :method   => :post,
             :path     => "Session",
             :body     => Fog::JSON.encode({
-              :customer_name  => @dynect_customer,
+                                            :customer_name  => @dynect_customer,
               :user_name      => @dynect_username,
               :password       => @dynect_password
             })

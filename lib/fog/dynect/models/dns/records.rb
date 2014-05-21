@@ -46,7 +46,7 @@ module Fog
           record = service.get_record(type, zone.domain, fqdn, 'record_id' => id).body['data']
 
           new({
-            :identity => record['record_id'],
+                :identity => record['record_id'],
             :fqdn => record['fqdn'],
             :type => record['record_type'],
             :rdata => record['rdata']

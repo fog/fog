@@ -135,13 +135,13 @@ module Fog
         def request(params)
           begin
             response = @connection.request(params.merge({
-              :headers  => {
-                'Content-Type' => 'application/json',
-                'Accept' => 'application/json',
-                'X-Auth-Token' => @auth_token,
-                'X-Auth-User'  => @openstack_username,
-                'X-Auth-Key'   => @openstack_api_key
-              }.merge!(params[:headers] || {}),
+                                                          :headers  => {
+                                                            'Content-Type' => 'application/json',
+                                                            'Accept' => 'application/json',
+                                                            'X-Auth-Token' => @auth_token,
+                                                            'X-Auth-User'  => @openstack_username,
+                                                            'X-Auth-Key'   => @openstack_api_key
+                                                          }.merge!(params[:headers] || {}),
               :path     => "#{@path}/#{@tenant_id}/#{params[:path]}",
               :query    => params[:query]
             }))

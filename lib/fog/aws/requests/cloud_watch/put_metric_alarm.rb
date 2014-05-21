@@ -46,7 +46,7 @@ module Fog
           end
 
           request({
-              'Action'    => 'PutMetricAlarm',
+            'Action'    => 'PutMetricAlarm',
               :parser     => Fog::Parsers::AWS::CloudWatch::PutMetricAlarm.new
             }.merge(options))
         end

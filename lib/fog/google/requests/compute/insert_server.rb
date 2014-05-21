@@ -124,7 +124,7 @@ module Fog
           end
           api_method = @compute.instances.insert
           parameters = {
-              'project' => @project,
+            'project' => @project,
               'zone' => zone_name,
           }
           body_object = {:name => server_name}

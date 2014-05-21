@@ -99,7 +99,7 @@ module Fog
 
           begin
             @connection.request({
-              :body       => body,
+                                  :body       => body,
               :expects    => 200,
               :idempotent => idempotent,
               :headers    => { 'Content-Type' => 'application/x-www-form-urlencoded' },

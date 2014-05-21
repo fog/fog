@@ -47,7 +47,7 @@ module Fog
           options = flatten_hash(options)
 
           request({
-              'Action'    => 'PutMetricData',
+            'Action'    => 'PutMetricData',
               :parser     => Fog::Parsers::AWS::CloudWatch::PutMetricData.new
             }.merge(options))
         end

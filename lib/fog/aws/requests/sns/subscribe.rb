@@ -18,7 +18,7 @@ module Fog
 
         def subscribe(arn, endpoint, protocol)
           request({
-            'Action'    => 'Subscribe',
+                    'Action'    => 'Subscribe',
             'Endpoint'  => endpoint,
             'Protocol'  => protocol,
             'TopicArn'  => arn.strip,

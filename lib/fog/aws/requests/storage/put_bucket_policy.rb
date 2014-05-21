@@ -12,7 +12,7 @@ module Fog
 
         def put_bucket_policy(bucket_name, policy)
           request({
-            :body     => Fog::JSON.encode(policy),
+                    :body     => Fog::JSON.encode(policy),
             :expects  => 204,
             :headers  => {},
             :bucket_name => bucket_name,

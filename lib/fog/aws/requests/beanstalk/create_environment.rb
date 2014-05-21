@@ -40,7 +40,7 @@ module Fog
             options.merge!(AWS.indexed_param('OptionsToRemove.member.%d', [*options_to_remove]))
           end
           request({
-                      'Operation'    => 'CreateEnvironment',
+            'Operation'    => 'CreateEnvironment',
                       :parser     => Fog::Parsers::AWS::ElasticBeanstalk::CreateEnvironment.new
                   }.merge(options))
         end

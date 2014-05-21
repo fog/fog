@@ -39,7 +39,7 @@ module Fog
           end
 
           request({
-            :query   => parameters,
+                    :query   => parameters,
             :parser  => Fog::Parsers::DNS::AWS::ListHostedZones.new,
             :expects => 200,
             :method  => 'GET',

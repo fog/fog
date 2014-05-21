@@ -17,13 +17,13 @@ Shindo.tests("Fog::AWS[:beanstalk] | environment", ['aws', 'beanstalk']) do
   @versions = []
   @version_names.each { |name|
     @versions << @beanstalk.versions.create({
-                                                :label => name,
+                                              :label => name,
                                                 :application_name => @application_name,
                                             })
   }
 
   @environment_opts = {
-      :application_name => @application_name,
+    :application_name => @application_name,
       :name => @environment_name,
       :version_label => @version_names[0],
       :solution_stack_name => '32bit Amazon Linux running Tomcat 7'

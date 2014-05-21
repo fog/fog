@@ -17,7 +17,7 @@ module Fog
 
         def send_message(queue_url, message)
           request({
-            'Action'      => 'SendMessage',
+                    'Action'      => 'SendMessage',
             'MessageBody' => message,
             :path         => path_from_queue_url(queue_url),
             :parser       => Fog::Parsers::AWS::SQS::SendMessage.new

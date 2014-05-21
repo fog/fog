@@ -26,7 +26,7 @@ module Fog
         #
         def delete_scheduled_action(auto_scaling_group_name, scheduled_action_name)
           request({
-            'Action'               => 'DeleteScheduledAction',
+                    'Action'               => 'DeleteScheduledAction',
             'AutoScalingGroupName' => auto_scaling_group_name,
             'ScheduledActionName'  => scheduled_action_name,
             :parser                => Fog::Parsers::AWS::AutoScaling::Basic.new

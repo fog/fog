@@ -30,7 +30,7 @@ module Fog
           data = Fog::Storage.parse_data(data)
           headers = data[:headers].merge!(options)
           request({
-            :body       => data[:body],
+                    :body       => data[:body],
             :expects    => 200,
             :headers    => headers,
             :bucket_name => bucket_name,

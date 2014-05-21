@@ -25,7 +25,7 @@ module Fog
         #
         def describe_metric_collection_types()
           request({
-            'Action'    => 'DescribeMetricCollectionTypes',
+                    'Action'    => 'DescribeMetricCollectionTypes',
             :idempotent => true,
             :parser     => Fog::Parsers::AWS::AutoScaling::DescribeMetricCollectionTypes.new
           })

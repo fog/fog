@@ -31,7 +31,7 @@ module Fog
           end
           data << "</CompleteMultipartUpload>"
           request({
-            :body       => data,
+                    :body       => data,
             :expects    => 200,
             :headers    => { 'Content-Length' => data.length },
             :host       => "#{bucket_name}.#{@host}",

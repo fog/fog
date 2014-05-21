@@ -2,7 +2,7 @@ def test
   connection = Fog::Compute.new({ :provider => "Google" })
   time = Time.now.utc.to_i
   disk = connection.disks.create({
-    :name => "foggydisk-#{time}",
+                                   :name => "foggydisk-#{time}",
     :size_gb => 10,
     :zone_name => 'us-central1-a',
     :source_image => 'centos-6-v20131120',

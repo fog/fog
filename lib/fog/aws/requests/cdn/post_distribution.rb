@@ -73,7 +73,7 @@ module Fog
           end
           data << "</DistributionConfig>"
           request({
-            :body       => data,
+                    :body       => data,
             :expects    => 201,
             :headers    => { 'Content-Type' => 'text/xml' },
             :idempotent => true,

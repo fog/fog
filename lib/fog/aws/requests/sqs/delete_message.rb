@@ -17,7 +17,7 @@ module Fog
 
         def delete_message(queue_url, receipt_handle)
           request({
-            'Action'        => 'DeleteMessage',
+                    'Action'        => 'DeleteMessage',
             'ReceiptHandle' => receipt_handle,
             :parser         => Fog::Parsers::AWS::SQS::Basic.new,
             :path           => path_from_queue_url(queue_url),

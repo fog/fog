@@ -68,7 +68,7 @@ module Fog
         def request(params)
           params[:query] ||= {}
           params[:query].merge!({
-            :password => @bare_metal_cloud_password,
+                                  :password => @bare_metal_cloud_password,
             :username => @bare_metal_cloud_username
           })
           params[:headers] ||= {}

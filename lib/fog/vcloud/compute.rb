@@ -332,7 +332,7 @@ module Fog
 
           # Make the request
           response = @connections[host_url].request({
-            :body     => params[:body] || '',
+                                                      :body     => params[:body] || '',
             :expects  => params[:expects] || 200,
             :headers  => headers,
             :method   => params[:method] || 'GET',

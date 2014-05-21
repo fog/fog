@@ -18,7 +18,7 @@ module Fog
 
         def change_message_visibility(queue_url, receipt_handle, visibility_timeout)
           request({
-            'Action'            => 'ChangeMessageVisibility',
+                    'Action'            => 'ChangeMessageVisibility',
             'ReceiptHandle'     => receipt_handle,
             'VisibilityTimeout' => visibility_timeout,
             :parser             => Fog::Parsers::AWS::SQS::Basic.new,

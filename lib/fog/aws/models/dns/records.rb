@@ -49,7 +49,7 @@ module Fog
 
           begin
             options = {
-                :name => next_record_name,
+              :name => next_record_name,
                 :type => next_record_type,
                 :identifier => next_record_identifier
             }
@@ -83,7 +83,7 @@ module Fog
           record_type = record_type.upcase unless record_type.nil?
 
           options = {
-              :max_items => 1,
+            :max_items => 1,
               :name => record_name,
               :type => record_type,
               :identifier => record_identifier

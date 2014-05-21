@@ -17,7 +17,7 @@ module Fog
         #
         def list_available_solution_stacks()
           request({
-                      'Operation'    => 'ListAvailableSolutionStacks',
+                    'Operation'    => 'ListAvailableSolutionStacks',
                       :parser     => Fog::Parsers::AWS::ElasticBeanstalk::ListAvailableSolutionStacks.new
                   })
         end

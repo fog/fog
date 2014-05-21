@@ -7,7 +7,7 @@ SUBDOMAIN_FORMAT = {
 }
 
 DOMAIN_FORMAT = SUBDOMAIN_FORMAT.merge({
-  'accountId' => Integer
+                                         'accountId' => Integer
 })
 
 LIST_SUBDOMAINS_FORMAT = {
@@ -48,16 +48,16 @@ NAME_SERVERS_FORMAT = [{
 }]
 
 BASIC_DOMAIN_DETAIL_FORMAT = DOMAIN_FORMAT.merge({
-  'nameservers' => NAME_SERVERS_FORMAT,
+                                                   'nameservers' => NAME_SERVERS_FORMAT,
   'ttl' => Integer
 })
 
 LIST_DOMAIN_DETAILS_WITH_RECORDS = BASIC_DOMAIN_DETAIL_FORMAT.merge({
-  'recordsList' => RECORD_LIST_FORMAT
+                                                                      'recordsList' => RECORD_LIST_FORMAT
 })
 
 LIST_DOMAIN_DETAILS_WITH_RECORDS_AND_SUBDOMAINS_FORMAT = BASIC_DOMAIN_DETAIL_FORMAT.merge({
-  'recordsList'     => RECORD_LIST_FORMAT,
+                                                                                            'recordsList'     => RECORD_LIST_FORMAT,
   'subdomains'      => {
     'domains'   => [SUBDOMAIN_FORMAT],
     'totalEntries'  => Integer
@@ -69,7 +69,7 @@ LIST_DOMAIN_DETAILS_WITHOUT_RECORDS_AND_SUBDOMAINS_FORMAT = BASIC_DOMAIN_DETAIL_
 CREATE_DOMAINS_FORMAT = {
   'domains' => [
     BASIC_DOMAIN_DETAIL_FORMAT.merge({
-      'recordsList' => RECORD_LIST_FORMAT
+                                       'recordsList' => RECORD_LIST_FORMAT
     })
   ]
 }

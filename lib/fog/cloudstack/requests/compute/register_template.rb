@@ -22,11 +22,11 @@ module Fog
           registered_template = self.data[:images][mock_template_id]
 
           {
-              'registertemplateresponse' =>
-              {
-                  'count' => 1,
-                  'template' => [registered_template]
-              }
+            'registertemplateresponse' =>
+            {
+              'count' => 1,
+                'template' => [registered_template]
+            }
           }
         end
       end # Mock

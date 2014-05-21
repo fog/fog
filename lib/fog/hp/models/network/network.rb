@@ -27,7 +27,7 @@ module Fog
         def subnets
           @subnets ||= begin
             Fog::HP::Network::Subnets.new({
-              :service => service,
+                                            :service => service,
               :filters => {:network_id => self.id}
             })
           end

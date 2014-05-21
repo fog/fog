@@ -69,7 +69,7 @@ module Fog
           }
 
         response.headers = {
-            "Date"                  => Time.now.utc.to_s,
+          "Date"                  => Time.now.utc.to_s,
             "Content-Type"          => "application/json; charset=UTF-8",
             "X-RateLimit-Limit"     => "50000",
             "X-RateLimit-Remaining" => "49627",

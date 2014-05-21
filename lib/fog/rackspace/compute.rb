@@ -222,7 +222,7 @@ module Fog
 
          def authenticate(options={})
             super({
-             :rackspace_api_key  => @rackspace_api_key,
+              :rackspace_api_key  => @rackspace_api_key,
              :rackspace_username => @rackspace_username,
              :rackspace_auth_url => @rackspace_auth_url,
              :connection_options => @connection_options

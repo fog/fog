@@ -18,7 +18,7 @@ module Fog
         def create_db_parameter_group(group_name, group_family, description)
 
           request({
-            'Action'  => 'CreateDBParameterGroup',
+                    'Action'  => 'CreateDBParameterGroup',
             'DBParameterGroupName' => group_name,
             'DBParameterGroupFamily' => group_family,
             'Description' => description,

@@ -105,9 +105,9 @@ Shindo.tests('AWS::ELB | models', ['aws', 'elb']) do
         @certificate = Fog::AWS[:iam].upload_server_certificate(AWS::IAM::SERVER_CERT, AWS::IAM::SERVER_CERT_PRIVATE_KEY, @key_name).body['Certificate']
         sleep(10) unless Fog.mocking?
         listeners = [{
-            'Listener' => {
-              'LoadBalancerPort' => 2030, 'InstancePort' => 2030, 'Protocol' => 'HTTP'
-            },
+          'Listener' => {
+            'LoadBalancerPort' => 2030, 'InstancePort' => 2030, 'Protocol' => 'HTTP'
+          },
             'PolicyNames' => []
           }, {
             'Listener' => {
@@ -129,7 +129,7 @@ Shindo.tests('AWS::ELB | models', ['aws', 'elb']) do
       tests('with invalid Server Cert ARN').raises(Fog::AWS::IAM::NotFound) do
         listeners = [{
           'Listener' => {
-          'LoadBalancerPort' => 443, 'InstancePort' => 80, 'Protocol' => 'HTTPS', 'InstanceProtocol' => 'HTTPS', "SSLCertificateId" => "fakecert"}
+            'LoadBalancerPort' => 443, 'InstancePort' => 80, 'Protocol' => 'HTTPS', 'InstanceProtocol' => 'HTTPS', "SSLCertificateId" => "fakecert"}
         }]
         Fog::AWS[:elb].load_balancers.create(:id => "#{elb_id}-4", "ListenerDescriptions" => listeners, :availability_zones => @availability_zones)
       end

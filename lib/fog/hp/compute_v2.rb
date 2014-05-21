@@ -143,24 +143,24 @@ module Fog
               :addresses => {},
               :volume_attachments => {},
               :limits => {
-                  "absolute" => {
-                    "maxImageMeta"            => 50,
-                    "maxPersonality"          => 5,
-                    "maxPersonalitySize"      => 10240,
-                    "maxSecurityGroupRules"   => 20,
-                    "maxSecurityGroups"       => 10,
-                    "maxTotalKeypairs"        => 100,
-                    "maxServerMeta"           => 50,
-                    "maxTotalInstances"       => 20,
-                    "maxTotalRAMSize"         => 102400,
-                    "maxTotalCores"           => -1,
-                    "maxTotalFloatingIps"     => 10,
-                    "totalRAMUsed"            => 12288,
-                    "totalInstancesUsed"      => 3,
-                    "totalFloatingIpsUsed"    => 0,
-                    "totalSecurityGroupsUsed" => 0,
-                    "totalCoresUsed"          => 8,
-                  },
+                "absolute" => {
+                  "maxImageMeta"            => 50,
+                  "maxPersonality"          => 5,
+                  "maxPersonalitySize"      => 10240,
+                  "maxSecurityGroupRules"   => 20,
+                  "maxSecurityGroups"       => 10,
+                  "maxTotalKeypairs"        => 100,
+                  "maxServerMeta"           => 50,
+                  "maxTotalInstances"       => 20,
+                  "maxTotalRAMSize"         => 102400,
+                  "maxTotalCores"           => -1,
+                  "maxTotalFloatingIps"     => 10,
+                  "totalRAMUsed"            => 12288,
+                  "totalInstancesUsed"      => 3,
+                  "totalFloatingIpsUsed"    => 0,
+                  "totalSecurityGroupsUsed" => 0,
+                  "totalCoresUsed"          => 8,
+                },
                   "rate" => [
                     {
                       "limit" => [
@@ -284,11 +284,11 @@ module Fog
         def request(params, parse_json = true, &block)
           begin
             response = @connection.request(params.merge!({
-              :headers  => {
-                'Content-Type' => 'application/json',
-                'Accept'       => 'application/json',
-                'X-Auth-Token' => @auth_token
-              }.merge!(params[:headers] || {}),
+                                                           :headers  => {
+                                                             'Content-Type' => 'application/json',
+                                                             'Accept'       => 'application/json',
+                                                             'X-Auth-Token' => @auth_token
+                                                           }.merge!(params[:headers] || {}),
               :path     => "#{@path}/#{params[:path]}"
             }), &block)
           rescue Excon::Errors::HTTPStatusError => error

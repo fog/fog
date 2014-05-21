@@ -111,7 +111,7 @@ module Fog
 
                              unless default_sg
                                default_sg = {
-                                             'groupDescription'    => 'default_elb security group',
+                                 'groupDescription'    => 'default_elb security group',
                                              'groupName'           => "default_elb_#{Fog::Mock.random_hex(6)}",
                                              'groupId'             => Fog::AWS::Mock.security_group_id,
                                              'ipPermissionsEgress' => [],
@@ -133,7 +133,7 @@ module Fog
 
                              unless default_sg
                                default_sg = {
-                                             'groupDescription'    => 'default elb security group',
+                                 'groupDescription'    => 'default elb security group',
                                              'groupName'           => 'default',
                                              'groupId'             => Fog::AWS::Mock.security_group_id,
                                              'ipPermissionsEgress' => [],

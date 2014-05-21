@@ -28,7 +28,7 @@ INSTANCE_FORMAT = {
 }
 
 INSTANCE_DETAILS_FORMAT = INSTANCE_FORMAT.merge({
-  'created' => String,
+                                                  'created' => String,
   'updated' => String,
   'hostname' => String,
 })
@@ -39,10 +39,10 @@ CREATE_INSTANCE_FORMAT = {
 
 GET_INSTANCE_FORMAT = {
   'instance' => INSTANCE_DETAILS_FORMAT.merge({
-    'volume' => {
-      'size' => Integer,
-      'used' => Float
-    }
+                                                'volume' => {
+                                                  'size' => Integer,
+                                                  'used' => Float
+                                                }
   })
 }
 

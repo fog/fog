@@ -1,7 +1,7 @@
 Shindo.tests('AWS::STS | session tokens', ['aws']) do
 
 	@session_format = {
-		'SessionToken' => String,
+		 'SessionToken' => String,
 		'SecretAccessKey' => String,
 		'Expiration' => String,
 		'AccessKeyId' => String,

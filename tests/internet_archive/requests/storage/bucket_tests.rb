@@ -23,7 +23,7 @@ Shindo.tests('Fog::Storage[:internetarchive] | bucket requests', ["internetarchi
     }
     @bucket_lifecycle_format = {
       'Rules' => [{
-         'ID'         => String, 
+        'ID'         => String, 
          'Prefix'     => Fog::Nullable::String,
          'Enabled'    => Fog::Boolean, 
          'Expiration' => Fog::Nullable::Hash,
@@ -148,7 +148,7 @@ Shindo.tests('Fog::Storage[:internetarchive] | bucket requests', ["internetarchi
     end
 
     tests("#put_bucket_acl('#{@ia_bucket_name}', hash with email)").returns({
-        'Owner' => @aws_owner,
+                                                                              'Owner' => @aws_owner,
         'AccessControlList' => [
           {
             'Grantee' => { 'ID' => 'f62f0218873cfa5d56ae9429ae75a592fec4fd22a5f24a20b1038a7db9a8f150', 'DisplayName' => 'mtd' },
@@ -158,7 +158,7 @@ Shindo.tests('Fog::Storage[:internetarchive] | bucket requests', ["internetarchi
     }) do
       pending if Fog.mocking?
       Fog::Storage[:internetarchive].put_bucket_acl(@ia_bucket_name, {
-        'Owner' => @aws_owner,
+                                                      'Owner' => @aws_owner,
         'AccessControlList' => [
           {
             'Grantee' => { 'EmailAddress' => 'mtd@amazon.com' },

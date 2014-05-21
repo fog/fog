@@ -2,7 +2,7 @@ Shindo.tests('Fog::Rackspace::Queues | message', ['rackspace']) do
 
   service = Fog::Rackspace::Queues.new
   queue = service.queues.create({
-    :name => "fog_instance_#{Time.now.to_i.to_s}",
+                                  :name => "fog_instance_#{Time.now.to_i.to_s}",
   })
   options = {
     :ttl => VALID_TTL,

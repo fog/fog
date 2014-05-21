@@ -84,7 +84,7 @@ Shindo.tests do
       }
 
       returns({
-        :a => 3,
+                :a => 3,
         :something => 2,
         :connection_options => {:val => 5},
         :headers => { 'User-Agent' => "my user agent" }

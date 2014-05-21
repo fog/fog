@@ -6,7 +6,7 @@ module Fog
         def put_namespace(namespace = '', options = {})
           options = options.reject {|key, value| value.nil?}
           request({
-                    :expects  => 200,
+            :expects  => 200,
                     :method   => 'PUT',
                     :path     => "namespace/" + namespace,
                     :query    => {},

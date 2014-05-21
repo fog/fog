@@ -192,7 +192,7 @@ module Fog
 
         def load_model(class_name, attrs = nil)
           model = Fog::Rackspace::AutoScale.const_get(class_name).new({
-            :service => @service,
+                                                                        :service => @service,
             :group   => self
           })
           if service && attrs

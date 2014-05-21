@@ -42,7 +42,7 @@ end
 
 # create auto scaling service
 auto_scale_service = Fog::Rackspace::AutoScale.new({
-  :rackspace_username   => rackspace_username,
+                                                     :rackspace_username   => rackspace_username,
   :rackspace_api_key    => rackspace_api_key,
   :rackspace_region => :ord # Use Chicago Region
 })

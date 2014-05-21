@@ -198,7 +198,7 @@ module Fog
             hash[key] = {
               :servers => {
                 "5032c8a5-9c5e-ba7a-3804-832a03e16381" => {
-                 "resource_pool"    => "Resources",
+                  "resource_pool"    => "Resources",
                  "memory_mb"        => 2196,
                  "mac_addresses"    => { "Network adapter 1" => "00:50:56:a9:00:28" },
                  "power_state"      => "poweredOn",
@@ -241,7 +241,7 @@ module Fog
                  "template"         => false
                 },
                 "502916a3-b42e-17c7-43ce-b3206e9524dc" => {
-                 "resource_pool"    => "Resources",
+                  "resource_pool"    => "Resources",
                  "memory_mb"        => 512,
                  "power_state"      => "poweredOn",
                  "mac_addresses"    => { "Network adapter 1" => "00:50:56:a9:00:00" },
@@ -281,7 +281,7 @@ module Fog
                  "template"         => false
                 },
                 "5029c440-85ee-c2a1-e9dd-b63e39364603" => {
-                 "resource_pool"    => "Resources",
+                  "resource_pool"    => "Resources",
                  "memory_mb"        => 2196,
                  "power_state"      => "poweredOn",
                  "mac_addresses"    => { "Network adapter 1" => "00:50:56:b2:00:af" },

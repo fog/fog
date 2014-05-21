@@ -5,7 +5,7 @@ Shindo.tests('AWS::SQS | message requests', ['aws']) do
     @queue_url = Fog::AWS[:sqs].create_queue('fog_message_tests').body['QueueUrl']
 
     send_message_format = AWS::SQS::Formats::BASIC.merge({
-      'MessageId'         => String,
+                                                           'MessageId'         => String,
       'MD5OfMessageBody'  => String
     })
 
@@ -14,18 +14,18 @@ Shindo.tests('AWS::SQS | message requests', ['aws']) do
     end
 
     receive_message_format = AWS::SQS::Formats::BASIC.merge({
-      'Message' => [{
-        'Attributes'    => {
-          'ApproximateFirstReceiveTimestamp'  => Time,
-          'ApproximateReceiveCount'           => Integer,
-          'SenderId'                          => String,
-          'SentTimestamp'                     => Time
-        },
-        'Body'          => String,
-        'MD5OfBody'     => String,
-        'MessageId'     => String,
-        'ReceiptHandle' => String
-      }]
+                                                              'Message' => [{
+                                                                'Attributes'    => {
+                                                                  'ApproximateFirstReceiveTimestamp'  => Time,
+                                                                  'ApproximateReceiveCount'           => Integer,
+                                                                  'SenderId'                          => String,
+                                                                  'SentTimestamp'                     => Time
+                                                                },
+                                                                'Body'          => String,
+                                                                'MD5OfBody'     => String,
+                                                                'MessageId'     => String,
+                                                                'ReceiptHandle' => String
+                                                              }]
     })
 
     tests("#receive_message").formats(receive_message_format) do

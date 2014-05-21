@@ -15,7 +15,7 @@ module Fog
         # *  :source <~String> - the parameter types to return.
         def describe_cache_parameters(name = nil, options = {})
           request({
-            'Action'                  => 'DescribeCacheParameters',
+                    'Action'                  => 'DescribeCacheParameters',
             'CacheParameterGroupName' => name,
             'Marker'                  => options[:marker],
             'MaxRecords'              => options[:max_records],

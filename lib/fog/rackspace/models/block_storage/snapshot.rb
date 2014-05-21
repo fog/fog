@@ -63,7 +63,7 @@ module Fog
           requires :volume_id
           raise IdentifierTaken.new('Resaving may cause a duplicate snapshot to be created') if persisted?
           data = service.create_snapshot(volume_id, {
-            :display_name => display_name,
+                                           :display_name => display_name,
             :display_description => display_description,
             :force => force
           })

@@ -54,7 +54,7 @@ module Fog
         def metadata
           @metadata ||= begin
             Fog::Compute::HPV2::Metadata.new({
-              :service => service,
+                                               :service => service,
               :parent => self
             })
           end
@@ -239,7 +239,7 @@ module Fog
         def volume_attachments
           @volume_attachments ||= begin
             Fog::Compute::HPV2::VolumeAttachments.new({
-              :service => service,
+                                                        :service => service,
               :server => self
             })
           end

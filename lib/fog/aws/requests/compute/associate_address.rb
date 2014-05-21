@@ -28,7 +28,7 @@ module Fog
             params = args.first
           else 
             params = {
-                :instance_id => args[0],
+              :instance_id => args[0],
                 :public_ip => args[1],
                 :network_interface_id => args[2],
                 :allocation_id => args[3],
@@ -61,7 +61,7 @@ module Fog
             params = args.first
           else 
             params = {
-                :instance_id => args[0],
+              :instance_id => args[0],
                 :public_ip => args[1],
                 :network_interface_id => args[2],
                 :allocation_id => args[3],

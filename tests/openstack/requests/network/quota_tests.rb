@@ -31,7 +31,7 @@ Shindo.tests('Fog::Network[:openstack] | quota requests', ['openstack']) do
     tests('#update_quota') do
 
       new_values = @quota.merge({
-        'volumes'   => @quota['subnet']/2,
+                                  'volumes'   => @quota['subnet']/2,
         'snapshots' => @quota['router']/2
       })
 

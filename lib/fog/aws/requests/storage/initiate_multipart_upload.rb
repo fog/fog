@@ -28,7 +28,7 @@ module Fog
         #
         def initiate_multipart_upload(bucket_name, object_name, options = {})
           request({
-            :expects    => 200,
+                    :expects    => 200,
             :headers    => options,
             :bucket_name => bucket_name,
             :object_name => object_name,

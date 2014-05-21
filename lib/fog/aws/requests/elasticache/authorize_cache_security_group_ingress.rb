@@ -16,7 +16,7 @@ module Fog
         #   * body <~Hash>
         def authorize_cache_security_group_ingress(name, ec2_name, ec2_owner_id)
           request({
-            'Action' => 'AuthorizeCacheSecurityGroupIngress',
+                    'Action' => 'AuthorizeCacheSecurityGroupIngress',
             'CacheSecurityGroupName' => name,
             'EC2SecurityGroupName' => ec2_name,
             'EC2SecurityGroupOwnerId' => ec2_owner_id,
@@ -43,9 +43,9 @@ module Fog
 
             Excon::Response.new(
                 {
-                    :status => 200,
+                  :status => 200,
                     :body => {
-                        'ResponseMetadata'=>{ 'RequestId'=> Fog::AWS::Mock.request_id },
+                      'ResponseMetadata'=>{ 'RequestId'=> Fog::AWS::Mock.request_id },
                         'CacheSecurityGroup' => sec_group
                     }
                 }

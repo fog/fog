@@ -50,12 +50,12 @@ GROUP_DELETE_DATA_FORMAT = {
 
 LAUNCH_CONFIG_FORMAT = {
   "args" => {
-      "loadBalancers" => [
-        {
-          "port" => Integer,
-          "loadBalancerId" => Integer
-        }
-      ],
+    "loadBalancers" => [
+      {
+        "port" => Integer,
+        "loadBalancerId" => Integer
+      }
+    ],
       "server" => {
         "name" => String,
         "imageRef" => String,
@@ -97,7 +97,7 @@ GROUP_CONFIG_FORMAT = {
 }
 
 POLICY_FORMAT = {
-    "name"=> String, 
+  "name"=> String, 
     "links"=> Array, 
     "cooldown"=>Integer, 
     "type"=>String, 
@@ -123,7 +123,7 @@ GROUP_FORMAT = {
 }
 
 WEBHOOK_FORMAT = {
-    "id" => String,
+  "id" => String,
     "name" => String,
     "metadata" => Hash,
     "links" => Array
@@ -141,44 +141,44 @@ LIST_WEBHOOKS_FORMAT = [
 ### OPTIONS
 
 LAUNCH_CONFIG_OPTIONS = {
-	"args" => {
-      "loadBalancers" => [
-        {
-          "port" => 8080,
-          "loadBalancerId" => 9099
-        }
-      ],
-      "server" => {
-        "name" => "autoscale_server",
-        "imageRef" => "0d589460-f177-4b0f-81c1-8ab8903ac7d8",
-        "flavorRef" => "2",
-        "OS-DCF =>diskConfig" => "AUTO",
-        "metadata" => {
-          "build_config" => "core",
-          "meta_key_1" => "meta_value_1",
-          "meta_key_2" => "meta_value_2"
-        },
-        "networks" => [
-          {
-            "uuid" => "11111111-1111-1111-1111-111111111111"
-          },
-          {
-            "uuid" => "00000000-0000-0000-0000-000000000000"
-          }
-        ],
-        "personality" => [
-          {
-            "path" => "/root/.csivh",
-            "contents" => "VGhpcyBpcyBhIHRlc3QgZmlsZS4="
-          }
-        ]
+	 "args" => {
+    "loadBalancers" => [
+      {
+        "port" => 8080,
+        "loadBalancerId" => 9099
       }
-    },
+    ],
+       "server" => {
+         "name" => "autoscale_server",
+         "imageRef" => "0d589460-f177-4b0f-81c1-8ab8903ac7d8",
+         "flavorRef" => "2",
+         "OS-DCF =>diskConfig" => "AUTO",
+         "metadata" => {
+           "build_config" => "core",
+           "meta_key_1" => "meta_value_1",
+           "meta_key_2" => "meta_value_2"
+         },
+         "networks" => [
+           {
+             "uuid" => "11111111-1111-1111-1111-111111111111"
+           },
+           {
+             "uuid" => "00000000-0000-0000-0000-000000000000"
+           }
+         ],
+         "personality" => [
+           {
+             "path" => "/root/.csivh",
+             "contents" => "VGhpcyBpcyBhIHRlc3QgZmlsZS4="
+           }
+         ]
+       }
+     },
     "type" => "launch_server"
 }
 
 GROUP_CONFIG_OPTIONS = {
-	"maxEntities" => 3,
+	 "maxEntities" => 3,
 	"cooldown" => 360,
 	"name" => "testscalinggroup198547",
 	"minEntities" => 0,
@@ -205,13 +205,13 @@ POLICY_OPTIONS = {
 }
 
 GROUP_OPTIONS = {
-    "launchConfiguration" => LAUNCH_CONFIG_OPTIONS,
+  "launchConfiguration" => LAUNCH_CONFIG_OPTIONS,
     "groupConfiguration" => GROUP_CONFIG_OPTIONS,
     "scalingPolicies" => POLICIES_OPTIONS
 }
 
 WEBHOOK_OPTIONS = {
-    "name" => "webhook name",
+  "name" => "webhook name",
     "metadata" => {'foo' => 'bar'}
 }
 

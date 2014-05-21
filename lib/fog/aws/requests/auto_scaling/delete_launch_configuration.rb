@@ -27,7 +27,7 @@ module Fog
         #
         def delete_launch_configuration(launch_configuration_name)
           request({
-            'Action'                  => 'DeleteLaunchConfiguration',
+                    'Action'                  => 'DeleteLaunchConfiguration',
             'LaunchConfigurationName' => launch_configuration_name,
             :parser                   => Fog::Parsers::AWS::AutoScaling::Basic.new
           })

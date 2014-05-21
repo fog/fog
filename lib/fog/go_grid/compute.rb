@@ -83,7 +83,7 @@ module Fog
 
           params[:query] ||= {}
           params[:query].merge!({
-            'api_key' => @go_grid_api_key,
+                                  'api_key' => @go_grid_api_key,
             'format'  => 'json',
             'sig'     => Digest::MD5.hexdigest("#{@go_grid_api_key}#{@go_grid_shared_secret}#{Time.now.to_i}"),
             'v'       => '1.5'

@@ -1,60 +1,60 @@
 Shindo.tests('Fog::Compute[:linode] | linode requests', ['linode']) do
 
   @linode_format = Linode::Compute::Formats::BASIC.merge({
-    'DATA' => { 'LinodeID' => Integer }
+                                                           'DATA' => { 'LinodeID' => Integer }
   })
 
   @linodes_format = Linode::Compute::Formats::BASIC.merge({
-    'DATA' => [{
-      'ALERT_BWIN_ENABLED'      => Integer,
-      'ALERT_CPU_THRESHOLD'     => Integer,
-      'ALERT_BWOUT_ENABLED'     => Integer,
-      'ALERT_BWOUT_THRESHOLD'   => Integer,
-      'ALERT_BWQUOTA_ENABLED'   => Integer,
-      'ALERT_BWQUOTA_THRESHOLD' => Integer,
-      'ALERT_BWIN_THRESHOLD'    => Integer,
-      'ALERT_CPU_ENABLED'       => Integer,
-      'ALERT_DISKIO_ENABLED'    => Integer,
-      'ALERT_DISKIO_THRESHOLD'  => Integer,
-      'BACKUPSENABLED'          => Integer,
-      'BACKUPWEEKLYDAY'         => Integer,
-      'BACKUPWINDOW'            => Integer,
-      'DATACENTERID'            => Integer,
-      'LABEL'                   => String,
-      'LINODEID'                => Integer,
-      'LPM_DISPLAYGROUP'        => String,
-      'STATUS'                  => Integer,
-      'TOTALHD'                 => Integer,
-      'TOTALRAM'                => Integer,
-      'TOTALXFER'               => Integer,
-      'WATCHDOG'                => Integer,
-    }]
+                                                            'DATA' => [{
+                                                              'ALERT_BWIN_ENABLED'      => Integer,
+                                                              'ALERT_CPU_THRESHOLD'     => Integer,
+                                                              'ALERT_BWOUT_ENABLED'     => Integer,
+                                                              'ALERT_BWOUT_THRESHOLD'   => Integer,
+                                                              'ALERT_BWQUOTA_ENABLED'   => Integer,
+                                                              'ALERT_BWQUOTA_THRESHOLD' => Integer,
+                                                              'ALERT_BWIN_THRESHOLD'    => Integer,
+                                                              'ALERT_CPU_ENABLED'       => Integer,
+                                                              'ALERT_DISKIO_ENABLED'    => Integer,
+                                                              'ALERT_DISKIO_THRESHOLD'  => Integer,
+                                                              'BACKUPSENABLED'          => Integer,
+                                                              'BACKUPWEEKLYDAY'         => Integer,
+                                                              'BACKUPWINDOW'            => Integer,
+                                                              'DATACENTERID'            => Integer,
+                                                              'LABEL'                   => String,
+                                                              'LINODEID'                => Integer,
+                                                              'LPM_DISPLAYGROUP'        => String,
+                                                              'STATUS'                  => Integer,
+                                                              'TOTALHD'                 => Integer,
+                                                              'TOTALRAM'                => Integer,
+                                                              'TOTALXFER'               => Integer,
+                                                              'WATCHDOG'                => Integer,
+                                                            }]
   })
 
   @reboot_format = Linode::Compute::Formats::BASIC.merge({
-    'DATA' => { 'JobID' => Integer }
+                                                           'DATA' => { 'JobID' => Integer }
   })
 
   @ip_format = Linode::Compute::Formats::BASIC.merge({
-    'DATA' => { 'IPAddressID' => Integer }
+                                                       'DATA' => { 'IPAddressID' => Integer }
   })
 
   @disks_format = Linode::Compute::Formats::BASIC.merge({
-    'DATA' => [{
-      "UPDATE_DT"  => String,
-      "DISKID"     => Integer,
-      "LABEL"      => String,
-      "TYPE"       => String,
-      "LINODEID"   => Integer,
-      "ISREADONLY" => Integer,
-      "STATUS"     => Integer,
-      "CREATE_DT"  => String,
-      "SIZE"       => Integer
-    }]
+                                                          'DATA' => [{
+                                                            "UPDATE_DT"  => String,
+                                                            "DISKID"     => Integer,
+                                                            "LABEL"      => String,
+                                                            "TYPE"       => String,
+                                                            "LINODEID"   => Integer,
+                                                            "ISREADONLY" => Integer,
+                                                            "STATUS"     => Integer,
+                                                            "CREATE_DT"  => String,
+                                                            "SIZE"       => Integer
+                                                          }]
   })
 
   @disk_format = Linode::Compute::Formats::BASIC.merge({
-    'DATA' => { 'JobID' => Integer, 'DiskID' => Integer }
+                                                         'DATA' => { 'JobID' => Integer, 'DiskID' => Integer }
   })  
 
   tests('success') do

@@ -18,7 +18,7 @@ module Fog
 
         def set_topic_attributes(arn, attribute_name, attribute_value)
           request({
-            'Action'          => 'SetTopicAttributes',
+                    'Action'          => 'SetTopicAttributes',
             'AttributeName'   => attribute_name,
             'AttributeValue'  => attribute_value,
             'TopicArn'        => arn.strip,

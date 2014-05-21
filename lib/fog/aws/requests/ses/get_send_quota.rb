@@ -20,7 +20,7 @@ module Fog
         #       * 'RequestId'<~String> - Id of request
         def get_send_quota
           request({
-            'Action' => 'GetSendQuota',
+                    'Action' => 'GetSendQuota',
             :parser  => Fog::Parsers::AWS::SES::GetSendQuota.new
           })
         end

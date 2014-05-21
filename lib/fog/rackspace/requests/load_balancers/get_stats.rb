@@ -15,7 +15,7 @@ module Fog
       class Mock
         def get_stats(load_balancer_id)
           mock_data = {
-              'connectTimeOut' => 0,
+            'connectTimeOut' => 0,
               'connectError' => 1,
               'connectFailure' => 2,
               'dataTimedOut' => 3,

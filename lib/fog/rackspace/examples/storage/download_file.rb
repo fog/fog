@@ -46,7 +46,7 @@ end
 
 # create Cloud Files service
 service = Fog::Storage.new({
-  :provider             => 'Rackspace',
+                             :provider             => 'Rackspace',
   :rackspace_username   => rackspace_username,
   :rackspace_api_key    => rackspace_api_key,
   :rackspace_region => :ord #Use Chicago Region

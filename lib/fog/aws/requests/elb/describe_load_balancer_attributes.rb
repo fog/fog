@@ -24,7 +24,7 @@ module Fog
         #           * 'Enabled'<~Boolean> - whether crosszone load balancing is enabled
         def describe_load_balancer_attributes(lb_name)
           request({
-            'Action'  => 'DescribeLoadBalancerAttributes',
+                    'Action'  => 'DescribeLoadBalancerAttributes',
             'LoadBalancerName' => lb_name,
             :parser   => Fog::Parsers::AWS::ELB::DescribeLoadBalancerAttributes.new
           })

@@ -3,7 +3,7 @@ Shindo.tests("Fog::Joyent[:analytics] | instrumentation requests", %w{joyent}) d
   @analytics = Fog::Joyent[:analytics]
 
   @instrumentation_schema = {
-      'id' => String,
+    'id' => String,
       'module' => String,
       'stat' => String,
       'predicate' => Hash,
@@ -19,7 +19,7 @@ Shindo.tests("Fog::Joyent[:analytics] | instrumentation requests", %w{joyent}) d
       'value-scope' => String,
       'uris' => [
         {
-            'uri' => String,
+          'uri' => String,
             'name' => String
         }
       ]

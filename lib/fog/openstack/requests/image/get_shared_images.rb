@@ -16,10 +16,10 @@ module Fog
           response = Excon::Response.new
           response.status = [200, 204][rand(1)]
           response.body = {
-              "shared_images"=>[
-                {"image_id"=>"ff528b20431645ebb5fa4b0a71ca002f",
-                 "can_share"=>false}
-                         ]
+            "shared_images"=>[
+              {"image_id"=>"ff528b20431645ebb5fa4b0a71ca002f",
+               "can_share"=>false}
+                       ]
               }
           response
         end # def list_tenants

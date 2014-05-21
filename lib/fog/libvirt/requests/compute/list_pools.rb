@@ -55,7 +55,7 @@ module Fog
 
         def mock_pool name
           {
-              :uuid           => 'pool.uuid',
+            :uuid           => 'pool.uuid',
               :persistent     => true,
               :autostart      => true,
               :active         => true,

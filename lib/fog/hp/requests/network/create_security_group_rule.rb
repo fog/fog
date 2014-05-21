@@ -33,7 +33,7 @@ module Fog
         #     * 'tenant_id'<~String> - Tenant id that owns the security group rule
         def create_security_group_rule(security_group_id, direction, options = {})
           data = { 'security_group_rule' => {
-              'security_group_id' => security_group_id,
+            'security_group_id' => security_group_id,
               'direction'         => direction
             }
           }

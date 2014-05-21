@@ -79,7 +79,7 @@ module Fog
             n['status']     = 'ONLINE'
           end
           data = {
-              'id'        => Fog::HP::Mock.uuid.to_s,
+            'id'        => Fog::HP::Mock.uuid.to_s,
               'name'      => name,
               'protocol'  => options['protocol'] || 'HTTP',
               'port'      => options['port'] || '80',
@@ -93,7 +93,7 @@ module Fog
             data['virtualIps'] = options['virtualIps']
           else
             data['virtualIps'] = [{
-                             'ipVersion' => 'IPV4',
+              'ipVersion' => 'IPV4',
                              'type' => 'PUBLIC',
                              'id' => Fog::HP::Mock.uuid.to_s,
                              'address' => Fog::HP::Mock.ip_address

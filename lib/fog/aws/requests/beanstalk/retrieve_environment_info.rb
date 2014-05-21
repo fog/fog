@@ -19,7 +19,7 @@ module Fog
         #
         def retrieve_environment_info(options={})
           request({
-                      'Operation'    => 'RetrieveEnvironmentInfo',
+            'Operation'    => 'RetrieveEnvironmentInfo',
                       :parser     => Fog::Parsers::AWS::ElasticBeanstalk::RetrieveEnvironmentInfo.new
                   }.merge(options))
         end

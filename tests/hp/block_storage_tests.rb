@@ -6,7 +6,7 @@ Shindo.tests('Fog::HP::BlockStorage', ['hp', 'blockstorage']) do
     :endpoint_url => 'http://127.0.0.1/bpath/',
     :service_catalog => {
       :"Block Storage" => {
-      :zone => 'http://127.0.0.1/bpath/'}},
+        :zone => 'http://127.0.0.1/bpath/'}},
     :expires => (DateTime.now + 1).to_s
   }
   options = {
@@ -37,7 +37,7 @@ Shindo.tests('Fog::HP::BlockStorage', ['hp', 'blockstorage']) do
     options[:credentials] = credentials
     options[:credentials][:service_catalog] = {
       :"CDN" => {
-      :zone => 'http://127.0.0.1/bpath/'}},
+        :zone => 'http://127.0.0.1/bpath/'}},
     raises(Excon::Errors::Unauthorized) { Fog::HP::BlockStorage::Real.new(options) }
   end
   tests('Test no creds') do

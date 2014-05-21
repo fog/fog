@@ -15,7 +15,7 @@ module Fog
         #   * body<~Hash>:
         def create_db_security_group(name, description = name)
           request({
-            'Action'  => 'CreateDBSecurityGroup',
+                    'Action'  => 'CreateDBSecurityGroup',
             'DBSecurityGroupName' => name,
             'DBSecurityGroupDescription' => description,
             :parser   => Fog::Parsers::AWS::RDS::CreateDBSecurityGroup.new

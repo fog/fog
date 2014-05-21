@@ -20,7 +20,7 @@ module Fog
         # {Amazon API Reference}[http://docs.amazonwebservices.com/AWSEC2/latest/APIReference/ApiReference-query-PurchaseReservedInstancesOffering.html]
         def purchase_reserved_instances_offering(reserved_instances_offering_id, instance_count = 1)
           request({
-            'Action'                      => 'PurchaseReservedInstancesOffering',
+                    'Action'                      => 'PurchaseReservedInstancesOffering',
             'ReservedInstancesOfferingId' => reserved_instances_offering_id,
             'InstanceCount'               => instance_count,
             :idempotent                   => true,
@@ -43,7 +43,7 @@ module Fog
           reserved_instance_offering.delete('reservedInstancesOfferingId')
 
           self.data[:reserved_instances][reserved_instances_id] = reserved_instance_offering.merge({
-            'reservedInstancesId' => reserved_instances_id,
+                                                                                                     'reservedInstancesId' => reserved_instances_id,
             'start'               => Time.now,
             'end'                 => Time.now,
             'instanceCount'       => instance_count,

@@ -33,7 +33,7 @@ module Fog
 
         def get_streaming_distribution(distribution_id)
           request({
-            :expects    => 200,
+                    :expects    => 200,
             :idempotent => true,
             :method     => 'GET',
             :parser     => Fog::Parsers::CDN::AWS::StreamingDistribution.new,

@@ -39,7 +39,7 @@ module Fog
         def access_rules
           unless @access_rules
             @access_rules = Fog::Rackspace::LoadBalancers::AccessRules.new({
-              :service => service,
+                                                                             :service => service,
               :load_balancer => self})
 
              # prevents loading access rules from non-existent load balancers
@@ -55,7 +55,7 @@ module Fog
         def nodes
           unless @nodes
             @nodes = Fog::Rackspace::LoadBalancers::Nodes.new({
-                :service => service,
+                                                                :service => service,
                 :load_balancer => self})
 
             # prevents loading nodes from non-existent load balancers
@@ -88,7 +88,7 @@ module Fog
         def virtual_ips
           @virtual_ips ||= begin
             Fog::Rackspace::LoadBalancers::VirtualIps.new({
-              :service => service,
+                                                            :service => service,
               :load_balancer => self})
           end
         end

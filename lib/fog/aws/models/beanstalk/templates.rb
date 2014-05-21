@@ -26,7 +26,7 @@ module Fog
             application['ConfigurationTemplates'].each { |template_name|
               begin
                 options = {
-                    'ApplicationName' => application['ApplicationName'],
+                  'ApplicationName' => application['ApplicationName'],
                     'TemplateName' => template_name
                 }
                 settings = service.describe_configuration_settings(options).body['DescribeConfigurationSettingsResult']['ConfigurationSettings']
@@ -46,7 +46,7 @@ module Fog
 
         def get(application_name, template_name)
           options = {
-              'ApplicationName' => application_name,
+            'ApplicationName' => application_name,
               'TemplateName' => template_name
           }
 

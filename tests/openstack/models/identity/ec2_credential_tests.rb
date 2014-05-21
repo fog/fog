@@ -5,7 +5,7 @@ Shindo.tests("Fog::Identity[:openstack] | ec2_credential", ['openstack']) do
 
     @user = openstack.users.find { |user| user.name == 'foobar' }
     @user ||= openstack.users.create({
-      :name      => 'foobar',
+                                       :name      => 'foobar',
       :email     => 'foo@bar.com',
       :tenant_id => tenant_id,
       :password  => 'spoof',
@@ -13,7 +13,7 @@ Shindo.tests("Fog::Identity[:openstack] | ec2_credential", ['openstack']) do
     })
 
     @ec2_credential = openstack.ec2_credentials.create({
-      :user_id   => @user.id,
+                                                         :user_id   => @user.id,
       :tenant_id => tenant_id,
     })
   end

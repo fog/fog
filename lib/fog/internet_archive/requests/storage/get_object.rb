@@ -46,7 +46,7 @@ module Fog
           end
 
           request(params.merge!({
-            :expects  => [ 200, 206 ],
+                                  :expects  => [ 200, 206 ],
             :host     => "#{bucket_name}.#{@host}",
             :idempotent => true,
             :method   => 'GET',

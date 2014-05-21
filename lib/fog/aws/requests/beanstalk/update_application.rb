@@ -20,7 +20,7 @@ module Fog
         #
         def update_application(options)
           request({
-                      'Operation'    => 'UpdateApplication',
+            'Operation'    => 'UpdateApplication',
                       :parser     => Fog::Parsers::AWS::ElasticBeanstalk::UpdateApplication.new
                   }.merge(options))
         end

@@ -89,7 +89,7 @@ module Fog
           end
           response.body = {
             'CacheCluster' => cluster.merge({
-              'PendingModifiedValues' => pending_values
+                                              'PendingModifiedValues' => pending_values
             }),
             'ResponseMetadata' => { 'RequestId' => Fog::AWS::Mock.request_id }
           }

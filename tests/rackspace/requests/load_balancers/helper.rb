@@ -33,7 +33,7 @@ LOAD_BALANCER_USAGE_FORMAT = {
 }
 
 LOAD_BALANCER_STATS_FORMAT = {
-    'connectTimeOut' => Integer,
+  'connectTimeOut' => Integer,
     'connectError' => Integer,
     'connectFailure' => Integer,
     'dataTimedOut' => Integer,

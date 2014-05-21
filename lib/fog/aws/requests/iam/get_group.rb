@@ -46,7 +46,7 @@ module Fog
           ) unless self.data[:groups].key?(group_name)
           Excon::Response.new.tap do |response|
             response.body = { 'Group' =>  {
-                                             'GroupId'   => data[:groups][group_name][:group_id],
+              'GroupId'   => data[:groups][group_name][:group_id],
                                              'Path'     => data[:groups][group_name][:path],
                                              'GroupName' => group_name,
                                              'Arn'      => (data[:groups][group_name][:arn]).strip

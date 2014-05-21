@@ -176,7 +176,7 @@ module Fog
         def metadata
           @metadata ||= begin
             Fog::Compute::RackspaceV2::Metadata.new({
-              :service => service,
+                                                      :service => service,
               :parent => self
             })
           end
@@ -361,7 +361,7 @@ module Fog
         def attachments
           @attachments ||= begin
             Fog::Compute::RackspaceV2::Attachments.new({
-              :service => service,
+                                                         :service => service,
               :server => self
             })
           end

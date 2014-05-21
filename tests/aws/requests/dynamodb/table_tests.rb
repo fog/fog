@@ -41,7 +41,7 @@ Shindo.tests('Fog::AWS[:dynamodb] | table requests', ['aws']) do
 
     @update_table_format = {
       'TableDescription' => @table_format.merge({
-        'ItemCount'             => Integer,
+                                                  'ItemCount'             => Integer,
         'ProvisionedThroughput' => {
           'LastIncreaseDateTime'  => Float,
           'ReadCapacityUnits'     => Integer,

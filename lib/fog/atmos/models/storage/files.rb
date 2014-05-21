@@ -39,7 +39,7 @@ module Fog
           requires :directory
           data = service.get_namespace(directory.key + key, :parse => false)#, &block)
           file_data = data.headers.merge({
-            :body => data.body,
+                                           :body => data.body,
             :key  => key
           })
           new(file_data)
@@ -58,7 +58,7 @@ module Fog
           requires :directory
           data = service.head_namespace(directory.key + key, :parse => false)
           file_data = data.headers.merge({
-            :body => data.body,
+                                           :body => data.body,
             :key => key
           })
           new(file_data)

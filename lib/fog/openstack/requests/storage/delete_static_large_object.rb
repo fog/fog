@@ -26,7 +26,7 @@ module Fog
         # @see http://docs.openstack.org/api/openstack-object-storage/1.0/content/static-large-objects.html
         def delete_static_large_object(container, object, options = {})
           response = request({
-            :expects  => 200,
+                               :expects  => 200,
             :method   => 'DELETE',
             :headers  => options.merge('Content-Type' => 'text/plain',
                                        'Accept' => 'application/json'),

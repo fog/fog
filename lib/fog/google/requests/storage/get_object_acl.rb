@@ -41,7 +41,7 @@ module Fog
             query['versionId'] = version_id
           end
           request({
-            :expects    => 200,
+                    :expects    => 200,
             :headers    => {},
             :host       => "#{bucket_name}.#{@host}",
             :idempotent => true,

@@ -22,7 +22,7 @@ module Fog
         #
         def describe_termination_policy_types()
           request({
-            'Action'    => 'DescribeTerminationPolicyTypes',
+                    'Action'    => 'DescribeTerminationPolicyTypes',
             :idempotent => true,
             :parser     => Fog::Parsers::AWS::AutoScaling::DescribeTerminationPolicyTypes.new
           })

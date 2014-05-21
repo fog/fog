@@ -14,7 +14,7 @@ module Fog
         #   * status<~Integer> - 204
         def delete_object(bucket_name, object_name)
           request({
-            :expects    => 204,
+                    :expects    => 204,
             :headers    => {},
             :host       => "#{bucket_name}.#{@host}",
             :idempotent => true,

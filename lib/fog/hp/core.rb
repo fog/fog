@@ -86,7 +86,7 @@ module Fog
       @hp_access_key = options[:hp_access_key]
       @hp_secret_key  = options[:hp_secret_key]
       response = connection.request({
-        :expects  => [200, 204],
+                                      :expects  => [200, 204],
         :headers  => {
           'X-Auth-Key'  => @hp_secret_key,
           'X-Auth-User' => @hp_access_key
@@ -173,22 +173,22 @@ module Fog
       unless (@hp_use_upass_auth_style)
         # If Access Key style credentials are provided, use that
         request_body = {
-            'auth' => {
-                'apiAccessKeyCredentials' => {
-                    'accessKey' => "#{@hp_access_key}",
-                    'secretKey' => "#{@hp_secret_key}"
-                }
+          'auth' => {
+            'apiAccessKeyCredentials' => {
+              'accessKey' => "#{@hp_access_key}",
+                'secretKey' => "#{@hp_secret_key}"
             }
+          }
         }
       else
         # Otherwise use the Username/Password style
         request_body = {
-            'auth' => {
-                'passwordCredentials' => {
-                    'username' => "#{@hp_access_key}",
-                    'password' => "#{@hp_secret_key}"
-                }
+          'auth' => {
+            'passwordCredentials' => {
+              'username' => "#{@hp_access_key}",
+                'password' => "#{@hp_secret_key}"
             }
+          }
         }
       end
       # add tenant_id if specified
@@ -199,7 +199,7 @@ module Fog
         {
           :expects => 200,
           :headers => {
-              'Content-Type' => 'application/json'
+            'Content-Type' => 'application/json'
           },
           :method => 'POST',
           :body => Fog::JSON.encode(request_body),

@@ -16,7 +16,7 @@ module Fog
 
         def get(key, options = {})
           remap_attributes(options, {
-            :delimiter  => 'delimiter',
+                             :delimiter  => 'delimiter',
             :marker     => 'marker',
             :max_keys   => 'max-keys',
             :prefix     => 'prefix'

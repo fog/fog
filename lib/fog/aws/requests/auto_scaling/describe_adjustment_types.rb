@@ -23,7 +23,7 @@ module Fog
         #
         def describe_adjustment_types()
           request({
-            'Action'    => 'DescribeAdjustmentTypes',
+                    'Action'    => 'DescribeAdjustmentTypes',
             :idempotent => true,
             :parser     => Fog::Parsers::AWS::AutoScaling::DescribeAdjustmentTypes.new
           })

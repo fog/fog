@@ -69,7 +69,7 @@ class AWS
       }
 
       SUSPENDED_PROCESS = PROCESS_TYPE.merge({
-        'SuspensionReason' => String
+                                               'SuspensionReason' => String
       })
 
       TAG_DESCRIPTION = {
@@ -104,7 +104,7 @@ class AWS
       }
 
       AUTO_SCALING_INSTANCE_DETAILS = INSTANCE.merge({
-        'AutoScalingGroupName' => String
+                                                       'AutoScalingGroupName' => String
       })
 
       LAUNCH_CONFIGURATION = {
@@ -135,94 +135,94 @@ class AWS
       }
 
       DESCRIBE_ADJUSTMENT_TYPES = BASIC.merge({
-        'DescribeAdjustmentTypesResult' => {
-          'AdjustmentTypes' => [{'AdjustmentType' => String}]
-        }
+                                                'DescribeAdjustmentTypesResult' => {
+                                                  'AdjustmentTypes' => [{'AdjustmentType' => String}]
+                                                }
       })
 
       DESCRIBE_AUTO_SCALING_GROUPS = BASIC.merge({
-        'DescribeAutoScalingGroupsResult' => PAGINATED.merge({
-          'AutoScalingGroups' => [AUTO_SCALING_GROUP],
-        })
+                                                   'DescribeAutoScalingGroupsResult' => PAGINATED.merge({
+                                                                                                          'AutoScalingGroups' => [AUTO_SCALING_GROUP],
+                                                   })
       })
 
       DESCRIBE_AUTO_SCALING_INSTANCES = BASIC.merge({
-        'DescribeAutoScalingInstancesResult' => PAGINATED.merge({
-          'AutoScalingInstances' => [AUTO_SCALING_INSTANCE_DETAILS],
-        })
+                                                      'DescribeAutoScalingInstancesResult' => PAGINATED.merge({
+                                                                                                                'AutoScalingInstances' => [AUTO_SCALING_INSTANCE_DETAILS],
+                                                      })
       })
 
       DESCRIBE_AUTO_SCALING_NOTIFICATION_TYPES = BASIC.merge({
-        'DescribeAutoScalingNotificationTypesResult' => {
-          'AutoScalingNotificationTypes' => [String]
-        }
+                                                               'DescribeAutoScalingNotificationTypesResult' => {
+                                                                 'AutoScalingNotificationTypes' => [String]
+                                                               }
       })
 
       DESCRIBE_LAUNCH_CONFIGURATIONS = BASIC.merge({
-        'DescribeLaunchConfigurationsResult' => PAGINATED.merge({
-          'LaunchConfigurations' => [LAUNCH_CONFIGURATION],
-        })
+                                                     'DescribeLaunchConfigurationsResult' => PAGINATED.merge({
+                                                                                                               'LaunchConfigurations' => [LAUNCH_CONFIGURATION],
+                                                     })
       })
 
       DESCRIBE_METRIC_COLLECTION_TYPES = BASIC.merge({
-        'DescribeMetricCollectionTypesResult' => {
-          'Granularities' => [{'Granularity' => String}],
-          'Metrics' => [{'Metric' => String}]
-        }
+                                                       'DescribeMetricCollectionTypesResult' => {
+                                                         'Granularities' => [{'Granularity' => String}],
+                                                         'Metrics' => [{'Metric' => String}]
+                                                       }
       })
 
       DESCRIBE_NOTIFICATION_CONFIGURATIONS = BASIC.merge({
-        'DescribeNotificationConfigurationsResult' => PAGINATED.merge({
-          'NotificationConfigurations' => [NOTIFICATION_CONFIGURATION]
-        })
+                                                           'DescribeNotificationConfigurationsResult' => PAGINATED.merge({
+                                                                                                                           'NotificationConfigurations' => [NOTIFICATION_CONFIGURATION]
+                                                           })
       })
 
       DESCRIBE_POLICIES = BASIC.merge({
-        'DescribePoliciesResult' => PAGINATED.merge({
-          'ScalingPolicies' => [SCALING_POLICY]
-        })
+                                        'DescribePoliciesResult' => PAGINATED.merge({
+                                                                                      'ScalingPolicies' => [SCALING_POLICY]
+                                        })
       })
 
       DESCRIBE_SCALING_ACTIVITIES = BASIC.merge({
-        'DescribeScalingActivitiesResult' => PAGINATED.merge({
-          'Activities' => [ACTIVITY],
-        })
+                                                  'DescribeScalingActivitiesResult' => PAGINATED.merge({
+                                                                                                         'Activities' => [ACTIVITY],
+                                                  })
       })
 
       DESCRIBE_SCALING_PROCESS_TYPES = BASIC.merge({
-        'DescribeScalingProcessTypesResult' => {
-          'Processes' => [PROCESS_TYPE]
-        }
+                                                     'DescribeScalingProcessTypesResult' => {
+                                                       'Processes' => [PROCESS_TYPE]
+                                                     }
       })
 
       DESCRIBE_SCHEDULED_ACTIONS = BASIC.merge({
-        'DescribeScheduledActionsResult' => PAGINATED.merge({
-          'ScheduledUpdateGroupActions' => [SCHEDULED_UPDATE_GROUP_ACTION]
-        })
+                                                 'DescribeScheduledActionsResult' => PAGINATED.merge({
+                                                                                                       'ScheduledUpdateGroupActions' => [SCHEDULED_UPDATE_GROUP_ACTION]
+                                                 })
       })
 
       DESCRIBE_TAGS = BASIC.merge({
-        'DescribeTagsResult' => PAGINATED.merge({
-          'Tags' => [TAG_DESCRIPTION]
-        })
+                                    'DescribeTagsResult' => PAGINATED.merge({
+                                                                              'Tags' => [TAG_DESCRIPTION]
+                                    })
       })
 
       DESCRIBE_TERMINATION_POLICY_TYPES = BASIC.merge({
-        'DescribeTerminationPolicyTypesResult' => {
-          'TerminationPolicyTypes' => [String]
-        }
+                                                        'DescribeTerminationPolicyTypesResult' => {
+                                                          'TerminationPolicyTypes' => [String]
+                                                        }
       })
 
       PUT_SCALING_POLICY = BASIC.merge({
-        'PutScalingPolicyResult' => {
-          'PolicyARN' => String
-        }
+                                         'PutScalingPolicyResult' => {
+                                           'PolicyARN' => String
+                                         }
       })
 
       TERMINATE_INSTANCE_IN_AUTO_SCALING_GROUP = BASIC.merge({
-        'TerminateInstanceInAutoScalingGroupResult' => {
-          'Activity' => [ACTIVITY]
-        }
+                                                               'TerminateInstanceInAutoScalingGroupResult' => {
+                                                                 'Activity' => [ACTIVITY]
+                                                               }
       })
 
     end

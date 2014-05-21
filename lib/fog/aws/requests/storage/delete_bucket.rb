@@ -14,7 +14,7 @@ module Fog
 
         def delete_bucket(bucket_name)
           request({
-            :expects  => 204,
+                    :expects  => 204,
             :headers  => {},
             :bucket_name => bucket_name,
             :method   => 'DELETE'

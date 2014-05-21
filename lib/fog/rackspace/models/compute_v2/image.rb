@@ -73,7 +73,7 @@ module Fog
         def metadata
           @metadata ||= begin
             Fog::Compute::RackspaceV2::Metadata.new({
-              :service => service,
+                                                      :service => service,
               :parent => self
             })
           end

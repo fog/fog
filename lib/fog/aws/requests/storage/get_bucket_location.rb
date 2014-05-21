@@ -17,7 +17,7 @@ module Fog
 
         def get_bucket_location(bucket_name)
           request({
-            :expects  => 200,
+                    :expects  => 200,
             :headers  => {},
             :bucket_name => bucket_name,
             :idempotent => true,

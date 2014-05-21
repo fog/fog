@@ -5,9 +5,9 @@ module Fog
         def remove_flavor_access(flavor_ref, tenant_id)
           request(
             :body => Fog::JSON.encode({
-              "removeTenantAccess" => {
-                "tenant" => tenant_id.to_s
-              }
+                                        "removeTenantAccess" => {
+                                          "tenant" => tenant_id.to_s
+                                        }
             }),
             :expects  => [200, 203],
             :method   => 'POST',

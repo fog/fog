@@ -26,7 +26,7 @@ module Fog
 
         def get_vnc_console(server_id, type='novnc')
           output = {
-              'type' => type,
+            'type' => type,
               'url'  => 'https://region.compute.hpcloud.com/vnc_auto.html?token=123ABX234'
           }
           response = Excon::Response.new

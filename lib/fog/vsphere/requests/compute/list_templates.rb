@@ -28,7 +28,7 @@ module Fog
 
           vms = datacenters.map do |dc|
             @connection.serviceContent.viewManager.CreateContainerView({
-              :container  => dc.vmFolder,
+                                                                         :container  => dc.vmFolder,
               :type       =>  ["VirtualMachine"],
               :recursive  => true
             }).view

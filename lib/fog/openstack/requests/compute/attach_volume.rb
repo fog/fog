@@ -26,7 +26,7 @@ module Fog
           response = Excon::Response.new
           response.status = 200
           data = {
-             'id'       => volume_id,
+            'id'       => volume_id,
              'volumeId' => volume_id,
              'serverId' => server_id,
              'device'   => device

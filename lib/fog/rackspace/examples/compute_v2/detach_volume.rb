@@ -48,7 +48,7 @@ end
 
 #create Next Generation Cloud Server service
 compute_service = Fog::Compute.new({
-  :provider             => 'rackspace',
+                                     :provider             => 'rackspace',
   :rackspace_username   => rackspace_username,
   :rackspace_api_key    => rackspace_api_key,
   :version => :v2,  # Use Next Gen Cloud Servers
@@ -56,7 +56,7 @@ compute_service = Fog::Compute.new({
 })
 
 cbs_service = Fog::Rackspace::BlockStorage.new({
-  :rackspace_username => rackspace_username,
+                                                 :rackspace_username => rackspace_username,
   :rackspace_api_key  => rackspace_api_key,
   :rackspace_region => :ord #Use Chicago Region
 })

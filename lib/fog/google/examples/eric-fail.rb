@@ -5,7 +5,7 @@ def test
   zone = "us-central1-a"
 
   disk = connection.disks.create({
-    :name => name,
+                                   :name => name,
     :size_gb => 10,
     :zone_name => zone,
     :source_image => 'debian-7-wheezy-v20140318',
@@ -20,7 +20,7 @@ def test
   ]
 
   server = connection.servers.create({
-    :name => name,
+                                       :name => name,
     :disks => [disk],
     :machine_type => "n1-standard-1",
     :zone_name => zone,

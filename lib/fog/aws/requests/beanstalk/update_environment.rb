@@ -32,7 +32,7 @@ module Fog
             options.merge!(AWS.indexed_param('OptionsToRemove.member.%d', [*options_to_remove]))
           end
           request({
-                      'Operation'    => 'UpdateEnvironment',
+            'Operation'    => 'UpdateEnvironment',
                       :parser     => Fog::Parsers::AWS::ElasticBeanstalk::UpdateEnvironment.new
                   }.merge(options))
         end

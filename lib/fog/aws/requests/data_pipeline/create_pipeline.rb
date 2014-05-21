@@ -21,7 +21,7 @@ module Fog
           params['Description'] = description if description
 
           response = request({
-            :body => Fog::JSON.encode(params),
+                               :body => Fog::JSON.encode(params),
             :headers => { 'X-Amz-Target' => 'DataPipeline.CreatePipeline' },
           })
 

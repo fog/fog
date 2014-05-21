@@ -24,7 +24,7 @@ module Fog
             raise ArgumentError.new('bucket_name is required')
           end
           request({
-            :expects    => 200,
+                    :expects    => 200,
             :headers    => {},
             :host       => "#{bucket_name}.#{@host}",
             :idempotent => true,

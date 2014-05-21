@@ -26,7 +26,7 @@ DATA
             data = nil
           end
           request({
-            :expects    => 200,
+                    :expects    => 200,
             :body       => data,
             :headers    => options,
             :idempotent => true,

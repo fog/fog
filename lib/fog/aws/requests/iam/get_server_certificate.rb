@@ -20,7 +20,7 @@ module Fog
         #
         def get_server_certificate(name)
           request({
-            'Action'                => 'GetServerCertificate',
+                    'Action'                => 'GetServerCertificate',
             'ServerCertificateName' => name,
             :parser                 => Fog::Parsers::AWS::IAM::UploadServerCertificate.new
           })

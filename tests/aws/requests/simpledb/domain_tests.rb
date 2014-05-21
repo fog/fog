@@ -1,7 +1,7 @@
 Shindo.tests('AWS::SimpleDB | domain requests', ['aws']) do
 
   @domain_metadata_format = AWS::SimpleDB::Formats::BASIC.merge({
-    'AttributeNameCount'        => Integer,
+                                                                  'AttributeNameCount'        => Integer,
     'AttributeNamesSizeBytes'   => Integer,
     'AttributeValueCount'       => Integer,
     'AttributeValuesSizeBytes'  => Integer,

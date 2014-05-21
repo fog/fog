@@ -16,7 +16,7 @@ module Fog
 
         def get_topic_attributes(arn)
           request({
-            'Action'    => 'GetTopicAttributes',
+                    'Action'    => 'GetTopicAttributes',
             'TopicArn'  => arn.strip,
             :parser     => Fog::Parsers::AWS::SNS::GetTopicAttributes.new
           })

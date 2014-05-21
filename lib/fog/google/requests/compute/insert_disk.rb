@@ -26,7 +26,7 @@ module Fog
           }
           if image
             object.merge({
-              "sourceImage" => image.self_link,
+                           "sourceImage" => image.self_link,
               "sourceImageId" => image.id
             })
           end
@@ -34,7 +34,7 @@ module Fog
 
           if image
             object.merge!({
-              "sourceImage" => image.self_link,
+                            "sourceImage" => image.self_link,
               "sourceImageId" => image.id
             })
           end

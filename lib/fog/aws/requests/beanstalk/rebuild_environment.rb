@@ -20,7 +20,7 @@ module Fog
         #
         def rebuild_environment(options={})
           request({
-                      'Operation'    => 'RebuildEnvironment',
+            'Operation'    => 'RebuildEnvironment',
                       :parser     => Fog::Parsers::AWS::ElasticBeanstalk::Empty.new
                   }.merge(options))
         end

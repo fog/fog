@@ -22,7 +22,7 @@ module Fog
 
           headers = options
           request({
-            :expects    => 204,
+                    :expects    => 204,
             :headers    => headers,
             :bucket_name => bucket_name,
             :idempotent => true,

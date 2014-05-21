@@ -1,22 +1,22 @@
 Shindo.tests('Fog::Compute[:linode] | linodeplans requests', ['linode']) do
 
   @linodeplans_format = Linode::Compute::Formats::BASIC.merge({
-    'DATA' => [{ 
-      'AVAIL' => {
-         '2' => Integer,
-         '3' => Integer,
-         '4' => Integer,
-         '6' => Integer,
-         '7' => Integer,
-         '8' => Integer
-      },
-      'DISK'    => Integer,
-      'PLANID'  => Integer,
-      'PRICE'   => Float,
-      'RAM'     => Integer,
-      'LABEL'   => String,
-      'XFER'    => Integer
-    }]
+                                                                'DATA' => [{ 
+                                                                  'AVAIL' => {
+                                                                    '2' => Integer,
+                                                                     '3' => Integer,
+                                                                     '4' => Integer,
+                                                                     '6' => Integer,
+                                                                     '7' => Integer,
+                                                                     '8' => Integer
+                                                                  },
+                                                                  'DISK'    => Integer,
+                                                                  'PLANID'  => Integer,
+                                                                  'PRICE'   => Float,
+                                                                  'RAM'     => Integer,
+                                                                  'LABEL'   => String,
+                                                                  'XFER'    => Integer
+                                                                }]
   })
 
   tests('success') do

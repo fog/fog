@@ -26,7 +26,7 @@ module Fog
         # {Amazon API Reference}[http://docs.aws.amazon.com/AWSEC2/latest/APIReference/ApiReference-query-CreateRouteTable.html]
         def create_route_table(vpc_id)
           request({
-            'Action' => 'CreateRouteTable',
+                    'Action' => 'CreateRouteTable',
             'VpcId' => vpc_id,
             :parser => Fog::Parsers::Compute::AWS::CreateRouteTable.new
           })

@@ -140,7 +140,7 @@ module Fog
               if not public_ip_info
                 #Create the first internet service and allocate public IP
                 inet_services = service.internetservices.create({
-                      "Name" => self.name,
+                                                                  "Name" => self.name,
                       "Protocol" => proto,
                       "Port" => port,
                 })
@@ -150,7 +150,7 @@ module Fog
               else
                 #create additional services to existing Public IP
                 inet_services = service.internetservices.create({
-                      "public_ip_address_id" => public_ip_info["Id"],
+                                                                  "public_ip_address_id" => public_ip_info["Id"],
                       "Name" => self.name,
                       "Protocol" => proto,
                       "Port" => port,
@@ -178,7 +178,7 @@ module Fog
               server_name=name,
               vapp_template=image,
               options={
-                  'ssh_key_fingerprint' => sshkeyFingerPrint,
+                'ssh_key_fingerprint' => sshkeyFingerPrint,
                   'cpus' => vcpus,
                   'memory' => memory
               })

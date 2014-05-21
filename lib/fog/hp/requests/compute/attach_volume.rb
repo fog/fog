@@ -55,7 +55,7 @@ module Fog
               response.status = 200
 
               data = {
-                        "device"   => device,
+                "device"   => device,
                         "serverId" => server_id,
                         "id"       => volume_id,
                         "volumeId" => volume_id,

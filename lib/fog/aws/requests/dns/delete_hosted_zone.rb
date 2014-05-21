@@ -25,7 +25,7 @@ module Fog
           zone_id = zone_id.sub('/hostedzone/', '')
 
           request({
-            :expects => 200,
+                    :expects => 200,
             :parser  => Fog::Parsers::DNS::AWS::DeleteHostedZone.new,
             :method  => 'DELETE',
             :path    => "hostedzone/#{zone_id}"

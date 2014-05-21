@@ -31,7 +31,7 @@ module Fog
           body << "<CallerReference>" << caller_reference << "</CallerReference>"
           body << "</InvalidationBatch>"
           request({
-            :body       => body,
+                    :body       => body,
             :expects    => 201,
             :headers    => {'Content-Type' => 'text/xml'},
             :idempotent => true,

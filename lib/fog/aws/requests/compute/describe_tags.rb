@@ -64,7 +64,7 @@ module Fog
             values.each do |value, resources|
               resources.each do |resource|
                 tagged_resources << resource.merge({
-                  'key' => key,
+                                                     'key' => key,
                   'value' => value
                 })
               end

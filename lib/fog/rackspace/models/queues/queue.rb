@@ -19,7 +19,7 @@ module Fog
         def messages
           @messages ||= begin
             Fog::Rackspace::Queues::Messages.new({
-              :service => service,
+                                                   :service => service,
               :queue => self,
               :client_id => service.client_id,
               :echo => true
@@ -49,7 +49,7 @@ module Fog
         def claims
           @claims ||= begin
             Fog::Rackspace::Queues::Claims.new({
-              :service => service,
+                                                 :service => service,
               :queue => self
             })
           end

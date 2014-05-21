@@ -19,7 +19,7 @@ module Fog
         #
         def create_application(options={})
           request({
-                      'Operation'    => 'CreateApplication',
+            'Operation'    => 'CreateApplication',
                       :parser     => Fog::Parsers::AWS::ElasticBeanstalk::CreateApplication.new
                   }.merge(options))
         end

@@ -33,7 +33,7 @@ module Fog
         def roles
           @roles ||= begin
             Fog::Rackspace::Identity::Roles.new({
-              :service => service,
+                                                  :service => service,
               :user => self
             })
           end
@@ -42,7 +42,7 @@ module Fog
         def credentials
           @credentials ||= begin
             Fog::Rackspace::Identity::Credentials.new({
-              :service => service,
+                                                        :service => service,
               :user => self
             })
           end

@@ -25,7 +25,7 @@ module Fog
           data = {
             'nodes' => [
               {
-                  'address' => address,
+                'address' => address,
                   'port'    => port
               }
             ]
@@ -50,7 +50,7 @@ module Fog
             response.status = 202
 
             data = {
-                'id'        => Fog::HP::Mock.uuid.to_s,
+              'id'        => Fog::HP::Mock.uuid.to_s,
                 'address'   => address,
                 'port'      => port,
                 'condition' => options['condition'] || 'ENABLED',

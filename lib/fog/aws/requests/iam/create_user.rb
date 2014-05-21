@@ -44,7 +44,7 @@ module Fog
             Excon::Response.new.tap do |response|
               response.status = 200
               response.body = { 'User' => {
-                                           "UserId"     => data[:users][user_name][:user_id],
+                "UserId"     => data[:users][user_name][:user_id],
                                            "Path"       => path,
                                            "UserName"   => user_name,
                                            "Arn"        => (data[:users][user_name][:arn]).strip,

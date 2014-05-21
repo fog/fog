@@ -16,7 +16,7 @@ module Fog
 
         def delete_queue(queue_url)
           request({
-            'Action' => 'DeleteQueue',
+                    'Action' => 'DeleteQueue',
             :parser  => Fog::Parsers::AWS::SQS::Basic.new,
             :path    => path_from_queue_url(queue_url),
           })

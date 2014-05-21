@@ -68,7 +68,7 @@ module Fog
       @openstack_username = options[:openstack_username]
 
       response = connection.request({
-        :expects  => [200, 204],
+                                      :expects  => [200, 204],
         :headers  => {
           'X-Auth-Key'  => @openstack_api_key,
           'X-Auth-User' => @openstack_username
@@ -104,7 +104,7 @@ module Fog
         unless tenant_name
           response = Fog::Core::Connection.new(
             "#{uri.scheme}://#{uri.host}:#{uri.port}/v2.0/tenants", false, connection_options).request({
-            :expects => [200, 204],
+                                                                                                         :expects => [200, 204],
             :headers => {'Content-Type' => 'application/json',
                          'Accept' => 'application/json',
                          'X-Auth-Token' => body['access']['token']['id']},
@@ -202,7 +202,7 @@ module Fog
       request_body[:auth][:tenantName] = tenant_name if tenant_name
 
       response = connection.request({
-        :expects  => [200, 204],
+                                      :expects  => [200, 204],
         :headers  => {'Content-Type' => 'application/json'},
         :body     => Fog::JSON.encode(request_body),
         :method   => 'POST',
@@ -215,7 +215,7 @@ module Fog
     def self.get_supported_version(supported_versions, uri, auth_token, connection_options = {})
       connection = Fog::Core::Connection.new("#{uri.scheme}://#{uri.host}:#{uri.port}", false, connection_options)
       response = connection.request({
-        :expects => [200, 204, 300],
+                                      :expects => [200, 204, 300],
         :headers => {'Content-Type' => 'application/json',
                      'Accept' => 'application/json',
                      'X-Auth-Token' => auth_token},

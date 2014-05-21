@@ -33,7 +33,7 @@ module Fog
           end
 
           volume = {
-             "id"                      => volume_id,
+            "id"                      => volume_id,
              "name"                    => volume_name,
              "zoneid"                  => zone_id,
              "zonename"                => "ey-wdc-00",

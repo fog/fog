@@ -147,7 +147,7 @@ module Fog
           params = request_params(params)
 
           params[:query] = (params[:query] || {}).merge({
-            'AWSAccessKeyId' => @aws_access_key_id,
+                                                          'AWSAccessKeyId' => @aws_access_key_id,
             'Signature' => signature,
             'Expires' => expires,
           })
@@ -227,7 +227,7 @@ module Fog
           end
 
           ret = params.merge({
-            :scheme       => scheme,
+                               :scheme       => scheme,
             :host         => host,
             :port         => port,
             :path         => path,
@@ -253,7 +253,7 @@ module Fog
           end.join('&')
 
           URI::Generic.build({
-            :scheme => params[:scheme],
+                               :scheme => params[:scheme],
             :host   => params[:host],
             :port   => params[:port],
             :path   => params[:path],

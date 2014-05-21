@@ -34,11 +34,11 @@ class AWS
       }
 
       CREATE_LOAD_BALANCER = BASIC.merge({
-        'CreateLoadBalancerResult' => { 'DNSName' => String }
+                                           'CreateLoadBalancerResult' => { 'DNSName' => String }
       })
 
       DESCRIBE_LOAD_BALANCERS = BASIC.merge({
-        'DescribeLoadBalancersResult' => {'LoadBalancerDescriptions' => [LOAD_BALANCER], 'NextMarker' => Fog::Nullable::String}
+                                              'DescribeLoadBalancersResult' => {'LoadBalancerDescriptions' => [LOAD_BALANCER], 'NextMarker' => Fog::Nullable::String}
       })
 
       POLICY_ATTRIBUTE_DESCRIPTION = {
@@ -53,7 +53,7 @@ class AWS
       }
 
       DESCRIBE_LOAD_BALANCER_POLICIES = BASIC.merge({
-        'DescribeLoadBalancerPoliciesResult' => { 'PolicyDescriptions' => [POLICY] }
+                                                      'DescribeLoadBalancerPoliciesResult' => { 'PolicyDescriptions' => [POLICY] }
       })
 
       POLICY_ATTRIBUTE_TYPE_DESCRIPTION = {
@@ -71,21 +71,21 @@ class AWS
       }
 
       DESCRIBE_LOAD_BALANCER_POLICY_TYPES = BASIC.merge({
-        'DescribeLoadBalancerPolicyTypesResult' => {'PolicyTypeDescriptions' => [POLICY_TYPE] }
+                                                          'DescribeLoadBalancerPolicyTypesResult' => {'PolicyTypeDescriptions' => [POLICY_TYPE] }
       })
 
       CONFIGURE_HEALTH_CHECK = BASIC.merge({
-        'ConfigureHealthCheckResult' => {'HealthCheck' => {
-        'Target' => String,
-        'Interval' => Integer,
-        'Timeout' => Integer,
-        'UnhealthyThreshold' => Integer,
-        'HealthyThreshold' => Integer
-      }}
+                                             'ConfigureHealthCheckResult' => {'HealthCheck' => {
+                                               'Target' => String,
+                                             'Interval' => Integer,
+                                             'Timeout' => Integer,
+                                             'UnhealthyThreshold' => Integer,
+                                             'HealthyThreshold' => Integer
+                                           }}
       })
 
       DELETE_LOAD_BALANCER = BASIC.merge({
-        'DeleteLoadBalancerResult' =>  NilClass
+                                           'DeleteLoadBalancerResult' =>  NilClass
       })
 
     end

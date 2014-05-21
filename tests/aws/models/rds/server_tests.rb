@@ -58,7 +58,7 @@ Shindo.tests("AWS::RDS | server", ['aws', 'rds']) do
 
       # Restore back to original state using symbols
       restore_options = {
-       :parameter_group_name => orig_parameter_group,
+        :parameter_group_name => orig_parameter_group,
        :security_group_names => orig_security_groups
       }
       @instance.modify(true, restore_options)

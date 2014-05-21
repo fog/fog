@@ -33,7 +33,7 @@ module Fog
           params.merge!(Fog::AWS.indexed_param('PolicyAttributes.member.%d.AttributeValue', attribute_value))
 
           request({
-                    'Action'           => 'CreateLoadBalancerPolicy',
+            'Action'           => 'CreateLoadBalancerPolicy',
                     'LoadBalancerName' => lb_name,
                     'PolicyName'       => name,
                     'PolicyTypeName'   => type_name,

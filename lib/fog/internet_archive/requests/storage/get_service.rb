@@ -20,7 +20,7 @@ module Fog
         #
         def get_service
           request({
-            :expects  => 200,
+                    :expects  => 200,
             :headers  => {},
             :host     => @host,
             :idempotent => true,

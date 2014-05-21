@@ -34,7 +34,7 @@ end
 
 # create Cloud Block Storage service
 service = Fog::Rackspace::BlockStorage.new({
-  :rackspace_username   => rackspace_username,
+                                             :rackspace_username   => rackspace_username,
   :rackspace_api_key    => rackspace_api_key,
   :rackspace_region => :ord #Use Chicago Region
 })

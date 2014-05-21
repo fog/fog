@@ -90,7 +90,7 @@ module Fog
           params[:headers] ||= {}
           key= "#{@zerigo_email}:#{@zerigo_token}"
           params[:headers].merge!({
-            'Authorization' => "Basic #{Base64.encode64(key).delete("\r\n")}"
+                                    'Authorization' => "Basic #{Base64.encode64(key).delete("\r\n")}"
           })
           case params[:method]
           when 'DELETE', 'GET', 'HEAD'

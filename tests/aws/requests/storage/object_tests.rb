@@ -69,7 +69,7 @@ Shindo.tests('AWS::Storage | object requests', ['aws']) do
     end
 
     tests("#put_object_acl('#{@directory.identity}', 'fog_object', hash with email)").returns({
-        'Owner' => @aws_owner,
+                                                                                                'Owner' => @aws_owner,
         'AccessControlList' => [
           {
             'Grantee' => { 'ID' => 'f62f0218873cfa5d56ae9429ae75a592fec4fd22a5f24a20b1038a7db9a8f150', 'DisplayName' => 'mtd' },
@@ -78,7 +78,7 @@ Shindo.tests('AWS::Storage | object requests', ['aws']) do
         ]}) do
       pending if Fog.mocking?
       Fog::Storage[:aws].put_object_acl(@directory.identity, 'fog_object', {
-        'Owner' => @aws_owner,
+                                          'Owner' => @aws_owner,
         'AccessControlList' => [
           {
             'Grantee' => { 'EmailAddress' => 'mtd@amazon.com' },

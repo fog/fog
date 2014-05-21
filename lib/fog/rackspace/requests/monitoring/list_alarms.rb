@@ -27,7 +27,7 @@ module Fog
           response.body = {
             "values" => [
               {
-               "id"                    => Fog::Mock.random_letters(10),
+                "id"                    => Fog::Mock.random_letters(10),
                "label"                 => nil,
                "check_id"              => Fog::Mock.random_letters(10),
                "criteria"              => nil,

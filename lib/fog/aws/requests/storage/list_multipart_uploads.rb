@@ -38,7 +38,7 @@ module Fog
         #
         def list_multipart_uploads(bucket_name, options = {})
           request({
-            :expects  => 200,
+                    :expects  => 200,
             :headers  => {},
             :bucket_name => bucket_name,
             :idempotent => true,

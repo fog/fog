@@ -38,7 +38,7 @@ module Fog
           if options['Parameters']
             options['Parameters'].keys.each_with_index do |name, index|
               params[:query].merge!({
-                "Parameters.member.#{index+1}.#{name}"  => options['Parameters'][name]
+                                      "Parameters.member.#{index+1}.#{name}"  => options['Parameters'][name]
               })
             end
           end
