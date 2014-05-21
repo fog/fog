@@ -3,7 +3,7 @@ Shindo.tests('AWS::Elasticache | cache cluster requests', ['aws', 'elasticache']
   tests('success') do
 
     # Randomize the cluster ID so tests can be fequently re-run
-    CLUSTER_ID = "fog-test-cluster-#{rand(999).to_s}" # 20 chars max!
+    CLUSTER_ID = "fog-test-cluster-#{rand(999)}" # 20 chars max!
     NUM_NODES = 2   # Must be > 1, because one of the tests reomves a node!
 
     tests(

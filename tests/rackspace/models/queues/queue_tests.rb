@@ -2,7 +2,7 @@ Shindo.tests('Fog::Rackspace::Queues | queue', ['rackspace']) do
 
   service = Fog::Rackspace::Queues.new
   options = {
-    :name => "fog_instance_#{Time.now.to_i.to_s}",
+    :name => "fog_instance_#{Time.now.to_i}",
   }
   model_tests(service.queues, options) do
 

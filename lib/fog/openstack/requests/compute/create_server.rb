@@ -136,7 +136,7 @@ module Fog
 
           response_data = {}
           if options['return_reservation_id'] == 'True' then
-            response_data = { 'reservation_id' => "r-#{Fog::Mock.random_numbers(6).to_s}" }
+            response_data = { 'reservation_id' => "r-#{Fog::Mock.random_numbers(6)}" }
           else
             response_data = {
               'adminPass'       => 'password',

@@ -25,14 +25,14 @@ Shindo.tests('Fog::Rackspace::Monitoring | alarm', ['rackspace','rackspace_monit
   end
 
   begin
-    @entity = service.entities.create :label => "fog_#{Time.now.to_i.to_s}"
+    @entity = service.entities.create :label => "fog_#{Time.now.to_i}"
     @check = service.checks.create(CHECK_CREATE_OPTIONS.merge(
-                                        :label => "fog_#{Time.now.to_i.to_s}",
+                                        :label => "fog_#{Time.now.to_i}",
                                         :entity => @entity) )
     np = "npTechnicalContactsEmail"
     options = CHECK_CREATE_OPTIONS.merge(
       :disabled => false,
-      :label => "fog_#{Time.now.to_i.to_s}",
+      :label => "fog_#{Time.now.to_i}",
       :entity => @entity,
       :entity_id => @entity.id,
       :check => @check,
@@ -43,7 +43,7 @@ Shindo.tests('Fog::Rackspace::Monitoring | alarm', ['rackspace','rackspace_monit
     model_tests(collection, options, false) do
       tests('#update').succeeds do
         @instance.disabled = true
-        new_label = "new_label_#{Time.now.to_i.to_s}"
+        new_label = "new_label_#{Time.now.to_i}"
         @instance.label = new_label
         @instance.save
         @instance.label = nil # blank out label just to make sure

@@ -13,7 +13,7 @@ module Fog
             },
             :expects  => [200],
             :method => 'PUT',
-            :path => "#{Fog::SakuraCloud::SAKURACLOUD_API_ENDPOINT}/disk/#{disk_id.to_s}/to/server/#{server_id.to_s}"
+            :path => "#{Fog::SakuraCloud::SAKURACLOUD_API_ENDPOINT}/disk/#{disk_id}/to/server/#{server_id}"
           )
         end
       end # Real

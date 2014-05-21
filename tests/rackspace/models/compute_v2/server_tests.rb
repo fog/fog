@@ -3,11 +3,11 @@ Shindo.tests('Fog::Compute::RackspaceV2 | server', ['rackspace']) do
   cbs_service = Fog::Rackspace::BlockStorage.new
 
   tests('setup test network').succeeds do
-    @network = service.networks.create :label => "fog_test_net_#{Time.now.to_i.to_s}", :cidr => '192.168.1.0/24'
+    @network = service.networks.create :label => "fog_test_net_#{Time.now.to_i}", :cidr => '192.168.1.0/24'
   end
 
   options = {
-    :name => "fog_server_#{Time.now.to_i.to_s}",
+    :name => "fog_server_#{Time.now.to_i}",
     :flavor_id => rackspace_test_flavor_id(service),
     :image_id => rackspace_test_image_id(service),
     :metadata => { 'fog_test' => 'true' },
@@ -84,7 +84,7 @@ Shindo.tests('Fog::Compute::RackspaceV2 | server', ['rackspace']) do
     end
 
     tests('#update').succeeds do
-      new_name = "fog_server_update#{Time.now.to_i.to_s}"
+      new_name = "fog_server_update#{Time.now.to_i}"
       @instance.name = new_name
       @instance.access_ipv4_address= "10.10.0.1"
       @instance.access_ipv6_address= "::1"
@@ -175,7 +175,7 @@ Shindo.tests('Fog::Compute::RackspaceV2 | server', ['rackspace']) do
 
     tests('attachments') do
       begin
-        @volume = cbs_service.volumes.create(:size => 100, :display_name => "fog-#{Time.now.to_i.to_s}")
+        @volume = cbs_service.volumes.create(:size => 100, :display_name => "fog-#{Time.now.to_i}")
         @volume.wait_for { ready? }
         tests('#attach_volume').succeeds do
           @instance.attach_volume(@volume)

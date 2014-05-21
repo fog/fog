@@ -64,7 +64,7 @@ module Fog
             #  'Message' => "DB Instance already exists"
             #}
             #return response
-            raise Fog::AWS::RDS::IdentifierTaken.new("DBInstanceAlreadyExists #{response.body.to_s}")
+            raise Fog::AWS::RDS::IdentifierTaken.new("DBInstanceAlreadyExists #{response.body}")
           end
 
           # These are the required parameters according to the API

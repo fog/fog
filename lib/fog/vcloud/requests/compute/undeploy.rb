@@ -7,7 +7,7 @@ module Fog
           # builder.UndeployVAppParams(:xmlns => 'http://www.vmware.com/vcloud/v1',
           #                            :saveState => save_state) {}
           builder = if version =='1.0'
-                        "<UndeployVAppParams saveState=\"#{save_state.to_s}\" xmlns=\"http://www.vmware.com/vcloud/v1\"/>"
+                        "<UndeployVAppParams saveState=\"#{save_state}\" xmlns=\"http://www.vmware.com/vcloud/v1\"/>"
                     else
                        <<EOF
                         <UndeployVAppParams xmlns="http://www.vmware.com/vcloud/v1.5">

@@ -74,7 +74,7 @@ module Fog
               'cidr'             => cidr,
               'ip_version'       => ip_version,
               'gateway_ip'       => options[:gateway_ip] || Fog::HP::Mock.ip_address.to_s,
-              'allocation_pools' => options[:allocation_pools] || [{"start" => "#{Fog::HP::Mock.ip_address.to_s}", "end" => "#{Fog::HP::Mock.ip_address.to_s}"}],
+              'allocation_pools' => options[:allocation_pools] || [{"start" => "#{Fog::HP::Mock.ip_address}", "end" => "#{Fog::HP::Mock.ip_address}"}],
               'dns_nameservers'  => options[:dns_nameservers] || [],
               'host_routes'      => options[:host_routes] || [],
               'enable_dhcp'      => options[:enable_dhcp] || true,

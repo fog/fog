@@ -41,7 +41,7 @@ Shindo.tests('Fog::Rackspace::Identity | users', ['rackspace']) do
 
   service = Fog::Rackspace::Identity.new
   id = nil
-  username = "fog#{Time.now.to_i.to_s}"
+  username = "fog#{Time.now.to_i}"
   email = 'fog_user@example.com'
   enabled = true
   password = 'Fog_password1'
@@ -58,7 +58,7 @@ Shindo.tests('Fog::Rackspace::Identity | users', ['rackspace']) do
     end
 
     # there appears to be a werid caching issue. It's just easier to create a new username and continue on
-    username = "fog#{Time.now.to_i.to_s}"
+    username = "fog#{Time.now.to_i}"
 
     tests('#create_user with password').succeeds do
       data = service.create_user(username, email, enabled, :password => password ).body

@@ -58,7 +58,7 @@ Shindo.tests('Fog::Compute::RackspaceV2 | server_tests', ['rackspace']) do
   tests('success') do
 
     server_id = nil
-    server_name = "fog#{Time.now.to_i.to_s}"
+    server_name = "fog#{Time.now.to_i}"
     image_id = rackspace_test_image_id(service)
     flavor_id = rackspace_test_flavor_id(service)
 

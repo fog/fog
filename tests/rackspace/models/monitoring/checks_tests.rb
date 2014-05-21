@@ -3,9 +3,9 @@ Shindo.tests('Fog::Rackspace::Monitoring | checks', ['rackspace','rackspace_moni
   service = Fog::Rackspace::Monitoring.new
 
   begin
-    @entity = service.entities.create :label => "fog_#{Time.now.to_i.to_s}"
+    @entity = service.entities.create :label => "fog_#{Time.now.to_i}"
 
-    options = CHECK_CREATE_OPTIONS.merge(:label => "fog_#{Time.now.to_i.to_s}", :entity => @entity)
+    options = CHECK_CREATE_OPTIONS.merge(:label => "fog_#{Time.now.to_i}", :entity => @entity)
     collection = service.checks(:entity => @entity)
     collection_tests(collection, options, false) do
 

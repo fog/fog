@@ -22,13 +22,13 @@ Shindo.tests('Fog::Rackspace::Monitoring | check', ['rackspace','rackspace_monit
   end
 
   begin
-    @entity = service.entities.create :label => "fog_#{Time.now.to_i.to_s}"
+    @entity = service.entities.create :label => "fog_#{Time.now.to_i}"
 
-    options = CHECK_CREATE_OPTIONS.merge(:label => "fog_#{Time.now.to_i.to_s}", :entity => @entity)
+    options = CHECK_CREATE_OPTIONS.merge(:label => "fog_#{Time.now.to_i}", :entity => @entity)
     collection = service.checks(:entity => @entity)
     model_tests(collection, options, false) do
       tests('#update').succeeds do
-        new_label = "new_label_#{Time.now.to_i.to_s}"
+        new_label = "new_label_#{Time.now.to_i}"
         @instance.label = new_label
         timeout = 2
         @instance.timeout = 2

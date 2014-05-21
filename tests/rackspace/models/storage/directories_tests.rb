@@ -3,7 +3,7 @@ Shindo.tests('Fog::Rackspace::Storage | directories', ['rackspace']) do
   @service = Fog::Storage[:rackspace]
 
   begin
-    @name = "fog-directories-test-#{Time.now.to_i.to_s}"
+    @name = "fog-directories-test-#{Time.now.to_i}"
     @filename = 'lorem.txt'    
     @dir = @service.directories.create :key => @name, :metadata => {:fog_test => true}
     @file = @dir.files.create :key => @filename, :body => lorem_file

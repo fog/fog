@@ -46,7 +46,7 @@ Shindo.tests("Compute::VcloudDirector | networks", ['vclouddirector', 'all']) do
 
   tests("Compute::VcloudDirector | network", ['all lazy load attrs should now be loaded with data']) do
     network.lazy_load_attrs.each do |field|
-      tests("##{field.to_s} is now loaded").returns(true) { network.attributes[field] != NonLoaded }
+      tests("##{field} is now loaded").returns(true) { network.attributes[field] != NonLoaded }
     end
   end
 

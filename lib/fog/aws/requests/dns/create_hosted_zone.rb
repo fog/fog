@@ -36,7 +36,7 @@ module Fog
             optional_tags += "<CallerReference>#{options[:caller_ref]}</CallerReference>"
           else
             #make sure we have a unique call reference
-            caller_ref = "ref-#{rand(1000000).to_s}"
+            caller_ref = "ref-#{rand(1000000)}"
             optional_tags += "<CallerReference>#{caller_ref}</CallerReference>"
           end
           if options[:comment]
@@ -70,7 +70,7 @@ module Fog
               caller_ref = options[:caller_ref]
             else
               #make sure we have a unique call reference
-              caller_ref = "ref-#{rand(1000000).to_s}"
+              caller_ref = "ref-#{rand(1000000)}"
             end
             zone_id = "/hostedzone/#{Fog::AWS::Mock.zone_id}"
             self.data[:zones][zone_id] = {

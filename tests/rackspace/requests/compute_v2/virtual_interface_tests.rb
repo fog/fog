@@ -17,12 +17,12 @@ Shindo.tests('Fog::Compute::RackspaceV2 | virtual_interface_tests', ['rackspace'
     unless Fog.mocking?
       network_id = nil
 
-      @server = @service.servers.create(:name => "fog_virtual_interface_test_#{Time.now.to_i.to_s}",
+      @server = @service.servers.create(:name => "fog_virtual_interface_test_#{Time.now.to_i}",
                                         :flavor_id => rackspace_test_flavor_id(@service),
                                         :image_id => rackspace_test_image_id(@service))
       @server.wait_for { ready? }
 
-      @network = @service.networks.create(:label => "fog_#{Time.now.to_i.to_s}", :cidr => '192.168.0.0/24')
+      @network = @service.networks.create(:label => "fog_#{Time.now.to_i}", :cidr => '192.168.0.0/24')
     end
 
     tests('success') do

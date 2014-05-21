@@ -2,7 +2,7 @@ Shindo.tests('Fog::Compute[:digitalocean] | servers collection', ['digitalocean'
   service = Fog::Compute[:digitalocean]
 
   options = {
-    :name => "#{fog_server_name}-#{Time.now.to_i.to_s}"
+    :name => "#{fog_server_name}-#{Time.now.to_i}"
   }.merge fog_test_server_attributes
 
   public_key_path = File.join(File.dirname(__FILE__), '../../fixtures/id_rsa.pub')
