@@ -1,18 +1,21 @@
 module Fog
   module Compute
     class Cloudstack
-      class Real
 
+      class Real
+        # Deletes a particular ingress rule from this security group
+        #
+        # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/revokeSecurityGroupIngress.html]
         def revoke_security_group_ingress(options={})
           options.merge!(
-            'command' => 'revokeSecurityGroupIngress'
+            'command' => 'revokeSecurityGroupIngress',
+            'id' => options['id'], 
+             
           )
-
           request(options)
         end
-
-      end # Real
-
+      end
+ 
       class Mock
         def revoke_security_group_ingress(options={})
           unless security_group_rule_id = options['id']
@@ -39,8 +42,7 @@ module Fog
 
           {"revokesecuritygroupingress" => { "jobid" => job_id }}
         end
-
-      end
+      end 
     end
   end
 end

@@ -1,21 +1,22 @@
 module Fog
   module Compute
     class Cloudstack
-      class Real
 
+      class Real
         # Deletes a keypair by name
         #
-        # {CloudStack API Reference}[http://download.cloud.com/releases/2.2.0/api_2.2.12/global_admin/deleteSSHKeyPair.html]
-        def delete_ssh_key_pair(name,options={})
+        # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/deleteSSHKeyPair.html]
+        def delete_ssh_key_pair(options={})
           options.merge!(
             'command' => 'deleteSSHKeyPair',
-            'name' => name
+            'name' => options['name'], 
+             
           )
-
           request(options)
         end
-
       end
+
     end
   end
 end
+

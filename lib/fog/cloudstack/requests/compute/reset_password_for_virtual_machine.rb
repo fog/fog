@@ -1,21 +1,22 @@
 module Fog
   module Compute
     class Cloudstack
+
       class Real
-
-        # Returns an encrypted password for the VM
+        # Resets the password for virtual machine. The virtual machine must be in a "Stopped" state and the template must already support this feature for this command to take effect. [async]
         #
-        # {CloudStack API Reference}[http://download.cloud.com/releases/2.2.0/api_2.2.4/global_admin/resetPasswordForVirtualMachine.html]
-        def reset_password_for_virtual_machine(id)
-          options = {
+        # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/resetPasswordForVirtualMachine.html]
+        def reset_password_for_virtual_machine(options={})
+          options.merge!(
             'command' => 'resetPasswordForVirtualMachine',
-            'id' => id
-          }
-
+            'id' => options['id'], 
+             
+          )
           request(options)
         end
-
       end
+
     end
   end
 end
+

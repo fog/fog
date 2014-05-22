@@ -1,23 +1,22 @@
 module Fog
   module Compute
     class Cloudstack
-      class Real
 
+      class Real
         # List all public, private, and privileged templates.
         #
-        # {CloudStack API Reference}[http://download.cloud.com/releases/2.2.0/api_2.2.4/global_admin/listTemplates.html]
+        # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/listTemplates.html]
         def list_templates(options={})
           options.merge!(
-            'command' => 'listTemplates'
+            'command' => 'listTemplates',
+            'templatefilter' => options['templatefilter'], 
+             
           )
-
           request(options)
         end
-
-      end # Real
-
+      end
+ 
       class Mock
-
         def list_templates(options={})
           templates = self.data[:images].values
 
@@ -29,7 +28,8 @@ module Fog
               }
           }
         end
-      end # Mock
-    end # Cloudstack
-  end # Compute
-end # Fog
+      end 
+    end
+  end
+end
+

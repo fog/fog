@@ -1,24 +1,22 @@
 module Fog
   module Compute
     class Cloudstack
-      class Real
 
+      class Real
         # Assigns virtual machine or a list of virtual machines to a load balancer rule.
         #
-        # {CloudStack API Reference}[http://download.cloud.com/releases/2.2.0/api_2.2.12/global_admin/assignToLoadBalancerRule.html]
-        def assign_to_load_balancer_rule(id,virtualmachineids=[])
-          virtualmachineids = [*virtualmachineids]
-
-          options = {
+        # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/assignToLoadBalancerRule.html]
+        def assign_to_load_balancer_rule(options={})
+          options.merge!(
             'command' => 'assignToLoadBalancerRule',
-            'id' => id,
-            'virtualmachineids' => virtualmachineids.join(',')
-          }
-
+            'virtualmachineids' => options['virtualmachineids'], 
+            'id' => options['id'], 
+             
+          )
           request(options)
         end
-
       end
+
     end
   end
 end

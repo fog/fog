@@ -1,21 +1,27 @@
 module Fog
   module Compute
     class Cloudstack
-      class Real
 
-        # Registers an existing template into the cloud.
+      class Real
+        # Registers an existing template into the CloudStack cloud. 
         #
-        # {CloudStack API Reference}[http://download.cloud.com/releases/3.0.0/api_3.0.0/user/registerTemplate.html]
+        # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/registerTemplate.html]
         def register_template(options={})
           options.merge!(
-              'command' => 'registerTemplate'
+            'command' => 'registerTemplate',
+            'url' => options['url'], 
+            'name' => options['name'], 
+            'ostypeid' => options['ostypeid'], 
+            'zoneid' => options['zoneid'], 
+            'displaytext' => options['displaytext'], 
+            'hypervisor' => options['hypervisor'], 
+            'format' => options['format'], 
+             
           )
-
           request(options)
         end
-
-      end # Real
-
+      end
+ 
       class Mock
         def register_template(options={})
           mock_template_id = self.data[:images].keys.first
@@ -29,7 +35,8 @@ module Fog
               }
           }
         end
-      end # Mock
-    end # Cloudstack
-  end # Compute
-end #Fog
+      end 
+    end
+  end
+end
+
