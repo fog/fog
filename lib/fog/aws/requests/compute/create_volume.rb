@@ -77,8 +77,8 @@ module Fog
                 raise Fog::Compute::AWS::Error.new("InvalidParameterValue => Volume of #{size}GiB is too small; minimum is 10GiB.")
               end
 
-              if (iops_to_size_ratio = iops.to_f / size.to_f) > 10.0
-                raise Fog::Compute::AWS::Error.new("InvalidParameterValue => Iops to volume size ratio of #{"%.1f" % iops_to_size_ratio} is too high; maximum is 10.0")
+              if (iops_to_size_ratio = iops.to_f / size.to_f) > 30.0
+                raise Fog::Compute::AWS::Error.new("InvalidParameterValue => Iops to volume size ratio of #{"%.1f" % iops_to_size_ratio} is too high; maximum is 30.0")
               end
 
               if iops < 100
