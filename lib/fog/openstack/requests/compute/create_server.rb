@@ -38,8 +38,8 @@ module Fog
             data['server']['personality'] = []
             for file in options['personality']
               data['server']['personality'] << {
-                'contents'  => Base64.encode64(file['contents']),
-                'path'      => file['path']
+                'contents'  => Base64.encode64(file['contents'] || file[:contents]),
+                'path'      => file['path'] || file[:path]
               }
             end
           end
