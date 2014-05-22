@@ -3,6 +3,7 @@ Shindo.tests('Fog::Compute[:aws] | volume requests', ['aws']) do
   @volume_format = {
     'availabilityZone'  => String,
     'createTime'        => Time,
+    'encrypted'         => Boolean,
     'iops'              => Fog::Nullable::Integer,
     'requestId'         => String,
     'size'              => Integer,
@@ -13,12 +14,13 @@ Shindo.tests('Fog::Compute[:aws] | volume requests', ['aws']) do
   }
 
   @volume_attachment_format = {
-    'attachTime'  => Time,
-    'device'      => String,
-    'instanceId'  => String,
-    'requestId'   => String,
-    'status'      => String,
-    'volumeId'    => String
+    'attachTime'          => Time,
+    'device'              => String,
+    'deleteOnTermination' => Boolean,
+    'instanceId'          => String,
+    'requestId'           => String,
+    'status'              => String,
+    'volumeId'            => String
   }
 
   @volume_status_format = {
@@ -54,6 +56,7 @@ Shindo.tests('Fog::Compute[:aws] | volume requests', ['aws']) do
       'availabilityZone'  => String,
       'attachmentSet'     => Array,
       'createTime'        => Time,
+      'encrypted'         => Boolean,
       'iops'              => Fog::Nullable::Integer,
       'size'              => Integer,
       'snapshotId'        => Fog::Nullable::String,

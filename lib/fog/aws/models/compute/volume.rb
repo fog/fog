@@ -16,6 +16,7 @@ module Fog
         attribute :iops
         attribute :server_id,             :aliases => 'instanceId'
         attribute :size
+        attribute :encrypted
         attribute :snapshot_id,           :aliases => 'snapshotId'
         attribute :state,                 :aliases => 'status'
         attribute :tags,                  :aliases => 'tagSet'
@@ -47,7 +48,7 @@ module Fog
             requires :iops
           end
 
-          data = service.create_volume(availability_zone, size, 'SnapshotId' => snapshot_id, 'VolumeType' => type, 'Iops' => iops).body
+          data = service.create_volume(availability_zone, size, 'SnapshotId' => snapshot_id, 'VolumeType' => type, 'Iops' => iops, 'Encrypted' => encrypted).body
           new_attributes = data.reject {|key,value| key == 'requestId'}
           merge_attributes(new_attributes)
 
