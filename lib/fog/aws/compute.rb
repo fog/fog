@@ -398,7 +398,7 @@ module Fog
           @region                 = options[:region] ||= 'us-east-1'
           @instrumentor           = options[:instrumentor]
           @instrumentor_name      = options[:instrumentor_name] || 'fog.aws.compute'
-          @version                = options[:version]     ||  '2013-10-01'
+          @version                = options[:version]     ||  '2015-05-01'
 
           validate_aws_region @region
 
