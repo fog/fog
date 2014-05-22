@@ -9,6 +9,7 @@ module Fog
         identity  :id,          :aliases => 'snapshotId'
 
         attribute :description
+        attribute :encrypted
         attribute :progress
         attribute :created_at,  :aliases => 'startTime'
         attribute :owner_id,    :aliases => 'ownerId'
