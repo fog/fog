@@ -62,7 +62,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency('fission')
   s.add_development_dependency('pry')
   s.add_development_dependency('google-api-client', '~> 0.6', '>= 0.6.2')
-  s.add_development_dependency('rubocop')
+  s.add_development_dependency('rubocop') if RUBY_VERSION > "1.9"
 
   if ENV["FOG_USE_LIBVIRT"]
     s.add_development_dependency('ruby-libvirt','~> 0.5.0')
