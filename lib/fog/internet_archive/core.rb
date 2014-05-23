@@ -51,7 +51,7 @@ module Fog
 
     def self.indexed_request_param(name, values)
       idx = -1
-      Array(values).inject({}) do |params, value|
+      Array(values).reduce({}) do |params, value|
         params["#{name}.#{idx += 1}"] = value
         params
       end

@@ -92,7 +92,7 @@ module Fog
             # We need to order results by S3 key, but since our data store is key => [versions], we want to ensure the integrity
             # of the versions as well.  So, sort the keys, then fetch the versions, and then combine them all as a sorted list by
             # flattening the results.
-            contents = bucket[:objects].keys.sort.collect { |key| bucket[:objects][key] }.flatten.reject do |object|
+            contents = bucket[:objects].keys.sort.map { |key| bucket[:objects][key] }.flatten.reject do |object|
                 (prefix      && object['Key'][0...prefix.length] != prefix) ||
                 (key_marker  && object['Key'] <= key_marker) ||
                 (delimiter   && object['Key'][(prefix ? prefix.length : 0)..-1].include?(delimiter) \

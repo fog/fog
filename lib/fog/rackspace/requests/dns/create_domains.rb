@@ -16,7 +16,7 @@ module Fog
 
             if domain.has_key? :records
               domain_data['recordsList'] = {
-                'records' => domain[:records].collect do |record|
+                'records' => domain[:records].map do |record|
                   record_data = {
                     'ttl' => record[:ttl],
                     'data' => record[:data],

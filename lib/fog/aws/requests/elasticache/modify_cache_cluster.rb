@@ -28,7 +28,7 @@ module Fog
           # Construct Cache Security Group parameters in the format:
           #   CacheSecurityGroupNames.member.N => "security_group_name"
           group_names = options[:security_group_names] || []
-          sec_group_params = group_names.inject({}) do |group_hash, name|
+          sec_group_params = group_names.reduce({}) do |group_hash, name|
             index = group_names.index(name) + 1
             group_hash["CacheSecurityGroupNames.member.#{index}"] = name
             group_hash
@@ -36,7 +36,7 @@ module Fog
           # Construct CacheNodeIdsToRemove parameters in the format:
           #   CacheNodeIdsToRemove.member.N => "node_id"
           node_ids = options[:nodes_to_remove] || []
-          node_id_params = node_ids.inject({}) do |node_hash, node_id|
+          node_id_params = node_ids.reduce({}) do |node_hash, node_id|
             index = node_ids.index(node_id) + 1
             node_hash["CacheNodeIdsToRemove.member.#{index}"] = node_id
             node_hash

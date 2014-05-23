@@ -37,7 +37,7 @@ module Fog
           requires :zone
 
           list = service.get_all_records(zone.domain, {}).body['data']
-          url = list.detect { |e| e =~ /\/#{record_id}$/ }
+          url = list.find { |e| e =~ /\/#{record_id}$/ }
           return unless url
           (_, _, t, _, fqdn, id) = url.split('/')
           type = t.gsub(/Record$/, '')

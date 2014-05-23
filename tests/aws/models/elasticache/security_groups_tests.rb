@@ -20,7 +20,7 @@ Shindo.tests('AWS::Elasticache | security groups', ['aws', 'elasticache']) do
     tests('#authorize_ec2_group') do
       @instance.authorize_ec2_group(ec2_group.name)
       returns('authorizing') do
-        group = @instance.ec2_groups.detect do |g|
+        group = @instance.ec2_groups.find do |g|
           g['EC2SecurityGroupName'] == ec2_group.name
         end
         group['Status']
@@ -33,7 +33,7 @@ Shindo.tests('AWS::Elasticache | security groups', ['aws', 'elasticache']) do
     tests('#revoke_ec2_group') do
       @instance.revoke_ec2_group(ec2_group.name)
       returns('revoking') do
-        group = @instance.ec2_groups.detect do |g|
+        group = @instance.ec2_groups.find do |g|
           g['EC2SecurityGroupName'] == ec2_group.name
         end
         group['Status']

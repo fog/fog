@@ -305,7 +305,7 @@ module Fog
         end
 
         def get_by_name(item_name)
-          item_found = item_list.detect {|item| item[:name] == item_name}
+          item_found = item_list.find {|item| item[:name] == item_name}
           return nil unless item_found
           get(item_found[:id])
         end
@@ -459,7 +459,7 @@ module Fog
             response = get_current_session
           else
             response = post_login_session
-            x_vcloud_authorization = response.headers.keys.detect do |key|
+            x_vcloud_authorization = response.headers.keys.find do |key|
               key.downcase == 'x-vcloud-authorization'
             end
             @vcloud_token = response.headers[x_vcloud_authorization]

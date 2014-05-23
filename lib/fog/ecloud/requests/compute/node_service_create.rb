@@ -51,7 +51,7 @@ module Fog
           network = self.data[:networks][network_id.to_i]
           ip_addresses = network[:IpAddresses][:IpAddress]
           ip_addresses = ip_addresses.is_a?(Array) ? ip_addresses : [ip_addresses]
-          ip_address = ip_addresses.detect { |ip| ip[:name] == ip_address_name }
+          ip_address = ip_addresses.find { |ip| ip[:name] == ip_address_name }
 
           service_id   = Fog::Mock.random_numbers(6).to_i
           service = {

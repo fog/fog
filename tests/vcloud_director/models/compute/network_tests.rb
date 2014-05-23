@@ -13,7 +13,7 @@ Shindo.tests("Compute::VcloudDirector | networks", ['vclouddirector', 'all']) do
   # Run initial tests against a natRouted network, since these
   # are more likely to be created, and must be populated with
   # Gateway and EdgeGateway sections
-  network = networks.detect do |net|
+  network = networks.find do |net|
     network_raw = service.get_network_complete(net.id).body
     network_raw[:Configuration][:FenceMode] == 'natRouted'
   end
@@ -75,7 +75,7 @@ Shindo.tests("Compute::VcloudDirector | networks", ['vclouddirector', 'all']) do
   # Now let's also check against an isolated network, since these have some
   # additional features like DHCP ServiceConfigurations.
   isolated_network_raw = nil
-  isolated_network = networks.detect do |net|
+  isolated_network = networks.find do |net|
     isolated_network_raw = service.get_network_complete(net.id).body
     isolated_network_raw[:Configuration][:FenceMode] == 'isolated'
   end

@@ -11,7 +11,7 @@ module Fog
       class Mock
         def change_password_server(server_id, admin_password)
           response = Excon::Response.new
-          if list_servers_detail.body['servers'].detect {|_| _['id'] == server_id}
+          if list_servers_detail.body['servers'].find {|_| _['id'] == server_id}
             if admin_password
               response.body = { 'changePassword' => { 'adminPass' => admin_password }}
             end

@@ -77,7 +77,7 @@ module Fog
               :client_id => service.client_id,
               :echo => true
             })
-          attributes[:messages] = messages.collect do |message|
+          attributes[:messages] = messages.map do |message|
             if message.instance_of? Fog::Rackspace::Queues::Message
               message.claim_id = self.id
               message

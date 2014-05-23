@@ -24,7 +24,7 @@ module Fog
           if error.response
             status_code = error.response.status
             unless error.response.body.empty?
-              _, media_type = error.response.headers.detect {|k,v| k.downcase == 'content-type'}
+              _, media_type = error.response.headers.find {|k,v| k.downcase == 'content-type'}
               if media_type =~ /vnd\.vmware\.vcloud\.error\+xml/i
                 begin
                   document = Fog::ToHashDocument.new

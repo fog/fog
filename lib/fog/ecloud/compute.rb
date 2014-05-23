@@ -392,7 +392,7 @@ module Fog
 
         # section 5.6.3.2 in the ~1000 page pdf spec
         def canonicalize_headers(headers)
-          tmp = headers.inject({}) {|ret, h| ret[h.first.downcase] = h.last if h.first.match(/^x-tmrk/i) ; ret }
+          tmp = headers.reduce({}) {|ret, h| ret[h.first.downcase] = h.last if h.first.match(/^x-tmrk/i) ; ret }
           tmp.reject! {|k,v| k == "x-tmrk-authorization" }
           tmp = tmp.sort.map{|e| "#{e.first}:#{e.last}" }.join("\n")
           tmp

@@ -161,7 +161,7 @@ module Fog
 
         # http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-supported-platforms.html
         def supported_platforms
-          describe_account_attributes.body["accountAttributeSet"].detect{ |h| h["attributeName"] == "supported-platforms" }["values"]
+          describe_account_attributes.body["accountAttributeSet"].find{ |h| h["attributeName"] == "supported-platforms" }["values"]
         end
       end
 
@@ -299,7 +299,7 @@ module Fog
         end
 
         def visible_images
-          images = self.data[:images].values.inject({}) do |h, image|
+          images = self.data[:images].values.reduce({}) do |h, image|
             h.update(image['imageId'] => image)
           end
 
@@ -315,7 +315,7 @@ module Fog
         end
 
         def supported_platforms
-          describe_account_attributes.body["accountAttributeSet"].detect{ |h| h["attributeName"] == "supported-platforms" }["values"]
+          describe_account_attributes.body["accountAttributeSet"].find{ |h| h["attributeName"] == "supported-platforms" }["values"]
         end
 
         def enable_ec2_classic
@@ -327,7 +327,7 @@ module Fog
         end
 
         def set_supported_platforms(values)
-          self.data[:account_attributes].detect { |h| h["attributeName"] == "supported-platforms" }["values"] = values
+          self.data[:account_attributes].find { |h| h["attributeName"] == "supported-platforms" }["values"] = values
         end
 
         def apply_tag_filters(resources, filters, resource_id_key)

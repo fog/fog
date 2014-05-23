@@ -250,13 +250,13 @@ module Fog
         end
 
         def virtual_ips_hash
-          virtual_ips.collect do |virtual_ip|
+          virtual_ips.map do |virtual_ip|
             { :type => virtual_ip.type }
           end
         end
 
         def nodes_hash
-          nodes.collect do |node|
+          nodes.map do |node|
             { :address => node.address, :port => node.port, :condition => node.condition, :weight => node.weight }
           end
         end

@@ -78,7 +78,7 @@ module Fog
         end
 
         def encode_pairs(params)
-          params.keys.collect do |key|
+          params.keys.map do |key|
             "#{key} #{params[key]}"
           end.join("\n")
         end

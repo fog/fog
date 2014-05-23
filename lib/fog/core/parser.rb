@@ -10,7 +10,7 @@ module Fog
       end
 
       def attr_value(name, attrs)
-        (entry = attrs.detect {|a, v| a == name }) && entry.last
+        (entry = attrs.find {|a, v| a == name }) && entry.last
       end
 
       def reset

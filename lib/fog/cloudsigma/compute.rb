@@ -133,7 +133,7 @@ module Fog
           current_prices = resp.body['objects']
 
           current_pricing_pairs = current_levels.map do |resource, level|
-            price_for_resource_and_level = current_prices.detect do |price|
+            price_for_resource_and_level = current_prices.find do |price|
               price['resource'] == resource
             end
             price_for_resource_and_level ||= {}
@@ -151,7 +151,7 @@ module Fog
           current_prices = resp.body['objects']
 
           current_pricing_pairs = current_levels.map do |resource, level|
-            price_for_resource_and_level = current_prices.detect do |price|
+            price_for_resource_and_level = current_prices.find do |price|
               price['level'] == level && price['resource'] == resource
             end
             price_for_resource_and_level ||= {}
@@ -169,7 +169,7 @@ module Fog
           current_prices = resp.body['objects']
 
           current_pricing_pairs = current_levels.map do |resource, level|
-            price_for_resource_and_level = current_prices.detect do |price|
+            price_for_resource_and_level = current_prices.find do |price|
               price['level'] == level && price['resource'] == resource
             end
             price_for_resource_and_level ||= {}

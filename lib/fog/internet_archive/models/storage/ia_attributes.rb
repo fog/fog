@@ -9,7 +9,7 @@ module Fog
 
 			module ClassMethods
 			  def ia_metadata_attribute(name)
-			    attribute(name, :aliases=>['amz','archive'].collect{|p|"x-#{p}-#{name.to_s.tr('_','-')}"})
+			    attribute(name, :aliases=>['amz','archive'].map{|p|"x-#{p}-#{name.to_s.tr('_','-')}"})
 			  end
 			end
 
@@ -17,7 +17,7 @@ module Fog
 				# set_metadata_array_headers(:collections, options)
 				def set_metadata_array_headers(array_attribute, options={})
 				  attr_values = Array(self.send(array_attribute))
-				  opt_values = options.collect do |key,value|
+				  opt_values = options.map do |key,value|
 				    options.delete(key) if (key.to_s =~ /^x-(amz||archive)-meta(\d*)-#{array_attribute.to_s[0..-2]}/)
 				  end
 				  values = (attr_values + opt_values).compact.sort.uniq
