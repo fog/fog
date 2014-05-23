@@ -27,7 +27,7 @@ module Fog
           }.merge!(params))
         end
 
-        alias :register_instances :register_instances_with_load_balancer
+        alias_method :register_instances, :register_instances_with_load_balancer
       end
 
       class Mock
@@ -55,7 +55,7 @@ module Fog
 
           response
         end
-        alias :register_instances :register_instances_with_load_balancer
+        alias_method :register_instances, :register_instances_with_load_balancer
       end
     end
   end

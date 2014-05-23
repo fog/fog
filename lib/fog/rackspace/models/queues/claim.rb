@@ -28,7 +28,7 @@ module Fog
         #   If limit is not specified, limit defaults to 10.
         attribute :messages
 
-        alias :id :identity
+        alias_method :id, :identity
 
         # Creates or updates a claim
         #

@@ -22,7 +22,7 @@ module Fog
           load(body['domains'])
         end
 
-        alias :each_zone_this_page :each
+        alias_method :each_zone_this_page, :each
         def each
           return self unless block_given?
 

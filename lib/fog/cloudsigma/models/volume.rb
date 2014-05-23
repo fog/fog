@@ -55,7 +55,7 @@ module Fog
           true
         end
 
-        alias :delete :destroy
+        alias_method :delete, :destroy
 
         def clone(clone_params={})
           requires :identity
