@@ -7,7 +7,7 @@ module Fog
         SAVE_MUTEX = Mutex.new
 
         identity :mac
-        alias :id :mac
+        alias_method :id, :mac
 
         attribute :network
         attribute :name

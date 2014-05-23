@@ -55,7 +55,7 @@ module Fog
         def in_use?
           self.status == 'in-use'
         end
-        alias :attached? :in_use?
+        alias_method :attached?, :in_use?
 
         def backing_up?
           self.status == 'backing-up'

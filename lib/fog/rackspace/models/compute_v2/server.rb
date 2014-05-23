@@ -166,10 +166,10 @@ module Fog
           super
         end
 
-        alias :access_ipv4_address :ipv4_address
-        alias :access_ipv4_address= :ipv4_address=
-        alias :access_ipv6_address :ipv6_address
-        alias :access_ipv6_address= :ipv6_address=
+        alias_method :access_ipv4_address, :ipv4_address
+        alias_method :access_ipv4_address=, :ipv4_address=
+        alias_method :access_ipv6_address, :ipv6_address
+        alias_method :access_ipv6_address=, :ipv6_address=
 
         # Server metadata
         # @return [Fog::Compute::RackspaceV2::Metadata] metadata key value pairs.

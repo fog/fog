@@ -68,7 +68,7 @@ module Fog
         # @raise [Fog::Storage::Rackspace::InternalServerError] - HTTP 500
         # @raise [Fog::Storage::Rackspace::ServiceError]
         # @note This method retrieves files in pages. Page size is defined by the limit attribute
-        alias :each_file_this_page :each
+        alias_method :each_file_this_page, :each
         def each
           if !block_given?
             self

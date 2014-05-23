@@ -26,7 +26,7 @@ module Fog
           nil
         end
 
-        alias :each_user_this_page :each
+        alias_method :each_user_this_page, :each
 
         def each
           if !block_given?

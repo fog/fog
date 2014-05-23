@@ -27,7 +27,7 @@ module Fog
           }.merge!(params))
         end
 
-        alias :enable_subnets :attach_load_balancer_to_subnets
+        alias_method :enable_subnets, :attach_load_balancer_to_subnets
 
       end
 
@@ -54,7 +54,7 @@ module Fog
           response
         end
 
-        alias :enable_subnets :attach_load_balancer_to_subnets
+        alias_method :enable_subnets, :attach_load_balancer_to_subnets
       end
     end
   end

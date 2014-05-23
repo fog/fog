@@ -18,7 +18,7 @@ module Fog
           load(data.body['records'])
         end
 
-        alias :each_record_this_page :each
+        alias_method :each_record_this_page, :each
         def each
           requires :zone
 

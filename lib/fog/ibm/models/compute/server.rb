@@ -184,7 +184,7 @@ module Fog
          }.merge(opts)
          service.create_image(id, options[:name], options[:description]).body
         end
-        alias :create_image :to_image
+        alias_method :create_image, :to_image
       end
 
     end

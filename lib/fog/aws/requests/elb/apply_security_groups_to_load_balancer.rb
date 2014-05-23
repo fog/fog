@@ -27,7 +27,7 @@ module Fog
           }.merge!(params))
         end
 
-        alias :apply_security_groups :apply_security_groups_to_load_balancer
+        alias_method :apply_security_groups, :apply_security_groups_to_load_balancer
 
       end
 
@@ -54,7 +54,7 @@ module Fog
           response
         end
 
-        alias :apply_security_groups :apply_security_groups_to_load_balancer
+        alias_method :apply_security_groups, :apply_security_groups_to_load_balancer
       end
     end
   end

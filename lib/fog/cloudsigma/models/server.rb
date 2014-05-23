@@ -64,7 +64,7 @@ module Fog
           true
         end
 
-        alias :delete :destroy
+        alias_method :delete, :destroy
 
         def start(start_params={})
           requires :identity

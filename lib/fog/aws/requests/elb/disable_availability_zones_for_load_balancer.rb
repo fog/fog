@@ -27,7 +27,7 @@ module Fog
           }.merge!(params))
         end
 
-        alias :disable_zones :disable_availability_zones_for_load_balancer
+        alias_method :disable_zones, :disable_availability_zones_for_load_balancer
 
       end
 
@@ -52,7 +52,7 @@ module Fog
           response
         end
 
-        alias :disable_zones :disable_availability_zones_for_load_balancer
+        alias_method :disable_zones, :disable_availability_zones_for_load_balancer
       end
     end
   end

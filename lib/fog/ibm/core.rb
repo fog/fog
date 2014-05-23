@@ -58,8 +58,8 @@ module Fog
         def id
           Fog::Mock.random_numbers(7).to_i.to_s
         end
-        alias :instance_id :id
-        alias :request_id  :id
+        alias_method :instance_id, :id
+        alias_method :request_id,  :id
 
         def primary_ip
           { "type" => 0, "ip" => Fog::IBM::Mock.ip_address, "hostname" => Fog::IBM::Mock.hostname }

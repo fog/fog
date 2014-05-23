@@ -50,7 +50,7 @@ module Fog
           service.delete_attachment(server_id, volume_id)
           true
         end
-        alias :detach :destroy
+        alias_method :detach, :destroy
 
       private
         def server

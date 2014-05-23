@@ -35,7 +35,7 @@ module Fog
           end
         end
 
-        alias :each_file_this_page :each
+        alias_method :each_file_this_page, :each
         def each
           if !block_given?
             self

@@ -117,9 +117,9 @@ module Fog
         end
 
         #alias methods
-        alias :halt    :poweroff
-        alias :stop    :shutdown
-        alias :active? :active
+        alias_method :halt,    :poweroff
+        alias_method :stop,    :shutdown
+        alias_method :active?, :active
 
         def volumes
           # lazy loading of volumes

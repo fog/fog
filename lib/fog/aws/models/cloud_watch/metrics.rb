@@ -16,7 +16,7 @@ module Fog
           load(result['Metrics']) # an array of attribute hashes
         end
 
-        alias :each_metric_this_page :each
+        alias_method :each_metric_this_page, :each
         def each
           if !block_given?
             self

@@ -72,7 +72,7 @@ module Fog
           href.scan(/\d+/)[0]
         end
 
-        alias :vdcs :environments
+        alias_method :vdcs, :environments
       end
     end
   end

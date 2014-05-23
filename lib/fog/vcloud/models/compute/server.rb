@@ -271,7 +271,7 @@ module Fog
           sleep 2 # API lies. need to give it some time to be happy.
           service.delete_vapp(href).body[:status] == "running"
         end
-        alias :delete :destroy
+        alias_method :delete, :destroy
 
         private
 
