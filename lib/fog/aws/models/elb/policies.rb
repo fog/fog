@@ -18,7 +18,7 @@ module Fog
 
         private
         def munged_data
-          data.inject([]) {|m,e|
+          data.inject([]) do|m,e|
             policy_attribute_descriptions = e["PolicyAttributeDescriptions"]
 
             policy = {
@@ -38,7 +38,7 @@ module Fog
 
             m << policy
             m
-          }
+          end
         end
 
         def policy_attributes(policy_attribute_descriptions)

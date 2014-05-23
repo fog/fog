@@ -84,9 +84,9 @@ Shindo.tests('Fog::Compute[:openstack] | server requests', ['openstack']) do
       end
     end
     unless Fog.mocking?
-      @multi_create_servers.each {|server|
+      @multi_create_servers.each do|server|
         Fog::Compute[:openstack].servers.get(server).destroy
-      }
+      end
     end
    
     #LIST

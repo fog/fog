@@ -21,9 +21,9 @@ module Fog
         # {'Listener' => listener, 'PolicyNames' => []}
         # to an array of listeners with a PolicyNames key
         def munged_data
-          data.map {|description|
+          data.map do|description|
             description['Listener'].merge('PolicyNames' => description['PolicyNames'])
-          }
+          end
         end
 
       end

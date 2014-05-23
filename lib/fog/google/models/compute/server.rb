@@ -229,9 +229,9 @@ module Fog
             options['serviceAccounts'] = [{
               "kind" => "compute#serviceAccount",
               "email" => "default",
-              "scopes" => service_accounts.map {
+              "scopes" => service_accounts.map do
                 |w| w.start_with?("https://") ? w : "https://www.googleapis.com/auth/#{w}"
-              }
+              end
             }]
           end
 

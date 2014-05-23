@@ -388,12 +388,12 @@ Shindo.tests('Fog::DNS[:zerigo] | DNS requests', ['zerigo', 'dns']) do
       pending if Fog.mocking?
 
       result= true
-      @new_records.each { |record_id|
+      @new_records.each do |record_id|
         response = Fog::DNS[:zerigo].delete_host( record_id)
         if response.status != 200
             result= false;
         end
-      }
+      end
 
       result
     end
@@ -402,12 +402,12 @@ Shindo.tests('Fog::DNS[:zerigo] | DNS requests', ['zerigo', 'dns']) do
       pending if Fog.mocking?
 
       result= true
-      @new_zones.each { |zone_id|
+      @new_zones.each do |zone_id|
         response = Fog::DNS[:zerigo].delete_zone( zone_id)
         if response.status != 200
             result= false;
         end
-      }
+      end
       result
     end
         

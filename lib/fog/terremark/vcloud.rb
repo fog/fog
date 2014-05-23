@@ -52,9 +52,9 @@ module Fog
        def default_vdc_id
          if default_organization_id
            @default_vdc_id ||= begin
-             vdcs = get_organization(default_organization_id).body['Links'].select {|link|
+             vdcs = get_organization(default_organization_id).body['Links'].select do|link|
                link['type'] == 'application/vnd.vmware.vcloud.vdc+xml'
-             }
+             end
              if vdcs.length == 1
                vdcs.first['href'].split('/').last.to_i
              else

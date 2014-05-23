@@ -8,19 +8,19 @@ Shindo.tests("Fog::AWS[:beanstalk] | environment", ['aws', 'beanstalk']) do
   @environment_name = uniq_id('fog-test-env')
   @version_names = []
   # Create two unique version names
-  2.times {
+  2.times do
     @version_names << uniq_id('fog-test-version')
-  }
+  end
 
   @application = @beanstalk.applications.create({:name => @application_name})
 
   @versions = []
-  @version_names.each { |name|
+  @version_names.each do |name|
     @versions << @beanstalk.versions.create({
                                               :label => name,
                                                 :application_name => @application_name,
                                             })
-  }
+  end
 
   @environment_opts = {
     :application_name => @application_name,
@@ -55,11 +55,11 @@ Shindo.tests("Fog::AWS[:beanstalk] | environment", ['aws', 'beanstalk']) do
 
       count = 0
       if @instance.version.label == @version_names[1]
-        @instance.events.each { |event|
+        @instance.events.each do |event|
           if event.message == "Environment update is starting."
             count = count + 1
           end
-        }
+        end
       end
 
       count == 1
@@ -75,11 +75,11 @@ Shindo.tests("Fog::AWS[:beanstalk] | environment", ['aws', 'beanstalk']) do
 
       count = 0
       if @instance.version.label == @version_names[0]
-        @instance.events.each { |event|
+        @instance.events.each do |event|
           if event.message == "Environment update is starting."
             count = count + 1
           end
-        }
+        end
       end
 
       # Pass if we have two environment updating events
@@ -95,22 +95,22 @@ Shindo.tests("Fog::AWS[:beanstalk] | environment", ['aws', 'beanstalk']) do
       @instance.restart_app_server
 
       passed = false
-      @instance.events.each { |event|
+      @instance.events.each do |event|
         if event.message == "restartAppServer is starting."
           passed = true
         end
-      }
+      end
       passed
     end
 
     test('#rebuild') do
       @instance.rebuild
       passed = false
-      @instance.events.each { |event|
+      @instance.events.each do |event|
         if event.message == "rebuildEnvironment is starting."
           passed = true
         end
-      }
+      end
       passed
     end
 

@@ -30,28 +30,28 @@ Shindo.tests do
   end
 
   tests('credentials_path') do
-    returns('/rc/path', 'FOG_RC takes precedence over HOME') {
+    returns('/rc/path', 'FOG_RC takes precedence over HOME') do
       ENV['HOME'] = '/home/path'
       ENV['FOG_RC'] = '/rc/path'
-    }
+    end
 
-    returns('/expanded/path', 'properly expands paths') {
+    returns('/expanded/path', 'properly expands paths') do
       ENV['FOG_RC'] = '/expanded/subdirectory/../path'
       Fog.credentials_path
-    }
+    end
 
-    returns(File.join(ENV['HOME'], '.fog'), 'falls back to home path if FOG_RC not set') {
+    returns(File.join(ENV['HOME'], '.fog'), 'falls back to home path if FOG_RC not set') do
       ENV.delete('FOG_RC')
       Fog.credentials_path
-    }
+    end
 
-    returns(nil, 'ignores home path if it does not exist') {
+    returns(nil, 'ignores home path if it does not exist') do
       ENV.delete('FOG_RC')
       ENV['HOME'] = '/no/such/path'
       Fog.credentials_path
-    }
+    end
 
-    returns(nil, 'File.expand_path raises because of non-absolute path') {
+    returns(nil, 'File.expand_path raises because of non-absolute path') do
       ENV.delete('FOG_RC')
       ENV['HOME'] = '.'
 
@@ -61,13 +61,13 @@ Shindo.tests do
       else
         Fog.credentials_path
       end
-    }
+    end
 
-    returns(nil, 'returns nil when neither FOG_RC or HOME are set') {
+    returns(nil, 'returns nil when neither FOG_RC or HOME are set') do
       ENV.delete('HOME')
       ENV.delete('FOG_RC')
       Fog.credentials_path
-    }
+    end
   end
 
   tests('symbolize_credential?') do

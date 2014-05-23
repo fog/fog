@@ -10,9 +10,9 @@ Shindo.tests('Fog CurrentMachine', 'core') do
     tests('should be thread safe') do
       Excon.stub({:method => :get, :path => '/'}, {:body => ''})
 
-      (1..10).map {
+      (1..10).map do
         Thread.new { Fog::CurrentMachine.ip_address }
-      }.each { |t| t.join }
+      end.each { |t| t.join }
     end
 
     Fog::CurrentMachine.ip_address = nil

@@ -204,7 +204,7 @@ Shindo.tests('Fog::Compute::RackspaceV2 | server', ['rackspace']) do
       :flavor_id => 42
     }
 
-    create_server = lambda { |attributes|
+    create_server = lambda do |attributes|
       service = Fog::Compute::RackspaceV2.new
       attributes.merge!(:service => service)
 
@@ -222,11 +222,11 @@ Shindo.tests('Fog::Compute::RackspaceV2 | server', ['rackspace']) do
       server.setup
 
       server
-    }
+    end
 
-    commands = lambda { 
+    commands = lambda do 
       Fog::SSH::Mock.data[@address].first[:commands] 
-    }
+    end
 
     test("leaves user unlocked only when requested") do
       create_server.call(ATTRIBUTES.merge(:no_passwd_lock => true))

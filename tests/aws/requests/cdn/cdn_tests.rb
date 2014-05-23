@@ -16,7 +16,7 @@ Shindo.tests('Fog::CDN[:aws] | CDN requests', ['aws', 'cdn']) do
       response.status == 200
     end
 
-    test('create distribution') {
+    test('create distribution') do
 
       result = false
 
@@ -31,9 +31,9 @@ Shindo.tests('Fog::CDN[:aws] | CDN requests', ['aws', 'cdn']) do
       end
 
       result
-    }
+    end
 
-    test("get info on distribution #{@dist_id}") {
+    test("get info on distribution #{@dist_id}") do
 
       result = false
 
@@ -47,7 +47,7 @@ Shindo.tests('Fog::CDN[:aws] | CDN requests', ['aws', 'cdn']) do
       end
 
       result
-    }
+    end
 
     test('list distributions') do
 
@@ -71,7 +71,7 @@ Shindo.tests('Fog::CDN[:aws] | CDN requests', ['aws', 'cdn']) do
       result
     end
 
-    test("invalidate paths") {
+    test("invalidate paths") do
 
       response = @cf_connection.post_invalidation(@dist_id, ["/test.html", "/path/to/file.html"])
       if response.status == 201
@@ -79,9 +79,9 @@ Shindo.tests('Fog::CDN[:aws] | CDN requests', ['aws', 'cdn']) do
       end
 
       response.status == 201
-    }
+    end
 
-    test("list invalidations") {
+    test("list invalidations") do
 
       result = false
 
@@ -93,9 +93,9 @@ Shindo.tests('Fog::CDN[:aws] | CDN requests', ['aws', 'cdn']) do
       end
 
       result
-    }
+    end
 
-    test("get invalidation information") {
+    test("get invalidation information") do
 
       result = false
 
@@ -109,9 +109,9 @@ Shindo.tests('Fog::CDN[:aws] | CDN requests', ['aws', 'cdn']) do
       end
 
       result
-    }
+    end
 
-    test("disable distribution #{@dist_id} - can take 15 minutes to complete...") {
+    test("disable distribution #{@dist_id} - can take 15 minutes to complete...") do
 
       result = false
 
@@ -124,18 +124,18 @@ Shindo.tests('Fog::CDN[:aws] | CDN requests', ['aws', 'cdn']) do
       end
 
       result
-    }
+    end
 
-    test("remove distribution #{@dist_id}") {
+    test("remove distribution #{@dist_id}") do
 
       result = true
 
       # unfortunately you can delete only after a distribution becomes Deployed
-      Fog.wait_for {
+      Fog.wait_for do
         response = @cf_connection.get_distribution(@dist_id)
         @etag = response.headers['ETag']
         response.status == 200 and response.body['Status'] == 'Deployed'
-      }
+      end
 
       response = @cf_connection.delete_distribution(@dist_id, @etag)
       if response.status != 204
@@ -143,7 +143,7 @@ Shindo.tests('Fog::CDN[:aws] | CDN requests', ['aws', 'cdn']) do
       end
 
       result
-    }
+    end
   end
 
   tests('streaming distributions success') do
@@ -160,7 +160,7 @@ Shindo.tests('Fog::CDN[:aws] | CDN requests', ['aws', 'cdn']) do
       response.status == 200
     end
 
-    test('create distribution') {
+    test('create distribution') do
 
       result = false
 
@@ -175,9 +175,9 @@ Shindo.tests('Fog::CDN[:aws] | CDN requests', ['aws', 'cdn']) do
       end
 
       result
-    }
+    end
 
-    test("get info on distribution #{@dist_id}") {
+    test("get info on distribution #{@dist_id}") do
 
       result = false
 
@@ -191,7 +191,7 @@ Shindo.tests('Fog::CDN[:aws] | CDN requests', ['aws', 'cdn']) do
       end
 
       result
-    }
+    end
 
     test('list streaming distributions') do
 
@@ -215,7 +215,7 @@ Shindo.tests('Fog::CDN[:aws] | CDN requests', ['aws', 'cdn']) do
       result
     end
 
-    test("disable distribution #{@dist_id} - can take 15 minutes to complete...") {
+    test("disable distribution #{@dist_id} - can take 15 minutes to complete...") do
 
       result = false
 
@@ -228,18 +228,18 @@ Shindo.tests('Fog::CDN[:aws] | CDN requests', ['aws', 'cdn']) do
       end
 
       result
-    }
+    end
 
-    test("remove distribution #{@dist_id}") {
+    test("remove distribution #{@dist_id}") do
 
       result = true
 
       # unfortunately you can delete only after a distribution becomes Deployed
-      Fog.wait_for {
+      Fog.wait_for do
         response = @cf_connection.get_streaming_distribution(@dist_id)
         @etag = response.headers['ETag']
         response.status == 200 and response.body['Status'] == 'Deployed'
-      }
+      end
 
       response = @cf_connection.delete_streaming_distribution(@dist_id, @etag)
       if response.status != 204
@@ -247,6 +247,6 @@ Shindo.tests('Fog::CDN[:aws] | CDN requests', ['aws', 'cdn']) do
       end
 
       result
-    }
+    end
   end
 end

@@ -52,10 +52,10 @@ Shindo.tests('Fog::Compute[:openstack] | security group requests', ['openstack']
     tests('#delete_security_group(security_group_id)').succeeds do
       Fog::Compute[:openstack].delete_security_group(@security_group_id)
 
-      returns(false) {
+      returns(false) do
         groups = Fog::Compute[:openstack].list_security_groups.body['security_groups']
         groups.any? { |group| group['id'] == @security_group_id }
-      }
+      end
     end
   end # tests('success')
 end

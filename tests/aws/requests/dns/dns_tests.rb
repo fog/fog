@@ -22,7 +22,7 @@ Shindo.tests('Fog::DNS[:aws] | DNS requests', ['aws', 'dns']) do
       response.status == 200
     end
 
-    test('create simple zone') {
+    test('create simple zone') do
       result = false
 
       response = @r53_connection.create_hosted_zone(@domain_name)
@@ -48,9 +48,9 @@ Shindo.tests('Fog::DNS[:aws] | DNS requests', ['aws', 'dns']) do
       end
 
       result
-    }
+    end
 
-    test("get status of change #{@change_id}") {
+    test("get status of change #{@change_id}") do
       result = false
       response = @r53_connection.get_change(@change_id)
       if response.status == 200
@@ -61,9 +61,9 @@ Shindo.tests('Fog::DNS[:aws] | DNS requests', ['aws', 'dns']) do
       end
 
       result
-    }
+    end
 
-    test("get info on hosted zone #{@zone_id}") {
+    test("get info on hosted zone #{@zone_id}") do
       result = false
 
       response = @r53_connection.get_hosted_zone(@zone_id)
@@ -82,7 +82,7 @@ Shindo.tests('Fog::DNS[:aws] | DNS requests', ['aws', 'dns']) do
       end
 
       result
-    }
+    end
 
     test('list zones') do
       result = false
@@ -108,7 +108,7 @@ Shindo.tests('Fog::DNS[:aws] | DNS requests', ['aws', 'dns']) do
       result
     end
 
-    test("add a A resource record") {
+    test("add a A resource record") do
       # create an A resource record
       host = 'www.' + @domain_name
       ip_addrs = ['1.2.3.4']
@@ -126,9 +126,9 @@ Shindo.tests('Fog::DNS[:aws] | DNS requests', ['aws', 'dns']) do
       end
 
       response.status == 200
-    }
+    end
 
-    test("add a CNAME resource record") {
+    test("add a CNAME resource record") do
       # create a CNAME resource record
       host = 'mail.' + @domain_name
       value = ['www.' + @domain_name]
@@ -146,9 +146,9 @@ Shindo.tests('Fog::DNS[:aws] | DNS requests', ['aws', 'dns']) do
       end
 
       response.status == 200
-    }
+    end
 
-    test("add a MX resource record") {
+    test("add a MX resource record") do
       # create a MX resource record
       host = @domain_name
       value = ['7 mail.' + @domain_name]
@@ -166,9 +166,9 @@ Shindo.tests('Fog::DNS[:aws] | DNS requests', ['aws', 'dns']) do
       end
 
       response.status == 200
-    }
+    end
 
-    test("add an ALIAS resource record") {
+    test("add an ALIAS resource record") do
       # create a load balancer
       @elb_connection.create_load_balancer(["us-east-1a"], "fog", [{"Protocol" => "HTTP", "LoadBalancerPort" => "80", "InstancePort" => "80"}])
 
@@ -203,14 +203,14 @@ Shindo.tests('Fog::DNS[:aws] | DNS requests', ['aws', 'dns']) do
       end
 
       response.status == 200
-    }
+    end
 
-    tests("list resource records").formats(AWS::DNS::Formats::LIST_RESOURCE_RECORD_SETS)  {
+    tests("list resource records").formats(AWS::DNS::Formats::LIST_RESOURCE_RECORD_SETS)  do
       # get resource records for zone
       @r53_connection.list_resource_record_sets(@zone_id).body
-    }
+    end
 
-    test("delete #{@new_records.count} resource records") {
+    test("delete #{@new_records.count} resource records") do
       result = true
 
       change_batch = []
@@ -226,16 +226,16 @@ Shindo.tests('Fog::DNS[:aws] | DNS requests', ['aws', 'dns']) do
       end
 
       result
-    }
+    end
 
-    test("delete hosted zone #{@zone_id}") {
+    test("delete hosted zone #{@zone_id}") do
       # cleanup the ELB as well
       @elb_connection.delete_load_balancer("fog")
 
       response = @r53_connection.delete_hosted_zone(@zone_id)
 
       response.status == 200
-    }
+    end
 
   end
 
