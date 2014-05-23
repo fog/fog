@@ -18,6 +18,7 @@ module Fog
         #   * body<~Hash>:
         #     * 'requestId'<~String> - Id of request
         #     * 'snapshotSet'<~Array>:
+        #       * 'encrypted'<~Boolean>: The encryption status of the snapshot.
         #       * 'progress'<~String>: The percentage progress of the snapshot
         #       * 'snapshotId'<~String>: Id of the snapshot
         #       * 'startTime'<~Time>: Timestamp of when snapshot was initiated
@@ -76,6 +77,7 @@ module Fog
 
           aliases = {
             'description' => 'description',
+            'encrypted'   => 'encrypted',
             'owner-id'    => 'ownerId',
             'progress'    => 'progress',
             'snapshot-id' => 'snapshotId',

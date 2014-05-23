@@ -13,6 +13,8 @@ module Fog
               @response[name] = Time.parse(value)
             when 'size', 'iops'
               @response[name] = value.to_i
+            when 'encrypted'
+              @response[name] = (value == 'true')
             end
           end
 

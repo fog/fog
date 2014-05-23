@@ -42,6 +42,8 @@ module Fog
                 @snapshot[name] = Time.parse(value)
               when 'volumeSize'
                 @snapshot[name] = value.to_i
+              when 'encrypted'
+                @snapshot[name] = (value == 'true')
               end
             end
           end
