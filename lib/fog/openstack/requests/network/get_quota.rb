@@ -19,7 +19,7 @@ module Fog
           response = Excon::Response.new
           response.status = 200
           response.body = {
-            'quota' => (self.data[:quota_updated] or self.data[:quota])
+            'quota' => (self.data[:quota_updated] || self.data[:quota])
           }
           response
         end

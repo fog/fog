@@ -8,12 +8,12 @@ module Fog
         def auth_header(type = :basic)
           case type
             when :basic
-              unless @username and @password
+              unless @username && @password
                 raise ArgumentError, 'Username and password required for basic auth'
               end
               {'Authorization' => 'Basic ' << Base64.encode64("#{@username}:#{@password}").gsub("\n", '')}
             else
-              unless @username and @password
+              unless @username && @password
                 raise ArgumentError, 'Username and password required for basic auth'
               end
               {'Authorization' => 'Basic ' << Base64.encode64("#{@username}:#{@password}").gsub("\n", '')}

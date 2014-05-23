@@ -951,7 +951,7 @@ module Fog
           end
 
           # We want to always mention we're using Fog.
-          if @client.user_agent.nil? or @client.user_agent.empty?
+          if @client.user_agent.nil? || @client.user_agent.empty?
             @client.user_agent = ""
           elsif !@client.user_agent.include? "fog"
             @client.user_agent += "fog/#{Fog::VERSION}"

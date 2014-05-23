@@ -110,7 +110,7 @@ module Fog
         end
 
         def terminate
-          @client.close if @client and !@client.closed?
+          @client.close if @client && !@client.closed?
         end
 
         def enhance_uri(uri)

@@ -221,7 +221,7 @@ module Fog
         end
 
         def folder
-          return nil unless datacenter and path
+          return nil unless datacenter && path
           attributes[:folder] ||= service.folders(:datacenter => datacenter, :type => :vm).get(path)
         end
 
@@ -261,25 +261,25 @@ module Fog
         end
 
         def initialize_interfaces
-          if attributes[:interfaces] and attributes[:interfaces].is_a?(Array)
+          if attributes[:interfaces] && attributes[:interfaces].is_a?(Array)
             self.attributes[:interfaces].map! { |nic| nic.is_a?(Hash) ? service.interfaces.new(nic) : nic }
           end
         end
 
         def initialize_volumes
-          if attributes[:volumes] and attributes[:volumes].is_a?(Array)
+          if attributes[:volumes] && attributes[:volumes].is_a?(Array)
             self.attributes[:volumes].map! { |vol| vol.is_a?(Hash) ? service.volumes.new(vol) : vol }
           end
         end
 
         def initialize_customvalues
-          if attributes[:customvalues] and attributes[:customvalues].is_a?(Array)
+          if attributes[:customvalues] && attributes[:customvalues].is_a?(Array)
             self.attributes[:customvalues].map { |cfield| cfield.is_a?(Hash) ? service.customvalue.new(cfield) : cfield }
           end
         end
 
         def initialize_scsi_controller
-          if attributes[:scsi_controller] and attributes[:scsi_controller].is_a?(Hash)
+          if attributes[:scsi_controller] && attributes[:scsi_controller].is_a?(Hash)
             Fog::Compute::Vsphere::SCSIController.new(self.attributes[:scsi_controller])
           end
         end

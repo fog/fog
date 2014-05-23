@@ -29,7 +29,7 @@ module Fog
           return false if customization_options[:AdminPasswordEnabled] == "false"
           return true if customization_options[:AdminPasswordEnabled] == "true" \
             and customization_options[:AdminPasswordAuto] == "false" \
-            and ( options[:password].nil? or options[:password].empty? )
+            and ( options[:password].nil? || options[:password].empty? )
         end
       end
     end

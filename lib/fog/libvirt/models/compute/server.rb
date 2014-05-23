@@ -58,7 +58,7 @@ module Fog
 
         def save
           raise Fog::Errors::Error.new('Saving an existing server may create a duplicate') unless new?
-          create_or_clone_volume unless xml or @volumes
+          create_or_clone_volume unless xml || @volumes
           @xml ||= to_xml
           self.id = (persistent ? service.define_domain(xml) : service.create_domain(xml)).uuid
           reload
@@ -78,7 +78,7 @@ module Fog
         end
 
         def disk_path
-          volumes.first.path if volumes and volumes.first
+          volumes.first.path if volumes && volumes.first
         end
 
         def destroy(options={ :destroy_volumes => false})
