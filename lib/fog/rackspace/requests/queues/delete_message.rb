@@ -36,7 +36,7 @@ module Fog
 
           claim_id = options[:claim_id]
 
-          message = queue.messages.detect { |m| m.id == message_id }
+          message = queue.messages.find { |m| m.id == message_id }
 
           perform_delete = true
           if message && message.claimed?

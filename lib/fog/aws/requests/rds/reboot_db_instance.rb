@@ -13,11 +13,11 @@ module Fog
         # * response<~Excon::Response>:
         #   * body<~Hash>:
         def reboot_db_instance(instance_identifier)
-          request({
+          request(
                     'Action'  => 'RebootDBInstance',
             'DBInstanceIdentifier' => instance_identifier,
-            :parser   => Fog::Parsers::AWS::RDS::RebootDBInstance.new,
-          })
+            :parser   => Fog::Parsers::AWS::RDS::RebootDBInstance.new
+          )
         end
 
       end

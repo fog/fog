@@ -38,14 +38,14 @@ module Fog
           headers['If-Modified-Since'] = Fog::Time.at(options['If-Modified-Since'].to_i).to_date_header if options['If-Modified-Since']
           headers['If-Unmodified-Since'] = Fog::Time.at(options['If-Unmodified-Since'].to_i).to_date_header if options['If-Modified-Since']
           headers.merge!(options)
-          request({
+          request(
                     :expects  => 200,
             :headers  => headers,
             :host     => "#{bucket_name}.#{@host}",
             :method   => 'HEAD',
             :path     => CGI.escape(object_name),
             :query    => query
-          })
+          )
         end
 
       end

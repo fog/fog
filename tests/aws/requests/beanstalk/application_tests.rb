@@ -36,10 +36,10 @@ Shindo.tests('AWS::ElasticBeanstalk | application_tests', ['aws', 'beanstalk']) 
     end
 
     test("#create_application") do
-      response = @beanstalk.create_application({
+      response = @beanstalk.create_application(
                                                  'ApplicationName' => @test_app_name,
                                                    'Description' => @test_description
-                                               })
+                                               )
 
       result = false
       if response.status == 200
@@ -104,10 +104,10 @@ Shindo.tests('AWS::ElasticBeanstalk | application_tests', ['aws', 'beanstalk']) 
 
       @test_description = "A completely new description."
 
-      response = @beanstalk.update_application({
+      response = @beanstalk.update_application(
                                                  'ApplicationName' => @test_app_name,
                                                    'Description' => @test_description
-                                               })
+                                               )
 
       result = false
       if response.status == 200

@@ -7,7 +7,7 @@ Shindo.tests('AWS::SES | topic lifecycle tests', ['aws', 'sns']) do
     Fog::AWS[:sqs].set_queue_attributes(
       @queue_url,
       'Policy',
-      Fog::JSON.encode({
+      Fog::JSON.encode(
                          'Id' => @topic_arn,
         'Statement' => {
           'Action'    => 'sqs:SendMessage',
@@ -20,7 +20,7 @@ Shindo.tests('AWS::SES | topic lifecycle tests', ['aws', 'sns']) do
           'Sid'       => "#{@topic_arn}+sqs:SendMessage"
         },
         'Version' => '2008-10-17'
-      })
+      )
     )
   end
 
@@ -33,7 +33,7 @@ Shindo.tests('AWS::SES | topic lifecycle tests', ['aws', 'sns']) do
       body
     end
 
-    list_subscriptions_format = AWS::SNS::Formats::BASIC.merge({
+    list_subscriptions_format = AWS::SNS::Formats::BASIC.merge(
                                                                  'Subscriptions' => [{
                                                                    'Endpoint'        => String,
                                                                    'Owner'           => String,
@@ -41,7 +41,7 @@ Shindo.tests('AWS::SES | topic lifecycle tests', ['aws', 'sns']) do
                                                                    'SubscriptionArn' => String,
                                                                    'TopicArn'        => String
                                                                  }]
-    })
+    )
 
     tests("#list_subscriptions").formats(list_subscriptions_format) do
       pending if Fog.mocking?

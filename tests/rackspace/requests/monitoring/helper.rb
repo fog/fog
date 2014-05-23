@@ -5,21 +5,21 @@ MINIMAL_HEADERS_FORMAT = {
   'Content-Type' => String,
   'Date' => String,
 }
-DELETE_HEADERS_FORMAT = MINIMAL_HEADERS_FORMAT.merge({
+DELETE_HEADERS_FORMAT = MINIMAL_HEADERS_FORMAT.merge(
                                                        'Content-Length' => String
-})
-HEADERS_FORMAT = MINIMAL_HEADERS_FORMAT.merge({
+)
+HEADERS_FORMAT = MINIMAL_HEADERS_FORMAT.merge(
                                                 'Content-Length' => String,
   'X-Object-ID' => String,
   'Location' => String
-})
-LIST_HEADERS_FORMAT = MINIMAL_HEADERS_FORMAT.merge({
+)
+LIST_HEADERS_FORMAT = MINIMAL_HEADERS_FORMAT.merge(
                                                      'X-RateLimit-Remaining' => String,
   'X-Response-Id' => String,
   'Transfer-Encoding' => String,
   'X-LB' => String,
   'Vary' => String
-})
+)
 
 DATA_FORMAT = {
   :status => Integer,

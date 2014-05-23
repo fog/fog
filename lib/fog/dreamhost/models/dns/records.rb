@@ -12,7 +12,7 @@ module Fog
         def all(filter = {})
           clear
           if filter[:zone]
-            data = service.list_records.body['data'].find_all { |r| r['zone'] == filter[:zone] }
+            data = service.list_records.body['data'].select { |r| r['zone'] == filter[:zone] }
           else
             data = service.list_records.body['data']
           end

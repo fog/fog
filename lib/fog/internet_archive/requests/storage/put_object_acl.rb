@@ -45,7 +45,7 @@ module Fog
           headers['Content-Type'] = 'application/json'
           headers['Date'] = Fog::Time.now.to_date_header
 
-          request({
+          request(
                     :body     => data,
             :expects  => 200,
             :headers  => headers,
@@ -53,7 +53,7 @@ module Fog
             :method   => 'PUT',
             :path       => CGI.escape(object_name),
             :query    => query
-          })
+          )
         end
       end
 

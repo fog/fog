@@ -162,7 +162,7 @@ module Fog
         # 
         def public_url
           requires :directory, :key
-          if service.get_object_acl(directory.key, key).body['AccessControlList'].detect { |grant| grant['Grantee']['URI'] == 'http://acs.amazonaws.com/groups/global/AllUsers' && grant['Permission'] == 'READ' }
+          if service.get_object_acl(directory.key, key).body['AccessControlList'].find { |grant| grant['Grantee']['URI'] == 'http://acs.amazonaws.com/groups/global/AllUsers' && grant['Permission'] == 'READ' }
             service.request_url(
               :bucket_name => directory.key,
               :object_name => key

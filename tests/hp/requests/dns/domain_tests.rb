@@ -27,7 +27,7 @@ Shindo.tests("HP::DNS | domain requests", ['hp', 'dns', 'domain']) do
       data
     end
 
-    tests('#list_domains').formats({'domains' => [@domain_format]}) do
+    tests('#list_domains').formats('domains' => [@domain_format]) do
       HP[:dns].list_domains.body
     end
 
@@ -40,7 +40,7 @@ Shindo.tests("HP::DNS | domain requests", ['hp', 'dns', 'domain']) do
     end
 
     tests("#update_domain(#{@domain_id}, {:email => 'updated@fogtest.com'})").formats(@domain_format) do
-      HP[:dns].update_domain(@domain_id, {:email => 'updated@fogtest.com'}).body
+      HP[:dns].update_domain(@domain_id, :email => 'updated@fogtest.com').body
     end
 
     tests("#delete_domain(#{@domain_id})").succeeds do
@@ -60,7 +60,7 @@ Shindo.tests("HP::DNS | domain requests", ['hp', 'dns', 'domain']) do
     end
 
     tests("#update_domain('invalid_domain', {:email => 'updated@fogtest.com'})").raises(Fog::HP::DNS::NotFound) do
-      HP[:dns].update_domain('invalid_domain', {:email => 'updated@fogtest.com'})
+      HP[:dns].update_domain('invalid_domain', :email => 'updated@fogtest.com')
     end
 
     tests("#delete_domain('invalid_domain')").raises(Fog::HP::DNS::NotFound) do

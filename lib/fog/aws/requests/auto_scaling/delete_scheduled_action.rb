@@ -25,12 +25,12 @@ module Fog
         # http://docs.amazonwebservices.com/AutoScaling/latest/APIReference/API_DeleteScheduledAction.html
         #
         def delete_scheduled_action(auto_scaling_group_name, scheduled_action_name)
-          request({
+          request(
                     'Action'               => 'DeleteScheduledAction',
             'AutoScalingGroupName' => auto_scaling_group_name,
             'ScheduledActionName'  => scheduled_action_name,
             :parser                => Fog::Parsers::AWS::AutoScaling::Basic.new
-          })
+          )
         end
 
       end

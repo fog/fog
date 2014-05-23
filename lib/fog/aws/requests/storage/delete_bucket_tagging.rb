@@ -13,13 +13,13 @@ module Fog
         # @see http://docs.aws.amazon.com/AmazonS3/latest/API/RESTBucketDELETEtagging.html
 
         def delete_bucket_tagging(bucket_name)
-          request({
+          request(
                     :expects  => 204,
             :headers  => {},
             :bucket_name => bucket_name,
             :method   => 'DELETE',
             :query    => {'tagging' => nil}
-          })
+          )
         end
 
       end

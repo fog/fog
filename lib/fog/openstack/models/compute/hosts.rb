@@ -16,9 +16,9 @@ module Fog
 
         def get(host_name)
           if host = service.get_host_details(host_name).body['host']
-            new({
+            new(
                   'host_name' => host_name,
-              'details' => host}
+              'details' => host
             )
           end
         rescue Fog::Compute::OpenStack::NotFound

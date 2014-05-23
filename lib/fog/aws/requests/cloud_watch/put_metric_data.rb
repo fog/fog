@@ -32,15 +32,15 @@ module Fog
           options = {'Namespace' => namespace}
 
           #first index the dimensions for any of the datums that have dimensions
-          metric_data.collect! do |metric_datum|
+          metric_data.map! do |metric_datum|
             if dimensions = metric_datum.delete('Dimensions')
-              metric_datum.merge!(AWS.indexed_param('Dimensions.member.%d.Name', dimensions.collect { |dimension| dimension['Name'] }))
-              metric_datum.merge!(AWS.indexed_param('Dimensions.member.%d.Value', dimensions.collect { |dimension| dimension['Value'] }))
+              metric_datum.merge!(AWS.indexed_param('Dimensions.member.%d.Name', dimensions.map { |dimension| dimension['Name'] }))
+              metric_datum.merge!(AWS.indexed_param('Dimensions.member.%d.Value', dimensions.map { |dimension| dimension['Value'] }))
             end
             metric_datum
           end
           #then flatten out an hashes in the metric_data array
-          metric_data.collect! { |metric_datum| flatten_hash(metric_datum) }
+          metric_data.map! { |metric_datum| flatten_hash(metric_datum) }
           #then index the metric_data array
           options.merge!(AWS.indexed_param('MetricData.member.%d', [*metric_data]))
           #then finally flatten out an hashes in the overall options array

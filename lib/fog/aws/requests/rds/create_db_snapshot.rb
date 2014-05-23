@@ -14,12 +14,12 @@ module Fog
         # * response<~Excon::Response>:
         #   * body<~Hash>:
         def create_db_snapshot(identifier, name)
-          request({
+          request(
                     'Action'  => 'CreateDBSnapshot',
             'DBInstanceIdentifier' => identifier,
             'DBSnapshotIdentifier' => name,
             :parser   => Fog::Parsers::AWS::RDS::CreateDBSnapshot.new
-          })
+          )
         end
 
       end

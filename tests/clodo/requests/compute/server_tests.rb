@@ -17,7 +17,7 @@ Shindo.tests('Fog::Compute[:clodo] | server requests', ['clodo']) do
     'status'    => String
   }
 
-  @server_details_format = @server_format.merge({
+  @server_details_format = @server_format.merge(
                                                   'id' => Integer,
                                                   'vps_createdate' => String,
                                                   'vps_hdd_max' => String,
@@ -46,7 +46,7 @@ Shindo.tests('Fog::Compute[:clodo] | server requests', ['clodo']) do
                                                   'vps_cpu_1h_min' => String,
                                                   'vps_cpu_1h_avg' => NilClass,
                                                   'vps_root_pass' => String
-  })
+  )
 
   @server_create_format = {
     'name'      => String,
@@ -61,7 +61,7 @@ Shindo.tests('Fog::Compute[:clodo] | server requests', ['clodo']) do
 
   tests('success') do
     tests('- create_server(541)').formats(@server_create_format) do
-      data = clodo.create_server(541,{:vps_type => 'ScaleServer'}).body['server']
+      data = clodo.create_server(541,:vps_type => 'ScaleServer').body['server']
       @server_id = data['id']
       data
     end
@@ -70,7 +70,7 @@ Shindo.tests('Fog::Compute[:clodo] | server requests', ['clodo']) do
       clodo.list_servers.body['servers'].reject { |s| !['is_running', 'is_disabled'].include?(s['status']) }
     end
 
-    tests('- list_servers(not ready)').formats([@server_format.merge({'addresses'=>{'public'=>NilClass}})]) do
+    tests('- list_servers(not ready)').formats([@server_format.merge('addresses'=>{'public'=>NilClass})]) do
       clodo.list_servers.body['servers'].reject { |s| !['is_request'].include?(s['status']) }
     end
 
@@ -117,7 +117,7 @@ Shindo.tests('Fog::Compute[:clodo] | server requests', ['clodo']) do
 
   tests('failure') do
     tests('- create_server(0)').raises(Excon::Errors::BadRequest) do
-      data = clodo.create_server(0,{:vps_type => 'ScaleServer'}).body['server']
+      data = clodo.create_server(0,:vps_type => 'ScaleServer').body['server']
       @server_id = data['id']
       data
     end

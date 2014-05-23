@@ -3,7 +3,7 @@ Shindo.tests("Fog::Compute[:fogdocker] | image_create request", 'fogdocker') do
   compute = Fog::Compute[:fogdocker]
 
   tests("Create image") do
-    response = compute.image_create({'fromImage' => 'mattdm/fedora', 'repo'=>'test', 'tag'=>'create_image'})
+    response = compute.image_create('fromImage' => 'mattdm/fedora', 'repo'=>'test', 'tag'=>'create_image')
     test("should be a kind of Hash") { response.kind_of? Hash }
     test("should have an id") { !response['id'].nil? && !response['id'].empty? }
   end

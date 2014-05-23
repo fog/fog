@@ -85,7 +85,7 @@ module Fog
           unless errors.empty?
             response = Excon::Response.new
             response.status = 400
-            response.body = Fog::JSON.encode({ 'Errors' => errors })
+            response.body = Fog::JSON.encode( 'Errors' => errors )
 
             error = Excon::Errors.status_error({}, response)
             raise Fog::Storage::Rackspace::BadRequest.slurp(error)

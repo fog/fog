@@ -27,7 +27,7 @@ module Fog
         # @see http://docs.amazonwebservices.com/AmazonS3/latest/API/mpUploadInitiate.html
         #
         def initiate_multipart_upload(bucket_name, object_name, options = {})
-          request({
+          request(
                     :expects    => 200,
             :headers    => options,
             :bucket_name => bucket_name,
@@ -35,7 +35,7 @@ module Fog
             :method     => 'POST',
             :parser     => Fog::Parsers::Storage::AWS::InitiateMultipartUpload.new,
             :query      => {'uploads' => nil}
-          })
+          )
         end
 
       end # Real

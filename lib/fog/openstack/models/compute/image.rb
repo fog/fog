@@ -28,10 +28,10 @@ module Fog
 
         def metadata
           @metadata ||= begin
-            Fog::Compute::OpenStack::Metadata.new({
+            Fog::Compute::OpenStack::Metadata.new(
                                                     :service => service,
               :parent => self
-            })
+            )
           end
         end
 

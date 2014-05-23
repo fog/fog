@@ -1,15 +1,15 @@
 def test
-  connection = Fog::Compute.new({ :provider => "Google" })
+  connection = Fog::Compute.new( :provider => "Google" )
 
   name = "fog-smoke-test-#{Time.now.to_i}"
   zone = "us-central1-a"
 
-  disk = connection.disks.create({
+  disk = connection.disks.create(
                                    :name => name,
     :size_gb => 10,
     :zone_name => zone,
-    :source_image => 'debian-7-wheezy-v20140318',
-  })
+    :source_image => 'debian-7-wheezy-v20140318'
+  )
 
   disk.wait_for { disk.ready? }
 
@@ -19,7 +19,7 @@ def test
     "userinfo.email"
   ]
 
-  server = connection.servers.create({
+  server = connection.servers.create(
                                        :name => name,
     :disks => [disk],
     :machine_type => "n1-standard-1",
@@ -27,7 +27,7 @@ def test
     :metadata => {'foo' => 'bar'},
     :tags => ["t1", "t2", "t3"],
     :servce_accounts => scopes
-  })
+  )
   sleep(90)
 
   raise "Could not reload created server." unless server.reload

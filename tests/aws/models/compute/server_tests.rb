@@ -69,7 +69,7 @@ Shindo.tests("Fog::Compute[:aws] | monitor", ['aws']) do
 
     @instance.wait_for { ready? }
 
-    tests('@instance.reload.tags').returns({'key' => 'value'}) do
+    tests('@instance.reload.tags').returns('key' => 'value') do
       @instance.reload.tags
     end
 

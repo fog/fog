@@ -18,7 +18,7 @@ module Fog
         def save
           requires :identity, :value
           if @parent.key
-            service.put_container(@parent.key, {key => value})
+            service.put_container(@parent.key, key => value)
             true
           end
         end

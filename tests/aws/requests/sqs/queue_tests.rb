@@ -2,9 +2,9 @@ Shindo.tests('AWS::SQS | queue requests', ['aws']) do
 
   tests('success') do
 
-    create_queue_format = AWS::SQS::Formats::BASIC.merge({
+    create_queue_format = AWS::SQS::Formats::BASIC.merge(
                                                            'QueueUrl' => String
-    })
+    )
 
     tests("#create_queue('fog_queue_tests')").formats(create_queue_format) do
       data = Fog::AWS[:sqs].create_queue('fog_queue_tests').body
@@ -12,9 +12,9 @@ Shindo.tests('AWS::SQS | queue requests', ['aws']) do
       data
     end
 
-    list_queues_format = AWS::SQS::Formats::BASIC.merge({
+    list_queues_format = AWS::SQS::Formats::BASIC.merge(
                                                           'QueueUrls' => [String]
-    })
+    )
 
     tests("#list_queues").formats(list_queues_format) do
       Fog::AWS[:sqs].list_queues.body
@@ -24,7 +24,7 @@ Shindo.tests('AWS::SQS | queue requests', ['aws']) do
       Fog::AWS[:sqs].set_queue_attributes(@queue_url, 'VisibilityTimeout', 60).body
     end
 
-    get_queue_attributes_format = AWS::SQS::Formats::BASIC.merge({
+    get_queue_attributes_format = AWS::SQS::Formats::BASIC.merge(
                                                                    'Attributes' => {
                                                                      'ApproximateNumberOfMessages'           => Integer,
                                                                      'ApproximateNumberOfMessagesNotVisible' => Integer,
@@ -35,7 +35,7 @@ Shindo.tests('AWS::SQS | queue requests', ['aws']) do
                                                                      'QueueArn'                              => String,
                                                                      'VisibilityTimeout'                     => Integer
                                                                    }
-    })
+    )
 
     tests("#get_queue_attributes('#{@queue_url}', 'All')").formats(get_queue_attributes_format) do
       Fog::AWS[:sqs].get_queue_attributes(@queue_url, 'All').body

@@ -30,7 +30,7 @@ module Fog
           unless object_name
             raise ArgumentError.new('object_name is required')
           end
-          request({
+          request(
                     :expects    => 200,
             :headers    => {},
             :host       => "#{bucket_name}.#{@host}",
@@ -38,7 +38,7 @@ module Fog
             :method     => 'GET',
             :path       => CGI.escape(object_name),
             :query      => {'torrent' => nil}
-          })
+          )
         end
 
       end

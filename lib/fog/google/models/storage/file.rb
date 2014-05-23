@@ -94,7 +94,7 @@ module Fog
           requires :directory, :key
 
           acl = service.get_object_acl(directory.key, key).body['AccessControlList']
-          access_granted = acl.detect do |entry|
+          access_granted = acl.find do |entry|
             entry['Scope']['type'] == 'AllUsers' && entry['Permission'] == 'READ'
           end
 

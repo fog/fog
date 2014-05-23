@@ -13,14 +13,14 @@ module Fog
         # * response<~Excon::Response>:
         #   * status<~Integer> - 204
         def delete_object(bucket_name, object_name)
-          request({
+          request(
                     :expects    => 204,
             :headers    => {},
             :host       => "#{bucket_name}.#{@host}",
             :idempotent => true,
             :method     => 'DELETE',
             :path       => CGI.escape(object_name)
-          })
+          )
         end
 
       end

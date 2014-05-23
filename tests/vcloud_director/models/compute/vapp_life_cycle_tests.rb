@@ -10,7 +10,7 @@ TAGS = { :company => "acme", :environment => "testing" }
 Shindo.tests("Compute::VcloudDirector | vapp", ['vclouddirector', 'creation']) do
   pending if Fog.mocking?
   pending # FIXME: vCloud environment needs to be set up in advance
-  tests("#it creates a vApp from a catalog item").returns(true) { the_catalog_item.instantiate(VAPP_NAME, { :network_id => the_network.id, :network_name => NETWORK_NAME}) }
+  tests("#it creates a vApp from a catalog item").returns(true) { the_catalog_item.instantiate(VAPP_NAME,  :network_id => the_network.id, :network_name => NETWORK_NAME) }
   vapp = vapps.get_by_name(VAPP_NAME)
   tests("#Finds the just created vApp").returns(VAPP_NAME) { vapp.name }
   tests("#it has one vm").returns(1) { vapp.vms.size }

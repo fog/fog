@@ -39,7 +39,7 @@ module Fog
           params[:query] = options.delete('query') || {}
 
           if version_id = options.delete('versionId')
-            params[:query] = params[:query].merge({'versionId' => version_id})
+            params[:query] = params[:query].merge('versionId' => version_id)
           end
           params[:headers].merge!(options)
           if options['If-Modified-Since']
@@ -53,13 +53,13 @@ module Fog
             params[:response_block] = Proc.new
           end
 
-          request(params.merge!({
+          request(params.merge!(
                                   :expects  => [ 200, 206 ],
             :bucket_name => bucket_name,
             :object_name => object_name,
             :idempotent => true,
-            :method   => 'GET',
-          }))
+            :method   => 'GET'
+          ))
         end
 
       end

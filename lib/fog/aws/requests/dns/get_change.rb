@@ -23,12 +23,12 @@ module Fog
           # that form or just the actual id (which is what this request needs)
           change_id = change_id.sub('/change/', '')
 
-          request({
+          request(
                     :expects => 200,
             :parser  => Fog::Parsers::DNS::AWS::GetChange.new,
             :method  => 'GET',
             :path    => "change/#{change_id}"
-          })
+          )
 
         end
 

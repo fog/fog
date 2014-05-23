@@ -15,10 +15,10 @@ module Fog
           params = {}
           params['Marker'] = options[:marker] if options[:marker]
 
-          response = request({
+          response = request(
                                :body => Fog::JSON.encode(params),
-            :headers => { 'X-Amz-Target' => 'DataPipeline.ListPipelines' },
-          })
+            :headers => { 'X-Amz-Target' => 'DataPipeline.ListPipelines' }
+          )
 
           Fog::JSON.decode(response.body)
         end

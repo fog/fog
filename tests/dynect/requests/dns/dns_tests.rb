@@ -17,52 +17,52 @@ Shindo.tests('Dynect::dns | DNS requests', ['dynect', 'dns']) do
     @domain = generate_unique_domain
     @fqdn = "www.#{@domain}"
 
-    post_session_format = shared_format.merge({
+    post_session_format = shared_format.merge(
                                                 'data' => {
                                                   'token'   => String,
                                                   'version' => String
                                                 }
-    })
+    )
 
     tests("post_session").formats(post_session_format) do
       @dns.post_session.body
     end
 
-    post_zone_format = shared_format.merge({
+    post_zone_format = shared_format.merge(
                                              'data' => {
                                                'serial'        => Integer,
                                                'zone'          => String,
                                                'zone_type'     => String,
                                                'serial_style'  => String
                                              }
-    })
+    )
 
     tests("post_zone('netops@#{@domain}', 3600, '#{@domain}')").formats(post_zone_format) do
       @dns.post_zone("netops@#{@domain}", 3600, @domain).body
     end
 
-    get_zones_format = shared_format.merge({
+    get_zones_format = shared_format.merge(
                                              'data' => [String]
-    })
+    )
 
     tests("get_zone").formats(get_zones_format) do
       @dns.get_zone.body
     end
 
-    get_zone_format = shared_format.merge({
+    get_zone_format = shared_format.merge(
                                             'data' => {
                                               "serial"        => Integer,
                                               "serial_style"  => String,
                                               "zone"          => String,
                                               "zone_type"     => String
                                             }
-    })
+    )
 
     tests("get_zone('zone' => '#{@domain}')").formats(get_zone_format) do
       @dns.get_zone('zone' => @domain).body
     end
 
-    post_record_format = shared_format.merge({
+    post_record_format = shared_format.merge(
                                                'data' => {
                                                  'fqdn'        => String,
                                                  'rdata'       => {
@@ -73,13 +73,13 @@ Shindo.tests('Dynect::dns | DNS requests', ['dynect', 'dns']) do
                                                  'ttl'         => Integer,
                                                  'zone'        => String
                                                }
-    })
+    )
 
     tests("post_record('A', '#{@domain}', '#{@fqdn}', 'address' => '1.2.3.4')").formats(post_record_format) do
-      @dns.post_record('A', @domain, @fqdn, {'address' => '1.2.3.4'}).body
+      @dns.post_record('A', @domain, @fqdn, 'address' => '1.2.3.4').body
     end
 
-    put_record_format = shared_format.merge({
+    put_record_format = shared_format.merge(
                                               'data' => {
                                                 'fqdn'        => String,
                                                 'ARecords'    => [
@@ -94,60 +94,60 @@ Shindo.tests('Dynect::dns | DNS requests', ['dynect', 'dns']) do
                                                 'ttl'         => Integer,
                                                 'zone'        => String
                                               }
-    })
+    )
 
     tests("put_record('A', '#{@domain}', '#{@fqdn}', 'address' => '1.2.3.4')").formats(post_record_format) do
-      @dns.put_record('A', @domain, @fqdn, {'address' => '1.2.3.4'}).body
+      @dns.put_record('A', @domain, @fqdn, 'address' => '1.2.3.4').body
     end
 
-    publish_zone_format = shared_format.merge({
+    publish_zone_format = shared_format.merge(
                                                 'data' => {
                                                   'serial'        => Integer,
                                                   'serial_style'  => String,
                                                   'zone'          => String,
                                                   'zone_type'     => String
                                                 }
-    })
+    )
 
     tests("put_zone('#{@domain}', 'publish' => true)").formats(publish_zone_format) do
       @dns.put_zone(@domain, 'publish' => true).body
     end
 
-    freeze_zone_format = shared_format.merge({
+    freeze_zone_format = shared_format.merge(
                                                'data' => {}
-    })
+    )
 
     tests("put_zone('#{@domain}', 'freeze' => true)").formats(freeze_zone_format) do
       @dns.put_zone(@domain, 'freeze' => true).body
     end
 
-    thaw_zone_format = shared_format.merge({
+    thaw_zone_format = shared_format.merge(
                                              'data' => {}
-    })
+    )
 
     tests("put_zone('#{@domain}', 'thaw' => true)").formats(thaw_zone_format) do
       @dns.put_zone(@domain, 'thaw' => true).body
     end
 
-    get_node_list_format = shared_format.merge({
+    get_node_list_format = shared_format.merge(
                                                  'data' => [String]
-    })
+    )
 
     tests("get_node_list('#{@domain}')").formats(get_node_list_format) do
       @dns.get_node_list(@domain).body
     end
 
-    get_all_records_format = shared_format.merge({
+    get_all_records_format = shared_format.merge(
                                                    'data' => [String]
-    })
+    )
 
     tests("get_all_records('#{@domain}')").formats(get_all_records_format) do
       @dns.get_all_records(@domain).body
     end
 
-    get_records_format = shared_format.merge({
+    get_records_format = shared_format.merge(
                                                'data' => [String]
-    })
+    )
 
     tests("get_record('A', '#{@domain}', '#{@fqdn}')").formats(get_records_format) do
       data = @dns.get_record('A', @domain, @fqdn).body
@@ -157,13 +157,13 @@ Shindo.tests('Dynect::dns | DNS requests', ['dynect', 'dns']) do
 
     sleep 5 unless Fog.mocking?
 
-    @dns.post_record('CNAME', @domain, "cname.#{@fqdn}", {'cname' => "#{@fqdn}."})
+    @dns.post_record('CNAME', @domain, "cname.#{@fqdn}", 'cname' => "#{@fqdn}.")
 
     tests("get_record('ANY', '#{@domain}', 'cname.#{@fqdn}')").formats(get_records_format) do
       @dns.get_record('ANY', @domain, "cname.#{@fqdn}").body
     end
 
-    get_record_format = shared_format.merge({
+    get_record_format = shared_format.merge(
                                               'data' => {
                                                 'zone' => String,
                                                 'ttl' => Integer,
@@ -174,23 +174,23 @@ Shindo.tests('Dynect::dns | DNS requests', ['dynect', 'dns']) do
                                                 },
                                                 'record_id' => Integer
                                               }
-    })
+    )
 
     tests("get_record('A', '#{@domain}', '#{@fqdn}', 'record_id' => '#{@record_id}')").formats(get_record_format) do
       @dns.get_record('A', @domain, @fqdn, 'record_id' => @record_id).body
     end
 
-    delete_record_format = shared_format.merge({
+    delete_record_format = shared_format.merge(
                                                  'data' => {}
-    })
+    )
 
     tests("delete_record('A', '#{@domain}', '#{@fqdn}', '#{@record_id}')").formats(delete_record_format) do
       @dns.delete_record('A', @domain, "#{@fqdn}", @record_id).body
     end
 
-    delete_zone_format = shared_format.merge({
+    delete_zone_format = shared_format.merge(
                                                'data' => {}
-    })
+    )
 
     sleep 5 unless Fog.mocking?
 
@@ -204,7 +204,7 @@ Shindo.tests('Dynect::dns | DNS requests', ['dynect', 'dns']) do
       old_mock_value = Excon.defaults[:mock]
       Excon.stubs.clear
 
-      tests("returns final response from a complete job").returns({"status" => "success"}) do
+      tests("returns final response from a complete job").returns("status" => "success") do
         begin
           Excon.defaults[:mock] = true
 
@@ -220,7 +220,7 @@ Shindo.tests('Dynect::dns | DNS requests', ['dynect', 'dns']) do
         end
       end
 
-      tests("passes expects through when polling a job").returns({"status" => "success"}) do
+      tests("passes expects through when polling a job").returns("status" => "success") do
         begin
           Excon.defaults[:mock] = true
 

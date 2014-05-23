@@ -7,7 +7,7 @@ Shindo.tests('Fog::Compute::RackspaceV2 | key_pairs', ['rackspace']) do
   tests("API access") do
     begin
         tests("create").succeeds do
-          key = service.key_pairs.create({:name => name})
+          key = service.key_pairs.create(:name => name)
         end
 
         tests("list all").succeeds do
@@ -32,11 +32,11 @@ Shindo.tests('Fog::Compute::RackspaceV2 | key_pairs', ['rackspace']) do
         end
 
         tests("create again after delete").succeeds do
-          key = service.key_pairs.create({:name => name})
+          key = service.key_pairs.create(:name => name)
         end
 
         tests("create already existing").raises(Fog::Compute::RackspaceV2::ServiceError) do
-          service.key_pairs.create({:name => name})
+          service.key_pairs.create(:name => name)
         end
 
     ensure

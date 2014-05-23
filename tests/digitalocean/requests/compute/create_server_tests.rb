@@ -12,7 +12,7 @@ Shindo.tests('Fog::Compute[:digitalocean] | create_server request', ['digitaloce
 
   tests('success') do
 
-    tests('#create_server').formats({'status' => 'OK', 'droplet' => @server_format}) do
+    tests('#create_server').formats('status' => 'OK', 'droplet' => @server_format) do
       image = service.images.find { |i| i.name == 'Ubuntu 13.10 x64' }
       image_id = image.nil? ? 1505447 : image.id
       region = service.regions.find { |r| r.name == 'New York 1' }

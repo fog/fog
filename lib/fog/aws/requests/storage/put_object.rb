@@ -29,15 +29,15 @@ module Fog
         def put_object(bucket_name, object_name, data, options = {})
           data = Fog::Storage.parse_data(data)
           headers = data[:headers].merge!(options)
-          request({
+          request(
                     :body       => data[:body],
             :expects    => 200,
             :headers    => headers,
             :bucket_name => bucket_name,
             :object_name => object_name,
             :idempotent => true,
-            :method     => 'PUT',
-          })
+            :method     => 'PUT'
+          )
         end
 
       end

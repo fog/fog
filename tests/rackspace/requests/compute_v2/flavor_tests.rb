@@ -17,11 +17,11 @@ Shindo.tests('Fog::Compute::RackspaceV2 | flavor_tests', ['rackspace']) do
   }
 
   get_flavor_format = {
-    'flavor' => flavor_format.merge({
+    'flavor' => flavor_format.merge(
                                       'OS-FLV-EXT-DATA:ephemeral' => Integer,
       'rxtx_factor' => Float,
       'swap' => Integer
-    })
+    )
   }
 
   service = Fog::Compute.new(:provider => 'Rackspace', :version => 'V2')

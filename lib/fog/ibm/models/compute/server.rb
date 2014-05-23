@@ -122,13 +122,13 @@ module Fog
 
         def attach(volume_id)
           requires :id
-          data = service.modify_instance(id, {'type' => 'attach', 'storageID' => volume_id})
+          data = service.modify_instance(id, 'type' => 'attach', 'storageID' => volume_id)
           data.body
         end
 
         def detach(volume_id)
           requires :id
-          data = service.modify_instance(id, {'type' => 'detach', 'storageID' => volume_id})
+          data = service.modify_instance(id, 'type' => 'detach', 'storageID' => volume_id)
           data.body
         end
 

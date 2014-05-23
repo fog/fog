@@ -22,7 +22,7 @@ module Fog
         class Mock
           def delete_load_balancer(load_balancer_id)
             response = Excon::Response.new
-            if list_load_balancers.body['loadBalancers'].detect { |_| _['id'] == load_balancer_id }
+            if list_load_balancers.body['loadBalancers'].find { |_| _['id'] == load_balancer_id }
               response.status = 202
               response
             else

@@ -6,7 +6,7 @@ Shindo.tests('Fog::Compute[:xenserver] | create_server request', ['xenserver']) 
   (servers.all :name_matches => test_ephemeral_vm_name).each do |s|
     s.destroy
   end
-  (servers.templates.find_all { |t| t.name == test_ephemeral_vm_name }).each do |s|
+  (servers.templates.select { |t| t.name == test_ephemeral_vm_name }).each do |s|
     s.destroy
   end
 
@@ -39,49 +39,49 @@ Shindo.tests('Fog::Compute[:xenserver] | create_server request', ['xenserver']) 
     end
     test('create a server') do
       ref = compute.create_server_raw(
-        {
+        
           :name_label => test_ephemeral_vm_name,
           :affinity => compute.hosts.first
-        }
+        
       )
       valid_ref? ref
     end
     test('create a server with name foobar') do
       ref = compute.create_server_raw(
-        {
+        
           :name_label => test_ephemeral_vm_name,
           :affinity => compute.hosts.first
-        }
+        
       )
       (compute.servers.get ref).name == test_ephemeral_vm_name
     end
     test('set the PV_bootloader attribute to eliloader') do
       ref = compute.create_server_raw(
-        {
+        
           :name_label => test_ephemeral_vm_name,
           :affinity => compute.hosts.first,
-          :PV_bootloader => 'eliloader',
-        }
+          :PV_bootloader => 'eliloader'
+        
       )
       (compute.servers.get ref).pv_bootloader == 'eliloader'
     end
     test('set the :pv_bootloader attribute to eliloader') do
       ref = compute.create_server_raw(
-        {
+        
           :name_label => test_ephemeral_vm_name,
           :affinity => compute.hosts.first,
-          :pv_bootloader => 'eliloader',
-        }
+          :pv_bootloader => 'eliloader'
+        
       )
       (compute.servers.get ref).pv_bootloader == 'eliloader'
     end
     test('set the "vcpus_attribute" to 1') do
       ref = compute.create_server_raw(
-        {
+        
           :name_label => test_ephemeral_vm_name,
           :affinity => compute.hosts.first,
-          'vcpus_max' => '1',
-        }
+          'vcpus_max' => '1'
+        
       )
       (compute.servers.get ref).vcpus_max == '1'
     end
@@ -92,11 +92,11 @@ Shindo.tests('Fog::Compute[:xenserver] | create_server request', ['xenserver']) 
       }.each do |a|
         test("set the :#{a} to { :foo => 'bar' }") do
           ref = compute.create_server_raw(
-            {
+            
               :name_label => test_ephemeral_vm_name,
               :affinity => compute.hosts.first,
-              a.downcase.to_sym => {:foo => :bar},
-            }
+              a.downcase.to_sym => {:foo => :bar}
+            
           )
           eval "(compute.servers.get ref).#{a.to_s.downcase}['foo'] == 'bar'"
         end
@@ -111,11 +111,11 @@ Shindo.tests('Fog::Compute[:xenserver] | create_server request', ['xenserver']) 
       }.each do |a|
         test("set the :#{a} to 1") do
           ref = compute.create_server_raw(
-            {
+            
               :name_label => test_ephemeral_vm_name,
               :affinity => compute.hosts.first,
-              a.downcase.to_sym => '1',
-            }
+              a.downcase.to_sym => '1'
+            
           )
           eval "(compute.servers.get ref).#{a.to_s.downcase} == '1'"
         end

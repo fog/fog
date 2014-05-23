@@ -11,13 +11,13 @@ module Fog
         # @see http://docs.amazonwebservices.com/AmazonCloudFront/latest/APIReference/DeleteStreamingDistribution.html
 
         def delete_streaming_distribution(distribution_id, etag)
-          request({
+          request(
                     :expects    => 204,
             :headers    => { 'If-Match' => etag },
             :idempotent => true,
             :method     => 'DELETE',
             :path       => "/streaming-distribution/#{distribution_id}"
-          })
+          )
         end
 
       end

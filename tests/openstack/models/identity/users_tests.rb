@@ -1,12 +1,12 @@
 Shindo.tests("Fog::Identity[:openstack] | users", ['openstack']) do
   tenant_id = Fog::Identity[:openstack].list_tenants.body['tenants'].first['id']
-  @instance = Fog::Identity[:openstack].users.create({
+  @instance = Fog::Identity[:openstack].users.create(
                                                        :name      => 'foobar',
     :email     => 'foo@bar.com',
     :tenant_id => tenant_id,
     :password  => 'spoof',
     :enabled   => true
-  })
+  )
 
   tests('success') do
     tests('#find_by_id').succeeds do

@@ -126,27 +126,27 @@ module Fog
         end
 
         def backend_server_descriptions
-          Fog::AWS::ELB::BackendServerDescriptions.new({
+          Fog::AWS::ELB::BackendServerDescriptions.new(
                                                          :data => attributes['BackendServerDescriptions'],
             :service => service,
             :load_balancer => self
-          })
+          )
         end
 
         def listeners
-          Fog::AWS::ELB::Listeners.new({
+          Fog::AWS::ELB::Listeners.new(
                                          :data => attributes['ListenerDescriptions'],
             :service => service,
             :load_balancer => self
-          })
+          )
         end
 
         def policies
-          Fog::AWS::ELB::Policies.new({
+          Fog::AWS::ELB::Policies.new(
                                         :data => policy_descriptions,
             :service => service,
             :load_balancer => self
-          })
+          )
         end
 
         def policy_descriptions
@@ -184,7 +184,7 @@ module Fog
           #requires :availability_zones
           if (availability_zones || subnet_ids)
             service.create_load_balancer(availability_zones, id, listeners.map { |l| l.to_params }) if availability_zones
-            service.create_load_balancer(nil, id, listeners.map { |l| l.to_params }, {:subnet_ids => subnet_ids, :security_groups => security_groups, :scheme => scheme}) if subnet_ids && !availability_zones
+            service.create_load_balancer(nil, id, listeners.map { |l| l.to_params }, :subnet_ids => subnet_ids, :security_groups => security_groups, :scheme => scheme) if subnet_ids && !availability_zones
           else
             throw Fog::Errors::Error.new("No availability zones or subnet ids specified")
           end

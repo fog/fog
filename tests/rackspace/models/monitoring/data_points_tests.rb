@@ -10,7 +10,7 @@ Shindo.tests('Fog::Rackspace::Monitoring | datapoints', ['rackspace','rackspace_
     @metric = service.metrics(:check => @check).first
     
     tests('#datapoints').succeeds do
-     service.data_points(:metric => @metric).fetch({ :from => ((Time.now.to_i * 1000) - (3600 * 1000)) })
+     service.data_points(:metric => @metric).fetch( :from => ((Time.now.to_i * 1000) - (3600 * 1000)) )
     end
   ensure
     @check.destroy rescue nil if @check

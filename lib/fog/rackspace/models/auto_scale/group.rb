@@ -191,10 +191,10 @@ module Fog
         private
 
         def load_model(class_name, attrs = nil)
-          model = Fog::Rackspace::AutoScale.const_get(class_name).new({
+          model = Fog::Rackspace::AutoScale.const_get(class_name).new(
                                                                         :service => @service,
             :group   => self
-          })
+          )
           if service && attrs
             model.merge_attributes(attrs)
           end

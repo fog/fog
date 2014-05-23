@@ -98,7 +98,7 @@ module Fog
             :status => 0,
             :tasks => [task_id],
             :vdc_id => vdc_id,
-            :vdc_storage_class => data[:vdc_storage_classes].detect { |_k,v| v[:default] }.first
+            :vdc_storage_class => data[:vdc_storage_classes].find { |_k,v| v[:default] }.first
           }
           data[:medias][media_id] = media
 

@@ -27,7 +27,7 @@ Shindo.tests('Fog::Compute[:cloudsigma] | server model', ['cloudsigma']) do
     tests('attach_vlan') do
       if Fog.mocking?
         # Do not buy subscription with real account
-        service.subscriptions.create({:period=>"1 month", :amount=>1, :resource=>"vlan"})
+        service.subscriptions.create(:period=>"1 month", :amount=>1, :resource=>"vlan")
         vlan = service.vlans.first
         vlan.meta['name'] = 'fog-test'
         vlan.save

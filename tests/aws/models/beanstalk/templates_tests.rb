@@ -9,7 +9,7 @@ Shindo.tests("Fog::AWS[:beanstalk] | templates", ['aws', 'beanstalk']) do
 
   @template_description = 'A nice description'
 
-  @application = @beanstalk.applications.create({:name => @application_name})
+  @application = @beanstalk.applications.create(:name => @application_name)
 
   params = {
     :application_name => @application_name,

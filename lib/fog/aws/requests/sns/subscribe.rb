@@ -17,13 +17,13 @@ module Fog
         #
 
         def subscribe(arn, endpoint, protocol)
-          request({
+          request(
                     'Action'    => 'Subscribe',
             'Endpoint'  => endpoint,
             'Protocol'  => protocol,
             'TopicArn'  => arn.strip,
             :parser     => Fog::Parsers::AWS::SNS::Subscribe.new
-          })
+          )
         end
 
       end

@@ -209,11 +209,11 @@ module Fog
         def webhooks
           requires :identity
 
-          @webhooks ||= Fog::Rackspace::AutoScale::Webhooks.new({
+          @webhooks ||= Fog::Rackspace::AutoScale::Webhooks.new(
                                                                   :service   => service,
             :policy => self,
             :group  => group
-          })
+          )
         end
 
       end

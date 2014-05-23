@@ -134,7 +134,7 @@ module Fog
           requires :network_acl_id
 
           # We have to manually find out the network ACL the subnet is currently associated with
-          old_id = service.network_acls.all('association.subnet-id' => subnet.subnet_id).first.associations.detect { |a| a['subnetId'] == subnet.subnet_id }['networkAclAssociationId']
+          old_id = service.network_acls.all('association.subnet-id' => subnet.subnet_id).first.associations.find { |a| a['subnetId'] == subnet.subnet_id }['networkAclAssociationId']
           service.replace_network_acl_association(old_id, network_acl_id)
           true
         end

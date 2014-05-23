@@ -6,9 +6,9 @@ SUBDOMAIN_FORMAT = {
   'emailAddress' => String
 }
 
-DOMAIN_FORMAT = SUBDOMAIN_FORMAT.merge({
+DOMAIN_FORMAT = SUBDOMAIN_FORMAT.merge(
                                          'accountId' => Integer
-})
+)
 
 LIST_SUBDOMAINS_FORMAT = {
   'domains' => [SUBDOMAIN_FORMAT],
@@ -47,30 +47,30 @@ NAME_SERVERS_FORMAT = [{
   'name' => String
 }]
 
-BASIC_DOMAIN_DETAIL_FORMAT = DOMAIN_FORMAT.merge({
+BASIC_DOMAIN_DETAIL_FORMAT = DOMAIN_FORMAT.merge(
                                                    'nameservers' => NAME_SERVERS_FORMAT,
   'ttl' => Integer
-})
+)
 
-LIST_DOMAIN_DETAILS_WITH_RECORDS = BASIC_DOMAIN_DETAIL_FORMAT.merge({
+LIST_DOMAIN_DETAILS_WITH_RECORDS = BASIC_DOMAIN_DETAIL_FORMAT.merge(
                                                                       'recordsList' => RECORD_LIST_FORMAT
-})
+)
 
-LIST_DOMAIN_DETAILS_WITH_RECORDS_AND_SUBDOMAINS_FORMAT = BASIC_DOMAIN_DETAIL_FORMAT.merge({
+LIST_DOMAIN_DETAILS_WITH_RECORDS_AND_SUBDOMAINS_FORMAT = BASIC_DOMAIN_DETAIL_FORMAT.merge(
                                                                                             'recordsList'     => RECORD_LIST_FORMAT,
   'subdomains'      => {
     'domains'   => [SUBDOMAIN_FORMAT],
     'totalEntries'  => Integer
   }
-})
+)
 
 LIST_DOMAIN_DETAILS_WITHOUT_RECORDS_AND_SUBDOMAINS_FORMAT = BASIC_DOMAIN_DETAIL_FORMAT
 
 CREATE_DOMAINS_FORMAT = {
   'domains' => [
-    BASIC_DOMAIN_DETAIL_FORMAT.merge({
+    BASIC_DOMAIN_DETAIL_FORMAT.merge(
                                        'recordsList' => RECORD_LIST_FORMAT
-    })
+    )
   ]
 }
 
@@ -106,7 +106,7 @@ def domains_tests(service, domains_attributes, custom_delete = false)
   tests("create_domains(#{domains_attributes})").formats(CREATE_DOMAINS_FORMAT) do
     response = wait_for service, service.create_domains(domains_attributes)
     @domain_details = response.body['response']['domains']
-    @domain_ids = @domain_details.collect { |domain| domain['id'] }
+    @domain_ids = @domain_details.map { |domain| domain['id'] }
     response.body['response']
   end
 

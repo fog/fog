@@ -10,8 +10,8 @@ Shindo.tests('HP::Network | networking floating ip requests', ['hp', 'networking
     'port_id'             => Fog::Nullable::String
   }
 
-  @ext_network_id = HP[:network].list_networks({'router:external'=>true}).body['networks'][0]['id']
-  s_data = HP[:network].create_port(@ext_network_id, {:name => 'fog_port'}).body['port']
+  @ext_network_id = HP[:network].list_networks('router:external'=>true).body['networks'][0]['id']
+  s_data = HP[:network].create_port(@ext_network_id, :name => 'fog_port').body['port']
   @port_id = s_data['id']
 
   tests('success') do
@@ -24,19 +24,19 @@ Shindo.tests('HP::Network | networking floating ip requests', ['hp', 'networking
       data
     end
 
-    tests('#list_floating_ips').formats({'floatingips' => [@floating_ip_format]}) do
+    tests('#list_floating_ips').formats('floatingips' => [@floating_ip_format]) do
       HP[:network].list_floating_ips.body
     end
 
-    tests("#get_floating_ip(#{@floating_ip_id})").formats({'floatingip' => @floating_ip_format}) do
+    tests("#get_floating_ip(#{@floating_ip_id})").formats('floatingip' => @floating_ip_format) do
       HP[:network].get_floating_ip(@floating_ip_id).body
     end
 
-    tests("#associate_floating_ip(#{@floating_ip_id}, #{@port_id})").formats({'floatingip' => @floating_ip_format}) do
+    tests("#associate_floating_ip(#{@floating_ip_id}, #{@port_id})").formats('floatingip' => @floating_ip_format) do
       HP[:network].associate_floating_ip(@floating_ip_id, @port_id).body
     end
 
-    tests("#disassociate_floating_ip(#{@floating_ip_id}, nil)").formats({'floatingip' => @floating_ip_format}) do
+    tests("#disassociate_floating_ip(#{@floating_ip_id}, nil)").formats('floatingip' => @floating_ip_format) do
       HP[:network].disassociate_floating_ip(@floating_ip_id, nil).body
     end
 

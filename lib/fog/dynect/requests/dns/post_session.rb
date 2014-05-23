@@ -9,11 +9,11 @@ module Fog
             :idempotent => true,
             :method   => :post,
             :path     => "Session",
-            :body     => Fog::JSON.encode({
+            :body     => Fog::JSON.encode(
                                             :customer_name  => @dynect_customer,
               :user_name      => @dynect_username,
               :password       => @dynect_password
-            })
+            )
           )
         end
       end

@@ -43,13 +43,13 @@ module Fog
             optional_tags += "<HostedZoneConfig><Comment>#{options[:comment]}</Comment></HostedZoneConfig>"
           end
 
-          request({
+          request(
                     :body    => %Q{<?xml version="1.0" encoding="UTF-8"?><CreateHostedZoneRequest xmlns="https://route53.amazonaws.com/doc/#{@version}/"><Name>#{name}</Name>#{optional_tags}</CreateHostedZoneRequest>},
             :parser  => Fog::Parsers::DNS::AWS::CreateHostedZone.new,
             :expects => 201,
             :method  => 'POST',
             :path    => "hostedzone"
-          })
+          )
 
         end
 
@@ -64,7 +64,7 @@ module Fog
           name = name + "." unless name.end_with?(".")
 
           response = Excon::Response.new
-          if list_hosted_zones.body['HostedZones'].find_all { |z| z['Name'] == name }.size < self.data[:limits][:duplicate_domains]
+          if list_hosted_zones.body['HostedZones'].select { |z| z['Name'] == name }.size < self.data[:limits][:duplicate_domains]
             response.status = 201
             if options[:caller_ref]
               caller_ref = options[:caller_ref]

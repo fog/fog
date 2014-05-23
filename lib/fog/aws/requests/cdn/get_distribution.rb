@@ -39,13 +39,13 @@ module Fog
         # @see http://docs.amazonwebservices.com/AmazonCloudFront/latest/APIReference/GetDistribution.html
 
         def get_distribution(distribution_id)
-          request({
+          request(
                     :expects    => 200,
             :idempotent => true,
             :method     => 'GET',
             :parser     => Fog::Parsers::CDN::AWS::Distribution.new,
             :path       => "/distribution/#{distribution_id}"
-          })
+          )
         end
 
       end

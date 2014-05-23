@@ -22,12 +22,12 @@ module Fog
         # http://docs.amazonwebservices.com/IAM/latest/APIReference/API_GetGroupPolicy.html
         #
         def get_group_policy(policy_name, group_name)
-          request({
+          request(
                     'Action'      => 'GetGroupPolicy',
             'PolicyName'  => policy_name,
             'GroupName'    => group_name,
             :parser       => Fog::Parsers::AWS::IAM::GetGroupPolicy.new
-          })
+          )
         end
 
       end

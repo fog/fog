@@ -43,7 +43,7 @@ module Fog
           else
             access_keys_data = data[:access_keys]
           end
-          key = access_keys_data.detect { |k| k["AccessKeyId"] == access_key_id }
+          key = access_keys_data.find { |k| k["AccessKeyId"] == access_key_id }
           key["Status"] = status
           Excon::Response.new.tap do |response|
             response.status = 200

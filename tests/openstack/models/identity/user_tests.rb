@@ -1,12 +1,12 @@
 Shindo.tests("Fog::Identity[:openstack] | user", ['openstack']) do
   tenant_id = Fog::Identity[:openstack].list_tenants.body['tenants'].first['id']
-  @instance = Fog::Identity[:openstack].users.new({
+  @instance = Fog::Identity[:openstack].users.new(
                                                     :name      => 'User Name',
     :email     => 'test@fog.com',
     :tenant_id => tenant_id,
     :password  => 'spoof',
     :enabled   => true
-  })
+  )
 
   tests('success') do
     tests('#save').returns(true) do
@@ -18,7 +18,7 @@ Shindo.tests("Fog::Identity[:openstack] | user", ['openstack']) do
     end
 
     tests('#update').returns(true) do
-      @instance.update({:name => 'updatename', :email => 'new@email.com'})
+      @instance.update(:name => 'updatename', :email => 'new@email.com')
     end
 
     tests('#update_password').returns(true) do

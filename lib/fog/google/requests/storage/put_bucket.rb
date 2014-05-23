@@ -25,14 +25,14 @@ DATA
           else
             data = nil
           end
-          request({
+          request(
                     :expects    => 200,
             :body       => data,
             :headers    => options,
             :idempotent => true,
             :host       => "#{bucket_name}.#{@host}",
             :method     => 'PUT'
-          })
+          )
         end
 
       end

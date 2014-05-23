@@ -20,11 +20,11 @@ module Fog
         #     * 'ResponseMetadata'<~Hash>:
         #       * 'RequestId'<~String> - Id of request
         def delete_load_balancer(lb_name)
-          request({
+          request(
                     'Action'           => 'DeleteLoadBalancer',
             'LoadBalancerName' => lb_name,
             :parser            => Fog::Parsers::AWS::ELB::DeleteLoadBalancer.new
-          })
+          )
         end
 
       end

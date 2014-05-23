@@ -17,11 +17,11 @@ module Fog
         #       * 'VerificationToken'<~String> - Verification token
         #       * 'RequestId'<~String> - Id of request
         def verify_domain_identity(domain)
-          request({
+          request(
                     'Action'           => 'VerifyDomainIdentity',
             'Domain'           => domain,
             :parser            => Fog::Parsers::AWS::SES::VerifyDomainIdentity.new
-          })
+          )
         end
 
       end

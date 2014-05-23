@@ -10,7 +10,7 @@ Shindo.tests('Fog::Rackspace::Queues | messages_tests', ['rackspace']) do
   begin
     tests('success') do
       tests("#list_message(#{client_id}, #{queue_name}, {:echo => true}) => No Content").returns(204) do
-        service.list_messages(client_id, queue_name, {:echo => true}).status
+        service.list_messages(client_id, queue_name, :echo => true).status
       end
 
       tests("#create_message(#{client_id}, #{queue_name}, '{ :blah => 'blah' }', 300)").succeeds do
@@ -19,7 +19,7 @@ Shindo.tests('Fog::Rackspace::Queues | messages_tests', ['rackspace']) do
       end
 
       tests("#list_message(#{client_id}, #{queue_name}, {:echo => true}) => With Content").formats(LIST_MESSAGES_FORMAT) do
-        service.list_messages(client_id, queue_name, {:echo => true}).body
+        service.list_messages(client_id, queue_name, :echo => true).body
       end
 
       tests("#get_message(#{client_id}, #{queue_name}, #{message_id})").formats(MESSAGE_FORMAT) do
@@ -29,7 +29,7 @@ Shindo.tests('Fog::Rackspace::Queues | messages_tests', ['rackspace']) do
       tests("#delete_message(#{queue_name}, #{message_id}, { :claim_id => '10' })").raises(Fog::Rackspace::Queues::ServiceError) do
         #API team should be changing this
         pending
-        service.delete_message(queue_name, message_id, { :claim_id => '10' })
+        service.delete_message(queue_name, message_id,  :claim_id => '10' )
       end
 
       tests("#delete_message(#{queue_name}, #{message_id})").succeeds do

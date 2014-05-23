@@ -14,7 +14,7 @@ module Fog
 
         def get(name)
           data = service.list_algorithms.body['algorithms']
-          algorithm = data.detect { |algo| algo['name'] == name }
+          algorithm = data.find { |algo| algo['name'] == name }
           new(algorithm)
         rescue Fog::HP::LB::NotFound
           nil

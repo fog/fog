@@ -46,21 +46,21 @@ end
 
 
 # create auto scaling service
-auto_scale_service = Fog::Rackspace::AutoScale.new({
+auto_scale_service = Fog::Rackspace::AutoScale.new(
                                                      :rackspace_username   => rackspace_username,
   :rackspace_api_key    => rackspace_api_key,
   :rackspace_region => :ord # Use Chicago Region
-})
+)
 
 
 # create Next Generation Cloud Server service to get list of flavors
-compute_service = Fog::Compute.new({
+compute_service = Fog::Compute.new(
                                      :provider             => 'rackspace',
   :rackspace_username   => rackspace_username,
   :rackspace_api_key    => rackspace_api_key,
   :version => :v2,  # Use Next Gen Cloud Servers
   :rackspace_region => :ord # Use Chicago Region
-})
+)
 
 
 # prompt for scaling group name

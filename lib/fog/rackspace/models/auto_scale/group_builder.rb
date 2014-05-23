@@ -35,7 +35,7 @@ module Fog
             return nil unless attributes[:load_balancers]
 
             load_balancers = attributes[:load_balancers].is_a?(Array) ? attributes[:load_balancers] : [attributes[:load_balancers]]
-            load_balancers.collect do |obj|
+            load_balancers.map do |obj|
               obj.is_a?(Hash) ? obj : load_balancer_to_hash(obj)
             end
           end
@@ -76,7 +76,7 @@ module Fog
           end
 
           def networks_to_hash(networks)
-            networks.collect { |n| {"uuid" => n} }
+            networks.map { |n| {"uuid" => n} }
           end
         end
       end

@@ -38,7 +38,7 @@ module Fog
       class Mock
         def get_port(port_id)
           response = Excon::Response.new
-          if port = list_ports.body['ports'].detect { |_| _['id'] == port_id }
+          if port = list_ports.body['ports'].find { |_| _['id'] == port_id }
             response.status = 200
             response.body = { 'port' => port }
             response

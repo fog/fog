@@ -14,7 +14,7 @@ Shindo.tests('Fog::Storage[:ibm] | volume requests', ['ibm']) do
     "productCodes"  => Array,
   }
 
-  @full_volume_format = @volume_format.merge({
+  @full_volume_format = @volume_format.merge(
                                                "ioPrice"       => {
                                                  "rate"          => Float,
                                                  "unitOfMeasure" => String,
@@ -23,7 +23,7 @@ Shindo.tests('Fog::Storage[:ibm] | volume requests', ['ibm']) do
                                                  "currencyCode"  => String,
                                                  "pricePerQuantity"  => Integer,
                                                }
-  })
+  )
 
   @volumes_format = {
     'volumes' => [ @volume_format ]

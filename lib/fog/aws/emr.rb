@@ -100,7 +100,7 @@ module Fog
 
           body = Fog::AWS.signed_params(
             params,
-            {
+            
               :aws_access_key_id  => @aws_access_key_id,
               :aws_session_token  => @aws_session_token,
               :hmac               => @hmac,
@@ -108,18 +108,18 @@ module Fog
               :path               => @path,
               :port               => @port,
               :version            => '2009-03-31' #'2010-07-28'
-            }
+            
           )
 
           begin
-            response = @connection.request({
+            response = @connection.request(
                                              :body       => body,
               :expects    => 200,
               :headers    => { 'Content-Type' => 'application/x-www-form-urlencoded' },
               :idempotent => idempotent,
               :method     => 'POST',
               :parser     => parser
-            })
+            )
           rescue Excon::Errors::HTTPStatusError
             raise
           end

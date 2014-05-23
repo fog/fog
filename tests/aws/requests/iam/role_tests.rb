@@ -39,7 +39,7 @@ Shindo.tests('AWS::IAM | role requests', ['aws']) do
     tests("#list_roles").formats(@list_roles_format) do
       pending if Fog.mocking?
       body = Fog::AWS[:iam].list_roles.body
-      returns(true) { !! body['Roles'].detect { |role| role['RoleName'] == 'fogrole' } }
+      returns(true) { !! body['Roles'].find { |role| role['RoleName'] == 'fogrole' } }
       body
     end
 
@@ -86,7 +86,7 @@ Shindo.tests('AWS::IAM | role requests', ['aws']) do
     tests("list_instance_profiles_for_role('fogrole')").formats(@profiles_format) do
       pending if Fog.mocking?
       body = Fog::AWS[:iam].list_instance_profiles_for_role('fogrole').body
-      returns(['fogprofile']) { body['InstanceProfiles'].collect { |hash| hash['InstanceProfileName'] } }      
+      returns(['fogprofile']) { body['InstanceProfiles'].map { |hash| hash['InstanceProfileName'] } }      
       body
     end
 

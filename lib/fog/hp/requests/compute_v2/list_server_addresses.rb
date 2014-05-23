@@ -27,7 +27,7 @@ module Fog
 
         def list_server_addresses(server_id)
           response = Excon::Response.new
-          if server = list_servers_detail.body['servers'].detect { |_| _['id'] == server_id }
+          if server = list_servers_detail.body['servers'].find { |_| _['id'] == server_id }
             response.status = 200
             response.body = { 'addresses' => server['addresses'] }
             response

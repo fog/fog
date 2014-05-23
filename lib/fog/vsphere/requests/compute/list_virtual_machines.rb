@@ -32,11 +32,11 @@ module Fog
           datacenters = find_datacenters(options[:datacenter])
 
           vms = datacenters.map do |dc|
-            @connection.serviceContent.viewManager.CreateContainerView({
+            @connection.serviceContent.viewManager.CreateContainerView(
                                                                          :container  => dc.vmFolder,
               :type       =>  ["VirtualMachine"],
               :recursive  => true
-            }).view
+            ).view
           end.flatten
 
           vms = convert_vm_view_to_attr_hash(vms)

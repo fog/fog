@@ -25,10 +25,10 @@ module Fog
         def create_application_version(options={})
           if source_bundle = options.delete('SourceBundle')
             # flatten hash
-            options.merge!({
+            options.merge!(
                              'SourceBundle.S3Bucket' => source_bundle['S3Bucket'],
                                'SourceBundle.S3Key' => source_bundle['S3Key']
-                           })
+                           )
           end
           request({
             'Operation'    => 'CreateApplicationVersion',

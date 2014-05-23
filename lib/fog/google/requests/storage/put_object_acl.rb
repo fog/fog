@@ -37,7 +37,7 @@ module Fog
 </AccessControlList>
 DATA
 
-          request({
+          request(
                     :body     => data,
             :expects  => 200,
             :headers  => {},
@@ -45,7 +45,7 @@ DATA
             :method   => 'PUT',
             :query    => {'acl' => nil},
             :path     => CGI.escape(object_name)
-          })
+          )
 
         end
 

@@ -30,7 +30,7 @@ module Fog
             data << "</Part>"
           end
           data << "</CompleteMultipartUpload>"
-          request({
+          request(
                     :body       => data,
             :expects    => 200,
             :headers    => { 'Content-Length' => data.length },
@@ -39,7 +39,7 @@ module Fog
             :parser     => Fog::Parsers::Storage::InternetArchive::CompleteMultipartUpload.new,
             :path       => CGI.escape(object_name),
             :query      => {'uploadId' => upload_id}
-          })
+          )
         end
 
       end # Real

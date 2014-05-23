@@ -49,13 +49,13 @@ module Fog
             end
           end
 
-          request({
+          request(
                     :query   => parameters,
             :parser  => Fog::Parsers::DNS::AWS::ListResourceRecordSets.new,
             :expects => 200,
             :method  => 'GET',
             :path    => "hostedzone/#{zone_id}/rrset"
-          })
+          )
 
         end
 

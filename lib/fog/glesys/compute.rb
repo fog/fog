@@ -84,7 +84,7 @@ module Fog
 
         def request(method_name, options = {})
 
-          options.merge!( {:format => 'json'})
+          options.merge!( :format => 'json')
 
           begin
             parser = options.delete(:parser)
@@ -126,7 +126,7 @@ module Fog
         end
 
         def urlencode(hash)
-          hash.to_a.collect! { |k, v| "#{k}=#{v}" }.join("&")
+          hash.to_a.map! { |k, v| "#{k}=#{v}" }.join("&")
         end
 
       end

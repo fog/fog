@@ -5,61 +5,61 @@ Shindo.tests('Fog::Compute[:xenserver] | create_vdi request', ['xenserver']) do
   
   tests('create_vdi should') do
     raises(ArgumentError, 'raise ArgumentError if virtual_size is no specified') do
-      ref = compute.create_vdi( { 
+      ref = compute.create_vdi(  
                                  :storage_repository => sr, 
         :name => 'foovdi',
         :type => 'system',
         :read_only => false,
         :sharable => false,
         :other_config => {} 
-      } )
+       )
     end
     raises(ArgumentError, 'raise ArgumentError if type is no specified') do
-      ref = compute.create_vdi( { 
+      ref = compute.create_vdi(  
                                  :storage_repository => sr, 
         :name => 'foovdi',
         :virtual_size => '8589934592',
         :read_only => false,
         :sharable => false,
         :other_config => {} 
-      } )
+       )
       valid_ref? ref
     end
     raises(ArgumentError, 'raise ArgumentError if read_only is no specified') do
-      ref = compute.create_vdi( { 
+      ref = compute.create_vdi(  
                                  :storage_repository => sr, 
         :name => 'foovdi',
         :virtual_size => '8589934592',
         :type => 'system',
         :sharable => false,
         :other_config => {} 
-      } )
+       )
       valid_ref? ref
     end
     raises(ArgumentError, 'raise ArgumentError if sharable is no specified') do
-      ref = compute.create_vdi( { 
+      ref = compute.create_vdi(  
                                  :storage_repository => sr, 
         :name => 'foovdi',
         :virtual_size => '8589934592',
         :type => 'system',
         :read_only => false,
         :other_config => {} 
-      } )
+       )
       valid_ref? ref
     end
     raises(ArgumentError, 'raise ArgumentError if other_config is no specified') do
-      ref = compute.create_vdi( { 
+      ref = compute.create_vdi(  
                                  :storage_repository => sr, 
         :name => 'foovdi',
         :virtual_size => '8589934592',
         :type => 'system',
         :read_only => false,
-        :sharable => false,
-      } )
+        :sharable => false
+       )
       valid_ref? ref
     end
     test('create a VDI') do
-      ref = compute.create_vdi( { 
+      ref = compute.create_vdi(  
                                  :storage_repository => sr, 
         :name => 'foovdi',
         :virtual_size => '8589934592',
@@ -67,7 +67,7 @@ Shindo.tests('Fog::Compute[:xenserver] | create_vdi request', ['xenserver']) do
         :read_only => false,
         :sharable => false,
         :other_config => {} 
-      } )
+       )
       valid_ref? ref
     end
   end

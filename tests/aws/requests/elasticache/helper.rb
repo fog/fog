@@ -23,17 +23,17 @@ class AWS
         'Subnets' => [String]
       }
 
-      CREATE_CACHE_SUBNET_GROUP = BASIC.merge({
+      CREATE_CACHE_SUBNET_GROUP = BASIC.merge(
                                                 'CreateCacheSubnetGroupResult' => {
                                                   'CacheSubnetGroup' => CACHE_SUBNET_GROUP
                                                 }
-       })
+       )
 
-      DESCRIBE_CACHE_SUBNET_GROUPS = BASIC.merge({
+      DESCRIBE_CACHE_SUBNET_GROUPS = BASIC.merge(
                                                    'DescribeCacheSubnetGroupsResult' => {
                                                      'CacheSubnetGroups' => [CACHE_SUBNET_GROUP]
                                                    }
-      })
+      )
 
       # Cache Parameter Groups
       PARAMETER_GROUP = {
@@ -64,14 +64,14 @@ class AWS
         'CacheNodes'                  => Array,
         'PendingModifiedValues'       => Hash,
       }
-      CACHE_CLUSTER_RUNNING   = CACHE_CLUSTER.merge({
+      CACHE_CLUSTER_RUNNING   = CACHE_CLUSTER.merge(
                                                       'CacheClusterCreateTime'      => DateTime,
-        'PreferredAvailabilityZone'   => String,
-      })
-      CACHE_CLUSTER_MODIFIED  = CACHE_CLUSTER_RUNNING.merge({
+        'PreferredAvailabilityZone'   => String
+      )
+      CACHE_CLUSTER_MODIFIED  = CACHE_CLUSTER_RUNNING.merge(
                                                               'NotificationConfiguration'   => Hash,
-        'PendingModifiedValues'       => Hash,
-      })
+        'PendingModifiedValues'       => Hash
+      )
       SINGLE_CACHE_CLUSTER    = BASIC.merge('CacheCluster' => CACHE_CLUSTER)
       DESCRIBE_CACHE_CLUSTERS = BASIC.merge('CacheClusters' => [CACHE_CLUSTER])
 

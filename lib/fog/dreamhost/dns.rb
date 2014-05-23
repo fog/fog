@@ -65,8 +65,8 @@ module Fog
         end
 
         def request(params)
-          params[:query].merge!( { :key => @dreamhost_api_key,
-                                   :format => 'json' } )
+          params[:query].merge!(  :key => @dreamhost_api_key,
+                                   :format => 'json'  )
           response = @connection.request(params)
 
           unless response.body.empty?

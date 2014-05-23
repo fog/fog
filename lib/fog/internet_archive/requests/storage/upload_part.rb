@@ -23,7 +23,7 @@ module Fog
           data = Fog::Storage.parse_data(data)
           headers = options
           headers['Content-Length'] = data[:headers]['Content-Length']
-          request({
+          request(
                     :body       => data[:body],
             :expects    => 200,
             :idempotent => true,
@@ -32,7 +32,7 @@ module Fog
             :method     => 'PUT',
             :path       => CGI.escape(object_name),
             :query      => {'uploadId' => upload_id, 'partNumber' => part_number}
-          })
+          )
         end
 
       end # Real

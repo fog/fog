@@ -1,10 +1,10 @@
 Shindo.tests('Fog::Compute[:linode] | linode requests', ['linode']) do
 
-  @linode_format = Linode::Compute::Formats::BASIC.merge({
+  @linode_format = Linode::Compute::Formats::BASIC.merge(
                                                            'DATA' => { 'LinodeID' => Integer }
-  })
+  )
 
-  @linodes_format = Linode::Compute::Formats::BASIC.merge({
+  @linodes_format = Linode::Compute::Formats::BASIC.merge(
                                                             'DATA' => [{
                                                               'ALERT_BWIN_ENABLED'      => Integer,
                                                               'ALERT_CPU_THRESHOLD'     => Integer,
@@ -29,17 +29,17 @@ Shindo.tests('Fog::Compute[:linode] | linode requests', ['linode']) do
                                                               'TOTALXFER'               => Integer,
                                                               'WATCHDOG'                => Integer,
                                                             }]
-  })
+  )
 
-  @reboot_format = Linode::Compute::Formats::BASIC.merge({
+  @reboot_format = Linode::Compute::Formats::BASIC.merge(
                                                            'DATA' => { 'JobID' => Integer }
-  })
+  )
 
-  @ip_format = Linode::Compute::Formats::BASIC.merge({
+  @ip_format = Linode::Compute::Formats::BASIC.merge(
                                                        'DATA' => { 'IPAddressID' => Integer }
-  })
+  )
 
-  @disks_format = Linode::Compute::Formats::BASIC.merge({
+  @disks_format = Linode::Compute::Formats::BASIC.merge(
                                                           'DATA' => [{
                                                             "UPDATE_DT"  => String,
                                                             "DISKID"     => Integer,
@@ -51,11 +51,11 @@ Shindo.tests('Fog::Compute[:linode] | linode requests', ['linode']) do
                                                             "CREATE_DT"  => String,
                                                             "SIZE"       => Integer
                                                           }]
-  })
+  )
 
-  @disk_format = Linode::Compute::Formats::BASIC.merge({
+  @disk_format = Linode::Compute::Formats::BASIC.merge(
                                                          'DATA' => { 'JobID' => Integer, 'DiskID' => Integer }
-  })  
+  )  
 
   tests('success') do
 

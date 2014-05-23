@@ -22,15 +22,15 @@ Shindo.tests('HP::Network | networking network requests', ['hp',  'networking', 
       data
     end
 
-    tests('#list_networks').formats({'networks' => [@network_format]}) do
+    tests('#list_networks').formats('networks' => [@network_format]) do
       HP[:network].list_networks.body
     end
 
-    tests("#get_network(#{@network_id})").formats({'network' => @network_format}) do
+    tests("#get_network(#{@network_id})").formats('network' => @network_format) do
       HP[:network].get_network(@network_id).body
     end
 
-    tests("#update_network(#{@network_id})").formats({'network' => @network_format}) do
+    tests("#update_network(#{@network_id})").formats('network' => @network_format) do
       attributes = {:name => 'my_network_upd', :shared => false, :admin_state_up => true}
       HP[:network].update_network(@network_id, attributes).body
     end

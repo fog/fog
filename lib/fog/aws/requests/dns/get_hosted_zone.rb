@@ -27,12 +27,12 @@ module Fog
           # that form or just the actual id (which is what this request needs)
           zone_id = zone_id.sub('/hostedzone/', '')
 
-          request({
+          request(
                     :expects => 200,
             :parser  => Fog::Parsers::DNS::AWS::GetHostedZone.new,
             :method  => 'GET',
             :path    => "hostedzone/#{zone_id}"
-          })
+          )
 
         end
 

@@ -23,12 +23,12 @@ def rackspace_api_key
 end
 
 # create Cloud Files service
-service = Fog::Storage.new({
+service = Fog::Storage.new(
                              :provider             => 'Rackspace',
   :rackspace_username   => rackspace_username,
   :rackspace_api_key    => rackspace_api_key,
   :rackspace_region => :ord #Use Chicago Region
-  })
+  )
 
 
 # prompt for directory name

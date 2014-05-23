@@ -16,14 +16,14 @@ class VcloudDirector
 
       def self.current_org_id(service)
         session = service.get_current_session.body
-        link = session[:Link].detect do |l|
+        link = session[:Link].find do |l|
           l[:type] == 'application/vnd.vmware.vcloud.org+xml'
         end
         link[:href].split('/').last
       end
 
       def self.first_vdc_id(org)
-        link = org[:Link].detect do |l|
+        link = org[:Link].find do |l|
           l[:type] == 'application/vnd.vmware.vcloud.vdc+xml'
         end
         link[:href].split('/').last

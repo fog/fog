@@ -1,13 +1,13 @@
 Shindo.tests('Fog::Rackspace::Queues | claims', ['rackspace']) do
 
   service = Fog::Rackspace::Queues.new
-  queue = service.queues.create({
-                                  :name => "fog_queue_#{Time.now.to_i}",
-  })
-  queue.messages.create({
+  queue = service.queues.create(
+                                  :name => "fog_queue_#{Time.now.to_i}"
+  )
+  queue.messages.create(
                           :ttl => VALID_TTL,
     :body => { :random => :body }
-  })
+  )
   params = {
     :ttl => VALID_TTL,
     :grace => VALID_GRACE
@@ -34,10 +34,10 @@ Shindo.tests('Fog::Rackspace::Queues | claims', ['rackspace']) do
     tests('create claims when there are messages') do
 
       before do
-        queue.messages.create({
+        queue.messages.create(
                                 :ttl => VALID_TTL,
           :body => { :random => :body }
-        })
+        )
       end
 
       tests("#create(#{params.inspect}) => with messages does show up in claim list") do

@@ -58,7 +58,7 @@ Shindo.tests('AWS::RDS | tagging requests', ['aws', 'rds']) do
   tests('failure') do
     tests "tagging a nonexisting instance" do
       raises(Fog::AWS::RDS::NotFound) do
-        @rds.add_tags_to_resource('doesnexist', {'key1' => 'value1'})
+        @rds.add_tags_to_resource('doesnexist', 'key1' => 'value1')
       end
     end
     tests "listing tags for a nonexisting instance" do

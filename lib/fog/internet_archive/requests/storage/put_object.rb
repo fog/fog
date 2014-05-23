@@ -29,7 +29,7 @@ module Fog
         def put_object(bucket_name, object_name, data, options = {})
           data = Fog::Storage.parse_data(data)
           headers = data[:headers].merge!(options)
-          request({
+          request(
                     :body       => data[:body],
             :expects    => 200,
             :headers    => headers,
@@ -37,7 +37,7 @@ module Fog
             :idempotent => true,
             :method     => 'PUT',
             :path       => CGI.escape(object_name)
-          })
+          )
         end
 
       end

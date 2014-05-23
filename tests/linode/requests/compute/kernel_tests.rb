@@ -1,13 +1,13 @@
 Shindo.tests('Fog::Compute[:linode] | kernel requests', ['linode']) do
 
-  @kernels_format = Linode::Compute::Formats::BASIC.merge({
+  @kernels_format = Linode::Compute::Formats::BASIC.merge(
                                                             'DATA' => [{ 
                                                               'LABEL'               => String,
                                                               'ISXEN'               => Integer,
                                                               'ISPVOPS'             => Integer,
                                                               'KERNELID'            => Integer
                                                             }]
-  })
+  )
 
   tests('success') do
     @kernel_id = nil

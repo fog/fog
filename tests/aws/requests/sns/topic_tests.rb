@@ -19,7 +19,7 @@ Shindo.tests('AWS::SES | topic lifecycle tests', ['aws', 'sns']) do
       Fog::AWS[:sns].set_topic_attributes(@topic_arn, 'DisplayName', 'other-fog_topic_tests').body
     end
 
-    get_topic_attributes_format = AWS::SNS::Formats::BASIC.merge({
+    get_topic_attributes_format = AWS::SNS::Formats::BASIC.merge(
                                                                    'Attributes' => {
                                                                      'DisplayName'             => String,
                                                                      'Owner'                   => String,
@@ -29,7 +29,7 @@ Shindo.tests('AWS::SES | topic lifecycle tests', ['aws', 'sns']) do
                                                                      'SubscriptionsPending'    => Integer,
                                                                      'TopicArn'                => String
                                                                    }
-    })
+    )
 
     tests("#get_topic_attributes('#{@topic_arn})").formats(get_topic_attributes_format) do
       pending if Fog.mocking?

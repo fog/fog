@@ -30,7 +30,7 @@ module Fog
           end
           body << "<CallerReference>" << caller_reference << "</CallerReference>"
           body << "</InvalidationBatch>"
-          request({
+          request(
                     :body       => body,
             :expects    => 201,
             :headers    => {'Content-Type' => 'text/xml'},
@@ -38,7 +38,7 @@ module Fog
             :method     => 'POST',
             :parser     => Fog::Parsers::CDN::AWS::PostInvalidation.new,
             :path       => "/distribution/#{distribution_id}/invalidation"
-          })
+          )
         end
 
       end

@@ -56,7 +56,7 @@ DATA
       end
 
       def signed_headers(headers)
-        headers.keys.collect { |key| key.to_s }.sort.collect { |key| key.downcase }.join(';')
+        headers.keys.map { |key| key.to_s }.sort.map { |key| key.downcase }.join(';')
       end
 
       def derived_hmac(date)

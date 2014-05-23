@@ -17,15 +17,15 @@ Shindo.tests('Fog::Compute[:openstack] | volume requests', ['openstack']) do
   }
 
   tests('success') do
-    tests('#create_volume').data_matches_schema({'volume' => @volume_format}) do
+    tests('#create_volume').data_matches_schema('volume' => @volume_format) do
       Fog::Compute[:openstack].create_volume('loud', 'this is a loud volume', 3).body
     end
 
-    tests('#list_volumes').data_matches_schema({'volumes' => [@volume_format]}) do
+    tests('#list_volumes').data_matches_schema('volumes' => [@volume_format]) do
       Fog::Compute[:openstack].list_volumes.body
     end
 
-    tests('#get_volume_detail').data_matches_schema({'volume' => @volume_format}) do
+    tests('#get_volume_detail').data_matches_schema('volume' => @volume_format) do
       volume_id = Fog::Compute[:openstack].volumes.all.first.id
       Fog::Compute[:openstack].get_volume_details(volume_id).body
     end

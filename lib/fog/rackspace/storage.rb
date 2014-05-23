@@ -145,7 +145,7 @@ module Fog
           # @return [Integer] The number of bytes occupied by each contained
           #   object.
           def bytes_used
-            @objects.values.map { |o| o.bytes_used }.inject(0) { |a, b| a + b }
+            @objects.values.map { |o| o.bytes_used }.reduce(0) { |a, b| a + b }
           end
 
           # Render the HTTP headers that would be associated with this
@@ -155,10 +155,10 @@ module Fog
           #   container, plus additional headers indicating the container's
           #   size.
           def to_headers
-            @meta.merge({
+            @meta.merge(
                           'X-Container-Object-Count' => @objects.size,
               'X-Container-Bytes-Used' => bytes_used
-            })
+            )
           end
 
           # Access a MockObject within this container by (unescaped) name.

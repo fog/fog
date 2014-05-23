@@ -9,11 +9,11 @@ Shindo.tests("Fog::AWS[:beanstalk] | environments", ['aws', 'beanstalk']) do
   @version_name = uniq_id('fog-test-version')
 
   # Create an application/version to use for testing.
-  @version = @beanstalk.versions.create({
+  @version = @beanstalk.versions.create(
                                           :label => @version_name,
       :application_name => @application_name,
       :auto_create_application => true
-                             })
+                             )
 
   @application = @beanstalk.applications.get(@application_name)
 

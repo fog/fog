@@ -155,7 +155,7 @@ Shindo.tests('Fog::Storage[:aws] | bucket requests', ["aws"]) do
       Fog::Storage[:aws].get_bucket_acl(@aws_bucket_name).body
     end
 
-    tests("#put_bucket_acl('#{@aws_bucket_name}', hash with email)").returns({
+    tests("#put_bucket_acl('#{@aws_bucket_name}', hash with email)").returns(
                                                                                'Owner' => @aws_owner,
         'AccessControlList' => [
           {
@@ -163,9 +163,9 @@ Shindo.tests('Fog::Storage[:aws] | bucket requests', ["aws"]) do
             'Permission' => "FULL_CONTROL"
           }
         ]
-    }) do
+    ) do
       pending if Fog.mocking?
-      Fog::Storage[:aws].put_bucket_acl(@aws_bucket_name, {
+      Fog::Storage[:aws].put_bucket_acl(@aws_bucket_name, 
                                           'Owner' => @aws_owner,
         'AccessControlList' => [
           {
@@ -173,7 +173,7 @@ Shindo.tests('Fog::Storage[:aws] | bucket requests', ["aws"]) do
             'Permission' => "FULL_CONTROL"
           }
         ]
-      })
+      )
       Fog::Storage[:aws].get_bucket_acl(@aws_bucket_name).body
     end
 
@@ -286,7 +286,7 @@ Shindo.tests('Fog::Storage[:aws] | bucket requests', ["aws"]) do
     tests("bucket tagging") do
 
       tests("#put_bucket_tagging('#{@aws_bucket_name}')").succeeds do
-        Fog::Storage[:aws].put_bucket_tagging(@aws_bucket_name, {'Key1' => 'Value1', 'Key2' => 'Value2'})
+        Fog::Storage[:aws].put_bucket_tagging(@aws_bucket_name, 'Key1' => 'Value1', 'Key2' => 'Value2')
       end
 
       tests("#get_bucket_tagging('#{@aws_bucket_name}')").

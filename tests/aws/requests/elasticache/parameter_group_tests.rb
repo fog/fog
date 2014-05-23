@@ -60,7 +60,7 @@ Shindo.tests('AWS::Elasticache | parameter group requests', ['aws', 'elasticache
     '#modify_cache_parameter_group'
     ).formats('CacheParameterGroupName' => String) do
       result = AWS[:elasticache].modify_cache_parameter_group(
-        name, {"chunk_size" => 32}
+        name, "chunk_size" => 32
       ).body['ModifyCacheParameterGroupResult']
       returns(name) { result['CacheParameterGroupName'] }
       result

@@ -1,9 +1,9 @@
 Shindo.tests('Fog::Rackspace::Queues | message', ['rackspace']) do
 
   service = Fog::Rackspace::Queues.new
-  queue = service.queues.create({
-                                  :name => "fog_instance_#{Time.now.to_i}",
-  })
+  queue = service.queues.create(
+                                  :name => "fog_instance_#{Time.now.to_i}"
+  )
   options = {
     :ttl => VALID_TTL,
     :body => { :key => 'value' }
@@ -21,7 +21,7 @@ Shindo.tests('Fog::Rackspace::Queues | message', ['rackspace']) do
       end
     end
 
-    message = queue.messages.create(options.merge({:claim_id => '10'}))
+    message = queue.messages.create(options.merge(:claim_id => '10'))
     tests('#destroy => fails if claim is not valid').raises(Fog::Rackspace::Queues::ServiceError) do
       #API team should be fixing this so that it errors in this scenario
       pending

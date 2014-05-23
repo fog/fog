@@ -111,11 +111,11 @@ module Fog
           requires :directory
           data = service.get_object(directory.key, key, &block)
           metadata = Metadata.from_headers(self, data.headers)
-          file_data = data.headers.merge({
+          file_data = data.headers.merge(
                                            :body => data.body,
             :key  => key,
             :metadata => metadata
-          })
+          )
 
           new(file_data)
         rescue Fog::Storage::Rackspace::NotFound
@@ -173,9 +173,9 @@ module Fog
         def head(key, options = {})
           requires :directory
           data = service.head_object(directory.key, key)
-          file_data = data.headers.merge({
+          file_data = data.headers.merge(
                                            :key => key
-          })
+          )
           new(file_data)
         rescue Fog::Storage::Rackspace::NotFound
           nil

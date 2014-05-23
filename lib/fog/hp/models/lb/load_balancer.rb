@@ -35,10 +35,10 @@ module Fog
 
         def nodes
           @nodes ||= begin
-            Fog::HP::LB::Nodes.new({
+            Fog::HP::LB::Nodes.new(
                                      :service  => service,
               :load_balancer   => self
-            })
+            )
           end
         end
 
@@ -72,7 +72,7 @@ module Fog
 
         def nodes_to_hash
           if nodes
-            nodes.collect do |node|
+            nodes.map do |node|
               { 'address' => node.address, 'port' => node.port, 'condition' => node.condition }
             end
           end

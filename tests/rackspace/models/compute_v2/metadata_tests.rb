@@ -14,7 +14,7 @@ Shindo.tests('Fog::Compute::RackspaceV2 | metadata', ['rackspace']) do
       @server.wait_for { ready? }
 
       tests('server') do
-        collection_tests(@server.metadata, {:key => 'my_key', :value => 'my_value'}) do
+        collection_tests(@server.metadata, :key => 'my_key', :value => 'my_value') do
           @server.wait_for { ready? }
         end
       end

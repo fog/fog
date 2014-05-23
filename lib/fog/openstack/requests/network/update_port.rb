@@ -24,7 +24,7 @@ module Fog
       class Mock
         def update_port(port_id, options = {})
           response = Excon::Response.new
-          if port = list_ports.body['ports'].detect { |_| _['id'] == port_id }
+          if port = list_ports.body['ports'].find { |_| _['id'] == port_id }
             port['name']           = options[:name]
             port['fixed_ips']      = options[:fixed_ips]
             port['admin_state_up'] = options[:admin_state_up]

@@ -13,11 +13,11 @@ module Fog
         def get_raw_network(name, datacenter_name, distributedswitch_name=nil)
           dc = find_raw_datacenter(datacenter_name)
 
-          @connection.serviceContent.viewManager.CreateContainerView({
+          @connection.serviceContent.viewManager.CreateContainerView(
                                                                        :container  => dc.networkFolder,
             :type       =>  ["Network"],
             :recursive  => true
-          }).view.select { |n| n.name == name and (not distributedswitch_name or n.config.distributedVirtualSwitch.name == distributedswitch_name) }.first
+          ).view.select { |n| n.name == name and (not distributedswitch_name or n.config.distributedVirtualSwitch.name == distributedswitch_name) }.first
         end
       end
 

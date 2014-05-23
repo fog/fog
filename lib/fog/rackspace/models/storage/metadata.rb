@@ -154,14 +154,14 @@ module Fog
            return nil unless m && m[1]
 
            a = m[1].split('-')
-           a.collect!(&:downcase)
+           a.map!(&:downcase)
            str = a.join('_')
            str.to_sym
          end
 
         def to_header_key(key, value)
           prefix = value.nil? ?  remove_meta_prefix : meta_prefix
-          prefix + key.to_s.split(/[-_]/).collect(&:capitalize).join('-')
+          prefix + key.to_s.split(/[-_]/).map(&:capitalize).join('-')
         end
 
       end

@@ -21,14 +21,14 @@ module Fog
           end
 
           headers = options
-          request({
+          request(
                     :expects    => 204,
             :headers    => headers,
             :bucket_name => bucket_name,
             :idempotent => true,
             :method     => 'DELETE',
             :path       => path
-          })
+          )
         end
 
       end

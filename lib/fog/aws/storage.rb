@@ -146,11 +146,11 @@ module Fog
           signature = signature(params, expires)
           params = request_params(params)
 
-          params[:query] = (params[:query] || {}).merge({
+          params[:query] = (params[:query] || {}).merge(
                                                           'AWSAccessKeyId' => @aws_access_key_id,
             'Signature' => signature,
-            'Expires' => expires,
-          })
+            'Expires' => expires
+          )
           params[:query]['x-amz-security-token'] = @aws_session_token if @aws_session_token
 
           params_to_url(params)
@@ -226,13 +226,13 @@ module Fog
             end
           end
 
-          ret = params.merge({
+          ret = params.merge(
                                :scheme       => scheme,
             :host         => host,
             :port         => port,
             :path         => path,
             :headers      => headers
-          })
+          )
 
           #
           ret.delete(:path_style)
@@ -252,13 +252,13 @@ module Fog
             end
           end.join('&')
 
-          URI::Generic.build({
+          URI::Generic.build(
                                :scheme => params[:scheme],
             :host   => params[:host],
             :port   => params[:port],
             :path   => params[:path],
-            :query  => query,
-          }).to_s
+            :query  => query
+          ).to_s
         end
 
       end

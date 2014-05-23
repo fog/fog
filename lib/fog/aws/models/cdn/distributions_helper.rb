@@ -19,7 +19,7 @@ module Fog
 
         def get(dist_id)
           response = get_distribution(dist_id)
-          data = response.body.merge({'ETag' => response.headers['ETag']})
+          data = response.body.merge('ETag' => response.headers['ETag'])
           new(data)
         rescue Excon::Errors::NotFound
           nil

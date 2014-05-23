@@ -26,7 +26,7 @@ Shindo.tests("HP::DNS | record requests", ['hp', 'dns', 'record']) do
       data
     end
 
-    tests("#list_records_in_a_domain(#{@domain_id})").formats({'records' => [@record_format]}) do
+    tests("#list_records_in_a_domain(#{@domain_id})").formats('records' => [@record_format]) do
       HP[:dns].list_records_in_a_domain(@domain_id).body
     end
 
@@ -35,7 +35,7 @@ Shindo.tests("HP::DNS | record requests", ['hp', 'dns', 'record']) do
     end
 
     tests("#update_record(#{@domain_id}, #{@record_id}, {:description => 'desc for record'})").formats(@record_format) do
-      HP[:dns].update_record(@domain_id, @record_id, {:description => 'desc for record'}).body
+      HP[:dns].update_record(@domain_id, @record_id, :description => 'desc for record').body
     end
 
     tests("#delete_record(#{@domain_id}, #{@record_id})").succeeds do
@@ -52,7 +52,7 @@ Shindo.tests("HP::DNS | record requests", ['hp', 'dns', 'record']) do
     end
 
     tests("#update_record(#{@domain_id}, 'invalid_record', {:email => 'updated@fogtest.com'})").raises(Fog::HP::DNS::NotFound) do
-      HP[:dns].update_record(@domain_id, 'invalid_record', {:email => 'updated@fogtest.com'})
+      HP[:dns].update_record(@domain_id, 'invalid_record', :email => 'updated@fogtest.com')
     end
 
     tests("#delete_record(#{@domain_id}, 'invalid_record')").raises(Fog::HP::DNS::NotFound) do

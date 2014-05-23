@@ -55,10 +55,10 @@ module Fog
         def get(key, &block)
           requires :directory
           data = service.get_object(directory.key, key, &block)
-          file_data = data.headers.merge({
+          file_data = data.headers.merge(
                                            :body => data.body,
             :key  => key
-          })
+          )
           new(file_data)
         rescue Fog::Storage::HP::NotFound
           nil
@@ -113,9 +113,9 @@ module Fog
         def head(key, options = {})
           requires :directory
           data = service.head_object(directory.key, key)
-          file_data = data.headers.merge({
+          file_data = data.headers.merge(
                                            :key => key
-          })
+          )
           new(file_data)
         rescue Fog::Storage::HP::NotFound
           nil

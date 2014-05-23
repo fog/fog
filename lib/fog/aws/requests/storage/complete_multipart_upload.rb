@@ -34,7 +34,7 @@ module Fog
             data << "</Part>"
           end
           data << "</CompleteMultipartUpload>"
-          request({
+          request(
                     :body       => data,
             :expects    => 200,
             :headers    => { 'Content-Length' => data.length },
@@ -43,7 +43,7 @@ module Fog
             :method     => 'POST',
             :parser     => Fog::Parsers::Storage::AWS::CompleteMultipartUpload.new,
             :query      => {'uploadId' => upload_id}
-          })
+          )
         end
 
       end # Real

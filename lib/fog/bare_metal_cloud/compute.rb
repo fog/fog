@@ -67,10 +67,10 @@ module Fog
 
         def request(params)
           params[:query] ||= {}
-          params[:query].merge!({
+          params[:query].merge!(
                                   :password => @bare_metal_cloud_password,
             :username => @bare_metal_cloud_username
-          })
+          )
           params[:headers] ||= {}
           case params[:method]
           when 'DELETE', 'GET', 'HEAD'
@@ -80,7 +80,7 @@ module Fog
           end
 
           begin
-            response = @connection.request(params.merge!({:host => @host}))
+            response = @connection.request(params.merge!(:host => @host))
           rescue Excon::Errors::HTTPStatusError => error
             raise case error
             when Excon::Errors::NotFound

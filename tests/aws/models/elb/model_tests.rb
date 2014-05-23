@@ -1,11 +1,11 @@
 Shindo.tests('AWS::ELB | models', ['aws', 'elb']) do
   require 'fog'
   Fog::Compute::AWS::Mock.reset if Fog.mocking?
-  @availability_zones = Fog::Compute[:aws].describe_availability_zones('state' => 'available').body['availabilityZoneInfo'].collect { |az| az['zoneName'] }
+  @availability_zones = Fog::Compute[:aws].describe_availability_zones('state' => 'available').body['availabilityZoneInfo'].map { |az| az['zoneName'] }
   @key_name = 'fog-test-model'
   @vpc = Fog::Compute[:aws].vpcs.create('cidr_block' => '10.0.10.0/24')
   @vpc_id = @vpc.id
-  @subnet = Fog::Compute[:aws].subnets.create({:vpc_id => @vpc_id, :cidr_block => '10.0.10.0/24'})
+  @subnet = Fog::Compute[:aws].subnets.create(:vpc_id => @vpc_id, :cidr_block => '10.0.10.0/24')
   @subnet_id = @subnet.subnet_id
   @scheme = 'internal'
   @igw = Fog::Compute[:aws].internet_gateways.create
@@ -185,7 +185,7 @@ Shindo.tests('AWS::ELB | models', ['aws', 'elb']) do
 
     tests('instance_health') do
       returns('OutOfService') do
-        elb.instance_health.detect { |hash| hash['InstanceId'] == server.id }['State']
+        elb.instance_health.find { |hash| hash['InstanceId'] == server.id }['State']
       end
 
       returns([server.id]) { elb.instances_out_of_service }

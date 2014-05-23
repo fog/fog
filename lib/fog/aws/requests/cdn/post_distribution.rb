@@ -72,7 +72,7 @@ module Fog
             end
           end
           data << "</DistributionConfig>"
-          request({
+          request(
                     :body       => data,
             :expects    => 201,
             :headers    => { 'Content-Type' => 'text/xml' },
@@ -80,7 +80,7 @@ module Fog
             :method     => 'POST',
             :parser     => Fog::Parsers::CDN::AWS::Distribution.new,
             :path       => "/distribution"
-          })
+          )
         end
 
       end

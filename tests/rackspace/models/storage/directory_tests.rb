@@ -97,12 +97,12 @@ Shindo.tests('Fog::Rackspace::Storage | directory', ['rackspace']) do
         @instance.metadata.data
         container_meta_attributes["X-Container-Meta-Draft"]
       end
-      tests('update metadata').returns({"X-Container-Meta-Draft"=>"true", "X-Container-Meta-Color"=>"green"}) do
+      tests('update metadata').returns("X-Container-Meta-Draft"=>"true", "X-Container-Meta-Color"=>"green") do
         @instance.metadata[:color] = 'green'
         @instance.save
         container_meta_attributes
       end
-      tests('set metadata to nil').returns({"X-Container-Meta-Draft"=>"true"}) do
+      tests('set metadata to nil').returns("X-Container-Meta-Draft"=>"true") do
         @instance.metadata[:color] = nil
         @instance.save
         container_meta_attributes
@@ -114,7 +114,7 @@ Shindo.tests('Fog::Rackspace::Storage | directory', ['rackspace']) do
       end
       
       tests('should retrieve metadata when necessary') do
-        @service.put_container(@instance.key, {"X-Container-Meta-List-Test"=>"true"} )
+        @service.put_container(@instance.key, "X-Container-Meta-List-Test"=>"true" )
         dir = @service.directories.find { |d| d.key == @instance.key }
         returns(nil) { dir.instance_variable_get("@metadata") }
         returns('true') { dir.metadata[:list_test] }

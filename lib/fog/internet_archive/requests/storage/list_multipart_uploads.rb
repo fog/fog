@@ -37,15 +37,15 @@ module Fog
         # @see http://docs.amazonwebservices.com/AmazonS3/latest/API/mpUploadListMPUpload.html
         #
         def list_multipart_uploads(bucket_name, options = {})
-          request({
+          request(
                     :expects  => 200,
             :headers  => {},
             :host     => "#{bucket_name}.#{@host}",
             :idempotent => true,
             :method   => 'GET',
             :parser   => Fog::Parsers::Storage::InternetArchive::ListMultipartUploads.new,
-            :query    => options.merge!({'uploads' => nil})
-          })
+            :query    => options.merge!('uploads' => nil)
+          )
         end
 
       end

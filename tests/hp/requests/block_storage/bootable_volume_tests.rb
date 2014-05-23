@@ -42,7 +42,7 @@ Shindo.tests("HP::BlockStorage | bootable volume requests", ['hp', 'block_storag
     @base_image_id = ENV["BASE_IMAGE_ID"] || 1242
 
     tests("#create_volume(#{@volume_name}, #{@volume_desc}, 10, {'imageRef' => '#{@base_image_id}'})").formats(@volume_format) do
-      data = HP[:block_storage].create_volume(@volume_name, @volume_desc, 10, {'imageRef' => "#{@base_image_id}"}).body['volume']
+      data = HP[:block_storage].create_volume(@volume_name, @volume_desc, 10, 'imageRef' => "#{@base_image_id}").body['volume']
       @volume_id = data['id']
       data
     end
@@ -52,7 +52,7 @@ Shindo.tests("HP::BlockStorage | bootable volume requests", ['hp', 'block_storag
       HP[:block_storage].get_bootable_volume_details(@volume_id).body['volume']
     end
 
-    tests("#list_bootable_volumes").formats({'volumes' => [@boot_volume_format]}) do
+    tests("#list_bootable_volumes").formats('volumes' => [@boot_volume_format]) do
       HP[:block_storage].list_bootable_volumes.body
     end
 

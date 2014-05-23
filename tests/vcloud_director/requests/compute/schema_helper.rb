@@ -42,15 +42,15 @@ class VcloudDirector
       # Extends reference type by adding relation attribute. Defines a
       # hyper-link with a relationship, hyper-link reference, and an optional
       # MIME type.
-      LINK_TYPE = REFERENCE_TYPE.merge({
+      LINK_TYPE = REFERENCE_TYPE.merge(
                                          :rel => String
-      })
+      )
 
       # Represents a reference to a resource. Contains an href attribute, a
       # resource status attribute, and optional name and type attributes.
-      RESOURCE_REFERENCE_TYPE = REFERENCE_TYPE.merge({
+      RESOURCE_REFERENCE_TYPE = REFERENCE_TYPE.merge(
                                                        :status => Fog::Nullable::String
-      })
+      )
 
       # The base type for all objects in the vCloud model. Has an optional list
       # of links and href and type attributes.
@@ -61,23 +61,23 @@ class VcloudDirector
       }
 
       # The base type for all resource types which contain an id attribute.
-      IDENTIFIABLE_RESOURCE_TYPE = RESOURCE_TYPE.merge({
+      IDENTIFIABLE_RESOURCE_TYPE = RESOURCE_TYPE.merge(
                                                          :id => Fog::Nullable::String,
-        :operationKey => Fog::Nullable::String,
-      })
+        :operationKey => Fog::Nullable::String
+      )
 
       # Basic entity type in the vCloud object model. Includes a name, an
       # optional description, and an optional list of links.
-      ENTITY_TYPE = IDENTIFIABLE_RESOURCE_TYPE.merge({
+      ENTITY_TYPE = IDENTIFIABLE_RESOURCE_TYPE.merge(
                                                        :name => String
-      })
+      )
 
       # Represents a file to be transferred (uploaded or downloaded).
-      FILE_TYPE = ENTITY_TYPE.merge({
+      FILE_TYPE = ENTITY_TYPE.merge(
                                       :bytesTransfered => Fog::Nullable::String,
         :checksum => Fog::Nullable::String, # normalizedString
         :size => Fog::Nullable::String
-      })
+      )
 
       # Represents a list of files to be transferred (uploaded or downloaded).
       FILES_LIST_TYPE = {
@@ -85,15 +85,15 @@ class VcloudDirector
       }
 
       # Container for query result sets.
-      CONTAINER_TYPE = RESOURCE_TYPE.merge({
+      CONTAINER_TYPE = RESOURCE_TYPE.merge(
                                              :name => String,
         :page => String,
         :pageSize => String,
         :total => String
-      })
+      )
 
       # Represents an asynchronous operation in vCloud Director.
-      TASK_TYPE = ENTITY_TYPE.merge({
+      TASK_TYPE = ENTITY_TYPE.merge(
                                       :cancelRequested => Fog::Nullable::String,
         :endTime => Fog::Nullable::String,
         :expiryTime => String,
@@ -110,7 +110,7 @@ class VcloudDirector
         :Progress => Fog::Nullable::String,
       # :Params => anyType,
         :Details => Fog::Nullable::String
-      })
+      )
 
       # A list of queued, running, or recently completed tasks.
       TASKS_IN_PROGRESS_TYPE = {
@@ -119,12 +119,12 @@ class VcloudDirector
 
       # Base type that represents a resource entity such as a vApp template or
       # virtual media.
-      RESOURCE_ENTITY_TYPE = ENTITY_TYPE.merge({
+      RESOURCE_ENTITY_TYPE = ENTITY_TYPE.merge(
                                                  :status => Fog::Nullable::String,
-        :Description => Fog::Nullable::String,
+        :Description => Fog::Nullable::String
       # :Tasks => TASKS_IN_PROGRESS_TYPE,
       #  :Files => FILES_LIST_TYPE
-      })
+      )
 
       # Container for references to ResourceEntity objects in this vDC.
       RESOURCE_ENTITIES_TYPE = {
@@ -141,10 +141,10 @@ class VcloudDirector
       }
 
       # Represents a base type for VAppType and VmType.
-      ABSTRACT_VAPP_TYPE = RESOURCE_ENTITY_TYPE.merge({
+      ABSTRACT_VAPP_TYPE = RESOURCE_ENTITY_TYPE.merge(
                                                         :deployed => String,
         :DateCreated => String
-      })
+      )
 
       VAPP_CHILDREN_TYPE = {
         #:VApp => ABSTRACT_VAPP_TYPE,
@@ -180,11 +180,11 @@ class VcloudDirector
       }
 
       # Represents a capacity and usage of a given resource.
-      CAPACITY_WITH_USAGE_TYPE = CAPACITY_TYPE.merge({
+      CAPACITY_WITH_USAGE_TYPE = CAPACITY_TYPE.merge(
                                                        :Reserved => String,
         :Used => Fog::Nullable::String,
         :Overhead => Fog::Nullable::String
-      })
+      )
 
       # Represents vDC compute capacity.
       COMPUTE_CAPACITY_TYPE = {
@@ -213,9 +213,9 @@ class VcloudDirector
       }
 
       # Represents the owner of this entity.
-      OWNER_TYPE = RESOURCE_TYPE.merge({
+      OWNER_TYPE = RESOURCE_TYPE.merge(
                                          :User => REFERENCE_TYPE
-      })
+      )
 
       # VMware Tools and other runtime information for this virtual machine.
       RUNTIME_INFO_SECTION_TYPE = { # TODO: extends Section_Type
@@ -230,18 +230,18 @@ class VcloudDirector
       }
 
       # Allows you to specify certain capabilities of this virtual machine.
-      VM_CAPABILITIES_TYPE = RESOURCE_TYPE.merge({
+      VM_CAPABILITIES_TYPE = RESOURCE_TYPE.merge(
                                                    :MemoryHotAddEnabled => String,
         :CpuHotAddEnabled => String
-      })
+      )
 
       # Represents the user view of a Catalog object.
-      CATALOG_TYPE = ENTITY_TYPE.merge({
+      CATALOG_TYPE = ENTITY_TYPE.merge(
         #:Owner => OWNER_TYPE,
         #:CatalogItems => CATALOG_ITEMS_TYPE,
                                          :IsPublished => String,
         :DateCreated => String
-      })
+      )
 
       # Specifies access controls for a resource.
       CONTROL_ACCESS_PARAMS_TYPE = {
@@ -251,51 +251,51 @@ class VcloudDirector
       }
 
       # Represents a Media object.
-      MEDIA_TYPE = RESOURCE_ENTITY_TYPE.merge({
+      MEDIA_TYPE = RESOURCE_ENTITY_TYPE.merge(
                                                 :imageType => String,
         :size => String,
         :Owner => OWNER_TYPE,
         :VdcStorageProfile => REFERENCE_TYPE
-      })
+      )
 
       METADATA_TYPE = RESOURCE_TYPE.merge({
         #:MetadataEntry => METADATA_ENTRY_TYPE
       })
 
       # Represents a list of organizations.
-      ORG_LIST_TYPE = RESOURCE_TYPE.merge({
+      ORG_LIST_TYPE = RESOURCE_TYPE.merge(
                                             :Org => [REFERENCE_TYPE]
-      })
+      )
 
       # Represents the user view of a vCloud Director organization.
-      ORG_TYPE = ENTITY_TYPE.merge({
+      ORG_TYPE = ENTITY_TYPE.merge(
                                      :Description => Fog::Nullable::String,
         :Tasks => TASKS_IN_PROGRESS_TYPE,
         :FullName => String,
         :IsEnabled => Fog::Nullable::String
-      })
+      )
 
       # Represents a vCloud Session.
-      SESSION_TYPE = RESOURCE_TYPE.merge({
+      SESSION_TYPE = RESOURCE_TYPE.merge(
                                            :org => String,
         :user => String,
         :Link => [LINK_TYPE]
-      })
+      )
 
       # A list of tasks.
       TASKS_LIST_TYPE = ENTITY_TYPE.merge({
         #:Task => TASK_TYPE
       })
       # Represents a vApp.
-      VAPP_TYPE = ABSTRACT_VAPP_TYPE.merge({
+      VAPP_TYPE = ABSTRACT_VAPP_TYPE.merge(
                                              :ovfDescriptorUploaded => String,
         :Owner => OWNER_TYPE,
         :InMaintenanceMode => String,
         :Children => VAPP_CHILDREN_TYPE
-      })
+      )
 
       # Represents the user view of an organization vDC.
-      VDC_TYPE = ENTITY_TYPE.merge({
+      VDC_TYPE = ENTITY_TYPE.merge(
                                      :status => Fog::Nullable::String,
         :AllocationModel => String,
       # :StorageCapacity => CAPACITY_WITH_USAGE_TYPE,
@@ -309,15 +309,15 @@ class VcloudDirector
         :VmQuota => Fog::Nullable::String,
         :IsEnabled => Fog::Nullable::String,
         :VdcStorageProfiles => VDC_STORAGE_PROFILES_TYPE # >= 5.1
-      })
+      )
 
       # Represents a storage profile in an organization vDC.
-      VDC_STORAGE_PROFILE_TYPE = ENTITY_TYPE.merge({
+      VDC_STORAGE_PROFILE_TYPE = ENTITY_TYPE.merge(
                                                      :Enabled => Fog::Nullable::String,
         :Units => String,
         :Limit => String,
         :Default => String
-      })
+      )
 
       # Information about an individual operating system.
       OPERATING_SYSTEM_INFO_TYPE = {
@@ -349,9 +349,9 @@ class VcloudDirector
 
       # Operating systems available for use on virtual machines owned by this
       # organization.
-      SUPPORTED_OPERATING_SYSTEMS_INFO_TYPE = RESOURCE_TYPE.merge({
+      SUPPORTED_OPERATING_SYSTEMS_INFO_TYPE = RESOURCE_TYPE.merge(
                                                                     :OperatingSystemFamilyInfo => [OPERATING_SYSTEM_FAMILY_INFO_TYPE]
-      })
+      )
 
       # Container for query results in records format.
       #   Combine with QUERY_RESULT_RECORD_TYPE subtypes to validate query results
@@ -366,7 +366,7 @@ class VcloudDirector
       }
 
       # Type for a single edgeGateway query result in records format.
-      QUERY_RESULT_EDGE_GATEWAY_RECORD_TYPE = QUERY_RESULT_RECORD_TYPE.merge({
+      QUERY_RESULT_EDGE_GATEWAY_RECORD_TYPE = QUERY_RESULT_RECORD_TYPE.merge(
                                                                                :gatewayStatus => String,
         :haStatus => String,
         :isBusy => String,
@@ -374,7 +374,7 @@ class VcloudDirector
         :numberOfExtNetworks => String,
         :numberOfOrgNetworks=> String,
         :vdc => String
-      })
+      )
 
       FIREWALL_RULE_TYPE__PROTOCOLS = {
         :Icmp => Fog::Nullable::String,
@@ -639,26 +639,26 @@ class VcloudDirector
         :IsShared => String,
       }
 
-      VCLOUD_TYPE = ENTITY_TYPE.merge({
+      VCLOUD_TYPE = ENTITY_TYPE.merge(
                                         :OrganizationReferences => ORGANIZATION_REFERENCES_TYPE,
         :ProviderVdcReferences => PROVIDER_VDC_REFERENCES_TYPE,
         :RightReferences => RIGHT_REFERENCES_TYPE,
         :RoleReferences => ROLE_REFERENCES_TYPE,
         :Networks => NETWORKS_TYPE
-      })
+      )
 
       # Represents a named disk.
-      DISK_TYPE = RESOURCE_ENTITY_TYPE.merge({
+      DISK_TYPE = RESOURCE_ENTITY_TYPE.merge(
                                                :busSubType => Fog::Nullable::String,
         :busType => Fog::Nullable::String,
         :size => String,
         :StorageProfile => REFERENCE_TYPE,
         :Owner => OWNER_TYPE
-      })
+      )
 
-      VMS_TYPE = RESOURCE_TYPE.merge({
+      VMS_TYPE = RESOURCE_TYPE.merge(
                                        :VmReference => [REFERENCE_TYPE]
-      })
+      )
     end
   end
 end

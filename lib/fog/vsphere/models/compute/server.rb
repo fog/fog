@@ -126,7 +126,7 @@ module Fog
           requires :name, :datacenter, :relative_path
 
           # Convert symbols to strings
-          req_options = options.inject({}) { |hsh, (k,v)| hsh[k.to_s] = v; hsh }
+          req_options = options.reduce({}) { |hsh, (k,v)| hsh[k.to_s] = v; hsh }
 
           # Give our path to the request
           req_options['template_path'] ="#{relative_path}/#{name}"

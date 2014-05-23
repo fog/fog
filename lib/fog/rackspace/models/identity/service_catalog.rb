@@ -12,7 +12,7 @@ module Fog
         end
 
         def services
-          catalog.collect { |s| s["name"] }
+          catalog.map { |s| s["name"] }
         end
 
         def get_endpoints(service_name, service_net=false)
@@ -25,7 +25,7 @@ module Fog
 
         def display_service_regions(service_name, service_net=false)
           endpoints = get_endpoints(service_name, service_net)
-          regions = endpoints.collect do |e|
+          regions = endpoints.map do |e|
             e["region"] ? ":#{e["region"].downcase}" : ":global"
           end
           regions.join(", ")

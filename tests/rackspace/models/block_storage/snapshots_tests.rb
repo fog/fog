@@ -1,10 +1,10 @@
 Shindo.tests('Fog::Rackspace::BlockStorage | snapshots', ['rackspace']) do
 
   service = Fog::Rackspace::BlockStorage.new
-  volume = service.volumes.create({
+  volume = service.volumes.create(
                                     :display_name => "fog_#{Time.now.to_i}",
     :size => 100
-  })
+  )
 
   volume.wait_for { ready? }
 

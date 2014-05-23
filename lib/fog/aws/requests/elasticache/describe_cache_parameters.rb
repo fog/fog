@@ -14,14 +14,14 @@ module Fog
         # *  :max_records <~Integer> - the maximum number of records to include
         # *  :source <~String> - the parameter types to return.
         def describe_cache_parameters(name = nil, options = {})
-          request({
+          request(
                     'Action'                  => 'DescribeCacheParameters',
             'CacheParameterGroupName' => name,
             'Marker'                  => options[:marker],
             'MaxRecords'              => options[:max_records],
             'Source'                  => options[:source],
             :parser => Fog::Parsers::AWS::Elasticache::DescribeCacheParameters.new
-          })
+          )
         end
 
       end

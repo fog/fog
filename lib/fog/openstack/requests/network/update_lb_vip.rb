@@ -23,7 +23,7 @@ module Fog
       class Mock
         def update_lb_vip(vip_id, options = {})
           response = Excon::Response.new
-          if vip = list_lb_vips.body['vips'].detect { |_| _['id'] == vip_id }
+          if vip = list_lb_vips.body['vips'].find { |_| _['id'] == vip_id }
             vip['pool_id']             = options[:pool_id]
             vip['name']                = options[:name]
             vip['description']         = options[:description]

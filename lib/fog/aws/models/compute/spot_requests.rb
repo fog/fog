@@ -50,7 +50,7 @@ module Fog
 
           # make sure port 22 is open in the first security group
           security_group = service.security_groups.get(spot_request.groups.first)
-          authorized = security_group.ip_permissions.detect do |ip_permission|
+          authorized = security_group.ip_permissions.find do |ip_permission|
             ip_permission['ipRanges'].first && ip_permission['ipRanges'].first['cidrIp'] == '0.0.0.0/0' &&
             ip_permission['fromPort'] == 22 &&
             ip_permission['ipProtocol'] == 'tcp' &&

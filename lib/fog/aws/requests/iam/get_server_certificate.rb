@@ -19,11 +19,11 @@ module Fog
         # http://docs.amazonwebservices.com/IAM/latest/APIReference/API_GetServerCertificate.html
         #
         def get_server_certificate(name)
-          request({
+          request(
                     'Action'                => 'GetServerCertificate',
             'ServerCertificateName' => name,
             :parser                 => Fog::Parsers::AWS::IAM::UploadServerCertificate.new
-          })
+          )
         end
 
       end

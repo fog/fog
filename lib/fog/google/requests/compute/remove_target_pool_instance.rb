@@ -20,7 +20,7 @@ module Fog
             'region' => target_pool.region.split('/')[-1]
           }
           body = {
-            'instances' => instances.collect { |i| { 'instance' => i } }
+            'instances' => instances.map { |i| { 'instance' => i } }
           }
 
           result = self.build_result(api_method, parameters, body_object=body)

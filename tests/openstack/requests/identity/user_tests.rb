@@ -17,7 +17,7 @@ Shindo.tests('Fog::Identity[:openstack] | user requests', ['openstack']) do
       @user = Fog::Identity[:openstack].create_user(@user_name, "mypassword", "morph@example.com", OpenStack::Identity.get_tenant_id).body['user']
     end
 
-    tests('#list_users').formats({'users' => [@user_format]}) do
+    tests('#list_users').formats('users' => [@user_format]) do
       Fog::Identity[:openstack].list_users.body
     end
 

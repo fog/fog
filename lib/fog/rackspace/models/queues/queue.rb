@@ -18,12 +18,12 @@ module Fog
         # @see http://docs.rackspace.com/queues/api/v1.0/cq-devguide/content/GET_getMessages__version__queues__queue_name__messages_message-operations-dle001.html
         def messages
           @messages ||= begin
-            Fog::Rackspace::Queues::Messages.new({
+            Fog::Rackspace::Queues::Messages.new(
                                                    :service => service,
               :queue => self,
               :client_id => service.client_id,
               :echo => true
-            })
+            )
           end
         end
 
@@ -48,10 +48,10 @@ module Fog
         # @raise [Fog::Rackspace::Queues::ServiceError]
         def claims
           @claims ||= begin
-            Fog::Rackspace::Queues::Claims.new({
+            Fog::Rackspace::Queues::Claims.new(
                                                  :service => service,
               :queue => self
-            })
+            )
           end
         end
 
@@ -67,7 +67,7 @@ module Fog
         # @raise [Fog::Rackspace::Queues::ServiceError]
         # @see http://docs.rackspace.com/queues/api/v1.0/cq-devguide/content/POST_postMessage__version__queues__queue_name__messages_message-operations-dle001.html
         def enqueue(body, ttl, options = {})
-          messages.create(options.merge({:body => body, :ttl => ttl}))
+          messages.create(options.merge(:body => body, :ttl => ttl))
         end
 
         # Helper method to claim (dequeue) a single message, yield the message, and then destroy it
@@ -84,11 +84,11 @@ module Fog
         def dequeue(ttl, grace, options = {}, &block)
           claim = claims.create(
             options.merge(
-            {
+            
               :limit => 1,
               :ttl => ttl,
               :grace => grace
-            }))
+            ))
 
           if claim
             message = claim.messages.first

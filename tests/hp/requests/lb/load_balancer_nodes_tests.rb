@@ -11,13 +11,13 @@ Shindo.tests('HP::LB | load balancer nodes', ['hp', 'lb', 'nodes']) do
     data = HP[:lb].create_load_balancer('rg-fog-lb2', [{'address' => '15.185.1.1', 'port' => '80'}]).body
     @lb_id = data['id']
 
-    tests("#create_load_balancer_node(#{@lb_id}, '15.185.2.2', '88')").formats({'nodes' => [@node_format]}) do
+    tests("#create_load_balancer_node(#{@lb_id}, '15.185.2.2', '88')").formats('nodes' => [@node_format]) do
       data = HP[:lb].create_load_balancer_node(@lb_id, '15.185.2.2', '88').body
       @lb_node_id = data['nodes'][0]['id']
       data
     end
 
-    tests("#list_load_balancer_nodes(#{@lb_id})").formats({'nodes' => [@node_format]}) do
+    tests("#list_load_balancer_nodes(#{@lb_id})").formats('nodes' => [@node_format]) do
       HP[:lb].list_load_balancer_nodes(@lb_id).body
     end
 

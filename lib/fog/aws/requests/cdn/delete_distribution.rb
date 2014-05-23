@@ -11,13 +11,13 @@ module Fog
         # @see http://docs.amazonwebservices.com/AmazonCloudFront/latest/APIReference/DeleteDistribution.html
 
         def delete_distribution(distribution_id, etag)
-          request({
+          request(
                     :expects    => 204,
             :headers    => { 'If-Match' => etag },
             :idempotent => true,
             :method     => 'DELETE',
             :path       => "/distribution/#{distribution_id}"
-          })
+          )
         end
 
       end

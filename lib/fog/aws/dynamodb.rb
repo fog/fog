@@ -110,11 +110,11 @@ module Fog
           refresh_credentials_if_expired
 
           # defaults for all dynamodb requests
-          params.merge!({
+          params.merge!(
                           :expects  => 200,
             :method   => :post,
             :path     => '/'
-          })
+          )
 
           # setup headers and sign with signature v4
           date = Fog::Time.now

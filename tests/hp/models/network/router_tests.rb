@@ -2,8 +2,8 @@ Shindo.tests('HP::Network | networking router model', ['hp', 'networking', 'rout
 
   # needed to test router_interface calls
   @network = HP[:network].networks.create(:name => 'fognetwork')
-  @subnet = HP[:network].subnets.create({:name => 'fogsubnet', :network_id => @network.id, :cidr => '13.13.13.13/13', :ip_version => 4})
-  @port = HP[:network].ports.create({:name => 'fogport', :network_id => @network.id})
+  @subnet = HP[:network].subnets.create(:name => 'fogsubnet', :network_id => @network.id, :cidr => '13.13.13.13/13', :ip_version => 4)
+  @port = HP[:network].ports.create(:name => 'fogport', :network_id => @network.id)
 
   attributes = {:name => 'fogrouter', :admin_state_up => true}
   model_tests(HP[:network].routers, attributes, true)

@@ -17,14 +17,14 @@ module Fog
   <Payer>#{payer}</Payer>
 </RequestPaymentConfiguration>
 DATA
-          request({
+          request(
                     :body     => data,
             :expects  => 200,
             :headers  => {},
             :host     => "#{bucket_name}.#{@host}",
             :method   => 'PUT',
             :query    => {'requestPayment' => nil}
-          })
+          )
         end
 
       end

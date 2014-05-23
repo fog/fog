@@ -45,7 +45,7 @@ module Fog
 
         def find_node(load_balancer_id, node_id)
           nodes = list_load_balancer_nodes(load_balancer_id).body['nodes']
-          nodes.detect { |n| n['id'] == node_id }
+          nodes.find { |n| n['id'] == node_id }
         end
 
       end

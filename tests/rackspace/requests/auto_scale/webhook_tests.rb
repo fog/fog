@@ -23,7 +23,7 @@ Shindo.tests('Fog::Rackspace::AutoScale | webhook_tests', ['rackspace', 'rackspa
       end
 
       tests('#update_webhook').formats(204) do
-        response = service.update_webhook(@group_id, @policy_id, @webhook_id, {'name' => 'new', 'metadata' => {}} )
+        response = service.update_webhook(@group_id, @policy_id, @webhook_id, 'name' => 'new', 'metadata' => {} )
         response.data[:status]
       end
 

@@ -22,7 +22,7 @@ module Fog
             if not config[:affinity]
           config[:affinity] = config[:affinity].reference \
             if config[:affinity].kind_of? Fog::Compute::XenServer::Host
-          config.inject({}) { |memo,(k,v)| memo[k.to_sym] = v; memo }
+          config.reduce({}) { |memo,(k,v)| memo[k.to_sym] = v; memo }
           %w{ VCPUs_at_startup
               VCPUs_max
               VCPUs_params

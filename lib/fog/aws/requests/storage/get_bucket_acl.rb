@@ -30,7 +30,7 @@ module Fog
           unless bucket_name
             raise ArgumentError.new('bucket_name is required')
           end
-          request({
+          request(
                     :expects    => 200,
             :headers    => {},
             :bucket_name => bucket_name,
@@ -38,7 +38,7 @@ module Fog
             :method     => 'GET',
             :parser     => Fog::Parsers::Storage::AWS::AccessControlList.new,
             :query      => {'acl' => nil}
-          })
+          )
         end
 
       end

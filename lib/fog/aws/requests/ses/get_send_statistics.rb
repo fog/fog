@@ -22,10 +22,10 @@ module Fog
         #     * 'ResponseMetadata'<~Hash>:
         #       * 'RequestId'<~String> - Id of request
         def get_send_statistics
-          request({
+          request(
                     'Action' => 'GetSendStatistics',
             :parser  => Fog::Parsers::AWS::SES::GetSendStatistics.new
-          })
+          )
         end
 
       end

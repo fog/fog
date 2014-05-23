@@ -45,11 +45,11 @@ module Fog
           params.merge!(indexed_multidimensional_params(dhcp_configurations))
           Excon::Response.new.tap do |response|
             response.status = 200
-            self.data[:dhcp_options].push({
+            self.data[:dhcp_options].push(
                                             'dhcpOptionsId' => Fog::AWS::Mock.dhcp_options_id,
               'dhcpConfigurationSet'  => {},
               'tagSet'             => {}
-            })
+            )
             response.body = {
               'requestId'    => Fog::AWS::Mock.request_id,
               'dhcpOptionsSet'      => self.data[:dhcp_options]

@@ -1,6 +1,6 @@
 Shindo.tests('Fog::Compute[:linode] | stack_script requests', ['linode']) do
 
-  @stack_scripts_format = Linode::Compute::Formats::BASIC.merge({
+  @stack_scripts_format = Linode::Compute::Formats::BASIC.merge(
                                                                   'DATA' => [{ 
                                                                     'STACKSCRIPTID'       => Integer,
                                                                     'SCRIPT'              => String,
@@ -16,7 +16,7 @@ Shindo.tests('Fog::Compute[:linode] | stack_script requests', ['linode']) do
                                                                     'ISPUBLIC'            => Integer,
                                                                     'USERID'              => Integer
                                                                   }]
-  })  
+  )  
 
   tests('success') do
 

@@ -42,16 +42,16 @@ module Fog
         end
 
         def update_password(password)
-          update({'password' => password, 'url' => "/users/#{id}/OS-KSADM/password"})
+          update('password' => password, 'url' => "/users/#{id}/OS-KSADM/password")
         end
 
         def update_tenant(tenant)
           tenant = tenant.id if tenant.class != String
-          update({:tenantId => tenant, 'url' => "/users/#{id}/OS-KSADM/tenant"})
+          update(:tenantId => tenant, 'url' => "/users/#{id}/OS-KSADM/tenant")
         end
 
         def update_enabled(enabled)
-          update({:enabled => enabled, 'url' => "/users/#{id}/OS-KSADM/enabled"})
+          update(:enabled => enabled, 'url' => "/users/#{id}/OS-KSADM/enabled")
         end
 
         def destroy

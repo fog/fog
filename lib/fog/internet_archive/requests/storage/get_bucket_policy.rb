@@ -16,14 +16,14 @@ module Fog
           unless bucket_name
             raise ArgumentError.new('bucket_name is required')
           end
-          response = request({
+          response = request(
                                :expects    => 200,
             :headers    => {},
             :host       => "#{bucket_name}.#{@host}",
             :idempotent => true,
             :method     => 'GET',
             :query      => {'policy' => nil}
-          })
+          )
           response.body = Fog::JSON.decode(response.body) unless response.body.nil?
         end
 

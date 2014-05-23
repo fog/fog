@@ -14,10 +14,10 @@ Shindo.tests("HP::LB | virtual ips requests", ['hp', 'lb', 'virtual_ips']) do
                      'id' => '11111111',
                      'address' => '15.185.3.3'
                   }]
-    data = HP[:lb].create_load_balancer('rg-fog-lb3', @nodes, {'virtualIps' => @virtual_ip}).body
+    data = HP[:lb].create_load_balancer('rg-fog-lb3', @nodes, 'virtualIps' => @virtual_ip).body
     @lb_id = data['id']
 
-    tests('#list_load_balancer_virtual_ips').formats({'virtualIps' => [@virtual_ips_format]}) do
+    tests('#list_load_balancer_virtual_ips').formats('virtualIps' => [@virtual_ips_format]) do
       HP[:lb].list_load_balancer_virtual_ips(@lb_id).body
     end
 

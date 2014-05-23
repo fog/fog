@@ -20,7 +20,7 @@ Shindo.tests("Fog::Compute::HPV2 | metadata requests", ['hp', 'v2', 'compute']) 
     else
       #@server = service.servers.create(:name => @server_name, :flavor_id => 100, :image_id => @base_image_id, :metadata => {'Meta1' => 'MetaValue1', 'Meta2' => 'MetaValue2'} )
       #@server.wait_for { ready? }
-      data = service.create_server(@server_name, 100, @base_image_id, {'metadata' => {'Meta1' => 'MetaValue1', 'Meta2' => 'MetaValue2'} }).body['server']
+      data = service.create_server(@server_name, 100, @base_image_id, 'metadata' => {'Meta1' => 'MetaValue1', 'Meta2' => 'MetaValue2'} ).body['server']
       @server_id = data['id']
     end
 
@@ -33,7 +33,7 @@ Shindo.tests("Fog::Compute::HPV2 | metadata requests", ['hp', 'v2', 'compute']) 
     end
 
     tests("#set_metadata('servers', #{@server_id}, {'MetaNew3' => 'MetaNewValue3'})").formats(@metadata_format) do
-      data = service.set_metadata('servers', @server_id, {'MetaNew3' => 'MetaNewValue3'}).body
+      data = service.set_metadata('servers', @server_id, 'MetaNew3' => 'MetaNewValue3').body
       test ("metadata set correctly") do
         metadata = service.list_metadata('servers', @server_id).body
         metadata['metadata']['MetaNew3'] == "MetaNewValue3"
@@ -42,7 +42,7 @@ Shindo.tests("Fog::Compute::HPV2 | metadata requests", ['hp', 'v2', 'compute']) 
     end
 
     tests("#update_metadata('servers', #{@server_id}, {'MetaUpd4' => 'MetaUpdValue4'})").formats(@metadata_format) do
-      data = service.update_metadata('servers', @server_id, {'MetaUpd4' => 'MetaUpdValue4'}).body
+      data = service.update_metadata('servers', @server_id, 'MetaUpd4' => 'MetaUpdValue4').body
       test ("metadata updated correctly") do
         metadata = service.list_metadata('servers', @server_id).body
         metadata['metadata']['MetaUpd4'] == "MetaUpdValue4"
@@ -82,7 +82,7 @@ Shindo.tests("Fog::Compute::HPV2 | metadata requests", ['hp', 'v2', 'compute']) 
   tests('failure') do
 
     tests("#update_metadata('servers', 0, {'MetaUpd4' => 'MetaUpdValue4'})").raises(Fog::Compute::HPV2::NotFound) do
-      service.update_metadata('servers', 0, {'MetaUpd4' => 'MetaUpdValue4'})
+      service.update_metadata('servers', 0, 'MetaUpd4' => 'MetaUpdValue4')
     end
 
     tests("#get_meta('servers', 0, 'MetaNew3')").raises(Fog::Compute::HPV2::NotFound) do

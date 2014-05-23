@@ -36,7 +36,7 @@ module Fog
             raise ArgumentError.new('object_name is required')
           end
           query = {'acl' => nil}
-          request({
+          request(
                     :expects    => 200,
             :headers    => {},
             :host       => "#{bucket_name}.#{@host}",
@@ -45,7 +45,7 @@ module Fog
             :parser     => Fog::Parsers::Storage::InternetArchive::AccessControlList.new,
             :path       => CGI.escape(object_name),
             :query      => query
-          })
+          )
         end
 
       end

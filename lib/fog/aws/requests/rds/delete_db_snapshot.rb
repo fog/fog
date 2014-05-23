@@ -14,12 +14,12 @@ module Fog
         #   * body<~Hash>:
         def delete_db_snapshot(name)
 
-          request({
+          request(
                     'Action'  => 'DeleteDBSnapshot',
             'DBSnapshotIdentifier' => name,
 
             :parser   => Fog::Parsers::AWS::RDS::DeleteDBSnapshot.new
-          })
+          )
         end
 
       end

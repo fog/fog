@@ -31,14 +31,14 @@ module Fog
         # http://docs.aws.amazon.com/STS/latest/APIReference/API_GetFederationToken.html
 
         def get_federation_token(name, policy, duration=43200)
-          request({
+          request(
                     'Action'          => 'GetFederationToken',
             'Name'            => name,
             'Policy'          => Fog::JSON.encode(policy),
             'DurationSeconds' => duration,
             :idempotent       => true,
             :parser           => Fog::Parsers::AWS::STS::GetSessionToken.new
-          })
+          )
         end
       end
       class Mock

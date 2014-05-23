@@ -19,7 +19,7 @@ module Fog
         end
 
         def get_by_id(item_id)
-          item = item_list.detect { |i| i[:id] == item_id }
+          item = item_list.find { |i| i[:id] == item_id }
           item.merge!(:all_disks => @disks, :vm => vm) if item
           item
         end

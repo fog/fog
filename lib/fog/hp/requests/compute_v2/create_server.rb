@@ -158,7 +158,7 @@ module Fog
           self.data[:last_modified][:servers][data['id']] = Time.now
           self.data[:servers][data['id']] = data
           response.headers = {'Content-Length' => '0', 'Content-Type' => 'text/html; charset=UTF-8', 'Date' => Time.now, 'Location' => "http://nova1:8774/v1.1/servers/#{id}"}
-          response.body = { 'server' => data.merge({'adminPass' => 'password'}) }
+          response.body = { 'server' => data.merge('adminPass' => 'password') }
           response
         end
 

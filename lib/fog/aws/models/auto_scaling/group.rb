@@ -50,11 +50,11 @@ module Fog
             next_token = result['NextToken']
             break if next_token.nil?
           end
-          Fog::AWS::AutoScaling::Activities.new({
+          Fog::AWS::AutoScaling::Activities.new(
                                                   :data => data,
-            :service => service,
+            :service => service
             #:load_balancer => self
-          })
+          )
         end
 
         def configuration
@@ -124,7 +124,7 @@ module Fog
           requires :id
 
           opts = {}
-          opts.merge!({'ForceDelete' => true}) if options[:force]
+          opts.merge!('ForceDelete' => true) if options[:force]
 
           service.delete_auto_scaling_group(id, opts)
         end

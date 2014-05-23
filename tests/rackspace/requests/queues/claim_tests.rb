@@ -40,7 +40,7 @@ Shindo.tests('Fog::Rackspace::Queues | claim_tests', ['rackspace']) do
       end
 
       tests("#create_claim(#{queue_name}, #{VALID_TTL}, #{VALID_GRACE}, { :limit => 1})") do
-        response = service.create_claim(queue_name, VALID_TTL, VALID_GRACE,  { :limit => 1})
+        response = service.create_claim(queue_name, VALID_TTL, VALID_GRACE,   :limit => 1)
 
         formats(CREATE_CLAIM_FORMAT) { response.body }
         returns(1) { response.body.length }

@@ -24,7 +24,7 @@ Shindo.tests("Fog::CDN[:hp] | container requests", ['hp']) do
     end
 
     tests("#post_container('fogcdncontainertests', {'x-ttl' => 3200})").succeeds do
-      Fog::CDN[:hp].post_container('fogcdncontainertests', {'x-ttl' => 3200})
+      Fog::CDN[:hp].post_container('fogcdncontainertests', 'x-ttl' => 3200)
     end
 
     tests("#head_container('fogcdncontainertests')").succeeds do
@@ -40,7 +40,7 @@ Shindo.tests("Fog::CDN[:hp] | container requests", ['hp']) do
   tests('failure') do
 
     tests("#post_container('fognoncdncontainer', {'x-ttl' => 3200})").raises(Fog::CDN::HP::NotFound) do
-      Fog::CDN[:hp].post_container('fogcdnnoncontainer', {'x-ttl' => 3200})
+      Fog::CDN[:hp].post_container('fogcdnnoncontainer', 'x-ttl' => 3200)
     end
 
     tests("#head_container('fognoncdncontainer')").raises(Fog::CDN::HP::NotFound) do

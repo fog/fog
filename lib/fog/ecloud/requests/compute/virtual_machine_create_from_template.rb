@@ -137,7 +137,7 @@ module Fog
           networks.each do |network|
             links << Fog::Ecloud.keep(network, :name, :href, :type)
             network_id = id_from_uri(network[:href])
-            ip = self.data[:networks][network_id][:IpAddresses][:IpAddress].detect { |ip| ip[:id] = network[:ip] }
+            ip = self.data[:networks][network_id][:IpAddresses][:IpAddress].find { |ip| ip[:id] = network[:ip] }
             ip[:DetectedOn] = {:href => "/cloudapi/ecloud/networkhosts/#{server_id}", :name => options[:name], :type => "application/vnd.tmrk.cloud.networkHost"}
             ip[:Host]       = {:href => "/cloudapi/ecloud/networkhosts/#{server_id}", :name => options[:name], :type => "application/vnd.tmrk.cloud.networkHost"}
           end

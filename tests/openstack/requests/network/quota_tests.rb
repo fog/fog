@@ -20,7 +20,7 @@ Shindo.tests('Fog::Network[:openstack] | quota requests', ['openstack']) do
 
   tests('success') do
 
-    tests('#get_quotas').formats({ 'quotas' => @quotas_format }) do
+    tests('#get_quotas').formats( 'quotas' => @quotas_format ) do
       Fog::Network[:openstack].get_quotas.body
     end
 
@@ -30,10 +30,10 @@ Shindo.tests('Fog::Network[:openstack] | quota requests', ['openstack']) do
 
     tests('#update_quota') do
 
-      new_values = @quota.merge({
+      new_values = @quota.merge(
                                   'volumes'   => @quota['subnet']/2,
         'snapshots' => @quota['router']/2
-      })
+      )
 
       succeeds do
         Fog::Network[:openstack].update_quota(@tenant_id, new_values.clone)

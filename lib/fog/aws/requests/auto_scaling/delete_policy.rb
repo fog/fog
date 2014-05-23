@@ -24,12 +24,12 @@ module Fog
         # http://docs.amazonwebservices.com/AutoScaling/latest/APIReference/API_DeletePolicy.html
         #
         def delete_policy(auto_scaling_group_name, policy_name)
-          request({
+          request(
                     'Action'               => 'DeletePolicy',
             'AutoScalingGroupName' => auto_scaling_group_name,
             'PolicyName'           => policy_name,
             :parser                => Fog::Parsers::AWS::AutoScaling::Basic.new
-          })
+          )
         end
 
       end

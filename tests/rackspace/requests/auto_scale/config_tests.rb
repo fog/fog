@@ -8,16 +8,16 @@ Shindo.tests('Fog::Rackspace::AutoScale | config_tests', ['rackspace', 'rackspac
     @group_id = @group['id']
 
     tests('success') do
-      tests('#get_group_config').formats({"groupConfiguration" => GROUP_CONFIG_FORMAT}) do
+      tests('#get_group_config').formats("groupConfiguration" => GROUP_CONFIG_FORMAT) do
         service.get_group_config(@group_id).body
       end
       tests('#update_group_config').returns(204) do
-        data = service.update_group_config(@group_id, {
+        data = service.update_group_config(@group_id, 
                                              'maxEntities' => 0,
           'minEntities' => 0,
           'metadata' => {},
           'name' => 'foo',
-          'cooldown' => 20})
+          'cooldown' => 20)
         data.status
       end
 
@@ -25,7 +25,7 @@ Shindo.tests('Fog::Rackspace::AutoScale | config_tests', ['rackspace', 'rackspac
         service.get_launch_config(@group_id).body["launchConfiguration"]
       end
       tests('#update_launch_config').returns(204) do
-        data = service.update_launch_config(@group_id, {
+        data = service.update_launch_config(@group_id, 
 		                                            "args" => {
                                                 "loadBalancers" => [
                                                   {
@@ -60,7 +60,7 @@ Shindo.tests('Fog::Rackspace::AutoScale | config_tests', ['rackspace', 'rackspac
                                                           }
                                                         },
             "type" => "launch_server"
-            })
+            )
         data.status
       end
     end

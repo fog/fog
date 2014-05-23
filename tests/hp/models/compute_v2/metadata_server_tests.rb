@@ -21,14 +21,14 @@ Shindo.tests("Fog::Compute::HPV2 | metadata for servers", ['hp', 'v2', 'compute'
     end
 
     tests("#update({'Meta3' => 'MetaValue3'})").succeeds do
-      @data = @server.metadata.update({'Meta3' => 'MetaValue3'})
+      @data = @server.metadata.update('Meta3' => 'MetaValue3')
       test('metadata has updated correctly') do
         @server.metadata.get('Meta3').value == 'MetaValue3'
       end
     end
 
     tests("#set({'Meta4' => 'MetaValue4'})").succeeds do
-      @data = @server.metadata.set({'Meta4' => 'MetaValue4'})
+      @data = @server.metadata.set('Meta4' => 'MetaValue4')
       test('metadata has set correctly') do
         @server.metadata.get('Meta4').value == 'MetaValue4'
       end

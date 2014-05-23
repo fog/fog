@@ -13,10 +13,10 @@ module Fog
         def delete_pipeline(id)
           params = { 'pipelineId' => id }
 
-          response = request({
+          response = request(
                                :body => Fog::JSON.encode(params),
-            :headers => { 'X-Amz-Target' => 'DataPipeline.DeletePipeline' },
-          })
+            :headers => { 'X-Amz-Target' => 'DataPipeline.DeletePipeline' }
+          )
 
           200 == response.status
         end

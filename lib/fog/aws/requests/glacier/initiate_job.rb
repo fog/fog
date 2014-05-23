@@ -26,13 +26,13 @@ module Fog
           account_id = options['account_id'] || '-'
           path = "/#{account_id}/vaults/#{Fog::AWS.escape(name)}/jobs"
 
-          request({
+          request(
                     :expects  => 202,
             :headers => {},
             :method   => 'POST',
             :path     => path,
             :body     => Fog::JSON.encode(job_specification)
-          })
+          )
         end
       end
 

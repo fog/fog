@@ -15,12 +15,12 @@ Shindo.tests('Fog::Compute[:rackspace] | flavor requests', ['rackspace']) do
       @service.get_flavor_details(1).body['flavor']
     end
 
-    tests('#list_flavors').formats({'flavors' => [Rackspace::Compute::Formats::SUMMARY]}) do
+    tests('#list_flavors').formats('flavors' => [Rackspace::Compute::Formats::SUMMARY]) do
       pending if Fog.mocking?
       @service.list_flavors.body
     end
 
-    tests('#list_flavors_detail').formats({'flavors' => [@flavor_format]}) do
+    tests('#list_flavors_detail').formats('flavors' => [@flavor_format]) do
       pending if Fog.mocking?
       @service.list_flavors_detail.body
     end

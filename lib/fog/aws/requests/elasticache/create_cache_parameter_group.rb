@@ -16,13 +16,13 @@ module Fog
         # * response <~Excon::Response>:
         #   * body <~Hash>
         def create_cache_parameter_group(name, description = name, family = 'memcached1.4')
-          request({
+          request(
                     'Action' => 'CreateCacheParameterGroup',
             'CacheParameterGroupName' => name,
             'Description' => description,
             'CacheParameterGroupFamily' => family,
             :parser => Fog::Parsers::AWS::Elasticache::SingleParameterGroup.new
-          })
+          )
         end
       end
 

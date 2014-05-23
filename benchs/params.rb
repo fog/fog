@@ -22,7 +22,7 @@ data = "Content-Length: 100"
 Benchmark.bmbm(25) do |bench|
   bench.report('hash') do
     COUNT.times do
-      hash({:name => 'name'})
+      hash(:name => 'name')
     end
   end
   bench.report('optional') do
@@ -32,7 +32,7 @@ Benchmark.bmbm(25) do |bench|
   end
   bench.report('hash_with_option') do
     COUNT.times do
-      hash({:name => 'name', :a => 'a', :b => 'b', :c => 'c'})
+      hash(:name => 'name', :a => 'a', :b => 'b', :c => 'c')
     end
   end
   bench.report('optional_with_option') do

@@ -23,7 +23,7 @@ module Fog
       class Mock
         def update_lb_pool(pool_id, options = {})
           response = Excon::Response.new
-          if pool = list_lb_pools.body['pools'].detect { |_| _['id'] == pool_id }
+          if pool = list_lb_pools.body['pools'].find { |_| _['id'] == pool_id }
             pool['name']            = options[:name]
             pool['description']     = options[:description]
             pool['lb_method']       = options[:lb_method]

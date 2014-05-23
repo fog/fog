@@ -30,14 +30,14 @@ module Fog
         #
         def copy_object(source_bucket_name, source_object_name, target_bucket_name, target_object_name, options = {})
           headers = { 'x-amz-copy-source' => "/#{source_bucket_name}/#{CGI.escape(source_object_name)}" }.merge!(options)
-          request({
+          request(
                     :expects  => 200,
             :headers  => headers,
             :host     => "#{target_bucket_name}.#{@host}",
             :method   => 'PUT',
             :parser   => Fog::Parsers::Storage::InternetArchive::CopyObject.new,
             :path     => CGI.escape(target_object_name)
-          })
+          )
         end
 
       end
@@ -61,7 +61,7 @@ module Fog
           if source_object && target_bucket
             response.status = 200
             target_object = source_object.dup
-            target_object.merge!({'Key' => target_object_name})
+            target_object.merge!('Key' => target_object_name)
             target_bucket[:objects][target_object_name] = [target_object]
             response.body = {
               'ETag'          => target_object['ETag'],

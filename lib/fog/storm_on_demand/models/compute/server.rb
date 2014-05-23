@@ -74,12 +74,12 @@ module Fog
 
         def start
           reqwuires :identity
-          service.start_server({:uniq_id => identity}).body
+          service.start_server(:uniq_id => identity).body
         end
 
         def status
           requires :identity
-          service.server_status({:uniq_id => identity}).body
+          service.server_status(:uniq_id => identity).body
         end
 
         def update(options)

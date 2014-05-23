@@ -217,7 +217,7 @@ module Fog
         end
 
         def find_matching_permission(group, permission)
-          group['ipPermissions'].detect {|group_permission|
+          group['ipPermissions'].find {|group_permission|
             permission['ipProtocol'] == group_permission['ipProtocol'] &&
             permission['fromPort'] == group_permission['fromPort'] &&
             permission['toPort'] == group_permission['toPort'] }

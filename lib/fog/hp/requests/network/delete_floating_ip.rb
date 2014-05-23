@@ -19,7 +19,7 @@ module Fog
       class Mock
         def delete_floating_ip(floating_ip_id)
           response = Excon::Response.new
-          if list_floating_ips.body['floatingips'].detect { |_| _['id'] == floating_ip_id }
+          if list_floating_ips.body['floatingips'].find { |_| _['id'] == floating_ip_id }
             self.data[:floating_ips].delete(floating_ip_id)
             response.status = 204
             response

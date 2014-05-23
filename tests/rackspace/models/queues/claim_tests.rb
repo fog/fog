@@ -1,13 +1,13 @@
 Shindo.tests('Fog::Rackspace::Queues | claim', ['rackspace']) do
 
   service = Fog::Rackspace::Queues.new
-  queue = service.queues.create({
-                                  :name => "fog_queue_#{Time.now.to_i}",
-  })
-  queue.messages.create({
+  queue = service.queues.create(
+                                  :name => "fog_queue_#{Time.now.to_i}"
+  )
+  queue.messages.create(
                           :ttl => VALID_TTL,
     :body => { :random => :body }
-  })
+  )
 
   params = {
     :ttl => VALID_TTL,
@@ -27,10 +27,10 @@ Shindo.tests('Fog::Rackspace::Queues | claim', ['rackspace']) do
       end
     end
 
-    queue.messages.create({
+    queue.messages.create(
                             :ttl => VALID_TTL,
       :body => { :random => :body }
-    })
+    )
     tests('destroying claimed messages').succeeds do
       claim = queue.claims.create(params)
       claim.messages.first.destroy

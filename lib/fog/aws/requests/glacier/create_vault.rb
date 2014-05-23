@@ -19,13 +19,13 @@ module Fog
         def create_vault(name,options={})
           account_id = options['account_id'] || '-'
           path = "/#{account_id}/vaults/#{Fog::AWS.escape(name)}"
-          request(options.merge({
+          request(options.merge(
                                   :expects  => 201,
             :idempotent => true,
             :headers => {},
             :method   => :put,
-            :path     => path,
-          }))
+            :path     => path
+          ))
         end
       end
 

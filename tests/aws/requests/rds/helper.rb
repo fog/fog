@@ -33,29 +33,29 @@ class AWS
         'OwnerId' => Fog::Nullable::String
       }
 
-      CREATE_DB_SECURITY_GROUP = BASIC.merge({
+      CREATE_DB_SECURITY_GROUP = BASIC.merge(
                                                'CreateDBSecurityGroupResult' => {
                                                  'DBSecurityGroup' => DB_SECURITY_GROUP
                                                }
-      })
+      )
 
-      AUTHORIZE_DB_SECURITY_GROUP = BASIC.merge({
+      AUTHORIZE_DB_SECURITY_GROUP = BASIC.merge(
                                                   'AuthorizeDBSecurityGroupIngressResult' => {
                                                     'DBSecurityGroup' => DB_SECURITY_GROUP
                                                   }
-      })
+      )
 
-      REVOKE_DB_SECURITY_GROUP = BASIC.merge({
+      REVOKE_DB_SECURITY_GROUP = BASIC.merge(
                                                'RevokeDBSecurityGroupIngressResult' => {
                                                  'DBSecurityGroup' => DB_SECURITY_GROUP
                                                }
-      })
+      )
 
-      DESCRIBE_DB_SECURITY_GROUP = BASIC.merge({
+      DESCRIBE_DB_SECURITY_GROUP = BASIC.merge(
                                                  'DescribeDBSecurityGroupsResult' => {
                                                    'DBSecurityGroups' => [DB_SECURITY_GROUP]
                                                  }
-      })
+      )
 
       DB_SUBNET_GROUP = {
         'DBSubnetGroupName' => String,
@@ -65,17 +65,17 @@ class AWS
         'Subnets' => [String]
       }
 
-      CREATE_DB_SUBNET_GROUP = BASIC.merge({
+      CREATE_DB_SUBNET_GROUP = BASIC.merge(
                                              'CreateDBSubnetGroupResult' => {
                                                'DBSubnetGroup' => DB_SUBNET_GROUP
                                              }
-      })
+      )
 
-      DESCRIBE_DB_SUBNET_GROUPS = BASIC.merge({
+      DESCRIBE_DB_SUBNET_GROUPS = BASIC.merge(
                                                 'DescribeDBSubnetGroupsResult' => {
                                                   'DBSubnetGroups' => [DB_SUBNET_GROUP]
                                                 }
-      })
+      )
 
       DESCRIBE_DB_PARAMETER_GROUP = {
         'ResponseMetadata' => { 'RequestId' => String },
@@ -95,17 +95,17 @@ class AWS
           'Vpc' => Fog::Boolean
       }
 
-      DESCRIBE_ORDERABLE_DB_INSTANCE_OPTION = BASIC.merge({
+      DESCRIBE_ORDERABLE_DB_INSTANCE_OPTION = BASIC.merge(
                                                             'DescribeOrderableDBInstanceOptionsResult' => {
                                                               'OrderableDBInstanceOptions' => [ORDERABLE_DB_INSTANCE_OPTION]
                                                             }
-      })
+      )
 
-      MODIFY_PARAMETER_GROUP = BASIC.merge({
+      MODIFY_PARAMETER_GROUP = BASIC.merge(
                                              'ModifyDBParameterGroupResult' => {
                                                'DBParameterGroupName' => String
                                              }
-      })
+      )
 
       DB_PARAMETER = {
         'ParameterValue' => Fog::Nullable::String,
@@ -118,13 +118,13 @@ class AWS
         'ApplyType' => String
       }
 
-      DESCRIBE_DB_PARAMETERS = BASIC.merge({
+      DESCRIBE_DB_PARAMETERS = BASIC.merge(
                                              'DescribeDBParametersResult' => {
                                                'Marker' => Fog::Nullable::String,
                                                'Parameters' => [DB_PARAMETER]
                                              }
 
-      })
+      )
 
       DB_LOG_FILE = {
         'LastWritten' => Time,
@@ -132,12 +132,12 @@ class AWS
         'LogFileName' => String
       }
 
-      DESCRIBE_DB_LOG_FILES = BASIC.merge({
+      DESCRIBE_DB_LOG_FILES = BASIC.merge(
                                             'DescribeDBLogFilesResult' => {
                                               'Marker' => Fog::Nullable::String,
                                               'DBLogFiles' => [DB_LOG_FILE]
                                             }
-      })
+      )
 
       SNAPSHOT = {
         'AllocatedStorage' => Integer,
@@ -200,72 +200,72 @@ class AWS
         'ReadReplicaDBInstanceIdentifiers' => [Fog::Nullable::String]
       }
 
-      REPLICA_INSTANCE = INSTANCE.merge({
+      REPLICA_INSTANCE = INSTANCE.merge(
                                           'BackupRetentionPeriod' => Fog::Nullable::String,
         'PreferredBackupWindow' => Fog::Nullable::String,
         'ReadReplicaSourceDBInstanceIdentifier' => String
-      })
+      )
 
-      CREATE_DB_INSTANCE = BASIC.merge({
+      CREATE_DB_INSTANCE = BASIC.merge(
                                          'CreateDBInstanceResult' => {
                                            'DBInstance' => INSTANCE
                                          }
-      })
+      )
 
-      DESCRIBE_DB_INSTANCES = BASIC.merge({
+      DESCRIBE_DB_INSTANCES = BASIC.merge(
                                             'DescribeDBInstancesResult' =>  {
                                               'Marker' => Fog::Nullable::String,
                                               'DBInstances' => [INSTANCE]
                                             }
-      })
+      )
 
-      MODIFY_DB_INSTANCE = BASIC.merge({
+      MODIFY_DB_INSTANCE = BASIC.merge(
                                          'ModifyDBInstanceResult' => {
                                            'DBInstance' => INSTANCE
                                          }
-      })
+      )
 
-      DELETE_DB_INSTANCE = BASIC.merge({
+      DELETE_DB_INSTANCE = BASIC.merge(
                                          'DeleteDBInstanceResult' => {
                                            'DBInstance' => INSTANCE
                                          }
-      })
+      )
 
-      REBOOT_DB_INSTANCE = BASIC.merge({
+      REBOOT_DB_INSTANCE = BASIC.merge(
                                          'RebootDBInstanceResult' => {
                                            'DBInstance' => INSTANCE
                                          }
-      })
+      )
 
-      CREATE_READ_REPLICA = BASIC.merge({
+      CREATE_READ_REPLICA = BASIC.merge(
                                           'CreateDBInstanceReadReplicaResult' => {
                                             'DBInstance' => REPLICA_INSTANCE
                                           }
-      })
+      )
 
-      PROMOTE_READ_REPLICA = BASIC.merge({
+      PROMOTE_READ_REPLICA = BASIC.merge(
                                            'PromoteReadReplicaResult' => {
                                              'DBInstance' => INSTANCE
                                            }
-      })
+      )
 
-      CREATE_DB_SNAPSHOT = BASIC.merge({
+      CREATE_DB_SNAPSHOT = BASIC.merge(
                                          'CreateDBSnapshotResult' => {
                                            'DBSnapshot' => SNAPSHOT
                                          }
-      })
+      )
 
-      DESCRIBE_DB_SNAPSHOTS = BASIC.merge({
+      DESCRIBE_DB_SNAPSHOTS = BASIC.merge(
                                             'DescribeDBSnapshotsResult' => {
                                               'Marker' => Fog::Nullable::String,
                                               'DBSnapshots' => [SNAPSHOT]
                                             }
-      })
-      DELETE_DB_SNAPSHOT = BASIC.merge({
+      )
+      DELETE_DB_SNAPSHOT = BASIC.merge(
                                          'DeleteDBSnapshotResult' => {
                                            'DBSnapshot' => SNAPSHOT
                                          }
-      })
+      )
 
       LIST_TAGS_FOR_RESOURCE = {
         'ListTagsForResourceResult' => {

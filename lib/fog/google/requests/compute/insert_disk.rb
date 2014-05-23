@@ -25,18 +25,18 @@ module Fog
             "selfLink" => "https://www.googleapis.com/compute/#{api_version}/projects/#{@project}/zones/#{zone_name}/disks/#{disk_name}"
           }
           if image
-            object.merge({
+            object.merge(
                            "sourceImage" => image.self_link,
               "sourceImageId" => image.id
-            })
+            )
           end
           self.data[:disks][disk_name] = object
 
           if image
-            object.merge!({
+            object.merge!(
                             "sourceImage" => image.self_link,
               "sourceImageId" => image.id
-            })
+            )
           end
           self.data[:disks][disk_name] = object
 

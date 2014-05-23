@@ -15,10 +15,10 @@ module Fog
           requires :servertype
           case servertype
             when Fog::Compute::Vsphere::Servertype
-               load service.list_interface_types(filters.merge({
+               load service.list_interface_types(filters.merge(
                                                                  :datacenter => datacenter,
                                                       :servertype => servertype.id
-                                                 }))
+                                                 ))
             else
                raise 'interfacetypes should have a servertype'
           end

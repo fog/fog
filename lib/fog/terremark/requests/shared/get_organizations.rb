@@ -12,7 +12,7 @@ module Fog
         #     * 'links'<~Array> - An array of links to entities in the organization
         #     * 'name'<~String> - Name of organization
         def get_organizations
-          request({
+          request(
                     :expects  => 200,
             :headers  => {
               'Authorization' => "Basic #{Base64.encode64("#{@terremark_username}:#{@terremark_password}").chomp!}",
@@ -22,7 +22,7 @@ module Fog
             :method   => 'POST',
             :parser   => Fog::Parsers::Terremark::Shared::GetOrganizations.new,
             :path     => 'login'
-          })
+          )
         end
 
       end

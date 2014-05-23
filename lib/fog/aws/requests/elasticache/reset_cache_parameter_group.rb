@@ -18,7 +18,7 @@ module Fog
         def reset_cache_parameter_group(id, parameter_names = [])
           # Construct Parameter resets in the format:
           #   ParameterNameValues.member.N => "param_name"
-          parameter_changes = parameter_names.inject({}) do |new_args, param|
+          parameter_changes = parameter_names.reduce({}) do |new_args, param|
             index = parameter_names.index(param) + 1
             new_args["ParameterNameValues.member.#{index}"] = param
             new_args

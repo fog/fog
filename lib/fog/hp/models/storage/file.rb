@@ -32,7 +32,7 @@ module Fog
         def copy(target_directory_key, target_file_key)
           requires :directory, :key
           target_directory = service.directories.new(:key => target_directory_key)
-          service.put_object(target_directory_key, target_file_key, nil, {'X-Copy-From' => "/#{directory.key}/#{key}" })
+          service.put_object(target_directory_key, target_file_key, nil, 'X-Copy-From' => "/#{directory.key}/#{key}" )
           target_directory.files.get(target_file_key)
         end
 

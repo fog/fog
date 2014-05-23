@@ -34,7 +34,7 @@ Shindo.tests('Bluebox::BLB | lb_tests', ['bluebox']) do
     end
 
     # create block
-    data = Fog::Compute[:bluebox].create_block(@flavor_id, @image_id, @location_id, {'password' => @password}).body
+    data = Fog::Compute[:bluebox].create_block(@flavor_id, @image_id, @location_id, 'password' => @password).body
     @block_id = data['id']
     Fog::Compute[:bluebox].servers.get(@block_id).wait_for { ready? }
 

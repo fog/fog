@@ -51,7 +51,7 @@ module Fog
           headers['Content-MD5'] = Base64.encode64(Digest::MD5.digest(data)).
                                    gsub("\n", '')
 
-          request({
+          request(
                     :body       => data,
             :expects    => 200,
             :headers    => headers,
@@ -59,7 +59,7 @@ module Fog
             :method     => 'POST',
             :parser     => Fog::Parsers::Storage::AWS::DeleteMultipleObjects.new,
             :query      => {'delete' => nil}
-          })
+          )
         end
 
       end

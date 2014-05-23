@@ -25,7 +25,7 @@ module Fog
         def get_console_output(server_id, num_lines)
           output = ""
           response = Excon::Response.new
-          if list_servers_detail.body['servers'].detect { |_| _['id'] == server_id }
+          if list_servers_detail.body['servers'].find { |_| _['id'] == server_id }
             (1..num_lines).each { |i| output += "Console Output Line #{i} \r\n" }
             response.body = { 'output' => output }
             response.status = 200

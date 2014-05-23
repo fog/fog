@@ -93,11 +93,11 @@ module Fog
                            end
           {
             :operation => options[:operation],
-            :device    => controller_class.new({
+            :device    => controller_class.new(
                                                  :key       => options[:key],
               :busNumber => options[:bus_id],
-              :sharedBus => controller_get_shared_from_options(options),
-            })
+              :sharedBus => controller_get_shared_from_options(options)
+            )
           }
         end
 

@@ -8,14 +8,14 @@ Shindo.tests('Fog::Rackspace::AutoScale | group builder', ['rackspace', 'rackspa
 
   tests('#get_id') do
     tests('widget_id').returns(5) do
-      builder.send(:get_id, 'widget', {:widget_id => 5, :noise => 3})
+      builder.send(:get_id, 'widget', :widget_id => 5, :noise => 3)
     end
     tests('widget').returns(5) do
-      Fog::Rackspace::AutoScale::GroupBuilder.send(:get_id, 'widget', {:widget => 5, :noise => 3})
+      Fog::Rackspace::AutoScale::GroupBuilder.send(:get_id, 'widget', :widget => 5, :noise => 3)
     end
     tests('Flavor object').returns(2) do
       flavor = Fog::Compute::RackspaceV2::Flavor.new(:id => 2)
-      builder.send(:get_id, 'flavor', {:flavor => flavor, :noise => 3})
+      builder.send(:get_id, 'flavor', :flavor => flavor, :noise => 3)
     end
   end
 
@@ -82,10 +82,10 @@ Shindo.tests('Fog::Rackspace::AutoScale | group builder', ['rackspace', 'rackspa
 
   tests('build_server_launch_config') do
     tests('no launch_config_type').returns(nil) do
-      builder.build_server_launch_config({:pancakes => true})
+      builder.build_server_launch_config(:pancakes => true)
     end
     tests('wrong launch_config_type').returns(nil) do
-      builder.build_server_launch_config({:launch_config_type => :something_else})
+      builder.build_server_launch_config(:launch_config_type => :something_else)
     end
     tests('valid launch config').returns(LAUNCH_CONFIG_OPTIONS["args"]) do
       attributes = {

@@ -197,7 +197,7 @@ Shindo.tests('Fog::DNS[:zerigo] | DNS requests', ['zerigo', 'dns']) do
           zones_we_should_see = @new_zones.dup
           total_zone_count = total_zone_count_response.headers['X-Query-Count'].to_i
         else
-          zones_we_should_see = total_zone_count_response.body['zones'].collect { |z| z['id'] }
+          zones_we_should_see = total_zone_count_response.body['zones'].map { |z| z['id'] }
           total_zone_count = zones_we_should_see.count
         end
 

@@ -61,7 +61,7 @@ module Fog
             end
           end
           data << "</StreamingDistributionConfig>"
-          request({
+          request(
                     :body       => data,
             :expects    => 200,
             :headers    => {
@@ -72,7 +72,7 @@ module Fog
             :method     => 'PUT',
             :parser     => Fog::Parsers::CDN::AWS::StreamingDistribution.new,
             :path       => "/streaming-distribution/#{distribution_id}/config"
-          })
+          )
         end
 
       end
@@ -96,7 +96,7 @@ module Fog
             response = Excon::Response.new
             response.status = 200
             response.headers['ETag'] = Fog::CDN::AWS::Mock.generic_id
-            response.body = distribution.merge({ 'LastModifiedTime' => Time.now.utc.iso8601 }).reject { |k,_v| k == 'ETag' }
+            response.body = distribution.merge( 'LastModifiedTime' => Time.now.utc.iso8601 ).reject { |k,_v| k == 'ETag' }
             response
           else
             Fog::CDN::AWS::Mock.error(:no_such_streaming_distribution)

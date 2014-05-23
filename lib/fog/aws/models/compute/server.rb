@@ -118,7 +118,7 @@ module Fog
         end
 
         def flavor
-          @flavor ||= service.flavors.all.detect { |flavor| flavor.id == flavor_id }
+          @flavor ||= service.flavors.all.find { |flavor| flavor.id == flavor_id }
         end
 
         def key_pair

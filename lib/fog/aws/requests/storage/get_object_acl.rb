@@ -40,7 +40,7 @@ module Fog
           if version_id = options.delete('versionId')
             query['versionId'] = version_id
           end
-          request({
+          request(
                     :expects    => 200,
             :headers    => {},
             :bucket_name => bucket_name,
@@ -49,7 +49,7 @@ module Fog
             :method     => 'GET',
             :parser     => Fog::Parsers::Storage::AWS::AccessControlList.new,
             :query      => query
-          })
+          )
         end
 
       end

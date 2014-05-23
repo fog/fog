@@ -16,15 +16,15 @@ module Fog
         # * response<~Excon::Response>:
         #   * body<~Hash>:
         def describe_objects(id, objectIds, options={})
-          params = options.merge({
+          params = options.merge(
                                    'pipelineId' => id,
-            'objectIds' => objectIds,
-          })
+            'objectIds' => objectIds
+          )
 
-          response = request({
+          response = request(
                                :body => Fog::JSON.encode(params),
-            :headers => { 'X-Amz-Target' => 'DataPipeline.DescribeObjects' },
-          })
+            :headers => { 'X-Amz-Target' => 'DataPipeline.DescribeObjects' }
+          )
 
           Fog::JSON.decode(response.body)
         end

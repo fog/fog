@@ -72,10 +72,10 @@ module Fog
         # @return [Fog::Compute::RackspaceV2::Metadata] Collection of Fog::Compute::RackspaceV2::Metadatum objects containing metadata key value pairs.
         def metadata
           @metadata ||= begin
-            Fog::Compute::RackspaceV2::Metadata.new({
+            Fog::Compute::RackspaceV2::Metadata.new(
                                                       :service => service,
               :parent => self
-            })
+            )
           end
         end
 

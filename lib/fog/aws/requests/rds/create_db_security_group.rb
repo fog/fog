@@ -14,12 +14,12 @@ module Fog
         # * response<~Excon::Response>:
         #   * body<~Hash>:
         def create_db_security_group(name, description = name)
-          request({
+          request(
                     'Action'  => 'CreateDBSecurityGroup',
             'DBSecurityGroupName' => name,
             'DBSecurityGroupDescription' => description,
             :parser   => Fog::Parsers::AWS::RDS::CreateDBSecurityGroup.new
-          })
+          )
         end
 
       end

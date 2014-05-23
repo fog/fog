@@ -20,19 +20,19 @@ module Fog
         # Return events related to this version
         def events
           requires :label, :application_name
-          service.events.all({
+          service.events.all(
                                'ApplicationName' => application_name,
                                     'VersionLabel' => label
-                                })
+                                )
         end
 
         # Returns environments running this version
         def environments
           requires :label, :application_name
-          service.environments.all({
+          service.environments.all(
                                      'ApplicationName' => application_name,
                                     'VersionLabel' => label
-                                })
+                                )
         end
 
         def destroy(delete_source_bundle = nil)

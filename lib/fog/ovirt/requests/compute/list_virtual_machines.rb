@@ -10,7 +10,7 @@ module Fog
       class Mock
         def list_virtual_machines(filters = {})
           xml = read_xml 'vms.xml'
-          Nokogiri::XML(xml).xpath('/vms/vm').collect do |vm|
+          Nokogiri::XML(xml).xpath('/vms/vm').map do |vm|
             ovirt_attrs OVIRT::VM::new(self, vm)
           end
         end

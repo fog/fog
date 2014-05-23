@@ -24,10 +24,10 @@ module Fog
         #
         # {Amazon API Reference}[http://docs.amazonwebservices.com/AWSEC2/latest/APIReference/ApiReference-ItemType-InternetGatewayAttachmentType.html]
         def create_internet_gateway()
-          request({
+          request(
                     'Action'     => 'CreateInternetGateway',
             :parser      => Fog::Parsers::Compute::AWS::CreateInternetGateway.new
-          })
+          )
         end
       end
 

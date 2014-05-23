@@ -15,11 +15,11 @@ module Fog
         #
 
         def get_topic_attributes(arn)
-          request({
+          request(
                     'Action'    => 'GetTopicAttributes',
             'TopicArn'  => arn.strip,
             :parser     => Fog::Parsers::AWS::SNS::GetTopicAttributes.new
-          })
+          )
         end
 
       end

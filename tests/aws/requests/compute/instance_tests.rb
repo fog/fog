@@ -274,7 +274,7 @@ Shindo.tests('Fog::Compute[:aws] | instance requests', ['aws']) do
   tests('failure') do
 
     tests("#run_instances(nil, 1, 1, {'SubnetId'=>'subnet-00000000'}").raises(::Fog::Compute::AWS::Error) do
-      Fog::Compute[:aws].run_instances(nil, 1, 1, {'SubnetId' => 'subnet-000000'})
+      Fog::Compute[:aws].run_instances(nil, 1, 1, 'SubnetId' => 'subnet-000000')
     end
     tests("#get_console_output('i-00000000')").raises(Fog::Compute::AWS::NotFound) do
       Fog::Compute[:aws].get_console_output('i-00000000')

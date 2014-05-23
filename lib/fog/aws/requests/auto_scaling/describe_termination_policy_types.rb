@@ -21,11 +21,11 @@ module Fog
         # http://docs.amazonwebservices.com/AutoScaling/latest/APIReference/API_DescribeTerminationPolicyTypes.html
         #
         def describe_termination_policy_types()
-          request({
+          request(
                     'Action'    => 'DescribeTerminationPolicyTypes',
             :idempotent => true,
             :parser     => Fog::Parsers::AWS::AutoScaling::DescribeTerminationPolicyTypes.new
-          })
+          )
         end
 
       end

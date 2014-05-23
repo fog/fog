@@ -45,7 +45,7 @@ module Fog
       class Mock
 
         def rebuild_server(server_id, image_id, name, options={})
-          if image = list_images_detail.body['images'].detect { |_| _['id'] == image_id }
+          if image = list_images_detail.body['images'].find { |_| _['id'] == image_id }
             if response = get_server_details(server_id)
               response.body['server']['name'] = name
               response.body['server']['image']['id'] = image_id

@@ -108,7 +108,7 @@ Shindo.tests('Fog::Compute[:aws] | image requests', ['aws']) do
       end
 
       tests("#modify_image_attribute('#{@image_id}', 'Add.UserId' => ['#{@other_account.data[:owner_id]}'])").formats(@modify_image_attribute_format) do
-        Fog::Compute[:aws].modify_image_attribute(@image_id, { 'Add.UserId' => [@other_account.data[:owner_id]] }).body
+        Fog::Compute[:aws].modify_image_attribute(@image_id,  'Add.UserId' => [@other_account.data[:owner_id]] ).body
       end
 
       tests("other_account#describe_images('image-id' => '#{@image_id}')").returns([@image_id]) do
@@ -116,7 +116,7 @@ Shindo.tests('Fog::Compute[:aws] | image requests', ['aws']) do
       end
 
       tests("#modify_image_attribute('#{@image_id}', 'Remove.UserId' => ['#{@other_account.data[:owner_id]}'])").formats(@modify_image_attribute_format) do
-        Fog::Compute[:aws].modify_image_attribute(@image_id, { 'Remove.UserId' => [@other_account.data[:owner_id]] }).body
+        Fog::Compute[:aws].modify_image_attribute(@image_id,  'Remove.UserId' => [@other_account.data[:owner_id]] ).body
       end
 
       tests("other_account#describe_images('image-id' => '#{@image_id}')").returns([]) do
@@ -146,13 +146,13 @@ Shindo.tests('Fog::Compute[:aws] | image requests', ['aws']) do
 
   tests('failure') do
     tests("#modify_image_attribute(nil, { 'Add.Group' => ['all'] })").raises(ArgumentError) do
-      Fog::Compute[:aws].modify_image_attribute(nil, { 'Add.Group' => ['all'] }).body
+      Fog::Compute[:aws].modify_image_attribute(nil,  'Add.Group' => ['all'] ).body
     end
 
     tests("#modify_image_attribute('ami-00000000', { 'Add.UserId' => ['123456789012'] })").raises(Fog::Compute::AWS::NotFound) do
       pending unless Fog.mocking?
 
-      Fog::Compute[:aws].modify_image_attribute('ami-00000000', { 'Add.UserId' => ['123456789012'] }).body
+      Fog::Compute[:aws].modify_image_attribute('ami-00000000',  'Add.UserId' => ['123456789012'] ).body
     end
   end
 end

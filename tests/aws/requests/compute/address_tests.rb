@@ -20,13 +20,13 @@ Shindo.tests('Fog::Compute[:aws] | address requests', ['aws']) do
     @vpc_public_ip = nil
     @vpc_allocation_id = nil
 
-    tests('#allocate_address').formats({'domain' => String, 'publicIp' => String, 'requestId' => String}) do
+    tests('#allocate_address').formats('domain' => String, 'publicIp' => String, 'requestId' => String) do
       data = Fog::Compute[:aws].allocate_address.body
       @public_ip = data['publicIp']
       data
     end
 
-    tests("#allocate_address('vpc')").formats({'domain' => String, 'publicIp' => String, 'allocationId' => String, 'requestId' => String}) do
+    tests("#allocate_address('vpc')").formats('domain' => String, 'publicIp' => String, 'allocationId' => String, 'requestId' => String) do
       data = Fog::Compute[:aws].allocate_address('vpc').body
       @vpc_public_ip = data['publicIp']
       @vpc_allocation_id = data['allocationId']
@@ -46,7 +46,7 @@ Shindo.tests('Fog::Compute[:aws] | address requests', ['aws']) do
     end
 
     tests("#associate_addresses({:instance_id=>'#{@server.identity}', :public_ip=>'#{@public_ip}'})").formats(AWS::Compute::Formats::BASIC) do
-      Fog::Compute[:aws].associate_address({:instance_id=>@server.identity,:public_ip=> @public_ip}).body
+      Fog::Compute[:aws].associate_address(:instance_id=>@server.identity,:public_ip=> @public_ip).body
     end
 
     tests("#dissassociate_address('#{@public_ip}')").formats(AWS::Compute::Formats::BASIC) do
@@ -58,7 +58,7 @@ Shindo.tests('Fog::Compute[:aws] | address requests', ['aws']) do
     end
 
     tests("#associate_addresses({:instance_id=>'#{@server.id}', :allocation_id=>'#{@vpc_allocation_id}'})").formats(AWS::Compute::Formats::BASIC) do
-      Fog::Compute[:aws].associate_address({:instance_id=>@server.id, :allocation_id=>@vpc_allocation_id}).body
+      Fog::Compute[:aws].associate_address(:instance_id=>@server.id, :allocation_id=>@vpc_allocation_id).body
     end
 
     tests("#release_address('#{@public_ip}')").formats(AWS::Compute::Formats::BASIC) do
@@ -75,15 +75,15 @@ Shindo.tests('Fog::Compute[:aws] | address requests', ['aws']) do
     @vpc_address = Fog::Compute[:aws].addresses.create(:domain => 'vpc')
 
     tests("#associate_addresses({:instance_id =>'i-00000000', :public_ip => '#{@address.identity}')}").raises(Fog::Compute::AWS::NotFound) do
-      Fog::Compute[:aws].associate_address({:instance_id => 'i-00000000', :public_ip => @address.identity})
+      Fog::Compute[:aws].associate_address(:instance_id => 'i-00000000', :public_ip => @address.identity)
     end
 
     tests("#associate_addresses({:instance_id =>'#{@server.identity}', :public_ip => '127.0.0.1'})").raises(Fog::Compute::AWS::Error) do
-      Fog::Compute[:aws].associate_address({:instance_id => @server.identity, :public_ip => '127.0.0.1'})
+      Fog::Compute[:aws].associate_address(:instance_id => @server.identity, :public_ip => '127.0.0.1')
     end
 
     tests("#associate_addresses({:instance_id =>'i-00000000', :public_ip => '127.0.0.1'})").raises(Fog::Compute::AWS::NotFound) do
-      Fog::Compute[:aws].associate_address({:instance_id =>'i-00000000', :public_ip =>'127.0.0.1'})
+      Fog::Compute[:aws].associate_address(:instance_id =>'i-00000000', :public_ip =>'127.0.0.1')
     end
 
     tests("#disassociate_addresses('127.0.0.1') raises BadRequest error").raises(Fog::Compute::AWS::Error) do

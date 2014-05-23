@@ -287,12 +287,12 @@ module Fog
 
           # generate a random id
           id = [8,4,4,4,12].map { |i| Fog::Mock.random_hex(i) }.join("-")
-          new_vm = template.clone.merge({
+          new_vm = template.clone.merge(
                                           "name" => options['name'],
             "id" => id,
             "instance_uuid" => id,
             "path" => "/Datacenters/#{options['datacenter']}/#{options['dest_folder'] ? options['dest_folder']+"/" : ""}#{options['name']}"
-          })
+          )
           self.data[:servers][id] = new_vm
 
           {

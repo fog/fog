@@ -17,14 +17,14 @@ module Fog
           path = CGI.escape(object_name)
 
           headers = options
-          request({
+          request(
                     :expects    => 204,
             :headers    => headers,
             :host       => "#{bucket_name}.#{@host}",
             :idempotent => true,
             :method     => 'DELETE',
             :path       => path
-          })
+          )
         end
 
       end

@@ -360,14 +360,14 @@ module Fog
 
         def request(params, parse_json = true, &block)
           begin
-            response = @connection.request(params.merge!({
+            response = @connection.request(params.merge!(
                                                            :headers  => {
                                                              'Content-Type' => 'application/json',
                                                              'Accept'       => 'application/json',
                                                              'X-Auth-Token' => @auth_token
                                                            }.merge!(params[:headers] || {}),
-              :path     => "#{@path}/#{params[:path]}",
-            }), &block)
+              :path     => "#{@path}/#{params[:path]}"
+            ), &block)
           rescue Excon::Errors::HTTPStatusError => error
             raise case error
             when Excon::Errors::NotFound
@@ -385,14 +385,14 @@ module Fog
         # this request is used only for get_shared_container and get_shared_object calls
         def shared_request(params, parse_json = true, &block)
           begin
-            response = @connection.request(params.merge!({
+            response = @connection.request(params.merge!(
                                                            :headers  => {
                                                              'Content-Type' => 'application/json',
                                                              'Accept'       => 'application/json',
                                                              'X-Auth-Token' => @auth_token
                                                            }.merge!(params[:headers] || {}),
-              :path     => "#{params[:path]}",
-            }), &block)
+              :path     => "#{params[:path]}"
+            ), &block)
           rescue Excon::Errors::HTTPStatusError => error
             raise case error
             when Excon::Errors::NotFound

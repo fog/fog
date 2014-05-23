@@ -99,7 +99,7 @@ Shindo.tests('Fog::DNS[:rage4] | DNS requests', ['rage4', 'dns']) do
     test("update_domain") do
       pending if Fog.mocking?
 
-      response = Fog::DNS[:rage4].update_domain(@domain_id, {:email => 'test@test.com'})
+      response = Fog::DNS[:rage4].update_domain(@domain_id, :email => 'test@test.com')
 
       returns(200) { response.status }
       returns(true) { response.body['status'] }

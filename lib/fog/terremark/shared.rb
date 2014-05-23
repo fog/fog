@@ -37,7 +37,7 @@ module Fog
         private
 
         def auth_token
-          response = @connection.request({
+          response = @connection.request(
                                            :expects   => 200,
             :headers   => {
               'Authorization' => "Basic #{Base64.encode64("#{@terremark_username}:#{@terremark_password}").chomp!}",
@@ -47,7 +47,7 @@ module Fog
             :method    => 'POST',
             :parser    => Fog::Parsers::Terremark::Shared::GetOrganizations.new,
             :path      => "#{@path}/login"
-          })
+          )
           response.headers['Set-Cookie']
         end
 
@@ -81,7 +81,7 @@ module Fog
           else
               path = "#{@path}"
           end
-          @connection.request({
+          @connection.request(
                                 :body     => params[:body],
             :expects  => params[:expects],
             :headers  => headers.merge!(params[:headers] || {}),
@@ -89,7 +89,7 @@ module Fog
             :method   => params[:method],
             :parser   => params[:parser],
             :path     => path
-          })
+          )
         end
 
       end

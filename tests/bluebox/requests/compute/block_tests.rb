@@ -25,7 +25,7 @@ Shindo.tests('Fog::Compute[:bluebox] | block requests', ['bluebox']) do
 
     tests("create_block('#{@flavor_id}', '#{@image_id}', '#{@location_id}', {'password' => '#{@password}'})").formats(@block_format.merge('add_to_lb_application_results' => {'text' => String})) do
       pending if Fog.mocking?
-      data = Fog::Compute[:bluebox].create_block(@flavor_id, @image_id, @location_id, {'password' => @password}).body
+      data = Fog::Compute[:bluebox].create_block(@flavor_id, @image_id, @location_id, 'password' => @password).body
       @block_id = data['id']
       data
     end
@@ -53,7 +53,7 @@ Shindo.tests('Fog::Compute[:bluebox] | block requests', ['bluebox']) do
       Fog::Compute[:bluebox].servers.get(@block_id).wait_for { ready? }
     end
 
-    tests("destroy_block('#{@block_id})'").formats({'text' => String}) do
+    tests("destroy_block('#{@block_id})'").formats('text' => String) do
       pending if Fog.mocking?
       Fog::Compute[:bluebox].destroy_block(@block_id).body
     end

@@ -33,11 +33,11 @@ def rackspace_api_key
 end
 
 # create Cloud Block Storage service
-service = Fog::Rackspace::BlockStorage.new({
+service = Fog::Rackspace::BlockStorage.new(
                                              :rackspace_username   => rackspace_username,
   :rackspace_api_key    => rackspace_api_key,
   :rackspace_region => :ord #Use Chicago Region
-})
+)
 
 # retrieve list of volume types
 volume_types = service.volume_types

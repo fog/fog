@@ -35,7 +35,7 @@ module Fog
 
           instance_set = self.data[:instances].values
           instance_set = apply_tag_filters(instance_set, {'instance_id' => instance_ids}, 'instanceId')
-          instance_set = instance_set.find_all { |x| instance_ids.include?(x["instanceId"]) }
+          instance_set = instance_set.select { |x| instance_ids.include?(x["instanceId"]) }
 
           if instance_set.empty?
             raise Fog::Compute::AWS::NotFound.new("The instance ID '#{instance_ids.first}' does not exist")
@@ -44,7 +44,7 @@ module Fog
             response.status = 200
 
             response.body = {
-              'instancesSet' => instance_set.inject([]) do |ia, instance|
+              'instancesSet' => instance_set.reduce([]) do |ia, instance|
                                   ia << {'currentState' => { 'code' => 0, 'name' => 'stopping' },
                                          'previousState' => instance['instanceState'],
                                          'instanceId' => instance['instanceId'] }

@@ -59,7 +59,7 @@ module Fog
             end
           end
           data << "</StreamingDistributionConfig>"
-          request({
+          request(
                     :body       => data,
             :expects    => 201,
             :headers    => { 'Content-Type' => 'text/xml' },
@@ -67,7 +67,7 @@ module Fog
             :method     => 'POST',
             :parser     => Fog::Parsers::CDN::AWS::StreamingDistribution.new,
             :path       => "/streaming-distribution"
-          })
+          )
         end
 
       end

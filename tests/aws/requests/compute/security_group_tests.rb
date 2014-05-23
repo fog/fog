@@ -322,34 +322,34 @@ Shindo.tests('Fog::Compute[:aws] | security group requests', ['aws']) do
     tests("#authorize_security_group_ingress('not_a_group_name', {'FromPort' => 80, 'IpProtocol' => 'tcp', 'toPort' => 80})").raises(Fog::Compute::AWS::NotFound) do
       Fog::Compute[:aws].authorize_security_group_ingress(
         'not_a_group_name',
-        {
+        
           'FromPort' => 80,
           'IpProtocol' => 'tcp',
-          'ToPort' => 80,
-        }
+          'ToPort' => 80
+        
       )
     end
 
     tests("#authorize_security_group_ingress('not_a_group_name', {'SourceSecurityGroupName' => 'not_a_group_name', 'SourceSecurityGroupOwnerId' => '#{@owner_id}'})").raises(Fog::Compute::AWS::NotFound) do
       Fog::Compute[:aws].authorize_security_group_ingress(
         'not_a_group_name',
-        {
+        
           'SourceSecurityGroupName'     => 'not_a_group_name',
           'SourceSecurityGroupOwnerId'  => @owner_id
-        }
+        
       )
     end
 
     tests("#authorize_security_group_ingress('fog_security_group', {'IpPermissions' => [{'IpProtocol' => 'tcp', 'FromPort' => 80, 'ToPort' => 80, 'IpRanges' => [{'CidrIp' => '10.0.0.0/8'}]}]})").formats(AWS::Compute::Formats::BASIC) do
-      Fog::Compute[:aws].authorize_security_group_ingress('fog_security_group', {'IpPermissions' => [{'IpProtocol' => 'tcp', 'FromPort' => 80, 'ToPort' => 80, 'IpRanges' => [{'CidrIp' => '10.0.0.0/8'}]}]}).body
+      Fog::Compute[:aws].authorize_security_group_ingress('fog_security_group', 'IpPermissions' => [{'IpProtocol' => 'tcp', 'FromPort' => 80, 'ToPort' => 80, 'IpRanges' => [{'CidrIp' => '10.0.0.0/8'}]}]).body
     end
 
     tests("#authorize_security_group_ingress('fog_security_group', {'IpPermissions' => [{'IpProtocol' => 'tcp', 'FromPort' => 80, 'ToPort' => 80, 'IpRanges' => [{'CidrIp' => '10.0.0.0/8'}]}]})").raises(Fog::Compute::AWS::Error) do
-      Fog::Compute[:aws].authorize_security_group_ingress('fog_security_group', {'IpPermissions' => [{'IpProtocol' => 'tcp', 'FromPort' => 80, 'ToPort' => 80, 'IpRanges' => [{'CidrIp' => '10.0.0.0/8'}]}]})
+      Fog::Compute[:aws].authorize_security_group_ingress('fog_security_group', 'IpPermissions' => [{'IpProtocol' => 'tcp', 'FromPort' => 80, 'ToPort' => 80, 'IpRanges' => [{'CidrIp' => '10.0.0.0/8'}]}])
     end
 
     tests("#authorize_security_group_ingress('fog_security_group', {'IpPermissions' => [{'Groups' => [{'GroupName' => '#{@other_security_group.name}'}], 'FromPort' => 80, 'ToPort' => 80, 'IpProtocol' => 'tcp'}]})").formats(AWS::Compute::Formats::BASIC) do
-      Fog::Compute[:aws].authorize_security_group_ingress('fog_security_group', {'IpPermissions' => [{'Groups' => [{'GroupName' => @other_security_group.name}], 'FromPort' => 80, 'ToPort' => 80, 'IpProtocol' => 'tcp'}]}).body
+      Fog::Compute[:aws].authorize_security_group_ingress('fog_security_group', 'IpPermissions' => [{'Groups' => [{'GroupName' => @other_security_group.name}], 'FromPort' => 80, 'ToPort' => 80, 'IpProtocol' => 'tcp'}]).body
     end
 
     tests("#delete_security_group('#{@other_security_group.name}')").raises(Fog::Compute::AWS::Error) do
@@ -383,21 +383,21 @@ Shindo.tests('Fog::Compute[:aws] | security group requests', ['aws']) do
     tests("#revoke_security_group_ingress('not_a_group_name', {'FromPort' => 80, 'IpProtocol' => 'tcp', 'toPort' => 80})").raises(Fog::Compute::AWS::NotFound) do
       Fog::Compute[:aws].revoke_security_group_ingress(
         'not_a_group_name',
-        {
+        
           'FromPort' => 80,
           'IpProtocol' => 'tcp',
-          'ToPort' => 80,
-        }
+          'ToPort' => 80
+        
       )
     end
 
     tests("#revoke_security_group_ingress('not_a_group_name', {'SourceSecurityGroupName' => 'not_a_group_name', 'SourceSecurityGroupOwnerId' => '#{@owner_id}'})").raises(Fog::Compute::AWS::NotFound) do
       Fog::Compute[:aws].revoke_security_group_ingress(
         'not_a_group_name',
-        {
+        
           'SourceSecurityGroupName'     => 'not_a_group_name',
           'SourceSecurityGroupOwnerId'  => @owner_id
-        }
+        
       )
     end
 

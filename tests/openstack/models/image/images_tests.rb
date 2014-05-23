@@ -1,5 +1,5 @@
 Shindo.tests("Fog::Image[:openstack] | images", ['openstack']) do
-  @instance = Fog::Image[:openstack].create_image({:name => "model test image"}).body
+  @instance = Fog::Image[:openstack].create_image(:name => "model test image").body
 
   tests('success') do
     tests('#find_by_id').succeeds do

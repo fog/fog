@@ -92,7 +92,7 @@ module Fog
         def request(method_name, options = {})
           begin
             parser = options.delete(:parser)
-            options.merge!({ :method => method_name, :timestamp => Time.now.xmlschema, :key => @voxel_api_key })
+            options.merge!( :method => method_name, :timestamp => Time.now.xmlschema, :key => @voxel_api_key )
             options[:api_sig] = create_signature(@voxel_api_secret, options)
             data = @connection.request(
               :method => "POST",

@@ -21,10 +21,10 @@ module Fog
           }
           params['marker'] = options[:marker] if options[:marker]
 
-          response = request({
+          response = request(
                                :body => Fog::JSON.encode(params),
-            :headers => { 'X-Amz-Target' => 'DataPipeline.QueryObjects' },
-          })
+            :headers => { 'X-Amz-Target' => 'DataPipeline.QueryObjects' }
+          )
 
           Fog::JSON.decode(response.body)
         end

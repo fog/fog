@@ -312,7 +312,7 @@ module Fog
           if nics
             nics.map! { |nic| nic.is_a?(Hash) ? service.nics.new(nic) : nic }
           else
-            self.nics = [service.nics.new({:type => network_interface_type, :bridge => network_bridge_name, :network => network_nat_network})]
+            self.nics = [service.nics.new(:type => network_interface_type, :bridge => network_bridge_name, :network => network_nat_network)]
           end
         end
 

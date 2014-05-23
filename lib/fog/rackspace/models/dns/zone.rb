@@ -58,7 +58,7 @@ module Fog
         def update
           requires :ttl, :email
 
-          response = service.modify_domain(identity, { :ttl => ttl, :comment => comment, :email => email})
+          response = service.modify_domain(identity,  :ttl => ttl, :comment => comment, :email => email)
           wait_for_job response.body['jobId']
         end
       end

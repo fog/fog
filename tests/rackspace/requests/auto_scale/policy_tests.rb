@@ -26,12 +26,12 @@ Shindo.tests('Fog::Rackspace::AutoScale | policy_tests', ['rackspace', 'rackspac
       end
 
       tests('#update_policy').returns(204) do
-        response = service.update_policy(@group_id, @policy_id, {
+        response = service.update_policy(@group_id, @policy_id, 
                                            'name' => 'foo',
           'changePercent' => 1,
           'type' => 'webhook',
           'cooldown' => 100
-        })
+        )
         response.status
       end
 

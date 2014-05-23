@@ -41,7 +41,7 @@ module Fog
           unless bucket_name
             raise ArgumentError.new('bucket_name is required')
           end
-          request({
+          request(
                     :expects  => 200,
             :headers  => {},
             :bucket_name => bucket_name,
@@ -49,7 +49,7 @@ module Fog
             :method   => 'GET',
             :parser   => Fog::Parsers::Storage::AWS::GetBucket.new,
             :query    => options
-          })
+          )
         end
 
       end
@@ -66,7 +66,7 @@ module Fog
           end
           response = Excon::Response.new
           if bucket = self.data[:buckets][bucket_name]
-            contents = bucket[:objects].values.collect(&:first).sort { |x,y| x['Key'] <=> y['Key'] }.reject do |object|
+            contents = bucket[:objects].values.map(&:first).sort { |x,y| x['Key'] <=> y['Key'] }.reject do |object|
                 (prefix    && object['Key'][0...prefix.length] != prefix) ||
                 (marker    && object['Key'] <= marker) ||
                 (delimiter && object['Key'][(prefix ? prefix.length : 0)..-1].include?(delimiter) \
@@ -74,11 +74,11 @@ module Fog
                 object.key?(:delete_marker)
               end.map do |object|
                 data = object.reject { |key, _value| !['ETag', 'Key', 'StorageClass'].include?(key) }
-                data.merge!({
+                data.merge!(
                               'LastModified' => Time.parse(object['Last-Modified']),
                   'Owner'        => bucket['Owner'],
                   'Size'         => object['Content-Length'].to_i
-                })
+                )
                 data
             end
             max_keys = max_keys || 1000

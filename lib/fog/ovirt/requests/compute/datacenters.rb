@@ -12,7 +12,7 @@ module Fog
       class Mock
       def datacenters(filters = {})
         xml = read_xml 'data_centers.xml'
-        Nokogiri::XML(xml).xpath('/data_centers/data_center').collect do |dc|
+        Nokogiri::XML(xml).xpath('/data_centers/data_center').map do |dc|
           ovirt_attrs OVIRT::DataCenter::new(self, dc)
         end
       end

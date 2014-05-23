@@ -14,7 +14,7 @@ Shindo.tests('HP::Network | networking subnet requests', ['hp', 'networking', 's
     'tenant_id'        => String,
   }
 
-  n_data = HP[:network].create_network({:name => 'fog_network'}).body['network']
+  n_data = HP[:network].create_network(:name => 'fog_network').body['network']
   @network_id = n_data['id']
 
   tests('success') do
@@ -30,15 +30,15 @@ Shindo.tests('HP::Network | networking subnet requests', ['hp', 'networking', 's
       data
     end
 
-    tests('#list_subnets').formats({'subnets' => [@subnet_format]}) do
+    tests('#list_subnets').formats('subnets' => [@subnet_format]) do
       HP[:network].list_subnets.body
     end
 
-    tests("#get_subnet(#{@subnet_id})").formats({'subnet' => @subnet_format}) do
+    tests("#get_subnet(#{@subnet_id})").formats('subnet' => @subnet_format) do
       HP[:network].get_subnet(@subnet_id).body
     end
 
-    tests("#update_subnet(#{@subnet_id})").formats({'subnet' => @subnet_format}) do
+    tests("#update_subnet(#{@subnet_id})").formats('subnet' => @subnet_format) do
       attributes = {:name => 'mysubnet_upd',:gateway_ip => '10.0.3.1',
                           :dns_nameservers => [], :host_routes => [],
                           :enable_dhcp => true}

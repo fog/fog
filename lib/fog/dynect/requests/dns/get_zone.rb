@@ -31,7 +31,7 @@ module Fog
             }
             info = "get: Your zone, #{zone[:zone]}"
           else
-            data = self.data[:zones].collect { |zone, _data| "/REST/Zone/#{zone}/" }
+            data = self.data[:zones].map { |zone, _data| "/REST/Zone/#{zone}/" }
             info = "get: Your #{data.size} zones"
           end
 

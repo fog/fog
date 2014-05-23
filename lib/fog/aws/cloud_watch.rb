@@ -129,7 +129,7 @@ module Fog
 
           body = AWS.signed_params(
             params,
-            {
+            
               :aws_access_key_id  => @aws_access_key_id,
               :aws_session_token  => @aws_session_token,
               :hmac               => @hmac,
@@ -137,7 +137,7 @@ module Fog
               :path               => @path,
               :port               => @port,
               :version            => '2010-08-01'
-            }
+            
           )
 
           if @instrumentor
@@ -150,14 +150,14 @@ module Fog
         end
 
         def _request(body, idempotent, parser)
-          @connection.request({
+          @connection.request(
                                 :body       => body,
             :expects    => 200,
             :headers    => { 'Content-Type' => 'application/x-www-form-urlencoded' },
             :idempotent => idempotent,
             :method     => 'POST',
             :parser     => parser
-          })
+          )
         end
 
       end

@@ -18,10 +18,10 @@ module Fog
             'pipelineObjects' => transform_objects(objects),
           }
 
-          response = request({
+          response = request(
                                :body => Fog::JSON.encode(params),
-            :headers => { 'X-Amz-Target' => 'DataPipeline.PutPipelineDefinition' },
-          })
+            :headers => { 'X-Amz-Target' => 'DataPipeline.PutPipelineDefinition' }
+          )
 
           Fog::JSON.decode(response.body)
         end

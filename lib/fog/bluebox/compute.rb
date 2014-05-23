@@ -77,9 +77,9 @@ module Fog
 
         def request(params)
           params[:headers] ||= {}
-          params[:headers].merge!({
+          params[:headers].merge!(
                                     'Authorization' => "Basic #{Base64.encode64([@bluebox_customer_id, @bluebox_api_key].join(':')).delete("\r\n")}"
-          })
+          )
 
           begin
             response = @connection.request(params)

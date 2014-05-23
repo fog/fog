@@ -28,11 +28,11 @@ Shindo.tests('Fog::Compute[:openstack] | image requests', ['openstack']) do
       Fog::Compute[:openstack].get_image_details(@image_id).body['image']
     end
 
-    tests('#list_images').formats({'images' => [OpenStack::Compute::Formats::SUMMARY]}) do
+    tests('#list_images').formats('images' => [OpenStack::Compute::Formats::SUMMARY]) do
       Fog::Compute[:openstack].list_images.body
     end
 
-    tests('#list_images_detail').formats({'images' => [@image_format]}) do
+    tests('#list_images_detail').formats('images' => [@image_format]) do
       Fog::Compute[:openstack].list_images_detail.body
     end
 

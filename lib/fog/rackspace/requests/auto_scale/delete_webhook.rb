@@ -19,7 +19,7 @@ module Fog
             raise Fog::Rackspace::AutoScale::NotFound
           end
 
-          policy = group['policies'].detect { |p| p["id"] == policy_id }
+          policy = group['policies'].find { |p| p["id"] == policy_id }
           if policy.nil?
             raise Fog::Rackspace::AutoScale::NotFound
           end

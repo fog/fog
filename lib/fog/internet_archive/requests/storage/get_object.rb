@@ -45,13 +45,13 @@ module Fog
             params[:response_block] = Proc.new
           end
 
-          request(params.merge!({
+          request(params.merge!(
                                   :expects  => [ 200, 206 ],
             :host     => "#{bucket_name}.#{@host}",
             :idempotent => true,
             :method   => 'GET',
-            :path     => CGI.escape(object_name),
-          }))
+            :path     => CGI.escape(object_name)
+          ))
         end
 
       end

@@ -15,12 +15,12 @@ module Fog
         end
 
         def get(key, options = {})
-          remap_attributes(options, {
+          remap_attributes(options, 
                              :delimiter  => 'delimiter',
             :marker     => 'marker',
             :max_keys   => 'max-keys',
             :prefix     => 'prefix'
-          })
+          )
           data = service.get_bucket(key, options).body
           directory = new(:key => data['Name'])
           options = {}

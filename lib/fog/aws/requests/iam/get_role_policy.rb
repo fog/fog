@@ -22,12 +22,12 @@ module Fog
         # http://docs.amazonwebservices.com/IAM/latest/APIReference/API_GetRolePolicy.html
         #
         def get_role_policy(role_name, policy_name)
-          request({
+          request(
                     'Action'      => 'GetRolePolicy',
             'PolicyName'  => policy_name,
             'RoleName'    => role_name,
             :parser       => Fog::Parsers::AWS::IAM::GetRolePolicy.new
-          })
+          )
         end
 
       end

@@ -31,7 +31,7 @@ module Fog
           images = service.template_list.body['response']['templates']
           images.select do |platform, _images|
             platforms.include?(platform.downcase.to_sym)
-          end.collect { |_platform, images| images }.flatten
+          end.map { |_platform, images| images }.flatten
         end
 
       end

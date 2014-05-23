@@ -24,10 +24,10 @@ module Fog
         # Returns an array of options that may be set on this template
         def options
           requires :name, :application_name
-          data = service.describe_configuration_options({
+          data = service.describe_configuration_options(
                                                           'ApplicationName' => application_name,
               'TemplateName' => name
-                                                    })
+                                                    )
           data.body['DescribeConfigurationOptionsResult']['Options']
         end
 

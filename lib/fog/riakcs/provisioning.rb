@@ -68,10 +68,10 @@ module Fog
 
         def request(params, parse_response = true, &block)
           begin
-            response = @raw_connection.request(params.merge({
+            response = @raw_connection.request(params.merge(
                                                               :host     => @host,
-              :path     => "#{@path}/#{params[:path]}",
-            }), &block)
+              :path     => "#{@path}/#{params[:path]}"
+            ), &block)
           rescue Excon::Errors::HTTPStatusError => error
             if match = error.message.match(/<Code>(.*?)<\/Code>(?:.*<Message>(.*?)<\/Message>)?/m)
               case match[1]

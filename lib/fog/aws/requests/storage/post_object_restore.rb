@@ -27,7 +27,7 @@ module Fog
           headers['Content-Type'] = 'application/xml'
           headers['Date'] = Fog::Time.now.to_date_header
 
-          request({
+          request(
                     :headers  => headers,
             :bucket_name => bucket_name,
             :expects  => [200, 202, 409],
@@ -35,7 +35,7 @@ module Fog
             :method   => 'POST',
             :query    => {'restore' => nil},
             :path     => CGI.escape(object_name)
-          })
+          )
         end
 
       end

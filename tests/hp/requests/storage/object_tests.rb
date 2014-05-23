@@ -10,7 +10,7 @@ Shindo.tests("Fog::Storage[:hp] | object requests", ['hp', 'storage']) do
     end
 
     tests("#post_object('#{@dir_name}', 'fog_object', {'X-Object-Meta-Foo' => 'foometa'})").succeeds do
-      Fog::Storage[:hp].post_object(@dir_name, 'fog_object', {'X-Object-Meta-Foo' => 'foometa'})
+      Fog::Storage[:hp].post_object(@dir_name, 'fog_object', 'X-Object-Meta-Foo' => 'foometa')
     end
 
     tests("#get_object('#{@dir_name}', 'fog_object')").succeeds do
@@ -35,21 +35,21 @@ Shindo.tests("Fog::Storage[:hp] | object requests", ['hp', 'storage']) do
 
     # copy a file within the same container
     tests("#put_object('#{@dir_name}', 'fog_other_object', nil, {'X-Copy-From' => '/#{@dir_name}/fog_object'})" ).succeeds do
-      Fog::Storage[:hp].put_object(@dir_name, 'fog_other_object', nil, {'X-Copy-From' => "/#{@dir_name}/fog_object"})
+      Fog::Storage[:hp].put_object(@dir_name, 'fog_other_object', nil, 'X-Copy-From' => "/#{@dir_name}/fog_object")
     end
     @directory.files.get('fog_other_object').destroy
 
     # copy a file from one container to another
     @another_dir = Fog::Storage[:hp].directories.create(:key => 'fogobjecttests2')
     tests("#put_object('#{@another_dir.identity}', 'fog_another_object', nil, {'X-Copy-From' => '/#{@dir_name}/fog_object'})" ).succeeds do
-      Fog::Storage[:hp].put_object(@another_dir.identity, 'fog_another_object', nil, {'X-Copy-From' => "/#{@dir_name}/fog_object"})
+      Fog::Storage[:hp].put_object(@another_dir.identity, 'fog_another_object', nil, 'X-Copy-From' => "/#{@dir_name}/fog_object")
     end
     @another_dir.files.get('fog_another_object').destroy
     @another_dir.destroy
 
     tests("#post_object('#{@dir_name}', 'fog_delete_object', {'X-Delete-After' => 40})" ).succeeds do
       Fog::Storage[:hp].put_object(@dir_name, 'fog_delete_object', lorem_file)
-      Fog::Storage[:hp].post_object(@dir_name, 'fog_delete_object', {'X-Delete-After' => 40})
+      Fog::Storage[:hp].post_object(@dir_name, 'fog_delete_object', 'X-Delete-After' => 40)
     end
 
     tests("#delete_object('#{@dir_name}', 'fog_object')").succeeds do

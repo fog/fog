@@ -12,7 +12,7 @@ module Fog
       class Mock
         def storage_domains(filters = {})
           xml = read_xml 'storage_domains.xml'
-          Nokogiri::XML(xml).xpath('/storage_domains/storage_domain').collect do |sd|
+          Nokogiri::XML(xml).xpath('/storage_domains/storage_domain').map do |sd|
             OVIRT::StorageDomain::new(self, sd)
           end
         end

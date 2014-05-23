@@ -23,11 +23,11 @@ module Fog
         # http://docs.amazonwebservices.com/AutoScaling/latest/APIReference/API_DescribeScalingProcessTypes.html
         #
         def describe_scaling_process_types()
-          request({
+          request(
                     'Action'    => 'DescribeScalingProcessTypes',
             :idempotent => true,
             :parser     => Fog::Parsers::AWS::AutoScaling::DescribeScalingProcessTypes.new
-          })
+          )
         end
 
       end

@@ -17,13 +17,13 @@ module Fog
         #
 
         def set_topic_attributes(arn, attribute_name, attribute_value)
-          request({
+          request(
                     'Action'          => 'SetTopicAttributes',
             'AttributeName'   => attribute_name,
             'AttributeValue'  => attribute_value,
             'TopicArn'        => arn.strip,
             :parser     => Fog::Parsers::AWS::SNS::SetTopicAttributes.new
-          })
+          )
         end
 
       end

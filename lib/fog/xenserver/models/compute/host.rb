@@ -60,15 +60,15 @@ module Fog
         attribute :software_version
 
         def pifs
-          __pifs.collect { |pif| service.pifs.get pif }
+          __pifs.map { |pif| service.pifs.get pif }
         end
 
         def pbds
-          __pbds.collect { |pbd| service.pbds.get pbd }
+          __pbds.map { |pbd| service.pbds.get pbd }
         end
 
         def resident_servers
-          __resident_vms.collect { |ref| service.servers.get ref }
+          __resident_vms.map { |ref| service.servers.get ref }
         end
 
         def resident_vms

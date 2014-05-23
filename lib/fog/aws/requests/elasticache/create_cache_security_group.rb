@@ -14,12 +14,12 @@ module Fog
         # * response <~Excon::Response>:
         #   * body <~Hash>
         def create_cache_security_group(name, description = name)
-          request({
+          request(
                     'Action' => 'CreateCacheSecurityGroup',
             'CacheSecurityGroupName' => name,
             'Description' => description,
             :parser => Fog::Parsers::AWS::Elasticache::SingleSecurityGroup.new
-          })
+          )
         end
       end
 
@@ -39,12 +39,12 @@ module Fog
           self.data[:security_groups][name] = data
 
           Excon::Response.new(
-              {
+              
                 :body => {
                   'ResponseMetadata'=>{ 'RequestId'=> Fog::AWS::Mock.request_id },
                     'CacheSecurityGroup' => data
                 }
-              }
+              
           )
 
         end

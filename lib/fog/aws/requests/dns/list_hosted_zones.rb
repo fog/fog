@@ -38,13 +38,13 @@ module Fog
             end
           end
 
-          request({
+          request(
                     :query   => parameters,
             :parser  => Fog::Parsers::DNS::AWS::ListHostedZones.new,
             :expects => 200,
             :method  => 'GET',
             :path    => "hostedzone"
-          })
+          )
 
         end
 

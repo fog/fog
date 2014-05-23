@@ -103,10 +103,10 @@ module Fog
 
         def metadata
           @metadata ||= begin
-            Fog::Storage::HP::Metadata.new({
+            Fog::Storage::HP::Metadata.new(
                                              :service => service,
               :parent => self
-            })
+            )
           end
         end
 
@@ -259,12 +259,12 @@ module Fog
           end
           # write out the acls into the headers before save
           options.merge!(service.perm_acl_to_header(@read_acl, @write_acl))
-          options.merge!({'X-Container-Sync-To' => self.sync_to}) unless self.sync_to.nil?
-          options.merge!({'X-Container-Sync-Key' => self.sync_key}) unless self.sync_key.nil?
-          options.merge!({'X-Container-Meta-Web-Index' => self.web_index}) unless self.web_index.nil?
-          options.merge!({'X-Container-Meta-Web-Listings' => self.web_listings})
-          options.merge!({'X-Container-Meta-Web-Listings-Css' => self.web_listings_css}) unless self.web_listings_css.nil?
-          options.merge!({'X-Container-Meta-Web-Error' => self.web_error}) unless self.web_error.nil?
+          options.merge!('X-Container-Sync-To' => self.sync_to) unless self.sync_to.nil?
+          options.merge!('X-Container-Sync-Key' => self.sync_key) unless self.sync_key.nil?
+          options.merge!('X-Container-Meta-Web-Index' => self.web_index) unless self.web_index.nil?
+          options.merge!('X-Container-Meta-Web-Listings' => self.web_listings)
+          options.merge!('X-Container-Meta-Web-Listings-Css' => self.web_listings_css) unless self.web_listings_css.nil?
+          options.merge!('X-Container-Meta-Web-Error' => self.web_error) unless self.web_error.nil?
           # get the metadata and merge them in
 
           # merge user options at the end
@@ -278,7 +278,7 @@ module Fog
               # check to make sure that the container exists. If yes, cdn enable it.
               begin response = service.cdn.head_container(key)
                     if response.headers['X-Cdn-Enabled'] == 'False'
-                      service.cdn.post_container(key, {'X-Cdn-Enabled' => 'True'})
+                      service.cdn.post_container(key, 'X-Cdn-Enabled' => 'True')
                     end
               rescue Fog::CDN::HP::NotFound
                 service.cdn.put_container(key)
@@ -290,7 +290,7 @@ module Fog
               begin response = service.cdn.head_container(key)
                 ### Deleting a container from CDN is much more expensive than flipping the bit to disable it
                     if response.headers['X-Cdn-Enabled'] == 'True'
-                      service.cdn.post_container(key, {'X-Cdn-Enabled' => 'False'})
+                      service.cdn.post_container(key, 'X-Cdn-Enabled' => 'False')
                     end
               rescue Fog::CDN::HP::NotFound
                 # just continue, as container is not cdn-enabled.

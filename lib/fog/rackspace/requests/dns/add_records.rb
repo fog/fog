@@ -7,7 +7,7 @@ module Fog
           validate_path_fragment :domain_id, domain_id
 
           data = {
-            'records' => records.collect do |record|
+            'records' => records.map do |record|
               record_data = {
                 'name' => record[:name],
                 'type' => record[:type],

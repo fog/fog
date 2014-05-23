@@ -16,7 +16,7 @@ module Fog
 
             if domain.key? :records
               domain_data['recordsList'] = {
-                'records' => domain[:records].collect do |record|
+                'records' => domain[:records].map do |record|
                   record_data = {
                     'ttl' => record[:ttl],
                     'data' => record[:data],
@@ -25,7 +25,7 @@ module Fog
                   }
 
                   if record.key? :priority
-                    record_data.merge!({'priority' => record[:priority]})
+                    record_data.merge!('priority' => record[:priority])
                   else
                     record_data
                   end

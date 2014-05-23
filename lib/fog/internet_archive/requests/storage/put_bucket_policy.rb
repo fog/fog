@@ -11,14 +11,14 @@ module Fog
         # @see http://docs.amazonwebservices.com/AmazonS3/latest/API/RESTBucketPUTpolicy.html
 
         def put_bucket_policy(bucket_name, policy)
-          request({
+          request(
                     :body     => Fog::JSON.encode(policy),
             :expects  => 204,
             :headers  => {},
             :host     => "#{bucket_name}.#{@host}",
             :method   => 'PUT',
             :query    => {'policy' => nil}
-          })
+          )
         end
 
       end

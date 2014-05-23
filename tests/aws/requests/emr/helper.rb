@@ -7,9 +7,9 @@ class AWS
         'RequestId' => String
       }
 
-      RUN_JOB_FLOW = BASIC.merge({
+      RUN_JOB_FLOW = BASIC.merge(
                                    'JobFlowId' => String
-      })
+      )
       
       ADD_INSTANCE_GROUPS = {
         'JobFlowId' => String,

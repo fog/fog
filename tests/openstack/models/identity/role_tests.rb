@@ -1,5 +1,5 @@
 Shindo.tests("Fog::Identity[:openstack] | role", ['openstack']) do
-  @instance = Fog::Identity[:openstack].roles.new({:name => 'Role Name', :user_id => 1, :role_id => 1})
+  @instance = Fog::Identity[:openstack].roles.new(:name => 'Role Name', :user_id => 1, :role_id => 1)
   @tenant   = Fog::Identity[:openstack].tenants.create(:name => 'test_user')
   @user     = Fog::Identity[:openstack].users.create(:name => 'test_user', :tenant_id => @tenant.id, :password => 'spoof')
 

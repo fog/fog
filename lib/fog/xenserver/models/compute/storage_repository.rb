@@ -31,11 +31,11 @@ module Fog
         attribute :virtual_allocation
 
         def vdis
-          __vdis.collect { |vdi| service.vdis.get vdi }
+          __vdis.map { |vdi| service.vdis.get vdi }
         end
 
         def pbds
-          __pbds.collect { |pbd| service.pbds.get pbd }
+          __pbds.map { |pbd| service.pbds.get pbd }
         end
 
         def scan

@@ -130,10 +130,10 @@ module Fog
           if options[:joyent_keyname]
             @joyent_keyname = options[:joyent_keyname]
             @joyent_keyphrase = options[:joyent_keyphrase]
-            @key_manager = Net::SSH::Authentication::KeyManager.new(nil, {
+            @key_manager = Net::SSH::Authentication::KeyManager.new(nil, 
                                                                       :keys_only => true,
                 :passphrase => @joyent_keyphrase
-            })
+            )
             @header_method = method(:header_for_signature_auth)
 
             if options[:joyent_keyfile]

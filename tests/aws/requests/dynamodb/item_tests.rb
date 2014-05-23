@@ -6,7 +6,7 @@ Shindo.tests('Fog::AWS[:dynamodb] | item requests', ['aws']) do
     Fog::AWS[:dynamodb].create_table(
       @table_name, 
       {'HashKeyElement' => {'AttributeName' => 'key', 'AttributeType' => 'S'}}, 
-      {'ReadCapacityUnits' => 5, 'WriteCapacityUnits' => 5}
+      'ReadCapacityUnits' => 5, 'WriteCapacityUnits' => 5
     )
     Fog.wait_for { Fog::AWS[:dynamodb].describe_table(@table_name).body['Table']['TableStatus'] == 'ACTIVE' }
   end
@@ -15,12 +15,12 @@ Shindo.tests('Fog::AWS[:dynamodb] | item requests', ['aws']) do
 
     tests("#put_item('#{@table_name}', {'key' => {'S' => 'key'}}, {'value' => {'S' => 'value'}})").formats('ConsumedCapacityUnits' => Float) do
       pending if Fog.mocking?
-      Fog::AWS[:dynamodb].put_item(@table_name, {'key' => {'S' => 'key'}}, {'value' => {'S' => 'value'}}).body
+      Fog::AWS[:dynamodb].put_item(@table_name, {'key' => {'S' => 'key'}}, 'value' => {'S' => 'value'}).body
     end
 
     tests("#update_item('#{@table_name}', {'HashKeyElement' => {'S' => 'key'}}, {'value' => {'Value' => {'S' => 'value'}}})").formats('ConsumedCapacityUnits' => Float) do
       pending if Fog.mocking?
-      Fog::AWS[:dynamodb].update_item(@table_name, {'HashKeyElement' => {'S' => 'key'}}, {'value' => {'Value' => {'S' => 'value'}}}).body
+      Fog::AWS[:dynamodb].update_item(@table_name, {'HashKeyElement' => {'S' => 'key'}}, 'value' => {'Value' => {'S' => 'value'}}).body
     end
 
     @batch_get_item_format = {
@@ -39,7 +39,7 @@ Shindo.tests('Fog::AWS[:dynamodb] | item requests', ['aws']) do
     tests("#batch_get_item({'#{@table_name}' => {'Keys' => [{'HashKeyElement' => {'S' => 'key'}}]}})").formats(@batch_get_item_format) do
       pending if Fog.mocking?
       Fog::AWS[:dynamodb].batch_get_item(
-        {@table_name => {'Keys' => [{'HashKeyElement' => {'S' => 'key'}}]}}
+        @table_name => {'Keys' => [{'HashKeyElement' => {'S' => 'key'}}]}
       ).body
     end
 
@@ -56,10 +56,10 @@ Shindo.tests('Fog::AWS[:dynamodb] | item requests', ['aws']) do
          ).formats(@batch_put_item_format) do
             pending if Fog.mocking?
             Fog::AWS[:dynamodb].batch_put_item(
-              {@table_name => [{'PutRequest'=> {'Item'=>
+              @table_name => [{'PutRequest'=> {'Item'=>
                 {'HashKeyElement' => { 'S' => 'key' },
                  'RangeKeyElement' => { 'S' => 'key' }
-                }}}]}
+                }}}]
             ).body
          end
 
@@ -73,12 +73,12 @@ Shindo.tests('Fog::AWS[:dynamodb] | item requests', ['aws']) do
 
     tests("#get_item('#{@table_name}', {'HashKeyElement' => {'S' => 'key'}})").formats(@get_item_format) do
       pending if Fog.mocking?
-      Fog::AWS[:dynamodb].get_item(@table_name, {'HashKeyElement' => {'S' => 'key'}}).body
+      Fog::AWS[:dynamodb].get_item(@table_name, 'HashKeyElement' => {'S' => 'key'}).body
     end
 
     tests("#get_item('#{@table_name}', {'HashKeyElement' => {'S' => 'notakey'}})").formats('ConsumedCapacityUnits' => Float) do
       pending if Fog.mocking?
-      Fog::AWS[:dynamodb].get_item(@table_name, {'HashKeyElement' => {'S' => 'notakey'}}).body
+      Fog::AWS[:dynamodb].get_item(@table_name, 'HashKeyElement' => {'S' => 'notakey'}).body
     end
 
     @query_format = {
@@ -94,7 +94,7 @@ Shindo.tests('Fog::AWS[:dynamodb] | item requests', ['aws']) do
     tests("#query('#{@table_name}', {'S' => 'key'}").formats(@query_format) do
       pending if Fog.mocking?
       pending # requires a table with range key
-      Fog::AWS[:dynamodb].query(@table_name, {'S' => 'key'}).body
+      Fog::AWS[:dynamodb].query(@table_name, 'S' => 'key').body
     end
 
     @scan_format = @query_format.merge('ScannedCount' => Integer)
@@ -106,12 +106,12 @@ Shindo.tests('Fog::AWS[:dynamodb] | item requests', ['aws']) do
 
     tests("#delete_item('#{@table_name}', {'HashKeyElement' => {'S' => 'key'}})").formats('ConsumedCapacityUnits' => Float) do
       pending if Fog.mocking?
-      Fog::AWS[:dynamodb].delete_item(@table_name, {'HashKeyElement' => {'S' => 'key'}}).body
+      Fog::AWS[:dynamodb].delete_item(@table_name, 'HashKeyElement' => {'S' => 'key'}).body
     end
 
     tests("#delete_item('#{@table_name}, {'HashKeyElement' => {'S' => 'key'}})").formats('ConsumedCapacityUnits' => Float) do
       pending if Fog.mocking?
-      Fog::AWS[:dynamodb].delete_item(@table_name, {'HashKeyElement' => {'S' => 'key'}}).body
+      Fog::AWS[:dynamodb].delete_item(@table_name, 'HashKeyElement' => {'S' => 'key'}).body
     end
 
   end
@@ -120,12 +120,12 @@ Shindo.tests('Fog::AWS[:dynamodb] | item requests', ['aws']) do
 
     tests("#put_item('notatable', {'key' => {'S' => 'key'}}, {'value' => {'S' => 'value'}})").raises(Excon::Errors::BadRequest) do
       pending if Fog.mocking?
-      Fog::AWS[:dynamodb].put_item('notatable', {'key' => {'S' => 'key'}}, {'value' => {'S' => 'value'}})
+      Fog::AWS[:dynamodb].put_item('notatable', {'key' => {'S' => 'key'}}, 'value' => {'S' => 'value'})
     end
 
     tests("#update_item('notatable', {'HashKeyElement' => {'S' => 'key'}}, {'value' => {'Value' => {'S' => 'value'}}})").raises(Excon::Errors::BadRequest) do
       pending if Fog.mocking?
-      Fog::AWS[:dynamodb].update_item('notatable', {'HashKeyElement' => {'S' => 'key'}}, {'value' => {'Value' => {'S' => 'value'}}})
+      Fog::AWS[:dynamodb].update_item('notatable', {'HashKeyElement' => {'S' => 'key'}}, 'value' => {'Value' => {'S' => 'value'}})
     end
 
   end

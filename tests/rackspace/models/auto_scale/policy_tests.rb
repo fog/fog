@@ -5,11 +5,11 @@ Shindo.tests('Fog::Rackspace::AutoScale | policy', ['rackspace', 'rackspace_auto
   pending if Fog.mocking?
 
   begin
-    group = service.groups.create({
+    group = service.groups.create(
                                     :policies => POLICIES_OPTIONS,
       :group_config => GROUP_CONFIG_OPTIONS,
       :launch_config => LAUNCH_CONFIG_OPTIONS
-    })
+    )
 
     options = {
       :name => "policy 2",

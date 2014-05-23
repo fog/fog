@@ -57,13 +57,13 @@ module Fog
           raise Fog::Errors::Error.new('Resaving an existing object may create a duplicate') if persisted?
           requires :name, :image_id, :processing_cores, :facility, :disk_size
 
-          data = service.voxcloud_create({
+          data = service.voxcloud_create(
                                            :disk_size => disk_size,
             :facility => facility,
             :hostname => name,
             :image_id => image_id,
             :processing_cores => processing_cores
-          }).body
+          ).body
 
           merge_attributes(data['device'])
 

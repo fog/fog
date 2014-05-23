@@ -60,9 +60,9 @@ module Fog
                     attrs['ApproximateReceiveCount'] = (attrs['ApproximateReceiveCount'] || 0) + 1
                   end
 
-                  messages << m.merge({
+                  messages << m.merge(
                                         'ReceiptHandle' => receipt_handle
-                  })
+                  )
                   break if messages.size >= max_number_of_messages
                 end
               end

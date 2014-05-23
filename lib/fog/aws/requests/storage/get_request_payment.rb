@@ -16,7 +16,7 @@ module Fog
         # @see http://docs.amazonwebservices.com/AmazonS3/latest/API/RESTrequestPaymentGET.html
 
         def get_request_payment(bucket_name)
-          request({
+          request(
                     :expects  => 200,
             :headers  => {},
             :bucket_name => bucket_name,
@@ -24,7 +24,7 @@ module Fog
             :method   => 'GET',
             :parser   => Fog::Parsers::Storage::AWS::GetRequestPayment.new,
             :query    => {'requestPayment' => nil}
-          })
+          )
         end
 
       end

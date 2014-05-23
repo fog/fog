@@ -35,7 +35,7 @@ Shindo.tests('Fog::CDN[:rackspace] | CDN requests', ['rackspace']) do
     tests('success') do
 
       tests("#put_container('fogcontainertests')").succeeds do
-        Fog::CDN[:rackspace].put_container('fogcontainertests', {'X-CDN-Enabled' => true })
+        Fog::CDN[:rackspace].put_container('fogcontainertests', 'X-CDN-Enabled' => true )
       end
 
       tests("#get_containers").formats(@containers_format) do

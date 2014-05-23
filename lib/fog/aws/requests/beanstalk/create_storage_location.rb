@@ -16,10 +16,10 @@ module Fog
         # http://docs.amazonwebservices.com/elasticbeanstalk/latest/api/API_CreateStorageLocation.html
         #
         def create_storage_location()
-          request({
+          request(
                     'Operation'    => 'CreateStorageLocation',
                       :parser     => Fog::Parsers::AWS::ElasticBeanstalk::CreateStorageLocation.new
-                  })
+                  )
         end
       end
     end

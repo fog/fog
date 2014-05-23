@@ -19,7 +19,7 @@ Shindo.tests("Fog::Compute::HPV2 | server address requests", ['hp', 'v2', 'compu
     end
 
     # the network name is currently named 'private'
-    tests("#list_server_addresses(#{@server_id})").formats({'addresses' => {'hpcloud' => [{'version' => Integer, 'addr' => String}]}}) do
+    tests("#list_server_addresses(#{@server_id})").formats('addresses' => {'hpcloud' => [{'version' => Integer, 'addr' => String}]}) do
       service.list_server_addresses(@server_id).body
     end
 

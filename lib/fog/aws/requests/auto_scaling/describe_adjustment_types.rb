@@ -22,11 +22,11 @@ module Fog
         # http://docs.amazonwebservices.com/AutoScaling/latest/APIReference/API_DescribeAdjustmentTypes.html
         #
         def describe_adjustment_types()
-          request({
+          request(
                     'Action'    => 'DescribeAdjustmentTypes',
             :idempotent => true,
             :parser     => Fog::Parsers::AWS::AutoScaling::DescribeAdjustmentTypes.new
-          })
+          )
         end
 
       end

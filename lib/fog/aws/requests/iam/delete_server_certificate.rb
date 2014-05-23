@@ -19,11 +19,11 @@ module Fog
         # http://docs.amazonwebservices.com/IAM/latest/APIReference/API_DeleteServerCertificate.html
         #
         def delete_server_certificate(server_certificate_name)
-          request({
+          request(
                     'Action'                => 'DeleteServerCertificate',
             'ServerCertificateName' => server_certificate_name,
             :parser                 => Fog::Parsers::AWS::IAM::Basic.new
-          })
+          )
         end
 
       end

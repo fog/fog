@@ -52,13 +52,13 @@ module Fog
           end
 
           Excon::Response.new(
-              {
+              
                 :status => 200,
                   :body => {
                     "ResponseMetadata"=>{ "RequestId"=> Fog::AWS::Mock.request_id },
                       "CacheSecurityGroups" => sec_group_set
                   }
-              }
+              
           )
 
         end

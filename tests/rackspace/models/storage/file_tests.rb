@@ -94,9 +94,9 @@ Shindo.tests('Fog::Rackspace::Storage | file', ['rackspace']) do
         tests("removes one key while leaving the other") do
           @instance.metadata[:color] = "green"
           @instance.save
-          returns({"X-Object-Meta-Foo"=>"bar", "X-Object-Meta-Color"=>"green"}) { object_meta_attributes  }
+          returns("X-Object-Meta-Foo"=>"bar", "X-Object-Meta-Color"=>"green") { object_meta_attributes  }
                     
-          tests("set metadata[:color] = nil").returns({"X-Object-Meta-Foo"=>"bar"}) do
+          tests("set metadata[:color] = nil").returns("X-Object-Meta-Foo"=>"bar") do
             @instance.metadata[:color] = nil
             @instance.save
             

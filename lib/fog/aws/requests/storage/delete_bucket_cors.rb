@@ -13,13 +13,13 @@ module Fog
         # @see http://docs.amazonwebservices.com/AmazonS3/latest/API/RESTBucketDELETEcors.html
 
         def delete_bucket_cors(bucket_name)
-          request({
+          request(
                     :expects  => 204,
             :headers  => {},
             :bucket_name => bucket_name,
             :method   => 'DELETE',
             :query    => {'cors' => nil}
-          })
+          )
         end
 
       end

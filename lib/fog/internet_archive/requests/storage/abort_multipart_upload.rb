@@ -12,14 +12,14 @@ module Fog
         # @see http://docs.amazonwebservices.com/AmazonS3/latest/API/mpUploadAbort.html
         #
         def abort_multipart_upload(bucket_name, object_name, upload_id)
-          request({
+          request(
                     :expects    => 204,
             :headers    => {},
             :host       => "#{bucket_name}.#{@host}",
             :method     => 'DELETE',
             :path       => CGI.escape(object_name),
             :query      => {'uploadId' => upload_id}
-          })
+          )
         end
 
       end # Real

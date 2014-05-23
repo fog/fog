@@ -19,12 +19,12 @@ module Fog
         #
         #
         def update_login_profile(user_name, password)
-          request({
+          request(
                     'Action'    => 'UpdateLoginProfile',
             'UserName'  => user_name,
             'Password'  => password,
             :parser     => Fog::Parsers::AWS::IAM::Basic.new
-          })
+          )
         end
 
       end

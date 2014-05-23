@@ -14,13 +14,13 @@ module Fog
         # *  :marker <~String> - marker provided in the previous request
         # *  :max_records <~Integer> - the maximum number of records to include
         def describe_engine_default_parameters(options = {})
-          request({
+          request(
                     'Action'                    => 'DescribeEngineDefaultParameters',
             'CacheParameterGroupFamily' => options[:engine] || 'memcached1.4',
             'Marker'                    => options[:marker],
             'MaxRecords'                => options[:max_records],
             :parser => Fog::Parsers::AWS::Elasticache::DescribeEngineDefaultParameters.new
-          })
+          )
         end
 
       end

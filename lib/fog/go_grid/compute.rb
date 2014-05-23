@@ -82,12 +82,12 @@ module Fog
           }.merge!(params)
 
           params[:query] ||= {}
-          params[:query].merge!({
+          params[:query].merge!(
                                   'api_key' => @go_grid_api_key,
             'format'  => 'json',
             'sig'     => Digest::MD5.hexdigest("#{@go_grid_api_key}#{@go_grid_shared_secret}#{Time.now.to_i}"),
             'v'       => '1.5'
-          })
+          )
 
           begin
             response = @connection.request(

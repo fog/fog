@@ -100,13 +100,13 @@ module Fog
         def save
           requires :size
           raise IdentifierTaken.new('Resaving may cause a duplicate volume to be created') if persisted?
-          data = service.create_volume(size, {
+          data = service.create_volume(size, 
                                          :display_name => display_name,
             :display_description => display_description,
             :volume_type => volume_type,
             :availability_zone => availability_zone,
             :snapshot_id => attributes[:snapshot_id]
-          })
+          )
           merge_attributes(data.body['volume'])
           true
         end

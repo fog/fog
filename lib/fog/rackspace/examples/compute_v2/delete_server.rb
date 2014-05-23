@@ -35,13 +35,13 @@ def rackspace_api_key
 end
 
 #create Next Generation Cloud Server service
-service = Fog::Compute.new({
+service = Fog::Compute.new(
                              :provider             => 'rackspace',
   :rackspace_username   => rackspace_username,
   :rackspace_api_key    => rackspace_api_key,
   :version => :v2,  # Use Next Gen Cloud Servers
   :rackspace_region => :ord #Use Chicago Region
-})
+)
 
 #retrieve list of servers
 servers = service.servers

@@ -29,7 +29,7 @@ module Fog
 
         def list_server_addresses_by_network(server_id, network_name)
           response = Excon::Response.new
-          if server = list_servers_detail.body['servers'].detect { |_| _['id'] == server_id }
+          if server = list_servers_detail.body['servers'].find { |_| _['id'] == server_id }
             response.status = 200
             # get the addresses for the network, which is 'custom' in case of mocks
             address = server['addresses'].select { |key, _| key == network_name }

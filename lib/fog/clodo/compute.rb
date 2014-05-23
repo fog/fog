@@ -93,7 +93,7 @@ module Fog
 
         def request(params)
           begin
-            response = @connection.request(params.merge({
+            response = @connection.request(params.merge(
                                                           :headers  => {
                                                             'Content-Type' => 'application/json',
                                                             'Accept' => 'application/json',
@@ -101,7 +101,7 @@ module Fog
                                                           }.merge!(params[:headers] || {}),
               :host     => @host,
               :path     => "#{@path}/#{params[:path]}"
-            }))
+            ))
           rescue Excon::Errors::Unauthorized => error
             if error.response.body != 'Bad username or password' # token expiration
               @clodo_must_reauthenticate = true

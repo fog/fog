@@ -31,14 +31,14 @@ DATA
           end
 
           data << '</WebsiteConfiguration>'
-          request({
+          request(
                     :body     => data,
             :expects  => 200,
             :headers  => {},
             :host     => "#{bucket_name}.#{@host}",
             :method   => 'PUT',
             :query    => {'website' => nil}
-          })
+          )
         end
 
       end

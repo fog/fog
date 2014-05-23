@@ -20,7 +20,7 @@ module Fog
         # @see http://docs.amazonwebservices.com/AmazonS3/latest/API/RESTBucketGETlifecycle.html
 
         def get_bucket_lifecycle(bucket_name)
-          request({
+          request(
                     :expects  => 200,
                     :headers  => {},
                     :bucket_name => bucket_name,
@@ -28,7 +28,7 @@ module Fog
                     :method   => 'GET',
                     :parser   => Fog::Parsers::Storage::AWS::GetBucketLifecycle.new,
                     :query    => {'lifecycle' => nil}
-                  })
+                  )
         end
 
       end

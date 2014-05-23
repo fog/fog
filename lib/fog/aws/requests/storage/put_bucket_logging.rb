@@ -65,14 +65,14 @@ DATA
 DATA
           end
 
-          request({
+          request(
                     :body     => data,
             :expects  => 200,
             :headers  => {},
             :bucket_name => bucket_name,
             :method   => 'PUT',
             :query    => {'logging' => nil}
-          })
+          )
         end
 
       end

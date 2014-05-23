@@ -15,10 +15,10 @@ Shindo.tests('Fog::Rackspace::Monitoring | agent_tests', ['rackspace','rackspace
       account.list_agent_tokens().data[:headers]
     end
     tests("#list_agents") do
-    	data_matches_schema(values_format, {:allow_extra_keys => true}) { account.list_agents.body }
+    	data_matches_schema(values_format, :allow_extra_keys => true) { account.list_agents.body }
     end     
     tests("#get_agent") do
-    	data_matches_schema(values_format, {:allow_extra_keys => true}) { account.get_agent("agent_id").body }
+    	data_matches_schema(values_format, :allow_extra_keys => true) { account.get_agent("agent_id").body }
     end
 
 
@@ -29,28 +29,28 @@ Shindo.tests('Fog::Rackspace::Monitoring | agent_tests', ['rackspace','rackspace
       account.delete_agent_token(agent_token).data[:headers]
     end
     tests("#get_cpus_info") do
-    	data_matches_schema(values_format, {:allow_extra_keys => true}) { account.get_cpus_info("agent_id").body }
+    	data_matches_schema(values_format, :allow_extra_keys => true) { account.get_cpus_info("agent_id").body }
     end
     tests("#get_disks_info") do
-    	data_matches_schema(values_format, {:allow_extra_keys => true}) { account.get_disks_info("agent_id").body }
+    	data_matches_schema(values_format, :allow_extra_keys => true) { account.get_disks_info("agent_id").body }
     end
     tests("#get_filesystems_info") do
-    	data_matches_schema(values_format, {:allow_extra_keys => true}) { account.get_filesystems_info("agent_id").body }
+    	data_matches_schema(values_format, :allow_extra_keys => true) { account.get_filesystems_info("agent_id").body }
     end
     tests("#get_logged_in_user_info") do
-    	data_matches_schema(values_format, {:allow_extra_keys => true}) { account.get_logged_in_user_info("agent_id").body }
+    	data_matches_schema(values_format, :allow_extra_keys => true) { account.get_logged_in_user_info("agent_id").body }
     end
     tests("#get_memory_info") do
-    	data_matches_schema(values_format, {:allow_extra_keys => true}) { account.get_memory_info("agent_id").body }
+    	data_matches_schema(values_format, :allow_extra_keys => true) { account.get_memory_info("agent_id").body }
     end
     tests("#get_network_interfaces_info") do
-    	data_matches_schema(values_format, {:allow_extra_keys => true}) { account.get_network_interfaces_info("agent_id").body }
+    	data_matches_schema(values_format, :allow_extra_keys => true) { account.get_network_interfaces_info("agent_id").body }
     end
     tests("#get_processes_info") do
-    	data_matches_schema(values_format, {:allow_extra_keys => true}) { account.get_processes_info("agent_id").body }
+    	data_matches_schema(values_format, :allow_extra_keys => true) { account.get_processes_info("agent_id").body }
     end
     tests("#get_system_info") do
-    	data_matches_schema(values_format, {:allow_extra_keys => true}) { account.get_system_info("agent_id").body }
+    	data_matches_schema(values_format, :allow_extra_keys => true) { account.get_system_info("agent_id").body }
     end   
     
   end

@@ -45,7 +45,7 @@ module Fog
       class Mock
         def associate_floating_ip(floating_ip_id, port_id, options = {})
           response = Excon::Response.new
-          if list_floating_ips.body['floatingips'].detect { |_| _['id'] == floating_ip_id }
+          if list_floating_ips.body['floatingips'].find { |_| _['id'] == floating_ip_id }
             response.status = 201
             data = {
               'id'                  => floating_ip_id,

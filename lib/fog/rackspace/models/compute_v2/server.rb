@@ -175,10 +175,10 @@ module Fog
         # @return [Fog::Compute::RackspaceV2::Metadata] metadata key value pairs.
         def metadata
           @metadata ||= begin
-            Fog::Compute::RackspaceV2::Metadata.new({
+            Fog::Compute::RackspaceV2::Metadata.new(
                                                       :service => service,
               :parent => self
-            })
+            )
           end
         end
 
@@ -360,10 +360,10 @@ module Fog
         # @see http://docs.rackspace.com/servers/api/v2/cs-devguide/content/List_Volume_Attachments.html
         def attachments
           @attachments ||= begin
-            Fog::Compute::RackspaceV2::Attachments.new({
+            Fog::Compute::RackspaceV2::Attachments.new(
                                                          :service => service,
               :server => self
-            })
+            )
           end
         end
 

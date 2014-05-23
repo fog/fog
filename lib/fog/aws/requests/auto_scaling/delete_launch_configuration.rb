@@ -26,11 +26,11 @@ module Fog
         # http://docs.amazonwebservices.com/AutoScaling/latest/APIReference/API_DeleteLaunchConfiguration.html
         #
         def delete_launch_configuration(launch_configuration_name)
-          request({
+          request(
                     'Action'                  => 'DeleteLaunchConfiguration',
             'LaunchConfigurationName' => launch_configuration_name,
             :parser                   => Fog::Parsers::AWS::AutoScaling::Basic.new
-          })
+          )
         end
 
       end

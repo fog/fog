@@ -32,13 +32,13 @@ module Fog
         # @see http://docs.amazonwebservices.com/AmazonCloudFront/latest/APIReference/GetStreamingDistribution.html
 
         def get_streaming_distribution(distribution_id)
-          request({
+          request(
                     :expects    => 200,
             :idempotent => true,
             :method     => 'GET',
             :parser     => Fog::Parsers::CDN::AWS::StreamingDistribution.new,
             :path       => "/streaming-distribution/#{distribution_id}"
-          })
+          )
         end
 
       end

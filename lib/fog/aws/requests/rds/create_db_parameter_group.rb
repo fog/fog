@@ -17,14 +17,14 @@ module Fog
         #   * body<~Hash>:
         def create_db_parameter_group(group_name, group_family, description)
 
-          request({
+          request(
                     'Action'  => 'CreateDBParameterGroup',
             'DBParameterGroupName' => group_name,
             'DBParameterGroupFamily' => group_family,
             'Description' => description,
 
             :parser   => Fog::Parsers::AWS::RDS::CreateDbParameterGroup.new
-          })
+          )
         end
 
       end

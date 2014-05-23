@@ -8,7 +8,7 @@ Shindo.tests('Fog::Network[:openstack] | security_groups collection', ['openstac
     @secgroup = Fog::Network[:openstack].security_groups.create(attributes)
 
     tests('#all(filter)').succeeds do
-      secgroup = Fog::Network[:openstack].security_groups.all({:name => "fogsecgroup"})
+      secgroup = Fog::Network[:openstack].security_groups.all(:name => "fogsecgroup")
       secgroup.first.name == "fogsecgroup"
     end
     @secgroup.destroy

@@ -13,11 +13,11 @@ module Fog
         # * response <~Excon::Response>:
         #   * body <~Hash>
         def delete_cache_security_group(name)
-          request({
+          request(
                     'Action' => 'DeleteCacheSecurityGroup',
             'CacheSecurityGroupName' => name,
             :parser => Fog::Parsers::AWS::Elasticache::Base.new
-          })
+          )
         end
       end
 
@@ -25,10 +25,10 @@ module Fog
         def delete_cache_security_group(name)
           if self.data[:security_groups].delete(name)
             Excon::Response.new(
-                {
+                
                   :status => 200,
                     :body =>   { 'ResponseMetadata'=>{ 'RequestId'=> Fog::AWS::Mock.request_id } }
-                }
+                
             )
           else
             raise Fog::AWS::RDS::NotFound.new("DBSecurityGroupNotFound => #{name} not found")

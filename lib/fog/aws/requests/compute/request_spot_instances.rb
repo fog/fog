@@ -61,7 +61,7 @@ module Fog
           if block_device_mapping = options.delete('LaunchSpecification.BlockDeviceMapping')
             block_device_mapping.each_with_index do |mapping, index|
               for key, value in mapping
-                options.merge!({ format("LaunchSpecification.BlockDeviceMapping.%d.#{key}", index) => value })
+                options.merge!( format("LaunchSpecification.BlockDeviceMapping.%d.#{key}", index) => value )
               end
             end
           end

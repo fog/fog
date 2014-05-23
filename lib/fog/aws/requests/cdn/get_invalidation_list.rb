@@ -24,14 +24,14 @@ module Fog
         # @see http://docs.amazonwebservices.com/AmazonCloudFront/latest/APIReference/ListInvalidation.html
 
         def get_invalidation_list(distribution_id, options = {})
-          request({
+          request(
                     :expects    => 200,
             :idempotent => true,
             :method   => 'GET',
             :parser   => Fog::Parsers::CDN::AWS::GetInvalidationList.new,
             :path       => "/distribution/#{distribution_id}/invalidation",
             :query      => options
-          })
+          )
         end
 
       end

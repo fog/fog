@@ -24,11 +24,11 @@ module Fog
         # http://docs.amazonwebservices.com/AutoScaling/latest/APIReference/API_DescribeMetricCollectionTypes.html
         #
         def describe_metric_collection_types()
-          request({
+          request(
                     'Action'    => 'DescribeMetricCollectionTypes',
             :idempotent => true,
             :parser     => Fog::Parsers::AWS::AutoScaling::DescribeMetricCollectionTypes.new
-          })
+          )
         end
 
       end

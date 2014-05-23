@@ -37,7 +37,7 @@ module Fog
         #
         def list_parts(bucket_name, object_name, upload_id, options = {})
           options['uploadId'] = upload_id
-          request({
+          request(
                     :expects  => 200,
             :headers  => {},
             :bucket_name => bucket_name,
@@ -45,8 +45,8 @@ module Fog
             :idempotent => true,
             :method   => 'GET',
             :parser   => Fog::Parsers::Storage::AWS::ListParts.new,
-            :query    => options.merge!({'uploadId' => upload_id})
-          })
+            :query    => options.merge!('uploadId' => upload_id)
+          )
         end
 
       end

@@ -69,13 +69,13 @@ module Fog
         end
 
         def snapshots
-          __snapshots.collect do |ref|
+          __snapshots.map do |ref|
             service.vdis.get ref
           end
         end
 
         def vbds
-          __vbds.collect do |ref|
+          __vbds.map do |ref|
             service.vbds.get ref
           end
         end

@@ -13,12 +13,12 @@ module Fog
         # @see http://docs.amazonwebservices.com/AmazonS3/latest/API/RESTBucketDELETE.html
 
         def delete_bucket(bucket_name)
-          request({
+          request(
                     :expects  => 204,
             :headers  => {},
             :bucket_name => bucket_name,
             :method   => 'DELETE'
-          })
+          )
         end
 
       end

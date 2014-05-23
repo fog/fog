@@ -43,7 +43,7 @@ module Fog
         def save
           requires :joyent_module, :stat
           munged_attributes = self.attributes.dup
-          remap_attributes(munged_attributes, {
+          remap_attributes(munged_attributes, 
                              :joyent_module => 'module',
               :value_dimension => 'value-dimension',
               :value_arity => 'value-arity',
@@ -51,7 +51,7 @@ module Fog
               :idle_max => 'idle-max',
               :persist_data => 'persist-data',
               :value_scope => 'value-scope'
-          })
+          )
 
           data = service.create_instrumentation(munged_attributes)
           merge_attributes(data.body)

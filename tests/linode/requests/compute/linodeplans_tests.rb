@@ -1,6 +1,6 @@
 Shindo.tests('Fog::Compute[:linode] | linodeplans requests', ['linode']) do
 
-  @linodeplans_format = Linode::Compute::Formats::BASIC.merge({
+  @linodeplans_format = Linode::Compute::Formats::BASIC.merge(
                                                                 'DATA' => [{ 
                                                                   'AVAIL' => {
                                                                     '2' => Integer,
@@ -17,7 +17,7 @@ Shindo.tests('Fog::Compute[:linode] | linodeplans requests', ['linode']) do
                                                                   'LABEL'   => String,
                                                                   'XFER'    => Integer
                                                                 }]
-  })
+  )
 
   tests('success') do
 

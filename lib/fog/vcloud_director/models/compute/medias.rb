@@ -25,7 +25,7 @@ module Fog
 
           file = response.body[:Files][:File].first
           file[:Link] = [file[:Link]] if file[:Link].is_a?(Hash)
-          link = file[:Link].detect { |l| l[:rel] == 'upload:default' }
+          link = file[:Link].find { |l| l[:rel] == 'upload:default' }
 
           headers = {
             'Content-Length' => io.size,

@@ -63,7 +63,7 @@ Shindo.tests('Fog::Compute[:google] | server requests', ['google']) do
       @google.insert_server(
         server_name,
         zone_name,
-        { 'image' => image_name, 'machineType' => machine_type, 'disks' => [disk] }
+         'image' => image_name, 'machineType' => machine_type, 'disks' => [disk] 
       ).body
     end
 

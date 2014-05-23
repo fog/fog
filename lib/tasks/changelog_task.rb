@@ -99,7 +99,7 @@ Watchers      | #{watchers}
       def committers_sorted_by_commits
         committer_pairs = @committers.to_a.sort { |x,y| y[1] <=> x[1] }
         committer_pairs.reject! { |pair| pair.last < 1 }
-        committer_pairs.collect { |pair| pair.first }
+        committer_pairs.map { |pair| pair.first }
       end
 
       def former_mvp?(committer)

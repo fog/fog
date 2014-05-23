@@ -43,7 +43,7 @@ module Fog
               :type     => tokens[2][0...-6] # everything before 'Record'
             }
           end
-          record = records.detect { |record| record[:type] == type }
+          record = records.find { |record| record[:type] == type }
           merge_attributes(record)
 
           true

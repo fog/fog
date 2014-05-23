@@ -47,7 +47,7 @@ module Fog
 
         def downcase_hash_keys(hash, k = [])
           return {k.join('_').gsub(/([a-z])([A-Z])/,'\1_\2').downcase => hash} unless hash.is_a?(Hash)
-          hash.inject({}) { |h, v| h.merge! downcase_hash_keys(v[-1], k + [v[0]]) }
+          hash.reduce({}) { |h, v| h.merge! downcase_hash_keys(v[-1], k + [v[0]]) }
         end
 
         def camelize_hash_keys(hash)

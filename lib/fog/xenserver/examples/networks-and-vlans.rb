@@ -3,12 +3,12 @@ require 'fog'
 #
 # Create the connection to the XenServer host
 #
-xenserver = Fog::Compute.new({
+xenserver = Fog::Compute.new(
                                :provider           => 'XenServer',
   :xenserver_url      => '1.2.3.4',
   :xenserver_username => 'root',
-  :xenserver_password => 'secret',
-})
+  :xenserver_password => 'secret'
+)
 
 # We have a bonded interface in XenServer, bond0 and
 # we want to add the VLANs there.

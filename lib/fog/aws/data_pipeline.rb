@@ -90,11 +90,11 @@ module Fog
           refresh_credentials_if_expired
 
           # Params for all DataPipeline requests
-          params.merge!({
+          params.merge!(
                           :expects => 200,
             :method => :post,
-            :path => '/',
-          })
+            :path => '/'
+          )
 
           date = Fog::Time.now
           params[:headers] = {

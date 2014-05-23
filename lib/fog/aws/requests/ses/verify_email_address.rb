@@ -15,11 +15,11 @@ module Fog
         #     * 'ResponseMetadata'<~Hash>:
         #       * 'RequestId'<~String> - Id of request
         def verify_email_address(email_address)
-          request({
+          request(
                     'Action'           => 'VerifyEmailAddress',
             'EmailAddress'     => email_address,
             :parser            => Fog::Parsers::AWS::SES::VerifyEmailAddress.new
-          })
+          )
         end
 
       end

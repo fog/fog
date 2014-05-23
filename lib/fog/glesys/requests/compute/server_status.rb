@@ -4,7 +4,7 @@ module Fog
       class Real
 
         def server_status(serverid)
-          request("/server/status", { :serverid => serverid } )
+          request("/server/status",  :serverid => serverid  )
         end
       end
 

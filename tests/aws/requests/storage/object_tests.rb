@@ -35,11 +35,11 @@ Shindo.tests('AWS::Storage | object requests', ['aws']) do
     end
 
     tests("#get_object('#{@directory.identity}', 'fog_object', {'Range' => 'bytes=0-20'})").returns(lorem_file.read[0..20]) do
-      Fog::Storage[:aws].get_object(@directory.identity, 'fog_object', {'Range' => 'bytes=0-20'}).body
+      Fog::Storage[:aws].get_object(@directory.identity, 'fog_object', 'Range' => 'bytes=0-20').body
     end
 
     tests("#get_object('#{@directory.identity}', 'fog_object', {'Range' => 'bytes=0-0'})").returns(lorem_file.read[0..0]) do
-      Fog::Storage[:aws].get_object(@directory.identity, 'fog_object', {'Range' => 'bytes=0-0'}).body
+      Fog::Storage[:aws].get_object(@directory.identity, 'fog_object', 'Range' => 'bytes=0-0').body
     end
 
     tests("#head_object('#{@directory.identity}', 'fog_object')").succeeds do
@@ -68,23 +68,23 @@ Shindo.tests('AWS::Storage | object requests', ['aws']) do
       Fog::Storage[:aws].get_object_acl(@directory.identity, 'fog_object').body
     end
 
-    tests("#put_object_acl('#{@directory.identity}', 'fog_object', hash with email)").returns({
+    tests("#put_object_acl('#{@directory.identity}', 'fog_object', hash with email)").returns(
                                                                                                 'Owner' => @aws_owner,
         'AccessControlList' => [
           {
             'Grantee' => { 'ID' => 'f62f0218873cfa5d56ae9429ae75a592fec4fd22a5f24a20b1038a7db9a8f150', 'DisplayName' => 'mtd' },
             'Permission' => "FULL_CONTROL"
           }
-        ]}) do
+        ]) do
       pending if Fog.mocking?
-      Fog::Storage[:aws].put_object_acl(@directory.identity, 'fog_object', {
+      Fog::Storage[:aws].put_object_acl(@directory.identity, 'fog_object', 
                                           'Owner' => @aws_owner,
         'AccessControlList' => [
           {
             'Grantee' => { 'EmailAddress' => 'mtd@amazon.com' },
             'Permission' => "FULL_CONTROL"
           }
-        ]})
+        ])
       Fog::Storage[:aws].get_object_acl(@directory.identity, 'fog_object').body
     end
 

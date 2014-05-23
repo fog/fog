@@ -29,14 +29,14 @@ module Fog
       private
 
       def create_release
-        github.create_release "fog/fog", "v#{@release_tag}", {:name => "v#{@release_tag}", :body => @release}
+        github.create_release "fog/fog", "v#{@release_tag}", :name => "v#{@release_tag}", :body => @release
         puts "creating release #{@release_tag}"
       end
 
       def releases
         return @releases if @releases
         response = github.releases("fog/fog")
-        @releases = response.collect { |r| r.tag_name }
+        @releases = response.map { |r| r.tag_name }
       end
 
       def release_exists?

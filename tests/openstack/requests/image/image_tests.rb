@@ -72,15 +72,15 @@ Shindo.tests('Fog::Image[:openstack] | image requests', ['openstack']) do
   ]
 
   tests('success') do
-    tests('#list_public_images').data_matches_schema({'images' => [@image_format]}) do
+    tests('#list_public_images').data_matches_schema('images' => [@image_format]) do
       Fog::Image[:openstack].list_public_images.body
     end
 
-    tests('#list_public_images_detailed').data_matches_schema({'images' => [@detailed_image_format]}) do
+    tests('#list_public_images_detailed').data_matches_schema('images' => [@detailed_image_format]) do
       Fog::Image[:openstack].list_public_images_detailed.body
     end
 
-    tests('#create_image').data_matches_schema({'image' => @detailed_image_format}) do
+    tests('#create_image').data_matches_schema('image' => @detailed_image_format) do
       begin
         if Fog.mocking?
           image_attributes = @image_attributes
@@ -104,8 +104,8 @@ Shindo.tests('Fog::Image[:openstack] | image requests', ['openstack']) do
     end
 
     tests('#update_image').data_matches_schema(@detailed_image_format) do
-       Fog::Image[:openstack].update_image({:id => @instance['image']['id'],
-                                            :name => 'edit image'}).body['image']
+       Fog::Image[:openstack].update_image(:id => @instance['image']['id'],
+                                            :name => 'edit image').body['image']
     end
 
     tests('#add_member_to_image').succeeds do

@@ -81,10 +81,10 @@ module Fog
       end
 
       def request_params(params)
-        params.merge({
+        params.merge(
                        :headers  => headers(params),
           :path     => "#{endpoint_uri.path}/#{params[:path]}"
-        })
+        )
       end
 
       def authentication_method

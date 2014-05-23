@@ -24,7 +24,7 @@ module Fog
 
       def request(params)
         begin
-          response = @connection.request(params.merge!({
+          response = @connection.request(params.merge!(
                                                          :headers  => {
                                                            'Content-Type' => 'application/json',
                                                            'Authorization' => 'Basic ' << Base64.encode64("#{@storm_on_demand_username}:#{@storm_on_demand_password}").chomp
@@ -32,7 +32,7 @@ module Fog
             :path     => "#{@path}/#{API_VERSION}#{params[:path]}",
             :expects  => 200,
             :method   => :post
-          }))
+          ))
         rescue Excon::Errors::HTTPStatusError => error
           raise case error
           when Excon::Errors::NotFound

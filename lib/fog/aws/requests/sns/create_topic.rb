@@ -15,11 +15,11 @@ module Fog
         #
 
         def create_topic(name)
-          request({
+          request(
                     'Action'  => 'CreateTopic',
             'Name'    => name,
             :parser   => Fog::Parsers::AWS::SNS::CreateTopic.new
-          })
+          )
         end
 
       end

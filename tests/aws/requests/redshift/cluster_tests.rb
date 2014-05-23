@@ -36,7 +36,7 @@ Shindo.tests('Fog::Redshift[:aws] | cluster requests', ['aws']) do
   }
   @describe_clusters_format = {
     "ClusterSet" => [{
-      'Cluster' => @cluster_format['Cluster'].merge({"ClusterCreateTime"=>Time, "AvailabilityZone"=>String, "EndPoint"=>{"Port"=>Integer, "Address"=>String}})
+      'Cluster' => @cluster_format['Cluster'].merge("ClusterCreateTime"=>Time, "AvailabilityZone"=>String, "EndPoint"=>{"Port"=>Integer, "Address"=>String})
     }]      
   }
 

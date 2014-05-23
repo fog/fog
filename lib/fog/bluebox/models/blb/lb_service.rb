@@ -23,10 +23,10 @@ module Fog
         end
 
         def lb_backends
-          Fog::Bluebox::BLB::LbBackends.new({
+          Fog::Bluebox::BLB::LbBackends.new(
                                               :service => service,
             :lb_service => self
-          })
+          )
         end
 
       end

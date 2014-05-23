@@ -3,7 +3,7 @@ module Fog
     class Provisioning
       class Real
         def create_user(email, name, options = {})
-          payload = Fog::JSON.encode({ :email => email, :name => name })
+          payload = Fog::JSON.encode( :email => email, :name => name )
           headers = { 'Content-Type' => 'application/json' }
 
           if(options[:anonymous])
@@ -39,7 +39,7 @@ module Fog
         end
 
         def user_exists?(email)
-          data.detect do |_key, value|
+          data.find do |_key, value|
             value[:email] == email
           end
         end

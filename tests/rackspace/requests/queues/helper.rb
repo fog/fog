@@ -10,10 +10,10 @@ QUEUE_FORMAT = {
 
 LIST_QUEUES_FORMAT = {
   'queues' => [
-    QUEUE_FORMAT.merge({
+    QUEUE_FORMAT.merge(
                          'name' => String,
-      'href' => String,
-    })
+      'href' => String
+    )
   ],
   'links' => LINKS_FORMAT
 }

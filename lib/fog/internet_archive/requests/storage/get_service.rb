@@ -19,14 +19,14 @@ module Fog
         # @see http://docs.amazonwebservices.com/AmazonS3/latest/API/RESTServiceGET.html
         #
         def get_service
-          request({
+          request(
                     :expects  => 200,
             :headers  => {},
             :host     => @host,
             :idempotent => true,
             :method   => 'GET',
             :parser   => Fog::Parsers::Storage::InternetArchive::GetService.new
-          })
+          )
         end
 
       end

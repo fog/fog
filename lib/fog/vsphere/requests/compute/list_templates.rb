@@ -27,11 +27,11 @@ module Fog
           datacenters = find_datacenters(options[:datacenter])
 
           vms = datacenters.map do |dc|
-            @connection.serviceContent.viewManager.CreateContainerView({
+            @connection.serviceContent.viewManager.CreateContainerView(
                                                                          :container  => dc.vmFolder,
               :type       =>  ["VirtualMachine"],
               :recursive  => true
-            }).view
+            ).view
           end.flatten
           # remove all virtual machines that are not templates
           vms.delete_if { |v| v.config.nil? or not v.config.template }

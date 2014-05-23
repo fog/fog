@@ -23,7 +23,7 @@ module Fog
       class Mock
         def update_lb_member(member_id, options = {})
           response = Excon::Response.new
-          if member = list_lb_members.body['members'].detect { |_| _['id'] == member_id }
+          if member = list_lb_members.body['members'].find { |_| _['id'] == member_id }
             member['pool_id']        = options[:pool_id]
             member['weight']         = options[:weight]
             member['admin_state_up'] = options[:admin_state_up]

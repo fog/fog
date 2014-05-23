@@ -53,11 +53,11 @@ Shindo.tests("Fog::Compute[:hp] | server requests", ['hp']) do
       Fog::Compute[:hp].get_server_details(@server_id).body['server']
     end
 
-    tests('#list_servers').formats({'servers' => [@list_servers_format]}) do
+    tests('#list_servers').formats('servers' => [@list_servers_format]) do
       Fog::Compute[:hp].list_servers.body
     end
 
-    tests('#list_servers_detail').formats({'servers' => [@server_format]}) do
+    tests('#list_servers_detail').formats('servers' => [@server_format]) do
       Fog::Compute[:hp].list_servers_detail.body
     end
 

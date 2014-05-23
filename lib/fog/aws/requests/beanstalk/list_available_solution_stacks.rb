@@ -16,10 +16,10 @@ module Fog
         # http://docs.amazonwebservices.com/elasticbeanstalk/latest/api/API_CheckDNSAvailability.html
         #
         def list_available_solution_stacks()
-          request({
+          request(
                     'Operation'    => 'ListAvailableSolutionStacks',
                       :parser     => Fog::Parsers::AWS::ElasticBeanstalk::ListAvailableSolutionStacks.new
-                  })
+                  )
         end
       end
     end

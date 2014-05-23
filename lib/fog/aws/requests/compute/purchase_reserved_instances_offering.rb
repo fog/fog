@@ -19,13 +19,13 @@ module Fog
         #
         # {Amazon API Reference}[http://docs.amazonwebservices.com/AWSEC2/latest/APIReference/ApiReference-query-PurchaseReservedInstancesOffering.html]
         def purchase_reserved_instances_offering(reserved_instances_offering_id, instance_count = 1)
-          request({
+          request(
                     'Action'                      => 'PurchaseReservedInstancesOffering',
             'ReservedInstancesOfferingId' => reserved_instances_offering_id,
             'InstanceCount'               => instance_count,
             :idempotent                   => true,
             :parser                       => Fog::Parsers::Compute::AWS::PurchaseReservedInstancesOffering.new
-          })
+          )
         end
 
       end
@@ -42,14 +42,14 @@ module Fog
           reserved_instances_id = Fog::AWS::Mock.reserved_instances_id
           reserved_instance_offering.delete('reservedInstancesOfferingId')
 
-          self.data[:reserved_instances][reserved_instances_id] = reserved_instance_offering.merge({
+          self.data[:reserved_instances][reserved_instances_id] = reserved_instance_offering.merge(
                                                                                                      'reservedInstancesId' => reserved_instances_id,
             'start'               => Time.now,
             'end'                 => Time.now,
             'instanceCount'       => instance_count,
             'state'               => 'payment-pending',
             'tagSet'              => []
-          })
+          )
 
           response.body = {
             'reservedInstancesId' => reserved_instances_id,

@@ -29,10 +29,10 @@ module Fog
           if options['Parameters']
             options['Parameters'].keys.each_with_index do |key, index|
               index += 1 # params are 1-indexed
-              params.merge!({
+              params.merge!(
                               "Parameters.member.#{index}.ParameterKey"   => key,
                 "Parameters.member.#{index}.ParameterValue" => options['Parameters'][key]
-              })
+              )
             end
           end
 

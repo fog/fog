@@ -331,13 +331,13 @@ module Fog
           end
 
           # Make the request
-          response = @connections[host_url].request({
+          response = @connections[host_url].request(
                                                       :body     => params[:body] || '',
             :expects  => params[:expects] || 200,
             :headers  => headers,
             :method   => params[:method] || 'GET',
             :path     => params[:uri].path
-          })
+          )
 
           # Parse the response body into a hash
           unless response.body.empty?

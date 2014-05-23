@@ -8,7 +8,7 @@ Shindo.tests('Fog::Compute[:openstack] | tenant requests', ['openstack']) do
   }
 
   tests('success') do
-    tests('#list_tenants').formats({'tenants_links' => Array, 'tenants' => [@tenant_format]}) do
+    tests('#list_tenants').formats('tenants_links' => Array, 'tenants' => [@tenant_format]) do
       Fog::Compute[:openstack].list_tenants.body
     end
 

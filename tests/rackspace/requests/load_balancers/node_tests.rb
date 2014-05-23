@@ -17,7 +17,7 @@ Shindo.tests('Fog::Rackspace::LoadBalancers | node_tests', ['rackspace']) do
 
         @lb.wait_for { ready? }
         tests('#create_node with weight').formats(NODES_FORMAT) do
-          data = @service.create_node(@lb.id, '1.1.1.3', 80, 'ENABLED', { :weight => 10 }).body
+          data = @service.create_node(@lb.id, '1.1.1.3', 80, 'ENABLED',  :weight => 10 ).body
           @nodes_created << data['nodes'][0]['id']
           data
         end
@@ -34,17 +34,17 @@ Shindo.tests('Fog::Rackspace::LoadBalancers | node_tests', ['rackspace']) do
 
         @lb.wait_for { ready? }
         tests("#update_node(#{@lb.id}, #{@nodes_created[0]}, { :condition => 'DISABLED' })").succeeds do
-          @service.update_node(@lb.id, @nodes_created[0], { :condition => 'DISABLED' })
+          @service.update_node(@lb.id, @nodes_created[0],  :condition => 'DISABLED' )
         end
 
         @lb.wait_for { ready? }
         tests("#update_node(#{@lb.id}, #{@nodes_created[0]}, { :weight => 20})").succeeds do
-          @service.update_node(@lb.id, @nodes_created[0], { :weight => 20 })
+          @service.update_node(@lb.id, @nodes_created[0],  :weight => 20 )
         end
 
         @lb.wait_for { ready? }
         tests("#update_node(#{@lb.id}, #{@nodes_created[0]}, { :condition => 'DISABLED', :weight => 20 })").succeeds do
-          @service.update_node(@lb.id, @nodes_created[0], { :condition => 'DISABLED', :weight => 20 })
+          @service.update_node(@lb.id, @nodes_created[0],  :condition => 'DISABLED', :weight => 20 )
         end
       end
 
@@ -65,7 +65,7 @@ Shindo.tests('Fog::Rackspace::LoadBalancers | node_tests', ['rackspace']) do
           @service.delete_nodes(@lb.id, 'a', 'b')
         end
         tests("#update_node(#{@lb.id}, 0, { :weight => 20 })").raises(Fog::Rackspace::LoadBalancers::NotFound) do
-          @service.update_node(@lb.id, 0, { :weight => 20 })
+          @service.update_node(@lb.id, 0,  :weight => 20 )
         end
       end
 

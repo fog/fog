@@ -77,14 +77,14 @@ module Fog
             filter_key = filter_key.to_s
             if association_key = filter_key.split('association.')[1]
               aliased_key = association_aliases[association_key]
-              network_acls = network_acls.reject { |nacl| !nacl['associationSet'].detect { |association| [*filter_value].include?(association[aliased_key]) } }
+              network_acls = network_acls.reject { |nacl| !nacl['associationSet'].find { |association| [*filter_value].include?(association[aliased_key]) } }
             elsif entry_key = filter_key.split('entry.icmp.')[1]
-              network_acls = network_acls.reject { |nacl| !nacl['entrySet'].detect { |association| [*filter_value].include?(association['icmpTypeCode'][entry_key]) } }
+              network_acls = network_acls.reject { |nacl| !nacl['entrySet'].find { |association| [*filter_value].include?(association['icmpTypeCode'][entry_key]) } }
             elsif entry_key = filter_key.split('entry.port-range.')[1]
-              network_acls = network_acls.reject { |nacl| !nacl['entrySet'].detect { |association| [*filter_value].include?(association['portRange'][entry_key]) } }
+              network_acls = network_acls.reject { |nacl| !nacl['entrySet'].find { |association| [*filter_value].include?(association['portRange'][entry_key]) } }
             elsif entry_key = filter_key.split('entry.')[1]
               aliased_key = entry_aliases[entry_key]
-              network_acls = network_acls.reject { |nacl| !nacl['entrySet'].detect { |association| [*filter_value].include?(association[aliased_key]) } }
+              network_acls = network_acls.reject { |nacl| !nacl['entrySet'].find { |association| [*filter_value].include?(association[aliased_key]) } }
             else
               aliased_key = aliases[filter_key]
               network_acls = network_acls.reject { |nacl| ![*filter_value].include?(nacl[aliased_key]) }

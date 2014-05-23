@@ -25,7 +25,7 @@ module Fog
         private
 
         def get_by_id(item_id)
-          item = item_list.detect { |vm| vm[:id] == item_id }
+          item = item_list.find { |vm| vm[:id] == item_id }
           item
         end
 

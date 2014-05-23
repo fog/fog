@@ -19,7 +19,7 @@ Shindo.tests('Fog::Compute[:aws] | key pair requests', ['aws']) do
     @key_pair_name = 'fog_create_key_pair'
     @public_key_material = 'ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEA1SL+kgze8tvSFW6Tyj3RyZc9iFVQDiCKzjgwn2tS7hyWxaiDhjfY2mBYSZwFdKN+ZdsXDJL4CPutUg4DKoQneVgIC1zuXrlpPbaT0Btu2aFd4qNfJ85PBrOtw2GrWZ1kcIgzZ1mMbQt6i1vhsySD2FEj+5kGHouNxQpI5dFR5K+nGgcTLFGnzb/MPRBk136GVnuuYfJ2I4va/chstThoP8UwnoapRHcBpwTIfbmmL91BsRVqjXZEUT73nxpxFeXXidYwhHio+5dXwE0aM/783B/3cPG6FVoxrBvjoNpQpAcEyjtRh9lpwHZtSEW47WNzpIW3PhbQ8j4MryznqF1Rhw=='
 
-    tests("#create_key_pair('#{@key_pair_name}')").formats(@keypair_format.merge({'keyMaterial' => String})) do
+    tests("#create_key_pair('#{@key_pair_name}')").formats(@keypair_format.merge('keyMaterial' => String)) do
       body = Fog::Compute[:aws].create_key_pair(@key_pair_name).body
       tests("key material").returns(OpenSSL::PKey::RSA, "is a valid private RSA key") do
         OpenSSL::PKey::RSA.new(body['keyMaterial']).class

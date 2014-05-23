@@ -34,11 +34,11 @@ Shindo.tests('Fog::Compute[:rackspace] | server requests', ['rackspace']) do
        @service.get_server_details(@server_id).body['server']
     end
 
-    tests('#list_servers').formats({'servers' => [Rackspace::Compute::Formats::SUMMARY]}) do
+    tests('#list_servers').formats('servers' => [Rackspace::Compute::Formats::SUMMARY]) do
        @service.list_servers.body
     end
 
-    tests('#list_servers_detail').formats({'servers' => [@server_format]}) do
+    tests('#list_servers_detail').formats('servers' => [@server_format]) do
        @service.list_servers_detail.body
     end
 

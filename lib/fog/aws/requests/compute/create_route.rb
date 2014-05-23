@@ -56,7 +56,7 @@ module Fog
                 raise Fog::Compute::AWS::Error, "RouteAlreadyExists => The route identified by #{destination_cidr_block} already exists."
               else
                 response = Excon::Response.new
-                route_table['routeSet'].push({
+                route_table['routeSet'].push(
                                                "destinationCidrBlock" => destination_cidr_block,
                   "gatewayId" => internet_gateway_id,
                   "instanceId"=>instance_id,
@@ -64,7 +64,7 @@ module Fog
                   "networkInterfaceId"=>network_interface_id,
                   "state" => "pending",
                   "origin" => "CreateRoute"
-                })
+                )
                 response.status = 200
                 response.body = {
                   'requestId'=> Fog::AWS::Mock.request_id,

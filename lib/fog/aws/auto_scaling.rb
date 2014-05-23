@@ -121,7 +121,7 @@ module Fog
 
           body = AWS.signed_params(
             params,
-            {
+            
               :aws_access_key_id  => @aws_access_key_id,
               :aws_session_token  => @aws_session_token,
               :hmac               => @hmac,
@@ -129,7 +129,7 @@ module Fog
               :path               => @path,
               :port               => @port,
               :version            => '2011-01-01'
-            }
+            
           )
 
           if @instrumentor
@@ -143,14 +143,14 @@ module Fog
 
         def _request(body, idempotent, parser)
           begin
-            @connection.request({
+            @connection.request(
                                   :body       => body,
               :expects    => 200,
               :idempotent => idempotent,
               :headers    => { 'Content-Type' => 'application/x-www-form-urlencoded' },
               :method     => 'POST',
               :parser     => parser
-            })
+            )
           rescue Excon::Errors::HTTPStatusError => error
             match = Fog::AWS::Errors.match_error(error)
             raise if match.empty?

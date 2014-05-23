@@ -15,7 +15,7 @@ Shindo.tests('Fog::Network[:openstack] | subnet requests', ['openstack']) do
   }
 
   tests('success') do
-    tests('#create_subnet').formats({'subnet' => @subnet_format}) do
+    tests('#create_subnet').formats('subnet' => @subnet_format) do
       network_id = 'net_id'
       cidr = '10.2.2.0/24'
       ip_version = 4
@@ -26,16 +26,16 @@ Shindo.tests('Fog::Network[:openstack] | subnet requests', ['openstack']) do
       Fog::Network[:openstack].create_subnet(network_id, cidr, ip_version, attributes).body
     end
 
-    tests('#list_subnet').formats({'subnets' => [@subnet_format]}) do
+    tests('#list_subnet').formats('subnets' => [@subnet_format]) do
       Fog::Network[:openstack].list_subnets.body
     end
 
-    tests('#get_subnet').formats({'subnet' => @subnet_format}) do
+    tests('#get_subnet').formats('subnet' => @subnet_format) do
       subnet_id = Fog::Network[:openstack].subnets.all.first.id
       Fog::Network[:openstack].get_subnet(subnet_id).body
     end
 
-    tests('#update_subnet').formats({'subnet' => @subnet_format}) do
+    tests('#update_subnet').formats('subnet' => @subnet_format) do
       subnet_id = Fog::Network[:openstack].subnets.all.first.id
       attributes = {:name => 'subnet_name', :gateway_ip => '10.2.2.1',
                     :dns_nameservers => [], :host_routes => [],

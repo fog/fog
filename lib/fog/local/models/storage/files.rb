@@ -60,11 +60,11 @@ module Fog
           requires :directory
           path = file_path(key)
           if ::File.exist?(path)
-            new({
+            new(
                   :content_length => ::File.size(path),
               :key            => key,
               :last_modified  => ::File.mtime(path)
-            })
+            )
           else
             nil
           end

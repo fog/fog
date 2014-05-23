@@ -12,14 +12,14 @@ Shindo.tests("Fog::AWS[:beanstalk] | environment", ['aws', 'beanstalk']) do
     @version_names << uniq_id('fog-test-version')
   end
 
-  @application = @beanstalk.applications.create({:name => @application_name})
+  @application = @beanstalk.applications.create(:name => @application_name)
 
   @versions = []
   @version_names.each do |name|
-    @versions << @beanstalk.versions.create({
+    @versions << @beanstalk.versions.create(
                                               :label => name,
-                                                :application_name => @application_name,
-                                            })
+                                                :application_name => @application_name
+                                            )
   end
 
   @environment_opts = {

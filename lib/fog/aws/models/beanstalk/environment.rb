@@ -40,7 +40,7 @@ module Fog
         # Returns the current live resources for this environment
         def live_resources
           requires :id
-          data = service.describe_environment_resources({'EnvironmentId' => id}).body['DescribeEnvironmentResourcesResult']['EnvironmentResources']
+          data = service.describe_environment_resources('EnvironmentId' => id).body['DescribeEnvironmentResourcesResult']['EnvironmentResources']
           data.delete('EnvironmentName') # Delete the environment name from the result, only return actual resources
           data
         end
@@ -58,29 +58,29 @@ module Fog
         # Return events related to this version
         def events
           requires :id
-          service.events.all({'EnvironmentId' => id})
+          service.events.all('EnvironmentId' => id)
         end
 
         # Restarts the app servers in this environment
         def restart_app_server
           requires :id
-          service.restart_app_server({'EnvironmentId' => id})
+          service.restart_app_server('EnvironmentId' => id)
           reload
         end
 
         # Rebuilds the environment
         def rebuild
           requires :id
-          service.rebuild_environment({'EnvironmentId' => id})
+          service.rebuild_environment('EnvironmentId' => id)
           reload
         end
 
         def swap_cnames(source)
           requires :name
-          service.swap_environment_cnames({
+          service.swap_environment_cnames(
                                             'SourceEnvironmentName' => source.name,
               'DestinationEnvironmentName' => name
-                                             })
+                                             )
           source.reload
           reload
         end
@@ -106,17 +106,17 @@ module Fog
             raise "Version label not specified."
           end
 
-          data = service.update_environment({
+          data = service.update_environment(
                                               'EnvironmentId' => id,
               'VersionLabel' => new_version_label
-                                        }).body['UpdateEnvironmentResult']
+                                        ).body['UpdateEnvironmentResult']
 
           merge_attributes(data)
         end
 
         def destroy
           requires :id
-          service.terminate_environment({'EnvironmentId' => id})
+          service.terminate_environment('EnvironmentId' => id)
           true
         end
 

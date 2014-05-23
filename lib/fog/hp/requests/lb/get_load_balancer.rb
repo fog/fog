@@ -45,7 +45,7 @@ module Fog
       class Mock
         def get_load_balancer(load_balancer_id)
           response = Excon::Response.new
-          if lb = list_load_balancers.body['loadBalancers'].detect { |_| _['id'] == load_balancer_id }
+          if lb = list_load_balancers.body['loadBalancers'].find { |_| _['id'] == load_balancer_id }
             response.status = 200
             response.body = lb
             response

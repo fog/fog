@@ -13,7 +13,7 @@ module Fog
         end
 
         def get(lb_port)
-          all.detect { |listener| listener.lb_port == lb_port }
+          all.find { |listener| listener.lb_port == lb_port }
         end
 
         private

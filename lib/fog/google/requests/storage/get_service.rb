@@ -17,7 +17,7 @@ module Fog
         #       * 'DisplayName'<~String> - Display name of bucket owner
         #       * 'ID'<~String> - Id of bucket owner
         def get_service
-          request({
+          request(
                     :expects  => 200,
             :headers  => {},
             :host     => @host,
@@ -25,7 +25,7 @@ module Fog
             :method   => 'GET',
             :parser   => Fog::Parsers::Storage::Google::GetService.new,
             :url      => @host
-          })
+          )
         end
 
       end

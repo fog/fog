@@ -3,14 +3,14 @@ module Fog
     class OpenStack
       class Real
         def list_tenants
-          response = @identity_connection.request({
+          response = @identity_connection.request(
                                                     :expects => [200, 204],
             :headers => {'Content-Type' => 'application/json',
                          'Accept' => 'application/json',
                          'X-Auth-Token' => @auth_token},
             :method  => 'GET',
             :path    => '/v2.0/tenants'
-          })
+          )
           response.body = Fog::JSON.decode(response.body)
           response
         end

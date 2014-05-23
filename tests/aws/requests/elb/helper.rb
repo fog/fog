@@ -33,13 +33,13 @@ class AWS
         "Subnets" => [Fog::Nullable::String]
       }
 
-      CREATE_LOAD_BALANCER = BASIC.merge({
+      CREATE_LOAD_BALANCER = BASIC.merge(
                                            'CreateLoadBalancerResult' => { 'DNSName' => String }
-      })
+      )
 
-      DESCRIBE_LOAD_BALANCERS = BASIC.merge({
+      DESCRIBE_LOAD_BALANCERS = BASIC.merge(
                                               'DescribeLoadBalancersResult' => {'LoadBalancerDescriptions' => [LOAD_BALANCER], 'NextMarker' => Fog::Nullable::String}
-      })
+      )
 
       POLICY_ATTRIBUTE_DESCRIPTION = {
         "AttributeName" => String,
@@ -52,9 +52,9 @@ class AWS
         "PolicyTypeName" => String
       }
 
-      DESCRIBE_LOAD_BALANCER_POLICIES = BASIC.merge({
+      DESCRIBE_LOAD_BALANCER_POLICIES = BASIC.merge(
                                                       'DescribeLoadBalancerPoliciesResult' => { 'PolicyDescriptions' => [POLICY] }
-      })
+      )
 
       POLICY_ATTRIBUTE_TYPE_DESCRIPTION = {
         "AttributeName" => String,
@@ -70,11 +70,11 @@ class AWS
         "PolicyTypeName" => String
       }
 
-      DESCRIBE_LOAD_BALANCER_POLICY_TYPES = BASIC.merge({
+      DESCRIBE_LOAD_BALANCER_POLICY_TYPES = BASIC.merge(
                                                           'DescribeLoadBalancerPolicyTypesResult' => {'PolicyTypeDescriptions' => [POLICY_TYPE] }
-      })
+      )
 
-      CONFIGURE_HEALTH_CHECK = BASIC.merge({
+      CONFIGURE_HEALTH_CHECK = BASIC.merge(
                                              'ConfigureHealthCheckResult' => {'HealthCheck' => {
                                                'Target' => String,
                                              'Interval' => Integer,
@@ -82,11 +82,11 @@ class AWS
                                              'UnhealthyThreshold' => Integer,
                                              'HealthyThreshold' => Integer
                                            }}
-      })
+      )
 
-      DELETE_LOAD_BALANCER = BASIC.merge({
+      DELETE_LOAD_BALANCER = BASIC.merge(
                                            'DeleteLoadBalancerResult' =>  NilClass
-      })
+      )
 
     end
   end

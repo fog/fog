@@ -1,7 +1,7 @@
 Shindo.tests("Fog::Compute[:fogdocker] | image_delete request", 'fogdocker') do
 
   compute = Fog::Compute[:fogdocker]
-  image_hash = compute.image_create({'fromImage' => 'mattdm/fedora', 'repo'=>'test', 'tag'=>'delete_image'})
+  image_hash = compute.image_create('fromImage' => 'mattdm/fedora', 'repo'=>'test', 'tag'=>'delete_image')
 
   tests("Delete image") do
     begin

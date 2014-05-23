@@ -23,7 +23,7 @@ module Fog
       class Mock
         def update_lb_health_monitor(health_monitor_id, options = {})
           response = Excon::Response.new
-          if health_monitor = list_lb_health_monitors.body['health_monitors'].detect { |_| _['id'] == health_monitor_id }
+          if health_monitor = list_lb_health_monitors.body['health_monitors'].find { |_| _['id'] == health_monitor_id }
             health_monitor['delay']          = options[:delay]
             health_monitor['timeout']        = options[:timeout]
             health_monitor['max_retries']    = options[:max_retries]

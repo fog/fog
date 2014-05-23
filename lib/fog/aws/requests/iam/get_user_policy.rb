@@ -22,12 +22,12 @@ module Fog
         # http://docs.amazonwebservices.com/IAM/latest/APIReference/API_GetUserPolicy.html
         #
         def get_user_policy(policy_name, user_name)
-          request({
+          request(
                     'Action'      => 'GetUserPolicy',
             'PolicyName'  => policy_name,
             'UserName'    => user_name,
             :parser       => Fog::Parsers::AWS::IAM::GetUserPolicy.new
-          })
+          )
         end
 
       end

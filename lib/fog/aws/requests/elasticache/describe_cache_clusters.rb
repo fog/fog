@@ -17,14 +17,14 @@ module Fog
         # * response <~Excon::Response>:
         #   * body <~Hash>
         def describe_cache_clusters(id = nil, options = {})
-          request({
+          request(
                     'Action'            => 'DescribeCacheClusters',
             'CacheClusterId'    => id,
             'Marker'            => options[:marker],
             'MaxRecords'        => options[:max_records],
             'ShowCacheNodeInfo' => options[:show_node_info],
             :parser => Fog::Parsers::AWS::Elasticache::DescribeCacheClusters.new
-          })
+          )
         end
 
       end

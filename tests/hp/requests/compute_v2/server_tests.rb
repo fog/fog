@@ -51,11 +51,11 @@ Shindo.tests("Fog::Compute::HPV2 | server requests", ['hp', 'v2', 'compute']) do
       service.get_server_details(@server_id).body['server']
     end
 
-    tests('#list_servers').formats({'servers' => [@list_servers_format]}) do
+    tests('#list_servers').formats('servers' => [@list_servers_format]) do
       service.list_servers.body
     end
 
-    tests('#list_servers_detail').formats({'servers' => [@server_format]}) do
+    tests('#list_servers_detail').formats('servers' => [@server_format]) do
       service.list_servers_detail.body
     end
 

@@ -10,7 +10,7 @@ Shindo.tests('Fog::Volume[:openstack] | quota requests', ['openstack']) do
 
   tests('success') do
 
-    tests('#get_quota_defaults').formats({ 'quota_set' => @quota_set_format }) do
+    tests('#get_quota_defaults').formats( 'quota_set' => @quota_set_format ) do
       Fog::Volume[:openstack].get_quota_defaults(@tenant_id).body
     end
 
@@ -21,10 +21,10 @@ Shindo.tests('Fog::Volume[:openstack] | quota requests', ['openstack']) do
 
     tests('#update_quota') do
 
-      new_values = @quota.merge({
+      new_values = @quota.merge(
                                   'volumes'   => @quota['volumes']/2,
         'snapshots' => @quota['snapshots']/2
-      })
+      )
 
       succeeds do
         Fog::Volume[:openstack].update_quota(@tenant_id, new_values.clone)

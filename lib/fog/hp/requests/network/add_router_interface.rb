@@ -38,7 +38,7 @@ module Fog
       class Mock
         def add_router_interface(router_id, subnet_id=nil, port_id=nil, options = {})
           response = Excon::Response.new
-          if list_routers.body['routers'].detect { |_| _['id'] == router_id }
+          if list_routers.body['routers'].find { |_| _['id'] == router_id }
             # Either a subnet or a port can be passed, not both
             if (subnet_id && port_id) || (subnet_id.nil? && port_id.nil?)
               raise ArgumentError.new('Either a subnet or a port can be passed, not both')
@@ -46,7 +46,7 @@ module Fog
 
             if port_id.nil?
               # create a new port
-              resp = create_port(self.data[:networks].keys[0], {:name => "New Port #{rand(10)}"})
+              resp = create_port(self.data[:networks].keys[0], :name => "New Port #{rand(10)}")
               port_id = resp.body['port']['id']
             end
 
