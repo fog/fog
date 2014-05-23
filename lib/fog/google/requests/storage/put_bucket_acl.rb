@@ -35,7 +35,7 @@ DATA
         end
 
 
-      private
+        private
 
         def tag(name, value)
           "<#{name}>#{value}</#{name}>"

@@ -47,7 +47,7 @@ module Fog
             }
           end
 
-        private
+          private
 
           def fields
             @json_fields.map { |k,v| field_for_kv(k,v) }.flatten

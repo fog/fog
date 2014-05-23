@@ -32,7 +32,7 @@ module Fog
         end
         alias_method :detach, :destroy
 
-      private
+        private
         def server
           collection.server
         end

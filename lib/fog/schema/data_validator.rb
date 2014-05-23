@@ -96,7 +96,7 @@ module Fog
         @message
       end
 
-    private
+      private
 
       # This contains a slightly modified version of the Hashidator gem
       # but unfortunately the gem does not cope with Array schemas.

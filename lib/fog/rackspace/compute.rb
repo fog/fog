@@ -242,7 +242,7 @@ module Fog
           super(@rackspace_endpoint || service_endpoint_url, :rackspace_compute_v1_url)
         end
 
-         private
+        private
 
         def deprecation_warnings(options)
           Fog::Logger.deprecation("The :rackspace_management_url option is deprecated. Please use :rackspace_compute_v1_url for custom endpoints") if options[:rackspace_management_url]
