@@ -30,7 +30,7 @@ class Brightbox
         server
       end
 
-    private
+      private
       def self.select_testing_image_from_api
         images = Fog::Compute[:brightbox].list_images
         raise "No available images!" if images.empty?

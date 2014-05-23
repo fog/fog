@@ -194,7 +194,7 @@ module Fog
           response
         end
 
-      private
+        private
         def has_session?
           @cloudstack_session_id && @cloudstack_session_key
         end

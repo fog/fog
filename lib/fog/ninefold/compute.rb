@@ -128,7 +128,7 @@ module Fog
           end
         end
 
-      private
+        private
         def url_escape(string)
           string.gsub(/([^ a-zA-Z0-9_.-]+)/n) do
             '%' + $1.unpack('H2' * $1.size).join('%').upcase

@@ -51,7 +51,7 @@ module Fog
         end
         alias :detach :destroy
 
-      private
+        private
         def server
           collection.server
         end
