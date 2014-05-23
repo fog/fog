@@ -1,21 +1,20 @@
 module Fog
   module Compute
     class Cloudstack
-      class Real
 
+      class Real
         # Lists all available disk offerings.
         #
-        # {CloudStack API Reference}[http://download.cloud.com/releases/2.2.0/api_2.2.4/global_admin/listDiskOfferings.html]
+        # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/listDiskOfferings.html]
         def list_disk_offerings(options={})
           options.merge!(
-            'command' => 'listDiskOfferings'
+            'command' => 'listDiskOfferings',
+             
           )
-
           request(options)
         end
-
       end
-
+ 
       class Mock
         # TODO: add id, name filters and paging params
         def list_disk_offerings(options={})
@@ -23,7 +22,8 @@ module Fog
           { "listdiskofferingsresponse" => { "count"=> disk_offerings.count, "diskoffering"=> disk_offerings.values } }
         end
 
-      end
+      end 
     end
   end
 end
+

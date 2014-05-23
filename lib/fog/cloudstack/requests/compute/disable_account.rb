@@ -1,20 +1,22 @@
 module Fog
   module Compute
     class Cloudstack
-      class Real
 
-        # Disables an account.
+      class Real
+        # Disables an account
         #
-        # {CloudStack API Reference}[http://download.cloud.com/releases/2.2.0/api_2.2.4/global_admin/disableAccount.html]
+        # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/disableAccount.html]
         def disable_account(options={})
           options.merge!(
-            'command' => 'disableAccount'
+            'command' => 'disableAccount',
+            'lock' => options['lock'], 
+             
           )
-
           request(options)
         end
-
       end
+
     end
   end
 end
+

@@ -1,15 +1,20 @@
 module Fog
   module Compute
     class Cloudstack
+
       class Real
+        # Authorizes a particular egress rule for this security group
+        #
+        # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/authorizeSecurityGroupEgress.html]
         def authorize_security_group_egress(options={})
           options.merge!(
-            'command' => 'authorizeSecurityGroupEgress'
+            'command' => 'authorizeSecurityGroupEgress',
+             
           )
-
           request(options)
         end
-      end # Real
+      end
+ 
       class Mock
         def authorize_security_group_egress(options={})
           security_group_id      = options['securitygroupid']
@@ -62,7 +67,9 @@ module Fog
 
           { "authorizesecuritygroupegressresponse" => { "jobid" => job_id } }
         end
-      end # Mock
+      end
+ 
     end
   end
 end
+

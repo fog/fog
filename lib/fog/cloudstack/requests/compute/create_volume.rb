@@ -1,21 +1,21 @@
 module Fog
   module Compute
     class Cloudstack
-      class Real
 
-        # Creates a volume for an account that already exists.
+      class Real
+        # Creates a disk volume from a disk offering. This disk volume must still be attached to a virtual machine to make use of it.
         #
-        # {CloudStack API Reference}[http://download.cloud.com/releases/2.2.0/api_2.2.4/global_admin/createVolume.html]
+        # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/createVolume.html]
         def create_volume(options={})
           options.merge!(
-            'command' => 'createVolume'
+            'command' => 'createVolume',
+            'name' => options['name'], 
+             
           )
-
           request(options)
         end
-
-      end # Real
-
+      end
+ 
       class Mock
         def create_volume(options={})
           volume_id = Fog::Cloudstack.uuid
@@ -57,7 +57,8 @@ module Fog
           self.data[:volumes][volume_id]= volume
           {'createvolumeresponse' => volume}
         end
-      end
+      end 
     end
   end
 end
+
