@@ -16,6 +16,7 @@ module Fog
         #     * 'volumeSet'<~Array>:
         #       * 'availabilityZone'<~String> - Availability zone for volume
         #       * 'createTime'<~Time> - Timestamp for creation
+        #       * 'encrypted'<~Boolean> - Indicates whether the volume will be encrypted
         #       * 'iops'<~Integer> - Number of IOPS volume supports
         #       * 'size'<~Integer> - Size in GiBs for volume
         #       * 'snapshotId'<~String> - Snapshot volume was created from, if any
@@ -62,6 +63,7 @@ module Fog
           aliases = {
             'availability-zone' => 'availabilityZone',
             'create-time' => 'createTime',
+            'encrypted' => 'encrypted',
             'size' => 'size',
             'snapshot-id' => 'snapshotId',
             'status' => 'status',

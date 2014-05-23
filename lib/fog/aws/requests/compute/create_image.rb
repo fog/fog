@@ -30,6 +30,7 @@ module Fog
           params.merge!Fog::AWS.indexed_param('BlockDeviceMapping.%d.Ebs.SnapshotId', block_device_mappings.map{|mapping| mapping['Ebs.SnapshotId']})
           params.merge!Fog::AWS.indexed_param('BlockDeviceMapping.%d.Ebs.DeleteOnTermination', block_device_mappings.map{|mapping| mapping['Ebs.DeleteOnTermination']})
           params.merge!Fog::AWS.indexed_param('BlockDeviceMapping.%d.Ebs.VolumeType', block_device_mappings.map{|mapping| mapping['Ebs.VolumeType']})
+          params.merge!Fog::AWS.indexed_param('BlockDeviceMapping.%d.Ebs.Encrypted', block_device_mappings.map{|mapping| mapping['Ebs.Encrypted']})
           params.merge!Fog::AWS.indexed_param('BlockDeviceMapping.%d.Ebs.Iops', block_device_mappings.map{|mapping| mapping['Ebs.Iops']})
           params.reject!{|k,v| v.nil?}
 
@@ -60,6 +61,7 @@ module Fog
           params.merge!Fog::AWS.indexed_param('BlockDeviceMapping.%d.Ebs.SnapshotId', block_device_mappings.map{|mapping| mapping['Ebs.SnapshotId']})
           params.merge!Fog::AWS.indexed_param('BlockDeviceMapping.%d.Ebs.DeleteOnTermination', block_device_mappings.map{|mapping| mapping['Ebs.DeleteOnTermination']})
           params.merge!Fog::AWS.indexed_param('BlockDeviceMapping.%d.Ebs.VolumeType', block_device_mappings.map{|mapping| mapping['Ebs.VolumeType']})
+          params.merge!Fog::AWS.indexed_param('BlockDeviceMapping.%d.Ebs.Encrypted', block_device_mappings.map{|mapping| mapping['Ebs.Encrypted']})
           params.merge!Fog::AWS.indexed_param('BlockDeviceMapping.%d.Ebs.Iops', block_device_mappings.map{|mapping| mapping['Ebs.Iops']})
           params.reject!{|k,v| v.nil?}
 

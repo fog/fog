@@ -16,6 +16,7 @@ module Fog
         attribute :iops
         attribute :server_id,             :aliases => 'instanceId'
         attribute :size
+        attribute :encrypted
         attribute :snapshot_id,           :aliases => 'snapshotId'
         attribute :state,                 :aliases => 'status'
         attribute :tags,                  :aliases => 'tagSet'
@@ -47,20 +48,17 @@ module Fog
             requires :iops
           end
 
-          data = service.create_volume(availability_zone, size, 'SnapshotId' => snapshot_id, 'VolumeType' => type, 'Iops' => iops).body
+          data = service.create_volume(availability_zone, size, 'SnapshotId' => snapshot_id, 'VolumeType' => type, 'Iops' => iops, 'Encrypted' => encrypted).body
           new_attributes = data.reject {|key,value| key == 'requestId'}
           merge_attributes(new_attributes)
 
           if tags = self.tags
             # expect eventual consistency
             Fog.wait_for { self.reload rescue nil }
-            for key, value in (self.tags = tags)
-              service.tags.create(
-                :key          => key,
-                :resource_id  => self.identity,
-                :value        => value
-              )
-            end
+            service.create_tags(
+              self.identity,
+              tags
+            )
           end
 
           if @server
