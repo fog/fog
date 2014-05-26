@@ -5,7 +5,7 @@ module Fog
   module Storage
     class AWS
       class File < Fog::Model
-        # @see AWS Object docs http://docs.aws.amazon.com/AmazonS3/latest/API/RESTObjectOps.html 
+        # @see AWS Object docs http://docs.aws.amazon.com/AmazonS3/latest/API/RESTObjectOps.html
 
         identity  :key,             :aliases => 'Key'
 
@@ -30,12 +30,12 @@ module Fog
         attr_accessor :multipart_chunk_size
 
         # Set file's access control list (ACL).
-        # 
+        #
         #     valid acls: private, public-read, public-read-write, authenticated-read, bucket-owner-read, bucket-owner-full-control
-        # 
+        #
         # @param [String] new_acl one of valid options
         # @return [String] @acl
-        # 
+        #
         def acl=(new_acl)
           valid_acls = ['private', 'public-read', 'public-read-write', 'authenticated-read', 'bucket-owner-read', 'bucket-owner-full-control']
           unless valid_acls.include?(new_acl)
@@ -45,9 +45,9 @@ module Fog
         end
 
         # Get file's body if exists, else ' '.
-        # 
+        #
         # @return [File]
-        # 
+        #
         def body
           attributes[:body] ||= if last_modified && (file = collection.get(identity))
             file.body
@@ -57,31 +57,31 @@ module Fog
         end
 
         # Set body attribute.
-        # 
+        #
         # @param [File] new_body
         # @return [File] attributes[:body]
-        # 
+        #
         def body=(new_body)
           attributes[:body] = new_body
         end
 
         # Get the file instance's directory.
-        # 
+        #
         # @return [Fog::AWS::Storage::Directory]
-        # 
+        #
         def directory
           @directory
         end
 
         # Copy object from one bucket to other bucket.
-        # 
+        #
         #     required attributes: directory, key
-        # 
+        #
         # @param target_directory_key [String]
         # @param target_file_key [String]
         # @param options [Hash] options for copy_object method
         # @return [String] Fog::AWS::Files#head status of directory contents
-        # 
+        #
         def copy(target_directory_key, target_file_key, options = {})
           requires :directory, :key
           service.copy_object(directory.key, key, target_directory_key, target_file_key, options)
@@ -90,13 +90,13 @@ module Fog
         end
 
         # Destroy file via http DELETE.
-        # 
+        #
         #     required attributes: directory, key
-        # 
+        #
         # @param options [Hash]
         # @option options versionId []
         # @return [Boolean] true if successful
-        # 
+        #
         def destroy(options = {})
           requires :directory, :key
           attributes[:body] = nil if options['versionId'] == version
@@ -125,12 +125,12 @@ module Fog
         end
 
         # Set Access-Control-List permissions.
-        #   
+        #
         #     valid new_publics: public_read, private
-        # 
+        #
         # @param [String] new_public
-        # @return [String] new_public 
-        # 
+        # @return [String] new_public
+        #
         def public=(new_public)
           if new_public
             @acl = 'public-read'
@@ -141,13 +141,13 @@ module Fog
         end
 
         # Get pubically acessible url via http GET.
-        # Checks persmissions before creating. 
+        # Checks persmissions before creating.
         # Defaults to s3 subdomain or compliant bucket name
-        # 
+        #
         #     required attributes: directory, key
-        # 
+        #
         # @return [String] public url
-        # 
+        #
         def public_url
           requires :directory, :key
           if service.get_object_acl(directory.key, key).body['AccessControlList'].detect {|grant| grant['Grantee']['URI'] == 'http://acs.amazonaws.com/groups/global/AllUsers' && grant['Permission'] == 'READ'}
@@ -161,10 +161,10 @@ module Fog
         end
 
         # Save file with body as contents to directory.key with name key via http PUT
-        # 
+        #
         #   required attributes: body, directory, key
-        # 
-        # @param [Hash] options  
+        #
+        # @param [Hash] options
         # @option options [String] acl sets x-amz-acl HTTP header. Valid values include, private | public-read | public-read-write | authenticated-read | bucket-owner-read | bucket-owner-full-control
         # @option options [String] cache_control sets Cache-Control header. For example, 'No-cache'
         # @option options [String] content_disposition sets Content-Disposition HTTP header. For exampple, 'attachment; filename=testing.txt'
@@ -175,7 +175,7 @@ module Fog
         # @option options [String] storage_class sets x-amz-storage-class HTTP header. Defaults to 'STANDARD'. Or, 'REDUCED_REDUNDANCY'
         # @option options [String] encryption sets HTTP encryption header. Set to 'AES256' to encrypt files at rest on S3
         # @return [Boolean] true if no errors
-        # 
+        #
         def save(options = {})
           requires :body, :directory, :key
           if options != {}
@@ -206,21 +206,21 @@ module Fog
         end
 
         # Get a url for file.
-        # 
+        #
         #     required attributes: key
-        # 
+        #
         # @param expires [String] number of seconds (since 1970-01-01 00:00) before url expires
         # @param options [Hash]
         # @return [String] url
-        # 
+        #
         def url(expires, options = {})
           requires :key
           collection.get_url(key, expires, options)
         end
 
         # File version if exists or creates new version.
-        # @return [Fog::Storage::AWS::Version] 
-        # 
+        # @return [Fog::Storage::AWS::Version]
+        #
         def versions
           @versions ||= begin
             Fog::Storage::AWS::Versions.new(

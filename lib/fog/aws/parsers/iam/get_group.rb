@@ -39,7 +39,7 @@ module Fog
             when 'member'
               @response['Users'] << @user
               @user = {}
-            when 'IsTruncated'	
+            when 'IsTruncated'
               response[name] = (value == 'true')
             when 'Marker', 'RequestId'
               @response[name] = value

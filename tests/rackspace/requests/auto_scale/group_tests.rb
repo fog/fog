@@ -1,8 +1,8 @@
 Shindo.tests('Fog::Rackspace::AutoScale | group_tests', ['rackspace', 'rackspace_autoscale']) do
-	
-	pending if Fog.mocking? 
+
+	pending if Fog.mocking?
 	service = Fog::Rackspace::AutoScale.new :rackspace_region => :ord
-  
+
 	tests('success') do
 		tests('#create new group').formats(GROUP_FORMAT) do
 			response = service.create_group(LAUNCH_CONFIG_OPTIONS, GROUP_CONFIG_OPTIONS, POLICIES_OPTIONS).body

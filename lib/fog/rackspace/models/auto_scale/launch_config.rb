@@ -7,11 +7,11 @@ module Fog
         # @!attribute [r] group
         # @return [Fog::Rackspace::AutoScale::Group] The parent group
         attribute :group
-      	
+
         # @!attribute [r] type
         # @return [Fog::Rackspace::AutoScale::Group] The type of operation (usually "launch_server")
         attribute :type
-      	
+
         # @!attribute [r] args
         # @return [Fog::Rackspace::AutoScale::Group] The arguments for the operation
         attribute :args

@@ -551,7 +551,7 @@ module Fog
         # @note Though Rackspace does not enforce complexity requirements for the password, the operating system might. If the password is not complex enough, the server might enter an ERROR state.
         # @see http://docs.rackspace.com/servers/api/v2/cs-devguide/content/Change_Password-d1e3234.html
         #
-        # * Status Transition:	
+        # * Status Transition:
         #   * ACTIVE -> PASSWORD -> ACTIVE
         #   * ACTIVE -> PASSWORD -> ERROR (on error)
         def change_admin_password(password)

@@ -1,12 +1,12 @@
 Shindo.tests('Fog::Redshift[:aws] | cluster security group requests', ['aws']) do
   pending if Fog.mocking?
-  suffix     = rand(65536).to_s(16) 
+  suffix     = rand(65536).to_s(16)
   identifier = "test-cluster-security-group-#{suffix}"
 
   @cluster_security_group_format = {
     "ClusterSecurityGroup"  => {
-      "EC2SecurityGroups"        => Fog::Nullable::Array,             
-      "IPRanges"                 => Fog::Nullable::Array,             
+      "EC2SecurityGroups"        => Fog::Nullable::Array,
+      "IPRanges"                 => Fog::Nullable::Array,
       "Description"              => String,
       "ClusterSecurityGroupName" => String
     }
@@ -27,7 +27,7 @@ Shindo.tests('Fog::Redshift[:aws] | cluster security group requests', ['aws']) d
       body
     end
 
-    tests("delete_cluster_security_group") do 
+    tests("delete_cluster_security_group") do
       present = !Fog::AWS[:redshift].describe_cluster_security_groups(:cluster_security_group_name => identifier).body['ClusterSecurityGroups'].empty?
       tests("verify presence before deletion").returns(true) { present }
 

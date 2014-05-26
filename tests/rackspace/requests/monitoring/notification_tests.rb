@@ -5,7 +5,7 @@ Shindo.tests('Fog::Rackspace::Monitoring | notification_tests', ['rackspace','ra
     tests('#create new notification').formats(DATA_FORMAT) do
       pending if Fog.mocking?
       response = account.create_notification(:label => "Foo", :type => "email", :details => {:address => "test@test.com"}).data
-      
+
       notification_id = response[:headers]["X-Object-ID"]
       response
     end

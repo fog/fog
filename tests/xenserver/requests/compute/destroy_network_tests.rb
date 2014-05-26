@@ -9,5 +9,5 @@ Shindo.tests('Fog::Compute[:xenserver] | destroy_network request', ['xenserver']
       (compute.networks.find { |n| n.reference == @ref }).nil?
     end
   end
-  
+
 end

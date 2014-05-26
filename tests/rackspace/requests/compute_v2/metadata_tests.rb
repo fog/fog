@@ -1,22 +1,22 @@
 Shindo.tests('Fog::Compute::RackspaceV2 | metadata_tests', ['rackspace']) do
-  
+
   @service = Fog::Compute.new(:provider => 'Rackspace', :version => 'V2')
   image_id  = rackspace_test_image_id(@service)
   flavor_id = rackspace_test_flavor_id(@service)
-  
+
   tests('success') do
     begin
       metadata = {"tag" => "database"}
-      
+
       unless Fog.mocking?
         name = "fog-server-metadata-#{Time.now.to_i}"
-        @server = @service.servers.create(:name => name, 
+        @server = @service.servers.create(:name => name,
                                           :flavor_id => flavor_id,
                                           :image_id => image_id,
                                           :metadata => metadata)
         @server.wait_for { ready? }
-        
-        
+
+
         @server_id = @server.id
         @image  = @server.create_image(name, :metadata => metadata)
         @image_id = @image.id
@@ -24,7 +24,7 @@ Shindo.tests('Fog::Compute::RackspaceV2 | metadata_tests', ['rackspace']) do
         @image_id = 1
         @server_id = 1
       end
-      
+
         tests("servers") do
           tests('list_metadata').returns("metadata" => metadata) do
             @service.list_metadata("servers", @server_id).body
@@ -45,21 +45,21 @@ Shindo.tests('Fog::Compute::RackspaceV2 | metadata_tests', ['rackspace']) do
             @service.delete_metadata_item("servers", @server_id, "environment")
           end
         end
-        
+
         tests("images") do
           @image.wait_for { ready? } unless Fog.mocking?
-          
+
           tests('list_metadata').returns(metadata) do
             h = @service.list_metadata("images", @image_id).body
             h["metadata"].reject {|k,v| k.downcase != "tag"} #only look at the metadata we created
           end
           tests('set_metadata').returns({"environment" => "dev"}) do
             h = @service.set_metadata("images", @image_id, {"environment" => "dev"}).body
-            h["metadata"].reject {|k,v| k.downcase != "environment"} #only look at the metadata we created            
+            h["metadata"].reject {|k,v| k.downcase != "environment"} #only look at the metadata we created
           end
           tests('update_metadata').returns({"environment" => "dev", "tag" => "database"}) do
             h = @service.update_metadata("images", @image_id, {"environment" => "dev", "tag" => "database"}).body
-            h["metadata"].reject {|k,v| !['environment', 'tag'].include?(k.downcase)} #only look at the metadata we created            
+            h["metadata"].reject {|k,v| !['environment', 'tag'].include?(k.downcase)} #only look at the metadata we created
           end
           tests('get_metadata_item').returns("meta" => {"environment" => "dev"}) do
             @service.get_metadata_item("images", @image_id, "environment").body
@@ -73,7 +73,7 @@ Shindo.tests('Fog::Compute::RackspaceV2 | metadata_tests', ['rackspace']) do
         end
     ensure
       @image.destroy if @image
-      @server.destroy if @server      
+      @server.destroy if @server
     end
   end
 
@@ -93,10 +93,10 @@ Shindo.tests('Fog::Compute::RackspaceV2 | metadata_tests', ['rackspace']) do
           @service.get_metadata_item(collection, 0, "environment")
         end
         tests('set_server_metadata_item').raises(Fog::Compute::RackspaceV2::NotFound) do
-          @service.set_metadata_item(collection, 0, "environment", "test")      
+          @service.set_metadata_item(collection, 0, "environment", "test")
         end
         tests('delete_server_metadata_item').raises(Fog::Compute::RackspaceV2::NotFound)  do
-          @service.delete_metadata_item(collection, 0, "environment")      
+          @service.delete_metadata_item(collection, 0, "environment")
         end
       end
     end

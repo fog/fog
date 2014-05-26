@@ -7,7 +7,7 @@ Shindo.tests('Fog::Compute[:rackspace] | flavor requests', ['rackspace']) do
     'ram'   => Integer
   }
 
-  @service = Fog::Compute.new(:provider => :rackspace, :version => :v1)  
+  @service = Fog::Compute.new(:provider => :rackspace, :version => :v1)
 
   tests('success') do
     tests('#get_flavor_details(1)').formats(@flavor_format) do

@@ -155,8 +155,8 @@ module Fog
 
           params.delete(:host) #invalid excon request parameter
 
-          parse = params.delete(:parse)        
-        
+          parse = params.delete(:parse)
+
           begin
             response = @connection.request(params, &block)
           rescue Excon::Errors::HTTPStatusError => error

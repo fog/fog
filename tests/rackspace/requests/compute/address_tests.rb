@@ -1,9 +1,9 @@
 Shindo.tests('Fog::Compute[:rackspace] | address requests', ['rackspace']) do
 
   @service = Fog::Compute.new(:provider => :rackspace, :version => :v1)
-  
+
   tests('success') do
- 
+
     @server = @service.servers.create(:flavor_id => 1, :image_id => 19)
 
     tests("#list_addresses(#{@server.id})").formats({'addresses' => {'private' => [String], 'public' => [String]}}) do
@@ -24,7 +24,7 @@ Shindo.tests('Fog::Compute[:rackspace] | address requests', ['rackspace']) do
   end
 
   tests('failure') do
-  
+
     tests('#list_addresses(0)').raises(Fog::Compute::Rackspace::NotFound) do
       @service.list_addresses(0)
     end

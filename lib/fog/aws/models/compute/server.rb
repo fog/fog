@@ -21,14 +21,14 @@ module Fog
         attribute :ebs_optimized,            :aliases => 'ebsOptimized'
         attribute :groups
         attribute :flavor_id,                :aliases => 'instanceType'
-        attribute :hypervisor              
+        attribute :hypervisor
         attribute :iam_instance_profile,     :aliases => 'iamInstanceProfile'
         attribute :image_id,                 :aliases => 'imageId'
         attr_accessor :instance_initiated_shutdown_behavior
         attribute :kernel_id,                :aliases => 'kernelId'
         attribute :key_name,                 :aliases => 'keyName'
         attribute :created_at,               :aliases => 'launchTime'
-        attribute :lifecycle,                :aliases => 'instanceLifecycle' 
+        attribute :lifecycle,                :aliases => 'instanceLifecycle'
         attribute :monitoring,               :squash =>  'state'
         attribute :placement_group,          :aliases => 'groupName'
         attribute :platform,                 :aliases => 'platform'
@@ -186,7 +186,7 @@ module Fog
               else
                 options["NetworkInterface.0.SecurityGroupId.0"] = options['SecurityGroupId']
               end
-              options.delete('SecurityGroupId')              
+              options.delete('SecurityGroupId')
               if private_ip_address
                 options.delete('PrivateIpAddress')
                 options['NetworkInterface.0.PrivateIpAddress'] = private_ip_address

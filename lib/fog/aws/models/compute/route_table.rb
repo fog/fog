@@ -10,7 +10,7 @@ module Fog
         attribute :routes,           :aliases => 'routeSet'
         attribute :associations,     :aliases => 'associationSet'
         attribute :tags,             :aliases => 'tagSet'
-        
+
 
         def initialize(attributes={})
           super
@@ -50,7 +50,7 @@ module Fog
           merge_attributes(new_attributes)
           true
         end
-        
+
         private
 
         def associationSet=(new_association_set)

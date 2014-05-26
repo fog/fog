@@ -4,7 +4,7 @@ Shindo.tests('Fog#wait_for', 'core') do
       Fog.wait_for(1) { true }
     end
   end
-  
+
   tests("failure") do
     tests('Fog#wait_for').raises(Fog::Errors::TimeoutError) do
       Fog.wait_for(2) { false }

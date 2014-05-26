@@ -11,6 +11,6 @@ Shindo.tests('AWS::RDS | describe DB events requests',['aws', 'rds']) do
   end
 
   tests('failure') do
-    #TODO: What constitutes a failure here? 
+    #TODO: What constitutes a failure here?
   end
 end

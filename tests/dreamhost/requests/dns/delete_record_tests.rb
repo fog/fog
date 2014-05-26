@@ -1,7 +1,7 @@
 Shindo.tests('Fog::DNS[:dreamhost] | delete_record request', ['dreamhost', 'dns']) do
 
   tests("success") do
-    
+
     test("delete testing records") do
       name = "delete-test.#{test_domain}"
       type = "A"

@@ -12,7 +12,7 @@ Shindo.tests('Fog::Compute[:network] | network model', ['xenserver']) do
     end
     tests('have attributes') do
       model_attribute_hash = network.attributes
-      attributes = [ 
+      attributes = [
         :reference,
         :uuid,
         :__vifs,
@@ -45,16 +45,16 @@ Shindo.tests('Fog::Compute[:network] | network model', ['xenserver']) do
   tests("A real network should") do
     tests("return valid vifs") do
       test("as an array") { network.vifs.kind_of? Array }
-      network.vifs.each { |i| 
+      network.vifs.each { |i|
           test("and each VIF should be a Fog::Compute::XenServer::VIF") { i.kind_of? Fog::Compute::XenServer::VIF }
-      } 
+      }
     end
-    tests("return valid PIFs") do 
+    tests("return valid PIFs") do
       networks.each do |network|
           test("as an array") { network.pifs.kind_of? Array }
-          network.pifs.each { |i| 
+          network.pifs.each { |i|
               test("and each PIF should be a Fog::Compute::XenServer::PIF") { i.kind_of? Fog::Compute::XenServer::PIF}
-          } 
+          }
       end
     end
 

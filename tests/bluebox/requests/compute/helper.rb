@@ -6,7 +6,7 @@ class Bluebox
         'description' => String,
         'id'          => String
       },
-      
+
       LOCATION = {
         'id'          => String,
         'description' => String

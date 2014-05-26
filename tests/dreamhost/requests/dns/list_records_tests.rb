@@ -1,7 +1,7 @@
 Shindo.tests('Fog::DNS[:dreamhost] | list_records request', ['dreamhost', 'dns']) do
 
   tests("success") do
-    
+
     response = Fog::DNS[:dreamhost].list_records
 
     test("should return 200") do
@@ -22,7 +22,7 @@ Shindo.tests('Fog::DNS[:dreamhost] | list_records request', ['dreamhost', 'dns']
         end
       end
     end
-    
+
   end
 
   # helper

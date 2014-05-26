@@ -10,7 +10,7 @@ Shindo.tests('Fog::Compute[:xenserver] | PBD model', ['xenserver']) do
     end
     tests('have attributes') do
       model_attribute_hash = pbd.attributes
-      attributes = [ 
+      attributes = [
         :reference,
         :uuid,
         :__host,

@@ -105,5 +105,5 @@ Shindo.tests("Fog::Compute[:aws] | network_acl", ['aws']) do
   end
 
   @subnet.destroy
-  @vpc.destroy 
+  @vpc.destroy
 end

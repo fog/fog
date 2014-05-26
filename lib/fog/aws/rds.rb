@@ -56,7 +56,7 @@ module Fog
 
       request :describe_db_log_files
       request :download_db_logfile_portion
-      
+
       request :promote_read_replica
 
       model_path 'fog/aws/models/rds'

@@ -21,7 +21,7 @@ def test
     rescue
       puts "Failed to create disk #{name}-#{i}"
     end
-  
+
     begin
       server = gce.servers.create(
         name: "#{name}-#{i}",
@@ -67,7 +67,7 @@ def test
     puts "Failed to create forwarding rule #{name}"
   end
 
-  
+
   # TODO(bensonk): Install apache, create individualized htdocs, and run some
   #                actual requests through the load balancer.
 

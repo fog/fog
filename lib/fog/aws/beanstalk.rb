@@ -4,7 +4,7 @@ module Fog
   module AWS
     class ElasticBeanstalk < Fog::Service
       extend Fog::AWS::CredentialFetcher::ServiceMethods
-      
+
       class InvalidParameterError < Fog::Errors::Error; end
 
       requires :aws_access_key_id, :aws_secret_access_key

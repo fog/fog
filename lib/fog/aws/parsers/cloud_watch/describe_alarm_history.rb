@@ -21,7 +21,7 @@ module Fog
             when 'AlarmName', 'HistoryItemType', 'HistorySummary'
               @alarm_history_item[name] = value
             when 'Timestamp'
-              @alarm_history_item[name] = Time.parse value 
+              @alarm_history_item[name] = Time.parse value
             when 'RequestId'
               @response['ResponseMetadata'][name] = value
             when 'NextToken'

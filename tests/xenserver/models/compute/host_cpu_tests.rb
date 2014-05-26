@@ -6,7 +6,7 @@ Shindo.tests('Fog::Compute[:xenserver] | HostCpu model', ['xenserver']) do
   tests('The HostCpu model should') do
     tests('have attributes') do
       model_attribute_hash = host_cpu.attributes
-      attributes = [ 
+      attributes = [
         :reference,
         :uuid,
         :family,
@@ -40,15 +40,15 @@ Shindo.tests('Fog::Compute[:xenserver] | HostCpu model', ['xenserver']) do
     test("return a valid host") do
       host_cpu.host.kind_of? Fog::Compute::XenServer::Host
     end
-    
+
     test("have a valid vendor string") do
       host_cpu.vendor.kind_of? String
     end
-    
+
     test("have a valid other_config") do
       host_cpu.other_config.kind_of? Hash
     end
-    
+
     test("have a valid utilisation attribute") do
       host_cpu.utilisation.kind_of? Float
     end

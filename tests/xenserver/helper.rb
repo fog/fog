@@ -12,7 +12,7 @@ def valid_ref?(ref)
 end
 
 def create_ephemeral_vm
-  Fog::Compute[:xenserver].servers.create(:name => test_ephemeral_vm_name, 
+  Fog::Compute[:xenserver].servers.create(:name => test_ephemeral_vm_name,
                                           :template_name => test_template_name)
 end
 

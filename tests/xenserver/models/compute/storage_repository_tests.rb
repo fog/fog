@@ -13,7 +13,7 @@ Shindo.tests('Fog::Compute[:xenserver] | StorageRepository model', ['xenserver']
     end
     tests('have attributes') do
       model_attribute_hash = storage_repository.attributes
-      attributes = [ 
+      attributes = [
         :reference,
         :name,
         :uuid,
@@ -51,14 +51,14 @@ Shindo.tests('Fog::Compute[:xenserver] | StorageRepository model', ['xenserver']
 
   tests("A real StorageRepository should") do
     tests("return a valid list of VDIs") do
-      storage_repository.vdis.each do |vdi| 
+      storage_repository.vdis.each do |vdi|
         test("where #{vdi.uuid} is a Fog::Compute::XenServer::VDI") {
           vdi.is_a? Fog::Compute::XenServer::VDI
         }
       end
     end
     tests("return a valid list of PBDs") do
-      storage_repository.pbds.each do |pbd| 
+      storage_repository.pbds.each do |pbd|
         test("where #{pbd.uuid} is a Fog::Compute::XenServer::PBD") {
           pbd.is_a? Fog::Compute::XenServer::PBD
         }
@@ -103,7 +103,7 @@ Shindo.tests('Fog::Compute[:xenserver] | StorageRepository model', ['xenserver']
   end
 
   tests('#destroy should') do
-    test('destroy existing FOG TEST SR') do 
+    test('destroy existing FOG TEST SR') do
       sr = (conn.storage_repositories.find { |sr| sr.name == 'FOG TEST SR' })
       sr.pbds.each { |pbd| pbd.unplug }
       sr.destroy

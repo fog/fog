@@ -18,7 +18,7 @@ module Fog
 
           def start_element(name, attrs = [])
             super
-            case name  
+            case name
             when 'Dimensions'
               @in_dimensions = true
             when 'member'

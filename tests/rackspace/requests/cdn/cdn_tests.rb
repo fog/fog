@@ -12,7 +12,7 @@ Shindo.tests('Fog::CDN[:rackspace] | CDN requests', ['rackspace']) do
     "cdn_ssl_uri" => String,
     "cdn_uri" => String
   }]
-  
+
   @container_headers = {
     "Content-Length" => String,
     "X-Cdn-Enabled" => String,
@@ -25,13 +25,13 @@ Shindo.tests('Fog::CDN[:rackspace] | CDN requests', ['rackspace']) do
     "X-Trans-Id" => String,
     "Date" => String
   }
-  
-  begin 
+
+  begin
     unless Fog.mocking?
       @directory = Fog::Storage[:rackspace].directories.create(:key => 'fogcontainertests')
       @file = @directory.files.create(:key => 'fog_object', :body => lorem_file)
     end
-  
+
     tests('success') do
 
       tests("#put_container('fogcontainertests')").succeeds do
@@ -52,7 +52,7 @@ Shindo.tests('Fog::CDN[:rackspace] | CDN requests', ['rackspace']) do
 
       #NOTE: you are only allow 25 object purges per day. If this fails, you may be over the limit
       tests("#delete_object('fog_object')").succeeds do
-        Fog::CDN[:rackspace].delete_object('fogcontainertests', 'fog_object')        
+        Fog::CDN[:rackspace].delete_object('fogcontainertests', 'fog_object')
       end
     end
   ensure
@@ -61,13 +61,13 @@ Shindo.tests('Fog::CDN[:rackspace] | CDN requests', ['rackspace']) do
       @directory.destroy if @directory
     end
   end
-  
+
   tests('failure') do
-    
+
     tests("#head_container('missing_container')").raises(Fog::Storage::Rackspace::NotFound) do
       Fog::CDN[:rackspace].head_container('missing_container')
     end
-    
+
     tests("#post_container('missing_container')").raises(Fog::Storage::Rackspace::NotFound) do
       Fog::CDN[:rackspace].post_container('missing_container', 'X-TTL' => 5000)
     end

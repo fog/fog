@@ -1,14 +1,14 @@
 Shindo.tests("Fog::DNS[:dreamhost] | records", ['dreamhost', 'dns']) do
 
   service = Fog::DNS[:dreamhost]
-  
+
   tests('#all') do
     records = service.records
 
     test('should be an array') { records.is_a? Array }
 
     test('should not be empty') { !records.empty? }
-    
+
     tests('should list Fog::DNS::Dreamhost::Record') do
       records.each do |r|
         test("as records") { r.is_a?(Fog::DNS::Dreamhost::Record) }

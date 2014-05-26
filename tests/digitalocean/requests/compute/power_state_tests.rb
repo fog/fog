@@ -1,4 +1,4 @@
-Shindo.tests('Fog::Compute[:digitalocean] | power on/off/shutdown requests', 
+Shindo.tests('Fog::Compute[:digitalocean] | power on/off/shutdown requests',
              ['digitalocean', 'compute']) do
 
   service = Fog::Compute[:digitalocean]
@@ -13,11 +13,11 @@ Shindo.tests('Fog::Compute[:digitalocean] | power on/off/shutdown requests',
     test('#power_on_server') do
       service.power_on_server(server.id).body['status'] == 'OK'
     end
-    
+
     test('#shutdown_server') do
       service.shutdown_server(server.id).body['status'] == 'OK'
     end
-    
+
     server.start
 
   end

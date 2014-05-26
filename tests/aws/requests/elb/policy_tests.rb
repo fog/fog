@@ -126,7 +126,7 @@ Shindo.tests('AWS::ELB | policy_tests', ['aws', 'elb']) do
       description = Fog::AWS[:elb].describe_load_balancers("LoadBalancerNames" => [@load_balancer_id]).body["DescribeLoadBalancersResult"]["LoadBalancerDescriptions"].first
       returns(true) { description["Policies"]["OtherPolicies"].include?(proxy_policy) }
     end
-    
+
     Fog::AWS[:elb].delete_load_balancer(@load_balancer_id)
   end
 end

@@ -14,7 +14,7 @@ module Fog
           requires :entity
           data = service.list_checks(entity.identity, options).body
           self.marker = data['metadata']['next_marker']
-          
+
           load(data['values'])
         end
 

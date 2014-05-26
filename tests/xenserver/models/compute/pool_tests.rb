@@ -9,7 +9,7 @@ Shindo.tests('Fog::Compute[:xenserver] | Pool model', ['xenserver']) do
     end
     tests('have attributes') do
       model_attribute_hash = pool.attributes
-      attributes = [ 
+      attributes = [
         :reference,
         :uuid,
         :name,

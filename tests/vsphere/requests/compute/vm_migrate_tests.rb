@@ -9,7 +9,7 @@ Shindo.tests('Fog::Compute[:vsphere] | vm_migrate request', ['vsphere']) do
     test('be a kind of Hash') { response.kind_of? Hash }
     test('should have a task_state key') { response.has_key? 'task_state' }
   end
-  
+
   tests('The expected options') do
     raises(ArgumentError, 'raises ArgumentError when instance_uuid option is missing') { compute.vm_migrate }
   end

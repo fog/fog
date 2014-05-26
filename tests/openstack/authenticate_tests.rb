@@ -104,7 +104,7 @@ Shindo.tests('OpenStack | authenticate', ['openstack']) do
 
     tests("v2 auth with two compute services") do
       body_clone = body.clone
-      body_clone["access"]["serviceCatalog"] << 
+      body_clone["access"]["serviceCatalog"] <<
         {
         "endpoints" => [{
           "adminURL" =>

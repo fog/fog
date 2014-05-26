@@ -2,7 +2,7 @@ module Fog
   module Parsers
       module CDN
         module AWS
-        
+
         class StreamingDistribution < Fog::Parsers::Base
           def reset
             @response = { 'StreamingDistributionConfig' => { 'CNAME' => [], 'Logging' => {}, 'TrustedSigners' => [] } }

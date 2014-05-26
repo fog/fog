@@ -12,7 +12,7 @@ Shindo.tests('Fog::Compute[:xenserver] | VLAN model', ['xenserver']) do
     end
     tests('have attributes') do
       model_attribute_hash = vlan.attributes
-      attributes = [ 
+      attributes = [
         :reference,
         :uuid,
         :__untagged_pif,
@@ -60,7 +60,7 @@ Shindo.tests('Fog::Compute[:xenserver] | VLAN model', ['xenserver']) do
       (vlans.reload.find { |v| v.reference == @vlan.reference }).nil?
     end
   end
-  
+
   tests("#tagged_pif") do
     test 'should return a PIF' do
       vlans.find.first.tagged_pif.is_a? Fog::Compute::XenServer::PIF

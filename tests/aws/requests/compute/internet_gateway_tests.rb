@@ -26,7 +26,7 @@ Shindo.tests('Fog::Compute[:aws] | internet_gateway requests', ['aws']) do
     tests('#describe_internet_gateways').formats(@internet_gateways_format) do
       Fog::Compute[:aws].describe_internet_gateways.body
     end
-    
+
     tests('#describe_internet_gateways with tags').formats(@internet_gateways_format) do
       Fog::Compute[:aws].create_tags @igw_id, {"environment" => "production"}
       Fog::Compute[:aws].describe_internet_gateways.body

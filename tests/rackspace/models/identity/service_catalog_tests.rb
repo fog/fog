@@ -37,20 +37,20 @@ Shindo.tests('Fog::Rackspace::ServiceCatalog | users', ['rackspace']) do
 
       @service_catalog = Fog::Rackspace::Identity::ServiceCatalog.from_response(nil, before_hash)
     end
-  
+
     tests('services') do
       services = ["cloudBlockStorage", "cloudDNS", "cloudDatabases", "cloudFiles", "cloudFilesCDN", "cloudLoadBalancers", "cloudMonitoring", "cloudServers", "cloudServersOpenStack", "not_here"]
 
       returns(services) { @service_catalog.services.collect {|s| s.to_s }.sort }
     end
-  
+
   tests('get_endpoints') do
     endpoints = [{"region"=>"DFW", "versionId"=>"2", "tenantId"=>"777", "versionList"=>"https://dfw.servers.api.rackspacecloud.com/", "versionInfo"=>"https://dfw.servers.api.rackspacecloud.com/v2", "publicURL"=>"https://dfw.servers.api.rackspacecloud.com/v2/777"}, {"region"=>"ORD", "versionId"=>"2", "tenantId"=>"777", "versionList"=>"https://ord.servers.api.rackspacecloud.com/", "versionInfo"=>"https://ord.servers.api.rackspacecloud.com/v2", "publicURL"=>"https://ord.servers.api.rackspacecloud.com/v2/777"}, {"versionId"=>"2", "tenantId"=>"777", "versionList"=>"https://servers.api.rackspacecloud.com/", "versionInfo"=>"https://servers.api.rackspacecloud.com/v2", "publicURL"=>"https://servers.api.rackspacecloud.com/v2/777"}]
     returns(endpoints) { @service_catalog.get_endpoints(:cloudServersOpenStack) }
     returns(endpoints) { @service_catalog.get_endpoints('cloudServersOpenStack') }
     returns({}) { @service_catalog.get_endpoints('non-existent') }
   end
-  
+
   tests('get_endpoint') do
     tests('service with mulitple endpoints') do
       returns("https://dfw.servers.api.rackspacecloud.com/v2/777") { @service_catalog.get_endpoint(:cloudServersOpenStack, :dfw) }
@@ -59,7 +59,7 @@ Shindo.tests('Fog::Rackspace::ServiceCatalog | users', ['rackspace']) do
       returns("https://dfw.servers.api.rackspacecloud.com/v2/777") { @service_catalog.get_endpoint('cloudServersOpenStack', 'dfw') }
       returns("https://servers.api.rackspacecloud.com/v2/777") { @service_catalog.get_endpoint('cloudServersOpenStack', :global) }
     end
-    
+
     tests('with one endpoint') do
       tests('catalog contains global endpoint') do
         catalog_hash =  [{"type"=>"volume", "endpoints"=>[{"tenantId"=>"777", "publicURL"=>"https://blockstorage.api.rackspacecloud.com/v1/777"}], "name"=>"cloudBlockStorage"}]
@@ -98,7 +98,7 @@ Shindo.tests('Fog::Rackspace::ServiceCatalog | users', ['rackspace']) do
       returns("https://snet-storage101.ord1.clouddrive.com/v1/Mosso777") { @service_catalog.get_endpoint(:cloudFiles, :ord, true) }
       returns("https://storage101.ord1.clouddrive.com/v1/Mosso777") { @service_catalog.get_endpoint(:cloudFiles, :ord, false) }
     end
-    
+
     tests('error conditions') do
       raises(RuntimeError) { @service_catalog.get_endpoint(:cloudServersOpenStack) }
       raises(RuntimeError) { @service_catalog.get_endpoint(:cloudServersOpenStack, :sat) }
@@ -106,9 +106,9 @@ Shindo.tests('Fog::Rackspace::ServiceCatalog | users', ['rackspace']) do
       raises(RuntimeError) { @service_catalog.get_endpoint(:not_here, :dfw) }
       raises(RuntimeError) { @service_catalog.get_endpoint('non-existent') }
       raises(RuntimeError)  { @service_catalog.get_endpoint(:cloudServersOpenStack, :ord, true) }
-    end    
+    end
   end
-  
+
   tests('reload').succeeds do
     pending if Fog.mocking?
 

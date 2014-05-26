@@ -9,11 +9,11 @@ Shindo.tests('AWS::IAM | user requests', ['aws']) do
       'LoginProfile' => {
         'UserName'  => String,
         'CreateDate'  => Time
-        
+
       },
       'RequestId' => String
     }
-    
+
     tests("#create_login_profile('fog_user')").formats(@login_profile_format) do
       pending if Fog.mocking?
       Fog::AWS[:iam].create_login_profile('fog_user', 'somepassword').body

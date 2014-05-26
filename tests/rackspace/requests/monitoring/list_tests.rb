@@ -1,10 +1,10 @@
 Shindo.tests('Fog::Rackspace::Monitoring | list_tests', ['rackspace','rackspace_monitoring']) do
 
   account = Fog::Rackspace::Monitoring.new
-  if Fog.mocking? 
+  if Fog.mocking?
     entity_id = "peoigne93"
     check_id = "2090wgn93"
-  else 
+  else
     entity_id = account.create_entity(:label => "Foo").data[:headers]["X-Object-ID"]
     check_id = account.create_check(entity_id,CHECK_CREATE_OPTIONS).data[:headers]["X-Object-ID"]
   end
@@ -13,9 +13,9 @@ Shindo.tests('Fog::Rackspace::Monitoring | list_tests', ['rackspace','rackspace_
   now = Time.now.to_i
   SLEEP_TIME= 2
   sleep(SLEEP_TIME) unless Fog.mocking?
-  
+
   tests('success') do
-    
+
     tests('#get list of monitoring zones').formats(LIST_MONITORING_ZONE) do
       pending if Fog.mocking?
       account.list_monitoring_zones.body

@@ -121,13 +121,13 @@ module Fog
           # Return them all, leading with manually assigned addresses
           manual = all_addresses.map{|addr| addr["ip"]}
 
-          all_floating.sort{ |a,b| 
+          all_floating.sort{ |a,b|
             a_manual = manual.include? a
             b_manual = manual.include? b
 
-            if a_manual and !b_manual 
+            if a_manual and !b_manual
               -1
-            elsif !a_manual and b_manual 
+            elsif !a_manual and b_manual
               1
             else 0 end
           }

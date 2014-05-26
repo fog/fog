@@ -73,7 +73,7 @@ module Fog
               # - Also, for DNS compliance, you should not have a period adjacent to another period or dash. For example, ".." or "-." or ".-" are not acceptable.
               Fog::Logger.warning("fog: the specified google storage bucket name (#{subdomain}) is not a valid dns name.  See: https://developers.google.com/storage/docs/bucketnaming") unless @path_style
             end
-        
+
             params[:host] = params[:host].split("#{subdomain}.")[-1]
             if params[:path]
               params[:path] = "#{subdomain}/#{params[:path]}"

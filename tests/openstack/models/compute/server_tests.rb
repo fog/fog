@@ -63,11 +63,11 @@ Shindo.tests("Fog::Compute[:openstack] | server", ['openstack']) do
     end
 
     tests('#failed') do
-      
+
       fog = Fog::Compute[:openstack]
 
       flavor = fog.flavors.first.id
-      image  = fog.images.first.id     
+      image  = fog.images.first.id
 
       tests('successful server').returns(false) do
         server = fog.servers.new( :name       => 'test server',
