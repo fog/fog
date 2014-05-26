@@ -24,7 +24,7 @@ module Fog
       class Mock
         def create_image(server_id, name, metadata = {})
           response = Excon::Response.new
-          if list_servers_detail.body['servers'].detect {|_| _['id'] == server_id}
+          if list_servers_detail.body['servers'].find {|_| _['id'] == server_id}
             response.status = 202
 
             image_id = Fog::HP::Mock.uuid.to_s

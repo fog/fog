@@ -58,7 +58,7 @@ module Fog
 
         def ip_addresses
           load_unless_loaded!
-          [self.network_connections].flatten.collect{|n| n[:IpAddress] }
+          [self.network_connections].flatten.map{|n| n[:IpAddress] }
         end
 
         def ready?
@@ -275,7 +275,7 @@ module Fog
           sleep 2 # API lies. need to give it some time to be happy.
           service.delete_vapp(href).body[:status] == "running"
         end
-        alias :delete :destroy
+        alias_method :delete, :destroy
 
         private
 
@@ -301,14 +301,14 @@ module Fog
         def memory_mess
           load_unless_loaded!
           if virtual_hardware
-            virtual_hardware.detect { |item| item[:"rasd:ResourceType"] == "4" }
+            virtual_hardware.find { |item| item[:"rasd:ResourceType"] == "4" }
           end
         end
 
         def cpu_mess
           load_unless_loaded!
           if virtual_hardware
-            virtual_hardware.detect { |item| item[:"rasd:ResourceType"] == "3" }
+            virtual_hardware.find { |item| item[:"rasd:ResourceType"] == "3" }
           end
         end
 

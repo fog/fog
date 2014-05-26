@@ -6,7 +6,7 @@ module Fog
           data = { 'member' => {} }
 
           vanilla_options = [:pool_id, :weight, :admin_state_up]
-          vanilla_options.select{ |o| options.has_key?(o) }.each do |key|
+          vanilla_options.select{ |o| options.key?(o) }.each do |key|
             data['member'][key] = options[key]
           end
 
@@ -22,7 +22,7 @@ module Fog
       class Mock
         def update_lb_member(member_id, options = {})
           response = Excon::Response.new
-          if member = list_lb_members.body['members'].detect { |_| _['id'] == member_id }
+          if member = list_lb_members.body['members'].find { |_| _['id'] == member_id }
             member['pool_id']        = options[:pool_id]
             member['weight']         = options[:weight]
             member['admin_state_up'] = options[:admin_state_up]

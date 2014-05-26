@@ -91,7 +91,7 @@ module Fog
           def deep_clone(obj)
             case obj
             when Hash
-              obj.inject({}) { |h, pair| h[pair.first] = deep_clone(pair.last); h }
+              obj.reduce({}) { |h, pair| h[pair.first] = deep_clone(pair.last); h }
             when Array
               obj.map { |o| deep_clone(o) }
             else

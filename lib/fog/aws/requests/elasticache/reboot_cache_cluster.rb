@@ -18,7 +18,7 @@ module Fog
           # Construct CacheNodeIdsToReboot parameters in the format:
           #   CacheNodeIdsToReboot.member.N => "node_id"
           node_ids = nodes_to_reboot || []
-          node_id_params = node_ids.inject({}) do |node_hash, node_id|
+          node_id_params = node_ids.reduce({}) do |node_hash, node_id|
             index = node_ids.index(node_id) + 1
             node_hash["CacheNodeIdsToReboot.member.#{index}"] = node_id
             node_hash

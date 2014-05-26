@@ -78,7 +78,7 @@ module Fog
               :VAppReference : :VAppRecord
 
           %w[firstPage previousPage nextPage lastPage].each do |rel|
-            if link = response.body[:Link].detect {|l| l[:rel] == rel}
+            if link = response.body[:Link].find {|l| l[:rel] == rel}
               href = Nokogiri::XML.fragment(link[:href])
               query = CGI.parse(URI.parse(href.text).query)
               response.body[rel.to_sym] = query['page'].first.to_i

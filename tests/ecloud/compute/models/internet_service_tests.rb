@@ -3,9 +3,9 @@ provider, config = :ecloud, compute_providers[:ecloud]
 Shindo.tests("Fog::Compute[:#{provider}] | internet_services", [provider.to_s, "queries"]) do
   connection    = Fog::Compute[provider]
   organization = connection.organizations.first
-  environment  = organization.environments.detect { |e| e.name == config[:ecloud_environment_name] } || organization.environments.first
+  environment  = organization.environments.find { |e| e.name == config[:ecloud_environment_name] } || organization.environments.first
   public_ips   = environment.public_ips
-  public_ip    = public_ips.detect { |i| i.name == config[:ecloud_public_ip_name] } || public_ips.first
+  public_ip    = public_ips.find { |i| i.name == config[:ecloud_public_ip_name] } || public_ips.first
   @internet_services = public_ip.internet_services
 
   tests('#all').succeeds do

@@ -272,7 +272,7 @@ module Fog
 
         def volumes
           requires :id
-          service.volumes.find_all do |vol|
+          service.volumes.select do |vol|
             vol.attachments.find { |attachment| attachment["serverId"] == id }
           end
         end

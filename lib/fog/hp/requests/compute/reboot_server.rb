@@ -17,7 +17,7 @@ module Fog
       class Mock
         def reboot_server(server_id, type = 'SOFT')
           response = Excon::Response.new
-          if list_servers_detail.body['servers'].detect {|_| _['id'] == server_id}
+          if list_servers_detail.body['servers'].find {|_| _['id'] == server_id}
             response.status = 202
             response
           else

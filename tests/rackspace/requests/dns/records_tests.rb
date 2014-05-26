@@ -41,7 +41,7 @@ Shindo.tests('Fog::DNS[:rackspace] | dns records requests', ['rackspace', 'dns']
 
       tests("add_records(#{@domain_id}, #{records_attributes})").formats(RECORD_LIST_FORMAT) do
         response = wait_for Fog::DNS[:rackspace], Fog::DNS[:rackspace].add_records(@domain_id, records_attributes)
-        @record_ids = response.body['response']['records'].collect { |record| record['id'] }
+        @record_ids = response.body['response']['records'].map { |record| record['id'] }
         response.body['response']
       end
 

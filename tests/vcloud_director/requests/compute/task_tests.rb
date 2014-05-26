@@ -18,7 +18,7 @@ Shindo.tests('Compute::VcloudDirector | task requests', ['vclouddirector']) do
 
   tests('#get_task_list').data_matches_schema(VcloudDirector::Compute::Schema::TASKS_LIST_TYPE) do
     session = @service.get_current_session.body
-    org_href = session[:Link].detect {|l| l[:type] == 'application/vnd.vmware.vcloud.org+xml'}[:href]
+    org_href = session[:Link].find {|l| l[:type] == 'application/vnd.vmware.vcloud.org+xml'}[:href]
     @org_uuid = org_href.split('/').last
     @tasks_list = @service.get_task_list(@org_uuid).body
   end

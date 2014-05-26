@@ -152,8 +152,8 @@ module Fog
       tenant = body['access']['token']['tenant']
       user = body['access']['user']
 
-      management_url = service['endpoints'].detect{|s| s[endpoint_type]}[endpoint_type]
-      identity_url   = identity_service['endpoints'].detect{|s| s['publicURL']}['publicURL'] if identity_service
+      management_url = service['endpoints'].find{|s| s[endpoint_type]}[endpoint_type]
+      identity_url   = identity_service['endpoints'].find{|s| s['publicURL']}['publicURL'] if identity_service
 
       {
         :user                     => user,
@@ -168,7 +168,7 @@ module Fog
     end
 
     def self.get_service(body, service_type=[], service_name=nil)
-      body['access']['serviceCatalog'].detect do |s|
+      body['access']['serviceCatalog'].find do |s|
         if service_name.nil? or service_name.empty?
           service_type.include?(s['type'])
         else
@@ -223,7 +223,7 @@ module Fog
       body = Fog::JSON.decode(response.body)
       version = nil
       unless body['versions'].empty?
-        supported_version = body['versions'].detect do |x|
+        supported_version = body['versions'].find do |x|
           x["id"].match(supported_versions) &&
           (x["status"] == "CURRENT" || x["status"] == "SUPPORTED")
         end

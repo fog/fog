@@ -138,7 +138,7 @@ module Fog
           if !is_vpc && (options['IpProtocol'] && (!options['FromPort'] || !options['ToPort']))
             raise Fog::Compute::AWS::Error.new("InvalidPermission.Malformed => TCP/UDP port (-1) out of range")
           end
-          if options.has_key?('IpPermissions')
+          if options.key?('IpPermissions')
             if !options['IpPermissions'].is_a?(Array) || options['IpPermissions'].empty?
               raise Fog::Compute::AWS::Error.new("InvalidRequest => The request received was invalid.")
             end
@@ -214,7 +214,7 @@ module Fog
         end
 
         def find_matching_permission(group, permission)
-          group['ipPermissions'].detect {|group_permission|
+          group['ipPermissions'].find {|group_permission|
             permission['ipProtocol'] == group_permission['ipProtocol'] &&
             permission['fromPort'] == group_permission['fromPort'] &&
             permission['toPort'] == group_permission['toPort'] }

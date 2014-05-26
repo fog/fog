@@ -26,7 +26,7 @@ module Fog
           }.merge!(params))
         end
 
-        alias :enable_zones :enable_availability_zones_for_load_balancer
+        alias_method :enable_zones, :enable_availability_zones_for_load_balancer
       end
 
       class Mock
@@ -51,7 +51,7 @@ module Fog
           response
         end
 
-        alias :enable_zones :enable_availability_zones_for_load_balancer
+        alias_method :enable_zones, :enable_availability_zones_for_load_balancer
       end
     end
   end

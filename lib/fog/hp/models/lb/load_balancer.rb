@@ -71,7 +71,7 @@ module Fog
 
         def nodes_to_hash
           if nodes
-            nodes.collect do |node|
+            nodes.map do |node|
               { 'address' => node.address, 'port' => node.port, 'condition' => node.condition }
             end
           end

@@ -29,7 +29,7 @@ module Fog
       class Mock
         def get_servers_hosting_domain(domain_id)
           response = Excon::Response.new
-          if list_domains.body['domains'].detect { |_| _['id'] == domain_id }
+          if list_domains.body['domains'].find { |_| _['id'] == domain_id }
             response.status = 200
             response.body   = { 'servers' => dummy_servers }
             response

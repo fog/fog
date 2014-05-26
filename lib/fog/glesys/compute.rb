@@ -120,7 +120,7 @@ module Fog
         end
 
         def urlencode(hash)
-          hash.to_a.collect! { |k, v| "#{k}=#{v.to_s}" }.join("&")
+          hash.to_a.map! { |k, v| "#{k}=#{v.to_s}" }.join("&")
         end
       end
     end

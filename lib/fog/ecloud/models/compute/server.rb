@@ -103,7 +103,7 @@ module Fog
               options[:network_uri] = options[:network_uri].is_a?(String) ? [options[:network_uri]] : options[:network_uri]
               options[:network_uri].each do |uri|
                 index = options[:network_uri].index(uri)
-                ip = Fog::Compute::Ecloud::IpAddresses.new(:service => service, :href => uri).detect { |i| i.host == nil }.name
+                ip = Fog::Compute::Ecloud::IpAddresses.new(:service => service, :href => uri).find { |i| i.host == nil }.name
                 options[:ips] ||= []
                 options[:ips][index] = ip
               end
@@ -168,7 +168,7 @@ module Fog
 
         def detach_disk(index)
           options               = {}
-          options[:disk]        = disks.detect { |disk_hash| disk_hash[:Index] == index.to_s }
+          options[:disk]        = disks.find { |disk_hash| disk_hash[:Index] == index.to_s }
           options[:name]        = self.name
           options[:description] = self.description
           data                  = service.virtual_machine_detach_disk(href + "/hardwareconfiguration/disks/actions/detach", options).body
@@ -262,7 +262,7 @@ module Fog
 
         def storage_size
           vm_disks = disks
-          disks.map! { |d| d[:Size][:Value].to_i }.inject(0){|sum,item| sum + item} * 1024 * 1024
+          disks.map! { |d| d[:Size][:Value].to_i }.reduce(0){|sum,item| sum + item} * 1024 * 1024
         end
 
         def ready?
@@ -283,16 +283,16 @@ module Fog
         end
 
         def compute_pool_id
-          other_links.detect { |l| l[:type] == "application/vnd.tmrk.cloud.computePool" }[:href].scan(/\d+/)[0]
+          other_links.find { |l| l[:type] == "application/vnd.tmrk.cloud.computePool" }[:href].scan(/\d+/)[0]
         end
 
         def compute_pool
           reload if other_links.nil?
-          @compute_pool = self.service.compute_pools.new(:href => other_links.detect { |l| l[:type] == "application/vnd.tmrk.cloud.computePool" }[:href])
+          @compute_pool = self.service.compute_pools.new(:href => other_links.find { |l| l[:type] == "application/vnd.tmrk.cloud.computePool" }[:href])
         end
 
         def environment_id
-          other_links.detect { |l| l[:type] == "application/vnd.tmrk.cloud.environment" }[:href].scan(/\d+/)[0]
+          other_links.find { |l| l[:type] == "application/vnd.tmrk.cloud.environment" }[:href].scan(/\d+/)[0]
         end
 
         def id
@@ -316,7 +316,7 @@ module Fog
           true
         end
 
-        alias destroy delete
+        alias_method :destroy, :delete
       end
     end
   end

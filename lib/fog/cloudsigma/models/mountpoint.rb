@@ -18,7 +18,7 @@ module Fog
         def drive=(new_drive)
           attributes[:drive] = new_drive
         end
-        alias :volume :drive
+        alias_method :volume, :drive
       end
     end
   end

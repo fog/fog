@@ -17,7 +17,7 @@ module Fog
         # @see http://docs.rackspace.com/queues/api/v1.0/cq-devguide/content/DELETE_deleteMessage__version__queues__queue_name__messages__messageId__message-operations-dle001.html
         def delete_message(queue_name, message_id, options = {})
           query = {}
-          query[:claim_id] = options[:claim_id] if options.has_key? :claim_id
+          query[:claim_id] = options[:claim_id] if options.key? :claim_id
           request(
             :expects => 204,
             :method => 'DELETE',
@@ -33,7 +33,7 @@ module Fog
 
           claim_id = options[:claim_id]
 
-          message = queue.messages.detect { |m| m.id == message_id }
+          message = queue.messages.find { |m| m.id == message_id }
 
           perform_delete = true
           if message && message.claimed?

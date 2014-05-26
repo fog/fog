@@ -4,7 +4,7 @@ module Fog
       class Real
         def validate_clone_vapp_options(options)
           valid_opts = [:name, :poweron]
-          unless valid_opts.all? { |opt| options.has_key?(opt) }
+          unless valid_opts.all? { |opt| options.key?(opt) }
             raise ArgumentError.new("Required data missing: #{(valid_opts - options.keys).map(&:inspect).join(", ")}")
           end
         end
@@ -18,7 +18,7 @@ module Fog
         end
 
         def clone_vapp(vdc_uri, vapp_uri, options = {})
-          unless options.has_key?(:poweron)
+          unless options.key?(:poweron)
             options[:poweron] = "false"
           end
 

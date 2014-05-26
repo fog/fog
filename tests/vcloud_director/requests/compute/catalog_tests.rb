@@ -4,7 +4,7 @@ Shindo.tests('Compute::VcloudDirector | catalog requests', ['vclouddirector']) d
   @org = VcloudDirector::Compute::Helper.current_org(@service)
 
   tests('#get_catalog').data_matches_schema(VcloudDirector::Compute::Schema::CATALOG_TYPE) do
-    link = @org[:Link].detect do |l|
+    link = @org[:Link].find do |l|
       l[:rel] == 'down' && l[:type] == 'application/vnd.vmware.vcloud.catalog+xml'
     end
     @catalog_id = link[:href].split('/').last

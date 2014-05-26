@@ -145,7 +145,7 @@ module Fog
           # @return [Integer] The number of bytes occupied by each contained
           #   object.
           def bytes_used
-            @objects.values.map { |o| o.bytes_used }.inject(0) { |a, b| a + b }
+            @objects.values.map { |o| o.bytes_used }.reduce(0) { |a, b| a + b }
           end
 
           # Render the HTTP headers that would be associated with this

@@ -6,7 +6,7 @@ module Fog
           data = { 'health_monitor' => {} }
 
           vanilla_options = [:delay, :timeout, :max_retries, :http_method, :url_path, :expected_codes, :admin_state_up]
-          vanilla_options.select{ |o| options.has_key?(o) }.each do |key|
+          vanilla_options.select{ |o| options.key?(o) }.each do |key|
             data['health_monitor'][key] = options[key]
           end
 
@@ -22,7 +22,7 @@ module Fog
       class Mock
         def update_lb_health_monitor(health_monitor_id, options = {})
           response = Excon::Response.new
-          if health_monitor = list_lb_health_monitors.body['health_monitors'].detect { |_| _['id'] == health_monitor_id }
+          if health_monitor = list_lb_health_monitors.body['health_monitors'].find { |_| _['id'] == health_monitor_id }
             health_monitor['delay']          = options[:delay]
             health_monitor['timeout']        = options[:timeout]
             health_monitor['max_retries']    = options[:max_retries]

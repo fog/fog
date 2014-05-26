@@ -35,7 +35,7 @@ module Fog
       def releases
         return @releases if @releases
         response = github.releases("fog/fog")
-        @releases = response.collect {|r| r.tag_name }
+        @releases = response.map {|r| r.tag_name }
       end
 
       def release_exists?

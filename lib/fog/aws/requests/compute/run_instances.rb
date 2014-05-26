@@ -164,7 +164,7 @@ module Fog
             instance_id = Fog::AWS::Mock.instance_id
             availability_zone = options['Placement.AvailabilityZone'] || Fog::AWS::Mock.availability_zone(@region)
 
-            block_device_mapping = (options['BlockDeviceMapping'] || []).inject([]) do |mapping, device|
+            block_device_mapping = (options['BlockDeviceMapping'] || []).reduce([]) do |mapping, device|
               device_name           = device.fetch("DeviceName", "/dev/sda1")
               volume_size           = device.fetch("Ebs.VolumeSize", 15)            # @todo should pull this from the image
               delete_on_termination = device.fetch("Ebs.DeleteOnTermination", true) # @todo should pull this from the image
@@ -192,7 +192,7 @@ module Fog
               network_interface_id = create_network_interface(options['SubnetId'], ni_options).body['networkInterface']['networkInterfaceId']
             end
 
-            network_interfaces = (options['NetworkInterfaces'] || []).inject([]) do |mapping, device|
+            network_interfaces = (options['NetworkInterfaces'] || []).reduce([]) do |mapping, device|
               device_index          = device.fetch("DeviceIndex", 0)
               subnet_id             = device.fetch("SubnetId", options[:subnet_id] ||  Fog::AWS::Mock.subnet_id)
               private_ip_address    = device.fetch("PrivateIpAddress", options[:private_ip_address] || Fog::AWS::Mock.private_ip_address)

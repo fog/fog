@@ -7,7 +7,7 @@ Shindo.tests('Compute::VcloudDirector | versions requests', ['vclouddirector']) 
   end
 
   tests('API 5.1 is supported').returns(true) do
-    !!@versions[:VersionInfo].detect {|i| i[:Version] == '5.1'}
+    !!@versions[:VersionInfo].find {|i| i[:Version] == '5.1'}
   end
 
 end

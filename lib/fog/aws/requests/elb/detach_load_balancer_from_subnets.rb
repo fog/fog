@@ -26,7 +26,7 @@ module Fog
           }.merge!(params))
         end
 
-        alias :disable_subnets :detach_load_balancer_from_subnets
+        alias_method :disable_subnets, :detach_load_balancer_from_subnets
       end
 
       class Mock
@@ -51,7 +51,7 @@ module Fog
           response
         end
 
-        alias :disable_subnets :detach_load_balancer_from_subnets
+        alias_method :disable_subnets, :detach_load_balancer_from_subnets
       end
     end
   end

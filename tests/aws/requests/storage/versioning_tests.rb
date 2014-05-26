@@ -72,11 +72,11 @@ Shindo.tests('Fog::Storage[:aws] | versioning', ["aws"]) do
       v4 = Fog::Storage[:aws].directories.get(@aws_bucket_name).files.create(:body => 'abcd', :key => v1.key)
 
       tests("versions").returns([v4.version, v3.version, v2.version, v1.version]) do
-        @versions.body['Versions'].collect {|v| v['Version']['VersionId']}
+        @versions.body['Versions'].map {|v| v['Version']['VersionId']}
       end
 
       tests("version sizes").returns([4, 3, 2, 1]) do
-        @versions.body['Versions'].collect {|v| v['Version']['Size']}
+        @versions.body['Versions'].map {|v| v['Version']['Size']}
       end
 
       tests("latest version").returns(v4.version) do
@@ -116,7 +116,7 @@ Shindo.tests('Fog::Storage[:aws] | versioning', ["aws"]) do
       tests("deleting an object just stores a delete marker").returns(true) do
         file.destroy
         versions = Fog::Storage[:aws].get_bucket_object_versions(@aws_bucket_name)
-        versions.body['Versions'].first.has_key?('DeleteMarker')
+        versions.body['Versions'].first.key?('DeleteMarker')
       end
 
       tests("there are two versions: the original and the delete marker").returns(2) do
@@ -126,7 +126,7 @@ Shindo.tests('Fog::Storage[:aws] | versioning', ["aws"]) do
 
       tests("deleting the delete marker makes the object available again").returns(file.version) do
         versions = Fog::Storage[:aws].get_bucket_object_versions(@aws_bucket_name)
-        delete_marker = versions.body['Versions'].find { |v| v.has_key?('DeleteMarker') }
+        delete_marker = versions.body['Versions'].find { |v| v.key?('DeleteMarker') }
         Fog::Storage[:aws].delete_object(@aws_bucket_name, file.key, 'versionId' => delete_marker['DeleteMarker']['VersionId'])
 
         res = Fog::Storage[:aws].get_object(@aws_bucket_name, file.key)
@@ -157,10 +157,10 @@ Shindo.tests('Fog::Storage[:aws] | versioning', ["aws"]) do
         versions.body['Versions'].each do |version|
           object = version[version.keys.first]
           next if file_names.index(object['Key']).nil?
-          if !all_versions.has_key?(object['Key'])
-            all_versions[object['Key']] = version.has_key?('DeleteMarker')
+          if !all_versions.key?(object['Key'])
+            all_versions[object['Key']] = version.key?('DeleteMarker')
           else
-            all_versions[object['Key']] |= version.has_key?('DeleteMarker')
+            all_versions[object['Key']] |= version.key?('DeleteMarker')
           end
         end
         all_true = true

@@ -9,13 +9,13 @@ module Fog
             'timeout' => timeout,
             'attemptsBeforeDeactivation' => attempsBeforeDeactivation
           }
-          if options.has_key? :path
+          if options.key? :path
             data['path'] = options[:path]
           end
-          if options.has_key? :body_regex
+          if options.key? :body_regex
             data['bodyRegex'] = options[:body_regex]
           end
-          if options.has_key? :status_regex
+          if options.key? :status_regex
             data['statusRegex'] = options[:status_regex]
           end
           request(
