@@ -3,7 +3,6 @@ require 'fog/vcloud/core'
 module Fog
   module Vcloud
     class Collection < Fog::Collection
-
       def load(objects)
         objects = [ objects ] if objects.is_a?(Hash)
         super
@@ -27,7 +26,6 @@ module Fog
           raise Fog::Errors::Error.new(msg)
         end
       end
-
     end
   end
 end
@@ -35,7 +33,6 @@ end
 module Fog
   module Vcloud
     class Model < Fog::Model
-
       attr_accessor :loaded
       alias_method :loaded?, :loaded
 
@@ -64,7 +61,6 @@ module Fog
           end
         EOS
       end
-
     end
   end
 end
@@ -72,7 +68,6 @@ end
 module Fog
   module Vcloud
     class Compute < Fog::Service
-
       BASE_PATH   = '/api'
       DEFAULT_VERSION = '1.5'
       SUPPORTED_VERSIONS = [ '1.5', '1.0' ]
@@ -142,17 +137,13 @@ module Fog
       request :configure_vm_customization_script
 
       class Mock
-
         def initialize(options={})
           Fog::Mock.not_implemented
         end
-
       end
 
       class Real
-
         class << self
-
           def basic_request(*args)
             self.class_eval <<-EOS, __FILE__,__LINE__
               def #{args[0]}(uri)
@@ -270,7 +261,6 @@ module Fog
           end
         end
 
-
         def basic_request_params(uri,*args)
           {
             :expects => args[0] || 200,
@@ -352,7 +342,6 @@ module Fog
 
           response
         end
-
       end
       def self.item_requests(*types)
         types.each{|t| item_request(t) }

@@ -2,15 +2,14 @@ module Fog
   module Parsers
     module AWS
       module AutoScaling
-
         class DescribeMetricCollectionTypes < Fog::Parsers::Base
-
           def reset
             reset_granularity
             reset_metric
             @results = { 'Granularities' => [], 'Metrics' => [] }
             @response = { 'DescribeMetricCollectionTypesResult' => {}, 'ResponseMetadata' => {} }
           end
+
           def reset_granularity
             @granularity = {}
           end
@@ -58,7 +57,6 @@ module Fog
               @response[name] = @results
             end
           end
-
         end
       end
     end

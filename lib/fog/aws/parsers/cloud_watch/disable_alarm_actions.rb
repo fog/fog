@@ -2,9 +2,7 @@ module Fog
   module Parsers
     module AWS
       module CloudWatch
-
         class DisableAlarmActions < Fog::Parsers::Base
-
           def reset
             @response = { 'ResponseMetadata' => {} }
           end

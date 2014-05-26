@@ -2,7 +2,6 @@ module Fog
   module Compute
     class Clodo
       class Real
-
         # Delete an existing server
         #
         # ==== Parameters
@@ -15,11 +14,9 @@ module Fog
             :path   => "servers/#{server_id}"
           )
         end
-
       end
 
       class Mock
-
         def delete_server(server_id)
           response = Excon::Response.new
 
@@ -37,7 +34,6 @@ module Fog
             raise Fog::Compute::Clodo::NotFound
           end
         end
-
       end
     end
   end

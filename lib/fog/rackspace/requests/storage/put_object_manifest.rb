@@ -1,7 +1,6 @@
 module Fog
   module Storage
     class Rackspace
-
       module Common
         # Create a new dynamic large object manifest
         #
@@ -18,7 +17,6 @@ module Fog
       class Mock
         include Common
       end
-
     end
   end
 end

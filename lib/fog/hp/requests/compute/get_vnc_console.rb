@@ -2,7 +2,6 @@ module Fog
   module Compute
     class HP
       class Real
-
         # Retrieve VNC console for the specified instance
         #
         # ==== Parameters
@@ -19,11 +18,9 @@ module Fog
           body = { 'os-getVNCConsole' => { 'type' => type }}
           server_action(server_id, body, 200)
         end
-
       end
 
       class Mock
-
         def get_vnc_console(server_id, type='novnc')
           output = {
               'type' => type,
@@ -38,7 +35,6 @@ module Fog
           end
           response
         end
-
       end
     end
   end

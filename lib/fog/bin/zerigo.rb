@@ -1,6 +1,5 @@
 class Zerigo < Fog::Bin
   class << self
-
     def class_for(key)
       case key
       when :dns
@@ -26,6 +25,5 @@ class Zerigo < Fog::Bin
     def services
       Fog::Zerigo.services
     end
-
   end
 end

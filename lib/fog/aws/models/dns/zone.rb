@@ -4,9 +4,7 @@ require 'fog/core/model'
 module Fog
   module DNS
     class AWS
-
       class Zone < Fog::Model
-
         identity :id,                 :aliases => 'Id'
 
         attribute :caller_reference,  :aliases => 'CallerReference'
@@ -45,9 +43,7 @@ module Fog
         define_method(:HostedZone=) do |new_hosted_zone|
           merge_attributes(new_hosted_zone)
         end
-
       end
-
     end
   end
 end

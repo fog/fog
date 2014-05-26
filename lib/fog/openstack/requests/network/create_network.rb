@@ -1,7 +1,6 @@
 module Fog
   module Network
     class OpenStack
-
       class Real
         def create_network(options = {})
           data = { 'network' => {} }
@@ -93,7 +92,6 @@ module Fog
           response
         end
       end
-
     end
   end
 end

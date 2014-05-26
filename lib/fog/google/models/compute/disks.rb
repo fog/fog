@@ -4,9 +4,7 @@ require 'fog/google/models/compute/disk'
 module Fog
   module Compute
     class Google
-
       class Disks < Fog::Collection
-
         model Fog::Compute::Google::Disk
 
         def all(filters={})
@@ -37,9 +35,7 @@ module Fog
         rescue Fog::Errors::NotFound
           nil
         end
-
       end
-
     end
   end
 end

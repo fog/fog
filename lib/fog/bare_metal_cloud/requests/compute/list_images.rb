@@ -2,7 +2,6 @@ module Fog
   module Compute
     class BareMetalCloud
       class Real
-
         # List images
         #
         # ==== Returns
@@ -20,7 +19,6 @@ module Fog
             :path     => 'api/listImages'
           )
         end
-
       end
     end
   end

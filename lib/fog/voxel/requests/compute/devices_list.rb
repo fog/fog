@@ -2,7 +2,6 @@ module Fog
   module Compute
     class Voxel
       class Real
-
         require 'fog/voxel/parsers/compute/devices_list'
 
         def devices_list(device_id = nil)
@@ -18,7 +17,6 @@ module Fog
           request("voxel.devices.list", options)
         end
       end
-
     end
   end
 end

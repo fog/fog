@@ -4,7 +4,6 @@ require 'fog/vcloud_director/models/compute/tag'
 module Fog
   module Compute
     class VcloudDirector
-
       class Tags < Collection
         model Fog::Compute::VcloudDirector::Tag
 
@@ -36,7 +35,6 @@ module Fog
           hash_items.each_pair{ |k,v| @items << {:id => k, :value => v }.merge(:vm => vm) }
           @items
         end
-
       end
     end
   end

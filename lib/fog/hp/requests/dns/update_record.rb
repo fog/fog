@@ -1,7 +1,6 @@
 module Fog
   module HP
     class DNS
-
       class Real
         # Update an existing DNS record
         #
@@ -43,7 +42,6 @@ module Fog
             :path    => "domains/#{domain_id}/records/#{record_id}"
           )
         end
-
       end
 
       class Mock
@@ -62,9 +60,7 @@ module Fog
             raise Fog::HP::DNS::NotFound
           end
         end
-
       end
-
     end
   end
 end

@@ -2,7 +2,6 @@ module Fog
   module Compute
     class AWS
       class Real
-
         require 'fog/aws/parsers/compute/create_image'
 
         # Create a bootable EBS volume AMI
@@ -46,7 +45,6 @@ module Fog
       end
 
       class Mock
-
         # Usage
         #
         # AWS[:compute].create_image("i-ac65ee8c", "test", "something")
@@ -87,7 +85,6 @@ module Fog
           end
           response
         end
-
       end
     end
   end

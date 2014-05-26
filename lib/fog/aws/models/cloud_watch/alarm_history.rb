@@ -3,7 +3,6 @@ require 'fog/core/model'
 module Fog
   module AWS
     class CloudWatch
-
       class AlarmHistory < Fog::Model
         attribute :alarm_name, :aliases => 'AlarmName'
         attribute :end_date, :aliases => 'EndDate'

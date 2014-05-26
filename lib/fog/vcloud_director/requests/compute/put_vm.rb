@@ -2,7 +2,6 @@ module Fog
   module Compute
     class VcloudDirector
       class Real
-
         require 'fog/vcloud_director/generators/compute/vm'
 
         # Update the name, description and storage profile for VM.

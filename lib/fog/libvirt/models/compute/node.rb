@@ -3,9 +3,7 @@ require 'fog/core/model'
 module Fog
   module Compute
     class Libvirt
-
       class Node < Fog::Model
-
         identity :uuid
 
         attribute :model
@@ -25,10 +23,7 @@ module Fog
         attribute :product
         attribute :serial
         attribute :hostname
-
       end
-
     end
   end
-
 end

@@ -2,9 +2,7 @@ module Fog
   module Parsers
     module Compute
       module AWS
-
         class CreateSubnet < Fog::Parsers::Base
-
           def reset
             @subnet = { 'tagSet' => {} }
             @response = { 'subnet' => [] }

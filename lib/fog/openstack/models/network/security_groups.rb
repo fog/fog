@@ -5,7 +5,6 @@ module Fog
   module Network
     class OpenStack
       class SecurityGroups < Fog::Collection
-
         attribute :filters
 
         model Fog::Network::OpenStack::SecurityGroup
@@ -27,7 +26,6 @@ module Fog
         rescue Fog::Network::OpenStack::NotFound
           nil
         end
-
       end
     end
   end

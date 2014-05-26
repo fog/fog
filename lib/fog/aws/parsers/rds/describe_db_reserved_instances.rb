@@ -2,9 +2,7 @@ module Fog
   module Parsers
     module AWS
       module RDS
-
         class DescribeDBReservedInstances < Fog::Parsers::Base
-
           def reset
             @reserved_instance = {}
             @response = { 'ReservedDBInstances' => [] }
@@ -33,9 +31,7 @@ module Fog
               @reserved_instance[name] = Time.parse(@value)
             end
           end
-
         end
-
       end
     end
   end

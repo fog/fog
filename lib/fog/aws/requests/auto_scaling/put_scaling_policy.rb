@@ -1,9 +1,7 @@
 module Fog
   module AWS
     class AutoScaling
-
       class Real
-
         require 'fog/aws/parsers/auto_scaling/put_scaling_policy'
 
         # Creates or updates a policy for an Auto Scaling group. To update an
@@ -50,11 +48,9 @@ module Fog
             :parser                => Fog::Parsers::AWS::AutoScaling::PutScalingPolicy.new
           }.merge!(options))
         end
-
       end
 
       class Mock
-
         def put_scaling_policy(adjustment_type, auto_scaling_group_name, policy_name, scaling_adjustment, options = {})
           unless self.data[:auto_scaling_groups].has_key?(auto_scaling_group_name)
             raise Fog::AWS::AutoScaling::ValidationError.new('Auto Scaling Group name not found - null')
@@ -77,9 +73,7 @@ module Fog
           }
           response
         end
-
       end
-
     end
   end
 end

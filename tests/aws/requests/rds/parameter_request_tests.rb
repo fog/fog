@@ -18,7 +18,6 @@ Shindo.tests('AWS::RDS | parameter requests', ['aws', 'rds']) do
       Fog::AWS[:rds].describe_db_parameters('fog-group', :max_records => 20).body
     end
 
-
     tests("#describe_db_parameters :source => 'user'")do
       body = Fog::AWS[:rds].describe_db_parameters('fog-group', :source => 'user').body
       returns(1){ body['DescribeDBParametersResult']['Parameters'].length}

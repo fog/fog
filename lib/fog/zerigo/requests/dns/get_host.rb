@@ -2,7 +2,6 @@ module Fog
   module DNS
     class Zerigo
       class Real
-
         require 'fog/zerigo/parsers/dns/get_host'
 
         # get details about a given host record
@@ -32,7 +31,6 @@ module Fog
             :path     => "/api/1.1/hosts/#{host_id}.xml"
           )
         end
-
       end
 
       class Mock # :nodoc:all

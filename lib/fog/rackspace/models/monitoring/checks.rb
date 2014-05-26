@@ -5,7 +5,6 @@ module Fog
   module Rackspace
     class Monitoring
       class Checks < Fog::Collection
-
         attribute :entity
         attribute :marker
 
@@ -36,7 +35,6 @@ module Fog
           requires :entity unless attributes[:entity]
           super({ :entity => entity }.merge!(attributes))
         end
-
       end
     end
   end

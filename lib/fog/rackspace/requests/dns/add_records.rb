@@ -3,7 +3,6 @@ module Fog
     class Rackspace
       class Real
         def add_records(domain_id, records)
-
           validate_path_fragment :domain_id, domain_id
 
           data = {

@@ -6,7 +6,6 @@ require 'netrc'
 module Fog
   module Rake
     class GithubReleaseTask < ::Rake::TaskLib
-
       def initialize
         desc "Update the changelog since the last release"
         task(:github_release) do

@@ -69,7 +69,6 @@ module Fog
             :state           => states[dom.info.state]
           }
         end
-
       end
 
       class Mock

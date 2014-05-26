@@ -2,7 +2,6 @@ module Fog
   module AWS
     class Glacier
       class Real
-
         # This operation returns information about a vault
         #
         # ==== Parameters
@@ -28,7 +27,6 @@ module Fog
           )
         end
       end
-
     end
   end
 end

@@ -2,7 +2,6 @@ module Fog
   module Terremark
     module Shared
       module Real
-
         # Get details of an organization
         #
         # ==== Parameters
@@ -27,11 +26,9 @@ module Fog
           )
           response
         end
-
       end
 
       module Mock
-
         def get_organization(organization_id)
           organization_id = organization_id.to_i
           response = Excon::Response.new
@@ -80,7 +77,6 @@ module Fog
           ]
         end
       end
-
     end
   end
 end

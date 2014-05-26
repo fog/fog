@@ -2,7 +2,6 @@ module Fog
   module Compute
     class AWS
       class Real
-
         require 'fog/aws/parsers/compute/associate_address'
 
         # Associate an elastic IP address with an instance
@@ -55,7 +54,6 @@ module Fog
       end
 
       class Mock
-
         def associate_address(*args)
           if args.first.kind_of? Hash
             params = args.first
@@ -122,7 +120,6 @@ module Fog
             raise Fog::Compute::AWS::Error.new("You must specify either an InstanceId or a NetworkInterfaceID")
           end
         end
-
       end
     end
   end

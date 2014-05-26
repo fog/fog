@@ -3,7 +3,6 @@ require 'fog/core/model'
 module Fog
   module AWS
     class ElasticBeanstalk
-
       class Event < Fog::Model
         attribute :application_name, :aliases => 'ApplicationName'
         attribute :environment_name, :aliases => 'EnvironmentName'
@@ -14,7 +13,6 @@ module Fog
         attribute :template_name, :aliases => 'TemplateName'
         attribute :version_label, :aliases => 'VersionLabel'
       end
-
     end
   end
 end

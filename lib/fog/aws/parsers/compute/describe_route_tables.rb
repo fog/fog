@@ -2,9 +2,7 @@ module Fog
   module Parsers
     module Compute
       module AWS
-
         class DescribeRouteTables < Fog::Parsers::Base
-
           def reset
             @association = { 'routeTableAssociationId' => nil, 'routeTableId' => nil, 'subnetId' => nil, 'main' => false }
             @in_association_set = false
@@ -76,9 +74,7 @@ module Fog
               end
             end
           end
-
         end
-
       end
     end
   end

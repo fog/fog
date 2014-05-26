@@ -2,7 +2,6 @@ module Fog
   module Compute
     class AWS
       class Real
-
         require 'fog/aws/parsers/compute/basic'
 
         # Remove tags from resources
@@ -37,7 +36,6 @@ module Fog
             :parser             => Fog::Parsers::Compute::AWS::Basic.new
           }.merge!(params))
         end
-
       end
 
       class Mock
@@ -80,7 +78,6 @@ module Fog
           response
         end
       end
-
     end
   end
 end

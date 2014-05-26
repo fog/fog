@@ -2,7 +2,6 @@ module Fog
   module Storage
     class AWS
       class Real
-
         require 'fog/aws/parsers/storage/get_bucket_location'
 
         # Get location constraint for an S3 bucket
@@ -26,11 +25,9 @@ module Fog
             :query    => {'location' => nil}
           })
         end
-
       end
 
       class Mock # :nodoc:all
-
         def get_bucket_location(bucket_name)
           response = Excon::Response.new
           if bucket = self.data[:buckets][bucket_name]
@@ -51,7 +48,6 @@ module Fog
           end
           response
         end
-
       end
     end
   end

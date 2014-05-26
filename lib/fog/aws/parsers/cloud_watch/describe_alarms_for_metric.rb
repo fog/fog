@@ -2,9 +2,7 @@ module Fog
   module Parsers
     module AWS
       module CloudWatch
-
         class DescribeAlarmsForMetric < Fog::Parsers::Base
-
           def reset
             @response = { 'DescribeAlarmsForMetricResult' => {'MetricAlarms' => []}, 'ResponseMetadata' => {} }
             reset_metric_alarms

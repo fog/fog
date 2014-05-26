@@ -5,7 +5,6 @@ module Fog
   module Rackspace
     class Monitoring
       class Notification < Fog::Rackspace::Monitoring::Base
-
         identity :id
 
         attribute :label
@@ -35,7 +34,6 @@ module Fog
           requires :id
           service.delete_notification(id)
         end
-
       end
     end
   end

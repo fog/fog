@@ -4,9 +4,7 @@ module Fog
   module Parsers
     module AWS
       module SimpleDB
-
         class DomainMetadata < Fog::Parsers::AWS::SimpleDB::Basic
-
           def reset
             @response = {}
           end
@@ -23,9 +21,7 @@ module Fog
               response[name] = Time.at(value.to_i)
             end
           end
-
         end
-
       end
     end
   end

@@ -105,7 +105,6 @@ module Fog
             :parse    => true
           )
         end
-
       end
     end
   end

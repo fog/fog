@@ -2,20 +2,16 @@ module Fog
   module Compute
     class OpenStack
       class Real
-
         def get_server_volumes(server_id)
-
           request(
             :expects  => 200,
             :method   => 'GET',
             :path     => "/servers/#{server_id}/os-volume_attachments"
           )
         end
-
       end
 
       class Mock
-
         def get_server_volumes(server_id)
           response = Excon::Response.new
           response.status = 200
@@ -25,9 +21,7 @@ module Fog
           response.body = { 'volumeAttachments' => data.collect! { |vol| vol['attachments'] }.flatten(1) }
           response
         end
-
       end
-
     end
   end
 end

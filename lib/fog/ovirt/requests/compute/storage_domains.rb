@@ -2,11 +2,9 @@ module Fog
   module Compute
     class Ovirt
       class Real
-
         def storage_domains filter={}
           client.storagedomains(filter)
         end
-
       end
 
       class Mock

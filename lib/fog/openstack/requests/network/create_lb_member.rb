@@ -1,7 +1,6 @@
 module Fog
   module Network
     class OpenStack
-
       class Real
         def create_lb_member(pool_id, address, protocol_port, weight, options = {})
           data = {
@@ -47,7 +46,6 @@ module Fog
           response
         end
       end
-
     end
   end
 end

@@ -2,7 +2,6 @@ module Fog
   module Compute
     class HPV2
       class Real
-
         # Create an image from an existing server
         #
         # ==== Parameters
@@ -20,11 +19,9 @@ module Fog
                  }
           server_action(server_id, body)
         end
-
       end
 
       class Mock
-
         def create_image(server_id, name, metadata = {})
           response = Excon::Response.new
           if list_servers_detail.body['servers'].detect {|_| _['id'] == server_id}
@@ -55,7 +52,6 @@ module Fog
             raise Fog::Compute::HPV2::NotFound
           end
         end
-
       end
     end
   end

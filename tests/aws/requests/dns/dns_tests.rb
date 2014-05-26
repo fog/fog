@@ -239,7 +239,6 @@ Shindo.tests('Fog::DNS[:aws] | DNS requests', ['aws', 'dns']) do
 
   end
 
-
   tests('failure') do
     tests('create hosted zone using invalid domain name').raises(Excon::Errors::BadRequest) do
       pending if Fog.mocking?
@@ -253,6 +252,5 @@ Shindo.tests('Fog::DNS[:aws] | DNS requests', ['aws', 'dns']) do
     end
 
   end
-
 
 end

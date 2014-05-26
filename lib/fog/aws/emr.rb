@@ -35,11 +35,9 @@ module Fog
       # collection  :security_groups
 
       class Mock
-
         def initialize(options={})
           Fog::Mock.not_implemented
         end
-
       end
 
       class Real
@@ -126,7 +124,6 @@ module Fog
 
           response
         end
-
       end
     end
   end

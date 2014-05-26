@@ -2,7 +2,6 @@ module Fog
   module Image
     class OpenStack
       class Real
-
         def update_image(attributes)
           data = {
             'x-image-meta-name'             => attributes[:name],
@@ -29,11 +28,9 @@ module Fog
             :path     => "images/#{attributes[:id]}"
           )
         end
-
       end
 
       class Mock
-
         def update_image(attributes)
           response = Excon::Response.new
           response.status = 200
@@ -61,7 +58,6 @@ module Fog
           }
           response
         end
-
       end
     end
   end

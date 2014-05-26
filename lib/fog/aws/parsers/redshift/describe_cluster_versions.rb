@@ -2,7 +2,6 @@ module Fog
   module Parsers
     module Redshift
       module AWS
-
         class DescribeClusterVersions < Fog::Parsers::Base
           # :marker - (String)
           # :cluster_versions - (Array<Hash>)

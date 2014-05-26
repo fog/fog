@@ -5,9 +5,7 @@ require 'fog/hp/models/storage/metadata'
 module Fog
   module Storage
     class HP
-
       class Directory < Fog::Model
-
         identity  :key,               :aliases => 'name'
 
         attribute :bytes,             :aliases => 'X-Container-Bytes-Used'
@@ -301,9 +299,7 @@ module Fog
           end
           true
         end
-
       end
-
     end
   end
 end

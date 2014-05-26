@@ -348,7 +348,6 @@ module Fog
           @scheme = uri.scheme
           true
         end
-
       end
     end
   end

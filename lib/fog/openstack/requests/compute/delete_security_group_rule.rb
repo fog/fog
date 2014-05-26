@@ -2,7 +2,6 @@ module Fog
   module Compute
     class OpenStack
       class Real
-
         def delete_security_group_rule(security_group_rule_id)
           request(
             :expects  => 202,
@@ -10,7 +9,6 @@ module Fog
             :path     => "os-security-group-rules/#{security_group_rule_id}"
           )
         end
-
       end
 
       class Mock

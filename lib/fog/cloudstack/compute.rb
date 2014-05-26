@@ -4,7 +4,6 @@ require 'digest/md5'
 module Fog
   module Compute
     class Cloudstack < Fog::Service
-
       class BadRequest < Fog::Compute::Cloudstack::Error; end
       class Unauthorized < Fog::Compute::Cloudstack::Error; end
 
@@ -14,7 +13,6 @@ module Fog
                  :cloudstack_port, :cloudstack_path, :cloudstack_scheme, :cloudstack_persistent
 
       request_path 'fog/cloudstack/requests/compute'
-
 
       model_path 'fog/cloudstack/models/compute'
       model :address
@@ -139,7 +137,6 @@ module Fog
       request :update_virtual_machine
 
       class Real
-
         def initialize(options={})
           @cloudstack_api_key           = options[:cloudstack_api_key]
           @cloudstack_secret_access_key = options[:cloudstack_secret_access_key]
@@ -251,7 +248,6 @@ module Fog
               raise Fog::Compute::Cloudstack::Error, error_text
             end
           end
-
         end
       end # Real
 

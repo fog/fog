@@ -4,7 +4,6 @@ module Fog
   module Rackspace
     class Queues
       class Claim < Fog::Model
-
         # @!attribute [r] identity
         # @return [String] The claim's id
         identity :identity

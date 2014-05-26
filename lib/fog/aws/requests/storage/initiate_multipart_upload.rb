@@ -2,7 +2,6 @@ module Fog
   module Storage
     class AWS
       class Real
-
         require 'fog/aws/parsers/storage/initiate_multipart_upload'
 
         # Initiate a multipart upload to an S3 bucket
@@ -37,7 +36,6 @@ module Fog
             :query      => {'uploads' => nil}
           })
         end
-
       end # Real
 
       class Mock # :nodoc:all

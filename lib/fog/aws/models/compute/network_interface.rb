@@ -3,9 +3,7 @@ require 'fog/core/model'
 module Fog
   module Compute
     class AWS
-
       class NetworkInterface < Fog::Model
-
         identity  :network_interface_id,        :aliases => 'networkInterfaceId'
         attribute :state
         attribute :request_id,                  :aliases => 'requestId'
@@ -26,7 +24,6 @@ module Fog
         attribute :attachment,                  :aliases => 'attachment'
         attribute :association,                 :aliases => 'association'
         attribute :tag_set,                     :aliases => 'tagSet'
-
 
         # Removes an existing network interface
         #
@@ -69,7 +66,6 @@ module Fog
           merge_attributes(new_attributes)
           true
         end
-
       end
     end
   end

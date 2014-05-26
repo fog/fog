@@ -16,13 +16,11 @@ Shindo.tests('Fog::Redshift[:aws] | cluster security group requests', ['aws']) d
     "ClusterSecurityGroups" => [@cluster_security_group_format]
   }
 
-
   tests('success') do
     tests("create_cluster_security_group").formats(@cluster_security_group_format) do
       body = Fog::AWS[:redshift].create_cluster_security_group(:cluster_security_group_name => identifier, :description => 'testing').body
       body
     end
-
 
     tests("describe_cluster_security_groups").formats(@describe_cluster_security_groups_format) do
       body = Fog::AWS[:redshift].describe_cluster_security_groups.body

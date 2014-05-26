@@ -2,7 +2,6 @@ module Fog
   module Compute
     class AWS
       class Real
-
         require 'fog/aws/parsers/compute/describe_reserved_instances_offerings'
 
         # Describe all or specified reserved instances offerings

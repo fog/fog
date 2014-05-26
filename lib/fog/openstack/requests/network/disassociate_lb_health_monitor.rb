@@ -1,7 +1,6 @@
 module Fog
   module Network
     class OpenStack
-
       class Real
         def disassociate_lb_health_monitor(pool_id, health_monitor_id)
           request(
@@ -25,7 +24,6 @@ module Fog
           end
         end
       end
-
     end
   end
 end

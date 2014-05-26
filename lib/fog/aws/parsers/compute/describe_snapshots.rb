@@ -2,9 +2,7 @@ module Fog
   module Parsers
     module Compute
       module AWS
-
         class DescribeSnapshots < Fog::Parsers::Base
-
           def reset
             @response = { 'snapshotSet' => [] }
             @snapshot = { 'tagSet' => {} }
@@ -47,9 +45,7 @@ module Fog
               end
             end
           end
-
         end
-
       end
     end
   end

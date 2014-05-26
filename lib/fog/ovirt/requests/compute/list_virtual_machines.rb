@@ -5,7 +5,6 @@ module Fog
         def list_virtual_machines(filters = {})
           client.vms(filters).map {|ovirt_obj| ovirt_attrs ovirt_obj}
         end
-
       end
       class Mock
         def list_virtual_machines(filters = {})

@@ -4,9 +4,7 @@ require 'fog/atmos/models/storage/directory'
 module Fog
   module Storage
     class Atmos
-
       class Directories < Fog::Collection
-
         attribute :directory
 
         model Fog::Storage::Atmos::Directory
@@ -40,9 +38,7 @@ module Fog
           attributes = {:directory => directory}.merge(attributes) if directory
           super(attributes)
         end
-
       end
-
     end
   end
 end

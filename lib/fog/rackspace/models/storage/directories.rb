@@ -4,9 +4,7 @@ require 'fog/rackspace/models/storage/directory'
 module Fog
   module Storage
     class Rackspace
-
       class Directories < Fog::Collection
-
         model Fog::Storage::Rackspace::Directory
 
         # Returns list of directories
@@ -58,9 +56,7 @@ module Fog
         rescue Fog::Storage::Rackspace::NotFound
           nil
         end
-
       end
-
     end
   end
 end

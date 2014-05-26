@@ -2,9 +2,7 @@ module Fog
   module Rackspace
     class AutoScale
       class Real
-
         def update_webhook(group_id, policy_id, webhook_id, options)
-
           body = options
 
           request(
@@ -36,7 +34,6 @@ module Fog
           webhook.merge(options)
 
           response(:body => webhook)
-
         end
       end
     end

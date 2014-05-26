@@ -4,7 +4,6 @@ module Fog
   module Compute
     class RackspaceV2
       class Attachment < Fog::Model
-
         # @!attribute [r] server_id
         # @return [String] The server id
         attribute :server_id, :aliases => 'serverId'

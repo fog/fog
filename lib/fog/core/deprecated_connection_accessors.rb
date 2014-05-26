@@ -35,7 +35,6 @@ module Fog
       def prepare_service_value(attributes)
         @service = attributes[:service] || attributes[:connection]
       end
-
     end
   end
 end

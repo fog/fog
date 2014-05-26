@@ -4,9 +4,7 @@ require 'fog/google/models/compute/target_pool'
 module Fog
   module Compute
     class Google
-
       class TargetPools < Fog::Collection
-
         model Fog::Compute::Google::TargetPool
 
         def all(filters={})
@@ -37,9 +35,7 @@ module Fog
           return nil if response.nil?
           new(response.body)
         end
-
       end
-
     end
   end
 end

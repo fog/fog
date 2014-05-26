@@ -2,7 +2,6 @@ module Fog
   module HP
     class BlockStorageV2
       class Real
-
         # Create a new block storage volume backup
         #
         # ==== Parameters
@@ -38,11 +37,9 @@ module Fog
             :path     => 'backups'
           )
         end
-
       end
 
       class Mock  # :nodoc:all
-
         def create_volume_backup(volume_id, options={})
           response = Excon::Response.new
           tenant_id = Fog::Mock.random_numbers(14).to_s
@@ -77,7 +74,6 @@ module Fog
           end
         end
       end
-
     end
   end
 end

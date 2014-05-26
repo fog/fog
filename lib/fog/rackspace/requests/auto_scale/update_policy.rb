@@ -2,9 +2,7 @@ module Fog
   module Rackspace
     class AutoScale
       class Real
-
         def update_policy(group_id, policy_id, options)
-
           request(
             :expects => [204],
             :method => 'PUT',

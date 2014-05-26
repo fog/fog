@@ -1,7 +1,6 @@
 module Fog
   module HP
     class DNS
-
       class Real
         # Update an existing DNS domain
         #

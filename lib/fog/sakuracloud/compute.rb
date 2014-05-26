@@ -4,7 +4,6 @@ require 'fog/compute'
 module Fog
   module Compute
     class SakuraCloud < Fog::Service
-
       requires     :sakuracloud_api_token
       requires     :sakuracloud_api_token_secret
 
@@ -61,7 +60,6 @@ module Fog
         def initialize(options = {})
         end
       end
-
     end #SakuraCloud
   end #Compute
 end

@@ -2,7 +2,6 @@ module Fog
   module Vcloud
     class Compute
       class Real
-
         def validate_clone_vapp_options(options)
           valid_opts = [:name, :poweron]
           unless valid_opts.all? { |opt| options.has_key?(opt) }

@@ -2,7 +2,6 @@ module Fog
   module Parsers
     module Compute
       module AWS
-
         class NetworkAclParser < Fog::Parsers::Base
           def reset_nacl
             @network_acl = { 'associationSet' => [], 'entrySet' => [], 'tagSet' => {} }
@@ -97,7 +96,6 @@ module Fog
               end
             end
           end
-
         end
       end
     end

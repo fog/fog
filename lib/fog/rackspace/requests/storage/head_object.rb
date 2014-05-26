@@ -1,9 +1,7 @@
 module Fog
   module Storage
     class Rackspace
-
       class Real
-
         # Get headers for object
         #
         # ==== Parameters
@@ -20,7 +18,6 @@ module Fog
             :path     => "#{Fog::Rackspace.escape(container)}/#{Fog::Rackspace.escape(object)}"
           }, false)
         end
-
       end
 
       class Mock
@@ -46,7 +43,6 @@ module Fog
           response
         end
       end
-
     end
   end
 end

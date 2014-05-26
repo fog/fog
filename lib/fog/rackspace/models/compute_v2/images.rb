@@ -5,7 +5,6 @@ module Fog
   module Compute
     class RackspaceV2
       class Images < Fog::Collection
-
         # @!attribute [rw] name
         # @return [String] Given a string value x, filters the list of images by image name.
         attribute :name

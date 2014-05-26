@@ -3,9 +3,7 @@ require 'fog/core/model'
 module Fog
   module Compute
     class Brightbox
-
       class CloudIp < Fog::Model
-
         identity :id
         attribute :url
         attribute :resource_type
@@ -60,9 +58,7 @@ module Fog
         def destination_id
           server_id || load_balancer || server_group || database_server || interface_id
         end
-
       end
-
     end
   end
 end

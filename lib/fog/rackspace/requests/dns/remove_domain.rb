@@ -3,7 +3,6 @@ module Fog
     class Rackspace
       class Real
         def remove_domain(domain_id, options={})
-
           validate_path_fragment :domain_id, domain_id
 
           path = "domains/#{domain_id}"

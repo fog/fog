@@ -1,7 +1,6 @@
 module Fog
   module HP
     class Network
-
       class Real
         # Create a new port
         #
@@ -86,7 +85,6 @@ module Fog
           end
         end
       end
-
     end
   end
 end

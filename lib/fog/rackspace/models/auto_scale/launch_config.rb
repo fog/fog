@@ -4,7 +4,6 @@ module Fog
   module Rackspace
     class AutoScale
       class LaunchConfig < Fog::Model
-
         # @!attribute [r] group
         # @return [Fog::Rackspace::AutoScale::Group] The parent group
         attribute :group
@@ -28,7 +27,6 @@ module Fog
         #
         # @see http://docs.rackspace.com/cas/api/v1.0/autoscale-devguide/content/PUT_putLaunchConfig_v1.0__tenantId__groups__groupId__launch_Configurations.html
         def update
-
           options = {}
           options['type'] = type unless type.nil?
           options['args'] = args unless args.nil?
@@ -57,7 +55,6 @@ module Fog
             merge_attributes data.body['launchConfiguration']
           end
         end
-
       end
   	end
   end

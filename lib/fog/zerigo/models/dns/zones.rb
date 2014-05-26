@@ -4,9 +4,7 @@ require 'fog/zerigo/models/dns/zone'
 module Fog
   module DNS
     class Zerigo
-
       class Zones < Fog::Collection
-
         model Fog::DNS::Zerigo::Zone
 
         def all(options = {})
@@ -22,9 +20,7 @@ module Fog
         rescue Fog::Service::NotFound
           nil
         end
-
       end
-
     end
   end
 end

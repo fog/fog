@@ -2,9 +2,7 @@ module Fog
   module Parsers
     module AWS
       module SES
-
         class ListVerifiedEmailAddresses < Fog::Parsers::Base
-
           def reset
             @response = { 'VerifiedEmailAddresses' => [], 'ResponseMetadata' => {} }
           end
@@ -18,7 +16,6 @@ module Fog
             end
           end
         end
-
       end
     end
   end

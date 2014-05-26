@@ -1,9 +1,7 @@
 module Fog
   module Rackspace
     class AutoScale
-
       class Real
-
         def get_group_config(group_id)
           request(
             :expects => [200],
@@ -24,7 +22,6 @@ module Fog
           response(:body => {"groupConfiguration" => group['groupConfiguration']})
         end
       end
-
     end
   end
 end

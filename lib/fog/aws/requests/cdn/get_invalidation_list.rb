@@ -2,7 +2,6 @@ module Fog
   module CDN
     class AWS
       class Real
-
         require 'fog/aws/parsers/cdn/get_invalidation_list'
 
         # Get invalidation list.
@@ -33,11 +32,9 @@ module Fog
             :query      => options
           })
         end
-
       end
 
       class Mock
-
         def get_invalidation_list(distribution_id, options = {})
           distribution = self.data[:distributions][distribution_id]
           unless distribution
@@ -73,9 +70,7 @@ module Fog
             'Status' => d['Status']
           }
         end
-
       end
-
     end
   end
 end

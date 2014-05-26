@@ -3,9 +3,7 @@ require 'fog/core/model'
 module Fog
   module Compute
     class Serverlove
-
       class Image < Fog::Model
-
         identity :id, :aliases => 'drive'
 
         attribute :name
@@ -50,7 +48,6 @@ module Fog
           allowed = [:name, :size]
           attributes.select {|k,v| allowed.include? k}
         end
-
       end
     end
   end

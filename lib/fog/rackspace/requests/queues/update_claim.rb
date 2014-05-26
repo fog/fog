@@ -1,9 +1,7 @@
 module Fog
   module Rackspace
     class Queues
-
       class Real
-
         # This operation posts the specified message or messages.
         # @note You can submit up to 10 messages in a single request.
         #
@@ -21,7 +19,6 @@ module Fog
             :path => "queues/#{queue_name}/claims/#{claim_id}"
           )
         end
-
       end
 
       class Mock
@@ -37,7 +34,6 @@ module Fog
           response
         end
       end
-
     end
   end
 end

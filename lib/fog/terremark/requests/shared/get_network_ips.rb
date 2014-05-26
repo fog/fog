@@ -2,7 +2,6 @@ module Fog
   module Terremark
     module Shared
       module Real
-
         # Get details for a Network
         #
         # ==== Parameters
@@ -24,7 +23,6 @@ module Fog
           end
           request(opts)
         end
-
       end
     end
   end

@@ -454,7 +454,6 @@ module Fog
           @auth_token = credentials['X-Auth-Token']
         end
       end
-
     end
   end
 end

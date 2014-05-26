@@ -2,7 +2,6 @@ module Fog
   module Compute
     class AWS
       class Real
-
         require 'fog/aws/parsers/compute/describe_regions'
 
         # Describe all or specified regions
@@ -31,11 +30,9 @@ module Fog
             :parser     => Fog::Parsers::Compute::AWS::DescribeRegions.new
           }.merge!(params))
         end
-
       end
 
       class Mock
-
         def describe_regions(filters = {})
           unless filters.is_a?(Hash)
             Fog::Logger.deprecation("describe_regions with #{filters.class} param is deprecated, use describe_regions('region-name' => []) instead [light_black](#{caller.first})[/]")
@@ -61,7 +58,6 @@ module Fog
           }
           response
         end
-
       end
     end
   end

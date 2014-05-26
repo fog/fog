@@ -3,9 +3,7 @@ require 'fog/core/model'
 module Fog
   module Compute
     class Google
-
       class Image < Fog::Model
-
         identity :name
 
         attribute :id
@@ -36,6 +34,7 @@ module Fog
         def preferred_kernel=(args)
           Fog::Logger.deprecation("preferred_kernel= is no longer used [light_black](#{caller.first})[/]")
         end
+
         def preferred_kernel
           Fog::Logger.deprecation("preferred_kernel is no longer used [light_black](#{caller.first})[/]")
           nil
@@ -84,7 +83,6 @@ module Fog
         def resource_url
           "#{self.project}/global/images/#{name}"
         end
-
       end
     end
   end

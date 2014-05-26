@@ -3,7 +3,6 @@ require 'fog/core/model'
 module Fog
   module Compute
     class StormOnDemand
-
       class Template < Fog::Model
         identity :id
         attribute :name
@@ -22,7 +21,6 @@ module Fog
         requires :identity
         service.restore_template({:id => identity}.merge!(options))
       end
-
     end
   end
 end

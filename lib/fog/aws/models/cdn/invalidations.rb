@@ -4,9 +4,7 @@ require 'fog/aws/models/cdn/invalidation'
 module Fog
   module CDN
     class AWS
-
       class Invalidations < Fog::Collection
-
         attribute :is_truncated,            :aliases => ['IsTruncated']
         attribute :max_items,               :aliases => ['MaxItems']
         attribute :next_marker,             :aliases => ['NextMarker']
@@ -46,9 +44,7 @@ module Fog
           requires :distribution
           super({ :distribution => distribution }.merge!(attributes))
         end
-
       end
-
     end
   end
 end

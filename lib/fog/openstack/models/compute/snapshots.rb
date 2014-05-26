@@ -4,7 +4,6 @@ require 'fog/openstack/models/compute/snapshot'
 module Fog
   module Compute
     class OpenStack
-
       class Snapshots < Fog::Collection
         model Fog::Compute::OpenStack::Snapshot
 
@@ -20,7 +19,6 @@ module Fog
           nil
         end
       end
-
     end
   end
 end

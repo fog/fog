@@ -3,7 +3,6 @@ require 'fog/compute/models/server'
 module Fog
   module Compute
     class StormOnDemand
-
       class Server < Fog::Compute::Server
         identity :uniq_id
 
@@ -86,9 +85,7 @@ module Fog
           requires :identity
           service.update_server({:uniq_id => identity}.merge!(options)).body
         end
-
       end
-
     end
   end
 end

@@ -5,7 +5,6 @@ module Fog
         def list_template_interfaces(vm_id)
           client.template_interfaces(vm_id).map {|ovirt_obj| ovirt_attrs ovirt_obj}
         end
-
       end
       class Mock
         def list_template_interfaces(vm_id)

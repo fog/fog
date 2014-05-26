@@ -8,7 +8,6 @@ module Fog
           options[:size]=options[:size_gb].to_i*DISK_SIZE_TO_GB if options[:size_gb]
           client.add_volume(id, options)
         end
-
       end
 
       class Mock
@@ -16,7 +15,6 @@ module Fog
           raise ArgumentError, "instance id is a required parameter" unless id
           true
         end
-
       end
     end
   end

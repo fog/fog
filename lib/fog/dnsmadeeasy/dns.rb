@@ -3,7 +3,6 @@ require 'fog/dnsmadeeasy/core'
 module Fog
   module DNS
     class DNSMadeEasy < Fog::Service
-
       requires :dnsmadeeasy_api_key, :dnsmadeeasy_secret_key
       recognizes :host, :path, :port, :scheme, :persistent
 
@@ -59,7 +58,6 @@ module Fog
       end
 
       class Real
-
         # Initialize connection to DNS Made Easy
         #
         # ==== Notes
@@ -121,7 +119,6 @@ module Fog
           end
 
           response
-
         end
 
         def signature(params)

@@ -10,7 +10,6 @@ module Fog
       class BadRequest < Fog::Rackspace::Errors::BadRequest; end
 
       class InvalidStateException < ::RuntimeError
-
         attr_reader :desired_state
         attr_reader :current_state
 
@@ -144,7 +143,6 @@ module Fog
       end
 
       class Real < Fog::Rackspace::Service
-
         def initialize(options = {})
           @rackspace_api_key = options[:rackspace_api_key]
           @rackspace_username = options[:rackspace_username]

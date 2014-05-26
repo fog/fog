@@ -1,6 +1,5 @@
 class Linode < Fog::Bin
   class << self
-
     def class_for(key)
       case key
       when :compute
@@ -31,6 +30,5 @@ class Linode < Fog::Bin
     def services
       Fog::Linode.services
     end
-
   end
 end

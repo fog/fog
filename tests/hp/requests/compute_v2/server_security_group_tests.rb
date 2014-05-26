@@ -39,5 +39,4 @@ Shindo.tests("Fog::Compute::HPV2 | server security group requests", ['hp', 'v2',
 
   end
 
-
 end

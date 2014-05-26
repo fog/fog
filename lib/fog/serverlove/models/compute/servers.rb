@@ -4,9 +4,7 @@ require 'fog/serverlove/models/compute/server'
 module Fog
   module Compute
     class Serverlove
-
       class Servers < Fog::Collection
-
         model Fog::Compute::Serverlove::Server
 
         def all
@@ -18,9 +16,7 @@ module Fog
           data = service.get_server(server_id).body
           new(data)
         end
-
       end
-
     end
   end
 end

@@ -2,7 +2,6 @@ module Fog
   module DNS
     class Zerigo
       class Real
-
         # Delete a host record
         #
         # ==== Parameters
@@ -17,7 +16,6 @@ module Fog
             :path     => "/api/1.1/hosts/#{host_id}.xml"
           )
         end
-
       end
 
       class Mock # :nodoc:all

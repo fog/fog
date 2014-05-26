@@ -2,7 +2,6 @@ module Fog
   module AWS
     class IAM
       class Real
-
         require 'fog/aws/parsers/iam/get_user'
 
         # Get User
@@ -31,7 +30,6 @@ module Fog
             :parser     => Fog::Parsers::AWS::IAM::GetUser.new
           }.merge!(options))
         end
-
       end
 
       class Mock

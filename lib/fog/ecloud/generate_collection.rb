@@ -6,7 +6,6 @@ class String
   end
 end
 
-
 options = {}
 OptionParser.new do |opts|
   opts.banner = "Usage: #{__FILE__} [options]"
@@ -25,7 +24,6 @@ def #{m[0]}
 METHOD
   end.join("\n        ")
 end
-
 
 if options[:attributes]
   attributes = options[:attributes].map do |a|
@@ -122,7 +120,6 @@ module Fog
   end
 end
 MODEL
-
 
 File.open(collection_file, 'w') { |f| f.write(collection) }
 File.open(model_file, 'w') { |f| f.write(model) }

@@ -2,7 +2,6 @@ module Fog
   module Terremark
     module Shared
       module Real
-
         # Get details of a task
         #
         # ==== Parameters
@@ -32,7 +31,6 @@ module Fog
             :path     => "task/#{task_id}"
           )
         end
-
       end
     end
   end

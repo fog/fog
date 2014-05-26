@@ -32,7 +32,6 @@ service = Fog::Storage.new({
   :rackspace_region => :ord #Use Chicago Region
   })
 
-
 # create directory
 puts "Creating directory 'metadata-tester'"
 directory = service.directories.create :key => "metadata-tester"

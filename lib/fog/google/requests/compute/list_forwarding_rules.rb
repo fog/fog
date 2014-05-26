@@ -1,9 +1,7 @@
 module Fog
   module Compute
     class Google
-
       class Mock
-
         def list_forwarding_rules(region_name)
           forwarding_rules = self.data[:forwarding_rules].values.select{|d| d["region"].split("/")[-1] == region_name}
           build_response(:body => {
@@ -13,11 +11,9 @@ module Fog
             "items" => forwarding_rules
           })
         end
-
       end
 
       class Real
-
         def list_forwarding_rules(region_name)
           api_method = @compute.forwarding_rules.list
           parameters = {
@@ -28,9 +24,7 @@ module Fog
           result = self.build_result(api_method, parameters)
           response = self.build_response(result)
         end
-
       end
-
     end
   end
 end

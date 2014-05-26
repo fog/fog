@@ -2,7 +2,6 @@ module Fog
   module Storage
     class HP
       class Real
-
         # Get details for container and total bytes stored
         #
         # ==== Parameters
@@ -38,11 +37,9 @@ module Fog
           )
           response
         end
-
       end
 
       class Mock # :nodoc:all
-
         def get_container(container_name, options = {})
           unless container_name
             raise ArgumentError.new('container_name is required')
@@ -84,9 +81,7 @@ module Fog
             raise Fog::Storage::HP::NotFound
           end
         end
-
       end
-
     end
   end
 end

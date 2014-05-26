@@ -2,9 +2,7 @@ module Fog
   module Parsers
     module AWS
       module CloudFormation
-
         class DescribeStacks < Fog::Parsers::Base
-
           def reset
             @stack = { 'Outputs' => [], 'Parameters' => [], 'Capabilities' => [] }
             @output = {}
@@ -73,7 +71,6 @@ module Fog
               end
             end
           end
-
         end
       end
     end

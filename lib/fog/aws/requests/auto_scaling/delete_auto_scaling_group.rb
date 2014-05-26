@@ -1,9 +1,7 @@
 module Fog
   module AWS
     class AutoScaling
-
       class Real
-
         require 'fog/aws/parsers/auto_scaling/basic'
 
         # Deletes the specified auto scaling group if the group has no
@@ -34,11 +32,9 @@ module Fog
             :parser                => Fog::Parsers::AWS::AutoScaling::Basic.new
           }.merge!(options))
         end
-
       end
 
       class Mock
-
         def delete_auto_scaling_group(auto_scaling_group_name, options = {})
           unless self.data[:auto_scaling_groups].delete(auto_scaling_group_name)
             raise Fog::AWS::AutoScaling::ValidationError, "The auto scaling group '#{auto_scaling_group_name}' does not exist."
@@ -54,7 +50,6 @@ module Fog
           response
         end
       end
-
     end
   end
 end

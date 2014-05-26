@@ -2,7 +2,6 @@ module Fog
   module Compute
     class RackspaceV2
       class Real
-
         # Deletes a metadata item.
         # @param [String<images, servers>] collection type of metadata
         # @param [String] obj_id id of the object where the metadata is attached

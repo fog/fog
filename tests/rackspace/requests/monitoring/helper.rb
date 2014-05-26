@@ -56,7 +56,6 @@ GET_MONITORING_ZONE = {
     "source_ips" => [String]
 }
 
-
 # {"values"=>
 #   [{"id"=>"ch4GimHQsQ",
 #     "label"=>nil,
@@ -84,7 +83,6 @@ GET_MONITORING_ZONE = {
 #    "next_marker"=>nil,
 #    "next_href"=>nil}}
 
-
 # {"values"=>
 #   [{"id"=>String,
 #     "label"=>String,
@@ -96,7 +94,6 @@ GET_MONITORING_ZONE = {
 #    "marker"=>nil,
 #    "next_marker"=>nil,
 #    "next_href"=>nil}}   
-
 
 CHECK_CREATE_OPTIONS = {
   :details => {

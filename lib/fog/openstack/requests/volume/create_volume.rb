@@ -2,7 +2,6 @@ module Fog
   module Volume
     class OpenStack
       class Real
-
         def create_volume(name, description, size, options={})
           data = {
             'volume' => {
@@ -24,11 +23,9 @@ module Fog
             :path     => "volumes"
           )
         end
-
       end
 
       class Mock
-
         def create_volume(name, description, size, options={})
           response = Excon::Response.new
           response.status = 202
@@ -50,7 +47,6 @@ module Fog
           response
         end
       end
-
     end
   end
 end

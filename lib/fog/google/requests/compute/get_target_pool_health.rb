@@ -1,17 +1,13 @@
 module Fog
   module Compute
     class Google
-
       class Mock
-
         def get_target_pool_health(target_pool)
           Fog::Mock.not_implemented
         end
-
       end
 
       class Real
-
         def get_target_pool_health(target_pool)
           api_method = @compute.target_pools.get_health
           parameters = {
@@ -27,9 +23,7 @@ module Fog
           end
           Hash[health_results]
         end
-
       end
-
     end
   end
 end

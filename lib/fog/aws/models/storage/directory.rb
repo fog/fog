@@ -5,7 +5,6 @@ require 'fog/aws/models/storage/versions'
 module Fog
   module Storage
     class AWS
-
       class Directory < Fog::Model
         VALID_ACLS = ['private', 'public-read', 'public-read-write', 'authenticated-read']
 
@@ -121,9 +120,7 @@ module Fog
           data = service.get_bucket_location(key)
           data.body['LocationConstraint']
         end
-
       end
-
     end
   end
 end

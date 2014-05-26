@@ -2,7 +2,6 @@ module Fog
   module AWS
     class RDS
       class Real
-
         require 'fog/aws/parsers/rds/modify_db_instance'
 
         # modifies a database instance
@@ -29,7 +28,6 @@ module Fog
         # * response<~Excon::Response>:
         #   * body<~Hash>:
         def modify_db_instance(db_name, apply_immediately, options={})
-
           if security_groups = options.delete('DBSecurityGroups')
             options.merge!(Fog::AWS.indexed_param('DBSecurityGroups.member.%d', [*security_groups]))
           end
@@ -45,11 +43,9 @@ module Fog
             :parser   => Fog::Parsers::AWS::RDS::ModifyDBInstance.new,
           }.merge(options))
         end
-
       end
 
       class Mock
-
         def modify_db_instance(db_name, apply_immediately, options={})
           response = Excon::Response.new
           if self.data[:servers][db_name]
@@ -79,7 +75,6 @@ module Fog
             raise Fog::AWS::RDS::NotFound.new("DBInstance #{db_name} not found")
           end
         end
-
       end
     end
   end

@@ -2,9 +2,7 @@ module Fog
   module Parsers
     module Compute
       module AWS
-
         class MonitorUnmonitorInstances < Fog::Parsers::Base
-
           def reset
             @response = {}
             @instance_set = []
@@ -26,9 +24,7 @@ module Fog
               @response['instancesSet'] = @instance_set
             end
           end
-
         end
-
       end
     end
   end

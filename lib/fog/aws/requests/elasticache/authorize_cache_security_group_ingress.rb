@@ -2,7 +2,6 @@ module Fog
   module AWS
     class Elasticache
       class Real
-
         require 'fog/aws/parsers/elasticache/single_security_group'
 
         # Authorize ingress to a CacheSecurityGroup using EC2 Security Groups
@@ -23,11 +22,9 @@ module Fog
             :parser => Fog::Parsers::AWS::Elasticache::SingleSecurityGroup.new
           })
         end
-
       end
 
       class Mock
-
         def authorize_cache_security_group_ingress(name, ec2_name, ec2_owner_id)
           opts = {
             'EC2SecurityGroupName' => ec2_name,
@@ -53,7 +50,6 @@ module Fog
           else
             raise Fog::AWS::Elasticache::NotFound.new("CacheSecurityGroupNotFound => #{name} not found")
           end
-
         end
       end
     end

@@ -3,7 +3,6 @@ require 'fog/hp/core'
 module Fog
   module Storage
     class HP < Fog::Service
-
       requires    :hp_secret_key, :hp_tenant_id, :hp_avl_zone
       recognizes  :hp_auth_uri, :hp_cdn_ssl, :hp_cdn_uri, :credentials, :hp_service_type
       recognizes  :persistent, :connection_options
@@ -47,7 +46,6 @@ module Fog
       request :put_shared_object
 
       module Utils
-
         def cdn
           unless @hp_cdn_uri.nil?
             @cdn ||= Fog::CDN.new(
@@ -293,7 +291,6 @@ module Fog
         def reset_data
           self.class.data.delete(@hp_access_key)
         end
-
       end
 
       class Real
@@ -408,7 +405,6 @@ module Fog
           end
           response
         end
-
       end
     end
   end

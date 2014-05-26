@@ -2,7 +2,6 @@ module Fog
   module Compute
     class AWS
       class Real
-
         require 'fog/aws/parsers/compute/create_volume'
 
         # Create an EBS volume
@@ -43,11 +42,9 @@ module Fog
             :parser             => Fog::Parsers::Compute::AWS::CreateVolume.new
           }.merge(options))
         end
-
       end
 
       class Mock
-
         def create_volume(availability_zone, size, options = {})
           unless options.is_a?(Hash)
             Fog::Logger.deprecation("create_volume with a bare snapshot_id is deprecated, use create_volume(availability_zone, size, 'SnapshotId' => snapshot_id) instead [light_black](#{caller.first})[/]")
@@ -121,7 +118,6 @@ module Fog
           end
           response
         end
-
       end
     end
   end

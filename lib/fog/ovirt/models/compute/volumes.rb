@@ -4,9 +4,7 @@ require 'fog/ovirt/models/compute/volume'
 module Fog
   module Compute
     class Ovirt
-
       class Volumes < Fog::Collection
-
         model Fog::Compute::Ovirt::Volume
 
         attr_accessor :vm
@@ -25,7 +23,6 @@ module Fog
         def get(id)
           new service.get_volume(id)
         end
-
      end
     end
   end

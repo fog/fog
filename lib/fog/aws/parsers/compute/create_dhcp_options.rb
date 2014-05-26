@@ -2,9 +2,7 @@ module Fog
   module Parsers
     module Compute
       module AWS
-
         class CreateDhcpOptions < Fog::Parsers::Base
-
           def reset
             @dhcp_options = { 'dhcpConfigurationSet' => {}, 'tagSet' => {} }
             @response = { 'dhcpOptionsSet' => [] }

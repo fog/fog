@@ -4,7 +4,6 @@ module Fog
   module Compute
     class Ecloud
       class Tasks < Fog::Ecloud::Collection
-
         model Fog::Compute::Ecloud::Task
 
         identity :href

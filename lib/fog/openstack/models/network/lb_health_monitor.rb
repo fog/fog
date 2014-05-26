@@ -61,7 +61,6 @@ module Fog
           service.disassociate_lb_health_monitor(pool_id, self.id)
           true
         end
-
       end
     end
   end

@@ -4,7 +4,6 @@ require 'fog/internet_archive/models/storage/file'
 module Fog
   module Storage
     class InternetArchive
-
       class Files < Fog::Collection
         extend Fog::Deprecation
         deprecate :get_url, :get_https_url
@@ -114,9 +113,7 @@ module Fog
           data.headers['Last-Modified'] = Time.parse(data.get_header('Last-Modified'))
           data.headers['ETag'] = data.get_header('ETag').gsub('"','')
         end
-
       end
-
     end
   end
 end

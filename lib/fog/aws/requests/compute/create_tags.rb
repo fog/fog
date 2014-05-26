@@ -2,7 +2,6 @@ module Fog
   module Compute
     class AWS
       class Real
-
         require 'fog/aws/parsers/compute/basic'
 
         # Adds tags to resources
@@ -35,11 +34,9 @@ module Fog
             :parser     => Fog::Parsers::Compute::AWS::Basic.new
           }.merge!(params))
         end
-
       end
 
       class Mock
-
         def create_tags(resources, tags)
           resources = [*resources]
 
@@ -81,9 +78,7 @@ module Fog
           }
           response
         end
-
       end
-
     end
   end
 end

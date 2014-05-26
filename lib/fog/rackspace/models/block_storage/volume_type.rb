@@ -4,7 +4,6 @@ module Fog
   module Rackspace
     class BlockStorage
       class VolumeType < Fog::Model
-
         # @!attribute [r] id
         # @return [String] The volume type id
         identity :id

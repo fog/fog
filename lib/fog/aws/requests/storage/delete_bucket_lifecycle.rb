@@ -2,7 +2,6 @@ module Fog
   module Storage
     class AWS
       class Real
-
         # Delete lifecycle configuration for a bucket
         #
         # @param bucket_name [String] name of bucket to delete lifecycle configuration from

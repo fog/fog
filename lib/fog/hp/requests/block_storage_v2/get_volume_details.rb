@@ -2,7 +2,6 @@ module Fog
   module HP
     class BlockStorageV2
       class Real
-
         # Get details for existing block storage volume
         #
         # ==== Parameters
@@ -32,11 +31,9 @@ module Fog
           )
           response
         end
-
       end
 
       class Mock  # :nodoc:all
-
         def get_volume_details(volume_id)
           unless volume_id
             raise ArgumentError.new('volume_id is required')
@@ -49,10 +46,8 @@ module Fog
           else
             raise Fog::HP::BlockStorageV2::NotFound
           end
-
         end
       end
-
     end
   end
 end

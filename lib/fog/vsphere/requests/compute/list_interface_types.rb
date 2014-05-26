@@ -10,6 +10,7 @@ module Fog
             interface_type_attributes(nictype, servertype_name, datacenter_name)
           end.compact
         end
+
         def interface_type_attributes(nic, servertype, datacenter)
           {
             :id => nic,

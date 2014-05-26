@@ -1,7 +1,6 @@
 module Fog
   module HP
     class Network
-
       class Real
         # Get details for an existing router by id
         #
@@ -40,7 +39,6 @@ module Fog
           end
         end
       end
-
     end
   end
 end

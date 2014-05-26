@@ -2,7 +2,6 @@ module Fog
   module HP
     class BlockStorageV2
       class Real
-
         # Delete an existing block storage volume
         #
         # ==== Parameters
@@ -16,11 +15,9 @@ module Fog
           )
           response
         end
-
       end
 
       class Mock # :nodoc:all
-
         def delete_volume(volume_id)
           response = Excon::Response.new
           if self.data[:volumes][volume_id]
@@ -32,7 +29,6 @@ module Fog
           response
         end
       end
-
     end
   end
 end

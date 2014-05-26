@@ -1,6 +1,5 @@
 
 class TerremarkParser < Fog::Parsers::Base
-
   def extract_attributes(attributes_xml)
     attributes = {}
     until attributes_xml.empty?

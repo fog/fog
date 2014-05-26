@@ -2,9 +2,7 @@ module Fog
   module Metering
     class OpenStack
       class Real
-
         def get_samples(meter_id, options=[])
-
           data = {
             'q' => Array.new
           }
@@ -26,11 +24,9 @@ module Fog
             :path     => "meters/#{meter_id}"
           )
         end
-
       end
 
       class Mock
-
         def get_samples(meter_id)
           response = Excon::Response.new
           response.status = 200
@@ -49,7 +45,6 @@ module Fog
           response
         end
       end
-
     end
   end
 end

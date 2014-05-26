@@ -4,9 +4,7 @@ require 'fog/vsphere/models/compute/network'
 module Fog
   module Compute
     class Vsphere
-
       class Networks < Fog::Collection
-
         model Fog::Compute::Vsphere::Network
         attr_accessor :datacenter
 

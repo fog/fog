@@ -4,9 +4,7 @@ require 'fog/google/models/compute/server'
 module Fog
   module Compute
     class Google
-
       class Servers < Fog::Collection
-
         model Fog::Compute::Google::Server
 
         def all(filters={})

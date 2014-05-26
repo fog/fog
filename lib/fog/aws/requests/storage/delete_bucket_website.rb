@@ -2,7 +2,6 @@ module Fog
   module Storage
     class AWS
       class Real
-
         # Delete website configuration for a bucket
         #
         # @param bucket_name [String] name of bucket to delete website configuration from
@@ -21,9 +20,7 @@ module Fog
             :query    => {'website' => nil}
           })
         end
-
       end
-
     end
   end
 end

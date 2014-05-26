@@ -1,7 +1,6 @@
 class AWS
   module Elasticache
     module Formats
-
       BASIC = {
         'ResponseMetadata' => {'RequestId' => String}
       }

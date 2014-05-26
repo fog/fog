@@ -2,9 +2,7 @@ module Fog
   module Parsers
     module AWS
       module EMR
-
         class DescribeJobFlows < Fog::Parsers::Base
-
           def reset
             @context = []
             @contexts = ['BootstrapActions', 'ExecutionStatusDetail', 'Instances', 'Steps', 'InstanceGroups', 'Args']
@@ -133,7 +131,6 @@ module Fog
             end
           end
         end
-
       end
     end
   end

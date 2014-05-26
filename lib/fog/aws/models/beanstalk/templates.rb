@@ -4,7 +4,6 @@ require 'fog/aws/models/beanstalk/template'
 module Fog
   module AWS
     class ElasticBeanstalk
-
       class Templates < Fog::Collection
         model Fog::AWS::ElasticBeanstalk::Template
 
@@ -63,7 +62,6 @@ module Fog
           end
             result
         end
-
       end
     end
   end

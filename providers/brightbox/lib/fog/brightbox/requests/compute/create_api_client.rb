@@ -16,7 +16,6 @@ module Fog
         def create_api_client(options)
           wrapped_request("post", "/1.0/api_clients", [201], options)
         end
-
       end
     end
   end

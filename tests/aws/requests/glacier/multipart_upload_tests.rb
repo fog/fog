@@ -10,7 +10,6 @@ Shindo.tests('AWS::Glacier | glacier archive tests', ['aws']) do
     returns(false){ Fog::AWS[:glacier].list_multipart_uploads('Fog-Test-Vault-upload').body['UploadsList'].collect {|item| item['MultipartUploadId']}.include?(id)}
   end
 
-
   tests('do multipart upload') do
     hash = Fog::AWS::Glacier::TreeHash.new
     id = Fog::AWS[:glacier].initiate_multipart_upload('Fog-Test-Vault-upload', 1024*1024).headers['x-amz-multipart-upload-id']

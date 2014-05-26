@@ -1,7 +1,6 @@
 module Fog
   module Compute
     class Google
-
       class Mock
         def delete_route(identity)
           Fog::Mock.not_implemented
@@ -20,7 +19,6 @@ module Fog
           response = self.build_response(result)
         end
       end
-
     end
   end
 end

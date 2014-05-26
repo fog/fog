@@ -5,7 +5,6 @@ require 'ipaddr'
 module Fog
   module DNS
     class Rackspace
-
       class Record < Fog::Model
         include Fog::DNS::Rackspace::Callback
         extend Fog::Deprecation
@@ -93,7 +92,6 @@ module Fog
         def zone=(new_zone)
           @zone = new_zone
         end
-
       end
     end
   end

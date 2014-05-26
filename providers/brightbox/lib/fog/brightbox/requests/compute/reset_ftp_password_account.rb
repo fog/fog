@@ -2,7 +2,6 @@ module Fog
   module Compute
     class Brightbox
       class Real
-
         # Reset the image library ftp password for the account.
         #
         # @note The response is the only time the new password is available in plaintext.
@@ -25,7 +24,6 @@ module Fog
             wrapped_request("post", "/1.0/accounts/#{identifier}/reset_ftp_password", [200])
           end
         end
-
       end
     end
   end

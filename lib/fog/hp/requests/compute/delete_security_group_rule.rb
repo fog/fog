@@ -2,7 +2,6 @@ module Fog
   module Compute
     class HP
       class Real
-
         # Delete a security group rule
         #
         # ==== Parameters
@@ -16,11 +15,9 @@ module Fog
             :path     => "os-security-group-rules/#{security_group_rule_id}"
           )
         end
-
       end
 
       class Mock
-
         def delete_security_group_rule(security_group_rule_id)
           response = Excon::Response.new
 
@@ -40,9 +37,7 @@ module Fog
           else
             raise Fog::Compute::HP::NotFound
           end
-
         end
-
       end
     end
   end

@@ -13,7 +13,6 @@ module Fog
             builder.Description(node_data[:description])
           }
         end
-
       end
 
       class Real
@@ -31,7 +30,6 @@ module Fog
             :parse    => true
           )
         end
-
       end
     end
   end

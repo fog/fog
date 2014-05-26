@@ -56,11 +56,9 @@ module Fog
       collection  :versions
 
       class Mock
-
         def initialize(options={})
           Fog::Mock.not_implemented
         end
-
       end
 
       class Real
@@ -140,11 +138,8 @@ module Fog
                     Fog::AWS::ElasticBeanstalk::Error.slurp(error, "#{match[:code]} => #{match[:message]}")
                   end
           end
-
         end
       end
-
-
     end
   end
 end

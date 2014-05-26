@@ -3,7 +3,6 @@ require 'fog/hp/core'
 module Fog
   module HP
     class Network < Fog::Service
-
       requires    :hp_access_key, :hp_secret_key, :hp_tenant_id, :hp_avl_zone
       recognizes  :hp_auth_uri, :credentials, :hp_service_type
       recognizes  :persistent, :connection_options
@@ -66,7 +65,6 @@ module Fog
       request :update_subnet
 
       module Utils
-
       end
 
       class Mock
@@ -113,7 +111,6 @@ module Fog
         def reset_data
           self.class.data.delete(@hp_access_key)
         end
-
       end
 
       class Real
@@ -189,9 +186,7 @@ module Fog
           end
           response
         end
-
       end
-
     end
   end
 end

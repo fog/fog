@@ -2,9 +2,7 @@ module Fog
   module Parsers
     module AWS
       module CloudWatch
-
         class ListMetrics < Fog::Parsers::Base
-
           def reset
             @response = { 'ListMetricsResult' => {'Metrics' => []}, 'ResponseMetadata' => {} }
             reset_metric

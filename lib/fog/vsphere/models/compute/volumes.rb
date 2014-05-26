@@ -4,9 +4,7 @@ require 'fog/vsphere/models/compute/volume'
 module Fog
   module Compute
     class Vsphere
-
       class Volumes < Fog::Collection
-
         attribute :server
 
         model Fog::Compute::Vsphere::Volume
@@ -41,7 +39,6 @@ module Fog
             super
           end
         end
-
      end
     end
   end

@@ -1,7 +1,6 @@
 module Fog
   module Storage
     class InternetArchive
-
       require 'fog/internet_archive/parsers/storage/cors_configuration'
 
       private
@@ -35,7 +34,6 @@ module Fog
           Nokogiri::XML::SAX::Parser.new(parser).parse(cors_xml)
           parser.response
         end
-
     end
   end
 end

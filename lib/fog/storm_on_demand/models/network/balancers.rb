@@ -4,9 +4,7 @@ require 'fog/storm_on_demand/models/network/balancer'
 module Fog
   module Network
     class StormOnDemand
-
       class Balancers < Fog::Collection
-
         model Fog::Network::StormOnDemand::Balancer
 
         def all(options={})
@@ -36,9 +34,7 @@ module Fog
         def strategies
           service.get_balancer_strategies.body['strategies']
         end
-
       end
-
     end
   end
 end

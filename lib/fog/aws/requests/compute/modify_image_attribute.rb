@@ -2,7 +2,6 @@ module Fog
   module Compute
     class AWS
       class Real
-
         require 'fog/aws/parsers/compute/basic'
 
         # Modify image attributes
@@ -35,11 +34,9 @@ module Fog
             :parser         => Fog::Parsers::Compute::AWS::Basic.new
           }.merge!(params))
         end
-
       end
 
       class Mock
-
         def modify_image_attribute(image_id, attributes)
           raise ArgumentError.new("image_id is required") unless image_id
 
@@ -67,7 +64,6 @@ module Fog
           }
           response
         end
-
       end
     end
   end

@@ -2,7 +2,6 @@ module Fog
   module Compute
     class AWS
       class Real
-
         require 'fog/aws/parsers/compute/run_instances'
 
         # Launch specified instances
@@ -146,11 +145,9 @@ module Fog
             :parser     => Fog::Parsers::Compute::AWS::RunInstances.new
           }.merge!(options))
         end
-
       end
 
       class Mock
-
         def run_instances(image_id, min_count, max_count, options = {})
           response = Excon::Response.new
           response.status = 200
@@ -270,7 +267,6 @@ module Fog
           }
           response
         end
-
       end
     end
   end

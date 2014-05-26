@@ -2,7 +2,6 @@ module Fog
   module Compute
     class Bluebox
       class Real
-
         # Create a template from block
         #
         # ==== Parameters
@@ -20,7 +19,6 @@ module Fog
             :query    => {'id' => block_id}.merge!(options)
           )
         end
-
       end
     end
   end

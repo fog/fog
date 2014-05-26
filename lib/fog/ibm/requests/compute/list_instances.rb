@@ -2,7 +2,6 @@ module Fog
   module Compute
     class IBM
       class Real
-
         # Returns list of instances that the authenticated user manages.
         #
         # ==== Parameters
@@ -39,18 +38,15 @@ module Fog
             :path     => '/instances'
           )
         end
-
       end
 
       class Mock
-
         def list_instances
           response = Excon::Response.new
           response.status = 200
           response.body = { 'instances' => self.data[:instances].values }
           response
         end
-
       end
     end
   end

@@ -55,7 +55,6 @@ Shindo.tests("Fog::AWS[:beanstalk] | versions", ['aws', 'beanstalk']) do
 
   end
 
-
   # delete application
   @application.destroy
 end

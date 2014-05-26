@@ -12,7 +12,6 @@ module Fog
         def list_users
           wrapped_request("get", "/1.0/users", [200])
         end
-
       end
     end
   end

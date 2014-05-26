@@ -3,9 +3,7 @@ require 'fog/core/model'
 module Fog
   module Compute
     class AWS
-
       class RouteTable < Fog::Model
-
         identity :id,                :aliases => 'routeTableId'
 
         attribute :vpc_id,           :aliases => 'vpcId'
@@ -62,7 +60,6 @@ module Fog
         def routeSet=(new_route_set)
           merge_attributes(new_route_set || {})
         end
-
       end
     end
   end

@@ -2,10 +2,8 @@ module Fog
   module Parsers
     module AWS
       module ElasticBeanstalk
-
         require 'fog/aws/parsers/beanstalk/parser'
         class DescribeEnvironments < Fog::Parsers::AWS::ElasticBeanstalk::BaseParser
-
           def initialize
             super("DescribeEnvironmentsResult")
             tag 'Environments', :object, :list
@@ -30,7 +28,6 @@ module Fog
             tag 'TemplateName', :string
             tag 'VersionLabel', :string
           end
-
         end
       end
     end

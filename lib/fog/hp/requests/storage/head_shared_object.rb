@@ -2,7 +2,6 @@ module Fog
   module Storage
     class HP
       class Real
-
         # Get headers for shared object
         #
         # ==== Parameters
@@ -20,20 +19,16 @@ module Fog
           }, false)
           response
         end
-
       end
 
       class Mock # :nodoc:all
-
         def head_shared_object(shared_object_url)
           response = get_shared_object(shared_object_url)
           response.body = nil
           response.status = 200
           response
         end
-
       end
-
     end
   end
 end

@@ -2,7 +2,6 @@ module Fog
   module Compute
     class AWS
       class Real
-
         require 'fog/aws/parsers/compute/describe_network_interfaces'
 
         # Describe all or specified network interfaces
@@ -63,9 +62,7 @@ module Fog
         end
       end
 
-
       class Mock
-
         def describe_network_interfaces(filters = {})
           response = Excon::Response.new
 
@@ -82,7 +79,6 @@ module Fog
           }
           response
         end
-
       end
     end
   end

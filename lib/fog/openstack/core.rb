@@ -94,7 +94,6 @@ module Fog
       endpoint_type         = (options[:openstack_endpoint_type] || 'publicURL').to_s
       openstack_region      = options[:openstack_region]
 
-
       body = retrieve_tokens_v2(options, connection_options)
       service = get_service(body, service_type, service_name)
 
@@ -166,7 +165,6 @@ module Fog
         :current_user_id          => body['access']['user']['id'],
         :unscoped_token           => options[:unscoped_token]
       }
-
     end
 
     def self.get_service(body, service_type=[], service_name=nil)
@@ -245,6 +243,5 @@ module Fog
         '%' + $1.unpack('H2' * $1.bytesize).join('%').upcase
       end
     end
-
   end
 end

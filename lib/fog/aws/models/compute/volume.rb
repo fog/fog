@@ -3,9 +3,7 @@ require 'fog/core/model'
 module Fog
   module Compute
     class AWS
-
       class Volume < Fog::Model
-
         identity  :id,                    :aliases => 'volumeId'
 
         attribute :attached_at,           :aliases => 'attachTime'
@@ -122,7 +120,6 @@ module Fog
             reload
           end
         end
-
       end
     end
   end

@@ -2,7 +2,6 @@ module Fog
   module Compute
     class Clodo
       class Real
-
         # Bye new IP-address for specified server
         # ==== Paramaters
         # * server_id<~Integer> - Id of server to bye IP for
@@ -22,7 +21,6 @@ module Fog
 
       class Mock
         def add_ip_address(server_id)
-
           raise Excon::Errors::BadRequest.new(
                                               "Invalid image ID"
                                               ) unless server_id > 0

@@ -2,7 +2,6 @@ module Fog
   module Compute
     class RackspaceV2
       class Real
-
         # Returns a list of all key pairs associated with an account.
         # @return  [Excon::Response] response :
         #   * body [Hash]: -
@@ -31,7 +30,6 @@ module Fog
                       :body   => { 'keypairs' => self.data[:keypairs] })
         end
       end
-
     end
   end
 end

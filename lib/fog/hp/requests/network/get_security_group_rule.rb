@@ -2,7 +2,6 @@ module Fog
   module HP
     class Network
       class Real
-
         # Get details about a security group rule
         #
         # ==== Parameters
@@ -29,11 +28,9 @@ module Fog
             :path     => "security-group-rules/#{security_group_rule_id}"
           )
         end
-
       end
 
       class Mock
-
         def get_security_group_rule(security_group_rule_id)
           response = Excon::Response.new
           if sec_group_rule = self.data[:security_group_rules][security_group_rule_id]
@@ -44,7 +41,6 @@ module Fog
             raise Fog::HP::Network::NotFound
           end
         end
-
       end
     end
   end

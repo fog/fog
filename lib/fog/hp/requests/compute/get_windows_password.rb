@@ -2,7 +2,6 @@ module Fog
   module Compute
     class HP
       class Real
-
         # Retrieves the encrypted administrator password for a server running Windows.
         #
         # ==== Parameters
@@ -17,11 +16,9 @@ module Fog
           # decrypt the log output to extract the encrypted, base64-encoded password
           encrypted_password = extract_password_from_log(log_output)
         end
-
       end
 
       class Mock
-
         def get_windows_password(server_id)
           # need to mock out the private key as well
           private_key = OpenSSL::PKey::RSA.generate(1024)

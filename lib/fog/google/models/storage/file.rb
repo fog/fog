@@ -3,9 +3,7 @@ require 'fog/core/model'
 module Fog
   module Storage
     class Google
-
       class File < Fog::Model
-
         identity  :key,             :aliases => 'Key'
 
         attribute :cache_control,       :aliases => 'Cache-Control'
@@ -140,9 +138,7 @@ module Fog
         def directory=(new_directory)
           @directory = new_directory
         end
-
       end
-
     end
   end
 end

@@ -2,7 +2,6 @@ module Fog
   module Storage
     class Google
       class Real
-
         require 'fog/google/parsers/storage/get_service'
 
         # List information about Google Storage buckets for authorized user
@@ -27,11 +26,9 @@ module Fog
             :url      => @host
           })
         end
-
       end
 
       class Mock
-
         def get_service
           response = Excon::Response.new
           response.headers['Status'] = 200
@@ -46,7 +43,6 @@ module Fog
           }
           response
         end
-
       end
     end
   end

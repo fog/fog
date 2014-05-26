@@ -46,7 +46,6 @@ module Fog
            'names'      =>  ['/boring_engelbert']
           }
         end
-
       end
     end
   end

@@ -1,7 +1,6 @@
 class VcloudDirector
   module Compute
     module Schema
-
       # Mapping of a content media type to a xsd complex type.
       MEDIA_TYPE_MAPPING_TYPE = {
         :MediaType => String,
@@ -381,7 +380,6 @@ class VcloudDirector
         :Asny => Fog::Nullable::String,
         :Other => Fog::Nullable::String
       }
-
 
       # Represents a firewall rule.
       FIREWALL_RULE_TYPE = {

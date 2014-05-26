@@ -2,7 +2,6 @@ module Fog
   module Compute
     class Voxel
       class Real
-
         require 'fog/voxel/parsers/compute/images_list'
 
         def images_list(image_id = nil)
@@ -25,7 +24,6 @@ module Fog
           end
         end
       end
-
     end
   end
 end

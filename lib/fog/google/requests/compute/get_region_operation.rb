@@ -1,13 +1,10 @@
 module Fog
   module Compute
     class Google
-
       class Mock
-
         def get_region_operation(region_name, operation)
           Fog::Mock.not_implemented
         end
-
       end
 
       class Real
@@ -28,9 +25,7 @@ module Fog
           result = self.build_result(api_method, parameters)
           response = self.build_response(result)
         end
-
       end
-
     end
   end
 end

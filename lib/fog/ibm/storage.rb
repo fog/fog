@@ -3,7 +3,6 @@ require 'fog/ibm/core'
 module Fog
   module Storage
     class IBM < Fog::Service
-
       requires :ibm_username, :ibm_password
       recognizes :location
 
@@ -42,11 +41,9 @@ module Fog
             end
           end
         end
-
       end
 
       class Mock
-
         def self.data
           @data ||= Hash.new do |hash, key|
             hash[key] = {
@@ -73,9 +70,7 @@ module Fog
           @ibm_password = options[:ibm_password]
           @data = self.class.data[@ibm_username]
         end
-
       end
-
     end
   end
 end

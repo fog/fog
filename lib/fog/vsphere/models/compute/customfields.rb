@@ -4,9 +4,7 @@ require 'fog/vsphere/models/compute/customfield'
 module Fog
   module Compute
     class Vsphere
-
       class Customfields < Fog::Collection
-
         model Fog::Compute::Vsphere::Customfield
 
         attr_accessor :vm
@@ -20,7 +18,6 @@ module Fog
             cv.key == ((key.is_a? String) ? key.to_i : key)
           end
         end
-
      end
     end
   end

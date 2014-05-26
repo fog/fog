@@ -2,9 +2,7 @@ module Fog
   module Parsers
     module Terremark
       module Shared
-
         class NodeService < TerremarkParser
-
           def reset
             @response = {}
           end
@@ -23,9 +21,7 @@ module Fog
               @response[name] = value.to_i
             end
           end
-
         end
-
       end
     end
   end

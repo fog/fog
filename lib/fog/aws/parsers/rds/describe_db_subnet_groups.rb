@@ -2,11 +2,9 @@ module Fog
   module Parsers
     module AWS
       module RDS
-
         require 'fog/aws/parsers/rds/subnet_group_parser'
 
         class DescribeDBSubnetGroups < Fog::Parsers::AWS::RDS::SubnetGroupParser
-
           def reset
             @response = { 'DescribeDBSubnetGroupsResult' => {'DBSubnetGroups' => []}, 'ResponseMetadata' => {} }
             super
@@ -28,9 +26,7 @@ module Fog
             else
               super
             end
-
           end
-
         end
       end
     end

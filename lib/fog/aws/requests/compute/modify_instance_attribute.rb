@@ -2,7 +2,6 @@ module Fog
   module Compute
     class AWS
       class Real
-
         require 'fog/aws/parsers/compute/basic'
 
         # Modify instance attributes
@@ -37,7 +36,6 @@ module Fog
           Fog::Logger.deprecation("modify_instance_attributes method is deprecated, use 'modify_instance_attribute' instead")
           modify_instance_attribute(instance_id, attributes)
         end
-
       end
     end
   end

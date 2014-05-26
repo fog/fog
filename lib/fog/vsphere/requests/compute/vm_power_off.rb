@@ -2,7 +2,6 @@ module Fog
   module Compute
     class Vsphere
       class Real
-
         def vm_power_off(options = {})
           options = { 'force' => false }.merge(options)
           raise ArgumentError, "instance_uuid is a required parameter" unless options.has_key? 'instance_uuid'
@@ -22,11 +21,9 @@ module Fog
             }
           end
         end
-
       end
 
       class Mock
-
         def vm_power_off(options = {})
           raise ArgumentError, "instance_uuid is a required parameter" unless options.has_key? 'instance_uuid'
           vm = get_virtual_machine(options['instance_uuid'])
@@ -36,7 +33,6 @@ module Fog
             'power_off_type' => options['force'] ? 'cut_power' : 'shutdown_guest',
           }
         end
-
       end
     end
   end

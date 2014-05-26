@@ -2,7 +2,6 @@ module Fog
   module Compute
     class AWS
       class Real
-
         require 'fog/aws/parsers/compute/describe_instances'
 
         # Describe all or specified instances
@@ -75,11 +74,9 @@ module Fog
             :parser     => Fog::Parsers::Compute::AWS::DescribeInstances.new
           }.merge!(params))
         end
-
       end
 
       class Mock
-
         def describe_instances(filters = {})
           unless filters.is_a?(Hash)
             Fog::Logger.deprecation("describe_instances with #{filters.class} param is deprecated, use describe_instances('instance-id' => []) instead [light_black](#{caller.first})[/]")
@@ -249,7 +246,6 @@ module Fog
           }
           response
         end
-
       end
     end
   end

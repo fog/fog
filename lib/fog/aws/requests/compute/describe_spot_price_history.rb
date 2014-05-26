@@ -2,7 +2,6 @@ module Fog
   module Compute
     class AWS
       class Real
-
         require 'fog/aws/parsers/compute/describe_spot_price_history'
 
         # Describe all or specified spot price history
@@ -30,7 +29,6 @@ module Fog
             :parser     => Fog::Parsers::Compute::AWS::DescribeSpotPriceHistory.new
           }.merge!(params))
         end
-
       end
     end
   end

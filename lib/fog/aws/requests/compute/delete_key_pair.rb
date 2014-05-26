@@ -2,7 +2,6 @@ module Fog
   module Compute
     class AWS
       class Real
-
         require 'fog/aws/parsers/compute/basic'
 
         # Delete a key pair that you own
@@ -25,11 +24,9 @@ module Fog
             :parser     => Fog::Parsers::Compute::AWS::Basic.new
           )
         end
-
       end
 
       class Mock
-
         def delete_key_pair(key_name)
           response = Excon::Response.new
           self.data[:key_pairs].delete(key_name)
@@ -40,7 +37,6 @@ module Fog
           }
           response
         end
-
       end
     end
   end

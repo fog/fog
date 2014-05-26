@@ -71,7 +71,6 @@ module Fog
         def request(options)
           raise "Atmos Storage mocks not implemented"
         end
-
       end
 
       class Real
@@ -179,7 +178,6 @@ module Fog
           end
           response
         end
-
       end
     end
   end

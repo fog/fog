@@ -2,9 +2,7 @@ module Fog
   module Parsers
     module Terremark
       module Shared
-
         class Network < TerremarkParser
-
           def reset
             @response = {
               "links" => []
@@ -34,9 +32,7 @@ module Fog
               @response[name.downcase] = value
             end
           end
-
         end
-
       end
     end
   end

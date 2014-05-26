@@ -4,9 +4,7 @@ require 'fog/dnsmadeeasy/models/dns/zone'
 module Fog
   module DNS
     class DNSMadeEasy
-
       class Zones < Fog::Collection
-
         model Fog::DNS::DNSMadeEasy::Zone
 
         def all
@@ -22,9 +20,7 @@ module Fog
         rescue Fog::Service::NotFound
           nil
         end
-
       end
-
     end
   end
 end

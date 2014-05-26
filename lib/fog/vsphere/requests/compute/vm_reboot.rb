@@ -2,7 +2,6 @@ module Fog
   module Compute
     class Vsphere
       class Real
-
         def vm_reboot(options = {})
           options = { 'force' => false }.merge(options)
           raise ArgumentError, "instance_uuid is a required parameter" unless options.has_key? 'instance_uuid'
@@ -19,16 +18,13 @@ module Fog
             { 'task_state' => "running", 'reboot_type' => 'reboot_guest' }
           end
         end
-
       end
 
       class Mock
-
         def vm_reboot(options = {})
           raise ArgumentError, "instance_uuid is a required parameter" unless options.has_key? 'instance_uuid'
           { 'task_state'     => "running", 'reboot_type' => options['force'] ? 'reset_power' : 'reboot_guest' }
         end
-
       end
     end
   end

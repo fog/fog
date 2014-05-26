@@ -2,7 +2,6 @@ module Fog
   module AWS
     class CloudWatch
       class Real
-
         require 'fog/aws/parsers/cloud_watch/put_metric_data'
 
         # Publishes one or more data points to CloudWatch. A new metric is created if necessary

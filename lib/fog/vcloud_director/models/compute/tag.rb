@@ -3,9 +3,7 @@ require 'fog/core/model'
 module Fog
   module Compute
     class VcloudDirector
-
       class Tag < Model
-
         identity  :id
         attribute :value
 
@@ -27,7 +25,6 @@ module Fog
         def vm
           attributes[:vm]
         end
-
       end
     end
   end

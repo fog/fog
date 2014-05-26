@@ -63,7 +63,6 @@ module Fog
         #</OrgNetwork>
         #
         class VmNetwork < VcloudDirectorParser
-
           def reset
             @response = { }
           end
@@ -101,7 +100,6 @@ module Fog
               @response[:ip_address_allocation_mode] = value
             end
           end
-
         end
       end
     end

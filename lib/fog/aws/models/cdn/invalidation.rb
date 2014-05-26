@@ -3,9 +3,7 @@ require 'fog/core/model'
 module Fog
   module CDN
     class AWS
-
       class Invalidation < Fog::Model
-
         identity :id,                :aliases => 'Id'
 
         attribute :status,           :aliases => 'Status'
@@ -56,9 +54,7 @@ module Fog
           end
           new_attributes
         end
-
       end
-
     end
   end
 end

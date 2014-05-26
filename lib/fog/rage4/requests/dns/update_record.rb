@@ -2,7 +2,6 @@ module Fog
   module DNS
     class Rage4
       class Real
-
         # Updates an existing record
         # ==== Parameters
         # * record_id <~Integer> The id of the record you wish to update
@@ -26,12 +25,9 @@ module Fog
         #      * 'id'<~Integer>
         #      * 'error'<~String>
 
-
 # https://secure.rage4.com/rapi/createrecord/
 
-
         def update_record(record_id, name, content, type, options = {})
-
           path = "/rapi/updaterecord/#{record_id}"
           path << "?name=#{name}&content=#{content}&type=#{type}"
 
@@ -57,10 +53,7 @@ module Fog
                   :path     => path
           )
         end
-
       end
-
-
     end
   end
 end

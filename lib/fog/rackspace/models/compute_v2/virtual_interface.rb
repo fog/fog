@@ -5,7 +5,6 @@ module Fog
   module Compute
     class RackspaceV2
       class VirtualInterface < Fog::Model
-
         # @!attribute [r] id
         # @return [String] The virtual interface id
         identity :id
@@ -80,7 +79,6 @@ module Fog
         def network_id
           attributes[:network].is_a?(Network) ? attributes[:network].id : attributes[:network]
         end
-
       end
     end
   end

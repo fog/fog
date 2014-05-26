@@ -1,6 +1,5 @@
 class Rage4 < Fog::Bin
   class << self
-
     def class_for(key)
       case key
       when :dns
@@ -26,6 +25,5 @@ class Rage4 < Fog::Bin
     def services
       Fog::Rage4.services
     end
-
   end
 end

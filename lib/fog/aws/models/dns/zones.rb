@@ -4,9 +4,7 @@ require 'fog/aws/models/dns/zone'
 module Fog
   module DNS
     class AWS
-
       class Zones < Fog::Collection
-
         attribute :marker,    :aliases => 'Marker'
         attribute :max_items, :aliases => 'MaxItems'
 
@@ -25,9 +23,7 @@ module Fog
         rescue Excon::Errors::NotFound
           nil
         end
-
       end
-
     end
   end
 end

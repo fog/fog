@@ -4,9 +4,7 @@ require 'fog/core/model'
 module Fog
   module Storage
     class Local
-
       class File < Fog::Model
-
         identity  :key,             :aliases => 'Key'
 
         attribute :content_length,  :aliases => 'Content-Length', :type => :integer
@@ -126,9 +124,7 @@ module Fog
         def path
           service.path_to(::File.join(directory.key, key))
         end
-
       end
-
     end
   end
 end

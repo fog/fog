@@ -79,7 +79,6 @@ module Fog
       model :pricing
       request :get_pricing
 
-
       module CommonMockAndReal
         def initialize(options={})
           @init_options = options
@@ -107,7 +106,6 @@ module Fog
         def currency
           # Cache since currency does not change
           @currency ||= profile.currency
-
         end
 
         def pricing
@@ -181,7 +179,6 @@ module Fog
 
           Pricing.new(Hash[current_pricing_pairs])
         end
-
       end
 
       class Mock
@@ -216,10 +213,7 @@ module Fog
         include Collections
         include CommonMockAndReal
         include Fog::CloudSigma::CloudSigmaConnection::Real
-
       end
-
     end
   end
-
 end

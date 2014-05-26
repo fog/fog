@@ -1,9 +1,7 @@
 module Fog
   module Rackspace
     class Queues
-
       class Real
-
         # This operation immediately deletes the specified message.
         # @note If you do not specify claim_id, but the message is claimed, the operation fails. You can only delete claimed messages by providing an appropriate claim_id.
         #
@@ -27,7 +25,6 @@ module Fog
             :query => query
           )
         end
-
       end
 
       class Mock
@@ -60,7 +57,6 @@ module Fog
           response
         end
       end
-
     end
   end
 end

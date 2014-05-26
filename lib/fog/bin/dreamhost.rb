@@ -1,6 +1,5 @@
 class Dreamhost < Fog::Bin
   class << self
-
     def class_for(key)
       case key
       when :dns
@@ -26,6 +25,5 @@ class Dreamhost < Fog::Bin
     def services
       Fog::Dreamhost.services
     end
-
   end
 end

@@ -19,7 +19,6 @@ module Fog
         def create_firewall_policy(options)
           wrapped_request("post", "/1.0/firewall_policies", [201], options)
         end
-
       end
     end
   end

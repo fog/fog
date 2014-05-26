@@ -25,7 +25,6 @@ module Fog
             when :name
               client.lookup_interface_by_name(filter[:name])
           end
-
         end
 
         def interface_to_attributes(net)
@@ -36,7 +35,6 @@ module Fog
             :active => net.active?
           }
         end
-
       end
 
       class Mock

@@ -2,7 +2,6 @@ module Fog
   module AWS
     class CloudWatch
       class Real
-
         require 'fog/aws/parsers/cloud_watch/list_metrics'
 
         # List availabe metrics
@@ -31,7 +30,6 @@ module Fog
               :parser     => Fog::Parsers::AWS::CloudWatch::ListMetrics.new
             }.merge(options))
         end
-
       end
 
       class Mock
@@ -59,7 +57,6 @@ module Fog
           end
         end
       end
-
     end
   end
 end

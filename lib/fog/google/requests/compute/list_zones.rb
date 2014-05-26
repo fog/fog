@@ -1,9 +1,7 @@
 module Fog
   module Compute
     class Google
-
       class Mock
-
         def list_zones
           zones = self.data[:zones].values
           build_response(:body => {
@@ -13,11 +11,9 @@ module Fog
             "items" => zones
           })
         end
-
       end
 
       class Real
-
         def list_zones
           api_method = @compute.zones.list
           parameters = {
@@ -27,9 +23,7 @@ module Fog
           result = self.build_result(api_method, parameters)
           response = self.build_response(result)
         end
-
       end
-
     end
   end
 end

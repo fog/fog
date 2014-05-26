@@ -2,7 +2,6 @@ module Fog
   module Compute
     class IBM
       class Real
-
         # Get an instance's logs
         #
         # ==== Returns
@@ -18,7 +17,6 @@ module Fog
                          (start_index ? "?startIndex=#{start_index}" : '')
           )
         end
-
       end
     end
   end

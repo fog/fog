@@ -2,7 +2,6 @@ module Fog
   module Parsers
     module Redshift
       module AWS
-
         class ClusterSnapshotParser < Fog::Parsers::Base
           # :snapshot_identifier - (String)
           # :cluster_identifier - (String)

@@ -3,7 +3,6 @@ require 'fog/core/model'
 module Fog
   module Network
     class StormOnDemand
-
       class Pool < Fog::Model
         identity :uniq_id
         attribute :accnt
@@ -25,7 +24,6 @@ module Fog
           requires :identity
           service.update_pool({:uniq_id => identity}.merge!(options))
         end
-
       end
     end
   end

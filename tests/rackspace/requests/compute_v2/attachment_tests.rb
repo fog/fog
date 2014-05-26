@@ -24,7 +24,6 @@ Shindo.tests('Fog::Compute::RackspaceV2 | attachment_tests', ['rackspace']) do
   volume_id = block_storage_service.create_volume(100).body['volume']['id']
   device_id = '/dev/xvde'
 
-
   tests('success') do
     wait_for_request("Waiting for server to become ready") do
       compute_service.get_server(server_id).body['server']['status'] == 'ACTIVE'

@@ -2,7 +2,6 @@ module Fog
   module Compute
     class AWS
       class Real
-
         require 'fog/aws/parsers/compute/create_internet_gateway'
 
         # Creates an InternetGateway

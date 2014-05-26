@@ -1,7 +1,6 @@
 module Fog
   module HP
     class Network
-
       class Real
         # Update an existing router by id
         #
@@ -56,7 +55,6 @@ module Fog
           end
         end
       end
-
     end
   end
 end

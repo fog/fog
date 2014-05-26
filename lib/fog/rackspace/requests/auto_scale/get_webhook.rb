@@ -1,9 +1,7 @@
 module Fog
   module Rackspace
     class AutoScale
-
       class Real
-
         def get_webhook(group_id, policy_id, webhook_id)
           request(
             :expects => [200],
@@ -33,7 +31,6 @@ module Fog
           response(:body => {'webhook' => webhook})
         end
       end
-
     end
   end
 end

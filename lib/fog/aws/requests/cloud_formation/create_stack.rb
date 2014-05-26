@@ -2,7 +2,6 @@ module Fog
   module AWS
     class CloudFormation
       class Real
-
         require 'fog/aws/parsers/cloud_formation/create_stack'
 
         # Create a stack.
@@ -83,7 +82,6 @@ module Fog
             :parser     => Fog::Parsers::AWS::CloudFormation::CreateStack.new
           }.merge!(params))
         end
-
       end
     end
   end

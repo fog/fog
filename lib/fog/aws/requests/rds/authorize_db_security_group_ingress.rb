@@ -2,7 +2,6 @@ module Fog
   module AWS
     class RDS
       class Real
-
         require 'fog/aws/parsers/rds/authorize_db_security_group_ingress'
 
         # authorizes a db security group ingress
@@ -25,13 +24,10 @@ module Fog
             :parser   => Fog::Parsers::AWS::RDS::AuthorizeDBSecurityGroupIngress.new,
             'DBSecurityGroupName' => name
           }.merge(opts))
-
         end
-
       end
 
       class Mock
-
         def authorize_db_security_group_ingress(name, opts = {})
           unless opts.key?('CIDRIP') || (opts.key?('EC2SecurityGroupName') && opts.key?('EC2SecurityGroupOwnerId'))
             raise ArgumentError, 'Must specify CIDRIP, or both EC2SecurityGroupName and EC2SecurityGroupOwnerId'
@@ -62,9 +58,7 @@ module Fog
           else
             raise Fog::AWS::RDS::NotFound.new("DBSecurityGroupNotFound => #{name} not found")
           end
-
         end
-
       end
     end
   end

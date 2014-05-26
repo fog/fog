@@ -5,7 +5,6 @@ module Fog
         require 'fog/aws/parsers/elasticache/base'
 
         class CacheClusterParser < Base
-
           def reset
             super
             reset_cache_cluster
@@ -26,7 +25,6 @@ module Fog
             when 'CacheNode'; then @cache_node = {}
             when 'PendingModifiedValues'; then @pending_values = {}
             end
-
           end
 
           def end_element(name)

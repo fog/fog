@@ -4,9 +4,7 @@ require 'fog/dnsimple/models/dns/zone'
 module Fog
   module DNS
     class DNSimple
-
       class Zones < Fog::Collection
-
         model Fog::DNS::DNSimple::Zone
 
         def all
@@ -21,9 +19,7 @@ module Fog
         rescue Excon::Errors::NotFound
           nil
         end
-
       end
-
     end
   end
 end

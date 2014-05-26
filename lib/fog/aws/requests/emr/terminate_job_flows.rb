@@ -2,7 +2,6 @@ module Fog
   module AWS
     class EMR
       class Real
-
         require 'fog/aws/parsers/emr/terminate_job_flows'
 
         # shuts a list of job flows down.
@@ -14,7 +13,6 @@ module Fog
         # * response<~Excon::Response>:
         #   * body<~Hash>
         def terminate_job_flows(options={})
-
           if job_ids = options.delete('JobFlowIds')
             options.merge!(Fog::AWS.serialize_keys('JobFlowIds', job_ids))
           end
@@ -26,11 +24,9 @@ module Fog
       end
 
       class Mock
-
         def terminate_job_flows(db_name, options={})
           Fog::Mock.not_implemented
         end
-
       end
     end
   end

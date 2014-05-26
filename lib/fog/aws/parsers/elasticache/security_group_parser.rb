@@ -5,7 +5,6 @@ module Fog
         require 'fog/aws/parsers/elasticache/base'
 
         class SecurityGroupParser < Fog::Parsers::Base
-
           def reset
             super
             reset_security_group
@@ -20,7 +19,6 @@ module Fog
             case name
             when 'EC2SecurityGroup'; then @ec2_group = {}
             end
-
           end
 
           def end_element(name)

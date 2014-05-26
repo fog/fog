@@ -2,7 +2,6 @@ module Fog
   module Storage
     class AWS
       class Real
-
         # Create an object in an S3 bucket
         #
         # @param bucket_name [String] Name of bucket to create object in
@@ -39,11 +38,9 @@ module Fog
             :method     => 'PUT',
           })
         end
-
       end
 
       class Mock # :nodoc:all
-
         require 'fog/aws/requests/storage/shared_mock_methods'
         include Fog::Storage::AWS::SharedMockMethods
 
@@ -70,7 +67,6 @@ module Fog
           response.headers['x-amz-version-id'] = object['VersionId'] if object['VersionId'] != 'null'
           response
         end
-
       end
     end
   end

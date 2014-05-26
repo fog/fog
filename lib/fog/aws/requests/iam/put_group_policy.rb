@@ -2,7 +2,6 @@ module Fog
   module AWS
     class IAM
       class Real
-
         require 'fog/aws/parsers/iam/basic'
 
         # Add or update a policy for a group
@@ -29,7 +28,6 @@ module Fog
             :parser           => Fog::Parsers::AWS::IAM::Basic.new
           )
         end
-
       end
       class Mock
         #FIXME: You can't actually use the credentials for anything elsewhere in Fog

@@ -4,7 +4,6 @@ require 'fog/openstack/models/compute/volume'
 module Fog
   module Compute
     class OpenStack
-
       class Volumes < Fog::Collection
         model Fog::Compute::OpenStack::Volume
 
@@ -20,7 +19,6 @@ module Fog
           nil
         end
       end
-
     end
   end
 end

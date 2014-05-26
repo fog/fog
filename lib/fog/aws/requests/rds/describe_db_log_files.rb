@@ -2,7 +2,6 @@ module Fog
   module AWS
     class RDS
       class Real
-
         require 'fog/aws/parsers/rds/describe_db_log_files'
 
         # Describe log files for a DB instance
@@ -35,7 +34,6 @@ module Fog
       end
 
       class Mock
-
         def describe_db_log_files(rds_id=nil, opts={})
           response = Excon::Response.new
           log_file_set = []
@@ -60,7 +58,6 @@ module Fog
           }
           response
         end
-
       end
     end
   end

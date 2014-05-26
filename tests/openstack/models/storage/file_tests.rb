@@ -158,7 +158,6 @@ Shindo.tests('Fog::OpenStack::Storage | file', ['openstack']) do
 
   end
 
-
   model_tests(@directory.files, file_attributes, Fog.mocking?) do
 
     tests("#origin") do

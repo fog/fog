@@ -4,7 +4,6 @@ module Fog
   module AWS
     class AutoScaling
       class Configuration < Fog::Model
-
         identity  :id,                    :aliases => 'LaunchConfigurationName'
         attribute :arn,                   :aliases => 'LaunchConfigurationARN'
         attribute :associate_public_ip,   :aliases => 'AssociatePublicIpAddress'
@@ -62,7 +61,6 @@ module Fog
           requires :id
           service.delete_launch_configuration(id)
         end
-
       end
     end
   end

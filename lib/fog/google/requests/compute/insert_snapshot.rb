@@ -1,19 +1,14 @@
 module Fog
   module Compute
     class Google
-
       class Mock
-
         def insert_snapshot(snap_name)
           Fog::Mock.not_implemented
         end
-
       end
 
       class Real
-
         def insert_snapshot(disk_name, zone_name, project=@project, opts={})
-
           # This is unfortunate, since we might be called from 2 contexts
           # 1. disk.snapshot <-- here validation of disk_name is not needed
           # 2. snapshot.create <-- here we must validate the disk_name
@@ -41,9 +36,7 @@ module Fog
                                      body_object)
           response = self.build_response(result)
         end
-
       end
-
     end
   end
 end

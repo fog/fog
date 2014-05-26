@@ -1,6 +1,5 @@
 class Cloudstack < Fog::Bin
   class << self
-
     def class_for(key)
       case key
       when :compute
@@ -25,6 +24,5 @@ class Cloudstack < Fog::Bin
     def services
       Fog::Cloudstack.services
     end
-
   end
 end

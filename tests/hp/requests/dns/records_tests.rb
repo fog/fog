@@ -61,5 +61,4 @@ Shindo.tests("HP::DNS | record requests", ['hp', 'dns', 'record']) do
 
   end
 
-
 end

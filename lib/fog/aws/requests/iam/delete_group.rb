@@ -2,7 +2,6 @@ module Fog
   module AWS
     class IAM
       class Real
-
         require 'fog/aws/parsers/iam/basic'
 
         # Delete a group
@@ -25,11 +24,9 @@ module Fog
             :parser     => Fog::Parsers::AWS::IAM::Basic.new
           )
         end
-
       end
 
       class Mock
-
         def delete_group(group_name)
           if data[:groups].has_key? group_name
             if data[:groups][group_name][:members].empty?

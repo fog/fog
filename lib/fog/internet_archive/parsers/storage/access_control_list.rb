@@ -2,9 +2,7 @@ module Fog
   module Parsers
     module Storage
       module InternetArchive
-
         class AccessControlList < Fog::Parsers::Base
-
           def reset
             @in_access_control_list = false
             @grant = { 'Grantee' => {} }
@@ -37,9 +35,7 @@ module Fog
               @grant['Grantee'][name] = value
             end
           end
-
         end
-
       end
     end
   end

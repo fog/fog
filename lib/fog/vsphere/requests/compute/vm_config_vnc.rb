@@ -20,7 +20,6 @@ module Fog
 
         # return a hash of VNC attributes required to view the console
         def vm_get_vnc uuid
-
           search_filter = { :uuid => uuid, 'vmSearch' => true, 'instanceUuid' => true }
           vm = @connection.searchIndex.FindAllByUuid(search_filter).first
           Hash[vm.config.extraConfig.map do |config|
@@ -29,7 +28,6 @@ module Fog
             end
           end.compact]
         end
-
       end
 
       class Mock

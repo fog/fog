@@ -2,7 +2,6 @@ module Fog
   module Compute
     class HP
       class Real
-
         # Retrieve console output for specified instance
         #
         # ==== Parameters
@@ -17,11 +16,9 @@ module Fog
           body = { 'os-getConsoleOutput' => { 'length' => num_lines }}
           server_action(server_id, body, 200)
         end
-
       end
 
       class Mock
-
         def get_console_output(server_id, num_lines)
           output = ""
           response = Excon::Response.new
@@ -34,7 +31,6 @@ module Fog
           end
           response
         end
-
       end
     end
   end

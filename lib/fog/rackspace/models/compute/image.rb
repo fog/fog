@@ -3,9 +3,7 @@ require 'fog/core/model'
 module Fog
   module Compute
     class Rackspace
-
       class Image < Fog::Model
-
         identity :id
 
         attribute :name
@@ -40,9 +38,7 @@ module Fog
           merge_attributes(data.body['image'])
           true
         end
-
       end
-
     end
   end
 end

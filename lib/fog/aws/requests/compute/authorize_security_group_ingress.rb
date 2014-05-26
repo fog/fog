@@ -2,7 +2,6 @@ module Fog
   module Compute
     class AWS
       class Real
-
         require 'fog/aws/parsers/compute/basic'
 
         # Add permissions to a security group
@@ -76,11 +75,9 @@ module Fog
           end
           params.reject {|k, v| v.nil? }
         end
-
       end
 
       class Mock
-
         def authorize_security_group_ingress(group_name, options = {})
           options = Fog::AWS.parse_security_group_options(group_name, options)
           if options.key?('GroupName')
@@ -222,7 +219,6 @@ module Fog
             permission['fromPort'] == group_permission['fromPort'] &&
             permission['toPort'] == group_permission['toPort'] }
         end
-
       end
     end
   end

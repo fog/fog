@@ -4,7 +4,6 @@ require 'fog/storm_on_demand/models/dns/record'
 module Fog
   module DNS
     class StormOnDemand
-
       class Records < Fog::Collection
         model Fog::DNS::StormOnDemand::Record
 
@@ -22,9 +21,7 @@ module Fog
           recs = service.list_records(options).body['items']
           load(recs)
         end
-
       end
-
     end
   end
 end

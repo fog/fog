@@ -2,7 +2,6 @@ module Fog
   module AWS
     class CloudWatch
       class Real
-
         require 'fog/aws/parsers/cloud_watch/delete_alarms'
 
         # Delete a list of alarms

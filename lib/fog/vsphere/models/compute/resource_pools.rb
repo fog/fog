@@ -4,9 +4,7 @@ require 'fog/vsphere/models/compute/resource_pool'
 module Fog
   module Compute
     class Vsphere
-
       class ResourcePools < Fog::Collection
-
         model Fog::Compute::Vsphere::ResourcePool
         attr_accessor :datacenter, :cluster
 
@@ -19,7 +17,6 @@ module Fog
           requires :cluster
           new service.get_resource_pool(id, cluster, datacenter)
         end
-
       end
     end
   end

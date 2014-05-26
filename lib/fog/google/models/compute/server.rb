@@ -4,9 +4,7 @@ require 'net/ssh/proxy/command'
 module Fog
   module Compute
     class Google
-
       class Server < Fog::Compute::Server
-
         identity :name
 
         attribute :kind
@@ -50,6 +48,7 @@ module Fog
         def kernel=(args)
           Fog::Logger.deprecation("kernel= is no longer used [light_black](#{caller.first})[/]")
         end
+
         def kernel
           Fog::Logger.deprecation("kernel is no longer used [light_black](#{caller.first})[/]")
           nil
@@ -193,7 +192,6 @@ module Fog
           return self.metadata
         end
 
-
         def reload
           data = service.get_server(self.name, zone_name).body
           self.merge_attributes(data)
@@ -240,7 +238,6 @@ module Fog
           operation.wait_for { !pending? }
           reload
         end
-
       end
     end
   end

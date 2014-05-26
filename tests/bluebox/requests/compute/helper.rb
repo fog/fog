@@ -1,9 +1,6 @@
 class Bluebox
-
   module Compute
-
     module Formats
-
       PRODUCT = {
         'cost'        => String,
         'description' => String,
@@ -14,9 +11,6 @@ class Bluebox
         'id'          => String,
         'description' => String
       }
-
     end
-
   end
-
 end

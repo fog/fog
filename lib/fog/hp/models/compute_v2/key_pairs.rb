@@ -4,9 +4,7 @@ require 'fog/hp/models/compute_v2/key_pair'
 module Fog
   module Compute
     class HPV2
-
       class KeyPairs < Fog::Collection
-
         model Fog::Compute::HPV2::KeyPair
 
         def all
@@ -24,7 +22,6 @@ module Fog
         rescue Fog::Compute::HPV2::NotFound
           nil
         end
-
       end
     end
   end

@@ -3,11 +3,9 @@ require 'fog/compute/models/server'
 module Fog
   module Compute
     class Bluebox
-
       class BlockInstantiationError < StandardError; end
 
       class Server < Fog::Compute::Server
-
         identity :id
 
         attribute :cpu
@@ -116,9 +114,7 @@ module Fog
         def username
           @username ||= 'deploy'
         end
-
       end
-
     end
   end
 end

@@ -3,9 +3,7 @@ require 'fog/core/collection'
 module Fog
   module CDN
     class AWS
-
       module DistributionHelper
-
         def destroy
           requires :identity, :etag, :caller_reference
           raise "Distribution must be disabled to be deleted" unless disabled?
@@ -56,9 +54,7 @@ module Fog
           end
           true
         end
-
       end
-
     end
   end
 end

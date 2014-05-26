@@ -2,7 +2,6 @@ module Fog
   module HP
     class BlockStorageV2
       class Real
-
         # List existing block storage snapshots with details
         #
         # ==== Parameters
@@ -33,11 +32,9 @@ module Fog
           )
           response
         end
-
       end
 
       class Mock # :nodoc:all
-
         def list_snapshots_detail(options={})
           response = Excon::Response.new
           snapshots = []
@@ -48,7 +45,6 @@ module Fog
           response
         end
       end
-
     end
   end
 end

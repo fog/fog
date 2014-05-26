@@ -2,7 +2,6 @@ module Fog
   module Storage
     class IBM
       class Real
-
         # Returns the list of storage volumes
         #
         # ==== Parameters
@@ -29,18 +28,15 @@ module Fog
             :path     => '/storage'
           )
         end
-
       end
 
       class Mock
-
         def list_volumes
           response = Excon::Response.new
           response.status = 200
           response.body = { 'volumes' => format_list_volumes_response }
           response
         end
-
       end
     end
   end

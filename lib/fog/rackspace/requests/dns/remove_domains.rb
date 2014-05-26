@@ -3,7 +3,6 @@ module Fog
     class Rackspace
       class Real
         def remove_domains(domain_ids, options={})
-
           path = "domains?" + domain_ids.collect { |domain_id| "id=#{domain_id}" }.join('&')
           query_data = {}
 

@@ -5,7 +5,6 @@ module Fog
   module Compute
     class AWS
       class SpotRequests < Fog::Collection
-
         attribute :filters
 
         model Fog::Compute::AWS::SpotRequest
@@ -81,7 +80,6 @@ module Fog
         rescue Fog::Errors::NotFound
           nil
         end
-
       end
     end
   end

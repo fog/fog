@@ -3,7 +3,6 @@ require 'fog/core/model'
 module Fog
   module Compute
     class XenServer
-
       class VLAN < Fog::Model
         # API Reference here:
         # @see http://docs.vmd.citrix.com/XenServer/6.2.0/1.0/en_gb/api/?c=VLAN
@@ -73,9 +72,7 @@ module Fog
           service.destroy_vlan reference
           true
         end
-
       end
-
     end
   end
 end

@@ -3,7 +3,6 @@ require 'fog/compute/models/server'
 module Fog
   module Compute
     class AWS
-
       class Server < Fog::Compute::Server
         extend Fog::Deprecation
         deprecate :ip_address, :public_ip_address
@@ -56,7 +55,6 @@ module Fog
 
         attr_accessor                        :password
         attr_writer                          :iam_instance_profile_name, :iam_instance_profile_arn
-
 
         def initialize(attributes={})
           self.groups     ||= ["default"] unless (attributes[:subnet_id] || attributes[:security_group_ids] || attributes[:network_interfaces])
@@ -275,9 +273,7 @@ module Fog
             self.attributes[:placement] = new_placement
           end
         end
-
       end
-
     end
   end
 end

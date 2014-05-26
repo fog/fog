@@ -2,9 +2,7 @@ module Fog
   module Parsers
     module Storage
       module AWS
-
         class ListParts < Fog::Parsers::Base
-
           def reset
             @part = {}
             @response = { 'Initiator' => {}, 'Part' => [] }
@@ -31,9 +29,7 @@ module Fog
               @part[name] = value.to_i
             end
           end
-
         end
-
       end
     end
   end

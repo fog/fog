@@ -2,7 +2,6 @@ module Fog
   module Compute
     class AWS
       class Real
-
         require 'fog/aws/parsers/compute/describe_tags'
 
         # Describe all or specified tags
@@ -32,7 +31,6 @@ module Fog
       end
 
       class Mock
-
         def describe_tags(filters = {})
           response = Excon::Response.new
 
@@ -101,7 +99,6 @@ module Fog
             end
           end
       end
-
     end
   end
 end

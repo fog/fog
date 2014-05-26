@@ -43,7 +43,6 @@ Shindo.tests('Fog::Redshift[:aws] | cluster parameter group requests', ['aws']) 
       body
     end
 
-
     tests("describe_cluster_parameter_groups").formats(@cluster_parameter_groups_format) do
       body = Fog::AWS[:redshift].describe_cluster_parameter_groups.body
       body

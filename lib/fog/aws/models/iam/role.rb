@@ -3,7 +3,6 @@ require 'fog/core/model'
 module Fog
   module AWS
     class IAM
-
       class Role < Fog::Model
         
         identity  :id, :aliases => 'RoleId'
@@ -29,7 +28,6 @@ module Fog
           service.delete_role(rolename)
           true
         end
-
       end
     end
   end

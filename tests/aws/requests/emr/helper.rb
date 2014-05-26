@@ -1,7 +1,5 @@
 class AWS
-
   module EMR
-
     module Formats
       BASIC = {
         'RequestId' => String
@@ -165,8 +163,6 @@ class AWS
           }
         }]
       }
-
     end
   end
-
 end

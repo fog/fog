@@ -2,7 +2,6 @@ module Fog
   module HP
     class DNS
       class Real
-
         # Get details of an existing DNS record
         #
         # ==== Parameters

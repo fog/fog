@@ -4,9 +4,7 @@ require 'fog/google/models/compute/image'
 module Fog
   module Compute
     class Google
-
       class Images < Fog::Collection
-
         model Fog::Compute::Google::Image
 
         # NOTE: Not everyone has access to these projects because of the
@@ -64,7 +62,6 @@ module Fog
 
           new(data)
         end
-
       end
     end
   end

@@ -2,7 +2,6 @@ module Fog
   module Compute
     class AWS
       class Real
-
         require 'fog/aws/parsers/compute/describe_volumes'
 
         # Describe all or specified volumes.
@@ -44,11 +43,9 @@ module Fog
             :parser     => Fog::Parsers::Compute::AWS::DescribeVolumes.new
           }.merge!(params))
         end
-
       end
 
       class Mock
-
         def describe_volumes(filters = {})
           unless filters.is_a?(Hash)
             Fog::Logger.deprecation("describe_volumes with #{filters.class} param is deprecated, use describe_volumes('volume-id' => []) instead [light_black](#{caller.first})[/]")
@@ -115,7 +112,6 @@ module Fog
           }
           response
         end
-
       end
     end
   end

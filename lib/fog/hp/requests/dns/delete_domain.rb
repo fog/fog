@@ -1,9 +1,7 @@
 module Fog
   module HP
     class DNS
-
       class Real
-
         # Delete a DNS domain
         #
         # ==== Parameters
@@ -16,7 +14,6 @@ module Fog
               :path    => "domains/#{domain_id}"
           )
         end
-
       end
 
       class Mock
@@ -29,9 +26,7 @@ module Fog
             raise Fog::HP::DNS::NotFound
           end
         end
-
       end
-
     end
   end
 end

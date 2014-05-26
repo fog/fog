@@ -2,9 +2,7 @@ module Fog
   module Parsers
     module AWS
       module AutoScaling
-
         class DescribeAutoScalingGroups < Fog::Parsers::Base
-
           def reset
             reset_auto_scaling_group
             reset_enabled_metric
@@ -151,7 +149,6 @@ module Fog
               @response['DescribeAutoScalingGroupsResult'] = @results
             end
           end
-
         end
       end
     end

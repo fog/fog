@@ -4,7 +4,6 @@ require 'fog/vcloud_director/models/compute/vm_customization'
 module Fog
   module Compute
     class VcloudDirector
-
       class Vm < Model
         identity  :id
 
@@ -65,7 +64,6 @@ module Fog
           end
           service.process_task(response.body)
         end
-
 
         # Reboot the VM.
         def reboot
@@ -166,7 +164,6 @@ module Fog
           # get_by_metadata returns a vm collection where every vapp parent is orpahn
           collection.vapp ||= service.vapps.get(vapp_id)
         end
-
       end
     end
   end

@@ -3,9 +3,7 @@ require 'fog/core/model'
 module Fog
   module AWS
     class Glacier
-
       class Job < Fog::Model
-
         ARCHIVE = 'archive-retrieval'
         INVENTORY = 'inventory-retrieval'
 
@@ -25,7 +23,6 @@ module Fog
         attribute :vault_arn,       :aliases=> "VaultARN"
         attribute :format
         attribute :type
-
 
         def ready?
           completed
@@ -58,7 +55,6 @@ module Fog
         def vault=(new_vault)
           @vault = new_vault
         end
-
       end
     end
   end

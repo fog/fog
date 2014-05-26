@@ -1,7 +1,6 @@
 module Fog
   module StormOnDemand
     module RealShared
-
       API_URL = 'https://api.stormondemand.com'
       API_VERSION = 'v1'
 

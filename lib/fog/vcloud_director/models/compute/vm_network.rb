@@ -3,9 +3,7 @@ require 'fog/core/model'
 module Fog
   module Compute
     class VcloudDirector
-
       class VmNetwork < Model
-
         identity  :id
 
         attribute :type
@@ -23,7 +21,6 @@ module Fog
           response = service.put_network_connection_system_section_vapp(id, attributes)
           service.process_task(response.body)
         end
-
       end
     end
   end

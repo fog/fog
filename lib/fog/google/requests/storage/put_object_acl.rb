@@ -2,7 +2,6 @@ module Fog
   module Storage
     class Google
       class Real
-
         # TODO: move this methods to helper to use them with put_bucket_acl request
         def tag(name, value)
           "<#{name}>#{value}</#{name}>"
@@ -25,7 +24,6 @@ module Fog
         end
 
         def put_object_acl(bucket_name, object_name, acl)
-
           data = <<-DATA
 <AccessControlList>
   <Owner>
@@ -46,9 +44,7 @@ DATA
             :query    => {'acl' => nil},
             :path     => CGI.escape(object_name)
           })
-
         end
-
       end
     end
   end

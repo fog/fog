@@ -2,7 +2,6 @@ module Fog
   module DNS
     class Zerigo
       class Real
-
         require 'fog/zerigo/parsers/dns/find_hosts'
 
         # Get list of all the host records that match the FQDN.  If desired, can limit
@@ -48,7 +47,6 @@ module Fog
             )
           end
         end
-
       end
 
       class Mock # :nodoc:all

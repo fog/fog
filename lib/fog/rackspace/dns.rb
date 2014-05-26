@@ -50,7 +50,6 @@ module Fog
       request :add_records
 
       class Mock < Fog::Rackspace::Service
-
         def initialize(options={})
           @rackspace_api_key = options[:rackspace_api_key]
           @rackspace_username = options[:rackspace_username]
@@ -74,11 +73,9 @@ module Fog
         def reset_data
           self.class.reset
         end
-
       end
 
       class Real < Fog::Rackspace::Service
-
         def service_name
           :cloudDNS
         end

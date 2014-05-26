@@ -4,7 +4,6 @@ require 'fog/sakuracloud/models/compute/zone'
 module Fog
   module Compute
     class SakuraCloud
-
       class Zones < Fog::Collection
         model Fog::Compute::SakuraCloud::Zone
 
@@ -17,9 +16,7 @@ module Fog
         rescue Fog::Errors::NotFound
           nil
         end
-
       end
-
     end
   end
 end

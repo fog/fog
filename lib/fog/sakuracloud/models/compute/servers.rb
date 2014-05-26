@@ -4,7 +4,6 @@ require 'fog/sakuracloud/models/compute/server'
 module Fog
   module Compute
     class SakuraCloud
-
       class Servers < Fog::Collection
         model Fog::Compute::SakuraCloud::Server
 
@@ -59,7 +58,6 @@ module Fog
           end
         end
       end
-
     end
   end
 end

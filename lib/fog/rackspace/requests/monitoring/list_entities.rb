@@ -2,7 +2,6 @@ module Fog
   module Rackspace
     class Monitoring
       class Real
-
         def list_entities(options={})
           request(
             :expects  => [200, 203],

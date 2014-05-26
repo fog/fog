@@ -2,7 +2,6 @@ module Fog
   module AWS
     class IAM
       class Real
-
         require 'fog/aws/parsers/iam/create_user'
 
         # Create a new user
@@ -32,7 +31,6 @@ module Fog
             :parser     => Fog::Parsers::AWS::IAM::CreateUser.new
           )
         end
-
       end
 
       class Mock

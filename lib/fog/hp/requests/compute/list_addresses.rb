@@ -2,7 +2,6 @@ module Fog
   module Compute
     class HP
       class Real
-
         # List all floating IP addresses
         #
         # ==== Returns
@@ -20,11 +19,9 @@ module Fog
             :path     => "os-floating-ips.json"
           )
         end
-
       end
 
       class Mock
-
         def list_addresses
           response = Excon::Response.new
           addresses = []
@@ -34,7 +31,6 @@ module Fog
           response.body = { 'floating_ips' => addresses }
           response
         end
-
       end
     end
   end

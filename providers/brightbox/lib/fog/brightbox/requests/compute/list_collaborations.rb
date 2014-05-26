@@ -12,7 +12,6 @@ module Fog
         def list_collaborations
           wrapped_request("get", "/1.0/collaborations", [200])
         end
-
       end
     end
   end

@@ -1,9 +1,7 @@
 module Fog
   module Compute
     class AWS
-
       class Real
-
         require 'fog/aws/parsers/compute/monitor_unmonitor_instances'
 
         # Monitor specified instance
@@ -27,11 +25,9 @@ module Fog
                           :parser => Fog::Parsers::Compute::AWS::MonitorUnmonitorInstances.new
                   }.merge!(params))
         end
-
       end
 
       class Mock
-
         def monitor_instances(instance_ids)
           response        = Excon::Response.new
           response.status = 200
@@ -46,9 +42,7 @@ module Fog
           response.body = {'requestId' => 'some_request_id', 'instancesSet' => instances_set}
           response
         end
-
       end
     end
-
   end
 end

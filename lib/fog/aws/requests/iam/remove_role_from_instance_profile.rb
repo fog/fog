@@ -2,7 +2,6 @@ module Fog
   module AWS
     class IAM
       class Real
-
         require 'fog/aws/parsers/iam/basic'
 
         # removes a role from an instance profile
@@ -28,9 +27,7 @@ module Fog
             :parser     => Fog::Parsers::AWS::IAM::Basic.new
           )
         end
-
       end
-
     end
   end
 end

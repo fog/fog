@@ -2,7 +2,6 @@ module Fog
   module AWS
     class IAM
       class Real
-
         require 'fog/aws/parsers/iam/list_access_keys'
 
         # List access_keys
@@ -33,11 +32,9 @@ module Fog
             :parser   => Fog::Parsers::AWS::IAM::ListAccessKeys.new
           }.merge!(options))
         end
-
       end
 
       class Mock
-
         def list_access_keys(options = {})
           #FIXME: Doesn't do anything with options, aside from UserName
           if user = options['UserName']

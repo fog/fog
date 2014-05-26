@@ -35,7 +35,6 @@ Shindo.tests('Fog::Redshift[:aws] | cluster snapshot requests', ['aws']) do
     "Snapshots" => [@cluster_snapshot_format]
   }
 
-
   tests('success') do
     tests("create_cluster_snapshot").formats(@cluster_snapshot_format) do
       Fog::AWS[:redshift].create_cluster(:cluster_identifier   => cluster, 
@@ -50,7 +49,6 @@ Shindo.tests('Fog::Redshift[:aws] | cluster snapshot requests', ['aws']) do
                                                          :cluster_identifier  => cluster).body
       body
     end
-
 
     tests('describe_cluster_snaphots').formats(@describe_cluster_snapshots_format) do
       sleep 30 unless Fog.mocking?

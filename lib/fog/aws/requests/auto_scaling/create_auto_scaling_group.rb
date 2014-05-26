@@ -1,9 +1,7 @@
 module Fog
   module AWS
     class AutoScaling
-
       class Real
-
         require 'fog/aws/parsers/auto_scaling/basic'
 
         # Creates a new Auto Scaling group with the specified name. Once the
@@ -92,11 +90,9 @@ module Fog
             :parser                   => Fog::Parsers::AWS::AutoScaling::Basic.new
           }.merge!(options))
         end
-
       end
 
       class Mock
-
         def create_auto_scaling_group(auto_scaling_group_name, availability_zones, launch_configuration_name, max_size, min_size, options = {})
           unexpected_options = options.keys - ExpectedOptions[:create_auto_scaling_group]
           unless unexpected_options.empty?
@@ -138,9 +134,7 @@ module Fog
           }
           response
         end
-
       end
-
     end
   end
 end

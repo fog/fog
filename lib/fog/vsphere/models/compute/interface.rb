@@ -1,9 +1,7 @@
 module Fog
   module Compute
     class Vsphere
-
       class Interface < Fog::Model
-
         SAVE_MUTEX = Mutex.new
 
         identity :mac
@@ -87,9 +85,7 @@ module Fog
             :type=> Fog::Vsphere.class_from_string(default_type, "RbVmomi::VIM"),
           }
         end
-
       end
-
     end
   end
 end

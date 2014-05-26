@@ -2,7 +2,6 @@ module Fog
   module Compute
     class Cloudstack
       class Real
-
         # Lists all supported OS types for this cloud.
         #
         # {CloudStack API Reference}[http://download.cloud.com/releases/2.2.0/api_2.2.4/global_admin/listOsTypes.html]
@@ -13,7 +12,6 @@ module Fog
 
           request(options)
         end
-
       end
 
       class Mock
@@ -22,7 +20,6 @@ module Fog
           os_types = self.data[:os_types]
           { "listostypesresponse" => { "count"=> os_types.count, "ostype"=> os_types.values } }
         end
-
       end
     end
   end

@@ -1,7 +1,6 @@
 module Fog
   module HP
     class Network
-
       class Real
         # Associate port with floating ip
         #
@@ -65,7 +64,6 @@ module Fog
           end
         end
       end
-
     end
   end
 end

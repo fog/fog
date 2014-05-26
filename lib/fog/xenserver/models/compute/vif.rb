@@ -3,7 +3,6 @@ require 'fog/core/model'
 module Fog
   module Compute
     class XenServer
-
       class VIF < Fog::Model
         # API Reference here:
         # http://docs.vmd.citrix.com/XenServer/6.2.0/1.0/en_gb/api/?c=VIF
@@ -32,7 +31,6 @@ module Fog
         attribute :status_detail
         attribute :__vm,               :aliases => :VM
 
-
         def destroy
           service.destroy_vif reference
         end
@@ -52,9 +50,7 @@ module Fog
           ref = service.create_vif attributes[:server], attributes[:__network]
           merge_attributes service.vifs.get(ref).attributes
         end
-
       end
-
     end
   end
 end

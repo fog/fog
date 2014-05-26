@@ -4,9 +4,7 @@ require 'fog/dynect/models/dns/record'
 module Fog
   module DNS
     class Dynect
-
       class Records < Fog::Collection
-
         attribute :zone
 
         model Fog::DNS::Dynect::Record
@@ -57,9 +55,7 @@ module Fog
           requires :zone
           super({:zone => zone}.merge!(attributes))
         end
-
       end
-
     end
   end
 end

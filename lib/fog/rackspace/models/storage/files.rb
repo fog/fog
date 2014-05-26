@@ -4,9 +4,7 @@ require 'fog/rackspace/models/storage/file'
 module Fog
   module Storage
     class Rackspace
-
       class Files < Fog::Collection
-
         # @!attribute [rw] directory
         # @return [String] The name of the directory
         # @note Methods in this class require this attribute to be set
@@ -197,7 +195,6 @@ module Fog
           return nil unless path
           "#{path}/#{Fog::Rackspace.escape(key, '/')}"
         end
-
       end
     end
   end

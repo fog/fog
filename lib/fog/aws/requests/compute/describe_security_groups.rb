@@ -2,7 +2,6 @@ module Fog
   module Compute
     class AWS
       class Real
-
         require 'fog/aws/parsers/compute/describe_security_groups'
 
         # Describe all or specified security groups
@@ -42,11 +41,9 @@ module Fog
             :parser     => Fog::Parsers::Compute::AWS::DescribeSecurityGroups.new
           }.merge!(params))
         end
-
       end
 
       class Mock
-
         def describe_security_groups(filters = {})
           unless filters.is_a?(Hash)
             Fog::Logger.deprecation("describe_security_groups with #{filters.class} param is deprecated, use describe_security_groups('group-name' => []) instead [light_black](#{caller.first})[/]")
@@ -95,7 +92,6 @@ module Fog
           }
           response
         end
-
       end
     end
   end

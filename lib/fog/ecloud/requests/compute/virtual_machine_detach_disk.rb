@@ -2,7 +2,6 @@ module Fog
   module Compute
     class Ecloud
       module Shared
-
         def build_request_body_detach_disk(options)
           xml = Builder::XmlMarkup.new
           xml.DetachDisk(:name => options[:name]) do

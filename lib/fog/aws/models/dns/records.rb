@@ -4,9 +4,7 @@ require 'fog/aws/models/dns/record'
 module Fog
   module DNS
     class AWS
-
       class Records < Fog::Collection
-
         attribute :is_truncated,            :aliases => ['IsTruncated']
         attribute :max_items,               :aliases => ['MaxItems']
         attribute :name
@@ -116,9 +114,7 @@ module Fog
           requires :zone
           super({ :zone => zone }.merge!(attributes))
         end
-
       end
-
     end
   end
 end

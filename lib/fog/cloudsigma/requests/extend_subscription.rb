@@ -13,10 +13,8 @@ module Fog
 
       class Mock
         def extend_subscription(sub_id, data)
-
         end
       end
-
     end
   end
 end

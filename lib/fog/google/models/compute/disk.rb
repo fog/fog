@@ -3,9 +3,7 @@ require 'fog/core/model'
 module Fog
   module Compute
     class Google
-
       class Disk < Fog::Model
-
         identity :name
 
         attribute :kind
@@ -114,7 +112,6 @@ module Fog
         end
 
         RUNNING_STATE = "READY"
-
       end
     end
   end

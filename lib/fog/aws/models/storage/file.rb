@@ -4,7 +4,6 @@ require 'fog/aws/models/storage/versions'
 module Fog
   module Storage
     class AWS
-
       class File < Fog::Model
         # @see AWS Object docs http://docs.aws.amazon.com/AmazonS3/latest/API/RESTObjectOps.html 
 
@@ -30,7 +29,6 @@ module Fog
         #     Use small chunk sizes to minimize memory. E.g. 5242880 = 5mb
         attr_accessor :multipart_chunk_size
 
-
         # Set file's access control list (ACL).
         # 
         #     valid acls: private, public-read, public-read-write, authenticated-read, bucket-owner-read, bucket-owner-full-control
@@ -46,7 +44,6 @@ module Fog
           @acl = new_acl
         end
 
-
         # Get file's body if exists, else ' '.
         # 
         # @return [File]
@@ -59,7 +56,6 @@ module Fog
           end
         end
 
-
         # Set body attribute.
         # 
         # @param [File] new_body
@@ -69,7 +65,6 @@ module Fog
           attributes[:body] = new_body
         end
 
-
         # Get the file instance's directory.
         # 
         # @return [Fog::AWS::Storage::Directory]
@@ -77,7 +72,6 @@ module Fog
         def directory
           @directory
         end
-
 
         # Copy object from one bucket to other bucket.
         # 
@@ -95,7 +89,6 @@ module Fog
           target_directory.files.head(target_file_key)
         end
 
-
         # Destroy file via http DELETE.
         # 
         #     required attributes: directory, key
@@ -111,18 +104,15 @@ module Fog
           true
         end
 
-
         remove_method :metadata
         def metadata
           attributes.reject {|key, value| !(key.to_s =~ /^x-amz-/)}
         end
 
-
         remove_method :metadata=
         def metadata=(new_metadata)
           merge_attributes(new_metadata)
         end
-
 
         remove_method :owner=
         def owner=(new_owner)
@@ -133,7 +123,6 @@ module Fog
             }
           end
         end
-
 
         # Set Access-Control-List permissions.
         #   
@@ -150,7 +139,6 @@ module Fog
           end
           new_public
         end
-
 
         # Get pubically acessible url via http GET.
         # Checks persmissions before creating. 
@@ -217,7 +205,6 @@ module Fog
           true
         end
 
-
         # Get a url for file.
         # 
         #     required attributes: key
@@ -230,7 +217,6 @@ module Fog
           requires :key
           collection.get_url(key, expires, options)
         end
-
 
         # File version if exists or creates new version.
         # @return [Fog::Storage::AWS::Version] 
@@ -277,9 +263,7 @@ module Fog
           # Complete the upload
           service.complete_multipart_upload(directory.key, key, upload_id, part_tags)
         end
-
       end
-
     end
   end
 end

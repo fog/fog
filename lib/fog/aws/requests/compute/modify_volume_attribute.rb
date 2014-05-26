@@ -2,7 +2,6 @@ module Fog
   module Compute
     class AWS
       class Real
-
         require 'fog/aws/parsers/compute/basic'
 
         # Modifies a volume attribute.
@@ -27,11 +26,9 @@ module Fog
             :parser              => Fog::Parsers::Compute::AWS::Basic.new
           )
         end
-
       end
 
       class Mock
-
         def modify_volume_attribute(volume_id=nil, auto_enable_io_value=false)
           response = Excon::Response.new
           if volume = self.data[:volumes][volume_id]

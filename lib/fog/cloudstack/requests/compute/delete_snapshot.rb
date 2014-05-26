@@ -2,7 +2,6 @@ module Fog
   module Compute
     class Cloudstack
       class Real
-
         # Deletes a specified snapshot.
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.0.0/user/deleteSnapshot.html]
@@ -13,11 +12,9 @@ module Fog
 
           request(options)
         end
-
       end
 
        class Mock
-
         # Deletes a specified snapashot.
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.0.0/user/deleteSnapshot.html]
@@ -54,9 +51,7 @@ module Fog
           self.data[:jobs][job_id] = job
           job_id
         end
-
       end
-
     end
   end
 end

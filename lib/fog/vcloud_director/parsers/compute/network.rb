@@ -63,7 +63,6 @@ module Fog
         #</OrgNetwork>
         #
         class Network < VcloudDirectorParser
-
           def reset
             @response = { :ip_ranges => [] }
             @ip_range = {}
@@ -98,7 +97,6 @@ module Fog
               @ip_range = {}
             end
           end
-
         end
       end
     end

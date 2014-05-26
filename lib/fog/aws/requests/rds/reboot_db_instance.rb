@@ -2,7 +2,6 @@ module Fog
   module AWS
     class RDS
       class Real
-
         require 'fog/aws/parsers/rds/reboot_db_instance'
 
         # reboots a database instance
@@ -19,11 +18,9 @@ module Fog
             :parser   => Fog::Parsers::AWS::RDS::RebootDBInstance.new,
           })
         end
-
       end
 
       class Mock
-
         def reboot_db_instance(instance_identifier)
           response = Excon::Response.new
           if server = self.data[:servers][instance_identifier]
@@ -44,7 +41,6 @@ module Fog
             raise Fog::AWS::RDS::NotFound.new("DBInstance #{instance_identifier} not found")
           end
         end
-
       end
     end
   end

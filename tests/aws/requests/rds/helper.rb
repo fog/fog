@@ -1,9 +1,6 @@
 class AWS
-
   module RDS
-
     module Formats
-
       BASIC = {
         'ResponseMetadata' => { 'RequestId' => String }
       }
@@ -272,9 +269,6 @@ class AWS
           'TagList' => Fog::Nullable::Hash
         }
       }
-
     end
-
   end
-
 end

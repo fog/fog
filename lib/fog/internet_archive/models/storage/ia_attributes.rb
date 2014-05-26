@@ -1,7 +1,6 @@
 module Fog
   module Storage
     module IAAttributes
-
 		  # you can add other x-archive-metadata-* values, but these are standard
 		  IA_STANDARD_METADATA_FIELDS = %q[hidden, title, collection, creator, mediatype, description, date, subject, licenseurl, pick, noindex, notes, rights, contributor, language, coverage, credits]
 
@@ -30,10 +29,8 @@ module Fog
 				      options["x-archive-meta#{format("%02d", i+1)}-#{array_attribute.to_s[0..-2]}"] = value
 				    end
 				  end
-
 				end
 			end
-
 		end
 	end
 end

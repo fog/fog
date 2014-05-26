@@ -7,7 +7,6 @@ module Fog
         attribute :name, :aliases => :Name
         attribute :type, :aliases => :Type
 
-
         def id
           href.scan(/\d+/)[0]
         end

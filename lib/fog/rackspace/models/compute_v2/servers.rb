@@ -4,9 +4,7 @@ require 'fog/rackspace/models/compute_v2/server'
 module Fog
   module Compute
     class RackspaceV2
-
       class Servers < Fog::Collection
-
         model Fog::Compute::RackspaceV2::Server
 
         # Returns list of servers

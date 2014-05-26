@@ -1,9 +1,7 @@
 module Fog
   module Compute
     class Google
-
       class Mock
-
         def list_machine_types(zone_name)
           get_zone(zone_name)
           machine_types = data[:machine_types][zone_name].values
@@ -14,11 +12,9 @@ module Fog
             "items" => machine_types
           })
         end
-
       end
 
       class Real
-
         def list_machine_types(zone_name)
           api_method = @compute.machine_types.list
           parameters = {
@@ -29,9 +25,7 @@ module Fog
           result = self.build_result(api_method, parameters)
           response = self.build_response(result)
         end
-
       end
-
     end
   end
 end

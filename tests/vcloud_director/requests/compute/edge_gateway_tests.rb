@@ -30,7 +30,6 @@ Shindo.tests('Compute::VcloudDirector | edge gateway requests', ['vclouddirector
       }
   }
 
-
   @service = Fog::Compute::VcloudDirector.new
   @org = VcloudDirector::Compute::Helper.current_org(@service)
 
@@ -67,7 +66,6 @@ Shindo.tests('Compute::VcloudDirector | edge gateway requests', ['vclouddirector
     @edge_gateway_id = @edge_gateways[:EdgeGatewayRecord].first[:href].split('/').last
     @original_gateway_conf = @service.get_edge_gateway(@edge_gateway_id).body
   end
-
 
   tests('#configure_edge_gateway_services') do
 

@@ -2,7 +2,6 @@ module Fog
   module Compute
     class HPV2
       class Real
-
         # List all availability zones
         #
         # ==== Returns
@@ -20,11 +19,9 @@ module Fog
             :path     => 'os-availability-zone'
           )
         end
-
       end
 
       class Mock
-
         def list_availability_zones
           response = Excon::Response.new
           response.status = 200
@@ -40,7 +37,6 @@ module Fog
           }
           response
         end
-
       end
     end
   end

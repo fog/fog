@@ -1,7 +1,6 @@
 module Fog
   module Network
     class OpenStack
-
       class Real
         def update_network(network_id, options = {})
           data = { 'network' => {} }
@@ -35,7 +34,6 @@ module Fog
           end
         end
       end
-
     end
   end
 end

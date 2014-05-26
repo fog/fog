@@ -2,7 +2,6 @@ module Fog
   module AWS
     class Glacier
       class Real
-
         #  lists the parts of an archive that have been uploaded in a specific multipart upload
         #
         # ==== Parameters
@@ -31,7 +30,6 @@ module Fog
           )
         end
       end
-
     end
   end
 end

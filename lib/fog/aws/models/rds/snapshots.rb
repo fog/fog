@@ -4,7 +4,6 @@ require 'fog/aws/models/rds/snapshot'
 module Fog
   module AWS
     class RDS
-
       class Snapshots < Fog::Collection
         attribute :server
         attribute :filters
@@ -64,7 +63,6 @@ module Fog
             super
           end
         end
-
       end
     end
   end

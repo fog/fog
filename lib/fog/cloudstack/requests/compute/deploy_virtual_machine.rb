@@ -2,7 +2,6 @@ module Fog
   module Compute
     class Cloudstack
       class Real
-
         # Creates and automatically starts a virtual machine based on a service offering, disk offering, and template.
         #
         # {CloudStack API Reference}[http://download.cloud.com/releases/2.2.0/api_2.2.4/global_admin/deployVirtualMachine.html]
@@ -28,7 +27,6 @@ module Fog
       end # Real
 
       class Mock
-
         def deploy_virtual_machine(options={})
           zone_id = options['zoneid']
           unless zone_id

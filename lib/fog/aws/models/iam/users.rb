@@ -4,9 +4,7 @@ require 'fog/aws/models/iam/user'
 module Fog
   module AWS
     class IAM
-
       class Users < Fog::Collection
-
         attribute :is_truncated,    :aliases => 'IsTruncated'
         attribute :marker,          :aliases => 'Marker'
 

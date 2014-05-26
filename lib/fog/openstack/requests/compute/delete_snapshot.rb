@@ -2,7 +2,6 @@ module Fog
   module Compute
     class OpenStack
       class Real
-
         def delete_snapshot(snapshot_id)
           request(
             :expects  => 202,
@@ -10,7 +9,6 @@ module Fog
             :path     => "os-snapshots/#{snapshot_id}"
           )
         end
-
       end
 
       class Mock
@@ -20,7 +18,6 @@ module Fog
           response
         end
       end
-
     end
   end
 end

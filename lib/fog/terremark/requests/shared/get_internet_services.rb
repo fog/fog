@@ -2,7 +2,6 @@ module Fog
   module Terremark
     module Shared
       module Real
-
         require 'fog/terremark/parsers/shared/get_internet_services'
 
         # Get a list of all internet services for a vdc
@@ -29,7 +28,6 @@ module Fog
             :override_path => true
           )
         end
-
       end
     end
   end

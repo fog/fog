@@ -2,7 +2,6 @@ module Fog
   module DNS
     class DNSMadeEasy
       class Real
-
         # Delete the given domain from your account.
         #
         # ==== Parameters
@@ -18,7 +17,6 @@ module Fog
             :path     => "/V1.2/domains/#{domain}"
           )
         end
-
       end
     end
   end

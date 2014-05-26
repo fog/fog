@@ -1,7 +1,6 @@
 module Fog
   module Rackspace
     class Service
-
       def service_name
         raise Fog::Errors::NotImplemented.new("Please implement the #service_name method")
       end
@@ -138,7 +137,6 @@ module Fog
 
         selected
       end
-
     end
   end
 end

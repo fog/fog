@@ -2,7 +2,6 @@ module Fog
   module Storage
     class AWS
       class Real
-
         # Get an object from S3
         #
         # @param bucket_name [String] Name of bucket to read from
@@ -61,11 +60,9 @@ module Fog
             :method   => 'GET',
           }))
         end
-
       end
 
       class Mock # :nodoc:all
-
         def get_object(bucket_name, object_name, options = {}, &block)
           version_id = options.delete('versionId')
 

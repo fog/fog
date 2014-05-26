@@ -247,7 +247,6 @@ module Fog
       request :virtual_machine_attach_disk
 
       module Shared
-
         attr_accessor :base_path
         attr_reader :versions_uri
 
@@ -283,7 +282,6 @@ module Fog
             end
           end
         end
-
 
         def initialize(options = {})
           require 'fog/core/parser'
@@ -392,7 +390,6 @@ module Fog
           Base64.encode64(@hmac.sign(string)).chomp
         end
 
-
         # section 5.6.3.2 in the ~1000 page pdf spec
         def canonicalize_headers(headers)
           tmp = headers.inject({}) {|ret, h| ret[h.first.downcase] = h.last if h.first.match(/^x-tmrk/i) ; ret }
@@ -410,7 +407,6 @@ module Fog
           "#{uri.downcase}\n#{tm_query_string}\n"
         end
       end
-
 
       class Mock
         include Shared
@@ -517,7 +513,6 @@ module Fog
                             }
                           }
 
-
                           public_ip = {
                             :id             => public_ip_id,
                             :href           => "/cloudapi/ecloud/publicips/#{public_ip_id}",
@@ -607,7 +602,6 @@ module Fog
 
                           network[:IpAddresses][:IpAddress].push(ip_address).push(ip_address2)
 
-
                           short_name = "solaris10_64guest"
                           operating_system = {
                             :short_name      => short_name,
@@ -683,7 +677,6 @@ module Fog
                               }
                             }
                           }
-
 
                           template = {
                             :id              => template_id,
@@ -766,7 +759,6 @@ module Fog
                             },
                             :environment_id => environment_id
                           }
-
 
                           {
                             :compute_pools             => {compute_pool_id            => compute_pool},

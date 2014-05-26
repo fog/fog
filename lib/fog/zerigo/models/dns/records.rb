@@ -4,9 +4,7 @@ require 'fog/zerigo/models/dns/record'
 module Fog
   module DNS
     class Zerigo
-
       class Records < Fog::Collection
-
         attribute :zone
 
         model Fog::DNS::Zerigo::Record
@@ -41,9 +39,7 @@ module Fog
           requires :zone
           super({ :zone => zone }.merge!(attributes))
         end
-
       end
-
     end
   end
 end

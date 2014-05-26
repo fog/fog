@@ -281,7 +281,6 @@ Shindo.tests('Fog::Rackspace::Storage | file', ['rackspace']) do
     tests("#delete_at") do
       @delete_at_time = (Time.now + 300).to_i
 
-
       tests("#delete_at should default to nil").returns(nil) do
         @instance.delete_at
       end
@@ -333,7 +332,6 @@ Shindo.tests('Fog::Rackspace::Storage | file', ['rackspace']) do
       end
     end
   end
-
 
   model_tests(@directory.files, file_attributes, Fog.mocking?) do
 

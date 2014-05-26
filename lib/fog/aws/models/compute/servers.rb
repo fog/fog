@@ -4,9 +4,7 @@ require 'fog/aws/models/compute/server'
 module Fog
   module Compute
     class AWS
-
       class Servers < Fog::Collection
-
         attribute :filters
 
         model Fog::Compute::AWS::Server
@@ -156,9 +154,7 @@ module Fog
         rescue Fog::Errors::NotFound
           nil
         end
-
       end
-
     end
   end
 end

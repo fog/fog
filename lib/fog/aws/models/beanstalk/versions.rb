@@ -4,7 +4,6 @@ require 'fog/aws/models/beanstalk/version'
 module Fog
   module AWS
     class ElasticBeanstalk
-
       class Versions < Fog::Collection
         model Fog::AWS::ElasticBeanstalk::Version
 
@@ -24,7 +23,6 @@ module Fog
 
           end
         end
-
       end
     end
   end

@@ -3,9 +3,7 @@ require 'fog/core/model'
 module Fog
   module Compute
     class AWS
-
       class Tag < Fog::Model
-
         identity  :key
 
         attribute :value
@@ -27,7 +25,6 @@ module Fog
           service.create_tags(resource_id, key => value)
           true
         end
-
       end
     end
   end

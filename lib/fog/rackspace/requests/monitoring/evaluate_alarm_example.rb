@@ -2,7 +2,6 @@ module Fog
   module Rackspace
     class Monitoring
       class Real
-
         def evaluate_alarm_example(id, options = {})
           options ||= {}
           data = {:values => options.dup}

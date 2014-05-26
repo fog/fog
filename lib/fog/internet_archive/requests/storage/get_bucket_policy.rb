@@ -2,7 +2,6 @@ module Fog
   module Storage
     class InternetArchive
       class Real
-
         # Get bucket policy for an S3 bucket
         #
         # @param bucket_name [String] name of bucket to get policy for
@@ -26,9 +25,7 @@ module Fog
           })
           response.body = Fog::JSON.decode(response.body) unless response.body.nil?
         end
-
       end
-
     end
   end
 end

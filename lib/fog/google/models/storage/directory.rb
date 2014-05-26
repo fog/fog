@@ -4,9 +4,7 @@ require 'fog/google/models/storage/files'
 module Fog
   module Storage
     class Google
-
       class Directory < Fog::Model
-
         identity  :key,           :aliases => ['Name', 'name']
 
         attribute :creation_date, :aliases => 'CreationDate'
@@ -70,9 +68,7 @@ module Fog
           service.put_bucket(key, options)
           true
         end
-
       end
-
     end
   end
 end

@@ -5,7 +5,6 @@ module Fog
   module Rackspace
     class Monitoring
       class Check < Fog::Rackspace::Monitoring::Base
-
         identity :id
         attribute :entity
 
@@ -67,9 +66,7 @@ module Fog
             )
           end
         end
-
       end
-
     end
   end
 end

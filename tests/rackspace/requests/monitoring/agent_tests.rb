@@ -21,7 +21,6 @@ Shindo.tests('Fog::Rackspace::Monitoring | agent_tests', ['rackspace','rackspace
     	data_matches_schema(values_format, {:allow_extra_keys => true}) { account.get_agent("agent_id").body }
     end
 
-
     tests('#get agent token').formats(LIST_HEADERS_FORMAT) do
       account.get_agent_token(agent_token).data[:headers]
     end

@@ -25,5 +25,4 @@ Shindo.tests("Fog::Compute::HPV2 | key_pair model", ['hp', 'v2', 'compute']) do
     end
   end
 
-
 end

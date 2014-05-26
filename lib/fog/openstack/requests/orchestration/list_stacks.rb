@@ -2,7 +2,6 @@ module Fog
   module Orchestration
     class OpenStack
       class Real
-
         # List stacks.
         #
         # @param options [Hash]
@@ -31,7 +30,6 @@ module Fog
             :query => options
           )
         end
-
       end
 
       class Mock

@@ -2,7 +2,6 @@ module Fog
   module Parsers
     module XenServer
       class Base
-
         attr_reader :response
 
         def initialize
@@ -29,7 +28,6 @@ module Fog
 
           @response
         end
-
       end
     end
   end

@@ -2,7 +2,6 @@ module Fog
   module AWS
     class Elasticache
       class Real
-
         require 'fog/aws/parsers/elasticache/reset_parameter_group'
 
         # Resets an existing cache parameter group
@@ -33,7 +32,6 @@ module Fog
             :parser => Fog::Parsers::AWS::Elasticache::ResetParameterGroup.new
           ))
         end
-
       end
 
       class Mock

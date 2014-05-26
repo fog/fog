@@ -17,7 +17,6 @@ Shindo.tests('AWS | credentials', ['aws']) do
 
     Excon.stub({:method => :get, :path => "/latest/meta-data/iam/security-credentials/arole"}, {:status => 200, :body => Fog::JSON.encode(credentials)})
 
-
     tests("#fetch_credentials") do
       returns({:aws_access_key_id => 'dummykey', 
                 :aws_secret_access_key => 'dummysecret', 
@@ -43,7 +42,6 @@ Shindo.tests('AWS | credentials', ['aws']) do
       returns("newkey"){ compute.instance_variable_get(:@aws_access_key_id)}
     end
     Fog::Time.now = Time.now
-
 
     tests("#fetch_credentials when the url 404s") do
       Excon.stub({:method => :get, :path => "/latest/meta-data/iam/security-credentials/"}, {:status => 404, :body => 'not bound'})

@@ -4,7 +4,6 @@ module Fog
   module Compute
     class Ecloud
       class Networks < Fog::Ecloud::Collection
-
         attribute :href, :aliases => :Href
 
         model Fog::Compute::Ecloud::Network

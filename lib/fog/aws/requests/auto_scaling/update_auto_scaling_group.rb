@@ -2,7 +2,6 @@ module Fog
   module AWS
     class AutoScaling
       class Real
-
         require 'fog/aws/parsers/auto_scaling/basic'
 
         # Updates the configuration for the specified AutoScalingGroup.
@@ -67,11 +66,9 @@ module Fog
             :parser                => Fog::Parsers::AWS::AutoScaling::Basic.new
           }.merge!(options))
         end
-
       end
 
       class Mock
-
         def update_auto_scaling_group(auto_scaling_group_name, options = {})
           unexpected_options = options.keys - ExpectedOptions[:update_auto_scaling_group]
           unless unexpected_options.empty?
@@ -90,9 +87,7 @@ module Fog
           }
           response
         end
-
       end
-
     end
   end
 end

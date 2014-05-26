@@ -2,7 +2,6 @@ module Fog
   module AWS
     class CloudWatch
       class Real
-
         require 'fog/aws/parsers/cloud_watch/describe_alarms_for_metric'
 
         # Retrieves all alarms for a single metric

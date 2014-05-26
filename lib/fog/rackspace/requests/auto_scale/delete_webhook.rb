@@ -2,7 +2,6 @@ module Fog
   module Rackspace
     class AutoScale
       class Real
-
         def delete_webhook(group_id, policy_id, webhook_id)
           request(
             :expects => [204],

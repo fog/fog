@@ -1,7 +1,6 @@
 module Fog
   module Network
     class OpenStack
-
       class Real
         def get_lb_pool_stats(pool_id)
           request(
@@ -29,7 +28,6 @@ module Fog
           end
         end
       end
-
     end
   end
 end

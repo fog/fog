@@ -2,7 +2,6 @@ module Fog
   module Storage
     class HP
       class Real
-
         # Create a new object
         #
         # ==== Parameters
@@ -34,11 +33,9 @@ module Fog
           )
           response
         end
-
       end
 
       class Mock # :nodoc:all
-
         def put_object(container_name, object_name, data, options = {})
           response = Excon::Response.new
           ### Take care of case of copy operation
@@ -97,9 +94,7 @@ module Fog
           end
           response
         end
-
       end
-
     end
   end
 end

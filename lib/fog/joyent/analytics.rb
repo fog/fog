@@ -46,7 +46,6 @@ module Fog
 
       model :value
 
-
       class Mock
         def self.data
           @data ||= Hash.new do |hash, key|
@@ -206,7 +205,6 @@ module Fog
             opts[:body] = Fog::JSON.encode(opts[:body])
           end
 
-
           response = @connection.request(opts)
           if response.headers["Content-Type"] == "application/json"
             response.body = json_decode(response.body)
@@ -306,7 +304,6 @@ module Fog
             raise Fog::Compute::Joyent::Errors::ServiceUnavailable.new('Either there\'s no capacity in this datacenter, or we\'re in a maintenance window', request, response)
           end
         end
-
       end # Real
     end
   end

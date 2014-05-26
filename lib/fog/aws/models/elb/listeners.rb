@@ -3,7 +3,6 @@ module Fog
   module AWS
     class ELB
       class Listeners < Fog::Collection
-
         model Fog::AWS::ELB::Listener
 
         attr_accessor :data, :load_balancer
@@ -25,7 +24,6 @@ module Fog
             description['Listener'].merge('PolicyNames' => description['PolicyNames'])
           }
         end
-
       end
     end
   end

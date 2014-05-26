@@ -2,7 +2,6 @@ module Fog
   module AWS
     class ElasticBeanstalk
       class Real
-
         require 'fog/aws/parsers/beanstalk/describe_configuration_options'
 
         # Describes the configuration options that are used in a particular configuration template or environment,

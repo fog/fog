@@ -3,7 +3,6 @@ require 'fog/core/collection'
 module Fog
   module CDN
     class AWS
-
       module DistributionsHelper
         
         def all(options = {})
@@ -40,9 +39,7 @@ module Fog
             self
           end
         end
-
       end
-
     end
   end
 end

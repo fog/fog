@@ -2,9 +2,7 @@ module Fog
   module Parsers
     module DNS
       module Zerigo
-
         class ListZones < Fog::Parsers::Base
-
           def reset
             @zone = {}
             @response = { 'zones' => [] }
@@ -21,9 +19,7 @@ module Fog
               @zone = {}
             end
           end
-
         end
-
       end
     end
   end

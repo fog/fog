@@ -3,7 +3,6 @@ module Fog
   module Vcloud
     class Compute
       class Vapp < Fog::Vcloud::Model
-
         include Fog::Vcloud::Compute::Helpers::Status
 
         identity :href, :aliases => :Href

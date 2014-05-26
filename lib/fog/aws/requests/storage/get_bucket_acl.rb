@@ -2,7 +2,6 @@ module Fog
   module Storage
     class AWS
       class Real
-
         require 'fog/aws/parsers/storage/access_control_list'
 
         # Get access control list for an S3 bucket
@@ -40,11 +39,9 @@ module Fog
             :query      => {'acl' => nil}
           })
         end
-
       end
 
       class Mock # :nodoc:all
-
         require 'fog/aws/requests/storage/acl_utils'
 
         def get_bucket_acl(bucket_name)
@@ -62,7 +59,6 @@ module Fog
           end
           response
         end
-
       end
     end
   end

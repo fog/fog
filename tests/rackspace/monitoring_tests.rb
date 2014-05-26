@@ -23,7 +23,6 @@ Shindo.tests('Fog::Rackspace::Monitoring', ['rackspace','rackspace_monitoring'])
     assert_method 'https://lon.identity.api.rackspacecloud.com/v2.0', :authenticate_v2
   end
 
-
   tests('current authentation') do
     pending if Fog.mocking?
 

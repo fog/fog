@@ -56,7 +56,6 @@ module Fog
       collection :backend_server_descriptions
 
       class Mock
-
         require 'fog/aws/elb/policy_types'
 
         def self.data

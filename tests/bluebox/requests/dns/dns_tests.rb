@@ -244,7 +244,6 @@ Shindo.tests('Fog::DNS[:bluebox] | DNS requests', ['bluebox', 'dns']) do
 
   end
 
-
   tests( 'failure') do
 
     #create a zone with invalid parameters

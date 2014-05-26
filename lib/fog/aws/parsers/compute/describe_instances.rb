@@ -2,9 +2,7 @@ module Fog
   module Parsers
     module Compute
       module AWS
-
         class DescribeInstances < Fog::Parsers::Base
-
           def reset
             @block_device_mapping = {}
             @network_interface = {}
@@ -117,9 +115,7 @@ module Fog
               @instance['instanceState']['name'] = value
             end
           end
-
         end
-
       end
     end
   end

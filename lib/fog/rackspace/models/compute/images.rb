@@ -4,9 +4,7 @@ require 'fog/rackspace/models/compute/image'
 module Fog
   module Compute
     class Rackspace
-
       class Images < Fog::Collection
-
         model Fog::Compute::Rackspace::Image
 
         attribute :server
@@ -27,9 +25,7 @@ module Fog
         rescue Fog::Compute::Rackspace::NotFound
           nil
         end
-
       end
-
     end
   end
 end

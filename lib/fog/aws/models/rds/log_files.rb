@@ -4,7 +4,6 @@ require 'fog/aws/models/rds/log_file'
 module Fog
   module AWS
     class RDS
-
       class LogFiles < Fog::Collection
         attribute :filters
         attribute :rds_id
@@ -43,7 +42,6 @@ module Fog
           end
         rescue Fog::AWS::RDS::NotFound
         end
-
       end
     end
   end

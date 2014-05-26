@@ -61,7 +61,6 @@ module Fog
     #     }
     #
     class DataValidator
-
       def initialize
         @message = nil
       end

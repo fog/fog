@@ -2,7 +2,6 @@ module Fog
   module AWS
     class Elasticache
       class Real
-
         require 'fog/aws/parsers/elasticache/modify_parameter_group'
 
         # Modifies an existing cache parameter group
@@ -32,7 +31,6 @@ module Fog
             :parser => Fog::Parsers::AWS::Elasticache::ModifyParameterGroup.new
           ))
         end
-
       end
 
       class Mock

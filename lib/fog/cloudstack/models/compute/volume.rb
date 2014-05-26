@@ -77,7 +77,6 @@ module Fog
           self
         end
 
-
         def attach(instance_or_id, mountpoint=nil)
           requires :id
           instance_id = instance_or_id.is_a?(Server) ? instance_or_id.id : instance_or_id

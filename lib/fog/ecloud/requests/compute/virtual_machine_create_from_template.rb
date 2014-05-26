@@ -2,7 +2,6 @@ module Fog
   module Compute
     class Ecloud
       module Shared
-
         def validate_create_server_options(template_uri, options)
           required_opts = [:name, :cpus, :memory, :row, :group, :customization, :network_uri]
           if options[:customization] == :windows

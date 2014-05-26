@@ -96,7 +96,6 @@ module Fog
           find_href_prefixed_in(href, all_virtual_machines)
         end
 
-
         def all_networks
           all_vdcs.map(&:networks).flatten
         end
@@ -226,7 +225,6 @@ module Fog
         def environments
           @vdcs ||= []
         end
-
       end
 
       class MockVdc < Base

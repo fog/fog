@@ -2,7 +2,6 @@ module Fog
   module Storage
     class HP
       class Real
-
         # Create a new object in a shared container
         #
         # ==== Parameters
@@ -40,11 +39,9 @@ module Fog
           )
           response
         end
-
       end
 
       class Mock # :nodoc:all
-
         def put_shared_object(shared_container_url, object_name, data, options = {}, &block)
           response = Excon::Response.new
           data = Fog::Storage.parse_data(data)
@@ -77,9 +74,7 @@ module Fog
 
           response
         end
-
       end
-
     end
   end
 end

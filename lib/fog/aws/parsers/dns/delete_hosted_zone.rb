@@ -2,9 +2,7 @@ module Fog
   module Parsers
     module DNS
       module AWS
-
         class DeleteHostedZone < Fog::Parsers::Base
-
           def reset
             @response = {}
             @response['ChangeInfo'] = {}
@@ -16,9 +14,7 @@ module Fog
               @response['ChangeInfo'][name] = value
             end
           end
-
         end
-
       end
     end
   end

@@ -4,9 +4,7 @@ require 'fog/aws/models/compute/vpc'
 module Fog
   module Compute
     class AWS
-
       class Vpcs < Fog::Collection
-
         attribute :filters
 
         model Fog::Compute::AWS::VPC
@@ -85,9 +83,7 @@ module Fog
             self.class.new(:service => service).all('vpc-id' => vpc_id).first
           end
         end
-
       end
-
     end
   end
 end

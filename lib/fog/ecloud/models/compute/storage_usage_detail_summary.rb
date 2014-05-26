@@ -4,7 +4,6 @@ module Fog
   module Compute
     class Ecloud
       class StorageUsageDetailSummary < Fog::Ecloud::Collection
-
         identity :href
 
         model Fog::Compute::Ecloud::StorageUsageDetail

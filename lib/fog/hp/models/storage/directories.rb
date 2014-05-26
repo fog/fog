@@ -4,9 +4,7 @@ require 'fog/hp/models/storage/directory'
 module Fog
   module Storage
     class HP
-
       class Directories < Fog::Collection
-
         model Fog::Storage::HP::Directory
 
         def all
@@ -67,9 +65,7 @@ module Fog
           end
           directory
         end
-
       end
-
     end
   end
 end

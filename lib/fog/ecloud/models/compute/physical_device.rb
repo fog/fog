@@ -12,7 +12,6 @@ module Fog
         attribute :classification, :aliases => :Classification
         attribute :model, :aliases => :Model
 
-
         def id
           href.scan(/\d+/)[0]
         end

@@ -1,7 +1,6 @@
 module Fog
   module Network
     class OpenStack
-
       class Real
         def get_network(network_id)
           request(
@@ -36,7 +35,6 @@ module Fog
           end
         end
       end
-
     end
   end
 end

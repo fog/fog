@@ -2,9 +2,7 @@ module Fog
   module Parsers
     module AWS
       module CloudFormation
-
         class DescribeStackResources < Fog::Parsers::Base
-
           def reset
             @resource = {}
             @response = { 'StackResources' => [] }
@@ -23,7 +21,6 @@ module Fog
               @resource[name] = Time.parse(value)
             end
           end
-
         end
       end
     end

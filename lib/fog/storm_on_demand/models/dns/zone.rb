@@ -3,7 +3,6 @@ require 'fog/core/model'
 module Fog
   module DNS
     class StormOnDemand
-
       class Zone < Fog::Model
         identity :id
         attribute :active
@@ -33,7 +32,6 @@ module Fog
           requires :identity
           service.update_zone({:id => identity}.merge!(options))
         end
-
       end
     end
   end

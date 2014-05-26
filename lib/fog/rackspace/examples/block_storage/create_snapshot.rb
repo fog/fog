@@ -83,7 +83,6 @@ puts "* Volume must be unmounted from operating system before detaching. *"
 puts "* This script assumes volume has been unmounted.                   *"
 puts "********************************************************************\n\n"
 
-
 volume = cbs_service.volumes.get attachment.volume_id
 
 # The snapshot process requires all writes to be flushed to disk. This requires unmounting the file systems or detaching the volume.

@@ -3,7 +3,6 @@ require 'fog/dynect/core'
 module Fog
   module DNS
     class Dynect < Fog::Service
-
       requires :dynect_customer, :dynect_username, :dynect_password
       recognizes :timeout, :persistent
       recognizes :provider # remove post deprecation
@@ -139,7 +138,6 @@ module Fog
           response
         end
       end
-
     end
   end
 end

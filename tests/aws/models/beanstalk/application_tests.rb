@@ -66,5 +66,4 @@ Shindo.tests("Fog::AWS[:beanstalk] | application", ['aws', 'beanstalk']) do
 
   end
 
-
 end

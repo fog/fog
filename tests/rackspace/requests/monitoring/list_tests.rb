@@ -26,7 +26,6 @@ Shindo.tests('Fog::Rackspace::Monitoring | list_tests', ['rackspace','rackspace_
       account.get_monitoring_zone('mzdfw').body
     end
 
-
     tests('#get list of checks').formats(LIST_HEADERS_FORMAT) do
       account.list_checks(entity_id).data[:headers]
     end

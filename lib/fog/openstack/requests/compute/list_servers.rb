@@ -2,7 +2,6 @@ module Fog
   module Compute
     class OpenStack
       class Real
-
         def list_servers(options = {})
           params = Hash.new
           params['all_tenants'] = 'True' if options[:all_tenants]
@@ -14,11 +13,9 @@ module Fog
             :query   => params
           )
         end
-
       end
 
       class Mock
-
         def list_servers(options = {})
           response = Excon::Response.new
           data = list_servers_detail.body['servers']
@@ -30,7 +27,6 @@ module Fog
           response.body = { 'servers' => servers }
           response
         end
-
       end
     end
   end

@@ -2,7 +2,6 @@ module Fog
   module Storage
     class AWS
       class Real
-
         require 'fog/aws/parsers/storage/get_bucket'
 
         # List information about objects in an S3 bucket
@@ -51,11 +50,9 @@ module Fog
             :query    => options
           })
         end
-
       end
 
       class Mock # :nodoc:all
-
         def get_bucket(bucket_name, options = {})
           prefix, marker, delimiter, max_keys = \
             options['prefix'], options['marker'], options['delimiter'], options['max-keys']
@@ -105,7 +102,6 @@ module Fog
           end
           response
         end
-
       end
     end
   end

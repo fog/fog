@@ -4,9 +4,7 @@ require 'fog/hp/models/storage/shared_file'
 module Fog
   module Storage
     class HP
-
       class SharedFiles < Fog::Collection
-
         attribute :shared_directory
 
         model Fog::Storage::HP::SharedFile
@@ -56,9 +54,7 @@ module Fog
           requires :shared_directory
           super({ :shared_directory => shared_directory }.merge!(attributes))
         end
-
       end
-
     end
   end
 end

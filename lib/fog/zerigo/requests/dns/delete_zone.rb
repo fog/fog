@@ -2,7 +2,6 @@ module Fog
   module DNS
     class Zerigo
       class Real
-
         # Delete a zone from Zerigo
         #
         # ==== Parameters
@@ -18,7 +17,6 @@ module Fog
             :path     => "/api/1.1/zones/#{zone_id}.xml"
           )
         end
-
       end
 
       class Mock # :nodoc:all

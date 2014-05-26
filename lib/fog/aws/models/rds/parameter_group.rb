@@ -3,9 +3,7 @@ require 'fog/core/model'
 module Fog
   module AWS
     class RDS
-
       class ParameterGroup < Fog::Model
-
         identity  :id, :aliases => ['DBParameterGroupName', :name]
         attribute  :family, :aliases => 'DBParameterGroupFamily'
         attribute  :description, :aliases => 'Description'

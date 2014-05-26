@@ -16,7 +16,6 @@ module Fog
            'created' => 1389877693,
            'size' => 3265536}
         end
-
       end
     end
   end

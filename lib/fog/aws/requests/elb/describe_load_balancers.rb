@@ -2,7 +2,6 @@ module Fog
   module AWS
     class ELB
       class Real
-
         require 'fog/aws/parsers/elb/describe_load_balancers'
 
         # Describe all or specified load balancers
@@ -64,7 +63,6 @@ module Fog
             :parser   => Fog::Parsers::AWS::ELB::DescribeLoadBalancers.new
           }.merge!(options))
         end
-
       end
 
       class Mock

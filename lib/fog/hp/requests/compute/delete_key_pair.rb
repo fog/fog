@@ -2,7 +2,6 @@ module Fog
   module Compute
     class HP
       class Real
-
         # Delete a keypair
         #
         # ==== Parameters
@@ -15,11 +14,9 @@ module Fog
             :path     => "os-keypairs/#{key_name}"
           )
         end
-
       end
 
       class Mock
-
         def delete_key_pair(key_name)
           response = Excon::Response.new
           if self.data[:key_pairs][key_name]
@@ -32,7 +29,6 @@ module Fog
             raise Fog::Compute::HP::NotFound
           end
         end
-
       end
     end
   end

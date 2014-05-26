@@ -4,7 +4,6 @@ require 'fog/google/models/compute/address'
 module Fog
   module Compute
     class Google
-
       class Addresses < Fog::Collection
         model Fog::Compute::Google::Address
 
@@ -36,7 +35,6 @@ module Fog
           new(address.first['addresses'].first)
         end
       end
-
     end
   end
 end

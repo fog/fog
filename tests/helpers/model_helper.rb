@@ -1,5 +1,4 @@
 def model_tests(collection, params = {}, mocks_implemented = true)
-
   tests('success') do
 
     @instance = collection.new(params)
@@ -19,7 +18,6 @@ def model_tests(collection, params = {}, mocks_implemented = true)
     end
 
   end
-
 end
 
 # Generates a unique identifier with a random differentiator.

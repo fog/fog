@@ -2,7 +2,6 @@ module Fog
   module DNS
     class Rage4
       class Real
-
         # Update an existing domain
         # ==== Parameters
         # * id<~Integer> - domain integer value
@@ -34,10 +33,7 @@ module Fog
                   :path     =>  path
           )
         end
-
       end
-
-
     end
   end
 end

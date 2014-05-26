@@ -4,7 +4,6 @@ module Fog
   module Compute
     class Ecloud
       class Servers < Fog::Ecloud::Collection
-
         model Fog::Compute::Ecloud::Server
 
         identity :href
@@ -60,7 +59,6 @@ module Fog
           object = self.service.servers.new(data)
           object
         end
-
       end
     end
   end

@@ -18,7 +18,6 @@ module Fog
         def create_database_server(options)
           wrapped_request("post", "/1.0/database_servers", [202], options)
         end
-
       end
     end
   end

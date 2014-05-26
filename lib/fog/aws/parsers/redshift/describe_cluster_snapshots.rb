@@ -2,7 +2,6 @@ module Fog
   module Parsers
     module Redshift
       module AWS
-
         require 'fog/aws/parsers/redshift/cluster_snapshot_parser'
 
         class DescribeClusterSnapshots < ClusterSnapshotParser

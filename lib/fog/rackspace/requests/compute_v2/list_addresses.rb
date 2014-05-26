@@ -2,7 +2,6 @@ module Fog
   module Compute
     class RackspaceV2
       class Real
-
         # Lists all networks and addresses associated with a specified server.
         # @param [String] server_id
         # @return [Excon::Response] response:
@@ -19,11 +18,9 @@ module Fog
             :path     => "/servers/#{server_id}/ips"
           )
         end
-
       end
 
       class Mock
-
         def list_addresses(server_id)
           raise Fog::Compute::RackspaceV2::NotFound.new if server_id == 0
           response        = Excon::Response.new
@@ -36,7 +33,6 @@ module Fog
           }
           response
         end
-
       end
     end
   end

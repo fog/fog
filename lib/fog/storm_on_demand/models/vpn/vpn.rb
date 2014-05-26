@@ -3,7 +3,6 @@ require 'fog/core/model'
 module Fog
   module VPN
     class StormOnDemand
-
       class Vpn < Fog::Model
         identity :uniq_id
         attribute :active
@@ -23,7 +22,6 @@ module Fog
           requires :identity
           service.update_vpn({:uniq_id => identity}.merge!(options))
         end
-
       end
     end
   end

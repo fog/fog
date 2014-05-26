@@ -3,7 +3,6 @@ require 'fog/core/model'
 module Fog
   module Compute
     class AWS
-
       class NetworkAcl < Fog::Model
         ICMP = 1
         TCP  = 6

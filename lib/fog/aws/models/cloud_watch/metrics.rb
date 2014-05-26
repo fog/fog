@@ -4,7 +4,6 @@ require 'fog/aws/models/cloud_watch/metric'
 module Fog
   module AWS
     class CloudWatch
-
       class Metrics < Fog::Collection
         attribute :next_token, :aliases => 'NextToken'
 
@@ -45,7 +44,6 @@ module Fog
             new(data)
           end
         end
-
       end
     end
   end

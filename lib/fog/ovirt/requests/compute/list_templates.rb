@@ -5,7 +5,6 @@ module Fog
         def list_templates(filters = {})
           client.templates(filters).map {|ovirt_obj| ovirt_attrs ovirt_obj}
         end
-
       end
       class Mock
         def list_templates(filters = {})

@@ -9,7 +9,6 @@ module Fog
 
       class Mock
         def create_subscription(data)
-
           if data[:period] != '1 month' || data[:start_time] || data[:end_time]
             raise Fog::Errors::MockNotImplemented.new('Currently only mocks for subscriptions with period 1 month from now are implemented as mock')
           end
@@ -34,7 +33,6 @@ module Fog
           mock_create(:subscriptions, 200, data, id, defaults)
         end
       end
-
     end
   end
 end

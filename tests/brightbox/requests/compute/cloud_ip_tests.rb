@@ -82,5 +82,4 @@ Shindo.tests('Fog::Compute[:brightbox] | cloud ip requests', ['brightbox']) do
 
   end
 
-
 end

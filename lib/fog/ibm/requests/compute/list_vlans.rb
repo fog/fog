@@ -2,7 +2,6 @@ module Fog
   module Compute
     class IBM
       class Real
-
         # Returns the vlan offerings for user
         #
         # ==== Parameters
@@ -27,10 +26,8 @@ module Fog
             :path     => '/offerings/vlan'
           )
         end
-
       end
       class Mock
-
         def list_vlans
           response = Excon::Response.new
           response.status = 200
@@ -40,7 +37,6 @@ module Fog
                 "name"=>"FOG-VLAN1"}]}
           response
         end
-
       end
     end
   end

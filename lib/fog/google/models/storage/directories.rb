@@ -4,9 +4,7 @@ require 'fog/google/models/storage/directory'
 module Fog
   module Storage
     class Google
-
       class Directories < Fog::Collection
-
         model Fog::Storage::Google::Directory
 
         def all
@@ -35,9 +33,7 @@ module Fog
         rescue Excon::Errors::NotFound
           nil
         end
-
       end
-
     end
   end
 end

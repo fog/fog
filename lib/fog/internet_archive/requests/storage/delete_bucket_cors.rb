@@ -2,7 +2,6 @@ module Fog
   module Storage
     class InternetArchive
       class Real
-
         # Deletes the cors configuration information set for the bucket.
         #
         # @param bucket_name [String] name of bucket to delete cors rules from
@@ -21,9 +20,7 @@ module Fog
             :query    => {'cors' => nil}
           })
         end
-
       end
-
     end
   end
 end

@@ -4,9 +4,7 @@ require 'fog/openstack/models/compute/metadata'
 module Fog
   module Compute
     class OpenStack
-
       class Server < Fog::Compute::Server
-
         identity :id
         attribute :instance_name, :aliases => 'OS-EXT-SRV-ATTR:instance_name'
 
@@ -53,7 +51,6 @@ module Fog
         attr_reader :password
         attr_writer :image_ref, :flavor_ref, :nics, :os_scheduler_hints
         attr_accessor :block_device_mapping
-
 
         def initialize(attributes={})
           # Old 'connection' is renamed as service and should be used instead
@@ -134,7 +131,6 @@ module Fog
               1
             else 0 end
           }
-
         end
 
         alias_method :public_ip_addresses, :floating_ip_addresses
@@ -343,10 +339,7 @@ module Fog
         def adminPass=(new_admin_pass)
           @password = new_admin_pass
         end
-
       end
-
     end
   end
-
 end

@@ -2,7 +2,6 @@ module Fog
   module Compute
     class Vsphere
       class Real
-
         def add_vm_interface(vmid, options = {})
           raise ArgumentError, "instance id is a required parameter" unless vmid
 
@@ -40,7 +39,6 @@ module Fog
             raise ArgumentError, "interface is a required parameter or pass options with type and network"
           end
         end
-
       end
 
       class Mock

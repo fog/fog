@@ -1,7 +1,6 @@
 module Fog
   module Network
     class OpenStack
-
       class Real
         def update_lb_member(member_id, options = {})
           data = { 'member' => {} }
@@ -35,7 +34,6 @@ module Fog
           end
         end
       end
-
     end
   end
 end

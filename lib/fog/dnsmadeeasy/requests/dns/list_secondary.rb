@@ -2,7 +2,6 @@ module Fog
   module DNS
     class DNSMadeEasy
       class Real
-
         # Returns a list of all secondary entry names for your account.
         #
         # ==== Returns
@@ -17,7 +16,6 @@ module Fog
             :path     => '/V1.2/secondary'
           )
         end
-
       end
     end
   end

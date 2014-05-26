@@ -2,9 +2,7 @@ module Fog
   module Parsers
     module AWS
       module SQS
-
         class ReceiveMessage < Fog::Parsers::Base
-
           def reset
             @message  = { 'Attributes' => {} }
             @response = { 'ResponseMetadata' => {}, 'Message' => []}
@@ -32,9 +30,7 @@ module Fog
               end
             end
           end
-
         end
-
       end
     end
   end

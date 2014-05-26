@@ -4,7 +4,6 @@ require 'fog/vcloud_director/models/compute/media'
 module Fog
   module Compute
     class VcloudDirector
-
       class Medias < Collection
         model Fog::Compute::VcloudDirector::Media
 
@@ -70,7 +69,6 @@ module Fog
           items.each {|item| service.add_id_from_href!(item)}
           items
         end
-
       end
     end
   end

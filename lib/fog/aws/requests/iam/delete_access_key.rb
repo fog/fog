@@ -2,7 +2,6 @@ module Fog
   module AWS
     class IAM
       class Real
-
         require 'fog/aws/parsers/iam/basic'
 
         # Delete an access key
@@ -27,11 +26,9 @@ module Fog
             :parser       => Fog::Parsers::AWS::IAM::Basic.new
           }.merge!(options))
         end
-
       end
 
       class Mock
-
         def delete_access_key(access_key_id, options = {})
           user_name = options['UserName']
           if user_name && data[:users].has_key?(user_name) && data[:users][user_name][:access_keys].any? { |akey| akey['AccessKeyId'] == access_key_id }
@@ -44,7 +41,6 @@ module Fog
             raise Fog::AWS::IAM::NotFound.new("The Access Key with id #{access_key_id} cannot be found.")
           end
         end
-
       end
     end
   end

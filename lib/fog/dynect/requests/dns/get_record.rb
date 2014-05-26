@@ -2,7 +2,6 @@ module Fog
   module DNS
     class Dynect
       class Real
-
         # List records of a given type
         #
         # ==== Parameters

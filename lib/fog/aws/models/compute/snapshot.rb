@@ -3,9 +3,7 @@ require 'fog/core/model'
 module Fog
   module Compute
     class AWS
-
       class Snapshot < Fog::Model
-
         identity  :id,          :aliases => 'snapshotId'
 
         attribute :description
@@ -49,9 +47,7 @@ module Fog
         def volume=(new_volume)
           self.volume_id = new_volume.volume_id
         end
-
       end
-
     end
   end
 end

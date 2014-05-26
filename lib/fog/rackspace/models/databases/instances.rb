@@ -5,7 +5,6 @@ module Fog
   module Rackspace
     class Databases
       class Instances < Fog::Collection
-
         model Fog::Rackspace::Databases::Instance
 
         def all

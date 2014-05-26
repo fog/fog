@@ -2,7 +2,6 @@ module Fog
   module Storage
     class InternetArchive
       class Real
-
         require 'fog/internet_archive/parsers/storage/initiate_multipart_upload'
 
         # Initiate a multipart upload to an S3 bucket
@@ -37,7 +36,6 @@ module Fog
             :query      => {'uploads' => nil}
           })
         end
-
       end # Real
     end # Storage
   end # InternetArchive

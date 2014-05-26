@@ -2,7 +2,6 @@ module Fog
   module Compute
     class Ecloud
       module Shared
-
         def validate_edit_compute_pool_options(options)
           required_opts = [:name]
           unless required_opts.all? { |opt| options.has_key?(opt) }
@@ -18,7 +17,6 @@ module Fog
       end
 
       class Real
-
         def compute_pool_edit(options)
           validate_edit_compute_pool_options(options)
           body = build_compute_pool_body_edit(options)

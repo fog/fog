@@ -2,9 +2,7 @@ module Fog
   module Parsers
     module AWS
       module SQS
-
         class SendMessage < Fog::Parsers::Base
-
           def reset
             @response = { 'ResponseMetadata' => {} }
           end
@@ -19,9 +17,7 @@ module Fog
               @response['MD5OfMessageBody'] = @value
             end
           end
-
         end
-
       end
     end
   end

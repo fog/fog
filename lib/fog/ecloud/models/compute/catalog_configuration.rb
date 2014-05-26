@@ -13,7 +13,6 @@ module Fog
         attribute :network_adapters, :aliases => :NetworkAdapters, :type => :integer
         attribute :network_mappings, :aliases => :NetworkMappings
 
-
         def id
           href.scan(/\d+/)[0]
         end

@@ -1,5 +1,4 @@
 def test
-
   connection = Fog::Compute.new({ :provider => "Google" })
 
   # puts 'Listing snapshots...'
@@ -16,5 +15,4 @@ def test
     raise 'Could not GET the snapshot' unless snap
     # puts snap.inspect
   end
-
 end

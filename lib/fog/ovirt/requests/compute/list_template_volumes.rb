@@ -5,7 +5,6 @@ module Fog
         def list_template_volumes(template_id)
           client.template_volumes(template_id).map {|ovirt_obj| ovirt_attrs ovirt_obj}
         end
-
       end
       class Mock
         def list_template_volumes(template_id)
