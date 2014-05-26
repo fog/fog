@@ -15,7 +15,7 @@ Shindo.tests('Fog::Compute[:vsphere] | list_virtual_machines request', ['vsphere
 
     tests("that does exist") do
       uuid = "5029c440-85ee-c2a1-e9dd-b63e39364603"
-      response = Fog::Compute[:vsphere].list_virtual_machines({'instance_uuid' => uuid})
+      response = Fog::Compute[:vsphere].list_virtual_machines('instance_uuid' => uuid)
 
       tests("The response should") do
         test("contain one vm") { response.length == 1 }
@@ -26,7 +26,7 @@ Shindo.tests('Fog::Compute[:vsphere] | list_virtual_machines request', ['vsphere
 
     tests("that does not exist or is a template") do
       %w{ does-not-exist-and-is-not-a-uuid 50323f93-6835-1178-8b8f-9e2109890e1a }.each do |uuid|
-        response = Fog::Compute[:vsphere].list_virtual_machines({'instance_uuid' => uuid})
+        response = Fog::Compute[:vsphere].list_virtual_machines('instance_uuid' => uuid)
 
         tests("The response should") do
           test("be empty") { response.empty? }

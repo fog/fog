@@ -45,7 +45,7 @@ module Fog
             network        = self.data[:networks][network_id]
             options.each.each do |net|
               net[:ips].each do |ip|
-                ip = network[:IpAddresses][:IpAddress].detect { |iph| iph[:name] == ip }
+                ip = network[:IpAddresses][:IpAddress].find { |iph| iph[:name] == ip }
                 ip[:Host] = {
                   :href => "/clouapi/ecloud/networkhosts/#{server_id}",
                   :name => server[:name],

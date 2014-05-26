@@ -61,7 +61,7 @@ module Fog
           headers = params[:headers] || {}
 
           response = Excon::Response.new(:body => body, :headers => headers, :status => status)
-          if params.has_key?(:expects) && ![*params[:expects]].include?(response.status)
+          if params.key?(:expects) && ![*params[:expects]].include?(response.status)
             raise(Excon::Errors.status_error(params, response))
           else response
           end

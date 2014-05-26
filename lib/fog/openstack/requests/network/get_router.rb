@@ -15,7 +15,7 @@ module Fog
       class Mock
         def get_router(router_id)
           response = Excon::Response.new
-          if data = (self.data[:routers].find { |id,value| id == router_id })
+          if data = (self.data[:routers].find { |id,_value| id == router_id })
             response.status = 200
             response.body = {
               'router' => data[1],

@@ -39,7 +39,7 @@ Shindo.tests("Fog::HP::BlockStorageV2 | volume backup requests", ['hp', 'v2', 'b
     @target_volume.wait_for { ready? }
 
     tests("#create_volume_backup(#{@volume.id}, {'name' => #{@backup_name}, 'description' => #{@backup_desc}, 'container' => 'my_backups')").formats(@backup_format) do
-      data = HP[:block_storage_v2].create_volume_backup(@volume.id, {'name' => @backup_name, 'description' => @backup_desc, 'container' => 'my_backups'}).body['backup']
+      data = HP[:block_storage_v2].create_volume_backup(@volume.id, 'name' => @backup_name, 'description' => @backup_desc, 'container' => 'my_backups').body['backup']
       @backup_id = data['id']
       data
     end
@@ -48,11 +48,11 @@ Shindo.tests("Fog::HP::BlockStorageV2 | volume backup requests", ['hp', 'v2', 'b
       HP[:block_storage_v2].get_volume_backup_details(@backup_id).body['backup']
     end
 
-    tests('#list_volume_backups').formats({'backups' => [@backup_format]}) do
+    tests('#list_volume_backups').formats('backups' => [@backup_format]) do
       HP[:block_storage_v2].list_volume_backups.body
     end
 
-    tests('#list_volume_backups_detail').formats({'backups' => [@backup_details_format]}) do
+    tests('#list_volume_backups_detail').formats('backups' => [@backup_details_format]) do
       HP[:block_storage_v2].list_volume_backups_detail.body
     end
 
@@ -72,7 +72,7 @@ Shindo.tests("Fog::HP::BlockStorageV2 | volume backup requests", ['hp', 'v2', 'b
 
     ## restore into existing volume
     tests("#restore_volume_backup(#{@backup_id}, {'volume_id' => #{@target_volume.id}}").formats(@restore_format) do
-      data = HP[:block_storage_v2].restore_volume_backup(@backup_id, {'volume_id' => @target_volume.id}).body['restore']
+      data = HP[:block_storage_v2].restore_volume_backup(@backup_id, 'volume_id' => @target_volume.id).body['restore']
       restored_volume_id = data['volume_id']
       restored_volume = HP[:block_storage_v2].get_volume_details(restored_volume_id).body['volume']
       test ('should overwrite the existing volume with backup restored') do

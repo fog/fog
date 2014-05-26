@@ -15,7 +15,7 @@ module Fog
 
         def enabled?
           requires :identity
-          !!enabled and ready?
+          !!enabled && ready?
         end
 
         def disabled?
@@ -35,7 +35,7 @@ module Fog
 
         def enable
           requires :identity
-          reload if etag.nil? or caller_reference.nil?
+          reload if etag.nil? || caller_reference.nil?
           unless enabled?
             self.enabled = true
             response = put_distribution_config(identity, etag, attributes_to_options)
@@ -47,7 +47,7 @@ module Fog
 
         def disable
           requires :identity
-          reload if etag.nil? or caller_reference.nil?
+          reload if etag.nil? || caller_reference.nil?
           if enabled?
             self.enabled = false
             response = put_distribution_config(identity, etag, attributes_to_options)

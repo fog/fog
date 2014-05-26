@@ -30,14 +30,14 @@ Shindo.tests('Fog::Compute[:rackspace] | image requests', ['rackspace']) do
 
     tests("#get_image_details(#{@image_id})").formats(@image_format) do
       pending if Fog.mocking?
-       @service.get_image_details(@image_id).body['image']
+      @service.get_image_details(@image_id).body['image']
     end
 
-    tests('#list_images').formats({'images' => [Rackspace::Compute::Formats::SUMMARY]}) do
+    tests('#list_images').formats('images' => [Rackspace::Compute::Formats::SUMMARY]) do
        @service.list_images.body
     end
 
-    tests('#list_images_detail').formats({'images' => [@image_format]}) do
+    tests('#list_images_detail').formats('images' => [@image_format]) do
        @service.list_images_detail.body
     end
 
@@ -47,7 +47,7 @@ Shindo.tests('Fog::Compute[:rackspace] | image requests', ['rackspace']) do
 
     tests("#delete_image(#{@image_id})").succeeds do
       pending if Fog.mocking? # because it will fail without the wait just above here, which won't work
-       @service.delete_image(@image_id)
+      @service.delete_image(@image_id)
     end
 
     @server.destroy
@@ -62,7 +62,7 @@ Shindo.tests('Fog::Compute[:rackspace] | image requests', ['rackspace']) do
 
     tests('#get_image_details(0)').raises(Fog::Compute::Rackspace::NotFound) do
       pending if Fog.mocking?
-       @service.get_image_details(Fog::Rackspace::MockData::NOT_FOUND_ID)
+      @service.get_image_details(Fog::Rackspace::MockData::NOT_FOUND_ID)
     end
 
   end

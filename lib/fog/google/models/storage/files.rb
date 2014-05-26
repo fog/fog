@@ -27,7 +27,7 @@ module Fog
             'max-keys'    => max_keys,
             'prefix'      => prefix
           }.merge!(options)
-          options = options.reject {|key,value| value.nil? || value.to_s.empty?}
+          options = options.reject { |_key,value| value.nil? || value.to_s.empty? }
           merge_attributes(options)
           parent = directory.collection.get(
             directory.key,
@@ -35,23 +35,23 @@ module Fog
           )
           if parent
             merge_attributes(parent.files.attributes)
-            load(parent.files.map {|file| file.attributes})
+            load(parent.files.map { |file| file.attributes })
           else
             nil
           end
         end
 
-        alias :each_file_this_page :each
+        alias_method :each_file_this_page, :each
         def each
           if !block_given?
             self
           else
             subset = dup.all
 
-            subset.each_file_this_page {|f| yield f}
+            subset.each_file_this_page { |f| yield f }
             while subset.is_truncated
               subset = subset.all(:marker => subset.last.key)
-              subset.each_file_this_page {|f| yield f}
+              subset.each_file_this_page { |f| yield f }
             end
 
             self
@@ -61,10 +61,10 @@ module Fog
         def get(key, options = {}, &block)
           requires :directory
           data = service.get_object(directory.key, key, options, &block)
-          file_data = data.headers.merge({
-            :body => data.body,
+          file_data = data.headers.merge(
+                                           :body => data.body,
             :key  => key
-          })
+          )
           new(file_data)
         rescue Excon::Errors::NotFound
           nil
@@ -83,9 +83,9 @@ module Fog
         def head(key, options = {})
           requires :directory
           data = service.head_object(directory.key, key, options)
-          file_data = data.headers.merge({
-            :key => key
-          })
+          file_data = data.headers.merge(
+                                           :key => key
+          )
           new(file_data)
         rescue Excon::Errors::NotFound
           nil

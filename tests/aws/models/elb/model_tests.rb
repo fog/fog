@@ -1,11 +1,11 @@
 Shindo.tests('AWS::ELB | models', ['aws', 'elb']) do
   require 'fog'
   Fog::Compute::AWS::Mock.reset if Fog.mocking?
-  @availability_zones = Fog::Compute[:aws].describe_availability_zones('state' => 'available').body['availabilityZoneInfo'].collect{ |az| az['zoneName'] }
+  @availability_zones = Fog::Compute[:aws].describe_availability_zones('state' => 'available').body['availabilityZoneInfo'].map { |az| az['zoneName'] }
   @key_name = 'fog-test-model'
   @vpc = Fog::Compute[:aws].vpcs.create('cidr_block' => '10.0.10.0/24')
   @vpc_id = @vpc.id
-  @subnet = Fog::Compute[:aws].subnets.create({:vpc_id => @vpc_id, :cidr_block => '10.0.10.0/24'})
+  @subnet = Fog::Compute[:aws].subnets.create(:vpc_id => @vpc_id, :cidr_block => '10.0.10.0/24')
   @subnet_id = @subnet.subnet_id
   @scheme = 'internal'
   @igw = Fog::Compute[:aws].internet_gateways.create
@@ -105,9 +105,9 @@ Shindo.tests('AWS::ELB | models', ['aws', 'elb']) do
         @certificate = Fog::AWS[:iam].upload_server_certificate(AWS::IAM::SERVER_CERT, AWS::IAM::SERVER_CERT_PRIVATE_KEY, @key_name).body['Certificate']
         sleep(10) unless Fog.mocking?
         listeners = [{
-            'Listener' => {
-              'LoadBalancerPort' => 2030, 'InstancePort' => 2030, 'Protocol' => 'HTTP'
-            },
+          'Listener' => {
+            'LoadBalancerPort' => 2030, 'InstancePort' => 2030, 'Protocol' => 'HTTP'
+          },
             'PolicyNames' => []
           }, {
             'Listener' => {
@@ -129,21 +129,21 @@ Shindo.tests('AWS::ELB | models', ['aws', 'elb']) do
       tests('with invalid Server Cert ARN').raises(Fog::AWS::IAM::NotFound) do
         listeners = [{
           'Listener' => {
-          'LoadBalancerPort' => 443, 'InstancePort' => 80, 'Protocol' => 'HTTPS', 'InstanceProtocol' => 'HTTPS', "SSLCertificateId" => "fakecert"}
+            'LoadBalancerPort' => 443, 'InstancePort' => 80, 'Protocol' => 'HTTPS', 'InstanceProtocol' => 'HTTPS', "SSLCertificateId" => "fakecert"}
         }]
         Fog::AWS[:elb].load_balancers.create(:id => "#{elb_id}-4", "ListenerDescriptions" => listeners, :availability_zones => @availability_zones)
       end
     end
 
     tests('all') do
-      elb_ids = Fog::AWS[:elb].load_balancers.all.map{|e| e.id}
+      elb_ids = Fog::AWS[:elb].load_balancers.all.map { |e| e.id }
       tests("contains elb").returns(true) { elb_ids.include? elb_id }
     end
 
     if Fog.mocking?
       tests('all marker support') do
-        extra_elb_ids = (1..1000).map {|n| Fog::AWS[:elb].load_balancers.create(:id => "#{elb_id}-extra-#{n}").id }
-        tests('returns all elbs').returns(true) { (extra_elb_ids - Fog::AWS[:elb].load_balancers.all.map {|e| e.id }).empty? }
+        extra_elb_ids = (1..1000).map { |n| Fog::AWS[:elb].load_balancers.create(:id => "#{elb_id}-extra-#{n}").id }
+        tests('returns all elbs').returns(true) { (extra_elb_ids - Fog::AWS[:elb].load_balancers.all.map { |e| e.id }).empty? }
       end
     end
 
@@ -185,7 +185,7 @@ Shindo.tests('AWS::ELB | models', ['aws', 'elb']) do
 
     tests('instance_health') do
       returns('OutOfService') do
-        elb.instance_health.detect{|hash| hash['InstanceId'] == server.id}['State']
+        elb.instance_health.find { |hash| hash['InstanceId'] == server.id }['State']
       end
 
       returns([server.id]) { elb.instances_out_of_service }
@@ -216,9 +216,9 @@ Shindo.tests('AWS::ELB | models', ['aws', 'elb']) do
     end
 
     tests('cross_zone_load_balancing') do
-      returns(false) {elb.cross_zone_load_balancing?}
+      returns(false) { elb.cross_zone_load_balancing? }
       elb.cross_zone_load_balancing = true
-      returns(true) {elb.cross_zone_load_balancing?}
+      returns(true) { elb.cross_zone_load_balancing? }
     end
 
     tests('default health check') do

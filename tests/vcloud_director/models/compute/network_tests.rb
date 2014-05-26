@@ -13,7 +13,7 @@ Shindo.tests("Compute::VcloudDirector | networks", ['vclouddirector', 'all']) do
   # Run initial tests against a natRouted network, since these
   # are more likely to be created, and must be populated with
   # Gateway and EdgeGateway sections
-  network = networks.detect do |net|
+  network = networks.find do |net|
     network_raw = service.get_network_complete(net.id).body
     network_raw[:Configuration][:FenceMode] == 'natRouted'
   end
@@ -28,7 +28,7 @@ Shindo.tests("Compute::VcloudDirector | networks", ['vclouddirector', 'all']) do
     tests("#id").returns(0) { network.id =~ UUID_REGEX }
     tests("#name").returns(String) { network.name.class }
     tests("#href").returns(String) { network.href.class }
-    tests("#type").returns("application/vnd.vmware.vcloud.orgNetwork+xml"){ network.type }
+    tests("#type").returns("application/vnd.vmware.vcloud.orgNetwork+xml") { network.type }
   end
 
   tests("Compute::VcloudDirector | network", ['lazy load attrs']) do
@@ -46,7 +46,7 @@ Shindo.tests("Compute::VcloudDirector | networks", ['vclouddirector', 'all']) do
 
   tests("Compute::VcloudDirector | network", ['all lazy load attrs should now be loaded with data']) do
     network.lazy_load_attrs.each do |field|
-      tests("##{field.to_s} is now loaded").returns(true) { network.attributes[field] != NonLoaded }
+      tests("##{field} is now loaded").returns(true) { network.attributes[field] != NonLoaded }
     end
   end
 
@@ -75,7 +75,7 @@ Shindo.tests("Compute::VcloudDirector | networks", ['vclouddirector', 'all']) do
   # Now let's also check against an isolated network, since these have some
   # additional features like DHCP ServiceConfigurations.
   isolated_network_raw = nil
-  isolated_network = networks.detect do |net|
+  isolated_network = networks.find do |net|
     isolated_network_raw = service.get_network_complete(net.id).body
     isolated_network_raw[:Configuration][:FenceMode] == 'isolated'
   end

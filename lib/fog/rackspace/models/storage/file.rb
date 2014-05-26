@@ -8,7 +8,7 @@ module Fog
 
         # @!attribute [r] key
         # @return [String] The name of the file
-        identity  :key,             :aliases => 'name'
+        identity :key,             :aliases => 'name'
 
         # @!attribute [r] content_length
         # @return [Integer] The content length of the file
@@ -281,7 +281,7 @@ module Fog
         private
 
         def update_attributes_from(data)
-          merge_attributes(data.headers.reject {|key, value| ['Content-Length', 'Content-Type'].include?(key)})
+          merge_attributes(data.headers.reject { |key, _value| ['Content-Length', 'Content-Type'].include?(key) })
         end
       end
 

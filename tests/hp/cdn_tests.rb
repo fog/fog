@@ -5,7 +5,7 @@ Shindo.tests('Fog::CDN::HP', ['hp', 'cdn']) do
     :cdn_endpoint_url => 'http://127.0.0.1/cdnpath/',
     :service_catalog => {
       :"CDN" => {
-      :zone => 'http://127.0.0.1/cdnpath/'}},
+        :zone => 'http://127.0.0.1/cdnpath/'}},
     :expires => (DateTime.now + 1).to_s
   }
   options = {

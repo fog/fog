@@ -21,7 +21,7 @@ module Fog
         #
         def describe_configuration_settings(options={})
           request({
-                      'Operation'    => 'DescribeConfigurationSettings',
+            'Operation'    => 'DescribeConfigurationSettings',
                       :parser     => Fog::Parsers::AWS::ElasticBeanstalk::DescribeConfigurationSettings.new
                   }.merge(options))
         end

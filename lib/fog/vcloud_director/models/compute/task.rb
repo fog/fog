@@ -6,7 +6,7 @@ module Fog
 
       class Task < Fog::Model
 
-        identity  :id
+        identity :id
 
         attribute :href
         attribute :type

@@ -6,7 +6,7 @@ module Fog
 
       class Volume < Fog::Model
 
-        identity  :id
+        identity :id
 
         attribute :name,                 :aliases => 'displayName'
         attribute :description,          :aliases => 'displayDescription'
@@ -89,7 +89,7 @@ module Fog
             'snapshot_id'       => snapshot_id,
             'imageRef'          => @image_id
           }
-          options = options.reject {|key, value| value.nil?}
+          options = options.reject { |_key, value| value.nil? }
           data = service.create_volume(name, description, size, options)
           merge_attributes(data.body['volume'])
           true

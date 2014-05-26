@@ -41,7 +41,7 @@ module Fog
           ) unless self.data[:users].key?(user)
           Excon::Response.new.tap do |response|
             response.body = {'User' =>  {
-                                          'UserId'     => data[:users][user][:user_id],
+              'UserId'     => data[:users][user][:user_id],
                                           'Path'       => data[:users][user][:path],
                                           'UserName'   => user,
                                           'Arn'        => (data[:users][user][:arn]).strip,

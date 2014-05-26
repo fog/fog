@@ -20,28 +20,28 @@ Shindo.tests('Fog::Compute[:openstack] | flavor requests', ['openstack']) do
       Fog::Compute[:openstack].get_flavor_details("1").body['flavor']
     end
 
-    tests('#list_flavors').data_matches_schema({'flavors' => [OpenStack::Compute::Formats::SUMMARY]}) do
+    tests('#list_flavors').data_matches_schema('flavors' => [OpenStack::Compute::Formats::SUMMARY]) do
       Fog::Compute[:openstack].list_flavors.body
     end
 
-    tests('#list_flavors_detail').data_matches_schema({'flavors' => [@flavor_format]}) do
+    tests('#list_flavors_detail').data_matches_schema('flavors' => [@flavor_format]) do
       Fog::Compute[:openstack].list_flavors_detail.body
     end
 
-    tests('#create_flavor(attributes)').data_matches_schema({'flavor' => @flavor_format}) do
+    tests('#create_flavor(attributes)').data_matches_schema('flavor' => @flavor_format) do
       attributes = {:flavor_id => '100', :name => 'shindo test flavor', :disk => 10, :ram => 10, :vcpus => 10, :swap => "0", :rxtx_factor => 2.4, :ephemeral => 0, :is_public => false}
       Fog::Compute[:openstack].create_flavor(attributes).body
     end
 
-    tests('add_flavor_access(flavor_ref, tenant_id)').data_matches_schema({'flavor_access' => [{'tenant_id' => String, 'flavor_id' => String}]}) do
+    tests('add_flavor_access(flavor_ref, tenant_id)').data_matches_schema('flavor_access' => [{'tenant_id' => String, 'flavor_id' => String}]) do
       Fog::Compute[:openstack].add_flavor_access(100, 1).body
     end
 
-    tests('remove_flavor_access(flavor_ref, tenant_id)').data_matches_schema({'flavor_access' => []}) do
+    tests('remove_flavor_access(flavor_ref, tenant_id)').data_matches_schema('flavor_access' => []) do
       Fog::Compute[:openstack].remove_flavor_access(100, 1).body
     end
 
-    tests('list_tenants_with_flavor_access(flavor_ref)').data_matches_schema({'flavor_access' => [{'tenant_id' => String, 'flavor_id' => String}]}) do
+    tests('list_tenants_with_flavor_access(flavor_ref)').data_matches_schema('flavor_access' => [{'tenant_id' => String, 'flavor_id' => String}]) do
       Fog::Compute[:openstack].list_tenants_with_flavor_access(100).body
     end
 

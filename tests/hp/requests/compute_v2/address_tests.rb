@@ -21,7 +21,7 @@ Shindo.tests("Fog::Compute::HPV2 | address requests", ['hp', 'v2', 'compute', 'a
     #data = service.create_server(@server_name, 100, @base_image_id).body['server']
     #@server_id = data['id']
 
-    tests("#list_addresses").formats({'floating_ips' => [@floating_ips_format]}) do
+    tests("#list_addresses").formats('floating_ips' => [@floating_ips_format]) do
       service.list_addresses.body
     end
 

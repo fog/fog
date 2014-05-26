@@ -9,10 +9,10 @@ module Fog
       recognizes :clodo_auth_token, :clodo_management_url
 
       model_path 'fog/clodo/models/compute'
-      model       :image
-      collection  :images
-      model       :server
-      collection  :servers
+      model :image
+      collection :images
+      model :server
+      collection :servers
 
       request_path 'fog/clodo/requests/compute'
       request :create_server
@@ -93,15 +93,15 @@ module Fog
 
         def request(params)
           begin
-            response = @connection.request(params.merge({
-              :headers  => {
-                'Content-Type' => 'application/json',
-                'Accept' => 'application/json',
-                'X-Auth-Token' => @auth_token
-              }.merge!(params[:headers] || {}),
+            response = @connection.request(params.merge(
+                                                          :headers  => {
+                                                            'Content-Type' => 'application/json',
+                                                            'Accept' => 'application/json',
+                                                            'X-Auth-Token' => @auth_token
+                                                          }.merge!(params[:headers] || {}),
               :host     => @host,
               :path     => "#{@path}/#{params[:path]}"
-            }))
+            ))
           rescue Excon::Errors::Unauthorized => error
             if error.response.body != 'Bad username or password' # token expiration
               @clodo_must_reauthenticate = true

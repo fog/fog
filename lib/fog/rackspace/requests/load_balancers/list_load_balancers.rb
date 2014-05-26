@@ -3,7 +3,7 @@ module Fog
     class LoadBalancers
       class Real
         def list_load_balancers(options = {})
-          if options.has_key? :node_address
+          if options.key? :node_address
             query_string = "?nodeaddress=#{options[:node_address]}"
           else
             query_string = ''

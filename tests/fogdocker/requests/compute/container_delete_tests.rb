@@ -1,8 +1,8 @@
 Shindo.tests('Fog::Compute[:fogdocker] | container_delete request', ['fogdocker']) do
 
   compute = Fog::Compute[:fogdocker]
-  container = compute.servers.create({'Image' => 'mattdm/fedora:f19',
-                                     'Cmd'   => ['/bin/bash']})
+  container = compute.servers.create('Image' => 'mattdm/fedora:f19',
+                                     'Cmd'   => ['/bin/bash'])
 
   tests('The response should') do
     response = compute.container_delete(:id => container.id)

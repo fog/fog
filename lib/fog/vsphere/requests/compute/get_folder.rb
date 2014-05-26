@@ -30,12 +30,12 @@ module Fog
           dc             = find_raw_datacenter(datacenter_name)
           dc_root_folder = dc.vmFolder
           # Filter the root path for this datacenter not to be used."
-          dc_root_folder_path=dc_root_folder.path.map { | id, name | name }.join("/")
+          dc_root_folder_path=dc_root_folder.path.map { | _id, name | name }.join("/")
           paths          = path.sub(/^\/?#{Regexp.quote(dc_root_folder_path)}\/?/, '').split('/')
 
           return dc_root_folder if paths.empty?
           # Walk the tree resetting the folder pointer as we go
-          paths.inject(dc_root_folder) do |last_returned_folder, sub_folder|
+          paths.reduce(dc_root_folder) do |last_returned_folder, sub_folder|
             # JJM VIM::Folder#find appears to be quite efficient as it uses the
             # searchIndex It certainly appears to be faster than
             # VIM::Folder#inventory since that returns _all_ managed objects of

@@ -6,7 +6,7 @@ module Fog
 
       class Volume < Fog::Model
 
-        identity  :id
+        identity :id
 
         attribute :name,                 :aliases => 'display_name'
         attribute :description,          :aliases => 'display_description'
@@ -55,7 +55,7 @@ module Fog
         def in_use?
           self.status == 'in-use'
         end
-        alias :attached? :in_use?
+        alias_method :attached?, :in_use?
 
         def backing_up?
           self.status == 'backing-up'
@@ -113,7 +113,7 @@ module Fog
             'source_volid'        => source_volid,
             'volume_type'         => type                 # this parameter is currently ignored
           }
-          options = options.reject {|_, value| value.nil?}
+          options = options.reject { |_, value| value.nil? }
           data = service.create_volume(options)
           merge_attributes(data.body['volume'])
           true
@@ -126,7 +126,7 @@ module Fog
             'display_description' => description,
             'metadata'            => metadata
           }
-          options = options.reject {|_, value| value.nil?}
+          options = options.reject { |_, value| value.nil? }
           data = service.update_volume(id, options)
           merge_attributes(data.body['volume'])
           true

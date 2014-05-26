@@ -24,15 +24,15 @@ module Fog
 
       def request(params)
         begin
-          response = @connection.request(params.merge!({
-            :headers  => {
-              'Content-Type' => 'application/json',
-              'Authorization' => 'Basic ' << Base64.encode64("#{@storm_on_demand_username}:#{@storm_on_demand_password}").chomp
-            }.merge!(params[:headers] || {}),
+          response = @connection.request(params.merge!(
+                                                         :headers  => {
+                                                           'Content-Type' => 'application/json',
+                                                           'Authorization' => 'Basic ' << Base64.encode64("#{@storm_on_demand_username}:#{@storm_on_demand_password}").chomp
+                                                         }.merge!(params[:headers] || {}),
             :path     => "#{@path}/#{API_VERSION}#{params[:path]}",
             :expects  => 200,
             :method   => :post
-          }))
+          ))
         rescue Excon::Errors::HTTPStatusError => error
           raise case error
           when Excon::Errors::NotFound
@@ -44,7 +44,7 @@ module Fog
         unless response.body.empty?
           response.body = Fog::JSON.decode(response.body)
         end
-        if response.body.has_key?('error_class')
+        if response.body.key?('error_class')
           raise(Fog::Compute::StormOnDemand::Error, response.body.inspect)
         end
         response

@@ -5,7 +5,7 @@ module Fog
     class DigitalOcean
       class Flavor < Fog::Model
 
-        identity  :id
+        identity :id
         attribute :name
 
       end

@@ -26,15 +26,15 @@ module Fog
           unless bucket_name
             raise ArgumentError.new('bucket_name is required')
           end
-          request({
-            :expects    => 200,
+          request(
+                    :expects    => 200,
             :headers    => {},
             :bucket_name => bucket_name,
             :idempotent => true,
             :method     => 'GET',
             :parser     => Fog::Parsers::Storage::AWS::CorsConfiguration.new,
             :query      => {'cors' => nil}
-          })
+          )
         end
 
       end

@@ -67,7 +67,7 @@ module Fog
             :Description => media[:description] || '',
             :Tasks => {
               # FIXME: there's only one for now
-              :Task => media[:tasks].map {|task_id| task_body(task_id)}.first
+              :Task => media[:tasks].map { |task_id| task_body(task_id) }.first
             },
             :Files => {
               :File => []

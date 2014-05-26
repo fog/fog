@@ -6,7 +6,7 @@ module Fog
 
       class Server < Fog::Model
 
-        identity  :id, :aliases => 'DBInstanceIdentifier'
+        identity :id, :aliases => 'DBInstanceIdentifier'
         attribute :engine, :aliases => 'Engine'
         attribute :engine_version, :aliases => 'EngineVersion'
         attribute :state, :aliases => 'DBInstanceStatus'
@@ -134,7 +134,7 @@ module Fog
             'VpcSecurityGroups'             => vpc_security_groups,
           }
 
-          options.delete_if {|key, value| value.nil?}
+          options.delete_if { |_key, value| value.nil? }
         end
       end
     end

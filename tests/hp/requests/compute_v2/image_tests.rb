@@ -55,11 +55,11 @@ Shindo.tests("Fog::Compute::HPV2 | image requests", ['hp', 'v2', 'compute']) do
       service.get_image_details(@image_id).body['image']
     end
 
-    tests('#list_images').formats({'images' => [@list_images_format]}) do
+    tests('#list_images').formats('images' => [@list_images_format]) do
       service.list_images.body
     end
 
-    tests('#list_images_detail').formats({'images' => [@image_format]}) do
+    tests('#list_images_detail').formats('images' => [@image_format]) do
       service.list_images_detail.body
     end
 

@@ -18,7 +18,7 @@ Shindo.tests('Fog::Network[:openstack] | network requests', ['openstack']) do
   }
 
   tests('success') do
-    tests('#create_network').formats({'network' => @network_format}) do
+    tests('#create_network').formats('network' => @network_format) do
       attributes = {
         :name => 'net_name',
         :shared => false,
@@ -28,7 +28,7 @@ Shindo.tests('Fog::Network[:openstack] | network requests', ['openstack']) do
       Fog::Network[:openstack].create_network(attributes).body
     end
     tests('#create_network+provider extensions').formats(
-      {'network' => @network_format.merge(@network_format_extensions)}
+      'network' => @network_format.merge(@network_format_extensions)
     ) do
       attributes = {
         :name => 'net_name',
@@ -45,16 +45,16 @@ Shindo.tests('Fog::Network[:openstack] | network requests', ['openstack']) do
       Fog::Network[:openstack].create_network(attributes).body
     end
 
-    tests('#list_networks').formats({'networks' => [@network_format]}) do
+    tests('#list_networks').formats('networks' => [@network_format]) do
       Fog::Network[:openstack].list_networks.body
     end
 
-    tests('#get_network').formats({'network' => @network_format}) do
+    tests('#get_network').formats('network' => @network_format) do
       network_id = Fog::Network[:openstack].networks.all.first.id
       Fog::Network[:openstack].get_network(network_id).body
     end
 
-    tests('#update_network').formats({'network' => @network_format}) do
+    tests('#update_network').formats('network' => @network_format) do
       network_id = Fog::Network[:openstack].networks.all.first.id
       attributes = {:name => 'net_name', :shared => false,
                     :admin_state_up => true}

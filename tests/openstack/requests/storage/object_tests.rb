@@ -25,7 +25,7 @@ Shindo.tests('Fog::Storage[:openstack] | object requests', ["openstack"]) do
     tests("#get_object('fogobjecttests', 'fog_object', &block)").succeeds do
       pending if Fog.mocking?
       data = ''
-      Fog::Storage[:openstack].get_object('fogobjecttests', 'fog_object') do |chunk, remaining_bytes, total_bytes|
+      Fog::Storage[:openstack].get_object('fogobjecttests', 'fog_object') do |chunk, _remaining_bytes, _total_bytes|
         data << chunk
       end
       data == lorem_file.read

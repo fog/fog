@@ -5,7 +5,7 @@ module Fog
     class AutoScaling
       class Activity < Fog::Model
 
-        identity  :id,                      :aliases => 'ActivityId'
+        identity :id,                      :aliases => 'ActivityId'
         attribute :auto_scaling_group_name, :aliases => 'AutoScalingGroupName'
         attribute :cause,                   :aliases => 'Cause'
         attribute :description,             :aliases => 'Description'

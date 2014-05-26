@@ -22,13 +22,13 @@ module Fog
         #     * 'ResponseMetadata'<~Hash>:
         #       * 'RequestId'<~String> - Id of request
         def set_load_balancer_listener_ssl_certificate(lb_name, load_balancer_port, ssl_certificate_id)
-          request({
-            'Action'           => 'SetLoadBalancerListenerSSLCertificate',
+          request(
+                    'Action'           => 'SetLoadBalancerListenerSSLCertificate',
             'LoadBalancerName' => lb_name,
             'LoadBalancerPort' => load_balancer_port,
             'SSLCertificateId' => ssl_certificate_id,
             :parser            => Fog::Parsers::AWS::ELB::Empty.new
-          })
+          )
         end
 
       end
@@ -37,7 +37,7 @@ module Fog
         def set_load_balancer_listener_ssl_certificate(lb_name, load_balancer_port, ssl_certificate_id)
           raise Fog::AWS::ELB::NotFound unless load_balancer = self.data[:load_balancers][lb_name]
 
-          certificate_ids = Fog::AWS::IAM::Mock.data[@aws_access_key_id][:server_certificates].map {|n, c| c['Arn'] }
+          certificate_ids = Fog::AWS::IAM::Mock.data[@aws_access_key_id][:server_certificates].map { |_n, c| c['Arn'] }
           if !certificate_ids.include? ssl_certificate_id
             raise Fog::AWS::IAM::NotFound.new('CertificateNotFound')
           end

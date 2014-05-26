@@ -49,7 +49,7 @@ module Fog
 
         def destroy(options = {})
           requires :identity
-          service.destroy(options.merge!({:serverid => identity}))
+          service.destroy(options.merge!(:serverid => identity))
         end
 
         def save

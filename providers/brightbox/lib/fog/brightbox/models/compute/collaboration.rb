@@ -4,7 +4,7 @@ module Fog
   module Compute
     class Brightbox
       class Collaboration < Fog::Model
-        identity  :id
+        identity :id
         attribute :status
         attribute :email
         attribute :role
@@ -23,7 +23,7 @@ module Fog
           options = {
             :role => role,
             :email => email
-          }.delete_if { |k, v| v.nil? || v == "" }
+          }.delete_if { |_k, v| v.nil? || v == "" }
 
           data = service.create_collaboration(options)
           merge_attributes(data)

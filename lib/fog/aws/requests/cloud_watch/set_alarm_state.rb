@@ -21,7 +21,7 @@ module Fog
 
         def set_alarm_state(options)
           request({
-              'Action'    => 'SetAlarmState',
+            'Action'    => 'SetAlarmState',
               :parser     => Fog::Parsers::AWS::CloudWatch::SetAlarmState.new
             }.merge(options))
         end

@@ -20,10 +20,10 @@ def delete_network(network)
     network.destroy
   rescue Fog::Compute::RackspaceV2::ServiceError => e
     if attempt == 3
-       puts  "Unable to delete #{network.label}"
-      return false
+       puts "Unable to delete #{network.label}"
+       return false
     end
-     puts "Network #{network.label} Delete Fail Attempt #{attempt}- #{e.inspect}"
+    puts "Network #{network.label} Delete Fail Attempt #{attempt}- #{e.inspect}"
     attempt += 1
     sleep 60
     retry
@@ -49,18 +49,18 @@ def rackspace_api_key
 end
 
 # create Next Generation Cloud Server service
-service = Fog::Compute.new({
-  :provider             => 'rackspace',
+service = Fog::Compute.new(
+                             :provider             => 'rackspace',
   :rackspace_username   => rackspace_username,
   :rackspace_api_key    => rackspace_api_key,
   :version => :v2,  # Use Next Gen Cloud Servers
   :rackspace_region => :ord #Use Chicago Region
-})
+)
 
 # NOTE: The network must not be connected to any servers before deletion
 
 # Find alpha bits server
-server = service.servers.find {|s| s.name == 'alphabits'}
+server = service.servers.find { |s| s.name == 'alphabits' }
 
 puts "\n"
 if server
@@ -72,7 +72,7 @@ end
 
 wait_for_server_deletion(server)
 
-network = service.networks.find {|n| n.label == 'my_private_net'}
+network = service.networks.find { |n| n.label == 'my_private_net' }
 delete_network(network)
 
 puts "The network '#{network.label}' has been successfully deleted"

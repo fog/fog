@@ -36,9 +36,9 @@ module Fog
 
         def destroy(opts={})
           if opts[:recursive]
-            files.each {|f| f.destroy }
+            files.each { |f| f.destroy }
             directories.each do |d|
-              d.files.each {|f| f.destroy }
+              d.files.each { |f| f.destroy }
               d.destroy(opts)
             end
           end

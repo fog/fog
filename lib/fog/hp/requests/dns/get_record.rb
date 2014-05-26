@@ -33,7 +33,7 @@ module Fog
       class Mock
         def get_record(domain_id, record_id)
           response = Excon::Response.new
-          if record = list_records_in_a_domain(domain_id).body['records'].detect { |_| _['id'] == record_id }
+          if record = list_records_in_a_domain(domain_id).body['records'].find { |_| _['id'] == record_id }
             response.status = 200
             response.body = record
             response

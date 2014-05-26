@@ -8,7 +8,7 @@ module Fog
         extend Fog::Deprecation
         deprecate :ip_address, :public_ip_address
 
-        identity  :id,                       :aliases => 'instanceId'
+        identity :id,                       :aliases => 'instanceId'
 
         attr_accessor :architecture
         attribute :ami_launch_index,         :aliases => 'amiLaunchIndex'
@@ -54,8 +54,8 @@ module Fog
         attribute :virtualization_type,      :aliases => 'virtualizationType'
         attribute :vpc_id,                   :aliases => 'vpcId'
 
-        attr_accessor                        :password
-        attr_writer                          :iam_instance_profile_name, :iam_instance_profile_arn
+        attr_accessor :password
+        attr_writer :iam_instance_profile_name, :iam_instance_profile_arn
 
 
         def initialize(attributes={})
@@ -118,7 +118,7 @@ module Fog
         end
 
         def flavor
-          @flavor ||= service.flavors.all.detect {|flavor| flavor.id == flavor_id}
+          @flavor ||= service.flavors.all.find { |flavor| flavor.id == flavor_id }
         end
 
         def key_pair
@@ -168,7 +168,7 @@ module Fog
             'SubnetId'                    => subnet_id,
             'UserData'                    => user_data,
           }
-          options.delete_if {|key, value| value.nil?}
+          options.delete_if { |_key, value| value.nil? }
 
           # If subnet is defined then this is a Virtual Private Cloud.
           # subnet & security group cannot co-exist. Attempting to specify

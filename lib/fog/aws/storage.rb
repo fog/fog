@@ -46,13 +46,13 @@ module Fog
       requires :aws_access_key_id, :aws_secret_access_key
       recognizes :endpoint, :region, :host, :port, :scheme, :persistent, :use_iam_profile, :aws_session_token, :aws_credentials_expire_at, :path_style
 
-      secrets    :aws_secret_access_key, :hmac
+      secrets :aws_secret_access_key, :hmac
 
       model_path 'fog/aws/models/storage'
-      collection  :directories
-      model       :directory
-      collection  :files
-      model       :file
+      collection :directories
+      model :directory
+      collection :files
+      model :file
 
       request_path 'fog/aws/requests/storage'
       request :abort_multipart_upload
@@ -146,11 +146,11 @@ module Fog
           signature = signature(params, expires)
           params = request_params(params)
 
-          params[:query] = (params[:query] || {}).merge({
-            'AWSAccessKeyId' => @aws_access_key_id,
+          params[:query] = (params[:query] || {}).merge(
+                                                          'AWSAccessKeyId' => @aws_access_key_id,
             'Signature' => signature,
-            'Expires' => expires,
-          })
+            'Expires' => expires
+          )
           params[:query]['x-amz-security-token'] = @aws_session_token if @aws_session_token
 
           params_to_url(params)
@@ -226,13 +226,13 @@ module Fog
             end
           end
 
-          ret = params.merge({
-            :scheme       => scheme,
+          ret = params.merge(
+                               :scheme       => scheme,
             :host         => host,
             :port         => port,
             :path         => path,
             :headers      => headers
-          })
+          )
 
           #
           ret.delete(:path_style)
@@ -252,13 +252,13 @@ module Fog
             end
           end.join('&')
 
-          URI::Generic.build({
-            :scheme => params[:scheme],
+          URI::Generic.build(
+                               :scheme => params[:scheme],
             :host   => params[:host],
             :port   => params[:port],
             :path   => params[:path],
-            :query  => query,
-          }).to_s
+            :query  => query
+          ).to_s
         end
 
       end
@@ -453,7 +453,7 @@ DATA
               amz_headers[key] = value
             end
           end
-          amz_headers = amz_headers.sort {|x, y| x[0] <=> y[0]}
+          amz_headers = amz_headers.sort { |x, y| x[0] <=> y[0] }
           for key, value in amz_headers
             canonical_amz_headers << "#{key}:#{value}\n"
           end

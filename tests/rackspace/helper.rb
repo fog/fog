@@ -11,37 +11,37 @@ module Shindo
     end
 
     def given_a_load_balancer(&block)
-        @lb = @service.load_balancers.create({
-            :name => ('fog' + Time.now.to_i.to_s),
+        @lb = @service.load_balancers.create(
+                                               :name => ('fog' + Time.now.to_i.to_s),
             :protocol => 'HTTP',
             :port => 80,
             :virtual_ips => [{ :type => 'PUBLIC'}],
             :nodes => [{ :address => '1.1.1.1', :port => 80, :condition => 'ENABLED'}]
-          })
+          )
         @lb.wait_for { ready? }
-      begin
-        instance_eval(&block)
-      ensure
-        @lb.wait_for { ready? }
-        @lb.destroy
+        begin
+          instance_eval(&block)
+        ensure
+          @lb.wait_for { ready? }
+          @lb.destroy
+        end
+    end
+
+    def wait_for_request(description = "waiting", &block)
+      return if Fog.mocking?
+      tests(description) do
+        Fog.wait_for &block
       end
     end
 
-   def wait_for_request(description = "waiting", &block)
-     return if Fog.mocking?
-     tests(description) do
-       Fog.wait_for &block
-     end
-   end
-
-   def wait_for_server_deletion(server)
-     return if Fog.mocking?
-     begin
-       @instance.wait_for { state = 'DELETED' }
-     rescue Fog::Compute::RackspaceV2::NotFound => e
-       # do nothing
-     end
-   end
+    def wait_for_server_deletion(server)
+      return if Fog.mocking?
+      begin
+        @instance.wait_for { state = 'DELETED' }
+      rescue Fog::Compute::RackspaceV2::NotFound => e
+        # do nothing
+      end
+    end
 
     def wait_for_server_state(service, server_id, state, error_states=nil)
       current_state = nil
@@ -63,7 +63,7 @@ module Shindo
     def rackspace_test_image_id(service)
       image_id  = Fog.credentials[:rackspace_image_id]
       # I chose to use the first Ubuntu because it will work with the smallest flavor and it doesn't require a license
-      image_id ||= Fog.mocking? ? service.images.first.id : service.images.find {|image| image.name =~ /Ubuntu/}.id # use the first Ubuntu image
+      image_id ||= Fog.mocking? ? service.images.first.id : service.images.find { |image| image.name =~ /Ubuntu/ }.id # use the first Ubuntu image
     end
 
     def rackspace_test_flavor_id(service)
@@ -80,9 +80,9 @@ module Shindo
       rescue Fog::Compute::RackspaceV2::ServiceError => e
         if attempt == 3
            Fog::Logger.warning "Unable to delete #{network.label}"
-          return false
+           return false
         end
-         Fog::Logger.warning "Network #{network.label} Delete Fail Attempt #{attempt}- #{e.inspect}"
+        Fog::Logger.warning "Network #{network.label} Delete Fail Attempt #{attempt}- #{e.inspect}"
         attempt += 1
         sleep 60
         retry

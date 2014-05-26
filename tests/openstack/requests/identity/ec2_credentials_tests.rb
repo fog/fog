@@ -12,7 +12,7 @@ Shindo.tests('Fog::Identity[:openstack] | EC2 credential requests', ['openstack'
 
   tests('success') do
     tests('#create_ec2_credential').
-      formats({'credential' => @credential_format}) do
+      formats('credential' => @credential_format) do
       response =
         Fog::Identity[:openstack].
           create_ec2_credential(@user_id, @tenant_id)
@@ -23,13 +23,13 @@ Shindo.tests('Fog::Identity[:openstack] | EC2 credential requests', ['openstack'
     end
 
     tests('#get_ec2_credential').
-      formats({'credential' => @credential_format}) do
+      formats('credential' => @credential_format) do
       Fog::Identity[:openstack].
         get_ec2_credential(@user_id, @ec2_credential['access']).body
     end
 
     tests('#list_ec2_credentials').
-      formats({'credentials' => [@credential_format]}) do
+      formats('credentials' => [@credential_format]) do
       Fog::Identity[:openstack].
         list_ec2_credentials(@user_id).body
     end

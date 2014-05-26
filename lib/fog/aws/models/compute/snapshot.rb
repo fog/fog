@@ -6,7 +6,7 @@ module Fog
 
       class Snapshot < Fog::Model
 
-        identity  :id,          :aliases => 'snapshotId'
+        identity :id,          :aliases => 'snapshotId'
 
         attribute :description
         attribute :encrypted
@@ -34,7 +34,7 @@ module Fog
           requires :volume_id
 
           data = service.create_snapshot(volume_id, description).body
-          new_attributes = data.reject {|key,value| key == 'requestId'}
+          new_attributes = data.reject { |key,_value| key == 'requestId' }
           merge_attributes(new_attributes)
           true
         end

@@ -20,7 +20,7 @@ Shindo.tests("Fog::Compute::HPV2 | flavor requests", ['hp', 'v2', 'compute']) do
 
   tests('success') do
 
-    tests('#list_flavors').formats({'flavors' => [@list_flavors_format]}) do
+    tests('#list_flavors').formats('flavors' => [@list_flavors_format]) do
       service.list_flavors.body
     end
 
@@ -28,7 +28,7 @@ Shindo.tests("Fog::Compute::HPV2 | flavor requests", ['hp', 'v2', 'compute']) do
       service.get_flavor_details("1").body['flavor']
     end
 
-    tests('#list_flavors_detail').formats({'flavors' => [@flavor_format]}) do
+    tests('#list_flavors_detail').formats('flavors' => [@flavor_format]) do
       service.list_flavors_detail.body
     end
 

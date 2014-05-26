@@ -15,7 +15,7 @@ Shindo.tests('Fog::Compute[:aws] | dhcp_options requests', ['aws']) do
 
 
     tests('#create_dhcp_options').formats(@dhcp_options_format) do
-      data = Fog::Compute[:aws].create_dhcp_options({'domain-name' => 'example.com', 'domain-name-servers' => '10.10.10.10'}).body
+      data = Fog::Compute[:aws].create_dhcp_options('domain-name' => 'example.com', 'domain-name-servers' => '10.10.10.10').body
       @dopt_id = data['dhcpOptionsSet'].first['dhcpOptionsId']
       data
     end

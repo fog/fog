@@ -9,13 +9,13 @@ module Fog
 
       model_path 'fog/bluebox/models/blb'
 
-      model      :lb_application
+      model :lb_application
       collection :lb_applications
 
-      model      :lb_service
+      model :lb_service
       collection :lb_services
 
-      model      :lb_backend
+      model :lb_backend
       collection :lb_backends
 
 
@@ -59,9 +59,9 @@ module Fog
 
         def request(params)
           params[:headers] ||= {}
-          params[:headers].merge!({
-            'Authorization' => "Basic #{Base64.encode64([@bluebox_customer_id, @bluebox_api_key].join(':')).delete("\r\n")}"
-          })
+          params[:headers].merge!(
+                                    'Authorization' => "Basic #{Base64.encode64([@bluebox_customer_id, @bluebox_api_key].join(':')).delete("\r\n")}"
+          )
 
           begin
             response = @connection.request(params)

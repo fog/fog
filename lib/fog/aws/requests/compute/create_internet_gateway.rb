@@ -24,28 +24,28 @@ module Fog
         #
         # {Amazon API Reference}[http://docs.amazonwebservices.com/AWSEC2/latest/APIReference/ApiReference-ItemType-InternetGatewayAttachmentType.html]
         def create_internet_gateway()
-          request({
-            'Action'     => 'CreateInternetGateway',
+          request(
+                    'Action'     => 'CreateInternetGateway',
             :parser      => Fog::Parsers::Compute::AWS::CreateInternetGateway.new
-          })
+          )
         end
       end
 
       class Mock
         def create_internet_gateway()
           gateway_id = Fog::AWS::Mock.internet_gateway_id
-        self.data[:internet_gateways][gateway_id] = {
-          'internetGatewayId' => gateway_id,
-          'attachmentSet'     => {},
-          'tagSet'            => {}
-        }
-         Excon::Response.new(
-            :status => 200,
-            :body   => {
-              'requestId' => Fog::AWS::Mock.request_id,
-              'internetGatewaySet' => [self.data[:internet_gateways][gateway_id]]
-            }
-          )
+          self.data[:internet_gateways][gateway_id] = {
+            'internetGatewayId' => gateway_id,
+            'attachmentSet'     => {},
+            'tagSet'            => {}
+          }
+          Excon::Response.new(
+             :status => 200,
+             :body   => {
+               'requestId' => Fog::AWS::Mock.request_id,
+               'internetGatewaySet' => [self.data[:internet_gateways][gateway_id]]
+             }
+           )
         end
       end
     end

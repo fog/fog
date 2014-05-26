@@ -15,10 +15,10 @@ module Fog
           params = {}
           params['pipelineIds'] = ids
 
-          response = request({
-            :body => Fog::JSON.encode(params),
-            :headers => { 'X-Amz-Target' => 'DataPipeline.DescribePipelines' },
-          })
+          response = request(
+                               :body => Fog::JSON.encode(params),
+            :headers => { 'X-Amz-Target' => 'DataPipeline.DescribePipelines' }
+          )
 
           Fog::JSON.decode(response.body)
         end

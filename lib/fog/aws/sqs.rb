@@ -119,7 +119,7 @@ module Fog
 
           body = AWS.signed_params(
             params,
-            {
+            
               :aws_access_key_id  => @aws_access_key_id,
               :aws_session_token  => @aws_session_token,
               :hmac               => @hmac,
@@ -127,7 +127,7 @@ module Fog
               :path               => path || @path,
               :port               => @port,
               :version            => '2009-02-01'
-            }
+            
           )
 
           args = {

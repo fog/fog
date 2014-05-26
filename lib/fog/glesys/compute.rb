@@ -9,12 +9,12 @@ module Fog
       API_URL = "https://api.glesys.com"
 
       model_path 'fog/glesys/models/compute'
-      collection  :servers
-      model       :server
-      collection  :templates
-      model       :template
-      collection  :ips
-      model       :ip
+      collection :servers
+      model :server
+      collection :templates
+      model :template
+      collection :ips
+      model :ip
 
       request_path 'fog/glesys/requests/compute'
 
@@ -84,7 +84,7 @@ module Fog
 
         def request(method_name, options = {})
 
-          options.merge!( {:format => 'json'})
+          options.merge!( :format => 'json')
 
           begin
             parser = options.delete(:parser)
@@ -126,7 +126,7 @@ module Fog
         end
 
         def urlencode(hash)
-          hash.to_a.collect! { |k, v| "#{k}=#{v.to_s}" }.join("&")
+          hash.to_a.map! { |k, v| "#{k}=#{v}" }.join("&")
         end
 
       end

@@ -50,15 +50,15 @@ module Fog
           headers['Content-Type'] = 'application/json'
           headers['Date'] = Fog::Time.now.to_date_header
 
-          request({
-            :body     => data,
+          request(
+                    :body     => data,
             :expects  => 200,
             :headers  => headers,
             :bucket_name => bucket_name,
             :object_name => object_name,
             :method   => 'PUT',
             :query    => query
-          })
+          )
         end
       end
 

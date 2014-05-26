@@ -32,11 +32,11 @@ module Fog
           datacenters = find_datacenters(options[:datacenter])
 
           vms = datacenters.map do |dc|
-            @connection.serviceContent.viewManager.CreateContainerView({
-              :container  => dc.vmFolder,
+            @connection.serviceContent.viewManager.CreateContainerView(
+                                                                         :container  => dc.vmFolder,
               :type       =>  ["VirtualMachine"],
               :recursive  => true
-            }).view
+            ).view
           end.flatten
 
           vms = convert_vm_view_to_attr_hash(vms)
@@ -67,7 +67,7 @@ module Fog
             server = self.data[:servers][options['instance_uuid']]
             server.nil? ? [] : [server]
           else
-            self.data[:servers].values.select{|vm| vm['mo_ref'] == options['mo_ref']}
+            self.data[:servers].values.select { |vm| vm['mo_ref'] == options['mo_ref'] }
           end
         end
       end

@@ -32,7 +32,7 @@ module Fog
           }
 
           service.insert_forwarding_rule(name, region, options).body
-          data = service.backoff_if_unfound {service.get_forwarding_rule(name, region).body}
+          data = service.backoff_if_unfound { service.get_forwarding_rule(name, region).body }
           merge_attributes(data)
           self
         end

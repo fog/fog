@@ -49,31 +49,31 @@ module Fog
       secrets :vcloud_director_password
 
       model_path 'fog/vcloud_director/models/compute'
-      model      :catalog
+      model :catalog
       collection :catalogs
-      model      :organization
+      model :organization
       collection :organizations
-      model      :catalog_item
+      model :catalog_item
       collection :catalog_items
-      model      :vdc
+      model :vdc
       collection :vdcs
-      model      :vapp
+      model :vapp
       collection :vapps
-      model      :task
+      model :task
       collection :tasks
-      model      :vm
+      model :vm
       collection :vms
-      model      :vm_customization
+      model :vm_customization
       collection :vm_customizations
-      model      :network
+      model :network
       collection :networks
-      model      :disk
+      model :disk
       collection :disks
-      model      :vm_network
+      model :vm_network
       collection :vm_networks
-      model      :tag # this is called metadata in vcloud
+      model :tag # this is called metadata in vcloud
       collection :tags
-      model      :media
+      model :media
       collection :medias # sic
 
       request_path 'fog/vcloud_director/requests/compute'
@@ -260,7 +260,7 @@ module Fog
             attributes[attr]= NonLoaded if attributes[attr].nil?
             make_lazy_load_method(attr)
           end
-          self.class.attributes.each {|attr| make_attr_loaded_method(attr)}
+          self.class.attributes.each { |attr| make_attr_loaded_method(attr) }
         end
 
         def lazy_load_attrs
@@ -306,7 +306,7 @@ module Fog
         end
 
         def get_by_name(item_name)
-          item_found = item_list.detect {|item| item[:name] == item_name}
+          item_found = item_list.find { |item| item[:name] == item_name }
           return nil unless item_found
           get(item_found[:id])
         end
@@ -316,7 +316,7 @@ module Fog
         end
 
         def get_everyone
-          items = item_list.map {|item| get_by_id(item[:id])}
+          items = item_list.map { |item| get_by_id(item[:id]) }
           load(items)
         end
       end
@@ -395,8 +395,8 @@ module Fog
           else
             path = "#{@path}"
           end
-          @connection.request({
-            :body       => params[:body],
+          @connection.request(
+                                :body       => params[:body],
             :expects    => params[:expects],
             :headers    => headers.merge!(params[:headers] || {}),
             :idempotent => params[:idempotent],
@@ -404,7 +404,7 @@ module Fog
             :parser     => params[:parser],
             :path       => path,
             :query      => params[:query]
-          })
+          )
         rescue Excon::Errors::HTTPStatusError => error
           raise case error
           when Excon::Errors::BadRequest   then BadRequest.slurp(error);
@@ -460,7 +460,7 @@ module Fog
             response = get_current_session
           else
             response = post_login_session
-            x_vcloud_authorization = response.headers.keys.detect do |key|
+            x_vcloud_authorization = response.headers.keys.find do |key|
               key.downcase == 'x-vcloud-authorization'
             end
             @vcloud_token = response.headers[x_vcloud_authorization]
@@ -550,7 +550,7 @@ module Fog
                   :Netmask => '255.255.255.0',
                   :name => 'Default Network',
                   :SubnetParticipation => {
-                      :Gateway => "192.168.1.0",
+                    :Gateway => "192.168.1.0",
                       :Netmask => "255.255.0.0",
                       :IpAddress => "192.168.1.0"
                   },
@@ -575,7 +575,7 @@ module Fog
                   :Netmask => '255.255.255.0',
                   :name => 'vDC1 backend network',
                   :SubnetParticipation => {
-                      :Gateway => "192.168.1.0",
+                    :Gateway => "192.168.1.0",
                       :Netmask => "255.255.0.0",
                       :IpAddress => "192.168.1.0"
                   },
@@ -599,7 +599,7 @@ module Fog
                   :Netmask => '255.255.255.0',
                   :name => 'vDC2 backend network',
                   :SubnetParticipation => {
-                      :Gateway => "192.168.1.0",
+                    :Gateway => "192.168.1.0",
                       :Netmask => "255.255.0.0",
                       :IpAddress => "192.168.1.0"
                   },
@@ -710,7 +710,7 @@ module Fog
         end
 
         def uuid
-          [8,4,4,4,12].map {|i| Fog::Mock.random_hex(i)}.join('-')
+          [8,4,4,4,12].map { |i| Fog::Mock.random_hex(i) }.join('-')
         end
 
         # Create a task.

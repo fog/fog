@@ -6,7 +6,7 @@ module Fog
 
       class Catalog < Model
 
-        identity  :id
+        identity :id
 
         attribute :name
         attribute :type

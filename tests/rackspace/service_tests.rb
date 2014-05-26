@@ -13,7 +13,7 @@ Shindo.tests('Fog::Rackspace::Service', ['rackspace']) do
       @service.send(:process_response, response)
     end
 
-    tests('processes body').returns({'a'=>2, 'b'=>3}) do
+    tests('processes body').returns('a'=>2, 'b'=>3) do
       response = Excon::Response.new
       response.headers['Content-Type'] = "application/json"
       response.body = "{\"a\":2,\"b\":3}"
@@ -21,7 +21,7 @@ Shindo.tests('Fog::Rackspace::Service', ['rackspace']) do
       response.body
     end
 
-    tests('process body with hash').returns({:a=>2, :b=>3}) do
+    tests('process body with hash').returns(:a=>2, :b=>3) do
       response = Excon::Response.new
       response.headers['Content-Type'] = "application/json"
       response.body = {:a=>2, :b=>3}
@@ -56,7 +56,7 @@ Shindo.tests('Fog::Rackspace::Service', ['rackspace']) do
     end
 
     tests('with options not containing :header key').returns(HEADER_HASH) do
-       @service.send(:headers, {:a => 3})
+       @service.send(:headers, :a => 3)
     end
 
     tests('with options containing :header key').returns(HEADER_HASH.merge(:a => 3)) do

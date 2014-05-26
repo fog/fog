@@ -23,16 +23,16 @@ module Fog
       request :set_alarm_state
 
       model_path 'fog/aws/models/cloud_watch'
-      model       :metric
-      collection  :metrics
-      model       :metric_statistic
-      collection  :metric_statistics
-      model       :alarm_datum
-      collection  :alarm_data
-      model       :alarm_history
-      collection  :alarm_histories
-      model       :alarm
-      collection  :alarms
+      model :metric
+      collection :metrics
+      model :metric_statistic
+      collection :metric_statistics
+      model :alarm_datum
+      collection :alarm_data
+      model :alarm_history
+      collection :alarm_histories
+      model :alarm
+      collection :alarms
 
       class Mock
 
@@ -129,7 +129,7 @@ module Fog
 
           body = AWS.signed_params(
             params,
-            {
+            
               :aws_access_key_id  => @aws_access_key_id,
               :aws_session_token  => @aws_session_token,
               :hmac               => @hmac,
@@ -137,7 +137,7 @@ module Fog
               :path               => @path,
               :port               => @port,
               :version            => '2010-08-01'
-            }
+            
           )
 
           if @instrumentor
@@ -150,14 +150,14 @@ module Fog
         end
 
         def _request(body, idempotent, parser)
-          @connection.request({
-            :body       => body,
+          @connection.request(
+                                :body       => body,
             :expects    => 200,
             :headers    => { 'Content-Type' => 'application/x-www-form-urlencoded' },
             :idempotent => idempotent,
             :method     => 'POST',
             :parser     => parser
-          })
+          )
         end
 
       end

@@ -12,12 +12,12 @@ module Fog
         # * response<~Excon::Response>:
         #   * status<~Integer> - 204
         def delete_bucket(bucket_name)
-          request({
-            :expects  => 204,
+          request(
+                    :expects  => 204,
             :headers  => {},
             :host     => "#{bucket_name}.#{@host}",
             :method   => 'DELETE'
-          })
+          )
         end
 
       end

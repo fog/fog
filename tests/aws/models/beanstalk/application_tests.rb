@@ -3,7 +3,7 @@ Shindo.tests("Fog::AWS[:beanstalk] | application", ['aws', 'beanstalk']) do
   pending if Fog.mocking?
 
   @application_opts = {
-      :name => uniq_id('fog-test-app'),
+    :name => uniq_id('fog-test-app'),
       :description => 'A nice description.'
   }
 

@@ -19,15 +19,15 @@ Shindo.tests('AWS::ElasticBeanstalk | application_tests', ['aws', 'beanstalk']) 
     pending if Fog.mocking?
 
     @describe_applications_format = {
-        'DescribeApplicationsResult' => {
-            'Applications' => [
-                'ApplicationName' => String,
-                'ConfigurationTemplates' => [String],
-                'Description' => Fog::Nullable::String,
-                'DateCreated' => Time,
-                'DateUpdated' => Time,
-                'Versions' => [String]
-            ]},
+      'DescribeApplicationsResult' => {
+        'Applications' => [
+          'ApplicationName' => String,
+          'ConfigurationTemplates' => [String],
+          'Description' => Fog::Nullable::String,
+          'DateCreated' => Time,
+          'DateUpdated' => Time,
+          'Versions' => [String]
+        ]},
         'ResponseMetadata' => {'RequestId'=> String},
     }
 
@@ -35,11 +35,11 @@ Shindo.tests('AWS::ElasticBeanstalk | application_tests', ['aws', 'beanstalk']) 
       result = @beanstalk.describe_applications.body
     end
 
-    test("#create_application") {
-      response = @beanstalk.create_application({
-                                                   'ApplicationName' => @test_app_name,
+    test("#create_application") do
+      response = @beanstalk.create_application(
+                                                 'ApplicationName' => @test_app_name,
                                                    'Description' => @test_description
-                                               })
+                                               )
 
       result = false
       if response.status == 200
@@ -56,9 +56,9 @@ Shindo.tests('AWS::ElasticBeanstalk | application_tests', ['aws', 'beanstalk']) 
       end
 
       result
-    }
+    end
 
-    test("#describe_applications all") {
+    test("#describe_applications all") do
       response = @beanstalk.describe_applications
 
       result = false
@@ -77,9 +77,9 @@ Shindo.tests('AWS::ElasticBeanstalk | application_tests', ['aws', 'beanstalk']) 
       end
 
       result
-    }
+    end
 
-    test("#create_application filter") {
+    test("#create_application filter") do
       # Test for a specific app
       response = @beanstalk.describe_applications([@test_app_name])
 
@@ -98,16 +98,16 @@ Shindo.tests('AWS::ElasticBeanstalk | application_tests', ['aws', 'beanstalk']) 
       end
 
       result
-    }
+    end
 
-    test("#update_application description") {
+    test("#update_application description") do
 
       @test_description = "A completely new description."
 
-      response = @beanstalk.update_application({
-                                                   'ApplicationName' => @test_app_name,
+      response = @beanstalk.update_application(
+                                                 'ApplicationName' => @test_app_name,
                                                    'Description' => @test_description
-                                               })
+                                               )
 
       result = false
       if response.status == 200
@@ -123,9 +123,9 @@ Shindo.tests('AWS::ElasticBeanstalk | application_tests', ['aws', 'beanstalk']) 
       end
 
       result
-    }
+    end
 
-    test("#delete_application") {
+    test("#delete_application") do
       response = @beanstalk.delete_application(@test_app_name)
 
       result = false
@@ -134,7 +134,7 @@ Shindo.tests('AWS::ElasticBeanstalk | application_tests', ['aws', 'beanstalk']) 
       end
 
       result
-    }
+    end
 
   end
 end

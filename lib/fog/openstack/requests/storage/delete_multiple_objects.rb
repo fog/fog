@@ -50,7 +50,7 @@ module Fog
           end.join("\n")
 
           response = request({
-            :expects  => 200,
+                               :expects  => 200,
             :method   => 'DELETE',
             :headers  => options.merge('Content-Type' => 'text/plain',
                                        'Accept' => 'application/json'),

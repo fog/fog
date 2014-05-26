@@ -16,15 +16,15 @@ module Fog
         # @see http://docs.amazonwebservices.com/AmazonS3/latest/API/RESTBucketGETlocation.html
 
         def get_bucket_location(bucket_name)
-          request({
-            :expects  => 200,
+          request(
+                    :expects  => 200,
             :headers  => {},
             :host     => "#{bucket_name}.#{@host}",
             :idempotent => true,
             :method   => 'GET',
             :parser   => Fog::Parsers::Storage::InternetArchive::GetBucketLocation.new,
             :query    => {'location' => nil}
-          })
+          )
         end
 
       end

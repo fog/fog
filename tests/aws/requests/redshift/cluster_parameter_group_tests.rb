@@ -57,7 +57,7 @@ Shindo.tests('Fog::Redshift[:aws] | cluster parameter group requests', ['aws']) 
     tests("modify_cluster_parameter_groups").formats(@modify_cluster_parameter_group_format) do
       body = Fog::AWS[:redshift].modify_cluster_parameter_group(:parameter_group_name=>parameter_group, 
                                                                 :parameters=>{
-                                                                   :parameter_name=>'extra_float_digits',
+                                                                  :parameter_name=>'extra_float_digits',
                                                                    :parameter_value=>2}).body
       body
     end

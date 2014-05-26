@@ -2,7 +2,7 @@ Shindo.tests('Fog::Compute[:google] | region requests', ['google']) do
   @google = Fog::Compute[:google]
 
   @get_region_format = {
-      'kind' => String,
+    'kind' => String,
       'selfLink' => String,
       'id' => String,
       'creationTimestamp' => String,
@@ -14,7 +14,7 @@ Shindo.tests('Fog::Compute[:google] | region requests', ['google']) do
   }
 
   @list_regions_format = {
-      'kind' => String,
+    'kind' => String,
       'selfLink' => String,
       'id' => String,
       'items' => [@get_region_format]

@@ -7,10 +7,10 @@ module Fog
       recognizes :dnsimple_email, :dnsimple_password, :dnsimple_token, :dnsimple_domain, :dnsimple_url, :host, :path, :port, :scheme, :persistent
 
       model_path 'fog/dnsimple/models/dns'
-      model       :record
-      collection  :records
-      model       :zone
-      collection  :zones
+      model :record
+      collection :records
+      model :zone
+      collection :zones
 
       request_path 'fog/dnsimple/requests/dns'
       request :list_domains

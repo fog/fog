@@ -9,10 +9,10 @@ module Fog
       recognizes :host, :path, :port, :scheme, :version, :persistent, :use_iam_profile, :aws_session_token, :aws_credentials_expire_at
 
       model_path 'fog/aws/models/dns'
-      model       :record
-      collection  :records
-      model       :zone
-      collection  :zones
+      model :record
+      collection :records
+      model :zone
+      collection :zones
 
       request_path 'fog/aws/requests/dns'
       request :create_hosted_zone

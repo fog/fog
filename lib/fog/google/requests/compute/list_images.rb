@@ -7,7 +7,7 @@ module Fog
         def list_images(project=@project)
           images = data(project)[:images].values
           build_response(:body => {
-            "kind" => "compute#imageList",
+                           "kind" => "compute#imageList",
             "selfLink" => "https://www.googleapis.com/compute/#{api_version}/projects/#{project}/global/images",
             "id" => "projects/#{project}/global/images",
             "items" => images

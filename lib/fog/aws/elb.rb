@@ -46,13 +46,13 @@ module Fog
       request :set_load_balancer_policies_for_backend_server
 
       model_path 'fog/aws/models/elb'
-      model      :load_balancer
+      model :load_balancer
       collection :load_balancers
-      model      :policy
+      model :policy
       collection :policies
-      model      :listener
+      model :listener
       collection :listeners
-      model      :backend_server_description
+      model :backend_server_description
       collection :backend_server_descriptions
 
       class Mock
@@ -165,7 +165,7 @@ module Fog
 
           body = Fog::AWS.signed_params(
             params,
-            {
+            
               :aws_access_key_id  => @aws_access_key_id,
               :aws_session_token  => @aws_session_token,
               :hmac               => @hmac,
@@ -173,7 +173,7 @@ module Fog
               :path               => @path,
               :port               => @port,
               :version            => '2012-06-01'
-          }
+          
           )
 
           if @instrumentor
@@ -186,14 +186,14 @@ module Fog
         end
 
         def _request(body, idempotent, parser)
-          @connection.request({
-            :body       => body,
+          @connection.request(
+                                :body       => body,
             :expects    => 200,
             :headers    => { 'Content-Type' => 'application/x-www-form-urlencoded' },
             :idempotent => idempotent,
             :method     => 'POST',
             :parser     => parser
-          })
+          )
         rescue Excon::Errors::HTTPStatusError => error
           match = Fog::AWS::Errors.match_error(error)
           raise if match.empty?

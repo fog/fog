@@ -6,7 +6,7 @@ module Fog
     class VcloudDirector
 
       class Vm < Model
-        identity  :id
+        identity :id
 
         attribute :vapp_id
         attribute :vapp_name

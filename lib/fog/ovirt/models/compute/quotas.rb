@@ -9,9 +9,9 @@ module Fog
 
         model Fog::Compute::Ovirt::Quota
 
-	def all(filters = {})
-          load service.list_quotas(filters)
-        end
+	       def all(filters = {})
+                 load service.list_quotas(filters)
+               end
 
         def get(id)
           new service.get_quota(id)

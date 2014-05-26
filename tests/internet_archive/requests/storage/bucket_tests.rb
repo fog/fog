@@ -23,7 +23,7 @@ Shindo.tests('Fog::Storage[:internetarchive] | bucket requests', ["internetarchi
     }
     @bucket_lifecycle_format = {
       'Rules' => [{
-         'ID'         => String, 
+        'ID'         => String, 
          'Prefix'     => Fog::Nullable::String,
          'Enabled'    => Fog::Boolean, 
          'Expiration' => Fog::Nullable::Hash,
@@ -71,11 +71,11 @@ Shindo.tests('Fog::Storage[:internetarchive] | bucket requests', ["internetarchi
       end
 
       tests(".body['Contents'].map{|n| n['Key']}").returns(["a/a1/file1", "a/file2", "b/file3", "file4"]) do
-        @bucket.body['Contents'].map{|n| n['Key']}
+        @bucket.body['Contents'].map { |n| n['Key'] }
       end
 
       tests(".body['Contents'].map{|n| n['Size']}").returns([1, 2, 3, 4]) do
-        @bucket.body['Contents'].map{|n| n['Size']}
+        @bucket.body['Contents'].map { |n| n['Size'] }
       end
 
       tests(".body['CommonPrefixes']").returns([]) do
@@ -89,7 +89,7 @@ Shindo.tests('Fog::Storage[:internetarchive] | bucket requests', ["internetarchi
       end
 
       tests(".body['Contents'].map{|n| n['Key']}").returns(['file4']) do
-        @bucket.body['Contents'].map{|n| n['Key']}
+        @bucket.body['Contents'].map { |n| n['Key'] }
       end
 
       tests(".body['CommonPrefixes']").returns(['a/', 'b/']) do
@@ -103,7 +103,7 @@ Shindo.tests('Fog::Storage[:internetarchive] | bucket requests', ["internetarchi
       end
 
       tests(".body['Contents'].map{|n| n['Key']}").returns(['a/file2']) do
-        @bucket.body['Contents'].map{|n| n['Key']}
+        @bucket.body['Contents'].map { |n| n['Key'] }
       end
 
       tests(".body['CommonPrefixes']").returns(['a/a1/']) do
@@ -147,25 +147,25 @@ Shindo.tests('Fog::Storage[:internetarchive] | bucket requests', ["internetarchi
       Fog::Storage[:internetarchive].get_bucket_acl(@ia_bucket_name).body
     end
 
-    tests("#put_bucket_acl('#{@ia_bucket_name}', hash with email)").returns({
-        'Owner' => @aws_owner,
+    tests("#put_bucket_acl('#{@ia_bucket_name}', hash with email)").returns(
+                                                                              'Owner' => @aws_owner,
         'AccessControlList' => [
           {
             'Grantee' => { 'ID' => 'f62f0218873cfa5d56ae9429ae75a592fec4fd22a5f24a20b1038a7db9a8f150', 'DisplayName' => 'mtd' },
             'Permission' => "FULL_CONTROL"
           }
         ]
-    }) do
+    ) do
       pending if Fog.mocking?
-      Fog::Storage[:internetarchive].put_bucket_acl(@ia_bucket_name, {
-        'Owner' => @aws_owner,
+      Fog::Storage[:internetarchive].put_bucket_acl(@ia_bucket_name, 
+                                                      'Owner' => @aws_owner,
         'AccessControlList' => [
           {
             'Grantee' => { 'EmailAddress' => 'mtd@amazon.com' },
             'Permission' => "FULL_CONTROL"
           }
         ]
-      })
+      )
       Fog::Storage[:internetarchive].get_bucket_acl(@ia_bucket_name).body
     end
 

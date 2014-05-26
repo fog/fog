@@ -21,7 +21,7 @@ module Fog
         #
         def terminate_environment(options={})
           request({
-                      'Operation'    => 'TerminateEnvironment',
+            'Operation'    => 'TerminateEnvironment',
                       :parser     => Fog::Parsers::AWS::ElasticBeanstalk::TerminateEnvironment.new
                   }.merge(options))
         end

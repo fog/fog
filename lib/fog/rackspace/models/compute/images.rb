@@ -15,7 +15,7 @@ module Fog
           data = service.list_images_detail.body['images']
           models = load(data)
           if server
-            self.replace(self.select {|image| image.server_id == server.id})
+            self.replace(self.select { |image| image.server_id == server.id })
           else
             models
           end

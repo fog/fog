@@ -31,7 +31,7 @@ module Fog
       class Mock
 
         def delete_group(group_name)
-          if data[:groups].has_key? group_name
+          if data[:groups].key? group_name
             if data[:groups][group_name][:members].empty?
               data[:groups].delete group_name
               Excon::Response.new.tap do |response|

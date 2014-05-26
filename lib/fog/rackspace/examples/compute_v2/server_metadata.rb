@@ -25,19 +25,19 @@ def print_metadata(server)
 end
 
 #create Next Generation Cloud Server service
-service = Fog::Compute.new({
-  :provider             => 'rackspace',
+service = Fog::Compute.new(
+                             :provider             => 'rackspace',
   :rackspace_username   => rackspace_username,
   :rackspace_api_key    => rackspace_api_key,
   :version => :v2,  # Use Next Gen Cloud Servers
   :rackspace_region => :ord #Use Chicago Region
-})
+)
 
 # Pick the first flavor
 flavor = service.flavors.first
 
 # Pick the first Ubuntu image we can find
-image = service.images.find {|image| image.name =~ /Ubuntu/}
+image = service.images.find { |image| image.name =~ /Ubuntu/ }
 
 #create server
 server = service.servers.create :name => 'meta-cumulus',
@@ -73,7 +73,7 @@ server.metadata.reload
 print_metadata(server)
 
 puts "Delete Metadata"
-metadatum = server.metadata.find {|metadataum| metadataum.key == 'environment'}
+metadatum = server.metadata.find { |metadataum| metadataum.key == 'environment' }
 metadatum.destroy
 
 puts "Reload Metadata"

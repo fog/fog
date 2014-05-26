@@ -24,7 +24,7 @@ Shindo.tests('Fog::Storage[:aws] | bucket requests', ["aws"]) do
     }
     @bucket_lifecycle_format = {
       'Rules' => [{
-         'ID'         => String,
+        'ID'         => String,
          'Prefix'     => Fog::Nullable::String,
          'Enabled'    => Fog::Boolean,
          'Expiration' => Fog::Nullable::Hash,
@@ -79,11 +79,11 @@ Shindo.tests('Fog::Storage[:aws] | bucket requests', ["aws"]) do
       end
 
       tests(".body['Contents'].map{|n| n['Key']}").returns(["a/a1/file1", "a/file2", "b/file3", "file4"]) do
-        @bucket.body['Contents'].map{|n| n['Key']}
+        @bucket.body['Contents'].map { |n| n['Key'] }
       end
 
       tests(".body['Contents'].map{|n| n['Size']}").returns([1, 2, 3, 4]) do
-        @bucket.body['Contents'].map{|n| n['Size']}
+        @bucket.body['Contents'].map { |n| n['Size'] }
       end
 
       tests(".body['CommonPrefixes']").returns([]) do
@@ -97,7 +97,7 @@ Shindo.tests('Fog::Storage[:aws] | bucket requests', ["aws"]) do
       end
 
       tests(".body['Contents'].map{|n| n['Key']}").returns(['file4']) do
-        @bucket.body['Contents'].map{|n| n['Key']}
+        @bucket.body['Contents'].map { |n| n['Key'] }
       end
 
       tests(".body['CommonPrefixes']").returns(['a/', 'b/']) do
@@ -111,7 +111,7 @@ Shindo.tests('Fog::Storage[:aws] | bucket requests', ["aws"]) do
       end
 
       tests(".body['Contents'].map{|n| n['Key']}").returns(['a/file2']) do
-        @bucket.body['Contents'].map{|n| n['Key']}
+        @bucket.body['Contents'].map { |n| n['Key'] }
       end
 
       tests(".body['CommonPrefixes']").returns(['a/a1/']) do
@@ -155,25 +155,25 @@ Shindo.tests('Fog::Storage[:aws] | bucket requests', ["aws"]) do
       Fog::Storage[:aws].get_bucket_acl(@aws_bucket_name).body
     end
 
-    tests("#put_bucket_acl('#{@aws_bucket_name}', hash with email)").returns({
-        'Owner' => @aws_owner,
+    tests("#put_bucket_acl('#{@aws_bucket_name}', hash with email)").returns(
+                                                                               'Owner' => @aws_owner,
         'AccessControlList' => [
           {
             'Grantee' => { 'ID' => 'f62f0218873cfa5d56ae9429ae75a592fec4fd22a5f24a20b1038a7db9a8f150', 'DisplayName' => 'mtd' },
             'Permission' => "FULL_CONTROL"
           }
         ]
-    }) do
+    ) do
       pending if Fog.mocking?
-      Fog::Storage[:aws].put_bucket_acl(@aws_bucket_name, {
-        'Owner' => @aws_owner,
+      Fog::Storage[:aws].put_bucket_acl(@aws_bucket_name, 
+                                          'Owner' => @aws_owner,
         'AccessControlList' => [
           {
             'Grantee' => { 'EmailAddress' => 'mtd@amazon.com' },
             'Permission' => "FULL_CONTROL"
           }
         ]
-      })
+      )
       Fog::Storage[:aws].get_bucket_acl(@aws_bucket_name).body
     end
 
@@ -286,7 +286,7 @@ Shindo.tests('Fog::Storage[:aws] | bucket requests', ["aws"]) do
     tests("bucket tagging") do
 
       tests("#put_bucket_tagging('#{@aws_bucket_name}')").succeeds do
-        Fog::Storage[:aws].put_bucket_tagging(@aws_bucket_name, {'Key1' => 'Value1', 'Key2' => 'Value2'})
+        Fog::Storage[:aws].put_bucket_tagging(@aws_bucket_name, 'Key1' => 'Value1', 'Key2' => 'Value2')
       end
 
       tests("#get_bucket_tagging('#{@aws_bucket_name}')").

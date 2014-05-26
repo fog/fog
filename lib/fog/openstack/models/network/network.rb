@@ -28,7 +28,7 @@ module Fog
         end
 
         def subnets
-          service.subnets.select {|s| s.network_id == self.id }
+          service.subnets.select { |s| s.network_id == self.id }
         end
 
         def create

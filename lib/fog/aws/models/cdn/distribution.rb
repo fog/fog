@@ -77,8 +77,8 @@ module Fog
             'TrustedSigners' => trusted_signers,
             'DefaultRootObject' => default_root_object
           }
-          options.reject! { |k,v| v.nil? }
-          options.reject! { |k,v| v.respond_to?(:empty?) && v.empty? }
+          options.reject! { |_k,v| v.nil? }
+          options.reject! { |_k,v| v.respond_to?(:empty?) && v.empty? }
           options
         end
 

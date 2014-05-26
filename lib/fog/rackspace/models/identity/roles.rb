@@ -17,7 +17,7 @@ module Fog
 
         def get(id)
           requires :user
-          data = retrieve_roles.find{ |role| role['id'] == id }
+          data = retrieve_roles.find { |role| role['id'] == id }
           data && new(data)
         end
 

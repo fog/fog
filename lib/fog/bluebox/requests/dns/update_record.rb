@@ -10,7 +10,7 @@ module Fog
         # * content<~String> - data for the DNS record (ie for an A record, the IP address)
         def update_record(zone_id, record_id, options)
           body = %Q{<?xml version="1.0" encoding="UTF-8"?><record>}
-          options.each {|k,v| body += "<#{k}>#{v}</#{k}>"}
+          options.each { |k,v| body += "<#{k}>#{v}</#{k}>" }
           body += "</record>"
           request(
             :body     => body,

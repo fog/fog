@@ -8,8 +8,8 @@ module Fog
 
         identity :name, :aliases => 'zoneName'
 
-        attribute   :zoneState
-        attribute   :hosts
+        attribute :zoneState
+        attribute :hosts
 
         def available?
           zoneState['available']

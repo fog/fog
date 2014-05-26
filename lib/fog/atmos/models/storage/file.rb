@@ -6,7 +6,7 @@ module Fog
 
       class File < Fog::Model
 
-        identity  :key,             :aliases => :Filename
+        identity :key,             :aliases => :Filename
 
         attribute :content_length,  :aliases => ['bytes', 'Content-Length'], :type => :integer
         attribute :content_type,    :aliases => ['content_type', 'Content-Type']
@@ -45,7 +45,7 @@ module Fog
 
         def meta_data
          requires :directory, :key
-          service.get_namespace([directory.key, key].join('/') + "?metadata/system")
+         service.get_namespace([directory.key, key].join('/') + "?metadata/system")
         end
 
         def file_size

@@ -10,7 +10,7 @@ Shindo.tests('Fog::Compute[:digitalocean] | create_ssh_key request', ['digitaloc
 
   tests('success') do
 
-    tests('#create_ssh_key').formats({'status' => 'OK', 'ssh_key' => @key_format}) do
+    tests('#create_ssh_key').formats('status' => 'OK', 'ssh_key' => @key_format) do
       @key = Fog::Compute[:digitalocean].create_ssh_key 'fookey', 'fookey'
       @key.body
     end

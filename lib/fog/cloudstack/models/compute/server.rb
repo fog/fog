@@ -4,7 +4,7 @@ module Fog
   module Compute
     class Cloudstack
       class Server < Fog::Compute::Server
-        identity  :id,                                      :aliases => 'id'
+        identity :id,                                      :aliases => 'id'
         attribute :name
         attribute :account_name,                            :aliases => 'account'
         attribute :domain_name,                             :aliases => 'domain'
@@ -46,11 +46,11 @@ module Fog
         alias_method :public_ip_address=, :ip_address=
 
         def addresses
-          nics.map{|nic| Address.new(nic)}
+          nics.map { |nic| Address.new(nic) }
         end
 
         def ip_addresses
-          addresses.map{|a| a.ip_address}
+          addresses.map { |a| a.ip_address }
         end
 
         def public_ip_addresses
@@ -67,7 +67,7 @@ module Fog
 
         def destroy(options={})
           requires :id
-          data = service.destroy_virtual_machine(options.merge({'id'=> self.id}))
+          data = service.destroy_virtual_machine(options.merge('id'=> self.id))
           service.jobs.new(data["destroyvirtualmachineresponse"])
         end
 
@@ -90,11 +90,11 @@ module Fog
         end
 
         def security_group_ids
-          @security_group_ids || (self.security_group_list || []).map{|sg| sg["id"]}
+          @security_group_ids || (self.security_group_list || []).map { |sg| sg["id"] }
         end
 
         def security_groups
-          security_group_ids.map{|id| service.security_groups.get(id)}
+          security_group_ids.map { |id| service.security_groups.get(id) }
         end
 
         def save
@@ -137,7 +137,7 @@ module Fog
             Fog::Logger.deprecation("Passing force as a boolean option has been deprecated. Please pass a hash with 'force' => (true|false)")
             options = {'force' => options}
           end
-          data = service.stop_virtual_machine(options.merge({'id' => self.id}))
+          data = service.stop_virtual_machine(options.merge('id' => self.id))
           service.jobs.new(data["stopvirtualmachineresponse"])
         end
       end # Server

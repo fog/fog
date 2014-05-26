@@ -3,7 +3,7 @@ Shindo.tests('Fog::Compute[:google] | zone requests', ['google']) do
   @google = Fog::Compute[:google]
 
   @get_zone_format = {
-      'kind' => String,
+    'kind' => String,
       'id' => String,
       'selfLink' => String,
       'creationTimestamp' => String,
@@ -19,7 +19,7 @@ Shindo.tests('Fog::Compute[:google] | zone requests', ['google']) do
   }
 
   @list_zones_format = {
-      'kind' => String,
+    'kind' => String,
       'id' => String,
       'selfLink' => String,
       'items' => [@get_zone_format]

@@ -9,7 +9,7 @@ module Fog
         TCP  = 6
         UDP  = 17
 
-        identity  :network_acl_id, :aliases => 'networkAclId'
+        identity :network_acl_id, :aliases => 'networkAclId'
         attribute :vpc_id,         :aliases => 'vpcId'
         attribute :default
         attribute :entries,        :aliases => 'entrySet'
@@ -134,7 +134,7 @@ module Fog
           requires :network_acl_id
 
           # We have to manually find out the network ACL the subnet is currently associated with
-          old_id = service.network_acls.all('association.subnet-id' => subnet.subnet_id).first.associations.detect { |a| a['subnetId'] == subnet.subnet_id }['networkAclAssociationId']
+          old_id = service.network_acls.all('association.subnet-id' => subnet.subnet_id).first.associations.find { |a| a['subnetId'] == subnet.subnet_id }['networkAclAssociationId']
           service.replace_network_acl_association(old_id, network_acl_id)
           true
         end

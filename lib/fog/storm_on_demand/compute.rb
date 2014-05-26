@@ -9,18 +9,18 @@ module Fog
       recognizes :storm_on_demand_auth_url
 
       model_path 'fog/storm_on_demand/models/compute'
-      model       :config
-      collection  :configs
-      model       :image
-      collection  :images
-      model       :server
-      collection  :servers
-      model       :template
-      collection  :templates
-      model       :product
-      collection  :products
-      model       :notification
-      collection  :notifications
+      model :config
+      collection :configs
+      model :image
+      collection :images
+      model :server
+      collection :servers
+      model :template
+      collection :templates
+      model :product
+      collection :products
+      model :notification
+      collection :notifications
 
       request_path 'fog/storm_on_demand/requests/compute'
       request :clone_server

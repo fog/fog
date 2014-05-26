@@ -7,15 +7,15 @@ Shindo.tests('test_helper', 'meta') do
 
   tests('#data_matches_schema') do
     tests('when value matches schema expectation') do
-      data_matches_schema({"key" => String}) { {"key" => "Value"} }
+      data_matches_schema("key" => String) { {"key" => "Value"} }
     end
 
     tests('when values within an array all match schema expectation') do
-      data_matches_schema({"key" => [Integer]}) { {"key" => [1, 2]} }
+      data_matches_schema("key" => [Integer]) { {"key" => [1, 2]} }
     end
 
     tests('when nested values match schema expectation') do
-      data_matches_schema({"key" => {:nested_key => String}}) { {"key" => {:nested_key => "Value"}} }
+      data_matches_schema("key" => {:nested_key => String}) { {"key" => {:nested_key => "Value"}} }
     end
 
     tests('when collection of values all match schema expectation') do
@@ -23,7 +23,7 @@ Shindo.tests('test_helper', 'meta') do
     end
 
     tests('when collection is empty although schema covers optional members') do
-      data_matches_schema([{"key" => String}], {:allow_optional_rules => true}) { [] }
+      data_matches_schema([{"key" => String}], :allow_optional_rules => true) { [] }
     end
 
     tests('when additional keys are passed and not strict') do
@@ -31,7 +31,7 @@ Shindo.tests('test_helper', 'meta') do
     end
 
     tests('when value is nil and schema expects NilClass') do
-      data_matches_schema({"key" => NilClass}) { {"key" => nil} }
+      data_matches_schema("key" => NilClass) { {"key" => nil} }
     end
 
     tests('when value and schema match as hashes') do
@@ -43,7 +43,7 @@ Shindo.tests('test_helper', 'meta') do
     end
 
     tests('when value is a Time') do
-      data_matches_schema({"time" => Time}) { {"time" => Time.now} }
+      data_matches_schema("time" => Time) { {"time" => Time.now} }
     end
 
     tests('when key is missing but value should be NilClass (#1477)') do
@@ -58,15 +58,15 @@ Shindo.tests('test_helper', 'meta') do
   tests('#formats backwards compatible changes') do
 
     tests('when value matches schema expectation') do
-      formats({"key" => String}) { {"key" => "Value"} }
+      formats("key" => String) { {"key" => "Value"} }
     end
 
     tests('when values within an array all match schema expectation') do
-      formats({"key" => [Integer]}) { {"key" => [1, 2]} }
+      formats("key" => [Integer]) { {"key" => [1, 2]} }
     end
 
     tests('when nested values match schema expectation') do
-      formats({"key" => {:nested_key => String}}) { {"key" => {:nested_key => "Value"}} }
+      formats("key" => {:nested_key => String}) { {"key" => {:nested_key => "Value"}} }
     end
 
     tests('when collection of values all match schema expectation') do
@@ -82,7 +82,7 @@ Shindo.tests('test_helper', 'meta') do
     end
 
     tests('when value is nil and schema expects NilClass') do
-      formats({"key" => NilClass}) { {"key" => nil} }
+      formats("key" => NilClass) { {"key" => nil} }
     end
 
     tests('when value and schema match as hashes') do
@@ -94,15 +94,15 @@ Shindo.tests('test_helper', 'meta') do
     end
 
     tests('when value is a Time') do
-      formats({"time" => Time}) { {"time" => Time.now} }
+      formats("time" => Time) { {"time" => Time.now} }
     end
 
     tests('when key is missing but value should be NilClass (#1477)') do
-      formats({"key" => NilClass}) { {} }
+      formats("key" => NilClass) { {} }
     end
 
     tests('when key is missing but value is nullable (#1477)') do
-      formats({"key" => Fog::Nullable::String}) { {} }
+      formats("key" => Fog::Nullable::String) { {} }
     end
 
   end

@@ -12,7 +12,7 @@ module Fog
 
           vanilla_options = [:name, :fixed_ips, :mac_address, :admin_state_up,
                              :device_owner, :device_id, :tenant_id]
-          vanilla_options.reject{ |o| options[o].nil? }.each do |key|
+          vanilla_options.reject { |o| options[o].nil? }.each do |key|
             data['port'][key] = options[key]
           end
 

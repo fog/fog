@@ -1,6 +1,6 @@
 Shindo.tests('HP::Network | networking security group rule model', ['hp', 'networking', 'securitygroup']) do
 
-  @secgroup = HP[:network].security_groups.create({:name => 'fogsecgroup'})
+  @secgroup = HP[:network].security_groups.create(:name => 'fogsecgroup')
 
   attributes = {:security_group_id => @secgroup.id, :direction => 'ingress'}
   model_tests(HP[:network].security_group_rules, attributes, true)

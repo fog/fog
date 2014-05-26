@@ -34,7 +34,7 @@ module Fog
 
         def delete_access_key(access_key_id, options = {})
           user_name = options['UserName']
-          if user_name && data[:users].has_key?(user_name) && data[:users][user_name][:access_keys].any? { |akey| akey['AccessKeyId'] == access_key_id }
+          if user_name && data[:users].key?(user_name) && data[:users][user_name][:access_keys].any? { |akey| akey['AccessKeyId'] == access_key_id }
             data[:users][user_name][:access_keys].delete_if { |akey| akey['AccessKeyId'] == access_key_id }
             Excon::Response.new.tap do |response|
               response.body = { 'RequestId' => Fog::AWS::Mock.request_id }

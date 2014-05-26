@@ -64,7 +64,7 @@ module Fog
             }
           }
           l_options = ['metadata', 'accessIPv4', 'accessIPv6', 'key_name', 'config_drive', 'user_data']
-          l_options.select{|o| options[o]}.each do |key|
+          l_options.select { |o| options[o] }.each do |key|
             data['server'][key] = options[key]
           end
 
@@ -136,7 +136,7 @@ module Fog
           }
           self.data[:last_modified][:servers][data['id']] = Time.now
           self.data[:servers][data['id']] = data
-          response.body = { 'server' => data.merge({'adminPass' => 'password'}) }
+          response.body = { 'server' => data.merge('adminPass' => 'password') }
           response
         end
 

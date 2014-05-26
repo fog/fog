@@ -43,11 +43,11 @@ module Fog
       class Mock
         def update_router(router_id, options = {})
           response = Excon::Response.new
-          router = list_routers.body['routers'].find {|r| r[:id] == router_id}
+          router = list_routers.body['routers'].find { |r| r[:id] == router_id }
 
           raise Fog::Network::OpenStack::NotFound unless router
 
-          options.keys.each {|k| router[k] = options[k] }
+          options.keys.each { |k| router[k] = options[k] }
 
           # remove this in a future
           egi = options[:external_gateway_info]
@@ -57,7 +57,7 @@ module Fog
               Please pass  external external gateway as follows options[:external_gateway_info] = { :network_id => NETWORK_ID }]"
               router[:external_gateway_info] = { :network_id => egi.id }
             else egi.is_a?(Hash) && egi[:network_id]
-              router[:external_gateway_info] = egi
+                 router[:external_gateway_info] = egi
             end
           end
 

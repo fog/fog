@@ -8,10 +8,10 @@ module Fog
       recognizes :host, :path, :port, :scheme, :persistent
 
       model_path 'fog/dnsmadeeasy/models/dns'
-      model       :record
-      collection  :records
-      model       :zone
-      collection  :zones
+      model :record
+      collection :records
+      model :zone
+      collection :zones
 
       request_path 'fog/dnsmadeeasy/requests/dns'
       request :list_domains

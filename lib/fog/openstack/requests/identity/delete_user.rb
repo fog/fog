@@ -17,7 +17,7 @@ module Fog
 
         def delete_user(user_id)
           self.data[:users].delete(
-            list_users.body['users'].find {|x| x['id'] == user_id }['id'])
+            list_users.body['users'].find { |x| x['id'] == user_id }['id'])
 
           response = Excon::Response.new
           response.status = 204

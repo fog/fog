@@ -180,7 +180,7 @@ module Fog
                   "rel"  => "self"
                   },
                   {
-                  "href" => "https://dfw.servers.api.rackspacecloud.com/010101/servers/#{server_id}",
+                    "href" => "https://dfw.servers.api.rackspacecloud.com/010101/servers/#{server_id}",
                   "rel"  => "bookmark"
                 }
               ]

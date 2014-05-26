@@ -26,18 +26,18 @@ module Fog
           }.merge!(params))
         end
         private
-          def indexed_multidimensional_params(multi_params)
-            params = {}
-            multi_params.keys.each_with_index do |key, key_index|
-              key_index += 1
-              params[format('DhcpConfiguration.%d.Key', key_index)] = key
-              [*multi_params[key]].each_with_index do |value, value_index|
-                value_index += 1
-                params[format('DhcpConfiguration.%d.Value.%d', key_index, value_index)] = value
-              end
+        def indexed_multidimensional_params(multi_params)
+          params = {}
+          multi_params.keys.each_with_index do |key, key_index|
+            key_index += 1
+            params[format('DhcpConfiguration.%d.Key', key_index)] = key
+            [*multi_params[key]].each_with_index do |value, value_index|
+              value_index += 1
+              params[format('DhcpConfiguration.%d.Value.%d', key_index, value_index)] = value
             end
-            params
-         end
+          end
+          params
+       end
        end
       class Mock
         def create_dhcp_options(dhcp_configurations = {})
@@ -45,11 +45,11 @@ module Fog
           params.merge!(indexed_multidimensional_params(dhcp_configurations))
           Excon::Response.new.tap do |response|
             response.status = 200
-            self.data[:dhcp_options].push({
-              'dhcpOptionsId' => Fog::AWS::Mock.dhcp_options_id,
+            self.data[:dhcp_options].push(
+                                            'dhcpOptionsId' => Fog::AWS::Mock.dhcp_options_id,
               'dhcpConfigurationSet'  => {},
               'tagSet'             => {}
-            })
+            )
             response.body = {
               'requestId'    => Fog::AWS::Mock.request_id,
               'dhcpOptionsSet'      => self.data[:dhcp_options]
@@ -57,18 +57,18 @@ module Fog
           end
         end
         private
-          def indexed_multidimensional_params(multi_params)
-            params = {}
-            multi_params.keys.each_with_index do |key, key_index|
-              key_index += 1
-              params[format('DhcpConfiguration.%d.Key', key_index)] = key
-              [*multi_params[key]].each_with_index do |value, value_index|
-                value_index += 1
-                params[format('DhcpConfiguration.%d.Value.%d', key_index, value_index)] = value
-              end
+        def indexed_multidimensional_params(multi_params)
+          params = {}
+          multi_params.keys.each_with_index do |key, key_index|
+            key_index += 1
+            params[format('DhcpConfiguration.%d.Key', key_index)] = key
+            [*multi_params[key]].each_with_index do |value, value_index|
+              value_index += 1
+              params[format('DhcpConfiguration.%d.Value.%d', key_index, value_index)] = value
             end
-            params
-         end
+          end
+          params
+       end
       end
     end
   end

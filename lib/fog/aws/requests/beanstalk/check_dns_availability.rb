@@ -17,7 +17,7 @@ module Fog
         #
         def check_dns_availability(options)
           request({
-                      'Operation'    => 'CheckDNSAvailability',
+            'Operation'    => 'CheckDNSAvailability',
                       :parser     => Fog::Parsers::AWS::ElasticBeanstalk::CheckDNSAvailability.new
                   }.merge(options))
         end

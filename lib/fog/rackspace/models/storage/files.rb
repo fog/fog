@@ -54,7 +54,7 @@ module Fog
             options
           )
           if parent
-            load(parent.files.map {|file| file.attributes})
+            load(parent.files.map { |file| file.attributes })
           else
             nil
           end
@@ -68,17 +68,17 @@ module Fog
         # @raise [Fog::Storage::Rackspace::InternalServerError] - HTTP 500
         # @raise [Fog::Storage::Rackspace::ServiceError]
         # @note This method retrieves files in pages. Page size is defined by the limit attribute
-        alias :each_file_this_page :each
+        alias_method :each_file_this_page, :each
         def each
           if !block_given?
             self
           else
             subset = dup.all
 
-            subset.each_file_this_page {|f| yield f}
+            subset.each_file_this_page { |f| yield f }
             while subset.length == (subset.limit || 10000)
               subset = subset.all(:marker => subset.last.key)
-              subset.each_file_this_page {|f| yield f}
+              subset.each_file_this_page { |f| yield f }
             end
 
             self
@@ -111,11 +111,11 @@ module Fog
           requires :directory
           data = service.get_object(directory.key, key, &block)
           metadata = Metadata.from_headers(self, data.headers)
-          file_data = data.headers.merge({
-            :body => data.body,
+          file_data = data.headers.merge(
+                                           :body => data.body,
             :key  => key,
             :metadata => metadata
-          })
+          )
 
           new(file_data)
         rescue Fog::Storage::Rackspace::NotFound
@@ -173,9 +173,9 @@ module Fog
         def head(key, options = {})
           requires :directory
           data = service.head_object(directory.key, key)
-          file_data = data.headers.merge({
-            :key => key
-          })
+          file_data = data.headers.merge(
+                                           :key => key
+          )
           new(file_data)
         rescue Fog::Storage::Rackspace::NotFound
           nil

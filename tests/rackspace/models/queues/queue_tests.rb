@@ -2,7 +2,7 @@ Shindo.tests('Fog::Rackspace::Queues | queue', ['rackspace']) do
 
   service = Fog::Rackspace::Queues.new
   options = {
-    :name => "fog_instance_#{Time.now.to_i.to_s}",
+    :name => "fog_instance_#{Time.now.to_i}",
   }
   model_tests(service.queues, options) do
 
@@ -21,7 +21,7 @@ Shindo.tests('Fog::Rackspace::Queues | queue', ['rackspace']) do
     end
 
     tests('#dequeue(60, 60) => with not messages').returns(false) do
-      @instance.dequeue(60, 60) do |message|
+      @instance.dequeue(60, 60) do |_message|
       end
     end
   end

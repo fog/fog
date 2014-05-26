@@ -9,9 +9,9 @@ module Fog
       recognizes :storm_on_demand_auth_url
 
       model_path 'fog/storm_on_demand/models/billing'
-      model      :invoice
+      model :invoice
       collection :invoices
-      model      :payment
+      model :payment
       collection :payments
 
       request_path 'fog/storm_on_demand/requests/billing'

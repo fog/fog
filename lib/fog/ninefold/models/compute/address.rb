@@ -6,7 +6,7 @@ module Fog
 
       class Address < Fog::Model
 
-        identity  :id
+        identity :id
 
         attribute :account
         attribute :allocated
@@ -76,7 +76,7 @@ module Fog
             :networkid => networkid,
             :account => account,
             :domainid => domainid
-          }.delete_if {|k,v| v.nil? || v == "" }
+          }.delete_if { |_k,v| v.nil? || v == "" }
           data = service.associate_ip_address(options)
           merge_attributes(data)
           true

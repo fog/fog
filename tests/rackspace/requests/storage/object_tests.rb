@@ -20,7 +20,7 @@ Shindo.tests('Fog::Storage[:rackspace] | object requests', ["rackspace"]) do
 
     tests("#get_object('fogobjecttests', 'fog_object', &block)").succeeds do
       data = ''
-      Fog::Storage[:rackspace].get_object('fogobjecttests', 'fog_object') do |chunk, remaining_bytes, total_bytes|
+      Fog::Storage[:rackspace].get_object('fogobjecttests', 'fog_object') do |chunk, _remaining_bytes, _total_bytes|
         data << chunk
       end
       data == lorem_file.read

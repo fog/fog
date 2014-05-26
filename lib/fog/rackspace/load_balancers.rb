@@ -78,7 +78,7 @@ module Fog
       module Shared
 
         def algorithms
-          list_algorithms.body['algorithms'].collect { |i| i['name'] }
+          list_algorithms.body['algorithms'].map { |i| i['name'] }
         end
 
         def protocols

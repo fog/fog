@@ -9,7 +9,7 @@ Shindo.tests('HP::Network | networking routers collection', ['hp', 'networking',
     @router = HP[:network].routers.create(attributes)
 
     tests('#all(filter)').succeeds do
-      routers = HP[:network].routers.all({:name => 'fogrouter'})
+      routers = HP[:network].routers.all(:name => 'fogrouter')
       routers.first.name == 'fogrouter'
     end
 

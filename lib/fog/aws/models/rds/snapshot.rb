@@ -6,20 +6,20 @@ module Fog
 
       class Snapshot < Fog::Model
 
-        identity  :id, :aliases => ['DBSnapshotIdentifier', :name]
-        attribute  :instance_id, :aliases => 'DBInstanceIdentifier'
-        attribute  :created_at, :aliases => 'SnapshotCreateTime', :type => :time
-        attribute  :instance_created_at, :aliases => 'InstanceCreateTime', :type => :time
-        attribute  :engine, :aliases => 'Engine'
-        attribute  :engine_version, :aliases => 'EngineVersion'
-        attribute  :master_username, :aliases => 'MasterUsername'
-        attribute  :state, :aliases => 'Status'
-        attribute  :port, :aliases => 'Port', :type => :integer
-        attribute  :allocated_storage, :aliases => 'AllocatedStorage', :type => :integer
-        attribute  :iops, :aliases => 'Iops', :type => :integer
-        attribute  :availability_zone, :aliases => 'AvailabilityZone'
-        attribute  :type, :aliases => 'SnapshotType'
-        attribute  :publicly_accessible, :aliases => 'PubliclyAccessible'
+        identity :id, :aliases => ['DBSnapshotIdentifier', :name]
+        attribute :instance_id, :aliases => 'DBInstanceIdentifier'
+        attribute :created_at, :aliases => 'SnapshotCreateTime', :type => :time
+        attribute :instance_created_at, :aliases => 'InstanceCreateTime', :type => :time
+        attribute :engine, :aliases => 'Engine'
+        attribute :engine_version, :aliases => 'EngineVersion'
+        attribute :master_username, :aliases => 'MasterUsername'
+        attribute :state, :aliases => 'Status'
+        attribute :port, :aliases => 'Port', :type => :integer
+        attribute :allocated_storage, :aliases => 'AllocatedStorage', :type => :integer
+        attribute :iops, :aliases => 'Iops', :type => :integer
+        attribute :availability_zone, :aliases => 'AvailabilityZone'
+        attribute :type, :aliases => 'SnapshotType'
+        attribute :publicly_accessible, :aliases => 'PubliclyAccessible'
 
         def ready?
           state == 'available'

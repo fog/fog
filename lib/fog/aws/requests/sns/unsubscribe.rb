@@ -15,11 +15,11 @@ module Fog
         #
 
         def unsubscribe(arn)
-          request({
-            'Action'          => 'Unsubscribe',
+          request(
+                    'Action'          => 'Unsubscribe',
             'SubscriptionArn' => arn.strip,
             :parser           => Fog::Parsers::AWS::SNS::Unsubscribe.new
-          })
+          )
         end
 
       end

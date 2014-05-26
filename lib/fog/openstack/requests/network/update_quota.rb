@@ -5,7 +5,7 @@ module Fog
 
         def update_quota(tenant_id, options = {})
           request(
-            :body     => Fog::JSON.encode({ 'quota' => options} ),
+            :body     => Fog::JSON.encode( 'quota' => options ),
             :expects  => 200,
             :method   => 'PUT',
             :path     => "/quotas/#{tenant_id}"

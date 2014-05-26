@@ -19,7 +19,7 @@ module Fog
         #
         def restart_app_server(options={})
           request({
-                      'Operation'    => 'RestartAppServer',
+            'Operation'    => 'RestartAppServer',
                       :parser     => Fog::Parsers::AWS::ElasticBeanstalk::Empty.new
                   }.merge(options))
         end

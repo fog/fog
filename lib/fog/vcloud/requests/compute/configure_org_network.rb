@@ -21,7 +21,7 @@ module Fog
             <ns0:EnableLogging>false</ns0:EnableLogging>
         </ns0:FirewallRule>
 EOF
-        outbound_rule
+          outbound_rule
         end
         def generate_tcp_rules(tcp_ports)
           firewall_rules = ""
@@ -77,14 +77,14 @@ EOF
 
           else
             firewall_rules = generate_outbound_rule + generate_tcp_rules(portmap["TCP"]) + generate_udp_rules(portmap["UDP"])
-                    firewall_body = <<EOF
+            firewall_body = <<EOF
                             <ns0:IsEnabled>true</ns0:IsEnabled>
                             <ns0:DefaultAction>drop</ns0:DefaultAction>
                             <ns0:LogDefaultAction>false</ns0:LogDefaultAction>
                             #{firewall_rules}
 EOF
           end
-        body = <<EOF
+          body = <<EOF
           <ns0:NetworkConfigSection xmlns:ns0="http://www.vmware.com/vcloud/v1.5" xmlns:ns1="http://schemas.dmtf.org/ovf/envelope/1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" href="#{vapp_id}/networkConfigSection/" type="application/vnd.vmware.vcloud.networkConfigSection+xml" ns1:required="false" xsi:schemaLocation="http://schemas.dmtf.org/ovf/envelope/1 http://schemas.dmtf.org/ovf/envelope/1/dsp8023_1.1.0.xsd http://www.vmware.com/vcloud/v1.5 http://zone01.bluelock.com/api/v1.5/schema/master.xsd">
 <ns1:Info>The configuration parameters for logical networks</ns1:Info>
 <ns0:Link href="#{vapp_id}/networkConfigSection/" rel="edit" type="application/vnd.vmware.vcloud.networkConfigSection+xml" />
@@ -121,19 +121,19 @@ EOF
 EOF
         end
 
-    def configure_org_network(vapp_id, vapp_network, vapp_network_uri, org_network, org_network_uri, enable_firewall=false, port_map=nil)
-      body = generate_configure_org_network_request(vapp_id, vapp_network, vapp_network_uri, org_network, org_network_uri, enable_firewall, port_map)
-      #puts ("Body: #{body}")
-
-      request(
-            :body     => body,
-            :expects  => 202,
-            :headers  => {'Content-Type' => 'Application/vnd.vmware.vcloud.networkConfigSection+xml' },
-            :method   => 'PUT',
-            :uri      => "#{vapp_id}/networkConfigSection",
-            :parse    => true
-          )
-    end
+        def configure_org_network(vapp_id, vapp_network, vapp_network_uri, org_network, org_network_uri, enable_firewall=false, port_map=nil)
+          body = generate_configure_org_network_request(vapp_id, vapp_network, vapp_network_uri, org_network, org_network_uri, enable_firewall, port_map)
+          #puts ("Body: #{body}")
+    
+          request(
+                :body     => body,
+                :expects  => 202,
+                :headers  => {'Content-Type' => 'Application/vnd.vmware.vcloud.networkConfigSection+xml' },
+                :method   => 'PUT',
+                :uri      => "#{vapp_id}/networkConfigSection",
+                :parse    => true
+              )
+        end
       end
     end
   end

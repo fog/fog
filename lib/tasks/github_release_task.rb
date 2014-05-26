@@ -14,13 +14,13 @@ module Fog
           File.open('CHANGELOG.md', 'r') do |file|
             file.each_line do |line|
               @current_line = line
-               if release_header?
-                 create_release if !release_exists? && @release
-                 @release_tag = release_match[1]
-                 @release = line
-               else
-                 @release << line
-               end
+              if release_header?
+                create_release if !release_exists? && @release
+                @release_tag = release_match[1]
+                @release = line
+              else
+                @release << line
+              end
             end
           end
         end
@@ -29,18 +29,18 @@ module Fog
       private
 
       def create_release
-        github.create_release "fog/fog", "v#{@release_tag}", {:name => "v#{@release_tag}", :body => @release}
+        github.create_release "fog/fog", "v#{@release_tag}", :name => "v#{@release_tag}", :body => @release
         puts "creating release #{@release_tag}"
       end
 
       def releases
         return @releases if @releases
         response = github.releases("fog/fog")
-        @releases = response.collect {|r| r.tag_name }
+        @releases = response.map { |r| r.tag_name }
       end
 
       def release_exists?
-        releases.find {|r| r == "v#{@release_tag}" } != nil
+        releases.find { |r| r == "v#{@release_tag}" } != nil
       end
 
       def release_header?

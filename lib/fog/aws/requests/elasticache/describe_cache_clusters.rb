@@ -17,14 +17,14 @@ module Fog
         # * response <~Excon::Response>:
         #   * body <~Hash>
         def describe_cache_clusters(id = nil, options = {})
-          request({
-            'Action'            => 'DescribeCacheClusters',
+          request(
+                    'Action'            => 'DescribeCacheClusters',
             'CacheClusterId'    => id,
             'Marker'            => options[:marker],
             'MaxRecords'        => options[:max_records],
             'ShowCacheNodeInfo' => options[:show_node_info],
             :parser => Fog::Parsers::AWS::Elasticache::DescribeCacheClusters.new
-          })
+          )
         end
 
       end
@@ -34,7 +34,7 @@ module Fog
           response        = Excon::Response.new
           all_clusters    = self.data[:clusters].values.map do |cluster|
             cluster.merge!(options[:show_node_info] ? {
-              'CacheClusterCreateTime'    => DateTime.now - 60,
+                             'CacheClusterCreateTime'    => DateTime.now - 60,
               'PreferredAvailabilityZone' => 'us-east-1a'
             } : {})
           end

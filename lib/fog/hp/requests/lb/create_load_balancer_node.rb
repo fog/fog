@@ -24,10 +24,10 @@ module Fog
         def create_load_balancer_node(load_balancer_id, address, port, options={})
           data = {
             'nodes' => [
-                {
-                    'address' => address,
-                    'port'    => port
-                }
+              {
+                'address' => address,
+                  'port'    => port
+              }
             ]
           }
           if options['condition']
@@ -50,7 +50,7 @@ module Fog
             response.status = 202
 
             data = {
-                'id'        => Fog::HP::Mock.uuid.to_s,
+              'id'        => Fog::HP::Mock.uuid.to_s,
                 'address'   => address,
                 'port'      => port,
                 'condition' => options['condition'] || 'ENABLED',

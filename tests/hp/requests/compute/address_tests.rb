@@ -11,7 +11,7 @@ Shindo.tests("Fog::Compute[:hp] | address requests", ['hp', 'address']) do
 
   tests('success') do
 
-    tests("#list_addresses").formats({'floating_ips' => [@floating_ips_format]}) do
+    tests("#list_addresses").formats('floating_ips' => [@floating_ips_format]) do
       Fog::Compute[:hp].list_addresses.body
     end
 

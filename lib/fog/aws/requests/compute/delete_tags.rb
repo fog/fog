@@ -67,7 +67,7 @@ module Fog
           tagged.each do |resource|
             tags.each do |key, value|
               tagset = self.data[:tag_sets][resource['resourceId']]
-              tagset.delete(key) if tagset.has_key?(key) && (value.nil? || tagset[key] == value)
+              tagset.delete(key) if tagset.key?(key) && (value.nil? || tagset[key] == value)
             end
           end
 

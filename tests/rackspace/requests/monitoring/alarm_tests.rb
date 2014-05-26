@@ -34,7 +34,7 @@ Shindo.tests('Fog::Rackspace::Monitoring | alarm_tests', ['rackspace','rackspace
   end
   tests('failure') do
     tests('#fail to create new alarm(-1)').raises(Fog::Rackspace::Monitoring::BadRequest) do
-      account.create_alarm(entity_id, {:type => ""})
+      account.create_alarm(entity_id, :type => "")
     end
     tests('#fail to update invalid alarm(-1)').raises(Fog::Rackspace::Monitoring::NotFound) do
       options = { :testing => "Bar" }

@@ -11,7 +11,7 @@ module Fog
         attr_accessor :datacenter, :id, :fullname
 
         def all(filters = { })
-          load service.list_server_types(filters.merge({:datacenter => datacenter}))
+          load service.list_server_types(filters.merge(:datacenter => datacenter))
         end
 
         def get(id)

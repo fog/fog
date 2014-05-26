@@ -12,8 +12,8 @@ module Fog
                  :openstack_endpoint_type
 
       model_path 'fog/openstack/models/orchestration'
-      model       :stack
-      collection  :stacks
+      model :stack
+      collection :stacks
 
       request_path 'fog/openstack/requests/orchestration'
       request :create_stack
@@ -134,17 +134,17 @@ module Fog
 
         def request(params)
           begin
-            response = @connection.request(params.merge({
-              :headers  => {
-                'Content-Type' => 'application/json',
-                'Accept' => 'application/json',
-                'X-Auth-Token' => @auth_token,
-                'X-Auth-User'  => @openstack_username,
-                'X-Auth-Key'   => @openstack_api_key
-              }.merge!(params[:headers] || {}),
+            response = @connection.request(params.merge(
+                                                          :headers  => {
+                                                            'Content-Type' => 'application/json',
+                                                            'Accept' => 'application/json',
+                                                            'X-Auth-Token' => @auth_token,
+                                                            'X-Auth-User'  => @openstack_username,
+                                                            'X-Auth-Key'   => @openstack_api_key
+                                                          }.merge!(params[:headers] || {}),
               :path     => "#{@path}/#{@tenant_id}/#{params[:path]}",
               :query    => params[:query]
-            }))
+            ))
           rescue Excon::Errors::Unauthorized => error
             if error.response.body != 'Bad username or password' # token expiration
               @openstack_must_reauthenticate = true

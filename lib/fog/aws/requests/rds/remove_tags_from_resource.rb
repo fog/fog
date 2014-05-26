@@ -27,7 +27,7 @@ module Fog
         def remove_tags_from_resource(rds_id, keys)
           response = Excon::Response.new
           if server = self.data[:servers][rds_id]
-            keys.each {|key| self.data[:tags][rds_id].delete key}
+            keys.each { |key| self.data[:tags][rds_id].delete key }
             response.status = 200
             response.body = {
               "ResponseMetadata"=>{ "RequestId"=> Fog::AWS::Mock.request_id }

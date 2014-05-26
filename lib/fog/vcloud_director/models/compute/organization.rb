@@ -6,7 +6,7 @@ module Fog
 
       class Organization < Model
 
-        identity  :id
+        identity :id
 
         attribute :name
         attribute :type

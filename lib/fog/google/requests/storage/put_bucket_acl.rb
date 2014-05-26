@@ -24,18 +24,18 @@ module Fog
 </AccessControlList>
 DATA
 
-          request({
-            :body     => data,
+          request(
+                    :body     => data,
             :expects  => 200,
             :headers  => {},
             :host     => "#{bucket_name}.#{@host}",
             :method   => 'PUT',
             :query    => {'acl' => nil}
-          })
+          )
         end
 
 
-      private
+        private
 
         def tag(name, value)
           "<#{name}>#{value}</#{name}>"

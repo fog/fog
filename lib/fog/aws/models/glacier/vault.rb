@@ -8,7 +8,7 @@ module Fog
 
       class Vault < Fog::Model
 
-        identity  :id,                    :aliases => 'VaultName'
+        identity :id,                    :aliases => 'VaultName'
         attribute :created_at,            :aliases => 'CreationDate', :type => :time
         attribute :last_inventory_at,     :aliases => 'LastInventoryDate', :type => :time
         attribute :number_of_archives,    :aliases => 'NumberOfArchives', :type => :integer

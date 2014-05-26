@@ -4,9 +4,9 @@ module Fog
       class Real
         def list_pools(filter = { })
           data=[]
-          if filter.has_key?(:name)
+          if filter.key?(:name)
             data << find_pool_by_name(filter[:name])
-          elsif filter.has_key?(:uuid)
+          elsif filter.key?(:uuid)
             data << find_pool_by_uuid(filter[:uuid])
           else
             (client.list_storage_pools + client.list_defined_storage_pools).each do |name|
@@ -55,7 +55,7 @@ module Fog
 
         def mock_pool name
           {
-              :uuid           => 'pool.uuid',
+            :uuid           => 'pool.uuid',
               :persistent     => true,
               :autostart      => true,
               :active         => true,

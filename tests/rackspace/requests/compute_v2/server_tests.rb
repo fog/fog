@@ -25,8 +25,8 @@ Shindo.tests('Fog::Compute::RackspaceV2 | server_tests', ['rackspace']) do
   }
 
   get_server_format = {
-    'server' => server_format.merge({
-      'accessIPv4' => String,
+    'server' => server_format.merge(
+                                      'accessIPv4' => String,
       'accessIPv6' => String,
       'OS-DCF:diskConfig' => String,
       'rax-bandwidth:bandwidth' => Fog::Nullable::Array,
@@ -39,7 +39,7 @@ Shindo.tests('Fog::Compute::RackspaceV2 | server_tests', ['rackspace']) do
         'id' => String,
         'links' => [link_format]
       }
-    })
+    )
   }
 
   create_server_format = {
@@ -58,7 +58,7 @@ Shindo.tests('Fog::Compute::RackspaceV2 | server_tests', ['rackspace']) do
   tests('success') do
 
     server_id = nil
-    server_name = "fog#{Time.now.to_i.to_s}"
+    server_name = "fog#{Time.now.to_i}"
     image_id = rackspace_test_image_id(service)
     flavor_id = rackspace_test_flavor_id(service)
 
@@ -108,9 +108,9 @@ Shindo.tests('Fog::Compute::RackspaceV2 | server_tests', ['rackspace']) do
     end
     wait_for_server_state(service, server_id, 'VERIFY_RESIZE', 'ACTIVE')
     
-   tests('#confirm_resize_server').succeeds do
-      service.confirm_resize_server(server_id)
-    end
+    tests('#confirm_resize_server').succeeds do
+       service.confirm_resize_server(server_id)
+     end
     wait_for_server_state(service, server_id, 'ACTIVE', 'ERROR')
 
     tests('#resize_server').succeeds do

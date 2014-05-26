@@ -1,13 +1,13 @@
 Shindo.tests("Storage[:aws] | version", ["aws"]) do
 
   file_attributes = {
-      :key => 'fog_file_tests',
+    :key => 'fog_file_tests',
       :body => lorem_file,
       :public => true
   }
 
   directory_attributes = {
-      :key => uniq_id('fogfilestests')
+    :key => uniq_id('fogfilestests')
   }
 
   @directory = Fog::Storage[:aws].directories.create(directory_attributes)
@@ -40,7 +40,7 @@ Shindo.tests("Storage[:aws] | version", ["aws"]) do
       tests("#destroy removes the specific version").returns(false) do
         @version_instance.destroy
 
-        @instance.versions.all.collect(&:version).include?(@version_instance.version)
+        @instance.versions.all.map(&:version).include?(@version_instance.version)
       end
     end
 

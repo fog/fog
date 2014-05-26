@@ -60,7 +60,7 @@ module Fog
             response.status = 404
           else
             hosts = zone ? zone['hosts'].select { |z| z['fqdn'] == fqdn } :
-                           self.data[:zones].collect { |z| z['hosts'].find { |h| h['fqdn'] == fqdn } }.compact
+                           self.data[:zones].map { |z| z['hosts'].find { |h| h['fqdn'] == fqdn } }.compact
 
             response.status = 200
             response.body = {

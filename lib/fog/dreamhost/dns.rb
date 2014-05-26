@@ -7,10 +7,10 @@ module Fog
       requires :dreamhost_api_key
 
       model_path 'fog/dreamhost/models/dns'
-      model       :record
-      model       :zone
-      collection  :records
-      collection  :zones
+      model :record
+      model :zone
+      collection :records
+      collection :zones
 
       request_path 'fog/dreamhost/requests/dns'
       request :create_record
@@ -65,8 +65,8 @@ module Fog
         end
 
         def request(params)
-          params[:query].merge!( { :key => @dreamhost_api_key,
-                                   :format => 'json' } )
+          params[:query].merge!(  :key => @dreamhost_api_key,
+                                   :format => 'json'  )
           response = @connection.request(params)
 
           unless response.body.empty?

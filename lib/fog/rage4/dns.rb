@@ -8,10 +8,10 @@ module Fog
       recognizes :rage4_url, :host, :path, :port, :scheme, :persistent
 
       model_path 'fog/rage4/models/dns'
-      model       :record
-      collection  :records
-      model       :zone
-      collection  :zones
+      model :record
+      collection :records
+      model :zone
+      collection :zones
 
       request_path 'fog/rage4/requests/dns'
       request :list_domains
@@ -58,7 +58,7 @@ module Fog
         def request(params)
           params[:headers] ||= {}
           key = "#{@rage4_email}:#{@rage4_password}"
-          params[:headers].merge!({ "Authorization" => "Basic " + Base64.encode64(key).gsub("\n",'')})
+          params[:headers].merge!( "Authorization" => "Basic " + Base64.encode64(key).gsub("\n",''))
 
           response = @connection.request(params)
 

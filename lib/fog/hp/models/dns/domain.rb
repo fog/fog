@@ -23,10 +23,10 @@ module Fog
 
         def records
           @records ||= begin
-            Fog::HP::DNS::Records.new({
-              :service  => service,
+            Fog::HP::DNS::Records.new(
+                                        :service  => service,
               :domain   => self
-            })
+            )
           end
         end
 

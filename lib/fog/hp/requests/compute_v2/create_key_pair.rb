@@ -59,9 +59,9 @@ module Fog
           self.data[:last_modified][:key_pairs][key_name] = Time.now
           self.data[:key_pairs][key_name] = { 'keypair' => data }
           if public_key
-            response.body = { 'keypair' => data.merge({'user_id' => Fog::HP::Mock.user_id,}) }
+            response.body = { 'keypair' => data.merge('user_id' => Fog::HP::Mock.user_id) }
           else
-            response.body = { 'keypair' => data.merge({'private_key'  => private_key, 'user_id' => Fog::HP::Mock.user_id}) }
+            response.body = { 'keypair' => data.merge('private_key'  => private_key, 'user_id' => Fog::HP::Mock.user_id) }
           end
           response
         end

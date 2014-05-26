@@ -12,14 +12,14 @@ module Fog
                  :openstack_endpoint_type
 
       model_path 'fog/openstack/models/identity'
-      model       :tenant
-      collection  :tenants
-      model       :user
-      collection  :users
-      model       :role
-      collection  :roles
-      model       :ec2_credential
-      collection  :ec2_credentials
+      model :tenant
+      collection :tenants
+      model :user
+      collection :users
+      model :role
+      collection :roles
+      model :ec2_credential
+      collection :ec2_credentials
 
       request_path 'fog/openstack/requests/identity'
 
@@ -220,14 +220,14 @@ module Fog
         def request(params)
           retried = false
           begin
-            response = @connection.request(params.merge({
-              :headers  => {
-                'Content-Type' => 'application/json',
-                'Accept' => 'application/json',
-                'X-Auth-Token' => @auth_token
-              }.merge!(params[:headers] || {}),
-              :path     => "#{@path}/#{params[:path]}"#,
-            }))
+            response = @connection.request(params.merge(
+                                                          :headers  => {
+                                                            'Content-Type' => 'application/json',
+                                                            'Accept' => 'application/json',
+                                                            'X-Auth-Token' => @auth_token
+                                                          }.merge!(params[:headers] || {}),
+              :path     => "#{@path}/#{params[:path]}" #
+            ))
           rescue Excon::Errors::Unauthorized => error
             raise if retried
             retried = true

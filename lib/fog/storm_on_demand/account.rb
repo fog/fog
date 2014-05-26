@@ -10,7 +10,7 @@ module Fog
       recognizes :storm_on_demand_auth_url
 
       model_path 'fog/storm_on_demand/models/account'
-      model      :token
+      model :token
       collection :tokens
 
       request_path 'fog/storm_on_demand/requests/account'

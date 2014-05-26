@@ -36,7 +36,7 @@ module Fog
           end
 
           for key in ['ExecutableBy', 'ImageId', 'Owner', 'RestorableBy']
-            if filters.has_key?(key)
+            if filters.key?(key)
               options[key] = filters.delete(key)
             end
           end
@@ -89,7 +89,7 @@ module Fog
 
           for filter_key, filter_value in filters
             aliased_key = aliases[filter_key]
-            snapshot_set = snapshot_set.reject{|snapshot| ![*filter_value].include?(snapshot[aliased_key])}
+            snapshot_set = snapshot_set.reject { |snapshot| ![*filter_value].include?(snapshot[aliased_key]) }
           end
 
           snapshot_set.each do |snapshot|
@@ -108,7 +108,7 @@ module Fog
             end
           end
 
-          snapshot_set = snapshot_set.map {|snapshot| snapshot.merge('tagSet' => self.data[:tag_sets][snapshot['snapshotId']]) }
+          snapshot_set = snapshot_set.map { |snapshot| snapshot.merge('tagSet' => self.data[:tag_sets][snapshot['snapshotId']]) }
 
           response.status = 200
           response.body = {

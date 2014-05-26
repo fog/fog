@@ -19,12 +19,12 @@ module Fog
         #
         def delete_environment_configuration(application_name, environment_name)
           options = {
-              'ApplicationName' => application_name,
+            'ApplicationName' => application_name,
               'EnvironmentName' => environment_name
           }
 
           request({
-                      'Operation'    => 'DeleteEnvironmentConfiguration',
+            'Operation'    => 'DeleteEnvironmentConfiguration',
                       :parser     => Fog::Parsers::AWS::ElasticBeanstalk::Empty.new
                   }.merge(options))
         end

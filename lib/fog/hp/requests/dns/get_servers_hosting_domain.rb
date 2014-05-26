@@ -31,7 +31,7 @@ module Fog
 
         def get_servers_hosting_domain(domain_id)
           response = Excon::Response.new
-          if list_domains.body['domains'].detect { |_| _['id'] == domain_id }
+          if list_domains.body['domains'].find { |_| _['id'] == domain_id }
             response.status = 200
             response.body   = { 'servers' => dummy_servers }
             response
@@ -42,14 +42,14 @@ module Fog
 
         def dummy_servers
           [
+            {
+              'id'         => Fog::HP::Mock.uuid.to_s,
+                'name'       => 'ns1.provider.com.',
+                'created_at' => '2012-01-01T13:32:20Z',
+                'updated_at' => '2012-01-01T13:32:20Z'
+            },
               {
-                  'id'         => Fog::HP::Mock.uuid.to_s,
-                  'name'       => 'ns1.provider.com.',
-                  'created_at' => '2012-01-01T13:32:20Z',
-                  'updated_at' => '2012-01-01T13:32:20Z'
-              },
-              {
-                  'id'         => Fog::HP::Mock.uuid.to_s,
+                'id'         => Fog::HP::Mock.uuid.to_s,
                   'name'       => 'ns2.provider.com.',
                   'created_at' => '2012-01-01T13:32:20Z',
                   'updated_at' => '2012-01-01T13:32:20Z'

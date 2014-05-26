@@ -4,40 +4,40 @@ module Fog
   module Compute
     class DigitalOcean < Fog::Service
 
-      requires     :digitalocean_api_key
-      requires     :digitalocean_client_id
+      requires :digitalocean_api_key
+      requires :digitalocean_client_id
 
-      recognizes   :digitalocean_api_url
+      recognizes :digitalocean_api_url
 
-      model_path   'fog/digitalocean/models/compute'
-      model        :server
-      collection   :servers
-      model        :flavor
-      collection   :flavors
-      model        :image
-      collection   :images
-      model        :region
-      collection   :regions
-      model        :ssh_key
-      collection   :ssh_keys
+      model_path 'fog/digitalocean/models/compute'
+      model :server
+      collection :servers
+      model :flavor
+      collection :flavors
+      model :image
+      collection :images
+      model :region
+      collection :regions
+      model :ssh_key
+      collection :ssh_keys
 
       request_path 'fog/digitalocean/requests/compute'
-      request      :list_servers
-      request      :list_images
-      request      :list_regions
-      request      :list_flavors
-      request      :get_server_details
-      request      :create_server
-      request      :destroy_server
-      request      :reboot_server
-      request      :power_cycle_server
-      request      :power_off_server
-      request      :power_on_server
-      request      :shutdown_server
-      request      :list_ssh_keys
-      request      :create_ssh_key
-      request      :get_ssh_key
-      request      :destroy_ssh_key
+      request :list_servers
+      request :list_images
+      request :list_regions
+      request :list_flavors
+      request :get_server_details
+      request :create_server
+      request :destroy_server
+      request :reboot_server
+      request :power_cycle_server
+      request :power_off_server
+      request :power_on_server
+      request :shutdown_server
+      request :list_ssh_keys
+      request :create_ssh_key
+      request :get_ssh_key
+      request :destroy_ssh_key
 
       # request :digitalocean_resize
 

@@ -8,12 +8,12 @@ module Fog
       recognizes :host, :path, :port, :scheme, :persistent
 
       model_path 'fog/go_grid/models/compute'
-      model         :image
-      collection    :images
-      model         :server
-      collection    :servers
-      model         :password
-      collection    :passwords
+      model :image
+      collection :images
+      model :server
+      collection :servers
+      model :password
+      collection :passwords
 
       request_path 'fog/go_grid/requests/compute'
       request :common_lookup_list
@@ -82,12 +82,12 @@ module Fog
           }.merge!(params)
 
           params[:query] ||= {}
-          params[:query].merge!({
-            'api_key' => @go_grid_api_key,
+          params[:query].merge!(
+                                  'api_key' => @go_grid_api_key,
             'format'  => 'json',
             'sig'     => Digest::MD5.hexdigest("#{@go_grid_api_key}#{@go_grid_shared_secret}#{Time.now.to_i}"),
             'v'       => '1.5'
-          })
+          )
 
           begin
             response = @connection.request(

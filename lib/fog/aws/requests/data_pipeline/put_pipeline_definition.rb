@@ -18,10 +18,10 @@ module Fog
             'pipelineObjects' => transform_objects(objects),
           }
 
-          response = request({
-            :body => Fog::JSON.encode(params),
-            :headers => { 'X-Amz-Target' => 'DataPipeline.PutPipelineDefinition' },
-          })
+          response = request(
+                               :body => Fog::JSON.encode(params),
+            :headers => { 'X-Amz-Target' => 'DataPipeline.PutPipelineDefinition' }
+          )
 
           Fog::JSON.decode(response.body)
         end
@@ -47,10 +47,10 @@ module Fog
             }
           end
 
-        private
+          private
 
           def fields
-            @json_fields.map{|k,v| field_for_kv(k,v)}.flatten
+            @json_fields.map { |k,v| field_for_kv(k,v) }.flatten
           end
 
           def field_for_kv(key, value)

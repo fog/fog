@@ -11,7 +11,7 @@ Shindo.tests('HP::Network | networking subnets collection', ['hp', 'networking',
     @subnet = HP[:network].subnets.create(attributes)
 
     tests('#all(filter)').succeeds do
-      subnets = HP[:network].subnets.all({:cidr => '12.12.12.12/12'})
+      subnets = HP[:network].subnets.all(:cidr => '12.12.12.12/12')
       subnets.first.cidr == '12.12.12.12/12'
     end
 

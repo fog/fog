@@ -46,14 +46,14 @@ module Fog
           av_zone = options['AvailabilityZone'].nil? ? 'us-east-1c' : options['AvailabilityZone']
           Excon::Response.new.tap do |response|
             if cidrBlock && vpcId
-              vpc = self.data[:vpcs].find{ |v| v['vpcId'] == vpcId }
+              vpc = self.data[:vpcs].find { |v| v['vpcId'] == vpcId }
               if vpc.nil?
                 raise Fog::Compute::AWS::NotFound.new("The vpc ID '#{vpcId}' does not exist")
               end
               if ! ::IPAddress.parse(vpc['cidrBlock']).include?(::IPAddress.parse(cidrBlock))
                 raise Fog::Compute::AWS::Error.new("Range => The CIDR '#{cidrBlock}' is invalid.")
               end
-              self.data[:subnets].select{ |s| s['vpcId'] == vpcId }.each do |subnet|
+              self.data[:subnets].select { |s| s['vpcId'] == vpcId }.each do |subnet|
                 if ::IPAddress.parse(subnet['cidrBlock']).include?(::IPAddress.parse(cidrBlock))
                   raise Fog::Compute::AWS::Error.new("Conflict => The CIDR '#{cidrBlock}' conflicts with another subnet")
                 end
@@ -72,7 +72,7 @@ module Fog
 
               # Add this subnet to the default network ACL
               accid = Fog::AWS::Mock.network_acl_association_id
-              default_nacl = self.data[:network_acls].values.detect { |nacl| nacl['vpcId'] == vpcId && nacl['default'] }
+              default_nacl = self.data[:network_acls].values.find { |nacl| nacl['vpcId'] == vpcId && nacl['default'] }
               default_nacl['associationSet'] << {
                 'networkAclAssociationId' => accid,
                 'networkAclId'            => default_nacl['networkAclId'],

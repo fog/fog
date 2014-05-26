@@ -20,19 +20,19 @@ module Fog
         # Return events related to this version
         def events
           requires :label, :application_name
-          service.events.all({
-                                    'ApplicationName' => application_name,
+          service.events.all(
+                               'ApplicationName' => application_name,
                                     'VersionLabel' => label
-                                })
+                                )
         end
 
         # Returns environments running this version
         def environments
           requires :label, :application_name
-          service.environments.all({
-                                    'ApplicationName' => application_name,
+          service.environments.all(
+                                     'ApplicationName' => application_name,
                                     'VersionLabel' => label
-                                })
+                                )
         end
 
         def destroy(delete_source_bundle = nil)
@@ -45,13 +45,13 @@ module Fog
           requires :label, :application_name
 
           options = {
-              'ApplicationName' => application_name,
+            'ApplicationName' => application_name,
               'AutoCreateApplication' => auto_create_application,
               'Description' => description,
               'SourceBundle' => source_bundle,
               'VersionLabel' => label
           }
-          options.delete_if {|key, value| value.nil?}
+          options.delete_if { |_key, value| value.nil? }
 
           data = service.create_application_version(options).body['CreateApplicationVersionResult']['ApplicationVersion']
           merge_attributes(data)
@@ -63,11 +63,11 @@ module Fog
           requires :label, :application_name
 
           options = {
-              'ApplicationName' => application_name,
+            'ApplicationName' => application_name,
               'Description' => description,
               'VersionLabel' => label
           }
-          options.delete_if {|key, value| value.nil?}
+          options.delete_if { |_key, value| value.nil? }
 
           data = service.update_application_version(options).body['UpdateApplicationVersionResult']['ApplicationVersion']
           merge_attributes(data)

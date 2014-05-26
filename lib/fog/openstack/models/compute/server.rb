@@ -71,17 +71,17 @@ module Fog
 
         def metadata
           @metadata ||= begin
-            Fog::Compute::OpenStack::Metadata.new({
-              :service => service,
+            Fog::Compute::OpenStack::Metadata.new(
+                                                    :service => service,
               :parent => self
-            })
+            )
           end
         end
 
         def metadata=(new_metadata={})
           return unless new_metadata
           metas = []
-          new_metadata.each_pair {|k,v| metas << {"key" => k, "value" => v} }
+          new_metadata.each_pair { |k,v| metas << {"key" => k, "value" => v} }
           @metadata = metadata.load(metas)
         end
 
@@ -104,7 +104,7 @@ module Fog
           # currently openstack API does not tell us what is a floating ip vs a fixed ip for the vm listing,
           # we fall back to get all addresses and filter sadly.
           # Only includes manually-assigned addresses, not auto-assigned
-          @all_addresses ||= service.list_all_addresses.body["floating_ips"].select{|data| data['instance_id'] == id}
+          @all_addresses ||= service.list_all_addresses.body["floating_ips"].select { |data| data['instance_id'] == id }
         end
 
         def reload
@@ -115,16 +115,16 @@ module Fog
         # returns all ip_addresses for a given instance
         # this includes both the fixed ip(s) and the floating ip(s)
         def ip_addresses
-          addresses.values.flatten.map{|x| x['addr']}
+          addresses.values.flatten.map { |x| x['addr'] }
         end
 
         def floating_ip_addresses
-          all_floating=addresses.values.flatten.select{ |data| data["OS-EXT-IPS:type"]=="floating" }.map{|addr| addr["addr"] }
+          all_floating=addresses.values.flatten.select { |data| data["OS-EXT-IPS:type"]=="floating" }.map { |addr| addr["addr"] }
 
           # Return them all, leading with manually assigned addresses
-          manual = all_addresses.map{|addr| addr["ip"]}
+          manual = all_addresses.map { |addr| addr["ip"] }
 
-          all_floating.sort{ |a,b| 
+          all_floating.sort { |a,b| 
             a_manual = manual.include? a
             b_manual = manual.include? b
 
@@ -213,7 +213,7 @@ module Fog
           groups = service.list_security_groups(id).body['security_groups']
 
           groups.map do |group|
-            Fog::Compute::OpenStack::SecurityGroup.new group.merge({:service => service})
+            Fog::Compute::OpenStack::SecurityGroup.new group.merge(:service => service)
           end
         end
 
@@ -276,7 +276,7 @@ module Fog
 
         def volumes
           requires :id
-          service.volumes.find_all do |vol|
+          service.volumes.select do |vol|
             vol.attachments.find { |attachment| attachment["serverId"] == id }
           end
         end
@@ -318,7 +318,7 @@ module Fog
             'block_device_mapping' => @block_device_mapping
           }
           options['metadata'] = metadata.to_hash unless @metadata.nil?
-          options = options.reject {|key, value| value.nil?}
+          options = options.reject { |_key, value| value.nil? }
           data = service.create_server(name, image_ref, flavor_ref, options)
           merge_attributes(data.body['server'])
           true

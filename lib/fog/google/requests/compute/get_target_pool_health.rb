@@ -20,7 +20,7 @@ module Fog
             'region' => target_pool.region.split('/')[-1]
           }
 
-          health_results = target_pool.instances.collect do |instance|
+          health_results = target_pool.instances.map do |instance|
             body = { 'instance' => instance }
             resp = build_response(build_result(api_method, parameters, body_object=body))
             [instance, resp.data[:body]['healthStatus']]

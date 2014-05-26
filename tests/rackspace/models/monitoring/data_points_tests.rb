@@ -3,14 +3,14 @@ Shindo.tests('Fog::Rackspace::Monitoring | datapoints', ['rackspace','rackspace_
   service = Fog::Rackspace::Monitoring.new
   
   begin
-    label = "fog_#{Time.now.to_i.to_s}"
+    label = "fog_#{Time.now.to_i}"
     @entity = service.entities.create :label => label
     @check = service.checks.create CHECK_CREATE_OPTIONS.merge(:label => label, :entity => @entity)
     sleep(@check.period + 30) unless Fog.mocking?
     @metric = service.metrics(:check => @check).first
     
     tests('#datapoints').succeeds do
-     service.data_points(:metric => @metric).fetch({ :from => ((Time.now.to_i * 1000) - (3600 * 1000)) })
+     service.data_points(:metric => @metric).fetch( :from => ((Time.now.to_i * 1000) - (3600 * 1000)) )
     end
   ensure
     @check.destroy rescue nil if @check

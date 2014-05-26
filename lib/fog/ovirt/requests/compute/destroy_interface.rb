@@ -5,7 +5,7 @@ module Fog
 
         def destroy_interface(id, options)
           raise ArgumentError, "instance id is a required parameter" unless id
-          raise ArgumentError, "interface id is a required parameter for destroy-interface" unless options.has_key? :id
+          raise ArgumentError, "interface id is a required parameter for destroy-interface" unless options.key? :id
 
           client.destroy_interface(id, options[:id])
         end
@@ -15,7 +15,7 @@ module Fog
       class Mock
         def destroy_interface(id, options)
           raise ArgumentError, "instance id is a required parameter" unless id
-          raise ArgumentError, "interface id is a required parameter for destroy-interface" unless options.has_key? :id
+          raise ArgumentError, "interface id is a required parameter for destroy-interface" unless options.key? :id
           true
         end
 

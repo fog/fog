@@ -6,7 +6,7 @@ module Fog
 
       class IpForwardingRule < Fog::Model
 
-        identity  :id
+        identity :id
 
         attribute :protocol
         attribute :virtualmachineid
@@ -57,7 +57,7 @@ module Fog
             :protocol => protocol,
             :startport => startport,
             :endport => endport
-          }.delete_if {|k,v| v.nil? || v == "" }
+          }.delete_if { |_k,v| v.nil? || v == "" }
           data = service.create_ip_forwarding_rule(options)
           merge_attributes(data)
           true

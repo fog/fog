@@ -10,16 +10,16 @@ module Fog
       recognizes :ninefold_api_url  # allow us to specify non-prod environments
 
       model_path 'fog/ninefold/models/compute'
-      model       :server
-      collection  :servers
-      model       :flavor
-      collection  :flavors
-      model       :image
-      collection  :images
-      model       :address
-      collection  :addresses
-      model       :ip_forwarding_rule
-      collection  :ip_forwarding_rules
+      model :server
+      collection :servers
+      model :flavor
+      collection :flavors
+      model :image
+      collection :images
+      model :address
+      collection :addresses
+      model :ip_forwarding_rule
+      collection :ip_forwarding_rules
 
       request_path 'fog/ninefold/requests/compute'
       # General list-only stuff
@@ -96,7 +96,7 @@ module Fog
           params['response'] = "json"
           # convert params to strings for sort
           req_params = params.merge('apiKey' => @ninefold_compute_key, 'command' => command)
-          req = URI.escape(req_params.sort_by{|k,v| k.to_s }.collect{|e| "#{e[0].to_s}=#{e[1].to_s}"}.join('&'))
+          req = URI.escape(req_params.sort_by { |k,_v| k.to_s }.map { |e| "#{e[0]}=#{e[1]}" }.join('&'))
           encoded_signature = url_escape(encode_signature(req))
 
           options = {
@@ -113,7 +113,7 @@ module Fog
             # the values out with a prefix, and if there is an empty data entry return an
             # empty version of the expected type (if provided)
             response = Fog::JSON.decode(response.body)
-            if options.has_key? :response_prefix
+            if options.key? :response_prefix
               keys = options[:response_prefix].split('/')
               keys.each do |k|
                 if response[k]
@@ -131,7 +131,7 @@ module Fog
           end
         end
 
-      private
+        private
         def url_escape(string)
           string.gsub(/([^ a-zA-Z0-9_.-]+)/n) do
             '%' + $1.unpack('H2' * $1.size).join('%').upcase

@@ -7,7 +7,7 @@ module Fog
         include MultipartUtils
 
         def regrant_secret(key_id)
-          update_riakcs_user(key_id, { :new_key_secret => true })
+          update_riakcs_user(key_id,  :new_key_secret => true )
         end
       end
 
@@ -15,7 +15,7 @@ module Fog
         include UserUtils
 
         def regrant_secret(key_id)
-          update_mock_user(key_id, { :new_key_secret => true })
+          update_mock_user(key_id,  :new_key_secret => true )
         end
       end
     end

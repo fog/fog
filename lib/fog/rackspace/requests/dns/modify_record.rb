@@ -10,13 +10,13 @@ module Fog
           path = "domains/#{domain_id}/records/#{record_id}"
           data = {}
 
-          if options.has_key? :ttl
+          if options.key? :ttl
             data['ttl'] = options[:ttl]
           end
-          if options.has_key? :name
+          if options.key? :name
             data['name'] = options[:name]
           end
-          if options.has_key? :data
+          if options.key? :data
             data['data'] = options[:data]
           end
 

@@ -57,13 +57,13 @@ Shindo.tests('Fog mocking', 'core') do
       IPAddr.new(Fog::Mock.random_ip).ipv4?
     end
     tests('Fog::Mock.random_ip').returns(true, "explicit ipv4") do
-      IPAddr.new(Fog::Mock.random_ip({:version => :v4})).ipv4?
+      IPAddr.new(Fog::Mock.random_ip(:version => :v4)).ipv4?
     end
     tests('Fog::Mock.random_ip({:version => :v6})').returns(true, "changes to ipv6") do
-      IPAddr.new(Fog::Mock.random_ip({:version => :v6})).ipv6?
+      IPAddr.new(Fog::Mock.random_ip(:version => :v6)).ipv6?
     end
     tests('Fog::Mock.random_ip({:version => :v5})').raises(ArgumentError) do
-      IPAddr.new(Fog::Mock.random_ip({:version => :v5})).ipv4?
+      IPAddr.new(Fog::Mock.random_ip(:version => :v5)).ipv4?
     end
   end
 

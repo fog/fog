@@ -13,7 +13,7 @@ module Fog
         end
 
         def get(id)
-          data = retrieve_tenants.find{ |tenant| tenant['id'] == id }
+          data = retrieve_tenants.find { |tenant| tenant['id'] == id }
           data && new(data)
         end
 

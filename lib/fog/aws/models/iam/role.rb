@@ -6,7 +6,7 @@ module Fog
 
       class Role < Fog::Model
         
-        identity  :id, :aliases => 'RoleId'
+        identity :id, :aliases => 'RoleId'
         attribute :rolename, :aliases => 'RoleName'
         attribute :create_date, :aliases => 'CreateDate', :type => :time
         attribute :assume_role_policy_document, :aliases => 'AssumeRolePolicyDocument'

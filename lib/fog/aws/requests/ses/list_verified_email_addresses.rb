@@ -16,10 +16,10 @@ module Fog
         #     * 'ResponseMetadata'<~Hash>:
         #       * 'RequestId'<~String> - Id of request
         def list_verified_email_addresses
-          request({
-            'Action' => 'ListVerifiedEmailAddresses',
+          request(
+                    'Action' => 'ListVerifiedEmailAddresses',
             :parser  => Fog::Parsers::AWS::SES::ListVerifiedEmailAddresses.new
-          })
+          )
         end
 
       end

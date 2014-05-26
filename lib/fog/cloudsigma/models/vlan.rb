@@ -22,7 +22,7 @@ module Fog
           merge_attributes(new_attributes)
         end
 
-        alias :save :update
+        alias_method :save, :update
       end
     end
   end

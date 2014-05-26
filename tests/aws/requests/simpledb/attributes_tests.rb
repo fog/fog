@@ -7,24 +7,24 @@ Shindo.tests('AWS::SimpleDB | attributes requests', ['aws']) do
   tests('success') do
 
     tests("#batch_put_attributes('#{@domain_name}', { 'a' => { 'b' => 'c', 'd' => 'e' }, 'x' => { 'y' => 'z' } }).body").formats(AWS::SimpleDB::Formats::BASIC) do
-      Fog::AWS[:simpledb].batch_put_attributes(@domain_name, { 'a' => { 'b' => 'c', 'd' => 'e' }, 'x' => { 'y' => 'z' } }).body
+      Fog::AWS[:simpledb].batch_put_attributes(@domain_name,  'a' => { 'b' => 'c', 'd' => 'e' }, 'x' => { 'y' => 'z' } ).body
     end
 
-    tests("#get_attributes('#{@domain_name}', 'a', {'ConsistentRead' => true}).body['Attributes']").returns({'b' => ['c'], 'd' => ['e']}) do
-      Fog::AWS[:simpledb].get_attributes(@domain_name, 'a', {'ConsistentRead' => true}).body['Attributes']
+    tests("#get_attributes('#{@domain_name}', 'a', {'ConsistentRead' => true}).body['Attributes']").returns('b' => ['c'], 'd' => ['e']) do
+      Fog::AWS[:simpledb].get_attributes(@domain_name, 'a', 'ConsistentRead' => true).body['Attributes']
     end
 
     tests("#get_attributes('#{@domain_name}', 'AttributeName' => 'notanattribute')").succeeds do
       Fog::AWS[:simpledb].get_attributes(@domain_name, 'AttributeName' => 'notanattribute')
     end
 
-    tests("#select('select * from #{@domain_name}', {'ConsistentRead' => true}).body['Items']").returns({'a' => { 'b' => ['c'], 'd' => ['e']}, 'x' => { 'y' => ['z'] } }) do
+    tests("#select('select * from #{@domain_name}', {'ConsistentRead' => true}).body['Items']").returns('a' => { 'b' => ['c'], 'd' => ['e']}, 'x' => { 'y' => ['z'] } ) do
       pending if Fog.mocking?
-      Fog::AWS[:simpledb].select("select * from #{@domain_name}", {'ConsistentRead' => true}).body['Items']
+      Fog::AWS[:simpledb].select("select * from #{@domain_name}", 'ConsistentRead' => true).body['Items']
     end
 
     tests("#put_attributes('#{@domain_name}', 'conditional', { 'version' => '1' }).body").formats(AWS::SimpleDB::Formats::BASIC) do
-      Fog::AWS[:simpledb].put_attributes(@domain_name, 'conditional', { 'version' => '1' }).body
+      Fog::AWS[:simpledb].put_attributes(@domain_name, 'conditional',  'version' => '1' ).body
     end
 
     tests("#put_attributes('#{@domain_name}', 'conditional', { 'version' => '2' }, :expect => { 'version' => '1' }, :replace => ['version']).body").formats(AWS::SimpleDB::Formats::BASIC) do
@@ -33,12 +33,12 @@ Shindo.tests('AWS::SimpleDB | attributes requests', ['aws']) do
 
     # Verify that we can delete individual attributes.
     tests("#delete_attributes('#{@domain_name}', 'a', {'d' => []})").succeeds do
-      Fog::AWS[:simpledb].delete_attributes(@domain_name, 'a', {'d' => []}).body
+      Fog::AWS[:simpledb].delete_attributes(@domain_name, 'a', 'd' => []).body
     end
 
     # Verify that individually deleted attributes are actually removed.
     tests("#get_attributes('#{@domain_name}', 'a', {'AttributeName' => ['d'], 'ConsistentRead' => true}).body['Attributes']").returns({}) do
-      Fog::AWS[:simpledb].get_attributes(@domain_name, 'a', {'AttributeName' => ['d'], 'ConsistentRead' => true}).body['Attributes']
+      Fog::AWS[:simpledb].get_attributes(@domain_name, 'a', 'AttributeName' => ['d'], 'ConsistentRead' => true).body['Attributes']
     end
 
     tests("#delete_attributes('#{@domain_name}', 'a').body").formats(AWS::SimpleDB::Formats::BASIC) do
@@ -52,7 +52,7 @@ Shindo.tests('AWS::SimpleDB | attributes requests', ['aws']) do
 
     # Verify that deleting a domain, item combination removes all related attributes.
     tests("#get_attributes('#{@domain_name}', 'a', {'ConsistentRead' => true}).body['Attributes']").returns({}) do
-      Fog::AWS[:simpledb].get_attributes(@domain_name, 'a', {'ConsistentRead' => true}).body['Attributes']
+      Fog::AWS[:simpledb].get_attributes(@domain_name, 'a', 'ConsistentRead' => true).body['Attributes']
     end
 
   end
@@ -60,7 +60,7 @@ Shindo.tests('AWS::SimpleDB | attributes requests', ['aws']) do
   tests('failure') do
 
     tests("#batch_put_attributes('notadomain', { 'a' => { 'b' => 'c' }, 'x' => { 'y' => 'z' } })").raises(Excon::Errors::BadRequest) do
-      Fog::AWS[:simpledb].batch_put_attributes('notadomain', { 'a' => { 'b' => 'c' }, 'x' => { 'y' => 'z' } })
+      Fog::AWS[:simpledb].batch_put_attributes('notadomain',  'a' => { 'b' => 'c' }, 'x' => { 'y' => 'z' } )
     end
 
     tests("#get_attributes('notadomain', 'a')").raises(Excon::Errors::BadRequest) do
@@ -68,7 +68,7 @@ Shindo.tests('AWS::SimpleDB | attributes requests', ['aws']) do
     end
 
     tests("#put_attributes('notadomain', 'conditional', { 'version' => '1' })").raises(Excon::Errors::BadRequest) do
-      Fog::AWS[:simpledb].put_attributes('notadomain', 'foo', { 'version' => '1' })
+      Fog::AWS[:simpledb].put_attributes('notadomain', 'foo',  'version' => '1' )
     end
 
     tests("#put_attributes('#{@domain_name}', 'conditional', { 'version' => '2' }, :expect => { 'version' => '1' }, :replace => ['version'])").raises(Excon::Errors::Conflict) do

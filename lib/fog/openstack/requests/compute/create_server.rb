@@ -17,7 +17,7 @@ module Fog
                              'adminPass', 'config_drive', 'min_count', 'max_count',
                              'return_reservation_id'
                             ]
-          vanilla_options.select{|o| options[o]}.each do |key|
+          vanilla_options.select { |o| options[o] }.each do |key|
             data['server'][key] = options[key]
           end
 
@@ -127,7 +127,7 @@ module Fog
           }
 
           if nics = options['nics']
-            nics.each do |nic|
+            nics.each do |_nic|
               mock_data["addresses"].merge!(
                 "Public" => [{ 'addr' => Fog::Mock.random_ip }]
               )
@@ -136,7 +136,7 @@ module Fog
 
           response_data = {}
           if options['return_reservation_id'] == 'True' then
-            response_data = { 'reservation_id' => "r-#{Fog::Mock.random_numbers(6).to_s}" }
+            response_data = { 'reservation_id' => "r-#{Fog::Mock.random_numbers(6)}" }
           else
             response_data = {
               'adminPass'       => 'password',

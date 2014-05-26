@@ -16,17 +16,17 @@ module Fog
           load(result['Metrics']) # an array of attribute hashes
         end
 
-        alias :each_metric_this_page :each
+        alias_method :each_metric_this_page, :each
         def each
           if !block_given?
             self
           else
             subset = dup.all
-            subset.each_metric_this_page {|m| yield m }
+            subset.each_metric_this_page { |m| yield m }
 
             while next_token = subset.next_token
               subset = subset.all("NextToken" => next_token)
-              subset.each_metric_this_page {|m| yield m }
+              subset.each_metric_this_page { |m| yield m }
             end
 
             self
@@ -36,7 +36,7 @@ module Fog
         def get(namespace, metric_name, dimensions=nil)
           list_opts = {'Namespace' => namespace, 'MetricName' => metric_name}
           if dimensions
-            dimensions_array = dimensions.collect do |name, value|
+            dimensions_array = dimensions.map do |name, value|
               {'Name' => name, 'Value' => value}
             end
             # list_opts.merge!('Dimensions' => dimensions_array)

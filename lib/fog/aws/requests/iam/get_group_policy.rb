@@ -22,12 +22,12 @@ module Fog
         # http://docs.amazonwebservices.com/IAM/latest/APIReference/API_GetGroupPolicy.html
         #
         def get_group_policy(policy_name, group_name)
-          request({
-            'Action'      => 'GetGroupPolicy',
+          request(
+                    'Action'      => 'GetGroupPolicy',
             'PolicyName'  => policy_name,
             'GroupName'    => group_name,
             :parser       => Fog::Parsers::AWS::IAM::GetGroupPolicy.new
-          })
+          )
         end
 
       end
@@ -37,7 +37,7 @@ module Fog
           raise Fog::AWS::IAM::NotFound.new("The policy with name #{policy_name} cannot be found.") unless self.data[:groups][group_name][:policies].key?(policy_name)
           Excon::Response.new.tap do |response|
             response.body = { 'Policy' =>  {
-                                'PolicyName' => policy_name,
+              'PolicyName' => policy_name,
                                 'GroupName' => group_name,
                                 'PolicyDocument' => data[:groups][group_name][:policies][policy_name]
                               },

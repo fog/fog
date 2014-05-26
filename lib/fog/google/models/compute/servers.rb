@@ -27,7 +27,7 @@ module Fog
             response = service.get_server(identity, zone).body
           else
             servers = service.list_aggregated_servers(:filter => "name eq .*#{identity}").body['items']
-            server = servers.each_value.select { |zone| zone.has_key?('instances') }
+            server = servers.each_value.select { |zone| zone.key?('instances') }
 
             # It can only be 1 server with the same name across all regions
             response = server.first['instances'].first unless server.empty?

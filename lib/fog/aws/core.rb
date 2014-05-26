@@ -69,7 +69,7 @@ module Fog
 
     def self.indexed_request_param(name, values)
       idx = -1
-      Array(values).inject({}) do |params, value|
+      Array(values).reduce({}) do |params, value|
         params["#{name}.#{idx += 1}"] = value
         params
       end
@@ -95,17 +95,17 @@ module Fog
     end
 
     def self.signed_params(params, options = {})
-      params.merge!({
-        'AWSAccessKeyId'    => options[:aws_access_key_id],
+      params.merge!(
+                      'AWSAccessKeyId'    => options[:aws_access_key_id],
         'SignatureMethod'   => 'HmacSHA256',
         'SignatureVersion'  => '2',
         'Timestamp'         => Time.now.utc.strftime("%Y-%m-%dT%H:%M:%SZ"),
         'Version'           => options[:version]
-      })
+      )
 
-      params.merge!({
-        'SecurityToken'     => options[:aws_session_token]
-      }) if options[:aws_session_token]
+      params.merge!(
+                      'SecurityToken'     => options[:aws_session_token]
+      ) if options[:aws_session_token]
 
       body = ''
       for key in params.keys.sort
@@ -219,10 +219,10 @@ module Fog
         request_id.join('-')
       end
       class << self
-        alias :reserved_instances_id :request_id
-        alias :reserved_instances_offering_id :request_id
-        alias :sqs_message_id :request_id
-        alias :sqs_sender_id :request_id
+        alias_method :reserved_instances_id, :request_id
+        alias_method :reserved_instances_offering_id, :request_id
+        alias_method :sqs_message_id, :request_id
+        alias_method :sqs_sender_id, :request_id
       end
 
       def self.reservation_id
@@ -311,7 +311,7 @@ module Fog
 
     module Errors
       def self.match_error(error)
-        matcher = lambda {|s| s.match(/(?:.*<Code>(.*)<\/Code>)(?:.*<Message>(.*)<\/Message>)/m)}
+        matcher = lambda { |s| s.match(/(?:.*<Code>(.*)<\/Code>)(?:.*<Message>(.*)<\/Message>)/m) }
         [error.message, error.response.body].each(&Proc.new {|s|
           match = matcher.call(s)
           return {:code => match[1].split('.').last, :message => match[2]} if match

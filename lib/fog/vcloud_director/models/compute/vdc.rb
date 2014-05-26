@@ -6,7 +6,7 @@ module Fog
 
       class Vdc < Model
 
-        identity  :id
+        identity :id
 
         attribute :name
         attribute :type

@@ -13,7 +13,7 @@ module Fog
         def update_load_balancer(load_balancer_id, options={})
           data = {}
           l_options = ['name', 'algorithm']
-          l_options.select{|o| options[o]}.each do |key|
+          l_options.select { |o| options[o] }.each do |key|
             data[key] = options[key]
           end
 
@@ -29,7 +29,7 @@ module Fog
       class Mock
         def update_load_balancer(load_balancer_id, options={})
           response = Excon::Response.new
-          if lb = list_load_balancers.body['loadBalancers'].detect { |_| _['id'] == load_balancer_id }
+          if lb = list_load_balancers.body['loadBalancers'].find { |_| _['id'] == load_balancer_id }
 
             lb['name']      = options['name']      if options['name']
             lb['algorithm'] = options['algorithm'] if options['algorithm']

@@ -13,7 +13,7 @@ module Fog
             :tenant_id
           ]
 
-          vanilla_options.reject{ |o| options[o].nil? }.each do |key|
+          vanilla_options.reject { |o| options[o].nil? }.each do |key|
             data['network'][key] = options[key]
           end
 
@@ -40,7 +40,7 @@ module Fog
             :router_external           => 'router:external'
           }
 
-          provider_options.reject{ |o| options[o].nil? }.each do |key|
+          provider_options.reject { |o| options[o].nil? }.each do |key|
             aliased_key = aliases[key] || key
             data['network'][aliased_key] = options[key]
           end
@@ -83,7 +83,7 @@ module Fog
             :provider_segmentation_id  => 'provider:segmentation_id',
             :router_external           => 'router:external'
           }
-          provider_options.reject{ |o| options[o].nil? }.each do |key|
+          provider_options.reject { |o| options[o].nil? }.each do |key|
             aliased_key = aliases[key] || key
             data[aliased_key] = options[key]
           end

@@ -45,15 +45,15 @@ def rackspace_api_key
 end
 
 # create Cloud Files service
-service = Fog::Storage.new({
-  :provider             => 'Rackspace',
+service = Fog::Storage.new(
+                             :provider             => 'Rackspace',
   :rackspace_username   => rackspace_username,
   :rackspace_api_key    => rackspace_api_key,
   :rackspace_region => :ord #Use Chicago Region
-  })
+  )
 
 # retrieve directories with files
-directories = service.directories.select {|s| s.count > 0}
+directories = service.directories.select { |s| s.count > 0 }
 
 # prompt for directory
 directory = select_directory(directories)
@@ -67,7 +67,7 @@ file = select_file(files)
 # download file
 filename = File.join(File.dirname(__FILE__), "downloaded-#{file.key}")
 File.open(filename, 'w') do | f |
-  directory.files.get(file.key) do | data, remaining, content_length |
+  directory.files.get(file.key) do | data, _remaining, _content_length |
     f.syswrite data
   end
 end

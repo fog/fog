@@ -15,14 +15,14 @@ module Fog
     module Array; end
   end
 end
-[FalseClass, TrueClass].each {|klass| klass.send(:include, Fog::Boolean)}
-[FalseClass, TrueClass, NilClass, Fog::Boolean].each {|klass| klass.send(:include, Fog::Nullable::Boolean)}
-[NilClass, String].each {|klass| klass.send(:include, Fog::Nullable::String)}
-[NilClass, Time].each {|klass| klass.send(:include, Fog::Nullable::Time)}
-[Integer, NilClass].each {|klass| klass.send(:include, Fog::Nullable::Integer)}
-[Float, NilClass].each {|klass| klass.send(:include, Fog::Nullable::Float)}
-[Hash, NilClass].each {|klass| klass.send(:include, Fog::Nullable::Hash)}
-[Array, NilClass].each {|klass| klass.send(:include, Fog::Nullable::Array)}
+[FalseClass, TrueClass].each { |klass| klass.send(:include, Fog::Boolean) }
+[FalseClass, TrueClass, NilClass, Fog::Boolean].each { |klass| klass.send(:include, Fog::Nullable::Boolean) }
+[NilClass, String].each { |klass| klass.send(:include, Fog::Nullable::String) }
+[NilClass, Time].each { |klass| klass.send(:include, Fog::Nullable::Time) }
+[Integer, NilClass].each { |klass| klass.send(:include, Fog::Nullable::Integer) }
+[Float, NilClass].each { |klass| klass.send(:include, Fog::Nullable::Float) }
+[Hash, NilClass].each { |klass| klass.send(:include, Fog::Nullable::Hash) }
+[Array, NilClass].each { |klass| klass.send(:include, Fog::Nullable::Array) }
 
 module Shindo
   class Tests

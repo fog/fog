@@ -30,7 +30,7 @@ module Fog
             options.merge!(AWS.indexed_param('EnvironmentNames.member.%d', [*environment_names]))
           end
           request({
-                      'Operation'    => 'DescribeEnvironments',
+            'Operation'    => 'DescribeEnvironments',
                       :parser     => Fog::Parsers::AWS::ElasticBeanstalk::DescribeEnvironments.new
                   }.merge(options))
         end

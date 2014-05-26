@@ -28,7 +28,7 @@ module Fog
             params = args.first
           else 
             params = {
-                :instance_id => args[0],
+              :instance_id => args[0],
                 :public_ip => args[1],
                 :network_interface_id => args[2],
                 :allocation_id => args[3],
@@ -61,7 +61,7 @@ module Fog
             params = args.first
           else 
             params = {
-                :instance_id => args[0],
+              :instance_id => args[0],
                 :public_ip => args[1],
                 :network_interface_id => args[2],
                 :allocation_id => args[3],
@@ -119,7 +119,7 @@ module Fog
           elsif params[:network_interface_id].nil? && params[:allocation_id].nil?
             raise Fog::Compute::AWS::NotFound.new("You must specify an AllocationId when specifying a NetworkInterfaceID")
           else (!instance.nil? && params[:network_interface_id].nil?) || (params[:instance_id].nil? && !params[:network_interface_id].nil?)
-            raise Fog::Compute::AWS::Error.new("You must specify either an InstanceId or a NetworkInterfaceID")
+               raise Fog::Compute::AWS::Error.new("You must specify either an InstanceId or a NetworkInterfaceID")
           end
         end
 

@@ -10,7 +10,7 @@ Shindo.tests('Fog::Network[:openstack] | router requests', ['openstack']) do
   }
   
   tests('success') do
-    tests('#create_router').formats({'router' => @router_format}) do
+    tests('#create_router').formats('router' => @router_format) do
       attributes = {
         :admin_state_up => true, 
         :tenant_id => 'tenant_id'
@@ -18,16 +18,16 @@ Shindo.tests('Fog::Network[:openstack] | router requests', ['openstack']) do
       Fog::Network[:openstack].create_router('router_name', attributes).body
     end
 
-    tests('#list_routers').formats({'routers' => [@router_format]}) do
+    tests('#list_routers').formats('routers' => [@router_format]) do
       Fog::Network[:openstack].list_routers.body
     end
 
-    tests('#get_router').formats({'router' => @router_format}) do
+    tests('#get_router').formats('router' => @router_format) do
       router_id = Fog::Network[:openstack].routers.all.first.id
       Fog::Network[:openstack].get_router(router_id).body
     end
 
-    tests('#update_router').formats({'router' => @router_format}) do
+    tests('#update_router').formats('router' => @router_format) do
       router_id = Fog::Network[:openstack].routers.all.first.id
       attributes = {
         :name => 'net_name', 
@@ -38,7 +38,7 @@ Shindo.tests('Fog::Network[:openstack] | router requests', ['openstack']) do
       Fog::Network[:openstack].update_router(router_id, attributes).body
     end
 
-    tests('#update_router_with_network').formats({'router' => @router_format}) do
+    tests('#update_router_with_network').formats('router' => @router_format) do
       router_id = Fog::Network[:openstack].routers.all.first.id
       net = Fog::Network[:openstack].networks.first
       attributes = {

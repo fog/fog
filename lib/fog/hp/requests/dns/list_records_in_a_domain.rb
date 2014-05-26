@@ -33,7 +33,7 @@ module Fog
       class Mock
         def list_records_in_a_domain(domain_id)
           response = Excon::Response.new
-          if domain = list_domains.body['domains'].detect { |_| _['id'] == domain_id }
+          if domain = list_domains.body['domains'].find { |_| _['id'] == domain_id }
             response.status = 200
             response.body = { 'records' => records_for_domain(domain_id) }
           else
@@ -43,7 +43,7 @@ module Fog
         end
 
         def records_for_domain(domain_id)
-          rdata = data[:records].select { |_,v| v['domain_id'] == domain_id}
+          rdata = data[:records].select { |_,v| v['domain_id'] == domain_id }
           records = []
           rdata.each { |_,v| records << v }
           records

@@ -26,7 +26,7 @@ module Fog
           nil
         end
 
-        alias :each_user_this_page :each
+        alias_method :each_user_this_page, :each
 
         def each
           if !block_given?
@@ -34,10 +34,10 @@ module Fog
           else
             subset = dup.all
 
-            subset.each_user_this_page {|f| yield f}
+            subset.each_user_this_page { |f| yield f }
             while subset.is_truncated
               subset = subset.all('Marker' => subset.marker, 'MaxItems' => 1000)
-              subset.each_user_this_page {|f| yield f}
+              subset.each_user_this_page { |f| yield f }
             end
 
             self

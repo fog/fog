@@ -17,13 +17,13 @@ module Fog
         #
 
         def change_message_visibility(queue_url, receipt_handle, visibility_timeout)
-          request({
-            'Action'            => 'ChangeMessageVisibility',
+          request(
+                    'Action'            => 'ChangeMessageVisibility',
             'ReceiptHandle'     => receipt_handle,
             'VisibilityTimeout' => visibility_timeout,
             :parser             => Fog::Parsers::AWS::SQS::Basic.new,
             :path               => path_from_queue_url(queue_url)
-          })
+          )
         end
 
       end
@@ -33,8 +33,8 @@ module Fog
         def change_message_visibility(queue_url, receipt_handle, visibility_timeout)
           Excon::Response.new.tap do |response|
             if (queue = data[:queues][queue_url])
-              message_id, _ = queue[:receipt_handles].find { |message_id, receipts|
-                receipts.has_key?(receipt_handle)
+              message_id, _ = queue[:receipt_handles].find { |_message_id, receipts|
+                receipts.key?(receipt_handle)
               }
 
               if message_id

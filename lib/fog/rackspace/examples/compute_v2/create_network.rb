@@ -29,13 +29,13 @@ def rackspace_api_key
 end
 
 # create Next Generation Cloud Server service
-service = Fog::Compute.new({
-  :provider             => 'rackspace',
+service = Fog::Compute.new(
+                             :provider             => 'rackspace',
   :rackspace_username   => rackspace_username,
   :rackspace_api_key    => rackspace_api_key,
   :version => :v2,  # Use Next Gen Cloud Servers
   :rackspace_region => :ord #Use Chicago Region
-})
+)
 
 #create private network called my_private_net with an ip range between 192.168.0.1 - 192.168.0.255 (Note this will accept IPv6 CIDRs as well)
 net = service.networks.create :label => 'my_private_net', :cidr => '192.168.0.0/24'
@@ -46,7 +46,7 @@ puts "\nCreating #{net.label} Network with CIDR #{net.cidr}"
 flavor = service.flavors.first
 
 # pick the first Ubuntu image we can find
-image = service.images.find {|image| image.name =~ /Ubuntu/}
+image = service.images.find { |image| image.name =~ /Ubuntu/ }
 
 # Create a server called alphabits connected our private network as well as the internet
 server = service.servers.create :name => 'alphabits',

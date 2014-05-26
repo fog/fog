@@ -44,16 +44,16 @@ module Fog
 
       model_path 'fog/aws/models/beanstalk'
 
-      model       :application
-      collection  :applications
-      model       :environment
-      collection  :environments
-      model       :event
-      collection  :events
-      model       :template
-      collection  :templates
-      model       :version
-      collection  :versions
+      model :application
+      collection :applications
+      model :environment
+      collection :environments
+      model :event
+      collection :events
+      model :template
+      collection :templates
+      model :version
+      collection :versions
 
       class Mock
 
@@ -109,27 +109,27 @@ module Fog
 
           body = AWS.signed_params(
               params,
-              {
-                  :aws_access_key_id  => @aws_access_key_id,
+              
+                :aws_access_key_id  => @aws_access_key_id,
                   :aws_session_token  => @aws_session_token,
                   :hmac               => @hmac,
                   :host               => @host,
                   :path               => @path,
                   :port               => @port,
                   :version            => '2010-12-01'
-              }
+              
           )
 
           begin
-            @connection.request({
-                :body       => body,
+            @connection.request(
+                                  :body       => body,
                 :expects    => 200,
                 :headers    => { 'Content-Type' => 'application/x-www-form-urlencoded' },
                 :idempotent => idempotent,
                 :host       => @host,
                 :method     => 'POST',
                 :parser     => parser
-            })
+            )
           rescue Excon::Errors::HTTPStatusError => error
             match = Fog::AWS::Errors.match_error(error)
             raise if match.empty?

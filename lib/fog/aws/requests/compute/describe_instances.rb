@@ -142,26 +142,26 @@ module Fog
           for filter_key, filter_value in filters
             if block_device_mapping_key = filter_key.split('block-device-mapping.')[1]
               aliased_key = block_device_mapping_aliases[block_device_mapping_key]
-              instance_set = instance_set.reject{|instance| !instance['blockDeviceMapping'].detect {|block_device_mapping| [*filter_value].include?(block_device_mapping[aliased_key])}}
+              instance_set = instance_set.reject { |instance| !instance['blockDeviceMapping'].find { |block_device_mapping| [*filter_value].include?(block_device_mapping[aliased_key]) } }
             elsif instance_state_key = filter_key.split('instance-state-')[1]
               aliased_key = instance_state_aliases[instance_state_key]
-              instance_set = instance_set.reject{|instance| ![*filter_value].include?(instance['instanceState'][aliased_key])}
+              instance_set = instance_set.reject { |instance| ![*filter_value].include?(instance['instanceState'][aliased_key]) }
             elsif state_reason_key = filter_key.split('state-reason-')[1]
               aliased_key = state_reason_aliases[state_reason_key]
-              instance_set = instance_set.reject{|instance| ![*filter_value].include?(instance['stateReason'][aliased_key])}
+              instance_set = instance_set.reject { |instance| ![*filter_value].include?(instance['stateReason'][aliased_key]) }
             elsif filter_key == "group-name"
-              instance_set = instance_set.reject {|instance| !instance['groupSet'].include?(filter_value)}
+              instance_set = instance_set.reject { |instance| !instance['groupSet'].include?(filter_value) }
             elsif filter_key == "group-id"
               group_ids = [*filter_value]
               security_group_names = self.data[:security_groups].values.select { |sg| group_ids.include?(sg['groupId']) }.map { |sg| sg['groupName'] }
-              instance_set = instance_set.reject {|instance| (security_group_names & instance['groupSet']).empty?}
+              instance_set = instance_set.reject { |instance| (security_group_names & instance['groupSet']).empty? }
             else
               aliased_key = aliases[filter_key]
-              instance_set = instance_set.reject {|instance| ![*filter_value].include?(instance[aliased_key])}
+              instance_set = instance_set.reject { |instance| ![*filter_value].include?(instance[aliased_key]) }
             end
           end
 
-          brand_new_instances = instance_set.find_all do |instance|
+          brand_new_instances = instance_set.select do |instance|
             instance['instanceState']['name'] == 'pending' &&
               Time.now - instance['launchTime'] < Fog::Mock.delay * 2
           end
@@ -172,7 +172,7 @@ module Fog
           end
 
           # Otherwise don't include it in the list
-          instance_set = instance_set.reject {|instance| brand_new_instances.include?(instance) }
+          instance_set = instance_set.reject { |instance| brand_new_instances.include?(instance) }
 
           response.status = 200
           reservation_set = {}
@@ -207,10 +207,10 @@ module Fog
 
             if self.data[:instances][instance['instanceId']]
 
-              nics = self.data[:network_interfaces].select{|ni,ni_conf|
+              nics = self.data[:network_interfaces].select {|_ni,ni_conf|
                 ni_conf['attachment']['instanceId'] == instance['instanceId']
               }
-              instance['networkInterfaces'] = nics.map{|ni,ni_conf|
+              instance['networkInterfaces'] = nics.map {|_ni,ni_conf|
                 {
                   'ownerId' => ni_conf['ownerId'],
                   'subnetId' => ni_conf['subnetId'],
@@ -222,9 +222,9 @@ module Fog
               }
               if nics.count > 0
 
-                instance['privateIpAddress'] = nics.sort_by {|ni, ni_conf|
+                instance['privateIpAddress'] = nics.sort_by {|_ni, ni_conf|
                   ni_conf['attachment']['deviceIndex']
-                }.map{ |ni, ni_conf| ni_conf['privateIpAddress'] }.first
+                }.map { |_ni, ni_conf| ni_conf['privateIpAddress'] }.first
 
                 instance['privateDnsName'] = Fog::AWS::Mock.private_dns_name_for(instance['privateIpAddress'])
               else
@@ -239,7 +239,7 @@ module Fog
                 'ownerId'       => instance['ownerId'],
                 'reservationId' => instance['reservationId']
               }
-              reservation_set[instance['reservationId']]['instancesSet'] << instance.reject{|key,value| !['amiLaunchIndex', 'architecture', 'blockDeviceMapping', 'clientToken', 'dnsName', 'ebsOptimized', 'hypervisor', 'iamInstanceProfile', 'imageId', 'instanceId', 'instanceState', 'instanceType', 'ipAddress', 'kernelId', 'keyName', 'launchTime', 'monitoring', 'networkInterfaces', 'ownerId', 'placement', 'platform', 'privateDnsName', 'privateIpAddress', 'productCodes', 'ramdiskId', 'reason', 'rootDeviceType', 'stateReason', 'virtualizationType'].include?(key)}.merge('tagSet' => self.data[:tag_sets][instance['instanceId']])
+              reservation_set[instance['reservationId']]['instancesSet'] << instance.reject { |key,_value| !['amiLaunchIndex', 'architecture', 'blockDeviceMapping', 'clientToken', 'dnsName', 'ebsOptimized', 'hypervisor', 'iamInstanceProfile', 'imageId', 'instanceId', 'instanceState', 'instanceType', 'ipAddress', 'kernelId', 'keyName', 'launchTime', 'monitoring', 'networkInterfaces', 'ownerId', 'placement', 'platform', 'privateDnsName', 'privateIpAddress', 'productCodes', 'ramdiskId', 'reason', 'rootDeviceType', 'stateReason', 'virtualizationType'].include?(key) }.merge('tagSet' => self.data[:tag_sets][instance['instanceId']])
             end
           end
 

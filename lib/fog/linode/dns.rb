@@ -8,10 +8,10 @@ module Fog
       recognizes :port, :scheme, :persistent
 
       model_path 'fog/linode/models/dns'
-      model       :record
-      collection  :records
-      model       :zone
-      collection  :zones
+      model :record
+      collection :records
+      model :zone
+      collection :zones
 
       request_path 'fog/linode/requests/dns'
       request :domain_create

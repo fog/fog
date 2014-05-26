@@ -37,7 +37,7 @@ def gem_file
 end
 
 def replace_header(head, header_name)
-  head.sub!(/(\.#{header_name}\s*= ').*'/) { "#{$1}#{send(header_name)}'"}
+  head.sub!(/(\.#{header_name}\s*= ').*'/) { "#{$1}#{send(header_name)}'" }
 end
 
 #############################################################################
@@ -68,7 +68,7 @@ namespace :test do
 end
 
 desc 'Run mocked tests for a specific provider'
-task :mock, :provider do |t, args|
+task :mock, :provider do |_t, args|
   if args.to_a.size != 1
     fail 'USAGE: rake mock[<provider>]'
   end
@@ -77,7 +77,7 @@ task :mock, :provider do |t, args|
 end
 
 desc 'Run live tests against a specific provider'
-task :live, :provider do |t, args|
+task :live, :provider do |_t, args|
   if args.to_a.size != 1
     fail 'USAGE: rake live[<provider>]'
   end

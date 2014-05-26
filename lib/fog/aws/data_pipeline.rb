@@ -20,8 +20,8 @@ module Fog
       request :describe_objects
 
       model_path 'fog/aws/models/data_pipeline'
-      model       :pipeline
-      collection  :pipelines
+      model :pipeline
+      collection :pipelines
 
       class Mock
         def initialize(options={})
@@ -90,11 +90,11 @@ module Fog
           refresh_credentials_if_expired
 
           # Params for all DataPipeline requests
-          params.merge!({
-            :expects => 200,
+          params.merge!(
+                          :expects => 200,
             :method => :post,
-            :path => '/',
-          })
+            :path => '/'
+          )
 
           date = Fog::Time.now
           params[:headers] = {

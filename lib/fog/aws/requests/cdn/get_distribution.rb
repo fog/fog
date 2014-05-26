@@ -39,13 +39,13 @@ module Fog
         # @see http://docs.amazonwebservices.com/AmazonCloudFront/latest/APIReference/GetDistribution.html
 
         def get_distribution(distribution_id)
-          request({
-            :expects    => 200,
+          request(
+                    :expects    => 200,
             :idempotent => true,
             :method     => 'GET',
             :parser     => Fog::Parsers::CDN::AWS::Distribution.new,
             :path       => "/distribution/#{distribution_id}"
-          })
+          )
         end
 
       end
@@ -68,7 +68,7 @@ module Fog
           response.status = 200
           response.body = {
             'InProgressInvalidationBatches' => 0,
-          }.merge(distribution.reject { |k,v| k == 'ETag' })
+          }.merge(distribution.reject { |k,_v| k == 'ETag' })
 
           response.headers['ETag'] = etag
           distribution['ETag'] = etag

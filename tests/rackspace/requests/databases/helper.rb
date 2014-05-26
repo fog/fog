@@ -27,23 +27,23 @@ INSTANCE_FORMAT = {
   }
 }
 
-INSTANCE_DETAILS_FORMAT = INSTANCE_FORMAT.merge({
-  'created' => String,
+INSTANCE_DETAILS_FORMAT = INSTANCE_FORMAT.merge(
+                                                  'created' => String,
   'updated' => String,
-  'hostname' => String,
-})
+  'hostname' => String
+)
 
 CREATE_INSTANCE_FORMAT = {
   'instance' => INSTANCE_DETAILS_FORMAT
 }
 
 GET_INSTANCE_FORMAT = {
-  'instance' => INSTANCE_DETAILS_FORMAT.merge({
-    'volume' => {
-      'size' => Integer,
-      'used' => Float
-    }
-  })
+  'instance' => INSTANCE_DETAILS_FORMAT.merge(
+                                                'volume' => {
+                                                  'size' => Integer,
+                                                  'used' => Float
+                                                }
+  )
 }
 
 LIST_INSTANCES_FORMAT = {

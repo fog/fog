@@ -5,8 +5,8 @@ module Fog
     class Vmfusion < Fog::Service
 
       model_path 'fog/vmfusion/models/compute'
-      model       :server
-      collection  :servers
+      model :server
+      collection :servers
 
       class Mock
 

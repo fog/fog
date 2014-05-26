@@ -2,7 +2,7 @@ module Fog
   module Compute
     class Cloudstack
       class Volume < Fog::Model
-        identity  :id,                         :aliases => 'id'
+        identity :id,                         :aliases => 'id'
 
         attribute :name,                       :aliases => 'name'
         attribute :zone_id,                    :aliases => 'zoneid'
@@ -50,7 +50,7 @@ module Fog
         def flavor
           service.disk_offerings.get(self.disk_offering_id)
         end
-        alias disk_offering flavor
+        alias_method :disk_offering, :flavor
 
         def server
           if server_id
@@ -93,7 +93,7 @@ module Fog
 
           data = service.attach_volume(options)
 
-					service.jobs.new(data["attachvolumeresponse"])
+					     service.jobs.new(data["attachvolumeresponse"])
         end
 
         def detach

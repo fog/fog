@@ -6,7 +6,7 @@ module Fog
 
         def list_regions
           build_response(:body => {
-            "kind" => "compute#regionList",
+                           "kind" => "compute#regionList",
             "selfLink" => "https://www.googleapis.com/compute/v1/projects/#{@project}/regions",
             "id" => "projects/#{@project}/regions",
             "items" => [

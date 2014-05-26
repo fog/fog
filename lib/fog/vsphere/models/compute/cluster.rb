@@ -14,7 +14,7 @@ module Fog
 
         def resource_pools(filters = { })
           self.attributes[:resource_pools] ||= id.nil? ? [] : service.resource_pools({
-                                                                                          :service => service,
+            :service => service,
                                                                                           :cluster    => name,
                                                                                           :datacenter => datacenter
                                                                                         }.merge(filters))

@@ -26,7 +26,7 @@ module Fog
             options.merge!(AWS.indexed_param('OptionsToRemove.member.%d', [*options_to_remove]))
           end
           request({
-                      'Operation'    => 'UpdateConfigurationTemplate',
+            'Operation'    => 'UpdateConfigurationTemplate',
                       :parser     => Fog::Parsers::AWS::ElasticBeanstalk::UpdateConfigurationTemplate.new
                   }.merge(options))
         end

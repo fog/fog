@@ -21,7 +21,7 @@ Shindo.tests('HP::BlockStorageV2 | snapshot requests', ['hp', 'v2', 'block_stora
     @volume.wait_for { ready? }
 
     tests("#create_snapshot(#{@volume.id}, {'display_name' => #{@snapshot_name}, 'display_description' => #{@snapshot_desc} })").formats(@snapshot_format) do
-      data = HP[:block_storage_v2].create_snapshot(@volume.id, {'display_name' => @snapshot_name, 'display_description' => @snapshot_desc} ).body['snapshot']
+      data = HP[:block_storage_v2].create_snapshot(@volume.id, 'display_name' => @snapshot_name, 'display_description' => @snapshot_desc ).body['snapshot']
       @snapshot_id = data['id']
       data
     end
@@ -34,11 +34,11 @@ Shindo.tests('HP::BlockStorageV2 | snapshot requests', ['hp', 'v2', 'block_stora
       HP[:block_storage_v2].update_snapshot(@snapshot_id, 'display_name' => "#{@snapshot_name} Updated").body['snapshot']
     end
 
-    tests('#list_snapshots').formats({'snapshots' => [@snapshot_format]}) do
+    tests('#list_snapshots').formats('snapshots' => [@snapshot_format]) do
       HP[:block_storage_v2].list_snapshots.body
     end
 
-    tests('#list_snapshots_detail').formats({'snapshots' => [@snapshot_format]}) do
+    tests('#list_snapshots_detail').formats('snapshots' => [@snapshot_format]) do
       HP[:block_storage_v2].list_snapshots_detail.body
     end
 

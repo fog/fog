@@ -32,7 +32,7 @@ module Fog
         def update_record(domain_id, record_id, options={})
           data = {}
           l_options = [:name, :description, :type, :data, :priority, :ttl]
-          l_options.select{|o| options[o]}.each do |key|
+          l_options.select { |o| options[o] }.each do |key|
             data[key] = options[key]
           end
 
@@ -49,7 +49,7 @@ module Fog
       class Mock
         def update_record(domain_id, record_id, options)
           response = Excon::Response.new
-          if record = list_records_in_a_domain(domain_id).body['records'].detect { |_| _['id'] == record_id }
+          if record = list_records_in_a_domain(domain_id).body['records'].find { |_| _['id'] == record_id }
             record['name']      = options[:name]      if options[:name]
             record['type']      = options[:type]      if options[:type]
             record['data']      = options[:data]      if options[:data]

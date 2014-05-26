@@ -49,7 +49,7 @@ module Vmfusion # deviates from other bin stuff to accomodate gem
     end
 
     def collections
-      services.map {|service| self[service].collections}.flatten.sort_by {|service| service.to_s}
+      services.map { |service| self[service].collections }.flatten.sort_by { |service| service.to_s }
     end
 
     def services

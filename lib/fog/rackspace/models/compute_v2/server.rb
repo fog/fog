@@ -166,19 +166,19 @@ module Fog
           super
         end
 
-        alias :access_ipv4_address :ipv4_address
-        alias :access_ipv4_address= :ipv4_address=
-        alias :access_ipv6_address :ipv6_address
-        alias :access_ipv6_address= :ipv6_address=
+        alias_method :access_ipv4_address, :ipv4_address
+        alias_method :access_ipv4_address=, :ipv4_address=
+        alias_method :access_ipv6_address, :ipv6_address
+        alias_method :access_ipv6_address=, :ipv6_address=
 
         # Server metadata
         # @return [Fog::Compute::RackspaceV2::Metadata] metadata key value pairs.
         def metadata
           @metadata ||= begin
-            Fog::Compute::RackspaceV2::Metadata.new({
-              :service => service,
+            Fog::Compute::RackspaceV2::Metadata.new(
+                                                      :service => service,
               :parent => self
-            })
+            )
           end
         end
 
@@ -203,7 +203,7 @@ module Fog
         def key_pair=(new_keypair)
           if new_keypair.is_a?(String)
              Fog::Logger.deprecation("#key_pair= should be used to set KeyPair objects. Please use #key_name method instead")
-            self.key_name = new_keypair
+             self.key_name = new_keypair
           else
             self.key_name = new_keypair && new_keypair.name
           end
@@ -360,10 +360,10 @@ module Fog
         # @see http://docs.rackspace.com/servers/api/v2/cs-devguide/content/List_Volume_Attachments.html
         def attachments
           @attachments ||= begin
-            Fog::Compute::RackspaceV2::Attachments.new({
-              :service => service,
+            Fog::Compute::RackspaceV2::Attachments.new(
+                                                         :service => service,
               :server => self
-            })
+            )
           end
         end
 
@@ -385,7 +385,7 @@ module Fog
         # Server's private IPv4 address
         # @return [String] private IPv4 address
         def private_ip_address
-          addresses['private'].select{|a| a["version"] == 4}[0]["addr"] rescue ''
+          addresses['private'].select { |a| a["version"] == 4 }[0]["addr"] rescue ''
         end
 
         # Server's public IPv4 address

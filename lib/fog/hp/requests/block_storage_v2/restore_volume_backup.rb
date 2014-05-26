@@ -21,7 +21,7 @@ module Fog
           }
 
           l_options = ['volume_id']
-          l_options.select{|o| options[o]}.each do |key|
+          l_options.select { |o| options[o] }.each do |key|
             data['restore'][key] = options[key]
           end
 
@@ -75,7 +75,7 @@ module Fog
 
         def copy_volume_data(volume_id, backup_volume)
           data = {
-              'id'                  => volume_id,
+            'id'                  => volume_id,
               'status'              => 'available',
               'display_name'        => backup_volume['display_name'],
               'attachments'         => backup_volume['attachments'],

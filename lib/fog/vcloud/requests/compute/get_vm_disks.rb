@@ -7,7 +7,7 @@ module Fog
           request(
                   :expects  => 200,
                   :uri      => href,
-                  :parse    => true#false#true
+                  :parse    => true #false#true
                   )
         end
       end

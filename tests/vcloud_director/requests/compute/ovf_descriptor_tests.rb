@@ -5,7 +5,7 @@ Shindo.tests('Compute::VcloudDirector | ovf requests', ['vclouddirector']) do
 
   tests('Get first vDC') do
     session = @service.get_current_session.body
-    link = @org[:Link].detect do |l|
+    link = @org[:Link].find do |l|
       l[:type] == 'application/vnd.vmware.vcloud.vdc+xml'
     end
     @vdc = @service.get_vdc(link[:href].split('/').last).body
@@ -14,7 +14,7 @@ Shindo.tests('Compute::VcloudDirector | ovf requests', ['vclouddirector']) do
   # 'Envelope' is the outer type of the parsed XML document.
   tests('#get_vapp_ovf_descriptor').returns('Envelope') do
     pending if Fog.mocking?
-    link = @vdc[:ResourceEntities][:ResourceEntity].detect do |l|
+    link = @vdc[:ResourceEntities][:ResourceEntity].find do |l|
       l[:type] == 'application/vnd.vmware.vcloud.vApp+xml'
     end
     pending if link.nil?
@@ -25,7 +25,7 @@ Shindo.tests('Compute::VcloudDirector | ovf requests', ['vclouddirector']) do
   # 'Envelope' is the outer type of the parsed XML document.
   tests('#get_vapp_template_ovf_descriptor').returns('Envelope') do
     pending if Fog.mocking?
-    link = @vdc[:ResourceEntities][:ResourceEntity].detect do |l|
+    link = @vdc[:ResourceEntities][:ResourceEntity].find do |l|
       l[:type] == 'application/vnd.vmware.vcloud.vAppTemplate+xml'
     end
     pending if link.nil?

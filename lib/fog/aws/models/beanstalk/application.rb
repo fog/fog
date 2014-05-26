@@ -18,22 +18,22 @@ module Fog
 
         def environments
           requires :name
-          service.environments.all({'ApplicationName' => name})
+          service.environments.all('ApplicationName' => name)
         end
 
         def events
           requires :name
-          service.events.all({'ApplicationName' => name})
+          service.events.all('ApplicationName' => name)
         end
 
         def templates
           requires :name
-          service.templates.all({'ApplicationName' => name})
+          service.templates.all('ApplicationName' => name)
         end
 
         def versions
           requires :name
-          service.versions.all({'ApplicationName' => name})
+          service.versions.all('ApplicationName' => name)
         end
 
         def destroy
@@ -46,7 +46,7 @@ module Fog
           requires :name
 
           options = {
-              'ApplicationName' => name
+            'ApplicationName' => name
           }
           options['Description'] = description unless description.nil?
 

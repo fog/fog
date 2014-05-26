@@ -28,7 +28,7 @@ FileUtils.mkdir_p extract_path
 
 # Efficient image write
 puts "Downloading Cirros image..."
-streamer = lambda do |chunk, remaining_bytes, total_bytes|
+streamer = lambda do |chunk, _remaining_bytes, _total_bytes|
   image_out.write chunk
 end
 Excon.get image_url, :response_block => streamer
@@ -43,13 +43,13 @@ Gem::Package::TarReader.new(Zlib::GzipReader.open(image_out.path)).each do |entr
   end
 end
 
-image_service = Fog::Image.new({
-  :provider => 'OpenStack',
+image_service = Fog::Image.new(
+                                 :provider => 'OpenStack',
   :openstack_api_key => ENV['OS_PASSWORD'],
   :openstack_username => ENV["OS_USERNAME"],
   :openstack_auth_url => ENV["OS_AUTH_URL"] + "/tokens",
   :openstack_tenant => ENV["OS_TENANT_NAME"]
-})
+)
 
 puts "Uploading AKI..."
 aki = image_service.images.create :name => 'cirros-0.3.0-amd64-aki',

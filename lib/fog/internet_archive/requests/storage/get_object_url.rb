@@ -17,7 +17,7 @@ module Fog
             [@host, "#{bucket_name}/#{object_name}"]
           end
           scheme_host_path_query({
-            :scheme   => options[:scheme],
+                                   :scheme   => options[:scheme],
             :headers  => {},
             :host     => host,
             :port     => @port,

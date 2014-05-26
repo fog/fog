@@ -89,9 +89,9 @@ Shindo.tests('Fog::DNS[:bluebox] | DNS requests', ['bluebox', 'dns']) do
         zones.each { |zone|
           if zone['id'] == @new_zones[1]
             options = { :ttl => 60, :retry => 3600, :refresh => 1800, :minimum => 30 }
-             if (zone['name'] == @domain) and (zone['ttl'] == 60) and (zone['retry'] == 3600) and (zone['refresh'] == 1800) and (zone['minimum'] == 30)
-               result = true;
-             end
+            if (zone['name'] == @domain) and (zone['ttl'] == 60) and (zone['retry'] == 3600) and (zone['refresh'] == 1800) and (zone['minimum'] == 30)
+              result = true;
+            end
           end
         }
         if (@org_zone_count+2) == zones.count
@@ -218,12 +218,12 @@ Shindo.tests('Fog::DNS[:bluebox] | DNS requests', ['bluebox', 'dns']) do
       pending if Fog.mocking?
 
       result= true
-      @new_records.each { |record_id|
+      @new_records.each do |record_id|
         response = Fog::DNS[:bluebox].delete_record(@new_zones[1], record_id)
         if response.status != 200
             result= false;
         end
-      }
+      end
       result
     end
 
@@ -232,12 +232,12 @@ Shindo.tests('Fog::DNS[:bluebox] | DNS requests', ['bluebox', 'dns']) do
 
       result= true
 
-      @new_zones.each { |zone_id|
+      @new_zones.each do |zone_id|
         response = Fog::DNS[:bluebox].delete_zone( zone_id)
         if response.status != 200
             result= false;
         end
-      }
+      end
 
       result
     end

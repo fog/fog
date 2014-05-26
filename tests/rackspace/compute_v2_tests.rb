@@ -37,8 +37,8 @@ Shindo.tests('Fog::Compute::RackspaceV2', ['rackspace']) do
     tests('custom endpoint') do
       @service = Fog::Compute::RackspaceV2.new :rackspace_auth_url => 'https://identity.api.rackspacecloud.com/v1.0',
         :rackspace_compute_url => 'https://my-custom-endpoint.com'
-        returns(true, "auth token populated") { !@service.send(:auth_token).nil? }
-        returns(true, "uses custom endpoint") { (@service.instance_variable_get("@uri").host =~ /my-custom-endpoint\.com/) != nil }
+      returns(true, "auth token populated") { !@service.send(:auth_token).nil? }
+      returns(true, "uses custom endpoint") { (@service.instance_variable_get("@uri").host =~ /my-custom-endpoint\.com/) != nil }
     end
   end
 
@@ -51,7 +51,7 @@ Shindo.tests('Fog::Compute::RackspaceV2', ['rackspace']) do
       returns(false, "path populated") { @service.instance_variable_get("@uri").host.nil? }
       identity_service = @service.instance_variable_get("@identity_service")
       returns(false, "identity service was used") { identity_service.nil? }
-      returns(true, "connection_options are passed") { identity_service.instance_variable_get("@connection_options").has_key?(:ssl_verify_peer) }
+      returns(true, "connection_options are passed") { identity_service.instance_variable_get("@connection_options").key?(:ssl_verify_peer) }
       @service.list_flavors
     end
     tests('dfw region').succeeds do
@@ -69,8 +69,8 @@ Shindo.tests('Fog::Compute::RackspaceV2', ['rackspace']) do
     tests('custom endpoint') do
       @service = Fog::Compute::RackspaceV2.new :rackspace_auth_url => 'https://identity.api.rackspacecloud.com/v2.0',
         :rackspace_compute_url => 'https://my-custom-endpoint.com'
-        returns(true, "auth token populated") { !@service.send(:auth_token).nil? }
-        returns(true, "uses custom endpoint") { (@service.instance_variable_get("@uri").host =~ /my-custom-endpoint\.com/) != nil }
+      returns(true, "auth token populated") { !@service.send(:auth_token).nil? }
+      returns(true, "uses custom endpoint") { (@service.instance_variable_get("@uri").host =~ /my-custom-endpoint\.com/) != nil }
     end
   end
 

@@ -79,12 +79,12 @@ module Fog
           lb_names = [*lb_names]
           load_balancers = if lb_names.any?
             lb_names.map do |lb_name|
-              lb = self.data[:load_balancers].find { |name, data| name == lb_name }
+              lb = self.data[:load_balancers].find { |name, _data| name == lb_name }
               raise Fog::AWS::ELB::NotFound unless lb
               lb[1].dup
             end.compact
           else
-            self.data[:load_balancers].map { |lb, values| values.dup }
+            self.data[:load_balancers].map { |_lb, values| values.dup }
           end
 
           marker = options.fetch('Marker', 0).to_i
@@ -105,13 +105,13 @@ module Fog
             'DescribeLoadBalancersResult' => {
               'LoadBalancerDescriptions' => load_balancers.map do |lb|
                 lb['Instances'] = lb['Instances'].map { |i| i['InstanceId'] }
-                lb['Policies'] = lb['Policies']['Proper'].inject({'AppCookieStickinessPolicies' => [], 'LBCookieStickinessPolicies' => [], 'OtherPolicies' => []}) { |m, policy|
+                lb['Policies'] = lb['Policies']['Proper'].reduce('AppCookieStickinessPolicies' => [], 'LBCookieStickinessPolicies' => [], 'OtherPolicies' => []) { |m, policy|
                   case policy['PolicyTypeName']
                   when 'AppCookieStickinessPolicyType'
-                    cookie_name = policy['PolicyAttributeDescriptions'].detect{|h| h['AttributeName'] == 'CookieName'}['AttributeValue']
+                    cookie_name = policy['PolicyAttributeDescriptions'].find { |h| h['AttributeName'] == 'CookieName' }['AttributeValue']
                     m['AppCookieStickinessPolicies'] << { 'PolicyName' => policy['PolicyName'], 'CookieName' => cookie_name }
                   when 'LBCookieStickinessPolicyType'
-                    cookie_expiration_period = policy['PolicyAttributeDescriptions'].detect{|h| h['AttributeName'] == 'CookieExpirationPeriod'}['AttributeValue'].to_i
+                    cookie_expiration_period = policy['PolicyAttributeDescriptions'].find { |h| h['AttributeName'] == 'CookieExpirationPeriod' }['AttributeValue'].to_i
                     lb_policy = { 'PolicyName' => policy['PolicyName'] }
                     lb_policy['CookieExpirationPeriod'] = cookie_expiration_period if cookie_expiration_period > 0
                     m['LBCookieStickinessPolicies'] << lb_policy

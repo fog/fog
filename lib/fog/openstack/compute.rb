@@ -15,32 +15,32 @@ module Fog
       ## MODELS
       #
       model_path 'fog/openstack/models/compute'
-      model       :server
-      collection  :servers
-      model       :image
-      collection  :images
-      model       :flavor
-      collection  :flavors
-      model       :metadatum
-      collection  :metadata
-      model       :address
-      collection  :addresses
-      model       :security_group
-      collection  :security_groups
-      model       :security_group_rule
-      collection  :security_group_rules
-      model       :key_pair
-      collection  :key_pairs
-      model       :tenant
-      collection  :tenants
-      model       :volume
-      collection  :volumes
-      model       :network
-      collection  :networks
-      model       :snapshot
-      collection  :snapshots
-      model       :host
-      collection  :hosts
+      model :server
+      collection :servers
+      model :image
+      collection :images
+      model :flavor
+      collection :flavors
+      model :metadatum
+      collection :metadata
+      model :address
+      collection :addresses
+      model :security_group
+      collection :security_groups
+      model :security_group_rule
+      collection :security_group_rules
+      model :key_pair
+      collection :key_pairs
+      model :tenant
+      collection :tenants
+      model :volume
+      collection :volumes
+      model :network
+      collection :networks
+      model :snapshot
+      collection :snapshots
+      model :host
+      collection :hosts
 
       ## REQUESTS
       #
@@ -340,15 +340,15 @@ module Fog
 
         def request(params)
           begin
-            response = @connection.request(params.merge({
-              :headers  => {
-                'Content-Type' => 'application/json',
-                'Accept' => 'application/json',
-                'X-Auth-Token' => @auth_token
-              }.merge!(params[:headers] || {}),
+            response = @connection.request(params.merge(
+                                                          :headers  => {
+                                                            'Content-Type' => 'application/json',
+                                                            'Accept' => 'application/json',
+                                                            'X-Auth-Token' => @auth_token
+                                                          }.merge!(params[:headers] || {}),
               :path     => "#{@path}/#{@tenant_id}/#{params[:path]}",
               :query    => params[:query]
-            }))
+            ))
           rescue Excon::Errors::Unauthorized => error
             if error.response.body != 'Bad username or password' # token expiration
               @openstack_must_reauthenticate = true

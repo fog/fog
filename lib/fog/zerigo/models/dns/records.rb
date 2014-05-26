@@ -23,7 +23,7 @@ module Fog
             parent = zone.collection.get(zone.identity)
             if parent
               merge_attributes(parent.records.attributes)
-              load(parent.records.map {|record| record.attributes})
+              load(parent.records.map { |record| record.attributes })
             else
               nil
             end

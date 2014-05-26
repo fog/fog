@@ -51,11 +51,11 @@ Shindo.tests("Fog::HP::BlockStorageV2 | volume requests", ['hp', 'v2', 'block_st
       data
     end
 
-    tests('#list_volumes').formats({'volumes' => [@volume_format]}) do
+    tests('#list_volumes').formats('volumes' => [@volume_format]) do
       HP[:block_storage_v2].list_volumes.body
     end
 
-    tests('#list_volumes_detail').formats({'volumes' => [@volume_format]}) do
+    tests('#list_volumes_detail').formats('volumes' => [@volume_format]) do
       HP[:block_storage_v2].list_volumes_detail.body
     end
 

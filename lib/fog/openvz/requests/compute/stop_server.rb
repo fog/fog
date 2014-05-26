@@ -13,9 +13,9 @@ module Fog
 
         def stop_server(id, options = {})
            server = self.data[:servers].find { |s| s['ctid'].to_s == id.to_s }
-            unless server.nil?
-                 server['status'] = 'stopped'
-            end
+           unless server.nil?
+                server['status'] = 'stopped'
+           end
         end
 
       end

@@ -61,9 +61,9 @@ module Fog
           response = Excon::Response.new
           response.status = 200
 
-          raise Fog::AWS::ELB::IdentifierTaken if self.data[:load_balancers].has_key? lb_name
+          raise Fog::AWS::ELB::IdentifierTaken if self.data[:load_balancers].key? lb_name
 
-          certificate_ids = Fog::AWS::IAM::Mock.data[@aws_access_key_id][:server_certificates].map {|n, c| c['Arn'] }
+          certificate_ids = Fog::AWS::IAM::Mock.data[@aws_access_key_id][:server_certificates].map { |_n, c| c['Arn'] }
 
           listeners = [*listeners].map do |listener|
             if listener['SSLCertificateId'] and !certificate_ids.include? listener['SSLCertificateId']
@@ -76,9 +76,9 @@ module Fog
 
           availability_zones = [*availability_zones].compact
           region = availability_zones.empty? ? "us-east-1" : availability_zones.first.gsub(/[a-z]$/, '')
-          supported_platforms = Fog::Compute::AWS::Mock.data[region][@aws_access_key_id][:account_attributes].detect { |h| h["attributeName"] == "supported-platforms" }["values"]
+          supported_platforms = Fog::Compute::AWS::Mock.data[region][@aws_access_key_id][:account_attributes].find { |h| h["attributeName"] == "supported-platforms" }["values"]
           subnet_ids = options[:subnet_ids] || []
-          subnets = Fog::Compute::AWS::Mock.data[region][@aws_access_key_id][:subnets].select {|e| subnet_ids.include?(e["subnetId"]) }
+          subnets = Fog::Compute::AWS::Mock.data[region][@aws_access_key_id][:subnets].select { |e| subnet_ids.include?(e["subnetId"]) }
 
           # http://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/default-vpc.html
           elb_location = if supported_platforms.include?("EC2")
@@ -104,14 +104,14 @@ module Fog
                                vpc = Fog::Compute[:aws].vpcs.create('cidr_block' => '10.0.0.0/24')
                              end
 
-                             default_sg = Fog::Compute::AWS::Mock.data[region][@aws_access_key_id][:security_groups].values.detect { |sg|
+                             default_sg = Fog::Compute::AWS::Mock.data[region][@aws_access_key_id][:security_groups].values.find { |sg|
                                sg['groupName'] =~ /^default_elb/ &&
                                  sg["vpcId"] == vpc.id
                              }
 
                              unless default_sg
                                default_sg = {
-                                             'groupDescription'    => 'default_elb security group',
+                                 'groupDescription'    => 'default_elb security group',
                                              'groupName'           => "default_elb_#{Fog::Mock.random_hex(6)}",
                                              'groupId'             => Fog::AWS::Mock.security_group_id,
                                              'ipPermissionsEgress' => [],
@@ -126,14 +126,14 @@ module Fog
                            when 'EC2-VPC'
                              # find or create default vpc security group
                              vpc_id = subnets.first["vpcId"]
-                             default_sg = Fog::Compute::AWS::Mock.data[region][@aws_access_key_id][:security_groups].values.detect { |sg|
+                             default_sg = Fog::Compute::AWS::Mock.data[region][@aws_access_key_id][:security_groups].values.find { |sg|
                                sg['groupName'] == 'default' &&
                                  sg["vpcId"] == vpc_id
                              }
 
                              unless default_sg
                                default_sg = {
-                                             'groupDescription'    => 'default elb security group',
+                                 'groupDescription'    => 'default elb security group',
                                              'groupName'           => 'default',
                                              'groupId'             => Fog::AWS::Mock.security_group_id,
                                              'ipPermissionsEgress' => [],

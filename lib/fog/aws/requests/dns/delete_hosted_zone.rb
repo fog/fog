@@ -24,12 +24,12 @@ module Fog
           # that form or just the actual id (which is what this request needs)
           zone_id = zone_id.sub('/hostedzone/', '')
 
-          request({
-            :expects => 200,
+          request(
+                    :expects => 200,
             :parser  => Fog::Parsers::DNS::AWS::DeleteHostedZone.new,
             :method  => 'DELETE',
             :path    => "hostedzone/#{zone_id}"
-          })
+          )
 
         end
 
@@ -41,7 +41,7 @@ module Fog
 
         def delete_hosted_zone(zone_id)
           response = Excon::Response.new
-          key = [zone_id, "/hostedzone/#{zone_id}"].find{|k| !self.data[:zones][k].nil?}
+          key = [zone_id, "/hostedzone/#{zone_id}"].find { |k| !self.data[:zones][k].nil? }
           if key
             change = {
               :id => Fog::AWS::Mock.change_id,

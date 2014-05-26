@@ -22,7 +22,7 @@ module Fog
         def unmonitor_instances(instance_ids)
           params = Fog::AWS.indexed_param('InstanceId', instance_ids)
           request({
-                          'Action' => 'UnmonitorInstances',
+            'Action' => 'UnmonitorInstances',
                           :idempotent => true,
                           :parser => Fog::Parsers::Compute::AWS::MonitorUnmonitorInstances.new
                   }.merge!(params))
@@ -42,7 +42,7 @@ module Fog
               raise Fog::Compute::AWS::NotFound.new("The instance ID '#{instance_ids}' does not exist")
             end
           end
-          instances_set = [*instance_ids].inject([]) { |memo, id| memo << {'instanceId' => id, 'monitoring' => 'disabled'} }
+          instances_set = [*instance_ids].reduce([]) { |memo, id| memo << {'instanceId' => id, 'monitoring' => 'disabled'} }
           response.body = {'requestId' => 'some_request_id', 'instancesSet' => instances_set}
           response
         end

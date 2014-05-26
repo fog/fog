@@ -4,10 +4,10 @@ Shindo.tests('Fog::Rackspace::DNS | zone', ['rackspace']) do
   provider = Fog::DNS[:rackspace]
   domain_name = uniq_id + '.com'
 
-  zone = provider.zones.create({:domain => domain_name, :email => 'hostmaster@' + domain_name})
+  zone = provider.zones.create(:domain => domain_name, :email => 'hostmaster@' + domain_name)
 
   tests('adding same domain twice throws error').raises(Fog::DNS::Rackspace::CallbackError) do
-    provider.zones.create({:domain => domain_name, :email => 'hostmaster@' + domain_name})
+    provider.zones.create(:domain => domain_name, :email => 'hostmaster@' + domain_name)
   end
 
   zone.destroy

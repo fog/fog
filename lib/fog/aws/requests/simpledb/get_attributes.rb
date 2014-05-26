@@ -58,7 +58,7 @@ module Fog
             object = {}
             if !options['AttributeName'].empty?
               for attribute in options['AttributeName']
-                if self.data[:domains][domain_name].has_key?(item_name) && self.data[:domains][domain_name][item_name].has_key?(attribute)
+                if self.data[:domains][domain_name].key?(item_name) && self.data[:domains][domain_name][item_name].key?(attribute)
                   object[attribute] = self.data[:domains][domain_name][item_name][attribute]
                 end
               end

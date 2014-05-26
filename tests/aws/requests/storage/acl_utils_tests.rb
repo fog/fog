@@ -191,10 +191,10 @@ Shindo.tests('Fog::Storage::AWS | ACL utils', ["aws"]) do
 XML
 
     tests(".acl_to_hash(#{acl_xml.inspect})").returns({
-      "Owner" => {
-        "DisplayName" => "me",
-        "ID" => "2744ccd10c7533bd736ad890f9dd5cab2adb27b07d500b9493f29cdc420cb2e0"
-      },
+                                                        "Owner" => {
+                                                          "DisplayName" => "me",
+                                                          "ID" => "2744ccd10c7533bd736ad890f9dd5cab2adb27b07d500b9493f29cdc420cb2e0"
+                                                        },
       "AccessControlList" => [{
         "Grantee" => {
           "DisplayName" => "me",

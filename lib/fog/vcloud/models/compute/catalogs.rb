@@ -23,9 +23,9 @@ module Fog
 
         def item_by_name(name)
           res = nil
-          items = all.collect { |catalog| catalog.catalog_items }
+          items = all.map { |catalog| catalog.catalog_items }
           items.each do |i|
-            i.collect do |ii|
+            i.map do |ii|
               res = ii if ii.name == name
             end
           end

@@ -4,7 +4,7 @@ Shindo.tests('Fog::Compute[:google] | firewall requests', ['google']) do
   @google = Fog::Compute[:google]
 
   @insert_firewall_format = {
-      'kind' => String,
+    'kind' => String,
       'id' => String,
       'selfLink' => String,
       'name' => String,
@@ -18,7 +18,7 @@ Shindo.tests('Fog::Compute[:google] | firewall requests', ['google']) do
   }
 
   @get_firewall_format = {
-      'kind' => String,
+    'kind' => String,
       'id' => String,
       'selfLink' => String,
       'creationTimestamp' => DateTime,
@@ -29,7 +29,7 @@ Shindo.tests('Fog::Compute[:google] | firewall requests', ['google']) do
   }
 
   @delete_firewall_format = {
-      'kind' => String,
+    'kind' => String,
       'id' => String,
       'selfLink' => String,
       'name' => String,
@@ -44,7 +44,7 @@ Shindo.tests('Fog::Compute[:google] | firewall requests', ['google']) do
   }
 
   @list_firewalls_format = {
-      'kind' => String,
+    'kind' => String,
       'id' => String,
       'selfLink' => String,
       'items' => []

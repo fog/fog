@@ -54,9 +54,9 @@ module Fog
               self.data[:domains][domain_name][item_name] ||= {}
               self.data[:domains][domain_name][item_name][key.to_s] = [] unless self.data[:domains][domain_name][item_name][key.to_s]
               if options[:replace].include?(key.to_s)
-                self.data[:domains][domain_name][item_name][key.to_s] = [*value].map {|x| x.to_s}
+                self.data[:domains][domain_name][item_name][key.to_s] = [*value].map { |x| x.to_s }
               else
-                self.data[:domains][domain_name][item_name][key.to_s] += [*value].map {|x| x.to_s}
+                self.data[:domains][domain_name][item_name][key.to_s] += [*value].map { |x| x.to_s }
               end
             end
             response.status = 200

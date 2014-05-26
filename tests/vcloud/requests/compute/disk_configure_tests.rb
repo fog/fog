@@ -98,7 +98,7 @@ EOF
     ng = Nokogiri::XML(xml)
     [
      # should be 4096mb
-     ng.at("//xmlns:ResourceType[ .='17']/../xmlns:AddressOnParent[.='-1']/../xmlns:HostResource", @xmlns)["capacity"],
+      ng.at("//xmlns:ResourceType[ .='17']/../xmlns:AddressOnParent[.='-1']/../xmlns:HostResource", @xmlns)["capacity"],
      # Should have 2 controllers, and 2 disks
      ng.xpath("//xmlns:ResourceType", @xmlns).size == 4,
      ng.xpath("//xmlns:ResourceType[ .='17']", @xmlns).size == 2

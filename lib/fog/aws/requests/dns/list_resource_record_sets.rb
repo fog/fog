@@ -49,13 +49,13 @@ module Fog
             end
           end
 
-          request({
-            :query   => parameters,
+          request(
+                    :query   => parameters,
             :parser  => Fog::Parsers::DNS::AWS::ListResourceRecordSets.new,
             :expects => 200,
             :method  => 'GET',
             :path    => "hostedzone/#{zone_id}/rrset"
-          })
+          )
 
         end
 
@@ -79,7 +79,7 @@ module Fog
             records_type = zone[:records][options[:type]]
             records_type.values if records_type
           else
-            zone[:records].values.map{|r| r.values}.flatten
+            zone[:records].values.map { |r| r.values }.flatten
           end
 
           records ||= []
@@ -89,7 +89,7 @@ module Fog
 
           if options[:name]
             name = options[:name].gsub(zone[:name],"")
-            records = records.select{|r| r[:name].gsub(zone[:name],"") >= name }
+            records = records.select { |r| r[:name].gsub(zone[:name],"") >= name }
             require 'pp'
           end
 

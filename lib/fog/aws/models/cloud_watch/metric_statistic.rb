@@ -29,7 +29,7 @@ module Fog
             put_opts.merge!('Value' => value)
           else
             put_opts.merge!('StatisticValues' => {
-              'Minimum' => minimum,
+                              'Minimum' => minimum,
               'Maximum' => maximum,
               'Sum' => sum,
               'Average' => average,

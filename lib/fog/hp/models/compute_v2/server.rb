@@ -7,7 +7,7 @@ module Fog
 
       class Server < Fog::Compute::Server
 
-        identity  :id
+        identity :id
 
         attribute :addresses
         attribute :host_id,     :aliases => 'hostId'
@@ -53,16 +53,16 @@ module Fog
 
         def metadata
           @metadata ||= begin
-            Fog::Compute::HPV2::Metadata.new({
-              :service => service,
+            Fog::Compute::HPV2::Metadata.new(
+                                               :service => service,
               :parent => self
-            })
+            )
           end
         end
 
         def metadata=(new_metadata={})
           metas = []
-          new_metadata.each_pair {|k,v| metas << {'key' => k, 'value' => v} }
+          new_metadata.each_pair { |k,v| metas << {'key' => k, 'value' => v} }
           metadata.load(metas)
         end
 
@@ -112,7 +112,7 @@ module Fog
         def private_ip_addresses
           return nil if addresses.nil?
           addr = []
-          addresses.each { |key, value|
+          addresses.each { |_key, value|
             ipaddr = value.first
             addr << ipaddr["addr"] unless ipaddr.nil?
           }
@@ -135,7 +135,7 @@ module Fog
         def public_ip_addresses
           return nil if addresses.nil?
           addr = []
-          addresses.each { |key, value|
+          addresses.each { |_key, value|
             if value.count > 1
               value = value.dup
               value.delete_at(0)
@@ -238,10 +238,10 @@ module Fog
 
         def volume_attachments
           @volume_attachments ||= begin
-            Fog::Compute::HPV2::VolumeAttachments.new({
-              :service => service,
+            Fog::Compute::HPV2::VolumeAttachments.new(
+                                                        :service => service,
               :server => self
-            })
+            )
           end
         end
 
@@ -282,7 +282,7 @@ module Fog
             'availability_zone'  => availability_zone,
             'networks'        => @networks
           }
-          options = options.reject {|key, value| value.nil?}
+          options = options.reject { |_key, value| value.nil? }
           # either create a regular server or a persistent server based on input
           if image_id
             # create a regular server using the image
@@ -321,7 +321,7 @@ module Fog
 
         def get_first_network_with_public_ip
           return '' if self.addresses.nil?
-          net = self.addresses.select {|_,v| v.count > 1}
+          net = self.addresses.select { |_,v| v.count > 1 }
           # select returns a hash in 1.9+ and Array for 1.8.7
           # so this below does not work in 1.8.7
           #net.keys.first

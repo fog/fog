@@ -44,7 +44,7 @@ def collection_tests(collection, params = {}, mocks_implemented = true)
 
       # JRuby 1.7.5+ issue causes a SystemStackError: stack level too deep
       # https://github.com/jruby/jruby/issues/1265
-      if RUBY_PLATFORM == "java" and JRUBY_VERSION =~ /1\.7\.[5-8]/
+      if RUBY_PLATFORM == "java" && JRUBY_VERSION =~ /1\.7\.[5-8]/
         methods.delete('all?')
       end
 
@@ -52,7 +52,7 @@ def collection_tests(collection, params = {}, mocks_implemented = true)
         if collection.respond_to?(enum_method)
           tests("##{enum_method}").succeeds do
             block_called = false
-            collection.send(enum_method) {|x| block_called = true }
+            collection.send(enum_method) { |_x| block_called = true }
             block_called
           end
         end
@@ -64,7 +64,7 @@ def collection_tests(collection, params = {}, mocks_implemented = true)
         if collection.respond_to?(enum_method)
           tests("##{enum_method}").succeeds do
             block_called = false
-            collection.send(enum_method) {|x| block_called = true; 0 }
+            collection.send(enum_method) { |_x| block_called = true; 0 }
             block_called
           end
         end

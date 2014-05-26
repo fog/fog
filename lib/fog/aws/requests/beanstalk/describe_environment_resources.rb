@@ -19,7 +19,7 @@ module Fog
         #
         def describe_environment_resources(options={})
           request({
-                      'Operation'    => 'DescribeEnvironmentResources',
+            'Operation'    => 'DescribeEnvironmentResources',
                       :parser     => Fog::Parsers::AWS::ElasticBeanstalk::DescribeEnvironmentResources.new
                   }.merge(options))
         end

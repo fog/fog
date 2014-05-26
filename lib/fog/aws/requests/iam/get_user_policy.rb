@@ -22,12 +22,12 @@ module Fog
         # http://docs.amazonwebservices.com/IAM/latest/APIReference/API_GetUserPolicy.html
         #
         def get_user_policy(policy_name, user_name)
-          request({
-            'Action'      => 'GetUserPolicy',
+          request(
+                    'Action'      => 'GetUserPolicy',
             'PolicyName'  => policy_name,
             'UserName'    => user_name,
             :parser       => Fog::Parsers::AWS::IAM::GetUserPolicy.new
-          })
+          )
         end
 
       end
@@ -37,7 +37,7 @@ module Fog
           raise Fog::AWS::IAM::NotFound.new("The policy with name #{policy_name} cannot be found.") unless self.data[:users][user_name][:policies].key?(policy_name)
           Excon::Response.new.tap do |response|
             response.body = { 'Policy' =>  {
-                                'PolicyName' => policy_name,
+              'PolicyName' => policy_name,
                                 'UserName' => user_name,
                                 'PolicyDocument' => data[:users][user_name][:policies][policy_name]
                               },

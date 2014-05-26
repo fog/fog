@@ -9,7 +9,7 @@ Shindo.tests('HP::Network | networking security groups collection', ['hp', 'netw
     @secgroup = HP[:network].security_groups.create(attributes)
 
     tests('#all(filter)').succeeds do
-      secgroup = HP[:network].security_groups.all({:name => 'fogsecgroup'})
+      secgroup = HP[:network].security_groups.all(:name => 'fogsecgroup')
       secgroup.first.name == 'fogsecgroup'
     end
 

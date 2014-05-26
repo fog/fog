@@ -5,7 +5,7 @@ module Fog
 
         def validate_import_server_options(template_uri, options)
           required_opts = [:name, :cpus, :memory, :row, :group, :network_uri, :catalog_network_name]
-          unless required_opts.all? { |opt| options.has_key?(opt) }
+          unless required_opts.all? { |opt| options.key?(opt) }
             raise ArgumentError.new("Required data missing: #{(required_opts - options.keys).map(&:inspect).join(", ")}")
           end
 
@@ -69,7 +69,7 @@ module Fog
           compute_pool_id = options[:uri].match(/computePools\/(\d+)/)[1].to_i
           compute_pool    = self.data[:compute_pools][compute_pool_id].dup
           environment     = self.data[:environments][compute_pool[:environment_id]]
-          networks        = options[:network_uri].map{|nuri| self.data[:networks][id_from_uri(nuri)].dup}
+          networks        = options[:network_uri].map { |nuri| self.data[:networks][id_from_uri(nuri)].dup }
           server_id       = Fog::Mock.random_numbers(6).to_i
           row_id          = Fog::Mock.random_numbers(6).to_i
           group_id        = Fog::Mock.random_numbers(6).to_i
@@ -83,7 +83,7 @@ module Fog
           end
 
           links = [Fog::Ecloud.keep(compute_pool, :name, :href, :type), Fog::Ecloud.keep(environment, :name, :href, :type)]
-          networks.each{|network| links << Fog::Ecloud.keep(network, :name, :href, :type)}
+          networks.each { |network| links << Fog::Ecloud.keep(network, :name, :href, :type) }
           server = {
             :href        => "/cloudapi/ecloud/virtualmachines/#{server_id}",
             :name        => options[:name],

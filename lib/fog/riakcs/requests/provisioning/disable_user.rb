@@ -7,7 +7,7 @@ module Fog
         include MultipartUtils
 
         def disable_user(key_id)
-          update_riakcs_user(key_id, { :status => 'disabled' })
+          update_riakcs_user(key_id,  :status => 'disabled' )
         end
       end
 
@@ -15,7 +15,7 @@ module Fog
         include UserUtils
 
         def disable_user(key_id)
-          update_mock_user(key_id, { :status => 'disabled' })
+          update_mock_user(key_id,  :status => 'disabled' )
         end
       end
     end

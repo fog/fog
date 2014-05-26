@@ -31,10 +31,10 @@ module Fog
       class Mock
         def get_virtual_machine(id, datacenter_name = nil)
           if is_uuid?(id)
-            vm = list_virtual_machines({ 'instance_uuid' => id, 'datacenter' => datacenter_name }).first
+            vm = list_virtual_machines( 'instance_uuid' => id, 'datacenter' => datacenter_name ).first
           else
             # try to find based on VM name. May need to handle the path of the VM
-            vm = list_virtual_machines({ 'name' => id, 'datacenter' => datacenter_name }).first
+            vm = list_virtual_machines( 'name' => id, 'datacenter' => datacenter_name ).first
           end
           vm ? vm : raise(Fog::Compute::Vsphere::NotFound, "#{id} was not found")
         end

@@ -17,12 +17,12 @@ Shindo.tests('Fog::Compute::RackspaceV2 | virtual_interface_tests', ['rackspace'
     unless Fog.mocking?
       network_id = nil
 
-      @server = @service.servers.create(:name => "fog_virtual_interface_test_#{Time.now.to_i.to_s}",
+      @server = @service.servers.create(:name => "fog_virtual_interface_test_#{Time.now.to_i}",
                                         :flavor_id => rackspace_test_flavor_id(@service),
                                         :image_id => rackspace_test_image_id(@service))
       @server.wait_for { ready? }
 
-      @network = @service.networks.create(:label => "fog_#{Time.now.to_i.to_s}", :cidr => '192.168.0.0/24')
+      @network = @service.networks.create(:label => "fog_#{Time.now.to_i}", :cidr => '192.168.0.0/24')
     end
 
     tests('success') do
@@ -34,13 +34,13 @@ Shindo.tests('Fog::Compute::RackspaceV2 | virtual_interface_tests', ['rackspace'
         @virtual_network_interface_id = body["virtual_interfaces"].first["id"]
         body
       end
-        tests('#list_virtual_interfaces').formats(virtual_interface_format) do
-          @service.list_virtual_interfaces(@server.id).body
-        end
+      tests('#list_virtual_interfaces').formats(virtual_interface_format) do
+        @service.list_virtual_interfaces(@server.id).body
+      end
 
-        tests('#delete_virtual_interfaces').succeeds do
-          @service.delete_virtual_interface(@server.id, @virtual_network_interface_id)
-        end
+      tests('#delete_virtual_interfaces').succeeds do
+        @service.delete_virtual_interface(@server.id, @virtual_network_interface_id)
+      end
       end
   ensure
     @server.destroy if @server

@@ -6,7 +6,7 @@ module Fog
 
       class Pipeline < Fog::Model
 
-        identity  :id, :aliases => 'pipelineId'
+        identity :id, :aliases => 'pipelineId'
         attribute :name
         attribute :description
         attribute :user_id, :aliases => 'userId'

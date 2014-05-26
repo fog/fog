@@ -6,7 +6,7 @@ module Fog
 
       class InternetGateway < Fog::Model
 
-        identity  :id,                          :aliases => 'internetGatewayId'
+        identity :id,                          :aliases => 'internetGatewayId'
         attribute :attachment_set,              :aliases => 'attachmentSet'
         attribute :tag_set,                     :aliases => 'tagSet'
 
@@ -69,7 +69,7 @@ module Fog
         #
         def save
           data = service.create_internet_gateway.body['internetGatewaySet'].first
-          new_attributes = data.reject {|key,value| key == 'requestId'}
+          new_attributes = data.reject { |key,_value| key == 'requestId' }
           merge_attributes(new_attributes)
           true
 

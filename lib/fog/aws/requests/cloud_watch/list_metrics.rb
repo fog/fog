@@ -22,12 +22,12 @@ module Fog
         #
         def list_metrics(options={})
           if dimensions = options.delete('Dimensions')
-            options.merge!(AWS.indexed_param('Dimensions.member.%d.Name', dimensions.collect {|dimension| dimension['Name']}))
-            options.merge!(AWS.indexed_param('Dimensions.member.%d.Value', dimensions.collect {|dimension| dimension['Value']}))
+            options.merge!(AWS.indexed_param('Dimensions.member.%d.Name', dimensions.map { |dimension| dimension['Name'] }))
+            options.merge!(AWS.indexed_param('Dimensions.member.%d.Value', dimensions.map { |dimension| dimension['Value'] }))
           end
 
           request({
-              'Action'    => 'ListMetrics',
+            'Action'    => 'ListMetrics',
               :parser     => Fog::Parsers::AWS::CloudWatch::ListMetrics.new
             }.merge(options))
         end
@@ -39,17 +39,17 @@ module Fog
           body = case options["NextToken"]
                  when nil
                    { "ListMetricsResult" => {
-                      "Metrics" => (0...500).map{ {} },
+                     "Metrics" => (0...500).map { {} },
                       "NextToken" => '1'
                    }}
                  when "1"
                    { "ListMetricsResult" => {
-                      "Metrics" => (0...500).map{ {} },
+                     "Metrics" => (0...500).map { {} },
                       "NextToken" => '2'
                    }}
                  when "2"
                    { "ListMetricsResult" => {
-                      "Metrics" => (0...1).map{ {} }
+                     "Metrics" => (0...1).map { {} }
                    }}
                  end
 

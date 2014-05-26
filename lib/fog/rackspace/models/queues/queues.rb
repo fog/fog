@@ -37,7 +37,7 @@ module Fog
           #204 no content is returned on success.  That's why no data is passed
           # from the GET to the constructor.
           service.get_queue(queue_name)
-          new({:name => queue_name})
+          new(:name => queue_name)
         rescue Fog::Rackspace::Queues::NotFound
           nil
         end

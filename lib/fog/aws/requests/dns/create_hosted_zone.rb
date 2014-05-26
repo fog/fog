@@ -36,20 +36,20 @@ module Fog
             optional_tags += "<CallerReference>#{options[:caller_ref]}</CallerReference>"
           else
             #make sure we have a unique call reference
-            caller_ref = "ref-#{rand(1000000).to_s}"
+            caller_ref = "ref-#{rand(1000000)}"
             optional_tags += "<CallerReference>#{caller_ref}</CallerReference>"
           end
           if options[:comment]
             optional_tags += "<HostedZoneConfig><Comment>#{options[:comment]}</Comment></HostedZoneConfig>"
           end
 
-          request({
-            :body    => %Q{<?xml version="1.0" encoding="UTF-8"?><CreateHostedZoneRequest xmlns="https://route53.amazonaws.com/doc/#{@version}/"><Name>#{name}</Name>#{optional_tags}</CreateHostedZoneRequest>},
+          request(
+                    :body    => %Q{<?xml version="1.0" encoding="UTF-8"?><CreateHostedZoneRequest xmlns="https://route53.amazonaws.com/doc/#{@version}/"><Name>#{name}</Name>#{optional_tags}</CreateHostedZoneRequest>},
             :parser  => Fog::Parsers::DNS::AWS::CreateHostedZone.new,
             :expects => 201,
             :method  => 'POST',
             :path    => "hostedzone"
-          })
+          )
 
         end
 
@@ -64,13 +64,13 @@ module Fog
           name = name + "." unless name.end_with?(".")
 
           response = Excon::Response.new
-          if list_hosted_zones.body['HostedZones'].find_all {|z| z['Name'] == name}.size < self.data[:limits][:duplicate_domains]
+          if list_hosted_zones.body['HostedZones'].select { |z| z['Name'] == name }.size < self.data[:limits][:duplicate_domains]
             response.status = 201
             if options[:caller_ref]
               caller_ref = options[:caller_ref]
             else
               #make sure we have a unique call reference
-              caller_ref = "ref-#{rand(1000000).to_s}"
+              caller_ref = "ref-#{rand(1000000)}"
             end
             zone_id = "/hostedzone/#{Fog::AWS::Mock.zone_id}"
             self.data[:zones][zone_id] = {

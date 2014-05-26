@@ -19,7 +19,7 @@ module Fog
 
         def get(key_pair_name)
           if key_pair_name
-            self.all.select {|kp| kp.name == key_pair_name}.first
+            self.all.select { |kp| kp.name == key_pair_name }.first
           end
         rescue Fog::Compute::HPV2::NotFound
           nil

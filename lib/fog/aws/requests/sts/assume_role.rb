@@ -28,8 +28,8 @@ module Fog
         #
 
         def assume_role(role_session_name, role_arn, external_id=nil, policy=nil, duration=3600)
-          request({
-            'Action'          => 'AssumeRole',
+          request(
+                    'Action'          => 'AssumeRole',
             'RoleSessionName' => role_session_name,
             'RoleArn'         => role_arn,
             'Policy'          => policy && Fog::JSON.encode(policy),
@@ -37,7 +37,7 @@ module Fog
             'ExternalId'      => external_id,
             :idempotent       => true,
             :parser           => Fog::Parsers::AWS::STS::AssumeRole.new
-          })
+          )
         end
 
       end

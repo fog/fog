@@ -22,11 +22,11 @@ module Fog
         # http://docs.amazonwebservices.com/AutoScaling/latest/APIReference/API_DescribeAutoScalingNotificationTypes.html
         #
         def describe_auto_scaling_notification_types()
-          request({
-            'Action'    => 'DescribeAutoScalingNotificationTypes',
+          request(
+                    'Action'    => 'DescribeAutoScalingNotificationTypes',
             :idempotent => true,
             :parser     => Fog::Parsers::AWS::AutoScaling::DescribeAutoScalingNotificationTypes.new
-          })
+          )
         end
 
       end

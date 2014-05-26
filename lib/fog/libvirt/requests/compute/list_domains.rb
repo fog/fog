@@ -5,9 +5,9 @@ module Fog
         def list_domains(filter = { })
           data=[]
 
-          if filter.has_key?(:uuid)
+          if filter.key?(:uuid)
             data << client.lookup_domain_by_uuid(filter[:uuid])
-          elsif filter.has_key?(:name)
+          elsif filter.key?(:name)
             data << client.lookup_domain_by_name(filter[:name])
           else
             client.list_defined_domains.each { |name| data << client.lookup_domain_by_name(name) } unless filter[:defined] == false
@@ -25,7 +25,7 @@ module Fog
           [:type, :port, :password, :listen].each do |element|
             attrs[element] = xml_element(xml, "domain/devices/graphics",element.to_s) rescue nil
           end
-          attrs.reject{|k,v| v.nil? or v == ""}
+          attrs.reject { |_k,v| v.nil? or v == "" }
         end
 
         def domain_volumes xml
@@ -45,7 +45,7 @@ module Fog
               :network => ((i/'source').first[:network] rescue nil),
               :bridge  => ((i/'source').first[:bridge] rescue nil),
               :model   => ((i/'model').first[:type] rescue nil),
-            }.reject{|k,v| v.nil?})
+            }.reject { |_k,v| v.nil? })
           }
         end
 
@@ -83,7 +83,7 @@ module Fog
         def mock_domain name
           xml = read_xml 'domain.xml'
           {
-              :id              => "dom.uuid",
+            :id              => "dom.uuid",
               :uuid            => "dom.uuid",
               :name            => name,
               :max_memory_size => 8,

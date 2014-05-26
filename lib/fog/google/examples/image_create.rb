@@ -1,5 +1,5 @@
 def test
-  connection = Fog::Compute.new({ :provider => "Google" })
+  connection = Fog::Compute.new( :provider => "Google" )
 
   rawdisk = {
     :source         => nil, # 'http://some_valid_url_to_rootfs_tarball'

@@ -63,7 +63,7 @@ module Fog
           if options.key?('GroupName')
             group_name = options['GroupName']
           else
-            group_name = self.data[:security_groups].reject { |k,v| v['groupId'] != options['GroupId'] } .keys.first
+            group_name = self.data[:security_groups].reject { |_k,v| v['groupId'] != options['GroupId'] } .keys.first
           end
 
           response = Excon::Response.new

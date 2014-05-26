@@ -8,10 +8,10 @@ module Fog
       recognizes :host, :persistent, :port, :scheme, :timeout
 
       model_path 'fog/zerigo/models/dns'
-      model       :record
-      collection  :records
-      model       :zone
-      collection  :zones
+      model :record
+      collection :records
+      model :zone
+      collection :zones
 
       request_path 'fog/zerigo/requests/dns'
       request :count_hosts
@@ -63,7 +63,7 @@ module Fog
         end
 
         def find_host(host_id)
-          self.data[:zones].collect { |z| z['hosts'].find { |h| h['id'] == host_id } }.compact.first
+          self.data[:zones].map { |z| z['hosts'].find { |h| h['id'] == host_id } }.compact.first
         end
       end
 
@@ -89,9 +89,9 @@ module Fog
         def request(params)
           params[:headers] ||= {}
           key= "#{@zerigo_email}:#{@zerigo_token}"
-          params[:headers].merge!({
-            'Authorization' => "Basic #{Base64.encode64(key).delete("\r\n")}"
-          })
+          params[:headers].merge!(
+                                    'Authorization' => "Basic #{Base64.encode64(key).delete("\r\n")}"
+          )
           case params[:method]
           when 'DELETE', 'GET', 'HEAD'
             params[:headers]['Accept'] = 'application/xml'

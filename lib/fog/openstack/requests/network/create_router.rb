@@ -17,7 +17,7 @@ module Fog
             :status,
             :subnet_id
           ]
-          vanilla_options.reject{ |o| options[o].nil? }.each do |key|
+          vanilla_options.reject { |o| options[o].nil? }.each do |key|
             data['router'][key] = options[key]
           end
 

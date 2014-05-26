@@ -4,9 +4,9 @@ module Fog
       class Real
 
         def put_namespace(namespace = '', options = {})
-          options = options.reject {|key, value| value.nil?}
+          options = options.reject { |_key, value| value.nil? }
           request({
-                    :expects  => 200,
+            :expects  => 200,
                     :method   => 'PUT',
                     :path     => "namespace/" + namespace,
                     :query    => {},

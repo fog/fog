@@ -15,13 +15,13 @@ Shindo.tests("Fog::Compute[:hp] | security group requests", ['hp']) do
   tests('success') do
     @security_group = Fog::Compute[:hp].security_groups.create(:name => 'fog_security_group', :description => 'tests group')
 
-    tests("tcp #create_security_group_rule('#{@security_group.id}', 'tcp', '80', '80', '0.0.0.0/0'}')").formats({'security_group_rule' => @security_group_rule_format}) do
+    tests("tcp #create_security_group_rule('#{@security_group.id}', 'tcp', '80', '80', '0.0.0.0/0'}')").formats('security_group_rule' => @security_group_rule_format) do
       data = Fog::Compute[:hp].create_security_group_rule(@security_group.id, 'tcp', '80', '80', '0.0.0.0/0').body
       @sec_group_rule_id_1 = data['security_group_rule']['id']
       data
     end
 
-    tests("icmp #create_security_group_rule('#{@security_group.id}', 'icmp', '-1', '-1', '0.0.0.0/0'}')").formats({'security_group_rule' => @security_group_rule_format}) do
+    tests("icmp #create_security_group_rule('#{@security_group.id}', 'icmp', '-1', '-1', '0.0.0.0/0'}')").formats('security_group_rule' => @security_group_rule_format) do
       data = Fog::Compute[:hp].create_security_group_rule(@security_group.id, 'icmp', '-1', '-1', '0.0.0.0/0').body
       @sec_group_rule_id_2 = data['security_group_rule']['id']
       data

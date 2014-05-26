@@ -22,14 +22,14 @@ Shindo.tests("Fog::Compute::HPV2 | metadata for images", ['hp', 'v2', 'compute']
     end
 
     tests("#update({'Meta3' => 'MetaValue3'})").succeeds do
-      @data = @image.metadata.update({'Meta3' => 'MetaValue3'})
+      @data = @image.metadata.update('Meta3' => 'MetaValue3')
       test('metadata has updated correctly') do
         @image.metadata.get('Meta3').value == 'MetaValue3'
       end
     end
 
     tests("#set({'Meta4' => 'MetaValue4'})").succeeds do
-      @data = @image.metadata.set({'Meta4' => 'MetaValue4'})
+      @data = @image.metadata.set('Meta4' => 'MetaValue4')
       test('metadata has set correctly') do
         @image.metadata.get('Meta4').value == 'MetaValue4'
       end

@@ -96,7 +96,7 @@ module Fog
         @message
       end
 
-    private
+      private
 
       # This contains a slightly modified version of the Hashidator gem
       # but unfortunately the gem does not cope with Array schemas.
@@ -109,7 +109,7 @@ module Fog
         case validator
         when Array
           return false if value.is_a?(Hash)
-          value.respond_to?(:all?) && value.all? {|x| validate_value(validator[0], x, options)}
+          value.respond_to?(:all?) && value.all? { |x| validate_value(validator[0], x, options) }
         when Symbol
           value.respond_to? validator
         when Hash

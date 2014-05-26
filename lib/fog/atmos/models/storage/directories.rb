@@ -17,7 +17,7 @@ module Fog
           data = service.get_namespace(ns).body[:DirectoryList]
           data = {:DirectoryEntry => []} if data.kind_of? String
           data[:DirectoryEntry] = [data[:DirectoryEntry]] if data[:DirectoryEntry].kind_of? Hash
-          dirs = data[:DirectoryEntry].select {|de| de[:FileType] == 'directory'}
+          dirs = data[:DirectoryEntry].select { |de| de[:FileType] == 'directory' }
           dirs.each do |d|
             d[:Filename] = ns + d[:Filename] if directory
             d[:Filename] += '/' unless d[:Filename] =~ /\/$/

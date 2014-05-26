@@ -45,13 +45,13 @@ module Fog
             params[:response_block] = Proc.new
           end
 
-          request(params.merge!({
-            :expects  => [ 200, 206 ],
+          request(params.merge!(
+                                  :expects  => [ 200, 206 ],
             :host     => "#{bucket_name}.#{@host}",
             :idempotent => true,
             :method   => 'GET',
-            :path     => CGI.escape(object_name),
-          }))
+            :path     => CGI.escape(object_name)
+          ))
         end
 
       end
@@ -71,7 +71,7 @@ module Fog
           response = Excon::Response.new
           if (bucket = self.data[:buckets][bucket_name])
             object = nil
-            if bucket[:objects].has_key?(object_name)
+            if bucket[:objects].key?(object_name)
               object = bucket[:objects][object_name].first
             end
 

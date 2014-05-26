@@ -35,12 +35,12 @@ Shindo.tests('Fog::Rackspace::Storage | file', ['rackspace']) do
   end
 
   def object_meta_attributes(file=@instance)
-    object_attributes(file).reject {|k, v| !(k =~ /X-Object-Meta-/)}
+    object_attributes(file).reject { |k, _v| !(k =~ /X-Object-Meta-/) }
   end
 
   def clear_metadata
     @instance.metadata.tap do |metadata|
-      metadata.each_pair {|k, v| metadata[k] = nil }
+      metadata.each_pair { |k, _v| metadata[k] = nil }
     end
   end
 
@@ -94,9 +94,9 @@ Shindo.tests('Fog::Rackspace::Storage | file', ['rackspace']) do
         tests("removes one key while leaving the other") do
           @instance.metadata[:color] = "green"
           @instance.save
-          returns({"X-Object-Meta-Foo"=>"bar", "X-Object-Meta-Color"=>"green"}) { object_meta_attributes  }
+          returns("X-Object-Meta-Foo"=>"bar", "X-Object-Meta-Color"=>"green") { object_meta_attributes  }
                     
-          tests("set metadata[:color] = nil").returns({"X-Object-Meta-Foo"=>"bar"}) do
+          tests("set metadata[:color] = nil").returns("X-Object-Meta-Foo"=>"bar") do
             @instance.metadata[:color] = nil
             @instance.save
             
@@ -143,26 +143,26 @@ Shindo.tests('Fog::Rackspace::Storage | file', ['rackspace']) do
                @instance.public_url
               end
 
-              @directory.cdn_cname = "my_cname.com"
-              tests('cdn_cname').returns(nil) do
-                @instance.public_url
-              end
+             @directory.cdn_cname = "my_cname.com"
+             tests('cdn_cname').returns(nil) do
+               @instance.public_url
+             end
 
-              @directory.cdn_cname = nil
-              @directory.service.instance_variable_set "@rackspace_cdn_ssl", true
-              tests('ssl').returns(nil) do
-                @instance.public_url
-              end   
-              @directory.service.instance_variable_set "@rackspace_cdn_ssl", nil
+             @directory.cdn_cname = nil
+             @directory.service.instance_variable_set "@rackspace_cdn_ssl", true
+             tests('ssl').returns(nil) do
+               @instance.public_url
+             end   
+             @directory.service.instance_variable_set "@rackspace_cdn_ssl", nil
            end
 
-           tests('#ios_url').returns(nil) do
-             @instance.ios_url
-           end
+          tests('#ios_url').returns(nil) do
+            @instance.ios_url
+          end
 
-           tests('#streaming_url').returns(nil) do
-             @instance.streaming_url
-           end
+          tests('#streaming_url').returns(nil) do
+            @instance.streaming_url
+          end
         end
         tests('With CDN') do
           tests('#public_url') do
@@ -173,17 +173,17 @@ Shindo.tests('Fog::Rackspace::Storage | file', ['rackspace']) do
               @instance.public_url  =~ /http:\/\/.*#{@instance.key}/
              end
 
-             @directory.cdn_cname = "my_cname.com"        
-             tests('cdn_cname').returns(0) do
-               @instance.public_url  =~ /my_cname\.com.*#{@instance.key}/
-             end
+            @directory.cdn_cname = "my_cname.com"        
+            tests('cdn_cname').returns(0) do
+              @instance.public_url  =~ /my_cname\.com.*#{@instance.key}/
+            end
 
-             @directory.cdn_cname = nil
-             @directory.service.instance_variable_set "@rackspace_cdn_ssl", true
-             tests('ssl').returns(0) do
-               @instance.public_url =~ /https:\/\/.+\.ssl\..*#{@instance.key}/
-             end   
-             @directory.service.instance_variable_set "@rackspace_cdn_ssl", nil
+            @directory.cdn_cname = nil
+            @directory.service.instance_variable_set "@rackspace_cdn_ssl", true
+            tests('ssl').returns(0) do
+              @instance.public_url =~ /https:\/\/.+\.ssl\..*#{@instance.key}/
+            end   
+            @directory.service.instance_variable_set "@rackspace_cdn_ssl", nil
           end
 
           tests('#ios_url').returns(0) do
@@ -195,26 +195,26 @@ Shindo.tests('Fog::Rackspace::Storage | file', ['rackspace']) do
           end
         end
 
-      tests('etags') do
-        text = lorem_file.read
-        md5 = Digest::MD5.new
-        md5 << text
-        etag = md5.hexdigest
-
-        begin
-          tests('valid tag').returns(true) do
-            @file = @directory.files.create :key => 'valid-etag.txt', :body => text,  :etag => etag
-            @file.reload
-            @file.etag == etag
+        tests('etags') do
+          text = lorem_file.read
+          md5 = Digest::MD5.new
+          md5 << text
+          etag = md5.hexdigest
+  
+          begin
+            tests('valid tag').returns(true) do
+              @file = @directory.files.create :key => 'valid-etag.txt', :body => text,  :etag => etag
+              @file.reload
+              @file.etag == etag
+            end
+          ensure
+            @file.destroy if @file
           end
-        ensure
-          @file.destroy if @file
+  
+          tests('invalid tag').raises(Fog::Storage::Rackspace::ServiceError) do
+            @directory.files.create :key => 'invalid-etag.txt', :body => text,  :etag => "bad-bad-tag"
+          end
         end
-
-        tests('invalid tag').raises(Fog::Storage::Rackspace::ServiceError) do
-          @directory.files.create :key => 'invalid-etag.txt', :body => text,  :etag => "bad-bad-tag"
-        end
-      end
     end
     
       tests('#metadata keys') do

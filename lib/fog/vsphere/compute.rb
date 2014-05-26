@@ -148,14 +148,14 @@ module Fog
               attrs['datacenter'] = Proc.new { parent_attribute(host.path, :datacenter)[1] rescue nil }
               attrs['cluster']    = Proc.new { parent_attribute(host.path, :cluster)[1] rescue nil }
               attrs['hypervisor'] = Proc.new { host.name rescue nil }
-              attrs['resource_pool'] = Proc.new {(vm_mob_ref.resourcePool || host.resourcePool).name rescue nil}
+              attrs['resource_pool'] = Proc.new { (vm_mob_ref.resourcePool || host.resourcePool).name rescue nil }
             end
             # This inline rescue catches any standard error.  While a VM is
             # cloning, a call to the macs method will throw and NoMethodError
-            attrs['mac_addresses'] = Proc.new {vm_mob_ref.macs rescue nil}
+            attrs['mac_addresses'] = Proc.new { vm_mob_ref.macs rescue nil }
             # Rescue nil to catch testing while vm_mob_ref isn't reaL??
             attrs['path'] = "/"+attrs['parent'].path.map(&:last).join('/') rescue nil
-            attrs['relative_path'] = (attrs['path'].split('/').reject {|e| e.empty?} - ["Datacenters", attrs['datacenter'], "vm"]).join("/") rescue nil
+            attrs['relative_path'] = (attrs['path'].split('/').reject { |e| e.empty? } - ["Datacenters", attrs['datacenter'], "vm"]).join("/") rescue nil
           end
         end
         # returns the parent object based on a type
@@ -173,7 +173,7 @@ module Fog
                       else
                         raise "Unknown type"
                     end
-          path.select {|x| x[0].is_a? element}.flatten
+          path.select { |x| x[0].is_a? element }.flatten
         rescue
           nil
         end
@@ -198,7 +198,7 @@ module Fog
             hash[key] = {
               :servers => {
                 "5032c8a5-9c5e-ba7a-3804-832a03e16381" => {
-                 "resource_pool"    => "Resources",
+                  "resource_pool"    => "Resources",
                  "memory_mb"        => 2196,
                  "mac_addresses"    => { "Network adapter 1" => "00:50:56:a9:00:28" },
                  "power_state"      => "poweredOn",
@@ -241,7 +241,7 @@ module Fog
                  "template"         => false
                 },
                 "502916a3-b42e-17c7-43ce-b3206e9524dc" => {
-                 "resource_pool"    => "Resources",
+                  "resource_pool"    => "Resources",
                  "memory_mb"        => 512,
                  "power_state"      => "poweredOn",
                  "mac_addresses"    => { "Network adapter 1" => "00:50:56:a9:00:00" },
@@ -281,7 +281,7 @@ module Fog
                  "template"         => false
                 },
                 "5029c440-85ee-c2a1-e9dd-b63e39364603" => {
-                 "resource_pool"    => "Resources",
+                  "resource_pool"    => "Resources",
                  "memory_mb"        => 2196,
                  "power_state"      => "poweredOn",
                  "mac_addresses"    => { "Network adapter 1" => "00:50:56:b2:00:af" },

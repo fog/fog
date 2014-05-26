@@ -3,11 +3,11 @@ Shindo.tests('Fog::Compute::RackspaceV2 | server', ['rackspace']) do
   cbs_service = Fog::Rackspace::BlockStorage.new
 
   tests('setup test network').succeeds do
-    @network = service.networks.create :label => "fog_test_net_#{Time.now.to_i.to_s}", :cidr => '192.168.1.0/24'
+    @network = service.networks.create :label => "fog_test_net_#{Time.now.to_i}", :cidr => '192.168.1.0/24'
   end
 
   options = {
-    :name => "fog_server_#{Time.now.to_i.to_s}",
+    :name => "fog_server_#{Time.now.to_i}",
     :flavor_id => rackspace_test_flavor_id(service),
     :image_id => rackspace_test_image_id(service),
     :metadata => { 'fog_test' => 'true' },
@@ -44,8 +44,8 @@ Shindo.tests('Fog::Compute::RackspaceV2 | server', ['rackspace']) do
         @server.ready?
       rescue Fog::Compute::RackspaceV2::InvalidServerStateException => e
         exception_occurred = true
-        returns(true) {e.desired_state == Fog::Compute::RackspaceV2::Server::ACTIVE }
-        returns(true) {e.current_state == Fog::Compute::RackspaceV2::Server::ERROR }
+        returns(true) { e.desired_state == Fog::Compute::RackspaceV2::Server::ACTIVE }
+        returns(true) { e.current_state == Fog::Compute::RackspaceV2::Server::ERROR }
       end
       exception_occurred
     end
@@ -57,8 +57,8 @@ Shindo.tests('Fog::Compute::RackspaceV2 | server', ['rackspace']) do
         @server.ready?(Fog::Compute::RackspaceV2::Server::VERIFY_RESIZE, Fog::Compute::RackspaceV2::Server::ACTIVE)
       rescue Fog::Compute::RackspaceV2::InvalidServerStateException => e
         exception_occurred = true
-        returns(true) {e.desired_state == Fog::Compute::RackspaceV2::Server::VERIFY_RESIZE }
-        returns(true) {e.current_state == Fog::Compute::RackspaceV2::Server::ACTIVE }
+        returns(true) { e.desired_state == Fog::Compute::RackspaceV2::Server::VERIFY_RESIZE }
+        returns(true) { e.current_state == Fog::Compute::RackspaceV2::Server::ACTIVE }
       end
       exception_occurred
     end
@@ -72,9 +72,9 @@ Shindo.tests('Fog::Compute::RackspaceV2 | server', ['rackspace']) do
       @instance.metadata['fog_test']
     end
     
-     tests("includes #{@network.label}").returns(true) do
-       @instance.addresses.keys.include?(@network.label)
-     end
+    tests("includes #{@network.label}").returns(true) do
+      @instance.addresses.keys.include?(@network.label)
+    end
 
     tests('#create').succeeds do
       pending unless Fog.mocking?
@@ -84,7 +84,7 @@ Shindo.tests('Fog::Compute::RackspaceV2 | server', ['rackspace']) do
     end
 
     tests('#update').succeeds do
-      new_name = "fog_server_update#{Time.now.to_i.to_s}"
+      new_name = "fog_server_update#{Time.now.to_i}"
       @instance.name = new_name
       @instance.access_ipv4_address= "10.10.0.1"
       @instance.access_ipv6_address= "::1"
@@ -175,7 +175,7 @@ Shindo.tests('Fog::Compute::RackspaceV2 | server', ['rackspace']) do
 
     tests('attachments') do
       begin
-        @volume = cbs_service.volumes.create(:size => 100, :display_name => "fog-#{Time.now.to_i.to_s}")
+        @volume = cbs_service.volumes.create(:size => 100, :display_name => "fog-#{Time.now.to_i}")
         @volume.wait_for { ready? }
         tests('#attach_volume').succeeds do
           @instance.attach_volume(@volume)
@@ -184,11 +184,11 @@ Shindo.tests('Fog::Compute::RackspaceV2 | server', ['rackspace']) do
           @instance.wait_for do
             !attachments.empty?
           end
-          @instance.attachments.any? {|a| a.volume_id == @volume.id }
+          @instance.attachments.any? { |a| a.volume_id == @volume.id }
         end
       ensure
         @volume.wait_for { !attachments.empty? }
-        @instance.attachments.each {|a| a.detach }
+        @instance.attachments.each { |a| a.detach }
         @volume.wait_for { ready? && attachments.empty? }
         @volume.destroy if @volume
       end
@@ -204,7 +204,7 @@ Shindo.tests('Fog::Compute::RackspaceV2 | server', ['rackspace']) do
       :flavor_id => 42
     }
 
-    create_server = lambda { |attributes|
+    create_server = lambda do |attributes|
       service = Fog::Compute::RackspaceV2.new
       attributes.merge!(:service => service)
 
@@ -222,11 +222,11 @@ Shindo.tests('Fog::Compute::RackspaceV2 | server', ['rackspace']) do
       server.setup
 
       server
-    }
+    end
 
-    commands = lambda { 
+    commands = lambda do 
       Fog::SSH::Mock.data[@address].first[:commands] 
-    }
+    end
 
     test("leaves user unlocked only when requested") do
       create_server.call(ATTRIBUTES.merge(:no_passwd_lock => true))

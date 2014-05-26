@@ -20,13 +20,13 @@ module Fog
         #
         def delete_application_version(application_name, version_label, delete_source_bundle = nil)
           options = {
-              'ApplicationName' => application_name,
+            'ApplicationName' => application_name,
               'VersionLabel' => version_label
           }
           options['DeleteSourceBundle'] = delete_source_bundle unless delete_source_bundle.nil?
 
           request({
-                      'Operation'    => 'DeleteApplicationVersion',
+            'Operation'    => 'DeleteApplicationVersion',
                       :parser     => Fog::Parsers::AWS::ElasticBeanstalk::Empty.new
                   }.merge(options))
         end

@@ -6,7 +6,7 @@ Shindo.tests('HP::Network | networking networks collection', ['hp', 'networking'
   tests('success') do
 
     tests('#all(filter)').succeeds do
-      networks = HP[:network].networks.all({'router:external'=>true})
+      networks = HP[:network].networks.all('router:external'=>true)
       networks.first.router_external == true
     end
 

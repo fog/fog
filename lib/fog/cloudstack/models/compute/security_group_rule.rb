@@ -3,7 +3,7 @@ module Fog
     class Cloudstack
       class SecurityGroupRule < Fog::Model
 
-        identity  :id,                :aliases => 'ruleid'
+        identity :id,                :aliases => 'ruleid'
 
         attribute :security_group_id, :type => :string
         attribute :protocol,          :type => :string

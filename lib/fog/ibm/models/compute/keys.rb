@@ -22,7 +22,7 @@ module Fog
         end
 
         def default
-          find {|key| key.default? }
+          find { |key| key.default? }
         end
 
         def default=(key_name)

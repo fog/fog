@@ -1,10 +1,10 @@
 Shindo.tests('Fog::Rackspace::BlockStorage | volume', ['rackspace']) do
 
   service = Fog::Rackspace::BlockStorage.new
-  options = { :display_name => "fog_#{Time.now.to_i.to_s}", :size => 100 }
+  options = { :display_name => "fog_#{Time.now.to_i}", :size => 100 }
 
   model_tests(service.volumes, options, true) do
-    @instance.wait_for{ ready? }
+    @instance.wait_for { ready? }
 
     tests('double save').raises(Fog::Rackspace::BlockStorage::IdentifierTaken) do
       @instance.save

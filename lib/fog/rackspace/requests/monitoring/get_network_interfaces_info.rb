@@ -26,7 +26,7 @@ module Fog
               {
                 "name"        => "lo",
                 "type"        => "Local Loopback",
-                "address"     => Fog::Mock.random_ip({:version => :v4}),
+                "address"     => Fog::Mock.random_ip(:version => :v4),
                 "netmask"     => "255.0.0.0",
                 "address6"    => "::1",
                 "broadcast"   => "0.0.0.0.0",
@@ -41,10 +41,10 @@ module Fog
               {
                 "name"        => "eth0",
                 "type"        => "Ethernet",
-                "address"     => Fog::Mock.random_ip({:version => :v4}),
+                "address"     => Fog::Mock.random_ip(:version => :v4),
                 "netmask"     => "255.255.255.0",
-                "address6"    => Fog::Mock.random_ip({:version => :v6}),
-                "broadcast"   => Fog::Mock.random_ip({:version => :v4}),
+                "address6"    => Fog::Mock.random_ip(:version => :v6),
+                "broadcast"   => Fog::Mock.random_ip(:version => :v4),
                 "hwaddr"      => "A1:B2:C3:D4:E5:F6",
                 "mtu"         => "1500",
                 "rx_packets"  => Fog::Mock.random_numbers(7).to_i,
@@ -56,10 +56,10 @@ module Fog
               {
                 "name"        => "eth1",
                 "type"        => "Ethernet",
-                "address"     => Fog::Mock.random_ip({:version => :v4}),
+                "address"     => Fog::Mock.random_ip(:version => :v4),
                 "netmask"     => "255.255.128.0",
-                "address6"    => Fog::Mock.random_ip({:version => :v6}),
-                "broadcast"   => Fog::Mock.random_ip({:version => :v4}),
+                "address6"    => Fog::Mock.random_ip(:version => :v6),
+                "broadcast"   => Fog::Mock.random_ip(:version => :v4),
                 "hwaddr"      => "A2:B3:C4:D5:E6:F7",
                 "mtu"         => "1500",
                 "rx_packets"  => Fog::Mock.random_numbers(7).to_i,
@@ -82,7 +82,7 @@ module Fog
             "Vary"                  => "Accept-Encoding",
             "Transfer-Encoding"     => "chunked"
           }
-          response.remote_ip = Fog::Mock.random_ip({:version => :v4})
+          response.remote_ip = Fog::Mock.random_ip(:version => :v4)
           response
         end
       end

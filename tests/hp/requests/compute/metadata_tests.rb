@@ -23,7 +23,7 @@ Shindo.tests("Fog::Compute[:hp] | metadata requests", ['hp']) do
     end
 
     tests("#set_metadata('servers', #{@server.id}, {'MetaNew3' => 'MetaNewValue3'})").formats(@metadata_format) do
-      data = Fog::Compute[:hp].set_metadata('servers', @server.id, {'MetaNew3' => 'MetaNewValue3'}).body
+      data = Fog::Compute[:hp].set_metadata('servers', @server.id, 'MetaNew3' => 'MetaNewValue3').body
       test ("metadata set correctly") do
         metadata = Fog::Compute[:hp].list_metadata('servers', @server.id).body
         metadata['metadata']['MetaNew3'] == "MetaNewValue3"
@@ -32,7 +32,7 @@ Shindo.tests("Fog::Compute[:hp] | metadata requests", ['hp']) do
     end
 
     tests("#update_metadata('servers', #{@server.id}, {'MetaUpd4' => 'MetaUpdValue4'})").formats(@metadata_format) do
-      data = Fog::Compute[:hp].update_metadata('servers', @server.id, {'MetaUpd4' => 'MetaUpdValue4'}).body
+      data = Fog::Compute[:hp].update_metadata('servers', @server.id, 'MetaUpd4' => 'MetaUpdValue4').body
       test ("metadata updated correctly") do
         metadata = Fog::Compute[:hp].list_metadata('servers', @server.id).body
         metadata['metadata']['MetaUpd4'] == "MetaUpdValue4"

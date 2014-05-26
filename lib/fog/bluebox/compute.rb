@@ -8,14 +8,14 @@ module Fog
       recognizes :bluebox_host, :bluebox_port, :bluebox_scheme, :persistent
 
       model_path 'fog/bluebox/models/compute'
-      model       :flavor
-      collection  :flavors
-      model       :image
-      collection  :images
-      model       :server
-      collection  :servers
-      model       :location
-      collection  :locations
+      model :flavor
+      collection :flavors
+      model :image
+      collection :images
+      model :server
+      collection :servers
+      model :location
+      collection :locations
 
       request_path 'fog/bluebox/requests/compute'
       request :create_block
@@ -77,9 +77,9 @@ module Fog
 
         def request(params)
           params[:headers] ||= {}
-          params[:headers].merge!({
-            'Authorization' => "Basic #{Base64.encode64([@bluebox_customer_id, @bluebox_api_key].join(':')).delete("\r\n")}"
-          })
+          params[:headers].merge!(
+                                    'Authorization' => "Basic #{Base64.encode64([@bluebox_customer_id, @bluebox_api_key].join(':')).delete("\r\n")}"
+          )
 
           begin
             response = @connection.request(params)

@@ -31,19 +31,19 @@ def generate_ssh_key
 end
 
 # create Next Generation Cloud Server service
-service = Fog::Compute.new({
-  :provider             => 'rackspace',
+service = Fog::Compute.new(
+                             :provider             => 'rackspace',
   :rackspace_username   => rackspace_username,
   :rackspace_api_key    => rackspace_api_key,
   :version => :v2,  # Use Next Gen Cloud Servers
   :rackspace_region => :ord #Use Chicago Region
-})
+)
 
 # pick the first flavor
 flavor = service.flavors.first
 
 # pick the first Ubuntu image we can find
-image = service.images.find {|image| image.name =~ /Ubuntu/}
+image = service.images.find { |image| image.name =~ /Ubuntu/ }
 
 # prompt for server name
 server_name = get_user_input "\nEnter Server Name"

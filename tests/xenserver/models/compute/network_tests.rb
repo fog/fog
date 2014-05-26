@@ -33,7 +33,7 @@ Shindo.tests('Fog::Compute[:network] | network model', ['xenserver']) do
       end
       tests("The attributes hash should have key") do
         attributes.each do |attribute|
-          test("#{attribute}") { model_attribute_hash.has_key? attribute }
+          test("#{attribute}") { model_attribute_hash.key? attribute }
         end
       end
     end
@@ -53,7 +53,7 @@ Shindo.tests('Fog::Compute[:network] | network model', ['xenserver']) do
       networks.each do |network|
           test("as an array") { network.pifs.kind_of? Array }
           network.pifs.each { |i| 
-              test("and each PIF should be a Fog::Compute::XenServer::PIF") { i.kind_of? Fog::Compute::XenServer::PIF}
+              test("and each PIF should be a Fog::Compute::XenServer::PIF") { i.kind_of? Fog::Compute::XenServer::PIF }
           } 
       end
     end

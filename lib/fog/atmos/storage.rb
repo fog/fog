@@ -9,10 +9,10 @@ module Fog
       recognizes :persistent
 
       model_path 'fog/atmos/models/storage'
-      model       :directory
-      collection  :directories
-      model       :file
-      collection  :files
+      model :directory
+      collection :directories
+      model :file
+      collection :files
 
       request_path 'fog/atmos/requests/storage'
       # request :delete_container
@@ -88,7 +88,7 @@ module Fog
         end
 
         def uid
-          @storage_token#.split('/')[-1]
+          @storage_token #.split('/')[-1]
         end
 
         def sign(string)
@@ -103,10 +103,10 @@ module Fog
         def request(params, &block)
           req_path = params[:path]
           # Force set host and port
-          params.merge!({
+          params.merge!(
                           :host     => @storage_host,
-                          :path     => "#{@api_path}/rest/#{params[:path]}",
-                        })
+                          :path     => "#{@api_path}/rest/#{params[:path]}"
+                        )
           # Set default method and headers
           params = {:method => 'GET', :headers => {}}.merge params
 
@@ -130,7 +130,7 @@ module Fog
           signstring += "\n"
 
           signstring += "/rest/" + URI.unescape( req_path ).downcase
-          query_str = params[:query].map{|k,v| "#{k}=#{v}"}.join('&')
+          query_str = params[:query].map { |k,v| "#{k}=#{v}" }.join('&')
           signstring += '?' + query_str unless query_str.empty?
           signstring += "\n"
 

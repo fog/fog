@@ -28,7 +28,7 @@ module Fog
           }.merge!(params))
         end
 
-        alias :deregister_instances :deregister_instances_from_load_balancer
+        alias_method :deregister_instances, :deregister_instances_from_load_balancer
 
       end
 
@@ -56,7 +56,7 @@ module Fog
 
           response
         end
-        alias :deregister_instances :deregister_instances_from_load_balancer
+        alias_method :deregister_instances, :deregister_instances_from_load_balancer
       end
     end
   end

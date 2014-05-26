@@ -9,7 +9,7 @@ module Fog
           path = "domains/#{domain_id}"
           query_data = {}
 
-          if options.has_key? :delete_subdomains
+          if options.key? :delete_subdomains
             query_data['deleteSubdomains'] = options[:delete_subdomains].to_s
           end
 

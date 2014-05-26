@@ -108,7 +108,7 @@ module Fog
           if block_device_mapping = options.delete('BlockDeviceMapping')
             block_device_mapping.each_with_index do |mapping, index|
               for key, value in mapping
-                options.merge!({ format("BlockDeviceMapping.%d.#{key}", index) => value })
+                options.merge!( format("BlockDeviceMapping.%d.#{key}", index) => value )
               end
             end
           end
@@ -129,7 +129,7 @@ module Fog
                 when "SecurityGroupId"
                   options.merge!(Fog::AWS.indexed_param("#{iface}.SecurityGroupId", [*value]))
                 else
-                  options.merge!({ "#{iface}.#{key}" => value })
+                  options.merge!( "#{iface}.#{key}" => value )
                 end
               end
             end
@@ -167,7 +167,7 @@ module Fog
             instance_id = Fog::AWS::Mock.instance_id
             availability_zone = options['Placement.AvailabilityZone'] || Fog::AWS::Mock.availability_zone(@region)
 
-            block_device_mapping = (options['BlockDeviceMapping'] || []).inject([]) do |mapping, device|
+            block_device_mapping = (options['BlockDeviceMapping'] || []).reduce([]) do |mapping, device|
               device_name           = device.fetch("DeviceName", "/dev/sda1")
               volume_size           = device.fetch("Ebs.VolumeSize", 15)            # @todo should pull this from the image
               delete_on_termination = device.fetch("Ebs.DeleteOnTermination", true) # @todo should pull this from the image
@@ -195,7 +195,7 @@ module Fog
               network_interface_id = create_network_interface(options['SubnetId'], ni_options).body['networkInterface']['networkInterfaceId']
             end
 
-            network_interfaces = (options['NetworkInterfaces'] || []).inject([]) do |mapping, device|
+            network_interfaces = (options['NetworkInterfaces'] || []).reduce([]) do |mapping, device|
               device_index          = device.fetch("DeviceIndex", 0)
               subnet_id             = device.fetch("SubnetId", options[:subnet_id] ||  Fog::AWS::Mock.subnet_id)
               private_ip_address    = device.fetch("PrivateIpAddress", options[:private_ip_address] || Fog::AWS::Mock.private_ip_address)
@@ -203,7 +203,7 @@ module Fog
               description           = device.fetch("Description", "mock_network_interface")
               security_group_id     = device.fetch("SecurityGroupId", self.data[:security_groups]['default']['groupId'])
               interface_options     = {
-                  "PrivateIpAddress"   => private_ip_address,
+                "PrivateIpAddress"   => private_ip_address,
                   "GroupSet"           => device.fetch("GroupSet", [security_group_id]),
                   "Description"        => description
               }
@@ -245,20 +245,20 @@ module Fog
               'virtualizationType'  => 'paravirtual'
             }
             instances_set << instance
-            self.data[:instances][instance_id] = instance.merge({
-              'groupIds'            => [],
+            self.data[:instances][instance_id] = instance.merge(
+                                                                  'groupIds'            => [],
               'groupSet'            => group_set,
               'iamInstanceProfile'  => {},
               'ownerId'             => self.data[:owner_id],
               'reservationId'       => reservation_id,
               'stateReason'         => {}
-            })
+            )
 
             if options['SubnetId']
-              self.data[:instances][instance_id]['vpcId'] = self.data[:subnets].find{|subnet| subnet['subnetId'] == options['SubnetId'] }['vpcId']
+              self.data[:instances][instance_id]['vpcId'] = self.data[:subnets].find { |subnet| subnet['subnetId'] == options['SubnetId'] }['vpcId']
 
               attachment_id = attach_network_interface(network_interface_id, instance_id, '0').data[:body]['attachmentId']
-              modify_network_interface_attribute(network_interface_id, 'attachment', {'attachmentId' => attachment_id, 'deleteOnTermination' => 'true'})
+              modify_network_interface_attribute(network_interface_id, 'attachment', 'attachmentId' => attachment_id, 'deleteOnTermination' => 'true')
             end
           end
           response.body = {

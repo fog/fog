@@ -13,11 +13,11 @@ module Fog
 
       model_path 'fog/openstack/models/volume'
 
-      model       :volume
-      collection  :volumes
+      model :volume
+      collection :volumes
 
-      model       :volume_type
-      collection  :volume_types
+      model :volume_type
+      collection :volume_types
 
       request_path 'fog/openstack/requests/volume'
 
@@ -74,7 +74,7 @@ module Fog
           @openstack_management_url = management_url.to_s
 
           @data ||= { :users => {} }
-          unless @data[:users].find {|u| u['name'] == options[:openstack_username]}
+          unless @data[:users].find { |u| u['name'] == options[:openstack_username] }
             id = Fog::Mock.random_numbers(6).to_s
             @data[:users][id] = {
               'id'       => id,
@@ -154,14 +154,14 @@ module Fog
 
         def request(params)
           begin
-            response = @connection.request(params.merge({
-              :headers  => {
-                'Content-Type' => 'application/json',
-                'Accept' => 'application/json',
-                'X-Auth-Token' => @auth_token
-              }.merge!(params[:headers] || {}),
-              :path     => "#{@path}/#{params[:path]}"#,
-            }))
+            response = @connection.request(params.merge(
+                                                          :headers  => {
+                                                            'Content-Type' => 'application/json',
+                                                            'Accept' => 'application/json',
+                                                            'X-Auth-Token' => @auth_token
+                                                          }.merge!(params[:headers] || {}),
+              :path     => "#{@path}/#{params[:path]}" #
+            ))
           rescue Excon::Errors::Unauthorized => error
             if error.response.body != 'Bad username or password' # token expiration
               @openstack_must_reauthenticate = true

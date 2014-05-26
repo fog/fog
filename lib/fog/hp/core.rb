@@ -85,16 +85,16 @@ module Fog
       connection = Fog::XML::Connection.new(service_url, false, connection_options)
       @hp_access_key = options[:hp_access_key]
       @hp_secret_key  = options[:hp_secret_key]
-      response = connection.request({
-        :expects  => [200, 204],
+      response = connection.request(
+                                      :expects  => [200, 204],
         :headers  => {
           'X-Auth-Key'  => @hp_secret_key,
           'X-Auth-User' => @hp_access_key
         },
         :method   => 'GET',
         :path     => @auth_path
-      })
-      response.headers.reject do |key, value|
+      )
+      response.headers.reject do |key, _value|
         !['X-Server-Management-Url', 'X-Storage-Url', 'X-CDN-Management-Url', 'X-Auth-Token'].include?(key)
       end
 
@@ -173,22 +173,22 @@ module Fog
       unless (@hp_use_upass_auth_style)
         # If Access Key style credentials are provided, use that
         request_body = {
-            'auth' => {
-                'apiAccessKeyCredentials' => {
-                    'accessKey' => "#{@hp_access_key}",
-                    'secretKey' => "#{@hp_secret_key}"
-                }
+          'auth' => {
+            'apiAccessKeyCredentials' => {
+              'accessKey' => "#{@hp_access_key}",
+                'secretKey' => "#{@hp_secret_key}"
             }
+          }
         }
       else
         # Otherwise use the Username/Password style
         request_body = {
-            'auth' => {
-                'passwordCredentials' => {
-                    'username' => "#{@hp_access_key}",
-                    'password' => "#{@hp_secret_key}"
-                }
+          'auth' => {
+            'passwordCredentials' => {
+              'username' => "#{@hp_access_key}",
+                'password' => "#{@hp_secret_key}"
             }
+          }
         }
       end
       # add tenant_id if specified
@@ -196,15 +196,15 @@ module Fog
 
       ### Make the call to CS to get auth token and service catalog
       response = connection.request(
-        {
+        
           :expects => 200,
           :headers => {
-              'Content-Type' => 'application/json'
+            'Content-Type' => 'application/json'
           },
           :method => 'POST',
           :body => Fog::JSON.encode(request_body),
           :path => @auth_path
-        }
+        
       )
 
       body = Fog::JSON.decode(response.body)

@@ -6,7 +6,7 @@ Shindo.tests("HP::LB | protocols requests", ['hp', 'lb', 'protocols']) do
 
   tests('success') do
 
-    tests('#list_protocols').formats({'protocols' => [@protocol_format]}) do
+    tests('#list_protocols').formats('protocols' => [@protocol_format]) do
       HP[:lb].list_protocols.body
     end
   end

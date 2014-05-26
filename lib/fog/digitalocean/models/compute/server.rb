@@ -8,7 +8,7 @@ module Fog
       #
       class Server < Fog::Compute::Server
 
-        identity  :id
+        identity :id
         attribute :name
         attribute :state, :aliases => 'status'
         attribute :image_id

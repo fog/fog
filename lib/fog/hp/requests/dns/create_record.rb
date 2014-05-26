@@ -30,12 +30,12 @@ module Fog
         #     * 'updated_at'<~String> - updated date time stamp
         def create_record(domain_id, name, type, data, options={})
           data = {
-              :name => name,
+            :name => name,
               :type => type,
               :data => data
           }
           l_options = [:description, :priority, :ttl]
-          l_options.select{|o| options[o]}.each do |key|
+          l_options.select { |o| options[o] }.each do |key|
             data[key] = options[key]
           end
 
@@ -51,10 +51,10 @@ module Fog
       class Mock
         def create_record(domain_id, name, type, data, options={})
           response        = Excon::Response.new
-          if list_domains.body['domains'].detect {|_| _['id'] == domain_id}
+          if list_domains.body['domains'].find { |_| _['id'] == domain_id }
             response.status = 200
             data = {
-                'id'           => Fog::HP::Mock.uuid.to_s,
+              'id'           => Fog::HP::Mock.uuid.to_s,
                 'domain_id'    => domain_id,
                 'name'         => name || 'www.example.com.',
                 'type'         => type || 'A',

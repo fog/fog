@@ -33,7 +33,7 @@ module Fog
 
           data = service.list_virtual_interfaces(server.id).body['virtual_interfaces']
           objects = load(data)
-          objects.each {|obj| obj.attributes[:server] = self.server}
+          objects.each { |obj| obj.attributes[:server] = self.server }
           objects
         end
 

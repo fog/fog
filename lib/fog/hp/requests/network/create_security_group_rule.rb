@@ -33,14 +33,14 @@ module Fog
         #     * 'tenant_id'<~String> - Tenant id that owns the security group rule
         def create_security_group_rule(security_group_id, direction, options = {})
           data = { 'security_group_rule' => {
-              'security_group_id' => security_group_id,
+            'security_group_id' => security_group_id,
               'direction'         => direction
             }
           }
 
           l_options = [:port_range_min, :port_range_max, :protocol, :ethertype,
                        :remote_group_id, :remote_ip_prefix, :tenant_id]
-          l_options.select{|o| options[o]}.each do |key|
+          l_options.select { |o| options[o] }.each do |key|
             data['security_group_rule'][key] = options[key]
           end
 

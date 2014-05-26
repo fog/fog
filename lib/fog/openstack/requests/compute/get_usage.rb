@@ -45,7 +45,7 @@ module Fog
                                 ]
                               }
                             }
-        response
+          response
       end
     end
   end

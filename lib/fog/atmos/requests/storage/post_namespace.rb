@@ -4,9 +4,9 @@ module Fog
       class Real
 
         def post_namespace(namespace = '', options = {})
-          options = options.reject {|key, value| value.nil?}
+          options = options.reject { |_key, value| value.nil? }
           request({
-                    :expects  => 201,
+            :expects  => 201,
                     :method   => 'POST',
                     :path     => "namespace/" + namespace,
                     :query    => {},

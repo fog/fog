@@ -4,7 +4,7 @@ module Fog
       class Real
 
         def get_server_details(id)
-          vzlist({:ctid => id}).first
+          vzlist(:ctid => id).first
         end
 
       end

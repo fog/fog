@@ -15,7 +15,7 @@ module Fog
           requires :shared_directory
           parent = shared_directory.collection.get(shared_directory.url)
           if parent
-            load(parent.files.map {|file| file.attributes})
+            load(parent.files.map { |file| file.attributes })
           else
             nil
           end
@@ -28,10 +28,10 @@ module Fog
           requires :shared_directory
           shared_object_url = "#{shared_directory.url}/#{key}"
           data = service.get_shared_object(shared_object_url, &block)
-          file_data = data.headers.merge({
-            :body => data.body,
+          file_data = data.headers.merge(
+                                           :body => data.body,
             :key  => key
-          })
+          )
           new(file_data)
         # throws exception Fog::HP::Errors::Forbidden if insufficient access
         rescue Fog::Storage::HP::NotFound
@@ -42,10 +42,10 @@ module Fog
           requires :shared_directory
           shared_object_url = "#{shared_directory.url}/#{key}"
           data = service.head_shared_object(shared_object_url)
-          file_data = data.headers.merge({
-            :body => '',
+          file_data = data.headers.merge(
+                                           :body => '',
             :key => key
-          })
+          )
           new(file_data)
         # throws exception Fog::HP::Errors::Forbidden if insufficient access
         rescue Fog::Storage::HP::NotFound

@@ -21,18 +21,18 @@ module Fog
 
         def save
          requires :Name, :Port, :InternetServiceId
-            data = service.add_node_service(
-                service_id = self.InternetServiceId,
-                ip = self.IpAddress,
-                name = self.Name,
-                port = self.Port,
-                options = {"Enabled" => 'true',
-                           "Description" => self.Name,
-                }
+         data = service.add_node_service(
+             service_id = self.InternetServiceId,
+             ip = self.IpAddress,
+             name = self.Name,
+             port = self.Port,
+             options = {"Enabled" => 'true',
+                        "Description" => self.Name,
+             }
 
-            )
-            merge_attributes(data.body)
-            true
+         )
+         merge_attributes(data.body)
+         true
         end
 
         private

@@ -14,10 +14,10 @@ Shindo.tests('HP::Network | networking router requests', ['hp', 'networking', 'r
     'port_id'    => String
   }
 
-  n_data = HP[:network].create_network({:name => 'fog_network'}).body['network']
+  n_data = HP[:network].create_network(:name => 'fog_network').body['network']
   @network_id = n_data['id']
 
-  p_data = HP[:network].create_port(@network_id, {:name => 'fog_port'}).body['port']
+  p_data = HP[:network].create_port(@network_id, :name => 'fog_port').body['port']
   @port_id = p_data['id']
 
   tests('success') do
@@ -31,15 +31,15 @@ Shindo.tests('HP::Network | networking router requests', ['hp', 'networking', 'r
       data
     end
 
-    tests('#list_routers').formats({'routers' => [@router_format]}) do
+    tests('#list_routers').formats('routers' => [@router_format]) do
       HP[:network].list_routers.body
     end
 
-    tests("#get_router(#{@router_id})").formats({'router' => @router_format}) do
+    tests("#get_router(#{@router_id})").formats('router' => @router_format) do
       HP[:network].get_router(@router_id).body
     end
 
-    tests("#update_router(#{@router_id})").formats({'router' => @router_format}) do
+    tests("#update_router(#{@router_id})").formats('router' => @router_format) do
       attributes = {
         :name => 'my_router_upd',
         :external_gateway_info => { :network_id => '11111111111' },

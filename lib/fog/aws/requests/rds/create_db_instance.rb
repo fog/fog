@@ -64,13 +64,13 @@ module Fog
             #  'Message' => "DB Instance already exists"
             #}
             #return response
-            raise Fog::AWS::RDS::IdentifierTaken.new("DBInstanceAlreadyExists #{response.body.to_s}")
+            raise Fog::AWS::RDS::IdentifierTaken.new("DBInstanceAlreadyExists #{response.body}")
           end
 
           # These are the required parameters according to the API
           required_params = %w{AllocatedStorage DBInstanceClass Engine MasterUserPassword MasterUsername }
           required_params.each do |key|
-            unless options.has_key?(key) and options[key] and !options[key].to_s.empty?
+            unless options.key?(key) and options[key] and !options[key].to_s.empty?
               #response.status = 400
               #response.body = {
               #  'Code' => 'MissingParameter',
@@ -83,7 +83,7 @@ module Fog
 
           data =
               {
-                 "DBInstanceIdentifier"=> db_name,
+                "DBInstanceIdentifier"=> db_name,
                  "DBName" => options["DBName"],
                  "InstanceCreateTime" => nil,
                  "AutoMinorVersionUpgrade"=>true,

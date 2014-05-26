@@ -6,7 +6,7 @@ module Fog
 
       class Disk < Model # there is no lazy_load in disks
 
-        identity  :id
+        identity :id
 
         attribute :address
         attribute :description

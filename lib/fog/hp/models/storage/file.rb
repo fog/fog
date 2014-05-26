@@ -6,7 +6,7 @@ module Fog
 
       class File < Fog::Model
 
-        identity  :key,             :aliases => 'name'
+        identity :key,             :aliases => 'name'
 
         attribute :content_length,  :aliases => ['bytes', 'Content-Length'], :type => :integer
         attribute :content_type,    :aliases => ['content_type', 'Content-Type']
@@ -32,7 +32,7 @@ module Fog
         def copy(target_directory_key, target_file_key)
           requires :directory, :key
           target_directory = service.directories.new(:key => target_directory_key)
-          service.put_object(target_directory_key, target_file_key, nil, {'X-Copy-From' => "/#{directory.key}/#{key}" })
+          service.put_object(target_directory_key, target_file_key, nil, 'X-Copy-From' => "/#{directory.key}/#{key}" )
           target_directory.files.get(target_file_key)
         end
 

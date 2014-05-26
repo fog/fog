@@ -33,7 +33,7 @@ module Fog
             response = Excon::Response.new
             response.status = 200
 
-            load_balancer['Policies'].each do |name, policies|
+            load_balancer['Policies'].each do |_name, policies|
               policies.delete_if { |policy| policy['PolicyName'] == policy_name }
             end
 

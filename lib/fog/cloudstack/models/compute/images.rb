@@ -31,7 +31,7 @@ module Fog
 
         def get_filter_options(filters)
           default_filter = {
-              'templatefilter' => 'self'
+            'templatefilter' => 'self'
           }
           default_filter.merge(filters)
         end

@@ -9,12 +9,12 @@ module Fog
       recognizes :storm_on_demand_auth_url
 
       model_path 'fog/storm_on_demand/models/monitoring'
-      model       :load
-      collection  :loads
-      model       :bandwidth
-      collection  :bandwidths
-      model       :monitor_service
-      collection  :monitor_services
+      model :load
+      collection :loads
+      model :bandwidth
+      collection :bandwidths
+      model :monitor_service
+      collection :monitor_services
 
       request_path 'fog/storm_on_demand/requests/monitoring'
       request :get_load_graph

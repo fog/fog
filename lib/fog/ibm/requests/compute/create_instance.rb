@@ -47,7 +47,7 @@ module Fog
           }
           if options[:secondary_ip]
             options[:secondary_ip].split(',').map(&:strip).each_with_index do |n, idx|
-              body_data.merge!({"secondary.ip.#{idx}" => n})
+              body_data.merge!("secondary.ip.#{idx}" => n)
             end
           end
           request(

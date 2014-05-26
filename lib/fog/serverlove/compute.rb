@@ -33,11 +33,11 @@ module Fog
 
       model_path 'fog/serverlove/models/compute'
 
-      model       :image
-      collection  :images
+      model :image
+      collection :images
 
-      model       :server
-      collection  :servers
+      model :server
+      collection :servers
 
       class Mock
 
@@ -82,7 +82,7 @@ module Fog
         end
 
         def encode_pairs(params)
-          params.keys.collect do |key|
+          params.keys.map do |key|
             "#{key} #{params[key]}"
           end.join("\n")
         end

@@ -67,7 +67,7 @@ posuere eu odio. Donec sodales, ante porta condimentum
 }
 
   @response = {
-      'key1' => 'value1',
+    'key1' => 'value1',
       'key2' => 'value2',
       'key3' => 'value3',
       'myArray' => [1,2,3],

@@ -464,9 +464,9 @@ class Fog::AWS::ELB::Mock
     "PolicyTypeName"=>"SSLNegotiationPolicyType"
   },
   {
-  "Description"=>"Policy that controls whether to include the IP address and port of the originating request for TCP messages. This policy operates on TCP/SSL listeners only",
+    "Description"=>"Policy that controls whether to include the IP address and port of the originating request for TCP messages. This policy operates on TCP/SSL listeners only",
   "PolicyAttributeTypeDescriptions"=>[{
-     "AttributeName"=>"ProxyProtocol",
+    "AttributeName"=>"ProxyProtocol",
      "AttributeType"=>"Boolean",
      "Cardinality"=>"ONE",
      "DefaultValue"=>"",

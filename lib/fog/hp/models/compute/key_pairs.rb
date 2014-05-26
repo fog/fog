@@ -12,14 +12,14 @@ module Fog
         def all
           items = []
           service.list_key_pairs.body['keypairs'].each do |kp|
-            items = items + kp.map { |key, value| value }
+            items = items + kp.map { |_key, value| value }
           end
           load(items)
         end
 
         def get(key_pair_name)
           if key_pair_name
-            self.all.select {|kp| kp.name == key_pair_name}.first
+            self.all.select { |kp| kp.name == key_pair_name }.first
           end
         rescue Fog::Compute::HP::NotFound
           nil

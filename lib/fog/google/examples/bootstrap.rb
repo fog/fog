@@ -1,5 +1,5 @@
 def test
-  connection = Fog::Compute.new({ :provider => "Google" })
+  connection = Fog::Compute.new( :provider => "Google" )
 
   server = connection.servers.bootstrap
   server.wait_for { sshable? }

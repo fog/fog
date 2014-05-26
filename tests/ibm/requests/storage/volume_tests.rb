@@ -14,16 +14,16 @@ Shindo.tests('Fog::Storage[:ibm] | volume requests', ['ibm']) do
     "productCodes"  => Array,
   }
 
-  @full_volume_format = @volume_format.merge({
-    "ioPrice"       => {
-      "rate"          => Float,
-      "unitOfMeasure" => String,
-      "countryCode"   => String,
-      "effectiveDate" => Integer,
-      "currencyCode"  => String,
-      "pricePerQuantity"  => Integer,
-    }
-  })
+  @full_volume_format = @volume_format.merge(
+                                               "ioPrice"       => {
+                                                 "rate"          => Float,
+                                                 "unitOfMeasure" => String,
+                                                 "countryCode"   => String,
+                                                 "effectiveDate" => Integer,
+                                                 "currencyCode"  => String,
+                                                 "pricePerQuantity"  => Integer,
+                                               }
+  )
 
   @volumes_format = {
     'volumes' => [ @volume_format ]

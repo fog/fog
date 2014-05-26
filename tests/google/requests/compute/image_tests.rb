@@ -3,7 +3,7 @@ Shindo.tests('Fog::Compute[:google] | image requests', ['google']) do
   @google = Fog::Compute[:google]
 
   @insert_image_format = {
-      'kind' => String,
+    'kind' => String,
       'id' => String,
       'selfLink' => String,
       'name' => String,
@@ -17,7 +17,7 @@ Shindo.tests('Fog::Compute[:google] | image requests', ['google']) do
   }
 
   @get_image_format = {
-      'kind' => String,
+    'kind' => String,
       'id' => String,
       'creationTimestamp' => String,
       'selfLink' => String,
@@ -31,7 +31,7 @@ Shindo.tests('Fog::Compute[:google] | image requests', ['google']) do
   }
 
   @delete_image_format = {
-      'kind' => String,
+    'kind' => String,
       'id' => String,
       'selfLink' => String,
       'name' => String,
@@ -45,7 +45,7 @@ Shindo.tests('Fog::Compute[:google] | image requests', ['google']) do
   }
 
   @list_images_format = {
-      'kind' => String,
+    'kind' => String,
       'id' => String,
       'selfLink' => String,
       'items' => [@get_image_format]

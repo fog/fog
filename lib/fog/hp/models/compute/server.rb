@@ -49,16 +49,16 @@ module Fog
 
         def metadata
           @metadata ||= begin
-            Fog::Compute::HP::Metadata.new({
-              :service => service,
+            Fog::Compute::HP::Metadata.new(
+                                             :service => service,
               :parent => self
-            })
+            )
           end
         end
 
         def metadata=(new_metadata={})
           metas = []
-          new_metadata.each_pair {|k,v| metas << {"key" => k, "value" => v} }
+          new_metadata.each_pair { |k,v| metas << {"key" => k, "value" => v} }
           metadata.load(metas)
         end
 
@@ -103,7 +103,7 @@ module Fog
         def private_ip_addresses
           return nil if addresses.nil?
           addr = []
-          addresses.each { |key, value|
+          addresses.each { |_key, value|
             ipaddr = value.first
             addr << ipaddr["addr"] unless ipaddr.nil?
           }
@@ -126,7 +126,7 @@ module Fog
         def public_ip_addresses
           return nil if addresses.nil?
           addr = []
-          addresses.each { |key, value|
+          addresses.each { |_key, value|
             if value.count > 1
               value = value.dup
               value.delete_at(0)
@@ -253,7 +253,7 @@ module Fog
             'config_drive'    => config_drive,
             'user_data'       => user_data_encoded
           }
-          options = options.reject {|key, value| value.nil?}
+          options = options.reject { |_key, value| value.nil? }
           # either create a regular server or a persistent server based on input
           if image_id
             # create a regular server using the image

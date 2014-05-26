@@ -18,7 +18,7 @@ module Fog
 
         attribute :vapp_scoped_local_id, :aliases => :VAppScopedLocalId
 
-        attribute :network_connections, :aliases => :NetworkConnectionSection#, :squash => :NetworkConnection
+        attribute :network_connections, :aliases => :NetworkConnectionSection #, :squash => :NetworkConnection
         attribute :virtual_hardware, :aliases => :'ovf:VirtualHardwareSection', :squash => :'ovf:Item'
 
         attribute :guest_customization, :aliases => :GuestCustomizationSection
@@ -59,12 +59,12 @@ module Fog
 
         def ip_addresses
           load_unless_loaded!
-          [self.network_connections].flatten.collect{|n| n[:IpAddress] }
+          [self.network_connections].flatten.map { |n| n[:IpAddress] }
         end
 
         def ready?
           reload_status # always ensure we have the correct status
-          running_tasks = self.tasks && self.tasks.flatten.any? {|ti| ti.kind_of?(Hash) && ti[:status] == 'running' }
+          running_tasks = self.tasks && self.tasks.flatten.any? { |ti| ti.kind_of?(Hash) && ti[:status] == 'running' }
           status != '0' && !running_tasks # 0 is provisioning, and no running tasks
         end
 
@@ -251,7 +251,7 @@ module Fog
               wait_for { ready? }
             end
             if @name_changed || @description_changed
-              edit_uri = links.select {|i| i[:rel] == 'edit'}
+              edit_uri = links.select { |i| i[:rel] == 'edit' }
               edit_uri = edit_uri.kind_of?(Array) ? edit_uri.flatten[0][:href] : edit_uri[:href]
               service.configure_vm_name_description(edit_uri, self.name, self.description)
               wait_for { ready? }
@@ -271,7 +271,7 @@ module Fog
           sleep 2 # API lies. need to give it some time to be happy.
           service.delete_vapp(href).body[:status] == "running"
         end
-        alias :delete :destroy
+        alias_method :delete, :destroy
 
         private
 
@@ -297,14 +297,14 @@ module Fog
         def memory_mess
           load_unless_loaded!
           if virtual_hardware
-            virtual_hardware.detect { |item| item[:"rasd:ResourceType"] == "4" }
+            virtual_hardware.find { |item| item[:"rasd:ResourceType"] == "4" }
           end
         end
 
         def cpu_mess
           load_unless_loaded!
           if virtual_hardware
-            virtual_hardware.detect { |item| item[:"rasd:ResourceType"] == "3" }
+            virtual_hardware.find { |item| item[:"rasd:ResourceType"] == "3" }
           end
         end
 

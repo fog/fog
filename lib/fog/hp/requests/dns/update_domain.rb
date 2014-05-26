@@ -26,7 +26,7 @@ module Fog
         def update_domain(domain_id, options={})
           data = {}
           l_options = [:name, :description, :ttl, :email]
-          l_options.select{|o| options[o]}.each do |key|
+          l_options.select { |o| options[o] }.each do |key|
             data[key] = options[key]
           end
 
@@ -42,7 +42,7 @@ module Fog
       class Mock
         def update_domain(domain_id, options={})
           response = Excon::Response.new
-          if domain = list_domains.body['domains'].detect { |_| _['id'] == domain_id }
+          if domain = list_domains.body['domains'].find { |_| _['id'] == domain_id }
 
             domain['name']          = options[:name]   if options[:name]
             domain['description']   = options[:description]   if options[:description]

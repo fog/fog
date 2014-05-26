@@ -47,7 +47,7 @@ module Fog
             :name => name,
             :username => username,
             :description => description
-          }.delete_if { |k, v| v.nil? || v == "" }
+          }.delete_if { |_k, v| v.nil? || v == "" }
           data = service.create_image(options)
           merge_attributes(data)
           true

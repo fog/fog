@@ -4,13 +4,13 @@ module Fog
   module Compute
     class Fogdocker < Fog::Service
 
-      requires   :docker_url
+      requires :docker_url
       recognizes :docker_username, :docker_password, :docker_email
 
       model_path 'fog/fogdocker/models/compute'
-      model      :server
+      model :server
       collection :servers
-      model      :image
+      model :image
       collection :images
 
       request_path 'fog/fogdocker/requests/compute'
@@ -47,11 +47,11 @@ module Fog
 
         def downcase_hash_keys(hash, k = [])
           return {k.join('_').gsub(/([a-z])([A-Z])/,'\1_\2').downcase => hash} unless hash.is_a?(Hash)
-          hash.inject({}){ |h, v| h.merge! downcase_hash_keys(v[-1], k + [v[0]]) }
+          hash.reduce({}) { |h, v| h.merge! downcase_hash_keys(v[-1], k + [v[0]]) }
         end
 
         def camelize_hash_keys(hash)
-          Hash[ hash.map {|k, v| [k.to_s.split('_').map {|w| w.capitalize}.join, v] }]
+          Hash[ hash.map { |k, v| [k.to_s.split('_').map { |w| w.capitalize }.join, v] }]
         end
 
       end

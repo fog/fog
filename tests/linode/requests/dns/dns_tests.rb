@@ -220,12 +220,12 @@ Shindo.tests('Fog::DNS[:linode] | DNS requests', ['linode', 'dns']) do
       pending if Fog.mocking?
 
       result= true
-      @new_records.each { |record_id|
+      @new_records.each do |record_id|
         response = Fog::DNS[:linode].domain_resource_delete( @master_zone_id, record_id)
         if response.status != 200
             result= false;
         end
-      }
+      end
       result
     end
 
@@ -233,12 +233,12 @@ Shindo.tests('Fog::DNS[:linode] | DNS requests', ['linode', 'dns']) do
       pending if Fog.mocking?
 
       result= true
-      @new_zones.each { |zone_id|
+      @new_zones.each do |zone_id|
         response = Fog::DNS[:linode].domain_delete( zone_id)
         if response.status != 200
             result= false;
         end
-      }
+      end
       result
     end
 

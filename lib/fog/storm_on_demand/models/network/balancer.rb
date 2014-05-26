@@ -45,7 +45,7 @@ module Fog
 
         def destroy
           requires :identity
-          service.delete_balancer({:uniq_id => identity})
+          service.delete_balancer(:uniq_id => identity)
         end
 
         def update(options)

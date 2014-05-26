@@ -11,7 +11,7 @@ module Fog
 
         def all
           data = service.get_detached_disks(href).body[:DetachedDisk]
-					data = [] if data.nil?
+					     data = [] if data.nil?
           load(data)
         end
 

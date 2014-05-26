@@ -15,7 +15,7 @@ Shindo.tests("Fog::Storage[:hp] | container requests", ['hp']) do
     end
 
     tests("#post_container('fogcontainertests', {'X-Container-Meta-Foo' => 'foometa'})").succeeds do
-      Fog::Storage[:hp].post_container('fogcontainertests', {'X-Container-Meta-Foo' => 'foometa'})
+      Fog::Storage[:hp].post_container('fogcontainertests', 'X-Container-Meta-Foo' => 'foometa')
     end
 
     tests("#get_container('fogcontainertests')").formats(@container_format) do
@@ -39,17 +39,17 @@ Shindo.tests("Fog::Storage[:hp] | container requests", ['hp']) do
     end
 
     tests("#put_container('fogacltests', {'X-Container-Read' => 'private'})").succeeds do
-      Fog::Storage[:hp].put_container('fogacltests', {'X-Container-Read' => 'private'})
+      Fog::Storage[:hp].put_container('fogacltests', 'X-Container-Read' => 'private')
     end
     Fog::Storage[:hp].delete_container('fogacltests')
 
     tests("#put_container('fogacltests', {'X-Container-Read' => 'public-read'})").succeeds do
-      Fog::Storage[:hp].put_container('fogacltests', {'X-Container-Read' => 'public-read'})
+      Fog::Storage[:hp].put_container('fogacltests', 'X-Container-Read' => 'public-read')
     end
     Fog::Storage[:hp].delete_container('fogacltests')
 
     tests("#put_container('fogacltests', {'X-Container-Read' => 'invalid'})").succeeds do
-      Fog::Storage[:hp].put_container('fogacltests', {'X-Container-Read' => 'invalid'})
+      Fog::Storage[:hp].put_container('fogacltests', 'X-Container-Read' => 'invalid')
     end
     Fog::Storage[:hp].delete_container('fogacltests')
 

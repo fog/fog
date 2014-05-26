@@ -1,7 +1,7 @@
 Shindo.tests('Fog::Compute[:cloudsigma] | server requests', ['cloudsigma']) do
 
   @server_format = {
-      'uuid' => String,
+    'uuid' => String,
       'status' => String,
       'vnc_password' => String,
       'name' => String,

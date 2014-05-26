@@ -40,7 +40,7 @@ module Fog
             association = add_route_association(routeTableId, subnetId)
             routetable["associationSet"].push(association)
             response.body = {
-                'requestId'     => Fog::AWS::Mock.request_id,
+              'requestId'     => Fog::AWS::Mock.request_id,
                 'associationId' => association['routeTableAssociationId']
             }
             response
@@ -56,7 +56,7 @@ module Fog
 
         def add_route_association(routeTableId, subnetId, main=nil)
           response = {
-              "routeTableAssociationId" => "rtbassoc-#{Fog::Mock.random_hex(8)}",
+            "routeTableAssociationId" => "rtbassoc-#{Fog::Mock.random_hex(8)}",
               "routeTableId" => routeTableId,
               "subnetId" => nil,
               "main" => false

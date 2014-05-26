@@ -36,11 +36,11 @@ module Fog
         end
 
         def private_ip_address
-          ip_assignments.select {|ip_assignment| ip_assignment['type'] == 'internal'}.first
+          ip_assignments.select { |ip_assignment| ip_assignment['type'] == 'internal' }.first
         end
 
         def public_ip_address
-          ip_assignments.select {|ip_assignment| ip_assignment['type'] == 'external'}.first
+          ip_assignments.select { |ip_assignment| ip_assignment['type'] == 'external' }.first
         end
 
         def reboot
@@ -57,13 +57,13 @@ module Fog
           raise Fog::Errors::Error.new('Resaving an existing object may create a duplicate') if persisted?
           requires :name, :image_id, :processing_cores, :facility, :disk_size
 
-          data = service.voxcloud_create({
-            :disk_size => disk_size,
+          data = service.voxcloud_create(
+                                           :disk_size => disk_size,
             :facility => facility,
             :hostname => name,
             :image_id => image_id,
             :processing_cores => processing_cores
-          }).body
+          ).body
 
           merge_attributes(data['device'])
 

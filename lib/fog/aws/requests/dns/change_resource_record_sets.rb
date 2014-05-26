@@ -120,13 +120,13 @@ module Fog
 
 
           body = %Q{<?xml version="1.0" encoding="UTF-8"?><ChangeResourceRecordSetsRequest xmlns="https://route53.amazonaws.com/doc/#{@version}/">#{changes}</ChangeResourceRecordSetsRequest>}
-          request({
-            :body       => body,
+          request(
+                    :body       => body,
             :parser     => Fog::Parsers::DNS::AWS::ChangeResourceRecordSets.new,
             :expects    => 200,
             :method     => 'POST',
             :path       => "hostedzone/#{zone_id}/rrset"
-          })
+          )
 
         end
 
@@ -192,7 +192,7 @@ module Fog
               response
             else
               response.status = 400
-              response.body = "<?xml version=\"1.0\"?><InvalidChangeBatch xmlns=\"https://route53.amazonaws.com/doc/2012-02-29/\"><Messages>#{errors.map {|e| "<Message>#{e}</Message>"}.join()}</Messages></InvalidChangeBatch>"
+              response.body = "<?xml version=\"1.0\"?><InvalidChangeBatch xmlns=\"https://route53.amazonaws.com/doc/2012-02-29/\"><Messages>#{errors.map { |e| "<Message>#{e}</Message>" }.join()}</Messages></InvalidChangeBatch>"
               raise(Excon::Errors.status_error({:expects => 200}, response))
             end
           else

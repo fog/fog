@@ -3,7 +3,7 @@ Shindo.tests('Fog::Compute[:google] | disk requests', ['google']) do
   @google = Fog::Compute[:google]
 
   @insert_disk_format = {
-      'kind' => String,
+    'kind' => String,
       'id' => String,
       'selfLink' => String,
       'name' => String,
@@ -18,7 +18,7 @@ Shindo.tests('Fog::Compute[:google] | disk requests', ['google']) do
   }
 
   @get_disk_format = {
-      'kind' => String,
+    'kind' => String,
       'id' => String,
       'selfLink' => String,
       'creationTimestamp' => String,
@@ -31,7 +31,7 @@ Shindo.tests('Fog::Compute[:google] | disk requests', ['google']) do
   }
 
   @delete_disk_format = {
-      'kind' => String,
+    'kind' => String,
       'id' => String,
       'selfLink' => String,
       'name' => String,

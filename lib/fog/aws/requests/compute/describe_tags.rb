@@ -51,7 +51,7 @@ module Fog
             when 'key'
               tag_set.reject! { |k,_| k != filter_value }
             when 'value'
-              tag_set.each { |k,values| values.reject! { |v, _| v != filter_value } }
+              tag_set.each { |_k,values| values.reject! { |v, _| v != filter_value } }
             when 'resourceId'
               filter_resources(tag_set, 'resourceId', filter_value)
             when 'resourceType'
@@ -63,10 +63,10 @@ module Fog
           tag_set.each do |key, values|
             values.each do |value, resources|
               resources.each do |resource|
-                tagged_resources << resource.merge({
-                  'key' => key,
+                tagged_resources << resource.merge(
+                                                     'key' => key,
                   'value' => value
-                })
+                )
               end
             end
           end
@@ -81,25 +81,25 @@ module Fog
 
         private
 
-          def filter_resources(tag_set, filter, value)
-            value_hash_list = tag_set.values
-            value_hash_list.each do |value_hash|
-              value_hash.each do |_, resource_list|
-                resource_list.reject! { |resource| resource[filter] != value }
-              end
+        def filter_resources(tag_set, filter, value)
+          value_hash_list = tag_set.values
+          value_hash_list.each do |value_hash|
+            value_hash.each do |_, resource_list|
+              resource_list.reject! { |resource| resource[filter] != value }
             end
           end
+        end
 
-          def deep_clone(obj)
-            case obj
-            when Hash
-              obj.inject({}) { |h, pair| h[pair.first] = deep_clone(pair.last); h }
-            when Array
-              obj.map { |o| deep_clone(o) }
-            else
-              obj
-            end
+        def deep_clone(obj)
+          case obj
+          when Hash
+            obj.reduce({}) { |h, pair| h[pair.first] = deep_clone(pair.last); h }
+          when Array
+            obj.map { |o| deep_clone(o) }
+          else
+            obj
           end
+        end
       end
 
     end

@@ -4,9 +4,9 @@ module Fog
       class Real
 
         def delete_namespace(namespace = '', options = {})
-          options = options.reject {|key, value| value.nil?}
+          options = options.reject { |_key, value| value.nil? }
           request({
-                    :expects  => 204,
+            :expects  => 204,
                     :method   => 'DELETE',
                     :path     => "namespace/" + namespace,
                     :query    => options

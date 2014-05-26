@@ -21,7 +21,7 @@ module Fog
           response = Excon::Response.new
           response.status = 200
           response.body = {
-                "id"              => Fog::Rackspace::MockData.uuid,
+            "id"              => Fog::Rackspace::MockData.uuid,
                 "last_connected"  => Time.now.to_i - 100,
           }
           response.headers = {
@@ -36,7 +36,7 @@ module Fog
             "Vary"                  => "Accept-Encoding",
             "Transfer-Encoding"     => "chunked"
           }
-          response.remote_ip = Fog::Mock.random_ip({:version => :v4})
+          response.remote_ip = Fog::Mock.random_ip(:version => :v4)
           response
         end
       end

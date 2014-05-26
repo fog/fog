@@ -75,14 +75,14 @@ module Fog
       request :upload_signing_certificate
 
       model_path 'fog/aws/models/iam'
-      model       :user
-      collection  :users
-      model       :policy
-      collection  :policies
-      model       :access_key
-      collection  :access_keys
-      model       :role
-      collection  :roles
+      model :user
+      collection :users
+      model :policy
+      collection :policies
+      model :access_key
+      collection :access_keys
+      model :role
+      collection :roles
 
 
       class Mock
@@ -208,7 +208,7 @@ module Fog
 
           body = Fog::AWS.signed_params(
             params,
-            {
+            
               :aws_access_key_id  => @aws_access_key_id,
               :aws_session_token  => @aws_session_token,
               :hmac               => @hmac,
@@ -216,7 +216,7 @@ module Fog
               :path               => @path,
               :port               => @port,
               :version            => '2010-05-08'
-            }
+            
           )
 
           if @instrumentor
@@ -229,14 +229,14 @@ module Fog
         end
 
         def _request(body, idempotent, parser)
-          @connection.request({
-            :body       => body,
+          @connection.request(
+                                :body       => body,
             :expects    => 200,
             :idempotent => idempotent,
             :headers    => { 'Content-Type' => 'application/x-www-form-urlencoded' },
             :method     => 'POST',
             :parser     => parser
-          })
+          )
         rescue Excon::Errors::HTTPStatusError => error
           match = Fog::AWS::Errors.match_error(error)
           raise if match.empty?

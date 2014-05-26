@@ -33,7 +33,7 @@ module Fog
           }
           body_object = {
             'fingerprint' => fingerprint,
-            "items" => metadata.to_a.map {|pair| { :key => pair[0], :value => pair[1] } }
+            "items" => metadata.to_a.map { |pair| { :key => pair[0], :value => pair[1] } }
           }
           result = self.build_result(
             api_method,

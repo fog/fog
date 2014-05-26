@@ -14,6 +14,6 @@ Shindo.tests('AWS::RDS | log file requests', %w[aws rds]) do
   end
 
   tests('failures') do
-    raises(Fog::AWS::RDS::NotFound) {Fog::AWS[:rds].describe_db_log_files('doesntexist')}
+    raises(Fog::AWS::RDS::NotFound) { Fog::AWS[:rds].describe_db_log_files('doesntexist') }
   end
 end

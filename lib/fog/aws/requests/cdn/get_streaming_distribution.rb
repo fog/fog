@@ -32,13 +32,13 @@ module Fog
         # @see http://docs.amazonwebservices.com/AmazonCloudFront/latest/APIReference/GetStreamingDistribution.html
 
         def get_streaming_distribution(distribution_id)
-          request({
-            :expects    => 200,
+          request(
+                    :expects    => 200,
             :idempotent => true,
             :method     => 'GET',
             :parser     => Fog::Parsers::CDN::AWS::StreamingDistribution.new,
             :path       => "/streaming-distribution/#{distribution_id}"
-          })
+          )
         end
 
       end
@@ -59,7 +59,7 @@ module Fog
 
           etag = Fog::CDN::AWS::Mock.generic_id
           response.status = 200
-          response.body = distribution.reject { |k,v| k == 'ETag' }
+          response.body = distribution.reject { |k,_v| k == 'ETag' }
 
           response.headers['ETag'] = etag
           distribution['ETag'] = etag

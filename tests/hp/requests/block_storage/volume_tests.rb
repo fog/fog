@@ -40,7 +40,7 @@ Shindo.tests("HP::BlockStorage | volume requests", ['hp', 'block_storage', 'volu
       HP[:block_storage].get_volume_details(@volume_id).body['volume']
     end
 
-    tests('#list_volumes').formats({'volumes' => [@volume_format]}) do
+    tests('#list_volumes').formats('volumes' => [@volume_format]) do
       HP[:block_storage].list_volumes.body
     end
 

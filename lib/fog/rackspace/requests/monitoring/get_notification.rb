@@ -18,9 +18,9 @@ module Fog
           response = Excon::Response.new
           response.status = 200
           response.body = {
-              "created_at" => 1378783452067,
+            "created_at" => 1378783452067,
               "details" => {
-                  "address" => "test@test.com"
+                "address" => "test@test.com"
               },
               "id" => "ntnJN3MQrA",
               "label" => "my email update test",

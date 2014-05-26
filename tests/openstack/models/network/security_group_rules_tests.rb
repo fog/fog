@@ -1,6 +1,6 @@
 Shindo.tests('Fog::Network[:openstack] | security_group_rules collection', ['openstack']) do
 
-  @secgroup   = Fog::Network[:openstack].security_groups.create({:name => "my_secgroup"})
+  @secgroup   = Fog::Network[:openstack].security_groups.create(:name => "my_secgroup")
   attributes  = {:security_group_id => @secgroup.id, :direction => "ingress"}
   collection_tests(Fog::Network[:openstack].security_group_rules, attributes, true)
 
@@ -16,7 +16,7 @@ Shindo.tests('Fog::Network[:openstack] | security_group_rules collection', ['ope
     @secgrouprule = Fog::Network[:openstack].security_group_rules.create(attributes)
 
     tests('#all(filter)').succeeds do
-      secgrouprule = Fog::Network[:openstack].security_group_rules.all({:direction => "ingress"})
+      secgrouprule = Fog::Network[:openstack].security_group_rules.all(:direction => "ingress")
       secgrouprule.first.direction == "ingress"
     end
     @secgrouprule.destroy

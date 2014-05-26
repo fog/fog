@@ -129,7 +129,7 @@ module Fog
         end
 
         def encode_attribute_names(attributes)
-          Fog::AWS.indexed_param('AttributeName', attributes.map {|attribute| attributes.to_s})
+          Fog::AWS.indexed_param('AttributeName', attributes.map { |_attribute| attributes.to_s })
         end
 
         def encode_batch_attributes(items, replace_attributes = Hash.new([]))
@@ -167,7 +167,7 @@ module Fog
 
           body = Fog::AWS.signed_params(
             params,
-            {
+            
               :aws_access_key_id  => @aws_access_key_id,
               :aws_session_token  => @aws_session_token,
               :hmac               => @hmac,
@@ -175,17 +175,17 @@ module Fog
               :path               => @path,
               :port               => @port,
               :version            => '2009-04-15'
-            }
+            
           )
 
-          response = @connection.request({
-            :body       => body,
+          response = @connection.request(
+                                           :body       => body,
             :expects    => 200,
             :headers    => { 'Content-Type' => 'application/x-www-form-urlencoded; charset=utf-8' },
             :idempotent => idempotent,
             :method     => 'POST',
             :parser     => parser
-          })
+          )
 
           response
         end

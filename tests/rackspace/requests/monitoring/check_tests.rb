@@ -22,7 +22,7 @@ Shindo.tests('Fog::Rackspace::Monitoring | check_tests', ['rackspace', 'rackspac
   end
   tests('failure') do
     tests('#create new check(-1)').raises(Fog::Rackspace::Monitoring::BadRequest) do
-      account.create_check(entity_id, {:type => ""})
+      account.create_check(entity_id, :type => "")
     end
     tests('#get check(-1)').raises(Fog::Rackspace::Monitoring::NotFound) do
       account.get_check(-1, -1)

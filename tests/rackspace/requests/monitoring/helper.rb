@@ -5,21 +5,21 @@ MINIMAL_HEADERS_FORMAT = {
   'Content-Type' => String,
   'Date' => String,
 }
-DELETE_HEADERS_FORMAT = MINIMAL_HEADERS_FORMAT.merge({
-  'Content-Length' => String
-})
-HEADERS_FORMAT = MINIMAL_HEADERS_FORMAT.merge({
-  'Content-Length' => String,
+DELETE_HEADERS_FORMAT = MINIMAL_HEADERS_FORMAT.merge(
+                                                       'Content-Length' => String
+)
+HEADERS_FORMAT = MINIMAL_HEADERS_FORMAT.merge(
+                                                'Content-Length' => String,
   'X-Object-ID' => String,
   'Location' => String
-})
-LIST_HEADERS_FORMAT = MINIMAL_HEADERS_FORMAT.merge({
-  'X-RateLimit-Remaining' => String,
+)
+LIST_HEADERS_FORMAT = MINIMAL_HEADERS_FORMAT.merge(
+                                                     'X-RateLimit-Remaining' => String,
   'X-Response-Id' => String,
   'Transfer-Encoding' => String,
   'X-LB' => String,
   'Vary' => String
-})
+)
 
 DATA_FORMAT = {
   :status => Integer,
@@ -35,11 +35,11 @@ DELETE_DATA_FORMAT = {
 }
 
 LIST_MONITORING_ZONE = {
-    "values"=>
-      [{"id"=>String,
-        "label"=> Fog::Nullable::String,
-        "country_code"=> String,
-        "source_ips"=>[String, String]}],
+  "values"=>
+    [{"id"=>String,
+      "label"=> Fog::Nullable::String,
+      "country_code"=> String,
+      "source_ips"=>[String, String]}],
      "metadata"=>
       {"count"=>Integer,
        "limit"=>Integer,
@@ -50,7 +50,7 @@ LIST_MONITORING_ZONE = {
 }
 
 GET_MONITORING_ZONE = {
-    "id" => String,
+  "id" => String,
     "label" => String,
     "country_code" => String,
     "source_ips" => [String]

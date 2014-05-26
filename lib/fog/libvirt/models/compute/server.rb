@@ -58,7 +58,7 @@ module Fog
 
         def save
           raise Fog::Errors::Error.new('Saving an existing server may create a duplicate') unless new?
-          create_or_clone_volume unless xml or @volumes
+          create_or_clone_volume unless xml || @volumes
           @xml ||= to_xml
           self.id = (persistent ? service.define_domain(xml) : service.create_domain(xml)).uuid
           reload
@@ -78,7 +78,7 @@ module Fog
         end
 
         def disk_path
-          volumes.first.path if volumes and volumes.first
+          volumes.first.path if volumes && volumes.first
         end
 
         def destroy(options={ :destroy_volumes => false})
@@ -117,13 +117,13 @@ module Fog
         end
 
         #alias methods
-        alias :halt    :poweroff
-        alias :stop    :shutdown
-        alias :active? :active
+        alias_method :halt,    :poweroff
+        alias_method :stop,    :shutdown
+        alias_method :active?, :active
 
         def volumes
           # lazy loading of volumes
-          @volumes ||= (@volumes_path || []).map{|path| service.volumes.all(:path => path).first }
+          @volumes ||= (@volumes_path || []).map { |path| service.volumes.all(:path => path).first }
         end
 
         def private_ip_address
@@ -312,7 +312,7 @@ module Fog
           if nics
             nics.map! { |nic| nic.is_a?(Hash) ? service.nics.new(nic) : nic }
           else
-            self.nics = [service.nics.new({:type => network_interface_type, :bridge => network_bridge_name, :network => network_nat_network})]
+            self.nics = [service.nics.new(:type => network_interface_type, :bridge => network_bridge_name, :network => network_nat_network)]
           end
         end
 

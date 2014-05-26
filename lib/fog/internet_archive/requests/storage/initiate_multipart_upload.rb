@@ -27,15 +27,15 @@ module Fog
         # @see http://docs.amazonwebservices.com/AmazonS3/latest/API/mpUploadInitiate.html
         #
         def initiate_multipart_upload(bucket_name, object_name, options = {})
-          request({
-            :expects    => 200,
+          request(
+                    :expects    => 200,
             :headers    => options,
             :host       => "#{bucket_name}.#{@host}",
             :method     => 'POST',
             :parser     => Fog::Parsers::Storage::InternetArchive::InitiateMultipartUpload.new,
             :path       => CGI.escape(object_name),
             :query      => {'uploads' => nil}
-          })
+          )
         end
 
       end # Real

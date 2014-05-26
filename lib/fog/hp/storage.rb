@@ -4,26 +4,26 @@ module Fog
   module Storage
     class HP < Fog::Service
 
-      requires    :hp_secret_key, :hp_tenant_id, :hp_avl_zone
-      recognizes  :hp_auth_uri, :hp_cdn_ssl, :hp_cdn_uri, :credentials, :hp_service_type
-      recognizes  :persistent, :connection_options
-      recognizes  :hp_use_upass_auth_style, :hp_auth_version, :user_agent
-      recognizes  :hp_access_key, :hp_account_id  # :hp_account_id is deprecated use hp_access_key instead
+      requires :hp_secret_key, :hp_tenant_id, :hp_avl_zone
+      recognizes :hp_auth_uri, :hp_cdn_ssl, :hp_cdn_uri, :credentials, :hp_service_type
+      recognizes :persistent, :connection_options
+      recognizes :hp_use_upass_auth_style, :hp_auth_version, :user_agent
+      recognizes :hp_access_key, :hp_account_id  # :hp_account_id is deprecated use hp_access_key instead
 
       # :os_account_meta_temp_url_key is an OpenStack specific setting used to generate temporary urls.
-      recognizes  :os_account_meta_temp_url_key
+      recognizes :os_account_meta_temp_url_key
 
-      secrets     :hp_secret_key, :os_account_meta_temp_url_key
+      secrets :hp_secret_key, :os_account_meta_temp_url_key
 
       model_path 'fog/hp/models/storage'
-      model       :directory
-      collection  :directories
-      model       :shared_directory
-      collection  :shared_directories
-      model       :file
-      collection  :files
-      model       :shared_file
-      collection  :shared_files
+      model :directory
+      collection :directories
+      model :shared_directory
+      collection :shared_directories
+      model :file
+      collection :files
+      model :shared_file
+      collection :shared_files
 
       request_path 'fog/hp/requests/storage'
       request :delete_container
@@ -360,14 +360,14 @@ module Fog
 
         def request(params, parse_json = true, &block)
           begin
-            response = @connection.request(params.merge!({
-              :headers  => {
-                'Content-Type' => 'application/json',
-                'Accept'       => 'application/json',
-                'X-Auth-Token' => @auth_token
-              }.merge!(params[:headers] || {}),
-              :path     => "#{@path}/#{params[:path]}",
-            }), &block)
+            response = @connection.request(params.merge!(
+                                                           :headers  => {
+                                                             'Content-Type' => 'application/json',
+                                                             'Accept'       => 'application/json',
+                                                             'X-Auth-Token' => @auth_token
+                                                           }.merge!(params[:headers] || {}),
+              :path     => "#{@path}/#{params[:path]}"
+            ), &block)
           rescue Excon::Errors::HTTPStatusError => error
             raise case error
             when Excon::Errors::NotFound
@@ -385,14 +385,14 @@ module Fog
         # this request is used only for get_shared_container and get_shared_object calls
         def shared_request(params, parse_json = true, &block)
           begin
-            response = @connection.request(params.merge!({
-              :headers  => {
-                'Content-Type' => 'application/json',
-                'Accept'       => 'application/json',
-                'X-Auth-Token' => @auth_token
-              }.merge!(params[:headers] || {}),
-              :path     => "#{params[:path]}",
-            }), &block)
+            response = @connection.request(params.merge!(
+                                                           :headers  => {
+                                                             'Content-Type' => 'application/json',
+                                                             'Accept'       => 'application/json',
+                                                             'X-Auth-Token' => @auth_token
+                                                           }.merge!(params[:headers] || {}),
+              :path     => "#{params[:path]}"
+            ), &block)
           rescue Excon::Errors::HTTPStatusError => error
             raise case error
             when Excon::Errors::NotFound

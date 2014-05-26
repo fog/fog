@@ -9,7 +9,7 @@ module Fog
         model Fog::Compute::Voxel::Server
 
         def all
-          data = service.devices_list.body['devices'].select {|device| device['type']['id'] == '3'}
+          data = service.devices_list.body['devices'].select { |device| device['type']['id'] == '3' }
           load(data)
         end
 

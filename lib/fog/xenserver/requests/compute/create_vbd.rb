@@ -8,7 +8,7 @@ module Fog
           raise ArgumentError.new('Invalid config') if config.nil?
           vm_ref = vm_ref.reference if vm_ref.kind_of? Fog::Compute::XenServer::Server
           vdi_ref = vdi_ref.reference if vdi_ref.kind_of? Fog::Compute::XenServer::VDI
-          config.reject! { |k,v| (k == :server) or (k == :vdi) }
+          config.reject! { |k,_v| (k == :server) or (k == :vdi) }
           default_config = {
             :VM => vm_ref,
             :VDI => vdi_ref,

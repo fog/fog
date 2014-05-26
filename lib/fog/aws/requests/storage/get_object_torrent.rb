@@ -30,15 +30,15 @@ module Fog
           unless object_name
             raise ArgumentError.new('object_name is required')
           end
-          request({
-            :expects    => 200,
+          request(
+                    :expects    => 200,
             :headers    => {},
             :bucket_name => bucket_name,
             :object_name => object_name,
             :idempotent => true,
             :method     => 'GET',
             :query      => {'torrent' => nil}
-          })
+          )
         end
 
       end

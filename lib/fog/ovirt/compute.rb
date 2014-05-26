@@ -4,22 +4,22 @@ module Fog
   module Compute
     class Ovirt < Fog::Service
 
-      requires   :ovirt_username, :ovirt_password
+      requires :ovirt_username, :ovirt_password
       recognizes :ovirt_url,      :ovirt_server,  :ovirt_port, :ovirt_api_path, :ovirt_datacenter,
                  :ovirt_ca_cert_store, :ovirt_ca_cert_file
 
       model_path 'fog/ovirt/models/compute'
-      model      :server
+      model :server
       collection :servers
-      model      :template
+      model :template
       collection :templates
-      model      :cluster
+      model :cluster
       collection :clusters
-      model      :interface
+      model :interface
       collection :interfaces
-      model      :volume
+      model :volume
       collection :volumes
-      model      :quota
+      model :quota
       collection :quotas
 
       request_path 'fog/ovirt/requests/compute'

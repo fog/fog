@@ -6,7 +6,7 @@ module Fog
 
       class Address < Fog::Model
 
-        identity  :public_ip,                  :aliases => 'publicIp'
+        identity :public_ip,                  :aliases => 'publicIp'
 
         attribute :allocation_id,              :aliases => 'allocationId'
         attribute :association_id,             :aliases => 'associationId'
@@ -43,7 +43,7 @@ module Fog
         def save
           raise Fog::Errors::Error.new('Resaving an existing object may create a duplicate') if persisted?
           data = service.allocate_address(domain).body
-          new_attributes = data.reject {|key,value| key == 'requestId'}
+          new_attributes = data.reject { |key,_value| key == 'requestId' }
           merge_attributes(new_attributes)
           if @server
             self.server = @server

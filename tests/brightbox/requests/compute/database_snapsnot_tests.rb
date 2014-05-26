@@ -12,7 +12,7 @@ Shindo.tests('Fog::Compute[:brightbox] | database snapshot requests', ['brightbo
 
     tests("#list_database_snapshots") do
       result = service.list_database_snapshots
-      data_matches_schema(Brightbox::Compute::Formats::Collection::DATABASE_SNAPSHOTS, {:allow_extra_keys => true}) { result }
+      data_matches_schema(Brightbox::Compute::Formats::Collection::DATABASE_SNAPSHOTS, :allow_extra_keys => true) { result }
       @database_snapshot_id = result.last["id"]
     end
 
@@ -22,7 +22,7 @@ Shindo.tests('Fog::Compute[:brightbox] | database snapshot requests', ['brightbo
 
     tests("#get_database_snapshot('#{@database_snapshot_id}')") do
       result = service.get_database_snapshot(@database_snapshot_id)
-      data_matches_schema(Brightbox::Compute::Formats::Full::DATABASE_SNAPSHOT, {:allow_extra_keys => true}) { result }
+      data_matches_schema(Brightbox::Compute::Formats::Full::DATABASE_SNAPSHOT, :allow_extra_keys => true) { result }
     end
 
     update_options = {
@@ -30,12 +30,12 @@ Shindo.tests('Fog::Compute[:brightbox] | database snapshot requests', ['brightbo
     }
     tests("#update_database_snapshot('#{@database_snapshot_id}', update_options)") do
       result = service.update_database_snapshot(@database_snapshot_id, update_options)
-      data_matches_schema(Brightbox::Compute::Formats::Full::DATABASE_SNAPSHOT, {:allow_extra_keys => true}) { result }
+      data_matches_schema(Brightbox::Compute::Formats::Full::DATABASE_SNAPSHOT, :allow_extra_keys => true) { result }
     end
 
     tests("#destroy_database_snapshot('#{@database_snapshot_id}')") do
       result = service.destroy_database_snapshot(@database_snapshot_id)
-      data_matches_schema(Brightbox::Compute::Formats::Full::DATABASE_SNAPSHOT, {:allow_extra_keys => true}) { result }
+      data_matches_schema(Brightbox::Compute::Formats::Full::DATABASE_SNAPSHOT, :allow_extra_keys => true) { result }
     end
   end
 

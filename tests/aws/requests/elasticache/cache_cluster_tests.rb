@@ -3,7 +3,7 @@ Shindo.tests('AWS::Elasticache | cache cluster requests', ['aws', 'elasticache']
   tests('success') do
 
     # Randomize the cluster ID so tests can be fequently re-run
-    CLUSTER_ID = "fog-test-cluster-#{rand(999).to_s}" # 20 chars max!
+    CLUSTER_ID = "fog-test-cluster-#{rand(999)}" # 20 chars max!
     NUM_NODES = 2   # Must be > 1, because one of the tests reomves a node!
 
     tests(
@@ -47,7 +47,7 @@ Shindo.tests('AWS::Elasticache | cache cluster requests', ['aws', 'elasticache']
     end
 
     Formatador.display_line "Waiting for cluster #{CLUSTER_ID}..."
-    AWS[:elasticache].clusters.get(CLUSTER_ID).wait_for {ready?}
+    AWS[:elasticache].clusters.get(CLUSTER_ID).wait_for { ready? }
 
     tests(
     '#describe_cache_clusters with node info'
@@ -86,7 +86,7 @@ Shindo.tests('AWS::Elasticache | cache cluster requests', ['aws', 'elasticache']
     end
 
     Formatador.display_line "Waiting for cluster #{CLUSTER_ID}..."
-    AWS[:elasticache].clusters.get(CLUSTER_ID).wait_for {ready?}
+    AWS[:elasticache].clusters.get(CLUSTER_ID).wait_for { ready? }
 
     tests(
     '#modify_cache_cluster - remove a node'
@@ -95,11 +95,11 @@ Shindo.tests('AWS::Elasticache | cache cluster requests', ['aws', 'elasticache']
       node_id = c.nodes.last['CacheNodeId']
       Formatador.display_line "Removing node #{node_id}..."
       body = AWS[:elasticache].modify_cache_cluster(c.id,
-      {
+      
         :num_nodes          => NUM_NODES - 1,
         :nodes_to_remove    => [node_id],
-        :apply_immediately  => true,
-      }).body
+        :apply_immediately  => true
+      ).body
       returns(node_id) {
         body['CacheCluster']['PendingModifiedValues']['CacheNodeId']
       }
@@ -107,7 +107,7 @@ Shindo.tests('AWS::Elasticache | cache cluster requests', ['aws', 'elasticache']
     end
 
     Formatador.display_line "Waiting for cluster #{CLUSTER_ID}..."
-    AWS[:elasticache].clusters.get(CLUSTER_ID).wait_for {ready?}
+    AWS[:elasticache].clusters.get(CLUSTER_ID).wait_for { ready? }
 
     tests(
     '#delete_cache_clusters'

@@ -42,7 +42,7 @@ Shindo.tests('Compute::VcloudDirector | network requests', ['vclouddirector']) d
   end
 
   tests('#get_network').data_matches_schema(GET_NETWORK_FORMAT) do
-    link = @org[:Link].detect do |l|
+    link = @org[:Link].find do |l|
       l[:rel] == 'down' && l[:type] == 'application/vnd.vmware.vcloud.orgNetwork+xml'
     end
     pending unless link # nothing to test here cannot continue
@@ -52,7 +52,7 @@ Shindo.tests('Compute::VcloudDirector | network requests', ['vclouddirector']) d
 
   tests('#get_network_complete').data_matches_schema(VcloudDirector::Compute::Schema::NETWORK_TYPE) do
     pending if Fog.mocking?
-    link = @org[:Link].detect do |l|
+    link = @org[:Link].find do |l|
       l[:rel] == 'down' && l[:type] == 'application/vnd.vmware.vcloud.orgNetwork+xml'
     end
     pending unless link # nothing to test here cannot continue
@@ -68,7 +68,7 @@ Shindo.tests('Compute::VcloudDirector | network requests', ['vclouddirector']) d
 
   tests('#post_create_org_vdc_network') do
     pending unless Fog.mocking?
-    link = @org[:Link].detect do |l|
+    link = @org[:Link].find do |l|
       l[:rel] == 'down' && l[:type] == 'application/vnd.vmware.vcloud.vdc+xml'
     end
 

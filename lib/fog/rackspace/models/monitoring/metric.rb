@@ -6,7 +6,7 @@ module Fog
     class Monitoring
       class Metric < Fog::Rackspace::Monitoring::Base
 
-        identity  :name
+        identity :name
         attribute :check
 
         def datapoints(options={})

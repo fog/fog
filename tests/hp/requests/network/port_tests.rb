@@ -15,7 +15,7 @@ Shindo.tests('HP::Network | networking port requests', ['hp', 'networking', 'por
     'tenant_id'         => String
   }
 
-  n_data = HP[:network].create_network({:name => 'fog_network'}).body['network']
+  n_data = HP[:network].create_network(:name => 'fog_network').body['network']
   @network_id = n_data['id']
 
   tests('success') do
@@ -31,15 +31,15 @@ Shindo.tests('HP::Network | networking port requests', ['hp', 'networking', 'por
       data
     end
 
-    tests('#list_port').formats({'ports' => [@port_format]}) do
+    tests('#list_port').formats('ports' => [@port_format]) do
       HP[:network].list_ports.body
     end
 
-    tests("#get_port(#{@port_id})").formats({'port' => @port_format}) do
+    tests("#get_port(#{@port_id})").formats('port' => @port_format) do
       HP[:network].get_port(@port_id).body
     end
 
-    tests("#update_port(#{@port_id})").formats({'port' => @port_format}) do
+    tests("#update_port(#{@port_id})").formats('port' => @port_format) do
       attributes = {:name => 'myport_upd', :fixed_ips => [],
                     :admin_state_up => true, :device_owner => 'device_owner',
                     :device_id => 'device_id'}

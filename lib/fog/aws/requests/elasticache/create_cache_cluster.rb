@@ -86,7 +86,7 @@ module Fog
           }
           self.data[:clusters][id] = cluster  # store the in-memory cluster
           response.body = {
-            'CacheCluster' => cluster.merge({'CacheClusterStatus' => 'creating'}),
+            'CacheCluster' => cluster.merge('CacheClusterStatus' => 'creating'),
             'ResponseMetadata' => { 'RequestId' => Fog::AWS::Mock.request_id }
           }
           response

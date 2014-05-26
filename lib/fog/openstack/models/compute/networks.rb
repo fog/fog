@@ -17,7 +17,7 @@ module Fog
             networks << {
               :id   => index + 1,
               :name => address[0],
-              :addresses => address[1].map {|a| a['addr'] }
+              :addresses => address[1].map { |a| a['addr'] }
             }
           end
 

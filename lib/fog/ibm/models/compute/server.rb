@@ -110,7 +110,7 @@ module Fog
         end
 
         def addresses
-          addys = secondary_ip.map {|ip| Fog::Compute[:ibm].addresses.new(ip) }
+          addys = secondary_ip.map { |ip| Fog::Compute[:ibm].addresses.new(ip) }
           # Set an ID, in case someone tries to save
           addys << service.addresses.new(attributes[:primary_ip].merge(
             :id => "0",
@@ -122,13 +122,13 @@ module Fog
 
         def attach(volume_id)
           requires :id
-          data = service.modify_instance(id, {'type' => 'attach', 'storageID' => volume_id})
+          data = service.modify_instance(id, 'type' => 'attach', 'storageID' => volume_id)
           data.body
         end
 
         def detach(volume_id)
           requires :id
-          data = service.modify_instance(id, {'type' => 'detach', 'storageID' => volume_id})
+          data = service.modify_instance(id, 'type' => 'detach', 'storageID' => volume_id)
           data.body
         end
 
@@ -184,7 +184,7 @@ module Fog
          }.merge(opts)
          service.create_image(id, options[:name], options[:description]).body
         end
-        alias :create_image :to_image
+        alias_method :create_image, :to_image
       end
 
     end

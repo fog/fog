@@ -23,7 +23,7 @@ module Fog
 
         def describe_alarm_history(options={})
           request({
-              'Action'    => 'DescribeAlarmHistory',
+            'Action'    => 'DescribeAlarmHistory',
               :parser     => Fog::Parsers::AWS::CloudWatch::DescribeAlarmHistory.new
             }.merge(options))
         end

@@ -35,7 +35,7 @@ module Fog
           match = href.match(/\A.*\/queues\/[a-zA-Z0-9_-]{0,64}\/messages\/(.+?)(?:\?|\z)/i)
           match ? match[1] : nil
         end
-        alias :id :identity
+        alias_method :id, :identity
 
         # Creates messages
         # Requires queue, client_id, body, and ttl attributes to be populated

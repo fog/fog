@@ -15,7 +15,7 @@ module Fog
 
           vanilla_options = [:name, :description, :address, :session_persistence, :connection_limit,
                              :admin_state_up, :tenant_id]
-          vanilla_options.reject{ |o| options[o].nil? }.each do |key|
+          vanilla_options.reject { |o| options[o].nil? }.each do |key|
             data['vip'][key] = options[key]
           end
 

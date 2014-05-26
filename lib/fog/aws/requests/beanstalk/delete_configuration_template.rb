@@ -19,12 +19,12 @@ module Fog
         #
         def delete_configuration_template(application_name, template_name)
           options = {
-              'ApplicationName' => application_name,
+            'ApplicationName' => application_name,
               'TemplateName' => template_name
           }
 
           request({
-                      'Operation'    => 'DeleteConfigurationTemplate',
+            'Operation'    => 'DeleteConfigurationTemplate',
                       :parser     => Fog::Parsers::AWS::ElasticBeanstalk::Empty.new
                   }.merge(options))
         end

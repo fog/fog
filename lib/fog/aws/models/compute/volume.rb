@@ -6,7 +6,7 @@ module Fog
 
       class Volume < Fog::Model
 
-        identity  :id,                    :aliases => 'volumeId'
+        identity :id,                    :aliases => 'volumeId'
 
         attribute :attached_at,           :aliases => 'attachTime'
         attribute :availability_zone,     :aliases => 'availabilityZone'
@@ -49,7 +49,7 @@ module Fog
           end
 
           data = service.create_volume(availability_zone, size, 'SnapshotId' => snapshot_id, 'VolumeType' => type, 'Iops' => iops, 'Encrypted' => encrypted).body
-          new_attributes = data.reject {|key,value| key == 'requestId'}
+          new_attributes = data.reject { |key,_value| key == 'requestId' }
           merge_attributes(new_attributes)
 
           if tags = self.tags

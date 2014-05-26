@@ -1,6 +1,6 @@
 Shindo.tests('HP::Network | networking security group rules collection', ['hp', 'networking', 'securitygroup']) do
 
-  @secgroup = HP[:network].security_groups.create({:name => 'my_secgroup'})
+  @secgroup = HP[:network].security_groups.create(:name => 'my_secgroup')
 
   attributes = {:security_group_id => @secgroup.id, :direction => 'ingress'}
   collection_tests(HP[:network].security_group_rules, attributes, true)
@@ -12,7 +12,7 @@ Shindo.tests('HP::Network | networking security group rules collection', ['hp', 
     @secgrouprule = HP[:network].security_group_rules.create(attributes)
 
     tests('#all(filter)').succeeds do
-      secgrouprule = HP[:network].security_group_rules.all({:direction => 'ingress'})
+      secgrouprule = HP[:network].security_group_rules.all(:direction => 'ingress')
       secgrouprule.first.direction == 'ingress'
     end
 

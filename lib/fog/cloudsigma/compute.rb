@@ -134,8 +134,8 @@ module Fog
           current_levels = resp.body['current']
           current_prices = resp.body['objects']
 
-          current_pricing_pairs = current_levels.map do |resource, level|
-            price_for_resource_and_level = current_prices.detect do |price|
+          current_pricing_pairs = current_levels.map do |resource, _level|
+            price_for_resource_and_level = current_prices.find do |price|
               price['resource'] == resource
             end
             price_for_resource_and_level ||= {}
@@ -153,7 +153,7 @@ module Fog
           current_prices = resp.body['objects']
 
           current_pricing_pairs = current_levels.map do |resource, level|
-            price_for_resource_and_level = current_prices.detect do |price|
+            price_for_resource_and_level = current_prices.find do |price|
               price['level'] == level && price['resource'] == resource
             end
             price_for_resource_and_level ||= {}
@@ -171,7 +171,7 @@ module Fog
           current_prices = resp.body['objects']
 
           current_pricing_pairs = current_levels.map do |resource, level|
-            price_for_resource_and_level = current_prices.detect do |price|
+            price_for_resource_and_level = current_prices.find do |price|
               price['level'] == level && price['resource'] == resource
             end
             price_for_resource_and_level ||= {}
@@ -204,7 +204,7 @@ module Fog
         end
 
         def self.random_mac
-          (0..5).map{Fog::Mock.random_hex(2)}.join(':')
+          (0..5).map { Fog::Mock.random_hex(2) }.join(':')
         end
 
         def data

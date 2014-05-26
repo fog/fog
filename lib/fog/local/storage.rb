@@ -8,10 +8,10 @@ module Fog
       recognizes :endpoint, :scheme, :host, :port, :path
 
       model_path 'fog/local/models/storage'
-      collection  :directories
-      model       :directory
-      model       :file
-      collection  :files
+      collection :directories
+      model :directory
+      model :file
+      collection :files
 
       require 'uri'
 

@@ -8,43 +8,43 @@ module Fog
       requires :aws_access_key_id, :aws_secret_access_key
       recognizes :endpoint, :region, :host, :path, :port, :scheme, :persistent, :aws_session_token, :use_iam_profile, :aws_credentials_expire_at, :instrumentor, :instrumentor_name, :version
 
-      secrets    :aws_secret_access_key, :hmac, :aws_session_token
+      secrets :aws_secret_access_key, :hmac, :aws_session_token
 
       model_path 'fog/aws/models/compute'
-      model       :address
-      collection  :addresses
-      model       :dhcp_options
-      collection  :dhcp_options
-      model       :flavor
-      collection  :flavors
-      model       :image
-      collection  :images
-      model       :internet_gateway
-      collection  :internet_gateways
-      model       :key_pair
-      collection  :key_pairs
-      model       :network_acl
-      collection  :network_acls
-      model       :network_interface
-      collection  :network_interfaces
-      model       :route_table
-      collection  :route_tables
-      model       :security_group
-      collection  :security_groups
-      model       :server
-      collection  :servers
-      model       :snapshot
-      collection  :snapshots
-      model       :tag
-      collection  :tags
-      model       :volume
-      collection  :volumes
-      model       :spot_request
-      collection  :spot_requests
-      model       :subnet
-      collection  :subnets
-      model       :vpc
-      collection  :vpcs
+      model :address
+      collection :addresses
+      model :dhcp_options
+      collection :dhcp_options
+      model :flavor
+      collection :flavors
+      model :image
+      collection :images
+      model :internet_gateway
+      collection :internet_gateways
+      model :key_pair
+      collection :key_pairs
+      model :network_acl
+      collection :network_acls
+      model :network_interface
+      collection :network_interfaces
+      model :route_table
+      collection :route_tables
+      model :security_group
+      collection :security_groups
+      model :server
+      collection :servers
+      model :snapshot
+      collection :snapshots
+      model :tag
+      collection :tags
+      model :volume
+      collection :volumes
+      model :spot_request
+      collection :spot_requests
+      model :subnet
+      collection :subnets
+      model :vpc
+      collection :vpcs
 
       request_path 'fog/aws/requests/compute'
       request :allocate_address
@@ -162,7 +162,7 @@ module Fog
 
         # http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-supported-platforms.html
         def supported_platforms
-          describe_account_attributes.body["accountAttributeSet"].detect{ |h| h["attributeName"] == "supported-platforms" }["values"]
+          describe_account_attributes.body["accountAttributeSet"].find { |h| h["attributeName"] == "supported-platforms" }["values"]
         end
       end
 
@@ -300,11 +300,11 @@ module Fog
         end
 
         def visible_images
-          images = self.data[:images].values.inject({}) do |h, image|
+          images = self.data[:images].values.reduce({}) do |h, image|
             h.update(image['imageId'] => image)
           end
 
-          self.region_data.each do |aws_access_key_id, data|
+          self.region_data.each do |_aws_access_key_id, data|
             data[:image_launch_permissions].each do |image_id, list|
               if list[:users].include?(self.data[:owner_id])
                 images.update(image_id => data[:images][image_id])
@@ -316,7 +316,7 @@ module Fog
         end
 
         def supported_platforms
-          describe_account_attributes.body["accountAttributeSet"].detect{ |h| h["attributeName"] == "supported-platforms" }["values"]
+          describe_account_attributes.body["accountAttributeSet"].find { |h| h["attributeName"] == "supported-platforms" }["values"]
         end
 
         def enable_ec2_classic
@@ -328,22 +328,22 @@ module Fog
         end
 
         def set_supported_platforms(values)
-          self.data[:account_attributes].detect { |h| h["attributeName"] == "supported-platforms" }["values"] = values
+          self.data[:account_attributes].find { |h| h["attributeName"] == "supported-platforms" }["values"] = values
         end
 
         def apply_tag_filters(resources, filters, resource_id_key)
-          tag_set_fetcher = lambda {|resource| self.data[:tag_sets][resource[resource_id_key]] }
+          tag_set_fetcher = lambda { |resource| self.data[:tag_sets][resource[resource_id_key]] }
 
           # tag-key: match resources tagged with this key (any value)
-          if filters.has_key?('tag-key')
+          if filters.key?('tag-key')
             value = filters.delete('tag-key')
-            resources = resources.select{|r| tag_set_fetcher[r].has_key?(value)}
+            resources = resources.select { |r| tag_set_fetcher[r].key?(value) }
           end
 
           # tag-value: match resources tagged with this value (any key)
-          if filters.has_key?('tag-value')
+          if filters.key?('tag-value')
             value = filters.delete('tag-value')
-            resources = resources.select{|r| tag_set_fetcher[r].values.include?(value)}
+            resources = resources.select { |r| tag_set_fetcher[r].values.include?(value) }
           end
 
           # tag:key: match resources tagged with a key-value pair.  Value may be an array, which is OR'd.
@@ -352,7 +352,7 @@ module Fog
             tag_filters[key.gsub('tag:', '')] = filters.delete(key) if /^tag:/ =~ key
           end
           for tag_key, tag_value in tag_filters
-            resources = resources.select{|r| tag_value.include?(tag_set_fetcher[r][tag_key])}
+            resources = resources.select { |r| tag_value.include?(tag_set_fetcher[r][tag_key]) }
           end
 
           resources
@@ -439,7 +439,7 @@ module Fog
 
           body = Fog::AWS.signed_params(
             params,
-            {
+            
               :aws_access_key_id  => @aws_access_key_id,
               :aws_session_token  => @aws_session_token,
               :hmac               => @hmac,
@@ -447,7 +447,7 @@ module Fog
               :path               => @path,
               :port               => @port,
               :version            => @version
-            }
+            
           )
 
           if @instrumentor
@@ -460,14 +460,14 @@ module Fog
         end
 
         def _request(body, idempotent, parser)
-          @connection.request({
-              :body       => body,
+          @connection.request(
+                                :body       => body,
               :expects    => 200,
               :headers    => { 'Content-Type' => 'application/x-www-form-urlencoded' },
               :idempotent => idempotent,
               :method     => 'POST',
               :parser     => parser
-            })
+            )
         rescue Excon::Errors::HTTPStatusError => error
           match = Fog::AWS::Errors.match_error(error)
           raise if match.empty?

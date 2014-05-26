@@ -5,7 +5,7 @@ module Fog
     class DigitalOcean
       class Region < Fog::Model
 
-        identity  :id
+        identity :id
         attribute :name
 
       end

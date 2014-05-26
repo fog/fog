@@ -65,7 +65,7 @@ module Fog
             'vps_root_pass' => data['adminPass'],
             'status' => "is_running",
             'addresses' => {'public' =>[{
-                                          'primary_ip' => true,
+              'primary_ip' => true,
                                           'isp' => false,
                                           'ip' => '66.6.6.66'
                                         },

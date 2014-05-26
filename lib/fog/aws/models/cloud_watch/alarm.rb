@@ -44,7 +44,7 @@ module Fog
           requires :threshold
 
           options = Hash[self.class.aliases.map { |key, value| [key, send(value)] }]
-          options.delete_if { |key, value| value.nil? }
+          options.delete_if { |_key, value| value.nil? }
 
           service.put_metric_alarm(options)
           reload

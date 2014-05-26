@@ -38,7 +38,7 @@ module Fog
 
         def get(file_name=nil)
           if file_name
-            matches = self.select {|log_file| log_file.name.upcase == file_name.upcase}
+            matches = self.select { |log_file| log_file.name.upcase == file_name.upcase }
             return matches.first unless matches.empty?
           end
         rescue Fog::AWS::RDS::NotFound

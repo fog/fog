@@ -40,7 +40,7 @@ module Fog
 
           if self.data[:servers][identifier]
             data = {
-                'BackupRetentionPeriod' => backup_retention_period || 1,
+              'BackupRetentionPeriod' => backup_retention_period || 1,
                 'PreferredBackupWindow' => preferred_backup_window || '08:00-08:30',
                 'DBInstanceIdentifier' => identifier
             }
@@ -48,7 +48,7 @@ module Fog
 
             response = Excon::Response.new
             response.body = {
-                "ResponseMetadata" => { "RequestId" => Fog::AWS::Mock.request_id },
+              "ResponseMetadata" => { "RequestId" => Fog::AWS::Mock.request_id },
                 "PromoteReadReplicaResult" => { "DBInstance" => data}
             }
             response.status = 200

@@ -17,9 +17,9 @@ module Fog
             Nokogiri::XML::Builder.new do
               VApp('xmlns' => 'http://www.vmware.com/vcloud/v1.5',
                    'name' => name
-                  ) {
+                  ) do
                 Description options[:Description] if options.key?(:Description)
-              }
+              end
             end.to_xml
           end
 

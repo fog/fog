@@ -31,14 +31,14 @@ module Fog
         # http://docs.aws.amazon.com/STS/latest/APIReference/API_GetFederationToken.html
 
         def get_federation_token(name, policy, duration=43200)
-          request({
-            'Action'          => 'GetFederationToken',
+          request(
+                    'Action'          => 'GetFederationToken',
             'Name'            => name,
             'Policy'          => Fog::JSON.encode(policy),
             'DurationSeconds' => duration,
             :idempotent       => true,
             :parser           => Fog::Parsers::AWS::STS::GetSessionToken.new
-          })
+          )
         end
       end
       class Mock
@@ -46,7 +46,7 @@ module Fog
           Excon::Response.new.tap do |response|
             response.status = 200
             response.body = {
-            'SessionToken'     => Fog::Mock.random_base64(580),
+              'SessionToken'     => Fog::Mock.random_base64(580),
             'SecretAccessKey'  => Fog::Mock.random_base64(40),
             'Expiration'       => (DateTime.now + duration).strftime('%FT%TZ'),
             'AccessKeyId'      => Fog::AWS::Mock.key_id(20),

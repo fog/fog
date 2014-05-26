@@ -30,7 +30,7 @@ module Fog
             options.merge!(AWS.indexed_param('Options.member.%d', [*option_filters]))
           end
           request({
-                      'Operation'    => 'DescribeConfigurationOptions',
+            'Operation'    => 'DescribeConfigurationOptions',
                       :parser     => Fog::Parsers::AWS::ElasticBeanstalk::DescribeConfigurationOptions.new
                   }.merge(options))
         end

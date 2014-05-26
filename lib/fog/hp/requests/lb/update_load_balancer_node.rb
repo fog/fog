@@ -43,13 +43,13 @@ module Fog
 
         def update_node(lb_data, node_id, condition)
           nodes = lb_data.body['nodes']
-          node = nodes.select {|n| n['id'] == node_id}.first
+          node = nodes.select { |n| n['id'] == node_id }.first
           # update the node attributes
           if node
             node['condition'] = condition
             node['status'] = condition == 'ENABLED' ? 'ONLINE' : 'OFFLINE'
           end
-          new_nodes = nodes.reject {|n| n['id'] == node_id}
+          new_nodes = nodes.reject { |n| n['id'] == node_id }
           new_nodes << node
         end
 

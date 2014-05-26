@@ -34,8 +34,8 @@ Shindo.tests('Fog::CDN::Rackspace', ['rackspace']) do
     tests('custom endpoint') do
       @service = Fog::CDN::Rackspace.new :rackspace_auth_url => 'https://identity.api.rackspacecloud.com/v1.0', 
         :rackspace_cdn_url => 'https://my-custom-cdn-endpoint.com'
-        returns(true, "auth token populated") { !@service.send(:auth_token).nil? }
-        returns(true, "uses custom endpoint") { (@service.instance_variable_get("@uri").host =~ /my-custom-cdn-endpoint\.com/) != nil }
+      returns(true, "auth token populated") { !@service.send(:auth_token).nil? }
+      returns(true, "uses custom endpoint") { (@service.instance_variable_get("@uri").host =~ /my-custom-cdn-endpoint\.com/) != nil }
     end
   end
 
@@ -48,7 +48,7 @@ Shindo.tests('Fog::CDN::Rackspace', ['rackspace']) do
       returns(false, "path populated") { @service.instance_variable_get("@uri").path.nil? }
       identity_service = @service.instance_variable_get("@identity_service")
       returns(false, "identity service was used") { identity_service.nil? }
-      returns(true, "connection_options are passed") { identity_service.instance_variable_get("@connection_options").has_key?(:ssl_verify_peer) }
+      returns(true, "connection_options are passed") { identity_service.instance_variable_get("@connection_options").key?(:ssl_verify_peer) }
 
       @service.get_containers
     end
@@ -67,8 +67,8 @@ Shindo.tests('Fog::CDN::Rackspace', ['rackspace']) do
     tests('custom endpoint') do
       @service = Fog::CDN::Rackspace.new :rackspace_auth_url => 'https://identity.api.rackspacecloud.com/v2.0', 
         :rackspace_cdn_url => 'https://my-custom-cdn-endpoint.com'
-        returns(true, "auth token populated") { !@service.send(:auth_token).nil? }
-        returns(true, "uses custom endpoint") { (@service.instance_variable_get("@uri").host =~ /my-custom-cdn-endpoint\.com/) != nil }
+      returns(true, "auth token populated") { !@service.send(:auth_token).nil? }
+      returns(true, "uses custom endpoint") { (@service.instance_variable_get("@uri").host =~ /my-custom-cdn-endpoint\.com/) != nil }
     end
   end
   
@@ -91,8 +91,8 @@ Shindo.tests('Fog::CDN::Rackspace', ['rackspace']) do
     
     tests('custom endpoint') do
       @service = Fog::CDN::Rackspace.new :rackspace_cdn_url => 'https://my-custom-cdn-endpoint.com'
-        returns(true, "auth token populated") { !@service.send(:auth_token).nil? }
-        returns(true, "uses custom endpoint") { (@service.instance_variable_get("@uri").host =~ /my-custom-cdn-endpoint\.com/) != nil }
+      returns(true, "auth token populated") { !@service.send(:auth_token).nil? }
+      returns(true, "uses custom endpoint") { (@service.instance_variable_get("@uri").host =~ /my-custom-cdn-endpoint\.com/) != nil }
     end
   end
 
@@ -100,7 +100,7 @@ Shindo.tests('Fog::CDN::Rackspace', ['rackspace']) do
     pending if Fog.mocking?
 
     tests('should reauth with valid credentials') do
-      @service = Fog::CDN::Rackspace.new  :rackspace_region => :ord
+      @service = Fog::CDN::Rackspace.new :rackspace_region => :ord
       returns(true, "auth token populated") { !@service.send(:auth_token).nil? }
       @service.instance_variable_set("@auth_token", "bad-token")
       returns(true) { [200, 204].include? @service.get_containers.status }
@@ -118,7 +118,7 @@ Shindo.tests('Fog::CDN::Rackspace', ['rackspace']) do
 
   def clear_metadata
     @instance.metadata.tap do |metadata|
-      metadata.each_pair {|k, v| metadata[k] = nil }
+      metadata.each_pair { |k, _v| metadata[k] = nil }
     end
   end
 
@@ -168,12 +168,12 @@ Shindo.tests('Fog::CDN::Rackspace', ['rackspace']) do
         "X-Log-Retention"=>"False"
       }
         
-        urls = @cdn.send(:urls_from_headers, headers)
-        returns(4) { urls.size }
-        returns("http://168e307d41afe64f1a62-d1e9259b2132e81da48ed3e1e802ef22.r2.stream.cf1.rackcdn.com") { urls[:streaming_uri] }
-        returns("http://6e8f4bf5125c9c2e4e3a-d1e9259b2132e81da48ed3e1e802ef22.r2.cf1.rackcdn.com") { urls[:uri] }
-        returns("https://f83cb7d39e0b9ff9581b-d1e9259b2132e81da48ed3e1e802ef22.ssl.cf1.rackcdn.com") { urls[:ssl_uri] }
-        returns("http://a590286a323fec6aed22-d1e9259b2132e81da48ed3e1e802ef22.iosr.cf1.rackcdn.com") { urls[:ios_uri] }
+      urls = @cdn.send(:urls_from_headers, headers)
+      returns(4) { urls.size }
+      returns("http://168e307d41afe64f1a62-d1e9259b2132e81da48ed3e1e802ef22.r2.stream.cf1.rackcdn.com") { urls[:streaming_uri] }
+      returns("http://6e8f4bf5125c9c2e4e3a-d1e9259b2132e81da48ed3e1e802ef22.r2.cf1.rackcdn.com") { urls[:uri] }
+      returns("https://f83cb7d39e0b9ff9581b-d1e9259b2132e81da48ed3e1e802ef22.ssl.cf1.rackcdn.com") { urls[:ssl_uri] }
+      returns("http://a590286a323fec6aed22-d1e9259b2132e81da48ed3e1e802ef22.iosr.cf1.rackcdn.com") { urls[:ios_uri] }
     end
     
     tests('purge') do

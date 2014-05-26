@@ -29,7 +29,7 @@ Shindo.tests('HP::BlockStorage | snapshot requests', ['hp', 'block_storage', 'sn
       HP[:block_storage].get_snapshot_details(@snapshot_id).body['snapshot']
     end
 
-    tests('#list_snapshots').formats({'snapshots' => [@snapshot_format]}) do
+    tests('#list_snapshots').formats('snapshots' => [@snapshot_format]) do
       HP[:block_storage].list_snapshots.body
     end
 

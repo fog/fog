@@ -6,7 +6,7 @@ module Fog
 
       class SecurityGroup < Fog::Model
 
-        identity  :name,            :aliases => 'groupName'
+        identity :name,            :aliases => 'groupName'
         attribute :description,     :aliases => 'groupDescription'
         attribute :group_id,        :aliases => 'groupId'
         attribute :ip_permissions,  :aliases => 'ipPermissions'
@@ -236,7 +236,7 @@ module Fog
         def save
           requires :description, :name
           data = service.create_security_group(name, description, vpc_id).body
-          new_attributes = data.reject {|key,value| key == 'requestId'}
+          new_attributes = data.reject { |key,_value| key == 'requestId' }
           merge_attributes(new_attributes)
           true
         end

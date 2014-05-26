@@ -52,14 +52,14 @@ module Fog
           unless bucket_name
             raise ArgumentError.new('bucket_name is required')
           end
-          request({
-            :expects  => 200,
+          request(
+                    :expects  => 200,
             :headers  => {},
             :bucket_name => bucket_name,
             :idempotent => true,
             :method   => 'GET',
             :parser   => Fog::Parsers::Storage::AWS::GetBucketObjectVersions.new,
-            :query    => {'versions' => nil}.merge!(options)          })
+            :query    => {'versions' => nil}.merge!(options)          )
         end
 
       end
@@ -94,13 +94,13 @@ module Fog
             # We need to order results by S3 key, but since our data store is key => [versions], we want to ensure the integrity
             # of the versions as well.  So, sort the keys, then fetch the versions, and then combine them all as a sorted list by
             # flattening the results.
-            contents = bucket[:objects].keys.sort.collect { |key| bucket[:objects][key] }.flatten.reject do |object|
+            contents = bucket[:objects].keys.sort.map { |key| bucket[:objects][key] }.flatten.reject do |object|
                 (prefix      && object['Key'][0...prefix.length] != prefix) ||
                 (key_marker  && object['Key'] <= key_marker) ||
                 (delimiter   && object['Key'][(prefix ? prefix.length : 0)..-1].include?(delimiter) \
                              && common_prefixes << object['Key'].sub(/^(#{prefix}[^#{delimiter}]+.).*/, '\1'))
               end.map do |object|
-                if object.has_key?(:delete_marker)
+                if object.key?(:delete_marker)
                   tag_name = 'DeleteMarker'
                   extracted_attrs = ['Key', 'VersionId']
                 else
@@ -109,15 +109,15 @@ module Fog
                 end
 
                 data = {}
-                data[tag_name] = object.reject { |key, value| !extracted_attrs.include?(key) }
-                data[tag_name].merge!({
-                  'LastModified' => Time.parse(object['Last-Modified']),
+                data[tag_name] = object.reject { |key, _value| !extracted_attrs.include?(key) }
+                data[tag_name].merge!(
+                                        'LastModified' => Time.parse(object['Last-Modified']),
                   'Owner'        => bucket['Owner'],
                   'IsLatest'     => object == bucket[:objects][object['Key']].first
-                })
+                )
 
                 data[tag_name]['Size'] = object['Content-Length'].to_i if tag_name == 'Version'
-              data
+                data
             end
 
             max_keys = max_keys || 1000

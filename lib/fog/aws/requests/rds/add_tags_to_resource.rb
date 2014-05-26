@@ -13,9 +13,9 @@ module Fog
         #   * body<~Hash>:
         def add_tags_to_resource(rds_id, tags)
           keys    = tags.keys.sort
-          values  = keys.map {|key| tags[key]}
+          values  = keys.map { |key| tags[key] }
           request({
-              'Action'        => 'AddTagsToResource',
+            'Action'        => 'AddTagsToResource',
               'ResourceName'  => "arn:aws:rds:#{@region}:#{owner_id}:db:#{rds_id}",
               :parser         => Fog::Parsers::AWS::RDS::Base.new,
             }.merge(Fog::AWS.indexed_param('Tags.member.%d.Key', keys)).

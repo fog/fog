@@ -89,7 +89,7 @@ module Fog
           requires :name, :type, :zone
           requires_one :value, :alias_target
           options = {
-              :action           => action,
+            :action           => action,
               :name             => name,
               :resource_records => [*value],
               :alias_target     => symbolize_keys(alias_target),

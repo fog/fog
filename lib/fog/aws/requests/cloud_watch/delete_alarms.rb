@@ -20,7 +20,7 @@ module Fog
           options = {}
           options.merge!(AWS.indexed_param('AlarmNames.member.%d', [*alarm_names]))
           request({
-              'Action'    => 'DeleteAlarms',
+            'Action'    => 'DeleteAlarms',
               :parser     => Fog::Parsers::AWS::CloudWatch::DeleteAlarms.new
             }.merge(options))
         end
@@ -29,7 +29,7 @@ module Fog
       class Mock
         def delete_alarms(alarm_names)
           [*alarm_names].each do |alarm_name|
-            unless data[:metric_alarms].has_key?(alarm_name)
+            unless data[:metric_alarms].key?(alarm_name)
               raise Fog::AWS::AutoScaling::NotFound, "The alarm '#{alarm_name}' does not exist."
             end
           end

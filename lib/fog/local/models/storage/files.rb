@@ -15,7 +15,7 @@ module Fog
           requires :directory
           if directory.collection.get(directory.key)
             data = []
-            Dir.chdir(service.path_to(directory.key)) {
+            Dir.chdir(service.path_to(directory.key)) do
               data = Dir.glob('**/*').reject do |file|
                 ::File.directory?(file)
               end.map do |key|
@@ -26,7 +26,7 @@ module Fog
                   :last_modified  => ::File.mtime(path)
                 }
               end
-            }
+            end
             load(data)
           else
             nil
@@ -36,7 +36,7 @@ module Fog
         def get(key, &block)
           requires :directory
           path = file_path(key)
-          if ::File.exists?(path)
+          if ::File.exist?(path)
             data = {
               :content_length => ::File.size(path),
               :key            => key,
@@ -59,12 +59,12 @@ module Fog
         def head(key)
           requires :directory
           path = file_path(key)
-          if ::File.exists?(path)
-            new({
-              :content_length => ::File.size(path),
+          if ::File.exist?(path)
+            new(
+                  :content_length => ::File.size(path),
               :key            => key,
               :last_modified  => ::File.mtime(path)
-            })
+            )
           else
             nil
           end

@@ -56,7 +56,7 @@ module Fog
         end
 
         def internet_services
-            @internet_services ||= service.internetservices.all.select {|item| item.Name == self.name}
+            @internet_services ||= service.internetservices.all.select { |item| item.Name == self.name }
         end
 
         def delete_internet_services
@@ -139,32 +139,32 @@ module Fog
             for port in ports
               if not public_ip_info
                 #Create the first internet service and allocate public IP
-                inet_services = service.internetservices.create({
-                      "Name" => self.name,
+                inet_services = service.internetservices.create(
+                                                                  "Name" => self.name,
                       "Protocol" => proto,
-                      "Port" => port,
-                })
+                      "Port" => port
+                )
                 internet_service_id = inet_services.Id
                 public_ip_info = inet_services.PublicIpAddress
 
               else
                 #create additional services to existing Public IP
-                inet_services = service.internetservices.create({
-                      "public_ip_address_id" => public_ip_info["Id"],
+                inet_services = service.internetservices.create(
+                                                                  "public_ip_address_id" => public_ip_info["Id"],
                       "Name" => self.name,
                       "Protocol" => proto,
-                      "Port" => port,
-                }
+                      "Port" => port
+                
                     )
                 internet_service_id = inet_services.Id
               end
 
               #Create the associate node service to the server
-              service.nodeservices.create({"Name" => self.name,
+              service.nodeservices.create("Name" => self.name,
                                            "IpAddress" => self.IpAddress,
                                            "Port" => port,
                                            "InternetServiceId" => internet_service_id
-              })
+              )
             end
           end
           true
@@ -178,7 +178,7 @@ module Fog
               server_name=name,
               vapp_template=image,
               options={
-                  'ssh_key_fingerprint' => sshkeyFingerPrint,
+                'ssh_key_fingerprint' => sshkeyFingerPrint,
                   'cpus' => vcpus,
                   'memory' => memory
               })

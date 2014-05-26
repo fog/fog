@@ -23,15 +23,15 @@ module Fog
           unless bucket_name
             raise ArgumentError.new('bucket_name is required')
           end
-          request({
-            :expects    => 200,
+          request(
+                    :expects    => 200,
             :headers    => {},
             :host       => "#{bucket_name}.#{@host}",
             :idempotent => true,
             :method     => 'GET',
             :parser     => Fog::Parsers::Storage::InternetArchive::GetBucketWebsite.new,
             :query      => {'website' => nil}
-          })
+          )
         end
 
       end

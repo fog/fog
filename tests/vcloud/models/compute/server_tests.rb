@@ -27,14 +27,14 @@ Shindo.tests("Vcloud::Compute | server", ['vcloud']) do
     
       tests("cpu count").returns(1) { instance.cpus[:count] }
     
-      tests("amount of memory").returns(512){ instance.memory[:amount] }
+      tests("amount of memory").returns(512) { instance.memory[:amount] }
     
       tests("#disks") do
-        tests("#size").returns(2){ instance.disks.size }
-        tests("#number").returns(0){ instance.disks.first[:number] }
-        tests("#size").returns(1600){ instance.disks.first[:size] }
-        tests("#ElementName").returns("Hard disk 1"){ instance.disks.first[:disk_data][:'rasd:ElementName'] }
-        tests("#InstanceID").returns("2000"){ instance.disks.first[:disk_data][:'rasd:InstanceID'] }
+        tests("#size").returns(2) { instance.disks.size }
+        tests("#number").returns(0) { instance.disks.first[:number] }
+        tests("#size").returns(1600) { instance.disks.first[:size] }
+        tests("#ElementName").returns("Hard disk 1") { instance.disks.first[:disk_data][:'rasd:ElementName'] }
+        tests("#InstanceID").returns("2000") { instance.disks.first[:disk_data][:'rasd:InstanceID'] }
       end
     
       tests("#vapp_scoped_local_id").returns("vmware_RHEL5-U5-64-small_v02") { instance.vapp_scoped_local_id }
@@ -92,7 +92,7 @@ Shindo.tests("Vcloud::Compute | server", ['vcloud']) do
     @svr.save
     @svr.wait_for { ready? }
     # Can take a little while for the VM to know it has different ram, and not tied to a task..
-    (1..20).each do |i|
+    (1..20).each do |_i|
       break if @svr.reload.memory[:amount] == '384'
       sleep 1
     end
@@ -107,12 +107,12 @@ Shindo.tests("Vcloud::Compute | server", ['vcloud']) do
     @svr.save
     @svr.wait_for { ready? }
     # Can take a little while for the VM to know it has different ram, and not tied to a task..
-    (1..20).each do |i|
+    (1..20).each do |_i|
       break if @svr.reload.disks.size == 2
       sleep 1
     end
     [
-     @svr.disks.size,
+      @svr.disks.size,
      @svr.disks[1][:resource][:vcloud_capacity]
     ]
   end
@@ -126,7 +126,7 @@ Shindo.tests("Vcloud::Compute | server", ['vcloud']) do
     @svr.save
     @svr.wait_for { ready? }
     # Can take a little while for the VM to know it has different ram, and not tied to a task..
-    (1..20).each do |i|
+    (1..20).each do |_i|
       break if @svr.reload.disks.size == 1
       sleep 1
     end

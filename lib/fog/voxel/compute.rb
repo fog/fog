@@ -8,10 +8,10 @@ module Fog
       recognizes :host, :port, :scheme, :persistent
 
       model_path 'fog/voxel/models/compute'
-      model       :image
-      collection  :images
-      model       :server
-      collection  :servers
+      model :image
+      collection :images
+      model :server
+      collection :servers
 
       request_path 'fog/voxel/requests/compute'
       request :images_list
@@ -92,7 +92,7 @@ module Fog
         def request(method_name, options = {})
           begin
             parser = options.delete(:parser)
-            options.merge!({ :method => method_name, :timestamp => Time.now.xmlschema, :key => @voxel_api_key })
+            options.merge!( :method => method_name, :timestamp => Time.now.xmlschema, :key => @voxel_api_key )
             options[:api_sig] = create_signature(@voxel_api_secret, options)
             data = @connection.request(
               :method => "POST",

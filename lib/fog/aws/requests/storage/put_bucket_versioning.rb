@@ -18,14 +18,14 @@ module Fog
 </VersioningConfiguration>
 DATA
 
-          request({
-            :body     => data,
+          request(
+                    :body     => data,
             :expects  => 200,
             :headers  => {},
             :bucket_name => bucket_name,
             :method   => 'PUT',
             :query    => {'versioning' => nil}
-          })
+          )
         end
       end
 

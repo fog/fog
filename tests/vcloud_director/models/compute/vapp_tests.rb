@@ -10,10 +10,10 @@ Shindo.tests("Compute::VcloudDirector | vapps", ['vclouddirector', 'all']) do
   vapp = vapps.first
 
   tests("Compute::VcloudDirector | vapp") do
-    tests("#id").returns(String){ vapp.id.class }
-    tests("#name").returns(String){ vapp.name.class }
-    tests("#href").returns(String){ vapp.href.class }
-    tests("#type").returns("application/vnd.vmware.vcloud.vApp+xml"){ vapp.type }
+    tests("#id").returns(String) { vapp.id.class }
+    tests("#name").returns(String) { vapp.name.class }
+    tests("#href").returns(String) { vapp.href.class }
+    tests("#type").returns("application/vnd.vmware.vcloud.vApp+xml") { vapp.type }
   end
 
   tests("Compute::VcloudDirector | vapp", ['lazy load attrs']) do

@@ -252,7 +252,7 @@ module Fog
         attr_reader :versions_uri
 
         def validate_data(required_opts = [], options = {})
-          unless required_opts.all? { |opt| options.has_key?(opt) }
+          unless required_opts.all? { |opt| options.key?(opt) }
             raise ArgumentError.new("Required data missing: #{(required_opts - options.keys).map(&:inspect).join(", ")}")
           end
         end
@@ -272,14 +272,14 @@ module Fog
         class << self
           def basic_request(name, expects=[200], method=:get, headers={}, body='')
             define_method(name) do |uri|
-              request({
-                :expects => expects,
+              request(
+                        :expects => expects,
                 :method  => method,
                 :headers => headers,
                 :body    => body,
                 :parse   => true,
                 :uri     => uri
-              })
+              )
             end
           end
         end
@@ -330,7 +330,7 @@ module Fog
             :headers => headers
           }
           unless params[:body].nil? || params[:body].empty?
-            options.merge!({:body => params[:body]})
+            options.merge!(:body => params[:body])
           end
           response = @connections[host_url].request(options)
           # Parse the response body into a hash
@@ -357,20 +357,20 @@ module Fog
             'Date'           => Time.now.utc.strftime("%a, %d %b %Y %H:%M:%S GMT"),
           }.merge(params[:headers] || {})
           if params[:method]=="POST" || params[:method]=="PUT"
-            params[:headers].merge!({"Content-Type" => 'application/xml'}) unless params[:headers]['Content-Type']
-            params[:headers].merge!({"Accept" => 'application/xml'})
+            params[:headers].merge!("Content-Type" => 'application/xml') unless params[:headers]['Content-Type']
+            params[:headers].merge!("Accept" => 'application/xml')
           end
           unless params[:body].nil? || params[:body].empty?
-            params[:headers].merge!({"x-tmrk-contenthash" => "Sha256 #{Base64.encode64(Digest::SHA2.digest(params[:body].to_s)).chomp}"})
+            params[:headers].merge!("x-tmrk-contenthash" => "Sha256 #{Base64.encode64(Digest::SHA2.digest(params[:body].to_s)).chomp}")
           end
           if @authentication_method == :basic_auth
-            params[:headers].merge!({'Authorization' => "Basic #{Base64.encode64(@username+":"+@password).delete("\r\n")}"})
+            params[:headers].merge!('Authorization' => "Basic #{Base64.encode64(@username+":"+@password).delete("\r\n")}")
           elsif @authentication_method == :cloud_api_auth
             signature = cloud_api_signature(params)
-            params[:headers].merge!({
-              "x-tmrk-authorization" => %{CloudApi AccessKey="#{@access_key}" SignatureType="HmacSha256" Signature="#{signature}"},
+            params[:headers].merge!(
+                                      "x-tmrk-authorization" => %{CloudApi AccessKey="#{@access_key}" SignatureType="HmacSha256" Signature="#{signature}"},
               "Authorization" => %{CloudApi AccessKey="#{@access_key}" SignatureType="HmacSha256" Signature="#{signature}"}
-            })
+            )
           end
           params[:headers]
         end
@@ -395,9 +395,9 @@ module Fog
 
         # section 5.6.3.2 in the ~1000 page pdf spec
         def canonicalize_headers(headers)
-          tmp = headers.inject({}) {|ret, h| ret[h.first.downcase] = h.last if h.first.match(/^x-tmrk/i) ; ret }
-          tmp.reject! {|k,v| k == "x-tmrk-authorization" }
-          tmp = tmp.sort.map{|e| "#{e.first}:#{e.last}" }.join("\n")
+          tmp = headers.reduce({}) { |ret, h| ret[h.first.downcase] = h.last if h.first.match(/^x-tmrk/i) ; ret }
+          tmp.reject! { |k,_v| k == "x-tmrk-authorization" }
+          tmp = tmp.sort.map { |e| "#{e.first}:#{e.last}" }.join("\n")
           tmp
         end
 
@@ -405,8 +405,8 @@ module Fog
         def canonicalize_resource(path)
           uri, query_string = path.split("?")
           return uri if query_string.nil?
-          query_string_pairs = query_string.split("&").sort.map{|e| e.split("=") }
-          tm_query_string = query_string_pairs.map{|x| "#{x.first.downcase}:#{x.last}" }.join("\n")
+          query_string_pairs = query_string.split("&").sort.map { |e| e.split("=") }
+          tm_query_string = query_string_pairs.map { |x| "#{x.first.downcase}:#{x.last}" }.join("\n")
           "#{uri.downcase}\n#{tm_query_string}\n"
         end
       end
@@ -590,7 +590,7 @@ module Fog
                           }
 
                           ip_address = {
-                              :id         => ip_address_id,
+                            :id         => ip_address_id,
                               :href       => "/cloudapi/ecloud/ipaddresses/networks/#{network_id}/#{ip_address_id}",
                               :name       => ip_address_id,
                               :type       => "application/vnd.tmrk.cloud.ipAddress",
@@ -818,7 +818,7 @@ module Fog
           status  = params[:status] || 200
 
           response = Excon::Response.new(:body => body, :headers => headers, :status => status)
-          if params.has_key?(:expects) && ![*params[:expects]].include?(response.status)
+          if params.key?(:expects) && ![*params[:expects]].include?(response.status)
             raise(Excon::Errors.status_error(params, response))
           else response
           end

@@ -6,7 +6,7 @@ module Fog
 
       class Version < Fog::Model
 
-        identity  :version,             :aliases => 'VersionId'
+        identity :version,             :aliases => 'VersionId'
 
         attribute :key,                 :aliases => 'Key'
         attribute :last_modified,       :aliases => ['Last-Modified', 'LastModified']

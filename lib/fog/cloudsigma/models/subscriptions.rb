@@ -22,7 +22,7 @@ module Fog
         end
 
         def check_price(subscriptions_list)
-          subscriptions_list = subscriptions_list.map {|s| s.kind_of?(Hash) ? s : s.attributes}
+          subscriptions_list = subscriptions_list.map { |s| s.kind_of?(Hash) ? s : s.attributes }
 
           resp = service.calculate_subscription_price(subscriptions_list)
 

@@ -46,7 +46,7 @@ module Fog
         def default_sr=(sr)
           service.set_attribute( 'pool', reference, 'default_SR', sr.reference )
         end
-        alias :default_storage_repository= :default_sr=
+        alias_method :default_storage_repository=, :default_sr=
 
         def default_storage_repository
           default_sr

@@ -2,7 +2,7 @@ module Fog
   module Compute
     class Cloudstack
       class SecurityGroup < Fog::Model
-        identity  :id,            :aliases => 'id'
+        identity :id,            :aliases => 'id'
         attribute :name,                                     :type => :string
         attribute :description,                              :type => :string
         attribute :account,                                  :type => :string

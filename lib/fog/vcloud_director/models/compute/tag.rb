@@ -6,7 +6,7 @@ module Fog
 
       class Tag < Model
 
-        identity  :id
+        identity :id
         attribute :value
 
         def value=(new_value)

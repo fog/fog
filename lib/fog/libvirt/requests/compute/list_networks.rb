@@ -47,7 +47,7 @@ module Fog
 
         def mock_network name
           {
-              :uuid        => 'net.uuid',
+            :uuid        => 'net.uuid',
               :name        => name,
               :bridge_name => 'net.bridge_name'
           }

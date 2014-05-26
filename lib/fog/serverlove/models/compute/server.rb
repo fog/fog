@@ -50,12 +50,12 @@ module Fog
 
         def allowed_attributes
           allowed = [
-                      :name, :cpu, :smp, :mem, :persistent,
+            :name, :cpu, :smp, :mem, :persistent,
                       :vnc_password, :vnc,
                       :ide_0_0, :ide_0_1, :ide_1_0, :ide_1_1,
                       :boot, :nic_0_model, :nic_0_dhcp
                     ]
-          attributes.select {|k,v| allowed.include? k}
+          attributes.select { |k,_v| allowed.include? k }
         end
 
         def self.defaults

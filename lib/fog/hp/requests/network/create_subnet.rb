@@ -49,7 +49,7 @@ module Fog
           l_options = [:name, :gateway_ip, :allocation_pools,
                        :dns_nameservers, :host_routes, :enable_dhcp,
                        :tenant_id]
-          l_options.select{|o| options[o]}.each do |key|
+          l_options.select { |o| options[o] }.each do |key|
             data['subnet'][key] = options[key]
           end
 
@@ -64,7 +64,7 @@ module Fog
 
       class Mock
         def create_subnet(network_id, cidr, ip_version, options = {})
-          if list_networks.body['networks'].detect {|_| _['id'] == network_id}
+          if list_networks.body['networks'].find { |_| _['id'] == network_id }
             response = Excon::Response.new
             response.status = 201
             data = {
@@ -74,7 +74,7 @@ module Fog
               'cidr'             => cidr,
               'ip_version'       => ip_version,
               'gateway_ip'       => options[:gateway_ip] || Fog::HP::Mock.ip_address.to_s,
-              'allocation_pools' => options[:allocation_pools] || [{"start" => "#{Fog::HP::Mock.ip_address.to_s}", "end" => "#{Fog::HP::Mock.ip_address.to_s}"}],
+              'allocation_pools' => options[:allocation_pools] || [{"start" => "#{Fog::HP::Mock.ip_address}", "end" => "#{Fog::HP::Mock.ip_address}"}],
               'dns_nameservers'  => options[:dns_nameservers] || [],
               'host_routes'      => options[:host_routes] || [],
               'enable_dhcp'      => options[:enable_dhcp] || true,

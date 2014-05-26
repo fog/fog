@@ -26,11 +26,11 @@ module Fog
 
         def get_vnc_console(server_id, type='novnc')
           output = {
-              'type' => type,
+            'type' => type,
               'url'  => 'https://region.compute.hpcloud.com/vnc_auto.html?token=123ABX234'
           }
           response = Excon::Response.new
-          if list_servers_detail.body['servers'].detect {|_| _['id'] == server_id}
+          if list_servers_detail.body['servers'].find { |_| _['id'] == server_id }
             response.body = { 'console' => output }
             response.status = 200
           else

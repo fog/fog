@@ -41,7 +41,7 @@ module Fog
         def list_access_keys(options = {})
           #FIXME: Doesn't do anything with options, aside from UserName
           if user = options['UserName']
-            if data[:users].has_key? user
+            if data[:users].key? user
               access_keys_data = data[:users][user][:access_keys]
             else
               raise Fog::AWS::IAM::NotFound.new("The user with name #{user} cannot be found.")

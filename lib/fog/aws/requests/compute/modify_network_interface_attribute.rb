@@ -55,7 +55,7 @@ module Fog
             when 'groupSet'
               groups = {}
               value.each do |group_id|
-                name = self.data[:security_groups].select { |k,v| v['groupId'] == group_id } .first.first
+                name = self.data[:security_groups].select { |_k,v| v['groupId'] == group_id } .first.first
                 if name.nil?
                   raise Fog::Compute::AWS::Error.new("Unknown security group '#{group_id}' specified")
                 end

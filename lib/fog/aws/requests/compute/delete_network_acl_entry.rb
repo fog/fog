@@ -33,7 +33,7 @@ module Fog
         def delete_network_acl_entry(network_acl_id, rule_number, egress)
           response = Excon::Response.new
           if self.data[:network_acls][network_acl_id]
-            if self.data[:network_acls][network_acl_id]['entrySet'].detect { |r| r['ruleNumber'] == rule_number && r['egress'] == egress }
+            if self.data[:network_acls][network_acl_id]['entrySet'].find { |r| r['ruleNumber'] == rule_number && r['egress'] == egress }
               self.data[:network_acls][network_acl_id]['entrySet'].delete_if { |r| r['ruleNumber'] == rule_number && r['egress'] == egress }
             else
               raise Fog::Compute::AWS::Error.new("No rule with that number and egress value")

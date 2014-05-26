@@ -55,7 +55,7 @@ module Fog
             "Vary"                  => "Accept-Encoding",
             "Transfer-Encoding"     => "chunked"
           }
-          response.remote_ip = Fog::Mock.random_ip({:version => :v4})
+          response.remote_ip = Fog::Mock.random_ip(:version => :v4)
           response
         end
       end

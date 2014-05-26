@@ -28,7 +28,7 @@ Shindo.tests('Fog::Compute[:serverlove] | drive requests', ['serverlove']) do
     
     tests("#update_image").returns(true) do
       @image['name'] = "Diff"
-      Fog::Compute[:serverlove].update_image(@image['drive'], { :name => @image['name'], :size => @image['size']})
+      Fog::Compute[:serverlove].update_image(@image['drive'],  :name => @image['name'], :size => @image['size'])
       Fog::Compute[:serverlove].images.get(@image['drive']).name == "Diff"
     end
     

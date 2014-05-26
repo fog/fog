@@ -4,7 +4,7 @@ module Fog
   module AWS
     class AutoScaling
       class Group < Fog::Model
-        identity  :id,                        :aliases => 'AutoScalingGroupName'
+        identity :id,                        :aliases => 'AutoScalingGroupName'
         attribute :arn,                       :aliases => 'AutoScalingGroupARN'
         attribute :availability_zones,        :aliases => 'AvailabilityZones'
         attribute :created_at,                :aliases => 'CreatedTime'
@@ -50,11 +50,11 @@ module Fog
             next_token = result['NextToken']
             break if next_token.nil?
           end
-          Fog::AWS::AutoScaling::Activities.new({
-            :data => data,
-            :service => service,
+          Fog::AWS::AutoScaling::Activities.new(
+                                                  :data => data,
+            :service => service
             #:load_balancer => self
-          })
+          )
         end
 
         def configuration
@@ -79,11 +79,11 @@ module Fog
         end
 
         def instances_in_service
-          attributes[:instances].select {|hash| hash['LifecycleState'] == 'InService'}.map {|hash| hash['InstanceId']}
+          attributes[:instances].select { |hash| hash['LifecycleState'] == 'InService' }.map { |hash| hash['InstanceId'] }
         end
 
         def instances_out_service
-          attributes[:instances].select {|hash| hash['LifecycleState'] == 'OutOfService'}.map {|hash| hash['InstanceId']}
+          attributes[:instances].select { |hash| hash['LifecycleState'] == 'OutOfService' }.map { |hash| hash['InstanceId'] }
         end
 
         def resume_processes(processes = [])
@@ -124,7 +124,7 @@ module Fog
           requires :id
 
           opts = {}
-          opts.merge!({'ForceDelete' => true}) if options[:force]
+          opts.merge!('ForceDelete' => true) if options[:force]
 
           service.delete_auto_scaling_group(id, opts)
         end
@@ -136,12 +136,12 @@ module Fog
         end
 
         def filtered_options(method)
-          Hash[options.select{|k,_| ExpectedOptions[method].include?(k)}]
+          Hash[options.select { |k,_| ExpectedOptions[method].include?(k) }]
         end
 
         def options
           ret = Hash[self.class.aliases.map { |key, value| [key, send(value)] }]
-          ret.delete_if { |key, value| value.nil? }
+          ret.delete_if { |_key, value| value.nil? }
           ret
         end
       end

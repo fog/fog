@@ -17,15 +17,15 @@ module Fog
         #       * 'DisplayName'<~String> - Display name of bucket owner
         #       * 'ID'<~String> - Id of bucket owner
         def get_service
-          request({
-            :expects  => 200,
+          request(
+                    :expects  => 200,
             :headers  => {},
             :host     => @host,
             :idempotent => true,
             :method   => 'GET',
             :parser   => Fog::Parsers::Storage::Google::GetService.new,
             :url      => @host
-          })
+          )
         end
 
       end
@@ -36,7 +36,7 @@ module Fog
           response = Excon::Response.new
           response.headers['Status'] = 200
           buckets = self.data[:buckets].values.map do |bucket|
-            bucket.reject do |key, value|
+            bucket.reject do |key, _value|
               !['CreationDate', 'Name'].include?(key)
             end
           end

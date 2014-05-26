@@ -4,7 +4,7 @@ module Fog
   module Compute
     class OpenStack
       class Network < Fog::Model
-        identity  :id
+        identity :id
         attribute :name
         attribute :addresses
       end # class Network

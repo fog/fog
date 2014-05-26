@@ -7,7 +7,7 @@ module Fog
         def list_zones
           zones = self.data[:zones].values
           build_response(:body => {
-            "kind" => "compute#zoneList",
+                           "kind" => "compute#zoneList",
             "selfLink" => "https://www.googleapis.com/compute/#{api_version}/projects/#{@project}/zones",
             "id" => "projects/#{@project}/zones",
             "items" => zones

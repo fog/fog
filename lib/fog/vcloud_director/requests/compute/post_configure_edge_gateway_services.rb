@@ -52,7 +52,7 @@ module Fog
           )
 
           body = {
-              :xmlns => xmlns,
+            :xmlns => xmlns,
               :xmlns_xsi => xmlns_xsi,
               :xsi_schemaLocation => xsi_schema_location,
           }.merge(task_body(task_id))

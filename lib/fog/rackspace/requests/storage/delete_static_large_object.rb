@@ -33,7 +33,7 @@ module Fog
         # @see http://docs.rackspace.com/files/api/v1/cf-devguide/content/Deleting_a_Large_Object-d1e2228.html
         def delete_static_large_object(container, object, options = {})
           response = request({
-            :expects  => 200,
+                               :expects  => 200,
             :method   => 'DELETE',
             :headers  => options.merge('Content-Type' => 'text/plain',
                                        'Accept' => 'application/json'),

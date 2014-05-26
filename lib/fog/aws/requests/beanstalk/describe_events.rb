@@ -19,7 +19,7 @@ module Fog
         #
         def describe_events(options={})
           request({
-                      'Operation'    => 'DescribeEvents',
+            'Operation'    => 'DescribeEvents',
                       :parser     => Fog::Parsers::AWS::ElasticBeanstalk::DescribeEvents.new
                   }.merge(options))
         end

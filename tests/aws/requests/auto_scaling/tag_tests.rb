@@ -40,7 +40,7 @@ Shindo.tests('AWS::AutoScaling | tag requests', ['aws', 'auto_scaling']) do
     tests("#describe_auto_scaling_groups(#{asg_name}").formats(AWS::AutoScaling::Formats::DESCRIBE_AUTO_SCALING_GROUPS) do
       body = Fog::AWS[:auto_scaling].describe_auto_scaling_groups('AutoScalingGroupNames' => asg_name).body
       auto_scaling_group = body['DescribeAutoScalingGroupsResult']['AutoScalingGroups'].first
-      returns(true) { auto_scaling_group.has_key?('Tags') }
+      returns(true) { auto_scaling_group.key?('Tags') }
       returns(true) { auto_scaling_group['Tags'].size == 1 }
       returns(true) { auto_scaling_group['Tags'].first == asg_tag }
       body
@@ -50,7 +50,7 @@ Shindo.tests('AWS::AutoScaling | tag requests', ['aws', 'auto_scaling']) do
       pending if Fog.mocking?
       body = Fog::AWS[:auto_scaling].describe_tags.body
       tags = body['DescribeTagsResult']['Tags']
-      returns(true) { tags.any? {|tag| tag == asg_tag} }
+      returns(true) { tags.any? { |tag| tag == asg_tag } }
       body
     end
 

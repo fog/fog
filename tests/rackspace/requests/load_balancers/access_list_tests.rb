@@ -19,23 +19,23 @@ Shindo.tests('Fog::Rackspace::LoadBalancers | access_lists_tests', ['rackspace']
           data
         end
 
-        @lb.wait_for {ready? }
+        @lb.wait_for { ready? }
         tests("delete_access_rule(#{@lb.id}, #{@access_list_id}").succeeds do
           @service.delete_access_rule(@lb.id, @access_list_id)
         end
 
-        @lb.wait_for {ready? }
+        @lb.wait_for { ready? }
         tests("delete_all_access_rules(#{@lb.id})").succeeds do
           #This could be refactored once we can add multiple access rules at once
           @service.create_access_rule(@lb.id, '67.0.0.2', 'ALLOW')
-          @lb.wait_for {ready? }
+          @lb.wait_for { ready? }
           @service.create_access_rule(@lb.id, '67.0.0.3', 'ALLOW')
-          @lb.wait_for {ready? }
+          @lb.wait_for { ready? }
           returns(2) { @service.list_access_rules(@lb.id).body['accessList'].size }
 
           @service.delete_all_access_rules(@lb.id)
 
-          @lb.wait_for {ready? }
+          @lb.wait_for { ready? }
           returns(0) { @service.list_access_rules(@lb.id).body['accessList'].size }
         end
       end

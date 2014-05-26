@@ -36,7 +36,7 @@ Shindo.tests('OpenStack | authenticate', ['openstack']) do
           "name" => "nova"
         },
         { "endpoints" => [{
-            "adminURL"    => "http://example:9292",
+          "adminURL"    => "http://example:9292",
             "region"      => "RegionOne",
             "internalURL" => "http://example:9292",
             "id"          => Fog::Mock.random_numbers(8).to_s,
@@ -106,16 +106,16 @@ Shindo.tests('OpenStack | authenticate', ['openstack']) do
       body_clone = body.clone
       body_clone["access"]["serviceCatalog"] << 
         {
-        "endpoints" => [{
-          "adminURL" =>
-            "http://example2:8774/v2/#{tenant_token}",
-            "region" => "RegionOne",
-          "internalURL" =>
-            "http://example2:8774/v2/#{tenant_token}",
-          "id" => Fog::Mock.random_numbers(8).to_s,
-          "publicURL" =>
-           "http://example2:8774/v2/#{tenant_token}"
-        }],
+          "endpoints" => [{
+            "adminURL" =>
+              "http://example2:8774/v2/#{tenant_token}",
+              "region" => "RegionOne",
+            "internalURL" =>
+              "http://example2:8774/v2/#{tenant_token}",
+            "id" => Fog::Mock.random_numbers(8).to_s,
+            "publicURL" =>
+             "http://example2:8774/v2/#{tenant_token}"
+          }],
         "endpoints_links" => [],
         "type" => "compute",
         "name" => "nova2"

@@ -26,12 +26,12 @@ Shindo.tests('Fog::Compute[:xenserver] | VLAN model', ['xenserver']) do
       end
       tests("The attributes hash should have key") do
         attributes.each do |attribute|
-          test("#{attribute}") { model_attribute_hash.has_key? attribute }
+          test("#{attribute}") { model_attribute_hash.key? attribute }
         end
       end
     end
 
-    test('be a kind of Fog::Compute::XenServer::VLAN') { vlan.kind_of? Fog::Compute::XenServer::VLAN}
+    test('be a kind of Fog::Compute::XenServer::VLAN') { vlan.kind_of? Fog::Compute::XenServer::VLAN }
 
   end
 

@@ -82,7 +82,7 @@ module Fog
 
         def create_controller options=nil
           options=if options
-                    controller_default_options.merge(Hash[options.map{|k,v| [k.to_sym,v] }])
+                    controller_default_options.merge(Hash[options.map { |k,v| [k.to_sym,v] }])
                   else
                     controller_default_options
                   end
@@ -93,11 +93,11 @@ module Fog
                            end
           {
             :operation => options[:operation],
-            :device    => controller_class.new({
-              :key       => options[:key],
+            :device    => controller_class.new(
+                                                 :key       => options[:key],
               :busNumber => options[:bus_id],
-              :sharedBus => controller_get_shared_from_options(options),
-            })
+              :sharedBus => controller_get_shared_from_options(options)
+            )
           }
         end
 
@@ -106,7 +106,7 @@ module Fog
         end
 
         def controller_get_shared_from_options options
-          if (options.has_key? :shared and options[:shared]==false) or not options.has_key? :shared then
+          if (options.key? :shared and options[:shared]==false) or not options.key? :shared then
             :noSharing
           elsif options[:shared]==true then
             :virtualSharing

@@ -26,7 +26,7 @@ Shindo.tests('Fog::Compute[:vsphere]', ['vsphere']) do
       tests("The converted Hash should") do
         attr_hash = compute.send(:convert_vm_mob_ref_to_attr_hash, fake_vm_mob_ref)
         test("have a name") { attr_hash['name'] == 'fakevm' }
-        test("have a mo_ref") {attr_hash['mo_ref'] == 'vm-123' }
+        test("have a mo_ref") { attr_hash['mo_ref'] == 'vm-123' }
         test("have an id") { attr_hash['id'] == 'vm-123' }
         test("not have a instance_uuid") { attr_hash['instance_uuid'].nil? }
       end

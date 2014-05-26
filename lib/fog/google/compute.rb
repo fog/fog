@@ -163,7 +163,7 @@ module Fog
           if response.body and response.body["error"]
             response.status = response.body["error"]["code"]
             if response.body["error"]["errors"]
-              msg = response.body["error"]["errors"].map{|error| error["message"]}.join(", ")
+              msg = response.body["error"]["errors"].map { |error| error["message"] }.join(", ")
             else
               msg = "Error [#{response.body["error"]["code"]}]: #{response.body["error"]["message"] || "GCE didn't return an error message"}"
             end
@@ -543,9 +543,9 @@ module Fog
                       "memoryMb" => 1843,
                       "imageSpaceGb" => 10,
                       "scratchDisks" => [
-                       {
-                        "diskGb" => 870
-                       }
+                        {
+                          "diskGb" => 870
+                        }
                       ],
                       "maximumPersistentDisks" => 16,
                       "maximumPersistentDisksSizeGb" => "10240",
@@ -576,9 +576,9 @@ module Fog
                       "memoryMb" => 3686,
                       "imageSpaceGb" => 10,
                       "scratchDisks" => [
-                       {
-                        "diskGb" => 1770
-                       }
+                        {
+                          "diskGb" => 1770
+                        }
                       ],
                       "maximumPersistentDisks" => 16,
                       "maximumPersistentDisksSizeGb" => "10240",
@@ -609,11 +609,11 @@ module Fog
                       "memoryMb" => 7373,
                       "imageSpaceGb" => 10,
                       "scratchDisks" => [
+                        {
+                          "diskGb" => 1770
+                        },
                        {
-                        "diskGb" => 1770
-                       },
-                       {
-                        "diskGb" => 1770
+                         "diskGb" => 1770
                        }
                       ],
                       "maximumPersistentDisks" => 16,
@@ -645,9 +645,9 @@ module Fog
                       "memoryMb" => 13312,
                       "imageSpaceGb" => 10,
                       "scratchDisks" => [
-                       {
-                        "diskGb" => 870
-                       }
+                        {
+                          "diskGb" => 870
+                        }
                       ],
                       "maximumPersistentDisks" => 16,
                       "maximumPersistentDisksSizeGb" => "10240",
@@ -678,9 +678,9 @@ module Fog
                       "memoryMb" => 26624,
                       "imageSpaceGb" => 10,
                       "scratchDisks" => [
-                       {
-                        "diskGb" => 1770
-                       }
+                        {
+                          "diskGb" => 1770
+                        }
                       ],
                       "maximumPersistentDisks" => 16,
                       "maximumPersistentDisksSizeGb" => "10240",
@@ -711,11 +711,11 @@ module Fog
                       "memoryMb" => 53248,
                       "imageSpaceGb" => 10,
                       "scratchDisks" => [
+                        {
+                          "diskGb" => 1770
+                        },
                        {
-                        "diskGb" => 1770
-                       },
-                       {
-                        "diskGb" => 1770
+                         "diskGb" => 1770
                        }
                       ],
                       "maximumPersistentDisks" => 16,
@@ -747,9 +747,9 @@ module Fog
                       "memoryMb" => 3840,
                       "imageSpaceGb" => 10,
                       "scratchDisks" => [
-                       {
-                        "diskGb" => 420
-                       }
+                        {
+                          "diskGb" => 420
+                        }
                       ],
                       "maximumPersistentDisks" => 16,
                       "maximumPersistentDisksSizeGb" => "10240",
@@ -780,9 +780,9 @@ module Fog
                       "memoryMb" => 7680,
                       "imageSpaceGb" => 10,
                       "scratchDisks" => [
-                       {
-                        "diskGb" => 870
-                       }
+                        {
+                          "diskGb" => 870
+                        }
                       ],
                       "maximumPersistentDisks" => 16,
                       "maximumPersistentDisksSizeGb" => "10240",
@@ -813,9 +813,9 @@ module Fog
                       "memoryMb" => 15360,
                       "imageSpaceGb" => 10,
                       "scratchDisks" => [
-                       {
-                        "diskGb" => 1770
-                       }
+                        {
+                          "diskGb" => 1770
+                        }
                       ],
                       "maximumPersistentDisks" => 16,
                       "maximumPersistentDisksSizeGb" => "10240",
@@ -846,11 +846,11 @@ module Fog
                       "memoryMb" => 30720,
                       "imageSpaceGb" => 10,
                       "scratchDisks" => [
+                        {
+                          "diskGb" => 1770
+                        },
                        {
-                        "diskGb" => 1770
-                       },
-                       {
-                        "diskGb" => 1770
+                         "diskGb" => 1770
                        }
                       ],
                       "maximumPersistentDisks" => 16,
@@ -951,7 +951,7 @@ module Fog
           end
 
           # We want to always mention we're using Fog.
-          if @client.user_agent.nil? or @client.user_agent.empty?
+          if @client.user_agent.nil? || @client.user_agent.empty?
             @client.user_agent = ""
           elsif !@client.user_agent.include? "fog"
             @client.user_agent += "fog/#{Fog::VERSION}"
@@ -989,15 +989,15 @@ module Fog
 
           key = ::Google::APIClient::KeyUtils.load_from_pkcs12(google_key, 'notasecret')
 
-          local_client.authorization = Signet::OAuth2::Client.new({
-            :audience => 'https://accounts.google.com/o/oauth2/token',
+          local_client.authorization = Signet::OAuth2::Client.new(
+                                                                    :audience => 'https://accounts.google.com/o/oauth2/token',
             :auth_provider_x509_cert_url => "https://www.googleapis.com/oauth2/v1/certs",
             :client_x509_cert_url => "https://www.googleapis.com/robot/v1/metadata/x509/#{google_client_email}",
             :issuer => google_client_email,
             :scope => api_scope_url,
             :signing_key => key,
-            :token_credential_uri => 'https://accounts.google.com/o/oauth2/token',
-          })
+            :token_credential_uri => 'https://accounts.google.com/o/oauth2/token'
+          )
 
           local_client.authorization.fetch_access_token!
 

@@ -25,7 +25,7 @@ Shindo.tests('Fog::Network[:openstack] | lb_health_monitor requests', ['openstac
       @lb_pool.destroy
     end
 
-    tests('#create_lb_health_monitor').formats({'health_monitor' => @lb_health_monitor_format}) do
+    tests('#create_lb_health_monitor').formats('health_monitor' => @lb_health_monitor_format) do
       type = 'PING'
       delay = 1
       timeout = 5
@@ -35,16 +35,16 @@ Shindo.tests('Fog::Network[:openstack] | lb_health_monitor requests', ['openstac
       Fog::Network[:openstack].create_lb_health_monitor(type, delay, timeout, max_retries, attributes).body
     end
 
-    tests('#list_lb_health_monitors').formats({'health_monitors' => [@lb_health_monitor_format]}) do
+    tests('#list_lb_health_monitors').formats('health_monitors' => [@lb_health_monitor_format]) do
       Fog::Network[:openstack].list_lb_health_monitors.body
     end
 
-    tests('#get_lb_health_monitor').formats({'health_monitor' => @lb_health_monitor_format}) do
+    tests('#get_lb_health_monitor').formats('health_monitor' => @lb_health_monitor_format) do
       lb_health_monitor_id = Fog::Network[:openstack].lb_health_monitors.all.first.id
       Fog::Network[:openstack].get_lb_health_monitor(lb_health_monitor_id).body
     end
 
-    tests('#update_lb_health_monitor').formats({'health_monitor' => @lb_health_monitor_format}) do
+    tests('#update_lb_health_monitor').formats('health_monitor' => @lb_health_monitor_format) do
       lb_health_monitor_id = Fog::Network[:openstack].lb_health_monitors.all.first.id
       attributes = {:delay => 5, :timeout => 10, :max_retries => 20,
                     :http_method => 'POST', :url_path => '/varz', :expected_codes => '200',

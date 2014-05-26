@@ -1,14 +1,14 @@
 Shindo.tests('AWS::SimpleDB | domain requests', ['aws']) do
 
-  @domain_metadata_format = AWS::SimpleDB::Formats::BASIC.merge({
-    'AttributeNameCount'        => Integer,
+  @domain_metadata_format = AWS::SimpleDB::Formats::BASIC.merge(
+                                                                  'AttributeNameCount'        => Integer,
     'AttributeNamesSizeBytes'   => Integer,
     'AttributeValueCount'       => Integer,
     'AttributeValuesSizeBytes'  => Integer,
     'ItemCount'                 => Integer,
     'ItemNamesSizeBytes'        => Integer,
     'Timestamp'                 => Time
-  })
+  )
 
   @domain_name = "fog_domain_#{Time.now.to_f.to_s.gsub('.','')}"
 

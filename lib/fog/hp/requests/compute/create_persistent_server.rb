@@ -152,7 +152,7 @@ module Fog
             }
             self.data[:last_modified][:servers][data['id']] = Time.now
             self.data[:servers][data['id']] = data
-            response.body = { 'server' => data.merge({'adminPass' => 'password'}) }
+            response.body = { 'server' => data.merge('adminPass' => 'password') }
             response.status = 200
             response
           else

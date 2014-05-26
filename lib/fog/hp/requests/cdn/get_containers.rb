@@ -31,7 +31,7 @@ module Fog
 
         def get_containers(options = {})
           response = Excon::Response.new
-          data = self.data[:cdn_containers].map {|_,v| v}
+          data = self.data[:cdn_containers].map { |_,v| v }
           response.body = data
           response.status = 200
           response

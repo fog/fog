@@ -44,7 +44,7 @@ module Fog
 
                 invisible = if (received_handles = queue[:receipt_handles][message_id])
                   visibility_timeout = m['Attributes']['VisibilityTimeout'] || queue['Attributes']['VisibilityTimeout']
-                  received_handles.any? { |handle, time| now < time + visibility_timeout }
+                  received_handles.any? { |_handle, time| now < time + visibility_timeout }
                 else
                   false
                 end
@@ -60,9 +60,9 @@ module Fog
                     attrs['ApproximateReceiveCount'] = (attrs['ApproximateReceiveCount'] || 0) + 1
                   end
 
-                  messages << m.merge({
-                    'ReceiptHandle' => receipt_handle
-                  })
+                  messages << m.merge(
+                                        'ReceiptHandle' => receipt_handle
+                  )
                   break if messages.size >= max_number_of_messages
                 end
               end

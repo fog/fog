@@ -78,7 +78,7 @@ module Fog
             raise Fog::AWS::AutoScaling::ValidationError.new("Options #{unexpected_options.join(',')} should not be included in request")
           end
 
-          unless self.data[:auto_scaling_groups].has_key?(auto_scaling_group_name)
+          unless self.data[:auto_scaling_groups].key?(auto_scaling_group_name)
             raise Fog::AWS::AutoScaling::ValidationError.new('AutoScalingGroup name not found - null')
           end
           self.data[:auto_scaling_groups][auto_scaling_group_name].merge!(options)

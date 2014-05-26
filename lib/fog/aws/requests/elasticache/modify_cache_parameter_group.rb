@@ -19,7 +19,7 @@ module Fog
           #   ParameterNameValues.member.N.ParameterName => "param_name"
           #   ParameterNameValues.member.N.ParameterValue => "param_value"
           n = 0   # n is the parameter index
-          parameter_changes = new_parameters.inject({}) do |new_args,pair|
+          parameter_changes = new_parameters.reduce({}) do |new_args,pair|
             n += 1
             new_args["ParameterNameValues.member.#{n}.ParameterName"] = pair[0]
             new_args["ParameterNameValues.member.#{n}.ParameterValue"] = pair[1]

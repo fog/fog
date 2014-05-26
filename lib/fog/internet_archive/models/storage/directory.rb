@@ -11,7 +11,7 @@ module Fog
         extend Fog::Storage::IAAttributes::ClassMethods
         include Fog::Storage::IAAttributes::InstanceMethods
 
-        identity  :key,           :aliases => ['Name', 'name']
+        identity :key,           :aliases => ['Name', 'name']
 
         attribute :creation_date, :aliases => 'CreationDate'
 

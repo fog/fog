@@ -18,7 +18,7 @@ Shindo.tests('Fog::Network[:openstack] | lb_vip requests', ['openstack']) do
   }
 
   tests('success') do
-    tests('#create_lb_vip').formats({'vip' => @lb_vip_format}) do
+    tests('#create_lb_vip').formats('vip' => @lb_vip_format) do
       subnet_id = 'subnet_id'
       pool_id = 'pool_id'
       protocol = 'HTTP'
@@ -30,16 +30,16 @@ Shindo.tests('Fog::Network[:openstack] | lb_vip requests', ['openstack']) do
       Fog::Network[:openstack].create_lb_vip(subnet_id, pool_id, protocol, protocol_port, attributes).body
     end
 
-    tests('#list_lb_vips').formats({'vips' => [@lb_vip_format]}) do
+    tests('#list_lb_vips').formats('vips' => [@lb_vip_format]) do
       Fog::Network[:openstack].list_lb_vips.body
     end
 
-    tests('#get_lb_vip').formats({'vip' => @lb_vip_format}) do
+    tests('#get_lb_vip').formats('vip' => @lb_vip_format) do
       lb_vip_id = Fog::Network[:openstack].lb_vips.all.first.id
       Fog::Network[:openstack].get_lb_vip(lb_vip_id).body
     end
 
-    tests('#update_lb_vip').formats({'vip' => @lb_vip_format}) do
+    tests('#update_lb_vip').formats('vip' => @lb_vip_format) do
       lb_vip_id = Fog::Network[:openstack].lb_vips.all.first.id
       attributes = {:pool_id => 'new_pool_id', :name => 'new-test-vip',
                     :description => 'New Test VIP', :connection_limit => 5,

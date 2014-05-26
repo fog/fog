@@ -17,12 +17,12 @@ module Fog
         def all
           data = service.list_access_keys('UserName'=> @username).body['AccessKeys']
           # AWS response doesn't contain the UserName, this injects it
-          data.each {|access_key| access_key['UserName'] = @username }
+          data.each { |access_key| access_key['UserName'] = @username }
           load(data)
         end
 
         def get(identity)
-          self.all.select {|access_key| access_key.id == identity}.first
+          self.all.select { |access_key| access_key.id == identity }.first
         end
 
         def new(attributes = {})

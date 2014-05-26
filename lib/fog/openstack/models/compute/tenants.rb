@@ -16,7 +16,7 @@ module Fog
         end
 
         def find_by_id(id)
-          self.find {|tenant| tenant.id == id}
+          self.find { |tenant| tenant.id == id }
         end
       end # class Tenants
     end # class OpenStack

@@ -61,7 +61,7 @@ module Fog
           end
           body = builder.to_xml
           body.gsub! /<([^<>]+)\/>/, '<\1></\1>'
-          request({
+          request(
                     :body     => body,
                     :expects  => 200,
                     :headers  => {'Content-MD5' => Base64.encode64(Digest::MD5.digest(body)).chomp!,
@@ -69,7 +69,7 @@ module Fog
                     :bucket_name => bucket_name,
                     :method   => 'PUT',
                     :query    => {'lifecycle' => nil}
-                  })
+                  )
         end
       end
     end

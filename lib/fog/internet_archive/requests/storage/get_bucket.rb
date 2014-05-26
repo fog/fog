@@ -41,15 +41,15 @@ module Fog
           unless bucket_name
             raise ArgumentError.new('bucket_name is required')
           end
-          request({
-            :expects  => 200,
+          request(
+                    :expects  => 200,
             :headers  => {},
             :host     => "#{bucket_name}.#{@host}",
             :idempotent => true,
             :method   => 'GET',
             :parser   => Fog::Parsers::Storage::InternetArchive::GetBucket.new,
             :query    => options
-          })
+          )
         end
 
       end
@@ -66,20 +66,20 @@ module Fog
           end
           response = Excon::Response.new
           if bucket = self.data[:buckets][bucket_name]
-            contents = bucket[:objects].values.collect(&:first).sort {|x,y| x['Key'] <=> y['Key']}.reject do |object|
+            contents = bucket[:objects].values.map(&:first).sort { |x,y| x['Key'] <=> y['Key'] }.reject do |object|
                 (prefix    && object['Key'][0...prefix.length] != prefix) ||
                 (marker    && object['Key'] <= marker) ||
                 (delimiter && object['Key'][(prefix ? prefix.length : 0)..-1].include?(delimiter) \
                            && common_prefixes << object['Key'].sub(/^(#{prefix}[^#{delimiter}]+.).*/, '\1')) ||
-                object.has_key?(:delete_marker)
+                object.key?(:delete_marker)
               end.map do |object|
-                data = object.reject {|key, value| !['ETag', 'Key', 'StorageClass'].include?(key)}
-                data.merge!({
-                  'LastModified' => Time.parse(object['Last-Modified']),
+                data = object.reject { |key, _value| !['ETag', 'Key', 'StorageClass'].include?(key) }
+                data.merge!(
+                              'LastModified' => Time.parse(object['Last-Modified']),
                   'Owner'        => bucket['Owner'],
                   'Size'         => object['Content-Length'].to_i
-                })
-              data
+                )
+                data
             end
             max_keys = max_keys || 1000
             size = [max_keys, 1000].min

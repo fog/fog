@@ -3,7 +3,7 @@ Shindo.tests('Fog::Rackspace::Monitoring | metrics', ['rackspace','rackspace_mon
   service = Fog::Rackspace::Monitoring.new
   
   begin
-    label = "fog_#{Time.now.to_i.to_s}"
+    label = "fog_#{Time.now.to_i}"
     @entity = service.entities.create :label => label
     @check = service.checks.create CHECK_CREATE_OPTIONS.merge(:label => label, :entity => @entity)
     sleep(@check.period + 30) unless Fog.mocking?

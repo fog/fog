@@ -15,7 +15,7 @@ module Fog
           data = service.grid_image_list.body['list']
           load(data)
           if server
-            self.replace(self.select {|image| image.server_id == server.id})
+            self.replace(self.select { |image| image.server_id == server.id })
           end
         end
 

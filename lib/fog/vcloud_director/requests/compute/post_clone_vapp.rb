@@ -37,9 +37,9 @@ module Fog
               if options.key?(:Description)
                 Description options[:Description]
               end
-              InstantiationParams {
+              InstantiationParams do
                 # TODO
-              }
+              end
               Source(:href => "#{end_point}vApp/#{source_id}")
               if options.key?(:IsSourceDelete)
                 IsSourceDelete options[:IsSourceDelete]

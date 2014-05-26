@@ -7,7 +7,7 @@ module Fog
 
       class Directory < Fog::Model
 
-        identity  :key, :aliases => 'name'
+        identity :key, :aliases => 'name'
 
         attribute :bytes, :aliases => 'X-Container-Bytes-Used'
         attribute :count, :aliases => 'X-Container-Object-Count'

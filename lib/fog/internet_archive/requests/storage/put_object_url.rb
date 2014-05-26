@@ -11,7 +11,7 @@ module Fog
             raise ArgumentError.new('object_name is required')
           end
           scheme_host_path_query({
-            :scheme   => options[:scheme],
+                                   :scheme   => options[:scheme],
             :headers  => headers,
             :host     => @host,
             :port     => @port,

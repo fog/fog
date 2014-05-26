@@ -5,7 +5,7 @@ module Fog
 
         def validate_upload_file_options(options)
           required_opts = [:file, :path, :credentials]
-          unless required_opts.all? { |opt| options.has_key?(opt) }
+          unless required_opts.all? { |opt| options.key?(opt) }
             raise ArgumentError.new("Required data missing: #{(required_opts - options.keys).map(&:inspect).join(", ")}")
           end
         end

@@ -4,7 +4,7 @@ Shindo.tests('Fog::Compute[:fogdocker] | api_version request', ['fogdocker']) do
 
   tests('The response should') do
     response = compute.api_version()
-    test('be a Hash') { response.kind_of? Hash}
+    test('be a Hash') { response.kind_of? Hash }
   end
 
 end

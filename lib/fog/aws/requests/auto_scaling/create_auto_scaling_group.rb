@@ -103,10 +103,10 @@ module Fog
             raise Fog::AWS::AutoScaling::ValidationError.new("Options #{unexpected_options.join(',')} should not be included in request")
           end
 
-          if self.data[:auto_scaling_groups].has_key?(auto_scaling_group_name)
+          if self.data[:auto_scaling_groups].key?(auto_scaling_group_name)
             raise Fog::AWS::AutoScaling::IdentifierTaken.new("AutoScalingGroup by this name already exists - A group with the name #{auto_scaling_group_name} already exists")
           end
-          unless self.data[:launch_configurations].has_key?(launch_configuration_name)
+          unless self.data[:launch_configurations].key?(launch_configuration_name)
             raise Fog::AWS::AutoScaling::ValidationError.new('Launch configuration name not found - null')
           end
           self.data[:auto_scaling_groups][auto_scaling_group_name] = {

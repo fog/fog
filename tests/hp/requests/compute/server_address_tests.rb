@@ -9,15 +9,15 @@ Shindo.tests("Fog::Compute[:hp] | address requests", ['hp']) do
     @address.server = @server
 
     # the network name is currently named 'private'
-    tests("#list_server_addresses(#{@server.id})").formats({'addresses' => {"private" => [{'version' => Integer, 'addr' => String}]}}) do
+    tests("#list_server_addresses(#{@server.id})").formats('addresses' => {"private" => [{'version' => Integer, 'addr' => String}]}) do
       Fog::Compute[:hp].list_server_addresses(@server.id).body
     end
 
-    tests("#list_server_private_addresses(#{@server.id}, 'private')").formats({'private' => [{'version' => Integer, 'addr' => String}]}) do
+    tests("#list_server_private_addresses(#{@server.id}, 'private')").formats('private' => [{'version' => Integer, 'addr' => String}]) do
       Fog::Compute[:hp].list_server_private_addresses(@server.id, 'private').body
     end
 
-    tests("#list_server_public_addresses(#{@server.id}, 'private')").formats({'public' => [{'version' => Integer, 'addr' => String}]}) do
+    tests("#list_server_public_addresses(#{@server.id}, 'private')").formats('public' => [{'version' => Integer, 'addr' => String}]) do
       Fog::Compute[:hp].list_server_public_addresses(@server.id, 'private').body
     end
 

@@ -1,7 +1,7 @@
 Shindo.tests('Fog::Compute[:cloudsigma] | volume requests', ['cloudsigma']) do
 
   @volume_format = {
-      'uuid' => String,
+    'uuid' => String,
       'size' => Integer,
       'status' => String,
       'name' => String,

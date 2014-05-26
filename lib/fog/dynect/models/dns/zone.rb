@@ -7,7 +7,7 @@ module Fog
 
       class Zone < Fog::Model
 
-        identity  :domain
+        identity :domain
 
         attribute :domain,        :aliases => 'zone'
         attribute :email,         :aliases => 'rname'

@@ -32,8 +32,8 @@ module Fog
         #
         def put_metric_alarm(options)
           if dimensions = options.delete('Dimensions')
-            options.merge!(AWS.indexed_param('Dimensions.member.%d.Name', dimensions.collect {|dimension| dimension['Name']}))
-            options.merge!(AWS.indexed_param('Dimensions.member.%d.Value', dimensions.collect {|dimension| dimension['Value']}))
+            options.merge!(AWS.indexed_param('Dimensions.member.%d.Name', dimensions.map { |dimension| dimension['Name'] }))
+            options.merge!(AWS.indexed_param('Dimensions.member.%d.Value', dimensions.map { |dimension| dimension['Value'] }))
           end
           if alarm_actions = options.delete('AlarmActions')
             options.merge!(AWS.indexed_param('AlarmActions.member.%d', [*alarm_actions]))
@@ -46,7 +46,7 @@ module Fog
           end
 
           request({
-              'Action'    => 'PutMetricAlarm',
+            'Action'    => 'PutMetricAlarm',
               :parser     => Fog::Parsers::AWS::CloudWatch::PutMetricAlarm.new
             }.merge(options))
         end
@@ -59,14 +59,14 @@ module Fog
         #
         def put_metric_alarm(options)
           supported_actions = [ "InsufficientDataActions", "OKActions", "AlarmActions" ]
-          found_actions = options.keys.select {|key| supported_actions.include? key }
+          found_actions = options.keys.select { |key| supported_actions.include? key }
           if found_actions.empty?
             raise Fog::Compute::AWS::Error.new("The request must contain at least one of #{supported_actions.join(", ")}'")
           end
 
           requirements = [ "AlarmName", "ComparisonOperator", "EvaluationPeriods", "Namespace", "Period", "Statistic", "Threshold" ]
           requirements.each do |req|
-            unless options.has_key?(req)
+            unless options.key?(req)
               raise Fog::Compute::AWS::Error.new("The request must contain a the parameter '%s'" % req)
             end
           end

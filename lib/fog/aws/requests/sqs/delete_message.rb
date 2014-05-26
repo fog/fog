@@ -16,12 +16,12 @@ module Fog
         #
 
         def delete_message(queue_url, receipt_handle)
-          request({
-            'Action'        => 'DeleteMessage',
+          request(
+                    'Action'        => 'DeleteMessage',
             'ReceiptHandle' => receipt_handle,
             :parser         => Fog::Parsers::AWS::SQS::Basic.new,
-            :path           => path_from_queue_url(queue_url),
-          })
+            :path           => path_from_queue_url(queue_url)
+          )
         end
 
       end
@@ -31,8 +31,8 @@ module Fog
         def delete_message(queue_url, receipt_handle)
           Excon::Response.new.tap do |response|
             if (queue = data[:queues][queue_url])
-              message_id, _ = queue[:receipt_handles].find { |msg_id, receipts|
-                receipts.has_key?(receipt_handle)
+              message_id, _ = queue[:receipt_handles].find { |_msg_id, receipts|
+                receipts.key?(receipt_handle)
               }
 
               if message_id

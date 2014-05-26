@@ -8,12 +8,12 @@ module Fog
         def auth_header(type = :basic)
           case type
             when :basic
-              unless @username and @password
+              unless @username && @password
                 raise ArgumentError, 'Username and password required for basic auth'
               end
               {'Authorization' => 'Basic ' << Base64.encode64("#{@username}:#{@password}").gsub("\n", '')}
             else
-              unless @username and @password
+              unless @username && @password
                 raise ArgumentError, 'Username and password required for basic auth'
               end
               {'Authorization' => 'Basic ' << Base64.encode64("#{@username}:#{@password}").gsub("\n", '')}
@@ -167,7 +167,7 @@ module Fog
         end
 
         def mock_create(collection, status, data, key, defaults={}, &clean_before_store)
-          data_with_defaults = data.merge(defaults) {|k, oldval, newval| oldval == nil ? newval: oldval}
+          data_with_defaults = data.merge(defaults) { |_k, oldval, newval| oldval == nil ? newval: oldval }
 
           if clean_before_store
             cleaned_data = clean_before_store.call(data_with_defaults)

@@ -8,10 +8,10 @@ module Fog
       recognizes :bluebox_host, :bluebox_port, :bluebox_scheme, :persistent
 
       model_path 'fog/bluebox/models/dns'
-      model       :record
-      collection  :records
-      model       :zone
-      collection  :zones
+      model :record
+      collection :records
+      model :zone
+      collection :zones
 
       request_path 'fog/bluebox/requests/dns'
       request :create_record

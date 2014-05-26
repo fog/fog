@@ -53,7 +53,7 @@ module Fog
 
       def link_up
         load_unless_loaded!
-        self.links.find{|l| l[:rel] == 'up' }
+        self.links.find { |l| l[:rel] == 'up' }
       end
 
       def self.has_up(item)
@@ -81,7 +81,7 @@ module Fog
 
       attr_writer :default_organization_uri
 
-      requires   :vcloud_username, :vcloud_password, :vcloud_host
+      requires :vcloud_username, :vcloud_password, :vcloud_host
       recognizes :vcloud_port, :vcloud_scheme, :vcloud_path, :vcloud_default_vdc, :vcloud_version, :vcloud_base_path
       recognizes :provider # remove post deprecation
 
@@ -206,7 +206,7 @@ module Fog
         end
 
         def reload
-          @connections.each_value { |k,v| v.reset if v }
+          @connections.each_value { |_k,v| v.reset if v }
         end
 
         def default_organization_uri
@@ -220,7 +220,7 @@ module Fog
               do_login
             end
             org = organizations.first
-            vdc = get_organization(org.href).links.find { |item| item[:type] == 'application/vnd.vmware.vcloud.vdc+xml'}
+            vdc = get_organization(org.href).links.find { |item| item[:type] == 'application/vnd.vmware.vcloud.vdc+xml' }
             @vdc_href = vdc[:href]
           end
           @vdc_href
@@ -331,13 +331,13 @@ module Fog
           end
 
           # Make the request
-          response = @connections[host_url].request({
-            :body     => params[:body] || '',
+          response = @connections[host_url].request(
+                                                      :body     => params[:body] || '',
             :expects  => params[:expects] || 200,
             :headers  => headers,
             :method   => params[:method] || 'GET',
             :path     => params[:uri].path
-          })
+          )
 
           # Parse the response body into a hash
           unless response.body.empty?
@@ -355,7 +355,7 @@ module Fog
 
       end
       def self.item_requests(*types)
-        types.each{|t| item_request(t) }
+        types.each { |t| item_request(t) }
       end
       def self.item_request(type)
         Fog::Vcloud::Compute::Real.class_eval <<-EOS, __FILE__,__LINE__

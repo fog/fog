@@ -29,7 +29,7 @@ module Fog
 
         def nameservers
           [
-           "ns1.dnsimple.com",
+            "ns1.dnsimple.com",
            "ns2.dnsimple.com",
            "ns3.dnsimple.com",
            "ns4.dnsimple.com",

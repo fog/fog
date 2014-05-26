@@ -7,7 +7,7 @@ module Fog
 
       class SharedDirectory < Fog::Model
 
-        identity  :url
+        identity :url
 
         attribute :bytes, :aliases => 'X-Container-Bytes-Used'
         attribute :count, :aliases => 'X-Container-Object-Count'

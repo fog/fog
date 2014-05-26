@@ -6,7 +6,7 @@ module Fog
 
       class AccessKey < Fog::Model
 
-        identity  :id, :aliases => 'AccessKeyId'
+        identity :id, :aliases => 'AccessKeyId'
         attribute :username, :aliases => 'UserName'
         attribute :secret_access_key, :aliases => 'SecretAccessKey'
         attribute :status, :aliases => 'Status'

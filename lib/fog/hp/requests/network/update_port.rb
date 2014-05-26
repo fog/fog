@@ -39,7 +39,7 @@ module Fog
 
           l_options = [:name, :fixed_ips, :device_id,
                        :device_owner, :admin_state_up]
-          l_options.select{|o| options[o]}.each do |key|
+          l_options.select { |o| options[o] }.each do |key|
             data['port'][key] = options[key]
           end
 
@@ -55,7 +55,7 @@ module Fog
       class Mock
         def update_port(port_id, options = {})
           response = Excon::Response.new
-          if port = list_ports.body['ports'].detect { |_| _['id'] == port_id }
+          if port = list_ports.body['ports'].find { |_| _['id'] == port_id }
             port['name']           = options[:name]
             port['fixed_ips']      = options[:fixed_ips]
             port['device_owner']   = options[:device_owner]

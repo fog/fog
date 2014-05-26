@@ -21,7 +21,7 @@ module Fog
 
           credential = Fog.respond_to?(:credential) && Fog.credential || :default
           name       = "fog_#{credential}"
-          ssh_key    = service.ssh_keys.detect { |key| key.name == name }
+          ssh_key    = service.ssh_keys.find { |key| key.name == name }
           if ssh_key.nil?
             ssh_key = service.ssh_keys.create(
               :name        => name,

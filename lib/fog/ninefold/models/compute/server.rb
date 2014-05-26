@@ -9,7 +9,7 @@ module Fog
         deprecate :serviceofferingid, :flavor_id
         deprecate :templateid,        :image_id
 
-        identity  :id
+        identity :id
 
         attribute :account
         attribute :cpunumber
@@ -68,10 +68,10 @@ module Fog
 
 
         def initialize(attributes={})
-          merge_attributes({
-            :flavor_id => 105, # '1CPU, 384MB, 80GB HDD'
+          merge_attributes(
+                             :flavor_id => 105, # '1CPU, 384MB, 80GB HDD'
             :image_id  => 421  # 'XEN Basic Ubuntu 10.04 Server x64 PV r2.0'
-          })
+          )
           super
         end
 
@@ -143,7 +143,7 @@ module Fog
               raise "No networks. Please create one, or specify a network ID"
             else
               # use the network with the lowest ID - the safe default
-              self.networkids = networks.sort {|x,y| x['id'] <=> y['id']}[0]['id']
+              self.networkids = networks.sort { |x,y| x['id'] <=> y['id'] }[0]['id']
             end
           end
 
@@ -163,7 +163,7 @@ module Fog
             :securitygroupids => securitygroupids,
             :size => size,
             :userdata => userdata
-          }.delete_if {|k,v| v.nil? || v == "" }
+          }.delete_if { |_k,v| v.nil? || v == "" }
           data = service.deploy_virtual_machine(options)
           merge_attributes(data)
           true

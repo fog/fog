@@ -35,7 +35,7 @@ module Fog
           }
 
           service.insert_target_pool(name, region, options).body
-          data = service.backoff_if_unfound {service.get_target_pool(name, region).body}
+          data = service.backoff_if_unfound { service.get_target_pool(name, region).body }
           merge_attributes(data)
           self
         end

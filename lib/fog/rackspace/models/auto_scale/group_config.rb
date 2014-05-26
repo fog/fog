@@ -11,23 +11,23 @@ module Fog
 
         # @!attribute [r] name
         # @return [String] The name of the group
-      	attribute :name
+      	 attribute :name
 
         # @!attribute [r] cooldown
         # @return [String] The group's cooldown
-      	attribute :cooldown
+      	 attribute :cooldown
 
         # @!attribute [r] min_entities
         # @return [Fixnum] The minimum amount of units which should exist in the group
-      	attribute :min_entities, :aliases => 'minEntities'
+      	 attribute :min_entities, :aliases => 'minEntities'
 
         # @!attribute [r] max_entities
         # @return [Fixnum] The maximum amount of units which should exist in the group
-      	attribute :max_entities, :aliases => 'maxEntities'
+      	 attribute :max_entities, :aliases => 'maxEntities'
 
         # @!attribute [r] metadata
         # @return [Hash] The group's metadata
-      	attribute :metadata
+      	 attribute :metadata
 
         # Update this group's configuration
         #

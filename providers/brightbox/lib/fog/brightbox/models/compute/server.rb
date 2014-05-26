@@ -6,7 +6,7 @@ module Fog
 
       class Server < Fog::Compute::Server
 
-        identity  :id
+        identity :id
         attribute :resource_type
         attribute :url
 
@@ -171,7 +171,7 @@ module Fog
             :zone => zone_id,
             :user_data => user_data,
             :server_groups => server_groups
-          }.delete_if { |k, v| v.nil? || v == "" }
+          }.delete_if { |_k, v| v.nil? || v == "" }
 
           options.merge!(:server_type => flavor_id) unless flavor_id.nil? || flavor_id == ""
 

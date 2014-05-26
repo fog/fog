@@ -1,19 +1,19 @@
 def test
-  connection = Fog::Compute.new({ :provider => "Google" })
+  connection = Fog::Compute.new( :provider => "Google" )
 
   name = "fog-smoke-test-#{Time.now.to_i}"
 
-  disk = connection.disks.create({
-    :name => name,
+  disk = connection.disks.create(
+                                   :name => name,
     :size_gb => 10,
     :zone_name => 'us-central1-a',
-    :source_image => 'debian-7-wheezy-v20131120',
-  })
+    :source_image => 'debian-7-wheezy-v20131120'
+  )
 
   disk.wait_for { disk.ready? }
 
   server = connection.servers.create(defaults = {
-    :name => "fog-smoke-test-#{Time.now.to_i}",
+                                       :name => "fog-smoke-test-#{Time.now.to_i}",
     :disks => [disk],
     :machine_type => "n1-standard-1",
     :zone_name => "us-central1-a",

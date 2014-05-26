@@ -32,7 +32,7 @@ Shindo.tests('AWS::ELB | load_balancer_tests', ['aws', 'elb']) do
       response = Fog::AWS[:elb].describe_load_balancers('LoadBalancerNames' => @load_balancer_id).body
       tests("SSLCertificateId is set").returns(@certificate['Arn']) do
         listeners = response["DescribeLoadBalancersResult"]["LoadBalancerDescriptions"].first["ListenerDescriptions"]
-        listeners.find {|l| l["Listener"]["Protocol"] == 'HTTPS' }["Listener"]["SSLCertificateId"]
+        listeners.find { |l| l["Listener"]["Protocol"] == 'HTTPS' }["Listener"]["SSLCertificateId"]
       end
     end
 

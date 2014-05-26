@@ -49,14 +49,14 @@ module Fog
             raise Fog::Compute::AWS::Error.new("May not specify both group_name and group_id")
           end
           if id
-            name = self.data[:security_groups].reject { |k,v| v['groupId'] != id } .keys.first
+            name = self.data[:security_groups].reject { |_k,v| v['groupId'] != id } .keys.first
           end
 
           response = Excon::Response.new
           if self.data[:security_groups][name]
 
             used_by_groups = []
-            self.region_data.each do |access_key, key_data|
+            self.region_data.each do |_access_key, key_data|
               key_data[:security_groups].each do |group_name, group|
                 next if group == self.data[:security_groups][name]
 

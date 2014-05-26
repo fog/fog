@@ -10,10 +10,10 @@ module Fog
       recognizes :storm_on_demand_auth_url
 
       model_path 'fog/storm_on_demand/models/support'
-      model       :alert
-      collection  :alerts
-      model       :ticket
-      collection  :tickets
+      model :alert
+      collection :alerts
+      model :ticket
+      collection :tickets
 
       request_path 'fog/storm_on_demand/requests/support'
       request :get_active_alert

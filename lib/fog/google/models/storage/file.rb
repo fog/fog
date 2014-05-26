@@ -6,7 +6,7 @@ module Fog
 
       class File < Fog::Model
 
-        identity  :key,             :aliases => 'Key'
+        identity :key,             :aliases => 'Key'
 
         attribute :cache_control,       :aliases => 'Cache-Control'
         attribute :content_disposition, :aliases => 'Content-Disposition'
@@ -63,7 +63,7 @@ module Fog
 
         remove_method :metadata
         def metadata
-          attributes.reject {|key, value| !(key.to_s =~ /^x-goog-meta-/)}
+          attributes.reject { |key, _value| !(key.to_s =~ /^x-goog-meta-/) }
         end
 
         remove_method :metadata=
@@ -94,7 +94,7 @@ module Fog
           requires :directory, :key
 
           acl = service.get_object_acl(directory.key, key).body['AccessControlList']
-          access_granted = acl.detect do |entry|
+          access_granted = acl.find do |entry|
             entry['Scope']['type'] == 'AllUsers' && entry['Permission'] == 'READ'
           end
 
@@ -124,7 +124,7 @@ module Fog
           options.merge!(metadata)
 
           data = service.put_object(directory.key, key, body, options)
-          merge_attributes(data.headers.reject {|key, value| ['Content-Length', 'Content-Type'].include?(key)})
+          merge_attributes(data.headers.reject { |key, _value| ['Content-Length', 'Content-Type'].include?(key) })
           self.content_length = Fog::Storage.get_body_size(body)
           self.content_type ||= Fog::Storage.get_content_type(body)
           true

@@ -29,7 +29,7 @@ module Fog
           }
 
           l_options = [:description, :ttl]
-          l_options.select{|o| options[o]}.each do |key|
+          l_options.select { |o| options[o] }.each do |key|
             data[key] = options[key]
           end
 
@@ -48,7 +48,7 @@ module Fog
           response.status = 200
 
           data = {
-              'id'         => Fog::HP::Mock.uuid.to_s,
+            'id'         => Fog::HP::Mock.uuid.to_s,
               'name'       => name || 'domain1.com.',
               'email'      => email || 'nsadmin@example.org',
               'description' => options[:description] || 'desc domain1.com.',

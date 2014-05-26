@@ -34,22 +34,22 @@ Shindo.tests('Fog::Compute[:aws] | tag requests', ['aws']) do
 
     expected_identities = Fog.mocking? ? [@volume.identity, @image_id] : [@volume.identity]
     tests('#describe_tags').succeeds do
-      (expected_identities - Fog::Compute[:aws].describe_tags.body['tagSet'].map {|t| t['resourceId'] }).empty?
+      (expected_identities - Fog::Compute[:aws].describe_tags.body['tagSet'].map { |t| t['resourceId'] }).empty?
     end
 
     tests("#describe_tags('key' => 'foo', 'value' => 'bar')").returns([@volume.identity]) do
-      Fog::Compute[:aws].describe_tags('key' => 'foo', 'value' => 'bar').body['tagSet'].map {|t| t['resourceId'] }
+      Fog::Compute[:aws].describe_tags('key' => 'foo', 'value' => 'bar').body['tagSet'].map { |t| t['resourceId'] }
     end
 
     if Fog.mocking?
       tests("#describe_tags('key' => 'foo', 'value' => 'baz')").returns([@image_id]) do
-        Fog::Compute[:aws].describe_tags('key' => 'foo', 'value' => 'baz').body['tagSet'].map {|t| t['resourceId'] }
+        Fog::Compute[:aws].describe_tags('key' => 'foo', 'value' => 'baz').body['tagSet'].map { |t| t['resourceId'] }
       end
 
       Fog::Compute[:aws].modify_image_attribute(@image_id, 'Add.UserId' => [@other_account.data[:owner_id]])
 
       tests("other_account#describe_tags('key' => 'foo', 'value' => 'baz')").returns([]) do
-        @other_account.describe_tags('key' => 'foo', 'value' => 'baz').body['tagSet'].map {|t| t['resourceId'] }
+        @other_account.describe_tags('key' => 'foo', 'value' => 'baz').body['tagSet'].map { |t| t['resourceId'] }
       end
 
       tests("other_account#create_tags('#{@image_id}', 'foo' => 'quux')").formats(AWS::Compute::Formats::BASIC) do
@@ -57,7 +57,7 @@ Shindo.tests('Fog::Compute[:aws] | tag requests', ['aws']) do
       end
 
       tests("other_account#describe_tags('key' => 'foo', 'value' => 'quux')").returns([@image_id]) do
-        @other_account.describe_tags('key' => 'foo', 'value' => 'quux').body['tagSet'].map {|t| t['resourceId'] }
+        @other_account.describe_tags('key' => 'foo', 'value' => 'quux').body['tagSet'].map { |t| t['resourceId'] }
       end
     end
 

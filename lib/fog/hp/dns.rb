@@ -4,7 +4,7 @@ module Fog
   module HP
     class DNS < Fog::Service
 
-      requires   :hp_access_key, :hp_secret_key, :hp_tenant_id, :hp_avl_zone
+      requires :hp_access_key, :hp_secret_key, :hp_tenant_id, :hp_avl_zone
       recognizes :hp_auth_uri, :credentials, :hp_service_type
       recognizes :persistent, :connection_options
       recognizes :hp_use_upass_auth_style, :hp_auth_version, :user_agent
@@ -12,9 +12,9 @@ module Fog
       secrets :hp_secret_key
 
       model_path 'fog/hp/models/dns'
-      model      :domain
+      model :domain
       collection :domains
-      model      :record
+      model :record
       collection :records
 
       request_path 'fog/hp/requests/dns'
@@ -106,14 +106,14 @@ module Fog
 
         def request(params, parse_json = true, &block)
           begin
-            response = @connection.request(params.merge!({
-             :headers => {
-                 'Content-Type' => 'application/json',
-                 'Accept'       => 'application/json',
-                 'X-Auth-Token' => @auth_token
-             }.merge!(params[:headers] || {}),
-             :path    => "#{@path}/#{params[:path]}",
-            }), &block)
+            response = @connection.request(params.merge!(
+                                                           :headers => {
+                                                             'Content-Type' => 'application/json',
+                                                               'Accept'       => 'application/json',
+                                                               'X-Auth-Token' => @auth_token
+                                                           }.merge!(params[:headers] || {}),
+             :path    => "#{@path}/#{params[:path]}"
+            ), &block)
           rescue Excon::Errors::HTTPStatusError => error
             raise case error
                     when Excon::Errors::NotFound

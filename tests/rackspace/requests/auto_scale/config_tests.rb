@@ -8,16 +8,16 @@ Shindo.tests('Fog::Rackspace::AutoScale | config_tests', ['rackspace', 'rackspac
     @group_id = @group['id']
 
     tests('success') do
-      tests('#get_group_config').formats({"groupConfiguration" => GROUP_CONFIG_FORMAT}) do
+      tests('#get_group_config').formats("groupConfiguration" => GROUP_CONFIG_FORMAT) do
         service.get_group_config(@group_id).body
       end
       tests('#update_group_config').returns(204) do
-        data = service.update_group_config(@group_id, {
-          'maxEntities' => 0,
+        data = service.update_group_config(@group_id, 
+                                             'maxEntities' => 0,
           'minEntities' => 0,
           'metadata' => {},
           'name' => 'foo',
-          'cooldown' => 20})
+          'cooldown' => 20)
         data.status
       end
 
@@ -25,42 +25,42 @@ Shindo.tests('Fog::Rackspace::AutoScale | config_tests', ['rackspace', 'rackspac
         service.get_launch_config(@group_id).body["launchConfiguration"]
       end
       tests('#update_launch_config').returns(204) do
-        data = service.update_launch_config(@group_id, {
-		"args" => {
-              "loadBalancers" => [
-                {
-                  "port" => 8000,
-                  "loadBalancerId" => 9099
-                }
-              ],
-              "server" => {
-                "name" => "autoscale_server",
-                "imageRef" => "0d589460-f177-4b0f-81c1-8ab8903ac7d8",
-                "flavorRef" => "2",
-                "OS-DCF =>diskConfig" => "AUTO",
-                "metadata" => {
-                  "build_config" => "core",
-                  "meta_key_1" => "meta_value_1",
-                  "meta_key_2" => "meta_value_2"
-                },
-                "networks" => [
-                  {
-                    "uuid" => "11111111-1111-1111-1111-111111111111"
-                  },
-                  {
-                    "uuid" => "00000000-0000-0000-0000-000000000000"
-                  }
-                ],
-                "personality" => [
-                  {
-                    "path" => "/root/.csivh",
-                    "contents" => "VGhpcyBpcyBhIHRlc3QgZmlsZS4="
-                  }
-                ]
-              }
-            },
+        data = service.update_launch_config(@group_id, 
+		                                            "args" => {
+                                                "loadBalancers" => [
+                                                  {
+                                                    "port" => 8000,
+                                                    "loadBalancerId" => 9099
+                                                  }
+                                                ],
+                                                          "server" => {
+                                                            "name" => "autoscale_server",
+                                                            "imageRef" => "0d589460-f177-4b0f-81c1-8ab8903ac7d8",
+                                                            "flavorRef" => "2",
+                                                            "OS-DCF =>diskConfig" => "AUTO",
+                                                            "metadata" => {
+                                                              "build_config" => "core",
+                                                              "meta_key_1" => "meta_value_1",
+                                                              "meta_key_2" => "meta_value_2"
+                                                            },
+                                                            "networks" => [
+                                                              {
+                                                                "uuid" => "11111111-1111-1111-1111-111111111111"
+                                                              },
+                                                              {
+                                                                "uuid" => "00000000-0000-0000-0000-000000000000"
+                                                              }
+                                                            ],
+                                                            "personality" => [
+                                                              {
+                                                                "path" => "/root/.csivh",
+                                                                "contents" => "VGhpcyBpcyBhIHRlc3QgZmlsZS4="
+                                                              }
+                                                            ]
+                                                          }
+                                                        },
             "type" => "launch_server"
-            })
+            )
         data.status
       end
     end

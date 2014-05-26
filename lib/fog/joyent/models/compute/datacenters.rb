@@ -10,7 +10,7 @@ module Fog
         model Fog::Compute::Joyent::Datacenter
 
         def all
-          data = service.list_datacenters().body.map {|k,v| {:name => k, :url => v}}
+          data = service.list_datacenters().body.map { |k,v| {:name => k, :url => v} }
           load(data)
         end
 

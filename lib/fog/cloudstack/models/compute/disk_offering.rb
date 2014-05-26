@@ -2,7 +2,7 @@ module Fog
   module Compute
     class Cloudstack
       class DiskOffering < Fog::Model
-        identity  :id,              :aliases => 'id'
+        identity :id,              :aliases => 'id'
         attribute :created
         attribute :disk_size,       :aliases => 'disk_size'
         attribute :display_text,    :aliases => 'display_text'

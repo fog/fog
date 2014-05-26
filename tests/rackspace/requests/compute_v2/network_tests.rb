@@ -19,7 +19,7 @@ Shindo.tests('Fog::Compute::RackspaceV2 | network_tests', ['rackspace']) do
     network_id = nil
 
     tests('#create_network').formats(get_network_format) do
-      service.create_network("fog_#{Time.now.to_i.to_s}", '192.168.0.0/24').body.tap do |r|
+      service.create_network("fog_#{Time.now.to_i}", '192.168.0.0/24').body.tap do |r|
         network_id = r['network']['id']
       end
     end

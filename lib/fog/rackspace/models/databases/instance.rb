@@ -45,19 +45,19 @@ module Fog
 
         def databases
           @databases ||= begin
-            Fog::Rackspace::Databases::Databases.new({
-              :service => service,
+            Fog::Rackspace::Databases::Databases.new(
+                                                       :service => service,
               :instance => self
-            })
+            )
           end
         end
 
         def users
           @users ||= begin
-            Fog::Rackspace::Databases::Users.new({
-              :service => service,
+            Fog::Rackspace::Databases::Users.new(
+                                                   :service => service,
               :instance => self
-            })
+            )
           end
         end
 

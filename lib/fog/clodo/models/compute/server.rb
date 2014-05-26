@@ -61,7 +61,7 @@ module Fog
         end
 
         def public_ip_address
-          pubaddrs = addresses && addresses['public'] ? addresses['public'].select {|ip| ip['primary_ip']} : nil
+          pubaddrs = addresses && addresses['public'] ? addresses['public'].select { |ip| ip['primary_ip'] } : nil
           pubaddrs && !pubaddrs.empty? ? pubaddrs.first['ip'] : nil
         end
 

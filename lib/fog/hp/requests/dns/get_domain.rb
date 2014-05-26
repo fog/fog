@@ -29,7 +29,7 @@ module Fog
 
         def get_domain(domain_id)
           response = Excon::Response.new
-          if domain = list_domains.body['domains'].detect { |_| _['id'] == domain_id }
+          if domain = list_domains.body['domains'].find { |_| _['id'] == domain_id }
             response.status = 200
             response.body = domain
             response
