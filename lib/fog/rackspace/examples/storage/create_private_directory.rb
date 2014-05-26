@@ -41,5 +41,3 @@ directory.reload
 
 puts "\n Directory #{directory.key} was created."
 puts "To delete the container please execute the delete_directory.rb script\n\n"
-
-

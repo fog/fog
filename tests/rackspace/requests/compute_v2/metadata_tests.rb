@@ -102,5 +102,3 @@ Shindo.tests('Fog::Compute::RackspaceV2 | metadata_tests', ['rackspace']) do
     end
   end
 end
-
-

@@ -67,7 +67,3 @@ vm.console.body # returns VNC url
 #                "url"  => "http://vmvncserver:6080/vnc_auto.html?token=231",
 #                "type" => "novnc"
 #              }
-
-
-
-

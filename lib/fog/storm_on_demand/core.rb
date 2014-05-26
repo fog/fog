@@ -16,4 +16,3 @@ module Fog
     service(:vpn, 'VPN')
   end
 end
-

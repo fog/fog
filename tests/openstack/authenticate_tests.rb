@@ -161,4 +161,3 @@ Shindo.tests('OpenStack | authenticate', ['openstack']) do
     Excon.defaults[:mock] = @old_mock_value
   end
 end
-

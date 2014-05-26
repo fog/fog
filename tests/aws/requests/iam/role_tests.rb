@@ -165,4 +165,3 @@ Shindo.tests('AWS::IAM | role requests', ['aws']) do
   end
 
 end
-

@@ -184,4 +184,3 @@ Shindo.tests('Fog::CDN::Rackspace', ['rackspace']) do
     @directory.destroy if @directory
   end
 end
-

@@ -17,4 +17,3 @@ Shindo.tests('Fog::DNS[:dreamhost]', ['dreamhost', 'dns']) do
   end
 
 end
-

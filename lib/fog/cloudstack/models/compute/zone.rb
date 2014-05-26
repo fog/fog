@@ -35,4 +35,3 @@ module Fog
     end # Cloudstack
   end # Compute
 end # Fog
-

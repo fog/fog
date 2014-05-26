@@ -70,4 +70,3 @@ Shindo.tests("Fog::DNS[:dreamhost] | record", ['dreamhost', 'dns']) do
   cleanup_records
 
 end
-

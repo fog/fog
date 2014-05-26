@@ -57,5 +57,3 @@ server.create_image image_name
 
 puts "\nImage #{image_name} is being created for server #{server.name}.\n\n"
 puts "To delete the image please execute the delete_image.rb script\n\n"
-
-

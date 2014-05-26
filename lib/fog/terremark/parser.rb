@@ -16,4 +16,3 @@ class TerremarkParser < Fog::Parsers::Base
     attributes
   end
 end
-

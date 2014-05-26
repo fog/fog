@@ -122,5 +122,3 @@ def domains_tests(service, domains_attributes, custom_delete = false)
     end
   end
 end
-
-

@@ -29,4 +29,3 @@ Shindo.tests("Fog::CDN[:aws] | invalidation", ['aws', 'cdn']) do
   end
 
 end
-

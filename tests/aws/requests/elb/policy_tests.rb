@@ -130,4 +130,3 @@ Shindo.tests('AWS::ELB | policy_tests', ['aws', 'elb']) do
     Fog::AWS[:elb].delete_load_balancer(@load_balancer_id)
   end
 end
-

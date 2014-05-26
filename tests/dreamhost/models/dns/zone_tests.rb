@@ -59,4 +59,3 @@ Shindo.tests("Fog::DNS[:dreamhost] | zone", ['dreamhost', 'dns']) do
   end
 
 end
-

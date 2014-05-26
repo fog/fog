@@ -51,4 +51,3 @@ Shindo.tests('Fog::Compute[:vsphere]', ['vsphere']) do
     end
   end
 end
-

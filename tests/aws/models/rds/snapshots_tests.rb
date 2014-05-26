@@ -10,4 +10,3 @@ Shindo.tests("AWS::RDS | snapshots", ['aws', 'rds']) do
 
   @server.destroy
 end
-

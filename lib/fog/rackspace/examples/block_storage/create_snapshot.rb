@@ -114,4 +114,3 @@ rescue Fog::Errors::TimeoutError
   puts "The snapshot #{snapshot.display_name} is still being preformed and is taking longer to complete than expected."
   puts "You can continute to monitor the process through the web console at https://mycloud.rackspace.com/\n\n"
 end
-

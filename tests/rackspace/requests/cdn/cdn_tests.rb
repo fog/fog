@@ -73,4 +73,3 @@ Shindo.tests('Fog::CDN[:rackspace] | CDN requests', ['rackspace']) do
     end
   end
 end
-

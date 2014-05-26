@@ -218,4 +218,3 @@ Shindo.tests("Fog::Compute[:openstack] | server", ['openstack']) do
 
   end
 end
-

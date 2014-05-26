@@ -74,8 +74,3 @@ file.save
 print_metadata file
 
 puts "To delete the directory and file please execute the delete_directory.rb script\n\n"
-
-
-
-
-
