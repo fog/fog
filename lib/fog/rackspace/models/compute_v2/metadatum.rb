@@ -5,7 +5,6 @@ module Fog
   module Compute
     class RackspaceV2
       class Metadatum < Fog::Model
-
         include Fog::Compute::RackspaceV2::MetaParent
 
         identity :key
@@ -34,7 +33,6 @@ module Fog
           service.set_metadata_item(collection_name, parent.id, key, value)
           true
         end
-
       end
     end
   end

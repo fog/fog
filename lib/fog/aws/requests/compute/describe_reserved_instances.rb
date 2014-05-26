@@ -2,7 +2,6 @@ module Fog
   module Compute
     class AWS
       class Real
-
         require 'fog/aws/parsers/compute/describe_reserved_instances'
 
         # Describe all or specified reserved instances
@@ -40,7 +39,6 @@ module Fog
             :parser     => Fog::Parsers::Compute::AWS::DescribeReservedInstances.new
           }.merge!(params))
         end
-
       end
 
       class Mock

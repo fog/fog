@@ -2,7 +2,6 @@ module Fog
   module Terremark
     module Shared
       module Real
-
         # Shutdown a vapp
         #
         # ==== Parameters
@@ -17,7 +16,6 @@ module Fog
             :path     => "vApp/#{vapp_id}/power/action/shutdown"
           )
         end
-
       end
     end
   end

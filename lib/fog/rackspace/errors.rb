@@ -1,7 +1,6 @@
 module Fog
   module Rackspace
     module Errors
-
       def self.included(mod)
         mod.class_eval <<-'EOS', __FILE__, __LINE__
           class NotFound < Fog::Service::NotFound

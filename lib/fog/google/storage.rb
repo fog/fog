@@ -3,7 +3,6 @@ require 'fog/google/core'
 module Fog
   module Storage
     class Google < Fog::Service
-
       requires :google_storage_access_key_id, :google_storage_secret_access_key
       recognizes :host, :port, :scheme, :persistent, :path_style
 
@@ -34,8 +33,6 @@ module Fog
       request :put_object_url
 
       module Utils
-
-
         def http_url(params, expires)
           "http://" << host_path_query(params, expires)
         end
@@ -76,7 +73,7 @@ module Fog
               # - Also, for DNS compliance, you should not have a period adjacent to another period or dash. For example, ".." or "-." or ".-" are not acceptable.
               Fog::Logger.warning("fog: the specified google storage bucket name (#{subdomain}) is not a valid dns name.  See: https://developers.google.com/storage/docs/bucketnaming") unless @path_style
             end
-        
+
             params[:host] = params[:host].split("#{subdomain}.")[-1]
             if params[:path]
               params[:path] = "#{subdomain}/#{params[:path]}"
@@ -94,7 +91,6 @@ module Fog
           params[:port]   ||= @port
           params
         end
-
       end
 
       class Mock
@@ -192,9 +188,7 @@ module Fog
         def signature(params)
           "foo"
         end
-
       end
-
 
       class Real
         include Utils

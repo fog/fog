@@ -3,7 +3,6 @@ require 'fog/core/model'
 module Fog
   module Bluebox
     class BLB
-
       class LbApplication < Fog::Model
         identity :id
 
@@ -24,9 +23,7 @@ module Fog
             :lb_application => self
           })
         end
-
       end
-
     end
   end
 end

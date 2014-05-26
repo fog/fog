@@ -2,9 +2,7 @@ module Fog
   module Parsers
     module Redshift
       module AWS
-
         class PurchaseReservedNodeOffering < Fog::Parsers::Base
-
           # :reserved_node_id - (String)
           # :reserved_node_offering_id - (String)
           # :node_type - (String)

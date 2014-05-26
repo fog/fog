@@ -1,7 +1,7 @@
 Shindo.tests('Fog::Compute[:xenserver] | VBDs collection', ['xenserver']) do
 
   conn = Fog::Compute[:xenserver]
-  
+
   tests('The vbds collection') do
     vbds = conn.vbds.all
 
@@ -12,7 +12,7 @@ Shindo.tests('Fog::Compute[:xenserver] | VBDs collection', ['xenserver']) do
     tests('should be able to reload itself').succeeds { vbds.reload }
 
     tests('should be able to get a model') do
-      tests('by reference').succeeds { 
+      tests('by reference').succeeds {
         vbds.get(vbds.first.reference).is_a? Fog::Compute::XenServer::VBD
       }
     end

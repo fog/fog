@@ -2,7 +2,6 @@ module Fog
   module AWS
     class ElasticBeanstalk
       class Real
-
         require 'fog/aws/parsers/beanstalk/empty'
 
         # Deletes and recreates all of the AWS resources (for example: the Auto Scaling group, load balancer, etc.)

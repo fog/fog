@@ -2,7 +2,6 @@ module Fog
   module Compute
     class AWS
       class Real
-
         require 'fog/aws/parsers/compute/attach_volume'
 
         # Attach an Amazon EBS volume with a running instance, exposing as specified device
@@ -33,11 +32,9 @@ module Fog
             :parser       => Fog::Parsers::Compute::AWS::AttachVolume.new
           )
         end
-
       end
 
       class Mock
-
         def attach_volume(instance_id, volume_id, device)
           response = Excon::Response.new
           if instance_id && volume_id && device
@@ -80,7 +77,6 @@ module Fog
             raise Fog::Compute::AWS::Error.new(message)
           end
         end
-
       end
     end
   end

@@ -4,9 +4,7 @@ require 'fog/internet_archive/models/storage/ia_attributes.rb'
 module Fog
   module Storage
     class InternetArchive
-
       class File < Fog::Model
-
         extend Fog::Storage::IAAttributes::ClassMethods
         include Fog::Storage::IAAttributes::InstanceMethods
 
@@ -17,7 +15,6 @@ module Fog
         attr_accessor :multipart_chunk_size
 
         attr_writer :body
-
 
         identity  :key,                 :aliases => 'Key'
 
@@ -66,7 +63,6 @@ module Fog
           end
         end
 
-
         # Set body attribute.
         #
         # @param [File] new_body
@@ -76,7 +72,6 @@ module Fog
           attributes[:body] = new_body
         end
 
-
         # Get the file instance's directory.
         #
         # @return [Fog::InternetArchive::Storage::Directory]
@@ -84,7 +79,6 @@ module Fog
         def directory
           @directory
         end
-
 
         # Copy object from one bucket to other bucket.
         #
@@ -101,7 +95,6 @@ module Fog
           target_directory = service.directories.new(:key => target_directory_key)
           target_directory.files.head(target_file_key)
         end
-
 
         # Destroy file via http DELETE.
         #
@@ -127,7 +120,6 @@ module Fog
           merge_attributes(new_metadata)
         end
 
-
         remove_method :owner=
         def owner=(new_owner)
           if new_owner
@@ -137,7 +129,6 @@ module Fog
             }
           end
         end
-
 
         # Set Access-Control-List permissions.
         #
@@ -149,7 +140,6 @@ module Fog
         def public=(new_public)
           'public-read'
         end
-
 
         # Get publicly acessible url via http GET.
         #
@@ -212,7 +202,6 @@ module Fog
           true
         end
 
-
         # Get a url for file.
         #
         #     required attributes: key
@@ -259,9 +248,7 @@ module Fog
           # Complete the upload
           service.complete_multipart_upload(directory.key, key, upload_id, part_tags)
         end
-
       end
-
     end
   end
 end

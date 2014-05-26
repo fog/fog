@@ -2,9 +2,7 @@ module Fog
   module Parsers
     module Compute
       module AWS
-
         class GetPasswordData < Fog::Parsers::Base
-
           def reset
             @response = {}
           end
@@ -17,9 +15,7 @@ module Fog
               @response[name] = Time.parse(@value)
             end
           end
-
         end
-
       end
     end
   end

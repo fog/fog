@@ -3,9 +3,7 @@ require 'fog/core/model'
 module Fog
   module Compute
     class AWS
-
       class DhcpOption < Fog::Model
-
         identity  :id,                          :aliases => 'dhcpOptionsId'
         attribute :dhcp_configuration_set,      :aliases => 'dhcpConfigurationSet'
         attribute :tag_set,                     :aliases => 'tagSet'

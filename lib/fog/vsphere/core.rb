@@ -2,7 +2,6 @@ require 'fog/core'
 
 module Fog
   module Vsphere
-
     extend Fog::Provider
 
     module Errors

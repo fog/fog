@@ -4,9 +4,7 @@ require 'fog/openstack/models/storage/file'
 module Fog
   module Storage
     class OpenStack
-
       class Files < Fog::Collection
-
         attribute :directory
         attribute :limit
         attribute :marker
@@ -96,9 +94,7 @@ module Fog
           requires :directory
           super({ :directory => directory }.merge!(attributes))
         end
-
       end
-
     end
   end
 end

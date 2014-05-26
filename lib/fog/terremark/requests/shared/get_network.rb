@@ -2,7 +2,6 @@ module Fog
   module Terremark
     module Shared
       module Real
-
         # Get details for a Network
         #
         # ==== Parameters
@@ -20,11 +19,9 @@ module Fog
             :path     => "network/#{network_id}"
           )
         end
-
       end
 
       module Mock
-
         def get_network(network_id)
           network_id = network_id.to_i
           response = Excon::Response.new
@@ -66,7 +63,6 @@ module Fog
 
           response
         end
-
       end
     end
   end

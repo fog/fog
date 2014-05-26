@@ -2,7 +2,6 @@ module Fog
   module DNS
     class Linode
       class Real
-
         # Updates a resource record in a domain
         #
         # ==== Parameters
@@ -27,7 +26,6 @@ module Fog
         #     * DATA<~Hash>:
         #       * 'ResourceID'<~Integer>: ID of the resource record updated
         def domain_resource_update(domain_id, resource_id, options = {})
-
           query= {}
           request(
             :expects  => 200,
@@ -39,7 +37,6 @@ module Fog
             }.merge!( options)
           )
         end
-
       end
     end
   end

@@ -4,7 +4,6 @@ require 'fog/aws/models/elasticache/cluster'
 module Fog
   module AWS
     class Elasticache
-
       class Clusters < Fog::Collection
         model Fog::AWS::Elasticache::Cluster
 
@@ -25,7 +24,6 @@ module Fog
         rescue Fog::AWS::Elasticache::NotFound
         end
       end
-
     end
   end
 end

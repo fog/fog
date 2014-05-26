@@ -2,7 +2,6 @@ module Fog
   module Vcloud
     class Compute
       class Real
-
         def configure_metadata(opts= {})
           valid_opts = [:key, :value, :href]
           unless valid_opts.all? { |opt| opts.has_key?(opt) }
@@ -29,7 +28,6 @@ EOF
             :parse    => true
           )
         end
-
       end
     end
   end

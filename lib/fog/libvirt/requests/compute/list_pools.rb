@@ -43,7 +43,6 @@ module Fog
         rescue ::Libvirt::RetrieveError
           nil
         end
-
       end
 
       class Mock

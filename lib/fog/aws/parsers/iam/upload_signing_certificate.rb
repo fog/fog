@@ -2,9 +2,7 @@ module Fog
   module Parsers
     module AWS
       module IAM
-
         class UploadSigningCertificate < Fog::Parsers::Base
-
           def reset
             @response = { 'Certificate' => {} }
           end
@@ -17,9 +15,7 @@ module Fog
               @response[name] = value
             end
           end
-
         end
-
       end
     end
   end

@@ -2,9 +2,7 @@ module Fog
   module Parsers
     module AWS
       module AutoScaling
-
         class TerminateInstanceInAutoScalingGroup < Fog::Parsers::Base
-
           def reset
             @results = { 'Activity' => {} }
             @response = { 'TerminateInstanceInAutoScalingGroupResult' => {}, 'ResponseMetadata' => {} }
@@ -27,7 +25,6 @@ module Fog
               @response['TerminateInstanceInAutoScalingGroupResult'] = @results
             end
           end
-
         end
       end
     end

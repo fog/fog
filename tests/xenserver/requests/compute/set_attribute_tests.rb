@@ -28,8 +28,8 @@ Shindo.tests('Fog::Compute[:xenserver] | set_attribute request', ['xenserver']) 
       server = create_ephemeral_server
       server.stop 'hard'
       server.wait_for { not running? }
-      response = connection.set_attribute('VM', 
-                                          server.reference, 
+      response = connection.set_attribute('VM',
+                                          server.reference,
                                           'memory_limits',
                                           '1073741824',
                                           '1073741824',
@@ -40,7 +40,7 @@ Shindo.tests('Fog::Compute[:xenserver] | set_attribute request', ['xenserver']) 
       (server.memory_dynamic_max == "1073741824") and \
         (server.memory_dynamic_min == "1073741824") and \
         (server.memory_static_max == "1073741824") and \
-        (server.memory_static_min == "1073741824") 
+        (server.memory_static_min == "1073741824")
 
       server.start
     end

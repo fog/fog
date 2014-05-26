@@ -154,7 +154,6 @@ module Fog
 
       # deprecation
       class Real
-
         def modify_image_attributes(*params)
           Fog::Logger.deprecation("modify_image_attributes is deprecated, use modify_image_attribute instead [light_black](#{caller.first})[/]")
           modify_image_attribute(*params)
@@ -478,7 +477,6 @@ module Fog
                   Fog::Compute::AWS::Error.slurp(error, "#{match[:code]} => #{match[:message]}")
                 end
         end
-
       end
     end
   end

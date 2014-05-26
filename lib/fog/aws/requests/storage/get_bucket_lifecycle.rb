@@ -2,7 +2,6 @@ module Fog
   module Storage
     class AWS
       class Real
-
         require 'fog/aws/parsers/storage/get_bucket_lifecycle'
 
         # Get bucket lifecycle configuration
@@ -30,9 +29,7 @@ module Fog
                     :query    => {'lifecycle' => nil}
                   })
         end
-
       end
     end
   end
 end
-

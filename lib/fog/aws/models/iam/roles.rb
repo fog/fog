@@ -4,9 +4,7 @@ require 'fog/aws/models/iam/role'
 module Fog
   module AWS
     class IAM
-
       class Roles < Fog::Collection
-
         model Fog::AWS::IAM::Role
 
         def initialize(attributes = {})
@@ -33,7 +31,6 @@ module Fog
           end
           super
         end
-
       end
     end
   end

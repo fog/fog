@@ -31,4 +31,3 @@ Shindo.tests('Fog::Compute[:xenserver]', ['xenserver']) do
   end
 
 end
-

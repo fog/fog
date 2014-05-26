@@ -24,7 +24,6 @@ end
 module Fog
   module Compute
     class VcloudDirector < Fog::Service
-
       module Defaults
         PATH        = '/api'
         PORT        = 443
@@ -475,7 +474,6 @@ module Fog
           @vcloud_token = nil
           @org_name = nil
         end
-
       end
 
       class Mock
@@ -791,7 +789,6 @@ module Fog
         def xsi_schema_location
           "http://www.vmware.com/vcloud/v1.5 http://#{@host}#{@path}/v1.5/schema/master.xsd"
         end
-
       end
     end
   end

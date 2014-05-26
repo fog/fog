@@ -76,7 +76,6 @@ module Fog
       request :get_stats
 
       module Shared
-
         def algorithms
           list_algorithms.body['algorithms'].collect { |i| i['name'] }
         end
@@ -88,7 +87,6 @@ module Fog
         def usage(options = {})
           get_usage(options).body
         end
-
       end
 
       class Mock < Fog::Rackspace::Service
@@ -99,7 +97,6 @@ module Fog
           @rackspace_username = options[:rackspace_username]
           @rackspace_auth_url = options[:rackspace_auth_url]
         end
-
       end
 
       class Real < Fog::Rackspace::Service
@@ -207,7 +204,6 @@ module Fog
           append_tenant_v1 credentials
           @auth_token = credentials['X-Auth-Token']
         end
-
       end
     end
   end

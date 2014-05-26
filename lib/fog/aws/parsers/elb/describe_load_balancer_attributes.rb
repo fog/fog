@@ -2,9 +2,7 @@ module Fog
   module Parsers
     module AWS
       module ELB
-
         class DescribeLoadBalancerAttributes < Fog::Parsers::Base
-
           def reset
             @response = { 'DescribeLoadBalancerAttributesResult' => { 'LoadBalancerAttributes' => {} }, 'ResponseMetadata' => {} }
             @stack = []
@@ -42,9 +40,7 @@ module Fog
               @response['ResponseMetadata'][name] = value
             end
           end
-
         end
-
       end
     end
   end

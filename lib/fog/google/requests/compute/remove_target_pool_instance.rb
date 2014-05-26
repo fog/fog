@@ -1,17 +1,13 @@
 module Fog
   module Compute
     class Google
-
       class Mock
-
         def set_metadata(instance, zone, fingerprint, metadata={})
           Fog::Mock.not_implemented
         end
-
       end
 
       class Real
-
         def remove_target_pool_instances(target_pool, instances)
           api_method = @compute.target_pools.remove_instance
           parameters = {
@@ -26,9 +22,7 @@ module Fog
           result = self.build_result(api_method, parameters, body_object=body)
           self.build_response(result)
         end
-
       end
-
     end
   end
 end

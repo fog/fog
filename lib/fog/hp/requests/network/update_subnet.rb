@@ -1,7 +1,6 @@
 module Fog
   module HP
     class Network
-
       class Real
         # Update an existing subnet
         #
@@ -66,7 +65,6 @@ module Fog
           end
         end
       end
-
     end
   end
 end

@@ -3,7 +3,6 @@ require 'fog/core/model'
 module Fog
   module DNS
     class AWS
-
       class Record < Fog::Model
         extend Fog::Deprecation
         deprecate :ip, :value
@@ -105,9 +104,7 @@ module Fog
           end
           options
         end
-
       end
-
     end
   end
 end

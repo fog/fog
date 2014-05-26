@@ -4,7 +4,6 @@ require 'fog/google/models/compute/route'
 module Fog
   module Compute
     class Google
-
       class Routes < Fog::Collection
         model Fog::Compute::Google::Route
 
@@ -21,7 +20,6 @@ module Fog
           nil
         end
       end
-
     end
   end
 end

@@ -4,7 +4,6 @@ require "rake/tasklib"
 module Fog
   module Rake
     class ChangelogTask < ::Rake::TaskLib
-
       def initialize
         desc "Update the changelog since the last release"
         task(:changelog) do
@@ -206,7 +205,6 @@ Watchers      | #{watchers}
       def timestamp
         @time ||= Time.now.utc.strftime('%m/%d/%Y')
       end
-
     end
   end
 end

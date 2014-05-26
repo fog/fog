@@ -3,7 +3,6 @@ require 'fog/compute/models/server'
 module Fog
   module Compute
     class Glesys
-
       class Server < Fog::Compute::Server
         extend Fog::Deprecation
 
@@ -119,7 +118,6 @@ module Fog
         end
 
         def public_ip_address(options = {})
-
           return nil if iplist.nil?
 
           type = options[:type] || nil
@@ -136,7 +134,6 @@ module Fog
             ips.first["ipaddress"]
           end
         end
-
       end
     end
   end

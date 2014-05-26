@@ -4,9 +4,7 @@ require 'fog/aws/models/compute/tag'
 module Fog
   module Compute
     class AWS
-
       class Tags < Fog::Collection
-
         attribute :filters
 
         model Fog::Compute::AWS::Tag
@@ -28,7 +26,6 @@ module Fog
           end
         end
       end
-
     end
   end
 end

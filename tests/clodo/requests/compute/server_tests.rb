@@ -95,7 +95,7 @@ Shindo.tests('Fog::Compute[:clodo] | server requests', ['clodo']) do
     # tests("- delete_ip_address(#{@server_id}, #{@additional_ip['ip']})").success do
     #   clodo.delete_ip_address(@server_id, @additional_ip['ip'])
     # end
-    
+
     tests("- stop_server(#{@server_id})").succeeds do
       clodo.stop_server(@server_id)
     end

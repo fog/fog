@@ -4,7 +4,6 @@ require 'fog/storm_on_demand/models/support/ticket'
 module Fog
   module Support
     class StormOnDemand
-
       class Tickets < Fog::Collection
         model Fog::Support::StormOnDemand::Ticket
 
@@ -25,9 +24,7 @@ module Fog
         def types
           service.list_ticket_types.body['types']
         end
-
       end
-
     end
   end
 end

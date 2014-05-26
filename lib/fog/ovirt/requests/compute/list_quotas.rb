@@ -5,7 +5,6 @@ module Fog
         def list_quotas(filters = {})
           client.quotas(filters).map {|ovirt_obj| ovirt_attrs ovirt_obj}
         end
-
       end
       class Mock
         def list_quotas(filters = {})
@@ -18,4 +17,3 @@ module Fog
     end
   end
 end
-

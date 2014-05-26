@@ -4,17 +4,16 @@ Shindo.tests('AWS::IAM | user requests', ['aws']) do
     Fog::AWS[:iam].create_user('fog_user')
   end
 
-
   tests('success') do
     @login_profile_format = {
       'LoginProfile' => {
         'UserName'  => String,
         'CreateDate'  => Time
-        
+
       },
       'RequestId' => String
     }
-    
+
     tests("#create_login_profile('fog_user')").formats(@login_profile_format) do
       pending if Fog.mocking?
       Fog::AWS[:iam].create_login_profile('fog_user', 'somepassword').body
@@ -56,7 +55,6 @@ Shindo.tests('AWS::IAM | user requests', ['aws']) do
       raises(Fog::AWS::IAM::NotFound) { Fog::AWS[:iam].delete_login_profile('fog_user')}
     end
   end
-
 
   unless Fog.mocking?
     Fog::AWS[:iam].delete_user('fog_user')

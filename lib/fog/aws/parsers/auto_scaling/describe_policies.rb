@@ -2,9 +2,7 @@ module Fog
   module Parsers
     module AWS
       module AutoScaling
-
         class DescribePolicies < Fog::Parsers::Base
-
           def reset
             reset_scaling_policy
             reset_alarm
@@ -60,7 +58,6 @@ module Fog
               end
             end
           end
-
         end
       end
     end

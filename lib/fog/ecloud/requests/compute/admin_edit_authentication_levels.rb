@@ -2,7 +2,6 @@ module Fog
   module Compute
     class Ecloud
       class Real
-
         def authentication_levels_edit(data)
           validate_data([:basic, :sha1, :sha256, :sha512], data)
           body = build_authentication_levels_edit(data)

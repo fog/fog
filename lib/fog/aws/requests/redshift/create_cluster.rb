@@ -119,7 +119,6 @@ module Fog
             params[:query].merge!(Fog::AWS.indexed_param('VpcSecurityGroupIds.member.%d', [*vpc_security_group_ids]))
           end
 
-
           params[:query]['Action']                           = 'CreateCluster'
           params[:query]['DBName']                           = db_name if db_name
           params[:query]['ClusterIdentifier']                = cluster_identifier if cluster_identifier
@@ -141,11 +140,9 @@ module Fog
           params[:query]['PubliclyAccessible']               = publicly_accessible if publicly_accessible
           params[:query]['Encrypted']                        = encrypted if encrypted
 
-
           request(params)
         end
       end
-
     end
   end
 end

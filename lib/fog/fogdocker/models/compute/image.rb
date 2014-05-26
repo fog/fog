@@ -1,9 +1,7 @@
 module Fog
   module Compute
     class Fogdocker
-
       class Image < Fog::Model
-
         identity :id
 
         attr_accessor :info
@@ -33,9 +31,7 @@ module Fog
         def to_s
           name
         end
-
       end
-
     end
   end
 end

@@ -1,7 +1,6 @@
 module Fog
   module Compute
     class Vsphere
-
       module Shared
         private
         def vm_clone_check_options(options)
@@ -272,7 +271,6 @@ module Fog
             'task_ref'      => task._ref
           }
         end
-
       end
 
       class Mock
@@ -301,7 +299,6 @@ module Fog
             'task_ref' => "task-#{Fog::Mock.random_numbers(4)}",
           }
         end
-
       end
     end
   end

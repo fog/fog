@@ -3,7 +3,6 @@ require 'fog/core/model'
 module Fog
   module HP
     class LB
-
       class LoadBalancer < Fog::Model
         identity  :id
 

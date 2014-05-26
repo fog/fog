@@ -3,7 +3,6 @@ module Fog
     module Compute
       module AWS
         class DescribeInstanceStatus < Fog::Parsers::Base
-
           def new_instance!
             @instance = { 'instanceState' => {}, 'systemStatus' => { 'details' => [] }, 'instanceStatus' => { 'details' => [] }, 'eventsSet' => [] }
           end

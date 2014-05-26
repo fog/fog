@@ -69,7 +69,6 @@ module Fog
         def get_folder(path, filters = { })
         end
       end
-
     end
   end
 end

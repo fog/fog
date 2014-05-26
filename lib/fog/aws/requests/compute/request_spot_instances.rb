@@ -2,7 +2,6 @@ module Fog
   module Compute
     class AWS
       class Real
-
         require 'fog/aws/parsers/compute/spot_instance_requests'
 
         # Launch specified instances
@@ -91,7 +90,6 @@ module Fog
             :parser                             => Fog::Parsers::Compute::AWS::SpotInstanceRequests.new
           }.merge!(options))
         end
-
       end
     end
   end

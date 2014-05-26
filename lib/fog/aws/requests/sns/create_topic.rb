@@ -2,7 +2,6 @@ module Fog
   module AWS
     class SNS
       class Real
-
         require 'fog/aws/parsers/sns/create_topic'
 
         # Create a topic
@@ -21,9 +20,7 @@ module Fog
             :parser   => Fog::Parsers::AWS::SNS::CreateTopic.new
           })
         end
-
       end
-
     end
   end
 end

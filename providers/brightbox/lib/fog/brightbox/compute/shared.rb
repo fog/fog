@@ -3,7 +3,6 @@ require "fog/brightbox/oauth2"
 module Fog
   module Brightbox
     module Compute
-
       # The Shared module consists of code that was duplicated between the Real
       # and Mock implementations.
       #

@@ -8,12 +8,10 @@ module Fog
             volume_to_attributes(pool.lookup_volume_by_name(volume_name))
           end
         end
-
       end
 
       class Mock
         def list_pool_volumes(uuid)
-
         end
       end
     end

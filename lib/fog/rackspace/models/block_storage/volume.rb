@@ -70,7 +70,6 @@ module Fog
           service.snapshots.select { |s| s.volume_id == identity }
         end
 
-
         # Creates a snapshot from the current volume
         # @param [Hash] options
         # @option options [String] :display_name of snapshot

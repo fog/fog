@@ -2,7 +2,6 @@ module Fog
   module Compute
     class HPV2
       class Real
-
         # Get details about an existing floating IP address
         #
         # Note: This method will proxy the call to the Network (Quantum) service,
@@ -26,11 +25,9 @@ module Fog
             :path     => "os-floating-ips/#{address_id}"
           )
         end
-
       end
 
       class Mock
-
         def get_address(address_id)
           response = Excon::Response.new
           if address = self.data[:addresses][address_id]
@@ -41,7 +38,6 @@ module Fog
             raise Fog::Compute::HPV2::NotFound
           end
         end
-
       end
     end
   end

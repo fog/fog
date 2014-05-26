@@ -1,7 +1,6 @@
 module Fog
   module HP
     class LB
-
       # List limits
       #
       # ==== Returns
@@ -15,7 +14,6 @@ module Fog
       #           * 'maxVIPsPerLoadBalancer'<~Integer> - Limit of the virtual IPs per load balancer
       #           * 'maxNodesPerLoadBalancer'<~Integer> - Limit of the nodes per load balancer
       class Real
-
         def list_limits
           request(
             :expects => 200,
@@ -23,7 +21,6 @@ module Fog
             :path    => 'limits'
           )
         end
-
       end
       class Mock
         def list_limits
@@ -33,7 +30,6 @@ module Fog
           response.body   = { 'limits' => limits }
           response
         end
-
       end
     end
   end

@@ -101,7 +101,6 @@ Shindo.tests('Fog::Rackspace::LoadBalancers', ['rackspace']) do
     end
   end
 
-
   tests('reauthentication') do
     pending if Fog.mocking?
 

@@ -1,7 +1,6 @@
 module Fog
   module Network
     class OpenStack
-
       class Real
         def update_port(port_id, options = {})
           data = { 'port' => {} }
@@ -38,7 +37,6 @@ module Fog
           end
         end
       end
-
     end
   end
 end

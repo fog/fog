@@ -2,7 +2,6 @@ module Fog
   module Compute
     class Ecloud
       module Shared
-
         def validate_edit_node_service_options(options)
           required_opts = [:name, :enabled]
           unless required_opts.all? { |opt| options.has_key?(opt) }
@@ -22,7 +21,6 @@ module Fog
       end
 
       class Real
-
         def node_service_edit(options)
           validate_edit_node_service_options(options)
           body = build_node_service_body_edit(options)

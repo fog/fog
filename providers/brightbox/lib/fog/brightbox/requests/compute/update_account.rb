@@ -54,7 +54,6 @@ module Fog
             wrapped_request("put", "/1.0/accounts/#{identifier}", [200], options)
           end
         end
-
       end
     end
   end

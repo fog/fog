@@ -2,7 +2,6 @@ module Fog
   module Storage
     class HP
       class Real
-
         # Create or update metadata for an existing container
         #
         # ==== Parameters
@@ -17,11 +16,9 @@ module Fog
           )
           response
         end
-
       end
 
       class Mock # :nodoc:all
-
         def post_container(container_name, headers = {})
           if self.data[:containers][container_name].nil?
             raise Fog::Storage::HP::NotFound
@@ -30,9 +27,7 @@ module Fog
           response.status = 204
           response
         end
-
       end
-
     end
   end
 end

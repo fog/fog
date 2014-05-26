@@ -4,7 +4,6 @@ require 'fog/cdn'
 module Fog
   module CDN
     class HP < Fog::Service
-
       requires    :hp_secret_key, :hp_tenant_id, :hp_avl_zone
       recognizes  :hp_auth_uri, :hp_cdn_uri, :credentials, :hp_service_type
       recognizes  :hp_use_upass_auth_style, :hp_auth_version, :user_agent
@@ -23,7 +22,6 @@ module Fog
       request :delete_container
 
       module Utils
-
       end
 
       class Mock
@@ -60,7 +58,6 @@ module Fog
         def reset_data
           self.class.data.delete(@hp_access_key)
         end
-
       end
 
       class Real
@@ -151,7 +148,6 @@ module Fog
           end
           response
         end
-
       end
     end
   end

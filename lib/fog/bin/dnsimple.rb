@@ -1,6 +1,5 @@
 class DNSimple < Fog::Bin
   class << self
-
     def class_for(key)
       case key
       when :dns
@@ -26,6 +25,5 @@ class DNSimple < Fog::Bin
     def services
       Fog::DNSimple.services
     end
-
   end
 end

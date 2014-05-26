@@ -2,7 +2,6 @@ module Fog
   module Compute
     class IBM
       class Real
-
         # Returns the Instance that the authenticated user manages with the specified :instance_id
         #
         # ==== Parameters
@@ -38,11 +37,9 @@ module Fog
             :path     => "/instances/#{instance_id}"
           )
         end
-
       end
 
       class Mock
-
         def get_instance(instance_id)
           response = Excon::Response.new
           if instance_exists? instance_id
@@ -69,7 +66,6 @@ module Fog
         def instance_active?(instance_id)
           self.data[:instances][instance_id]["status"] == 5
         end
-
       end
     end
   end

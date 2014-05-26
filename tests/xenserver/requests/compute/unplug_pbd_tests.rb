@@ -22,7 +22,7 @@ Shindo.tests('Fog::Compute[:xenserver] | unplug_pbd request', ['xenserver']) do
                          'user',
                          false,
                          {}
-  
+
   tests('#unplug_pbd') do
     test('unplugged') do
       sr = compute.storage_repositories.find { |sr| sr.name == 'FOG TEST SR' }
@@ -37,7 +37,7 @@ Shindo.tests('Fog::Compute[:xenserver] | unplug_pbd request', ['xenserver']) do
     raises(ArgumentError, 'raises ArgumentError when arguments missing') \
       { compute.unplug_pbd }
   end
-  
+
   # Clean-up
   compute.storage_repositories.each do |sr|
     next unless sr.name == 'FOG TEST SR'

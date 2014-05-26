@@ -9,7 +9,7 @@ Shindo.tests('Fog::Compute[:xenserver] | PIF model', ['xenserver']) do
     end
     tests('have attributes') do
       model_attribute_hash = pif.attributes
-      attributes = [ 
+      attributes = [
         :reference,
         :uuid,
         :physical,

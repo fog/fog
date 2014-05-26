@@ -2,7 +2,6 @@ module Fog
   module HP
     class BlockStorage
       class Real
-
         # Create a new block storage snapshot
         #
         # ==== Parameters
@@ -44,11 +43,9 @@ module Fog
             :path     => "os-snapshots"
           )
         end
-
       end
 
       class Mock  # :nodoc:all
-
         def create_snapshot(name, description, volume_id, options={})
           response = Excon::Response.new
           if self.data[:volumes][volume_id]
@@ -70,7 +67,6 @@ module Fog
           response
         end
       end
-
     end
   end
 end

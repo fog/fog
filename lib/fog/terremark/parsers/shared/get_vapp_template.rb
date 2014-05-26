@@ -2,9 +2,7 @@ module Fog
   module Parsers
     module Terremark
       module Shared
-
         class GetVappTemplate < TerremarkParser
-
           def reset
             @response = { 'Links' => [] }
           end
@@ -26,9 +24,7 @@ module Fog
               @response['Description'] = value
             end
           end
-
         end
-
       end
     end
   end

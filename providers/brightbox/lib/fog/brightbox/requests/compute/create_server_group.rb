@@ -16,7 +16,6 @@ module Fog
         def create_server_group(options)
           wrapped_request("post", "/1.0/server_groups", [202], options)
         end
-
       end
     end
   end

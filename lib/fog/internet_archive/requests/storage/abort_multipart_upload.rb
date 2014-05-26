@@ -21,7 +21,6 @@ module Fog
             :query      => {'uploadId' => upload_id}
           })
         end
-
       end # Real
     end # Storage
   end # InternetArchive

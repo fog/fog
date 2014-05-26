@@ -2,7 +2,6 @@ module Fog
   module DNS
     class Rage4
       class Real
-
         # Delete a specific domain
         # ==== Parameters
         # * id<~Integer> - numeric ID
@@ -18,11 +17,8 @@ module Fog
                   :expects  => 200,
                   :method   => 'GET',
                   :path     => "/rapi/deletedomain/#{id}" )
-
         end
-
       end
-
     end
   end
 end

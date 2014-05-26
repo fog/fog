@@ -2,7 +2,6 @@ module Fog
   module AWS
     class IAM
       class Real
-
         require 'fog/aws/parsers/iam/single_role'
 
         # Get the specified role
@@ -31,7 +30,6 @@ module Fog
             :parser     => Fog::Parsers::AWS::IAM::SingleRole.new
           )
         end
-
       end
     end
   end

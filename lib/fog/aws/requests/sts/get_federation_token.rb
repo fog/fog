@@ -2,7 +2,6 @@ module Fog
   module AWS
     class STS
       class Real
-
         require 'fog/aws/parsers/sts/get_session_token'
 
         # Get federation token

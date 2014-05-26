@@ -2,7 +2,6 @@ module Fog
   module Terremark
     module Shared
       module Real
-
         # Reserve requested resources and deploy vApp
         #
         # ==== Parameters
@@ -46,7 +45,6 @@ module Fog
 
           response
         end
-
       end
     end
   end

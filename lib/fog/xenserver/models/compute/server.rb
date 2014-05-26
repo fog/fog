@@ -3,7 +3,6 @@ require 'fog/compute/models/server'
 module Fog
   module Compute
     class XenServer
-
       class Server < Fog::Compute::Server
         # API Reference here:
         # http://docs.vmd.citrix.com/XenServer/6.2.0/1.0/en_gb/api/?c=VM
@@ -244,7 +243,6 @@ module Fog
           service.snapshot_revert(snapshot_ref)
         end
       end
-
     end
   end
 end

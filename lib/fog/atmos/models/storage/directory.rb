@@ -3,9 +3,7 @@ require 'fog/core/model'
 module Fog
   module Storage
     class Atmos
-
       class Directory < Fog::Model
-
         identity :key, :aliases => :Filename
         attribute :objectid, :aliases => :ObjectID
 
@@ -44,10 +42,7 @@ module Fog
           end
           service.delete_namespace key
         end
-
-
       end
-
     end
   end
 end

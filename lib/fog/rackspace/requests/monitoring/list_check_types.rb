@@ -2,7 +2,6 @@ module Fog
   module Rackspace
     class Monitoring
       class Real
-
         def list_check_types
           request(
             :expects  => [200, 203],
@@ -55,8 +54,6 @@ module Fog
                 "category" => "agent_system"
               }
             ],
-
-
 
             "metadata" => {
               "count"       => 2,

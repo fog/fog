@@ -2,7 +2,6 @@ module Fog
   module AWS
     class IAM
       class Real
-
         require 'fog/aws/parsers/iam/create_access_key'
 
         # Create a access keys for user (by default detects user from access credentials)
@@ -30,7 +29,6 @@ module Fog
             :parser     => Fog::Parsers::AWS::IAM::CreateAccessKey.new
           }.merge!(options))
         end
-
       end
       class Mock
         def create_access_key(options)

@@ -3,9 +3,7 @@ require 'fog/core/model'
 module Fog
   module Volume
     class OpenStack
-
       class Volume < Fog::Model
-
         identity :id
 
         attribute :display_name,        :aliases => 'displayName'
@@ -19,7 +17,6 @@ module Fog
         attribute :created_at,          :aliases => 'createdAt'
         attribute :attachments
         attribute :source_volid
-
 
         def initialize(attributes)
           # Old 'connection' is renamed as service and should be used instead
@@ -43,11 +40,7 @@ module Fog
         def ready?
           status == 'available'
         end
-
       end
-
     end
   end
-
 end
-

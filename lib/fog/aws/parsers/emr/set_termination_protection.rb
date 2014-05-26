@@ -2,7 +2,6 @@ module Fog
   module Parsers
     module AWS
       module EMR
-
         class SetTerminationProtection < Fog::Parsers::Base
           def end_element(name)
             case name

@@ -2,7 +2,6 @@ module Fog
   module AWS
     class Elasticache
       class Real
-
         require 'fog/aws/parsers/elasticache/single_cache_cluster'
 
         # Modifies an existing cache cluster
@@ -57,7 +56,6 @@ module Fog
             :parser => Fog::Parsers::AWS::Elasticache::SingleCacheCluster.new
           )))
         end
-
       end
 
       class Mock
@@ -96,7 +94,6 @@ module Fog
           response
         end
       end
-
     end
   end
 end

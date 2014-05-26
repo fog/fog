@@ -32,7 +32,6 @@ module Fog
           data = service.describe_alarms_for_metric(list_opts).body['DescribeAlarmsForMetricResult']['MetricAlarms']
           load(data)
         end
-
       end
     end
   end

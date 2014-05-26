@@ -4,9 +4,7 @@ require 'fog/digitalocean/models/compute/server'
 module Fog
   module Compute
     class DigitalOcean
-
       class Servers < Fog::Collection
-
         model Fog::Compute::DigitalOcean::Server
 
         def all(filters = {})
@@ -61,9 +59,7 @@ module Fog
             raise ArgumentError, "either #{name}_key or #{name}_key_path is required to configure the server"
           end
         end
-
       end
-
     end
   end
 end

@@ -5,7 +5,6 @@ require 'fog/brightbox/compute/image_selector'
 module Fog
   module Compute
     class Brightbox < Fog::Service
-
       # Client credentials
       requires :brightbox_client_id, :brightbox_secret
 
@@ -299,7 +298,6 @@ module Fog
           Fog::Brightbox::Compute::ImageSelector.new(list_images).latest_ubuntu
         end
       end
-
     end
   end
 end

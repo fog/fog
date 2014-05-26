@@ -1,7 +1,6 @@
 module Fog
   module Network
     class OpenStack
-
       class Real
         def update_lb_pool(pool_id, options = {})
           data = { 'pool' => {} }
@@ -36,7 +35,6 @@ module Fog
           end
         end
       end
-
     end
   end
 end

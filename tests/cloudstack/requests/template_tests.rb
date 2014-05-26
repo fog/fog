@@ -28,7 +28,7 @@ Shindo.tests('Fog::Compute[:cloudstack] | template requests', ['cloudstack']) do
         'isextractable' => Fog::Boolean,
         'checksum' => Fog::Nullable::String,
         'sourcetemplateid' => Fog::Nullable::Integer,
-        'accountid' => Fog::Nullable::Integer,        
+        'accountid' => Fog::Nullable::Integer,
         'bootable' => Fog::Nullable::Boolean,
         'hostid' => Fog::Nullable::Integer,
         'hostname' => Fog::Nullable::String,

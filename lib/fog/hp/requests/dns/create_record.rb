@@ -2,7 +2,6 @@ module Fog
   module HP
     class DNS
       class Real
-
         # Create a new DNS record
         #
         # ==== Parameters
@@ -45,7 +44,6 @@ module Fog
               :method  => 'POST',
               :path    => "domains/#{domain_id}/records"
           )
-
         end
       end
       class Mock
@@ -76,4 +74,3 @@ module Fog
     end
   end
 end
-

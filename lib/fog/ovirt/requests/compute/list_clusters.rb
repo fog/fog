@@ -5,7 +5,6 @@ module Fog
         def list_clusters(filters = {})
           client.clusters(filters).map {|ovirt_obj| ovirt_attrs ovirt_obj}
         end
-
       end
       class Mock
         def list_clusters(filters = {})

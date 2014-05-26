@@ -2,7 +2,6 @@ module Fog
   module Storage
     class AWS
       class Real
-
         # Change logging status for an S3 bucket
         #
         # @param bucket_name [String] name of bucket to modify
@@ -74,7 +73,6 @@ DATA
             :query    => {'logging' => nil}
           })
         end
-
       end
     end
   end

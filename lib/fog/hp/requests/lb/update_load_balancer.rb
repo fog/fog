@@ -1,7 +1,6 @@
 module Fog
   module HP
     class LB
-
       # Update an existing load balancer
       #
       # ==== Parameters
@@ -24,7 +23,6 @@ module Fog
             :path    => "loadbalancers/#{load_balancer_id}"
           )
         end
-
       end
       class Mock
         def update_load_balancer(load_balancer_id, options={})

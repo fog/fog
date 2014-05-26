@@ -1,7 +1,7 @@
 Shindo.tests('Fog::Compute[:xenserver] | pbds collection', ['xenserver']) do
 
   conn = Fog::Compute[:xenserver]
-  
+
   tests('The pbds collection') do
     pbds = conn.pbds.all
 
@@ -12,7 +12,7 @@ Shindo.tests('Fog::Compute[:xenserver] | pbds collection', ['xenserver']) do
     tests('should be able to reload itself').succeeds { pbds.reload }
 
     tests('should be able to get a model') do
-      tests('by reference').succeeds { 
+      tests('by reference').succeeds {
         pbds.get(pbds.first.reference).is_a? Fog::Compute::XenServer::PBD
       }
     end

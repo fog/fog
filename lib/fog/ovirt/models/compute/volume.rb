@@ -1,7 +1,6 @@
 module Fog
   module Compute
     class Ovirt
-
       class Volume < Fog::Model
         attr_accessor :raw
         DISK_SIZE_TO_GB = 1073741824
@@ -29,9 +28,7 @@ module Fog
         def to_s
           id
         end
-
       end
-
     end
   end
 end

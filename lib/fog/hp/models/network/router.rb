@@ -3,7 +3,6 @@ require 'fog/core/model'
 module Fog
   module HP
     class Network
-
       class Router < Fog::Model
         identity :id
 
@@ -59,7 +58,6 @@ module Fog
           merge_attributes(service.update_router(id, attributes).body['router'])
           true
         end
-
       end
     end
   end

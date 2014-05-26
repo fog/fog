@@ -29,7 +29,6 @@ module Fog
             :datacenter  => datacenter,
           }
         end
-
       end
       class Mock
         def list_datastores(datacenter_name)

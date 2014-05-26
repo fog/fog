@@ -2,7 +2,6 @@ module Fog
   module Compute
     class Bluebox
       class Real
-
         # Get list of products
         #
         # ==== Returns
@@ -18,7 +17,6 @@ module Fog
             :path     => 'api/block_products.json'
           )
         end
-
       end
     end
   end

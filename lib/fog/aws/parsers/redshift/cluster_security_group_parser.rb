@@ -2,7 +2,6 @@ module Fog
   module Parsers
     module Redshift
       module AWS
-
         class ClusterSecurityGroupParser < Fog::Parsers::Base
           #   :cluster_security_group_name - (String)
           #   :description - (String)

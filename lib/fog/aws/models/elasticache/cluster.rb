@@ -3,7 +3,6 @@ require 'fog/core/model'
 module Fog
   module AWS
     class Elasticache
-
       class Cluster < Fog::Model
         # simple attributes
         identity :id, :aliases => 'CacheClusterId'
@@ -72,9 +71,7 @@ module Fog
             }
           )
         end
-
       end
-
     end
   end
 end

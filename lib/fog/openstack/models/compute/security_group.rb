@@ -4,7 +4,6 @@ module Fog
   module Compute
     class OpenStack
       class SecurityGroup < Fog::Model
-
         identity  :id
 
         attribute :name

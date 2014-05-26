@@ -2,7 +2,6 @@ module Fog
   module Compute
     class RackspaceV2
       class Real
-
         # Retrieves server detail
         # @param [String] server_id
         # @return [Excon::Response] response:

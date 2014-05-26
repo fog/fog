@@ -28,9 +28,7 @@ module Fog
           end
           response
         end
-
       end
-
     end
   end
 end

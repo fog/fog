@@ -4,9 +4,7 @@ require 'fog/local/models/storage/files'
 module Fog
   module Storage
     class Local
-
       class Directory < Fog::Model
-
         identity  :key
 
         def destroy
@@ -49,9 +47,7 @@ module Fog
         def path
           service.path_to(key)
         end
-
       end
-
     end
   end
 end

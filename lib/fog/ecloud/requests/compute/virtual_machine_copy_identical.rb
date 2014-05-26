@@ -2,7 +2,6 @@ module Fog
   module Compute
     class Ecloud
       module Shared
-
         def validate_create_server_options_identical(template_uri, options)
           required_opts = [:name, :row, :group, :source]
           unless required_opts.all? { |opt| options.has_key?(opt) }
@@ -26,7 +25,6 @@ module Fog
       end
 
       class Real
-
         def virtual_machine_copy_identical(template_uri, options)
           options = validate_create_server_options_identical(template_uri, options)
           body = build_request_body_identical(options)

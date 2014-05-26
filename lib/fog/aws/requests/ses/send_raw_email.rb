@@ -2,7 +2,6 @@ module Fog
   module AWS
     class SES
       class Real
-
         require 'fog/aws/parsers/ses/send_raw_email'
 
         # Send a raw email
@@ -34,7 +33,6 @@ module Fog
             :parser           => Fog::Parsers::AWS::SES::SendRawEmail.new
           }.merge(params))
         end
-
       end
     end
   end

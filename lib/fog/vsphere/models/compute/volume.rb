@@ -1,7 +1,6 @@
 module Fog
   module Compute
     class Vsphere
-
       class Volume < Fog::Model
         DISK_SIZE_TO_GB = 1048576
         identity :id

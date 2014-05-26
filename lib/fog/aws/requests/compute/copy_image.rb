@@ -2,7 +2,6 @@ module Fog
   module Compute
     class AWS
       class Real
-
         require 'fog/aws/parsers/compute/copy_image'
 
         # Copy an image to a different region
@@ -32,11 +31,9 @@ module Fog
             :parser           => Fog::Parsers::Compute::AWS::CopyImage.new
           )
         end
-
       end
 
       class Mock
-
         #
         # Usage
         #
@@ -56,7 +53,6 @@ module Fog
           }.merge!(data)
           response
         end
-
       end
     end
   end

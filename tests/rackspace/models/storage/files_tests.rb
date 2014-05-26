@@ -10,7 +10,6 @@ Shindo.tests("Fog::Rackspace::Storage | files", ['rackspace', 'storage']) do
     :public => true
   }
 
-
   tests('success') do
     collection_tests(Fog::Storage[:rackspace].directories.create(directory_attributes).files, file_attributes, Fog.mocking?)
 
@@ -36,6 +35,5 @@ Shindo.tests("Fog::Rackspace::Storage | files", ['rackspace', 'storage']) do
     @file.destroy
     @directory.destroy
   end
-
 
 end

@@ -4,9 +4,7 @@ require 'fog/hp/models/compute_v2/server'
 module Fog
   module Compute
     class HPV2
-
       class Servers < Fog::Collection
-
         attribute :filters
 
         model Fog::Compute::HPV2::Server
@@ -48,9 +46,7 @@ module Fog
         rescue Fog::Compute::HPV2::NotFound
           nil
         end
-
       end
-
     end
   end
 end

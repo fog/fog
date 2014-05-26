@@ -2,9 +2,7 @@ module Fog
   module Parsers
     module Compute
       module AWS
-
         class CreateVpc < Fog::Parsers::Base
-
           def reset
             @vpc = { 'tagSet' => {} }
             @response = { 'vpcSet' => [] }
@@ -47,5 +45,3 @@ module Fog
     end
   end
 end
-
-

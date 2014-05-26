@@ -2,7 +2,6 @@ module Fog
   module AWS
     class DynamoDB
       class Real
-
         # Update DynamoDB table throughput
         #
         # ==== Parameters
@@ -39,7 +38,6 @@ module Fog
             :idempotent => true
           )
         end
-
       end
     end
   end

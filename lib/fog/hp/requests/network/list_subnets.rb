@@ -1,7 +1,6 @@
 module Fog
   module HP
     class Network
-
       class Real
         # List existing subnets
         #
@@ -45,7 +44,6 @@ module Fog
           response
         end
       end
-
     end
   end
 end

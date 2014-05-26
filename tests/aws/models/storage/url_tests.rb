@@ -10,7 +10,7 @@ Shindo.tests('AWS | url', ["aws"]) do
     :aws_secret_access_key => 'abc',
     :region => 'us-east-1'
   )
-  
+
   @file = @storage.directories.new(:key => 'fognonbucket').files.new(:key => 'test.txt')
 
   if Fog.mock?

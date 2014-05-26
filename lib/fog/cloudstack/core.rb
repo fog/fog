@@ -4,7 +4,6 @@ require 'uri'
 
 module Fog
   module Cloudstack
-
     extend Fog::Provider
 
     service(:compute, 'Compute')
@@ -38,4 +37,3 @@ module Fog
     end
   end
 end
-

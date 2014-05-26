@@ -2,7 +2,6 @@ module Fog
   module Storage
     class HP
       module MetaParent
-
         def parent
           @parent
         end
@@ -16,7 +15,6 @@ module Fog
           metas.each { |meta| hash.store(meta.key, meta.value) }
           hash
         end
-
       end
     end
   end

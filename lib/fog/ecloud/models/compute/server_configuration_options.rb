@@ -4,7 +4,6 @@ module Fog
   module Compute
     class Ecloud
       class ServerConfigurationOptions < Fog::Ecloud::Collection
-
         identity :href
 
         model Fog::Compute::Ecloud::ServerConfigurationOption

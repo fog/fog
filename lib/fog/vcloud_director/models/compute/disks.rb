@@ -4,7 +4,6 @@ require 'fog/vcloud_director/models/compute/disk'
 module Fog
   module Compute
     class VcloudDirector
-
       class Disks < Collection
         model Fog::Compute::VcloudDirector::Disk
 
@@ -33,7 +32,6 @@ module Fog
           end
           items
         end
-
       end
     end
   end

@@ -12,7 +12,6 @@ module Fog
         def list_firewall_policies
           wrapped_request("get", "/1.0/firewall_policies", [200])
         end
-
       end
     end
   end

@@ -2,7 +2,6 @@ module Fog
   module Compute
     class IBM
       class Real
-
         # Requests an image to be created from an Instance
         #
         # ==== Parameters
@@ -32,11 +31,9 @@ module Fog
             }
           )
         end
-
       end
 
       class Mock
-
         def create_image(instance_id, name, description)
           response = Excon::Response.new
           if instance_exists? instance_id
@@ -49,7 +46,6 @@ module Fog
           end
           response
         end
-
       end
     end
   end

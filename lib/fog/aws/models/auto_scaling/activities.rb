@@ -31,7 +31,6 @@ module Fog
           data = service.describe_scaling_activities('ActivityId' => identity).body['DescribeScalingActivitiesResult']['Activities'].first
           new(data) unless data.nil?
         end
-
       end
     end
   end

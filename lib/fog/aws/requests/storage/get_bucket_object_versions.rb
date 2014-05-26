@@ -2,7 +2,6 @@ module Fog
   module Storage
     class AWS
       class Real
-
         require 'fog/aws/parsers/storage/get_bucket_object_versions'
 
         # List information about object versions in an S3 bucket
@@ -61,7 +60,6 @@ module Fog
             :parser   => Fog::Parsers::Storage::AWS::GetBucketObjectVersions.new,
             :query    => {'versions' => nil}.merge!(options)          })
         end
-
       end
 
       class Mock

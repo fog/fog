@@ -5,7 +5,6 @@ module Fog
   module HP
     class LB
       class VirtualIps < Fog::Collection
-
         model Fog::HP::LB::VirtualIp
 
         attr_accessor :load_balancer
@@ -26,7 +25,6 @@ module Fog
         rescue Fog::HP::LB::NotFound
           nil
         end
-
       end
     end
   end

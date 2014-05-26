@@ -2,7 +2,6 @@ module Fog
   module AWS
     class Elasticache
       class Real
-
         require 'fog/aws/parsers/elasticache/describe_security_groups'
 
         # Returns a list of CacheSecurityGroup descriptions
@@ -21,12 +20,10 @@ module Fog
             :parser => Fog::Parsers::AWS::Elasticache::DescribeSecurityGroups.new
           }.merge(options))
         end
-
       end
 
       class Mock
         def describe_cache_security_groups(name = nil, opts={})
-
           if name
             sec_group_set = [self.data[:security_groups][name]].compact
             raise Fog::AWS::Elasticache::NotFound.new("Security Group #{name} not found") if sec_group_set.empty?
@@ -60,7 +57,6 @@ module Fog
                   }
               }
           )
-
         end
       end
     end

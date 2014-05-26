@@ -4,7 +4,6 @@ module Fog
   module Rackspace
     class Queues
       class Message < Fog::Model
-
         # @!attribute [r] age
         # @return [Integer] The number of seconds relative to the server's clock.
         attribute :age

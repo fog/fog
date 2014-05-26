@@ -2,9 +2,7 @@ module Fog
   module Parsers
     module AWS
       module IAM
-
         class ListGroupsForUser < Fog::Parsers::Base
-
           def reset
             @group_for_user = {}
             @response = { 'GroupsForUser' => [] }
@@ -23,9 +21,7 @@ module Fog
               response[name] = value
             end
           end
-
         end
-
       end
     end
   end

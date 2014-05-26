@@ -7,7 +7,6 @@ module Fog
   module Rackspace
     class AutoScale
       class GroupBuilder
-
         class << self
           def build(service, attributes)
             service.groups.new :group_config => build_group_config(attributes), :launch_config => build_server_launch_config(attributes)

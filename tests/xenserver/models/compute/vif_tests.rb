@@ -9,7 +9,7 @@ Shindo.tests('Fog::Compute[:xenserver] | VIF model', ['xenserver']) do
     end
     tests('have attributes') do
       model_attribute_hash = vif.attributes
-      attributes = [ 
+      attributes = [
         :reference,
         :mac,
         :uuid,

@@ -2,7 +2,6 @@ module Fog
   module Terremark
     module Shared
       module Real
-
         # Get details of a vdc
         #
         # ==== Parameters
@@ -28,11 +27,9 @@ module Fog
             :path     => "vdc/#{vdc_id}"
           )
         end
-
       end
 
       module Mock
-
         def get_vdc(vdc_id)
           vdc_id = vdc_id.to_i
           response = Excon::Response.new
@@ -118,7 +115,6 @@ module Fog
 
           response
         end
-
       end
     end
   end

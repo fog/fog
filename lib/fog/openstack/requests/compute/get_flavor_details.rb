@@ -2,7 +2,6 @@ module Fog
   module Compute
     class OpenStack
       class Real
-
         def get_flavor_details(flavor_ref)
           request(
             :expects  => [200, 203],
@@ -10,11 +9,9 @@ module Fog
             :path     => "flavors/#{flavor_ref}.json"
           )
         end
-
       end
 
       class Mock
-
         def get_flavor_details(flavor_ref)
           response = Excon::Response.new
           flavor = {
@@ -36,7 +33,6 @@ module Fog
             raise Fog::Compute::OpenStack::NotFound
           end
         end
-
       end
     end
   end

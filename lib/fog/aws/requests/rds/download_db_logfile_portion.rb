@@ -2,7 +2,6 @@ module Fog
   module AWS
     class RDS
       class Real
-
         require 'fog/aws/parsers/rds/download_db_logfile_portion'
 
         # Retrieve a portion of a log file of a db instance
@@ -30,11 +29,9 @@ module Fog
             :parser   => Fog::Parsers::AWS::RDS::DownloadDBLogFilePortion.new
           }.merge(params))
         end
-
       end
 
       class Mock
-
         def download_db_logfile_portion(identifier=nil, filename=nil, opts={})
           response = Excon::Response.new
           server_set = []
@@ -55,8 +52,6 @@ module Fog
           }
           response
         end
-
-
       end
     end
   end

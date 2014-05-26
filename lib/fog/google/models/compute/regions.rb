@@ -4,7 +4,6 @@ require 'fog/google/models/compute/region'
 module Fog
   module Compute
     class Google
-
       class Regions < Fog::Collection
         model Fog::Compute::Google::Region
 
@@ -21,7 +20,6 @@ module Fog
           nil
         end
       end
-
     end
   end
 end

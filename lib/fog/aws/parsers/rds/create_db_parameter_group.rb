@@ -2,9 +2,7 @@ module Fog
   module Parsers
     module AWS
       module RDS
-
         class CreateDbParameterGroup < Fog::Parsers::Base
-
           def reset
             @response = { 'CreateDBParameterGroupResult' => {}, 'ResponseMetadata' => {} }
             @db_parameter_group = {}

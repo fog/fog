@@ -16,4 +16,3 @@ Shindo.tests('Fog::Storage[:openstack]', ['openstack', 'storage']) do
   end
 
 end
-

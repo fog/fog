@@ -3,9 +3,7 @@ require 'fog/core/model'
 module Fog
   module AWS
     class Elasticache
-
       class ParameterGroup < Fog::Model
-
         identity :id, :aliases => 'CacheParameterGroupName'
         attribute :description, :aliases => 'Description'
         attribute :family, :aliases => 'CacheParameterGroupFamily'
@@ -24,9 +22,7 @@ module Fog
             family      = 'memcached1.4'
           )
         end
-
       end
-
     end
   end
 end

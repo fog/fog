@@ -5,7 +5,6 @@ module Fog
         require 'fog/aws/parsers/elasticache/parameter_group_parser'
 
         class SingleParameterGroup < ParameterGroupParser
-
           def end_element(name)
             case name
             when 'CacheParameterGroup'

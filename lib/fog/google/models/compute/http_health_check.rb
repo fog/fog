@@ -3,9 +3,7 @@ require 'fog/core/model'
 module Fog
   module Compute
     class Google
-
       class HttpHealthCheck < Fog::Model
-
         identity :name
 
         attribute :kind, :aliases => 'kind'

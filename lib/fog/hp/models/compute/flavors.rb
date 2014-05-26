@@ -4,9 +4,7 @@ require 'fog/hp/models/compute/flavor'
 module Fog
   module Compute
     class HP
-
       class Flavors < Fog::Collection
-
         model Fog::Compute::HP::Flavor
 
         def all
@@ -20,9 +18,7 @@ module Fog
         rescue Fog::Compute::HP::NotFound
           nil
         end
-
       end
-
     end
   end
 end

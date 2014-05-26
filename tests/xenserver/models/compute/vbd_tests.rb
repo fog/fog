@@ -15,7 +15,7 @@ Shindo.tests('Fog::Compute[:xenserver] | VBD model', ['xenserver']) do
     end
     tests('have attributes') do
       model_attribute_hash = vbd.attributes
-      attributes = [ 
+      attributes = [
         :reference,
         :uuid,
         :currently_attached,
@@ -53,7 +53,7 @@ Shindo.tests('Fog::Compute[:xenserver] | VBD model', ['xenserver']) do
   end
 
   tests("A real VBD should") do
-    test("have a valid OpaqueRef") do 
+    test("have a valid OpaqueRef") do
       puts vbd.reference
       (vbd.reference =~ /OpaqueRef:/).eql?(0) and \
         vbd.reference != "OpaqueRef:NULL"
@@ -80,14 +80,14 @@ Shindo.tests('Fog::Compute[:xenserver] | VBD model', ['xenserver']) do
       end
       test("return a nil VDI when type CD") do
         if vbd.type == 'CD'
-          vbd.vdi.nil? 
+          vbd.vdi.nil?
         else
           true
         end
       end
       test("return a VbdMetrics object when attached") do
         if vbd.currently_attached
-          vbd.metrics.kind_of? Fog::Compute::XenServer::VbdMetrics 
+          vbd.metrics.kind_of? Fog::Compute::XenServer::VbdMetrics
         else
           vbd.metrics.nil?
         end
@@ -111,5 +111,5 @@ Shindo.tests('Fog::Compute[:xenserver] | VBD model', ['xenserver']) do
   end
 
   destroy_ephemeral_servers
-  
+
 end

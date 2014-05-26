@@ -1,7 +1,6 @@
 module Fog
   module HP
     class LB
-
       # Get details for an existing load balancer
       #
       # ==== Parameters
@@ -40,7 +39,6 @@ module Fog
             :path    => "loadbalancers/#{load_balancer_id}"
           )
         end
-
       end
       class Mock
         def get_load_balancer(load_balancer_id)
@@ -53,7 +51,6 @@ module Fog
             raise Fog::HP::LB::NotFound
           end
         end
-
       end
     end
   end

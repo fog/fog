@@ -4,7 +4,6 @@ require 'fog/vcloud_director/models/compute/vm'
 module Fog
   module Compute
     class VcloudDirector
-
       class Vms < Collection
         model Fog::Compute::VcloudDirector::Vm
 
@@ -34,7 +33,6 @@ module Fog
           items = data[:vms]
           items
         end
-
       end
     end
   end

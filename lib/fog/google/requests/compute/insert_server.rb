@@ -1,7 +1,6 @@
 module Fog
   module Compute
     class Google
-
       class Mock
         include Shared
 
@@ -25,7 +24,6 @@ module Fog
         end
 
         def insert_server(server_name, zone_name, options={}, *deprecated_args)
-
           # check that zone exists
           get_zone(zone_name)
 
@@ -92,7 +90,6 @@ module Fog
 
           build_response(:body => self.data[:operations][operation])
         end
-
       end
 
       class Real

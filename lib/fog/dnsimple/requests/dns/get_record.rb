@@ -2,7 +2,6 @@ module Fog
   module DNS
     class DNSimple
       class Real
-
         # Gets record from given domain.
         #
         # ==== Parameters
@@ -20,11 +19,9 @@ module Fog
             :path     => "/domains/#{domain}/records/#{record_id}"
           )
         end
-
       end
 
       class Mock
-
         def get_record(domain, record_id)
           response = Excon::Response.new
 

@@ -3,7 +3,6 @@ require 'fog/fogdocker/core'
 module Fog
   module Compute
     class Fogdocker < Fog::Service
-
       requires   :docker_url
       recognizes :docker_username, :docker_password, :docker_email
 
@@ -33,7 +32,6 @@ module Fog
       end
 
       class Real
-
         def initialize(options={})
           require 'docker'
           username = options[:docker_username]
@@ -53,7 +51,6 @@ module Fog
         def camelize_hash_keys(hash)
           Hash[ hash.map {|k, v| [k.to_s.split('_').map {|w| w.capitalize}.join, v] }]
         end
-
       end
     end
   end

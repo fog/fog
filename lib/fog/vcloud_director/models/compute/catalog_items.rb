@@ -4,7 +4,6 @@ require 'fog/vcloud_director/models/compute/catalog_item'
 module Fog
   module Compute
     class VcloudDirector
-
       class CatalogItems < Collection
         model Fog::Compute::VcloudDirector::CatalogItem
 

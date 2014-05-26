@@ -5,7 +5,6 @@ module Fog
   module Rackspace
     class Databases
       class Users < Fog::Collection
-
         model Fog::Rackspace::Databases::User
 
         attr_accessor :instance

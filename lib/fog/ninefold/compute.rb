@@ -3,7 +3,6 @@ require 'fog/ninefold/core'
 module Fog
   module Compute
     class Ninefold < Fog::Service
-
       API_URL = "http://api.ninefold.com/compute/v1.0/"
 
       requires :ninefold_compute_key, :ninefold_compute_secret
@@ -69,7 +68,6 @@ module Fog
       request :update_load_balancer_rule
 
       class Mock
-
         def initialize(options)
           @api_url = options[:ninefold_api_url] || API_URL
           @ninefold_compute_key = options[:ninefold_compute_key]
@@ -82,7 +80,6 @@ module Fog
       end
 
       class Real
-
         def initialize(options)
           @api_url                  = options[:ninefold_api_url] || API_URL
           @ninefold_compute_key     = options[:ninefold_compute_key]
@@ -131,7 +128,7 @@ module Fog
           end
         end
 
-      private
+        private
         def url_escape(string)
           string.gsub(/([^ a-zA-Z0-9_.-]+)/n) do
             '%' + $1.unpack('H2' * $1.size).join('%').upcase

@@ -2,7 +2,7 @@ def test_domain
   'fog-dream.com'
 end
 
-def do_not_delete_record 
+def do_not_delete_record
   "do-not-delete.#{test_domain}"
 end
 

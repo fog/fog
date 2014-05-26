@@ -18,7 +18,6 @@ module Fog
         def save
           raise Fog::HP::LB::NotFound.new('Operation not allowed.')
         end
-
       end
     end
   end

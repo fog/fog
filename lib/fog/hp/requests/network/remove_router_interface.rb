@@ -1,7 +1,6 @@
 module Fog
   module HP
     class Network
-
       class Real
         # Remove an internal router interface, thus detaching a subnet or a port from an existing router
         #
@@ -61,7 +60,6 @@ module Fog
           end
         end
       end
-
     end
   end
 end

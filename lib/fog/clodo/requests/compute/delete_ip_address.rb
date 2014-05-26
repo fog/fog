@@ -2,7 +2,6 @@ module Fog
   module Compute
     class Clodo
       class Real
-
         # Delete IP-address from specified server
         # ==== Paramaters
         # * server_id<~Integer> - Id of server to delete IP from
@@ -26,7 +25,6 @@ module Fog
 
       class Mock
         def delete_ip_address(server_id, ip)
-
           server = self.data[:servers][server_id]
 
           raise Excon::Errors::BadRequest.new "Server not found" unless server

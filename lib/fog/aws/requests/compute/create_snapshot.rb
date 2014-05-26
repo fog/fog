@@ -2,7 +2,6 @@ module Fog
   module Compute
     class AWS
       class Real
-
         require 'fog/aws/parsers/compute/create_snapshot'
 
         # Create a snapshot of an EBS volume and store it in S3
@@ -30,11 +29,9 @@ module Fog
             :parser       => Fog::Parsers::Compute::AWS::CreateSnapshot.new
           )
         end
-
       end
 
       class Mock
-
         #
         # Usage
         #
@@ -67,7 +64,6 @@ module Fog
           end
           response
         end
-
       end
     end
   end

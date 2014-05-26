@@ -182,7 +182,6 @@ Shindo.tests('Fog::Rackspace::LoadBalancers | load_balancer', ['rackspace']) do
       @lb.destroy
     end
 
-
     tests('failure') do
       @lb = @service.load_balancers.new LOAD_BALANCER_ATTRIBUTES
       tests('#usage => Requires ID').raises(ArgumentError) do

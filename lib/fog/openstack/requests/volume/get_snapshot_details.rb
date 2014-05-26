@@ -2,20 +2,16 @@ module Fog
   module Volume
     class OpenStack
       class Real
-
         def get_snapshot_details(snapshot_id)
-
           request(
             :expects  => 200,
             :method   => 'GET',
             :path     => "snapshots/#{snapshot_id}"
           )
         end
-
       end
 
       class Mock
-
         def get_snapshot_details(detailed=true)
           response = Excon::Response.new
           response.status = 200
@@ -33,7 +29,6 @@ module Fog
           response
         end
       end
-
     end
   end
 end

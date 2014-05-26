@@ -3,7 +3,6 @@ require 'fog/compute/models/server'
 module Fog
   module Compute
     class Vsphere
-
       class Server < Fog::Compute::Server
         extend Fog::Deprecation
         deprecate(:ipaddress, :public_ip_address)
@@ -65,7 +64,6 @@ module Fog
           end
         end
         # End Lazy Loaded Attributes
-
 
         def vm_reconfig_memory(options = {})
           requires :instance_uuid, :memory
@@ -283,9 +281,7 @@ module Fog
             Fog::Compute::Vsphere::SCSIController.new(self.attributes[:scsi_controller])
           end
         end
-
       end
-
     end
   end
 end

@@ -3,9 +3,7 @@ require 'fog/vcloud/models/compute/network'
 module Fog
   module Vcloud
     class Compute
-
       class Networks < Fog::Vcloud::Collection
-
         undef_method :create
 
         model Fog::Vcloud::Compute::Network

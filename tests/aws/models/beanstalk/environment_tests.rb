@@ -90,7 +90,6 @@ Shindo.tests("Fog::AWS[:beanstalk] | environment", ['aws', 'beanstalk']) do
       @instance.wait_for { ready? }
     end
 
-
     test('#restart_app_server') do
       @instance.restart_app_server
 

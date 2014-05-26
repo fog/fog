@@ -4,7 +4,6 @@ require 'fog/terremark/models/shared/server'
 module Fog
   module Terremark
     module Shared
-
       module Mock
         def tasks
           Fog::Terremark::Shared::Tasks.new(:service => self)
@@ -18,7 +17,6 @@ module Fog
       end
 
       class Tasks < Fog::Collection
-
         model Fog::Terremark::Shared::Task
 
         def all
@@ -50,9 +48,7 @@ module Fog
         def task_list_id=(new_task_list_id)
           @task_list_id = new_task_list_id
         end
-
       end
-
     end
   end
 end

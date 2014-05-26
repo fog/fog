@@ -1,7 +1,6 @@
 module Fog
   module HP
     class Network
-
       class Real
         # Delete an existing floating ip
         #
@@ -28,7 +27,6 @@ module Fog
           end
         end
       end
-
     end
   end
 end

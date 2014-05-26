@@ -2,7 +2,6 @@ module Fog
   module Rackspace
     class Monitoring
       class Real
-
         def get_entity(entity_id)
           request(
             :expects  => [200, 203],
@@ -10,13 +9,10 @@ module Fog
             :path     => "entities/#{entity_id}"
           )
         end
-
       end
 
       class Mock
-
         def get_entity(entity_id)
-
           account_id = Fog::Mock.random_numbers(6).to_s
           server_id = Fog::Rackspace::MockData.uuid
           entity_label = Fog::Mock.random_letters(10)
@@ -57,5 +53,3 @@ module Fog
     end
   end
 end
-
-

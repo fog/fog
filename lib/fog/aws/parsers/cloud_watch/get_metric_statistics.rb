@@ -2,9 +2,7 @@ module Fog
   module Parsers
     module AWS
       module CloudWatch
-
         class GetMetricStatistics < Fog::Parsers::Base
-
           def reset
             @response = { 'GetMetricStatisticsResult' => {'Datapoints' => []}, 'ResponseMetadata' => {} }
             reset_datapoint
@@ -40,4 +38,3 @@ module Fog
     end
   end
 end
-

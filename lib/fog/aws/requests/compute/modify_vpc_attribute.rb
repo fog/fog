@@ -2,7 +2,6 @@ module Fog
   module Compute
     class AWS
       class Real
-
         require 'fog/aws/parsers/compute/basic'
 
         # Modifies the specified attribute of the specified VPC.
@@ -31,7 +30,6 @@ module Fog
             :parser              => Fog::Parsers::Compute::AWS::Basic.new
           }.merge!(options))
         end
-
       end
 
       class Mock

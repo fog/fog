@@ -2,7 +2,6 @@ module Fog
   module AWS
     class Elasticache
       class Real
-
         require 'fog/aws/parsers/elasticache/describe_cache_parameters'
 
         # Returns a list of CacheParameterGroup descriptions
@@ -23,7 +22,6 @@ module Fog
             :parser => Fog::Parsers::AWS::Elasticache::DescribeCacheParameters.new
           })
         end
-
       end
 
       class Mock

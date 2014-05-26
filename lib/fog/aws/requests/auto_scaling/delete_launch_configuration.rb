@@ -1,9 +1,7 @@
 module Fog
   module AWS
     class AutoScaling
-
       class Real
-
         require 'fog/aws/parsers/auto_scaling/basic'
 
         # Deletes the specified launch configuration.
@@ -32,11 +30,9 @@ module Fog
             :parser                   => Fog::Parsers::AWS::AutoScaling::Basic.new
           })
         end
-
       end
 
       class Mock
-
         def delete_launch_configuration(launch_configuration_name)
           unless self.data[:launch_configurations].delete(launch_configuration_name)
             raise Fog::AWS::AutoScaling::NotFound, "The launch configuration '#{launch_configuration_name}' does not exist."
@@ -49,9 +45,7 @@ module Fog
           }
           response
         end
-
       end
-
     end
   end
 end

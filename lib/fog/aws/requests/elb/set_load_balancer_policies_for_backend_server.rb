@@ -2,7 +2,6 @@ module Fog
   module AWS
     class ELB
       class Real
-
         require 'fog/aws/parsers/elb/empty'
 
         # Replaces the current set of policies associated with a port on which the back-end server is listening with a new set of policies.

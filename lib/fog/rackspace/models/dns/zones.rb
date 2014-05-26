@@ -5,7 +5,6 @@ module Fog
   module DNS
     class Rackspace
       class Zones < Fog::Collection
-
         attribute :total_entries, :aliases => "totalEntries"
 
         model Fog::DNS::Rackspace::Zone
@@ -69,7 +68,6 @@ module Fog
           CGI.parse uri.query
         end
       end
-
     end
   end
 end

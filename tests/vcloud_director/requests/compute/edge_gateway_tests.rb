@@ -30,7 +30,6 @@ Shindo.tests('Compute::VcloudDirector | edge gateway requests', ['vclouddirector
       }
   }
 
-
   @service = Fog::Compute::VcloudDirector.new
   @org = VcloudDirector::Compute::Helper.current_org(@service)
 
@@ -39,7 +38,7 @@ Shindo.tests('Compute::VcloudDirector | edge gateway requests', ['vclouddirector
       if l[:type] == 'application/vnd.vmware.vcloud.vdc+xml'
         id = l[:href].split('/').last
         edge_gateways = @service.get_org_vdc_gateways(id).body
-        if edge_gateways && edge_gateways[:EdgeGatewayRecord].size >= 1 
+        if edge_gateways && edge_gateways[:EdgeGatewayRecord].size >= 1
           @vdc_id = id
           break
         end
@@ -67,7 +66,6 @@ Shindo.tests('Compute::VcloudDirector | edge gateway requests', ['vclouddirector
     @edge_gateway_id = @edge_gateways[:EdgeGatewayRecord].first[:href].split('/').last
     @original_gateway_conf = @service.get_edge_gateway(@edge_gateway_id).body
   end
-
 
   tests('#configure_edge_gateway_services') do
 

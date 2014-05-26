@@ -2,7 +2,6 @@ module Fog
   module Compute
     class Cloudstack
       class Real
-
         # Registers an existing template into the cloud.
         #
         # {CloudStack API Reference}[http://download.cloud.com/releases/3.0.0/api_3.0.0/user/registerTemplate.html]
@@ -13,7 +12,6 @@ module Fog
 
           request(options)
         end
-
       end # Real
 
       class Mock

@@ -4,7 +4,6 @@ require 'fog/volume'
 module Fog
   module Volume
     class SakuraCloud < Fog::Service
-
       requires     :sakuracloud_api_token
       requires     :sakuracloud_api_token_secret
 
@@ -55,7 +54,6 @@ module Fog
       end
 
       class Mock
-
         def self.data
           @data ||= Hash.new do |hash, key|
             hash[key] = {
@@ -84,9 +82,7 @@ module Fog
           self.class.data.delete(@sakuracloud_api_token)
           self.class.data.delete(@sakuracloud_api_token_secret)
         end
-
       end
-
     end #SakuraCloud
   end #Volume
 end

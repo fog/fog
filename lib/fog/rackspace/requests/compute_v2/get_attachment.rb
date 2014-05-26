@@ -2,7 +2,6 @@ module Fog
   module Compute
     class RackspaceV2
       class Real
-
         # Retrieves attachment
         # @param [String] server_id
         # @param [String] volume_id

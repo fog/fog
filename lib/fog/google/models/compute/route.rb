@@ -3,7 +3,6 @@ require 'fog/core/model'
 module Fog
   module Compute
     class Google
-
       ##
       # Represents a Route resource
       #
@@ -46,7 +45,6 @@ module Fog
           operation
         end
       end
-
     end
   end
 end

@@ -2,9 +2,7 @@ module Fog
   module Parsers
     module AWS
       module SQS
-
         class CreateQueue < Fog::Parsers::Base
-
           def reset
             @response = { 'ResponseMetadata' => {} }
           end
@@ -17,9 +15,7 @@ module Fog
               @response['QueueUrl'] = @value
             end
           end
-
         end
-
       end
     end
   end

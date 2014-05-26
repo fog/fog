@@ -1,7 +1,6 @@
 class AWS
   module Elasticache
     module Formats
-
       BASIC = {
         'ResponseMetadata' => {'RequestId' => String}
       }
@@ -82,7 +81,7 @@ class AWS
         'SourceType'                  => String,
       }
       EVENT_LIST = [EVENT]
-      
+
       RESERVED_CACHE_CLUSTER = {
         'CacheNodeCount'                => Integer,
         'CacheNodeType'                 => String,
@@ -98,7 +97,7 @@ class AWS
         'UsagePrice'                    => Float
       }
       RESERVED_CACHE_CLUSTER_LIST = [RESERVED_CACHE_CLUSTER]
-      
+
     end
   end
 end

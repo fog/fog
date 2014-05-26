@@ -1,7 +1,6 @@
 module Fog
   module Compute
     class Joyent
-
       class Real
         def delete_machine_snapshot(machine_id, snapshot)
           request(
@@ -13,9 +12,7 @@ module Fog
       end
 
       class Mock
-
       end
-
     end
   end
 end

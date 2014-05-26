@@ -126,4 +126,3 @@ Shindo.tests('Rackspace | Storage', ['rackspace']) do
     end
   end
 end
-

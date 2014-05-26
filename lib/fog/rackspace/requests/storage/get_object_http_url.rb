@@ -1,7 +1,6 @@
 module Fog
   module Storage
     class Rackspace
-
       module Common
         # Get an expiring object http url from Cloud Files
         #
@@ -31,7 +30,6 @@ module Fog
       class Mock
         include Common
       end
-
     end
   end
 end

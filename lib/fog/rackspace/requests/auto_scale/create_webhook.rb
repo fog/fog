@@ -3,7 +3,6 @@ module Fog
     class AutoScale
       class Real
         def create_webhook(group_id, policy_id, options)
-
           body = [options]
 
           request(
@@ -17,7 +16,6 @@ module Fog
 
       class Mock
         def create_webhook(group_id, policy_id, options)
-
           group = self.data[:autoscale_groups][group_id]
           if group.nil?
             raise Fog::Rackspace::AutoScale::NotFound
@@ -49,7 +47,6 @@ module Fog
 
           body = {'webhook' => webhook}
           response(:body => body)
-
         end
       end
     end

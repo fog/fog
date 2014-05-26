@@ -2,7 +2,6 @@ module Fog
   module AWS
     class Glacier
       class Real
-
         # This operation lists all vaults owned by the calling user’s account.
         #
         # ==== Parameters
@@ -30,7 +29,6 @@ module Fog
           )
         end
       end
-
     end
   end
 end

@@ -31,7 +31,6 @@ module Fog
         rescue Fog::AWS::ELB::NotFound
           nil
         end
-
       end
     end
   end

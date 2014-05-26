@@ -2,7 +2,6 @@ module Fog
   module AWS
     class ELB
       class Real
-
         require 'fog/aws/parsers/elb/empty'
 
         # Sets the certificate that terminates the specified listener's SSL
@@ -30,7 +29,6 @@ module Fog
             :parser            => Fog::Parsers::AWS::ELB::Empty.new
           })
         end
-
       end
 
       class Mock

@@ -49,7 +49,6 @@ module Fog
             :datacenter=>"Solutions"}]
         end
       end
-
     end
   end
 end

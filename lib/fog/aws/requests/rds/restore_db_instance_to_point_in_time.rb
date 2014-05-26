@@ -2,7 +2,6 @@ module Fog
   module AWS
     class RDS
       class Real
-
         require 'fog/aws/parsers/rds/restore_db_instance_to_point_in_time'
 
         # Restores a DB Instance to a point in time
@@ -18,18 +17,13 @@ module Fog
             :parser   => Fog::Parsers::AWS::RDS::RestoreDBInstanceToPointInTime.new,
           }.merge(opts))
         end
-
       end
 
       class Mock
-
         def restore_db_instance_to_point_in_time(source_db_name, target_db_name, opts={})
           Fog::Mock.not_implemented
         end
-
       end
     end
   end
 end
-
-

@@ -4,9 +4,7 @@ require 'fog/brightbox/models/compute/cloud_ip'
 module Fog
   module Compute
     class Brightbox
-
       class CloudIps < Fog::Collection
-
         model Fog::Compute::Brightbox::CloudIp
 
         def all
@@ -26,9 +24,7 @@ module Fog
           data = service.create_cloud_ip
           new(data)
         end
-
       end
-
     end
   end
 end

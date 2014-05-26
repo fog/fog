@@ -2,7 +2,6 @@ module Fog
   module AWS
     class SimpleDB
       class Real
-
         require 'fog/aws/parsers/simpledb/list_domains'
 
         # List SimpleDB domains
@@ -27,11 +26,9 @@ module Fog
             :parser     => Fog::Parsers::AWS::SimpleDB::ListDomains.new(@nil_string)
           }.merge!(options))
         end
-
       end
 
       class Mock
-
         def list_domains(options = {})
           response = Excon::Response.new
           keys = self.data[:domains].keys
@@ -52,7 +49,6 @@ module Fog
           end
           response
         end
-
       end
     end
   end

@@ -2,7 +2,6 @@ module Fog
   module Compute
     class Ecloud
       module Shared
-
         def build_request_body_edit_assigned_ips(networks)
           xml = Builder::XmlMarkup.new
           xml.AssignedIpAddresses do
@@ -22,7 +21,6 @@ module Fog
       end
 
       class Real
-
         def virtual_machine_edit_assigned_ips(href, options)
           body = build_request_body_edit_assigned_ips(options)
           request(

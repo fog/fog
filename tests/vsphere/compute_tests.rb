@@ -5,7 +5,6 @@ Shindo.tests('Fog::Compute[:vsphere]', ['vsphere']) do
   tests("| convert_vm_mob_ref_to_attr_hash") do
     # Mock the RbVmomi::VIM::ManagedObject class
     class MockManagedObject
-
       attr_reader :parent, :_ref
 
       def initialize
@@ -52,4 +51,3 @@ Shindo.tests('Fog::Compute[:vsphere]', ['vsphere']) do
     end
   end
 end
-

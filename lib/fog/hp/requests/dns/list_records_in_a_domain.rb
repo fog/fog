@@ -28,7 +28,6 @@ module Fog
               :path    => "domains/#{domain_id}/records"
           )
         end
-
       end
       class Mock
         def list_records_in_a_domain(domain_id)
@@ -49,7 +48,6 @@ module Fog
           records
         end
       end
-
     end
   end
 end

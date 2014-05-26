@@ -2,7 +2,6 @@ module Fog
   module Storage
     class HP
       class Real
-
         # Get details for a shared container
         #
         # ==== Parameters
@@ -40,11 +39,9 @@ module Fog
           )
           response
         end
-
       end
 
       class Mock # :nodoc:all
-
         def get_shared_container(shared_container_url, options = {})
           response = Excon::Response.new
           data = {
@@ -65,11 +62,8 @@ module Fog
             'X-Trans-Id'               => "tx#{Fog::Mock.random_hex(32)}"
           }
           response
-
         end
-
       end
-
     end
   end
 end

@@ -3,9 +3,7 @@ require 'fog/core/model'
 module Fog
   module Compute
     class Ninefold
-
       class Address < Fog::Model
-
         identity  :id
 
         attribute :account
@@ -96,7 +94,6 @@ module Fog
         def to_boolean(val)
           val && (val.to_s.match(/(true|t|yes|y|1)$/i) != nil)
         end
-
       end
     end
   end

@@ -2,7 +2,6 @@ module Fog
   module DNS
     class Rage4
       class Real
-
         # Get the lsit of all domains for your account.
         # ==== Parameters
         #
@@ -22,20 +21,16 @@ module Fog
                   :path     => '/rapi/getdomains'
                   )
         end
-
       end
 
       class Mock
-
         def list_domains
           response = Excon::Response.new
           response.status = 200
           response.body = self.data[:domains]
           response
         end
-
       end
-
     end
   end
 end

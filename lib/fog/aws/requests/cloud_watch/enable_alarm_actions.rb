@@ -2,7 +2,6 @@ module Fog
   module AWS
     class CloudWatch
       class Real
-
         require 'fog/aws/parsers/cloud_watch/enable_alarm_actions'
 
         # Enables actions for the specified alarms

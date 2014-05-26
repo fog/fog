@@ -2,7 +2,6 @@ module Fog
   module Terremark
     module Shared
       module Real
-
         # Power on a vapp
         #
         # ==== Parameters
@@ -28,7 +27,6 @@ module Fog
             :path     => "vApp/#{vapp_id}/power/action/powerOn"
           )
         end
-
       end
     end
   end

@@ -2,7 +2,6 @@ module Fog
   module Compute
     class IBM
       class Real
-
         # Deletes the Address that the authenticated user manages with the specified :address_id
         #
         # ==== Parameters
@@ -19,11 +18,9 @@ module Fog
             :path     => "/addresses/#{address_id}"
           )
         end
-
       end
 
       class Mock
-
         def delete_address(address_id)
           response = Excon::Response.new
           if address_exists? address_id
@@ -39,7 +36,6 @@ module Fog
         def address_exists?(address_id)
           self.data[:addresses].key? address_id
         end
-
       end
     end
   end

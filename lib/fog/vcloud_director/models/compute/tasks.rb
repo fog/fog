@@ -4,7 +4,6 @@ require 'fog/vcloud_director/models/compute/task'
 module Fog
   module Compute
     class VcloudDirector
-
       class Tasks < Collection
         model Fog::Compute::VcloudDirector::Task
 
@@ -24,7 +23,6 @@ module Fog
           data = service.get_task_list(organization.id).body
           data[:Task].each {|task| service.add_id_from_href!(task)}
         end
-
       end
     end
   end

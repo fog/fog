@@ -4,7 +4,6 @@ module Fog
   module Rackspace
     class LoadBalancers
       class VirtualIp < Fog::Model
-
         identity :id
 
         attribute :address

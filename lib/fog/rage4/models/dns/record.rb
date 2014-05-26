@@ -3,10 +3,7 @@ require 'fog/core/model'
 module Fog
   module DNS
     class Rage4
-
       class Record < Fog::Model
-
-
         identity :id
 
         attribute :name
@@ -24,7 +21,6 @@ module Fog
         attribute :geo_lock
         attribute :is_active
         attribute :udp_limit
-
 
         def initialize(attributes={})
           super
@@ -71,9 +67,7 @@ module Fog
         def zone=(new_zone)
           @zone = new_zone
         end
-
       end
-
     end
   end
 end

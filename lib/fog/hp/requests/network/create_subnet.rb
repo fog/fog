@@ -1,7 +1,6 @@
 module Fog
   module HP
     class Network
-
       class Real
         # Create a new subnet
         #
@@ -91,7 +90,6 @@ module Fog
           end
         end
       end
-
     end
   end
 end

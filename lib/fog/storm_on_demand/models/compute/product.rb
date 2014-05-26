@@ -3,7 +3,6 @@ require 'fog/core/model'
 module Fog
   module Compute
     class StormOnDemand
-
       class Product < Fog::Model
         identity :code
         attribute :alias
@@ -32,9 +31,7 @@ module Fog
           requires :identity
           service.get_product_starting_price(:code => identity).body['items']
         end
-
       end
-
     end
   end
 end

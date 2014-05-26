@@ -2,7 +2,6 @@ module Fog
   module Compute
     class Bluebox
       class Real
-
         # Get details of a product
         #
         # ==== Parameters
@@ -19,7 +18,6 @@ module Fog
             :path     => "api/block_products/#{product_id}.json"
           )
         end
-
       end
     end
   end

@@ -11,7 +11,6 @@ module Fog
          end
       end
 
-
       class Mock
         def get_load_balancer(load_balancer_id)
           response = Excon::Response.new
@@ -39,7 +38,6 @@ module Fog
             response
          end
       end
-
     end
   end
 end

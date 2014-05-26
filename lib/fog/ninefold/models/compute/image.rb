@@ -3,9 +3,7 @@ require 'fog/core/model'
 module Fog
   module Compute
     class Ninefold
-
       class Image < Fog::Model
-
         identity :id
 
         attribute :account
@@ -34,9 +32,7 @@ module Fog
         attribute :templatetype
         attribute :zoneid
         attribute :zonename
-
       end
-
     end
   end
 end

@@ -3,7 +3,6 @@ require 'fog/core/model'
 module Fog
   module DNS
     class Dynect
-
       class Record < Fog::Model
         extend Fog::Deprecation
 
@@ -58,9 +57,7 @@ module Fog
         def zone=(new_zone)
           @zone = new_zone
         end
-
       end
-
     end
   end
 end

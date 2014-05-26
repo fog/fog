@@ -38,7 +38,6 @@ module Fog
 
           vms.map(&method(:convert_vm_mob_ref_to_attr_hash))
         end
-
       end
       class Mock
         def list_templates(filters = { })

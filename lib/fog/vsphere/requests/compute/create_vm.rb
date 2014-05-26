@@ -149,13 +149,11 @@ module Fog
             }
           ]
         end
-
       end
 
       class Mock
         def create_vm attributes = { }
         end
-
       end
     end
   end

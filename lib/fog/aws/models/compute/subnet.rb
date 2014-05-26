@@ -3,9 +3,7 @@ require 'fog/core/model'
 module Fog
   module Compute
     class AWS
-
       class Subnet < Fog::Model
-
         identity  :subnet_id,                   :aliases => 'subnetId'
         attribute :state
         attribute :vpc_id,                      :aliases => 'vpcId'
@@ -56,7 +54,6 @@ module Fog
 
           true
         end
-
       end
     end
   end

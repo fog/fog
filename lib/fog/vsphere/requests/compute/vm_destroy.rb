@@ -2,7 +2,6 @@ module Fog
   module Compute
     class Vsphere
       class Real
-
         def vm_destroy(options = {})
           raise ArgumentError, "instance_uuid is a required parameter" unless options.has_key? 'instance_uuid'
 
@@ -11,16 +10,13 @@ module Fog
           task.wait_for_completion
           { 'task_state' => task.info.state }
         end
-
       end
 
       class Mock
-
         def vm_destroy(options = {})
           raise ArgumentError, "instance_uuid is a required parameter" unless options.has_key? 'instance_uuid'
           { 'task_state' => 'success' }
         end
-
       end
     end
   end

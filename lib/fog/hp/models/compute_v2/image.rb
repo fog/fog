@@ -4,9 +4,7 @@ require 'fog/hp/models/compute_v2/metadata'
 module Fog
   module Compute
     class HPV2
-
       class Image < Fog::Model
-
         identity :id
 
         attribute :name
@@ -78,10 +76,7 @@ module Fog
           m = @metadata.detect {|md| md.key == 'architecture'}
           m.value unless m.nil?
         end
-
-
       end
-
     end
   end
 end

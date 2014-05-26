@@ -2,10 +2,8 @@ module Fog
   module Parsers
     module AWS
       module IAM
-
         require 'fog/aws/parsers/iam/role_parser'
         class SingleRole < Fog::Parsers::AWS::IAM::RoleParser
-
           def reset
             super
             @response = { 'Role' => {} }

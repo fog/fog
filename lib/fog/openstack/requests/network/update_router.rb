@@ -1,9 +1,7 @@
 module Fog
   module Network
     class OpenStack
-
       class Real
-
         # Update Router
         #
         # Beyond the name and the administrative state, the only
@@ -66,7 +64,6 @@ module Fog
           response
         end
       end
-
     end
   end
 end

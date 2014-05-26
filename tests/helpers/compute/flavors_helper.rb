@@ -1,5 +1,4 @@
 def flavors_tests(connection, params = {}, mocks_implemented = true)
-
   tests('success') do
 
     tests("#all").succeeds do
@@ -30,5 +29,4 @@ def flavors_tests(connection, params = {}, mocks_implemented = true)
     end
 
   end
-
 end

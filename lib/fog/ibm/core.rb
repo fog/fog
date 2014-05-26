@@ -3,7 +3,6 @@ require 'fog/json'
 
 module Fog
   module IBM
-
     extend Fog::Provider
 
     service(:compute, 'Compute')
@@ -17,7 +16,6 @@ module Fog
     end
 
     class Connection < Fog::XML::Connection
-
       def initialize(user, password)
         @user = user
         @password = password
@@ -54,7 +52,6 @@ module Fog
 
     class Mock
       class << self
-
         def id
           Fog::Mock.random_numbers(7).to_i.to_s
         end
@@ -169,9 +166,7 @@ module Fog
             "state"     => 0
           }
         end
-
       end
     end
-
   end
 end

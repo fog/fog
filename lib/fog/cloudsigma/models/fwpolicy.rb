@@ -14,8 +14,6 @@ module Fog
         attribute :servers, :type => :array
         model_attribute_array :rules, Rule
       end
-
-
     end
   end
 end

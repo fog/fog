@@ -1,9 +1,7 @@
 module Fog
   module AWS
     class DataPipeline
-
       class Real
-
         # Get pipeline definition JSON
         # http://docs.aws.amazon.com/datapipeline/latest/APIReference/API_GetPipelineDefinition.html
         # ==== Parameters
@@ -23,7 +21,6 @@ module Fog
 
           Fog::JSON.decode(response.body)
         end
-
       end
 
       class Mock
@@ -31,7 +28,6 @@ module Fog
           Fog::Mock.not_implemented
         end
       end
-
     end
   end
 end

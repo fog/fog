@@ -2,7 +2,6 @@ module Fog
   module Vcloud
     class Compute
       class Real
-
         def validate_network_data(network_data, configure=false)
           valid_opts = [:id, :href, :name, :address, :broadcast, :gateway]
           unless valid_opts.all? { |opt| network_data.has_key?(opt) }
@@ -36,7 +35,6 @@ module Fog
             builder.GatewayAddress(network_data[:gateway])
           }
         end
-
       end
     end
   end

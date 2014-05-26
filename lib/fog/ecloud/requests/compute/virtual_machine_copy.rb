@@ -2,7 +2,6 @@ module Fog
   module Compute
     class Ecloud
       module Shared
-
         def validate_create_server_options_copy(template_uri, options)
           required_opts = [:name, :cpus, :memory, :row, :group, :customization, :network_uri, :source]
           if options[:customization] == :windows
@@ -99,7 +98,6 @@ module Fog
       end
 
       class Real
-
         def virtual_machine_copy(template_uri, options)
           options = validate_create_server_options_copy(template_uri, options)
           body = build_request_body_copy(options)

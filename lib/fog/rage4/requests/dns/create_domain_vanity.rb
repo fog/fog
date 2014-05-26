@@ -2,7 +2,6 @@ module Fog
   module DNS
     class Rage4
       class Real
-
         # Create a domain with a vanity name server.
         # ==== Parameters
         # * name<~String> - domain name
@@ -25,10 +24,7 @@ module Fog
                     "&nsname=#{nsname}&nsprefix=#{nsprefix}"
           )
         end
-
       end
-
-
     end
   end
 end

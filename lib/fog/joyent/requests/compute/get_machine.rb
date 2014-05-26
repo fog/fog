@@ -1,7 +1,6 @@
 module Fog
   module Compute
     class Joyent
-
       class Mock
         def get_machine(uuid)
           if machine = self.data[:machines][uuid]

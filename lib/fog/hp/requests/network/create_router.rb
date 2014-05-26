@@ -1,7 +1,6 @@
 module Fog
   module HP
     class Network
-
       class Real
         # Create a new router
         #
@@ -58,7 +57,6 @@ module Fog
           response
         end
       end
-
     end
   end
 end

@@ -3,7 +3,6 @@ require 'fog/core/model'
 module Fog
   module Compute
     class Google
-
       ##
       # Represents a Region resource
       #
@@ -28,7 +27,6 @@ module Fog
           self.status == UP_STATE
         end
       end
-
     end
   end
 end

@@ -16,7 +16,7 @@ Shindo.tests('Fog::Compute[:xenserver] | create_vlan request', ['xenserver']) do
       @ref.start_with? "OpaqueRef"
     end
   end
-  
+
   tests('failure') do
     test('#create_vlan duplicated') do
       raises = false
@@ -32,5 +32,5 @@ Shindo.tests('Fog::Compute[:xenserver] | create_vlan request', ['xenserver']) do
 
   compute.destroy_vlan @ref
   @net.destroy
-  
+
 end

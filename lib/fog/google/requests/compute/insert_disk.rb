@@ -1,9 +1,7 @@
 module Fog
   module Compute
     class Google
-
       class Mock
-
         def insert_disk(disk_name, zone_name, image_name=nil, options={})
           # check that image and zone exist
           image = nil
@@ -59,11 +57,9 @@ module Fog
 
           build_response(:body => self.data[:operations][operation])
         end
-
       end
 
       class Real
-
         def insert_disk(disk_name, zone_name, image_name=nil, opts={})
           api_method = @compute.disks.insert
           parameters = {
@@ -107,9 +103,7 @@ module Fog
                                      body_object)
           response = self.build_response(result)
         end
-
       end
-
     end
   end
 end

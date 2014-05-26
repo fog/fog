@@ -66,8 +66,6 @@ DATA
         kSigning = Fog::HMAC.new('sha256', kService).sign('aws4_request')
         Fog::HMAC.new('sha256', kSigning)
       end
-
-
     end
   end
 end

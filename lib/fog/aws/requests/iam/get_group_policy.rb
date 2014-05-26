@@ -2,7 +2,6 @@ module Fog
   module AWS
     class IAM
       class Real
-
         require 'fog/aws/parsers/iam/get_group_policy'
 
         # Get Group Policy
@@ -29,7 +28,6 @@ module Fog
             :parser       => Fog::Parsers::AWS::IAM::GetGroupPolicy.new
           })
         end
-
       end
       class Mock
         def get_group_policy(policy_name, group_name)

@@ -62,8 +62,6 @@ module Fog
               }
             end
 
-
-
              # builder.Item(:xmlns => 'http://schemas.dmtf.org/ovf/envelope/1') {
              # #builder.Item {
              #   builder.InstanceID(1, :xmlns => 'http://schemas.dmtf.org/wbem/wscim/1/cim-schema/2/CIM_ResourceAllocationSettingData')
@@ -102,7 +100,6 @@ module Fog
             :parse    => true
           )
         end
-
       end
     end
   end

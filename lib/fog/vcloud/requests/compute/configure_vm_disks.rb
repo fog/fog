@@ -28,15 +28,10 @@
 #     </Item>
 # </RasdItemsList>
 
-
-
-
-
 module Fog
   module Vcloud
     class Compute
       class Real
-
         def generate_configure_vm_disks_request(href, disk_data)
           xmlns = {
             "xmlns:rasd" => "http://schemas.dmtf.org/wbem/wscim/1/cim-schema/2/CIM_ResourceAllocationSettingData",
@@ -92,9 +87,7 @@ module Fog
             :parse    => true
           )
         end
-
       end
-
     end
   end
 end

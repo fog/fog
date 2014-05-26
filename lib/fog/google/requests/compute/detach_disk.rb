@@ -1,7 +1,6 @@
 module Fog
   module Compute
     class Google
-
       class Mock
         def detach_disk(instance, zone, deviceName)
           Fog::Mock.not_implemented
@@ -9,7 +8,6 @@ module Fog
       end
 
       class Real
-
         def detach_disk(instance, zone, deviceName)
           api_method = @compute.instances.detach_disk
           parameters = {
@@ -22,9 +20,7 @@ module Fog
           result = self.build_result(api_method, parameters)
           response = self.build_response(result)
         end
-
       end
-
     end
   end
 end

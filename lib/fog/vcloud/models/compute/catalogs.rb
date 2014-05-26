@@ -4,7 +4,6 @@ module Fog
   module Vcloud
     class Compute
       class Catalogs < Fog::Vcloud::Collection
-
         model Fog::Vcloud::Compute::Catalog
 
         attribute :organization_uri
@@ -31,7 +30,6 @@ module Fog
           end
           res
         end
-
       end
     end
   end

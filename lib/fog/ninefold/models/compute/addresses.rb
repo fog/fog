@@ -4,9 +4,7 @@ require 'fog/ninefold/models/compute/address'
 module Fog
   module Compute
     class Ninefold
-
       class Addresses < Fog::Collection
-
         model Fog::Compute::Ninefold::Address
 
         def all
@@ -23,9 +21,7 @@ module Fog
             new(data[0])
           end
         end
-
       end
-
     end
   end
 end

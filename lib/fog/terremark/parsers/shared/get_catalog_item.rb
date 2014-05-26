@@ -2,9 +2,7 @@ module Fog
   module Parsers
     module Terremark
       module Shared
-
         class GetCatalogItem < TerremarkParser
-
           def reset
             @response = { 'Entity' => {}, 'Properties' => {} }
           end
@@ -27,9 +25,7 @@ module Fog
               @response['Properties'][@property_key] = value
             end
           end
-
         end
-
       end
     end
   end

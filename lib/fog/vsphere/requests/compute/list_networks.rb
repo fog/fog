@@ -26,7 +26,6 @@ module Fog
             :datacenter => datacenter,
           }
         end
-
       end
       class Mock
         def list_networks(datacenter_name)

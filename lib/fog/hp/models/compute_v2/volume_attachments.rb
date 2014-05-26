@@ -5,7 +5,6 @@ module Fog
   module Compute
     class HPV2
       class VolumeAttachments < Fog::Collection
-
         model Fog::Compute::HPV2::VolumeAttachment
 
         attr_accessor :server

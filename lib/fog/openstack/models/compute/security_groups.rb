@@ -4,9 +4,7 @@ require 'fog/openstack/models/compute/security_group'
 module Fog
   module Compute
     class OpenStack
-
       class SecurityGroups < Fog::Collection
-
         model Fog::Compute::OpenStack::SecurityGroup
 
         def all
@@ -20,7 +18,6 @@ module Fog
         rescue Fog::Compute::OpenStack::NotFound
           nil
         end
-
       end
     end
   end

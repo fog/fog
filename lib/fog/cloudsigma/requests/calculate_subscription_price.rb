@@ -9,10 +9,8 @@ module Fog
 
       class Mock
         def calculate_subscription_price(data)
-
         end
       end
-
     end
   end
 end

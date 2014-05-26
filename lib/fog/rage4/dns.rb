@@ -3,7 +3,6 @@ require 'fog/rage4/core'
 module Fog
   module DNS
     class Rage4 < Fog::Service
-
       requires :rage4_email, :rage4_api_key
       recognizes :rage4_url, :host, :path, :port, :scheme, :persistent
 
@@ -33,7 +32,6 @@ module Fog
       request :set_record_failover
 
       class Real
-
         def initialize(options={})
           @rage4_email = options[:rage4_email]
           @rage4_password  = options[:rage4_api_key]

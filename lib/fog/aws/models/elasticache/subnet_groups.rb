@@ -4,9 +4,7 @@ require 'fog/aws/models/elasticache/subnet_group'
 module Fog
   module AWS
     class Elasticache
-
       class SubnetGroups < Fog::Collection
-
         model Fog::AWS::Elasticache::SubnetGroup
 
         def all
@@ -20,7 +18,6 @@ module Fog
         rescue Fog::AWS::Elasticache::NotFound
           nil
         end
-
       end
     end
   end

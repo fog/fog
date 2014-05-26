@@ -34,7 +34,6 @@ Shindo.tests("Fog::Compute[:joyent] | machine requests", ["joyent"]) do
 
   @provider = Fog::Compute[:joyent]
 
-
   #
   # https://us-west-1.api.joyentcloud.com/docs#ListMachines
   #

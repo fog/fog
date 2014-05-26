@@ -4,7 +4,6 @@ require 'fog/vcloud_director/models/compute/organization'
 module Fog
   module Compute
     class VcloudDirector
-
       class Organizations < Collection
         model Fog::Compute::VcloudDirector::Organization
 
@@ -23,7 +22,6 @@ module Fog
           orgs.each {|org| service.add_id_from_href!(org)}
           orgs
         end
-
       end
     end
   end

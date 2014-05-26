@@ -1,9 +1,7 @@
 module Fog
   module AWS
     class AutoScaling
-
       class Real
-
         require 'fog/aws/parsers/auto_scaling/put_notification_configuration'
 
         # Creates a notification configuration for an Auto Scaling group. To
@@ -35,11 +33,9 @@ module Fog
             :parser                => Fog::Parsers::AWS::AutoScaling::PutNotificationConfiguration.new
           }.merge!(params))
         end
-
       end
 
       class Mock
-
         def put_notification_configuration(auto_scaling_group_name, notification_types, topic_arn)
           unless self.data[:auto_scaling_groups].has_key?(auto_scaling_group_name)
             raise Fog::AWS::AutoScaling::ValidationError.new("AutoScalingGroup name not found - #{auto_scaling_group_name}")
@@ -62,9 +58,7 @@ module Fog
           }
           response
         end
-
       end
-
     end
   end
 end

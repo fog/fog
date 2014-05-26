@@ -36,7 +36,7 @@ available_providers = Fog.available_providers.map {|provider| provider.downcase}
 unavailable_providers = all_providers - available_providers
 
 if !ENV['PROVIDER'].nil? && unavailable_providers.include?(ENV['PROVIDER'])
-  Formatador.display_line("[red]Requested provider #{ENV['PROVIDER']} is not available.[/]" + 
+  Formatador.display_line("[red]Requested provider #{ENV['PROVIDER']} is not available.[/]" +
                           "[red]Check if .fog file has correct configuration (see '#{Fog.credentials_path}')[/]")
   exit(0)
 end

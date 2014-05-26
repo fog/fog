@@ -1,4 +1,4 @@
-Shindo.tests('Fog::Rackspace::AutoScale | policy_tests', ['rackspace', 'rackspace_autoscale']) do 
+Shindo.tests('Fog::Rackspace::AutoScale | policy_tests', ['rackspace', 'rackspace_autoscale']) do
 
   pending if Fog.mocking?
   service = Fog::Rackspace::AutoScale.new :rackspace_region => :ord
@@ -58,11 +58,11 @@ Shindo.tests('Fog::Rackspace::AutoScale | policy_tests', ['rackspace', 'rackspac
     tests('#update policy').raises(Fog::Rackspace::AutoScale::BadRequest) do
       service.update_policy(@group_id, 123, {})
     end
-    
+
     tests('#execute policy').raises(Fog::Rackspace::AutoScale::NotFound) do
       service.execute_policy(@group_id, 123)
     end
-    
+
     tests('#delete policy').raises(Fog::Rackspace::AutoScale::NotFound) do
       service.delete_policy(@group_id, 123)
     end

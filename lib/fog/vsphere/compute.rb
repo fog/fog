@@ -4,7 +4,6 @@ require 'digest/sha2'
 module Fog
   module Compute
     class Vsphere < Fog::Service
-
       requires :vsphere_username, :vsphere_password, :vsphere_server
       recognizes :vsphere_port, :vsphere_path, :vsphere_ns
       recognizes :vsphere_rev, :vsphere_ssl, :vsphere_expected_pubkey_hash
@@ -84,7 +83,6 @@ module Fog
       request :set_vm_customvalue
 
       module Shared
-
         attr_reader :vsphere_is_vcenter
         attr_reader :vsphere_rev
         attr_reader :vsphere_server
@@ -186,11 +184,9 @@ module Fog
         def is_uuid?(id)
           !(id =~ /[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}/).nil?
         end
-
       end
 
       class Mock
-
         include Shared
 
         def self.data
@@ -333,7 +329,6 @@ module Fog
       end
 
       class Real
-
         include Shared
 
         def initialize(options={})
@@ -418,9 +413,7 @@ module Fog
             raise Fog::Vsphere::Errors::SecurityError, "The remote system presented a public key with hash #{pubkey_hash} but we're expecting a hash of #{expected_pubkey_hash || '<unset>'}.  If you are sure the remote system is authentic set vsphere_expected_pubkey_hash: <the hash printed in this message> in ~/.fog"
           end
         end
-
       end
-
     end
   end
 end

@@ -24,7 +24,6 @@ module Fog
       request :update_table
 
       class Mock
-
         def self.data
           @data ||= Hash.new do |hash, key|
             hash[key] = {
@@ -134,7 +133,6 @@ module Fog
 
           response
         end
-
       end
     end
   end

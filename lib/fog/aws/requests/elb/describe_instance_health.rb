@@ -2,7 +2,6 @@ module Fog
   module AWS
     class ELB
       class Real
-
         require 'fog/aws/parsers/elb/describe_instance_health'
 
         # Get health status for one or more instances on an existing ELB
@@ -30,7 +29,6 @@ module Fog
             :parser            => Fog::Parsers::AWS::ELB::DescribeInstanceHealth.new
           }.merge!(params))
         end
-
       end
 
       class Mock

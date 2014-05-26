@@ -27,4 +27,3 @@ Shindo.tests("Fog::Compute[:digitalocean] | flavor model", ['digitalocean', 'com
   end
 
 end
-

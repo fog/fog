@@ -71,7 +71,6 @@ module Fog
           service.disassociate_lb_health_monitor(self.id, health_monitor_id)
           true
         end
-
       end
     end
   end

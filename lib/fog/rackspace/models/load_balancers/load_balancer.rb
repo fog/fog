@@ -4,7 +4,6 @@ module Fog
   module Rackspace
     class LoadBalancers
       class LoadBalancer < Fog::Model
-
         #States
         ACTIVE = 'ACTIVE'
         ERROR = 'ERROR'
@@ -254,7 +253,6 @@ module Fog
           virtual_ips.collect do |virtual_ip|
             { :type => virtual_ip.type }
           end
-
         end
 
         def nodes_hash

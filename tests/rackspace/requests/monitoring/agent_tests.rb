@@ -4,7 +4,7 @@ Shindo.tests('Fog::Rackspace::Monitoring | agent_tests', ['rackspace','rackspace
   agent_token = nil
   options = { "label" => "Bar" }
   values_format = Hash
-  
+
   tests('success') do
     tests('#create new agent token').formats(DATA_FORMAT) do
       response = account.create_agent_token(options).data
@@ -16,11 +16,10 @@ Shindo.tests('Fog::Rackspace::Monitoring | agent_tests', ['rackspace','rackspace
     end
     tests("#list_agents") do
     	data_matches_schema(values_format, {:allow_extra_keys => true}) { account.list_agents.body }
-    end     
+    end
     tests("#get_agent") do
     	data_matches_schema(values_format, {:allow_extra_keys => true}) { account.get_agent("agent_id").body }
     end
-
 
     tests('#get agent token').formats(LIST_HEADERS_FORMAT) do
       account.get_agent_token(agent_token).data[:headers]
@@ -51,8 +50,8 @@ Shindo.tests('Fog::Rackspace::Monitoring | agent_tests', ['rackspace','rackspace
     end
     tests("#get_system_info") do
     	data_matches_schema(values_format, {:allow_extra_keys => true}) { account.get_system_info("agent_id").body }
-    end   
-    
+    end
+
   end
 
   tests('failure') do
@@ -70,6 +69,6 @@ Shindo.tests('Fog::Rackspace::Monitoring | agent_tests', ['rackspace','rackspace
     end
     tests('#fail to get agent (-1)').raises(Fog::Rackspace::Monitoring::NotFound) do
       account.get_agent(-1)
-    end    
+    end
   end
 end

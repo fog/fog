@@ -2,7 +2,6 @@ module Fog
   module AWS
     class SimpleDB
       class Real
-
         # Put item attributes into a SimpleDB domain
         #
         # ==== Parameters
@@ -34,11 +33,9 @@ module Fog
             :parser       => Fog::Parsers::AWS::SimpleDB::Basic.new(@nil_string)
           }.merge!(encode_attributes(attributes, options[:replace], options[:expect])))
         end
-
       end
 
       class Mock
-
         def put_attributes(domain_name, item_name, attributes, options = {})
           options[:expect] = {} unless options[:expect]
           options[:replace] = [] unless options[:replace]
@@ -71,7 +68,6 @@ module Fog
           end
           response
         end
-
       end
     end
   end

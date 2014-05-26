@@ -12,7 +12,6 @@ module Fog
           mock_get(:profile,  200)
         end
       end
-
     end
   end
 end

@@ -1,9 +1,7 @@
 module Fog
   module Storage
     class Rackspace
-
       class Real
-
         # Get details for object
         #
         # ==== Parameters
@@ -26,7 +24,6 @@ module Fog
 
           request(params, false)
         end
-
       end
 
       class Mock
@@ -52,7 +49,6 @@ module Fog
           response
         end
       end
-
     end
   end
 end

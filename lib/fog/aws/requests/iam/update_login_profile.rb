@@ -2,7 +2,6 @@ module Fog
   module AWS
     class IAM
       class Real
-
         require 'fog/aws/parsers/iam/basic'
 
         # Updates a login profile for a user
@@ -26,7 +25,6 @@ module Fog
             :parser     => Fog::Parsers::AWS::IAM::Basic.new
           })
         end
-
       end
     end
   end

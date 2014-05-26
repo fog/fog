@@ -1,7 +1,6 @@
 class VcloudDirector
   module Compute
     module Helper
-
       def self.test_name
         @test_name ||= 'fog-test-%x' % Time.now.to_i
       end
@@ -28,7 +27,6 @@ class VcloudDirector
         end
         link[:href].split('/').last
       end
-
     end
   end
 end

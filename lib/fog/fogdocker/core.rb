@@ -2,7 +2,6 @@ require 'fog/core'
 
 module Fog
   module Fogdocker
-
     extend Fog::Provider
 
     module Errors
@@ -12,6 +11,5 @@ module Fog
     end
 
     service(:compute, 'Compute')
-
   end
 end

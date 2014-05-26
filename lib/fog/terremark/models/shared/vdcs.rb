@@ -1,7 +1,6 @@
 module Fog
   module Terremark
     module Shared
-
       module Mock
         def vdcs(options = {})
           Fog::Terremark::Shared::Vdcs.new(options.merge(:service => self))
@@ -15,7 +14,6 @@ module Fog
       end
 
       class Vdcs < Fog::Collection
-
         model Fog::Terremark::Shared::Vdc
 
         def all
@@ -44,9 +42,7 @@ module Fog
         def organization_id=(new_organization_id)
           @organization_id = new_organization_id
         end
-
       end
-
     end
   end
 end

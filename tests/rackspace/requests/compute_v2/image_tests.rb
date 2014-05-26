@@ -1,6 +1,6 @@
 Shindo.tests('Fog::Compute::RackspaceV2 | image_tests', ['rackspace']) do
   service   = Fog::Compute.new(:provider => 'Rackspace', :version => 'V2')
-    
+
   image_format = {
     'id' => String,
     'name' => String,
@@ -32,7 +32,7 @@ Shindo.tests('Fog::Compute::RackspaceV2 | image_tests', ['rackspace']) do
   begin
     test_time = Time.now.to_i.to_s
     @server = service.servers.create(:name => "fog-image-tests_#{test_time}",
-     :flavor_id => rackspace_test_flavor_id(service), 
+     :flavor_id => rackspace_test_flavor_id(service),
      :image_id => rackspace_test_image_id(service))
     @server.wait_for { ready? }
     @image_id = nil
@@ -70,7 +70,7 @@ Shindo.tests('Fog::Compute::RackspaceV2 | image_tests', ['rackspace']) do
         service.get_image(Fog::Rackspace::MockData::NOT_FOUND_ID)
       end
     end
-  ensure 
+  ensure
     @image.destroy if @image
     @server.destroy if @server
   end

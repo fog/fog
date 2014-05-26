@@ -2,7 +2,6 @@ module Fog
   module AWS
     class IAM
       class Real
-
         require 'fog/aws/parsers/iam/list_roles'
 
         # Lists roles
@@ -36,7 +35,6 @@ module Fog
             :parser     => Fog::Parsers::AWS::IAM::ListRoles.new
           }.merge!(options))
         end
-
       end
     end
   end

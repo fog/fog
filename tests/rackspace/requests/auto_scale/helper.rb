@@ -28,23 +28,23 @@ GROUP_STATE_FORMAT =  {
   }
 
 GET_GROUP_HEADERS_FORMAT = {
-  "Content-Type"=>String, 
-  "Via"=>String, 
-  "x-response-id"=>String, 
-  "Date"=>String, 
-  "Transfer-Encoding"=>String, 
+  "Content-Type"=>String,
+  "Via"=>String,
+  "x-response-id"=>String,
+  "Date"=>String,
+  "Transfer-Encoding"=>String,
   "Server"=>String
 }
 
 GROUP_DELETE_DATA_FORMAT = {
   :headers=> {
-    "Content-Type"=>String, 
-    "Via"=>String, 
-    "x-response-id"=>String, 
-    "Date"=>String, 
+    "Content-Type"=>String,
+    "Via"=>String,
+    "x-response-id"=>String,
+    "Date"=>String,
     "Server"=>String
-  }, 
-  :status=>Integer, 
+  },
+  :status=>Integer,
   :remote_ip=>String
 }
 
@@ -97,11 +97,11 @@ GROUP_CONFIG_FORMAT = {
 }
 
 POLICY_FORMAT = {
-    "name"=> String, 
-    "links"=> Array, 
-    "cooldown"=>Integer, 
-    "type"=>String, 
-    "id"=>String, 
+    "name"=> String,
+    "links"=> Array,
+    "cooldown"=>Integer,
+    "type"=>String,
+    "id"=>String,
     "change"=>Integer
   }
 

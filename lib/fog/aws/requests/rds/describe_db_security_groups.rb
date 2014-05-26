@@ -2,7 +2,6 @@ module Fog
   module AWS
     class RDS
       class Real
-
         require 'fog/aws/parsers/rds/describe_db_security_groups'
 
         # Describe all or specified db security groups
@@ -23,11 +22,9 @@ module Fog
             :parser   => Fog::Parsers::AWS::RDS::DescribeDBSecurityGroups.new
           }.merge(opts))
         end
-
       end
 
       class Mock
-
         def describe_db_security_groups(opts={})
           response = Excon::Response.new
           sec_group_set = []
@@ -77,9 +74,7 @@ module Fog
           }
           response
         end
-
       end
     end
   end
 end
-

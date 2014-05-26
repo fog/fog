@@ -4,7 +4,6 @@ require 'fog/storm_on_demand/models/compute/product'
 module Fog
   module Compute
     class StormOnDemand
-
       class Products < Fog::Collection
         model Fog::Compute::StormOnDemand::Product
 
@@ -20,9 +19,7 @@ module Fog
         def all(options={})
           service.list_products(options).body['items']
         end
-
       end
-
     end
   end
 end

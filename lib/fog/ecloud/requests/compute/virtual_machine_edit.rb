@@ -2,7 +2,6 @@ module Fog
   module Compute
     class Ecloud
       module Shared
-
         def validate_edit_server_options(options)
           required_opts = [:name]
           unless required_opts.all? { |opt| options.has_key?(opt) }
@@ -28,7 +27,6 @@ module Fog
       end
 
       class Real
-
         def virtual_machine_edit(vm_uri, options)
           validate_edit_server_options(options)
           body = build_request_body_edit(options)

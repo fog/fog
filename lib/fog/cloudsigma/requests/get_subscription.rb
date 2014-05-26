@@ -12,7 +12,6 @@ module Fog
           mock_get(:subscriptions, 200, sub_id)
         end
       end
-
     end
   end
 end

@@ -3,9 +3,7 @@ require 'fog/core/model'
 module Fog
   module Compute
     class AWS
-
       class Image < Fog::Model
-
         identity :id,                     :aliases => 'imageId'
 
         attribute :architecture
@@ -40,9 +38,7 @@ module Fog
         def ready?
           state == 'available'
         end
-
       end
-
     end
   end
 end

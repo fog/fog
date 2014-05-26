@@ -2,7 +2,6 @@ module Fog
   module AWS
     class ELB
       class Real
-
         require 'fog/aws/parsers/elb/configure_health_check'
 
         # Enables the client to define an application healthcheck for the instances.
@@ -34,7 +33,6 @@ module Fog
             :parser            => Fog::Parsers::AWS::ELB::ConfigureHealthCheck.new
           }.merge!(params))
         end
-
       end
 
       class Mock

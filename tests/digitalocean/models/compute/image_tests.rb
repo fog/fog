@@ -28,4 +28,3 @@ Shindo.tests("Fog::Compute[:digitalocean] | image model", ['digitalocean', 'comp
   end
 
 end
-

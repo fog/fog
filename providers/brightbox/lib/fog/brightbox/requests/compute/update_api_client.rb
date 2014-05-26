@@ -19,7 +19,6 @@ module Fog
           return nil if options.empty? || options.nil?
           wrapped_request("put", "/1.0/api_clients/#{identifier}", [200], options)
         end
-
       end
     end
   end

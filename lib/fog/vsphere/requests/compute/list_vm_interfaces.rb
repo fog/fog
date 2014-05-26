@@ -40,7 +40,6 @@ module Fog
               :key     => nic.key,
             }
           end
-
         end
 
         def get_vm_interface(vm_id, options={})
@@ -54,7 +53,6 @@ module Fog
             end
           end
         end
-
       end
       class Mock
         def list_vm_interfaces(vm_id)

@@ -4,9 +4,7 @@ require 'fog/aws/models/compute/server'
 module Fog
   module Compute
     class AWS
-
       class Servers < Fog::Collection
-
         attribute :filters
 
         model Fog::Compute::AWS::Server
@@ -85,13 +83,13 @@ module Fog
               )
             end
           end
-        
+
           security_group = service.security_groups.get(server.groups.first)
           if security_group.nil?
             raise Fog::Compute::AWS::Error, "The security group" \
               " #{server.groups.first} doesn't exist."
           end
-          
+
           # make sure port 22 is open in the first security group
           authorized = security_group.ip_permissions.detect do |ip_permission|
             ip_permission['ipRanges'].first && ip_permission['ipRanges'].first['cidrIp'] == '0.0.0.0/0' &&
@@ -156,9 +154,7 @@ module Fog
         rescue Fog::Errors::NotFound
           nil
         end
-
       end
-
     end
   end
 end

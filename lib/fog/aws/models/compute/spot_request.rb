@@ -3,9 +3,7 @@ require 'fog/compute/models/server'
 module Fog
   module Compute
     class AWS
-
       class SpotRequest < Fog::Compute::Server
-
         identity :id,                          :aliases => 'spotInstanceRequestId'
 
         attribute :price,                      :aliases => 'spotPrice'
@@ -115,7 +113,6 @@ module Fog
           spot_instance_request.merge(options)
           merge_attributes( spot_instance_request )
         end
-
       end
     end
   end

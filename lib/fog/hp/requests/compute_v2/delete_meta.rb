@@ -2,7 +2,6 @@ module Fog
   module Compute
     class HPV2
       class Real
-
         # Delete metadata item for specific collections
         #
         # ==== Parameters
@@ -21,11 +20,9 @@ module Fog
             :path     => "#{collection_name}/#{parent_id}/metadata/#{key}"
           )
         end
-
       end
 
       class Mock
-
         def delete_meta(collection_name, parent_id, key)
           if collection_name == "images" then
             if get_image_details(parent_id)
@@ -47,9 +44,7 @@ module Fog
           response.status = 204
           response
         end
-
       end
-
     end
   end
 end

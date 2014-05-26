@@ -2,9 +2,7 @@ module Fog
   module Compute
     class OpenStack
       class Real
-
         def allocate_address(pool = nil)
-
           request(
             :body     => Fog::JSON.encode({'pool' => pool}),
             :expects  => [200, 202],
@@ -12,7 +10,6 @@ module Fog
             :path     => 'os-floating-ips.json'
           )
         end
-
       end
 
       class Mock

@@ -2,7 +2,6 @@ module Fog
   module Compute
     class XenServer
       class Real
-
         def get_vm_by_name(label)
           @connection.request({:parser => Fog::Parsers::XenServer::Base.new, :method => 'VM.get_by_name_label' }, label)
         end
@@ -110,11 +109,9 @@ module Fog
 
           ref
         end
-
       end
 
       class Mock
-
         def create_server( name_label, template = nil, network = nil, extra_args = {})
           Fog::Mock.not_implemented
         end
@@ -122,9 +119,7 @@ module Fog
         def create_server_raw(config = {})
           Fog::Mock.not_implemented
         end
-
       end
-
     end
   end
 end

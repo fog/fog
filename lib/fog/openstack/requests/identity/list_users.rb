@@ -22,7 +22,6 @@ module Fog
             }
           end
 
-
           Excon::Response.new(
             :body   => { 'users' => users },
             :status => 200

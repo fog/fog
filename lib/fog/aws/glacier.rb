@@ -4,7 +4,7 @@ module Fog
   module AWS
     class Glacier < Fog::Service
       extend Fog::AWS::CredentialFetcher::ServiceMethods
-      
+
       requires :aws_access_key_id, :aws_secret_access_key
       recognizes :region, :host, :path, :port, :scheme, :persistent, :use_iam_profile, :aws_session_token, :aws_credentials_expire_at
 
@@ -37,7 +37,6 @@ module Fog
       MEGABYTE = 1024*1024
 
       class TreeHash
-
         def self.digest(body)
           new.add_part(body)
         end
@@ -92,11 +91,9 @@ module Fog
       end
 
       class Mock
-
         def initialize(options={})
           Fog::Mock.not_implemented
         end
-
       end
 
       class Real
@@ -120,7 +117,6 @@ module Fog
         # ==== Returns
         # * Glacier object with connection to AWS.
         def initialize(options={})
-
           @use_iam_profile = options[:use_iam_profile]
           @region = options[:region] || 'us-east-1'
 
@@ -136,7 +132,6 @@ module Fog
 
           @connection = Fog::XML::Connection.new("#{@scheme}://#{@host}:#{@port}#{@path}", @persistent, @connection_options)
         end
-
 
         private
         def setup_credentials(options)

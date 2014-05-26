@@ -2,7 +2,6 @@ module Fog
   module Rackspace
     class Monitoring
       class Real
-
         def list_checks(entity_id, options={})
           request(
             :expects  => [200, 203],
@@ -15,7 +14,6 @@ module Fog
 
       class Mock
         def list_checks(entity_id)
-
           check_id = Fog::Mock.random_letters(10)
 
           if entity_id == -1
@@ -70,4 +68,3 @@ module Fog
     end
   end
 end
-

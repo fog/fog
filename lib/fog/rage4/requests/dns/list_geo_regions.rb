@@ -2,7 +2,6 @@ module Fog
   module DNS
     class Rage4
       class Real
-
         # List all the geo regions available
         # ==== Parameters
         #
@@ -20,7 +19,6 @@ module Fog
                   :path     => '/rapi/listgeoregions'
                   )
         end
-
       end
     end
   end

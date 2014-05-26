@@ -3,7 +3,6 @@ require 'fog/core/model'
 module Fog
   module Network
     class StormOnDemand
-
       class NetworkIP < Fog::Model
         identity :id
 
@@ -16,7 +15,6 @@ module Fog
         def initialize(attributes={})
           super
         end
-
       end
     end
   end

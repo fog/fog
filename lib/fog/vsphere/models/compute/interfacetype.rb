@@ -1,9 +1,7 @@
 module Fog
   module Compute
     class Vsphere
-
       class Interfacetype < Fog::Model
-
         identity :id
 
 #        attribute :class
@@ -18,9 +16,7 @@ module Fog
         def to_s
           name
         end
-
       end
-
     end
   end
 end

@@ -56,7 +56,6 @@ end
 # Images available at tenant
 image_names = compute_client.images.map { |image| image['name'] }
 
-
 # Floating IP address pools available at tenant
 compute_client.addresses.get_address_pools
 # response.body #=> { 'name' => 'pool1' }, { 'name' => 'pool2' }
@@ -68,7 +67,3 @@ vm.console.body # returns VNC url
 #                "url"  => "http://vmvncserver:6080/vnc_auto.html?token=231",
 #                "type" => "novnc"
 #              }
-
-
-
-

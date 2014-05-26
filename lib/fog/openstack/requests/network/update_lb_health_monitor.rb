@@ -1,7 +1,6 @@
 module Fog
   module Network
     class OpenStack
-
       class Real
         def update_lb_health_monitor(health_monitor_id, options = {})
           data = { 'health_monitor' => {} }
@@ -39,7 +38,6 @@ module Fog
           end
         end
       end
-
     end
   end
 end

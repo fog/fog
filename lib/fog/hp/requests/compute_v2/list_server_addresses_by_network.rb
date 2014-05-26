@@ -2,7 +2,6 @@ module Fog
   module Compute
     class HPV2
       class Real
-
         # List private server addresses
         #
         # ==== Parameters
@@ -22,11 +21,9 @@ module Fog
             :path     => "servers/#{server_id}/ips/#{Fog::HP.escape(network_name)}"
           )
         end
-
       end
 
       class Mock
-
         def list_server_addresses_by_network(server_id, network_name)
           response = Excon::Response.new
           if server = list_servers_detail.body['servers'].detect {|_| _['id'] == server_id}
@@ -39,7 +36,6 @@ module Fog
             raise Fog::Compute::HPV2::NotFound
           end
         end
-
       end
     end
   end

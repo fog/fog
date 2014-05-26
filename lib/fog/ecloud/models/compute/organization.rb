@@ -2,7 +2,6 @@ module Fog
   module Compute
     class Ecloud
       class Organization < Fog::Ecloud::Model
-
         identity :href
 
         ignore_attributes :xmlns, :xmlns_xsi, :xmlns_xsd, :xmlns_i

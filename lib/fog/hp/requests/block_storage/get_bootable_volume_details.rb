@@ -2,7 +2,6 @@ module Fog
   module HP
     class BlockStorage
       class Real
-
         # Get details for existing block storage bootable volume
         #
         # ==== Parameters
@@ -33,11 +32,9 @@ module Fog
           )
           response
         end
-
       end
 
       class Mock  # :nodoc:all
-
         def get_bootable_volume_details(volume_id)
           unless volume_id
             raise ArgumentError.new('volume_id is required')
@@ -50,10 +47,8 @@ module Fog
           else
             raise Fog::HP::BlockStorage::NotFound
           end
-
         end
       end
-
     end
   end
 end

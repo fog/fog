@@ -2,7 +2,6 @@ module Fog
   module AWS
     class SES
       class Real
-
         require 'fog/aws/parsers/ses/get_send_statistics'
 
         # Returns the user's current activity limits.
@@ -27,7 +26,6 @@ module Fog
             :parser  => Fog::Parsers::AWS::SES::GetSendStatistics.new
           })
         end
-
       end
     end
   end

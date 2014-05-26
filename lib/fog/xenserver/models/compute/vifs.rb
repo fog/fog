@@ -4,9 +4,7 @@ require 'fog/xenserver/models/compute/vif'
 module Fog
   module Compute
     class XenServer
-
       class Vifs < Fog::Collection
-
         model Fog::Compute::XenServer::VIF
 
         def all(options = {})
@@ -21,9 +19,7 @@ module Fog
         rescue Fog::XenServer::NotFound
           nil
         end
-
       end
-
     end
   end
 end

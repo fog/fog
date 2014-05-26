@@ -4,9 +4,7 @@ require 'fog/aws/models/compute/snapshot'
 module Fog
   module Compute
     class AWS
-
       class Snapshots < Fog::Collection
-
         attribute :filters
         attribute :volume
 
@@ -44,9 +42,7 @@ module Fog
             super
           end
         end
-
       end
-
     end
   end
 end

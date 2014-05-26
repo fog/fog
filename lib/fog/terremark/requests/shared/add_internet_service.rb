@@ -2,7 +2,6 @@ module Fog
   module Terremark
     module Shared
       module Real
-
         # Reserve requested resources and deploy vApp
         #
         # ==== Parameters
@@ -49,7 +48,6 @@ module Fog
             :override_path => true
           )
         end
-
       end
     end
   end

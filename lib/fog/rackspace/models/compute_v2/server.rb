@@ -111,7 +111,6 @@ module Fog
         #              and so on, and enables you to manage the disk configuration.
         attribute :disk_config, :aliases => 'OS-DCF:diskConfig'
 
-
         # @!attribute [rw] config_drive_ext
         # @return [Boolean] whether a read-only configuration drive is attached
         # @see http://docs.rackspace.com/servers/api/v2/cs-devguide/content/config_drive_ext.html
@@ -159,7 +158,6 @@ module Fog
         # @return [String] The name of the key_pair used for server.
         # @note The key_pair/key_name is used to specify the keypair used for server creation. It is not populated by cloud servers.
         attribute :key_name
-
 
         def initialize(attributes={})
           @service = attributes[:service]
@@ -426,7 +424,6 @@ module Fog
           true
         end
 
-
         # Rebuild removes all data on the server and replaces it with the specified image. The id and all IP addresses remain the same.
         # @param [String] image_id image to use for rebuild
         # @return [Boolean] returns true if rebuild is in process
@@ -554,7 +551,7 @@ module Fog
         # @note Though Rackspace does not enforce complexity requirements for the password, the operating system might. If the password is not complex enough, the server might enter an ERROR state.
         # @see http://docs.rackspace.com/servers/api/v2/cs-devguide/content/Change_Password-d1e3234.html
         #
-        # * Status Transition:	
+        # * Status Transition:
         #   * ACTIVE -> PASSWORD -> ACTIVE
         #   * ACTIVE -> PASSWORD -> ERROR (on error)
         def change_admin_password(password)

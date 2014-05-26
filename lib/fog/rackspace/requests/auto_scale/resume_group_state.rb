@@ -2,7 +2,6 @@ module Fog
   module Rackspace
     class AutoScale
       class Real
-
         def resume_group_state(group_id)
           request(
             :expects => [204],

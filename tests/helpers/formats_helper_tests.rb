@@ -107,5 +107,4 @@ Shindo.tests('test_helper', 'meta') do
 
   end
 
-
 end

@@ -1,9 +1,7 @@
 module Fog
   module HP
     class Network
-
       class Real
-
         # Get details for an existing network by id
         #
         # ==== Parameters
@@ -43,7 +41,6 @@ module Fog
           end
         end
       end
-
     end
   end
 end

@@ -2,7 +2,6 @@ module Fog
   module AWS
     class RDS
       class Real
-
         require 'fog/aws/parsers/rds/modify_db_parameter_group'
 
         # modifies a database parameter group
@@ -18,7 +17,6 @@ module Fog
         # * response<~Excon::Response>:
         #   * body<~Hash>:
         def modify_db_parameter_group(group_name, parameters)
-
           parameter_names = []
           parameter_values = []
           parameter_apply_methods = []
@@ -40,15 +38,12 @@ module Fog
             :parser   => Fog::Parsers::AWS::RDS::ModifyDbParameterGroup.new
           }.merge(params))
         end
-
       end
 
       class Mock
-
         def modify_db_parameter_group(group_name, parameters)
           Fog::Mock.not_implemented
         end
-
       end
     end
   end

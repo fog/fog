@@ -4,7 +4,6 @@ require "fog/storm_on_demand/shared"
 module Fog
   module Storage
     class StormOnDemand < Fog::Service
-
       API_URL = 'https://api.stormondemand.com'
       API_VERSION = 'v1'
 
@@ -29,7 +28,6 @@ module Fog
       request :update_volume
 
       class Mock
-
         def self.data
           @data ||= Hash.new
         end
@@ -55,13 +53,10 @@ module Fog
         def reset_data
           self.class.data.delete(@storm_on_demand_username)
         end
-
       end
 
       class Real
-
         include Fog::StormOnDemand::RealShared
-
       end
     end
   end

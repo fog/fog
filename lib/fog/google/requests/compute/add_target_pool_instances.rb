@@ -1,17 +1,13 @@
 module Fog
   module Compute
     class Google
-
       class Mock
-
         def add_target_pool_instances(target_pool, instances)
           Fog::Mock.not_implemented
         end
-
       end
 
       class Real
-
         def add_target_pool_instances(target_pool, instances)
           api_method = @compute.target_pools.add_instance
           parameters = {
@@ -26,9 +22,7 @@ module Fog
           result = self.build_result(api_method, parameters, body_object=body)
           self.build_response(result)
         end
-
       end
-
     end
   end
 end

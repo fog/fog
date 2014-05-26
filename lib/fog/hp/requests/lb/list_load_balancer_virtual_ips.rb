@@ -1,7 +1,6 @@
 module Fog
   module HP
     class LB
-
       # List virtual IPs for an existing load balancer
       #
       # ==== Parameters
@@ -23,7 +22,6 @@ module Fog
             :path    => "loadbalancers/#{load_balancer_id}/virtualips"
           )
         end
-
       end
       class Mock
         def list_load_balancer_virtual_ips(load_balancer_id)
@@ -37,7 +35,6 @@ module Fog
             raise Fog::HP::LB::NotFound
           end
         end
-
       end
     end
   end

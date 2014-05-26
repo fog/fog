@@ -2,7 +2,6 @@ module Fog
   module Compute
     class HP
       class Real
-
         # Associate a floating IP address with existing server
         #
         # ==== Parameters
@@ -13,11 +12,9 @@ module Fog
           body = { 'addFloatingIp' => { 'server' => server_id, 'address' => ip_address }}
           server_action(server_id, body)
         end
-
       end
 
       class Mock
-
         def associate_address(server_id, ip_address)
           response = Excon::Response.new
           if server = self.data[:servers][server_id]
@@ -35,7 +32,6 @@ module Fog
           end
           response
         end
-
       end
     end
   end

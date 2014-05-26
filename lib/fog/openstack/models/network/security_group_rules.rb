@@ -5,7 +5,6 @@ module Fog
   module Network
     class OpenStack
       class SecurityGroupRules < Fog::Collection
-
         attribute :filters
 
         model Fog::Network::OpenStack::SecurityGroupRule

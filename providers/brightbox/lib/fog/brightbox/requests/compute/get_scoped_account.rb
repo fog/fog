@@ -8,7 +8,6 @@ module Fog
         def get_scoped_account
           wrapped_request("get", "/1.0/account", [200])
         end
-
       end
     end
   end

@@ -173,7 +173,6 @@ module Fog
           append_tenant_v1 credentials
           @auth_token = credentials['X-Auth-Token']
         end
-
       end
     end
   end

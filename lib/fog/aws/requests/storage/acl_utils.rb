@@ -1,7 +1,6 @@
 module Fog
   module Storage
     class AWS
-
       require 'fog/aws/parsers/storage/access_control_list'
 
       private
@@ -56,7 +55,6 @@ module Fog
           Nokogiri::XML::SAX::Parser.new(parser).parse(acl_xml)
           parser.response
         end
-
     end
   end
 end

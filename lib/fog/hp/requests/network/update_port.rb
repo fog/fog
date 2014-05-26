@@ -1,7 +1,6 @@
 module Fog
   module HP
     class Network
-
       class Real
         # Update an existing port by id
         #
@@ -69,7 +68,6 @@ module Fog
           end
         end
       end
-
     end
   end
 end

@@ -4,9 +4,7 @@ require 'fog/dreamhost/models/dns/record'
 module Fog
   module DNS
     class Dreamhost
-
       class Records < Fog::Collection
-
         model Fog::DNS::Dreamhost::Record
 
         def all(filter = {})
@@ -25,14 +23,12 @@ module Fog
         rescue Excon::Errors::NotFound
           nil
         end
-
       end
 
       def new(attributes = {})
         requires :zone
         super({ :zone => zone }.merge!(attributes))
       end
-
     end
   end
 end

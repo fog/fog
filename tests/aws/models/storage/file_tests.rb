@@ -34,7 +34,6 @@ Shindo.tests("Storage[:aws] | file", ["aws"]) do
       end
     end
 
-
     @directory.files.create(:key => @instance.key)
     @instance.destroy
 

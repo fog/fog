@@ -3,9 +3,7 @@ require 'fog/core/model'
 module Fog
   module AWS
     class IAM
-
       class User < Fog::Model
-
         identity  :id, :aliases => 'UserName'
         attribute :path, :aliases => 'Path'
         attribute :arn, :aliases => 'Arn'
@@ -34,7 +32,6 @@ module Fog
           requires :id
           service.access_keys(:username => id)
         end
-
       end
     end
   end

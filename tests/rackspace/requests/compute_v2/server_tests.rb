@@ -68,7 +68,7 @@ Shindo.tests('Fog::Compute::RackspaceV2 | server_tests', ['rackspace']) do
       body
     end
     wait_for_server_state(service, server_id, 'ACTIVE', 'ERROR')
-    
+
     tests('#list_servers').formats(list_servers_format, false) do
       service.list_servers.body
     end
@@ -80,10 +80,10 @@ Shindo.tests('Fog::Compute::RackspaceV2 | server_tests', ['rackspace']) do
     tests("#update_server(#{server_id}, #{server_name}_update) LEGACY").formats(get_server_format) do
       service.update_server(server_id, "#{server_name}_update").body
     end
-    
+
     tests("#update_server(#{server_id}, { 'name' => #{server_name}_update)} ").formats(get_server_format) do
       service.update_server(server_id, 'name' => "#{server_name}_update").body
-    end    
+    end
 
     tests('#change_server_password').succeeds do
       service.change_server_password(server_id, 'some_server_password')
@@ -101,13 +101,13 @@ Shindo.tests('Fog::Compute::RackspaceV2 | server_tests', ['rackspace']) do
     end
     wait_for_server_state(service, server_id, 'ACTIVE', 'ERROR')
     sleep 120 unless Fog.mocking?
-    
+
     tests('#resize_server').succeeds do
       resize_flavor_id = Fog.mocking? ? flavor_id : service.flavors[1].id
       service.resize_server(server_id, resize_flavor_id)
     end
     wait_for_server_state(service, server_id, 'VERIFY_RESIZE', 'ACTIVE')
-    
+
    tests('#confirm_resize_server').succeeds do
       service.confirm_resize_server(server_id)
     end
@@ -136,6 +136,6 @@ Shindo.tests('Fog::Compute::RackspaceV2 | server_tests', ['rackspace']) do
 
     tests('#delete_server').succeeds do
       service.delete_server(server_id)
-    end    
-  end 
+    end
+  end
 end

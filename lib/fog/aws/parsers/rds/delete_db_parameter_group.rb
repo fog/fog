@@ -2,9 +2,7 @@ module Fog
   module Parsers
     module AWS
       module RDS
-
         class DeleteDbParameterGroup < Fog::Parsers::Base
-
           def reset
             @response = { 'ResponseMetadata' => {} }
             @db_parameter_group = {}

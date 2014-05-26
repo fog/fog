@@ -1,9 +1,7 @@
 module Fog
   module AWS
     class AutoScaling
-
       class Real
-
         require 'fog/aws/parsers/auto_scaling/basic'
 
         # Sets the health status of an instance.
@@ -35,11 +33,9 @@ module Fog
             :parser        => Fog::Parsers::AWS::AutoScaling::Basic.new
           }.merge!(options))
         end
-
       end
 
       class Mock
-
         def set_instance_health(health_status, instance_id, options = {})
           unless self.data[:health_states].include?(health_status)
             raise Fog::AWS::AutoScaling::ValidationError.new('Valid instance health states are: [#{self.data[:health_states].join(", ")}].')
@@ -47,9 +43,7 @@ module Fog
 
           Fog::Mock.not_implemented
         end
-
       end
-
     end
   end
 end

@@ -4,9 +4,7 @@ require 'fog/rackspace/models/compute_v2/key_pair'
 module Fog
   module Compute
     class RackspaceV2
-
       class KeyPairs < Fog::Collection
-
         model Fog::Compute::RackspaceV2::KeyPair
 
         # Fetch the list of known keypairs
@@ -36,7 +34,6 @@ module Fog
                 nil
             end
         end
-
       end
     end
   end

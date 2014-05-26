@@ -31,4 +31,3 @@ Shindo.tests("Fog::Dns[:aws] | record", ['aws', 'dns']) do
   end
 
 end
-

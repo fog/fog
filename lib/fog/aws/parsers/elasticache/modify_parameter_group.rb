@@ -5,7 +5,6 @@ module Fog
         require 'fog/aws/parsers/elasticache/parameter_group_parser'
 
         class ModifyParameterGroup < ParameterGroupParser
-
           def reset
             super
             @response['ModifyCacheParameterGroupResult'] = []

@@ -4,9 +4,7 @@ require 'fog/xenserver/models/compute/pbd'
 module Fog
   module Compute
     class XenServer
-
       class Pbds < Fog::Collection
-
         model Fog::Compute::XenServer::PBD
 
         def initialize(attributes)
@@ -25,9 +23,7 @@ module Fog
             nil
           end
         end
-
       end
-
     end
   end
 end

@@ -2,7 +2,6 @@ module Fog
   module Compute
     class Joyent
       class Real
-
         def get_machine_metadata(machine_id, options = {})
           query = {}
           if options[:credentials]
@@ -19,7 +18,6 @@ module Fog
             :idempotent => true
           )
         end
-
       end
     end
   end

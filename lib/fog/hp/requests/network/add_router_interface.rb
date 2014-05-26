@@ -1,7 +1,6 @@
 module Fog
   module HP
     class Network
-
       class Real
         # Add an internal router interface, thus attaching a subnet or a port to an existing router
         #
@@ -69,7 +68,6 @@ module Fog
           end
         end
       end
-
     end
   end
 end

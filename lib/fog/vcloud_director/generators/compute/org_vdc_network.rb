@@ -2,7 +2,6 @@ module Fog
   module Generators
     module Compute
       module VcloudDirector
-
         # @see http://pubs.vmware.com/vcd-51/topic/com.vmware.vcloud.api.reference.doc_51/doc/types/OrgVdcNetworkType.html
         class OrgVdcNetwork
           attr_reader :options
@@ -12,7 +11,6 @@ module Fog
           end
 
           def generate_xml
-
             body = Nokogiri::XML::Builder.new do
               attrs = {
                 :xmlns => 'http://www.vmware.com/vcloud/v1.5',
@@ -83,7 +81,6 @@ module Fog
               }
             end.to_xml
           end
-
         end
       end
     end

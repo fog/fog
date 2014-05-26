@@ -2,7 +2,6 @@ module Fog
   module Compute
     class HP
       class Real
-
         # List all server addresses
         #
         # ==== Parameters
@@ -20,11 +19,9 @@ module Fog
             :path     => "servers/#{server_id}/ips.json"
           )
         end
-
       end
 
       class Mock
-
         def list_server_addresses(server_id)
           response = Excon::Response.new
           if server = list_servers_detail.body['servers'].detect {|_| _['id'] == server_id}
@@ -35,7 +32,6 @@ module Fog
             raise Fog::Compute::HP::NotFound
           end
         end
-
       end
     end
   end

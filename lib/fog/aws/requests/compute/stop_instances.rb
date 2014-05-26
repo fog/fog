@@ -2,7 +2,6 @@ module Fog
   module Compute
     class AWS
       class Real
-
         require 'fog/aws/parsers/compute/start_stop_instances'
 
         # Stop specified instance
@@ -26,7 +25,6 @@ module Fog
             :parser     => Fog::Parsers::Compute::AWS::StartStopInstances.new
           }.merge!(params))
         end
-
       end
 
       class Mock

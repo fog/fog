@@ -3,9 +3,7 @@ require 'fog/core/model'
 module Fog
   module AWS
     class DataPipeline
-
       class Pipeline < Fog::Model
-
         identity  :id, :aliases => 'pipelineId'
         attribute :name
         attribute :description
@@ -15,7 +13,6 @@ module Fog
         attribute :unique_id, :aliases => 'uniqueId'
 
         def initialize(attributes={})
-
           # Extract the 'fields' portion of a response to attributes
           if attributes.include?('fields')
             string_fields = attributes['fields'].select { |f| f.include?('stringValue') }
@@ -59,9 +56,7 @@ module Fog
 
           true
         end
-
       end
-
     end
   end
 end

@@ -2,7 +2,6 @@ module Fog
   module Compute
     class OpenStack
       class Real
-
         def get_host_details(host)
           request(
             :expects  => [200, 203],
@@ -10,13 +9,10 @@ module Fog
             :path     => "os-hosts/#{host}.json"
           )
         end
-
       end
 
       class Mock
-
         def get_host_details(host)
-
           response = Excon::Response.new
           response.status = 200
           response.body = { "host" => [
@@ -63,11 +59,7 @@ module Fog
             ]
           }
           response
-
-
         end
-
-
       end # mock
     end # openstack
   end # compute

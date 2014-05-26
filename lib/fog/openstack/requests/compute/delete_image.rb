@@ -2,7 +2,6 @@ module Fog
   module Compute
     class OpenStack
       class Real
-
         def delete_image(image_id)
           request(
             :expects  => 204,
@@ -10,11 +9,9 @@ module Fog
             :path     => "images/#{image_id}"
           )
         end
-
       end
 
       class Mock
-
         def delete_image(image_id)
           response = Excon::Response.new
           if image = list_images_detail.body['images'].detect {|_| _['id'] == image_id}
@@ -31,9 +28,7 @@ module Fog
             response.status = 400
             raise(Excon::Errors.status_error({:expects => 202}, response))
           end
-
         end
-
       end
     end
   end

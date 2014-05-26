@@ -2,7 +2,6 @@ module Fog
   module Compute
     class AWS
       class Real
-
         require 'fog/aws/parsers/compute/describe_snapshots'
 
         # Describe all or specified snapshots
@@ -48,11 +47,9 @@ module Fog
             :parser     => Fog::Parsers::Compute::AWS::DescribeSnapshots.new
           }.merge!(params))
         end
-
       end
 
       class Mock
-
         def describe_snapshots(filters = {}, options = {})
           unless filters.is_a?(Hash)
             Fog::Logger.deprecation("describe_snapshots with #{filters.class} param is deprecated, use describe_snapshots('snapshot-id' => []) instead [light_black](#{caller.first})[/]")
@@ -117,7 +114,6 @@ module Fog
           }
           response
         end
-
       end
     end
   end

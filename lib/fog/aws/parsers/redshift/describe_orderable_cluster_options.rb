@@ -2,7 +2,6 @@ module Fog
   module Parsers
     module Redshift
       module AWS
-
         class DescribeOrderableClusterOptions < Fog::Parsers::Base
           # :marker - (String)
           # :orderable_cluster_options - (Array)

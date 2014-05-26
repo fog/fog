@@ -3,9 +3,7 @@ require 'fog/core/model'
 module Fog
   module Compute
     class Google
-
       class Snapshot < Fog::Model
-
         identity :name
 
         attribute :kind
@@ -44,9 +42,7 @@ module Fog
         def resource_url
           "#{self.service.project}/global/snapshots/#{name}"
         end
-
       end
-
     end
   end
 end

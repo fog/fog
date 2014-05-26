@@ -4,9 +4,7 @@ require 'fog/rage4/models/dns/records'
 module Fog
   module DNS
     class Rage4
-
       class Zone < Fog::Model
-
         identity :id
 
         attribute :domain,     :aliases => 'name'
@@ -38,9 +36,7 @@ module Fog
           merge_attributes(data)
           true
         end
-
       end
-
     end
   end
 end

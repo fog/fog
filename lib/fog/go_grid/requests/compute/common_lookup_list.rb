@@ -2,7 +2,6 @@ module Fog
   module Compute
     class GoGrid
       class Real
-
         # List options and lookups
         #
         # ==== Parameters
@@ -21,7 +20,6 @@ module Fog
             :query    => {'lookup' => lookup}.merge!(options)
           )
         end
-
       end
     end
   end

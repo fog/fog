@@ -2,7 +2,6 @@ module Fog
   module Identity
     class OpenStack
       class Real
-
         def list_user_global_roles(user_id)
           request(
             :expects  => [200],
@@ -13,9 +12,6 @@ module Fog
       end
 
       class Mock
-
-
-
       end
     end
   end

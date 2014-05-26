@@ -2,9 +2,7 @@ module Fog
   module Parsers
     module Storage
       module AWS
-
         class GetBucketLifecycle < Fog::Parsers::Base
-
           def reset
             @expiration = {}
             @transition = {}

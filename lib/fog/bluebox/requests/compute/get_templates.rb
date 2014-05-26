@@ -2,7 +2,6 @@ module Fog
   module Compute
     class Bluebox
       class Real
-
         # Get list of OS templates
         #
         # ==== Returns
@@ -19,7 +18,6 @@ module Fog
             :path     => 'api/block_templates.json'
           )
         end
-
       end
     end
   end

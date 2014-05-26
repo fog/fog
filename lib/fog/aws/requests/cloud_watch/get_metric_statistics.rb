@@ -2,7 +2,6 @@ module Fog
   module AWS
     class CloudWatch
       class Real
-
         require 'fog/aws/parsers/cloud_watch/get_metric_statistics'
 
         # Fetch datapoints for a metric. At most 1440 datapoints will be returned, the most datapoints that can be queried is 50850
@@ -41,7 +40,6 @@ module Fog
               :parser     => Fog::Parsers::AWS::CloudWatch::GetMetricStatistics.new
             }.merge(options))
         end
-
       end
     end
   end

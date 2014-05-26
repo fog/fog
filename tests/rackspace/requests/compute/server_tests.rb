@@ -14,8 +14,8 @@ Shindo.tests('Fog::Compute[:rackspace] | server requests', ['rackspace']) do
     'progress'  => Integer,
     'status'    => String
   }
-  
-  @service = Fog::Compute.new(:provider => :rackspace, :version => :v1)  
+
+  @service = Fog::Compute.new(:provider => :rackspace, :version => :v1)
 
   tests('success') do
 

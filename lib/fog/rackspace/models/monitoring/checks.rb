@@ -5,7 +5,6 @@ module Fog
   module Rackspace
     class Monitoring
       class Checks < Fog::Collection
-
         attribute :entity
         attribute :marker
 
@@ -15,7 +14,7 @@ module Fog
           requires :entity
           data = service.list_checks(entity.identity, options).body
           self.marker = data['metadata']['next_marker']
-          
+
           load(data['values'])
         end
 
@@ -36,7 +35,6 @@ module Fog
           requires :entity unless attributes[:entity]
           super({ :entity => entity }.merge!(attributes))
         end
-
       end
     end
   end

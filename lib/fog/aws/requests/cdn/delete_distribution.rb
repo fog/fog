@@ -2,7 +2,6 @@ module Fog
   module CDN
     class AWS
       class Real
-
         # Delete a distribution from CloudFront.
         #
         # @param distribution_id [String] Id of distribution to delete.
@@ -19,11 +18,9 @@ module Fog
             :path       => "/distribution/#{distribution_id}"
           })
         end
-
       end
 
       class Mock
-
         def delete_distribution(distribution_id, etag)
           distribution = self.data[:distributions][distribution_id]
 
@@ -49,9 +46,7 @@ module Fog
             Fog::CDN::AWS::Mock.error(:no_such_distribution)
           end
         end
-
       end
-
     end
   end
 end

@@ -4,9 +4,7 @@ require 'fog/hp/models/storage/file'
 module Fog
   module Storage
     class HP
-
       class Files < Fog::Collection
-
         attribute :directory
         attribute :limit
         attribute :marker
@@ -125,9 +123,7 @@ module Fog
           requires :directory
           super({ :directory => directory }.merge!(attributes))
         end
-
       end
-
     end
   end
 end

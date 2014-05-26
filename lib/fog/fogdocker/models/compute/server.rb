@@ -5,7 +5,6 @@ module Fog
     class Fogdocker
       # fog server is a docker container
       class Server < Fog::Compute::Server
-
         identity :id
 
         attr_accessor :info
@@ -128,9 +127,7 @@ module Fog
         def to_s
           name
         end
-
       end
-
     end
   end
 end

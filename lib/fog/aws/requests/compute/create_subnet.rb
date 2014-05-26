@@ -2,7 +2,6 @@ module Fog
   module Compute
     class AWS
       class Real
-
         require 'ipaddress'
         require 'fog/aws/parsers/compute/create_subnet'
 
@@ -37,7 +36,6 @@ module Fog
             'CidrBlock'  => cidrBlock,
             :parser      => Fog::Parsers::Compute::AWS::CreateSubnet.new
           }.merge!(options))
-
         end
       end
 

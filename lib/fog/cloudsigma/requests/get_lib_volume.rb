@@ -12,7 +12,6 @@ module Fog
           mock_get(:libvolumes, 200, vol_id)
         end
       end
-
     end
   end
 end

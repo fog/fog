@@ -1,9 +1,7 @@
 module Fog
   module Storage
     class Rackspace
-
       class Metadata
-
         OBJECT_META_PREFIX = "X-Object-Meta-"
         OBJECT_REMOVE_META_PREFIX = "X-Remove-Object-Meta-"
         CONTAINER_META_PREFIX = "X-Container-Meta-"
@@ -14,7 +12,6 @@ module Fog
 
         CONTAINER_KEY_REGEX = /^#{CONTAINER_META_PREFIX}(.*)/
         OBJECT_KEY_REGEX = /^#{OBJECT_META_PREFIX}(.*)/
-
 
         # @!attribute [rw] data
         # @return [Hash] underlying data store for metadata class
@@ -32,7 +29,6 @@ module Fog
           @deleted_hash = {}
           @parent = parent
         end
-
 
         # Delete key value pair from metadata
         # @param [String] key to be deleted
@@ -163,9 +159,7 @@ module Fog
           prefix = value.nil? ?  remove_meta_prefix : meta_prefix
           prefix + key.to_s.split(/[-_]/).collect(&:capitalize).join('-')
         end
-
       end
-
     end
   end
 end

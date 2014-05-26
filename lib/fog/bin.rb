@@ -2,7 +2,6 @@ require 'fog/core/credentials'
 
 module Fog
   class << self
-
     def available_providers
       @available_providers ||= Fog.providers.values.select {|provider| Kernel.const_get(provider).available?}.sort
     end
@@ -10,12 +9,10 @@ module Fog
     def registered_providers
       @registered_providers ||= Fog.providers.values.sort
     end
-
   end
 
   class Bin
     class << self
-
       def available?
         availability = true
         for service in services
@@ -50,10 +47,8 @@ module Fog
       def collections
         services.map {|service| self[service].collections}.flatten.sort_by {|service| service.to_s}
       end
-
     end
   end
-
 end
 
 require 'fog/bin/atmos'

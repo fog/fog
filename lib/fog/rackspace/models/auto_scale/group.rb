@@ -7,7 +7,6 @@ module Fog
   module Rackspace
     class AutoScale
       class Group < Fog::Model
-
         # @!attribute [r] id
         # @return [String] The autoscale group's id
         identity :id
@@ -200,7 +199,6 @@ module Fog
           end
           model
         end
-
       end
     end
   end

@@ -2,7 +2,6 @@ module Fog
   module Compute
     class HP
       class Real
-
         # Create a new security group
         #
         # ==== Parameters
@@ -44,11 +43,9 @@ module Fog
             :path     => 'os-security-groups.json'
           )
         end
-
       end
 
       class Mock
-
         def create_security_group(name, description)
           # all spaces are removed
           name = name.strip
@@ -75,9 +72,7 @@ module Fog
           end
           response
         end
-
       end
-
     end
   end
 end

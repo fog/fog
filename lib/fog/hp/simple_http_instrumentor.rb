@@ -53,7 +53,6 @@ module Excon
           yield
         end
       end
-
     end
   end
 end

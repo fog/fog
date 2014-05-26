@@ -2,7 +2,6 @@ module Fog
   module Compute
     class Vsphere
       class Real
-
         def vm_power_on(options = {})
           raise ArgumentError, "instance_uuid is a required parameter" unless options.has_key? 'instance_uuid'
 
@@ -14,16 +13,13 @@ module Fog
           # 'success', 'running', 'queued', 'error'
           { 'task_state' => task.info.state }
         end
-
       end
 
       class Mock
-
         def vm_power_on(options = {})
           raise ArgumentError, "instance_uuid is a required parameter" unless options.has_key? 'instance_uuid'
           { 'task_state' => 'success' }
         end
-
       end
     end
   end

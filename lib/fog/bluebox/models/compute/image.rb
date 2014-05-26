@@ -3,9 +3,7 @@ require 'fog/core/model'
 module Fog
   module Compute
     class Bluebox
-
       class Image < Fog::Model
-
         identity :id
 
         attribute :block_id
@@ -26,9 +24,7 @@ module Fog
           data = service.destroy_template(id)
           true
         end
-
       end
-
     end
   end
 end

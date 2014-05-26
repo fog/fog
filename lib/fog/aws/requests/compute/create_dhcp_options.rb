@@ -2,7 +2,6 @@ module Fog
   module Compute
     class AWS
       class Real
-
         require 'fog/aws/parsers/compute/create_dhcp_options'
 
         # Creates a set of DHCP options for your VPC
@@ -73,4 +72,3 @@ module Fog
     end
   end
 end
-

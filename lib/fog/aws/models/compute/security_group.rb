@@ -3,9 +3,7 @@ require 'fog/core/model'
 module Fog
   module Compute
     class AWS
-
       class SecurityGroup < Fog::Model
-
         identity  :name,            :aliases => 'groupName'
         attribute :description,     :aliases => 'groupDescription'
         attribute :group_id,        :aliases => 'groupId'
@@ -277,9 +275,7 @@ module Fog
 
           info
         end
-
       end
-
     end
   end
 end

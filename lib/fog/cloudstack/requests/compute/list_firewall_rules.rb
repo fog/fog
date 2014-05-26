@@ -8,7 +8,6 @@ module Fog
           )
           request(options)
         end
-
       end
     end
   end

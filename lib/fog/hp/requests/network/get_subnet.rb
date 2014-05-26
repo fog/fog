@@ -1,7 +1,6 @@
 module Fog
   module HP
     class Network
-
       class Real
         # Gets an existing subnet by id
         #
@@ -46,7 +45,6 @@ module Fog
           end
         end
       end
-
     end
   end
 end

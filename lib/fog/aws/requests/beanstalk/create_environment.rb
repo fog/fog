@@ -2,7 +2,6 @@ module Fog
   module AWS
     class ElasticBeanstalk
       class Real
-
         require 'fog/aws/parsers/beanstalk/create_environment'
 
         # Launches an environment for the specified application using the specified configuration.

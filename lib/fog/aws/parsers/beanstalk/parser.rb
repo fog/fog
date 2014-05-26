@@ -2,9 +2,7 @@ module Fog
   module Parsers
     module AWS
       module ElasticBeanstalk
-
         class BaseParser < Fog::Parsers::Base
-
           def initialize(result_name)
             @result_name = result_name # Set before super, since super calls reset
             super()
@@ -18,7 +16,6 @@ module Fog
             @parse_stack = [ { :type => :object, :value => @response[@result_name]} ]
           end
 
-
           def tag name, *traits
             if traits.delete(:list)
               @list_tags[name] = true
@@ -29,7 +26,6 @@ module Fog
             else
               raise "Too many traits specified, only specify :list or a type"
             end
-
           end
 
           def start_element(name, attrs = [])
@@ -62,7 +58,6 @@ module Fog
                   set_value(name, value, @tags[name])
                 end
             end
-
           end
 
           def get_parent
@@ -82,12 +77,8 @@ module Fog
                 get_parent[name] = value
             end
           end
-
         end
       end
     end
   end
 end
-
-
-

@@ -2,7 +2,6 @@ module Fog
   module AWS
     class IAM
       class Real
-
         require 'fog/aws/parsers/iam/basic'
 
         # Deletes the specified server certificate.
@@ -25,7 +24,6 @@ module Fog
             :parser                 => Fog::Parsers::AWS::IAM::Basic.new
           })
         end
-
       end
 
       class Mock

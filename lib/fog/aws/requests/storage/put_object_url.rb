@@ -2,7 +2,6 @@ module Fog
   module Storage
     class AWS
       module PutObjectUrl
-
         def put_object_url(bucket_name, object_name, expires, headers = {}, options = {})
           unless bucket_name
             raise ArgumentError.new('bucket_name is required')
@@ -20,7 +19,6 @@ module Fog
       end
 
       class Real
-
         # Get an expiring object url from S3 for putting an object
         #
         # @param bucket_name [String] Name of bucket containing object
@@ -33,13 +31,10 @@ module Fog
         # @see http://docs.amazonwebservices.com/AmazonS3/latest/dev/S3_QSAuth.html
 
         include PutObjectUrl
-
       end
 
       class Mock # :nodoc:all
-
         include PutObjectUrl
-
       end
     end
   end

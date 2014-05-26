@@ -3,7 +3,6 @@ module Fog
   module Vcloud
     class Compute
       class Real
-
         def configure_vm_password(vmdata)
           edit_uri = vmdata[:href]
           body = <<EOF
@@ -31,9 +30,7 @@ EOF
             :parse    => true
           )
         end
-
       end
-
     end
   end
 end

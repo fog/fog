@@ -2,7 +2,6 @@ module Fog
   module AWS
     class ELB
       class Real
-
         require 'fog/aws/parsers/elb/describe_load_balancer_policy_types'
 
         # Describe all or specified load balancer policy types
@@ -32,7 +31,6 @@ module Fog
             :parser   => Fog::Parsers::AWS::ELB::DescribeLoadBalancerPolicyTypes.new
           }.merge!(params))
         end
-
       end
 
       class Mock

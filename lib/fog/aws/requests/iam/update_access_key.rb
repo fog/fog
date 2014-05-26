@@ -2,7 +2,6 @@ module Fog
   module AWS
     class IAM
       class Real
-
         require 'fog/aws/parsers/iam/basic'
 
         # Update an access key for a user
@@ -29,7 +28,6 @@ module Fog
             :parser       => Fog::Parsers::AWS::IAM::Basic.new
           }.merge!(options))
         end
-
       end
 
       class Mock
@@ -52,7 +50,6 @@ module Fog
           end
         end
       end
-
     end
   end
 end

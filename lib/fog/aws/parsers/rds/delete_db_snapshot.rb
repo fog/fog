@@ -2,11 +2,9 @@ module Fog
   module Parsers
     module AWS
       module RDS
-
         require 'fog/aws/parsers/rds/snapshot_parser'
 
         class DeleteDBSnapshot < Fog::Parsers::AWS::RDS::SnapshotParser
-
           def reset
             @response = { 'DeleteDBSnapshotResult' => {}, 'ResponseMetadata' => {} }
             super

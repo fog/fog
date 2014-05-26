@@ -2,7 +2,6 @@ module Fog
   module Compute
     class VcloudDirector
       class Real
-
         require 'fog/vcloud_director/generators/compute/org_vdc_network'
 
         # Create an Org vDC network.
@@ -52,7 +51,6 @@ module Fog
         # @see http://pubs.vmware.com/vcd-51/topic/com.vmware.vcloud.api.reference.doc_51/doc/operations/POST-CreateOrgVdcNetwork.html
         # @since vCloud API version 5.1
         def post_create_org_vdc_network(vdc_id, name, options={})
-
           body = Fog::Generators::Compute::VcloudDirector::OrgVdcNetwork.new(options.merge(:name => name)).generate_xml
 
           request(
@@ -63,12 +61,10 @@ module Fog
             :parser  => Fog::ToHashDocument.new,
             :path    => "admin/vdc/#{vdc_id}/networks"
           )
-
         end
       end
 
       class Mock
-
         def post_create_org_vdc_network(vdc_id, name, options={})
           unless data[:vdcs][vdc_id]
             raise Fog::Compute::VcloudDirector::Forbidden.new(
@@ -168,7 +164,6 @@ module Fog
             :headers => {'Content-Type' => "#{body[:type]};version=#{api_version}"},
             :body => body
           )
-
         end
       end
     end

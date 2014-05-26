@@ -5,7 +5,6 @@ module Fog
   module Network
     class OpenStack
       class LbMembers < Fog::Collection
-
         attribute :filters
 
         model Fog::Network::OpenStack::LbMember
@@ -27,7 +26,6 @@ module Fog
         rescue Fog::Network::OpenStack::NotFound
           nil
         end
-
       end
     end
   end

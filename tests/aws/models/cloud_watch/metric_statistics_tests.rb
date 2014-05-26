@@ -2,7 +2,7 @@ Shindo.tests("AWS::CloudWatch | metric_statistics", ['aws', 'cloudwatch']) do
 
   tests('success') do
     pending if Fog.mocking?
-    
+
     instanceId = 'i-420c352f'
     metricName = 'DiskReadBytes'
     namespace = 'AWS/EC2'
@@ -10,15 +10,15 @@ Shindo.tests("AWS::CloudWatch | metric_statistics", ['aws', 'cloudwatch']) do
     endTime = Time.now.iso8601
     period = 60
     statisticTypes = ['Minimum','Maximum','Sum','SampleCount','Average']
-    
+
     tests("#all").succeeds do
       @statistics = Fog::AWS[:cloud_watch].metric_statistics.all({'Statistics' => statisticTypes, 'StartTime' => startTime, 'EndTime' => endTime, 'Period' => period, 'MetricName' => metricName, 'Namespace' => namespace, 'Dimensions' => [{'Name' => 'InstanceId', 'Value' => instanceId}]})
     end
-    
+
     tests("#all_not_empty").returns(true) do
       @statistics.length > 0
     end
-    
+
     new_attributes = {
       :namespace => 'Custom/Test',
       :metric_name => 'ModelTest',
@@ -28,11 +28,11 @@ Shindo.tests("AWS::CloudWatch | metric_statistics", ['aws', 'cloudwatch']) do
     tests('#new').returns(new_attributes) do
       Fog::AWS[:cloud_watch].metric_statistics.new(new_attributes).attributes
     end
-    
+
     tests('#create').returns(new_attributes) do
       Fog::AWS[:cloud_watch].metric_statistics.create(new_attributes).attributes
     end
-    
+
     stats_set_attributes = {
       :namespace => 'Custom/Test',
       :metric_name => 'ModelTest',

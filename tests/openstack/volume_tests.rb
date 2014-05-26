@@ -12,4 +12,3 @@ Shindo.tests('Fog::Volume[:openstack]', ['openstack', 'volume']) do
   end
 
 end
-

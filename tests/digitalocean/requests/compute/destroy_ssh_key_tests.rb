@@ -8,7 +8,7 @@ Shindo.tests('Fog::Compute[:digitalocean] | destroy_ssh_key request', ['digitalo
       key = service.create_ssh_key 'fookey', 'fookey'
       service.destroy_ssh_key(key.body['ssh_key']['id']).body['status'] == 'OK'
     end
-    
+
   end
 
   tests('failures') do
@@ -18,6 +18,6 @@ Shindo.tests('Fog::Compute[:digitalocean] | destroy_ssh_key request', ['digitalo
       pending unless Fog.mocking?
       service.destroy_ssh_key('00000000000').body['status'] == 'ERROR'
     end
-  end 
+  end
 
 end

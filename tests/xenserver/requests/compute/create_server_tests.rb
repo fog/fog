@@ -24,7 +24,7 @@ Shindo.tests('Fog::Compute[:xenserver] | create_server request', ['xenserver']) 
       end
     end
   end
-  
+
   tests('get_vm_by_name should') do
     test('return a valid OpaqueRef') do
       (compute.get_vm_by_name(test_template_name) =~ /OpaqueRef:/) and \
@@ -86,7 +86,7 @@ Shindo.tests('Fog::Compute[:xenserver] | create_server request', ['xenserver']) 
       (compute.servers.get ref).vcpus_max == '1'
     end
     tests('set lowercase hash attributes') do
-      %w{ 
+      %w{
         VCPUs_params
         HVM_boot_params
       }.each do |a|
@@ -100,10 +100,10 @@ Shindo.tests('Fog::Compute[:xenserver] | create_server request', ['xenserver']) 
           )
           eval "(compute.servers.get ref).#{a.to_s.downcase}['foo'] == 'bar'"
         end
-      end 
+      end
       %w{ VCPUs_at_startup
-          VCPUs_max 
-          PV_bootloader_args 
+          VCPUs_max
+          PV_bootloader_args
           PV_bootloader
           PV_kernel
           PV_ramdisk
@@ -119,7 +119,7 @@ Shindo.tests('Fog::Compute[:xenserver] | create_server request', ['xenserver']) 
           )
           eval "(compute.servers.get ref).#{a.to_s.downcase} == '1'"
         end
-      end 
+      end
     end
   end
 

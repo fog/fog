@@ -2,7 +2,6 @@ module Fog
   module Compute
     class RackspaceV2
       class Real
-
         # Lists all addresses associated with a specified server and network
         # @param [String] server_id
         # @param [String] network_id
@@ -26,11 +25,9 @@ module Fog
             :path     => "servers/#{server_id}/ips/#{network_id}"
           )
         end
-
       end
 
       class Mock
-
         RESPONSE_BODY = {
           "addresses" => {
             "public"=>[{"version"=>6, "addr"=>"2001:4800:7811:0513:0fe1:75e8:ff04:760b"}, {"version"=>4, "addr"=>"166.78.18.176"}],
@@ -45,7 +42,6 @@ module Fog
           response.body   = { network_id => RESPONSE_BODY["addresses"][network_id] }
           response
         end
-
       end
     end
   end

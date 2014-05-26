@@ -22,7 +22,6 @@ module Fog
         def create_server(options)
           wrapped_request("post", "/1.0/servers", [202], options)
         end
-
       end
     end
   end

@@ -2,7 +2,6 @@ module Fog
   module Storage
     class HP
       class Real
-
         # Create or update metadata for an existing object
         #
         # ==== Parameters
@@ -18,11 +17,9 @@ module Fog
           )
           response
         end
-
       end
 
       class Mock # :nodoc:all
-
         def post_object(container_name, object_name, headers = {})
           response = Excon::Response.new
           if container = self.data[:containers][container_name]
@@ -48,9 +45,7 @@ module Fog
           end
           response
         end
-
       end
-
     end
   end
 end

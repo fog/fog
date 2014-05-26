@@ -2,7 +2,6 @@ module Fog
   module HP
     class BlockStorage
       class Real
-
         # List existing block storage bootbale volumes
         #
         # ==== Parameters
@@ -32,11 +31,9 @@ module Fog
           )
           response
         end
-
       end
 
       class Mock # :nodoc:all
-
         def list_bootable_volumes
           response = Excon::Response.new
           volumes = []
@@ -47,7 +44,6 @@ module Fog
           response
         end
       end
-
     end
   end
 end

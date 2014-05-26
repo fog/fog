@@ -2,7 +2,6 @@ module Fog
   module Compute
     class HPV2
       class Real
-
         # Create a new keypair
         #
         # ==== Parameters
@@ -41,11 +40,9 @@ module Fog
             :path     => 'os-keypairs'
           )
         end
-
       end
 
       class Mock
-
         def create_key_pair(key_name, public_key = nil)
           response = Excon::Response.new
           response.status = 200
@@ -65,9 +62,7 @@ module Fog
           end
           response
         end
-
       end
-
     end
   end
 end
