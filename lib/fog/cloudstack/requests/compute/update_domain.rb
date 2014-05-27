@@ -1,18 +1,21 @@
 module Fog
   module Compute
     class Cloudstack
+
       class Real
-        # Updates a domain with a new name.
+        # Updates a domain with a new name
         #
-        # {CloudStack API Reference}[http://download.cloud.com/releases/2.2.0/api_2.2.4/global_admin/updateDomain.html]
+        # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/updateDomain.html]
         def update_domain(options={})
           options.merge!(
-            'command' => 'updateDomain'
+            'command' => 'updateDomain', 
+            'id' => options['id']  
           )
-
           request(options)
         end
       end
+
     end
   end
 end
+
