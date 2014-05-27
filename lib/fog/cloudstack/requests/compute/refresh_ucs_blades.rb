@@ -8,9 +8,8 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/refreshUcsBlades.html]
         def refresh_ucs_blades(options={})
           options.merge!(
-            'command' => 'refreshUcsBlades',
-            'ucsmanagerid' => options['ucsmanagerid'], 
-             
+            'command' => 'refreshUcsBlades', 
+            'ucsmanagerid' => options['ucsmanagerid']  
           )
           request(options)
         end

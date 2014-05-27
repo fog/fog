@@ -8,10 +8,9 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/deleteAccountFromProject.html]
         def delete_account_from_project(options={})
           options.merge!(
-            'command' => 'deleteAccountFromProject',
+            'command' => 'deleteAccountFromProject', 
             'account' => options['account'], 
-            'projectid' => options['projectid'], 
-             
+            'projectid' => options['projectid']  
           )
           request(options)
         end

@@ -8,9 +8,8 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/updatePhysicalNetwork.html]
         def update_physical_network(options={})
           options.merge!(
-            'command' => 'updatePhysicalNetwork',
-            'id' => options['id'], 
-             
+            'command' => 'updatePhysicalNetwork', 
+            'id' => options['id']  
           )
           request(options)
         end

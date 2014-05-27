@@ -8,8 +8,7 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/listIsos.html]
         def list_isos(options={})
           options.merge!(
-            'command' => 'listIsos',
-             
+            'command' => 'listIsos'  
           )
           request(options)
         end

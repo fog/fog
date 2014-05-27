@@ -8,10 +8,9 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/removeResourceDetail.html]
         def remove_resource_detail(options={})
           options.merge!(
-            'command' => 'removeResourceDetail',
+            'command' => 'removeResourceDetail', 
             'resourceid' => options['resourceid'], 
-            'resourcetype' => options['resourcetype'], 
-             
+            'resourcetype' => options['resourcetype']  
           )
           request(options)
         end

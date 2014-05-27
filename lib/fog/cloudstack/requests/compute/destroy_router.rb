@@ -8,9 +8,8 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/destroyRouter.html]
         def destroy_router(options={})
           options.merge!(
-            'command' => 'destroyRouter',
-            'id' => options['id'], 
-             
+            'command' => 'destroyRouter', 
+            'id' => options['id']  
           )
           request(options)
         end

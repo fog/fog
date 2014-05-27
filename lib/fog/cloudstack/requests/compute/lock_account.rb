@@ -8,10 +8,9 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/lockAccount.html]
         def lock_account(options={})
           options.merge!(
-            'command' => 'lockAccount',
+            'command' => 'lockAccount', 
             'account' => options['account'], 
-            'domainid' => options['domainid'], 
-             
+            'domainid' => options['domainid']  
           )
           request(options)
         end

@@ -8,9 +8,8 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/updateVMAffinityGroup.html]
         def update_vm_affinity_group(options={})
           options.merge!(
-            'command' => 'updateVMAffinityGroup',
-            'id' => options['id'], 
-             
+            'command' => 'updateVMAffinityGroup', 
+            'id' => options['id']  
           )
           request(options)
         end

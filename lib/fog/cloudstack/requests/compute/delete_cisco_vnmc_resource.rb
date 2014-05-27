@@ -8,9 +8,8 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/deleteCiscoVnmcResource.html]
         def delete_cisco_vnmc_resource(options={})
           options.merge!(
-            'command' => 'deleteCiscoVnmcResource',
-            'resourceid' => options['resourceid'], 
-             
+            'command' => 'deleteCiscoVnmcResource', 
+            'resourceid' => options['resourceid']  
           )
           request(options)
         end

@@ -8,9 +8,8 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/deleteVpnGateway.html]
         def delete_vpn_gateway(options={})
           options.merge!(
-            'command' => 'deleteVpnGateway',
-            'id' => options['id'], 
-             
+            'command' => 'deleteVpnGateway', 
+            'id' => options['id']  
           )
           request(options)
         end

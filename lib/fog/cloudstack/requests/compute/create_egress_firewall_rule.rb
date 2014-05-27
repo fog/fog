@@ -8,10 +8,9 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/createEgressFirewallRule.html]
         def create_egress_firewall_rule(options={})
           options.merge!(
-            'command' => 'createEgressFirewallRule',
+            'command' => 'createEgressFirewallRule', 
             'protocol' => options['protocol'], 
-            'networkid' => options['networkid'], 
-             
+            'networkid' => options['networkid']  
           )
           request(options)
         end

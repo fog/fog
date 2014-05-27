@@ -8,11 +8,10 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/createAutoScaleVmProfile.html]
         def create_auto_scale_vm_profile(options={})
           options.merge!(
-            'command' => 'createAutoScaleVmProfile',
+            'command' => 'createAutoScaleVmProfile', 
             'serviceofferingid' => options['serviceofferingid'], 
             'templateid' => options['templateid'], 
-            'zoneid' => options['zoneid'], 
-             
+            'zoneid' => options['zoneid']  
           )
           request(options)
         end

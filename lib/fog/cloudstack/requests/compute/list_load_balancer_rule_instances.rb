@@ -8,9 +8,8 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/listLoadBalancerRuleInstances.html]
         def list_load_balancer_rule_instances(options={})
           options.merge!(
-            'command' => 'listLoadBalancerRuleInstances',
-            'id' => options['id'], 
-             
+            'command' => 'listLoadBalancerRuleInstances', 
+            'id' => options['id']  
           )
           request(options)
         end

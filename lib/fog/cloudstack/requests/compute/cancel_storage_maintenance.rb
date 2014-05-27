@@ -8,9 +8,8 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/cancelStorageMaintenance.html]
         def cancel_storage_maintenance(options={})
           options.merge!(
-            'command' => 'cancelStorageMaintenance',
-            'id' => options['id'], 
-             
+            'command' => 'cancelStorageMaintenance', 
+            'id' => options['id']  
           )
           request(options)
         end

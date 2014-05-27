@@ -8,10 +8,9 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/changeServiceForSystemVm.html]
         def change_service_for_system_vm(options={})
           options.merge!(
-            'command' => 'changeServiceForSystemVm',
+            'command' => 'changeServiceForSystemVm', 
             'serviceofferingid' => options['serviceofferingid'], 
-            'id' => options['id'], 
-             
+            'id' => options['id']  
           )
           request(options)
         end

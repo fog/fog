@@ -8,9 +8,8 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/createInternalLoadBalancerElement.html]
         def create_internal_load_balancer_element(options={})
           options.merge!(
-            'command' => 'createInternalLoadBalancerElement',
-            'nspid' => options['nspid'], 
-             
+            'command' => 'createInternalLoadBalancerElement', 
+            'nspid' => options['nspid']  
           )
           request(options)
         end

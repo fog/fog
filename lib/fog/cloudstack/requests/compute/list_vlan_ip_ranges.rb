@@ -8,8 +8,7 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/listVlanIpRanges.html]
         def list_vlan_ip_ranges(options={})
           options.merge!(
-            'command' => 'listVlanIpRanges',
-             
+            'command' => 'listVlanIpRanges'  
           )
           request(options)
         end

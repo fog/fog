@@ -8,9 +8,8 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/registerUserKeys.html]
         def register_user_keys(options={})
           options.merge!(
-            'command' => 'registerUserKeys',
-            'id' => options['id'], 
-             
+            'command' => 'registerUserKeys', 
+            'id' => options['id']  
           )
           request(options)
         end

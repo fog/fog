@@ -8,9 +8,8 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/deleteVolume.html]
         def delete_volume(options={})
           options.merge!(
-            'command' => 'deleteVolume',
-            'id' => options['id'], 
-             
+            'command' => 'deleteVolume', 
+            'id' => options['id']  
           )
           request(options)
         end

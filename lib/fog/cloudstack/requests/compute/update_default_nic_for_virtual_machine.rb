@@ -8,10 +8,9 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/updateDefaultNicForVirtualMachine.html]
         def update_default_nic_for_virtual_machine(options={})
           options.merge!(
-            'command' => 'updateDefaultNicForVirtualMachine',
+            'command' => 'updateDefaultNicForVirtualMachine', 
             'virtualmachineid' => options['virtualmachineid'], 
-            'nicid' => options['nicid'], 
-             
+            'nicid' => options['nicid']  
           )
           request(options)
         end

@@ -8,10 +8,9 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/dedicateHost.html]
         def dedicate_host(options={})
           options.merge!(
-            'command' => 'dedicateHost',
+            'command' => 'dedicateHost', 
             'hostid' => options['hostid'], 
-            'domainid' => options['domainid'], 
-             
+            'domainid' => options['domainid']  
           )
           request(options)
         end

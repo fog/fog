@@ -8,9 +8,8 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/listNics.html]
         def list_nics(options={})
           options.merge!(
-            'command' => 'listNics',
-            'virtualmachineid' => options['virtualmachineid'], 
-             
+            'command' => 'listNics', 
+            'virtualmachineid' => options['virtualmachineid']  
           )
           request(options)
         end

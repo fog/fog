@@ -8,11 +8,10 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/createTemplate.html]
         def create_template(options={})
           options.merge!(
-            'command' => 'createTemplate',
+            'command' => 'createTemplate', 
             'displaytext' => options['displaytext'], 
             'name' => options['name'], 
-            'ostypeid' => options['ostypeid'], 
-             
+            'ostypeid' => options['ostypeid']  
           )
           request(options)
         end

@@ -8,8 +8,7 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/listAutoScalePolicies.html]
         def list_auto_scale_policies(options={})
           options.merge!(
-            'command' => 'listAutoScalePolicies',
-             
+            'command' => 'listAutoScalePolicies'  
           )
           request(options)
         end

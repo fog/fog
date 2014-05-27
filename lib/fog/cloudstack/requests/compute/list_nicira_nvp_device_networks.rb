@@ -8,9 +8,8 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/listNiciraNvpDeviceNetworks.html]
         def list_nicira_nvp_device_networks(options={})
           options.merge!(
-            'command' => 'listNiciraNvpDeviceNetworks',
-            'nvpdeviceid' => options['nvpdeviceid'], 
-             
+            'command' => 'listNiciraNvpDeviceNetworks', 
+            'nvpdeviceid' => options['nvpdeviceid']  
           )
           request(options)
         end

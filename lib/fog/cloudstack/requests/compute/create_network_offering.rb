@@ -8,13 +8,12 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/createNetworkOffering.html]
         def create_network_offering(options={})
           options.merge!(
-            'command' => 'createNetworkOffering',
+            'command' => 'createNetworkOffering', 
             'supportedservices' => options['supportedservices'], 
             'guestiptype' => options['guestiptype'], 
             'traffictype' => options['traffictype'], 
             'displaytext' => options['displaytext'], 
-            'name' => options['name'], 
-             
+            'name' => options['name']  
           )
           request(options)
         end

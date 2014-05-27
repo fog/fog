@@ -8,9 +8,8 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/updateAutoScaleVmGroup.html]
         def update_auto_scale_vm_group(options={})
           options.merge!(
-            'command' => 'updateAutoScaleVmGroup',
-            'id' => options['id'], 
-             
+            'command' => 'updateAutoScaleVmGroup', 
+            'id' => options['id']  
           )
           request(options)
         end

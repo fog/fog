@@ -8,8 +8,7 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/listUcsManagers.html]
         def list_ucs_managers(options={})
           options.merge!(
-            'command' => 'listUcsManagers',
-             
+            'command' => 'listUcsManagers'  
           )
           request(options)
         end

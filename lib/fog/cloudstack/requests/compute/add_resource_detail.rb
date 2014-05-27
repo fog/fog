@@ -8,11 +8,10 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/addResourceDetail.html]
         def add_resource_detail(options={})
           options.merge!(
-            'command' => 'addResourceDetail',
+            'command' => 'addResourceDetail', 
             'resourceid' => options['resourceid'], 
             'resourcetype' => options['resourcetype'], 
-            'details' => options['details'], 
-             
+            'details' => options['details']  
           )
           request(options)
         end

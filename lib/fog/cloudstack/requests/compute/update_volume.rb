@@ -8,10 +8,9 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/updateVolume.html]
         def update_volume(options={})
           options.merge!(
-            'command' => 'updateVolume',
+            'command' => 'updateVolume', 
             'id' => options['id'], 
-            'path' => options['path'], 
-             
+            'path' => options['path']  
           )
           request(options)
         end

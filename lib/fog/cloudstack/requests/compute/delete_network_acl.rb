@@ -8,9 +8,8 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/deleteNetworkACL.html]
         def delete_network_acl(options={})
           options.merge!(
-            'command' => 'deleteNetworkACL',
-            'id' => options['id'], 
-             
+            'command' => 'deleteNetworkACL', 
+            'id' => options['id']  
           )
           request(options)
         end

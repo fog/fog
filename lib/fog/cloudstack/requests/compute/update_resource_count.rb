@@ -8,9 +8,8 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/updateResourceCount.html]
         def update_resource_count(options={})
           options.merge!(
-            'command' => 'updateResourceCount',
-            'domainid' => options['domainid'], 
-             
+            'command' => 'updateResourceCount', 
+            'domainid' => options['domainid']  
           )
           request(options)
         end

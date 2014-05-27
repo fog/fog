@@ -8,15 +8,14 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/registerTemplate.html]
         def register_template(options={})
           options.merge!(
-            'command' => 'registerTemplate',
+            'command' => 'registerTemplate', 
             'url' => options['url'], 
             'name' => options['name'], 
             'ostypeid' => options['ostypeid'], 
             'zoneid' => options['zoneid'], 
             'displaytext' => options['displaytext'], 
             'hypervisor' => options['hypervisor'], 
-            'format' => options['format'], 
-             
+            'format' => options['format']  
           )
           request(options)
         end

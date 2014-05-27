@@ -8,9 +8,8 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/releaseDedicatedHost.html]
         def release_dedicated_host(options={})
           options.merge!(
-            'command' => 'releaseDedicatedHost',
-            'hostid' => options['hostid'], 
-             
+            'command' => 'releaseDedicatedHost', 
+            'hostid' => options['hostid']  
           )
           request(options)
         end

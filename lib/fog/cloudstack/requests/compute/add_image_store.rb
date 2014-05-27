@@ -8,9 +8,8 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/addImageStore.html]
         def add_image_store(options={})
           options.merge!(
-            'command' => 'addImageStore',
-            'provider' => options['provider'], 
-             
+            'command' => 'addImageStore', 
+            'provider' => options['provider']  
           )
           request(options)
         end

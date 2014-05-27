@@ -8,9 +8,8 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/findStoragePoolsForMigration.html]
         def find_storage_pools_for_migration(options={})
           options.merge!(
-            'command' => 'findStoragePoolsForMigration',
-            'id' => options['id'], 
-             
+            'command' => 'findStoragePoolsForMigration', 
+            'id' => options['id']  
           )
           request(options)
         end

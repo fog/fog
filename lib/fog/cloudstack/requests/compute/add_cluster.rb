@@ -8,13 +8,12 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/addCluster.html]
         def add_cluster(options={})
           options.merge!(
-            'command' => 'addCluster',
+            'command' => 'addCluster', 
             'podid' => options['podid'], 
             'clustername' => options['clustername'], 
             'zoneid' => options['zoneid'], 
             'clustertype' => options['clustertype'], 
-            'hypervisor' => options['hypervisor'], 
-             
+            'hypervisor' => options['hypervisor']  
           )
           request(options)
         end

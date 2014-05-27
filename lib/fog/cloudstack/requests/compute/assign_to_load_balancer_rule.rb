@@ -8,10 +8,9 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/assignToLoadBalancerRule.html]
         def assign_to_load_balancer_rule(options={})
           options.merge!(
-            'command' => 'assignToLoadBalancerRule',
+            'command' => 'assignToLoadBalancerRule', 
             'virtualmachineids' => options['virtualmachineids'], 
-            'id' => options['id'], 
-             
+            'id' => options['id']  
           )
           request(options)
         end

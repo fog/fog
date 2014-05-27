@@ -8,10 +8,9 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/modifyPool.html]
         def modify_pool(options={})
           options.merge!(
-            'command' => 'modifyPool',
+            'command' => 'modifyPool', 
             'poolname' => options['poolname'], 
-            'algorithm' => options['algorithm'], 
-             
+            'algorithm' => options['algorithm']  
           )
           request(options)
         end

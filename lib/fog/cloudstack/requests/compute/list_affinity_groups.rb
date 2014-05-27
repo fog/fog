@@ -8,8 +8,7 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/listAffinityGroups.html]
         def list_affinity_groups(options={})
           options.merge!(
-            'command' => 'listAffinityGroups',
-             
+            'command' => 'listAffinityGroups'  
           )
           request(options)
         end

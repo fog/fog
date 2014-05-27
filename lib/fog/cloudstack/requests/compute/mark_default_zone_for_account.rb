@@ -8,11 +8,10 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/markDefaultZoneForAccount.html]
         def mark_default_zone_for_account(options={})
           options.merge!(
-            'command' => 'markDefaultZoneForAccount',
+            'command' => 'markDefaultZoneForAccount', 
             'zoneid' => options['zoneid'], 
             'domainid' => options['domainid'], 
-            'account' => options['account'], 
-             
+            'account' => options['account']  
           )
           request(options)
         end

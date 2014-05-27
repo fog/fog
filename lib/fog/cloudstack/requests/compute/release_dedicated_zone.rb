@@ -8,9 +8,8 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/releaseDedicatedZone.html]
         def release_dedicated_zone(options={})
           options.merge!(
-            'command' => 'releaseDedicatedZone',
-            'zoneid' => options['zoneid'], 
-             
+            'command' => 'releaseDedicatedZone', 
+            'zoneid' => options['zoneid']  
           )
           request(options)
         end

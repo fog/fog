@@ -8,9 +8,8 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/startSystemVm.html]
         def start_system_vm(options={})
           options.merge!(
-            'command' => 'startSystemVm',
-            'id' => options['id'], 
-             
+            'command' => 'startSystemVm', 
+            'id' => options['id']  
           )
           request(options)
         end

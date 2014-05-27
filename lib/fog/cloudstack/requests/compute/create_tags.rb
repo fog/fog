@@ -8,11 +8,10 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/createTags.html]
         def create_tags(options={})
           options.merge!(
-            'command' => 'createTags',
+            'command' => 'createTags', 
             'resourcetype' => options['resourcetype'], 
             'resourceids' => options['resourceids'], 
-            'tags' => options['tags'], 
-             
+            'tags' => options['tags']  
           )
           request(options)
         end

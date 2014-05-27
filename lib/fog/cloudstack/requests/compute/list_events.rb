@@ -8,8 +8,7 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/listEvents.html]
         def list_events(options={})
           options.merge!(
-            'command' => 'listEvents',
-             
+            'command' => 'listEvents'  
           )
           request(options)
         end

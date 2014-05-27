@@ -8,11 +8,10 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/copyTemplate.html]
         def copy_template(options={})
           options.merge!(
-            'command' => 'copyTemplate',
+            'command' => 'copyTemplate', 
             'sourcezoneid' => options['sourcezoneid'], 
             'id' => options['id'], 
-            'destzoneid' => options['destzoneid'], 
-             
+            'destzoneid' => options['destzoneid']  
           )
           request(options)
         end

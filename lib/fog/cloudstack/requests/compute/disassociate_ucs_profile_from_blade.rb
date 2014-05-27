@@ -8,9 +8,8 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/disassociateUcsProfileFromBlade.html]
         def disassociate_ucs_profile_from_blade(options={})
           options.merge!(
-            'command' => 'disassociateUcsProfileFromBlade',
-            'bladeid' => options['bladeid'], 
-             
+            'command' => 'disassociateUcsProfileFromBlade', 
+            'bladeid' => options['bladeid']  
           )
           request(options)
         end

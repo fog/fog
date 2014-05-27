@@ -8,8 +8,7 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/listSrxFirewalls.html]
         def list_srx_firewalls(options={})
           options.merge!(
-            'command' => 'listSrxFirewalls',
-             
+            'command' => 'listSrxFirewalls'  
           )
           request(options)
         end

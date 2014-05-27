@@ -8,10 +8,9 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/createNetworkACLList.html]
         def create_network_acl_list(options={})
           options.merge!(
-            'command' => 'createNetworkACLList',
+            'command' => 'createNetworkACLList', 
             'vpcid' => options['vpcid'], 
-            'name' => options['name'], 
-             
+            'name' => options['name']  
           )
           request(options)
         end

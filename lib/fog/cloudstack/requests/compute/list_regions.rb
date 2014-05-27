@@ -8,8 +8,7 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/listRegions.html]
         def list_regions(options={})
           options.merge!(
-            'command' => 'listRegions',
-             
+            'command' => 'listRegions'  
           )
           request(options)
         end

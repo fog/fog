@@ -8,9 +8,8 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/destroyVirtualMachine.html]
         def destroy_virtual_machine(options={})
           options.merge!(
-            'command' => 'destroyVirtualMachine',
-            'id' => options['id'], 
-             
+            'command' => 'destroyVirtualMachine', 
+            'id' => options['id']  
           )
           request(options)
         end

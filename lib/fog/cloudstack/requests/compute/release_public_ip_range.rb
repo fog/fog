@@ -8,9 +8,8 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/releasePublicIpRange.html]
         def release_public_ip_range(options={})
           options.merge!(
-            'command' => 'releasePublicIpRange',
-            'id' => options['id'], 
-             
+            'command' => 'releasePublicIpRange', 
+            'id' => options['id']  
           )
           request(options)
         end

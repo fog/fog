@@ -8,8 +8,7 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/updateHypervisorCapabilities.html]
         def update_hypervisor_capabilities(options={})
           options.merge!(
-            'command' => 'updateHypervisorCapabilities',
-             
+            'command' => 'updateHypervisorCapabilities'  
           )
           request(options)
         end

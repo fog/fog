@@ -8,8 +8,7 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/listNetworkIsolationMethods.html]
         def list_network_isolation_methods(options={})
           options.merge!(
-            'command' => 'listNetworkIsolationMethods',
-             
+            'command' => 'listNetworkIsolationMethods'  
           )
           request(options)
         end

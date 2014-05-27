@@ -8,8 +8,7 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/listDomains.html]
         def list_domains(options={})
           options.merge!(
-            'command' => 'listDomains',
-             
+            'command' => 'listDomains'  
           )
           request(options)
         end

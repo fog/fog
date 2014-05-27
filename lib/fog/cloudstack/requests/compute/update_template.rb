@@ -8,9 +8,8 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/updateTemplate.html]
         def update_template(options={})
           options.merge!(
-            'command' => 'updateTemplate',
-            'id' => options['id'], 
-             
+            'command' => 'updateTemplate', 
+            'id' => options['id']  
           )
           request(options)
         end

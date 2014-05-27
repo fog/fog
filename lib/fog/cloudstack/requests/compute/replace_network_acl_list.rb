@@ -8,9 +8,8 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/replaceNetworkACLList.html]
         def replace_network_acl_list(options={})
           options.merge!(
-            'command' => 'replaceNetworkACLList',
-            'aclid' => options['aclid'], 
-             
+            'command' => 'replaceNetworkACLList', 
+            'aclid' => options['aclid']  
           )
           request(options)
         end

@@ -8,8 +8,7 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/listVpnGateways.html]
         def list_vpn_gateways(options={})
           options.merge!(
-            'command' => 'listVpnGateways',
-             
+            'command' => 'listVpnGateways'  
           )
           request(options)
         end

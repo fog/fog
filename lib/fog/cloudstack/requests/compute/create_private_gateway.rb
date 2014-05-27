@@ -8,13 +8,12 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/createPrivateGateway.html]
         def create_private_gateway(options={})
           options.merge!(
-            'command' => 'createPrivateGateway',
+            'command' => 'createPrivateGateway', 
             'gateway' => options['gateway'], 
             'vlan' => options['vlan'], 
             'vpcid' => options['vpcid'], 
             'ipaddress' => options['ipaddress'], 
-            'netmask' => options['netmask'], 
-             
+            'netmask' => options['netmask']  
           )
           request(options)
         end

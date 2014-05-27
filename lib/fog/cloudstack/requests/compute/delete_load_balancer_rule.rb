@@ -8,9 +8,8 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/deleteLoadBalancerRule.html]
         def delete_load_balancer_rule(options={})
           options.merge!(
-            'command' => 'deleteLoadBalancerRule',
-            'id' => options['id'], 
-             
+            'command' => 'deleteLoadBalancerRule', 
+            'id' => options['id']  
           )
           request(options)
         end

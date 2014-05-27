@@ -8,8 +8,7 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/listDedicatedClusters.html]
         def list_dedicated_clusters(options={})
           options.merge!(
-            'command' => 'listDedicatedClusters',
-             
+            'command' => 'listDedicatedClusters'  
           )
           request(options)
         end

@@ -8,9 +8,8 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/restoreVirtualMachine.html]
         def restore_virtual_machine(options={})
           options.merge!(
-            'command' => 'restoreVirtualMachine',
-            'virtualmachineid' => options['virtualmachineid'], 
-             
+            'command' => 'restoreVirtualMachine', 
+            'virtualmachineid' => options['virtualmachineid']  
           )
           request(options)
         end

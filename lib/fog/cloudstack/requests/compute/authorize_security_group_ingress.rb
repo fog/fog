@@ -8,8 +8,7 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/authorizeSecurityGroupIngress.html]
         def authorize_security_group_ingress(options={})
           options.merge!(
-            'command' => 'authorizeSecurityGroupIngress',
-             
+            'command' => 'authorizeSecurityGroupIngress'  
           )
           request(options)
         end

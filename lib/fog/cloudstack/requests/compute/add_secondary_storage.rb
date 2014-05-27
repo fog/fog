@@ -8,9 +8,8 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/addSecondaryStorage.html]
         def add_secondary_storage(options={})
           options.merge!(
-            'command' => 'addSecondaryStorage',
-            'url' => options['url'], 
-             
+            'command' => 'addSecondaryStorage', 
+            'url' => options['url']  
           )
           request(options)
         end

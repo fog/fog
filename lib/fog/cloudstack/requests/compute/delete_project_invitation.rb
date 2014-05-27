@@ -8,9 +8,8 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/deleteProjectInvitation.html]
         def delete_project_invitation(options={})
           options.merge!(
-            'command' => 'deleteProjectInvitation',
-            'id' => options['id'], 
-             
+            'command' => 'deleteProjectInvitation', 
+            'id' => options['id']  
           )
           request(options)
         end

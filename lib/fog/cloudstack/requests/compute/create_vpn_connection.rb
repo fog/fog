@@ -8,10 +8,9 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/createVpnConnection.html]
         def create_vpn_connection(options={})
           options.merge!(
-            'command' => 'createVpnConnection',
+            'command' => 'createVpnConnection', 
             's2svpngatewayid' => options['s2svpngatewayid'], 
-            's2scustomergatewayid' => options['s2scustomergatewayid'], 
-             
+            's2scustomergatewayid' => options['s2scustomergatewayid']  
           )
           request(options)
         end

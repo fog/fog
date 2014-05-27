@@ -8,11 +8,10 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/createCondition.html]
         def create_condition(options={})
           options.merge!(
-            'command' => 'createCondition',
+            'command' => 'createCondition', 
             'threshold' => options['threshold'], 
             'counterid' => options['counterid'], 
-            'relationaloperator' => options['relationaloperator'], 
-             
+            'relationaloperator' => options['relationaloperator']  
           )
           request(options)
         end

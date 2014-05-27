@@ -8,9 +8,8 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/deleteCondition.html]
         def delete_condition(options={})
           options.merge!(
-            'command' => 'deleteCondition',
-            'id' => options['id'], 
-             
+            'command' => 'deleteCondition', 
+            'id' => options['id']  
           )
           request(options)
         end

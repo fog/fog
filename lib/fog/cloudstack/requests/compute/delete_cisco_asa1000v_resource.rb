@@ -8,9 +8,8 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/deleteCiscoAsa1000vResource.html]
         def delete_cisco_asa1000v_resource(options={})
           options.merge!(
-            'command' => 'deleteCiscoAsa1000vResource',
-            'resourceid' => options['resourceid'], 
-             
+            'command' => 'deleteCiscoAsa1000vResource', 
+            'resourceid' => options['resourceid']  
           )
           request(options)
         end

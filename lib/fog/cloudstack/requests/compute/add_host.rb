@@ -8,14 +8,13 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/addHost.html]
         def add_host(options={})
           options.merge!(
-            'command' => 'addHost',
+            'command' => 'addHost', 
             'password' => options['password'], 
             'podid' => options['podid'], 
             'zoneid' => options['zoneid'], 
             'url' => options['url'], 
             'username' => options['username'], 
-            'hypervisor' => options['hypervisor'], 
-             
+            'hypervisor' => options['hypervisor']  
           )
           request(options)
         end

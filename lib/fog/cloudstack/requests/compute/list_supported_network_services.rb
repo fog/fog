@@ -8,8 +8,7 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/listSupportedNetworkServices.html]
         def list_supported_network_services(options={})
           options.merge!(
-            'command' => 'listSupportedNetworkServices',
-             
+            'command' => 'listSupportedNetworkServices'  
           )
           request(options)
         end

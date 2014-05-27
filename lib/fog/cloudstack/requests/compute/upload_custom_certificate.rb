@@ -8,10 +8,9 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/uploadCustomCertificate.html]
         def upload_custom_certificate(options={})
           options.merge!(
-            'command' => 'uploadCustomCertificate',
+            'command' => 'uploadCustomCertificate', 
             'domainsuffix' => options['domainsuffix'], 
-            'certificate' => options['certificate'], 
-             
+            'certificate' => options['certificate']  
           )
           request(options)
         end

@@ -8,12 +8,11 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/addExternalLoadBalancer.html]
         def add_external_load_balancer(options={})
           options.merge!(
-            'command' => 'addExternalLoadBalancer',
+            'command' => 'addExternalLoadBalancer', 
             'zoneid' => options['zoneid'], 
             'password' => options['password'], 
             'url' => options['url'], 
-            'username' => options['username'], 
-             
+            'username' => options['username']  
           )
           request(options)
         end

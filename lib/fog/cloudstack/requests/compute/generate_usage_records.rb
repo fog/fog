@@ -8,10 +8,9 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/generateUsageRecords.html]
         def generate_usage_records(options={})
           options.merge!(
-            'command' => 'generateUsageRecords',
+            'command' => 'generateUsageRecords', 
             'enddate' => options['enddate'], 
-            'startdate' => options['startdate'], 
-             
+            'startdate' => options['startdate']  
           )
           request(options)
         end

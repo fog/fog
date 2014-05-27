@@ -8,15 +8,14 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/createVolumeOnFiler.html]
         def create_volume_on_filer(options={})
           options.merge!(
-            'command' => 'createVolumeOnFiler',
+            'command' => 'createVolumeOnFiler', 
             'poolname' => options['poolname'], 
             'username' => options['username'], 
             'ipaddress' => options['ipaddress'], 
             'volumename' => options['volumename'], 
             'password' => options['password'], 
             'size' => options['size'], 
-            'aggregatename' => options['aggregatename'], 
-             
+            'aggregatename' => options['aggregatename']  
           )
           request(options)
         end

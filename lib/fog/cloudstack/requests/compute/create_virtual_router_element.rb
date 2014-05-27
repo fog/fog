@@ -8,9 +8,8 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/createVirtualRouterElement.html]
         def create_virtual_router_element(options={})
           options.merge!(
-            'command' => 'createVirtualRouterElement',
-            'nspid' => options['nspid'], 
-             
+            'command' => 'createVirtualRouterElement', 
+            'nspid' => options['nspid']  
           )
           request(options)
         end

@@ -8,9 +8,8 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/createVolume.html]
         def create_volume(options={})
           options.merge!(
-            'command' => 'createVolume',
-            'name' => options['name'], 
-             
+            'command' => 'createVolume', 
+            'name' => options['name']  
           )
           request(options)
         end

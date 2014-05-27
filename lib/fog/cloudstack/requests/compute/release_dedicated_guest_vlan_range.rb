@@ -8,9 +8,8 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/releaseDedicatedGuestVlanRange.html]
         def release_dedicated_guest_vlan_range(options={})
           options.merge!(
-            'command' => 'releaseDedicatedGuestVlanRange',
-            'id' => options['id'], 
-             
+            'command' => 'releaseDedicatedGuestVlanRange', 
+            'id' => options['id']  
           )
           request(options)
         end

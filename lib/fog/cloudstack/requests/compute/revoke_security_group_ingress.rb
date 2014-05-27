@@ -8,9 +8,8 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/revokeSecurityGroupIngress.html]
         def revoke_security_group_ingress(options={})
           options.merge!(
-            'command' => 'revokeSecurityGroupIngress',
-            'id' => options['id'], 
-             
+            'command' => 'revokeSecurityGroupIngress', 
+            'id' => options['id']  
           )
           request(options)
         end

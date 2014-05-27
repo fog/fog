@@ -8,11 +8,10 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/createAutoScalePolicy.html]
         def create_auto_scale_policy(options={})
           options.merge!(
-            'command' => 'createAutoScalePolicy',
+            'command' => 'createAutoScalePolicy', 
             'duration' => options['duration'], 
             'conditionids' => options['conditionids'], 
-            'action' => options['action'], 
-             
+            'action' => options['action']  
           )
           request(options)
         end

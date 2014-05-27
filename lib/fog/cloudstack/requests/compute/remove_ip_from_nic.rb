@@ -8,9 +8,8 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/removeIpFromNic.html]
         def remove_ip_from_nic(options={})
           options.merge!(
-            'command' => 'removeIpFromNic',
-            'id' => options['id'], 
-             
+            'command' => 'removeIpFromNic', 
+            'id' => options['id']  
           )
           request(options)
         end

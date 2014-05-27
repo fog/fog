@@ -8,8 +8,7 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/deleteEvents.html]
         def delete_events(options={})
           options.merge!(
-            'command' => 'deleteEvents',
-             
+            'command' => 'deleteEvents'  
           )
           request(options)
         end

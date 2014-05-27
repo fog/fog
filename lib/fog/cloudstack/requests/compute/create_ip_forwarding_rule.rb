@@ -8,11 +8,10 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/createIpForwardingRule.html]
         def create_ip_forwarding_rule(options={})
           options.merge!(
-            'command' => 'createIpForwardingRule',
+            'command' => 'createIpForwardingRule', 
             'startport' => options['startport'], 
             'protocol' => options['protocol'], 
-            'ipaddressid' => options['ipaddressid'], 
-             
+            'ipaddressid' => options['ipaddressid']  
           )
           request(options)
         end

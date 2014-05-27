@@ -8,9 +8,8 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/updateNetworkACLItem.html]
         def update_network_acl_item(options={})
           options.merge!(
-            'command' => 'updateNetworkACLItem',
-            'id' => options['id'], 
-             
+            'command' => 'updateNetworkACLItem', 
+            'id' => options['id']  
           )
           request(options)
         end

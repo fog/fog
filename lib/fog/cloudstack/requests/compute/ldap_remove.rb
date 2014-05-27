@@ -8,8 +8,7 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/ldapRemove.html]
         def ldap_remove(options={})
           options.merge!(
-            'command' => 'ldapRemove',
-             
+            'command' => 'ldapRemove'  
           )
           request(options)
         end

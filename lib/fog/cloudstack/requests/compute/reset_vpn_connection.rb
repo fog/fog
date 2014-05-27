@@ -8,9 +8,8 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/resetVpnConnection.html]
         def reset_vpn_connection(options={})
           options.merge!(
-            'command' => 'resetVpnConnection',
-            'id' => options['id'], 
-             
+            'command' => 'resetVpnConnection', 
+            'id' => options['id']  
           )
           request(options)
         end

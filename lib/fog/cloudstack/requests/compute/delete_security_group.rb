@@ -8,8 +8,7 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/deleteSecurityGroup.html]
         def delete_security_group(options={})
           options.merge!(
-            'command' => 'deleteSecurityGroup',
-             
+            'command' => 'deleteSecurityGroup'  
           )
           request(options)
         end

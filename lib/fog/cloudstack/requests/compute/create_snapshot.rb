@@ -8,9 +8,8 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/createSnapshot.html]
         def create_snapshot(options={})
           options.merge!(
-            'command' => 'createSnapshot',
-            'volumeid' => options['volumeid'], 
-             
+            'command' => 'createSnapshot', 
+            'volumeid' => options['volumeid']  
           )
           request(options)
         end

@@ -8,8 +8,7 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/listAutoScaleVmProfiles.html]
         def list_auto_scale_vm_profiles(options={})
           options.merge!(
-            'command' => 'listAutoScaleVmProfiles',
-             
+            'command' => 'listAutoScaleVmProfiles'  
           )
           request(options)
         end

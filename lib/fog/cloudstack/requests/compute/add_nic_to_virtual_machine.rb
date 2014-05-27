@@ -8,10 +8,9 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/addNicToVirtualMachine.html]
         def add_nic_to_virtual_machine(options={})
           options.merge!(
-            'command' => 'addNicToVirtualMachine',
+            'command' => 'addNicToVirtualMachine', 
             'virtualmachineid' => options['virtualmachineid'], 
-            'networkid' => options['networkid'], 
-             
+            'networkid' => options['networkid']  
           )
           request(options)
         end

@@ -8,9 +8,8 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/deleteStorageNetworkIpRange.html]
         def delete_storage_network_ip_range(options={})
           options.merge!(
-            'command' => 'deleteStorageNetworkIpRange',
-            'id' => options['id'], 
-             
+            'command' => 'deleteStorageNetworkIpRange', 
+            'id' => options['id']  
           )
           request(options)
         end

@@ -8,9 +8,8 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/lockUser.html]
         def lock_user(options={})
           options.merge!(
-            'command' => 'lockUser',
-            'id' => options['id'], 
-             
+            'command' => 'lockUser', 
+            'id' => options['id']  
           )
           request(options)
         end

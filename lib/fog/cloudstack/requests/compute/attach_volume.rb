@@ -8,10 +8,9 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/attachVolume.html]
         def attach_volume(options={})
           options.merge!(
-            'command' => 'attachVolume',
+            'command' => 'attachVolume', 
             'id' => options['id'], 
-            'virtualmachineid' => options['virtualmachineid'], 
-             
+            'virtualmachineid' => options['virtualmachineid']  
           )
           request(options)
         end

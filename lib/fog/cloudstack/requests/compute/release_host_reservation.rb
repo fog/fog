@@ -8,9 +8,8 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/releaseHostReservation.html]
         def release_host_reservation(options={})
           options.merge!(
-            'command' => 'releaseHostReservation',
-            'id' => options['id'], 
-             
+            'command' => 'releaseHostReservation', 
+            'id' => options['id']  
           )
           request(options)
         end

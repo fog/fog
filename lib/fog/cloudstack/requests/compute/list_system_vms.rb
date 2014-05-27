@@ -8,8 +8,7 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/listSystemVms.html]
         def list_system_vms(options={})
           options.merge!(
-            'command' => 'listSystemVms',
-             
+            'command' => 'listSystemVms'  
           )
           request(options)
         end

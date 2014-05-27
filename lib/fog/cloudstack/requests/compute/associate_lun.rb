@@ -8,10 +8,9 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/associateLun.html]
         def associate_lun(options={})
           options.merge!(
-            'command' => 'associateLun',
+            'command' => 'associateLun', 
             'name' => options['name'], 
-            'iqn' => options['iqn'], 
-             
+            'iqn' => options['iqn']  
           )
           request(options)
         end

@@ -8,9 +8,8 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/deleteStaticRoute.html]
         def delete_static_route(options={})
           options.merge!(
-            'command' => 'deleteStaticRoute',
-            'id' => options['id'], 
-             
+            'command' => 'deleteStaticRoute', 
+            'id' => options['id']  
           )
           request(options)
         end

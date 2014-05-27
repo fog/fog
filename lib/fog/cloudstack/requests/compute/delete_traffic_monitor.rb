@@ -8,9 +8,8 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/deleteTrafficMonitor.html]
         def delete_traffic_monitor(options={})
           options.merge!(
-            'command' => 'deleteTrafficMonitor',
-            'id' => options['id'], 
-             
+            'command' => 'deleteTrafficMonitor', 
+            'id' => options['id']  
           )
           request(options)
         end

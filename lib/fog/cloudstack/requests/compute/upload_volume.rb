@@ -8,12 +8,11 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/uploadVolume.html]
         def upload_volume(options={})
           options.merge!(
-            'command' => 'uploadVolume',
+            'command' => 'uploadVolume', 
             'name' => options['name'], 
             'zoneid' => options['zoneid'], 
             'url' => options['url'], 
-            'format' => options['format'], 
-             
+            'format' => options['format']  
           )
           request(options)
         end

@@ -8,9 +8,8 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/createNetworkACL.html]
         def create_network_acl(options={})
           options.merge!(
-            'command' => 'createNetworkACL',
-            'protocol' => options['protocol'], 
-             
+            'command' => 'createNetworkACL', 
+            'protocol' => options['protocol']  
           )
           request(options)
         end

@@ -8,9 +8,8 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/updateIso.html]
         def update_iso(options={})
           options.merge!(
-            'command' => 'updateIso',
-            'id' => options['id'], 
-             
+            'command' => 'updateIso', 
+            'id' => options['id']  
           )
           request(options)
         end

@@ -8,9 +8,8 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/listUcsProfiles.html]
         def list_ucs_profiles(options={})
           options.merge!(
-            'command' => 'listUcsProfiles',
-            'ucsmanagerid' => options['ucsmanagerid'], 
-             
+            'command' => 'listUcsProfiles', 
+            'ucsmanagerid' => options['ucsmanagerid']  
           )
           request(options)
         end

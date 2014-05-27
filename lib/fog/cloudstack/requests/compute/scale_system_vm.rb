@@ -8,10 +8,9 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/scaleSystemVm.html]
         def scale_system_vm(options={})
           options.merge!(
-            'command' => 'scaleSystemVm',
+            'command' => 'scaleSystemVm', 
             'id' => options['id'], 
-            'serviceofferingid' => options['serviceofferingid'], 
-             
+            'serviceofferingid' => options['serviceofferingid']  
           )
           request(options)
         end

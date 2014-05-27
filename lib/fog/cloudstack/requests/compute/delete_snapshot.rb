@@ -8,9 +8,8 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/deleteSnapshot.html]
         def delete_snapshot(options={})
           options.merge!(
-            'command' => 'deleteSnapshot',
-            'id' => options['id'], 
-             
+            'command' => 'deleteSnapshot', 
+            'id' => options['id']  
           )
           request(options)
         end

@@ -8,10 +8,9 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/migrateVirtualMachineWithVolume.html]
         def migrate_virtual_machine_with_volume(options={})
           options.merge!(
-            'command' => 'migrateVirtualMachineWithVolume',
+            'command' => 'migrateVirtualMachineWithVolume', 
             'hostid' => options['hostid'], 
-            'virtualmachineid' => options['virtualmachineid'], 
-             
+            'virtualmachineid' => options['virtualmachineid']  
           )
           request(options)
         end

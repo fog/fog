@@ -8,9 +8,8 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/createSecurityGroup.html]
         def create_security_group(options={})
           options.merge!(
-            'command' => 'createSecurityGroup',
-            'name' => options['name'], 
-             
+            'command' => 'createSecurityGroup', 
+            'name' => options['name']  
           )
           request(options)
         end

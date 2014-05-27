@@ -8,9 +8,8 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/deleteF5LoadBalancer.html]
         def delete_f5_load_balancer(options={})
           options.merge!(
-            'command' => 'deleteF5LoadBalancer',
-            'lbdeviceid' => options['lbdeviceid'], 
-             
+            'command' => 'deleteF5LoadBalancer', 
+            'lbdeviceid' => options['lbdeviceid']  
           )
           request(options)
         end

@@ -8,10 +8,9 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/resetSSHKeyForVirtualMachine.html]
         def reset_ssh_key_for_virtual_machine(options={})
           options.merge!(
-            'command' => 'resetSSHKeyForVirtualMachine',
+            'command' => 'resetSSHKeyForVirtualMachine', 
             'keypair' => options['keypair'], 
-            'id' => options['id'], 
-             
+            'id' => options['id']  
           )
           request(options)
         end

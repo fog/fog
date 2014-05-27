@@ -8,12 +8,11 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/addCiscoVnmcResource.html]
         def add_cisco_vnmc_resource(options={})
           options.merge!(
-            'command' => 'addCiscoVnmcResource',
+            'command' => 'addCiscoVnmcResource', 
             'hostname' => options['hostname'], 
             'password' => options['password'], 
             'username' => options['username'], 
-            'physicalnetworkid' => options['physicalnetworkid'], 
-             
+            'physicalnetworkid' => options['physicalnetworkid']  
           )
           request(options)
         end

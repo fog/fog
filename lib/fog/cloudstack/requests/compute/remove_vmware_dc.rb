@@ -8,9 +8,8 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/removeVmwareDc.html]
         def remove_vmware_dc(options={})
           options.merge!(
-            'command' => 'removeVmwareDc',
-            'zoneid' => options['zoneid'], 
-             
+            'command' => 'removeVmwareDc', 
+            'zoneid' => options['zoneid']  
           )
           request(options)
         end

@@ -8,8 +8,7 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/listHypervisors.html]
         def list_hypervisors(options={})
           options.merge!(
-            'command' => 'listHypervisors',
-             
+            'command' => 'listHypervisors'  
           )
           request(options)
         end

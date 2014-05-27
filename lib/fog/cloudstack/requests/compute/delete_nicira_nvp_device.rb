@@ -8,9 +8,8 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/deleteNiciraNvpDevice.html]
         def delete_nicira_nvp_device(options={})
           options.merge!(
-            'command' => 'deleteNiciraNvpDevice',
-            'nvpdeviceid' => options['nvpdeviceid'], 
-             
+            'command' => 'deleteNiciraNvpDevice', 
+            'nvpdeviceid' => options['nvpdeviceid']  
           )
           request(options)
         end

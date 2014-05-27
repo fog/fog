@@ -8,10 +8,9 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/listUsageRecords.html]
         def list_usage_records(options={})
           options.merge!(
-            'command' => 'listUsageRecords',
+            'command' => 'listUsageRecords', 
             'startdate' => options['startdate'], 
-            'enddate' => options['enddate'], 
-             
+            'enddate' => options['enddate']  
           )
           request(options)
         end

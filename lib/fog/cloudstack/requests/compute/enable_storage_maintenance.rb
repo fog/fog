@@ -8,9 +8,8 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/enableStorageMaintenance.html]
         def enable_storage_maintenance(options={})
           options.merge!(
-            'command' => 'enableStorageMaintenance',
-            'id' => options['id'], 
-             
+            'command' => 'enableStorageMaintenance', 
+            'id' => options['id']  
           )
           request(options)
         end

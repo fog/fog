@@ -8,9 +8,8 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/listStorageProviders.html]
         def list_storage_providers(options={})
           options.merge!(
-            'command' => 'listStorageProviders',
-            'type' => options['type'], 
-             
+            'command' => 'listStorageProviders', 
+            'type' => options['type']  
           )
           request(options)
         end

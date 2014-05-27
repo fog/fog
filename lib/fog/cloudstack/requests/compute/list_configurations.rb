@@ -8,8 +8,7 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/listConfigurations.html]
         def list_configurations(options={})
           options.merge!(
-            'command' => 'listConfigurations',
-             
+            'command' => 'listConfigurations'  
           )
           request(options)
         end

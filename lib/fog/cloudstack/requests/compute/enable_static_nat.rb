@@ -8,10 +8,9 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/enableStaticNat.html]
         def enable_static_nat(options={})
           options.merge!(
-            'command' => 'enableStaticNat',
+            'command' => 'enableStaticNat', 
             'virtualmachineid' => options['virtualmachineid'], 
-            'ipaddressid' => options['ipaddressid'], 
-             
+            'ipaddressid' => options['ipaddressid']  
           )
           request(options)
         end

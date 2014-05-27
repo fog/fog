@@ -8,9 +8,8 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/deletePod.html]
         def delete_pod(options={})
           options.merge!(
-            'command' => 'deletePod',
-            'id' => options['id'], 
-             
+            'command' => 'deletePod', 
+            'id' => options['id']  
           )
           request(options)
         end

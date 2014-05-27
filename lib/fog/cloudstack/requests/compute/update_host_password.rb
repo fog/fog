@@ -8,10 +8,9 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/updateHostPassword.html]
         def update_host_password(options={})
           options.merge!(
-            'command' => 'updateHostPassword',
+            'command' => 'updateHostPassword', 
             'username' => options['username'], 
-            'password' => options['password'], 
-             
+            'password' => options['password']  
           )
           request(options)
         end

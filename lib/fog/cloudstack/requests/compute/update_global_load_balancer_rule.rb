@@ -8,9 +8,8 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/updateGlobalLoadBalancerRule.html]
         def update_global_load_balancer_rule(options={})
           options.merge!(
-            'command' => 'updateGlobalLoadBalancerRule',
-            'id' => options['id'], 
-             
+            'command' => 'updateGlobalLoadBalancerRule', 
+            'id' => options['id']  
           )
           request(options)
         end

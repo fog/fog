@@ -8,9 +8,8 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/deleteEgressFirewallRule.html]
         def delete_egress_firewall_rule(options={})
           options.merge!(
-            'command' => 'deleteEgressFirewallRule',
-            'id' => options['id'], 
-             
+            'command' => 'deleteEgressFirewallRule', 
+            'id' => options['id']  
           )
           request(options)
         end

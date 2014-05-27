@@ -8,10 +8,9 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/migrateVolume.html]
         def migrate_volume(options={})
           options.merge!(
-            'command' => 'migrateVolume',
+            'command' => 'migrateVolume', 
             'volumeid' => options['volumeid'], 
-            'storageid' => options['storageid'], 
-             
+            'storageid' => options['storageid']  
           )
           request(options)
         end

@@ -8,8 +8,7 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/listNetworkServiceProviders.html]
         def list_network_service_providers(options={})
           options.merge!(
-            'command' => 'listNetworkServiceProviders',
-             
+            'command' => 'listNetworkServiceProviders'  
           )
           request(options)
         end

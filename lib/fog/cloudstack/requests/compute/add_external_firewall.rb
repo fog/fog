@@ -8,12 +8,11 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/addExternalFirewall.html]
         def add_external_firewall(options={})
           options.merge!(
-            'command' => 'addExternalFirewall',
+            'command' => 'addExternalFirewall', 
             'username' => options['username'], 
             'url' => options['url'], 
             'password' => options['password'], 
-            'zoneid' => options['zoneid'], 
-             
+            'zoneid' => options['zoneid']  
           )
           request(options)
         end

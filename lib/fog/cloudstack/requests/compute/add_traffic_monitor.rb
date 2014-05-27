@@ -8,10 +8,9 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/addTrafficMonitor.html]
         def add_traffic_monitor(options={})
           options.merge!(
-            'command' => 'addTrafficMonitor',
+            'command' => 'addTrafficMonitor', 
             'zoneid' => options['zoneid'], 
-            'url' => options['url'], 
-             
+            'url' => options['url']  
           )
           request(options)
         end

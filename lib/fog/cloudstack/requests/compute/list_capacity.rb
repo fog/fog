@@ -8,8 +8,7 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/listCapacity.html]
         def list_capacity(options={})
           options.merge!(
-            'command' => 'listCapacity',
-             
+            'command' => 'listCapacity'  
           )
           request(options)
         end

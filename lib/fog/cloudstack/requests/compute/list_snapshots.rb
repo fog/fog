@@ -8,8 +8,7 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/listSnapshots.html]
         def list_snapshots(options={})
           options.merge!(
-            'command' => 'listSnapshots',
-             
+            'command' => 'listSnapshots'  
           )
           request(options)
         end

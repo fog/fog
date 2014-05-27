@@ -8,10 +8,9 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/dissociateLun.html]
         def dissociate_lun(options={})
           options.merge!(
-            'command' => 'dissociateLun',
+            'command' => 'dissociateLun', 
             'iqn' => options['iqn'], 
-            'path' => options['path'], 
-             
+            'path' => options['path']  
           )
           request(options)
         end

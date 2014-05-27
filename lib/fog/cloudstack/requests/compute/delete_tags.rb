@@ -8,10 +8,9 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/deleteTags.html]
         def delete_tags(options={})
           options.merge!(
-            'command' => 'deleteTags',
+            'command' => 'deleteTags', 
             'resourceids' => options['resourceids'], 
-            'resourcetype' => options['resourcetype'], 
-             
+            'resourcetype' => options['resourcetype']  
           )
           request(options)
         end

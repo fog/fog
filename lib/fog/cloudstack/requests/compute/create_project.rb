@@ -8,10 +8,9 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/createProject.html]
         def create_project(options={})
           options.merge!(
-            'command' => 'createProject',
+            'command' => 'createProject', 
             'name' => options['name'], 
-            'displaytext' => options['displaytext'], 
-             
+            'displaytext' => options['displaytext']  
           )
           request(options)
         end

@@ -8,10 +8,9 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/configureVirtualRouterElement.html]
         def configure_virtual_router_element(options={})
           options.merge!(
-            'command' => 'configureVirtualRouterElement',
+            'command' => 'configureVirtualRouterElement', 
             'enabled' => options['enabled'], 
-            'id' => options['id'], 
-             
+            'id' => options['id']  
           )
           request(options)
         end

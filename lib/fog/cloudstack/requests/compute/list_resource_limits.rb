@@ -8,8 +8,7 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/listResourceLimits.html]
         def list_resource_limits(options={})
           options.merge!(
-            'command' => 'listResourceLimits',
-             
+            'command' => 'listResourceLimits'  
           )
           request(options)
         end

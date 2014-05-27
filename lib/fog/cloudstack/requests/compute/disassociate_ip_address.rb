@@ -8,9 +8,8 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/disassociateIpAddress.html]
         def disassociate_ip_address(options={})
           options.merge!(
-            'command' => 'disassociateIpAddress',
-            'id' => options['id'], 
-             
+            'command' => 'disassociateIpAddress', 
+            'id' => options['id']  
           )
           request(options)
         end

@@ -8,9 +8,8 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/rebootVirtualMachine.html]
         def reboot_virtual_machine(options={})
           options.merge!(
-            'command' => 'rebootVirtualMachine',
-            'id' => options['id'], 
-             
+            'command' => 'rebootVirtualMachine', 
+            'id' => options['id']  
           )
           request(options)
         end

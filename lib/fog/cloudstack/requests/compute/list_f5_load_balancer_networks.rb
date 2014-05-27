@@ -8,9 +8,8 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/listF5LoadBalancerNetworks.html]
         def list_f5_load_balancer_networks(options={})
           options.merge!(
-            'command' => 'listF5LoadBalancerNetworks',
-            'lbdeviceid' => options['lbdeviceid'], 
-             
+            'command' => 'listF5LoadBalancerNetworks', 
+            'lbdeviceid' => options['lbdeviceid']  
           )
           request(options)
         end

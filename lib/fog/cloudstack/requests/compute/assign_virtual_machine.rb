@@ -8,11 +8,10 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/assignVirtualMachine.html]
         def assign_virtual_machine(options={})
           options.merge!(
-            'command' => 'assignVirtualMachine',
+            'command' => 'assignVirtualMachine', 
             'virtualmachineid' => options['virtualmachineid'], 
             'domainid' => options['domainid'], 
-            'account' => options['account'], 
-             
+            'account' => options['account']  
           )
           request(options)
         end

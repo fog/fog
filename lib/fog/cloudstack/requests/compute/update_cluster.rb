@@ -8,9 +8,8 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/updateCluster.html]
         def update_cluster(options={})
           options.merge!(
-            'command' => 'updateCluster',
-            'id' => options['id'], 
-             
+            'command' => 'updateCluster', 
+            'id' => options['id']  
           )
           request(options)
         end

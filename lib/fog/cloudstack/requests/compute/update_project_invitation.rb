@@ -8,9 +8,8 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/updateProjectInvitation.html]
         def update_project_invitation(options={})
           options.merge!(
-            'command' => 'updateProjectInvitation',
-            'projectid' => options['projectid'], 
-             
+            'command' => 'updateProjectInvitation', 
+            'projectid' => options['projectid']  
           )
           request(options)
         end

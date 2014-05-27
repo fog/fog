@@ -8,10 +8,9 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/createPhysicalNetwork.html]
         def create_physical_network(options={})
           options.merge!(
-            'command' => 'createPhysicalNetwork',
+            'command' => 'createPhysicalNetwork', 
             'zoneid' => options['zoneid'], 
-            'name' => options['name'], 
-             
+            'name' => options['name']  
           )
           request(options)
         end

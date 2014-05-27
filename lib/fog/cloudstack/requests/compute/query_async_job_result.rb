@@ -8,9 +8,8 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/queryAsyncJobResult.html]
         def query_async_job_result(options={})
           options.merge!(
-            'command' => 'queryAsyncJobResult',
-            'jobid' => options['jobid'], 
-             
+            'command' => 'queryAsyncJobResult', 
+            'jobid' => options['jobid']  
           )
           request(options)
         end

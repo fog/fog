@@ -8,9 +8,8 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/deletePhysicalNetwork.html]
         def delete_physical_network(options={})
           options.merge!(
-            'command' => 'deletePhysicalNetwork',
-            'id' => options['id'], 
-             
+            'command' => 'deletePhysicalNetwork', 
+            'id' => options['id']  
           )
           request(options)
         end

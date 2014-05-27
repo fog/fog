@@ -8,14 +8,13 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/addBaremetalPxeKickStartServer.html]
         def add_baremetal_pxe_kick_start_server(options={})
           options.merge!(
-            'command' => 'addBaremetalPxeKickStartServer',
+            'command' => 'addBaremetalPxeKickStartServer', 
             'url' => options['url'], 
             'physicalnetworkid' => options['physicalnetworkid'], 
             'password' => options['password'], 
             'pxeservertype' => options['pxeservertype'], 
             'tftpdir' => options['tftpdir'], 
-            'username' => options['username'], 
-             
+            'username' => options['username']  
           )
           request(options)
         end

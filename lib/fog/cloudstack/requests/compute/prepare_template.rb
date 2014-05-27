@@ -8,10 +8,9 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/prepareTemplate.html]
         def prepare_template(options={})
           options.merge!(
-            'command' => 'prepareTemplate',
+            'command' => 'prepareTemplate', 
             'templateid' => options['templateid'], 
-            'zoneid' => options['zoneid'], 
-             
+            'zoneid' => options['zoneid']  
           )
           request(options)
         end

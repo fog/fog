@@ -8,9 +8,8 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/restartNetwork.html]
         def restart_network(options={})
           options.merge!(
-            'command' => 'restartNetwork',
-            'id' => options['id'], 
-             
+            'command' => 'restartNetwork', 
+            'id' => options['id']  
           )
           request(options)
         end

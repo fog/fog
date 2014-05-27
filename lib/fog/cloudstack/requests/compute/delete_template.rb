@@ -8,9 +8,8 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/deleteTemplate.html]
         def delete_template(options={})
           options.merge!(
-            'command' => 'deleteTemplate',
-            'id' => options['id'], 
-             
+            'command' => 'deleteTemplate', 
+            'id' => options['id']  
           )
           request(options)
         end

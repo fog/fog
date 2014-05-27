@@ -8,9 +8,8 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/deleteCounter.html]
         def delete_counter(options={})
           options.merge!(
-            'command' => 'deleteCounter',
-            'id' => options['id'], 
-             
+            'command' => 'deleteCounter', 
+            'id' => options['id']  
           )
           request(options)
         end

@@ -8,8 +8,7 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/listOsTypes.html]
         def list_os_types(options={})
           options.merge!(
-            'command' => 'listOsTypes',
-             
+            'command' => 'listOsTypes'  
           )
           request(options)
         end

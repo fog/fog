@@ -8,8 +8,7 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/detachVolume.html]
         def detach_volume(options={})
           options.merge!(
-            'command' => 'detachVolume',
-             
+            'command' => 'detachVolume'  
           )
           request(options)
         end

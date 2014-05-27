@@ -8,8 +8,7 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/deleteAlerts.html]
         def delete_alerts(options={})
           options.merge!(
-            'command' => 'deleteAlerts',
-             
+            'command' => 'deleteAlerts'  
           )
           request(options)
         end

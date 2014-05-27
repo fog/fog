@@ -8,9 +8,8 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/prepareHostForMaintenance.html]
         def prepare_host_for_maintenance(options={})
           options.merge!(
-            'command' => 'prepareHostForMaintenance',
-            'id' => options['id'], 
-             
+            'command' => 'prepareHostForMaintenance', 
+            'id' => options['id']  
           )
           request(options)
         end

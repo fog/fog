@@ -8,9 +8,8 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/addAccountToProject.html]
         def add_account_to_project(options={})
           options.merge!(
-            'command' => 'addAccountToProject',
-            'projectid' => options['projectid'], 
-             
+            'command' => 'addAccountToProject', 
+            'projectid' => options['projectid']  
           )
           request(options)
         end

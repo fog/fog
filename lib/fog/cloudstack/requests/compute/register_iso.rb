@@ -8,12 +8,11 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/registerIso.html]
         def register_iso(options={})
           options.merge!(
-            'command' => 'registerIso',
+            'command' => 'registerIso', 
             'zoneid' => options['zoneid'], 
             'displaytext' => options['displaytext'], 
             'name' => options['name'], 
-            'url' => options['url'], 
-             
+            'url' => options['url']  
           )
           request(options)
         end

@@ -8,10 +8,9 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/extractTemplate.html]
         def extract_template(options={})
           options.merge!(
-            'command' => 'extractTemplate',
+            'command' => 'extractTemplate', 
             'id' => options['id'], 
-            'mode' => options['mode'], 
-             
+            'mode' => options['mode']  
           )
           request(options)
         end

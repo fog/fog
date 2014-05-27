@@ -8,11 +8,10 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/copyIso.html]
         def copy_iso(options={})
           options.merge!(
-            'command' => 'copyIso',
+            'command' => 'copyIso', 
             'destzoneid' => options['destzoneid'], 
             'sourcezoneid' => options['sourcezoneid'], 
-            'id' => options['id'], 
-             
+            'id' => options['id']  
           )
           request(options)
         end

@@ -8,9 +8,8 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/disableStaticNat.html]
         def disable_static_nat(options={})
           options.merge!(
-            'command' => 'disableStaticNat',
-            'ipaddressid' => options['ipaddressid'], 
-             
+            'command' => 'disableStaticNat', 
+            'ipaddressid' => options['ipaddressid']  
           )
           request(options)
         end

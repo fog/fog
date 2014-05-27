@@ -8,9 +8,8 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/updateAccount.html]
         def update_account(options={})
           options.merge!(
-            'command' => 'updateAccount',
-            'newname' => options['newname'], 
-             
+            'command' => 'updateAccount', 
+            'newname' => options['newname']  
           )
           request(options)
         end

@@ -8,9 +8,8 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/updateHost.html]
         def update_host(options={})
           options.merge!(
-            'command' => 'updateHost',
-            'id' => options['id'], 
-             
+            'command' => 'updateHost', 
+            'id' => options['id']  
           )
           request(options)
         end

@@ -8,9 +8,8 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/listTrafficTypes.html]
         def list_traffic_types(options={})
           options.merge!(
-            'command' => 'listTrafficTypes',
-            'physicalnetworkid' => options['physicalnetworkid'], 
-             
+            'command' => 'listTrafficTypes', 
+            'physicalnetworkid' => options['physicalnetworkid']  
           )
           request(options)
         end

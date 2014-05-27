@@ -8,10 +8,9 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/createDiskOffering.html]
         def create_disk_offering(options={})
           options.merge!(
-            'command' => 'createDiskOffering',
+            'command' => 'createDiskOffering', 
             'name' => options['name'], 
-            'displaytext' => options['displaytext'], 
-             
+            'displaytext' => options['displaytext']  
           )
           request(options)
         end

@@ -8,8 +8,7 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/listSwifts.html]
         def list_swifts(options={})
           options.merge!(
-            'command' => 'listSwifts',
-             
+            'command' => 'listSwifts'  
           )
           request(options)
         end

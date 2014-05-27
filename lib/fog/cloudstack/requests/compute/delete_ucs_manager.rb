@@ -8,9 +8,8 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/deleteUcsManager.html]
         def delete_ucs_manager(options={})
           options.merge!(
-            'command' => 'deleteUcsManager',
-            'ucsmanagerid' => options['ucsmanagerid'], 
-             
+            'command' => 'deleteUcsManager', 
+            'ucsmanagerid' => options['ucsmanagerid']  
           )
           request(options)
         end

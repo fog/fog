@@ -8,9 +8,8 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/configureNetscalerLoadBalancer.html]
         def configure_netscaler_load_balancer(options={})
           options.merge!(
-            'command' => 'configureNetscalerLoadBalancer',
-            'lbdeviceid' => options['lbdeviceid'], 
-             
+            'command' => 'configureNetscalerLoadBalancer', 
+            'lbdeviceid' => options['lbdeviceid']  
           )
           request(options)
         end

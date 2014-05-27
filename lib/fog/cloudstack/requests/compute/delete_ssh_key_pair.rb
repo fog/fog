@@ -8,9 +8,8 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/deleteSSHKeyPair.html]
         def delete_ssh_key_pair(options={})
           options.merge!(
-            'command' => 'deleteSSHKeyPair',
-            'name' => options['name'], 
-             
+            'command' => 'deleteSSHKeyPair', 
+            'name' => options['name']  
           )
           request(options)
         end

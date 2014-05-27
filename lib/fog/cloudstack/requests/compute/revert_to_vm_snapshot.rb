@@ -8,9 +8,8 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/revertToVMSnapshot.html]
         def revert_to_vm_snapshot(options={})
           options.merge!(
-            'command' => 'revertToVMSnapshot',
-            'vmsnapshotid' => options['vmsnapshotid'], 
-             
+            'command' => 'revertToVMSnapshot', 
+            'vmsnapshotid' => options['vmsnapshotid']  
           )
           request(options)
         end

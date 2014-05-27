@@ -8,9 +8,8 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/detachIso.html]
         def detach_iso(options={})
           options.merge!(
-            'command' => 'detachIso',
-            'virtualmachineid' => options['virtualmachineid'], 
-             
+            'command' => 'detachIso', 
+            'virtualmachineid' => options['virtualmachineid']  
           )
           request(options)
         end

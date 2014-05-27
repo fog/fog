@@ -8,10 +8,9 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/dedicatePod.html]
         def dedicate_pod(options={})
           options.merge!(
-            'command' => 'dedicatePod',
+            'command' => 'dedicatePod', 
             'podid' => options['podid'], 
-            'domainid' => options['domainid'], 
-             
+            'domainid' => options['domainid']  
           )
           request(options)
         end

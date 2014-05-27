@@ -8,9 +8,8 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/updateDiskOffering.html]
         def update_disk_offering(options={})
           options.merge!(
-            'command' => 'updateDiskOffering',
-            'id' => options['id'], 
-             
+            'command' => 'updateDiskOffering', 
+            'id' => options['id']  
           )
           request(options)
         end

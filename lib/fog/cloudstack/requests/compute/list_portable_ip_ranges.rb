@@ -8,8 +8,7 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/listPortableIpRanges.html]
         def list_portable_ip_ranges(options={})
           options.merge!(
-            'command' => 'listPortableIpRanges',
-             
+            'command' => 'listPortableIpRanges'  
           )
           request(options)
         end

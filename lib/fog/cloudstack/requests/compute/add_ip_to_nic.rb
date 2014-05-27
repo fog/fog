@@ -8,9 +8,8 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/addIpToNic.html]
         def add_ip_to_nic(options={})
           options.merge!(
-            'command' => 'addIpToNic',
-            'nicid' => options['nicid'], 
-             
+            'command' => 'addIpToNic', 
+            'nicid' => options['nicid']  
           )
           request(options)
         end

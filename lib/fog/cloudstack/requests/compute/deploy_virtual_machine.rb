@@ -8,11 +8,10 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/deployVirtualMachine.html]
         def deploy_virtual_machine(options={})
           options.merge!(
-            'command' => 'deployVirtualMachine',
+            'command' => 'deployVirtualMachine', 
             'templateid' => options['templateid'], 
             'serviceofferingid' => options['serviceofferingid'], 
-            'zoneid' => options['zoneid'], 
-             
+            'zoneid' => options['zoneid']  
           )
           request(options)
         end

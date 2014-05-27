@@ -8,13 +8,12 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/addNiciraNvpDevice.html]
         def add_nicira_nvp_device(options={})
           options.merge!(
-            'command' => 'addNiciraNvpDevice',
+            'command' => 'addNiciraNvpDevice', 
             'username' => options['username'], 
             'transportzoneuuid' => options['transportzoneuuid'], 
             'physicalnetworkid' => options['physicalnetworkid'], 
             'hostname' => options['hostname'], 
-            'password' => options['password'], 
-             
+            'password' => options['password']  
           )
           request(options)
         end

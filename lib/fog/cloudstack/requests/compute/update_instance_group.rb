@@ -8,9 +8,8 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/updateInstanceGroup.html]
         def update_instance_group(options={})
           options.merge!(
-            'command' => 'updateInstanceGroup',
-            'id' => options['id'], 
-             
+            'command' => 'updateInstanceGroup', 
+            'id' => options['id']  
           )
           request(options)
         end

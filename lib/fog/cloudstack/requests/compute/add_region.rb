@@ -8,11 +8,10 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/addRegion.html]
         def add_region(options={})
           options.merge!(
-            'command' => 'addRegion',
+            'command' => 'addRegion', 
             'name' => options['name'], 
             'id' => options['id'], 
-            'endpoint' => options['endpoint'], 
-             
+            'endpoint' => options['endpoint']  
           )
           request(options)
         end

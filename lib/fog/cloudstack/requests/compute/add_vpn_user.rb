@@ -8,10 +8,9 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/addVpnUser.html]
         def add_vpn_user(options={})
           options.merge!(
-            'command' => 'addVpnUser',
+            'command' => 'addVpnUser', 
             'password' => options['password'], 
-            'username' => options['username'], 
-             
+            'username' => options['username']  
           )
           request(options)
         end

@@ -8,9 +8,8 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/reconnectHost.html]
         def reconnect_host(options={})
           options.merge!(
-            'command' => 'reconnectHost',
-            'id' => options['id'], 
-             
+            'command' => 'reconnectHost', 
+            'id' => options['id']  
           )
           request(options)
         end

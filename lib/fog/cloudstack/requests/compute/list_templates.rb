@@ -8,9 +8,8 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/listTemplates.html]
         def list_templates(options={})
           options.merge!(
-            'command' => 'listTemplates',
-            'templatefilter' => options['templatefilter'], 
-             
+            'command' => 'listTemplates', 
+            'templatefilter' => options['templatefilter']  
           )
           request(options)
         end

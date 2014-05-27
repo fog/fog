@@ -8,13 +8,12 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/createPortForwardingRule.html]
         def create_port_forwarding_rule(options={})
           options.merge!(
-            'command' => 'createPortForwardingRule',
+            'command' => 'createPortForwardingRule', 
             'virtualmachineid' => options['virtualmachineid'], 
             'privateport' => options['privateport'], 
             'protocol' => options['protocol'], 
             'ipaddressid' => options['ipaddressid'], 
-            'publicport' => options['publicport'], 
-             
+            'publicport' => options['publicport']  
           )
           request(options)
         end

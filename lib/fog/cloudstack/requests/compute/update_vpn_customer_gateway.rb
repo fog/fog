@@ -8,14 +8,13 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/updateVpnCustomerGateway.html]
         def update_vpn_customer_gateway(options={})
           options.merge!(
-            'command' => 'updateVpnCustomerGateway',
+            'command' => 'updateVpnCustomerGateway', 
             'ipsecpsk' => options['ipsecpsk'], 
             'ikepolicy' => options['ikepolicy'], 
             'id' => options['id'], 
             'gateway' => options['gateway'], 
             'esppolicy' => options['esppolicy'], 
-            'cidrlist' => options['cidrlist'], 
-             
+            'cidrlist' => options['cidrlist']  
           )
           request(options)
         end

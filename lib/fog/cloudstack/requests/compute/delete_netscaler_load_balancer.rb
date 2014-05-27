@@ -8,9 +8,8 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/deleteNetscalerLoadBalancer.html]
         def delete_netscaler_load_balancer(options={})
           options.merge!(
-            'command' => 'deleteNetscalerLoadBalancer',
-            'lbdeviceid' => options['lbdeviceid'], 
-             
+            'command' => 'deleteNetscalerLoadBalancer', 
+            'lbdeviceid' => options['lbdeviceid']  
           )
           request(options)
         end

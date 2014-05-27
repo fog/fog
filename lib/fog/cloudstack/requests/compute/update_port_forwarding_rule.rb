@@ -8,12 +8,11 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/updatePortForwardingRule.html]
         def update_port_forwarding_rule(options={})
           options.merge!(
-            'command' => 'updatePortForwardingRule',
+            'command' => 'updatePortForwardingRule', 
             'publicport' => options['publicport'], 
             'ipaddressid' => options['ipaddressid'], 
             'protocol' => options['protocol'], 
-            'privateport' => options['privateport'], 
-             
+            'privateport' => options['privateport']  
           )
           request(options)
         end

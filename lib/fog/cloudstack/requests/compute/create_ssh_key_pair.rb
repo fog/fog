@@ -8,9 +8,8 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/createSSHKeyPair.html]
         def create_ssh_key_pair(options={})
           options.merge!(
-            'command' => 'createSSHKeyPair',
-            'name' => options['name'], 
-             
+            'command' => 'createSSHKeyPair', 
+            'name' => options['name']  
           )
           request(options)
         end

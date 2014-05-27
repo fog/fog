@@ -8,9 +8,8 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/listVmwareDcs.html]
         def list_vmware_dcs(options={})
           options.merge!(
-            'command' => 'listVmwareDcs',
-            'zoneid' => options['zoneid'], 
-             
+            'command' => 'listVmwareDcs', 
+            'zoneid' => options['zoneid']  
           )
           request(options)
         end

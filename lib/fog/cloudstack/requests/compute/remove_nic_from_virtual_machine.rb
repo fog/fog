@@ -8,10 +8,9 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/removeNicFromVirtualMachine.html]
         def remove_nic_from_virtual_machine(options={})
           options.merge!(
-            'command' => 'removeNicFromVirtualMachine',
+            'command' => 'removeNicFromVirtualMachine', 
             'virtualmachineid' => options['virtualmachineid'], 
-            'nicid' => options['nicid'], 
-             
+            'nicid' => options['nicid']  
           )
           request(options)
         end

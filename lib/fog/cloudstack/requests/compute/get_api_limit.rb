@@ -8,8 +8,7 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/getApiLimit.html]
         def get_api_limit(options={})
           options.merge!(
-            'command' => 'getApiLimit',
-             
+            'command' => 'getApiLimit'  
           )
           request(options)
         end

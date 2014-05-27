@@ -8,10 +8,9 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/addNetworkServiceProvider.html]
         def add_network_service_provider(options={})
           options.merge!(
-            'command' => 'addNetworkServiceProvider',
+            'command' => 'addNetworkServiceProvider', 
             'name' => options['name'], 
-            'physicalnetworkid' => options['physicalnetworkid'], 
-             
+            'physicalnetworkid' => options['physicalnetworkid']  
           )
           request(options)
         end

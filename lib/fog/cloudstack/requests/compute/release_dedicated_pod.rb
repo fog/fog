@@ -8,9 +8,8 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/releaseDedicatedPod.html]
         def release_dedicated_pod(options={})
           options.merge!(
-            'command' => 'releaseDedicatedPod',
-            'podid' => options['podid'], 
-             
+            'command' => 'releaseDedicatedPod', 
+            'podid' => options['podid']  
           )
           request(options)
         end

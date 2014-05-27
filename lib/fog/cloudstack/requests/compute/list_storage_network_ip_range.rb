@@ -8,8 +8,7 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/listStorageNetworkIpRange.html]
         def list_storage_network_ip_range(options={})
           options.merge!(
-            'command' => 'listStorageNetworkIpRange',
-             
+            'command' => 'listStorageNetworkIpRange'  
           )
           request(options)
         end

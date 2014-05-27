@@ -8,11 +8,10 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/dedicatePublicIpRange.html]
         def dedicate_public_ip_range(options={})
           options.merge!(
-            'command' => 'dedicatePublicIpRange',
+            'command' => 'dedicatePublicIpRange', 
             'account' => options['account'], 
             'id' => options['id'], 
-            'domainid' => options['domainid'], 
-             
+            'domainid' => options['domainid']  
           )
           request(options)
         end

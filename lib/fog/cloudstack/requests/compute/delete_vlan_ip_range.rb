@@ -8,9 +8,8 @@ module Fog
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/deleteVlanIpRange.html]
         def delete_vlan_ip_range(options={})
           options.merge!(
-            'command' => 'deleteVlanIpRange',
-            'id' => options['id'], 
-             
+            'command' => 'deleteVlanIpRange', 
+            'id' => options['id']  
           )
           request(options)
         end
