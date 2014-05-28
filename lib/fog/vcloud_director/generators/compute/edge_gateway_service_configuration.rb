@@ -14,11 +14,31 @@ module Fog
                 build_nat_service(xml)
                 build_load_balancer_service(xml)
                 build_vpn(xml)
+                build_dhcp(xml)
               }
             end.to_xml
           end
 
           private
+
+          def build_dhcp(xml)
+            dhcp_config = @configuration[:GatewayDhcpService]
+            return unless dhcp_config
+
+            xml.GatewayDhcpService {
+              xml.IsEnabled dhcp_config[:IsEnabled] if dhcp_config.key?(:IsEnabled)
+              dhcp_config[:pools].each do |pool|
+                xml.Pool {
+                  xml.IsEnabled pool[:IsEnabled]
+                  xml.Network pool[:Network]
+                  xml.DefaultLeaseTime pool[:DefaultLeaseTime]
+                  xml.MaxLeaseTime pool[:MaxLeaseTime]
+                  xml.LowIpAddress pool[:LowIpAddress]
+                  xml.HighIpAddress pool[:HighIpAddress]
+                }
+              end
+            }
+          end
 
           def build_vpn(xml)
             vpn_config = @configuration[:GatewayIpsecVpnService]
