@@ -2,6 +2,35 @@ Shindo.tests('Compute::VcloudDirector | edge gateway requests', ['vclouddirector
 
   FIREWALL_RULE_ID = '9999'
 
+    @vpn_configuration = {
+      :GatewayIpsecVpnService => 
+        {
+          :IsEnabled => "true",
+          :Tunnel => {
+            :Name => "test vpn",
+            :PeerIpAddress => "110.110.110.110",
+            :PeerId => "1223-123UDH-12321",
+            :LocalIpAddress => "192.168.90.90",
+            :LocalId => "202UB-9602-UB629",
+            :PeerSubnet => {
+              :Name => "192.168.0.0/18",
+              :Gateway => "192.168.0.0",
+              :Netmask => "255.255.192.0",
+            },
+            :SharedSecret => "dont tell anyone",
+            :SharedSecretEncrypted => "false",
+            :EncryptionProtocol => "AES",
+            :Mtu => "1500",
+            :IsEnabled => "true",
+            :LocalSubnet => [{
+              :Name => "VDC Network",
+              :Gateway => "192.168.90.254",
+              :Netmask => "255.255.255.0"
+            }]
+          }
+        }
+    }
+
   @new_edge_gateway_configuration = {
     :FirewallService =>
       {
@@ -28,8 +57,7 @@ Shindo.tests('Compute::VcloudDirector | edge gateway requests', ['vclouddirector
           }
         ]
       }
-  }
-
+  }.merge! @vpn_configuration
 
   @service = Fog::Compute::VcloudDirector.new
   @org = VcloudDirector::Compute::Helper.current_org(@service)
@@ -77,6 +105,11 @@ Shindo.tests('Compute::VcloudDirector | edge gateway requests', ['vclouddirector
     response = @service.post_configure_edge_gateway_services(@edge_gateway_id, @new_edge_gateway_configuration)
     @service.process_task(response.body)
 
+    tests('#check for VPN').returns(@new_edge_gateway_configuration[:GatewayIpsecVpnService]) do
+      edge_gateway = @service.get_edge_gateway(@edge_gateway_id).body
+      edge_gateway[:Configuration][:EdgeGatewayServiceConfiguration][:GatewayIpsecVpnService]
+    end
+
     tests('#check for new firewall rule').returns(@new_edge_gateway_configuration[:FirewallService][:FirewallRule]) do
       edge_gateway = @service.get_edge_gateway(@edge_gateway_id).body
       edge_gateway[:Configuration][:EdgeGatewayServiceConfiguration][:FirewallService][:FirewallRule]
@@ -88,6 +121,18 @@ Shindo.tests('Compute::VcloudDirector | edge gateway requests', ['vclouddirector
       @service.process_task(response.body)
       edge_gateway = @service.get_edge_gateway(@edge_gateway_id).body
       edge_gateway[:Configuration][:EdgeGatewayServiceConfiguration][:FirewallService][:FirewallRule].find { |rule| rule[:Id] == FIREWALL_RULE_ID }
+    end
+
+    tests('can generate xml from configuration').returns(true) do
+      xml = Nokogiri.XML Fog::Generators::Compute::VcloudDirector::EdgeGatewayServiceConfiguration.new(@vpn_configuration).generate_xml
+      #Not comprehensive, only checks that the generator actually knows how to handle it and that the output looks vagely sane
+      paths = {
+        'GatewayIpsecVpnService>IsEnabled' => 'true',
+        'Tunnel>Name' => 'test vpn',
+        'Tunnel>PeerIpAddress' => '110.110.110.110',
+        'Tunnel>LocalSubnet>Gateway' => '192.168.90.254',
+        'Tunnel>PeerSubnet>Netmask' => '255.255.192.0' }
+      paths.none? { |path| (xml.css path[0]).inner_text != path[1] }
     end
 end
 
