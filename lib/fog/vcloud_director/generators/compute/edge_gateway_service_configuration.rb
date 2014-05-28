@@ -58,7 +58,7 @@ module Fog
                   xml.PeerIpAddress tunnel_config[:PeerIpAddress]
                   xml.PeerId tunnel_config[:PeerId]
                   xml.LocalIpAddress tunnel_config[:LocalIpAddress]
-                  xml.LocalId tunnel_config[:LocalId]            
+                  xml.LocalId tunnel_config[:LocalId]
                   tunnel_config[:LocalSubnet].each do |subnet|
                     xml.LocalSubnet {
                       xml.Name subnet[:Name]
