@@ -207,6 +207,7 @@ module Fog
       request :post_create_catalog_item
       request :post_create_org_vdc_network
       request :post_deploy_vapp
+      request :post_compose_vapp
       request :post_detach_disk
       request :post_disable_nested_hv
       request :post_disable_vapp_template_download
