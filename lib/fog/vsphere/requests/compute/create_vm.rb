@@ -8,6 +8,7 @@ module Fog
           vm_cfg        = {
             :name         => attributes[:name],
             :guestId      => attributes[:guest_id],
+            :version      => attributes[:hardware_version],
             :files        => { :vmPathName => vm_path_name(attributes) },
             :numCPUs      => attributes[:cpus],
             :numCoresPerSocket => attributes[:corespersocket],
