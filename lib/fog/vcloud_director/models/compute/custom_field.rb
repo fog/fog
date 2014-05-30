@@ -12,14 +12,6 @@ module Fog
         attribute :password
         attribute :user_configurable
 
-        def set(key, value, opts={})
-          service.put_vapp_custom_field(vapp.id, key, value, opts={})
-        end
-
-        def destroy
-          response = service.delete_vapp_custom_field(vapp.id, key)
-          service.process_task(response.body)
-        end
       end
     end
   end
