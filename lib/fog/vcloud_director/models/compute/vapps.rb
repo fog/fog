@@ -5,6 +5,9 @@ module Fog
   module Compute
     class VcloudDirector
       class Vapps < Collection
+
+        include Fog::VcloudDirector::Query
+
         model Fog::Compute::VcloudDirector::Vapp
 
         attribute :vdc
