@@ -55,7 +55,7 @@ Rake::TestTask.new do |t|
 end
 
 namespace :test do
-  mock = 'true' || ENV['FOG_MOCK']
+  mock = ENV['FOG_MOCK'].nil? ? 'true' : ENV['FOG_MOCK']
   task :travis do
       # jruby coveralls causes an OOM in travis
       ENV['COVERAGE'] = 'false' if RUBY_PLATFORM == 'java'
