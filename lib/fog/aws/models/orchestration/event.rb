@@ -12,10 +12,8 @@ module Fog
         attribute :resource_status, :aliases => ['ResourceStatus']
         attribute :resource_status_reason, :aliases => ['ResourceStatusReason']
 
-        def initialize(*args)
-          super
-          self.resource_name = self.logical_resource_id
-        end
+        alias_method :resource_name, :logical_resource_id
+        alias_method :resource_name=, :logical_resource_id=
 
       end
     end
