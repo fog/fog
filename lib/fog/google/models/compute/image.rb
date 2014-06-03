@@ -12,6 +12,7 @@ module Fog
         attribute :creation_timestamp, :aliases => 'creationTimestamp'
         attribute :deprecated
         attribute :description
+        attribute :disk_size_gb, :aliases => 'diskSizeGb'
         attribute :self_link, :aliases => 'selfLink'
         attribute :source_type, :aliases => 'sourceType'
         attribute :status
