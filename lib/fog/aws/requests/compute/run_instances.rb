@@ -238,6 +238,7 @@ module Fog
               'privateDnsName'      => nil,
               'productCodes'        => [],
               'reason'              => nil,
+              'rootDeviceName'      => block_device_mapping.first && block_device_mapping.first["deviceName"],
               'rootDeviceType'      => 'instance-store',
               'virtualizationType'  => 'paravirtual'
             }
