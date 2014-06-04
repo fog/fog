@@ -197,6 +197,7 @@ module Fog
           if service && attrs
             model.merge_attributes(attrs)
           end
+          model.clear if !persisted?
           model
         end
       end
