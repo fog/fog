@@ -17,8 +17,7 @@ module Fog
         end
 
         def description
-          return "" if @description.nil?
-          return @description
+          attributes[:description] || ""
         end
 
         def uuid=(str)
@@ -29,13 +28,8 @@ module Fog
           return self.id
         end
 
-        def vlan=(str)
-          @vlan=str
-        end
-
         def vlan
-          return "" if @vlan.nil?
-          return @vlan
+          attributes[:vlan] || ""
         end
 
         def save

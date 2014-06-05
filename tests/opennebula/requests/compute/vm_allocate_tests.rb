@@ -8,7 +8,7 @@ Shindo.tests("Fog::Compute[:opennebula] | vm_create and destroy request", 'openn
   tests("Allocate VM") do
     response = compute.vm_allocate({:name => 'fog-'+name_base.to_s, :flavor => f})
     test("response should be a kind of Hash") { response.kind_of?  Hash}
-    test("id should be a one-id (interger)") { response['id'].is_a?  Fixnum}
+    test("id should be a one-id (Fixnum)") { response['id'].is_a?  Fixnum}
   end
   tests("Destroy VM") do
     compute.vm_destroy(response['id'])

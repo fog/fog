@@ -22,19 +22,13 @@ module Fog
         attribute :flavor
 
         def save
-          #if persisted?
-          #  service.update_vm(attributes)
-          #else
           merge_attributes(service.vm_allocate(attributes))
-          #end
-          #reload
         end
 
         # only for integration in foreman
         # needed by formbuilder
-        # should be handled by foreman and not from by fog
+        # should be handled by foreman and not by fog
         def vminterfaces
-          #[] << Fog::Compute::OpenNebula::Interfaces.new
           []
         end
 
@@ -65,7 +59,7 @@ module Fog
           if status == 4
             service.vm_resume(id)
           end
-          return true
+          true
         end	
 
         def stop
