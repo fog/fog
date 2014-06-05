@@ -3,9 +3,7 @@ require 'fog/vcloud/models/compute/network'
 module Fog
   module Vcloud
     class Compute
-
       class Networks < Fog::Vcloud::Collection
-
         undef_method :create
 
         model Fog::Vcloud::Compute::Network
@@ -23,7 +21,7 @@ module Fog
             data = service.get_organization(self.href).links.select{|l| l[:type] == network_type_id }
           elsif self.href =~ /\/vApp\//
             check_href!("Vapp")
-            data = [(service.get_vapp(self.href).network_configs||{})[:NetworkConfig]].flatten.compact.collect{|n| n[:Configuration][:ParentNetwork] unless n[:Configuration].nil? }.compact
+            data = [(service.get_vapp(self.href).network_configs||{})[:NetworkConfig]].flatten.compact.map{|n| n[:Configuration][:ParentNetwork] unless n[:Configuration].nil? }.compact
           end
           load([*data]) unless data.nil?
         end

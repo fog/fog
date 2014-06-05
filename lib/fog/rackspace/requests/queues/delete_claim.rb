@@ -1,9 +1,7 @@
 module Fog
   module Rackspace
     class Queues
-
       class Real
-
         # This operation immediately releases a claim, making any remaining, undeleted) messages that are associated with the claim available to other workers.
         # Claims with malformed IDs or claims that are not found by ID are ignored.
         #
@@ -39,7 +37,6 @@ module Fog
           response
         end
       end
-
     end
   end
 end

@@ -4,9 +4,7 @@ require 'fog/glesys/models/compute/ip'
 module Fog
   module Compute
     class Glesys
-
       class Ips < Fog::Collection
-
         model Fog::Compute::Glesys::Ip
 
         attribute :serverid
@@ -45,7 +43,7 @@ module Fog
           options = default_options.merge!(options)
 
           %w{platform datacenter version}.each do |attr|
-            raise Fog::Errors::Error.new("You need to specify ':#{attr}'") if !options.has_key?(attr.to_sym)
+            raise Fog::Errors::Error.new("You need to specify ':#{attr}'") if !options.key?(attr.to_sym)
           end
 
           options[:ipversion] = options[:version]
@@ -55,7 +53,6 @@ module Fog
         end
 
         def take(ip, options = {})
-
           default_options = {
             :attach => false
           }
@@ -83,7 +80,6 @@ module Fog
         end
 
         def attach(ip, server_id=nil)
-
           if server_id.nil?
             server_id = serverid
           end
@@ -115,7 +111,6 @@ module Fog
         def ip_from_object(ip)
           ip.is_a?(Fog::Compute::Glesys::Ip) ? ip.ip : ip
         end
-
       end
     end
   end

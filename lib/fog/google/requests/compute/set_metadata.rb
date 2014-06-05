@@ -1,17 +1,13 @@
 module Fog
   module Compute
     class Google
-
       class Mock
-
         def set_metadata(instance, zone, fingerprint, metadata={})
           Fog::Mock.not_implemented
         end
-
       end
 
       class Real
-
         # Set an instance metadata
         #
         # ==== Parameters

@@ -2,7 +2,6 @@ module Fog
   module HP
     class BlockStorageV2
       class Real
-
         # Update an existing block storage snapshot
         #
         # ==== Parameters
@@ -40,11 +39,9 @@ module Fog
             :path     => "snapshots/#{snapshot_id}"
           )
         end
-
       end
 
       class Mock  # :nodoc:all
-
         def update_snapshot(snapshot_id, options={})
           unless snapshot_id
             raise ArgumentError.new('snapshot_id is required')
@@ -60,10 +57,8 @@ module Fog
           else
             raise Fog::HP::BlockStorageV2::NotFound
           end
-
         end
       end
-
     end
   end
 end

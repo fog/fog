@@ -3,7 +3,6 @@ require 'fog/core/model'
 module Fog
   module HP
     class Network
-
       class SecurityGroup < Fog::Model
         identity :id
 
@@ -23,7 +22,6 @@ module Fog
           merge_attributes(service.create_security_group(attributes).body['security_group'])
           true
         end
-
       end
     end
   end

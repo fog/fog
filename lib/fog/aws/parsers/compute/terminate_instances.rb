@@ -2,9 +2,7 @@ module Fog
   module Parsers
     module Compute
       module AWS
-
         class TerminateInstances < Fog::Parsers::Base
-
           def reset
             @instance = { 'previousState' => {}, 'currentState' => {} }
             @response = { 'instancesSet' => [] }
@@ -46,9 +44,7 @@ module Fog
               @in_current_state = false
             end
           end
-
         end
-
       end
     end
   end

@@ -2,9 +2,7 @@ module Fog
   module Parsers
     module Terremark
       module Shared
-
         class GetPublicIps< TerremarkParser
-
           def reset
             @ip_address = {}
             @response = { 'PublicIpAddresses' => [] }
@@ -21,9 +19,7 @@ module Fog
               @ip_address = {}
             end
           end
-
         end
-
       end
     end
   end

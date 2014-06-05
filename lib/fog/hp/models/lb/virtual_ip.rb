@@ -27,7 +27,6 @@ module Fog
         def load_balancer
           collection.load_balancer
         end
-
       end
     end
   end

@@ -2,9 +2,7 @@ module Fog
   module Parsers
     module Storage
       module InternetArchive
-
         class ListMultipartUploads < Fog::Parsers::Base
-
           def reset
             @upload = { 'Initiator' => {}, 'Owner' => {} }
             @response = { 'Upload' => [] }
@@ -47,9 +45,7 @@ module Fog
               @upload = { 'Initiator' => {}, 'Owner' => {} }
             end
           end
-
         end
-
       end
     end
   end

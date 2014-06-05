@@ -4,7 +4,6 @@ require 'fog/aws/models/cloud_watch/alarm'
 module Fog
   module AWS
     class CloudWatch
-
       class Alarms < Fog::Collection
         model Fog::AWS::CloudWatch::Alarm
 
@@ -40,7 +39,6 @@ module Fog
           service.enable_alarm_actions(alarm_names)
           true
         end
-
       end
     end
   end

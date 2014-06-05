@@ -34,7 +34,6 @@ def select_message(messages)
   messages[delete_str.to_i]
 end
 
-
 # Use username defined in ~/.fog file, if absent prompt for username.
 # For more details on ~/.fog refer to http://fog.io/about/getting_started.html
 def rackspace_username

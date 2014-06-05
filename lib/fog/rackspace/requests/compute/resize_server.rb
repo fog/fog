@@ -2,7 +2,6 @@ module Fog
   module Compute
     class Rackspace
       class Real
-
         # Reboot an existing server
         #
         # ==== Parameters
@@ -13,11 +12,9 @@ module Fog
           body = { 'resize' => { 'flavorId' => flavor_id }}
           server_action(server_id, body)
         end
-
       end
 
       class Mock
-
         # FIXME: should probably transition instead of skipping to VERIFY_RESIZE
         def resize_server(server_id, flavor_id)
           response = Excon::Response.new
@@ -32,7 +29,6 @@ module Fog
 
           response
         end
-
       end
     end
   end

@@ -3,9 +3,7 @@ require 'fog/core/model'
 module Fog
   module Compute
     class VcloudDirector
-
       class Task < Fog::Model
-
         identity  :id
 
         attribute :href
@@ -51,9 +49,7 @@ module Fog
         def cancel
           service.post_cancel_task(id)
         end
-
       end
-
     end
   end
 end

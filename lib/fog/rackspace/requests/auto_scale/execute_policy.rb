@@ -2,7 +2,6 @@ module Fog
   module Rackspace
     class AutoScale
       class Real
-
         def execute_policy(group_id, policy_id)
           request(
             :expects => [202],

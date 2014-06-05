@@ -2,7 +2,6 @@ module Fog
   module DNS
     class Linode
       class Real
-
         # Delete the given resource from a domain
         #
         # ==== Parameters
@@ -21,7 +20,6 @@ module Fog
             :query    => { :api_action => 'domain.resource.delete', :domainId => domain_id, :resourceID => resource_id }
           )
         end
-
       end
     end
   end

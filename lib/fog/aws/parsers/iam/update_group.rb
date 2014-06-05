@@ -2,7 +2,6 @@ module Fog
   module Parsers
     module AWS
       module IAM
-
         class UpdateGroup < Fog::Parsers::Base
         # http://docs.amazonwebservices.com/IAM/latest/APIReference/index.html?API_UpdateGroup.html
           def reset
@@ -17,9 +16,7 @@ module Fog
               @response[name] = value
             end
           end
-
         end
-
       end
     end
   end

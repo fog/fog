@@ -26,7 +26,7 @@ Shindo.tests("Fog::Compute[:aws] | monitor", ['aws']) do
     test('#associate_public_ip = false') do
       @instance.associate_public_ip = false
       @instance.associate_public_ip == false
-    end    
+    end
 
   end
 

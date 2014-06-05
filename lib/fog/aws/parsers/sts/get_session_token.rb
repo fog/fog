@@ -2,7 +2,6 @@ module Fog
   module Parsers
     module AWS
       module STS
-
         class GetSessionToken < Fog::Parsers::Base
 					# http://docs.amazonwebservices.com/IAM/latest/UserGuide/index.html?CreatingFedTokens.html
 
@@ -20,9 +19,7 @@ module Fog
               @response[name] = @value
             end
           end
-
         end
-
       end
     end
   end

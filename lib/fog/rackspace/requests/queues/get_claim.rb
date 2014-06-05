@@ -1,9 +1,7 @@
 module Fog
   module Rackspace
     class Queues
-
       class Real
-
         # This operation queries the specified claim for the specified queue. Claims with malformed IDs or claims that are not found by ID are ignored.
         #
         # @param [String] queue_name Specifies the name of the queue.
@@ -21,7 +19,6 @@ module Fog
             :path => "queues/#{queue_name}/claims/#{claim_id}"
           )
         end
-
       end
 
       class Mock
@@ -35,7 +32,6 @@ module Fog
           response
         end
       end
-
     end
   end
 end

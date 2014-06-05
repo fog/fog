@@ -4,9 +4,7 @@ require 'fog/ninefold/models/compute/image'
 module Fog
   module Compute
     class Ninefold
-
       class Images < Fog::Collection
-
         model Fog::Compute::Ninefold::Image
 
         def all(offering = 'executable')
@@ -22,9 +20,7 @@ module Fog
             new(data[0])
           end
         end
-
       end
-
     end
   end
 end

@@ -2,11 +2,9 @@ module Fog
   module Parsers
     module AWS
       module RDS
-
         require 'fog/aws/parsers/rds/db_parser'
 
         class DescribeDBInstances < Fog::Parsers::AWS::RDS::DbParser
-
           def reset
             @response = { 'DescribeDBInstancesResult' => {'DBInstances' => []}, 'ResponseMetadata' => {} }
             super

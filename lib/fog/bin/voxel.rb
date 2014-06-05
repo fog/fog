@@ -1,6 +1,5 @@
 class Voxel < Fog::Bin
   class << self
-
     def class_for(key)
       case key
       when :compute
@@ -26,6 +25,5 @@ class Voxel < Fog::Bin
     def services
       Fog::Voxel.services
     end
-
   end
 end

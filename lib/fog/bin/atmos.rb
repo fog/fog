@@ -1,6 +1,5 @@
 class Atmos < Fog::Bin
   class << self
-
     def class_for(key)
       case key
       when :storage
@@ -26,6 +25,5 @@ class Atmos < Fog::Bin
     def services
       Fog::Atmos.services
     end
-
   end
 end

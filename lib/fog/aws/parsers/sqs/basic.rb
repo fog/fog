@@ -3,7 +3,6 @@ module Fog
     module AWS
       module SQS
         class Basic < Fog::Parsers::Base
-
           def reset
             @response = { 'ResponseMetadata' => {} }
           end
@@ -14,9 +13,7 @@ module Fog
               @response['ResponseMetadata'][name] = @value
             end
           end
-
         end
-
       end
     end
   end

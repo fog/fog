@@ -1,6 +1,5 @@
 class Joyent < Fog::Bin
   class << self
-
     def class_for(key)
       case key
       when :compute
@@ -30,6 +29,5 @@ class Joyent < Fog::Bin
     def services
       Fog::Joyent.services
     end
-
   end
 end

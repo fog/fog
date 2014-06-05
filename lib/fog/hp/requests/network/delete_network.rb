@@ -1,7 +1,6 @@
 module Fog
   module HP
     class Network
-
       class Real
         # Delete an existing network
         #
@@ -19,7 +18,7 @@ module Fog
       class Mock
         def delete_network(network_id)
           response = Excon::Response.new
-          if list_networks.body['networks'].detect {|_| _['id'] == network_id}
+          if list_networks.body['networks'].find {|_| _['id'] == network_id}
             self.data[:networks].delete(network_id)
             response.status = 204
             response
@@ -28,7 +27,6 @@ module Fog
           end
         end
       end
-
     end
   end
 end

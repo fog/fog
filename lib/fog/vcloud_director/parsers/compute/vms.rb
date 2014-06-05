@@ -2,9 +2,7 @@ module Fog
   module Parsers
     module Compute
       module VcloudDirector
-
         class Vms < VcloudDirectorParser
-
           def reset
             @vm = { :ip_address => '' }
             @in_operating_system = false
@@ -72,7 +70,6 @@ module Fog
                 @vm = {}
               end
             end
-
           end
 
           def human_status(status)
@@ -87,9 +84,7 @@ module Fog
               'unknown'
             end
           end
-
         end
-
       end
     end
   end

@@ -2,9 +2,7 @@ module Fog
   module Parsers
     module Terremark
       module Shared
-
         class GetVdc < TerremarkParser
-
           def reset
             @in_storage_capacity = false
             @in_cpu = false
@@ -82,9 +80,7 @@ module Fog
               @response[name] = value
             end
           end
-
         end
-
       end
     end
   end

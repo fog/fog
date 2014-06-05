@@ -1,7 +1,6 @@
 module Fog
   module HP
     class LB
-
       # Create a new load balancer
       #
       # ==== Parameters

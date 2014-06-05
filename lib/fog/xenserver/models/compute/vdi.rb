@@ -3,7 +3,6 @@ require 'fog/core/model'
 module Fog
   module Compute
     class XenServer
-
       class VDI < Fog::Model
         # API Reference here:
         # http://docs.vmd.citrix.com/XenServer/6.2.0/1.0/en_gb/api/?c=VDI
@@ -69,13 +68,13 @@ module Fog
         end
 
         def snapshots
-          __snapshots.collect do |ref|
+          __snapshots.map do |ref|
             service.vdis.get ref
           end
         end
 
         def vbds
-          __vbds.collect do |ref|
+          __vbds.map do |ref|
             service.vbds.get ref
           end
         end
@@ -97,9 +96,7 @@ module Fog
         def sr
           storage_repository
         end
-
       end
-
     end
   end
 end

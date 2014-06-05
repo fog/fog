@@ -3,7 +3,6 @@ require 'fog/compute/models/server'
 module Fog
   module Compute
     class Vsphere
-
       class Server < Fog::Compute::Server
         extend Fog::Deprecation
         deprecate(:ipaddress, :public_ip_address)
@@ -46,6 +45,7 @@ module Fog
         attribute :resource_pool
         attribute :instance_uuid # move this --> id
         attribute :guest_id
+        attribute :hardware_version
         attribute :scsi_controller # this is the first scsi controller. Right now no more of them can be used.
 
         def initialize(attributes={} )
@@ -65,7 +65,6 @@ module Fog
           end
         end
         # End Lazy Loaded Attributes
-
 
         def vm_reconfig_memory(options = {})
           requires :instance_uuid, :memory
@@ -126,7 +125,7 @@ module Fog
           requires :name, :datacenter, :relative_path
 
           # Convert symbols to strings
-          req_options = options.inject({}) { |hsh, (k,v)| hsh[k.to_s] = v; hsh }
+          req_options = options.reduce({}) { |hsh, (k,v)| hsh[k.to_s] = v; hsh }
 
           # Give our path to the request
           req_options['template_path'] ="#{relative_path}/#{name}"
@@ -283,9 +282,7 @@ module Fog
             Fog::Compute::Vsphere::SCSIController.new(self.attributes[:scsi_controller])
           end
         end
-
       end
-
     end
   end
 end

@@ -2,7 +2,6 @@ module Fog
   module HP
     class DNS
       class Real
-
         # Create a new DNS record
         #
         # ==== Parameters
@@ -45,13 +44,12 @@ module Fog
               :method  => 'POST',
               :path    => "domains/#{domain_id}/records"
           )
-
         end
       end
       class Mock
         def create_record(domain_id, name, type, data, options={})
           response        = Excon::Response.new
-          if list_domains.body['domains'].detect {|_| _['id'] == domain_id}
+          if list_domains.body['domains'].find {|_| _['id'] == domain_id}
             response.status = 200
             data = {
                 'id'           => Fog::HP::Mock.uuid.to_s,
@@ -76,4 +74,3 @@ module Fog
     end
   end
 end
-

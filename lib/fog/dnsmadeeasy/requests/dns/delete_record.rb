@@ -2,7 +2,6 @@ module Fog
   module DNS
     class DNSMadeEasy
       class Real
-
         # Deletes the record with the specified id. Note that records are not modifiable for domains that are locked to a template.
         #
         # ==== Parameters
@@ -19,7 +18,6 @@ module Fog
             :path     => "/V1.2/domains/#{domain}/records/#{record_id}"
           )
         end
-
       end
     end
   end

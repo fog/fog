@@ -4,7 +4,6 @@ require 'fog/openstack/models/volume/volume'
 module Fog
   module Volume
     class OpenStack
-
       class Volumes < Fog::Collection
         model Fog::Volume::OpenStack::Volume
 
@@ -24,8 +23,6 @@ module Fog
         end
         alias_method :find_by_id, :get
       end
-
     end
   end
 end
-

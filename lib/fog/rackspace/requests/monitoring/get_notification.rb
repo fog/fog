@@ -2,7 +2,6 @@ module Fog
   module Rackspace
     class Monitoring
       class Real
-
         def get_notification(notification_id)
           request(
             :expects  => [200],
@@ -10,7 +9,6 @@ module Fog
             :path     => "notifications/#{notification_id}"
           )
         end
-
       end
 
       class Mock
@@ -46,5 +44,3 @@ module Fog
     end
   end
 end
-
-

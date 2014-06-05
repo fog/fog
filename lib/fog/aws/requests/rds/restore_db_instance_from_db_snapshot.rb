@@ -2,7 +2,6 @@ module Fog
   module AWS
     class RDS
       class Real
-
         require 'fog/aws/parsers/rds/restore_db_instance_from_db_snapshot'
 
         # Restores a DB Instance from a DB Snapshot
@@ -18,17 +17,13 @@ module Fog
             :parser   => Fog::Parsers::AWS::RDS::RestoreDBInstanceFromDBSnapshot.new,
           }.merge(opts))
         end
-
       end
 
       class Mock
-
         def restore_db_instance_from_db_snapshot(snapshot_id, db_id, options={})
           Fog::Mock.not_implemented
         end
-
       end
     end
   end
 end
-

@@ -3,9 +3,7 @@ require 'fog/core/model'
 module Fog
   module Compute
     class HP
-
       class SecurityGroup < Fog::Model
-
         identity  :id
 
         attribute :name

@@ -6,7 +6,7 @@ module Fog
 
         def validate_vapp_data(vapp_data)
           valid_opts = [:name, :cpus, :memory, :disks]
-          unless valid_opts.all? { |opt| vapp_data.has_key?(opt) }
+          unless valid_opts.all? { |opt| vapp_data.key?(opt) }
             raise ArgumentError.new("Required Vapp data missing: #{(valid_opts - vapp_data.keys).map(&:inspect).join(", ")}")
           end
         end
@@ -46,7 +46,7 @@ module Fog
             add_disk_numbers.each do |number|
               new_disk = real_disks.first.dup
               new_disk.at('.//xmlns:AddressOnParent', rasd_xmlns).content = -1
-              new_disk.at('.//xmlns:VirtualQuantity', rasd_xmlns).content = vapp_data[:disks].detect { |disk| disk[:number].to_s == number.to_s }[:size]
+              new_disk.at('.//xmlns:VirtualQuantity', rasd_xmlns).content = vapp_data[:disks].find { |disk| disk[:number].to_s == number.to_s }[:size]
               real_disks.first.parent << new_disk
             end
           end
@@ -105,7 +105,6 @@ module Fog
             :parse    => true
           )
         end
-
       end
     end
   end

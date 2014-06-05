@@ -2,7 +2,6 @@ module Fog
   module Parsers
     module Compute
       module AWS
-
         class DescribeAccountAttributes < Fog::Parsers::Base
           def reset
             @attribute = { 'values' => []}

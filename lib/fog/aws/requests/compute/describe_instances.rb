@@ -2,7 +2,6 @@ module Fog
   module Compute
     class AWS
       class Real
-
         require 'fog/aws/parsers/compute/describe_instances'
 
         # Describe all or specified instances
@@ -75,11 +74,9 @@ module Fog
             :parser     => Fog::Parsers::Compute::AWS::DescribeInstances.new
           }.merge!(params))
         end
-
       end
 
       class Mock
-
         def describe_instances(filters = {})
           unless filters.is_a?(Hash)
             Fog::Logger.deprecation("describe_instances with #{filters.class} param is deprecated, use describe_instances('instance-id' => []) instead [light_black](#{caller.first})[/]")
@@ -142,7 +139,7 @@ module Fog
           for filter_key, filter_value in filters
             if block_device_mapping_key = filter_key.split('block-device-mapping.')[1]
               aliased_key = block_device_mapping_aliases[block_device_mapping_key]
-              instance_set = instance_set.reject{|instance| !instance['blockDeviceMapping'].detect {|block_device_mapping| [*filter_value].include?(block_device_mapping[aliased_key])}}
+              instance_set = instance_set.reject{|instance| !instance['blockDeviceMapping'].find {|block_device_mapping| [*filter_value].include?(block_device_mapping[aliased_key])}}
             elsif instance_state_key = filter_key.split('instance-state-')[1]
               aliased_key = instance_state_aliases[instance_state_key]
               instance_set = instance_set.reject{|instance| ![*filter_value].include?(instance['instanceState'][aliased_key])}
@@ -161,7 +158,7 @@ module Fog
             end
           end
 
-          brand_new_instances = instance_set.find_all do |instance|
+          brand_new_instances = instance_set.select do |instance|
             instance['instanceState']['name'] == 'pending' &&
               Time.now - instance['launchTime'] < Fog::Mock.delay * 2
           end
@@ -249,7 +246,6 @@ module Fog
           }
           response
         end
-
       end
     end
   end

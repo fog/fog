@@ -4,7 +4,6 @@ require 'fog/hp/simple_http_instrumentor'
 
 module Fog
   module HP
-
     # define a specific version for the HP Provider
     unless const_defined?(:VERSION)
       VERSION = '0.0.22'
@@ -346,8 +345,6 @@ module Fog
         end
         mac_add.join(':')
       end
-
     end
-
   end
 end

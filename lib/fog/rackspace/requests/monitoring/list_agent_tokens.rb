@@ -2,7 +2,6 @@ module Fog
   module Rackspace
     class Monitoring
       class Real
-
         def list_agent_tokens(options={})
           request(
             :expects  => [200, 203],
@@ -14,7 +13,6 @@ module Fog
       end
 
       class Mock
-
         def list_agent_tokens(options={})
           token = Fog::Mock.random_letters(50).to_s
 
@@ -55,4 +53,3 @@ module Fog
     end
   end
 end
-

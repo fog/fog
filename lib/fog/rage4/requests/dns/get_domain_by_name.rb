@@ -2,7 +2,6 @@ module Fog
   module DNS
     class Rage4
       class Real
-
         # Get the details for a specific domain in your account.
         # ==== Parameters
         # * name<~String> - name of domain
@@ -20,11 +19,8 @@ module Fog
                   :expects  => 200,
                   :method   => 'GET',
                   :path     => "/rapi/getdomainbyname/?name=#{name}")
-
         end
-
       end
-
     end
   end
 end

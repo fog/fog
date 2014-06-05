@@ -2,7 +2,6 @@ module Fog
   module AWS
     class EMR
       class Real
-
         require 'fog/aws/parsers/emr/run_job_flow'
 
         # creates and starts running a new job flow
@@ -48,7 +47,6 @@ module Fog
         # * response<~Excon::Response>:
         #   * body<~Hash>:
         def run_job_flow(name, options={})
-
           if bootstrap_actions = options.delete('BootstrapActions')
             options.merge!(Fog::AWS.serialize_keys('BootstrapActions', bootstrap_actions))
           end
@@ -97,11 +95,9 @@ module Fog
       end
 
       class Mock
-
         def run_job_flow(db_name, options={})
           Fog::Mock.not_implemented
         end
-
       end
     end
   end

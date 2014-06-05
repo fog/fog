@@ -2,7 +2,6 @@ module Fog
   module Compute
     class Ecloud
       module Shared
-
         def validate_create_server_options(template_uri, options)
           required_opts = [:name, :cpus, :memory, :row, :group, :customization, :network_uri]
           if options[:customization] == :windows
@@ -10,7 +9,7 @@ module Fog
           else
             required_opts.push(:ssh_key_uri)
           end
-          unless required_opts.all? { |opt| options.has_key?(opt) }
+          unless required_opts.all? { |opt| options.key?(opt) }
             raise ArgumentError.new("Required data missing: #{(required_opts - options.keys).map(&:inspect).join(", ")}")
           end
 
@@ -137,7 +136,7 @@ module Fog
           networks.each do |network|
             links << Fog::Ecloud.keep(network, :name, :href, :type)
             network_id = id_from_uri(network[:href])
-            ip = self.data[:networks][network_id][:IpAddresses][:IpAddress].detect { |ip| ip[:id] = network[:ip] }
+            ip = self.data[:networks][network_id][:IpAddresses][:IpAddress].find { |ip| ip[:id] = network[:ip] }
             ip[:DetectedOn] = {:href => "/cloudapi/ecloud/networkhosts/#{server_id}", :name => options[:name], :type => "application/vnd.tmrk.cloud.networkHost"}
             ip[:Host]       = {:href => "/cloudapi/ecloud/networkhosts/#{server_id}", :name => options[:name], :type => "application/vnd.tmrk.cloud.networkHost"}
           end

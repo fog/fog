@@ -4,9 +4,7 @@ require 'fog/hp/models/block_storage/snapshot'
 module Fog
   module HP
     class BlockStorage
-
       class Snapshots < Fog::Collection
-
         model Fog::HP::BlockStorage::Snapshot
 
         def all
@@ -21,9 +19,7 @@ module Fog
         rescue Fog::HP::BlockStorage::NotFound
           nil
         end
-
       end
-
     end
   end
 end

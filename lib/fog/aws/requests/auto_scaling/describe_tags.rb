@@ -1,9 +1,7 @@
 module Fog
   module AWS
     class AutoScaling
-
       class Real
-
         require 'fog/aws/parsers/auto_scaling/describe_tags'
 
         # Lists the Auto Scaling group tags.
@@ -58,17 +56,13 @@ module Fog
             :parser  => Fog::Parsers::AWS::AutoScaling::DescribeTags.new
           }.merge!(options))
         end
-
       end
 
       class Mock
-
         def describe_tags(options={})
           raise Fog::Mock::NotImplementedError
         end
-
       end
-
     end
   end
 end

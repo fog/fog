@@ -3,19 +3,17 @@ require 'fog/core/model'
 module Fog
   module AWS
     class DataPipeline
-
       class Pipeline < Fog::Model
-
         identity  :id, :aliases => 'pipelineId'
         attribute :name
         attribute :description
+        attribute :tags
         attribute :user_id, :aliases => 'userId'
         attribute :account_id, :aliases => 'accountId'
         attribute :state, :aliases => 'pipelineState'
         attribute :unique_id, :aliases => 'uniqueId'
 
         def initialize(attributes={})
-
           # Extract the 'fields' portion of a response to attributes
           if attributes.include?('fields')
             string_fields = attributes['fields'].select { |f| f.include?('stringValue') }
@@ -30,7 +28,7 @@ module Fog
           requires :name
           requires :unique_id
 
-          data = service.create_pipeline(unique_id, name)
+          data = service.create_pipeline(unique_id, name, nil, tags)
           merge_attributes(data)
 
           true
@@ -59,9 +57,7 @@ module Fog
 
           true
         end
-
       end
-
     end
   end
 end

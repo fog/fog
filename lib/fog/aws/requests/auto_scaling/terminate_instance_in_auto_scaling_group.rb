@@ -1,9 +1,7 @@
 module Fog
   module AWS
     class AutoScaling
-
       class Real
-
         require 'fog/aws/parsers/auto_scaling/terminate_instance_in_auto_scaling_group'
 
         # Terminates the specified instance. Optionally, the desired group size
@@ -49,17 +47,13 @@ module Fog
             :parser                          => Fog::Parsers::AWS::AutoScaling::TerminateInstanceInAutoScalingGroup.new
           })
         end
-
       end
 
       class Mock
-
         def terminate_instance_in_auto_scaling_group(instance_id, should_decrement_desired_capacity)
           Fog::Mock.not_implemented
         end
-
       end
-
     end
   end
 end

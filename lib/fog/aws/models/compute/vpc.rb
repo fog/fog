@@ -3,9 +3,7 @@ require 'fog/core/model'
 module Fog
   module Compute
     class AWS
-
       class VPC < Fog::Model
-
         identity :id,                :aliases => 'vpcId'
 
         attribute :state
@@ -60,9 +58,7 @@ module Fog
           merge_attributes(new_attributes)
           true
         end
-
       end
-
     end
   end
 end

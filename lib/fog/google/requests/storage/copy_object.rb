@@ -2,7 +2,6 @@ module Fog
   module Storage
     class Google
       class Real
-
         require 'fog/google/parsers/storage/copy_object'
 
         # Copy an object from one Google Storage bucket to another
@@ -36,11 +35,9 @@ module Fog
             :path     => CGI.escape(target_object_name)
           })
         end
-
       end
 
       class Mock
-
         def copy_object(source_bucket_name, source_object_name, target_bucket_name, target_object_name, options = {})
           response = Excon::Response.new
           source_bucket = self.data[:buckets][source_bucket_name]
@@ -65,7 +62,6 @@ module Fog
 
           response
         end
-
       end
     end
   end

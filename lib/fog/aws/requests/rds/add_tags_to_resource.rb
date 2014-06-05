@@ -2,7 +2,6 @@ module Fog
   module AWS
     class RDS
       class Real
-
         # adds tags to a database instance
         # http://docs.amazonwebservices.com/AmazonRDS/latest/APIReference/API_AddTagsToResource.html
         # ==== Parameters
@@ -21,11 +20,9 @@ module Fog
             }.merge(Fog::AWS.indexed_param('Tags.member.%d.Key', keys)).
               merge(Fog::AWS.indexed_param('Tags.member.%d.Value', values)))
         end
-
       end
 
       class Mock
-
         def add_tags_to_resource(rds_id, tags)
           response = Excon::Response.new
           if server = self.data[:servers][rds_id]
@@ -39,7 +36,6 @@ module Fog
             raise Fog::AWS::RDS::NotFound.new("DBInstance #{rds_id} not found")
           end
         end
-
       end
     end
   end

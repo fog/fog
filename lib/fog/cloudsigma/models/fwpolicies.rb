@@ -12,10 +12,7 @@ module Fog
           data = resp.body['objects']
           load(data)
         end
-
       end
-
-
     end
   end
 end

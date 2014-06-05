@@ -4,9 +4,7 @@ require 'fog/fogdocker/models/compute/server'
 module Fog
   module Compute
     class Fogdocker
-
       class Servers < Fog::Collection
-
         model Fog::Compute::Fogdocker::Server
 
         def all(filters = {})
@@ -21,7 +19,6 @@ module Fog
           server = create(new_attributes)
           server
         end
-
       end
     end
   end

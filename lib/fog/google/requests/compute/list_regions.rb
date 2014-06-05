@@ -1,9 +1,7 @@
 module Fog
   module Compute
     class Google
-
       class Mock
-
         def list_regions
           build_response(:body => {
             "kind" => "compute#regionList",
@@ -70,11 +68,9 @@ module Fog
             ]
           })
         end
-
       end
 
       class Real
-
         def list_regions
           api_method = @compute.regions.list
           parameters = {
@@ -84,9 +80,7 @@ module Fog
           result = self.build_result(api_method, parameters)
           response = self.build_response(result)
         end
-
       end
-
     end
   end
 end

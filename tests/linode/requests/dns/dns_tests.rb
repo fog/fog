@@ -15,7 +15,7 @@ Shindo.tests('Fog::DNS[:linode] | DNS requests', ['linode', 'dns']) do
         zones = response.body['DATA']
         @org_zone_count = zones.count
       end
-      
+
       response.status == 200
     end
 
@@ -30,7 +30,7 @@ Shindo.tests('Fog::DNS[:linode] | DNS requests', ['linode', 'dns']) do
         @master_zone_id = response.body['DATA']['DomainID']
         @new_zones << @master_zone_id
       end
-      
+
       response.status == 200
     end
 
@@ -39,14 +39,14 @@ Shindo.tests('Fog::DNS[:linode] | DNS requests', ['linode', 'dns']) do
 
       type = 'slave'
       @domain= generate_unique_domain
-      options = { :SOA_email => "netops@#{@domain}", :refresh_sec => 14400, :retry_sec => 3600, 
+      options = { :SOA_email => "netops@#{@domain}", :refresh_sec => 14400, :retry_sec => 3600,
                   :expire_sec => 604800, :ttl_sec => 28800, :status => 0, :master_ips => '1.2.3.4;2.3.4.5' }
       response = Fog::DNS[:linode].domain_create( @domain, type, options)
       if response.status == 200
         @slave_zone_id = response.body['DATA']['DomainID']
         @new_zones << @slave_zone_id
       end
-  
+
       response.status == 200
     end
 
@@ -54,7 +54,7 @@ Shindo.tests('Fog::DNS[:linode] | DNS requests', ['linode', 'dns']) do
       pending if Fog.mocking?
 
       result= false
-      
+
       response = Fog::DNS[:linode].domain_list( @slave_zone_id)
       if response.status == 200
         zones = response.body['DATA']
@@ -63,13 +63,13 @@ Shindo.tests('Fog::DNS[:linode] | DNS requests', ['linode', 'dns']) do
           zone= zones[0]
           if (zone['SOA_EMAIL'] == "netops@#{@domain}") and (zone['REFRESH_SEC'] == 14400) and
             (zone['RETRY_SEC'] == 3600) and (zone['EXPIRE_SEC'] == 604800) and (zone['TTL_SEC'] == 28800) and
-            (zone['STATUS'] == 0) and (zone['DOMAIN'] == @domain) and (zone['TYPE'] == 'slave') 
+            (zone['STATUS'] == 0) and (zone['DOMAIN'] == @domain) and (zone['TYPE'] == 'slave')
             (zone['MASTER_IPS'] == '1.2.3.4;2.3.4.5')
             result= true
-          end          
+          end
         end
       end
-      
+
       result
     end
 
@@ -77,13 +77,13 @@ Shindo.tests('Fog::DNS[:linode] | DNS requests', ['linode', 'dns']) do
       pending if Fog.mocking?
 
       result= false
-      
+
       options = { :ttl_sec => 14400 }
       response = Fog::DNS[:linode].domain_update( @slave_zone_id, options)
       if response.status == 200
         result= true
       end
-  
+
       result
     end
 
@@ -91,7 +91,7 @@ Shindo.tests('Fog::DNS[:linode] | DNS requests', ['linode', 'dns']) do
       pending if Fog.mocking?
 
       result= false
-      
+
       response = Fog::DNS[:linode].domain_list( @slave_zone_id)
       if response.status == 200
         zones = response.body['DATA']
@@ -100,10 +100,10 @@ Shindo.tests('Fog::DNS[:linode] | DNS requests', ['linode', 'dns']) do
           zone= zones[0]
           if (zone['TTL_SEC'] == 14400)
             result= true
-          end          
+          end
         end
       end
-      
+
       result
     end
 
@@ -117,7 +117,7 @@ Shindo.tests('Fog::DNS[:linode] | DNS requests', ['linode', 'dns']) do
         record_id = response.body['DATA']['ResourceID']
         @new_records << record_id
       end
-      
+
       response.status == 200
     end
 
@@ -131,7 +131,7 @@ Shindo.tests('Fog::DNS[:linode] | DNS requests', ['linode', 'dns']) do
         record_id = response.body['DATA']['ResourceID']
         @new_records << record_id
       end
-      
+
       response.status == 200
     end
 
@@ -144,7 +144,7 @@ Shindo.tests('Fog::DNS[:linode] | DNS requests', ['linode', 'dns']) do
         record_id = response.body['DATA']['ResourceID']
         @new_records << record_id
       end
-      
+
       response.status == 200
     end
 
@@ -157,7 +157,7 @@ Shindo.tests('Fog::DNS[:linode] | DNS requests', ['linode', 'dns']) do
         @record_id = response.body['DATA']['ResourceID']
         @new_records << @record_id
       end
-      
+
       response.status == 200
     end
 
@@ -165,7 +165,7 @@ Shindo.tests('Fog::DNS[:linode] | DNS requests', ['linode', 'dns']) do
       pending if Fog.mocking?
 
       result= false
-      
+
       domain= 'mail.' + @domain
       response = Fog::DNS[:linode].domain_resource_list(@master_zone_id, @record_id)
       if response.status == 200
@@ -178,13 +178,13 @@ Shindo.tests('Fog::DNS[:linode] | DNS requests', ['linode', 'dns']) do
             result= true
           end
         end
-        
+
       end
-              
+
       result
     end
 
-    test("update record #{@record_id} - change target") do 
+    test("update record #{@record_id} - change target") do
       pending if Fog.mocking?
 
       options = { :target => 'mail2.' + @domain }
@@ -197,7 +197,7 @@ Shindo.tests('Fog::DNS[:linode] | DNS requests', ['linode', 'dns']) do
       pending if Fog.mocking?
 
       result= false
-      
+
       domain= 'mail2.' + @domain
       response = Fog::DNS[:linode].domain_resource_list(@master_zone_id, @record_id)
       if response.status == 200
@@ -209,13 +209,13 @@ Shindo.tests('Fog::DNS[:linode] | DNS requests', ['linode', 'dns']) do
             result= true
           end
         end
-        
+
       end
-              
+
       result
 
     end
-    
+
     test("delete #{@new_records.count} records created") do
       pending if Fog.mocking?
 
@@ -243,8 +243,8 @@ Shindo.tests('Fog::DNS[:linode] | DNS requests', ['linode', 'dns']) do
     end
 
   end
-  
+
   tests( 'failure') do
   end
-    
+
 end

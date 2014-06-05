@@ -1,6 +1,5 @@
 class RiakCS < Fog::Bin
   class << self
-
     def class_for(key)
       case key
       when :provisioning
@@ -22,6 +21,5 @@ class RiakCS < Fog::Bin
     def services
       Fog::RiakCS.services
     end
-
   end
 end

@@ -2,9 +2,7 @@ module Fog
   module Parsers
     module AWS
       module AutoScaling
-
         class DescribeAutoScalingNotificationTypes < Fog::Parsers::Base
-
           def reset
             @results = { 'AutoScalingNotificationTypes' => [] }
             @response = { 'DescribeAutoScalingNotificationTypesResult' => {}, 'ResponseMetadata' => {} }
@@ -35,7 +33,6 @@ module Fog
               @response['DescribeAutoScalingNotificationTypesResult'] = @results
             end
           end
-
         end
       end
     end

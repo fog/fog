@@ -2,7 +2,6 @@ module Fog
   module Storage
     class OpenStack
       class Real
-
         # Delete a static large object.
         #
         # Deletes the SLO manifest +object+ and all segments that it references.
@@ -36,7 +35,6 @@ module Fog
           response.body = Fog::JSON.decode(response.body)
           response
         end
-
       end
     end
   end

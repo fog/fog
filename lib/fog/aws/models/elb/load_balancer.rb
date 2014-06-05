@@ -2,9 +2,7 @@ require 'fog/core/model'
 module Fog
   module AWS
     class ELB
-
       class LoadBalancer < Fog::Model
-
         identity  :id,                    :aliases => 'LoadBalancerName'
         attribute :availability_zones,    :aliases => 'AvailabilityZones'
         attribute :created_at,            :aliases => 'CreatedTime'
@@ -206,7 +204,6 @@ module Fog
           requires :id
           service.delete_load_balancer(id)
         end
-
       end
     end
   end

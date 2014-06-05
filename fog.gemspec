@@ -6,8 +6,8 @@ Gem::Specification.new do |s|
   ## If your rubyforge_project name is different, then edit it and comment out
   ## the sub! line in the Rakefile
   s.name              = 'fog'
-  s.version           = '1.22.0'
-  s.date              = '2014-04-17'
+  s.version           = '1.22.1'
+  s.date              = '2014-05-29'
   s.rubyforge_project = 'fog'
 
   ## Make sure your summary is short. The description may be as long
@@ -62,6 +62,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency('fission')
   s.add_development_dependency('pry')
   s.add_development_dependency('google-api-client', '~> 0.6', '>= 0.6.2')
+  s.add_development_dependency('rubocop') if RUBY_VERSION > "1.9"
 
   if ENV["FOG_USE_LIBVIRT"]
     s.add_development_dependency('ruby-libvirt','~> 0.5.0')

@@ -4,9 +4,7 @@ require 'fog/cloudstack/models/compute/server'
 module Fog
   module Compute
     class Cloudstack
-
       class Servers < Fog::Collection
-
         model Fog::Compute::Cloudstack::Server
 
         def all(attributes={})
@@ -33,7 +31,6 @@ module Fog
           nil
         end
       end
-
     end
   end
 end

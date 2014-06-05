@@ -27,7 +27,7 @@ MESSAGE_FORMAT = {
 
 LIST_MESSAGES_FORMAT = {
  'messages' => [MESSAGE_FORMAT],
- 'links' => LINKS_FORMAT 
+ 'links' => LINKS_FORMAT
 }
 
 CREATE_CLAIM_FORMAT = [

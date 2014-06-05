@@ -4,9 +4,7 @@ require 'fog/vsphere/models/compute/datastore'
 module Fog
   module Compute
     class Vsphere
-
       class Datastores < Fog::Collection
-
         model Fog::Compute::Vsphere::Datastore
         attr_accessor :datacenter
 
@@ -18,7 +16,6 @@ module Fog
           requires :datacenter
           new service.get_datastore(id, datacenter)
         end
-
       end
     end
   end

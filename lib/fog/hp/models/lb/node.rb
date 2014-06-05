@@ -4,7 +4,6 @@ module Fog
   module HP
     class LB
       class Node < Fog::Model
-
         identity  :id
 
         attribute :address
@@ -46,7 +45,6 @@ module Fog
           service.update_load_balancer_node(load_balancer.id, id, condition)
           true
         end
-
       end
     end
   end

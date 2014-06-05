@@ -5,7 +5,6 @@ module Fog
   module Rackspace
     class Monitoring
       class AlarmExample < Fog::Rackspace::Monitoring::Base
-
         identity :id
 
         attribute :label
@@ -13,7 +12,6 @@ module Fog
         attribute :check_type
         attribute :criteria
         attribute :fields
-
 
         attribute :bound_criteria
 

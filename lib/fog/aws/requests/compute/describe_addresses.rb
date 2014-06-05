@@ -2,7 +2,6 @@ module Fog
   module Compute
     class AWS
       class Real
-
         require 'fog/aws/parsers/compute/describe_addresses'
 
         # Describe all or specified IP addresses.
@@ -31,11 +30,9 @@ module Fog
             :parser     => Fog::Parsers::Compute::AWS::DescribeAddresses.new
           }.merge!(params))
         end
-
       end
 
       class Mock
-
         def describe_addresses(filters = {})
           unless filters.is_a?(Hash)
             Fog::Logger.deprecation("describe_addresses with #{filters.class} param is deprecated, use describe_addresses('public-ip' => []) instead [light_black](#{caller.first})[/]")
@@ -59,7 +56,6 @@ module Fog
           }
           response
         end
-
       end
     end
   end

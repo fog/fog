@@ -2,7 +2,6 @@ module Fog
   module AWS
     class ELB
       class Real
-
         require 'fog/aws/parsers/elb/describe_instance_health'
 
         # Get health status for one or more instances on an existing ELB
@@ -30,7 +29,6 @@ module Fog
             :parser            => Fog::Parsers::AWS::ELB::DescribeInstanceHealth.new
           }.merge!(params))
         end
-
       end
 
       class Mock
@@ -38,7 +36,7 @@ module Fog
           raise Fog::AWS::ELB::NotFound unless load_balancer = self.data[:load_balancers][lb_name]
 
           instance_ids = [*instance_ids]
-          instance_ids = load_balancer['Instances'].collect { |i| i['InstanceId'] } unless instance_ids.any?
+          instance_ids = load_balancer['Instances'].map { |i| i['InstanceId'] } unless instance_ids.any?
           data = instance_ids.map do |id|
             unless Fog::Compute::AWS::Mock.data[@region][@aws_access_key_id][:instances][id]
               raise Fog::AWS::ELB::InvalidInstance

@@ -2,7 +2,6 @@ module Fog
   module Compute
     class Clodo
       class Real
-
         # List all images (IDs and names only)
         #
         # ==== Returns
@@ -19,11 +18,9 @@ module Fog
                   :path     => 'images'
                   )
         end
-
       end
 
       class Mock
-
         def list_images
           response = Excon::Response.new
           response.status = 200
@@ -41,7 +38,6 @@ module Fog
           }
           response
         end
-
       end
     end
   end

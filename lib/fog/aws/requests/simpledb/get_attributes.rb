@@ -2,7 +2,6 @@ module Fog
   module AWS
     class SimpleDB
       class Real
-
         require 'fog/aws/parsers/simpledb/get_attributes'
 
         # List metadata for SimpleDB domain
@@ -42,11 +41,9 @@ module Fog
             :parser           => Fog::Parsers::AWS::SimpleDB::GetAttributes.new(@nil_string)
           }.merge!(encode_attribute_names(options['AttributeName'])))
         end
-
       end
 
       class Mock
-
         def get_attributes(domain_name, item_name, options = {})
           if options.is_a?(Array)
             Fog::Logger.deprecation("get_attributes with array attributes param is deprecated, use 'AttributeName' => attributes) instead [light_black](#{caller.first})[/]")
@@ -58,7 +55,7 @@ module Fog
             object = {}
             if !options['AttributeName'].empty?
               for attribute in options['AttributeName']
-                if self.data[:domains][domain_name].has_key?(item_name) && self.data[:domains][domain_name][item_name].has_key?(attribute)
+                if self.data[:domains][domain_name].key?(item_name) && self.data[:domains][domain_name][item_name].key?(attribute)
                   object[attribute] = self.data[:domains][domain_name][item_name][attribute]
                 end
               end
@@ -77,7 +74,6 @@ module Fog
           end
           response
         end
-
       end
     end
   end

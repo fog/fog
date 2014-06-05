@@ -17,7 +17,6 @@ module Fog
           return nil if identifier.nil? || identifier == ""
           wrapped_request("post", "/1.0/cloud_ips/#{identifier}/map", [202], options)
         end
-
       end
     end
   end

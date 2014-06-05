@@ -2,7 +2,6 @@ module Fog
   module AWS
     class Elasticache
       class Real
-
         require 'fog/aws/parsers/elasticache/describe_cache_clusters'
 
         # Deletes a Cache Cluster
@@ -19,7 +18,6 @@ module Fog
             :parser => Fog::Parsers::AWS::Elasticache::DescribeCacheClusters.new
           )
         end
-
       end
 
       class Mock
@@ -35,7 +33,6 @@ module Fog
           response
         end
       end
-
     end
   end
 end

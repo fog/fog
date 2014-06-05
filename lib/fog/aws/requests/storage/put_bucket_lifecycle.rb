@@ -2,7 +2,6 @@ module Fog
   module Storage
     class AWS
       class Real
-
         # Change lifecycle configuration for an S3 bucket
         #
         # @param bucket_name [String] name of bucket to set lifecycle configuration for

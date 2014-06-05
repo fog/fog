@@ -2,7 +2,6 @@ module Fog
   module Compute
     class Ecloud
       class ComputePool < Fog::Ecloud::Model
-
         identity :href
 
         attribute :href,         :aliases => :Href

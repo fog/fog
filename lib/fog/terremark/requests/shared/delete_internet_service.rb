@@ -2,7 +2,6 @@ module Fog
   module Terremark
     module Shared
       module Real
-
         # Destroy an internet service
         #
         # ==== Parameters
@@ -16,7 +15,6 @@ module Fog
             :override_path => true
           )
         end
-
       end
     end
   end

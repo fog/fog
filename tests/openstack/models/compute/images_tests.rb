@@ -11,4 +11,3 @@ Shindo.tests("Fog::Compute[:openstack] | images collection", ['openstack']) do
 
   end
 end
-

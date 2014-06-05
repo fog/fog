@@ -20,7 +20,6 @@ Shindo.tests('Fog::Parsers', 'core') do
       when 'id'
         @my_array << value.to_i
       end
-
     end
   end
 

@@ -3,13 +3,10 @@ require 'fog/core/model'
 module Fog
   module Terremark
     module Shared
-
       class Image < Fog::Model
-
         identity :id
 
         attribute :name
-
       end
 
       private

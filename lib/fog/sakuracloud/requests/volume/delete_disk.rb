@@ -4,7 +4,6 @@ module Fog
   module Volume
     class SakuraCloud
       class Real
-
         def delete_disk( id )
           request(
             :headers => {

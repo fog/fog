@@ -4,9 +4,7 @@ require 'fog/hp/models/compute_v2/metadata'
 module Fog
   module Compute
     class HPV2
-
       class Server < Fog::Compute::Server
-
         identity  :id
 
         attribute :addresses
@@ -330,10 +328,7 @@ module Fog
           return '' if net.first.nil?
           net.first[0]
         end
-
       end
-
     end
   end
-
 end

@@ -2,7 +2,6 @@ module Fog
   module Storage
     class OpenStack
       class Real
-
         # Get details for object
         #
         # ==== Parameters
@@ -22,7 +21,6 @@ module Fog
 
           request(params, false)
         end
-
       end
     end
   end

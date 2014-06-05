@@ -1,14 +1,13 @@
 module Fog
   module Network
     class OpenStack
-
       class Real
         def update_subnet(subnet_id, options = {})
           data = { 'subnet' => {} }
 
           vanilla_options = [:name, :gateway_ip, :dns_nameservers,
                              :host_routes, :enable_dhcp]
-          vanilla_options.select{ |o| options.has_key?(o) }.each do |key|
+          vanilla_options.select{ |o| options.key?(o) }.each do |key|
             data['subnet'][key] = options[key]
           end
 
@@ -24,7 +23,7 @@ module Fog
       class Mock
         def update_subnet(subnet_id, options = {})
           response = Excon::Response.new
-          if subnet = list_subnets.body['subnets'].detect { |_| _['id'] == subnet_id }
+          if subnet = list_subnets.body['subnets'].find { |_| _['id'] == subnet_id }
             subnet['name']            = options[:name]
             subnet['gateway_ip']      = options[:gateway_ip]
             subnet['dns_nameservers'] = options[:dns_nameservers]
@@ -38,7 +37,6 @@ module Fog
           end
         end
       end
-
     end
   end
 end

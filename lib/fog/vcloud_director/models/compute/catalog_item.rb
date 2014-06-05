@@ -3,9 +3,7 @@ require 'fog/core/model'
 module Fog
   module Compute
     class VcloudDirector
-
       class CatalogItem < Model
-
         identity  :id
 
         attribute :name
@@ -19,7 +17,6 @@ module Fog
           service.process_task(response.body[:Tasks][:Task])
           response.body[:href].split('/').last # returns the vapp_id if it was instantiated successfully .
         end
-
       end
     end
   end

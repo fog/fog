@@ -15,7 +15,7 @@ module Fog
         def get(namespace, metric_name, dimensions=nil, period=nil, statistic=nil, unit=nil)
           list_opts = {'Namespace' => namespace, 'MetricName' => metric_name}
           if dimensions
-            dimensions_array = dimensions.collect do |name, value|
+            dimensions_array = dimensions.map do |name, value|
               {'Name' => name, 'Value' => value}
             end
             list_opts.merge!('Dimensions' => dimensions_array)
@@ -32,7 +32,6 @@ module Fog
           data = service.describe_alarms_for_metric(list_opts).body['DescribeAlarmsForMetricResult']['MetricAlarms']
           load(data)
         end
-
       end
     end
   end

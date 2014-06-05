@@ -4,9 +4,7 @@ require 'fog/aws/models/iam/access_key'
 module Fog
   module AWS
     class IAM
-
       class AccessKeys < Fog::Collection
-
         model Fog::AWS::IAM::AccessKey
 
         def initialize(attributes = {})
@@ -28,7 +26,6 @@ module Fog
         def new(attributes = {})
           super({ :username => @username }.merge!(attributes))
         end
-
       end
     end
   end

@@ -2,7 +2,6 @@ module Fog
   module Compute
     class AWS
       class Real
-
         require 'fog/aws/parsers/compute/describe_key_pairs'
 
         # Describe all or specified key pairs
@@ -31,11 +30,9 @@ module Fog
             :parser     => Fog::Parsers::Compute::AWS::DescribeKeyPairs.new
           }.merge!(params))
         end
-
       end
 
       class Mock
-
         def describe_key_pairs(filters = {})
           unless filters.is_a?(Hash)
             Fog::Logger.deprecation("describe_key_pairs with #{filters.class} param is deprecated, use describe_key_pairs('key-name' => []) instead [light_black](#{caller.first})[/]")
@@ -61,7 +58,6 @@ module Fog
           }
           response
         end
-
       end
     end
   end

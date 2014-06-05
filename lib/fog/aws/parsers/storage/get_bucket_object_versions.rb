@@ -2,9 +2,7 @@ module Fog
   module Parsers
     module Storage
       module AWS
-
         class GetBucketObjectVersions < Fog::Parsers::Base
-
           def reset
             @delete_marker = { 'Owner' => {} }
             @version = { 'Owner' => {} }
@@ -79,9 +77,7 @@ module Fog
               end[name] = value
             end
           end
-
         end
-
       end
     end
   end

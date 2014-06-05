@@ -1,7 +1,6 @@
 module Fog
   module Compute
     class Joyent
-
       class Mock
         def list_packages
           response = Excon::Response.new()
@@ -30,8 +29,6 @@ module Fog
           )
         end
       end # Real
-
     end
-
   end
 end

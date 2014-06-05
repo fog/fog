@@ -2,7 +2,6 @@ module Fog
   module Vcloud
     class Compute
       class CatalogItem < Fog::Vcloud::Model
-
         identity :href, :aliases => :Href
         attribute :links, :aliases => :Link, :type => :array
         ignore_attributes :xmlns, :xmlns_i, :xmlns_xsi, :xmlns_xsd

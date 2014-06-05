@@ -1,6 +1,5 @@
 class HP < Fog::Bin
   class << self
-
     def class_for(key)
       case key
       when :block_storage
@@ -57,6 +56,5 @@ class HP < Fog::Bin
     def services
       Fog::HP.services
     end
-
   end
 end

@@ -2,9 +2,7 @@ module Fog
   module Parsers
     module AWS
       module ELB
-
         class DescribeLoadBalancerPolicies < Fog::Parsers::Base
-
           def reset
             reset_policy
             reset_policy_attribute_description
@@ -55,9 +53,7 @@ module Fog
               @response['DescribeLoadBalancerPoliciesResult'] = @results
             end
           end
-
         end
-
       end
     end
   end

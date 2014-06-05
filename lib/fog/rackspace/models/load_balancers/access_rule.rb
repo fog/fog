@@ -4,7 +4,6 @@ module Fog
   module Rackspace
     class LoadBalancers
       class AccessRule < Fog::Model
-
         identity :id
 
         attribute :address

@@ -2,9 +2,7 @@ module Fog
   module AWS
     class ELB
       class Real
-
         require 'fog/aws/parsers/elb/empty'
-
 
         # Sets attributes of the load balancer
         #
@@ -34,7 +32,6 @@ module Fog
             :parser            => Fog::Parsers::AWS::ELB::Empty.new
           ))
         end
-
       end
 
       class Mock

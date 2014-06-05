@@ -2,7 +2,6 @@ module Fog
   module Compute
     class AWS
       class Real
-
         require 'fog/aws/parsers/compute/basic'
 
         # Add permissions to a security group
@@ -76,11 +75,9 @@ module Fog
           end
           params.reject {|k, v| v.nil? }
         end
-
       end
 
       class Mock
-
         def authorize_security_group_ingress(group_name, options = {})
           options = Fog::AWS.parse_security_group_options(group_name, options)
           if options.key?('GroupName')
@@ -141,7 +138,7 @@ module Fog
           if !is_vpc && (options['IpProtocol'] && (!options['FromPort'] || !options['ToPort']))
             raise Fog::Compute::AWS::Error.new("InvalidPermission.Malformed => TCP/UDP port (-1) out of range")
           end
-          if options.has_key?('IpPermissions')
+          if options.key?('IpPermissions')
             if !options['IpPermissions'].is_a?(Array) || options['IpPermissions'].empty?
               raise Fog::Compute::AWS::Error.new("InvalidRequest => The request received was invalid.")
             end
@@ -217,12 +214,11 @@ module Fog
         end
 
         def find_matching_permission(group, permission)
-          group['ipPermissions'].detect {|group_permission|
+          group['ipPermissions'].find {|group_permission|
             permission['ipProtocol'] == group_permission['ipProtocol'] &&
             permission['fromPort'] == group_permission['fromPort'] &&
             permission['toPort'] == group_permission['toPort'] }
         end
-
       end
     end
   end

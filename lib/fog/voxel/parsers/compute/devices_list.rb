@@ -2,9 +2,7 @@ module Fog
   module Parsers
     module Compute
       module Voxel
-
         class DevicesList < Fog::Parsers::Base
-
           def reset
             @device          = {}
             @response        = { 'devices' => [] }
@@ -102,9 +100,7 @@ module Fog
               @access_method[name] = value
             end
           end
-
         end
-
       end
     end
   end

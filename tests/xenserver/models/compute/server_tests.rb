@@ -7,7 +7,7 @@ Shindo.tests('Fog::Compute[:xenserver] | server model', ['xenserver']) do
   (servers.all :name_matches => test_ephemeral_vm_name).each do |s|
     s.destroy
   end
-  (servers.templates.find_all { |t| t.name == test_ephemeral_vm_name}).each do |s|
+  (servers.templates.select { |t| t.name == test_ephemeral_vm_name}).each do |s|
     s.destroy
   end
 
@@ -70,7 +70,7 @@ Shindo.tests('Fog::Compute[:xenserver] | server model', ['xenserver']) do
       end
       tests("The attributes hash should have key") do
         attributes.each do |attribute|
-          test("#{attribute}") { model_attribute_hash.has_key? attribute }
+          test("#{attribute}") { model_attribute_hash.key? attribute }
         end
       end
     end

@@ -24,7 +24,6 @@ module Fog
       request :get_change
 
       class Mock
-
         def self.data
           @data ||= Hash.new do |hash, region|
             hash[region] = Hash.new do |region_hash, key|

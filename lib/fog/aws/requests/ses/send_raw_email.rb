@@ -2,7 +2,6 @@ module Fog
   module AWS
     class SES
       class Real
-
         require 'fog/aws/parsers/ses/send_raw_email'
 
         # Send a raw email
@@ -21,10 +20,10 @@ module Fog
         #       * 'RequestId'<~String> - Id of request
         def send_raw_email(raw_message, options = {})
           params = {}
-          if options.has_key?('Destinations')
+          if options.key?('Destinations')
             params.merge!(Fog::AWS.indexed_param('Destinations.member', [*options['Destinations']]))
           end
-          if options.has_key?('Source')
+          if options.key?('Source')
             params['Source'] = options['Source']
           end
 
@@ -34,7 +33,6 @@ module Fog
             :parser           => Fog::Parsers::AWS::SES::SendRawEmail.new
           }.merge(params))
         end
-
       end
     end
   end

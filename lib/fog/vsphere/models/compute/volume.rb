@@ -1,7 +1,6 @@
 module Fog
   module Compute
     class Vsphere
-
       class Volume < Fog::Model
         DISK_SIZE_TO_GB = 1048576
         identity :id
@@ -49,7 +48,7 @@ module Fog
           requires :server_id, :size, :datastore
 
           if unit_number.nil?
-            used_unit_numbers = server.volumes.collect { |volume| volume.unit_number }
+            used_unit_numbers = server.volumes.map { |volume| volume.unit_number }
             max_unit_number = used_unit_numbers.max
 
             if max_unit_number > server.volumes.size

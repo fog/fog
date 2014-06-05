@@ -4,7 +4,6 @@ module Fog
   module Compute
     class RackspaceV2
       class Attachment < Fog::Model
-
         # @!attribute [r] server_id
         # @return [String] The server id
         attribute :server_id, :aliases => 'serverId'
@@ -50,9 +49,9 @@ module Fog
           service.delete_attachment(server_id, volume_id)
           true
         end
-        alias :detach :destroy
+        alias_method :detach, :destroy
 
-      private
+        private
         def server
           collection.server
         end

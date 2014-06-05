@@ -2,7 +2,6 @@ module Fog
   module AWS
     class CloudFormation
       class Real
-
         require 'fog/aws/parsers/cloud_formation/validate_template'
 
         # Describe stacks.
@@ -24,7 +23,6 @@ module Fog
             :parser     => Fog::Parsers::AWS::CloudFormation::ValidateTemplate.new
           }.merge!(options))
         end
-
       end
     end
   end

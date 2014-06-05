@@ -2,7 +2,6 @@ module Fog
   module Compute
     class AWS
       class Real
-
         require 'fog/aws/parsers/compute/run_instances'
 
         # Launch specified instances
@@ -27,7 +26,8 @@ module Fog
         #     * 'VirtualName'<~String> - volume virtual device name
         #     * 'Ebs.SnapshotId'<~String> - id of snapshot to boot volume from
         #     * 'Ebs.VolumeSize'<~String> - size of volume in GiBs required unless snapshot is specified
-        #     * 'Ebs.DeleteOnTermination'<~String> - specifies whether or not to delete the volume on instance termination
+        #     * 'Ebs.DeleteOnTermination'<~Boolean> - specifies whether or not to delete the volume on instance termination
+        #     * 'Ebs.Encrypted'<~Boolean> - specifies whether or not the volume is to be encrypted unless snapshot is specified
         #     * 'Ebs.VolumeType'<~String> - Type of EBS volue. Valid options in ['standard', 'io1'] default is 'standard'.
         #     * 'Ebs.Iops'<~String> - The number of I/O operations per second (IOPS) that the volume supports. Required when VolumeType is 'io1'
         #   * 'NetworkInterfaces'<~Array>: array of hashes
@@ -145,11 +145,9 @@ module Fog
             :parser     => Fog::Parsers::Compute::AWS::RunInstances.new
           }.merge!(options))
         end
-
       end
 
       class Mock
-
         def run_instances(image_id, min_count, max_count, options = {})
           response = Excon::Response.new
           response.status = 200
@@ -166,7 +164,7 @@ module Fog
             instance_id = Fog::AWS::Mock.instance_id
             availability_zone = options['Placement.AvailabilityZone'] || Fog::AWS::Mock.availability_zone(@region)
 
-            block_device_mapping = (options['BlockDeviceMapping'] || []).inject([]) do |mapping, device|
+            block_device_mapping = (options['BlockDeviceMapping'] || []).reduce([]) do |mapping, device|
               device_name           = device.fetch("DeviceName", "/dev/sda1")
               volume_size           = device.fetch("Ebs.VolumeSize", 15)            # @todo should pull this from the image
               delete_on_termination = device.fetch("Ebs.DeleteOnTermination", true) # @todo should pull this from the image
@@ -194,7 +192,7 @@ module Fog
               network_interface_id = create_network_interface(options['SubnetId'], ni_options).body['networkInterface']['networkInterfaceId']
             end
 
-            network_interfaces = (options['NetworkInterfaces'] || []).inject([]) do |mapping, device|
+            network_interfaces = (options['NetworkInterfaces'] || []).reduce([]) do |mapping, device|
               device_index          = device.fetch("DeviceIndex", 0)
               subnet_id             = device.fetch("SubnetId", options[:subnet_id] ||  Fog::AWS::Mock.subnet_id)
               private_ip_address    = device.fetch("PrivateIpAddress", options[:private_ip_address] || Fog::AWS::Mock.private_ip_address)
@@ -269,7 +267,6 @@ module Fog
           }
           response
         end
-
       end
     end
   end

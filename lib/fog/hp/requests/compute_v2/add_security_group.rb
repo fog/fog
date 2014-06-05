@@ -2,7 +2,6 @@ module Fog
   module Compute
     class HPV2
       class Real
-
         # Add an existing security group to an existing server
         #
         # ==== Parameters
@@ -13,11 +12,9 @@ module Fog
           body = { 'addSecurityGroup' => { 'name' => sg_name }}
           server_action(server_id, body)
         end
-
       end
 
       class Mock
-
         def add_security_group(server_id, sg_name)
           response = Excon::Response.new
           if server = self.data[:servers][server_id]
@@ -33,7 +30,6 @@ module Fog
           end
           response
         end
-
       end
     end
   end

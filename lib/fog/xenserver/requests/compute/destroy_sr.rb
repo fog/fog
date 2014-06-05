@@ -1,9 +1,7 @@
 module Fog
   module Compute
     class XenServer
-
       class Real
-
         #
         # Destroy a Storage Repository
         #
@@ -15,15 +13,12 @@ module Fog
             sr_ref
           )
         end
-
       end
 
       class Mock
-
         def destroy_sr( sr_ref )
           Fog::Mock.not_implemented
         end
-
       end
     end
   end

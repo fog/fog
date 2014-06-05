@@ -3,9 +3,7 @@ require 'fog/core/model'
 module Fog
   module DNS
     class Dreamhost
-
       class Record < Fog::Model
-
         identity  :name, :aliases => 'record'
 
         attribute :value
@@ -27,9 +25,7 @@ module Fog
           merge_attributes(data)
           true
         end
-
       end
-
     end
   end
 end

@@ -81,5 +81,3 @@ server.metadata.reload
 print_metadata(server)
 
 puts "To delete the server please execute the delete_server.rb script\n\n"
-
-

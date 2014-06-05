@@ -4,7 +4,6 @@ require 'fog/aws/models/elasticache/parameter_group'
 module Fog
   module AWS
     class Elasticache
-
       class ParameterGroups < Fog::Collection
         model Fog::AWS::Elasticache::ParameterGroup
 
@@ -24,7 +23,6 @@ module Fog
           nil
         end
       end
-
     end
   end
 end

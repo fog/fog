@@ -28,15 +28,10 @@
 #     </Item>
 # </RasdItemsList>
 
-
-
-
-
 module Fog
   module Vcloud
     class Compute
       class Real
-
         def generate_configure_vm_disks_request(href, disk_data)
           xmlns = {
             "xmlns:rasd" => "http://schemas.dmtf.org/wbem/wscim/1/cim-schema/2/CIM_ResourceAllocationSettingData",
@@ -66,7 +61,7 @@ module Fog
             add_disk_numbers.each do |number|
               new_disk = real_disks.first.dup
               new_disk.at('.//rasd:AddressOnParent', xmlns).content = number.to_i #-1
-              new_disk.at('.//rasd:HostResource', xmlns)["vcloud:capacity"] = disk_data.detect { |disk| disk[:'rasd:AddressOnParent'].to_s == number.to_s }[:'rasd:HostResource'][:vcloud_capacity].to_s
+              new_disk.at('.//rasd:HostResource', xmlns)["vcloud:capacity"] = disk_data.find { |disk| disk[:'rasd:AddressOnParent'].to_s == number.to_s }[:'rasd:HostResource'][:vcloud_capacity].to_s
               # nokogiri bug? shouldn't need to add this explicitly.
               new_disk.at('.//rasd:HostResource', xmlns)["xmlns:vcloud"] = xmlns['xmlns']
               new_disk.at('.//rasd:InstanceID', xmlns).content = (2000 + number.to_i).to_s
@@ -92,9 +87,7 @@ module Fog
             :parse    => true
           )
         end
-
       end
-
     end
   end
 end

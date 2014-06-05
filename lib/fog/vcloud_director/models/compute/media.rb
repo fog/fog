@@ -3,9 +3,7 @@ require 'fog/core/model'
 module Fog
   module Compute
     class VcloudDirector
-
       class Media < Model
-
         identity  :id
 
         attribute :href
@@ -22,7 +20,6 @@ module Fog
           response = service.delete_media(id)
           service.process_task(response.body)
         end
-
       end
     end
   end

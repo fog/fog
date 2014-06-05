@@ -4,9 +4,7 @@ require 'fog/openstack/models/compute/metadata'
 module Fog
   module Compute
     class OpenStack
-
       class Host < Fog::Model
-
         attribute :host_name
         attribute :service_name
         attribute :details
@@ -24,10 +22,7 @@ module Fog
         rescue Fog::Compute::OpenStack::NotFound
           nil
         end
-
       end
-
     end
   end
-
 end

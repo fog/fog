@@ -136,9 +136,7 @@ module Fog
                     Fog::AWS::STS::Error.slurp(error, "#{match[:code]} => #{match[:message]}")
                   end
           end
-
         end
-
       end
     end
   end

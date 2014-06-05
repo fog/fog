@@ -4,7 +4,6 @@ require 'fog/google/models/storage/file'
 module Fog
   module Storage
     class Google
-
       class Files < Fog::Collection
         extend Fog::Deprecation
         deprecate :get_url, :get_https_url
@@ -41,7 +40,7 @@ module Fog
           end
         end
 
-        alias :each_file_this_page :each
+        alias_method :each_file_this_page, :each
         def each
           if !block_given?
             self
@@ -95,9 +94,7 @@ module Fog
           requires :directory
           super({ :directory => directory }.merge(attributes))
         end
-
       end
-
     end
   end
 end

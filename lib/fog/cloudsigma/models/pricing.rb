@@ -13,7 +13,6 @@ module Fog
         model_attribute :ssd, PriceRecord
         model_attribute :tx, PriceRecord
         model_attribute :vlan, PriceRecord
-
       end
     end
   end

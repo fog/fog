@@ -4,9 +4,7 @@ require 'fog/glesys/models/compute/server'
 module Fog
   module Compute
     class Glesys
-
         class Servers < Fog::Collection
-
         model Fog::Compute::Glesys::Server
 
         def all
@@ -38,9 +36,7 @@ module Fog
             return nil
           end
         end
-
       end
-
     end
   end
 end

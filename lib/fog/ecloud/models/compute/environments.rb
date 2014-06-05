@@ -3,9 +3,7 @@ require 'fog/ecloud/models/compute/environment'
 module Fog
   module Compute
     class Ecloud
-
       class Environments < Fog::Ecloud::Collection
-
         model Fog::Compute::Ecloud::Environment
 
         undef_method :create
@@ -35,7 +33,6 @@ module Fog
         end
 
         Vdcs = Environments
-
       end
     end
   end

@@ -2,7 +2,6 @@ module Fog
   module Compute
     class HPV2
       class Real
-
         # Retrieve console output for specified instance
         #
         # ==== Parameters
@@ -17,15 +16,13 @@ module Fog
           body = { 'os-getConsoleOutput' => { 'length' => num_lines }}
           server_action(server_id, body, 200)
         end
-
       end
 
       class Mock
-
         def get_console_output(server_id, num_lines)
           output = ""
           response = Excon::Response.new
-          if list_servers_detail.body['servers'].detect {|_| _['id'] == server_id}
+          if list_servers_detail.body['servers'].find {|_| _['id'] == server_id}
             (1..num_lines).each {|i| output += "Console Output Line #{i} \r\n"}
             response.body = { 'output' => output }
             response.status = 200
@@ -34,7 +31,6 @@ module Fog
           end
           response
         end
-
       end
     end
   end

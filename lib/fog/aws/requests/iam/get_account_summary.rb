@@ -2,7 +2,6 @@ module Fog
   module AWS
     class IAM
       class Real
-
         require 'fog/aws/parsers/iam/get_account_summary'
 
         # Retrieve account level information about account entity usage and IAM quotas
@@ -43,11 +42,9 @@ module Fog
             :parser     => Fog::Parsers::AWS::IAM::GetAccountSummary.new
             )
         end
-
       end
 
       class Mock
-
         def get_account_summary
           Excon::Response.new.tap do |response|
             response.status = 200
@@ -72,9 +69,7 @@ module Fog
             }
           end
         end
-
       end
-
     end
   end
 end

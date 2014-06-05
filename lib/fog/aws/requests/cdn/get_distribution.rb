@@ -2,7 +2,6 @@ module Fog
   module CDN
     class AWS
       class Real
-
         require 'fog/aws/parsers/cdn/distribution'
 
         # Get information about a distribution from CloudFront.
@@ -47,11 +46,9 @@ module Fog
             :path       => "/distribution/#{distribution_id}"
           })
         end
-
       end
 
       class Mock
-
         def get_distribution(distribution_id)
           response = Excon::Response.new
 
@@ -76,7 +73,6 @@ module Fog
           response
         end
       end
-
     end
   end
 end

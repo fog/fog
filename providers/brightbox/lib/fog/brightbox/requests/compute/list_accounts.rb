@@ -10,7 +10,6 @@ module Fog
         def list_accounts
           wrapped_request("get", "/1.0/accounts", [200])
         end
-
       end
     end
   end

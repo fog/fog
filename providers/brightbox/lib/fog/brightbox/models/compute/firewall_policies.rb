@@ -4,9 +4,7 @@ require 'fog/brightbox/models/compute/firewall_policy'
 module Fog
   module Compute
     class Brightbox
-
       class FirewallPolicies < Fog::Collection
-
         model Fog::Compute::Brightbox::FirewallPolicy
 
         def all
@@ -21,9 +19,7 @@ module Fog
         rescue Excon::Errors::NotFound
           nil
         end
-
       end
-
     end
   end
 end

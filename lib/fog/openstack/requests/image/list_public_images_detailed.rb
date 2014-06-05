@@ -3,7 +3,6 @@ module Fog
     class OpenStack
       class Real
         def list_public_images_detailed(attribute=nil, query=nil)
-
           if attribute
             path = "images/detail?#{attribute}=#{URI::encode(query)}"
           else

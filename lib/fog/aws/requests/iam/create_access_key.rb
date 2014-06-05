@@ -2,7 +2,6 @@ module Fog
   module AWS
     class IAM
       class Real
-
         require 'fog/aws/parsers/iam/create_access_key'
 
         # Create a access keys for user (by default detects user from access credentials)
@@ -30,14 +29,13 @@ module Fog
             :parser     => Fog::Parsers::AWS::IAM::CreateAccessKey.new
           }.merge!(options))
         end
-
       end
       class Mock
         def create_access_key(options)
           #FIXME: Not 100% correct as AWS will use the signing credentials when there is no 'UserName' in the options hash
           #       Also doesn't raise an error when there are too many keys
           if user = options['UserName']
-            if data[:users].has_key? user
+            if data[:users].key? user
               access_keys_data = data[:users][user][:access_keys]
             else
               raise Fog::AWS::IAM::NotFound.new('The user with name #{user_name} cannot be found.')

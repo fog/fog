@@ -2,7 +2,6 @@ module Fog
   module CDN
     class AWS
       class Real
-
         require 'fog/aws/parsers/cdn/streaming_distribution'
 
         # Update a streaming distribution in CloudFront.
@@ -74,11 +73,9 @@ module Fog
             :path       => "/streaming-distribution/#{distribution_id}/config"
           })
         end
-
       end
 
       class Mock
-
         def put_streaming_distribution_config(distribution_id, etag, options = {})
           distribution = self.data[:streaming_distributions][distribution_id]
 
@@ -103,7 +100,6 @@ module Fog
           end
         end
       end
-
     end
   end
 end

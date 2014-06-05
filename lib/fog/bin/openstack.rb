@@ -1,6 +1,5 @@
 class OpenStack < Fog::Bin
   class << self
-
     def class_for(key)
       case key
       when :compute
@@ -61,6 +60,5 @@ class OpenStack < Fog::Bin
     def services
       Fog::OpenStack.services
     end
-
   end
 end

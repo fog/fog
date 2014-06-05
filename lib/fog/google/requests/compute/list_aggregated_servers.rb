@@ -1,7 +1,6 @@
 module Fog
   module Compute
     class Google
-
       class Mock
         def list_aggregated_servers(options = {})
           # Create a Hash of unique zones from the servers Array previously filled when servers are created
@@ -37,7 +36,6 @@ module Fog
           response = self.build_response(result)
         end
       end
-
     end
   end
 end

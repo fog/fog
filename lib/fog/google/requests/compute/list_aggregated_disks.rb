@@ -1,7 +1,6 @@
 module Fog
   module Compute
     class Google
-
       class Mock
         def list_aggregated_disks(options = {})
           # Create a Hash of unique zones from the disks Array previously filled when disks are created
@@ -37,7 +36,6 @@ module Fog
           response = self.build_response(result)
         end
       end
-
     end
   end
 end

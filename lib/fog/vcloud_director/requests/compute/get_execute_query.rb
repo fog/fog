@@ -103,7 +103,7 @@ module Fog
             #    "#{response.body[:name]}Record".to_sym
 
             %w[firstPage previousPage nextPage lastPage].each do |rel|
-              if link = response.body[:Link].detect {|l| l[:rel] == rel}
+              if link = response.body[:Link].find {|l| l[:rel] == rel}
                 href = Nokogiri::XML.fragment(link[:href])
                 query = CGI.parse(URI.parse(href.text).query)
                 response.body[rel.to_sym] = query['page'].first.to_i
@@ -118,7 +118,6 @@ module Fog
 
       class Mock
         def get_execute_query(type=nil, options={})
-
           unless options[:fields].nil?
             Fog::Mock.not_implemented("Fields are not yet implemented in get_execute_query Mock for #{type}")
           end
@@ -158,13 +157,11 @@ module Fog
             :headers => {'Content-Type' => "#{body[:type]};version=#{api_version}"},
             :body    => body
           )
-
         end
 
         private
 
         def fetch_items(type, opts)
-
           if opts.key?(:filter) && opts[:filter] =~ /^name==([^;,]+)$/
             name = $1
           elsif opts.key?(:filter)
@@ -555,7 +552,6 @@ module Fog
             ]
           }
         end
-
       end
     end
   end

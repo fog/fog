@@ -1,9 +1,7 @@
 module Fog
   module AWS
     class AutoScaling
-
       class Real
-
         require 'fog/aws/parsers/auto_scaling/describe_notification_configurations'
 
         # Returns a list of notification actions associated with Auto Scaling
@@ -44,11 +42,9 @@ module Fog
             :parser  => Fog::Parsers::AWS::AutoScaling::DescribeNotificationConfigurations.new
           }.merge!(options))
         end
-
       end
 
       class Mock
-
         def describe_notification_configurations(options = {})
           results = { 'NotificationConfigurations' => [] }
           (options['AutoScalingGroupNames']||self.data[:notification_configurations].keys).each do |asg_name|
@@ -71,9 +67,7 @@ module Fog
           }
           response
         end
-
       end
-
     end
   end
 end

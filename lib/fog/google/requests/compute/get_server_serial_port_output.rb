@@ -1,7 +1,6 @@
 module Fog
   module Compute
     class Google
-
       class Mock
         def get_server_serial_port_output(identity, zone)
           Fog::Mock.not_implemented
@@ -21,7 +20,6 @@ module Fog
           response = self.build_response(result)
         end
       end
-
     end
   end
 end

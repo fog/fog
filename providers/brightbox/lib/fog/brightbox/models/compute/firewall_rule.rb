@@ -3,9 +3,7 @@ require 'fog/core/model'
 module Fog
   module Compute
     class Brightbox
-
       class FirewallRule < Fog::Model
-
         identity :id
         attribute :url
         attribute :resource_type
@@ -46,9 +44,7 @@ module Fog
           service.destroy_firewall_rule(identity)
           true
         end
-
       end
-
     end
   end
 end

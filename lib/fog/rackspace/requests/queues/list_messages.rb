@@ -1,9 +1,7 @@
 module Fog
   module Rackspace
     class Queues
-
       class Real
-
         # This operation gets the message or messages in the specified queue.
         #
         # A request to list messages when the queue is not found or when messages are not found returns 204, instead of 200, because there was no information to send back.
@@ -70,7 +68,6 @@ module Fog
           response
         end
       end
-
     end
   end
 end

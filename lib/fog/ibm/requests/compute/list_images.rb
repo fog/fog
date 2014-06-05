@@ -2,7 +2,6 @@ module Fog
   module Compute
     class IBM
       class Real
-
         # Returns the list of Images available to be provisioned on the IBM DeveloperCloud.
         #
         # ==== Parameters
@@ -40,18 +39,15 @@ module Fog
             :path     => '/offerings/image'
           )
         end
-
       end
 
       class Mock
-
         def list_images
           response = Excon::Response.new
           response.status = 200
           response.body = {'images' => self.data[:images].values}
           response
         end
-
       end
     end
   end

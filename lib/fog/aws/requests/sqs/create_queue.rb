@@ -2,7 +2,6 @@ module Fog
   module AWS
     class SQS
       class Real
-
         require 'fog/aws/parsers/sqs/create_queue'
 
         # Create a queue
@@ -23,7 +22,6 @@ module Fog
             :parser     => Fog::Parsers::AWS::SQS::CreateQueue.new
           }.merge!(options))
         end
-
       end
 
       class Mock
@@ -57,7 +55,6 @@ module Fog
               'QueueUrl' => queue_url
             }
           end
-
         end
       end
     end

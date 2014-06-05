@@ -2,7 +2,6 @@ module Fog
   module AWS
     class SNS
       class Real
-
         require 'fog/aws/parsers/sns/confirm_subscription'
 
         # Confirm a subscription
@@ -25,9 +24,7 @@ module Fog
             :parser     => Fog::Parsers::AWS::SNS::ConfirmSubscription.new
           }.merge!(options))
         end
-
       end
-
     end
   end
 end

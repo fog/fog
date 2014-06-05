@@ -1,7 +1,6 @@
 module Fog
   module Compute
     class Ecloud
-
       class Real
         def get_virtual_machine_assigned_ips(virtual_machine_id)
           request(
@@ -20,7 +19,6 @@ module Fog
 
           networks = self.data[:networks].values.select{|n| n[:environment_id] == environment_id}
           networks = networks.map{|n| deep_copy(Fog::Ecloud.slice(n, :environment, :id))}
-
 
           networks.each do |network|
             address = network[:IpAddresses][:IpAddress].map{|ia| ia[:name]}

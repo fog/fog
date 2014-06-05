@@ -4,7 +4,6 @@ module Fog
   module Compute
     class SakuraCloud
       class Real
-
         def boot_server( id )
           request(
             :headers => {

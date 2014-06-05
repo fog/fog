@@ -2,7 +2,6 @@ module Fog
   module Generators
     module Compute
       module VcloudDirector
-
         # @see http://pubs.vmware.com/vcd-51/topic/com.vmware.vcloud.api.reference.doc_51/doc/types/VAppType.html
         class Vapp
           attr_reader :name, :options
@@ -22,7 +21,6 @@ module Fog
               }
             end.to_xml
           end
-
         end
       end
     end

@@ -1,9 +1,7 @@
 module Fog
   module Compute
     class  XenServer
-
       class Real
-
         #
         # Puts the host into a state in which no new VMs can be started.
         # Currently active VMs on the host continue to execute.
@@ -13,17 +11,13 @@ module Fog
         def disable_host( ref )
           @connection.request({:parser => Fog::Parsers::XenServer::Base.new, :method => "host.disable"}, ref)
         end
-
       end
 
       class Mock
-
         def disable_host( ref )
           Fog::Mock.not_implemented
         end
-
       end
-
     end
   end
 end

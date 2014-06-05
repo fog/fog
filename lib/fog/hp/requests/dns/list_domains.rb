@@ -20,7 +20,6 @@ module Fog
               :path    => 'domains'
           )
         end
-
       end
 
       class Mock
@@ -31,7 +30,6 @@ module Fog
           response.body = { 'domains' => domains }
           response
         end
-
       end
     end
   end

@@ -2,7 +2,6 @@ module Fog
   module DNS
     class DNSimple
       class Real
-
         # Update the given record for the given domain.
         #
         # ==== Parameters
@@ -30,13 +29,11 @@ module Fog
             :path     => "/domains/#{domain}/records/#{record_id}"
           )
         end
-
       end
 
       class Mock
-
         def update_record(domain, record_id, options)
-          record = self.data[:records][domain].detect { |record| record["record"]["id"] == record_id }
+          record = self.data[:records][domain].find { |record| record["record"]["id"] == record_id }
           response = Excon::Response.new
 
           if record.nil?
@@ -50,7 +47,6 @@ module Fog
 
           response
         end
-
       end
     end
   end

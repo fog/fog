@@ -1,7 +1,6 @@
 module Fog
   module Ecloud
     class Model < Fog::Model
-
       attr_accessor :loaded
       alias_method :loaded?, :loaded
 
@@ -16,7 +15,6 @@ module Fog
           reload
         end
       end
-
     end
   end
 end

@@ -2,7 +2,6 @@ module Fog
   module Terremark
     module Shared
       module Real
-
         # Reserve requested resources and deploy vApp
         #
         # ==== Parameters
@@ -27,7 +26,7 @@ module Fog
         #       * 'name'<~String> - name of owner
         #       * 'type'<~String> - type of owner
         def add_node_service(service_id, ip, name, port, options = {})
-          unless options.has_key?('Enabled')
+          unless options.key?('Enabled')
             options['Enabled'] = true
           end
 
@@ -46,7 +45,6 @@ module Fog
 
           response
         end
-
       end
     end
   end

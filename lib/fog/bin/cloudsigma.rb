@@ -1,6 +1,5 @@
 class CloudSigma < Fog::Bin
   class << self
-
     def class_for(key)
       case key
         when :compute

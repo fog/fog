@@ -3,9 +3,7 @@ require 'fog/core/model'
 module Fog
   module AWS
     class RDS
-
       class Parameter < Fog::Model
-
         attribute  :name, :aliases => ['ParameterName']
         attribute  :data_type, :aliases => 'DataType'
         attribute  :description, :aliases => 'Description'
@@ -14,7 +12,6 @@ module Fog
         attribute  :modifiable, :aliases => 'IsModifiable'
         attribute  :apply_type, :aliases => 'ApplyType'
         attribute  :value, :aliases => 'ParameterValue'
-
       end
     end
   end

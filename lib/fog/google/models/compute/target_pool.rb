@@ -3,9 +3,7 @@ require 'fog/core/model'
 module Fog
   module Compute
     class Google
-
       class TargetPool < Fog::Model
-
         identity :name
 
         attribute :kind, :aliases => 'kind'
@@ -19,7 +17,6 @@ module Fog
         attribute :session_affinity, :aliases => "sessionAffinity"
         attribute :failover_ratio, :aliases => "failoverRatio"
         attribute :backup_pool, :aliases => "backupPool"
-
 
         def save
           requires :name, :region

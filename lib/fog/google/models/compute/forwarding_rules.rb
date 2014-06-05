@@ -4,9 +4,7 @@ require 'fog/google/models/compute/forwarding_rule'
 module Fog
   module Compute
     class Google
-
       class ForwardingRules < Fog::Collection
-
         model Fog::Compute::Google::ForwardingRule
 
         def all(filters={})
@@ -37,9 +35,7 @@ module Fog
           return nil if response.nil?
           new(response.body)
         end
-
       end
-
     end
   end
 end

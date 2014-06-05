@@ -2,7 +2,6 @@ module Fog
   module CDN
     class AWS
       class Real
-
         require 'fog/aws/parsers/cdn/distribution'
 
         # Update a distribution in CloudFront.
@@ -85,11 +84,9 @@ module Fog
             :path       => "/distribution/#{distribution_id}/config"
           })
         end
-
       end
 
       class Mock
-
         def put_distribution_config(distribution_id, etag, options = {})
           distribution = self.data[:distributions][distribution_id]
 
@@ -114,7 +111,6 @@ module Fog
           end
         end
       end
-
     end
   end
 end

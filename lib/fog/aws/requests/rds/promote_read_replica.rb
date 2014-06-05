@@ -2,7 +2,6 @@ module Fog
   module AWS
     class RDS
       class Real
-
         require 'fog/aws/parsers/rds/promote_read_replica'
 
         # promote a read replica to a writable RDS instance
@@ -31,13 +30,10 @@ module Fog
             :parser   => Fog::Parsers::AWS::RDS::PromoteReadReplica.new
           }.merge(params))
         end
-
       end
 
       class Mock
-
         def promote_read_replica(identifier, backup_retention_period = nil, preferred_backup_window = nil)
-
           if self.data[:servers][identifier]
             data = {
                 'BackupRetentionPeriod' => backup_retention_period || 1,
@@ -57,7 +53,6 @@ module Fog
             raise Fog::AWS::RDS::NotFound.new("DBInstance #{identifier} not found")
           end
         end
-
       end
     end
   end

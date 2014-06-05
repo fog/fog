@@ -2,9 +2,7 @@ module Fog
   module Parsers
     module AWS
       module CloudFormation
-
         class ListStackResources < Fog::Parsers::Base
-
           def reset
             @resource = {}
             @response = { 'StackResourceSummaries' => [] }

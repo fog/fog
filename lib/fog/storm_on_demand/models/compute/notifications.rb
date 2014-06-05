@@ -4,7 +4,6 @@ require 'fog/storm_on_demand/models/compute/notification'
 module Fog
   module Compute
     class StormOnDemand
-
       class Notifications < Fog::Collection
         model Fog::Compute::StormOnDemand::Notification
 
@@ -22,9 +21,7 @@ module Fog
           data = service.get_notification(options).body
           new(data)
         end
-
       end
-
     end
   end
 end

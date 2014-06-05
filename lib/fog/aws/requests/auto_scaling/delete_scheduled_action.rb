@@ -1,9 +1,7 @@
 module Fog
   module AWS
     class AutoScaling
-
       class Real
-
         require 'fog/aws/parsers/auto_scaling/basic'
 
         # Deletes a scheduled action previously created using the
@@ -32,17 +30,13 @@ module Fog
             :parser                => Fog::Parsers::AWS::AutoScaling::Basic.new
           })
         end
-
       end
 
       class Mock
-
         def delete_scheduled_action(auto_scaling_group_name, scheduled_action_name)
           Fog::Mock.not_implemented
         end
-
       end
-
     end
   end
 end

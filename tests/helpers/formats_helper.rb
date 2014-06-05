@@ -26,7 +26,6 @@ end
 
 module Shindo
   class Tests
-
     # Generates a Shindo test that compares a hash schema to the result
     # of the passed in block returning true if they match.
     #

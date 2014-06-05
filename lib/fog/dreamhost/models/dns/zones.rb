@@ -4,7 +4,6 @@ require 'fog/dreamhost/models/dns/zone'
 module Fog
   module DNS
     class Dreamhost
-
       #
       # Dreamhost API has no concept of 'Zone', but we
       # can emulate it.
@@ -12,7 +11,6 @@ module Fog
       # http://wiki.dreamhost.com/API/Dns_commands
       #
       class Zones < Fog::Collection
-
         model Fog::DNS::Dreamhost::Zone
 
         def all
@@ -33,9 +31,7 @@ module Fog
         rescue Excon::Errors::NotFound
           nil
         end
-
       end
-
     end
   end
 end

@@ -4,7 +4,6 @@ require 'fog/aws/models/compute/flavor'
 module Fog
   module Compute
     class AWS
-
       FLAVORS = [
         {
           :id                      => 't1.micro',
@@ -309,7 +308,6 @@ module Fog
       ]
 
       class Flavors < Fog::Collection
-
         model Fog::Compute::AWS::Flavor
 
         # Returns an array of all flavors that have been created
@@ -520,11 +518,9 @@ module Fog
         #
 
         def get(flavor_id)
-          self.class.new(:service => service).all.detect {|flavor| flavor.id == flavor_id}
+          self.class.new(:service => service).all.find {|flavor| flavor.id == flavor_id}
         end
-
       end
-
     end
   end
 end

@@ -2,7 +2,6 @@ module Fog
   module DNS
     class Dynect
       class Real
-
         # Get one or more node lists
         #
         # ==== Parameters
@@ -31,9 +30,9 @@ module Fog
           data = [zone[:zone]]
 
           if fqdn = options[:fqdn]
-            data = data | zone[:records].collect { |type, records| records.select { |record| record[:fqdn] == fqdn } }.flatten.compact
+            data = data | zone[:records].map { |type, records| records.select { |record| record[:fqdn] == fqdn } }.flatten.compact
           else
-            data = data | zone[:records].collect { |type, records| records.collect { |record| record[:fqdn] } }.flatten
+            data = data | zone[:records].map { |type, records| records.map { |record| record[:fqdn] } }.flatten
           end
 
           response.body = {

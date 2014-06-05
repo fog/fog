@@ -2,9 +2,7 @@ module Fog
   module Parsers
     module AWS
       module SNS
-
         class ListTopics < Fog::Parsers::Base
-
           def reset
             @response = { 'Topics' => [] }
           end
@@ -17,9 +15,7 @@ module Fog
               response[name] = @value
             end
           end
-
         end
-
       end
     end
   end

@@ -2,7 +2,6 @@ module Fog
   module Rackspace
     class AutoScale
       class Real
-
         def pause_group_state(group_id)
           Fog::Real.not_implemented
           # request(

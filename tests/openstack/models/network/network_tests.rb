@@ -1,7 +1,7 @@
 Shindo.tests("Fog::Network[:openstack] | network", ['openstack']) do
 
   tests('success') do
-    
+
     tests('#create').succeeds do
       @instance = Fog::Network[:openstack].networks.create(:name => 'net_name',
                                                            :shared => false,
@@ -9,7 +9,7 @@ Shindo.tests("Fog::Network[:openstack] | network", ['openstack']) do
                                                            :tenant_id => 'tenant_id')
       !@instance.id.nil?
     end
-    
+
     tests('#create+extensions').succeeds do
       net = Fog::Network[:openstack].networks.create(
         :name => 'net_name',
@@ -26,9 +26,9 @@ Shindo.tests("Fog::Network[:openstack] | network", ['openstack']) do
       net.destroy
       net.provider_network_type == 'gre'
     end
-    
+
     tests('have attributes') do
-      attributes = [ 
+      attributes = [
         :name,
         :subnets,
         :shared,

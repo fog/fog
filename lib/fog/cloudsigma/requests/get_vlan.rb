@@ -12,7 +12,6 @@ module Fog
           mock_get(:vlans, 200, vlan)
         end
       end
-
     end
   end
 end

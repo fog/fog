@@ -11,7 +11,6 @@ module Fog
           data = service.describe_alarm_history(conditions).body['DescribeAlarmHistoryResult']['AlarmHistoryItems']
           load(data) # data is an array of attribute hashes
         end
-
       end
     end
   end

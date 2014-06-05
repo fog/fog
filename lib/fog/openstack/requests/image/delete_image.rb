@@ -2,7 +2,6 @@ module Fog
   module Image
     class OpenStack
       class Real
-
         def delete_image(image_id)
           request(
             :expects  => 200,
@@ -10,7 +9,6 @@ module Fog
             :path     => "images/#{image_id}"
           )
         end
-
       end
 
       class Mock

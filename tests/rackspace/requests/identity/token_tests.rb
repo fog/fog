@@ -58,7 +58,7 @@ Shindo.tests('Fog::Rackspace::Identity | tokens', ['rackspace']) do
       connection = identity_service.instance_variable_get("@connection")
       excon = connection.instance_variable_get("@excon")
       data = excon.instance_variable_get("@data")
-      data.has_key?(:ssl_verify_peer)
+      data.key?(:ssl_verify_peer)
     end
   end
 

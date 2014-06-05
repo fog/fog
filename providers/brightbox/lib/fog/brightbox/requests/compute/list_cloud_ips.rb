@@ -12,7 +12,6 @@ module Fog
         def list_cloud_ips
           wrapped_request("get", "/1.0/cloud_ips", [200])
         end
-
       end
     end
   end

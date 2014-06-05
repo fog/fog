@@ -1,9 +1,7 @@
 module Fog
   module Rackspace
     class AutoScale
-
       class Real
-
         def get_group(group_id)
           request(
             :expects => [200],
@@ -23,7 +21,6 @@ module Fog
           end
         end
       end
-
     end
   end
 end

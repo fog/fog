@@ -2,7 +2,6 @@ module Fog
   module Compute
     class AWS
       class Real
-
         require 'fog/aws/parsers/compute/create_snapshot'
 
         # Create a snapshot of an EBS volume and store it in S3
@@ -13,6 +12,7 @@ module Fog
         # ==== Returns
         # * response<~Excon::Response>:
         #   * body<~Hash>:
+        #     * 'encrypted'<~Boolean>: The encryption status of the snapshot.
         #     * 'progress'<~String> - The percentage progress of the snapshot
         #     * 'requestId'<~String> - id of request
         #     * 'snapshotId'<~String> - id of snapshot
@@ -29,11 +29,9 @@ module Fog
             :parser       => Fog::Parsers::Compute::AWS::CreateSnapshot.new
           )
         end
-
       end
 
       class Mock
-
         #
         # Usage
         #
@@ -47,6 +45,7 @@ module Fog
             snapshot_id = Fog::AWS::Mock.snapshot_id
             data = {
               'description' => description,
+              'encrypted'   => false,
               'ownerId'     => self.data[:owner_id],
               'progress'    => nil,
               'snapshotId'  => snapshot_id,
@@ -65,7 +64,6 @@ module Fog
           end
           response
         end
-
       end
     end
   end

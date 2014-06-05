@@ -4,8 +4,8 @@ Shindo.tests('Fog::AWS[:dynamodb] | item requests', ['aws']) do
 
   unless Fog.mocking?
     Fog::AWS[:dynamodb].create_table(
-      @table_name, 
-      {'HashKeyElement' => {'AttributeName' => 'key', 'AttributeType' => 'S'}}, 
+      @table_name,
+      {'HashKeyElement' => {'AttributeName' => 'key', 'AttributeType' => 'S'}},
       {'ReadCapacityUnits' => 5, 'WriteCapacityUnits' => 5}
     )
     Fog.wait_for { Fog::AWS[:dynamodb].describe_table(@table_name).body['Table']['TableStatus'] == 'ACTIVE' }

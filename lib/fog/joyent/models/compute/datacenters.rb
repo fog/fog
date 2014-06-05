@@ -3,10 +3,8 @@ require 'fog/joyent/models/compute/datacenter'
 
 module Fog
   module Compute
-
     class Joyent
       class Datacenters < Fog::Collection
-
         model Fog::Compute::Joyent::Datacenter
 
         def all
@@ -17,9 +15,7 @@ module Fog
         def get(id)
           all[id]
         end
-
       end
     end # Joyent
-
   end # Compute
 end # Fog

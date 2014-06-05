@@ -2,7 +2,6 @@ module Fog
   module DNS
     class DNSMadeEasy
       class Real
-
         # Modifies a secondary entry with the specified name. Returns errors if name is not valid or conflicts with another domain.
         #
         # ==== Parameters
@@ -17,7 +16,6 @@ module Fog
         #     * gtdLocation<~String> Global Traffic Director location. Values: DEFAULT, US_EAST, US_WEST, EUROPE
         #   * status<~Integer> - 201 - secondary entry successfully created or modified, 400 - secondary entry name or IP addresses not valid, see errors in response content
         def update_secondary(secondary_name, ip_addresses)
-
           body = {
             "ip" => [*ip_addresses]
           }
@@ -29,7 +27,6 @@ module Fog
             :body     => Fog::JSON.encode(body)
           )
         end
-
       end
     end
   end

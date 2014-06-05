@@ -2,7 +2,6 @@ module Fog
   module Compute
     class Ecloud
       module Shared
-
         def build_request_body_edit_assigned_ips(networks)
           xml = Builder::XmlMarkup.new
           xml.AssignedIpAddresses do
@@ -22,7 +21,6 @@ module Fog
       end
 
       class Real
-
         def virtual_machine_edit_assigned_ips(href, options)
           body = build_request_body_edit_assigned_ips(options)
           request(
@@ -45,7 +43,7 @@ module Fog
             network        = self.data[:networks][network_id]
             options.each.each do |net|
               net[:ips].each do |ip|
-                ip = network[:IpAddresses][:IpAddress].detect { |iph| iph[:name] == ip }
+                ip = network[:IpAddresses][:IpAddress].find { |iph| iph[:name] == ip }
                 ip[:Host] = {
                   :href => "/clouapi/ecloud/networkhosts/#{server_id}",
                   :name => server[:name],

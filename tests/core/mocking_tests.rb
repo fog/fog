@@ -71,5 +71,5 @@ Shindo.tests('Fog mocking', 'core') do
     Fog::Mock.not_implemented
   end
 
-  
+
 end

@@ -1,16 +1,13 @@
 module Fog
   module Compute
     class Google
-
       class Mock
         def insert_firewall(firewall_name, allowed, network = @default_network, options = {})
           Fog::Mock.not_implemented
         end
-
       end
 
       class Real
-
         def insert_firewall(firewall_name, allowed, network = @default_network, options = {})
           unless network.start_with? 'http'
             network = "#{@api_url}#{@project}/global/networks/#{network}"
@@ -41,9 +38,7 @@ module Fog
           result = self.build_result(api_method, parameters, body_object)
           response = self.build_response(result)
         end
-
       end
-
     end
   end
 end

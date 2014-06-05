@@ -5,7 +5,6 @@ module Fog
   module Rackspace
     class Monitoring
       class AlarmExamples < Fog::Collection
-
         model Fog::Rackspace::Monitoring::AlarmExample
 
         def all
@@ -24,7 +23,6 @@ module Fog
           data = service.evaluate_alarm_example(alarm_example_id, options).body
           new(data)
         end
-
       end
     end
   end

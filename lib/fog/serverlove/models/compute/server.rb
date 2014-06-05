@@ -4,9 +4,7 @@ require 'fog/serverlove/util/compute/password_generator'
 module Fog
   module Compute
     class Serverlove
-
       class Server < Fog::Model
-
         identity :id, :aliases => 'server'
 
         attribute :name

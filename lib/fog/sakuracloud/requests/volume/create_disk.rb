@@ -4,7 +4,6 @@ module Fog
   module Volume
     class SakuraCloud
       class Real
-
         def create_disk( name, plan, sourcearchive )
           body = {
            "Disk" => {

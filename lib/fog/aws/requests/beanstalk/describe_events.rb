@@ -2,7 +2,6 @@ module Fog
   module AWS
     class ElasticBeanstalk
       class Real
-
         require 'fog/aws/parsers/beanstalk/describe_events'
 
         # Returns list of event descriptions matching criteria up to the last 6 weeks.

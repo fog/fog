@@ -2,7 +2,6 @@ module Fog
   module AWS
     class EMR
       class Real
-
         require 'fog/aws/parsers/emr/describe_job_flows'
 
         # returns a list of job flows that match all of the supplied parameters.
@@ -80,7 +79,6 @@ module Fog
         #         * 'Value'<~String> - The value part of the identified key
         #     * 'Name'<~String> - The name of the job flow step
         def describe_job_flows(options={})
-
           if job_ids = options.delete('JobFlowIds')
             options.merge!(Fog::AWS.serialize_keys('JobFlowIds', job_ids))
           end
@@ -97,11 +95,9 @@ module Fog
       end
 
       class Mock
-
         def describe_job_flows(db_name, options={})
           Fog::Mock.not_implemented
         end
-
       end
     end
   end

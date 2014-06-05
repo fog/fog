@@ -2,7 +2,6 @@ module Fog
   module AWS
     class CloudFormation
       class Real
-
         require 'fog/aws/parsers/cloud_formation/describe_stack_events'
 
         # Describe stack events.
@@ -34,7 +33,6 @@ module Fog
             :parser     => Fog::Parsers::AWS::CloudFormation::DescribeStackEvents.new
           }.merge!(options))
         end
-
       end
     end
   end

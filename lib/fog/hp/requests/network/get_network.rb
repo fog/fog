@@ -1,9 +1,7 @@
 module Fog
   module HP
     class Network
-
       class Real
-
         # Get details for an existing network by id
         #
         # ==== Parameters
@@ -34,7 +32,7 @@ module Fog
       class Mock
         def get_network(network_id)
           response = Excon::Response.new
-          if network = list_networks.body['networks'].detect {|_| _['id'] == network_id}
+          if network = list_networks.body['networks'].find {|_| _['id'] == network_id}
             response.status = 200
             response.body = { 'network' => network }
             response
@@ -43,7 +41,6 @@ module Fog
           end
         end
       end
-
     end
   end
 end

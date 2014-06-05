@@ -5,7 +5,6 @@ module Fog
         require 'fog/aws/parsers/elasticache/cache_cluster_parser'
 
         class DescribeCacheClusters < CacheClusterParser
-
           def reset
             super
             @response['CacheClusters'] = []

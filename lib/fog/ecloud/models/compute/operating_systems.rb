@@ -4,7 +4,6 @@ module Fog
   module Compute
     class Ecloud
       class OperatingSystems < Fog::Ecloud::Collection
-
         model Fog::Compute::Ecloud::OperatingSystem
 
         identity :data

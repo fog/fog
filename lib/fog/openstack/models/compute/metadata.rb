@@ -7,9 +7,7 @@ require 'fog/openstack/models/compute/server'
 module Fog
   module Compute
     class OpenStack
-
       class Metadata < Fog::Collection
-
         model Fog::Compute::OpenStack::Metadatum
 
         include Fog::Compute::OpenStack::MetaParent
@@ -60,9 +58,7 @@ module Fog
           end
           data
         end
-
       end
-
     end
   end
 end

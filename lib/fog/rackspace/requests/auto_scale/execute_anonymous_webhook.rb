@@ -2,7 +2,6 @@ module Fog
   module Rackspace
     class AutoScale
       class Real
-
         def execute_anonymous_webhook(capability_version, capability_hash)
           request(
             :expects => [202],

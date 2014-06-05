@@ -2,7 +2,6 @@ module Fog
   module Compute
     class RackspaceV2
       class Real
-
         # Deletes virtual interface from server
         # @param [String] server_id The server id that contains the virtual interface
         # @param [String] interface_id The id of the virtual interface
@@ -19,7 +18,6 @@ module Fog
           )
         end
       end
-
     end
   end
 end

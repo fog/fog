@@ -2,9 +2,7 @@ module Fog
   module Parsers
     module AWS
       module IAM
-
         class RoleParser < Fog::Parsers::Base
-
           def reset
             @role = {}
             @stack = []
@@ -44,9 +42,7 @@ module Fog
               end
             end
           end
-
         end
-
       end
     end
   end

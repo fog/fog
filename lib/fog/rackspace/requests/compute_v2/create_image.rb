@@ -2,7 +2,6 @@ module Fog
   module Compute
     class RackspaceV2
       class Real
-
         # Create an image from a running server
         #
         # @param [String] server_id Id of server to create image from

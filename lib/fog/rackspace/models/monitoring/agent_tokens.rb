@@ -5,7 +5,6 @@ module Fog
   module Rackspace
     class Monitoring
       class AgentTokens < Fog::Collection
-
         attribute :marker
 
         model Fog::Rackspace::Monitoring::AgentToken
@@ -24,7 +23,6 @@ module Fog
         rescue Fog::Rackspace::Monitoring::NotFound
           nil
         end
-
       end
     end
   end

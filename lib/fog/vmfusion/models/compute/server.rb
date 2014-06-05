@@ -3,9 +3,7 @@ require 'fog/compute/models/server'
 module Fog
   module Compute
     class Vmfusion
-
       class Server < Fog::Compute::Server
-
         identity :name
 
         attribute :ipaddress

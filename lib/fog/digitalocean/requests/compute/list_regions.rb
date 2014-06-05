@@ -2,7 +2,6 @@ module Fog
   module Compute
     class DigitalOcean
       class Real
-
         def list_regions(options = {})
           request(
             :expects  => [200],
@@ -10,11 +9,9 @@ module Fog
             :path     => 'regions'
           )
         end
-
       end
 
       class Mock
-
         def list_regions
           response = Excon::Response.new
           response.status = 200
@@ -31,7 +28,6 @@ module Fog
           }
           response
         end
-
       end
     end
   end

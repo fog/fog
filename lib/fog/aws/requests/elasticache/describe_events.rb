@@ -2,7 +2,6 @@ module Fog
   module AWS
     class Elasticache
       class Real
-
         require 'fog/aws/parsers/elasticache/event_list'
 
         # Returns a list of service events
@@ -36,7 +35,6 @@ module Fog
             :parser => Fog::Parsers::AWS::Elasticache::EventListParser.new
           )
         end
-
       end
 
       class Mock

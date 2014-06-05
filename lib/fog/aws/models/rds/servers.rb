@@ -4,9 +4,7 @@ require 'fog/aws/models/rds/server'
 module Fog
   module AWS
     class RDS
-
       class Servers < Fog::Collection
-
         model Fog::AWS::RDS::Server
 
         def all
@@ -20,7 +18,6 @@ module Fog
         rescue Fog::AWS::RDS::NotFound
           nil
         end
-
       end
     end
   end

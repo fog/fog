@@ -2,9 +2,7 @@ module Fog
   module Parsers
     module AWS
       module CloudWatch
-
         class EnableAlarmActions < Fog::Parsers::Base
-
           def reset
             @response = { 'ResponseMetadata' => {} }
           end
@@ -19,7 +17,7 @@ module Fog
               @response['ResponseMetadata'][name] = value
             end
           end
-        end       
+        end
       end
     end
   end

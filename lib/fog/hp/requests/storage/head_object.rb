@@ -2,7 +2,6 @@ module Fog
   module Storage
     class HP
       class Real
-
         # Get headers for object
         #
         # ==== Parameters
@@ -17,20 +16,16 @@ module Fog
           }, false)
           response
         end
-
       end
 
       class Mock # :nodoc:all
-
         def head_object(container_name, object_name, options = {})
           response = get_object(container_name, object_name, options)
           response.body = nil
           response.status = 200
           response
         end
-
       end
-
     end
   end
 end

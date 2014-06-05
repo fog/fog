@@ -4,7 +4,6 @@ module Fog
   module Compute
     class SakuraCloud
       class Real
-
         def create_server( name, serverplan )
           body = {
             "Server" => {
@@ -15,8 +14,6 @@ module Fog
               "ConnectedSwitches"=>[{"Scope"=>"shared", "BandWidthMbps"=>100}]
             }
           }
-
-
 
           request(
             :headers => {

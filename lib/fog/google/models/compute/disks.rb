@@ -4,9 +4,7 @@ require 'fog/google/models/compute/disk'
 module Fog
   module Compute
     class Google
-
       class Disks < Fog::Collection
-
         model Fog::Compute::Google::Disk
 
         def all(filters={})
@@ -27,7 +25,7 @@ module Fog
             response = service.get_disk(identity, zone).body
           else
             disks = service.list_aggregated_disks(:filter => "name eq .*#{identity}").body['items']
-            disk = disks.each_value.select { |zone| zone.has_key?('disks') }
+            disk = disks.each_value.select { |zone| zone.key?('disks') }
 
             # It can only be 1 disk with the same name across all regions
             response = disk.first['disks'].first unless disk.empty?
@@ -37,9 +35,7 @@ module Fog
         rescue Fog::Errors::NotFound
           nil
         end
-
       end
-
     end
   end
 end

@@ -3,9 +3,7 @@ require 'fog/compute/models/server'
 module Fog
   module Compute
     class Brightbox
-
       class Server < Fog::Compute::Server
-
         identity  :id
         attribute :resource_type
         attribute :url
@@ -211,7 +209,6 @@ module Fog
           end
         end
       end
-
     end
   end
 end

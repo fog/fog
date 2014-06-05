@@ -4,9 +4,7 @@ require 'fog/aws/models/compute/key_pair'
 module Fog
   module Compute
     class AWS
-
       class KeyPairs < Fog::Collection
-
         attribute :filters
         attribute :key_name
 
@@ -80,9 +78,7 @@ module Fog
             self.class.new(:service => service).all('key-name' => key_name).first
           end
         end
-
       end
-
     end
   end
 end

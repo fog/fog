@@ -4,9 +4,7 @@ require 'fog/aws/models/compute/internet_gateway'
 module Fog
   module Compute
     class AWS
-
       class InternetGateways < Fog::Collection
-
         attribute :filters
 
         model Fog::Compute::AWS::InternetGateway
@@ -83,9 +81,7 @@ module Fog
             self.class.new(:service => service).all('internet-gateway-id' => internet_gateway_id).first
           end
         end
-
       end
-
     end
   end
 end

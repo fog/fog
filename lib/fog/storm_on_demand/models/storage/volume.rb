@@ -3,7 +3,6 @@ require 'fog/core/model'
 module Fog
   module Storage
     class StormOnDemand
-
       class Volume < Fog::Model
         identity :uniq_id
         attribute :attachedTo
@@ -46,9 +45,7 @@ module Fog
           requires :identity
           service.update_volume({:uniq_id => identity}.merge!(options))
         end
-
       end
-
     end
   end
 end

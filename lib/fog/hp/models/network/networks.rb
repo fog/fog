@@ -4,9 +4,7 @@ require 'fog/hp/models/network/network'
 module Fog
   module HP
     class Network
-
       class Networks < Fog::Collection
-
         attribute :filters
 
         model Fog::HP::Network::Network
@@ -29,7 +27,6 @@ module Fog
         rescue Fog::HP::Network::NotFound
           nil
         end
-
       end
     end
   end

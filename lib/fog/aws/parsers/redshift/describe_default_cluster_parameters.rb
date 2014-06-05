@@ -2,7 +2,6 @@ module Fog
   module Parsers
     module Redshift
       module AWS
-
         class DescribeDefaultClusterParameters < Fog::Parsers::Base
           # :marker - (String)
           # :parameter_group_family - (String)

@@ -2,7 +2,6 @@ module Fog
   module Orchestration
     class OpenStack
       class Real
-
         # Update a stack.
         #
         # @param [String] stack_id ID of the stack to update.
@@ -25,7 +24,6 @@ module Fog
             :body => Fog::JSON.encode(params)
           )
         end
-
       end
 
       class Mock

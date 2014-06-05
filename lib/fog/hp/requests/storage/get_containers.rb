@@ -2,7 +2,6 @@ module Fog
   module Storage
     class HP
       class Real
-
         # List existing storage containers
         #
         # ==== Parameters
@@ -27,11 +26,9 @@ module Fog
           )
           response
         end
-
       end
 
       class Mock # :nodoc:all
-
         def get_containers(options = {})
           response = Excon::Response.new
           acc_cont_count = 0
@@ -63,9 +60,7 @@ module Fog
           response.status = 200
           response
         end
-
       end
-
     end
   end
 end

@@ -1,9 +1,7 @@
 module Fog
   module Storage
     class Rackspace
-
       class Real
-
         # Create a new dynamic large object manifest
         #
         # Creates an object with a +X-Object-Manifest+ header that specifies the common prefix ("<container>/<prefix>")
@@ -38,7 +36,6 @@ module Fog
             :path     => path
           )
         end
-
       end
 
       class Mock
@@ -61,7 +58,6 @@ module Fog
           response
         end
       end
-
     end
   end
 end

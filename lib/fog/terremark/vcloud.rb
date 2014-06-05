@@ -1,7 +1,6 @@
 module Fog
   module Terremark
    module Vcloud
-
      module Bin
      end
 
@@ -33,7 +32,6 @@ module Fog
      end
 
      class Real
-
        include Fog::Terremark::Shared::Real
        include Fog::Terremark::Shared::Parser
 
@@ -125,11 +123,7 @@ module Fog
        def reset_data
          self.class.data.delete(@terremark_username)
        end
-
      end
-
    end
   end
 end
-
-

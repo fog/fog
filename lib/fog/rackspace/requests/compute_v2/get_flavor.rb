@@ -2,7 +2,6 @@ module Fog
   module Compute
     class RackspaceV2
       class Real
-
         # Retrieves flavor detail
         # @param [Sring] flavor_id
         # @return [Excon::Response] response:

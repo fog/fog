@@ -4,9 +4,7 @@ require 'fog/aws/models/dns/record'
 module Fog
   module DNS
     class AWS
-
       class Records < Fog::Collection
-
         attribute :is_truncated,            :aliases => ['IsTruncated']
         attribute :max_items,               :aliases => ['MaxItems']
         attribute :name
@@ -30,7 +28,7 @@ module Fog
 
           data = service.list_resource_record_sets(zone.id, options).body
           # NextRecordIdentifier is completely absent instead of nil, so set to nil, or iteration breaks.
-          data['NextRecordIdentifier'] = nil unless data.has_key?('NextRecordIdentifier')
+          data['NextRecordIdentifier'] = nil unless data.key?('NextRecordIdentifier')
 
           merge_attributes(data.reject {|key, value| !['IsTruncated', 'MaxItems', 'NextRecordName', 'NextRecordType', 'NextRecordIdentifier'].include?(key)})
           load(data['ResourceRecordSets'])
@@ -57,7 +55,7 @@ module Fog
 
             batch = service.list_resource_record_sets(zone.id, options).body
             # NextRecordIdentifier is completely absent instead of nil, so set to nil, or iteration breaks.
-            batch['NextRecordIdentifier'] = nil unless batch.has_key?('NextRecordIdentifier')
+            batch['NextRecordIdentifier'] = nil unless batch.key?('NextRecordIdentifier')
 
             merge_attributes(batch.reject {|key, value| !['IsTruncated', 'MaxItems', 'NextRecordName', 'NextRecordType', 'NextRecordIdentifier'].include?(key)})
 
@@ -116,9 +114,7 @@ module Fog
           requires :zone
           super({ :zone => zone }.merge!(attributes))
         end
-
       end
-
     end
   end
 end

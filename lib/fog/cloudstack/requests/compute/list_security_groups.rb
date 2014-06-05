@@ -2,7 +2,6 @@ module Fog
   module Compute
     class Cloudstack
       class Real
-
         def list_security_groups(options={})
           options.merge!(
             'command' => 'listSecurityGroups'
@@ -10,7 +9,6 @@ module Fog
 
           request(options)
         end
-
       end # Real
 
       class Mock

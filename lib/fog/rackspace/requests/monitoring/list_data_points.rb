@@ -2,7 +2,6 @@ module Fog
   module Rackspace
     class Monitoring
       class Real
-
         def list_data_points(entity_id, check_id, metric_name, options)
           request(
             :expects  => [200, 203],
@@ -11,13 +10,10 @@ module Fog
             :query    => options
           )
         end
-
       end
 
       class Mock
-
         def list_data_points(entity_id, check_id, metric_name, options)
-
           if entity_id == -1 || check_id == -1 || metric_name == -1 || options == -1
             raise Fog::Rackspace::Monitoring::BadRequest
           end

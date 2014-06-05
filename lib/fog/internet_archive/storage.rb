@@ -3,7 +3,6 @@ require 'fog/internet_archive/core'
 module Fog
   module Storage
     class InternetArchive < Fog::Service
-
       requires :ia_access_key_id, :ia_secret_access_key
       recognizes :endpoint, :region, :host, :path, :port, :scheme, :persistent, :ia_session_token, :ia_credentials_expire_at
 
@@ -62,7 +61,6 @@ module Fog
       request :upload_part
 
       module Utils
-
         attr_accessor :region
 
         def http_url(params, expires)
@@ -77,7 +75,6 @@ module Fog
           Fog::Logger.deprecation("Fog::Storage::InternetArchive => #url is deprecated, use #https_url instead [light_black](#{caller.first})[/]")
           http_url(params, expires)
         end
-
 
         private
 
@@ -106,7 +103,6 @@ module Fog
           port_part = params[:port] && ":#{params[:port]}"
           "#{params[:scheme]}://#{params[:host]}#{port_part}/#{params[:path]}?#{query.join('&')}"
         end
-
       end
 
       class Mock
@@ -220,7 +216,6 @@ module Fog
           @ia_session_token     = options[:ia_session_token]
           @ia_credentials_expire_at = options[:ia_credentials_expire_at]
         end
-
       end
 
       class Real

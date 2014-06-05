@@ -2,9 +2,7 @@ module Fog
   module Parsers
     module Storage
       module AWS
-
         class GetBucket < Fog::Parsers::Base
-
           def reset
             @object = { 'Owner' => {} }
             @response = { 'Contents' => [], 'CommonPrefixes' => [] }
@@ -53,9 +51,7 @@ module Fog
               @object[name] = value
             end
           end
-
         end
-
       end
     end
   end

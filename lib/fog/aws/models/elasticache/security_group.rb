@@ -3,9 +3,7 @@ require 'fog/core/model'
 module Fog
   module AWS
     class Elasticache
-
       class SecurityGroup < Fog::Model
-
         identity :id, :aliases => 'CacheSecurityGroupName'
         attribute :description, :aliases => 'Description'
         attribute :ec2_groups, :aliases => 'EC2SecurityGroups', :type => :array
@@ -44,9 +42,7 @@ module Fog
           )
           merge_attributes(data.body['CacheSecurityGroup'])
         end
-
       end
-
     end
   end
 end

@@ -3,7 +3,6 @@ require 'fog/core/model'
 module Fog
   module Monitoring
     class StormOnDemand
-
       class MonitorService < Fog::Model
         attribute :can_monitor
         attribute :enabled
@@ -14,9 +13,7 @@ module Fog
         def initialize(attributes={})
           super
         end
-
       end
-
     end
   end
 end

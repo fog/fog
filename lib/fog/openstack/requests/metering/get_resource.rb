@@ -2,7 +2,6 @@ module Fog
   module Metering
     class OpenStack
       class Real
-
         def get_resource(resource_id)
           request(
             :expects  => 200,
@@ -10,11 +9,9 @@ module Fog
             :path     => "resources/#{resource_id}"
           )
         end
-
       end
 
       class Mock
-
         def get_resource(resource_id)
           response = Excon::Response.new
           response.status = 200
@@ -26,7 +23,6 @@ module Fog
           response
         end
       end
-
     end
   end
 end

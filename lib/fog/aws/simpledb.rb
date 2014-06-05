@@ -20,7 +20,6 @@ module Fog
       request :select
 
       class Mock
-
         def self.data
           @data ||= Hash.new do |hash, key|
             hash[key] = {
@@ -197,7 +196,6 @@ module Fog
             value.to_s
           end
         end
-
       end
     end
   end

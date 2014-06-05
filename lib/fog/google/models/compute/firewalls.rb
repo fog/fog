@@ -4,7 +4,6 @@ require 'fog/google/models/compute/firewall'
 module Fog
   module Compute
     class Google
-
       class Firewalls < Fog::Collection
         model Fog::Compute::Google::Firewall
 
@@ -21,7 +20,6 @@ module Fog
           nil
         end
       end
-
     end
   end
 end

@@ -2,7 +2,6 @@ module Fog
   module Compute
     class AWS
       class Real
-
         require 'fog/aws/parsers/compute/describe_volume_status'
 
         # http://docs.amazonwebservices.com/AWSEC2/latest/APIReference/ApiReference-query-DescribeVolumeStatus.html
@@ -37,7 +36,6 @@ module Fog
           }
 
           response
-
         end
       end
     end

@@ -2,10 +2,8 @@ module Fog
   module Parsers
     module AWS
       module RDS
-
         # Base parser for ResponseMetadata, RequestId
         class Base < Fog::Parsers::Base
-
           def reset
             super
             @response = { 'ResponseMetadata' => {} }
@@ -23,9 +21,7 @@ module Fog
               super
             end
           end
-
         end
-
       end
     end
   end

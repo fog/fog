@@ -4,9 +4,7 @@ require 'fog/aws/models/compute/volume'
 module Fog
   module Compute
     class AWS
-
       class Volumes < Fog::Collection
-
         attribute :filters
         attribute :server
 
@@ -113,9 +111,7 @@ module Fog
             super
           end
         end
-
       end
-
     end
   end
 end

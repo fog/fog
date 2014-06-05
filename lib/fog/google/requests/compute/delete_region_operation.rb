@@ -1,13 +1,10 @@
 module Fog
   module Compute
     class Google
-
       class Mock
-
         def delete_region_operation(region, operation)
           Fog::Mock.not_implemented
         end
-
       end
 
       class Real

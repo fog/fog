@@ -3,7 +3,6 @@ require 'fog/dnsimple/core'
 module Fog
   module DNS
     class DNSimple < Fog::Service
-
       recognizes :dnsimple_email, :dnsimple_password, :dnsimple_token, :dnsimple_domain, :dnsimple_url, :host, :path, :port, :scheme, :persistent
 
       model_path 'fog/dnsimple/models/dns'
@@ -24,7 +23,6 @@ module Fog
       request :get_record
 
       class Mock
-
         def self.data
           @data ||= Hash.new do |hash, key|
             hash[key] = {
@@ -52,11 +50,9 @@ module Fog
         def reset_data
           self.class.data.delete(@dnsimple_email)
         end
-
       end
 
       class Real
-
         def initialize(options={})
           @dnsimple_email = options[:dnsimple_email]
           @dnsimple_password  = options[:dnsimple_password]

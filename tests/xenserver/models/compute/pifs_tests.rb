@@ -1,7 +1,7 @@
 Shindo.tests('Fog::Compute[:xenserver] | PIFs collection', ['xenserver']) do
 
   conn = Fog::Compute[:xenserver]
-  
+
   tests('The pifs collection') do
     pifs = conn.pifs.all
 
@@ -12,7 +12,7 @@ Shindo.tests('Fog::Compute[:xenserver] | PIFs collection', ['xenserver']) do
     tests('should be able to reload itself').succeeds { pifs.reload }
 
     tests('should be able to get a model') do
-      tests('by reference').succeeds { 
+      tests('by reference').succeeds {
         pifs.get(pifs.first.reference).is_a? Fog::Compute::XenServer::PIF
       }
     end

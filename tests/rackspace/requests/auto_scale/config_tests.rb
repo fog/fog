@@ -1,5 +1,5 @@
 Shindo.tests('Fog::Rackspace::AutoScale | config_tests', ['rackspace', 'rackspace_autoscale']) do
-  
+
   pending if Fog.mocking?
   service = Fog::Rackspace::AutoScale.new :rackspace_region => :ord
 

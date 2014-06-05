@@ -32,7 +32,6 @@ module Fog
       end
 
       module ConnectionMethods
-
         def refresh_credentials_if_expired
           refresh_credentials if credentials_expired?
         end

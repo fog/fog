@@ -2,7 +2,6 @@ require 'fog/compute/models/server'
 module Fog
   module Compute
     class Joyent
-
       class Server < Fog::Compute::Server
         identity :id
 
@@ -119,7 +118,6 @@ module Fog
           service.delete_all_machine_tags(self.id)
           true
         end
-
       end
     end
   end

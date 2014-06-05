@@ -48,4 +48,3 @@ Shindo.tests('Fog::Volume[:openstack] | quota requests', ['openstack']) do
 
   end
 end
-

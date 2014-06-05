@@ -5,7 +5,6 @@ module Fog
   module Rackspace
     class Monitoring
       class DataPoints < Fog::Collection
-
         attribute :metric
 
         model Fog::Rackspace::Monitoring::DataPoint
@@ -42,7 +41,6 @@ module Fog
           requires :metric
           super({ :metric => metric }.merge!(attributes))
         end
-
       end
     end
   end

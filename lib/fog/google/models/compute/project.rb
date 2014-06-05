@@ -3,7 +3,6 @@ require 'fog/core/model'
 module Fog
   module Compute
     class Google
-
       ##
       # Represents a Project resource
       #
@@ -26,7 +25,6 @@ module Fog
           Fog::Compute::Google::Operations.new(:service => service).get(data.body['name'])
         end
       end
-
     end
   end
 end

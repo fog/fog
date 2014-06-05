@@ -1,6 +1,5 @@
 class Serverlove < Fog::Bin
   class << self
-
     def class_for(key)
       case key
       when :compute
@@ -26,6 +25,5 @@ class Serverlove < Fog::Bin
     def services
       Fog::Serverlove.services
     end
-
   end
 end

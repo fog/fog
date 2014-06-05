@@ -2,7 +2,6 @@ module Fog
   module AWS
     class ElasticBeanstalk
       class Real
-
         require 'fog/aws/parsers/beanstalk/create_application'
 
         # Creates an application that has one configuration template named default and no application versions.

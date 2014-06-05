@@ -4,7 +4,6 @@ require 'fog/terremark/models/shared/server'
 module Fog
   module Terremark
     module Shared
-
       module Mock
         def servers(options = {})
           Fog::Terremark::Shared::Servers.new(options.merge(:service => self))
@@ -18,7 +17,6 @@ module Fog
       end
 
       class Servers < Fog::Collection
-
         model Fog::Terremark::Shared::Server
 
         def all
@@ -46,9 +44,7 @@ module Fog
         def vdc_id=(new_vdc_id)
           @vdc_id = new_vdc_id
         end
-
       end
-
     end
   end
 end

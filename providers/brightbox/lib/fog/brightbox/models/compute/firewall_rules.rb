@@ -4,9 +4,7 @@ require 'fog/brightbox/models/compute/firewall_rule'
 module Fog
   module Compute
     class Brightbox
-
       class FirewallRules < Fog::Collection
-
         model Fog::Compute::Brightbox::FirewallRule
 
         def get(identifier)
@@ -16,9 +14,7 @@ module Fog
         rescue Excon::Errors::NotFound
           nil
         end
-
       end
-
     end
   end
 end

@@ -1,7 +1,6 @@
 module Fog
   module HP
     class LB
-
       # List all load balancers
       #
       # ==== Returns
@@ -25,7 +24,6 @@ module Fog
             :path    => 'loadbalancers'
           )
         end
-
       end
       class Mock
         def list_load_balancers

@@ -2,7 +2,7 @@ require File.expand_path(File.join(File.dirname(__FILE__), 'helper'))
 
 Shindo.tests("Compute::VcloudDirector | vms", ['vclouddirector', 'all']) do
   pending if Fog.mocking?
-  vapp = vapps.detect {|v| v.vms.size >= 1}
+  vapp = vapps.find {|v| v.vms.size >= 1}
 
   # we can't run these tests if there is no vapps with a vm in them
   pending unless vapp

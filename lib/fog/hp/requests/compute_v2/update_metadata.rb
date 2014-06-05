@@ -2,7 +2,6 @@ module Fog
   module Compute
     class HPV2
       class Real
-
         # Update metadata for specific collections
         #
         # ==== Parameters
@@ -23,13 +22,10 @@ module Fog
             :path     => "#{collection_name}/#{parent_id}/metadata"
           )
         end
-
       end
 
       class Mock
-
         def update_metadata(collection_name, parent_id, metadata = {})
-
           if collection_name == "images" then
             if get_image_details(parent_id)
               newmetadata = self.data[:images][parent_id]['metadata'].merge!(metadata)
@@ -50,11 +46,8 @@ module Fog
           response.body = { "metadata" => newmetadata }
           response.status = 200
           response
-
         end
-
       end
-
     end
   end
 end

@@ -2,9 +2,7 @@ module Fog
   module Parsers
     module AWS
       module ElasticBeanstalk
-
         class Empty < Fog::Parsers::Base
-
           def reset
             @response = { 'ResponseMetadata' => {} }
           end
@@ -15,13 +13,8 @@ module Fog
                 @response['ResponseMetadata'][name] = value
             end
           end
-
-
         end
       end
     end
   end
 end
-
-
-

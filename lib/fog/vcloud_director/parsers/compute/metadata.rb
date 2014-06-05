@@ -29,7 +29,6 @@ module Fog
         #  :id=>"vm-18545e82-d919-4071-ae7e-d1300d9d8112"}
         #
         class Metadata < VcloudDirectorParser
-
           def reset
             @response = { :metadata => {} }
           end
@@ -55,7 +54,6 @@ module Fog
               @response[:metadata].merge!(Hash[@key, @val])
             end
           end
-
         end
       end
     end

@@ -1,7 +1,6 @@
 module Fog
   module HP
     class DNS
-
         # Create a new DNS domain
         #
         # ==== Parameters

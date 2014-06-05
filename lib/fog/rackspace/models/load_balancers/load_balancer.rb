@@ -4,7 +4,6 @@ module Fog
   module Rackspace
     class LoadBalancers
       class LoadBalancer < Fog::Model
-
         #States
         ACTIVE = 'ACTIVE'
         ERROR = 'ERROR'
@@ -37,11 +36,15 @@ module Fog
         end
 
         def access_rules
-          @access_rules ||= begin
-            Fog::Rackspace::LoadBalancers::AccessRules.new({
+          unless @access_rules
+            @access_rules = Fog::Rackspace::LoadBalancers::AccessRules.new({
               :service => service,
               :load_balancer => self})
+
+             # prevents loading access rules from non-existent load balancers
+            @access_rules.clear unless persisted?
           end
+          @access_rules
         end
 
         def access_rules=(new_access_rules=[])
@@ -49,11 +52,15 @@ module Fog
         end
 
         def nodes
-          @nodes ||= begin
-            Fog::Rackspace::LoadBalancers::Nodes.new({
-              :service => service,
-              :load_balancer => self})
+          unless @nodes
+            @nodes = Fog::Rackspace::LoadBalancers::Nodes.new({
+                :service => service,
+                :load_balancer => self})
+
+            # prevents loading nodes from non-existent load balancers
+            @nodes.clear unless persisted?
           end
+          @nodes
         end
 
         def nodes=(new_nodes=[])
@@ -243,14 +250,13 @@ module Fog
         end
 
         def virtual_ips_hash
-          virtual_ips.collect do |virtual_ip|
+          virtual_ips.map do |virtual_ip|
             { :type => virtual_ip.type }
           end
-
         end
 
         def nodes_hash
-          nodes.collect do |node|
+          nodes.map do |node|
             { :address => node.address, :port => node.port, :condition => node.condition, :weight => node.weight }
           end
         end

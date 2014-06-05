@@ -1,6 +1,5 @@
 class Dynect < Fog::Bin
   class << self
-
     def class_for(key)
       case key
       when :dns
@@ -25,6 +24,5 @@ class Dynect < Fog::Bin
     def services
       [:dns]
     end
-
   end
 end

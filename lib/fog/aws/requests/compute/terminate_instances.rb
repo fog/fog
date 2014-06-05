@@ -2,7 +2,6 @@ module Fog
   module Compute
     class AWS
       class Real
-
         require 'fog/aws/parsers/compute/terminate_instances'
 
         # Terminate specified instances
@@ -32,11 +31,9 @@ module Fog
             :parser     => Fog::Parsers::Compute::AWS::TerminateInstances.new
           }.merge!(params))
         end
-
       end
 
       class Mock
-
         def terminate_instances(instance_id)
           response = Excon::Response.new
           instance_id = [*instance_id]
@@ -89,7 +86,6 @@ module Fog
             raise Fog::Compute::AWS::NotFound.new("The instance ID '#{instance_id}' does not exist")
           end
         end
-
       end
     end
   end

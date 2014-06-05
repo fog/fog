@@ -2,9 +2,7 @@ module Fog
   module Parsers
     module Compute
       module AWS
-
         class CreateDhcpOptions < Fog::Parsers::Base
-
           def reset
             @dhcp_options = { 'dhcpConfigurationSet' => {}, 'tagSet' => {} }
             @response = { 'dhcpOptionsSet' => [] }
@@ -40,14 +38,14 @@ module Fog
               case name
                 when 'item'
                   unless @in_value_set
-                    @dhcp_options['dhcpConfigurationSet'][@dhcp_configuration['key']] = @value_set 
+                    @dhcp_options['dhcpConfigurationSet'][@dhcp_configuration['key']] = @value_set
                     @value_set=[]
                   @dhcp_configuration = {}
                   end
                 when 'key', 'value'
                   if !@in_value_set
-                    @dhcp_configuration[name] = value 
-                  else 
+                    @dhcp_configuration[name] = value
+                  else
  			@value_set << value
                   end
                 when 'valueSet'

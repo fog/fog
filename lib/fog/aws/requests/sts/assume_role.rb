@@ -2,7 +2,6 @@ module Fog
   module AWS
     class STS
       class Real
-
         require 'fog/aws/parsers/sts/assume_role'
 
         # Assume Role
@@ -39,7 +38,6 @@ module Fog
             :parser           => Fog::Parsers::AWS::STS::AssumeRole.new
           })
         end
-
       end
     end
   end

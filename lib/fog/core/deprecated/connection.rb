@@ -1,7 +1,6 @@
 require "fog/xml"
 
 module Fog
-
   # @deprecated Use {Fog::Core::Connection} or {XML::SAXParserConnection} if you
   #   require the response body to be parsed.
   #

@@ -3,7 +3,6 @@ require 'fog/core/model'
 module Fog
   module AWS
     class ElasticBeanstalk
-
       class Application < Fog::Model
         identity :name, :aliases => 'ApplicationName'
         attribute :template_names, :aliases => 'ConfigurationTemplates'
@@ -54,9 +53,7 @@ module Fog
           merge_attributes(data)
           true
         end
-
       end
-
     end
   end
 end

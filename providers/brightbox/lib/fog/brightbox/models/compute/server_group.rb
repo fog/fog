@@ -7,7 +7,6 @@ module Fog
       #
       # Certain actions can accept a server group and affect all members
       class ServerGroup < Fog::Model
-
         identity :id
 
         attribute :url

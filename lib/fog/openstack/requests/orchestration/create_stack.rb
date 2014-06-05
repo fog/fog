@@ -2,7 +2,6 @@ module Fog
   module Orchestration
     class OpenStack
       class Real
-
         # Create a stack.
         #
         # * stack_name [String] Name of the stack to create.
@@ -28,7 +27,6 @@ module Fog
             :body => Fog::JSON.encode(params)
           )
         end
-
       end
 
       class Mock

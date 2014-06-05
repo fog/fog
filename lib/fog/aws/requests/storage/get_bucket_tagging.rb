@@ -2,7 +2,6 @@ module Fog
   module Storage
     class AWS
       class Real
-
         require 'fog/aws/parsers/storage/get_bucket_tagging'
 
         # Get tags for an S3 bucket
@@ -30,11 +29,9 @@ module Fog
             :query      => {'tagging' => nil}
           })
         end
-
       end
 
       class Mock # :nodoc:all
-
         def get_bucket_tagging(bucket_name)
           response = Excon::Response.new
           if self.data[:buckets][bucket_name] && self.data[:bucket_tagging][bucket_name]
@@ -47,7 +44,6 @@ module Fog
           response
         end
       end
-
     end
   end
 end

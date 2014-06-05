@@ -4,7 +4,6 @@ module Fog
       module RDS
         # parses an XML-formatted list of resource tags from AWS
         class TagListParser < Fog::Parsers::Base
-
           # each tag is modeled as a String pair (2-element Array)
           def reset
             @this_key   = nil
@@ -27,7 +26,6 @@ module Fog
               @response['ListTagsForResourceResult']['TagList'] = @tags
             end
           end
-
         end
       end
     end

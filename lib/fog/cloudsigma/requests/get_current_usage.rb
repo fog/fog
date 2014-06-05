@@ -9,10 +9,8 @@ module Fog
 
       class Mock
         def get_current_usage
-
         end
       end
-
     end
   end
 end

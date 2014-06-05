@@ -33,7 +33,6 @@ def rackspace_api_key
   Fog.credentials[:rackspace_api_key] || get_user_input("Enter Rackspace API key")
 end
 
-
 def select_image(images)
   puts "\nSelect Image For Server:\n\n"
   images.each_with_index do |image, i|
@@ -44,14 +43,12 @@ def select_image(images)
   images[select_str.to_i]
 end
 
-
 # create auto scaling service
 auto_scale_service = Fog::Rackspace::AutoScale.new({
   :rackspace_username   => rackspace_username,
   :rackspace_api_key    => rackspace_api_key,
   :rackspace_region => :ord # Use Chicago Region
 })
-
 
 # create Next Generation Cloud Server service to get list of flavors
 compute_service = Fog::Compute.new({
@@ -61,7 +58,6 @@ compute_service = Fog::Compute.new({
   :version => :v2,  # Use Next Gen Cloud Servers
   :rackspace_region => :ord # Use Chicago Region
 })
-
 
 # prompt for scaling group name
 scaling_group_name = get_user_input "Enter name of scaling group"

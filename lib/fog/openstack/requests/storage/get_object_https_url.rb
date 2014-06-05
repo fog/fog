@@ -1,9 +1,7 @@
 module Fog
   module Storage
     class OpenStack
-
       class Real
-
         # Get an expiring object https url from Cloud Files
         #
         # ==== Parameters
@@ -46,7 +44,6 @@ module Fog
             raise ArgumentError.new("Invalid method '#{method}' specified. Valid methods are: #{allowed_methods.join(', ')}")
           end
 
-
           expires        = expires.to_i
           object_path_escaped   = "#{@path}/#{Fog::OpenStack.escape(container)}/#{Fog::OpenStack.escape(object,"/")}"
           object_path_unescaped = "#{@path}/#{Fog::OpenStack.escape(container)}/#{object}"
@@ -77,9 +74,7 @@ module Fog
             h.size == 1 ? "0#{h}" : h
           }.join
         end
-
       end
-
     end
   end
 end

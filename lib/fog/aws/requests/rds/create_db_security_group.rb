@@ -2,7 +2,6 @@ module Fog
   module AWS
     class RDS
       class Real
-
         require 'fog/aws/parsers/rds/create_db_security_group'
 
         # creates a db security group
@@ -21,11 +20,9 @@ module Fog
             :parser   => Fog::Parsers::AWS::RDS::CreateDBSecurityGroup.new
           })
         end
-
       end
 
       class Mock
-
         def create_db_security_group(name, description = name)
           response = Excon::Response.new
           if self.data[:security_groups] and self.data[:security_groups][name]
@@ -45,11 +42,8 @@ module Fog
             'CreateDBSecurityGroupResult' => { 'DBSecurityGroup' => data }
           }
           response
-
         end
-
       end
     end
   end
 end
-

@@ -4,9 +4,7 @@ require 'fog/hp/models/compute_v2/address'
 module Fog
   module Compute
     class HPV2
-
       class Addresses < Fog::Collection
-
         model Fog::Compute::HPV2::Address
 
         def all
@@ -21,9 +19,7 @@ module Fog
         rescue Fog::Compute::HPV2::NotFound
           nil
         end
-
       end
-
     end
   end
 end

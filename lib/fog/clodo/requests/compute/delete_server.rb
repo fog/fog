@@ -2,7 +2,6 @@ module Fog
   module Compute
     class Clodo
       class Real
-
         # Delete an existing server
         #
         # ==== Parameters
@@ -15,15 +14,13 @@ module Fog
             :path   => "servers/#{server_id}"
           )
         end
-
       end
 
       class Mock
-
         def delete_server(server_id)
           response = Excon::Response.new
 
-          if server = list_servers_detail.body['servers'].detect {|_| _['id'].to_i == server_id }
+          if server = list_servers_detail.body['servers'].find {|_| _['id'].to_i == server_id }
             if server['status'] == 'is_install'
               response.status = 405
               raise(Excon::Errors.status_error({:expects => 204}, response))
@@ -37,7 +34,6 @@ module Fog
             raise Fog::Compute::Clodo::NotFound
           end
         end
-
       end
     end
   end

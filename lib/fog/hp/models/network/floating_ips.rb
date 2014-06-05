@@ -4,9 +4,7 @@ require 'fog/hp/models/network/floating_ip'
 module Fog
   module HP
     class Network
-
       class FloatingIps < Fog::Collection
-
         attribute :filters
 
         model Fog::HP::Network::FloatingIp
@@ -29,7 +27,6 @@ module Fog
         rescue Fog::HP::Network::NotFound
           nil
         end
-
       end
     end
   end

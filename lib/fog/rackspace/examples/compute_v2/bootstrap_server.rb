@@ -94,5 +94,3 @@ rescue Fog::Errors::TimeoutError
 end
 
 puts "To delete the server please execute the delete_server.rb script\n\n"
-
-

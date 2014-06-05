@@ -2,9 +2,7 @@ module Fog
   module Parsers
     module AWS
       module ELB
-
         class ConfigureHealthCheck < Fog::Parsers::Base
-
           def reset
             @health_check = {}
             @response = { 'ConfigureHealthCheckResult' => {}, 'ResponseMetadata' => {} }
@@ -28,9 +26,7 @@ module Fog
               @response['ResponseMetadata'][name] = value
             end
           end
-
         end
-
       end
     end
   end

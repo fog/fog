@@ -2,7 +2,6 @@ module Fog
   module Rackspace
     class Monitoring
       class Real
-
         def update_entity(entity_id, options)
           request(
             :body     => JSON.encode(options),
@@ -14,9 +13,7 @@ module Fog
       end
 
       class Mock
-
         def update_entity(entity_id, options)
-
           account_id = Fog::Mock.random_numbers(6).to_s
 
           if entity_id == -1
@@ -46,4 +43,3 @@ module Fog
     end
   end
 end
-

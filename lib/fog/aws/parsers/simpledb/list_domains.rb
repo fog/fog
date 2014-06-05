@@ -4,9 +4,7 @@ module Fog
   module Parsers
     module AWS
       module SimpleDB
-
         class ListDomains < Fog::Parsers::AWS::SimpleDB::Basic
-
           def reset
             @response = { 'Domains' => [] }
           end
@@ -21,9 +19,7 @@ module Fog
               response[name] = value
             end
           end
-
         end
-
       end
     end
   end

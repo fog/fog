@@ -21,7 +21,6 @@ module Fog
           r = service.list_rulesets(options).body['item']
           load(r)
         end
-
       end
     end
   end

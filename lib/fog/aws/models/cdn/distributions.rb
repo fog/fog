@@ -5,7 +5,6 @@ require 'fog/aws/models/cdn/distributions_helper'
 module Fog
   module CDN
     class AWS
-
       class Distributions < Fog::Collection
         include Fog::CDN::AWS::DistributionsHelper
 
@@ -25,9 +24,7 @@ module Fog
 
         alias_method :each_distribution_this_page, :each
         alias_method :each, :each_distribution
-
       end
-
     end
   end
 end

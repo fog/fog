@@ -4,7 +4,6 @@
 # @see http://tools.ietf.org/html/draft-ietf-oauth-v2-10
 #
 module Fog::Brightbox::OAuth2
-
   # This builds the simplest form of requesting an access token
   # based on the arguments passed in
   #

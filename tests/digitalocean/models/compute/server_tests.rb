@@ -91,4 +91,3 @@ Shindo.tests("Fog::Compute[:digitalocean] | server model", ['digitalocean', 'com
   server.wait_for { ready? }
 
 end
-

@@ -6,10 +6,10 @@ module Fog
           data = {
             'node' => {}
           }
-          if options.has_key? :weight
+          if options.key? :weight
             data['node']['weight'] = options[:weight]
           end
-          if options.has_key? :condition
+          if options.key? :condition
             data['node']['condition'] = options[:condition]
           end
           #TODO - Do anything if no valid options are passed in?

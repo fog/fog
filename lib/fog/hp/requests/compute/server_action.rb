@@ -2,7 +2,6 @@ module Fog
   module Compute
     class HP
       class Real
-
         # Server actions for an existing server
         #
         # ==== Parameters
@@ -18,7 +17,6 @@ module Fog
             :path     => "servers/#{server_id}/action.json"
           )
         end
-
       end
     end
   end

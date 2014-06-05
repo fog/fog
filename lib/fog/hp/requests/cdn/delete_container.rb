@@ -2,7 +2,6 @@ module Fog
   module CDN
     class HP
       class Real
-
         # Delete an existing container
         #
         # ==== Parameters
@@ -16,7 +15,6 @@ module Fog
           )
           response
         end
-
       end
 
       class Mock # :nodoc:all
@@ -32,7 +30,6 @@ module Fog
           end
         end
       end
-
     end
   end
 end

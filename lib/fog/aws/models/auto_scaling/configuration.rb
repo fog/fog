@@ -4,7 +4,6 @@ module Fog
   module AWS
     class AutoScaling
       class Configuration < Fog::Model
-
         identity  :id,                    :aliases => 'LaunchConfigurationName'
         attribute :arn,                   :aliases => 'LaunchConfigurationARN'
         attribute :associate_public_ip,   :aliases => 'AssociatePublicIpAddress'
@@ -21,7 +20,7 @@ module Fog
         attribute :security_groups,       :aliases => 'SecurityGroups'
         attribute :user_data,             :aliases => 'UserData'
         attribute :spot_price,            :aliases => 'SpotPrice'
-        
+
 
         def initialize(attributes={})
           #attributes[:availability_zones] ||= %w(us-east-1a us-east-1b us-east-1c us-east-1d)
@@ -62,7 +61,6 @@ module Fog
           requires :id
           service.delete_launch_configuration(id)
         end
-
       end
     end
   end

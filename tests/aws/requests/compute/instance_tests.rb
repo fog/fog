@@ -80,7 +80,6 @@ Shindo.tests('Fog::Compute[:aws] | instance requests', ['aws']) do
     'timestamp'    => Time
   }
 
-
   @terminate_instances_format = {
     'instancesSet'  => [{
       'currentState' => {'code' => Integer, 'name' => String},

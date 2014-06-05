@@ -96,7 +96,6 @@ module Fog
           find_href_prefixed_in(href, all_virtual_machines)
         end
 
-
         def all_networks
           all_vdcs.map(&:networks).flatten
         end
@@ -196,11 +195,11 @@ module Fog
         private
 
         def find_href_in(href, objects)
-          objects.detect {|o| o.href == href }
+          objects.find {|o| o.href == href }
         end
 
         def find_href_prefixed_in(href, objects)
-          objects.detect {|o| href =~ %r{^#{o.href}($|/)} }
+          objects.find {|o| href =~ %r{^#{o.href}($|/)} }
         end
       end
 
@@ -226,7 +225,6 @@ module Fog
         def environments
           @vdcs ||= []
         end
-
       end
 
       class MockVdc < Base
@@ -395,7 +393,7 @@ module Fog
 
       class MockNetworkIps < Base
         def items
-          @items ||= _parent.usable_subnet_ips.inject({}) do |out, subnet_ip|
+          @items ||= _parent.usable_subnet_ips.reduce({}) do |out, subnet_ip|
             out.update(subnet_ip => MockNetworkIp.new({ :ip => subnet_ip }, self))
           end
         end
@@ -419,7 +417,7 @@ module Fog
         end
 
         def used_by
-          self[:used_by] || _parent._parent._parent.virtual_machines.detect {|v| v.ip == ip }
+          self[:used_by] || _parent._parent._parent.virtual_machines.find {|v| v.ip == ip }
         end
 
         def status
@@ -507,11 +505,11 @@ module Fog
         end
 
         def size
-          disks.inject(0) {|s, d| s + d.vcloud_size }
+          disks.reduce(0) {|s, d| s + d.vcloud_size }
         end
 
         def network_ip
-          if network = _parent.networks.detect {|n| n.ip_collection.items[ip] }
+          if network = _parent.networks.find {|n| n.ip_collection.items[ip] }
             network.ip_collection.items[ip]
           end
         end
@@ -564,7 +562,7 @@ module Fog
         end
 
         def at_address(address)
-          detect {|d| d.address == address }
+          find {|d| d.address == address }
         end
       end
 
@@ -599,7 +597,7 @@ module Fog
         end
 
         def public_ip_internet_services
-          _parent.public_ip_collection.items.inject([]) do |services, public_ip|
+          _parent.public_ip_collection.items.reduce([]) do |services, public_ip|
             services + public_ip.internet_service_collection.items
           end
         end

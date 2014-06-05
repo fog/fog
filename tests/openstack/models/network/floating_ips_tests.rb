@@ -1,14 +1,6 @@
 Shindo.tests("Fog::Network[:openstack] | floating_ips", ['openstack']) do
   @floating_ip = Fog::Network[:openstack].floating_ips.create(:floating_network_id => 'f0000000-0000-0000-0000-000000000000')
 
-
-
-
-
-
-
-
-
   @floating_ips = Fog::Network[:openstack].floating_ips
 
   tests('success') do

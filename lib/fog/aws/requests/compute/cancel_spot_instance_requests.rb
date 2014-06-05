@@ -2,7 +2,6 @@ module Fog
   module Compute
     class AWS
       class Real
-
         require 'fog/aws/parsers/compute/cancel_spot_instance_requests'
 
         # Terminate specified spot instance requests
@@ -27,7 +26,6 @@ module Fog
             :parser     => Fog::Parsers::Compute::AWS::CancelSpotInstanceRequests.new
           }.merge!(params))
         end
-
       end
     end
   end

@@ -3,16 +3,15 @@ module Fog
     class Rackspace
       class Real
         def list_domain_details(domain_id, options={})
-
           validate_path_fragment :domain_id, domain_id
 
           path = "domains/#{domain_id}"
           query_data = {}
 
-          if options.has_key? :show_records
+          if options.key? :show_records
             query_data['showRecords'] = options[:show_records]
           end
-          if options.has_key? :show_subdomains
+          if options.key? :show_subdomains
             query_data['showSubdomains'] = options[:show_subdomains]
           end
 

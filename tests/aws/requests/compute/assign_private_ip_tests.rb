@@ -31,7 +31,7 @@ Shindo.tests('Fog::Compute[:aws] | internet_gateway requests', ['aws']) do
 
   tests('failure') do
     Fog::Compute::AWS::Mock.reset if Fog.mocking?
-    
+
     @vpc=Fog::Compute[:aws].vpcs.create('cidr_block' => '10.0.10.0/24')
     @vpc_id = @vpc.id
 

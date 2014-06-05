@@ -2,9 +2,7 @@ module Fog
   module Parsers
     module Terremark
       module Shared
-
         class Network < TerremarkParser
-
           def reset
             @response = {
               "links" => []
@@ -16,10 +14,10 @@ module Fog
             case name
             when "Network"
               @response = extract_attributes(attributes)
-              if @response.has_key?("name")
+              if @response.key?("name")
                 @response["subnet"] = @response["name"]
               end
-              if @response.has_key?("href")
+              if @response.key?("href")
                 @response["id"] = @response["href"].split("/").last
               end
             when "Link"
@@ -34,9 +32,7 @@ module Fog
               @response[name.downcase] = value
             end
           end
-
         end
-
       end
     end
   end

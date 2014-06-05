@@ -2,7 +2,6 @@ module Fog
   module Rackspace
     class AutoScale
       class Real
-
         def delete_policy(group_id, policy_id)
           request(
             :expects => [204],
@@ -23,7 +22,6 @@ module Fog
           group['policies'].delete_if { |p| p['id'] == policy_id }
 
           response(:status => 204)
-
         end
       end
     end

@@ -4,9 +4,7 @@ require 'fog/ovirt/models/compute/cluster'
 module Fog
   module Compute
     class Ovirt
-
       class Clusters < Fog::Collection
-
         model Fog::Compute::Ovirt::Cluster
 
         def all(filters = {})
@@ -16,7 +14,6 @@ module Fog
         def get(id)
           new service.get_cluster(id)
         end
-
       end
     end
   end

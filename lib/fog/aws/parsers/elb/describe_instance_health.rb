@@ -2,9 +2,7 @@ module Fog
   module Parsers
     module AWS
       module ELB
-
         class DescribeInstanceHealth < Fog::Parsers::Base
-
           def reset
             @response = { 'DescribeInstanceHealthResult' => { 'InstanceStates' => [] }, 'ResponseMetadata' => {} }
             @instance_state = {}
@@ -21,9 +19,7 @@ module Fog
               @response['ResponseMetadata'][name] = value
             end
           end
-
         end
-
       end
     end
   end
