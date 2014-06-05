@@ -12,10 +12,6 @@ module Fog
         attribute :description
         attribute :vlan
 
-        def initialize(attributes = {})
-          super
-        end
-
         def description
           attributes[:description] || ""
         end
