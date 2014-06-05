@@ -38,6 +38,12 @@ module Fog
           end # if filter[:id].nil?
 
           templates = templates.map do |t| 
+            # filtering by name
+            # done here, because OpenNebula:TemplatePool does not support something like .delete_if
+            if filter[:name] && filter[:name].is_a?(String) && !filter[:name].empty?
+                next if t.to_hash["VMTEMPLATE"]["NAME"] != filter[:name]
+            end
+
             h = Hash[
               :id => t.to_hash["VMTEMPLATE"]["ID"], 
               :name => t.to_hash["VMTEMPLATE"]["NAME"], 
@@ -70,8 +76,10 @@ module Fog
             end
             ret_hash
           end
-
-          templates 
+          
+          templates.delete nil
+          raise Fog::Compute::OpenNebula::NotFound, "Flavor/Template not found" if templates.empty?
+          templates
         end #def template_pool
       end #class Real
 
