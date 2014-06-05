@@ -3,7 +3,7 @@ Shindo.tests('Fog::Compute[:opennebula]', ['opennebula']) do
   compute = Fog::Compute[:opennebula]
 
   tests("Compute collections") do
-    %w{networks}.each do |collection|
+    %w{networks groups}.each do |collection|
       test("it should respond to #{collection}") { compute.respond_to? collection }
     end
   end

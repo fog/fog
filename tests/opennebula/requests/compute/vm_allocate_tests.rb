@@ -2,7 +2,14 @@ Shindo.tests("Fog::Compute[:opennebula] | vm_create and destroy request", 'openn
 
   compute = Fog::Compute[:opennebula]
   name_base = Time.now.to_i
-  f = compute.flavors.get_by_name("foglivetest").first
+  f = compute.flavors.get_by_name("fogtest")
+
+  tests("Get 'fogtest' flavor/template") do
+    test("could not get template with name 'fogtest'! This is required for live tests!") {f.kind_of? Array}
+    raise ArgumentError, "Could not get a template with the name 'fogtest'" unless f
+  end
+
+  f = f.first
   response = {}
 
   tests("Allocate VM") do
