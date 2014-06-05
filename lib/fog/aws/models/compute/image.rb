@@ -23,6 +23,7 @@ module Fog
         attribute :root_device_name,      :aliases => 'rootDeviceName'
         attribute :tags,                  :aliases => 'tagSet'
         attribute :name
+        attribute :virtualization_type,   :aliases => 'virtualizationType'
 
         def deregister(delete_snapshot = false)
           service.deregister_image(id)
