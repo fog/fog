@@ -8,10 +8,6 @@ module Fog
         identity :id
         attribute :name
 
-        def gid
-          id
-        end
-
         def save
           raise Fog::Errors::Error.new('Creating a new group is not yet implemented. Contributions welcome!')
         end
