@@ -14,10 +14,17 @@ module Fog
         end
 
         def get(id)
-          # the one api does not provide any filter method and this isn't really important
-          # get all and filter on your own :D
-          #self.all({:id => id}).first
-          raise Fog::Errors::Error.new('get a group is not yet implemented. Contributions welcome!')
+          group = self.all({:id => id})
+          
+          if group.length > 1
+            raise Fog::Errors::Error.new("groups.get should return only one group, not #{group.length}!")
+          end
+
+          group.first
+        end
+
+        def get_by_name(str)
+          self.all({:name => str})
         end
 
       end
