@@ -2,7 +2,7 @@ Shindo.tests("Fog::Compute[:opennebula] | vm_create and destroy request", 'openn
 
   compute = Fog::Compute[:opennebula]
   name_base = Time.now.to_i
-  f = compute.flavors.get 4
+  f = compute.flavors.get_by_name("foglivetest").first
   response = {}
 
   tests("Allocate VM") do
