@@ -5,7 +5,7 @@ module Fog
     class OpenNebula
       class Network < Fog::Model
 
-        identity :id, :aliases => 'uuid'
+        identity :id
         attribute :name
         attribute :uid
         attribute :gid
@@ -18,14 +18,6 @@ module Fog
 
         def description
           attributes[:description] || ""
-        end
-
-        def uuid=(str)
-          self.id=str
-        end
-
-        def uuid
-          return self.id
         end
 
         def vlan
