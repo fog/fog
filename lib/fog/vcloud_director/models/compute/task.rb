@@ -35,6 +35,7 @@ module Fog
 
         def non_running?
           if @service.show_progress? && (@last_progress ||= 0) < 100
+            progress ||= 0
             if status == 'running'
               Formatador.redisplay_progressbar(progress, 100, :label => operation_name, :started_at => start_time)
               @last_progress = progress
