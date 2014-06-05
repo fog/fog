@@ -19,7 +19,14 @@ module Fog
         # @since vCloud API version 0.9
         def put_memory(id, memory)
           data = <<EOF
-          <Item xmlns="http://www.vmware.com/vcloud/v1.5" xmlns:rasd="http://schemas.dmtf.org/wbem/wscim/1/cim-schema/2/CIM_ResourceAllocationSettingData" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ns12="http://www.vmware.com/vcloud/v1.5" ns12:href="#{end_point}vApp/#{id}/virtualHardwareSection/memory" ns12:type="application/vnd.vmware.vcloud.rasdItem+xml" xsi:schemaLocation="http://www.vmware.com/vcloud/v1.5 http://10.194.1.65/api/v1.5/schema/master.xsd http://schemas.dmtf.org/wbem/wscim/1/cim-schema/2/CIM_ResourceAllocationSettingData http://schemas.dmtf.org/wbem/wscim/1/cim-schema/2.22.0/CIM_ResourceAllocationSettingData.xsd">
+          <Item 
+            xmlns="http://www.vmware.com/vcloud/v1.5" 
+            xmlns:rasd="http://schemas.dmtf.org/wbem/wscim/1/cim-schema/2/CIM_ResourceAllocationSettingData" 
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+            xmlns:ns12="http://www.vmware.com/vcloud/v1.5" 
+            ns12:href="#{end_point}vApp/#{id}/virtualHardwareSection/memory" 
+            ns12:type="application/vnd.vmware.vcloud.rasdItem+xml" 
+            xsi:schemaLocation="http://www.vmware.com/vcloud/v1.5 #{end_point}v1.5/schema/master.xsd http://schemas.dmtf.org/wbem/wscim/1/cim-schema/2/CIM_ResourceAllocationSettingData http://schemas.dmtf.org/wbem/wscim/1/cim-schema/2.22.0/CIM_ResourceAllocationSettingData.xsd">
             <rasd:AllocationUnits>byte * 2^20</rasd:AllocationUnits>
             <rasd:Description>Memory Size</rasd:Description>
             <rasd:ElementName>#{memory} MB of memory</rasd:ElementName>
