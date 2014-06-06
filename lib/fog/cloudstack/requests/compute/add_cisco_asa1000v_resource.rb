@@ -6,13 +6,13 @@ module Fog
         # Adds a Cisco Asa 1000v appliance
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/addCiscoAsa1000vResource.html]
-        def add_cisco_asa1000v_resource(options={})
+        def add_cisco_asa1000v_resource(physicalnetworkid, clusterid, hostname, insideportprofile, options={})
           options.merge!(
             'command' => 'addCiscoAsa1000vResource', 
-            'clusterid' => options['clusterid'], 
-            'physicalnetworkid' => options['physicalnetworkid'], 
-            'hostname' => options['hostname'], 
-            'insideportprofile' => options['insideportprofile']  
+            'physicalnetworkid' => physicalnetworkid, 
+            'clusterid' => clusterid, 
+            'hostname' => hostname, 
+            'insideportprofile' => insideportprofile  
           )
           request(options)
         end

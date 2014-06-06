@@ -6,14 +6,14 @@ module Fog
         # Creates a VPC
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/createVPC.html]
-        def create_vpc(options={})
+        def create_vpc(cidr, vpcofferingid, name, displaytext, zoneid, options={})
           options.merge!(
             'command' => 'createVPC', 
-            'vpcofferingid' => options['vpcofferingid'], 
-            'name' => options['name'], 
-            'zoneid' => options['zoneid'], 
-            'displaytext' => options['displaytext'], 
-            'cidr' => options['cidr']  
+            'cidr' => cidr, 
+            'vpcofferingid' => vpcofferingid, 
+            'name' => name, 
+            'displaytext' => displaytext, 
+            'zoneid' => zoneid  
           )
           request(options)
         end

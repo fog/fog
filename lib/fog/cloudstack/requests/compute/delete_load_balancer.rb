@@ -6,10 +6,10 @@ module Fog
         # Deletes a load balancer
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/deleteLoadBalancer.html]
-        def delete_load_balancer(options={})
+        def delete_load_balancer(id, options={})
           options.merge!(
             'command' => 'deleteLoadBalancer', 
-            'id' => options['id']  
+            'id' => id  
           )
           request(options)
         end

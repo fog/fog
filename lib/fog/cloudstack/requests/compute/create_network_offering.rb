@@ -6,14 +6,14 @@ module Fog
         # Creates a network offering.
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/createNetworkOffering.html]
-        def create_network_offering(options={})
+        def create_network_offering(guestiptype, traffictype, name, supportedservices, displaytext, options={})
           options.merge!(
             'command' => 'createNetworkOffering', 
-            'traffictype' => options['traffictype'], 
-            'name' => options['name'], 
-            'guestiptype' => options['guestiptype'], 
-            'displaytext' => options['displaytext'], 
-            'supportedservices' => options['supportedservices']  
+            'guestiptype' => guestiptype, 
+            'traffictype' => traffictype, 
+            'name' => name, 
+            'supportedservices' => supportedservices, 
+            'displaytext' => displaytext  
           )
           request(options)
         end

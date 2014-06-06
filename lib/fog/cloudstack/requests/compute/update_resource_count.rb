@@ -6,10 +6,10 @@ module Fog
         # Recalculate and update resource count for an account or domain.
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/updateResourceCount.html]
-        def update_resource_count(options={})
+        def update_resource_count(domainid, options={})
           options.merge!(
             'command' => 'updateResourceCount', 
-            'domainid' => options['domainid']  
+            'domainid' => domainid  
           )
           request(options)
         end

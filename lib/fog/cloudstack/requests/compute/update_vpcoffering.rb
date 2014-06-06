@@ -6,10 +6,10 @@ module Fog
         # Updates VPC offering
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/updateVPCOffering.html]
-        def update_vpcoffering(options={})
+        def update_vpcoffering(id, options={})
           options.merge!(
             'command' => 'updateVPCOffering', 
-            'id' => options['id']  
+            'id' => id  
           )
           request(options)
         end

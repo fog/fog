@@ -6,10 +6,10 @@ module Fog
         # Creates an instant snapshot of a volume.
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/createSnapshot.html]
-        def create_snapshot(options={})
+        def create_snapshot(volumeid, options={})
           options.merge!(
             'command' => 'createSnapshot', 
-            'volumeid' => options['volumeid']  
+            'volumeid' => volumeid  
           )
           request(options)
         end

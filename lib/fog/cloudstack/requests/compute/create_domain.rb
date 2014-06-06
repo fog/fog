@@ -6,10 +6,10 @@ module Fog
         # Creates a domain
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/createDomain.html]
-        def create_domain(options={})
+        def create_domain(name, options={})
           options.merge!(
             'command' => 'createDomain', 
-            'name' => options['name']  
+            'name' => name  
           )
           request(options)
         end

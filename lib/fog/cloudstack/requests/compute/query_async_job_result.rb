@@ -6,10 +6,10 @@ module Fog
         # Retrieves the current status of asynchronous job.
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/queryAsyncJobResult.html]
-        def query_async_job_result(options={})
+        def query_async_job_result(jobid, options={})
           options.merge!(
             'command' => 'queryAsyncJobResult', 
-            'jobid' => options['jobid']  
+            'jobid' => jobid  
           )
           request(options)
         end

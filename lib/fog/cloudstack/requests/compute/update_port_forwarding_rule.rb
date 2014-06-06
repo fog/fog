@@ -6,13 +6,13 @@ module Fog
         # Updates a port forwarding rule.  Only the private port and the virtual machine can be updated.
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/updatePortForwardingRule.html]
-        def update_port_forwarding_rule(options={})
+        def update_port_forwarding_rule(publicport, privateport, protocol, ipaddressid, options={})
           options.merge!(
             'command' => 'updatePortForwardingRule', 
-            'publicport' => options['publicport'], 
-            'protocol' => options['protocol'], 
-            'ipaddressid' => options['ipaddressid'], 
-            'privateport' => options['privateport']  
+            'publicport' => publicport, 
+            'privateport' => privateport, 
+            'protocol' => protocol, 
+            'ipaddressid' => ipaddressid  
           )
           request(options)
         end

@@ -6,11 +6,11 @@ module Fog
         # Create a pool
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/createPool.html]
-        def create_pool(options={})
+        def create_pool(algorithm, name, options={})
           options.merge!(
             'command' => 'createPool', 
-            'name' => options['name'], 
-            'algorithm' => options['algorithm']  
+            'algorithm' => algorithm, 
+            'name' => name  
           )
           request(options)
         end

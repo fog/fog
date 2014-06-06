@@ -6,15 +6,15 @@ module Fog
         # Adds a new host.
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/addHost.html]
-        def add_host(options={})
+        def add_host(hypervisor, zoneid, url, password, podid, username, options={})
           options.merge!(
             'command' => 'addHost', 
-            'podid' => options['podid'], 
-            'password' => options['password'], 
-            'username' => options['username'], 
-            'hypervisor' => options['hypervisor'], 
-            'zoneid' => options['zoneid'], 
-            'url' => options['url']  
+            'hypervisor' => hypervisor, 
+            'zoneid' => zoneid, 
+            'url' => url, 
+            'password' => password, 
+            'podid' => podid, 
+            'username' => username  
           )
           request(options)
         end

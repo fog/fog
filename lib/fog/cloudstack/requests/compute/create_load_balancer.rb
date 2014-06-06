@@ -6,16 +6,16 @@ module Fog
         # Creates a Load Balancer
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/createLoadBalancer.html]
-        def create_load_balancer(options={})
+        def create_load_balancer(scheme, networkid, instanceport, name, algorithm, sourceipaddressnetworkid, sourceport, options={})
           options.merge!(
             'command' => 'createLoadBalancer', 
-            'sourceport' => options['sourceport'], 
-            'algorithm' => options['algorithm'], 
-            'name' => options['name'], 
-            'instanceport' => options['instanceport'], 
-            'sourceipaddressnetworkid' => options['sourceipaddressnetworkid'], 
-            'networkid' => options['networkid'], 
-            'scheme' => options['scheme']  
+            'scheme' => scheme, 
+            'networkid' => networkid, 
+            'instanceport' => instanceport, 
+            'name' => name, 
+            'algorithm' => algorithm, 
+            'sourceipaddressnetworkid' => sourceipaddressnetworkid, 
+            'sourceport' => sourceport  
           )
           request(options)
         end

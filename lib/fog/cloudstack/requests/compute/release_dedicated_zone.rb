@@ -6,10 +6,10 @@ module Fog
         # Release dedication of zone
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/releaseDedicatedZone.html]
-        def release_dedicated_zone(options={})
+        def release_dedicated_zone(zoneid, options={})
           options.merge!(
             'command' => 'releaseDedicatedZone', 
-            'zoneid' => options['zoneid']  
+            'zoneid' => zoneid  
           )
           request(options)
         end

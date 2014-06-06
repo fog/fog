@@ -6,10 +6,10 @@ module Fog
         # List iso visibility and all accounts that have permissions to view this iso.
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/listIsoPermissions.html]
-        def list_iso_permissions(options={})
+        def list_iso_permissions(id, options={})
           options.merge!(
             'command' => 'listIsoPermissions', 
-            'id' => options['id']  
+            'id' => id  
           )
           request(options)
         end

@@ -6,10 +6,10 @@ module Fog
         # Update a Storage network IP range, only allowed when no IPs in this range have been allocated.
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/updateStorageNetworkIpRange.html]
-        def update_storage_network_ip_range(options={})
+        def update_storage_network_ip_range(id, options={})
           options.merge!(
             'command' => 'updateStorageNetworkIpRange', 
-            'id' => options['id']  
+            'id' => id  
           )
           request(options)
         end

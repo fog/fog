@@ -6,10 +6,10 @@ module Fog
         # Enables a user account
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/enableUser.html]
-        def enable_user(options={})
+        def enable_user(id, options={})
           options.merge!(
             'command' => 'enableUser', 
-            'id' => options['id']  
+            'id' => id  
           )
           request(options)
         end

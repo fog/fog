@@ -6,12 +6,12 @@ module Fog
         # Extracts volume
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/extractVolume.html]
-        def extract_volume(options={})
+        def extract_volume(zoneid, mode, id, options={})
           options.merge!(
             'command' => 'extractVolume', 
-            'mode' => options['mode'], 
-            'id' => options['id'], 
-            'zoneid' => options['zoneid']  
+            'zoneid' => zoneid, 
+            'mode' => mode, 
+            'id' => id  
           )
           request(options)
         end

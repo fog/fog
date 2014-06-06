@@ -6,10 +6,10 @@ module Fog
         # disable a Cisco Nexus VSM device
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/disableCiscoNexusVSM.html]
-        def disable_cisco_nexus_vsm(options={})
+        def disable_cisco_nexus_vsm(id, options={})
           options.merge!(
             'command' => 'disableCiscoNexusVSM', 
-            'id' => options['id']  
+            'id' => id  
           )
           request(options)
         end

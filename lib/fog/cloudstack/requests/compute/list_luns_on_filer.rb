@@ -6,10 +6,10 @@ module Fog
         # List LUN
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/listLunsOnFiler.html]
-        def list_luns_on_filer(options={})
+        def list_luns_on_filer(poolname, options={})
           options.merge!(
             'command' => 'listLunsOnFiler', 
-            'poolname' => options['poolname']  
+            'poolname' => poolname  
           )
           request(options)
         end

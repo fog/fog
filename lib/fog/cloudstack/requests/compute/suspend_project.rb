@@ -6,10 +6,10 @@ module Fog
         # Suspends a project
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/suspendProject.html]
-        def suspend_project(options={})
+        def suspend_project(id, options={})
           options.merge!(
             'command' => 'suspendProject', 
-            'id' => options['id']  
+            'id' => id  
           )
           request(options)
         end

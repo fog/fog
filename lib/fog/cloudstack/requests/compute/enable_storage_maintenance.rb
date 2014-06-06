@@ -6,10 +6,10 @@ module Fog
         # Puts storage pool into maintenance state
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/enableStorageMaintenance.html]
-        def enable_storage_maintenance(options={})
+        def enable_storage_maintenance(id, options={})
           options.merge!(
             'command' => 'enableStorageMaintenance', 
-            'id' => options['id']  
+            'id' => id  
           )
           request(options)
         end

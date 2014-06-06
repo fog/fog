@@ -6,10 +6,10 @@ module Fog
         # Accepts or declines project invitation
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/deleteProjectInvitation.html]
-        def delete_project_invitation(options={})
+        def delete_project_invitation(id, options={})
           options.merge!(
             'command' => 'deleteProjectInvitation', 
-            'id' => options['id']  
+            'id' => id  
           )
           request(options)
         end

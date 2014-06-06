@@ -6,10 +6,10 @@ module Fog
         # Restarts the network; includes 1) restarting network elements - virtual routers, dhcp servers 2) reapplying all public ips 3) reapplying loadBalancing/portForwarding rules
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/restartNetwork.html]
-        def restart_network(options={})
+        def restart_network(id, options={})
           options.merge!(
             'command' => 'restartNetwork', 
-            'id' => options['id']  
+            'id' => id  
           )
           request(options)
         end

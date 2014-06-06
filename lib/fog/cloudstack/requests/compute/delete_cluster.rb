@@ -6,10 +6,10 @@ module Fog
         # Deletes a cluster.
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/deleteCluster.html]
-        def delete_cluster(options={})
+        def delete_cluster(id, options={})
           options.merge!(
             'command' => 'deleteCluster', 
-            'id' => options['id']  
+            'id' => id  
           )
           request(options)
         end

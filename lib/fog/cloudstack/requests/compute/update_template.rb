@@ -6,10 +6,10 @@ module Fog
         # Updates attributes of a template.
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/updateTemplate.html]
-        def update_template(options={})
+        def update_template(id, options={})
           options.merge!(
             'command' => 'updateTemplate', 
-            'id' => options['id']  
+            'id' => id  
           )
           request(options)
         end

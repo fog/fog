@@ -6,10 +6,10 @@ module Fog
         # Deletes a Zone.
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/deleteZone.html]
-        def delete_zone(options={})
+        def delete_zone(id, options={})
           options.merge!(
             'command' => 'deleteZone', 
-            'id' => options['id']  
+            'id' => id  
           )
           request(options)
         end

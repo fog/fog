@@ -6,10 +6,10 @@ module Fog
         # List profile in ucs manager
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/listUcsProfiles.html]
-        def list_ucs_profiles(options={})
+        def list_ucs_profiles(ucsmanagerid, options={})
           options.merge!(
             'command' => 'listUcsProfiles', 
-            'ucsmanagerid' => options['ucsmanagerid']  
+            'ucsmanagerid' => ucsmanagerid  
           )
           request(options)
         end

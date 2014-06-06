@@ -6,10 +6,10 @@ module Fog
         # Creates a VLAN IP range.
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/deleteVlanIpRange.html]
-        def delete_vlan_ip_range(options={})
+        def delete_vlan_ip_range(id, options={})
           options.merge!(
             'command' => 'deleteVlanIpRange', 
-            'id' => options['id']  
+            'id' => id  
           )
           request(options)
         end

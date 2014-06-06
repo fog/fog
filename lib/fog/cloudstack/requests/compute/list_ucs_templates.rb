@@ -6,10 +6,10 @@ module Fog
         # List templates in ucs manager
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/listUcsTemplates.html]
-        def list_ucs_templates(options={})
+        def list_ucs_templates(ucsmanagerid, options={})
           options.merge!(
             'command' => 'listUcsTemplates', 
-            'ucsmanagerid' => options['ucsmanagerid']  
+            'ucsmanagerid' => ucsmanagerid  
           )
           request(options)
         end

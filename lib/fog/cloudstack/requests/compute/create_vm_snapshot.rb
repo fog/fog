@@ -6,10 +6,10 @@ module Fog
         # Creates snapshot for a vm.
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/createVMSnapshot.html]
-        def create_vm_snapshot(options={})
+        def create_vm_snapshot(virtualmachineid, options={})
           options.merge!(
             'command' => 'createVMSnapshot', 
-            'virtualmachineid' => options['virtualmachineid']  
+            'virtualmachineid' => virtualmachineid  
           )
           request(options)
         end

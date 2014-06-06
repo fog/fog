@@ -6,12 +6,12 @@ module Fog
         # Creates VPC offering
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/createVPCOffering.html]
-        def create_vpcoffering(options={})
+        def create_vpcoffering(supportedservices, name, displaytext, options={})
           options.merge!(
             'command' => 'createVPCOffering', 
-            'supportedservices' => options['supportedservices'], 
-            'displaytext' => options['displaytext'], 
-            'name' => options['name']  
+            'supportedservices' => supportedservices, 
+            'name' => name, 
+            'displaytext' => displaytext  
           )
           request(options)
         end

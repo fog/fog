@@ -6,10 +6,10 @@ module Fog
         # Updates a configuration.
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/updateConfiguration.html]
-        def update_configuration(options={})
+        def update_configuration(name, options={})
           options.merge!(
             'command' => 'updateConfiguration', 
-            'name' => options['name']  
+            'name' => name  
           )
           request(options)
         end

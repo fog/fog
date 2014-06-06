@@ -6,10 +6,10 @@ module Fog
         # Starts an existing internal lb vm.
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/startInternalLoadBalancerVM.html]
-        def start_internal_load_balancer_vm(options={})
+        def start_internal_load_balancer_vm(id, options={})
           options.merge!(
             'command' => 'startInternalLoadBalancerVM', 
-            'id' => options['id']  
+            'id' => id  
           )
           request(options)
         end

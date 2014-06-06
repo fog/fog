@@ -6,10 +6,10 @@ module Fog
         # Deletes a firewall rule
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/deleteFirewallRule.html]
-        def delete_firewall_rule(options={})
+        def delete_firewall_rule(id, options={})
           options.merge!(
             'command' => 'deleteFirewallRule', 
-            'id' => options['id']  
+            'id' => id  
           )
           request(options)
         end

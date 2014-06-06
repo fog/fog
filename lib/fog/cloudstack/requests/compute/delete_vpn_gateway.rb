@@ -6,10 +6,10 @@ module Fog
         # Delete site to site vpn gateway
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/deleteVpnGateway.html]
-        def delete_vpn_gateway(options={})
+        def delete_vpn_gateway(id, options={})
           options.merge!(
             'command' => 'deleteVpnGateway', 
-            'id' => options['id']  
+            'id' => id  
           )
           request(options)
         end

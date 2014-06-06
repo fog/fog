@@ -6,10 +6,10 @@ module Fog
         # Adds backup image store.
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/addImageStore.html]
-        def add_image_store(options={})
+        def add_image_store(provider, options={})
           options.merge!(
             'command' => 'addImageStore', 
-            'provider' => options['provider']  
+            'provider' => provider  
           )
           request(options)
         end

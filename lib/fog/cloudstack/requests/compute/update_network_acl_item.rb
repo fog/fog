@@ -6,10 +6,10 @@ module Fog
         # Updates ACL Item with specified Id
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/updateNetworkACLItem.html]
-        def update_network_acl_item(options={})
+        def update_network_acl_item(id, options={})
           options.merge!(
             'command' => 'updateNetworkACLItem', 
-            'id' => options['id']  
+            'id' => id  
           )
           request(options)
         end

@@ -6,10 +6,10 @@ module Fog
         # Deletes a LB stickiness policy.
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/deleteLBStickinessPolicy.html]
-        def delete_lb_stickiness_policy(options={})
+        def delete_lb_stickiness_policy(id, options={})
           options.merge!(
             'command' => 'deleteLBStickinessPolicy', 
-            'id' => options['id']  
+            'id' => id  
           )
           request(options)
         end

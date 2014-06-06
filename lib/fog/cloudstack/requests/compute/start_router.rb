@@ -6,10 +6,10 @@ module Fog
         # Starts a router.
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/startRouter.html]
-        def start_router(options={})
+        def start_router(id, options={})
           options.merge!(
             'command' => 'startRouter', 
-            'id' => options['id']  
+            'id' => id  
           )
           request(options)
         end

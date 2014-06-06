@@ -6,11 +6,11 @@ module Fog
         # Lists usage records for accounts
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/listUsageRecords.html]
-        def list_usage_records(options={})
+        def list_usage_records(enddate, startdate, options={})
           options.merge!(
             'command' => 'listUsageRecords', 
-            'enddate' => options['enddate'], 
-            'startdate' => options['startdate']  
+            'enddate' => enddate, 
+            'startdate' => startdate  
           )
           request(options)
         end

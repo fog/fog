@@ -6,13 +6,13 @@ module Fog
         # Adds an external firewall appliance
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/addExternalFirewall.html]
-        def add_external_firewall(options={})
+        def add_external_firewall(url, username, password, zoneid, options={})
           options.merge!(
             'command' => 'addExternalFirewall', 
-            'password' => options['password'], 
-            'username' => options['username'], 
-            'zoneid' => options['zoneid'], 
-            'url' => options['url']  
+            'url' => url, 
+            'username' => username, 
+            'password' => password, 
+            'zoneid' => zoneid  
           )
           request(options)
         end

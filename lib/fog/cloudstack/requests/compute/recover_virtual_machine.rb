@@ -6,10 +6,10 @@ module Fog
         # Recovers a virtual machine.
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/recoverVirtualMachine.html]
-        def recover_virtual_machine(options={})
+        def recover_virtual_machine(id, options={})
           options.merge!(
             'command' => 'recoverVirtualMachine', 
-            'id' => options['id']  
+            'id' => id  
           )
           request(options)
         end

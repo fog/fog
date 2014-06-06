@@ -6,10 +6,10 @@ module Fog
         # Remove a VMware datacenter from a zone.
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/removeVmwareDc.html]
-        def remove_vmware_dc(options={})
+        def remove_vmware_dc(zoneid, options={})
           options.merge!(
             'command' => 'removeVmwareDc', 
-            'zoneid' => options['zoneid']  
+            'zoneid' => zoneid  
           )
           request(options)
         end

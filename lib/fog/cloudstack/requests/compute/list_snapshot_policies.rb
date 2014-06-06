@@ -6,10 +6,10 @@ module Fog
         # Lists snapshot policies.
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/listSnapshotPolicies.html]
-        def list_snapshot_policies(options={})
+        def list_snapshot_policies(volumeid, options={})
           options.merge!(
             'command' => 'listSnapshotPolicies', 
-            'volumeid' => options['volumeid']  
+            'volumeid' => volumeid  
           )
           request(options)
         end

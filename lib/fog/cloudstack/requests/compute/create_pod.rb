@@ -6,14 +6,14 @@ module Fog
         # Creates a new Pod.
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/createPod.html]
-        def create_pod(options={})
+        def create_pod(netmask, name, startip, gateway, zoneid, options={})
           options.merge!(
             'command' => 'createPod', 
-            'startip' => options['startip'], 
-            'zoneid' => options['zoneid'], 
-            'gateway' => options['gateway'], 
-            'name' => options['name'], 
-            'netmask' => options['netmask']  
+            'netmask' => netmask, 
+            'name' => name, 
+            'startip' => startip, 
+            'gateway' => gateway, 
+            'zoneid' => zoneid  
           )
           request(options)
         end

@@ -6,11 +6,11 @@ module Fog
         # Update password of a host/pool on management server.
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/updateHostPassword.html]
-        def update_host_password(options={})
+        def update_host_password(password, username, options={})
           options.merge!(
             'command' => 'updateHostPassword', 
-            'username' => options['username'], 
-            'password' => options['password']  
+            'password' => password, 
+            'username' => username  
           )
           request(options)
         end

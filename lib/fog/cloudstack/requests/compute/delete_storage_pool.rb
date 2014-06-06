@@ -6,10 +6,10 @@ module Fog
         # Deletes a storage pool.
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/deleteStoragePool.html]
-        def delete_storage_pool(options={})
+        def delete_storage_pool(id, options={})
           options.merge!(
             'command' => 'deleteStoragePool', 
-            'id' => options['id']  
+            'id' => id  
           )
           request(options)
         end

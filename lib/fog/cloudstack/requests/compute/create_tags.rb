@@ -6,12 +6,12 @@ module Fog
         # Creates resource tag(s)
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/createTags.html]
-        def create_tags(options={})
+        def create_tags(resourceids, resourcetype, tags, options={})
           options.merge!(
             'command' => 'createTags', 
-            'resourcetype' => options['resourcetype'], 
-            'resourceids' => options['resourceids'], 
-            'tags' => options['tags']  
+            'resourceids' => resourceids, 
+            'resourcetype' => resourcetype, 
+            'tags' => tags  
           )
           request(options)
         end

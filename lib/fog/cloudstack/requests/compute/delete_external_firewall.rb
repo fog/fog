@@ -6,10 +6,10 @@ module Fog
         # Deletes an external firewall appliance.
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/deleteExternalFirewall.html]
-        def delete_external_firewall(options={})
+        def delete_external_firewall(id, options={})
           options.merge!(
             'command' => 'deleteExternalFirewall', 
-            'id' => options['id']  
+            'id' => id  
           )
           request(options)
         end

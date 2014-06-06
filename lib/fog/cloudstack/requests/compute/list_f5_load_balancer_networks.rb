@@ -6,10 +6,10 @@ module Fog
         # lists network that are using a F5 load balancer device
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/listF5LoadBalancerNetworks.html]
-        def list_f5_load_balancer_networks(options={})
+        def list_f5_load_balancer_networks(lbdeviceid, options={})
           options.merge!(
             'command' => 'listF5LoadBalancerNetworks', 
-            'lbdeviceid' => options['lbdeviceid']  
+            'lbdeviceid' => lbdeviceid  
           )
           request(options)
         end

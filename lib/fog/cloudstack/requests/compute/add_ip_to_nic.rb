@@ -6,10 +6,10 @@ module Fog
         # Assigns secondary IP to NIC
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/addIpToNic.html]
-        def add_ip_to_nic(options={})
+        def add_ip_to_nic(nicid, options={})
           options.merge!(
             'command' => 'addIpToNic', 
-            'nicid' => options['nicid']  
+            'nicid' => nicid  
           )
           request(options)
         end

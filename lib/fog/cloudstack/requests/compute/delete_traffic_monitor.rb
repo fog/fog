@@ -6,10 +6,10 @@ module Fog
         # Deletes an traffic monitor host.
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/deleteTrafficMonitor.html]
-        def delete_traffic_monitor(options={})
+        def delete_traffic_monitor(id, options={})
           options.merge!(
             'command' => 'deleteTrafficMonitor', 
-            'id' => options['id']  
+            'id' => id  
           )
           request(options)
         end

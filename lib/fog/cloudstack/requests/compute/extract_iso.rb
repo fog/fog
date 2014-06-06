@@ -6,11 +6,11 @@ module Fog
         # Extracts an ISO
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/extractIso.html]
-        def extract_iso(options={})
+        def extract_iso(mode, id, options={})
           options.merge!(
             'command' => 'extractIso', 
-            'mode' => options['mode'], 
-            'id' => options['id']  
+            'mode' => mode, 
+            'id' => id  
           )
           request(options)
         end

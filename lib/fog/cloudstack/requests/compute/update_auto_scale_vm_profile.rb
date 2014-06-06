@@ -6,10 +6,10 @@ module Fog
         # Updates an existing autoscale vm profile.
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/updateAutoScaleVmProfile.html]
-        def update_auto_scale_vm_profile(options={})
+        def update_auto_scale_vm_profile(id, options={})
           options.merge!(
             'command' => 'updateAutoScaleVmProfile', 
-            'id' => options['id']  
+            'id' => id  
           )
           request(options)
         end

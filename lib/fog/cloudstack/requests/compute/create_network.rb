@@ -6,13 +6,13 @@ module Fog
         # Creates a network
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/createNetwork.html]
-        def create_network(options={})
+        def create_network(displaytext, name, networkofferingid, zoneid, options={})
           options.merge!(
             'command' => 'createNetwork', 
-            'displaytext' => options['displaytext'], 
-            'zoneid' => options['zoneid'], 
-            'name' => options['name'], 
-            'networkofferingid' => options['networkofferingid']  
+            'displaytext' => displaytext, 
+            'name' => name, 
+            'networkofferingid' => networkofferingid, 
+            'zoneid' => zoneid  
           )
           request(options)
         end

@@ -6,10 +6,10 @@ module Fog
         # Deletes a VPC
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/deleteVPC.html]
-        def delete_vpc(options={})
+        def delete_vpc(id, options={})
           options.merge!(
             'command' => 'deleteVPC', 
-            'id' => options['id']  
+            'id' => id  
           )
           request(options)
         end

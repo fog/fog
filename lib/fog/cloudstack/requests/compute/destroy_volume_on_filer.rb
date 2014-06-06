@@ -6,12 +6,12 @@ module Fog
         # Destroy a Volume
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/destroyVolumeOnFiler.html]
-        def destroy_volume_on_filer(options={})
+        def destroy_volume_on_filer(ipaddress, aggregatename, volumename, options={})
           options.merge!(
             'command' => 'destroyVolumeOnFiler', 
-            'aggregatename' => options['aggregatename'], 
-            'volumename' => options['volumename'], 
-            'ipaddress' => options['ipaddress']  
+            'ipaddress' => ipaddress, 
+            'aggregatename' => aggregatename, 
+            'volumename' => volumename  
           )
           request(options)
         end

@@ -6,11 +6,11 @@ module Fog
         # Dedicates a Pod.
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/dedicatePod.html]
-        def dedicate_pod(options={})
+        def dedicate_pod(domainid, podid, options={})
           options.merge!(
             'command' => 'dedicatePod', 
-            'podid' => options['podid'], 
-            'domainid' => options['domainid']  
+            'domainid' => domainid, 
+            'podid' => podid  
           )
           request(options)
         end

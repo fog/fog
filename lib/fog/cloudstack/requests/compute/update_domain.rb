@@ -6,10 +6,10 @@ module Fog
         # Updates a domain with a new name
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/updateDomain.html]
-        def update_domain(options={})
+        def update_domain(id, options={})
           options.merge!(
             'command' => 'updateDomain', 
-            'id' => options['id']  
+            'id' => id  
           )
           request(options)
         end

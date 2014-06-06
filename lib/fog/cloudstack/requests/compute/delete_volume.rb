@@ -6,10 +6,10 @@ module Fog
         # Deletes a detached disk volume.
         #
         # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/deleteVolume.html]
-        def delete_volume(options={})
+        def delete_volume(id, options={})
           options.merge!(
             'command' => 'deleteVolume', 
-            'id' => options['id']  
+            'id' => id  
           )
           request(options)
         end
