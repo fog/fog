@@ -149,7 +149,12 @@ module Fog
         def normalize_permissions(options)
           normalized_permissions = []
           if options['SourceSecurityGroupName']
-            source_group_id=self.data[:security_groups][options['SourceSecurityGroupName']]['groupId']
+            group_name = if options['SourceSecurityGroupName'] =~ /default_elb/
+                           "default"
+                         else
+                           options['SourceSecurityGroupName']
+                         end
+            source_group_id=self.data[:security_groups][group_name]['groupId']
             ['tcp', 'udp'].each do |protocol|
               normalized_permissions << {
                 'ipProtocol' => protocol,
