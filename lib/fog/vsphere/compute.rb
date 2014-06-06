@@ -109,6 +109,7 @@ module Fog
           :corespersocket   => 'config.hardware.numCoresPerSocket',
           :overall_status => 'overallStatus',
           :guest_id => 'config.guestId',
+          :hardware_version => 'config.version',
         }
 
         def convert_vm_view_to_attr_hash(vms)

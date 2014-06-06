@@ -1,4 +1,4 @@
-require 'fog/core/colletion'
+require 'fog/core/collection'
 require 'fog/storm_on_demand/models/dns/reverse'
 
 module Fog

@@ -9,7 +9,7 @@ Shindo.tests('AWS::DataPipeline | pipeline_tests', ['aws', 'data_pipeline']) do
       name = 'fog-test-pipeline-name'
       description = 'Fog test pipeline'
 
-      result = Fog::AWS[:data_pipeline].create_pipeline(unique_id, name, description)
+      result = Fog::AWS[:data_pipeline].create_pipeline(unique_id, name, description, {})
       @pipeline_id = result['pipelineId']
       result
     end

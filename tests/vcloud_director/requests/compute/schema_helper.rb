@@ -619,7 +619,9 @@ class VcloudDirector
             :Netmask => String,
             :Dns1 => String,
             :Dns2 => String,
+            :DnsSuffix => String,
             :IsEnabled=> String,
+            :IpRanges=> IP_RANGES_TYPE,
           }
         },
         :FenceMode => String,
@@ -630,7 +632,6 @@ class VcloudDirector
         :name => String,
         :href => String,
         :type => String,
-        :status => String,
         :id => String,
         :Description => String,
         :Configuration => NETWORK_CONFIGURATION_TYPE,

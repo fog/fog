@@ -7,6 +7,7 @@ module Fog
         identity  :id, :aliases => 'pipelineId'
         attribute :name
         attribute :description
+        attribute :tags
         attribute :user_id, :aliases => 'userId'
         attribute :account_id, :aliases => 'accountId'
         attribute :state, :aliases => 'pipelineState'
@@ -27,7 +28,7 @@ module Fog
           requires :name
           requires :unique_id
 
-          data = service.create_pipeline(unique_id, name)
+          data = service.create_pipeline(unique_id, name, nil, tags)
           merge_attributes(data)
 
           true
