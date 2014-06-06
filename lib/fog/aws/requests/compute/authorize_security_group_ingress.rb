@@ -190,7 +190,7 @@ module Fog
                     security_group = if group_name = authorized_group['GroupName']
                                        self.data[:security_groups][group_name] || {}
                                      elsif group_id = authorized_group['GroupId']
-                                       self.data[:security_groups].values.find { |sg| sg['groupId'] == group_id }
+                                       self.data[:security_groups].values.find { |sg| sg['groupId'] == group_id } || {}
                                      end
 
                     {'groupName' => authorized_group['GroupName'] || security_group["groupName"], 'userId' => authorized_group['UserId'] || self.data[:owner_id], 'groupId' => authorized_group["GroupId"] || security_group['groupId']}
@@ -204,7 +204,7 @@ module Fog
                     security_group = if group_name = authorized_group['GroupName']
                                        self.data[:security_groups][group_name] || {}
                                      elsif group_id = authorized_group['GroupId']
-                                       self.data[:security_groups].values.find { |sg| sg['groupId'] == group_id }
+                                       self.data[:security_groups].values.find { |sg| sg['groupId'] == group_id } || {}
                                      end
 
                     {'groupName' => authorized_group['GroupName'] || security_group["groupName"], 'userId' => authorized_group['UserId'] || self.data[:owner_id], 'groupId' => authorized_group["GroupId"] || security_group['groupId']}
