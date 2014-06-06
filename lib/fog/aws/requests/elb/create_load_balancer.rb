@@ -99,7 +99,7 @@ module Fog
                              Fog::Compute::AWS::Mock.data[region][@aws_access_key_id][:security_groups]['amazon-elb-sg']
                            when 'EC2-VPC-Default'
                              # find or create default vpc
-                             compute = Fog::Compute::AWS::new(aws_access_key_id: @aws_access_key_id, aws_secret_access_key: @aws_secret_access_key)
+                             compute = Fog::Compute::AWS::new(:aws_access_key_id => @aws_access_key_id, :aws_secret_access_key => @aws_secret_access_key)
                              unless vpc = compute.vpcs.all.first
                                vpc = compute.vpcs.create('cidr_block' => '10.0.0.0/24')
                              end
