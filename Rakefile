@@ -55,7 +55,7 @@ Rake::TestTask.new do |t|
 end
 
 namespace :test do
-  mock = 'true' || ENV['FOG_MOCK']
+  mock = ENV['FOG_MOCK'].nil? ? 'true' : ENV['FOG_MOCK']
   task :travis do
       sh("export FOG_MOCK=#{mock} && bundle exec shindont")
   end
