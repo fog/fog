@@ -2,7 +2,6 @@ module Fog
   module HP
     class LB
       class Real
-
         def list_versions
           request(
             :expects => 200,
@@ -12,7 +11,6 @@ module Fog
         end
       end
       class Mock
-
         def list_versions
           response        = Excon::Response.new
           versions       = self.data[:versions].values
@@ -20,7 +18,6 @@ module Fog
           response.body   = { 'versions' => versions }
           response
         end
-
       end
     end
   end

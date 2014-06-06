@@ -4,9 +4,7 @@ require 'fog/aws/models/compute/route_table'
 module Fog
   module Compute
     class AWS
-
       class RouteTables < Fog::Collection
-
         attribute :filters
 
         model Fog::Compute::AWS::RouteTable
@@ -84,9 +82,7 @@ module Fog
             self.class.new(:service => service).all('route-table-id' => route_table_id).first
           end
         end
-
       end
-
     end
   end
 end

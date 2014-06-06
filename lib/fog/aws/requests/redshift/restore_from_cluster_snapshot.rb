@@ -49,7 +49,6 @@ module Fog
           publicly_accessible          = options[:publicly_accessible]
           owner_account                = options[:owner_account]
 
-
           path = "/"
           params = {
             :headers    => {},

@@ -3,9 +3,7 @@ require 'fog/core/model'
 module Fog
   module AWS
     class Elasticache
-
       class SubnetGroup < Fog::Model
-
         identity   :id, :aliases => ['CacheSubnetGroupName', :name]
         attribute  :description, :aliases => 'CacheSubnetGroupDescription'
         attribute  :vpc_id, :aliases => 'VpcId'
@@ -28,7 +26,6 @@ module Fog
           service.delete_cache_subnet_group(id)
           true
         end
-
       end
     end
   end

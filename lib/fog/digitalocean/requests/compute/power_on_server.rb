@@ -2,7 +2,6 @@ module Fog
   module Compute
     class DigitalOcean
       class Real
-
         def power_on_server( id )
           request(
             :expects  => [200],
@@ -10,11 +9,9 @@ module Fog
             :path     => "droplets/#{id}/power_on"
           )
         end
-
       end
 
       class Mock
-
         def power_on_server( id )
           response = Excon::Response.new
           response.status = 200
@@ -26,7 +23,6 @@ module Fog
           }
           response
         end
-
       end
     end
   end

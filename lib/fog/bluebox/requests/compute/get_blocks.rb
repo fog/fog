@@ -2,7 +2,6 @@ module Fog
   module Compute
     class Bluebox
       class Real
-
         # Get list of blocks
         #
         # ==== Returns
@@ -21,7 +20,6 @@ module Fog
             :path     => 'api/blocks.json'
           )
         end
-
       end
     end
   end

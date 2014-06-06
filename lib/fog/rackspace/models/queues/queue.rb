@@ -4,7 +4,6 @@ module Fog
   module Rackspace
     class Queues
       class Queue < Fog::Model
-
         # @!attribute [rw] name
         # @return [String] name of queue
         identity :name

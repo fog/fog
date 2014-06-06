@@ -2,7 +2,6 @@ module Fog
   module Rackspace
     class Monitoring
       class Real
-
         def list_notifications(options={})
           request(
             :expects  => [200],
@@ -11,7 +10,6 @@ module Fog
             :query    => options
           )
         end
-
       end
 
       class Mock
@@ -60,8 +58,6 @@ module Fog
           response
         end
       end
-
     end
   end
 end
-

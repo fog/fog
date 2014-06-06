@@ -2,7 +2,6 @@ module Fog
   module Compute
     class HPV2
       class Real
-
         # List metadata for specific collections
         #
         # ==== Parameters
@@ -21,11 +20,9 @@ module Fog
             :path     => "/#{collection_name}/#{parent_id}/metadata"
           )
         end
-
       end
 
       class Mock
-
         def list_metadata(collection_name, parent_id)
           mdata = {}
           if collection_name == "images" then
@@ -49,7 +46,6 @@ module Fog
           response.body = {'metadata' => mdata}
           response
         end
-
       end
     end
   end

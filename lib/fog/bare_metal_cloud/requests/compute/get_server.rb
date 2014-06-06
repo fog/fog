@@ -2,7 +2,6 @@ module Fog
   module Compute
     class BareMetalCloud
       class Real
-
         # List servers
         #
         # ==== Parameters
@@ -34,7 +33,6 @@ module Fog
             :query    => {'serverId' => server_id}
           )
         end
-
       end
     end
   end

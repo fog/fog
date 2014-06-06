@@ -3,9 +3,7 @@ require 'fog/vcloud/models/compute/organization'
 module Fog
   module Vcloud
     class Compute
-
       class Organizations < Collection
-
         model Fog::Vcloud::Compute::Organization
 
         undef_method :create

@@ -2,7 +2,6 @@ module Fog
   module DNS
     class AWS
       class Real
-
         require 'fog/aws/parsers/dns/create_hosted_zone'
 
         # Creates a new hosted zone
@@ -30,7 +29,6 @@ module Fog
         #       * 'NameServer'<~String>
         #   * status<~Integer> - 201 when successful
         def create_hosted_zone(name, options = {})
-
           optional_tags = ''
           if options[:caller_ref]
             optional_tags += "<CallerReference>#{options[:caller_ref]}</CallerReference>"
@@ -50,13 +48,10 @@ module Fog
             :method  => 'POST',
             :path    => "hostedzone"
           })
-
         end
-
       end
 
       class Mock
-
         require 'time'
 
         def create_hosted_zone(name, options = {})
@@ -64,7 +59,7 @@ module Fog
           name = name + "." unless name.end_with?(".")
 
           response = Excon::Response.new
-          if list_hosted_zones.body['HostedZones'].find_all {|z| z['Name'] == name}.size < self.data[:limits][:duplicate_domains]
+          if list_hosted_zones.body['HostedZones'].select {|z| z['Name'] == name}.size < self.data[:limits][:duplicate_domains]
             response.status = 201
             if options[:caller_ref]
               caller_ref = options[:caller_ref]

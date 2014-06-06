@@ -4,7 +4,6 @@ require 'fog/rackspace/models/dns/records'
 module Fog
   module DNS
     class Rackspace
-
       class Zone < Fog::Model
         include Fog::DNS::Rackspace::Callback
 

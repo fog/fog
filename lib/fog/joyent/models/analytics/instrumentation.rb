@@ -76,7 +76,6 @@ module Fog
             Fog::Joyent::Analytics::Value.new(datum)
           end
         end
-
       end
     end
   end

@@ -30,7 +30,6 @@ service = Fog::Storage.new({
   :rackspace_region => :ord #Use Chicago Region
   })
 
-
 # prompt for directory name
 directory_name = get_user_input "\nEnter name of directory to create"
 
@@ -42,5 +41,3 @@ directory.reload
 
 puts "\n Directory #{directory.key} was created."
 puts "To delete the container please execute the delete_directory.rb script\n\n"
-
-

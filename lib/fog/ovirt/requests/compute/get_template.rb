@@ -5,7 +5,6 @@ module Fog
         def get_template(id)
           ovirt_attrs client.template(id)
         end
-
       end
       class Mock
         def get_template(id)

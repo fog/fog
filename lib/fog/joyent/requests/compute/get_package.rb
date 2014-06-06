@@ -4,7 +4,6 @@ module Fog
   module Compute
     class Joyent
       class Mock
-
         def get_package(name)
           if pkg = self.data[:packages][name]
             response = Excon::Response.new
@@ -27,7 +26,6 @@ module Fog
             :idempotent => true
           )
         end
-
       end
     end
   end

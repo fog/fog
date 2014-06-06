@@ -2,7 +2,6 @@ module Fog
   module Compute
     class Linode
       class Real
-
         # Get available stack scripts
         #
         # ==== Parameters
@@ -25,7 +24,6 @@ module Fog
           result.body['DATA'].each { |r| r['DISTRIBUTIONIDLIST'] = r['DISTRIBUTIONIDLIST'].to_s }
           result
         end
-
       end
     end
   end

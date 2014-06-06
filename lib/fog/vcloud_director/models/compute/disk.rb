@@ -3,9 +3,7 @@ require 'fog/core/model'
 module Fog
   module Compute
     class VcloudDirector
-
       class Disk < Model # there is no lazy_load in disks
-
         identity  :id
 
         attribute :address
@@ -44,7 +42,6 @@ module Fog
           response = service.put_disks(attributes[:vm].id, data.disks)
           service.process_task(response.body)
         end
-
       end
     end
   end

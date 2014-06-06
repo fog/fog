@@ -2,7 +2,6 @@ module Fog
   module DNS
     class DNSMadeEasy
       class Real
-
         # Creates a domain entry with the specified name. Returns errors if name is not valid or conflicts with another domain.
         #
         # ==== Parameters
@@ -22,7 +21,6 @@ module Fog
             :path     => "/V1.2/domains/#{domain}"
           )
         end
-
       end
     end
   end

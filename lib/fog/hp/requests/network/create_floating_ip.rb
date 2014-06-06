@@ -1,7 +1,6 @@
 module Fog
   module HP
     class Network
-
       class Real
         # Create a new floating ip
         #
@@ -63,7 +62,6 @@ module Fog
           response
         end
       end
-
     end
   end
 end

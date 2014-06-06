@@ -2,7 +2,6 @@ module Fog
   module Compute
     class IBM
       class Real
-
         # Modify an instance
         #
         # ==== Parameters
@@ -35,7 +34,6 @@ module Fog
       end
 
       class Mock
-
         def modify_instance(instance_id, params={})
           response = Excon::Response.new
           if instance_exists? instance_id
@@ -64,7 +62,6 @@ module Fog
           end
           response
         end
-
       end
     end
   end

@@ -16,7 +16,6 @@ module Fog
         def create_application(options)
           wrapped_request("post", "/1.0/applications", [201], options)
         end
-
       end
     end
   end

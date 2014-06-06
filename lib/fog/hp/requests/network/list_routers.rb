@@ -1,7 +1,6 @@
 module Fog
   module HP
     class Network
-
       class Real
         # List existing routers
         #
@@ -39,7 +38,6 @@ module Fog
           response
         end
       end
-
     end
   end
 end

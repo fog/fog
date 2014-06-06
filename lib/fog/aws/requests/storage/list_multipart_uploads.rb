@@ -2,7 +2,6 @@ module Fog
   module Storage
     class AWS
       class Real
-
         require 'fog/aws/parsers/storage/list_multipart_uploads'
 
         # List multipart uploads for a bucket
@@ -47,7 +46,6 @@ module Fog
             :query    => options.merge!({'uploads' => nil})
           })
         end
-
       end
     end
   end

@@ -2,7 +2,6 @@ module Fog
   module CDN
     class AWS
       class Real
-
         require 'fog/aws/parsers/cdn/get_invalidation'
 
         # Get invalidation.
@@ -29,11 +28,9 @@ module Fog
             :path       => "/distribution/#{distribution_id}/invalidation/#{invalidation_id}"
           })
         end
-
       end
 
       class Mock
-
         def get_invalidation(distribution_id, invalidation_id)
           distribution = self.data[:distributions][distribution_id]
           unless distribution
@@ -55,7 +52,6 @@ module Fog
           response.body = invalidation
           response
         end
-
       end
     end
   end

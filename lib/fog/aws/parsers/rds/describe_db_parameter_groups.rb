@@ -2,9 +2,7 @@ module Fog
   module Parsers
     module AWS
       module RDS
-
         class DescribeDBParameterGroups < Fog::Parsers::Base
-
           def reset
             @response = { 'DescribeDBParameterGroupsResult' => {'DBParameterGroups' => []}, 'ResponseMetadata' => {} }
             @db_parameter_group = {}
@@ -27,11 +25,8 @@ module Fog
             when 'RequestId'
               @response['ResponseMetadata'][name] = value
             end
-
           end
-
         end
-
       end
     end
   end

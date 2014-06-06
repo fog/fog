@@ -2,7 +2,6 @@ module Fog
   module Compute
     class OpenStack
       class Real
-
         def create_volume_snapshot(volume_id, name, description, force=false)
           data = {
             'snapshot' => {
@@ -20,7 +19,6 @@ module Fog
             :path     => "os-snapshots"
           )
         end
-
       end
 
       class Mock
@@ -41,7 +39,6 @@ module Fog
           response
         end
       end
-
     end
   end
 end

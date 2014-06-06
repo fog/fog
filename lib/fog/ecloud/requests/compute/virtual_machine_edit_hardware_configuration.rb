@@ -2,7 +2,6 @@ module Fog
   module Compute
     class Ecloud
       class Real
-
         def virtual_machine_edit_hardware_configuration(vm_uri, data)
           validate_data([:cpus, :memory, :disks, :nics], data)
           body = build_request_body_edit_hardware_configuration(data)
@@ -51,7 +50,6 @@ module Fog
 
       class Mock
         def virtual_machine_edit_hardware_configuration(vm_uri, data)
-
           server_id = vm_uri.match(/(\d+)/)[1]
 
           server  = self.data[:servers][server_id.to_i]

@@ -2,7 +2,6 @@ module Fog
   module DNS
     class Zerigo
       class Real
-
         require 'fog/zerigo/parsers/dns/get_zone_stats'
 
         # returns current traffic statistics about this zone. Queries is measured from the
@@ -29,7 +28,6 @@ module Fog
             :path     => "/api/1.1/zones/#{zone_id}/stats.xml"
           )
         end
-
       end
 
       class Mock # :nodoc:all

@@ -3,7 +3,6 @@ require 'fog/zerigo/core'
 module Fog
   module DNS
     class Zerigo < Fog::Service
-
       requires :zerigo_email, :zerigo_token
       recognizes :host, :persistent, :port, :scheme, :timeout
 
@@ -30,7 +29,6 @@ module Fog
       request :update_zone
 
       class Mock
-
         def self.data
           @data ||= Hash.new do |hash, key|
             hash[key] = key == :zones ? [] : {}
@@ -63,12 +61,11 @@ module Fog
         end
 
         def find_host(host_id)
-          self.data[:zones].collect { |z| z['hosts'].find { |h| h['id'] == host_id } }.compact.first
+          self.data[:zones].map { |z| z['hosts'].find { |h| h['id'] == host_id } }.compact.first
         end
       end
 
       class Real
-
         def initialize(options={})
           require 'fog/core/parser'
 
@@ -112,7 +109,6 @@ module Fog
 
           response
         end
-
       end
     end
   end

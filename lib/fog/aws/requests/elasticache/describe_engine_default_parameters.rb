@@ -2,7 +2,6 @@ module Fog
   module AWS
     class Elasticache
       class Real
-
         require 'fog/aws/parsers/elasticache/describe_engine_default_parameters'
 
         # Returns the default engine and system parameter information
@@ -22,7 +21,6 @@ module Fog
             :parser => Fog::Parsers::AWS::Elasticache::DescribeEngineDefaultParameters.new
           })
         end
-
       end
 
       class Mock

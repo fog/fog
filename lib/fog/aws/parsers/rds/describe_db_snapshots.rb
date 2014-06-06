@@ -2,11 +2,9 @@ module Fog
   module Parsers
     module AWS
       module RDS
-
         require 'fog/aws/parsers/rds/snapshot_parser'
 
         class DescribeDBSnapshots < Fog::Parsers::AWS::RDS::SnapshotParser
-
           def reset
             @response = { 'DescribeDBSnapshotsResult' => {'DBSnapshots' => []}, 'ResponseMetadata' => {} }
             super
@@ -28,11 +26,8 @@ module Fog
             else
               super
             end
-
           end
-
         end
-
       end
     end
   end

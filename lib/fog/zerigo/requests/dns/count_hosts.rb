@@ -2,7 +2,6 @@ module Fog
   module DNS
     class Zerigo
       class Real
-
         require 'fog/zerigo/parsers/dns/count_hosts'
 
         # total number of hosts available for the specified zone. It is the same value as provided
@@ -21,7 +20,6 @@ module Fog
             :path     => "/api/1.1/zones/#{zone_id}/hosts/count.xml"
           )
         end
-
       end
 
       class Mock # :nodoc:all

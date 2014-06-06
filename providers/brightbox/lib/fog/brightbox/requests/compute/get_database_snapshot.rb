@@ -12,7 +12,6 @@ module Fog
           return nil if identifier.nil? || identifier == ""
           wrapped_request("get", "/1.0/database_snapshots/#{identifier}", [200])
         end
-
       end
     end
   end

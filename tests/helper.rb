@@ -1,16 +1,3 @@
-require 'simplecov'
-
-if ENV['COVERAGE'] == 'true' && RUBY_VERSION != "1.9.2"
-  require 'coveralls'
-  SimpleCov.command_name "shindo:#{Process.pid.to_s}"
-  SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter[
-    SimpleCov::Formatter::HTMLFormatter,
-    Coveralls::SimpleCov::Formatter
-  ]
-  SimpleCov.merge_timeout 3600
-  SimpleCov.start
-end
-
 ENV['FOG_RC']         = ENV['FOG_RC'] || File.expand_path('../.fog', __FILE__)
 ENV['FOG_CREDENTIAL'] = ENV['FOG_CREDENTIAL'] || 'default'
 
@@ -49,7 +36,7 @@ available_providers = Fog.available_providers.map {|provider| provider.downcase}
 unavailable_providers = all_providers - available_providers
 
 if !ENV['PROVIDER'].nil? && unavailable_providers.include?(ENV['PROVIDER'])
-  Formatador.display_line("[red]Requested provider #{ENV['PROVIDER']} is not available.[/]" + 
+  Formatador.display_line("[red]Requested provider #{ENV['PROVIDER']} is not available.[/]" +
                           "[red]Check if .fog file has correct configuration (see '#{Fog.credentials_path}')[/]")
   exit(0)
 end

@@ -3,9 +3,7 @@ require 'fog/core/model'
 module Fog
   module Compute
     class Rackspace
-
       class Flavor < Fog::Model
-
         identity :id
 
         attribute :disk
@@ -38,9 +36,7 @@ module Fog
             2
           end
         end
-
       end
-
     end
   end
 end

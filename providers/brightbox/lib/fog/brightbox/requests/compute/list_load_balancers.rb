@@ -12,7 +12,6 @@ module Fog
         def list_load_balancers
           wrapped_request("get", "/1.0/load_balancers", [200])
         end
-
       end
     end
   end

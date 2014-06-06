@@ -54,7 +54,7 @@ Shindo.tests('Fog::Storage[:aws] | bucket requests', ["aws"]) do
       tests("#put_bucket('#{@aws_bucket_name}') existing").succeeds do
         Fog::Storage[:aws].put_bucket(@aws_bucket_name)
       end
-    end    
+    end
 
     tests("#get_service").formats(@service_format) do
       Fog::Storage[:aws].get_service.body

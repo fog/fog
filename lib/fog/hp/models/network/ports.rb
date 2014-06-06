@@ -4,9 +4,7 @@ require 'fog/hp/models/network/port'
 module Fog
   module HP
     class Network
-
       class Ports < Fog::Collection
-
         attribute :filters
 
         model Fog::HP::Network::Port
@@ -29,7 +27,6 @@ module Fog
         rescue Fog::HP::Network::NotFound
           nil
         end
-
       end
     end
   end

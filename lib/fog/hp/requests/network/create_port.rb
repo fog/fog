@@ -1,7 +1,6 @@
 module Fog
   module HP
     class Network
-
       class Real
         # Create a new port
         #
@@ -62,7 +61,7 @@ module Fog
       class Mock
         def create_port(network_id, options = {})
           response = Excon::Response.new
-          if list_networks.body['networks'].detect {|_| _['id'] == network_id}
+          if list_networks.body['networks'].find {|_| _['id'] == network_id}
             response.status = 201
             data = {
               'id'             => Fog::HP::Mock.uuid.to_s,
@@ -86,7 +85,6 @@ module Fog
           end
         end
       end
-
     end
   end
 end

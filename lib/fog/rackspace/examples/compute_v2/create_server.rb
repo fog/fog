@@ -85,5 +85,3 @@ end
 
 puts "The #{server.username} password is #{server.password}\n\n"
 puts "To delete the server please execute the delete_server.rb script\n\n"
-
-

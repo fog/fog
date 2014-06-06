@@ -4,7 +4,6 @@ require 'digest/md5'
 
 module Fog
   module Voxel
-
     extend Fog::Provider
 
     service(:compute, 'Compute')

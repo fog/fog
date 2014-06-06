@@ -2,7 +2,6 @@ module Fog
   module Compute
     class OpenStack
       class Real
-
         def list_flavors_detail(options = {})
           request(
             :expects  => [200, 203],
@@ -11,11 +10,9 @@ module Fog
             :query    => options
           )
         end
-
       end
 
       class Mock
-
         def list_flavors_detail(options = {})
           response = Excon::Response.new
           response.status = 200
@@ -32,7 +29,6 @@ module Fog
           }
           response
         end
-
       end
     end
   end

@@ -3,7 +3,6 @@ require 'fog/clodo/core'
 module Fog
   module Compute
     class Clodo < Fog::Service
-
       requires :clodo_api_key, :clodo_username
       recognizes :clodo_auth_url, :persistent
       recognizes :clodo_auth_token, :clodo_management_url
@@ -40,7 +39,6 @@ module Fog
       # request :update_server
 
       class Mock
-
         def self.data
           @data ||= Hash.new do |hash, key|
             hash[key] = {
@@ -69,11 +67,9 @@ module Fog
         def reset_data
           self.class.data.delete(@clodo_username)
         end
-
       end
 
       class Real
-
         def initialize(options={})
           @clodo_api_key = options[:clodo_api_key]
           @clodo_username = options[:clodo_username]
@@ -145,7 +141,6 @@ module Fog
           @port   = uri.port
           @scheme = uri.scheme
         end
-
       end
     end
   end

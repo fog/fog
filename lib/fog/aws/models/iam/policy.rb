@@ -3,9 +3,7 @@ require 'fog/core/model'
 module Fog
   module AWS
     class IAM
-
       class Policy < Fog::Model
-
         identity  :id, :aliases => 'PolicyName'
         attribute :username, :aliases => 'UserName'
         attribute :document, :aliases => 'PolicyDocument'
@@ -32,7 +30,6 @@ module Fog
           requires :username
           service.users.get(username)
         end
-
       end
     end
   end

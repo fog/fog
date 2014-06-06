@@ -4,7 +4,6 @@ module Fog
   module Compute
     class Ecloud
       class VirtualMachineAssignedIps < Fog::Ecloud::Collection
-
         identity :virtual_machine_id
 
         model Fog::Compute::Ecloud::VirtualMachineAssignedIp

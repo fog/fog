@@ -4,9 +4,7 @@ require 'fog/aws/models/iam/user'
 module Fog
   module AWS
     class IAM
-
       class Users < Fog::Collection
-
         attribute :is_truncated,    :aliases => 'IsTruncated'
         attribute :marker,          :aliases => 'Marker'
 
@@ -26,7 +24,7 @@ module Fog
           nil
         end
 
-        alias :each_user_this_page :each
+        alias_method :each_user_this_page, :each
 
         def each
           if !block_given?

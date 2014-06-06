@@ -2,7 +2,6 @@ module Fog
   module Compute
     class Linode
       class Real
-
         # Get available distributions
         #
         # ==== Parameters
@@ -23,7 +22,6 @@ module Fog
             :query    => { :api_action => 'avail.distributions' }.merge!(options)
           )
         end
-
       end
 
       class Mock

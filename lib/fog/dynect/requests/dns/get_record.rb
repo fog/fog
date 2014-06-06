@@ -2,7 +2,6 @@ module Fog
   module DNS
     class Dynect
       class Real
-
         # List records of a given type
         #
         # ==== Parameters
@@ -65,7 +64,7 @@ module Fog
                       end
             response.body = {
               "status" => "success",
-              "data" => records.collect { |record| "/REST/#{record[:type]}Record/#{record[:zone][:zone]}/#{record[:fqdn]}/#{record[:record_id]}" },
+              "data" => records.map { |record| "/REST/#{record[:type]}Record/#{record[:zone][:zone]}/#{record[:fqdn]}/#{record[:record_id]}" },
               "job_id" => Fog::Dynect::Mock.job_id,
               "msgs" => [{
                 "INFO" => "detail: Found #{records.size} record",

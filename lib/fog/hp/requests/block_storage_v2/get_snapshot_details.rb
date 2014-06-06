@@ -2,7 +2,6 @@ module Fog
   module HP
     class BlockStorageV2
       class Real
-
         # Get details for existing block storage snapshot
         #
         # ==== Parameters
@@ -28,11 +27,9 @@ module Fog
           )
           response
         end
-
       end
 
       class Mock  # :nodoc:all
-
         def get_snapshot_details(snapshot_id)
           unless snapshot_id
             raise ArgumentError.new('snapshot_id is required')
@@ -45,10 +42,8 @@ module Fog
           else
             raise Fog::HP::BlockStorageV2::NotFound
           end
-
         end
       end
-
     end
   end
 end

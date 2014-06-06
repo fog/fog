@@ -4,7 +4,6 @@ module Fog
   module Compute
     class IBM
       class Address < Fog::Model
-
         STATES = {
           0 => 'New',
           1 => 'Allocating',

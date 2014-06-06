@@ -4,9 +4,7 @@ require 'fog/ninefold/models/compute/ip_forwarding_rule'
 module Fog
   module Compute
     class Ninefold
-
       class IpForwardingRules < Fog::Collection
-
         model Fog::Compute::Ninefold::IpForwardingRule
 
         def all
@@ -23,9 +21,7 @@ module Fog
             new(data[0])
           end
         end
-
       end
-
     end
   end
 end

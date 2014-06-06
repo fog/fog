@@ -2,7 +2,6 @@ module Fog
   module AWS
     class IAM
       class Real
-
         require 'fog/aws/parsers/iam/basic'
 
         # Upload signing certificate for user (by default detects user from access credentials)
@@ -26,7 +25,6 @@ module Fog
             :parser         => Fog::Parsers::AWS::IAM::Basic.new
           }.merge!(options))
         end
-
       end
     end
   end

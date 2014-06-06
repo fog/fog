@@ -2,7 +2,6 @@ module Fog
   module Compute
     class RackspaceV2
       class Real
-
         # Request a new keypair to be created
         # @param [String] key_name: unique name of the keypair to create
         # @return  [Excon::Response] response :
@@ -58,7 +57,6 @@ module Fog
                       :body   => { 'keypair' => k } )
         end
       end
-
     end
   end
 end

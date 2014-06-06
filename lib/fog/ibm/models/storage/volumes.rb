@@ -4,9 +4,7 @@ require 'fog/ibm/models/storage/volume'
 module Fog
   module Storage
     class IBM
-
       class Volumes < Fog::Collection
-
         model Fog::Storage::IBM::Volume
 
         def all
@@ -20,7 +18,6 @@ module Fog
             nil
           end
         end
-
       end
     end
   end

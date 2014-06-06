@@ -2,7 +2,6 @@ module Fog
   module Compute
     class Joyent
       class Flavor < Fog::Model
-
         identity :id
 
         attribute :name
@@ -14,7 +13,6 @@ module Fog
         attribute :description
         attribute :version
         attribute :group
-
       end
     end
   end

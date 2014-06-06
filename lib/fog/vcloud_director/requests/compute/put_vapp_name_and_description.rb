@@ -2,7 +2,6 @@ module Fog
   module Compute
     class VcloudDirector
       class Real
-
         require 'fog/vcloud_director/generators/compute/vapp'
 
         # Modify the name or description of a vApp.

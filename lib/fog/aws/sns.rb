@@ -24,10 +24,8 @@ module Fog
       request :unsubscribe
 
       class Mock
-
         def initialize(options={})
         end
-
       end
 
       class Real
@@ -108,7 +106,6 @@ module Fog
 
           response
         end
-
       end
     end
   end

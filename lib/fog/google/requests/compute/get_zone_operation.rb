@@ -1,9 +1,7 @@
 module Fog
   module Compute
     class Google
-
       class Mock
-
         def get_zone_operation(zone_name, operation)
           operation = self.data[:operations][operation]
           if operation

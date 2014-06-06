@@ -3,7 +3,6 @@ require 'fog/core/model'
 module Fog
   module AWS
     class ElasticBeanstalk
-
       class Template < Fog::Model
         attribute :name, :aliases => 'TemplateName'
         attribute :application_name, :aliases => 'ApplicationName'
@@ -72,7 +71,6 @@ module Fog
           true
         end
       end
-
     end
   end
 end

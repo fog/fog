@@ -1,7 +1,6 @@
 module Fog
   module Compute
     class Google
-
       class Mock
         def insert_route(name, network, dest_range, priority, options = {})
           Fog::Mock.not_implemented
@@ -32,7 +31,6 @@ module Fog
           response = self.build_response(result)
         end
       end
-
     end
   end
 end

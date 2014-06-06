@@ -2,7 +2,6 @@ module Fog
   module AWS
     class CloudFormation
       class Real
-
         require 'fog/aws/parsers/cloud_formation/update_stack'
 
         # Update a stack.
@@ -51,7 +50,6 @@ module Fog
             :parser     => Fog::Parsers::AWS::CloudFormation::UpdateStack.new
           }.merge!(params))
         end
-
       end
     end
   end

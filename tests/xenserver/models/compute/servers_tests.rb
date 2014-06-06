@@ -4,19 +4,19 @@ Shindo.tests('Fog::Compute[:xenserver] | servers collection', ['xenserver']) do
   destroy_ephemeral_servers
   servers = conn.servers
   templates = conn.servers.templates
-    
+
   tests('The servers collection') do
     servers = conn.servers.all
 
     test('should be empty') do
-      servers.empty? 
+      servers.empty?
     end
 
-    server = conn.servers.create(:name => test_ephemeral_vm_name, 
+    server = conn.servers.create(:name => test_ephemeral_vm_name,
                                  :template_name => test_template_name)
     test('should NOT be empty') do
       servers.reload
-      !servers.empty? 
+      !servers.empty?
     end
     server.destroy
 
@@ -46,14 +46,14 @@ Shindo.tests('Fog::Compute[:xenserver] | servers collection', ['xenserver']) do
           found = (s.name == test_template_name)
         end
         found
-      end 
+      end
       test("NOT include a #{test_template_name} template in built-in templates") do
         found = false
         servers.builtin_templates.each do |s|
           found = (s.name != test_template_name)
         end
         found
-      end 
+      end
       # This may fail in other test scenarios with more than one built-in template
       # present
       test("include only one custom template") { servers.custom_templates.size == 1 }
@@ -73,7 +73,7 @@ Shindo.tests('Fog::Compute[:xenserver] | servers collection', ['xenserver']) do
     tests('should be able to reload itself').succeeds { servers.reload }
 
     tests('should be able to get a model') do
-      server = conn.servers.create(:name => test_ephemeral_vm_name, 
+      server = conn.servers.create(:name => test_ephemeral_vm_name,
                                    :template_name => test_template_name)
       test('by name') { servers.get_by_name(test_ephemeral_vm_name).kind_of? Fog::Compute::XenServer::Server }
       test('by instance uuid') { servers.get_by_uuid(server.uuid).kind_of? Fog::Compute::XenServer::Server }

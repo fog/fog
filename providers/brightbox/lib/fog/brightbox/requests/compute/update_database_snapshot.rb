@@ -19,7 +19,6 @@ module Fog
           return nil if options.empty? || options.nil?
           wrapped_request("put", "/1.0/database_snapshots/#{identifier}", [200], options)
         end
-
       end
     end
   end

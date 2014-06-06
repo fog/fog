@@ -4,9 +4,7 @@ require 'fog/cloudstack/models/compute/job'
 module Fog
   module Compute
     class Cloudstack
-
       class Jobs < Fog::Collection
-
         model Fog::Compute::Cloudstack::Job
 
         def all
@@ -22,7 +20,6 @@ module Fog
           nil
         end
       end
-
     end
   end
 end

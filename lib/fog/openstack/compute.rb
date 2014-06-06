@@ -3,7 +3,6 @@ require 'fog/openstack/core'
 module Fog
   module Compute
     class OpenStack < Fog::Service
-
       requires :openstack_auth_url
       recognizes :openstack_auth_token, :openstack_management_url,
                  :persistent, :openstack_service_type, :openstack_service_name,
@@ -169,7 +168,6 @@ module Fog
       # Hosts
       request :list_hosts
       request :get_host_details
-
 
       class Mock
         attr_reader :auth_token
@@ -429,7 +427,6 @@ module Fog
 
           true
         end
-
       end
     end
   end

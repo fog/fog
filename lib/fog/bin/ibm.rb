@@ -1,6 +1,5 @@
 class IBM < Fog::Bin
   class << self
-
     def class_for(key)
       case key
       when :compute
@@ -29,6 +28,5 @@ class IBM < Fog::Bin
     def services
       Fog::IBM.services
     end
-
   end
 end

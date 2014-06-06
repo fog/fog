@@ -2,7 +2,6 @@ module Fog
   module AWS
     class ElasticBeanstalk
       class Real
-
         require 'fog/aws/parsers/beanstalk/create_storage_location'
 
         # Creates the Amazon S3 storage location for the account.

@@ -25,7 +25,7 @@ Shindo.tests('Fog::Compute[:openstack] | server requests', ['openstack']) do
     'links'           => Array,
     'security_groups' => Fog::Nullable::Array,
   }
-  
+
   @reservation_format = {
     'reservation_id' => String,
   }
@@ -70,7 +70,7 @@ Shindo.tests('Fog::Compute[:openstack] | server requests', ['openstack']) do
       @reservation_id = data['reservation_id']
       data
     end
-    
+
     tests('#validate_multi_create') do
       passed = false
       @multi_create_servers = []
@@ -88,7 +88,7 @@ Shindo.tests('Fog::Compute[:openstack] | server requests', ['openstack']) do
         Fog::Compute[:openstack].servers.get(server).destroy
       }
     end
-   
+
     #LIST
     #NOTE: we can remove strict=false if we remove uuid from GET /servers
     tests('#list_servers').formats({'servers' => [OpenStack::Compute::Formats::SUMMARY]}, false) do
@@ -101,7 +101,7 @@ Shindo.tests('Fog::Compute[:openstack] | server requests', ['openstack']) do
     end
 
     #CHANGE PASSWORD
-    if set_password_enabled 
+    if set_password_enabled
       tests("#change_server_password(#{@server_id}, 'fogupdatedserver')").succeeds do
         Fog::Compute[:openstack].change_server_password(@server_id, 'foggy')
       end
@@ -113,7 +113,7 @@ Shindo.tests('Fog::Compute[:openstack] | server requests', ['openstack']) do
       Fog::Compute[:openstack].update_server(@server_id, :name => 'fogupdatedserver')
     end
     Fog::Compute[:openstack].servers.get(@server_id).wait_for { ready? }
-    
+
     #ADD SECURITY GROUP
     tests("#add_security_group(#{@server_id}, #{@security_group_name})").succeeds do
       Fog::Compute[:openstack].add_security_group(@server_id, @security_group_name)

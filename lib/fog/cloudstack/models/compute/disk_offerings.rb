@@ -4,9 +4,7 @@ require 'fog/cloudstack/models/compute/disk_offering'
 module Fog
   module Compute
     class Cloudstack
-
       class DiskOfferings < Fog::Collection
-
         model Fog::Compute::Cloudstack::DiskOffering
 
         def all(options = {})
@@ -21,7 +19,6 @@ module Fog
           new(disk_offering_data)
         end
       end
-
     end
   end
 end

@@ -2,7 +2,6 @@ module Fog
   module Compute
     class HPV2
       class Real
-
         # Acquires a floating IP address
         #
         # Note: This method will proxy the call to the Network (Quantum) service,
@@ -18,7 +17,6 @@ module Fog
         #     * 'instance_id'<~String> - Id of the associated server instance
         #     * 'fixed_ip'<~String> - Fixed IP of the address
         def allocate_address
-
           request(
             :body     => nil,
             :expects  => 200,
@@ -26,11 +24,9 @@ module Fog
             :path     => 'os-floating-ips'
           )
         end
-
       end
 
       class Mock
-
         def allocate_address
           response = Excon::Response.new
           response.status = 200
@@ -46,7 +42,6 @@ module Fog
           response.body = { 'floating_ip' => data }
           response
         end
-
       end
     end
   end

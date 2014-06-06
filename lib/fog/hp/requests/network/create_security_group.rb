@@ -2,7 +2,6 @@ module Fog
   module HP
     class Network
       class Real
-
         # Create a new security group
         #
         # ==== Parameters
@@ -45,11 +44,9 @@ module Fog
             :path     => 'security-groups'
           )
         end
-
       end
 
       class Mock
-
         def create_security_group(options = {})
           # Spaces are NOT removed from name and description, as in case of compute sec groups
           tenant_id = Fog::Mock.random_numbers(14).to_s
@@ -92,9 +89,7 @@ module Fog
           response.body = { 'security_group' => data }
           response
         end
-
       end
-
     end
   end
 end

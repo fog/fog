@@ -2,7 +2,6 @@ module Fog
   module AWS
     class IAM
       class Real
-
         require 'fog/aws/parsers/iam/instance_profile'
 
         # Create a new instance_profile

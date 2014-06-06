@@ -2,7 +2,6 @@ module Fog
   module AWS
     class EMR
       class Real
-
         require 'fog/aws/parsers/emr/add_job_flow_steps'
 
         # adds new steps to a running job flow.
@@ -24,7 +23,6 @@ module Fog
         # * response<~Excon::Response>:
         #   * body<~Hash>:
         def add_job_flow_steps(job_flow_id, options={})
-
           if steps = options.delete('Steps')
             options.merge!(Fog::AWS.serialize_keys('Steps', steps))
           end
@@ -38,11 +36,9 @@ module Fog
       end
 
       class Mock
-
         def add_job_flow_steps(db_name, options={})
           Fog::Mock.not_implemented
         end
-
       end
     end
   end

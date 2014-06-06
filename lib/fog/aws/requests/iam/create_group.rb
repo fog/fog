@@ -2,7 +2,6 @@ module Fog
   module AWS
     class IAM
       class Real
-
         require 'fog/aws/parsers/iam/create_group'
 
         # Create a new group
@@ -32,13 +31,11 @@ module Fog
             :parser     => Fog::Parsers::AWS::IAM::CreateGroup.new
           )
         end
-
       end
 
       class Mock
-
         def create_group(group_name, path = '/')
-          if data[:groups].has_key? group_name
+          if data[:groups].key? group_name
             raise Fog::AWS::IAM::EntityAlreadyExists.new("Group with name #{group_name} already exists.")
           else
             data[:groups][group_name][:path] = path
@@ -52,7 +49,6 @@ module Fog
               response.status = 200
             end
           end
-
         end
       end
     end

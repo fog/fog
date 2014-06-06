@@ -9,7 +9,6 @@ module Fog
           @error_point = error_point
           super(message)
         end
-
       end
 
       class NotFound < Error; end
@@ -35,11 +34,6 @@ module Fog
         new_error.verbose = error.message
         new_error
       end
-
-
-
     end
-
-
   end
 end

@@ -2,7 +2,6 @@ module Fog
   module DNS
     class Zerigo
       class Real
-
         require 'fog/zerigo/parsers/dns/find_hosts'
 
         # Get list of all the host records that match the FQDN.  If desired, can limit
@@ -48,7 +47,6 @@ module Fog
             )
           end
         end
-
       end
 
       class Mock # :nodoc:all
@@ -60,7 +58,7 @@ module Fog
             response.status = 404
           else
             hosts = zone ? zone['hosts'].select { |z| z['fqdn'] == fqdn } :
-                           self.data[:zones].collect { |z| z['hosts'].find { |h| h['fqdn'] == fqdn } }.compact
+                           self.data[:zones].map { |z| z['hosts'].find { |h| h['fqdn'] == fqdn } }.compact
 
             response.status = 200
             response.body = {

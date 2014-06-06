@@ -2,7 +2,6 @@ module Fog
   module DNS
     class DNSMadeEasy
       class Real
-
         # Deletes all domains for your account.
         #
         # ==== Returns
@@ -16,7 +15,6 @@ module Fog
             :path     => '/V1.2/domains'
           )
         end
-
       end
     end
   end

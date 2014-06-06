@@ -93,7 +93,7 @@ Shindo.tests('Fog::DNS[:rackspace] | DNS requests', ['rackspace', 'dns']) do
         wait_for Fog::DNS[:rackspace], Fog::DNS[:rackspace].remove_domain(@root_domain_id, :delete_subdomains => true)
 
         test('domain and subdomains were really deleted') do
-          (Fog::DNS[:rackspace].list_domains.body['domains'].collect { |domain| domain['name'] } & [domain_name, 'subdomain.' + domain_name]).empty?
+          (Fog::DNS[:rackspace].list_domains.body['domains'].map { |domain| domain['name'] } & [domain_name, 'subdomain.' + domain_name]).empty?
         end
       end
     end

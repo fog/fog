@@ -1,7 +1,7 @@
 Shindo.tests('Fog::Compute[:linode] | datacenter requests', ['linode']) do
 
   @datacenters_format = Linode::Compute::Formats::BASIC.merge({
-    'DATA' => [{ 
+    'DATA' => [{
       'DATACENTERID'  => Integer,
       'LOCATION'      => String
     }]

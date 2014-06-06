@@ -2,7 +2,6 @@ module Fog
   module Compute
     class AWS
       class Real
-
         require 'fog/aws/parsers/compute/basic'
 
         # Replaces a route in a route table within a VPC.
@@ -31,12 +30,10 @@ module Fog
             :idempotent => true,
             :parser => Fog::Parsers::Compute::AWS::Basic.new
           }.merge!(options))
-
         end
       end
 
       class Mock
-
         def replace_route(route_table_id, destination_cidr_block, options = {})
           options['instanceOwnerId'] ||= nil
           options['DestinationCidrBlock'] ||= destination_cidr_block
@@ -77,7 +74,6 @@ module Fog
             raise Fog::Compute::AWS::InvalidParameterValue.new("Value () for parameter destinationCidrBlock is invalid. This is not a valid CIDR block.")
           end
         end
-
       end
     end
   end

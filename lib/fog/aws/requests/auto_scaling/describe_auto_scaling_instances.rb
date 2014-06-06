@@ -1,9 +1,7 @@
 module Fog
   module AWS
     class AutoScaling
-
       class Real
-
         require 'fog/aws/parsers/auto_scaling/describe_auto_scaling_instances'
 
         # Returns a description of each Auto Scaling instance in the
@@ -65,11 +63,9 @@ module Fog
             :parser  => Fog::Parsers::AWS::AutoScaling::DescribeAutoScalingInstances.new
           }.merge!(options))
         end
-
       end
 
       class Mock
-
         def describe_auto_scaling_instances(options = {})
           results = { 'AutoScalingInstances' => [] }
           self.data[:auto_scaling_groups].each do |asg_name, asg_data|
@@ -87,9 +83,7 @@ module Fog
           }
           response
         end
-
       end
-
     end
   end
 end

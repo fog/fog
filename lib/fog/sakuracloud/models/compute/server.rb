@@ -4,7 +4,6 @@ module Fog
   module Compute
     class SakuraCloud
       class Server < Fog::Model
-
         identity :id, :aliases => 'ID'
         attribute :name, :aliases => 'Name'
         attribute :server_plan, :aliases => 'ServerPlan'
@@ -35,7 +34,6 @@ module Fog
           true
         end
         alias_method :destroy, :delete
-
       end
     end
   end

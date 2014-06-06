@@ -4,9 +4,7 @@ require 'fog/openstack/models/storage/files'
 module Fog
   module Storage
     class OpenStack
-
       class Directory < Fog::Model
-
         identity  :key, :aliases => 'name'
 
         attribute :bytes, :aliases => 'X-Container-Bytes-Used'
@@ -42,9 +40,7 @@ module Fog
           service.put_container(key)
           true
         end
-
       end
-
     end
   end
 end

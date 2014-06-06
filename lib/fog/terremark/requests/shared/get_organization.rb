@@ -2,7 +2,6 @@ module Fog
   module Terremark
     module Shared
       module Real
-
         # Get details of an organization
         #
         # ==== Parameters
@@ -27,16 +26,14 @@ module Fog
           )
           response
         end
-
       end
 
       module Mock
-
         def get_organization(organization_id)
           organization_id = organization_id.to_i
           response = Excon::Response.new
 
-          if org = self.data[:organizations].detect { |org| org[:info][:id] == organization_id }
+          if org = self.data[:organizations].find { |org| org[:info][:id] == organization_id }
 
             body = { "name" => org[:info][:name],
                      "href" => "#{@base_url}/org/#{org[:info][:id]}",
@@ -80,7 +77,6 @@ module Fog
           ]
         end
       end
-
     end
   end
 end

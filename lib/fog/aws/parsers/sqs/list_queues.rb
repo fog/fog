@@ -3,7 +3,6 @@ module Fog
     module AWS
       module SQS
         class ListQueues < Fog::Parsers::Base
-
           def reset
             @response = { 'QueueUrls' => [], 'ResponseMetadata' => {} }
           end
@@ -16,9 +15,7 @@ module Fog
               @response['QueueUrls'] << @value
             end
           end
-
         end
-
       end
     end
   end

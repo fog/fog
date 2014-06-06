@@ -12,7 +12,6 @@ module Fog
           mock_list(:subscriptions, 200)
         end
       end
-
     end
   end
 end

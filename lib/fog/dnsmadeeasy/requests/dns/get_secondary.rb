@@ -2,7 +2,6 @@ module Fog
   module DNS
     class DNSMadeEasy
       class Real
-
         # Returns the secondary entry object representation of the specified secondary entry.
         #
         # ==== Parameters
@@ -22,7 +21,6 @@ module Fog
             :path     => "/V1.2/secondary/#{secondary_name}"
           )
         end
-
       end
     end
   end

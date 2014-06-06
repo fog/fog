@@ -5,7 +5,6 @@ module Fog
         def get_quota(id)
           ovirt_attrs client.quota(id)
         end
-
       end
       class Mock
         def get_quota(id)
@@ -16,4 +15,3 @@ module Fog
     end
   end
 end
-

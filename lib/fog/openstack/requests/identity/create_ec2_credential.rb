@@ -2,7 +2,6 @@ module Fog
   module Identity
     class OpenStack
       class Real
-
         ##
         # Create an EC2 credential for a user in a tenant.  Requires
         # administrator credentials.

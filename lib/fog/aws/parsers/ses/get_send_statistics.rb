@@ -2,9 +2,7 @@ module Fog
   module Parsers
     module AWS
       module SES
-
         class GetSendStatistics < Fog::Parsers::Base
-
           def reset
             @response = { 'SendDataPoints' => [], 'ResponseMetadata' => {} }
             @send_data_point = {}
@@ -22,7 +20,6 @@ module Fog
             end
           end
         end
-
       end
     end
   end

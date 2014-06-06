@@ -1,7 +1,6 @@
 module Fog
   module Rackspace
     class Queues
-
       class Real
         # This operation lists queues for the project. The queues are sorted alphabetically by name.
         # @note A request to list queues when you have no queues in your account returns 204, instead of 200, because there was no information to send back.
@@ -58,7 +57,6 @@ module Fog
           response
         end
       end
-
     end
   end
 end

@@ -1,7 +1,6 @@
 module Fog
   module Compute
     class Ovirt
-
       class Interface < Fog::Model
         attr_accessor :raw
         identity :id
@@ -14,9 +13,7 @@ module Fog
         def to_s
           name
         end
-
       end
-
     end
   end
 end

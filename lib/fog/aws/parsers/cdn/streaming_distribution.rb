@@ -2,9 +2,8 @@ module Fog
   module Parsers
       module CDN
         module AWS
-        
-        class StreamingDistribution < Fog::Parsers::Base
 
+        class StreamingDistribution < Fog::Parsers::Base
           def reset
             @response = { 'StreamingDistributionConfig' => { 'CNAME' => [], 'Logging' => {}, 'TrustedSigners' => [] } }
           end
@@ -50,9 +49,7 @@ module Fog
               @response['StreamingDistributionConfig']['TrustedSigners'] << 'Self'
             end
           end
-
         end
-
       end
     end
   end

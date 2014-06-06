@@ -2,7 +2,6 @@ module Fog
   module Compute
     class Rackspace
       class Real
-
         # Create an image from a running server
         #
         # ==== Parameters
@@ -29,11 +28,9 @@ module Fog
             :path     => "images"
           )
         end
-
       end
 
       class Mock
-
         def create_image(server_id, options = {})
           response = Excon::Response.new
           response.status = 202
@@ -53,7 +50,6 @@ module Fog
           response.body = { 'image' => data.reject {|key, value| !['id', 'name', 'serverId', 'status', 'updated'].include?(key)} }
           response
         end
-
       end
     end
   end

@@ -3,7 +3,6 @@ require 'fog/compute/models/server'
 module Fog
   module Compute
     class GoGrid
-
       class BlockInstantiationError < StandardError; end
 
       class Server < Fog::Compute::Server
@@ -89,10 +88,7 @@ module Fog
         def adminPass=(new_admin_pass)
           @password = new_admin_pass
         end
-
       end
-
     end
-
   end
 end

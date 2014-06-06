@@ -124,9 +124,7 @@ module Fog
                     Fog::AWS::Elasticache::Error.slurp(error, "#{match[:code]} => #{match[:message]}")
                   end
           end
-
         end
-
       end
 
       class Mock
@@ -199,8 +197,6 @@ module Fog
           end
         end
       end
-
-
     end
   end
 end

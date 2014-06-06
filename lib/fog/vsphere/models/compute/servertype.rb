@@ -1,9 +1,7 @@
 module Fog
   module Compute
     class Vsphere
-
       class Servertype < Fog::Model
-
         identity :id
 
         attribute :family
@@ -33,7 +31,6 @@ module Fog
           }
         end
       end
-
     end
   end
 end

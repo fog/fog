@@ -2,7 +2,6 @@ module Fog
   module DNS
     class Rage4
       class Real
-
         # Create a reverse domain for an ipv4 address .
         # ==== Parameters
         # * name<~String> - expects an ipv5 address
@@ -23,10 +22,7 @@ module Fog
                     "&subnet=#{subnet}"
           )
         end
-
       end
-
-
     end
   end
 end

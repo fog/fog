@@ -17,7 +17,6 @@ module Fog
           return nil if identifier.nil? || identifier == ""
           wrapped_request("post", "/1.0/load_balancers/#{identifier}/add_nodes", [202], options)
         end
-
       end
     end
   end

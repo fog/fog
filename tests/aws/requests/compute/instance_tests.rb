@@ -28,6 +28,7 @@ Shindo.tests('Fog::Compute[:aws] | instance requests', ['aws']) do
     'privateDnsName'      => NilClass,
     'productCodes'        => Array,
     'reason'              => Fog::Nullable::String,
+    'rootDeviceName'      => Fog::Nullable::String,
     'rootDeviceType'      => String,
     'sourceDestCheck'     => Fog::Nullable::Boolean,
     'subnetId'            => Fog::Nullable::String,
@@ -79,7 +80,6 @@ Shindo.tests('Fog::Compute[:aws] | instance requests', ['aws']) do
     'requestId'    => String,
     'timestamp'    => Time
   }
-
 
   @terminate_instances_format = {
     'instancesSet'  => [{
@@ -176,7 +176,7 @@ Shindo.tests('Fog::Compute[:aws] | instance requests', ['aws']) do
     key = Fog::Compute[:aws].key_pairs.create(:name => key_name)
 
     tests("#run_instances").formats(@run_instances_format) do
-      data = Fog::Compute[:aws].run_instances(@ami, 1, 1, 'InstanceType' => 't1.micro', 'KeyName' => key_name).body
+      data = Fog::Compute[:aws].run_instances(@ami, 1, 1, 'InstanceType' => 't1.micro', 'KeyName' => key_name, 'BlockDeviceMapping' => [{"DeviceName" => "/dev/sdp1", "VirtualName" => nil, "Ebs.VolumeSize" => 15}]).body
       @instance_id = data['instancesSet'].first['instanceId']
       data
     end

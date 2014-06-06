@@ -2,7 +2,6 @@ module Fog
   module Compute
     class OpenStack
       class Real
-
         def get_security_group(security_group_id)
           request(
             :expects  => [200],
@@ -10,7 +9,6 @@ module Fog
             :path     => "os-security-groups/#{security_group_id}"
           )
         end
-
       end
 
       class Mock

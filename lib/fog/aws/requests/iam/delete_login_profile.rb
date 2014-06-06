@@ -2,7 +2,6 @@ module Fog
   module AWS
     class IAM
       class Real
-
         require 'fog/aws/parsers/iam/basic'
 
         # Deletes a user's login profile
@@ -24,7 +23,6 @@ module Fog
             :parser     => Fog::Parsers::AWS::IAM::Basic.new
           })
         end
-
       end
     end
   end

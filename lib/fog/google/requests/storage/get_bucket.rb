@@ -3,7 +3,6 @@ module Fog
   module Storage
     class Google
       class Real
-
         require 'fog/google/parsers/storage/get_bucket'
 
         # List information about objects in an Google Storage bucket
@@ -51,11 +50,9 @@ module Fog
             :query    => options
           })
         end
-
       end
 
       class Mock
-
         def get_bucket(bucket_name, options = {})
           unless bucket_name
             raise ArgumentError.new('bucket_name is required')
@@ -103,7 +100,6 @@ module Fog
           end
           response
         end
-
       end
     end
   end

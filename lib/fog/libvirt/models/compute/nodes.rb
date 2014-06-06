@@ -4,9 +4,7 @@ require 'fog/libvirt/models/compute/node'
 module Fog
   module Compute
     class Libvirt
-
       class Nodes < Fog::Collection
-
         model Fog::Compute::Libvirt::Node
 
         def all(filter={ })
@@ -16,7 +14,6 @@ module Fog
         def get
           all.first
         end
-
       end
     end
   end

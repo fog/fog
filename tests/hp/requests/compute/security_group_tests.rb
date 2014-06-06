@@ -34,7 +34,6 @@ Shindo.tests("Fog::Compute[:hp] | security group requests", ['hp']) do
       Fog::Compute[:hp].list_security_groups.body
     end
 
-
     tests("#delete_security_group('#{@sec_group_id}')").succeeds do
       Fog::Compute[:hp].delete_security_group(@sec_group_id).body
     end

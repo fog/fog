@@ -2,7 +2,6 @@ module Fog
   module Compute
     class RackspaceV2
       class Real
-
         # Reverts server resize operation
         # @param [String] server_id
         # @return [Excon::Response] response

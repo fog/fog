@@ -3,7 +3,6 @@ module Fog
   module AWS
     class ELB
       class Policies < Fog::Collection
-
         model Fog::AWS::ELB::Policy
 
         attr_accessor :data, :load_balancer
@@ -13,12 +12,12 @@ module Fog
         end
 
         def get(id)
-          all.detect{|policy| id == policy.id}
+          all.find{|policy| id == policy.id}
         end
 
         private
         def munged_data
-          data.inject([]){|m,e|
+          data.reduce([]){|m,e|
             policy_attribute_descriptions = e["PolicyAttributeDescriptions"]
 
             policy = {
@@ -29,10 +28,10 @@ module Fog
 
             case e["PolicyTypeName"]
             when 'AppCookieStickinessPolicyType'
-              cookie_name = policy_attribute_descriptions.detect{|h| h['AttributeName'] == 'CookieName'}['AttributeValue']
+              cookie_name = policy_attribute_descriptions.find{|h| h['AttributeName'] == 'CookieName'}['AttributeValue']
               policy['CookieName'] = cookie_name if cookie_name
             when 'LBCookieStickinessPolicyType'
-              cookie_expiration_period = policy_attribute_descriptions.detect{|h| h['AttributeName'] == 'CookieExpirationPeriod'}['AttributeValue'].to_i
+              cookie_expiration_period = policy_attribute_descriptions.find{|h| h['AttributeName'] == 'CookieExpirationPeriod'}['AttributeValue'].to_i
               policy['CookieExpirationPeriod'] = cookie_expiration_period if cookie_expiration_period > 0
             end
 
@@ -42,14 +41,12 @@ module Fog
         end
 
         def policy_attributes(policy_attribute_descriptions)
-          policy_attribute_descriptions.inject({}){|m,e|
+          policy_attribute_descriptions.reduce({}){|m,e|
             m[e["AttributeName"]] = e["AttributeValue"]
             m
           }
         end
-
       end
-
     end
   end
 end

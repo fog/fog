@@ -2,7 +2,6 @@ module Fog
   module Compute
     class Linode
       class Real
-
         # Get available kernels
         #
         # ==== Parameters
@@ -23,7 +22,6 @@ module Fog
             :query    => { :api_action => 'avail.kernels' }.merge!(options)
           )
         end
-
       end
 
       class Mock

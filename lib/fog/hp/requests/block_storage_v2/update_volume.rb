@@ -2,7 +2,6 @@ module Fog
   module HP
     class BlockStorageV2
       class Real
-
         # Update an existing block storage volume
         #
         # ==== Parameters
@@ -45,11 +44,9 @@ module Fog
             :path     => "volumes/#{volume_id}"
           )
         end
-
       end
 
       class Mock  # :nodoc:all
-
         def update_volume(volume_id, options={})
           response = Excon::Response.new
           if volume = self.data[:volumes][volume_id]
@@ -64,7 +61,6 @@ module Fog
           end
         end
       end
-
     end
   end
 end

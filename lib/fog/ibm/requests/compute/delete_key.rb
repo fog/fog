@@ -2,7 +2,6 @@ module Fog
   module Compute
     class IBM
       class Real
-
         # Deletes the key specified with key_name
         #
         # ==== Parameters
@@ -19,10 +18,8 @@ module Fog
             :path     => "/keys/#{key_name}"
           )
         end
-
       end
       class Mock
-
         def delete_key(key_name)
           response = Excon::Response.new
           if key_exists? key_name
@@ -34,7 +31,6 @@ module Fog
           end
           response
         end
-
       end
     end
   end

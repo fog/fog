@@ -3,6 +3,7 @@ Shindo.tests('Fog::Compute[:aws] | volume requests', ['aws']) do
   @volume_format = {
     'availabilityZone'  => String,
     'createTime'        => Time,
+    'encrypted'         => Fog::Boolean,
     'iops'              => Fog::Nullable::Integer,
     'requestId'         => String,
     'size'              => Integer,
@@ -13,12 +14,12 @@ Shindo.tests('Fog::Compute[:aws] | volume requests', ['aws']) do
   }
 
   @volume_attachment_format = {
-    'attachTime'  => Time,
-    'device'      => String,
-    'instanceId'  => String,
-    'requestId'   => String,
-    'status'      => String,
-    'volumeId'    => String
+    'attachTime'          => Time,
+    'device'              => String,
+    'instanceId'          => String,
+    'requestId'           => String,
+    'status'              => String,
+    'volumeId'            => String
   }
 
   @volume_status_format = {
@@ -54,6 +55,7 @@ Shindo.tests('Fog::Compute[:aws] | volume requests', ['aws']) do
       'availabilityZone'  => String,
       'attachmentSet'     => Array,
       'createTime'        => Time,
+      'encrypted'         => Fog::Boolean,
       'iops'              => Fog::Nullable::Integer,
       'size'              => Integer,
       'snapshotId'        => Fog::Nullable::String,
@@ -183,8 +185,8 @@ Shindo.tests('Fog::Compute[:aws] | volume requests', ['aws']) do
     end
 
     # iops:size ratio too big
-    tests("#create_volume('#{@server.availability_zone}', 10, 'VolumeType' => 'io1', 'Iops' => 101)").raises(Fog::Compute::AWS::Error) do
-      Fog::Compute[:aws].create_volume(@server.availability_zone, 10, 'VolumeType' => 'io1', 'Iops' => 101)
+    tests("#create_volume('#{@server.availability_zone}', 10, 'VolumeType' => 'io1', 'Iops' => 301)").raises(Fog::Compute::AWS::Error) do
+      Fog::Compute[:aws].create_volume(@server.availability_zone, 10, 'VolumeType' => 'io1', 'Iops' => 301)
     end
 
     # iops invalid value (lower than 100)

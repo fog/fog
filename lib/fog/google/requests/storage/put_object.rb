@@ -2,7 +2,6 @@ module Fog
   module Storage
     class Google
       class Real
-
         # Create an object in an Google Storage bucket
         #
         # ==== Parameters
@@ -36,11 +35,9 @@ module Fog
             :path       => CGI.escape(object_name)
           })
         end
-
       end
 
       class Mock
-
         def put_object(bucket_name, object_name, data, options = {})
           acl = options['x-goog-acl'] || 'private'
           if !['private', 'public-read', 'public-read-write', 'authenticated-read'].include?(acl)
@@ -86,7 +83,6 @@ module Fog
           end
           response
         end
-
       end
     end
   end

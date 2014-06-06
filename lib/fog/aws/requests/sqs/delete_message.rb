@@ -2,7 +2,6 @@ module Fog
   module AWS
     class SQS
       class Real
-
         require 'fog/aws/parsers/sqs/basic'
 
         # Delete a message from a queue
@@ -23,16 +22,14 @@ module Fog
             :path           => path_from_queue_url(queue_url),
           })
         end
-
       end
 
       class Mock
-
         def delete_message(queue_url, receipt_handle)
           Excon::Response.new.tap do |response|
             if (queue = data[:queues][queue_url])
               message_id, _ = queue[:receipt_handles].find { |msg_id, receipts|
-                receipts.has_key?(receipt_handle)
+                receipts.key?(receipt_handle)
               }
 
               if message_id
@@ -53,7 +50,6 @@ module Fog
             end
           end
         end
-
       end
     end
   end

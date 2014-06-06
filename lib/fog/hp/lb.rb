@@ -3,7 +3,6 @@ require 'fog/hp/core'
 module Fog
   module HP
     class LB < Fog::Service
-
       requires    :hp_access_key, :hp_secret_key, :hp_tenant_id, :hp_avl_zone
       recognizes  :hp_auth_uri, :credentials, :hp_service_type
       recognizes  :persistent, :connection_options
@@ -41,8 +40,6 @@ module Fog
       request       :update_load_balancer_node
 
       class Mock
-
-
         def self.data
           @data ||= Hash.new do |hash, key|
             hash[key] = {
@@ -91,12 +88,10 @@ module Fog
         def reset_data
           self.class.data.delete(@hp_access_key)
         end
-
       end
 
       class Real
         attr_reader :credentials
-
 
         def initialize(options={})
           @hp_access_key = options[:hp_access_key]
@@ -162,9 +157,7 @@ module Fog
           end
           response
         end
-
       end
-
     end
   end
 end

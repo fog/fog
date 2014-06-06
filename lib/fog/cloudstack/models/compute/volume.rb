@@ -50,7 +50,7 @@ module Fog
         def flavor
           service.disk_offerings.get(self.disk_offering_id)
         end
-        alias disk_offering flavor
+        alias_method :disk_offering, :flavor
 
         def server
           if server_id
@@ -76,7 +76,6 @@ module Fog
           merge_attributes(new_attributes)
           self
         end
-
 
         def attach(instance_or_id, mountpoint=nil)
           requires :id

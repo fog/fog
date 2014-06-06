@@ -4,9 +4,7 @@ require 'fog/hp/models/storage/shared_files'
 module Fog
   module Storage
     class HP
-
       class SharedDirectory < Fog::Model
-
         identity  :url
 
         attribute :bytes, :aliases => 'X-Container-Bytes-Used'
@@ -33,7 +31,6 @@ module Fog
           false
         end
       end
-
     end
   end
 end

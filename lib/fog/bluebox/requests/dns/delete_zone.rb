@@ -2,7 +2,6 @@ module Fog
   module DNS
     class Bluebox
       class Real
-
         # Delete a zone from DNS
         # ==== Parameters
         # * zone_id<~Integer> - Id of zone to delete
@@ -16,15 +15,12 @@ module Fog
             :path     => "/api/domains/#{zone_id}.xml"
           )
         end
-
       end
 
       class Mock
-
         def delete_zone(zone_id)
           Fog::Mock.not_implemented
         end
-
       end
     end
   end

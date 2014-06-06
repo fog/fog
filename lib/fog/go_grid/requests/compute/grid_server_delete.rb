@@ -2,7 +2,6 @@ module Fog
   module Compute
     class GoGrid
       class Real
-
         # Delete a server
         #
         # ==== Parameters
@@ -18,7 +17,6 @@ module Fog
             :query    => {'server' => server}
           )
         end
-
       end
     end
   end

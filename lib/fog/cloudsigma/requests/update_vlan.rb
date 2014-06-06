@@ -14,7 +14,6 @@ module Fog
           mock_update(data, :vlans, 200, vlan_id)
         end
       end
-
     end
   end
 end

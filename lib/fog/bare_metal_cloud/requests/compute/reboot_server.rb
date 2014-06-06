@@ -2,7 +2,6 @@ module Fog
   module Compute
     class BareMetalCloud
       class Real
-
         # Reboot a running server
         #
         # ==== Parameters
@@ -17,7 +16,6 @@ module Fog
             :query    => {'serverId' => server_id}
           )
         end
-
       end
     end
   end

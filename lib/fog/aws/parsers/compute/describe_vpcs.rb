@@ -2,9 +2,7 @@ module Fog
   module Parsers
     module Compute
       module AWS
-
         class DescribeVpcs < Fog::Parsers::Base
-
           def reset
             @vpc = { 'tagSet' => {} }
             @response = { 'vpcSet' => [] }

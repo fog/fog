@@ -4,9 +4,7 @@ require 'fog/brightbox/models/compute/database_type'
 module Fog
   module Compute
     class Brightbox
-
       class DatabaseTypes < Fog::Collection
-
         model Fog::Compute::Brightbox::DatabaseType
 
         def all

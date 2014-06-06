@@ -52,7 +52,6 @@ module Fog
           service.delete_lb_vip(self.id)
           true
         end
-
       end
     end
   end

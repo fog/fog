@@ -2,9 +2,7 @@ module Fog
   module Parsers
     module Compute
       module AWS
-
         class DescribeTags < Fog::Parsers::Base
-
           def reset
             @tag = {}
             @response = { 'tagSet' => [] }
@@ -21,9 +19,7 @@ module Fog
               @response[name] = value
             end
           end
-
         end
-
       end
     end
   end

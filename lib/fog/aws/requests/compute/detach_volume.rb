@@ -2,7 +2,6 @@ module Fog
   module Compute
     class AWS
       class Real
-
         require 'fog/aws/parsers/compute/detach_volume'
 
         # Detach an Amazon EBS volume from a running instance
@@ -33,11 +32,9 @@ module Fog
             :parser     => Fog::Parsers::Compute::AWS::DetachVolume.new
           }.merge!(options))
         end
-
       end
 
       class Mock
-
         def detach_volume(volume_id, options = {})
           response = Excon::Response.new
           response.status = 200
@@ -58,7 +55,6 @@ module Fog
             raise Fog::Compute::AWS::NotFound.new("The volume '#{volume_id}' does not exist.")
           end
         end
-
       end
     end
   end

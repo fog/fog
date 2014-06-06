@@ -1,9 +1,7 @@
 module Fog
   module Compute
     class  XenServer
-
       class Real
-
         #
         # Puts the host into a state in which VMs can be started.
         #
@@ -12,17 +10,13 @@ module Fog
         def enable_host( ref )
           @connection.request({:parser => Fog::Parsers::XenServer::Base.new, :method => "host.enable"}, ref)
         end
-
       end
 
       class Mock
-
         def enable_host( ref )
           Fog::Mock.not_implemented
         end
-
       end
-
     end
   end
 end

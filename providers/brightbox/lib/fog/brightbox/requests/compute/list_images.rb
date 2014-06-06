@@ -12,7 +12,6 @@ module Fog
         def list_images
           wrapped_request("get", "/1.0/images", [200])
         end
-
       end
     end
   end

@@ -108,7 +108,6 @@ module Fog
       request :upload_part
 
       module Utils
-
         attr_accessor :region
 
         def cdn
@@ -260,7 +259,6 @@ module Fog
             :query  => query,
           }).to_s
         end
-
       end
 
       class Mock
@@ -385,7 +383,6 @@ module Fog
           @aws_session_token     = options[:aws_session_token]
           @aws_credentials_expire_at = options[:aws_credentials_expire_at]
         end
-
       end
 
       class Real
@@ -458,7 +455,6 @@ DATA
             canonical_amz_headers << "#{key}:#{value}\n"
           end
           string_to_sign << canonical_amz_headers
-
 
           query_string = ''
           if params[:query]

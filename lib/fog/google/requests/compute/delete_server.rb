@@ -1,7 +1,6 @@
 module Fog
   module Compute
     class Google
-
       module Shared
         def find_zone(zone_name)
           if zone_name.nil?
@@ -48,7 +47,6 @@ module Fog
 
           build_response(:body => self.data[:operations][operation])
         end
-
       end
 
       class Real
@@ -66,9 +64,7 @@ module Fog
           result = self.build_result(api_method, parameters)
           response = self.build_response(result)
         end
-
       end
-
     end
   end
 end

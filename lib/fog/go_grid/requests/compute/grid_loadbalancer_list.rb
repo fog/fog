@@ -2,7 +2,6 @@ module Fog
   module Compute
     class GoGrid
       class Real
-
         # List load balancers
         #
         # ==== Parameters
@@ -21,7 +20,6 @@ module Fog
             :query    => options
           )
         end
-
       end
     end
   end

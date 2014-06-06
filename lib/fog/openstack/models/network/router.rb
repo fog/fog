@@ -66,7 +66,6 @@ module Fog
           end
           options
         end
-
       end
     end
   end

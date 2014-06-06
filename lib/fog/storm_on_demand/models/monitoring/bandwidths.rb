@@ -4,7 +4,6 @@ require 'fog/storm_on_demand/models/monitoring/bandwidth'
 module Fog
   module Monitoring
     class StormOnDemand
-
       class Bandwidths < Fog::Collection
         model Fog::Monitoring::StormOnDemand::Bandwidth
 
@@ -16,7 +15,6 @@ module Fog
           bw = service.get_bandwidth_stats(:uniq_id => uniq_id).body
           new(bw)
         end
-
       end
     end
   end

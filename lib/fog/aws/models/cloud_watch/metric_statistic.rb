@@ -3,7 +3,6 @@ require 'fog/core/model'
 module Fog
   module AWS
     class CloudWatch
-
       class MetricStatistic < Fog::Model
         attribute :label, :aliases => 'Label'
         attribute :minimum, :aliases => 'Minimum'

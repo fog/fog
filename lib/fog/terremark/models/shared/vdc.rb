@@ -3,9 +3,7 @@ require 'fog/core/model'
 module Fog
   module Terremark
     module Shared
-
       class Vdc < Fog::Model
-
         identity :id
 
         attribute :name
@@ -36,9 +34,7 @@ module Fog
         def type=(new_type); end
 
         def rel=(new_rel); end
-
       end
-
     end
   end
 end

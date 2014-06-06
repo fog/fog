@@ -3,9 +3,7 @@ require 'fog/vcloud/models/compute/vapp'
 module Fog
   module Vcloud
     class Compute
-
       class Vapps < Collection
-
         model Fog::Vcloud::Compute::Vapp
 
         undef_method :create
@@ -21,7 +19,6 @@ module Fog
         rescue Fog::Errors::NotFound
           nil
         end
-
       end
     end
   end

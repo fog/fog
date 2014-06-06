@@ -4,9 +4,7 @@ require 'fog/clodo/models/compute/image'
 module Fog
   module Compute
     class Clodo
-
       class Images < Fog::Collection
-
         model Fog::Compute::Clodo::Image
 
         def all
@@ -20,9 +18,7 @@ module Fog
         rescue Fog::Compute::Clodo::NotFound
           nil
         end
-
       end
-
     end
   end
 end

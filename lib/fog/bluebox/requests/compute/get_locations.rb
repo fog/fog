@@ -2,7 +2,6 @@ module Fog
   module Compute
     class Bluebox
       class Real
-
         # Get list of locations
         #
         # ==== Returns
@@ -17,7 +16,6 @@ module Fog
             :path     => 'api/locations.json'
           )
         end
-
       end
     end
   end

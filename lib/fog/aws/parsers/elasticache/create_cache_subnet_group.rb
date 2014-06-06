@@ -2,11 +2,9 @@ module Fog
   module Parsers
     module AWS
       module Elasticache
-
         require 'fog/aws/parsers/elasticache/subnet_group_parser'
 
         class CreateCacheSubnetGroup < Fog::Parsers::AWS::Elasticache::SubnetGroupParser
-
           def reset
             @response = { 'CreateCacheSubnetGroupResult' => {}, 'ResponseMetadata' => {} }
             super
@@ -26,13 +24,9 @@ module Fog
             else
               super
             end
-
           end
-
         end
-
       end
     end
   end
 end
-

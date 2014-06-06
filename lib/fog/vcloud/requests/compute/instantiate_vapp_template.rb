@@ -7,7 +7,7 @@ module Fog
         def validate_instantiate_vapp_template_options options
           # :network_uri removed, if not specified will use template network config.
           valid_opts = [:catalog_item_uri, :name, :vdc_uri]
-          unless valid_opts.all? { |opt| options.has_key?(opt) }
+          unless valid_opts.all? { |opt| options.key?(opt) }
             raise ArgumentError.new("Required data missing: #{(valid_opts - options.keys).map(&:inspect).join(", ")}")
           end
 
@@ -19,7 +19,7 @@ module Fog
           catalog_item[:Link] = [ catalog_item[:Link] ] if catalog_item[:Link].is_a?(Hash)
 
           options[:template_uri] = begin
-             catalog_item[:Entity].detect { |entity| entity[:type] == "application/vnd.vmware.vcloud.vAppTemplate+xml" }[:href]
+             catalog_item[:Entity].find { |entity| entity[:type] == "application/vnd.vmware.vcloud.vAppTemplate+xml" }[:href]
           rescue
             raise RuntimeError.new("Unable to locate template uri for #{catalog_item_uri}")
           end

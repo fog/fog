@@ -49,6 +49,22 @@ module Fog
           nics.map{|nic| Address.new(nic)}
         end
 
+        def ip_addresses
+          addresses.map{|a| a.ip_address}
+        end
+
+        def public_ip_addresses
+          if public_ip_address.nil? then [public_ip_address] else [] end
+        end
+
+        def private_ip_addresses
+          ip_addresses - public_ip_addresses
+        end
+
+        def private_ip_address
+          private_ip_addresses.first
+        end
+
         def destroy(options={})
           requires :id
           data = service.destroy_virtual_machine(options.merge({'id'=> self.id}))

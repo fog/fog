@@ -1,7 +1,6 @@
 module Fog
   module Rackspace
     class Queues
-
       class Real
         # This operation creates a new queue.
         # The body of the request is empty.
@@ -35,7 +34,6 @@ module Fog
           response
         end
       end
-
     end
   end
 end

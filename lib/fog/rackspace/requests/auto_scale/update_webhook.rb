@@ -2,9 +2,7 @@ module Fog
   module Rackspace
     class AutoScale
       class Real
-
         def update_webhook(group_id, policy_id, webhook_id, options)
-
           body = options
 
           request(
@@ -23,12 +21,12 @@ module Fog
             raise Fog::Rackspace::AutoScale::NotFound
           end
 
-          policy = group['scalingPolicies'].detect { |p| p["id"] == policy_id }
+          policy = group['scalingPolicies'].find { |p| p["id"] == policy_id }
           if policy.nil?
             raise Fog::Rackspace::AutoScale::NotFound
           end
 
-          webhook = policy['webhooks'].detect { |w| w['id'] == webhook_id }
+          webhook = policy['webhooks'].find { |w| w['id'] == webhook_id }
           if webhook.nil?
             raise Fog::Rackspace::AutoScale::NotFound
           end
@@ -36,7 +34,6 @@ module Fog
           webhook.merge(options)
 
           response(:body => webhook)
-
         end
       end
     end

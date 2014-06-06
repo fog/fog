@@ -2,7 +2,6 @@ module Fog
   module Parsers
     module Storage
       module AWS
-
         class CorsConfiguration < Fog::Parsers::Base
           def reset
             @in_cors_configuration_list = false
@@ -32,9 +31,7 @@ module Fog
               (@cors_rule[name] ||= []) << value
             end
           end
-
         end
-
       end
     end
   end

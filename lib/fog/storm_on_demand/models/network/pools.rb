@@ -4,7 +4,6 @@ require 'fog/storm_on_demand/models/network/pool'
 module Fog
   module Network
     class StormOnDemand
-
       class Pools < Fog::Collection
         model Fog::Network::StormOnDemand::Pool
 
@@ -21,7 +20,6 @@ module Fog
         def get_assignments(options={})
           service.get_assignments(options).body['items']
         end
-
       end
     end
   end

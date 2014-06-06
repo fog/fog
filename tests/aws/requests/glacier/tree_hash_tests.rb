@@ -59,5 +59,4 @@ Shindo.tests('AWS::Glacier | glacier tree hash calcuation', ['aws']) do
 
   end
 
-
 end

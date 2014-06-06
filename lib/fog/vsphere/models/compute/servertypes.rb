@@ -4,9 +4,7 @@ require 'fog/vsphere/models/compute/servertype'
 module Fog
   module Compute
     class Vsphere
-
       class Servertypes < Fog::Collection
-
         model Fog::Compute::Vsphere::Servertype
         attr_accessor :datacenter, :id, :fullname
 
@@ -20,10 +18,7 @@ module Fog
         rescue Fog::Compute::Vsphere::NotFound
           nil
         end
-
       end
-
     end
   end
 end
-

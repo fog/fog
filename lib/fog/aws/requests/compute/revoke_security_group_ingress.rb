@@ -2,7 +2,6 @@ module Fog
   module Compute
     class AWS
       class Real
-
         require 'fog/aws/parsers/compute/basic'
 
         # Remove permissions from a security group
@@ -53,11 +52,9 @@ module Fog
             :parser     => Fog::Parsers::Compute::AWS::Basic.new
           }.merge!(options))
         end
-
       end
 
       class Mock
-
         def revoke_security_group_ingress(group_name, options = {})
           options = Fog::AWS.parse_security_group_options(group_name, options)
           if options.key?('GroupName')
@@ -95,7 +92,6 @@ module Fog
             raise Fog::Compute::AWS::NotFound.new("The security group '#{group_name}' does not exist")
           end
         end
-
       end
     end
   end

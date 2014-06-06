@@ -1,9 +1,7 @@
 module Fog
   module HP
     class Network
-
       class Real
-
         # Create a new server
         #
         # ==== Parameters
@@ -62,7 +60,6 @@ module Fog
           response
         end
       end
-
     end
   end
 end

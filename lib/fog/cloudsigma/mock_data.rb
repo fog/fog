@@ -37,7 +37,6 @@ module Fog
               :current_usage => {},
               :balance => {:balance => 100, :currency => 'CHF'},
 
-
           }
         end
       end

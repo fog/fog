@@ -2,9 +2,7 @@ module Fog
   module Parsers
     module Compute
       module Voxel
-
         class VoxcloudCreate < Fog::Parsers::Base
-
           def reset
             @response = { 'device' => {} }
           end
@@ -31,9 +29,7 @@ module Fog
               @response['device'][name] = Time.at(value.to_i)
             end
           end
-
         end
-
       end
     end
   end

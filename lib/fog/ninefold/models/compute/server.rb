@@ -3,7 +3,6 @@ require 'fog/compute/models/server'
 module Fog
   module Compute
     class Ninefold
-
       class Server < Fog::Compute::Server
         extend Fog::Deprecation
         deprecate :serviceofferingid, :flavor_id
@@ -65,7 +64,6 @@ module Fog
         #attribute :image_id, :aliases => "image", :squash => "id"
         #attribute :flavor_id, :aliases => "server_type", :squash => "id"
         #attribute :zone_id, :aliases => "zone", :squash => "id"
-
 
         def initialize(attributes={})
           merge_attributes({
@@ -178,7 +176,6 @@ module Fog
             job['jobid'] || job['id']
           end
         end
-
       end
     end
   end

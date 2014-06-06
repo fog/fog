@@ -2,7 +2,6 @@ module Fog
   module AWS
     class Elasticache
       class Real
-
         require 'fog/aws/parsers/elasticache/single_security_group'
 
         # creates a cache security group
@@ -25,7 +24,6 @@ module Fog
 
       class Mock
         def create_cache_security_group(name, description = name)
-
           if self.data[:security_groups][name]
             raise Fog::AWS::Elasticache::IdentifierTaken.new("CacheClusterAlreadyExists => The security group '#{name}' already exists")
           end
@@ -46,7 +44,6 @@ module Fog
                   }
               }
           )
-
         end
       end
     end

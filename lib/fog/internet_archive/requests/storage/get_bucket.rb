@@ -2,7 +2,6 @@ module Fog
   module Storage
     class InternetArchive
       class Real
-
         require 'fog/internet_archive/parsers/storage/get_bucket'
 
         # List information about objects in an S3 bucket
@@ -51,11 +50,9 @@ module Fog
             :query    => options
           })
         end
-
       end
 
       class Mock # :nodoc:all
-
         def get_bucket(bucket_name, options = {})
           prefix, marker, delimiter, max_keys = \
             options['prefix'], options['marker'], options['delimiter'], options['max-keys']
@@ -66,12 +63,12 @@ module Fog
           end
           response = Excon::Response.new
           if bucket = self.data[:buckets][bucket_name]
-            contents = bucket[:objects].values.collect(&:first).sort {|x,y| x['Key'] <=> y['Key']}.reject do |object|
+            contents = bucket[:objects].values.map(&:first).sort {|x,y| x['Key'] <=> y['Key']}.reject do |object|
                 (prefix    && object['Key'][0...prefix.length] != prefix) ||
                 (marker    && object['Key'] <= marker) ||
                 (delimiter && object['Key'][(prefix ? prefix.length : 0)..-1].include?(delimiter) \
                            && common_prefixes << object['Key'].sub(/^(#{prefix}[^#{delimiter}]+.).*/, '\1')) ||
-                object.has_key?(:delete_marker)
+                object.key?(:delete_marker)
               end.map do |object|
                 data = object.reject {|key, value| !['ETag', 'Key', 'StorageClass'].include?(key)}
                 data.merge!({
@@ -105,7 +102,6 @@ module Fog
           end
           response
         end
-
       end
     end
   end

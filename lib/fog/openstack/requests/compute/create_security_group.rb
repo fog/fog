@@ -2,7 +2,6 @@ module Fog
   module Compute
     class OpenStack
       class Real
-
         def create_security_group(name, description)
           data = {
             'security_group' => {
@@ -18,7 +17,6 @@ module Fog
             :path     => 'os-security-groups.json'
           )
         end
-
       end
 
       class Mock

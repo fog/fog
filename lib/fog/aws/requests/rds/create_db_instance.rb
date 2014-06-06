@@ -2,7 +2,6 @@ module Fog
   module AWS
     class RDS
       class Real
-
         require 'fog/aws/parsers/rds/create_db_instance'
 
         # Create a db instance
@@ -34,7 +33,6 @@ module Fog
         #
         # @see http://docs.amazonwebservices.com/AmazonRDS/latest/APIReference/API_CreateDBInstance.html
         def create_db_instance(db_name, options={})
-
           if security_groups = options.delete('DBSecurityGroups')
             options.merge!(Fog::AWS.indexed_param('DBSecurityGroups.member.%d', [*security_groups]))
           end
@@ -49,11 +47,9 @@ module Fog
             :parser   => Fog::Parsers::AWS::RDS::CreateDBInstance.new,
           }.merge(options))
         end
-
       end
 
       class Mock
-
         def create_db_instance(db_name, options={})
           response = Excon::Response.new
           if self.data[:servers] and self.data[:servers][db_name]
@@ -70,7 +66,7 @@ module Fog
           # These are the required parameters according to the API
           required_params = %w{AllocatedStorage DBInstanceClass Engine MasterUserPassword MasterUsername }
           required_params.each do |key|
-            unless options.has_key?(key) and options[key] and !options[key].to_s.empty?
+            unless options.key?(key) and options[key] and !options[key].to_s.empty?
               #response.status = 400
               #response.body = {
               #  'Code' => 'MissingParameter',
@@ -116,7 +112,6 @@ module Fog
                  "VpcSecurityGroups" => options["VpcSecurityGroups"],
              }
 
-
           self.data[:servers][db_name] = data
           response.body = {
             "ResponseMetadata"=>{ "RequestId"=> Fog::AWS::Mock.request_id },
@@ -129,7 +124,6 @@ module Fog
           self.data[:tags][db_name] = {}
           response
         end
-
       end
     end
   end

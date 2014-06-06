@@ -4,9 +4,7 @@ require 'fog/ovirt/models/compute/server'
 module Fog
   module Compute
     class Ovirt
-
       class Servers < Fog::Collection
-
         model Fog::Compute::Ovirt::Server
 
         def all(filters = {})
@@ -23,7 +21,6 @@ module Fog
           server.start
           server
         end
-
       end
     end
   end

@@ -1,7 +1,6 @@
 module Fog
   module Network
     class OpenStack
-
       class Real
         def get_port(port_id)
           request(
@@ -42,7 +41,6 @@ module Fog
           end
         end
       end
-
     end
   end
 end

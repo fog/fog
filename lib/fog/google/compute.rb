@@ -3,7 +3,6 @@ require 'fog/google/core'
 module Fog
   module Compute
     class Google < Fog::Service
-
       requires :google_project
       recognizes :app_name, :app_version, :google_client_email, :google_key_location, :google_key_string, :google_client
 
@@ -917,7 +916,6 @@ module Fog
         attr_reader :compute, :api_url
 
         def initialize(options)
-
           # NOTE: loaded here to avoid requiring this as a core Fog dependency
           begin
             require 'google/api_client'
@@ -1027,7 +1025,6 @@ module Fog
       end
 
       RUNNING = 'RUNNING'
-
     end
   end
 end

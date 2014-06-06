@@ -2,10 +2,8 @@ module Fog
   module Parsers
     module AWS
       module ElasticBeanstalk
-
         require 'fog/aws/parsers/beanstalk/parser'
         class DescribeConfigurationOptions < Fog::Parsers::AWS::ElasticBeanstalk::BaseParser
-
           def initialize
             super("DescribeConfigurationOptionsResult")
             tag 'SolutionStackName', :string
@@ -24,7 +22,6 @@ module Fog
             tag 'ValueOptions', :string, :list
             tag 'ValueType', :string
           end
-
         end
       end
     end

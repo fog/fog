@@ -7,9 +7,7 @@ require 'fog/hp/models/compute_v2/server'
 module Fog
   module Compute
     class HPV2
-
       class Metadata < Fog::Collection
-
         model Fog::Compute::HPV2::Meta
 
         include Fog::Compute::HPV2::MetaParent
@@ -56,7 +54,6 @@ module Fog
           service.update_metadata(collection_name, @parent.id, meta_hash(data))
         end
 
-
         private
         def meta_hash(data=nil)
           if data.nil?
@@ -71,9 +68,7 @@ module Fog
           end
           data
         end
-
       end
-
     end
   end
 end

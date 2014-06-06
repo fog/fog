@@ -2,7 +2,6 @@ module Fog
   module Storage
     class Google
       class Real
-
         # Create an Google Storage bucket
         #
         # ==== Parameters
@@ -34,11 +33,9 @@ DATA
             :method     => 'PUT'
           })
         end
-
       end
 
       class Mock
-
         def put_bucket(bucket_name, options = {})
           acl = options['x-goog-acl'] || 'private'
           if !['private', 'public-read', 'public-read-write', 'authenticated-read'].include?(acl)
@@ -68,7 +65,6 @@ DATA
           end
           response
         end
-
       end
     end
   end

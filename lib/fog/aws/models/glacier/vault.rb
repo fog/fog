@@ -5,9 +5,7 @@ require 'fog/aws/models/glacier/jobs'
 module Fog
   module AWS
     class Glacier
-
       class Vault < Fog::Model
-
         identity  :id,                    :aliases => 'VaultName'
         attribute :created_at,            :aliases => 'CreationDate', :type => :time
         attribute :last_inventory_at,     :aliases => 'LastInventoryDate', :type => :time
@@ -46,7 +44,6 @@ module Fog
           requires :id
           service.delete_vault(id)
         end
-
       end
     end
   end

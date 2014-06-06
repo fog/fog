@@ -2,7 +2,6 @@ module Fog
   module AWS
     class Glacier
       class Real
-
         # Complete an upload
         #
         # ==== Parameters
@@ -29,7 +28,6 @@ module Fog
           )
         end
       end
-
     end
   end
 end

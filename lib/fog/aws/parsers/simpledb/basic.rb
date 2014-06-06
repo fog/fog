@@ -2,9 +2,7 @@ module Fog
   module Parsers
     module AWS
       module SimpleDB
-
         class Basic < Fog::Parsers::Base
-
           def initialize(nil_string)
             @nil_string = nil_string
             reset
@@ -22,9 +20,7 @@ module Fog
           def sdb_decode(value)
             value.eql?(@nil_string) ? nil : value
           end
-
         end
-
       end
     end
   end

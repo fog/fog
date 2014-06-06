@@ -2,7 +2,6 @@ module Fog
   module Compute
     class BareMetalCloud
       class Real
-
         # List available plans
         #
         # ==== Returns
@@ -23,7 +22,6 @@ module Fog
             :path     => 'api/listPlans'
           )
         end
-
       end
     end
   end

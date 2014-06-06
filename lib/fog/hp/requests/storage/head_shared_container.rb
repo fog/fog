@@ -2,7 +2,6 @@ module Fog
   module Storage
     class HP
       class Real
-
         # List number of objects and total bytes stored for a shared container
         #
         # ==== Parameters
@@ -26,20 +25,16 @@ module Fog
           )
           response
         end
-
       end
 
       class Mock # :nodoc:all
-
         def head_shared_container(shared_container_url)
           response = get_shared_container(shared_container_url)
           response.body = nil
           response.status = 204
           response
         end
-
       end
-
     end
   end
 end

@@ -1,6 +1,5 @@
 class Brightbox < Fog::Bin
   class << self
-
     def class_for(key)
       case key
       when :compute
@@ -30,6 +29,5 @@ class Brightbox < Fog::Bin
     def services
       Fog::Brightbox.services
     end
-
   end
 end

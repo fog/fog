@@ -2,7 +2,6 @@ module Fog
   module AWS
     class Elasticache
       class Real
-
         require 'fog/aws/parsers/elasticache/create_cache_subnet_group'
 
         # Creates a cache subnet group
@@ -25,11 +24,9 @@ module Fog
           params.merge!(Fog::AWS.indexed_param("SubnetIds.member", Array(subnet_ids)))
           request(params)
         end
-
       end
 
       class Mock
-
         def create_cache_subnet_group(name, subnet_ids, description = name)
           response = Excon::Response.new
           if self.data[:subnet_groups] && self.data[:subnet_groups][name]
@@ -56,11 +53,8 @@ module Fog
             'CreateCacheSubnetGroupResult' => { 'CacheSubnetGroup' => data }
           }
           response
-
         end
-
       end
     end
   end
 end
-

@@ -2,9 +2,7 @@ module Fog
   module Compute
     class OpenStack
       class Real
-
         def create_key_pair(key_name, public_key = nil)
-
           data = {
             'keypair' => {
               'name' => key_name
@@ -20,7 +18,6 @@ module Fog
             :path     => 'os-keypairs.json'
           )
         end
-
       end
 
       class Mock

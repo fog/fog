@@ -4,9 +4,7 @@ require 'fog/dnsimple/models/dns/records'
 module Fog
   module DNS
     class DNSimple
-
       class Zone < Fog::Model
-
         identity :id
 
         attribute :domain,     :aliases => 'name'
@@ -42,9 +40,7 @@ module Fog
           merge_attributes(data)
           true
         end
-
       end
-
     end
   end
 end

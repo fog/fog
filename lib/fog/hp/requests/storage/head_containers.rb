@@ -2,7 +2,6 @@ module Fog
   module Storage
     class HP
       class Real
-
         # List number of containers and total bytes stored
         #
         # ==== Returns
@@ -19,19 +18,15 @@ module Fog
           )
           response
         end
-
       end
 
       class Mock # :nodoc:all
-
         def head_containers
           response = get_containers
           response.body = nil
           response
         end
-
       end
-
     end
   end
 end

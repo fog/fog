@@ -2,7 +2,6 @@ module Fog
   module Storage
     class AWS
       class Real
-
         # Change tag set for an S3 bucket
         #
         # @param bucket_name [String] name of bucket to modify
@@ -34,11 +33,9 @@ DATA
             :query    => {'tagging' => nil}
           })
         end
-
       end
 
       class Mock # :nodoc:all
-
         def put_bucket_tagging(bucket_name, tags)
           response = Excon::Response.new
 
@@ -52,9 +49,7 @@ DATA
 
           response
         end
-
       end
-
     end
   end
 end

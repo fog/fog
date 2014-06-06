@@ -2,9 +2,7 @@ module Fog
   module Parsers
     module AWS
       module AutoScaling
-
         class DescribeTags < Fog::Parsers::Base
-
           def reset
             reset_tag
             @results = { 'Tags' => [] }
@@ -37,9 +35,7 @@ module Fog
 
             end
           end
-
         end
-
       end
     end
   end

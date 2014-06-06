@@ -9,9 +9,7 @@ module Fog
         def get_authenticated_user
           wrapped_request("get", "/1.0/user", [200])
         end
-
       end
     end
   end
 end
-

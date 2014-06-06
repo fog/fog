@@ -2,7 +2,6 @@ module Fog
   module Compute
     class Cloudstack
       class Real
-
         def query_async_job_result(options={})
           options.merge!(
             'command' => 'queryAsyncJobResult'
@@ -10,7 +9,6 @@ module Fog
 
           request(options)
         end
-
       end # Real
 
       class Mock
@@ -26,7 +24,6 @@ module Fog
           {'queryasyncjobresultresponse' => job }
         end
       end
-
     end
   end
 end

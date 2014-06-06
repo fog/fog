@@ -48,7 +48,7 @@ end
 
 GEM_NAME = "#{name}"
 task :default => :test
-task :travis  => ['test', 'test:travis', 'coveralls_push_workaround']
+task :travis  => ['test', 'test:travis']
 
 Rake::TestTask.new do |t|
   t.pattern = File.join("**", "spec", "**", "*_spec.rb")
@@ -57,8 +57,6 @@ end
 namespace :test do
   mock = 'true' || ENV['FOG_MOCK']
   task :travis do
-      # jruby coveralls causes an OOM in travis
-      ENV['COVERAGE'] = 'false' if RUBY_PLATFORM == 'java'
       sh("export FOG_MOCK=#{mock} && bundle exec shindont")
   end
   task :vsphere do
@@ -212,12 +210,3 @@ Fog::Rake::ChangelogTask.new
 
 require "tasks/github_release_task"
 Fog::Rake::GithubReleaseTask.new
-
-task :coveralls_push_workaround do
-  use_coveralls = (Gem::Version.new(String.new(RUBY_VERSION)) > Gem::Version.new('1.9.2'))
-  if (ENV['COVERAGE'] != 'false') && use_coveralls
-    require 'coveralls/rake/task'
-    Coveralls::RakeTask.new
-    Rake::Task["coveralls:push"].invoke
-  end
-end

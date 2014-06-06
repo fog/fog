@@ -1,7 +1,6 @@
 module Fog
   module HP
     class LB
-
       # Update an existing load balancer node
       #
       # ==== Parameters
@@ -10,7 +9,6 @@ module Fog
       # * options<~Hash>:
       #   * 'condition'<~String> - Condition for the node. Valid values are []'ENABLED', 'DISABLED']
       class Real
-
         def update_load_balancer_node(load_balancer_id, node_id, condition)
           data = {
             'condition' => condition
@@ -21,7 +19,6 @@ module Fog
             :method  => 'PUT',
             :path    => "loadbalancers/#{load_balancer_id}/nodes/#{node_id}"
           )
-
         end
       end
       class Mock
@@ -52,7 +49,6 @@ module Fog
           new_nodes = nodes.reject {|n| n['id'] == node_id}
           new_nodes << node
         end
-
       end
     end
   end

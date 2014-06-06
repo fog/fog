@@ -4,9 +4,7 @@ require 'fog/vsphere/models/compute/interface'
 module Fog
   module Compute
     class Vsphere
-
       class Interfaces < Fog::Collection
-
         model Fog::Compute::Vsphere::Interface
 
         attribute :server

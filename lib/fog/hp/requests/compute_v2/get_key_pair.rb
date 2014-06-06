@@ -2,7 +2,6 @@ module Fog
   module Compute
     class HPV2
       class Real
-
         # Get details about a key pair
         #
         # ==== Parameters
@@ -22,11 +21,9 @@ module Fog
             :path     => "os-keypairs/#{key_name}"
           )
         end
-
       end
 
       class Mock
-
         def get_key_pair(key_name)
           response = Excon::Response.new
           if key_pair = self.data[:key_pairs][key_name]
@@ -37,7 +34,6 @@ module Fog
             raise Fog::Compute::HPV2::NotFound
           end
         end
-
       end
     end
   end

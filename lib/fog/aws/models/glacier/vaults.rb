@@ -4,9 +4,7 @@ require 'fog/aws/models/glacier/vault'
 module Fog
   module AWS
     class Glacier
-
       class Vaults < Fog::Collection
-
         model Fog::AWS::Glacier::Vault
 
         def all
@@ -20,9 +18,7 @@ module Fog
         rescue Excon::Errors::NotFound
           nil
         end
-
       end
-
     end
   end
 end

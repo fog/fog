@@ -2,9 +2,7 @@ module Fog
   module Parsers
     module DNS
       module AWS
-
         class CreateHostedZone < Fog::Parsers::Base
-
           def reset
             @hosted_zone = {}
             @change_info = {}
@@ -46,9 +44,7 @@ module Fog
               end
             end
           end
-
         end
-
       end
     end
   end

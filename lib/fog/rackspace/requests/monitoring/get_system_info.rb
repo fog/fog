@@ -2,7 +2,6 @@ module Fog
   module Rackspace
     class Monitoring
       class Real
-
         def get_system_info(agent_id)
           request(
             :expects  => [200, 203],
@@ -14,7 +13,6 @@ module Fog
 
       class Mock
         def get_system_info(agent_id)
-
           if agent_id == -1
             raise Fog::Rackspace::Monitoring::BadRequest
           end

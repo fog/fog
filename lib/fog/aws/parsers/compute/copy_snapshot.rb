@@ -2,9 +2,7 @@ module Fog
   module Parsers
     module Compute
       module AWS
-
         class CopySnapshot < Fog::Parsers::Base
-
           def end_element(name)
             case name
             when 'snapshotId'
@@ -13,9 +11,7 @@ module Fog
               @response[name] = value
             end
           end
-
         end
-
       end
     end
   end

@@ -4,9 +4,7 @@ require 'fog/openstack/models/compute/flavor'
 module Fog
   module Compute
     class OpenStack
-
       class Flavors < Fog::Collection
-
         model Fog::Compute::OpenStack::Flavor
 
         def all(options = {})
@@ -20,9 +18,7 @@ module Fog
         rescue Fog::Compute::OpenStack::NotFound
           nil
         end
-
       end
-
     end
   end
 end

@@ -21,7 +21,7 @@ Shindo.tests('Fog::Compute[:libvirt] | nic model', ['libvirt']) do
       tests("The attributes hash should have key") do
         attributes.delete(:bridge)
         attributes.each do |attribute|
-          test("#{attribute}") { model_attribute_hash.has_key? attribute }
+          test("#{attribute}") { model_attribute_hash.key? attribute }
         end
       end
     end

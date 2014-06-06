@@ -2,7 +2,6 @@ module Fog
   module Storage
     class Google
       class Real
-
         require 'fog/google/parsers/storage/access_control_list'
 
         # Get access control list for an Google Storage bucket
@@ -40,11 +39,9 @@ module Fog
             :query      => {'acl' => nil}
           })
         end
-
       end
 
       class Mock
-
         def get_bucket_acl(bucket_name)
           response = Excon::Response.new
           if acl = self.data[:acls][:bucket][bucket_name]
@@ -56,7 +53,6 @@ module Fog
           end
           response
         end
-
       end
     end
   end

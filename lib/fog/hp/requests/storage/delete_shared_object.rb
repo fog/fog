@@ -2,7 +2,6 @@ module Fog
   module Storage
     class HP
       class Real
-
         # Delete a shared object
         #
         # ==== Parameters
@@ -20,19 +19,15 @@ module Fog
           )
           response
         end
-
       end
 
       class Mock # :nodoc:all
-
         def delete_shared_object(shared_object_url)
           response = Excon::Response.new
           response.status = 204
           response
         end
-
       end
-
     end
   end
 end

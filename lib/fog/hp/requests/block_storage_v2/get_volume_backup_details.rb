@@ -2,7 +2,6 @@ module Fog
   module HP
     class BlockStorageV2
       class Real
-
         # Get details for existing block storage volume backup
         #
         # ==== Parameters
@@ -32,11 +31,9 @@ module Fog
           )
           response
         end
-
       end
 
       class Mock  # :nodoc:all
-
         def get_volume_backup_details(backup_id)
           response = Excon::Response.new
           if backup = self.data[:volume_backups][backup_id]
@@ -46,10 +43,8 @@ module Fog
           else
             raise Fog::HP::BlockStorageV2::NotFound
           end
-
         end
       end
-
     end
   end
 end

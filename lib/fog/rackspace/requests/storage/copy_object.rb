@@ -2,7 +2,6 @@ module Fog
   module Storage
     class Rackspace
       class Real
-
         # Copy object
         #
         # ==== Parameters
@@ -24,7 +23,6 @@ module Fog
             :path     => "#{Fog::Rackspace.escape(target_container_name)}/#{Fog::Rackspace.escape(target_object_name)}"
           })
         end
-
       end
     end
   end

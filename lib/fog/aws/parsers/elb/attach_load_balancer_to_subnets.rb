@@ -2,9 +2,7 @@ module Fog
   module Parsers
     module AWS
       module ELB
-
         class AttachLoadBalancerToSubnets < Fog::Parsers::Base
-
           def reset
             @response = { 'AttachLoadBalancerToSubnetsResult' => { 'Subnets' => [] }, 'ResponseMetadata' => {} }
           end
@@ -17,9 +15,7 @@ module Fog
               @response['ResponseMetadata'][name] = value
             end
           end
-
         end
-
       end
     end
   end

@@ -2,7 +2,6 @@ module Fog
   module DNS
     class AWS
       class Real
-
         require 'fog/aws/parsers/dns/change_resource_record_sets'
 
         # Use this action to create or change your authoritative DNS information for a zone
@@ -55,7 +54,6 @@ module Fog
         #     change_resource_record_sets("ABCDEFGHIJKLMN", change_batch_options)
         #
         def change_resource_record_sets(zone_id, change_batch, options = {})
-
           # AWS methods return zone_ids that looks like '/hostedzone/id'.  Let the caller either use
           # that form or just the actual id (which is what this request needs)
           zone_id = zone_id.sub('/hostedzone/', '')
@@ -118,7 +116,6 @@ module Fog
             changes += '</Changes></ChangeBatch>'
           end
 
-
           body = %Q{<?xml version="1.0" encoding="UTF-8"?><ChangeResourceRecordSetsRequest xmlns="https://route53.amazonaws.com/doc/#{@version}/">#{changes}</ChangeResourceRecordSetsRequest>}
           request({
             :body       => body,
@@ -127,13 +124,10 @@ module Fog
             :method     => 'POST',
             :path       => "hostedzone/#{zone_id}/rrset"
           })
-
         end
-
       end
 
       class Mock
-
         def change_resource_record_sets(zone_id, change_batch, options = {})
           response = Excon::Response.new
           errors   = []
@@ -200,7 +194,6 @@ module Fog
             response.body = "<?xml version=\"1.0\"?><Response><Errors><Error><Code>NoSuchHostedZone</Code><Message>A hosted zone with the specified hosted zone ID does not exist.</Message></Error></Errors><RequestID>#{Fog::AWS::Mock.request_id}</RequestID></Response>"
             raise(Excon::Errors.status_error({:expects => 200}, response))
           end
-
         end
       end
 

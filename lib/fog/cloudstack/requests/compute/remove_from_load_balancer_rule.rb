@@ -2,7 +2,6 @@ module Fog
   module Compute
     class Cloudstack
       class Real
-
         # Removes a virtual machine or a list of virtual machines from a load balancer rule.
         #
         # {CloudStack API Reference}[http://download.cloud.com/releases/2.2.0/api_2.2.12/global_admin/removeFromLoadBalancerRule.html]
@@ -17,9 +16,7 @@ module Fog
 
           request(options)
         end
-
       end
     end
   end
 end
-

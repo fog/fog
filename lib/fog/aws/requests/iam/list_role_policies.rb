@@ -2,7 +2,6 @@ module Fog
   module AWS
     class IAM
       class Real
-
         require 'fog/aws/parsers/iam/list_policies'
 
         # Lists the names of policies associated with a role
@@ -32,7 +31,6 @@ module Fog
             :parser     => Fog::Parsers::AWS::IAM::ListPolicies.new
           }.merge!(options))
         end
-
       end
     end
   end

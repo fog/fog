@@ -19,7 +19,6 @@ module Fog
         rescue Fog::HP::LB::NotFound
           nil
         end
-
       end
     end
   end

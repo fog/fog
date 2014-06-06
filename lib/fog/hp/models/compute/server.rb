@@ -4,9 +4,7 @@ require 'fog/hp/models/compute/metadata'
 module Fog
   module Compute
     class HP
-
       class Server < Fog::Compute::Server
-
         identity :id
 
         attribute :addresses
@@ -289,10 +287,7 @@ module Fog
         def adminPass=(new_admin_pass)
           @password = new_admin_pass
         end
-
       end
-
     end
   end
-
 end

@@ -2,9 +2,7 @@ module Fog
   module Parsers
     module AWS
       module AutoScaling
-
         class DescribeScalingProcessTypes < Fog::Parsers::Base
-
           def reset
             reset_process_type
             @results = { 'Processes' => [] }
@@ -44,7 +42,6 @@ module Fog
               @response['DescribeScalingProcessTypesResult'] = @results
             end
           end
-
         end
       end
     end

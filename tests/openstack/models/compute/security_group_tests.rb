@@ -31,7 +31,7 @@ Shindo.tests("Fog::Compute[:openstack] | security_group", ['openstack']) do
             :ip_range        => { "cidr" => "0.0.0.0/0" }
           )
           returns(true, "added security group rule") { security_group.security_group_rules.count == (rules_count + 1) }
-          security_group_rule = security_group.security_group_rules.detect { |r| r.id == rule.id }
+          security_group_rule = security_group.security_group_rules.find { |r| r.id == rule.id }
           returns(true, "security group rule has rule attributes") { security_group_rule.attributes == rule.attributes }
         end
 

@@ -2,7 +2,6 @@ module Fog
   module Compute
     class AWS
       class Real
-
         require 'fog/aws/parsers/compute/create_network_interface'
 
         # Creates a network interface
@@ -57,7 +56,6 @@ module Fog
             'SubnetId'   => subnetId,
             :parser      => Fog::Parsers::Compute::AWS::CreateNetworkInterface.new
           }.merge!(options))
-
         end
       end
 

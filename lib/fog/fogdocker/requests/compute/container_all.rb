@@ -13,7 +13,6 @@ module Fog
             downcase_hash_keys(container.json)
           end
         end
-
       end
       class Mock
         def container_all(filters = {})

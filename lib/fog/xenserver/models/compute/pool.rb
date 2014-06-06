@@ -3,7 +3,6 @@ require 'fog/core/model'
 module Fog
   module Compute
     class XenServer
-
       class Pool < Fog::Model
         # API Reference here:
         # http://docs.vmd.citrix.com/XenServer/6.2.0/1.0/en_gb/api/?c=pool
@@ -38,7 +37,6 @@ module Fog
         attribute :wlb_username
         attribute :wlb_verify_cert
 
-
         def default_sr
           service.storage_repositories.get __default_sr
         end
@@ -46,7 +44,7 @@ module Fog
         def default_sr=(sr)
           service.set_attribute( 'pool', reference, 'default_SR', sr.reference )
         end
-        alias :default_storage_repository= :default_sr=
+        alias_method :default_storage_repository=, :default_sr=
 
         def default_storage_repository
           default_sr
@@ -71,9 +69,7 @@ module Fog
           # then reload manually
           #reload
         end
-
       end
-
     end
   end
 end

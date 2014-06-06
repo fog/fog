@@ -4,7 +4,6 @@ module Fog
   module Compute
     class SakuraCloud
       class Real
-
         def stop_server( id, force = false )
           if force
             body = { "Force" => true }

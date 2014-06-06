@@ -4,7 +4,6 @@ module Fog
       module Real
         include Common
         def configure_vapp(vapp_id, vapp_name, options = {})
-
         items = ""
         vapp_uri = [@host, @path, "vApp", vapp_id.to_s].join("/")
 
@@ -54,7 +53,6 @@ DATA
             :path => "vapp/#{vapp_id}"
           )
         end
-
       end
     end
   end

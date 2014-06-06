@@ -2,7 +2,6 @@ module Fog
   module Parsers
     module Redshift
       module AWS
-
         class ClusterParser < Fog::Parsers::Base
           # :cluster_identifier - (String)
           # :node_type - (String)

@@ -2,7 +2,6 @@ module Fog
   module Storage
     class OpenStack
       class Real
-
         # Delete an existing object
         #
         # ==== Parameters
@@ -16,7 +15,6 @@ module Fog
             :path     => "#{Fog::OpenStack.escape(container)}/#{Fog::OpenStack.escape(object)}"
           )
         end
-
       end
     end
   end

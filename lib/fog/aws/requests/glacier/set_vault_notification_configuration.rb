@@ -2,7 +2,6 @@ module Fog
   module AWS
     class Glacier
       class Real
-
         # Set a vault's notification configuration
         #
         # ==== Parameters
@@ -31,7 +30,6 @@ module Fog
           )
         end
       end
-
     end
   end
 end

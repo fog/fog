@@ -1,3 +1,30 @@
+## 1.22.1 05/29/2014
+*Hash* ca603769c940481885d60cda68288eb124c49cd6
+
+Statistic     | Value
+------------- | --------:
+Collaborators | 30
+Downloads     | 5483958
+Forks         | 1181
+Open Issues   | 180
+Watchers      | 3056
+
+**MVP!** Ferran Rodenas
+
+#### [GH-2873]
+*   Ensure fog is using fog-core 1.22+. thanks Paul Thornthwaite
+
+#### [google|compute]
+*   Add Region tests. thanks Ferran Rodenas
+*   Update Images support. thanks Ferran Rodenas
+*   Update Servers support. thanks Ferran Rodenas
+*   Improve Disks support. thanks Ferran Rodenas
+*   Update Addresses suport. thanks Ferran Rodenas
+
+#### [misc]
+*   Enabled :path_style for Google Cloud Storage for allowing CNAME buckets. thanks Romain Haenni
+
+
 ## 1.22.0 04/17/2014
 *Hash* 6d2c2d0575f9f7337bd01d17428dc12b7105329a
 

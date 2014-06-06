@@ -2,7 +2,6 @@ module Fog
   module Compute
     class AWS
       class Real
-
         require 'fog/aws/parsers/compute/describe_security_groups'
 
         # Describe all or specified security groups
@@ -42,11 +41,9 @@ module Fog
             :parser     => Fog::Parsers::Compute::AWS::DescribeSecurityGroups.new
           }.merge!(params))
         end
-
       end
 
       class Mock
-
         def describe_security_groups(filters = {})
           unless filters.is_a?(Hash)
             Fog::Logger.deprecation("describe_security_groups with #{filters.class} param is deprecated, use describe_security_groups('group-name' => []) instead [light_black](#{caller.first})[/]")
@@ -73,14 +70,14 @@ module Fog
           for filter_key, filter_value in filters
             if permission_key = filter_key.split('ip-permission.')[1]
               if permission_key == 'group-name'
-                security_group_info = security_group_info.reject{|security_group| !security_group_groups.call(security_group).detect {|group| [*filter_value].include?(group['groupName'])}}
+                security_group_info = security_group_info.reject{|security_group| !security_group_groups.call(security_group).find {|group| [*filter_value].include?(group['groupName'])}}
               elsif permission_key == 'group-id'
-                security_group_info = security_group_info.reject{|security_group| !security_group_groups.call(security_group).detect {|group| [*filter_value].include?(group['groupId'])}}
+                security_group_info = security_group_info.reject{|security_group| !security_group_groups.call(security_group).find {|group| [*filter_value].include?(group['groupId'])}}
               elsif permission_key == 'user-id'
-                security_group_info = security_group_info.reject{|security_group| !security_group_groups.call(security_group).detect {|group| [*filter_value].include?(group['userId'])}}
+                security_group_info = security_group_info.reject{|security_group| !security_group_groups.call(security_group).find {|group| [*filter_value].include?(group['userId'])}}
               else
                 aliased_key = permission_aliases[filter_key]
-                security_group_info = security_group_info.reject{|security_group| !security_group['ipPermissions'].detect {|permission| [*filter_value].include?(permission[aliased_key])}}
+                security_group_info = security_group_info.reject{|security_group| !security_group['ipPermissions'].find {|permission| [*filter_value].include?(permission[aliased_key])}}
               end
             else
               aliased_key = aliases[filter_key]
@@ -95,7 +92,6 @@ module Fog
           }
           response
         end
-
       end
     end
   end

@@ -2,7 +2,6 @@ module Fog
   module Compute
     class AWS
       class Real
-
         require 'fog/aws/parsers/compute/basic'
 
         # Delete a spot datafeed subscription
@@ -21,7 +20,6 @@ module Fog
             :parser     => Fog::Parsers::Compute::AWS::Basic.new
           )
         end
-
       end
     end
   end

@@ -2,9 +2,7 @@ module Fog
   module Parsers
     module AWS
       module SNS
-
         class ListSubscriptions < Fog::Parsers::Base
-
           def reset
             @response = { 'Subscriptions' => [] }
             @subscription = {}
@@ -22,7 +20,6 @@ module Fog
             end
           end
         end
-
       end
     end
   end

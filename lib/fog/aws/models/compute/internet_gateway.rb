@@ -3,9 +3,7 @@ require 'fog/core/model'
 module Fog
   module Compute
     class AWS
-
       class InternetGateway < Fog::Model
-
         identity  :id,                          :aliases => 'internetGatewayId'
         attribute :attachment_set,              :aliases => 'attachmentSet'
         attribute :tag_set,                     :aliases => 'tagSet'
@@ -41,7 +39,6 @@ module Fog
           service.detach_internet_gateway(id, vpc_id)
           reload
         end
-
 
         # Removes an existing internet gateway
         #

@@ -2,7 +2,6 @@ module Fog
   module Compute
     class OpenStack
       class Real
-
         def list_security_groups(server_id = nil)
           path = "os-security-groups.json"
           if server_id
@@ -14,7 +13,6 @@ module Fog
             :path     => path
           )
         end
-
       end
 
       class Mock

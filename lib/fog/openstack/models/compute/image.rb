@@ -4,9 +4,7 @@ require 'fog/openstack/models/compute/metadata'
 module Fog
   module Compute
     class OpenStack
-
       class Image < Fog::Model
-
         identity :id
 
         attribute :name
@@ -50,9 +48,7 @@ module Fog
         def ready?
           status == 'ACTIVE'
         end
-
       end
-
     end
   end
 end

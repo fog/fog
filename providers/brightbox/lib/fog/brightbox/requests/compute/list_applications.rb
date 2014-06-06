@@ -12,7 +12,6 @@ module Fog
         def list_applications
           wrapped_request("get", "/1.0/applications", [200])
         end
-
       end
     end
   end

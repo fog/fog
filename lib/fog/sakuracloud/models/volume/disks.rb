@@ -4,7 +4,6 @@ require 'fog/sakuracloud/models/volume/disk'
 module Fog
   module Volume
     class SakuraCloud
-
       class Disks < Fog::Collection
         model Fog::Volume::SakuraCloud::Disk
 
@@ -22,9 +21,7 @@ module Fog
           service.delete_disk(id)
           true
         end
-
       end
-
     end
   end
 end

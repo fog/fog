@@ -2,7 +2,6 @@ module Fog
   module Compute
     class OpenStack
       class Real
-
         def release_address(address_id)
           request(
             :expects => [200, 202],
@@ -10,11 +9,9 @@ module Fog
             :path   => "os-floating-ips/#{address_id}"
           )
         end
-
       end
 
       class Mock
-
         def release_address(address_id)
           response = Excon::Response.new
           response.status = 202
@@ -26,9 +23,7 @@ module Fog
           response.body = {}
           response
         end
-
       end # mock
-
     end
   end
 end

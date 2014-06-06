@@ -2,9 +2,7 @@ module Fog
   module Parsers
     module Compute
       module AWS
-
         class RunInstances < Fog::Parsers::Base
-
           def reset
             @block_device_mapping = {}
             @network_interfaces = {}
@@ -85,9 +83,7 @@ module Fog
               @instance['associatePublicIP'] = (value == 'true')
             end
           end
-
         end
-
       end
     end
   end

@@ -4,9 +4,7 @@ require 'fog/ibm/models/compute/server'
 module Fog
   module Compute
     class IBM
-
       class Servers < Fog::Collection
-
         model Fog::Compute::IBM::Server
 
         def all
@@ -20,7 +18,6 @@ module Fog
             nil
           end
         end
-
       end
     end
   end

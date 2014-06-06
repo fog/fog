@@ -2,7 +2,6 @@ module Fog
   module AWS
     class RDS
       class Real
-
         require 'fog/aws/parsers/rds/describe_db_subnet_groups'
 
         # This API returns a list of DBSubnetGroup descriptions. If a DBSubnetGroupName is specified, the list will contain only
@@ -30,11 +29,9 @@ module Fog
             :parser   => Fog::Parsers::AWS::RDS::DescribeDBSubnetGroups.new
           }.merge(params))
         end
-
       end
 
       class Mock
-
         def describe_db_subnet_groups(name = nil, opts = {})
           response = Excon::Response.new
 
@@ -57,7 +54,6 @@ module Fog
           response
         end
       end
-
     end
   end
 end

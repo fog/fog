@@ -3,9 +3,7 @@ require 'fog/core/model'
 module Fog
   module Terremark
     module Shared
-
       class Task < Fog::Model
-
         identity :id
 
         attribute :end_time,    :aliases => 'endTime'
@@ -42,9 +40,7 @@ module Fog
         end
 
         def type=(new_type); end
-
       end
-
     end
   end
 end

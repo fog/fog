@@ -2,7 +2,6 @@ module Fog
   module Compute
     class OpenStack
       module MetaParent
-
         def parent
           @parent
         end
@@ -26,7 +25,6 @@ module Fog
           metas.each { |meta| hash.store(meta.key, meta.value) }
           hash
         end
-
       end
     end
   end

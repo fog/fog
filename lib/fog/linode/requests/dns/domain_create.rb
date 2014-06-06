@@ -2,7 +2,6 @@ module Fog
   module DNS
     class Linode
       class Real
-
         # Creates a domain record
         #
         # ==== Parameters
@@ -36,7 +35,6 @@ module Fog
             }.merge!( options)
           )
         end
-
       end
     end
   end

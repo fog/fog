@@ -2,16 +2,13 @@ module Fog
   module Compute
     class OpenStack
       class Real
-
         def list_all_addresses
           request(
             :expects  => [200, 203],
             :method   => 'GET',
             :path     => "os-floating-ips.json"
           )
-
         end
-
       end
 
       class Mock

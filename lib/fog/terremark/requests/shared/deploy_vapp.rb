@@ -2,7 +2,6 @@ module Fog
   module Terremark
     module Shared
       module Real
-
         # Reserve requested resources and deploy vApp
         #
         # ==== Parameters
@@ -28,7 +27,6 @@ module Fog
             :path     => "vApp/#{vapp_id}/action/deploy"
           )
         end
-
       end
     end
   end

@@ -2,9 +2,7 @@ module Fog
   module Parsers
     module AWS
       module SNS
-
         class GetTopicAttributes < Fog::Parsers::Base
-
           def reset
             @response = { 'Attributes' => {} }
           end
@@ -25,7 +23,6 @@ module Fog
             end
           end
         end
-
       end
     end
   end

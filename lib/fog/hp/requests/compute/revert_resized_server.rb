@@ -2,7 +2,6 @@ module Fog
   module Compute
     class HP
       class Real
-
         # Revert resizing
         #
         # ==== Parameters
@@ -12,11 +11,9 @@ module Fog
           body = { 'revertResize' => nil }
           server_action(server_id, body)
         end
-
       end
 
       class Mock
-
         def revert_resized_server(server_id)
           response = Excon::Response.new
           response.status = 202
@@ -28,7 +25,6 @@ module Fog
 
           response
         end
-
       end
     end
   end

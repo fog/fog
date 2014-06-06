@@ -1,5 +1,4 @@
 class AWS
-
   module IAM
     # A self-signed test keypair. Generated using the command:
     # openssl req -new -newkey rsa:1024 -days 3650 -nodes -x509 -keyout server-private.key -out server-public.crt
@@ -95,13 +94,9 @@ Xb9WSr07saxZQbxBPQyTlb0Q9Tu2djAq2/o/nYD1/50/fXUTuWMB
 }
 
     module Formats
-
       BASIC = {
         'RequestId' => String
       }
-
     end
-
   end
-
 end

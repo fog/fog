@@ -2,7 +2,6 @@ module Fog
   module Compute
     class Rackspace
       class Real
-
         # List all flavors
         #
         # ==== Returns
@@ -19,11 +18,9 @@ module Fog
             :path     => 'flavors/detail.json'
           )
         end
-
       end
 
       class Mock
-
         def list_flavors_detail
           response = Excon::Response.new
           response.status = 200
@@ -40,7 +37,6 @@ module Fog
           }
           response
         end
-
       end
     end
   end

@@ -45,7 +45,7 @@ module Fog
           response = Excon::Response.new
           if self.data[:network_acls][network_acl_id]
 
-            if self.data[:network_acls][network_acl_id]['entrySet'].detect { |r| r['ruleNumber'] == rule_number && r['egress'] == egress }
+            if self.data[:network_acls][network_acl_id]['entrySet'].find { |r| r['ruleNumber'] == rule_number && r['egress'] == egress }
               raise Fog::Compute::AWS::Error.new("Already a rule with that number")
             end
 

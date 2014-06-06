@@ -11,7 +11,7 @@
 Shindo.tests('Fog::Compute[:xenserver] | create_sr request', ['xenserver']) do
 
   compute = Fog::Compute[:xenserver]
-  
+
   tests('#create_sr "FOG TEST SR" with device /dev/sdb') do
     test('create an EXT SR') do
       ref = compute.create_sr compute.hosts.first.reference,

@@ -2,7 +2,6 @@ module Fog
   module Rackspace
     class Monitoring
       class Real
-
         def get_alarm(entity_id, alarm_id)
           request(
             :expects  => [200, 203],
@@ -10,13 +9,10 @@ module Fog
             :path     => "entities/#{entity_id}/alarms/#{alarm_id}"
           )
         end
-
       end
 
       class Mock
-
         def get_alarm(entity_id, alarm_id)
-
           if entity_id == -1 || alarm_id == -1
            raise Fog::Rackspace::Monitoring::NotFound
           end
@@ -53,5 +49,3 @@ module Fog
     end
   end
 end
-
-

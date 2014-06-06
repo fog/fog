@@ -2,7 +2,6 @@ module Fog
   module Terremark
     module Shared
       module Real
-
         # Instatiate a vapp template
         #
         # ==== Parameters
@@ -74,7 +73,6 @@ DATA
             :path => "vdc/#{options['vdc_id']}/action/instantiatevAppTemplate"
           )
         end
-
       end
     end
   end

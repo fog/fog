@@ -2,9 +2,7 @@ module Fog
   module Parsers
     module Terremark
       module Shared
-
         class Task < TerremarkParser
-
           def reset
             @response = {}
           end
@@ -20,9 +18,7 @@ module Fog
               @response.merge!(task.reject {|key,value| !['endTime', 'href', 'startTime', 'status', 'type'].include?(key)})
             end
           end
-
         end
-
       end
     end
   end

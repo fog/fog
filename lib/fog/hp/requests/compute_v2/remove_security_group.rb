@@ -2,7 +2,6 @@ module Fog
   module Compute
     class HPV2
       class Real
-
         # Remove an existing security group from an existing server
         #
         # ==== Parameters
@@ -13,11 +12,9 @@ module Fog
           body = { 'removeSecurityGroup' => { 'name' => sg_name }}
           server_action(server_id, body)
         end
-
       end
 
       class Mock
-
         def remove_security_group(server_id, sg_name)
           response = Excon::Response.new
           if server = self.data[:servers][server_id]
@@ -30,7 +27,6 @@ module Fog
           end
           response
         end
-
       end
     end
   end

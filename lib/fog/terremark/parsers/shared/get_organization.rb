@@ -2,7 +2,6 @@ module Fog
   module Parsers
     module Terremark
       module Shared
-
         class GetOrganization < TerremarkParser
           # include Fog::Terremark::Shared::Parser
 
@@ -44,9 +43,7 @@ module Fog
               @response[name] = value
             end
           end
-
         end
-
       end
     end
   end

@@ -2,7 +2,6 @@ module Fog
   module DNS
     class Zerigo
       class Real
-
         require 'fog/zerigo/parsers/dns/list_zones'
 
         # Get list of all DNS zones hosted on Slicehost (for this account)
@@ -44,11 +43,9 @@ module Fog
             :path     => '/api/1.1/zones.xml'
           )
         end
-
       end
 
       class Mock # :nodoc:all
-
         def list_zones
           response = Excon::Response.new
 
@@ -59,7 +56,6 @@ module Fog
 
           response
         end
-
       end
     end
   end

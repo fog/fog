@@ -2,7 +2,6 @@ Shindo.tests('Fog::Rackspace::Monitoring | check', ['rackspace','rackspace_monit
   pending if Fog.mocking?
   service = Fog::Rackspace::Monitoring.new
 
-
   tests('#entity=') do
     tests('should create new entity if object is a string') do
       check = Fog::Rackspace::Monitoring::Check.new

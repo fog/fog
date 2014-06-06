@@ -4,9 +4,7 @@ require 'fog/hp/models/storage/shared_directory'
 module Fog
   module Storage
     class HP
-
       class SharedDirectories < Fog::Collection
-
         model Fog::Storage::HP::SharedDirectory
 
         def all
@@ -47,9 +45,7 @@ module Fog
         rescue Fog::Storage::HP::NotFound
           nil
         end
-
       end
-
     end
   end
 end

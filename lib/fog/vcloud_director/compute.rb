@@ -24,7 +24,6 @@ end
 module Fog
   module Compute
     class VcloudDirector < Fog::Service
-
       module Defaults
         PATH        = '/api'
         PORT        = 443
@@ -246,6 +245,7 @@ module Fog
       request :put_media_metadata_item_metadata
       request :put_memory
       request :put_metadata_value # deprecated
+      request :put_network
       request :put_network_connection_system_section_vapp
       request :put_vapp_metadata_item_metadata
       request :put_vapp_name_and_description
@@ -306,7 +306,7 @@ module Fog
         end
 
         def get_by_name(item_name)
-          item_found = item_list.detect {|item| item[:name] == item_name}
+          item_found = item_list.find {|item| item[:name] == item_name}
           return nil unless item_found
           get(item_found[:id])
         end
@@ -460,7 +460,7 @@ module Fog
             response = get_current_session
           else
             response = post_login_session
-            x_vcloud_authorization = response.headers.keys.detect do |key|
+            x_vcloud_authorization = response.headers.keys.find do |key|
               key.downcase == 'x-vcloud-authorization'
             end
             @vcloud_token = response.headers[x_vcloud_authorization]
@@ -475,7 +475,6 @@ module Fog
           @vcloud_token = nil
           @org_name = nil
         end
-
       end
 
       class Mock
@@ -791,7 +790,6 @@ module Fog
         def xsi_schema_location
           "http://www.vmware.com/vcloud/v1.5 http://#{@host}#{@path}/v1.5/schema/master.xsd"
         end
-
       end
     end
   end

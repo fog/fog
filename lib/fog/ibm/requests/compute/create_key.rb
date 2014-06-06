@@ -2,7 +2,6 @@ module Fog
   module Compute
     class IBM
       class Real
-
         # Requests a new keypair to be created
         #
         # ==== Parameters
@@ -27,11 +26,9 @@ module Fog
             }
           )
         end
-
       end
 
       class Mock
-
         # SmartCloud returns the private key when create_key is called
         # We need to store both the private and public key for later use
         def create_key(name, public_key=nil)
@@ -54,7 +51,6 @@ module Fog
           self.data[:private_keys][name] = attributes.merge("keyMaterial" => private_key.to_s)
           response
         end
-
       end
     end
   end

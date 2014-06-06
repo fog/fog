@@ -1,9 +1,7 @@
 module Fog
   module AWS
     class AutoScaling
-
       class Real
-
         require 'fog/aws/parsers/auto_scaling/basic'
 
         # Creates a scheduled scaling action for a Auto Scaling group. If you
@@ -54,17 +52,13 @@ module Fog
             :parser                => Fog::Parsers::AWS::AutoScaling::Basic.new
           }.merge!(options))
         end
-
       end
 
       class Mock
-
         def put_scheduled_update_group_action(auto_scaling_group_name, scheduled_policy_name, time, options = {})
           Fog::Mock.not_implemented
         end
-
       end
-
     end
   end
 end

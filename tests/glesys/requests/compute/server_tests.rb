@@ -110,7 +110,6 @@ Shindo.tests('Fog::Compute[:glesys] | server requests', ['glesys']) do
       Fog::Compute[:glesys].destroy(:serverid => @serverid).body['response']
     end
 
-
   end
 
   tests('failure') do

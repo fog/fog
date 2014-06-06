@@ -53,4 +53,3 @@ server = select_server(servers)
 server.destroy
 
 puts "\nServer #{server.name} has been destroyed\n"
-

@@ -3,9 +3,7 @@ require 'fog/core/model'
 module Fog
   module AWS
     class RDS
-
       class Snapshot < Fog::Model
-
         identity  :id, :aliases => ['DBSnapshotIdentifier', :name]
         attribute  :instance_id, :aliases => 'DBInstanceIdentifier'
         attribute  :created_at, :aliases => 'SnapshotCreateTime', :type => :time
@@ -45,7 +43,6 @@ module Fog
           requires :instance_id
           service.servers.get(instance_id)
         end
-
       end
     end
   end

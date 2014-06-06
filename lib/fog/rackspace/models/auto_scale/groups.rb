@@ -5,7 +5,6 @@ module Fog
   module Rackspace
     class AutoScale
       class Groups < Fog::Collection
-
         model Fog::Rackspace::AutoScale::Group
 
         # Returns list of autoscale groups

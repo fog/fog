@@ -2,7 +2,6 @@ module Fog
   module DNS
     class DNSimple
       class Real
-
         # Create a single domain in DNSimple in your account.
         #
         # ==== Parameters
@@ -26,11 +25,9 @@ module Fog
             :path     => "/domains"
           )
         end
-
       end
 
       class Mock
-
         def create_domain(name)
           body = {
             "domain" =>  {
@@ -59,9 +56,7 @@ module Fog
           response.body = body
           response
         end
-
       end
-
     end
   end
 end

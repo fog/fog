@@ -1,6 +1,5 @@
 class XenServer < Fog::Bin
   class << self
-
     def class_for(key)
       case key
       when :compute
@@ -26,6 +25,5 @@ class XenServer < Fog::Bin
     def services
       Fog::XenServer.services
     end
-
   end
 end

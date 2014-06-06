@@ -3,9 +3,7 @@ require 'fog/core/model'
 module Fog
   module Compute
     class AWS
-
       class Address < Fog::Model
-
         identity  :public_ip,                  :aliases => 'publicIp'
 
         attribute :allocation_id,              :aliases => 'allocationId'
@@ -70,9 +68,7 @@ module Fog
             service.disassociate_address(public_ip)
           end
         end
-
       end
-
     end
   end
 end

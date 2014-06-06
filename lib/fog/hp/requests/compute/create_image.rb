@@ -2,7 +2,6 @@ module Fog
   module Compute
     class HP
       class Real
-
         # Create an image from an existing server
         #
         # ==== Parameters
@@ -23,11 +22,9 @@ module Fog
                  }
           server_action(server_id, body)
         end
-
       end
 
       class Mock
-
         def create_image(server_id, name, metadata = {})
           response = Excon::Response.new
           response.status = 202
@@ -52,9 +49,7 @@ module Fog
           response.body = "" # { 'image' => data } no data is sent
           response
         end
-
       end
     end
   end
 end
-

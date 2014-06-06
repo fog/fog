@@ -2,7 +2,6 @@ module Fog
   module AWS
     class ElasticBeanstalk
       class Real
-
         require 'fog/aws/parsers/beanstalk/describe_environment_resources'
 
         # Returns AWS resources for this environment.

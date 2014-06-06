@@ -4,9 +4,7 @@ require 'fog/cloudstack/models/compute/zone'
 module Fog
   module Compute
     class Cloudstack
-
       class Zones < Fog::Collection
-
         model Fog::Compute::Cloudstack::Zone
 
         def all(filters={})
@@ -26,8 +24,6 @@ module Fog
           nil
         end
       end
-
     end
   end
 end
-

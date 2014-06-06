@@ -1,9 +1,7 @@
 module Fog
   module Compute
     class Google
-
       class Mock
-
         def get_machine_type(machine_type_name, zone_name = nil)
           zone_name = self.data[:zones].keys.first if zone_name.nil?
           get_zone(zone_name)
@@ -22,11 +20,9 @@ module Fog
           }
           build_response(:body => machine_type)
         end
-
       end
 
       class Real
-
         def get_machine_type(machine_type_name, zone_name = nil)
           zone_name = list_zones.body['items'].first['name'] if zone_name.nil?
           if zone_name.start_with? 'http'
@@ -42,9 +38,7 @@ module Fog
           result = self.build_result(api_method, parameters)
           response = self.build_response(result)
         end
-
       end
-
     end
   end
 end

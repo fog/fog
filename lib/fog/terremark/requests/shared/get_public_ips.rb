@@ -2,7 +2,6 @@ module Fog
   module Terremark
     module Shared
       module Real
-
         # Get list of public ips
         #
         # ==== Parameters
@@ -26,16 +25,14 @@ module Fog
           end
           request(opts)
         end
-
       end
 
       module Mock
-
         def get_public_ips(vdc_id)
           vdc_id = vdc_id.to_i
           response = Excon::Response.new
 
-          if vdc = self.data[:organizations].map { |org| org[:vdcs] }.flatten.detect { |vdc| vdc[:id] == vdc_id }
+          if vdc = self.data[:organizations].map { |org| org[:vdcs] }.flatten.find { |vdc| vdc[:id] == vdc_id }
             body = { "PublicIpAddresses" => [] }
             vdc[:public_ips].each do |ip|
               ip = { "name" => ip[:name],
@@ -65,7 +62,6 @@ module Fog
 
           response
         end
-
       end
     end
   end

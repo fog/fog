@@ -1,12 +1,10 @@
 module Fog
   module Compute
     class Google
-
       class Mock
         def set_common_instance_metadata(identity, current_fingerprint, metadata = {})
           Fog::Mock.not_implemented
         end
-
       end
 
       class Real
@@ -24,7 +22,6 @@ module Fog
           response = self.build_response(result)
         end
       end
-
     end
   end
 end

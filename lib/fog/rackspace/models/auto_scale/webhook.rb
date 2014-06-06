@@ -4,7 +4,6 @@ module Fog
   module Rackspace
     class AutoScale
       class Webhook < Fog::Model
-
         # @!attribute [r] id
         # @return [String] The webhook id
         identity :id
@@ -111,7 +110,6 @@ module Fog
           link = links.find { |l| l['rel'] == 'capability' }
           link['href'] rescue nil
         end
-
       end
     end
   end

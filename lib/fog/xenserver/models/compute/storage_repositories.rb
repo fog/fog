@@ -4,9 +4,7 @@ require 'fog/xenserver/models/compute/storage_repository'
 module Fog
   module Compute
     class XenServer
-
       class StorageRepositories < Fog::Collection
-
         model Fog::Compute::XenServer::StorageRepository
 
         def all
@@ -23,9 +21,7 @@ module Fog
             nil
           end
         end
-
       end
-
     end
   end
 end

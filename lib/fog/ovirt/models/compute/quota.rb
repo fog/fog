@@ -1,9 +1,7 @@
 module Fog
   module Compute
     class Ovirt
-
       class Quota < Fog::Model
-
         identity :id
 
         attribute :name
@@ -12,10 +10,7 @@ module Fog
         def to_s
           name
         end
-
       end
-
     end
   end
 end
-

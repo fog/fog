@@ -2,7 +2,6 @@ module Fog
   module DNS
     class DNSimple
       class Real
-
         # Delete the given domain from your account. You may use
         # either the domain ID or the domain name.
         #
@@ -19,11 +18,9 @@ module Fog
             :path     => "/domains/#{domain}"
           )
         end
-
       end
 
       class Mock
-
         def delete_domain(name)
           self.data[:records].delete name
           self.data[:domains].reject! { |domain| domain["domain"]["name"] == name }
@@ -32,7 +29,6 @@ module Fog
           response.status = 200
           response
         end
-
       end
     end
   end

@@ -3,7 +3,6 @@ require 'fog/json'
 
 module Fog
   module Clodo
-
     extend Fog::Provider
 
     service(:compute, 'Compute')
@@ -29,7 +28,6 @@ module Fog
       response.headers.reject do |key, value|
         !['X-Server-Management-Url', 'X-Storage-Url', 'X-CDN-Management-Url', 'X-Auth-Token'].include?(key)
       end
-
     end # authenticate
   end # module Clodo
 end # module Fog

@@ -4,7 +4,6 @@ module Fog
   module Joyent
     class Analytics
       class Instrumentations < Fog::Collection
-
         model Fog::Joyent::Analytics::Instrumentation
 
         def all
@@ -18,8 +17,6 @@ module Fog
         rescue Fog::Compute::Joyent::Errors::NotFound
           nil
         end
-
-
       end
     end
   end

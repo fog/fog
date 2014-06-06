@@ -2,9 +2,7 @@ module Fog
   module Parsers
     module Compute
       module Voxel
-
         class VoxcloudDelete < Fog::Parsers::Base
-
           def reset
             @response = {}
           end
@@ -22,9 +20,7 @@ module Fog
               }
             end
           end
-
         end
-
       end
     end
   end

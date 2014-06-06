@@ -4,7 +4,6 @@ require 'fog/rackspace/mock_data'
 require 'fog/rackspace/service'
 require 'fog/rackspace/errors'
 
-
 module Fog
   module Rackspace
     extend Fog::Provider

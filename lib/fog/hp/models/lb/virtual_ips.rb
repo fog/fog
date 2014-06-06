@@ -5,7 +5,6 @@ module Fog
   module HP
     class LB
       class VirtualIps < Fog::Collection
-
         model Fog::HP::LB::VirtualIp
 
         attr_accessor :load_balancer
@@ -21,12 +20,11 @@ module Fog
           requires :load_balancer
 
           data = service.list_load_balancer_virtual_ips(load_balancer.id).body['virtualIps']
-          vip = data.detect {|vip| vip['id'].to_s == vip_id}
+          vip = data.find {|vip| vip['id'].to_s == vip_id}
           new(vip)
         rescue Fog::HP::LB::NotFound
           nil
         end
-
       end
     end
   end

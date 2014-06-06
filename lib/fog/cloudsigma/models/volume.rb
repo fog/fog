@@ -20,7 +20,6 @@ module Fog
         attribute :size, :type => :integer
         attribute :resource_uri, :type => :string
 
-
         def save
           if persisted?
             update
@@ -46,7 +45,6 @@ module Fog
           response = service.update_volume(identity, data)
           new_attributes = response.body
           merge_attributes(new_attributes)
-
         end
 
         def destroy
@@ -57,7 +55,7 @@ module Fog
           true
         end
 
-        alias :delete :destroy
+        alias_method :delete, :destroy
 
         def clone(clone_params={})
           requires :identity

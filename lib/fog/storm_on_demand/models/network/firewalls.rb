@@ -25,7 +25,6 @@ module Fog
           service.update_firewall(options)
           true
         end
-
       end
     end
   end

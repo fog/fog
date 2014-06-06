@@ -22,7 +22,6 @@ module Fog
           mock_get(:pricing,  200)
         end
       end
-
     end
   end
 end

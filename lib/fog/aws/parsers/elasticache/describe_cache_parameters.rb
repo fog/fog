@@ -5,7 +5,6 @@ module Fog
         require 'fog/aws/parsers/elasticache/engine_defaults_parser'
 
         class DescribeCacheParameters < EngineDefaultsParser
-
           def end_element(name)
             case name
             when 'DescribeCacheParametersResult'

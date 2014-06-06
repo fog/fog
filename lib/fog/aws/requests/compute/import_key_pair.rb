@@ -2,7 +2,6 @@ module Fog
   module Compute
     class AWS
       class Real
-
         require 'fog/aws/parsers/compute/import_key_pair'
 
         # Import an existing public key to create a new key pair
@@ -27,11 +26,9 @@ module Fog
             :parser   => Fog::Parsers::Compute::AWS::ImportKeyPair.new
           )
         end
-
       end
 
       class Mock
-
         def import_key_pair(key_name, public_key_material)
           response = Excon::Response.new
           unless self.data[:key_pairs][key_name]
@@ -49,7 +46,6 @@ module Fog
             raise Fog::Compute::AWS::Error.new("InvalidKeyPair.Duplicate => The keypair '#{key_name}' already exists.")
           end
         end
-
       end
     end
   end

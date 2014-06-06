@@ -62,7 +62,7 @@ Shindo.tests('Fog::Attributes', 'core') do
       @model.merge_attributes(:bool => true)
       @model.bool
     end
-    
+
     tests(':bool => "false"').returns(false) do
       @model.merge_attributes(:bool => 'false')
       @model.bool
@@ -77,7 +77,7 @@ Shindo.tests('Fog::Attributes', 'core') do
       @model.merge_attributes(:bool => "foo")
       @model.bool
     end
-  
+
   end
 
 end

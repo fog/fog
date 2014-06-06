@@ -1,6 +1,5 @@
 class Ovirt < Fog::Bin
   class << self
-
     def class_for(key)
       case key
       when :compute
@@ -25,6 +24,5 @@ class Ovirt < Fog::Bin
     def services
       Fog::Ovirt.services
     end
-
   end
 end

@@ -3,9 +3,7 @@ require 'fog/compute/models/server'
 module Fog
   module Compute
     class Openvz
-
       class Server < Fog::Compute::Server
-
         identity  :ctid
         attribute :ostemplate
         attribute :config
@@ -178,7 +176,6 @@ module Fog
           data = service.resume_server(ctid, options)
         end
 
-
         def set(options)
           data = service.set_server(ctid,options)
         end
@@ -186,9 +183,7 @@ module Fog
         def ready?
           status == 'running'
         end
-
       end
-
     end
   end
 end

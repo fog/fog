@@ -2,12 +2,9 @@ module Fog
   module Parsers
     module AWS
       module RDS
-
         class DbParser < Fog::Parsers::Base
-
           def reset
             @db_instance = fresh_instance
-
           end
 
           def fresh_instance
@@ -39,11 +36,9 @@ module Fog
               @in_vpc_security_groups = true
               @vpc_security_groups = []
             end
-
           end
 
           def end_element(name)
-
             case name
 
             when 'LatestRestorableTime', 'InstanceCreateTime'

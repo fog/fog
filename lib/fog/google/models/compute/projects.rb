@@ -4,7 +4,6 @@ require 'fog/google/models/compute/project'
 module Fog
   module Compute
     class Google
-
       class Projects < Fog::Collection
         model Fog::Compute::Google::Project
 
@@ -16,7 +15,6 @@ module Fog
           nil
         end
       end
-
     end
   end
 end

@@ -14,7 +14,7 @@ module Fog
         end
 
         def environment_id
-          other_links[:Link].detect { |l| l[:type] == "application/vnd.tmrk.cloud.environment" }[:href].scan(/\d+/)[0]
+          other_links[:Link].find { |l| l[:type] == "application/vnd.tmrk.cloud.environment" }[:href].scan(/\d+/)[0]
         end
 
         def id

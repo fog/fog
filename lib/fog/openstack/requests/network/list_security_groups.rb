@@ -2,7 +2,6 @@ module Fog
   module Network
     class OpenStack
       class Real
-
         # List all security groups
         #
         # ==== Parameters
@@ -35,11 +34,9 @@ module Fog
             :query    => options
           )
         end
-
       end
 
       class Mock
-
         def list_security_groups(options = {})
           response = Excon::Response.new
 
@@ -50,7 +47,6 @@ module Fog
           response.body = { 'security_groups' => sec_groups }
           response
         end
-
       end
     end
   end

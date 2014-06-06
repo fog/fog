@@ -3,7 +3,6 @@ require 'fog/core/model'
 module Fog
   module AWS
     class ElasticBeanstalk
-
       class Version < Fog::Model
         attribute :label, :aliases => 'VersionLabel'
         attribute :application_name, :aliases => 'ApplicationName'
@@ -73,7 +72,6 @@ module Fog
           merge_attributes(data)
         end
       end
-
     end
   end
 end

@@ -1,7 +1,6 @@
 module Fog
   module Compute
     class Joyent
-
       class Mock
         def get_dataset(id)
           if ds = self.data[:datasets][id]
@@ -23,7 +22,6 @@ module Fog
           )
         end
       end
-
     end
   end
 end

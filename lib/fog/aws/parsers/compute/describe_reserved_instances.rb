@@ -2,9 +2,7 @@ module Fog
   module Parsers
     module Compute
       module AWS
-
         class DescribeReservedInstances < Fog::Parsers::Base
-
           def get_default_item
             {'tagSet' => {}, 'recurringCharges' => {}}
           end
@@ -52,11 +50,8 @@ module Fog
             when 'start','end'
               @reserved_instance[name] = Time.parse(value)
             end
-
           end
-
         end
-
       end
     end
   end
