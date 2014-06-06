@@ -43,8 +43,7 @@ module Fog
 
             when 'LatestRestorableTime', 'InstanceCreateTime'
               @db_instance[name] = Time.parse value
-            when 'Engine',
-              'DBInstanceStatus', 'DBInstanceIdentifier', 'EngineVersion',
+            when 'Engine', 'DBInstanceStatus', 'DBInstanceIdentifier', 
               'PreferredBackupWindow', 'PreferredMaintenanceWindow',
               'AvailabilityZone', 'MasterUsername', 'DBName', 'LicenseModel',
               'DBSubnetGroupName'
@@ -72,7 +71,8 @@ module Fog
               else
                 @db_instance[name] = value.to_i
               end
-            when 'DBInstanceClass', 'EngineVersion', 'MasterUserPassword', 'MultiAZ'
+            when 'DBInstanceClass', 'EngineVersion', 'MasterUserPassword', 
+                'MultiAZ', 'Iops', 'AllocatedStorage'
               if @in_pending_modified_values
                 @pending_modified_values[name] = value
               else
@@ -95,18 +95,6 @@ module Fog
               @vpc_security_group = {}
             when 'VpcSecurityGroupId'
               @vpc_security_group[name] = value
-            when 'Iops'
-              if @in_pending_modified_values
-                @pending_modified_values[name] = value.to_i
-              else
-                @db_instance[name] = value.to_i
-              end
-            when 'AllocatedStorage'
-              if @in_pending_modified_values
-                @pending_modified_values[name] = value.to_i
-              else
-                @db_instance[name] = value.to_i
-              end
 
             when 'Status'
               # Unfortunately, status is used in VpcSecurityGroupMemebership and
