@@ -43,7 +43,7 @@ module Fog
           }
 
           # This determines if we are doing a snapshot or a S3 backed AMI.
-          if(location =~ /^\/dev\/sd[a-p]\d{0,2}$/)
+          if(location =~ /^\/dev\/(xvd|sd)[a-p]\d{0,2}$/)
             common_options['RootDeviceName'] = location
           else
             common_options['ImageLocation'] = location
@@ -90,7 +90,7 @@ module Fog
               'registered' => Time.now
             }
 
-            if location[/^\/dev\/sd[a-p]\d{0,2}$/]
+            if location[/^\/dev\/(xvd|sd)[a-p]\d{0,2}$/]
               image['rootDeviceName'] = location
               image['rootDeviceType'] = 'ebs'
             else
