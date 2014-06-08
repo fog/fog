@@ -92,7 +92,7 @@ module Fog
             :name => vapp[:name],
             :type => "application/vnd.vmware.vcloud.vApp+xml",
             :href => make_href("vApp/#{id}"),
-            :LeaseSettingsSection => get_vapp_lease_settings_section_body(id, vapp),
+            :LeaseSettingsSection => get_vapp_lease_settings_section_body(id),
             :"ovf:StartupSection" => get_vapp_ovf_startup_section_body(id, vapp),
             :"ovf:NetworkSection" => get_vapp_ovf_network_section_body(id, vapp),
             :NetworkConfigSection => get_vapp_network_config_section_body(id, vapp),
@@ -105,17 +105,6 @@ module Fog
             },
           }
           body
-        end
-
-        def get_vapp_lease_settings_section_body(id, vapp)
-          {
-            :type => "application/vnd.vmware.vcloud.leaseSettingsSection+xml",
-            :href => make_href("vApp/#{id}/leaseSettingsSection/"),
-            :ovf_required=>"false",
-            :"ovf:Info"=>"Lease settings section",
-            :DeploymentLeaseInSeconds=>"0",
-            :StorageLeaseInSeconds=>"0",
-          }
         end
 
         def get_vapp_ovf_startup_section_body(id, vapp)

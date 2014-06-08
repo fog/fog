@@ -19,6 +19,18 @@ Shindo.tests('Compute::VcloudDirector | vm requests', ['vclouddirector']) do
             vapp[:Children][:Vm].each do |vm|
               vm_id = vm[:href].split('/').last
 
+              tests("#get_vapp(#{vm_id}).body").returns(Hash) do
+                @service.get_vapp(vm_id).body.class
+              end
+
+              tests("#get_vapp(#{vm_id}).body[:name]").returns(String) do
+                @service.get_vapp(vm_id).body[:name].class
+              end
+
+              tests("#get_vapp(#{vm_id}).body[:href]").returns(vm[:href]) do
+                @service.get_vapp(vm_id).body[:href]
+              end
+
               tests("#get_guest_customization_system_section_vapp(#{vm_id})").data_matches_schema(VcloudDirector::Compute::Schema::GUEST_CUSTOMIZATION_SECTION_TYPE) do
                 pending if Fog.mocking?
                 @service.get_guest_customization_system_section_vapp(vm_id).body
