@@ -200,24 +200,6 @@ module Fog
           }
         end
 
-        def get_vm_network_connection_section_body(id, vm)
-          {
-            :type => "application/vnd.vmware.vcloud.networkConnectionSection+xml",
-            :href => make_href("vApp/#{id}/networkConnectionSection/"),
-            :ovf_required => "false",
-            :"ovf:Info" => "Specifies the available VM network connections",
-            :PrimaryNetworkConnectionIndex => "0",
-            :NetworkConnection => {
-              :network => vm[:nics][0][:network_name],
-              :needsCustomization => "false",
-              :NetworkConnectionIndex => "0",
-              :IpAddress => vm[:nics][0][:ip_address],
-              :IsConnected => "true",
-              :MACAddress => vm[:nics][0][:mac_address],
-              :IpAddressAllocationMode => "MANUAL"
-            }
-          }
-        end
 
         def get_vm_runtime_info_section_body(id, vm)
           {
