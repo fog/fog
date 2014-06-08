@@ -69,9 +69,11 @@ Shindo.tests('Compute::VcloudDirector | vm requests', ['vclouddirector']) do
                 @service.get_product_sections_vapp(vm_id).body.class
               end
 
+              tests("#get_vapp(#{vm_id}).body[:RuntimeInfoSection]").data_matches_schema(VcloudDirector::Compute::Schema::RUNTIME_INFO_SECTION_TYPE) do
+                @service.get_vapp(vm_id).body[:RuntimeInfoSection]
+              end
+
               tests("#get_runtime_info_section_type(#{vm_id})").data_matches_schema(VcloudDirector::Compute::Schema::RUNTIME_INFO_SECTION_TYPE) do
-                pending if Fog.mocking?
-                pending # fails if WMware Tools not installed
                 @service.get_runtime_info_section_type(vm_id).body
               end
 

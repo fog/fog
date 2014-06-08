@@ -144,19 +144,6 @@ module Fog
           }
         end
 
-
-        def get_vm_runtime_info_section_body(id, vm)
-          {
-            :xmlns_ns12 => "http://www.vmware.com/vcloud/v1.5",
-            :ns12_href => make_href("vApp/#{id}/runtimeInfoSection"),
-            :ns12_type => "application/vnd.vmware.vcloud.virtualHardwareSection+xml",
-            :"ovf:Info" => "Specifies Runtime info",
-            :VMWareTools => {
-              :version => "9282",
-            }
-          }
-        end
-
         def get_vm_virtual_hardware_section_body(id, vm)
 
           {:xmlns_ns12=>"http://www.vmware.com/vcloud/v1.5",
