@@ -39,8 +39,11 @@ Shindo.tests('Compute::VcloudDirector | vapp requests', ['vclouddirector']) do
             Integer(@service.get_vapp(@vapp_id).body[:LeaseSettingsSection][:DeploymentLeaseInSeconds]) >= 0
           end
 
+          tests("#get_vapp(#{@vapp_id}).body[:NetworkConfigSection]").returns(Hash) do
+            @service.get_vapp(@vapp_id).body[:NetworkConfigSection].class
+          end
+
           tests("#get_network_config_section_vapp(#{@vapp_id})").returns(Hash) do
-            pending if Fog.mocking?
             @service.get_network_config_section_vapp(@vapp_id).body.class
           end
 

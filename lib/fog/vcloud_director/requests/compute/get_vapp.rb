@@ -111,45 +111,6 @@ module Fog
           {}
         end
 
-        def get_vapp_network_config_section_body(id, vapp)
-          {
-            :type => "application/vnd.vmware.vcloud.networkConfigSection+xml",
-            :href => make_href("vApp/#{id}/networkConfigSection/"),
-            :ovf_required => "false",
-            :"ovf:Info" => "The configuration parameters for logical networks",
-            :NetworkConfig => {
-              :networkName =>"mock-net-routed-1",
-              :Description =>"",
-              :Configuration => {
-                :IpScopes => {
-                  :IpScope => {
-                    :IsInherited =>"true",
-                    :Gateway =>"10.10.10.1",
-                    :Netmask =>"255.255.255.0",
-                    :Dns1 =>"8.8.8.8",
-                    :Dns2 =>"8.8.4.4",
-                    :DnsSuffix => "testing.example.com",
-                    :IsEnabled => "true",
-                    :IpRanges => {
-                      :IpRange => [
-                        {:StartAddress=>"10.10.10.20", :EndAddress=>"10.10.10.49"},
-                      ]
-                    },
-                  },
-                },
-                :ParentNetwork => {
-                  :name => "mock-net-routed-1",
-                  :id => vapp[:networks][0][:parent_id],
-                  :href => make_href("admin/network/#{vapp[:networks][0][:parent_id]}"),
-                },
-                :FenceMode => "bridged",
-                :RetainNetInfoAcrossDeployments => "false",
-              },
-              :IsDeployed=>"true",
-            },
-          }
-        end
-
         def get_vapp_children_vms_body(id)
           child_vms = data[:vms].select do |vm_id, vm_details|
             vm_details[:parent_vapp] == id
