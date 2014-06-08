@@ -175,6 +175,7 @@ module Fog
             get_mock_vm_body(vm_id)
           end
         end
+
         def get_vm_ovfenv_environment_section_body(id, vm)
           # TODO: I'm pretty sure this is just repeating info in other
           # sections, and the OVF part of VMs is extremely verbose. It's
@@ -230,25 +231,6 @@ module Fog
           }
         end
 
-        def get_vm_guest_customization_section_body(id, vm)
-          {
-            :type => "application/vnd.vmware.vcloud.guestCustomizationSection+xml",
-            :href => make_href("vApp/#{id}/guestCustomizationSection/"),
-            :ovf_required => "false",
-            :"ovf:Info" => "Specifies Guest OS Customization Settings",
-            :Enabled => "true",
-            :ChangeSid => "false",
-            :VirtualMachineId => id.split('-').last, # strip the 'vm-' prefix
-            :JoinDomainEnabled => "false",
-            :UseOrgSettings => "false",
-            :AdminPasswordEnabled => "false",
-            :AdminPasswordAuto => "true",
-            :ResetPasswordRequired => "false",
-            :CustomizationScript => vm[:customization_script] || "",
-            :ComputerName => vm[:computer_name] || vm[:name],
-          }
-        end
-
         def get_vm_operating_system_section_body(id, vm)
           {
             :xmlns_ns12=>"http://www.vmware.com/vcloud/v1.5",
@@ -283,93 +265,21 @@ module Fog
              :"vssd:VirtualSystemIdentifier" => vm[:name],
              :"vssd:VirtualSystemType"=>"vmx-08"
            },
-
-           :"ovf:Item"=>[
-
-             {:"rasd:Address" => vm[:nics][0][:mac_address],
-              :"rasd:AddressOnParent" => "0",
-              :"rasd:AutomaticAllocation" => "true",
-              :"rasd:Connection" => vm[:nics][0][:network_name],
-              :"rasd:Description" => "E1000 ethernet adapter",
-              :"rasd:ElementName" => "Network adapter 0",
-              :"rasd:InstanceID" => "1",
-              :"rasd:ResourceSubType" => "E1000",
-              :"rasd:ResourceType" => "10"
-             },
-
-             {:"rasd:Address"=>"0",
-              :"rasd:Description"=>"SCSI Controller",
-              :"rasd:ElementName"=>"SCSI Controller 0",
-              :"rasd:InstanceID"=>"2",
-              :"rasd:ResourceSubType"=>"lsilogic",
-              :"rasd:ResourceType"=>"6"
-             },
-
-             {:"rasd:AddressOnParent"=>"0",
-              :"rasd:Description"=>"Hard disk",
-              :"rasd:ElementName"=>"Hard disk 1",
-              :"rasd:HostResource"=>{
-                :ns12_capacity=>"51200",
-                :ns12_busSubType=>"lsilogic",
-                :ns12_busType=>"6"
-              },
-              :"rasd:InstanceID"=>"2000",
-              :"rasd:Parent"=>"2",
-              :"rasd:ResourceType"=>"17"
-             },
-
-             {:"rasd:Address"=>"0",
-              :"rasd:Description"=>"IDE Controller",
-              :"rasd:ElementName"=>"IDE Controller 0",
-              :"rasd:InstanceID"=>"3",
-              :"rasd:ResourceType"=>"5"
-             },
-
-             {:"rasd:AddressOnParent"=>"1",
-              :"rasd:AutomaticAllocation"=>"true",
-              :"rasd:Description"=>"CD/DVD Drive",
-              :"rasd:ElementName"=>"CD/DVD Drive 1",
-              :"rasd:HostResource"=>"",
-              :"rasd:InstanceID"=>"3000",
-              :"rasd:Parent"=>"3",
-              :"rasd:ResourceType"=>"15"
-             },
-
-             {:"rasd:AddressOnParent"=>"0",
-              :"rasd:AutomaticAllocation"=>"false",
-              :"rasd:Description"=>"Floppy Drive",
-              :"rasd:ElementName"=>"Floppy Drive 1",
-              :"rasd:HostResource"=>"",
-              :"rasd:InstanceID"=>"8000",
-              :"rasd:ResourceType"=>"14"
-             },
-
-             {:ns12_href => make_href("vApp/#{id}/virtualHardwareSection/cpu"),
-              :ns12_type => "application/vnd.vmware.vcloud.rasdItem+xml",
-              :"rasd:AllocationUnits"=>"hertz * 10^6",
-              :"rasd:Description"=>"Number of Virtual CPUs",
-              :"rasd:ElementName"=>"1 virtual CPU(s)",
-              :"rasd:InstanceID"=>"4",
-              :"rasd:Reservation"=>"0",
-              :"rasd:ResourceType"=>"3",
-              :"rasd:VirtualQuantity"=>vm[:cpu_count],
-              :"rasd:Weight"=>"0",
-             },
-
-             {:ns12_href => make_href("vApp/#{id}/virtualHardwareSection/memory"),
-              :ns12_type=>"application/vnd.vmware.vcloud.rasdItem+xml",
-              :"rasd:AllocationUnits"=>"byte * 2^20",
-              :"rasd:Description"=>"Memory Size",
-              :"rasd:ElementName"=>"#{vm[:memory_in_mb]} MB of memory",
-              :"rasd:InstanceID"=>"5",
-              :"rasd:Reservation"=>"0",
-              :"rasd:ResourceType"=>"4",
-              :"rasd:VirtualQuantity"=>vm[:memory_in_mb],
-              :"rasd:Weight"=>"0",
-             },
-           ],
+           :"ovf:Item" => get_vm_ovf_item_list(id, vm),
           }
         end
+
+        def get_vm_ovf_item_list(id, vm)
+          [
+            get_network_cards_rasd_items_list_body(id, vm),
+            get_disks_rasd_items_list_body(id, vm),
+            get_media_rasd_item_cdrom_body(id, vm),
+            get_media_rasd_item_floppy_body(id, vm),
+            get_cpu_rasd_item_body(id, vm),
+            get_memory_rasd_item_body(id, vm),
+          ].compact.flatten
+        end
+
 
       end
 
