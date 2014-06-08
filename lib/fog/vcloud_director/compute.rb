@@ -654,6 +654,7 @@ module Fog
               :vapps => {
                 vapp1_id => {
                   :name => 'mock-vapp-1',
+                  :vdc_id => vdc1_uuid,
                   :description => "Mock vApp 1",
                   :networks => [
                     { :parent_id => default_network_uuid, },
@@ -661,6 +662,7 @@ module Fog
                 },
                 vapp2_id => {
                   :name => 'mock-vapp-2',
+                  :vdc_id => vdc2_uuid,
                   :description => "Mock vApp 2",
                   :networks => [
                     { :parent_id => default_network_uuid },

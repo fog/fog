@@ -131,10 +131,10 @@ module Fog
             end
 
           body[:ResourceEntities][:ResourceEntity] +=
-            data[:vapps].map do |id, vapp|
+            get_vapps_in_this_vdc(vdc_id).map do |vapp_id, vapp|
               {:type => "application/vnd.vmware.vcloud.vApp+xml",
                :name => vapp[:name],
-               :href => make_href("vApp/#{id}")}
+               :href => make_href("vApp/#{vapp_id}")}
             end
 
           body[:AvailableNetworks][:Network] =
@@ -161,6 +161,13 @@ module Fog
           response.body = body
           response
         end
+
+        def get_vapps_in_this_vdc(vdc_id)
+          data[:vapps].select do |vapp_id, vapp|
+            vapp[:vdc_id] == vdc_id
+          end
+        end
+
       end
     end
   end
