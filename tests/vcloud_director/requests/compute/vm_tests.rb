@@ -81,8 +81,11 @@ Shindo.tests('Compute::VcloudDirector | vm requests', ['vclouddirector']) do
                 @service.get_snapshot_section(vm_id).body.class
               end
 
+              tests("#get_vapp(#{vm_id}).body[:VmCapabilities]").data_matches_schema(VcloudDirector::Compute::Schema::VM_CAPABILITIES_TYPE) do
+                @service.get_vapp(vm_id).body[:VmCapabilities]
+              end
+
               tests("#get_vm_capabilities(#{vm_id})").data_matches_schema(VcloudDirector::Compute::Schema::VM_CAPABILITIES_TYPE) do
-                pending if Fog.mocking?
                 @service.get_vm_capabilities(vm_id).body
               end
 

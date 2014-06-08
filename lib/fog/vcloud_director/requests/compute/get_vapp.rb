@@ -135,15 +135,6 @@ module Fog
           }
         end
 
-        def get_vm_capabilities_section_body(id, vm)
-          {
-            :type => "application/vnd.vmware.vcloud.vmCapabilitiesSection+xml",
-            :href => make_href("vApp/#{id}/vmCapabilities/"),
-            :MemoryHotAddEnabled => "false",
-            :CpuHotAddEnabled => "false",
-          }
-        end
-
         def get_vm_virtual_hardware_section_body(id, vm)
 
           {:xmlns_ns12=>"http://www.vmware.com/vcloud/v1.5",
