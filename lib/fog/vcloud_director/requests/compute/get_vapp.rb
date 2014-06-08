@@ -98,7 +98,7 @@ module Fog
             :NetworkConfigSection => get_vapp_network_config_section_body(id, vapp),
             :SnapshotSection      => get_snapshot_section_body(id),
             :DateCreated => vapp[:date_created], # eg "2014-03-16T10:52:31.874Z"
-            :Owner => get_owner_section_body(id, vapp),
+            :Owner => get_owner_section_body(id),
             :InMaintenanceMode => "false",
             :Children => {
               :Vm => get_vapp_children_vms_body(id)
@@ -164,17 +164,6 @@ module Fog
               },
               :IsDeployed=>"true",
             },
-          }
-        end
-
-        def get_owner_section_body(id, vapp)
-          {
-            :type => "application/vnd.vmware.vcloud.owner+xml",
-            :User => {
-              :type => "application/vnd.vmware.admin.user+xml",
-              :name => "mockuser",
-              :href => make_href("user/12345678-1234-1234-1234-12345678df2b"),
-            }
           }
         end
 

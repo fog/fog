@@ -60,8 +60,10 @@ Shindo.tests('Compute::VcloudDirector | vapp requests', ['vclouddirector']) do
           end
 
           tests("#get_vapp_owner(#{@vapp_id})").data_matches_schema(VcloudDirector::Compute::Schema::OWNER_TYPE) do
-            pending if Fog.mocking?
             @service.get_vapp_owner(@vapp_id).body
+          end
+          tests("#get_vapp(#{@vapp_id}).body[:Owner]").data_matches_schema(VcloudDirector::Compute::Schema::OWNER_TYPE) do
+            @service.get_vapp(@vapp_id).body[:Owner]
           end
 
           tests("#get_control_access_params_vapp(#{@vapp_id})").data_matches_schema(VcloudDirector::Compute::Schema::CONTROL_ACCESS_PARAMS_TYPE) do
@@ -92,7 +94,6 @@ Shindo.tests('Compute::VcloudDirector | vapp requests', ['vclouddirector']) do
   end
 
   tests('Retrieve owner of non-existent vApp').raises(Fog::Compute::VcloudDirector::Forbidden) do
-    pending if Fog.mocking?
     @service.get_vapp_owner('00000000-0000-0000-0000-000000000000')
   end
 
