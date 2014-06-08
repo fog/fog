@@ -213,18 +213,6 @@ module Fog
           }
         end
 
-        def get_vm_operating_system_section_body(id, vm)
-          {
-            :xmlns_ns12=>"http://www.vmware.com/vcloud/v1.5",
-            :ovf_id => "94",
-            :ns12_href => make_href("vApp/#{id}/operatingSystemSection/"),
-            :ns12_type => "application/vnd.vmware.vcloud.operatingSystemSection+xml",
-            :vmw_osType => vm[:guest_os_type], # eg "ubuntu64Guest"
-            :"ovf:Info"=>"Specifies the operating system installed",
-            :"ovf:Description"=> vm[:guest_os_description], # eg "Ubuntu Linux (64-bit)",
-          }
-        end
-
         def get_vm_virtual_hardware_section_body(id, vm)
 
           {:xmlns_ns12=>"http://www.vmware.com/vcloud/v1.5",

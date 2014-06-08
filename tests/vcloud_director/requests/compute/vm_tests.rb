@@ -56,8 +56,11 @@ Shindo.tests('Compute::VcloudDirector | vm requests', ['vclouddirector']) do
                 @service.get_network_connection_system_section_vapp(vm_id).body.class
               end
 
+              tests("#get_vapp(#{vm_id}).body[:'ovf:OperatingSystemSection']").returns(Hash) do
+                @service.get_vapp(vm_id).body[:'ovf:OperatingSystemSection'].class
+              end
+
               tests("#get_operating_system_section(#{vm_id})").returns(Hash) do
-                pending if Fog.mocking?
                 @service.get_operating_system_section(vm_id).body.class
               end
 
