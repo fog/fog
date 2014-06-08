@@ -243,15 +243,6 @@ module Fog
           }
         end
 
-        def get_snapshot_section_body(id)
-          {
-            :type => "application/vnd.vmware.vcloud.snapshotSection+xml",
-            :href => make_href("vApp/#{id}/snapshotSection"),
-            :ovf_required => "false",
-            :"ovf:Info"   => "Snapshot information section"
-          }
-        end
-
         def get_vm_virtual_hardware_section_body(id, vm)
 
           {:xmlns_ns12=>"http://www.vmware.com/vcloud/v1.5",

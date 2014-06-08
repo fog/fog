@@ -70,7 +70,6 @@ Shindo.tests('Compute::VcloudDirector | vm requests', ['vclouddirector']) do
               end
 
               tests("#get_snapshot_section(#{vm_id})").returns(Hash) do
-                pending if Fog.mocking?
                 @service.get_snapshot_section(vm_id).body.class
               end
 
