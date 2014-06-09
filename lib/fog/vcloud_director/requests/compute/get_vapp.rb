@@ -115,6 +115,10 @@ module Fog
           child_vms = data[:vms].select do |vm_id, vm_details|
             vm_details[:parent_vapp] == id
           end
+          if RUBY_VERSION.to_f < 1.9
+            # 1.8 Hash.select returns an Array of [k,v] pairs.
+            child_vms = Hash[child_vms]
+          end
           child_vms.keys.collect do |vm_id|
             get_mock_vm_body(vm_id)
           end
