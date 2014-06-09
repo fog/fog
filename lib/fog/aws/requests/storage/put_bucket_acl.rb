@@ -42,7 +42,7 @@ module Fog
           headers['Date'] = Fog::Time.now.to_date_header
 
           request({
-            :body     => data,
+            :body     => data.gsub(/\n\s*/, ''),
             :expects  => 200,
             :headers  => headers,
             :bucket_name => bucket_name,
