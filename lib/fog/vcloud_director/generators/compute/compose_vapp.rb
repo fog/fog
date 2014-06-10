@@ -86,7 +86,6 @@ module Fog
                     xml.GuestCustomizationSection(:xmlns => "http://www.vmware.com/vcloud/v1.5", 'xmlns:ovf' => "http://schemas.dmtf.org/ovf/envelope/1") {
                       xml['ovf'].Info
                       xml.Enabled (customization[:Enabled] || false)
-                      xml.ComputerName customization[:ComputerName]
                       xml.ChangeSid customization[:ChangeSid] if (customization.key? :ChangeSid)
                       xml.JoinDomainEnabled customization[:JoinDomainEnabled] if (customization.key? :JoinDomainEnabled)
                       xml.UseOrgSettings customization[:UseOrgSettings] if (customization.key? :UseOrgSettings)
@@ -99,6 +98,7 @@ module Fog
                       xml.AdminPassword customization[:AdminPassword] if (customization.key? :AdminPassword)
                       xml.ResetPasswordRequired customization[:ResetPasswordRequired] if (customization.key? :ResetPasswordRequired)
                       xml.CustomizationScript CGI::escapeHTML(customization[:CustomizationScript]).gsub(/\r/, "&#13;") if (customization.key? :CustomizationScript)
+                      xml.ComputerName customization[:ComputerName]
                     }
                   end
                 }
