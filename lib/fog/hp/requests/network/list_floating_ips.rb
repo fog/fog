@@ -1,7 +1,6 @@
 module Fog
   module HP
     class Network
-
       class Real
         # List existing floating ips
         #
@@ -40,7 +39,6 @@ module Fog
           response
         end
       end
-
     end
   end
 end

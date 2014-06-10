@@ -2,7 +2,6 @@ module Fog
   module Compute
     class HPV2
       class Real
-
         # List all images (IDs and names only)
         #
         # ==== Parameters
@@ -29,11 +28,9 @@ module Fog
             :query    => options
           )
         end
-
       end
 
       class Mock
-
         def list_images(options = {})
           response = Excon::Response.new
           data = list_images_detail.body['images']
@@ -45,7 +42,6 @@ module Fog
           response.body = { 'images' => images }
           response
         end
-
       end
     end
   end

@@ -2,9 +2,7 @@ module Fog
   module Parsers
     module DNS
       module AWS
-
         class GetHostedZone < Fog::Parsers::Base
-
           def reset
             @hosted_zone = {}
             @name_servers = []
@@ -36,9 +34,7 @@ module Fog
               end
             end
           end
-
         end
-
       end
     end
   end

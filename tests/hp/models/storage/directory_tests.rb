@@ -124,7 +124,6 @@ Shindo.tests("Fog::Storage[:hp] | directory", ['hp', 'storage']) do
         @instance.revoke('invalid-acl')
       end
 
-
     end
 
   end

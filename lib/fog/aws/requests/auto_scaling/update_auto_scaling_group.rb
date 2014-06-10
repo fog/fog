@@ -2,7 +2,6 @@ module Fog
   module AWS
     class AutoScaling
       class Real
-
         require 'fog/aws/parsers/auto_scaling/basic'
 
         # Updates the configuration for the specified AutoScalingGroup.
@@ -67,18 +66,16 @@ module Fog
             :parser                => Fog::Parsers::AWS::AutoScaling::Basic.new
           }.merge!(options))
         end
-
       end
 
       class Mock
-
         def update_auto_scaling_group(auto_scaling_group_name, options = {})
           unexpected_options = options.keys - ExpectedOptions[:update_auto_scaling_group]
           unless unexpected_options.empty?
             raise Fog::AWS::AutoScaling::ValidationError.new("Options #{unexpected_options.join(',')} should not be included in request")
           end
 
-          unless self.data[:auto_scaling_groups].has_key?(auto_scaling_group_name)
+          unless self.data[:auto_scaling_groups].key?(auto_scaling_group_name)
             raise Fog::AWS::AutoScaling::ValidationError.new('AutoScalingGroup name not found - null')
           end
           self.data[:auto_scaling_groups][auto_scaling_group_name].merge!(options)
@@ -90,9 +87,7 @@ module Fog
           }
           response
         end
-
       end
-
     end
   end
 end

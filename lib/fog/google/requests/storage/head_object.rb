@@ -2,7 +2,6 @@ module Fog
   module Storage
     class Google
       class Real
-
         # Get headers for an object from Google Storage
         #
         # ==== Parameters
@@ -47,17 +46,14 @@ module Fog
             :query    => query
           })
         end
-
       end
 
       class Mock
-
         def head_object(bucket_name, object_name, options = {})
           response = get_object(bucket_name, object_name, options)
           response.body = nil
           response
         end
-
       end
     end
   end

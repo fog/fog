@@ -15,7 +15,7 @@ Shindo.tests("Fog::Compute[:aws] | network_acl", ['aws']) do
     @new_nacl.reload
 
     test("associate_with correctly updates new_nacl") do
-      @new_nacl.associations.collect { |a| a['subnetId'] } == [@subnet.subnet_id]
+      @new_nacl.associations.map { |a| a['subnetId'] } == [@subnet.subnet_id]
     end
 
     @default_nacl.associate_with(@subnet)
@@ -23,11 +23,11 @@ Shindo.tests("Fog::Compute[:aws] | network_acl", ['aws']) do
     @default_nacl.reload
 
     test("associate_with correctly updates new_nacl after removal") do
-      @new_nacl.associations.collect { |a| a['subnetId'] } == []
+      @new_nacl.associations.map { |a| a['subnetId'] } == []
     end
 
     test("associate_with correctly updates default_nacl after removal") do
-      @default_nacl.associations.collect { |a| a['subnetId'] } == [@subnet.subnet_id]
+      @default_nacl.associations.map { |a| a['subnetId'] } == [@subnet.subnet_id]
     end
 
     @new_nacl.destroy
@@ -105,5 +105,5 @@ Shindo.tests("Fog::Compute[:aws] | network_acl", ['aws']) do
   end
 
   @subnet.destroy
-  @vpc.destroy 
+  @vpc.destroy
 end

@@ -4,9 +4,7 @@ require 'fog/libvirt/models/compute/util/util'
 module Fog
   module Compute
     class Libvirt
-
       class Network < Fog::Model
-
         include Fog::Compute::LibvirtUtil
 
         identity :uuid
@@ -25,10 +23,7 @@ module Fog
         def shutdown
           service.destroy_network(uuid)
         end
-
       end
-
     end
   end
-
 end

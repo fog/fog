@@ -2,7 +2,6 @@ module Fog
   module Compute
     class Ecloud
       class Real
-
         def login_banner_edit(data)
           validate_data([:display], data)
           body = build_login_banner_edit(data)
@@ -17,7 +16,6 @@ module Fog
         end
 
         private
-
 
         def build_login_banner_edit(data)
           xml = Builder::XmlMarkup.new

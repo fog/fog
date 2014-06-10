@@ -1,13 +1,12 @@
 module Fog
   module Network
     class OpenStack
-
       class Real
         def update_lb_vip(vip_id, options = {})
           data = { 'vip' => {} }
 
           vanilla_options = [:pool_id, :name, :description, :session_persistence, :connection_limit, :admin_state_up]
-          vanilla_options.select{ |o| options.has_key?(o) }.each do |key|
+          vanilla_options.select{ |o| options.key?(o) }.each do |key|
             data['vip'][key] = options[key]
           end
 
@@ -23,7 +22,7 @@ module Fog
       class Mock
         def update_lb_vip(vip_id, options = {})
           response = Excon::Response.new
-          if vip = list_lb_vips.body['vips'].detect { |_| _['id'] == vip_id }
+          if vip = list_lb_vips.body['vips'].find { |_| _['id'] == vip_id }
             vip['pool_id']             = options[:pool_id]
             vip['name']                = options[:name]
             vip['description']         = options[:description]
@@ -38,7 +37,6 @@ module Fog
           end
         end
       end
-
     end
   end
 end

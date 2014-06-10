@@ -2,7 +2,6 @@ module Fog
   module Terremark
     module Shared
       module Real
-
         # Get details for a Network
         #
         # ==== Parameters
@@ -20,15 +19,13 @@ module Fog
             :path     => "network/#{network_id}"
           )
         end
-
       end
 
       module Mock
-
         def get_network(network_id)
           network_id = network_id.to_i
           response = Excon::Response.new
-          if network = self.data[:organizations].map { |org| org[:vdcs].map { |vdc| vdc[:networks] } }.flatten.detect { |network| network[:id] == network_id }
+          if network = self.data[:organizations].map { |org| org[:vdcs].map { |vdc| vdc[:networks] } }.flatten.find { |network| network[:id] == network_id }
 
             body = { "links" => [],
                      "type" => "application/vnd.vmware.vcloud.network+xml",
@@ -66,7 +63,6 @@ module Fog
 
           response
         end
-
       end
     end
   end

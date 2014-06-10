@@ -3,9 +3,7 @@ require 'fog/core/model'
 module Fog
   module Network
     class StormOnDemand
-
       class Balancer < Fog::Model
-
         identity :uniq_id
 
         attribute :capabilities
@@ -52,9 +50,7 @@ module Fog
           requires :identity
           service.update_balancer({:uniq_id => identity}.merge!(options))
         end
-
       end
-
     end
   end
 end

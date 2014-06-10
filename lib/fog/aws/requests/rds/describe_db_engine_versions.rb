@@ -2,7 +2,6 @@ module Fog
   module AWS
     class RDS
       class Real
-
         require 'fog/aws/parsers/rds/describe_db_engine_versions'
 
         def describe_db_engine_versions(opts={})
@@ -19,15 +18,12 @@ module Fog
             :parser   => Fog::Parsers::AWS::RDS::DescribeDBEngineVersions.new
           }.merge(params))
         end
-
       end
 
       class Mock
-
         def describe_db_engine_versions(opts={})
           Fog::Mock.not_implemented
         end
-
       end
     end
   end

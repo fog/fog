@@ -9,7 +9,6 @@ module Fog
 
       class Mock
         def define_pool(xml)
-
         end
       end
     end

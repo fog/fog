@@ -31,8 +31,6 @@ module Fog
         attribute :os, :type => :string
         attribute :resource_uri, :type => :string
 
-
-
         def reload
           requires :identity
           collection.get(identity)

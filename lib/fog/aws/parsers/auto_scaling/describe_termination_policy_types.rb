@@ -2,9 +2,7 @@ module Fog
   module Parsers
     module AWS
       module AutoScaling
-
         class DescribeTerminationPolicyTypes < Fog::Parsers::Base
-
           def reset
             @results = { 'TerminationPolicyTypes' => [] }
             @response = { 'DescribeTerminationPolicyTypesResult' => {}, 'ResponseMetadata' => {} }
@@ -35,9 +33,7 @@ module Fog
               @response['DescribeTerminationPolicyTypesResult'] = @results
             end
           end
-
         end
-
       end
     end
   end

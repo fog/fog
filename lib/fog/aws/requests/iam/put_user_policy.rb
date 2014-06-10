@@ -2,7 +2,6 @@ module Fog
   module AWS
     class IAM
       class Real
-
         require 'fog/aws/parsers/iam/basic'
 
         # Add or update a policy for a user
@@ -29,15 +28,13 @@ module Fog
             :parser           => Fog::Parsers::AWS::IAM::Basic.new
           )
         end
-
       end
 
       class Mock
-
         #FIXME: You can't actually use the credentials for anything elsewhere in Fog
         #FIXME: Doesn't do any validation on the policy
         def put_user_policy(user_name, policy_name, policy_document)
-          if data[:users].has_key? user_name
+          if data[:users].key? user_name
             data[:users][user_name][:policies][policy_name] = policy_document
 
             Excon::Response.new.tap do |response|

@@ -2,7 +2,6 @@ module Fog
   module Storage
     class OpenStack
       class Real
-
         # Copy object
         #
         # ==== Parameters
@@ -20,7 +19,6 @@ module Fog
             :path     => "#{Fog::OpenStack.escape(target_container_name)}/#{Fog::OpenStack.escape(target_object_name)}"
           })
         end
-
       end
     end
   end

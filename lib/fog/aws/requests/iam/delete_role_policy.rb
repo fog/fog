@@ -2,7 +2,6 @@ module Fog
   module AWS
     class IAM
       class Real
-
         require 'fog/aws/parsers/iam/basic'
 
         # Remove a policy from a role
@@ -27,9 +26,7 @@ module Fog
             :parser           => Fog::Parsers::AWS::IAM::Basic.new
           )
         end
-
       end
-
     end
   end
 end

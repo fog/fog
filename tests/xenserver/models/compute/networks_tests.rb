@@ -1,7 +1,7 @@
 Shindo.tests('Fog::Compute[:xenserver] | Networks collection', ['xenserver']) do
 
   conn = Fog::Compute[:xenserver]
-  
+
   tests('The networks collection') do
     networks = conn.networks.all
 
@@ -12,7 +12,7 @@ Shindo.tests('Fog::Compute[:xenserver] | Networks collection', ['xenserver']) do
     tests('should be able to reload itself').succeeds { networks.reload }
 
     tests('should be able to get a model') do
-      tests('by reference').succeeds { 
+      tests('by reference').succeeds {
         networks.get(networks.first.reference).is_a? Fog::Compute::XenServer::Network
       }
     end

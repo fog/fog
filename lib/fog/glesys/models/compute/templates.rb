@@ -5,7 +5,6 @@ module Fog
   module Compute
     class Glesys
       class Templates < Fog::Collection
-
         model Fog::Compute::Glesys::Template
 
         def all
@@ -31,9 +30,8 @@ module Fog
           images = service.template_list.body['response']['templates']
           images.select do |platform, images|
             platforms.include?(platform.downcase.to_sym)
-          end.collect{|platform, images| images}.flatten
+          end.map{|platform, images| images}.flatten
         end
-
       end
     end
   end

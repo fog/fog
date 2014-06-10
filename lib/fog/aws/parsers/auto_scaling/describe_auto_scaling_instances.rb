@@ -2,9 +2,7 @@ module Fog
   module Parsers
     module AWS
       module AutoScaling
-
         class DescribeAutoScalingInstances < Fog::Parsers::Base
-
           def reset
             reset_auto_scaling_instance
             @results = { 'AutoScalingInstances' => [] }
@@ -35,7 +33,6 @@ module Fog
               @response['DescribeAutoScalingInstancesResult'] = @results
             end
           end
-
         end
       end
     end

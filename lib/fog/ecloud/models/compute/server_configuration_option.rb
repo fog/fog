@@ -7,7 +7,6 @@ module Fog
         attribute :disk, :aliases => :Disk
         attribute :customization, :aliases => :Customization
 
-
         def id
           href.scan(/\d+/)[0]
         end

@@ -4,7 +4,6 @@ module Fog
   module Compute
     class RackspaceV2
       class KeyPair < Fog::Model
-
         # @!attribute [rw] name
         # @return [String] the keypair name
         identity  :name
@@ -49,7 +48,6 @@ module Fog
             service.delete_keypair(identity)
             true
         end
-
       end
     end
   end

@@ -2,7 +2,6 @@ module Fog
   module Compute
     class OpenStack
       class Real
-
         def list_usages(date_start = nil, date_end = nil, detailed=false)
           params = Hash.new
           params[:start] = date_start.iso8601.gsub(/\+.*/, '') if date_start
@@ -16,7 +15,6 @@ module Fog
             :query    => params
           )
         end
-
       end
 
       class Mock

@@ -2,7 +2,6 @@ module Fog
   module Compute
     class RackspaceV2
       class Real
-
         # Retrieves a list of images
         # ==== Parameters
         # * options<~String>:

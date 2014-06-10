@@ -3,9 +3,7 @@ require 'fog/core/model'
 module Fog
   module HP
     class BlockStorageV2
-
       class VolumeBackup < Fog::Model
-
         identity  :id
 
         attribute :name
@@ -50,9 +48,7 @@ module Fog
           merge_attributes(service.create_volume_backup(volume_id, attributes).body['backup'])
           true
         end
-
       end
-
     end
   end
 end

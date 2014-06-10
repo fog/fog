@@ -3,7 +3,6 @@ require 'fog/openstack/core'
 module Fog
   module Metering
     class OpenStack < Fog::Service
-
       requires :openstack_auth_url
       recognizes :openstack_auth_token, :openstack_management_url, :persistent,
                  :openstack_service_type, :openstack_service_name, :openstack_tenant,
@@ -16,7 +15,6 @@ module Fog
       model       :resource
       collection  :resources
 
-
       request_path 'fog/openstack/requests/metering'
 
       # Metering
@@ -25,7 +23,6 @@ module Fog
       request :get_statistics
       request :list_meters
       request :list_resources
-
 
       class Mock
         def self.data
@@ -202,9 +199,7 @@ module Fog
           @scheme = uri.scheme
           true
         end
-
       end
     end
   end
 end
-

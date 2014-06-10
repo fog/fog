@@ -4,9 +4,7 @@ require 'fog/google/models/storage/files'
 module Fog
   module Storage
     class Google
-
       class Directory < Fog::Model
-
         identity  :key,           :aliases => ['Name', 'name']
 
         attribute :creation_date, :aliases => 'CreationDate'
@@ -47,7 +45,7 @@ module Fog
 
         def public_url
           requires :key
-          if service.get_bucket_acl(key).body['AccessControlList'].detect {|entry| entry['Scope']['type'] == 'AllUsers' && entry['Permission'] == 'READ'}
+          if service.get_bucket_acl(key).body['AccessControlList'].find {|entry| entry['Scope']['type'] == 'AllUsers' && entry['Permission'] == 'READ'}
             if key.to_s =~ /^(?:[a-z]|\d(?!\d{0,2}(?:\.\d{1,3}){3}$))(?:[a-z0-9]|\.(?![\.\-])|\-(?![\.])){1,61}[a-z0-9]$/
               "https://#{key}.storage.googleapis.com"
             else
@@ -70,9 +68,7 @@ module Fog
           service.put_bucket(key, options)
           true
         end
-
       end
-
     end
   end
 end

@@ -2,7 +2,6 @@ module Fog
   module Storage
     class InternetArchive
       class Real
-
         require 'fog/internet_archive/parsers/storage/get_bucket_website'
 
         # Get website configuration for an S3 bucket
@@ -33,7 +32,6 @@ module Fog
             :query      => {'website' => nil}
           })
         end
-
       end
     end
   end

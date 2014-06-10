@@ -71,7 +71,6 @@ module Fog
         def request(options)
           raise "Atmos Storage mocks not implemented"
         end
-
       end
 
       class Real
@@ -156,8 +155,8 @@ module Fog
 
           params.delete(:host) #invalid excon request parameter
 
-          parse = params.delete(:parse)        
-        
+          parse = params.delete(:parse)
+
           begin
             response = @connection.request(params, &block)
           rescue Excon::Errors::HTTPStatusError => error
@@ -179,7 +178,6 @@ module Fog
           end
           response
         end
-
       end
     end
   end

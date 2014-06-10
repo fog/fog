@@ -22,7 +22,6 @@ module Fog
             wrapped_request("get", "/1.0/accounts/#{identifier}", [200])
           end
         end
-
       end
     end
   end

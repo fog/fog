@@ -2,7 +2,6 @@ module Fog
   module Parsers
     module Terremark
       module Shared
-
         class GetOrganizations < TerremarkParser
           # include Fog::Terremark::Shared::Parser
 
@@ -25,7 +24,6 @@ module Fog
               @response['OrgList'] << organization
             end
           end
-
         end
       end
     end

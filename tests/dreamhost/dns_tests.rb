@@ -9,7 +9,7 @@ Shindo.tests('Fog::DNS[:dreamhost]', ['dreamhost', 'dns']) do
       test("it should respond to #{collection}.get") { eval("service.#{collection}").respond_to? 'get' }
     end
   end
-  
+
   tests("requests") do
     %w{ list_records create_record delete_record }.each do |request|
       test("it should respond to #{request}") { service.respond_to? request }
@@ -17,4 +17,3 @@ Shindo.tests('Fog::DNS[:dreamhost]', ['dreamhost', 'dns']) do
   end
 
 end
-

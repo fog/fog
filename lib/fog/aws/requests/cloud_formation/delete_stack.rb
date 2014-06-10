@@ -2,7 +2,6 @@ module Fog
   module AWS
     class CloudFormation
       class Real
-
         require 'fog/aws/parsers/cloud_formation/basic'
 
         # Delete a stack.
@@ -20,7 +19,6 @@ module Fog
             :parser     => Fog::Parsers::AWS::CloudFormation::Basic.new
           )
         end
-
       end
     end
   end

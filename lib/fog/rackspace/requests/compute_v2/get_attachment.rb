@@ -2,7 +2,6 @@ module Fog
   module Compute
     class RackspaceV2
       class Real
-
         # Retrieves attachment
         # @param [String] server_id
         # @param [String] volume_id
@@ -29,7 +28,7 @@ module Fog
 
       class Mock
         def get_attachment(server_id, volume_id)
-          attachment = self.data[:volume_attachments].detect { |v| v["serverId"] == server_id && v["volumeId"] == volume_id }
+          attachment = self.data[:volume_attachments].find { |v| v["serverId"] == server_id && v["volumeId"] == volume_id }
 
           response(:body => {"volumeAttachment" => attachment})
         end

@@ -3,7 +3,6 @@ require 'fog/bluebox/core'
 module Fog
   module Compute
     class Bluebox < Fog::Service
-
       requires :bluebox_api_key, :bluebox_customer_id
       recognizes :bluebox_host, :bluebox_port, :bluebox_scheme, :persistent
 
@@ -33,7 +32,6 @@ module Fog
       request :reboot_block
 
       class Mock
-
         def self.data
           @data ||= Hash.new do |hash, key|
             hash[key] = {}
@@ -55,11 +53,9 @@ module Fog
         def reset_data
           self.class.data.delete(@bluebox_api_key)
         end
-
       end
 
       class Real
-
         def initialize(options={})
           @bluebox_api_key      = options[:bluebox_api_key]
           @bluebox_customer_id  = options[:bluebox_customer_id]
@@ -96,7 +92,6 @@ module Fog
           end
           response
         end
-
       end
     end
   end

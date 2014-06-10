@@ -89,7 +89,6 @@ module Fog
         def endpoint
           end_point
         end
-
       end
     end
   end

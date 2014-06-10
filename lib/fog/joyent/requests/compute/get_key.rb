@@ -2,7 +2,6 @@ module Fog
   module Compute
     class Joyent
       class Mock
-
         def get_key(keyid)
           if key = self.data[:keys][keyid]
             response = Excon::Response.new

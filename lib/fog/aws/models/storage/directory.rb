@@ -5,7 +5,6 @@ require 'fog/aws/models/storage/versions'
 module Fog
   module Storage
     class AWS
-
       class Directory < Fog::Model
         VALID_ACLS = ['private', 'public-read', 'public-read-write', 'authenticated-read']
 
@@ -79,7 +78,7 @@ module Fog
 
         def public_url
           requires :key
-          if service.get_bucket_acl(key).body['AccessControlList'].detect {|grant| grant['Grantee']['URI'] == 'http://acs.amazonaws.com/groups/global/AllUsers' && grant['Permission'] == 'READ'}
+          if service.get_bucket_acl(key).body['AccessControlList'].find {|grant| grant['Grantee']['URI'] == 'http://acs.amazonaws.com/groups/global/AllUsers' && grant['Permission'] == 'READ'}
             service.request_url(
               :bucket_name => key
             )
@@ -121,9 +120,7 @@ module Fog
           data = service.get_bucket_location(key)
           data.body['LocationConstraint']
         end
-
       end
-
     end
   end
 end

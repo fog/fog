@@ -2,7 +2,6 @@ module Fog
   module Compute
     class HP
       class Real
-
         # List all volumes attached to a server
         #
         # ==== Parameters
@@ -25,11 +24,9 @@ module Fog
           )
           response
         end
-
       end
 
       class Mock  # :nodoc:all
-
         def list_server_volumes(server_id)
           response = Excon::Response.new
           volumes = []
@@ -42,7 +39,6 @@ module Fog
             raise Fog::Compute::HP::NotFound
           end
         end
-
       end
     end
   end

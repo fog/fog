@@ -2,7 +2,6 @@ module Fog
   module Compute
     class HPV2
       class Real
-
         # Reboot an existing server
         #
         # ==== Parameters
@@ -12,14 +11,12 @@ module Fog
           body = { 'reboot' => { 'type' => type }}
           server_action(server_id, body)
         end
-
       end
 
       class Mock
-
         def reboot_server(server_id, type = 'SOFT')
           response = Excon::Response.new
-          if list_servers_detail.body['servers'].detect {|_| _['id'] == server_id}
+          if list_servers_detail.body['servers'].find {|_| _['id'] == server_id}
             self.data[:servers][server_id]['status'] = (type == 'SOFT') ? 'REBOOT' : 'HARD_REBOOT'
             response.status = 202
             response
@@ -27,7 +24,6 @@ module Fog
             raise Fog::Compute::HPV2::NotFound
           end
         end
-
       end
     end
   end

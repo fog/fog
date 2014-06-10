@@ -2,7 +2,6 @@ module Fog
   module Compute
     class IBM
       class Real
-
         # Modify a key
         #
         # ==== Parameters
@@ -21,10 +20,8 @@ module Fog
             :body     => params
           )
         end
-
       end
       class Mock
-
         def modify_key(key_name, params={})
           response = Excon::Response.new
           if key_exists? key_name
@@ -45,7 +42,6 @@ module Fog
           end
           response
         end
-
       end
     end
   end

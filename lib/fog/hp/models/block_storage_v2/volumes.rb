@@ -4,9 +4,7 @@ require 'fog/hp/models/block_storage_v2/volume'
 module Fog
   module HP
     class BlockStorageV2
-
       class Volumes < Fog::Collection
-
         attribute :filters
 
         model Fog::HP::BlockStorageV2::Volume
@@ -34,9 +32,7 @@ module Fog
         rescue Fog::HP::BlockStorageV2::NotFound
           nil
         end
-
       end
-
     end
   end
 end

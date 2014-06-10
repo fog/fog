@@ -11,7 +11,6 @@ module Fog
         attribute :fields
         attribute :unit
         attribute :type
-
       end
     end
   end

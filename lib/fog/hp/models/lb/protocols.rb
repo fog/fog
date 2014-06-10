@@ -14,12 +14,11 @@ module Fog
 
         def get(name)
           data = service.list_protocols.body['protocols']
-          protocol = data.detect {|p| p['name'] == name}
+          protocol = data.find {|p| p['name'] == name}
           new(protocol)
         rescue Fog::HP::LB::NotFound
           nil
         end
-
       end
     end
   end

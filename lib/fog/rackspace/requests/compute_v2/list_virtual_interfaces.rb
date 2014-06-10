@@ -2,7 +2,6 @@ module Fog
   module Compute
     class RackspaceV2
       class Real
-
         # Lists virtual interfaces for a server
         # @param [String] server_id
         # @raise [Fog::Compute::RackspaceV2::NotFound] - HTTP 404
@@ -18,7 +17,6 @@ module Fog
           )
         end
       end
-
     end
   end
 end

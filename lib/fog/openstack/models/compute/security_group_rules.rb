@@ -5,7 +5,6 @@ module Fog
   module Compute
     class OpenStack
       class SecurityGroupRules < Fog::Collection
-
         model Fog::Compute::OpenStack::SecurityGroupRule
 
         def get(security_group_rule_id)

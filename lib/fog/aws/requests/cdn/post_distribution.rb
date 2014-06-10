@@ -2,7 +2,6 @@ module Fog
   module CDN
     class AWS
       class Real
-
         require 'fog/aws/parsers/cdn/distribution'
 
         # Create a new distribution in CloudFront.
@@ -82,11 +81,9 @@ module Fog
             :path       => "/distribution"
           })
         end
-
       end
 
       class Mock
-
         require 'time'
 
         def post_distribution(options = {})

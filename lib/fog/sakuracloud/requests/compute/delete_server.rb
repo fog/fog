@@ -4,7 +4,6 @@ module Fog
   module Compute
     class SakuraCloud
       class Real
-
         def delete_server( id, force = false, disks = [] )
           body = { "Force" => force, 'WithDisk' => disks }
 

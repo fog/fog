@@ -2,9 +2,7 @@ module Fog
   module Parsers
     module AWS
       module AutoScaling
-
         class DescribeNotificationConfigurations < Fog::Parsers::Base
-
           def reset
             reset_notification_configuration
             @results = { 'NotificationConfigurations' => [] }
@@ -34,7 +32,6 @@ module Fog
               @response['DescribeNotificationConfigurationsResult'] = @results
             end
           end
-
         end
       end
     end

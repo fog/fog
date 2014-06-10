@@ -57,7 +57,6 @@ public_subnet = network.subnets.create :name => 'floating_ips_net',
                                        :cidr        => '1.2.3.0/24',
                                        :enable_dhcp => false
 
-
 # Create tenant networks
 create_tenant_network 'admin@example.net', public_net
 create_tenant_network 'demo@example.net', public_net

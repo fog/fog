@@ -35,7 +35,6 @@ module Fog
       collection  :alarms
 
       class Mock
-
         def self.data
           @data ||= Hash.new do |hash, region|
             hash[region] = Hash.new do |region_hash, key|
@@ -159,7 +158,6 @@ module Fog
             :parser     => parser
           })
         end
-
       end
     end
   end

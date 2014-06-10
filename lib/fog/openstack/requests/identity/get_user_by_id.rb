@@ -2,7 +2,6 @@ module Fog
   module Identity
     class OpenStack
       class Real
-
         def get_user_by_id(user_id)
           request(
             :expects  => [200, 203],
@@ -10,7 +9,6 @@ module Fog
             :path     => "users/#{user_id}"
           )
         end
-
       end
 
       class Mock

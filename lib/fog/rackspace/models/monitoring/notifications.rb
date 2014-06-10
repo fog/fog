@@ -5,7 +5,6 @@ module Fog
   module Rackspace
     class Monitoring
       class Notifications < Fog::Collection
-
         model Fog::Rackspace::Monitoring::Notification
 
         attribute :marker
@@ -23,7 +22,6 @@ module Fog
         rescue Fog::Rackspace::Monitoring::NotFound
           nil
         end
-
       end
     end
   end

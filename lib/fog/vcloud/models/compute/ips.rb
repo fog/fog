@@ -4,7 +4,6 @@ module Fog
   module Vcloud
     class Compute
       class Ips < Fog::Vcloud::Collection
-
         model Fog::Vcloud::Compute::Ip
 
         undef_method :create
@@ -26,7 +25,6 @@ module Fog
         rescue Fog::Errors::NotFound
           nil
         end
-
       end
     end
   end

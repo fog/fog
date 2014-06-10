@@ -3,7 +3,6 @@ require 'fog/json'
 
 module Fog
   module RiakCS
-
     module MultipartUtils
       require 'net/http'
 
@@ -118,6 +117,5 @@ module Fog
 
     service(:provisioning, 'Provisioning')
     service(:usage,        'Usage')
-
   end
 end

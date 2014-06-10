@@ -2,11 +2,9 @@ module Fog
   module Parsers
     module AWS
       module RDS
-
         require 'fog/aws/parsers/rds/db_engine_version_parser'
 
         class DescribeDBEngineVersions < Fog::Parsers::AWS::RDS::DBEngineVersionParser
-
           def reset
             @response = { 'DescribeDBEngineVersionsResult' => {'DBEngineVersions' => []}, 'ResponseMetadata' => {} }
             super
@@ -28,11 +26,8 @@ module Fog
             else
               super
             end
-
           end
-
         end
-
       end
     end
   end

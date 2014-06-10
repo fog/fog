@@ -2,7 +2,6 @@ module Fog
   module AWS
     class IAM
       class Real
-
         require 'fog/aws/parsers/iam/instance_profile'
 
         # Retrieves information about an instance profile
@@ -35,7 +34,6 @@ module Fog
             :parser     => Fog::Parsers::AWS::IAM::InstanceProfile.new
           })
         end
-
       end
     end
   end

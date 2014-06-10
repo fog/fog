@@ -39,4 +39,3 @@ Shindo.tests("Fog::DNS[:aws] | records", ['aws', 'dns']) do
     @zone.destroy
   end
 end
-

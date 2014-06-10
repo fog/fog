@@ -1,7 +1,6 @@
 module Fog
   module Storage
     class InternetArchive
-
       require 'fog/internet_archive/parsers/storage/access_control_list'
 
       private
@@ -22,11 +21,11 @@ module Fog
             data << "    <Grant>\n"
             grantee = grant['Grantee']
             type = case
-            when grantee.has_key?('ID')
+            when grantee.key?('ID')
               'CanonicalUser'
-            when grantee.has_key?('EmailAddress')
+            when grantee.key?('EmailAddress')
               'AmazonCustomerByEmail'
-            when grantee.has_key?('URI')
+            when grantee.key?('URI')
               'Group'
             end
 
@@ -56,7 +55,6 @@ module Fog
           Nokogiri::XML::SAX::Parser.new(parser).parse(acl_xml)
           parser.response
         end
-
     end
   end
 end

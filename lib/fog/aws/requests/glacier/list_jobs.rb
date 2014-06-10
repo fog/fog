@@ -2,7 +2,6 @@ module Fog
   module AWS
     class Glacier
       class Real
-
         #  lists in-progress and recently jobs for the specified vault
         #
         # ==== Parameters
@@ -22,7 +21,6 @@ module Fog
           account_id = options.delete('account_id') || '-'
           path = "/#{account_id}/vaults/#{Fog::AWS.escape(vault_name)}/jobs"
 
-
           request(
             :expects  => 200,
             :idempotent => true,
@@ -33,7 +31,6 @@ module Fog
           )
         end
       end
-
     end
   end
 end

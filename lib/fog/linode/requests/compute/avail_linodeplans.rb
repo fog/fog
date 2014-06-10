@@ -2,7 +2,6 @@ module Fog
   module Compute
     class Linode
       class Real
-
         # Get available plans
         #
         # ==== Parameters
@@ -27,7 +26,6 @@ module Fog
           result.body["DATA"] = result.body["DATA"].select { |item| item['PLANID'] == linodeplan_id } if linodeplan_id
           result
         end
-
       end
 
       class Mock

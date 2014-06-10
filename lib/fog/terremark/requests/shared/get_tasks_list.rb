@@ -2,7 +2,6 @@ module Fog
   module Terremark
     module Shared
       module Real
-
         # Get list of tasks
         #
         # ==== Parameters
@@ -25,9 +24,7 @@ module Fog
             :path     => "tasksList/#{tasks_list_id}"
           )
         end
-
       end
-
     end
   end
 end

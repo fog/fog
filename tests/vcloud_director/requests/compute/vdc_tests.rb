@@ -4,7 +4,7 @@ Shindo.tests('Compute::VcloudDirector | vdc requests', ['vclouddirector']) do
   @org = VcloudDirector::Compute::Helper.current_org(@service)
 
   tests('#get_vdc').data_matches_schema(VcloudDirector::Compute::Schema::VDC_TYPE) do
-    link = @org[:Link].detect do |l|
+    link = @org[:Link].find do |l|
       l[:rel] == 'down' && l[:type] == 'application/vnd.vmware.vcloud.vdc+xml'
     end
     @vdc_id = link[:href].split('/').last

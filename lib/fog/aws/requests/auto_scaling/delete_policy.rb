@@ -1,9 +1,7 @@
 module Fog
   module AWS
     class AutoScaling
-
       class Real
-
         require 'fog/aws/parsers/auto_scaling/basic'
 
         # Deletes a policy created by put_scaling_policy
@@ -31,11 +29,9 @@ module Fog
             :parser                => Fog::Parsers::AWS::AutoScaling::Basic.new
           })
         end
-
       end
 
       class Mock
-
         def delete_policy(auto_scaling_group_name, policy_name)
           unless self.data[:scaling_policies].delete(policy_name)
             raise Fog::AWS::AutoScaling::NotFound, "The scaling policy '#{policy_name}' does not exist."
@@ -48,9 +44,7 @@ module Fog
           }
           response
         end
-
       end
-
     end
   end
 end

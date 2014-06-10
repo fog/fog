@@ -8,4 +8,3 @@ module Fog
     service(:dns,     'DNS')
   end
 end
-

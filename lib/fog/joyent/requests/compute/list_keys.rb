@@ -20,7 +20,6 @@ module Fog
           )
         end
       end # Real
-
     end
   end
 end

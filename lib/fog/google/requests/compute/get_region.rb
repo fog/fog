@@ -1,7 +1,6 @@
 module Fog
   module Compute
     class Google
-
       class Mock
         def get_region(identity)
           regions = Fog::Compute[:google].list_regions
@@ -24,7 +23,6 @@ module Fog
           response = self.build_response(result)
         end
       end
-
     end
   end
 end

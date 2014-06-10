@@ -86,9 +86,7 @@ module Fog
           end
         end
 
-
         class Real < Fog::Rackspace::Service
-
           def initialize(options = {})
             @options = options
             @options[:connection_options] ||= {}

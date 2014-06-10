@@ -5,7 +5,6 @@ module Fog
         require 'fog/aws/parsers/elasticache/base'
 
         class EngineDefaultsParser < Base
-
           def reset
             super
             reset_engine_defaults

@@ -59,12 +59,12 @@ module Fog
                 @response[name] = value
               when 'size', 'iops'
                 @volume[name] = value.to_i
+              when 'encrypted'
+                @volume[name] = (value == 'true')
               end
             end
           end
-
         end
-
       end
     end
   end

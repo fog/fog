@@ -3,7 +3,6 @@ require 'fog/dreamhost/core'
 module Fog
   module DNS
     class Dreamhost < Fog::Service
-
       requires :dreamhost_api_key
 
       model_path 'fog/dreamhost/models/dns'
@@ -18,7 +17,6 @@ module Fog
       request :delete_record
 
       class Mock
-
         def self.data
           @data ||= Hash.new do |hash, key|
             hash[key] = {}
@@ -40,11 +38,9 @@ module Fog
         def reset_data
           self.class.data.delete
         end
-
       end
 
       class Real
-
         def initialize(options={})
           @dreamhost_api_key  = options[:dreamhost_api_key]
           if options[:dreamhost_url]

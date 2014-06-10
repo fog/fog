@@ -2,7 +2,6 @@ module Fog
   module Compute
     class RackspaceV2
       class Real
-
         # Changes server admin password
         # @param [String] server_id
         # @param [String] password

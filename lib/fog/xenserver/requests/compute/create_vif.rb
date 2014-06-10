@@ -1,9 +1,7 @@
 module Fog
   module Compute
     class XenServer
-
       class Real
-
         def create_vif( vm_ref, network_ref, device = -1)
           raise ArgumentError.new('Invalid vm_ref') if vm_ref.nil?
           raise ArgumentError.new('Invalid network_ref') if network_ref.nil?
@@ -45,13 +43,10 @@ module Fog
       end
 
       class Mock
-
         def create_vif( vm_ref, network_ref )
           Fog::Mock.not_implemented
         end
-
       end
-
     end
   end
 end

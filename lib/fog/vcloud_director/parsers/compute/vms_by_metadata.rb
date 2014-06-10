@@ -2,9 +2,7 @@ module Fog
   module Parsers
     module Compute
       module VcloudDirector
-
         class VmsByMetadata < VcloudDirectorParser
-
           def reset
             @response = { :vm_records => [] }
           end
@@ -32,9 +30,7 @@ module Fog
               @response[:vm_records] << results
             end
           end
-
         end
-
       end
     end
   end

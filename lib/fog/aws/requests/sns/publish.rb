@@ -2,7 +2,6 @@ module Fog
   module AWS
     class SNS
       class Real
-
         require 'fog/aws/parsers/sns/publish'
 
         # Send a message to a topic
@@ -26,9 +25,7 @@ module Fog
             :parser     => Fog::Parsers::AWS::SNS::Publish.new
           }.merge!(options))
         end
-
       end
-
     end
   end
 end

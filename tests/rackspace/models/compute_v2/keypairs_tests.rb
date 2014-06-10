@@ -42,6 +42,6 @@ Shindo.tests('Fog::Compute::RackspaceV2 | key_pairs', ['rackspace']) do
     ensure
         key.destroy if key
     end
-    
+
   end
 end

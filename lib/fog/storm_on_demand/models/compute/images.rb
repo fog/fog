@@ -4,9 +4,7 @@ require 'fog/storm_on_demand/models/compute/image'
 module Fog
   module Compute
     class StormOnDemand
-
       class Images < Fog::Collection
-
         model Fog::Compute::StormOnDemand::Image
 
         def create(options={})
@@ -23,9 +21,7 @@ module Fog
           data = service.list_images(options).body['items']
           load(data)
         end
-
       end
-
     end
   end
 end

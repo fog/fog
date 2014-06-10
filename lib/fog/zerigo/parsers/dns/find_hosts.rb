@@ -2,9 +2,7 @@ module Fog
   module Parsers
     module DNS
       module Zerigo
-
         class FindHosts < Fog::Parsers::Base
-
           def reset
             @host = {}
             @response = { 'hosts' => [] }
@@ -23,9 +21,7 @@ module Fog
               @host = {}
             end
           end
-
         end
-
       end
     end
   end

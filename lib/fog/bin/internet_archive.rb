@@ -1,6 +1,5 @@
 class InternetArchive < Fog::Bin
   class << self
-
     def class_for(key)
       case key
       when :storage
@@ -29,6 +28,5 @@ class InternetArchive < Fog::Bin
     def services
       Fog::InternetArchive.services
     end
-
   end
 end

@@ -4,9 +4,7 @@ require 'fog/core/current_machine'
 module Fog
   module AWS
     class RDS
-
       class SecurityGroup < Fog::Model
-
         identity   :id, :aliases => ['DBSecurityGroupName']
         attribute  :description, :aliases => 'DBSecurityGroupDescription'
         attribute  :ec2_security_groups, :aliases => 'EC2SecurityGroups', :type => :array
@@ -75,7 +73,6 @@ module Fog
           data = service.revoke_db_security_group_ingress(id, opts).body['RevokeDBSecurityGroupIngressResult']['DBSecurityGroup']
           merge_attributes(data)
         end
-
       end
     end
   end

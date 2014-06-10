@@ -4,9 +4,7 @@ require 'fog/vsphere/models/compute/interfacetype'
 module Fog
   module Compute
     class Vsphere
-
       class Interfacetypes < Fog::Collection
-
         model Fog::Compute::Vsphere::Interfacetype
         attr_accessor :datacenter
         attr_accessor :servertype
@@ -31,10 +29,7 @@ module Fog
         rescue Fog::Compute::Vsphere::NotFound
           nil
         end
-
       end
-
     end
   end
 end
-

@@ -4,9 +4,7 @@ require 'fog/bluebox/models/dns/record'
 module Fog
   module DNS
     class Bluebox
-
       class Records < Fog::Collection
-
         attribute :zone
 
         model Fog::DNS::Bluebox::Record
@@ -28,9 +26,7 @@ module Fog
           requires :zone
           super({ :zone => zone }.merge!(attributes))
         end
-
       end
-
     end
   end
 end

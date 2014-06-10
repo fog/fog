@@ -2,7 +2,6 @@ module Fog
   module AWS
     class SNS
       class Real
-
         require 'fog/aws/parsers/sns/get_topic_attributes'
 
         # Get attributes of a topic
@@ -21,9 +20,7 @@ module Fog
             :parser     => Fog::Parsers::AWS::SNS::GetTopicAttributes.new
           })
         end
-
       end
-
     end
   end
 end

@@ -12,11 +12,6 @@ module Fog
         attribute :fixed_ip_address
         attribute :floating_ip_address
 
-
-
-
-
-
         def initialize(attributes)
           @connection = attributes[:connection]
           super
@@ -31,7 +26,6 @@ module Fog
           requires :floating_network_id
           merge_attributes(service.create_floating_ip(self.floating_network_id,
 
-
                                                     self.attributes).body['floatingip'])
           self
         end
@@ -45,7 +39,6 @@ module Fog
           service.delete_floating_ip(self.id)
           true
         end
-
       end
     end
   end

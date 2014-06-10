@@ -2,7 +2,6 @@ module Fog
   module AWS
     class ElasticBeanstalk
       class Real
-
         require 'fog/aws/parsers/beanstalk/create_configuration_template'
 
         # Creates a configuration template. Templates are associated with a specific application and are used to

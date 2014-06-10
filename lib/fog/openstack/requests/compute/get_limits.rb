@@ -1,7 +1,6 @@
 module Fog
   module Compute
     class OpenStack
-
       # http://docs.openstack.org/api/openstack-compute/2/content/ProgramaticLimits.html
       #
       class Real
@@ -13,7 +12,6 @@ module Fog
           )
         end
       end
-
 
       class Mock
         def get_limits
@@ -76,7 +74,6 @@ module Fog
             'totalFloatingIpsUsed'     => 0
           }
 
-
           Excon::Response.new(
             :status => 200,
             :body => {
@@ -87,7 +84,6 @@ module Fog
           )
         end
       end
-
     end
   end
 end

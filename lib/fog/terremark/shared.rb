@@ -1,10 +1,8 @@
 module Fog
   module Terremark
     module Shared
-
       # Commond methods shared by Real and Mock
       module Common
-
         def default_organization_id
           @default_organization_id ||= begin
             org_list = get_organizations.body['OrgList']
@@ -15,11 +13,9 @@ module Fog
             end
           end
         end
-
       end
 
       module Parser
-
         def parse(data)
           case data['type']
           when 'application/vnd.vmware.vcloud.vApp+xml'
@@ -28,7 +24,6 @@ module Fog
             data
           end
         end
-
       end
 
       module Real
@@ -91,7 +86,6 @@ module Fog
             :path     => path
           })
         end
-
       end
 
       module Mock
@@ -305,7 +299,6 @@ module Fog
         require 'fog/terremark/requests/shared/power_reset'
         require 'fog/terremark/requests/shared/power_shutdown'
       end
-
     end
   end
 end

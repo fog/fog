@@ -3,9 +3,7 @@ require 'fog/core/model'
 module Fog
   module Compute
     class AWS
-
       class KeyPair < Fog::Model
-
         identity  :name,        :aliases => 'keyName'
 
         attribute :fingerprint, :aliases => 'keyFingerprint'
@@ -31,11 +29,9 @@ module Fog
           new_attributes = data.reject {|key,value| !['keyFingerprint', 'keyMaterial', 'keyName'].include?(key)}
           merge_attributes(new_attributes)
           true
-
         end
 
         def write(path="#{ENV['HOME']}/.ssh/fog_#{Fog.credential.to_s}_#{name}.pem")
-
           if writable?
             split_private_key = private_key.split(/\n/)
             File.open(path, "w") do |f|
@@ -49,11 +45,9 @@ module Fog
         end
 
         def writable?
-          !!(private_key && ENV.has_key?('HOME'))
+          !!(private_key && ENV.key?('HOME'))
         end
-
       end
-
     end
   end
 end

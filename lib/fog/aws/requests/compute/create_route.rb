@@ -2,7 +2,6 @@ module Fog
   module Compute
     class AWS
       class Real
-
         require 'fog/aws/parsers/compute/basic'
 
         # Creates a route in a route table within a VPC.
@@ -40,7 +39,6 @@ module Fog
       end
 
       class Mock
-
         def create_route(route_table_id, destination_cidr_block, internet_gateway_id=nil, instance_id=nil, network_interface_id=nil)
           instance_owner_id = nil
           route_table = self.data[:route_tables].find { |routetable| routetable["routeTableId"].eql? route_table_id }

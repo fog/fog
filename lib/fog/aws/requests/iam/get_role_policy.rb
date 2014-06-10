@@ -2,7 +2,6 @@ module Fog
   module AWS
     class IAM
       class Real
-
         require 'fog/aws/parsers/iam/get_role_policy'
 
         # Get Role Policy
@@ -29,7 +28,6 @@ module Fog
             :parser       => Fog::Parsers::AWS::IAM::GetRolePolicy.new
           })
         end
-
       end
     end
   end

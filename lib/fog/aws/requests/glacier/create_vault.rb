@@ -2,7 +2,6 @@ module Fog
   module AWS
     class Glacier
       class Real
-
         # This operation creates a new vault with the specified name.  .
         #
         # ==== Parameters
@@ -28,7 +27,6 @@ module Fog
           }))
         end
       end
-
     end
   end
 end

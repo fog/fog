@@ -2,7 +2,6 @@ module Fog
   module Compute
     class HP
       class Real
-
         # Create a new security group rule and attach it to a security group
         #
         # ==== Parameters
@@ -37,11 +36,9 @@ module Fog
             :path     => 'os-security-group-rules.json'
           )
         end
-
       end
 
       class Mock
-
         def create_security_group_rule(parent_group_id, ip_protocol, from_port, to_port, cidr, group_id=nil)
           response = Excon::Response.new
           group = self.data[:security_groups][parent_group_id]
@@ -67,9 +64,7 @@ module Fog
             raise Fog::Compute::HP::NotFound
           end
         end
-
       end
-
     end
   end
 end

@@ -1,13 +1,10 @@
 module Fog
   module Compute
     class Google
-
       class Mock
-
         def list_zone_operations(zone)
           Fog::Mock.not_implemented
         end
-
       end
 
       class Real

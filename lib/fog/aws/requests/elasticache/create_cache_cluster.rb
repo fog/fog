@@ -2,7 +2,6 @@ module Fog
   module AWS
     class Elasticache
       class Real
-
         require 'fog/aws/parsers/elasticache/single_cache_cluster'
         # creates a cache cluster
         #
@@ -28,7 +27,6 @@ module Fog
         # * response <~Excon::Response>:
         #   * body <~Hash>
         def create_cache_cluster(id, options = {})
-
           req_options = {
             'Action'          => 'CreateCacheCluster',
             'CacheClusterId'  => id.strip,
@@ -59,7 +57,6 @@ module Fog
           end
 
           request( req_options )
-
         end
       end
 
@@ -92,7 +89,6 @@ module Fog
           response
         end
       end
-
     end
   end
 end

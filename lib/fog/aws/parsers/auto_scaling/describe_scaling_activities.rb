@@ -2,9 +2,7 @@ module Fog
   module Parsers
     module AWS
       module AutoScaling
-
         class DescribeScalingActivities < Fog::Parsers::Base
-
           def reset
             reset_activity
             @results = { 'Activities' => [] }
@@ -39,7 +37,6 @@ module Fog
               @response['DescribeScalingActivitiesResult'] = @results
             end
           end
-
         end
       end
     end

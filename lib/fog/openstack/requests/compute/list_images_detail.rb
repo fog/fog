@@ -2,7 +2,6 @@ module Fog
   module Compute
     class OpenStack
       class Real
-
         def list_images_detail(filters = {})
           request(
             :expects  => [200, 203],
@@ -11,11 +10,9 @@ module Fog
             :query    => filters
           )
         end
-
       end
 
       class Mock
-
         def list_images_detail(filters = {})
           response = Excon::Response.new
 
@@ -33,7 +30,6 @@ module Fog
           response.body = { 'images' => images.map {|image| image.reject {|key, value| !['id', 'name', 'links', 'minRam', 'minDisk', 'metadata', 'status', 'updated'].include?(key)}} }
           response
         end
-
       end
     end
   end

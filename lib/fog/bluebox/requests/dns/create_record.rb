@@ -2,7 +2,6 @@ module Fog
   module DNS
     class Bluebox
       class Real
-
         require 'fog/bluebox/parsers/dns/create_record'
 
         # Create a new record in a DNS zone
@@ -33,15 +32,12 @@ module Fog
             :path     => "/api/domains/#{zone_id}/records.xml"
           )
         end
-
       end
 
       class Mock
-
         def create_record(zone_id, type, name, content)
           Fog::Mock.not_implemented
         end
-
       end
     end
   end

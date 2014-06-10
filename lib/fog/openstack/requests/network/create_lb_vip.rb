@@ -1,7 +1,6 @@
 module Fog
   module Network
     class OpenStack
-
       class Real
         def create_lb_vip(subnet_id, pool_id, protocol, protocol_port, options = {})
           data = {
@@ -54,7 +53,6 @@ module Fog
           response
         end
       end
-
     end
   end
 end

@@ -2,9 +2,7 @@ module Fog
   module Parsers
     module AWS
       module IAM
-
         class ListMFADevices < Fog::Parsers::Base
-
           def reset
             @mfa_device = {}
             @response = { 'MFADevices' => [] }
@@ -25,9 +23,7 @@ module Fog
               response[name] = value
             end
           end
-
         end
-
       end
     end
   end

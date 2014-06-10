@@ -3,7 +3,6 @@ require 'fog/json'
 
 module Fog
   module StormOnDemand
-
     extend Fog::Provider
 
     service(:compute, 'Compute')
@@ -15,7 +14,5 @@ module Fog
     service(:support, 'Support')
     service(:account, 'Account')
     service(:vpn, 'VPN')
-
   end
 end
-

@@ -56,7 +56,7 @@ Shindo.tests("Fog::Storage[:hp] | object requests", ['hp', 'storage']) do
       Fog::Storage[:hp].delete_object(@dir_name, 'fog_object')
       Fog::Storage[:hp].delete_object(@dir_name, 'fog_delete_object')
     end
-    
+
     tests("#get_object_http_url('#{@directory.identity}', 'fog_object', expiration timestamp)").returns(true) do
       object_url = Fog::Storage[:hp].get_object_http_url(@dir_name, 'fog_object', (Time.now + 60))
       object_url.include? "fog_object"
@@ -115,7 +115,7 @@ Shindo.tests("Fog::Storage[:hp] | object requests", ['hp', 'storage']) do
     end
 
   end
-  
+
   @directory.destroy
 
 end

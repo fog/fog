@@ -5,7 +5,6 @@ module Fog
   module Rackspace
     class Identity
       class Roles < Fog::Collection
-
         model Fog::Rackspace::Identity::Role
 
         attr_accessor :user

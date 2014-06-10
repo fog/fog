@@ -2,7 +2,6 @@ module Fog
   module Compute
     class HPV2
       class Real
-
         # List all Floating IP addresses
         #
         # Note: This method will proxy the call to the Network (Quantum) service,
@@ -23,11 +22,9 @@ module Fog
             :path     => 'os-floating-ips'
           )
         end
-
       end
 
       class Mock
-
         def list_addresses
           response = Excon::Response.new
           addresses = []
@@ -37,7 +34,6 @@ module Fog
           response.body = { 'floating_ips' => addresses }
           response
         end
-
       end
     end
   end

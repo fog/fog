@@ -5,7 +5,6 @@ module Fog
   module Bluebox
     class BLB
       class LbBackends < Fog::Collection
-
         model Fog::Bluebox::BLB::LbBackend
 
         attr_accessor :lb_service
@@ -22,9 +21,7 @@ module Fog
         rescue Fog::Compute::Bluebox::NotFound
           nil
         end
-
       end
-
     end
   end
 end

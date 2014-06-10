@@ -2,7 +2,6 @@ module Fog
   module AWS
     class ELB
       class Real
-
         require 'fog/aws/parsers/elb/empty'
 
         # Associates, updates, or disables a policy with a listener on the
@@ -36,7 +35,6 @@ module Fog
             :parser            => Fog::Parsers::AWS::ELB::Empty.new
           }.merge!(params))
         end
-
       end
 
       class Mock

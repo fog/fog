@@ -67,11 +67,11 @@ Shindo.tests('Fog::Compute::RackspaceV2 | server', ['rackspace']) do
 
   model_tests(service.servers, options, true) do
     @instance.wait_for { ready? }
-    
+
     tests('#metadata[\'fog_test\']').returns('true') do
       @instance.metadata['fog_test']
     end
-    
+
      tests("includes #{@network.label}").returns(true) do
        @instance.addresses.keys.include?(@network.label)
      end
@@ -95,7 +95,7 @@ Shindo.tests('Fog::Compute::RackspaceV2 | server', ['rackspace']) do
       returns("::1") { @instance.access_ipv6_address }
       returns(new_name) { @instance.name }
     end
-    
+
     tests('#reboot("SOFT")').succeeds do
       @instance.reboot('SOFT')
       returns('REBOOT') { @instance.state }
@@ -224,13 +224,13 @@ Shindo.tests('Fog::Compute::RackspaceV2 | server', ['rackspace']) do
       server
     }
 
-    commands = lambda { 
-      Fog::SSH::Mock.data[@address].first[:commands] 
+    commands = lambda {
+      Fog::SSH::Mock.data[@address].first[:commands]
     }
 
     test("leaves user unlocked only when requested") do
       create_server.call(ATTRIBUTES.merge(:no_passwd_lock => true))
-      commands.call.none? { |c| c =~ /passwd\s+-l\s+root/ } 
+      commands.call.none? { |c| c =~ /passwd\s+-l\s+root/ }
     end
 
     test("provide a password when the passed isn't locked") do
@@ -260,7 +260,7 @@ Shindo.tests('Fog::Compute::RackspaceV2 | server', ['rackspace']) do
       @instance.resize(4)
       returns('RESIZE') { @instance.state }
     end
-  
+
     @instance.wait_for { ready?('VERIFY_RESIZE') }
     sleep 60 unless Fog.mocking?
     tests('#revert_resize').succeeds do

@@ -58,4 +58,3 @@ image = select_image(snapshot_images)
 image.destroy
 
 puts "\n#{image.name} has been destroyed\n\n"
-

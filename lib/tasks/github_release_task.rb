@@ -6,7 +6,6 @@ require 'netrc'
 module Fog
   module Rake
     class GithubReleaseTask < ::Rake::TaskLib
-
       def initialize
         desc "Update the changelog since the last release"
         task(:github_release) do
@@ -36,7 +35,7 @@ module Fog
       def releases
         return @releases if @releases
         response = github.releases("fog/fog")
-        @releases = response.collect {|r| r.tag_name }
+        @releases = response.map {|r| r.tag_name }
       end
 
       def release_exists?

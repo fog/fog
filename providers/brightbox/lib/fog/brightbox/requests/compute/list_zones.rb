@@ -12,7 +12,6 @@ module Fog
         def list_zones
           wrapped_request("get", "/1.0/zones", [200])
         end
-
       end
     end
   end

@@ -4,9 +4,7 @@ require 'fog/brightbox/models/compute/account'
 module Fog
   module Compute
     class Brightbox
-
       class Accounts < Fog::Collection
-
         model Fog::Compute::Brightbox::Account
 
         def all
@@ -21,9 +19,7 @@ module Fog
         rescue Excon::Errors::NotFound
           nil
         end
-
       end
-
     end
   end
 end

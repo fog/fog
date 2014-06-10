@@ -2,7 +2,6 @@ module Fog
   module Compute
     class AWS
       class Real
-
         require 'fog/aws/parsers/compute/allocate_address'
 
         # Acquire an elastic IP address.
@@ -24,11 +23,9 @@ module Fog
             :parser   => Fog::Parsers::Compute::AWS::AllocateAddress.new
           )
         end
-
       end
 
       class Mock
-
         def allocate_address(domain = 'standard')
           domain = domain == 'vpc' ? 'vpc' : 'standard'
           response = Excon::Response.new
@@ -52,7 +49,6 @@ module Fog
             raise(Excon::Errors.status_error({:expects => 200}, response))
           end
         end
-
       end
     end
   end

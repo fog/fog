@@ -21,9 +21,7 @@ module Fog
         rescue Fog::Bluebox::BLB::NotFound
           nil
         end
-
       end
-
     end
   end
 end

@@ -66,4 +66,3 @@ attachment = server.attach_volume volume
 
 puts "\nVolume #{volume.display_name} has been attached to #{server.name} on device #{attachment.device}\n\n"
 puts "To detach volume please execute the detach_volume.rb script\n\n"
-

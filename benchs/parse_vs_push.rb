@@ -3,7 +3,6 @@ require 'rubygems'
 require 'nokogiri'
 
 class Parser < Nokogiri::XML::SAX::Document
-
   attr_reader :response
 
   def initialize
@@ -37,7 +36,6 @@ class Parser < Nokogiri::XML::SAX::Document
   def value
     @value.dup
   end
-
 end
 
 data = <<-DATA

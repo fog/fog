@@ -3,9 +3,7 @@ require 'fog/core/model'
 module Fog
   module Storage
     class Atmos
-
       class File < Fog::Model
-
         identity  :key,             :aliases => :Filename
 
         attribute :content_length,  :aliases => ['bytes', 'Content-Length'], :type => :integer
@@ -104,9 +102,7 @@ module Fog
         def directory=(new_directory)
           @directory = new_directory
         end
-
       end
-
     end
   end
 end

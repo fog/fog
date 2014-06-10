@@ -17,7 +17,6 @@ module Fog
         def create_cloud_ip(options = {})
           wrapped_request("post", "/1.0/cloud_ips", [201], options)
         end
-
       end
     end
   end

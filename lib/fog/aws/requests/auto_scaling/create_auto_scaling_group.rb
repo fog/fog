@@ -1,9 +1,7 @@
 module Fog
   module AWS
     class AutoScaling
-
       class Real
-
         require 'fog/aws/parsers/auto_scaling/basic'
 
         # Creates a new Auto Scaling group with the specified name. Once the
@@ -92,21 +90,19 @@ module Fog
             :parser                   => Fog::Parsers::AWS::AutoScaling::Basic.new
           }.merge!(options))
         end
-
       end
 
       class Mock
-
         def create_auto_scaling_group(auto_scaling_group_name, availability_zones, launch_configuration_name, max_size, min_size, options = {})
           unexpected_options = options.keys - ExpectedOptions[:create_auto_scaling_group]
           unless unexpected_options.empty?
             raise Fog::AWS::AutoScaling::ValidationError.new("Options #{unexpected_options.join(',')} should not be included in request")
           end
 
-          if self.data[:auto_scaling_groups].has_key?(auto_scaling_group_name)
+          if self.data[:auto_scaling_groups].key?(auto_scaling_group_name)
             raise Fog::AWS::AutoScaling::IdentifierTaken.new("AutoScalingGroup by this name already exists - A group with the name #{auto_scaling_group_name} already exists")
           end
-          unless self.data[:launch_configurations].has_key?(launch_configuration_name)
+          unless self.data[:launch_configurations].key?(launch_configuration_name)
             raise Fog::AWS::AutoScaling::ValidationError.new('Launch configuration name not found - null')
           end
           self.data[:auto_scaling_groups][auto_scaling_group_name] = {
@@ -138,9 +134,7 @@ module Fog
           }
           response
         end
-
       end
-
     end
   end
 end

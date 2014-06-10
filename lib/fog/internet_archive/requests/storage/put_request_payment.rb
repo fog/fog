@@ -2,7 +2,6 @@ module Fog
   module Storage
     class InternetArchive
       class Real
-
         # Change who pays for requests to an S3 bucket
         #
         # @param bucket_name [String] name of bucket to modify
@@ -26,11 +25,9 @@ DATA
             :query    => {'requestPayment' => nil}
           })
         end
-
       end
 
       class Mock # :nodoc:all
-
         def put_request_payment(bucket_name, payer)
           response = Excon::Response.new
           if bucket = self.data[:buckets][bucket_name]
@@ -42,7 +39,6 @@ DATA
           end
           response
         end
-
       end
     end
   end

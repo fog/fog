@@ -6,7 +6,6 @@ module Fog
   module Rackspace
     class Monitoring
       class Entities < Fog::Collection
-
         model Fog::Rackspace::Monitoring::Entity
 
         attribute :marker

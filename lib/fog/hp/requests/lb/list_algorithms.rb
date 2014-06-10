@@ -1,7 +1,6 @@
 module Fog
   module HP
     class LB
-
       # List algorithms
       #
       # ==== Returns

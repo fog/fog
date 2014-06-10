@@ -1,9 +1,7 @@
 module Fog
   module Compute
     class Google
-
       class Mock
-
         def get_image(image_name, project=@project)
           image = data(project)[:images][image_name] || {
             "error" => {
@@ -20,11 +18,9 @@ module Fog
           }
           build_response(:body => image)
         end
-
       end
 
       class Real
-
         def get_image(image_name, project=@project)
           api_method = @compute.images.get
           parameters = {
@@ -35,9 +31,7 @@ module Fog
           result = self.build_result(api_method, parameters)
           response = self.build_response(result)
         end
-
       end
-
     end
   end
 end

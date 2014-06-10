@@ -2,7 +2,6 @@ module Fog
   module Compute
     class IBM
       class Real
-
         # Deletes the image that the authenticated user manages with the specified :image_id
         #
         # ==== Parameters
@@ -19,10 +18,8 @@ module Fog
             :path     => "/offerings/image/#{image_id}"
           )
         end
-
       end
       class Mock
-
         def delete_image(image_id)
           response = Excon::Response.new
           # TODO: We should probably check that an image is deleteable.
@@ -36,7 +33,6 @@ module Fog
           end
           response
         end
-
       end
     end
   end

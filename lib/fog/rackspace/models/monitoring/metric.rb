@@ -5,7 +5,6 @@ module Fog
   module Rackspace
     class Monitoring
       class Metric < Fog::Rackspace::Monitoring::Base
-
         identity  :name
         attribute :check
 
@@ -17,9 +16,7 @@ module Fog
             )
           end
         end
-
       end
-
     end
   end
 end

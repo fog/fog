@@ -32,7 +32,6 @@ service = Fog::Storage.new({
   :rackspace_region => :ord #Use Chicago Region
   })
 
-
 # create directory
 puts "Creating directory 'metadata-tester'"
 directory = service.directories.create :key => "metadata-tester"
@@ -75,8 +74,3 @@ file.save
 print_metadata file
 
 puts "To delete the directory and file please execute the delete_directory.rb script\n\n"
-
-
-
-
-

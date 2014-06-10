@@ -1,7 +1,6 @@
 module Fog
   module Storage
     module IAAttributes
-
 		  # you can add other x-archive-metadata-* values, but these are standard
 		  IA_STANDARD_METADATA_FIELDS = %q[hidden, title, collection, creator, mediatype, description, date, subject, licenseurl, pick, noindex, notes, rights, contributor, language, coverage, credits]
 
@@ -10,7 +9,7 @@ module Fog
 
 			module ClassMethods
 			  def ia_metadata_attribute(name)
-			    attribute(name, :aliases=>['amz','archive'].collect{|p|"x-#{p}-#{name.to_s.tr('_','-')}"})
+			    attribute(name, :aliases=>['amz','archive'].map{|p|"x-#{p}-#{name.to_s.tr('_','-')}"})
 			  end
 			end
 
@@ -18,7 +17,7 @@ module Fog
 				# set_metadata_array_headers(:collections, options)
 				def set_metadata_array_headers(array_attribute, options={})
 				  attr_values = Array(self.send(array_attribute))
-				  opt_values = options.collect do |key,value|
+				  opt_values = options.map do |key,value|
 				    options.delete(key) if (key.to_s =~ /^x-(amz||archive)-meta(\d*)-#{array_attribute.to_s[0..-2]}/)
 				  end
 				  values = (attr_values + opt_values).compact.sort.uniq
@@ -30,10 +29,8 @@ module Fog
 				      options["x-archive-meta#{format("%02d", i+1)}-#{array_attribute.to_s[0..-2]}"] = value
 				    end
 				  end
-
 				end
 			end
-
 		end
 	end
 end

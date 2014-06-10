@@ -2,7 +2,6 @@ module Fog
   module Rackspace
     class Monitoring
       class Real
-
         def list_notification_plans
           request(
             :expects  => [200],
@@ -66,8 +65,6 @@ module Fog
           response
         end
       end
-
     end
   end
 end
-

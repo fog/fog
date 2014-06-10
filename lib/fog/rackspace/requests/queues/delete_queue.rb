@@ -1,9 +1,7 @@
 module Fog
   module Rackspace
     class Queues
-
       class Real
-
         # This operation immediately deletes a queue and all of its existing messages.
         #
         # @param [String] queue_name Specifies the name of the queue.
@@ -20,7 +18,6 @@ module Fog
             :path => "queues/#{queue_name}"
           )
         end
-
       end
 
       class Mock
@@ -31,7 +28,6 @@ module Fog
           response
         end
       end
-
     end
   end
 end

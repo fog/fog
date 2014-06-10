@@ -2,7 +2,6 @@ module Fog
   module Compute
     class HPV2
       class Real
-
         # Update an existing server
         #
         # ==== Parameters
@@ -46,14 +45,12 @@ module Fog
             :path     => "servers/#{server_id}"
           )
         end
-
       end
 
       class Mock
-
         def update_server(server_id, options)
           response = Excon::Response.new
-          if server = list_servers_detail.body['servers'].detect {|_| _['id'] == server_id}
+          if server = list_servers_detail.body['servers'].find {|_| _['id'] == server_id}
             if options['name']
               server['name'] = options['name']
             end
@@ -66,7 +63,6 @@ module Fog
             raise Fog::Compute::HPV2::NotFound
           end
         end
-
       end
     end
   end

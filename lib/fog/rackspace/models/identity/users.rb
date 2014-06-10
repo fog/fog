@@ -5,7 +5,6 @@ module Fog
   module Rackspace
     class Identity
       class Users < Fog::Collection
-
         model Fog::Rackspace::Identity::User
 
         def all

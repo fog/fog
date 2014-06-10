@@ -22,7 +22,6 @@ module Fog
           return nil if options.empty? || options.nil?
           wrapped_request("put", "/1.0/load_balancers/#{identifier}", [202], options)
         end
-
       end
     end
   end

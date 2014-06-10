@@ -2,7 +2,6 @@ module Fog
   module Storage
     class AWS
       class Real
-
         require 'fog/aws/parsers/storage/get_service'
 
         # List information about S3 buckets for authorized user
@@ -28,11 +27,9 @@ module Fog
             :parser   => Fog::Parsers::Storage::AWS::GetService.new
           })
         end
-
       end
 
       class Mock # :nodoc:all
-
         def get_service
           response = Excon::Response.new
           response.headers['Status'] = 200
@@ -47,7 +44,6 @@ module Fog
           }
           response
         end
-
       end
     end
   end

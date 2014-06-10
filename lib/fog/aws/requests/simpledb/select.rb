@@ -2,7 +2,6 @@ module Fog
   module AWS
     class SimpleDB
       class Real
-
         require 'fog/aws/parsers/simpledb/select'
 
         # Select item data from SimpleDB
@@ -36,7 +35,6 @@ module Fog
             :parser             => Fog::Parsers::AWS::SimpleDB::Select.new(@nil_string)
           )
         end
-
       end
     end
   end

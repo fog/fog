@@ -2,7 +2,6 @@ module Fog
   module Terremark
     module Shared
       module Real
-
         # Get details of a catalog
         #
         # ==== Parameters
@@ -25,7 +24,6 @@ module Fog
             :path     => "vdc/#{vdc_id}/catalog"
           )
         end
-
       end
     end
   end

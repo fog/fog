@@ -1,9 +1,7 @@
 module Fog
   module AWS
     class AutoScaling
-
       class Real
-
         require 'fog/aws/parsers/auto_scaling/describe_adjustment_types'
 
         # Returns policy adjustment types for use in the put_scaling_policy
@@ -28,11 +26,9 @@ module Fog
             :parser     => Fog::Parsers::AWS::AutoScaling::DescribeAdjustmentTypes.new
           })
         end
-
       end
 
       class Mock
-
         def describe_adjustment_types()
           results = { 'AdjustmentTypes' => [] }
           self.data[:adjustment_types].each do |adjustment_type|
@@ -46,7 +42,6 @@ module Fog
           }
           response
         end
-
       end
     end
   end

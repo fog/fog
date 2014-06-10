@@ -2,7 +2,6 @@ module Fog
   module CDN
     class Rackspace
       class Real
-
         # List existing cdn-enabled storage containers
         #
         # ==== Parameters
@@ -29,11 +28,9 @@ module Fog
           )
           response
         end
-
       end
 
       class Mock
-
         def get_containers(options = {})
           response = Excon::Response.new
           response.status = 200
@@ -64,7 +61,6 @@ module Fog
           response
         end
       end
-
     end
   end
 end

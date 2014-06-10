@@ -27,7 +27,6 @@ module Fog
 
       class Mock
         def delete_network(id)
-
           unless data[:networks][id]
             raise Fog::Compute::VcloudDirector::Forbidden.new(
               "No access to entity \"(com.vmware.vcloud.entity.orgVdcNetwork:#{id})\""
@@ -57,7 +56,6 @@ module Fog
             :body => body
           )
         end
-
       end
     end
   end

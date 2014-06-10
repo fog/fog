@@ -3,9 +3,7 @@ require 'fog/core/model'
 module Fog
   module Compute
     class Libvirt
-
       class Nic < Fog::Model
-
         identity :mac
         attribute :id
         attribute :type
@@ -46,10 +44,7 @@ module Fog
             :model => "virtio"
           }
         end
-
       end
-
     end
   end
-
 end

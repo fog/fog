@@ -5,9 +5,9 @@ module Fog
         def list_domains(filter = { })
           data=[]
 
-          if filter.has_key?(:uuid)
+          if filter.key?(:uuid)
             data << client.lookup_domain_by_uuid(filter[:uuid])
-          elsif filter.has_key?(:name)
+          elsif filter.key?(:name)
             data << client.lookup_domain_by_name(filter[:name])
           else
             client.list_defined_domains.each { |name| data << client.lookup_domain_by_name(name) } unless filter[:defined] == false
@@ -69,7 +69,6 @@ module Fog
             :state           => states[dom.info.state]
           }
         end
-
       end
 
       class Mock

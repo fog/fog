@@ -1,9 +1,7 @@
 module Fog
   module Storage
     class Rackspace
-
       class Real
-
         # Create a new object
         #
         # When passed a block, it will make a chunked request, calling
@@ -74,7 +72,6 @@ module Fog
           response
         end
       end
-
     end
   end
 end

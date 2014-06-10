@@ -2,7 +2,6 @@ module Fog
   module Volume
     class OpenStack
       class Real
-
         def get_quota(tenant_id)
           request(
             :expects  => 200,
@@ -10,11 +9,9 @@ module Fog
             :path     => "/os-quota-sets/#{tenant_id}"
           )
         end
-
       end
 
       class Mock
-
         def get_quota(tenant_id)
           response = Excon::Response.new
           response.status = 200
@@ -23,9 +20,7 @@ module Fog
           }
           response
         end
-
       end
-
     end
   end
 end

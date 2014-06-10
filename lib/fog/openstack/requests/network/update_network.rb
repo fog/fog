@@ -1,13 +1,12 @@
 module Fog
   module Network
     class OpenStack
-
       class Real
         def update_network(network_id, options = {})
           data = { 'network' => {} }
 
           vanilla_options = [:name, :shared, :admin_state_up]
-          vanilla_options.select{ |o| options.has_key?(o) }.each do |key|
+          vanilla_options.select{ |o| options.key?(o) }.each do |key|
             data['network'][key] = options[key]
           end
 
@@ -23,7 +22,7 @@ module Fog
       class Mock
         def update_network(network_id, options = {})
           response = Excon::Response.new
-          if network = list_networks.body['networks'].detect { |_| _['id'] == network_id }
+          if network = list_networks.body['networks'].find { |_| _['id'] == network_id }
             network['name']           = options[:name]
             network['shared']         = options[:shared]
             network['admin_state_up'] = options[:admin_state_up]
@@ -35,7 +34,6 @@ module Fog
           end
         end
       end
-
     end
   end
 end

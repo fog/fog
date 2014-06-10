@@ -22,11 +22,9 @@ module Fog
       request :send_raw_email
 
       class Mock
-
         def initialize(options={})
           Fog::Mock.not_implemented
         end
-
       end
 
       class Real
@@ -86,7 +84,6 @@ module Fog
           idempotent  = params.delete(:idempotent)
           parser      = params.delete(:parser)
 
-
           headers = {
             'Content-Type'  => 'application/x-www-form-urlencoded',
             'Date'          => Fog::Time.now.to_date_header,
@@ -131,7 +128,6 @@ module Fog
 
           response
         end
-
       end
     end
   end

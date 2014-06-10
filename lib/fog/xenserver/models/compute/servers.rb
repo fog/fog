@@ -4,9 +4,7 @@ require 'fog/xenserver/models/compute/server'
 module Fog
   module Compute
     class XenServer
-
       class Servers < Fog::Collection
-
         model Fog::Compute::XenServer::Server
 
         def templates
@@ -60,9 +58,7 @@ module Fog
         rescue Fog::XenServer::NotFound
           nil
         end
-
       end
-
     end
   end
 end

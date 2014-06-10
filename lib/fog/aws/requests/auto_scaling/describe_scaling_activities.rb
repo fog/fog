@@ -1,9 +1,7 @@
 module Fog
   module AWS
     class AutoScaling
-
       class Real
-
         require 'fog/aws/parsers/auto_scaling/describe_scaling_activities'
 
         # Returns the scaling activities for the specified Auto Scaling group.
@@ -72,17 +70,13 @@ module Fog
             :parser  => Fog::Parsers::AWS::AutoScaling::DescribeScalingActivities.new
           }.merge!(options))
         end
-
       end
 
       class Mock
-
         def describe_scaling_activities(options = {})
           Fog::Mock.not_implemented
         end
-
       end
-
     end
   end
 end

@@ -2,7 +2,6 @@ module Fog
   module CDN
     class AWS
       class Real
-
         require 'fog/aws/parsers/cdn/streaming_distribution'
 
         # Create a new streaming distribution in CloudFront.
@@ -69,12 +68,9 @@ module Fog
             :path       => "/streaming-distribution"
           })
         end
-
       end
 
-
       class Mock
-
         require 'time'
 
         def post_streaming_distribution(options = {})
@@ -114,7 +110,6 @@ module Fog
           response
         end
       end
-
     end
   end
 end

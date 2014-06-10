@@ -46,7 +46,6 @@ module Fog
           service.delete_lb_member(self.id)
           true
         end
-
       end
     end
   end

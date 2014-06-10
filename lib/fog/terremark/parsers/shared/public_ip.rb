@@ -2,9 +2,7 @@ module Fog
   module Parsers
     module Terremark
       module Shared
-
         class PublicIp < TerremarkParser
-
           def reset
             @response = {}
           end
@@ -17,9 +15,7 @@ module Fog
               @response['id'] = value.to_i
             end
           end
-
         end
-
       end
     end
   end

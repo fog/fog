@@ -4,7 +4,6 @@ require 'fog/storm_on_demand/models/network/network_ip'
 module Fog
   module Network
     class StormOnDemand
-
       class NetworkIPs < Fog::Collection
         model Fog::Network::StormOnDemand::NetworkIP
 
@@ -41,7 +40,6 @@ module Fog
           service.request_new_ips(options)
           true
         end
-
       end
     end
   end

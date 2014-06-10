@@ -1,9 +1,7 @@
 module Fog
   module AWS
     class AutoScaling
-
       class Real
-
         require 'fog/aws/parsers/auto_scaling/describe_policies'
 
         # Returns descriptions of what each policy does. This action supports
@@ -69,11 +67,9 @@ module Fog
             :parser  => Fog::Parsers::AWS::AutoScaling::DescribePolicies.new
           }.merge!(options))
         end
-
       end
 
       class Mock
-
         def describe_policies(options = {})
           results = { 'ScalingPolicies' => [] }
           policy_set = self.data[:scaling_policies]
@@ -103,9 +99,7 @@ module Fog
           }
           response
         end
-
       end
-
     end
   end
 end

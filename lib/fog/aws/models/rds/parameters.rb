@@ -4,7 +4,6 @@ require 'fog/aws/models/rds/parameter'
 module Fog
   module AWS
     class RDS
-
       class Parameters < Fog::Collection
         attribute :group
         attribute :filters

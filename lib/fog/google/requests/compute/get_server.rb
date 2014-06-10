@@ -1,9 +1,7 @@
 module Fog
   module Compute
     class Google
-
       class Mock
-
         def get_server(server_name, zone_name)
           server = self.data[:servers][server_name]
           get_zone(zone_name)
@@ -52,11 +50,9 @@ module Fog
 
           build_response(:body => server)
         end
-
       end
 
       class Real
-
         def get_server(server_name, zone_name)
           if zone_name.is_a? Excon::Response
             zone = zone_name.body["name"]
@@ -74,9 +70,7 @@ module Fog
           result = self.build_result(api_method, parameters)
           response = self.build_response(result)
         end
-
       end
-
     end
   end
 end

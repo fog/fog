@@ -2,7 +2,6 @@ module Fog
   module Rackspace
     class AutoScale
       class Real
-
         def delete_group(group_id)
           request(
           :expects => [204],

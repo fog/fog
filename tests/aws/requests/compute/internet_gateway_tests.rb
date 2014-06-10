@@ -17,7 +17,6 @@ Shindo.tests('Fog::Compute[:aws] | internet_gateway requests', ['aws']) do
     @subnet_id = @subnet.subnet_id
     @igw_id = nil
 
-
     tests('#create_internet_gateway').formats(@internet_gateways_format) do
       data = Fog::Compute[:aws].create_internet_gateway().body
       @igw_id = data['internetGatewaySet'].first['internetGatewayId']
@@ -27,7 +26,7 @@ Shindo.tests('Fog::Compute[:aws] | internet_gateway requests', ['aws']) do
     tests('#describe_internet_gateways').formats(@internet_gateways_format) do
       Fog::Compute[:aws].describe_internet_gateways.body
     end
-    
+
     tests('#describe_internet_gateways with tags').formats(@internet_gateways_format) do
       Fog::Compute[:aws].create_tags @igw_id, {"environment" => "production"}
       Fog::Compute[:aws].describe_internet_gateways.body

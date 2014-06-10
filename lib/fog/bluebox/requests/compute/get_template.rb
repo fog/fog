@@ -2,7 +2,6 @@ module Fog
   module Compute
     class Bluebox
       class Real
-
         # Get details of a template
         #
         # ==== Parameters
@@ -19,7 +18,6 @@ module Fog
             :path     => "api/block_templates/#{template_id}.json"
           )
         end
-
       end
     end
   end

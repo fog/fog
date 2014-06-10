@@ -2,7 +2,6 @@ module Fog
   module Compute
     class Rackspace
       class Real
-
         # Get details for image by id
         #
         # ==== Returns
@@ -20,7 +19,6 @@ module Fog
             :path     => "images/#{image_id}.json"
           )
         end
-
       end
     end
   end

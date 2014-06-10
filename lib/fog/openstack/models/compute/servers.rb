@@ -4,9 +4,7 @@ require 'fog/openstack/models/compute/server'
 module Fog
   module Compute
     class OpenStack
-
       class Servers < Fog::Collection
-
         attribute :filters
 
         model Fog::Compute::OpenStack::Server
@@ -49,9 +47,7 @@ module Fog
         rescue Fog::Compute::OpenStack::NotFound
           nil
         end
-
       end
-
     end
   end
 end

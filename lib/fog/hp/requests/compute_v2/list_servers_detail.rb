@@ -2,7 +2,6 @@ module Fog
   module Compute
     class HPV2
       class Real
-
         # List all servers details
         #
         # ==== Parameters
@@ -51,11 +50,9 @@ module Fog
             :query    => options
           )
         end
-
       end
 
       class Mock
-
         def list_servers_detail(options = {})
           response = Excon::Response.new
 
@@ -73,7 +70,6 @@ module Fog
           response.body = { 'servers' => servers }
           response
         end
-
       end
     end
   end

@@ -2,7 +2,6 @@ module Fog
   module Compute
     class Joyent
       class Image < Fog::Model
-
         identity :id
 
         attribute :name
@@ -21,7 +20,6 @@ module Fog
         attribute :acl
         attribute :created, :type => :time
         attribute :default, :type => :boolean
-
       end
     end
   end

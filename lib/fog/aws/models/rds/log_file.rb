@@ -3,9 +3,7 @@ require 'fog/core/model'
 module Fog
   module AWS
     class RDS
-
       class LogFile < Fog::Model
-
         attribute :rds_id, :aliases => 'DBInstanceIdentifier'
         attribute :name, :aliases => 'LogFileName'
         attribute :size, :aliases => 'Size', :type => :integer
@@ -18,9 +16,7 @@ module Fog
           result = service.download_db_logfile_portion(self.rds_id, self.name, {:marker => marker})
           merge_attributes(result.body['DownloadDBLogFilePortionResult'])
         end
-
       end
-
     end
   end
 end

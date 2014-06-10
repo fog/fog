@@ -2,7 +2,6 @@ module Fog
   module AWS
     class CloudWatch
       class Real
-
         require 'fog/aws/parsers/cloud_watch/set_alarm_state'
 
         # Temporarily sets the state of an alarm

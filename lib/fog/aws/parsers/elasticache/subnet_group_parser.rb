@@ -2,9 +2,7 @@ module Fog
   module Parsers
     module AWS
       module Elasticache
-
         class SubnetGroupParser < Fog::Parsers::Base
-
           def reset
             @cache_subnet_group = fresh_subnet_group
           end
@@ -30,7 +28,6 @@ module Fog
           def fresh_subnet_group
             {'Subnets' => []}
           end
-
         end
       end
     end

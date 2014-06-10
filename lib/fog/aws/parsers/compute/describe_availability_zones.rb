@@ -2,7 +2,6 @@ module Fog
   module Parsers
     module Compute
       module AWS
-
         class DescribeAvailabilityZones < Fog::Parsers::Base
           def start_element(name, attrs = [])
             case name
@@ -34,9 +33,7 @@ module Fog
               @in_message_set = false
             end
           end
-
         end
-
       end
     end
   end

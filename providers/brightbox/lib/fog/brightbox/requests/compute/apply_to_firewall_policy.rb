@@ -17,7 +17,6 @@ module Fog
           return nil if identifier.nil? || identifier == ""
           wrapped_request("post", "/1.0/firewall_policies/#{identifier}/apply_to", [202], options)
         end
-
       end
     end
   end

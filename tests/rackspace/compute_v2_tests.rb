@@ -51,7 +51,7 @@ Shindo.tests('Fog::Compute::RackspaceV2', ['rackspace']) do
       returns(false, "path populated") { @service.instance_variable_get("@uri").host.nil? }
       identity_service = @service.instance_variable_get("@identity_service")
       returns(false, "identity service was used") { identity_service.nil? }
-      returns(true, "connection_options are passed") { identity_service.instance_variable_get("@connection_options").has_key?(:ssl_verify_peer) }
+      returns(true, "connection_options are passed") { identity_service.instance_variable_get("@connection_options").key?(:ssl_verify_peer) }
       @service.list_flavors
     end
     tests('dfw region').succeeds do

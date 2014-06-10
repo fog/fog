@@ -12,7 +12,6 @@ module Fog
           wrapped_request("post", "/1.0/account/reset_ftp_password", [200])
         end
       end
-
     end
   end
 end

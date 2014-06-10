@@ -177,7 +177,6 @@ module Fog
         end
       end
 
-
       class Mock
         include Fog::AWS::CredentialFetcher::ConnectionMethods
 
@@ -274,9 +273,7 @@ module Fog
         def setup_credentials(options)
           @aws_access_key_id = options[:aws_access_key_id]
         end
-
       end
-
     end
   end
 end

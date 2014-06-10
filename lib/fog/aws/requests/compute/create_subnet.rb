@@ -2,7 +2,6 @@ module Fog
   module Compute
     class AWS
       class Real
-
         require 'ipaddress'
         require 'fog/aws/parsers/compute/create_subnet'
 
@@ -37,7 +36,6 @@ module Fog
             'CidrBlock'  => cidrBlock,
             :parser      => Fog::Parsers::Compute::AWS::CreateSubnet.new
           }.merge!(options))
-
         end
       end
 
@@ -72,7 +70,7 @@ module Fog
 
               # Add this subnet to the default network ACL
               accid = Fog::AWS::Mock.network_acl_association_id
-              default_nacl = self.data[:network_acls].values.detect { |nacl| nacl['vpcId'] == vpcId && nacl['default'] }
+              default_nacl = self.data[:network_acls].values.find { |nacl| nacl['vpcId'] == vpcId && nacl['default'] }
               default_nacl['associationSet'] << {
                 'networkAclAssociationId' => accid,
                 'networkAclId'            => default_nacl['networkAclId'],

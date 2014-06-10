@@ -2,7 +2,6 @@ module Fog
   module Storage
     class AWS
       class Real
-
         require 'fog/aws/parsers/storage/complete_multipart_upload'
 
         # Complete a multipart upload
@@ -45,7 +44,6 @@ module Fog
             :query      => {'uploadId' => upload_id}
           })
         end
-
       end # Real
 
       class Mock # :nodoc:all

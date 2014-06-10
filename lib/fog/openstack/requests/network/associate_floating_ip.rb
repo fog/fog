@@ -1,7 +1,6 @@
 module Fog
   module Network
     class OpenStack
-
       class Real
         def associate_floating_ip(floating_ip_id, port_id, options = {})
           data = {
@@ -43,7 +42,6 @@ module Fog
           response
         end
       end
-
     end
   end
 end

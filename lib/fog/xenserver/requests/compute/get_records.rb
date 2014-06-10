@@ -1,9 +1,7 @@
 module Fog
   module Compute
    class XenServer
-
       class Real
-
         require 'fog/xenserver/parsers/get_records'
 
         def get_records( klass, options = {} )
@@ -14,17 +12,13 @@ module Fog
             []
           end
         end
-
       end
 
       class Mock
-
         def get_vms
           Fog::Mock.not_implemented
         end
-
       end
-
     end
   end
 end

@@ -2,7 +2,6 @@ module Fog
   module Storage
     class AWS
       class Real
-
         # Upload a part for a multipart upload
         #
         # @param bucket_name [String] Name of bucket to add part to
@@ -34,7 +33,6 @@ module Fog
             :query      => {'uploadId' => upload_id, 'partNumber' => part_number}
           })
         end
-
       end # Real
 
       class Mock # :nodoc:all

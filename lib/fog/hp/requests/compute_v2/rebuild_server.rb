@@ -2,7 +2,6 @@ module Fog
   module Compute
     class HPV2
       class Real
-
         # Rebuild an existing server
         #
         # ==== Parameters
@@ -19,7 +18,6 @@ module Fog
         #       * 'contents'<~String> - Contents of file (10kb total of contents)
         #       * 'path'<~String> - Path to file (255 bytes total of path strings)
         def rebuild_server(server_id, image_id, name, options={})
-
           body = { 'rebuild' => {
             'imageRef' => image_id,
             'name' => name
@@ -39,13 +37,11 @@ module Fog
           end
           server_action(server_id, body, 202)
         end
-
       end
 
       class Mock
-
         def rebuild_server(server_id, image_id, name, options={})
-          if image = list_images_detail.body['images'].detect {|_| _['id'] == image_id}
+          if image = list_images_detail.body['images'].find {|_| _['id'] == image_id}
             if response = get_server_details(server_id)
               response.body['server']['name'] = name
               response.body['server']['image']['id'] = image_id
@@ -75,7 +71,6 @@ module Fog
             raise Fog::Compute::HPV2::NotFound.new("Image with image_id #{image_id} not found.")
           end
         end
-
       end
     end
   end

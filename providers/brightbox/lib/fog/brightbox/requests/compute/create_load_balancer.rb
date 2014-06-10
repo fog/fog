@@ -19,7 +19,6 @@ module Fog
         def create_load_balancer(options)
           wrapped_request("post", "/1.0/load_balancers", [202], options)
         end
-
       end
     end
   end

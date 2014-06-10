@@ -4,9 +4,7 @@ require 'fog/dynect/models/dns/record'
 module Fog
   module DNS
     class Dynect
-
       class Records < Fog::Collection
-
         attribute :zone
 
         model Fog::DNS::Dynect::Record
@@ -39,7 +37,7 @@ module Fog
           requires :zone
 
           list = service.get_all_records(zone.domain, {}).body['data']
-          url = list.detect { |e| e =~ /\/#{record_id}$/ }
+          url = list.find { |e| e =~ /\/#{record_id}$/ }
           return unless url
           (_, _, t, _, fqdn, id) = url.split('/')
           type = t.gsub(/Record$/, '')
@@ -57,9 +55,7 @@ module Fog
           requires :zone
           super({:zone => zone}.merge!(attributes))
         end
-
       end
-
     end
   end
 end

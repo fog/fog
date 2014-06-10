@@ -2,7 +2,6 @@ module Fog
   module AWS
     class ELB
       class Real
-
         require 'fog/aws/parsers/elb/describe_load_balancer_attributes'
 
         # Describe the load balancer attributes
@@ -29,7 +28,6 @@ module Fog
             :parser   => Fog::Parsers::AWS::ELB::DescribeLoadBalancerAttributes.new
           })
         end
-
       end
 
       class Mock

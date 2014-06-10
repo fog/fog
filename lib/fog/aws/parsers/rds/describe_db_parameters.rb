@@ -2,9 +2,7 @@ module Fog
   module Parsers
     module AWS
       module RDS
-
         class DescribeDBParameters < Fog::Parsers::Base
-
           def reset
             @response = { 'DescribeDBParametersResult' =>{}, 'ResponseMetadata' => {} }
             @parameter = {}

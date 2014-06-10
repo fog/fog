@@ -3,7 +3,6 @@ module Fog
   module Vcloud
     class Compute
       class Server < Fog::Vcloud::Model
-
         include Fog::Vcloud::Compute::Helpers::Status
 
         identity :href, :aliases => :Href
@@ -59,7 +58,7 @@ module Fog
 
         def ip_addresses
           load_unless_loaded!
-          [self.network_connections].flatten.collect{|n| n[:IpAddress] }
+          [self.network_connections].flatten.map{|n| n[:IpAddress] }
         end
 
         def ready?
@@ -100,6 +99,7 @@ module Fog
           attributes[:name] = new_name
           @changed = true
         end
+
         def password
           guest_customization[:AdminPassword]
         end
@@ -109,6 +109,7 @@ module Fog
           @changed = true
           @update_password = password
         end
+
         def cpus
           if cpu_mess
             { :count => cpu_mess[:"rasd:VirtualQuantity"].to_i,
@@ -137,14 +138,17 @@ module Fog
           @update_memory_value = amount
           amount
         end
+
         def network
           network_connections[:NetworkConnection] if network_connections
         end
+
         def network=(network_info)
           @changed = true
           @update_network = network_info
           network_info
         end
+
         def disks
           disk_mess.map do |dm|
             { :number => dm[:"rasd:AddressOnParent"].to_i, :size => dm[:"rasd:HostResource"][:vcloud_capacity].to_i, :resource => dm[:"rasd:HostResource"], :disk_data => dm }
@@ -271,7 +275,7 @@ module Fog
           sleep 2 # API lies. need to give it some time to be happy.
           service.delete_vapp(href).body[:status] == "running"
         end
-        alias :delete :destroy
+        alias_method :delete, :destroy
 
         private
 
@@ -297,14 +301,14 @@ module Fog
         def memory_mess
           load_unless_loaded!
           if virtual_hardware
-            virtual_hardware.detect { |item| item[:"rasd:ResourceType"] == "4" }
+            virtual_hardware.find { |item| item[:"rasd:ResourceType"] == "4" }
           end
         end
 
         def cpu_mess
           load_unless_loaded!
           if virtual_hardware
-            virtual_hardware.detect { |item| item[:"rasd:ResourceType"] == "3" }
+            virtual_hardware.find { |item| item[:"rasd:ResourceType"] == "3" }
           end
         end
 

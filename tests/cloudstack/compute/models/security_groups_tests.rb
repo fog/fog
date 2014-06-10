@@ -10,7 +10,6 @@ def security_group_tests(provider, params, mocks_implemented = true)
 	end
 end
 
-
 provider, config = :cloudstack, compute_providers[:cloudstack]
 Shindo.tests("Fog::Compute[:#{provider}] | security_group", [provider.to_s]) do
 

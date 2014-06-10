@@ -4,9 +4,7 @@ require 'fog/xenserver/models/compute/network'
 module Fog
   module Compute
     class XenServer
-
       class Networks < Fog::Collection
-
         model Fog::Compute::XenServer::Network
 
         def initialize(attributes)
@@ -25,9 +23,7 @@ module Fog
         rescue Fog::XenServer::NotFound
           nil
         end
-
       end
-
     end
   end
 end

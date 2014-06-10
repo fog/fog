@@ -2,9 +2,7 @@ module Fog
   module Parsers
     module Compute
       module Voxel
-
         class Basic < Fog::Parsers::Base
-
           def reset
             @response = {}
           end
@@ -22,9 +20,7 @@ module Fog
               @response['stat'] = attr_value('stat', attrs)
             end
           end
-
         end
-
       end
     end
   end

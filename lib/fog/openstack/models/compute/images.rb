@@ -4,9 +4,7 @@ require 'fog/openstack/models/compute/image'
 module Fog
   module Compute
     class OpenStack
-
       class Images < Fog::Collection
-
         attribute :filters
 
         model Fog::Compute::OpenStack::Image
@@ -34,9 +32,7 @@ module Fog
         rescue Fog::Compute::OpenStack::NotFound
           nil
         end
-
       end
-
     end
   end
 end

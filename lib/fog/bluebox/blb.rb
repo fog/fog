@@ -3,7 +3,6 @@ require 'fog/bluebox/core'
 module Fog
   module Bluebox
     class BLB < Fog::Service
-
       requires :bluebox_api_key, :bluebox_customer_id
       recognizes :bluebox_host, :bluebox_port, :bluebox_scheme, :persistent
 
@@ -17,7 +16,6 @@ module Fog
 
       model      :lb_backend
       collection :lb_backends
-
 
       request_path 'fog/bluebox/requests/blb'
 
@@ -78,7 +76,6 @@ module Fog
           end
           response
         end
-
       end
     end
   end

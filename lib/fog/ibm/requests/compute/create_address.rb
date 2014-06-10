@@ -2,7 +2,6 @@ module Fog
   module Compute
     class IBM
       class Real
-
         # Requests a new static IP address to be created
         #
         # ==== Parameters
@@ -30,11 +29,9 @@ module Fog
             }
           )
         end
-
       end
 
       class Mock
-
         def create_address(location_id, offering_id="20001223", options={})
           address         = Fog::IBM::Mock.create_address(location_id, offering_id, options)
           self.data[:addresses][address['id']] = address
@@ -43,7 +40,6 @@ module Fog
           response.body   = address
           response
         end
-
       end
     end
   end

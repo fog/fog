@@ -2,9 +2,7 @@ module Fog
   module Parsers
     module CDN
       module AWS
-
         class PostInvalidation < Fog::Parsers::Base
-
           def reset
             @response = { 'InvalidationBatch' => { 'Path' => [] } }
           end
@@ -19,9 +17,7 @@ module Fog
               @response['InvalidationBatch'][name] << value
             end
           end
-
         end
-
       end
     end
   end

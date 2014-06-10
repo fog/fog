@@ -5,7 +5,6 @@ module Fog
   module Rackspace
     class BlockStorage
       class VolumeTypes < Fog::Collection
-
         model Fog::Rackspace::BlockStorage::VolumeType
 
         # Returns list of volume types

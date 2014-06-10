@@ -2,7 +2,6 @@ module Fog
   module Compute
     class HP
       class Real
-
         # Create a new server
         #
         # ==== Parameters
@@ -98,11 +97,9 @@ module Fog
             :path     => 'servers.json'
           )
         end
-
       end
 
       class Mock
-
         def create_server(name, flavor_id, image_id, options = {})
           response = Excon::Response.new
           response.status = 202
@@ -139,7 +136,6 @@ module Fog
           response.body = { 'server' => data.merge({'adminPass' => 'password'}) }
           response
         end
-
       end
     end
   end

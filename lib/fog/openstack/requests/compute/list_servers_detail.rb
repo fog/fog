@@ -2,7 +2,6 @@ module Fog
   module Compute
     class OpenStack
       class Real
-
         # Available filters: name, status, image, flavor, changes_since, reservation_id
         def list_servers_detail(filters = {})
           params = Hash.new
@@ -15,11 +14,9 @@ module Fog
             :query   => params
           )
         end
-
       end
 
       class Mock
-
         def list_servers_detail(filters = {})
           response = Excon::Response.new
 
@@ -37,7 +34,6 @@ module Fog
           response.body = { 'servers' => servers }
           response
         end
-
       end
     end
   end

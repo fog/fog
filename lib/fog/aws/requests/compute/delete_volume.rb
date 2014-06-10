@@ -2,7 +2,6 @@ module Fog
   module Compute
     class AWS
       class Real
-
         require 'fog/aws/parsers/compute/basic'
 
         # Delete an EBS volume
@@ -25,11 +24,9 @@ module Fog
             :parser     => Fog::Parsers::Compute::AWS::Basic.new
           )
         end
-
       end
 
       class Mock
-
         def delete_volume(volume_id)
           response = Excon::Response.new
           if volume = self.data[:volumes][volume_id]
@@ -49,7 +46,6 @@ module Fog
             raise Fog::Compute::AWS::NotFound.new("The volume '#{volume_id}' does not exist.")
           end
         end
-
       end
     end
   end

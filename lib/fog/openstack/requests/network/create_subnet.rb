@@ -1,7 +1,6 @@
 module Fog
   module Network
     class OpenStack
-
       class Real
         def create_subnet(network_id, cidr, ip_version, options = {})
           data = {
@@ -50,7 +49,6 @@ module Fog
           response
         end
       end
-
     end
   end
 end

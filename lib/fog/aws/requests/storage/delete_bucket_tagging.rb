@@ -2,7 +2,6 @@ module Fog
   module Storage
     class AWS
       class Real
-
         # Delete tagging for a bucket
         #
         # @param bucket_name [String] name of bucket to delete tagging from
@@ -21,11 +20,9 @@ module Fog
             :query    => {'tagging' => nil}
           })
         end
-
       end
 
       class Mock # :nodoc:all
-
         def delete_bucket_tagging(bucket_name)
           response = Excon::Response.new
           if self.data[:buckets][bucket_name]
@@ -38,9 +35,7 @@ module Fog
 
           response
         end
-
       end
-
     end
   end
 end

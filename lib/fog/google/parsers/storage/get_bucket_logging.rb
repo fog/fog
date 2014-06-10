@@ -2,9 +2,7 @@ module Fog
   module Parsers
     module Storage
       module Google
-
         class AccessControlList < Fog::Parsers::Base
-
           def reset
             @grant = { 'Grantee' => {} }
             @response = { 'BucketLoggingStatus' => {} }
@@ -31,9 +29,7 @@ module Fog
               @grant['Grantee'][name] = value
             end
           end
-
         end
-
       end
     end
   end

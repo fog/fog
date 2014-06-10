@@ -3,7 +3,6 @@ require 'fog/core/model'
 module Fog
   module DNS
     class Dynect
-
       class Record < Fog::Model
         extend Fog::Deprecation
 
@@ -43,7 +42,7 @@ module Fog
               :type     => tokens[2][0...-6] # everything before 'Record'
             }
           end
-          record = records.detect {|record| record[:type] == type}
+          record = records.find {|record| record[:type] == type}
           merge_attributes(record)
 
           true
@@ -58,9 +57,7 @@ module Fog
         def zone=(new_zone)
           @zone = new_zone
         end
-
       end
-
     end
   end
 end

@@ -3,9 +3,7 @@ require 'fog/core/model'
 module Fog
   module Compute
     class VcloudDirector
-
       class Vdc < Model
-
         identity  :id
 
         attribute :name
@@ -31,7 +29,6 @@ module Fog
           requires :id
           service.vapps(:vdc => self)
         end
-
       end
     end
   end

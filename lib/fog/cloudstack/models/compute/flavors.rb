@@ -4,9 +4,7 @@ require 'fog/cloudstack/models/compute/flavor'
 module Fog
   module Compute
     class Cloudstack
-
       class Flavors < Fog::Collection
-
         model Fog::Compute::Cloudstack::Flavor
 
         def all
@@ -22,7 +20,6 @@ module Fog
           nil
         end
       end
-
     end
   end
 end

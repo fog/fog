@@ -8,6 +8,4 @@ Shindo.tests("Fog::Compute::HPV2 | availability zone model", ['hp', 'v2', 'compu
     @zones.first.respond_to?('available?')
   end
 
-
-
 end

@@ -43,7 +43,7 @@ def vapps
 end
 
 def vapp
-  vapps.detect {|vapp| vapp.vms.size >= 1 }
+  vapps.find {|vapp| vapp.vms.size >= 1 }
 end
 
 def the_network

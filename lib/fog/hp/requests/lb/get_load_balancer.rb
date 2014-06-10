@@ -1,7 +1,6 @@
 module Fog
   module HP
     class LB
-
       # Get details for an existing load balancer
       #
       # ==== Parameters
@@ -40,12 +39,11 @@ module Fog
             :path    => "loadbalancers/#{load_balancer_id}"
           )
         end
-
       end
       class Mock
         def get_load_balancer(load_balancer_id)
           response = Excon::Response.new
-          if lb = list_load_balancers.body['loadBalancers'].detect { |_| _['id'] == load_balancer_id }
+          if lb = list_load_balancers.body['loadBalancers'].find { |_| _['id'] == load_balancer_id }
             response.status = 200
             response.body = lb
             response
@@ -53,7 +51,6 @@ module Fog
             raise Fog::HP::LB::NotFound
           end
         end
-
       end
     end
   end

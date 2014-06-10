@@ -3,9 +3,7 @@ require 'fog/core/model'
 module Fog
   module Compute
     class GoGrid
-
       class Image < Fog::Model
-
         identity :id
 
         attribute :name
@@ -25,7 +23,6 @@ module Fog
         attribute :public,        :aliases => 'isPublic'
         attribute :object_type,   :aliases => 'object'
         attribute :owner
-
 
         def server=(new_server)
           requires :id
@@ -52,9 +49,7 @@ module Fog
           merge_attributes(data.body['image'])
           true
         end
-
       end
-
     end
   end
 end

@@ -4,9 +4,7 @@ require 'fog/aws/models/compute/network_interface'
 module Fog
   module Compute
     class AWS
-
       class NetworkInterfaces < Fog::Collection
-
         attribute :filters
 
         model Fog::Compute::AWS::NetworkInterface
@@ -130,7 +128,6 @@ module Fog
           end
         end
       end
-
     end
   end
 end

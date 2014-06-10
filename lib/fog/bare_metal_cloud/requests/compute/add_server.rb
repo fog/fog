@@ -2,7 +2,6 @@ module Fog
   module Compute
     class BareMetalCloud
       class Real
-
         # Boot a new server
         #
         # ==== Parameters
@@ -26,7 +25,6 @@ module Fog
             :query    => {'planId' => plan_id}.merge!(options)
           )
         end
-
       end
     end
   end

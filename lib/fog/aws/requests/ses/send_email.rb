@@ -2,7 +2,6 @@ module Fog
   module AWS
     class SES
       class Real
-
         require 'fog/aws/parsers/ses/send_email'
 
         # Send an email
@@ -53,11 +52,11 @@ module Fog
             end
           end
 
-          if options.has_key?('ReplyToAddresses')
+          if options.key?('ReplyToAddresses')
             params.merge!(Fog::AWS.indexed_param("ReplyToAddresses.member", [*options['ReplyToAddresses']]))
           end
 
-          if options.has_key?('ReturnPath')
+          if options.key?('ReturnPath')
             params['ReturnPath'] = options['ReturnPath']
           end
 
@@ -66,7 +65,6 @@ module Fog
             :parser            => Fog::Parsers::AWS::SES::SendEmail.new
           }.merge(params))
         end
-
       end
     end
   end

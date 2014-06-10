@@ -2,7 +2,6 @@ module Fog
   module AWS
     class IAM
       class Real
-
         require 'fog/aws/parsers/iam/list_server_certificates'
 
         # List server certificates
@@ -35,7 +34,6 @@ module Fog
             :parser   => Fog::Parsers::AWS::IAM::ListServerCertificates.new
           }.merge!(options))
         end
-
       end
 
       class Mock

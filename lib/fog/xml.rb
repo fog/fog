@@ -3,7 +3,6 @@ require "fog/core/parser"
 require "fog/xml/sax_parser_connection"
 
 module Fog
-
   # @note Extracting XML components out of core is a work in progress.
   #
   # The {XML} module includes functionality that is common between APIs using

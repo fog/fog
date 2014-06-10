@@ -2,9 +2,7 @@ module Fog
   module Parsers
     module DNS
       module AWS
-
         class ListHostedZones < Fog::Parsers::Base
-
           def reset
             @hosted_zones = []
             @zone = {}
@@ -28,9 +26,7 @@ module Fog
               @response[name] = value
             end
           end
-
         end
-
       end
     end
   end

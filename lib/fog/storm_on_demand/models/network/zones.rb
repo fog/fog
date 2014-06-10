@@ -4,7 +4,6 @@ require "fog/storm_on_demand/models/network/zone"
 module Fog
   module Network
     class StormOnDemand
-
       class Zones < Fog::Collection
         model Fog::Network::StormOnDemand::Zone
 
@@ -17,7 +16,6 @@ module Fog
           data = service.list_zones(options).body
           load(data)
         end
-
       end
     end
   end

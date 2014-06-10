@@ -2,7 +2,6 @@ module Fog
   module Compute
     class AWS
       class Real
-
         require 'fog/aws/parsers/compute/describe_tags'
 
         # Describe all or specified tags
@@ -32,7 +31,6 @@ module Fog
       end
 
       class Mock
-
         def describe_tags(filters = {})
           response = Excon::Response.new
 
@@ -93,7 +91,7 @@ module Fog
           def deep_clone(obj)
             case obj
             when Hash
-              obj.inject({}) { |h, pair| h[pair.first] = deep_clone(pair.last); h }
+              obj.reduce({}) { |h, pair| h[pair.first] = deep_clone(pair.last); h }
             when Array
               obj.map { |o| deep_clone(o) }
             else
@@ -101,7 +99,6 @@ module Fog
             end
           end
       end
-
     end
   end
 end

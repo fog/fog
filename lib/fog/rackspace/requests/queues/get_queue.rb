@@ -1,7 +1,6 @@
 module Fog
   module Rackspace
     class Queues
-
       class Real
         # This operation verifies whether the specified queue exists.
         #
@@ -32,7 +31,6 @@ module Fog
           end
         end
       end
-
     end
   end
 end

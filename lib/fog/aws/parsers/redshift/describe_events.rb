@@ -2,7 +2,6 @@ module Fog
   module Parsers
     module Redshift
       module AWS
-
         class DescribeEvents < Fog::Parsers::Base
           # :marker - (String)
           # :events - (Array)

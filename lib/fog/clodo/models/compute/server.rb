@@ -3,9 +3,7 @@ require 'fog/compute/models/server'
 module Fog
   module Compute
     class Clodo
-
       class Server < Fog::Compute::Server
-
         identity :id
 
         attribute :addresses
@@ -117,10 +115,7 @@ module Fog
         end
 
         private
-
       end
-
     end
   end
-
 end

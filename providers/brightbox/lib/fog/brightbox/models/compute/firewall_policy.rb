@@ -3,9 +3,7 @@ require 'fog/core/model'
 module Fog
   module Compute
     class Brightbox
-
       class FirewallPolicy < Fog::Model
-
         identity :id
         attribute :url
         attribute :resource_type

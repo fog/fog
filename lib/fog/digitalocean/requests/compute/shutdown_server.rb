@@ -2,7 +2,6 @@ module Fog
   module Compute
     class DigitalOcean
       class Real
-
         def shutdown_server( id )
           request(
             :expects  => [200],
@@ -10,11 +9,9 @@ module Fog
             :path     => "droplets/#{id}/shutdown"
           )
         end
-
       end
 
       class Mock
-
         def shutdown_server( id )
           response = Excon::Response.new
           response.status = 200
@@ -29,7 +26,6 @@ module Fog
           }
           response
         end
-
       end
     end
   end

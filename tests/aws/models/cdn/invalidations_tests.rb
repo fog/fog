@@ -12,4 +12,3 @@ Shindo.tests("Fog::CDN[:aws] | invalidations", ['aws', 'cdn']) do
     @distribution.destroy
   end
 end
-

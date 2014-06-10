@@ -3,9 +3,7 @@ require 'fog/core/model'
 module Fog
   module Compute
     class Google
-
       class Flavor < Fog::Model
-
         identity :name
 
         attribute :kind
@@ -30,7 +28,6 @@ module Fog
           self
         end
       end
-
     end
   end
 end

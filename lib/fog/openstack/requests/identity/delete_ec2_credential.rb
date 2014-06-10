@@ -2,7 +2,6 @@ module Fog
   module Identity
     class OpenStack
       class Real
-
         ##
         # Destroy an EC2 credential for a user.  Requires administrator
         # credentials.
@@ -41,4 +40,3 @@ module Fog
     end
   end
 end
-

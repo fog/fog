@@ -2,7 +2,6 @@ module Fog
   module DNS
     class Dynect
       class Real
-
         # Delete a record
         #
         # ==== Parameters

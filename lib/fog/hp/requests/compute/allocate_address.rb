@@ -2,7 +2,6 @@ module Fog
   module Compute
     class HP
       class Real
-
         # Acquires a floating IP address
         #
         # ==== Returns
@@ -14,7 +13,6 @@ module Fog
         #       * 'instance_id'<~String> - Id of the associated server instance
         #       * 'fixed_ip'<~String> - Fixed IP of the address
         def allocate_address
-
           request(
             :body     => nil,
             :expects  => 200,
@@ -22,11 +20,9 @@ module Fog
             :path     => 'os-floating-ips.json'
           )
         end
-
       end
 
       class Mock
-
         def allocate_address
           response = Excon::Response.new
           response.status = 200
@@ -42,7 +38,6 @@ module Fog
           response.body = { 'floating_ip' => data }
           response
         end
-
       end
     end
   end

@@ -1,9 +1,7 @@
 module Fog
   module Storage
     class Rackspace
-
       module Common
-
         # Get an expiring object https url from Cloud Files
         #
         # ==== Parameters
@@ -56,7 +54,6 @@ module Fog
       class Real
         include Common
       end
-
     end
   end
 end

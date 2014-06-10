@@ -1,9 +1,7 @@
 module Fog
   module Compute
     class Vsphere
-
       class Datacenter < Fog::Model
-
         identity :id
         attribute :name
         attribute :path
@@ -40,9 +38,7 @@ module Fog
         def to_s
           name
         end
-
       end
-
     end
   end
 end

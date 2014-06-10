@@ -1,7 +1,6 @@
 module Fog
   module Storage
     class Google
-
       class Mock
         def put_bucket_acl(bucket_name, acl)
           Fog::Mock.not_implemented
@@ -9,10 +8,8 @@ module Fog
       end
 
       class Real
-
         # Change access control list for an Google Storage bucket
         def put_bucket_acl(bucket_name, acl)
-
           data = <<-DATA
 <AccessControlList>
   <Owner>
@@ -34,8 +31,7 @@ DATA
           })
         end
 
-
-      private
+        private
 
         def tag(name, value)
           "<#{name}>#{value}</#{name}>"
@@ -56,9 +52,7 @@ DATA
             tag('Entry', scope_tag(entry['Scope']) + tag('Permission', entry['Permission']))
           end.join("\n")
         end
-
       end
-
     end
   end
 end

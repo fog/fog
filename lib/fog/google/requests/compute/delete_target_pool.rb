@@ -1,13 +1,10 @@
 module Fog
   module Compute
     class Google
-
       class Mock
-
         def delete_target_pool(target_pool_name, region_name)
           Fog::Mock.not_implemented
         end
-
       end
 
       class Real
@@ -28,9 +25,7 @@ module Fog
           result = self.build_result(api_method, parameters)
           response = self.build_response(result)
         end
-
       end
-
     end
   end
 end

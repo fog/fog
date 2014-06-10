@@ -1,14 +1,12 @@
 module Fog
   module Compute
     class Ecloud
-
       class Real
         basic_request :get_public_ips
       end
 
       class Mock
         def get_public_ips(uri)
-
           environment_id = id_from_uri(uri)
           environment    = self.data[:environments][environment_id]
 

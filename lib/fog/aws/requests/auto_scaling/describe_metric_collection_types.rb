@@ -1,9 +1,7 @@
 module Fog
   module AWS
     class AutoScaling
-
       class Real
-
         require 'fog/aws/parsers/auto_scaling/describe_metric_collection_types'
 
         # Returns a list of metrics and a corresponding list of granularities
@@ -30,11 +28,9 @@ module Fog
             :parser     => Fog::Parsers::AWS::AutoScaling::DescribeMetricCollectionTypes.new
           })
         end
-
       end
 
       class Mock
-
         def describe_metric_collection_types()
           results = {
             'Granularities' => [],
@@ -54,7 +50,6 @@ module Fog
           }
           response
         end
-
       end
     end
   end

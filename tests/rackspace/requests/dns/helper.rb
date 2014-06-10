@@ -106,7 +106,7 @@ def domains_tests(service, domains_attributes, custom_delete = false)
   tests("create_domains(#{domains_attributes})").formats(CREATE_DOMAINS_FORMAT) do
     response = wait_for service, service.create_domains(domains_attributes)
     @domain_details = response.body['response']['domains']
-    @domain_ids = @domain_details.collect { |domain| domain['id'] }
+    @domain_ids = @domain_details.map { |domain| domain['id'] }
     response.body['response']
   end
 
@@ -122,5 +122,3 @@ def domains_tests(service, domains_attributes, custom_delete = false)
     end
   end
 end
-
-

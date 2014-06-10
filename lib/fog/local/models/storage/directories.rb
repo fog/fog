@@ -4,9 +4,7 @@ require 'fog/local/models/storage/directory'
 module Fog
   module Storage
     class Local
-
       class Directories < Fog::Collection
-
         model Fog::Storage::Local::Directory
 
         def all
@@ -29,9 +27,7 @@ module Fog
             nil
           end
         end
-
       end
-
     end
   end
 end

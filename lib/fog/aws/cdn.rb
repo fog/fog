@@ -30,7 +30,6 @@ module Fog
       request 'put_streaming_distribution_config'
 
       class Mock
-
         def self.data
           @data ||= Hash.new do |hash, key|
             hash[key] =  {

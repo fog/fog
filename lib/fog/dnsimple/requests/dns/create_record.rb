@@ -2,7 +2,6 @@ module Fog
   module DNS
     class DNSimple
       class Real
-
         # Create a new host in the specified zone
         #
         # ==== Parameters
@@ -36,11 +35,9 @@ module Fog
             :path     => "/domains/#{domain}/records"
           )
         end
-
       end
 
       class Mock
-
         def create_record(domain, name, type, content, options = {})
           body = {
             "record" => {
@@ -64,9 +61,7 @@ module Fog
           response.body = body
           response
         end
-
       end
-
     end
   end
 end

@@ -2,7 +2,6 @@ module Fog
   module Compute
     class HPV2
       class Real
-
         # Create a new persistent server i.e. use a bootable volume instead of an image
         #
         # ==== Parameters
@@ -111,7 +110,6 @@ module Fog
             end
           end
 
-
           request(
             :body     => Fog::JSON.encode(data),
             :expects  => 202,
@@ -119,11 +117,9 @@ module Fog
             :path     => 'os-volumes_boot'
           )
         end
-
       end
 
       class Mock
-
         def create_persistent_server(name, flavor_id, block_device_mapping, options = {})
           response = Excon::Response.new
 
@@ -174,9 +170,7 @@ module Fog
             response.status = 400
             raise(Excon::Errors::BadRequest, 'No boot volume or boot image specified')
           end
-
         end
-
       end
     end
   end

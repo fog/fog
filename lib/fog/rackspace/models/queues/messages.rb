@@ -5,7 +5,6 @@ module Fog
   module Rackspace
     class Queues
       class Messages < Fog::Collection
-
         model Fog::Rackspace::Queues::Message
 
         # @!attribute [r] client_id

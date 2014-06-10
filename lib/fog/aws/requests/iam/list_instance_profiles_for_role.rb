@@ -2,7 +2,6 @@ module Fog
   module AWS
     class IAM
       class Real
-
         require 'fog/aws/parsers/iam/list_instance_profiles'
 
         # Lists the instance profiles that have the specified associated role
@@ -44,7 +43,6 @@ module Fog
             :parser     => Fog::Parsers::AWS::IAM::ListInstanceProfiles.new
           }.merge!(options))
         end
-
       end
     end
   end

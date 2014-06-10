@@ -1,7 +1,6 @@
 class AWS
   module AutoScaling
     module Formats
-
       BASIC = {
         'ResponseMetadata' => {'RequestId' => String}
       }
@@ -224,7 +223,6 @@ class AWS
           'Activity' => [ACTIVITY]
         }
       })
-
     end
   end
 end

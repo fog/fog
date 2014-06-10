@@ -3,7 +3,6 @@ module Fog
     class AutoScale
       class Real
         def create_policy(group_id, options)
-
           data = [options]
 
           request(
@@ -17,7 +16,6 @@ module Fog
 
       class Mock
         def create_policy(group_id, options)
-
           group = self.data[:autoscale_groups][group_id]
 
           if group.nil?
@@ -37,7 +35,6 @@ module Fog
           body = [policy]
 
           response(:body => body)
-
         end
       end
     end

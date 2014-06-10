@@ -2,7 +2,6 @@ module Fog
   module Storage
     class OpenStack
       class Real
-
         # List number of containers and total bytes stored
         #
         # ==== Returns
@@ -18,7 +17,6 @@ module Fog
             :query    => {'format' => 'json'}
           )
         end
-
       end
     end
   end

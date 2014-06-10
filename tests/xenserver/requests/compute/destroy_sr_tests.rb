@@ -21,7 +21,7 @@ Shindo.tests('Fog::Compute[:xenserver] | destroy_sr request', ['xenserver']) do
                          'user',
                          false,
                          {}
-  
+
   tests('#destroy_sr') do
     test('destroyed "FOG TEST SR"') do
       compute.storage_repositories.each do |sr|
@@ -32,7 +32,7 @@ Shindo.tests('Fog::Compute[:xenserver] | destroy_sr request', ['xenserver']) do
       (compute.storage_repositories.find { |sr| sr.name == 'FOG TEST SR' }).nil?
     end
 
-    raises(Fog::XenServer::RequestFailed, 
+    raises(Fog::XenServer::RequestFailed,
            'raises HandleInvalid trying to destroy it twice') do
       compute.destroy_sr ref
     end

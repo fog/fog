@@ -2,7 +2,6 @@ module Fog
   module AWS
     class SimpleDB
       class Real
-
         # Put items attributes into a SimpleDB domain
         #
         # ==== Parameters
@@ -27,11 +26,9 @@ module Fog
             :parser       => Fog::Parsers::AWS::SimpleDB::Basic.new(@nil_string)
           }.merge!(encode_batch_attributes(items, replace_attributes)))
         end
-
       end
 
       class Mock
-
         def batch_put_attributes(domain_name, items, replace_attributes = Hash.new([]))
           response = Excon::Response.new
           if self.data[:domains][domain_name]
@@ -57,7 +54,6 @@ module Fog
           end
           response
         end
-
       end
     end
   end

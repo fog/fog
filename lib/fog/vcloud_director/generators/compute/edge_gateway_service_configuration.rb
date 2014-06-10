@@ -13,11 +13,72 @@ module Fog
                 build_firewall_service(xml)
                 build_nat_service(xml)
                 build_load_balancer_service(xml)
+                build_vpn(xml)
+                build_dhcp(xml)
               }
             end.to_xml
           end
 
           private
+
+          def build_dhcp(xml)
+            dhcp_config = @configuration[:GatewayDhcpService]
+            return unless dhcp_config
+
+            xml.GatewayDhcpService {
+              xml.IsEnabled dhcp_config[:IsEnabled] if dhcp_config.key?(:IsEnabled)
+              dhcp_config[:pools].each do |pool|
+                xml.Pool {
+                  xml.IsEnabled pool[:IsEnabled]
+                  xml.Network pool[:Network]
+                  xml.DefaultLeaseTime pool[:DefaultLeaseTime]
+                  xml.MaxLeaseTime pool[:MaxLeaseTime]
+                  xml.LowIpAddress pool[:LowIpAddress]
+                  xml.HighIpAddress pool[:HighIpAddress]
+                }
+              end
+            }
+          end
+
+          def build_vpn(xml)
+            vpn_config = @configuration[:GatewayIpsecVpnService]
+            return unless vpn_config
+
+            xml.GatewayIpsecVpnService {
+              xml.IsEnabled vpn_config[:IsEnabled] if vpn_config.key?(:IsEnabled)
+              tunnel_config = vpn_config[:Tunnel]
+              xml.Tunnel {
+                xml.Name tunnel_config[:Name]
+                xml.Description tunnel_config[:Description]
+                xml.IpsecVpnLocalPeer {
+                  xml.Id tunnel_config[:IpsecVpnLocalPeerId]
+                  xml.Name tunnel_config[:IpsecVpnLocalPeerName]
+                }
+                xml.PeerIpAddress tunnel_config[:PeerIpAddress]
+                xml.PeerId tunnel_config[:PeerId]
+                xml.LocalIpAddress tunnel_config[:LocalIpAddress]
+                xml.LocalId tunnel_config[:LocalId]            
+                tunnel_config[:LocalSubnet].each do |subnet|
+                  xml.LocalSubnet {
+                    xml.Name subnet[:Name]
+                    xml.Gateway subnet[:Gateway]
+                    xml.Netmask subnet[:Netmask]
+                  }
+                end
+                peer_subnet_config = tunnel_config[:PeerSubnet]
+                xml.PeerSubnet {
+                  xml.Name peer_subnet_config[:Name]
+                  xml.Gateway peer_subnet_config[:Gateway]
+                  xml.Netmask peer_subnet_config[:Netmask]
+                }
+                xml.SharedSecret tunnel_config[:SharedSecret]
+                xml.SharedSecretEncrypted tunnel_config[:SharedSecretEncrypted] if tunnel_config.key?(:SharedSecretEncrypted)
+                xml.EncryptionProtocol tunnel_config[:EncryptionProtocol]
+                xml.Mtu tunnel_config[:Mtu]
+                xml.IsEnabled tunnel_config[:IsEnabled]
+              }
+            }
+          end
 
           def build_load_balancer_service(xml)
             lb_config = @configuration[:LoadBalancerService]
@@ -151,7 +212,6 @@ module Fog
               end
             }
           end
-
         end
       end
     end

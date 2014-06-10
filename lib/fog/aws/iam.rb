@@ -84,7 +84,6 @@ module Fog
       model       :role
       collection  :roles
 
-
       class Mock
         def self.data
           @data ||= Hash.new do |hash, key|
@@ -249,7 +248,6 @@ module Fog
                   Fog::AWS::IAM::Error.slurp(error, "#{match[:code]} => #{match[:message]}")
                 end
         end
-
       end
     end
   end

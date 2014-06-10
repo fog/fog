@@ -2,7 +2,6 @@ module Fog
   module AWS
     class IAM
       class Real
-
         require 'fog/aws/parsers/iam/basic'
 
         # Delete a user
@@ -25,13 +24,11 @@ module Fog
             :parser     => Fog::Parsers::AWS::IAM::Basic.new
           )
         end
-
       end
 
       class Mock
-
         def delete_user(user_name)
-          if data[:users].has_key? user_name
+          if data[:users].key? user_name
             data[:users].delete user_name
             Excon::Response.new.tap do |response|
               response.body = { 'RequestId' => Fog::AWS::Mock.request_id }
@@ -40,9 +37,7 @@ module Fog
           else
             raise Fog::AWS::IAM::NotFound.new("The user with name #{user_name} cannot be found.")
           end
-
         end
-
       end
     end
   end

@@ -1,9 +1,7 @@
 module Fog
   module Rackspace
     class Queues
-
       class Real
-
         # This operation gets the specified message from the specified queue.
         #
         # @param [String] client_id UUID for the client instance.
@@ -23,7 +21,6 @@ module Fog
             :headers => { 'Client-ID' => client_id }
           )
         end
-
       end
 
       class Mock
@@ -39,7 +36,6 @@ module Fog
           response
         end
       end
-
     end
   end
 end

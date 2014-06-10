@@ -1,7 +1,6 @@
 module Fog
   module HP
     class Network
-
       class Real
         # Delete an existing port
         #
@@ -19,7 +18,7 @@ module Fog
       class Mock
         def delete_port(port_id)
           response = Excon::Response.new
-          if list_ports.body['ports'].detect {|_| _['id'] == port_id}
+          if list_ports.body['ports'].find {|_| _['id'] == port_id}
             self.data[:ports].delete(port_id)
             response.status = 204
             response
@@ -28,7 +27,6 @@ module Fog
           end
         end
       end
-
     end
   end
 end

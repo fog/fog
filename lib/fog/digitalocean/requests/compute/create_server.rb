@@ -2,7 +2,6 @@ module Fog
   module Compute
     class DigitalOcean
       class Real
-
         #
         # FIXME: missing ssh keys support
         #
@@ -33,11 +32,9 @@ module Fog
             :query    => query_hash
           )
         end
-
       end
 
       class Mock
-
         def create_server( name,
                            size_id,
                            image_id,
@@ -72,7 +69,6 @@ module Fog
           self.data[:servers] << mock_data
           response
         end
-
       end
     end
   end

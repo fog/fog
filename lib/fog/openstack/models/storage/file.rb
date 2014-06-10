@@ -3,9 +3,7 @@ require 'fog/core/model'
 module Fog
   module Storage
     class OpenStack
-
       class File < Fog::Model
-
         identity  :key,             :aliases => 'name'
 
         attribute :content_length,  :aliases => ['bytes', 'Content-Length'], :type => :integer
@@ -83,7 +81,6 @@ module Fog
           self.collection.get_url(self.key)
         end
 
-
         def save(options = {})
           requires :body, :directory, :key
           options['Content-Type'] = content_type if content_type
@@ -160,7 +157,6 @@ module Fog
           merge_attributes(data.headers.reject {|key, value| ['Content-Length', 'Content-Type'].include?(key)})
         end
       end
-
     end
   end
 end

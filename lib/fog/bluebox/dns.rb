@@ -3,7 +3,6 @@ require 'fog/bluebox/core'
 module Fog
   module DNS
     class Bluebox < Fog::Service
-
       requires :bluebox_api_key, :bluebox_customer_id
       recognizes :bluebox_host, :bluebox_port, :bluebox_scheme, :persistent
 
@@ -96,7 +95,6 @@ module Fog
         def auth_header
           @auth_header ||= Base64.encode64("#{@bluebox_customer_id}:#{@bluebox_api_key}").gsub("\n",'')
         end
-
       end
     end
   end

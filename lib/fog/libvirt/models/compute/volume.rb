@@ -4,9 +4,7 @@ require 'fog/libvirt/models/compute/util/util'
 module Fog
   module Compute
     class Libvirt
-
       class Volume < Fog::Model
-
         attr_reader :xml
         include Fog::Compute::LibvirtUtil
 
@@ -119,8 +117,6 @@ module Fog
           [size, unit]
         end
       end
-
     end
   end
-
 end

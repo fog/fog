@@ -2,7 +2,6 @@ module Fog
   module AWS
     class SNS
       class Real
-
         require 'fog/aws/parsers/sns/set_topic_attributes'
 
         # Set attributes of a topic
@@ -25,9 +24,7 @@ module Fog
             :parser     => Fog::Parsers::AWS::SNS::SetTopicAttributes.new
           })
         end
-
       end
-
     end
   end
 end

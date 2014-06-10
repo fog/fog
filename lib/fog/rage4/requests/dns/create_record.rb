@@ -2,7 +2,6 @@ module Fog
   module DNS
     class Rage4
       class Real
-
         # Create a record
         # ==== Parameters
         # * domain id <~Integer> The id of the domain you wish to create a record for
@@ -26,13 +25,9 @@ module Fog
         #      * 'id'<~Integer>
         #      * 'error'<~String>
 
-
 # https://secure.rage4.com/rapi/createrecord/
 
-
         def create_record(domain_id, name, content, type, options = {})
-
-
           path = "/rapi/createrecord/#{domain_id}"
           path << "?name=#{name}&content=#{content}&type=#{type}"
 
@@ -58,10 +53,7 @@ module Fog
                   :path     => path
           )
         end
-
       end
-
-
     end
   end
 end

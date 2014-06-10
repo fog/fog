@@ -2,7 +2,6 @@ module Fog
   module Parsers
     module AWS
       module IAM
-
         class GetGroupPolicy < Fog::Parsers::Base
         # http://docs.amazonwebservices.com/IAM/latest/APIReference/API_GetGroupPolicy.html
 
@@ -24,9 +23,7 @@ module Fog
               @response[name] = value
             end
           end
-
         end
-
       end
     end
   end

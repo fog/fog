@@ -18,7 +18,6 @@ module Fog
           return nil if identifier.nil? || identifier == ""
           wrapped_request("post", "/1.0/api_clients/#{identifier}/reset_secret", [200])
         end
-
       end
     end
   end

@@ -5,7 +5,6 @@ module Fog
   module Rackspace
     class Identity
       class Tenants < Fog::Collection
-
         model Fog::Rackspace::Identity::Tenant
 
         def all

@@ -3,7 +3,6 @@ require 'fog/core/model'
 module Fog
   module AWS
     class CloudWatch
-
       class AlarmDatum < Fog::Model
         attribute :alarm_name, :aliases => 'AlarmName'
         attribute :metric_name, :aliases => 'MetricName'

@@ -4,7 +4,6 @@ require 'fog/aws/models/rds/security_group'
 module Fog
   module AWS
     class RDS
-
       class SecurityGroups < Fog::Collection
         attribute :server
         attribute :filters
@@ -36,7 +35,6 @@ module Fog
         def new(attributes = {})
           super
         end
-
       end
     end
   end

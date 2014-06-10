@@ -1,7 +1,6 @@
 module Fog
   module HP
     class LB
-
       # List all load balancer nodes
       #
       # ==== Returns
@@ -34,7 +33,6 @@ module Fog
             raise Fog::HP::LB::NotFound
           end
         end
-
       end
     end
   end

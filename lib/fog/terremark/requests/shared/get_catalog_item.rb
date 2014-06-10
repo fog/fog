@@ -2,7 +2,6 @@ module Fog
   module Terremark
     module Shared
       module Real
-
         # Get details of a catalog item
         #
         # ==== Parameters
@@ -28,7 +27,6 @@ module Fog
             :path     => "catalogItem/#{catalog_item_id}"
           )
         end
-
       end
     end
   end

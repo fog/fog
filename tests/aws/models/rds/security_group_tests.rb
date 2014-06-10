@@ -11,7 +11,7 @@ Shindo.tests("AWS::RDS | security_group", ['aws', 'rds']) do
 
       @instance.authorize_ec2_security_group(@ec2_sec_group.name)
       returns('authorizing') do
-        @instance.ec2_security_groups.detect{|h| h['EC2SecurityGroupName'] == @ec2_sec_group.name}['Status']
+        @instance.ec2_security_groups.find{|h| h['EC2SecurityGroupName'] == @ec2_sec_group.name}['Status']
       end
     end
 
@@ -23,7 +23,7 @@ Shindo.tests("AWS::RDS | security_group", ['aws', 'rds']) do
       @instance.revoke_ec2_security_group(@ec2_sec_group.name)
 
       returns('revoking') do
-        @instance.ec2_security_groups.detect{|h| h['EC2SecurityGroupName'] == @ec2_sec_group.name}['Status']
+        @instance.ec2_security_groups.find{|h| h['EC2SecurityGroupName'] == @ec2_sec_group.name}['Status']
       end
 
       @instance.wait_for { ready? }
@@ -35,7 +35,7 @@ Shindo.tests("AWS::RDS | security_group", ['aws', 'rds']) do
     tests("#authorize_cidrip").succeeds do
       @cidr = '127.0.0.1/32'
       @instance.authorize_cidrip(@cidr)
-      returns('authorizing') { @instance.ip_ranges.detect{|h| h['CIDRIP'] == @cidr}['Status'] }
+      returns('authorizing') { @instance.ip_ranges.find{|h| h['CIDRIP'] == @cidr}['Status'] }
     end
 
     tests("#revoke_cidrip").succeeds do
@@ -43,7 +43,7 @@ Shindo.tests("AWS::RDS | security_group", ['aws', 'rds']) do
 
       @instance.wait_for { ready? }
       @instance.revoke_cidrip(@cidr)
-      returns('revoking') { @instance.ip_ranges.detect{|h| h['CIDRIP'] == @cidr}['Status'] }
+      returns('revoking') { @instance.ip_ranges.find{|h| h['CIDRIP'] == @cidr}['Status'] }
       @instance.wait_for { ready? }
       returns(false) { @instance.ip_ranges.any?{|h| h['CIDRIP'] == @cidr} }
 

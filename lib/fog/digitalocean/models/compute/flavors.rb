@@ -4,7 +4,6 @@ require 'fog/digitalocean/models/compute/flavor'
 module Fog
   module Compute
     class DigitalOcean
-
       class Flavors < Fog::Collection
         model Fog::Compute::DigitalOcean::Flavor
 
@@ -17,9 +16,7 @@ module Fog
         rescue Fog::Errors::NotFound
           nil
         end
-
       end
-
     end
   end
 end

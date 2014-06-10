@@ -43,7 +43,6 @@ module Fog
           request(params)
         end
       end
-
     end
   end
 end

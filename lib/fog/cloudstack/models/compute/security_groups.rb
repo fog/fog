@@ -5,7 +5,6 @@ module Fog
   module Compute
     class Cloudstack
       class SecurityGroups < Fog::Collection
-
         model Fog::Compute::Cloudstack::SecurityGroup
 
         def all(options={})
@@ -21,7 +20,6 @@ module Fog
           nil
         end
       end
-
     end
   end
 end

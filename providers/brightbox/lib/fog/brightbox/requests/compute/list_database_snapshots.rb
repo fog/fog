@@ -10,7 +10,6 @@ module Fog
         def list_database_snapshots
           wrapped_request("get", "/1.0/database_snapshots", [200])
         end
-
       end
     end
   end

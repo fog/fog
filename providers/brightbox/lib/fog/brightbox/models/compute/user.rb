@@ -3,9 +3,7 @@ require 'fog/core/model'
 module Fog
   module Compute
     class Brightbox
-
       class User < Fog::Model
-
         identity :id
         attribute :resource_type
         attribute :url
@@ -35,9 +33,7 @@ module Fog
           merge_attributes(data)
           true
         end
-
       end
-
     end
   end
 end

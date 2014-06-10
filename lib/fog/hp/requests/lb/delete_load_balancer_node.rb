@@ -1,7 +1,6 @@
 module Fog
   module HP
     class LB
-
       # Delete an existing load balancer node
       #
       # ==== Parameters
@@ -9,7 +8,6 @@ module Fog
       # * 'node_id'<~String> - UUId of node to delete
       #
       class Real
-
         def delete_load_balancer_node(load_balancer_id, node_id)
           request(
             :expects => 202,
@@ -17,10 +15,8 @@ module Fog
             :path    => "loadbalancers/#{load_balancer_id}/nodes/#{node_id}"
           )
         end
-
       end
       class Mock
-
         def delete_load_balancer_node(load_balancer_id, node_id)
           response = Excon::Response.new
           if get_load_balancer(load_balancer_id)

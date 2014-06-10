@@ -48,7 +48,6 @@ Shindo.tests("Fog::Compute::HPV2 | volume requests", ['hp', 'v2', 'compute', 'vo
 
   end
 
-
   tests('failure') do
 
     tests('#list_server_volumes(0)').raises(Fog::Compute::HPV2::NotFound) do

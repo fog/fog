@@ -3,9 +3,7 @@ require 'fog/core/model'
 module Fog
   module Compute
     class Google
-
       class Zone < Fog::Model
-
         identity :name
         attribute :description
         attribute :status
@@ -19,7 +17,6 @@ module Fog
         def up?
           self.status == "UP"
         end
-
       end
     end
   end

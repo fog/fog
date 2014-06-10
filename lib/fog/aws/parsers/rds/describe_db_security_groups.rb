@@ -2,11 +2,9 @@ module Fog
   module Parsers
     module AWS
       module RDS
-
         require 'fog/aws/parsers/rds/security_group_parser'
 
         class DescribeDBSecurityGroups < Fog::Parsers::AWS::RDS::SecurityGroupParser
-
           def reset
             @response = { 'DescribeDBSecurityGroupsResult' => {'DBSecurityGroups' => []}, 'ResponseMetadata' => {} }
             super
@@ -28,11 +26,8 @@ module Fog
             else
               super
             end
-
           end
-
         end
-
       end
     end
   end
