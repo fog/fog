@@ -23,6 +23,7 @@ module Fog
                 build_vapp_instantiation_params(xml)
                 build_template_source_items(xml)
                 build_vm_source_items(xml)
+                xml.AllEULAsAccepted (@configuration[:AllEULAsAccepted] || true)
               }
 
             end.to_xml
@@ -32,7 +33,6 @@ module Fog
 
           def build_vapp_instantiation_params(xml)
             xml.Description @configuration[:Description]
-            xml.AllEULAsAccepted (@configuration[:AllEULAsAccepted] || true)
             
             vapp = @configuration[:InstantiationParams]
 
@@ -67,7 +67,7 @@ module Fog
             return unless vms
             vms.each do |vm|
               xml.SourcedItem {
-                xml.Source(:href => vm[:href])
+                xml.Source(:name =>vm[:name], :href => vm[:href])
                 xml.InstantiationParams {
                   if vm[:networks]
                     xml.NetworkConnectionSection(:href => "#{vm[:href]}/networkConnectionSection/", :type => "application/vnd.vmware.vcloud.networkConnectionSection+xml", 'xmlns:ovf' => "http://schemas.dmtf.org/ovf/envelope/1", "ovf:required" => "false") {
@@ -98,7 +98,7 @@ module Fog
                       xml.AdminPasswordAuto customization[:AdminPasswordAuto] if (customization.key? :AdminPasswordAuto)
                       xml.AdminPassword customization[:AdminPassword] if (customization.key? :AdminPassword)
                       xml.ResetPasswordRequired customization[:ResetPasswordRequired] if (customization.key? :ResetPasswordRequired)
-                      xml.CustomizationScript customization[:CustomizationScript] if (customization.key? :CustomizationScript)
+                      xml.CustomizationScript CGI::escapeHTML(customization[:CustomizationScript]).gsub(/\r/, "&#13;") if (customization.key? :CustomizationScript)
                     }
                   end
                 }
