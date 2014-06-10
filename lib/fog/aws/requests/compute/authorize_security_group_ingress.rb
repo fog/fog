@@ -149,7 +149,12 @@ module Fog
         def normalize_permissions(options)
           normalized_permissions = []
           if options['SourceSecurityGroupName']
-            source_group_id=self.data[:security_groups][options['SourceSecurityGroupName']]['groupId']
+            group_name = if options['SourceSecurityGroupName'] =~ /default_elb/
+                           "default"
+                         else
+                           options['SourceSecurityGroupName']
+                         end
+            source_group_id=self.data[:security_groups][group_name]['groupId']
             ['tcp', 'udp'].each do |protocol|
               normalized_permissions << {
                 'ipProtocol' => protocol,
@@ -185,7 +190,7 @@ module Fog
                     security_group = if group_name = authorized_group['GroupName']
                                        self.data[:security_groups][group_name] || {}
                                      elsif group_id = authorized_group['GroupId']
-                                       self.data[:security_groups].values.find { |sg| sg['groupId'] == group_id }
+                                       self.data[:security_groups].values.find { |sg| sg['groupId'] == group_id } || {}
                                      end
 
                     {'groupName' => authorized_group['GroupName'] || security_group["groupName"], 'userId' => authorized_group['UserId'] || self.data[:owner_id], 'groupId' => authorized_group["GroupId"] || security_group['groupId']}
@@ -199,7 +204,7 @@ module Fog
                     security_group = if group_name = authorized_group['GroupName']
                                        self.data[:security_groups][group_name] || {}
                                      elsif group_id = authorized_group['GroupId']
-                                       self.data[:security_groups].values.find { |sg| sg['groupId'] == group_id }
+                                       self.data[:security_groups].values.find { |sg| sg['groupId'] == group_id } || {}
                                      end
 
                     {'groupName' => authorized_group['GroupName'] || security_group["groupName"], 'userId' => authorized_group['UserId'] || self.data[:owner_id], 'groupId' => authorized_group["GroupId"] || security_group['groupId']}

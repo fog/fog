@@ -8,6 +8,9 @@ Shindo.tests("Fog::Compute[:aws] | security_group", ['aws']) do
     @other_group = Fog::Compute[:aws].security_groups.create(:name => 'fog other group', :description => 'another fog group')
     @other_group.reload
 
+    @other_user_id = Fog::AWS::Mock.owner_id
+    @other_users_group_id = Fog::AWS::Mock.security_group_id
+
     test("authorize access by another security group") do
       @group.authorize_group_and_owner(@other_group.name)
       @group.reload
@@ -35,7 +38,8 @@ Shindo.tests("Fog::Compute[:aws] | security_group", ['aws']) do
     group_forms = [
       "#{@other_group.owner_id}:#{@other_group.group_id}", # deprecated form
       @other_group.group_id,
-      {@other_group.owner_id => @other_group.group_id}
+      {@other_group.owner_id => @other_group.group_id},
+      {@other_user_id => @other_users_group_id}
     ]
 
     group_forms.each do |group_arg|
