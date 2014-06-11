@@ -11,11 +11,11 @@ module Fog
               {
                "domain" => "global",
                "reason" => "notFound",
-               "message" => "The resource 'projects/google/zones/#{zone_name}/machineTypes/#{machine_type_name}' was not found"
+               "message" => "The resource 'projects/#{@project}/zones/#{zone_name}/machineTypes/#{machine_type_name}' was not found"
               }
              ],
              "code" => 404,
-             "message" => "The resource 'projects/google/zones/#{zone_name}/machineTypes/#{machine_type_name}' was not found"
+             "message" => "The resource 'projects/#{@project}/zones/#{zone_name}/machineTypes/#{machine_type_name}' was not found"
             }
           }
           build_response(:body => machine_type)
@@ -31,7 +31,7 @@ module Fog
           api_method = @compute.machine_types.get
           parameters = {
             'zone' => zone_name,
-            'project' => 'google',
+            'project' => @project,
             'machineType' => machine_type_name
           }
 
