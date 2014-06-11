@@ -49,9 +49,13 @@ module Fog
             when 'ElementName'
               @element_name = value
             when 'Item'
-              if @resource_type == '17' # disk
+              case @resource_type
+              when '17' # disk
                 @response[:vm][:disks] ||= []
                 @response[:vm][:disks] << { @element_name => @current_host_resource[:capacity].to_i }
+              when '10' # nic
+                @response[:vm][:network_adapters] ||= []
+                @response[:vm][:network_adapters] << { :ip_address => @current_connection[:ipAddress], :primary => (@current_connection[:primaryNetworkConnection] == 'true') }
               end
             when 'Link'
               @response[:vm][:links] = @links

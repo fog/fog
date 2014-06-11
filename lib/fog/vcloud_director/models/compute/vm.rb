@@ -18,6 +18,7 @@ module Fog
         attribute :cpu, :type => :integer
         attribute :memory, :type => :integer
         attribute :hard_disks, :aliases => :disks
+        attribute :network_adapters
 
         def reload
           # when collection.vapp is nil, it means it's fatherless,
