@@ -24,6 +24,8 @@ module Fog
               @response[:vm][:deployed] = @response[:vm][:deployed] == 'true'
             when 'HostResource'
               @current_host_resource = extract_attributes(attributes)
+            when 'Connection'
+              @current_network_connection = extract_attributes(attributes)
             when 'Link'
               @links << extract_attributes(attributes)
             end
@@ -60,7 +62,11 @@ module Fog
                 @response[:vm][:disks] << { @element_name => @current_host_resource[:capacity].to_i }
               when '10' # nic
                 @response[:vm][:network_adapters] ||= []
-                @response[:vm][:network_adapters] << { :ip_address => @current_connection[:ipAddress], :primary => (@current_connection[:primaryNetworkConnection] == 'true') }
+                @response[:vm][:network_adapters] << {
+                  :ip_address => @current_network_connection[:ipAddress],
+                  :primary => (@current_network_connection[:primaryNetworkConnection] == 'true'),
+                  :ip_allocation_mode => @current_network_connection[:ipAddressingMode]
+                }
               end
             when 'Link'
               @response[:vm][:links] = @links
