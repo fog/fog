@@ -2,10 +2,8 @@ module Fog
   module Parsers
     module AWS
       module ElasticBeanstalk
-
         require 'fog/aws/parsers/beanstalk/parser'
         class UpdateConfigurationTemplate < Fog::Parsers::AWS::ElasticBeanstalk::BaseParser
-
           def initialize
             super("UpdateConfigurationTemplateResult")
             tag 'ApplicationName', :string
@@ -21,7 +19,6 @@ module Fog
             tag 'SolutionStackName', :string
             tag 'TemplateName', :string
           end
-
         end
       end
     end

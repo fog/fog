@@ -2,7 +2,6 @@ module Fog
   module Parsers
     module Compute
       module AWS
-
         class DescribeVpcAttribute < Fog::Parsers::Base
           def reset
             @response                = { }
@@ -47,4 +46,3 @@ module Fog
     end
   end
 end
-

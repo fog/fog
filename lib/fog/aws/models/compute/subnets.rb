@@ -4,9 +4,7 @@ require 'fog/aws/models/compute/subnet'
 module Fog
   module Compute
     class AWS
-
       class Subnets < Fog::Collection
-
         attribute :filters
 
         model Fog::Compute::AWS::Subnet
@@ -91,9 +89,7 @@ module Fog
             self.class.new(:service => service).all('subnet-id' => subnet_id).first
           end
         end
-
       end
-
     end
   end
 end

@@ -3,9 +3,7 @@ require 'fog/vcloud/models/compute/tag'
 module Fog
   module Vcloud
     class Compute
-
       class Tags < Fog::Vcloud::Collection
-
         undef_method :create
 
         model Fog::Vcloud::Compute::Tag

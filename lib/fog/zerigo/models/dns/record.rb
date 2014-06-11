@@ -3,7 +3,6 @@ require 'fog/core/model'
 module Fog
   module DNS
     class Zerigo
-
       class Record < Fog::Model
         extend Fog::Deprecation
         deprecate :ip, :value
@@ -61,9 +60,7 @@ module Fog
         def zone=(new_zone)
           @zone = new_zone
         end
-
       end
-
     end
   end
 end

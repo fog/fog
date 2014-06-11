@@ -3,9 +3,7 @@ require 'fog/core/model'
 module Fog
   module HP
     class BlockStorage
-
       class Snapshot < Fog::Model
-
         identity  :id
 
         attribute :name,                 :aliases => 'displayName'
@@ -48,9 +46,7 @@ module Fog
           merge_attributes(data.body['snapshot'])
           true
         end
-
       end
-
     end
   end
 end

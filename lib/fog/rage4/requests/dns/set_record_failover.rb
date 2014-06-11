@@ -2,7 +2,6 @@ module Fog
   module DNS
     class Rage4
       class Real
-
         # Set a failover to on or off
         # ==== Parameters
         # * id<~Integer> - numeric ID
@@ -19,11 +18,8 @@ module Fog
                   :method   => 'GET',
                   :path     => "/rapi/setrecordfailover/#{id}&active=#{active}&failover=#{failover}"
             )
-
         end
-
       end
-
     end
   end
 end

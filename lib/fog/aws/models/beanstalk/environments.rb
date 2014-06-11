@@ -4,7 +4,6 @@ require 'fog/aws/models/beanstalk/environment'
 module Fog
   module AWS
     class ElasticBeanstalk
-
       class Environments < Fog::Collection
         model Fog::AWS::ElasticBeanstalk::Environment
 
@@ -22,7 +21,6 @@ module Fog
             new(data)
           end
         end
-
       end
     end
   end

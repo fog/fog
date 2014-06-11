@@ -4,9 +4,7 @@ require 'fog/aws/models/data_pipeline/pipeline'
 module Fog
   module AWS
     class DataPipeline
-
       class Pipelines < Fog::Collection
-
         model Fog::AWS::DataPipeline::Pipeline
 
         def all
@@ -29,7 +27,6 @@ module Fog
 
           nil
         end
-
       end
     end
   end

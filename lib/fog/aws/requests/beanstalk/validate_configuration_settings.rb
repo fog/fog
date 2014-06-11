@@ -2,7 +2,6 @@ module Fog
   module AWS
     class ElasticBeanstalk
       class Real
-
         require 'fog/aws/parsers/beanstalk/validate_configuration_settings'
 
         # Updates the specified configuration template to have the specified properties or configuration option values.

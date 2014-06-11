@@ -2,7 +2,6 @@ module Fog
   module Compute
     class HP
       class Real
-
         # Get metadata item for specific collections
         #
         # ==== Parameters
@@ -22,11 +21,9 @@ module Fog
             :path     => "#{collection_name}/#{parent_id}/metadata/#{key}"
           )
         end
-
       end
 
       class Mock
-
         def get_meta(collection_name, parent_id, key)
           if collection_name == "images" then
             if get_image_details(parent_id)
@@ -49,9 +46,7 @@ module Fog
           response.body = { 'meta' => { key => midata } }
           response
         end
-
       end
-
     end
   end
 end

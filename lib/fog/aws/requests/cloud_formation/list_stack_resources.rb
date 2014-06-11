@@ -2,7 +2,6 @@ module Fog
   module AWS
     class CloudFormation
       class Real
-
         require 'fog/aws/parsers/cloud_formation/list_stack_resources'
 
         # List stack resources.
@@ -29,7 +28,6 @@ module Fog
             :parser     => Fog::Parsers::AWS::CloudFormation::ListStackResources.new
           }.merge!(options))
         end
-
       end
     end
   end

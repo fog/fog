@@ -2,7 +2,6 @@ module Fog
   module Compute
     class AWS
       class Real
-
         require 'fog/aws/parsers/compute/basic'
         #Deletes a set of DHCP options that you specify. Amazon VPC returns an error if the set of options you specify is currently
         #associated with a VPC. You can disassociate the set of options by associating either a new set of options or the default

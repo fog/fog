@@ -26,7 +26,6 @@ module Fog
       end # Mock
 
       class Real
-
         # Creates a new SSH Key
         # ==== Parameters
         # * name<~String> - Name to assign to this key
@@ -49,7 +48,6 @@ module Fog
             :expects => 201
           )
         end
-
       end
     end
   end

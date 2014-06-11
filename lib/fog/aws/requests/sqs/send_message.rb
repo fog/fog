@@ -2,7 +2,6 @@ module Fog
   module AWS
     class SQS
       class Real
-
         require 'fog/aws/parsers/sqs/send_message'
 
         # Add a message to a queue
@@ -23,11 +22,9 @@ module Fog
             :parser       => Fog::Parsers::AWS::SQS::SendMessage.new
           })
         end
-
       end
 
       class Mock
-
         def send_message(queue_url, message)
           Excon::Response.new.tap do |response|
             if (queue = data[:queues][queue_url])
@@ -62,7 +59,6 @@ module Fog
             end
           end
         end
-
       end
     end
   end

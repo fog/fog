@@ -1,5 +1,4 @@
 def server_tests(connection, params = {}, mocks_implemented = true)
-
   model_tests(connection.servers, params, mocks_implemented) do
 
     tests('#reload').returns(true) do
@@ -23,5 +22,4 @@ def server_tests(connection, params = {}, mocks_implemented = true)
     end
 
   end
-
 end

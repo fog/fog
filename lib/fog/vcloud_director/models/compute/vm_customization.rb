@@ -3,9 +3,7 @@ require 'fog/core/model'
 module Fog
   module Compute
     class VcloudDirector
-
       class VmCustomization < Model
-
         identity  :id
 
         attribute :type
@@ -36,7 +34,6 @@ module Fog
           response = service.put_guest_customization_section_vapp(id, attributes)
           service.process_task(response.body)
         end
-
       end
     end
   end

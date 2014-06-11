@@ -24,7 +24,6 @@ Shindo.tests('Fog::DNS[:rage4] | DNS requests', ['rage4', 'dns']) do
       response.status == 200
     end
 
-
     test("create domain") do
       pending if Fog.mocking?
 
@@ -107,7 +106,6 @@ Shindo.tests('Fog::DNS[:rage4] | DNS requests', ['rage4', 'dns']) do
       returns("") {response.body['error'] }
 
     end
-
 
     test("show_current_usage") do
       pending if Fog.mocking?
@@ -255,7 +253,6 @@ Shindo.tests('Fog::DNS[:rage4] | DNS requests', ['rage4', 'dns']) do
       response = nil
       @created_domain_list.each do |domain_id|
         response = Fog::DNS[:rage4].delete_domain(domain_id)
-
 
         returns(true) {response.body['status']}
         returns(domain_id) {response.body['id']}

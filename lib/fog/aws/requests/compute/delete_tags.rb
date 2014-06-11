@@ -2,7 +2,6 @@ module Fog
   module Compute
     class AWS
       class Real
-
         require 'fog/aws/parsers/compute/basic'
 
         # Remove tags from resources
@@ -37,7 +36,6 @@ module Fog
             :parser             => Fog::Parsers::Compute::AWS::Basic.new
           }.merge!(params))
         end
-
       end
 
       class Mock
@@ -67,7 +65,7 @@ module Fog
           tagged.each do |resource|
             tags.each do |key, value|
               tagset = self.data[:tag_sets][resource['resourceId']]
-              tagset.delete(key) if tagset.has_key?(key) && (value.nil? || tagset[key] == value)
+              tagset.delete(key) if tagset.key?(key) && (value.nil? || tagset[key] == value)
             end
           end
 
@@ -80,7 +78,6 @@ module Fog
           response
         end
       end
-
     end
   end
 end

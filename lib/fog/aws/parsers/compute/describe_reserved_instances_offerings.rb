@@ -2,9 +2,7 @@ module Fog
   module Parsers
     module Compute
       module AWS
-
         class DescribeReservedInstancesOfferings < Fog::Parsers::Base
-
           def reset
             @reserved_instances_offering = {}
             @response = { 'reservedInstancesOfferingsSet' => [] }
@@ -25,9 +23,7 @@ module Fog
               @response[name] = value
             end
           end
-
         end
-
       end
     end
   end

@@ -2,7 +2,6 @@ module Fog
   module Terremark
     module Shared
       module Real
-
         # Destroy a vapp
         #
         # ==== Parameters
@@ -15,7 +14,6 @@ module Fog
             :path     => "vApp/#{vapp_id}"
           )
         end
-
       end
     end
   end

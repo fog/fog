@@ -4,7 +4,6 @@ require 'fog/aws/models/beanstalk/application'
 module Fog
   module AWS
     class ElasticBeanstalk
-
       class Applications < Fog::Collection
         model Fog::AWS::ElasticBeanstalk::Application
 
@@ -18,7 +17,6 @@ module Fog
             new(data)
           end
         end
-
       end
     end
   end

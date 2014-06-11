@@ -5,7 +5,6 @@ module Fog
   module HP
     class LB
       class Nodes < Fog::Collection
-
         model Fog::HP::LB::Node
 
         attr_accessor :load_balancer
@@ -23,7 +22,6 @@ module Fog
         rescue Fog::HP::LB::NotFound
           nil
         end
-
       end
     end
   end

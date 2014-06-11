@@ -3,7 +3,6 @@ require 'fog/ovirt/core'
 module Fog
   module Compute
     class Ovirt < Fog::Service
-
       requires   :ovirt_username, :ovirt_password
       recognizes :ovirt_url,      :ovirt_server,  :ovirt_port, :ovirt_api_path, :ovirt_datacenter,
                  :ovirt_ca_cert_store, :ovirt_ca_cert_file
@@ -98,7 +97,6 @@ module Fog
 
       class Real
         include Shared
-
 
         def initialize(options={})
           require 'rbovirt'

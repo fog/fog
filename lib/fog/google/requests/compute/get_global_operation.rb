@@ -1,13 +1,10 @@
 module Fog
   module Compute
     class Google
-
       class Mock
-
         def get_global_operation(operation)
           Fog::Mock.not_implemented
         end
-
       end
 
       class Real

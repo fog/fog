@@ -4,7 +4,6 @@ require 'fog/vcloud_director/models/compute/vdc'
 module Fog
   module Compute
     class VcloudDirector
-
       class Vdcs < Collection
         model Fog::Compute::VcloudDirector::Vdc
 
@@ -25,7 +24,6 @@ module Fog
           items.each{|item| service.add_id_from_href!(item) }
           items
         end
-
       end
     end
   end

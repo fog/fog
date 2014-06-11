@@ -2,9 +2,7 @@ module Fog
   module Rackspace
     class AutoScale
       class Real
-
         def update_group_config(group_id, options)
-
           body = options
 
           request(

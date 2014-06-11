@@ -3,7 +3,6 @@ require 'fog/openvz/core'
 module Fog
   module Compute
     class Openvz < Fog::Service
-
       recognizes   :openvz_connect_command
 
       model_path   'fog/openvz/models/compute'
@@ -41,7 +40,6 @@ module Fog
       request      :set_server
 
       class Mock
-
         def self.data
           @data ||= Hash.new do |hash, key|
             hash[key] = {
@@ -65,11 +63,9 @@ module Fog
         def reset_data
           self.class.data.delete(@openvz_connect_command)
         end
-
       end
 
       class Real
-
         def initialize(options={})
           @openvz_connect_command = options[:openvz_connect_command]
         end
@@ -139,7 +135,6 @@ module Fog
         end
 
         def vzlist(params,args = [])
-
           commands = [ 'vzlist', '-a', '-j' , params['ctid'], params[:ctid] ]
           prefixed_command = expand_commands(commands, params, args)
 
@@ -166,9 +161,7 @@ module Fog
           else
             return Fog::JSON.decode(result)
           end
-
         end
-
       end
     end
   end

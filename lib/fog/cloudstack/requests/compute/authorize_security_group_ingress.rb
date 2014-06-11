@@ -2,7 +2,6 @@ module Fog
   module Compute
     class Cloudstack
       class Real
-
         def authorize_security_group_ingress(options={})
           options.merge!(
             'command' => 'authorizeSecurityGroupIngress'
@@ -10,7 +9,6 @@ module Fog
 
           request(options)
         end
-
       end # Real
 
       class Mock
@@ -69,5 +67,3 @@ module Fog
     end
   end
 end
-
-

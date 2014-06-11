@@ -29,7 +29,6 @@ vlans = [
   { "name" => "VLAN 55", "vlanid" => 55}
 ]
 
-
 vlans.each do |vlan|
   # Do not create duplicated networks
   if xenserver.networks.find { |n| n.name == vlan['name'] }

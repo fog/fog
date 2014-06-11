@@ -2,9 +2,7 @@ module Fog
   module Parsers
     module AWS
       module Elasticache
-
         class DescribeReservedCacheNodes < Fog::Parsers::Base
-
           def reset
             @reserved_node = {}
             @response = { 'ReservedCacheNodes' => [] }
@@ -27,11 +25,8 @@ module Fog
               @reserved_node[name] = Time.parse(@value)
             end
           end
-
         end
-
       end
     end
   end
 end
-

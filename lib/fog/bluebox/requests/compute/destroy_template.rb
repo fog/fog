@@ -2,7 +2,6 @@ module Fog
   module Compute
     class Bluebox
       class Real
-
         # Create a template from block
         #
         # ==== Parameters
@@ -19,7 +18,6 @@ module Fog
             :path     => "api/block_templates/#{id}.json"
           )
         end
-
       end
     end
   end

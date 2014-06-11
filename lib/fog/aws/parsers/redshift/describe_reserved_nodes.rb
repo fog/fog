@@ -2,7 +2,6 @@ module Fog
   module Parsers
     module Redshift
       module AWS
-
         class DescribeReservedNodes < Fog::Parsers::Base
           # :marker - (String)
           # :reserved_nodes - (Array)

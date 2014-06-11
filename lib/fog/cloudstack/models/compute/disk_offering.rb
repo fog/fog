@@ -13,7 +13,6 @@ module Fog
         attribute :storage_type,    :aliases => 'storagetype'
         attribute :tags
 
-
         def save
           requires :display_text, :name
 
@@ -39,7 +38,6 @@ module Fog
 
           success_status == 'true'
         end
-
       end # DiskOffering
     end # Cloudstack
   end # Compute

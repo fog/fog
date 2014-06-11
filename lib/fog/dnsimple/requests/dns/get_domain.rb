@@ -2,7 +2,6 @@ module Fog
   module DNS
     class DNSimple
       class Real
-
         # Get the details for a specific domain in your account. You
         # may pass either the domain numeric ID or the domain name
         # itself.
@@ -21,13 +20,11 @@ module Fog
             :path     => "/domains/#{domain}"
           )
         end
-
       end
 
       class Mock
-
         def get_domain(id)
-          domain = self.data[:domains].detect do |domain|
+          domain = self.data[:domains].find do |domain|
             domain["domain"]["id"] == id || domain["domain"]["name"] == id
           end
 
@@ -36,7 +33,6 @@ module Fog
           response.body = domain
           response
         end
-
       end
     end
   end

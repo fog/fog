@@ -1,6 +1,5 @@
 class Local < Fog::Bin
   class << self
-
     def class_for(key)
       case key
       when :storage
@@ -26,6 +25,5 @@ class Local < Fog::Bin
     def services
       Fog::Local.services
     end
-
   end
 end

@@ -5,7 +5,6 @@ module Fog
   module Rackspace
     class Monitoring
       class AgentToken < Fog::Rackspace::Monitoring::Base
-
         identity :id
 
         attribute :label
@@ -33,7 +32,6 @@ module Fog
           requires :id
           service.delete_agent_token(id)
         end
-
       end
     end
   end

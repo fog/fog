@@ -12,7 +12,7 @@ Shindo.tests('AWS::CloudWatch | metric requests', ['aws', 'cloudwatch']) do
           'Average' => Float,
           'Sum' => Float,
           'SampleCount' => Float
-        }],    
+        }],
       },
       'ResponseMetadata' => {
         'RequestId' => String

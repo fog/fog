@@ -2,7 +2,6 @@ module Fog
   module AWS
     class DynamoDB
       class Real
-
         # Describe DynamoDB table
         #
         # ==== Parameters
@@ -37,7 +36,6 @@ module Fog
             :idempotent => true
           )
         end
-
       end
     end
   end

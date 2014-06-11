@@ -2,7 +2,6 @@ module Fog
   module Storage
     class AWS
       class Real
-
         require 'fog/aws/parsers/storage/get_bucket_object_versions'
 
         # List information about object versions in an S3 bucket
@@ -61,7 +60,6 @@ module Fog
             :parser   => Fog::Parsers::Storage::AWS::GetBucketObjectVersions.new,
             :query    => {'versions' => nil}.merge!(options)          })
         end
-
       end
 
       class Mock
@@ -94,13 +92,13 @@ module Fog
             # We need to order results by S3 key, but since our data store is key => [versions], we want to ensure the integrity
             # of the versions as well.  So, sort the keys, then fetch the versions, and then combine them all as a sorted list by
             # flattening the results.
-            contents = bucket[:objects].keys.sort.collect { |key| bucket[:objects][key] }.flatten.reject do |object|
+            contents = bucket[:objects].keys.sort.map { |key| bucket[:objects][key] }.flatten.reject do |object|
                 (prefix      && object['Key'][0...prefix.length] != prefix) ||
                 (key_marker  && object['Key'] <= key_marker) ||
                 (delimiter   && object['Key'][(prefix ? prefix.length : 0)..-1].include?(delimiter) \
                              && common_prefixes << object['Key'].sub(/^(#{prefix}[^#{delimiter}]+.).*/, '\1'))
               end.map do |object|
-                if object.has_key?(:delete_marker)
+                if object.key?(:delete_marker)
                   tag_name = 'DeleteMarker'
                   extracted_attrs = ['Key', 'VersionId']
                 else

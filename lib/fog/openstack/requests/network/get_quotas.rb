@@ -2,7 +2,6 @@ module Fog
   module Network
     class OpenStack
       class Real
-
         def get_quotas
           request(
             :expects  => 200,
@@ -10,11 +9,9 @@ module Fog
             :path     => "/quotas"
           )
         end
-
       end
 
       class Mock
-
         def get_quotas
           response = Excon::Response.new
           response.status = 200
@@ -23,9 +20,7 @@ module Fog
           }
           response
         end
-
       end
-
     end
   end
 end

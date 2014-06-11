@@ -4,9 +4,7 @@ require 'fog/linode/models/dns/zone'
 module Fog
   module DNS
     class Linode
-
       class Zones < Fog::Collection
-
         model Fog::DNS::Linode::Zone
 
         def all
@@ -21,9 +19,7 @@ module Fog
             nil
           end
         end
-
       end
-
     end
   end
 end

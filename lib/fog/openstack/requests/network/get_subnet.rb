@@ -1,7 +1,6 @@
 module Fog
   module Network
     class OpenStack
-
       class Real
         def get_subnet(subnet_id)
           request(
@@ -43,7 +42,6 @@ module Fog
           end
         end
       end
-
     end
   end
 end

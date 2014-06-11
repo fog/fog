@@ -13,7 +13,7 @@ Shindo.tests("Vcloud::Compute | servers", ['vcloud']) do
           :vcloud_version => version),
         :href       =>  "https://vcloud.example.com/api#{(version == '1.0') ? '/v1.0' : ''}/vApp/vapp-1"
       )
-    
+
       tests("collection") do
         returns(2) { instance.size }
         returns("https://vcloud.example.com/api#{(version == '1.0') ? '/v1.0' : ''}/vApp/vm-2") { instance.first.href }

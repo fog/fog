@@ -3,9 +3,7 @@ require 'fog/core/model'
 module Fog
   module Compute
     class Brightbox
-
       class Account < Fog::Model
-
         identity :id
         attribute :url
         attribute :resource_type
@@ -61,9 +59,7 @@ module Fog
           merge_attributes(data)
           library_ftp_password
         end
-
       end
-
     end
   end
 end

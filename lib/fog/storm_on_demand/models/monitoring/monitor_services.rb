@@ -4,7 +4,6 @@ require 'fog/storm_on_demand/models/monitoring/monitor_service'
 module Fog
   module Monitoring
     class StormOnDemand
-
       class MonitorServices < Fog::Collection
         model Fog::Monitoring::StormOnDemand::MonitorService
 
@@ -25,7 +24,6 @@ module Fog
           status = service.update_service(options).body
           new(status)
         end
-
       end
     end
   end

@@ -4,9 +4,7 @@ require 'fog/aws/models/compute/dhcp_option'
 module Fog
   module Compute
     class AWS
-
       class DhcpOptions < Fog::Collection
-
         attribute :filters
 
         model Fog::Compute::AWS::DhcpOption
@@ -83,9 +81,7 @@ module Fog
             self.class.new(:service => service).all('dhcp-options-id' => dhcp_options_id).first
           end
         end
-
       end
-
     end
   end
 end

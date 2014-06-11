@@ -2,7 +2,6 @@ module Fog
   module Storage
     class InternetArchive
       class Real
-
         # Get an object from S3
         #
         # @param bucket_name [String] Name of bucket to read from
@@ -53,13 +52,10 @@ module Fog
             :path     => CGI.escape(object_name),
           }))
         end
-
       end
 
       class Mock # :nodoc:all
-
         def get_object(bucket_name, object_name, options = {}, &block)
-
           unless bucket_name
             raise ArgumentError.new('bucket_name is required')
           end
@@ -71,7 +67,7 @@ module Fog
           response = Excon::Response.new
           if (bucket = self.data[:buckets][bucket_name])
             object = nil
-            if bucket[:objects].has_key?(object_name)
+            if bucket[:objects].key?(object_name)
               object = bucket[:objects][object_name].first
             end
 

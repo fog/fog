@@ -9,7 +9,6 @@ def get_user_input(prompt)
   gets.chomp
 end
 
-
 # Use username defined in ~/.fog file, if absent prompt for username.
 # For more details on ~/.fog refer to http://fog.io/about/getting_started.html
 def rackspace_username
@@ -58,7 +57,6 @@ def select_webhook(webhooks)
   select_str = get_user_input "\nEnter Webhook Number"
   webhooks[select_str.to_i]
 end
-
 
 # create auto scaling service
 auto_scale_service = Fog::Rackspace::AutoScale.new({

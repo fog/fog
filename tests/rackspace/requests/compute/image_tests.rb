@@ -10,7 +10,7 @@ Shindo.tests('Fog::Compute[:rackspace] | image requests', ['rackspace']) do
     'updated'   => String
   }
 
-  @service = Fog::Compute.new(:provider => :rackspace, :version => :v1)  
+  @service = Fog::Compute.new(:provider => :rackspace, :version => :v1)
 
   tests('success') do
 

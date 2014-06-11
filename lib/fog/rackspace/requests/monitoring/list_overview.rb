@@ -2,7 +2,6 @@ module Fog
   module Rackspace
     class Monitoring
       class Real
-
         def list_overview(options={})
           request(
             :expects  => [200, 203],
@@ -15,7 +14,6 @@ module Fog
 
       class Mock
         def list_overview(options={})
-
           alarm_id   = Fog::Mock.random_letters(10)
           check_id   = Fog::Mock.random_letters(10)
           entity_id  = Fog::Mock.random_letters(10)
@@ -108,8 +106,6 @@ module Fog
           response
         end
       end
-
     end
   end
 end
-

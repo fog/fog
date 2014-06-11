@@ -4,19 +4,16 @@ require 'fog/vmfusion/models/compute/server'
 module Fog
   module Compute
     class Vmfusion
-
       class Servers < Fog::Collection
-
         model Fog::Compute::Vmfusion::Server
 
         def all(filter = nil)
-
           data = []
 
           states = ::Fission::VM.all_with_status.data
 
           filter = {} if filter.nil?
-          unless filter.has_key?(:name)
+          unless filter.key?(:name)
             vms=::Fission::VM.all.data
             vms.each do |vm|
               data << { :raw =>  { :fission => vm,
@@ -28,13 +25,11 @@ module Fog
           end
 
           load(data)
-
         end
 
         def get(name)
           self.all(:name => name).first
         end
-
       end
     end
   end

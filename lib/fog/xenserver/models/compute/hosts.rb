@@ -4,9 +4,7 @@ require 'fog/xenserver/models/compute/host'
 module Fog
   module Compute
     class XenServer
-
       class Hosts < Fog::Collection
-
         model Fog::Compute::XenServer::Host
 
         def all(options={})
@@ -21,9 +19,7 @@ module Fog
             nil
           end
         end
-
       end
-
     end
   end
 end

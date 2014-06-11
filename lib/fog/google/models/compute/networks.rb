@@ -4,7 +4,6 @@ require 'fog/google/models/compute/network'
 module Fog
   module Compute
     class Google
-
       class Networks < Fog::Collection
         model Fog::Compute::Google::Network
 
@@ -21,7 +20,6 @@ module Fog
           nil
         end
       end
-
     end
   end
 end

@@ -1,7 +1,6 @@
 module Fog
   module Compute
     class Ecloud
-
       class Real
         include Shared
 
@@ -10,7 +9,6 @@ module Fog
           unless (data[:hosts] || data[:networks])
             raise ArgumentError.new("Required data missing: Either hosts or networks must be present")
           end
-
 
           request(
             :body => generate_create_trusted_network_groups_request(data),

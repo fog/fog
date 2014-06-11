@@ -2,9 +2,7 @@ module Fog
   module Parsers
     module Compute
       module AWS
-
         class SpotInstanceRequests < Fog::Parsers::Base
-
           def reset
             @block_device_mapping = {}
             @context = []
@@ -62,9 +60,7 @@ module Fog
               @spot_instance_request[name] = value.to_f
             end
           end
-
         end
-
       end
     end
   end

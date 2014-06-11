@@ -1,17 +1,13 @@
 module Fog
   module Compute
     class Google
-
       class Mock
-
         def insert_target_pool(target_pool_name, region_name)
           Fog::Mock.not_implemented
         end
-
       end
 
       class Real
-
         def insert_target_pool(target_pool_name, region_name, opts = {})
           api_method = @compute.target_pools.insert
           parameters = {

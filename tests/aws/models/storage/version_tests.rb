@@ -40,7 +40,7 @@ Shindo.tests("Storage[:aws] | version", ["aws"]) do
       tests("#destroy removes the specific version").returns(false) do
         @version_instance.destroy
 
-        @instance.versions.all.collect(&:version).include?(@version_instance.version)
+        @instance.versions.all.map(&:version).include?(@version_instance.version)
       end
     end
 

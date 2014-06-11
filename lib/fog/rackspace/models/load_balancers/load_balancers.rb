@@ -4,9 +4,7 @@ require 'fog/rackspace/models/load_balancers/load_balancer'
 module Fog
   module Rackspace
     class LoadBalancers
-
       class LoadBalancers < Fog::Collection
-
         model Fog::Rackspace::LoadBalancers::LoadBalancer
 
         def all

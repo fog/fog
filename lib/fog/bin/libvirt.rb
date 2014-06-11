@@ -1,6 +1,5 @@
 module Libvirt # deviates from other bin stuff to accomodate gem
   class << self
-
     def class_for(key)
       case key
       when :compute
@@ -55,6 +54,5 @@ module Libvirt # deviates from other bin stuff to accomodate gem
     def services
       Fog::Libvirt.services
     end
-
   end
 end

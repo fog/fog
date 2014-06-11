@@ -2,7 +2,6 @@ module Fog
   module Compute
     class AWS
       class Real
-
         require 'fog/aws/parsers/compute/basic'
 
         # Delete a placement group that you own
@@ -25,7 +24,6 @@ module Fog
             :parser     => Fog::Parsers::Compute::AWS::Basic.new
           )
         end
-
       end
     end
   end

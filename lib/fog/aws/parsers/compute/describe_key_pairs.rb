@@ -2,9 +2,7 @@ module Fog
   module Parsers
     module Compute
       module AWS
-
         class DescribeKeyPairs < Fog::Parsers::Base
-
           def reset
             @key = {}
             @response = { 'keySet' => [] }
@@ -21,9 +19,7 @@ module Fog
               @response[name] = value
             end
           end
-
         end
-
       end
     end
   end

@@ -1,7 +1,6 @@
 module Fog
   module Network
     class OpenStack
-
       class Real
         def create_lb_health_monitor(type, delay, timeout, max_retries, options = {})
           data = {
@@ -50,7 +49,6 @@ module Fog
           response
         end
       end
-
     end
   end
 end

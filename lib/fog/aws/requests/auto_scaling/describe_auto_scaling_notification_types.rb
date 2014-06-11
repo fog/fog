@@ -1,9 +1,7 @@
 module Fog
   module AWS
     class AutoScaling
-
       class Real
-
         require 'fog/aws/parsers/auto_scaling/describe_auto_scaling_notification_types'
 
         # Returns a list of all notification types that are supported by Auto
@@ -28,11 +26,9 @@ module Fog
             :parser     => Fog::Parsers::AWS::AutoScaling::DescribeAutoScalingNotificationTypes.new
           })
         end
-
       end
 
       class Mock
-
         def describe_auto_scaling_notification_types()
           results = {
             'AutoScalingNotificationTypes' => [],
@@ -48,7 +44,6 @@ module Fog
           }
           response
         end
-
       end
     end
   end

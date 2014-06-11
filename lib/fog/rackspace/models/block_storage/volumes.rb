@@ -5,7 +5,6 @@ module Fog
   module Rackspace
     class BlockStorage
       class Volumes < Fog::Collection
-
         model Fog::Rackspace::BlockStorage::Volume
 
         # Returns list of volumes

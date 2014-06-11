@@ -1,7 +1,6 @@
 module Fog
   module Ecloud
     class Collection < Fog::Collection
-
       def load(objects)
         objects = [ objects ] if objects.is_a?(Hash)
         super
@@ -20,7 +19,6 @@ module Fog
           raise Fog::Errors::Error.new(msg)
         end
       end
-
     end
   end
 end

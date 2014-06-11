@@ -4,9 +4,7 @@ require 'fog/aws/models/compute/image'
 module Fog
   module Compute
     class AWS
-
       class Images < Fog::Collection
-
         attribute :filters
 
         model Fog::Compute::AWS::Image
@@ -56,7 +54,6 @@ module Fog
           end
         end
       end
-
     end
   end
 end

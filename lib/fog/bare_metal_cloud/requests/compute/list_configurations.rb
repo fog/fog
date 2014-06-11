@@ -2,7 +2,6 @@ module Fog
   module Compute
     class BareMetalCloud
       class Real
-
         # List Configurations
         #
         # ==== Returns
@@ -20,7 +19,6 @@ module Fog
             :path     => 'api/listConfigurations'
           )
         end
-
       end
     end
   end

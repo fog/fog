@@ -3,9 +3,7 @@ require 'fog/core/model'
 module Fog
   module AWS
     class RDS
-
       class Server < Fog::Model
-
         identity  :id, :aliases => 'DBInstanceIdentifier'
         attribute :engine, :aliases => 'Engine'
         attribute :engine_version, :aliases => 'EngineVersion'

@@ -2,7 +2,6 @@ module Fog
   module Storage
     class InternetArchive
       class Real
-
         require 'fog/internet_archive/parsers/storage/cors_configuration'
 
         # Gets the CORS configuration for an S3 bucket
@@ -36,11 +35,9 @@ module Fog
             :query      => {'cors' => nil}
           })
         end
-
       end
 
       class Mock # :nodoc:all
-
         require 'fog/internet_archive/requests/storage/cors_utils'
 
         def get_bucket_cors(bucket_name)
@@ -58,7 +55,6 @@ module Fog
           end
           response
         end
-
       end
     end
   end

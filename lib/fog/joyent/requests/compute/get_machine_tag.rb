@@ -2,7 +2,6 @@ module Fog
   module Compute
     class Joyent
       class Real
-
         # https://us-west-1.api.joyentcloud.com/docs#GetMachineTag
         def get_machine_tag(machine_id, tagname)
           request(
@@ -13,7 +12,6 @@ module Fog
             :idempotent => true
           )
         end
-
       end
     end
   end

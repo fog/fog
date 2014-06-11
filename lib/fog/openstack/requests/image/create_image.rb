@@ -2,7 +2,6 @@ module Fog
   module Image
     class OpenStack
       class Real
-
         def create_image(attributes)
           data = {
             'Content-Type'                  =>'application/octet-stream',
@@ -41,11 +40,9 @@ module Fog
         ensure
           body.close if body.respond_to?(:close)
         end
-
       end
 
       class Mock
-
         def create_image(attributes)
           response = Excon::Response.new
           response.status = 201

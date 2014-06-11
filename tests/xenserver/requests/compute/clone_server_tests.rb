@@ -25,7 +25,7 @@ Shindo.tests('Fog::Compute[:xenserver] | clone_server request', ['xenserver']) d
       (ref =~ /OpaqueRef:/) == 0 and !(servers.custom_templates.find { |s| s.reference == ref }).nil?
     end
   end
-  
+
   tests('The expected options') do
     raises(ArgumentError, 'raises ArgumentError when ref,class missing') { compute.clone_server }
   end

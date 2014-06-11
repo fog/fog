@@ -2,9 +2,7 @@ module Fog
   module Parsers
     module AWS
       module IAM
-
         class ListUsers < Fog::Parsers::Base
-
           def reset
             @user = {}
             @response = { 'Users' => [] }
@@ -25,9 +23,7 @@ module Fog
               response[name] = value
             end
           end
-
         end
-
       end
     end
   end

@@ -2,7 +2,6 @@ module Fog
   module Compute
     class HPV2
       class Real
-
         # List the limits on resources on a per tenant basis (absolute and rate limits)
         #
         # ==== Returns
@@ -42,11 +41,9 @@ module Fog
             :path     => 'limits'
           )
         end
-
       end
 
       class Mock
-
         def list_limits
           response = Excon::Response.new
           limits = self.data[:limits].values
@@ -55,7 +52,6 @@ module Fog
           response.body = { 'limits' => limits }
           response
         end
-
       end
     end
   end

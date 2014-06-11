@@ -29,7 +29,6 @@ module Fog
           return nil if identifier.nil? || identifier == ""
           wrapped_request("post", "/1.0/server_groups/#{identifier}/move_servers", [202], options)
         end
-
       end
     end
   end

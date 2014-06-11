@@ -90,7 +90,7 @@ module Fog
           service_data
         end
 
-        alias destroy delete
+        alias_method :destroy, :delete
       end
     end
   end

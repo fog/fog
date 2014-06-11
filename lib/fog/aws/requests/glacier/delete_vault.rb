@@ -2,7 +2,6 @@ module Fog
   module AWS
     class Glacier
       class Real
-
         # Delete a vault. Amazon Glacier will delete a vault only if there are no archives in the vault as per the last inventory
         # and there have been no writes to the vault since the last inventory
         #
@@ -28,7 +27,6 @@ module Fog
           )
         end
       end
-
     end
   end
 end

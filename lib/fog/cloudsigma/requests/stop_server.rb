@@ -23,11 +23,9 @@ module Fog
               'uuid' => server_id
           }
 
-
           response
         end
       end
-
     end
   end
 end

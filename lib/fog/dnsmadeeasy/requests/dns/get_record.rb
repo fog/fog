@@ -2,7 +2,6 @@ module Fog
   module DNS
     class DNSMadeEasy
       class Real
-
         # Returns a record object representing the record with the specified id.
         #
         # ==== Parameters
@@ -31,7 +30,6 @@ module Fog
             :path     => "/V1.2/domains/#{domain}/records/#{record_id}"
           )
         end
-
       end
     end
   end

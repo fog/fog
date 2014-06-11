@@ -2,7 +2,6 @@ module Fog
   module AWS
     class Elasticache
       class Real
-
         require 'fog/aws/parsers/elasticache/describe_parameter_groups'
 
         # Returns a list of CacheParameterGroup descriptions
@@ -21,7 +20,6 @@ module Fog
             :parser => Fog::Parsers::AWS::Elasticache::DescribeParameterGroups.new
           }.merge(options))
         end
-
       end
 
       class Mock
@@ -37,7 +35,6 @@ module Fog
           else
             parameter_set = self.data[:parameter_groups].values
           end
-
 
           response.status = 200
 

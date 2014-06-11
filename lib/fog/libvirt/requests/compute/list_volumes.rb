@@ -19,7 +19,6 @@ module Fog
         private
 
         def volume_to_attributes(vol)
-
           format_type = xml_element(vol.xml_desc, "/volume/target/format", "type") rescue nil # not all volumes have types, e.g. LVM
           return nil if format_type == "dir"
 

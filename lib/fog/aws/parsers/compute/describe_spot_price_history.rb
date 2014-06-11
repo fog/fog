@@ -2,9 +2,7 @@ module Fog
   module Parsers
     module Compute
       module AWS
-
         class DescribeSpotPriceHistory < Fog::Parsers::Base
-
           def reset
             @spot_price = {}
             @response = { 'spotPriceHistorySet' => [] }
@@ -25,9 +23,7 @@ module Fog
               @spot_price[name] = Time.parse(value)
             end
           end
-
         end
-
       end
     end
   end

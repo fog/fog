@@ -2,7 +2,6 @@ module Fog
   module Compute
     class AWS
       class Real
-
         require 'fog/aws/parsers/compute/basic'
 
         # Reboot specified instances
@@ -25,11 +24,9 @@ module Fog
             :parser     => Fog::Parsers::Compute::AWS::Basic.new
           }.merge!(params))
         end
-
       end
 
       class Mock
-
         def reboot_instances(instance_id = [])
           response = Excon::Response.new
           instance_id = [*instance_id]
@@ -47,7 +44,6 @@ module Fog
             raise Fog::Compute::AWS::NotFound.new("The instance ID #{instance_id.inspect} does not exist")
           end
         end
-
       end
     end
   end

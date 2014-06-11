@@ -1,7 +1,6 @@
 module Fog
   module Network
     class OpenStack
-
       class Real
         def list_lb_pools(filters = {})
           request(
@@ -21,7 +20,6 @@ module Fog
           )
         end
       end
-
     end
   end
 end

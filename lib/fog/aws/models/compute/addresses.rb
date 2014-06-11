@@ -4,9 +4,7 @@ require 'fog/aws/models/compute/address'
 module Fog
   module Compute
     class AWS
-
       class Addresses < Fog::Collection
-
         attribute :filters
         attribute :server
 
@@ -92,9 +90,7 @@ module Fog
             super(attributes)
           end
         end
-
       end
-
     end
   end
 end

@@ -2,9 +2,7 @@ module Fog
   module Rackspace
     class AutoScale
       class Real
-
         def update_policy(group_id, policy_id, options)
-
           request(
             :expects => [204],
             :method => 'PUT',
@@ -21,7 +19,7 @@ module Fog
             raise Fog::Rackspace::AutoScale::NotFound
           end
 
-          policy = group['scalingPolicies'].detect { |p| p["id"] == policy_id }
+          policy = group['scalingPolicies'].find { |p| p["id"] == policy_id }
 
           policy.merge(options)
 

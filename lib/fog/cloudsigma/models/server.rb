@@ -6,8 +6,6 @@ module Fog
   module Compute
     class CloudSigma
       class Server < Fog::CloudSigma::CloudsigmaModel
-
-
         identity :uuid
 
         attribute :status, :type => :string
@@ -27,7 +25,6 @@ module Fog
         attribute :resource_uri, :type => :string
         model_attribute_array :volumes, MountPoint, :aliases => 'drives'
         model_attribute_array :nics, Nic
-
 
         def save
           if persisted?
@@ -54,7 +51,6 @@ module Fog
           response = service.update_server(identity, data)
           new_attributes = response.body
           merge_attributes(new_attributes)
-
         end
 
         def destroy
@@ -64,7 +60,7 @@ module Fog
           true
         end
 
-        alias :delete :destroy
+        alias_method :delete, :destroy
 
         def start(start_params={})
           requires :identity
@@ -125,7 +121,6 @@ module Fog
               dev_channel = '0:0'
             end
           end
-
 
           vol_id = volume.kind_of?(String) ? volume : volume.identity
           mountpoint_data = {

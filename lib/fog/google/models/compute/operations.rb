@@ -4,9 +4,7 @@ require 'fog/google/models/compute/operation'
 module Fog
   module Compute
     class Google
-
       class Operations < Fog::Collection
-
         model Fog::Compute::Google::Operation
 
         def all(filters = {})
@@ -33,9 +31,7 @@ module Fog
         rescue Fog::Errors::NotFound
           nil
         end
-
       end
-
     end
   end
 end

@@ -5,7 +5,6 @@ module Fog
   module Rackspace
     class AutoScale
       class Webhooks < Fog::Collection
-
         model Fog::Rackspace::AutoScale::Webhook
 
         attr_accessor :group

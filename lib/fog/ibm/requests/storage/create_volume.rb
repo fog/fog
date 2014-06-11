@@ -2,7 +2,6 @@ module Fog
   module Storage
     class IBM
       class Real
-
         # Requests a new Storage Volume be created.
         #
         # ==== Parameters
@@ -43,7 +42,6 @@ module Fog
       end
 
       class Mock
-
         def create_volume(name, offering_id, format, location_id, size)
           volume          = Fog::IBM::Mock.create_volume(name, offering_id, format, location_id, size)
           self.data[:volumes][volume['id']] = volume
@@ -59,7 +57,6 @@ module Fog
           ready_volume(volume_id) unless volume_attached? volume_id
           self.data[:volumes][volume_id].reject { |k,v| k == 'ioPrice' }
         end
-
       end
     end
   end

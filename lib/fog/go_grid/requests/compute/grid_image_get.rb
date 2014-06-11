@@ -2,7 +2,6 @@ module Fog
   module Compute
     class GoGrid
       class Real
-
         # List images
         #
         # ==== Parameters
@@ -21,11 +20,9 @@ module Fog
             :query    => options
           )
         end
-
       end
 
       class Mock
-
         def grid_image_get(options={})
           #response = Excon::Response.new
 
@@ -34,7 +31,6 @@ module Fog
           #  case image['state']
           #  when 'Available'
         end
-
       end
     end
   end

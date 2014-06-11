@@ -6,7 +6,6 @@ module Fog
 
         attribute :name
         attribute :public
-
       end
     end
   end

@@ -2,9 +2,7 @@ module Fog
   module Parsers
     module AWS
       module AutoScaling
-
         class DescribeAdjustmentTypes < Fog::Parsers::Base
-
           def reset
             reset_adjustment_type
             @results = { 'AdjustmentTypes' => [] }
@@ -44,7 +42,6 @@ module Fog
               @response['DescribeAdjustmentTypesResult'] = @results
             end
           end
-
         end
       end
     end

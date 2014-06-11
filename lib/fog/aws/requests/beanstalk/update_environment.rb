@@ -2,7 +2,6 @@ module Fog
   module AWS
     class ElasticBeanstalk
       class Real
-
         require 'fog/aws/parsers/beanstalk/update_environment'
 
         # Updates the environment description, deploys a new application version, updates the configuration settings

@@ -49,7 +49,6 @@ module Fog
           service.delete_subnet(self.id)
           true
         end
-
       end
     end
   end

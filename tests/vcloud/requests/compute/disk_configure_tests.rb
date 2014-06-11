@@ -104,7 +104,7 @@ EOF
      ng.xpath("//xmlns:ResourceType[ .='17']", @xmlns).size == 2
     ]
   end
-  
+
   unless Fog.mocking?
     Vcloud[:compute].unstub!(:request)
   end

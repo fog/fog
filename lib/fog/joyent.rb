@@ -8,6 +8,5 @@ module Fog
 
     service(:analytics, 'Analytics')
     service(:compute, 'Compute')
-
   end
 end

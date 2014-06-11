@@ -2,7 +2,6 @@ module Fog
   module Compute
     class AWS
       class Real
-
         require 'fog/aws/parsers/compute/basic'
 
         # Delete a snapshot of an EBS volume that you own
@@ -25,11 +24,9 @@ module Fog
             :parser       => Fog::Parsers::Compute::AWS::Basic.new
           )
         end
-
       end
 
       class Mock
-
         def delete_snapshot(snapshot_id)
           response = Excon::Response.new
           if snapshot = self.data[:snapshots].delete(snapshot_id)
@@ -43,7 +40,6 @@ module Fog
             raise Fog::Compute::AWS::NotFound.new("The snapshot '#{snapshot_id}' does not exist.")
           end
         end
-
       end
     end
   end

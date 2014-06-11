@@ -3,9 +3,7 @@ require 'fog/core/model'
 module Fog
   module Compute
     class Glesys
-
       class Ip < Fog::Model
-
         extend Fog::Deprecation
 
         identity :ip
@@ -69,7 +67,6 @@ module Fog
           ).body["response"]["details"]
           merge_attributes data
         end
-
       end
     end
   end

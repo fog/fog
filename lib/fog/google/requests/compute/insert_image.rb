@@ -1,17 +1,13 @@
 module Fog
   module Compute
     class Google
-
       class Mock
-
         def insert_image(image_name, options={})
           Fog::Mock.not_implemented
         end
-
       end
 
       class Real
-
         def insert_image(image_name, options={})
           api_method = @compute.images.insert
 
@@ -33,9 +29,7 @@ module Fog
                                      body_object=body_object)
           response = self.build_response(result)
         end
-
       end
-
     end
   end
 end

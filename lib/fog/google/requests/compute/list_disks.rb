@@ -1,9 +1,7 @@
 module Fog
   module Compute
     class Google
-
       class Mock
-
         def list_disks(zone_name)
           disks = self.data[:disks].values.select{|d| d["zone"].split("/")[-1] == zone_name}
           build_response(:body => {
@@ -13,11 +11,9 @@ module Fog
             "items" => disks
           })
         end
-
       end
 
       class Real
-
         def list_disks(zone_name)
           api_method = @compute.disks.list
           parameters = {
@@ -28,9 +24,7 @@ module Fog
           result = self.build_result(api_method, parameters)
           response = self.build_response(result)
         end
-
       end
-
     end
   end
 end

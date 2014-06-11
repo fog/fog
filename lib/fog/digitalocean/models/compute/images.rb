@@ -4,7 +4,6 @@ require 'fog/digitalocean/models/compute/image'
 module Fog
   module Compute
     class DigitalOcean
-
       class Images < Fog::Collection
         model Fog::Compute::DigitalOcean::Image
 
@@ -17,9 +16,7 @@ module Fog
         rescue Fog::Errors::NotFound
           nil
         end
-
       end
-
     end
   end
 end

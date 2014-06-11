@@ -1,7 +1,6 @@
 module Fog
   module Network
     class OpenStack
-
       class Real
         def create_lb_pool(subnet_id, protocol, lb_method, options = {})
           data = {
@@ -54,7 +53,6 @@ module Fog
           response
         end
       end
-
     end
   end
 end

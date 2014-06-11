@@ -63,5 +63,4 @@ Shindo.tests('Fog::Compute[:glesys] | ip requests', ['glesys']) do
 
   end
 
-
 end

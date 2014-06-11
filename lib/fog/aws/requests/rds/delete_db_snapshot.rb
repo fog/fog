@@ -2,7 +2,6 @@ module Fog
   module AWS
     class RDS
       class Real
-
         require 'fog/aws/parsers/rds/delete_db_snapshot'
 
         # delete a database snapshot
@@ -13,7 +12,6 @@ module Fog
         # * response<~Excon::Response>:
         #   * body<~Hash>:
         def delete_db_snapshot(name)
-
           request({
             'Action'  => 'DeleteDBSnapshot',
             'DBSnapshotIdentifier' => name,
@@ -21,11 +19,9 @@ module Fog
             :parser   => Fog::Parsers::AWS::RDS::DeleteDBSnapshot.new
           })
         end
-
       end
 
       class Mock
-
         def delete_db_snapshot(name)
           # TODO: raise error if snapshot isn't 'available'
           response = Excon::Response.new
@@ -40,7 +36,6 @@ module Fog
           }
           response
         end
-
       end
     end
   end

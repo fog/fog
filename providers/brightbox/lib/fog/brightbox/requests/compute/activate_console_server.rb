@@ -14,7 +14,6 @@ module Fog
           return nil if identifier.nil? || identifier == ""
           wrapped_request("post", "/1.0/servers/#{identifier}/activate_console", [202])
         end
-
       end
     end
   end

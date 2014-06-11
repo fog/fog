@@ -5,7 +5,6 @@ module Fog
         require 'fog/aws/parsers/rds/snapshot_parser'
 
         class DeleteDBSecurityGroup < Fog::Parsers::AWS::RDS::SnapshotParser
-
           def reset
             @response = { 'ResponseMetadata' => {} }
             super
@@ -23,11 +22,8 @@ module Fog
               super
             end
           end
-
         end
-
       end
     end
   end
 end
-

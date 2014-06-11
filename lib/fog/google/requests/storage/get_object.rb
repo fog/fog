@@ -2,7 +2,6 @@ module Fog
   module Storage
     class Google
       class Real
-
         # Get an object from Google Storage
         #
         # ==== Parameters
@@ -57,11 +56,9 @@ module Fog
             :path           => CGI.escape(object_name),
           }))
         end
-
       end
 
       class Mock
-
         def get_object(bucket_name, object_name, options = {}, &block)
           unless bucket_name
             raise ArgumentError.new('bucket_name is required')
@@ -105,7 +102,6 @@ module Fog
           end
           response
         end
-
       end
     end
   end

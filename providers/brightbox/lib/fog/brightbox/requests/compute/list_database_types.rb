@@ -12,7 +12,6 @@ module Fog
         def list_database_types
           wrapped_request("get", "/1.0/database_types", [200])
         end
-
       end
     end
   end

@@ -1,7 +1,6 @@
 module Fog
   module Compute
     class Google
-
       class Mock
         def attach_disk(instance, zone, source, options = {})
           Fog::Mock.not_implemented
@@ -9,7 +8,6 @@ module Fog
       end
 
       class Real
-
         def attach_disk(instance, zone, source, options = {})
           api_method = @compute.instances.attach_disk
           parameters = {

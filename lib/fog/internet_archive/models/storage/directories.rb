@@ -4,9 +4,7 @@ require 'fog/internet_archive/models/storage/directory'
 module Fog
   module Storage
     class InternetArchive
-
       class Directories < Fog::Collection
-
         model Fog::Storage::InternetArchive::Directory
 
         def all
@@ -35,9 +33,7 @@ module Fog
         rescue Excon::Errors::NotFound
           nil
         end
-
       end
-
     end
   end
 end

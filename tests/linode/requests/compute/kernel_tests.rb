@@ -1,7 +1,7 @@
 Shindo.tests('Fog::Compute[:linode] | kernel requests', ['linode']) do
 
   @kernels_format = Linode::Compute::Formats::BASIC.merge({
-    'DATA' => [{ 
+    'DATA' => [{
       'LABEL'               => String,
       'ISXEN'               => Integer,
       'ISPVOPS'             => Integer,

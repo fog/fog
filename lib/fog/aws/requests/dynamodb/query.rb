@@ -2,7 +2,6 @@ module Fog
   module AWS
     class DynamoDB
       class Real
-
         # Query DynamoDB items
         #
         # ==== Parameters
@@ -37,7 +36,6 @@ module Fog
             :headers  => {'x-amz-target' => 'DynamoDB_20111205.Query'}
           )
         end
-
       end
     end
   end

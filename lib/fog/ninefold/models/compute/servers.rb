@@ -4,9 +4,7 @@ require 'fog/ninefold/models/compute/server'
 module Fog
   module Compute
     class Ninefold
-
       class Servers < Fog::Collection
-
         model Fog::Compute::Ninefold::Server
 
         def all
@@ -23,9 +21,7 @@ module Fog
             new(data[0])
           end
         end
-
       end
-
     end
   end
 end

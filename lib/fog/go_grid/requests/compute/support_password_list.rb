@@ -2,7 +2,6 @@ module Fog
   module Compute
     class GoGrid
       class Real
-
         # List passwords
         #
         # ==== Parameters
@@ -23,7 +22,6 @@ module Fog
             :query    => options
           )
         end
-
       end
     end
   end

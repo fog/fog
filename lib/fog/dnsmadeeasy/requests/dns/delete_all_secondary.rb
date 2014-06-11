@@ -2,7 +2,6 @@ module Fog
   module DNS
     class DNSMadeEasy
       class Real
-
         # Deletes all secondary entries for your account.
         #
         # ==== Returns
@@ -15,7 +14,6 @@ module Fog
             :path     => '/V1.2/secondary'
           )
         end
-
       end
     end
   end

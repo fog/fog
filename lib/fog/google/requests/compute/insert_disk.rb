@@ -1,9 +1,7 @@
 module Fog
   module Compute
     class Google
-
       class Mock
-
         def insert_disk(disk_name, zone_name, image_name=nil, options={})
           # check that image and zone exist
           image = nil
@@ -59,11 +57,9 @@ module Fog
 
           build_response(:body => self.data[:operations][operation])
         end
-
       end
 
       class Real
-
         def insert_disk(disk_name, zone_name, image_name=nil, opts={})
           api_method = @compute.disks.insert
           parameters = {
@@ -85,12 +81,12 @@ module Fog
           # sizeGb or sourceSnapshot need to be present, one will create blank
           # disk of desired size, other will create disk from snapshot
           if image_name.nil?
-            if opts.has_key?('sourceSnapshot')
+            if opts.key?('sourceSnapshot')
               # New disk from snapshot
               snap = snapshots.get(opts.delete('sourceSnapshot'))
               raise ArgumentError.new('Invalid source snapshot') unless snap
               body_object['sourceSnapshot'] = @api_url + snap.resource_url
-            elsif opts.has_key?('sizeGb')
+            elsif opts.key?('sizeGb')
               # New blank disk
               body_object['sizeGb'] = opts.delete('sizeGb')
             else
@@ -107,9 +103,7 @@ module Fog
                                      body_object)
           response = self.build_response(result)
         end
-
       end
-
     end
   end
 end

@@ -4,7 +4,6 @@ require 'uri'
 
 module Fog
   module Cloudstack
-
     extend Fog::Provider
 
     service(:compute, 'Compute')
@@ -18,7 +17,7 @@ module Fog
     end
 
     def self.signed_params(key,params)
-      query = params.map{|k,v| [k.to_s, v]}.sort.collect{|c| "#{c[0]}=#{escape(c[1].to_s)}"}.join('&').downcase
+      query = params.map{|k,v| [k.to_s, v]}.sort.map{|c| "#{c[0]}=#{escape(c[1].to_s)}"}.join('&').downcase
 
       signed_string = Base64.encode64(OpenSSL::HMAC.digest(@@digest,key,query)).strip
 
@@ -38,4 +37,3 @@ module Fog
     end
   end
 end
-

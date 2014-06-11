@@ -2,7 +2,6 @@ module Fog
   module DNS
     class Rage4
       class Real
-
         # Create a domain.
         # ==== Parameters
         # * name<~String> - domain name
@@ -24,10 +23,7 @@ module Fog
                   :path     => "/rapi/createregulardomain/?name=#{name}&email=#{email}"
           )
         end
-
       end
-
-
     end
   end
 end

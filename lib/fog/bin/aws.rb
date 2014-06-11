@@ -1,6 +1,5 @@
 class AWS < Fog::Bin
   class << self
-
     def class_for(key)
       case key
       when :auto_scaling
@@ -118,6 +117,5 @@ class AWS < Fog::Bin
     def services
       Fog::AWS.services
     end
-
   end
 end

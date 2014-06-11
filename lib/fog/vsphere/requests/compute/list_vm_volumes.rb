@@ -42,7 +42,6 @@ module Fog
             }
           end
         end
-
       end
       class Mock
         def list_vm_volumes(vm_id)

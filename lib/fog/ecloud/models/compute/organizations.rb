@@ -4,7 +4,6 @@ module Fog
   module Compute
     class Ecloud
       class Organizations < Fog::Ecloud::Collection
-
         model Fog::Compute::Ecloud::Organization
 
         undef_method :create

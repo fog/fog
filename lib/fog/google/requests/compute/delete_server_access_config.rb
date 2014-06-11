@@ -1,7 +1,6 @@
 module Fog
   module Compute
     class Google
-
       class Mock
         def delete_server_access_config(identity, zone, nic, options = {})
           Fog::Mock.not_implemented
@@ -23,7 +22,6 @@ module Fog
           response = self.build_response(result)
         end
       end
-
     end
   end
 end

@@ -22,7 +22,7 @@ Shindo.tests('AWS::CloudWatch | metric requests', ['aws', 'cloudwatch']) do
 
     tests('#puts more than one').succeeds do
       pending if Fog.mocking?
-      datapoints = (0...3).collect do |i|
+      datapoints = (0...3).map do |i|
         dp = {'MetricName' => "#{i}RequestTest", 'Unit' => 'None', 'Value' => i}
         if i%2==0
           dp['Dimensions'] = [{'Name' => 'Ruler', 'Value' => "measurement_#{i}"}]

@@ -2,11 +2,10 @@ module Fog
   module Compute
     class Vsphere
       class Real
-
         def vm_migrate(options = {})
           #priority is the only required option, and it has a sane default option.
           priority = options['priority'].nil? ? 'defaultPriority' : options["priority"]
-          raise ArgumentError, "instance_uuid is a required parameter" unless options.has_key? 'instance_uuid'
+          raise ArgumentError, "instance_uuid is a required parameter" unless options.key? 'instance_uuid'
 
           # Find the VM Object
           search_filter = { :uuid => options['instance_uuid'], 'vmSearch' => true, 'instanceUuid' => true }
@@ -20,17 +19,14 @@ module Fog
           task.wait_for_completion
           { 'task_state' => task.info.state }
         end
-
       end
 
       class Mock
-
         def vm_migrate(options = {})
           priority = options['priority'].nil? ? 'defaultPriority' : options["priority"]
-          raise ArgumentError, "instance_uuid is a required parameter" unless options.has_key? 'instance_uuid'
+          raise ArgumentError, "instance_uuid is a required parameter" unless options.key? 'instance_uuid'
           { 'task_state' => 'success' }
         end
-
       end
     end
   end

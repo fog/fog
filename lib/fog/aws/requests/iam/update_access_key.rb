@@ -2,7 +2,6 @@ module Fog
   module AWS
     class IAM
       class Real
-
         require 'fog/aws/parsers/iam/basic'
 
         # Update an access key for a user
@@ -29,13 +28,12 @@ module Fog
             :parser       => Fog::Parsers::AWS::IAM::Basic.new
           }.merge!(options))
         end
-
       end
 
       class Mock
         def update_access_key(access_key_id, status, options = {})
           if user = options['UserName']
-            if data[:users].has_key? user
+            if data[:users].key? user
               access_keys_data = data[:users][user][:access_keys]
             else
               raise Fog::AWS::IAM::NotFound.new('The user with name #{user_name} cannot be found.')
@@ -43,7 +41,7 @@ module Fog
           else
             access_keys_data = data[:access_keys]
           end
-          key = access_keys_data.detect{|k| k["AccessKeyId"] == access_key_id}
+          key = access_keys_data.find{|k| k["AccessKeyId"] == access_key_id}
           key["Status"] = status
           Excon::Response.new.tap do |response|
             response.status = 200
@@ -52,7 +50,6 @@ module Fog
           end
         end
       end
-
     end
   end
 end

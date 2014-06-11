@@ -2,7 +2,6 @@ module Fog
   module AWS
     class CloudFormation
       class Real
-
         require 'fog/aws/parsers/cloud_formation/list_stacks'
 
         # List stacks.
@@ -30,7 +29,6 @@ module Fog
             :parser     => Fog::Parsers::AWS::CloudFormation::ListStacks.new
           }.merge!(options))
         end
-
       end
     end
   end

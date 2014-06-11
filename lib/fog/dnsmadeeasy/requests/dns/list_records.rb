@@ -2,7 +2,6 @@ module Fog
   module DNS
     class DNSMadeEasy
       class Real
-
         # Returns a list of record objects containing all records for the specified domain
         #
         # ==== Parameters
@@ -35,7 +34,6 @@ module Fog
             :query    => options
           )
         end
-
       end
     end
   end

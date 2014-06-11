@@ -3,7 +3,6 @@ require 'fog/rackspace/core'
 # https://github.com/racker/rackspace-monitoring-rb
 # It has been heavily modified for import into Fog master.
 
-
 module Fog
   module Rackspace
     class Monitoring < Fog::Service
@@ -14,7 +13,6 @@ module Fog
       class InternalServerError < Fog::Rackspace::Errors::InternalServerError; end
       class Conflict < Fog::Rackspace::Errors::Conflict; end
       class ServiceUnavailable < Fog::Rackspace::Errors::ServiceUnavailable; end
-
 
       class BadRequest < Fog::Rackspace::Errors::BadRequest
         attr_reader :validation_errors
@@ -110,9 +108,7 @@ module Fog
       request      :list_monitoring_zones
       request      :get_monitoring_zone
 
-
       class Mock < Fog::Rackspace::Service
-
         def initialize(options={})
         end
 

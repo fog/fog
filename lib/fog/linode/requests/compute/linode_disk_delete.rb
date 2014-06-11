@@ -2,7 +2,6 @@ module Fog
   module Compute
     class Linode
       class Real
-
         def linode_disk_delete(linode_id, disk_id)
           request(
             :expects  => 200,
@@ -14,7 +13,6 @@ module Fog
             }
           )
         end
-
       end
 
       class Mock

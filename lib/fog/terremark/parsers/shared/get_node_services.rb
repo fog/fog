@@ -2,9 +2,7 @@ module Fog
   module Parsers
     module Terremark
       module Shared
-
         class GetNodeServices < TerremarkParser
-
           def reset
             @node_service = {}
             @response = { 'NodeServices' => [] }
@@ -27,9 +25,7 @@ module Fog
               @node_service = {}
             end
           end
-
         end
-
       end
     end
   end

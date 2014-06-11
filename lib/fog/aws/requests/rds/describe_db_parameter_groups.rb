@@ -2,7 +2,6 @@ module Fog
   module AWS
     class RDS
       class Real
-
         require 'fog/aws/parsers/rds/describe_db_parameter_groups'
 
         # This API returns a list of DBParameterGroup descriptions. If a DBParameterGroupName is specified, the list will contain only the descriptions of the specified DBParameterGroup
@@ -30,11 +29,9 @@ module Fog
             :parser   => Fog::Parsers::AWS::RDS::DescribeDBParameterGroups.new
           }.merge(params))
         end
-
       end
 
       class Mock
-
         def describe_db_parameter_groups(name=nil, opts={})
           response = Excon::Response.new
           parameter_set = []
@@ -48,7 +45,6 @@ module Fog
             parameter_set = self.data[:parameter_groups].values
           end
 
-
           response.status = 200
           response.body = {
             "ResponseMetadata"=>{ "RequestId"=> Fog::AWS::Mock.request_id },
@@ -56,7 +52,6 @@ module Fog
           }
           response
         end
-
       end
     end
   end

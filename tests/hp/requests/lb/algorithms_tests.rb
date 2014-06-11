@@ -11,5 +11,4 @@ Shindo.tests("HP::LB | algorithms", ['hp', 'lb', 'algorithms']) do
 
   end
 
-
 end

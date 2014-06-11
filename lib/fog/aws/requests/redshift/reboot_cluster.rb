@@ -29,7 +29,6 @@ module Fog
           params[:query]['Action']                           = 'RebootCluster'
           params[:query]['ClusterIdentifier']                = cluster_identifier if cluster_identifier
           request(params)
-
         end
       end
     end

@@ -4,7 +4,6 @@ require 'fog/storm_on_demand/models/billing/payment'
 module Fog
   module Billing
     class StormOnDemand
-
       class Payments < Fog::Collection
         model Fog::Billing::StormOnDemand::Payment
 
@@ -13,7 +12,6 @@ module Fog
                                :card_code => card_code).body['amount']
         end
       end
-
     end
   end
 end

@@ -3,9 +3,7 @@ require 'fog/vcloud/models/compute/task'
 module Fog
   module Vcloud
     class Compute
-
       class Tasks < Fog::Vcloud::Collection
-
         model Fog::Vcloud::Compute::Task
 
         attribute :href, :aliases => :Href
@@ -23,7 +21,6 @@ module Fog
         rescue Fog::Errors::NotFound
           nil
         end
-
       end
     end
   end

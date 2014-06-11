@@ -4,9 +4,7 @@ module Fog
   module Volume
     class SakuraCloud
       class Real
-
         def attach_disk( disk_id, server_id )
-
           request(
             :headers => {
               'Authorization' => "Basic #{@auth_encord}"

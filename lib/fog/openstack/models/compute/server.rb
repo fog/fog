@@ -4,9 +4,7 @@ require 'fog/openstack/models/compute/metadata'
 module Fog
   module Compute
     class OpenStack
-
       class Server < Fog::Compute::Server
-
         identity :id
         attribute :instance_name, :aliases => 'OS-EXT-SRV-ATTR:instance_name'
 
@@ -53,7 +51,6 @@ module Fog
         attr_reader :password
         attr_writer :image_ref, :flavor_ref, :nics, :os_scheduler_hints
         attr_accessor :block_device_mapping
-
 
         def initialize(attributes={})
           # Old 'connection' is renamed as service and should be used instead
@@ -124,17 +121,16 @@ module Fog
           # Return them all, leading with manually assigned addresses
           manual = all_addresses.map{|addr| addr["ip"]}
 
-          all_floating.sort{ |a,b| 
+          all_floating.sort{ |a,b|
             a_manual = manual.include? a
             b_manual = manual.include? b
 
-            if a_manual and !b_manual 
+            if a_manual and !b_manual
               -1
-            elsif !a_manual and b_manual 
+            elsif !a_manual and b_manual
               1
             else 0 end
           }
-
         end
 
         alias_method :public_ip_addresses, :floating_ip_addresses
@@ -276,7 +272,7 @@ module Fog
 
         def volumes
           requires :id
-          service.volumes.find_all do |vol|
+          service.volumes.select do |vol|
             vol.attachments.find { |attachment| attachment["serverId"] == id }
           end
         end
@@ -343,10 +339,7 @@ module Fog
         def adminPass=(new_admin_pass)
           @password = new_admin_pass
         end
-
       end
-
     end
   end
-
 end

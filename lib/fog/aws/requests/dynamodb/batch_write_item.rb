@@ -2,7 +2,6 @@ module Fog
   module AWS
     class DynamoDB
       class Real
-
         def batch_put_item(request_items)
           Fog::Logger.deprecation("batch_put_item is deprecated, use batch_write_item instead")
           batch_write_item(request_items)
@@ -28,7 +27,6 @@ module Fog
             :headers    => {'x-amz-target' => 'DynamoDB_20111205.BatchWriteItem'}
           )
         end
-
       end
     end
   end

@@ -2,7 +2,6 @@ module Fog
   module CDN
     class Rackspace
       class Real
-
         # Delete an existing object
         #
         # ==== Parameters
@@ -23,7 +22,6 @@ module Fog
       end
 
       class Mock
-
         def delete_object(container, object)
           response = Excon::Response.new
           response.status = 204

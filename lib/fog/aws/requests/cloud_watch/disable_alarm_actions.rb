@@ -2,7 +2,6 @@ module Fog
   module AWS
     class CloudWatch
       class Real
-
         require 'fog/aws/parsers/cloud_watch/disable_alarm_actions'
 
         # Disables actions for the specified alarms

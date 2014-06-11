@@ -2,7 +2,6 @@ module Fog
   module AWS
     class RDS
       class Real
-
         require 'fog/aws/parsers/rds/create_db_instance_read_replica'
 
         # create a read replica db instance
@@ -18,8 +17,6 @@ module Fog
         # * response<~Excon::Response>:
         #   * body<~Hash>:
         def create_db_instance_read_replica(instance_identifier, source_identifier, options={})
-
-
           request({
             'Action'  => 'CreateDBInstanceReadReplica',
             'DBInstanceIdentifier' => instance_identifier,
@@ -27,11 +24,9 @@ module Fog
             :parser   => Fog::Parsers::AWS::RDS::CreateDBInstanceReadReplica.new,
           }.merge(options))
         end
-
       end
 
       class Mock
-
         def create_db_instance_read_replica(instance_identifier, source_identifier, options={})
           # TODO: throw error when instance_identifier already exists,
           # or source_identifier doesn't exist
@@ -76,7 +71,6 @@ module Fog
 
           response
         end
-
       end
     end
   end

@@ -2,7 +2,6 @@ module Fog
   module Compute
     class HP
       class Real
-
         # Create a new security group
         #
         # ==== Parameters
@@ -44,18 +43,16 @@ module Fog
             :path     => 'os-security-groups.json'
           )
         end
-
       end
 
       class Mock
-
         def create_security_group(name, description)
           # all spaces are removed
           name = name.strip
           description = description.strip
 
           response = Excon::Response.new
-          if self.data[:security_groups].detect {|_,v| v['name'] == name}
+          if self.data[:security_groups].find {|_,v| v['name'] == name}
             response.status = 400
             response.body = { "badRequest" => {"message" => "Security group #{name} already exists", "code" => 400}}
             raise(Excon::Errors.status_error({:expects => 200}, response))
@@ -75,9 +72,7 @@ module Fog
           end
           response
         end
-
       end
-
     end
   end
 end

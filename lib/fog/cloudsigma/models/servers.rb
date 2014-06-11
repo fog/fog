@@ -20,7 +20,6 @@ module Fog
         rescue Fog::CloudSigma::Errors::NotFound
           return nil
         end
-
       end
     end
   end

@@ -2,7 +2,6 @@ module Fog
   module AWS
     class ELB
       class Real
-
         require 'fog/aws/parsers/elb/apply_security_groups_to_load_balancer'
 
         # Sets the security groups for an ELB in VPC
@@ -27,12 +26,10 @@ module Fog
           }.merge!(params))
         end
 
-        alias :apply_security_groups :apply_security_groups_to_load_balancer
-
+        alias_method :apply_security_groups, :apply_security_groups_to_load_balancer
       end
 
       class Mock
-
         def apply_security_groups_to_load_balancer(security_group_ids, lb_name)
           raise Fog::AWS::ELB::NotFound unless load_balancer = self.data[:load_balancers][lb_name]
 
@@ -54,7 +51,7 @@ module Fog
           response
         end
 
-      alias :apply_security_groups :apply_security_groups_to_load_balancer
+      alias_method :apply_security_groups, :apply_security_groups_to_load_balancer
       end
     end
   end

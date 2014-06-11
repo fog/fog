@@ -1,5 +1,5 @@
 Shindo.tests('Fog::Rackspace::Monitoring | alarm_tests', ['rackspace','rackspace_monitoring']) do
-  
+
 
   account = Fog::Rackspace::Monitoring.new
   entity_id = account.create_entity(:label => "Foo").data[:headers]["X-Object-ID"]

@@ -2,7 +2,6 @@ module Fog
   module Compute
     class RackspaceV2
       class Real
-
         # Update the editable attributes of a specified server.
         # @param [String] server_id
         # @param [Hash] options

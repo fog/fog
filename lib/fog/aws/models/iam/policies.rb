@@ -4,9 +4,7 @@ require 'fog/aws/models/iam/policy'
 module Fog
   module AWS
     class IAM
-
       class Policies < Fog::Collection
-
         model Fog::AWS::IAM::Policy
 
         def initialize(attributes = {})
@@ -14,7 +12,6 @@ module Fog
           raise ArgumentError.new("Can't get a policy's user without a username") unless @username
           super
         end
-
 
         def all
           # AWS method get_user_policy only returns an array of policy names, this is kind of useless,
@@ -37,7 +34,6 @@ module Fog
         def new(attributes = {})
           super({ :username => @username }.merge!(attributes))
         end
-
       end
     end
   end

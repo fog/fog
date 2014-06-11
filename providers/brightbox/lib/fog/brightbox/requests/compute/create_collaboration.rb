@@ -16,7 +16,6 @@ module Fog
         def create_collaboration(options)
           wrapped_request("post", "/1.0/collaborations", [201], options)
         end
-
       end
     end
   end

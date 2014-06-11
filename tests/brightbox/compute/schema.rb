@@ -240,7 +240,6 @@ class Brightbox
           "email_address"   => String
         }
 
-
         COLLABORATION = {
           "id"              => String,
           "resource_type"   => String,

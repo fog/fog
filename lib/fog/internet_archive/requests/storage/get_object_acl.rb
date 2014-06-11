@@ -2,7 +2,6 @@ module Fog
   module Storage
     class InternetArchive
       class Real
-
         require 'fog/internet_archive/parsers/storage/access_control_list'
 
         # Get access control list for an S3 object
@@ -47,11 +46,9 @@ module Fog
             :query      => query
           })
         end
-
       end
 
       class Mock # :nodoc:all
-
         require 'fog/internet_archive/requests/storage/acl_utils'
 
         def get_object_acl(bucket_name, object_name, options = {})
@@ -69,7 +66,6 @@ module Fog
           end
           response
         end
-
       end
     end
   end

@@ -1,9 +1,7 @@
 module Fog
   module Compute
     class Ovirt
-
       class Cluster < Fog::Model
-
         identity :id
 
         attribute :name
@@ -16,9 +14,7 @@ module Fog
         def to_s
           name
         end
-
       end
-
     end
   end
 end

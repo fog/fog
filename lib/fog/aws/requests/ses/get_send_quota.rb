@@ -2,7 +2,6 @@ module Fog
   module AWS
     class SES
       class Real
-
         require 'fog/aws/parsers/ses/get_send_quota'
 
         # Returns the user's current activity limits.
@@ -24,7 +23,6 @@ module Fog
             :parser  => Fog::Parsers::AWS::SES::GetSendQuota.new
           })
         end
-
       end
     end
   end

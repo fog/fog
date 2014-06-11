@@ -3,9 +3,7 @@ require 'fog/vcloud/models/compute/server'
 module Fog
   module Vcloud
     class Compute
-
       class Servers < Fog::Vcloud::Collection
-
         undef_method :create
 
         model Fog::Vcloud::Compute::Server
@@ -45,7 +43,6 @@ module Fog
             :collection => Fog::Vcloud::Compute::Vapps.new(:service => service)
           )
         end
-
       end
     end
   end

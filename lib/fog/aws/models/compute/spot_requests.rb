@@ -5,7 +5,6 @@ module Fog
   module Compute
     class AWS
       class SpotRequests < Fog::Collection
-
         attribute :filters
 
         model Fog::Compute::AWS::SpotRequest
@@ -50,7 +49,7 @@ module Fog
 
           # make sure port 22 is open in the first security group
           security_group = service.security_groups.get(spot_request.groups.first)
-          authorized = security_group.ip_permissions.detect do |ip_permission|
+          authorized = security_group.ip_permissions.find do |ip_permission|
             ip_permission['ipRanges'].first && ip_permission['ipRanges'].first['cidrIp'] == '0.0.0.0/0' &&
             ip_permission['fromPort'] == 22 &&
             ip_permission['ipProtocol'] == 'tcp' &&
@@ -64,13 +63,10 @@ module Fog
           Fog.wait_for { spot_request.reload.ready? rescue nil }
           server = service.servers.get(spot_request.instance_id)
           if spot_request.tags
-            for key, value in spot_request.tags
-              service.tags.create(
-                :key          => key,
-                :resource_id  => spot_request.instance_id,
-                :value        => value
-              )
-            end
+            service.create_tags(
+              spot_request.instance_id,
+              spot_request.tags
+            )
           end
           server.wait_for { ready? }
           server.setup(:key_data => [spot_request.private_key])
@@ -84,7 +80,6 @@ module Fog
         rescue Fog::Errors::NotFound
           nil
         end
-
       end
     end
   end

@@ -13,8 +13,8 @@ Shindo.tests('Fog::Compute[:digitalocean] | power_cycle_server request', ['digit
         server.state == 'off'
       end
     end
-    
+
   end
-      
+
 
 end

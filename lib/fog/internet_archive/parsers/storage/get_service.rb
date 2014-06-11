@@ -2,9 +2,7 @@ module Fog
   module Parsers
     module Storage
       module InternetArchive
-
         class GetService < Fog::Parsers::Base
-
           def reset
             @bucket = {}
             @response = { 'Owner' => {}, 'Buckets' => [] }
@@ -23,9 +21,7 @@ module Fog
               @bucket[name] = value
             end
           end
-
         end
-
       end
     end
   end

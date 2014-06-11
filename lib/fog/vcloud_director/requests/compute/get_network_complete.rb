@@ -2,7 +2,6 @@ module Fog
   module Compute
     class VcloudDirector
       class Real
-
         # Retrieve an organization network.
         #
         # @param [String] id Object identifier of the network.
@@ -72,7 +71,6 @@ module Fog
             :headers => {'Content-Type' => "#{body[:type]};version=#{api_version}"},
             :body => body
           )
-
         end
       end
     end

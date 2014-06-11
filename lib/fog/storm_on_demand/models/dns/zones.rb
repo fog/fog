@@ -4,7 +4,6 @@ require 'fog/storm_on_demand/models/dns/zone'
 module Fog
   module DNS
     class StormOnDemand
-
       class Zones < Fog::Collection
         model Fog::DNS::StormOnDemand::Zone
 
@@ -22,9 +21,7 @@ module Fog
           zones = service.list_zones(options).body['items']
           load(zones)
         end
-
       end
-
     end
   end
 end

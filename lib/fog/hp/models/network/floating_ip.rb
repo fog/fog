@@ -3,7 +3,6 @@ require 'fog/core/model'
 module Fog
   module HP
     class Network
-
       class FloatingIp < Fog::Model
         identity :id
 
@@ -38,7 +37,6 @@ module Fog
           merge_attributes(service.create_floating_ip(floating_network_id, attributes).body['floatingip'])
           true
         end
-
       end
     end
   end

@@ -2,9 +2,7 @@ module Fog
   module Parsers
     module Compute
       module VcloudDirector
-
         class Vm < VcloudDirectorParser
-
           def reset
             @in_operating_system = false
             @in_children = false
@@ -58,7 +56,6 @@ module Fog
             when 'Link'
               @response[:vm][:links] = @links
             end
-
           end
 
           def human_status(status)
@@ -73,9 +70,7 @@ module Fog
               'unknown'
             end
           end
-
         end
-
       end
     end
   end

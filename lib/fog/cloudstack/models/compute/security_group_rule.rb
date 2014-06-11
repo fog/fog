@@ -2,7 +2,6 @@ module Fog
   module Compute
     class Cloudstack
       class SecurityGroupRule < Fog::Model
-
         identity  :id,                :aliases => 'ruleid'
 
         attribute :security_group_id, :type => :string
@@ -55,7 +54,6 @@ module Fog
           options.merge!("startport" => self.start_port) unless self.start_port.nil?
           options.merge("endport" => self.end_port) unless self.end_port.nil?
         end
-
       end # SecurityGroupRule
     end # Cloudstack
   end # Compute

@@ -2,7 +2,6 @@ module Fog
   module Compute
     class IBM
       class Real
-
         # Get a location
         #
         # ==== Parameters
@@ -29,11 +28,9 @@ module Fog
             :path     => "/locations/#{location_id}"
           )
         end
-
       end
 
       class Mock
-
         def get_location(location_id)
           response = Excon::Response.new
           if location_exists? location_id
@@ -48,7 +45,6 @@ module Fog
         def location_exists?(location_id)
           self.data[:locations].key? location_id
         end
-
       end
     end
   end

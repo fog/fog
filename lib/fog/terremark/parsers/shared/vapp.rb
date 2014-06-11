@@ -2,9 +2,7 @@ module Fog
   module Parsers
     module Terremark
       module Shared
-
         class Vapp < TerremarkParser
-
           def reset
             @response = { 'Links' => [], 'VirtualHardware' => {}, 'OperatingSystem' => {} }
             @in_operating_system = false
@@ -56,11 +54,8 @@ module Fog
               end
             end
           end
-
         end
-
       end
     end
   end
 end
-

@@ -4,9 +4,7 @@ require 'fog/ibm/models/compute/vlan'
 module Fog
   module Compute
     class IBM
-
       class Vlans < Fog::Collection
-
         model Fog::Compute::IBM::Vlan
 
         def all
@@ -21,7 +19,6 @@ module Fog
             nil
           end
         end
-
       end
     end
   end

@@ -1,9 +1,7 @@
 module Fog
   module HP
     class DNS
-
       class Real
-
         # Delete a DNS domain
         #
         # ==== Parameters
@@ -16,22 +14,19 @@ module Fog
               :path    => "domains/#{domain_id}"
           )
         end
-
       end
 
       class Mock
         def delete_domain(domain_id)
           response = Excon::Response.new
-          if list_domains.body['domains'].detect { |_| _['id'] == domain_id }
+          if list_domains.body['domains'].find { |_| _['id'] == domain_id }
             response.status = 202
             response
           else
             raise Fog::HP::DNS::NotFound
           end
         end
-
       end
-
     end
   end
 end

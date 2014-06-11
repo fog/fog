@@ -112,35 +112,35 @@ Shindo.tests('Compute::VcloudDirector | media requests', ['vclouddirector']) do
           tests('TypedValue') do
             pending if @service.api_version.to_f < 5.1
             tests('key').returns('MetadataStringValue') do
-              entry = @metadata[:MetadataEntry].detect {|e| e[:Key] == 'fog-test-key'}
+              entry = @metadata[:MetadataEntry].find {|e| e[:Key] == 'fog-test-key'}
               entry[:TypedValue][:xsi_type]
             end
             tests('boolean').returns('MetadataBooleanValue') do
-              entry = @metadata[:MetadataEntry].detect {|e| e[:Key] == 'fog-test-boolean'}
+              entry = @metadata[:MetadataEntry].find {|e| e[:Key] == 'fog-test-boolean'}
               entry[:TypedValue][:xsi_type]
             end
             tests('datetime').returns('MetadataDateTimeValue') do
-              entry = @metadata[:MetadataEntry].detect {|e| e[:Key] == 'fog-test-datetime'}
+              entry = @metadata[:MetadataEntry].find {|e| e[:Key] == 'fog-test-datetime'}
               entry[:TypedValue][:xsi_type]
             end
             tests('number').returns('MetadataNumberValue') do
-              entry = @metadata[:MetadataEntry].detect {|e| e[:Key] == 'fog-test-number'}
+              entry = @metadata[:MetadataEntry].find {|e| e[:Key] == 'fog-test-number'}
               entry[:TypedValue][:xsi_type]
             end
             tests('key-update').returns('MetadataStringValue') do
-              entry = @metadata[:MetadataEntry].detect {|e| e[:Key] == 'fog-test-key-update'}
+              entry = @metadata[:MetadataEntry].find {|e| e[:Key] == 'fog-test-key-update'}
               entry[:TypedValue][:xsi_type]
             end
             tests('boolean-update').returns('MetadataBooleanValue') do
-              entry = @metadata[:MetadataEntry].detect {|e| e[:Key] == 'fog-test-boolean-update'}
+              entry = @metadata[:MetadataEntry].find {|e| e[:Key] == 'fog-test-boolean-update'}
               entry[:TypedValue][:xsi_type]
             end
             tests('datetime-update').returns('MetadataDateTimeValue') do
-              entry = @metadata[:MetadataEntry].detect {|e| e[:Key] == 'fog-test-datetime-update'}
+              entry = @metadata[:MetadataEntry].find {|e| e[:Key] == 'fog-test-datetime-update'}
               entry[:TypedValue][:xsi_type]
             end
             tests('number-update').returns('MetadataNumberValue') do
-              entry = @metadata[:MetadataEntry].detect {|e| e[:Key] == 'fog-test-number-update'}
+              entry = @metadata[:MetadataEntry].find {|e| e[:Key] == 'fog-test-number-update'}
               entry[:TypedValue][:xsi_type]
             end
           end

@@ -4,7 +4,6 @@ require 'fog/aws/models/elasticache/security_group'
 module Fog
   module AWS
     class Elasticache
-
       class SecurityGroups < Fog::Collection
         model Fog::AWS::Elasticache::SecurityGroup
 
@@ -24,7 +23,6 @@ module Fog
           nil
         end
       end
-
     end
   end
 end

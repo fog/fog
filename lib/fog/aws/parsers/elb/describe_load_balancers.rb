@@ -2,9 +2,7 @@ module Fog
   module Parsers
     module AWS
       module ELB
-
         class DescribeLoadBalancers < Fog::Parsers::Base
-
           def reset
             reset_load_balancer
             reset_listener_description
@@ -162,9 +160,7 @@ module Fog
               @response['DescribeLoadBalancersResult'] = @results
             end
           end
-
         end
-
       end
     end
   end

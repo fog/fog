@@ -3,9 +3,7 @@ require 'fog/core/model'
 module Fog
   module Storage
     class Rackspace
-
       class File < Fog::Model
-
         # @!attribute [r] key
         # @return [String] The name of the file
         identity  :key,             :aliases => 'name'
@@ -178,7 +176,6 @@ module Fog
           directory.public?
         end
 
-
         # Get a url for file.
         #
         #     required attributes: key
@@ -284,7 +281,6 @@ module Fog
           merge_attributes(data.headers.reject {|key, value| ['Content-Length', 'Content-Type'].include?(key)})
         end
       end
-
     end
   end
 end

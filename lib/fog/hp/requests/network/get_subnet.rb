@@ -1,7 +1,6 @@
 module Fog
   module HP
     class Network
-
       class Real
         # Gets an existing subnet by id
         #
@@ -37,7 +36,7 @@ module Fog
       class Mock
         def get_subnet(subnet_id)
           response = Excon::Response.new
-          if subnet = list_subnets.body['subnets'].detect {|_| _['id'] == subnet_id}
+          if subnet = list_subnets.body['subnets'].find {|_| _['id'] == subnet_id}
             response.status = 200
             response.body = { 'subnet' => subnet }
             response
@@ -46,7 +45,6 @@ module Fog
           end
         end
       end
-
     end
   end
 end

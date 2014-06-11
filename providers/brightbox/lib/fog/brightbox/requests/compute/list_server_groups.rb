@@ -12,7 +12,6 @@ module Fog
         def list_server_groups
           wrapped_request("get", "/1.0/server_groups", [200])
         end
-
       end
     end
   end

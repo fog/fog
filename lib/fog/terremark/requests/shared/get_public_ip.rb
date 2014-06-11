@@ -2,7 +2,6 @@ module Fog
   module Terremark
     module Shared
       module Real
-
         # Get details for a public ip
         #
         # ==== Parameters
@@ -26,7 +25,6 @@ module Fog
           end
           request(opts)
         end
-
       end
     end
   end

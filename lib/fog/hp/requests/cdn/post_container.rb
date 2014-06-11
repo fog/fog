@@ -2,7 +2,6 @@ module Fog
   module CDN
     class HP
       class Real
-
         # modify CDN properties for a container
         #
         # ==== Parameters
@@ -21,7 +20,6 @@ module Fog
           )
           response
         end
-
       end
 
       class Mock # :nodoc:all
@@ -46,7 +44,6 @@ module Fog
           end
         end
       end
-
     end
   end
 end

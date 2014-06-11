@@ -15,17 +15,17 @@ Shindo.tests("Vcloud::Compute | network", ['vcloud']) do
       tests("an org network") do
         instance = connection.get_network("https://vcloud.example.com/api#{version == '1.0' ? '/v1.0' : ''}/network/1")
         instance.reload
-    
+
         tests("#href").returns("https://vcloud.example.com/api#{version == '1.0' ? '/v1.0' : ''}/network/1") { instance.href }
         tests("#name").returns("Network1") { instance.name }
         tests("#description").returns("Some fancy Network") { instance.description }
-    
+
         tests("configuration") do
           tests("parent network").returns("ParentNetwork1") { instance.configuration[:ParentNetwork][:name]}
           tests("dns").returns("172.0.0.2") { instance.configuration[:IpScope][:Dns1]}
-          
+
           tests("#fence_mode").returns("natRouted") { instance.configuration[:FenceMode] }
-          
+
           tests("features") do
             tests("dhcp_service") do
               tests("#is_enabled").returns("false") { instance.configuration[:Features][:DhcpService][:IsEnabled] }
@@ -41,12 +41,12 @@ Shindo.tests("Vcloud::Compute | network", ['vcloud']) do
             end
           end
         end
-        
+
         tests("#parent_network") do
           tests("returned network name").returns("ParentNetwork1"){ p = instance.parent_network; p.name }
         end
       end
-    
+
       tests("an external network") do
         instance = connection.get_network("https://vcloud.example.com/api#{version == '1.0' ? '/v1.0' : ''}/admin/network/2")
         instance.reload
@@ -54,12 +54,12 @@ Shindo.tests("Vcloud::Compute | network", ['vcloud']) do
         tests("#name").returns("ParentNetwork1") { instance.name }
         tests("#description").returns("Internet Connection") { instance.description }
         tests("#provider_info").returns("NETWORK:dvportgroup-230 on com.vmware.vcloud.entity.vimserver:35935555") { instance.provider_info }
-    
+
         tests("configuration") do
           tests("dns").returns("172.0.0.2") { instance.configuration[:IpScope][:Dns1]}
           tests("allocated addresses").returns("172.0.0.144") { instance.configuration[:IpScope][:AllocatedIpAddresses][:IpAddress].first }
         end
-    
+
         tests("#parent_network").returns(nil){ instance.parent_network }
       end
     end

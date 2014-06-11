@@ -3,9 +3,7 @@ require 'fog/core/model'
 module Fog
   module Terremark
     module Shared
-
       class NodeService < Fog::Model
-
         identity :Id
         attribute :Name
         attribute :Href
@@ -42,11 +40,11 @@ module Fog
         end
 
         def type=(new_type); @type = new_type; end
+
         def size=(new_size); @size = new_size; end
+
         def Links=(new_links); @Links = new_links; end
-
       end
-
     end
   end
 end

@@ -1,7 +1,7 @@
 Shindo.tests('Fog::Compute[:linode] | linodeplans requests', ['linode']) do
 
   @linodeplans_format = Linode::Compute::Formats::BASIC.merge({
-    'DATA' => [{ 
+    'DATA' => [{
       'AVAIL' => {
          '2' => Integer,
          '3' => Integer,

@@ -4,9 +4,7 @@ require 'fog/hp/models/dns/domain'
 module Fog
   module HP
     class DNS
-
       class Domains < Fog::Collection
-
         model Fog::HP::DNS::Domain
 
         def all
@@ -21,7 +19,6 @@ module Fog
         rescue Fog::HP::DNS::NotFound
           nil
         end
-
       end
     end
   end

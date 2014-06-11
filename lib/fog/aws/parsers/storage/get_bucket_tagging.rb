@@ -2,9 +2,7 @@ module Fog
   module Parsers
     module Storage
       module AWS
-
         class GetBucketTagging < Fog::Parsers::Base
-
           def reset
             @in_tag = {}
             @response = {'BucketTagging' => {}}
@@ -28,9 +26,7 @@ module Fog
               @in_tag = {@in_tag.keys.first => value}
             end
           end
-
         end
-
       end
     end
   end

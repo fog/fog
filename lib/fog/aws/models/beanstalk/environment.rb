@@ -3,7 +3,6 @@ require 'fog/core/model'
 module Fog
   module AWS
     class ElasticBeanstalk
-
       class Environment < Fog::Model
         identity :name, :aliases => 'EnvironmentName'
         attribute :id, :aliases => 'EnvironmentId'
@@ -47,7 +46,6 @@ module Fog
 
         # Returns the load balancer object associated with the environment.
         def load_balancer(elb_connection = Fog::AWS[:elb])
-
           if resources.nil?
             elb_connection.load_balancers.get(live_resources['LoadBalancers'].first['Name'])
           else
@@ -141,9 +139,7 @@ module Fog
           merge_attributes(data)
           true
         end
-
       end
-
     end
   end
 end

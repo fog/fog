@@ -4,9 +4,7 @@ require 'fog/ibm/models/compute/location'
 module Fog
   module Compute
     class IBM
-
       class Locations < Fog::Collection
-
         model Fog::Compute::IBM::Location
 
         def all
@@ -20,7 +18,6 @@ module Fog
             nil
           end
         end
-
       end
     end
   end

@@ -30,9 +30,9 @@ module Fog
             attrs = {
               :xmlns => 'http://www.vmware.com/vcloud/v1.5'
             }
-            attr[:deploymentLeaseSeconds] = options[:deploymentLeaseSeconds] if options.key?(:deploymentLeaseSeconds)
-            attr[:forceCustomization] = options[:forceCustomization] if options.key?(:forceCustomization)
-            attr[:powerOn] = options[:powerOn] if options.key?(:powerOn)
+            attrs[:deploymentLeaseSeconds] = options[:deploymentLeaseSeconds] if options.key?(:deploymentLeaseSeconds)
+            attrs[:forceCustomization] = options[:forceCustomization] if options.key?(:forceCustomization)
+            attrs[:powerOn] = options[:powerOn] if options.key?(:powerOn)
             DeployVAppParams(attrs)
           end.to_xml
 

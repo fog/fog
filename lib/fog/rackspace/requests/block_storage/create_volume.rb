@@ -2,7 +2,6 @@ module Fog
   module Rackspace
     class BlockStorage
       class Real
-
         # Create volume
         #
         # @param [Integer] size size of volume in GB. Minimum size is 100

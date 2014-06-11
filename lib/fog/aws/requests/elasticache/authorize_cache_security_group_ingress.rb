@@ -2,7 +2,6 @@ module Fog
   module AWS
     class Elasticache
       class Real
-
         require 'fog/aws/parsers/elasticache/single_security_group'
 
         # Authorize ingress to a CacheSecurityGroup using EC2 Security Groups
@@ -23,11 +22,9 @@ module Fog
             :parser => Fog::Parsers::AWS::Elasticache::SingleSecurityGroup.new
           })
         end
-
       end
 
       class Mock
-
         def authorize_cache_security_group_ingress(name, ec2_name, ec2_owner_id)
           opts = {
             'EC2SecurityGroupName' => ec2_name,
@@ -36,7 +33,7 @@ module Fog
 
           if sec_group = self.data[:security_groups][name]
 
-            if sec_group['EC2SecurityGroups'].detect{|h| h['EC2SecurityGroupName'] == opts['EC2SecurityGroupName']}
+            if sec_group['EC2SecurityGroups'].find{|h| h['EC2SecurityGroupName'] == opts['EC2SecurityGroupName']}
               raise Fog::AWS::Elasticache::AuthorizationAlreadyExists.new("AuthorizationAlreadyExists => #{opts['EC2SecurityGroupName']} is alreay defined")
             end
             sec_group['EC2SecurityGroups'] << opts.merge({'Status' => 'authorizing'})
@@ -53,7 +50,6 @@ module Fog
           else
             raise Fog::AWS::Elasticache::NotFound.new("CacheSecurityGroupNotFound => #{name} not found")
           end
-
         end
       end
     end

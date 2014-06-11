@@ -2,7 +2,6 @@ module Fog
   module Compute
     class Rackspace
       class Real
-
         # Get details about a server
         #
         # ==== Parameters
@@ -30,14 +29,12 @@ module Fog
             :path     => "servers/#{server_id}.json"
           )
         end
-
       end
 
       class Mock
-
         def get_server_details(server_id)
           response = Excon::Response.new
-          if server = list_servers_detail.body['servers'].detect {|_| _['id'].to_s == server_id.to_s}
+          if server = list_servers_detail.body['servers'].find {|_| _['id'].to_s == server_id.to_s}
             response.status = [200, 203][rand(1)]
             response.body = { 'server' => server }
             response
@@ -45,7 +42,6 @@ module Fog
             raise Fog::Compute::Rackspace::NotFound
           end
         end
-
       end
     end
   end

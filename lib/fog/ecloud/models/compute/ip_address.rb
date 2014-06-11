@@ -30,7 +30,7 @@ module Fog
 
         def network
           reload if other_links.nil?
-          network_href = other_links.detect { |l| l[:type] == "application/vnd.tmrk.cloud.network" }[:href]
+          network_href = other_links.find { |l| l[:type] == "application/vnd.tmrk.cloud.network" }[:href]
           network      = self.service.networks.get(network_href)
         end
       end

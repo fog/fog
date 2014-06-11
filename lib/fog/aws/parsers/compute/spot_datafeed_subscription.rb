@@ -2,9 +2,7 @@ module Fog
   module Parsers
     module Compute
       module AWS
-
         class SpotDatafeedSubscription < Fog::Parsers::Base
-
           def reset
             @response = { 'spotDatafeedSubscription' => {} }
           end
@@ -20,9 +18,7 @@ module Fog
               @response[name] = value
             end
           end
-
         end
-
       end
     end
   end

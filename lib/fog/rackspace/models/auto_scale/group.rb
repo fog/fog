@@ -7,7 +7,6 @@ module Fog
   module Rackspace
     class AutoScale
       class Group < Fog::Model
-
         # @!attribute [r] id
         # @return [String] The autoscale group's id
         identity :id
@@ -29,7 +28,7 @@ module Fog
         #
         # @see http://docs.rackspace.com/cas/api/v1.0/autoscale-devguide/content/GET_getGroupConfig_v1.0__tenantId__groups__groupId__config_Configurations.html
         def group_config
-          if attributes[:group_config].nil?
+          if attributes[:group_config].nil? && persisted?
             data = service.get_group_config(identity)
             attributes[:group_config] = load_model('GroupConfig', data.body['groupConfiguration'])
           end
@@ -60,7 +59,7 @@ module Fog
         #
         # @see http://docs.rackspace.com/cas/api/v1.0/autoscale-devguide/content/GET_getLaunchConfig_v1.0__tenantId__groups__groupId__launch_Configurations.html
         def launch_config
-          if attributes[:launch_config].nil?
+          if attributes[:launch_config].nil?  && persisted?
             data = service.get_launch_config(identity)
             attributes[:launch_config] = load_model('LaunchConfig', data.body['launchConfiguration'])
           end
@@ -86,7 +85,16 @@ module Fog
         #
         # @see http://docs.rackspace.com/cas/api/v1.0/autoscale-devguide/content/GET_getPolicies_v1.0__tenantId__groups__groupId__policies_Policies.html
         def policies
-          @policies ||= load_model('Policies')
+          return @policies if @policies
+          if persisted?
+            @policies = load_model('Policies')
+          else
+            @policies = Fog::Rackspace::AutoScale::Policies.new(:service => service, :group => self)
+            @policies.clear
+          end
+          @policies
+          # return nil unless persisted?
+          # @policies ||= load_model('Policies')
         end
 
         # Creates group
@@ -200,7 +208,6 @@ module Fog
           end
           model
         end
-
       end
     end
   end

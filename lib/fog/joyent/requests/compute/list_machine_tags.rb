@@ -14,7 +14,6 @@ module Fog
       end
 
       class Mock
-
       end
     end
   end

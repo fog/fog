@@ -2,7 +2,6 @@ module Fog
   module Rackspace
     class BlockStorage
       class Real
-
         # Retrieves snapshot detail
         # @param [String] snapshot_id
         # @return [Excon::Response] response:

@@ -2,7 +2,6 @@ module Fog
   module AWS
     class ELB
       class Real
-
         require 'fog/aws/parsers/elb/attach_load_balancer_to_subnets'
 
         # Enable a subnet for an existing ELB
@@ -27,12 +26,10 @@ module Fog
           }.merge!(params))
         end
 
-        alias :enable_subnets :attach_load_balancer_to_subnets
-
+        alias_method :enable_subnets, :attach_load_balancer_to_subnets
       end
 
       class Mock
-
         def attach_load_balancer_to_subnets(subnet_ids, lb_name)
           raise Fog::AWS::ELB::NotFound unless load_balancer = self.data[:load_balancers][lb_name]
 
@@ -54,7 +51,7 @@ module Fog
           response
         end
 
-        alias :enable_subnets :attach_load_balancer_to_subnets
+        alias_method :enable_subnets, :attach_load_balancer_to_subnets
       end
     end
   end

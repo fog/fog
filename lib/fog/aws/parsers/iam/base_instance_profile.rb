@@ -2,9 +2,7 @@ module Fog
   module Parsers
     module AWS
       module IAM
-
         class BaseInstanceProfile < Fog::Parsers::Base
-
           def reset
             super
             @stack = []
@@ -70,9 +68,7 @@ module Fog
               end
             end
           end
-
         end
-
       end
     end
   end

@@ -4,9 +4,7 @@ require 'fog/dynect/models/dns/zone'
 module Fog
   module DNS
     class Dynect
-
       class Zones < Fog::Collection
-
         model Fog::DNS::Dynect::Zone
 
         def all
@@ -21,9 +19,7 @@ module Fog
         rescue Excon::Errors::NotFound
           nil
         end
-
       end
-
     end
   end
 end

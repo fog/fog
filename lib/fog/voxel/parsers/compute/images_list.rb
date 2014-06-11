@@ -2,9 +2,7 @@ module Fog
   module Parsers
     module Compute
       module Voxel
-
         class ImagesList < Fog::Parsers::Base
-
           def reset
             @image = {}
             @response = { 'images' => [] }
@@ -50,9 +48,7 @@ module Fog
               @image['filesystem'][name] = value
             end
           end
-
         end
-
       end
     end
   end

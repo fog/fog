@@ -2,9 +2,7 @@ module Fog
   module Parsers
     module Compute
       module AWS
-
         class DescribeInstances < Fog::Parsers::Base
-
           def reset
             @block_device_mapping = {}
             @network_interface = {}
@@ -34,7 +32,7 @@ module Fog
             when 'architecture', 'clientToken', 'dnsName', 'hypervisor', 'imageId',
                   'instanceId', 'instanceType', 'ipAddress', 'kernelId', 'keyName',
                   'instanceLifecycle', 'platform', 'privateDnsName', 'privateIpAddress', 'ramdiskId',
-                  'reason', 'requesterId', 'rootDeviceType', 
+                  'reason', 'requesterId', 'rootDeviceName', 'rootDeviceType',
                   'spotInstanceRequestId', 'virtualizationType'
               @instance[name] = value
             when 'attachTime'
@@ -117,9 +115,7 @@ module Fog
               @instance['instanceState']['name'] = value
             end
           end
-
         end
-
       end
     end
   end

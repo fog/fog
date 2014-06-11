@@ -3,9 +3,7 @@ require 'fog/core/model'
 module Fog
   module Storage
     class AWS
-
       class Version < Fog::Model
-
         identity  :version,             :aliases => 'VersionId'
 
         attribute :key,                 :aliases => 'Key'
@@ -30,7 +28,6 @@ module Fog
           end
         end
       end
-
     end
   end
 end

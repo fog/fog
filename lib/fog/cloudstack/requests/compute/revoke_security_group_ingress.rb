@@ -2,7 +2,6 @@ module Fog
   module Compute
     class Cloudstack
       class Real
-
         def revoke_security_group_ingress(options={})
           options.merge!(
             'command' => 'revokeSecurityGroupIngress'
@@ -10,7 +9,6 @@ module Fog
 
           request(options)
         end
-
       end # Real
 
       class Mock
@@ -39,9 +37,7 @@ module Fog
 
           {"revokesecuritygroupingress" => { "jobid" => job_id }}
         end
-
       end
     end
   end
 end
-

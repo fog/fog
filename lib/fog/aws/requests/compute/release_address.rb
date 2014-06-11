@@ -2,7 +2,6 @@ module Fog
   module Compute
     class AWS
       class Real
-
         require 'fog/aws/parsers/compute/basic'
 
         # Release an elastic IP address.
@@ -30,15 +29,13 @@ module Fog
             :parser     => Fog::Parsers::Compute::AWS::Basic.new
           )
         end
-
       end
 
       class Mock
-
         def release_address(public_ip_or_allocation_id)
           response = Excon::Response.new
 
-          address = self.data[:addresses][public_ip_or_allocation_id] || self.data[:addresses].values.detect {|a| a['allocationId'] == public_ip_or_allocation_id }
+          address = self.data[:addresses][public_ip_or_allocation_id] || self.data[:addresses].values.find {|a| a['allocationId'] == public_ip_or_allocation_id }
 
           if address
             if address['allocationId'] && public_ip_or_allocation_id == address['publicIp']
@@ -56,7 +53,6 @@ module Fog
             raise Fog::Compute::AWS::Error.new("AuthFailure => The address '#{public_ip_or_allocation_id}' does not belong to you.")
           end
         end
-
       end
     end
   end

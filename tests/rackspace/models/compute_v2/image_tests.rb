@@ -58,7 +58,6 @@ Shindo.tests('Fog::Compute::RackspaceV2 | image', ['rackspace']) do
     end
   end
 
-
   tests("success") do
     begin
       server = service.servers.create(options)

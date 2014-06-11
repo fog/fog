@@ -2,7 +2,7 @@ require 'securerandom'
 
 Shindo.tests('Bluebox::BLB | lb_tests', ['bluebox']) do
   pending if Fog.mocking?
-  
+
   tests('success') do
     @flavor_id    = compute_providers[:bluebox][:server_attributes][:flavor_id]
     @image_id     = compute_providers[:bluebox][:server_attributes][:image_id]

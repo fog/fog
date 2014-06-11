@@ -5,7 +5,6 @@ module Fog
   module Compute
     class RackspaceV2
       class Attachments < Fog::Collection
-
         model Fog::Compute::RackspaceV2::Attachment
 
         attr_accessor :server

@@ -12,7 +12,6 @@ module Fog
           mock_update(data, :profile, 200)
         end
       end
-
     end
   end
 end

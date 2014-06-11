@@ -3,9 +3,7 @@ require 'fog/core/model'
 module Fog
   module HP
     class BlockStorage
-
       class Volume < Fog::Model
-
         identity  :id
 
         attribute :name,                 :aliases => 'displayName'
@@ -94,9 +92,7 @@ module Fog
           merge_attributes(data.body['volume'])
           true
         end
-
       end
-
     end
   end
 end

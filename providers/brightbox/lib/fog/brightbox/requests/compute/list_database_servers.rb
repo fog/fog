@@ -10,7 +10,6 @@ module Fog
         def list_database_servers
           wrapped_request("get", "/1.0/database_servers", [200])
         end
-
       end
     end
   end

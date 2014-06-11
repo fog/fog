@@ -6,7 +6,6 @@ require 'securerandom'
 module Fog
   module Compute
     module LibvirtUtil
-
       def xml_element(xml, path, attribute=nil)
         xml = Nokogiri::XML(xml)
         attribute.nil? ? (xml/path).first.text : (xml/path).first[attribute.to_sym]

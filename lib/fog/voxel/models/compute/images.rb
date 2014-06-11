@@ -4,9 +4,7 @@ require 'fog/voxel/models/compute/image'
 module Fog
   module Compute
     class Voxel
-
       class Images < Fog::Collection
-
         model Fog::Compute::Voxel::Image
 
         def all
@@ -24,7 +22,6 @@ module Fog
           end
         end
       end
-
     end
   end
 end

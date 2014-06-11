@@ -3,9 +3,7 @@ require 'fog/core/model'
 module Fog
   module Compute
     class Google
-
       class Operation < Fog::Model
-
         identity :name
 
         attribute :kind
@@ -71,7 +69,6 @@ module Fog
         PENDING_STATE = "PENDING"
         RUNNING_STATE = "RUNNING"
         DONE_STATE = "DONE"
-
       end
     end
   end

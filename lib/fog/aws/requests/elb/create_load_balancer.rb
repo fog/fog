@@ -2,7 +2,6 @@ module Fog
   module AWS
     class ELB
       class Real
-
         require 'fog/aws/parsers/elb/create_load_balancer'
 
         # Create a new Elastic Load Balancer
@@ -61,7 +60,7 @@ module Fog
           response = Excon::Response.new
           response.status = 200
 
-          raise Fog::AWS::ELB::IdentifierTaken if self.data[:load_balancers].has_key? lb_name
+          raise Fog::AWS::ELB::IdentifierTaken if self.data[:load_balancers].key? lb_name
 
           certificate_ids = Fog::AWS::IAM::Mock.data[@aws_access_key_id][:server_certificates].map {|n, c| c['Arn'] }
 
@@ -76,7 +75,7 @@ module Fog
 
           availability_zones = [*availability_zones].compact
           region = availability_zones.empty? ? "us-east-1" : availability_zones.first.gsub(/[a-z]$/, '')
-          supported_platforms = Fog::Compute::AWS::Mock.data[region][@aws_access_key_id][:account_attributes].detect { |h| h["attributeName"] == "supported-platforms" }["values"]
+          supported_platforms = Fog::Compute::AWS::Mock.data[region][@aws_access_key_id][:account_attributes].find { |h| h["attributeName"] == "supported-platforms" }["values"]
           subnet_ids = options[:subnet_ids] || []
           subnets = Fog::Compute::AWS::Mock.data[region][@aws_access_key_id][:subnets].select {|e| subnet_ids.include?(e["subnetId"]) }
 
@@ -100,11 +99,12 @@ module Fog
                              Fog::Compute::AWS::Mock.data[region][@aws_access_key_id][:security_groups]['amazon-elb-sg']
                            when 'EC2-VPC-Default'
                              # find or create default vpc
-                             unless vpc = Fog::Compute[:aws].vpcs.all.first
-                               vpc = Fog::Compute[:aws].vpcs.create('cidr_block' => '10.0.0.0/24')
+                             compute = Fog::Compute::AWS::new(:aws_access_key_id => @aws_access_key_id, :aws_secret_access_key => @aws_secret_access_key)
+                             unless vpc = compute.vpcs.all.first
+                               vpc = compute.vpcs.create('cidr_block' => '10.0.0.0/24')
                              end
 
-                             default_sg = Fog::Compute::AWS::Mock.data[region][@aws_access_key_id][:security_groups].values.detect { |sg|
+                             default_sg = Fog::Compute::AWS::Mock.data[region][@aws_access_key_id][:security_groups].values.find { |sg|
                                sg['groupName'] =~ /^default_elb/ &&
                                  sg["vpcId"] == vpc.id
                              }
@@ -126,7 +126,7 @@ module Fog
                            when 'EC2-VPC'
                              # find or create default vpc security group
                              vpc_id = subnets.first["vpcId"]
-                             default_sg = Fog::Compute::AWS::Mock.data[region][@aws_access_key_id][:security_groups].values.detect { |sg|
+                             default_sg = Fog::Compute::AWS::Mock.data[region][@aws_access_key_id][:security_groups].values.find { |sg|
                                sg['groupName'] == 'default' &&
                                  sg["vpcId"] == vpc_id
                              }

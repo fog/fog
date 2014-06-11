@@ -1,7 +1,6 @@
 module Fog
   module Compute
     class Joyent
-
       class Mock
         def list_images
           res = Excon::Response.new

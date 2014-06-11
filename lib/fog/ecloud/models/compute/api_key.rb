@@ -11,7 +11,6 @@ module Fog
         attribute :status, :aliases => :Status
         attribute :private_key, :aliases => :PrivateKey
 
-
         def id
           href.scan(/\d+/)[0]
         end

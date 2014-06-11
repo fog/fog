@@ -2,7 +2,6 @@ module Fog
   module AWS
     class Glacier
       class Real
-
         # Get the output from a job
         #
         # ==== Parameters
@@ -35,7 +34,6 @@ module Fog
           ))
         end
       end
-
     end
   end
 end

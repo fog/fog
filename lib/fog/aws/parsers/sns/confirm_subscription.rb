@@ -2,9 +2,7 @@ module Fog
   module Parsers
     module AWS
       module SNS
-
         class ConfirmSubscription < Fog::Parsers::Base
-
           def reset
             @response = {}
           end
@@ -15,9 +13,7 @@ module Fog
               @response[name] = @value.strip
             end
           end
-
         end
-
       end
     end
   end

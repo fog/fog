@@ -10,7 +10,6 @@ module Fog
         attribute :default, :aliases => :Default, :type => :boolean
         attribute :finger_print, :aliases => :FingerPrint
 
-
         def id
           href.scan(/\d+/)[0]
         end

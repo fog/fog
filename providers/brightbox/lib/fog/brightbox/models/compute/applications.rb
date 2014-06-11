@@ -4,9 +4,7 @@ require 'fog/brightbox/models/compute/application'
 module Fog
   module Compute
     class Brightbox
-
       class Applications < Fog::Collection
-
         model Fog::Compute::Brightbox::Application
 
         def all
@@ -20,9 +18,7 @@ module Fog
         rescue Excon::Errors::NotFound
           nil
         end
-
       end
-
     end
   end
 end

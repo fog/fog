@@ -20,7 +20,6 @@ module Fog
       recognizes :rackspace_region
       recognizes :rackspace_database_url
 
-
       model_path 'fog/rackspace/models/databases'
       model :flavor
       collection :flavors
@@ -60,7 +59,6 @@ module Fog
       end
 
       class Real < Fog::Rackspace::Service
-
         def service_name
           :cloudDatabases
         end

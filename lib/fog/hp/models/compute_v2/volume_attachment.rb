@@ -4,7 +4,6 @@ module Fog
   module Compute
     class HPV2
       class VolumeAttachment < Fog::Model
-
         identity  :id
 
         attribute :server_id, :aliases => 'serverId'
@@ -30,9 +29,9 @@ module Fog
           service.detach_volume(server_id, volume_id)
           true
         end
-        alias :detach :destroy
+        alias_method :detach, :destroy
 
-      private
+        private
         def server
           collection.server
         end

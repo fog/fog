@@ -2,9 +2,7 @@ module Fog
   module Parsers
     module AWS
       module IAM
-
         class ListAccountAliases < Fog::Parsers::Base
-
           def reset
             @response = { 'AccountAliases' => [] }
           end
@@ -19,9 +17,7 @@ module Fog
               response[name] = @value
             end
           end
-
         end
-
       end
     end
   end

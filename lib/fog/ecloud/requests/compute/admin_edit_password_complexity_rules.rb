@@ -2,7 +2,6 @@ module Fog
   module Compute
     class Ecloud
       class Real
-
         def password_complexity_rules_edit(data)
           validate_data([:rule_type], data)
           if data[:rule_type] == "Custom"
@@ -21,7 +20,6 @@ module Fog
         end
 
         private
-
 
         def build_password_complexity_rules_edit(data)
           xml = Builder::XmlMarkup.new

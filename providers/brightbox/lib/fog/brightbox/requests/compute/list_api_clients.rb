@@ -12,7 +12,6 @@ module Fog
         def list_api_clients
           wrapped_request("get", "/1.0/api_clients", [200])
         end
-
       end
     end
   end

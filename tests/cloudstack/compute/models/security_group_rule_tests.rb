@@ -21,7 +21,6 @@ Shindo.tests("Fog::Compute[:#{provider}] | security_group_rules | ingress", [pro
 
 end
 
-
 Shindo.tests("Fog::Compute[:#{provider}] | security_group_rules | egress", [provider.to_s]) do
 
   security_group_rule_tests(Fog::Compute[:cloudstack], config, "egress", config[:mocked])

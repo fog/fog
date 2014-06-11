@@ -4,9 +4,7 @@ require 'fog/hp/models/dns/record'
 module Fog
   module HP
     class DNS
-
       class Records < Fog::Collection
-
         model Fog::HP::DNS::Record
 
         attr_accessor :domain
@@ -25,7 +23,6 @@ module Fog
         rescue Fog::HP::DNS::NotFound
           nil
         end
-
       end
     end
   end

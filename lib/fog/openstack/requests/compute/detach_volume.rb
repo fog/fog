@@ -2,7 +2,6 @@ module Fog
   module Compute
     class OpenStack
       class Real
-
         def detach_volume(server_id, attachment_id)
           request(
             :expects  => 202,
@@ -10,11 +9,9 @@ module Fog
             :path     => "servers/%s/os-volume_attachments/%s" % [server_id, attachment_id]
           )
         end
-
       end
 
       class Mock
-
         def detach_volume(server_id, attachment_id)
           response = Excon::Response.new
           if self.data[:volumes][attachment_id] &&
@@ -26,7 +23,6 @@ module Fog
           end
         end
       end
-
     end
   end
 end

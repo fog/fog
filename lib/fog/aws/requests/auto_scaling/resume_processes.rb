@@ -1,9 +1,7 @@
 module Fog
   module AWS
     class AutoScaling
-
       class Real
-
         require 'fog/aws/parsers/auto_scaling/basic'
 
         # Resumes Auto Scaling processes for an Auto Scaling group.
@@ -34,13 +32,11 @@ module Fog
             :parser                => Fog::Parsers::AWS::AutoScaling::Basic.new
           }.merge!(options))
         end
-
       end
 
       class Mock
-
         def resume_processes(auto_scaling_group_name, options = {})
-          unless self.data[:auto_scaling_groups].has_key?(auto_scaling_group_name)
+          unless self.data[:auto_scaling_groups].key?(auto_scaling_group_name)
             raise Fog::AWS::AutoScaling::ValidationError.new("AutoScalingGroup name not found - no such group: #{auto_scaling_group_name}")
           end
 
@@ -51,9 +47,7 @@ module Fog
           }
           response
         end
-
       end
-
     end
   end
 end

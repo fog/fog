@@ -39,7 +39,7 @@ module Fog
         end
 
         def user_exists?(email)
-          data.detect do |key, value|
+          data.find do |key, value|
             value[:email] == email
           end
         end

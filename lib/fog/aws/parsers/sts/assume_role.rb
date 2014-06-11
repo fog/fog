@@ -2,9 +2,7 @@ module Fog
   module Parsers
     module AWS
       module STS
-
         class AssumeRole < Fog::Parsers::Base
-
           def reset
             @response = {}
           end
@@ -21,9 +19,7 @@ module Fog
               @response[name] = @value
             end
           end
-
         end
-
       end
     end
   end

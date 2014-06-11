@@ -21,11 +21,11 @@ Shindo.tests('Fog::Compute[:stormondemand] | server requests', ['stormondemand']
       'active' => Integer,
       'create_date' => String
   }
-  
+
   @servers_format = {
     'items' => [@server_format]
   }
-    
+
   tests('success') do
 
     @uniq_id = nil

@@ -2,7 +2,6 @@ module Fog
   module Compute
     class AWS
       class Real
-
         require 'fog/aws/parsers/compute/describe_instance_status'
 
         # http://docs.amazonwebservices.com/AWSEC2/latest/APIReference/ApiReference-query-DescribeInstanceStatus.html
@@ -40,7 +39,6 @@ module Fog
           }
 
           response
-
         end
       end
     end

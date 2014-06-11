@@ -1,14 +1,12 @@
 module Fog
   module Compute
     class Ecloud
-
       class Real
         basic_request :get_detached_disks
       end
 
       class Mock
         def get_detached_disks(uri)
-
           compute_pool_id = id_from_uri(uri)
           compute_pool    = self.data[:compute_pools][compute_pool_id]
 

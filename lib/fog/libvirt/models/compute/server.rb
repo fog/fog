@@ -5,9 +5,7 @@ require 'net/ssh/proxy/command'
 module Fog
   module Compute
     class Libvirt
-
       class Server < Fog::Compute::Server
-
         include Fog::Compute::LibvirtUtil
         attr_reader :xml
 
@@ -117,9 +115,9 @@ module Fog
         end
 
         #alias methods
-        alias :halt    :poweroff
-        alias :stop    :shutdown
-        alias :active? :active
+        alias_method :halt,    :poweroff
+        alias_method :stop,    :shutdown
+        alias_method :active?, :active
 
         def volumes
           # lazy loading of volumes
@@ -241,7 +239,6 @@ module Fog
             ssh_options[:port]=port unless keyfile.nil?
             ssh_options[:paranoid]=true if service.uri.no_verify?
 
-
             begin
               result=Fog::SSH.new(host, user, ssh_options).run(ip_command)
             rescue Errno::ECONNREFUSED
@@ -249,7 +246,6 @@ module Fog
             rescue Net::SSH::AuthenticationFailed
               raise Fog::Errors::Error.new("Error authenticating over ssh to host #{host} and user #{user}")
             end
-
 
             # Check for a clean exit code
             if result.first.status == 0
@@ -282,7 +278,6 @@ module Fog
             #Strip any new lines from the string
             ip_address=ip_address.chomp
           end
-
 
           # The Ip-address command has been run either local or remote now
 
@@ -390,10 +385,7 @@ module Fog
         def default_display
           {:port => '-1', :listen => '127.0.0.1', :type => 'vnc', :password => '' }
         end
-
       end
-
     end
   end
-
 end

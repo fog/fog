@@ -14,7 +14,7 @@ module Fog
       class Mock
         def get_security_group_rule(security_group_rule_id)
           security_group_rule = nil
-          self.data[:security_groups].detect{|id, sg| security_group_rule = sg["rules"].detect{ |sgr| sgr["id"].to_s == security_group_rule_id.to_s }}
+          self.data[:security_groups].find{|id, sg| security_group_rule = sg["rules"].find{ |sgr| sgr["id"].to_s == security_group_rule_id.to_s }}
           response = Excon::Response.new
           if security_group_rule
             response.status = 200

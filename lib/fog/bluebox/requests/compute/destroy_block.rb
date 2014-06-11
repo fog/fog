@@ -2,7 +2,6 @@ module Fog
   module Compute
     class Bluebox
       class Real
-
         # Destroy a block
         #
         # ==== Parameters
@@ -19,7 +18,6 @@ module Fog
             :path     => "api/blocks/#{block_id}.json"
           )
         end
-
       end
     end
   end

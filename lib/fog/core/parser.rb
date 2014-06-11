@@ -3,7 +3,6 @@ require "nokogiri"
 module Fog
   module Parsers
     class Base < Nokogiri::XML::SAX::Document
-
       attr_reader :response
 
       def initialize
@@ -11,7 +10,7 @@ module Fog
       end
 
       def attr_value(name, attrs)
-        (entry = attrs.detect {|a, v| a == name }) && entry.last
+        (entry = attrs.find {|a, v| a == name }) && entry.last
       end
 
       def reset
@@ -43,14 +42,12 @@ module Fog
       def value
         @value && @value.dup
       end
-
     end
   end
 end
 
 module Fog
   class ToHashDocument < Nokogiri::XML::SAX::Document
-
     def initialize
       @stack = []
     end
@@ -111,6 +108,5 @@ module Fog
         @stack.push(data)
       end
     end
-
   end
 end

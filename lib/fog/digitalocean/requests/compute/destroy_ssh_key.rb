@@ -2,7 +2,6 @@ module Fog
   module Compute
     class DigitalOcean
       class Real
-
         #
         # Delete a SSH public key from your account
         #
@@ -15,11 +14,9 @@ module Fog
             :path     => "ssh_keys/#{id}/destroy"
           )
         end
-
       end
 
       class Mock
-
         def destroy_ssh_key(id)
           response = Excon::Response.new
           response.status = 200
@@ -30,7 +27,6 @@ module Fog
           end
           response
         end
-
       end
     end
   end

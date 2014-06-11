@@ -9,13 +9,13 @@ module Fog
             :certificate => certificate
           }
 
-          if options.has_key? :intermediate_certificate
+          if options.key? :intermediate_certificate
             data['intermediateCertificate'] = options[:intermediate_certificate]
           end
-          if options.has_key? :enabled
+          if options.key? :enabled
             data['enabled'] = options[:enabled]
           end
-          if options.has_key? :secure_traffic_only
+          if options.key? :secure_traffic_only
             data['secureTrafficOnly'] = options[:secure_traffic_only]
           end
           request(

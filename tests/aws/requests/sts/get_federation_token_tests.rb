@@ -16,5 +16,5 @@ Shindo.tests('AWS::STS | session tokens', ['aws']) do
 	tests("#get_federation_token('test@fog.io', #{@policy.inspect})").formats(@federation_format) do
 		Fog::AWS[:sts].get_federation_token("test@fog.io", @policy).body
 	end
-	
+
 end

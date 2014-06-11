@@ -2,7 +2,6 @@ module Fog
   module AWS
     class DynamoDB
       class Real
-
         # Delete DynamoDB item
         #
         # ==== Parameters
@@ -38,7 +37,6 @@ module Fog
             :idempotent => true
           )
         end
-
       end
     end
   end

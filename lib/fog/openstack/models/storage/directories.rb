@@ -4,9 +4,7 @@ require 'fog/openstack/models/storage/directory'
 module Fog
   module Storage
     class OpenStack
-
       class Directories < Fog::Collection
-
         model Fog::Storage::OpenStack::Directory
 
         def all
@@ -32,9 +30,7 @@ module Fog
         rescue Fog::Storage::OpenStack::NotFound
           nil
         end
-
       end
-
     end
   end
 end

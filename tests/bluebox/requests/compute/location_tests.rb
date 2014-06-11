@@ -1,10 +1,10 @@
 Shindo.tests('Fog::Compute[:bluebox] | location requests', ['bluebox']) do
-  
+
   @location_format = {
     'id'          => String,
     'description' => String
   }
-  
+
   tests('success') do
 
     @location_id  = compute_providers[:bluebox][:server_attributes][:location_id]

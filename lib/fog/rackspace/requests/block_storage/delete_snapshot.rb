@@ -2,7 +2,6 @@ module Fog
   module Rackspace
     class BlockStorage
       class Real
-
         # Delete snapshot
         #
         # @param [String] snapshot_id Id of snapshot to delete

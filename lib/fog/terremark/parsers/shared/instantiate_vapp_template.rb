@@ -2,9 +2,7 @@ module Fog
   module Parsers
     module Terremark
       module Shared
-
         class InstantiateVappTemplate < TerremarkParser
-
           def reset
             @property_key
             @response = { 'Links' => [] }
@@ -21,9 +19,7 @@ module Fog
               @response.merge!(vapp_template.reject {|key, value| !['href', 'name', 'size', 'status', 'type'].include?(key)})
             end
           end
-
         end
-
       end
     end
   end

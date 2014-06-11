@@ -1,9 +1,7 @@
 module Fog
   module Compute
     class XenServer
-
       class Real
-
         #
         # Destroy a Network
         #
@@ -18,15 +16,12 @@ module Fog
             ref
           )
         end
-
       end
 
       class Mock
-
         def destroy_network( ref )
           Fog::Mock.not_implemented
         end
-
       end
     end
   end

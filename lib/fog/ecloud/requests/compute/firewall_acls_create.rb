@@ -1,7 +1,6 @@
 module Fog
   module Compute
     class Ecloud
-
       class Real
         include Shared
 

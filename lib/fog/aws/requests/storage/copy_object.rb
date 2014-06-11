@@ -2,7 +2,6 @@ module Fog
   module Storage
     class AWS
       class Real
-
         require 'fog/aws/parsers/storage/copy_object'
 
         # Copy an object from one S3 bucket to another
@@ -39,11 +38,9 @@ module Fog
             :parser   => Fog::Parsers::Storage::AWS::CopyObject.new,
           })
         end
-
       end
 
       class Mock # :nodoc:all
-
         def copy_object(source_bucket_name, source_object_name, target_bucket_name, target_object_name, options = {})
           response = Excon::Response.new
           source_bucket = self.data[:buckets][source_bucket_name]
@@ -74,7 +71,6 @@ module Fog
 
           response
         end
-
       end
     end
   end

@@ -1,9 +1,7 @@
 module Fog
   module Rackspace
     class Queues
-
       class Real
-
         # This operation claims a set of messages (up to the value of the limit parameter) from oldest to newest and skips any messages that are already claimed.
         # If no unclaimed messages are available, the API returns a 204 No Content message.
         #
@@ -25,7 +23,7 @@ module Fog
           }
 
           query = {}
-          query[:limit] = options[:limit] if options.has_key? :limit
+          query[:limit] = options[:limit] if options.key? :limit
           request(
             :body => Fog::JSON.encode(body),
             :expects => [200, 201, 204],
@@ -34,7 +32,6 @@ module Fog
             :query => query
           )
         end
-
       end
 
       class Mock
@@ -70,7 +67,6 @@ module Fog
           response
         end
       end
-
     end
   end
 end

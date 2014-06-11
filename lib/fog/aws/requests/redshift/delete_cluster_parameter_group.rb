@@ -2,7 +2,6 @@ module Fog
   module AWS
     class Redshift
       class Real
-
         # ==== Parameters
         #
         # @param [Hash] options

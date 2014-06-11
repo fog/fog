@@ -1,9 +1,7 @@
 module Fog
   module DNS
     class Rackspace
-
       module Callback
-
         protected
 
         def wait_for_job(job_id, timeout=Fog.timeout, interval=1)

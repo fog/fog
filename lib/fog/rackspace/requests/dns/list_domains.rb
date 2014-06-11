@@ -3,7 +3,6 @@ module Fog
     class Rackspace
       class Real
         def list_domains(options={})
-
           path = 'domains'
           unless options.empty?
             path += "?#{array_to_query_string(options)}"

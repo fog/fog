@@ -12,10 +12,7 @@ module Fog
         attribute :ip_proto, :type => :string
         attribute :src_ip, :type => :string
         attribute :src_port, :type => :string
-
-
       end
     end
   end
 end
-

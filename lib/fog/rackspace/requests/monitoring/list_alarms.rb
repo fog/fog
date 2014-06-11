@@ -2,7 +2,6 @@ module Fog
   module Rackspace
     class Monitoring
       class Real
-
         def list_alarms(entity_id, options={})
           request(
             :expects  => [200, 203],
@@ -11,13 +10,10 @@ module Fog
             :query    => options
           )
         end
-
       end
 
       class Mock
-
         def list_alarms(entity_id)
-
           if entity_id == -1
            raise Fog::Rackspace::Monitoring::NotFound
           end
@@ -66,4 +62,3 @@ module Fog
     end
   end
 end
-

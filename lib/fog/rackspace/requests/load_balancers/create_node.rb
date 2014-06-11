@@ -11,7 +11,7 @@ module Fog
                 'condition' => condition
               }
           ]}
-          if options.has_key?(:weight)
+          if options.key?(:weight)
             data['nodes'][0]['weight'] = options[:weight]
           end
           request(

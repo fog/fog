@@ -2,7 +2,6 @@ module Fog
   module DNS
     class Bluebox
       class Real
-
         require 'fog/bluebox/parsers/dns/get_records'
 
         # Get all the DNS records across all the DNS zones for this account
@@ -26,15 +25,12 @@ module Fog
             :path     => "/api/domains/#{zone_id}/records.xml"
           )
         end
-
       end
 
       class Mock
-
         def get_records
           Fog::Mock.not_implemented
         end
-
       end
     end
   end

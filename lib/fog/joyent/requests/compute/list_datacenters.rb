@@ -1,7 +1,6 @@
 module Fog
   module Compute
     class Joyent
-
       class Real
         def list_datacenters
           request(
@@ -12,7 +11,6 @@ module Fog
           )
         end
       end # Real
-
     end
   end
 end

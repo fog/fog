@@ -1,17 +1,13 @@
 module Fog
   module Compute
     class Google
-
       class Mock
-
         def insert_address(address_name, region_name, options = {})
           Fog::Mock.not_implemented
         end
-
       end
 
       class Real
-
         def insert_address(address_name, region_name, options = {})
           api_method = @compute.addresses.insert
           parameters = {

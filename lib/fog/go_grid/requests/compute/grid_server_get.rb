@@ -2,7 +2,6 @@ module Fog
   module Compute
     class GoGrid
       class Real
-
         # Get one or more servers by name
         #
         # ==== Parameters
@@ -18,7 +17,6 @@ module Fog
             :query    => {'server' => [*servers]}
           )
         end
-
       end
     end
   end

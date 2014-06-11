@@ -12,7 +12,7 @@ Shindo.tests('Fog::Rackspace::Monitoring | alarm_examples', ['rackspace','racksp
       service.alarm_examples.get(alarm_example_id)
     end
     tests('evaluate').succeeds do
-      values = {'string'=> '12345'} 
+      values = {'string'=> '12345'}
       service.alarm_examples.evaluate(alarm_example_id,values)
     end
   end

@@ -4,7 +4,6 @@ module Fog
   module Rackspace
     class Queues
       class Claim < Fog::Model
-
         # @!attribute [r] identity
         # @return [String] The claim's id
         identity :identity
@@ -29,7 +28,7 @@ module Fog
         #   If limit is not specified, limit defaults to 10.
         attribute :messages
 
-        alias :id :identity
+        alias_method :id, :identity
 
         # Creates or updates a claim
         #
@@ -78,7 +77,7 @@ module Fog
               :client_id => service.client_id,
               :echo => true
             })
-          attributes[:messages] = messages.collect do |message|
+          attributes[:messages] = messages.map do |message|
             if message.instance_of? Fog::Rackspace::Queues::Message
               message.claim_id = self.id
               message

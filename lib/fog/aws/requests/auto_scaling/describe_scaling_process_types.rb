@@ -1,9 +1,7 @@
 module Fog
   module AWS
     class AutoScaling
-
       class Real
-
         require 'fog/aws/parsers/auto_scaling/describe_scaling_process_types'
 
         # Returns scaling process types for use in the resume_processes and
@@ -29,11 +27,9 @@ module Fog
             :parser     => Fog::Parsers::AWS::AutoScaling::DescribeScalingProcessTypes.new
           })
         end
-
       end
 
       class Mock
-
         def describe_scaling_process_types()
           results = { 'Processes' => [] }
           self.data[:process_types].each do |process_type|
@@ -47,9 +43,7 @@ module Fog
           }
           response
         end
-
       end
-
     end
   end
 end

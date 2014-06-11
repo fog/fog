@@ -5,7 +5,6 @@ module Fog
   module Rackspace
     class Monitoring
       class Alarm < Fog::Rackspace::Monitoring::Base
-
         identity :id
         attribute :entity, :aliases => 'entity_id'
         attribute :check, :aliases => 'check_id'
@@ -53,9 +52,7 @@ module Fog
           requires :id
           service.delete_alarm(entity.id, id)
         end
-
       end
-
     end
   end
 end

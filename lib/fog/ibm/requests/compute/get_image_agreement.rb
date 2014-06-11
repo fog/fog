@@ -2,7 +2,6 @@ module Fog
   module Compute
     class IBM
       class Real
-
         # Returns license agreement of image specified by id
         #
         # ==== Parameters
@@ -24,11 +23,9 @@ module Fog
             :path     => "/offerings/image/#{image_id}/agreement"
           )
         end
-
       end
 
       class Mock
-
         # TODO: Fix this so they work.
         def get_image_agreement(image_id)
           response = Excon::Response.new
@@ -59,7 +56,6 @@ module Fog
                 "type"=>2}]}
           response
         end
-
       end
     end
   end

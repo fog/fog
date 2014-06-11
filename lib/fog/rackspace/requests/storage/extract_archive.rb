@@ -2,7 +2,6 @@ module Fog
   module Storage
     class Rackspace
       class Real
-
         # Extract Archive
         #
         # @see http://docs.rackspace.com/files/api/v1/cf-devguide/content/Extract_Archive-d1e2338.html
