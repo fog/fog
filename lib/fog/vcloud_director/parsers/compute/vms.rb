@@ -1,8 +1,12 @@
+require 'fog/vcloud_director/parsers/compute/vm_parser_helper'
+
 module Fog
   module Parsers
     module Compute
       module VcloudDirector
         class Vms < VcloudDirectorParser
+          include VmParserHelper
+
           def reset
             @vm = { :ip_address => '' }
             @in_operating_system = false
@@ -15,12 +19,6 @@ module Fog
           def start_element(name, attributes)
             super
             case name
-            when 'OperatingSystemSection'
-              @in_operating_system = true
-            when 'VApp'
-              vapp = extract_attributes(attributes)
-              @response.merge!(vapp.reject {|key,value| ![:href, :name, :size, :status, :type].include?(key)})
-              @response[:id] = @response[:href].split('/').last
             when 'Vm'
               vapp = extract_attributes(attributes)
               @vm.merge!(vapp.reject {|key,value| ![:href, :name, :status, :type].include?(key)})
@@ -28,56 +26,24 @@ module Fog
               @vm[:vapp_id] = @response[:id]
               @vm[:vapp_name] = @response[:name]
               @vm[:status] = human_status(@vm[:status])
+            when 'VApp'
+              vapp = extract_attributes(attributes)
+              @response.merge!(vapp.reject {|key,value| ![:href, :name, :size, :status, :type].include?(key)})
+              @response[:id] = @response[:href].split('/').last
             when 'Children'
               @in_children = true
-            when 'HostResource'
-              @current_host_resource = extract_attributes(attributes)
-            when 'Connection'
-              @current_network_connection = extract_attributes(attributes)
-            when 'Link'
-              @links << extract_attributes(attributes)
+            else
+              parse_start_element name, attributes, @vm
             end
           end
 
           def end_element(name)
             if @in_children
-              case name
-              when 'IpAddress'
-                @vm[:ip_address] = value
-              when 'Description'
-                if @in_operating_system
-                  @vm[:operating_system] = value
-                  @in_operating_system = false
-                end
-              when 'ResourceType'
-                @resource_type = value
-              when 'VirtualQuantity'
-                case @resource_type
-                when '3'
-                  @vm[:cpu] = value
-                when '4'
-                  @vm[:memory] = value
-                end
-              when 'ElementName'
-                @element_name = value
-              when 'Item'
-                case @resource_type
-                when '17' # disk
-                  @vm[:disks] ||= []
-                  @vm[:disks] << { @element_name => @current_host_resource[:capacity].to_i }
-                when '10' # nic
-                  @vm[:network_adapters] ||= []
-                  @vm[:network_adapters] << { 
-                    :ip_address => @current_network_connection[:ipAddress], 
-                    :primary => (@current_network_connection[:primaryNetworkConnection] == 'true'),
-                    :ip_allocation_mode => @current_network_connection[:ipAddressingMode]
-                  }
-                end
-              when 'Link'
-                @vm[:links] = @links
-              when 'Vm'
+              if name == 'Vm'
                 @response[:vms] << @vm
                 @vm = {}
+              else
+                parse_end_element name, @vm
               end
             end
           end
