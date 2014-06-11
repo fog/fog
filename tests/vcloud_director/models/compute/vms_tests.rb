@@ -23,6 +23,7 @@ Shindo.tests("Compute::VcloudDirector | vms", ['vclouddirector', 'all']) do
     tests("#cpu").returns(Fixnum){ vm.cpu.class }
     tests("#memory").returns(Fixnum){ vm.memory.class }
     tests("#hard_disks").returns(Array){ vm.hard_disks.class }
+    tests("#network_adapters").returns(Array){ vm.network_adapters.class }
   end
 
   tests("Compute::VcloudDirector | vm", ['get']) do
