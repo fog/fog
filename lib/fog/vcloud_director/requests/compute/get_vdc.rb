@@ -110,7 +110,9 @@ module Fog
                 :Reserved=>"0",
                 :Used=>"0",
                 :Overhead=>"0"}},
-             :ResourceEntities => {},
+             :ResourceEntities => {
+               :ResourceEntity => []
+             },
              :AvailableNetworks => {},
              :Capabilities=>
               {:SupportedHardwareVersions=>
@@ -126,6 +128,13 @@ module Fog
               {:type=>"application/vnd.vmware.vcloud.#{item[:type]}+xml",
                :name=>item[:name],
                :href=>make_href("#{item[:type]}/#{item[:type]}-#{id}")}
+            end
+
+          body[:ResourceEntities][:ResourceEntity] +=
+            get_vapps_in_this_vdc(vdc_id).map do |vapp_id, vapp|
+              {:type => "application/vnd.vmware.vcloud.vApp+xml",
+               :name => vapp[:name],
+               :href => make_href("vApp/#{vapp_id}")}
             end
 
           body[:AvailableNetworks][:Network] =
@@ -152,6 +161,13 @@ module Fog
           response.body = body
           response
         end
+
+        def get_vapps_in_this_vdc(vdc_id)
+          data[:vapps].select do |vapp_id, vapp|
+            vapp[:vdc_id] == vdc_id
+          end
+        end
+
       end
     end
   end

@@ -21,6 +21,70 @@ module Fog
           )
         end
       end
+
+      class Mock
+
+        def get_disks_rasd_items_list(id)
+          type = 'application/vnd.vmware.vcloud.rasdItemsList+xml'
+
+          unless vm = data[:vms][id]
+            raise Fog::Compute::VcloudDirector::Forbidden.new(
+              'This operation is denied.'
+            )
+          end
+
+          body = {
+            :type => type,
+            :href => make_href("vApp/#{id}/virtualHardwareSection/disks"),
+            :Link => {
+              :rel=>"edit",
+              :type=>"application/vnd.vmware.vcloud.rasdItemsList+xml",
+              :href=>make_href("vApp/#{id}/virtualHardwareSection/disks"),
+            },
+            :Item => [
+              get_disks_rasd_items_list_body(id, vm),
+              get_media_rasd_item_ide_controller_body(id, vm),
+            ].flatten
+          }
+
+          Excon::Response.new(
+            :status => 200,
+            :headers => {'Content-Type' => "#{type};version=#{api_version}"},
+            :body => body
+          )
+        end
+
+        def get_disks_rasd_items_list_body(id, vm)
+          [
+            {
+              :"rasd:Address"=>"0",
+              :"rasd:Description"=>"SCSI Controller",
+              :"rasd:ElementName"=>"SCSI Controller 0",
+              :"rasd:InstanceID"=>"2",
+              :"rasd:ResourceSubType"=>"lsilogic",
+              :"rasd:ResourceType"=>"6"
+            },
+
+            # TODO: Add support for adding disks
+            {
+              :"rasd:AddressOnParent"=>"0",
+              :"rasd:Description"=>"Hard disk",
+              :"rasd:ElementName"=>"Hard disk 1",
+              :"rasd:HostResource"=>{
+                :ns12_capacity=>"51200",
+                :ns12_busSubType=>"lsilogic",
+                :ns12_busType=>"6"
+              },
+              :"rasd:InstanceID"=>"2000",
+              :"rasd:Parent"=>"2",
+              :"rasd:ResourceType"=>"17"
+            },
+
+          ]
+        end
+
+      end
+
     end
   end
 end
