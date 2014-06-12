@@ -25,18 +25,18 @@ module Fog
             when 'ElementName'
               @element_name = value
             when 'Item'
-              case @resource_type
-              when '17' # disk
+              if @resource_type == '17' # disk
                 vm[:disks] ||= []
                 vm[:disks] << { @element_name => @current_host_resource[:capacity].to_i }
-              when '10' # network adapter
-                vm[:network_adapters] ||= []
-                vm[:network_adapters] << { 
-                  :ip_address => @current_network_connection[:ipAddress], 
-                  :primary => (@current_network_connection[:primaryNetworkConnection] == 'true'),
-                  :ip_allocation_mode => @current_network_connection[:ipAddressingMode]
-                }
               end
+            when 'Connection'
+              vm[:network_adapters] ||= []
+              vm[:network_adapters] << {
+                :ip_address => @current_network_connection[:ipAddress],
+                :primary => (@current_network_connection[:primaryNetworkConnection] == 'true'),
+                :ip_allocation_mode => @current_network_connection[:ipAddressingMode],
+                :network => value
+              }
             when 'Link'
               vm[:links] = @links
             end
