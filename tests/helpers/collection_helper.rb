@@ -75,7 +75,6 @@ def collection_tests(collection, params = {}, mocks_implemented = true)
     end
 
     if !Fog.mocking? || mocks_implemented
-      puts @instance.inspect
       @instance.destroy
     end
   end
