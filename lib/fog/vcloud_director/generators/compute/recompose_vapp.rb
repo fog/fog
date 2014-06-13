@@ -20,7 +20,7 @@ module Fog
               [:deploy, :powerOn, :name].each { |a| attrs[a] = @configuration[a] if @configuration.key?(a) }
 
               xml.RecomposeVAppParams(attrs) {
-                unless @configuration[:source_vms] || @configuration[:source_templates]
+                if has_source_items?
                   build_vapp_instantiation_params(xml)
                   build_source_items(xml)
                 end
@@ -31,6 +31,11 @@ module Fog
           end
 
           private
+
+          def has_source_items?
+            (@configuration[:source_vms] && (@configuration[:source_vms].size > 0)) || 
+            (@configuration[:source_templates] && (@configuration[:source_templates].size > 0))
+          end
 
           def build_delete_items(xml)
              @configuration[:vms_to_delete].each { |vm| xml.DeleteItem(:href => vm.href) }
