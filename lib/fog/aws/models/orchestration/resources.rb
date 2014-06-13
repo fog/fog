@@ -8,12 +8,17 @@ module Fog
 
         model Fog::Orchestration::AWS::Resource
 
-        def all(stack)
-          load(
-            service.describe_stack_resources(
-              'StackName' => stack.stack_name
-            ).body['StackResources']
-          )
+        attribute :stack_name
+
+        def all(stack=nil)
+          self.stack_name = stack.stack_name if stack
+          if(stack_name)
+            load(
+              service.describe_stack_resources(
+                'StackName' => stack_name
+              ).body['StackResources']
+            )
+          end
         end
 
       end

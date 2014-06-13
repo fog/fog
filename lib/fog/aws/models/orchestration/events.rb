@@ -8,8 +8,9 @@ module Fog
 
         model Fog::Orchestration::AWS::Event
 
-        def all(stack)
-          load(service.describe_stack_events(stack.stack_name).body['StackEvents'])
+        def all(stack=nil)
+          @stack = stack if stack
+          load(service.describe_stack_events(@stack.stack_name).body['StackEvents'])
         end
 
       end

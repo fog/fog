@@ -22,8 +22,6 @@ module Fog
         attribute :parameters, :aliases => ['Parameters']
         attribute :capabilities, :aliases => ['Capabilities']
 
-        attr_accessor :data
-
         ALLOWED_OPTIONS = {
           :create => [
             :template, :template_url, :disable_rollback, :parameters, :timeout_in_minutes, :capabilities
@@ -93,28 +91,22 @@ module Fog
           end
         end
 
-        # Attributes requiring expansion
-        # Allows for lazy loading details
-        %w(capabilities outputs parameters).each do |m_name|
-          define_method "#{m_name}_wrapper" do
-            expand! unless data
-            send("#{m_name}_unwrapped")
-          end
-          alias_method "#{m_name}_unwrapped", m_name
-          alias_method m_name, "#{m_name}_wrapper"
-        end
-
-        def expand!
-          requires :stack_name, :id
-          if(data.nil? && exists?)
-            @data = service.describe_stacks('StackName' => self.stack_name).body['Stacks'].first
-            merge_attributes(data)
-          end
-          data
-        end
-
         def exists?
           self.stack_status != 'DELETE_COMPLETE'
+        end
+
+        alias_method :direct_resources, :resources
+
+        def resources
+          if(attributes[:stack_resources].nil?)
+            attributes[:stack_resources] = direct_resources
+          elsif(attributes[:stack_resources].first.is_a?(Hash))
+            attributes[:stack_resources] = Resources.new(
+              :service => service,
+              :stack_name => stack_name
+            ).load(attributes[:stack_resources])
+          end
+          attributes[:stack_resources]
         end
 
       end
