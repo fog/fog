@@ -22,6 +22,7 @@ module Fog
               @response[:vm].merge!(vm_attrs.reject {|key,value| ![:href, :name, :status, :type, :deployed].include?(key)})
               @response[:vm][:id] = @response[:vm][:href].split('/').last
               @response[:vm][:status] = human_status(@response[:vm][:status])
+              @response[:vm][:deployed] = @response[:vm][:deployed] == 'true'
             else
               parse_start_element name, attributes, @response[:vm]
             end
