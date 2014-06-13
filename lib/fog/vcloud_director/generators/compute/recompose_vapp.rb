@@ -33,7 +33,7 @@ module Fog
           private
 
           def build_delete_items(xml)
-             @configuration[:vms_to_delete].each { |href| xml.DeleteItem(:href => href) }
+             @configuration[:vms_to_delete].each { |vm| xml.DeleteItem(:href => vm.href) }
           end
 
           def build_vapp_instantiation_params(xml)
