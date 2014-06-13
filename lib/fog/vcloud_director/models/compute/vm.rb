@@ -13,6 +13,7 @@ module Fog
         attribute :type
         attribute :href
         attribute :status
+        attribute :deployed
         attribute :operating_system
         attribute :ip_address
         attribute :cpu, :type => :integer

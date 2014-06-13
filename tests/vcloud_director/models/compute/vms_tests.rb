@@ -15,6 +15,7 @@ Shindo.tests("Compute::VcloudDirector | vms", ['vclouddirector', 'all']) do
     tests("#id").returns(String){ vm.id.class }
     tests("#name").returns(String){ vm.name.class }
     tests("#href").returns(String){ vm.href.class }
+    tests("#deployed").returns(String){ vm.deployed.class }
     tests("#type").returns("application/vnd.vmware.vcloud.vm+xml"){ vm.type }
     tests("#vapp_id").returns(String){ vm.vapp_id.class }
     tests("#status").returns(String){ vm.status.class }
