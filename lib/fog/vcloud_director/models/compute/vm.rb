@@ -90,6 +90,17 @@ module Fog
           service.process_task(response.body)
         end
 
+        def undeploy
+          requires :id
+          begin
+            response = service.post_undeploy_vapp(id)
+          rescue Fog::Compute::VcloudDirector::BadRequest => ex
+            Fog::Logger.debug(ex.message)
+            return false
+          end
+          service.process_task(response.body)
+        end
+
         # Shut down the VM.
         def shutdown
           requires :id
