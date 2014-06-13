@@ -20,10 +20,10 @@ module Fog
               [:deploy, :powerOn, :name].each { |a| attrs[a] = @configuration[a] if @configuration.key?(a) }
 
               xml.RecomposeVAppParams(attrs) {
-                build_vapp_instantiation_params(xml)
-                build_template_source_items(xml)
-                build_vm_source_items(xml)
-                xml.AllEULAsAccepted (@configuration[:AllEULAsAccepted] || true)
+                unless @configuration[:source_vms] || @configuration[:source_templates]
+                  build_vapp_instantiation_params(xml)
+                  build_source_items(xml)
+                end
                 build_delete_items(xml)
               }
 
@@ -59,17 +59,8 @@ module Fog
             }
           end
 
-          def build_template_source_items(xml)
-            templates = @configuration[:source_templates]
-            return unless templates
-            templates.each do |template|
-              xml.SourcedItem { xml.Source(:href => template[:href]) }
-            end
-          end
-
-          def build_vm_source_items(xml)
+          def build_source_items(xml)
             vms = @configuration[:source_vms]
-            return unless vms
             vms.each do |vm|
               xml.SourcedItem {
                 xml.Source(:name =>vm[:name], :href => vm[:href])
@@ -108,8 +99,15 @@ module Fog
                   end
                 }
                 xml.StorageProfile(:href => vm[:StorageProfileHref]) if (vm.key? :StorageProfileHref)
-              }          
-            end
+              }
+            end if vms
+
+            templates = @configuration[:source_templates]
+            templates.each do |template|
+              xml.SourcedItem { xml.Source(:href => template[:href]) }
+            end if templates
+
+            xml.AllEULAsAccepted (@configuration[:AllEULAsAccepted] || true)
           end
         end
       end
