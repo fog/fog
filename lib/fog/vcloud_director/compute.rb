@@ -494,17 +494,19 @@ module Fog
             vapp1vm1_id = "vm-#{uuid}"
             vapp2vm1_id = "vm-#{uuid}"
             vapp2vm2_id = "vm-#{uuid}"
+            catalog_uuid = uuid
 
             hash[key] = {
               :catalogs => {
-                uuid => {
+                catalog_uuid => {
                   :name => 'Default Catalog'
                 }
               },
               :catalog_items => {
                 uuid => {
-                  :type => 'vAppTemplate',
-                  :name => 'vAppTemplate 1'
+                  :type    => 'vAppTemplate',
+                  :name    => 'vAppTemplate 1',
+                  :catalog => catalog_uuid,
                 }
               },
               :disks => {},
