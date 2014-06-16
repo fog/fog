@@ -63,9 +63,14 @@ module Fog
             h["NIC"] = [] # reset nics to a array
             if nics.is_a? Array
               nics.each do |n|
-                n["model"] = "virtio" if n["model"].nil?
-                n["uuid"] = "0" if n["uuid"].nil? # is it better is to remove this NIC?
-                h["NIC"] << interfaces.new({ :vnet => networks.get(n["uuid"]), :model => n["model"]})
+                if n["NETWORK_ID"]
+                  vnet = networks.get(n["NETWORK_ID"].to_s)
+                elsif n["NETWORK"]
+                  vnet = networks.get_by_name(n["NETWORK"].to_s)
+                else 
+                  next
+                end
+                h["NIC"] << interfaces.new({ :vnet => vnet, :model => n["MODEL"] || "virtio" })
               end
             elsif nics.is_a? Hash
               nics["model"] = "virtio" if nics["model"].nil?
@@ -82,7 +87,6 @@ module Fog
             else
               # should i break?
             end
-
           
             # every key should be lowercase
             ret_hash = {}
