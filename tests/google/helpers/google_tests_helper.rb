@@ -14,3 +14,8 @@ def create_test_disk(connection, zone)
   disk.wait_for { ready? }
   disk
 end
+
+def wait_operation(connection, response)
+  operation = connection.operations.get(response['name'], response['zone'], response['region'])
+  operation.wait_for { ready? }
+end
