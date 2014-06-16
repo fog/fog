@@ -26,6 +26,7 @@ Shindo.tests("Fog::Compute[:google] | server model", ['google']) do
 
     test('#ssh') do
       pending if Fog.mocking?
+      raise @instance.ssh("uname")
       @instance.ssh("uname") == "Linux"
     end
 
