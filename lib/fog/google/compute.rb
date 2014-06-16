@@ -213,61 +213,6 @@ module Fog
         def self.data(api_version)
           @data ||= Hash.new do |hash, key|
             case key
-            when 'google'
-              hash[key] = {
-                :images => {
-                  "centos-6-2-v20120621" => {
-                    "kind" => "compute#image",
-                    "selfLink" => "https://www.googleapis.com/compute/#{api_version}/projects/google/global/images/centos-6-2-v20120621",
-                    "id" => "12920641029336858796",
-                    "creationTimestamp" => "2012-06-21T22:59:56.392-07:00",
-                    "name" => "centos-6-2-v20120621",
-                    "description" => "CentOS 6.2; Created Thu, 21 Jun 2012 14:22:21 +0000",
-                    "sourceType" => "RAW",
-                    "rawDisk" => {
-                      "containerType" => "TAR",
-                      "source" => ""
-                    },
-                    "deprecated" => {
-                      "state" => "DELETED",
-                      "replacement" => "https://www.googleapis.com/compute/#{api_version}/projects/google/global/images/centos-6-v20130104"
-                    },
-                    "status" => "READY"
-                  },
-                  "centos-6-v20120912" => {
-                    "kind" => "compute#image",
-                    "selfLink" => "https://www.googleapis.com/compute/#{api_version}/projects/google/global/images/centos-6-v20120912",
-                    "id" => "12994279803511049620",
-                    "creationTimestamp" => "2012-09-18T08:52:47.584-07:00",
-                    "name" => "centos-6-v20120912",
-                    "description" => "CentOS 6; Created Wed, 12 Sep 2012 00:00:00 +0000",
-                    "sourceType" => "RAW",
-                    "rawDisk" => {
-                      "containerType" => "TAR",
-                      "source" => ""
-                    },
-                    "deprecated" => {
-                      "state" => "DEPRECATED",
-                      "replacement" => "https://www.googleapis.com/compute/#{api_version}/projects/google/global/images/centos-6-v20130104"
-                    },
-                    "status" => "READY"
-                  },
-                  "centos-6-v20121106" => {
-                    "kind" => "compute#image",
-                    "selfLink" => "https://www.googleapis.com/compute/#{api_version}/projects/google/global/images/centos-6-v20121106",
-                    "id" => "13037720516378381209",
-                    "creationTimestamp" => "2012-11-09T11:40:41.079-08:00",
-                    "name" => "centos-6-v20121106",
-                    "description" => "SCSI-enabled CentOS 6; Created Tue, 06 Nov 2012 00:00:00 +0000",
-                    "sourceType" => "RAW",
-                    "rawDisk" => {
-                      "containerType" => "TAR",
-                      "source" => ""
-                    },
-                    "status" => "READY"
-                  }
-                }
-              }
             when 'debian-cloud'
               hash[key] = {
                 :images => {
