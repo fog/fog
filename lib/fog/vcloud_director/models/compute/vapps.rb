@@ -12,6 +12,10 @@ module Fog
 
         attribute :vdc
 
+        def query_type
+          "vApp"
+        end
+
         private
 
         def get_by_id(item_id)
