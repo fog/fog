@@ -72,6 +72,7 @@ Shindo.tests("Compute::VcloudDirector | networks", ['vclouddirector', 'all']) do
     tests("#get").returns(network.id) { networks.get(network.id).id }
   end
 
+
   # Now let's also check against an isolated network, since these have some
   # additional features like DHCP ServiceConfigurations.
   isolated_network_raw = nil
@@ -86,6 +87,22 @@ Shindo.tests("Compute::VcloudDirector | networks", ['vclouddirector', 'all']) do
     tests("#fence_mode is not loaded yet").returns(NonLoaded) { isolated_network.attributes[:fence_mode] }
     tests("#fence_mode is loaded on demand").returns('isolated') { isolated_network.fence_mode }
     tests("#fence_mode is now loaded").returns(true) { isolated_network.attributes[:fence_mode] != NonLoaded }
+  end
+
+  # We should also be able to find these same networks via Query API
+  tests("Compute::VcloudDirector | networks", ['find_by_query']) do
+    tests('we can retrieve :name without lazy loading').returns(network.name) do
+      query_network = networks.find_by_query(:filter => "name==#{network.name}").first
+      query_network.attributes[:name]
+    end
+    tests('by name: natRouted').returns(network.name) do
+      query_network = networks.find_by_query(:filter => "name==#{network.name}").first
+      query_network.name
+    end
+    tests('by name: isolated').returns(isolated_network.name) do
+      query_network = networks.find_by_query(:filter => "name==#{isolated_network.name}").first
+      query_network.name
+    end
   end
 
 end
