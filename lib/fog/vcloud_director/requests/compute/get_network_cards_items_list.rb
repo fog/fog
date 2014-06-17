@@ -20,6 +20,51 @@ module Fog
           )
         end
       end
+
+      class Mock
+        def get_network_cards_items_list(id)
+          type = 'application/vnd.vmware.vcloud.rasdItemsList+xml'
+
+          unless vm = data[:vms][id]
+            raise Fog::Compute::VcloudDirector::Forbidden.new(
+              'This operation is denied.'
+            )
+          end
+
+          body = {
+            :type => type,
+            :href => make_href("vApp/#{id}/virtualHardwareSection/networkCards"),
+            :Link => {
+              :rel=>"edit",
+              :type=>"application/vnd.vmware.vcloud.rasdItemsList+xml",
+              :href=>make_href("vApp/#{id}/virtualHardwareSection/networkCards"),
+            },
+            :Item => get_network_cards_rasd_items_list_body(id, vm)
+          }
+
+          Excon::Response.new(
+            :status => 200,
+            :headers => {'Content-Type' => "#{type};version=#{api_version}"},
+            :body => body
+          )
+
+        end
+
+        def get_network_cards_rasd_items_list_body(id, vm)
+          [{
+            :"rasd:Address" => vm[:nics][0][:mac_address],
+            :"rasd:AddressOnParent" => "0",
+            :"rasd:AutomaticAllocation" => "true",
+            :"rasd:Connection" => vm[:nics][0][:network_name],
+            :"rasd:Description" => "E1000 ethernet adapter",
+            :"rasd:ElementName" => "Network adapter 0",
+            :"rasd:InstanceID" => "1",
+            :"rasd:ResourceSubType" => "E1000",
+            :"rasd:ResourceType" => "10"
+          }]
+        end
+
+      end
     end
   end
 end

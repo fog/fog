@@ -20,6 +20,40 @@ module Fog
           )
         end
       end
+
+      class Mock
+
+        def get_lease_settings_section_vapp(id)
+
+          type = 'application/vnd.vmware.vcloud.leaseSettingsSection+xml'
+
+          unless vapp = data[:vapps][id]
+            raise Fog::Compute::VcloudDirector::Forbidden.new(
+              'This operation is denied.'
+            )
+          end
+
+          Excon::Response.new(
+            :status => 200,
+            :headers => {'Content-Type' => "#{type};version=#{api_version}"},
+            :body => get_vapp_lease_settings_section_body(id)
+          )
+
+        end
+
+        def get_vapp_lease_settings_section_body(id)
+          {
+            :type => "application/vnd.vmware.vcloud.leaseSettingsSection+xml",
+            :href => make_href("vApp/#{id}/leaseSettingsSection/"),
+            :ovf_required=>"false",
+            :"ovf:Info"=>"Lease settings section",
+            :DeploymentLeaseInSeconds=>"0",
+            :StorageLeaseInSeconds=>"0",
+          }
+        end
+
+      end
+
     end
   end
 end
