@@ -64,7 +64,7 @@ module Fog
                     xml.Gateway subnet[:Gateway]
                     xml.Netmask subnet[:Netmask]
                   }
-                end
+                end if tunnel_config[:LocalSubnet]
                 peer_subnet_config = tunnel_config[:PeerSubnet]
                 xml.PeerSubnet {
                   xml.Name peer_subnet_config[:Name]
