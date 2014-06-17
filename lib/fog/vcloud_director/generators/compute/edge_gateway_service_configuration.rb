@@ -55,29 +55,12 @@ module Fog
                     xml.Id tunnel_config[:IpsecVpnLocalPeerId]
                     xml.Name tunnel_config[:IpsecVpnLocalPeerName]
                   }
-                  xml.PeerIpAddress tunnel_config[:PeerIpAddress]
-                  xml.PeerId tunnel_config[:PeerId]
-                  xml.LocalIpAddress tunnel_config[:LocalIpAddress]
-                  xml.LocalId tunnel_config[:LocalId]
-                  tunnel_config[:LocalSubnet].each do |subnet|
-                    xml.LocalSubnet {
-                      xml.Name subnet[:Name]
-                      xml.Gateway subnet[:Gateway]
-                      xml.Netmask subnet[:Netmask]
-                    }
-                  end
-                  tunnel_config[:PeerSubnet].each do |subnet|
-                    xml.PeerSubnet {
-                      xml.Name subnet[:Name]
-                      xml.Gateway subnet[:Gateway]
-                      xml.Netmask subnet[:Netmask]
-                    }
-                  end
-                  xml.SharedSecret tunnel_config[:SharedSecret]
-                  xml.SharedSecretEncrypted tunnel_config[:SharedSecretEncrypted] if tunnel_config.key?(:SharedSecretEncrypted)
-                  xml.EncryptionProtocol tunnel_config[:EncryptionProtocol]
-                  xml.Mtu tunnel_config[:Mtu]
-                  xml.IsEnabled tunnel_config[:IsEnabled]
+                end if tunnel_config[:LocalSubnet]
+                peer_subnet_config = tunnel_config[:PeerSubnet]
+                xml.PeerSubnet {
+                  xml.Name peer_subnet_config[:Name]
+                  xml.Gateway peer_subnet_config[:Gateway]
+                  xml.Netmask peer_subnet_config[:Netmask]
                 }
               end
             }
