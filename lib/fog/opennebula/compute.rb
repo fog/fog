@@ -1,6 +1,4 @@
-require 'opennebula'
 require 'fog/opennebula/core'
-
 
 module Fog
  module Compute
@@ -34,6 +32,7 @@ module Fog
     class Mock
       include Collections
       def initialize(options={})
+        require 'opennebula'
       end
 
       def client
@@ -49,6 +48,7 @@ module Fog
       end
 
       def initialize(options={})
+        require 'opennebula'
         @client = ::OpenNebula::Client.new("#{options[:opennebula_username]}:#{options[:opennebula_password]}", options[:opennebula_endpoint])
       end
     end
