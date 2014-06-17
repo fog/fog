@@ -1,7 +1,6 @@
 require File.expand_path(File.join(File.dirname(__FILE__), 'helper'))
 
 Shindo.tests("Compute::VcloudDirector | vdcs", ['vclouddirector', 'all']) do
-  pending if Fog.mocking?
   tests("#There is one or more vdc").returns(true){ organization.vdcs.size >= 1 }
 
   vdcs = organization.vdcs
