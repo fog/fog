@@ -5,9 +5,16 @@ module Fog
   module Compute
     class VcloudDirector
       class Vdcs < Collection
+
+        include Fog::VcloudDirector::Query
+
         model Fog::Compute::VcloudDirector::Vdc
 
         attribute :organization
+
+        def query_type
+          "orgVdc"
+        end
 
         private
 
