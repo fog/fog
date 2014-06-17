@@ -46,4 +46,16 @@ Shindo.tests("Compute::VcloudDirector | vapps", ['vclouddirector', 'all']) do
     tests("#delete_custom_field").returns([]){ vapp.custom_fields.delete(:custom_field); vapp.custom_fields }
   end
 
+  # We should also be able to find this vApp via Query API
+  tests("Compute::VcloudDirector | vapps", ['find_by_query']) do
+    tests('we can retrieve :name without lazy loading').returns(vapp.name) do
+      query_vapp = vapps.find_by_query(:filter => "name==#{vapp.name}").first
+      query_vapp.attributes[:name]
+    end
+    tests('we can retrieve name via model object returned by query').returns(vapp.name) do
+      query_vapp = vapps.find_by_query(:filter => "name==#{vapp.name}").first
+      query_vapp.name
+    end
+  end
+
 end
