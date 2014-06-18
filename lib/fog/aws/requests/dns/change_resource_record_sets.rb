@@ -21,6 +21,7 @@ module Fog
         #     * alias_target<~Hash> - Information about the domain to which you are redirecting traffic (Alias record sets only)
         #       * dns_name<~String> - The Elastic Load Balancing domain to which you want to reroute traffic
         #       * hosted_zone_id<~String> - The ID of the hosted zone that contains the Elastic Load Balancing domain to which you want to reroute traffic
+        #       * evaluate_target_health<~Boolean> - Applies only to alias, weighted alias, latency alias, and failover alias resource record sets: If you set the value of EvaluateTargetHealth to true, the alias resource record sets inherit the health of the referenced resource record sets.
         # ==== Returns
         # * response<~Excon::Response>:
         #   * body<~Hash>:
@@ -106,7 +107,9 @@ module Fog
                 # Accept either underscore or camel case for hash keys.
                 dns_name = change_item[:alias_target][:dns_name] || change_item[:alias_target][:DNSName]
                 hosted_zone_id = change_item[:alias_target][:hosted_zone_id] || change_item[:alias_target][:HostedZoneId] || AWS.hosted_zone_for_alias_target(dns_name)
-                alias_target_tag += %Q{<AliasTarget><HostedZoneId>#{hosted_zone_id}</HostedZoneId><DNSName>#{dns_name}</DNSName></AliasTarget>}
+                evaluate_target_health = change_item[:alias_target][:evaluate_target_health] || change_item[:alias_target][:EvaluateTargetHealth] || false
+                evaluate_target_health_xml = !evaluate_target_health.nil? ? %Q{<EvaluateTargetHealth>#{evaluate_target_health}</EvaluateTargetHealth>} : ''
+                alias_target_tag += %Q{<AliasTarget><HostedZoneId>#{hosted_zone_id}</HostedZoneId><DNSName>#{dns_name}</DNSName>#{evaluate_target_health_xml}</AliasTarget>}
               end
 
               change_tags = %Q{<Change>#{action_tag}<ResourceRecordSet>#{name_tag}#{type_tag}#{set_identifier_tag}#{weight_tag}#{region_tag}#{ttl_tag}#{resource_tag}#{alias_target_tag}</ResourceRecordSet></Change>}
