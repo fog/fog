@@ -60,6 +60,7 @@ module Fog
 
             # h["NIC"] has to be an array of nic objects
             nics = h["NIC"] unless h["NIC"].nil?
+            #Fog::Logger.info("template_pool: Found NIC: #{nics.inspect}")
             h["NIC"] = [] # reset nics to a array
             if nics.is_a? Array
               nics.each do |n|
@@ -68,9 +69,11 @@ module Fog
                 elsif n["NETWORK"]
                   vnet = networks.get_by_name(n["NETWORK"].to_s)
                 else 
+                  #Fog::Logger.info("template_pool: Could not identify the NETWORK within the flavor #{h[:name]}")
                   next
                 end
                 h["NIC"] << interfaces.new({ :vnet => vnet, :model => n["MODEL"] || "virtio" })
+                #Fog::Logger.info("template_pool: Added nic #{h['NIC'].last} to the flavor #{h[:name]}")
               end
             elsif nics.is_a? Hash
               nics["model"] = "virtio" if nics["model"].nil?
@@ -93,17 +96,21 @@ module Fog
             h.each_pair do |k,v| 
               ret_hash.merge!({k.downcase => v}) 
             end
+            #Fog::Logger.info("ret_h: #{ret_hash}")
             ret_hash
           end
           
           templates.delete nil
           raise Fog::Compute::OpenNebula::NotFound, "Flavor/Template not found" if templates.empty?
+          #Fog::Logger.info("template_pool: #{templates.inspect}")
           templates
         end #def template_pool
       end #class Real
 
       class Mock
         def template_pool(filter = { })
+          nic1 = Mock_nic.new
+          nic1.vnet = networks.first
           [ 
             {
               :content => %Q{
@@ -123,6 +130,7 @@ module Fog
               :sched_ds_rank => "FREE_MB",
               :disk => {},
               :nic => {},
+              :nic => [ nic1 ] ,
               :os => {
                 'ARCH' => 'x86_64'
               },
@@ -132,6 +140,17 @@ module Fog
               :user_variables => {}
             }
           ]
+        end
+
+        class Mock_nic 
+          attr_accessor :vnet
+
+          def id
+            2
+          end
+          def name
+            "fogtest"
+          end
         end
       end #class Mock
     end #class OpenNebula
