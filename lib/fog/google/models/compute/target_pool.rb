@@ -31,10 +31,10 @@ module Fog
             'backupPool' => backup_pool
           }
 
-          service.insert_target_pool(name, region, options).body
-          data = service.backoff_if_unfound {service.get_target_pool(name, region).body}
-          merge_attributes(data)
-          self
+          data = service.insert_target_pool(name, region, options).body
+          operation = Fog::Compute::Google::Operations.new(:service => service).get(data['name'], data['zone'])
+          operation.wait_for { !pending? }
+          reload
         end
 
         def destroy(async=true)
