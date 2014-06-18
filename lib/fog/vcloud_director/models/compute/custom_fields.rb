@@ -27,7 +27,7 @@ module Fog
             :password          => opts[:password],
             :user_configurable => opts[:user_configurable]
           }
-          response = service.put_product_sections_vapp(vapp.id, new_items)
+          response = service.put_product_sections(vapp.id, new_items)
           service.process_task(response.body)
         end
 
@@ -38,7 +38,7 @@ module Fog
         def delete(item_id)
           id = item_id.to_s
           new_items = item_list.each.reject{|item| item[:id] == id}
-          response = service.put_product_sections_vapp(vapp.id, new_items)
+          response = service.put_product_sections(vapp.id, new_items)
           service.process_task(response.body)
         end
 
