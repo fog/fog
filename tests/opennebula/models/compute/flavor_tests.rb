@@ -24,6 +24,7 @@ Shindo.tests('Fog::Compute[:opennebula] | flavor model', ['opennebula']) do
       end
     end
     test('be a kind of Fog::Compute::OpenNebula::Flavor') { flavor.kind_of? Fog::Compute::OpenNebula::Flavor }
+    test('have a nic in network fogtest') { flavor.nic[0].vnet.name == "fogtest" }
   end
 
 end
