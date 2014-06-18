@@ -5,6 +5,9 @@ module Fog
   module Compute
     class VcloudDirector
       class Vms < Collection
+
+        include Fog::VcloudDirector::Query
+
         model Fog::Compute::VcloudDirector::Vm
 
         attribute :vapp
@@ -19,6 +22,10 @@ module Fog
           item = service.get_vm(vm_id).body
           return nil unless item
           new(item[:vm])
+        end
+
+        def query_type
+          "vm"
         end
 
         private
