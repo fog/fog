@@ -22,6 +22,7 @@ module Fog
           item = service.get_vapp(item_id).body
           %w(:Link).each {|key_to_delete| item.delete(key_to_delete) }
           service.add_id_from_href!(item)
+          item[:Description] ||= ""
           item
         end
 
