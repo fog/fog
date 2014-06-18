@@ -83,4 +83,17 @@ Shindo.tests("Compute::VcloudDirector | vms", ['vclouddirector', 'all']) do
     tests("#collection").returns(Fog::Compute::VcloudDirector::Tags){ tags.class }
   end
 
+  # We should also be able to find this VM via Query API
+  #  :name is not unique for VMs though, so let us query by href
+  tests("Compute::VcloudDirector | vm", ['find_by_query']) do
+    tests('we can retrieve :name without lazy loading').returns(vm.name) do
+      query_vm = vms.find_by_query(:filter => "href==#{vm.href}").first
+      query_vm.attributes[:name]
+    end
+    tests('we can retrieve name via model object returned by query').returns(vm.name) do
+      query_vm = vms.find_by_query(:filter => "href==#{vm.href}").first
+      query_vm.name
+    end
+  end
+
 end
