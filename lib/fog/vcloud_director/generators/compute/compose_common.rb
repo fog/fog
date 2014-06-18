@@ -64,7 +64,10 @@ module Fog
                       vm[:networks].each_with_index do |network, i|
                         xml.NetworkConnection(:network => network[:networkName]) {
                           xml.NetworkConnectionIndex i
+                          xml.IpAddress network[:IpAddress] if (network.key? :IpAddress)
+                          xml.ExternalIpAddress network[:ExternalIpAddress] if (network.key? :ExternalIpAddress)
                           xml.IsConnected network[:IsConnected]
+                          xml.MACAddress network[:MACAddress] if (network.key? :MACAddress)
                           xml.IpAddressAllocationMode network[:IpAddressAllocationMode]
                         }
                       end
