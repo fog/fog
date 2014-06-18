@@ -1,7 +1,6 @@
 require File.expand_path(File.join(File.dirname(__FILE__), 'helper'))
 
 Shindo.tests("Compute::VcloudDirector | vapps", ['vclouddirector', 'all']) do
-  pending if Fog.mocking?
 
   # unless there is atleast one vapp we cannot run these tests
   pending if vdc.vapps.empty?
@@ -39,6 +38,8 @@ Shindo.tests("Compute::VcloudDirector | vapps", ['vclouddirector', 'all']) do
     tests("#get").returns(vapp.id) { vapps.get(vapp.id).id }
   end
 
+  pending if Fog.mocking?
+
   # We should also be able to find this vApp via Query API
   tests("Compute::VcloudDirector | vapps", ['find_by_query']) do
     tests('we can retrieve :name without lazy loading').returns(vapp.name) do
@@ -50,4 +51,5 @@ Shindo.tests("Compute::VcloudDirector | vapps", ['vclouddirector', 'all']) do
       query_vapp.name
     end
   end
+
 end
