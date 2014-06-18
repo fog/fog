@@ -20,7 +20,7 @@ module Fog
 
         def get_by_name(name)
           data = service.list_networks({:name => name})
-          load(data)
+          load(data).first
         rescue Fog::Compute::OpenNebula::NotFound
           nil
         end
