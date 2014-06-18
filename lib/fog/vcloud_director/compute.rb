@@ -824,6 +824,7 @@ module Fog
             :progress => 1,
             :service_namespace => 'com.vmware.vcloud',
             :start_time => now,
+            :end_time => now + 86400,
             :status => 'running',
           }.merge(options).merge(
             :operation => operation,
