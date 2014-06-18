@@ -65,7 +65,7 @@ Shindo.tests('Fog::Compute[:google] | firewall requests', ['google']) do
     }]
 
     tests("#insert_firewall").formats(@insert_firewall_format) do
-      response = @google.insert_firewall(firewall_name, allowed, 'default', source_ranges: source_range).body
+      response = @google.insert_firewall(firewall_name, allowed, 'default', :source_ranges => source_range).body
       wait_operation(@google, response)
       response
     end
