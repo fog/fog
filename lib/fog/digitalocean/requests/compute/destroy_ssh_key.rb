@@ -5,7 +5,7 @@ module Fog
         #
         # Delete a SSH public key from your account
         #
-        # @see https://www.digitalocean.com/api#ssh_keys
+        # @see https://www.developers.digitalocean.com/ssh-keys
         #
         def destroy_ssh_key(id)
           request(

@@ -6,7 +6,7 @@ module Fog
         # This method shows a specific public SSH key in your account
         # that can be added to a droplet.
         #
-        # @see https://www.digitalocean.com/api#ssh_keys
+        # @see https://www.developers.digitalocean.com/ssh-keys
         #
         def get_ssh_key(id)
           request(
@@ -24,7 +24,7 @@ module Fog
           response.body = {
             "status" => "OK",
             # key listing does not return ssh_pub_key
-            # https://www.digitalocean.com/api#ssh_keys
+            # https://www.developers.digitalocean.com/ssh-keys
             "ssh_key"  => self.data[:ssh_keys].find { |k| k['id'] == id }
           }
           response
