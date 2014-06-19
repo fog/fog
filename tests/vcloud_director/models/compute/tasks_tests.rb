@@ -9,7 +9,13 @@ Shindo.tests('Compute::VcloudDirector | tasks', ['vclouddirector']) do
     50.times do
       type = 'bogus'
       task_id = @service.enqueue_task(
-        "Bogus Task", 'BogusTaskName', {},
+        "Bogus Task",
+        'BogusTaskName',
+        {
+          :href => 'https://example.com/api/bogus/12345678-1234-1234-1234-123456789012',
+          :name => 'Bogus object',
+          :type => 'application/vnd.vmware.vcloud.bogus+xml'
+        }
       )
     end
   end

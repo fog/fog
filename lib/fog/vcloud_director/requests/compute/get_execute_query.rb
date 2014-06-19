@@ -330,9 +330,9 @@ module Fog
                 r[:ownerName] = '000.0.000000'
                 r[:orgName] = data[:org][:name]
                 r[:org] = make_href("org/#{data[:org][:uuid]}")
-                r[:objectType] = '' # type of entity this task was performed on.
-                r[:objectName] = '' # name of entity this task was performed on.
-                r[:object] = '' # should be href to objectName
+                r[:objectType] = dr[:owner][:type].split(/\./).last.split(/\+/).first
+                r[:objectName] = dr[:owner][:name]
+                r[:object] = dr[:owner][:href]
                 r[:details] = '! []'
 
                 records << r
