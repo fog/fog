@@ -34,4 +34,17 @@ Shindo.tests('Compute::VcloudDirector | tasks', ['vclouddirector']) do
     tests('#get_by_name').returns(task.name) { tasks.get_by_name(task.name).name }
     tests('#get').returns(task.id) { tasks.get(task.id).id }
   end
+
+  # We should also be able to find tasks via the Query API
+  tests("Compute::VcloudDirector | tasks", ['find_by_query']) do
+    tests('we can retrieve :name without lazy loading').returns(task.name) do
+      query_task = tasks.find_by_query(:filter => "name==#{task.name}").first
+      query_task.attributes[:name]
+    end
+    tests('by name').returns(task.name) do
+      query_task = tasks.find_by_query(:filter => "name==#{task.name}").first
+      query_task.name
+    end
+  end
+
 end

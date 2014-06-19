@@ -181,6 +181,9 @@ module Fog
             :xsi_schemaLocation=>xsi_schema_location,
           }
 
+          records = []
+          record_type = nil
+
           if type == 'orgVdc'
             record_type = :OrgVdcRecord
             vdc_id = data[:vdcs].keys[0]
@@ -204,10 +207,10 @@ module Fog
             body[:pageSize] = records.size.to_s  # TODO: Support pagination
             body[:total]    = records.size.to_s
             body[record_type] = records
+
           elsif type == 'orgVdcNetwork'
             record_type = :OrgVdcNetworkRecords
             data_type = :networks
-            records = []
             data[data_type].each do |id, dr|
               r = {}
               if name.nil? || dr[:name] == name
@@ -242,6 +245,7 @@ module Fog
             body[:pageSize] = records.size.to_s  # TODO: Support pagination
             body[:total]    = records.size.to_s
             body[record_type] = records
+
           elsif type == 'edgeGateway'
             record_type = :EdgeGatewayRecord
             edge_gateway_id = data[:edge_gateways].keys[0]
@@ -264,6 +268,7 @@ module Fog
             body[:pageSize] = records.size.to_s  # TODO: Support pagination
             body[:total]    = records.size.to_s
             body[record_type] = records
+
           elsif type == 'vAppTemplate'
             record_type = :VAappTemplateRecord
             records = [{
@@ -300,9 +305,48 @@ module Fog
             body[:pageSize] = records.size.to_s  # TODO: Support pagination
             body[:total]    = records.size.to_s
             body[record_type] = records
+
+          elsif type == 'task'
+
+            record_type = :TaskRecord
+            data_type = :tasks
+            data[data_type].each do |id, dr|
+              r = {}
+              if name.nil? || dr[:name] == name
+                r[:name] = dr[:name]
+                r[:href] = make_href("task/#{id}")
+                if dr[:end_time]
+                  r[:endDate] = dr[:end_time].strftime('%Y-%m-%dT%H:%M:%S%z')
+                else
+                  r[:endDate] = nil
+                end
+                if dr[:start_time]
+                  r[:startDate] = dr[:start_time].strftime('%Y-%m-%dT%H:%M:%S%z')
+                else
+                  r[:startDate] = nil
+                end
+                r[:status] = dr[:status]
+                r[:serviceNamespace] = 'com.vmware.vcloud'
+                r[:ownerName] = '000.0.000000'
+                r[:orgName] = data[:org][:name]
+                r[:org] = make_href("org/#{data[:org][:uuid]}")
+                r[:objectType] = '' # type of entity this task was performed on.
+                r[:objectName] = '' # name of entity this task was performed on.
+                r[:object] = '' # should be href to objectName
+                r[:details] = '! []'
+
+                records << r
+              end
+            end
+
           else
             Fog::Mock.not_implemented("No 'get by name' get_execute_query Mock for #{type} (#{name})")
           end
+
+          body[:page]     = 1.to_s             # TODO: Support pagination
+          body[:pageSize] = records.size.to_s  # TODO: Support pagination
+          body[:total]    = records.size.to_s
+          body[record_type] = records
 
           body
         end
@@ -637,6 +681,7 @@ module Fog
             ]
           }
         end
+
       end
     end
   end

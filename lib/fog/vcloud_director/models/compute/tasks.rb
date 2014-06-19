@@ -5,9 +5,16 @@ module Fog
   module Compute
     class VcloudDirector
       class Tasks < Collection
+
+        include Fog::VcloudDirector::Query
+
         model Fog::Compute::VcloudDirector::Task
 
         attribute :organization
+
+        def query_type
+          "task"
+        end
 
         def get(id)
           data = service.get_task(id).body
