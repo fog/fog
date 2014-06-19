@@ -13,20 +13,22 @@ module Fog
         def cores
           case id
           when 1
+            1
+          when 2
           	2
-          when 3
+          when 4
           	4
-          when 5
-          	6
           when 6
-          	8
+          	6
           when 7
-          	12
+          	8
           when 8
-          	16
+          	12
           when 9
+          	16
+          when 10
           	20
-          when 11
+          when 12
           	20
           else
           	0
