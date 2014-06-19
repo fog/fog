@@ -13,7 +13,7 @@ module Fog
           request({
             :body     => Fog::JSON.encode(policy),
             :expects  => 204,
-            :headers  => {},
+            :headers  => {'Content-Type' => 'application/json'},
             :bucket_name => bucket_name,
             :method   => 'PUT',
             :query    => {'policy' => nil}
