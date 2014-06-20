@@ -9,7 +9,7 @@ def model_tests(collection, params = {}, mocks_implemented = true)
     end
 
     if block_given?
-      yield
+      yield(@instance)
     end
 
     tests("#destroy").succeeds do

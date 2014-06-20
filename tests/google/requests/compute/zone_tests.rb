@@ -10,12 +10,8 @@ Shindo.tests('Fog::Compute[:google] | zone requests', ['google']) do
       'name' => String,
       'description' => String,
       'status' => String,
-      'maintenanceWindows' => Fog::Nullable::Array,
-      'quotas' => [{
-        'metric' => String,
-        'limit' => Float,
-        'usage' => Float},
-      ],
+      'region' => String,
+      'maintenanceWindows' => Fog::Nullable::Array
   }
 
   @list_zones_format = {
