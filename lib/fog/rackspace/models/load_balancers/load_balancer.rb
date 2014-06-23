@@ -85,11 +85,13 @@ module Fog
         end
 
         def virtual_ips
-          @virtual_ips ||= begin
-            Fog::Rackspace::LoadBalancers::VirtualIps.new({
+          if @virtual_ips.nil?
+            @virtual_ips = Fog::Rackspace::LoadBalancers::VirtualIps.new({
               :service => service,
               :load_balancer => self})
+            @virtual_ips.clear unless persisted?
           end
+          @virtual_ips
         end
 
         def virtual_ips=(new_virtual_ips=[])
@@ -231,7 +233,7 @@ module Fog
           options[:algorithm] = algorithm if algorithm
           options[:timeout] = timeout if timeout
 
-          data = service.create_load_balancer(name, protocol, port, virtual_ips_hash, nodes, options)
+          data = service.create_load_balancer(name, protocol, port, virtual_ips, nodes, options)
           merge_attributes(data.body['loadBalancer'])
         end
 
@@ -247,12 +249,6 @@ module Fog
 
           #TODO - Should this bubble down to nodes? Without tracking changes this would be very inefficient.
           # For now, individual nodes will have to be saved individually after saving an LB
-        end
-
-        def virtual_ips_hash
-          virtual_ips.map do |virtual_ip|
-            { :type => virtual_ip.type }
-          end
         end
 
         def connection_logging=(new_value)
