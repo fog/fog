@@ -52,7 +52,7 @@ module Fog
         end
 
         def nodes
-          unless @nodes
+          if @nodes.nil?
             @nodes = Fog::Rackspace::LoadBalancers::Nodes.new({
                 :service => service,
                 :load_balancer => self})
@@ -231,7 +231,7 @@ module Fog
           options[:algorithm] = algorithm if algorithm
           options[:timeout] = timeout if timeout
 
-          data = service.create_load_balancer(name, protocol, port, virtual_ips_hash, nodes_hash, options)
+          data = service.create_load_balancer(name, protocol, port, virtual_ips_hash, nodes, options)
           merge_attributes(data.body['loadBalancer'])
         end
 
@@ -252,12 +252,6 @@ module Fog
         def virtual_ips_hash
           virtual_ips.map do |virtual_ip|
             { :type => virtual_ip.type }
-          end
-        end
-
-        def nodes_hash
-          nodes.map do |node|
-            { :address => node.address, :port => node.port, :condition => node.condition, :weight => node.weight }
           end
         end
 
