@@ -205,7 +205,6 @@ module Fog
         #   * body<~String> - url for object
         def create_temp_url(container, object, expires, method, options = {})
           raise ArgumentError, "Insufficient parameters specified." unless (container && object && expires && method)
-          raise ArgumentError, "Storage must my instantiated with the :os_account_meta_temp_url_key option" if @os_account_meta_temp_url_key.nil?
 
           # POST not allowed
           allowed_methods = %w{GET PUT HEAD}
@@ -308,6 +307,10 @@ module Fog
           unless @hp_access_key
             raise ArgumentError.new("Missing required arguments: hp_access_key. :hp_account_id is deprecated, please use :hp_access_key instead.")
           end
+          if options[:os_account_meta_temp_url_key]
+            Fog::Logger.deprecation(":os_account_meta_temp_url_key is deprecated, and will be removed in a future release. please use the :openstack provider instead.")
+            @os_account_meta_temp_url_key = options.delete(:os_account_meta_temp_url_key)
+          end
           @hp_secret_key = options[:hp_secret_key]
           @hp_auth_uri   = options[:hp_auth_uri]
           @hp_cdn_ssl    = options[:hp_cdn_ssl]
@@ -321,7 +324,6 @@ module Fog
           options[:hp_service_type] ||= "Object Storage"
           @hp_tenant_id = options[:hp_tenant_id]
           @hp_avl_zone  = options[:hp_avl_zone]
-          @os_account_meta_temp_url_key = options[:os_account_meta_temp_url_key]
 
           ### Make the authentication call
           if (auth_version == :v2)
