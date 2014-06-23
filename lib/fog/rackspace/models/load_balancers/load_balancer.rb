@@ -52,7 +52,7 @@ module Fog
         end
 
         def nodes
-          unless @nodes
+          if @nodes.nil?
             @nodes = Fog::Rackspace::LoadBalancers::Nodes.new({
                 :service => service,
                 :load_balancer => self})
@@ -233,7 +233,7 @@ module Fog
           options[:algorithm] = algorithm if algorithm
           options[:timeout] = timeout if timeout
 
-          data = service.create_load_balancer(name, protocol, port, virtual_ips, nodes_hash, options)
+          data = service.create_load_balancer(name, protocol, port, virtual_ips, nodes, options)
           merge_attributes(data.body['loadBalancer'])
         end
 
@@ -249,12 +249,6 @@ module Fog
 
           #TODO - Should this bubble down to nodes? Without tracking changes this would be very inefficient.
           # For now, individual nodes will have to be saved individually after saving an LB
-        end
-
-        def nodes_hash
-          nodes.map do |node|
-            { :address => node.address, :port => node.port, :condition => node.condition, :weight => node.weight }
-          end
         end
 
         def connection_logging=(new_value)
