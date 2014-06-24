@@ -23,7 +23,7 @@ module Fog
           request(
             :expects => [200, 203],
             :method => 'GET',
-            :path => "flavors/#{flavor_id}"
+            :path => "flavors/#{Fog::Rackspace.escape(flavor_id)}"
           )
         end
       end
