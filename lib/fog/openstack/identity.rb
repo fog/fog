@@ -17,6 +17,10 @@ module Fog
       collection  :users
       model       :role
       collection  :roles
+      model       :service
+      collection  :services
+      model       :endpoint
+      collection  :endpoints
       model       :ec2_credential
       collection  :ec2_credentials
 
@@ -60,6 +64,19 @@ module Fog
       request :get_ec2_credential
       request :list_ec2_credentials
 
+      request :list_services
+      request :create_service
+      request :update_service
+      request :delete_service
+      request :get_service_by_id
+      request :get_service_by_name
+
+      request :list_endpoints
+      request :create_endpoint
+      request :update_endpoint
+      request :delete_endpoint
+      request :get_endpoint_by_id
+
       class Mock
         attr_reader :auth_token
         attr_reader :auth_token_expiration
@@ -79,6 +96,8 @@ module Fog
               :users           => @users,
               :roles           => @roles,
               :tenants         => @tenants,
+              :services        => @services,
+              :endpoints       => @endpoints,
               :ec2_credentials => @ec2_credentials,
               :user_tenant_membership => @user_tenant_membership
             }
@@ -90,6 +109,8 @@ module Fog
           @users           = nil
           @roles           = nil
           @tenants         = nil
+          @services        = nil
+          @endpoints       = nil
           @ec2_credentials = nil
         end
 
