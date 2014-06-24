@@ -230,6 +230,11 @@ module Fog
             hmac      = OpenSSL::HMAC.new(@os_account_meta_temp_url_key, OpenSSL::Digest::SHA1.new)
             signature= hmac.update(string_to_sign).hexdigest
           else
+            #Note if the value of the @hp_secret_key is really a password, this will NOT work
+            #HP Public Cloud FormPost and Temporary URL hashing algorithms require the secret key NOT password.
+            if Fog::HP.instance_variable_get("@hp_use_upass_auth_style")
+              raise ArgumentError, "Temporary URLS cannot be generated unless you login via access_key/secret_key"
+            end
             # Only works with 1.9+ Not compatible with 1.8.7
             #signed_string = Digest::HMAC.hexdigest(string_to_sign, @hp_secret_key, Digest::SHA1)
 
