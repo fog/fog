@@ -111,6 +111,7 @@ module Fog
         def template_pool(filter = { })
           nic1 = Mock_nic.new
           nic1.vnet = networks.first
+
           [ 
             {
               :content => %Q{
