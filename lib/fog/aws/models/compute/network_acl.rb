@@ -161,6 +161,16 @@ module Fog
           requires :vpc_id
           data = service.create_network_acl(vpc_id).body['networkAcl']
           merge_attributes(data)
+
+          if tags = self.tags
+            # expect eventual consistency
+            Fog.wait_for { self.reload rescue nil }
+            service.create_tags(
+              self.identity,
+              tags
+            )
+          end
+
           true
         end
       end
