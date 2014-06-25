@@ -54,11 +54,6 @@ module Fog
 
           network_acls = self.data[:network_acls].values
 
-          network_acls.each do |acl|
-            tagset = self.data[:tag_sets][acl['networkAclId']]
-            acl.merge!('tagSet' => tagset)
-          end
-
           aliases = {
             'vpc-id'         => 'vpcId',
             'network-acl-id' => 'networkAclId',
