@@ -78,7 +78,8 @@ Shindo.tests('Fog::Compute[:aws] | network acl requests', ['aws']) do
     end
 
     # Create another network acl to test tag filters
-    another_acl = Fog::Compute[:aws].network_acls.create :vpc_id => @vpc.id, :tags => {'foo' => 'bar'}
+    test_tags = {'foo' => 'bar'}
+    @another_acl = Fog::Compute[:aws].network_acls.create :vpc_id => @vpc.id, :tags => test_tags
     tests("#describe_network_acls('tag-key' => 'foo')").formats(@network_acls_format) do
       body = Fog::Compute[:aws].describe_network_acls('tag-key' => 'foo').body
       tests("returns 1 acl").returns(1) { body['networkAclSet'].size }
@@ -102,8 +103,8 @@ Shindo.tests('Fog::Compute[:aws] | network acl requests', ['aws']) do
     end
 
     # Clean up
-    Fog::Compute[:aws].delete_tags(another_acl.identity, test_tags)
-    another_acl.destroy
+    Fog::Compute[:aws].delete_tags(@another_acl.identity, test_tags)
+    @another_acl.destroy
     @subnet.destroy
     @vpc.destroy
   end
