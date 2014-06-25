@@ -102,6 +102,7 @@ Shindo.tests('Fog::Compute[:aws] | network acl requests', ['aws']) do
     end
 
     # Clean up
+    Fog::Compute[:aws].delete_tags(another_acl.identity, test_tags)
     another_acl.destroy
     @subnet.destroy
     @vpc.destroy
