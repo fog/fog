@@ -53,6 +53,7 @@ module Fog
           response = Excon::Response.new
 
           network_acls = self.data[:network_acls].values
+          network_acls = apply_tag_filters(network_acls, filters, 'networkAclId')
 
           aliases = {
             'vpc-id'         => 'vpcId',
