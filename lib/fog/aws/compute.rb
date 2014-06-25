@@ -351,7 +351,7 @@ module Fog
             tag_filters[key.gsub('tag:', '')] = filters.delete(key) if /^tag:/ =~ key
           end
           for tag_key, tag_value in tag_filters
-            resources = resources.select{|r| tag_value.include?(tag_set_fetcher[r][tag_key])}
+            resources = resources.select{|r| tag_value == tag_set_fetcher[r][tag_key]}
           end
 
           resources
