@@ -146,6 +146,7 @@ module Fog
             :vdc_id => vdc_id,
             :description => options.fetch(:description, "vApp created from #{vapp_template_id}"),
             :networks => [],
+            :metadata => {:'vapp_key' => 'vapp_value'},
             :status => "0",
           }
 
@@ -154,6 +155,7 @@ module Fog
             :parent_vapp => vapp_id,
             :memory_in_mb => "1024",
             :cpu_count => "2",
+            :metadata => {:'vm_key' => 'vm_value'},
             :nics => [
               {
               :network_name => 'Default Network',
