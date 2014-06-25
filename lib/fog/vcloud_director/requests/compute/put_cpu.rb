@@ -42,6 +42,40 @@ EOF
           )
         end
       end
+
+      class Mock
+
+        def put_cpu(id, num_cpus)
+          unless vm = data[:vms][id]
+            raise Fog::Compute::VcloudDirector::Forbidden.new(
+              'This operation is denied.'
+            )
+          end
+
+          owner = {
+            :href => make_href("vApp/#{id}"),
+            :type => 'application/vnd.vmware.vcloud.vm+xml'
+          }
+          task_id = enqueue_task(
+            "Updating Virtual Machine #{data[:vms][id][:name]}(#{id})", 'vappUpdateVm', owner,
+            :on_success => lambda do
+              data[:vms][id][:cpu_count] = num_cpus
+            end
+          )
+          body = {
+            :xmlns => xmlns,
+            :xmlns_xsi => xmlns_xsi,
+            :xsi_schemaLocation => xsi_schema_location,
+          }.merge(task_body(task_id))
+
+          Excon::Response.new(
+            :status => 202,
+            :headers => {'Content-Type' => "#{body[:type]};version=#{api_version}"},
+            :body => body
+          )
+        end
+
+      end
     end
   end
 end

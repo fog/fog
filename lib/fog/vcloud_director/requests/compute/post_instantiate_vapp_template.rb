@@ -153,6 +153,7 @@ module Fog
             :name => 'vm-template-name',
             :parent_vapp => vapp_id,
             :memory_in_mb => "1024",
+            :cpu_count => "2",
             :nics => [
               {
               :network_name => 'Default Network',
