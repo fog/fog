@@ -48,7 +48,7 @@ module Fog
       end
 
       class Mock
-        def create_network_acl(vpcId, options = {})
+        def create_network_acl(vpcId, tags = {}, options = {})
           response = Excon::Response.new
           if vpcId
             id = Fog::AWS::Mock.network_acl_id
@@ -82,7 +82,7 @@ module Fog
                 },
               ],
               'associationSet' => [],
-              'tagSet'         => {},
+              'tagSet'         => tags
             }
 
             self.data[:network_acls][id] = data

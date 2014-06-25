@@ -5,8 +5,7 @@ Shindo.tests("Fog::Compute[:aws] | network_acls", ['aws']) do
 
   tests('tags') do
     test_tags = {'foo' => 'bar'}
-    @acl = Fog::Compute[:aws].network_acls.create :vpc_id => @vpc.id
-    Fog::Compute[:aws].create_tags @acl.identity, test_tags
+    @acl = Fog::Compute[:aws].network_acls.create(:vpc_id => @vpc.id, :tags => test_tags)
 
     tests('@acl.tags').returns(test_tags) do
       @acl.reload.tags

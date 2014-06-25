@@ -159,7 +159,7 @@ module Fog
         #  >> g.save
         def save
           requires :vpc_id
-          data = service.create_network_acl(vpc_id).body['networkAcl']
+          data = service.create_network_acl(vpc_id, tags).body['networkAcl']
           merge_attributes(data)
 
           if tags = self.tags
