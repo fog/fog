@@ -41,6 +41,7 @@ module Fog
       class Mock
         def describe_vpcs(filters = {})
           vpcs = self.data[:vpcs]
+          vpcs = apply_tag_filters(vpcs, filters, 'vpcId')
 
           # Transition from pending to available
           vpcs.each do |vpc|

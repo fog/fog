@@ -66,8 +66,34 @@ Shindo.tests('Fog::Compute[:aws] | vpc requests', ['aws']) do
       Fog::Compute[:aws].modify_vpc_attribute(@vpc_id, {'EnableDnsSupport.Value' => true, 'EnableDnsHostnames.Value' => true}).body
     end
 
+    # Create another vpc to test tag filters
+    test_tags = {'foo' => 'bar'}
+    @another_vpc = Fog::Compute[:aws].vpcs.create :cidr_block => '1.2.3.4/24', :tags => test_tags
+
+    tests("#describe_vpcs('tag-key' => 'foo')").formats(@vpcs_format)do
+      body = Fog::Compute[:aws].describe_vpcs('tag-key' => 'foo').body
+      tests("returns 1 vpc").returns(1) { body['vpcSet'].size }
+      body
+    end
+
+    tests("#describe_vpcs('tag-value' => 'bar')").formats(@vpcs_format)do
+      body = Fog::Compute[:aws].describe_vpcs('tag-value' => 'bar').body
+      tests("returns 1 vpc").returns(1) { body['vpcSet'].size }
+      body
+    end
+
+    tests("#describe_vpcs('tag:foo' => 'bar')").formats(@vpcs_format)do
+      body = Fog::Compute[:aws].describe_vpcs('tag:foo' => 'bar').body
+      tests("returns 1 vpc").returns(1) { body['vpcSet'].size }
+      body
+    end
+
     tests("#delete_vpc('#{@vpc_id}')").formats(AWS::Compute::Formats::BASIC) do
       Fog::Compute[:aws].delete_vpc(@vpc_id).body
     end
+
+    # Clean up
+    Fog::Compute[:aws].delete_tags(@another_vpc.id, test_tags)
+    @another_vpc.destroy
   end
 end
