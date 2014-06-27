@@ -70,37 +70,27 @@ module Fog
           )
         end
 
+        def create_many(min_servers = 1, max_servers = nil, new_attributes = {})
+          max_servers ||= min_servers
+          server = new(new_attributes)
+          server.save_many(min_servers, max_servers)
+        end
+
+        def bootstrap_many(min_servers = 1, max_servers = nil, new_attributes = {})
+          server = service.servers.new(new_attributes)
+          _setup_bootstrap(server)
+
+          servers = server.save_many(min_servers, max_servers)
+          servers.each do |server|
+            server.wait_for { ready? }
+            server.setup(:key_data => [server.private_key])
+          end
+          servers
+        end
+
         def bootstrap(new_attributes = {})
           server = service.servers.new(new_attributes)
-
-          unless new_attributes[:key_name]
-            # first or create fog_#{credential} keypair
-            name = Fog.respond_to?(:credential) && Fog.credential || :default
-            unless server.key_pair = service.key_pairs.get("fog_#{name}")
-              server.key_pair = service.key_pairs.create(
-                :name => "fog_#{name}",
-                :public_key => server.public_key
-              )
-            end
-          end
-
-          security_group = service.security_groups.get(server.groups.first)
-          if security_group.nil?
-            raise Fog::Compute::AWS::Error, "The security group" \
-              " #{server.groups.first} doesn't exist."
-          end
-
-          # make sure port 22 is open in the first security group
-          authorized = security_group.ip_permissions.find do |ip_permission|
-            ip_permission['ipRanges'].first && ip_permission['ipRanges'].first['cidrIp'] == '0.0.0.0/0' &&
-            ip_permission['fromPort'] == 22 &&
-            ip_permission['ipProtocol'] == 'tcp' &&
-            ip_permission['toPort'] == 22
-          end
-          unless authorized
-            security_group.authorize_port_range(22..22)
-          end
-
+          _setup_bootstrap(server)
           server.save
           server.wait_for { ready? }
           server.setup(:key_data => [server.private_key])
@@ -153,6 +143,39 @@ module Fog
           end
         rescue Fog::Errors::NotFound
           nil
+        end
+
+        private
+
+        def _setup_bootstrap(server, new_attributes = {})
+          unless new_attributes[:key_name]
+            # first or create fog_#{credential} keypair
+            name = Fog.respond_to?(:credential) && Fog.credential || :default
+            unless server.key_pair = service.key_pairs.get("fog_#{name}")
+              server.key_pair = service.key_pairs.create(
+                :name => "fog_#{name}",
+                :public_key => server.public_key
+              )
+            end
+          end
+
+          security_group = service.security_groups.get(server.groups.first)
+          if security_group.nil?
+            raise Fog::Compute::AWS::Error, "The security group" \
+              " #{server.groups.first} doesn't exist."
+          end
+
+          # make sure port 22 is open in the first security group
+          authorized = security_group.ip_permissions.find do |ip_permission|
+            ip_permission['ipRanges'].first && ip_permission['ipRanges'].first['cidrIp'] == '0.0.0.0/0' &&
+            ip_permission['fromPort'] == 22 &&
+            ip_permission['ipProtocol'] == 'tcp' &&
+            ip_permission['toPort'] == 22
+          end
+
+          unless authorized
+            security_group.authorize_port_range(22..22)
+          end
         end
       end
     end
