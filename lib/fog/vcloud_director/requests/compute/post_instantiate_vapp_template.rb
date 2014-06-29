@@ -130,6 +130,7 @@ module Fog
       end
 
       class Mock
+
         def post_instantiate_vapp_template(vdc_id, vapp_template_id, name, options={})
           unless data[:vdcs][vdc_id]
             raise Fog::Compute::VcloudDirector::Forbidden.new(
@@ -190,7 +191,6 @@ module Fog
         end
 
       end
-
     end
   end
 end
