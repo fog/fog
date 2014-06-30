@@ -2,6 +2,7 @@ source "https://rubygems.org"
 
 # Embedded provider gems
 gem "fog-brightbox", :path => "../providers/brightbox"
+gem "fog-softlayer"
 
 # Shared components
 gem "fog-core", :github => "fog/fog-core"
