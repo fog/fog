@@ -78,6 +78,11 @@ module Fog
             elsif @in_private_ip_addresses
               case name
               when 'item'
+                if value
+                  @private_ip_address['item'] = value.strip
+                else
+                  @private_ip_address['item'] = value
+                end
                 @private_ip_addresses << @private_ip_address
                 @private_ip_address = {}
               when 'privateIpAddress', 'privateDnsName', 'primary'
