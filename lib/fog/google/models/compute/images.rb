@@ -11,8 +11,9 @@ module Fog
         # licenses needed to use some of them.
         # https://developers.google.com/compute/docs/premium-operating-systems
         GLOBAL_PROJECTS = [
-          'debian-cloud',
           'centos-cloud',
+          'debian-cloud',
+          'google-containers',
           'rhel-cloud',
           'suse-cloud'
         ]
