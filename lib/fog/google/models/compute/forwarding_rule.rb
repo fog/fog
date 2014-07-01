@@ -30,7 +30,7 @@ module Fog
           }
 
           data = service.insert_forwarding_rule(name, region, options).body
-          operation = Fog::Compute::Google::Operations.new(:service => service).get(data['name'], data['zone'])
+          operation = Fog::Compute::Google::Operations.new(:service => service).get(data['name'], nil, data['region'])
           operation.wait_for { !pending? }
           reload
         end
