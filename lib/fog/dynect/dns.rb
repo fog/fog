@@ -120,19 +120,24 @@ module Fog
 
         def poll_job(response, original_expects, time_to_wait = 10)
           job_location = response.headers['Location']
-
-          Fog.wait_for(time_to_wait) do
-            response = request(
-              :expects => original_expects,
-              :idempotent => true,
-              :method => :get,
-              :path => job_location
-            )
-            response.body['status'] != 'incomplete'
-          end
-
-          if response.body['status'] == 'incomplete'
-            raise JobIncomplete.new("Job #{response.body['job_id']} is still incomplete")
+          
+          begin
+            Fog.wait_for(time_to_wait) do
+             response = request(
+               :expects => original_expects,
+               :idempotent => true,
+               :method => :get,
+               :path => job_location
+             )
+             response.body['status'] != 'incomplete'
+            end
+          
+          rescue Errors::TimeoutError => error
+            if response.body['status'] == 'incomplete'
+              raise JobIncomplete.new("Job #{response.body['job_id']} is still incomplete")
+            else
+              raise error
+            end
           end
 
           response
