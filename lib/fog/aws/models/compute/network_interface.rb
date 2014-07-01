@@ -18,6 +18,7 @@ module Fog
         attribute :status,                      :aliases => 'status'
         attribute :mac_address,                 :aliases => 'macAddress'
         attribute :private_ip_address,          :aliases => 'privateIpAddress'
+        attribute :private_ip_addresses,        :aliases => 'privateIpAddresses'
         attribute :private_dns_name,            :aliases => 'privateDnsName'
         attribute :source_dest_check,           :aliases => 'sourceDestCheck'
         attribute :group_set,                   :aliases => 'groupSet'

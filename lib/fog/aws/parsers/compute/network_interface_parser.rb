@@ -4,7 +4,7 @@ module Fog
       module AWS
         class NetworkInterfaceParser < Fog::Parsers::Base
           def reset_nic
-            @nic = { 'groupSet' => {}, 'attachment' => {}, 'association' => {}, 'tagSet' => {} }
+            @nic = { 'groupSet' => {}, 'attachment' => {}, 'association' => {}, 'tagSet' => {}, 'privateIpAddressesSet' => [] }
             @in_tag_set     = false
             @in_group_set   = false
             @in_attachment  = false
