@@ -1,7 +1,24 @@
 require File.expand_path(File.join(File.dirname(__FILE__), 'helper'))
 
 Shindo.tests('Compute::VcloudDirector | tasks', ['vclouddirector']) do
-  pending if Fog.mocking?
+
+  @service = Fog::Compute::VcloudDirector.new()
+
+  if Fog.mocking?
+    # add a bunch of tasks
+    50.times do
+      type = 'bogus'
+      task_id = @service.enqueue_task(
+        "Bogus Task",
+        'BogusTaskName',
+        {
+          :href => 'https://example.com/api/bogus/12345678-1234-1234-1234-123456789012',
+          :name => 'Bogus object',
+          :type => 'application/vnd.vmware.vcloud.bogus+xml'
+        }
+      )
+    end
+  end
 
   tasks = organization.tasks
   pending if tasks.empty?
@@ -23,4 +40,17 @@ Shindo.tests('Compute::VcloudDirector | tasks', ['vclouddirector']) do
     tests('#get_by_name').returns(task.name) { tasks.get_by_name(task.name).name }
     tests('#get').returns(task.id) { tasks.get(task.id).id }
   end
+
+  # We should also be able to find tasks via the Query API
+  tests("Compute::VcloudDirector | tasks", ['find_by_query']) do
+    tests('we can retrieve :name without lazy loading').returns(task.name) do
+      query_task = tasks.find_by_query(:filter => "name==#{task.name}").first
+      query_task.attributes[:name]
+    end
+    tests('by name').returns(task.name) do
+      query_task = tasks.find_by_query(:filter => "name==#{task.name}").first
+      query_task.name
+    end
+  end
+
 end

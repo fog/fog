@@ -177,10 +177,12 @@ module Fog
             :xsi_schemaLocation=>xsi_schema_location,
           }
 
+          records = []
+          record_type = nil
+
           if type == 'orgVdcNetwork'
             record_type = :OrgVdcNetworkRecords
             data_type = :networks
-            records = []
             data[data_type].each do |id, dr|
               r = {}
               if name.nil? || dr[:name] == name
@@ -211,13 +213,48 @@ module Fog
                 records << r
               end
             end
-            body[:page]     = 1.to_s             # TODO: Support pagination
-            body[:pageSize] = records.size.to_s  # TODO: Support pagination
-            body[:total]    = records.size.to_s
-            body[record_type] = records
+
+          elsif type == 'task'
+
+            record_type = :TaskRecord
+            data_type = :tasks
+            data[data_type].each do |id, dr|
+              r = {}
+              if name.nil? || dr[:name] == name
+                r[:name] = dr[:name]
+                r[:href] = make_href("task/#{id}")
+                if dr[:end_time]
+                  r[:endDate] = dr[:end_time].strftime('%Y-%m-%dT%H:%M:%S%z')
+                else
+                  r[:endDate] = nil
+                end
+                if dr[:start_time]
+                  r[:startDate] = dr[:start_time].strftime('%Y-%m-%dT%H:%M:%S%z')
+                else
+                  r[:startDate] = nil
+                end
+                r[:status] = dr[:status]
+                r[:serviceNamespace] = 'com.vmware.vcloud'
+                r[:ownerName] = '000.0.000000'
+                r[:orgName] = data[:org][:name]
+                r[:org] = make_href("org/#{data[:org][:uuid]}")
+                r[:objectType] = dr[:owner][:type].split(/\./).last.split(/\+/).first
+                r[:objectName] = dr[:owner][:name]
+                r[:object] = dr[:owner][:href]
+                r[:details] = '! []'
+
+                records << r
+              end
+            end
+
           else
             Fog::Mock.not_implemented("No 'get by name' get_execute_query Mock for #{type} (#{name})")
           end
+
+          body[:page]     = 1.to_s             # TODO: Support pagination
+          body[:pageSize] = records.size.to_s  # TODO: Support pagination
+          body[:total]    = records.size.to_s
+          body[record_type] = records
 
           body
         end
