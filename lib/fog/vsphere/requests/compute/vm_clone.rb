@@ -74,9 +74,6 @@ module Fog
           # Added for people still using options['path']
           template_path = options['path'] || options['template_path']
 
-          # Default wait enabled
-          options['wait'] = true
-
           # Options['template_path']<~String>
           # Added for people still using options['path']
           template_path = options['path'] || options['template_path']
@@ -244,7 +241,7 @@ module Fog
           # to set 'wait' => true if your app wants to wait.  Otherwise, you're
           # going to have to reload the server model over and over which
           # generates a lot of time consuming API calls to vmware.
-          if options['wait'] then
+          if options.fetch('wait', true) then
             # REVISIT: It would be awesome to call a block passed to this
             # request to notify the application how far along in the process we
             # are.  I'm thinking of updating a progress bar, etc...
@@ -253,7 +250,7 @@ module Fog
             tries = 0
             new_vm = begin
               # Try and find the new VM (folder.find is quite efficient)
-              folder.find(options['name'], RbVmomi::VIM::VirtualMachine) or raise Fog::Vsphere::Errors::NotFound
+              dest_folder.find(options['name'], RbVmomi::VIM::VirtualMachine) or raise Fog::Vsphere::Errors::NotFound
             rescue Fog::Vsphere::Errors::NotFound
               tries += 1
               if tries <= 10 then
