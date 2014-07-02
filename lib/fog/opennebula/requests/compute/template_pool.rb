@@ -60,7 +60,6 @@ module Fog
 
             # h["NIC"] has to be an array of nic objects
             nics = h["NIC"] unless h["NIC"].nil?
-            #Fog::Logger.info("template_pool: Found NIC: #{nics.inspect}")
             h["NIC"] = [] # reset nics to a array
             if nics.is_a? Array
               nics.each do |n|
@@ -69,11 +68,9 @@ module Fog
                 elsif n["NETWORK"]
                   vnet = networks.get_by_name(n["NETWORK"].to_s)
                 else 
-                  #Fog::Logger.info("template_pool: Could not identify the NETWORK within the flavor #{h[:name]}")
                   next
                 end
                 h["NIC"] << interfaces.new({ :vnet => vnet, :model => n["MODEL"] || "virtio" })
-                #Fog::Logger.info("template_pool: Added nic #{h['NIC'].last} to the flavor #{h[:name]}")
               end
             elsif nics.is_a? Hash
               nics["model"] = "virtio" if nics["model"].nil?
@@ -96,13 +93,11 @@ module Fog
             h.each_pair do |k,v| 
               ret_hash.merge!({k.downcase => v}) 
             end
-            #Fog::Logger.info("ret_h: #{ret_hash}")
             ret_hash
           end
           
           templates.delete nil
           raise Fog::Compute::OpenNebula::NotFound, "Flavor/Template not found" if templates.empty?
-          #Fog::Logger.info("template_pool: #{templates.inspect}")
           templates
         end #def template_pool
       end #class Real
