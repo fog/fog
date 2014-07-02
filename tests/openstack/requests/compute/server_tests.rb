@@ -164,6 +164,18 @@ Shindo.tests('Fog::Compute[:openstack] | server requests', ['openstack']) do
 
     Fog::Compute[:openstack].servers.get(@server_id).wait_for { ready? } if not Fog.mocking?
 
+    #STOP
+    tests("#stop_server(#{@server_id})").succeeds do
+      Fog::Compute[:openstack].stop_server(@server_id)
+    end
+
+    #START
+    tests("#start_server(#{@server_id})").succeeds do
+      Fog::Compute[:openstack].start_server(@server_id)
+    end
+
+    Fog::Compute[:openstack].servers.get(@server_id).wait_for { ready? } if not Fog.mocking?
+
     #DELETE
     tests("#delete_server(#{@server_id})").succeeds do
       Fog::Compute[:openstack].delete_server(@server_id)
@@ -195,6 +207,15 @@ Shindo.tests('Fog::Compute[:openstack] | server requests', ['openstack']) do
       Fog::Compute[:openstack].reboot_server(0)
     end
 
+    tests('#start_server(0)').raises(Fog::Compute::OpenStack::NotFound) do
+      pending if Fog.mocking?
+      Fog::Compute[:openstack].start_server(0)
+    end
+
+    tests('#stop_server(0)').raises(Fog::Compute::OpenStack::NotFound) do
+      pending if Fog.mocking?
+      Fog::Compute[:openstack].stop_server(0)
+    end
   end
 
 end
