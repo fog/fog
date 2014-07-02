@@ -223,6 +223,34 @@ module Fog
           true
         end
 
+        def stop
+          requires :id
+          service.stop_server(id)
+        end
+
+        def pause
+          requires :id
+          service.pause_server(id)
+        end
+
+        def suspend
+          requires :id
+          service.suspend_server(id)
+        end
+
+        def start
+          requires :id
+
+          case state.downcase
+          when 'paused'
+            service.unpause_server(id)
+          when 'suspended'
+            service.resume_server(id)
+          else
+            service.start_server(id)
+          end
+        end
+
         def create_image(name, metadata={})
           requires :id
           service.create_image(id, name, metadata)
