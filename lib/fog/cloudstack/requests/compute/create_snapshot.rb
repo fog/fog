@@ -1,19 +1,20 @@
 module Fog
   module Compute
     class Cloudstack
-      class Real
-        # Creates a snapshot for an account that already exists.
-        #
-        # {CloudStack API Reference}[http://download.cloud.com/releases/2.2.0/api_2.2.4/global_admin/createSnapshot.html]
-        def create_snapshot(options={})
-          options.merge!(
-            'command' => 'createSnapshot'
-          )
 
+      class Real
+        # Creates an instant snapshot of a volume.
+        #
+        # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/createSnapshot.html]
+        def create_snapshot(volumeid, options={})
+          options.merge!(
+            'command' => 'createSnapshot', 
+            'volumeid' => volumeid  
+          )
           request(options)
         end
       end
-
+ 
       class Mock
         def create_snapshot(options={})
           snapshot_id = Fog::Cloudstack.uuid
@@ -36,7 +37,8 @@ module Fog
           self.data[:snapshots][snapshot_id]= snapshot
           {'createsnapshotresponse' => snapshot}
         end
-      end
+      end 
     end
   end
 end
+

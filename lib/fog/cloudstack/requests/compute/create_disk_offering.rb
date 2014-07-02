@@ -1,19 +1,23 @@
 module Fog
   module Compute
     class Cloudstack
+
       class Real
         # Creates a disk offering.
         #
-        # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.0.0/root_admin/createDiskOffering.html]
-        def create_disk_offering(options={})
+        # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/createDiskOffering.html]
+        def create_disk_offering(name, displaytext, options={})
           options.merge!(
-            'command' => 'createDiskOffering'
+            'command' => 'createDiskOffering', 
+            'name' => name, 
+            'displaytext' => displaytext  
           )
           request(options)
         end
-      end # Real
-
+      end
+ 
       class Mock
+
         def create_disk_offering(options={})
           disk_offering_id = Fog::Cloudstack.uuid
 
@@ -41,7 +45,8 @@ module Fog
 
           {'creatediskofferingresponse' => disk_offering}
         end
-      end
-    end # Cloudstack
-  end # Compute
-end # Fog
+      end 
+    end
+  end
+end
+
