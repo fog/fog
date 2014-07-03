@@ -99,10 +99,6 @@ module Fog
           @rackspace_username = options[:rackspace_username]
           @rackspace_auth_url = options[:rackspace_auth_url]
         end
-
-        def uniq_id
-          rand(999999).to_s.center(6, rand(9).to_s).to_i
-        end
       end
 
       class Real < Fog::Rackspace::Service
