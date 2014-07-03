@@ -248,6 +248,10 @@ module Fog
           message
         end
       end
+
+      def self.uniq_id
+        rand(999999).to_s.center(6, rand(9).to_s).to_i
+      end
     end
   end
 end
