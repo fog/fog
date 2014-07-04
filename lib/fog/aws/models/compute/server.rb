@@ -198,35 +198,9 @@ module Fog
           options
         end
 
-        def save_many(min_servers = 1, max_servers = nil)
-          max_servers ||= min_servers
-          data = service.run_instances(image_id, min_servers, max_servers, run_instance_options)
-          data.body['instancesSet'].select { |instance_set| instance_set['instanceId'] }.map do |instance_set|
-            server = self.dup
-            server.merge_attributes(instance_set)
-            # expect eventual consistency
-            if (tags = server.tags) && tags.size > 0
-              Fog.wait_for { server.reload rescue nil }
-              service.create_tags(
-                server.identity,
-                tags
-              )
-            end
-            server
-          end
-        end
-
         def save
-          data = service.run_instances(image_id, 1, 1, run_instance_options)
-          merge_attributes(data.body['instancesSet'].first)
-          # expect eventual consistency
-          if (tags = self.tags) && tags.size > 0
-            Fog.wait_for { self.reload rescue nil }
-            service.create_tags(
-              self.identity,
-              tags
-            )
-          end
+          servers = service.servers.save_many(self, 1, 1)
+          merge_attributes(servers.first.attributes)
           true
         end
 

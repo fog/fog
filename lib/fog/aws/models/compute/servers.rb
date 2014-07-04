@@ -70,17 +70,30 @@ module Fog
           )
         end
 
+        # Create between m and n servers with the server options specified in
+        # new_attributes.  Equivalent to this loop, but happens in 1 request:
+        #
+        #    1.upto(n).map { create(new_attributes) }
+        #
+        # See the AWS RunInstances API.
         def create_many(min_servers = 1, max_servers = nil, new_attributes = {})
           max_servers ||= min_servers
-          server = new(new_attributes)
-          server.save_many(min_servers, max_servers)
+          template = new(new_attributes)
+          save_many(template, min_servers, max_servers)
         end
 
+        # Bootstrap between m and n servers with the server options specified in
+        # new_attributes.  Equivalent to this loop, but happens in 1 AWS request
+        # and the machines' spinup will happen in parallel:
+        #
+        #   1.upto(n).map { bootstrap(new_attributes) }
+        #
+        # See the AWS RunInstances API.
         def bootstrap_many(min_servers = 1, max_servers = nil, new_attributes = {})
-          server = service.servers.new(new_attributes)
-          _setup_bootstrap(server)
+          template = service.servers.new(new_attributes)
+          _setup_bootstrap(template)
 
-          servers = server.save_many(min_servers, max_servers)
+          servers = save_many(template, min_servers, max_servers)
           servers.each do |server|
             server.wait_for { ready? }
             server.setup(:key_data => [server.private_key])
@@ -89,12 +102,7 @@ module Fog
         end
 
         def bootstrap(new_attributes = {})
-          server = service.servers.new(new_attributes)
-          _setup_bootstrap(server)
-          server.save
-          server.wait_for { ready? }
-          server.setup(:key_data => [server.private_key])
-          server
+          bootstrap_many(1, 1, new_attributes).first
         end
 
         # Used to retrieve a server
@@ -143,6 +151,26 @@ module Fog
           end
         rescue Fog::Errors::NotFound
           nil
+        end
+
+        # From a template, create between m-n servers (see the AWS RunInstances API)
+        def save_many(template, min_servers = 1, max_servers = nil)
+          max_servers ||= min_servers
+          data = service.run_instances(template.image_id, min_servers, max_servers, template.run_instance_options)
+          # For some reason, AWS sometimes returns empty results alongside the real ones.  Thus the select
+          data.body['instancesSet'].select { |instance_set| instance_set['instanceId'] }.map do |instance_set|
+            server = template.dup
+            server.merge_attributes(instance_set)
+            # expect eventual consistency
+            if (tags = server.tags) && tags.size > 0
+              Fog.wait_for { server.reload rescue nil }
+              service.create_tags(
+                server.identity,
+                tags
+              )
+            end
+            server
+          end
         end
 
         private
