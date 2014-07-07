@@ -27,7 +27,7 @@ module Fog
               "nodes"=>[{"address"=> MockData.ipv4_address, "id"=> Fog::Mock.random_numbers(6), "type"=>"PRIMARY", "port"=>80, "status"=>"ONLINE", "condition"=>"ENABLED"}],
               "timeout"=>30,
               "created"=>{"time"=>MockData.zulu_time},
-              "virtualIps"=>[
+              "virtual_ips"=>[
                 {"address"=> MockData.ipv4_address, "id"=>Fog::Mock.random_numbers(4), "type"=>"PUBLIC", "ipVersion"=>"IPV4"},
                 {"address"=> MockData.ipv6_address, "id"=>Fog::Mock.random_numbers(4), "type"=>"PUBLIC", "ipVersion"=>"IPV6"}],
                 "sourceAddresses"=>{"ipv6Public"=> MockData.ipv6_address, "ipv4Servicenet"=> MockData.ipv4_address, "ipv4Public"=> MockData.ipv4_address},
