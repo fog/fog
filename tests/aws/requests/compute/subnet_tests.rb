@@ -20,6 +20,11 @@ Shindo.tests('Fog::Compute[:aws] | subnet requests', ['aws']) do
     'requestId' => String
   }
 
+  @modify_subnet_format = {
+    'requestId' => String,
+    'return' => Fog::Boolean
+  }
+  
   @vpc_network = '10.0.10.0/24'
   @vpc=Fog::Compute[:aws].vpcs.create('cidr_block' => @vpc_network)
   @vpc_id = @vpc.id
@@ -32,6 +37,10 @@ Shindo.tests('Fog::Compute[:aws] | subnet requests', ['aws']) do
       data = Fog::Compute[:aws].create_subnet(@vpc_id, @subnet_network).body
       @subnet_id = data['subnet']['subnetId']
       data
+    end
+
+    tests("modify_subnet('#{@subnet_id}'").formats(@modify_subnet_format) do
+      Fog::Compute[:aws].modify_subnet_attribute(@subnet_id, 'MapPublicIpOnLaunch' => true).body
     end
 
     @vpc2=Fog::Compute[:aws].vpcs.create('cidr_block' => @vpc_network)
