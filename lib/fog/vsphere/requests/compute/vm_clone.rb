@@ -277,7 +277,26 @@ module Fog
               nil
             end
           end
-
+          if ( options.has_key?('iso') )
+            cdroms = new_vm.config.hardware.device.grep(RbVmomi::VIM::VirtualCdrom)
+            if cdroms.length>0
+              cdrom = cdroms[0]
+              backing_info = RbVmomi::VIM.VirtualCdromIsoBackingInfo(:fileName => options['iso'])
+              connectable = RbVmomi::VIM::VirtualDeviceConnectInfo(
+                  :allowGuestControl => true,
+                  :connected => true,
+                  :startConnected => true)
+              cdrom.backing = backing_info
+              cdrom.connectable=connectable
+              cdrom_spec = RbVmomi::VIM.VirtualMachineConfigSpec(:deviceChange => [{
+                    :operation => :edit,
+                    :device => cdrom
+              }])
+              new_vm.ReconfigVM_Task(:spec => cdrom_spec)
+            else
+              #we should create a cdrome here?
+            end
+          end
           # Return hash
           {
             'vm_ref'        => new_vm ? new_vm._ref : nil,
