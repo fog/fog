@@ -154,7 +154,6 @@ module Fog
             attrs['mac_addresses'] = Proc.new {vm_mob_ref.macs rescue nil}
             # Rescue nil to catch testing while vm_mob_ref isn't reaL??
             attrs['path'] = "/"+attrs['parent'].path.map(&:last).join('/') rescue nil
-            attrs['relative_path'] = (attrs['path'].split('/').reject {|e| e.empty?} - ["Datacenters", attrs['datacenter'], "vm"]).join("/") rescue nil
           end
         end
         # returns the parent object based on a type
