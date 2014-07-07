@@ -28,8 +28,8 @@ module Fog
               "timeout"=>30,
               "created"=>{"time"=>MockData.zulu_time},
               "virtual_ips"=>[
-                {"address"=> MockData.ipv4_address, "id"=>Fog::Mock.random_numbers(4), "type"=>"PUBLIC", "ipVersion"=>"IPV4"},
-                {"address"=> MockData.ipv6_address, "id"=>Fog::Mock.random_numbers(4), "type"=>"PUBLIC", "ipVersion"=>"IPV6"}],
+                {"address"=> MockData.ipv4_address, "id"=>Fog::Mock.random_numbers(4), "type"=>"PUBLIC", "ip_version"=>"IPV4"},
+                {"address"=> MockData.ipv6_address, "id"=>Fog::Mock.random_numbers(4), "type"=>"PUBLIC", "ip_version"=>"IPV6"}],
                 "sourceAddresses"=>{"ipv6Public"=> MockData.ipv6_address, "ipv4Servicenet"=> MockData.ipv4_address, "ipv4Public"=> MockData.ipv4_address},
                 "updated"=>{"time"=>"2013-09-04T06:29:09Z"},
                 "halfClosed"=>false,
