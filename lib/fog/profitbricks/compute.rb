@@ -49,13 +49,18 @@ module Fog
                                 'Authorization' => "Basic #{auth_header}"
                             }.merge!(params[:headers] || {})
                         }))
-                        #response = @connection.request(params)
                     rescue Excon::Errors::Unauthorized => error
                         raise error
                     rescue Excon::Errors::HTTPStatusError => error
                         raise error
                     end
 
+                    return parse(response)
+                end
+
+                private
+
+                def parse(response)
                     unless response.body.empty?
                         document = Fog::ToHashDocument.new
                         parser = Nokogiri::XML::SAX::PushParser.new(document)
@@ -63,12 +68,6 @@ module Fog
                         parser.finish
                         response.body = document.body
                     end
-                    return response 
-                end
-
-                private
-
-                def parse(response)
                 end
 
                 def auth_header
