@@ -91,14 +91,14 @@ module Fog
 
           # Options['resource_pool']<~Array>
           # Now find _a_ resource pool to use for the clone if one is not specified
+          esx_host = vm_mob_ref.collect!('runtime.host')['runtime.host']
+
           if  options.has_key?('host_system') #fix for scaleworks
             if (options.has_key?('resource_pool')) && options['resource_pool'].is_a?(Array) && options['resource_pool'].length == 2 then #for sify
               cluster_name = options['resource_pool'][0]
               pool_name = options['resource_pool'][1]
-              resource_pool = get_raw_resource_pool2(options['host_system'], options['datacenter'], pool_name, cluster_name)
+              resource_pool = get_raw_resource_pool3(options['host_system'], options['datacenter'], pool_name, cluster_name)
             elsif !options.has_key?('resource_pool') && !options.has_key?('cluster') #for china
-              #for china
-              # use host system's root resource pool
               resource_pool = get_raw_resource_pool2(options['host_system'], options['datacenter'])
             end
           else
@@ -107,23 +107,16 @@ module Fog
               pool_name = options['resource_pool'][1]
               resource_pool = get_raw_resource_pool(pool_name, cluster_name, options['datacenter'])
             elsif ( vm_mob_ref.resourcePool == nil )
-              # If the template is really a template then there is no associated resource pool,
-              # so we need to find one using the template's parent host or cluster
               esx_host = vm_mob_ref.collect!('runtime.host')['runtime.host']
-              # The parent of the ESX host itself is a ComputeResource which has a resourcePool
               resource_pool = esx_host.parent.resourcePool
             end
-            # If the vm given did return a valid resource pool, default to using it for the clone.
-            # Even if specific pools aren't implemented in this environment, we will still get back
-            # at least the cluster or host we can pass on to the clone task
-            # This catches if resource_pool option is set but comes back nil and if resourcePool is
-            # already set.
             resource_pool ||= vm_mob_ref.resourcePool.nil? ? esx_host.parent.resourcePool : vm_mob_ref.resourcePool
           end
+          
+
           # Options['datastore']<~String>
           # Grab the datastore object if option is set
           datastore_obj = get_raw_datastore(options['datastore'], options['datacenter']) if options.has_key?('datastore')
-          # confirm nil if nil or option is not set
           datastore_obj ||= nil
           virtual_machine_config_spec = RbVmomi::VIM::VirtualMachineConfigSpec()
 
@@ -257,7 +250,6 @@ module Fog
                                                             :customization => customization_spec,
                                                             :powerOn  => options.has_key?('power_on') ? options['power_on'] : true,
                                                             :template => false)
-
           # Perform the actual Clone Task
           task = vm_mob_ref.CloneVM_Task(:folder => dest_folder,
                                          :name => options['name'],
