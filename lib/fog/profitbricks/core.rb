@@ -8,6 +8,7 @@ module Fog
 
         def self.construct_envelope(&block)
             namespaces = {
+              'xmlns'         => '',
               'xmlns:soapenv' => 'http://schemas.xmlsoap.org/soap/envelope/',
               'xmlns:ws'      => 'http://ws.api.profitbricks.com/'
             }

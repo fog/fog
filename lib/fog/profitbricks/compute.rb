@@ -36,17 +36,18 @@ module Fog
                 def initialize(options={})
                     @profitbricks_username = options[:profitbricks_username]
                     @profitbricks_password = options[:profitbricks_password]
-                    @profitbricks_url      = options[:profitbricks_url] || 'https://api.profitbricks.com/1.2'
+                    @profitbricks_url      = options[:profitbricks_url] ||
+                                             'https://api.profitbricks.com/1.2'
 
                     #@connection = Fog::XML::Connection.new('https://api.profitbricks.com/1.2', false)
-                    @connection = Fog::Core::Connection.new(@profitbricks_url, false)
+                    @connection = Fog::XML::Connection.new(@profitbricks_url, false)
                 end
 
                 def request(params)
                     begin
                         response = @connection.request(params.merge({
                             :headers => {
-                                'Authorization' => "Basic #{auth_header}"
+                              'Authorization' => "Basic #{auth_header}"
                             }.merge!(params[:headers] || {})
                         }))
                     rescue Excon::Errors::Unauthorized => error
@@ -55,7 +56,14 @@ module Fog
                         raise error
                     end
 
-                    return parse(response)
+                    #document = Fog::ToHashDocument.new
+                    #parser = Nokogiri::XML::SAX::PushParser.new(document)
+                    #parser << response.body
+                    #parser.finish
+                    #response.body = document.body
+
+                    response
+                    #return parse(response)
                 end
 
                 private
