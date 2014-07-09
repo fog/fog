@@ -16,7 +16,8 @@ module Fog
           cluster.resourcePool.find name
         end
 
-        def get_raw_resource_pool(host_system_name, datacenter_name)
+        def get_raw_resource_pool2(host_system_name, datacenter_name, pool_name, cluster_name)
+          #fix for scaleworks
           dc = find_raw_datacenter(datacenter_name)
           cluster = dc.find_compute_resource('')
           compute_resource = cluster.children.find {|c| c.name == host_system_name}
