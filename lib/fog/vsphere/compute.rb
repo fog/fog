@@ -152,6 +152,7 @@ module Fog
               attrs['datacenter'] = Proc.new { parent_attribute(host.path, :datacenter)[1] rescue nil }
               attrs['cluster']    = Proc.new { parent_attribute(host.path, :cluster)[1] rescue nil }
               attrs['hypervisor'] = Proc.new { host.name rescue nil }
+              attrs['hypervisor_mob_ref'] = Proc.new {managed_obj_id(host) rescue nil}
               attrs['resource_pool'] = Proc.new {(vm_mob_ref.resourcePool || host.resourcePool).name rescue nil}
             end
             # This inline rescue catches any standard error.  While a VM is
