@@ -22,7 +22,7 @@ module Fog
             end
 
             class Mock
-                def create_data_center(data_center_id)
+                def create_data_center(data_center_name, region=nil)
                     Fog::Mock::not_implemented
                 end
             end

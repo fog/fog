@@ -6,7 +6,6 @@ module Fog
                     def reset
                         @data_center = {}
                         @response = { 'getAllDataCentersResponse' => [] }
-                        #@response = { 'getAllDataCentersResponse' => [] }
                     end
 
                     def end_element(name)
@@ -16,7 +15,7 @@ module Fog
                         when 'dataCenterVersion'
                             @data_center[name] = value.to_i
                         when 'return'
-                            @response['data_centers'] << @data_center
+                            @response['getAllDataCentersResponse'] << @data_center
                             @data_center = {}
                         end
                     end
