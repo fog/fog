@@ -219,6 +219,28 @@ module Fog
             body[:pageSize] = records.size.to_s  # TODO: Support pagination
             body[:total]    = records.size.to_s
             body[record_type] = records
+          elsif type == 'edgeGateway'
+            record_type = :EdgeGatewayRecord
+            edge_gateway_id = data[:edge_gateways].keys[0]
+            vdc_id = data[:edge_gateways][edge_gateway_id][:vdc]
+            records = [{
+              :vdc=>make_href("vdc/#{vdc_id}"),
+              :numberOfOrgNetworks=>"1",
+              :numberOfExtNetworks=>"1",
+              :name=>"Test EdgeGateway Name",
+              :isBusy=>"false",
+              :haStatus=>"DISABLED",
+              :gatewayStatus=>"READY",
+              :href=>make_href("edgeGateway/#{edge_gateway_id}"),
+              :taskStatus=>"success",
+              :taskOperation=>"networkConfigureEdgeGatewayServices",
+              :task=>make_href("task/#{uuid}"),
+              :taskDetails=>" "
+            }]
+            body[:page]     = 1.to_s             # TODO: Support pagination
+            body[:pageSize] = records.size.to_s  # TODO: Support pagination
+            body[:total]    = records.size.to_s
+            body[record_type] = records
           elsif type == 'vAppTemplate'
             record_type = :VAappTemplateRecord
             records = [{
