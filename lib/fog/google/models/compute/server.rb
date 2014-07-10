@@ -15,6 +15,7 @@ module Fog
         attribute :disks
         attribute :machine_type, :aliases => 'machineType'
         attribute :metadata
+        attribute :metadata_from_file
         attribute :network_interfaces, :aliases => 'networkInterfaces'
         attribute :scheduling
         attribute :self_link, :aliases => 'selfLink'
@@ -216,6 +217,7 @@ module Fog
               'externalIp' => external_ip,
               'disks' => disks,
               'metadata' => metadata,
+              'metadata_from_file' => metadata_from_file,
               'serviceAccounts' => service_accounts,
               'tags' => tags,
               'auto_restart' => auto_restart,

@@ -114,6 +114,13 @@ module Fog
           { "items" => metadata.map {|k,v| {"key" => k, "value" => v}} }
         end
 
+        def read_metadata_from_file(metadata)
+          metadata.merge!(metadata) {|k,v| File.open(v,"r") do |f|
+            f.read
+          end
+          }
+        end
+
         def insert_server(server_name, zone_name, options={}, *deprecated_args)
           if deprecated_args.length > 0 or not options.is_a? Hash
             raise ArgumentError.new 'Too many parameters specified. This may be the cause of code written for an outdated'\
@@ -177,6 +184,15 @@ module Fog
             raise ArgumentError.new "Empty value for field 'disks'. Boot disk must be specified"
           end
           body_object['disks'] = handle_disks(options)
+          
+          file_meta = read_metadata_from_file options ['metadata_from_file'] if options['metadata_from_file']
+          if file_meta then
+            if options['metadata'] then
+              options['metadata'].merge! file_meta
+            else
+              options['metadata'] = file_meta
+            end
+          end
 
           options['metadata'] = format_metadata options['metadata'] if options['metadata']
 
