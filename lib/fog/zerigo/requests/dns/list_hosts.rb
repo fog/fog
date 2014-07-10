@@ -8,6 +8,10 @@ module Fog
         #
         # ==== Parameters
         # * zone_id<~Integer> - the zone ID of the zone from which to get the host records for
+        # * 'options'<~Hash> - optional parameters
+        #   * 'page' <~Integer>
+        #   * 'per_page' <~Integer>
+        #   * 'fqdn' <~String>
         # ==== Returns
         # * response<~Excon::Response>:
         #   * body<~Hash>:
@@ -24,8 +28,9 @@ module Fog
         #       * 'updated-at'<~String>
         #       * 'zone-id'<~String>
         # * 'status'<~Integer> - 200 indicates success
-        def list_hosts(zone_id)
+        def list_hosts(zone_id, options={})
           request(
+            :query    => options, 
             :expects  => 200,
             :method   => 'GET',
             :parser   => Fog::Parsers::DNS::Zerigo::ListHosts.new,
