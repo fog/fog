@@ -123,26 +123,17 @@ module Fog
           # Options['network']
           # Build up the config spec
           if ( options.has_key?('network_label') )
-            #network_obj = datacenter_obj.networkFolder.find(options['network_label'])
-            config_spec_operation = RbVmomi::VIM::VirtualDeviceConfigSpecOperation('edit')
-            nic_backing_info = RbVmomi::VIM::VirtualEthernetCardNetworkBackingInfo(:deviceName => options['network_label'])
-              #:deviceName => "Network adapter 1",
-              #:network => network_obj)
-            connectable = RbVmomi::VIM::VirtualDeviceConnectInfo(
-              :allowGuestControl => true,
-              :connected => true,
-              :startConnected => true)
-            device = RbVmomi::VIM::VirtualE1000(
-              :backing => nic_backing_info,
-              :deviceInfo => RbVmomi::VIM::Description(:label => "Network adapter 1", :summary => options['network_label']),
-              :key => options['network_adapter_device_key'],
-              :connectable => connectable)
-            nics = vm_mob_ref.config.hardware.device.grep(RbVmomi::VIM::VirtualVmxnet3)
-            device.key = nics[0].key if nics.length > 0            
-            device_spec = RbVmomi::VIM::VirtualDeviceConfigSpec(
-              :operation => config_spec_operation,
-              :device => device)
-            virtual_machine_config_spec.deviceChange = [device_spec]
+            eths = vm_mob_ref.config.hardware.device.grep(RbVmomi::VIM::VirtualE1000)
+            if eths.length == 0
+            else
+              device = eths.first
+              device.backing = RbVmomi::VIM::VirtualEthernetCardNetworkBackingInfo(:deviceName => options['network_label'])
+              device.deviceInfo = RbVmomi::VIM::Description(:label => "Network adapter 1", :summary => options['network_label']),
+              device_spec = RbVmomi::VIM::VirtualDeviceConfigSpec(
+                :operation => RbVmomi::VIM::VirtualDeviceConfigSpecOperation('edit'),
+                :device => device)
+              # virtual_machine_config_spec.deviceChange = [device_spec]          
+            end
           end
           # Options['numCPUs'] or Options['memoryMB']
           # Build up the specification for Hardware, for more details see ____________

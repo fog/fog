@@ -23,9 +23,23 @@ module Fog
         end
 
         def get_raw_resource_pool2(host_system_name, datacenter_name)
-            cluster = dc.find_compute_resource('')
-            compute_resource = cluster.children.find {|c| c.name == host_system_name}
-            compute_resource ? compute_resource.resourcePool : nil
+          ret = nil
+          dc = find_raw_datacenter(datacenter_name)
+          clusters = dc.find_compute_resource('')
+          clusters.children.each do |cluster|
+            if cluster.class.to_s=="ClusterComputeResource" then
+              if cluster.host.select{|x| x.name==host_system_name}.length > 0
+                ret = cluster.resourcePool
+                break
+              end
+            else
+              if c.name == host_system_name then
+                ret = cluster.resourcePool
+                break
+              end
+            end
+          end
+          ret
         end
 
         def get_raw_resource_pool3(host_system_name,datacenter_name,resource_pool,cluster_name)
