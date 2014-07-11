@@ -13,6 +13,8 @@ module Fog
       request :list_aggregated_addresses
       request :list_disks
       request :list_aggregated_disks
+      request :list_disk_types
+      request :list_aggregated_disk_types
       request :list_firewalls
       request :list_images
       request :list_machine_types
@@ -32,6 +34,7 @@ module Fog
       request :get_server
       request :get_address
       request :get_disk
+      request :get_disk_type
       request :get_firewall
       request :get_image
       request :get_machine_type
@@ -108,6 +111,9 @@ module Fog
 
       model :disk
       collection :disks
+
+      model :disk_type
+      collection :disk_types
 
       model :address
       collection :addresses
