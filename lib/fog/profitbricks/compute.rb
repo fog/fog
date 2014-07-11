@@ -30,6 +30,7 @@ module Fog
             request      :delete_data_center   # deleteDataCenter
             request      :get_all_data_centers # getAllDataCenters
             request      :get_data_center      # getDataCenter
+            request      :get_data_center_state # getDataCenterState
             request      :update_data_center   # updateDataCenter
 
             class Real

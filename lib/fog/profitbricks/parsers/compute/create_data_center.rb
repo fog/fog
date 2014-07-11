@@ -4,15 +4,15 @@ module Fog
             module ProfitBricks
                 class CreateDataCenter < Fog::Parsers::Base
                     def reset
-                        @response = { 'createDataCenterResponse' => [] }
+                        @response = { 'createDataCenterResponse' => {} }
                     end
 
                     def end_element(name)
                         case name
                         when 'requestId', 'dataCenterId', 'region'
-                            @data_center['createDataCenterResponse'][name] = value
+                            @response['createDataCenterResponse'][name] = value
                         when 'dataCenterVersion'
-                            @data_center['createDataCenterResponse'][name] = value.to_i
+                            @response['createDataCenterResponse'][name] = value.to_i
                         end
                     end
                 end

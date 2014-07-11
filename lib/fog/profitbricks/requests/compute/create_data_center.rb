@@ -3,7 +3,7 @@ module Fog
         class ProfitBricks
             class Real
                 require 'fog/profitbricks/parsers/compute/create_data_center'
-                def create_data_center(data_center_name, region=nil)
+                def create_data_center(data_center_name, region='')
                     soap_envelope = Fog::ProfitBricks.construct_envelope {
                       |xml| xml[:ws].createDataCenter {
                         xml.dataCenterName(data_center_name)
@@ -22,7 +22,7 @@ module Fog
             end
 
             class Mock
-                def create_data_center(data_center_name, region=nil)
+                def create_data_center(create_center_name, region='')
                     Fog::Mock::not_implemented
                 end
             end

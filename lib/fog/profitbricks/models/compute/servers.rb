@@ -13,7 +13,11 @@ module Fog
                 def bootstrap(new_attributes = {})
                 end
 
-                def get(id)
+                def get(data_center_id)
+                    data_center = service.get_data_center(data_center_id).body['getDataCenterResponse']
+                    new(data_center)
+                rescue Excon::Errors::NotFound
+                    nil
                 end
             end
         end

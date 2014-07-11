@@ -10,7 +10,7 @@ module Fog
                     def end_element(name)
                         case name
                         when 'return'
-                            @response['getDataCenterResponse'][name] = value
+                            @response['getDataCenterStateResponse'][name] = value
                         end
                     end
                 end
