@@ -27,7 +27,7 @@ module Fog
           dc = find_raw_datacenter(datacenter_name)
           clusters = dc.find_compute_resource('')
           clusters.children.each do |cluster|
-            if cluster.is_a? ClusterComputeResource then
+            if cluster.class==RbVmomi::VIM::ClusterComputeResource then
               if cluster.host.find{|h|h.name==host_system_name}
                 ret = cluster.resourcePool
                 break
