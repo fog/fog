@@ -3,7 +3,7 @@ require 'fog/vcloud_director/parsers/compute/vm'
 
 Shindo.tests('Parsers::Compute::VcloudDirector::Vm', ['vclouddirector', 'all']) do
   parser = Nokogiri::XML::SAX::Parser.new(Fog::Parsers::Compute::VcloudDirector::Vm.new)
-  vm_response_xml = File.open(File.join(__dir__, '..', 'fixtures','vm.xml')).read
+  vm_response_xml = File.open(File.join(File.dirname(__FILE__), '..', 'fixtures','vm.xml')).read
   parser.parse(vm_response_xml)
   vm = parser.document.response[:vm]
 
@@ -41,7 +41,7 @@ end
 
 Shindo.tests('Parsers::Compute::VcloudDirector::Vms', ['vclouddirector', 'all']) do
   parser = Nokogiri::XML::SAX::Parser.new(Fog::Parsers::Compute::VcloudDirector::Vms.new)
-  vapp_response_xml = File.open(File.join(__dir__, '..', 'fixtures','vapp.xml')).read
+  vapp_response_xml = File.open(File.join(File.dirname(__FILE__), '..', 'fixtures','vapp.xml')).read
   parser.parse(vapp_response_xml)
   vms = parser.document.response[:vms]
 
