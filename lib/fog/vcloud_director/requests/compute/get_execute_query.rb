@@ -181,7 +181,30 @@ module Fog
             :xsi_schemaLocation=>xsi_schema_location,
           }
 
-          if type == 'orgVdcNetwork'
+          if type == 'orgVdc'
+            record_type = :OrgVdcRecord
+            vdc_id = data[:vdcs].keys[0]
+            vdc_name = data[:vdcs][vdc_id][:name]
+            records = [{
+              :storageUsedMB=>"123967",
+              :storageLimitMB=>"8388608",
+              :storageAllocationMB=>"0",
+              :status=>"READY",
+              :orgName=>"orgName",
+              :name=>vdc_name,
+              :memoryUsedMB=>"0",
+              :memoryLimitMB=>"0",
+              :memoryAllocationMB=>"0",
+              :isSystemVdc=>"false",
+              :isEnabled=>"true",
+              :isBusy=>"false",
+              :href=>make_href("vdc/#{vdc_id}"),
+            }]
+            body[:page]     = 1.to_s             # TODO: Support pagination
+            body[:pageSize] = records.size.to_s  # TODO: Support pagination
+            body[:total]    = records.size.to_s
+            body[record_type] = records
+          elsif type == 'orgVdcNetwork'
             record_type = :OrgVdcNetworkRecords
             data_type = :networks
             records = []
