@@ -52,14 +52,14 @@ module Fog
                 "hosts" => zone["hosts"]
               }
             else
-                hosts = zone["hosts"]
-                hosts = hosts.select {|h| h["fqdn"] == options["fqdn"]} if options["fqdn"]
-                hosts = options["per_page"] ? hosts.each_slice(options["per_page"] - 1).to_a : hosts.each_slice(100).to_a
-                hosts = options["page"] ? hosts[options["page"]] : hosts[0]
-                response.status = 200
-                response.body = {
-                  "hosts" => hosts
-                }
+              hosts = zone["hosts"]
+              hosts = hosts.select {|h| h["fqdn"] == options["fqdn"]} if options["fqdn"]
+              hosts = options["per_page"] ? hosts.each_slice(options["per_page"] - 1).to_a : hosts.each_slice(100).to_a
+              hosts = options["page"] ? hosts[options["page"]] : hosts[0]
+              response.status = 200
+              response.body = {
+                "hosts" => hosts
+              }
             end
           else
             response.status = 404
