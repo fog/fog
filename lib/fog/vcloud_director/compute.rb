@@ -557,7 +557,7 @@ module Fog
                   }],
                   :IsInherited => false,
                   :Netmask => '255.255.255.0',
-                  :name => 'Default Network',
+                  :name => 'vDC1 Default Network',
                   :SubnetParticipation => {
                       :Gateway => "192.168.1.0",
                       :Netmask => "255.255.0.0",
