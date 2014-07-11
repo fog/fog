@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Vm xmlns="http://www.vmware.com/vcloud/v1.5" xmlns:ovf="http://schemas.dmtf.org/ovf/envelope/1" xmlns:rasd="http://schemas.dmtf.org/wbem/wscim/1/cim-schema/2/CIM_ResourceAllocationSettingData" xmlns:vssd="http://schemas.dmtf.org/wbem/wscim/1/cim-schema/2/CIM_VirtualSystemSettingData" xmlns:vmw="http://www.vmware.com/schema/ovf" xmlns:ovfenv="http://schemas.dmtf.org/ovf/environment/1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" nestedHypervisorEnabled="false" needsCustomization="false" deployed="true" status="4" name="nas.test.com" id="urn:vcloud:vm:17a2a3a9-248c-475d-8ee0-8dd45f7f8368" type="application/vnd.vmware.vcloud.vm+xml" href="https://vcloud-server.com/api/vApp/vm-17a2a3a9-248c-475d-8ee0-8dd45f7f8368" xsi:schemaLocation="http://schemas.dmtf.org/wbem/wscim/1/cim-schema/2/CIM_VirtualSystemSettingData http://schemas.dmtf.org/wbem/wscim/1/cim-schema/2.22.0/CIM_VirtualSystemSettingData.xsd http://www.vmware.com/schema/ovf http://www.vmware.com/schema/ovf http://schemas.dmtf.org/ovf/envelope/1 http://schemas.dmtf.org/ovf/envelope/1/dsp8023_1.1.0.xsd http://schemas.dmtf.org/ovf/environment/1 http://schemas.dmtf.org/ovf/envelope/1/dsp8027_1.1.0.xsd http://www.vmware.com/vcloud/v1.5 http://vcloud-server.com/api/v1.5/schema/master.xsd http://schemas.dmtf.org/wbem/wscim/1/cim-schema/2/CIM_ResourceAllocationSettingData http://schemas.dmtf.org/wbem/wscim/1/cim-schema/2.22.0/CIM_ResourceAllocationSettingData.xsd">
+    <Link rel="power:powerOff" href="https://vcloud-server.com/api/vApp/vm-17a2a3a9-248c-475d-8ee0-8dd45f7f8368/power/action/powerOff"/>
+    <Link rel="power:reboot" href="https://vcloud-server.com/api/vApp/vm-17a2a3a9-248c-475d-8ee0-8dd45f7f8368/power/action/reboot"/>
+    <Link rel="power:reset" href="https://vcloud-server.com/api/vApp/vm-17a2a3a9-248c-475d-8ee0-8dd45f7f8368/power/action/reset"/>
+    <Link rel="power:shutdown" href="https://vcloud-server.com/api/vApp/vm-17a2a3a9-248c-475d-8ee0-8dd45f7f8368/power/action/shutdown"/>
+    <Link rel="power:suspend" href="https://vcloud-server.com/api/vApp/vm-17a2a3a9-248c-475d-8ee0-8dd45f7f8368/power/action/suspend"/>
+    <Link rel="undeploy" type="application/vnd.vmware.vcloud.undeployVAppParams+xml" href="https://vcloud-server.com/api/vApp/vm-17a2a3a9-248c-475d-8ee0-8dd45f7f8368/action/undeploy"/>
+    <Link rel="edit" type="application/vnd.vmware.vcloud.vm+xml" href="https://vcloud-server.com/api/vApp/vm-17a2a3a9-248c-475d-8ee0-8dd45f7f8368"/>
+    <Link rel="down" type="application/vnd.vmware.vcloud.metadata+xml" href="https://vcloud-server.com/api/vApp/vm-17a2a3a9-248c-475d-8ee0-8dd45f7f8368/metadata"/>
+    <Link rel="down" type="application/vnd.vmware.vcloud.productSections+xml" href="https://vcloud-server.com/api/vApp/vm-17a2a3a9-248c-475d-8ee0-8dd45f7f8368/productSections/"/>
+    <Link rel="screen:thumbnail" href="https://vcloud-server.com/api/vApp/vm-17a2a3a9-248c-475d-8ee0-8dd45f7f8368/screen"/>
+    <Link rel="screen:acquireTicket" href="https://vcloud-server.com/api/vApp/vm-17a2a3a9-248c-475d-8ee0-8dd45f7f8368/screen/action/acquireTicket"/>
+    <Link rel="media:insertMedia" type="application/vnd.vmware.vcloud.mediaInsertOrEjectParams+xml" href="https://vcloud-server.com/api/vApp/vm-17a2a3a9-248c-475d-8ee0-8dd45f7f8368/media/action/insertMedia"/>
+    <Link rel="media:ejectMedia" type="application/vnd.vmware.vcloud.mediaInsertOrEjectParams+xml" href="https://vcloud-server.com/api/vApp/vm-17a2a3a9-248c-475d-8ee0-8dd45f7f8368/media/action/ejectMedia"/>
+    <Link rel="disk:attach" type="application/vnd.vmware.vcloud.diskAttachOrDetachParams+xml" href="https://vcloud-server.com/api/vApp/vm-17a2a3a9-248c-475d-8ee0-8dd45f7f8368/disk/action/attach"/>
+    <Link rel="disk:detach" type="application/vnd.vmware.vcloud.diskAttachOrDetachParams+xml" href="https://vcloud-server.com/api/vApp/vm-17a2a3a9-248c-475d-8ee0-8dd45f7f8368/disk/action/detach"/>
+    <Link rel="installVmwareTools" href="https://vcloud-server.com/api/vApp/vm-17a2a3a9-248c-475d-8ee0-8dd45f7f8368/action/installVMwareTools"/>
+    <Link rel="snapshot:create" type="application/vnd.vmware.vcloud.createSnapshotParams+xml" href="https://vcloud-server.com/api/vApp/vm-17a2a3a9-248c-475d-8ee0-8dd45f7f8368/action/createSnapshot"/>
+    <Link rel="reconfigureVm" type="application/vnd.vmware.vcloud.vm+xml" name="nas.test.com" href="https://vcloud-server.com/api/vApp/vm-17a2a3a9-248c-475d-8ee0-8dd45f7f8368/action/reconfigureVm"/>
+    <Link rel="up" type="application/vnd.vmware.vcloud.vApp+xml" href="https://vcloud-server.com/api/vApp/vapp-8e81a743-bf8e-4ea7-8728-97d17eba9ec5"/>
+    <ovf:VirtualHardwareSection xmlns:ns12="http://www.vmware.com/vcloud/v1.5" ovf:transport="" ns12:href="https://vcloud-server.com/api/vApp/vm-17a2a3a9-248c-475d-8ee0-8dd45f7f8368/virtualHardwareSection/" ns12:type="application/vnd.vmware.vcloud.virtualHardwareSection+xml">
+        <ovf:Info>Virtual hardware requirements</ovf:Info>
+        <ovf:System>
+            <vssd:ElementName>Virtual Hardware Family</vssd:ElementName>
+            <vssd:InstanceID>0</vssd:InstanceID>
+            <vssd:VirtualSystemIdentifier>nas.test.com</vssd:VirtualSystemIdentifier>
+            <vssd:VirtualSystemType>vmx-09</vssd:VirtualSystemType>
+        </ovf:System>
+        <ovf:Item>
+            <rasd:Address>00:50:56:29:0c:18</rasd:Address>
+            <rasd:AddressOnParent>0</rasd:AddressOnParent>
+            <rasd:AutomaticAllocation>true</rasd:AutomaticAllocation>
+            <rasd:Connection ns12:ipAddress="192.168.96.10" ns12:primaryNetworkConnection="true" ns12:ipAddressingMode="POOL">Non-DMZNetwork</rasd:Connection>
+            <rasd:Description>Vmxnet3 ethernet adapter on "Non-DMZNetwork"</rasd:Description>
+            <rasd:ElementName>Network adapter 0</rasd:ElementName>
+            <rasd:InstanceID>1</rasd:InstanceID>
+            <rasd:ResourceSubType>VMXNET3</rasd:ResourceSubType>
+            <rasd:ResourceType>10</rasd:ResourceType>
+        </ovf:Item>
+        <ovf:Item>
+            <rasd:Address>00:50:56:29:0c:19</rasd:Address>
+            <rasd:AddressOnParent>1</rasd:AddressOnParent>
+            <rasd:AutomaticAllocation>true</rasd:AutomaticAllocation>
+            <rasd:Connection ns12:ipAddress="10.81.196.204" ns12:primaryNetworkConnection="false" ns12:ipAddressingMode="POOL">nfs-net-01</rasd:Connection>
+            <rasd:Description>Vmxnet3 ethernet adapter on "nfs-net-01"</rasd:Description>
+            <rasd:ElementName>Network adapter 1</rasd:ElementName>
+            <rasd:InstanceID>2</rasd:InstanceID>
+            <rasd:ResourceSubType>VMXNET3</rasd:ResourceSubType>
+            <rasd:ResourceType>10</rasd:ResourceType>
+        </ovf:Item>
+        <ovf:Item>
+            <rasd:Address>0</rasd:Address>
+            <rasd:Description>SCSI Controller</rasd:Description>
+            <rasd:ElementName>SCSI Controller 0</rasd:ElementName>
+            <rasd:InstanceID>3</rasd:InstanceID>
+            <rasd:ResourceSubType>lsilogic</rasd:ResourceSubType>
+            <rasd:ResourceType>6</rasd:ResourceType>
+        </ovf:Item>
+        <ovf:Item>
+            <rasd:AddressOnParent>0</rasd:AddressOnParent>
+            <rasd:Description>Hard disk</rasd:Description>
+            <rasd:ElementName>Hard disk 1</rasd:ElementName>
+            <rasd:HostResource ns12:capacity="10240" ns12:busSubType="lsilogic" ns12:busType="6"/>
+            <rasd:InstanceID>2000</rasd:InstanceID>
+            <rasd:Parent>3</rasd:Parent>
+            <rasd:ResourceType>17</rasd:ResourceType>
+        </ovf:Item>
+        <ovf:Item>
+            <rasd:Address>0</rasd:Address>
+            <rasd:Description>IDE Controller</rasd:Description>
+            <rasd:ElementName>IDE Controller 0</rasd:ElementName>
+            <rasd:InstanceID>4</rasd:InstanceID>
+            <rasd:ResourceType>5</rasd:ResourceType>
+        </ovf:Item>
+        <ovf:Item>
+            <rasd:AddressOnParent>1</rasd:AddressOnParent>
+            <rasd:AutomaticAllocation>true</rasd:AutomaticAllocation>
+            <rasd:Description>CD/DVD Drive</rasd:Description>
+            <rasd:ElementName>CD/DVD Drive 1</rasd:ElementName>
+            <rasd:HostResource/>
+            <rasd:InstanceID>3002</rasd:InstanceID>
+            <rasd:Parent>4</rasd:Parent>
+            <rasd:ResourceType>15</rasd:ResourceType>
+        </ovf:Item>
+        <ovf:Item ns12:href="https://vcloud-server.com/api/vApp/vm-17a2a3a9-248c-475d-8ee0-8dd45f7f8368/virtualHardwareSection/cpu" ns12:type="application/vnd.vmware.vcloud.rasdItem+xml">
+            <rasd:AllocationUnits>hertz * 10^6</rasd:AllocationUnits>
+            <rasd:Description>Number of Virtual CPUs</rasd:Description>
+            <rasd:ElementName>1 virtual CPU(s)</rasd:ElementName>
+            <rasd:InstanceID>5</rasd:InstanceID>
+            <rasd:Reservation>0</rasd:Reservation>
+            <rasd:ResourceType>3</rasd:ResourceType>
+            <rasd:VirtualQuantity>1</rasd:VirtualQuantity>
+            <rasd:Weight>0</rasd:Weight>
+            <Link rel="edit" type="application/vnd.vmware.vcloud.rasdItem+xml" href="https://vcloud-server.com/api/vApp/vm-17a2a3a9-248c-475d-8ee0-8dd45f7f8368/virtualHardwareSection/cpu"/>
+        </ovf:Item>
+        <ovf:Item ns12:href="https://vcloud-server.com/api/vApp/vm-17a2a3a9-248c-475d-8ee0-8dd45f7f8368/virtualHardwareSection/memory" ns12:type="application/vnd.vmware.vcloud.rasdItem+xml">
+            <rasd:AllocationUnits>byte * 2^20</rasd:AllocationUnits>
+            <rasd:Description>Memory Size</rasd:Description>
+            <rasd:ElementName>2048 MB of memory</rasd:ElementName>
+            <rasd:InstanceID>6</rasd:InstanceID>
+            <rasd:Reservation>0</rasd:Reservation>
+            <rasd:ResourceType>4</rasd:ResourceType>
+            <rasd:VirtualQuantity>2048</rasd:VirtualQuantity>
+            <rasd:Weight>0</rasd:Weight>
+            <Link rel="edit" type="application/vnd.vmware.vcloud.rasdItem+xml" href="https://vcloud-server.com/api/vApp/vm-17a2a3a9-248c-475d-8ee0-8dd45f7f8368/virtualHardwareSection/memory"/>
+        </ovf:Item>
+        <Link rel="edit" type="application/vnd.vmware.vcloud.virtualHardwareSection+xml" href="https://vcloud-server.com/api/vApp/vm-17a2a3a9-248c-475d-8ee0-8dd45f7f8368/virtualHardwareSection/"/>
+        <Link rel="down" type="application/vnd.vmware.vcloud.rasdItem+xml" href="https://vcloud-server.com/api/vApp/vm-17a2a3a9-248c-475d-8ee0-8dd45f7f8368/virtualHardwareSection/cpu"/>
+        <Link rel="edit" type="application/vnd.vmware.vcloud.rasdItem+xml" href="https://vcloud-server.com/api/vApp/vm-17a2a3a9-248c-475d-8ee0-8dd45f7f8368/virtualHardwareSection/cpu"/>
+        <Link rel="down" type="application/vnd.vmware.vcloud.rasdItem+xml" href="https://vcloud-server.com/api/vApp/vm-17a2a3a9-248c-475d-8ee0-8dd45f7f8368/virtualHardwareSection/memory"/>
+        <Link rel="edit" type="application/vnd.vmware.vcloud.rasdItem+xml" href="https://vcloud-server.com/api/vApp/vm-17a2a3a9-248c-475d-8ee0-8dd45f7f8368/virtualHardwareSection/memory"/>
+        <Link rel="down" type="application/vnd.vmware.vcloud.rasdItemsList+xml" href="https://vcloud-server.com/api/vApp/vm-17a2a3a9-248c-475d-8ee0-8dd45f7f8368/virtualHardwareSection/disks"/>
+        <Link rel="edit" type="application/vnd.vmware.vcloud.rasdItemsList+xml" href="https://vcloud-server.com/api/vApp/vm-17a2a3a9-248c-475d-8ee0-8dd45f7f8368/virtualHardwareSection/disks"/>
+        <Link rel="down" type="application/vnd.vmware.vcloud.rasdItemsList+xml" href="https://vcloud-server.com/api/vApp/vm-17a2a3a9-248c-475d-8ee0-8dd45f7f8368/virtualHardwareSection/media"/>
+        <Link rel="down" type="application/vnd.vmware.vcloud.rasdItemsList+xml" href="https://vcloud-server.com/api/vApp/vm-17a2a3a9-248c-475d-8ee0-8dd45f7f8368/virtualHardwareSection/networkCards"/>
+        <Link rel="edit" type="application/vnd.vmware.vcloud.rasdItemsList+xml" href="https://vcloud-server.com/api/vApp/vm-17a2a3a9-248c-475d-8ee0-8dd45f7f8368/virtualHardwareSection/networkCards"/>
+        <Link rel="down" type="application/vnd.vmware.vcloud.rasdItemsList+xml" href="https://vcloud-server.com/api/vApp/vm-17a2a3a9-248c-475d-8ee0-8dd45f7f8368/virtualHardwareSection/serialPorts"/>
+        <Link rel="edit" type="application/vnd.vmware.vcloud.rasdItemsList+xml" href="https://vcloud-server.com/api/vApp/vm-17a2a3a9-248c-475d-8ee0-8dd45f7f8368/virtualHardwareSection/serialPorts"/>
+    </ovf:VirtualHardwareSection>
+    <ovf:OperatingSystemSection xmlns:ns12="http://www.vmware.com/vcloud/v1.5" ovf:id="101" ns12:href="https://vcloud-server.com/api/vApp/vm-17a2a3a9-248c-475d-8ee0-8dd45f7f8368/operatingSystemSection/" ns12:type="application/vnd.vmware.vcloud.operatingSystemSection+xml" vmw:osType="oracleLinux64Guest">
+        <ovf:Info>Specifies the operating system installed</ovf:Info>
+        <ovf:Description>Oracle Linux 4/5/6 (64-bit)</ovf:Description>
+        <Link rel="edit" type="application/vnd.vmware.vcloud.operatingSystemSection+xml" href="https://vcloud-server.com/api/vApp/vm-17a2a3a9-248c-475d-8ee0-8dd45f7f8368/operatingSystemSection/"/>
+    </ovf:OperatingSystemSection>
+    <NetworkConnectionSection type="application/vnd.vmware.vcloud.networkConnectionSection+xml" href="https://vcloud-server.com/api/vApp/vm-17a2a3a9-248c-475d-8ee0-8dd45f7f8368/networkConnectionSection/" ovf:required="false">
+        <ovf:Info>Specifies the available VM network connections</ovf:Info>
+        <PrimaryNetworkConnectionIndex>0</PrimaryNetworkConnectionIndex>
+        <NetworkConnection network="Non-DMZNetwork" needsCustomization="false">
+            <NetworkConnectionIndex>0</NetworkConnectionIndex>
+            <IpAddress>192.168.96.10</IpAddress>
+            <IsConnected>true</IsConnected>
+            <MACAddress>00:50:56:29:0c:18</MACAddress>
+            <IpAddressAllocationMode>POOL</IpAddressAllocationMode>
+        </NetworkConnection>
+        <NetworkConnection network="nfs-net-01" needsCustomization="false">
+            <NetworkConnectionIndex>1</NetworkConnectionIndex>
+            <IpAddress>10.81.196.204</IpAddress>
+            <IsConnected>true</IsConnected>
+            <MACAddress>00:50:56:29:0c:19</MACAddress>
+            <IpAddressAllocationMode>POOL</IpAddressAllocationMode>
+        </NetworkConnection>
+        <Link rel="edit" type="application/vnd.vmware.vcloud.networkConnectionSection+xml" href="https://vcloud-server.com/api/vApp/vm-17a2a3a9-248c-475d-8ee0-8dd45f7f8368/networkConnectionSection/"/>
+    </NetworkConnectionSection>
+    <GuestCustomizationSection type="application/vnd.vmware.vcloud.guestCustomizationSection+xml" href="https://vcloud-server.com/api/vApp/vm-17a2a3a9-248c-475d-8ee0-8dd45f7f8368/guestCustomizationSection/" ovf:required="false">
+        <ovf:Info>Specifies Guest OS Customization Settings</ovf:Info>
+        <Enabled>true</Enabled>
+        <ChangeSid>false</ChangeSid>
+        <VirtualMachineId>17a2a3a9-248c-475d-8ee0-8dd45f7f8368</VirtualMachineId>
+        <JoinDomainEnabled>false</JoinDomainEnabled>
+        <UseOrgSettings>false</UseOrgSettings>
+        <AdminPasswordEnabled>false</AdminPasswordEnabled>
+        <AdminPasswordAuto>true</AdminPasswordAuto>
+        <ResetPasswordRequired>false</ResetPasswordRequired>
+        <CustomizationScript>if [ x$1 == x"postcustomization" ]; then fi</CustomizationScript>
+        <ComputerName>nas.test.com</ComputerName>
+        <Link rel="edit" type="application/vnd.vmware.vcloud.guestCustomizationSection+xml" href="https://vcloud-server.com/api/vApp/vm-17a2a3a9-248c-475d-8ee0-8dd45f7f8368/guestCustomizationSection/"/>
+    </GuestCustomizationSection>
+    <RuntimeInfoSection xmlns:ns12="http://www.vmware.com/vcloud/v1.5" ns12:href="https://vcloud-server.com/api/vApp/vm-17a2a3a9-248c-475d-8ee0-8dd45f7f8368/runtimeInfoSection" ns12:type="application/vnd.vmware.vcloud.virtualHardwareSection+xml">
+        <ovf:Info>Specifies Runtime info</ovf:Info>
+        <VMWareTools version="9410"/>
+    </RuntimeInfoSection>
+    <SnapshotSection type="application/vnd.vmware.vcloud.snapshotSection+xml" href="https://vcloud-server.com/api/vApp/vm-17a2a3a9-248c-475d-8ee0-8dd45f7f8368/snapshotSection" ovf:required="false">
+        <ovf:Info>Snapshot information section</ovf:Info>
+    </SnapshotSection>
+    <DateCreated>2014-07-08T00:35:59.703-04:00</DateCreated>
+    <VAppScopedLocalId>b6b1835b-cb2a-49c2-832f-93212a757858</VAppScopedLocalId>
+    <ovfenv:Environment xmlns:ns12="http://www.vmware.com/schema/ovfenv" ovfenv:id="" ns12:vCenterId="vm-3854">
+        <ovfenv:PlatformSection>
+            <ovfenv:Kind>VMware ESXi</ovfenv:Kind>
+            <ovfenv:Version>5.1.0</ovfenv:Version>
+            <ovfenv:Vendor>VMware, Inc.</ovfenv:Vendor>
+            <ovfenv:Locale>en</ovfenv:Locale>
+        </ovfenv:PlatformSection>
+        <ovfenv:PropertySection>
+            <ovfenv:Property ovfenv:value="aWYgWyB4JDEgPT0geCJwb3N0Y3VzdG9taX" ovfenv:key="vCloud_CustomizationInfo"/>
+            <ovfenv:Property ovfenv:value="None" ovfenv:key="vCloud_UseSysPrep"/>
+            <ovfenv:Property ovfenv:value="11" ovfenv:key="vCloud_bitMask"/>
+            <ovfenv:Property ovfenv:value="static" ovfenv:key="vCloud_bootproto_0"/>
+            <ovfenv:Property ovfenv:value="static" ovfenv:key="vCloud_bootproto_1"/>
+            <ovfenv:Property ovfenv:value="nas.test.com" ovfenv:key="vCloud_computerName"/>
+            <ovfenv:Property ovfenv:value="" ovfenv:key="vCloud_dns1_0"/>
+            <ovfenv:Property ovfenv:value="" ovfenv:key="vCloud_dns1_1"/>
+            <ovfenv:Property ovfenv:value="" ovfenv:key="vCloud_dns2_0"/>
+            <ovfenv:Property ovfenv:value="" ovfenv:key="vCloud_dns2_1"/>
+            <ovfenv:Property ovfenv:value="192.168.96.1" ovfenv:key="vCloud_gateway_0"/>
+            <ovfenv:Property ovfenv:value="10.81.196.1" ovfenv:key="vCloud_gateway_1"/>
+            <ovfenv:Property ovfenv:value="192.168.96.10" ovfenv:key="vCloud_ip_0"/>
+            <ovfenv:Property ovfenv:value="10.81.196.204" ovfenv:key="vCloud_ip_1"/>
+            <ovfenv:Property ovfenv:value="00:50:56:29:0c:18" ovfenv:key="vCloud_macaddr_0"/>
+            <ovfenv:Property ovfenv:value="00:50:56:29:0c:19" ovfenv:key="vCloud_macaddr_1"/>
+            <ovfenv:Property ovfenv:value="b120ff85-b0fe-42b9-bd78-c007e8226c2d" ovfenv:key="vCloud_markerid"/>
+            <ovfenv:Property ovfenv:value="255.255.255.0" ovfenv:key="vCloud_netmask_0"/>
+            <ovfenv:Property ovfenv:value="255.255.255.0" ovfenv:key="vCloud_netmask_1"/>
+            <ovfenv:Property ovfenv:value="2" ovfenv:key="vCloud_numnics"/>
+            <ovfenv:Property ovfenv:value="0" ovfenv:key="vCloud_primaryNic"/>
+            <ovfenv:Property ovfenv:value="846634504" ovfenv:key="vCloud_reconfigToken"/>
+            <ovfenv:Property ovfenv:value="0" ovfenv:key="vCloud_resetPassword"/>
+            <ovfenv:Property ovfenv:value="" ovfenv:key="vCloud_suffix_0"/>
+            <ovfenv:Property ovfenv:value="" ovfenv:key="vCloud_suffix_1"/>
+        </ovfenv:PropertySection>
+        <ve:EthernetAdapterSection xmlns:ve="http://www.vmware.com/schema/ovfenv" xmlns="http://schemas.dmtf.org/ovf/environment/1" xmlns:oe="http://schemas.dmtf.org/ovf/environment/1">
+            <ve:Adapter ve:mac="00:50:56:29:0c:18" ve:network="dvs.VCDVSNon-DMZNetwork-11ba052e-d945-4aff-8ee4-e6e933516c22" ve:unitNumber="7"/>
+            <ve:Adapter ve:mac="00:50:56:29:0c:19" ve:network="dvPortGroup - V2799 - NFS-NET" ve:unitNumber="8"/>
+        </ve:EthernetAdapterSection>
+    </ovfenv:Environment>
+    <VmCapabilities type="application/vnd.vmware.vcloud.vmCapabilitiesSection+xml" href="https://vcloud-server.com/api/vApp/vm-17a2a3a9-248c-475d-8ee0-8dd45f7f8368/vmCapabilities/">
+        <Link rel="edit" type="application/vnd.vmware.vcloud.vmCapabilitiesSection+xml" href="https://vcloud-server.com/api/vApp/vm-17a2a3a9-248c-475d-8ee0-8dd45f7f8368/vmCapabilities/"/>
+        <MemoryHotAddEnabled>false</MemoryHotAddEnabled>
+        <CpuHotAddEnabled>false</CpuHotAddEnabled>
+    </VmCapabilities>
+    <StorageProfile type="application/vnd.vmware.vcloud.vdcStorageProfile+xml" name="StorageTier-SelectPlus" href="https://vcloud-server.com/api/vdcStorageProfile/7d4501e8-d734-4dc1-bc44-8eaa810629a0"/>
+</Vm>
