@@ -4,7 +4,7 @@ require 'fog/vcloud_director/parsers/compute/vms'
 
 Shindo.tests('Parsers::Compute::VcloudDirector::Vm', ['vclouddirector', 'all']) do
   parser = Nokogiri::XML::SAX::Parser.new(Fog::Parsers::Compute::VcloudDirector::Vm.new)
-  vm_response_xml = File.open(File.join(File.dirname(__FILE__), '..', 'fixtures','vm.xml')).read
+  vm_response_xml = File.open(File.join(__dir__, '..', 'fixtures','vm.xml')).read
   parser.parse(vm_response_xml)
   vm = parser.document.response[:vm]
 
@@ -21,7 +21,7 @@ Shindo.tests('Parsers::Compute::VcloudDirector::Vm', ['vclouddirector', 'all']) 
     tests('#links').returns(false){ vm[:links].empty? }
 
     tests('#network_adapters').returns(2){ vm[:network_adapters].size }
-    
+
     primary_nic = vm[:network_adapters].select { |nic| nic[:primary] }.first
     tests('#network_adapters:ip_address').returns('192.168.96.10'){ primary_nic[:ip_address] }
     tests('#network_adapters:primary').returns(true){ primary_nic[:primary] }
@@ -42,7 +42,7 @@ end
 
 Shindo.tests('Parsers::Compute::VcloudDirector::Vms', ['vclouddirector', 'all']) do
   parser = Nokogiri::XML::SAX::Parser.new(Fog::Parsers::Compute::VcloudDirector::Vms.new)
-  vapp_response_xml = File.open(File.join(File.dirname(__FILE__), '..', 'fixtures','vapp.xml')).read
+  vapp_response_xml = File.open(File.join(__dir__, '..', 'fixtures','vapp.xml')).read
   parser.parse(vapp_response_xml)
   vms = parser.document.response[:vms]
 
@@ -60,7 +60,7 @@ Shindo.tests('Parsers::Compute::VcloudDirector::Vms', ['vclouddirector', 'all'])
     tests('vms[0]#network_adapters').returns(false){ vms[0][:network_adapters].empty? }
 
     tests('#network_adapters').returns(2){ vms[0][:network_adapters].size }
-    
+
     primary_nic = vms[0][:network_adapters].select { |nic| nic[:primary] }.first
     tests('vms[0]#network_adapters:ip_address').returns('192.168.96.4'){ primary_nic[:ip_address] }
     tests('vms[0]#network_adapters:primary').returns(true){ primary_nic[:primary] }
@@ -90,7 +90,7 @@ Shindo.tests('Parsers::Compute::VcloudDirector::Vms', ['vclouddirector', 'all'])
     tests('vms[1]#links').returns(false){ vms[1][:links].empty? }
 
     tests('#network_adapters').returns(2){ vms[1][:network_adapters].size }
-    
+
     primary_nic = vms[1][:network_adapters].select { |nic| nic[:primary] }.first
     tests('vms[0]#network_adapters:ip_address').returns('192.168.96.5'){ primary_nic[:ip_address] }
     tests('vms[0]#network_adapters:primary').returns(true){ primary_nic[:primary] }
