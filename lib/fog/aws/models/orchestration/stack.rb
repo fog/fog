@@ -72,14 +72,13 @@ module Fog
           true
         end
 
-        def template_wrapper
-          if(persisted? && exists? && !template_unwrapped)
-            self.template = Fog::JSON.decode(service.get_template(stack_name).body['TemplateBody'])
+        def template
+          unless(attributes[:template])
+            attributes[:template] = service.get_template(stack_name).
+              body['TemplateBody']
           end
-          template_unwrapped
+          attributes[:template]
         end
-        alias_method :template_unwrapped, :template
-        alias_method :template, :template_wrapper
 
         def validate
           if(template)
@@ -95,18 +94,21 @@ module Fog
           self.stack_status != 'DELETE_COMPLETE'
         end
 
-        alias_method :direct_resources, :resources
+        def parameters
+          Hash[
+            attributes.fetch(:parameters, []).map do |param_hash|
+              [param_hash['ParameterKey'], param_hash['ParameterValue']]
+            end
+          ]
+        end
 
-        def resources
-          if(attributes[:stack_resources].nil?)
-            attributes[:stack_resources] = direct_resources
-          elsif(attributes[:stack_resources].first.is_a?(Hash))
-            attributes[:stack_resources] = Resources.new(
-              :service => service,
-              :stack_name => stack_name
-            ).load(attributes[:stack_resources])
-          end
-          attributes[:stack_resources]
+        def reload
+          requires :identity
+          describe = service.describe_stacks('StackName' => stack_name).body['Stacks'].first
+          merge_attributes(self.class.new(describe).attributes)
+          attributes.delete('Events')
+          attributes.delete('Resources')
+          self
         end
 
       end

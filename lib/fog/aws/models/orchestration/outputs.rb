@@ -9,16 +9,7 @@ module Fog
         model Fog::Orchestration::AWS::Output
 
         def all(stack)
-          stack.expand! unless stack.data
-          load(
-            stack.data['Outputs'].map do |_output|
-              Hash[
-                _output.map do |k,v|
-                  [k.sub('output_', ''), v]
-                end
-              ]
-            end
-          )
+          load(stack.attributes['Outputs'] || [])
         end
 
       end
