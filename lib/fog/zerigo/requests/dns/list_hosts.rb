@@ -40,16 +40,27 @@ module Fog
       end
 
       class Mock # :nodoc:all
-        def list_hosts(zone_id)
+        def list_hosts(zone_id, options={})
           zone = find_by_zone_id(zone_id)
 
           response = Excon::Response.new
 
           if zone
-            response.status = 200
-            response.body = {
-              'hosts' => zone['hosts']
-            }
+            if options.empty?
+              response.status = 200
+              response.body = {
+                'hosts' => zone['hosts']
+              }
+            else
+                hosts = zone['hosts']
+                hosts.select! {|h| h['fqdn'] == options['fqdn']} if options['fqdn']
+                hosts = options['per_page'] ? hosts.each_slice(options['per_page'] - 1).to_a : hosts.each_slice(100).to_a
+                hosts = options['page'] ? hosts[options['page']] : hosts[0]
+                response.status = 200
+                response.body = {
+                  'hosts' => hosts
+                }
+            end
           else
             response.status = 404
           end
