@@ -27,13 +27,13 @@ module Fog
           dc = find_raw_datacenter(datacenter_name)
           clusters = dc.find_compute_resource('')
           clusters.children.each do |cluster|
-            if cluster.class.to_s=="ClusterComputeResource" then
-              if cluster.host.select{|x| x.name==host_system_name}.length > 0
+            if cluster.is_a? ClusterComputeResource then
+              if cluster.host.find{|h|h.name==host_system_name}
                 ret = cluster.resourcePool
                 break
               end
             else
-              if c.name == host_system_name then
+              if cluster.name == host_system_name then
                 ret = cluster.resourcePool
                 break
               end
@@ -44,7 +44,10 @@ module Fog
 
         def get_raw_resource_pool3(host_system_name,datacenter_name,resource_pool,cluster_name)
           cluster = dc.find_compute_resource(cluster_name)
-          cluster.resourcePool.find resource_pool
+          raise "host_system does not exist in cluster" unless cluster.host.find{|h|h.name==host_system_name}
+          ret = cluster.resourcePool.find resource_pool
+          raise "host_system does not exist in cluster" unless ret
+          ret
         end
         
       end

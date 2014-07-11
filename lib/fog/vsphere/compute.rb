@@ -163,6 +163,7 @@ module Fog
             attrs['relative_path'] = (attrs['path'].split('/').reject {|e| e.empty?} - ["Datacenters", attrs['datacenter'], "vm"]).join("/") rescue nil
             #Save virtual disk info into attrs
             begin
+              attrs['storage'] = vm_mob_ref.storage.perDatastoreUsage[0].datastore.name if vm_mob_ref.storage.perDatastoreUsage.length > 0              
               attrs['disks'] = vm_mob_ref.disks.map{|d| {
                 :uuid=> d.backing.uuid,
                 :fileName=>d.backing.fileName,
