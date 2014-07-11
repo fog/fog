@@ -1,5 +1,6 @@
 require 'fog/xml'
 require 'fog/vcloud_director/parsers/compute/vm'
+require 'fog/vcloud_director/parsers/compute/vms'
 
 Shindo.tests('Parsers::Compute::VcloudDirector::Vm', ['vclouddirector', 'all']) do
   parser = Nokogiri::XML::SAX::Parser.new(Fog::Parsers::Compute::VcloudDirector::Vm.new)
