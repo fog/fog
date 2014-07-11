@@ -2,7 +2,7 @@ module Fog
   module DNS
     class Zerigo
       class Real
-        require 'fog/zerigo/parsers/dns/list_hosts'
+        require "fog/zerigo/parsers/dns/list_hosts"
 
         # Get list of all DNS zones hosted on Slicehost (for this account)
         #
@@ -30,9 +30,9 @@ module Fog
         # * 'status'<~Integer> - 200 indicates success
         def list_hosts(zone_id, options={})
           request(
-            :query    => options, 
+            :query    => options,
             :expects  => 200,
-            :method   => 'GET',
+            :method   => "GET",
             :parser   => Fog::Parsers::DNS::Zerigo::ListHosts.new,
             :path     => "/api/1.1/zones/#{zone_id}/hosts.xml"
           )
@@ -49,16 +49,16 @@ module Fog
             if options.empty?
               response.status = 200
               response.body = {
-                'hosts' => zone['hosts']
+                "hosts" => zone["hosts"]
               }
             else
-                hosts = zone['hosts']
-                hosts.select! {|h| h['fqdn'] == options['fqdn']} if options['fqdn']
-                hosts = options['per_page'] ? hosts.each_slice(options['per_page'] - 1).to_a : hosts.each_slice(100).to_a
-                hosts = options['page'] ? hosts[options['page']] : hosts[0]
+                hosts = zone["hosts"]
+                hosts = hosts.select {|h| h["fqdn"] == options["fqdn"]} if options["fqdn"]
+                hosts = options["per_page"] ? hosts.each_slice(options["per_page"] - 1).to_a : hosts.each_slice(100).to_a
+                hosts = options["page"] ? hosts[options["page"]] : hosts[0]
                 response.status = 200
                 response.body = {
-                  'hosts' => hosts
+                  "hosts" => hosts
                 }
             end
           else
