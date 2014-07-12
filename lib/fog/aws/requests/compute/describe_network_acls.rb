@@ -91,6 +91,10 @@ module Fog
             end
           end
 
+          network_acls.each do |acl|
+            acl.merge!('tagSet' => self.data[:tag_sets][acl['networkAclId']])
+          end
+
           response.status = 200
           response.body = {
             'requestId'     => Fog::AWS::Mock.request_id,
