@@ -106,5 +106,6 @@ Shindo.tests('Fog::Compute[:aws] | vpc requests', ['aws']) do
     # Clean up
     Fog::Compute[:aws].delete_tags(@another_vpc.id, test_tags)
     @another_vpc.destroy
+    Fog::Compute::AWS::Mock.reset if Fog.mocking?
   end
 end

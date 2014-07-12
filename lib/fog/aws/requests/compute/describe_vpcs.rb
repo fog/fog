@@ -56,7 +56,8 @@ module Fog
           end
 
           vpcs.each do |vpc|
-            vpc.merge!('tagSet' => self.data[:tag_sets][vpc['vpcId']])
+            tags = self.data[:tag_sets][vpc['vpcId']]
+            vpc.merge!('tagSet' => tags) if tags
           end
 
           Excon::Response.new(

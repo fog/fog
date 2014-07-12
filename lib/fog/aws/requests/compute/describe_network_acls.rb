@@ -92,7 +92,8 @@ module Fog
           end
 
           network_acls.each do |acl|
-            acl.merge!('tagSet' => self.data[:tag_sets][acl['networkAclId']])
+            tags = self.data[:tag_sets][acl['networkAclId']]
+            acl.merge!('tagSet' => tags) if tags
           end
 
           response.status = 200

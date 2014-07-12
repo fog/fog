@@ -107,5 +107,6 @@ Shindo.tests('Fog::Compute[:aws] | network acl requests', ['aws']) do
     @another_acl.destroy
     @subnet.destroy
     @vpc.destroy
+    Fog::Compute::AWS::Mock.reset if Fog.mocking?
   end
 end
