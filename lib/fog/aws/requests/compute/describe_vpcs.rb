@@ -55,6 +55,10 @@ module Fog
             vpcs = vpcs.reject {|vpc| vpc['vpcId'] != filters['vpc-id']}
           end
 
+          vpcs.each do |vpc|
+            vpc.merge!('tagSet' => self.data[:tag_sets][vpc['vpcId']])
+          end
+
           Excon::Response.new(
             :status => 200,
             :body   => {

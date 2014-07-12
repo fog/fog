@@ -37,7 +37,7 @@ module Fog
       end
 
       class Mock
-        def create_vpc(cidrBlock, tags = nil)
+        def create_vpc(cidrBlock)
           Excon::Response.new.tap do |response|
             if cidrBlock
               response.status = 200
@@ -47,9 +47,7 @@ module Fog
                 'state'              => 'pending',
                 'cidrBlock'          => cidrBlock,
                 'dhcpOptionsId'      => Fog::AWS::Mock.request_id,
-                'tagSet'             => tags || {},
-                'enableDnsSupport'   => true,
-                'enableDnsHostnames' => false
+                'tagSet'             => {}
               }
               self.data[:vpcs].push(vpc)
 
