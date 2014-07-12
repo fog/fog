@@ -164,6 +164,10 @@ module Fog
         def fetch_items(type, opts)
           if opts.key?(:filter) && opts[:filter] =~ /^name==([^;,]+)$/
             name = $1
+          elsif type == 'vAppTemplate' && opts.key?(:filter) &&
+            opts[:filter] =~ /^name==([^;,]+);catalogName==([^;,]+)$/ #TODO also match in other order
+            name = $1
+            catalog_name = $2
           elsif opts.key?(:filter)
             Fog::Mock.not_implemented("Complex filters are not yet implemented in get_execute_query Mock for #{type}: #{opts[:filter]}")
           end
@@ -211,6 +215,42 @@ module Fog
                 records << r
               end
             end
+            body[:page]     = 1.to_s             # TODO: Support pagination
+            body[:pageSize] = records.size.to_s  # TODO: Support pagination
+            body[:total]    = records.size.to_s
+            body[record_type] = records
+          elsif type == 'vAppTemplate'
+            record_type = :VAappTemplateRecord
+            records = [{
+              :vdcName=>"Bogus vDC",
+              :vdc=>make_href("vdc/#{uuid}"),
+              :storageProfileName=>"*",
+              :status=>"RESOLVED",
+              :ownerName=>"system",
+              :org=> make_href("org/#{data[:org][:uuid]}"),
+              :name=> name,
+              :isPublished=>"true",
+              :isGoldMaster=>"false",
+              :isExpired=>"false",
+              :isEnabled=>"true",
+              :isDeployed=>"false",
+              :isBusy=>"false",
+              :creationDate=>"2013-09-19T22:55:30.257+01:00",
+              :catalogName=> catalog_name,
+              :href=> make_href("vAppTemplate/vappTemplate-#{uuid}"),
+              :honorBootOrder=>"false",
+              :isVdcEnabled=>"true",
+              :isInCatalog=>"true",
+              :cpuAllocationMhz=>"8",
+              :cpuAllocationInMhz=>"16000",
+              :storageKB=>"52428800",
+              :numberOfShadowVMs=>"0",
+              :numberOfVMs=>"1",
+              :isAutoDeleteNotified=>"false",
+              :numberOfCpus=>"8",
+              :isAutoUndeployNotified=>"false",
+              :memoryAllocationMB=>"32768"
+            }]
             body[:page]     = 1.to_s             # TODO: Support pagination
             body[:pageSize] = records.size.to_s  # TODO: Support pagination
             body[:total]    = records.size.to_s

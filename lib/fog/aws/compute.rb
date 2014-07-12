@@ -133,6 +133,7 @@ module Fog
       request :modify_instance_attribute
       request :modify_network_interface_attribute
       request :modify_snapshot_attribute
+      request :modify_subnet_attribute
       request :modify_volume_attribute
       request :modify_vpc_attribute
       request :purchase_reserved_instances_offering
@@ -440,7 +441,7 @@ module Fog
           @region                 = options[:region] ||= 'us-east-1'
           @instrumentor           = options[:instrumentor]
           @instrumentor_name      = options[:instrumentor_name] || 'fog.aws.compute'
-          @version                = options[:version]     ||  '2014-05-01'
+          @version                = options[:version]     ||  '2014-06-15'
 
           validate_aws_region @region
 

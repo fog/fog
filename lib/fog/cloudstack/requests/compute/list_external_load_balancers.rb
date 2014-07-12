@@ -1,18 +1,20 @@
 module Fog
   module Compute
     class Cloudstack
+
       class Real
-        # List external load balancer appliances.
+        # Lists F5 external load balancer appliances added in a zone.
         #
-        # {CloudStack API Reference}[http://download.cloud.com/releases/2.2.0/api_2.2.4/global_admin/listExternalLoadBalancers.html]
+        # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/listExternalLoadBalancers.html]
         def list_external_load_balancers(options={})
           options.merge!(
-            'command' => 'listExternalLoadBalancers'
+            'command' => 'listExternalLoadBalancers'  
           )
-
           request(options)
         end
       end
+
     end
   end
 end
+

@@ -20,7 +20,7 @@ module Fog
         attribute :source_snapshot_id, :aliases => 'sourceSnapshotId'
 
         def save
-          requires :name, :zone
+          requires :name, :zone, :size_gb
 
           options = {}
           my_description = "Created with fog"

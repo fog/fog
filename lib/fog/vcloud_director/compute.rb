@@ -54,6 +54,8 @@ module Fog
       collection :organizations
       model      :catalog_item
       collection :catalog_items
+      model      :custom_field
+      collection :custom_fields
       model      :vdc
       collection :vdcs
       model      :vapp
@@ -247,6 +249,7 @@ module Fog
       request :put_metadata_value # deprecated
       request :put_network
       request :put_network_connection_system_section_vapp
+      request :put_product_sections
       request :put_vapp_metadata_item_metadata
       request :put_vapp_name_and_description
       request :put_vapp_template_metadata_item_metadata
@@ -494,17 +497,19 @@ module Fog
             vapp1vm1_id = "vm-#{uuid}"
             vapp2vm1_id = "vm-#{uuid}"
             vapp2vm2_id = "vm-#{uuid}"
+            catalog_uuid = uuid
 
             hash[key] = {
               :catalogs => {
-                uuid => {
+                catalog_uuid => {
                   :name => 'Default Catalog'
                 }
               },
               :catalog_items => {
                 uuid => {
-                  :type => 'vAppTemplate',
-                  :name => 'vAppTemplate 1'
+                  :type    => 'vAppTemplate',
+                  :name    => 'vAppTemplate 1',
+                  :catalog => catalog_uuid,
                 }
               },
               :disks => {},

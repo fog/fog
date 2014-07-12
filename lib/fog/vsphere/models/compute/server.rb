@@ -32,7 +32,6 @@ module Fog
         attribute :connection_state
         attribute :mo_ref
         attribute :path
-        attribute :relative_path
         attribute :memory_mb
         attribute :cpus
         attribute :corespersocket
@@ -122,7 +121,7 @@ module Fog
         #   * See more options in vm_clone request/compute/vm_clone.rb
         #
         def clone(options = {})
-          requires :name, :datacenter, :relative_path
+          requires :name, :datacenter, :path
 
           # Convert symbols to strings
           req_options = options.reduce({}) { |hsh, (k,v)| hsh[k.to_s] = v; hsh }
@@ -245,6 +244,12 @@ module Fog
             self.attributes.delete(attr)
           end
           super
+        end
+
+        def relative_path
+          requires :path, :datacenter
+
+          (path.split('/').reject {|e| e.empty?} - ["Datacenters", datacenter, "vm"]).join("/")
         end
 
         private

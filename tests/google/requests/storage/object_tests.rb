@@ -1,6 +1,9 @@
+require 'securerandom'
+
 Shindo.tests('Fog::Storage[:google] | object requests', ["google"]) do
 
-  @directory = Fog::Storage[:google].directories.create(:key => 'fogobjecttests')
+  random_string = SecureRandom.hex
+  @directory = Fog::Storage[:google].directories.create(:key => "fog-test-object-#{random_string}")
 
   tests('success') do
 

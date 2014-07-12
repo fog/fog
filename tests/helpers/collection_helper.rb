@@ -71,7 +71,7 @@ def collection_tests(collection, params = {}, mocks_implemented = true)
     end
 
     if block_given?
-      yield
+      yield(@instance)
     end
 
     if !Fog.mocking? || mocks_implemented

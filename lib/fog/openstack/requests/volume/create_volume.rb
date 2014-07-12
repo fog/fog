@@ -12,7 +12,7 @@ module Fog
           }
 
           vanilla_options = [:snapshot_id, :imageRef, :volume_type,
-            :source_volid]
+            :source_volid, :availability_zone]
           vanilla_options.select{|o| options[o]}.each do |key|
             data['volume'][key] = options[key]
           end

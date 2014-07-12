@@ -37,6 +37,7 @@ class Glesys
             'memorysize'    => Integer,
             'cpucores'      => Integer,
             'transfer'      => Integer,
+            'bandwidth'     => Integer,
             'templatename'  => String,
             'iplist'        =>  [{
               'cost'      => Integer,
@@ -79,6 +80,7 @@ class Glesys
               'memorysize'    => String,
               'cpucores'      => String,
               'transfer'      => String,
+              'bandwidth'     => String,
               'description'   => String
             }
           }

@@ -47,7 +47,10 @@ module Fog
                 'state'              => 'pending',
                 'cidrBlock'          => cidrBlock,
                 'dhcpOptionsId'      => Fog::AWS::Mock.request_id,
-                'tagSet'             => {}
+                'tagSet'             => {},
+                'enableDnsSupport'   => true,
+                'enableDnsHostnames' => false,
+                'mapPublicIpOnLaunch'=> false
               }
               self.data[:vpcs].push(vpc)
 

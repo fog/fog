@@ -1,18 +1,20 @@
 module Fog
   module Compute
     class Cloudstack
+
       class Real
-        # Lists hypervisors.
+        # List hypervisors
         #
-        # {CloudStack API Reference}[http://download.cloud.com/releases/2.2.0/api_2.2.4/global_admin/listHypervisors.html]
+        # {CloudStack API Reference}[http://cloudstack.apache.org/docs/api/apidocs-4.3/root_admin/listHypervisors.html]
         def list_hypervisors(options={})
           options.merge!(
-            'command' => 'listHypervisors'
+            'command' => 'listHypervisors'  
           )
-
           request(options)
         end
       end
+
     end
   end
 end
+

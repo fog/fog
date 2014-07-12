@@ -139,7 +139,7 @@ module Fog
           true
         end
 
-        def save
+        def run_instance_options
           raise Fog::Errors::Error.new('Resaving an existing object may create a duplicate') if persisted?
           requires :image_id
 
@@ -195,19 +195,12 @@ module Fog
           else
             options.delete('SubnetId')
           end
+          options
+        end
 
-          data = service.run_instances(image_id, 1, 1, options)
-          merge_attributes(data.body['instancesSet'].first)
-
-          if tags = self.tags
-            # expect eventual consistency
-            Fog.wait_for { self.reload rescue nil }
-            service.create_tags(
-              self.identity,
-              tags
-            )
-          end
-
+        def save
+          servers = service.servers.save_many(self, 1, 1)
+          merge_attributes(servers.first.attributes)
           true
         end
 
