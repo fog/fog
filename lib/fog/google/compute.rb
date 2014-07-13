@@ -13,6 +13,8 @@ module Fog
       request :list_aggregated_addresses
       request :list_disks
       request :list_aggregated_disks
+      request :list_disk_types
+      request :list_aggregated_disk_types
       request :list_firewalls
       request :list_images
       request :list_machine_types
@@ -32,6 +34,7 @@ module Fog
       request :get_server
       request :get_address
       request :get_disk
+      request :get_disk_type
       request :get_firewall
       request :get_image
       request :get_machine_type
@@ -108,6 +111,9 @@ module Fog
 
       model :disk
       collection :disks
+
+      model :disk_type
+      collection :disk_types
 
       model :address
       collection :addresses
@@ -799,7 +805,8 @@ module Fog
                     "sizeGb" => "10",
                     "selfLink" => "https://www.googleapis.com/compute/#{api_version}/projects/#{key}/zones/us-central1-a/disks/fog-1",
                     "sourceImage" => "https://www.googleapis.com/compute/#{api_version}/projects/debian-cloud/global/images/debian-7-wheezy-v20131120",
-                    "sourceImageId" => "17312518942796567788"
+                    "sourceImageId" => "17312518942796567788",
+                    "type" => "https://www.googleapis.com/compute/#{api_version}/projects/#{key}/zones/us-central1-a/diskTypes/pd-standard",
                   },
                   "fog-2" => {
                     "kind" => "compute#disk",
@@ -809,7 +816,8 @@ module Fog
                     "status" => "READY",
                     "name" => "fog-2",
                     "sizeGb" => "10",
-                    "selfLink" => "https://www.googleapis.com/compute/#{api_version}/projects/#{key}/zones/us-central1-a/disks/fog-1"
+                    "selfLink" => "https://www.googleapis.com/compute/#{api_version}/projects/#{key}/zones/us-central1-a/disks/fog-1",
+                    "type" => "https://www.googleapis.com/compute/#{api_version}/projects/#{key}/zones/us-central1-a/diskTypes/pd-ssd",
                   }
                 },
                 :operations => {}

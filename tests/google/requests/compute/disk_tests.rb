@@ -28,6 +28,7 @@ Shindo.tests('Fog::Compute[:google] | disk requests', ['google']) do
       'sizeGb' => String,
       'sourceImageId' => String,
       'sourceImage' => String,
+      'type' => String,
   }
 
   @delete_disk_format = {
