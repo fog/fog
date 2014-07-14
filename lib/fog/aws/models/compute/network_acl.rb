@@ -160,7 +160,18 @@ module Fog
         def save
           requires :vpc_id
           data = service.create_network_acl(vpc_id).body['networkAcl']
-          merge_attributes(data)
+          new_attributes = data.reject { |key,value| key == 'tagSet' }
+          merge_attributes(new_attributes)
+
+          if tags = self.tags
+            # expect eventual consistency
+            Fog.wait_for { self.reload rescue nil }
+            service.create_tags(
+              self.identity,
+              tags
+            )
+          end
+
           true
         end
       end

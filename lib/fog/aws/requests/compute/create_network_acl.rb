@@ -82,7 +82,7 @@ module Fog
                 },
               ],
               'associationSet' => [],
-              'tagSet'         => {},
+              'tagSet'         => {}
             }
 
             self.data[:network_acls][id] = data

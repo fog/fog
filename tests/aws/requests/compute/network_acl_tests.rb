@@ -77,12 +77,36 @@ Shindo.tests('Fog::Compute[:aws] | network acl requests', ['aws']) do
       Fog::Compute[:aws].replace_network_acl_association(@assoc_id, default_acl['networkAclId']).body
     end
 
+    # Create another network acl to test tag filters
+    test_tags = {'foo' => 'bar'}
+    @another_acl = Fog::Compute[:aws].network_acls.create :vpc_id => @vpc.id, :tags => test_tags
+    tests("#describe_network_acls('tag-key' => 'foo')").formats(@network_acls_format) do
+      body = Fog::Compute[:aws].describe_network_acls('tag-key' => 'foo').body
+      tests("returns 1 acl").returns(1) { body['networkAclSet'].size }
+      body
+    end
+
+    tests("#describe_network_acls('tag-value' => 'bar')").formats(@network_acls_format) do
+      body = Fog::Compute[:aws].describe_network_acls('tag-value' => 'bar').body
+      tests("returns 1 acl").returns(1) { body['networkAclSet'].size }
+      body
+    end
+
+    tests("#describe_network_acls('tag:foo' => 'bar')").formats(@network_acls_format) do
+      body = Fog::Compute[:aws].describe_network_acls('tag:foo' => 'bar').body
+      tests("returns 1 acl").returns(1) { body['networkAclSet'].size }
+      body
+    end
+
     tests('#delete_network_acl').formats(AWS::Compute::Formats::BASIC) do
       Fog::Compute[:aws].delete_network_acl(@network_acl['networkAclId']).body
     end
 
     # Clean up
+    Fog::Compute[:aws].delete_tags(@another_acl.identity, test_tags)
+    @another_acl.destroy
     @subnet.destroy
     @vpc.destroy
+    Fog::Compute::AWS::Mock.reset if Fog.mocking?
   end
 end
