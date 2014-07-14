@@ -36,6 +36,11 @@ module Fog
               "sourceImageId" => image.id
             })
           end
+          if disk_type = options.delete(:type)
+            object["type"] = type
+          else
+            object["type"] = "https://www.googleapis.com/compute/#{api_version}/projects/#{@project}/zones/#{zone_name}/diskTypes/pd-standard"
+          end
           self.data[:disks][disk_name] = object
 
           operation = self.random_operation
@@ -76,6 +81,7 @@ module Fog
           end
 
           body_object = { 'name' => disk_name }
+          body_object['type'] = opts.delete('type')
 
           # According to Google docs, if image name is not present, only one of
           # sizeGb or sourceSnapshot need to be present, one will create blank

@@ -40,23 +40,7 @@ module Fog
 
       class Mock
         def delete_tags(resources, tags)
-          tagged = Array(resources).map do |resource_id|
-            type = case resource_id
-            when /^ami\-[a-z0-9]{8}$/i
-              'image'
-            when /^i\-[a-z0-9]{8}$/i
-              'instance'
-            when /^snap\-[a-z0-9]{8}$/i
-              'snapshot'
-            when /^vol\-[a-z0-9]{8}$/i
-              'volume'
-            end
-            if type && ((type == 'image' && visible_images[resource_id]) || self.data[:"#{type}s"][resource_id])
-              { 'resourceId' => resource_id, 'resourceType' => type }
-            else
-              raise(Fog::Service::NotFound.new("The #{type} ID '#{resource_id}' does not exist"))
-            end
-          end
+          tagged = tagged_resources(resources)
 
           tags.each do |key, value|
             self.data[:tags][key][value] = self.data[:tags][key][value] - tagged

@@ -11,6 +11,8 @@ Shindo.tests('Fog::Compute[:aws] | tag requests', ['aws']) do
 
   @volume = Fog::Compute[:aws].volumes.create(:availability_zone => 'us-east-1a', :size => 1)
   @volume.wait_for { ready? }
+  @vpc    = Fog::Compute[:aws].vpcs.create('cidr_block' => '10.0.10.0/24')
+  @network_acl = Fog::Compute[:aws].network_acls.all('vpc-id' => @vpc.id, 'default' => true).first
 
   tests('success') do
     if Fog.mocking?
@@ -25,6 +27,14 @@ Shindo.tests('Fog::Compute[:aws] | tag requests', ['aws']) do
     if Fog.mocking?
       tests("#create_tags('#{@image_id}', 'foo' => 'baz')").formats(AWS::Compute::Formats::BASIC) do
         Fog::Compute[:aws].create_tags(@image_id, 'foo' => 'baz').body
+      end
+
+      tests("#create_tags('#{@vpc.id}', 'type' => 'vpc')").formats(AWS::Compute::Formats::BASIC) do
+        Fog::Compute[:aws].create_tags(@vpc.id, 'type' => 'vpc').body
+      end
+
+      tests("#create_tags('#{@network_acl.network_acl_id}', 'type' => 'network_acl')").formats(AWS::Compute::Formats::BASIC) do
+        Fog::Compute[:aws].create_tags(@network_acl.network_acl_id, 'type' => 'network_acl').body
       end
     end
 
@@ -73,6 +83,17 @@ Shindo.tests('Fog::Compute[:aws] | tag requests', ['aws']) do
       Fog::Compute[:aws].create_tags('vol-00000000', 'baz' => 'qux')
     end
 
+    tests("#create_tags('abc-12345678', 'type' => 'fake_type')").raises(Fog::Service::NotFound) do
+      Fog::Compute[:aws].create_tags('abc-12345678', 'type' => 'fake_type')
+    end
+
+    tests("#create_tags('vpc-12345678', 'type' => 'non-existent_vpc)").raises(Fog::Service::NotFound) do
+      Fog::Compute[:aws].create_tags('vpc-12345678', 'type' => 'non-existent_vpc')
+    end
+
+    tests("#create_tags('vpc-123', 'type' => 'bad_resource_id)").raises(Fog::Service::NotFound) do
+      Fog::Compute[:aws].create_tags('vpc-123', 'type' => 'bad_resource_id')
+    end
   end
   Fog::Compute::AWS::Mock.reset if Fog.mocking?
 end
