@@ -123,17 +123,23 @@ module Fog
           # Options['network']
           # Build up the config spec
           if ( options.has_key?('network_label') )
-            eths = vm_mob_ref.config.hardware.device.grep(RbVmomi::VIM::VirtualE1000)
-            if eths.length == 0
-            else
-              device = eths.first
-              device.backing = RbVmomi::VIM::VirtualEthernetCardNetworkBackingInfo(:deviceName => options['network_label'])
-              device.deviceInfo = RbVmomi::VIM::Description(:label => "Network adapter 1", :summary => options['network_label']),
-              device_spec = RbVmomi::VIM::VirtualDeviceConfigSpec(
+            unless options['network_adapter_device_key']
+              nics = vm_mob_ref.config.hardware.device.grep(RbVmomi::VIM::VirtualVmxnet3) + vm_mob_ref.config.hardware.device.grep(RbVmomi::VIM::VirtualE1000)
+              options['network_adapter_device_key']= nics[0].key if nics.length > 0 
+            end
+
+            device = RbVmomi::VIM::VirtualE1000(
+              :backing => RbVmomi::VIM::VirtualEthernetCardNetworkBackingInfo(:deviceName => options['network_label']),
+              :deviceInfo => RbVmomi::VIM::Description(:label => "Network adapter 1", :summary => options['network_label']),
+              :key => options['network_adapter_device_key'],
+              :connectable => connectable)              
+            
+            device_spec = RbVmomi::VIM::VirtualDeviceConfigSpec(
                 :operation => RbVmomi::VIM::VirtualDeviceConfigSpecOperation('edit'),
                 :device => device)
-              # virtual_machine_config_spec.deviceChange = [device_spec]          
-            end
+            
+            virtual_machine_config_spec.deviceChange = [device_spec]          
+
           end
           # Options['numCPUs'] or Options['memoryMB']
           # Build up the specification for Hardware, for more details see ____________
