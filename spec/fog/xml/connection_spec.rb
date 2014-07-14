@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 # @note This is going to be part of fog-xml eventually
-describe Fog::XML::Connection do
+describe "Fog::XML::Connection" do
   before do
     @connection = Fog::XML::Connection.new("http://localhost")
   end
