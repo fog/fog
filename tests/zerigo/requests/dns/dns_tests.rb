@@ -327,18 +327,39 @@ Shindo.tests('Fog::DNS[:zerigo] | DNS requests', ['zerigo', 'dns']) do
       host_count == 4
     end
 
-    test('list host records') do
+    test("list host records") do
       pending if Fog.mocking?
 
       result = false
 
       response = Fog::DNS[:zerigo].list_hosts( @zone_id)
       if response.status == 200
-        hosts = response.body['hosts']
+        hosts = response.body["hosts"]
         if (hosts.count == 4)
           hosts.each { |host|
-            if (host['id'] > 0) and (host['fqdn'].length > 0) and (host['host-type'].length > 0) and
-               (host['created-at'].length > 0) and (host['updated-at'].length > 0)
+            if (host["id"] > 0) and (host["fqdn"].length > 0) and (host["host-type"].length > 0) and
+               (host["created-at"].length > 0) and (host["updated-at"].length > 0)
+              result = true
+            end
+          }
+        end
+      end
+
+      result
+    end
+
+    test("list host records with options") do
+      pending if Fog.mocking?
+
+      result = false
+
+      response = Fog::DNS[:zerigo].list_hosts(@zone_id, {:per_page=>2, :page=>1})
+      if response.status == 200
+        hosts = response.body["hosts"]
+        if (hosts.count == 2)
+          hosts.each { |host|
+            if (host["id"] > 0) and (host["fqdn"].length > 0) and (host["host-type"].length > 0) and
+               (host["created-at"].length > 0) and (host["updated-at"].length > 0)
               result = true
             end
           }
