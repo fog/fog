@@ -51,7 +51,11 @@ module Fog
 
         def template
           requires :stack_name, :id
-          @template ||= service.template_stack(self.stack_name, self.id).body
+          if(!attributes[:template])
+            stack_template = service.template_stack(self.stack_name, self.id).body
+            attributes[:template] = stack_template.is_a?(String) ? stack_template : Fog::JSON.encode(stack_template)
+          end
+          attributes[:template]
         end
 
         # Attributes requiring expansion
