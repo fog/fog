@@ -73,7 +73,7 @@ module Fog
         end
 
         def template
-          unless(attributes[:template])
+          if(persisted? && !attributes[:template])
             attributes[:template] = service.get_template(stack_name).
               body['TemplateBody']
           end
