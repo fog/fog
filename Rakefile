@@ -51,7 +51,7 @@ task :default => :test
 task :travis  => ['test', 'test:travis']
 
 Rake::TestTask.new do |t|
-  t.pattern = File.join("**", "spec", "**", "*_spec.rb")
+  t.pattern = File.join("spec", "**", "*_spec.rb")
 end
 
 namespace :test do
