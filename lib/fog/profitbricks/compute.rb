@@ -11,27 +11,27 @@ module Fog
             model_path   'fog/profitbricks/models/compute'
             model        :server
             collection   :servers
-            model        :data_center
-            collection   :data_centers
+            model        :datacenter
+            collection   :datacenters
 
-            # Requests - server
+            # Requests
             request_path 'fog/profitbricks/requests/compute'
-            request      :create_server        # createServer
-            request      :delete_server        # deleteServer
-            request      :get_all_servers      # getAllServers
-            request      :get_server           # getServer
-            request      :reset_server         # resetServer
-            request      :start_server         # startServer
-            request      :stop_server          # stopServer
-            request      :update_server        # updateServer
+            request      :create_server         # createServer
+            request      :delete_server         # deleteServer
+            request      :get_all_servers       # getAllServers
+            request      :get_server            # getServer
+            request      :reset_server          # resetServer
+            request      :start_server          # startServer
+            request      :stop_server           # stopServer
+            request      :update_server         # updateServer
 
-            request      :clear_data_center    # clearDataCenter
-            request      :create_data_center   # createDataCenter
-            request      :delete_data_center   # deleteDataCenter
-            request      :get_all_data_centers # getAllDataCenters
-            request      :get_data_center      # getDataCenter
+            request      :clear_data_center     # clearDataCenter
+            request      :create_data_center    # createDataCenter
+            request      :delete_data_center    # deleteDataCenter
+            request      :get_all_data_centers  # getAllDataCenters
+            request      :get_data_center       # getDataCenter
             request      :get_data_center_state # getDataCenterState
-            request      :update_data_center   # updateDataCenter
+            request      :update_data_center    # updateDataCenter
 
             class Real
                 def initialize(options={})
@@ -52,19 +52,15 @@ module Fog
                             }.merge!(params[:headers] || {})
                         }))
                     rescue Excon::Errors::Unauthorized => error
+                        #Fog::ProfitBricks.parse_error(error.response.body)
                         raise error
                     rescue Excon::Errors::HTTPStatusError => error
+                        Fog::ProfitBricks.parse_error(error.response.body)
+                    rescue Excon::Errors::InternalServerError => error
+                        #Fog::ProfitBricks.parse_error(error.response.body)
                         raise error
                     end
-
-                    #document = Fog::ToHashDocument.new
-                    #parser = Nokogiri::XML::SAX::PushParser.new(document)
-                    #parser << response.body
-                    #parser.finish
-                    #response.body = document.body
-
                     response
-                    #return parse(response)
                 end
 
                 private
@@ -90,8 +86,15 @@ module Fog
                 def self.data
                     @data ||= Hash.new do |hash, key|
                         hash[key] = {
-                            :servers => [],
-                            :ssh_keys => []
+                            :servers         => [],
+                            :datacenters     => [{ 
+                              'requestId'         => Fog::Mock::random_numbers(7),
+                              'dataCenterId'      => Fog::UUID.uuid,
+                              'dataCenterName'    => 'MockDC',
+                              'provisioningState' => 'AVAILABLE',
+                              'dataCenterVersion' => 1,
+                              'region'            => 'NORTH_AMERICA'
+                            }]
                         }
                     end
                 end
@@ -101,12 +104,16 @@ module Fog
                 end
 
                 def initialize(options={})
+                    @profitbricks_username = options[:profitbricks_username]
+                    @profitbricks_password = options[:profitbricks_password]
                 end
 
                 def data
+                    self.class.data[@profitbricks_username]
                 end
 
                 def reset_data
+                    self.class.data.delete(@profitbricks_username)
                 end
             end
         end

@@ -20,5 +20,19 @@ module Fog
                 end
             end
         end
+
+        def self.parse_error(xml_fault)
+            service_fault = {}
+
+            Nokogiri::XML(xml_fault).xpath(
+              '//ns2:ProfitbricksServiceFault',
+              'xmlns:ns2' => 'http://ws.api.profitbricks.com/'
+            ).each do |element|
+                element.children.each do |child|
+                    service_fault[child.name] = child.text
+                end
+            end
+            puts "#{service_fault['faultCode']}: #{service_fault['message']}" 
+        end
     end
 end

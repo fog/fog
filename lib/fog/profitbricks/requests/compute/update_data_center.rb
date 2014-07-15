@@ -18,14 +18,27 @@ module Fog
                         :method  => 'POST',
                         :body    => soap_envelope.to_xml,
                         :parser  => 
-                          Fog::Parsers::Compute::ProfitBricks::UpdateDataCenter.new
+                          Fog::Parsers::Compute::ProfitBricks::
+                          UpdateDataCenter.new
                     )
                 end
             end
 
             class Mock
-                def update_data_center(data_center_id)
-                    Fog::Mock::not_implemented
+                def update_data_center(data_center_id, data_center_name='')
+                    response = Excon::Response.new
+                    response.status = 200
+                    
+                    if dc = self.data[:datacenters].find {
+                      |attrib| attrib['dataCenterId'] == data_center_id
+                    }
+                        dc['dataCenterName'] = data_center_name
+                    else
+                        raise Fog::Compute::NotFound
+                    end
+                    
+                    response.body = { 'updateDataCenterResponse' => dc }
+                    response
                 end
             end
         end

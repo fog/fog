@@ -1,9 +1,7 @@
-#require 'fog/compute/models/data_center'
-
 module Fog
     module Compute
         class ProfitBricks
-            class DataCenter < Fog::Model
+            class Datacenter < Fog::Model
                 identity  :id,         :aliases => 'dataCenterId'
                 attribute :name,       :aliases => 'dataCenterName'
                 attribute :version,    :aliases => 'dataCenterVersion'
@@ -11,10 +9,22 @@ module Fog
                 attribute :request_id, :aliases => 'requestId'
                 attribute :region
 
-                #{"requestId"=>"3343852", "dataCenterId"=>"6571ecd4-8602-4692-ae14-2f85eedbc403", "dataCenterVersion"=>1, "dataCenterName"=>"abc", "provisioningState"=>"AVAILABLE", "region"=>"NORTH_AMERICA"}
-
                 def initialize(attributes={})
                     super
+                end
+
+                def save
+                    requires :name
+                    data = service.create_data_center(name, region)
+                    merge_attributes(data.body['createDataCenterResponse'])
+                    true
+                end
+
+                def update
+                    requires :id, :name
+                    data = service.update_data_center(id, name)
+                    merge_attributes(data.body['updateDataCenterResponse'])
+                    true
                 end
 
                 def destroy
@@ -24,7 +34,11 @@ module Fog
                 end
 
                 def ready?
-                    self.state == 'ACTIVE'
+                    self.state == 'AVAILABLE'
+                end
+
+                def failed?
+                    self.state == 'ERROR'
                 end
             end
         end

@@ -22,8 +22,22 @@ module Fog
             end
 
             class Mock
-                def create_data_center(create_center_name, region='')
-                    Fog::Mock::not_implemented
+                def create_data_center(data_center_name, region='')
+                    response = Excon::Response.new
+                    response.status = 200
+                    
+                    server = {
+                        'requestId'         => Fog::Mock::random_numbers(7),
+                        'dataCenterId'      => Fog::UUID.uuid,
+                        'dataCenterName'    => data_center_name,
+                        'dataCenterVersion' => 1,
+                        'provisioningState' => 'AVAILABLE',
+                        'region'            => region
+                    }
+                    
+                    self.data[:datacenters] << server
+                    response.body = { 'createDataCenterResponse' => server }
+                    response
                 end
             end
         end

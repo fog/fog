@@ -15,14 +15,27 @@ module Fog
                         :method  => 'POST',
                         :body    => soap_envelope.to_xml,
                         :parser  => 
-                          Fog::Parsers::Compute::ProfitBricks::DeleteDataCenter.new
+                          Fog::Parsers::Compute::ProfitBricks::
+                          DeleteDataCenter.new
                     )
                 end
             end
 
             class Mock
                 def delete_data_center(data_center_id)
-                    Fog::Mock::not_implemented
+                    response = Excon::Response.new
+                    response.status = 200
+                    
+                    if dc = self.data[:datacenters].find {
+                      |attrib| attrib['dataCenterId'] == data_center_id
+                    }
+                        self.data[:datacenters].delete(dc)
+                    else
+                        raise Fog::Compute::NotFound
+                    end
+
+                    response.body = { 'deleteDataCenterResponse' => server }
+                    response
                 end
             end
         end

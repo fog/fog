@@ -12,14 +12,23 @@ module Fog
                         :expects => [200],
                         :method  => 'POST',
                         :body    => soap_envelope.to_xml,
-                        :parser  => Fog::Parsers::Compute::ProfitBricks::GetAllDataCenters.new
+                        :parser  => 
+                          Fog::Parsers::Compute::ProfitBricks::GetAllDataCenters.new
                     )
                 end
             end
 
             class Mock
-                def get_all_data_centers(filters = {})
-                    Fog::Mock::not_implemented
+                def get_all_data_centers(options = {})
+                    if data = self.data[:datacenters]
+                        response        = Excon::Response.new
+                        response.status = 200
+                        response.body   = 
+                          { 'getAllDataCentersResponse' => self.data[:datacenters] }
+                        response
+                    else
+                        raise Fog::Compute::NotFound
+                    end
                 end
             end
         end
