@@ -168,6 +168,7 @@
 * David Prater <dprater@cisco.com>
 * David Wittman <david@wittman.com>
 * Decklin Foster <decklin@red-bean.com>
+* Déja Augustine <daaugustine@gmail.com>
 * Diego Desani <diego@newservers.com>
 * Dmitry Dedov <dmitry.dedov@tut.by>
 * Dmitry Gutov <dgutov@yandex.ru>
