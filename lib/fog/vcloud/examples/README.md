@@ -2,7 +2,7 @@
 _contributor @singhgarima_
 
 For more information about fog [README](/README.md), or visit their website
-[fog.io](www.fog.io).
+[fog.io](http://fog.io).
 
 ## Vcloud API
 
