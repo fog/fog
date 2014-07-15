@@ -132,7 +132,12 @@ module Fog
               :backing => RbVmomi::VIM::VirtualEthernetCardNetworkBackingInfo(:deviceName => options['network_label']),
               :deviceInfo => RbVmomi::VIM::Description(:label => "Network adapter 1", :summary => options['network_label']),
               :key => options['network_adapter_device_key'],
-              :connectable => connectable)              
+              :connectable => RbVmomi::VIM::VirtualDeviceConnectInfo(
+                  :allowGuestControl => true,
+                  :connected => true,
+                  :startConnected => true)
+            )
+
             
             device_spec = RbVmomi::VIM::VirtualDeviceConfigSpec(
                 :operation => RbVmomi::VIM::VirtualDeviceConfigSpecOperation('edit'),
