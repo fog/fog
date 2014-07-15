@@ -158,6 +158,7 @@ module Fog
             # This inline rescue catches any standard error.  While a VM is
             # cloning, a call to the macs method will throw and NoMethodError
             attrs['mac_addresses'] = Proc.new {vm_mob_ref.macs rescue nil}
+            attrs['summary'] = Proc.new {vm_mob_ref.summary rescue nil}
             # Rescue nil to catch testing while vm_mob_ref isn't reaL??
             attrs['path'] = "/"+attrs['parent'].path.map(&:last).join('/') rescue nil
             attrs['relative_path'] = (attrs['path'].split('/').reject {|e| e.empty?} - ["Datacenters", attrs['datacenter'], "vm"]).join("/") rescue nil
