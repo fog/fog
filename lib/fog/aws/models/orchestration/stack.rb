@@ -68,7 +68,7 @@ module Fog
 
         def destroy
           requires :id
-          service.delete_stack(self.stack_name, self.id)
+          service.delete_stack(self.stack_name)
           true
         end
 
