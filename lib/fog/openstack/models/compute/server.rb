@@ -271,6 +271,12 @@ module Fog
           service.live_migrate_server(id, host, block_migration, disk_over_commit)
         end
 
+        def evacuate(host, on_shared_storage, admin_pass=nil)
+          requires :id
+          service.evacuate_server(id, host, on_shared_storage, admin_pass)
+          true
+        end
+
         def associate_address(floating_ip)
           requires :id
           service.associate_address id, floating_ip

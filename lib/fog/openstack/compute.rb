@@ -82,6 +82,7 @@ module Fog
       request :get_vnc_console
       request :live_migrate_server
       request :migrate_server
+      request :evacuate_server
 
       # Image CRUD
       request :list_images
