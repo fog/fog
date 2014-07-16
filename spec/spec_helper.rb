@@ -1,3 +1,6 @@
+require 'minitest/spec'
+require 'minitest/autorun'
+
 # necessary when requiring fog without rubygems while also
 # maintaining ruby 1.8.7 support (can't use require_relative)
 __LIB_DIR__ = File.expand_path(File.dirname(__FILE__))
