@@ -6,7 +6,7 @@ module Fog
       class LibVolume < Fog::Model
         identity :uuid
 
-        attribute :mounted_on, :type => :related
+        attribute :mounted_on
         attribute :licenses
         attribute :meta
         attribute :owner
