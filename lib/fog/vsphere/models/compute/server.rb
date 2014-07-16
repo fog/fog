@@ -182,7 +182,7 @@ module Fog
         end
 
         def interfaces
-          attributes[:interfaces] ||= id.nil? ? [] : service.interfaces( :server => self )
+          attributes[:interfaces] ||= id.nil? ? [] : service.interfaces( :server_id => self.id )
         end
 
         def interface_ready? attrs
@@ -207,7 +207,7 @@ module Fog
         end
 
         def volumes
-          attributes[:volumes] ||= id.nil? ? [] : service.volumes(:server => self)
+          attributes[:volumes] ||= id.nil? ? [] : service.volumes(:server_id => self.id)
         end
 
         def customvalues
