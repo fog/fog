@@ -41,7 +41,7 @@ Gem::Specification.new do |s|
 
   ## List your runtime dependencies here. Runtime dependencies are those
   ## that are needed for an end user to actually USE your code.
-  s.add_dependency("fog-core", "~> 1.22")
+  s.add_dependency("fog-core", "~> 1.23")
   s.add_dependency("fog-json")
 
   s.add_dependency('nokogiri', '~> 1.5', '>= 1.5.11')
