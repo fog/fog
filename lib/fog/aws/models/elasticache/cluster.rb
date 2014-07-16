@@ -19,7 +19,7 @@ module Fog
         attribute :nodes, :aliases => 'CacheNodes', :type => :array
         attribute :parameter_group, :aliases => 'CacheParameterGroup'
         attribute :pending_values, :aliases => 'PendingModifiedValues'
-        attribute :create_time, :aliases => 'CacheClusterCreateTime', :type => :date_time
+        attribute :create_time, :aliases => 'CacheClusterCreateTime', :type => :timestamp
         attribute :security_groups, :aliases => 'CacheSecurityGroups', :type => :array
         attribute :notification_config, :aliases => 'NotificationConfiguration'
         attribute :cache_subnet_group_name, :aliases => 'CacheSubnetGroupName'
