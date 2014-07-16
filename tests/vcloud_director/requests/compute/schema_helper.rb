@@ -624,7 +624,7 @@ class VcloudDirector
             :IpRanges=> IP_RANGES_TYPE,
           }
         },
-        :FenceMode => String,
+        :FenceMode => Fog::Nullable::String,
         :RetainNetInfoAcrossDeployments => String,
       }
 
