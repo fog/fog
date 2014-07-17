@@ -197,7 +197,9 @@ module Fog
               :globalIPSettings => cust_global_ip_settings,
               :nicSettingMap => cust_adapter_mapping)
           end
-          customization_spec ||= nil
+          # we use cloud-init to do the settings, if the system is windows, we might need do more work
+          customization_spec = nil
+          # customization_spec ||= nil
 
           relocation_spec=nil
           if ( options['linked_clone'] )
