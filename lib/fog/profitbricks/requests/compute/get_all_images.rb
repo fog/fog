@@ -2,10 +2,10 @@ module Fog
     module Compute
         class ProfitBricks
             class Real
-                require 'fog/profitbricks/parsers/compute/get_all_data_centers'
-                def get_all_data_centers(options = {})
+                require 'fog/profitbricks/parsers/compute/get_all_images'
+                def get_all_images()
                     soap_envelope = Fog::ProfitBricks.construct_envelope {
-                      |xml| xml[:ws].getAllDataCenters
+                      |xml| xml[:ws].getAllImages
                     }
 
                     request(
@@ -13,18 +13,18 @@ module Fog
                         :method  => 'POST',
                         :body    => soap_envelope.to_xml,
                         :parser  => 
-                          Fog::Parsers::Compute::ProfitBricks::GetAllDataCenters.new
+                          Fog::Parsers::Compute::ProfitBricks::GetAllImages.new
                     )
                 end
             end
 
             class Mock
-                def get_all_data_centers(options = {})
-                    if data = self.data[:datacenters]
+                def get_all_images(options = {})
+                    if data = self.data[:images]
                         response        = Excon::Response.new
                         response.status = 200
                         response.body   = {
-                          'getAllDataCentersResponse' => self.data[:datacenters]
+                          'getAllImagesResponse' => self.data[:images]
                         }
                         response
                     else

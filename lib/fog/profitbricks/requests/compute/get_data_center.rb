@@ -15,28 +15,27 @@ module Fog
                         :method  => 'POST',
                         :body    => soap_envelope.to_xml,
                         :parser  => 
-                          Fog::Parsers::Compute::ProfitBricks::
-                          GetDataCenter.new
+                          Fog::Parsers::Compute::ProfitBricks::GetDataCenter.new
                     )
+                rescue Excon::Errors::InternalServerError => error
+                    Fog::Errors::NotFound.new(error)
                 end
             end
 
             class Mock
                 def get_data_center(data_center_id)
-                    if data = self.data[:datacenters]
-                        response        = Excon::Response.new
-                        response.status = 200
-                        
-                        dc = self.data[:datacenters].find {
-                          |attrib| attrib['dataCenterId'] == data_center_id
-                        }
+                    response        = Excon::Response.new
+                    response.status = 200
 
-                        response.body   = 
-                          { 'getDataCenterResponse' => dc }
-                        response
+                    if dc = self.data[:datacenters].find {
+                      |attrib| attrib['dataCenterId'] == data_center_id
+                    }
                     else
-                        raise Fog::Compute::NotFound
+                        raise Fog::Errors::NotFound.new('The requested resource could not be found')
                     end
+
+                    response.body = { 'getDataCenterResponse' => dc }
+                    response
                 end
             end
         end

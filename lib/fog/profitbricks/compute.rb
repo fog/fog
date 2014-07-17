@@ -13,6 +13,8 @@ module Fog
             collection   :servers
             model        :datacenter
             collection   :datacenters
+            model        :region
+            collection   :regions
 
             # Requests
             request_path 'fog/profitbricks/requests/compute'
@@ -32,6 +34,9 @@ module Fog
             request      :get_data_center       # getDataCenter
             request      :get_data_center_state # getDataCenterState
             request      :update_data_center    # updateDataCenter
+
+            request      :get_all_regions       # getAllRegions
+            request      :get_region            # getRegion
 
             class Real
                 def initialize(options={})
@@ -55,7 +60,8 @@ module Fog
                         #Fog::ProfitBricks.parse_error(error.response.body)
                         raise error
                     rescue Excon::Errors::HTTPStatusError => error
-                        Fog::ProfitBricks.parse_error(error.response.body)
+                        #Fog::ProfitBricks.parse_error(error.response.body)
+                        raise error
                     rescue Excon::Errors::InternalServerError => error
                         #Fog::ProfitBricks.parse_error(error.response.body)
                         raise error
@@ -87,14 +93,25 @@ module Fog
                     @data ||= Hash.new do |hash, key|
                         hash[key] = {
                             :servers         => [],
-                            :datacenters     => [{ 
-                              'requestId'         => Fog::Mock::random_numbers(7),
-                              'dataCenterId'      => Fog::UUID.uuid,
-                              'dataCenterName'    => 'MockDC',
-                              'provisioningState' => 'AVAILABLE',
-                              'dataCenterVersion' => 1,
-                              'region'            => 'NORTH_AMERICA'
-                            }]
+                            :datacenters     => [],
+                            :regions         => [
+                              {
+                                'regionId'   => Fog::UUID.uuid,
+                                'regionName' => 'EUROPE'
+                              },
+                              {
+                                'regionId'   => Fog::UUID.uuid,
+                                'regionName' => 'NORTH_AMERICA'
+                              }
+                            ],
+                            #:datacenters     => [{ 
+                            #  'requestId'         => Fog::Mock::random_numbers(7),
+                            #  'dataCenterId'      => Fog::UUID.uuid,
+                            #  'dataCenterName'    => 'MockDC',
+                            #  'provisioningState' => 'AVAILABLE',
+                            #  'dataCenterVersion' => 1,
+                            #  'region'            => 'NORTH_AMERICA'
+                            #}]
                         }
                     end
                 end

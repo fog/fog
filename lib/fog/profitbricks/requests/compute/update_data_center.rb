@@ -18,9 +18,10 @@ module Fog
                         :method  => 'POST',
                         :body    => soap_envelope.to_xml,
                         :parser  => 
-                          Fog::Parsers::Compute::ProfitBricks::
-                          UpdateDataCenter.new
+                          Fog::Parsers::Compute::ProfitBricks::UpdateDataCenter.new
                     )
+                rescue Excon::Errors::InternalServerError => error
+                    Fog::Errors::NotFound.new(error)
                 end
             end
 
@@ -34,7 +35,7 @@ module Fog
                     }
                         dc['dataCenterName'] = data_center_name
                     else
-                        raise Fog::Compute::NotFound
+                        raise Fog::Errors::NotFound.new('The requested resource could not be found')
                     end
                     
                     response.body = { 'updateDataCenterResponse' => dc }

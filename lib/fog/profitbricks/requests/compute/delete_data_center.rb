@@ -15,9 +15,10 @@ module Fog
                         :method  => 'POST',
                         :body    => soap_envelope.to_xml,
                         :parser  => 
-                          Fog::Parsers::Compute::ProfitBricks::
-                          DeleteDataCenter.new
+                          Fog::Parsers::Compute::ProfitBricks::DeleteDataCenter.new
                     )
+                rescue Excon::Errors::InternalServerError => error
+                    Fog::Errors::NotFound.new(error)
                 end
             end
 
@@ -31,10 +32,13 @@ module Fog
                     }
                         self.data[:datacenters].delete(dc)
                     else
-                        raise Fog::Compute::NotFound
+                        raise Fog::Errors::NotFound.new('The requested resource could not be found')
                     end
 
-                    response.body = { 'deleteDataCenterResponse' => server }
+                    response.body = { 'deleteDataCenterResponse' => {
+                        'requestId' => dc['requestId']
+                        }
+                    }
                     response
                 end
             end

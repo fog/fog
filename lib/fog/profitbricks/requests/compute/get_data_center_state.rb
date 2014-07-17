@@ -22,7 +22,21 @@ module Fog
 
             class Mock
                 def get_data_center_state(data_center_id)
-                    Fog::Mock::not_implemented
+                    if data = self.data[:datacenters]
+                        response        = Excon::Response.new
+                        response.status = 200
+                        
+                        dc = self.data[:datacenters].find {
+                          |attrib| attrib['dataCenterId'] == data_center_id
+                        }
+
+                        response.body = { 'getDataCenterStateResponse' =>
+                          { 'return' => dc['provisioningState'] }
+                        }
+                        response
+                    else
+                        raise Fog::Compute::NotFound
+                    end
                 end
             end
         end
