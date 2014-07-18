@@ -15,6 +15,10 @@ module Fog
             collection   :datacenters
             model        :region
             collection   :regions
+            model        :image
+            collection   :images
+            model        :flavor
+            collection   :flavors
 
             # Requests
             request_path 'fog/profitbricks/requests/compute'
@@ -37,6 +41,13 @@ module Fog
 
             request      :get_all_regions       # getAllRegions
             request      :get_region            # getRegion
+
+            request      :get_all_images        # getAllImages
+            request      :get_image             # getImage
+
+            request      :get_all_flavors       # getAllFlavors
+            request      :get_flavor            # getFlavor
+            request      :create_flavor         # createFlavor
 
             class Real
                 def initialize(options={})
@@ -96,22 +107,56 @@ module Fog
                             :datacenters     => [],
                             :regions         => [
                               {
-                                'regionId'   => Fog::UUID.uuid,
-                                'regionName' => 'EUROPE'
+                                'id'   => Fog::UUID.uuid,
+                                'name' => 'EUROPE'
                               },
                               {
-                                'regionId'   => Fog::UUID.uuid,
-                                'regionName' => 'NORTH_AMERICA'
+                                'id'   => Fog::UUID.uuid,
+                                'name' => 'NORTH_AMERICA'
                               }
                             ],
-                            #:datacenters     => [{ 
-                            #  'requestId'         => Fog::Mock::random_numbers(7),
-                            #  'dataCenterId'      => Fog::UUID.uuid,
-                            #  'dataCenterName'    => 'MockDC',
-                            #  'provisioningState' => 'AVAILABLE',
-                            #  'dataCenterVersion' => 1,
-                            #  'region'            => 'NORTH_AMERICA'
-                            #}]
+                            :images          => [
+                              { 'id'             => Fog::UUID.uuid,
+                                'name'           => 'CentOS-6.5-x86_64-netinstall.iso',
+                                'type'           => 'CDROM',
+                                'size'           => 244,
+                                'cpu_hotplug'    => 'false',
+                                'memory_hotplug' => 'false',
+                                'server_ids'     => nil,
+                                'os_type'        => 'LINUX',
+                                'writeable'      => 'true',
+                                'region'         => 'EUROPE',
+                                'public'         => 'true'
+                              },
+                              { 'id'             => Fog::UUID.uuid,
+                                'name'           => 'Windows-2012-R2-Server',
+                                'type'           => 'HDD',
+                                'size'           => 11264,
+                                'cpu_hotplug'    => 'false',
+                                'memory_hotplug' => 'false',
+                                'server_ids'     => nil,
+                                'os_type'        => 'WINDOWS',
+                                'writeable'      => 'true',
+                                'region'         => 'NORTH_AMERICA',
+                                'public'         => 'true'
+                              }
+                            ],
+                            :flavors => [
+                              {
+                                 'id'    => Fog::UUID.uuid,
+                                 'name'  => 'Micro',
+                                 'ram'   => 1024,
+                                 'disk'  => 50,
+                                 'cores' => 1
+                              },
+                              {
+                                 'id'    => Fog::UUID.uuid,
+                                 'name'  => 'Small',
+                                 'ram'   => 2048,
+                                 'disk'  => 50,
+                                 'cores' => 1
+                              }
+                            ]
                         }
                     end
                 end

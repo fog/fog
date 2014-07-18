@@ -1,8 +1,8 @@
 Shindo.tests('Fog::Compute[:profitbricks] | region request', ['profitbricks', 'compute']) do
 
     @region_format = {
-        'regionId'   => String,
-        'regionName' => String,
+        'id'   => String,
+        'name' => String,
     }
 
     service = Fog::Compute[:profitbricks]
