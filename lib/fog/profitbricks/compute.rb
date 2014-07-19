@@ -49,6 +49,10 @@ module Fog
             request      :get_flavor            # getFlavor
             request      :create_flavor         # createFlavor
 
+            request      :get_all_storages      # getAllStorages
+            request      :get_storage           # getStorage
+            request      :create_storage        # createStorage
+
             class Real
                 def initialize(options={})
                     @profitbricks_username = options[:profitbricks_username]
