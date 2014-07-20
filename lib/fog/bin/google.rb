@@ -6,6 +6,8 @@ module Google # deviates from other bin stuff to accomodate gem
         Fog::Compute::Google
       when :storage
         Fog::Storage::Google
+      when :sql
+        Fog::Google::SQL
       else
         raise ArgumentError, "Unsupported #{self} service: #{key}"
       end
@@ -20,6 +22,8 @@ module Google # deviates from other bin stuff to accomodate gem
         when :compute
           Fog::Logger.warning("Google[:compute] is not recommended, use Compute[:google] for portability")
           Fog::Compute.new(:provider => 'Google')
+        when :sql
+          Fog::Google::SQL.new
         else
           raise ArgumentError, "Unrecognized service: #{key.inspect}"
         end
