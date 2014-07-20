@@ -4,7 +4,7 @@ module Fog
             class Real
                 require 'fog/profitbricks/parsers/compute/create_storage'
 
-                # Create a new virtual storage
+                # Create new virtual storage
                 #
                 # ==== Parameters
                 # * dataCenterId<~String> - 
@@ -22,11 +22,14 @@ module Fog
                 #       * storageId<~String> - UUID of the new virtual storage
                 #
                 # {ProfitBricks API Documentation}[http://www.profitbricks.com/apidoc/APIDocumentation.html?createStorage.html]
-                def create_storage(storage_name, region='DEFAULT')
+                def create_storage(data_center_id, storage_name,
+                                   mount_image_id, size)
                     soap_envelope = Fog::ProfitBricks.construct_envelope {
                       |xml| xml[:ws].createStorage {
-                        xml.dataCenterName(storage_name)
-                        xml.region(region)
+                        xml.dataCenterId(data_center_id),
+                        xml.storageName(storage_name),
+                        xml.mountImageId(mount_image_id),
+                        xml.size(size)
                       }
                     }
 
@@ -41,20 +44,19 @@ module Fog
             end
 
             class Mock
-                def create_storage(storage_name, region='DEFAULT')
+                def create_storage(data_center_id, storage_name,
+                                   mount_image_id, size)
                     response = Excon::Response.new
                     response.status = 200
                     
                     storage = {
                         'requestId'         => Fog::Mock::random_numbers(7),
-                        'dataCenterId'      => Fog::UUID.uuid,
-                        'dataCenterName'    => storage_name,
+                        'dataCenterId'      => data_center_id,
                         'dataCenterVersion' => 1,
-                        'provisioningState' => 'AVAILABLE',
-                        'region'            => region
+                        'storageId'         => Fog::UUID.uuid
                     }
                     
-                    self.data[:datacenters] << storage
+                    self.data[:storages] << storage
                     response.body = { 'createStorageResponse' => storage }
                     response
                 end

@@ -3,8 +3,8 @@ module Fog
         class ProfitBricks
             class Real
                 require 'fog/profitbricks/parsers/compute/create_data_center'
+
                 # Create a new virtual data center
-                # {ProfitBricks API Documentation}[http://www.profitbricks.com/apidoc/APIDocumentation.html?CreateDataCenter.html]
                 #
                 # ==== Parameters
                 # * dataCenterName<~String> - Name of the new virtual data center
@@ -18,6 +18,8 @@ module Fog
                 #       * dataCenterId<~String> - UUID of virtual data center
                 #       * dataCenterVersion<~Integer> - Version of the virtual data center
                 #       * region<~String> - Region of virtual data center
+                #
+                # {ProfitBricks API Documentation}[http://www.profitbricks.com/apidoc/APIDocumentation.html?CreateDataCenter.html]
                 def create_data_center(data_center_name, region='DEFAULT')
                     soap_envelope = Fog::ProfitBricks.construct_envelope {
                       |xml| xml[:ws].createDataCenter {

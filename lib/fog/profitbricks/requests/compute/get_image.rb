@@ -3,9 +3,8 @@ module Fog
         class ProfitBricks
             class Real
                 require 'fog/profitbricks/parsers/compute/get_image'
-                #
+
                 # Displays a list of all available images.
-                # {ProfitBricks API Documentation}[http://www.profitbricks.com/apidoc/APIDocumentation.html?GetImages.html]
                 #
                 # ==== Parameters
                 # * imageId<~String> - Name of the new virtual data center
@@ -26,6 +25,7 @@ module Fog
                 #       * osType<~String> - OS type of an image (WINDOWS, LINUX, OTHER, UNKNOWN)
                 #       * public<~String> - Shows if image is publicly available or private
                 #
+                # {ProfitBricks API Documentation}[http://www.profitbricks.com/apidoc/APIDocumentation.html?GetImages.html]
                 def get_image(image_id)
                     soap_envelope = Fog::ProfitBricks.construct_envelope {
                       |xml| xml[:ws].getImage {

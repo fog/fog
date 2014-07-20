@@ -3,12 +3,11 @@ module Fog
         class ProfitBricks
             class Real
                 require 'fog/profitbricks/parsers/compute/get_all_images'
-                #
+
                 # Displays a list of all available images.
-                # {ProfitBricks API Documentation}[http://www.profitbricks.com/apidoc/APIDocumentation.html?GetAllImages.html]
                 #
                 # ==== Parameters
-                # N/A
+                # * N/A
                 #
                 # ==== Returns
                 # * response<~Excon::Response>:
@@ -26,6 +25,7 @@ module Fog
                 #       * osType<~String> - OS type of an image (WINDOWS, LINUX, OTHER, UNKNOWN)
                 #       * public<~String> - Shows if image is publicly available or private
                 #
+                # {ProfitBricks API Documentation}[http://www.profitbricks.com/apidoc/APIDocumentation.html?GetAllImages.html]
                 def get_all_images()
                     soap_envelope = Fog::ProfitBricks.construct_envelope {
                       |xml| xml[:ws].getAllImages
