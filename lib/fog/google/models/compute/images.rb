@@ -12,8 +12,10 @@ module Fog
         # https://developers.google.com/compute/docs/premium-operating-systems
         GLOBAL_PROJECTS = [
           'centos-cloud',
+          'coreos-cloud',
           'debian-cloud',
           'google-containers',
+          'opensuse-cloud',
           'rhel-cloud',
           'suse-cloud'
         ]
