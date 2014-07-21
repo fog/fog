@@ -32,7 +32,7 @@ module Fog
           end
           args = Hash[args]
           if(stack_timeout = args.delete('timeout_in_minutes'))
-            args['timeout_in_min'] = stack_timeout
+            args['timeout_mins'] = stack_timeout
           end
           service.create_stack(stack_name, args)
           self
