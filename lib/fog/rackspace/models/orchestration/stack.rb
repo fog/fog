@@ -30,7 +30,11 @@ module Fog
           args = self.attributes.find_all do |key, value|
             ALLOWED_OPTIONS[:create].include?(key)
           end
-          service.create_stack(stack_name, Hash[args])
+          args = Hash[args]
+          if(stack_timeout = args.delete('timeout_in_minutes'))
+            args['timeout_in_min'] = stack_timeout
+          end
+          service.create_stack(stack_name, args)
           self
         end
 
