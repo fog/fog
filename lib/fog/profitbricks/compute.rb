@@ -19,6 +19,8 @@ module Fog
             collection   :images
             model        :flavor
             collection   :flavors
+            #model        :volume
+            #collection   :volumes
 
             # Requests
             request_path 'fog/profitbricks/requests/compute'
@@ -52,6 +54,10 @@ module Fog
             request      :get_all_storages      # getAllStorages
             request      :get_storage           # getStorage
             request      :create_storage        # createStorage
+            request      :update_storage        # updateStorage
+            request      :delete_storage        # deleteStorage
+            #request      :connect_storage_to_server      # connectStorageToServer
+            #request      :disconnect_storage_from_server # disconnectStorageFromServer
 
             class Real
                 def initialize(options={})
@@ -111,16 +117,16 @@ module Fog
                             :datacenters     => [],
                             :regions         => [
                               {
-                                'id'   => Fog::UUID.uuid,
+                                'id'   => '8b80d933-d728-438d-8831-e2bd76aa15e0',
                                 'name' => 'EUROPE'
                               },
                               {
-                                'id'   => Fog::UUID.uuid,
+                                'id'   => 'ba3e3dcf-5bb6-413a-bb96-14998108d1c9',
                                 'name' => 'NORTH_AMERICA'
                               }
                             ],
                             :images          => [
-                              { 'id'             => Fog::UUID.uuid,
+                              { 'id'             => 'ece948c0-14f8-4d49-8bdc-b966b746b6f9',
                                 'name'           => 'CentOS-6.5-x86_64-netinstall.iso',
                                 'type'           => 'CDROM',
                                 'size'           => 244,
@@ -132,7 +138,7 @@ module Fog
                                 'region'         => 'EUROPE',
                                 'public'         => 'true'
                               },
-                              { 'id'             => Fog::UUID.uuid,
+                              { 'id'             => 'cc43d811-c423-402c-8bd0-6a04073a65ca',
                                 'name'           => 'Windows-2012-R2-Server',
                                 'type'           => 'HDD',
                                 'size'           => 11264,
@@ -160,6 +166,22 @@ module Fog
                                  'disk'  => 50,
                                  'cores' => 1
                               }
+                            ],
+                            :volumes => [
+                              {
+                                 'data_center_id'         => '8b80d933-d728-438d-8831-e2bd76aa15e0',
+                                 'data_center_version'    => 1,
+                                 'id'                     => '440831cf-2281-4d2c-8b45-b7cf7aab7238',
+                                 'size'                   => 5,
+                                 'name'                   => 'SystemVolume',
+                                 'mount_image'            => {
+                                   'image_id'   => 'cc43d811-c423-402c-8bd0-6a04073a65ca',
+                                   'image_name' => 'CentOS-6-server'
+                                 },
+                                 'provisioning_state'     => 'AVAILABLE',
+                                 'creation_time'          => Time.now,
+                                 'last_modification_time' => Time.now
+                              },
                             ]
                         }
                     end

@@ -4,8 +4,7 @@ module Fog
             module ProfitBricks
                 class GetAllStorages < Fog::Parsers::Base
                     def reset
-                        @storage = {}
-                        @storage['mountImage'] = {}
+                        @storage = { 'mountImage' => {} }
                         @response = { 'getAllStoragesResponse' => [] }
                     end
 
@@ -22,7 +21,7 @@ module Fog
                             @storage[name] = Time.parse(value)
                         when 'return'
                             @response['getAllStoragesResponse'] << @storage
-                            @storage = {}
+                            @storage = { 'mountImage' => {} }
                         end
                     end
                 end

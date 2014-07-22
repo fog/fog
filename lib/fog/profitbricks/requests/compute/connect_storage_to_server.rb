@@ -52,7 +52,7 @@ module Fog
                     response = Excon::Response.new
                     response.status = 200
                     
-                    if storage = self.data[:storages].find {
+                    if storage = self.data[:volumes].find {
                       |attrib| attrib['storageId'] == storage_id
                     }
                         storage['size'] = size

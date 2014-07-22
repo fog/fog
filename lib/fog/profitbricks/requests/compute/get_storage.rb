@@ -2,11 +2,11 @@ module Fog
     module Compute
         class ProfitBricks
             class Real
-                require 'fog/profitbricks/parsers/compute/get_data_center'
-                def get_data_center(data_center_id)
+                require 'fog/profitbricks/parsers/compute/get_storage'
+                def get_storage(storage_id)
                     soap_envelope = Fog::ProfitBricks.construct_envelope {
-                      |xml| xml[:ws].getDataCenter {
-                        xml.dataCenterId(data_center_id)
+                      |xml| xml[:ws].getStorage {
+                        xml.storageId(storage_id)
                       }
                     }
 
@@ -14,8 +14,8 @@ module Fog
                         :expects => [200],
                         :method  => 'POST',
                         :body    => soap_envelope.to_xml,
-                        :parser  => 
-                          Fog::Parsers::Compute::ProfitBricks::GetDataCenter.new
+                        :parser  =>
+                          Fog::Parsers::Compute::ProfitBricks::GetStorage.new
                     )
                 rescue Excon::Errors::InternalServerError => error
                     Fog::Errors::NotFound.new(error)
@@ -23,18 +23,18 @@ module Fog
             end
 
             class Mock
-                def get_data_center(data_center_id)
+                def get_storage(storage_id)
                     response        = Excon::Response.new
                     response.status = 200
 
-                    if dc = self.data[:datacenters].find {
-                      |attrib| attrib['dataCenterId'] == data_center_id
+                    if storage = self.data[:volumes].find {
+                      |attrib| attrib['volumes'] == storage_id
                     }
                     else
                         raise Fog::Errors::NotFound.new('The requested resource could not be found')
                     end
 
-                    response.body = { 'getDataCenterResponse' => dc }
+                    response.body = { 'getStorageResponse' => storage }
                     response
                 end
             end

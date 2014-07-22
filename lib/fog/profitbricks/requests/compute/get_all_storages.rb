@@ -44,11 +44,11 @@ module Fog
 
             class Mock
                 def get_all_storages
-                    if data = self.data[:storages]
+                    if data = self.data[:volumes]
                         response        = Excon::Response.new
                         response.status = 200
                         response.body   = {
-                          'getAllStoragesResponse' => self.data[:storages]
+                          'getAllStoragesResponse' => self.data[:volumes]
                         }
                         response
                     else

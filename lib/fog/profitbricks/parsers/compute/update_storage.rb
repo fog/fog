@@ -2,17 +2,17 @@ module Fog
     module Parsers
         module Compute
             module ProfitBricks
-                class UpdateDataCenter < Fog::Parsers::Base
+                class UpdateStorage < Fog::Parsers::Base
                     def reset
-                        @response = { 'updateDataCenterResponse' => {} }
+                        @response = { 'updateStorageResponse' => {} }
                     end
 
                     def end_element(name)
                         case name
                         when 'requestId', 'dataCenterId'
-                            @response['updateDataCenterResponse'][name] = value
+                            @response['updateStorageResponse'][name] = value
                         when 'dataCenterVersion'
-                            @response['updateDataCenterResponse'][name] = value.to_i
+                            @response['updateStorageResponse'][name] = value.to_i
                         end
                     end
                 end

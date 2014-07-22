@@ -33,7 +33,7 @@ module Fog
                         :expects => [200],
                         :method  => 'POST',
                         :body    => soap_envelope.to_xml,
-                        :parser  => 
+                        :parser  =>
                           Fog::Parsers::Compute::ProfitBricks::UpdateStorage.new
                     )
                 rescue Excon::Errors::InternalServerError => error
@@ -46,7 +46,7 @@ module Fog
                     response = Excon::Response.new
                     response.status = 200
                     
-                    if storage = self.data[:storages].find {
+                    if storage = self.data[:volumes].find {
                       |attrib| attrib['storageId'] == storage_id
                     }
                         storage['size'] = size

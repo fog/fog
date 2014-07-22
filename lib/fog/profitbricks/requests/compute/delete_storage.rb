@@ -42,10 +42,10 @@ module Fog
                     response = Excon::Response.new
                     response.status = 200
                     
-                    if storage = self.data[:storages].find {
+                    if storage = self.data[:volumes].find {
                       |attrib| attrib['storageId'] == storage_id
                     }
-                        self.data[:storages].delete(storage)
+                        self.data[:volumes].delete(storage)
                     else
                         raise Fog::Errors::NotFound.new('The requested resource could not be found')
                     end
