@@ -28,7 +28,7 @@ module Fog
                     response.status = 200
 
                     if dc = self.data[:datacenters].find {
-                      |attrib| attrib['dataCenterId'] == data_center_id
+                      |attrib| attrib['id'] == data_center_id
                     }
                     else
                         raise Fog::Errors::NotFound.new('The requested resource could not be found')

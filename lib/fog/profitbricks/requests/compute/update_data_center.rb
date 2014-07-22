@@ -30,15 +30,16 @@ module Fog
                     response = Excon::Response.new
                     response.status = 200
                     
-                    if dc = self.data[:datacenters].find {
-                      |attrib| attrib['dataCenterId'] == data_center_id
+                    if data_center = self.data[:datacenters].find {
+                      |attrib| attrib['id'] == data_center_id
                     }
-                        dc['dataCenterName'] = data_center_name
+                        data_center['name'] = data_center_name
+                        data_center['dataCenterVersion'] += 1
                     else
                         raise Fog::Errors::NotFound.new('The requested resource could not be found')
                     end
                     
-                    response.body = { 'updateDataCenterResponse' => dc }
+                    response.body = { 'updateDataCenterResponse' => data_center }
                     response
                 end
             end

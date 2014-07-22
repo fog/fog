@@ -2,15 +2,15 @@ Shindo.tests('Fog::Compute[:profitbricks] | data_center request', ['profitbricks
 
     @data_center_format = {
         'requestId'         => String,
-        'dataCenterId'      => String,
-        'dataCenterName'    => String,
+        'id'                => String,
+        'name'    => String,
         'dataCenterVersion' => Integer,
         'provisioningState' => 'AVAILABLE',
         'region'            => String
     }
 
     @minimal_format = {
-        'dataCenterId'      => String,
+        'id'      => String,
         'dataCenterVersion' => Integer,
     }
 
@@ -22,21 +22,21 @@ Shindo.tests('Fog::Compute[:profitbricks] | data_center request', ['profitbricks
           'region'    => String
         )) do
             #puts '#create_data_center'
-            @dc = service.create_data_center(
-                'FogTestDC',
+            data = service.create_data_center(
+                'FogTestDataCenter',
                 'NORTH_AMERICA'
             )
-            @data_center_id = @dc.body['createDataCenterResponse']['dataCenterId']
-            @dc.body['createDataCenterResponse']
+            @data_center_id = data.body['createDataCenterResponse']['id']
+            data.body['createDataCenterResponse']
         end
 
         tests('#get_all_data_centers').formats(@minimal_format.merge(
-          'dataCenterName' => String
+          'name' => String
         )) do
             #puts '#get_all_data_centers'
             data = service.get_all_data_centers
             data.body['getAllDataCentersResponse'].find {
-              |dc| dc['dataCenterId'] == @data_center_id
+              |dc| dc['id'] == @data_center_id
             }
         end
 
@@ -55,7 +55,7 @@ Shindo.tests('Fog::Compute[:profitbricks] | data_center request', ['profitbricks
             )
             data.body['updateDataCenterResponse']
         end
-        
+
         tests('#get_data_center_state').formats({'return' => String}) do
             #puts '#get_data_center_state'
             data = service.get_data_center_state(@data_center_id)

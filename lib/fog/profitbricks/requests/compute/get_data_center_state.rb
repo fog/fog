@@ -27,7 +27,7 @@ module Fog
                         response.status = 200
                         
                         dc = self.data[:datacenters].find {
-                          |attrib| attrib['dataCenterId'] == data_center_id
+                          |attrib| attrib['id'] == data_center_id
                         }
 
                         response.body = { 'getDataCenterStateResponse' =>

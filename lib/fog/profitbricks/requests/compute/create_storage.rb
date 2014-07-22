@@ -22,13 +22,13 @@ module Fog
                 #       * storageId<~String> - UUID of the new virtual storage
                 #
                 # {ProfitBricks API Documentation}[http://www.profitbricks.com/apidoc/APIDocumentation.html?createStorage.html]
-                def create_storage(data_center_id, storage_name, mount_image_id, size)
+                def create_storage(data_center_id, storage_name, image_id, size)
                     soap_envelope = Fog::ProfitBricks.construct_envelope {
                       |xml| xml[:ws].createStorage {
                         xml.request {
                           xml.dataCenterId(data_center_id)
                           xml.storageName(storage_name)
-                          xml.mountImageId(mount_image_id)
+                          xml.mountImageId(image_id)
                           xml.size(size)
                         }
                       }
@@ -45,19 +45,50 @@ module Fog
             end
 
             class Mock
-                def create_storage(data_center_id, storage_name, mount_image_id, size)
+                def create_storage(data_center_id, storage_name, image_id, size)
                     response = Excon::Response.new
                     response.status = 200
                     
+                    if data_center = self.data[:datacenters].find {
+                        |attrib| attrib['id'] == data_center_id
+                    }
+                        data_center['dataCenterVersion'] += 1
+                    else
+                        raise Fog::Errors::NotFound.new('Data center resource could not be found')
+                    end
+
+                    unless image = self.data[:images].find {
+                        |attrib| attrib['id'] == image_id
+                    }
+                        raise Fog::Errors::NotFound.new('Image resource could not be found')
+                    end
+
+                    storage_id = Fog::UUID.uuid
                     storage = {
-                        'requestId'         => Fog::Mock::random_numbers(7),
-                        'dataCenterId'      => data_center_id,
-                        'dataCenterVersion' => 1,
-                        'storageId'         => Fog::UUID.uuid
+                        'dataCenterId'         => data_center_id,
+                        'dataCenterVersion'    => data_center['dataCenterVersion'],
+                        'id'                   => storage_id,
+                        'size'                 => size,
+                        'name'                 => storage_name,
+                        'mountImage'           =>
+                        {
+                            'imageId'   => image_id,
+                            'imageName' => image['name'],
+                        },
+                        'provisioningState'    => 'AVAILABLE',
+                        'creationTime'         => Time.now,
+                        'lastModificationTime' => Time.now
                     }
                     
                     self.data[:volumes] << storage
-                    response.body = { 'createStorageResponse' => storage }
+                    response.body = {
+                      'createStorageResponse' => {
+                        'requestId'         => Fog::Mock::random_numbers(7),
+                        'dataCenterId'      => data_center_id,
+                        'dataCenterVersion' => data_center['dataCenterVersion'],
+                        'id'                => storage_id
+                      }
+                    }
                     response
                 end
             end

@@ -19,8 +19,8 @@ module Fog
             collection   :images
             model        :flavor
             collection   :flavors
-            #model        :volume
-            #collection   :volumes
+            model        :volume
+            collection   :volumes
 
             # Requests
             request_path 'fog/profitbricks/requests/compute'
@@ -135,19 +135,19 @@ module Fog
                                 'server_ids'     => nil,
                                 'os_type'        => 'LINUX',
                                 'writeable'      => 'true',
-                                'region'         => 'EUROPE',
+                                'region'         => 'NORTH_AMERICA',
                                 'public'         => 'true'
                               },
                               { 'id'             => 'cc43d811-c423-402c-8bd0-6a04073a65ca',
-                                'name'           => 'Windows-2012-R2-Server',
+                                'name'           => 'CentOS-6-server',
                                 'type'           => 'HDD',
                                 'size'           => 11264,
                                 'cpu_hotplug'    => 'false',
                                 'memory_hotplug' => 'false',
                                 'server_ids'     => nil,
-                                'os_type'        => 'WINDOWS',
+                                'os_type'        => 'LINUX',
                                 'writeable'      => 'true',
-                                'region'         => 'NORTH_AMERICA',
+                                'region'         => 'EUROPE',
                                 'public'         => 'true'
                               }
                             ],

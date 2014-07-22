@@ -45,8 +45,8 @@ module Fog
                     
                     data_center = {
                         'requestId'         => Fog::Mock::random_numbers(7),
-                        'dataCenterId'      => Fog::UUID.uuid,
-                        'dataCenterName'    => data_center_name,
+                        'id'                => Fog::UUID.uuid,
+                        'name'              => data_center_name,
                         'dataCenterVersion' => 1,
                         'provisioningState' => 'AVAILABLE',
                         'region'            => region

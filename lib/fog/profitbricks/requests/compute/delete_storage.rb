@@ -41,9 +41,9 @@ module Fog
                 def delete_storage(storage_id)
                     response = Excon::Response.new
                     response.status = 200
-                    
+
                     if storage = self.data[:volumes].find {
-                      |attrib| attrib['storageId'] == storage_id
+                      |attrib| attrib['id'] == storage_id
                     }
                         self.data[:volumes].delete(storage)
                     else
@@ -51,7 +51,7 @@ module Fog
                     end
 
                     response.body = { 'deleteStorageResponse' => {
-                        'requestId' => storage['requestId'],
+                        'requestId' => Fog::Mock::random_numbers(7),
                         'dataCenterId' => Fog::UUID.uuid,
                         'dataCenterVersion' => 3
                         }

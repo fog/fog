@@ -47,14 +47,21 @@ module Fog
                     response.status = 200
                     
                     if storage = self.data[:volumes].find {
-                      |attrib| attrib['storageId'] == storage_id
+                      |attrib| attrib['id'] == storage_id
                     }
                         storage['size'] = size
                     else
                         raise Fog::Errors::NotFound.new('The requested resource could not be found')
                     end
                     
-                    response.body = { 'updateStorageResponse' => storage }
+                    response.body = {
+                      'updateStorageResponse' =>
+                      {
+                        'requestId'         => Fog::Mock::random_numbers(7),
+                        'dataCenterId'      => storage['dataCenterId'],
+                        'dataCenterVersion' => storage['dataCenterVersion'] + 1
+                      }
+                    }
                     response
                 end
             end

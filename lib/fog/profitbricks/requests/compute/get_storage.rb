@@ -28,7 +28,7 @@ module Fog
                     response.status = 200
 
                     if storage = self.data[:volumes].find {
-                      |attrib| attrib['volumes'] == storage_id
+                      |attrib| attrib['id'] == storage_id
                     }
                     else
                         raise Fog::Errors::NotFound.new('The requested resource could not be found')
