@@ -28,6 +28,7 @@ module Fog
       request :list_target_pools
       request :list_forwarding_rules
       request :list_routes
+      request :list_backend_services
 
       request :get_server
       request :get_address
@@ -48,6 +49,8 @@ module Fog
       request :get_forwarding_rule
       request :get_project
       request :get_route
+      request :get_backend_service
+      request :get_backend_service_health
 
       request :delete_address
       request :delete_disk
@@ -63,6 +66,7 @@ module Fog
       request :delete_target_pool
       request :delete_forwarding_rule
       request :delete_route
+      request :delete_backend_service
 
       request :insert_address
       request :insert_disk
@@ -75,6 +79,7 @@ module Fog
       request :insert_target_pool
       request :insert_forwarding_rule
       request :insert_route
+      request :insert_backend_service
 
       request :set_metadata
       request :set_tags
@@ -144,6 +149,9 @@ module Fog
 
       model :route
       collection :routes
+
+      model :backend_service
+      collection :backend_services
 
       module Shared
         attr_reader :project, :api_version
