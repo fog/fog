@@ -69,6 +69,20 @@ module Fog
             end
           end
 
+          if options['block_device_mapping_v2']
+            data['server']['block_device_mapping_v2'] =
+            [options['block_device_mapping']].flatten.map do |mapping|
+              {
+                'device_name' => mapping[:device_name],
+                'source_type' => mapping[:source_type],
+                'destination_type' => mapping[:destination_type],
+                'delete_on_termination' => mapping[:delete_on_termination],
+                'uuid' => mapping[:uuid],
+                'boot_index' => mapping[:boot_index]
+              }
+            end
+          end
+
           path = if data['server']['block_device_mapping']
                    'os-volumes_boot.json'
                  else
