@@ -145,7 +145,7 @@ module Fog
           # Build up all the crappy tiered objects like the perl method
           # Collect your variables ifset (writing at 11pm revist me)
           # * domain <~String> - *REQUIRED* - Sets the server's domain for customization
-          # * dnsSuffixList <~Array> - Optional - Sets the dns suffix (search) paths in resolv - Example: ["example.com", "dev.example.com"]
+          # * dnsSuffixList <~Array> - Optional - Sets the dns search paths in resolv - Example: ["dev.example.com", "example.com"]
           # * ipsettings <~Hash> - Optional - If not set defaults to dhcp
           #  * ip <~String> - *REQUIRED* Sets the ip address of the VM - Example: 10.0.0.10
           #  * dnsServerList <~Array> - Optional - Sets the nameservers in resolv - Example: ["10.0.0.2", "10.0.0.3"]
