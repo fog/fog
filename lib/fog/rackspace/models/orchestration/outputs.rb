@@ -4,14 +4,26 @@ require 'fog/rackspace/models/orchestration/output'
 module Fog
   module Orchestration
     class Rackspace
+      # Outputs for stack
       class Outputs < Fog::Orchestration::Outputs
 
+        # Register stack output model
         model Fog::Orchestration::Rackspace::Output
 
-        def all(stack)
-          stack.expand! unless stack.data
+        # Load all outputs for stack
+        #
+        # @param load_stack [Fog::Orchestration::Rackspace::Stack]
+        # @return [self]
+        def all(load_stack=nil)
+          self.stack = load_stack if load_stack
+          if(self.stack)
+            self.stack.expand!
+            items = stack.data['outputs']
+          else
+            items = []
+          end
           load(
-            stack.data['outputs'].map do |_output|
+            items.map do |_output|
               Hash[
                 _output.map do |k,v|
                   [k.sub('output_', ''), v]

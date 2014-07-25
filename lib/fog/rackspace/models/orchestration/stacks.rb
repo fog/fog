@@ -4,16 +4,20 @@ require 'fog/rackspace/models/orchestration/stack'
 module Fog
   module Orchestration
     class Rackspace
+      # Stacks list
       class Stacks < Fog::Orchestration::Stacks
 
+        # Register the stack model class
         model Fog::Orchestration::Rackspace::Stack
 
+        # Load all stacks
+        #
+        # @return [self]
         def all
-          load(service.list_stacks.body['stacks'])
-        end
-
-        def find_by_name(name)
-          self.find{|stack| stack.stack_name == name}
+          unless(attributes['stacks'])
+            attributes['stacks'] = service.list_stacks.body['stacks']
+          end
+          load(attributes['stacks'])
         end
 
       end
