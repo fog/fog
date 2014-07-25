@@ -32,6 +32,7 @@ module Fog
       request :data_stack
       request :list_events_stack
       request :template_stack
+      request :template_validate
 
       DFW_ENDPOINT = 'https://dfw.orchestration.api.rackspacecloud.com/v1'
       ORD_ENDPOINT = 'https://ord.orchestration.api.rackspacecloud.com/v1'
