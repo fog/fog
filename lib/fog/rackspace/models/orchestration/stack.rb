@@ -80,11 +80,11 @@ module Fog
 
         # Destroy the stack
         #
-        # @return [TrueClass]
+        # @return [self]
         def destroy
           requires :stack_name, :id
           service.delete_stack(self.stack_name, self.id)
-          true
+          self
         end
 
         # @return [String] template JSON
